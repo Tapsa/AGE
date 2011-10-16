@@ -1,0 +1,7 @@
+/* Resources.rc */
+
+#include "Resources.h"
+
+iconAppIcon ICON "AppIcon.ico"
+
+#include "wx/msw/wx.rc"
