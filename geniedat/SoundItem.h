@@ -28,26 +28,27 @@ class SoundItem : public ISerializable
 {
 
 public:
-    SoundItem();
-    SoundItem(const SoundItem &other);
-    virtual ~SoundItem();
-    
-    void serializeObject(void);
-    
-    static const short FILE_NAME_LEN_AGE = 13;
-    static const short FILE_NAME_LEN = 27;
-    
-    /// File name of the resource
-    /// 13 in games <= TC and 27 in games >= SWGB
-    char *FileName; //char 27
-    
-    /// ID of the resource in the drs file
-    long ResourceID;
-    
-    /// Probability out of 100 that this item will be played
-    short Probability;
-    short Civ;//not in aoe/ror
-    short Unknown1;//not in aoe/ror
+  SoundItem();
+  SoundItem(const SoundItem &other);
+  virtual ~SoundItem();
+  
+  void serializeObject(void);
+  
+  static const short FILE_NAME_LEN_AGE = 13;
+  static const short FILE_NAME_LEN = 27;
+  
+  /// File name of the resource
+  /// 13 in games <= TC and 27 in games >= SWGB
+  char *FileName; //char 27
+  
+  /// ID of the resource in the drs file, if -1 the sound file may be stored
+  /// in the Sound directory. 
+  long ResourceID;
+  
+  /// Probability out of 100 that this item will be played
+  short Probability;
+  short Civ;//not in aoe/ror
+  short Unknown1;//not in aoe/ror; seems to be unused in tc
 };
 
 }

@@ -23,7 +23,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 		short TechEffects = 0;
 		for(short loop3 = 0;loop3 < GenieFile->Techages.size();loop3++)
 		{
-			TechEffects = GenieFile->Techages[loop3].EffectCount;
+			TechEffects = GenieFile->Techages[loop3].Effects.size();
 			if(TechEffects < 1) // empty techs.
 			{
 				Name = "New Techage";
@@ -171,6 +171,7 @@ void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
 		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
 		Techs_Name->SetValue(TechPointer->Name);
 		Techs_Name->Container = TechPointer->Name;
+		wxMessageBox("Tech "+lexical_cast<string>(TechPointer - (&GenieFile->Techages[0])));
 		ListEffects(TechPointer - (&GenieFile->Techages[0]));
 	}
 }
@@ -303,7 +304,7 @@ void AGE_Frame::ListEffects(int Index)
 	{
 		EffectID = 0;
 	}
-	for(short loop = 0;loop < GenieFile->Techages[Index].EffectCount;loop++)
+	for(short loop = 0;loop < GenieFile->Techages[Index].Effects.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetEffectName(loop, Index)).Lower();
 		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))

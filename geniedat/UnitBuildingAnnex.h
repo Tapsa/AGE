@@ -35,7 +35,7 @@ public:
   void serializeObject(void);
   
   short UnitID;
-  pair <float, float> Misplacement;
+  std::pair <float, float> Misplacement;
 };
 
 }

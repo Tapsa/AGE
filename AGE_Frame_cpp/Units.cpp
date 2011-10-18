@@ -1524,6 +1524,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_DLL_LanguageDllHelp->Wrap(Units_DLL_LanguageDllHelp->GetSize().GetWidth());
 		Units_DLL_HotKey4->Wrap(Units_DLL_HotKey4->GetSize().GetWidth());
 		
+		wxMessageBox("Unit "+lexical_cast<string>(UnitPointer - (&GenieFile->Civs[CivID].Units[0])));
 		if(UnitPointer->DamageGraphics.size() > 0){
 		ListUnitDamageGraphics(UnitPointer - (&GenieFile->Civs[CivID].Units[0]), CivID);}
 		if(UnitPointer->Attacks.size() > 0){
@@ -1557,6 +1558,7 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 		Units_Exists->SetValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
 		Units_Exists->Container = &UnitHeadPointer->Exists;}
 		if(UnitHeadPointer->Commands.size() > 0){
+		wxMessageBox("Unit Head "+lexical_cast<string>(UnitHeadPointer - (&GenieFile->UnitHeaders[0])));
 		ListUnitCommands(UnitHeadPointer - (&GenieFile->UnitHeaders[0]), 0);}
 	}
 }

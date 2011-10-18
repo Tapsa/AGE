@@ -35,8 +35,10 @@ public:
   void serializeObject(void);
   
   bool Exists;
-  unsigned short CommandCount;
   std::vector<UnitCommand> Commands;
+  
+private:
+  unsigned short CommandCount;
 };
 
 }

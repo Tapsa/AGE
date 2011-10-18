@@ -57,7 +57,7 @@ protected:
   
   virtual void serializeObject(void) = 0;
   
-  GameVersion getGameVersion(void) const;
+  static GameVersion getGameVersion(void);
   
   void setIOStream(std::iostream &iostr);
   std::iostream * getIOStream(void) const;
@@ -88,22 +88,23 @@ protected:
   }
 
   //----------------------------------------------------------------------------
-  /// Generic read method for arrays
+  /// Generic read method for arrays. It allocates new space if pointer is 0.
   //
   template <typename T>
-  T* read(size_t len)
-  {
-    T* ret = 0;
-    
+  void read(T **array, size_t len)
+  {   
     if (!iostr_->eof())
     {
-      ret = new T[len];
-      iostr_->read(reinterpret_cast<char *>(ret), sizeof(T) * len);
+      if (*array == 0)
+        *array = new T[len];
+      
+      iostr_->read(reinterpret_cast<char *>(*array), sizeof(T) * len);
     }
-    
-    return ret;
   }
   
+  //----------------------------------------------------------------------------
+  /// Writes an array to file.
+  //
   template <typename T>
   void write(T *data, size_t len)
   {
@@ -116,8 +117,6 @@ protected:
   template <typename T>
   void serialize(T &data)
   {
-    //if (getIOStream()->tellg() >= 13420)
-    //  std::cout << "break" << getIOStream()->tellg() << std::endl;
     if (Write_)
       write<T>(data);
     else
@@ -133,7 +132,7 @@ protected:
     if (Write_)
       write<T>(*data, len);
     else
-      *data = read<T>(len);
+      read<T>(data, len);
   }
   
   void serializeString(std::string &str, size_t len)
@@ -187,15 +186,12 @@ protected:
       }
     }
     else
-    {
-      vec.resize(0);
+    {      
+      vec.resize(size);
       
       for (unsigned int i=0; i < size; i++)
       {
-        T obj;
-        vec.push_back(obj);
-        
-        ISerializable *cast_obj = dynamic_cast<ISerializable *>(&vec.back());
+        ISerializable *cast_obj = dynamic_cast<ISerializable *>(&vec[i]);
         cast_obj->serializeSubObject(this);
       }
     }
@@ -230,7 +226,7 @@ protected:
   /// the vector.
   //
   template <typename T>
-  void serializeSubWithPointers(std::vector<T *> &vec, size_t size, 
+  void serializeSubWithPointers(std::vector<T> &vec, size_t size, 
                                 std::vector<long> &pointers)
   {
     if (Write_)
@@ -239,29 +235,29 @@ protected:
       {
         if (pointers[i] != 0)
         {
-          dynamic_cast<ISerializable *>(vec[i])->serializeSubObject(this);
+          dynamic_cast<ISerializable *>(&vec[i])->serializeSubObject(this);
         }
       }
     }
     else
     {
+      vec.resize(size);
+      
       for (unsigned int i=0; i < size; i++)
-      {
-        T *obj = new T();
+      {        
+        T *obj = &vec[i]; 
         
         if (pointers[i] != 0)
         {
           ISerializable *cast_obj = dynamic_cast<ISerializable *>(obj);
           cast_obj->serializeSubObject(this);
         }
-         
-        vec.push_back(obj);
       }
     }
   }
   
   template <typename T>
-  void serializePair( pair<T, T> &p, bool only_first=false)
+  void serializePair(std::pair<T, T> &p, bool only_first=false)
   {
     if (Write_)
     {

@@ -28,14 +28,14 @@ class UnitResourceStorage : public ISerializable
 {
 
 public:
-    UnitResourceStorage();
-    virtual ~UnitResourceStorage();
-    
-    void serializeObject(void);
-    
-    short Type;
-    float Amount;
-    char Enabled;
+  UnitResourceStorage();
+  virtual ~UnitResourceStorage();
+  
+  void serializeObject(void);
+  
+  short Type;
+  float Amount;
+  char Enabled;
 };
 
 }

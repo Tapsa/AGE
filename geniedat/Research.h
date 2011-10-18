@@ -41,7 +41,7 @@ public:
   
   static const unsigned short RESOURCE_COST_CNT = 3;
   /// Resource cost in a list of max 3
-  vector<ResearchResourceCost> ResourceCosts; //3
+  std::vector<ResearchResourceCost> ResourceCosts; //3
   
   /// Holds the number of how much of the required technologies you need.
   short RequiredTechCount;
@@ -88,7 +88,7 @@ public:
   short NameLength;
   
   /// Internal name
-  string Name;
+  std::string Name;
   
   /// Second internal name length
   /// MinGameVersion: SWGB
@@ -96,7 +96,7 @@ public:
   
   /// Second internal name
   /// MinGameVersion: SWGB
-  string Name2;
+  std::string Name2;
 };
 
 }
