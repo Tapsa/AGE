@@ -9,7 +9,7 @@ using std::tolower;
 string AGE_Frame::GetSoundName(int Index)
 {
 	string Name = "File Count: ";
-	Name += lexical_cast<string>(GenieFile->Sounds[Index].ItemCount);
+	Name += lexical_cast<string>(GenieFile->Sounds[Index].Items.size());
 	return Name;
 }
 
@@ -174,7 +174,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent& Event)
 		Sounds_ID->Container = &SoundPointer->ID;
 		Sounds_Unknown->SetValue(lexical_cast<string>(SoundPointer->Unknown1));
 		Sounds_Unknown->Container = &SoundPointer->Unknown1;
-		
+		wxMessageBox("Sound "+lexical_cast<string>(SoundPointer - (&GenieFile->Sounds[0])));
 		ListSoundItems(SoundPointer - (&GenieFile->Sounds[0]));
 	}
 }
@@ -262,7 +262,7 @@ void AGE_Frame::ListSoundItems(int Index)
 	{
 		SoundItemID = 0;
 	}
-	for(short loop = 0;loop < GenieFile->Sounds[Index].ItemCount;loop++)
+	for(short loop = 0;loop < GenieFile->Sounds[Index].Items.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetSoundItemName(loop, Index)).Lower();
 		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))

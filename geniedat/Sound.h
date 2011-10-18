@@ -37,9 +37,11 @@ public:
   virtual void serializeObject(void);
   
   long ID;
-  unsigned short ItemCount;
   long Unknown1;      // This is always equal to 300000
   std::vector<SoundItem> Items;
+
+private:
+  unsigned short ItemCount;
 };
 
 }

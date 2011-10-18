@@ -29,20 +29,22 @@ class Techage : public ISerializable
 {
 
 public:
-    Techage();
-    Techage(const Techage &other);
-    virtual ~Techage();
-    
-    void serializeObject(void);
-    
-    static const short NAME_LEN = 31;
-    
-    /// Internal name, changing doesn't effect anything.
-    char *Name; //char [31]
-    
-    /// Number of effects
-    unsigned short EffectCount;
-    std::vector<TechageEffect> Effects;
+  Techage();
+  Techage(const Techage &other);
+  virtual ~Techage();
+  
+  void serializeObject(void);
+  
+  static const short NAME_LEN = 31;
+  
+  /// Internal name, changing doesn't effect anything.
+  char *Name; //char [31]
+  
+  std::vector<TechageEffect> Effects;
+  
+private:
+  /// Number of effects
+  unsigned short EffectCount;
 };
 
 }

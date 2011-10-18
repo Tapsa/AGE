@@ -36,10 +36,6 @@ enum GameVersion
   GV_CC
 };
 
-using std::vector;
-using std::pair;
-using std::string;
-
 }
 
 #endif //TYPES_H

@@ -62,6 +62,10 @@ enum UnitType
   UT_90 = 90 
 };
   
+//------------------------------------------------------------------------------
+/// Stores properties of genie units.
+/// TODO: Split up into multiple parts
+//
 class Unit : public ISerializable
 {
 public:
@@ -89,10 +93,10 @@ public:
   short Class;
   
   /// Default standing graphic
-  pair<short, short> StandingGraphic;
+  std::pair<short, short> StandingGraphic;
   
   /// Graphic shown while the units is dying.
-  pair<short, short> DyingGraphic;
+  std::pair<short, short> DyingGraphic;
   
   /// TODO
   char DeathMode;
@@ -108,12 +112,12 @@ public:
   
   /// Area taken by the unit. No other unit can move into this area except
   /// flying units.
-  pair<float, float> SizeRadius;
+  std::pair<float, float> SizeRadius;
   
   float HPBarHeight1;
   
   /// Sound played when the unit is created
-  pair<short, short> TrainSound;
+  std::pair<short, short> TrainSound;
   
   /// ID of the unit to change to when this one dies.
   short DeadUnitID;
@@ -135,9 +139,9 @@ public:
   
   /// TODO
   short Enabled; //bool in aoe/ror
-  pair <short, short> PlacementBypassTerrain;
-  pair <short, short> PlacementTerrain;
-  pair <float, float> EditorRadius;
+  std::pair <short, short> PlacementBypassTerrain;
+  std::pair <short, short> PlacementTerrain;
+  std::pair <float, float> EditorRadius;
   char BuildingMode;
   char VisibleInFog;
   
@@ -172,14 +176,14 @@ public:
   char *Unknown9; // 4 //aoe/ror 2, aok 0, tc 4
   char SelectionEffect;
   char EditorSelectionColour;
-  pair <float, float> SelectionRadius;
+  std::pair <float, float> SelectionRadius;
   float HPBarHeight2;
   
   /// Resource cost of a unit TODO (3 different types of resource costs??)
-  vector<UnitResourceStorage> ResourceStorage; //3
+  std::vector<UnitResourceStorage> ResourceStorage; //3
   //ResourceStorageObject ResourceStorage[3];
   unsigned char DamageGraphicCount;
-  vector<UnitDamageGraphic> DamageGraphics;
+  std::vector<UnitDamageGraphic> DamageGraphics;
   
   /// Sound that is played when this unit is selected
   short SelectionSound;
@@ -204,7 +208,7 @@ public:
 
 //      Type 30+
 
-  pair<short, short> WalkingGraphic;
+  std::pair<short, short> WalkingGraphic;
   float RotationSpeed;
   char Unknown11;
   short TrackingUnit;
@@ -218,7 +222,7 @@ public:
   short SheepConversion;//FFFF = No, 0000 = Yes
   float SearchRadius;
   float WorkRate;
-  pair<short, short> DropSite;
+  std::pair<short, short> DropSite;
   
   /// If activated unit switches villager types
   char VillagerMode;
@@ -226,15 +230,15 @@ public:
   short StopSound;
   char Unknown19;
   unsigned short CommandCount;//only in aoe/ror
-  vector<UnitCommand> Commands;//only in aoe/ror
+  std::vector<UnitCommand> Commands;//only in aoe/ror
 
 //      Type 60+
 
   char *Unknown20; //2 //aoe/ror 1, aok 1, tc 2
   unsigned short AttackCount;
-  vector<UnitAttackOrArmor> Attacks;
+  std::vector<UnitAttackOrArmor> Attacks;
   unsigned short ArmourCount;
-  vector<UnitAttackOrArmor> Armours;
+  std::vector<UnitAttackOrArmor> Armours;
   short Unknown21;
   float MaxRange;
   float BlastRadius;
@@ -266,7 +270,7 @@ public:
 
 //      Type 70+
 
-  vector<ResourceCost> ResourceCosts; //3
+  std::vector<ResourceCost> ResourceCosts; //3
   short TrainTime;
   short TrainLocationID;
   char ButtonID;
@@ -275,7 +279,7 @@ public:
   char Unknown28;//not in aoe/ror
   char MissileGraphicDelay;//not in aoe/ror
   char HeroMode;//not in aoe/ror
-  pair <short, short> GarrisonGraphic; //not in aoe/ror
+  std::pair<short, short> GarrisonGraphic; //not in aoe/ror
   float AttackMissileDuplicationAmount1;//not in aoe/ror
   char AttackMissileDuplicationAmount2;//not in aoe/ror
   float *AttackMissileDuplicationUnknown; //3 //not in aoe/ror
@@ -297,7 +301,7 @@ public:
   char Unknown33;
   //short AnnexUnit[4];
   //float AnnexUnitMisplacement[4][2];
-  vector<UnitBuildingAnnex> Annexes; // 4
+  std::vector<UnitBuildingAnnex> Annexes; // 4
   short HeadUnit;
   short TransformUnit;
   short Unknown34;
