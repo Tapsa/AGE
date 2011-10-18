@@ -58,7 +58,7 @@ public:
   /// @param gv
   /// @param raw if true, file will be loaded form an uncompressed file
   //
-  File(string file_name, GameVersion gv, bool raw=false);
+  File(std::string file_name, GameVersion gv, bool raw=false);
   
   //----------------------------------------------------------------------------
   /// Destructor
@@ -77,12 +77,12 @@ public:
   ///
   /// @param file_name file name
   //
-  void setFileName(string file_name);
+  void setFileName(std::string file_name);
   
   //----------------------------------------------------------------------------
   /// Returns name of current file.
   //
-  string getFileName(void) const;
+  std::string getFileName(void) const;
     
   //----------------------------------------------------------------------------
   /// Loads the data from a file.
@@ -91,7 +91,7 @@ public:
   ///                  will be used.
   /// @param raw if true load data from a uncompressed file
   //
-  void load(string file_name="", bool raw=false);
+  void load(std::string file_name="", bool raw=false);
   
   //----------------------------------------------------------------------------
   /// Saves the data to a file.
@@ -100,7 +100,7 @@ public:
   ///                  will be used.
   /// @param raw if true data is saved uncompressed
   //
-  void save(string file_name="", bool raw=false);
+  void save(std::string file_name="", bool raw=false);
   
   //----------------------------------------------------------------------------
   /// Uncompress and directly store data to a file.
@@ -179,7 +179,7 @@ private:
   typedef boost::interprocess::basic_vectorstream< std::vector<char> > v_stream;
     
   //TODO: Refactor open/closStream and (de)compress methods
-  bool openStream(string file_name);
+  bool openStream(std::string file_name);
   void closeStream(void);
   
   v_stream* decompress(void);

@@ -34,7 +34,6 @@ public:
   
   void serializeObject(void);
   
-  /// Indicates if you can build on it: 0 = no, -1 = yes
   short Unknown1;
   short Unknown2; //must be one or the game will crash
   static const unsigned short NAME_LEN = 13;

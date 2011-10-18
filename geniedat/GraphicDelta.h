@@ -28,19 +28,19 @@ class GraphicDelta : public ISerializable
 {
 
 public:
-    GraphicDelta();
-    virtual ~GraphicDelta();
-    
-    void serializeObject(void);
-    
-    short GraphicID;
-    short Unknown1;
-    short Unknown2;
-    short Unknown3;
-    short DirectionX; //In Pixels?
-    short DirectionY; //In Pixels?
-    short Unknown4;
-    short Unknown5;
+  GraphicDelta();
+  virtual ~GraphicDelta();
+  
+  void serializeObject(void);
+  
+  short GraphicID;
+  short Unknown1;
+  short Unknown2;
+  short Unknown3;
+  short DirectionX; //In Pixels?
+  short DirectionY; //In Pixels?
+  short Unknown4;
+  short Unknown5;
 };
 
 }

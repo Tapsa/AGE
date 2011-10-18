@@ -27,13 +27,7 @@ namespace gdat
 
 //------------------------------------------------------------------------------
 /// A generic collection for objects stored in arrays with pointers and size
-/// in front of them. Only the pointers of the objects are stored in the
-/// vector. 
-///
-/// If a GVector object is copied, only the pointers will be copied
-/// and not the object data. So if you copy a vector you have two vectors
-/// pointing at the same data. The data is cleared if all vectors pointing
-/// at the data are destroyed.
+/// in front of them. 
 //
 template <typename S, typename P, class T>
 class GVector : public ISerializable
@@ -41,28 +35,22 @@ class GVector : public ISerializable
 
 public:
   //----------------------------------------------------------------------------
-  /// Constructor
   //
   GVector() 
   {
-    vectors_pointing_ = new unsigned int();
-    (*vectors_pointing_) = 1;
+
   }
   
   //----------------------------------------------------------------------------
-  /// The copy constructor will update how many vectors are pointing at the same
-  /// data.
+  ///
   //
   GVector(const GVector &other)
-  {
-    vectors_pointing_ = 0;
-    
+  {    
     *this = other;
   }
   
   //----------------------------------------------------------------------------
-  /// = operation will also update how many vectors are pointing at the same
-  /// data.
+  /// 
   //
   GVector& operator=(const GVector &other)
   {
@@ -70,30 +58,14 @@ public:
     pointers_ = other.pointers_;
     vec_ = other.vec_;
     
-    if (vectors_pointing_)
-      delete vectors_pointing_;
-    
-    vectors_pointing_ = other.vectors_pointing_;
-    
-    if (vectors_pointing_)
-      (*vectors_pointing_) ++;
-    
     return *this;
   }
   
   //----------------------------------------------------------------------------
-  /// The Destructor only frees data if every other vector pointing at them is
-  /// destroyed.
+  /// Destructor
   //
   virtual ~GVector() 
   {
-    (*vectors_pointing_) --;
-    
-    if ((*vectors_pointing_) == 0)
-    {
-      clear();
-      delete vectors_pointing_;
-    }
   }
   
   virtual void serializeObject(void) 
@@ -116,7 +88,12 @@ public:
   //
   T &operator[](size_t index)
   {
-    return *vec_[index];
+    return vec_[index];
+  }
+  
+  T & at(size_t index)
+  {
+    return vec_.at(index);
   }
   
   //----------------------------------------------------------------------------
@@ -134,22 +111,16 @@ public:
   {
     pointers_.clear();   
     
-    if ((*vectors_pointing_) <= 1)
-    {
-      for (iterator it = vec_.begin(); it != vec_.end(); it ++)
-        delete (*it);
-    }
-    
     vec_.clear();
     size_ = 0;
   }
   
   //----------------------------------------------------------------------------
-  /// Adds an element to the end of the collection
+  /// Adds a new object to the end of the collection
   //
-  void push_back(T *obj)
+  void push_back(T &obj)
   {
-    vec_.push_back(obj);
+    push_back(obj);
     pointers_.push_back(1); //TODO
     size_ ++;
   }
@@ -169,10 +140,7 @@ public:
 private:
   S size_;
   std::vector<P> pointers_;
-  std::vector<T *> vec_;
-  
-  /// How many vectors are pointing on the data stored in vec_
-  unsigned int *vectors_pointing_;
+  std::vector<T> vec_;
 };
 
 }

@@ -33,6 +33,7 @@ public:
   
   virtual void serializeObject(void);
   
+  //TODO: Vector
   short SoundDelay;
   short SoundID;
   short SoundDelay2;
