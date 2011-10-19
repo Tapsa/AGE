@@ -171,7 +171,7 @@ void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
 		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
 		Techs_Name->SetValue(TechPointer->Name);
 		Techs_Name->Container = TechPointer->Name;
-		wxMessageBox("Tech "+lexical_cast<string>(TechPointer - (&GenieFile->Techages[0])));
+//		wxMessageBox("Tech "+lexical_cast<string>(TechPointer - (&GenieFile->Techages[0])));
 		ListEffects(TechPointer - (&GenieFile->Techages[0]));
 	}
 }

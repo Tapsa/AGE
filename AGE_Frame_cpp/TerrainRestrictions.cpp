@@ -163,7 +163,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 {
 	gdat::Terrain * TerrainPointer = (gdat::Terrain*)TerrainLimits_Terrains_List->GetClientData(TerrainLimits_Terrains_List->GetSelection());
 	short TerrainID = TerrainPointer - (&GenieFile->Terrains[0]);
-	wxMessageBox("Terrain "+lexical_cast<string>(TerrainID));
+//	wxMessageBox("Terrain "+lexical_cast<string>(TerrainID));
 	short RestrictionID = TerrainLimits_TerrainLimits_List->GetSelection();
 	if((RestrictionID != wxNOT_FOUND) && (TerrainID != wxNOT_FOUND))
 	{

@@ -37,7 +37,7 @@ public:
 
   /// IDs of researches that are required for this tech to appear.
   /// The size of the array is 4 in aoe/ror and 6 at games >= aok
-  short *RequiredTechs; // >= aok = 6; < aok = 4/* advanced controls available */
+  short *RequiredTechs; // >= aok = 6; < aok = 4
   
   static const unsigned short RESOURCE_COST_CNT = 3;
   /// Resource cost in a list of max 3
@@ -48,14 +48,14 @@ public:
   
   /// ID of the civilization that gets this technologie. -1 if unused
   /// MinGameVersion: aok
-  short Civ;      /* advanced controls available */
+  short Civ;      
   
   /// Set to 1 if this tech is enabled in full tech mode or 0 if not.
   /// MinGameVersion: aok
-  short FullTechMode;     /* advanced controls available */
+  short FullTechMode;     
   
   /// ID of the unit where this research is available to buy.
-  short ResearchLocation; /* advanced controls available */
+  short ResearchLocation; 
   
   /// Index of the name in language.dll
   short LanguageDllName;
@@ -67,7 +67,7 @@ public:
   short ResearchTime;
   
   /// Holds the techage id that corresponds to this data
-  short TechageID;        /* advanced controls available */
+  short TechageID;
   
   /// Age tech or not: 0 for regular and 2 for age.
   short Type;
@@ -82,7 +82,7 @@ public:
   /// is 100,000 plus the Language FIle ID for the name/description. The 
   /// second number is 149,000 plus the Language File ID for the 
   /// description/help. The third number has been -1 in every technology so far.
-  long *Pointers; // 3       /* hiddenable unknowns */
+  long *Pointers; // 3
   
   /// Internal name length
   short NameLength;

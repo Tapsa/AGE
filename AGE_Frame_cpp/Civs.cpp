@@ -113,7 +113,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
 		Civs_GraphicSet->SetValue(lexical_cast<string>((short)CivPointer->GraphicSet));
 		Civs_GraphicSet->Container = &CivPointer->GraphicSet;
-		wxMessageBox("Civ "+lexical_cast<string>(CivPointer - (&GenieFile->Civs[0])));
+//		wxMessageBox("Civ "+lexical_cast<string>(CivPointer - (&GenieFile->Civs[0])));
 		ListResources(CivPointer - (&GenieFile->Civs[0]));
 	}
 }

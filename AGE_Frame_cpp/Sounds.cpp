@@ -174,7 +174,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent& Event)
 		Sounds_ID->Container = &SoundPointer->ID;
 		Sounds_Unknown->SetValue(lexical_cast<string>(SoundPointer->Unknown1));
 		Sounds_Unknown->Container = &SoundPointer->Unknown1;
-		wxMessageBox("Sound "+lexical_cast<string>(SoundPointer - (&GenieFile->Sounds[0])));
+//		wxMessageBox("Sound "+lexical_cast<string>(SoundPointer - (&GenieFile->Sounds[0])));
 		ListSoundItems(SoundPointer - (&GenieFile->Sounds[0]));
 	}
 }
