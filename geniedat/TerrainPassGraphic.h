@@ -33,8 +33,6 @@ public:
   
   virtual void serializeObject(void);
   
-  static const short int GRAPHIC_ID_CNT = 2;
-  
   /// Indicates if you can build on it: 0 = no, -1 = yes
   long Buildable;               
   std::pair<long, long> GraphicIDs;

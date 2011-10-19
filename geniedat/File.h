@@ -119,8 +119,8 @@ public:
   
   vector<Sound> Sounds;
   
-  typedef GVector<unsigned short, long, Graphic> GraphicVector;
-  GraphicVector Graphics;
+  std::vector<long> GraphicPointers;
+  std::vector<Graphic> Graphics;
         
   static const unsigned short TERRAIN_HEADER_SIZE = 138;
   char *TerrainHeader;
@@ -166,10 +166,14 @@ private:
   
   unsigned short player_color_count_;
   unsigned short sound_count_;
+  unsigned short graphic_count_;
   unsigned long techage_count_;
   unsigned long unit_count_;
   unsigned short civ_count_;
   unsigned short research_count_;
+  
+  File(const File &other);
+  File &operator=(const File &other);
   
   //----------------------------------------------------------------------------
   /// Clears all data.
