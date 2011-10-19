@@ -179,9 +179,11 @@ public:
   std::pair <float, float> SelectionRadius;
   float HPBarHeight2;
   
+  static const unsigned short RESOURCE_STORAGE_CNT = 3;
+  
   /// Resource cost of a unit TODO (3 different types of resource costs??)
   std::vector<UnitResourceStorage> ResourceStorage; //3
-  //ResourceStorageObject ResourceStorage[3];
+ 
   unsigned char DamageGraphicCount;
   std::vector<UnitDamageGraphic> DamageGraphics;
   
@@ -270,6 +272,7 @@ public:
 
 //      Type 70+
 
+  static const unsigned int RESOURCE_COSTS_CNT = 3;
   std::vector<ResourceCost> ResourceCosts; //3
   short TrainTime;
   short TrainLocationID;
@@ -299,8 +302,9 @@ public:
   short Unknown32; //aoe/ror
   short ResearchID; // in aoe/ror
   char Unknown33;
-  //short AnnexUnit[4];
-  //float AnnexUnitMisplacement[4][2];
+  
+  static const unsigned short BUILDING_ANNEXES_CNT = 4;
+  
   std::vector<UnitBuildingAnnex> Annexes; // 4
   short HeadUnit;
   short TransformUnit;

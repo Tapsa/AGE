@@ -534,7 +534,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 //		After cleared, list data.
 
 
-		ListGraphics();
+//		ListGraphics();
 		ListSounds();
 		ListTerrains();
 		ListTerrainRestrictions();

@@ -21,7 +21,6 @@
 #define CIV_H
 #include "ISerializable.h"
 #include "Unit.h"
-#include "GVector.h"
 
 namespace gdat 
 {
@@ -62,12 +61,15 @@ public:
   
   char GraphicSet;
   
-  typedef GVector<unsigned short, long, Unit> UnitVector;
+  std::vector<long> UnitPointers;
   
   /// Units defined for this civ.
-  UnitVector Units;
+  std::vector<Unit> Units;
   
   short *SUnknown1; // Unknown in >=SWGB (cnt=4)
+  
+private:
+  unsigned short UnitCount;
 };
 
 }
