@@ -30,14 +30,15 @@ class Research : public ISerializable
 
 public:
   Research();
-  Research(const Research &other);
   virtual ~Research();
   
   virtual void serializeObject(void);
+  
+  static short getRequiredTechsSize();
 
   /// IDs of researches that are required for this tech to appear.
   /// The size of the array is 4 in aoe/ror and 6 at games >= aok
-  short *RequiredTechs; // >= aok = 6; < aok = 4
+  std::vector<short> RequiredTechs;
   
   static const unsigned short RESOURCE_COST_CNT = 3;
   /// Resource cost in a list of max 3
@@ -78,11 +79,13 @@ public:
   /// ID of the button
   char ButtonID;
   
+  static short getPointersSize();
+  
   /// These numbers point to something (unknown). The first number 
   /// is 100,000 plus the Language FIle ID for the name/description. The 
   /// second number is 149,000 plus the Language File ID for the 
   /// description/help. The third number has been -1 in every technology so far.
-  long *Pointers; // 3
+  std::vector<long> Pointers;
   
   /// Internal name length
   short NameLength;

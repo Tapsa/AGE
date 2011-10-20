@@ -4,7 +4,7 @@
 
 void CheckBox_Byte::OnUpdate(wxCommandEvent& Event)
 {
-	Container->SetValue(lexical_cast<string>((short)GetValue()));
+	Container->ChangeValue(lexical_cast<string>((short)GetValue()));
 
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
@@ -12,7 +12,7 @@ void CheckBox_Byte::OnUpdate(wxCommandEvent& Event)
 
 void CheckBox_Float::OnUpdate(wxCommandEvent& Event)
 {
-	Container->SetValue(lexical_cast<string>((float)GetValue()));
+	Container->ChangeValue(lexical_cast<string>((float)GetValue()));
 
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
@@ -20,7 +20,7 @@ void CheckBox_Float::OnUpdate(wxCommandEvent& Event)
 
 void CheckBox_Short::OnUpdate(wxCommandEvent& Event)
 {
-	Container->SetValue(lexical_cast<string>((short)GetValue()));
+	Container->ChangeValue(lexical_cast<string>((short)GetValue()));
 
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
@@ -31,11 +31,11 @@ void CheckBox_Short_ZeroIsYes::OnUpdate(wxCommandEvent& Event)
 	bool State = GetValue();
 	if(State == true)
 	{
-		Container->SetValue("0");
+		Container->ChangeValue("0");
 	}
 	else
 	{
-		Container->SetValue("-1");
+		Container->ChangeValue("-1");
 	}
 	
 	wxFocusEvent Temp;
@@ -47,11 +47,11 @@ void CheckBox_Long_ZeroIsYes::OnUpdate(wxCommandEvent& Event)
 	bool State = GetValue();
 	if(State == true)
 	{
-		Container->SetValue("0");
+		Container->ChangeValue("0");
 	}
 	else
 	{
-		Container->SetValue("-1");
+		Container->ChangeValue("-1");
 	}
 	
 	wxFocusEvent Temp;

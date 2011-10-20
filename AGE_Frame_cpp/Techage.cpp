@@ -15,8 +15,8 @@ string AGE_Frame::GetTechageName(int Index)
 
 void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 {
-	short TechID = Techs_Techs_List->GetSelection();
-	if(TechID != wxNOT_FOUND)
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
 		string Name;
 		string CivName;
@@ -26,15 +26,11 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			TechEffects = GenieFile->Techages[loop3].Effects.size();
 			if(TechEffects < 1) // empty techs.
 			{
-				Name = "New Techage";
-				const char * NewName = Name.c_str();
-				strncpy((char*)GenieFile->Techages[loop3].Name, NewName, 31);
+				GenieFile->Techages[loop3].Name = "New Techage";
 			}
 			else // other than empty techs, not researches if research loop doesn't rename them.
 			{
-				Name = "Non-Research";
-				const char * NewName = Name.c_str();
-				strncpy((char*)GenieFile->Techages[loop3].Name, NewName, 31);
+				GenieFile->Techages[loop3].Name = "Non-Research";
 			}
 		}
 		short ResearchTechID = 0;
@@ -51,8 +47,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 				{
 					Name = GenieFile->Researchs[loop].Name;
 				}
-				const char * NewName = Name.c_str();
-				strncpy((char*)GenieFile->Techages[ResearchTechID].Name, NewName, 31);
+				GenieFile->Techages[ResearchTechID].Name = Name;
 			}
 		}
 		short CivTechTreeID = 0;
@@ -66,15 +61,13 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			{
 				Name = CivName;
 				Name += " Technology Tree";
-				const char * NewName = Name.c_str();
-				strncpy((char*)GenieFile->Techages[CivTechTreeID].Name, NewName, 31);
+				GenieFile->Techages[CivTechTreeID].Name = Name;
 			}
 			if(CivTeamBonusID > 0)
 			{
 				Name = CivName;
 				Name += " Team Bonus";
-				const char * NewName = Name.c_str();
-				strncpy((char*)GenieFile->Techages[CivTeamBonusID].Name, NewName, 31);
+				GenieFile->Techages[CivTeamBonusID].Name = Name;
 			}
 		}
 		ListTechages();
@@ -89,7 +82,7 @@ void AGE_Frame::ListTechages()
 //	wxString SearchText = wxString(Techs_Techs_Search->GetValue()).Lower(); // Reverse
 	string CompareText;
 	
-	short TechID = Techs_Techs_List->GetSelection();
+	short Selection = Techs_Techs_List->GetSelection();
 	short TechID1 = Research_ComboBox_TechID->GetSelection();
 	short TechID2 = Civs_ComboBox_TechTree->GetSelection();
 	short TechID3 = Civs_ComboBox_TeamBonus->GetSelection();
@@ -111,9 +104,9 @@ void AGE_Frame::ListTechages()
 		Civs_ComboBox_TeamBonus->Clear();
 	}
 	
-	if(TechID == wxNOT_FOUND)
+	if(Selection == wxNOT_FOUND)
 	{
-		TechID = 0;
+		Selection = 0;
 	}
 	if(TechID1 == wxNOT_FOUND)
 	{
@@ -149,7 +142,7 @@ void AGE_Frame::ListTechages()
 	}
 	
 	Techs_Techs_List->SetSelection(0);
-	Techs_Techs_List->SetSelection(TechID);
+	Techs_Techs_List->SetSelection(Selection);
 	Research_ComboBox_TechID->SetSelection(TechID1);
 	Civs_ComboBox_TechTree->SetSelection(TechID2);
 	Civs_ComboBox_TeamBonus->SetSelection(TechID3);
@@ -165,20 +158,19 @@ void AGE_Frame::OnTechageSearch(wxCommandEvent& Event)
 
 void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
 {
-	short TechID = Techs_Techs_List->GetSelection();
-	if(TechID != wxNOT_FOUND)
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
-		Techs_Name->SetValue(TechPointer->Name);
-		Techs_Name->Container = TechPointer->Name;
-//		wxMessageBox("Tech "+lexical_cast<string>(TechPointer - (&GenieFile->Techages[0])));
-		ListEffects(TechPointer - (&GenieFile->Techages[0]));
+		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(Selection);
+		TechID = TechPointer - (&GenieFile->Techages[0]);
+		Techs_Name->ChangeValue(TechPointer->Name);
+		Techs_Name->Container = &TechPointer->Name;
+		ListEffects(TechID);
 	}
 }
 
 void AGE_Frame::OnTechageAdd(wxCommandEvent& Event)	// Works.
 {
-//	wxBusyCursor WaitCursor;
 	gdat::Techage Temp;
 	GenieFile->Techages.push_back(Temp);
 	ListTechages();
@@ -190,38 +182,37 @@ void AGE_Frame::OnTechageAdd(wxCommandEvent& Event)	// Works.
 void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
 {
 	wxBusyCursor WaitCursor;
-	short TechID = Techs_Techs_List->GetSelection();
-	if(TechID != wxNOT_FOUND)
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
-		GenieFile->Techages.erase(GenieFile->Techages.begin() + (TechPointer - (&GenieFile->Techages[0])));
+		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(Selection);
+		GenieFile->Techages.erase(GenieFile->Techages.begin() + (TechID));
 		ListTechages();
 		Techs_Techs_List->SetSelection(Techs_Techs_List->GetCount() - 1);
-		Techs_Techs_List->SetSelection(TechID - 1);
-		Techs_Techs_List->SetSelection(TechID);
+		Techs_Techs_List->SetSelection(Selection - 1);
+		Techs_Techs_List->SetSelection(Selection);
 	}
 }
 
 void AGE_Frame::OnTechageCopy(wxCommandEvent& Event)	// Works.
 {
-	short TechID = Techs_Techs_List->GetSelection();
-	if(TechID != wxNOT_FOUND)
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		TechageCopy = *(gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
+		TechageCopy = *(gdat::Techage*)Techs_Techs_List->GetClientData(Selection);
 	}
 }
 
 void AGE_Frame::OnTechagePaste(wxCommandEvent& Event)	// Works.
 {
 	wxBusyCursor WaitCursor;
-	short TechID = Techs_Techs_List->GetSelection();
-	if(TechID != wxNOT_FOUND)
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-//		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
-		*(gdat::Techage*)Techs_Techs_List->GetClientData(TechID) = TechageCopy;
+		*(gdat::Techage*)Techs_Techs_List->GetClientData(Selection) = TechageCopy;
 		ListTechages();
-		Techs_Techs_List->SetSelection(TechID + 3);
-		Techs_Techs_List->SetSelection(TechID);
+		Techs_Techs_List->SetSelection(Selection + 3);
+		Techs_Techs_List->SetSelection(Selection);
 	}
 }
 
@@ -294,15 +285,15 @@ void AGE_Frame::ListEffects(int Index)
 	string Name;
 	wxString SearchText = wxString(Techs_Effects_Search->GetValue()).Lower();
 	string CompareText;
-	short EffectID = Techs_Effects_List->GetSelection();
+	short Selection = Techs_Effects_List->GetSelection();
 	
 	if(!Techs_Effects_List->IsEmpty())
 	{
 		Techs_Effects_List->Clear();
 	}
-	if(EffectID == wxNOT_FOUND)
+	if(Selection == wxNOT_FOUND)
 	{
-		EffectID = 0;
+		Selection = 0;
 	}
 	for(short loop = 0;loop < GenieFile->Techages[Index].Effects.size();loop++)
 	{
@@ -316,7 +307,7 @@ void AGE_Frame::ListEffects(int Index)
 		}
 	}
 	Techs_Effects_List->SetSelection(0);
-	Techs_Effects_List->SetSelection(EffectID);
+	Techs_Effects_List->SetSelection(Selection);
 
 	wxCommandEvent E;
 	OnEffectsSelect(E);
@@ -324,23 +315,24 @@ void AGE_Frame::ListEffects(int Index)
 
 void AGE_Frame::OnEffectsSearch(wxCommandEvent& Event)
 {
-	short TechID = Techs_Techs_List->GetSelection();
-	if(TechID != wxNOT_FOUND)
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
-		ListEffects(TechPointer - (&GenieFile->Techages[0]));
+		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(Selection);
+		ListEffects(TechID);
 	}
 }
 
 void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 {
-	short EffectID = Techs_Effects_List->GetSelection();
-	if(EffectID != wxNOT_FOUND)
+	short Selection = Techs_Effects_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
 		Effects_Holder_Type->Show(true);
 		Effects_D->Enable(true);
-		gdat::TechageEffect * EffectPointer = (gdat::TechageEffect*)Techs_Effects_List->GetClientData(EffectID);
-		Effects_Type->SetValue(lexical_cast<string>((short)(EffectPointer->Type)));
+		gdat::TechageEffect * EffectPointer = (gdat::TechageEffect*)Techs_Effects_List->GetClientData(Selection);
+		EffectID = EffectPointer - (&GenieFile->Techages[TechID].Effects[0]);
+		Effects_Type->ChangeValue(lexical_cast<string>((short)(EffectPointer->Type)));
 		Effects_Type->Container = &EffectPointer->Type;
 		if((EffectPointer->Type >= 0) && (EffectPointer->Type <= 6))
 		{
@@ -354,7 +346,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 		{
 			Effects_ComboBox_Type->SetSelection(0);
 		}
-		Effects_A->SetValue(lexical_cast<string>(EffectPointer->A));
+		Effects_A->ChangeValue(lexical_cast<string>(EffectPointer->A));
 		Effects_A->Container = &EffectPointer->A;
 		Effects_ComboBox_UnitsA->SetSelection(0);
 		Effects_ComboBox_UnitsA->SetSelection(EffectPointer->A + 1);
@@ -362,7 +354,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 		Effects_ComboBox_ResourcesA->SetSelection(EffectPointer->A + 1);
 		Effects_ComboBox_ResearchsA->SetSelection(0);
 		Effects_ComboBox_ResearchsA->SetSelection(EffectPointer->A + 1);
-		Effects_B->SetValue(lexical_cast<string>(EffectPointer->B));
+		Effects_B->ChangeValue(lexical_cast<string>(EffectPointer->B));
 		Effects_B->Container = &EffectPointer->B;
 		Effects_CheckBox_ModeB->SetValue((bool)EffectPointer->B);
 		Effects_ComboBox_ClassB->SetSelection(0);
@@ -371,12 +363,12 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 		Effects_ComboBox_UnitsB->SetSelection(EffectPointer->B + 1);
 		Effects_ComboBox_ResourcesB->SetSelection(0);
 		Effects_ComboBox_ResourcesB->SetSelection(EffectPointer->B + 1);
-		Effects_C->SetValue(lexical_cast<string>(EffectPointer->C));
+		Effects_C->ChangeValue(lexical_cast<string>(EffectPointer->C));
 		Effects_C->Container = &EffectPointer->C;
 		Effects_CheckBox_ModeC->SetValue((bool)EffectPointer->C);
 		Effects_ComboBox_AttributesC->SetSelection(0);
 		Effects_ComboBox_AttributesC->SetSelection(EffectPointer->C + 1);
-		Effects_D->SetValue(lexical_cast<string>(EffectPointer->D));
+		Effects_D->ChangeValue(lexical_cast<string>(EffectPointer->D));
 		Effects_D->Container = &EffectPointer->D;
 		Effects_ComboBox_ResearchsD->SetSelection(0);
 		Effects_ComboBox_ResearchsD->SetSelection(EffectPointer->D + 1);
@@ -413,18 +405,18 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				{
 					Effects_D->Enable(false);
 					Effects_E->Show(true);
-					Effects_E->SetValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
+					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
 					Effects_ComboBox_ClassF->Show(true);
 					Effects_ComboBox_ClassF->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
-						Effects_F->SetValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
+						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
 						Effects_ComboBox_ClassF->SetSelection(-(short)EffectPointer->D / 256);
 					}
 					else
 					{
-						Effects_F->SetValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
+						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
 						Effects_ComboBox_ClassF->SetSelection((short)EffectPointer->D / 256);
 					}
 					Effects_Text_E->SetLabel("Value [Set] ");
@@ -588,18 +580,18 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				{
 					Effects_D->Enable(false);
 					Effects_E->Show(true);
-					Effects_E->SetValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
+					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
 					Effects_ComboBox_ClassF->Show(true);
 					Effects_ComboBox_ClassF->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
-						Effects_F->SetValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
+						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
 						Effects_ComboBox_ClassF->SetSelection(-(short)EffectPointer->D / 256);
 					}
 					else
 					{
-						Effects_F->SetValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
+						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
 						Effects_ComboBox_ClassF->SetSelection((short)EffectPointer->D / 256);
 					}
 					Effects_Text_E->SetLabel("Value [+/-] ");
@@ -651,18 +643,18 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				{
 					Effects_D->Enable(false);
 					Effects_E->Show(true);
-					Effects_E->SetValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
+					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
 					Effects_ComboBox_ClassF->Show(true);
 					Effects_ComboBox_ClassF->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
-						Effects_F->SetValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
+						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
 						Effects_ComboBox_ClassF->SetSelection(-(short)EffectPointer->D / 256);
 					}
 					else
 					{
-						Effects_F->SetValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
+						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
 						Effects_ComboBox_ClassF->SetSelection((short)EffectPointer->D / 256);
 					}
 					Effects_Text_E->SetLabel("Value [%] ");
@@ -917,14 +909,12 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
 {
-//	wxBusyCursor WaitCursor;
-	gdat::TechageEffect Temp;
-	short TechID = Techs_Techs_List->GetSelection();
-	if(TechID != wxNOT_FOUND)
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
-		GenieFile->Techages[TechPointer - (&GenieFile->Techages[0])].Effects.push_back(Temp);
-		ListEffects(TechPointer - (&GenieFile->Techages[0]));
+		gdat::TechageEffect Temp;
+		GenieFile->Techages[TechID].Effects.push_back(Temp);
+		ListEffects(TechID);
 		Techs_Effects_List->SetSelection(Techs_Effects_List->GetCount() - 1);
 		wxCommandEvent E;
 		OnEffectsSelect(E);
@@ -934,12 +924,8 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
 void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
 {
 	wxBusyCursor WaitCursor;
-	gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(Techs_Techs_List->GetSelection());
-	gdat::TechageEffect * EffectPointer = (gdat::TechageEffect*)Techs_Effects_List->GetClientData(Techs_Effects_List->GetSelection());
-	short TechID = TechPointer - (&GenieFile->Techages[0]);
-	short EffectID = EffectPointer - (&GenieFile->Techages[TechID].Effects[0]);
 	short Selection = Techs_Effects_List->GetSelection();
-	if((TechID != wxNOT_FOUND) && (EffectID != wxNOT_FOUND))
+	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Techages[TechID].Effects.erase(GenieFile->Techages[TechID].Effects.begin() + (EffectID));
 		ListEffects(TechID);
@@ -951,26 +937,23 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnEffectsCopy(wxCommandEvent& Event)	// Works.
 {
-	short TechID = Techs_Techs_List->GetSelection();
-	short EffectID = Techs_Effects_List->GetSelection();
-	if((TechID != wxNOT_FOUND) && (EffectID != wxNOT_FOUND))
+	short Selection = Techs_Effects_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		EffectCopy = *(gdat::TechageEffect*)Techs_Effects_List->GetClientData(EffectID);
+		EffectCopy = *(gdat::TechageEffect*)Techs_Effects_List->GetClientData(Selection);
 	}
 }
 
 void AGE_Frame::OnEffectsPaste(wxCommandEvent& Event)	// Works.
 {
 	wxBusyCursor WaitCursor;
-	short TechID = Techs_Techs_List->GetSelection();
-	short EffectID = Techs_Effects_List->GetSelection();
-	if((TechID != wxNOT_FOUND) && (EffectID != wxNOT_FOUND))
+	short Selection = Techs_Effects_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(TechID);
-		*(gdat::TechageEffect*)Techs_Effects_List->GetClientData(EffectID) = EffectCopy;
-		ListEffects(TechPointer - (&GenieFile->Techages[0]));
-		Techs_Effects_List->SetSelection(EffectID + 3);
-		Techs_Effects_List->SetSelection(EffectID);
+		*(gdat::TechageEffect*)Techs_Effects_List->GetClientData(Selection) = EffectCopy;
+		ListEffects(TechID);
+		Techs_Effects_List->SetSelection(Selection + 3);
+		Techs_Effects_List->SetSelection(Selection);
 	}
 }
 
