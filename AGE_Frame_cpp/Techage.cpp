@@ -76,7 +76,6 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 
 void AGE_Frame::ListTechages()
 {
-//	wxBusyCursor WaitCursor;
 	string Name;
 	wxString SearchText = wxString(Techs_Techs_Search->GetValue()).Lower();
 //	wxString SearchText = wxString(Techs_Techs_Search->GetValue()).Lower(); // Reverse
@@ -153,7 +152,11 @@ void AGE_Frame::ListTechages()
 
 void AGE_Frame::OnTechageSearch(wxCommandEvent& Event)
 {
-	ListTechages();
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		ListTechages();
+	}
 }
 
 void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
@@ -185,7 +188,6 @@ void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Techs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(Selection);
 		GenieFile->Techages.erase(GenieFile->Techages.begin() + (TechID));
 		ListTechages();
 		Techs_Techs_List->SetSelection(Techs_Techs_List->GetCount() - 1);
@@ -315,10 +317,9 @@ void AGE_Frame::ListEffects(int Index)
 
 void AGE_Frame::OnEffectsSearch(wxCommandEvent& Event)
 {
-	short Selection = Techs_Techs_List->GetSelection();
+	short Selection = Techs_Effects_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(Selection);
 		ListEffects(TechID);
 	}
 }

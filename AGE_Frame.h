@@ -194,13 +194,11 @@ class AGE_Frame : public wxFrame
 //	Unit Events
 	
 	void ListUnitHeads();
-//	void OnUnitHeadsSearch(wxCommandEvent& Event);
 	void OnUnitHeadsSelect(wxCommandEvent& Event);
 	void OnUnitHeadsAdd(wxCommandEvent& Event);
 	void OnUnitHeadsDelete(wxCommandEvent& Event);
 	void OnUnitHeadsCopy(wxCommandEvent& Event);
 	void OnUnitHeadsPaste(wxCommandEvent& Event);
-//	string GetUnitHeadName(int Index);
 
 	void ListUnitCommands(int Index, int CivID);
 	void OnUnitCommandsSearch(wxCommandEvent& Event);
@@ -317,12 +315,18 @@ class AGE_Frame : public wxFrame
 	gdat::UnitCommand UnitCommandCopy;
 	short CommandID;
 	gdat::Terrain TerrainCopy;
+	short TerrainID;
 	gdat::TerrainRestriction TerrainRestrictionCopy;
+	short TerRestrictID;
 	gdat::TerrainPassGraphic TerrainRestrictionSubCopy;
+	short TerRestrictTerID;
 	float TerrainRestrictionSubCopyAccess;
 	gdat::Sound SoundCopy;
+	short SoundID;
 	gdat::SoundItem SoundItemCopy;
+	short SoundItemID;
 	gdat::PlayerColour PlayerColorCopy;
+	short ColorID;
 
 	int GameVersion;
 	int DatUsed;
