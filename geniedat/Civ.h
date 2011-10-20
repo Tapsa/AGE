@@ -31,7 +31,6 @@ class Civ : public ISerializable
 
 public:
   Civ();
-  Civ(const Civ &other);
   virtual ~Civ();
   
   void serializeObject(void);
@@ -39,13 +38,14 @@ public:
   /// Always one
   char One;
   
-  static const short NAME_LEN = 20;
+  /// Returns size for both names
+  static short getNameSize();
   
   /// Internal name
-  char *Name;
+  std::string Name;
   
   /// MinGameVersion: SWGB
-  char *Name2;
+  std::string Name2;
   
   /// Number of resources defined for this civilization
   unsigned short ResourceCount;
@@ -66,7 +66,7 @@ public:
   /// Units defined for this civ.
   std::vector<Unit> Units;
   
-  short *SUnknown1; // Unknown in >=SWGB (cnt=4)
+  std::vector<short> SUnknown1; // Unknown in >=SWGB (cnt=4)
   
 private:
   unsigned short UnitCount;

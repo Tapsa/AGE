@@ -4,7 +4,7 @@
 
 void ComboBox_Byte::OnUpdate(wxCommandEvent& Event)
 {
-	Container->SetValue(lexical_cast<string>(GetSelection() - 1));
+	Container->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	
 	wxFocusEvent Temp(wxEVT_KILL_FOCUS);
 	Container->OnKillFocus(Temp);
@@ -12,7 +12,7 @@ void ComboBox_Byte::OnUpdate(wxCommandEvent& Event)
 
 void ComboBox_Float::OnUpdate(wxCommandEvent& Event)
 {
-	Container->SetValue(lexical_cast<string>(GetSelection() - 1));
+	Container->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	
 	wxFocusEvent Temp(wxEVT_KILL_FOCUS);
 	Container->OnKillFocus(Temp);
@@ -20,7 +20,7 @@ void ComboBox_Float::OnUpdate(wxCommandEvent& Event)
 
 void ComboBox_Short::OnUpdate(wxCommandEvent& Event)
 {
-	Container->SetValue(lexical_cast<string>(GetSelection() - 1));
+	Container->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	
 	wxFocusEvent Temp(wxEVT_KILL_FOCUS);
 	Container->OnKillFocus(Temp);
@@ -28,7 +28,7 @@ void ComboBox_Short::OnUpdate(wxCommandEvent& Event)
 
 void ComboBox_Long::OnUpdate(wxCommandEvent& Event)
 {
-	Container->SetValue(lexical_cast<string>(GetSelection() - 1));
+	Container->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	
 	wxFocusEvent Temp(wxEVT_KILL_FOCUS);
 	Container->OnKillFocus(Temp);
@@ -39,47 +39,47 @@ void ComboBox_Byte_EffectType::OnUpdate(wxCommandEvent& Event)
 	short Selection = GetSelection();
 	if(Selection == 1)
 	{
-		Container->SetValue("0");
+		Container->ChangeValue("0");
 	}
 	else if(Selection == 2)
 	{
-		Container->SetValue("1");
+		Container->ChangeValue("1");
 	}
 	else if(Selection == 3)
 	{
-		Container->SetValue("2");
+		Container->ChangeValue("2");
 	}
 	else if(Selection == 4)
 	{
-		Container->SetValue("3");
+		Container->ChangeValue("3");
 	}
 	else if(Selection == 5)
 	{
-		Container->SetValue("4");
+		Container->ChangeValue("4");
 	}
 	else if(Selection == 6)
 	{
-		Container->SetValue("5");
+		Container->ChangeValue("5");
 	}
 	else if(Selection == 7)
 	{
-		Container->SetValue("6");
+		Container->ChangeValue("6");
 	}
 	else if(Selection == 8)
 	{
-		Container->SetValue("101");
+		Container->ChangeValue("101");
 	}
 	else if(Selection == 9)
 	{
-		Container->SetValue("102");
+		Container->ChangeValue("102");
 	}
 	else if(Selection == 10)
 	{
-		Container->SetValue("103");
+		Container->ChangeValue("103");
 	}
 	else
 	{
-		Container->SetValue("-1");
+		Container->ChangeValue("-1");
 	}
 	
 	wxFocusEvent Temp(wxEVT_KILL_FOCUS);
@@ -91,31 +91,31 @@ void ComboBox_Byte_UnitType::OnUpdate(wxCommandEvent& Event)
 	short Selection = GetSelection();
 	if(Selection == 1)
 	{
-		Container->SetValue("10");
+		Container->ChangeValue("10");
 	}
 	else if(Selection == 2)
 	{
-		Container->SetValue("20");
+		Container->ChangeValue("20");
 	}
 	else if(Selection == 3)
 	{
-		Container->SetValue("30");
+		Container->ChangeValue("30");
 	}
 	else if(Selection == 4)
 	{
-		Container->SetValue("60");
+		Container->ChangeValue("60");
 	}
 	else if(Selection == 5)
 	{
-		Container->SetValue("70");
+		Container->ChangeValue("70");
 	}
 	else if(Selection == 6)
 	{
-		Container->SetValue("80");
+		Container->ChangeValue("80");
 	}
 	else
 	{
-		Container->SetValue("-1");
+		Container->ChangeValue("-1");
 	}
 	
 	wxFocusEvent Temp(wxEVT_KILL_FOCUS);
@@ -124,7 +124,7 @@ void ComboBox_Byte_UnitType::OnUpdate(wxCommandEvent& Event)
 
 void ComboBox_Short_AttackType::OnUpdate(wxCommandEvent& Event)
 {
-	Container->SetValue(lexical_cast<string>(GetSelection()));
+	Container->ChangeValue(lexical_cast<string>(GetSelection()));
 	
 	wxFocusEvent Temp(wxEVT_KILL_FOCUS);
 	Container->OnKillFocus(Temp);

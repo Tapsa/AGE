@@ -36,20 +36,20 @@ public:
   
   void serializeObject(void);
   
-  static const short NAME_LEN_SWGB = 25;
-  
-  static const short NAME_LEN = 21;
+  /// Returns the size of Name
+  static short getNameSize(void);
   
   /// These two name strings appear to be equal in all graphics, so the 
   /// second one's use is unknown. Like the genie unit's internal name value, 
   /// they are heavily abbreviated, such as "ARRG2NNE" meaning "Archery 
-  /// Range Fuedal Age (North) European"
-  char *Name; //char [21]
+  /// Range Fuedal Age (orth) European"
+  std::string Name;
   
-  static const short NAME_LEN2 = 13;
+  /// Returns the size of Name2
+  static short getName2Size(void);
   
   /// See Name
-  char *Name2; //char [13]
+  std::string Name2;
   
   /// SLP resource id
   long SLP;
@@ -95,6 +95,14 @@ public:
     
 private:
   unsigned short DeltaCount;
+  
+  static const short NAME_LEN_SWGB = 25;
+  
+  static const short NAME_LEN = 21;
+  static const short NAME_LEN2 = 13;
+  
+  char *CstrName; //char [21]
+  char *CstrName2; //char [13]
 };
 
 }

@@ -30,15 +30,14 @@ class Techage : public ISerializable
 
 public:
   Techage();
-  Techage(const Techage &other);
   virtual ~Techage();
   
   void serializeObject(void);
   
-  static const short NAME_LEN = 31;
+  static short getNameSize(void);
   
   /// Internal name, changing doesn't effect anything.
-  char *Name; //char [31]
+  std::string Name;
   
   std::vector<TechageEffect> Effects;
   
