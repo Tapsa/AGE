@@ -357,10 +357,7 @@ void AGE_Frame::ListUnits(int UnitCivID)
 
 void AGE_Frame::ListUnitHeads()
 {
-//	wxBusyCursor WaitCursor;
 	string Name;
-//	wxString SearchText = wxString(Units_Units_Search->GetValue()).Lower();
-//	string CompareText;
 	short CivSelection = Units_Civs_List->GetSelection();
 	short Selection = Units_UnitHeads_List->GetSelection();
 
@@ -378,14 +375,10 @@ void AGE_Frame::ListUnitHeads()
 	}
 	for(short loop = 0;loop < GenieFile->UnitHeaders.size();loop++)
 	{
-//		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitName(loop, CivSelection)).Lower();
-//		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
-		{
-			Name = lexical_cast<string>(loop);
-			Name += " - ";
-			Name += GetUnitName(loop, CivSelection);
-			Units_UnitHeads_List->Append(Name, (void*)&GenieFile->UnitHeaders[loop]);
-		}
+		Name = lexical_cast<string>(loop);
+		Name += " - ";
+		Name += GetUnitName(loop, CivSelection);
+		Units_UnitHeads_List->Append(Name, (void*)&GenieFile->UnitHeaders[loop]);
 	}
 	Units_UnitHeads_List->SetSelection(Selection);
 }
@@ -1416,7 +1409,7 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 void AGE_Frame::OnUnitHeadsAdd(wxCommandEvent& Event)
 {
 	gdat::Unit Temp;
-//	GenieFile->Civs[UnitCivID].Units.push_back(Temp);
+	GenieFile->Civs[UnitCivID].Units.push_back(Temp);
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
 		for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
@@ -1457,6 +1450,7 @@ void AGE_Frame::OnUnitHeadsDelete(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		GenieFile->Civs[UnitCivID].Units.erase(GenieFile->Civs[UnitCivID].Units.begin() + (UnitID));
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
@@ -1584,8 +1578,8 @@ void AGE_Frame::OnUnitHeadsPaste(wxCommandEvent& Event)
 				ListUnitHeads();
 			}
 			ListUnits(UnitCivID);
-			Units_Units_List->SetSelection(UnitID + 3);
-			Units_Units_List->SetSelection(UnitID);
+			Units_Units_List->SetSelection(Selection + 3);
+			Units_Units_List->SetSelection(Selection);
 		}
 	}
 }
@@ -1720,14 +1714,10 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent& Event)
 string AGE_Frame::GetUnitAttackName(int Index, int UnitCivID, int UnitID)
 {
 	string Name = "";
-	
-	if (Index >= 0 && Index < GenieFile->Civs[UnitCivID].Units[UnitID].Attacks.size())
-	{
-		Name += "Amount: ";
-		Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Attacks[Index].Amount);
-		Name += " - Class ";
-		Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Attacks[Index].Class);
-	}
+	Name += "Amount: ";
+	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Attacks[Index].Amount);
+	Name += " - Class ";
+	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Attacks[Index].Class);
 	return Name;
 }
 
@@ -2425,31 +2415,26 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 {
 	gdat::UnitCommand Temp;
-	if(GameVersion > 1)
+	short Selection = Units_Units_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		short Selection = Units_UnitHeads_List->GetSelection();
-		if(Selection != wxNOT_FOUND)
+		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.push_back(Temp);
 			for(short loop2 = 0;loop2 < GenieFile->UnitHeaders[0].Commands.size();loop2++)	//	ID fix
 			{
 				GenieFile->UnitHeaders[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
-			ListUnitCommands(UnitID, 0);
 		}
-	}
-	else
-	{
-		short Selection = Units_Units_List->GetSelection();
-		if(Selection != wxNOT_FOUND)
+		else
 		{
 			GenieFile->Civs[UnitCivID].Units[UnitID].Commands.push_back(Temp);
 			for(short loop2 = 0;loop2 < GenieFile->Civs[UnitCivID].Units[0].Commands.size();loop2++)	//	ID fix
 			{
 				GenieFile->Civs[UnitCivID].Units[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
-			ListUnitCommands(UnitID, UnitCivID);
 		}
+		ListUnitCommands(UnitID, UnitCivID);
 	}
 	Units_UnitCommands_List->SetSelection(Units_UnitCommands_List->GetCount() - 1);
 	wxCommandEvent E;
@@ -2469,7 +2454,6 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 			{
 				GenieFile->UnitHeaders[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
-			ListUnitCommands(UnitID, 0);
 		}
 		else
 		{
@@ -2478,8 +2462,8 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 			{
 				GenieFile->Civs[UnitCivID].Units[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
-			ListUnitCommands(UnitID, UnitCivID);
 		}
+		ListUnitCommands(UnitID, UnitCivID);
 		Units_UnitCommands_List->SetSelection(Units_UnitCommands_List->GetCount() - 1);
 		Units_UnitCommands_List->SetSelection(Selection - 1);
 		Units_UnitCommands_List->SetSelection(Selection);
@@ -2501,24 +2485,22 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 	short Selection = Units_UnitCommands_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		*(gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection) = UnitCommandCopy;
 		if(GameVersion > 1)
 		{
-			*(gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection) = UnitCommandCopy;
 			for(short loop2 = 0;loop2 < GenieFile->UnitHeaders[0].Commands.size();loop2++)	//	ID fix
 			{
 				GenieFile->UnitHeaders[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
-			ListUnitCommands(UnitID, 0);
 		}
 		else
 		{
-			*(gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection) = UnitCommandCopy;
 			for(short loop2 = 0;loop2 < GenieFile->Civs[UnitCivID].Units[0].Commands.size();loop2++)	//	ID fix
 			{
 				GenieFile->Civs[UnitCivID].Units[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
-			ListUnitCommands(UnitID, UnitCivID);
 		}
+		ListUnitCommands(UnitID, UnitCivID);
 		Units_UnitCommands_List->SetSelection(Selection + 3);
 		Units_UnitCommands_List->SetSelection(Selection);
 	}

@@ -22,7 +22,6 @@ string AGE_Frame::GetResearchName(int Index)
 
 void AGE_Frame::ListResearchs()
 {
-//	wxBusyCursor WaitCursor;
 	string Name;
 	wxString SearchText = wxString(Research_Research_Search->GetValue()).Lower();
 	string CompareText;
@@ -108,7 +107,11 @@ void AGE_Frame::ListResearchs()
 
 void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
 {
-	ListResearchs();
+	short Selection = Research_Research_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		ListResearchs();
+	}
 }
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
