@@ -92,7 +92,11 @@ void AGE_Frame::ListCivs()
 
 void AGE_Frame::OnCivsSearch(wxCommandEvent& Event)
 {
-	ListCivs();
+	short Selection = Civs_Civs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		ListCivs();
+	}
 }
 
 void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
@@ -691,7 +695,7 @@ void AGE_Frame::ListResources(int Index)
 
 void AGE_Frame::OnResourcesSearch(wxCommandEvent& Event)
 {
-	short Selection = Civs_Civs_List->GetSelection();
+	short Selection = Civs_Resources_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
 		ListResources(CivID);
@@ -716,7 +720,6 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent& Event)
 	short Selection = Civs_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Civ * CivPointer = (gdat::Civ*)Civs_Civs_List->GetClientData(Selection);
 		GenieFile->Civs[CivID].Resources.push_back(Temp);
 		ListResources(CivID);
 		Civs_Resources_List->SetSelection(Civs_Resources_List->GetCount() - 1);
@@ -891,8 +894,10 @@ void AGE_Frame::CreateCivControls()
 	Civs_Main->Add(Civs_DataArea, 3, wxEXPAND);
 	Civs_Main->Add(10, -1);
 
-	Resources_Add->Enable(false);
-	Resources_Delete->Enable(false);
+//	Civs_Add->Enable(false);
+//	Civs_Delete->Enable(false);
+//	Resources_Add->Enable(false);
+//	Resources_Delete->Enable(false);
 	
 	Tab_Civs->SetSizer(Civs_Main);
 	
