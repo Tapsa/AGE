@@ -62,9 +62,9 @@ protected:
   void setIOStream(std::iostream &iostr);
   std::iostream * getIOStream(void) const;
   
-  std::string readString(size_t len);
+  std::string readString(size_t len, bool cstr=true);
   
-  void writeString(std::string str, size_t len=-1);
+  void writeString(std::string str, size_t len=-1, bool cstr=true);
 
   
   //----------------------------------------------------------------------------
@@ -135,14 +135,14 @@ protected:
       read<T>(data, len);
   }
   
-  void serializeString(std::string &str, size_t len)
+  void serializeString(std::string &str, size_t len, bool cstr = true)
   {
     if (len > 0)
     {
       if (Write_)
-        writeString(str, len);
+        writeString(str, len, cstr);
       else
-        str = readString(len);
+        str = readString(len, cstr);
     }
   }
   

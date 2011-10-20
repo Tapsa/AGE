@@ -170,9 +170,9 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent& Event)
 	if(SoundID != wxNOT_FOUND)
 	{
 		gdat::Sound * SoundPointer = (gdat::Sound*)Sounds_Sounds_List->GetClientData(SoundID);
-		Sounds_ID->SetValue(lexical_cast<string>(SoundPointer->ID));
+		Sounds_ID->ChangeValue(lexical_cast<string>(SoundPointer->ID));
 		Sounds_ID->Container = &SoundPointer->ID;
-		Sounds_Unknown->SetValue(lexical_cast<string>(SoundPointer->Unknown1));
+		Sounds_Unknown->ChangeValue(lexical_cast<string>(SoundPointer->Unknown1));
 		Sounds_Unknown->Container = &SoundPointer->Unknown1;
 //		wxMessageBox("Sound "+lexical_cast<string>(SoundPointer - (&GenieFile->Sounds[0])));
 		ListSoundItems(SoundPointer - (&GenieFile->Sounds[0]));
@@ -296,26 +296,26 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
 	gdat::SoundItem * SoundItemPointer = (gdat::SoundItem*)Sounds_SoundItems_List->GetClientData(SoundItemID);
 	if(SoundItemID != wxNOT_FOUND)
 	{
-		SoundItems_Name->SetValue(SoundItemPointer->FileName);
+		SoundItems_Name->ChangeValue(SoundItemPointer->FileName);
 		SoundItems_Name->Container = &SoundItemPointer->FileName;
-		SoundItems_Resource->SetValue(lexical_cast<string>(SoundItemPointer->ResourceID));
+		SoundItems_Resource->ChangeValue(lexical_cast<string>(SoundItemPointer->ResourceID));
 		SoundItems_Resource->Container = &SoundItemPointer->ResourceID;
-		SoundItems_Probability->SetValue(lexical_cast<string>(SoundItemPointer->Probability));
+		SoundItems_Probability->ChangeValue(lexical_cast<string>(SoundItemPointer->Probability));
 		SoundItems_Probability->Container = &SoundItemPointer->Probability;
-		SoundItems_Civ->SetValue(lexical_cast<string>(SoundItemPointer->Civ));
+		SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
 		SoundItems_Civ->Container = &SoundItemPointer->Civ;
 		SoundItems_ComboBox_Civ->SetSelection(SoundItemPointer->Civ + 1);
-		SoundItems_Unknown->SetValue(lexical_cast<string>(SoundItemPointer->Unknown1));
+		SoundItems_Unknown->ChangeValue(lexical_cast<string>(SoundItemPointer->Unknown1));
 		SoundItems_Unknown->Container = &SoundItemPointer->Unknown1;
 	}
 	else
 	{
-		SoundItems_Name->SetValue("0");
-		SoundItems_Resource->SetValue("0");
-		SoundItems_Probability->SetValue("0");
-		SoundItems_Civ->SetValue("0");
+		SoundItems_Name->ChangeValue("0");
+		SoundItems_Resource->ChangeValue("0");
+		SoundItems_Probability->ChangeValue("0");
+		SoundItems_Civ->ChangeValue("0");
 		SoundItems_ComboBox_Civ->SetSelection(0);
-		SoundItems_Unknown->SetValue("0");
+		SoundItems_Unknown->ChangeValue("0");
 	}
 }
 

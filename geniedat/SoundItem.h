@@ -34,12 +34,11 @@ public:
   
   void serializeObject(void);
   
-  static const short FILE_NAME_LEN_AGE = 13;
-  static const short FILE_NAME_LEN = 27;
+  static short getFileNameSize();
   
   /// File name of the resource
   /// 13 in games <= TC and 27 in games >= SWGB
-  char *FileName; //char 27
+  std::string FileName;
   
   /// ID of the resource in the drs file, if -1 the sound file may be stored
   /// in the Sound directory. 

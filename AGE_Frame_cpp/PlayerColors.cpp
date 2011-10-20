@@ -69,31 +69,31 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 	if(ColorID != wxNOT_FOUND)
 	{
 		gdat::PlayerColour * PlayerColorPointer = (gdat::PlayerColour*)Colors_Colors_List->GetClientData(ColorID);
-		Colors_ID->SetValue(lexical_cast<string>(PlayerColorPointer->ID));
+		Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
 		Colors_ID->Container = &PlayerColorPointer->ID;
 		// Color shows oddly high values in AoE and RoR. It is supposed to be short in them.
-		Colors_Color->SetValue(lexical_cast<string>(PlayerColorPointer->Colour));
+		Colors_Color->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
 		Colors_Color->Container = &PlayerColorPointer->Colour;
 		if(GameVersion <= 1)	//	AoE and RoR
 		{
-			Colors_Name->SetValue(PlayerColorPointer->Name);
+			Colors_Name->ChangeValue(PlayerColorPointer->Name);
 			Colors_Name->Container = PlayerColorPointer->Name;
 		}
 		else	//	Above AoE and RoR
 		{
-			Colors_Palette->SetValue(lexical_cast<string>(PlayerColorPointer->Palette));
+			Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
 			Colors_Palette->Container = &PlayerColorPointer->Palette;
-			Colors_MinimapColor->SetValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
+			Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
 			Colors_MinimapColor->Container = &PlayerColorPointer->MinimapColour;
-			Colors_Unknown1->SetValue(lexical_cast<string>(PlayerColorPointer->Unknown1));
+			Colors_Unknown1->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown1));
 			Colors_Unknown1->Container = &PlayerColorPointer->Unknown1;
-			Colors_Unknown2->SetValue(lexical_cast<string>(PlayerColorPointer->Unknown2));
+			Colors_Unknown2->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown2));
 			Colors_Unknown2->Container = &PlayerColorPointer->Unknown2;
-			Colors_Unknown3->SetValue(lexical_cast<string>(PlayerColorPointer->Unknown3));
+			Colors_Unknown3->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown3));
 			Colors_Unknown3->Container = &PlayerColorPointer->Unknown3;
-			Colors_Unknown4->SetValue(lexical_cast<string>(PlayerColorPointer->Unknown4));
+			Colors_Unknown4->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown4));
 			Colors_Unknown4->Container = &PlayerColorPointer->Unknown4;
-			Colors_Unknown5->SetValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
+			Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
 			Colors_Unknown5->Container = &PlayerColorPointer->Unknown5;
 		}
 	}

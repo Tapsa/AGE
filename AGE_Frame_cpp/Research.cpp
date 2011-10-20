@@ -27,16 +27,13 @@ void AGE_Frame::ListResearchs()
 	wxString SearchText = wxString(Research_Research_Search->GetValue()).Lower();
 	string CompareText;
 	
-	short ResearchID = Research_Research_List->GetSelection();
-	short ResearchID1 = Effects_ComboBox_ResearchsD->GetSelection();
-	short ResearchID2 = Effects_ComboBox_ResearchsA->GetSelection();
-	short ResearchID3 = Units_ComboBox_ResearchID->GetSelection();
-	short ResearchID4 = Research_ComboBox_RequiredTechs[0]->GetSelection();
-	short ResearchID5 = Research_ComboBox_RequiredTechs[1]->GetSelection();
-	short ResearchID6 = Research_ComboBox_RequiredTechs[2]->GetSelection();
-	short ResearchID7 = Research_ComboBox_RequiredTechs[3]->GetSelection();
-	short ResearchID8 = Research_ComboBox_RequiredTechs[4]->GetSelection();
-	short ResearchID9 = Research_ComboBox_RequiredTechs[5]->GetSelection();
+	short Selection = Research_Research_List->GetSelection();
+	short ResearchIDs[9];
+	ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
+	ResearchIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
+	ResearchIDs[2] = Units_ComboBox_ResearchID->GetSelection();
+	for(short loop = 0;loop < 6;loop++)
+	ResearchIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
 
 	if(!Research_Research_List->IsEmpty())
 	{
@@ -54,81 +51,31 @@ void AGE_Frame::ListResearchs()
 	{
 		Units_ComboBox_ResearchID->Clear();
 	}
-	if(!Research_ComboBox_RequiredTechs[0]->IsEmpty())
+	for(short loop = 0;loop < 6;loop++)
 	{
-		Research_ComboBox_RequiredTechs[0]->Clear();
-	}
-	if(!Research_ComboBox_RequiredTechs[1]->IsEmpty())
-	{
-		Research_ComboBox_RequiredTechs[1]->Clear();
-	}
-	if(!Research_ComboBox_RequiredTechs[2]->IsEmpty())
-	{
-		Research_ComboBox_RequiredTechs[2]->Clear();
-	}
-	if(!Research_ComboBox_RequiredTechs[3]->IsEmpty())
-	{
-		Research_ComboBox_RequiredTechs[3]->Clear();
-	}
-	if(!Research_ComboBox_RequiredTechs[4]->IsEmpty())
-	{
-		Research_ComboBox_RequiredTechs[4]->Clear();
-	}
-	if(!Research_ComboBox_RequiredTechs[5]->IsEmpty())
-	{
-		Research_ComboBox_RequiredTechs[5]->Clear();
+		if(!Research_ComboBox_RequiredTechs[loop]->IsEmpty())
+		{
+			Research_ComboBox_RequiredTechs[loop]->Clear();
+		}
 	}
 	
-	if(ResearchID == wxNOT_FOUND)
+	if(Selection == wxNOT_FOUND)
 	{
-		ResearchID = 0;
+		Selection = 0;
 	}
-	if(ResearchID1 == wxNOT_FOUND)
+	for(short loop = 0;loop < 9;loop++)
 	{
-		ResearchID1 = 0;
-	}
-	if(ResearchID2 == wxNOT_FOUND)
-	{
-		ResearchID2 = 0;
-	}
-	if(ResearchID3 == wxNOT_FOUND)
-	{
-		ResearchID3 = 0;
-	}
-	if(ResearchID4 == wxNOT_FOUND)
-	{
-		ResearchID4 = 0;
-	}
-	if(ResearchID5 == wxNOT_FOUND)
-	{
-		ResearchID5 = 0;
-	}
-	if(ResearchID6 == wxNOT_FOUND)
-	{
-		ResearchID6 = 0;
-	}
-	if(ResearchID7 == wxNOT_FOUND)
-	{
-		ResearchID7 = 0;
-	}
-	if(ResearchID8 == wxNOT_FOUND)
-	{
-		ResearchID8 = 0;
-	}
-	if(ResearchID9 == wxNOT_FOUND)
-	{
-		ResearchID9 = 0;
+		if(ResearchIDs[loop] == wxNOT_FOUND)
+		{
+			ResearchIDs[loop] = 0;
+		}
 	}
 	
 	Effects_ComboBox_ResearchsD->Append("-1 - None");
 	Effects_ComboBox_ResearchsA->Append("-1 - None");
 	Units_ComboBox_ResearchID->Append("-1 - None");
-	Research_ComboBox_RequiredTechs[0]->Append("-1 - None");
-	Research_ComboBox_RequiredTechs[1]->Append("-1 - None");
-	Research_ComboBox_RequiredTechs[2]->Append("-1 - None");
-	Research_ComboBox_RequiredTechs[3]->Append("-1 - None");
-	Research_ComboBox_RequiredTechs[4]->Append("-1 - None");
-	Research_ComboBox_RequiredTechs[5]->Append("-1 - None");
+	for(short loop = 0;loop < 6;loop++)
+	Research_ComboBox_RequiredTechs[loop]->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Researchs.size();loop++)
 	{
@@ -143,25 +90,17 @@ void AGE_Frame::ListResearchs()
 		Effects_ComboBox_ResearchsD->Append(Name);
 		Effects_ComboBox_ResearchsA->Append(Name);
 		Units_ComboBox_ResearchID->Append(Name);
-		Research_ComboBox_RequiredTechs[0]->Append(Name);
-		Research_ComboBox_RequiredTechs[1]->Append(Name);
-		Research_ComboBox_RequiredTechs[2]->Append(Name);
-		Research_ComboBox_RequiredTechs[3]->Append(Name);
-		Research_ComboBox_RequiredTechs[4]->Append(Name);
-		Research_ComboBox_RequiredTechs[5]->Append(Name);
+		for(short loop = 0;loop < 6;loop++)
+		Research_ComboBox_RequiredTechs[loop]->Append(Name);
 	}
 	
 	Research_Research_List->SetSelection(0);
-	Research_Research_List->SetSelection(ResearchID);
-	Effects_ComboBox_ResearchsD->SetSelection(ResearchID1);
-	Effects_ComboBox_ResearchsA->SetSelection(ResearchID2);
-	Units_ComboBox_ResearchID->SetSelection(ResearchID3);
-	Research_ComboBox_RequiredTechs[0]->SetSelection(ResearchID4);
-	Research_ComboBox_RequiredTechs[1]->SetSelection(ResearchID5);
-	Research_ComboBox_RequiredTechs[2]->SetSelection(ResearchID6);
-	Research_ComboBox_RequiredTechs[3]->SetSelection(ResearchID7);
-	Research_ComboBox_RequiredTechs[4]->SetSelection(ResearchID8);
-	Research_ComboBox_RequiredTechs[5]->SetSelection(ResearchID9);
+	Research_Research_List->SetSelection(Selection);
+	Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
+	Effects_ComboBox_ResearchsA->SetSelection(ResearchIDs[1]);
+	Units_ComboBox_ResearchID->SetSelection(ResearchIDs[2]);
+	for(short loop = 0;loop < 6;loop++)
+	Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchIDs[loop+3]);
 	
 	wxCommandEvent E;
 	OnResearchSelect(E);
@@ -174,93 +113,80 @@ void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 {
-	short ResearchID = Research_Research_List->GetSelection();
-	if(ResearchID != wxNOT_FOUND)
+	short Selection = Research_Research_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Research * ResearchPointer = (gdat::Research*)Research_Research_List->GetClientData(ResearchID);
-		Research_RequiredTechs[0]->SetValue(lexical_cast<string>(ResearchPointer->RequiredTechs[0]));
-		Research_RequiredTechs[0]->Container = &ResearchPointer->RequiredTechs[0];
-		Research_ComboBox_RequiredTechs[0]->SetSelection(ResearchPointer->RequiredTechs[0] + 1);
-		Research_RequiredTechs[1]->SetValue(lexical_cast<string>(ResearchPointer->RequiredTechs[1]));
-		Research_RequiredTechs[1]->Container = &ResearchPointer->RequiredTechs[1];
-		Research_ComboBox_RequiredTechs[1]->SetSelection(ResearchPointer->RequiredTechs[1] + 1);
-		Research_RequiredTechs[2]->SetValue(lexical_cast<string>(ResearchPointer->RequiredTechs[2]));
-		Research_RequiredTechs[2]->Container = &ResearchPointer->RequiredTechs[2];
-		Research_ComboBox_RequiredTechs[2]->SetSelection(ResearchPointer->RequiredTechs[2] + 1);
-		Research_RequiredTechs[3]->SetValue(lexical_cast<string>(ResearchPointer->RequiredTechs[3]));
-		Research_RequiredTechs[3]->Container = &ResearchPointer->RequiredTechs[3];
-		Research_ComboBox_RequiredTechs[3]->SetSelection(ResearchPointer->RequiredTechs[3] + 1);
-		Research_RequiredTechs[4]->SetValue(lexical_cast<string>(ResearchPointer->RequiredTechs[4]));
-		Research_RequiredTechs[4]->Container = &ResearchPointer->RequiredTechs[4];
-		Research_ComboBox_RequiredTechs[4]->SetSelection(ResearchPointer->RequiredTechs[4] + 1);
-		Research_RequiredTechs[5]->SetValue(lexical_cast<string>(ResearchPointer->RequiredTechs[5]));
-		Research_RequiredTechs[5]->Container = &ResearchPointer->RequiredTechs[5];
-		Research_ComboBox_RequiredTechs[5]->SetSelection(ResearchPointer->RequiredTechs[5] + 1);
-		Research_RequiredTechCount->SetValue(lexical_cast<string>(ResearchPointer->RequiredTechCount));
+		gdat::Research * ResearchPointer = (gdat::Research*)Research_Research_List->GetClientData(Selection);
+		ResearchID = ResearchPointer - (&GenieFile->Researchs[0]);
+		for(short loop = 0;loop < 6;loop++){
+		Research_RequiredTechs[loop]->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechs[loop]));
+		Research_RequiredTechs[loop]->Container = &ResearchPointer->RequiredTechs[loop];
+		Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchPointer->RequiredTechs[loop] + 1);}
+		Research_RequiredTechCount->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechCount));
 		Research_RequiredTechCount->Container = &ResearchPointer->RequiredTechCount;
-		Research_Resources[0]->SetValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Type));
+		Research_Resources[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Type));
 		Research_Resources[0]->Container = &ResearchPointer->ResourceCosts[0].Type;
-		Research_Resources[1]->SetValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Type));
+		Research_Resources[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Type));
 		Research_Resources[1]->Container = &ResearchPointer->ResourceCosts[1].Type;
-		Research_Resources[2]->SetValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Type));
+		Research_Resources[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Type));
 		Research_Resources[2]->Container = &ResearchPointer->ResourceCosts[2].Type;
 		Research_ComboBox_Resources[0]->SetSelection(ResearchPointer->ResourceCosts[0].Type + 1);
 		Research_ComboBox_Resources[1]->SetSelection(ResearchPointer->ResourceCosts[1].Type + 1);
 		Research_ComboBox_Resources[2]->SetSelection(ResearchPointer->ResourceCosts[2].Type + 1);
-		Research_Amount[0]->SetValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Amount));
+		Research_Amount[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Amount));
 		Research_Amount[0]->Container = &ResearchPointer->ResourceCosts[0].Amount;
-		Research_Amount[1]->SetValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Amount));
+		Research_Amount[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Amount));
 		Research_Amount[1]->Container = &ResearchPointer->ResourceCosts[1].Amount;
-		Research_Amount[2]->SetValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Amount));
+		Research_Amount[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Amount));
 		Research_Amount[2]->Container = &ResearchPointer->ResourceCosts[2].Amount;
-		Research_Used[0]->SetValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[0].Used));
+		Research_Used[0]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[0].Used));
 		Research_Used[0]->Container = &ResearchPointer->ResourceCosts[0].Used;
 		Research_CheckBox_Used[0]->SetValue((bool)ResearchPointer->ResourceCosts[0].Used);
-		Research_Used[1]->SetValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[1].Used));
+		Research_Used[1]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[1].Used));
 		Research_Used[1]->Container = &ResearchPointer->ResourceCosts[1].Used;
 		Research_CheckBox_Used[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Used);
-		Research_Used[2]->SetValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Used));
+		Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Used));
 		Research_Used[2]->Container = &ResearchPointer->ResourceCosts[2].Used;
 		Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Used);
-		Research_Civ->SetValue(lexical_cast<string>(ResearchPointer->Civ));
+		Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
 		Research_Civ->Container = &ResearchPointer->Civ;
 		Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
-		Research_FullTechMode->SetValue(lexical_cast<string>(ResearchPointer->FullTechMode));
+		Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
 		Research_FullTechMode->Container = &ResearchPointer->FullTechMode;
 		Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
-		Research_ResearchLocation->SetValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
+		Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
 		Research_ResearchLocation->Container = &ResearchPointer->ResearchLocation;
 		Research_ComboBox_ResearchLocation->SetSelection(ResearchPointer->ResearchLocation + 1);
-		Research_LangDllName->SetValue(lexical_cast<string>(ResearchPointer->LanguageDllName));
+		Research_LangDllName->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDllName));
 		Research_LangDllName->Container = &ResearchPointer->LanguageDllName;
 		Research_DLL_LangDllName->SetLabel(LanguageDllString(lexical_cast<short>(Research_LangDllName->GetValue())));
-		Research_LangDllDescription->SetValue(lexical_cast<string>(ResearchPointer->LanguageDllDescription));
+		Research_LangDllDescription->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDllDescription));
 		Research_LangDllDescription->Container = &ResearchPointer->LanguageDllDescription;
 		Research_DLL_LangDllDescription->SetLabel(LanguageDllString(lexical_cast<short>(Research_LangDllDescription->GetValue())));
-		Research_ResearchTime->SetValue(lexical_cast<string>(ResearchPointer->ResearchTime));
+		Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
 		Research_ResearchTime->Container = &ResearchPointer->ResearchTime;
-		Research_TechID->SetValue(lexical_cast<string>(ResearchPointer->TechageID));
+		Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
 		Research_TechID->Container = &ResearchPointer->TechageID;
 		Research_ComboBox_TechID->SetSelection(ResearchPointer->TechageID + 1);
-		Research_Type->SetValue(lexical_cast<string>(ResearchPointer->Type));
+		Research_Type->ChangeValue(lexical_cast<string>(ResearchPointer->Type));
 		Research_Type->Container = &ResearchPointer->Type;
-		Research_IconID->SetValue(lexical_cast<string>(ResearchPointer->IconID));
+		Research_IconID->ChangeValue(lexical_cast<string>(ResearchPointer->IconID));
 		Research_IconID->Container = &ResearchPointer->IconID;
-		Research_ButtonID->SetValue(lexical_cast<string>((short)ResearchPointer->ButtonID));
+		Research_ButtonID->ChangeValue(lexical_cast<string>((short)ResearchPointer->ButtonID));
 		Research_ButtonID->Container = &ResearchPointer->ButtonID;
-		Research_Pointers[0]->SetValue(lexical_cast<string>(ResearchPointer->Pointers[0]));
+		Research_Pointers[0]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[0]));
 		Research_Pointers[0]->Container = &ResearchPointer->Pointers[0];
-		Research_Pointers[1]->SetValue(lexical_cast<string>(ResearchPointer->Pointers[1]));
+		Research_Pointers[1]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[1]));
 		Research_Pointers[1]->Container = &ResearchPointer->Pointers[1];
-		Research_Pointers[1]->SetValue(lexical_cast<string>(ResearchPointer->Pointers[2]));
+		Research_Pointers[1]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[2]));
 		Research_Pointers[2]->Container = &ResearchPointer->Pointers[2];
-		Research_Name[0]->SetValue(ResearchPointer->Name);
+		Research_Name[0]->ChangeValue(ResearchPointer->Name);
 		Research_Name[0]->Container = &ResearchPointer->Name;
-		Research_Name[1]->SetValue(ResearchPointer->Name2);
+		Research_Name[1]->ChangeValue(ResearchPointer->Name2);
 		Research_Name[1]->Container = &ResearchPointer->Name2;
-		Research_NameLength[0]->SetValue(lexical_cast<string>(ResearchPointer->NameLength));
+		Research_NameLength[0]->ChangeValue(lexical_cast<string>(ResearchPointer->NameLength));
 		Research_NameLength[0]->Container = &ResearchPointer->NameLength;
-		Research_NameLength[1]->SetValue(lexical_cast<string>(ResearchPointer->NameLength2));
+		Research_NameLength[1]->ChangeValue(lexical_cast<string>(ResearchPointer->NameLength2));
 		Research_NameLength[1]->Container = &ResearchPointer->NameLength2;
 		Research_DLL_LangDllName->Wrap(Research_DLL_LangDllName->GetSize().GetWidth());
 		Research_DLL_LangDllDescription->Wrap(Research_DLL_LangDllDescription->GetSize().GetWidth());
@@ -269,7 +195,6 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 {
-//	wxBusyCursor WaitCursor;
 	gdat::Research Temp;
 	GenieFile->Researchs.push_back(Temp);
 	ListResearchs();
@@ -281,37 +206,36 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short ResearchID = Research_Research_List->GetSelection();
-	if(ResearchID != wxNOT_FOUND)
+	short Selection = Research_Research_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Research * ResearchPointer = (gdat::Research*)Research_Research_List->GetClientData(ResearchID);
-		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + (ResearchPointer - (&GenieFile->Researchs[0])));
+		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + (ResearchID));
 		ListResearchs();
 		Research_Research_List->SetSelection(Research_Research_List->GetCount() - 1);
-		Research_Research_List->SetSelection(ResearchID - 1);
-		Research_Research_List->SetSelection(ResearchID);
+		Research_Research_List->SetSelection(Selection - 1);
+		Research_Research_List->SetSelection(Selection);
 	}
 }
 
 void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 {
-	short ResearchID = Research_Research_List->GetSelection();
-	if(ResearchID != wxNOT_FOUND)
+	short Selection = Research_Research_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		ResearchCopy = *(gdat::Research*)Research_Research_List->GetClientData(ResearchID);
+		ResearchCopy = *(gdat::Research*)Research_Research_List->GetClientData(Selection);
 	}
 }
 
 void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short ResearchID = Research_Research_List->GetSelection();
-	if(ResearchID != wxNOT_FOUND)
+	short Selection = Research_Research_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::Research*)Research_Research_List->GetClientData(ResearchID) = ResearchCopy;
+		*(gdat::Research*)Research_Research_List->GetClientData(Selection) = ResearchCopy;
 		ListResearchs();
-		Research_Research_List->SetSelection(ResearchID + 3);
-		Research_Research_List->SetSelection(ResearchID);
+		Research_Research_List->SetSelection(Selection + 3);
+		Research_Research_List->SetSelection(Selection);
 	}
 }
 
@@ -343,18 +267,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_PointerArea = new wxBoxSizer(wxHORIZONTAL);
 	Research_Holder_Names = new wxBoxSizer(wxHORIZONTAL);
 
-	Research_RequiredTechs[0] = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_RequiredTechs[1] = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_RequiredTechs[2] = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_RequiredTechs[3] = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_RequiredTechs[4] = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_RequiredTechs[5] = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_ComboBox_RequiredTechs[0] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[0]);
-	Research_ComboBox_RequiredTechs[1] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[1]);
-	Research_ComboBox_RequiredTechs[2] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[2]);
-	Research_ComboBox_RequiredTechs[3] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[3]);
-	Research_ComboBox_RequiredTechs[4] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[4]);
-	Research_ComboBox_RequiredTechs[5] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[5]);
+	for(short loop = 0;loop < 6;loop++){
+	Research_RequiredTechs[loop] = new TextCtrl_Short(Research_Scroller, "0", NULL);
+	Research_ComboBox_RequiredTechs[loop] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[0]);}
 	Research_Holder_RequiredTechCount = new wxBoxSizer(wxVERTICAL);
 	Research_Text_RequiredTechCount = new wxStaticText(Research_Scroller, wxID_ANY, " Min. Req. Researches", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_RequiredTechCount = new TextCtrl_Short(Research_Scroller, "0", NULL);
@@ -527,18 +442,10 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_CostHeader->Add(-1, 5);
 	Research_Holder_CostHeader->Add(Research_Holder_CostUsed, 0, wxEXPAND);
 
-	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[0], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[1], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[2], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[3], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[4], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[5], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[0], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[1], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[2], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[3], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[4], 1, wxEXPAND);
-	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[5], 1, wxEXPAND);
+	for(short loop = 0;loop < 6;loop++)
+	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[loop], 1, wxEXPAND);
+	for(short loop = 0;loop < 6;loop++)
+	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[loop], 1, wxEXPAND);
 	
 	Research_Holder_RequiredTechArea->Add(Research_Text_RequiredTechArea, 0, wxEXPAND);
 	Research_Holder_RequiredTechArea->Add(-1, 2);

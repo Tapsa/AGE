@@ -130,6 +130,8 @@ class AGE_Frame : public wxFrame
 	void ListCivs();
 	void OnCivsSearch(wxCommandEvent& Event);
 	void OnCivsSelect(wxCommandEvent& Event);
+	void OnCivsAdd(wxCommandEvent& Event);
+	void OnCivsDelete(wxCommandEvent& Event);
 	void OnCivsCopy(wxCommandEvent& Event);
 	void OnCivsPaste(wxCommandEvent& Event);
 	string GetCivName(int Index);
@@ -291,18 +293,29 @@ class AGE_Frame : public wxFrame
 
 
 	gdat::Research ResearchCopy;
+	short ResearchID;
 	gdat::Techage TechageCopy;
+	short TechID;
 	gdat::TechageEffect EffectCopy;
+	short EffectID;
 	gdat::Civ CivCopy;
+	short CivID;
 	float ResourceCopy;
+	short ResourceID;
 	gdat::Unit UnitCopy;
+	short UnitID;
+	short UnitCivID;
 	int RefreshLists;
 	gdat::Unit CivGraphics[20];	// This should be a vector equal to Civs.
 	gdat::UnitDamageGraphic DamageGraphicCopy;
+	short DamageGraphicID;
 	gdat::UnitAttackOrArmor AttackCopy;
+	short AttackID;
 	gdat::UnitAttackOrArmor ArmorCopy;
+	short ArmorID;
 	gdat::UnitHeader UnitHeaderCopy;
 	gdat::UnitCommand UnitCommandCopy;
+	short CommandID;
 	gdat::Terrain TerrainCopy;
 	gdat::TerrainRestriction TerrainRestrictionCopy;
 	gdat::TerrainPassGraphic TerrainRestrictionSubCopy;
@@ -624,6 +637,8 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Civs_Civs;
 	wxTextCtrl * Civs_Civs_Search;
 	wxListBox * Civs_Civs_List;
+	wxButton * Civs_Add;
+	wxButton * Civs_Delete;
 	wxButton * Civs_Copy;
 	wxButton * Civs_Paste;
 

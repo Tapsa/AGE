@@ -29,7 +29,6 @@ class UnitCommand : public ISerializable
 
 public:
   UnitCommand();
-  UnitCommand(const UnitCommand &other);
   virtual ~UnitCommand();
   
   void serializeObject(void);
@@ -57,8 +56,9 @@ public:
   short Unknown12;
   short Unknown13;
   char Unknown14;
-  static const short GRAPHIC_LEN = 6;
-  short *Graphics;
+  
+  static short getGraphicsSize(void);
+  std::vector<short> Graphics;
 };
 
 }
