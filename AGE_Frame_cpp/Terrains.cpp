@@ -155,9 +155,9 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_Unknown2->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown2));
 		Terrains_Unknown2->Container = &TerrainPointer->Unknown2;
 		Terrains_Name->ChangeValue(TerrainPointer->Name);
-		Terrains_Name->Container = TerrainPointer->Name;
+		Terrains_Name->Container = &TerrainPointer->Name;
 		Terrains_Name2->ChangeValue(TerrainPointer->Name2);
-		Terrains_Name2->Container = TerrainPointer->Name2;
+		Terrains_Name2->Container = &TerrainPointer->Name2;
 		Terrains_SLP->ChangeValue(lexical_cast<string>(TerrainPointer->SLP));
 		Terrains_SLP->Container = &TerrainPointer->SLP;
 		Terrains_Unknown3->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown3));
@@ -191,10 +191,10 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_TerrainReplacementID->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainReplacementID));
 		Terrains_TerrainReplacementID->Container = &TerrainPointer->TerrainReplacementID;
 		Terrains_ComboBox_TerrainReplacementID->SetSelection(TerrainPointer->TerrainReplacementID + 1);
-		Terrains_TerrainDimensions[0]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions[0]));
-		Terrains_TerrainDimensions[0]->Container = &TerrainPointer->TerrainDimensions[0];
-		Terrains_TerrainDimensions[1]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions[1]));
-		Terrains_TerrainDimensions[1]->Container = &TerrainPointer->TerrainDimensions[1];
+		Terrains_TerrainDimensions[0]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.first));
+		Terrains_TerrainDimensions[0]->Container = &TerrainPointer->TerrainDimensions.first;
+		Terrains_TerrainDimensions[1]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.second));
+		Terrains_TerrainDimensions[1]->Container = &TerrainPointer->TerrainDimensions.second;
 //		Terrains_Unknown10->ChangeValue(TerrainPointer->Unknown10);
 //		Terrains_Unknown10->Container = TerrainPointer->Unknown10;
 		for(short loop = 0;loop < 30;loop++)

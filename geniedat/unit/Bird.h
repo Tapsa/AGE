@@ -17,27 +17,43 @@
 */
 
 
-#ifndef UNITBUILDINGANNEX_H
-#define UNITBUILDINGANNEX_H
-#include "ISerializable.h"
+#ifndef BIRD_H
+#define BIRD_H
+
+#include "../ISerializable.h"
+#include "../UnitCommand.h"
 
 namespace gdat
 {
+  
+namespace unit
+{
 
-/// A building can hold annexes like the town center.
-class UnitBuildingAnnex : public ISerializable
+class Bird : public ISerializable
 {
 
 public:
-  UnitBuildingAnnex();
-  virtual ~UnitBuildingAnnex();
+  Bird();
+  virtual ~Bird();
   
   void serializeObject(void);
   
-  short UnitID;
-  std::pair <float, float> Misplacement;
+  short SheepConversion;//FFFF = No, 0000 = Yes
+  float SearchRadius;
+  float WorkRate;
+  std::pair<short, short> DropSite;
+  
+  /// If activated unit switches villager types
+  char VillagerMode;
+  short MoveSound;
+  short StopSound;
+  char Unknown19;
+  unsigned short CommandCount;//only in aoe/ror
+  std::vector<UnitCommand> Commands;//only in aoe/ror
 };
 
 }
 
-#endif // UNITBUILDINGANNEX_H
+}
+
+#endif // BIRD_H
