@@ -17,27 +17,32 @@
 */
 
 
-#ifndef UNITDAMAGEGRAPHIC_H
-#define UNITDAMAGEGRAPHIC_H
-#include "ISerializable.h"
+#ifndef ATTACKORARMOR_H
+#define ATTACKORARMOR_H
+#include "../ISerializable.h"
 
 namespace gdat
 {
 
-class UnitDamageGraphic : public ISerializable
+namespace unit
+{
+  
+/// Stores information about the class and amount of an armor or attack
+class AttackOrArmor : public ISerializable
 {
 
 public:
-  UnitDamageGraphic();
-  virtual ~UnitDamageGraphic();
+  AttackOrArmor();
+  virtual ~AttackOrArmor();
   
   void serializeObject(void);
   
-  short GraphicID;
-  short DamagePercent;
-  char Unknown1;
+  short Class;
+  short Amount;
 };
 
 }
 
-#endif // UNITDAMAGEGRAPHIC_H
+}
+
+#endif // UNITATTACKORARMOR_H

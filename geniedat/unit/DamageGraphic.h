@@ -17,27 +17,32 @@
 */
 
 
-#ifndef UNITRESOURCESTORAGE_H
-#define UNITRESOURCESTORAGE_H
-#include "ISerializable.h"
+#ifndef DAMAGEGRAPHIC_H
+#define DAMAGEGRAPHIC_H
+#include "../ISerializable.h"
 
 namespace gdat
 {
+  
+namespace unit
+{
 
-class UnitResourceStorage : public ISerializable
+class DamageGraphic : public ISerializable
 {
 
 public:
-  UnitResourceStorage();
-  virtual ~UnitResourceStorage();
+  DamageGraphic();
+  virtual ~DamageGraphic();
   
   void serializeObject(void);
   
-  short Type;
-  float Amount;
-  char Enabled;
+  short GraphicID;
+  short DamagePercent;
+  char Unknown1;
 };
 
 }
 
-#endif // UNITRESOURCESTORAGE_H
+}
+
+#endif // UNITDAMAGEGRAPHIC_H
