@@ -17,27 +17,41 @@
 */
 
 
-#ifndef UNITATTACKORARMOR_H
-#define UNITATTACKORARMOR_H
-#include "ISerializable.h"
+#ifndef DEADFISH_H
+#define DEADFISH_H
+
+#include "../ISerializable.h"
 
 namespace gdat
 {
+  
+namespace unit
+{
 
-/// Stores information about the class and amount of an armor or attack
-class UnitAttackOrArmor : public ISerializable
+/// Attributes for Unit of type >= DeadFish.
+class DeadFish : public ISerializable
 {
 
 public:
-  UnitAttackOrArmor();
-  virtual ~UnitAttackOrArmor();
+  DeadFish();
+  virtual ~DeadFish();
   
   void serializeObject(void);
   
-  short Class;
-  short Amount;
+  std::pair<short, short> WalkingGraphic;
+  float RotationSpeed;
+  char Unknown11;
+  short TrackingUnit;
+  char TrackingUnitUsed;//short
+  float TrackingUnitDensity;
+  float Unknown12;//not in aoe/ror
+  
+  static short getUnknown16Size();
+  std::vector<char> Unknown16; //17 //4 short, float, 3 short aoe/ror 1 char
 };
 
 }
 
-#endif // UNITATTACKORARMOR_H
+}
+
+#endif // DEADFISH_H

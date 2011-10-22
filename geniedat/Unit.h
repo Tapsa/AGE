@@ -20,12 +20,18 @@
 #ifndef UNIT_H
 #define UNIT_H
 #include "ISerializable.h"
-#include "UnitDamageGraphic.h"
+#include "unit/DamageGraphic.h"
 #include "UnitCommand.h"
-#include "UnitAttackOrArmor.h"
+#include "unit/AttackOrArmor.h"
 #include "ResourceCost.h"
-#include "UnitBuildingAnnex.h"
-#include "UnitResourceStorage.h"
+#include "unit/BuildingAnnex.h"
+#include "unit/ResourceStorage.h"
+#include "unit/DeadFish.h"
+#include "unit/Bird.h"
+#include "unit/Projectile.h"
+#include "unit/ProjectileOnly.h"
+#include "unit/Creatable.h"
+#include "unit/Building.h"
 
 namespace gdat
 {
@@ -46,20 +52,20 @@ enum UnitType
   /// and do not leave carcasses. 
   UT_Dead_Fish = 30,
   
-  /// Unused in AOK. No information available. 
-  UT_40 = 40,
+  /// Only birds in aoe and ror are of this type.
+  UT_Bird = 40,
   
   /// Projectiles
   UT_Projectile = 60,
   
-  /// Living units
-  UT_LivingObject = 70,
+  /// Units that can be created or trained like Army, Villagers and Ships.
+  UT_Creatable = 70,
   
   /// Buildings
   UT_Building = 80,
   
-  /// Unknown
-  UT_90 = 90 
+  /// Trees in aoe and ror are of this type
+  UT_AoeTrees = 90 
 };
   
 //------------------------------------------------------------------------------
@@ -75,8 +81,10 @@ public:
   
   virtual void serializeObject(void );
   
-  /// See enum UnitType
-  char Type;
+  char getType(void) const;
+  
+  void setType(char type);
+  
   
   /// Length of the internal name
   short NameLength;
@@ -156,14 +164,17 @@ public:
   
   // TODO
   float ResourceDecay;
-  char *Unknown2;//2 //blast_type[0]
+  static const unsigned short UNKNOWN_2_SIZE = 2;
+  std::vector<char> Unknown2;//2 //blast_type[0]
   char InteractionMode;
   char MinimapMode;
   short CommandAttribute;// Page for Build button: 2 = Page 1, 10 = Page 2, ?11 = Page 3?
   float Unknown3;
   char Unknown3a;//only in aoe/ror
   short LanguageDllHelp;
-  short *HotKey; //4
+  
+  static short getHotKeySize();
+  std::vector<short> HotKey; //4
   char Unknown4;
   char Unknown5;
   bool Unselectable;
@@ -173,7 +184,8 @@ public:
   char SelectionMask;
   char SelectionShapeType;
   char SelectionShape;
-  char *Unknown9; // 4 //aoe/ror 2, aok 0, tc 4
+  static short getUnknown9Size();
+  std::vector<char> Unknown9; // 4 //aoe/ror 2, aok 0, tc 4
   char SelectionEffect;
   char EditorSelectionColour;
   std::pair <float, float> SelectionRadius;
@@ -182,10 +194,10 @@ public:
   static const unsigned short RESOURCE_STORAGE_CNT = 3;
   
   /// Resource cost of a unit TODO (3 different types of resource costs??)
-  std::vector<UnitResourceStorage> ResourceStorage; //3
+  std::vector<unit::ResourceStorage> ResourceStorage; //3
  
   unsigned char DamageGraphicCount;
-  std::vector<UnitDamageGraphic> DamageGraphics;
+  std::vector<unit::DamageGraphic> DamageGraphics;
   
   /// Sound that is played when this unit is selected
   short SelectionSound;
@@ -208,113 +220,23 @@ public:
 
   float Speed;
 
-//      Type 30+
-
-  std::pair<short, short> WalkingGraphic;
-  float RotationSpeed;
-  char Unknown11;
-  short TrackingUnit;
-  char TrackingUnitUsed;//short
-  float TrackingUnitDensity;
-  float Unknown12;//not in aoe/ror
-  char *Unknown16; //17 //4 short, float, 3 short aoe/ror 1 char
-
-//      Type 40+
-
-  short SheepConversion;//FFFF = No, 0000 = Yes
-  float SearchRadius;
-  float WorkRate;
-  std::pair<short, short> DropSite;
+  unit::DeadFish *DeadFish;
   
-  /// If activated unit switches villager types
-  char VillagerMode;
-  short MoveSound;
-  short StopSound;
-  char Unknown19;
-  unsigned short CommandCount;//only in aoe/ror
-  std::vector<UnitCommand> Commands;//only in aoe/ror
-
-//      Type 60+
-
-  char *Unknown20; //2 //aoe/ror 1, aok 1, tc 2
-  unsigned short AttackCount;
-  std::vector<UnitAttackOrArmor> Attacks;
-  unsigned short ArmourCount;
-  std::vector<UnitAttackOrArmor> Armours;
-  short Unknown21;
-  float MaxRange;
-  float BlastRadius;
-  float ReloadTime1;
-  short ProjectileUnitID;
+  unit::Bird *Bird;
   
-  /// Percentage value determining the probability of an attack hiting
-  char AccuracyPercent;
-  short Unknown22;
-  short Delay;
-  float *GraphicDisplacement; //3
-  char Unknown23;
-  float MinRange;
-  float GarrisonRecoveryRate;
-  short AttackGraphic;
-  short DisplayedMeleeArmour;
-  short DisplayedAttack;
-  float DisplayedRange;
-  float ReloadTime2;
-
-//      Type 60 only
-
-  char StretchMode;
-  char CompensationMode;
-  char DropAnimationMode;
-  char PenetrationMode;
-  char Unknown24;
-  float ProjectileArc;
-
-//      Type 70+
-
-  static const unsigned int RESOURCE_COSTS_CNT = 3;
-  std::vector<ResourceCost> ResourceCosts; //3
-  short TrainTime;
-  short TrainLocationID;
-  char ButtonID;
-  char Unknown26;//not in aoe/ror
-  short *Unknown27; //3 //not in aoe/ror
-  char Unknown28;//not in aoe/ror
-  char MissileGraphicDelay;//not in aoe/ror
-  char HeroMode;//not in aoe/ror
-  std::pair<short, short> GarrisonGraphic; //not in aoe/ror
-  float AttackMissileDuplicationAmount1;//not in aoe/ror
-  char AttackMissileDuplicationAmount2;//not in aoe/ror
-  float *AttackMissileDuplicationUnknown; //3 //not in aoe/ror
-  long AttackMissileDuplicationUnit;//not in aoe/ror
-  long AttackMissileDuplicationGraphic;//not in aoe/ror
-  char Unknown29;//not in aoe/ror
-  short DisplayedPierceArmour;
-
-//      Type 80
-
-  short ConstructionGraphicID; //aoe/ror
-  short SnowGraphicID; //not in aok/aoe/ror
-  short Unknown30; // aoe/ror
-  short Unknown31; // aoe/ror
-  short StackUnitID; // aoe/ror
-  short TerrainID; // aoe/ror
-  short Unknown32; //aoe/ror
-  short ResearchID; // in aoe/ror
-  char Unknown33;
+  unit::Projectile *Projectile;
   
-  static const unsigned short BUILDING_ANNEXES_CNT = 4;
+  unit::ProjectileOnly *ProjectileOnly;
+
+  unit::Creatable *Creatable;
   
-  std::vector<UnitBuildingAnnex> Annexes; // 4
-  short HeadUnit;
-  short TransformUnit;
-  short Unknown34;
-  short ConstructionSound;//aoe/ror
-  char GarrisonType;
-  float GarrisonHealRate;
-  long Unknown35;
-  short Unknown36;
-  char *Unknown37; // 6
+  unit::Building *Building;
+  
+private:
+  /// See enum UnitType
+  char Type;
+  
+  void serializeType(void);
 };
 
 }
