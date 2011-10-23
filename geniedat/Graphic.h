@@ -34,6 +34,8 @@ public:
   Graphic(const Graphic& other);
   virtual ~Graphic();
   
+  Graphic &operator=(const Graphic& other);
+  
   void serializeObject(void);
   
   /// Returns the size of Name

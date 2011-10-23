@@ -82,7 +82,7 @@ void AGE_Frame::ListResearchs()
 		Name += " - ";
 		Name += GetResearchName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetResearchName(loop)).Lower();
-		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);
 		}
@@ -93,7 +93,7 @@ void AGE_Frame::ListResearchs()
 		Research_ComboBox_RequiredTechs[loop]->Append(Name);
 	}
 	
-	Research_Research_List->SetSelection(0);
+	Research_Research_List->SetFirstItem(Selection - 3);
 	Research_Research_List->SetSelection(Selection);
 	Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
 	Effects_ComboBox_ResearchsA->SetSelection(ResearchIDs[1]);
@@ -119,6 +119,11 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 	short Selection = Research_Research_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(Added)
+		{
+			Selection = Research_Research_List->GetCount() - 1;
+			Research_Research_List->SetSelection(Selection);
+		}
 		gdat::Research * ResearchPointer = (gdat::Research*)Research_Research_List->GetClientData(Selection);
 		ResearchID = ResearchPointer - (&GenieFile->Researchs[0]);
 		for(short loop = 0;loop < 6;loop++){
@@ -193,6 +198,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		Research_NameLength[1]->Container = &ResearchPointer->NameLength2;
 		Research_DLL_LangDllName->Wrap(Research_DLL_LangDllName->GetSize().GetWidth());
 		Research_DLL_LangDllDescription->Wrap(Research_DLL_LangDllDescription->GetSize().GetWidth());
+		Added = false;
 	}
 }
 
@@ -200,10 +206,8 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 {
 	gdat::Research Temp;
 	GenieFile->Researchs.push_back(Temp);
+	Added = true;
 	ListResearchs();
-	Research_Research_List->SetSelection(Research_Research_List->GetCount() - 1);
-	wxCommandEvent E;
-	OnResearchSelect(E);
 }
 
 void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
@@ -213,10 +217,9 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + (ResearchID));
-		ListResearchs();
-		Research_Research_List->SetSelection(Research_Research_List->GetCount() - 1);
+		if(Selection == Research_Research_List->GetCount() - 1)
 		Research_Research_List->SetSelection(Selection - 1);
-		Research_Research_List->SetSelection(Selection);
+		ListResearchs();
 	}
 }
 
@@ -237,8 +240,6 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 	{
 		*(gdat::Research*)Research_Research_List->GetClientData(Selection) = ResearchCopy;
 		ListResearchs();
-		Research_Research_List->SetSelection(Selection + 3);
-		Research_Research_List->SetSelection(Selection);
 	}
 }
 
@@ -356,8 +357,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_NameLength[1] = new wxBoxSizer(wxVERTICAL);
 	Research_Text_NameLength[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Name Length ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Text_NameLength[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name Length 2 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_NameLength[0] = new TextCtrl_String(Research_Scroller, "0", NULL);
-	Research_NameLength[1] = new TextCtrl_String(Research_Scroller, "0", NULL);
+	Research_NameLength[0] = new TextCtrl_Short(Research_Scroller, "0", NULL);
+	Research_NameLength[1] = new TextCtrl_Short(Research_Scroller, "0", NULL);
 
 	Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Delete, 1, wxEXPAND);
