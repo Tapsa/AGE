@@ -1213,6 +1213,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_DLL_LanguageDllHelp->Wrap(Units_DLL_LanguageDllHelp->GetSize().GetWidth());
 		Units_DLL_HotKey4->Wrap(Units_DLL_HotKey4->GetSize().GetWidth());
 		
+		Added = false;
+		ListUnitDamageGraphics(UnitID, UnitCivID);
+		ListUnitAttacks(UnitID, UnitCivID);
+		ListUnitArmors(UnitID, UnitCivID);
 		if(GameVersion > 1)	// AoK, TC, SWGB or CC
 		{	// Disabling this (unit headers) doesn't increase search speed.
 			Units_UnitHeads_List->SetSelection(UnitID); // Correct selection even when units are search filtered.
@@ -1222,13 +1226,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		else	// AoE or RoR
 		{
 			Units_UnitHeads_Name->SetLabel("");
-			Added = false;
 			ListUnitCommands(UnitID, UnitCivID);
 		}
-		Added = false;
-		ListUnitDamageGraphics(UnitID, UnitCivID);
-		ListUnitAttacks(UnitID, UnitCivID);
-		ListUnitArmors(UnitID, UnitCivID);
 	}
 }
 
@@ -1237,16 +1236,10 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 	short Selection = Units_UnitHeads_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Units_UnitHeads_List->GetCount() - 1;
-			Units_UnitHeads_List->SetSelection(Selection);
-		}
 		gdat::UnitHeader * UnitHeadPointer = (gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
-		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(Selection)+" - "+GetUnitName(Selection, 0));
+		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitID)+" - "+GetUnitName(UnitID, 0));
 		Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
 		Units_Exists->Container = &UnitHeadPointer->Exists;
-		Added = false;
 		ListUnitCommands(UnitID, 0);
 	}
 }
