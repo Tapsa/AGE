@@ -6,7 +6,7 @@ Res = @windres
 
 # -Wl,-u,_WinMain@16 -Wl,--enable-runtime-pseudo-reloc
 
-Bin = AdvancedGenieEditor
+Bin = AdvancedGenieEditor2
 ResFile = Resources
 Libs = -lwxmsw28_adv -lwxmsw28_core -lwxbase28 -lz -ladvapi32 -lole32 -loleaut32 -mwindows -lcomctl32 -luuid
 # -lgeniedat -L.

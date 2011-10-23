@@ -27,16 +27,16 @@ void AGE_Frame::ListPlayerColors()
 	wxString SearchText = wxString(Colors_Colors_Search->GetValue()).Lower();
 	string CompareText;
 	
-	short ColorID = Colors_Colors_List->GetSelection();
+	short Selection = Colors_Colors_List->GetSelection();
 
 	if(!Colors_Colors_List->IsEmpty())
 	{
 		Colors_Colors_List->Clear();
 	}
 	
-	if(ColorID == wxNOT_FOUND)
+	if(Selection == wxNOT_FOUND)
 	{
-		ColorID = 0;
+		Selection = 0;
 	}
 	
 	for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
@@ -45,14 +45,14 @@ void AGE_Frame::ListPlayerColors()
 		Name += " - ";
 		Name += GetPlayerColorName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetPlayerColorName(loop)).Lower();
-		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
 		}
 	}
 	
-	Colors_Colors_List->SetSelection(0);
-	Colors_Colors_List->SetSelection(ColorID);
+	Colors_Colors_List->SetFirstItem(Selection - 3);
+	Colors_Colors_List->SetSelection(Selection);
 	
 	wxCommandEvent E;
 	OnPlayerColorsSelect(E);
@@ -65,10 +65,16 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 {
-	short ColorID = Colors_Colors_List->GetSelection();
-	if(ColorID != wxNOT_FOUND)
+	short Selection = Colors_Colors_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::PlayerColour * PlayerColorPointer = (gdat::PlayerColour*)Colors_Colors_List->GetClientData(ColorID);
+		if(Added)
+		{
+			Selection = Colors_Colors_List->GetCount() - 1;
+			Colors_Colors_List->SetSelection(Selection);
+		}
+		gdat::PlayerColour * PlayerColorPointer = (gdat::PlayerColour*)Colors_Colors_List->GetClientData(Selection);
+		ColorID = PlayerColorPointer - (&GenieFile->PlayerColours[0]);
 		Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
 		Colors_ID->Container = &PlayerColorPointer->ID;
 		// Color shows oddly high values in AoE and RoR. It is supposed to be short in them.
@@ -96,6 +102,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 			Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
 			Colors_Unknown5->Container = &PlayerColorPointer->Unknown5;
 		}
+		Added = false;
 	}
 }
 
@@ -107,54 +114,48 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent& Event)
 	{
 		GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
 	}
+	Added = true;
 	ListPlayerColors();
-	Colors_Colors_List->SetSelection(Colors_Colors_List->GetCount() - 1);
-	wxCommandEvent E;
-	OnPlayerColorsSelect(E);
 }
 
 void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short ColorID = Colors_Colors_List->GetSelection();
-	if(ColorID != wxNOT_FOUND)
+	short Selection = Colors_Colors_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::PlayerColour * PlayerColorPointer = (gdat::PlayerColour*)Colors_Colors_List->GetClientData(ColorID);
-		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + (PlayerColorPointer - (&GenieFile->PlayerColours[0])));
+		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + (ColorID));
 		for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)	//	ID fix
 		{
 			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
 		}
+		if(Selection == Colors_Colors_List->GetCount() - 1)
+		Colors_Colors_List->SetSelection(Selection - 1);
 		ListPlayerColors();
-		Colors_Colors_List->SetSelection(Colors_Colors_List->GetCount() - 1);
-		Colors_Colors_List->SetSelection(ColorID - 1);
-		Colors_Colors_List->SetSelection(ColorID);
 	}
 }
 
 void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
 {
-	short ColorID = Colors_Colors_List->GetSelection();
-	if(ColorID != wxNOT_FOUND)
+	short Selection = Colors_Colors_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		PlayerColorCopy = *(gdat::PlayerColour*)Colors_Colors_List->GetClientData(ColorID);
+		PlayerColorCopy = *(gdat::PlayerColour*)Colors_Colors_List->GetClientData(Selection);
 	}
 }
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short ColorID = Colors_Colors_List->GetSelection();
-	if(ColorID != wxNOT_FOUND)
+	short Selection = Colors_Colors_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::PlayerColour*)Colors_Colors_List->GetClientData(ColorID) = PlayerColorCopy;
+		*(gdat::PlayerColour*)Colors_Colors_List->GetClientData(Selection) = PlayerColorCopy;
 		for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)	//	ID fix
 		{
 			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
 		}
 		ListPlayerColors();
-		Colors_Colors_List->SetSelection(ColorID + 3);
-		Colors_Colors_List->SetSelection(ColorID);
 	}
 }
 

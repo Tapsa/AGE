@@ -17,11 +17,11 @@ void AGE_Frame::ListTerrains()
 {
 	string Name;
 	wxString SearchText = wxString(Terrains_Terrains_Search->GetValue()).Lower();
-	wxString SearchText2 = wxString(TerrainLimits_Terrains_Search->GetValue()).Lower();
+	wxString SearchText2 = wxString(TerRestrict_Terrains_Search->GetValue()).Lower();
 	string CompareText;
 	
-	short TerrainID = Terrains_Terrains_List->GetSelection();
-	short TerrainID1 = TerrainLimits_Terrains_List->GetSelection();
+	short Selection = Terrains_Terrains_List->GetSelection();
+	short TerrainID1 = TerRestrict_Terrains_List->GetSelection();
 	short TerrainID2 = Units_ComboBox_PlacementBypassTerrain[0]->GetSelection();
 	short TerrainID3 = Units_ComboBox_PlacementBypassTerrain[1]->GetSelection();
 	short TerrainID4 = Units_ComboBox_PlacementTerrain[0]->GetSelection();
@@ -33,9 +33,9 @@ void AGE_Frame::ListTerrains()
 	{
 		Terrains_Terrains_List->Clear();
 	}
-	if(!TerrainLimits_Terrains_List->IsEmpty())
+	if(!TerRestrict_Terrains_List->IsEmpty())
 	{
-		TerrainLimits_Terrains_List->Clear();
+		TerRestrict_Terrains_List->Clear();
 	}
 	if(!Units_ComboBox_PlacementBypassTerrain[0]->IsEmpty())
 	{
@@ -62,9 +62,9 @@ void AGE_Frame::ListTerrains()
 		Terrains_ComboBox_TerrainReplacementID->Clear();
 	}
 	
-	if(TerrainID == wxNOT_FOUND)
+	if(Selection == wxNOT_FOUND)
 	{
-		TerrainID = 0;
+		Selection = 0;
 	}
 	if(TerrainID1 == wxNOT_FOUND)
 	{
@@ -108,14 +108,14 @@ void AGE_Frame::ListTerrains()
 		Name += " - ";
 		Name += GetTerrainName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
-		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
 			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
-		if((SearchText2.IsEmpty()) || (CompareText.find(SearchText2) != string::npos))
+		if(SearchText2.IsEmpty() || CompareText.find(SearchText2) != string::npos)
 		{
-			TerrainLimits_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
+			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
 		Units_ComboBox_PlacementBypassTerrain[0]->Append(Name);
 		Units_ComboBox_PlacementBypassTerrain[1]->Append(Name);
@@ -125,9 +125,9 @@ void AGE_Frame::ListTerrains()
 		Terrains_ComboBox_TerrainReplacementID->Append(Name);
 	}
 	
-	Terrains_Terrains_List->SetSelection(0);
-	Terrains_Terrains_List->SetSelection(TerrainID);
-	TerrainLimits_Terrains_List->SetSelection(TerrainID1);
+	Terrains_Terrains_List->SetFirstItem(Selection - 3);
+	Terrains_Terrains_List->SetSelection(Selection);
+	TerRestrict_Terrains_List->SetSelection(TerrainID1);
 	Units_ComboBox_PlacementBypassTerrain[0]->SetSelection(TerrainID2);
 	Units_ComboBox_PlacementBypassTerrain[1]->SetSelection(TerrainID3);
 	Units_ComboBox_PlacementTerrain[0]->SetSelection(TerrainID4);
@@ -141,15 +141,24 @@ void AGE_Frame::ListTerrains()
 
 void AGE_Frame::OnTerrainsSearch(wxCommandEvent& Event)
 {
-	ListTerrains();
+	if(TerRestrict_Terrains_List->GetSelection() != wxNOT_FOUND || Terrains_Terrains_List->GetSelection() != wxNOT_FOUND)
+	{
+		ListTerrains();
+	}
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 {
-	short TerrainID = Terrains_Terrains_List->GetSelection();
-	if(TerrainID != wxNOT_FOUND)
+	short Selection = Terrains_Terrains_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Terrain * TerrainPointer = (gdat::Terrain*)Terrains_Terrains_List->GetClientData(TerrainID);
+		if(Added)
+		{
+			Selection = Terrains_Terrains_List->GetCount() - 1;
+			Terrains_Terrains_List->SetSelection(Selection);
+		}
+		gdat::Terrain * TerrainPointer = (gdat::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
+		TerrainID = TerrainPointer - (&GenieFile->Terrains[0]);
 		Terrains_Unknown1->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown1));
 		Terrains_Unknown1->Container = &TerrainPointer->Unknown1;
 		Terrains_Unknown2->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown2));
@@ -209,6 +218,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 //		Terrains_Unknown11->Container = TerrainPointer->Unknown11;
 		Terrains_NumberOfTerrainUnitsUsed->ChangeValue(lexical_cast<string>(TerrainPointer->NumberOfTerrainUnitsUsed));
 		Terrains_NumberOfTerrainUnitsUsed->Container = &TerrainPointer->NumberOfTerrainUnitsUsed;
+		Added = false;
 	}
 }
 
@@ -216,46 +226,40 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent& Event) // Their count is hardcoded
 {
 	gdat::Terrain Temp;
 	GenieFile->Terrains.push_back(Temp);
+	Added = true;
 	ListTerrains();
-	Terrains_Terrains_List->SetSelection(Terrains_Terrains_List->GetCount() - 1);
-	wxCommandEvent E;
-	OnTerrainsSelect(E);
 }
 
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardcoded.
 {
 	wxBusyCursor WaitCursor;
-	short TerrainID = Terrains_Terrains_List->GetSelection();
-	if(TerrainID != wxNOT_FOUND)
+	short Selection = Terrains_Terrains_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Terrain * TerrainPointer = (gdat::Terrain*)Terrains_Terrains_List->GetClientData(TerrainID);
-		GenieFile->Terrains.erase(GenieFile->Terrains.begin() + (TerrainPointer - (&GenieFile->Terrains[0])));
+		GenieFile->Terrains.erase(GenieFile->Terrains.begin() + (TerrainID));
+		if(Selection == Terrains_Terrains_List->GetCount() - 1)
+		Terrains_Terrains_List->SetSelection(Selection - 1);
 		ListTerrains();
-		Terrains_Terrains_List->SetSelection(Terrains_Terrains_List->GetCount() - 1);
-		Terrains_Terrains_List->SetSelection(TerrainID - 1);
-		Terrains_Terrains_List->SetSelection(TerrainID);
 	}
 }
 
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent& Event)
 {
-	short TerrainID = Terrains_Terrains_List->GetSelection();
-	if(TerrainID != wxNOT_FOUND)
+	short Selection = Terrains_Terrains_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		TerrainCopy = *(gdat::Terrain*)Terrains_Terrains_List->GetClientData(TerrainID);
+		TerrainCopy = *(gdat::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
 	}
 }
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short TerrainID = Terrains_Terrains_List->GetSelection();
-	if(TerrainID != wxNOT_FOUND)
+	short Selection = Terrains_Terrains_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::Terrain*)Terrains_Terrains_List->GetClientData(TerrainID) = TerrainCopy;
+		*(gdat::Terrain*)Terrains_Terrains_List->GetClientData(Selection) = TerrainCopy;
 		ListTerrains();
-		Terrains_Terrains_List->SetSelection(TerrainID + 3);
-		Terrains_Terrains_List->SetSelection(TerrainID);
 	}
 }
 
@@ -289,10 +293,10 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Unknown2 = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
 	Terrains_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Name = new wxStaticText(Terrains_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Name = new TextCtrl_String(Terrains_Scroller, "0", NULL, 13);
+	Terrains_Name = new TextCtrl_String(Terrains_Scroller, "0", NULL);
 	Terrains_Holder_Name2 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Name2 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Name 2", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Name2 = new TextCtrl_String(Terrains_Scroller, "0", NULL, 13);
+	Terrains_Name2 = new TextCtrl_String(Terrains_Scroller, "0", NULL);
 	Terrains_Holder_SLP = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_SLP = new wxStaticText(Terrains_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_SLP = new TextCtrl_Long(Terrains_Scroller, "0", NULL);
@@ -552,5 +556,8 @@ void AGE_Frame::CreateTerrainControls()
 	Connect(Terrains_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsDelete));
 	Connect(Terrains_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsCopy));
 	Connect(Terrains_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsPaste));
+
+	Terrains_Name->Connect(Terrains_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
+	Terrains_Name2->Connect(Terrains_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 
 }

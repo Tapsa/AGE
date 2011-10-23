@@ -295,7 +295,7 @@ void AGE_Frame::ListUnits(int UnitCivID)
 		Name += " - ";
 		Name += GetUnitName(loop, UnitCivID);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitName(loop, UnitCivID)).Lower();
-		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[loop]);
 		}
@@ -326,7 +326,7 @@ void AGE_Frame::ListUnits(int UnitCivID)
 		}
 	}
 	
-	Units_Units_List->SetSelection(0);
+	Units_Units_List->SetFirstItem(Selection - 3);
 	Units_Units_List->SetSelection(Selection);
 	Units_ComboBox_DeadUnitID->SetSelection(UnitID1);
 	Units_ComboBox_ProjectileUnitID->SetSelection(UnitID2);
@@ -389,6 +389,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)	// If a unit is selected.
 	{
+		if(Added)
+		{
+			Selection = Units_Units_List->GetCount() - 1;
+			Units_Units_List->SetSelection(Selection);
+		}
 		gdat::Unit * UnitPointer = (gdat::Unit*)Units_Units_List->GetClientData(Selection);
 		UnitCivID = Units_Civs_List->GetSelection();
 		UnitID = UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]);
@@ -1208,9 +1213,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_DLL_LanguageDllHelp->Wrap(Units_DLL_LanguageDllHelp->GetSize().GetWidth());
 		Units_DLL_HotKey4->Wrap(Units_DLL_HotKey4->GetSize().GetWidth());
 		
-		ListUnitDamageGraphics(UnitID, UnitCivID);
-		ListUnitAttacks(UnitID, UnitCivID);
-		ListUnitArmors(UnitID, UnitCivID);
 		if(GameVersion > 1)	// AoK, TC, SWGB or CC
 		{	// Disabling this (unit headers) doesn't increase search speed.
 			Units_UnitHeads_List->SetSelection(UnitID); // Correct selection even when units are search filtered.
@@ -1220,8 +1222,13 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		else	// AoE or RoR
 		{
 			Units_UnitHeads_Name->SetLabel("");
+			Added = false;
 			ListUnitCommands(UnitID, UnitCivID);
 		}
+		Added = false;
+		ListUnitDamageGraphics(UnitID, UnitCivID);
+		ListUnitAttacks(UnitID, UnitCivID);
+		ListUnitArmors(UnitID, UnitCivID);
 	}
 }
 
@@ -1230,10 +1237,16 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 	short Selection = Units_UnitHeads_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(Added)
+		{
+			Selection = Units_UnitHeads_List->GetCount() - 1;
+			Units_UnitHeads_List->SetSelection(Selection);
+		}
 		gdat::UnitHeader * UnitHeadPointer = (gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
 		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(Selection)+" - "+GetUnitName(Selection, 0));
 		Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
 		Units_Exists->Container = &UnitHeadPointer->Exists;
+		Added = false;
 		ListUnitCommands(UnitID, 0);
 	}
 }
@@ -1266,10 +1279,8 @@ void AGE_Frame::OnUnitHeadsAdd(wxCommandEvent& Event)
 	{
 		ListUnitHeads();
 	}
+	Added = true;
 	ListUnits(UnitCivID);
-	Units_Units_List->SetSelection(Units_Units_List->GetCount() - 1);
-	wxCommandEvent E;
-	OnUnitsSelect(E);
 }
 
 void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
@@ -1307,10 +1318,9 @@ void AGE_Frame::OnUnitHeadsDelete(wxCommandEvent& Event)
 		{
 			ListUnitHeads();
 		}
-		ListUnits(UnitCivID);
-		Units_Units_List->SetSelection(Units_Units_List->GetCount() - 1);
+		if(Selection == Units_Units_List->GetCount() - 1)
 		Units_Units_List->SetSelection(Selection - 1);
-		Units_Units_List->SetSelection(Selection);
+		ListUnits(UnitCivID);
 	}
 }
 
@@ -1340,19 +1350,23 @@ void AGE_Frame::OnUnitHeadsCopy(wxCommandEvent& Event)
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{	// Collects only graphic data, not all data again.
 				CivGraphics[loop].IconID = GenieFile->Civs[loop].Units[UnitID].IconID;
-				CivGraphics[loop].Building->ConstructionGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID;
 				CivGraphics[loop].StandingGraphic.first = GenieFile->Civs[loop].Units[UnitID].StandingGraphic.first;
 				CivGraphics[loop].StandingGraphic.second = GenieFile->Civs[loop].Units[UnitID].StandingGraphic.second;
-				CivGraphics[loop].Building->SnowGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID;
-				CivGraphics[loop].Creatable->GarrisonGraphic.first = GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.first;
-				CivGraphics[loop].Creatable->GarrisonGraphic.second = GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.second;
-				CivGraphics[loop].Projectile->AttackGraphic = GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic;
-				CivGraphics[loop].DeadFish->WalkingGraphic.first = GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.first;
-				CivGraphics[loop].DeadFish->WalkingGraphic.second = GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.second;
 				CivGraphics[loop].DyingGraphic.first = GenieFile->Civs[loop].Units[UnitID].DyingGraphic.first;
 				CivGraphics[loop].DyingGraphic.second = GenieFile->Civs[loop].Units[UnitID].DyingGraphic.second;
 				CivGraphics[loop].DamageGraphicCount = GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount;
 				CivGraphics[loop].DamageGraphics = GenieFile->Civs[loop].Units[UnitID].DamageGraphics;
+				if(GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish){
+				CivGraphics[loop].DeadFish->WalkingGraphic.first = GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.first;
+				CivGraphics[loop].DeadFish->WalkingGraphic.second = GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.second;}				
+				if(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile)
+				CivGraphics[loop].Projectile->AttackGraphic = GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic;
+				if(GenieFile->Civs[UnitCivID].Units[UnitID].Creatable){
+				CivGraphics[loop].Creatable->GarrisonGraphic.first = GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.first;
+				CivGraphics[loop].Creatable->GarrisonGraphic.second = GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.second;}
+				if(GenieFile->Civs[UnitCivID].Units[UnitID].Building){
+				CivGraphics[loop].Building->ConstructionGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID;
+				CivGraphics[loop].Building->SnowGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID;}
 			}
 		}
 	}
@@ -1393,19 +1407,23 @@ void AGE_Frame::OnUnitHeadsPaste(wxCommandEvent& Event)
 			{
 				GenieFile->Civs[loop].Units[UnitID] = UnitCopy;
 				GenieFile->Civs[loop].Units[UnitID].IconID = CivGraphics[loop].IconID;
-				GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID = CivGraphics[loop].Building->ConstructionGraphicID;
 				GenieFile->Civs[loop].Units[UnitID].StandingGraphic.first = CivGraphics[loop].StandingGraphic.first;
 				GenieFile->Civs[loop].Units[UnitID].StandingGraphic.second = CivGraphics[loop].StandingGraphic.second;
-				GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID = CivGraphics[loop].Building->SnowGraphicID;
-				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.first = CivGraphics[loop].Creatable->GarrisonGraphic.first;
-				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.second = CivGraphics[loop].Creatable->GarrisonGraphic.second;
-				GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic = CivGraphics[loop].Projectile->AttackGraphic;
-				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.first = CivGraphics[loop].DeadFish->WalkingGraphic.first;
-				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.second = CivGraphics[loop].DeadFish->WalkingGraphic.second;
 				GenieFile->Civs[loop].Units[UnitID].DyingGraphic.first = CivGraphics[loop].DyingGraphic.first;
 				GenieFile->Civs[loop].Units[UnitID].DyingGraphic.second = CivGraphics[loop].DyingGraphic.second;
 				GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount = CivGraphics[loop].DamageGraphicCount;
 				GenieFile->Civs[loop].Units[UnitID].DamageGraphics = CivGraphics[loop].DamageGraphics;
+				if(GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish){
+				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.first = CivGraphics[loop].DeadFish->WalkingGraphic.first;
+				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.second = CivGraphics[loop].DeadFish->WalkingGraphic.second;}
+				if(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile)
+				GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic = CivGraphics[loop].Projectile->AttackGraphic;
+				if(GenieFile->Civs[UnitCivID].Units[UnitID].Creatable){
+				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.first = CivGraphics[loop].Creatable->GarrisonGraphic.first;
+				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.second = CivGraphics[loop].Creatable->GarrisonGraphic.second;}
+				if(GenieFile->Civs[UnitCivID].Units[UnitID].Building){
+				GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID = CivGraphics[loop].Building->ConstructionGraphicID;
+				GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID = CivGraphics[loop].Building->SnowGraphicID;}
 			}
 			for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
 			{
@@ -1421,8 +1439,6 @@ void AGE_Frame::OnUnitHeadsPaste(wxCommandEvent& Event)
 				ListUnitHeads();
 			}
 			ListUnits(UnitCivID);
-			Units_Units_List->SetSelection(Selection + 3);
-			Units_Units_List->SetSelection(Selection);
 		}
 	}
 }
@@ -1456,7 +1472,7 @@ void AGE_Frame::ListUnitDamageGraphics(int Index, int UnitCivID)
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].DamageGraphics.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitDamageGraphicName(loop, UnitCivID, Index)).Lower();
-		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
@@ -1464,7 +1480,7 @@ void AGE_Frame::ListUnitDamageGraphics(int Index, int UnitCivID)
 			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].DamageGraphics[loop]);
 		}
 	}
-	Units_DamageGraphics_List->SetSelection(0);
+	Units_DamageGraphics_List->SetFirstItem(Selection - 3);
 	Units_DamageGraphics_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -1485,6 +1501,11 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 	short Selection = Units_DamageGraphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(Added)
+		{
+			Selection = Units_DamageGraphics_List->GetCount() - 1;
+			Units_DamageGraphics_List->SetSelection(Selection);
+		}
 		gdat::unit::DamageGraphic * DamageGraphicPointer = (gdat::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Selection);
 		DamageGraphicID = DamageGraphicPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[0]);
 		DamageGraphics_GraphicID->ChangeValue(lexical_cast<string>(DamageGraphicPointer->GraphicID));
@@ -1494,6 +1515,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 		DamageGraphics_DamagePercent->Container = &DamageGraphicPointer->DamagePercent;
 		DamageGraphics_Unknown1->ChangeValue(lexical_cast<string>((short)DamageGraphicPointer->Unknown1));
 		DamageGraphics_Unknown1->Container = &DamageGraphicPointer->Unknown1;
+		Added = false;
 	}
 	else
 	{
@@ -1511,10 +1533,8 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent& Event)
 	{
 		gdat::unit::DamageGraphic Temp;
 		GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics.push_back(Temp);
+		Added = true;
 		ListUnitDamageGraphics(UnitID, UnitCivID);
-		Units_DamageGraphics_List->SetSelection(Units_DamageGraphics_List->GetCount() - 1);
-		wxCommandEvent E;
-		OnUnitDamageGraphicsSelect(E); // for some reason listing has to happen 2 times when adding.
 	}
 }
 
@@ -1525,10 +1545,9 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics.erase(GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics.begin() + (DamageGraphicID));
-		ListUnitDamageGraphics(UnitID, UnitCivID);
-		Units_DamageGraphics_List->SetSelection(Units_DamageGraphics_List->GetCount() - 1);
+		if(Selection == Units_DamageGraphics_List->GetCount() - 1)
 		Units_DamageGraphics_List->SetSelection(Selection - 1);
-		Units_DamageGraphics_List->SetSelection(Selection);
+		ListUnitDamageGraphics(UnitID, UnitCivID);
 	}
 }
 
@@ -1549,8 +1568,6 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent& Event)
 	{
 		*(gdat::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Selection) = DamageGraphicCopy;
 		ListUnitDamageGraphics(UnitID, UnitCivID);
-		Units_DamageGraphics_List->SetSelection(Selection + 3);
-		Units_DamageGraphics_List->SetSelection(Selection);
 	}
 }
 
@@ -1582,7 +1599,7 @@ void AGE_Frame::ListUnitAttacks(int Index, int UnitCivID)
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile->Attacks.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitAttackName(loop, UnitCivID, Index)).Lower();
-		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
@@ -1590,7 +1607,7 @@ void AGE_Frame::ListUnitAttacks(int Index, int UnitCivID)
 			Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile->Attacks[loop]);
 		}
 	}
-	Units_Attacks_List->SetSelection(0);
+	Units_Attacks_List->SetFirstItem(Selection - 3);
 	Units_Attacks_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -1611,6 +1628,11 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 	short Selection = Units_Attacks_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(Added)
+		{
+			Selection = Units_Attacks_List->GetCount() - 1;
+			Units_Attacks_List->SetSelection(Selection);
+		}
 		gdat::unit::AttackOrArmor * AttackPointer = (gdat::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Selection);
 		AttackID = AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks[0]);
 		Attacks_Class->ChangeValue(lexical_cast<string>(AttackPointer->Class));
@@ -1618,6 +1640,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 		Attacks_ComboBox_Class->SetSelection(AttackPointer->Class);
 		Attacks_Amount->ChangeValue(lexical_cast<string>(AttackPointer->Amount));
 		Attacks_Amount->Container = &AttackPointer->Amount;
+		Added = false;
 	}
 	else
 	{
@@ -1634,10 +1657,8 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks.push_back(Temp);
+		Added = true;
 		ListUnitAttacks(UnitID, UnitCivID);
-		Units_Attacks_List->SetSelection(Units_Attacks_List->GetCount() - 1);
-		wxCommandEvent E;
-		OnUnitAttacksSelect(E);
 	}
 }
 
@@ -1648,10 +1669,9 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks.erase(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks.begin() + (AttackID));
-		ListUnitAttacks(UnitID, UnitCivID);
-		Units_Attacks_List->SetSelection(Units_Attacks_List->GetCount() - 1);
+		if(Selection == Units_Attacks_List->GetCount() - 1)
 		Units_Attacks_List->SetSelection(Selection - 1);
-		Units_Attacks_List->SetSelection(Selection);
+		ListUnitAttacks(UnitID, UnitCivID);
 	}
 }
 
@@ -1672,8 +1692,6 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent& Event)
 	{
 		*(gdat::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Selection) = AttackCopy;
 		ListUnitAttacks(UnitID, UnitCivID);
-		Units_Attacks_List->SetSelection(Selection + 3);
-		Units_Attacks_List->SetSelection(Selection);
 	}
 }
 
@@ -1705,7 +1723,7 @@ void AGE_Frame::ListUnitArmors(int Index, int UnitCivID)
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile->Armours.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitArmorName(loop, UnitCivID, Index)).Lower();
-		if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
@@ -1713,7 +1731,7 @@ void AGE_Frame::ListUnitArmors(int Index, int UnitCivID)
 			Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile->Armours[loop]);
 		}
 	}
-	Units_Armors_List->SetSelection(0);
+	Units_Armors_List->SetFirstItem(Selection - 3);
 	Units_Armors_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -1734,6 +1752,11 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 	short Selection = Units_Armors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(Added)
+		{
+			Selection = Units_Armors_List->GetCount() - 1;
+			Units_Armors_List->SetSelection(Selection);
+		}
 		gdat::unit::AttackOrArmor * ArmorPointer = (gdat::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Selection);
 		ArmorID = ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours[0]);
 		Armors_Class->ChangeValue(lexical_cast<string>(ArmorPointer->Class));
@@ -1741,6 +1764,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 		Armors_ComboBox_Class->SetSelection(ArmorPointer->Class);
 		Armors_Amount->ChangeValue(lexical_cast<string>(ArmorPointer->Amount));
 		Armors_Amount->Container = &ArmorPointer->Amount;
+		Added = false;
 	}
 	else
 	{
@@ -1757,10 +1781,8 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent& Event)
 	{
 		gdat::unit::AttackOrArmor Temp;
 		GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours.push_back(Temp);
+		Added = true;
 		ListUnitArmors(UnitID, UnitCivID);
-		Units_Armors_List->SetSelection(Units_Armors_List->GetCount() - 1);
-		wxCommandEvent E;
-		OnUnitArmorsSelect(E);
 	}
 }
 
@@ -1771,10 +1793,9 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours.erase(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours.begin() + (ArmorID));
-		ListUnitArmors(UnitID, UnitCivID);
-		Units_Armors_List->SetSelection(Units_Armors_List->GetCount() - 1);
+		if(Selection == Units_Armors_List->GetCount() - 1)
 		Units_Armors_List->SetSelection(Selection - 1);
-		Units_Armors_List->SetSelection(Selection);
+		ListUnitArmors(UnitID, UnitCivID);
 	}
 }
 
@@ -1795,8 +1816,6 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent& Event)
 	{
 		*(gdat::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Selection) = ArmorCopy;
 		ListUnitArmors(UnitID, UnitCivID);
-		Units_Armors_List->SetSelection(Selection + 3);
-		Units_Armors_List->SetSelection(Selection);
 	}
 }
 
@@ -1817,123 +1836,123 @@ string AGE_Frame::GetUnitCommandName(int Index, int UnitCivID, int UnitID)
 		CommandType = GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[Index].Type;
 		CommandSubType = GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[Index].SubType;
 	}
-	if((CommandType == 3) && (CommandSubType == -1))
+	if(CommandType == 3 && CommandSubType == -1)
 	{
 		Name = "Ability to Garrison";
 	}
-	else if((CommandType == 5) && (CommandSubType == 47))
+	else if(CommandType == 5 && CommandSubType == 47)
 	{
 		Name = "Ability to Mine Gold";
 	}
-	else if((CommandType == 5) && (CommandSubType == 79))
+	else if(CommandType == 5 && CommandSubType == 79)
 	{
 		Name = "Ability to Mine Stone";
 	}
-	else if((CommandType == 5) && (CommandSubType == 190))
+	else if(CommandType == 5 && CommandSubType == 190)
 	{
 		Name = "Ability to Fish, Forage, or Farm";
 	}
-	else if((CommandType == 5) && (CommandSubType == -1))
+	else if(CommandType == 5 && CommandSubType == -1)
 	{
 		Name = "Ability to Rebuild";
 	}
-	else if((CommandType == 6) && (CommandSubType == -1))
+	else if(CommandType == 6 && CommandSubType == -1)
 	{
 		Name = "Type 6, Sub -1";
 	}
-	else if((CommandType == 7) && (CommandSubType == -1))
+	else if(CommandType == 7 && CommandSubType == -1)
 	{
 		Name = "Ability to Attack";
 	}
-	else if((CommandType == 10) && (CommandSubType == -1))
+	else if(CommandType == 10 && CommandSubType == -1)
 	{
 		Name = "Ability to Fly";
 	}
-	else if((CommandType == 11) && (CommandSubType == -1))
+	else if(CommandType == 11 && CommandSubType == -1)
 	{
 		Name = "Type 11, Sub -1";
 	}
-	else if((CommandType == 12) && (CommandSubType == -1))
+	else if(CommandType == 12 && CommandSubType == -1)
 	{
 		Name = "Ability to Unload (Boat-Like)";
 	}
-	else if((CommandType == 13) && (CommandSubType == -1))
+	else if(CommandType == 13 && CommandSubType == -1)
 	{
 		Name = "Ability to Auto-Attack";
 	}
-	else if((CommandType == 21) && (CommandSubType == -1))
+	else if(CommandType == 21 && CommandSubType == -1)
 	{
 		Name = "Type 21, Sub -1";
 	}
-	else if((CommandType == 101) && (CommandSubType == -1))
+	else if(CommandType == 101 && CommandSubType == -1)
 	{
 		Name = "Ability to Build";
 	}
-	else if((CommandType == 104) && (CommandSubType == -1))
+	else if(CommandType == 104 && CommandSubType == -1)
 	{
 		Name = "Ability to Convert";
 	}
-	else if((CommandType == 105) && (CommandSubType == -1))
+	else if(CommandType == 105 && CommandSubType == -1)
 	{
 		Name = "Ability to Heal";
 	}
-	else if((CommandType == 106) && (CommandSubType == -1))
+	else if(CommandType == 106 && CommandSubType == -1)
 	{
 		Name = "Ability to Repair";
 	}
-	else if((CommandType == 107) && (CommandSubType == -1))
+	else if(CommandType == 107 && CommandSubType == -1)
 	{
 		Name = "Type 107, Sub -1";
 	}
-	else if((CommandType == 109) && (CommandSubType == -1))
+	else if(CommandType == 109 && CommandSubType == -1)
 	{
 		Name = "Type 109, Sub -1";
 	}
-	else if((CommandType == 110) && (CommandSubType == 189))
+	else if(CommandType == 110 && CommandSubType == 189)
 	{
 		Name = "Ability to Chop Wood";
 	}
-	else if((CommandType == 110) && (CommandSubType == 190))
+	else if(CommandType == 110 && CommandSubType == 190)
 	{
 		Name = "Ability to Hunt Prey Animals";
 	}
-	else if((CommandType == 110) && (CommandSubType == -1))
+	else if(CommandType == 110 && CommandSubType == -1)
 	{
 		Name = "Ability to Hunt Predator Animals";
 	}
-	else if((CommandType == 111) && (CommandSubType == -1))
+	else if(CommandType == 111 && CommandSubType == -1)
 	{
 		Name = "Ability to Trade";
 	}
-	else if((CommandType == 120) && (CommandSubType == -1))
+	else if(CommandType == 120 && CommandSubType == -1)
 	{
 		Name = "Ability to Generate Wonder Victory*";
 	}
-	else if((CommandType == 121) && (CommandSubType == -1))
+	else if(CommandType == 121 && CommandSubType == -1)
 	{
 		Name = "Type 121, Sub -1";
 	}
-	else if((CommandType == 122) && (CommandSubType == -1))
+	else if(CommandType == 122 && CommandSubType == -1)
 	{
 		Name = "Ability to Mine Porex (Ore)";
 	}
-	else if((CommandType == 125) && (CommandSubType == -1))
+	else if(CommandType == 125 && CommandSubType == -1)
 	{
 		Name = "Ability to Unpack & Attack";
 	}
-	else if((CommandType == 131) && (CommandSubType == -1))
+	else if(CommandType == 131 && CommandSubType == -1)
 	{
 		Name = "Type 131, Sub -1";
 	}
-	else if((CommandType == 132) && (CommandSubType == -1))
+	else if(CommandType == 132 && CommandSubType == -1)
 	{
 		Name = "Ability to Pickup Unit";
 	}
-	else if((CommandType == 135) && (CommandSubType == -1))
+	else if(CommandType == 135 && CommandSubType == -1)
 	{
 		Name = "Type 135, Sub -1";
 	}
-	else if((CommandType == 136) && (CommandSubType == -1))
+	else if(CommandType == 136 && CommandSubType == -1)
 	{
 		Name = "Ability to Deposit Unit";
 	}
@@ -1964,7 +1983,7 @@ void AGE_Frame::ListUnitCommands(int Index, int UnitCivID)
 		for(short loop = 0;loop < GenieFile->UnitHeaders[Index].Commands.size();loop++)
 		{
 			CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitCommandName(loop, 0, Index)).Lower();
-			if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+			if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 			{
 				Name = lexical_cast<string>(loop);
 				Name += " - ";
@@ -1978,7 +1997,7 @@ void AGE_Frame::ListUnitCommands(int Index, int UnitCivID)
 		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Bird->Commands.size();loop++)
 		{
 			CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitCommandName(loop, UnitCivID, Index)).Lower();
-			if((SearchText.IsEmpty()) || (CompareText.find(SearchText) != string::npos))
+			if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 			{
 				Name = lexical_cast<string>(loop);
 				Name += " - ";
@@ -1987,7 +2006,7 @@ void AGE_Frame::ListUnitCommands(int Index, int UnitCivID)
 			}
 		}
 	}
-	Units_UnitCommands_List->SetSelection(0);
+	Units_UnitCommands_List->SetFirstItem(Selection - 3);
 	Units_UnitCommands_List->SetSelection(Selection);
 	
 	wxCommandEvent E;
@@ -2008,6 +2027,11 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 	short Selection = Units_UnitCommands_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(Added)
+		{
+			Selection = Units_UnitCommands_List->GetCount() - 1;
+			Units_UnitCommands_List->SetSelection(Selection);
+		}
 		gdat::UnitCommand * UnitCommandPointer = (gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection);
 		if(GameVersion > 1)
 		{
@@ -2027,123 +2051,123 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 		UnitCommands_Type->Container = &UnitCommandPointer->Type;
 		UnitCommands_SubType->ChangeValue(lexical_cast<string>(UnitCommandPointer->SubType));
 		UnitCommands_SubType->Container = &UnitCommandPointer->SubType;
-		if((UnitCommandPointer->Type == 3) && (UnitCommandPointer->SubType == -1))
+		if(UnitCommandPointer->Type == 3 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(1);
 		}
-		else if((UnitCommandPointer->Type == 5) && (UnitCommandPointer->SubType == 47))
+		else if(UnitCommandPointer->Type == 5 && UnitCommandPointer->SubType == 47)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(2);
 		}
-		else if((UnitCommandPointer->Type == 5) && (UnitCommandPointer->SubType == 79))
+		else if(UnitCommandPointer->Type == 5 && UnitCommandPointer->SubType == 79)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(3);
 		}
-		else if((UnitCommandPointer->Type == 5) && (UnitCommandPointer->SubType == 190))
+		else if(UnitCommandPointer->Type == 5 && UnitCommandPointer->SubType == 190)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(4);
 		}
-		else if((UnitCommandPointer->Type == 5) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 5 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(5);
 		}
-		else if((UnitCommandPointer->Type == 6) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 6 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(6);
 		}
-		else if((UnitCommandPointer->Type == 7) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 7 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(7);
 		}
-		else if((UnitCommandPointer->Type == 10) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 10 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(8);
 		}
-		else if((UnitCommandPointer->Type == 11) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 11 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(9);
 		}
-		else if((UnitCommandPointer->Type == 12) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 12 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(10);
 		}
-		else if((UnitCommandPointer->Type == 13) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 13 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(11);
 		}
-		else if((UnitCommandPointer->Type == 21) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 21 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(12);
 		}
-		else if((UnitCommandPointer->Type == 101) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 101 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(13);
 		}
-		else if((UnitCommandPointer->Type == 104) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 104 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(14);
 		}
-		else if((UnitCommandPointer->Type == 105) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 105 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(15);
 		}
-		else if((UnitCommandPointer->Type == 106) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 106 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(16);
 		}
-		else if((UnitCommandPointer->Type == 107) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 107 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(17);
 		}
-		else if((UnitCommandPointer->Type == 109) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 109 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(18);
 		}
-		else if((UnitCommandPointer->Type == 110) && (UnitCommandPointer->SubType == 189))
+		else if(UnitCommandPointer->Type == 110 && UnitCommandPointer->SubType == 189)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(19);
 		}
-		else if((UnitCommandPointer->Type == 110) && (UnitCommandPointer->SubType == 190))
+		else if(UnitCommandPointer->Type == 110 && UnitCommandPointer->SubType == 190)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(20);
 		}
-		else if((UnitCommandPointer->Type == 110) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 110 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(21);
 		}
-		else if((UnitCommandPointer->Type == 111) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 111 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(22);
 		}
-		else if((UnitCommandPointer->Type == 120) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 120 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(23);
 		}
-		else if((UnitCommandPointer->Type == 121) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 121 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(24);
 		}
-		else if((UnitCommandPointer->Type == 122) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 122 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(25);
 		}
-		else if((UnitCommandPointer->Type == 125) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 125 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(26);
 		}
-		else if((UnitCommandPointer->Type == 131) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 131 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(27);
 		}
-		else if((UnitCommandPointer->Type == 132) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 132 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(28);
 		}
-		else if((UnitCommandPointer->Type == 135) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 135 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(29);
 		}
-		else if((UnitCommandPointer->Type == 136) && (UnitCommandPointer->SubType == -1))
+		else if(UnitCommandPointer->Type == 136 && UnitCommandPointer->SubType == -1)
 		{
 			UnitCommands_ComboBox_Types->SetSelection(30);
 		}
@@ -2209,6 +2233,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 		UnitCommands_ComboBox_Graphics[3]->SetSelection(UnitCommandPointer->Graphics[3] + 1);
 		UnitCommands_ComboBox_Graphics[4]->SetSelection(UnitCommandPointer->Graphics[4] + 1);
 		UnitCommands_ComboBox_Graphics[5]->SetSelection(UnitCommandPointer->Graphics[5] + 1);
+		Added = false;
 	}
 	else
 	{
@@ -2277,11 +2302,9 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 				GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
 		}
+		Added = true;
 		ListUnitCommands(UnitID, UnitCivID);
 	}
-	Units_UnitCommands_List->SetSelection(Units_UnitCommands_List->GetCount() - 1);
-	wxCommandEvent E;
-	OnUnitCommandsSelect(E);
 }
 
 void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
@@ -2306,10 +2329,9 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 				GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
 		}
-		ListUnitCommands(UnitID, UnitCivID);
-		Units_UnitCommands_List->SetSelection(Units_UnitCommands_List->GetCount() - 1);
+		if(Selection == Units_UnitCommands_List->GetCount() - 1)
 		Units_UnitCommands_List->SetSelection(Selection - 1);
-		Units_UnitCommands_List->SetSelection(Selection);
+		ListUnitCommands(UnitID, UnitCivID);
 	}
 }
 
@@ -2344,8 +2366,6 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 			}
 		}
 		ListUnitCommands(UnitID, UnitCivID);
-		Units_UnitCommands_List->SetSelection(Selection + 3);
-		Units_UnitCommands_List->SetSelection(Selection);
 	}
 }
 
@@ -2425,11 +2445,16 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SoundsArea2 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_MiscArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Miscellaneous");
 	Units_Holder_Type10plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 10+ Unknowns");
+	Units_Grid_Type10plusUnknownArea = new wxGridSizer(4, 5, 5);
 	Units_Holder_Type30plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 30+ Unknowns");
+	Units_Grid_Type30plusUnknownArea = new wxGridSizer(4, 5, 5);
 	Units_Holder_Type40plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 40+ Unknowns");
 	Units_Holder_Type60plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 60+ Unknowns");
+	Units_Grid_Type60plusUnknownArea = new wxGridSizer(4, 5, 5);
 	Units_Holder_Type70plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 70+ Unknowns");
+	Units_Grid_Type70plusUnknownArea = new wxGridSizer(4, 5, 5);
 	Units_Holder_Type80plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 80+ Unknowns");
+	Units_Grid_Type80plusUnknownArea = new wxGridSizer(4, 5, 5);
 	Units_Holder_CommandsArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Commands");
 	
 //	Invisible Holder Windows
@@ -2457,7 +2482,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_AirMode = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_IconID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_HideInEditor = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown1 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Enabled = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_PlacementBypassTerrain = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_PlacementBypassTerrainGrid = new wxGridSizer(2, 0, 5);
@@ -2474,16 +2499,16 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_InteractionMode = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MinimapMode = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_CommandAttribute = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown3 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown3a = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown3a = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_LanguageDllHelp = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_HotKey = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown4 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown5 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown4 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unselectable = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown6 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown6 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown7 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown8 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown8 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SelectionMask = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SelectionShapeType = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SelectionShape = new wxBoxSizer(wxVERTICAL);
@@ -2516,13 +2541,13 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Holder_WalkingGraphic = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_RotationSpeed = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown11 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown11 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_TrackingUnit = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_TrackingUnitBox = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_TrackingUnitUsed = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_TrackingUnitUsedBox = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_TrackingUnitDensity = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown12 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown12 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown16 = new wxBoxSizer(wxHORIZONTAL);
 
 //	Type 40+
@@ -2541,16 +2566,16 @@ void AGE_Frame::CreateUnitControls()
 //	Type 60+
 
 	Units_Holder_Unknown20 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown21 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown21 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MaxRange = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_BlastRadius = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_ReloadTime1 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_ProjectileUnitID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AccuracyPercent = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown22 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown22 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Delay = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_GraphicDisplacement = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown23 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown23 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MinRange = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_GarrisonRecoveryRate = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AttackGraphic = new wxBoxSizer(wxVERTICAL);
@@ -2579,9 +2604,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TrainLocationID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_TrainLocationID1 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_ButtonID = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown26 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown26 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown27 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown28 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown28 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MissileGraphicDelay = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_HeroMode = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_GarrisonGraphic = new wxBoxSizer(wxVERTICAL);
@@ -2590,33 +2615,33 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_AttackMissileDuplicationUnknown = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_AttackMissileDuplicationUnit = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AttackMissileDuplicationGraphic = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown29 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown29 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_DisplayedPierceArmour = new wxBoxSizer(wxVERTICAL);
 
 //	Type 80
 
 	Units_Holder_ConstructionGraphicID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SnowGraphicID = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown30 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown31 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown30 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown31 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_StackUnitID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_TerrainID = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown32 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown32 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_ResearchID = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown33 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown33 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AnnexUnit1 = new wxBoxSizer(wxVERTICAL);
 	Units_Grid_AnnexUnit = new wxGridSizer(4, 0, 5);
 	Units_Holder_AnnexUnitMisplacement1 = new wxBoxSizer(wxVERTICAL);
 	Units_Grid_AnnexUnitMisplacement = new wxGridSizer(4, 0, 5);
 	Units_Holder_HeadUnit = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_TransformUnit = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown34 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown34 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_ConstructionSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_GarrisonType = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_GarrisonType1 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_GarrisonHealRate = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown35 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown36 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown35 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown36 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown37 = new wxBoxSizer(wxHORIZONTAL);
 
 //	Data Container Names
@@ -2639,7 +2664,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_DeadUnitID = new wxStaticText(Units_Scroller, wxID_ANY, "Dead Unit ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_PlacementMode = new wxStaticText(Units_Scroller, wxID_ANY, "Placement Mode ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_IconID = new wxStaticText(Units_Scroller, wxID_ANY, " Icon ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 1 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_PlacementBypassTerrain = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Bypass Terrain ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_PlacementTerrain = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Terrain ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_EditorRadius = new wxStaticText(Units_Scroller, wxID_ANY, "Editor Radius ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2651,15 +2676,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_InteractionMode = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MinimapMode = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_CommandAttribute = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 3 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown3a = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 3a ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown3a = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3a ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDllHelp = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Help ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_HotKey = new wxStaticText(Units_Scroller, wxID_ANY, "Hot Key ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 4 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 5 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 6 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 4 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 5 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 6 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 7 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown8 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 8 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown8 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionMask = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionShapeType = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionShape = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2690,11 +2715,11 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Text_WalkingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Walking Graphic ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_RotationSpeed = new wxStaticText(Units_Scroller, wxID_ANY, " Rotation Speed ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown11 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 11 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown11 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 11 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TrackingUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TrackingUnitUsed = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Used ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TrackingUnitDensity = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Density ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown12 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 12 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown12 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 12 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown16 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 16 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 40+
@@ -2712,16 +2737,16 @@ void AGE_Frame::CreateUnitControls()
 //	Type 60+
 
 	Units_Text_Unknown20 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 20 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown21 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 21 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown21 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 21 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MaxRange = new wxStaticText(Units_Scroller, wxID_ANY, " Max Range ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_BlastRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Radius ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ReloadTime1 = new wxStaticText(Units_Scroller, wxID_ANY, " Reload Time 1 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ProjectileUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Projectile Unit ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AccuracyPercent = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Percent ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown22 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 22 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown22 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 22 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Delay = new wxStaticText(Units_Scroller, wxID_ANY, " Delay ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GraphicDisplacement = new wxStaticText(Units_Scroller, wxID_ANY, "Graphic Displacement XYZ ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown23 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 23 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown23 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 23 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MinRange = new wxStaticText(Units_Scroller, wxID_ANY, " Min Range ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonRecoveryRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Recovery Rate ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Graphic ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2747,9 +2772,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_TrainTime = new wxStaticText(Units_Scroller, wxID_ANY, " Train Time ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TrainLocationID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Location ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ButtonID = new wxStaticText(Units_Scroller, wxID_ANY, "Button ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown26 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 26 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown26 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 26 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown27 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 27 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown28 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 28 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown28 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 28 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MissileGraphicDelay = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Graphic Delay ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Graphic ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackMissileDuplicationAmount1 = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Missile Duplication Amount 1 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2757,30 +2782,30 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_AttackMissileDuplicationUnknown = new wxStaticText(Units_Scroller, wxID_ANY, "Attack Missile Duplication Unknown ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackMissileDuplicationUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Missile Duplication Unit ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackMissileDuplicationGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Missile Duplication Graphic ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown29 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 29 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown29 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 29 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DisplayedPierceArmour = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Pierce Armour ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 80
 
 	Units_Text_ConstructionGraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Graphic ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SnowGraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Snow Graphic ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown30 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 30 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown31 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 31 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown30 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 30 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown31 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 31 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_StackUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Stack Unit ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TerrainID = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown32 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 32 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown32 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 32 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ResearchID = new wxStaticText(Units_Scroller, wxID_ANY, " Research ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown33 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 33 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown33 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 33 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AnnexUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Unit ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AnnexUnitMisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Unit Misplacement ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_HeadUnit = new wxStaticText(Units_Scroller, wxID_ANY, "Head Unit ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TransformUnit = new wxStaticText(Units_Scroller, wxID_ANY, "Transform Unit ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown34 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 34 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown34 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 34 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ConstructionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Sound ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonType = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonHealRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 35 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown36 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 36 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 35 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown36 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 36 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown37 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 37 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Data Containers
@@ -4599,40 +4624,51 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_MiscArea->Add(5, 5);
 	Units_Holder_MiscArea->Add(Units_Holder_HPBarHeight2, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown1, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown1, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown3, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown3a, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown4, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown5, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown6, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown8, 0, wxEXPAND);
 	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown2, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown3, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown3a, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown4, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown5, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown6, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown8, 0, wxEXPAND);
+	Units_Holder_Type10plusUnknownArea->Add(-1, 5);
 	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown9, 0, wxEXPAND);
+	Units_Holder_Type10plusUnknownArea->Add(-1, 5);
+	Units_Holder_Type10plusUnknownArea->Add(Units_Grid_Type10plusUnknownArea, 0, wxEXPAND);
 
-	Units_Holder_Type30plusUnknownArea->Add(Units_Holder_Unknown11, 0, wxEXPAND);
-	Units_Holder_Type30plusUnknownArea->Add(Units_Holder_Unknown12, 0, wxEXPAND);
+	Units_Grid_Type30plusUnknownArea->Add(Units_Holder_Unknown11, 0, wxEXPAND);
+	Units_Grid_Type30plusUnknownArea->Add(Units_Holder_Unknown12, 0, wxEXPAND);
 	Units_Holder_Type30plusUnknownArea->Add(Units_Holder_Unknown16, 0, wxEXPAND);
+	Units_Holder_Type30plusUnknownArea->Add(-1, 5);
+	Units_Holder_Type30plusUnknownArea->Add(Units_Grid_Type30plusUnknownArea, 0, wxEXPAND);
 
 	Units_Holder_Type40plusUnknownArea->Add(Units_Holder_Unknown19, 0, wxEXPAND);
 
+	Units_Grid_Type60plusUnknownArea->Add(Units_Holder_Unknown21, 0, wxEXPAND);
+	Units_Grid_Type60plusUnknownArea->Add(Units_Holder_Unknown22, 0, wxEXPAND);
+	Units_Grid_Type60plusUnknownArea->Add(Units_Holder_Unknown23, 0, wxEXPAND);
 	Units_Holder_Type60plusUnknownArea->Add(Units_Holder_Unknown20, 0, wxEXPAND);
-	Units_Holder_Type60plusUnknownArea->Add(Units_Holder_Unknown21, 0, wxEXPAND);
-	Units_Holder_Type60plusUnknownArea->Add(Units_Holder_Unknown22, 0, wxEXPAND);
-	Units_Holder_Type60plusUnknownArea->Add(Units_Holder_Unknown23, 0, wxEXPAND);
+	Units_Holder_Type60plusUnknownArea->Add(-1, 5);
+	Units_Holder_Type60plusUnknownArea->Add(Units_Grid_Type60plusUnknownArea, 0, wxEXPAND);
 
-	Units_Holder_Type70plusUnknownArea->Add(Units_Holder_Unknown26, 0, wxEXPAND);
+	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown26, 0, wxEXPAND);
+	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown28, 0, wxEXPAND);
+	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown29, 0, wxEXPAND);
 	Units_Holder_Type70plusUnknownArea->Add(Units_Holder_Unknown27, 0, wxEXPAND);
-	Units_Holder_Type70plusUnknownArea->Add(Units_Holder_Unknown28, 0, wxEXPAND);
-	Units_Holder_Type70plusUnknownArea->Add(Units_Holder_Unknown29, 0, wxEXPAND);
+	Units_Holder_Type70plusUnknownArea->Add(-1, 5);
+	Units_Holder_Type70plusUnknownArea->Add(Units_Grid_Type70plusUnknownArea, 0, wxEXPAND);
 
-	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown30, 0, wxEXPAND);
-	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown31, 0, wxEXPAND);
-	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown32, 0, wxEXPAND);
-	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown33, 0, wxEXPAND);
-	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown34, 0, wxEXPAND);
-	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown35, 0, wxEXPAND);
-	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown36, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown30, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown31, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown32, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown33, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown34, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown35, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown36, 0, wxEXPAND);
 	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown37, 0, wxEXPAND);
+	Units_Holder_Type80plusUnknownArea->Add(-1, 5);
+	Units_Holder_Type80plusUnknownArea->Add(Units_Grid_Type80plusUnknownArea, 0, wxEXPAND);
 	
 //	Units_UnitHeads_Buttons->Add(Units_UnitHeads_Copy, 1, wxEXPAND);
 //	Units_UnitHeads_Buttons->Add(Units_UnitHeads_Paste, 1, wxEXPAND);
