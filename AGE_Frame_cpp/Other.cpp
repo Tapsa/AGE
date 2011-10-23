@@ -355,8 +355,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		UnitCommands_ComboBox_Graphics[4]->Clear();
 		UnitCommands_ComboBox_Graphics[5]->Clear();
 		DamageGraphics_ComboBox_GraphicID->Clear();
-		TerrainLimits_ComboBox_Graphics[0]->Clear();
-		TerrainLimits_ComboBox_Graphics[1]->Clear();
+		TerRestrict_ComboBox_Graphics[0]->Clear();
+		TerRestrict_ComboBox_Graphics[1]->Clear();
 
 		Civs_Civs_List->Clear();
 		Research_ComboBox_Civ->Clear();
@@ -396,8 +396,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		UnitCommands_ComboBox_Graphics[4]->Clear();
 		UnitCommands_ComboBox_Graphics[5]->Clear();
 		DamageGraphics_ComboBox_GraphicID->Clear();
-		TerrainLimits_ComboBox_Graphics[0]->Clear();
-		TerrainLimits_ComboBox_Graphics[1]->Clear();
+		TerRestrict_ComboBox_Graphics[0]->Clear();
+		TerRestrict_ComboBox_Graphics[1]->Clear();
 		Colors_Colors_List->Clear();
 		Research_Research_List->Clear();
 		Effects_ComboBox_ResearchsD->Clear();
@@ -420,10 +420,10 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Civs_ComboBox_TechTree->Clear();
 		Civs_ComboBox_TeamBonus->Clear();
 		Techs_Effects_List->Clear();
-		TerrainLimits_TerrainLimits_List->Clear();
+		TerRestrict_TerRestrict_List->Clear();
 		Units_ComboBox_TerrainRestriction->Clear();
 		Terrains_Terrains_List->Clear();
-		TerrainLimits_Terrains_List->Clear();
+		TerRestrict_Terrains_List->Clear();
 		Units_ComboBox_PlacementBypassTerrain[0]->Clear();
 		Units_ComboBox_PlacementBypassTerrain[1]->Clear();
 		Units_ComboBox_PlacementTerrain[0]->Clear();
@@ -478,6 +478,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Units_ComboBox_StopSound->Clear();
 		Units_ComboBox_ConstructionSound->Clear();
 		Terrains_ComboBox_SoundID->Clear();
+		Graphics_ComboBox_SoundID->Clear();
 		Sounds_SoundItems_List->Clear();
 
 		Techs_Techs_List->Clear();
@@ -486,11 +487,11 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Civs_ComboBox_TeamBonus->Clear();
 		Techs_Effects_List->Clear();
 
-		TerrainLimits_TerrainLimits_List->Clear();
+		TerRestrict_TerRestrict_List->Clear();
 		Units_ComboBox_TerrainRestriction->Clear();
 
 		Terrains_Terrains_List->Clear();
-		TerrainLimits_Terrains_List->Clear();
+		TerRestrict_Terrains_List->Clear();
 		Units_ComboBox_PlacementBypassTerrain[0]->Clear();
 		Units_ComboBox_PlacementBypassTerrain[1]->Clear();
 		Units_ComboBox_PlacementTerrain[0]->Clear();
@@ -529,7 +530,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 //		After cleared, list data.
 
-//		ListGraphics();
+		Added = false;
+		ListGraphics();
 		ListSounds();
 		ListTerrains();
 		ListTerrainRestrictions();
@@ -562,10 +564,10 @@ void AGE_Frame::OnGameVersionChange()
 //	Trying to set these in lists should be disabled. But it doesn't cause lags yet, so no hurries.
 /*	if(GameVersion >= 0)	//	AoE and RoR, (AoK and TC, SWGB and CC)
 	{
-		TerrainLimits_Holder_Unknown1->Show(false);
-		TerrainLimits_CheckBox_Unknown1->Show(false);
-		TerrainLimits_Holder_Graphics->Show(false);
-		TerrainLimits_Holder_Amount->Show(false);
+		TerRestrict_Holder_Unknown1->Show(false);
+		TerRestrict_CheckBox_Unknown1->Show(false);
+		TerRestrict_Holder_Graphics->Show(false);
+		TerRestrict_Holder_Amount->Show(false);
 		Colors_Holder_Name->Show(true);
 		Colors_Holder_Palette->Show(false);
 		Colors_Holder_MinimapColor->Show(false);
@@ -640,10 +642,10 @@ void AGE_Frame::OnGameVersionChange()
 	}
 	if(GameVersion >= 2)	//	AoK and TC, (SWGB and CC)
 	{
-		if(ShowUnknowns) TerrainLimits_Holder_Unknown1->Show(true);
-		if(ShowUnknowns) TerrainLimits_CheckBox_Unknown1->Show(true);
-		TerrainLimits_Holder_Graphics->Show(true);
-		TerrainLimits_Holder_Amount->Show(true);
+		if(ShowUnknowns) TerRestrict_Holder_Unknown1->Show(true);
+		if(ShowUnknowns) TerRestrict_CheckBox_Unknown1->Show(true);
+		TerRestrict_Holder_Graphics->Show(true);
+		TerRestrict_Holder_Amount->Show(true);
 		Colors_Holder_Name->Show(false);
 		Colors_Holder_Palette->Show(true);
 		Colors_Holder_MinimapColor->Show(true);
@@ -723,7 +725,7 @@ void AGE_Frame::OnGameVersionChange()
 	{
 		
 	}
-	TerrainLimits_DataArea->Layout();
+	TerRestrict_DataArea->Layout();
 	Colors_DataArea->Layout();
 	Sounds_DataArea->Layout();
 	Terrains_ScrollerWindowsSpace->Layout();
@@ -894,6 +896,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_Holder_Type70plusUnknownArea->Show(true);
 				Units_Holder_Type80plusUnknownArea->Show(true);
 				Units_CommandHolder_Data2->Show(true);
+				Graphics_Holder_Unknowns->Show(true);
 				Terrains_Holder_Unknown1->Show(true);
 				Terrains_Holder_Unknown2->Show(true);
 				Terrains_Holder_Unknown3->Show(true);
@@ -923,6 +926,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_Holder_Type70plusUnknownArea->Show(false);
 				Units_Holder_Type80plusUnknownArea->Show(false);
 				Units_CommandHolder_Data2->Show(false);
+				Graphics_Holder_Unknowns->Show(false);
 				Terrains_Holder_Unknown1->Show(false);
 				Terrains_Holder_Unknown2->Show(false);
 				Terrains_Holder_Unknown3->Show(false);
@@ -952,6 +956,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			Units_Scroller->Scroll(0, 0);
 			Units_Scroller->GetSizer()->SetDimension(0, 0, Units_Scroller->GetSize().GetWidth() - 15, 1);
 			Units_Scroller->Refresh();
+			Graphics_ScrollerWindowsSpace->Layout();
+			Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
+			Graphics_Scroller->Scroll(0, 0);
+			Graphics_Scroller->GetSizer()->SetDimension(0, 0, Graphics_Scroller->GetSize().GetWidth() - 15, 1);
+			Graphics_Scroller->Refresh();
 			Terrains_ScrollerWindowsSpace->Layout();
 			Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
 			Terrains_Scroller->Scroll(0, 0);
@@ -1064,15 +1073,15 @@ string AGE_Frame::LanguageDllString(int ID)
 	string Result = "";
 	char Buffer[256];
 	
-	if((LoadString(LanguageDll[2], ID, Buffer, 256)) && (strlen(Buffer) > 0))
+	if(LoadString(LanguageDll[2], ID, Buffer, 256) && strlen(Buffer) > 0)
 	{
 		Result = Buffer;
 	}
-	else if((LoadString(LanguageDll[1], ID, Buffer, 256)) && (strlen(Buffer) > 0))
+	else if(LoadString(LanguageDll[1], ID, Buffer, 256) && strlen(Buffer) > 0)
 	{
 		Result = Buffer;
 	}
-	else if((LoadString(LanguageDll[0], ID, Buffer, 256)) && (strlen(Buffer) > 0))
+	else if(LoadString(LanguageDll[0], ID, Buffer, 256) && strlen(Buffer) > 0)
 	{
 		Result = Buffer;
 	}
@@ -1083,20 +1092,20 @@ string AGE_Frame::LanguageDllString(int ID)
 
 void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 {
-	if((Event.GetId() == Effects_E->GetId()) || (Event.GetId() == Effects_F->GetId()))
+	if((Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId()))
 	{
 //		wxMessageBox("AGE_Frame::OnKillFocus_TextControls");
-		if((!Effects_E->IsEmpty()) && (!Effects_F->IsEmpty())) // if has something, then update float value.
+		if(!Effects_E->IsEmpty() && !Effects_F->IsEmpty()) // if has something, then update float value.
 		{
 			float Amount = lexical_cast<float>(Effects_E->GetValue());
 			short Class = lexical_cast<short>(Effects_F->GetValue());
-			if(((Amount > -1) && (Amount < 256)) && ((Class > -1) && (Class < 256))) // positive amount 0 to 255
+			if(Amount > -1 && Amount < 256 && Class > -1 && Class < 256) // positive amount 0 to 255
 			{
 				Effects_D->ChangeValue(lexical_cast<string>(Amount + (Class * 256)));
 				wxFocusEvent Temp(wxEVT_KILL_FOCUS);
 				Effects_D->OnKillFocus(Temp);
 			}
-			else if(((Amount > -256) && (Amount < 0)) && ((Class > -1) && (Class < 256))) // negative amount -255 to -1
+			else if(Amount > -256 && Amount < 0 && Class > -1 && Class < 256) // negative amount -255 to -1
 			{
 				Effects_D->ChangeValue(lexical_cast<string>(Amount - (Class * 256)));
 				wxFocusEvent Temp(wxEVT_KILL_FOCUS);
@@ -1116,11 +1125,11 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		if(Class > 0)
 		{
 			float Amount = lexical_cast<float>(Effects_E->GetValue());
-			if((Amount > -1) && (Amount < 256)) // positive amount 0 to 255
+			if(Amount > -1 && Amount < 256) // positive amount 0 to 255
 			{
 				Effects_D->ChangeValue(lexical_cast<string>(Amount + (Class * 256)));
 			}
-			else if((Amount > -256) && (Amount < 0)) // negative amount -255 to -1
+			else if(Amount > -256 && Amount < 0) // negative amount -255 to -1
 			{
 				Effects_D->ChangeValue(lexical_cast<string>(Amount - (Class * 256)));
 			}
@@ -1311,7 +1320,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		}
 		else
 		{
-			if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+			if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 			{
 				wxCommandEvent E;
 				OnUnitsCopy(E);
@@ -1365,7 +1374,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1379,7 +1388,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event)
 	((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1393,7 +1402,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByteUnitType(wxFocusEvent& Event)
 	((ComboBox_Byte_UnitType*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1413,7 +1422,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event)
 	((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1459,7 +1468,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1507,7 +1516,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event)
 	((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1525,7 +1534,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event)
 	((CheckBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1539,7 +1548,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEve
 	((CheckBox_Short_ZeroIsYes*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1553,7 +1562,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShortAttackType(wxFocusEvent& Event
 	((ComboBox_Short_AttackType*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1584,7 +1593,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent& Event)
 	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1598,7 +1607,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event)
 	((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1629,7 +1638,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Float(wxFocusEvent& Event)
 	((TextCtrl_Float*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Float*)Event.GetEventObject())->NoLoadList)
 	{
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1653,18 +1662,31 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == Research_Name[1]->GetId())
 		{
-			wxCommandEvent E;
-			OnResearchSelect(E);
+		//	ListResearchs();
 		}
 		if(Event.GetId() == Civs_Name->GetId())
 		{
 			ListCivs();
 		}
+		if(Event.GetId() == Graphics_Name->GetId())
+		{
+			ListGraphics();
+		}
+		if(Event.GetId() == Graphics_Name2->GetId())
+		{
+		//	ListGraphics();
+		}
+		if(Event.GetId() == Terrains_Name->GetId())
+		{
+			ListTerrains();
+		}
+		if(Event.GetId() == Terrains_Name2->GetId())
+		{
+		//	ListTerrains();
+		}
 		if(Event.GetId() == SoundItems_Name->GetId())
 		{
-			short SoundID = Sounds_Sounds_List->GetSelection();
-			gdat::Sound * SoundPointer = (gdat::Sound*)Sounds_Sounds_List->GetClientData(SoundID);
-			ListSoundItems(SoundPointer - (&GenieFile->Sounds[0]));
+			ListSoundItems(SoundID);
 		}
 		if(Event.GetId() == Colors_Name->GetId())
 		{
@@ -1679,7 +1701,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 	if(!((TextCtrl_String*)Event.GetEventObject())->NoLoadList)
 	{
 		
-		if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -1690,9 +1712,8 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 			ListUnits(UnitCivID);
 		}
 		if(Event.GetId() == Units_Name2->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);
+		{// this is not needed yet
+		//	ListUnits(UnitCivID);
 		}
 	}
 }
@@ -1709,7 +1730,7 @@ void AGE_Frame::OnUpdate_ComboBoxByteEffectType(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event)
 {
 	((ComboBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
-	if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -1720,7 +1741,7 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByteUnitType(wxCommandEvent& Event)
 {
 	((ComboBox_Byte_UnitType*)Event.GetEventObject())->OnUpdate(Event);
-	if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -1747,7 +1768,7 @@ void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 {
 	((ComboBox_Short*)Event.GetEventObject())->OnUpdate(Event);
-	if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -1762,7 +1783,7 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType(wxCommandEvent& Event)
 {
 	((ComboBox_Short_AttackType*)Event.GetEventObject())->OnUpdate(Event);
-	if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -1781,7 +1802,7 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 {
 	((ComboBox_Long*)Event.GetEventObject())->OnUpdate(Event);
-	if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -1792,7 +1813,7 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event)
 {
 	((CheckBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
-	if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -1818,7 +1839,7 @@ void AGE_Frame::OnUpdate_CheckBoxShort(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event)
 {
 	((CheckBox_Short*)Event.GetEventObject())->OnUpdate(Event);
-	if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -1829,7 +1850,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent& Event)
 {
 	((CheckBox_Short_ZeroIsYes*)Event.GetEventObject())->OnUpdate(Event);
-	if((AutoCopy == MenuOption_Include) || (AutoCopy == MenuOption_Exclude))
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);

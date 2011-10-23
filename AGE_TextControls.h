@@ -101,6 +101,28 @@ class TextCtrl_Short : public wxTextCtrl
 
 #endif
 
+#ifndef TextCtrl_UnShort_h
+#define TextCtrl_UnShort_h
+
+class TextCtrl_UnShort : public wxTextCtrl
+{
+	public:
+
+	TextCtrl_UnShort(wxWindow*, string, unsigned short*);
+
+	/* Events */
+
+	void OnKillFocus(wxFocusEvent& Event);
+
+	/* Member Variables */
+
+	unsigned short * Container;
+	void * ParentContainer;
+	bool NoLoadList;
+};
+
+#endif
+
 #ifndef TextCtrl_String_h
 #define TextCtrl_String_h
 

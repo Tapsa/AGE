@@ -155,6 +155,42 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 	}
 }
 
+void TextCtrl_UnShort::OnKillFocus(wxFocusEvent& Event)
+{
+	string Value = GetValue().c_str();
+	NoLoadList = false;
+	if(Container == NULL)
+	{
+		NoLoadList = true;
+	}
+	else if(Value.size() > 0)
+	{
+		try
+		{
+			if(*((unsigned short*)Container) != lexical_cast<unsigned short>(Value))
+			{
+				*((unsigned short*)Container) = lexical_cast<unsigned short>(Value);
+			}
+			else
+			{
+				NoLoadList = true;
+			}
+		}
+		catch(bad_lexical_cast e)
+		{
+			NoLoadList = true;
+			wxMessageBox("Invalid Entry!\nPlease enter a number from 0 to 65 535");
+			SetFocus();
+		}
+	}
+	else
+	{
+		NoLoadList = true;
+		wxMessageBox("Empty Entry!\nPlease enter a number from 0 to 65 535");
+		SetFocus();
+	}
+}
+
 void TextCtrl_String::OnKillFocus(wxFocusEvent& Event)	// This may crash the program.
 {
 	NoLoadList = false;
@@ -222,6 +258,14 @@ TextCtrl_Short::TextCtrl_Short(wxWindow * parent, string InitValue, short * Poin
 	Container = Pointer;
 	this->SetBackgroundColour(wxColour(210, 230, 255));
 	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
+}
+
+TextCtrl_UnShort::TextCtrl_UnShort(wxWindow * parent, string InitValue, unsigned short * Pointer)
+: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+{
+	Container = Pointer;
+	this->SetBackgroundColour(wxColour(210, 230, 255));
+	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UnShort::OnKillFocus));
 }
 
 TextCtrl_String::TextCtrl_String(wxWindow * parent, string InitValue, void * Pointer, short CLength)

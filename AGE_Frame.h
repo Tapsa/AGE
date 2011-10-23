@@ -235,7 +235,7 @@ class AGE_Frame : public wxFrame
 
 	void ListTerrainRestrictions();
 	void OnTerrainRestrictionsSearch(wxCommandEvent& Event);
-	void OnTerrainRestrictionsSelect(wxCommandEvent& Event);
+//	void OnTerrainRestrictionsSelect(wxCommandEvent& Event);
 	void OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event);
 	void OnTerrainRestrictionsAdd(wxCommandEvent& Event);
 	void OnTerrainRestrictionsDelete(wxCommandEvent& Event);
@@ -314,6 +314,8 @@ class AGE_Frame : public wxFrame
 	gdat::UnitHeader UnitHeaderCopy;
 	gdat::UnitCommand UnitCommandCopy;
 	short CommandID;
+	gdat::Graphic GraphicCopy;
+	short GraphicID;
 	gdat::Terrain TerrainCopy;
 	short TerrainID;
 	gdat::TerrainRestriction TerrainRestrictionCopy;
@@ -328,6 +330,7 @@ class AGE_Frame : public wxFrame
 	gdat::PlayerColour PlayerColorCopy;
 	short ColorID;
 
+	bool Added;
 	int GameVersion;
 	int DatUsed;
 	int SaveGameVersion;
@@ -545,7 +548,7 @@ class AGE_Frame : public wxFrame
 
 	wxBoxSizer * Research_Holder_NameLength[2];
 	wxStaticText * Research_Text_NameLength[2];
-	TextCtrl_String * Research_NameLength[2];
+	TextCtrl_Short * Research_NameLength[2];
 
 //	Techs user interface
 
@@ -1449,11 +1452,16 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_SoundsArea2;
 	wxStaticBoxSizer * Units_Holder_MiscArea;
 	wxStaticBoxSizer * Units_Holder_Type10plusUnknownArea;
+	wxGridSizer * Units_Grid_Type10plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_Type30plusUnknownArea;
+	wxGridSizer * Units_Grid_Type30plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_Type40plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_Type60plusUnknownArea;
+	wxGridSizer * Units_Grid_Type60plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_Type70plusUnknownArea;
+	wxGridSizer * Units_Grid_Type70plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_Type80plusUnknownArea;
+	wxGridSizer * Units_Grid_Type80plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_CommandsArea;
 	wxStaticBoxSizer * Units_Holder_TopRow;
 	wxStaticText * Units_AutoCopyState;
@@ -1581,6 +1589,103 @@ class AGE_Frame : public wxFrame
 	wxButton * Graphics_Delete;
 	wxButton * Graphics_Copy;
 	wxButton * Graphics_Paste;
+	
+	wxBoxSizer * Graphics_DataArea;
+	AGE_ScrolledWindow * Graphics_Scroller;
+	wxBoxSizer * Graphics_ScrollerWindows;
+	wxBoxSizer * Graphics_ScrollerWindowsSpace;
+	
+	wxBoxSizer * Graphics_Holder_NameArea;
+	wxBoxSizer * Graphics_Holder_Name;
+	wxBoxSizer * Graphics_Holder_Name2;
+	wxBoxSizer * Graphics_Holder_SLP;
+	wxGridSizer * Graphics_Holder_Unknowns;
+	wxBoxSizer * Graphics_Holder_Unknown1;
+	wxBoxSizer * Graphics_Holder_Unknown2;
+	wxBoxSizer * Graphics_Holder_FrameType;
+	wxBoxSizer * Graphics_Holder_Unknown3;
+	wxBoxSizer * Graphics_Holder_Unknown4;
+	wxBoxSizer * Graphics_Holder_Replay;
+	wxBoxSizer * Graphics_Holder_2;
+	wxBoxSizer * Graphics_Holder_Unknown5;
+	wxBoxSizer * Graphics_Holder_Unknown6;
+	wxBoxSizer * Graphics_Holder_Unknown7;
+	wxBoxSizer * Graphics_Holder_Unknown8;
+	wxBoxSizer * Graphics_Holder_Unknown9;
+	wxBoxSizer * Graphics_Holder_Unknown10;
+	wxBoxSizer * Graphics_Holder_Unknown11;
+	wxBoxSizer * Graphics_Holder_Unknown12;
+	wxBoxSizer * Graphics_Holder_SoundID;
+	wxBoxSizer * Graphics_Holder_AttackSoundUsed;
+	wxBoxSizer * Graphics_Holder_AttackSoundUsed1;
+	wxBoxSizer * Graphics_Holder_3;
+	wxBoxSizer * Graphics_Holder_FrameCount;
+	wxBoxSizer * Graphics_Holder_AngleCount;
+	wxBoxSizer * Graphics_Holder_Unknown13;
+	wxBoxSizer * Graphics_Holder_FrameRate;
+	wxBoxSizer * Graphics_Holder_ReplayDelay;
+	wxBoxSizer * Graphics_Holder_SequenceType;
+	wxBoxSizer * Graphics_Holder_ID;
+	wxBoxSizer * Graphics_Holder_Type;
+	wxBoxSizer * Graphics_Holder_1;
+	
+	wxStaticText * Graphics_Text_Name;
+	wxStaticText * Graphics_Text_Name2;
+	wxStaticText * Graphics_Text_SLP;
+	wxStaticText * Graphics_Text_Unknown1;
+	wxStaticText * Graphics_Text_Unknown2;
+	wxStaticText * Graphics_Text_FrameType;
+	wxStaticText * Graphics_Text_Unknown3;
+	wxStaticText * Graphics_Text_Unknown4;
+	wxStaticText * Graphics_Text_Replay;
+	wxStaticText * Graphics_Text_Unknown5;
+	wxStaticText * Graphics_Text_Unknown6;
+	wxStaticText * Graphics_Text_Unknown7;
+	wxStaticText * Graphics_Text_Unknown8;
+	wxStaticText * Graphics_Text_Unknown9;
+	wxStaticText * Graphics_Text_Unknown10;
+	wxStaticText * Graphics_Text_Unknown11;
+	wxStaticText * Graphics_Text_Unknown12;
+	wxStaticText * Graphics_Text_SoundID;
+	wxStaticText * Graphics_Text_AttackSoundUsed;
+	wxStaticText * Graphics_Text_FrameCount;
+	wxStaticText * Graphics_Text_AngleCount;
+	wxStaticText * Graphics_Text_Unknown13;
+	wxStaticText * Graphics_Text_FrameRate;
+	wxStaticText * Graphics_Text_ReplayDelay;
+	wxStaticText * Graphics_Text_SequenceType;
+	wxStaticText * Graphics_Text_ID;
+	wxStaticText * Graphics_Text_Type;
+	
+	TextCtrl_String * Graphics_Name;
+	TextCtrl_String * Graphics_Name2;
+	TextCtrl_Long * Graphics_SLP;
+	TextCtrl_Byte * Graphics_Unknown1;
+	TextCtrl_Byte * Graphics_Unknown2;
+	TextCtrl_Byte * Graphics_FrameType;
+	TextCtrl_Byte * Graphics_Unknown3;
+	TextCtrl_Byte * Graphics_Unknown4;
+	TextCtrl_Byte * Graphics_Replay;
+	TextCtrl_Byte * Graphics_Unknown5;
+	TextCtrl_Byte * Graphics_Unknown6;
+	TextCtrl_Byte * Graphics_Unknown7;
+	TextCtrl_Byte * Graphics_Unknown8;
+	TextCtrl_Byte * Graphics_Unknown9;
+	TextCtrl_Byte * Graphics_Unknown10;
+	TextCtrl_Byte * Graphics_Unknown11;
+	TextCtrl_Byte * Graphics_Unknown12;
+	TextCtrl_Short * Graphics_SoundID;
+	ComboBox_Short * Graphics_ComboBox_SoundID;
+	TextCtrl_Byte * Graphics_AttackSoundUsed;
+	CheckBox_Byte * Graphics_CheckBox_AttackSoundUsed;
+	TextCtrl_UnShort * Graphics_FrameCount;
+	TextCtrl_UnShort * Graphics_AngleCount;
+	TextCtrl_Float * Graphics_Unknown13;
+	TextCtrl_Float * Graphics_FrameRate;
+	TextCtrl_Float * Graphics_ReplayDelay;
+	TextCtrl_Byte * Graphics_SequenceType;
+	TextCtrl_Short * Graphics_ID;
+	TextCtrl_Short * Graphics_Type;
 
 //	Terrains user interface
 	
@@ -1680,41 +1785,41 @@ class AGE_Frame : public wxFrame
 	
 //	Terrain restrictions user interface
 
-	wxBoxSizer * TerrainLimits_Main;
-	wxBoxSizer * TerrainLimits_ListArea;
-	wxGridSizer * TerrainLimits_TerrainLimits_Buttons;
-	wxStaticBoxSizer * TerrainLimits_TerrainLimits;
-	wxTextCtrl * TerrainLimits_TerrainLimits_Search;
-	wxListBox * TerrainLimits_TerrainLimits_List;
-	wxButton * TerrainLimits_Add;
-	wxButton * TerrainLimits_Delete;
-	wxButton * TerrainLimits_Copy;
-	wxButton * TerrainLimits_Paste;
+	wxBoxSizer * TerRestrict_Main;
+	wxBoxSizer * TerRestrict_ListArea;
+	wxGridSizer * TerRestrict_TerRestrict_Buttons;
+	wxStaticBoxSizer * TerRestrict_TerRestrict;
+	wxTextCtrl * TerRestrict_TerRestrict_Search;
+	wxListBox * TerRestrict_TerRestrict_List;
+	wxButton * TerRestrict_Add;
+	wxButton * TerRestrict_Delete;
+	wxButton * TerRestrict_Copy;
+	wxButton * TerRestrict_Paste;
 
-	wxBoxSizer * TerrainLimits_Terrains;
-	wxBoxSizer * TerrainLimits_DataArea;
-	wxTextCtrl * TerrainLimits_Terrains_Search;
-	wxListBox * TerrainLimits_Terrains_List;
-	wxGridSizer * TerrainLimits_Terrains_Buttons;
-	wxButton * TerrainLimits_Terrains_Copy;
-	wxButton * TerrainLimits_Terrains_Paste;
-	wxBoxSizer * TerrainLimits_Holder_Accessible;
-	wxBoxSizer * TerrainLimits_Holder_Accessible2;
-	wxStaticText * TerrainLimits_Text_Accessible;
-	TextCtrl_Float * TerrainLimits_Accessible;
-	CheckBox_Float * TerrainLimits_CheckBox_Accessible;
-	wxBoxSizer * TerrainLimits_Holder_Unknown1;
-	wxBoxSizer * TerrainLimits_Holder_Unknown1Sub;
-	wxStaticText * TerrainLimits_Text_Unknown1;
-	TextCtrl_Long * TerrainLimits_Unknown1;
-	CheckBox_Long_ZeroIsYes * TerrainLimits_CheckBox_Unknown1;	// checkbox, 0 = Yes, -1 = No
-	wxBoxSizer * TerrainLimits_Holder_Graphics;
-	wxStaticText * TerrainLimits_Text_Graphics;
-	TextCtrl_Long * TerrainLimits_Graphics[2];
-	ComboBox_Long * TerrainLimits_ComboBox_Graphics[2];
-	wxBoxSizer * TerrainLimits_Holder_Amount;
-	wxStaticText * TerrainLimits_Text_Amount;
-	TextCtrl_Long * TerrainLimits_Amount;
+	wxBoxSizer * TerRestrict_Terrains;
+	wxBoxSizer * TerRestrict_DataArea;
+	wxTextCtrl * TerRestrict_Terrains_Search;
+	wxListBox * TerRestrict_Terrains_List;
+	wxGridSizer * TerRestrict_Terrains_Buttons;
+	wxButton * TerRestrict_Terrains_Copy;
+	wxButton * TerRestrict_Terrains_Paste;
+	wxBoxSizer * TerRestrict_Holder_Accessible;
+	wxBoxSizer * TerRestrict_Holder_Accessible2;
+	wxStaticText * TerRestrict_Text_Accessible;
+	TextCtrl_Float * TerRestrict_Accessible;
+	CheckBox_Float * TerRestrict_CheckBox_Accessible;
+	wxBoxSizer * TerRestrict_Holder_Unknown1;
+	wxBoxSizer * TerRestrict_Holder_Unknown1Sub;
+	wxStaticText * TerRestrict_Text_Unknown1;
+	TextCtrl_Long * TerRestrict_Unknown1;
+	CheckBox_Long_ZeroIsYes * TerRestrict_CheckBox_Unknown1;	// checkbox, 0 = Yes, -1 = No
+	wxBoxSizer * TerRestrict_Holder_Graphics;
+	wxStaticText * TerRestrict_Text_Graphics;
+	TextCtrl_Long * TerRestrict_Graphics[2];
+	ComboBox_Long * TerRestrict_ComboBox_Graphics[2];
+	wxBoxSizer * TerRestrict_Holder_Amount;
+	wxStaticText * TerRestrict_Text_Amount;
+	TextCtrl_Long * TerRestrict_Amount;
 
 //	Sound user interface
 	
