@@ -74,29 +74,26 @@ void AGE_Frame::ListUnits(int UnitCivID)
 	Units_Civs_List->SetSelection(UnitCivID);
 	
 	short Selection = Units_Units_List->GetSelection();
-	short UnitID1 = Units_ComboBox_DeadUnitID->GetSelection();
-	short UnitID2 = Units_ComboBox_ProjectileUnitID->GetSelection();
-	short UnitID3 = Units_ComboBox_AttackMissileDuplicationUnit->GetSelection();
-	short UnitID4 = Units_ComboBox_DropSite[0]->GetSelection();
-	short UnitID5 = Units_ComboBox_DropSite[1]->GetSelection();
-	short UnitID6 = Units_ComboBox_TrackingUnit->GetSelection();
-	short UnitID7 = Units_ComboBox_TrainLocationID->GetSelection();
-	short UnitID8 = Units_ComboBox_StackUnitID->GetSelection();
-	short UnitID9 = Units_ComboBox_AnnexUnit[0]->GetSelection();
-	short UnitID10 = Units_ComboBox_AnnexUnit[1]->GetSelection();
-	short UnitID11 = Units_ComboBox_AnnexUnit[2]->GetSelection();
-	short UnitID12 = Units_ComboBox_AnnexUnit[3]->GetSelection();
-	short UnitID13 = Units_ComboBox_HeadUnit->GetSelection();
-	short UnitID14 = Units_ComboBox_TransformUnit->GetSelection();
-	short UnitID15 = Research_ComboBox_ResearchLocation->GetSelection();
-	short UnitID16 = Effects_ComboBox_UnitsA->GetSelection();
-	short UnitID17 = Effects_ComboBox_UnitsB->GetSelection();
-	short UnitID18 = UnitCommands_ComboBox_UnitID->GetSelection();
+	short UnitIDs[18];
+	UnitIDs[0] = Units_ComboBox_DeadUnitID->GetSelection();
+	UnitIDs[1] = Units_ComboBox_ProjectileUnitID->GetSelection();
+	for(short loop = 0;loop < 2;loop++)
+	UnitIDs[loop+2] = Units_ComboBox_DropSite[loop]->GetSelection();
+	UnitIDs[4] = Units_ComboBox_AttackMissileDuplicationUnit->GetSelection();
+	UnitIDs[5] = Units_ComboBox_TrackingUnit->GetSelection();
+	UnitIDs[6] = Units_ComboBox_TrainLocationID->GetSelection();
+	UnitIDs[7] = Units_ComboBox_StackUnitID->GetSelection();
+	for(short loop = 0;loop < 4;loop++)
+	UnitIDs[loop+8] = Units_ComboBox_AnnexUnit[loop]->GetSelection();
+	UnitIDs[12] = Units_ComboBox_HeadUnit->GetSelection();
+	UnitIDs[13] = Units_ComboBox_TransformUnit->GetSelection();
+	UnitIDs[14] = Research_ComboBox_ResearchLocation->GetSelection();
+	UnitIDs[15] = Effects_ComboBox_UnitsA->GetSelection();
+	UnitIDs[16] = Effects_ComboBox_UnitsB->GetSelection();
+	UnitIDs[17] = UnitCommands_ComboBox_UnitID->GetSelection();
 	short UnitIDloop[30];
 	for(short loop = 0;loop < 30;loop++)
-	{
-		UnitIDloop[loop] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
-	}
+	UnitIDloop[loop] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
 
 	if(!Units_Units_List->IsEmpty())
 	{
@@ -114,13 +111,10 @@ void AGE_Frame::ListUnits(int UnitCivID)
 	{
 		Units_ComboBox_AttackMissileDuplicationUnit->Clear();
 	}
-	if(!Units_ComboBox_DropSite[0]->IsEmpty())
+	for(short loop = 0;loop < 2;loop++)
+	if(!Units_ComboBox_DropSite[loop]->IsEmpty())
 	{
-		Units_ComboBox_DropSite[0]->Clear();
-	}
-	if(!Units_ComboBox_DropSite[1]->IsEmpty())
-	{
-		Units_ComboBox_DropSite[1]->Clear();
+		Units_ComboBox_DropSite[loop]->Clear();
 	}
 	if(!Units_ComboBox_TrackingUnit->IsEmpty())
 	{
@@ -134,21 +128,10 @@ void AGE_Frame::ListUnits(int UnitCivID)
 	{
 		Units_ComboBox_StackUnitID->Clear();
 	}
-	if(!Units_ComboBox_AnnexUnit[0]->IsEmpty())
+	for(short loop = 0;loop < 4;loop++)
+	if(!Units_ComboBox_AnnexUnit[loop]->IsEmpty())
 	{
-		Units_ComboBox_AnnexUnit[0]->Clear();
-	}
-	if(!Units_ComboBox_AnnexUnit[1]->IsEmpty())
-	{
-		Units_ComboBox_AnnexUnit[1]->Clear();
-	}
-	if(!Units_ComboBox_AnnexUnit[2]->IsEmpty())
-	{
-		Units_ComboBox_AnnexUnit[2]->Clear();
-	}
-	if(!Units_ComboBox_AnnexUnit[3]->IsEmpty())
-	{
-		Units_ComboBox_AnnexUnit[3]->Clear();
+		Units_ComboBox_AnnexUnit[loop]->Clear();
 	}
 	if(!Units_ComboBox_HeadUnit->IsEmpty())
 	{
@@ -175,88 +158,21 @@ void AGE_Frame::ListUnits(int UnitCivID)
 		UnitCommands_ComboBox_UnitID->Clear();
 	}
 	for(short loop = 0;loop < 30;loop++)
+	if(!Terrains_ComboBox_TerrainUnitID[loop]->IsEmpty())
 	{
-		if(!Terrains_ComboBox_TerrainUnitID[loop]->IsEmpty())
-		{
-			Terrains_ComboBox_TerrainUnitID[loop]->Clear();
-		}
+		Terrains_ComboBox_TerrainUnitID[loop]->Clear();
 	}
 	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	if(UnitID1 == wxNOT_FOUND)
+	for(short loop = 0;loop < 18;loop++)
 	{
-		UnitID1 = 0;
-	}
-	if(UnitID2 == wxNOT_FOUND)
-	{
-		UnitID2 = 0;
-	}
-	if(UnitID3 == wxNOT_FOUND)
-	{
-		UnitID3 = 0;
-	}
-	if(UnitID4 == wxNOT_FOUND)
-	{
-		UnitID4 = 0;
-	}
-	if(UnitID5 == wxNOT_FOUND)
-	{
-		UnitID5 = 0;
-	}
-	if(UnitID6 == wxNOT_FOUND)
-	{
-		UnitID6 = 0;
-	}
-	if(UnitID7 == wxNOT_FOUND)
-	{
-		UnitID7 = 0;
-	}
-	if(UnitID8 == wxNOT_FOUND)
-	{
-		UnitID8 = 0;
-	}
-	if(UnitID9 == wxNOT_FOUND)
-	{
-		UnitID9 = 0;
-	}
-	if(UnitID10 == wxNOT_FOUND)
-	{
-		UnitID10 = 0;
-	}
-	if(UnitID11 == wxNOT_FOUND)
-	{
-		UnitID11 = 0;
-	}
-	if(UnitID12 == wxNOT_FOUND)
-	{
-		UnitID12 = 0;
-	}
-	if(UnitID13 == wxNOT_FOUND)
-	{
-		UnitID13 = 0;
-	}
-	if(UnitID14 == wxNOT_FOUND)
-	{
-		UnitID14 = 0;
-	}
-	if(UnitID15 == wxNOT_FOUND)
-	{
-		UnitID15 = 0;
-	}
-	if(UnitID16 == wxNOT_FOUND)
-	{
-		UnitID16 = 0;
-	}
-	if(UnitID17 == wxNOT_FOUND)
-	{
-		UnitID17 = 0;
-	}
-	if(UnitID18 == wxNOT_FOUND)
-	{
-		UnitID18 = 0;
+		if(UnitIDs[loop] == wxNOT_FOUND)
+		{
+			UnitIDs[loop] = 0;
+		}
 	}
 	for(short loop = 0;loop < 30;loop++)
 	{
@@ -269,15 +185,13 @@ void AGE_Frame::ListUnits(int UnitCivID)
 	Units_ComboBox_DeadUnitID->Append("-1 - None");
 	Units_ComboBox_ProjectileUnitID->Append("-1 - None");
 	Units_ComboBox_AttackMissileDuplicationUnit->Append("-1 - None");
-	Units_ComboBox_DropSite[0]->Append("-1 - None");
-	Units_ComboBox_DropSite[1]->Append("-1 - None");
+	for(short loop = 0;loop < 2;loop++)
+	Units_ComboBox_DropSite[loop]->Append("-1 - None");
 	Units_ComboBox_TrackingUnit->Append("-1 - None");
 	Units_ComboBox_TrainLocationID->Append("-1 - None");
 	Units_ComboBox_StackUnitID->Append("-1 - None");
-	Units_ComboBox_AnnexUnit[0]->Append("-1 - None");
-	Units_ComboBox_AnnexUnit[1]->Append("-1 - None");
-	Units_ComboBox_AnnexUnit[2]->Append("-1 - None");
-	Units_ComboBox_AnnexUnit[3]->Append("-1 - None");
+	for(short loop = 0;loop < 4;loop++)
+	Units_ComboBox_AnnexUnit[loop]->Append("-1 - None");
 	Units_ComboBox_HeadUnit->Append("-1 - None");
 	Units_ComboBox_TransformUnit->Append("-1 - None");
 	Research_ComboBox_ResearchLocation->Append("-1 - None");
@@ -285,9 +199,7 @@ void AGE_Frame::ListUnits(int UnitCivID)
 	Effects_ComboBox_UnitsB->Append("-1 - None");
 	UnitCommands_ComboBox_UnitID->Append("-1 - None");
 	for(short loop = 0;loop < 30;loop++)
-	{
-		Terrains_ComboBox_TerrainUnitID[loop]->Append("-1 - None");
-	}
+	Terrains_ComboBox_TerrainUnitID[loop]->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units.size();loop++)
 	{
@@ -305,15 +217,13 @@ void AGE_Frame::ListUnits(int UnitCivID)
 		Units_ComboBox_DeadUnitID->Append(Name);
 		Units_ComboBox_ProjectileUnitID->Append(Name);
 		Units_ComboBox_AttackMissileDuplicationUnit->Append(Name);
-		Units_ComboBox_DropSite[0]->Append(Name);
-		Units_ComboBox_DropSite[1]->Append(Name);
+		for(short loop = 0;loop < 2;loop++)
+		Units_ComboBox_DropSite[loop]->Append(Name);
 		Units_ComboBox_TrackingUnit->Append(Name);
 		Units_ComboBox_TrainLocationID->Append(Name);
 		Units_ComboBox_StackUnitID->Append(Name);
-		Units_ComboBox_AnnexUnit[0]->Append(Name);
-		Units_ComboBox_AnnexUnit[1]->Append(Name);
-		Units_ComboBox_AnnexUnit[2]->Append(Name);
-		Units_ComboBox_AnnexUnit[3]->Append(Name);
+		for(short loop = 0;loop < 4;loop++)
+		Units_ComboBox_AnnexUnit[loop]->Append(Name);
 		Units_ComboBox_HeadUnit->Append(Name);
 		Units_ComboBox_TransformUnit->Append(Name);
 		Research_ComboBox_ResearchLocation->Append(Name);
@@ -321,35 +231,29 @@ void AGE_Frame::ListUnits(int UnitCivID)
 		Effects_ComboBox_UnitsB->Append(Name);
 		UnitCommands_ComboBox_UnitID->Append(Name);
 		for(short loop = 0;loop < 30;loop++)
-		{
-			Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
-		}
+		Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
 	}
 	
 	Units_Units_List->SetFirstItem(Selection - 3);
 	Units_Units_List->SetSelection(Selection);
-	Units_ComboBox_DeadUnitID->SetSelection(UnitID1);
-	Units_ComboBox_ProjectileUnitID->SetSelection(UnitID2);
-	Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitID3);
-	Units_ComboBox_DropSite[0]->SetSelection(UnitID4);
-	Units_ComboBox_DropSite[1]->SetSelection(UnitID5);
-	Units_ComboBox_TrackingUnit->SetSelection(UnitID6);
-	Units_ComboBox_TrainLocationID->SetSelection(UnitID7);
-	Units_ComboBox_StackUnitID->SetSelection(UnitID8);
-	Units_ComboBox_AnnexUnit[0]->SetSelection(UnitID9);
-	Units_ComboBox_AnnexUnit[1]->SetSelection(UnitID10);
-	Units_ComboBox_AnnexUnit[2]->SetSelection(UnitID11);
-	Units_ComboBox_AnnexUnit[3]->SetSelection(UnitID12);
-	Units_ComboBox_HeadUnit->SetSelection(UnitID13);
-	Units_ComboBox_TransformUnit->SetSelection(UnitID14);
-	Research_ComboBox_ResearchLocation->SetSelection(UnitID15);
-	Effects_ComboBox_UnitsA->SetSelection(UnitID16);
-	Effects_ComboBox_UnitsB->SetSelection(UnitID17);
-	UnitCommands_ComboBox_UnitID->SetSelection(UnitID18);
+	Units_ComboBox_DeadUnitID->SetSelection(UnitIDs[0]);
+	Units_ComboBox_ProjectileUnitID->SetSelection(UnitIDs[1]);
+	for(short loop = 0;loop < 2;loop++)
+	Units_ComboBox_DropSite[loop]->SetSelection(UnitIDs[loop+2]);// 2 ja 3
+	Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitIDs[4]);
+	Units_ComboBox_TrackingUnit->SetSelection(UnitIDs[5]);
+	Units_ComboBox_TrainLocationID->SetSelection(UnitIDs[6]);
+	Units_ComboBox_StackUnitID->SetSelection(UnitIDs[7]);
+	for(short loop = 0;loop < 4;loop++)
+	Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitIDs[loop+8]);// 8 - 11
+	Units_ComboBox_HeadUnit->SetSelection(UnitIDs[12]);
+	Units_ComboBox_TransformUnit->SetSelection(UnitIDs[13]);
+	Research_ComboBox_ResearchLocation->SetSelection(UnitIDs[14]);
+	Effects_ComboBox_UnitsA->SetSelection(UnitIDs[15]);
+	Effects_ComboBox_UnitsB->SetSelection(UnitIDs[16]);
+	UnitCommands_ComboBox_UnitID->SetSelection(UnitIDs[17]);
 	for(short loop = 0;loop < 30;loop++)
-	{
-		Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDloop[loop]);
-	}
+	Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDloop[loop]);
 	
 	wxCommandEvent E;
 	OnUnitsSelect(E);
@@ -523,9 +427,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_ResourceCapacity->Container = &UnitPointer->ResourceCapacity;
 		Units_ResourceDecay->ChangeValue(lexical_cast<string>(UnitPointer->ResourceDecay));
 		Units_ResourceDecay->Container = &UnitPointer->ResourceDecay;
-		for(short loop = 0;loop < 2;loop++){
-		Units_Unknown2[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown2[loop]));
-		Units_Unknown2[loop]->Container = &UnitPointer->Unknown2[loop];}
+		for(short loop = 0;loop < 2;loop++)
+		{
+			Units_Unknown2[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown2[loop]));
+			Units_Unknown2[loop]->Container = &UnitPointer->Unknown2[loop];
+		}
 		Units_InteractionMode->ChangeValue(lexical_cast<string>((short)UnitPointer->InteractionMode));
 		Units_InteractionMode->Container = &UnitPointer->InteractionMode;
 		Units_MinimapMode->ChangeValue(lexical_cast<string>((short)UnitPointer->MinimapMode));
@@ -538,9 +444,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_Unknown3a->Container = &UnitPointer->Unknown3a;
 		Units_LanguageDllHelp->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDllHelp));
 		Units_LanguageDllHelp->Container = &UnitPointer->LanguageDllHelp;
-		for(short loop = 0;loop < 4;loop++){
-		Units_HotKey[loop]->ChangeValue(lexical_cast<string>(UnitPointer->HotKey[loop]));
-		Units_HotKey[loop]->Container = &UnitPointer->HotKey[loop];}
+		for(short loop = 0;loop < 4;loop++)
+		{
+			Units_HotKey[loop]->ChangeValue(lexical_cast<string>(UnitPointer->HotKey[loop]));
+			Units_HotKey[loop]->Container = &UnitPointer->HotKey[loop];
+		}
 		Units_DLL_HotKey4->SetLabel(LanguageDllString(lexical_cast<short>(Units_HotKey[3]->GetValue())));
 		Units_Unknown4->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown4));
 		Units_Unknown4->Container = &UnitPointer->Unknown4;
@@ -561,9 +469,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_SelectionShapeType->Container = &UnitPointer->SelectionShapeType;
 		Units_SelectionShape->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShape));
 		Units_SelectionShape->Container = &UnitPointer->SelectionShape;
-		for(short loop = 0;loop < 4;loop++){
-		Units_Unknown9[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown9[loop]));
-		Units_Unknown9[loop]->Container = &UnitPointer->Unknown9[loop];}
+		for(short loop = 0;loop < 4;loop++)
+		{
+			Units_Unknown9[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown9[loop]));
+			Units_Unknown9[loop]->Container = &UnitPointer->Unknown9[loop];
+		}
 		Units_SelectionEffect->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionEffect));
 		Units_SelectionEffect->Container = &UnitPointer->SelectionEffect;
 		Units_EditorSelectionColour->ChangeValue(lexical_cast<string>((short)UnitPointer->EditorSelectionColour));
@@ -618,10 +528,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 
 		if(GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish)
 		{
-			Units_WalkingGraphic[0]->Enable(true);
-			Units_WalkingGraphic[1]->Enable(true);
-			Units_ComboBox_WalkingGraphic[0]->Enable(true);
-			Units_ComboBox_WalkingGraphic[1]->Enable(true);
+			for(short loop = 0;loop < 2;loop++)
+			{
+				Units_WalkingGraphic[loop]->Enable(true);
+				Units_ComboBox_WalkingGraphic[loop]->Enable(true);
+			}
 			Units_RotationSpeed->Enable(true);
 			Units_Unknown11->Enable(true);
 			Units_TrackingUnit->Enable(true);
@@ -653,20 +564,21 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_TrackingUnitDensity->Container = &UnitPointer->DeadFish->TrackingUnitDensity;
 			Units_Unknown12->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish->Unknown12));
 			Units_Unknown12->Container = &UnitPointer->DeadFish->Unknown12;
-			for(short loop = 0;loop < 17;loop++){
-			Units_Unknown16[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish->Unknown16[loop]));
-			Units_Unknown16[loop]->Container = &UnitPointer->DeadFish->Unknown16[loop];}
+			for(short loop = 0;loop < 17;loop++)
+			{
+				Units_Unknown16[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish->Unknown16[loop]));
+				Units_Unknown16[loop]->Container = &UnitPointer->DeadFish->Unknown16[loop];
+			}
 		}
 		else
 		{
-			Units_WalkingGraphic[0]->Enable(false);
-			Units_WalkingGraphic[0]->ChangeValue("0");
-			Units_WalkingGraphic[1]->Enable(false);
-			Units_WalkingGraphic[1]->ChangeValue("0");
-			Units_ComboBox_WalkingGraphic[0]->Enable(false);
-			Units_ComboBox_WalkingGraphic[0]->SetSelection(0);
-			Units_ComboBox_WalkingGraphic[1]->Enable(false);
-			Units_ComboBox_WalkingGraphic[1]->SetSelection(0);
+			for(short loop = 0;loop < 2;loop++)
+			{
+				Units_WalkingGraphic[loop]->Enable(false);
+				Units_WalkingGraphic[loop]->ChangeValue("0");
+				Units_ComboBox_WalkingGraphic[loop]->Enable(false);
+				Units_ComboBox_WalkingGraphic[loop]->SetSelection(0);
+			}
 			Units_RotationSpeed->Enable(false);
 			Units_RotationSpeed->ChangeValue("0");
 			Units_Unknown11->Enable(false);
@@ -683,9 +595,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_TrackingUnitDensity->ChangeValue("0");
 			Units_Unknown12->Enable(false);
 			Units_Unknown12->ChangeValue("0");
-			for(short loop = 0;loop < 17;loop++){
-			Units_Unknown16[loop]->Enable(false);
-			Units_Unknown16[loop]->ChangeValue("0");}
+			for(short loop = 0;loop < 17;loop++)
+			{
+				Units_Unknown16[loop]->Enable(false);
+				Units_Unknown16[loop]->ChangeValue("0");
+			}
 		}
 //	Type 40+
 
@@ -695,10 +609,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_CheckBox_SheepConversion->Enable(true);
 			Units_SearchRadius->Enable(true);
 			Units_WorkRate->Enable(true);
-			Units_DropSite[0]->Enable(true);
-			Units_DropSite[1]->Enable(true);
-			Units_ComboBox_DropSite[0]->Enable(true);
-			Units_ComboBox_DropSite[1]->Enable(true);
+			for(short loop = 0;loop < 2;loop++)
+			{
+				Units_DropSite[loop]->Enable(true);
+				Units_ComboBox_DropSite[loop]->Enable(true);
+			}
 			Units_VillagerMode->Enable(true);
 			Units_MoveSound->Enable(true);
 			Units_ComboBox_MoveSound->Enable(true);
@@ -757,14 +672,13 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_SearchRadius->ChangeValue("0");
 			Units_WorkRate->Enable(false);
 			Units_WorkRate->ChangeValue("0");
-			Units_DropSite[0]->Enable(false);
-			Units_DropSite[0]->ChangeValue("0");
-			Units_DropSite[1]->Enable(false);
-			Units_DropSite[1]->ChangeValue("0");
-			Units_ComboBox_DropSite[0]->Enable(false);
-			Units_ComboBox_DropSite[0]->SetSelection(0);
-			Units_ComboBox_DropSite[1]->Enable(false);
-			Units_ComboBox_DropSite[1]->SetSelection(0);
+			for(short loop = 0;loop < 2;loop++)
+			{
+				Units_DropSite[loop]->Enable(false);
+				Units_DropSite[loop]->ChangeValue("0");
+				Units_ComboBox_DropSite[loop]->Enable(false);
+				Units_ComboBox_DropSite[loop]->SetSelection(0);
+			}
 			Units_VillagerMode->Enable(false);
 			Units_VillagerMode->ChangeValue("0");
 			Units_MoveSound->Enable(false);
@@ -783,8 +697,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 
 		if(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile)
 		{
-			Units_Unknown20[0]->Enable(true);
-			Units_Unknown20[1]->Enable(true);
+			for(short loop = 0;loop < 2;loop++)
+			Units_Unknown20[loop]->Enable(true);
 			Units_Unknown21->Enable(true);
 			Units_MaxRange->Enable(true);
 			Units_BlastRadius->Enable(true);
@@ -794,9 +708,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_AccuracyPercent->Enable(true);
 			Units_Unknown22->Enable(true);
 			Units_Delay->Enable(true);
-			Units_GraphicDisplacement[0]->Enable(true);
-			Units_GraphicDisplacement[1]->Enable(true);
-			Units_GraphicDisplacement[2]->Enable(true);
+			for(short loop = 0;loop < 4;loop++)
+			Units_GraphicDisplacement[loop]->Enable(true);
 			Units_Unknown23->Enable(true);
 			Units_MinRange->Enable(true);
 			Units_GarrisonRecoveryRate->Enable(true);
@@ -806,6 +719,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_DisplayedAttack->Enable(true);
 			Units_DisplayedRange->Enable(true);
 			Units_ReloadTime2->Enable(true);
+			
 			Attacks_Class->Enable(true);
 			Attacks_ComboBox_Class->Enable(true);
 			Attacks_Amount->Enable(true);
@@ -834,9 +748,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_Unknown22->Container = &UnitPointer->Projectile->Unknown22;
 			Units_Delay->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->Delay));
 			Units_Delay->Container = &UnitPointer->Projectile->Delay;
-			for(short loop = 0;loop < 3;loop++){
-			Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->GraphicDisplacement[loop]));
-			Units_GraphicDisplacement[loop]->Container = &UnitPointer->Projectile->GraphicDisplacement[loop];}
+			for(short loop = 0;loop < 3;loop++)
+			{
+				Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->GraphicDisplacement[loop]));
+				Units_GraphicDisplacement[loop]->Container = &UnitPointer->Projectile->GraphicDisplacement[loop];
+			}
 			Units_Unknown23->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile->Unknown23));
 			Units_Unknown23->Container = &UnitPointer->Projectile->Unknown23;
 			Units_MinRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->MinRange));
@@ -857,10 +773,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		}
 		else
 		{
-			Units_Unknown20[0]->Enable(false);
-			Units_Unknown20[0]->ChangeValue("0");
-			Units_Unknown20[1]->Enable(false);
-			Units_Unknown20[1]->ChangeValue("0");
+			for(short loop = 0;loop < 2;loop++)
+			{
+				Units_Unknown20[loop]->Enable(false);
+				Units_Unknown20[loop]->ChangeValue("0");
+			}
 			Units_Unknown21->Enable(false);
 			Units_Unknown21->ChangeValue("0");
 			Units_MaxRange->Enable(false);
@@ -879,12 +796,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_Unknown22->ChangeValue("0");
 			Units_Delay->Enable(false);
 			Units_Delay->ChangeValue("0");
-			Units_GraphicDisplacement[0]->Enable(false);
-			Units_GraphicDisplacement[0]->ChangeValue("0");
-			Units_GraphicDisplacement[1]->Enable(false);
-			Units_GraphicDisplacement[1]->ChangeValue("0");
-			Units_GraphicDisplacement[2]->Enable(false);
-			Units_GraphicDisplacement[2]->ChangeValue("0");
+			for(short loop = 0;loop < 3;loop++)
+			{
+				Units_GraphicDisplacement[loop]->Enable(false);
+				Units_GraphicDisplacement[loop]->ChangeValue("0");
+			}
 			Units_Unknown23->Enable(false);
 			Units_Unknown23->ChangeValue("0");
 			Units_MinRange->Enable(false);
@@ -903,18 +819,13 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_DisplayedRange->ChangeValue("0");
 			Units_ReloadTime2->Enable(false);
 			Units_ReloadTime2->ChangeValue("0");
+			
 			Attacks_Class->Enable(false);
-			Attacks_Class->ChangeValue("0");
 			Attacks_ComboBox_Class->Enable(false);
-			Attacks_ComboBox_Class->SetSelection(0);
 			Attacks_Amount->Enable(false);
-			Attacks_Amount->ChangeValue("0");
 			Armors_Class->Enable(false);
-			Armors_Class->ChangeValue("0");
 			Armors_ComboBox_Class->Enable(false);
-			Armors_ComboBox_Class->SetSelection(0);
 			Armors_Amount->Enable(false);
-			Armors_Amount->ChangeValue("0");
 		}
 		
 //	Type 60 only
@@ -961,58 +872,50 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 
 		if(GenieFile->Civs[UnitCivID].Units[UnitID].Creatable)
 		{
-			Units_CostType[0]->Enable(true);
-			Units_ComboBox_CostType[0]->SetSelection(0);
-			Units_CostType[1]->Enable(true);
-			Units_ComboBox_CostType[1]->SetSelection(0);
-			Units_CostType[2]->Enable(true);
-			Units_ComboBox_CostType[2]->SetSelection(0);
-			Units_CostAmount[0]->Enable(true);
-			Units_CostAmount[1]->Enable(true);
-			Units_CostAmount[2]->Enable(true);
-			Units_CostUsed[0]->Enable(true);
-			Units_CostUsed[1]->Enable(true);
-			Units_CostUsed[2]->Enable(true);
-			Units_CheckBox_CostUsed[0]->SetValue(false);
-			Units_CheckBox_CostUsed[1]->SetValue(false);
-			Units_CheckBox_CostUsed[2]->SetValue(false);
+			for(short loop = 0;loop < 2;loop++)
+			{
+				Units_GarrisonGraphic[loop]->Enable(true);
+				Units_ComboBox_GarrisonGraphic[loop]->Enable(true);
+			}
+			for(short loop = 0;loop < 3;loop++)
+			{
+				Units_CostType[loop]->Enable(true);
+				Units_ComboBox_CostType[loop]->Enable(true);
+				Units_CostAmount[loop]->Enable(true);
+				Units_CostUsed[loop]->Enable(true);
+				Units_CheckBox_CostUsed[loop]->Enable(true);
+				Units_Unknown27[loop]->Enable(true);
+				Units_AttackMissileDuplicationUnknown[loop]->Enable(true);
+			}
 			Units_TrainTime->Enable(true);
 			Units_TrainLocationID->Enable(true);
-			Units_ComboBox_TrainLocationID->SetSelection(0);
+			Units_ComboBox_TrainLocationID->Enable(true);
 			Units_ButtonID->Enable(true);
 			Units_Unknown26->Enable(true);
-			Units_Unknown27[0]->Enable(true);
-			Units_Unknown27[1]->Enable(true);
-			Units_Unknown27[2]->Enable(true);
 			Units_Unknown28->Enable(true);
 			Units_MissileGraphicDelay->Enable(true);
 			Units_HeroMode->Enable(true);
-			Units_CheckBox_HeroMode->SetValue(false);
-			Units_GarrisonGraphic[0]->Enable(true);
-			Units_GarrisonGraphic[1]->Enable(true);
-			Units_ComboBox_GarrisonGraphic[0]->SetSelection(0);
-			Units_ComboBox_GarrisonGraphic[1]->SetSelection(0);
+			Units_CheckBox_HeroMode->Enable(true);
 			Units_AttackMissileDuplicationAmount1->Enable(true);
 			Units_AttackMissileDuplicationAmount2->Enable(true);
-			Units_AttackMissileDuplicationUnknown[0]->Enable(true);
-			Units_AttackMissileDuplicationUnknown[1]->Enable(true);
-			Units_AttackMissileDuplicationUnknown[2]->Enable(true);
 			Units_AttackMissileDuplicationUnit->Enable(true);
-			Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(0);
+			Units_ComboBox_AttackMissileDuplicationUnit->Enable(true);
 			Units_AttackMissileDuplicationGraphic->Enable(true);
-			Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(0);
+			Units_ComboBox_AttackMissileDuplicationGraphic->Enable(true);
 			Units_Unknown29->Enable(true);
 			Units_DisplayedPierceArmour->Enable(true);
 
-			for(short loop = 0;loop < 3;loop++){
-			Units_CostType[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Type));
-			Units_CostType[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Type;
-			Units_ComboBox_CostType[loop]->SetSelection(UnitPointer->Creatable->ResourceCosts[loop].Type + 1);
-			Units_CostAmount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Amount));
-			Units_CostAmount[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Amount;
-			Units_CostUsed[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Used));
-			Units_CostUsed[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Used;
-			Units_CheckBox_CostUsed[loop]->SetValue((bool)UnitPointer->Creatable->ResourceCosts[loop].Used);}
+			for(short loop = 0;loop < 3;loop++)
+			{
+				Units_CostType[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Type));
+				Units_CostType[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Type;
+				Units_ComboBox_CostType[loop]->SetSelection(UnitPointer->Creatable->ResourceCosts[loop].Type + 1);
+				Units_CostAmount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Amount));
+				Units_CostAmount[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Amount;
+				Units_CostUsed[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Used));
+				Units_CostUsed[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Used;
+				Units_CheckBox_CostUsed[loop]->SetValue((bool)UnitPointer->Creatable->ResourceCosts[loop].Used);
+			}
 			Units_TrainTime->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->TrainTime));
 			Units_TrainTime->Container = &UnitPointer->Creatable->TrainTime;
 			Units_TrainLocationID->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->TrainLocationID));
@@ -1022,9 +925,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ButtonID->Container = &UnitPointer->Creatable->ButtonID;
 			Units_Unknown26->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->Unknown26));
 			Units_Unknown26->Container = &UnitPointer->Creatable->Unknown26;
-			for(short loop = 0;loop < 3;loop++){
-			Units_Unknown27[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->Unknown27[loop]));
-			Units_Unknown27[loop]->Container = &UnitPointer->Creatable->Unknown27[loop];}
+			for(short loop = 0;loop < 3;loop++)
+			{
+				Units_Unknown27[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->Unknown27[loop]));
+				Units_Unknown27[loop]->Container = &UnitPointer->Creatable->Unknown27[loop];
+			}
 			Units_Unknown28->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->Unknown28));
 			Units_Unknown28->Container = &UnitPointer->Creatable->Unknown28;
 			Units_MissileGraphicDelay->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->MissileGraphicDelay));
@@ -1035,16 +940,15 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_GarrisonGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->GarrisonGraphic.first));
 			Units_GarrisonGraphic[0]->Container = &UnitPointer->Creatable->GarrisonGraphic.first;
 			Units_ComboBox_GarrisonGraphic[0]->SetSelection(UnitPointer->Creatable->GarrisonGraphic.first + 1);
-			Units_GarrisonGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->GarrisonGraphic.second));
-			Units_GarrisonGraphic[1]->Container = &UnitPointer->Creatable->GarrisonGraphic.second;
-			Units_ComboBox_GarrisonGraphic[1]->SetSelection(UnitPointer->Creatable->GarrisonGraphic.second + 1);
 			Units_AttackMissileDuplicationAmount1->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->AttackMissileDuplicationAmount1));
 			Units_AttackMissileDuplicationAmount1->Container = &UnitPointer->Creatable->AttackMissileDuplicationAmount1;
 			Units_AttackMissileDuplicationAmount2->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->AttackMissileDuplicationAmount2));
 			Units_AttackMissileDuplicationAmount2->Container = &UnitPointer->Creatable->AttackMissileDuplicationAmount2;
-			for(short loop = 0;loop < 3;loop++){
-			Units_AttackMissileDuplicationUnknown[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->AttackMissileDuplicationUnknown[loop]));
-			Units_AttackMissileDuplicationUnknown[loop]->Container = &UnitPointer->Creatable->AttackMissileDuplicationUnknown[loop];}
+			for(short loop = 0;loop < 3;loop++)
+			{
+				Units_AttackMissileDuplicationUnknown[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->AttackMissileDuplicationUnknown[loop]));
+				Units_AttackMissileDuplicationUnknown[loop]->Container = &UnitPointer->Creatable->AttackMissileDuplicationUnknown[loop];
+			}
 			Units_AttackMissileDuplicationUnit->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->AttackMissileDuplicationUnit));
 			Units_AttackMissileDuplicationUnit->Container = &UnitPointer->Creatable->AttackMissileDuplicationUnit;
 			Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitPointer->Creatable->AttackMissileDuplicationUnit + 1);
@@ -1058,36 +962,30 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		}
 		else
 		{
-			Units_CostType[0]->Enable(false);
-			Units_CostType[0]->ChangeValue("0");
-			Units_ComboBox_CostType[0]->Enable(false);
-			Units_ComboBox_CostType[0]->SetSelection(0);
-			Units_CostType[1]->Enable(false);
-			Units_CostType[1]->ChangeValue("0");
-			Units_ComboBox_CostType[1]->Enable(false);
-			Units_ComboBox_CostType[1]->SetSelection(0);
-			Units_CostType[2]->Enable(false);
-			Units_CostType[2]->ChangeValue("0");
-			Units_ComboBox_CostType[2]->Enable(false);
-			Units_ComboBox_CostType[2]->SetSelection(0);
-			Units_CostAmount[0]->Enable(false);
-			Units_CostAmount[0]->ChangeValue("0");
-			Units_CostAmount[1]->Enable(false);
-			Units_CostAmount[1]->ChangeValue("0");
-			Units_CostAmount[2]->Enable(false);
-			Units_CostAmount[2]->ChangeValue("0");
-			Units_CostUsed[0]->Enable(false);
-			Units_CostUsed[0]->ChangeValue("0");
-			Units_CostUsed[1]->Enable(false);
-			Units_CostUsed[1]->ChangeValue("0");
-			Units_CostUsed[2]->Enable(false);
-			Units_CostUsed[2]->ChangeValue("0");
-			Units_CheckBox_CostUsed[0]->Enable(false);
-			Units_CheckBox_CostUsed[0]->SetValue(false);
-			Units_CheckBox_CostUsed[1]->Enable(false);
-			Units_CheckBox_CostUsed[1]->SetValue(false);
-			Units_CheckBox_CostUsed[2]->Enable(false);
-			Units_CheckBox_CostUsed[2]->SetValue(false);
+			for(short loop = 0;loop < 2;loop++)
+			{
+				Units_GarrisonGraphic[loop]->Enable(false);
+				Units_GarrisonGraphic[loop]->ChangeValue("0");
+				Units_ComboBox_GarrisonGraphic[loop]->Enable(false);
+				Units_ComboBox_GarrisonGraphic[loop]->SetSelection(0);
+			}
+			for(short loop = 0;loop < 3;loop++)
+			{
+				Units_CostType[loop]->Enable(false);
+				Units_CostType[loop]->ChangeValue("0");
+				Units_ComboBox_CostType[loop]->Enable(false);
+				Units_ComboBox_CostType[loop]->SetSelection(0);
+				Units_CostAmount[loop]->Enable(false);
+				Units_CostAmount[loop]->ChangeValue("0");
+				Units_CostUsed[loop]->Enable(false);
+				Units_CostUsed[loop]->ChangeValue("0");
+				Units_CheckBox_CostUsed[loop]->Enable(false);
+				Units_CheckBox_CostUsed[loop]->SetValue(false);
+				Units_Unknown27[loop]->Enable(false);
+				Units_Unknown27[loop]->ChangeValue("0");
+				Units_AttackMissileDuplicationUnknown[loop]->Enable(false);
+				Units_AttackMissileDuplicationUnknown[loop]->ChangeValue("0");
+			}
 			Units_TrainTime->Enable(false);
 			Units_TrainTime->ChangeValue("0");
 			Units_TrainLocationID->Enable(false);
@@ -1098,12 +996,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ButtonID->ChangeValue("0");
 			Units_Unknown26->Enable(false);
 			Units_Unknown26->ChangeValue("0");
-			Units_Unknown27[0]->Enable(false);
-			Units_Unknown27[0]->ChangeValue("0");
-			Units_Unknown27[1]->Enable(false);
-			Units_Unknown27[1]->ChangeValue("0");
-			Units_Unknown27[2]->Enable(false);
-			Units_Unknown27[2]->ChangeValue("0");
 			Units_Unknown28->Enable(false);
 			Units_Unknown28->ChangeValue("0");
 			Units_MissileGraphicDelay->Enable(false);
@@ -1112,24 +1004,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_HeroMode->ChangeValue("0");
 			Units_CheckBox_HeroMode->Enable(false);
 			Units_CheckBox_HeroMode->SetValue(false);
-			Units_GarrisonGraphic[0]->Enable(false);
-			Units_GarrisonGraphic[0]->ChangeValue("0");
-			Units_GarrisonGraphic[1]->Enable(false);
-			Units_GarrisonGraphic[1]->ChangeValue("0");
-			Units_ComboBox_GarrisonGraphic[0]->Enable(false);
-			Units_ComboBox_GarrisonGraphic[0]->SetSelection(0);
-			Units_ComboBox_GarrisonGraphic[1]->Enable(false);
-			Units_ComboBox_GarrisonGraphic[1]->SetSelection(0);
 			Units_AttackMissileDuplicationAmount1->Enable(false);
 			Units_AttackMissileDuplicationAmount1->ChangeValue("0");
 			Units_AttackMissileDuplicationAmount2->Enable(false);
 			Units_AttackMissileDuplicationAmount2->ChangeValue("0");
-			Units_AttackMissileDuplicationUnknown[0]->Enable(false);
-			Units_AttackMissileDuplicationUnknown[0]->ChangeValue("0");
-			Units_AttackMissileDuplicationUnknown[1]->Enable(false);
-			Units_AttackMissileDuplicationUnknown[1]->ChangeValue("0");
-			Units_AttackMissileDuplicationUnknown[2]->Enable(false);
-			Units_AttackMissileDuplicationUnknown[2]->ChangeValue("0");
 			Units_AttackMissileDuplicationUnit->Enable(false);
 			Units_AttackMissileDuplicationUnit->ChangeValue("0");
 			Units_ComboBox_AttackMissileDuplicationUnit->Enable(false);
@@ -1162,22 +1040,13 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ResearchID->Enable(true);
 			Units_ComboBox_ResearchID->Enable(true);
 			Units_Unknown33->Enable(true);
-			Units_AnnexUnit[0]->Enable(true);
-			Units_ComboBox_AnnexUnit[0]->Enable(true);
-			Units_AnnexUnit[1]->Enable(true);
-			Units_ComboBox_AnnexUnit[1]->Enable(true);
-			Units_AnnexUnit[2]->Enable(true);
-			Units_ComboBox_AnnexUnit[2]->Enable(true);
-			Units_AnnexUnit[3]->Enable(true);
-			Units_ComboBox_AnnexUnit[3]->Enable(true);
-			Units_AnnexUnitMisplacement[0][0]->Enable(true);
-			Units_AnnexUnitMisplacement[0][1]->Enable(true);
-			Units_AnnexUnitMisplacement[1][0]->Enable(true);
-			Units_AnnexUnitMisplacement[1][1]->Enable(true);
-			Units_AnnexUnitMisplacement[2][0]->Enable(true);
-			Units_AnnexUnitMisplacement[2][1]->Enable(true);
-			Units_AnnexUnitMisplacement[3][0]->Enable(true);
-			Units_AnnexUnitMisplacement[3][1]->Enable(true);
+			for(short loop = 0;loop < 4;loop++)
+			{
+				Units_AnnexUnit[loop]->Enable(true);
+				Units_ComboBox_AnnexUnit[loop]->Enable(true);
+				for(short loop2 = 0;loop2 < 2;loop2++)
+				Units_AnnexUnitMisplacement[loop][loop2]->Enable(true);
+			}
 			Units_HeadUnit->Enable(true);
 			Units_ComboBox_HeadUnit->Enable(true);
 			Units_TransformUnit->Enable(true);
@@ -1190,13 +1059,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_GarrisonHealRate->Enable(true);
 			Units_Unknown35->Enable(true);
 			Units_Unknown36->Enable(true);
-			Units_Unknown37[0]->Enable(true);
-			Units_Unknown37[1]->Enable(true);
-			Units_Unknown37[2]->Enable(true);
-			Units_Unknown37[3]->Enable(true);
-			Units_Unknown37[4]->Enable(true);
-			Units_Unknown37[5]->Enable(true);
-
+			for(short loop = 0;loop < 6;loop++)
+			Units_Unknown37[loop]->Enable(true);
+			
 			Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building->ConstructionGraphicID));
 			Units_ConstructionGraphicID->Container = &UnitPointer->Building->ConstructionGraphicID;
 			Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building->ConstructionGraphicID + 1);
@@ -1220,14 +1085,16 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ComboBox_ResearchID->SetSelection(UnitPointer->Building->ResearchID + 1);
 			Units_Unknown33->ChangeValue(lexical_cast<string>((short)UnitPointer->Building->Unknown33));
 			Units_Unknown33->Container = &UnitPointer->Building->Unknown33;
-			for(short loop = 0;loop < 4;loop++){
-			Units_AnnexUnit[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].UnitID));
-			Units_AnnexUnit[loop]->Container = &UnitPointer->Building->Annexes[loop].UnitID;
-			Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitPointer->Building->Annexes[loop].UnitID + 1);			
-			Units_AnnexUnitMisplacement[loop][0]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].Misplacement.first));
-			Units_AnnexUnitMisplacement[loop][0]->Container = &UnitPointer->Building->Annexes[loop].Misplacement.first;
-			Units_AnnexUnitMisplacement[loop][1]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].Misplacement.second));
-			Units_AnnexUnitMisplacement[loop][1]->Container = &UnitPointer->Building->Annexes[loop].Misplacement.second;}
+			for(short loop = 0;loop < 4;loop++)
+			{
+				Units_AnnexUnit[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].UnitID));
+				Units_AnnexUnit[loop]->Container = &UnitPointer->Building->Annexes[loop].UnitID;
+				Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitPointer->Building->Annexes[loop].UnitID + 1);
+				Units_AnnexUnitMisplacement[loop][0]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].Misplacement.first));
+				Units_AnnexUnitMisplacement[loop][0]->Container = &UnitPointer->Building->Annexes[loop].Misplacement.first;
+				Units_AnnexUnitMisplacement[loop][1]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].Misplacement.second));
+				Units_AnnexUnitMisplacement[loop][1]->Container = &UnitPointer->Building->Annexes[loop].Misplacement.second;
+			}
 			Units_HeadUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building->HeadUnit));
 			Units_HeadUnit->Container = &UnitPointer->Building->HeadUnit;
 			Units_ComboBox_HeadUnit->SetSelection(UnitPointer->Building->HeadUnit + 1);
@@ -1282,26 +1149,18 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ComboBox_ResearchID->SetSelection(0);
 			Units_Unknown33->Enable(false);
 			Units_Unknown33->ChangeValue("0");
-			Units_AnnexUnit[0]->Enable(false);
-			Units_AnnexUnit[0]->ChangeValue("0");
-			Units_ComboBox_AnnexUnit[0]->Enable(false);
-			Units_ComboBox_AnnexUnit[0]->SetSelection(0);
-			Units_AnnexUnit[1]->Enable(false);
-			Units_ComboBox_AnnexUnit[1]->Enable(false);
-			Units_AnnexUnit[2]->Enable(false);
-			Units_ComboBox_AnnexUnit[2]->Enable(false);
-			Units_AnnexUnit[3]->Enable(false);
-			Units_ComboBox_AnnexUnit[3]->Enable(false);
-			Units_AnnexUnitMisplacement[0][0]->Enable(false);
-			Units_AnnexUnitMisplacement[0][0]->ChangeValue("0");
-			Units_AnnexUnitMisplacement[0][1]->Enable(false);
-			Units_AnnexUnitMisplacement[0][1]->ChangeValue("0");
-			Units_AnnexUnitMisplacement[1][0]->Enable(false);
-			Units_AnnexUnitMisplacement[1][1]->Enable(false);
-			Units_AnnexUnitMisplacement[2][0]->Enable(false);
-			Units_AnnexUnitMisplacement[2][1]->Enable(false);
-			Units_AnnexUnitMisplacement[3][0]->Enable(false);
-			Units_AnnexUnitMisplacement[3][1]->Enable(false);
+			for(short loop = 0;loop < 4;loop++)
+			{
+				Units_AnnexUnit[loop]->Enable(false);
+				Units_AnnexUnit[loop]->ChangeValue("0");
+				Units_ComboBox_AnnexUnit[loop]->Enable(false);
+				Units_ComboBox_AnnexUnit[loop]->SetSelection(0);
+				for(short loop2 = 0;loop2 < 2;loop2++)
+				{
+					Units_AnnexUnitMisplacement[loop][loop2]->Enable(false);
+					Units_AnnexUnitMisplacement[loop][loop2]->ChangeValue("0");
+				}
+			}
 			Units_HeadUnit->Enable(false);
 			Units_HeadUnit->ChangeValue("0");
 			Units_ComboBox_HeadUnit->Enable(false);
@@ -1326,23 +1185,23 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_Unknown35->ChangeValue("0");
 			Units_Unknown36->Enable(false);
 			Units_Unknown36->ChangeValue("0");
-			Units_Unknown37[0]->Enable(false);
-			Units_Unknown37[0]->ChangeValue("0");
-			Units_Unknown37[1]->Enable(false);
-			Units_Unknown37[2]->Enable(false);
-			Units_Unknown37[3]->Enable(false);
-			Units_Unknown37[4]->Enable(false);
-			Units_Unknown37[5]->Enable(false);
+			for(short loop = 0;loop < 6;loop++)
+			{
+				Units_Unknown37[loop]->Enable(false);
+				Units_Unknown37[loop]->ChangeValue("0");
+			}
 		}
 		
-		for(short loop = 0;loop < 3;loop++){
-		ResourceStorage_Type[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorage[loop].Type));
-		ResourceStorage_Type[loop]->Container = &UnitPointer->ResourceStorage[loop].Type;
-		ResourceStorage_Amount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorage[loop].Amount));
-		ResourceStorage_Amount[loop]->Container = &UnitPointer->ResourceStorage[loop].Amount;
-		ResourceStorage_Enabled[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->ResourceStorage[loop].Enabled));
-		ResourceStorage_Enabled[loop]->Container = &UnitPointer->ResourceStorage[loop].Enabled;
-		ResourceStorage_ComboBox_Type[loop]->SetSelection(UnitPointer->ResourceStorage[loop].Type + 1);}
+		for(short loop = 0;loop < 3;loop++)
+		{
+			ResourceStorage_Type[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorage[loop].Type));
+			ResourceStorage_Type[loop]->Container = &UnitPointer->ResourceStorage[loop].Type;
+			ResourceStorage_Amount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorage[loop].Amount));
+			ResourceStorage_Amount[loop]->Container = &UnitPointer->ResourceStorage[loop].Amount;
+			ResourceStorage_Enabled[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->ResourceStorage[loop].Enabled));
+			ResourceStorage_Enabled[loop]->Container = &UnitPointer->ResourceStorage[loop].Enabled;
+			ResourceStorage_ComboBox_Type[loop]->SetSelection(UnitPointer->ResourceStorage[loop].Type + 1);
+		}
 		
 		Units_DLL_LanguageDllName->Wrap(Units_DLL_LanguageDllName->GetSize().GetWidth());
 		Units_DLL_LanguageDllCreation->Wrap(Units_DLL_LanguageDllCreation->GetSize().GetWidth());
@@ -2364,24 +2223,12 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 		UnitCommands_Unknown13->Container = &UnitCommandPointer->Unknown13;
 		UnitCommands_Unknown14->ChangeValue(lexical_cast<string>((short)UnitCommandPointer->Unknown14));
 		UnitCommands_Unknown14->Container = &UnitCommandPointer->Unknown14;
-		UnitCommands_Graphics[0]->ChangeValue(lexical_cast<string>(UnitCommandPointer->Graphics[0]));
-		UnitCommands_Graphics[0]->Container = &UnitCommandPointer->Graphics[0];
-		UnitCommands_Graphics[1]->ChangeValue(lexical_cast<string>(UnitCommandPointer->Graphics[1]));
-		UnitCommands_Graphics[1]->Container = &UnitCommandPointer->Graphics[1];
-		UnitCommands_Graphics[2]->ChangeValue(lexical_cast<string>(UnitCommandPointer->Graphics[2]));
-		UnitCommands_Graphics[2]->Container = &UnitCommandPointer->Graphics[2];
-		UnitCommands_Graphics[3]->ChangeValue(lexical_cast<string>(UnitCommandPointer->Graphics[3]));
-		UnitCommands_Graphics[3]->Container = &UnitCommandPointer->Graphics[3];
-		UnitCommands_Graphics[4]->ChangeValue(lexical_cast<string>(UnitCommandPointer->Graphics[4]));
-		UnitCommands_Graphics[4]->Container = &UnitCommandPointer->Graphics[4];
-		UnitCommands_Graphics[5]->ChangeValue(lexical_cast<string>(UnitCommandPointer->Graphics[5]));
-		UnitCommands_Graphics[5]->Container = &UnitCommandPointer->Graphics[5];
-		UnitCommands_ComboBox_Graphics[0]->SetSelection(UnitCommandPointer->Graphics[0] + 1);
-		UnitCommands_ComboBox_Graphics[1]->SetSelection(UnitCommandPointer->Graphics[1] + 1);
-		UnitCommands_ComboBox_Graphics[2]->SetSelection(UnitCommandPointer->Graphics[2] + 1);
-		UnitCommands_ComboBox_Graphics[3]->SetSelection(UnitCommandPointer->Graphics[3] + 1);
-		UnitCommands_ComboBox_Graphics[4]->SetSelection(UnitCommandPointer->Graphics[4] + 1);
-		UnitCommands_ComboBox_Graphics[5]->SetSelection(UnitCommandPointer->Graphics[5] + 1);
+		for(short loop = 0;loop < 6;loop++)
+		{
+			UnitCommands_Graphics[loop]->ChangeValue(lexical_cast<string>(UnitCommandPointer->Graphics[loop]));
+			UnitCommands_Graphics[loop]->Container = &UnitCommandPointer->Graphics[loop];
+			UnitCommands_ComboBox_Graphics[loop]->SetSelection(UnitCommandPointer->Graphics[loop] + 1);
+		}
 		Added = false;
 	}
 	else
@@ -2414,18 +2261,11 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 		UnitCommands_Unknown12->ChangeValue("0");
 		UnitCommands_Unknown13->ChangeValue("0");
 		UnitCommands_Unknown14->ChangeValue("0");
-		UnitCommands_Graphics[0]->ChangeValue("0");
-		UnitCommands_Graphics[1]->ChangeValue("0");
-		UnitCommands_Graphics[2]->ChangeValue("0");
-		UnitCommands_Graphics[3]->ChangeValue("0");
-		UnitCommands_Graphics[4]->ChangeValue("0");
-		UnitCommands_Graphics[5]->ChangeValue("0");
-		UnitCommands_ComboBox_Graphics[0]->SetValue("0");
-		UnitCommands_ComboBox_Graphics[1]->SetValue("0");
-		UnitCommands_ComboBox_Graphics[2]->SetValue("0");
-		UnitCommands_ComboBox_Graphics[3]->SetValue("0");
-		UnitCommands_ComboBox_Graphics[4]->SetValue("0");
-		UnitCommands_ComboBox_Graphics[5]->SetValue("0");
+		for(short loop = 0;loop < 6;loop++)
+		{
+			UnitCommands_Graphics[loop]->ChangeValue("0");
+			UnitCommands_ComboBox_Graphics[loop]->SetSelection(0);
+		}
 	}
 }
 
@@ -2668,9 +2508,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_HPBarHeight2 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_ResourceStorageHeader = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Resource Storage Slot");
 	Units_Grid_ResourceStorage = new wxGridSizer(3, 0, 5);
-	Units_Holder_ResourceStorage[0] = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_ResourceStorage[1] = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_ResourceStorage[2] = new wxBoxSizer(wxHORIZONTAL);
+	for(short loop = 0;loop < 3;loop++)
+	Units_Holder_ResourceStorage[loop] = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_SelectionSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_DyingSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AttackSound = new wxBoxSizer(wxVERTICAL);
