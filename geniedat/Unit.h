@@ -79,6 +79,8 @@ public:
   Unit(const Unit &other);
   virtual ~Unit();
   
+  Unit &operator=(const Unit &other);
+  
   virtual void serializeObject(void );
   
   char getType(void) const;
