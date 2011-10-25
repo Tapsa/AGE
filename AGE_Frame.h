@@ -722,8 +722,8 @@ class AGE_Frame : public wxFrame
 //	Data Containers
 //	Type 10+
 
-	TextCtrl_Byte * Units_Type;
-	ComboBox_Byte_UnitType * Units_ComboBox_Type;
+	wxTextCtrl * Units_Type;
+	wxOwnerDrawnComboBox * Units_ComboBox_Type;
 	TextCtrl_Short * Units_NameLength;
 	TextCtrl_Short * Units_ID1;
 	TextCtrl_Short * Units_LanguageDllName;
