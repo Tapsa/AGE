@@ -112,7 +112,7 @@ class ComboBox_Byte_EffectType : public wxOwnerDrawnComboBox
 };
 
 #endif
-
+/*
 #ifndef ComboBox_Byte_UnitType_h
 #define ComboBox_Byte_UnitType_h
 
@@ -123,18 +123,18 @@ class ComboBox_Byte_UnitType : public wxOwnerDrawnComboBox
 	ComboBox_Byte_UnitType(wxWindow * parent, TextCtrl_Byte * value);
 	~ComboBox_Byte_UnitType(){}
 
-	/* Events */
+//	Events
 
 	void OnUpdate(wxCommandEvent& Event);
 	void OnKillFocus(wxFocusEvent& Event);
 
-	/* Member Variables */
+//	Member Variables
 
 	TextCtrl_Byte * Container;
 };
 
 #endif
-
+*/
 #ifndef ComboBox_Short_AttackType_h
 #define ComboBox_Short_AttackType_h
 
