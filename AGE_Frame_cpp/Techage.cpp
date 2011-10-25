@@ -278,7 +278,6 @@ string AGE_Frame::GetEffectName(int Index, int TechID)
 		{
 			Name = "No Type/Invalid Type";
 		}
-		break;
 	}
 	return Name;
 }
@@ -870,7 +869,6 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_Info_E->SetLabel("");
 				Effects_Info_F->SetLabel("");
 			}
-			break;
 		}
 		Added = false;
 	}

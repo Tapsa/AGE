@@ -1092,7 +1092,7 @@ string AGE_Frame::LanguageDllString(int ID)
 
 void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 {
-	if((Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId()))
+	if(Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId())
 	{
 //		wxMessageBox("AGE_Frame::OnKillFocus_TextControls");
 		if(!Effects_E->IsEmpty() && !Effects_F->IsEmpty()) // if has something, then update float value.
@@ -1114,6 +1114,43 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 		}
 		wxCommandEvent E;
 		OnEffectsSelect(E);
+	}
+	if(Event.GetId() == Units_Type->GetId())
+	{
+		if(!Units_Type->IsEmpty())
+		{
+			short UnitType = lexical_cast<short>(Units_Type->GetValue());
+			switch(UnitType)
+			{
+				case 10:
+				case 20:
+				case 25:
+				case 30:
+				case 40:
+				case 60:
+				case 70:
+				case 80:
+				case 90:
+				{
+					GenieFile->Civs[UnitCivID].Units[UnitID].setType((char)UnitType);
+					if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+					{
+						wxCommandEvent E;
+						OnUnitsCopy(E);
+						OnUnitsPaste(E);
+					}
+				}
+				break;
+				default:
+				{
+				
+				}
+			}
+			wxMessageBox("Muokkasit unitsin tekstilaatikkoa!");
+		}
+		wxCommandEvent E;
+		OnUnitsSelect(E);	// Updates unit layout and unit type combo box.
+//		ListUnits(UnitCivID);	// For special search filters.
 	}
 }
 
@@ -1145,6 +1182,49 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 
 		wxCommandEvent E;
 		OnEffectsSelect(E);
+	}
+	if(Event.GetId() == Units_ComboBox_Type->GetId())
+	{
+		short Selection = Units_ComboBox_Type->GetSelection();
+		if(Selection == 1)
+		{
+			GenieFile->Civs[UnitCivID].Units[UnitID].setType(10);
+		}
+		else if(Selection == 2)
+		{
+			GenieFile->Civs[UnitCivID].Units[UnitID].setType(20);
+		}
+		else if(Selection == 3)
+		{
+			GenieFile->Civs[UnitCivID].Units[UnitID].setType(30);
+		}
+		else if(Selection == 4)
+		{
+			GenieFile->Civs[UnitCivID].Units[UnitID].setType(60);
+		}
+		else if(Selection == 5)
+		{
+			GenieFile->Civs[UnitCivID].Units[UnitID].setType(70);
+		}
+		else if(Selection == 6)
+		{
+			GenieFile->Civs[UnitCivID].Units[UnitID].setType(80);
+		}
+		else
+		{
+		
+		}
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		{
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);	
+		}
+		wxMessageBox("Valitsit unitsin vaihtoehtolaatikosta!");
+		
+		wxCommandEvent E;
+		OnUnitsSelect(E);	// Updates unit layout.
+//		ListUnits(UnitCivID);	// For special search filters.
 	}
 	if(Event.GetId() == UnitCommands_ComboBox_Types->GetId())
 	{
@@ -1393,26 +1473,6 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event)
 			wxCommandEvent E;
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByteUnitType(wxFocusEvent& Event)
-{
-	((ComboBox_Byte_UnitType*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
-	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
-		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
-		}
-		if(Event.GetId() == Units_Type->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);	// Updates unit layout.
-//			ListUnits(UnitCivID);
 		}
 	}
 }
@@ -1735,23 +1795,6 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event)
 		wxCommandEvent E;
 		OnUnitsCopy(E);
 		OnUnitsPaste(E);
-	}
-}
-
-void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByteUnitType(wxCommandEvent& Event)
-{
-	((ComboBox_Byte_UnitType*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
-	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);	
-	}
-	if(Event.GetId() == Units_ComboBox_Type->GetId())
-	{
-		wxCommandEvent E;
-		OnUnitsSelect(E);	// Updates unit layout.
-//		ListUnits(UnitCivID);
 	}
 }
 
