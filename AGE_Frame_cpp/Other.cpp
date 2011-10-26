@@ -1135,6 +1135,9 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 					GenieFile->Civs[UnitCivID].Units[UnitID].setType((char)UnitType);
 					if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 					{
+						for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+						GenieFile->Civs[loop].Units[UnitID].setType((char)UnitType);
+						
 						wxCommandEvent E;
 						OnUnitsCopy(E);
 						OnUnitsPaste(E);
@@ -1146,7 +1149,6 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 				
 				}
 			}
-			wxMessageBox("Muokkasit unitsin tekstilaatikkoa!");
 		}
 		wxCommandEvent E;
 		OnUnitsSelect(E);	// Updates unit layout and unit type combo box.
@@ -1216,11 +1218,14 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		}
 		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
+			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitID].getType();
+			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			GenieFile->Civs[loop].Units[UnitID].setType(UnitType);
+			
 			wxCommandEvent E;
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);	
 		}
-		wxMessageBox("Valitsit unitsin vaihtoehtolaatikosta!");
 		
 		wxCommandEvent E;
 		OnUnitsSelect(E);	// Updates unit layout.
