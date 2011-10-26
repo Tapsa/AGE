@@ -304,7 +304,11 @@ class AGE_Frame : public wxFrame
 	short UnitID;
 	short UnitCivID;
 	int RefreshLists;
-	gdat::Unit CivGraphics[20];	// This should be a vector equal to Civs.
+	gdat::Unit UnitGraphics[20];	// This should be a vector equal to Civs.
+	gdat::unit::DeadFish UnitGraphics30[20];
+	gdat::unit::Projectile UnitGraphics60[20];
+	gdat::unit::Creatable UnitGraphics70[20];
+	gdat::unit::Building UnitGraphics80[20];
 	gdat::unit::DamageGraphic DamageGraphicCopy;
 	short DamageGraphicID;
 	gdat::unit::AttackOrArmor AttackCopy;
