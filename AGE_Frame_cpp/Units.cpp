@@ -1334,25 +1334,22 @@ void AGE_Frame::OnUnitHeadsCopy(wxCommandEvent& Event)
 		UnitCopy = GenieFile->Civs[UnitCivID].Units[UnitID];
 		if(AutoCopy == MenuOption_Exclude)
 		{
-			short UnitType = (short)GenieFile->Civs[UnitCivID].Units[UnitID].getType();
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{	// Collects only graphic data, not all data again.
-				GenieFile->Civs[UnitCivID].Units[UnitID].setType((char)UnitType);
-				CivGraphics[loop].setType((char)UnitType);
-				CivGraphics[loop].IconID = GenieFile->Civs[loop].Units[UnitID].IconID;// This probably shouldn't be here.
-				CivGraphics[loop].StandingGraphic = GenieFile->Civs[loop].Units[UnitID].StandingGraphic;
-				CivGraphics[loop].DyingGraphic = GenieFile->Civs[loop].Units[UnitID].DyingGraphic;
-				CivGraphics[loop].DamageGraphicCount = GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount;
-				CivGraphics[loop].DamageGraphics = GenieFile->Civs[loop].Units[UnitID].DamageGraphics;
+				UnitGraphics[loop].IconID = GenieFile->Civs[loop].Units[UnitID].IconID;// This probably shouldn't be here.
+				UnitGraphics[loop].StandingGraphic = GenieFile->Civs[loop].Units[UnitID].StandingGraphic;
+				UnitGraphics[loop].DyingGraphic = GenieFile->Civs[loop].Units[UnitID].DyingGraphic;
+				UnitGraphics[loop].DamageGraphicCount = GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount;
+				UnitGraphics[loop].DamageGraphics = GenieFile->Civs[loop].Units[UnitID].DamageGraphics;
 				if(GenieFile->Civs[loop].Units[UnitID].DeadFish)
-				CivGraphics[loop].DeadFish->WalkingGraphic = GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic;
+				UnitGraphics30[loop].WalkingGraphic = GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic;
 				if(GenieFile->Civs[loop].Units[UnitID].Projectile)
-				CivGraphics[loop].Projectile->AttackGraphic = GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic;
+				UnitGraphics60[loop].AttackGraphic = GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic;
 				if(GenieFile->Civs[loop].Units[UnitID].Creatable)
-				CivGraphics[loop].Creatable->GarrisonGraphic = GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic;
+				UnitGraphics70[loop].GarrisonGraphic = GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic;
 				if(GenieFile->Civs[loop].Units[UnitID].Building){
-				CivGraphics[loop].Building->ConstructionGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID;
-				CivGraphics[loop].Building->SnowGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID;}
+				UnitGraphics80[loop].ConstructionGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID;
+				UnitGraphics80[loop].SnowGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID;}
 			}
 		}
 	}
@@ -1388,22 +1385,40 @@ void AGE_Frame::OnUnitHeadsPaste(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitID] = UnitCopy;
 			if(AutoCopy == MenuOption_Exclude)
 			{
-			//	GenieFile->Civs[loop].Units[UnitID].setType(CivGraphics[loop].getType());
-				GenieFile->Civs[loop].Units[UnitID].IconID = CivGraphics[loop].IconID;
-				GenieFile->Civs[loop].Units[UnitID].StandingGraphic = CivGraphics[loop].StandingGraphic;
-				GenieFile->Civs[loop].Units[UnitID].DyingGraphic = CivGraphics[loop].DyingGraphic;
-				GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount = CivGraphics[loop].DamageGraphicCount;
-				GenieFile->Civs[loop].Units[UnitID].DamageGraphics = CivGraphics[loop].DamageGraphics;
+				GenieFile->Civs[loop].Units[UnitID].IconID = UnitGraphics[loop].IconID;
+				GenieFile->Civs[loop].Units[UnitID].StandingGraphic = UnitGraphics[loop].StandingGraphic;
+				GenieFile->Civs[loop].Units[UnitID].DyingGraphic = UnitGraphics[loop].DyingGraphic;
+				GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount = UnitGraphics[loop].DamageGraphicCount;
+				GenieFile->Civs[loop].Units[UnitID].DamageGraphics = UnitGraphics[loop].DamageGraphics;
 				if(GenieFile->Civs[loop].Units[UnitID].DeadFish)
-				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic = CivGraphics[loop].DeadFish->WalkingGraphic;
+				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic = UnitGraphics30[loop].WalkingGraphic;
 				if(GenieFile->Civs[loop].Units[UnitID].Projectile)
-				GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic = CivGraphics[loop].Projectile->AttackGraphic;
+				GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic = UnitGraphics60[loop].AttackGraphic;
 				if(GenieFile->Civs[loop].Units[UnitID].Creatable)
-				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic = CivGraphics[loop].Creatable->GarrisonGraphic;
+				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic = UnitGraphics70[loop].GarrisonGraphic;
 				if(GenieFile->Civs[loop].Units[UnitID].Building){
-				GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID = CivGraphics[loop].Building->ConstructionGraphicID;
-				GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID = CivGraphics[loop].Building->SnowGraphicID;}
-			}
+				GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID = UnitGraphics80[loop].ConstructionGraphicID;
+				GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID = UnitGraphics80[loop].SnowGraphicID;}
+/*				
+				GenieFile->Civs[loop].Units[UnitID].IconID = UnitGraphics[loop].IconID;
+				GenieFile->Civs[loop].Units[UnitID].StandingGraphic.first = UnitGraphics[loop].StandingGraphic.first;
+				GenieFile->Civs[loop].Units[UnitID].StandingGraphic.second = UnitGraphics[loop].StandingGraphic.second;
+				GenieFile->Civs[loop].Units[UnitID].DyingGraphic.first = UnitGraphics[loop].DyingGraphic.first;
+				GenieFile->Civs[loop].Units[UnitID].DyingGraphic.second = UnitGraphics[loop].DyingGraphic.second;
+				GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount = UnitGraphics[loop].DamageGraphicCount;
+				GenieFile->Civs[loop].Units[UnitID].DamageGraphics = UnitGraphics[loop].DamageGraphics;
+				if(GenieFile->Civs[loop].Units[UnitID].DeadFish){
+				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.first = UnitGraphics[loop].DeadFish->WalkingGraphic.first;
+				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.second = UnitGraphics[loop].DeadFish->WalkingGraphic.second;}
+				if(GenieFile->Civs[loop].Units[UnitID].Projectile)
+				GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic = UnitGraphics[loop].Projectile->AttackGraphic;
+				if(GenieFile->Civs[loop].Units[UnitID].Creatable){
+				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.first = UnitGraphics[loop].Creatable->GarrisonGraphic.first;
+				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.second = UnitGraphics[loop].Creatable->GarrisonGraphic.second;}
+				if(GenieFile->Civs[loop].Units[UnitID].Building){
+				GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID = UnitGraphics[loop].Building->ConstructionGraphicID;
+				GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID = UnitGraphics[loop].Building->SnowGraphicID;}
+*/			}
 			for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
 			{
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
