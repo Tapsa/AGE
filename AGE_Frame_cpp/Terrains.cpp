@@ -236,7 +236,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardco
 	short Selection = Terrains_Terrains_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Terrains.erase(GenieFile->Terrains.begin() + (TerrainID));
+		GenieFile->Terrains.erase(GenieFile->Terrains.begin() + TerrainID);
 		if(Selection == Terrains_Terrains_List->GetCount() - 1)
 		Terrains_Terrains_List->SetSelection(Selection - 1);
 		ListTerrains();

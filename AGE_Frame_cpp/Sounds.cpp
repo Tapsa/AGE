@@ -187,7 +187,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent& Event)
 	short Selection = Sounds_Sounds_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Sounds.erase(GenieFile->Sounds.begin() + (SoundID));
+		GenieFile->Sounds.erase(GenieFile->Sounds.begin() + SoundID);
 		for(short loop = 0;loop < GenieFile->Sounds.size();loop++)	//	ID fix
 		{
 			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
@@ -325,7 +325,7 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent& Event)
 	short Selection = Sounds_SoundItems_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Sounds[SoundID].Items.erase(GenieFile->Sounds[SoundID].Items.begin() + (SoundItemID));
+		GenieFile->Sounds[SoundID].Items.erase(GenieFile->Sounds[SoundID].Items.begin() + SoundItemID);
 		if(Selection == Sounds_SoundItems_List->GetCount() - 1)
 		Sounds_SoundItems_List->SetSelection(Selection - 1);
 		ListSoundItems(SoundID);
