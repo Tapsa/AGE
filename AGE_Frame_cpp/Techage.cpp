@@ -192,7 +192,7 @@ void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Techs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Techages.erase(GenieFile->Techages.begin() + (TechID));
+		GenieFile->Techages.erase(GenieFile->Techages.begin() + TechID);
 		if(Selection == Techs_Techs_List->GetCount() - 1)
 		Techs_Techs_List->SetSelection(Selection - 1);
 		ListTechages();
@@ -931,7 +931,7 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Effects_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Techages[TechID].Effects.erase(GenieFile->Techages[TechID].Effects.begin() + (EffectID));
+		GenieFile->Techages[TechID].Effects.erase(GenieFile->Techages[TechID].Effects.begin() + EffectID);
 		if(Selection == Techs_Effects_List->GetCount() - 1)
 		Techs_Effects_List->SetSelection(Selection - 1);
 		ListEffects(TechID);

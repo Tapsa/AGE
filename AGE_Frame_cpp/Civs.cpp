@@ -113,13 +113,37 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 		CivID = CivPointer - (&GenieFile->Civs[0]);
 		Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
 		Civs_One->Container = &CivPointer->One;
-		Civs_Name->ChangeValue(CivPointer->Name);
-		Civs_Name->Container = &CivPointer->Name;
+		Civs_Name[0]->ChangeValue(CivPointer->Name);
+		Civs_Name[0]->Container = &CivPointer->Name;
+		if(GameVersion >= 4)
+		{
+			Civs_Holder_Name[1]->Show(true);
+			Civs_Holder_SUnknown1->Show(true);
+			
+			Civs_Name[1]->ChangeValue(CivPointer->Name);
+			Civs_Name[1]->Container = &CivPointer->Name;
+			for(short loop = 0;loop < 4;loop++)
+			Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->SUnknown1[loop]));
+		}
+		else
+		{
+			Civs_Holder_Name[1]->Show(false);
+			Civs_Holder_SUnknown1->Show(false);
+		}
 		Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
 		Civs_TechTree->Container = &CivPointer->TechTreeID;
 		Civs_ComboBox_TechTree->SetSelection(CivPointer->TechTreeID + 1);
-		Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
-		Civs_TeamBonus->Container = &CivPointer->TeamBonusID;
+		if(GameVersion >= 2)
+		{
+			Civs_Holder_TeamBonus->Show(true);
+			
+			Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
+			Civs_TeamBonus->Container = &CivPointer->TeamBonusID;
+		}
+		else
+		{
+			Civs_Holder_TeamBonus->Show(false);
+		}
 		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
 		Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->GraphicSet));
 		Civs_GraphicSet->Container = &CivPointer->GraphicSet;
@@ -142,7 +166,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent& Event)
 	short Selection = Civs_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Civs.erase(GenieFile->Civs.begin() + (CivID));
+		GenieFile->Civs.erase(GenieFile->Civs.begin() + CivID);
 		if(Selection == Civs_Civs_List->GetCount() - 1)
 		Civs_Civs_List->SetSelection(Selection - 1);
 		ListCivs();
@@ -739,7 +763,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent& Event)
 	short Selection = Civs_Resources_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Civs[CivID].Resources.erase(GenieFile->Civs[CivID].Resources.begin() + (ResourceID));
+		GenieFile->Civs[CivID].Resources.erase(GenieFile->Civs[CivID].Resources.begin() + ResourceID);
 		if(Selection == Civs_Resources_List->GetCount() - 1)
 		Civs_Resources_List->SetSelection(Selection - 1);
 		ListResources(CivID);
@@ -788,12 +812,19 @@ void AGE_Frame::CreateCivControls()
 	Civs_Holder_One = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_One = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = new TextCtrl_Byte(Tab_Civs, "0", NULL);
-	Civs_Holder_Name = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_Name = new wxStaticText(Tab_Civs, wxID_ANY, " Internal Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_Name = new TextCtrl_String(Tab_Civs, "0", NULL);
+	Civs_Holder_Name[0] = new wxBoxSizer(wxVERTICAL);
+	Civs_Text_Name[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Name[0] = new TextCtrl_String(Tab_Civs, "0", NULL);
+	Civs_Holder_Name[1] = new wxBoxSizer(wxVERTICAL);
+	Civs_Text_Name[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Name[1] = new TextCtrl_String(Tab_Civs, "0", NULL);
 	Civs_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_TechTree = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = new TextCtrl_Short(Tab_Civs, "0", NULL);
+	Civs_Holder_SUnknown1 = new wxBoxSizer(wxVERTICAL);
+	Civs_Text_SUnknown1 = new wxStaticText(Tab_Civs, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop = 0;loop < 4;loop++)
+	Civs_SUnknown1[loop] = new TextCtrl_Short(Tab_Civs, "0", NULL);
 	Civs_ComboBox_TechTree = new ComboBox_Short(Tab_Civs, Civs_TechTree);
 	Civs_Holder_TeamBonus = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_TeamBonus = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -836,9 +867,14 @@ void AGE_Frame::CreateCivControls()
 	Civs_Holder_One->Add(Civs_Text_One, 0, wxEXPAND);
 	Civs_Holder_One->Add(-1, 2);
 	Civs_Holder_One->Add(Civs_One, 0, wxEXPAND);
-	Civs_Holder_Name->Add(Civs_Text_Name, 0, wxEXPAND);
-	Civs_Holder_Name->Add(-1, 2);
-	Civs_Holder_Name->Add(Civs_Name, 0, wxEXPAND);
+	for(short loop = 0;loop < 2;loop++){
+	Civs_Holder_Name[loop]->Add(Civs_Text_Name[loop], 0, wxEXPAND);
+	Civs_Holder_Name[loop]->Add(-1, 2);
+	Civs_Holder_Name[loop]->Add(Civs_Name[loop], 0, wxEXPAND);}
+	Civs_Holder_SUnknown1->Add(Civs_Text_SUnknown1, 0, wxEXPAND);
+	Civs_Holder_SUnknown1->Add(-1, 2);
+	for(short loop = 0;loop < 4;loop++)
+	Civs_Holder_SUnknown1->Add(Civs_SUnknown1[loop], 1, wxEXPAND);
 	Civs_Holder_TechTree->Add(Civs_Text_TechTree, 0, wxEXPAND);
 	Civs_Holder_TechTree->Add(-1, 2);
 	Civs_Holder_TechTree->Add(Civs_TechTree, 1, wxEXPAND);
@@ -851,10 +887,12 @@ void AGE_Frame::CreateCivControls()
 	Civs_Holder_GraphicSet->Add(-1, 2);
 	Civs_Holder_GraphicSet->Add(Civs_GraphicSet, 0, wxEXPAND);
 
-	Civs_Holder_MainRows->Add(Civs_Holder_Name, 2, wxEXPAND);
+	Civs_Holder_MainRows->Add(Civs_Holder_Name[0], 2, wxEXPAND);
+	Civs_Holder_MainRows->Add(Civs_Holder_Name[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Civs_Holder_MainRows->Add(5, -1);
 	Civs_Holder_MainRows->Add(Civs_Holder_GraphicSet, 1, wxEXPAND);
 	Civs_Holder_MainRows->Add(5, -1);
+	Civs_Holder_MainRows->Add(Civs_Holder_SUnknown1, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Civs_Holder_MainRows->Add(Civs_Holder_TechTree, 1, wxEXPAND);
 	Civs_Holder_MainRows->Add(5, -1);
 	Civs_Holder_MainRows->Add(Civs_Holder_TeamBonus, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -915,8 +953,9 @@ void AGE_Frame::CreateCivControls()
 	Connect(Resources_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesPaste));
 	Connect(Resources_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesAdd));
 	Connect(Resources_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesDelete));
-
-	Civs_Name->Connect(Civs_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
+	
+	for(short loop = 0;loop < 2;loop++)
+	Civs_Name[loop]->Connect(Civs_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 	Civs_GraphicSet->Connect(Civs_GraphicSet->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Byte), NULL, this);
 	Civs_ResourceValue->Connect(Civs_ResourceValue->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Float), NULL, this);
 

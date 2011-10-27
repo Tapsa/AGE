@@ -658,9 +658,12 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Civs_Text_One;
 	wxBoxSizer * Civs_Holder_One;
 	TextCtrl_Byte * Civs_One;
-	wxBoxSizer * Civs_Holder_Name;
-	wxStaticText * Civs_Text_Name;
-	TextCtrl_String * Civs_Name;
+	wxBoxSizer * Civs_Holder_Name[2];
+	wxStaticText * Civs_Text_Name[2];
+	TextCtrl_String * Civs_Name[2];
+	wxBoxSizer * Civs_Holder_SUnknown1;
+	wxStaticText * Civs_Text_SUnknown1;
+	TextCtrl_Short * Civs_SUnknown1[4];
 	wxBoxSizer * Civs_Holder_TechTree;
 	wxStaticText * Civs_Text_TechTree;
 	TextCtrl_Short * Civs_TechTree;

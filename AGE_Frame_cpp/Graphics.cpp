@@ -326,7 +326,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
 	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Graphics.erase(GenieFile->Graphics.begin() + (GraphicID));
+		GenieFile->Graphics.erase(GenieFile->Graphics.begin() + GraphicID);
 		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)	//	ID fix
 		{
 			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);

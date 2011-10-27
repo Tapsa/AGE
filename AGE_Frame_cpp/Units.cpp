@@ -1278,7 +1278,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 		short Selection = Units_UnitHeads_List->GetSelection();
 		if(Selection != wxNOT_FOUND)	// If unit is selected.
 		{
-			GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + (UnitID));
+			GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitID);
 		}
 	}
 	wxCommandEvent E;
@@ -1291,7 +1291,7 @@ void AGE_Frame::OnUnitHeadsDelete(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Civs[UnitCivID].Units.erase(GenieFile->Civs[UnitCivID].Units.begin() + (UnitID));
+		GenieFile->Civs[UnitCivID].Units.erase(GenieFile->Civs[UnitCivID].Units.begin() + UnitID);
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
@@ -1519,7 +1519,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent& Event)
 	short Selection = Units_DamageGraphics_List->GetSelection(); // Gives the current list selection.
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics.erase(GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics.begin() + (DamageGraphicID));
+		GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics.erase(GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics.begin() + DamageGraphicID);
 		if(Selection == Units_DamageGraphics_List->GetCount() - 1)
 		Units_DamageGraphics_List->SetSelection(Selection - 1);
 		ListUnitDamageGraphics(UnitID, UnitCivID);
@@ -1651,7 +1651,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 	short Selection = Units_Attacks_List->GetSelection(); // Gives the current list selection.
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks.erase(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks.begin() + (AttackID));
+		GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks.erase(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks.begin() + AttackID);
 		if(Selection == Units_Attacks_List->GetCount() - 1)
 		Units_Attacks_List->SetSelection(Selection - 1);
 		ListUnitAttacks(UnitID, UnitCivID);
@@ -1783,7 +1783,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 	short Selection = Units_Armors_List->GetSelection(); // Gives the current list selection.
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours.erase(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours.begin() + (ArmorID));
+		GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours.erase(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours.begin() + ArmorID);
 		if(Selection == Units_Armors_List->GetCount() - 1)
 		Units_Armors_List->SetSelection(Selection - 1);
 		ListUnitArmors(UnitID, UnitCivID);
@@ -2295,7 +2295,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 	{
 		if(GameVersion > 1)
 		{
-			GenieFile->UnitHeaders[UnitID].Commands.erase(GenieFile->UnitHeaders[UnitID].Commands.begin() + (CommandID));
+			GenieFile->UnitHeaders[UnitID].Commands.erase(GenieFile->UnitHeaders[UnitID].Commands.begin() + CommandID);
 			for(short loop2 = 0;loop2 < GenieFile->UnitHeaders[0].Commands.size();loop2++)	//	ID fix
 			{
 				GenieFile->UnitHeaders[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
@@ -2303,7 +2303,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 		}
 		else
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands.erase(GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands.begin() + (CommandID));
+			GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands.erase(GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands.begin() + CommandID);
 			for(short loop2 = 0;loop2 < GenieFile->Civs[UnitCivID].Units[0].Bird->Commands.size();loop2++)	//	ID fix
 			{
 				GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[loop2].ID = lexical_cast<short>(loop2);
