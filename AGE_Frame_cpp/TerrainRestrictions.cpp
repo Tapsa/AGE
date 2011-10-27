@@ -226,7 +226,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 	short Selection = TerRestrict_TerRestrict_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->TerrainRestrictions.erase(GenieFile->TerrainRestrictions.begin() + (TerRestrictID));
+		GenieFile->TerrainRestrictions.erase(GenieFile->TerrainRestrictions.begin() + TerRestrictID);
 		if(Selection == TerRestrict_TerRestrict_List->GetCount() - 1)
 		TerRestrict_TerRestrict_List->SetSelection(Selection - 1);
 		ListTerrainRestrictions();

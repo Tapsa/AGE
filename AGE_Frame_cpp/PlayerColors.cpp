@@ -124,7 +124,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
 	short Selection = Colors_Colors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + (ColorID));
+		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorID);
 		for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)	//	ID fix
 		{
 			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);

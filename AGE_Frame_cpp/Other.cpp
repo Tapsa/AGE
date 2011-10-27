@@ -1729,9 +1729,13 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		{
 		//	ListResearchs();
 		}
-		if(Event.GetId() == Civs_Name->GetId())
+		if(Event.GetId() == Civs_Name[0]->GetId())
 		{
 			ListCivs();
+		}
+		if(Event.GetId() == Civs_Name[1]->GetId())
+		{
+		//	ListCivs();
 		}
 		if(Event.GetId() == Graphics_Name->GetId())
 		{
