@@ -26,7 +26,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			TechEffects = GenieFile->Techages[loop3].Effects.size();
 			if(TechEffects < 1) // empty techs.
 			{
-				GenieFile->Techages[loop3].Name = "New Techage";
+				GenieFile->Techages[loop3].Name = "New Technology";
 			}
 			else // other than empty techs, not researches if research loop doesn't rename them.
 			{

@@ -1399,26 +1399,7 @@ void AGE_Frame::OnUnitHeadsPaste(wxCommandEvent& Event)
 				if(GenieFile->Civs[loop].Units[UnitID].Building){
 				GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID = UnitGraphics80[loop].ConstructionGraphicID;
 				GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID = UnitGraphics80[loop].SnowGraphicID;}
-/*				
-				GenieFile->Civs[loop].Units[UnitID].IconID = UnitGraphics[loop].IconID;
-				GenieFile->Civs[loop].Units[UnitID].StandingGraphic.first = UnitGraphics[loop].StandingGraphic.first;
-				GenieFile->Civs[loop].Units[UnitID].StandingGraphic.second = UnitGraphics[loop].StandingGraphic.second;
-				GenieFile->Civs[loop].Units[UnitID].DyingGraphic.first = UnitGraphics[loop].DyingGraphic.first;
-				GenieFile->Civs[loop].Units[UnitID].DyingGraphic.second = UnitGraphics[loop].DyingGraphic.second;
-				GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount = UnitGraphics[loop].DamageGraphicCount;
-				GenieFile->Civs[loop].Units[UnitID].DamageGraphics = UnitGraphics[loop].DamageGraphics;
-				if(GenieFile->Civs[loop].Units[UnitID].DeadFish){
-				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.first = UnitGraphics[loop].DeadFish->WalkingGraphic.first;
-				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic.second = UnitGraphics[loop].DeadFish->WalkingGraphic.second;}
-				if(GenieFile->Civs[loop].Units[UnitID].Projectile)
-				GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic = UnitGraphics[loop].Projectile->AttackGraphic;
-				if(GenieFile->Civs[loop].Units[UnitID].Creatable){
-				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.first = UnitGraphics[loop].Creatable->GarrisonGraphic.first;
-				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic.second = UnitGraphics[loop].Creatable->GarrisonGraphic.second;}
-				if(GenieFile->Civs[loop].Units[UnitID].Building){
-				GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID = UnitGraphics[loop].Building->ConstructionGraphicID;
-				GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID = UnitGraphics[loop].Building->SnowGraphicID;}
-*/			}
+			}
 			for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
 			{
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);

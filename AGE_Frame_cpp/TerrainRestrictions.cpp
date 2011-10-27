@@ -213,8 +213,8 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent& Event)
 {
 	gdat::TerrainRestriction Temp;
-	Temp.TerrainAccessible.resize(GenieFile->Terrains.size());
-	Temp.TerrainPassGraphics.resize(GenieFile->Terrains.size());
+//	Temp.TerrainAccessible.resize(GenieFile->Terrains.size());
+//	Temp.TerrainPassGraphics.resize(GenieFile->Terrains.size());
 	GenieFile->TerrainRestrictions.push_back(Temp);
 	Added = true;
 	ListTerrainRestrictions();
