@@ -127,19 +127,19 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		gdat::Research * ResearchPointer = (gdat::Research*)Research_Research_List->GetClientData(Selection);
 		ResearchID = ResearchPointer - (&GenieFile->Researchs[0]);
 		short RequiredTechs;
-		for(short loop = 0;loop < 2;loop++)
+		for(short loop = 4;loop < 6;loop++)
 		{
 			if(GameVersion >= 2)
 			{
 				RequiredTechs = 6;
-				Research_RequiredTechs[loop+4]->Show(true);
-				Research_ComboBox_RequiredTechs[loop+4]->Show(true);
+				Research_RequiredTechs[loop]->Show(true);
+				Research_ComboBox_RequiredTechs[loop]->Show(true);
 			}
 			else
 			{
 				RequiredTechs = 4;
-				Research_RequiredTechs[loop+4]->Show(false);
-				Research_ComboBox_RequiredTechs[loop+4]->Show(false);
+				Research_RequiredTechs[loop]->Show(false);
+				Research_ComboBox_RequiredTechs[loop]->Show(false);
 			}
 		}
 		for(short loop = 0;loop < RequiredTechs;loop++)
