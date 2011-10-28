@@ -1743,8 +1743,9 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Terrains_Text_BlendType;
 	TextCtrl_Long * Terrains_BlendType;
 	wxBoxSizer * Terrains_Holder_Colours;
+	wxGridSizer * Terrains_Grid_Colours;
 	wxStaticText * Terrains_Text_Colours;
-	TextCtrl_String * Terrains_Colours;
+	TextCtrl_Byte * Terrains_Colours[3];
 	wxBoxSizer * Terrains_Holder_Unknown5;
 	wxStaticText * Terrains_Text_Unknown5;
 	TextCtrl_Short * Terrains_Unknown5;
@@ -1752,8 +1753,9 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Terrains_Text_Unknown6;
 	TextCtrl_Short * Terrains_Unknown6;
 	wxBoxSizer * Terrains_Holder_Unknown7;
+	wxGridSizer * Terrains_Grid_Unknown7;
 	wxStaticText * Terrains_Text_Unknown7;
-	TextCtrl_String * Terrains_Unknown7;
+	TextCtrl_Byte * Terrains_Unknown7[23];
 	wxBoxSizer * Terrains_Holder_FrameCount;
 	wxStaticText * Terrains_Text_FrameCount;
 	TextCtrl_Short * Terrains_FrameCount;
@@ -1772,8 +1774,9 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Terrains_Text_TerrainDimensions;
 	TextCtrl_Short * Terrains_TerrainDimensions[2];
 	wxBoxSizer * Terrains_Holder_Unknown10;
+	wxGridSizer * Terrains_Grid_Unknown10;
 	wxStaticText * Terrains_Text_Unknown10;
-	TextCtrl_String * Terrains_Unknown10;
+	TextCtrl_Byte * Terrains_Unknown10[84];
 	wxBoxSizer * Terrains_Holder_TerrainUnits;
 	wxBoxSizer * Terrains_Holder_TerrainUnitID;
 	wxGridSizer * Terrains_Grid_TerrainUnitID;
@@ -1784,11 +1787,16 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Terrains_Text_TerrainUnitDensity;
 	TextCtrl_Short * Terrains_TerrainUnitDensity[30];
 	wxBoxSizer * Terrains_Holder_Unknown11;
+	wxGridSizer * Terrains_Grid_Unknown11;
 	wxStaticText * Terrains_Text_Unknown11;
-	TextCtrl_String * Terrains_Unknown11;
+	TextCtrl_Byte * Terrains_Unknown11[30];
 	wxBoxSizer * Terrains_Holder_NumberOfTerrainUnitsUsed;
 	wxStaticText * Terrains_Text_NumberOfTerrainUnitsUsed;
 	TextCtrl_Short * Terrains_NumberOfTerrainUnitsUsed;
+	wxBoxSizer * Terrains_Holder_SUnknown1;
+	wxGridSizer * Terrains_Grid_SUnknown1;
+	wxStaticText * Terrains_Text_SUnknown1;
+	TextCtrl_Byte * Terrains_SUnknown1[24];
 	
 //	Terrain restrictions user interface
 
