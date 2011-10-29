@@ -6,9 +6,6 @@ using std::string;
 #include "boost/lexical_cast.hpp"
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
-//	#include "boost/cast.hpp"
-//	using boost::numeric_cast;
-//	using boost::numeric::bad_numeric_cast;
 
 //	The purpose of these custom text controls is that you get specified error messages
 //	when your mouse cursor focus gets off from a data edit box.

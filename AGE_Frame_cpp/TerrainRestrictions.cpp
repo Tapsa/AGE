@@ -175,8 +175,12 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 		TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerID]));
 		TerRestrict_Accessible->Container = &TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerID];
 		TerRestrict_CheckBox_Accessible->SetValue((bool)TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerID]);
-		if(GameVersion > 1)	//	Above AoE and RoR
+		if(GameVersion >= 2)	//	Above AoE and RoR
 		{
+			TerRestrict_Holder_Unknown1->Show(true);
+			TerRestrict_Holder_Graphics->Show(true);
+			TerRestrict_Holder_Amount->Show(true);
+		
 			TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].Buildable));
 			TerRestrict_Unknown1->Container = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].Buildable;
 			switch(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].Buildable)
@@ -205,6 +209,12 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 			TerRestrict_ComboBox_Graphics[1]->SetSelection(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].GraphicIDs.second + 1);
 			TerRestrict_Amount->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].ReplicationAmount));
 			TerRestrict_Amount->Container = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].ReplicationAmount;
+		}
+		else
+		{
+			TerRestrict_Holder_Unknown1->Show(false);
+			TerRestrict_Holder_Graphics->Show(false);
+			TerRestrict_Holder_Amount->Show(false);
 		}
 		Added = false;
 	}
@@ -376,13 +386,13 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Holder_Amount->Add(TerRestrict_Amount, 1, wxEXPAND);
 
 	TerRestrict_DataArea->Add(-1, 10);
-	TerRestrict_DataArea->Add(TerRestrict_Holder_Accessible, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	TerRestrict_DataArea->Add(TerRestrict_Holder_Accessible, 0, wxEXPAND);
 	TerRestrict_DataArea->Add(-1, 5);
-	TerRestrict_DataArea->Add(TerRestrict_Holder_Unknown1, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	TerRestrict_DataArea->Add(TerRestrict_Holder_Unknown1, 0, wxEXPAND);
 	TerRestrict_DataArea->Add(-1, 5);
-	TerRestrict_DataArea->Add(TerRestrict_Holder_Graphics, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	TerRestrict_DataArea->Add(TerRestrict_Holder_Graphics, 0, wxEXPAND);
 	TerRestrict_DataArea->Add(-1, 5);
-	TerRestrict_DataArea->Add(TerRestrict_Holder_Amount, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	TerRestrict_DataArea->Add(TerRestrict_Holder_Amount, 0, wxEXPAND);
 	TerRestrict_DataArea->Add(-1, 10);
 
 	TerRestrict_Main->Add(10, -1);
