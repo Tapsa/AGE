@@ -77,16 +77,19 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 		ColorID = PlayerColorPointer - (&GenieFile->PlayerColours[0]);
 		Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
 		Colors_ID->Container = &PlayerColorPointer->ID;
-		// Color shows oddly high values in AoE and RoR. It is supposed to be short in them.
-		Colors_Color->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
-		Colors_Color->Container = &PlayerColorPointer->Colour;
-		if(GameVersion <= 1)	//	AoE and RoR
+		if(GameVersion < 2)	//	AoE and RoR
 		{
+			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
 			Colors_Name->ChangeValue(PlayerColorPointer->Name);
 			Colors_Name->Container = PlayerColorPointer->Name;
+			Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
+			Colors_ColorL->Container = &PlayerColorPointer->Colour;
 		}
 		else	//	Above AoE and RoR
 		{
+			Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
+			Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
+			Colors_ColorL->Container = &PlayerColorPointer->Colour;
 			Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
 			Colors_Palette->Container = &PlayerColorPointer->Palette;
 			Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
@@ -198,7 +201,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Name = new TextCtrl_String(Tab_PlayerColors, "0", NULL, 30);
 	Colors_ID = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_Palette = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_Color = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
+	Colors_ColorL = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_MinimapColor = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_Unknown1 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_Unknown2 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
@@ -232,7 +235,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Holder_Palette->Add(Colors_Palette, 1, wxEXPAND);
 	Colors_Holder_Color->Add(Colors_Text_Color, 0, wxEXPAND);
 	Colors_Holder_Color->Add(-1, 2);
-	Colors_Holder_Color->Add(Colors_Color, 1, wxEXPAND);
+	Colors_Holder_Color->Add(Colors_ColorL, 1, wxEXPAND);
 	Colors_Holder_MinimapColor->Add(Colors_Text_MinimapColor, 0, wxEXPAND);
 	Colors_Holder_MinimapColor->Add(-1, 2);
 	Colors_Holder_MinimapColor->Add(Colors_MinimapColor, 1, wxEXPAND);
@@ -253,25 +256,25 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Holder_Unknown5->Add(Colors_Unknown5, 1, wxEXPAND);
 	
 	Colors_DataArea->Add(-1, 10);
-	Colors_DataArea->Add(Colors_Holder_Name, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_Name, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_ID, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_ID, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Palette, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_Palette, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Color, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_Color, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_MinimapColor, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_MinimapColor, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown1, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_Unknown1, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown2, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_Unknown2, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown3, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_Unknown3, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown4, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_Unknown4, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown5, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Colors_DataArea->Add(Colors_Holder_Unknown5, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 10);
 
 	Colors_Main->Add(10, -1);
