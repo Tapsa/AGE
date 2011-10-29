@@ -469,7 +469,25 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_SelectionShapeType->Container = &UnitPointer->SelectionShapeType;
 		Units_SelectionShape->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShape));
 		Units_SelectionShape->Container = &UnitPointer->SelectionShape;
-		for(short loop = 0;loop < 4;loop++)
+		short Unknown9;
+		if(GameVersion >= 3)
+		{
+			Unknown9 = 4;
+			for(short loop = 2;loop < 4;loop++)
+			Units_Unknown9[loop]->Show(true);
+		}
+		else if(GameVersion < 2)
+		{
+			Unknown9 = 2;
+			for(short loop = 2;loop < 4;loop++)
+			Units_Unknown9[loop]->Show(false);
+		}
+		else
+		{
+			Unknown9 = 0;
+			Units_Holder_Unknown9->Show(false);
+		}
+		for(short loop = 0;loop < Unknown9;loop++)
 		{
 			Units_Unknown9[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown9[loop]));
 			Units_Unknown9[loop]->Container = &UnitPointer->Unknown9[loop];
@@ -2425,7 +2443,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SoundsArea2 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_MiscArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Miscellaneous");
 	Units_Holder_Type10plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 10+ Unknowns");
-	Units_Grid_Type10plusUnknownArea = new wxGridSizer(4, 5, 5);
+	Units_Holder_Type10plusUnknowns1 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Grid_Type10plusUnknowns = new wxGridSizer(4, 5, 5);
 	Units_Holder_Type30plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 30+ Unknowns");
 	Units_Grid_Type30plusUnknownArea = new wxGridSizer(4, 5, 5);
 	Units_Holder_Type40plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 40+ Unknowns");
@@ -2475,7 +2494,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_FlyMode = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_ResourceCapacity = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_ResourceDecay = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown2 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
+	Units_Grid_Unknown2 = new wxGridSizer(2, 0, 0);
 	Units_Holder_InteractionMode = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MinimapMode = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_CommandAttribute = new wxBoxSizer(wxVERTICAL);
@@ -2492,7 +2512,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SelectionMask = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SelectionShapeType = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SelectionShape = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown9 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown9 = new wxBoxSizer(wxVERTICAL);
+	Units_Grid_Unknown9 = new wxGridSizer(4, 0, 0);
 	Units_Holder_SelectionEffect = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_EditorSelectionColour = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SelectionRadius = new wxBoxSizer(wxVERTICAL);
@@ -2651,7 +2672,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_TerrainRestriction = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ResourceCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ResourceDecay = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 2 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_InteractionMode = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MinimapMode = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_CommandAttribute = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2667,7 +2688,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_SelectionMask = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionShapeType = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionShape = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 9 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionEffect = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Effect ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_EditorSelectionColour = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Selection Colour ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Radius ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3535,6 +3556,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ResourceCapacity->Add(Units_Text_ResourceCapacity, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_ResourceDecay->Add(Units_Text_ResourceDecay, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_Unknown2->Add(Units_Text_Unknown2, 0, wxEXPAND);
+	Units_Holder_Unknown2->Add(-1, 2);
 	Units_Holder_InteractionMode->Add(Units_Text_InteractionMode, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_MinimapMode->Add(Units_Text_MinimapMode, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_CommandAttribute->Add(Units_Text_CommandAttribute, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -3551,6 +3573,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SelectionShapeType->Add(Units_Text_SelectionShapeType, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_SelectionShape->Add(Units_Text_SelectionShape, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_Unknown9->Add(Units_Text_Unknown9, 0, wxEXPAND);
+	Units_Holder_Unknown9->Add(-1, 2);
 	Units_Holder_SelectionEffect->Add(Units_Text_SelectionEffect, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_EditorSelectionColour->Add(Units_Text_EditorSelectionColour, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_SelectionRadius->Add(Units_Text_SelectionRadius, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -3731,7 +3754,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ResourceDecay->Add(2, 2);
 	Units_Holder_ResourceDecay->Add(Units_ResourceDecay, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	for(short loop = 0;loop < 2;loop++)
-	Units_Holder_Unknown2->Add(Units_Unknown2[loop], 1, wxEXPAND);
+	Units_Grid_Unknown2->Add(Units_Unknown2[loop], 1, wxEXPAND);
+	Units_Holder_Unknown2->Add(Units_Grid_Unknown2, 0, wxEXPAND);
 	Units_Holder_InteractionMode->Add(2, 2);
 	Units_Holder_InteractionMode->Add(Units_InteractionMode, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_MinimapMode->Add(2, 2);
@@ -3760,7 +3784,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SelectionShape->Add(2, 2);
 	Units_Holder_SelectionShape->Add(Units_SelectionShape, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	for(short loop = 0;loop < 4;loop++)
-	Units_Holder_Unknown9->Add(Units_Unknown9[loop], 1, wxEXPAND);
+	Units_Grid_Unknown9->Add(Units_Unknown9[loop], 1, wxEXPAND);
+	Units_Holder_Unknown9->Add(Units_Grid_Unknown9, 0, wxEXPAND);
 	Units_Holder_SelectionEffect->Add(2, 2);
 	Units_Holder_SelectionEffect->Add(Units_SelectionEffect, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_EditorSelectionColour->Add(2, 2);
@@ -4531,19 +4556,21 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_MiscArea->Add(Units_Holder_HPBarHeight1, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_MiscArea->Add(5, 5);
 	Units_Holder_MiscArea->Add(Units_Holder_HPBarHeight2, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	
+	Units_Holder_Type10plusUnknowns1->Add(Units_Holder_Unknown2, 0, wxEXPAND);
+	Units_Holder_Type10plusUnknowns1->Add(5, -1);
+	Units_Holder_Type10plusUnknowns1->Add(Units_Holder_Unknown9, 0, wxEXPAND);
 
-	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown1, 0, wxEXPAND);
-	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown3, 0, wxEXPAND);
-	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown3a, 0, wxEXPAND);
-	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown4, 0, wxEXPAND);
-	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown5, 0, wxEXPAND);
-	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown6, 0, wxEXPAND);
-	Units_Grid_Type10plusUnknownArea->Add(Units_Holder_Unknown8, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown2, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown1, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3a, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown4, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown5, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown6, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown8, 0, wxEXPAND);
+	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Type10plusUnknowns1, 0, wxEXPAND);
 	Units_Holder_Type10plusUnknownArea->Add(-1, 5);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Unknown9, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(-1, 5);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Grid_Type10plusUnknownArea, 0, wxEXPAND);
+	Units_Holder_Type10plusUnknownArea->Add(Units_Grid_Type10plusUnknowns, 0, wxEXPAND);
 
 	Units_Grid_Type30plusUnknownArea->Add(Units_Holder_Unknown11, 0, wxEXPAND);
 	Units_Grid_Type30plusUnknownArea->Add(Units_Holder_Unknown12, 0, wxEXPAND);

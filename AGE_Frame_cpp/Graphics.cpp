@@ -302,8 +302,18 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 		Graphics_SequenceType->Container = &GraphicPointer->SequenceType;
 		Graphics_ID->ChangeValue(lexical_cast<string>(GraphicPointer->ID));
 		Graphics_ID->Container = &GraphicPointer->ID;
-		Graphics_Type->ChangeValue(lexical_cast<string>(GraphicPointer->Type));
-		Graphics_Type->Container = &GraphicPointer->Type;
+		if(GameVersion >= 2)
+		{
+			Graphics_TypeS->SetBackgroundColour(wxColour(210, 230, 255));
+			Graphics_TypeS->ChangeValue(lexical_cast<string>(GraphicPointer->Type));
+			Graphics_TypeS->Container = &GraphicPointer->Type;
+		}
+		else
+		{
+			Graphics_TypeS->SetBackgroundColour(wxColour(255, 235, 215));
+			Graphics_TypeS->ChangeValue(lexical_cast<string>((short)GraphicPointer->Type));
+			Graphics_TypeS->Container = &GraphicPointer->Type;
+		}
 		Added = false;
 	}
 }
@@ -469,7 +479,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Type = new wxBoxSizer(wxVERTICAL);
 	Graphics_Holder_1 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Text_Type = new wxStaticText(Graphics_Scroller, wxID_ANY, " Type", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_Type = new TextCtrl_Short(Graphics_Scroller, "0", NULL);
+	Graphics_TypeS = new TextCtrl_Short(Graphics_Scroller, "0", NULL);
 
 	Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Delete, 1, wxEXPAND);
@@ -573,7 +583,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_SequenceType->Add(Graphics_SequenceType, 1, wxEXPAND);
 	Graphics_Holder_Type->Add(Graphics_Text_Type, 0, wxEXPAND);
 	Graphics_Holder_Type->Add(-1, 2);
-	Graphics_Holder_Type->Add(Graphics_Type, 1, wxEXPAND);
+	Graphics_Holder_Type->Add(Graphics_TypeS, 1, wxEXPAND);
 	
 	Graphics_Holder_NameArea->Add(Graphics_Holder_Name, 2, wxEXPAND);
 	Graphics_Holder_NameArea->Add(5, -1);

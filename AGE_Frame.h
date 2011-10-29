@@ -9,7 +9,6 @@
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
-//	#include "AGE_Object.h"
 #include "AGE_ScrolledWindow.h"
 
 #ifndef AGEFrame_h
@@ -1170,6 +1169,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_ResourceCapacity;
 	wxBoxSizer * Units_Holder_ResourceDecay;
 	wxBoxSizer * Units_Holder_Unknown2;
+	wxGridSizer * Units_Grid_Unknown2;
 	wxBoxSizer * Units_Holder_InteractionMode;
 	wxBoxSizer * Units_Holder_MinimapMode;
 	wxBoxSizer * Units_Holder_CommandAttribute;
@@ -1187,6 +1187,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_SelectionShapeType;
 	wxBoxSizer * Units_Holder_SelectionShape;
 	wxBoxSizer * Units_Holder_Unknown9;
+	wxGridSizer * Units_Grid_Unknown9;
 	wxBoxSizer * Units_Holder_SelectionEffect;
 	wxBoxSizer * Units_Holder_EditorSelectionColour;
 	wxBoxSizer * Units_Holder_SelectionRadius;
@@ -1459,7 +1460,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_SoundsArea2;
 	wxStaticBoxSizer * Units_Holder_MiscArea;
 	wxStaticBoxSizer * Units_Holder_Type10plusUnknownArea;
-	wxGridSizer * Units_Grid_Type10plusUnknownArea;
+	wxBoxSizer * Units_Holder_Type10plusUnknowns1;
+	wxGridSizer * Units_Grid_Type10plusUnknowns;
 	wxStaticBoxSizer * Units_Holder_Type30plusUnknownArea;
 	wxGridSizer * Units_Grid_Type30plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_Type40plusUnknownArea;
@@ -1692,7 +1694,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Float * Graphics_ReplayDelay;
 	TextCtrl_Byte * Graphics_SequenceType;
 	TextCtrl_Short * Graphics_ID;
-	TextCtrl_Short * Graphics_Type;
+	TextCtrl_Short * Graphics_TypeS;
 
 //	Terrains user interface
 	
@@ -1922,7 +1924,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_String * Colors_Name;
 	TextCtrl_Long * Colors_ID;
 	TextCtrl_Long * Colors_Palette;
-	TextCtrl_Long * Colors_Color;
+	TextCtrl_Long * Colors_ColorL;
 	TextCtrl_Long * Colors_MinimapColor;
 	TextCtrl_Long * Colors_Unknown1;
 	TextCtrl_Long * Colors_Unknown2;

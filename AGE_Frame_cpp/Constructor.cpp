@@ -24,8 +24,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_NoExtra);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
-	Config->Read("DefaultFiles/Version", &GameVersion, gdat::GV_TC - 1);
-	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, gdat::GV_TC - 1);
+	Config->Read("DefaultFiles/Version", &GameVersion, 3);
+	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, 3);
 	Config->Read("DefaultFiles/DatUsed", &DatUsed, 0);
 	Config->Read("DefaultFiles/DatFilename", &DatFileName, wxT("C:\\Program Files\\Microsoft Games\\Age of Empires II\\data\\Empires2_x1_p1.dat"));
 	Config->Read("DefaultFiles/UnzFilename", &UnzFileName, wxT("TC.unz"));
