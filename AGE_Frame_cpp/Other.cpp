@@ -34,11 +34,11 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			break;
 			case 1:
 			{
-				OpenBox.Radio_UnzFileLocation->SetValue(true);
+				/*OpenBox.Radio_UnzFileLocation->SetValue(true);
 				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
 				Selected.SetId(OpenBox.Radio_UnzFileLocation->GetId());
 				Selected.SetInt(true);
-				OpenBox.ProcessEvent(Selected);
+				OpenBox.ProcessEvent(Selected);*/
 			}
 			break;
 			case 2:
@@ -63,7 +63,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
-		OpenBox.Path_UnzFileLocation->SetPath(UnzFileName);
+//		OpenBox.Path_UnzFileLocation->SetPath(UnzFileName);
 		OpenBox.Path_ApfFileLocation->SetPath(ApfFileName);
 
 		if(LangsUsed & 1)
@@ -129,10 +129,10 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		{
 			DatUsed = 0;
 		}
-		else if(OpenBox.Radio_UnzFileLocation->GetValue())
+		/*else if(OpenBox.Radio_UnzFileLocation->GetValue())
 		{
 			DatUsed = 1;
-		}
+		}*/
 		else if(OpenBox.Radio_ApfFileLocation->GetValue())
 		{
 			DatUsed = 2;
@@ -144,7 +144,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 		DriveLetter = OpenBox.DriveLetterBox->GetValue();
 		DatFileName = OpenBox.Path_DatFileLocation->GetPath();
-		UnzFileName = OpenBox.Path_UnzFileLocation->GetPath();
+//		UnzFileName = OpenBox.Path_UnzFileLocation->GetPath();
 		ApfFileName = OpenBox.Path_ApfFileLocation->GetPath();
 
 		if(OpenBox.CheckBox_LangFileLocation->IsChecked())
@@ -217,7 +217,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 	switch(DatUsed)
 	{
-		case 1:
+		/*case 1:
 		{
 			string OutputFile;
 			switch(GameVersion)
@@ -266,15 +266,15 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				wxBusyCursor WaitCursor;
 				GenieFile = new gdat::File(UnzFileName.c_str(), GenieVersion, true);
 			}
-/*				ErrCode = GenieFile->Read();
+				ErrCode = GenieFile->Read();
 			}
 
 			if(ErrCode)
 			{
 				wxMessageBox(wxT("Error Code: " + lexical_cast<string>(ErrCode)));
 			}
-*/		}
-		break;
+		}
+		break;*/
 		case 0:
 		{
 			if(GenieFile != NULL)
@@ -725,14 +725,7 @@ void AGE_Frame::OnGameVersionChange()
 	{
 		
 	}
-	TerRestrict_DataArea->Layout();
-	Colors_DataArea->Layout();
-	Sounds_DataArea->Layout();
-	Terrains_ScrollerWindowsSpace->Layout();
-	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
-	Terrains_Scroller->Scroll(0, 0);
-	Terrains_Scroller->GetSizer()->SetDimension(0, 0, Terrains_Scroller->GetSize().GetWidth() - 15, 1);
-	Terrains_Scroller->Refresh();
+*/
 	Research_ScrollerWindowsSpace->Layout();
 	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
 	Research_Scroller->Scroll(0, 0);
@@ -744,7 +737,20 @@ void AGE_Frame::OnGameVersionChange()
 	Units_Scroller->Scroll(0, 0);
 	Units_Scroller->GetSizer()->SetDimension(0, 0, Units_Scroller->GetSize().GetWidth() - 15, 1);
 	Units_Scroller->Refresh();
-	Refresh();*/
+	Graphics_ScrollerWindowsSpace->Layout();
+	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
+	Graphics_Scroller->Scroll(0, 0);
+	Graphics_Scroller->GetSizer()->SetDimension(0, 0, Graphics_Scroller->GetSize().GetWidth() - 15, 1);
+	Graphics_Scroller->Refresh();
+	Terrains_ScrollerWindowsSpace->Layout();
+	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
+	Terrains_Scroller->Scroll(0, 0);
+	Terrains_Scroller->GetSizer()->SetDimension(0, 0, Terrains_Scroller->GetSize().GetWidth() - 15, 1);
+	Terrains_Scroller->Refresh();
+	TerRestrict_DataArea->Layout();
+	Sounds_DataArea->Layout();
+	Colors_DataArea->Layout();
+	Refresh();
 }
 
 void AGE_Frame::OnSave(wxCommandEvent& Event)
@@ -767,13 +773,13 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 
 		SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
 
-		SaveBox.CheckBox_UnzFileLocation->SetValue(SaveUnz);
+		/*SaveBox.CheckBox_UnzFileLocation->SetValue(SaveUnz);
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 		Selected.SetId(SaveBox.CheckBox_UnzFileLocation->GetId());
 		Selected.SetInt(SaveUnz);
 		SaveBox.ProcessEvent(Selected);
 
-		SaveBox.Path_UnzFileLocation->SetPath(SaveUnzFileName);
+		SaveBox.Path_UnzFileLocation->SetPath(SaveUnzFileName);*/
 
 		SaveBox.CheckBox_ApfFileLocation->SetValue(SaveApf);
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -790,15 +796,15 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 
 		SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
 		SaveDat = SaveBox.CheckBox_DatFileLocation->IsChecked();
-		SaveUnz = SaveBox.CheckBox_UnzFileLocation->IsChecked();
+//		SaveUnz = SaveBox.CheckBox_UnzFileLocation->IsChecked();
 		SaveApf = SaveBox.CheckBox_ApfFileLocation->IsChecked();
 
 		SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
-		SaveUnzFileName = SaveBox.Path_UnzFileLocation->GetPath();
+//		SaveUnzFileName = SaveBox.Path_UnzFileLocation->GetPath();
 		SaveApfFileName = SaveBox.Path_ApfFileLocation->GetPath();
 //	}
 	
-	if(SaveUnz && SaveDat)
+	/*if(SaveUnz && SaveDat)
 	{
 		{
 			SetStatusText("Saving unz file...", 0);
@@ -815,7 +821,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		}
 	}
 	else
-	{
+	{*/
 		if(SaveDat)
 		{
 			{
@@ -825,17 +831,17 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 				GenieFile->save(std::string(SaveDatFileName.c_str()));
 			}
 		}
-		if(SaveUnz)
+		/*if(SaveUnz)
 		{
 			SetStatusText("Saving unz file...", 0);
 			wxBusyCursor WaitCursor;
 			GenieFile->save(std::string(SaveUnzFileName.c_str()), true);
-		}
+		}*/
 		if(SaveApf)
 		{
 			//	 Not Implemented Yet = Nothing Happens
 		}
-	}
+//	}
 	SetStatusText("", 0);
 }
 
@@ -851,17 +857,17 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
 	Config->Write("DefaultFiles/DatUsed", DatUsed);
 	Config->Write("DefaultFiles/DatFilename", DatFileName);
-	Config->Write("DefaultFiles/UnzFilename", UnzFileName);
+//	Config->Write("DefaultFiles/UnzFilename", UnzFileName);
 	Config->Write("DefaultFiles/ApfFilename", ApfFileName);
 	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
-	Config->Write("DefaultFiles/SaveUnzFilename", SaveUnzFileName);
+//	Config->Write("DefaultFiles/SaveUnzFilename", SaveUnzFileName);
 	Config->Write("DefaultFiles/SaveApfFilename", SaveApfFileName);
 	Config->Write("DefaultFiles/LangsUsed", LangsUsed);
 	Config->Write("DefaultFiles/LangFilename", LangFileName);
 	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
 	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
 	Config->Write("DefaultFiles/SaveDat", SaveDat);
-	Config->Write("DefaultFiles/SaveUnz", SaveUnz);
+//	Config->Write("DefaultFiles/SaveUnz", SaveUnz);
 	Config->Write("DefaultFiles/SaveApf", SaveApf);
 	delete Config;
 
@@ -887,70 +893,24 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			ShowUnknowns = Event.IsChecked();
 			if(ShowUnknowns)
 			{
-				Research_Holder_PointerArea->Show(true);
-				Civs_Holder_One->Show(true);
-				Units_Holder_Type10plusUnknownArea->Show(true);
-				Units_Holder_Type30plusUnknownArea->Show(true);
-				Units_Holder_Type40plusUnknownArea->Show(true);
-				Units_Holder_Type60plusUnknownArea->Show(true);
-				Units_Holder_Type70plusUnknownArea->Show(true);
-				Units_Holder_Type80plusUnknownArea->Show(true);
+				Units_Holder_UnknownArea->Show(true);
 				Units_CommandHolder_Data2->Show(true);
 				Graphics_Holder_Unknowns->Show(true);
-				Terrains_Holder_Unknown1->Show(true);
-				Terrains_Holder_Unknown2->Show(true);
-				Terrains_Holder_Unknown3->Show(true);
-				Terrains_Holder_Unknown5->Show(true);
-				Terrains_Holder_Unknown6->Show(true);
-				Terrains_Holder_Unknown8->Show(true);
-				Terrains_Holder_Unknown9->Show(true);
-				Terrains_Holder_Unknown7->Show(true);
-				Terrains_Holder_Unknown10->Show(true);
-				Terrains_Holder_Unknown11->Show(true);
+				Terrains_Holder_UnknownArea->Show(true);
 				Sounds_Holder_Unknown->Show(true);
 				SoundItems_Holder_Unknown->Show(true);
-				Colors_Holder_Unknown1->Show(true);
-				Colors_Holder_Unknown2->Show(true);
-				Colors_Holder_Unknown3->Show(true);
-				Colors_Holder_Unknown4->Show(true);
-				Colors_Holder_Unknown5->Show(true);
+				Colors_Holder_UnknownArea->Show(true);
 			}
 			else
 			{
-				Research_Holder_PointerArea->Show(false);
-				Civs_Holder_One->Show(false);
-				Units_Holder_Type10plusUnknownArea->Show(false);
-				Units_Holder_Type30plusUnknownArea->Show(false);
-				Units_Holder_Type40plusUnknownArea->Show(false);
-				Units_Holder_Type60plusUnknownArea->Show(false);
-				Units_Holder_Type70plusUnknownArea->Show(false);
-				Units_Holder_Type80plusUnknownArea->Show(false);
+				Units_Holder_UnknownArea->Show(false);
 				Units_CommandHolder_Data2->Show(false);
 				Graphics_Holder_Unknowns->Show(false);
-				Terrains_Holder_Unknown1->Show(false);
-				Terrains_Holder_Unknown2->Show(false);
-				Terrains_Holder_Unknown3->Show(false);
-				Terrains_Holder_Unknown5->Show(false);
-				Terrains_Holder_Unknown6->Show(false);
-				Terrains_Holder_Unknown8->Show(false);
-				Terrains_Holder_Unknown9->Show(false);
-				Terrains_Holder_Unknown7->Show(false);
-				Terrains_Holder_Unknown10->Show(false);
-				Terrains_Holder_Unknown11->Show(false);
+				Terrains_Holder_UnknownArea->Show(false);
 				Sounds_Holder_Unknown->Show(false);
 				SoundItems_Holder_Unknown->Show(false);
-				Colors_Holder_Unknown1->Show(false);
-				Colors_Holder_Unknown2->Show(false);
-				Colors_Holder_Unknown3->Show(false);
-				Colors_Holder_Unknown4->Show(false);
-				Colors_Holder_Unknown5->Show(false);
+				Colors_Holder_UnknownArea->Show(false);
 			}
-			Research_ScrollerWindowsSpace->Layout();
-			Research_Scroller->GetSizer()->FitInside(Research_Scroller);
-			Research_Scroller->Scroll(0, 0);
-			Research_Scroller->GetSizer()->SetDimension(0, 0, Research_Scroller->GetSize().GetWidth() - 15, 1);
-			Research_Scroller->Refresh();
-			Civs_Holder_MainRows->Layout();
 			Units_ScrollerWindowsSpace->Layout();
 			Units_Scroller->GetSizer()->FitInside(Units_Scroller);
 			Units_Scroller->Scroll(0, 0);

@@ -338,14 +338,14 @@ class AGE_Frame : public wxFrame
 	int DatUsed;
 	int SaveGameVersion;
 	bool SaveDat;
-	bool SaveUnz;
+//	bool SaveUnz;
 	bool SaveApf;
 	wxString DriveLetter;
 	wxString DatFileName;
-	wxString UnzFileName;
+//	wxString UnzFileName;
 	wxString ApfFileName;
 	wxString SaveDatFileName;
-	wxString SaveUnzFileName;
+//	wxString SaveUnzFileName;
 	wxString SaveApfFileName;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
 	wxString LangFileName;
@@ -1459,6 +1459,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_SoundsArea1;
 	wxBoxSizer * Units_Holder_SoundsArea2;
 	wxStaticBoxSizer * Units_Holder_MiscArea;
+	wxBoxSizer * Units_Holder_UnknownArea;
 	wxStaticBoxSizer * Units_Holder_Type10plusUnknownArea;
 	wxBoxSizer * Units_Holder_Type10plusUnknowns1;
 	wxGridSizer * Units_Grid_Type10plusUnknowns;
@@ -1716,6 +1717,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Terrains_Holder_NameArea;
 	wxBoxSizer * Terrains_Holder_LongArea;
 	wxBoxSizer * Terrains_Holder_ShortArea;
+	wxBoxSizer * Terrains_Holder_UnknownArea;
 	wxBoxSizer * Terrains_Holder_Unknown1;
 	wxStaticText * Terrains_Text_Unknown1;
 	TextCtrl_Short * Terrains_Unknown1;
@@ -1906,6 +1908,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Colors_Holder_Palette;
 	wxBoxSizer * Colors_Holder_Color;
 	wxBoxSizer * Colors_Holder_MinimapColor;
+	wxBoxSizer * Colors_Holder_UnknownArea;
 	wxBoxSizer * Colors_Holder_Unknown1;
 	wxBoxSizer * Colors_Holder_Unknown2;
 	wxBoxSizer * Colors_Holder_Unknown3;

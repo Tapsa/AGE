@@ -118,7 +118,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 		if(GameVersion >= 4)
 		{
 			Civs_Holder_Name[1]->Show(true);
-			Civs_Holder_SUnknown1->Show(true);
+			if(ShowUnknowns) Civs_Holder_SUnknown1->Show(true);
 			
 			Civs_Name[1]->ChangeValue(CivPointer->Name);
 			Civs_Name[1]->Container = &CivPointer->Name;
