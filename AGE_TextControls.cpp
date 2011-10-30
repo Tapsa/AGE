@@ -232,7 +232,7 @@ TextCtrl_Byte::TextCtrl_Byte(wxWindow * parent, string InitValue, void * Pointer
 : wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
 {
 	Container = Pointer;
-	this->SetBackgroundColour(wxColour(255, 235, 215));	
+	this->SetBackgroundColour(wxColour(255, 235, 215));
 	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));	// Must-have
 }
 

@@ -292,7 +292,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
 		if(GameVersion >= 2)
 		{
 			SoundItems_Holder_Civ->Show(true);
-			SoundItems_Holder_Unknown->Show(true);
+			if(ShowUnknowns) SoundItems_Holder_Unknown->Show(true);
 		
 			SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
 			SoundItems_Civ->Container = &SoundItemPointer->Civ;
