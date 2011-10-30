@@ -141,6 +141,7 @@ void AGE_Frame::ListTechages()
 	}
 	
 	Techs_Techs_List->SetFirstItem(Selection - 3);
+	Techs_Techs_List->SetSelection(0);
 	Techs_Techs_List->SetSelection(Selection);
 	Research_ComboBox_TechID->SetSelection(TechID1);
 	Civs_ComboBox_TechTree->SetSelection(TechID2);
@@ -309,6 +310,7 @@ void AGE_Frame::ListEffects(int Index)
 		}
 	}
 	Techs_Effects_List->SetFirstItem(Selection - 3);
+	Techs_Effects_List->SetSelection(0);
 	Techs_Effects_List->SetSelection(Selection);
 
 	wxCommandEvent E;

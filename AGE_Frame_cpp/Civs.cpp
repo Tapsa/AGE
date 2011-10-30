@@ -81,6 +81,7 @@ void AGE_Frame::ListCivs()
 	}
 	
 	Civs_Civs_List->SetFirstItem(Selection - 3);
+	Civs_Civs_List->SetSelection(0);
 	Civs_Civs_List->SetSelection(Selection);
 	Research_ComboBox_Civ->SetSelection(CivID1);
 	Units_Civs_List->SetSelection(CivID2);
@@ -699,6 +700,7 @@ void AGE_Frame::ListResources(int Index)
 	}
 	
 	Civs_Resources_List->SetFirstItem(Selection - 3);
+	Civs_Resources_List->SetSelection(0);
 	Civs_Resources_List->SetSelection(Selection);
 	Units_ComboBox_CostType[0]->SetSelection(ResourceID1);
 	Units_ComboBox_CostType[1]->SetSelection(ResourceID2);
