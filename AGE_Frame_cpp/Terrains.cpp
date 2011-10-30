@@ -126,6 +126,7 @@ void AGE_Frame::ListTerrains()
 	}
 	
 	Terrains_Terrains_List->SetFirstItem(Selection - 3);
+	Terrains_Terrains_List->SetSelection(0);
 	Terrains_Terrains_List->SetSelection(Selection);
 	TerRestrict_Terrains_List->SetSelection(TerrainID1);
 	Units_ComboBox_PlacementBypassTerrain[0]->SetSelection(TerrainID2);
