@@ -235,6 +235,7 @@ void AGE_Frame::ListUnits(int UnitCivID)
 	}
 	
 	Units_Units_List->SetFirstItem(Selection - 3);
+	Units_Units_List->SetSelection(0);
 	Units_Units_List->SetSelection(Selection);
 	Units_ComboBox_DeadUnitID->SetSelection(UnitIDs[0]);
 	Units_ComboBox_ProjectileUnitID->SetSelection(UnitIDs[1]);
@@ -1688,6 +1689,7 @@ void AGE_Frame::ListUnitDamageGraphics(int Index, int UnitCivID)
 		}
 	}
 	Units_DamageGraphics_List->SetFirstItem(Selection - 3);
+	Units_DamageGraphics_List->SetSelection(0);
 	Units_DamageGraphics_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -1823,6 +1825,7 @@ void AGE_Frame::ListUnitAttacks(int Index, int UnitCivID)
 		Units_Attacks_Add->Enable(false);
 	}
 	Units_Attacks_List->SetFirstItem(Selection - 3);
+	Units_Attacks_List->SetSelection(0);
 	Units_Attacks_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -1955,6 +1958,7 @@ void AGE_Frame::ListUnitArmors(int Index, int UnitCivID)
 		Units_Armors_Add->Enable(false);
 	}
 	Units_Armors_List->SetFirstItem(Selection - 3);
+	Units_Armors_List->SetSelection(0);
 	Units_Armors_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -2238,6 +2242,7 @@ void AGE_Frame::ListUnitCommands(int Index, int UnitCivID)
 		}
 	}
 	Units_UnitCommands_List->SetFirstItem(Selection - 3);
+	Units_UnitCommands_List->SetSelection(0);
 	Units_UnitCommands_List->SetSelection(Selection);
 	
 	wxCommandEvent E;
