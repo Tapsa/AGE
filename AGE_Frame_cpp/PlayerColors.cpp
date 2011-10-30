@@ -77,19 +77,35 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 		ColorID = PlayerColorPointer - (&GenieFile->PlayerColours[0]);
 		Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
 		Colors_ID->Container = &PlayerColorPointer->ID;
+		Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
+		Colors_ColorL->Container = &PlayerColorPointer->Colour;
 		if(GameVersion < 2)	//	AoE and RoR
 		{
+			Colors_Holder_Name->Show(true);
+			Colors_Holder_Palette->Show(false);
+			Colors_Holder_MinimapColor->Show(false);
+			Colors_Holder_Unknown1->Show(false);
+			Colors_Holder_Unknown2->Show(false);
+			Colors_Holder_Unknown3->Show(false);
+			Colors_Holder_Unknown4->Show(false);
+			Colors_Holder_Unknown5->Show(false);
+		
 			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
 			Colors_Name->ChangeValue(PlayerColorPointer->Name);
 			Colors_Name->Container = PlayerColorPointer->Name;
-			Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
-			Colors_ColorL->Container = &PlayerColorPointer->Colour;
 		}
 		else	//	Above AoE and RoR
 		{
+			Colors_Holder_Name->Show(false);
+			Colors_Holder_Palette->Show(true);
+			Colors_Holder_MinimapColor->Show(true);
+			if(ShowUnknowns) Colors_Holder_Unknown1->Show(true);
+			if(ShowUnknowns) Colors_Holder_Unknown2->Show(true);
+			if(ShowUnknowns) Colors_Holder_Unknown3->Show(true);
+			if(ShowUnknowns) Colors_Holder_Unknown4->Show(true);
+			if(ShowUnknowns) Colors_Holder_Unknown5->Show(true);
+		
 			Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
-			Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
-			Colors_ColorL->Container = &PlayerColorPointer->Colour;
 			Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
 			Colors_Palette->Container = &PlayerColorPointer->Palette;
 			Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
@@ -183,6 +199,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Holder_Palette = new wxBoxSizer(wxVERTICAL);
 	Colors_Holder_Color = new wxBoxSizer(wxVERTICAL);
 	Colors_Holder_MinimapColor = new wxBoxSizer(wxVERTICAL);
+	Colors_Holder_UnknownArea = new wxBoxSizer(wxVERTICAL);
 	Colors_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	Colors_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
 	Colors_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
@@ -255,6 +272,16 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Holder_Unknown5->Add(-1, 2);
 	Colors_Holder_Unknown5->Add(Colors_Unknown5, 1, wxEXPAND);
 	
+	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown1, 0, wxEXPAND);
+	Colors_Holder_UnknownArea->Add(-1, 5);
+	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown2, 0, wxEXPAND);
+	Colors_Holder_UnknownArea->Add(-1, 5);
+	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown3, 0, wxEXPAND);
+	Colors_Holder_UnknownArea->Add(-1, 5);
+	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown4, 0, wxEXPAND);
+	Colors_Holder_UnknownArea->Add(-1, 5);
+	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown5, 0, wxEXPAND);
+	
 	Colors_DataArea->Add(-1, 10);
 	Colors_DataArea->Add(Colors_Holder_Name, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
@@ -266,16 +293,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_DataArea->Add(-1, 5);
 	Colors_DataArea->Add(Colors_Holder_MinimapColor, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown1, 0, wxEXPAND);
-	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown2, 0, wxEXPAND);
-	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown3, 0, wxEXPAND);
-	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown4, 0, wxEXPAND);
-	Colors_DataArea->Add(-1, 5);
-	Colors_DataArea->Add(Colors_Holder_Unknown5, 0, wxEXPAND);
-	Colors_DataArea->Add(-1, 10);
+	Colors_DataArea->Add(Colors_Holder_UnknownArea, 0, wxEXPAND);
 
 	Colors_Main->Add(10, -1);
 	Colors_Main->Add(Colors_ListArea, 1, wxEXPAND);

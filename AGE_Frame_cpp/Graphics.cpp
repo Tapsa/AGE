@@ -306,14 +306,13 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 		{
 			Graphics_TypeS->SetBackgroundColour(wxColour(210, 230, 255));
 			Graphics_TypeS->ChangeValue(lexical_cast<string>(GraphicPointer->Type));
-			Graphics_TypeS->Container = &GraphicPointer->Type;
 		}
 		else
 		{
 			Graphics_TypeS->SetBackgroundColour(wxColour(255, 235, 215));
 			Graphics_TypeS->ChangeValue(lexical_cast<string>((short)GraphicPointer->Type));
-			Graphics_TypeS->Container = &GraphicPointer->Type;
 		}
+		Graphics_TypeS->Container = &GraphicPointer->Type;
 		Added = false;
 	}
 }

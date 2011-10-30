@@ -28,17 +28,17 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, 3);
 	Config->Read("DefaultFiles/DatUsed", &DatUsed, 0);
 	Config->Read("DefaultFiles/DatFilename", &DatFileName, wxT("C:\\Program Files\\Microsoft Games\\Age of Empires II\\data\\Empires2_x1_p1.dat"));
-	Config->Read("DefaultFiles/UnzFilename", &UnzFileName, wxT("TC.unz"));
+//	Config->Read("DefaultFiles/UnzFilename", &UnzFileName, wxT("TC.unz"));
 	Config->Read("DefaultFiles/ApfFilename", &ApfFileName, wxT(""));
 	Config->Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxT("C:\\Program Files\\Microsoft Games\\Age of Empires II\\data\\Empires2_x1_p1.dat"));
-	Config->Read("DefaultFiles/SaveUnzFilename", &SaveUnzFileName, wxT("TC.unz"));
+//	Config->Read("DefaultFiles/SaveUnzFilename", &SaveUnzFileName, wxT("TC.unz"));
 	Config->Read("DefaultFiles/SaveApfFilename", &SaveApfFileName, wxT(""));
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/LangFilename", &LangFileName, wxT("C:\\Program Files\\Microsoft Games\\Age of Empires II\\language.dll"));
 	Config->Read("DefaultFiles/LangX1Filename", &LangX1FileName, wxT("C:\\Program Files\\Microsoft Games\\Age of Empires II\\language_x1.dll"));
 	Config->Read("DefaultFiles/LangX1P1Filename", &LangX1P1FileName, wxT("C:\\Program Files\\Microsoft Games\\Age of Empires II\\language_x1_p1.dll"));
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
-	Config->Read("DefaultFiles/SaveUnz", &SaveUnz, false);
+//	Config->Read("DefaultFiles/SaveUnz", &SaveUnz, false);
 	Config->Read("DefaultFiles/SaveApf", &SaveApf, false);
 	delete Config;
 
