@@ -21,7 +21,7 @@ BinDir = ../bin
 
 CompileFlags = -O2 -I$(Inc) -I$(IncCPP) -I$(IncWx) -I$(IncWxMS) -O0 -ggdb
 ResourceFlags = -I$(IncWx)
-LinkFlags = -LC:/Cpp/wxWidgets/lib/gcc_lib -static-libgcc -static-libstdc++
+LinkFlags = -LC:/Cpp/wxWidgets/lib/gcc_lib -static
 
 ObjList = ../bin/libgeniedat.dll $(ObjDir)/Main.o $(ObjDir)/AGE_FrameConstructor.o $(ObjDir)/AGE_FrameOther.o $(ObjDir)/AGE_FrameResearch.o $(ObjDir)/AGE_FrameTechage.o $(ObjDir)/AGE_FrameCivs.o $(ObjDir)/AGE_FrameUnits.o $(ObjDir)/AGE_FrameGraphics.o $(ObjDir)/AGE_FrameTerrains.o $(ObjDir)/AGE_FrameTerrainRestrictions.o $(ObjDir)/AGE_FrameSounds.o $(ObjDir)/AGE_FrameColors.o $(ObjDir)/AGE_OpenDialog.o $(ObjDir)/AGE_SaveDialog.o $(ObjDir)/AGE_AboutDialog.o $(ObjDir)/AGE_TextControls.o $(ObjDir)/AGE_ComboBoxes.o $(ObjDir)/AGE_CheckBoxes.o $(ObjDir)/AGE_ScrolledWindow.o $(ObjDir)/$(ResFile).o
 AGE_FrameDepends = AGE_Frame.h AGE_ScrolledWindow.h AGE_ComboBoxes.h AGE_CheckBoxes.h AGE_TextControls.h AGE_OpenDialog.h AGE_SaveDialog.h AGE_AboutDialog.h geniedat/File.h AppIcon.xpm
