@@ -1,0 +1,17 @@
+
+The library has following dependencies:
+  * zlib
+  * boost-iostreams
+
+UBUNTU
+
+Install dependencies:
+
+ sudo apt-get install zlib1g-dev libboost-iostreams-dev
+
+Build:
+
+  mkdir build
+  cd build
+  cmake ../
+  make
