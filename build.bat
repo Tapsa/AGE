@@ -3,7 +3,8 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE:STRING=Debug -DwxWidgets_CONFIGURA
 mingw32-make 
 cd ..
 cd ..
-copy /sources/build/AdvancedGenieEditor2.exe AdvancedGenieEditor2.exe
-strip AdvancedGenieEditor2.exe
-upx --best AdvancedGenieEditor2.exe
+copy "sources\build\AdvancedGenieEditor2.exe" "AGE2\AdvancedGenieEditor2.exe"
+cd AGE2
+strip *
+upx --best *
 PAUSE
