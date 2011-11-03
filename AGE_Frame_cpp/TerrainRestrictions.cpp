@@ -139,8 +139,8 @@ void AGE_Frame::ListTerrainRestrictions()
 		Units_ComboBox_TerrainRestriction->Append(Name);
 	}
 	
-	TerRestrict_TerRestrict_List->SetFirstItem(Selection - 3);
 	TerRestrict_TerRestrict_List->SetSelection(0);
+	TerRestrict_TerRestrict_List->SetFirstItem(Selection - 3);
 	TerRestrict_TerRestrict_List->SetSelection(Selection);
 	Units_ComboBox_TerrainRestriction->SetSelection(RestrictionID1);
 	

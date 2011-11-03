@@ -19,6 +19,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		string Name;
+		string NewName;
 		string CivName;
 		short TechEffects = 0;
 		for(short loop3 = 0;loop3 < GenieFile->Techages.size();loop3++)
@@ -26,7 +27,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			TechEffects = GenieFile->Techages[loop3].Effects.size();
 			if(TechEffects < 1) // empty techs.
 			{
-				GenieFile->Techages[loop3].Name = "New Technology";
+				GenieFile->Techages[loop3].Name = "New Techage";
 			}
 			else // other than empty techs, not researches if research loop doesn't rename them.
 			{
@@ -47,7 +48,8 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 				{
 					Name = GenieFile->Researchs[loop].Name;
 				}
-				GenieFile->Techages[ResearchTechID].Name = Name;
+				NewName = Name.substr(0,31);
+				GenieFile->Techages[ResearchTechID].Name = NewName;
 			}
 		}
 		short CivTechTreeID = 0;
@@ -61,13 +63,15 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			{
 				Name = CivName;
 				Name += " Technology Tree";
-				GenieFile->Techages[CivTechTreeID].Name = Name;
+				NewName = Name.substr(0,31);
+				GenieFile->Techages[CivTechTreeID].Name = NewName;
 			}
 			if(CivTeamBonusID > 0)
 			{
 				Name = CivName;
 				Name += " Team Bonus";
-				GenieFile->Techages[CivTeamBonusID].Name = Name;
+				NewName = Name.substr(0,31);
+				GenieFile->Techages[CivTeamBonusID].Name = NewName;
 			}
 		}
 		ListTechages();
@@ -140,8 +144,8 @@ void AGE_Frame::ListTechages()
 		Civs_ComboBox_TeamBonus->Append(Name);
 	}
 	
-	Techs_Techs_List->SetFirstItem(Selection - 3);
 	Techs_Techs_List->SetSelection(0);
+	Techs_Techs_List->SetFirstItem(Selection - 3);
 	Techs_Techs_List->SetSelection(Selection);
 	Research_ComboBox_TechID->SetSelection(TechID1);
 	Civs_ComboBox_TechTree->SetSelection(TechID2);
@@ -309,8 +313,8 @@ void AGE_Frame::ListEffects(int Index)
 			Techs_Effects_List->Append(Name, (void*)&GenieFile->Techages[Index].Effects[loop]);
 		}
 	}
-	Techs_Effects_List->SetFirstItem(Selection - 3);
 	Techs_Effects_List->SetSelection(0);
+	Techs_Effects_List->SetFirstItem(Selection - 3);
 	Techs_Effects_List->SetSelection(Selection);
 
 	wxCommandEvent E;
