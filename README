@@ -1,0 +1,5 @@
+To compile you need to download MinGW, wxWidgets, boost, zlib and CMake.
+You also have to acquire boost iostreams libraries, compile them yourself?
+
+You probably have to add MinGW to the system path.
+Update paths in build.bat file, and then you are ready to go.
