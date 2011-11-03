@@ -51,8 +51,8 @@ void AGE_Frame::ListPlayerColors()
 		}
 	}
 	
-	Colors_Colors_List->SetFirstItem(Selection - 3);
 	Colors_Colors_List->SetSelection(0);
+	Colors_Colors_List->SetFirstItem(Selection - 3);
 	Colors_Colors_List->SetSelection(Selection);
 	
 	wxCommandEvent E;

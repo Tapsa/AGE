@@ -199,8 +199,8 @@ void AGE_Frame::ListGraphics()
 		TerRestrict_ComboBox_Graphics[1]->Append(Name);
 	}
 	
-	Graphics_Graphics_List->SetFirstItem(Selection - 3);
 	Graphics_Graphics_List->SetSelection(0);
+	Graphics_Graphics_List->SetFirstItem(Selection - 3);
 	Graphics_Graphics_List->SetSelection(Selection);
 	Units_ComboBox_ConstructionGraphicID->SetSelection(GraphicIDs[0]);
 	Units_ComboBox_SnowGraphicID->SetSelection(GraphicIDs[1]);

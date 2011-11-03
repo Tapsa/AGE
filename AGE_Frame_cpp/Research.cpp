@@ -93,8 +93,8 @@ void AGE_Frame::ListResearchs()
 		Research_ComboBox_RequiredTechs[loop]->Append(Name);
 	}
 	
-	Research_Research_List->SetFirstItem(Selection - 3);
 	Research_Research_List->SetSelection(0);
+	Research_Research_List->SetFirstItem(Selection - 3);
 	Research_Research_List->SetSelection(Selection);
 	Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
 	Effects_ComboBox_ResearchsA->SetSelection(ResearchIDs[1]);

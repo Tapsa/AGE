@@ -653,7 +653,9 @@ class AGE_Frame : public wxFrame
 	wxButton * Civs_Paste;
 
 	wxBoxSizer * Civs_DataArea;
-	wxBoxSizer * Civs_Holder_MainRows;
+	wxGridSizer * Civs_DataGrid1;
+	wxGridSizer * Civs_DataGrid2;
+	wxGridSizer * Civs_DataGrid3;
 	wxStaticText * Civs_Text_One;
 	wxBoxSizer * Civs_Holder_One;
 	TextCtrl_Byte * Civs_One;

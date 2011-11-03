@@ -122,8 +122,8 @@ void AGE_Frame::ListSounds()
 		Graphics_ComboBox_SoundID->Append(Name);
 	}
 	
-	Sounds_Sounds_List->SetFirstItem(Selection - 3);
 	Sounds_Sounds_List->SetSelection(0);
+	Sounds_Sounds_List->SetFirstItem(Selection - 3);
 	Sounds_Sounds_List->SetSelection(Selection);
 	Units_ComboBox_TrainSound[0]->SetSelection(SoundIDs[0]);
 	Units_ComboBox_TrainSound[1]->SetSelection(SoundIDs[1]);
@@ -256,8 +256,8 @@ void AGE_Frame::ListSoundItems(int Index)
 			Sounds_SoundItems_List->Append(Name, (void*)&GenieFile->Sounds[Index].Items[loop]);
 		}
 	}
-	Sounds_SoundItems_List->SetFirstItem(Selection - 3);
 	Sounds_SoundItems_List->SetSelection(0);
+	Sounds_SoundItems_List->SetFirstItem(Selection - 3);
 	Sounds_SoundItems_List->SetSelection(Selection);
 
 	wxCommandEvent E;
