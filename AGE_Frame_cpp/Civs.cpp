@@ -80,8 +80,8 @@ void AGE_Frame::ListCivs()
 		SoundItems_ComboBox_Civ->Append(Name);
 	}
 	
-	Civs_Civs_List->SetFirstItem(Selection - 3);
 	Civs_Civs_List->SetSelection(0);
+	Civs_Civs_List->SetFirstItem(Selection - 3);
 	Civs_Civs_List->SetSelection(Selection);
 	Research_ComboBox_Civ->SetSelection(CivID1);
 	Units_Civs_List->SetSelection(CivID2);
@@ -156,6 +156,8 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 void AGE_Frame::OnCivsAdd(wxCommandEvent& Event)
 {
 	gdat::Civ Temp;
+	Temp.Resources.resize(GenieFile->Civs[0].Resources.size());
+	Temp.Units.resize(GenieFile->Civs[0].Units.size());
 	GenieFile->Civs.push_back(Temp);
 	Added = true;
 	ListCivs();
@@ -699,8 +701,8 @@ void AGE_Frame::ListResources(int Index)
 		Effects_ComboBox_ResourcesB->Append(Name);
 	}
 	
-	Civs_Resources_List->SetFirstItem(Selection - 3);
 	Civs_Resources_List->SetSelection(0);
+	Civs_Resources_List->SetFirstItem(Selection - 3);
 	Civs_Resources_List->SetSelection(Selection);
 	Units_ComboBox_CostType[0]->SetSelection(ResourceID1);
 	Units_ComboBox_CostType[1]->SetSelection(ResourceID2);
@@ -809,8 +811,9 @@ void AGE_Frame::CreateCivControls()
 	Civs_Paste = new wxButton(Tab_Civs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 
 	Civs_DataArea = new wxBoxSizer(wxVERTICAL);
-	Civs_Holder_MainRows = new wxBoxSizer(wxHORIZONTAL);
-	
+	Civs_DataGrid1 = new wxGridSizer(2, 0, 5);
+	Civs_DataGrid2 = new wxGridSizer(2, 0, 5);
+	Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
 	Civs_Holder_One = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_One = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = new TextCtrl_Byte(Tab_Civs, "0", NULL);
@@ -836,7 +839,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Text_GraphicSet = new wxStaticText(Tab_Civs, wxID_ANY, " Graphic Set", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs, "0", NULL);
 	
-	Civs_Holder_Resources = new wxBoxSizer(wxHORIZONTAL);
+	Civs_Holder_Resources = new wxBoxSizer(wxVERTICAL);
 	Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources Slot");
 	Civs_Resources_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
@@ -868,15 +871,16 @@ void AGE_Frame::CreateCivControls()
 
 	Civs_Holder_One->Add(Civs_Text_One, 0, wxEXPAND);
 	Civs_Holder_One->Add(-1, 2);
-	Civs_Holder_One->Add(Civs_One, 0, wxEXPAND);
+	Civs_Holder_One->Add(Civs_One, 1, wxEXPAND);
 	for(short loop = 0;loop < 2;loop++){
 	Civs_Holder_Name[loop]->Add(Civs_Text_Name[loop], 0, wxEXPAND);
 	Civs_Holder_Name[loop]->Add(-1, 2);
-	Civs_Holder_Name[loop]->Add(Civs_Name[loop], 0, wxEXPAND);}
+	Civs_Holder_Name[loop]->Add(Civs_Name[loop], 1, wxEXPAND);}
 	Civs_Holder_SUnknown1->Add(Civs_Text_SUnknown1, 0, wxEXPAND);
 	Civs_Holder_SUnknown1->Add(-1, 2);
+	Civs_Holder_SUnknown1->Add(Civs_DataGrid3, 1, wxEXPAND);
 	for(short loop = 0;loop < 4;loop++)
-	Civs_Holder_SUnknown1->Add(Civs_SUnknown1[loop], 1, wxEXPAND);
+	Civs_DataGrid3->Add(Civs_SUnknown1[loop], 1, wxEXPAND);
 	Civs_Holder_TechTree->Add(Civs_Text_TechTree, 0, wxEXPAND);
 	Civs_Holder_TechTree->Add(-1, 2);
 	Civs_Holder_TechTree->Add(Civs_TechTree, 1, wxEXPAND);
@@ -887,59 +891,56 @@ void AGE_Frame::CreateCivControls()
 	Civs_Holder_TeamBonus->Add(Civs_ComboBox_TeamBonus, 1, wxEXPAND);
 	Civs_Holder_GraphicSet->Add(Civs_Text_GraphicSet, 0, wxEXPAND);
 	Civs_Holder_GraphicSet->Add(-1, 2);
-	Civs_Holder_GraphicSet->Add(Civs_GraphicSet, 0, wxEXPAND);
+	Civs_Holder_GraphicSet->Add(Civs_GraphicSet, 1, wxEXPAND);
 
-	Civs_Holder_MainRows->Add(Civs_Holder_Name[0], 2, wxEXPAND);
-	Civs_Holder_MainRows->Add(Civs_Holder_Name[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Civs_Holder_MainRows->Add(5, -1);
-	Civs_Holder_MainRows->Add(Civs_Holder_GraphicSet, 1, wxEXPAND);
-	Civs_Holder_MainRows->Add(5, -1);
-	Civs_Holder_MainRows->Add(Civs_Holder_SUnknown1, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Civs_Holder_MainRows->Add(Civs_Holder_TechTree, 1, wxEXPAND);
-	Civs_Holder_MainRows->Add(5, -1);
-	Civs_Holder_MainRows->Add(Civs_Holder_TeamBonus, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Civs_Holder_MainRows->Add(5, -1);
-	Civs_Holder_MainRows->Add(Civs_Holder_One, 1, wxEXPAND);
+	Civs_DataGrid1->Add(Civs_Holder_GraphicSet, 1, wxEXPAND);
+	Civs_DataGrid1->Add(Civs_Holder_One, 1, wxEXPAND);
+	Civs_DataGrid2->Add(Civs_Holder_TechTree, 1, wxEXPAND);
+	Civs_DataGrid2->Add(Civs_Holder_TeamBonus, 1, wxEXPAND);
+	
+	Civs_DataArea->Add(-1, 10);
+	Civs_DataArea->Add(Civs_Holder_Name[0], 0, wxEXPAND);
+	Civs_DataArea->Add(Civs_Holder_Name[1], 0, wxEXPAND);
+	Civs_DataArea->Add(-1, 5);
+	Civs_DataArea->Add(Civs_DataGrid1, 0, wxEXPAND);
+	Civs_DataArea->Add(-1, 5);
+	Civs_DataArea->Add(Civs_DataGrid2, 0, wxEXPAND);
+	Civs_DataArea->Add(-1, 5);
+	Civs_DataArea->Add(Civs_Holder_SUnknown1, 0, wxEXPAND);
 
 	Civs_Resources_Buttons->Add(Resources_Add, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Delete, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Copy, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Paste, 1, wxEXPAND);
 
-	Civs_Resources->Add(Civs_Resources_Search, 0, wxEXPAND);
-	Civs_Resources->Add(Civs_Resources_List, 1, wxEXPAND);
-	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
-
 	Civs_Holder_ResourceValue->Add(Civs_Text_ResourceValue, 0, wxEXPAND);
 	Civs_Holder_ResourceValue->Add(-1, 2);
 	Civs_Holder_ResourceValue->Add(Civs_ResourceValue, 1, wxEXPAND);
 
 	Civs_Resources_Data->Add(Civs_Holder_ResourceValue, 0, wxEXPAND);
-	Civs_Resources_Data->Add(-1, 5);
-	Civs_Resources_Data->Add(Civs_Holder_Resources_Link, 0, wxEXPAND);
 
-	Civs_Holder_Resources->Add(Civs_Resources, 3, wxEXPAND);
-	Civs_Holder_Resources->Add(5, -1);
-	Civs_Holder_Resources->Add(Civs_Resources_Data, 2, wxEXPAND);
-	Civs_Holder_Resources->Add(5, -1);
-	Civs_Holder_Resources->AddStretchSpacer(1);
+	Civs_Resources->Add(Civs_Resources_Search, 0, wxEXPAND);
+	Civs_Resources->Add(Civs_Resources_Data, 0, wxEXPAND);
+	Civs_Resources->Add(Civs_Resources_List, 1, wxEXPAND);
+	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
+	Civs_Resources->Add(Civs_Holder_Resources_Link, 0, wxEXPAND);
 
-	Civs_DataArea->Add(-1, 10);
-	Civs_DataArea->Add(Civs_Holder_MainRows, 0, wxEXPAND);
-	Civs_DataArea->Add(-1, 5);
-	Civs_DataArea->Add(Civs_Holder_Resources, 1, wxEXPAND);
-	Civs_DataArea->Add(-1, 10);
+	Civs_Holder_Resources->Add(-1, 10);
+	Civs_Holder_Resources->Add(Civs_Resources, 1, wxEXPAND);
+	Civs_Holder_Resources->Add(-1, 10);
 
 	Civs_Main->Add(10, -1);
-	Civs_Main->Add(Civs_ListArea, 1, wxEXPAND);
+	Civs_Main->Add(Civs_ListArea, 2, wxEXPAND);
 	Civs_Main->Add(10, -1);
 	Civs_Main->Add(Civs_DataArea, 3, wxEXPAND);
 	Civs_Main->Add(10, -1);
+	Civs_Main->Add(Civs_Holder_Resources, 3, wxEXPAND);
+	Civs_Main->Add(10, -1);
 
-//	Civs_Add->Enable(false);
-//	Civs_Delete->Enable(false);
-//	Resources_Add->Enable(false);
-//	Resources_Delete->Enable(false);
+	Civs_Add->Enable(false); // Adding will seriously damage unit section and does not work in game.
+	Civs_Delete->Enable(false);
+	Resources_Add->Enable(false);
+	Resources_Delete->Enable(false);
 	
 	Tab_Civs->SetSizer(Civs_Main);
 	

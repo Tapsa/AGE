@@ -315,7 +315,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 //		Clearing is necessary to prevent crashes when changing edited file.
 //		These are not needed because they didn't exist in StSB77's version and it worked.
 //		FIX THIS!
-
+/*
 		Civs_Civs_List->Clear();
 		Research_ComboBox_Civ->Clear();
 		Units_Civs_List->Clear();
@@ -527,7 +527,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		
 		for(short loop = 0;loop < 30;loop++)
 		Terrains_ComboBox_TerrainUnitID[loop]->Clear();
-
+*/
 //		After cleared, list data.
 
 		Added = false;
@@ -731,7 +731,7 @@ void AGE_Frame::OnGameVersionChange()
 	Research_Scroller->Scroll(0, 0);
 	Research_Scroller->GetSizer()->SetDimension(0, 0, Research_Scroller->GetSize().GetWidth() - 15, 1);
 	Research_Scroller->Refresh();
-	Civs_Holder_MainRows->Layout();
+	Civs_DataArea->Layout();
 	Units_ScrollerWindowsSpace->Layout();
 	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
 	Units_Scroller->Scroll(0, 0);
@@ -1677,44 +1677,93 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 	((TextCtrl_String*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_String*)Event.GetEventObject())->NoLoadList)
 	{
-		if(Event.GetId() == Techs_Name->GetId())
-		{
-			ListTechages();
-		}
+		string ReducedName;
 		if(Event.GetId() == Research_Name[0]->GetId())
 		{
+			ReducedName = GenieFile->Researchs[ResearchID].Name;
+			ReducedName = ReducedName.substr(0, 30);
+			GenieFile->Researchs[ResearchID].Name = ReducedName;
+			
 			ListResearchs();
 		}
 		if(Event.GetId() == Research_Name[1]->GetId())
 		{
+			ReducedName = GenieFile->Researchs[ResearchID].Name2;
+			ReducedName = ReducedName.substr(0, 30);
+			GenieFile->Researchs[ResearchID].Name2 = ReducedName;
+			
 		//	ListResearchs();
+			wxCommandEvent E;
+			OnResearchSelect(E);
+		}
+		if(Event.GetId() == Techs_Name->GetId())
+		{
+			ReducedName = GenieFile->Techages[TechID].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Techages[TechID].getNameSize());
+			GenieFile->Techages[TechID].Name = ReducedName;
+			
+			ListTechages();
 		}
 		if(Event.GetId() == Civs_Name[0]->GetId())
 		{
+			ReducedName = GenieFile->Civs[CivID].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize());
+			GenieFile->Civs[CivID].Name = ReducedName;
+			
 			ListCivs();
 		}
 		if(Event.GetId() == Civs_Name[1]->GetId())
 		{
+			ReducedName = GenieFile->Civs[CivID].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize());
+			GenieFile->Civs[CivID].Name2 = ReducedName;
+			
 		//	ListCivs();
+			wxCommandEvent E;
+			OnCivsSelect(E);
 		}
 		if(Event.GetId() == Graphics_Name->GetId())
 		{
+			ReducedName = GenieFile->Graphics[GraphicID].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getNameSize());
+			GenieFile->Graphics[GraphicID].Name = ReducedName;
+			
 			ListGraphics();
 		}
 		if(Event.GetId() == Graphics_Name2->GetId())
 		{
+			ReducedName = GenieFile->Graphics[GraphicID].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getName2Size());
+			GenieFile->Graphics[GraphicID].Name2 = ReducedName;
+			
 		//	ListGraphics();
+			wxCommandEvent E;
+			OnGraphicsSelect(E);
 		}
 		if(Event.GetId() == Terrains_Name->GetId())
 		{
+			ReducedName = GenieFile->Terrains[TerrainID].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize());
+			GenieFile->Terrains[TerrainID].Name = ReducedName;
+			
 			ListTerrains();
 		}
 		if(Event.GetId() == Terrains_Name2->GetId())
 		{
+			ReducedName = GenieFile->Terrains[TerrainID].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize());
+			GenieFile->Terrains[TerrainID].Name2 = ReducedName;
+			
 		//	ListTerrains();
+			wxCommandEvent E;
+			OnTerrainsSelect(E);
 		}
 		if(Event.GetId() == SoundItems_Name->GetId())
 		{
+			ReducedName = GenieFile->Sounds[SoundID].Items[SoundItemID].FileName;
+			ReducedName = ReducedName.substr(0, GenieFile->Sounds[SoundID].Items[SoundItemID].getFileNameSize());
+			GenieFile->Sounds[SoundID].Items[SoundItemID].FileName = ReducedName;
+			
 			ListSoundItems(SoundID);
 		}
 		if(Event.GetId() == Colors_Name->GetId())
@@ -1729,7 +1778,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 	((TextCtrl_String*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_String*)Event.GetEventObject())->NoLoadList)
 	{
-		
+		string ReducedName;
 		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
 			wxCommandEvent E;
@@ -1738,11 +1787,21 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == Units_Name->GetId())
 		{
+			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
+			ReducedName = ReducedName.substr(0, 30);
+			GenieFile->Civs[UnitCivID].Units[UnitID].Name = ReducedName;
+			
 			ListUnits(UnitCivID);
 		}
 		if(Event.GetId() == Units_Name2->GetId())
-		{// this is not needed yet
+		{
+			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name2;
+			ReducedName = ReducedName.substr(0, 30);
+			GenieFile->Civs[UnitCivID].Units[UnitID].Name2 = ReducedName;
+			
 		//	ListUnits(UnitCivID);
+			wxCommandEvent E;
+			OnUnitsSelect(E);
 		}
 	}
 }

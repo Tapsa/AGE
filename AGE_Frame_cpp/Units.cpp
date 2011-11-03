@@ -234,8 +234,8 @@ void AGE_Frame::ListUnits(int UnitCivID)
 		Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
 	}
 	
-	Units_Units_List->SetFirstItem(Selection - 3);
 	Units_Units_List->SetSelection(0);
+	Units_Units_List->SetFirstItem(Selection - 3);
 	Units_Units_List->SetSelection(Selection);
 	Units_ComboBox_DeadUnitID->SetSelection(UnitIDs[0]);
 	Units_ComboBox_ProjectileUnitID->SetSelection(UnitIDs[1]);
@@ -1482,9 +1482,9 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 void AGE_Frame::OnUnitHeadsAdd(wxCommandEvent& Event)
 {
 	gdat::Unit Temp;
-	GenieFile->Civs[UnitCivID].Units.push_back(Temp);
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
+		GenieFile->Civs[loop].Units.push_back(Temp);
 		for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
 		{
 			GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
@@ -1522,9 +1522,9 @@ void AGE_Frame::OnUnitHeadsDelete(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Civs[UnitCivID].Units.erase(GenieFile->Civs[UnitCivID].Units.begin() + UnitID);
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
+			GenieFile->Civs[loop].Units.erase(GenieFile->Civs[loop].Units.begin() + UnitID);
 			for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
 			{
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
@@ -1688,8 +1688,8 @@ void AGE_Frame::ListUnitDamageGraphics(int Index, int UnitCivID)
 			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].DamageGraphics[loop]);
 		}
 	}
-	Units_DamageGraphics_List->SetFirstItem(Selection - 3);
 	Units_DamageGraphics_List->SetSelection(0);
+	Units_DamageGraphics_List->SetFirstItem(Selection - 3);
 	Units_DamageGraphics_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -1824,8 +1824,8 @@ void AGE_Frame::ListUnitAttacks(int Index, int UnitCivID)
 	{
 		Units_Attacks_Add->Enable(false);
 	}
-	Units_Attacks_List->SetFirstItem(Selection - 3);
 	Units_Attacks_List->SetSelection(0);
+	Units_Attacks_List->SetFirstItem(Selection - 3);
 	Units_Attacks_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -1957,8 +1957,8 @@ void AGE_Frame::ListUnitArmors(int Index, int UnitCivID)
 	{
 		Units_Armors_Add->Enable(false);
 	}
-	Units_Armors_List->SetFirstItem(Selection - 3);
 	Units_Armors_List->SetSelection(0);
+	Units_Armors_List->SetFirstItem(Selection - 3);
 	Units_Armors_List->SetSelection(Selection);
 
 	wxCommandEvent E;
@@ -2241,8 +2241,8 @@ void AGE_Frame::ListUnitCommands(int Index, int UnitCivID)
 			Units_UnitCommands_Add->Enable(false);
 		}
 	}
-	Units_UnitCommands_List->SetFirstItem(Selection - 3);
 	Units_UnitCommands_List->SetSelection(0);
+	Units_UnitCommands_List->SetFirstItem(Selection - 3);
 	Units_UnitCommands_List->SetSelection(Selection);
 	
 	wxCommandEvent E;
