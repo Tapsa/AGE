@@ -4,7 +4,7 @@ project(AdvancedGenieEditor2)
 
 set(Boost_USE_STATIC_LIBS        ON)
 set(Boost_USE_MULTITHREADED      ON)
-set(Boost_USE_STATIC_RUNTIME    OFF)
+set(Boost_USE_STATIC_RUNTIME     ON)
 
 find_package(Boost 1.42 COMPONENTS iostreams REQUIRED)
 find_package(wxWidgets COMPONENTS adv core base REQUIRED)
@@ -20,7 +20,7 @@ add_subdirectory (extern/geniedat )
 
 set(AGE_SRC Main.cpp
 			AGE_AboutDialog.cpp
-            AGE_CheckBoxes.cpp
+			AGE_CheckBoxes.cpp
 			AGE_ComboBoxes.cpp
 			AGE_OpenDialog.cpp
 			AGE_SaveDialog.cpp

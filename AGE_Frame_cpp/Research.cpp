@@ -398,8 +398,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_NameLength[1] = new wxBoxSizer(wxVERTICAL);
 	Research_Text_NameLength[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Name Length ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Text_NameLength[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name Length 2 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_NameLength[0] = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_NameLength[1] = new TextCtrl_Short(Research_Scroller, "0", NULL);
+	Research_NameLength[0] = new TextCtrl_UnShort(Research_Scroller, "0", NULL);
+	Research_NameLength[1] = new TextCtrl_UnShort(Research_Scroller, "0", NULL);
 
 	Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Delete, 1, wxEXPAND);
