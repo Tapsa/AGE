@@ -551,7 +551,7 @@ class AGE_Frame : public wxFrame
 
 	wxBoxSizer * Research_Holder_NameLength[2];
 	wxStaticText * Research_Text_NameLength[2];
-	TextCtrl_Short * Research_NameLength[2];
+	TextCtrl_UnShort * Research_NameLength[2];
 
 //	Techs user interface
 
