@@ -142,10 +142,7 @@ void AGE_Frame::ListTerrains()
 
 void AGE_Frame::OnTerrainsSearch(wxCommandEvent& Event)
 {
-	if(TerRestrict_Terrains_List->GetSelection() != wxNOT_FOUND || Terrains_Terrains_List->GetSelection() != wxNOT_FOUND)
-	{
-		ListTerrains();
-	}
+	ListTerrains();
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
@@ -411,7 +408,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Unknown10[loop] = new TextCtrl_Byte(Terrains_Scroller, "0", NULL);
 	Terrains_Holder_TerrainUnits = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Holder_TerrainUnitID = new wxBoxSizer(wxVERTICAL);
-	Terrains_Grid_TerrainUnitID = new wxGridSizer(2, 0, 5);
+	Terrains_Grid_TerrainUnitID = new wxGridSizer(2, 0, 0);
 	Terrains_Holder_TerrainUnitDensity = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_TerrainUnitID = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_Text_TerrainUnitDensity = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit Density", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);

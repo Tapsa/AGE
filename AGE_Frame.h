@@ -58,7 +58,9 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_Float(wxFocusEvent& Event);
 	void OnKillFocus_String(wxFocusEvent& Event);
 	
+//	void OnKillFocus_ComboBoxByte(wxFocusEvent& Event);
 	void OnKillFocus_ComboBoxByteEffectType(wxFocusEvent& Event); // for effects' name update
+	void OnKillFocus_ComboBoxShort(wxFocusEvent& Event);
 	
 	void OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event);
@@ -74,7 +76,8 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_String(wxFocusEvent& Event);
 	
-	void OnUpdate_ComboBoxShort(wxCommandEvent& Event); // for effects' attack/armor update
+//	void OnUpdate_ComboBoxByte(wxCommandEvent& Event);
+	void OnUpdate_ComboBoxShort(wxCommandEvent& Event);
 	void OnUpdate_ComboBoxByteEffectType(wxCommandEvent& Event); // for effects' name update
 	void OnUpdate_CheckBoxShort(wxCommandEvent& Event); // for effects' modes.
 
@@ -1740,8 +1743,12 @@ class AGE_Frame : public wxFrame
 	
 	wxBoxSizer * Graphics_Holder_Deltas;
 	wxBoxSizer * Graphics_Holder_Deltas_Data;
+	wxBoxSizer * Graphics_Holder_Deltas_Space;
+	wxBoxSizer * Graphics_Holder_Deltas_Data1;
+	wxGridSizer * Graphics_Grid_Deltas_Data2;
 	wxBoxSizer * Graphics_Holder_AttackSoundArea;
 	wxBoxSizer * Graphics_Holder_AttackSounds_Data;
+	wxBoxSizer * Graphics_Holder_AttackSounds_Space;
 	
 	wxBoxSizer * GraphicDeltas_Holder_GraphicID;
 	wxStaticText * GraphicDeltas_Text_GraphicID;
@@ -1769,6 +1776,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * GraphicDeltas_Text_Unknown5;
 	TextCtrl_Short * GraphicDeltas_Unknown5;
 	wxBoxSizer * Graphics_Holder_AttackSounds;
+	wxGridSizer * Graphics_Grid_AttackSounds;
 	wxStaticText * Graphics_Text_AttackSounds;
 	wxBoxSizer * Graphics_Holder_AttackSoundDelays;
 	wxStaticText * Graphics_Text_AttackSoundDelays;
