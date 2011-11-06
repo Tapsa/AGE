@@ -25,6 +25,7 @@ void AGE_Frame::ListPlayerColors()
 {
 	string Name;
 	wxString SearchText = wxString(Colors_Colors_Search->GetValue()).Lower();
+	wxString ExcludeText = wxString(Colors_Colors_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Colors_Colors_List->GetSelection();
@@ -47,6 +48,7 @@ void AGE_Frame::ListPlayerColors()
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetPlayerColorName(loop)).Lower();
 		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
+			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
 		}
 	}
@@ -188,6 +190,7 @@ void AGE_Frame::CreatePlayerColorControls()
 
 	Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Color Slot");
 	Colors_Colors_Search = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
+	Colors_Colors_Search_R = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
 	Colors_Colors_List = new wxListBox(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Colors_Add = new wxButton(Tab_PlayerColors, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Colors_Delete = new wxButton(Tab_PlayerColors, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -233,6 +236,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Colors_Buttons->Add(Colors_Paste, 1, wxEXPAND);
 
 	Colors_Colors->Add(Colors_Colors_Search, 0, wxEXPAND);
+	Colors_Colors->Add(Colors_Colors_Search_R, 0, wxEXPAND);
 	Colors_Colors->Add(-1, 2);
 	Colors_Colors->Add(Colors_Colors_List, 1, wxEXPAND);
 	Colors_Colors->Add(-1, 2);
@@ -309,6 +313,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Tab_PlayerColors->SetSizer(Colors_Main);
 	
 	Connect(Colors_Colors_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsSearch));
+	Connect(Colors_Colors_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsSearch));
 	Connect(Colors_Colors_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsSelect));
 	Connect(Colors_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsAdd));
 	Connect(Colors_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsDelete));

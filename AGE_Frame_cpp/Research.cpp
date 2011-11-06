@@ -13,9 +13,13 @@ string AGE_Frame::GetResearchName(int Index)
 	{
 		Name = LanguageDllString(GenieFile->Researchs[Index].LanguageDllName);
 	}
-	else
+	else if(GenieFile->Researchs[Index].Name != "")
 	{
 		Name = GenieFile->Researchs[Index].Name;
+	}
+	else
+	{
+		Name = "New Research";
 	}
 	return Name;
 }
@@ -24,6 +28,7 @@ void AGE_Frame::ListResearchs()
 {
 	string Name;
 	wxString SearchText = wxString(Research_Research_Search->GetValue()).Lower();
+	wxString ExcludeText = wxString(Research_Research_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Research_Research_List->GetSelection();
@@ -84,6 +89,7 @@ void AGE_Frame::ListResearchs()
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetResearchName(loop)).Lower();
 		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
+			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);
 		}
 		Effects_ComboBox_ResearchsD->Append(Name);
@@ -288,6 +294,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_ListArea = new wxBoxSizer(wxVERTICAL);
 	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Research Slot");
 	Research_Research_Search = new wxTextCtrl(Tab_Research, wxID_ANY);
+	Research_Research_Search_R = new wxTextCtrl(Tab_Research, wxID_ANY);
 	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Research_Research_Buttons = new wxGridSizer(2, 0, 0);
 	Research_Add = new wxButton(Tab_Research, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -403,6 +410,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research_Buttons->Add(Research_Paste, 1, wxEXPAND);
 
 	Research_Research->Add(Research_Research_Search, 0, wxEXPAND);
+	Research_Research->Add(Research_Research_Search_R, 0, wxEXPAND);
 	Research_Research->Add(-1, 2);
 	Research_Research->Add(Research_Research_List, 1, wxEXPAND);
 	Research_Research->Add(-1, 2);
@@ -602,6 +610,7 @@ void AGE_Frame::CreateResearchControls()
 	Tab_Research->SetSizer(Research_Main);
 
 	Connect(Research_Research_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
+	Connect(Research_Research_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
 	Connect(Research_Research_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
 	Connect(Research_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchAdd));
 	Connect(Research_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchDelete));
