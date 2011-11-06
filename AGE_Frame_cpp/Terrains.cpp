@@ -9,7 +9,14 @@ using std::tolower;
 string AGE_Frame::GetTerrainName(int Index)
 {
 	string Name = "";
-	Name = GenieFile->Terrains[Index].Name;
+	if(GenieFile->Terrains[Index].Name != "")
+	{
+		Name = GenieFile->Terrains[Index].Name;
+	}
+	else
+	{
+		Name = "New Terrain";
+	}
 	return Name;
 }
 
@@ -17,7 +24,9 @@ void AGE_Frame::ListTerrains()
 {
 	string Name;
 	wxString SearchText = wxString(Terrains_Terrains_Search->GetValue()).Lower();
+	wxString ExcludeText = wxString(Terrains_Terrains_Search_R->GetValue()).Lower();
 	wxString SearchText2 = wxString(TerRestrict_Terrains_Search->GetValue()).Lower();
+	wxString ExcludeText2 = wxString(TerRestrict_Terrains_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Terrains_Terrains_List->GetSelection();
@@ -110,11 +119,13 @@ void AGE_Frame::ListTerrains()
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
 		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
 		{
+			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
 		if(SearchText2.IsEmpty() || CompareText.find(SearchText2) != string::npos)
 		{
+			if(ExcludeText2.IsEmpty() || !(CompareText.find(ExcludeText2) != string::npos))
 			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
 		Units_ComboBox_PlacementBypassTerrain[0]->Append(Name);
@@ -321,6 +332,7 @@ void AGE_Frame::CreateTerrainControls()
 	Tab_Terrains = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
 	Terrains_Terrains = new wxStaticBoxSizer(wxVERTICAL, Tab_Terrains, "Terrain Slot");
 	Terrains_Terrains_Search = new wxTextCtrl(Tab_Terrains, wxID_ANY);
+	Terrains_Terrains_Search_R = new wxTextCtrl(Tab_Terrains, wxID_ANY);
 	Terrains_Terrains_List = new wxListBox(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Terrains_Add = new wxButton(Tab_Terrains, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Terrains_Delete = new wxButton(Tab_Terrains, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -438,6 +450,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Terrains_Buttons->Add(Terrains_Paste, 1, wxEXPAND);
 
 	Terrains_Terrains->Add(Terrains_Terrains_Search, 0, wxEXPAND);
+	Terrains_Terrains->Add(Terrains_Terrains_Search_R, 0, wxEXPAND);
 	Terrains_Terrains->Add(-1, 2);
 	Terrains_Terrains->Add(Terrains_Terrains_List, 1, wxEXPAND);
 	Terrains_Terrains->Add(-1, 2);
@@ -625,6 +638,7 @@ void AGE_Frame::CreateTerrainControls()
 	Tab_Terrains->SetSizer(Terrains_Main);
 	
 	Connect(Terrains_Terrains_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
+	Connect(Terrains_Terrains_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
 	Connect(Terrains_Terrains_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
 	Connect(Terrains_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsAdd));
 	Connect(Terrains_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsDelete));
