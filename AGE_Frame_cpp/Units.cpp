@@ -4463,7 +4463,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_DamageGraphics_Space->Add(-1, 200);
 
 	Units_Holder_DamageGraphics->Add(Units_DamageGraphics, 1, wxEXPAND);
-	Units_Holder_DamageGraphics->Add(5, 5);
+	Units_Holder_DamageGraphics->Add(5, -1);
 	Units_Holder_DamageGraphics->Add(Units_Holder_DamageGraphics_Data, 1, wxEXPAND);
 	Units_Holder_DamageGraphics->Add(Units_Holder_DamageGraphics_Space, 2, wxEXPAND);
 	

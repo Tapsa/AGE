@@ -219,6 +219,24 @@ class AGE_Frame : public wxFrame
 	void OnGraphicsPaste(wxCommandEvent& Event);
 	string GetGraphicName(int Index);
 
+	void ListGraphicDeltas(int Index);
+	void OnGraphicDeltasSearch(wxCommandEvent& Event);
+	void OnGraphicDeltasSelect(wxCommandEvent& Event);
+	void OnGraphicDeltasAdd(wxCommandEvent& Event);
+	void OnGraphicDeltasDelete(wxCommandEvent& Event);
+	void OnGraphicDeltasCopy(wxCommandEvent& Event);
+	void OnGraphicDeltasPaste(wxCommandEvent& Event);
+	string GetGraphicDeltaName(int Index, int GraphicID);
+
+	void ListGraphicAttackSounds(int Index);
+	void OnGraphicAttackSoundsSearch(wxCommandEvent& Event);
+	void OnGraphicAttackSoundsSelect(wxCommandEvent& Event);
+	void OnGraphicAttackSoundsAdd(wxCommandEvent& Event);
+	void OnGraphicAttackSoundsDelete(wxCommandEvent& Event);
+	void OnGraphicAttackSoundsCopy(wxCommandEvent& Event);
+	void OnGraphicAttackSoundsPaste(wxCommandEvent& Event);
+	string GetGraphicAttackSoundName(int Index, int GraphicID);
+
 //	Terrain Events
 
 	void ListTerrains();
@@ -319,6 +337,10 @@ class AGE_Frame : public wxFrame
 	short CommandID;
 	gdat::Graphic GraphicCopy;
 	short GraphicID;
+	gdat::GraphicDelta GraphicDeltaCopy;
+	short DeltaID;
+	gdat::GraphicAttackSound GraphicAttackSoundCopy;
+	short AttackSoundID;
 	gdat::Terrain TerrainCopy;
 	short TerrainID;
 	gdat::TerrainRestriction TerrainRestrictionCopy;
@@ -1698,6 +1720,61 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Graphics_SequenceType;
 	TextCtrl_Short * Graphics_ID;
 	TextCtrl_Short * Graphics_TypeS;
+
+	wxStaticBoxSizer * Graphics_Deltas;
+	wxTextCtrl * Graphics_Deltas_Search;
+	wxListBox * Graphics_Deltas_List;
+	wxGridSizer * Graphics_Deltas_Buttons;
+	wxButton * Deltas_Add;
+	wxButton * Deltas_Delete;
+	wxButton * Deltas_Copy;
+	wxButton * Deltas_Paste;
+	wxStaticBoxSizer * Graphics_AttackSounds;
+	wxTextCtrl * Graphics_AttackSounds_Search;
+	wxListBox * Graphics_AttackSounds_List;
+	wxGridSizer * Graphics_AttackSounds_Buttons;
+	wxButton * AttackSounds_Add;
+	wxButton * AttackSounds_Delete;
+	wxButton * AttackSounds_Copy;
+	wxButton * AttackSounds_Paste;
+	
+	wxBoxSizer * Graphics_Holder_Deltas;
+	wxBoxSizer * Graphics_Holder_Deltas_Data;
+	wxBoxSizer * Graphics_Holder_AttackSoundArea;
+	wxBoxSizer * Graphics_Holder_AttackSounds_Data;
+	
+	wxBoxSizer * GraphicDeltas_Holder_GraphicID;
+	wxStaticText * GraphicDeltas_Text_GraphicID;
+	TextCtrl_Short * GraphicDeltas_GraphicID;
+	ComboBox_Short * GraphicDeltas_ComboBox_GraphicID;
+	wxBoxSizer * GraphicDeltas_Holder_Unknown1;
+	wxStaticText * GraphicDeltas_Text_Unknown1;
+	TextCtrl_Short * GraphicDeltas_Unknown1;
+	wxBoxSizer * GraphicDeltas_Holder_Unknown2;
+	wxStaticText * GraphicDeltas_Text_Unknown2;
+	TextCtrl_Short * GraphicDeltas_Unknown2;
+	wxBoxSizer * GraphicDeltas_Holder_Unknown3;
+	wxStaticText * GraphicDeltas_Text_Unknown3;
+	TextCtrl_Short * GraphicDeltas_Unknown3;
+	wxBoxSizer * GraphicDeltas_Holder_DirectionX;
+	wxStaticText * GraphicDeltas_Text_DirectionX;
+	TextCtrl_Short * GraphicDeltas_DirectionX;
+	wxBoxSizer * GraphicDeltas_Holder_DirectionY;
+	wxStaticText * GraphicDeltas_Text_DirectionY;
+	TextCtrl_Short * GraphicDeltas_DirectionY;
+	wxBoxSizer * GraphicDeltas_Holder_Unknown4;
+	wxStaticText * GraphicDeltas_Text_Unknown4;
+	TextCtrl_Short * GraphicDeltas_Unknown4;
+	wxBoxSizer * GraphicDeltas_Holder_Unknown5;
+	wxStaticText * GraphicDeltas_Text_Unknown5;
+	TextCtrl_Short * GraphicDeltas_Unknown5;
+	wxBoxSizer * Graphics_Holder_AttackSounds;
+	wxStaticText * Graphics_Text_AttackSounds;
+	wxBoxSizer * Graphics_Holder_AttackSoundDelays;
+	wxStaticText * Graphics_Text_AttackSoundDelays;
+	TextCtrl_Short * Graphics_AttackSoundDelay[3];
+	TextCtrl_Short * Graphics_AttackSoundID[3];
+	ComboBox_Short * Graphics_ComboBox_AttackSoundID[3];
 
 //	Terrains user interface
 	
