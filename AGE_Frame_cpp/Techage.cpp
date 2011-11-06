@@ -40,7 +40,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			ResearchTechID = GenieFile->Researchs[loop].TechageID;
 			if(ResearchTechID > 0) // Only researches which have techs.
 			{
-				if(LanguageDllString(GenieFile->Researchs[loop].LanguageDllName) != wxT("")) // has a lang dll name
+				if(LanguageDllString(GenieFile->Researchs[loop].LanguageDllName) != "") // has a lang dll name
 				{
 					Name = LanguageDllString(GenieFile->Researchs[loop].LanguageDllName);
 				}
@@ -157,11 +157,7 @@ void AGE_Frame::ListTechages()
 
 void AGE_Frame::OnTechageSearch(wxCommandEvent& Event)
 {
-	short Selection = Techs_Techs_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListTechages();
-	}
+	ListTechages();
 }
 
 void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
@@ -323,11 +319,7 @@ void AGE_Frame::ListEffects(int Index)
 
 void AGE_Frame::OnEffectsSearch(wxCommandEvent& Event)
 {
-	short Selection = Techs_Effects_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListEffects(TechID);
-	}
+	ListEffects(TechID);
 }
 
 void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)

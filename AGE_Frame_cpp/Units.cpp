@@ -17,13 +17,17 @@ string AGE_Frame::GetUnitName(int UnitID, int UnitCivID)
 	short Filter1Selection = Units_Units_SearchFilters1->GetSelection();
 	if(Filter1Selection == 0)	// Lang DLL Name
 	{
-		if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != wxT(""))	// Other than empty.
+		if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")	// Other than empty.
 		{
 			Name = LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
 		}
-		else
+		else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
 		{
 			Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
+		}
+		else
+		{
+			Name = "New Unit";
 		}
 	}
 	else if(Filter1Selection == 1)	// Class
@@ -1698,11 +1702,7 @@ void AGE_Frame::ListUnitDamageGraphics(int Index, int UnitCivID)
 
 void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent& Event)
 {
-	short Selection = Units_DamageGraphics_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListUnitDamageGraphics(UnitID, UnitCivID);
-	}
+	ListUnitDamageGraphics(UnitID, UnitCivID);
 }
 
 void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
@@ -1834,11 +1834,7 @@ void AGE_Frame::ListUnitAttacks(int Index, int UnitCivID)
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent& Event)
 {
-	short Selection = Units_Attacks_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListUnitAttacks(UnitID, UnitCivID);
-	}
+	ListUnitAttacks(UnitID, UnitCivID);
 }
 
 void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
@@ -1967,11 +1963,7 @@ void AGE_Frame::ListUnitArmors(int Index, int UnitCivID)
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent& Event)
 {
-	short Selection = Units_Armors_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListUnitArmors(UnitID, UnitCivID);
-	}
+	ListUnitArmors(UnitID, UnitCivID);
 }
 
 void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
@@ -2251,11 +2243,7 @@ void AGE_Frame::ListUnitCommands(int Index, int UnitCivID)
 
 void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent& Event)
 {
-	short Selection = Units_UnitCommands_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListUnitCommands(UnitID, UnitCivID);
-	}
+	ListUnitCommands(UnitID, UnitCivID);
 }
 
 void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)

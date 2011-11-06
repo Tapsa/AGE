@@ -150,11 +150,7 @@ void AGE_Frame::ListTerrainRestrictions()
 
 void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent& Event)
 {
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListTerrainRestrictions();
-	}
+	ListTerrainRestrictions();
 }
 
 void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)

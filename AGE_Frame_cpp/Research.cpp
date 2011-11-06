@@ -9,7 +9,7 @@ using std::tolower;
 string AGE_Frame::GetResearchName(int Index)
 {
 	string Name = "";	
-	if(LanguageDllString(GenieFile->Researchs[Index].LanguageDllName) != wxT(""))
+	if(LanguageDllString(GenieFile->Researchs[Index].LanguageDllName) != "")
 	{
 		Name = LanguageDllString(GenieFile->Researchs[Index].LanguageDllName);
 	}
@@ -108,11 +108,7 @@ void AGE_Frame::ListResearchs()
 
 void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
 {
-	short Selection = Research_Research_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListResearchs();
-	}
+	ListResearchs();
 }
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)

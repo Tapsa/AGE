@@ -896,6 +896,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_Holder_UnknownArea->Show(true);
 				Units_CommandHolder_Data2->Show(true);
 				Graphics_Holder_Unknowns->Show(true);
+				Graphics_Grid_Deltas_Data2->Show(true);
 				Terrains_Holder_UnknownArea->Show(true);
 				Sounds_Holder_Unknown->Show(true);
 				SoundItems_Holder_Unknown->Show(true);
@@ -906,6 +907,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_Holder_UnknownArea->Show(false);
 				Units_CommandHolder_Data2->Show(false);
 				Graphics_Holder_Unknowns->Show(false);
+				Graphics_Grid_Deltas_Data2->Show(false);
 				Terrains_Holder_UnknownArea->Show(false);
 				Sounds_Holder_Unknown->Show(false);
 				SoundItems_Holder_Unknown->Show(false);
@@ -1414,6 +1416,18 @@ void AGE_Frame::OnKillFocus_ComboBoxByteEffectType(wxFocusEvent& Event)
 	}
 }
 
+void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent& Event)
+{
+	((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
+	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
+	{
+		if(Event.GetId() == GraphicDeltas_GraphicID->GetId())
+		{
+			ListGraphicDeltas(GraphicID);
+		}
+	}
+}
+
 void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 {
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
@@ -1833,6 +1847,10 @@ void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
 	{
 		wxCommandEvent E;
 		OnEffectsSelect(E);
+	}
+	if(Event.GetId() == GraphicDeltas_ComboBox_GraphicID->GetId())
+	{
+		ListGraphicDeltas(GraphicID);
 	}
 }
 
