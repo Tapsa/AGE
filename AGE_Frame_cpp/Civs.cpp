@@ -93,11 +93,7 @@ void AGE_Frame::ListCivs()
 
 void AGE_Frame::OnCivsSearch(wxCommandEvent& Event)
 {
-	short Selection = Civs_Civs_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListCivs();
-	}
+	ListCivs();
 }
 
 void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
@@ -724,11 +720,7 @@ void AGE_Frame::ListResources(int Index)
 
 void AGE_Frame::OnResourcesSearch(wxCommandEvent& Event)
 {
-	short Selection = Civs_Resources_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListResources(CivID);
-	}
+	ListResources(CivID);
 }
 
 void AGE_Frame::OnResourcesSelect(wxCommandEvent& Event)
