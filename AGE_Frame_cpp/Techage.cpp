@@ -88,8 +88,8 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 void AGE_Frame::ListTechages()
 {
 	string Name;
-	wxString SearchText = wxString(Techs_Techs_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Techs_Techs_Search_R->GetValue()).Lower();
+	SearchText = wxString(Techs_Techs_Search->GetValue()).Lower();
+	ExcludeText = wxString(Techs_Techs_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Techs_Techs_List->GetSelection();
@@ -141,9 +141,8 @@ void AGE_Frame::ListTechages()
 		Name += " - ";
 		Name += GetTechageName(loop); // Internal tech name.
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTechageName(loop)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Techs_Techs_List->Append(Name, (void*)&GenieFile->Techages[loop]);
 		}
 //		Name = Techs_Techs_List->GetString(loop);
@@ -294,8 +293,8 @@ string AGE_Frame::GetEffectName(int Index, int TechID)
 void AGE_Frame::ListEffects(int Index)
 {
 	string Name;
-	wxString SearchText = wxString(Techs_Effects_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Techs_Effects_Search_R->GetValue()).Lower();
+	SearchText = wxString(Techs_Effects_Search->GetValue()).Lower();
+	ExcludeText = wxString(Techs_Effects_Search_R->GetValue()).Lower();
 	string CompareText;
 	short Selection = Techs_Effects_List->GetSelection();
 	
@@ -310,12 +309,11 @@ void AGE_Frame::ListEffects(int Index)
 	for(short loop = 0;loop < GenieFile->Techages[Index].Effects.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetEffectName(loop, Index)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
 			Name += GetEffectName(loop, Index);
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Techs_Effects_List->Append(Name, (void*)&GenieFile->Techages[Index].Effects[loop]);
 		}
 	}
