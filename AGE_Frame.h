@@ -94,6 +94,7 @@ class AGE_Frame : public wxFrame
 
 //	void SectionChange();	// wxWidgets doesn't support this.
 	bool FileExists(const char * value);
+	bool SearchMatches(wxString SearchText, wxString ExcludeText, string CompareText);
 
 //	Research Events
 

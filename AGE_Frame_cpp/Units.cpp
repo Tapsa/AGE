@@ -212,9 +212,8 @@ void AGE_Frame::ListUnits(int UnitCivID)
 		Name += " - ";
 		Name += GetUnitName(loop, UnitCivID);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitName(loop, UnitCivID)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(SearchText, ExcludeText, CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[loop]);
 		}
 		Name = lexical_cast<string>(loop);
