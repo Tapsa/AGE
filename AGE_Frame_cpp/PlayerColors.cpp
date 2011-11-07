@@ -27,49 +27,8 @@ void AGE_Frame::ListPlayerColors()
 	wxString SearchText = wxString(Colors_Colors_Search->GetValue()).Lower();
 	wxString ExcludeText = wxString(Colors_Colors_Search_R->GetValue()).Lower();
 	string CompareText;
-	
-//	Tee tästä erillinen funktio/metodi.
-	short Size = 4;
-	wxString SearchEnd[Size];
-	size_t Found;
-	bool Matches = false;
-	Found = SearchText.find("||");
-//	wxMessageBox(lexical_cast<string>(Found));
-	CompareText = wxString("aabbccddeeffgghhiijjkkllmmnnoo");
-	if(Found < 200)
-	{
-		// haun pilkonta
-		SetStatusText(lexical_cast<string>(Found), 0);
-		SearchEnd[0] = SearchText.substr(0, Found);
-		SearchEnd[1] = SearchText.substr((Found+2), SearchText.length());
-		for(short loop = 2;loop < Size;loop++) // tämä osio pilkkoo tarvittaessa yli 2 osaan
-		{
-			Found = SearchEnd[loop-1].find("||");
-			if(Found > 0 && Found < 200)
-			{
-				SearchEnd[loop] = SearchEnd[loop-1].substr((Found+2), SearchEnd[loop-1].length());
-				SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
-			}
-		}
-		
-		// vastaavuuksien etsintä
-		for(short loop = 0;loop < Size;loop++)
-		{
-			if(SearchEnd[loop] != "") // voi täsmää vain jos ei ole tyhjä
-			if(CompareText.find(SearchEnd[loop]) != string::npos) // jos täsmää tai on tyhjä niin Matches = totta
-			Matches = true;
-		}
-		SetStatusText("<"+SearchEnd[0]+" TAI "+SearchEnd[1]+" TAI "+SearchEnd[2]+" TAI "+SearchEnd[3]+"> "+lexical_cast<string>(Matches), 0);
-	}
-	else if(CompareText.find(SearchText) != string::npos)
-	{
-		Matches = true;
-		SetStatusText("No separation <"+SearchText+"> "+lexical_cast<string>(Matches), 0);
-	}
-	else
-	{
-		SetStatusText("Not Found! "+lexical_cast<string>(Matches), 0);
-	}
+//	CompareText = wxString("aabbccddeeffgghhiijjkkllmmnnoo");
+//	SetStatusText("Returned: "+lexical_cast<string>(SearchMatches(SearchText, ExcludeText, CompareText)), 0);
 	
 	short Selection = Colors_Colors_List->GetSelection();
 
@@ -89,9 +48,8 @@ void AGE_Frame::ListPlayerColors()
 		Name += " - ";
 		Name += GetPlayerColorName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetPlayerColorName(loop)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(SearchText, ExcludeText, CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
 		}
 	}
