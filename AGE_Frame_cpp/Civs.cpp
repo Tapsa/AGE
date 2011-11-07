@@ -19,8 +19,8 @@ string AGE_Frame::GetCivName(int Index)
 void AGE_Frame::ListCivs()
 {
 	string Name;
-	wxString SearchText = wxString(Civs_Civs_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Civs_Civs_Search_R->GetValue()).Lower();
+	SearchText = wxString(Civs_Civs_Search->GetValue()).Lower();
+	ExcludeText = wxString(Civs_Civs_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Civs_Civs_List->GetSelection();
@@ -71,9 +71,8 @@ void AGE_Frame::ListCivs()
 		Name += " - ";
 		Name += GetCivName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetCivName(loop)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Civs_Civs_List->Append(Name, (void*)&GenieFile->Civs[loop]);
 		}
 		Research_ComboBox_Civ->Append(Name);
@@ -522,8 +521,8 @@ string AGE_Frame::GetResourceName(int Index, int CivID)
 void AGE_Frame::ListResources(int Index)
 {
 	string Name;
-	wxString SearchText = wxString(Civs_Resources_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Civs_Resources_Search_R->GetValue()).Lower();
+	SearchText = wxString(Civs_Resources_Search->GetValue()).Lower();
+	ExcludeText = wxString(Civs_Resources_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Civs_Resources_List->GetSelection();
@@ -677,9 +676,8 @@ void AGE_Frame::ListResources(int Index)
 		Name += " - ";
 		Name += GetResourceName(loop, Index);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetResourceName(loop, Index)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Civs_Resources_List->Append(Name, (void*)&GenieFile->Civs[Index].Resources[loop]);
 		}
 		Name = lexical_cast<string>(loop);

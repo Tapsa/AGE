@@ -27,8 +27,8 @@ string AGE_Frame::GetResearchName(int Index)
 void AGE_Frame::ListResearchs()
 {
 	string Name;
-	wxString SearchText = wxString(Research_Research_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Research_Research_Search_R->GetValue()).Lower();
+	SearchText = wxString(Research_Research_Search->GetValue()).Lower();
+	ExcludeText = wxString(Research_Research_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Research_Research_List->GetSelection();
@@ -87,9 +87,8 @@ void AGE_Frame::ListResearchs()
 		Name += " - ";
 		Name += GetResearchName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetResearchName(loop)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);
 		}
 		Effects_ComboBox_ResearchsD->Append(Name);
