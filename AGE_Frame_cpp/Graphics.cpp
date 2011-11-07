@@ -23,8 +23,8 @@ string AGE_Frame::GetGraphicName(int Index)
 void AGE_Frame::ListGraphics()
 {
 	string Name;
-	wxString SearchText = wxString(Graphics_Graphics_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Graphics_Graphics_Search_R->GetValue()).Lower();
+	SearchText = wxString(Graphics_Graphics_Search->GetValue()).Lower();
+	ExcludeText = wxString(Graphics_Graphics_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Graphics_Graphics_List->GetSelection();
@@ -186,9 +186,8 @@ void AGE_Frame::ListGraphics()
 		Name += " - ";
 		Name += GetGraphicName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetGraphicName(loop)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
 		}
 		Units_ComboBox_ConstructionGraphicID->Append(Name);
@@ -397,8 +396,8 @@ string AGE_Frame::GetGraphicDeltaName(int Index, int GraphicID)
 void AGE_Frame::ListGraphicDeltas(int Index)
 {
 	string Name;
-	wxString SearchText = wxString(Graphics_Deltas_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Graphics_Deltas_Search_R->GetValue()).Lower();
+	SearchText = wxString(Graphics_Deltas_Search->GetValue()).Lower();
+	ExcludeText = wxString(Graphics_Deltas_Search_R->GetValue()).Lower();
 	string CompareText;
 	short Selection = Graphics_Deltas_List->GetSelection();
 
@@ -413,12 +412,11 @@ void AGE_Frame::ListGraphicDeltas(int Index)
 	for(short loop = 0;loop < GenieFile->Graphics[Index].Deltas.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetGraphicDeltaName(loop, Index)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
 			Name += GetGraphicDeltaName(loop, Index);
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[Index].Deltas[loop]);
 		}
 	}
@@ -535,8 +533,8 @@ string AGE_Frame::GetGraphicAttackSoundName(int Index, int GraphicID)
 void AGE_Frame::ListGraphicAttackSounds(int Index)
 {
 	string Name;
-	wxString SearchText = wxString(Graphics_AttackSounds_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Graphics_AttackSounds_Search_R->GetValue()).Lower();
+	SearchText = wxString(Graphics_AttackSounds_Search->GetValue()).Lower();
+	ExcludeText = wxString(Graphics_AttackSounds_Search_R->GetValue()).Lower();
 	string CompareText;
 	short Selection = Graphics_AttackSounds_List->GetSelection();
 
@@ -551,12 +549,11 @@ void AGE_Frame::ListGraphicAttackSounds(int Index)
 	for(short loop = 0;loop < GenieFile->Graphics[Index].AttackSounds.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetGraphicAttackSoundName(loop, Index)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
 			Name += GetGraphicAttackSoundName(loop, Index);
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[Index].AttackSounds[loop]);
 		}
 	}

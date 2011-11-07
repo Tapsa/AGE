@@ -23,8 +23,8 @@ string AGE_Frame::GetTerrainName(int Index)
 void AGE_Frame::ListTerrains()
 {
 	string Name;
-	wxString SearchText = wxString(Terrains_Terrains_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Terrains_Terrains_Search_R->GetValue()).Lower();
+	SearchText = wxString(Terrains_Terrains_Search->GetValue()).Lower();
+	ExcludeText = wxString(Terrains_Terrains_Search_R->GetValue()).Lower();
 	wxString SearchText2 = wxString(TerRestrict_Terrains_Search->GetValue()).Lower();
 	wxString ExcludeText2 = wxString(TerRestrict_Terrains_Search_R->GetValue()).Lower();
 	string CompareText;
@@ -117,9 +117,8 @@ void AGE_Frame::ListTerrains()
 		Name += " - ";
 		Name += GetTerrainName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();

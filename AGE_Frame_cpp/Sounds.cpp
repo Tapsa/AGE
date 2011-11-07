@@ -16,8 +16,8 @@ string AGE_Frame::GetSoundName(int Index)
 void AGE_Frame::ListSounds()
 {
 	string Name;
-	wxString SearchText = wxString(Sounds_Sounds_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Sounds_Sounds_Search_R->GetValue()).Lower();
+	SearchText = wxString(Sounds_Sounds_Search->GetValue()).Lower();
+	ExcludeText = wxString(Sounds_Sounds_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Sounds_Sounds_List->GetSelection();
@@ -116,9 +116,8 @@ void AGE_Frame::ListSounds()
 		Name += " - ";
 		Name += GetSoundName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetSoundName(loop)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Sounds_Sounds_List->Append(Name, (void*)&GenieFile->Sounds[loop]);
 		}
 		Units_ComboBox_TrainSound[0]->Append(Name);
@@ -251,8 +250,8 @@ string AGE_Frame::GetSoundItemName(int Index, int SoundID)
 void AGE_Frame::ListSoundItems(int Index)
 {
 	string Name;
-	wxString SearchText = wxString(Sounds_SoundItems_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(Sounds_SoundItems_Search_R->GetValue()).Lower();
+	SearchText = wxString(Sounds_SoundItems_Search->GetValue()).Lower();
+	ExcludeText = wxString(Sounds_SoundItems_Search_R->GetValue()).Lower();
 	string CompareText;
 	short Selection = Sounds_SoundItems_List->GetSelection();
 
@@ -267,12 +266,11 @@ void AGE_Frame::ListSoundItems(int Index)
 	for(short loop = 0;loop < GenieFile->Sounds[Index].Items.size();loop++)
 	{
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetSoundItemName(loop, Index)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
 			Name += GetSoundItemName(loop, Index);
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			Sounds_SoundItems_List->Append(Name, (void*)&GenieFile->Sounds[Index].Items[loop]);
 		}
 	}

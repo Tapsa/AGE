@@ -100,8 +100,8 @@ string AGE_Frame::GetTerrainRestrictionName(int Index)
 void AGE_Frame::ListTerrainRestrictions()
 {
 	string Name;
-	wxString SearchText = wxString(TerRestrict_TerRestrict_Search->GetValue()).Lower();
-	wxString ExcludeText = wxString(TerRestrict_TerRestrict_Search_R->GetValue()).Lower();
+	SearchText = wxString(TerRestrict_TerRestrict_Search->GetValue()).Lower();
+	ExcludeText = wxString(TerRestrict_TerRestrict_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = TerRestrict_TerRestrict_List->GetSelection();
@@ -133,9 +133,8 @@ void AGE_Frame::ListTerrainRestrictions()
 		Name += " - ";
 		Name += GetTerrainRestrictionName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainRestrictionName(loop)).Lower();
-		if(SearchText.IsEmpty() || CompareText.find(SearchText) != string::npos)
+		if(SearchMatches(CompareText) == true)
 		{
-			if(ExcludeText.IsEmpty() || !(CompareText.find(ExcludeText) != string::npos))
 			TerRestrict_TerRestrict_List->Append(Name, (void*)&GenieFile->TerrainRestrictions[loop]);
 		}
 		Units_ComboBox_TerrainRestriction->Append(Name);
