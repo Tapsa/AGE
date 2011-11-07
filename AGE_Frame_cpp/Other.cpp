@@ -1050,6 +1050,100 @@ string AGE_Frame::LanguageDllString(int ID)
 	return Result;
 }
 
+bool AGE_Frame::SearchMatches(wxString SearchText, wxString ExcludeText, string CompareText)
+{
+	bool Matches = false;
+
+	if(SearchText == "") // If there is no search text, list normally.
+	{
+		Matches = true;
+	}
+	else if(CompareText.find(SearchText) != string::npos) // If search text has a match.
+	{
+		Matches = true;
+	}
+	else
+	{
+		size_t Found; // Founding position.
+		Found = SearchText.find("|"); // Searching for separation mark in search text.
+		if((Found != string::npos) && Found > 0 && 1 < (SearchText.length() - Found)) // Separation mark found and there is search text on its both sides.
+		{
+			short Size = 4; // Maximum pieces for search text to be split.
+			wxString SearchEnd[Size]; // Parts.
+//			wxMessageBox(lexical_cast<string>(Found));
+//			SetStatusText(lexical_cast<string>(Found), 0);
+			
+			// Splitting of search.
+			SearchEnd[0] = SearchText.substr(0, Found); // Cutting the first part.
+			SearchEnd[1] = SearchText.substr((Found+1), SearchText.length() - 1); // Cutting the remaining part.
+			
+			// Lets look if there are additional separation marks left.
+			for(short loop = 2;loop < Size;loop++) // Splits over 2 parts if necessary.
+			{
+				Found = SearchEnd[loop-1].find("|");
+				if((Found != string::npos) && Found > 0 && 1 < (SearchEnd[loop-1].length() - Found))
+				{
+					SearchEnd[loop] = SearchEnd[loop-1].substr((Found+1), SearchEnd[loop-1].length() - 1);
+					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
+				}
+			}
+		
+			// Searching for matches.
+			for(short loop = 0;loop < Size;loop++)
+			{
+				if(SearchEnd[loop] != "") // Can match only if not empty.
+				if(CompareText.find(SearchEnd[loop]) != string::npos)
+				Matches = true;
+			}
+//			SetStatusText("<"+SearchEnd[0]+" TAI "+SearchEnd[1]+" TAI "+SearchEnd[2]+" TAI "+SearchEnd[3]+"> "+lexical_cast<string>(Matches), 0);
+		}
+	}
+
+	if(ExcludeText == "") // If there is no exclude text, list normally.
+	{
+		// Do nothing.
+	}
+	else if(CompareText.find(ExcludeText) != string::npos) // If exclude text has a match.
+	{
+		Matches = false;
+	}
+	else
+	{
+		size_t Found; // Founding position.
+		Found = ExcludeText.find("|"); // Searching for separation mark in exclude text.
+		if((Found != string::npos) && Found > 0 && 1 < (ExcludeText.length() - Found)) // Separation mark found and there is exclude text on its both sides.
+		{
+			short Size = 4; // Maximum pieces for exclude text to be split.
+			wxString SearchEnd[Size]; // Parts.
+			
+			// Splitting of exclude.
+			SearchEnd[0] = ExcludeText.substr(0, Found); // Cutting the first part.
+			SearchEnd[1] = ExcludeText.substr((Found+1), ExcludeText.length() - 1); // Cutting the remaining part.
+			
+			// Lets look if there are additional separation marks left.
+			for(short loop = 2;loop < Size;loop++) // Splits over 2 parts if necessary.
+			{
+				Found = SearchEnd[loop-1].find("|");
+				if((Found != string::npos) && Found > 0 && 1 < (SearchEnd[loop-1].length() - Found))
+				{
+					SearchEnd[loop] = SearchEnd[loop-1].substr((Found+1), SearchEnd[loop-1].length() - 1);
+					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
+				}
+			}
+		
+			// Searching for matches.
+			for(short loop = 0;loop < Size;loop++)
+			{
+				if(SearchEnd[loop] != "") // Can match only if not empty.
+				if(CompareText.find(SearchEnd[loop]) != string::npos)
+				Matches = false;
+			}
+		}
+	}
+	
+	return Matches;
+}
+
 //	Following kill focuses are used to update lists in user interface
 
 void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
