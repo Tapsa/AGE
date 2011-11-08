@@ -1094,6 +1094,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Main->Add(10, -1);
 	
 	Graphics_ID->Enable(false);
+	Graphics_Add->Enable(false);
+	Graphics_Delete->Enable(false);
 
 	Tab_Graphics->SetSizer(Graphics_Main);
 	
