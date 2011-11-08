@@ -5016,6 +5016,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_NameLength->Enable(false);
 	Units_NameLength2->Enable(false);
 	UnitCommands_ID->Enable(false);
+	Units_Add->Enable(false);
+	Units_Delete->Enable(false);
 	
 	Tab_Units->SetSizer(Units_Main);
 	

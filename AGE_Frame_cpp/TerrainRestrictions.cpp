@@ -404,6 +404,9 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Main->Add(10, -1);
 	TerRestrict_Main->Add(TerRestrict_DataArea, 1, wxEXPAND);
 	TerRestrict_Main->AddStretchSpacer(1);
+	
+	TerRestrict_Add->Enable(false);
+	TerRestrict_Delete->Enable(false);
 
 	Tab_TerrainRestrictions->SetSizer(TerRestrict_Main);
 	
