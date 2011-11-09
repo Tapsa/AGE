@@ -221,22 +221,22 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		Research_Pointers[2]->Container = &ResearchPointer->Pointers[2];
 		Research_Name[0]->ChangeValue(ResearchPointer->Name);
 		Research_Name[0]->Container = &ResearchPointer->Name;
-		Research_NameLength[0]->ChangeValue(lexical_cast<string>(ResearchPointer->NameLength));
-		Research_NameLength[0]->Container = &ResearchPointer->NameLength;
+	//	Research_NameLength[0]->ChangeValue(lexical_cast<string>(ResearchPointer->NameLength));
+	//	Research_NameLength[0]->Container = &ResearchPointer->NameLength;
 		if(GameVersion >= 4)
 		{
 			Research_Holder_Name[1]->Show(true);
-			Research_Holder_NameLength[1]->Show(true);
+		//	Research_Holder_NameLength[1]->Show(true);
 			
 			Research_Name[1]->ChangeValue(ResearchPointer->Name2);
 			Research_Name[1]->Container = &ResearchPointer->Name2;
-			Research_NameLength[1]->ChangeValue(lexical_cast<string>(ResearchPointer->NameLength2));
-			Research_NameLength[1]->Container = &ResearchPointer->NameLength2;
+		//	Research_NameLength[1]->ChangeValue(lexical_cast<string>(ResearchPointer->NameLength2));
+		//	Research_NameLength[1]->Container = &ResearchPointer->NameLength2;
 		}
 		else
 		{
 			Research_Holder_Name[1]->Show(false);
-			Research_Holder_NameLength[1]->Show(false);
+		//	Research_Holder_NameLength[1]->Show(false);
 		}
 		Research_DLL_LangDllName->Wrap(Research_DLL_LangDllName->GetSize().GetWidth());
 		Research_DLL_LangDllDescription->Wrap(Research_DLL_LangDllDescription->GetSize().GetWidth());
@@ -427,18 +427,14 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_Name[1]->Add(Research_Name[1], 1, wxEXPAND);
 
 	Research_Holder_NameLength[0]->Add(Research_Text_NameLength[0], 0, wxEXPAND);
-	Research_Holder_NameLength[0]->Add(-1, 2);
 	Research_Holder_NameLength[0]->Add(Research_NameLength[0], 1, wxEXPAND);
 	Research_Holder_NameLength[1]->Add(Research_Text_NameLength[1], 0, wxEXPAND);
-	Research_Holder_NameLength[1]->Add(-1, 2);
 	Research_Holder_NameLength[1]->Add(Research_NameLength[1], 1, wxEXPAND);
 
 	Research_Holder_Names->Add(Research_Holder_NameLength[0], 1, wxEXPAND);
-	Research_Holder_Names->Add(5, -1);
 	Research_Holder_Names->Add(Research_Holder_Name[0], 2, wxEXPAND);
 	Research_Holder_Names->Add(5, -1);
-	Research_Holder_Names->Add(Research_Holder_NameLength[1], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Research_Holder_Names->Add(5, -1);
+	Research_Holder_Names->Add(Research_Holder_NameLength[1], 1, wxEXPAND);
 	Research_Holder_Names->Add(Research_Holder_Name[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
 	Research_Holder_LangDllName->Add(Research_Text_LangDllName, 0, wxEXPAND);
@@ -603,8 +599,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_Main->Add(Research_DataArea, 3, wxEXPAND);
 	Research_Main->Add(10, -1);
 	
-	Research_NameLength[0]->Enable(false);
-	Research_NameLength[1]->Enable(false);
+	Research_Holder_NameLength[0]->Show(false);
+	Research_Holder_NameLength[1]->Show(false);
 
 	Tab_Research->SetSizer(Research_Main);
 

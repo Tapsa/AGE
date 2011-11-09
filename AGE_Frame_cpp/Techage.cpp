@@ -20,6 +20,20 @@ string AGE_Frame::GetTechageName(int Index)
 	return Name;
 }
 
+void AGE_Frame::OnTechageRenameGE2(wxCommandEvent& Event)
+{
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		string Name;
+		for(short loop = 0;loop < GenieFile->Techages.size();loop++)
+		{
+			GenieFile->Techages[loop].Name = "Tech";
+		}
+		ListTechages();
+	}
+}
+
 void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 {
 	short Selection = Techs_Techs_List->GetSelection();
@@ -34,7 +48,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			TechEffects = GenieFile->Techages[loop3].Effects.size();
 			if(TechEffects < 1) // empty techs.
 			{
-				GenieFile->Techages[loop3].Name = "New Techage";
+				GenieFile->Techages[loop3].Name = "New Technology";
 			}
 			else // other than empty techs, not researches if research loop doesn't rename them.
 			{
@@ -55,7 +69,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 				{
 					Name = GenieFile->Researchs[loop].Name;
 				}
-				NewName = Name.substr(0,31);
+				NewName = Name.substr(0,30);
 				GenieFile->Techages[ResearchTechID].Name = NewName;
 			}
 		}
@@ -70,14 +84,14 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			{
 				Name = CivName;
 				Name += " Technology Tree";
-				NewName = Name.substr(0,31);
+				NewName = Name.substr(0,30);
 				GenieFile->Techages[CivTechTreeID].Name = NewName;
 			}
 			if(CivTeamBonusID > 0)
 			{
 				Name = CivName;
 				Name += " Team Bonus";
-				NewName = Name.substr(0,31);
+				NewName = Name.substr(0,30);
 				GenieFile->Techages[CivTeamBonusID].Name = NewName;
 			}
 		}
@@ -984,6 +998,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Techs_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Rename = new wxButton(Tab_Techage, wxID_ANY, "Rename Technologies", wxDefaultPosition, wxSize(-1, 20));
+	Techs_Techs_Restore = new wxButton(Tab_Techage, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(-1, 20));
 
 	Techs_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Techs_Text_Name = new wxStaticText(Tab_Techage, wxID_ANY, " Technology Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -1304,6 +1319,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Holder_Name->Add(-1, 2);
 	Techs_Holder_Name->Add(Techs_Name, 1, wxEXPAND);
 	Techs_Holder_Name->Add(Techs_Techs_Rename, 1, wxEXPAND);
+	Techs_Holder_Name->Add(Techs_Techs_Restore, 1, wxEXPAND);
 
 	Techs_Effects->Add(Techs_Effects_Search, 0, wxEXPAND);
 	Techs_Effects->Add(Techs_Effects_Search_R, 0, wxEXPAND);
@@ -1424,6 +1440,7 @@ void AGE_Frame::CreateTechageControls()
 	Tab_Techage->SetSizer(Techs_Main);
 	
 	Connect(Techs_Techs_Rename->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRename));
+	Connect(Techs_Techs_Restore->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRenameGE2));
 	Connect(Techs_Techs_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTechageSelect));
 	Connect(Techs_Techs_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechageSearch));
 	Connect(Techs_Techs_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechageSearch));
