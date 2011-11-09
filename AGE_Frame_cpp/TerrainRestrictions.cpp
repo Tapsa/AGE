@@ -221,9 +221,9 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent& Event)
 {
 	gdat::TerrainRestriction Temp;
-//	Temp.TerrainAccessible.resize(GenieFile->Terrains.size());
-//	Temp.TerrainPassGraphics.resize(GenieFile->Terrains.size());
 	GenieFile->TerrainRestrictions.push_back(Temp);
+	GenieFile->TerrainRestrictionPointers1.push_back(1);
+	GenieFile->TerrainRestrictionPointers2.push_back(1);
 	Added = true;
 	ListTerrainRestrictions();
 }
@@ -235,6 +235,8 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->TerrainRestrictions.erase(GenieFile->TerrainRestrictions.begin() + TerRestrictID);
+		GenieFile->TerrainRestrictionPointers1.erase(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictID);
+		GenieFile->TerrainRestrictionPointers2.erase(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictID);
 		if(Selection == TerRestrict_TerRestrict_List->GetCount() - 1)
 		TerRestrict_TerRestrict_List->SetSelection(Selection - 1);
 		ListTerrainRestrictions();
