@@ -118,6 +118,7 @@ class AGE_Frame : public wxFrame
 	void OnTechageCopy(wxCommandEvent& Event);
 	void OnTechagePaste(wxCommandEvent& Event);
 	void OnTechageRename(wxCommandEvent& Event);
+	void OnTechageRenameGE2(wxCommandEvent& Event);
 	string GetTechageName(int Index);
 
 	void ListEffects(int Index);
@@ -615,6 +616,7 @@ class AGE_Frame : public wxFrame
 	wxTextCtrl * Techs_Techs_Search_R;
 	wxListBox * Techs_Techs_List;
 	wxButton * Techs_Techs_Rename;
+	wxButton * Techs_Techs_Restore;
 	wxButton * Techs_Techs_Add;
 	wxButton * Techs_Techs_Delete;
 	wxButton * Techs_Techs_Copy;

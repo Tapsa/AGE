@@ -283,8 +283,14 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent& Event) // Their count is hardcoded.
 {
-	gdat::Terrain Temp;
-	GenieFile->Terrains.push_back(Temp);
+	gdat::Terrain Temp1;
+	GenieFile->Terrains.push_back(Temp1);
+	gdat::TerrainPassGraphic Temp2;
+	for(int loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+	{
+		GenieFile->TerrainRestrictions[loop].TerrainAccessible.push_back(0);
+		GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.push_back(Temp2);
+	}
 	Added = true;
 	ListTerrains();
 }
@@ -296,6 +302,11 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardco
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Terrains.erase(GenieFile->Terrains.begin() + TerrainID);
+		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+		{
+			GenieFile->TerrainRestrictions[loop].TerrainAccessible.erase(GenieFile->TerrainRestrictions[loop].TerrainAccessible.begin() + TerrainID);
+			GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.erase(GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.begin() + TerrainID);
+		}
 		if(Selection == Terrains_Terrains_List->GetCount() - 1)
 		Terrains_Terrains_List->SetSelection(Selection - 1);
 		ListTerrains();

@@ -597,19 +597,19 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_AttackSound->ChangeValue(lexical_cast<string>(UnitPointer->AttackSound));
 		Units_AttackSound->Container = &UnitPointer->AttackSound;
 		Units_ComboBox_AttackSound->SetSelection(UnitPointer->AttackSound + 1);
-		Units_NameLength->ChangeValue(lexical_cast<string>(UnitPointer->NameLength));
-		Units_NameLength->Container = &UnitPointer->NameLength;
+	//	Units_NameLength->ChangeValue(lexical_cast<string>(UnitPointer->NameLength));
+	//	Units_NameLength->Container = &UnitPointer->NameLength;
 		Units_Name->ChangeValue(lexical_cast<string>(UnitPointer->Name));
 		Units_Name->Container = &UnitPointer->Name;
 		if(GameVersion >= 4)
 		{
-			Units_Holder_NameLength2->Show(true);
+		//	Units_Holder_NameLength2->Show(true);
 			Units_Holder_Name2->Show(true);
 			Units_Holder_Unitline->Show(true);
 			Units_Holder_MinTechLevel->Show(true);
 			
-			Units_NameLength2->ChangeValue(lexical_cast<string>(UnitPointer->NameLength2));
-			Units_NameLength2->Container = &UnitPointer->NameLength2;
+		//	Units_NameLength2->ChangeValue(lexical_cast<string>(UnitPointer->NameLength2));
+		//	Units_NameLength2->Container = &UnitPointer->NameLength2;
 			Units_Name2->ChangeValue(lexical_cast<string>(UnitPointer->Name2));
 			Units_Name2->Container = &UnitPointer->Name2;
 			Units_Unitline->ChangeValue(lexical_cast<string>(UnitPointer->Unitline));
@@ -619,7 +619,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		}
 		else
 		{
-			Units_Holder_NameLength2->Show(false);
+		//	Units_Holder_NameLength2->Show(false);
 			Units_Holder_Name2->Show(false);
 			Units_Holder_Unitline->Show(false);
 			Units_Holder_MinTechLevel->Show(false);
@@ -1490,6 +1490,7 @@ void AGE_Frame::OnUnitHeadsAdd(wxCommandEvent& Event)
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
 		GenieFile->Civs[loop].Units.push_back(Temp);
+		GenieFile->Civs[loop].UnitPointers.push_back(1);
 		for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
 		{
 			GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
@@ -1530,6 +1531,7 @@ void AGE_Frame::OnUnitHeadsDelete(wxCommandEvent& Event)
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].Units.erase(GenieFile->Civs[loop].Units.begin() + UnitID);
+			GenieFile->Civs[loop].UnitPointers.erase(GenieFile->Civs[loop].UnitPointers.begin() + UnitID);
 			for(short loop2 = 0;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID fix
 			{
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
@@ -4368,11 +4370,9 @@ void AGE_Frame::CreateUnitControls()
 	
 	Units_Holder_TypeArea1->Add(Units_Holder_Class, 3, wxEXPAND);
 	Units_Holder_TypeArea2->Add(Units_Holder_NameLength, 1, wxEXPAND);
-	Units_Holder_TypeArea2->Add(5, 5);
 	Units_Holder_TypeArea2->Add(Units_Holder_Name, 2, wxEXPAND);
 	Units_Holder_TypeArea2->Add(5, 5);
-	Units_Holder_TypeArea2->Add(Units_Holder_NameLength2, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Units_Holder_TypeArea2->Add(5, 5);
+	Units_Holder_TypeArea2->Add(Units_Holder_NameLength2, 1, wxEXPAND);
 	Units_Holder_TypeArea2->Add(Units_Holder_Name2, 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_TypeArea1->Add(5, 5);
 	Units_Holder_TypeArea1->Add(Units_Holder_ID1, 1, wxEXPAND);
@@ -5013,11 +5013,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_ID1->Enable(false);
 	Units_ID2->Enable(false);
 	Units_ID3->Enable(false);
-	Units_NameLength->Enable(false);
-	Units_NameLength2->Enable(false);
+	Units_Holder_NameLength->Show(false);
+	Units_Holder_NameLength2->Show(false);
 	UnitCommands_ID->Enable(false);
-	Units_Add->Enable(false);
-	Units_Delete->Enable(false);
+//	Units_Add->Enable(false);
+//	Units_Delete->Enable(false);
 	
 	Tab_Units->SetSizer(Units_Main);
 	

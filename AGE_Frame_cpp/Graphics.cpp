@@ -336,6 +336,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent& Event)
 {
 	gdat::Graphic Temp;
 	GenieFile->Graphics.push_back(Temp);
+	GenieFile->GraphicPointers.push_back(1);
 	for(short loop = 0;loop < GenieFile->Graphics.size();loop++)	//	ID fix
 	{
 		GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
@@ -351,6 +352,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Graphics.erase(GenieFile->Graphics.begin() + GraphicID);
+		GenieFile->GraphicPointers.erase(GenieFile->GraphicPointers.begin() + GraphicID);
 		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)	//	ID fix
 		{
 			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
@@ -612,19 +614,19 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicAttackSoundsAdd(wxCommandEvent& Event)
 {
-	short Selection = Graphics_Graphics_List->GetSelection();
+	/*short Selection = Graphics_Graphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
 		gdat::GraphicAttackSound Temp;
 		GenieFile->Graphics[GraphicID].AttackSounds.push_back(Temp);
 		Added = true;
 		ListGraphicAttackSounds(GraphicID);
-	}
+	}*/
 }
 
 void AGE_Frame::OnGraphicAttackSoundsDelete(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
+	/*wxBusyCursor WaitCursor;
 	short Selection = Graphics_AttackSounds_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
@@ -632,7 +634,7 @@ void AGE_Frame::OnGraphicAttackSoundsDelete(wxCommandEvent& Event)
 		if(Selection == Graphics_AttackSounds_List->GetCount() - 1)
 		Graphics_AttackSounds_List->SetSelection(Selection - 1);
 		ListGraphicAttackSounds(GraphicID);
-	}
+	}*/
 }
 
 void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent& Event)
@@ -1096,6 +1098,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ID->Enable(false);
 	Graphics_Add->Enable(false);
 	Graphics_Delete->Enable(false);
+	AttackSounds_Add->Enable(false);
+	AttackSounds_Delete->Enable(false);
 
 	Tab_Graphics->SetSizer(Graphics_Main);
 	
