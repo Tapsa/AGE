@@ -9,6 +9,7 @@ using std::tolower;
 string AGE_Frame::GetGraphicName(int Index)
 {
 	string Name = "";
+//	Name = lexical_cast<string>((short)GenieFile->Graphics[Index].AttackSoundUsed);
 	if(GenieFile->Graphics[Index].Name != "")
 	{
 		Name = GenieFile->Graphics[Index].Name;
@@ -535,9 +536,9 @@ string AGE_Frame::GetGraphicAttackSoundName(int Index, int GraphicID)
 void AGE_Frame::ListGraphicAttackSounds(int Index)
 {
 	string Name;
-	SearchText = wxString(Graphics_AttackSounds_Search->GetValue()).Lower();
-	ExcludeText = wxString(Graphics_AttackSounds_Search_R->GetValue()).Lower();
-	string CompareText;
+//	SearchText = wxString(Graphics_AttackSounds_Search->GetValue()).Lower();
+//	ExcludeText = wxString(Graphics_AttackSounds_Search_R->GetValue()).Lower();
+//	string CompareText;
 	short Selection = Graphics_AttackSounds_List->GetSelection();
 
 	if(!Graphics_AttackSounds_List->IsEmpty())
@@ -550,14 +551,14 @@ void AGE_Frame::ListGraphicAttackSounds(int Index)
 	}
 	for(short loop = 0;loop < GenieFile->Graphics[Index].AttackSounds.size();loop++)
 	{
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetGraphicAttackSoundName(loop, Index)).Lower();
-		if(SearchMatches(CompareText) == true)
-		{
+//		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetGraphicAttackSoundName(loop, Index)).Lower();
+//		if(SearchMatches(CompareText) == true)
+//		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
 			Name += GetGraphicAttackSoundName(loop, Index);
 			Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[Index].AttackSounds[loop]);
-		}
+//		}
 	}
 	Graphics_AttackSounds_List->SetSelection(0);
 	Graphics_AttackSounds_List->SetFirstItem(Selection - 3);
@@ -611,22 +612,27 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent& Event)
 		}
 	}
 }
-
+/*
 void AGE_Frame::OnGraphicAttackSoundsAdd(wxCommandEvent& Event)
 {
-	/*short Selection = Graphics_Graphics_List->GetSelection();
+	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(GenieFile->Graphics[GraphicID].AttackSoundUsed == 0)
+		GenieFile->Graphics[GraphicID].AttackSoundUsed = 1;
+		
 		gdat::GraphicAttackSound Temp;
 		GenieFile->Graphics[GraphicID].AttackSounds.push_back(Temp);
+		GenieFile->Graphics[GraphicID].AngleCount = GenieFile->Graphics[GraphicID].AttackSounds.size();
 		Added = true;
 		ListGraphicAttackSounds(GraphicID);
-	}*/
+		
+	}
 }
 
 void AGE_Frame::OnGraphicAttackSoundsDelete(wxCommandEvent& Event)
 {
-	/*wxBusyCursor WaitCursor;
+	wxBusyCursor WaitCursor;
 	short Selection = Graphics_AttackSounds_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
@@ -634,18 +640,28 @@ void AGE_Frame::OnGraphicAttackSoundsDelete(wxCommandEvent& Event)
 		if(Selection == Graphics_AttackSounds_List->GetCount() - 1)
 		Graphics_AttackSounds_List->SetSelection(Selection - 1);
 		ListGraphicAttackSounds(GraphicID);
-	}*/
+		
+		GenieFile->Graphics[GraphicID].AngleCount = GenieFile->Graphics[GraphicID].AttackSounds.size();
+		
+		if(GenieFile->Graphics[GraphicID].AttackSounds.size() == 0)
+		GenieFile->Graphics[GraphicID].AttackSoundUsed = 0;
+		
+		wxCommandEvent E;
+		OnGraphicsSelect(E);
+	}
 }
-
+*/
 void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent& Event)
 {
 	short Selection = Graphics_AttackSounds_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GraphicAttackSoundCopy = *(gdat::GraphicAttackSound*)Graphics_AttackSounds_List->GetClientData(Selection);
+		GraphicAttackSoundCopy = GenieFile->Graphics[GraphicID].AttackSounds[AttackSoundID];
+		for(short loop = 0;loop < GenieFile->Graphics[GraphicID].AttackSounds.size();loop++)
+		GenieFile->Graphics[GraphicID].AttackSounds[loop] = GraphicAttackSoundCopy;
 	}
 }
-
+/*
 void AGE_Frame::OnGraphicAttackSoundsPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
@@ -656,7 +672,7 @@ void AGE_Frame::OnGraphicAttackSoundsPaste(wxCommandEvent& Event)
 		ListGraphicAttackSounds(GraphicID);
 	}
 }
-
+*/
 void AGE_Frame::CreateGraphicsControls()
 {
 
@@ -743,6 +759,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_CheckBox_AttackSoundUsed = new CheckBox_Byte(Graphics_Scroller, "Used", Graphics_AttackSoundUsed);
 	Graphics_Holder_FrameCount = new wxBoxSizer(wxVERTICAL);
 	Graphics_Holder_3 = new wxBoxSizer(wxHORIZONTAL);
+	Graphics_Holder_4 = new wxBoxSizer(wxHORIZONTAL);
+	Graphics_Holder_5 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Text_FrameCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Count", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_FrameCount = new TextCtrl_UnShort(Graphics_Scroller, "0", NULL);
 	Graphics_Holder_AngleCount = new wxBoxSizer(wxVERTICAL);
@@ -778,14 +796,14 @@ void AGE_Frame::CreateGraphicsControls()
 	Deltas_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
 	Deltas_Paste = new wxButton(Graphics_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 	Graphics_AttackSounds = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Graphic Attack Sounds Slot");
-	Graphics_AttackSounds_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
-	Graphics_AttackSounds_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
+//	Graphics_AttackSounds_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
+//	Graphics_AttackSounds_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
-	Graphics_AttackSounds_Buttons = new wxGridSizer(2, 0, 0);
-	AttackSounds_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
-	AttackSounds_Delete = new wxButton(Graphics_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
-	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
-	AttackSounds_Paste = new wxButton(Graphics_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
+//	Graphics_AttackSounds_Buttons = new wxGridSizer(2, 0, 0);
+//	AttackSounds_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
+//	AttackSounds_Delete = new wxButton(Graphics_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
+	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy To All", wxDefaultPosition, wxSize(-1, 20));
+//	AttackSounds_Paste = new wxButton(Graphics_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 	
 	GraphicDeltas_Holder_GraphicID = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Text_GraphicID = new wxStaticText(Graphics_Scroller, wxID_ANY, " Graphic", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -830,7 +848,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Deltas_Data1 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Grid_Deltas_Data2 = new wxGridSizer(3, 5, 5);
 	Graphics_Holder_AttackSoundArea = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_Holder_AttackSounds_Data = new wxBoxSizer(wxHORIZONTAL);
+	Graphics_Holder_AttackSounds_Data = new wxBoxSizer(wxVERTICAL);
 	Graphics_Holder_AttackSounds_Space = new wxBoxSizer(wxVERTICAL);
 
 	Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
@@ -917,7 +935,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_AttackSoundUsed->Add(Graphics_Text_AttackSoundUsed, 0, wxEXPAND);
 	Graphics_Holder_AttackSoundUsed->Add(-1, 2);
 	Graphics_Holder_AttackSoundUsed->Add(Graphics_Holder_AttackSoundUsed1, 1, wxEXPAND);
-	Graphics_Holder_AttackSoundUsed->AddStretchSpacer(1);
 	Graphics_Holder_FrameCount->Add(Graphics_Text_FrameCount, 0, wxEXPAND);
 	Graphics_Holder_FrameCount->Add(-1, 2);
 	Graphics_Holder_FrameCount->Add(Graphics_FrameCount, 1, wxEXPAND);
@@ -949,23 +966,18 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_1->Add(Graphics_Holder_SequenceType, 1, wxEXPAND);
 	Graphics_Holder_1->Add(5, -1);
 	Graphics_Holder_1->Add(Graphics_Holder_SLP, 1, wxEXPAND);
-	Graphics_Holder_1->Add(5, -1);
-	Graphics_Holder_1->Add(Graphics_Holder_FrameType, 1, wxEXPAND);
 	
+	Graphics_Holder_2->Add(Graphics_Holder_SoundID, 1, wxEXPAND);
+	Graphics_Holder_2->Add(5, -1);
 	Graphics_Holder_2->Add(Graphics_Holder_Replay, 1, wxEXPAND);
 	Graphics_Holder_2->Add(5, -1);
 	Graphics_Holder_2->Add(Graphics_Holder_ReplayDelay, 1, wxEXPAND);
-	Graphics_Holder_2->Add(5, -1);
-	Graphics_Holder_2->Add(Graphics_Holder_SoundID, 1, wxEXPAND);
-	Graphics_Holder_2->Add(5, -1);
-	Graphics_Holder_2->Add(Graphics_Holder_AttackSoundUsed, 1, wxEXPAND);
 	
+	Graphics_Holder_3->Add(Graphics_Holder_FrameType, 1, wxEXPAND);
+	Graphics_Holder_3->Add(5, -1);
 	Graphics_Holder_3->Add(Graphics_Holder_FrameCount, 1, wxEXPAND);
 	Graphics_Holder_3->Add(5, -1);
-	Graphics_Holder_3->Add(Graphics_Holder_AngleCount, 1, wxEXPAND);
-	Graphics_Holder_3->Add(5, -1);
 	Graphics_Holder_3->Add(Graphics_Holder_FrameRate, 1, wxEXPAND);
-	
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown1, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown2, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown3, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -1032,17 +1044,17 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Deltas->Add(Graphics_Holder_Deltas_Data, 3, wxEXPAND);
 	Graphics_Holder_Deltas->Add(Graphics_Holder_Deltas_Space, 0, wxEXPAND);
 
-	Graphics_AttackSounds_Buttons->Add(AttackSounds_Add, 1, wxEXPAND);
+/*	Graphics_AttackSounds_Buttons->Add(AttackSounds_Add, 1, wxEXPAND);
 	Graphics_AttackSounds_Buttons->Add(AttackSounds_Delete, 1, wxEXPAND);
 	Graphics_AttackSounds_Buttons->Add(AttackSounds_Copy, 1, wxEXPAND);
 	Graphics_AttackSounds_Buttons->Add(AttackSounds_Paste, 1, wxEXPAND);
 
 	Graphics_AttackSounds->Add(Graphics_AttackSounds_Search, 0, wxEXPAND);
 	Graphics_AttackSounds->Add(Graphics_AttackSounds_Search_R, 0, wxEXPAND);
-	Graphics_AttackSounds->Add(-1, 2);
+	Graphics_AttackSounds->Add(-1, 2);*/
 	Graphics_AttackSounds->Add(Graphics_AttackSounds_List, 1, wxEXPAND);
 	Graphics_AttackSounds->Add(-1, 2);
-	Graphics_AttackSounds->Add(Graphics_AttackSounds_Buttons, 0, wxEXPAND);
+	Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
 	
 	Graphics_Holder_AttackSounds->Add(Graphics_Text_AttackSounds, 0, wxEXPAND);
 	Graphics_Holder_AttackSounds->Add(-1, 2);
@@ -1055,11 +1067,20 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Grid_AttackSounds->Add(Graphics_ComboBox_AttackSoundID[loop], 0, wxEXPAND);
 		Graphics_Holder_AttackSoundDelays->Add(Graphics_AttackSoundDelay[loop], 0, wxEXPAND);
 	}
-	Graphics_Holder_AttackSounds_Data->Add(Graphics_Holder_AttackSounds, 2, wxEXPAND);
-	Graphics_Holder_AttackSounds_Data->Add(5, -1);
-	Graphics_Holder_AttackSounds_Data->Add(Graphics_Holder_AttackSoundDelays, 1, wxEXPAND);
+	Graphics_Holder_5->Add(Graphics_Holder_AttackSounds, 2, wxEXPAND);
+	Graphics_Holder_5->Add(5, -1);
+	Graphics_Holder_5->Add(Graphics_Holder_AttackSoundDelays, 1, wxEXPAND);
+
+	Graphics_Holder_4->Add(Graphics_Holder_AngleCount, 1, wxEXPAND);
+	Graphics_Holder_4->Add(5, -1);
+	Graphics_Holder_4->Add(Graphics_Holder_AttackSoundUsed, 1, wxEXPAND);
+	Graphics_Holder_4->AddStretchSpacer(1);
 	
-	Graphics_Holder_AttackSounds_Space->Add(-1, 200);
+	Graphics_Holder_AttackSounds_Data->Add(Graphics_Holder_4, 0, wxEXPAND);
+	Graphics_Holder_AttackSounds_Data->Add(-1, 5);
+	Graphics_Holder_AttackSounds_Data->Add(Graphics_Holder_5, 0, wxEXPAND);
+	
+	Graphics_Holder_AttackSounds_Space->Add(-1, 160);
 	Graphics_Holder_AttackSoundArea->Add(Graphics_AttackSounds, 1, wxEXPAND);
 	Graphics_Holder_AttackSoundArea->Add(5, -1);
 	Graphics_Holder_AttackSoundArea->Add(Graphics_Holder_AttackSounds_Data, 3, wxEXPAND);
@@ -1069,9 +1090,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_1, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_2, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_3, 0, wxEXPAND);
+	Graphics_ScrollerWindowsSpace->Add(-1, 5);
+	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_2, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Deltas, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
@@ -1096,10 +1117,11 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Main->Add(10, -1);
 	
 	Graphics_ID->Enable(false);
-	Graphics_Add->Enable(false);
-	Graphics_Delete->Enable(false);
-	AttackSounds_Add->Enable(false);
-	AttackSounds_Delete->Enable(false);
+
+//	AttackSounds_Add->Show(false);
+//	AttackSounds_Delete->Show(false);
+//	AttackSounds_Copy->Show(false);
+//	AttackSounds_Paste->Show(false);
 
 	Tab_Graphics->SetSizer(Graphics_Main);
 	
@@ -1117,17 +1139,20 @@ void AGE_Frame::CreateGraphicsControls()
 	Connect(Deltas_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasDelete));
 	Connect(Deltas_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasCopy));
 	Connect(Deltas_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasPaste));
-	Connect(Graphics_AttackSounds_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSearch));
-	Connect(Graphics_AttackSounds_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSearch));
+//	Connect(Graphics_AttackSounds_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSearch));
+//	Connect(Graphics_AttackSounds_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSearch));
 	Connect(Graphics_AttackSounds_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSelect));
 //	Connect(AttackSounds_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsAdd));
 //	Connect(AttackSounds_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsDelete));
 	Connect(AttackSounds_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopy));
-	Connect(AttackSounds_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsPaste));
+//	Connect(AttackSounds_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsPaste));
 
 	Graphics_Name->Connect(Graphics_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 	Graphics_Name2->Connect(Graphics_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 	GraphicDeltas_GraphicID->Connect(GraphicDeltas_GraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxShort), NULL, this);
 	GraphicDeltas_ComboBox_GraphicID->Connect(GraphicDeltas_ComboBox_GraphicID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
+	Graphics_AngleCount->Connect(Graphics_AngleCount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnShort), NULL, this);
+	Graphics_AttackSoundUsed->Connect(Graphics_AttackSoundUsed->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_CheckBoxByte), NULL, this);
+	Graphics_CheckBox_AttackSoundUsed->Connect(Graphics_CheckBox_AttackSoundUsed->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_CheckBoxByte), NULL, this);
 
 }

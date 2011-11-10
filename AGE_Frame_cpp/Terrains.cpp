@@ -644,9 +644,6 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Main->Add(10, -1);
 	Terrains_Main->Add(Terrains_DataArea, 3, wxEXPAND);
 	Terrains_Main->Add(10, -1);
-	
-	Terrains_Add->Enable(false);
-	Terrains_Delete->Enable(false);
 
 	Tab_Terrains->SetSizer(Terrains_Main);
 	
