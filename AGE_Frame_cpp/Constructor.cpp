@@ -23,6 +23,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
 	Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_NoExtra);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
+	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
 	Config->Read("DefaultFiles/Version", &GameVersion, 3);
 	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, 3);
@@ -56,6 +57,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	SubMenu_Options->Check(MenuOption_Prompt, PromptForFilesOnOpen);
 	SubMenu_Options->AppendCheckItem(MenuOption_Unknowns, "Show &Unknowns");
 	SubMenu_Options->Check(MenuOption_Unknowns, ShowUnknowns);
+	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Enable Forbidden &Buttons");
+	SubMenu_Options->Check(MenuOption_Buttons, ShowButtons);
 
 	SubMenu_SearchFilters = new wxMenu();
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_NoExtra, "&Default");
@@ -119,6 +122,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Unknowns, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_NoAuto, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Include, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Exclude, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
@@ -134,6 +138,11 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	ShowUnknownsCommand.SetId(MenuOption_Unknowns);
 	ShowUnknownsCommand.SetInt(ShowUnknowns);
 	ProcessEvent(ShowUnknownsCommand);
+	
+	wxCommandEvent ShowButtonsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
+	ShowButtonsCommand.SetId(MenuOption_Buttons);
+	ShowButtonsCommand.SetInt(ShowButtons);
+	ProcessEvent(ShowButtonsCommand);
 
 	NeedDat = true;
 	if(!PromptForFilesOnOpen)

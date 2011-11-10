@@ -852,6 +852,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("Interaction/AutoCopyToAllCivs", AutoCopy);
 	Config->Write("Interaction/ExtraSearchFilters", SearchFilters);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
+	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
 	Config->Write("DefaultFiles/Version", GameVersion);
 	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
@@ -935,6 +936,33 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 		//	We don't want to show unknowns that the current game version doesn't use.
 			if(DataOpened == true)
 			OnGameVersionChange();
+		}
+		break;
+		case MenuOption_Buttons:
+		{
+			ShowButtons = Event.IsChecked();
+			if(ShowButtons)
+			{
+				Civs_Add->Enable(true); // Adding will seriously damage unit section and does not work in game.
+				Civs_Delete->Enable(true);
+				Resources_Add->Enable(true);
+				Resources_Delete->Enable(true);
+				Graphics_Add->Enable(true);
+				Graphics_Delete->Enable(true);
+				Terrains_Add->Enable(true);
+				Terrains_Delete->Enable(true);
+			}
+			else
+			{
+				Civs_Add->Enable(false);
+				Civs_Delete->Enable(false);
+				Resources_Add->Enable(false);
+				Resources_Delete->Enable(false);
+				Graphics_Add->Enable(false);
+				Graphics_Delete->Enable(false);
+				Terrains_Add->Enable(false);
+				Terrains_Delete->Enable(false);
+			}
 		}
 		break;
 /*		case moAdvanced: // Old shit
@@ -1515,6 +1543,24 @@ void AGE_Frame::OnKillFocus_ComboBoxByteEffectType(wxFocusEvent& Event)
 	}
 }
 
+void AGE_Frame::OnKillFocus_CheckBoxByte(wxFocusEvent& Event)
+{
+	((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
+	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
+	{
+		if(Event.GetId() == Graphics_AttackSoundUsed->GetId())
+		{
+			if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
+			{
+				GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
+				
+				wxCommandEvent E;
+				OnGraphicsSelect(E);
+			}
+		}
+	}
+}
+
 void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent& Event)
 {
 	((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
@@ -1597,6 +1643,24 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent& Event)
 		{
 			wxCommandEvent E;
 			OnEffectsSelect(E);
+		}
+	}
+}
+
+void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent& Event)
+{
+	((TextCtrl_UnShort*)Event.GetEventObject())->OnKillFocus(Event);
+	if(!((TextCtrl_UnShort*)Event.GetEventObject())->NoLoadList)
+	{
+		if(Event.GetId() == Graphics_AngleCount->GetId())
+		{
+			if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
+			{
+				GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
+				
+				wxCommandEvent E;
+				OnGraphicsSelect(E);
+			}
 		}
 	}
 }
@@ -1925,6 +1989,21 @@ void AGE_Frame::OnUpdate_ComboBoxByteEffectType(wxCommandEvent& Event)
 	if(Event.GetId() == Effects_ComboBox_Type->GetId())
 	{
 		ListEffects(TechID);
+	}
+}
+
+void AGE_Frame::OnUpdate_CheckBoxByte(wxCommandEvent& Event)
+{
+	((CheckBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
+	if(Event.GetId() == Graphics_CheckBox_AttackSoundUsed->GetId())
+	{
+		if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
+		{
+			GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
+			
+			wxCommandEvent E;
+			OnGraphicsSelect(E);
+		}
 	}
 }
 
