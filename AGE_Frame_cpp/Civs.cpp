@@ -934,11 +934,6 @@ void AGE_Frame::CreateCivControls()
 	Civs_Main->Add(Civs_Holder_Resources, 3, wxEXPAND);
 	Civs_Main->Add(10, -1);
 
-	Civs_Add->Enable(false); // Adding will seriously damage unit section and does not work in game.
-	Civs_Delete->Enable(false);
-	Resources_Add->Enable(false);
-	Resources_Delete->Enable(false);
-	
 	Tab_Civs->SetSizer(Civs_Main);
 	
 	Connect(Civs_Civs_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnCivsSearch));

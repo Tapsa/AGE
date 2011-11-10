@@ -54,12 +54,13 @@ class AGE_Frame : public wxFrame
 	
 	void OnKillFocus_Byte(wxFocusEvent& Event);
 	void OnKillFocus_Short(wxFocusEvent& Event);
+	void OnKillFocus_UnShort(wxFocusEvent& Event);
 	void OnKillFocus_Long(wxFocusEvent& Event);
 	void OnKillFocus_Float(wxFocusEvent& Event);
 	void OnKillFocus_String(wxFocusEvent& Event);
 	
-//	void OnKillFocus_ComboBoxByte(wxFocusEvent& Event);
 	void OnKillFocus_ComboBoxByteEffectType(wxFocusEvent& Event); // for effects' name update
+	void OnKillFocus_CheckBoxByte(wxFocusEvent& Event);
 	void OnKillFocus_ComboBoxShort(wxFocusEvent& Event);
 	
 	void OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event);
@@ -76,10 +77,10 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_String(wxFocusEvent& Event);
 	
-//	void OnUpdate_ComboBoxByte(wxCommandEvent& Event);
-	void OnUpdate_ComboBoxShort(wxCommandEvent& Event);
 	void OnUpdate_ComboBoxByteEffectType(wxCommandEvent& Event); // for effects' name update
-	void OnUpdate_CheckBoxShort(wxCommandEvent& Event); // for effects' modes.
+	void OnUpdate_CheckBoxByte(wxCommandEvent& Event);
+	void OnUpdate_ComboBoxShort(wxCommandEvent& Event);
+	void OnUpdate_CheckBoxShort(wxCommandEvent& Event);
 
 	void OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxByteUnitType(wxCommandEvent& Event);
@@ -306,6 +307,7 @@ class AGE_Frame : public wxFrame
 	int AutoCopy;	// Complete.
 	int SearchFilters;
 	bool ShowUnknowns;
+	bool ShowButtons;
 //	int Section;	// Yet unused event. This could be cool.
 	bool NeedDat;
 	bool SkipOpenDialog;
@@ -417,6 +419,7 @@ class AGE_Frame : public wxFrame
 */		MenuOption_Prompt,
 //		moQuickSave,
 		MenuOption_Unknowns,
+		MenuOption_Buttons,
 //		MenuOption_ExtraGraphics,
 //		moAdvanced,
 		MenuOption_NoAuto,
@@ -1652,6 +1655,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Graphics_Holder_AttackSoundUsed;
 	wxBoxSizer * Graphics_Holder_AttackSoundUsed1;
 	wxBoxSizer * Graphics_Holder_3;
+	wxBoxSizer * Graphics_Holder_4;
+	wxBoxSizer * Graphics_Holder_5;
 	wxBoxSizer * Graphics_Holder_FrameCount;
 	wxBoxSizer * Graphics_Holder_AngleCount;
 	wxBoxSizer * Graphics_Holder_Unknown13;
@@ -1730,14 +1735,14 @@ class AGE_Frame : public wxFrame
 	wxButton * Deltas_Copy;
 	wxButton * Deltas_Paste;
 	wxStaticBoxSizer * Graphics_AttackSounds;
-	wxTextCtrl * Graphics_AttackSounds_Search;
-	wxTextCtrl * Graphics_AttackSounds_Search_R;
+//	wxTextCtrl * Graphics_AttackSounds_Search;
+//	wxTextCtrl * Graphics_AttackSounds_Search_R;
 	wxListBox * Graphics_AttackSounds_List;
-	wxGridSizer * Graphics_AttackSounds_Buttons;
-	wxButton * AttackSounds_Add;
-	wxButton * AttackSounds_Delete;
+//	wxGridSizer * Graphics_AttackSounds_Buttons;
+//	wxButton * AttackSounds_Add;
+//	wxButton * AttackSounds_Delete;
 	wxButton * AttackSounds_Copy;
-	wxButton * AttackSounds_Paste;
+//	wxButton * AttackSounds_Paste;
 	
 	wxBoxSizer * Graphics_Holder_Deltas;
 	wxBoxSizer * Graphics_Holder_Deltas_Data;
