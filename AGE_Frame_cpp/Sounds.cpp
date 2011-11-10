@@ -184,10 +184,7 @@ void AGE_Frame::OnSoundsAdd(wxCommandEvent& Event)
 {
 	gdat::Sound Temp;
 	GenieFile->Sounds.push_back(Temp);
-	for(short loop = 0;loop < GenieFile->Sounds.size();loop++)	//	ID fix
-	{
-		GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
-	}
+	GenieFile->Sounds[GenieFile->Sounds.size() - 1].ID = lexical_cast<long>(GenieFile->Sounds.size() - 1);	//	ID Fix
 	Added = true;
 	ListSounds();
 }
@@ -199,7 +196,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->Sounds.erase(GenieFile->Sounds.begin() + SoundID);
-		for(short loop = 0;loop < GenieFile->Sounds.size();loop++)	//	ID fix
+		for(short loop = SoundID;loop < GenieFile->Sounds.size();loop++)	//	ID Fix
 		{
 			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
 		}
@@ -225,10 +222,7 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(gdat::Sound*)Sounds_Sounds_List->GetClientData(Selection) = SoundCopy;
-		for(short loop = 0;loop < GenieFile->Sounds.size();loop++)	//	ID fix
-		{
-			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
-		}
+		GenieFile->Sounds[SoundID].ID = lexical_cast<long>(SoundID);	//	ID Fix
 		ListSounds();
 	}
 }
