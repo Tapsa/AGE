@@ -338,10 +338,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent& Event)
 	gdat::Graphic Temp;
 	GenieFile->Graphics.push_back(Temp);
 	GenieFile->GraphicPointers.push_back(1);
-	for(short loop = 0;loop < GenieFile->Graphics.size();loop++)	//	ID fix
-	{
-		GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
-	}
+	GenieFile->Graphics[GenieFile->Graphics.size() - 1].ID = lexical_cast<short>(GenieFile->Graphics.size() - 1);	//	ID Fix
 	Added = true;
 	ListGraphics();
 }
@@ -354,7 +351,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
 	{
 		GenieFile->Graphics.erase(GenieFile->Graphics.begin() + GraphicID);
 		GenieFile->GraphicPointers.erase(GenieFile->GraphicPointers.begin() + GraphicID);
-		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)	//	ID fix
+		for(short loop = GraphicID;loop < GenieFile->Graphics.size();loop++)	//	ID Fix
 		{
 			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
 		}
@@ -380,10 +377,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(gdat::Graphic*)Graphics_Graphics_List->GetClientData(Selection) = GraphicCopy;
-		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)	//	ID fix
-		{
-			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
-		}
+		GenieFile->Graphics[GraphicID].ID = lexical_cast<short>(GraphicID);	//	ID Fix
 		ListGraphics();
 	}
 }
