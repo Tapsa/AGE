@@ -216,9 +216,6 @@ void AGE_Frame::ListUnits(int UnitCivID)
 		{
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[loop]);
 		}
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetUnitName(loop, 0);
 		Units_ComboBox_DeadUnitID->Append(Name);
 		Units_ComboBox_ProjectileUnitID->Append(Name);
 		Units_ComboBox_AttackMissileDuplicationUnit->Append(Name);
@@ -2234,7 +2231,7 @@ void AGE_Frame::ListUnitCommands(int Index, int UnitCivID)
 	{
 		Selection = 0;
 	}
-	if(GameVersion > 1)	// AoK, TC, SWGB or CC
+	if(GameVersion >= 2)	// AoK, TC, SWGB or CC
 	{
 		for(short loop = 0;loop < GenieFile->UnitHeaders[Index].Commands.size();loop++)
 		{
@@ -2294,7 +2291,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 			Units_UnitCommands_List->SetSelection(Selection);
 		}
 		gdat::UnitCommand * UnitCommandPointer = (gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection);
-		if(GameVersion > 1)
+		if(GameVersion >= 2)
 		{
 			CommandID = UnitCommandPointer - (&GenieFile->UnitHeaders[UnitID].Commands[0]);
 		}

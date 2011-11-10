@@ -548,6 +548,32 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 //		wxCommandEvent E;
 //		OnResearchSelect(E);	// Updates text controls after listing is complete.
 //		OnUnitsSelect(E);	// Updates text controls after listing is complete.
+
+//		ID Fixes
+		for(short loop2 = 0;loop2 < GenieFile->Civs.size();loop2++)
+		{
+			for(short loop = 0;loop < GenieFile->Civs[loop2].Units.size();loop++)
+			{
+				GenieFile->Civs[loop2].Units[loop].ID1 = lexical_cast<short>(loop);
+				GenieFile->Civs[loop2].Units[loop].ID2 = lexical_cast<short>(loop);
+				GenieFile->Civs[loop2].Units[loop].ID3 = lexical_cast<short>(loop);
+				if(GameVersion < 2)
+				for(short loop3 = 0;loop3 < GenieFile->Civs[loop2].Units[loop].Bird->Commands.size();loop3++)
+				GenieFile->Civs[loop2].Units[loop].Bird->Commands[loop3].ID = lexical_cast<short>(loop3);
+			}
+		}
+		for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
+		{
+			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
+		}
+		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
+		{
+			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
+		}
+		for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
+		{
+			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
+		}
 	}
 	
 	DataOpened = true;
