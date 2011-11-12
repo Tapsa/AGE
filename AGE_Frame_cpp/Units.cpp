@@ -30,12 +30,30 @@ string AGE_Frame::GetUnitName(int UnitID, int UnitCivID)
 			Name = "New Unit";
 		}
 	}
-	else if(Filter1Selection == 1)	// Class
+	else if(Filter1Selection == 1)	// Internal Name
+	{
+		if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
+		{
+			Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
+		}
+		else
+		{
+			Name = "New Unit";
+		}
+	}
+	else if(Filter1Selection == 2)	// Type
+	{
+		Name = "Type ";
+		Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitID].getType());
+		Name += " - ";
+		Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
+	}
+	else if(Filter1Selection == 3)	// Class
 	{
 		Name = "Class ";
 		Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Class);
 		Name += " - ";
-		Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
+		Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
 	}
 	else
 	{
@@ -3754,7 +3772,38 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_GarrisonType->SetSelection(0);
 	
 	Units_Units_SearchFilters1->Append("Lang DLL Name");	// 0
-	Units_Units_SearchFilters1->Append("Class");	// 1
+	Units_Units_SearchFilters1->Append("Internal Name");
+	Units_Units_SearchFilters1->Append("Type");
+	Units_Units_SearchFilters1->Append("Class");
+	Units_Units_SearchFilters1->Append("Garrison Type");
+	Units_Units_SearchFilters1->Append("Projectile Unit");
+	Units_Units_SearchFilters1->Append("Enabled");
+	Units_Units_SearchFilters1->Append("Hidden In Editor");
+	Units_Units_SearchFilters1->Append("Visible In Fog");
+	Units_Units_SearchFilters1->Append("Death Mode");
+	Units_Units_SearchFilters1->Append("Hero Mode");
+	Units_Units_SearchFilters1->Append("Air Mode");
+	Units_Units_SearchFilters1->Append("Fly Mode");
+	Units_Units_SearchFilters1->Append("Building Mode");
+	Units_Units_SearchFilters1->Append("Placement Mode");
+	Units_Units_SearchFilters1->Append("Terrain Restriction");
+	Units_Units_SearchFilters1->Append("Interaction Mode");
+	Units_Units_SearchFilters1->Append("Minimap Mode");
+	Units_Units_SearchFilters1->Append("Sheep Conversion");
+	Units_Units_SearchFilters1->Append("Villager Mode");
+	Units_Units_SearchFilters1->Append("Unseletable");
+	Units_Units_SearchFilters1->Append("Selection Mask");
+	Units_Units_SearchFilters1->Append("Selection Shape Type");
+	Units_Units_SearchFilters1->Append("Selection Shape");
+	Units_Units_SearchFilters1->Append("Selection Effect");
+	Units_Units_SearchFilters1->Append("Editor Selection Color");
+	Units_Units_SearchFilters1->Append("Unitline");
+	Units_Units_SearchFilters1->Append("Tracking Unit Used");
+	Units_Units_SearchFilters1->Append("Train Location");
+	Units_Units_SearchFilters1->Append("Command Attribute");
+	Units_Units_SearchFilters1->Append("Stack Unit");
+	Units_Units_SearchFilters1->Append("Terrain");
+	Units_Units_SearchFilters1->Append("Research");
 	Units_Units_SearchFilters1->SetSelection(0);
 	
 	Units_Units_Buttons->Add(Units_Add, 1, wxEXPAND);
