@@ -1532,7 +1532,11 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 	if(Event.GetId() == Units_Units_SearchFilters1->GetId())
 	{
 		short Selection = Units_Units_SearchFilters1->GetSelection();
-		if(Selection == 1)
+		if(Selection == 2)
+		{
+			Units_Units_Search->ChangeValue("Type ");
+		}
+		else if(Selection == 3)
 		{
 			Units_Units_Search->ChangeValue("Class ");
 		}
