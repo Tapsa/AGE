@@ -64,8 +64,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_NoExtra, "&Default");
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_1stFilters, "&1st Filters");
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_2ndFilters, "&2nd Filters");
-	SubMenu_SearchFilters->AppendRadioItem(MenuOption_3rdFilters, "&3rd Filters");
-	SubMenu_SearchFilters->AppendRadioItem(MenuOption_4rdFilters, "&4rd Filters");
+//	SubMenu_SearchFilters->AppendRadioItem(MenuOption_3rdFilters, "&3rd Filters");
+//	SubMenu_SearchFilters->AppendRadioItem(MenuOption_4rdFilters, "&4rd Filters");
 	SubMenu_SearchFilters->Check(SearchFilters, true);
 
 	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &Filters");
@@ -130,8 +130,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(MenuOption_NoExtra, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_1stFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_2ndFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_3rdFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_4rdFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+//	Connect(MenuOption_3rdFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+//	Connect(MenuOption_4rdFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = false;
 	wxCommandEvent ShowUnknownsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Unknowns);

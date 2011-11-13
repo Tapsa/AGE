@@ -6,7 +6,7 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetGraphicName(int Index)
+string AGE_Frame::GetGraphicName(short Index)
 {
 	string Name = "";
 //	Name = lexical_cast<string>((short)GenieFile->Graphics[Index].AttackSoundUsed);
@@ -382,7 +382,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetGraphicDeltaName(int Index, int GraphicID)
+string AGE_Frame::GetGraphicDeltaName(short Index, short GraphicID)
 {
 	string Name = "";
 	Name = "Graphic ID: ";
@@ -390,7 +390,7 @@ string AGE_Frame::GetGraphicDeltaName(int Index, int GraphicID)
 	return Name;
 }
 
-void AGE_Frame::ListGraphicDeltas(int Index)
+void AGE_Frame::ListGraphicDeltas(short Index)
 {
 	string Name;
 	SearchText = wxString(Graphics_Deltas_Search->GetValue()).Lower();
@@ -520,14 +520,14 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetGraphicAttackSoundName(int Index, int GraphicID)
+string AGE_Frame::GetGraphicAttackSoundName(short Index, short GraphicID)
 {
 	string Name = "";
 	Name = "Attack Sound "+lexical_cast<string>(Index);
 	return Name;
 }
 
-void AGE_Frame::ListGraphicAttackSounds(int Index)
+void AGE_Frame::ListGraphicAttackSounds(short Index)
 {
 	string Name;
 //	SearchText = wxString(Graphics_AttackSounds_Search->GetValue()).Lower();
