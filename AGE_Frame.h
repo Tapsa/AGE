@@ -297,6 +297,7 @@ class AGE_Frame : public wxFrame
 //	bool QuickSave;
 	int AutoCopy;	// Complete.
 	int SearchFilters;
+	bool UseAnd;
 	bool ShowUnknowns;
 	bool ShowButtons;
 //	int Section;	// Yet unused event. This could be cool.
@@ -411,6 +412,7 @@ class AGE_Frame : public wxFrame
 //		moQuickSave,
 		MenuOption_Unknowns,
 		MenuOption_Buttons,
+		MenuOption_And,
 //		MenuOption_ExtraGraphics,
 //		moAdvanced,
 		MenuOption_NoAuto,
@@ -1418,6 +1420,7 @@ class AGE_Frame : public wxFrame
 	wxTextCtrl * Units_Units_Search;	// Unit search
 	wxTextCtrl * Units_Units_Search_R;	// Unit reverse search
 	wxOwnerDrawnComboBox * Units_Units_SearchFilters[2];	// Unit search
+	wxCheckBox * Units_Units_UseAnd;
 	wxTextCtrl * ebMainUnitsRSearch;	// Unit exclude from search
 	wxListBox * Units_Units_List;	// List of units
 	wxButton * Units_Add;	// Buttons
