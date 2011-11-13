@@ -488,6 +488,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopyToAllCivs", AutoCopy);
 	Config->Write("Interaction/ExtraSearchFilters", SearchFilters);
+	Config->Write("Interaction/UseAnd", UseAnd);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
@@ -602,6 +603,19 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			}
 		}
 		break;
+		case MenuOption_And:
+		{
+			UseAnd = Event.IsChecked();
+			/*if(UseAnd)
+			{
+			
+			}
+			else
+			{
+			
+			}*/
+		}
+		break;
 		case MenuOption_NoAuto:
 		case MenuOption_Include:
 		case MenuOption_Exclude:
@@ -693,7 +707,7 @@ string AGE_Frame::LanguageDllString(int ID)
 
 bool AGE_Frame::SearchMatches(string CompareText)
 {
-	bool Matches = false, And = true, AndUsed = false;
+	bool Matches = false, And = true;
 	short Size = 30; // Maximum pieces for search text to be split.
 	short Max = Size;
 	wxString SearchEnd[Size]; // Parts.
@@ -709,12 +723,6 @@ bool AGE_Frame::SearchMatches(string CompareText)
 	else
 	{
 		size_t Found; // Founding position.
-		Found = SearchText.find("&"); // Searching for & in beginning of search text.
-		if(Found != string::npos)
-		{
-			SearchText = SearchText.substr(1, SearchText.length() - 1);
-			AndUsed = true;
-		}
 		Found = SearchText.find("|"); // Searching for separation mark in search text.
 		if((Found != string::npos) && Found > 0 && 1 < (SearchText.length() - Found)) // Separation mark found and there is search text on its both sides.
 		{
@@ -748,8 +756,7 @@ bool AGE_Frame::SearchMatches(string CompareText)
 					else And = false;
 				}
 			}
-			wxMessageBox(lexical_cast<string>(AndUsed)+" "+lexical_cast<string>(And)+" "+lexical_cast<string>(Matches));
-			if(AndUsed == true && And == false && Matches == true) Matches = false;
+			if(UseAnd == true && And == false && Matches == true) Matches = false;
 		}
 	}
 
@@ -803,6 +810,11 @@ bool AGE_Frame::SearchMatches(string CompareText)
 
 //	Following kill focuses are used to update lists in user interface
 
+void AGE_Frame::OnKillFocus_TextControls(wxCommandEvent& Event)
+{
+
+}
+s
 void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 {
 	if(Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId())

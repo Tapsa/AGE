@@ -98,6 +98,8 @@ string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
 
 void AGE_Frame::OnUnitsSearch(wxCommandEvent& Event)
 {
+	if(Units_Units_UseAnd->GetValue() == true)
+	UseAnd = true; else UseAnd = false;
 	short Selection = Units_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
@@ -2674,6 +2676,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
 	for(short loop = 0;loop < 2;loop++)
 	Units_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	Units_Units_UseAnd = new wxCheckBox(Tab_Units, wxID_ANY, "Use AND Instead Of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Units_Units_Buttons = new wxGridSizer(2, 0, 0);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -3852,6 +3855,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units->Add(-1, 2);
 	Units_Units->Add(Units_Units_Search, 0, wxEXPAND);
 	Units_Units->Add(Units_Units_Search_R, 0, wxEXPAND);
+	Units_Units->Add(Units_Units_UseAnd, 0, wxEXPAND);
 	for(short loop = 0;loop < 2;loop++)
 	Units_Units->Add(Units_Units_SearchFilters[loop], 0, wxEXPAND);
 	Units_Units->Add(-1, 2);
@@ -5129,6 +5133,7 @@ void AGE_Frame::CreateUnitControls()
 	
 	Connect(Units_Units_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 	Connect(Units_Units_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
+	Connect(Units_Units_UseAnd->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 	for(short loop = 0;loop < 2;loop++)
 	Connect(Units_Units_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
 	Connect(Units_Civs_List->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitSubList));
