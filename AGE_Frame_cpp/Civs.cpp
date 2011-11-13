@@ -6,7 +6,7 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetCivName(int Index)
+string AGE_Frame::GetCivName(short Index)
 {
 	string Name = "";
 	Name += GenieFile->Civs[Index].Name;
@@ -192,7 +192,7 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetResourceName(int Index, int CivID)
+string AGE_Frame::GetResourceName(short Index, short CivID)
 {
 	string Name = "";
 	if(Index == 0)
@@ -518,7 +518,7 @@ string AGE_Frame::GetResourceName(int Index, int CivID)
 	return Name;
 }
 	
-void AGE_Frame::ListResources(int Index)
+void AGE_Frame::ListResources(short Index)
 {
 	string Name;
 	SearchText = wxString(Civs_Resources_Search->GetValue()).Lower();

@@ -6,7 +6,7 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetResearchName(int Index)
+string AGE_Frame::GetResearchName(short Index)
 {
 	string Name = "";	
 	if(LanguageDllString(GenieFile->Researchs[Index].LanguageDllName) != "")

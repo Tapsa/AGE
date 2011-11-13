@@ -6,7 +6,7 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetPlayerColorName(int Index)
+string AGE_Frame::GetPlayerColorName(short Index)
 {
 	string Name = "";
 	if(GameVersion <= 1)

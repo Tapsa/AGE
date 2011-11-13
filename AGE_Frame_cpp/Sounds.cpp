@@ -6,7 +6,7 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetSoundName(int Index)
+string AGE_Frame::GetSoundName(short Index)
 {
 	string Name = "File Count: ";
 	Name += lexical_cast<string>(GenieFile->Sounds[Index].Items.size());
@@ -227,7 +227,7 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetSoundItemName(int Index, int SoundID)
+string AGE_Frame::GetSoundItemName(short Index, short SoundID)
 {
 	string Name = "";
 	if(GenieFile->Sounds[SoundID].Items[Index].FileName != "")
@@ -241,7 +241,7 @@ string AGE_Frame::GetSoundItemName(int Index, int SoundID)
 	return Name;
 }
 
-void AGE_Frame::ListSoundItems(int Index)
+void AGE_Frame::ListSoundItems(short Index)
 {
 	string Name;
 	SearchText = wxString(Sounds_SoundItems_Search->GetValue()).Lower();

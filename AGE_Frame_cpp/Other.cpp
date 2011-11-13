@@ -310,225 +310,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	{	// As of now, without these, nothing can be edited.
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
-//		wxMessageBox("Starting to list.");
-		
-//		Clearing is necessary to prevent crashes when changing edited file.
-//		These are not needed because they didn't exist in StSB77's version and it worked.
-//		FIX THIS!
-/*
-		Civs_Civs_List->Clear();
-		Research_ComboBox_Civ->Clear();
-		Units_Civs_List->Clear();
-		SoundItems_ComboBox_Civ->Clear();
-		Civs_Resources_List->Clear();
-		Units_ComboBox_CostType[0]->Clear();
-		Units_ComboBox_CostType[1]->Clear();
-		Units_ComboBox_CostType[2]->Clear();
-		ResourceStorage_ComboBox_Type[0]->Clear();
-		ResourceStorage_ComboBox_Type[1]->Clear();
-		ResourceStorage_ComboBox_Type[2]->Clear();
-		UnitCommands_ComboBox_ResourceIn->Clear();
-		UnitCommands_ComboBox_ResourceOut->Clear();
-		Research_ComboBox_Resources[0]->Clear();
-		Research_ComboBox_Resources[1]->Clear();
-		Research_ComboBox_Resources[2]->Clear();
-		Effects_ComboBox_ResourcesA->Clear();
-		Effects_ComboBox_ResourcesB->Clear();
-
-		Graphics_Graphics_List->Clear();
-		Units_ComboBox_ConstructionGraphicID->Clear();
-		Units_ComboBox_SnowGraphicID->Clear();
-		Units_ComboBox_AttackGraphic->Clear();
-		Units_ComboBox_StandingGraphic[0]->Clear();
-		Units_ComboBox_StandingGraphic[1]->Clear();
-		Units_ComboBox_GarrisonGraphic[0]->Clear();
-		Units_ComboBox_GarrisonGraphic[1]->Clear();
-		Units_ComboBox_WalkingGraphic[0]->Clear();
-		Units_ComboBox_WalkingGraphic[1]->Clear();
-		Units_ComboBox_DyingGraphic[0]->Clear();
-		Units_ComboBox_DyingGraphic[1]->Clear();
-		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
-		UnitCommands_ComboBox_Graphics[0]->Clear();
-		UnitCommands_ComboBox_Graphics[1]->Clear();
-		UnitCommands_ComboBox_Graphics[2]->Clear();
-		UnitCommands_ComboBox_Graphics[3]->Clear();
-		UnitCommands_ComboBox_Graphics[4]->Clear();
-		UnitCommands_ComboBox_Graphics[5]->Clear();
-		DamageGraphics_ComboBox_GraphicID->Clear();
-		TerRestrict_ComboBox_Graphics[0]->Clear();
-		TerRestrict_ComboBox_Graphics[1]->Clear();
-
-		Civs_Civs_List->Clear();
-		Research_ComboBox_Civ->Clear();
-		Units_Civs_List->Clear();
-		SoundItems_ComboBox_Civ->Clear();
-		Civs_Resources_List->Clear();
-		Units_ComboBox_CostType[0]->Clear();
-		Units_ComboBox_CostType[1]->Clear();
-		Units_ComboBox_CostType[2]->Clear();
-		ResourceStorage_ComboBox_Type[0]->Clear();
-		ResourceStorage_ComboBox_Type[1]->Clear();
-		ResourceStorage_ComboBox_Type[2]->Clear();
-		UnitCommands_ComboBox_ResourceIn->Clear();
-		UnitCommands_ComboBox_ResourceOut->Clear();
-		Research_ComboBox_Resources[0]->Clear();
-		Research_ComboBox_Resources[1]->Clear();
-		Research_ComboBox_Resources[2]->Clear();
-		Effects_ComboBox_ResourcesA->Clear();
-		Effects_ComboBox_ResourcesB->Clear();
-		Graphics_Graphics_List->Clear();
-		Units_ComboBox_ConstructionGraphicID->Clear();
-		Units_ComboBox_SnowGraphicID->Clear();
-		Units_ComboBox_AttackGraphic->Clear();
-		Units_ComboBox_StandingGraphic[0]->Clear();
-		Units_ComboBox_StandingGraphic[1]->Clear();
-		Units_ComboBox_GarrisonGraphic[0]->Clear();
-		Units_ComboBox_GarrisonGraphic[1]->Clear();
-		Units_ComboBox_WalkingGraphic[0]->Clear();
-		Units_ComboBox_WalkingGraphic[1]->Clear();
-		Units_ComboBox_DyingGraphic[0]->Clear();
-		Units_ComboBox_DyingGraphic[1]->Clear();
-		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
-		UnitCommands_ComboBox_Graphics[0]->Clear();
-		UnitCommands_ComboBox_Graphics[1]->Clear();
-		UnitCommands_ComboBox_Graphics[2]->Clear();
-		UnitCommands_ComboBox_Graphics[3]->Clear();
-		UnitCommands_ComboBox_Graphics[4]->Clear();
-		UnitCommands_ComboBox_Graphics[5]->Clear();
-		DamageGraphics_ComboBox_GraphicID->Clear();
-		TerRestrict_ComboBox_Graphics[0]->Clear();
-		TerRestrict_ComboBox_Graphics[1]->Clear();
-		Colors_Colors_List->Clear();
-		Research_Research_List->Clear();
-		Effects_ComboBox_ResearchsD->Clear();
-		Effects_ComboBox_ResearchsA->Clear();
-		Units_ComboBox_ResearchID->Clear();
-		for(short loop = 0;loop < 6;loop++)
-		Research_ComboBox_RequiredTechs[loop]->Clear();
-		Sounds_Sounds_List->Clear();
-		Units_ComboBox_TrainSound[0]->Clear();
-		Units_ComboBox_TrainSound[1]->Clear();
-		Units_ComboBox_SelectionSound->Clear();
-		Units_ComboBox_DyingSound->Clear();
-		Units_ComboBox_AttackSound->Clear();
-		Units_ComboBox_MoveSound->Clear();
-		Units_ComboBox_StopSound->Clear();
-		Units_ComboBox_ConstructionSound->Clear();
-		Sounds_SoundItems_List->Clear();
-		Techs_Techs_List->Clear();
-		Research_ComboBox_TechID->Clear();
-		Civs_ComboBox_TechTree->Clear();
-		Civs_ComboBox_TeamBonus->Clear();
-		Techs_Effects_List->Clear();
-		TerRestrict_TerRestrict_List->Clear();
-		Units_ComboBox_TerrainRestriction->Clear();
-		Terrains_Terrains_List->Clear();
-		TerRestrict_Terrains_List->Clear();
-		Units_ComboBox_PlacementBypassTerrain[0]->Clear();
-		Units_ComboBox_PlacementBypassTerrain[1]->Clear();
-		Units_ComboBox_PlacementTerrain[0]->Clear();
-		Units_ComboBox_PlacementTerrain[1]->Clear();
-		Units_ComboBox_TerrainID->Clear();
-		Units_Civs_List->Clear();
-		Units_Units_List->Clear();
-		Units_ComboBox_DeadUnitID->Clear();
-		Units_ComboBox_ProjectileUnitID->Clear();
-		Units_ComboBox_AttackMissileDuplicationUnit->Clear();
-		Units_ComboBox_DropSite[0]->Clear();
-		Units_ComboBox_DropSite[1]->Clear();
-		Units_ComboBox_TrackingUnit->Clear();
-		Units_ComboBox_TrainLocationID->Clear();
-		Units_ComboBox_StackUnitID->Clear();
-		Units_ComboBox_AnnexUnit[0]->Clear();
-		Units_ComboBox_AnnexUnit[1]->Clear();
-		Units_ComboBox_AnnexUnit[2]->Clear();
-		Units_ComboBox_AnnexUnit[3]->Clear();
-		Units_ComboBox_HeadUnit->Clear();
-		Units_ComboBox_TransformUnit->Clear();
-		Research_ComboBox_ResearchLocation->Clear();
-		Effects_ComboBox_UnitsA->Clear();
-		Effects_ComboBox_UnitsB->Clear();
-		UnitCommands_ComboBox_UnitID->Clear();
-		Units_UnitHeads_List->Clear();
-		Units_DamageGraphics_List->Clear();
-		Units_Attacks_List->Clear();
-		Units_Armors_List->Clear();
-		Units_UnitCommands_List->Clear();
-
-		Colors_Colors_List->Clear();
-
-		Research_Research_List->Clear();
-		Effects_ComboBox_ResearchsD->Clear();
-		Effects_ComboBox_ResearchsA->Clear();
-		Units_ComboBox_ResearchID->Clear();
-		Research_ComboBox_RequiredTechs[0]->Clear();
-		Research_ComboBox_RequiredTechs[1]->Clear();
-		Research_ComboBox_RequiredTechs[2]->Clear();
-		Research_ComboBox_RequiredTechs[3]->Clear();
-		Research_ComboBox_RequiredTechs[4]->Clear();
-		Research_ComboBox_RequiredTechs[5]->Clear();
-
-		Sounds_Sounds_List->Clear();
-		Units_ComboBox_TrainSound[0]->Clear();
-		Units_ComboBox_TrainSound[1]->Clear();
-		Units_ComboBox_SelectionSound->Clear();
-		Units_ComboBox_DyingSound->Clear();
-		Units_ComboBox_AttackSound->Clear();
-		Units_ComboBox_MoveSound->Clear();
-		Units_ComboBox_StopSound->Clear();
-		Units_ComboBox_ConstructionSound->Clear();
-		Terrains_ComboBox_SoundID->Clear();
-		Graphics_ComboBox_SoundID->Clear();
-		Sounds_SoundItems_List->Clear();
-
-		Techs_Techs_List->Clear();
-		Research_ComboBox_TechID->Clear();
-		Civs_ComboBox_TechTree->Clear();
-		Civs_ComboBox_TeamBonus->Clear();
-		Techs_Effects_List->Clear();
-
-		TerRestrict_TerRestrict_List->Clear();
-		Units_ComboBox_TerrainRestriction->Clear();
-
-		Terrains_Terrains_List->Clear();
-		TerRestrict_Terrains_List->Clear();
-		Units_ComboBox_PlacementBypassTerrain[0]->Clear();
-		Units_ComboBox_PlacementBypassTerrain[1]->Clear();
-		Units_ComboBox_PlacementTerrain[0]->Clear();
-		Units_ComboBox_PlacementTerrain[1]->Clear();
-		Units_ComboBox_TerrainID->Clear();
-		Terrains_ComboBox_TerrainReplacementID->Clear();
-
-		Units_Civs_List->Clear();
-		Units_Units_List->Clear();
-		Units_ComboBox_DeadUnitID->Clear();
-		Units_ComboBox_ProjectileUnitID->Clear();
-		Units_ComboBox_AttackMissileDuplicationUnit->Clear();
-		Units_ComboBox_DropSite[0]->Clear();
-		Units_ComboBox_DropSite[1]->Clear();
-		Units_ComboBox_TrackingUnit->Clear();
-		Units_ComboBox_TrainLocationID->Clear();
-		Units_ComboBox_StackUnitID->Clear();
-		Units_ComboBox_AnnexUnit[0]->Clear();
-		Units_ComboBox_AnnexUnit[1]->Clear();
-		Units_ComboBox_AnnexUnit[2]->Clear();
-		Units_ComboBox_AnnexUnit[3]->Clear();
-		Units_ComboBox_HeadUnit->Clear();
-		Units_ComboBox_TransformUnit->Clear();
-		Research_ComboBox_ResearchLocation->Clear();
-		Effects_ComboBox_UnitsA->Clear();
-		Effects_ComboBox_UnitsB->Clear();
-		UnitCommands_ComboBox_UnitID->Clear();
-		Units_UnitHeads_List->Clear();
-		Units_DamageGraphics_List->Clear();
-		Units_Attacks_List->Clear();
-		Units_Armors_List->Clear();
-		Units_UnitCommands_List->Clear();
-		
-		for(short loop = 0;loop < 30;loop++)
-		Terrains_ComboBox_TerrainUnitID[loop]->Clear();
-*/
-//		After cleared, list data.
 
 		Added = false;
 		ListGraphics();
@@ -545,10 +326,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		ListUnits();
 		ListResearchs();
 		
-//		wxCommandEvent E;
-//		OnResearchSelect(E);	// Updates text controls after listing is complete.
-//		OnUnitsSelect(E);	// Updates text controls after listing is complete.
-
 //		ID Fixes
 		for(short loop2 = 0;loop2 < GenieFile->Civs.size();loop2++)
 		{
@@ -586,172 +363,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 void AGE_Frame::OnGameVersionChange()
 {
-//	When this has separate void, there is no need to worry about unknowns mixing these up.
-//	Trying to set these in lists should be disabled. But it doesn't cause lags yet, so no hurries.
-/*	if(GameVersion >= 0)	//	AoE and RoR, (AoK and TC, SWGB and CC)
-	{
-		TerRestrict_Holder_Unknown1->Show(false);
-		TerRestrict_CheckBox_Unknown1->Show(false);
-		TerRestrict_Holder_Graphics->Show(false);
-		TerRestrict_Holder_Amount->Show(false);
-		Colors_Holder_Name->Show(true);
-		Colors_Holder_Palette->Show(false);
-		Colors_Holder_MinimapColor->Show(false);
-		Colors_Holder_Unknown1->Show(false);
-		Colors_Holder_Unknown2->Show(false);
-		Colors_Holder_Unknown3->Show(false);
-		Colors_Holder_Unknown4->Show(false);
-		Colors_Holder_Unknown5->Show(false);
-		SoundItems_Holder_Civ->Show(false);
-		SoundItems_Holder_Unknown->Show(false);
-		Terrains_Holder_BlendPriority->Show(false);
-		Terrains_Holder_BlendType->Show(false);
-		Research_RequiredTechs[4]->Show(false);
-		Research_ComboBox_RequiredTechs[4]->Show(false);
-		Research_RequiredTechs[5]->Show(false);
-		Research_ComboBox_RequiredTechs[5]->Show(false);
-		Research_Holder_FullTechMode->Show(false);
-		Research_Holder_Civ->Show(false);
-		Research_Holder_NameLength[1]->Show(false);
-		Research_Holder_Name[1]->Show(false);
-		Civs_Holder_TeamBonus->Show(false);
-		Units_StandingGraphic[1]->Show(false);
-		Units_ComboBox_StandingGraphic[1]->Show(false);
-		Units_TrainSound[1]->Show(false);
-		Units_ComboBox_TrainSound[1]->Show(false);
-		if(ShowUnknowns) Units_Holder_Unknown3a->Show(true);
-		Units_Holder_Unknown7->Show(false);
-		Units_Holder_Unknown8->Show(false);
-		Units_Holder_SelectionShapeType->Show(false);
-		if(ShowUnknowns) Units_Holder_Unknown9->Show(true);
-		Units_Holder_SelectionEffect->Show(false);
-		Units_Holder_EditorSelectionColour->Show(false);
-		Units_Holder_NameLength2->Show(false);
-		Units_Holder_Name2->Show(false);
-		Units_Holder_Unitline->Show(false);
-		Units_Holder_MinTechLevel->Show(false);
-		Units_Holder_ID3->Show(false);
-		Units_Holder_Unknown12->Show(false);
-		for(short loop = 1;loop < 17;loop++)
-		Units_Unknown16[loop]->Show(false);
-		Units_Holder_Exists->Show(false);
-		Units_Unknown20[1]->Show(false);
-		Units_Holder_GarrisonRecoveryRate->Show(false);
-		Units_Holder_Unknown26->Show(false);
-		Units_Holder_Unknown27->Show(false);
-		Units_Holder_Unknown28->Show(false);
-		Units_Holder_MissileGraphicDelay->Show(false);
-		Units_Holder_HeroMode->Show(false);
-		Units_Holder_GarrisonGraphic->Show(false);
-		Units_Holder_AttackMissileDuplicationAmount1->Show(false);
-		Units_Holder_AttackMissileDuplicationAmount2->Show(false);
-		Units_Holder_AttackMissileDuplicationUnknown->Show(false);
-		Units_Holder_AttackMissileDuplicationUnit->Show(false);
-		Units_Holder_AttackMissileDuplicationGraphic->Show(false);
-		Units_Holder_Unknown29->Show(false);
-		Units_Holder_SnowGraphicID->Show(false);
-		Units_Holder_Unknown33->Show(false);
-		Units_Holder_AnnexUnit1->Show(false);
-		Units_Holder_AnnexUnitMisplacement1->Show(false);
-		Units_Holder_HeadUnit->Show(false);
-		Units_Holder_TransformUnit->Show(false);
-		Units_Holder_Unknown34->Show(false);
-		Units_Holder_GarrisonType->Show(false);
-		Units_Holder_GarrisonHealRate->Show(false);
-		Units_Holder_Unknown35->Show(false);
-		Units_Holder_Unknown36->Show(false);
-		Units_Holder_Unknown37->Show(false);
-	}
-	if(GameVersion >= 1)	//	RoR, (AoK and TC, SWGB and CC)
-	{
-		
-	}
-	if(GameVersion >= 2)	//	AoK and TC, (SWGB and CC)
-	{
-		if(ShowUnknowns) TerRestrict_Holder_Unknown1->Show(true);
-		if(ShowUnknowns) TerRestrict_CheckBox_Unknown1->Show(true);
-		TerRestrict_Holder_Graphics->Show(true);
-		TerRestrict_Holder_Amount->Show(true);
-		Colors_Holder_Name->Show(false);
-		Colors_Holder_Palette->Show(true);
-		Colors_Holder_MinimapColor->Show(true);
-		if(ShowUnknowns) Colors_Holder_Unknown1->Show(true);
-		if(ShowUnknowns) Colors_Holder_Unknown2->Show(true);
-		if(ShowUnknowns) Colors_Holder_Unknown3->Show(true);
-		if(ShowUnknowns) Colors_Holder_Unknown4->Show(true);
-		if(ShowUnknowns) Colors_Holder_Unknown5->Show(true);
-		SoundItems_Holder_Civ->Show(true);
-		if(ShowUnknowns) SoundItems_Holder_Unknown->Show(true);
-		Terrains_Holder_BlendPriority->Show(true);
-		Terrains_Holder_BlendType->Show(true);
-		Research_RequiredTechs[4]->Show(true);
-		Research_ComboBox_RequiredTechs[4]->Show(true);
-		Research_RequiredTechs[5]->Show(true);
-		Research_ComboBox_RequiredTechs[5]->Show(true);
-		Research_Holder_FullTechMode->Show(true);
-		Research_Holder_Civ->Show(true);
-		Civs_Holder_TeamBonus->Show(true);
-		Units_StandingGraphic[1]->Show(true);
-		Units_ComboBox_StandingGraphic[1]->Show(true);
-		Units_TrainSound[1]->Show(true);
-		Units_ComboBox_TrainSound[1]->Show(true);
-		Units_Holder_Unknown3a->Show(false);
-		if(ShowUnknowns) Units_Holder_Unknown7->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown8->Show(true);
-		Units_Holder_SelectionShapeType->Show(true);
-		Units_Holder_Unknown9->Show(false);
-		Units_Holder_SelectionEffect->Show(true);
-		Units_Holder_EditorSelectionColour->Show(true);
-		Units_Holder_ID3->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown12->Show(true);
-		for(short loop = 1;loop < 17;loop++)
-		{if(ShowUnknowns) Units_Unknown16[loop]->Show(true);}
-		Units_Holder_Exists->Show(true);
-		Units_Holder_GarrisonRecoveryRate->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown26->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown27->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown28->Show(true);
-		Units_Holder_MissileGraphicDelay->Show(true);
-		Units_Holder_HeroMode->Show(true);
-		Units_Holder_GarrisonGraphic->Show(true);
-		Units_Holder_AttackMissileDuplicationAmount1->Show(true);
-		Units_Holder_AttackMissileDuplicationAmount2->Show(true);
-		if(ShowUnknowns) Units_Holder_AttackMissileDuplicationUnknown->Show(true);
-		Units_Holder_AttackMissileDuplicationUnit->Show(true);
-		Units_Holder_AttackMissileDuplicationGraphic->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown29->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown33->Show(true);
-		Units_Holder_AnnexUnit1->Show(true);
-		Units_Holder_AnnexUnitMisplacement1->Show(true);
-		Units_Holder_HeadUnit->Show(true);
-		Units_Holder_TransformUnit->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown34->Show(true);
-		Units_Holder_GarrisonType->Show(true);
-		Units_Holder_GarrisonHealRate->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown35->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown36->Show(true);
-		if(ShowUnknowns) Units_Holder_Unknown37->Show(true);
-	}
-	if(GameVersion >= 3)	//	TC, (SWGB and CC)
-	{
-		if(ShowUnknowns) Units_Holder_Unknown9->Show(true);
-		if(ShowUnknowns) Units_Unknown20[1]->Show(true);
-		Units_Holder_SnowGraphicID->Show(true);
-	}
-	if(GameVersion >= 4)	//	SWGB and CC
-	{
-		Research_Holder_NameLength[1]->Show(true);
-		Research_Holder_Name[1]->Show(true);
-		Units_Holder_NameLength2->Show(true);
-		Units_Holder_Name2->Show(true);
-		Units_Holder_Unitline->Show(true);
-		Units_Holder_MinTechLevel->Show(true);
-	}
-	if(GameVersion >= 5)	//	CC
-	{
-		
-	}
-*/
 	Research_ScrollerWindowsSpace->Layout();
 	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
 	Research_Scroller->Scroll(0, 0);
@@ -991,64 +602,40 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			}
 		}
 		break;
-/*		case moAdvanced: // Old shit
-		{
-			UseAdvancedControls = Event.IsChecked();
-			if(UseAdvancedControls)
-			{
-				
-			}
-			else
-			{
-				
-			}
-		}
-		break;
-*/		case MenuOption_NoAuto:
+		case MenuOption_NoAuto:
 		case MenuOption_Include:
 		case MenuOption_Exclude:
 		{
 			AutoCopy = Event.GetId();
 			if(AutoCopy == MenuOption_NoAuto)
 			{
-//				wxMessageBox("No Auto Copy");
 				Units_AutoCopyState->SetLabel("AutoCopy: Disabled");
 			}
-			if(AutoCopy == MenuOption_Include)
+			else if(AutoCopy == MenuOption_Include)
 			{
-//				wxMessageBox("Include Graphics");
 				Units_AutoCopyState->SetLabel("AutoCopy: Include Graphics");
 			}
-			if(AutoCopy == MenuOption_Exclude)
+			else if(AutoCopy == MenuOption_Exclude)
 			{
-//				wxMessageBox("Exclude Graphics");
 				Units_AutoCopyState->SetLabel("AutoCopy: Exclude Graphics");
 			}
 		}
 		case MenuOption_NoExtra:
 		case MenuOption_1stFilters:
 		case MenuOption_2ndFilters:
-		case MenuOption_3rdFilters:
-		case MenuOption_4rdFilters:
+//		case MenuOption_3rdFilters:
+//		case MenuOption_4rdFilters:
 		{
 			SearchFilters = Event.GetId();
 			if(SearchFilters == MenuOption_NoExtra)
 			{
 				
 			}
-			if(SearchFilters == MenuOption_1stFilters)
+			else if(SearchFilters == MenuOption_1stFilters)
 			{
 				
 			}
-			if(SearchFilters == MenuOption_2ndFilters)
-			{
-				
-			}
-			if(SearchFilters == MenuOption_3rdFilters)
-			{
-				
-			}
-			if(SearchFilters == MenuOption_4rdFilters)
+			else if(SearchFilters == MenuOption_2ndFilters)
 			{
 				
 			}
@@ -1106,7 +693,7 @@ string AGE_Frame::LanguageDllString(int ID)
 
 bool AGE_Frame::SearchMatches(string CompareText)
 {
-	bool Matches = false;
+	bool Matches = false, And = true, AndUsed = false;
 	short Size = 30; // Maximum pieces for search text to be split.
 	short Max = Size;
 	wxString SearchEnd[Size]; // Parts.
@@ -1122,6 +709,12 @@ bool AGE_Frame::SearchMatches(string CompareText)
 	else
 	{
 		size_t Found; // Founding position.
+		Found = SearchText.find("&"); // Searching for & in beginning of search text.
+		if(Found != string::npos)
+		{
+			SearchText = SearchText.substr(1, SearchText.length() - 1);
+			AndUsed = true;
+		}
 		Found = SearchText.find("|"); // Searching for separation mark in search text.
 		if((Found != string::npos) && Found > 0 && 1 < (SearchText.length() - Found)) // Separation mark found and there is search text on its both sides.
 		{
@@ -1149,9 +742,14 @@ bool AGE_Frame::SearchMatches(string CompareText)
 			for(short loop = 0;loop < Size;loop++)
 			{
 				if(SearchEnd[loop] != "") // Can match only if not empty.
-				if(CompareText.find(SearchEnd[loop]) != string::npos)
-				Matches = true;
+				{
+					if(CompareText.find(SearchEnd[loop]) != string::npos)
+					Matches = true;
+					else And = false;
+				}
 			}
+			wxMessageBox(lexical_cast<string>(AndUsed)+" "+lexical_cast<string>(And)+" "+lexical_cast<string>(Matches));
+			if(AndUsed == true && And == false && Matches == true) Matches = false;
 		}
 	}
 
@@ -1529,21 +1127,9 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 			ListUnitCommands(UnitID, UnitCivID);
 		}
 	}
-	if(Event.GetId() == Units_Units_SearchFilters1->GetId())
+	for(short loop = 0;loop < 2;loop++)
+	if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
 	{
-		short Selection = Units_Units_SearchFilters1->GetSelection();
-		if(Selection == 2)
-		{
-			Units_Units_Search->ChangeValue("Type ");
-		}
-		else if(Selection == 3)
-		{
-			Units_Units_Search->ChangeValue("Class ");
-		}
-		else
-		{
-			Units_Units_Search->ChangeValue("");
-		}
 		ListUnits(UnitCivID);
 		Units_Units_Search->SetFocus();
 	}
