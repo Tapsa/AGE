@@ -6,7 +6,7 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetTerrainRestrictionName(int Index)
+string AGE_Frame::GetTerrainRestrictionName(short Index)
 {
 	string Name = "";
 	Name = "Restriction " + lexical_cast<string>(Index);

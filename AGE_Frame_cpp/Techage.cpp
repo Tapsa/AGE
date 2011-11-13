@@ -6,7 +6,7 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetTechageName(int Index)
+string AGE_Frame::GetTechageName(short Index)
 {
 	string Name = "";
 	if(GenieFile->Techages[Index].Name != "")
@@ -241,7 +241,7 @@ void AGE_Frame::OnTechagePaste(wxCommandEvent& Event)	// Works.
 	}
 }
 
-string AGE_Frame::GetEffectName(int Index, int TechID)
+string AGE_Frame::GetEffectName(short Index, short TechID)
 {
 	string Name = "";
 	switch(GenieFile->Techages[TechID].Effects[Index].Type)
@@ -304,7 +304,7 @@ string AGE_Frame::GetEffectName(int Index, int TechID)
 	return Name;
 }
 
-void AGE_Frame::ListEffects(int Index)
+void AGE_Frame::ListEffects(short Index)
 {
 	string Name;
 	SearchText = wxString(Techs_Effects_Search->GetValue()).Lower();

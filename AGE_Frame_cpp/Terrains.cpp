@@ -6,7 +6,7 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetTerrainName(int Index)
+string AGE_Frame::GetTerrainName(short Index)
 {
 	string Name = "";
 	if(GenieFile->Terrains[Index].Name != "")

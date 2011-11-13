@@ -11,53 +11,87 @@ void AGE_Frame::OnUnitSubList(wxCommandEvent& Event)
 	ListUnits(Units_Civs_List->GetSelection());	// List units by selected civ.
 }
 
-string AGE_Frame::GetUnitName(int UnitID, int UnitCivID)
+string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
 {
 	string Name = "";
-	short Filter1Selection = Units_Units_SearchFilters1->GetSelection();
-	if(Filter1Selection == 0)	// Lang DLL Name
+	if(Filter == false)
 	{
-		if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")	// Other than empty.
+		if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")
 		{
 			Name = LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
 		}
 		else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
 		{
-			Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
+			Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
 		}
 		else
 		{
 			Name = "New Unit";
 		}
-	}
-	else if(Filter1Selection == 1)	// Internal Name
-	{
-		if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
-		{
-			Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
-		}
-		else
-		{
-			Name = "New Unit";
-		}
-	}
-	else if(Filter1Selection == 2)	// Type
-	{
-		Name = "Type ";
-		Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitID].getType());
-		Name += " - ";
-		Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
-	}
-	else if(Filter1Selection == 3)	// Class
-	{
-		Name = "Class ";
-		Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Class);
-		Name += " - ";
-		Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
 	}
 	else
 	{
-		wxMessageBox("This is impossible");
+		short Selection[2];
+		for(short loop = 0;loop < 2;loop++)
+		Selection[loop] = Units_Units_SearchFilters[loop]->GetSelection();
+		
+		if(Selection[0] == 0)	// Lang DLL Name
+		{
+			if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")	// Other than empty.
+			{
+				Name = LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
+			}
+			else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
+			{
+				Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
+			}
+			else
+			{
+				Name = "New Unit";
+			}
+		}
+		else if(Selection[0] == 1)	// Internal Name
+		{
+			if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
+			{
+				Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
+			}
+			else
+			{
+				Name = "New Unit";
+			}
+		}
+		else
+		{
+			for(short loop = 0;loop < 2;loop++)
+			{
+				if(Selection[loop] == 2)	// Type
+				{
+					Name += "T ";
+					Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitID].getType());
+				}
+				else if(Selection[loop] == 3)	// Class
+				{
+					Name += "C ";
+					Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Class);
+				}
+				Name += ", ";
+				if(Selection[loop+1] < 2) break;
+			}
+			
+			if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")
+			{
+				Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
+			}
+			else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
+			{
+				Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
+			}
+			else
+			{
+				Name += "New Unit";
+			}
+		}
 	}
 	return Name;
 }
@@ -72,7 +106,7 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent& Event)
 }
 
 // Following void thing is a series of lists for user interface.
-void AGE_Frame::ListUnits(int UnitCivID)
+void AGE_Frame::ListUnits(short UnitCivID)
 {
 	string Name;
 	SearchText = wxString(Units_Units_Search->GetValue()).Lower();
@@ -226,14 +260,13 @@ void AGE_Frame::ListUnits(int UnitCivID)
 	
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetUnitName(loop, UnitCivID);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitName(loop, UnitCivID)).Lower();
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitName(loop, UnitCivID, true)).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
+			Name = lexical_cast<string>(loop)+" - "+GetUnitName(loop, UnitCivID, true);
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[loop]);
 		}
+		Name = lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0, false);
 		Units_ComboBox_DeadUnitID->Append(Name);
 		Units_ComboBox_ProjectileUnitID->Append(Name);
 		Units_ComboBox_AttackMissileDuplicationUnit->Append(Name);
@@ -302,7 +335,7 @@ void AGE_Frame::ListUnitHeads()
 	{
 		Name = lexical_cast<string>(loop);
 		Name += " - ";
-		Name += GetUnitName(loop, CivSelection);
+		Name += GetUnitName(loop, CivSelection, false);
 		Units_UnitHeads_List->Append(Name, (void*)&GenieFile->UnitHeaders[loop]);
 	}
 	Units_UnitHeads_List->SetSelection(Selection);
@@ -1481,7 +1514,7 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		gdat::UnitHeader * UnitHeadPointer = (gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
-		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitID)+" - "+GetUnitName(UnitID, 0));
+		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitID)+" - "+GetUnitName(UnitID, 0, false));
 		Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
 		Units_Exists->Container = &UnitHeadPointer->Exists;
 		ListUnitCommands(UnitID, 0);
@@ -1672,7 +1705,7 @@ void AGE_Frame::OnUnitHeadsPaste(wxCommandEvent& Event)
 
 //	SubVectors
 
-string AGE_Frame::GetUnitDamageGraphicName(int Index, int UnitCivID, int UnitID)
+string AGE_Frame::GetUnitDamageGraphicName(short Index, short UnitCivID, short UnitID)
 {
 	string Name = "";
 	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[Index].DamagePercent);
@@ -1681,7 +1714,7 @@ string AGE_Frame::GetUnitDamageGraphicName(int Index, int UnitCivID, int UnitID)
 	return Name;
 }
 
-void AGE_Frame::ListUnitDamageGraphics(int Index, int UnitCivID)
+void AGE_Frame::ListUnitDamageGraphics(short Index, short UnitCivID)
 {
 	string Name;
 	SearchText = wxString(Units_DamageGraphics_Search->GetValue()).Lower();
@@ -1807,7 +1840,7 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetUnitAttackName(int Index, int UnitCivID, int UnitID)
+string AGE_Frame::GetUnitAttackName(short Index, short UnitCivID, short UnitID)
 {
 	string Name = "";
 	Name += "Amount: ";
@@ -1817,7 +1850,7 @@ string AGE_Frame::GetUnitAttackName(int Index, int UnitCivID, int UnitID)
 	return Name;
 }
 
-void AGE_Frame::ListUnitAttacks(int Index, int UnitCivID)
+void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
 {
 	string Name;
 	SearchText = wxString(Units_Attacks_Search->GetValue()).Lower();
@@ -1948,7 +1981,7 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetUnitArmorName(int Index, int UnitCivID, int UnitID)
+string AGE_Frame::GetUnitArmorName(short Index, short UnitCivID, short UnitID)
 {
 	string Name = "";
 	Name += "Amount: ";
@@ -1958,7 +1991,7 @@ string AGE_Frame::GetUnitArmorName(int Index, int UnitCivID, int UnitID)
 	return Name;
 }
 
-void AGE_Frame::ListUnitArmors(int Index, int UnitCivID)
+void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
 {
 	string Name;
 	SearchText = wxString(Units_Armors_Search->GetValue()).Lower();
@@ -2091,7 +2124,7 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent& Event)
 
 //	AoE/TC/SWGB/CC Unit Commands
 
-string AGE_Frame::GetUnitCommandName(int Index, int UnitCivID, int UnitID)
+string AGE_Frame::GetUnitCommandName(short Index, short UnitCivID, short UnitID)
 {
 	string Name = "";
 	short CommandType = -1;
@@ -2233,7 +2266,7 @@ string AGE_Frame::GetUnitCommandName(int Index, int UnitCivID, int UnitID)
 	return Name;
 }
 
-void AGE_Frame::ListUnitCommands(int Index, int UnitCivID)
+void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 {
 	string Name;
 	SearchText = wxString(Units_UnitCommands_Search->GetValue()).Lower();
@@ -2639,7 +2672,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	Units_Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
-	Units_Units_SearchFilters1 = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	for(short loop = 0;loop < 2;loop++)
+	Units_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Units_Units_Buttons = new wxGridSizer(2, 0, 0);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -3771,40 +3805,43 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_GarrisonType->Append("15 - Monk + Villager + Infantry + Calavry");
 	Units_ComboBox_GarrisonType->SetSelection(0);
 	
-	Units_Units_SearchFilters1->Append("Lang DLL Name");	// 0
-	Units_Units_SearchFilters1->Append("Internal Name");
-	Units_Units_SearchFilters1->Append("Type");
-	Units_Units_SearchFilters1->Append("Class");
-	Units_Units_SearchFilters1->Append("Garrison Type");
-	Units_Units_SearchFilters1->Append("Projectile Unit");
-	Units_Units_SearchFilters1->Append("Enabled");
-	Units_Units_SearchFilters1->Append("Hidden In Editor");
-	Units_Units_SearchFilters1->Append("Visible In Fog");
-	Units_Units_SearchFilters1->Append("Death Mode");
-	Units_Units_SearchFilters1->Append("Hero Mode");
-	Units_Units_SearchFilters1->Append("Air Mode");
-	Units_Units_SearchFilters1->Append("Fly Mode");
-	Units_Units_SearchFilters1->Append("Building Mode");
-	Units_Units_SearchFilters1->Append("Placement Mode");
-	Units_Units_SearchFilters1->Append("Terrain Restriction");
-	Units_Units_SearchFilters1->Append("Interaction Mode");
-	Units_Units_SearchFilters1->Append("Minimap Mode");
-	Units_Units_SearchFilters1->Append("Sheep Conversion");
-	Units_Units_SearchFilters1->Append("Villager Mode");
-	Units_Units_SearchFilters1->Append("Unseletable");
-	Units_Units_SearchFilters1->Append("Selection Mask");
-	Units_Units_SearchFilters1->Append("Selection Shape Type");
-	Units_Units_SearchFilters1->Append("Selection Shape");
-	Units_Units_SearchFilters1->Append("Selection Effect");
-	Units_Units_SearchFilters1->Append("Editor Selection Color");
-	Units_Units_SearchFilters1->Append("Unitline");
-	Units_Units_SearchFilters1->Append("Tracking Unit Used");
-	Units_Units_SearchFilters1->Append("Train Location");
-	Units_Units_SearchFilters1->Append("Command Attribute");
-	Units_Units_SearchFilters1->Append("Stack Unit");
-	Units_Units_SearchFilters1->Append("Terrain");
-	Units_Units_SearchFilters1->Append("Research");
-	Units_Units_SearchFilters1->SetSelection(0);
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
+		Units_Units_SearchFilters[loop]->Append("Internal Name");
+		Units_Units_SearchFilters[loop]->Append("Type");
+		Units_Units_SearchFilters[loop]->Append("Class");
+		Units_Units_SearchFilters[loop]->Append("Garrison Type");
+		Units_Units_SearchFilters[loop]->Append("Projectile Unit");
+		Units_Units_SearchFilters[loop]->Append("Enabled");
+		Units_Units_SearchFilters[loop]->Append("Hidden In Editor");
+		Units_Units_SearchFilters[loop]->Append("Visible In Fog");
+		Units_Units_SearchFilters[loop]->Append("Death Mode");
+		Units_Units_SearchFilters[loop]->Append("Hero Mode");
+		Units_Units_SearchFilters[loop]->Append("Air Mode");
+		Units_Units_SearchFilters[loop]->Append("Fly Mode");
+		Units_Units_SearchFilters[loop]->Append("Building Mode");
+		Units_Units_SearchFilters[loop]->Append("Placement Mode");
+		Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
+		Units_Units_SearchFilters[loop]->Append("Interaction Mode");
+		Units_Units_SearchFilters[loop]->Append("Minimap Mode");
+		Units_Units_SearchFilters[loop]->Append("Sheep Conversion");
+		Units_Units_SearchFilters[loop]->Append("Villager Mode");
+		Units_Units_SearchFilters[loop]->Append("Unseletable");
+		Units_Units_SearchFilters[loop]->Append("Selection Mask");
+		Units_Units_SearchFilters[loop]->Append("Selection Shape Type");
+		Units_Units_SearchFilters[loop]->Append("Selection Shape");
+		Units_Units_SearchFilters[loop]->Append("Selection Effect");
+		Units_Units_SearchFilters[loop]->Append("Editor Selection Color");
+		Units_Units_SearchFilters[loop]->Append("Unitline");
+		Units_Units_SearchFilters[loop]->Append("Tracking Unit Used");
+		Units_Units_SearchFilters[loop]->Append("Train Location");
+		Units_Units_SearchFilters[loop]->Append("Command Attribute");
+		Units_Units_SearchFilters[loop]->Append("Stack Unit");
+		Units_Units_SearchFilters[loop]->Append("Terrain");
+		Units_Units_SearchFilters[loop]->Append("Research");
+		Units_Units_SearchFilters[loop]->SetSelection(0);
+	}
 	
 	Units_Units_Buttons->Add(Units_Add, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Delete, 1, wxEXPAND);
@@ -3815,8 +3852,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units->Add(-1, 2);
 	Units_Units->Add(Units_Units_Search, 0, wxEXPAND);
 	Units_Units->Add(Units_Units_Search_R, 0, wxEXPAND);
-	Units_Units->Add(-1, 2);
-	Units_Units->Add(Units_Units_SearchFilters1, 0, wxEXPAND);
+	for(short loop = 0;loop < 2;loop++)
+	Units_Units->Add(Units_Units_SearchFilters[loop], 0, wxEXPAND);
 	Units_Units->Add(-1, 2);
 	Units_Units->Add(Units_Units_List, 1, wxEXPAND);
 	Units_Units->Add(-1, 2);
@@ -5059,11 +5096,11 @@ void AGE_Frame::CreateUnitControls()
 	{
 		Units_AutoCopyState->SetLabel("AutoCopy: Disabled");
 	}
-	if(AutoCopy == MenuOption_Include)
+	else if(AutoCopy == MenuOption_Include)
 	{
 		Units_AutoCopyState->SetLabel("AutoCopy: Include Graphics");
 	}
-	if(AutoCopy == MenuOption_Exclude)
+	else if(AutoCopy == MenuOption_Exclude)
 	{
 		Units_AutoCopyState->SetLabel("AutoCopy: Exclude Graphics");
 	}
@@ -5071,19 +5108,11 @@ void AGE_Frame::CreateUnitControls()
 	{
 		
 	}
-	if(SearchFilters == MenuOption_1stFilters)
+	else if(SearchFilters == MenuOption_1stFilters)
 	{
 		
 	}
-	if(SearchFilters == MenuOption_2ndFilters)
-	{
-		
-	}
-	if(SearchFilters == MenuOption_3rdFilters)
-	{
-		
-	}
-	if(SearchFilters == MenuOption_4rdFilters)
+	else if(SearchFilters == MenuOption_2ndFilters)
 	{
 		
 	}
@@ -5100,7 +5129,8 @@ void AGE_Frame::CreateUnitControls()
 	
 	Connect(Units_Units_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 	Connect(Units_Units_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
-	Connect(Units_Units_SearchFilters1->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
+	for(short loop = 0;loop < 2;loop++)
+	Connect(Units_Units_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
 	Connect(Units_Civs_List->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitSubList));
 	Connect(Units_Units_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitsSelect));
 	Connect(Units_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsAdd));
