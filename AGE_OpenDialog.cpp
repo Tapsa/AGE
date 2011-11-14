@@ -14,12 +14,12 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenButtonOK = new wxButton(this, wxID_OK, "OK");
 	OpenButtonCancel = new wxButton(this, wxID_CANCEL, "Cancel");
 
-	Button_DefaultAoE = new wxButton(this, wxID_ANY, "AoE Defaults");
-	Button_DefaultRoR = new wxButton(this, wxID_ANY, "RoR Defaults");
-	Button_DefaultAoK = new wxButton(this, wxID_ANY, "AoK Defaults");
-	Button_DefaultTC = new wxButton(this, wxID_ANY, "TC Defaults");
-	Button_DefaultSWGB = new wxButton(this, wxID_ANY, "SWGB Defaults");
-	Button_DefaultCC = new wxButton(this, wxID_ANY, "CC Defaults");
+	Button_DefaultAoE = new wxButton(this, wxID_ANY, "AoE defaults");
+	Button_DefaultRoR = new wxButton(this, wxID_ANY, "RoR defaults");
+	Button_DefaultAoK = new wxButton(this, wxID_ANY, "AoK defaults");
+	Button_DefaultTC = new wxButton(this, wxID_ANY, "TC defaults");
+	Button_DefaultSWGB = new wxButton(this, wxID_ANY, "SWGB defaults");
+	Button_DefaultCC = new wxButton(this, wxID_ANY, "CC defaults");
 //	Button_DefaultSWGB->Disable();
 //	Button_DefaultCC->Disable();
 
@@ -30,7 +30,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenDefaults->Add(Button_DefaultSWGB, 1, wxEXPAND);
 	OpenDefaults->Add(Button_DefaultCC, 1, wxEXPAND);
 
-	Text_GenieVer = new wxStaticText(this, wxID_ANY, "      Genie Version:");
+	Text_GenieVer = new wxStaticText(this, wxID_ANY, "      Genie version:");
 	CheckBox_GenieVer = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	CheckBox_GenieVer->Append("Age of Empires");
 	CheckBox_GenieVer->Append("Rise of Rome");
@@ -39,7 +39,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	CheckBox_GenieVer->Append("Star Wars Galactic Battlegrounds");
 	CheckBox_GenieVer->Append("Clone Campaigns");
 
-	DriveText = new wxStaticText(this, wxID_ANY, "      Drive Letter:");
+	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
 	DriveLetterArea = new wxBoxSizer(wxVERTICAL);
 	DriveLetterBox = new wxTextCtrl(this, wxID_ANY, "C", wxDefaultPosition, wxDefaultSize, 0/*, wxDefaultValidator, wxTextCtrlNameStr*/);
 	Radio_DatFileLocation = new wxRadioButton(this, wxID_ANY, "Compressed Dat File (*.dat):", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
@@ -51,7 +51,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	Radio_ApfFileLocation = new wxRadioButton(this, wxID_ANY, "Patch File (*.apf):");
 	Path_ApfFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Patch File (*.apf)|*.apf", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Path_ApfFileLocation->Disable();
-	Radio_NoFile = new wxRadioButton(this, wxID_ANY, "No Dat File");
+	Radio_NoFile = new wxRadioButton(this, wxID_ANY, "No data file");
 	
 	if(MustHaveDat)
 	{
@@ -59,13 +59,13 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	    Radio_NoFile->Disable();
 	}
 	
-	CheckBox_LangFileLocation = new wxCheckBox(this, wxID_ANY, "Language.dll Location:");
+	CheckBox_LangFileLocation = new wxCheckBox(this, wxID_ANY, "Language.dll location:");
 	CheckBox_LangFileLocation->SetValue(true);
 	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	CheckBox_LangX1FileLocation = new wxCheckBox(this, wxID_ANY, "Language_x1.dll Location:");
+	CheckBox_LangX1FileLocation = new wxCheckBox(this, wxID_ANY, "Language_x1.dll location:");
 	CheckBox_LangX1FileLocation->SetValue(true);
 	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	CheckBox_LangX1P1FileLocation = new wxCheckBox(this, wxID_ANY, "Language_x1_p1.dll Location:");
+	CheckBox_LangX1P1FileLocation = new wxCheckBox(this, wxID_ANY, "Language_x1_p1.dll location:");
 	CheckBox_LangX1P1FileLocation->SetValue(true);
 	Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 

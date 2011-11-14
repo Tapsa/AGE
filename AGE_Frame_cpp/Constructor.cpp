@@ -22,7 +22,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
 	Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
 	Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_NoExtra);
-	Config->Read("Interaction/UseAnd", &UseAnd, false);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
@@ -49,37 +48,37 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
+	GetToolBar()->AddCheckTool(wxID_ANY, "Use AND instead of OR", wxNullBitmap, wxNullBitmap, "Testi 1", "Testi 2", NULL);
+
 	GetToolBar()->Realize();
 
 	MenuBar_Main = new wxMenuBar();
 
 	SubMenu_Options = new wxMenu();
-	SubMenu_Options->AppendCheckItem(MenuOption_Prompt, "&Prompt For Files On Open");
+	SubMenu_Options->AppendCheckItem(MenuOption_Prompt, "&Prompt for files on open");
 	SubMenu_Options->Check(MenuOption_Prompt, PromptForFilesOnOpen);
-	SubMenu_Options->AppendCheckItem(MenuOption_Unknowns, "Show &Unknowns");
+	SubMenu_Options->AppendCheckItem(MenuOption_Unknowns, "Show &unknowns");
 	SubMenu_Options->Check(MenuOption_Unknowns, ShowUnknowns);
-	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Enable Forbidden &Buttons");
+	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Enable forbidden &buttons");
 	SubMenu_Options->Check(MenuOption_Buttons, ShowButtons);
 
 	SubMenu_SearchFilters = new wxMenu();
-	SubMenu_SearchFilters->AppendCheckItem(MenuOption_And, "Use &AND Instead Of OR");
-	SubMenu_SearchFilters->Check(MenuOption_And, UseAnd);
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_NoExtra, "&Default");
-	SubMenu_SearchFilters->AppendRadioItem(MenuOption_1stFilters, "&1st Filters");
-	SubMenu_SearchFilters->AppendRadioItem(MenuOption_2ndFilters, "&2nd Filters");
-//	SubMenu_SearchFilters->AppendRadioItem(MenuOption_3rdFilters, "&3rd Filters");
-//	SubMenu_SearchFilters->AppendRadioItem(MenuOption_4rdFilters, "&4rd Filters");
+	SubMenu_SearchFilters->AppendRadioItem(MenuOption_1stFilters, "&1st filters");
+	SubMenu_SearchFilters->AppendRadioItem(MenuOption_2ndFilters, "&2nd filters");
+//	SubMenu_SearchFilters->AppendRadioItem(MenuOption_3rdFilters, "&3rd filters");
+//	SubMenu_SearchFilters->AppendRadioItem(MenuOption_4rdFilters, "&4rd filters");
 	SubMenu_SearchFilters->Check(SearchFilters, true);
 
-	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &Filters");
+	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &filters");
 
 	SubMenu_CivAutoCopy = new wxMenu();
 	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_NoAuto, "&Disabled");
-	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_Include, "&Include Graphics");
-	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_Exclude, "&Exclude Graphics");
+	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_Include, "&Include graphics");
+	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_Exclude, "&Exclude graphics");
 	SubMenu_CivAutoCopy->Check(AutoCopy, true);
 
-	SubMenu_Options->AppendSubMenu(SubMenu_CivAutoCopy, "&Auto Copy To All Civs");
+	SubMenu_Options->AppendSubMenu(SubMenu_CivAutoCopy, "&Auto-copy to all civilizations");
 
 	SubMenu_Help = new wxMenu();
 	SubMenu_Help->Append(MenuOption_About, "&About...");
@@ -126,7 +125,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Unknowns, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_And, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_NoAuto, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Include, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Exclude, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
@@ -147,11 +145,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	ShowButtonsCommand.SetId(MenuOption_Buttons);
 	ShowButtonsCommand.SetInt(ShowButtons);
 	ProcessEvent(ShowButtonsCommand);
-	
-	wxCommandEvent UseAndCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_And);
-	UseAndCommand.SetId(MenuOption_And);
-	UseAndCommand.SetInt(UseAnd);
-	ProcessEvent(UseAndCommand);
 
 	NeedDat = true;
 	if(!PromptForFilesOnOpen)

@@ -989,24 +989,26 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Effects_Buttons = new wxGridSizer(2, 0, 0);
 	Effects_DataAreaProperties = new wxBoxSizer(wxVERTICAL);
 	Tab_Techage = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
-	Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Technology Slot");
+	Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Technology slot");
 	Techs_Techs_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Techs_Techs_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);
+	Techs_Techs_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Techs_Techs_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Techs_Techs_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
-	Techs_Techs_Rename = new wxButton(Tab_Techage, wxID_ANY, "Rename Technologies", wxDefaultPosition, wxSize(-1, 20));
-	Techs_Techs_Restore = new wxButton(Tab_Techage, wxID_ANY, "Rename For GeniEd 2", wxDefaultPosition, wxSize(-1, 20));
+	Techs_Techs_Rename = new wxButton(Tab_Techage, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(-1, 20));
+	Techs_Techs_Restore = new wxButton(Tab_Techage, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(-1, 20));
 
 	Techs_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Techs_Text_Name = new wxStaticText(Tab_Techage, wxID_ANY, " Technology Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Techs_Name = new TextCtrl_String(Tab_Techage, "0", NULL);
 
-	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Effect Slot");
+	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Effect slot");
 	Techs_Effects_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);
+	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Techs_Effects_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Techs_Effects_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Effects_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -1301,6 +1303,7 @@ void AGE_Frame::CreateTechageControls()
 
 	Techs_Techs->Add(Techs_Techs_Search, 0, wxEXPAND);
 	Techs_Techs->Add(Techs_Techs_Search_R, 0, wxEXPAND);
+	Techs_Techs->Add(Techs_Techs_UseAnd, 0, wxEXPAND);
 	Techs_Techs->Add(-1, 2);
 	Techs_Techs->Add(Techs_Techs_List, 1, wxEXPAND);
 	Techs_Techs->Add(-1, 2);
@@ -1323,6 +1326,7 @@ void AGE_Frame::CreateTechageControls()
 
 	Techs_Effects->Add(Techs_Effects_Search, 0, wxEXPAND);
 	Techs_Effects->Add(Techs_Effects_Search_R, 0, wxEXPAND);
+	Techs_Effects->Add(Techs_Effects_UseAnd, 0, wxEXPAND);
 	Techs_Effects->Add(-1, 2);
 	Techs_Effects->Add(Techs_Effects_List, 1, wxEXPAND);
 	Techs_Effects->Add(-1, 2);
