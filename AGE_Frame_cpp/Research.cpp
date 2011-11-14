@@ -291,9 +291,10 @@ void AGE_Frame::CreateResearchControls()
 	
 	Research_Main = new wxBoxSizer(wxHORIZONTAL);
 	Research_ListArea = new wxBoxSizer(wxVERTICAL);
-	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Research Slot");
+	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Research slot");
 	Research_Research_Search = new wxTextCtrl(Tab_Research, wxID_ANY);
 	Research_Research_Search_R = new wxTextCtrl(Tab_Research, wxID_ANY);
+	Research_Research_UseAnd = new wxCheckBox(Tab_Research, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Research_Research_Buttons = new wxGridSizer(2, 0, 0);
 	Research_Add = new wxButton(Tab_Research, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -333,7 +334,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_ResearchLocation = new TextCtrl_Short(Research_Scroller, "0", NULL);
 	Research_ComboBox_ResearchLocation = new ComboBox_Short(Research_Scroller, Research_ResearchLocation);
 	
-	Research_Holder_CostHeader = new wxStaticBoxSizer(wxVERTICAL, Research_Scroller, "Cost Slot");
+	Research_Holder_CostHeader = new wxStaticBoxSizer(wxVERTICAL, Research_Scroller, "Cost slot");
 	Research_Holder_CostType = new wxBoxSizer(wxHORIZONTAL);
 	Research_Holder_CostAmount = new wxBoxSizer(wxHORIZONTAL);
 	Research_Holder_CostUsed = new wxBoxSizer(wxHORIZONTAL);
@@ -410,6 +411,7 @@ void AGE_Frame::CreateResearchControls()
 
 	Research_Research->Add(Research_Research_Search, 0, wxEXPAND);
 	Research_Research->Add(Research_Research_Search_R, 0, wxEXPAND);
+	Research_Research->Add(Research_Research_UseAnd, 0, wxEXPAND);
 	Research_Research->Add(-1, 2);
 	Research_Research->Add(Research_Research_List, 1, wxEXPAND);
 	Research_Research->Add(-1, 2);

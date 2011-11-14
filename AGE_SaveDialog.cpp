@@ -11,12 +11,12 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	SaveLayout = new wxFlexGridSizer(7, 2, 2, 2);
 	SaveButtons = new wxBoxSizer(wxHORIZONTAL);
 
-	Button_DefaultAoE = new wxButton(this, wxID_ANY, "AoE Defaults");
-	Button_DefaultRoR = new wxButton(this, wxID_ANY, "RoR Defaults");
-	Button_DefaultAoK = new wxButton(this, wxID_ANY, "AoK Defaults");
-	Button_DefaultTC = new wxButton(this, wxID_ANY, "TC Defaults");
-	Button_DefaultSWGB = new wxButton(this, wxID_ANY, "SWGB Defaults");
-	Button_DefaultCC = new wxButton(this, wxID_ANY, "CC Defaults");
+	Button_DefaultAoE = new wxButton(this, wxID_ANY, "AoE defaults");
+	Button_DefaultRoR = new wxButton(this, wxID_ANY, "RoR defaults");
+	Button_DefaultAoK = new wxButton(this, wxID_ANY, "AoK defaults");
+	Button_DefaultTC = new wxButton(this, wxID_ANY, "TC defaults");
+	Button_DefaultSWGB = new wxButton(this, wxID_ANY, "SWGB defaults");
+	Button_DefaultCC = new wxButton(this, wxID_ANY, "CC defaults");
 //	Button_DefaultSWGB->Disable();
 //	Button_DefaultCC->Disable();
 
@@ -27,7 +27,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	SaveDefaults->Add(Button_DefaultSWGB, 1, wxEXPAND);
 	SaveDefaults->Add(Button_DefaultCC, 1, wxEXPAND);
 
-	Text_GenieVer = new wxStaticText(this, wxID_ANY, "      Genie Version:");
+	Text_GenieVer = new wxStaticText(this, wxID_ANY, "      Genie version:");
 	CheckBox_GenieVer = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	CheckBox_GenieVer->Append("Age of Empires");
 	CheckBox_GenieVer->Append("Rise of Rome");

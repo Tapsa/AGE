@@ -181,9 +181,10 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Colors_Buttons = new wxGridSizer(2, 0, 0);
 	Tab_PlayerColors = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
 
-	Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Color Slot");
+	Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Color slot");
 	Colors_Colors_Search = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
 	Colors_Colors_Search_R = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
+	Colors_Colors_UseAnd = new wxCheckBox(Tab_PlayerColors, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Colors_Colors_List = new wxListBox(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Colors_Add = new wxButton(Tab_PlayerColors, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Colors_Delete = new wxButton(Tab_PlayerColors, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -230,6 +231,7 @@ void AGE_Frame::CreatePlayerColorControls()
 
 	Colors_Colors->Add(Colors_Colors_Search, 0, wxEXPAND);
 	Colors_Colors->Add(Colors_Colors_Search_R, 0, wxEXPAND);
+	Colors_Colors->Add(Colors_Colors_UseAnd, 0, wxEXPAND);
 	Colors_Colors->Add(-1, 2);
 	Colors_Colors->Add(Colors_Colors_List, 1, wxEXPAND);
 	Colors_Colors->Add(-1, 2);

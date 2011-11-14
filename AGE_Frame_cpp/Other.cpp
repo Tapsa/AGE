@@ -488,7 +488,6 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopyToAllCivs", AutoCopy);
 	Config->Write("Interaction/ExtraSearchFilters", SearchFilters);
-	Config->Write("Interaction/UseAnd", UseAnd);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
@@ -603,19 +602,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			}
 		}
 		break;
-		case MenuOption_And:
-		{
-			UseAnd = Event.IsChecked();
-			/*if(UseAnd)
-			{
-			
-			}
-			else
-			{
-			
-			}*/
-		}
-		break;
 		case MenuOption_NoAuto:
 		case MenuOption_Include:
 		case MenuOption_Exclude:
@@ -623,15 +609,15 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			AutoCopy = Event.GetId();
 			if(AutoCopy == MenuOption_NoAuto)
 			{
-				Units_AutoCopyState->SetLabel("AutoCopy: Disabled");
+				Units_AutoCopyState->SetLabel("Auto-copy: Disabled");
 			}
 			else if(AutoCopy == MenuOption_Include)
 			{
-				Units_AutoCopyState->SetLabel("AutoCopy: Include Graphics");
+				Units_AutoCopyState->SetLabel("Auto-copy: Include graphics");
 			}
 			else if(AutoCopy == MenuOption_Exclude)
 			{
-				Units_AutoCopyState->SetLabel("AutoCopy: Exclude Graphics");
+				Units_AutoCopyState->SetLabel("Auto-copy: Exclude graphics");
 			}
 		}
 		case MenuOption_NoExtra:
@@ -799,9 +785,13 @@ bool AGE_Frame::SearchMatches(string CompareText)
 			for(short loop = 0;loop < Size;loop++)
 			{
 				if(SearchEnd[loop] != "") // Can match only if not empty.
-				if(CompareText.find(SearchEnd[loop]) != string::npos)
-				Matches = false;
+				{
+					if(CompareText.find(SearchEnd[loop]) != string::npos)
+					Matches = false;
+					else And = false;
+				}
 			}
+			if(UseAnd == true && And == false && Matches == false) Matches = true;
 		}
 	}
 	
@@ -810,11 +800,6 @@ bool AGE_Frame::SearchMatches(string CompareText)
 
 //	Following kill focuses are used to update lists in user interface
 
-void AGE_Frame::OnKillFocus_TextControls(wxCommandEvent& Event)
-{
-
-}
-s
 void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 {
 	if(Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId())
@@ -879,6 +864,37 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 		OnUnitsSelect(E);	// Updates unit layout and unit type combo box.
 //		ListUnits(UnitCivID);	// For special search filters.
 	}
+}
+
+void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
+{
+	if(Event.GetId() == Units_Units_UseAnd->GetId())
+	{
+		if(Units_Units_UseAnd->GetValue() == true)
+		UseAnd = true; else UseAnd = false;
+		
+		ListUnits(UnitCivID);
+		
+	//	Units_Units_UseAnd->SetValue(UseAnd);
+	}/*
+	Research_Research_UseAnd;
+	Techs_Techs_UseAnd;
+	Techs_Effects_UseAnd;
+	Civs_Civs_UseAnd;
+	Civs_Resources_UseAnd;
+	Units_DamageGraphics_UseAnd;
+	Units_Attacks_UseAnd;
+	Units_Armors_UseAnd;
+	Units_Units_UseAnd;
+	Units_UnitCommands_UseAnd;
+	Graphics_Graphics_UseAnd;
+	Graphics_Deltas_UseAnd;
+	Terrains_Terrains_UseAnd;
+	TerRestrict_TerRestrict_UseAnd;
+	TerRestrict_Terrains_UseAnd;
+	Sounds_Sounds_UseAnd;
+	Sounds_SoundItems_UseAnd;
+	Colors_Colors_UseAnd;*/
 }
 
 void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)

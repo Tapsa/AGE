@@ -673,10 +673,11 @@ void AGE_Frame::CreateGraphicsControls()
 	Tab_Graphics = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
 	Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_ListArea = new wxBoxSizer(wxVERTICAL);
-	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Graphic Slot");
+	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Graphic slot");
 
 	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY);
 	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY);
+	Graphics_Graphics_UseAnd = new wxCheckBox(Tab_Graphics, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Graphics_Graphics_Buttons = new wxGridSizer(2, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -780,16 +781,17 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_Type = new wxStaticText(Graphics_Scroller, wxID_ANY, " Type", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_TypeS = new TextCtrl_Short(Graphics_Scroller, "0", NULL);
 
-	Graphics_Deltas = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Graphic Deltas Slot");
+	Graphics_Deltas = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Graphic Deltas slot");
 	Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_Deltas_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
+	Graphics_Deltas_UseAnd = new wxCheckBox(Graphics_Scroller, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Graphics_Deltas_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Graphics_Deltas_Buttons = new wxGridSizer(2, 0, 0);
 	Deltas_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Deltas_Delete = new wxButton(Graphics_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
 	Deltas_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
 	Deltas_Paste = new wxButton(Graphics_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
-	Graphics_AttackSounds = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Graphic Attack Sounds Slot");
+	Graphics_AttackSounds = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Graphic Attack Sounds slot");
 //	Graphics_AttackSounds_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 //	Graphics_AttackSounds_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
@@ -852,6 +854,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_Graphics->Add(Graphics_Graphics_Search, 0, wxEXPAND);
 	Graphics_Graphics->Add(Graphics_Graphics_Search_R, 0, wxEXPAND);
+	Graphics_Graphics->Add(Graphics_Graphics_UseAnd, 0, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
@@ -993,6 +996,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_Deltas->Add(Graphics_Deltas_Search, 0, wxEXPAND);
 	Graphics_Deltas->Add(Graphics_Deltas_Search_R, 0, wxEXPAND);
+	Graphics_Deltas->Add(Graphics_Deltas_UseAnd, 0, wxEXPAND);
 	Graphics_Deltas->Add(-1, 2);
 	Graphics_Deltas->Add(Graphics_Deltas_List, 1, wxEXPAND);
 	Graphics_Deltas->Add(-1, 2);

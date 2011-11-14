@@ -340,9 +340,10 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_ListArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Terrains_Buttons = new wxGridSizer(2, 0, 0);
 	Tab_Terrains = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
-	Terrains_Terrains = new wxStaticBoxSizer(wxVERTICAL, Tab_Terrains, "Terrain Slot");
+	Terrains_Terrains = new wxStaticBoxSizer(wxVERTICAL, Tab_Terrains, "Terrain slot");
 	Terrains_Terrains_Search = new wxTextCtrl(Tab_Terrains, wxID_ANY);
 	Terrains_Terrains_Search_R = new wxTextCtrl(Tab_Terrains, wxID_ANY);
+	Terrains_Terrains_UseAnd = new wxCheckBox(Tab_Terrains, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Terrains_Terrains_List = new wxListBox(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Terrains_Add = new wxButton(Tab_Terrains, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Terrains_Delete = new wxButton(Tab_Terrains, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -461,6 +462,7 @@ void AGE_Frame::CreateTerrainControls()
 
 	Terrains_Terrains->Add(Terrains_Terrains_Search, 0, wxEXPAND);
 	Terrains_Terrains->Add(Terrains_Terrains_Search_R, 0, wxEXPAND);
+	Terrains_Terrains->Add(Terrains_Terrains_UseAnd, 0, wxEXPAND);
 	Terrains_Terrains->Add(-1, 2);
 	Terrains_Terrains->Add(Terrains_Terrains_List, 1, wxEXPAND);
 	Terrains_Terrains->Add(-1, 2);
