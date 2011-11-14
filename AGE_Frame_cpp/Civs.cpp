@@ -795,9 +795,10 @@ void AGE_Frame::CreateCivControls()
 	Civs_Civs_Buttons = new wxGridSizer(2, 0, 0);
 	Tab_Civs = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
 
-	Civs_Civs = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Civilization Slot");
+	Civs_Civs = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Civilization slot");
 	Civs_Civs_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Civs_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
+	Civs_Civs_UseAnd = new wxCheckBox(Tab_Civs, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Civs_Civs_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Civs_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Civs_Delete = new wxButton(Tab_Civs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -834,9 +835,10 @@ void AGE_Frame::CreateCivControls()
 	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs, "0", NULL);
 	
 	Civs_Holder_Resources = new wxBoxSizer(wxVERTICAL);
-	Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources Slot");
+	Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources slot");
 	Civs_Resources_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Resources_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
+	Civs_Resources_UseAnd = new wxCheckBox(Tab_Civs, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Civs_Resources_Buttons = new wxGridSizer(2, 0, 0);
 	Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -856,6 +858,7 @@ void AGE_Frame::CreateCivControls()
 
 	Civs_Civs->Add(Civs_Civs_Search, 0, wxEXPAND);
 	Civs_Civs->Add(Civs_Civs_Search_R, 0, wxEXPAND);
+	Civs_Civs->Add(Civs_Civs_UseAnd, 0, wxEXPAND);
 	Civs_Civs->Add(-1, 2);
 	Civs_Civs->Add(Civs_Civs_List, 1, wxEXPAND);
 	Civs_Civs->Add(-1, 2);
@@ -917,6 +920,7 @@ void AGE_Frame::CreateCivControls()
 
 	Civs_Resources->Add(Civs_Resources_Search, 0, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Search_R, 0, wxEXPAND);
+	Civs_Resources->Add(Civs_Resources_UseAnd, 0, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Data, 0, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_List, 1, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
