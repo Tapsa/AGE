@@ -603,6 +603,7 @@ void AGE_Frame::CreateResearchControls()
 	
 	Research_Holder_NameLength[0]->Show(false);
 	Research_Holder_NameLength[1]->Show(false);
+	Research_Research_UseAnd->Show(false);
 
 	Tab_Research->SetSizer(Research_Main);
 

@@ -386,7 +386,6 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Sounds = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sound slot");
 	Sounds_Sounds_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_Sounds_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_Sounds_UseAnd = new wxCheckBox(Tab_Sounds, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Sounds_Sounds_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Sounds_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Sounds_Delete = new wxButton(Tab_Sounds, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -403,7 +402,6 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_SoundItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sound Item slot");
 	Sounds_SoundItems_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_SoundItems_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_SoundItems_UseAnd = new wxCheckBox(Tab_Sounds, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Sounds_SoundItems_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	SoundItems_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	SoundItems_Delete = new wxButton(Tab_Sounds, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -412,7 +410,6 @@ void AGE_Frame::CreateSoundControls()
 
 	SoundItems_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Name = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	// The size of Name is 27 in SWGB and CC, 13 in others.
 	SoundItems_Name = new TextCtrl_String(Tab_Sounds, "0", NULL);
 	SoundItems_Holder_Resource = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Resource = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Drs Resource", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -435,7 +432,6 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_Sounds->Add(Sounds_Sounds_Search, 0, wxEXPAND);
 	Sounds_Sounds->Add(Sounds_Sounds_Search_R, 0, wxEXPAND);
-	Sounds_Sounds->Add(Sounds_Sounds_UseAnd, 0, wxEXPAND);
 	Sounds_Sounds->Add(-1, 2);
 	Sounds_Sounds->Add(Sounds_Sounds_List, 1, wxEXPAND);
 	Sounds_Sounds->Add(-1, 2);
@@ -452,7 +448,6 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_SoundItems->Add(Sounds_SoundItems_Search, 0, wxEXPAND);
 	Sounds_SoundItems->Add(Sounds_SoundItems_Search_R, 0, wxEXPAND);
-	Sounds_SoundItems->Add(Sounds_SoundItems_UseAnd, 0, wxEXPAND);
 	Sounds_SoundItems->Add(-1, 2);
 	Sounds_SoundItems->Add(Sounds_SoundItems_List, 1, wxEXPAND);
 	Sounds_SoundItems->Add(-1, 2);

@@ -367,27 +367,27 @@ void AGE_Frame::OnGameVersionChange()
 	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
 	Research_Scroller->Scroll(0, 0);
 	Research_Scroller->GetSizer()->SetDimension(0, 0, Research_Scroller->GetSize().GetWidth() - 15, 1);
-	Research_Scroller->Refresh();
+//	Research_Scroller->Refresh();
 	Civs_DataArea->Layout();
 	Units_ScrollerWindowsSpace->Layout();
 	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
 	Units_Scroller->Scroll(0, 0);
 	Units_Scroller->GetSizer()->SetDimension(0, 0, Units_Scroller->GetSize().GetWidth() - 15, 1);
-	Units_Scroller->Refresh();
+//	Units_Scroller->Refresh();
 	Graphics_ScrollerWindowsSpace->Layout();
 	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
 	Graphics_Scroller->Scroll(0, 0);
 	Graphics_Scroller->GetSizer()->SetDimension(0, 0, Graphics_Scroller->GetSize().GetWidth() - 15, 1);
-	Graphics_Scroller->Refresh();
+//	Graphics_Scroller->Refresh();
 	Terrains_ScrollerWindowsSpace->Layout();
 	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
 	Terrains_Scroller->Scroll(0, 0);
 	Terrains_Scroller->GetSizer()->SetDimension(0, 0, Terrains_Scroller->GetSize().GetWidth() - 15, 1);
-	Terrains_Scroller->Refresh();
+//	Terrains_Scroller->Refresh();
 	TerRestrict_DataArea->Layout();
 	Sounds_DataArea->Layout();
 	Colors_DataArea->Layout();
-	Refresh();
+//	Refresh();
 }
 
 void AGE_Frame::OnSave(wxCommandEvent& Event)
@@ -555,20 +555,20 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			Units_Scroller->GetSizer()->FitInside(Units_Scroller);
 			Units_Scroller->Scroll(0, 0);
 			Units_Scroller->GetSizer()->SetDimension(0, 0, Units_Scroller->GetSize().GetWidth() - 15, 1);
-			Units_Scroller->Refresh();
+		//	Units_Scroller->Refresh();
 			Graphics_ScrollerWindowsSpace->Layout();
 			Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
 			Graphics_Scroller->Scroll(0, 0);
 			Graphics_Scroller->GetSizer()->SetDimension(0, 0, Graphics_Scroller->GetSize().GetWidth() - 15, 1);
-			Graphics_Scroller->Refresh();
+		//	Graphics_Scroller->Refresh();
 			Terrains_ScrollerWindowsSpace->Layout();
 			Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
 			Terrains_Scroller->Scroll(0, 0);
 			Terrains_Scroller->GetSizer()->SetDimension(0, 0, Terrains_Scroller->GetSize().GetWidth() - 15, 1);
-			Terrains_Scroller->Refresh();
+		//	Terrains_Scroller->Refresh();
 			Sounds_DataArea->Layout();
 			Colors_DataArea->Layout();
-			Refresh();
+		//	Refresh();
 			
 		//	We don't want to show unknowns that the current game version doesn't use.
 			if(DataOpened == true)
@@ -629,16 +629,22 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			SearchFilters = Event.GetId();
 			if(SearchFilters == MenuOption_NoExtra)
 			{
-				
+				for(short loop = 0;loop < 2;loop++)
+				Units_Units_SearchFilters[loop]->Show(false);
+				Units_Units_SearchFilters[0]->SetSelection(0);
 			}
 			else if(SearchFilters == MenuOption_1stFilters)
-			{
-				
+			{	
+				Units_Units_SearchFilters[0]->Show(true);
+				Units_Units_SearchFilters[1]->Show(false);
+				Units_Units_SearchFilters[1]->SetSelection(0);
 			}
 			else if(SearchFilters == MenuOption_2ndFilters)
 			{
-				
+				for(short loop = 0;loop < 2;loop++)
+				Units_Units_SearchFilters[loop]->Show(true);
 			}
+			Units_Units->Layout();
 		}
 		break;
 		case wxID_EXIT:
@@ -693,7 +699,7 @@ string AGE_Frame::LanguageDllString(int ID)
 
 bool AGE_Frame::SearchMatches(string CompareText)
 {
-	bool Matches = false, And = true;
+	bool Matches = false, And[2] = {true,true};
 	short Size = 30; // Maximum pieces for search text to be split.
 	short Max = Size;
 	wxString SearchEnd[Size]; // Parts.
@@ -739,13 +745,14 @@ bool AGE_Frame::SearchMatches(string CompareText)
 				{
 					if(CompareText.find(SearchEnd[loop]) != string::npos)
 					Matches = true;
-					else And = false;
+					else And[0] = false;
 				}
 			}
-			if(UseAnd == true && And == false && Matches == true) Matches = false;
+			if(UseAnd[0] == true && And[0] == false && Matches == true) Matches = false;
 		}
 	}
 
+	if(Matches == true)	// We don't need to check for excluding if it's not going to be listed.
 	if(ExcludeText == "") // If there is no exclude text, list normally.
 	{
 		// Do nothing.
@@ -788,10 +795,10 @@ bool AGE_Frame::SearchMatches(string CompareText)
 				{
 					if(CompareText.find(SearchEnd[loop]) != string::npos)
 					Matches = false;
-					else And = false;
+					else And[1] = false;
 				}
 			}
-			if(UseAnd == true && And == false && Matches == false) Matches = true;
+			if(UseAnd[1] == true && And[1] == false && Matches == false) Matches = true;
 		}
 	}
 	
@@ -868,33 +875,16 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 
 void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
 {
-	if(Event.GetId() == Units_Units_UseAnd->GetId())
+	for(short loop = 0;loop < 2;loop++)
+	if(Event.GetId() == Units_Units_UseAnd[loop]->GetId())
 	{
-		if(Units_Units_UseAnd->GetValue() == true)
-		UseAnd = true; else UseAnd = false;
+		if(Units_Units_UseAnd[loop]->GetValue() == true)
+		UseAnd[loop] = true; else UseAnd[loop] = false;
 		
-		ListUnits(UnitCivID);
-		
-	//	Units_Units_UseAnd->SetValue(UseAnd);
-	}/*
-	Research_Research_UseAnd;
-	Techs_Techs_UseAnd;
-	Techs_Effects_UseAnd;
-	Civs_Civs_UseAnd;
-	Civs_Resources_UseAnd;
-	Units_DamageGraphics_UseAnd;
-	Units_Attacks_UseAnd;
-	Units_Armors_UseAnd;
-	Units_Units_UseAnd;
-	Units_UnitCommands_UseAnd;
-	Graphics_Graphics_UseAnd;
-	Graphics_Deltas_UseAnd;
-	Terrains_Terrains_UseAnd;
-	TerRestrict_TerRestrict_UseAnd;
-	TerRestrict_Terrains_UseAnd;
-	Sounds_Sounds_UseAnd;
-	Sounds_SoundItems_UseAnd;
-	Colors_Colors_UseAnd;*/
+		wxCommandEvent E;
+		OnUnitsSearch(E);
+	//	ListUnits(UnitCivID);	muille tulee tällänen, unitseilla kaatuu jos ei oo avattu dataa
+	}
 }
 
 void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
