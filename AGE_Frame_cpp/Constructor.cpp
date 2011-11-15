@@ -21,7 +21,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
 	Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
-	Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_NoExtra);
+	Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_2ndFilters);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
@@ -48,7 +48,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
-	GetToolBar()->AddCheckTool(wxID_ANY, "Use AND instead of OR", wxNullBitmap, wxNullBitmap, "Testi 1", "Testi 2", NULL);
 
 	GetToolBar()->Realize();
 
@@ -70,7 +69,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 //	SubMenu_SearchFilters->AppendRadioItem(MenuOption_4rdFilters, "&4rd filters");
 	SubMenu_SearchFilters->Check(SearchFilters, true);
 
-	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &filters");
+	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &filters [| to separate]");
 
 	SubMenu_CivAutoCopy = new wxMenu();
 	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_NoAuto, "&Disabled");

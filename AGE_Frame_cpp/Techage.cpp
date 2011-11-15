@@ -930,7 +930,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 	Effects_Holder_B->Layout();
 	Effects_Holder_C->Layout();
 	Effects_Holder_D->Layout();
-	Refresh();
+//	Refresh();
 }
 
 void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
@@ -992,13 +992,12 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Technology slot");
 	Techs_Techs_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Techs_Techs_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);
-	Techs_Techs_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Techs_Techs_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Techs_Techs_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
-	Techs_Techs_Rename = new wxButton(Tab_Techage, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(-1, 20));
+	Techs_Techs_Rename = new wxButton(Tab_Techage, wxID_ANY, "Rename Technologies", wxDefaultPosition, wxSize(-1, 20));
 	Techs_Techs_Restore = new wxButton(Tab_Techage, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(-1, 20));
 
 	Techs_Holder_Name = new wxBoxSizer(wxVERTICAL);
@@ -1303,7 +1302,6 @@ void AGE_Frame::CreateTechageControls()
 
 	Techs_Techs->Add(Techs_Techs_Search, 0, wxEXPAND);
 	Techs_Techs->Add(Techs_Techs_Search_R, 0, wxEXPAND);
-	Techs_Techs->Add(Techs_Techs_UseAnd, 0, wxEXPAND);
 	Techs_Techs->Add(-1, 2);
 	Techs_Techs->Add(Techs_Techs_List, 1, wxEXPAND);
 	Techs_Techs->Add(-1, 2);
@@ -1440,6 +1438,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 	Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
 	Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+	Techs_Effects_UseAnd->Show(false);
 	
 	Tab_Techage->SetSizer(Techs_Main);
 	

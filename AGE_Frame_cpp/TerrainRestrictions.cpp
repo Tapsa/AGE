@@ -306,7 +306,6 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_TerRestrict = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainRestrictions, "Terrain Restriction slot");
 	TerRestrict_TerRestrict_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
 	TerRestrict_TerRestrict_Search_R = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
-	TerRestrict_TerRestrict_UseAnd = new wxCheckBox(Tab_TerrainRestrictions, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	TerRestrict_TerRestrict_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	TerRestrict_Add = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
 	TerRestrict_Delete = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
@@ -317,7 +316,6 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_DataArea = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Terrains_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
 	TerRestrict_Terrains_Search_R = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
-	TerRestrict_Terrains_UseAnd = new wxCheckBox(Tab_TerrainRestrictions, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	TerRestrict_Terrains_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	TerRestrict_Terrains_Buttons = new wxGridSizer(2, 0, 0);
 	TerRestrict_Terrains_Copy = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
@@ -349,7 +347,6 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 
 	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_Search, 0, wxEXPAND);
 	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_Search_R, 0, wxEXPAND);
-	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_UseAnd, 0, wxEXPAND);
 	TerRestrict_TerRestrict->Add(-1, 2);
 	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_List, 1, wxEXPAND);
 	TerRestrict_TerRestrict->Add(-1, 2);
@@ -365,7 +362,6 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains->Add(-1, 10);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Search, 0, wxEXPAND);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Search_R, 0, wxEXPAND);
-	TerRestrict_Terrains->Add(TerRestrict_Terrains_UseAnd, 0, wxEXPAND);
 	TerRestrict_Terrains->Add(-1, 2);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_List, 1, wxEXPAND);
 	TerRestrict_Terrains->Add(-1, 2);

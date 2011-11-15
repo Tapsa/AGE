@@ -298,7 +298,7 @@ class AGE_Frame : public wxFrame
 //	bool QuickSave;
 	int AutoCopy;	// Complete.
 	int SearchFilters;
-	bool UseAnd;
+	bool UseAnd[2];
 	bool ShowUnknowns;
 	bool ShowButtons;
 //	int Section;	// Yet unused event. This could be cool.
@@ -611,7 +611,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Techs_Techs;
 	wxTextCtrl * Techs_Techs_Search;
 	wxTextCtrl * Techs_Techs_Search_R;
-	wxCheckBox * Techs_Techs_UseAnd;
+//	wxCheckBox * Techs_Techs_UseAnd;
 	wxListBox * Techs_Techs_List;
 	wxButton * Techs_Techs_Rename;
 	wxButton * Techs_Techs_Restore;
@@ -678,7 +678,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Civs_Civs;
 	wxTextCtrl * Civs_Civs_Search;
 	wxTextCtrl * Civs_Civs_Search_R;
-	wxCheckBox * Civs_Civs_UseAnd;
+//	wxCheckBox * Civs_Civs_UseAnd;
 	wxListBox * Civs_Civs_List;
 	wxButton * Civs_Add;
 	wxButton * Civs_Delete;
@@ -713,7 +713,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Civs_Resources;
 	wxTextCtrl * Civs_Resources_Search;
 	wxTextCtrl * Civs_Resources_Search_R;
-	wxCheckBox * Civs_Resources_UseAnd;
+//	wxCheckBox * Civs_Resources_UseAnd;
 	wxListBox * Civs_Resources_List;
 	wxGridSizer * Civs_Resources_Buttons;
 	wxButton * Resources_Add;
@@ -1359,7 +1359,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Units_DamageGraphics;
 	wxTextCtrl * Units_DamageGraphics_Search;
 	wxTextCtrl * Units_DamageGraphics_Search_R;
-	wxCheckBox * Units_DamageGraphics_UseAnd;
+//	wxCheckBox * Units_DamageGraphics_UseAnd;
 	wxListBox * Units_DamageGraphics_List;
 	wxGridSizer * Units_DamageGraphics_Buttons;
 	wxButton * Units_DamageGraphics_Add;
@@ -1384,7 +1384,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Units_Attacks;
 	wxTextCtrl * Units_Attacks_Search;
 	wxTextCtrl * Units_Attacks_Search_R;
-	wxCheckBox * Units_Attacks_UseAnd;
+//	wxCheckBox * Units_Attacks_UseAnd;
 	wxListBox * Units_Attacks_List;
 	wxGridSizer * Units_Attacks_Buttons;
 	wxButton * Units_Attacks_Add;
@@ -1409,7 +1409,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Units_Armors;
 	wxTextCtrl * Units_Armors_Search;
 	wxTextCtrl * Units_Armors_Search_R;
-	wxCheckBox * Units_Armors_UseAnd;
+//	wxCheckBox * Units_Armors_UseAnd;
 	wxListBox * Units_Armors_List;
 	wxGridSizer * Units_Armors_Buttons;
 	wxButton * Units_Armors_Add;
@@ -1425,10 +1425,11 @@ class AGE_Frame : public wxFrame
 
 	wxStaticBoxSizer * Units_Units;	// Unit list section vertical division excluding window borders
 	wxComboBox * Units_Civs_List;	// Civ list combo box
+	wxBoxSizer * Units_Units_Searches[2];
 	wxTextCtrl * Units_Units_Search;	// Unit search
 	wxTextCtrl * Units_Units_Search_R;	// Unit reverse search
 	wxOwnerDrawnComboBox * Units_Units_SearchFilters[2];	// Unit search
-	wxCheckBox * Units_Units_UseAnd;
+	wxCheckBox * Units_Units_UseAnd[2];
 	wxListBox * Units_Units_List;	// List of units
 	wxButton * Units_Add;	// Buttons
 	wxButton * Units_Delete;
@@ -1517,7 +1518,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Units_UnitCommands;
 	wxTextCtrl * Units_UnitCommands_Search;
 	wxTextCtrl * Units_UnitCommands_Search_R;
-	wxCheckBox * Units_UnitCommands_UseAnd;
+//	wxCheckBox * Units_UnitCommands_UseAnd;
 	wxListBox * Units_UnitCommands_List;
 	wxGridSizer * Units_UnitCommands_Buttons;
 	wxButton * Units_UnitCommands_Add;
@@ -1731,7 +1732,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Graphics_Deltas;
 	wxTextCtrl * Graphics_Deltas_Search;
 	wxTextCtrl * Graphics_Deltas_Search_R;
-	wxCheckBox * Graphics_Deltas_UseAnd;
+//	wxCheckBox * Graphics_Deltas_UseAnd;
 	wxListBox * Graphics_Deltas_List;
 	wxGridSizer * Graphics_Deltas_Buttons;
 	wxButton * Deltas_Add;
@@ -1906,7 +1907,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * TerRestrict_TerRestrict;
 	wxTextCtrl * TerRestrict_TerRestrict_Search;
 	wxTextCtrl * TerRestrict_TerRestrict_Search_R;
-	wxCheckBox * TerRestrict_TerRestrict_UseAnd;
+//	wxCheckBox * TerRestrict_TerRestrict_UseAnd;
 	wxListBox * TerRestrict_TerRestrict_List;
 	wxButton * TerRestrict_Add;
 	wxButton * TerRestrict_Delete;
@@ -1917,7 +1918,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * TerRestrict_DataArea;
 	wxTextCtrl * TerRestrict_Terrains_Search;
 	wxTextCtrl * TerRestrict_Terrains_Search_R;
-	wxCheckBox * TerRestrict_Terrains_UseAnd;
+//	wxCheckBox * TerRestrict_Terrains_UseAnd;
 	wxListBox * TerRestrict_Terrains_List;
 	wxGridSizer * TerRestrict_Terrains_Buttons;
 	wxButton * TerRestrict_Terrains_Copy;
@@ -1952,7 +1953,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Sounds_Sounds;
 	wxTextCtrl * Sounds_Sounds_Search;
 	wxTextCtrl * Sounds_Sounds_Search_R;
-	wxCheckBox * Sounds_Sounds_UseAnd;
+//	wxCheckBox * Sounds_Sounds_UseAnd;
 	wxListBox * Sounds_Sounds_List;
 	wxButton * Sounds_Add;
 	wxButton * Sounds_Delete;
@@ -1962,7 +1963,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Sounds_SoundItems;
 	wxTextCtrl * Sounds_SoundItems_Search;
 	wxTextCtrl * Sounds_SoundItems_Search_R;
-	wxCheckBox * Sounds_SoundItems_UseAnd;
+//	wxCheckBox * Sounds_SoundItems_UseAnd;
 	wxListBox * Sounds_SoundItems_List;
 	wxButton * SoundItems_Add;
 	wxButton * SoundItems_Delete;
@@ -2000,7 +2001,7 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Colors_Colors;
 	wxTextCtrl * Colors_Colors_Search;
 	wxTextCtrl * Colors_Colors_Search_R;
-	wxCheckBox * Colors_Colors_UseAnd;
+//	wxCheckBox * Colors_Colors_UseAnd;
 	wxListBox * Colors_Colors_List;
 	wxButton * Colors_Add;
 	wxButton * Colors_Delete;

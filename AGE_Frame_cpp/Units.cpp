@@ -108,10 +108,16 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent& Event)
 // Following void thing is a series of lists for user interface.
 void AGE_Frame::ListUnits(short UnitCivID)
 {
+
 	string Name;
 	SearchText = wxString(Units_Units_Search->GetValue()).Lower();
 	ExcludeText = wxString(Units_Units_Search_R->GetValue()).Lower();
 	string CompareText;
+	for(short loop = 0;loop < 2;loop++)
+	{
+		if(Units_Units_UseAnd[loop]->GetValue() == true)
+		UseAnd[loop] = true; else UseAnd[loop] = false;
+	}
 	
 	if(!Units_Civs_List->IsEmpty())
 	{
@@ -308,6 +314,9 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	UnitCommands_ComboBox_UnitID->SetSelection(UnitIDs[17]);
 	for(short loop = 0;loop < 30;loop++)
 	Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDloop[loop]);
+	
+	for(short loop = 0;loop < 2;loop++)
+	UseAnd[loop] = false;
 	
 	wxCommandEvent E;
 	OnUnitsSelect(E);
@@ -2673,8 +2682,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
 	for(short loop = 0;loop < 2;loop++)
-	Units_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-	Units_Units_UseAnd = new wxCheckBox(Tab_Units, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
+	{
+		Units_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
+		Units_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+		Units_Units_UseAnd[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
+	}
 	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Units_Units_Buttons = new wxGridSizer(2, 0, 0);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -3376,7 +3388,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Unit Damage Graphics slot");
 	Units_DamageGraphics_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_DamageGraphics_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-	Units_DamageGraphics_UseAnd = new wxCheckBox(Units_Scroller, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Units_DamageGraphics_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Units_DamageGraphics_Buttons = new wxGridSizer(2, 0, 0);
 	Units_DamageGraphics_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -3401,7 +3412,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Unit Attacks slot");
 	Units_Attacks_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_Attacks_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-	Units_Attacks_UseAnd = new wxCheckBox(Units_Scroller, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Units_Attacks_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Units_Attacks_Buttons = new wxGridSizer(2, 0, 0);
 	Units_Attacks_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -3426,7 +3436,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Unit Armors slot");
 	Units_Armors_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_Armors_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-	Units_Armors_UseAnd = new wxCheckBox(Units_Scroller, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Units_Armors_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Units_Armors_Buttons = new wxGridSizer(2, 0, 0);
 	Units_Armors_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -3441,7 +3450,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnitCommands = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Unit Commands slot");
 	Units_UnitCommands_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_UnitCommands_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-	Units_UnitCommands_UseAnd = new wxCheckBox(Units_Scroller, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Units_UnitCommands_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 190));
 	Units_UnitCommands_Buttons = new wxGridSizer(2, 0, 0);
 	Units_UnitCommands_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -3816,7 +3824,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_Units_SearchFilters[loop]->Append("Internal Name");
 		Units_Units_SearchFilters[loop]->Append("Type");
 		Units_Units_SearchFilters[loop]->Append("Class");
-		Units_Units_SearchFilters[loop]->Append("Garrison Type");
+	/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
 		Units_Units_SearchFilters[loop]->Append("Projectile Unit");
 		Units_Units_SearchFilters[loop]->Append("Enabled");
 		Units_Units_SearchFilters[loop]->Append("Hidden In Editor");
@@ -3845,7 +3853,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_Units_SearchFilters[loop]->Append("Stack Unit");
 		Units_Units_SearchFilters[loop]->Append("Terrain");
 		Units_Units_SearchFilters[loop]->Append("Research");
-		Units_Units_SearchFilters[loop]->SetSelection(0);
+	*/	Units_Units_SearchFilters[loop]->SetSelection(0);
 	}
 	
 	Units_Units_Buttons->Add(Units_Add, 1, wxEXPAND);
@@ -3853,11 +3861,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Buttons->Add(Units_Copy, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Paste, 1, wxEXPAND);
 	
+	Units_Units_Searches[0]->Add(Units_Units_Search, 1, wxEXPAND);
+	Units_Units_Searches[0]->Add(Units_Units_UseAnd[0], 0, wxEXPAND);
+	Units_Units_Searches[1]->Add(Units_Units_Search_R, 1, wxEXPAND);
+	Units_Units_Searches[1]->Add(Units_Units_UseAnd[1], 0, wxEXPAND);
+	
 	Units_Units->Add(Units_Civs_List, 0, wxEXPAND);
 	Units_Units->Add(-1, 2);
-	Units_Units->Add(Units_Units_Search, 0, wxEXPAND);
-	Units_Units->Add(Units_Units_Search_R, 0, wxEXPAND);
-	Units_Units->Add(Units_Units_UseAnd, 0, wxEXPAND);
+	for(short loop = 0;loop < 2;loop++)
+	Units_Units->Add(Units_Units_Searches[loop], 0, wxEXPAND);
 	for(short loop = 0;loop < 2;loop++)
 	Units_Units->Add(Units_Units_SearchFilters[loop], 0, wxEXPAND);
 	Units_Units->Add(-1, 2);
@@ -4390,7 +4402,6 @@ void AGE_Frame::CreateUnitControls()
 	
 	Units_Attacks->Add(Units_Attacks_Search, 0, wxEXPAND);
 	Units_Attacks->Add(Units_Attacks_Search_R, 0, wxEXPAND);
-	Units_Attacks->Add(Units_Attacks_UseAnd, 0, wxEXPAND);
 	Units_Attacks->Add(-1, 2);
 	Units_Attacks->Add(Units_Attacks_List, 1, wxEXPAND);
 	Units_Attacks->Add(-1, 2);
@@ -4412,7 +4423,6 @@ void AGE_Frame::CreateUnitControls()
 	
 	Units_Armors->Add(Units_Armors_Search, 0, wxEXPAND);
 	Units_Armors->Add(Units_Armors_Search_R, 0, wxEXPAND);
-	Units_Armors->Add(Units_Armors_UseAnd, 0, wxEXPAND);
 	Units_Armors->Add(-1, 2);
 	Units_Armors->Add(Units_Armors_List, 1, wxEXPAND);
 	Units_Armors->Add(-1, 2);
@@ -4579,7 +4589,6 @@ void AGE_Frame::CreateUnitControls()
 	
 	Units_DamageGraphics->Add(Units_DamageGraphics_Search, 0, wxEXPAND);
 	Units_DamageGraphics->Add(Units_DamageGraphics_Search_R, 0, wxEXPAND);
-	Units_DamageGraphics->Add(Units_DamageGraphics_UseAnd, 0, wxEXPAND);
 	Units_DamageGraphics->Add(-1, 2);
 	Units_DamageGraphics->Add(Units_DamageGraphics_List, 1, wxEXPAND);
 	Units_DamageGraphics->Add(-1, 2);
@@ -4966,7 +4975,6 @@ void AGE_Frame::CreateUnitControls()
 	
 	Units_UnitCommands->Add(Units_UnitCommands_Search, 0, wxEXPAND);
 	Units_UnitCommands->Add(Units_UnitCommands_Search_R, 0, wxEXPAND);
-	Units_UnitCommands->Add(Units_UnitCommands_UseAnd, 0, wxEXPAND);
 	Units_UnitCommands->Add(-1, 2);
 	Units_UnitCommands->Add(Units_UnitCommands_List, 1, wxEXPAND);
 	Units_UnitCommands->Add(-1, 2);
@@ -5116,15 +5124,20 @@ void AGE_Frame::CreateUnitControls()
 	}
 	if(SearchFilters == MenuOption_NoExtra)
 	{
-		
+		for(short loop = 0;loop < 2;loop++)
+		Units_Units_SearchFilters[loop]->Show(false);
+		Units_Units_SearchFilters[0]->SetSelection(0);
 	}
 	else if(SearchFilters == MenuOption_1stFilters)
 	{
-		
+		Units_Units_SearchFilters[0]->Show(true);
+		Units_Units_SearchFilters[1]->Show(false);
+		Units_Units_SearchFilters[1]->SetSelection(0);
 	}
 	else if(SearchFilters == MenuOption_2ndFilters)
 	{
-		
+		for(short loop = 0;loop < 2;loop++)
+		Units_Units_SearchFilters[loop]->Show(true);
 	}
 	Units_ID1->Enable(false);
 	Units_ID2->Enable(false);
@@ -5139,9 +5152,11 @@ void AGE_Frame::CreateUnitControls()
 	
 	Connect(Units_Units_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 	Connect(Units_Units_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
-	Connect(Units_Units_UseAnd->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSelection_CheckBoxes));
 	for(short loop = 0;loop < 2;loop++)
-	Connect(Units_Units_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
+	{
+		Connect(Units_Units_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSelection_CheckBoxes));
+		Connect(Units_Units_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
+	}
 	Connect(Units_Civs_List->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitSubList));
 	Connect(Units_Units_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitsSelect));
 	Connect(Units_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsAdd));
