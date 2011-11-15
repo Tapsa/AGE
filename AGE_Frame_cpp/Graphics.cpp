@@ -784,7 +784,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Deltas = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Graphic Deltas slot");
 	Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_Deltas_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
-	Graphics_Deltas_UseAnd = new wxCheckBox(Graphics_Scroller, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator);
 	Graphics_Deltas_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
 	Graphics_Deltas_Buttons = new wxGridSizer(2, 0, 0);
 	Deltas_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
@@ -996,7 +995,6 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_Deltas->Add(Graphics_Deltas_Search, 0, wxEXPAND);
 	Graphics_Deltas->Add(Graphics_Deltas_Search_R, 0, wxEXPAND);
-	Graphics_Deltas->Add(Graphics_Deltas_UseAnd, 0, wxEXPAND);
 	Graphics_Deltas->Add(-1, 2);
 	Graphics_Deltas->Add(Graphics_Deltas_List, 1, wxEXPAND);
 	Graphics_Deltas->Add(-1, 2);
@@ -1115,6 +1113,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Main->Add(10, -1);
 	
 	Graphics_ID->Enable(false);
+	Graphics_Graphics_UseAnd->Show(false);
 
 //	AttackSounds_Add->Show(false);
 //	AttackSounds_Delete->Show(false);
