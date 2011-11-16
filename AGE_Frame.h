@@ -418,6 +418,7 @@ class AGE_Frame : public wxFrame
 		MenuOption_NoAuto,
 		MenuOption_Include,
 		MenuOption_Exclude,
+		MenuOption_Tips,
 		MenuOption_About,
 		MenuOption_NoExtra,
 		MenuOption_1stFilters,
