@@ -658,7 +658,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			TipText += "You can have multiple search entries separated with \"|\" letter.\n";
 			TipText += "Upper search boxes are inclusive and lower ones exclusive.\n";
 			TipText += "Example: \"tower|ship|ram\"\n";
-			TipText += "Terrain restriction terrain list doesn't have this feature yet.\n";
 			TipText += "You can switch from or finding to and finding with check boxes.\n";
 			TipText += "Meaning that every search entry has to match.\n";
 			wxMessageBox(TipText);
