@@ -25,8 +25,6 @@ void AGE_Frame::ListTerrains()
 	string Name;
 	SearchText = wxString(Terrains_Terrains_Search->GetValue()).Lower();
 	ExcludeText = wxString(Terrains_Terrains_Search_R->GetValue()).Lower();
-	wxString SearchText2 = wxString(TerRestrict_Terrains_Search->GetValue()).Lower();
-	wxString ExcludeText2 = wxString(TerRestrict_Terrains_Search_R->GetValue()).Lower();
 	string CompareText;
 	
 	short Selection = Terrains_Terrains_List->GetSelection();
@@ -113,19 +111,11 @@ void AGE_Frame::ListTerrains()
 	
 	for(short loop = 0;loop < GenieFile->Terrains.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetTerrainName(loop);
+		Name = lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
 		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
-		}
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
-		if(SearchText2.IsEmpty() || CompareText.find(SearchText2) != string::npos)
-		{
-			if(ExcludeText2.IsEmpty() || !(CompareText.find(ExcludeText2) != string::npos))
-			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
 		Units_ComboBox_PlacementBypassTerrain[0]->Append(Name);
 		Units_ComboBox_PlacementBypassTerrain[1]->Append(Name);
@@ -133,6 +123,17 @@ void AGE_Frame::ListTerrains()
 		Units_ComboBox_PlacementTerrain[1]->Append(Name);
 		Units_ComboBox_TerrainID->Append(Name);
 		Terrains_ComboBox_TerrainReplacementID->Append(Name);
+	}
+	SearchText = wxString(TerRestrict_Terrains_Search->GetValue()).Lower();
+	ExcludeText = wxString(TerRestrict_Terrains_Search_R->GetValue()).Lower();
+	for(short loop = 0;loop < GenieFile->TerrainRestrictions[0].TerrainAccessible.size();loop++)
+	{
+		Name = lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
+		if(SearchMatches(CompareText) == true)
+		{
+			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
+		}
 	}
 	
 	Terrains_Terrains_List->SetSelection(0);

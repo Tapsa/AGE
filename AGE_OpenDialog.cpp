@@ -38,6 +38,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	CheckBox_GenieVer->Append("The Conquerors");
 	CheckBox_GenieVer->Append("Star Wars Galactic Battlegrounds");
 	CheckBox_GenieVer->Append("Clone Campaigns");
+	CheckBox_GenieVer->SetSelection(3);
 
 	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
 	DriveLetterArea = new wxBoxSizer(wxVERTICAL);
@@ -72,7 +73,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
 	
-	if(wxIsPlatform64Bit())
+/*	if(wxIsPlatform64Bit())
 	{
 	    Path += ":\\Program Files (x86)\\Microsoft Games\\";
 	}
@@ -81,13 +82,12 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	    Path += ":\\Program Files\\Microsoft Games\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(3);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2_x1_p1.dat"));
 //	Path_UnzFileLocation->SetPath(wxT("TC.unz"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires II\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1_p1.dll"));
-/*	
+	
 	CheckBox_LangFileLocation->SetValue(false);
 	CheckBox_LangFileLocation->Show(false);
 	CheckBox_LangX1FileLocation->SetValue(false);

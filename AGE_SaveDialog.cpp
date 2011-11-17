@@ -35,6 +35,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	CheckBox_GenieVer->Append("The Conquerors");
 	CheckBox_GenieVer->Append("Star Wars Galactic Battlegrounds");
 	CheckBox_GenieVer->Append("Clone Campaigns");
+	CheckBox_GenieVer->SetSelection(3);
 
 	DriveLetterBox = new wxTextCtrl(this, wxID_ANY, "C", wxDefaultPosition, wxDefaultSize, 0/*, wxDefaultValidator, wxTextCtrlNameStr*/);
 	CheckBox_DatFileLocation = new wxCheckBox(this, wxID_ANY, "Compressed Dat File (*.dat):");
@@ -52,7 +53,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
 	
-	if(wxIsPlatform64Bit())
+/*	if(wxIsPlatform64Bit())
 	{
 	    Path += ":\\Program Files (x86)\\Microsoft Games\\";
 	}
@@ -61,10 +62,9 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	    Path += ":\\Program Files\\Microsoft Games\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(3);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2_x1_p1.dat"));
 //	Path_UnzFileLocation->SetPath(wxT("TC.unz"));
-
+*/
 	SaveLayout->Add(Text_GenieVer, 1, wxEXPAND);
 	SaveLayout->Add(CheckBox_GenieVer, 1, wxEXPAND);
 	SaveLayout->AddSpacer(15);
