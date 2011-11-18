@@ -94,7 +94,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 		
 			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
 			Colors_Name->ChangeValue(PlayerColorPointer->Name);
-			Colors_Name->Container = PlayerColorPointer->Name;
+			Colors_Name->Container = &PlayerColorPointer->Name;
 		}
 		else	//	Above AoE and RoR
 		{
@@ -212,7 +212,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Text_Unknown3 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 3", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown4 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 4", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown5 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 5", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Name = new TextCtrl_String(Tab_PlayerColors, "0", NULL, 30);
+	Colors_Name = new TextCtrl_String(Tab_PlayerColors, "0", NULL);
 	Colors_ID = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_Palette = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_ColorL = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);

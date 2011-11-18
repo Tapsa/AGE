@@ -584,8 +584,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Civs_Delete->Enable(true);
 				Resources_Add->Enable(true);
 				Resources_Delete->Enable(true);
-				Graphics_Add->Enable(true);
-				Graphics_Delete->Enable(true);
 				Terrains_Add->Enable(true);
 				Terrains_Delete->Enable(true);
 			}
@@ -595,8 +593,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Civs_Delete->Enable(false);
 				Resources_Add->Enable(false);
 				Resources_Delete->Enable(false);
-				Graphics_Add->Enable(false);
-				Graphics_Delete->Enable(false);
 				Terrains_Add->Enable(false);
 				Terrains_Delete->Enable(false);
 			}
@@ -1590,6 +1586,10 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == Colors_Name->GetId())
 		{
+			ReducedName = GenieFile->PlayerColours[ColorID].Name;
+			ReducedName = ReducedName.substr(0, 29);
+			GenieFile->PlayerColours[ColorID].Name = ReducedName;
+			
 			ListPlayerColors();
 		}
 	}
