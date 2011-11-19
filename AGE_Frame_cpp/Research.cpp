@@ -315,9 +315,11 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_PointerArea = new wxBoxSizer(wxHORIZONTAL);
 	Research_Holder_Names = new wxBoxSizer(wxHORIZONTAL);
 
-	for(short loop = 0;loop < 6;loop++){
-	Research_RequiredTechs[loop] = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_ComboBox_RequiredTechs[loop] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[0]);}
+	for(short loop = 0;loop < 6;loop++)
+	{
+		Research_RequiredTechs[loop] = new TextCtrl_Short(Research_Scroller, "0", NULL);
+		Research_ComboBox_RequiredTechs[loop] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[loop]);
+	}
 	Research_Holder_RequiredTechCount = new wxBoxSizer(wxVERTICAL);
 	Research_Text_RequiredTechCount = new wxStaticText(Research_Scroller, wxID_ANY, " Min. Req. Researches", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_RequiredTechCount = new TextCtrl_Short(Research_Scroller, "0", NULL);
