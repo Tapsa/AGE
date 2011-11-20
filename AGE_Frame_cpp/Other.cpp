@@ -328,17 +328,18 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		ListResearchs();
 		
 //		ID and pointer fixes
-		for(short loop2 = 0;loop2 < GenieFile->Civs.size();loop2++)
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			for(short loop = 0;loop < GenieFile->Civs[loop2].Units.size();loop++)
+			for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units.size();loop2++)
 			{
-				GenieFile->Civs[loop2].UnitPointers[loop] = lexical_cast<long>(1);
-				GenieFile->Civs[loop2].Units[loop].ID1 = lexical_cast<short>(loop);
-				GenieFile->Civs[loop2].Units[loop].ID2 = lexical_cast<short>(loop);
-				GenieFile->Civs[loop2].Units[loop].ID3 = lexical_cast<short>(loop);
+				GenieFile->Civs[loop].UnitPointers[loop2] = lexical_cast<long>(1);
+				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
+				GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
+				GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
 				if(GameVersion < 2)
-				for(short loop3 = 0;loop3 < GenieFile->Civs[loop2].Units[loop].Bird->Commands.size();loop3++)
-				GenieFile->Civs[loop2].Units[loop].Bird->Commands[loop3].ID = lexical_cast<short>(loop3);
+				if(GenieFile->Civs[loop].Units[loop2].Bird)
+				for(short loop3 = 0;loop3 < GenieFile->Civs[loop].Units[loop2].Bird->Commands.size();loop3++)
+				GenieFile->Civs[loop].Units[loop2].Bird->Commands[loop3].ID = lexical_cast<short>(loop3);
 			}
 		}
 		for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
