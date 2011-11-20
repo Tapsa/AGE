@@ -88,6 +88,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	this->SetMenuBar(MenuBar_Main);
 
+	CreateGeneralControls();
 	CreateResearchControls();
 	CreateTechageControls();
 	CreateCivControls();
@@ -98,6 +99,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	CreateSoundControls();
 	CreatePlayerColorControls();
 
+	TabBar_Main->AddPage(Tab_General, "General");
 	TabBar_Main->AddPage(Tab_Research, "Researches");
 	TabBar_Main->AddPage(Tab_Techage, "Technologies");
 	TabBar_Main->AddPage(Tab_Civs, "Civilizations");
@@ -109,7 +111,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
 
 //	Hide sections that aren't shown on opening.
-//	Tab_Research->Show(false);
+//	Tab_General->Show(false);
+	Tab_Research->Show(false);
 	Tab_Techage->Show(false);
 	Tab_Civs->Show(false);
 	Tab_Units->Show(false);

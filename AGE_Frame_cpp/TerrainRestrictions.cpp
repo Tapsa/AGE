@@ -168,6 +168,8 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 		gdat::TerrainRestriction * TerrainRestrictionPointer = (gdat::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
 		gdat::Terrain * TerrainPointer = (gdat::Terrain*)TerRestrict_Terrains_List->GetClientData(Selection2);
 		TerRestrictID = TerrainRestrictionPointer - (&GenieFile->TerrainRestrictions[0]);
+//		wxMessageBox("Terrain Restriction Pointer 1: "+lexical_cast<string>(GenieFile->TerrainRestrictionPointers1[TerRestrictID]));
+//		wxMessageBox("Terrain Restriction Pointer 2: "+lexical_cast<string>(GenieFile->TerrainRestrictionPointers2[TerRestrictID]));
 		TerRestrictTerID = TerrainPointer - (&GenieFile->Terrains[0]);
 		
 	//	Make a code piece which renames terrains in the list with accessible value in front of them.
@@ -227,6 +229,7 @@ void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent& Event)
 //	Temp.TerrainPassGraphics.resize(GenieFile->Terrains.size());
 	GenieFile->TerrainRestrictions.push_back(Temp);
 	GenieFile->TerrainRestrictionPointers1.push_back(1);
+	if(GameVersion >= 2)
 	GenieFile->TerrainRestrictionPointers2.push_back(1);
 	Added = true;
 	ListTerrainRestrictions();
@@ -240,6 +243,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 	{
 		GenieFile->TerrainRestrictions.erase(GenieFile->TerrainRestrictions.begin() + TerRestrictID);
 		GenieFile->TerrainRestrictionPointers1.erase(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictID);
+		if(GameVersion >= 2)
 		GenieFile->TerrainRestrictionPointers2.erase(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictID);
 		if(Selection == TerRestrict_TerRestrict_List->GetCount() - 1)
 		TerRestrict_TerRestrict_List->SetSelection(Selection - 1);

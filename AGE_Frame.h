@@ -23,6 +23,7 @@ class AGE_Frame : public wxFrame
 
 //	Constructions Methods
 
+	void CreateGeneralControls();
 	void CreateResearchControls();
 	void CreateTechageControls();
 	void CreateCivControls();
@@ -99,6 +100,20 @@ class AGE_Frame : public wxFrame
 	wxString SearchText, ExcludeText;
 	bool SearchMatches(string CompareText);
 
+//	General Events
+
+	void ListGeneral();
+/*	void OnTerrainsSearch(wxCommandEvent& Event);*/
+	void OnGeneralSelect(wxCommandEvent& Event);
+	void OnTechTreePage(wxCommandEvent& Event);
+	void OnTechTreeNext(wxCommandEvent& Event);
+	void OnTechTreePrev(wxCommandEvent& Event);
+/*	void OnTerrainsAdd(wxCommandEvent& Event);
+	void OnTerrainsDelete(wxCommandEvent& Event);
+	void OnTerrainsCopy(wxCommandEvent& Event);
+	void OnTerrainsPaste(wxCommandEvent& Event);
+	string GetTerrainName(short Index);
+*/
 //	Research Events
 
 	void ListResearchs();
@@ -307,7 +322,8 @@ class AGE_Frame : public wxFrame
 	wxFileConfig * Config;
 	gdat::File * GenieFile;
 
-
+	long TechTreePage;
+	long TechTreeSize;
 	gdat::Research ResearchCopy;
 	short ResearchID;
 	gdat::Techage TechageCopy;
@@ -463,17 +479,38 @@ class AGE_Frame : public wxFrame
 
 //	wxPanel * wPanel;
 //	wxPanel * Tab_Current;
+	wxPanel * Tab_General;
 	wxPanel * Tab_Research;
-	AGE_ScrolledWindow * Research_Scroller;
 	wxPanel * Tab_Techage;
 	wxPanel * Tab_Civs;
 	wxPanel * Tab_Units;	// Unit tab
-	AGE_ScrolledWindow * Units_Scroller;	// Scrollable unit section
 	wxPanel * Tab_Graphics;
 	wxPanel * Tab_Terrains;
 	wxPanel * Tab_TerrainRestrictions;
 	wxPanel * Tab_Sounds;
 	wxPanel * Tab_PlayerColors;
+
+//	General user interface
+	
+	wxBoxSizer * General_Main;
+	wxBoxSizer * General_TopRow;
+	wxButton * General_Refresh;
+	AGE_ScrolledWindow * General_Scroller;
+	wxBoxSizer * General_ScrollerWindows;
+	wxBoxSizer * General_ScrollerWindowsSpace;
+	wxBoxSizer * General_Holder_TerrainHeader;
+	wxGridSizer * General_Grid_TerrainHeader;
+	wxStaticText * General_Text_TerrainHeader;
+	TextCtrl_Byte * General_TerrainHeader[138];
+	wxBoxSizer * General_Holder_TechTree;
+	wxBoxSizer * General_Holder_TechTreeTop;
+	wxStaticText * General_Text_TechTree;
+	wxTextCtrl * General_TechTreePicker;
+	wxButton * General_TechTreeNext;
+	wxButton * General_TechTreePrev;
+	wxStaticText * General_TechTreeSize;
+	wxGridSizer * General_Grid_TechTree;
+	TextCtrl_Byte * General_TechTree[324];
 	
 //	Researchs user interface
 
@@ -481,6 +518,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Research_ListArea;
 	wxGridSizer * Research_Research_Buttons;
 	wxBoxSizer * Research_DataArea;
+	AGE_ScrolledWindow * Research_Scroller;
 	wxBoxSizer * Research_ScrollerWindows;
 	wxBoxSizer * Research_ScrollerWindowsSpace;
 	wxBoxSizer * Research_Holder_MiscArea1;
@@ -753,6 +791,8 @@ class AGE_Frame : public wxFrame
 //	Data Containers
 //	Type 10+
 
+	AGE_ScrolledWindow * Units_Scroller;	// Scrollable unit section
+	
 	wxTextCtrl * Units_Type;
 	wxOwnerDrawnComboBox * Units_ComboBox_Type;
 	TextCtrl_Short * Units_NameLength;
