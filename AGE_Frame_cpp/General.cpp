@@ -117,7 +117,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
 	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
 	General_Grid_TerrainHeader = new wxGridSizer(12, 0, 0);
-	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Terrain Header", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Terrain Header?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 138;loop++)
 	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
@@ -127,7 +127,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_TechTreePrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(-1, 20));
 	General_TechTreeSize = new wxStaticText(General_Scroller, wxID_ANY, " Tech Tree Size", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_Grid_TechTree = new wxGridSizer(18, 0, 0);
-	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Tech Tree", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Tech Tree?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 324;loop++)
 	General_TechTree[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 
