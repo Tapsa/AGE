@@ -109,9 +109,10 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	TabBar_Main->AddPage(Tab_TerrainRestrictions, "Terrain Restrictions");
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
+	TabBar_Main->SetSelection(4);
 
 //	Hide sections that aren't shown on opening.
-//	Tab_General->Show(false);
+/*	Tab_General->Show(false);
 	Tab_Research->Show(false);
 	Tab_Techage->Show(false);
 	Tab_Civs->Show(false);
@@ -121,7 +122,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Tab_TerrainRestrictions->Show(false);
 	Tab_Sounds->Show(false);
 	Tab_PlayerColors->Show(false);
-
+*/
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));

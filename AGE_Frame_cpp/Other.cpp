@@ -312,20 +312,20 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 
 		Added = false;
-		ListGeneral();
 		ListGraphics();
 		ListSounds();
 		ListTerrains();
 		ListTerrainRestrictions();
-		ListPlayerColors();
 		ListCivs();
+		ListResearchs();
 		ListTechages();
 		if(GameVersion > 1)
 		{
 			ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
 		}
 		ListUnits();
-		ListResearchs();
+		ListPlayerColors();
+		ListGeneral();
 		
 //		ID and pointer fixes
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
@@ -550,6 +550,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Sounds_Holder_Unknown->Show(true);
 				SoundItems_Holder_Unknown->Show(true);
 				Colors_Holder_UnknownArea->Show(true);
+				General_TopRow->Show(true);
+				General_ScrollerWindowsSpace->Show(true);
 			}
 			else
 			{
@@ -561,6 +563,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Sounds_Holder_Unknown->Show(false);
 				SoundItems_Holder_Unknown->Show(false);
 				Colors_Holder_UnknownArea->Show(false);
+				General_TopRow->Show(false);
+				General_ScrollerWindowsSpace->Show(false);
 			}
 			Units_ScrollerWindowsSpace->Layout();
 			Units_Scroller->GetSizer()->FitInside(Units_Scroller);
@@ -579,6 +583,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 		//	Terrains_Scroller->Refresh();
 			Sounds_DataArea->Layout();
 			Colors_DataArea->Layout();
+			General_Main->Layout();
 		//	Refresh();
 			
 		//	We don't want to show unknowns that the current game version doesn't use.
