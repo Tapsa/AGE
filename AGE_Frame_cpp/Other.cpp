@@ -312,6 +312,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 
 		Added = false;
+		ListGeneral();
 		ListGraphics();
 		ListSounds();
 		ListTerrains();
@@ -326,11 +327,12 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		ListUnits();
 		ListResearchs();
 		
-//		ID Fixes
+//		ID and pointer fixes
 		for(short loop2 = 0;loop2 < GenieFile->Civs.size();loop2++)
 		{
 			for(short loop = 0;loop < GenieFile->Civs[loop2].Units.size();loop++)
 			{
+				GenieFile->Civs[loop2].UnitPointers[loop] = lexical_cast<long>(1);
 				GenieFile->Civs[loop2].Units[loop].ID1 = lexical_cast<short>(loop);
 				GenieFile->Civs[loop2].Units[loop].ID2 = lexical_cast<short>(loop);
 				GenieFile->Civs[loop2].Units[loop].ID3 = lexical_cast<short>(loop);
@@ -345,11 +347,18 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 		{
+			GenieFile->GraphicPointers[loop] = lexical_cast<long>(1);
 			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
 		}
 		for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
 		{
 			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
+		}
+		for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+		{
+			GenieFile->TerrainRestrictionPointers1[loop] = lexical_cast<long>(1);
+			if(GameVersion >= 2)
+			GenieFile->TerrainRestrictionPointers2[loop] = lexical_cast<long>(1);
 		}
 	}
 	
@@ -398,6 +407,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 //	if(!QuickSave)
 //	{
 		AGE_SaveDialog SaveBox (this);
+		SaveBox.Path_DatFileLocation->SetFocus();
 
 		SaveBox.DriveLetterBox->ChangeValue(DriveLetter);
 		SaveBox.CheckBox_GenieVer->SetSelection(SaveGameVersion);
