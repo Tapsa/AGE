@@ -9,14 +9,14 @@ using std::tolower;
 string AGE_Frame::GetGraphicName(short Index)
 {
 	string Name = "";
-//	Name = lexical_cast<string>((short)GenieFile->Graphics[Index].AttackSoundUsed);
+	Name = lexical_cast<string>(GenieFile->GraphicPointers[Index])+" ";
 	if(GenieFile->Graphics[Index].Name != "")
 	{
-		Name = GenieFile->Graphics[Index].Name;
+		Name += GenieFile->Graphics[Index].Name;
 	}
 	else
 	{
-		Name = "New Graphic";
+		Name += "New Graphic";
 	}
 	return Name;
 }
