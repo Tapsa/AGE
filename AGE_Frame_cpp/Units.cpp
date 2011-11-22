@@ -37,28 +37,30 @@ string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
 		
 		if(Selection[0] == 0)	// Lang DLL Name
 		{
+			Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[UnitID])+" ";
 			if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")	// Other than empty.
 			{
-				Name = LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
+				Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
 			}
 			else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
 			{
-				Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
+				Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
 			}
 			else
 			{
-				Name = "New Unit";
+				Name += "New Unit";
 			}
 		}
 		else if(Selection[0] == 1)	// Internal Name
 		{
+			Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[UnitID])+" ";
 			if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
 			{
-				Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
+				Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
 			}
 			else
 			{
-				Name = "New Unit";
+				Name += "New Unit";
 			}
 		}
 		else
@@ -74,6 +76,10 @@ string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
 				{
 					Name += "C ";
 					Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Class);
+				}
+				else if(Selection[loop] == 4)	// Pointer
+				{
+					Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[UnitID]);
 				}
 				Name += ", ";
 				if(Selection[loop+1] < 2) break;
@@ -3825,6 +3831,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_Units_SearchFilters[loop]->Append("Internal Name");
 		Units_Units_SearchFilters[loop]->Append("Type");
 		Units_Units_SearchFilters[loop]->Append("Class");
+		Units_Units_SearchFilters[loop]->Append("Pointer");
 	/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
 		Units_Units_SearchFilters[loop]->Append("Projectile Unit");
 		Units_Units_SearchFilters[loop]->Append("Enabled");
