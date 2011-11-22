@@ -310,28 +310,13 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	{	// As of now, without these, nothing can be edited.
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
-
-		Added = false;
-		ListGraphics();
-		ListSounds();
-		ListTerrains();
-		ListTerrainRestrictions();
-		ListCivs();
-		ListResearchs();
-		ListTechages();
-		if(GameVersion > 1)
-		{
-			ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
-		}
-		ListUnits();
-		ListPlayerColors();
-		ListGeneral();
 		
 //		ID and pointer fixes
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units.size();loop2++)
 			{
+				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
 				GenieFile->Civs[loop].UnitPointers[loop2] = lexical_cast<long>(1);
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
 				GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
@@ -348,6 +333,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 		{
+			if(GenieFile->GraphicPointers[loop] != 0)
 			GenieFile->GraphicPointers[loop] = lexical_cast<long>(1);
 			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
 		}
@@ -357,10 +343,28 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 		for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 		{
+			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
 			GenieFile->TerrainRestrictionPointers1[loop] = lexical_cast<long>(1);
 			if(GameVersion >= 2)
+			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = lexical_cast<long>(1);
 		}
+
+		Added = false;
+		if(GameVersion > 1)
+		{
+			ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
+		}
+		ListCivs();
+		ListResearchs();
+		ListTechages();
+		ListUnits();
+		ListGraphics();
+		ListSounds();
+		ListTerrains();
+		ListTerrainRestrictions();
+		ListPlayerColors();
+		ListGeneral();
 	}
 	
 	DataOpened = true;
