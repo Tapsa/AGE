@@ -35,32 +35,34 @@ string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
 		for(short loop = 0;loop < 2;loop++)
 		Selection[loop] = Units_Units_SearchFilters[loop]->GetSelection();
 		
-		if(Selection[0] == 0)	// Lang DLL Name
+		if(GenieFile->Civs[UnitCivID].UnitPointers[UnitID] == 0)
 		{
-			Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[UnitID])+" ";
+			Name = "*Disabled*";
+		}
+		else if(Selection[0] == 0)	// Lang DLL Name
+		{
 			if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")	// Other than empty.
 			{
-				Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
+				Name = LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
 			}
 			else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
 			{
-				Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
+				Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
 			}
 			else
 			{
-				Name += "New Unit";
+				Name = "New Unit";
 			}
 		}
 		else if(Selection[0] == 1)	// Internal Name
 		{
-			Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[UnitID])+" ";
 			if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
 			{
-				Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
+				Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
 			}
 			else
 			{
-				Name += "New Unit";
+				Name = "New Unit";
 			}
 		}
 		else
