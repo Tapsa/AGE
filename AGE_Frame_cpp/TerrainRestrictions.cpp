@@ -9,9 +9,7 @@ using std::tolower;
 string AGE_Frame::GetTerrainRestrictionName(short Index)
 {
 	string Name = "";
-	Name = lexical_cast<string>(GenieFile->TerrainRestrictionPointers1[Index])+" ";
-	Name += lexical_cast<string>(GenieFile->TerrainRestrictionPointers2[Index])+" ";
-	Name += "Restriction " + lexical_cast<string>(Index);
+	Name = "Restriction "+lexical_cast<string>(Index);
 /*	if(Index == 1)
 	{
 		Name = "Overland " + lexical_cast<string>(Index);

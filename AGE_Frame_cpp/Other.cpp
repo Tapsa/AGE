@@ -317,14 +317,16 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units.size();loop2++)
 			{
 				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
-				GenieFile->Civs[loop].UnitPointers[loop2] = lexical_cast<long>(1);
-				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
-				GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
-				GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
-				if(GameVersion < 2)
-				if(GenieFile->Civs[loop].Units[loop2].Bird)
-				for(short loop3 = 0;loop3 < GenieFile->Civs[loop].Units[loop2].Bird->Commands.size();loop3++)
-				GenieFile->Civs[loop].Units[loop2].Bird->Commands[loop3].ID = lexical_cast<short>(loop3);
+				{
+				//	GenieFile->Civs[loop].UnitPointers[loop2] = lexical_cast<long>(1);
+					GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
+					GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
+					GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
+					if(GameVersion < 2)
+					if(GenieFile->Civs[loop].Units[loop2].Bird)
+					for(short loop3 = 0;loop3 < GenieFile->Civs[loop].Units[loop2].Bird->Commands.size();loop3++)
+					GenieFile->Civs[loop].Units[loop2].Bird->Commands[loop3].ID = lexical_cast<short>(loop3);
+				}
 			}
 		}
 		for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
@@ -334,21 +336,23 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 		{
 			if(GenieFile->GraphicPointers[loop] != 0)
-			GenieFile->GraphicPointers[loop] = lexical_cast<long>(1);
-			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
+			{
+			//	GenieFile->GraphicPointers[loop] = lexical_cast<long>(1);
+				GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
+			}
 		}
 		for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
 		{
 			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
 		}
-		for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+	/*	for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 		{
 			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
 			GenieFile->TerrainRestrictionPointers1[loop] = lexical_cast<long>(1);
 			if(GameVersion >= 2)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = lexical_cast<long>(1);
-		}
+		}*/
 
 		Added = false;
 		if(GameVersion > 1)
