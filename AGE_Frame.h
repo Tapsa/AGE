@@ -380,6 +380,8 @@ class AGE_Frame : public wxFrame
 	short SoundItemID;
 	gdat::PlayerColour PlayerColorCopy;
 	short ColorID;
+	gdat::TerrainBorder TerrainBorderCopy;
+	short BorderID;
 
 	bool Added;
 	int GameVersion;
