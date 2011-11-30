@@ -114,6 +114,15 @@ class AGE_Frame : public wxFrame
 	void OnTerrainsPaste(wxCommandEvent& Event);
 	string GetTerrainName(short Index);
 */
+	void ListBorders();
+	void OnBordersSearch(wxCommandEvent& Event);
+	void OnBordersSelect(wxCommandEvent& Event);
+//	void OnBordersAdd(wxCommandEvent& Event);
+//	void OnBordersDelete(wxCommandEvent& Event);
+	void OnBordersCopy(wxCommandEvent& Event);
+	void OnBordersPaste(wxCommandEvent& Event);
+	string GetBorderName(short Index);
+
 //	Research Events
 
 	void ListResearchs();
@@ -502,6 +511,25 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * General_Grid_TerrainHeader;
 	wxStaticText * General_Text_TerrainHeader;
 	TextCtrl_Byte * General_TerrainHeader[138];
+	
+	wxStaticBoxSizer * General_Holder_TerrainBorders;
+	wxBoxSizer * General_ListArea;
+	wxGridSizer * General_Borders_Buttons;
+	wxStaticBoxSizer * General_Borders;
+	wxTextCtrl * General_Borders_Search;
+	wxTextCtrl * General_Borders_Search_R;
+	wxListBox * General_Borders_List;
+	wxButton * Borders_Copy;
+	wxButton * Borders_Paste;
+	wxBoxSizer * General_DataArea;
+	wxBoxSizer * General_Holder_BorderUnknown[2];
+	wxStaticText * General_Text_BorderUnknown[2];
+	TextCtrl_Short * General_BorderUnknown[2];
+	wxBoxSizer * General_Holder_BorderName[2];
+	wxStaticText * General_Text_BorderName[2];
+	TextCtrl_String * General_BorderName[2];
+	
+	wxBoxSizer * General_Holder_Unknown3; // [1410]
 	wxBoxSizer * General_Holder_TechTree;
 	wxBoxSizer * General_Holder_TechTreeTop;
 	wxStaticText * General_Text_TechTree;
@@ -1688,14 +1716,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Graphics_Holder_Unknown4;
 	wxBoxSizer * Graphics_Holder_Replay;
 	wxBoxSizer * Graphics_Holder_2;
-	wxBoxSizer * Graphics_Holder_Unknown5;
-	wxBoxSizer * Graphics_Holder_Unknown6;
-	wxBoxSizer * Graphics_Holder_Unknown7;
-	wxBoxSizer * Graphics_Holder_Unknown8;
-	wxBoxSizer * Graphics_Holder_Unknown9;
-	wxBoxSizer * Graphics_Holder_Unknown10;
-	wxBoxSizer * Graphics_Holder_Unknown11;
-	wxBoxSizer * Graphics_Holder_Unknown12;
+	wxBoxSizer * Graphics_Holder_Coordinates;
+	wxGridSizer * Graphics_Holder_CoordinateGrid;
 	wxBoxSizer * Graphics_Holder_SoundID;
 	wxBoxSizer * Graphics_Holder_AttackSoundUsed;
 	wxBoxSizer * Graphics_Holder_AttackSoundUsed1;
@@ -1721,14 +1743,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Graphics_Text_Unknown3;
 	wxStaticText * Graphics_Text_Unknown4;
 	wxStaticText * Graphics_Text_Replay;
-	wxStaticText * Graphics_Text_Unknown5;
-	wxStaticText * Graphics_Text_Unknown6;
-	wxStaticText * Graphics_Text_Unknown7;
-	wxStaticText * Graphics_Text_Unknown8;
-	wxStaticText * Graphics_Text_Unknown9;
-	wxStaticText * Graphics_Text_Unknown10;
-	wxStaticText * Graphics_Text_Unknown11;
-	wxStaticText * Graphics_Text_Unknown12;
+	wxStaticText * Graphics_Text_Coordinates;
 	wxStaticText * Graphics_Text_SoundID;
 	wxStaticText * Graphics_Text_AttackSoundUsed;
 	wxStaticText * Graphics_Text_FrameCount;
@@ -1749,14 +1764,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Graphics_Unknown3;
 	TextCtrl_Byte * Graphics_Unknown4;
 	TextCtrl_Byte * Graphics_Replay;
-	TextCtrl_Byte * Graphics_Unknown5;
-	TextCtrl_Byte * Graphics_Unknown6;
-	TextCtrl_Byte * Graphics_Unknown7;
-	TextCtrl_Byte * Graphics_Unknown8;
-	TextCtrl_Byte * Graphics_Unknown9;
-	TextCtrl_Byte * Graphics_Unknown10;
-	TextCtrl_Byte * Graphics_Unknown11;
-	TextCtrl_Byte * Graphics_Unknown12;
+	TextCtrl_Short * Graphics_Coordinates[4];
 	TextCtrl_Short * Graphics_SoundID;
 	ComboBox_Short * Graphics_ComboBox_SoundID;
 	TextCtrl_Byte * Graphics_AttackSoundUsed;
