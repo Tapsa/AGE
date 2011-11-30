@@ -108,16 +108,53 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 string AGE_Frame::GetBorderName(short Index)
 {
 	string Name = "";
-	Name = "Border "+lexical_cast<string>(Index);
+	if(GenieFile->TerrainBorders[Index].Name == "" && GenieFile->TerrainBorders[Index].Name2 == "")
+	{
+		Name = "Border "+lexical_cast<string>(Index);
+	}
+	else
+	{
+		Name = GenieFile->TerrainBorders[Index].Name;
+		Name += " - ";
+		Name += GenieFile->TerrainBorders[Index].Name2;
+	}
 	return Name;
 }
 
 void AGE_Frame::ListBorders()
 {
 	string Name;
-//	SearchText = wxString(Colors_Colors_Search->GetValue()).Lower();
-//	ExcludeText = wxString(Colors_Colors_Search_R->GetValue()).Lower();
+	SearchText = wxString(General_Borders_Search->GetValue()).Lower();
+	ExcludeText = wxString(General_Borders_Search_R->GetValue()).Lower();
 	string CompareText;
+
+	short Selection = General_Borders_List->GetSelection();
+
+	if(!General_Borders_List->IsEmpty())
+	{
+		General_Borders_List->Clear();
+	}
+	
+	if(Selection == wxNOT_FOUND)
+	{
+		Selection = 0;
+	}
+	
+	for(short loop = 0;loop < GenieFile->TerrainBorders.size();loop++)
+	{
+		Name = lexical_cast<string>(loop);
+		Name += " - ";
+		Name += GetBorderName(loop);
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetBorderName(loop)).Lower();
+		if(SearchMatches(CompareText) == true)
+		{
+			General_Borders_List->Append(Name, (void*)&GenieFile->TerrainBorders[loop]);
+		}
+	}
+	
+	General_Borders_List->SetSelection(0);
+	General_Borders_List->SetFirstItem(Selection - 3);
+	General_Borders_List->SetSelection(Selection);
 	
 	wxCommandEvent E;
 	OnBordersSelect(E);
@@ -130,7 +167,20 @@ void AGE_Frame::OnBordersSearch(wxCommandEvent& Event)
 
 void AGE_Frame::OnBordersSelect(wxCommandEvent& Event)
 {
-	
+	short Selection = General_Borders_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		gdat::TerrainBorder * BorderPointer = (gdat::TerrainBorder*)General_Borders_List->GetClientData(Selection);
+		BorderID = BorderPointer - (&GenieFile->TerrainBorders[0]);
+		General_BorderName[0]->ChangeValue(BorderPointer->Name);
+		General_BorderName[0]->Container = &BorderPointer->Name;
+		General_BorderName[1]->ChangeValue(BorderPointer->Name2);
+		General_BorderName[1]->Container = &BorderPointer->Name2;
+		General_BorderUnknown[0]->ChangeValue(lexical_cast<string>(BorderPointer->Unknown1));
+		General_BorderUnknown[0]->Container = &BorderPointer->Unknown1;
+		General_BorderUnknown[1]->ChangeValue(lexical_cast<string>(BorderPointer->Unknown2));
+		General_BorderUnknown[1]->Container = &BorderPointer->Unknown2;
+	}
 }
 
 void AGE_Frame::OnBordersCopy(wxCommandEvent& Event)
@@ -158,7 +208,17 @@ void AGE_Frame::CreateGeneralControls()
 	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Terrain Header?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 138;loop++)
 	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
-	General_Holder_TerrainBorders = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Terrain Borders");
+	
+	General_Holder_TerrainBorders = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Terrain Borders (Used in AoE and RoR)");
+	General_ListArea = new wxBoxSizer(wxVERTICAL);
+	General_Borders_Buttons = new wxGridSizer(2, 0, 0);
+	General_Borders = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Terrain Border slot");
+	General_Borders_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
+	General_Borders_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
+	General_Borders_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 220));
+	Borders_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
+	Borders_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
+	General_DataArea = new wxBoxSizer(wxVERTICAL);
 	for(short loop = 0;loop < 2;loop++)
 	{
 		General_Holder_BorderUnknown[loop] = new wxBoxSizer(wxVERTICAL);
@@ -168,6 +228,7 @@ void AGE_Frame::CreateGeneralControls()
 		General_Text_BorderName[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Name "+lexical_cast<string>(loop), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 		General_BorderName[loop] = new TextCtrl_String(General_Scroller, "0", NULL);
 	}
+	
 	General_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
 	General_Holder_TechTreeTop = new wxBoxSizer(wxHORIZONTAL);
 	General_TechTreePicker = new wxTextCtrl(General_Scroller, wxID_ANY);
@@ -239,13 +300,30 @@ void AGE_Frame::CreateGeneralControls()
 		General_Holder_BorderUnknown[loop]->Add(General_Text_BorderName[loop], 0, wxEXPAND);
 		General_Holder_BorderUnknown[loop]->Add(General_BorderName[loop], 0, wxEXPAND);
 	}
+
+	General_Borders_Buttons->Add(Borders_Copy, 1, wxEXPAND);
+	General_Borders_Buttons->Add(Borders_Paste, 1, wxEXPAND);
+
+	General_Borders->Add(General_Borders_Search, 0, wxEXPAND);
+	General_Borders->Add(General_Borders_Search_R, 0, wxEXPAND);
+	General_Borders->Add(-1, 2);
+	General_Borders->Add(General_Borders_List, 1, wxEXPAND);
+	General_Borders->Add(-1, 2);
+	General_Borders->Add(General_Borders_Buttons, 0, wxEXPAND);
+
+	General_ListArea->Add(General_Borders, 1, wxEXPAND);
 	
 	for(short loop = 0;loop < 2;loop++)
-	General_Holder_TerrainBorders->Add(General_Holder_BorderName[loop], 0, wxEXPAND);
-	General_Holder_TerrainBorders->Add(-1, 5);
+	General_DataArea->Add(General_Holder_BorderName[loop], 0, wxEXPAND);
+	General_DataArea->Add(-1, 5);
 	for(short loop = 0;loop < 2;loop++)
-	General_Holder_TerrainBorders->Add(General_Holder_BorderUnknown[loop], 0, wxEXPAND);
+	General_DataArea->Add(General_Holder_BorderUnknown[loop], 0, wxEXPAND);
 	
+	General_Holder_TerrainBorders->Add(General_ListArea, 1, wxEXPAND);
+	General_Holder_TerrainBorders->Add(10, -1);
+	General_Holder_TerrainBorders->Add(General_DataArea, 1, wxEXPAND);
+	General_Holder_TerrainBorders->AddStretchSpacer(2);
+
 	General_Holder_TechTreeTop->Add(General_Text_TechTree, 0, wxEXPAND);
 	General_Holder_TechTreeTop->Add(5, -1);
 	General_Holder_TechTreeTop->Add(General_TechTreePicker, 1, wxEXPAND);
@@ -263,9 +341,9 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_TechTree->Add(General_Grid_TechTree, 0, wxEXPAND);
 
 	General_ScrollerWindowsSpace->Add(General_Holder_TerrainHeader, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 5);
+	General_ScrollerWindowsSpace->Add(-1, 10);
 	General_ScrollerWindowsSpace->Add(General_Holder_TerrainBorders, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 5);
+	General_ScrollerWindowsSpace->Add(-1, 10);
 	General_ScrollerWindowsSpace->Add(General_Holder_TechTree, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->AddStretchSpacer(1);
 	
@@ -283,18 +361,18 @@ void AGE_Frame::CreateGeneralControls()
 	General_Main->Add(-1, 10);
 
 	Tab_General->SetSizer(General_Main);
-/*	
-	Connect(Terrains_Terrains_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
-	Connect(Terrains_Terrains_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));*/
+	
+	Connect(General_Borders_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnBordersSearch));
+	Connect(General_Borders_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnBordersSearch));
+	Connect(General_Borders_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnBordersSelect));
 	Connect(General_TechTreePicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechTreePage));
 	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGeneralSelect));
 	Connect(General_TechTreeNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechTreeNext));
 	Connect(General_TechTreePrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechTreePrev));
-/*	Connect(Terrains_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsDelete));
-	Connect(Terrains_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsCopy));
-	Connect(Terrains_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsPaste));
+	Connect(Borders_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnBordersCopy));
+	Connect(Borders_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnBordersPaste));
 
-	Terrains_Name->Connect(Terrains_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-	Terrains_Name2->Connect(Terrains_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-*/
+	for(short loop = 0;loop < 2;loop++)
+	General_BorderName[loop]->Connect(General_BorderName[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
+
 }

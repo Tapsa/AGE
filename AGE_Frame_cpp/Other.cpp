@@ -1524,7 +1524,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Research_Name[0]->GetId())
 		{
 			ReducedName = GenieFile->Researchs[ResearchID].Name;
-			ReducedName = ReducedName.substr(0, 29);
+			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Researchs[ResearchID].Name = ReducedName;
 	
 			ListResearchs();
@@ -1532,7 +1532,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Research_Name[1]->GetId())
 		{
 			ReducedName = GenieFile->Researchs[ResearchID].Name2;
-			ReducedName = ReducedName.substr(0, 29);
+			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Researchs[ResearchID].Name2 = ReducedName;
 	
 		//	ListResearchs();
@@ -1542,7 +1542,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Techs_Name->GetId())
 		{
 			ReducedName = GenieFile->Techages[TechID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Techages[TechID].getNameSize() - 1);
+			ReducedName = ReducedName.substr(0, GenieFile->Techages[TechID].getNameSize());
 			GenieFile->Techages[TechID].Name = ReducedName;
 			
 			ListTechages();
@@ -1550,7 +1550,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Civs_Name[0]->GetId())
 		{
 			ReducedName = GenieFile->Civs[CivID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize() - 1);
+			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize());
 			GenieFile->Civs[CivID].Name = ReducedName;
 			
 			ListCivs();
@@ -1558,7 +1558,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Civs_Name[1]->GetId())
 		{
 			ReducedName = GenieFile->Civs[CivID].Name2;
-			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize() - 1);
+			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize());
 			GenieFile->Civs[CivID].Name2 = ReducedName;
 			
 		//	ListCivs();
@@ -1568,7 +1568,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Graphics_Name->GetId())
 		{
 			ReducedName = GenieFile->Graphics[GraphicID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getNameSize() - 1);
+			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getNameSize());
 			GenieFile->Graphics[GraphicID].Name = ReducedName;
 			
 			ListGraphics();
@@ -1576,7 +1576,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Graphics_Name2->GetId())
 		{
 			ReducedName = GenieFile->Graphics[GraphicID].Name2;
-			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getName2Size() - 1);
+			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getName2Size());
 			GenieFile->Graphics[GraphicID].Name2 = ReducedName;
 			
 		//	ListGraphics();
@@ -1586,7 +1586,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Terrains_Name->GetId())
 		{
 			ReducedName = GenieFile->Terrains[TerrainID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize() - 1);
+			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize());
 			GenieFile->Terrains[TerrainID].Name = ReducedName;
 			
 			ListTerrains();
@@ -1594,7 +1594,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Terrains_Name2->GetId())
 		{
 			ReducedName = GenieFile->Terrains[TerrainID].Name2;
-			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize() - 1);
+			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize());
 			GenieFile->Terrains[TerrainID].Name2 = ReducedName;
 			
 		//	ListTerrains();
@@ -1604,7 +1604,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == SoundItems_Name->GetId())
 		{
 			ReducedName = GenieFile->Sounds[SoundID].Items[SoundItemID].FileName;
-			ReducedName = ReducedName.substr(0, GenieFile->Sounds[SoundID].Items[SoundItemID].getFileNameSize() - 1);
+			ReducedName = ReducedName.substr(0, GenieFile->Sounds[SoundID].Items[SoundItemID].getFileNameSize());
 			GenieFile->Sounds[SoundID].Items[SoundItemID].FileName = ReducedName;
 			
 			ListSoundItems(SoundID);
@@ -1612,10 +1612,26 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		if(Event.GetId() == Colors_Name->GetId())
 		{
 			ReducedName = GenieFile->PlayerColours[ColorID].Name;
-			ReducedName = ReducedName.substr(0, 29);
+			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->PlayerColours[ColorID].Name = ReducedName;
 			
 			ListPlayerColors();
+		}
+		if(Event.GetId() == General_BorderName[0]->GetId())
+		{
+			ReducedName = GenieFile->TerrainBorders[BorderID].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
+			GenieFile->TerrainBorders[BorderID].Name = ReducedName;
+			
+			ListBorders();
+		}
+		if(Event.GetId() == General_BorderName[1]->GetId())
+		{
+			ReducedName = GenieFile->TerrainBorders[BorderID].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
+			GenieFile->TerrainBorders[BorderID].Name2 = ReducedName;
+			
+			ListBorders();
 		}
 	}
 }
@@ -1635,7 +1651,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 		if(Event.GetId() == Units_Name->GetId())
 		{
 			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
-			ReducedName = ReducedName.substr(0, 29);
+			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name = ReducedName;
 	
 			ListUnits(UnitCivID);
@@ -1643,7 +1659,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 		if(Event.GetId() == Units_Name2->GetId())
 		{
 			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name2;
-			ReducedName = ReducedName.substr(0, 29);
+			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name2 = ReducedName;
 	
 		//	ListUnits(UnitCivID);

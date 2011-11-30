@@ -69,7 +69,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 				{
 					Name = GenieFile->Researchs[loop].Name;
 				}
-				NewName = Name.substr(0,30);
+				NewName = Name.substr(0,31);
 				GenieFile->Techages[ResearchTechID].Name = NewName;
 			}
 		}
@@ -84,14 +84,14 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			{
 				Name = CivName;
 				Name += " Technology Tree";
-				NewName = Name.substr(0,30);
+				NewName = Name.substr(0,31);
 				GenieFile->Techages[CivTechTreeID].Name = NewName;
 			}
 			if(CivTeamBonusID > 0)
 			{
 				Name = CivName;
 				Name += " Team Bonus";
-				NewName = Name.substr(0,30);
+				NewName = Name.substr(0,31);
 				GenieFile->Techages[CivTeamBonusID].Name = NewName;
 			}
 		}
