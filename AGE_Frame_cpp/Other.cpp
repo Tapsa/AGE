@@ -318,7 +318,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			{
 				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
 				{
-				//	GenieFile->Civs[loop].UnitPointers[loop2] = lexical_cast<long>(1);
+					GenieFile->Civs[loop].UnitPointers[loop2] = lexical_cast<long>(1);
 					GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
 					GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
 					GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
@@ -337,7 +337,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		{
 			if(GenieFile->GraphicPointers[loop] != 0)
 			{
-			//	GenieFile->GraphicPointers[loop] = lexical_cast<long>(1);
+				GenieFile->GraphicPointers[loop] = lexical_cast<long>(1);
 				GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
 			}
 		}
@@ -345,14 +345,14 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		{
 			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
 		}
-	/*	for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+		for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 		{
 			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
 			GenieFile->TerrainRestrictionPointers1[loop] = lexical_cast<long>(1);
 			if(GameVersion >= 2)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = lexical_cast<long>(1);
-		}*/
+		}
 
 		Added = false;
 		if(GameVersion > 1)
@@ -369,6 +369,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		ListTerrainRestrictions();
 		ListPlayerColors();
 		ListGeneral();
+		ListBorders();
 	}
 	
 	DataOpened = true;

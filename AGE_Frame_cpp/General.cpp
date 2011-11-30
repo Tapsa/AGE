@@ -10,12 +10,12 @@ void AGE_Frame::ListGeneral()
 {
 	switch(GameVersion) // is this really the techtree?
 	{
-		case 0: TechTreeSize = lexical_cast<long>(33666); break;
-		case 1: TechTreeSize = lexical_cast<long>(41838); break;
-		case 2: TechTreeSize = lexical_cast<long>(35794); break;
-		case 3: TechTreeSize = lexical_cast<long>(36230); break;
-		case 4: TechTreeSize = lexical_cast<long>(0x642A); break;
-		case 5: TechTreeSize = lexical_cast<long>(0x6082); break;
+		case 0: TechTreeSize = lexical_cast<long>(6954); break;
+		case 1: TechTreeSize = lexical_cast<long>(15126); break;
+		case 2: TechTreeSize = lexical_cast<long>(12754); break;
+		case 3: TechTreeSize = lexical_cast<long>(12754); break;
+		case 4: TechTreeSize = lexical_cast<long>(730); break;
+		case 5: TechTreeSize = lexical_cast<long>(730); break;
 		default: break;
 	}
 	General_TechTreeSize->SetLabel("Size: "+lexical_cast<string>(TechTreeSize));
@@ -105,6 +105,44 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 	}*/
 }
 
+string AGE_Frame::GetBorderName(short Index)
+{
+	string Name = "";
+	Name = "Border "+lexical_cast<string>(Index);
+	return Name;
+}
+
+void AGE_Frame::ListBorders()
+{
+	string Name;
+//	SearchText = wxString(Colors_Colors_Search->GetValue()).Lower();
+//	ExcludeText = wxString(Colors_Colors_Search_R->GetValue()).Lower();
+	string CompareText;
+	
+	wxCommandEvent E;
+	OnBordersSelect(E);
+}
+
+void AGE_Frame::OnBordersSearch(wxCommandEvent& Event)
+{
+	ListBorders();
+}
+
+void AGE_Frame::OnBordersSelect(wxCommandEvent& Event)
+{
+	
+}
+
+void AGE_Frame::OnBordersCopy(wxCommandEvent& Event)
+{
+
+}
+
+void AGE_Frame::OnBordersPaste(wxCommandEvent& Event)
+{
+
+}
+
 void AGE_Frame::CreateGeneralControls()
 {
 	Tab_General = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
@@ -120,6 +158,16 @@ void AGE_Frame::CreateGeneralControls()
 	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Terrain Header?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 138;loop++)
 	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
+	General_Holder_TerrainBorders = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Terrain Borders");
+	for(short loop = 0;loop < 2;loop++)
+	{
+		General_Holder_BorderUnknown[loop] = new wxBoxSizer(wxVERTICAL);
+		General_Text_BorderUnknown[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+		General_BorderUnknown[loop] = new TextCtrl_Short(General_Scroller, "0", NULL);
+		General_Holder_BorderName[loop] = new wxBoxSizer(wxVERTICAL);
+		General_Text_BorderName[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Name "+lexical_cast<string>(loop), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+		General_BorderName[loop] = new TextCtrl_String(General_Scroller, "0", NULL);
+	}
 	General_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
 	General_Holder_TechTreeTop = new wxBoxSizer(wxHORIZONTAL);
 	General_TechTreePicker = new wxTextCtrl(General_Scroller, wxID_ANY);
@@ -184,6 +232,20 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_TerrainHeader->Add(General_Text_TerrainHeader, 0, wxEXPAND);
 	General_Holder_TerrainHeader->Add(General_Grid_TerrainHeader, 0, wxEXPAND);
 	
+	for(short loop = 0;loop < 2;loop++)
+	{
+		General_Holder_BorderName[loop]->Add(General_Text_BorderUnknown[loop], 0, wxEXPAND);
+		General_Holder_BorderName[loop]->Add(General_BorderUnknown[loop], 0, wxEXPAND);
+		General_Holder_BorderUnknown[loop]->Add(General_Text_BorderName[loop], 0, wxEXPAND);
+		General_Holder_BorderUnknown[loop]->Add(General_BorderName[loop], 0, wxEXPAND);
+	}
+	
+	for(short loop = 0;loop < 2;loop++)
+	General_Holder_TerrainBorders->Add(General_Holder_BorderName[loop], 0, wxEXPAND);
+	General_Holder_TerrainBorders->Add(-1, 5);
+	for(short loop = 0;loop < 2;loop++)
+	General_Holder_TerrainBorders->Add(General_Holder_BorderUnknown[loop], 0, wxEXPAND);
+	
 	General_Holder_TechTreeTop->Add(General_Text_TechTree, 0, wxEXPAND);
 	General_Holder_TechTreeTop->Add(5, -1);
 	General_Holder_TechTreeTop->Add(General_TechTreePicker, 1, wxEXPAND);
@@ -199,8 +261,10 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_TechTree->Add(General_Holder_TechTreeTop, 0, wxEXPAND);
 	General_Holder_TechTree->Add(-1, 5);
 	General_Holder_TechTree->Add(General_Grid_TechTree, 0, wxEXPAND);
-	
+
 	General_ScrollerWindowsSpace->Add(General_Holder_TerrainHeader, 0, wxEXPAND);
+	General_ScrollerWindowsSpace->Add(-1, 5);
+	General_ScrollerWindowsSpace->Add(General_Holder_TerrainBorders, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 5);
 	General_ScrollerWindowsSpace->Add(General_Holder_TechTree, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->AddStretchSpacer(1);
@@ -217,8 +281,6 @@ void AGE_Frame::CreateGeneralControls()
 	General_Main->Add(-1, 5);
 	General_Main->Add(General_Scroller, 1, wxEXPAND);
 	General_Main->Add(-1, 10);
-	
-//	Terrains_Terrains_UseAnd->Show(false);
 
 	Tab_General->SetSizer(General_Main);
 /*	
