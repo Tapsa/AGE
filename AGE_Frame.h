@@ -515,7 +515,6 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * General_TerrainHeader[138];
 	
 	wxStaticBoxSizer * General_Holder_TerrainBorders;
-	wxBoxSizer * General_ListArea;
 	wxGridSizer * General_Borders_Buttons;
 	wxStaticBoxSizer * General_Borders;
 	wxTextCtrl * General_Borders_Search;
@@ -524,12 +523,24 @@ class AGE_Frame : public wxFrame
 	wxButton * Borders_Copy;
 	wxButton * Borders_Paste;
 	wxBoxSizer * General_DataArea;
+	wxBoxSizer * General_DataTopRow;
 	wxBoxSizer * General_Holder_BorderUnknown[2];
 	wxStaticText * General_Text_BorderUnknown[2];
 	TextCtrl_Short * General_BorderUnknown[2];
 	wxBoxSizer * General_Holder_BorderName[2];
 	wxStaticText * General_Text_BorderName[2];
 	TextCtrl_String * General_BorderName[2];
+	wxBoxSizer * General_BorderUnknown3Area;
+	wxGridSizer * Borders_Unknown3_Buttons;
+	wxStaticBoxSizer * Borders_Unknown3List;
+	wxTextCtrl * Borders_Unknown3_Search;
+	wxTextCtrl * Borders_Unknown3_Search_R;
+	wxListBox * Borders_Unknown3_List;
+	wxButton * Unknown3_Copy;
+	wxButton * Unknown3_Paste;
+	wxBoxSizer * Borders_Holder_Unknown3;
+	wxStaticText * Borders_Text_Unknown3;
+	TextCtrl_Byte * Borders_Unknown3;
 	
 	wxBoxSizer * General_Holder_Unknown3; // [1410]
 	wxBoxSizer * General_Holder_TechTree;
