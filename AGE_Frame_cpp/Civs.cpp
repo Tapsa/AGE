@@ -9,7 +9,7 @@ using std::tolower;
 string AGE_Frame::GetCivName(short Index)
 {
 	string Name = "";
-	Name = "("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+") "+GenieFile->Civs[Index].Name;
+	Name = GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
 	return Name;
 }
 
