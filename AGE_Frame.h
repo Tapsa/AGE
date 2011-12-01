@@ -530,17 +530,10 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * General_Holder_BorderName[2];
 	wxStaticText * General_Text_BorderName[2];
 	TextCtrl_String * General_BorderName[2];
-	wxBoxSizer * General_BorderUnknown3Area;
-	wxGridSizer * Borders_Unknown3_Buttons;
-	wxStaticBoxSizer * Borders_Unknown3List;
-	wxTextCtrl * Borders_Unknown3_Search;
-	wxTextCtrl * Borders_Unknown3_Search_R;
-	wxListBox * Borders_Unknown3_List;
-	wxButton * Unknown3_Copy;
-	wxButton * Unknown3_Paste;
 	wxBoxSizer * Borders_Holder_Unknown3;
+	wxGridSizer * Borders_Grid_Unknown3;
 	wxStaticText * Borders_Text_Unknown3;
-	TextCtrl_Byte * Borders_Unknown3;
+	TextCtrl_Byte * Borders_Unknown3[150];
 	
 	wxBoxSizer * General_Holder_Unknown3; // [1410]
 	wxBoxSizer * General_Holder_TechTree;

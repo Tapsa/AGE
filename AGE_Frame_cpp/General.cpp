@@ -228,17 +228,11 @@ void AGE_Frame::CreateGeneralControls()
 		General_Text_BorderName[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Name "+lexical_cast<string>(loop), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 		General_BorderName[loop] = new TextCtrl_String(General_Scroller, "0", NULL);
 	}
-	General_BorderUnknown3Area = new wxBoxSizer(wxHORIZONTAL);
-	Borders_Unknown3_Buttons = new wxGridSizer(2, 0, 0);
-	Borders_Unknown3List = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Unknown 3 slot");
-	Borders_Unknown3_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
-	Borders_Unknown3_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
-	Borders_Unknown3_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
-	Unknown3_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
-	Unknown3_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 	Borders_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
-	/*wxStaticText * Borders_Text_Unknown3;
-	TextCtrl_Byte * Borders_Unknown3;*/
+	Borders_Grid_Unknown3 = new wxGridSizer(15, 0, 0);
+	Borders_Text_Unknown3 = new wxStaticText(General_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop = 0;loop < 150;loop++)
+	Borders_Unknown3[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	
 	General_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
 	General_Holder_TechTreeTop = new wxBoxSizer(wxHORIZONTAL);
@@ -330,23 +324,15 @@ void AGE_Frame::CreateGeneralControls()
 	General_DataTopRow->Add(5, -1);
 	General_DataTopRow->Add(General_Holder_BorderUnknown[1], 1, wxEXPAND);
 
-	Borders_Unknown3_Buttons->Add(Unknown3_Copy, 1, wxEXPAND);
-	Borders_Unknown3_Buttons->Add(Unknown3_Paste, 1, wxEXPAND);
-
-	Borders_Unknown3List->Add(Borders_Unknown3_Search, 0, wxEXPAND);
-	Borders_Unknown3List->Add(Borders_Unknown3_Search_R, 0, wxEXPAND);
-	Borders_Unknown3List->Add(-1, 2);
-	Borders_Unknown3List->Add(Borders_Unknown3_List, 1, wxEXPAND);
-	Borders_Unknown3List->Add(-1, 2);
-	Borders_Unknown3List->Add(Borders_Unknown3_Buttons, 0, wxEXPAND);
-	
-	General_BorderUnknown3Area->Add(Borders_Unknown3List, 1, wxEXPAND);
-	General_BorderUnknown3Area->Add(5, -1);
-	General_BorderUnknown3Area->Add(Borders_Holder_Unknown3, 3, wxEXPAND);
+	for(short loop = 0;loop < 150;loop++)
+	Borders_Grid_Unknown3->Add(Borders_Unknown3[loop], 1, wxEXPAND);
+	Borders_Holder_Unknown3->Add(Borders_Text_Unknown3, 0, wxEXPAND);
+	Borders_Holder_Unknown3->Add(-1, 2);
+	Borders_Holder_Unknown3->Add(Borders_Grid_Unknown3, 0, wxEXPAND);
 
 	General_DataArea->Add(General_DataTopRow, 0, wxEXPAND);
 	General_DataArea->Add(-1, 5);
-	General_DataArea->Add(General_BorderUnknown3Area, 1, wxEXPAND);
+	General_DataArea->Add(Borders_Holder_Unknown3, 1, wxEXPAND);
 	
 	General_Holder_TerrainBorders->Add(General_Borders, 1, wxEXPAND);
 	General_Holder_TerrainBorders->Add(10, -1);
