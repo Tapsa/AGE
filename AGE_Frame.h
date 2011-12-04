@@ -524,16 +524,54 @@ class AGE_Frame : public wxFrame
 	wxButton * Borders_Paste;
 	wxBoxSizer * General_DataArea;
 	wxBoxSizer * General_DataTopRow;
-	wxBoxSizer * General_Holder_BorderUnknown[2];
-	wxStaticText * General_Text_BorderUnknown[2];
-	TextCtrl_Short * General_BorderUnknown[2];
+	wxBoxSizer * General_Holder_BorderEnabled;
+	wxStaticText * General_Text_BorderEnabled;
+	TextCtrl_Short * General_BorderEnabled;
 	wxBoxSizer * General_Holder_BorderName[2];
 	wxStaticText * General_Text_BorderName[2];
 	TextCtrl_String * General_BorderName[2];
-	wxBoxSizer * Borders_Holder_Unknown3;
-	wxGridSizer * Borders_Grid_Unknown3;
-	wxStaticText * Borders_Text_Unknown3;
-	TextCtrl_Byte * Borders_Unknown3[150];
+	wxBoxSizer * General_Holder_BorderRessourceID;
+	wxStaticText * General_Text_BorderRessourceID;
+	TextCtrl_Long * General_BorderRessourceID;
+	wxBoxSizer * General_Holder_BorderUnknown3;
+	wxStaticText * General_Text_BorderUnknown3;
+	TextCtrl_Long * General_BorderUnknown3;
+	wxBoxSizer * General_Holder_BorderUnknown4;
+	wxStaticText * General_Text_BorderUnknown4;
+	TextCtrl_Long * General_BorderUnknown4;
+	wxBoxSizer * General_Holder_BorderColors;
+	wxStaticText * General_Text_BorderColors;
+	TextCtrl_Byte * General_BorderColors[3];
+	wxBoxSizer * General_Holder_BorderUnknown5;
+	wxStaticText * General_Text_BorderUnknown5;
+	TextCtrl_Byte * General_BorderUnknown5;
+	wxBoxSizer * General_Holder_BorderUnknown6;
+	wxStaticText * General_Text_BorderUnknown6;
+	TextCtrl_Long * General_BorderUnknown6;
+	wxBoxSizer * General_Holder_BorderUnknown7;
+	wxStaticText * General_Text_BorderUnknown7;
+	TextCtrl_Long * General_BorderUnknown7;
+	wxBoxSizer * General_Holder_BorderFrameID;
+	wxStaticText * General_Text_BorderFrameID;
+	TextCtrl_Short * General_BorderFrameID;
+	wxBoxSizer * General_Holder_BorderFlag1;
+	wxStaticText * General_Text_BorderFlag1;
+	TextCtrl_Short * General_BorderFlag1;
+	wxBoxSizer * General_Holder_BorderFlag2;
+	wxStaticText * General_Text_BorderFlag2;
+	TextCtrl_Short * General_BorderFlag2;
+	wxBoxSizer * General_Holder_BorderFrameCount;
+	wxStaticText * General_Text_BorderFrameCount;
+	TextCtrl_Short * General_BorderFrameCount;
+	wxBoxSizer * General_Holder_BorderUnknown8;
+	wxStaticText * General_Text_BorderUnknown8;
+	TextCtrl_Short * General_BorderUnknown8;
+	wxBoxSizer * General_Holder_BorderUnknown9;
+	wxStaticText * General_Text_BorderUnknown9;
+	TextCtrl_Short * General_BorderUnknown9;
+	wxBoxSizer * General_Holder_BorderUnknown10;
+	wxStaticText * General_Text_BorderUnknown10;
+	TextCtrl_Short * General_BorderUnknown10;
 	
 	wxBoxSizer * General_Holder_Unknown3; // [1410]
 	wxBoxSizer * General_Holder_TechTree;
@@ -880,7 +918,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Units_MinimapMode;
 	TextCtrl_Short * Units_CommandAttribute;// Page for Build button: 2 = Page 1, 10 = Page 2, ?11 = Page 3?
 	TextCtrl_Float * Units_Unknown3;
-	TextCtrl_Byte * Units_Unknown3a;//only in aoe/ror
+	TextCtrl_Byte * Units_Unknown3a;
 	TextCtrl_Short * Units_LanguageDllHelp;
 	wxStaticText * Units_DLL_LanguageDllHelp;
 	TextCtrl_Short * Units_HotKey[4];
@@ -890,12 +928,12 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Units_Unselectable;
 	CheckBox_Byte * Units_CheckBox_Unselectable;
 	TextCtrl_Byte * Units_Unknown6;
-	TextCtrl_Byte * Units_Unknown7;// not in aoe/ror
-	TextCtrl_Byte * Units_Unknown8;// not in aoe/ror
+	TextCtrl_Byte * Units_Unknown7;
+	TextCtrl_Byte * Units_Unknown8;
 	TextCtrl_Byte * Units_SelectionMask;
 	TextCtrl_Byte * Units_SelectionShapeType;
 	TextCtrl_Byte * Units_SelectionShape;
-	TextCtrl_Byte * Units_Unknown9[4];//aoe/ror 2, aok 0, tc 4
+	TextCtrl_Byte * Units_Unknown9[4];
 	TextCtrl_Byte * Units_SelectionEffect;
 	TextCtrl_Byte * Units_EditorSelectionColour;
 	wxBoxSizer * Units_SelectionRadiusBox;
@@ -918,7 +956,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_Unitline;
 	TextCtrl_Byte * Units_MinTechLevel;
 	TextCtrl_Short * Units_ID2;
-	TextCtrl_Short * Units_ID3;//not in aoe/ror
+	TextCtrl_Short * Units_ID3;
 
 //	Type 20+
 
@@ -935,13 +973,13 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Units_TrackingUnitUsed;//int
 	CheckBox_Byte * Units_CheckBox_TrackingUnitUsed;
 	TextCtrl_Float * Units_TrackingUnitDensity;
-	TextCtrl_Float * Units_Unknown12;//not in aoe/ror
-	TextCtrl_Byte * Units_Unknown16[17];//4 int, float, 3 int aoe/ror 1 char
+	TextCtrl_Float * Units_Unknown12;
+	TextCtrl_Byte * Units_Unknown16[17];
 
 //	Type 40+
 
-	TextCtrl_Short * Units_SheepConversion;//FFFF = No, 0000 = Yes
-	CheckBox_Short_ZeroIsYes * Units_CheckBox_SheepConversion;	// checkbox, 0 = Yes, -1 = No
+	TextCtrl_Short * Units_SheepConversion;
+	CheckBox_Short_ZeroIsYes * Units_CheckBox_SheepConversion;
 	TextCtrl_Float * Units_SearchRadius;
 	TextCtrl_Float * Units_WorkRate;
 	TextCtrl_Short * Units_DropSite[2];
@@ -953,11 +991,11 @@ class AGE_Frame : public wxFrame
 	ComboBox_Short * Units_ComboBox_StopSound;
 	TextCtrl_Byte * Units_Unknown19;
 	TextCtrl_Byte * Units_Exists;
-	TextCtrl_Short * Units_CommandCount;//only in aoe/ror
+	TextCtrl_Short * Units_CommandCount;
 
 //	Type 60+
 
-	TextCtrl_Byte * Units_Unknown20[2]; //aoe/ror 1, aok 1, tc 2
+	TextCtrl_Byte * Units_Unknown20[2];
 	TextCtrl_Short * Units_AttackCount;
 	TextCtrl_Short * Units_ArmourCount;
 	TextCtrl_Short * Units_Unknown21;
@@ -1000,38 +1038,38 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_TrainLocationID;
 	ComboBox_Short * Units_ComboBox_TrainLocationID;
 	TextCtrl_Byte * Units_ButtonID;
-	TextCtrl_Byte * Units_Unknown26;//not in aoe/ror
-	TextCtrl_Short * Units_Unknown27[3];//not in aoe/ror
-	TextCtrl_Byte * Units_Unknown28;//not in aoe/ror
-	TextCtrl_Byte * Units_MissileGraphicDelay;//not in aoe/ror
-	TextCtrl_Byte * Units_HeroMode;//not in aoe/ror
+	TextCtrl_Byte * Units_Unknown26;
+	TextCtrl_Short * Units_Unknown27[3];
+	TextCtrl_Byte * Units_Unknown28;
+	TextCtrl_Byte * Units_MissileGraphicDelay;
+	TextCtrl_Byte * Units_HeroMode;
 	CheckBox_Byte * Units_CheckBox_HeroMode;	// checkbox
-	TextCtrl_Short * Units_GarrisonGraphic[2];//not in aoe/ror
-	ComboBox_Short * Units_ComboBox_GarrisonGraphic[2];//not in aoe/ror
-	TextCtrl_Float * Units_AttackMissileDuplicationAmount1;//not in aoe/ror
-	TextCtrl_Byte * Units_AttackMissileDuplicationAmount2;//not in aoe/ror
-	TextCtrl_Float * Units_AttackMissileDuplicationUnknown[3];//not in aoe/ror
-	TextCtrl_Long * Units_AttackMissileDuplicationUnit;//not in aoe/ror
+	TextCtrl_Short * Units_GarrisonGraphic[2];
+	ComboBox_Short * Units_ComboBox_GarrisonGraphic[2];
+	TextCtrl_Float * Units_AttackMissileDuplicationAmount1;
+	TextCtrl_Byte * Units_AttackMissileDuplicationAmount2;
+	TextCtrl_Float * Units_AttackMissileDuplicationUnknown[3];
+	TextCtrl_Long * Units_AttackMissileDuplicationUnit;
 	ComboBox_Long * Units_ComboBox_AttackMissileDuplicationUnit;
-	TextCtrl_Long * Units_AttackMissileDuplicationGraphic;//not in aoe/ror
+	TextCtrl_Long * Units_AttackMissileDuplicationGraphic;
 	ComboBox_Long * Units_ComboBox_AttackMissileDuplicationGraphic;
-	TextCtrl_Byte * Units_Unknown29;//not in aoe/ror
+	TextCtrl_Byte * Units_Unknown29;
 	TextCtrl_Short * Units_DisplayedPierceArmour;
 
 //	Type 80
 
-	TextCtrl_Short * Units_ConstructionGraphicID; //aoe/ror
-	ComboBox_Short * Units_ComboBox_ConstructionGraphicID; //aoe/ror
-	TextCtrl_Short * Units_SnowGraphicID; //not in aok/aoe/ror
+	TextCtrl_Short * Units_ConstructionGraphicID;
+	ComboBox_Short * Units_ComboBox_ConstructionGraphicID;
+	TextCtrl_Short * Units_SnowGraphicID;
 	ComboBox_Short * Units_ComboBox_SnowGraphicID;
-	TextCtrl_Short * Units_Unknown30; // aoe/ror
-	TextCtrl_Short * Units_Unknown31; // aoe/ror
-	TextCtrl_Short * Units_StackUnitID; // aoe/ror
+	TextCtrl_Short * Units_Unknown30;
+	TextCtrl_Short * Units_Unknown31;
+	TextCtrl_Short * Units_StackUnitID;
 	ComboBox_Short * Units_ComboBox_StackUnitID;
-	TextCtrl_Short * Units_TerrainID; // aoe/ror
+	TextCtrl_Short * Units_TerrainID;
 	ComboBox_Short * Units_ComboBox_TerrainID;
-	TextCtrl_Short * Units_Unknown32; //aoe/ror
-	TextCtrl_Short * Units_ResearchID; // in aoe/ror
+	TextCtrl_Short * Units_Unknown32;
+	TextCtrl_Short * Units_ResearchID;
 	ComboBox_Short * Units_ComboBox_ResearchID;
 	TextCtrl_Byte * Units_Unknown33;
 	TextCtrl_Short * Units_AnnexUnit[4];
@@ -1042,8 +1080,8 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_TransformUnit;
 	ComboBox_Short * Units_ComboBox_TransformUnit;
 	TextCtrl_Short * Units_Unknown34;
-	TextCtrl_Short * Units_ConstructionSound;//aoe/ror
-	ComboBox_Short * Units_ComboBox_ConstructionSound;//aoe/ror
+	TextCtrl_Short * Units_ConstructionSound;
+	ComboBox_Short * Units_ComboBox_ConstructionSound;
 	TextCtrl_Byte * Units_GarrisonType;
 	ComboBox_Byte * Units_ComboBox_GarrisonType;
 	TextCtrl_Float * Units_GarrisonHealRate;
@@ -1074,8 +1112,8 @@ class AGE_Frame : public wxFrame
 //	wxStaticText * Units_Text_AirMode;
 	wxStaticText * Units_Text_IconID;
 //	wxStaticText * Units_Text_HideInEditor;
-	wxStaticText * Units_Text_Unknown1;		// Always -1
-//	wxStaticText * Units_Text_Enabled; //bool in aoe/ror
+	wxStaticText * Units_Text_Unknown1;
+//	wxStaticText * Units_Text_Enabled;
 	wxStaticText * Units_Text_PlacementBypassTerrain;
 	wxStaticText * Units_Text_PlacementTerrain;
 	wxStaticText * Units_Text_EditorRadius;
@@ -1085,24 +1123,24 @@ class AGE_Frame : public wxFrame
 //	wxStaticText * Units_Text_FlyMode;
 	wxStaticText * Units_Text_ResourceCapacity;
 	wxStaticText * Units_Text_ResourceDecay;
-	wxStaticText * Units_Text_Unknown2;//blast_type[0]
+	wxStaticText * Units_Text_Unknown2;
 	wxStaticText * Units_Text_InteractionMode;
 	wxStaticText * Units_Text_MinimapMode;
-	wxStaticText * Units_Text_CommandAttribute;// Page for Build button: 2 = Page 1, 10 = Page 2, ?11 = Page 3?
+	wxStaticText * Units_Text_CommandAttribute;
 	wxStaticText * Units_Text_Unknown3;
-	wxStaticText * Units_Text_Unknown3a;//only in aoe/ror
+	wxStaticText * Units_Text_Unknown3a;
 	wxStaticText * Units_Text_LanguageDllHelp;
 	wxStaticText * Units_Text_HotKey;
 	wxStaticText * Units_Text_Unknown4;
 	wxStaticText * Units_Text_Unknown5;
 //	wxStaticText * Units_Text_Unselectable;
 	wxStaticText * Units_Text_Unknown6;
-	wxStaticText * Units_Text_Unknown7;// not in aoe/ror
-	wxStaticText * Units_Text_Unknown8;// not in aoe/ror
+	wxStaticText * Units_Text_Unknown7;
+	wxStaticText * Units_Text_Unknown8;
 	wxStaticText * Units_Text_SelectionMask;
 	wxStaticText * Units_Text_SelectionShapeType;
 	wxStaticText * Units_Text_SelectionShape;
-	wxStaticText * Units_Text_Unknown9;//aoe/ror 2, aok 0, tc 4
+	wxStaticText * Units_Text_Unknown9;
 	wxStaticText * Units_Text_SelectionEffect;
 	wxStaticText * Units_Text_EditorSelectionColour;
 	wxStaticText * Units_Text_SelectionRadius;
@@ -1121,7 +1159,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_Unitline;
 	wxStaticText * Units_Text_MinTechLevel;
 	wxStaticText * Units_Text_ID2;
-	wxStaticText * Units_Text_ID3;//not in aoe/ror
+	wxStaticText * Units_Text_ID3;
 
 //	Type 20+
 
@@ -1135,12 +1173,12 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_TrackingUnit;
 	wxStaticText * Units_Text_TrackingUnitUsed;//int
 	wxStaticText * Units_Text_TrackingUnitDensity;
-	wxStaticText * Units_Text_Unknown12;//not in aoe/ror
-	wxStaticText * Units_Text_Unknown16;//4 int, float, 3 int aoe/ror 1 char
+	wxStaticText * Units_Text_Unknown12;
+	wxStaticText * Units_Text_Unknown16;
 
 //	Type 40+
 
-	wxStaticText * Units_Text_SheepConversion;//FFFF = No, 0000 = Yes
+	wxStaticText * Units_Text_SheepConversion;
 	wxStaticText * Units_Text_SearchRadius;
 	wxStaticText * Units_Text_WorkRate;
 	wxStaticText * Units_Text_DropSite;
@@ -1149,11 +1187,11 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_StopSound;
 	wxStaticText * Units_Text_Unknown19;
 	wxStaticText * Units_Text_Exists;
-	wxStaticText * Units_Text_CommandCount;//only in aoe/ror
+	wxStaticText * Units_Text_CommandCount;
 
 //	Type 60+
 
-	wxStaticText * Units_Text_Unknown20; //aoe/ror 1, aok 1, tc 2
+	wxStaticText * Units_Text_Unknown20;
 	wxStaticText * Units_Text_AttackCount;
 	wxStaticText * Units_Text_ArmourCount;
 	wxStaticText * Units_Text_Unknown21;
@@ -1191,37 +1229,37 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_TrainTime;
 	wxStaticText * Units_Text_TrainLocationID;
 	wxStaticText * Units_Text_ButtonID;
-	wxStaticText * Units_Text_Unknown26;//not in aoe/ror
-	wxStaticText * Units_Text_Unknown27;//not in aoe/ror
-	wxStaticText * Units_Text_Unknown28;//not in aoe/ror
-	wxStaticText * Units_Text_MissileGraphicDelay;//not in aoe/ror
-//	wxStaticText * Units_Text_HeroMode;//not in aoe/ror
-	wxStaticText * Units_Text_GarrisonGraphic;//not in aoe/ror
-	wxStaticText * Units_Text_AttackMissileDuplicationAmount1;//not in aoe/ror
-	wxStaticText * Units_Text_AttackMissileDuplicationAmount2;//not in aoe/ror
-	wxStaticText * Units_Text_AttackMissileDuplicationUnknown;//not in aoe/ror
-	wxStaticText * Units_Text_AttackMissileDuplicationUnit;//not in aoe/ror
-	wxStaticText * Units_Text_AttackMissileDuplicationGraphic;//not in aoe/ror
-	wxStaticText * Units_Text_Unknown29;//not in aoe/ror
+	wxStaticText * Units_Text_Unknown26;
+	wxStaticText * Units_Text_Unknown27;
+	wxStaticText * Units_Text_Unknown28;
+	wxStaticText * Units_Text_MissileGraphicDelay;
+//	wxStaticText * Units_Text_HeroMode;
+	wxStaticText * Units_Text_GarrisonGraphic;
+	wxStaticText * Units_Text_AttackMissileDuplicationAmount1;
+	wxStaticText * Units_Text_AttackMissileDuplicationAmount2;
+	wxStaticText * Units_Text_AttackMissileDuplicationUnknown;
+	wxStaticText * Units_Text_AttackMissileDuplicationUnit;
+	wxStaticText * Units_Text_AttackMissileDuplicationGraphic;
+	wxStaticText * Units_Text_Unknown29;
 	wxStaticText * Units_Text_DisplayedPierceArmour;
 
 //	Type 80
 
-	wxStaticText * Units_Text_ConstructionGraphicID; //aoe/ror
-	wxStaticText * Units_Text_SnowGraphicID; //not in aok/aoe/ror
-	wxStaticText * Units_Text_Unknown30; // aoe/ror
-	wxStaticText * Units_Text_Unknown31; // aoe/ror
-	wxStaticText * Units_Text_StackUnitID; // aoe/ror
-	wxStaticText * Units_Text_TerrainID; // aoe/ror
-	wxStaticText * Units_Text_Unknown32; //aoe/ror
-	wxStaticText * Units_Text_ResearchID; // in aoe/ror
+	wxStaticText * Units_Text_ConstructionGraphicID;
+	wxStaticText * Units_Text_SnowGraphicID;
+	wxStaticText * Units_Text_Unknown30;
+	wxStaticText * Units_Text_Unknown31;
+	wxStaticText * Units_Text_StackUnitID;
+	wxStaticText * Units_Text_TerrainID;
+	wxStaticText * Units_Text_Unknown32;
+	wxStaticText * Units_Text_ResearchID;
 	wxStaticText * Units_Text_Unknown33;
 	wxStaticText * Units_Text_AnnexUnit;
 	wxStaticText * Units_Text_AnnexUnitMisplacement;
 	wxStaticText * Units_Text_HeadUnit;
 	wxStaticText * Units_Text_TransformUnit;
 	wxStaticText * Units_Text_Unknown34;
-	wxStaticText * Units_Text_ConstructionSound;//aoe/ror
+	wxStaticText * Units_Text_ConstructionSound;
 	wxStaticText * Units_Text_GarrisonType;
 	wxStaticText * Units_Text_GarrisonHealRate;
 	wxStaticText * Units_Text_Unknown35;
@@ -1244,6 +1282,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_LineOfSight;
 	wxBoxSizer * Units_Holder_GarrisonCapacity;
 	wxBoxSizer * Units_Holder_SizeRadius;
+	wxGridSizer * Units_Grid_SizeRadius;
 	wxBoxSizer * Units_Holder_HPBarHeight1;
 	wxBoxSizer * Units_Holder_TrainSound;
 	wxBoxSizer * Units_Holder_TrainSound1;
@@ -1261,6 +1300,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_PlacementTerrain;
 	wxGridSizer * Units_Holder_PlacementTerrainGrid;
 	wxBoxSizer * Units_Holder_EditorRadius;
+	wxGridSizer * Units_Grid_EditorRadius;
 	wxBoxSizer * Units_Holder_BuildingMode;
 	wxBoxSizer * Units_Holder_VisibleInFog;
 	wxBoxSizer * Units_Holder_TerrainRestriction;
@@ -1275,7 +1315,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Unknown3;
 	wxBoxSizer * Units_Holder_Unknown3a;
 	wxBoxSizer * Units_Holder_LanguageDllHelp;
-	wxBoxSizer * Units_Holder_HotKey;
+	wxGridSizer * Units_Grid_HotKey;
 	wxBoxSizer * Units_Holder_Unknown4;
 	wxBoxSizer * Units_Holder_Unknown5;
 	wxBoxSizer * Units_Holder_Unselectable;
@@ -1315,7 +1355,6 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_RotationSpeed;
 	wxBoxSizer * Units_Holder_Unknown11;
 	wxBoxSizer * Units_Holder_TrackingUnit;
-	wxBoxSizer * Units_Holder_TrackingUnitBox;
 	wxBoxSizer * Units_Holder_TrackingUnitUsed;
 	wxBoxSizer * Units_Holder_TrackingUnitUsedBox;
 	wxBoxSizer * Units_Holder_TrackingUnitDensity;
@@ -1328,7 +1367,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_SheepConversion;
 	wxBoxSizer * Units_Holder_SearchRadius;
 	wxBoxSizer * Units_Holder_WorkRate;
-	wxBoxSizer * Units_Holder_DropSite;
+	wxGridSizer * Units_Grid_DropSite;
 	wxBoxSizer * Units_Holder_VillagerMode;
 	wxBoxSizer * Units_Holder_MoveSound;
 	wxBoxSizer * Units_Holder_StopSound;
@@ -1347,6 +1386,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Unknown22;
 	wxBoxSizer * Units_Holder_Delay;
 	wxBoxSizer * Units_Holder_GraphicDisplacement;
+	wxGridSizer * Units_Grid_GraphicDisplacement;
 	wxBoxSizer * Units_Holder_Unknown23;
 	wxBoxSizer * Units_Holder_MinRange;
 	wxBoxSizer * Units_Holder_GarrisonRecoveryRate;
@@ -1374,32 +1414,32 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_CostUsed;
 	wxBoxSizer * Units_Holder_TrainTime;
 	wxBoxSizer * Units_Holder_TrainLocationID;
-	wxBoxSizer * Units_Holder_TrainLocationID1;
 	wxBoxSizer * Units_Holder_ButtonID;
-	wxBoxSizer * Units_Holder_Unknown26;//not in aoe/ror
-	wxBoxSizer * Units_Holder_Unknown27;//not in aoe/ror
-	wxBoxSizer * Units_Holder_Unknown28;//not in aoe/ror
-	wxBoxSizer * Units_Holder_MissileGraphicDelay;//not in aoe/ror
-	wxBoxSizer * Units_Holder_HeroMode;//not in aoe/ror
-	wxBoxSizer * Units_Holder_GarrisonGraphic;//not in aoe/ror
-	wxBoxSizer * Units_Holder_AttackMissileDuplicationAmount1;//not in aoe/ror
-	wxBoxSizer * Units_Holder_AttackMissileDuplicationAmount2;//not in aoe/ror
-	wxBoxSizer * Units_Holder_AttackMissileDuplicationUnknown;//not in aoe/ror
-	wxBoxSizer * Units_Holder_AttackMissileDuplicationUnit;//not in aoe/ror
-	wxBoxSizer * Units_Holder_AttackMissileDuplicationGraphic;//not in aoe/ror
-	wxBoxSizer * Units_Holder_Unknown29;//not in aoe/ror
+	wxBoxSizer * Units_Holder_Unknown26;
+	wxBoxSizer * Units_Holder_Unknown27;
+	wxBoxSizer * Units_Holder_Unknown28;
+	wxBoxSizer * Units_Holder_MissileGraphicDelay;
+	wxBoxSizer * Units_Holder_HeroMode;
+	wxBoxSizer * Units_Holder_GarrisonGraphic;
+	wxBoxSizer * Units_Holder_AttackMissileDuplicationAmount1;
+	wxBoxSizer * Units_Holder_AttackMissileDuplicationAmount2;
+	wxBoxSizer * Units_Holder_AttackMissileDuplicationUnknown;
+	wxGridSizer * Units_Grid_AttackMissileDuplicationUnknown;
+	wxBoxSizer * Units_Holder_AttackMissileDuplicationUnit;
+	wxBoxSizer * Units_Holder_AttackMissileDuplicationGraphic;
+	wxBoxSizer * Units_Holder_Unknown29;
 	wxBoxSizer * Units_Holder_DisplayedPierceArmour;
 
 //	Type 80
 
-	wxBoxSizer * Units_Holder_ConstructionGraphicID; //aoe/ror
-	wxBoxSizer * Units_Holder_SnowGraphicID; //not in aok/aoe/ror
-	wxBoxSizer * Units_Holder_Unknown30; // aoe/ror
-	wxBoxSizer * Units_Holder_Unknown31; // aoe/ror
-	wxBoxSizer * Units_Holder_StackUnitID; // aoe/ror
-	wxBoxSizer * Units_Holder_TerrainID; // aoe/ror
-	wxBoxSizer * Units_Holder_Unknown32; //aoe/ror
-	wxBoxSizer * Units_Holder_ResearchID; // in aoe/ror
+	wxBoxSizer * Units_Holder_ConstructionGraphicID;
+	wxBoxSizer * Units_Holder_SnowGraphicID;
+	wxBoxSizer * Units_Holder_Unknown30;
+	wxBoxSizer * Units_Holder_Unknown31;
+	wxBoxSizer * Units_Holder_StackUnitID;
+	wxBoxSizer * Units_Holder_TerrainID;
+	wxBoxSizer * Units_Holder_Unknown32;
+	wxBoxSizer * Units_Holder_ResearchID;
 	wxBoxSizer * Units_Holder_Unknown33;
 	wxGridSizer * Units_Grid_AnnexUnit;
 	wxBoxSizer * Units_Holder_AnnexUnit1;
@@ -1408,9 +1448,9 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_HeadUnit;
 	wxBoxSizer * Units_Holder_TransformUnit;
 	wxBoxSizer * Units_Holder_Unknown34;
-	wxBoxSizer * Units_Holder_ConstructionSound;//aoe/ror
+	wxBoxSizer * Units_Holder_ConstructionSound;
 	wxBoxSizer * Units_Holder_GarrisonType;
-	wxBoxSizer * Units_Holder_GarrisonType1;
+//	wxBoxSizer * Units_Holder_GarrisonType1;
 	wxBoxSizer * Units_Holder_GarrisonHealRate;
 	wxBoxSizer * Units_Holder_Unknown35;
 	wxBoxSizer * Units_Holder_Unknown36;
@@ -1446,8 +1486,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Attacks_Data;
 	wxBoxSizer * Units_Holder_Attacks_Space;
 	wxBoxSizer * Units_Holder_Attacks_Data1;
-	wxBoxSizer * Units_Holder_Attacks_Data2;
-	wxBoxSizer * Units_Holder_Attacks_Data3;
+	wxGridSizer * Units_Grid_Attacks_Data2;
+//	wxBoxSizer * Units_Holder_Attacks_Data3;
 	TextCtrl_Short * Attacks_Class;
 	ComboBox_Short_AttackType * Attacks_ComboBox_Class;
 	TextCtrl_Short * Attacks_Amount;
@@ -1531,41 +1571,38 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_GraphicsArea6;
 	wxBoxSizer * Units_Holder_GraphicsArea7;
 	wxStaticBoxSizer * Units_Holder_StatsArea;
-	wxBoxSizer * Units_Holder_StatsArea1;
-	wxBoxSizer * Units_Holder_StatsAreaRanges;
-	wxBoxSizer * Units_Holder_StatsAreaGarrison;
-	wxBoxSizer * Units_Holder_StatsArea2;
+	wxGridSizer * Units_Grid_StatsArea1;
+//	wxBoxSizer * Units_Holder_StatsAreaRanges;
+	wxGridSizer * Units_Grid_StatsAreaGarrison;
+	wxGridSizer * Units_Grid_StatsArea2;
 	wxStaticBoxSizer * Units_Holder_ProjectilesArea;
-	wxBoxSizer * Units_Holder_ProjectilesArea1;
-	wxBoxSizer * Units_Holder_ProjectilesArea2;
-	wxBoxSizer * Units_Holder_ProjectilesArea3;
-	wxBoxSizer * Units_Holder_ProjectilesArea4;
-	wxBoxSizer * Units_Holder_ProjectilesArea5;
-	wxBoxSizer * Units_Holder_ProjectilesArea6;
-	wxBoxSizer * Units_Holder_ProjectilesArea7;
+	wxGridSizer * Units_Grid_ProjectilesArea1;
+	wxGridSizer * Units_Grid_ProjectilesArea2;
+	wxGridSizer * Units_Grid_ProjectilesArea3;
 	wxStaticBoxSizer * Units_Holder_Attributes;
-	wxBoxSizer * Units_Holder_AttributesBoxes1;
-	wxBoxSizer * Units_Holder_AttributesBoxes2;
-	wxBoxSizer * Units_Holder_Attributes1;
+	wxGridSizer * Units_Grid_AttributesBoxes1;
+//	wxBoxSizer * Units_Holder_AttributesBoxes2;
+	wxGridSizer * Units_Grid_Attributes1;
 	wxBoxSizer * Units_Holder_AttributesTerrain;
-	wxBoxSizer * Units_Holder_AttributesModes1;
+	wxGridSizer * Units_Grid_AttributesModes1;
 	wxBoxSizer * Units_Holder_AttributesDropSite;
 	wxBoxSizer * Units_Holder_AttributesSizes;
-	wxBoxSizer * Units_Holder_AttributesSelection1;
+	wxGridSizer * Units_Grid_AttributesSelection1;
 	wxBoxSizer * Units_Holder_AttributesSelection2;
-	wxBoxSizer * Units_Holder_Attributes2;
+	wxGridSizer * Units_Grid_Attributes2;
 	wxBoxSizer * Units_Holder_AttributesHotKey;
-	wxBoxSizer * Units_Holder_AttributesTracking;
-	wxBoxSizer * Units_Holder_AttributesTrain1;
-	wxBoxSizer * Units_Holder_AttributesTrain2;
-	wxBoxSizer * Units_Holder_Attributes3;
+	wxGridSizer * Units_Grid_AttributesTracking;
+	wxGridSizer * Units_Grid_AttributesTrain1;
+	wxGridSizer * Units_Grid_AttributesTrain2;
+	wxGridSizer * Units_Grid_Attributes3;
 	wxBoxSizer * Units_Holder_AttributesAnnexUnit;
 	wxBoxSizer * Units_Holder_AttributesAnnexUnit2;
 	wxBoxSizer * Units_Holder_Attributes4;
 	wxStaticBoxSizer * Units_Holder_SoundsArea;
 	wxBoxSizer * Units_Holder_SoundsArea1;
-	wxBoxSizer * Units_Holder_SoundsArea2;
+	wxGridSizer * Units_Grid_SoundsArea2;
 	wxStaticBoxSizer * Units_Holder_MiscArea;
+	wxGridSizer * Units_Grid_HPBars;
 	wxBoxSizer * Units_Holder_UnknownArea;
 	wxStaticBoxSizer * Units_Holder_Type10plusUnknownArea;
 	wxBoxSizer * Units_Holder_Type10plusUnknowns1;
@@ -1721,13 +1758,13 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Graphics_Holder_Unknown3;
 	wxBoxSizer * Graphics_Holder_Unknown4;
 	wxBoxSizer * Graphics_Holder_Replay;
-	wxBoxSizer * Graphics_Holder_2;
+//	wxBoxSizer * Graphics_Holder_2;
 	wxBoxSizer * Graphics_Holder_Coordinates;
 	wxGridSizer * Graphics_Holder_CoordinateGrid;
 	wxBoxSizer * Graphics_Holder_SoundID;
 	wxBoxSizer * Graphics_Holder_AttackSoundUsed;
 	wxBoxSizer * Graphics_Holder_AttackSoundUsed1;
-	wxBoxSizer * Graphics_Holder_3;
+//	wxBoxSizer * Graphics_Holder_3;
 	wxBoxSizer * Graphics_Holder_4;
 	wxBoxSizer * Graphics_Holder_5;
 	wxBoxSizer * Graphics_Holder_FrameCount;
@@ -1738,7 +1775,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Graphics_Holder_SequenceType;
 	wxBoxSizer * Graphics_Holder_ID;
 	wxBoxSizer * Graphics_Holder_Type;
-	wxBoxSizer * Graphics_Holder_1;
+	wxGridSizer * Graphics_Grid_1;
+	wxGridSizer * Graphics_Grid_2;
 	
 	wxStaticText * Graphics_Text_Name;
 	wxStaticText * Graphics_Text_Name2;
@@ -1867,9 +1905,11 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Terrains_ScrollerWindows;
 	wxBoxSizer * Terrains_ScrollerWindowsSpace;
 	wxBoxSizer * Terrains_Holder_NameArea;
-	wxBoxSizer * Terrains_Holder_LongArea;
-	wxBoxSizer * Terrains_Holder_ShortArea;
+//	wxBoxSizer * Terrains_Holder_LongArea;
+//	wxBoxSizer * Terrains_Holder_ShortArea;
+	wxGridSizer * Terrains_Grid_Area1;
 	wxBoxSizer * Terrains_Holder_UnknownArea;
+	wxGridSizer * Terrains_Grid_Unknowns1;
 	wxBoxSizer * Terrains_Holder_Unknown1;
 	wxStaticText * Terrains_Text_Unknown1;
 	TextCtrl_Short * Terrains_Unknown1;
@@ -1947,6 +1987,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Terrains_Text_Unknown11;
 	TextCtrl_Byte * Terrains_Unknown11[30];
 	wxBoxSizer * Terrains_Holder_NumberOfTerrainUnitsUsed;
+	wxBoxSizer * Terrains_Holder_NumberOfTerrainUnitsUsed1;
 	wxStaticText * Terrains_Text_NumberOfTerrainUnitsUsed;
 	TextCtrl_Short * Terrains_NumberOfTerrainUnitsUsed;
 	wxBoxSizer * Terrains_Holder_SUnknown1;
@@ -1987,7 +2028,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * TerRestrict_Holder_Unknown1Sub;
 	wxStaticText * TerRestrict_Text_Unknown1;
 	TextCtrl_Long * TerRestrict_Unknown1;
-	CheckBox_Long_ZeroIsYes * TerRestrict_CheckBox_Unknown1;	// checkbox, 0 = Yes, -1 = No
+	CheckBox_Long_ZeroIsYes * TerRestrict_CheckBox_Unknown1;
 	wxBoxSizer * TerRestrict_Holder_Graphics;
 	wxStaticText * TerRestrict_Text_Graphics;
 	TextCtrl_Long * TerRestrict_Graphics[2];

@@ -356,9 +356,11 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
 	Terrains_Holder_NameArea = new wxBoxSizer(wxHORIZONTAL);
-	Terrains_Holder_LongArea = new wxBoxSizer(wxHORIZONTAL);
-	Terrains_Holder_ShortArea = new wxBoxSizer(wxHORIZONTAL);
+//	Terrains_Holder_LongArea = new wxBoxSizer(wxHORIZONTAL);
+//	Terrains_Holder_ShortArea = new wxBoxSizer(wxHORIZONTAL);
+	Terrains_Grid_Area1 = new wxGridSizer(4, 5, 5);
 	Terrains_Holder_UnknownArea = new wxBoxSizer(wxVERTICAL);
+	Terrains_Grid_Unknowns1 = new wxGridSizer(5, 5, 5);
 	Terrains_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Unknown1 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_Unknown1 = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
@@ -448,6 +450,7 @@ void AGE_Frame::CreateTerrainControls()
 	for(short loop = 0;loop < 30;loop++)
 	Terrains_Unknown11[loop] = new TextCtrl_Byte(Terrains_Scroller, "0", NULL);
 	Terrains_Holder_NumberOfTerrainUnitsUsed = new wxBoxSizer(wxVERTICAL);
+	Terrains_Holder_NumberOfTerrainUnitsUsed1 = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Text_NumberOfTerrainUnitsUsed = new wxStaticText(Terrains_Scroller, wxID_ANY, " Number Of Terrain Units Used", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_NumberOfTerrainUnitsUsed = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
 	Terrains_Holder_SUnknown1 = new wxBoxSizer(wxVERTICAL);
@@ -578,35 +581,26 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_NameArea->Add(5, -1);
 	Terrains_Holder_NameArea->Add(Terrains_Holder_Name2, 1, wxEXPAND);
 	
-	Terrains_Holder_LongArea->Add(Terrains_Holder_SLP, 1, wxEXPAND);
-	Terrains_Holder_LongArea->Add(5, -1);
-	Terrains_Holder_LongArea->Add(Terrains_Holder_SoundID, 1, wxEXPAND);
-	Terrains_Holder_LongArea->Add(5, -1);
-	Terrains_Holder_LongArea->Add(Terrains_Holder_BlendPriority, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Terrains_Holder_LongArea->Add(5, -1);
-	Terrains_Holder_LongArea->Add(Terrains_Holder_BlendType, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
-	Terrains_Holder_ShortArea->Add(Terrains_Holder_Colours, 1, wxEXPAND);
-	Terrains_Holder_ShortArea->Add(5, -1);
-	Terrains_Holder_ShortArea->Add(Terrains_Holder_FrameCount, 1, wxEXPAND);
-	Terrains_Holder_ShortArea->Add(5, -1);
-	Terrains_Holder_ShortArea->Add(Terrains_Holder_TerrainReplacementID, 1, wxEXPAND);
-	Terrains_Holder_ShortArea->Add(5, -1);
-	Terrains_Holder_ShortArea->Add(Terrains_Holder_TerrainDimensions, 1, wxEXPAND);
+	Terrains_Grid_Area1->Add(Terrains_Holder_SLP, 1, wxEXPAND);
+	Terrains_Grid_Area1->Add(Terrains_Holder_SoundID, 1, wxEXPAND);
+	Terrains_Grid_Area1->Add(Terrains_Holder_BlendPriority, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Terrains_Grid_Area1->Add(Terrains_Holder_BlendType, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Terrains_Grid_Area1->Add(Terrains_Holder_Colours, 1, wxEXPAND);
+	Terrains_Grid_Area1->Add(Terrains_Holder_FrameCount, 1, wxEXPAND);
+	Terrains_Grid_Area1->Add(Terrains_Holder_TerrainReplacementID, 1, wxEXPAND);
+	Terrains_Grid_Area1->Add(Terrains_Holder_TerrainDimensions, 1, wxEXPAND);
 	
 	Terrains_Holder_TerrainUnits->Add(Terrains_Holder_TerrainUnitID, 2, wxEXPAND);
 	Terrains_Holder_TerrainUnits->Add(5, -1);
 	Terrains_Holder_TerrainUnits->Add(Terrains_Holder_TerrainUnitDensity, 1, wxEXPAND);
+	Terrains_Holder_TerrainUnits->AddStretchSpacer(1);
 	
-	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown1, 0, wxEXPAND);
-	Terrains_Holder_UnknownArea->Add(-1, 5);
-	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown2, 0, wxEXPAND);
-	Terrains_Holder_UnknownArea->Add(-1, 5);
-	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown3, 0, wxEXPAND);
-	Terrains_Holder_UnknownArea->Add(-1, 5);
-	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown5, 0, wxEXPAND);
-	Terrains_Holder_UnknownArea->Add(-1, 5);
-	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown6, 0, wxEXPAND);
+	Terrains_Grid_Unknowns1->Add(Terrains_Holder_Unknown1, 1, wxEXPAND);
+	Terrains_Grid_Unknowns1->Add(Terrains_Holder_Unknown2, 1, wxEXPAND);
+	Terrains_Grid_Unknowns1->Add(Terrains_Holder_Unknown3, 1, wxEXPAND);
+	Terrains_Grid_Unknowns1->Add(Terrains_Holder_Unknown5, 1, wxEXPAND);
+	Terrains_Grid_Unknowns1->Add(Terrains_Holder_Unknown6, 1, wxEXPAND);
+	Terrains_Holder_UnknownArea->Add(Terrains_Grid_Unknowns1, 0, wxEXPAND);
 	Terrains_Holder_UnknownArea->Add(-1, 5);
 	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown8, 0, wxEXPAND);
 	Terrains_Holder_UnknownArea->Add(-1, 5);
@@ -620,13 +614,14 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_UnknownArea->Add(-1, 5);
 	Terrains_Holder_UnknownArea->Add(Terrains_Holder_SUnknown1, 0, wxEXPAND);
 	
+	Terrains_Holder_NumberOfTerrainUnitsUsed1->Add(Terrains_Holder_NumberOfTerrainUnitsUsed, 1, wxEXPAND);
+	Terrains_Holder_NumberOfTerrainUnitsUsed1->AddStretchSpacer(3);
+	
 	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_NameArea, 0, wxEXPAND);
 	Terrains_ScrollerWindowsSpace->Add(-1, 5);
-	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_LongArea, 0, wxEXPAND);
+	Terrains_ScrollerWindowsSpace->Add(Terrains_Grid_Area1, 0, wxEXPAND);
 	Terrains_ScrollerWindowsSpace->Add(-1, 5);
-	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_ShortArea, 0, wxEXPAND);
-	Terrains_ScrollerWindowsSpace->Add(-1, 5);
-	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_NumberOfTerrainUnitsUsed, 0, wxEXPAND);
+	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_NumberOfTerrainUnitsUsed1, 0, wxEXPAND);
 	Terrains_ScrollerWindowsSpace->Add(-1, 5);
 	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_TerrainUnits, 0, wxEXPAND);
 	Terrains_ScrollerWindowsSpace->Add(-1, 5);
