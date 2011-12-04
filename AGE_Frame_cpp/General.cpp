@@ -10,12 +10,12 @@ void AGE_Frame::ListGeneral()
 {
 	switch(GameVersion) // is this really the techtree?
 	{
-		case 0: TechTreeSize = lexical_cast<long>(6954); break;
-		case 1: TechTreeSize = lexical_cast<long>(15126); break;
-		case 2: TechTreeSize = lexical_cast<long>(12754); break;
-		case 3: TechTreeSize = lexical_cast<long>(12754); break;
-		case 4: TechTreeSize = lexical_cast<long>(730); break;
-		case 5: TechTreeSize = lexical_cast<long>(730); break;
+		case 0: TechTreeSize = lexical_cast<long>(6952); break;
+		case 1: TechTreeSize = lexical_cast<long>(15124); break;
+		case 2: TechTreeSize = lexical_cast<long>(12752); break;
+		case 3: TechTreeSize = lexical_cast<long>(12752); break;
+		case 4: TechTreeSize = lexical_cast<long>(728); break;
+		case 5: TechTreeSize = lexical_cast<long>(728); break;
 		default: break;
 	}
 	General_TechTreeSize->SetLabel("Size: "+lexical_cast<string>(TechTreeSize));
@@ -176,10 +176,8 @@ void AGE_Frame::OnBordersSelect(wxCommandEvent& Event)
 		General_BorderName[0]->Container = &BorderPointer->Name;
 		General_BorderName[1]->ChangeValue(BorderPointer->Name2);
 		General_BorderName[1]->Container = &BorderPointer->Name2;
-		General_BorderUnknown[0]->ChangeValue(lexical_cast<string>(BorderPointer->Unknown1));
-		General_BorderUnknown[0]->Container = &BorderPointer->Unknown1;
-		General_BorderUnknown[1]->ChangeValue(lexical_cast<string>(BorderPointer->Unknown2));
-		General_BorderUnknown[1]->Container = &BorderPointer->Unknown2;
+		General_BorderEnabled->ChangeValue(lexical_cast<string>(BorderPointer->Enabled));
+		General_BorderEnabled->Container = &BorderPointer->Enabled;
 	}
 }
 
@@ -219,20 +217,16 @@ void AGE_Frame::CreateGeneralControls()
 	Borders_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 	General_DataArea = new wxBoxSizer(wxVERTICAL);
 	General_DataTopRow = new wxBoxSizer(wxHORIZONTAL);
+	General_Holder_BorderEnabled = new wxBoxSizer(wxVERTICAL);
+	General_Text_BorderEnabled = new wxStaticText(General_Scroller, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_BorderEnabled = new TextCtrl_Short(General_Scroller, "0", NULL);
 	for(short loop = 0;loop < 2;loop++)
 	{
-		General_Holder_BorderUnknown[loop] = new wxBoxSizer(wxVERTICAL);
-		General_Text_BorderUnknown[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-		General_BorderUnknown[loop] = new TextCtrl_Short(General_Scroller, "0", NULL);
 		General_Holder_BorderName[loop] = new wxBoxSizer(wxVERTICAL);
-		General_Text_BorderName[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Name "+lexical_cast<string>(loop), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 		General_BorderName[loop] = new TextCtrl_String(General_Scroller, "0", NULL);
 	}
-	Borders_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
-	Borders_Grid_Unknown3 = new wxGridSizer(15, 0, 0);
-	Borders_Text_Unknown3 = new wxStaticText(General_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0;loop < 150;loop++)
-	Borders_Unknown3[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
+	General_Text_BorderName[0] = new wxStaticText(General_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_BorderName[1] = new wxStaticText(General_Scroller, wxID_ANY, " SLP Name ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	
 	General_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
 	General_Holder_TechTreeTop = new wxBoxSizer(wxHORIZONTAL);
@@ -300,11 +294,11 @@ void AGE_Frame::CreateGeneralControls()
 	
 	for(short loop = 0;loop < 2;loop++)
 	{
-		General_Holder_BorderUnknown[loop]->Add(General_Text_BorderUnknown[loop], 0, wxEXPAND);
-		General_Holder_BorderUnknown[loop]->Add(General_BorderUnknown[loop], 0, wxEXPAND);
 		General_Holder_BorderName[loop]->Add(General_Text_BorderName[loop], 0, wxEXPAND);
 		General_Holder_BorderName[loop]->Add(General_BorderName[loop], 0, wxEXPAND);
 	}
+	General_Holder_BorderEnabled->Add(General_Text_BorderEnabled, 0, wxEXPAND);
+	General_Holder_BorderEnabled->Add(General_BorderEnabled, 0, wxEXPAND);
 
 	General_Borders_Buttons->Add(Borders_Copy, 1, wxEXPAND);
 	General_Borders_Buttons->Add(Borders_Paste, 1, wxEXPAND);
@@ -320,19 +314,10 @@ void AGE_Frame::CreateGeneralControls()
 	General_DataTopRow->Add(5, -1);
 	General_DataTopRow->Add(General_Holder_BorderName[1], 1, wxEXPAND);
 	General_DataTopRow->Add(5, -1);
-	General_DataTopRow->Add(General_Holder_BorderUnknown[0], 1, wxEXPAND);
-	General_DataTopRow->Add(5, -1);
-	General_DataTopRow->Add(General_Holder_BorderUnknown[1], 1, wxEXPAND);
-
-	for(short loop = 0;loop < 150;loop++)
-	Borders_Grid_Unknown3->Add(Borders_Unknown3[loop], 1, wxEXPAND);
-	Borders_Holder_Unknown3->Add(Borders_Text_Unknown3, 0, wxEXPAND);
-	Borders_Holder_Unknown3->Add(-1, 2);
-	Borders_Holder_Unknown3->Add(Borders_Grid_Unknown3, 0, wxEXPAND);
+	General_DataTopRow->Add(General_Holder_BorderEnabled, 1, wxEXPAND);
 
 	General_DataArea->Add(General_DataTopRow, 0, wxEXPAND);
 	General_DataArea->Add(-1, 5);
-	General_DataArea->Add(Borders_Holder_Unknown3, 1, wxEXPAND);
 	
 	General_Holder_TerrainBorders->Add(General_Borders, 1, wxEXPAND);
 	General_Holder_TerrainBorders->Add(10, -1);
