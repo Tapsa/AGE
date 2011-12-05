@@ -3166,6 +3166,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDllCreation = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_DLL_LanguageDllCreation = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE | wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
 	Units_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_Class->SetToolTip("Toimiiks taa?");
 	Units_ComboBox_Class = new ComboBox_Short(Units_Scroller, Units_Class);
 	Units_DeathMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_CheckBox_DeathMode = new CheckBox_Byte(Units_Scroller, "Death: Revives", Units_DeathMode);
