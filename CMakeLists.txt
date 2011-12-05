@@ -36,6 +36,7 @@ set(AGE_SRC Main.cpp
 			AGE_Frame_cpp/Research.cpp
 			AGE_Frame_cpp/Sounds.cpp
 			AGE_Frame_cpp/Techage.cpp
+			AGE_Frame_cpp/TerrainBorders.cpp
 			AGE_Frame_cpp/TerrainRestrictions.cpp
 			AGE_Frame_cpp/Terrains.cpp
 			AGE_Frame_cpp/Units.cpp
