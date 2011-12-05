@@ -30,6 +30,7 @@ class AGE_Frame : public wxFrame
 	void CreateUnitControls();
 	void CreateGraphicsControls();
 	void CreateTerrainControls();
+	void CreateTerrainBorderControls();
 	void CreateTerrainRestrictionControls();
 	void CreateSoundControls();
 	void CreatePlayerColorControls();
@@ -39,7 +40,7 @@ class AGE_Frame : public wxFrame
 	bool DataOpened;
 	void OnGameVersionChange();
 //	void OnReload(wxCommandEvent& Event);
-//	void OnSectionChange(wxCommandEvent& Event);	// wxWidgets doesn't support this.
+//	void OnSectionChange(wxCommandEvent& Event);
 	void OnSave(wxCommandEvent& Event);
 //	void OnReset(wxCommandEvent& Event);
 //	void OnExecute(wxCommandEvent& Event);
@@ -271,6 +272,26 @@ class AGE_Frame : public wxFrame
 	void OnTerrainsPaste(wxCommandEvent& Event);
 	string GetTerrainName(short Index);
 
+//	Terrain Border Events
+	
+	void ListTerrainBorders();
+	void OnTerrainBordersSearch(wxCommandEvent& Event);
+	void OnTerrainBordersSelect(wxCommandEvent& Event);
+//	void OnTerrainBordersAdd(wxCommandEvent& Event);
+//	void OnTerrainBordersDelete(wxCommandEvent& Event);
+	void OnTerrainBordersCopy(wxCommandEvent& Event);
+	void OnTerrainBordersPaste(wxCommandEvent& Event);
+	string GetTerrainBorderName(short Index);
+
+	void ListTerrainBorderFrames(short Index);
+	void OnTerrainBorderFramesSearch(wxCommandEvent& Event);
+	void OnTerrainBorderFramesSelect(wxCommandEvent& Event);
+//	void OnTerrainBorderFramesAdd(wxCommandEvent& Event);
+//	void OnTerrainBorderFramesDelete(wxCommandEvent& Event);
+	void OnTerrainBorderFramesCopy(wxCommandEvent& Event);
+	void OnTerrainBorderFramesPaste(wxCommandEvent& Event);
+	string GetTerrainBorderFrameName(short Index, short BorderID);
+
 //	Terrain Restriction Events
 
 	void ListTerrainRestrictions();
@@ -382,6 +403,8 @@ class AGE_Frame : public wxFrame
 	short ColorID;
 	gdat::TerrainBorder TerrainBorderCopy;
 	short BorderID;
+	gdat::TBFrameData TBFrameDataCopy;
+	short FrameID;
 
 	bool Added;
 	int GameVersion;
@@ -497,6 +520,7 @@ class AGE_Frame : public wxFrame
 	wxPanel * Tab_Units;	// Unit tab
 	wxPanel * Tab_Graphics;
 	wxPanel * Tab_Terrains;
+	wxPanel * Tab_TerrainBorders;
 	wxPanel * Tab_TerrainRestrictions;
 	wxPanel * Tab_Sounds;
 	wxPanel * Tab_PlayerColors;

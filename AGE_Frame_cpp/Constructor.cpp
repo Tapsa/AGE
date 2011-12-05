@@ -29,17 +29,14 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, 3);
 	Config->Read("DefaultFiles/DatUsed", &DatUsed, 0);
 	Config->Read("DefaultFiles/DatFilename", &DatFileName, wxT(""));
-//	Config->Read("DefaultFiles/UnzFilename", &UnzFileName, wxT("TC.unz"));
 	Config->Read("DefaultFiles/ApfFilename", &ApfFileName, wxT(""));
 	Config->Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxT(""));
-//	Config->Read("DefaultFiles/SaveUnzFilename", &SaveUnzFileName, wxT("TC.unz"));
 	Config->Read("DefaultFiles/SaveApfFilename", &SaveApfFileName, wxT(""));
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/LangFilename", &LangFileName, wxT(""));
 	Config->Read("DefaultFiles/LangX1Filename", &LangX1FileName, wxT(""));
 	Config->Read("DefaultFiles/LangX1P1Filename", &LangX1P1FileName, wxT(""));
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
-//	Config->Read("DefaultFiles/SaveUnz", &SaveUnz, false);
 	Config->Read("DefaultFiles/SaveApf", &SaveApf, false);
 	delete Config;
 
@@ -65,8 +62,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_NoExtra, "&Default");
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_1stFilters, "&1st filters");
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_2ndFilters, "&2nd filters");
-//	SubMenu_SearchFilters->AppendRadioItem(MenuOption_3rdFilters, "&3rd filters");
-//	SubMenu_SearchFilters->AppendRadioItem(MenuOption_4rdFilters, "&4rd filters");
 	SubMenu_SearchFilters->Check(SearchFilters, true);
 
 	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &filters [| to separate]");
@@ -95,6 +90,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	CreateUnitControls();
 	CreateGraphicsControls();
 	CreateTerrainControls();
+	CreateTerrainBorderControls();
 	CreateTerrainRestrictionControls();
 	CreateSoundControls();
 	CreatePlayerColorControls();
@@ -106,23 +102,12 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	TabBar_Main->AddPage(Tab_Units, "Units");
 	TabBar_Main->AddPage(Tab_Graphics, "Graphics");
 	TabBar_Main->AddPage(Tab_Terrains, "Terrains");
+	TabBar_Main->AddPage(Tab_TerrainBorders, "Terrain Borders");
 	TabBar_Main->AddPage(Tab_TerrainRestrictions, "Terrain Restrictions");
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
 	TabBar_Main->SetSelection(4);
 
-//	Hide sections that aren't shown on opening.
-/*	Tab_General->Show(false);
-	Tab_Research->Show(false);
-	Tab_Techage->Show(false);
-	Tab_Civs->Show(false);
-	Tab_Units->Show(false);
-	Tab_Graphics->Show(false);
-	Tab_Terrains->Show(false);
-	Tab_TerrainRestrictions->Show(false);
-	Tab_Sounds->Show(false);
-	Tab_PlayerColors->Show(false);
-*/
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
@@ -137,8 +122,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(MenuOption_NoExtra, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_1stFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_2ndFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-//	Connect(MenuOption_3rdFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-//	Connect(MenuOption_4rdFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = false;
 	wxCommandEvent ShowUnknownsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Unknowns);
