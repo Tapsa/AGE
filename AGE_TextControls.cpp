@@ -23,7 +23,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 			    else
 			    {
 					NoLoadList = true;
-			    	wxMessageBox("Invalid Entry!\nPlease enter a number from -128 to 127");
+			    	wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
 			    	SetFocus();
 			    }
 			}
@@ -35,14 +35,14 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 		catch(bad_lexical_cast e)
 		{
 			NoLoadList = true;
-		    wxMessageBox("Crashing Entry!\nPlease enter a number from -128 to 127");
+		    wxMessageBox("Crashing entry!\nPlease enter a number from -128 to 127");
 		    SetFocus();
 		}
 	}
 	else
 	{
 		NoLoadList = true;
-	    wxMessageBox("Empty Entry!\nPlease enter a number from -128 to 127");
+	    wxMessageBox("Empty entry!\nPlease enter a number from -128 to 127");
 	    SetFocus();
 	}
 }
@@ -71,14 +71,14 @@ void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 		catch(bad_lexical_cast e)
 		{
 			NoLoadList = true;
-		    wxMessageBox("Invalid Entry!\nPlease enter a valid floating point number");
+		    wxMessageBox("Invalid entry!\nPlease enter a valid floating point number");
 		    SetFocus();
 		}
 	}
 	else
 	{
 		NoLoadList = true;
-	    wxMessageBox("Empty Entry!\nPlease enter a valid floating point number");
+	    wxMessageBox("Empty entry!\nPlease enter a valid floating point number");
 	    SetFocus();
 	}
 }
@@ -107,14 +107,14 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 		catch(bad_lexical_cast e)
 		{
 			NoLoadList = true;
-			wxMessageBox("Invalid Entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
+			wxMessageBox("Invalid entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
 			SetFocus();
 		}
 	}
 	else
 	{
 		NoLoadList = true;
-		wxMessageBox("Empty Entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
+		wxMessageBox("Empty entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
 		SetFocus();
 	}
 }
@@ -143,14 +143,14 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 		catch(bad_lexical_cast e)
 		{
 			NoLoadList = true;
-			wxMessageBox("Invalid Entry!\nPlease enter a number from -32 768 to 32 767");
+			wxMessageBox("Invalid entry!\nPlease enter a number from -32 768 to 32 767");
 			SetFocus();
 		}
 	}
 	else
 	{
 		NoLoadList = true;
-		wxMessageBox("Empty Entry!\nPlease enter a number from -32 768 to 32 767");
+		wxMessageBox("Empty entry!\nPlease enter a number from -32 768 to 32 767");
 		SetFocus();
 	}
 }
@@ -179,14 +179,14 @@ void TextCtrl_UnShort::OnKillFocus(wxFocusEvent& Event)
 		catch(bad_lexical_cast e)
 		{
 			NoLoadList = true;
-			wxMessageBox("Invalid Entry!\nPlease enter a number from 0 to 65 535");
+			wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 65 535");
 			SetFocus();
 		}
 	}
 	else
 	{
 		NoLoadList = true;
-		wxMessageBox("Empty Entry!\nPlease enter a number from 0 to 65 535");
+		wxMessageBox("Empty entry!\nPlease enter a number from 0 to 65 535");
 		SetFocus();
 	}
 }
