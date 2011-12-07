@@ -1130,9 +1130,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				Units_ComboBox_CostType[loop]->SetSelection(UnitPointer->Creatable->ResourceCosts[loop].Type + 1);
 				Units_CostAmount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Amount));
 				Units_CostAmount[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Amount;
-				Units_CostUsed[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Used));
-				Units_CostUsed[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Used;
-				Units_CheckBox_CostUsed[loop]->SetValue((bool)UnitPointer->Creatable->ResourceCosts[loop].Used);
+				Units_CostUsed[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Enabled));
+				Units_CostUsed[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Enabled;
+				Units_CheckBox_CostUsed[loop]->SetValue((bool)UnitPointer->Creatable->ResourceCosts[loop].Enabled);
 			}
 			Units_TrainTime->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->TrainTime));
 			Units_TrainTime->Container = &UnitPointer->Creatable->TrainTime;
@@ -1494,13 +1494,13 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		
 		for(short loop = 0;loop < 3;loop++)
 		{
-			ResourceStorage_Type[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorage[loop].Type));
-			ResourceStorage_Type[loop]->Container = &UnitPointer->ResourceStorage[loop].Type;
-			ResourceStorage_Amount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorage[loop].Amount));
-			ResourceStorage_Amount[loop]->Container = &UnitPointer->ResourceStorage[loop].Amount;
-			ResourceStorage_Enabled[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->ResourceStorage[loop].Enabled));
-			ResourceStorage_Enabled[loop]->Container = &UnitPointer->ResourceStorage[loop].Enabled;
-			ResourceStorage_ComboBox_Type[loop]->SetSelection(UnitPointer->ResourceStorage[loop].Type + 1);
+			ResourceStorage_Type[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorages[loop].Type));
+			ResourceStorage_Type[loop]->Container = &UnitPointer->ResourceStorages[loop].Type;
+			ResourceStorage_Amount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorages[loop].Amount));
+			ResourceStorage_Amount[loop]->Container = &UnitPointer->ResourceStorages[loop].Amount;
+			ResourceStorage_Enabled[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->ResourceStorages[loop].Enabled));
+			ResourceStorage_Enabled[loop]->Container = &UnitPointer->ResourceStorages[loop].Enabled;
+			ResourceStorage_ComboBox_Type[loop]->SetSelection(UnitPointer->ResourceStorages[loop].Type + 1);
 		}
 		
 		Units_DLL_LanguageDllName->Wrap(Units_DLL_LanguageDllName->GetSize().GetWidth());
@@ -1623,12 +1623,7 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 			UnitHeaderCopy = *(gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
 		}
 	}
-	wxCommandEvent E;
-	OnUnitHeadsCopy(E);
-}
 
-void AGE_Frame::OnUnitHeadsCopy(wxCommandEvent& Event)
-{
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
@@ -1668,13 +1663,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 			*(gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection) = UnitHeaderCopy;
 		}
 	}
-	wxCommandEvent E;
-	OnUnitHeadsPaste(E);
-}
 
-void AGE_Frame::OnUnitHeadsPaste(wxCommandEvent& Event)
-{
-	wxBusyCursor WaitCursor;
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
@@ -2682,7 +2671,7 @@ void AGE_Frame::CreateUnitControls()
 {
 //	UnitControls new things
 
-	Tab_Units = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
+	Tab_Units = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 	
 	Units_Main = new wxBoxSizer(wxHORIZONTAL);
 	Units_ListArea = new wxBoxSizer(wxVERTICAL);

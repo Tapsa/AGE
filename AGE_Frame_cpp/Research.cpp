@@ -167,15 +167,15 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		Research_Amount[1]->Container = &ResearchPointer->ResourceCosts[1].Amount;
 		Research_Amount[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Amount));
 		Research_Amount[2]->Container = &ResearchPointer->ResourceCosts[2].Amount;
-		Research_Used[0]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[0].Used));
-		Research_Used[0]->Container = &ResearchPointer->ResourceCosts[0].Used;
-		Research_CheckBox_Used[0]->SetValue((bool)ResearchPointer->ResourceCosts[0].Used);
-		Research_Used[1]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[1].Used));
-		Research_Used[1]->Container = &ResearchPointer->ResourceCosts[1].Used;
-		Research_CheckBox_Used[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Used);
-		Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Used));
-		Research_Used[2]->Container = &ResearchPointer->ResourceCosts[2].Used;
-		Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Used);
+		Research_Used[0]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[0].Enabled));
+		Research_Used[0]->Container = &ResearchPointer->ResourceCosts[0].Enabled;
+		Research_CheckBox_Used[0]->SetValue((bool)ResearchPointer->ResourceCosts[0].Enabled);
+		Research_Used[1]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[1].Enabled));
+		Research_Used[1]->Container = &ResearchPointer->ResourceCosts[1].Enabled;
+		Research_CheckBox_Used[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Enabled);
+		Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Enabled));
+		Research_Used[2]->Container = &ResearchPointer->ResourceCosts[2].Enabled;
+		Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
 		if(GameVersion >= 2)
 		{
 			Research_Holder_Civ->Show(true);
@@ -287,7 +287,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 
 void AGE_Frame::CreateResearchControls()
 {
-	Tab_Research = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
+	Tab_Research = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 	
 	Research_Main = new wxBoxSizer(wxHORIZONTAL);
 	Research_ListArea = new wxBoxSizer(wxVERTICAL);

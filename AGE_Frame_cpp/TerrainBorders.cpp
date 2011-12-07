@@ -125,8 +125,8 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent& Event)
 
 void AGE_Frame::CreateTerrainBorderControls()
 {
-	Tab_TerrainBorders = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
-	
+	Tab_TerrainBorders = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+/*	
 	General_Holder_TerrainBorders = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Terrain Borders (Used in AoE and RoR)");
 	General_Borders_Buttons = new wxGridSizer(2, 0, 0);
 	General_Borders = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Terrain Border slot");
@@ -152,8 +152,39 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Connect(General_Borders_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersSelect));
 	Connect(Borders_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersCopy));
 	Connect(Borders_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersPaste));
+	
+	for(short loop = 0;loop < 2;loop++)
+	{
+		General_Holder_BorderName[loop]->Add(General_Text_BorderName[loop], 0, wxEXPAND);
+		General_Holder_BorderName[loop]->Add(General_BorderName[loop], 0, wxEXPAND);
+	}
+	General_Holder_BorderEnabled->Add(General_Text_BorderEnabled, 0, wxEXPAND);
+	General_Holder_BorderEnabled->Add(General_BorderEnabled, 0, wxEXPAND);
+
+	General_Borders_Buttons->Add(Borders_Copy, 1, wxEXPAND);
+	General_Borders_Buttons->Add(Borders_Paste, 1, wxEXPAND);
+
+	General_Borders->Add(General_Borders_Search, 0, wxEXPAND);
+	General_Borders->Add(General_Borders_Search_R, 0, wxEXPAND);
+	General_Borders->Add(-1, 2);
+	General_Borders->Add(General_Borders_List, 1, wxEXPAND);
+	General_Borders->Add(-1, 2);
+	General_Borders->Add(General_Borders_Buttons, 0, wxEXPAND);
+	
+	General_DataTopRow->Add(General_Holder_BorderName[0], 1, wxEXPAND);
+	General_DataTopRow->Add(5, -1);
+	General_DataTopRow->Add(General_Holder_BorderName[1], 1, wxEXPAND);
+	General_DataTopRow->Add(5, -1);
+	General_DataTopRow->Add(General_Holder_BorderEnabled, 1, wxEXPAND);
+
+	General_DataArea->Add(General_DataTopRow, 0, wxEXPAND);
+	General_DataArea->Add(-1, 5);
+	
+	General_Holder_TerrainBorders->Add(General_Borders, 1, wxEXPAND);
+	General_Holder_TerrainBorders->Add(10, -1);
+	General_Holder_TerrainBorders->Add(General_DataArea, 3, wxEXPAND);
 
 	for(short loop = 0;loop < 2;loop++)
 	General_BorderName[loop]->Connect(General_BorderName[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-
+*/
 }
