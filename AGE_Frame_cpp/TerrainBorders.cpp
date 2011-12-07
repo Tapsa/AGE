@@ -31,7 +31,7 @@ void AGE_Frame::ListTerrainBorders()
 
 	short Selection = General_Borders_List->GetSelection();
 
-	if(!General_Borders_List->IsEmpty())
+	if(General_Borders_List->GetCount() > 0)
 	{
 		General_Borders_List->Clear();
 	}

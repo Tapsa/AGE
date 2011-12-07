@@ -127,7 +127,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
 	
-	if(!Units_Civs_List->IsEmpty())
+	if(Units_Civs_List->GetCount() > 0)
 	{
 		Units_Civs_List->Clear();
 	}
@@ -166,70 +166,70 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	for(short loop = 0;loop < 30;loop++)
 	UnitIDloop[loop] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
 
-	if(!Units_Units_List->IsEmpty())
+	if(Units_Units_List->GetCount() > 0)
 	{
 		Units_Units_List->Clear();
 	}
-	if(!Units_ComboBox_DeadUnitID->IsEmpty())
+	if(Units_ComboBox_DeadUnitID->GetCount() > 0)
 	{
 		Units_ComboBox_DeadUnitID->Clear();
 	}
-	if(!Units_ComboBox_ProjectileUnitID->IsEmpty())
+	if(Units_ComboBox_ProjectileUnitID->GetCount() > 0)
 	{
 		Units_ComboBox_ProjectileUnitID->Clear();
 	}
-	if(!Units_ComboBox_AttackMissileDuplicationUnit->IsEmpty())
+	if(Units_ComboBox_AttackMissileDuplicationUnit->GetCount() > 0)
 	{
 		Units_ComboBox_AttackMissileDuplicationUnit->Clear();
 	}
 	for(short loop = 0;loop < 2;loop++)
-	if(!Units_ComboBox_DropSite[loop]->IsEmpty())
+	if(Units_ComboBox_DropSite[loop]->GetCount() > 0)
 	{
 		Units_ComboBox_DropSite[loop]->Clear();
 	}
-	if(!Units_ComboBox_TrackingUnit->IsEmpty())
+	if(Units_ComboBox_TrackingUnit->GetCount() > 0)
 	{
 		Units_ComboBox_TrackingUnit->Clear();
 	}
-	if(!Units_ComboBox_TrainLocationID->IsEmpty())
+	if(Units_ComboBox_TrainLocationID->GetCount() > 0)
 	{
 		Units_ComboBox_TrainLocationID->Clear();
 	}
-	if(!Units_ComboBox_StackUnitID->IsEmpty())
+	if(Units_ComboBox_StackUnitID->GetCount() > 0)
 	{
 		Units_ComboBox_StackUnitID->Clear();
 	}
 	for(short loop = 0;loop < 4;loop++)
-	if(!Units_ComboBox_AnnexUnit[loop]->IsEmpty())
+	if(Units_ComboBox_AnnexUnit[loop]->GetCount() > 0)
 	{
 		Units_ComboBox_AnnexUnit[loop]->Clear();
 	}
-	if(!Units_ComboBox_HeadUnit->IsEmpty())
+	if(Units_ComboBox_HeadUnit->GetCount() > 0)
 	{
 		Units_ComboBox_HeadUnit->Clear();
 	}
-	if(!Units_ComboBox_TransformUnit->IsEmpty())
+	if(Units_ComboBox_TransformUnit->GetCount() > 0)
 	{
 		Units_ComboBox_TransformUnit->Clear();
 	}
-	if(!Research_ComboBox_ResearchLocation->IsEmpty())
+	if(Research_ComboBox_ResearchLocation->GetCount() > 0)
 	{
 		Research_ComboBox_ResearchLocation->Clear();
 	}
-	if(!Effects_ComboBox_UnitsA->IsEmpty())
+	if(Effects_ComboBox_UnitsA->GetCount() > 0)
 	{
 		Effects_ComboBox_UnitsA->Clear();
 	}
-	if(!Effects_ComboBox_UnitsB->IsEmpty())
+	if(Effects_ComboBox_UnitsB->GetCount() > 0)
 	{
 		Effects_ComboBox_UnitsB->Clear();
 	}
-	if(!UnitCommands_ComboBox_UnitID->IsEmpty())
+	if(UnitCommands_ComboBox_UnitID->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_UnitID->Clear();
 	}
 	for(short loop = 0;loop < 30;loop++)
-	if(!Terrains_ComboBox_TerrainUnitID[loop]->IsEmpty())
+	if(Terrains_ComboBox_TerrainUnitID[loop]->GetCount() > 0)
 	{
 		Terrains_ComboBox_TerrainUnitID[loop]->Clear();
 	}
@@ -340,7 +340,7 @@ void AGE_Frame::ListUnitHeads()
 	{
 		CivSelection = 0;
 	}
-	if(!Units_UnitHeads_List->IsEmpty())
+	if(Units_UnitHeads_List->GetCount() > 0)
 	{
 		Units_UnitHeads_List->Clear();
 	}
@@ -1740,7 +1740,7 @@ void AGE_Frame::ListUnitDamageGraphics(short Index, short UnitCivID)
 	string CompareText;
 	short Selection = Units_DamageGraphics_List->GetSelection();
 
-	if(!Units_DamageGraphics_List->IsEmpty())
+	if(Units_DamageGraphics_List->GetCount() > 0)
 	{
 		Units_DamageGraphics_List->Clear();
 	}
@@ -1876,7 +1876,7 @@ void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
 	string CompareText;
 	short Selection = Units_Attacks_List->GetSelection();
 
-	if(!Units_Attacks_List->IsEmpty())
+	if(Units_Attacks_List->GetCount() > 0)
 	{
 		Units_Attacks_List->Clear();
 	}
@@ -2017,7 +2017,7 @@ void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
 	string CompareText;
 	short Selection = Units_Armors_List->GetSelection();
 
-	if(!Units_Armors_List->IsEmpty())
+	if(Units_Armors_List->GetCount() > 0)
 	{
 		Units_Armors_List->Clear();
 	}
@@ -2292,7 +2292,7 @@ void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 	string CompareText;
 	short Selection = Units_UnitCommands_List->GetSelection();
 
-	if(!Units_UnitCommands_List->IsEmpty())
+	if(Units_UnitCommands_List->GetCount() > 0)
 	{
 		Units_UnitCommands_List->Clear();
 	}

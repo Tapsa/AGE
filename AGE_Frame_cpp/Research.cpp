@@ -39,25 +39,25 @@ void AGE_Frame::ListResearchs()
 	for(short loop = 0;loop < 6;loop++)
 	ResearchIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
 
-	if(!Research_Research_List->IsEmpty())
+	if(Research_Research_List->GetCount() > 0)
 	{
 		Research_Research_List->Clear();
 	}
-	if(!Effects_ComboBox_ResearchsD->IsEmpty())
+	if(Effects_ComboBox_ResearchsD->GetCount() > 0)
 	{
 		Effects_ComboBox_ResearchsD->Clear();
 	}
-	if(!Effects_ComboBox_ResearchsA->IsEmpty())
+	if(Effects_ComboBox_ResearchsA->GetCount() > 0)
 	{
 		Effects_ComboBox_ResearchsA->Clear();
 	}
-	if(!Units_ComboBox_ResearchID->IsEmpty())
+	if(Units_ComboBox_ResearchID->GetCount() > 0)
 	{
 		Units_ComboBox_ResearchID->Clear();
 	}
 	for(short loop = 0;loop < 6;loop++)
 	{
-		if(!Research_ComboBox_RequiredTechs[loop]->IsEmpty())
+		if(Research_ComboBox_RequiredTechs[loop]->GetCount() > 0)
 		{
 			Research_ComboBox_RequiredTechs[loop]->Clear();
 		}
