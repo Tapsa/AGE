@@ -30,7 +30,7 @@ void AGE_Frame::ListPlayerColors()
 
 	short Selection = Colors_Colors_List->GetSelection();
 
-	if(!Colors_Colors_List->IsEmpty())
+	if(Colors_Colors_List->GetCount() > 0)
 	{
 		Colors_Colors_List->Clear();
 	}

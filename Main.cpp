@@ -16,6 +16,6 @@ bool AGE::OnInit()
 //	MainWindow->Refresh();
 //	MainWindow->Update();
 	wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, MainWindow->ToolBar_Open);
-	MainWindow->ProcessEvent(OpenFiles);
+	MainWindow->ProcessWindowEvent(OpenFiles);
 	return true;
 }

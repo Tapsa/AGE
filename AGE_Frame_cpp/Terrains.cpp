@@ -36,35 +36,35 @@ void AGE_Frame::ListTerrains()
 	short TerrainID6 = Units_ComboBox_TerrainID->GetSelection();
 	short TerrainID7 = Terrains_ComboBox_TerrainReplacementID->GetSelection();
 
-	if(!Terrains_Terrains_List->IsEmpty())
+	if(Terrains_Terrains_List->GetCount() > 0)
 	{
 		Terrains_Terrains_List->Clear();
 	}
-	if(!TerRestrict_Terrains_List->IsEmpty())
+	if(TerRestrict_Terrains_List->GetCount() > 0)
 	{
 		TerRestrict_Terrains_List->Clear();
 	}
-	if(!Units_ComboBox_PlacementBypassTerrain[0]->IsEmpty())
+	if(Units_ComboBox_PlacementBypassTerrain[0]->GetCount() > 0)
 	{
 		Units_ComboBox_PlacementBypassTerrain[0]->Clear();
 	}
-	if(!Units_ComboBox_PlacementBypassTerrain[1]->IsEmpty())
+	if(Units_ComboBox_PlacementBypassTerrain[1]->GetCount() > 0)
 	{
 		Units_ComboBox_PlacementBypassTerrain[1]->Clear();
 	}
-	if(!Units_ComboBox_PlacementTerrain[0]->IsEmpty())
+	if(Units_ComboBox_PlacementTerrain[0]->GetCount() > 0)
 	{
 		Units_ComboBox_PlacementTerrain[0]->Clear();
 	}
-	if(!Units_ComboBox_PlacementTerrain[1]->IsEmpty())
+	if(Units_ComboBox_PlacementTerrain[1]->GetCount() > 0)
 	{
 		Units_ComboBox_PlacementTerrain[1]->Clear();
 	}
-	if(!Units_ComboBox_TerrainID->IsEmpty())
+	if(Units_ComboBox_TerrainID->GetCount() > 0)
 	{
 		Units_ComboBox_TerrainID->Clear();
 	}
-	if(!Terrains_ComboBox_TerrainReplacementID->IsEmpty())
+	if(Terrains_ComboBox_TerrainReplacementID->GetCount() > 0)
 	{
 		Terrains_ComboBox_TerrainReplacementID->Clear();
 	}

@@ -107,11 +107,11 @@ void AGE_Frame::ListTerrainRestrictions()
 	short Selection = TerRestrict_TerRestrict_List->GetSelection();
 	short RestrictionID1 = Units_ComboBox_TerrainRestriction->GetSelection();
 
-	if(!TerRestrict_TerRestrict_List->IsEmpty())
+	if(TerRestrict_TerRestrict_List->GetCount() > 0)
 	{
 		TerRestrict_TerRestrict_List->Clear();
 	}
-	if(!Units_ComboBox_TerrainRestriction->IsEmpty())
+	if(Units_ComboBox_TerrainRestriction->GetCount() > 0)
 	{
 		Units_ComboBox_TerrainRestriction->Clear();
 	}
