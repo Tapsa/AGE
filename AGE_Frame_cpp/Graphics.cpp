@@ -56,95 +56,95 @@ void AGE_Frame::ListGraphics()
 	GraphicIDs[20] = TerRestrict_ComboBox_Graphics[1]->GetSelection();
 	GraphicIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
 
-	if(!Graphics_Graphics_List->IsEmpty())
+	if(Graphics_Graphics_List->GetCount() > 0)
 	{
 		Graphics_Graphics_List->Clear();
 	}
-	if(!Units_ComboBox_ConstructionGraphicID->IsEmpty())
+	if(Units_ComboBox_ConstructionGraphicID->GetCount() > 0)
 	{
 		Units_ComboBox_ConstructionGraphicID->Clear();
 	}
-	if(!Units_ComboBox_SnowGraphicID->IsEmpty())
+	if(Units_ComboBox_SnowGraphicID->GetCount() > 0)
 	{
 		Units_ComboBox_SnowGraphicID->Clear();
 	}
-	if(!Units_ComboBox_AttackGraphic->IsEmpty())
+	if(Units_ComboBox_AttackGraphic->GetCount() > 0)
 	{
 		Units_ComboBox_AttackGraphic->Clear();
 	}
-	if(!Units_ComboBox_StandingGraphic[0]->IsEmpty())
+	if(Units_ComboBox_StandingGraphic[0]->GetCount() > 0)
 	{
 		Units_ComboBox_StandingGraphic[0]->Clear();
 	}
-	if(!Units_ComboBox_StandingGraphic[1]->IsEmpty())
+	if(Units_ComboBox_StandingGraphic[1]->GetCount() > 0)
 	{
 		Units_ComboBox_StandingGraphic[1]->Clear();
 	}
-	if(!Units_ComboBox_GarrisonGraphic[0]->IsEmpty())
+	if(Units_ComboBox_GarrisonGraphic[0]->GetCount() > 0)
 	{
 		Units_ComboBox_GarrisonGraphic[0]->Clear();
 	}
-	if(!Units_ComboBox_GarrisonGraphic[1]->IsEmpty())
+	if(Units_ComboBox_GarrisonGraphic[1]->GetCount() > 0)
 	{
 		Units_ComboBox_GarrisonGraphic[1]->Clear();
 	}
-	if(!Units_ComboBox_WalkingGraphic[0]->IsEmpty())
+	if(Units_ComboBox_WalkingGraphic[0]->GetCount() > 0)
 	{
 		Units_ComboBox_WalkingGraphic[0]->Clear();
 	}
-	if(!Units_ComboBox_WalkingGraphic[1]->IsEmpty())
+	if(Units_ComboBox_WalkingGraphic[1]->GetCount() > 0)
 	{
 		Units_ComboBox_WalkingGraphic[1]->Clear();
 	}
-	if(!Units_ComboBox_DyingGraphic[0]->IsEmpty())
+	if(Units_ComboBox_DyingGraphic[0]->GetCount() > 0)
 	{
 		Units_ComboBox_DyingGraphic[0]->Clear();
 	}
-	if(!Units_ComboBox_DyingGraphic[1]->IsEmpty())
+	if(Units_ComboBox_DyingGraphic[1]->GetCount() > 0)
 	{
 		Units_ComboBox_DyingGraphic[1]->Clear();
 	}
-	if(!Units_ComboBox_AttackMissileDuplicationGraphic->IsEmpty())
+	if(Units_ComboBox_AttackMissileDuplicationGraphic->GetCount() > 0)
 	{
 		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
 	}
-	if(!UnitCommands_ComboBox_Graphics[0]->IsEmpty())
+	if(UnitCommands_ComboBox_Graphics[0]->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_Graphics[0]->Clear();
 	}
-	if(!UnitCommands_ComboBox_Graphics[1]->IsEmpty())
+	if(UnitCommands_ComboBox_Graphics[1]->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_Graphics[1]->Clear();
 	}
-	if(!UnitCommands_ComboBox_Graphics[2]->IsEmpty())
+	if(UnitCommands_ComboBox_Graphics[2]->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_Graphics[2]->Clear();
 	}
-	if(!UnitCommands_ComboBox_Graphics[3]->IsEmpty())
+	if(UnitCommands_ComboBox_Graphics[3]->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_Graphics[3]->Clear();
 	}
-	if(!UnitCommands_ComboBox_Graphics[4]->IsEmpty())
+	if(UnitCommands_ComboBox_Graphics[4]->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_Graphics[4]->Clear();
 	}
-	if(!UnitCommands_ComboBox_Graphics[5]->IsEmpty())
+	if(UnitCommands_ComboBox_Graphics[5]->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_Graphics[5]->Clear();
 	}
-	if(!DamageGraphics_ComboBox_GraphicID->IsEmpty())
+	if(DamageGraphics_ComboBox_GraphicID->GetCount() > 0)
 	{
 		DamageGraphics_ComboBox_GraphicID->Clear();
 	}
-	if(!TerRestrict_ComboBox_Graphics[0]->IsEmpty())
+	if(TerRestrict_ComboBox_Graphics[0]->GetCount() > 0)
 	{
 		TerRestrict_ComboBox_Graphics[0]->Clear();
 	}
-	if(!TerRestrict_ComboBox_Graphics[1]->IsEmpty())
+	if(TerRestrict_ComboBox_Graphics[1]->GetCount() > 0)
 	{
 		TerRestrict_ComboBox_Graphics[1]->Clear();
 	}
-	if(!GraphicDeltas_ComboBox_GraphicID->IsEmpty())
+	if(GraphicDeltas_ComboBox_GraphicID->GetCount() > 0)
 	{
 		GraphicDeltas_ComboBox_GraphicID->Clear();
 	}
@@ -391,7 +391,7 @@ void AGE_Frame::ListGraphicDeltas(short Index)
 	string CompareText;
 	short Selection = Graphics_Deltas_List->GetSelection();
 
-	if(!Graphics_Deltas_List->IsEmpty())
+	if(Graphics_Deltas_List->GetCount() > 0)
 	{
 		Graphics_Deltas_List->Clear();
 	}
@@ -528,7 +528,7 @@ void AGE_Frame::ListGraphicAttackSounds(short Index)
 //	string CompareText;
 	short Selection = Graphics_AttackSounds_List->GetSelection();
 
-	if(!Graphics_AttackSounds_List->IsEmpty())
+	if(Graphics_AttackSounds_List->GetCount() > 0)
 	{
 		Graphics_AttackSounds_List->Clear();
 	}

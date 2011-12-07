@@ -25,19 +25,19 @@ void AGE_Frame::ListCivs()
 	short CivID2 = Units_Civs_List->GetSelection();
 	short CivID3 = SoundItems_ComboBox_Civ->GetSelection();
 
-	if(!Civs_Civs_List->IsEmpty())
+	if(Civs_Civs_List->GetCount() > 0)
 	{
 		Civs_Civs_List->Clear();
 	}
-	if(!Research_ComboBox_Civ->IsEmpty())
+	if(Research_ComboBox_Civ->GetCount() > 0)
 	{
 		Research_ComboBox_Civ->Clear();
 	}
-	if(!Units_Civs_List->IsEmpty())
+	if(Units_Civs_List->GetCount() > 0)
 	{
 		Units_Civs_List->Clear();
 	}
-	if(!SoundItems_ComboBox_Civ->IsEmpty())
+	if(SoundItems_ComboBox_Civ->GetCount() > 0)
 	{
 		SoundItems_ComboBox_Civ->Clear();
 	}
@@ -537,59 +537,59 @@ void AGE_Frame::ListResources(short Index)
 	short ResourceID12 = Effects_ComboBox_ResourcesA->GetSelection();
 	short ResourceID13 = Effects_ComboBox_ResourcesB->GetSelection();
 
-	if(!Civs_Resources_List->IsEmpty())
+	if(Civs_Resources_List->GetCount() > 0)
 	{
 		Civs_Resources_List->Clear();
 	}
-	if(!Units_ComboBox_CostType[0]->IsEmpty())
+	if(Units_ComboBox_CostType[0]->GetCount() > 0)
 	{
 		Units_ComboBox_CostType[0]->Clear();
 	}
-	if(!Units_ComboBox_CostType[1]->IsEmpty())
+	if(Units_ComboBox_CostType[1]->GetCount() > 0)
 	{
 		Units_ComboBox_CostType[1]->Clear();
 	}
-	if(!Units_ComboBox_CostType[2]->IsEmpty())
+	if(Units_ComboBox_CostType[2]->GetCount() > 0)
 	{
 		Units_ComboBox_CostType[2]->Clear();
 	}
-	if(!ResourceStorage_ComboBox_Type[0]->IsEmpty())
+	if(ResourceStorage_ComboBox_Type[0]->GetCount() > 0)
 	{
 		ResourceStorage_ComboBox_Type[0]->Clear();
 	}
-	if(!ResourceStorage_ComboBox_Type[1]->IsEmpty())
+	if(ResourceStorage_ComboBox_Type[1]->GetCount() > 0)
 	{
 		ResourceStorage_ComboBox_Type[1]->Clear();
 	}
-	if(!ResourceStorage_ComboBox_Type[2]->IsEmpty())
+	if(ResourceStorage_ComboBox_Type[2]->GetCount() > 0)
 	{
 		ResourceStorage_ComboBox_Type[2]->Clear();
 	}
-	if(!UnitCommands_ComboBox_ResourceIn->IsEmpty())
+	if(UnitCommands_ComboBox_ResourceIn->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_ResourceIn->Clear();
 	}
-	if(!UnitCommands_ComboBox_ResourceOut->IsEmpty())
+	if(UnitCommands_ComboBox_ResourceOut->GetCount() > 0)
 	{
 		UnitCommands_ComboBox_ResourceOut->Clear();
 	}
-	if(!Research_ComboBox_Resources[0]->IsEmpty())
+	if(Research_ComboBox_Resources[0]->GetCount() > 0)
 	{
 		Research_ComboBox_Resources[0]->Clear();
 	}
-	if(!Research_ComboBox_Resources[1]->IsEmpty())
+	if(Research_ComboBox_Resources[1]->GetCount() > 0)
 	{
 		Research_ComboBox_Resources[1]->Clear();
 	}
-	if(!Research_ComboBox_Resources[2]->IsEmpty())
+	if(Research_ComboBox_Resources[2]->GetCount() > 0)
 	{
 		Research_ComboBox_Resources[2]->Clear();
 	}
-	if(!Effects_ComboBox_ResourcesA->IsEmpty())
+	if(Effects_ComboBox_ResourcesA->GetCount() > 0)
 	{
 		Effects_ComboBox_ResourcesA->Clear();
 	}
-	if(!Effects_ComboBox_ResourcesB->IsEmpty())
+	if(Effects_ComboBox_ResourcesB->GetCount() > 0)
 	{
 		Effects_ComboBox_ResourcesB->Clear();
 	}

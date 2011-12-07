@@ -35,52 +35,52 @@ void AGE_Frame::ListSounds()
 	for(short loop = 0;loop < 3;loop++)
 	SoundIDs[loop+10] = Graphics_ComboBox_AttackSoundID[loop]->GetSelection();
 
-	if(!Sounds_Sounds_List->IsEmpty())
+	if(Sounds_Sounds_List->GetCount() > 0)
 	{
 		Sounds_Sounds_List->Clear();
 	}
-	if(!Units_ComboBox_TrainSound[0]->IsEmpty())
+	if(Units_ComboBox_TrainSound[0]->GetCount() > 0)
 	{
 		Units_ComboBox_TrainSound[0]->Clear();
 	}
-	if(!Units_ComboBox_TrainSound[1]->IsEmpty())
+	if(Units_ComboBox_TrainSound[1]->GetCount() > 0)
 	{
 		Units_ComboBox_TrainSound[1]->Clear();
 	}
-	if(!Units_ComboBox_SelectionSound->IsEmpty())
+	if(Units_ComboBox_SelectionSound->GetCount() > 0)
 	{
 		Units_ComboBox_SelectionSound->Clear();
 	}
-	if(!Units_ComboBox_DyingSound->IsEmpty())
+	if(Units_ComboBox_DyingSound->GetCount() > 0)
 	{
 		Units_ComboBox_DyingSound->Clear();
 	}
-	if(!Units_ComboBox_AttackSound->IsEmpty())
+	if(Units_ComboBox_AttackSound->GetCount() > 0)
 	{
 		Units_ComboBox_AttackSound->Clear();
 	}
-	if(!Units_ComboBox_MoveSound->IsEmpty())
+	if(Units_ComboBox_MoveSound->GetCount() > 0)
 	{
 		Units_ComboBox_MoveSound->Clear();
 	}
-	if(!Units_ComboBox_StopSound->IsEmpty())
+	if(Units_ComboBox_StopSound->GetCount() > 0)
 	{
 		Units_ComboBox_StopSound->Clear();
 	}
-	if(!Units_ComboBox_ConstructionSound->IsEmpty())
+	if(Units_ComboBox_ConstructionSound->GetCount() > 0)
 	{
 		Units_ComboBox_ConstructionSound->Clear();
 	}
-	if(!Terrains_ComboBox_SoundID->IsEmpty())
+	if(Terrains_ComboBox_SoundID->GetCount() > 0)
 	{
 		Terrains_ComboBox_SoundID->Clear();
 	}
-	if(!Graphics_ComboBox_SoundID->IsEmpty())
+	if(Graphics_ComboBox_SoundID->GetCount() > 0)
 	{
 		Graphics_ComboBox_SoundID->Clear();
 	}
 	for(short loop = 0;loop < 3;loop++)
-	if(!Graphics_ComboBox_AttackSoundID[loop]->IsEmpty())
+	if(Graphics_ComboBox_AttackSoundID[loop]->GetCount() > 0)
 	{
 		Graphics_ComboBox_AttackSoundID[loop]->Clear();
 	}
@@ -249,7 +249,7 @@ void AGE_Frame::ListSoundItems(short Index)
 	string CompareText;
 	short Selection = Sounds_SoundItems_List->GetSelection();
 
-	if(!Sounds_SoundItems_List->IsEmpty())
+	if(Sounds_SoundItems_List->GetCount() > 0)
 	{
 		Sounds_SoundItems_List->Clear();
 	}

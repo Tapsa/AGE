@@ -111,19 +111,19 @@ void AGE_Frame::ListTechages()
 	short TechID2 = Civs_ComboBox_TechTree->GetSelection();
 	short TechID3 = Civs_ComboBox_TeamBonus->GetSelection();
 
-	if(!Techs_Techs_List->IsEmpty())
+	if(Techs_Techs_List->GetCount() > 0)
 	{
 		Techs_Techs_List->Clear();
 	}
-	if(!Research_ComboBox_TechID->IsEmpty())
+	if(Research_ComboBox_TechID->GetCount() > 0)
 	{
 		Research_ComboBox_TechID->Clear();
 	}
-	if(!Civs_ComboBox_TechTree->IsEmpty())
+	if(Civs_ComboBox_TechTree->GetCount() > 0)
 	{
 		Civs_ComboBox_TechTree->Clear();
 	}
-	if(!Civs_ComboBox_TeamBonus->IsEmpty())
+	if(Civs_ComboBox_TeamBonus->GetCount() > 0)
 	{
 		Civs_ComboBox_TeamBonus->Clear();
 	}
@@ -312,7 +312,7 @@ void AGE_Frame::ListEffects(short Index)
 	string CompareText;
 	short Selection = Techs_Effects_List->GetSelection();
 	
-	if(!Techs_Effects_List->IsEmpty())
+	if(Techs_Effects_List->GetCount() > 0)
 	{
 		Techs_Effects_List->Clear();
 	}

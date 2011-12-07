@@ -4,7 +4,7 @@
 
 void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 {
-	string Value = GetValue().c_str();
+	wxString Value = GetValue().c_str();
 	NoLoadList = false;
 	if(Container == NULL)
 	{
@@ -49,7 +49,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 
 void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 {
-	string Value = GetValue().c_str();
+	wxString Value = GetValue().c_str();
 	NoLoadList = false;
 	if(Container == NULL)
 	{
@@ -85,7 +85,7 @@ void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 
 void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 {
-	string Value = GetValue().c_str();
+	wxString Value = GetValue().c_str();
 	NoLoadList = false;
 	if(Container == NULL)
 	{
@@ -121,7 +121,7 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 
 void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 {
-	string Value = GetValue().c_str();
+	wxString Value = GetValue().c_str();
 	NoLoadList = false;
 	if(Container == NULL)
 	{
@@ -157,7 +157,7 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 
 void TextCtrl_UnShort::OnKillFocus(wxFocusEvent& Event)
 {
-	string Value = GetValue().c_str();
+	wxString Value = GetValue().c_str();
 	NoLoadList = false;
 	if(Container == NULL)
 	{
