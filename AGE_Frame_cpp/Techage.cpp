@@ -988,7 +988,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ListArea = new wxBoxSizer(wxVERTICAL);
 	Techs_Effects_Buttons = new wxGridSizer(2, 0, 0);
 	Effects_DataAreaProperties = new wxBoxSizer(wxVERTICAL);
-	Tab_Techage = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(-1, 350));
+	Tab_Techage = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 	Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Technology slot");
 	Techs_Techs_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Techs_Techs_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);

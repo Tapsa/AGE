@@ -29,7 +29,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
 				Selected.SetId(OpenBox.Radio_DatFileLocation->GetId());
 				Selected.SetInt(true);
-				OpenBox.ProcessWindowEvent(Selected);
+				OpenBox.ProcessEvent(Selected);
 			}
 			break;
 			case 1:
@@ -38,7 +38,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
 				Selected.SetId(OpenBox.Radio_UnzFileLocation->GetId());
 				Selected.SetInt(true);
-				OpenBox.ProcessWindowEvent(Selected);*/
+				OpenBox.ProcessEvent(Selected);*/
 			}
 			break;
 			case 2:
@@ -47,7 +47,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
 				Selected.SetId(OpenBox.Radio_ApfFileLocation->GetId());
 				Selected.SetInt(true);
-				OpenBox.ProcessWindowEvent(Selected);
+				OpenBox.ProcessEvent(Selected);
 			}
 			break;
 			case 3:
@@ -56,7 +56,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
 				Selected.SetId(OpenBox.Radio_NoFile->GetId());
 				Selected.SetInt(true);
-				OpenBox.ProcessWindowEvent(Selected);
+				OpenBox.ProcessEvent(Selected);
 			}
 			break;
 		}
@@ -72,7 +72,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangFileLocation->GetId());
 			Selected.SetInt(true);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.ProcessEvent(Selected);
 		}
 		else
 		{
@@ -80,7 +80,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangFileLocation->GetId());
 			Selected.SetInt(false);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.ProcessEvent(Selected);
 		}
 		if(LangsUsed & 2)
 		{
@@ -88,7 +88,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangX1FileLocation->GetId());
 			Selected.SetInt(true);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.ProcessEvent(Selected);
 		}
 		else
 		{
@@ -96,7 +96,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangX1FileLocation->GetId());
 			Selected.SetInt(false);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.ProcessEvent(Selected);
 		}
 		if(LangsUsed & 4)
 		{
@@ -104,7 +104,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangX1P1FileLocation->GetId());
 			Selected.SetInt(true);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.ProcessEvent(Selected);
 		}
 		else
 		{
@@ -112,7 +112,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangX1P1FileLocation->GetId());
 			Selected.SetInt(false);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.ProcessEvent(Selected);
 		}
 
 		OpenBox.Path_LangFileLocation->SetPath(LangFileName);
@@ -369,7 +369,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		ListTerrainRestrictions();
 		ListPlayerColors();
 		ListGeneral();
-		ListTerrainBorders();
+	//	ListTerrainBorders();
 	}
 	
 	DataOpened = true;
@@ -426,7 +426,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 		Selected.SetId(SaveBox.CheckBox_DatFileLocation->GetId());
 		Selected.SetInt(SaveDat);
-		SaveBox.ProcessWindowEvent(Selected);
+		SaveBox.ProcessEvent(Selected);
 
 		SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
 
@@ -434,7 +434,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 		Selected.SetId(SaveBox.CheckBox_UnzFileLocation->GetId());
 		Selected.SetInt(SaveUnz);
-		SaveBox.ProcessWindowEvent(Selected);
+		SaveBox.ProcessEvent(Selected);
 
 		SaveBox.Path_UnzFileLocation->SetPath(SaveUnzFileName);*/
 
@@ -442,7 +442,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 		Selected.SetId(SaveBox.CheckBox_ApfFileLocation->GetId());
 		Selected.SetInt(SaveApf);
-		SaveBox.ProcessWindowEvent(Selected);
+		SaveBox.ProcessEvent(Selected);
 
 		SaveBox.Path_ApfFileLocation->SetPath(SaveApfFileName);
 
@@ -1617,7 +1617,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			
 			ListPlayerColors();
 		}
-		if(Event.GetId() == General_BorderName[0]->GetId())
+	/*	if(Event.GetId() == General_BorderName[0]->GetId())
 		{
 			ReducedName = GenieFile->TerrainBorders[BorderID].Name;
 			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
@@ -1632,7 +1632,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			GenieFile->TerrainBorders[BorderID].Name2 = ReducedName;
 			
 			ListTerrainBorders();
-		}
+		}*/
 	}
 }
 
