@@ -1543,19 +1543,14 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 {
 	if(GameVersion > 1)	// AoK, TC, SWGB or CC
 	{
-		gdat::UnitHeader Temp;
-		GenieFile->UnitHeaders.push_back(Temp);
+		gdat::UnitHeader Temp1;
+		GenieFile->UnitHeaders.push_back(Temp1);
 	}
-	wxCommandEvent E;
-	OnUnitHeadsAdd(E);
-}
 
-void AGE_Frame::OnUnitHeadsAdd(wxCommandEvent& Event)
-{
-	gdat::Unit Temp;
+	gdat::Unit Temp2;
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
-		GenieFile->Civs[loop].Units.push_back(Temp);
+		GenieFile->Civs[loop].Units.push_back(Temp2);
 		GenieFile->Civs[loop].UnitPointers.push_back(1);
 		GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID1 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);	//	ID Fix
 		GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID2 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);
@@ -1581,13 +1576,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 			GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitID);
 		}
 	}
-	wxCommandEvent E;
-	OnUnitHeadsDelete(E);
-}
 
-void AGE_Frame::OnUnitHeadsDelete(wxCommandEvent& Event)
-{
-	wxBusyCursor WaitCursor;
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
@@ -1706,6 +1695,11 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 				ListUnitHeads();
 			}
 			ListUnits(UnitCivID);
+		}
+		else
+		{
+			wxCommandEvent E;
+			OnUnitsSelect(E);
 		}
 	}
 }
