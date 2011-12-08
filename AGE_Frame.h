@@ -218,8 +218,8 @@ class AGE_Frame : public wxFrame
 	
 	void ListUnitHeads();
 	void OnUnitHeadsSelect(wxCommandEvent& Event);
-	void OnUnitHeadsAdd(wxCommandEvent& Event);
-	void OnUnitHeadsDelete(wxCommandEvent& Event);
+//	void OnUnitHeadsAdd(wxCommandEvent& Event);
+//	void OnUnitHeadsDelete(wxCommandEvent& Event);
 //	void OnUnitHeadsCopy(wxCommandEvent& Event);
 //	void OnUnitHeadsPaste(wxCommandEvent& Event);
 
