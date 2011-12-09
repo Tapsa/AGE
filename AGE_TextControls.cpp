@@ -35,7 +35,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 		catch(bad_lexical_cast e)
 		{
 			NoLoadList = true;
-		    wxMessageBox("Crashing entry!\nPlease enter a number from -128 to 127");
+		    wxMessageBox("Incorrect entry!\nPlease enter a number from -128 to 127");
 		    SetFocus();
 		}
 	}
