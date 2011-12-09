@@ -323,9 +323,9 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 					GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
 					GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
 					if(GameVersion < 2)
-					if(GenieFile->Civs[loop].Units[loop2].Bird)
-					for(short loop3 = 0;loop3 < GenieFile->Civs[loop].Units[loop2].Bird->Commands.size();loop3++)
-					GenieFile->Civs[loop].Units[loop2].Bird->Commands[loop3].ID = lexical_cast<short>(loop3);
+					if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
+					for(short loop3 = 0;loop3 < GenieFile->Civs[loop].Units[loop2].Bird.Commands.size();loop3++)
+					GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = lexical_cast<short>(loop3);
 				}
 			}
 		}
@@ -868,34 +868,34 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 	{
 		if(!Units_Type->IsEmpty())
 		{
-			short UnitType = lexical_cast<short>(Units_Type->GetValue());
-			switch(UnitType)
+			((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
+			if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 			{
-				case 10:
-				case 20:
-				case 25:
-				case 30:
-				case 40:
-				case 60:
-				case 70:
-				case 80:
-				case 90:
+				short UnitType = lexical_cast<short>(Units_Type->GetValue());
+				switch(UnitType)
 				{
-					GenieFile->Civs[UnitCivID].Units[UnitID].setType((char)UnitType);
-					if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+					case 10:
+					case 20:
+					case 25:
+					case 30:
+					case 40:
+					case 60:
+					case 70:
+					case 80:
+					case 90:
 					{
-						for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-						GenieFile->Civs[loop].Units[UnitID].setType((char)UnitType);
-						
-						wxCommandEvent E;
-						OnUnitsCopy(E);
-						OnUnitsPaste(E);
+						GenieFile->Civs[UnitCivID].Units[UnitID].Type = (char)UnitType;
+						if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+						{
+							for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+							GenieFile->Civs[loop].Units[UnitID].Type = (char)UnitType;
+							
+							wxCommandEvent E;
+							OnUnitsCopy(E);
+							OnUnitsPaste(E);
+						}
 					}
-				}
-				break;
-				default:
-				{
-				
+					break;
 				}
 			}
 		}
@@ -953,37 +953,33 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		short Selection = Units_ComboBox_Type->GetSelection();
 		if(Selection == 1)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].setType(10);
+			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 10;
 		}
 		else if(Selection == 2)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].setType(20);
+			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 20;
 		}
 		else if(Selection == 3)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].setType(30);
+			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 30;
 		}
 		else if(Selection == 4)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].setType(60);
+			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 60;
 		}
 		else if(Selection == 5)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].setType(70);
+			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 70;
 		}
 		else if(Selection == 6)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].setType(80);
-		}
-		else
-		{
-		
+			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 80;
 		}
 		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
 		{
-			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitID].getType();
+			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitID].Type;
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-			GenieFile->Civs[loop].Units[UnitID].setType(UnitType);
+			GenieFile->Civs[loop].Units[UnitID].Type = UnitType;
 			
 			wxCommandEvent E;
 			OnUnitsCopy(E);
