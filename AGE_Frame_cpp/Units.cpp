@@ -72,7 +72,7 @@ string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
 				if(Selection[loop] == 2)	// Type
 				{
 					Name += "T ";
-					Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitID].getType());
+					Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitID].Type);
 				}
 				else if(Selection[loop] == 3)	// Class
 				{
@@ -376,35 +376,31 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 
 //	Type 10+
 
-		short UnitType = (short)UnitPointer->getType();
-		Units_Type->ChangeValue(lexical_cast<string>(UnitType));
-		if(UnitType == 10)
+		short UnitType = (short)UnitPointer->Type;
+		Units_Type->ChangeValue(lexical_cast<string>((short)UnitPointer->Type));
+		Units_Type->Container = &UnitPointer->Type;
+		switch(UnitType)
 		{
-			Units_ComboBox_Type->SetSelection(1);
-		}
-		else if(UnitType == 20)
-		{
-			Units_ComboBox_Type->SetSelection(2);
-		}
-		else if(UnitType == 30)
-		{
-			Units_ComboBox_Type->SetSelection(3);
-		}
-		else if(UnitType == 60)
-		{
-			Units_ComboBox_Type->SetSelection(4);
-		}
-		else if(UnitType == 70)
-		{
-			Units_ComboBox_Type->SetSelection(5);
-		}
-		else if(UnitType == 80)
-		{
-			Units_ComboBox_Type->SetSelection(6);
-		}
-		else
-		{
-			Units_ComboBox_Type->SetSelection(0);
+			case 10:
+				Units_ComboBox_Type->SetSelection(1);
+				break;
+			case 20:
+				Units_ComboBox_Type->SetSelection(2);
+				break;
+			case 30:
+				Units_ComboBox_Type->SetSelection(3);
+				break;
+			case 60:
+				Units_ComboBox_Type->SetSelection(4);
+				break;
+			case 70:
+				Units_ComboBox_Type->SetSelection(5);
+				break;
+			case 80:
+				Units_ComboBox_Type->SetSelection(6);
+				break;
+			default:
+				Units_ComboBox_Type->SetSelection(0);
 		}
 		Units_ID1->ChangeValue(lexical_cast<string>(UnitPointer->ID1));
 		Units_ID1->Container = &UnitPointer->ID1;
@@ -700,22 +696,33 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 
 //	Type 20+
 		
-		if(UnitPointer->getType() >= 20)
+		switch(UnitType)
 		{
+			case 20:
+			case 25:
+			case 30:
+			case 40:
+			case 60:
+			case 70:
+			case 80:
 			Units_Speed->Enable(true);
 			Units_Speed->ChangeValue(lexical_cast<string>(UnitPointer->Speed));
 			Units_Speed->Container = &UnitPointer->Speed;
-		}
-		else
-		{
+			break;
+			default:
 			Units_Speed->Enable(false);
 			Units_Speed->ChangeValue("0");
 		}
 	
 //	Type 30+
 
-		if(GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish)
+		switch(UnitType)
 		{
+			case 30:
+			case 40:
+			case 60:
+			case 70:
+			case 80:
 			for(short loop = 0;loop < 2;loop++)
 			{
 				Units_WalkingGraphic[loop]->Enable(true);
@@ -732,36 +739,36 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			for(short loop = 0;loop < 17;loop++)
 			Units_Unknown16[loop]->Enable(true);
 
-			Units_WalkingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish->WalkingGraphic.first));
-			Units_WalkingGraphic[0]->Container = &UnitPointer->DeadFish->WalkingGraphic.first;
-			Units_ComboBox_WalkingGraphic[0]->SetSelection(UnitPointer->DeadFish->WalkingGraphic.first + 1);
-			Units_WalkingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish->WalkingGraphic.second));
-			Units_WalkingGraphic[1]->Container = &UnitPointer->DeadFish->WalkingGraphic.second;
-			Units_ComboBox_WalkingGraphic[1]->SetSelection(UnitPointer->DeadFish->WalkingGraphic.second + 1);
-			Units_RotationSpeed->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish->RotationSpeed));
-			Units_RotationSpeed->Container = &UnitPointer->DeadFish->RotationSpeed;
-			Units_Unknown11->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish->Unknown11));
-			Units_Unknown11->Container = &UnitPointer->DeadFish->Unknown11;
-			Units_TrackingUnit->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish->TrackingUnit));
-			Units_TrackingUnit->Container = &UnitPointer->DeadFish->TrackingUnit;
-			Units_ComboBox_TrackingUnit->SetSelection(UnitPointer->DeadFish->TrackingUnit + 1);
-			Units_TrackingUnitUsed->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish->TrackingUnitUsed));
-			Units_TrackingUnitUsed->Container = &UnitPointer->DeadFish->TrackingUnitUsed;
-			Units_CheckBox_TrackingUnitUsed->SetValue((bool)UnitPointer->DeadFish->TrackingUnitUsed);
-			Units_TrackingUnitDensity->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish->TrackingUnitDensity));
-			Units_TrackingUnitDensity->Container = &UnitPointer->DeadFish->TrackingUnitDensity;
+			Units_WalkingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.WalkingGraphic.first));
+			Units_WalkingGraphic[0]->Container = &UnitPointer->DeadFish.WalkingGraphic.first;
+			Units_ComboBox_WalkingGraphic[0]->SetSelection(UnitPointer->DeadFish.WalkingGraphic.first + 1);
+			Units_WalkingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.WalkingGraphic.second));
+			Units_WalkingGraphic[1]->Container = &UnitPointer->DeadFish.WalkingGraphic.second;
+			Units_ComboBox_WalkingGraphic[1]->SetSelection(UnitPointer->DeadFish.WalkingGraphic.second + 1);
+			Units_RotationSpeed->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.RotationSpeed));
+			Units_RotationSpeed->Container = &UnitPointer->DeadFish.RotationSpeed;
+			Units_Unknown11->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown11));
+			Units_Unknown11->Container = &UnitPointer->DeadFish.Unknown11;
+			Units_TrackingUnit->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.TrackingUnit));
+			Units_TrackingUnit->Container = &UnitPointer->DeadFish.TrackingUnit;
+			Units_ComboBox_TrackingUnit->SetSelection(UnitPointer->DeadFish.TrackingUnit + 1);
+			Units_TrackingUnitUsed->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.TrackingUnitUsed));
+			Units_TrackingUnitUsed->Container = &UnitPointer->DeadFish.TrackingUnitUsed;
+			Units_CheckBox_TrackingUnitUsed->SetValue((bool)UnitPointer->DeadFish.TrackingUnitUsed);
+			Units_TrackingUnitDensity->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.TrackingUnitDensity));
+			Units_TrackingUnitDensity->Container = &UnitPointer->DeadFish.TrackingUnitDensity;
 			if(GameVersion >= 2)
 			{
 				if(ShowUnknowns) Units_Holder_Unknown12->Show(true);
 				for(short loop = 1;loop < 17;loop++)
 				if(ShowUnknowns) Units_Unknown16[loop]->Show(true);
 				
-				Units_Unknown12->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish->Unknown12));
-				Units_Unknown12->Container = &UnitPointer->DeadFish->Unknown12;
+				Units_Unknown12->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.Unknown12));
+				Units_Unknown12->Container = &UnitPointer->DeadFish.Unknown12;
 				for(short loop = 0;loop < 17;loop++)
 				{
-					Units_Unknown16[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish->Unknown16[loop]));
-					Units_Unknown16[loop]->Container = &UnitPointer->DeadFish->Unknown16[loop];
+					Units_Unknown16[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16[loop]));
+					Units_Unknown16[loop]->Container = &UnitPointer->DeadFish.Unknown16[loop];
 				}
 			}
 			else
@@ -770,9 +777,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				for(short loop = 1;loop < 17;loop++)
 				Units_Unknown16[loop]->Show(false);
 			}
-		}
-		else
-		{
+			break;
+			default:
 			for(short loop = 0;loop < 2;loop++)
 			{
 				Units_WalkingGraphic[loop]->Enable(false);
@@ -804,8 +810,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		}
 //	Type 40+
 
-		if(GenieFile->Civs[UnitCivID].Units[UnitID].Bird)
+		switch(UnitType)
 		{
+			case 40:
+			case 60:
+			case 70:
+			case 80:
 			Units_SheepConversion->Enable(true);
 			Units_CheckBox_SheepConversion->Enable(true);
 			Units_SearchRadius->Enable(true);
@@ -822,9 +832,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ComboBox_StopSound->Enable(true);
 			Units_Unknown19->Enable(true);
 
-			Units_SheepConversion->ChangeValue(lexical_cast<string>(UnitPointer->Bird->SheepConversion));
-			Units_SheepConversion->Container = &UnitPointer->Bird->SheepConversion;
-			switch(UnitPointer->Bird->SheepConversion)
+			Units_SheepConversion->ChangeValue(lexical_cast<string>(UnitPointer->Bird.SheepConversion));
+			Units_SheepConversion->Container = &UnitPointer->Bird.SheepConversion;
+			switch(UnitPointer->Bird.SheepConversion)
 			{
 				case -1:
 				{
@@ -841,29 +851,28 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 					Units_CheckBox_SheepConversion->SetValue(false);
 				}
 			}
-			Units_SearchRadius->ChangeValue(lexical_cast<string>(UnitPointer->Bird->SearchRadius));
-			Units_SearchRadius->Container = &UnitPointer->Bird->SearchRadius;
-			Units_WorkRate->ChangeValue(lexical_cast<string>(UnitPointer->Bird->WorkRate));
-			Units_WorkRate->Container = &UnitPointer->Bird->WorkRate;
-			Units_DropSite[0]->ChangeValue(lexical_cast<string>(UnitPointer->Bird->DropSite.first));
-			Units_DropSite[0]->Container = &UnitPointer->Bird->DropSite.first;
-			Units_ComboBox_DropSite[0]->SetSelection(UnitPointer->Bird->DropSite.first + 1);
-			Units_DropSite[1]->ChangeValue(lexical_cast<string>(UnitPointer->Bird->DropSite.second));
-			Units_DropSite[1]->Container = &UnitPointer->Bird->DropSite.second;
-			Units_ComboBox_DropSite[1]->SetSelection(UnitPointer->Bird->DropSite.second + 1);
-			Units_VillagerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird->VillagerMode));
-			Units_VillagerMode->Container = &UnitPointer->Bird->VillagerMode;
-			Units_MoveSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird->MoveSound));
-			Units_MoveSound->Container = &UnitPointer->Bird->MoveSound;
-			Units_ComboBox_MoveSound->SetSelection(UnitPointer->Bird->MoveSound + 1);
-			Units_StopSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird->StopSound));
-			Units_StopSound->Container = &UnitPointer->Bird->StopSound;
-			Units_ComboBox_StopSound->SetSelection(UnitPointer->Bird->StopSound + 1);
-			Units_Unknown19->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird->Unknown19));
-			Units_Unknown19->Container = &UnitPointer->Bird->Unknown19;
-		}
-		else
-		{
+			Units_SearchRadius->ChangeValue(lexical_cast<string>(UnitPointer->Bird.SearchRadius));
+			Units_SearchRadius->Container = &UnitPointer->Bird.SearchRadius;
+			Units_WorkRate->ChangeValue(lexical_cast<string>(UnitPointer->Bird.WorkRate));
+			Units_WorkRate->Container = &UnitPointer->Bird.WorkRate;
+			Units_DropSite[0]->ChangeValue(lexical_cast<string>(UnitPointer->Bird.DropSite.first));
+			Units_DropSite[0]->Container = &UnitPointer->Bird.DropSite.first;
+			Units_ComboBox_DropSite[0]->SetSelection(UnitPointer->Bird.DropSite.first + 1);
+			Units_DropSite[1]->ChangeValue(lexical_cast<string>(UnitPointer->Bird.DropSite.second));
+			Units_DropSite[1]->Container = &UnitPointer->Bird.DropSite.second;
+			Units_ComboBox_DropSite[1]->SetSelection(UnitPointer->Bird.DropSite.second + 1);
+			Units_VillagerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird.VillagerMode));
+			Units_VillagerMode->Container = &UnitPointer->Bird.VillagerMode;
+			Units_MoveSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.MoveSound));
+			Units_MoveSound->Container = &UnitPointer->Bird.MoveSound;
+			Units_ComboBox_MoveSound->SetSelection(UnitPointer->Bird.MoveSound + 1);
+			Units_StopSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.StopSound));
+			Units_StopSound->Container = &UnitPointer->Bird.StopSound;
+			Units_ComboBox_StopSound->SetSelection(UnitPointer->Bird.StopSound + 1);
+			Units_Unknown19->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird.Unknown19));
+			Units_Unknown19->Container = &UnitPointer->Bird.Unknown19;
+			break;
+			default:
 			Units_SheepConversion->Enable(false);
 			Units_SheepConversion->ChangeValue("0");
 			Units_CheckBox_SheepConversion->Enable(false);
@@ -895,8 +904,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 
 //	Type 60+
 
-		if(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile)
+		switch(UnitType)
 		{
+			case 60:
+			case 70:
+			case 80:
 			for(short loop = 0;loop < 2;loop++)
 			Units_Unknown20[loop]->Enable(true);
 			Units_Unknown21->Enable(true);
@@ -927,70 +939,69 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Armors_Class->Enable(true);
 			Armors_Amount->Enable(true);
 
-			Units_Unknown20[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile->Unknown20));
-			Units_Unknown20[0]->Container = &UnitPointer->Projectile->Unknown20;
+			Units_Unknown20[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown20));
+			Units_Unknown20[0]->Container = &UnitPointer->Projectile.Unknown20;
 			if(GameVersion >= 3)
 			{
 				if(ShowUnknowns) Units_Unknown20[1]->Show(true);
 			
-				Units_Unknown20[1]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile->Unknown20_1));
-				Units_Unknown20[1]->Container = &UnitPointer->Projectile->Unknown20_1;
+				Units_Unknown20[1]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown20_1));
+				Units_Unknown20[1]->Container = &UnitPointer->Projectile.Unknown20_1;
 			}
 			else
 			{
 				Units_Unknown20[1]->Show(false);
 			}
-			Units_Unknown21->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->Unknown21));
-			Units_Unknown21->Container = &UnitPointer->Projectile->Unknown21;
-			Units_MaxRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->MaxRange));
-			Units_MaxRange->Container = &UnitPointer->Projectile->MaxRange;
-			Units_BlastRadius->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->BlastRadius));
-			Units_BlastRadius->Container = &UnitPointer->Projectile->BlastRadius;
-			Units_ReloadTime1->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->ReloadTime1));
-			Units_ReloadTime1->Container = &UnitPointer->Projectile->ReloadTime1;
-			Units_ProjectileUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->ProjectileUnitID));
-			Units_ProjectileUnitID->Container = &UnitPointer->Projectile->ProjectileUnitID;
-			Units_ComboBox_ProjectileUnitID->SetSelection(UnitPointer->Projectile->ProjectileUnitID + 1);
-			Units_AccuracyPercent->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile->AccuracyPercent));
-			Units_AccuracyPercent->Container = &UnitPointer->Projectile->AccuracyPercent;
-			Units_Unknown22->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->Unknown22));
-			Units_Unknown22->Container = &UnitPointer->Projectile->Unknown22;
-			Units_Delay->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->Delay));
-			Units_Delay->Container = &UnitPointer->Projectile->Delay;
+			Units_Unknown21->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Unknown21));
+			Units_Unknown21->Container = &UnitPointer->Projectile.Unknown21;
+			Units_MaxRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MaxRange));
+			Units_MaxRange->Container = &UnitPointer->Projectile.MaxRange;
+			Units_BlastRadius->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.BlastRadius));
+			Units_BlastRadius->Container = &UnitPointer->Projectile.BlastRadius;
+			Units_ReloadTime1->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime1));
+			Units_ReloadTime1->Container = &UnitPointer->Projectile.ReloadTime1;
+			Units_ProjectileUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ProjectileUnitID));
+			Units_ProjectileUnitID->Container = &UnitPointer->Projectile.ProjectileUnitID;
+			Units_ComboBox_ProjectileUnitID->SetSelection(UnitPointer->Projectile.ProjectileUnitID + 1);
+			Units_AccuracyPercent->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.AccuracyPercent));
+			Units_AccuracyPercent->Container = &UnitPointer->Projectile.AccuracyPercent;
+			Units_Unknown22->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Unknown22));
+			Units_Unknown22->Container = &UnitPointer->Projectile.Unknown22;
+			Units_Delay->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Delay));
+			Units_Delay->Container = &UnitPointer->Projectile.Delay;
 			for(short loop = 0;loop < 3;loop++)
 			{
-				Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->GraphicDisplacement[loop]));
-				Units_GraphicDisplacement[loop]->Container = &UnitPointer->Projectile->GraphicDisplacement[loop];
+				Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GraphicDisplacement[loop]));
+				Units_GraphicDisplacement[loop]->Container = &UnitPointer->Projectile.GraphicDisplacement[loop];
 			}
-			Units_Unknown23->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile->Unknown23));
-			Units_Unknown23->Container = &UnitPointer->Projectile->Unknown23;
-			Units_MinRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->MinRange));
-			Units_MinRange->Container = &UnitPointer->Projectile->MinRange;
+			Units_Unknown23->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown23));
+			Units_Unknown23->Container = &UnitPointer->Projectile.Unknown23;
+			Units_MinRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MinRange));
+			Units_MinRange->Container = &UnitPointer->Projectile.MinRange;
 			if(GameVersion >= 2)
 			{
 				Units_Holder_GarrisonRecoveryRate->Show(true);
 			
-				Units_GarrisonRecoveryRate->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->GarrisonRecoveryRate));
-				Units_GarrisonRecoveryRate->Container = &UnitPointer->Projectile->GarrisonRecoveryRate;
+				Units_GarrisonRecoveryRate->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GarrisonRecoveryRate));
+				Units_GarrisonRecoveryRate->Container = &UnitPointer->Projectile.GarrisonRecoveryRate;
 			}
 			else
 			{
 				Units_Holder_GarrisonRecoveryRate->Show(false);
 			}
-			Units_AttackGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->AttackGraphic));
-			Units_AttackGraphic->Container = &UnitPointer->Projectile->AttackGraphic;
-			Units_ComboBox_AttackGraphic->SetSelection(UnitPointer->Projectile->AttackGraphic + 1);
-			Units_DisplayedMeleeArmour->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->DisplayedMeleeArmour));
-			Units_DisplayedMeleeArmour->Container = &UnitPointer->Projectile->DisplayedMeleeArmour;
-			Units_DisplayedAttack->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->DisplayedAttack));
-			Units_DisplayedAttack->Container = &UnitPointer->Projectile->DisplayedAttack;
-			Units_DisplayedRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->DisplayedRange));
-			Units_DisplayedRange->Container = &UnitPointer->Projectile->DisplayedRange;
-			Units_ReloadTime2->ChangeValue(lexical_cast<string>(UnitPointer->Projectile->ReloadTime2));
-			Units_ReloadTime2->Container = &UnitPointer->Projectile->ReloadTime2;
-		}
-		else
-		{
+			Units_AttackGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.AttackGraphic));
+			Units_AttackGraphic->Container = &UnitPointer->Projectile.AttackGraphic;
+			Units_ComboBox_AttackGraphic->SetSelection(UnitPointer->Projectile.AttackGraphic + 1);
+			Units_DisplayedMeleeArmour->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedMeleeArmour));
+			Units_DisplayedMeleeArmour->Container = &UnitPointer->Projectile.DisplayedMeleeArmour;
+			Units_DisplayedAttack->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedAttack));
+			Units_DisplayedAttack->Container = &UnitPointer->Projectile.DisplayedAttack;
+			Units_DisplayedRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedRange));
+			Units_DisplayedRange->Container = &UnitPointer->Projectile.DisplayedRange;
+			Units_ReloadTime2->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime2));
+			Units_ReloadTime2->Container = &UnitPointer->Projectile.ReloadTime2;
+			break;
+			default:
 			for(short loop = 0;loop < 2;loop++)
 			{
 				Units_Unknown20[loop]->Enable(false);
@@ -1048,8 +1059,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		
 //	Type 60 only
 
-		if(GenieFile->Civs[UnitCivID].Units[UnitID].ProjectileOnly)
+		switch(UnitType)
 		{
+			case 60:
 			Units_StretchMode->Enable(true);
 			Units_CompensationMode->Enable(true);
 			Units_DropAnimationMode->Enable(true);
@@ -1057,21 +1069,20 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_Unknown24->Enable(true);
 			Units_Unknown25->Enable(true);
 
-			Units_StretchMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly->StretchMode));
-			Units_StretchMode->Container = &UnitPointer->ProjectileOnly->StretchMode;
-			Units_CompensationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly->CompensationMode));
-			Units_CompensationMode->Container = &UnitPointer->ProjectileOnly->CompensationMode;
-			Units_DropAnimationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly->DropAnimationMode));
-			Units_DropAnimationMode->Container = &UnitPointer->ProjectileOnly->DropAnimationMode;
-			Units_PenetrationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly->PenetrationMode));
-			Units_PenetrationMode->Container = &UnitPointer->ProjectileOnly->PenetrationMode;
-			Units_Unknown24->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly->Unknown24));
-			Units_Unknown24->Container = &UnitPointer->ProjectileOnly->Unknown24;
-			Units_Unknown25->ChangeValue(lexical_cast<string>(UnitPointer->ProjectileOnly->ProjectileArc));
-			Units_Unknown25->Container = &UnitPointer->ProjectileOnly->ProjectileArc;
-		}
-		else
-		{
+			Units_StretchMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.StretchMode));
+			Units_StretchMode->Container = &UnitPointer->ProjectileOnly.StretchMode;
+			Units_CompensationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.CompensationMode));
+			Units_CompensationMode->Container = &UnitPointer->ProjectileOnly.CompensationMode;
+			Units_DropAnimationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.DropAnimationMode));
+			Units_DropAnimationMode->Container = &UnitPointer->ProjectileOnly.DropAnimationMode;
+			Units_PenetrationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.PenetrationMode));
+			Units_PenetrationMode->Container = &UnitPointer->ProjectileOnly.PenetrationMode;
+			Units_Unknown24->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.Unknown24));
+			Units_Unknown24->Container = &UnitPointer->ProjectileOnly.Unknown24;
+			Units_Unknown25->ChangeValue(lexical_cast<string>(UnitPointer->ProjectileOnly.ProjectileArc));
+			Units_Unknown25->Container = &UnitPointer->ProjectileOnly.ProjectileArc;
+			break;
+			default:
 			Units_StretchMode->Enable(false);
 			Units_StretchMode->ChangeValue("0");
 			Units_CompensationMode->Enable(false);
@@ -1084,12 +1095,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_Unknown24->ChangeValue("0");
 			Units_Unknown25->Enable(false);
 			Units_Unknown25->ChangeValue("0");
-		}		
+		}
 		
 //	Type 70+
 
-		if(GenieFile->Civs[UnitCivID].Units[UnitID].Creatable)
+		switch(UnitType)
 		{
+			case 70:
+			case 80:
 			for(short loop = 0;loop < 2;loop++)
 			{
 				Units_GarrisonGraphic[loop]->Enable(true);
@@ -1125,22 +1138,22 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 
 			for(short loop = 0;loop < 3;loop++)
 			{
-				Units_CostType[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Type));
-				Units_CostType[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Type;
-				Units_ComboBox_CostType[loop]->SetSelection(UnitPointer->Creatable->ResourceCosts[loop].Type + 1);
-				Units_CostAmount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Amount));
-				Units_CostAmount[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Amount;
-				Units_CostUsed[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->ResourceCosts[loop].Enabled));
-				Units_CostUsed[loop]->Container = &UnitPointer->Creatable->ResourceCosts[loop].Enabled;
-				Units_CheckBox_CostUsed[loop]->SetValue((bool)UnitPointer->Creatable->ResourceCosts[loop].Enabled);
+				Units_CostType[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Type));
+				Units_CostType[loop]->Container = &UnitPointer->Creatable.ResourceCosts[loop].Type;
+				Units_ComboBox_CostType[loop]->SetSelection(UnitPointer->Creatable.ResourceCosts[loop].Type + 1);
+				Units_CostAmount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Amount));
+				Units_CostAmount[loop]->Container = &UnitPointer->Creatable.ResourceCosts[loop].Amount;
+				Units_CostUsed[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Enabled));
+				Units_CostUsed[loop]->Container = &UnitPointer->Creatable.ResourceCosts[loop].Enabled;
+				Units_CheckBox_CostUsed[loop]->SetValue((bool)UnitPointer->Creatable.ResourceCosts[loop].Enabled);
 			}
-			Units_TrainTime->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->TrainTime));
-			Units_TrainTime->Container = &UnitPointer->Creatable->TrainTime;
-			Units_TrainLocationID->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->TrainLocationID));
-			Units_TrainLocationID->Container = &UnitPointer->Creatable->TrainLocationID;
-			Units_ComboBox_TrainLocationID->SetSelection(UnitPointer->Creatable->TrainLocationID + 1);
-			Units_ButtonID->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->ButtonID));
-			Units_ButtonID->Container = &UnitPointer->Creatable->ButtonID;
+			Units_TrainTime->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.TrainTime));
+			Units_TrainTime->Container = &UnitPointer->Creatable.TrainTime;
+			Units_TrainLocationID->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.TrainLocationID));
+			Units_TrainLocationID->Container = &UnitPointer->Creatable.TrainLocationID;
+			Units_ComboBox_TrainLocationID->SetSelection(UnitPointer->Creatable.TrainLocationID + 1);
+			Units_ButtonID->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.ButtonID));
+			Units_ButtonID->Container = &UnitPointer->Creatable.ButtonID;
 			if(GameVersion >= 2)
 			{
 				if(ShowUnknowns) Units_Holder_Unknown26->Show(true);
@@ -1156,43 +1169,43 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				Units_Holder_AttackMissileDuplicationGraphic->Show(true);
 				if(ShowUnknowns) Units_Holder_Unknown29->Show(true);
 			
-				Units_Unknown26->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->Unknown26));
-				Units_Unknown26->Container = &UnitPointer->Creatable->Unknown26;
+				Units_Unknown26->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown26));
+				Units_Unknown26->Container = &UnitPointer->Creatable.Unknown26;
 				for(short loop = 0;loop < 3;loop++)
 				{
-					Units_Unknown27[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->Unknown27[loop]));
-					Units_Unknown27[loop]->Container = &UnitPointer->Creatable->Unknown27[loop];
+					Units_Unknown27[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.Unknown27[loop]));
+					Units_Unknown27[loop]->Container = &UnitPointer->Creatable.Unknown27[loop];
 				}
-				Units_Unknown28->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->Unknown28));
-				Units_Unknown28->Container = &UnitPointer->Creatable->Unknown28;
-				Units_MissileGraphicDelay->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->MissileGraphicDelay));
-				Units_MissileGraphicDelay->Container = &UnitPointer->Creatable->MissileGraphicDelay;
-				Units_HeroMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->HeroMode));
-				Units_HeroMode->Container = &UnitPointer->Creatable->HeroMode;
-				Units_CheckBox_HeroMode->SetValue((bool)UnitPointer->Creatable->HeroMode);
-				Units_GarrisonGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->GarrisonGraphic.first));
-				Units_GarrisonGraphic[0]->Container = &UnitPointer->Creatable->GarrisonGraphic.first;
-				Units_ComboBox_GarrisonGraphic[0]->SetSelection(UnitPointer->Creatable->GarrisonGraphic.first + 1);
-				Units_GarrisonGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->GarrisonGraphic.second));
-				Units_GarrisonGraphic[1]->Container = &UnitPointer->Creatable->GarrisonGraphic.second;
-				Units_ComboBox_GarrisonGraphic[1]->SetSelection(UnitPointer->Creatable->GarrisonGraphic.second + 1);
-				Units_AttackMissileDuplicationAmount1->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->AttackMissileDuplicationAmount1));
-				Units_AttackMissileDuplicationAmount1->Container = &UnitPointer->Creatable->AttackMissileDuplicationAmount1;
-				Units_AttackMissileDuplicationAmount2->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->AttackMissileDuplicationAmount2));
-				Units_AttackMissileDuplicationAmount2->Container = &UnitPointer->Creatable->AttackMissileDuplicationAmount2;
+				Units_Unknown28->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown28));
+				Units_Unknown28->Container = &UnitPointer->Creatable.Unknown28;
+				Units_MissileGraphicDelay->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.MissileGraphicDelay));
+				Units_MissileGraphicDelay->Container = &UnitPointer->Creatable.MissileGraphicDelay;
+				Units_HeroMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.HeroMode));
+				Units_HeroMode->Container = &UnitPointer->Creatable.HeroMode;
+				Units_CheckBox_HeroMode->SetValue((bool)UnitPointer->Creatable.HeroMode);
+				Units_GarrisonGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.first));
+				Units_GarrisonGraphic[0]->Container = &UnitPointer->Creatable.GarrisonGraphic.first;
+				Units_ComboBox_GarrisonGraphic[0]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.first + 1);
+				Units_GarrisonGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.second));
+				Units_GarrisonGraphic[1]->Container = &UnitPointer->Creatable.GarrisonGraphic.second;
+				Units_ComboBox_GarrisonGraphic[1]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.second + 1);
+				Units_AttackMissileDuplicationAmount1->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationAmount1));
+				Units_AttackMissileDuplicationAmount1->Container = &UnitPointer->Creatable.AttackMissileDuplicationAmount1;
+				Units_AttackMissileDuplicationAmount2->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.AttackMissileDuplicationAmount2));
+				Units_AttackMissileDuplicationAmount2->Container = &UnitPointer->Creatable.AttackMissileDuplicationAmount2;
 				for(short loop = 0;loop < 3;loop++)
 				{
-					Units_AttackMissileDuplicationUnknown[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->AttackMissileDuplicationUnknown[loop]));
-					Units_AttackMissileDuplicationUnknown[loop]->Container = &UnitPointer->Creatable->AttackMissileDuplicationUnknown[loop];
+					Units_AttackMissileDuplicationUnknown[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationUnknown[loop]));
+					Units_AttackMissileDuplicationUnknown[loop]->Container = &UnitPointer->Creatable.AttackMissileDuplicationUnknown[loop];
 				}
-				Units_AttackMissileDuplicationUnit->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->AttackMissileDuplicationUnit));
-				Units_AttackMissileDuplicationUnit->Container = &UnitPointer->Creatable->AttackMissileDuplicationUnit;
-				Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitPointer->Creatable->AttackMissileDuplicationUnit + 1);
-				Units_AttackMissileDuplicationGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->AttackMissileDuplicationGraphic));
-				Units_AttackMissileDuplicationGraphic->Container = &UnitPointer->Creatable->AttackMissileDuplicationGraphic;
-				Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(UnitPointer->Creatable->AttackMissileDuplicationGraphic + 1);
-				Units_Unknown29->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable->Unknown29));
-				Units_Unknown29->Container = &UnitPointer->Creatable->Unknown29;
+				Units_AttackMissileDuplicationUnit->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationUnit));
+				Units_AttackMissileDuplicationUnit->Container = &UnitPointer->Creatable.AttackMissileDuplicationUnit;
+				Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitPointer->Creatable.AttackMissileDuplicationUnit + 1);
+				Units_AttackMissileDuplicationGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationGraphic));
+				Units_AttackMissileDuplicationGraphic->Container = &UnitPointer->Creatable.AttackMissileDuplicationGraphic;
+				Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(UnitPointer->Creatable.AttackMissileDuplicationGraphic + 1);
+				Units_Unknown29->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown29));
+				Units_Unknown29->Container = &UnitPointer->Creatable.Unknown29;
 			}
 			else
 			{
@@ -1209,11 +1222,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				Units_Holder_AttackMissileDuplicationGraphic->Show(false);
 				Units_Holder_Unknown29->Show(false);
 			}
-			Units_DisplayedPierceArmour->ChangeValue(lexical_cast<string>(UnitPointer->Creatable->DisplayedPierceArmour));
-			Units_DisplayedPierceArmour->Container = &UnitPointer->Creatable->DisplayedPierceArmour;
-		}
-		else
-		{
+			Units_DisplayedPierceArmour->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.DisplayedPierceArmour));
+			Units_DisplayedPierceArmour->Container = &UnitPointer->Creatable.DisplayedPierceArmour;
+			break;
+			default:
 			for(short loop = 0;loop < 2;loop++)
 			{
 				Units_GarrisonGraphic[loop]->Enable(false);
@@ -1276,8 +1288,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		
 //	Type 80
 
-		if(GenieFile->Civs[UnitCivID].Units[UnitID].Building)
+		switch(UnitType)
 		{
+			case 80:
 			Units_ConstructionGraphicID->Enable(true);
 			Units_ComboBox_ConstructionGraphicID->Enable(true);
 			Units_SnowGraphicID->Enable(true);
@@ -1314,36 +1327,36 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			for(short loop = 0;loop < 6;loop++)
 			Units_Unknown37[loop]->Enable(true);
 			
-			Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building->ConstructionGraphicID));
-			Units_ConstructionGraphicID->Container = &UnitPointer->Building->ConstructionGraphicID;
-			Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building->ConstructionGraphicID + 1);
+			Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionGraphicID));
+			Units_ConstructionGraphicID->Container = &UnitPointer->Building.ConstructionGraphicID;
+			Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building.ConstructionGraphicID + 1);
 			if(GameVersion >= 3)
 			{
 				Units_Holder_SnowGraphicID->Show(true);
 				
-				Units_SnowGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building->SnowGraphicID));
-				Units_SnowGraphicID->Container = &UnitPointer->Building->SnowGraphicID;
-				Units_ComboBox_SnowGraphicID->SetSelection(UnitPointer->Building->SnowGraphicID + 1);
+				Units_SnowGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.SnowGraphicID));
+				Units_SnowGraphicID->Container = &UnitPointer->Building.SnowGraphicID;
+				Units_ComboBox_SnowGraphicID->SetSelection(UnitPointer->Building.SnowGraphicID + 1);
 			}
 			else
 			{
 				Units_Holder_SnowGraphicID->Show(false);
 			}
-			Units_Unknown30->ChangeValue(lexical_cast<string>(UnitPointer->Building->Unknown30));
-			Units_Unknown30->Container = &UnitPointer->Building->Unknown30;
-			Units_Unknown31->ChangeValue(lexical_cast<string>(UnitPointer->Building->Unknown31));
-			Units_Unknown31->Container = &UnitPointer->Building->Unknown31;
-			Units_StackUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Building->StackUnitID));
-			Units_StackUnitID->Container = &UnitPointer->Building->StackUnitID;
-			Units_ComboBox_StackUnitID->SetSelection(UnitPointer->Building->StackUnitID + 1);
-			Units_TerrainID->ChangeValue(lexical_cast<string>(UnitPointer->Building->TerrainID));
-			Units_TerrainID->Container = &UnitPointer->Building->TerrainID;
-			Units_ComboBox_TerrainID->SetSelection(UnitPointer->Building->TerrainID + 1);
-			Units_Unknown32->ChangeValue(lexical_cast<string>(UnitPointer->Building->Unknown32));
-			Units_Unknown32->Container = &UnitPointer->Building->Unknown32;
-			Units_ResearchID->ChangeValue(lexical_cast<string>(UnitPointer->Building->ResearchID));
-			Units_ResearchID->Container = &UnitPointer->Building->ResearchID;
-			Units_ComboBox_ResearchID->SetSelection(UnitPointer->Building->ResearchID + 1);
+			Units_Unknown30->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown30));
+			Units_Unknown30->Container = &UnitPointer->Building.Unknown30;
+			Units_Unknown31->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown31));
+			Units_Unknown31->Container = &UnitPointer->Building.Unknown31;
+			Units_StackUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Building.StackUnitID));
+			Units_StackUnitID->Container = &UnitPointer->Building.StackUnitID;
+			Units_ComboBox_StackUnitID->SetSelection(UnitPointer->Building.StackUnitID + 1);
+			Units_TerrainID->ChangeValue(lexical_cast<string>(UnitPointer->Building.TerrainID));
+			Units_TerrainID->Container = &UnitPointer->Building.TerrainID;
+			Units_ComboBox_TerrainID->SetSelection(UnitPointer->Building.TerrainID + 1);
+			Units_Unknown32->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown32));
+			Units_Unknown32->Container = &UnitPointer->Building.Unknown32;
+			Units_ResearchID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ResearchID));
+			Units_ResearchID->Container = &UnitPointer->Building.ResearchID;
+			Units_ComboBox_ResearchID->SetSelection(UnitPointer->Building.ResearchID + 1);
 			if(GameVersion >= 2)
 			{
 				if(ShowUnknowns) Units_Holder_Unknown33->Show(true);
@@ -1354,26 +1367,26 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				Units_Holder_TransformUnit->Show(true);
 				if(ShowUnknowns) Units_Holder_Unknown34->Show(true);
 				
-				Units_Unknown33->ChangeValue(lexical_cast<string>((short)UnitPointer->Building->Unknown33));
-				Units_Unknown33->Container = &UnitPointer->Building->Unknown33;
+				Units_Unknown33->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown33));
+				Units_Unknown33->Container = &UnitPointer->Building.Unknown33;
 				for(short loop = 0;loop < 4;loop++)
 				{
-					Units_AnnexUnit[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].UnitID));
-					Units_AnnexUnit[loop]->Container = &UnitPointer->Building->Annexes[loop].UnitID;
-					Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitPointer->Building->Annexes[loop].UnitID + 1);
-					Units_AnnexUnitMisplacement[loop][0]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].Misplacement.first));
-					Units_AnnexUnitMisplacement[loop][0]->Container = &UnitPointer->Building->Annexes[loop].Misplacement.first;
-					Units_AnnexUnitMisplacement[loop][1]->ChangeValue(lexical_cast<string>(UnitPointer->Building->Annexes[loop].Misplacement.second));
-					Units_AnnexUnitMisplacement[loop][1]->Container = &UnitPointer->Building->Annexes[loop].Misplacement.second;
+					Units_AnnexUnit[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].UnitID));
+					Units_AnnexUnit[loop]->Container = &UnitPointer->Building.Annexes[loop].UnitID;
+					Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitPointer->Building.Annexes[loop].UnitID + 1);
+					Units_AnnexUnitMisplacement[loop][0]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].Misplacement.first));
+					Units_AnnexUnitMisplacement[loop][0]->Container = &UnitPointer->Building.Annexes[loop].Misplacement.first;
+					Units_AnnexUnitMisplacement[loop][1]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].Misplacement.second));
+					Units_AnnexUnitMisplacement[loop][1]->Container = &UnitPointer->Building.Annexes[loop].Misplacement.second;
 				}
-				Units_HeadUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building->HeadUnit));
-				Units_HeadUnit->Container = &UnitPointer->Building->HeadUnit;
-				Units_ComboBox_HeadUnit->SetSelection(UnitPointer->Building->HeadUnit + 1);
-				Units_TransformUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building->TransformUnit));
-				Units_TransformUnit->Container = &UnitPointer->Building->TransformUnit;
-				Units_ComboBox_TransformUnit->SetSelection(UnitPointer->Building->TransformUnit + 1);
-				Units_Unknown34->ChangeValue(lexical_cast<string>(UnitPointer->Building->Unknown34));
-				Units_Unknown34->Container = &UnitPointer->Building->Unknown34;
+				Units_HeadUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building.HeadUnit));
+				Units_HeadUnit->Container = &UnitPointer->Building.HeadUnit;
+				Units_ComboBox_HeadUnit->SetSelection(UnitPointer->Building.HeadUnit + 1);
+				Units_TransformUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building.TransformUnit));
+				Units_TransformUnit->Container = &UnitPointer->Building.TransformUnit;
+				Units_ComboBox_TransformUnit->SetSelection(UnitPointer->Building.TransformUnit + 1);
+				Units_Unknown34->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown34));
+				Units_Unknown34->Container = &UnitPointer->Building.Unknown34;
 			}
 			else
 			{
@@ -1384,9 +1397,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				Units_Holder_TransformUnit->Show(false);
 				Units_Holder_Unknown34->Show(false);
 			}
-			Units_ConstructionSound->ChangeValue(lexical_cast<string>(UnitPointer->Building->ConstructionSound));
-			Units_ConstructionSound->Container = &UnitPointer->Building->ConstructionSound;
-			Units_ComboBox_ConstructionSound->SetSelection(UnitPointer->Building->ConstructionSound + 1);
+			Units_ConstructionSound->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionSound));
+			Units_ConstructionSound->Container = &UnitPointer->Building.ConstructionSound;
+			Units_ComboBox_ConstructionSound->SetSelection(UnitPointer->Building.ConstructionSound + 1);
 			if(GameVersion >= 2)
 			{
 				Units_Holder_GarrisonType->Show(true);
@@ -1395,19 +1408,19 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				if(ShowUnknowns) Units_Holder_Unknown36->Show(true);
 				if(ShowUnknowns) Units_Holder_Unknown37->Show(true);
 			
-				Units_GarrisonType->ChangeValue(lexical_cast<string>((short)UnitPointer->Building->GarrisonType));
-				Units_GarrisonType->Container = &UnitPointer->Building->GarrisonType;
-				Units_ComboBox_GarrisonType->SetSelection(UnitPointer->Building->GarrisonType + 1);
-				Units_GarrisonHealRate->ChangeValue(lexical_cast<string>(UnitPointer->Building->GarrisonHealRate));
-				Units_GarrisonHealRate->Container = &UnitPointer->Building->GarrisonHealRate;
-				Units_Unknown35->ChangeValue(lexical_cast<string>(UnitPointer->Building->Unknown35));
-				Units_Unknown35->Container = &UnitPointer->Building->Unknown35;
-				Units_Unknown36->ChangeValue(lexical_cast<string>(UnitPointer->Building->Unknown36));
-				Units_Unknown36->Container = &UnitPointer->Building->Unknown36;
+				Units_GarrisonType->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.GarrisonType));
+				Units_GarrisonType->Container = &UnitPointer->Building.GarrisonType;
+				Units_ComboBox_GarrisonType->SetSelection(UnitPointer->Building.GarrisonType + 1);
+				Units_GarrisonHealRate->ChangeValue(lexical_cast<string>(UnitPointer->Building.GarrisonHealRate));
+				Units_GarrisonHealRate->Container = &UnitPointer->Building.GarrisonHealRate;
+				Units_Unknown35->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown35));
+				Units_Unknown35->Container = &UnitPointer->Building.Unknown35;
+				Units_Unknown36->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown36));
+				Units_Unknown36->Container = &UnitPointer->Building.Unknown36;
 				for(short loop = 0;loop < 6;loop++)
 				{
-					Units_Unknown37[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Building->Unknown37[loop]));
-					Units_Unknown37[loop]->Container = &UnitPointer->Building->Unknown37[loop];
+					Units_Unknown37[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown37[loop]));
+					Units_Unknown37[loop]->Container = &UnitPointer->Building.Unknown37[loop];
 				}
 			}
 			else
@@ -1418,9 +1431,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				Units_Holder_Unknown36->Show(false);
 				Units_Holder_Unknown37->Show(false);
 			}
-		}
-		else
-		{
+			break;
+			default:
 			Units_ConstructionGraphicID->Enable(false);
 			Units_ConstructionGraphicID->ChangeValue("0");
 			Units_ComboBox_ConstructionGraphicID->Enable(false);
@@ -1627,15 +1639,20 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 				UnitGraphics[loop].DyingGraphic = GenieFile->Civs[loop].Units[UnitID].DyingGraphic;
 				UnitGraphics[loop].DamageGraphicCount = GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount;
 				UnitGraphics[loop].DamageGraphics = GenieFile->Civs[loop].Units[UnitID].DamageGraphics;
-				if(GenieFile->Civs[loop].Units[UnitID].DeadFish)
-				UnitGraphics30[loop].WalkingGraphic = GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic;
-				if(GenieFile->Civs[loop].Units[UnitID].Projectile)
-				UnitGraphics60[loop].AttackGraphic = GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic;
-				if(GenieFile->Civs[loop].Units[UnitID].Creatable)
-				UnitGraphics70[loop].GarrisonGraphic = GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic;
-				if(GenieFile->Civs[loop].Units[UnitID].Building){
-				UnitGraphics80[loop].ConstructionGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID;
-				UnitGraphics80[loop].SnowGraphicID = GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID;}
+				switch((short)GenieFile->Civs[loop].Units[UnitID].Type)
+				{
+					case 80:
+					UnitGraphics[loop].Building.ConstructionGraphicID = GenieFile->Civs[loop].Units[UnitID].Building.ConstructionGraphicID;
+					UnitGraphics[loop].Building.SnowGraphicID = GenieFile->Civs[loop].Units[UnitID].Building.SnowGraphicID;
+					case 70:
+					UnitGraphics[loop].Creatable.GarrisonGraphic = GenieFile->Civs[loop].Units[UnitID].Creatable.GarrisonGraphic;
+					case 60:
+					UnitGraphics[loop].Projectile.AttackGraphic = GenieFile->Civs[loop].Units[UnitID].Projectile.AttackGraphic;
+					case 40:
+					case 30:
+					UnitGraphics[loop].DeadFish.WalkingGraphic = GenieFile->Civs[loop].Units[UnitID].DeadFish.WalkingGraphic;
+					break;
+				}
 			}
 		}
 	}
@@ -1670,37 +1687,42 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 				GenieFile->Civs[loop].Units[UnitID].DyingGraphic = UnitGraphics[loop].DyingGraphic;
 				GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount = UnitGraphics[loop].DamageGraphicCount;
 				GenieFile->Civs[loop].Units[UnitID].DamageGraphics = UnitGraphics[loop].DamageGraphics;
-				if(GenieFile->Civs[loop].Units[UnitID].DeadFish)
-				GenieFile->Civs[loop].Units[UnitID].DeadFish->WalkingGraphic = UnitGraphics30[loop].WalkingGraphic;
-				if(GenieFile->Civs[loop].Units[UnitID].Projectile)
-				GenieFile->Civs[loop].Units[UnitID].Projectile->AttackGraphic = UnitGraphics60[loop].AttackGraphic;
-				if(GenieFile->Civs[loop].Units[UnitID].Creatable)
-				GenieFile->Civs[loop].Units[UnitID].Creatable->GarrisonGraphic = UnitGraphics70[loop].GarrisonGraphic;
-				if(GenieFile->Civs[loop].Units[UnitID].Building){
-				GenieFile->Civs[loop].Units[UnitID].Building->ConstructionGraphicID = UnitGraphics80[loop].ConstructionGraphicID;
-				GenieFile->Civs[loop].Units[UnitID].Building->SnowGraphicID = UnitGraphics80[loop].SnowGraphicID;}
+				switch((short)GenieFile->Civs[loop].Units[UnitID].Type)
+				{
+					case 80:
+					GenieFile->Civs[loop].Units[UnitID].Building.ConstructionGraphicID = UnitGraphics[loop].Building.ConstructionGraphicID;
+					GenieFile->Civs[loop].Units[UnitID].Building.SnowGraphicID = UnitGraphics[loop].Building.SnowGraphicID;
+					case 70:
+					GenieFile->Civs[loop].Units[UnitID].Creatable.GarrisonGraphic = UnitGraphics[loop].Creatable.GarrisonGraphic;
+					case 60:
+					GenieFile->Civs[loop].Units[UnitID].Projectile.AttackGraphic = UnitGraphics[loop].Projectile.AttackGraphic;
+					case 40:
+					case 30:
+					GenieFile->Civs[loop].Units[UnitID].DeadFish.WalkingGraphic = UnitGraphics[loop].DeadFish.WalkingGraphic;
+					break;
+				}
 			}
-		}
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-		{
-			GenieFile->Civs[loop].Units[UnitID].ID1 = lexical_cast<short>(UnitID);	//	ID Fix
-			GenieFile->Civs[loop].Units[UnitID].ID2 = lexical_cast<short>(UnitID);
-			if(GameVersion >= 2)
-			GenieFile->Civs[loop].Units[UnitID].ID3 = lexical_cast<short>(UnitID);
 		}
 		if(RefreshLists != UnitID)
 		{
+			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			{
+				GenieFile->Civs[loop].Units[UnitID].ID1 = lexical_cast<short>(UnitID);	//	ID Fix
+				GenieFile->Civs[loop].Units[UnitID].ID2 = lexical_cast<short>(UnitID);
+				if(GameVersion >= 2)
+				GenieFile->Civs[loop].Units[UnitID].ID3 = lexical_cast<short>(UnitID);
+			}
 			if(GameVersion > 1)
 			{
 				ListUnitHeads();
 			}
 			ListUnits(UnitCivID);
 		}
-		else
+		/*else
 		{
 			wxCommandEvent E;
 			OnUnitsSelect(E);
-		}
+		}*/
 	}
 }
 
@@ -1845,9 +1867,9 @@ string AGE_Frame::GetUnitAttackName(short Index, short UnitCivID, short UnitID)
 {
 	string Name = "";
 	Name += "Amount: ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks[Index].Amount);
+	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[Index].Amount);
 	Name += " - Class ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks[Index].Class);
+	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[Index].Class);
 	return Name;
 }
 
@@ -1867,10 +1889,10 @@ void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
 	{
 		Selection = 0;
 	}
-	if(GenieFile->Civs[UnitCivID].Units[Index].Projectile)
+	if(GenieFile->Civs[UnitCivID].Units[Index].Type >= 60 && GenieFile->Civs[UnitCivID].Units[Index].Type <= 80)
 	{
 		Units_Attacks_Add->Enable(true);
-		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile->Attacks.size();loop++)
+		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile.Attacks.size();loop++)
 		{
 			CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitAttackName(loop, UnitCivID, Index)).Lower();
 			if(SearchMatches(CompareText) == true)
@@ -1878,7 +1900,7 @@ void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
 				Name = lexical_cast<string>(loop);
 				Name += " - ";
 				Name += GetUnitAttackName(loop, UnitCivID, Index);
-				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile->Attacks[loop]);
+				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile.Attacks[loop]);
 			}
 		}
 	}
@@ -1910,7 +1932,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 			Units_Attacks_List->SetSelection(Selection);
 		}
 		gdat::unit::AttackOrArmor * AttackPointer = (gdat::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Selection);
-		AttackID = AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks[0]);
+		AttackID = AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[0]);
 		Attacks_Class->ChangeValue(lexical_cast<string>(AttackPointer->Class));
 		Attacks_Class->Container = &AttackPointer->Class;
 		Attacks_ComboBox_Class[0]->SetSelection(AttackPointer->Class);
@@ -1934,7 +1956,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent& Event)
 		gdat::unit::AttackOrArmor Temp;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			GenieFile->Civs[loop].Units[UnitID].Projectile->Attacks.push_back(Temp);
+			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.push_back(Temp);
 		}
 		Added = true;
 		ListUnitAttacks(UnitID, UnitCivID);
@@ -1949,7 +1971,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 	{
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			GenieFile->Civs[loop].Units[UnitID].Projectile->Attacks.erase(GenieFile->Civs[loop].Units[UnitID].Projectile->Attacks.begin() + AttackID);
+			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.erase(GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.begin() + AttackID);
 		}
 		if(Selection == Units_Attacks_List->GetCount() - 1)
 		Units_Attacks_List->SetSelection(Selection - 1);
@@ -1973,10 +1995,10 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		if(AutoCopy == MenuOption_NoAuto)
-			GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks[AttackID] = AttackCopy;
+			GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[AttackID] = AttackCopy;
 		else for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			GenieFile->Civs[loop].Units[UnitID].Projectile->Attacks[AttackID] = AttackCopy;
+			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks[AttackID] = AttackCopy;
 		}
 		ListUnitAttacks(UnitID, UnitCivID);
 	}
@@ -1986,9 +2008,9 @@ string AGE_Frame::GetUnitArmorName(short Index, short UnitCivID, short UnitID)
 {
 	string Name = "";
 	Name += "Amount: ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours[Index].Amount);
+	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[Index].Amount);
 	Name += " - Class ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours[Index].Class);
+	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[Index].Class);
 	return Name;
 }
 
@@ -2008,10 +2030,10 @@ void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
 	{
 		Selection = 0;
 	}
-	if(GenieFile->Civs[UnitCivID].Units[Index].Projectile)
+	if(GenieFile->Civs[UnitCivID].Units[Index].Type >= 60 && GenieFile->Civs[UnitCivID].Units[Index].Type <= 80)
 	{
 		Units_Armors_Add->Enable(true);
-		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile->Armours.size();loop++)
+		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile.Armours.size();loop++)
 		{
 			CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitArmorName(loop, UnitCivID, Index)).Lower();
 			if(SearchMatches(CompareText) == true)
@@ -2019,7 +2041,7 @@ void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
 				Name = lexical_cast<string>(loop);
 				Name += " - ";
 				Name += GetUnitArmorName(loop, UnitCivID, Index);
-				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile->Armours[loop]);
+				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile.Armours[loop]);
 			}
 		}
 	}
@@ -2051,7 +2073,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 			Units_Armors_List->SetSelection(Selection);
 		}
 		gdat::unit::AttackOrArmor * ArmorPointer = (gdat::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Selection);
-		ArmorID = ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours[0]);
+		ArmorID = ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[0]);
 		Armors_Class->ChangeValue(lexical_cast<string>(ArmorPointer->Class));
 		Armors_Class->Container = &ArmorPointer->Class;
 		Attacks_ComboBox_Class[1]->SetSelection(ArmorPointer->Class);
@@ -2075,7 +2097,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent& Event)
 		gdat::unit::AttackOrArmor Temp;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			GenieFile->Civs[loop].Units[UnitID].Projectile->Armours.push_back(Temp);
+			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.push_back(Temp);
 		}
 		Added = true;
 		ListUnitArmors(UnitID, UnitCivID);
@@ -2090,7 +2112,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 	{
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			GenieFile->Civs[loop].Units[UnitID].Projectile->Armours.erase(GenieFile->Civs[loop].Units[UnitID].Projectile->Armours.begin() + ArmorID);
+			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.erase(GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.begin() + ArmorID);
 		}
 		if(Selection == Units_Armors_List->GetCount() - 1)
 		Units_Armors_List->SetSelection(Selection - 1);
@@ -2114,10 +2136,10 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		if(AutoCopy == MenuOption_NoAuto)
-			GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours[ArmorID] = ArmorCopy;
+			GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[ArmorID] = ArmorCopy;
 		else for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			GenieFile->Civs[loop].Units[UnitID].Projectile->Armours[ArmorID] = ArmorCopy;
+			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours[ArmorID] = ArmorCopy;
 		}
 		ListUnitArmors(UnitID, UnitCivID);
 	}
@@ -2137,8 +2159,8 @@ string AGE_Frame::GetUnitCommandName(short Index, short UnitCivID, short UnitID)
 	}
 	else	// AoE or RoR
 	{
-		CommandType = GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[Index].Type;
-		CommandSubType = GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[Index].SubType;
+		CommandType = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[Index].Type;
+		CommandSubType = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[Index].SubType;
 	}
 	if(CommandType == 3 && CommandSubType == -1)
 	{
@@ -2299,10 +2321,10 @@ void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 	}
 	else	// AoE or RoR
 	{
-		if(GenieFile->Civs[UnitCivID].Units[Index].Bird)
+		if(GenieFile->Civs[UnitCivID].Units[Index].Type >= 40 && GenieFile->Civs[UnitCivID].Units[Index].Type <= 80)
 		{
 			Units_UnitCommands_Add->Enable(true);
-			for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Bird->Commands.size();loop++)
+			for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Bird.Commands.size();loop++)
 			{
 				CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitCommandName(loop, UnitCivID, Index)).Lower();
 				if(SearchMatches(CompareText) == true)
@@ -2310,7 +2332,7 @@ void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 					Name = lexical_cast<string>(loop);
 					Name += " - ";
 					Name += GetUnitCommandName(loop, UnitCivID, Index);
-					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Bird->Commands[loop]);
+					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Bird.Commands[loop]);
 				}
 			}
 		}
@@ -2349,7 +2371,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 		}
 		else
 		{
-			CommandID = UnitCommandPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[0]);
+			CommandID = UnitCommandPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[0]);
 		}
 		UnitCommands_One->ChangeValue(lexical_cast<string>(UnitCommandPointer->One));
 		UnitCommands_One->Container = &UnitCommandPointer->One;
@@ -2586,8 +2608,8 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 		{
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{
-				GenieFile->Civs[loop].Units[UnitID].Bird->Commands.push_back(Temp);
-				GenieFile->Civs[loop].Units[UnitID].Bird->Commands[GenieFile->Civs[0].Units[UnitID].Bird->Commands.size() - 1].ID = lexical_cast<short>(GenieFile->Civs[0].Units[UnitID].Bird->Commands.size() - 1);	//	ID Fix
+				GenieFile->Civs[loop].Units[UnitID].Bird.Commands.push_back(Temp);
+				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[GenieFile->Civs[0].Units[UnitID].Bird.Commands.size() - 1].ID = lexical_cast<short>(GenieFile->Civs[0].Units[UnitID].Bird.Commands.size() - 1);	//	ID Fix
 			}
 		}
 		Added = true;
@@ -2613,10 +2635,10 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 		{
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{
-				GenieFile->Civs[loop].Units[UnitID].Bird->Commands.erase(GenieFile->Civs[loop].Units[UnitID].Bird->Commands.begin() + CommandID);
-				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitID].Bird->Commands.size();loop2++)	//	ID Fix
+				GenieFile->Civs[loop].Units[UnitID].Bird.Commands.erase(GenieFile->Civs[loop].Units[UnitID].Bird.Commands.begin() + CommandID);
+				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitID].Bird.Commands.size();loop2++)	//	ID Fix
 				{
-					GenieFile->Civs[loop].Units[UnitID].Bird->Commands[loop2].ID = lexical_cast<short>(loop2);
+					GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ID = lexical_cast<short>(loop2);
 				}
 			}
 		}
@@ -2649,12 +2671,12 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 		else
 		{
 			if(AutoCopy == MenuOption_NoAuto)
-				GenieFile->Civs[UnitCivID].Units[UnitID].Bird->Commands[CommandID] = UnitCommandCopy;
+				GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID] = UnitCommandCopy;
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{
 				if(AutoCopy != MenuOption_NoAuto)
-				GenieFile->Civs[loop].Units[UnitID].Bird->Commands[CommandID] = UnitCommandCopy;
-				GenieFile->Civs[loop].Units[UnitID].Bird->Commands[CommandID].ID = lexical_cast<short>(CommandID);	//	ID Fix
+				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[CommandID] = UnitCommandCopy;
+				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[CommandID].ID = lexical_cast<short>(CommandID);	//	ID Fix
 			}
 		}
 		ListUnitCommands(UnitID, UnitCivID);
@@ -3138,7 +3160,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_HotKey[loop] = new TextCtrl_Short(Units_Scroller, "0", NULL);
 		Units_Unknown9[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	}
-	Units_Type = new wxTextCtrl(Tab_Units, wxID_ANY);
+	Units_Type = new TextCtrl_Byte(Tab_Units, "0", NULL);
 	Units_ComboBox_Type = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	Units_NameLength = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ID1 = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3147,7 +3169,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDllCreation = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_DLL_LanguageDllCreation = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE | wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
 	Units_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_Class->SetToolTip("Toimiiks taa?");
+	Units_Class->SetToolTip("*test*");
 	Units_ComboBox_Class[0] = new ComboBox_Short(Units_Scroller, Units_Class);
 	Units_DeathMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_CheckBox_DeathMode = new CheckBox_Byte(Units_Scroller, "Death: Revives", Units_DeathMode);

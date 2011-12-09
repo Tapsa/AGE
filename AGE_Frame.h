@@ -369,10 +369,6 @@ class AGE_Frame : public wxFrame
 	short UnitCivID;
 	int RefreshLists;
 	gdat::Unit UnitGraphics[20];	// This should be a vector equal to Civs.
-	gdat::unit::DeadFish UnitGraphics30[20];
-	gdat::unit::Projectile UnitGraphics60[20];
-	gdat::unit::Creatable UnitGraphics70[20];
-	gdat::unit::Building UnitGraphics80[20];
 	gdat::unit::DamageGraphic DamageGraphicCopy;
 	short DamageGraphicID;
 	gdat::unit::AttackOrArmor AttackCopy;
@@ -889,7 +885,7 @@ class AGE_Frame : public wxFrame
 
 	AGE_ScrolledWindow * Units_Scroller;	// Scrollable unit section
 	
-	wxTextCtrl * Units_Type;
+	TextCtrl_Byte * Units_Type;
 	wxOwnerDrawnComboBox * Units_ComboBox_Type;
 	TextCtrl_Short * Units_NameLength;
 	TextCtrl_Short * Units_ID1;
