@@ -126,27 +126,27 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent& Event)
 void AGE_Frame::CreateTerrainBorderControls()
 {
 	Tab_TerrainBorders = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-/*	
-	General_Holder_TerrainBorders = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Terrain Borders (Used in AoE and RoR)");
+
+	Borders_Main = new wxBoxSizer(wxHORIZONTAL);
 	General_Borders_Buttons = new wxGridSizer(2, 0, 0);
-	General_Borders = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Terrain Border slot");
-	General_Borders_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
-	General_Borders_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
-	General_Borders_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(-1, 220));
-	Borders_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
-	Borders_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
+	General_Borders = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainBorders, "Terrain Border slot");
+	General_Borders_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
+	General_Borders_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
+	General_Borders_List = new wxListBox(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(-1, 220));
+	Borders_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
+	Borders_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 	General_DataArea = new wxBoxSizer(wxVERTICAL);
 	General_DataTopRow = new wxBoxSizer(wxHORIZONTAL);
 	General_Holder_BorderEnabled = new wxBoxSizer(wxVERTICAL);
-	General_Text_BorderEnabled = new wxStaticText(General_Scroller, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_BorderEnabled = new TextCtrl_Short(General_Scroller, "0", NULL);
+	General_Text_BorderEnabled = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_BorderEnabled = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
 	for(short loop = 0;loop < 2;loop++)
 	{
 		General_Holder_BorderName[loop] = new wxBoxSizer(wxVERTICAL);
-		General_BorderName[loop] = new TextCtrl_String(General_Scroller, "0", NULL);
+		General_BorderName[loop] = new TextCtrl_String(Tab_TerrainBorders, "0", NULL);
 	}
-	General_Text_BorderName[0] = new wxStaticText(General_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Text_BorderName[1] = new wxStaticText(General_Scroller, wxID_ANY, " SLP Name ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_BorderName[0] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_BorderName[1] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP Name ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Connect(General_Borders_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersSearch));
 	Connect(General_Borders_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersSearch));
 	Connect(General_Borders_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersSelect));
@@ -180,11 +180,13 @@ void AGE_Frame::CreateTerrainBorderControls()
 	General_DataArea->Add(General_DataTopRow, 0, wxEXPAND);
 	General_DataArea->Add(-1, 5);
 	
-	General_Holder_TerrainBorders->Add(General_Borders, 1, wxEXPAND);
-	General_Holder_TerrainBorders->Add(10, -1);
-	General_Holder_TerrainBorders->Add(General_DataArea, 3, wxEXPAND);
+	Borders_Main->Add(General_Borders, 1, wxEXPAND);
+	Borders_Main->Add(10, -1);
+	Borders_Main->Add(General_DataArea, 3, wxEXPAND);
+	
+	Tab_TerrainBorders->SetSizer(Borders_Main);
 
 	for(short loop = 0;loop < 2;loop++)
 	General_BorderName[loop]->Connect(General_BorderName[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-*/
+
 }

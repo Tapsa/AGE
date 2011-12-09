@@ -2712,7 +2712,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_StatsAreaGarrison = new wxGridSizer(4, 5, 5);
 	Units_Grid_StatsArea2 = new wxGridSizer(4, 5, 5);
 	Units_Holder_ProjectilesArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Projectiles");
-	Units_Grid_ProjectilesArea1 = new wxGridSizer(5, 5, 5);
+	Units_Grid_ProjectilesArea1 = new wxGridSizer(4, 5, 5);
 	Units_Grid_ProjectilesArea2 = new wxGridSizer(4, 5, 5);
 	Units_Grid_ProjectilesArea3 = new wxGridSizer(4, 5, 5);
 	Units_Holder_Attributes = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Attributes");
@@ -4291,7 +4291,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Unknown24->Add(Units_Unknown24, 1, wxEXPAND);
 	Units_Holder_Unknown25->Add(-1, 2);
 	Units_Holder_Unknown25->Add(Units_Unknown25, 1, wxEXPAND);
-	Units_Holder_Unknown25->AddStretchSpacer(1);
 
 //	Type 70+
 
@@ -4725,12 +4724,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_AttackMissileDuplicationGraphic->Add(Units_AttackMissileDuplicationGraphic, 1, wxEXPAND);
 	Units_Holder_AttackMissileDuplicationGraphic->Add(Units_ComboBox_AttackMissileDuplicationGraphic, 1, wxEXPAND);
 
+	Units_Grid_ProjectilesArea1->Add(Units_Holder_Unknown25, 1, wxEXPAND);
 	Units_Grid_ProjectilesArea1->Add(Units_Holder_StretchMode, 1, wxEXPAND);
 	Units_Grid_ProjectilesArea1->Add(Units_Holder_CompensationMode, 1, wxEXPAND);
+	Units_Grid_ProjectilesArea1->AddStretchSpacer(1);
 	Units_Grid_ProjectilesArea1->Add(Units_Holder_DropAnimationMode, 1, wxEXPAND);
 	Units_Grid_ProjectilesArea1->Add(Units_Holder_PenetrationMode, 1, wxEXPAND);
 	Units_Grid_ProjectilesArea1->Add(Units_Holder_Unknown24, 1, wxEXPAND);
-	Units_Grid_ProjectilesArea2->Add(Units_Holder_Unknown25, 1, wxEXPAND);
 	Units_Grid_ProjectilesArea2->Add(Units_Holder_ProjectileUnitID, 2, wxEXPAND);
 	Units_Grid_ProjectilesArea3->Add(Units_Holder_MissileGraphicDelay, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Grid_ProjectilesArea3->Add(Units_Holder_AttackMissileDuplicationAmount1, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -4738,15 +4738,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_ProjectilesArea2->Add(Units_Holder_AttackMissileDuplicationUnit, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Grid_ProjectilesArea2->Add(Units_Holder_AttackMissileDuplicationGraphic, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	
-	Units_Holder_ProjectilesArea->Add(Units_Grid_ProjectilesArea1, 0, wxEXPAND);
-	Units_Holder_ProjectilesArea->Add(5, 5);
 	Units_Holder_ProjectilesArea->Add(Units_Grid_ProjectilesArea2, 0, wxEXPAND);
-	Units_Holder_ProjectilesArea->Add(5, 5);
-	Units_Holder_ProjectilesArea->Add(Units_Holder_GraphicDisplacement, 0, wxEXPAND);
-	Units_Holder_ProjectilesArea->Add(5, 5);
+	Units_Holder_ProjectilesArea->Add(-1, 5);
 	Units_Holder_ProjectilesArea->Add(Units_Grid_ProjectilesArea3, 0, wxEXPAND);
-	Units_Holder_ProjectilesArea->Add(5, 5);
+	Units_Holder_ProjectilesArea->Add(-1, 5);
 	Units_Holder_ProjectilesArea->Add(Units_Holder_AttackMissileDuplicationUnknown, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Units_Holder_ProjectilesArea->Add(-1, 5);
+	Units_Holder_ProjectilesArea->Add(Units_Holder_GraphicDisplacement, 0, wxEXPAND);
+	Units_Holder_ProjectilesArea->Add(-1, 5);
+	Units_Holder_ProjectilesArea->Add(Units_Grid_ProjectilesArea1, 0, wxEXPAND);
 	
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_Enabled, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_HideInEditor, 1, wxEXPAND);
