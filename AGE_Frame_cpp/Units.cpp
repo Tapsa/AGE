@@ -416,7 +416,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_DLL_LanguageDllCreation->SetLabel(LanguageDllString(lexical_cast<short>(Units_LanguageDllCreation->GetValue())));
 		Units_Class->ChangeValue(lexical_cast<string>(UnitPointer->Class));
 		Units_Class->Container = &UnitPointer->Class;
-		Units_ComboBox_Class->SetSelection(UnitPointer->Class + 1);
+		Units_ComboBox_Class[0]->SetSelection(UnitPointer->Class + 1);
 		Units_StandingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.first));
 		Units_StandingGraphic[0]->Container = &UnitPointer->StandingGraphic.first;
 		Units_ComboBox_StandingGraphic[0]->SetSelection(UnitPointer->StandingGraphic.first + 1);
@@ -921,10 +921,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ReloadTime2->Enable(true);
 			
 			Attacks_Class->Enable(true);
-			Attacks_ComboBox_Class->Enable(true);
+			for(short loop = 0;loop < 2;loop++)
+			Attacks_ComboBox_Class[loop]->Enable(true);
 			Attacks_Amount->Enable(true);
 			Armors_Class->Enable(true);
-			Armors_ComboBox_Class->Enable(true);
 			Armors_Amount->Enable(true);
 
 			Units_Unknown20[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile->Unknown20));
@@ -1039,10 +1039,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ReloadTime2->ChangeValue("0");
 			
 			Attacks_Class->Enable(false);
-			Attacks_ComboBox_Class->Enable(false);
+			for(short loop = 0;loop < 2;loop++)
+			Attacks_ComboBox_Class[loop]->Enable(false);
 			Attacks_Amount->Enable(false);
 			Armors_Class->Enable(false);
-			Armors_ComboBox_Class->Enable(false);
 			Armors_Amount->Enable(false);
 		}
 		
@@ -1913,7 +1913,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 		AttackID = AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Attacks[0]);
 		Attacks_Class->ChangeValue(lexical_cast<string>(AttackPointer->Class));
 		Attacks_Class->Container = &AttackPointer->Class;
-		Attacks_ComboBox_Class->SetSelection(AttackPointer->Class);
+		Attacks_ComboBox_Class[0]->SetSelection(AttackPointer->Class);
 		Attacks_Amount->ChangeValue(lexical_cast<string>(AttackPointer->Amount));
 		Attacks_Amount->Container = &AttackPointer->Amount;
 		Added = false;
@@ -1921,7 +1921,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 	else
 	{
 		Attacks_Class->ChangeValue("0");
-		Attacks_ComboBox_Class->SetSelection(0);
+		Attacks_ComboBox_Class[0]->SetSelection(0);
 		Attacks_Amount->ChangeValue("0");
 	}
 }
@@ -2054,7 +2054,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 		ArmorID = ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile->Armours[0]);
 		Armors_Class->ChangeValue(lexical_cast<string>(ArmorPointer->Class));
 		Armors_Class->Container = &ArmorPointer->Class;
-		Armors_ComboBox_Class->SetSelection(ArmorPointer->Class);
+		Attacks_ComboBox_Class[1]->SetSelection(ArmorPointer->Class);
 		Armors_Amount->ChangeValue(lexical_cast<string>(ArmorPointer->Amount));
 		Armors_Amount->Container = &ArmorPointer->Amount;
 		Added = false;
@@ -2062,7 +2062,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 	else
 	{
 		Armors_Class->ChangeValue("0");
-		Armors_ComboBox_Class->SetSelection(0);
+		Attacks_ComboBox_Class[1]->SetSelection(0);
 		Armors_Amount->ChangeValue("0");
 	}
 }
@@ -2487,7 +2487,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 		}
 		UnitCommands_ClassID->ChangeValue(lexical_cast<string>(UnitCommandPointer->ClassID));
 		UnitCommands_ClassID->Container = &UnitCommandPointer->ClassID;
-		UnitCommands_ComboBox_ClassID->SetSelection(UnitCommandPointer->ClassID + 1);
+		Units_ComboBox_Class[1]->SetSelection(UnitCommandPointer->ClassID + 1);
 		UnitCommands_UnitID->ChangeValue(lexical_cast<string>(UnitCommandPointer->UnitID));
 		UnitCommands_UnitID->Container = &UnitCommandPointer->UnitID;
 		UnitCommands_ComboBox_UnitID->SetSelection(UnitCommandPointer->UnitID + 1);
@@ -2541,7 +2541,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 		UnitCommands_Type->ChangeValue("0");
 		UnitCommands_ComboBox_Types->SetSelection(0);
 		UnitCommands_ClassID->ChangeValue("0");
-		UnitCommands_ComboBox_ClassID->SetSelection(0);
+		Units_ComboBox_Class[1]->SetSelection(0);
 		UnitCommands_UnitID->ChangeValue("0");
 		UnitCommands_ComboBox_UnitID->SetSelection(0);
 		UnitCommands_Unknown2->ChangeValue("0");
@@ -2851,8 +2851,7 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 40+
 
-	Units_Holder_SheepConversionBox = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_SheepConversion = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_SheepConversion = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_SearchRadius = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_WorkRate = new wxBoxSizer(wxVERTICAL);
 	Units_Grid_DropSite = new wxGridSizer(4, 0, 5);
@@ -3024,7 +3023,6 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 40+
 
-	Units_Text_SheepConversion = new wxStaticText(Units_Scroller, wxID_ANY, " Sheep Conversion ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SearchRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Search Radius ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_WorkRate = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DropSite = new wxStaticText(Units_Scroller, wxID_ANY, " Drop Site", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3150,7 +3148,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DLL_LanguageDllCreation = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE | wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
 	Units_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Class->SetToolTip("Toimiiks taa?");
-	Units_ComboBox_Class = new ComboBox_Short(Units_Scroller, Units_Class);
+	Units_ComboBox_Class[0] = new ComboBox_Short(Units_Scroller, Units_Class);
 	Units_DeathMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_CheckBox_DeathMode = new CheckBox_Byte(Units_Scroller, "Death: Revives", Units_DeathMode);
 	Units_HitPoints = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3238,7 +3236,7 @@ void AGE_Frame::CreateUnitControls()
 //	Type 40+
 
 	Units_SheepConversion = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_CheckBox_SheepConversion = new CheckBox_Short_ZeroIsYes(Units_Scroller, "Yes", Units_SheepConversion);
+	Units_CheckBox_SheepConversion = new CheckBox_Short_ZeroIsYes(Units_Scroller, "Convert Herd", Units_SheepConversion);
 	Units_SearchRadius = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_WorkRate = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	for(short loop = 0;loop < 2;loop++)
@@ -3399,7 +3397,7 @@ void AGE_Frame::CreateUnitControls()
 	Attacks_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, " Class ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Attacks_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, " Amount ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Attacks_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Attacks_ComboBox_Class = new ComboBox_Short_AttackType(Units_Scroller, Attacks_Class);
+	Attacks_ComboBox_Class[0] = new ComboBox_Short_AttackType(Units_Scroller, Attacks_Class);
 	Attacks_Amount = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Attacks = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Unit Attacks slot");
 	Units_Attacks_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
@@ -3423,7 +3421,7 @@ void AGE_Frame::CreateUnitControls()
 	Armors_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, " Class ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Armors_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, " Amount ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Armors_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Armors_ComboBox_Class = new ComboBox_Short_AttackType(Units_Scroller, Armors_Class);
+	Attacks_ComboBox_Class[1] = new ComboBox_Short_AttackType(Units_Scroller, Armors_Class);
 	Armors_Amount = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Armors = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Unit Armors slot");
 	Units_Armors_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
@@ -3513,7 +3511,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Type = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	UnitCommands_ComboBox_Types = new wxOwnerDrawnComboBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	UnitCommands_ClassID = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	UnitCommands_ComboBox_ClassID = new ComboBox_Short(Units_Scroller, UnitCommands_ClassID);
+	Units_ComboBox_Class[1] = new ComboBox_Short(Units_Scroller, UnitCommands_ClassID);
 	UnitCommands_UnitID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	UnitCommands_ComboBox_UnitID = new ComboBox_Short(Units_Scroller, UnitCommands_UnitID);
 	UnitCommands_Unknown2 = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3552,71 +3550,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_Type->Append("80 - Building");	// Selection 6
 	Units_ComboBox_Type->SetSelection(0);
 	
-	Units_ComboBox_Class->Append("No Class/Invalid Class");	// Selection 0
-	Units_ComboBox_Class->Append("0 - Archer");	// Selection 1
-	Units_ComboBox_Class->Append("1 - Artifact");
-	Units_ComboBox_Class->Append("2 - Trade Boat");
-	Units_ComboBox_Class->Append("3 - Building");
-	Units_ComboBox_Class->Append("4 - Civilian");
-	Units_ComboBox_Class->Append("5 - Sea Fish");
-	Units_ComboBox_Class->Append("6 - Soldier");
-	Units_ComboBox_Class->Append("7 - Berry Bush");
-	Units_ComboBox_Class->Append("8 - Stone Mine");
-	Units_ComboBox_Class->Append("9 - Prey Animal");
-	Units_ComboBox_Class->Append("10 - Predator Animal");
-	Units_ComboBox_Class->Append("11 - Other");
-	Units_ComboBox_Class->Append("12 - Cavalry");
-	Units_ComboBox_Class->Append("13 - Siege Weapon");
-	Units_ComboBox_Class->Append("14 - Terrain");
-	Units_ComboBox_Class->Append("15 - Trees");
-	Units_ComboBox_Class->Append("16 - Unused");
-	Units_ComboBox_Class->Append("17 - Unused");
-	Units_ComboBox_Class->Append("18 - Priest");
-	Units_ComboBox_Class->Append("19 - Trade Cart");
-	Units_ComboBox_Class->Append("20 - Transport Boat");
-	Units_ComboBox_Class->Append("21 - Fishing Boat");
-	Units_ComboBox_Class->Append("22 - War Boat");
-	Units_ComboBox_Class->Append("23 - Conquistador");
-	Units_ComboBox_Class->Append("24 - Unused");
-	Units_ComboBox_Class->Append("25 - Unused");
-	Units_ComboBox_Class->Append("26 - Unused");
-	Units_ComboBox_Class->Append("27 - Walls");
-	Units_ComboBox_Class->Append("28 - Phalanx");
-	Units_ComboBox_Class->Append("29 - Unused");
-	Units_ComboBox_Class->Append("30 - Flags");
-	Units_ComboBox_Class->Append("31 - Unused");
-	Units_ComboBox_Class->Append("32 - Gold Mine");
-	Units_ComboBox_Class->Append("33 - Shore Fish");
-	Units_ComboBox_Class->Append("34 - Cliff");
-	Units_ComboBox_Class->Append("35 - Petard");
-	Units_ComboBox_Class->Append("36 - Cavalry Archer");
-	Units_ComboBox_Class->Append("37 - Dolphin");
-	Units_ComboBox_Class->Append("38 - Birds");
-	Units_ComboBox_Class->Append("39 - Gates");
-	Units_ComboBox_Class->Append("40 - Piles");
-	Units_ComboBox_Class->Append("41 - Piles of Resource");
-	Units_ComboBox_Class->Append("42 - Relic");
-	Units_ComboBox_Class->Append("43 - Monk with Relic");
-	Units_ComboBox_Class->Append("44 - Hand Cannoneer");
-	Units_ComboBox_Class->Append("45 - Two Handed Swordsman");
-	Units_ComboBox_Class->Append("46 - Pikeman");
-	Units_ComboBox_Class->Append("47 - Scout Cavalry");
-	Units_ComboBox_Class->Append("48 - Ore Mine");
-	Units_ComboBox_Class->Append("49 - Farm");
-	Units_ComboBox_Class->Append("50 - Spearman");
-	Units_ComboBox_Class->Append("51 - Packed Siege Units");
-	Units_ComboBox_Class->Append("52 - Tower");
-	Units_ComboBox_Class->Append("53 - Boarding Boat");
-	Units_ComboBox_Class->Append("54 - Unpacked Siege Units");
-	Units_ComboBox_Class->Append("55 - Scorpion");
-	Units_ComboBox_Class->Append("56 - Raider");
-	Units_ComboBox_Class->Append("57 - Cavalry Raider");
-	Units_ComboBox_Class->Append("58 - Sheep");
-	Units_ComboBox_Class->Append("59 - King");
-	Units_ComboBox_Class->Append("60 - Unused");
-	Units_ComboBox_Class->Append("61 - Horse");
-	Units_ComboBox_Class->SetSelection(0);
-	
 	UnitCommands_ComboBox_Types->Append("Unused Ability/Invalid Ability");	// Selection 0
 	UnitCommands_ComboBox_Types->Append("Ability to Garrison");	// Selection 1
 	UnitCommands_ComboBox_Types->Append("Ability to Mine Gold");
@@ -3649,148 +3582,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_ComboBox_Types->Append("Type 135, Sub -1");
 	UnitCommands_ComboBox_Types->Append("Ability to Deposit Unit");	// Selection 30
 	UnitCommands_ComboBox_Types->SetSelection(0);
-	
-	UnitCommands_ComboBox_ClassID->Append("No Class/Invalid Class");	// Selection 0
-	UnitCommands_ComboBox_ClassID->Append("0 - Archer");	// Selection 1
-	UnitCommands_ComboBox_ClassID->Append("1 - Artifact");
-	UnitCommands_ComboBox_ClassID->Append("2 - Trade Boat");
-	UnitCommands_ComboBox_ClassID->Append("3 - Building");
-	UnitCommands_ComboBox_ClassID->Append("4 - Civilian");
-	UnitCommands_ComboBox_ClassID->Append("5 - Sea Fish");
-	UnitCommands_ComboBox_ClassID->Append("6 - Soldier");
-	UnitCommands_ComboBox_ClassID->Append("7 - Berry Bush");
-	UnitCommands_ComboBox_ClassID->Append("8 - Stone Mine");
-	UnitCommands_ComboBox_ClassID->Append("9 - Prey Animal");
-	UnitCommands_ComboBox_ClassID->Append("10 - Predator Animal");
-	UnitCommands_ComboBox_ClassID->Append("11 - Other");
-	UnitCommands_ComboBox_ClassID->Append("12 - Cavalry");
-	UnitCommands_ComboBox_ClassID->Append("13 - Siege Weapon");
-	UnitCommands_ComboBox_ClassID->Append("14 - Terrain");
-	UnitCommands_ComboBox_ClassID->Append("15 - Trees");
-	UnitCommands_ComboBox_ClassID->Append("16 - Unused");
-	UnitCommands_ComboBox_ClassID->Append("17 - Unused");
-	UnitCommands_ComboBox_ClassID->Append("18 - Priest");
-	UnitCommands_ComboBox_ClassID->Append("19 - Trade Cart");
-	UnitCommands_ComboBox_ClassID->Append("20 - Transport Boat");
-	UnitCommands_ComboBox_ClassID->Append("21 - Fishing Boat");
-	UnitCommands_ComboBox_ClassID->Append("22 - War Boat");
-	UnitCommands_ComboBox_ClassID->Append("23 - Conquistador");
-	UnitCommands_ComboBox_ClassID->Append("24 - Unused");
-	UnitCommands_ComboBox_ClassID->Append("25 - Unused");
-	UnitCommands_ComboBox_ClassID->Append("26 - Unused");
-	UnitCommands_ComboBox_ClassID->Append("27 - Walls");
-	UnitCommands_ComboBox_ClassID->Append("28 - Phalanx");
-	UnitCommands_ComboBox_ClassID->Append("29 - Unused");
-	UnitCommands_ComboBox_ClassID->Append("30 - Flags");
-	UnitCommands_ComboBox_ClassID->Append("31 - Unused");
-	UnitCommands_ComboBox_ClassID->Append("32 - Gold Mine");
-	UnitCommands_ComboBox_ClassID->Append("33 - Shore Fish");
-	UnitCommands_ComboBox_ClassID->Append("34 - Cliff");
-	UnitCommands_ComboBox_ClassID->Append("35 - Petard");
-	UnitCommands_ComboBox_ClassID->Append("36 - Cavalry Archer");
-	UnitCommands_ComboBox_ClassID->Append("37 - Dolphin");
-	UnitCommands_ComboBox_ClassID->Append("38 - Birds");
-	UnitCommands_ComboBox_ClassID->Append("39 - Gates");
-	UnitCommands_ComboBox_ClassID->Append("40 - Piles");
-	UnitCommands_ComboBox_ClassID->Append("41 - Piles of Resource");
-	UnitCommands_ComboBox_ClassID->Append("42 - Relic");
-	UnitCommands_ComboBox_ClassID->Append("43 - Monk with Relic");
-	UnitCommands_ComboBox_ClassID->Append("44 - Hand Cannoneer");
-	UnitCommands_ComboBox_ClassID->Append("45 - Two Handed Swordsman");
-	UnitCommands_ComboBox_ClassID->Append("46 - Pikeman");
-	UnitCommands_ComboBox_ClassID->Append("47 - Scout Cavalry");
-	UnitCommands_ComboBox_ClassID->Append("48 - Ore Mine");
-	UnitCommands_ComboBox_ClassID->Append("49 - Farm");
-	UnitCommands_ComboBox_ClassID->Append("50 - Spearman");
-	UnitCommands_ComboBox_ClassID->Append("51 - Packed Siege Units");
-	UnitCommands_ComboBox_ClassID->Append("52 - Tower");
-	UnitCommands_ComboBox_ClassID->Append("53 - Boarding Boat");
-	UnitCommands_ComboBox_ClassID->Append("54 - Unpacked Siege Units");
-	UnitCommands_ComboBox_ClassID->Append("55 - Scorpion");
-	UnitCommands_ComboBox_ClassID->Append("56 - Raider");
-	UnitCommands_ComboBox_ClassID->Append("57 - Cavalry Raider");
-	UnitCommands_ComboBox_ClassID->Append("58 - Sheep");
-	UnitCommands_ComboBox_ClassID->Append("59 - King");
-	UnitCommands_ComboBox_ClassID->Append("60 - Unused");
-	UnitCommands_ComboBox_ClassID->Append("61 - Horse");
-	UnitCommands_ComboBox_ClassID->SetSelection(0);
-	
-	Attacks_ComboBox_Class->Append("Unused Class/No Class");	// Selection 0
-	Attacks_ComboBox_Class->Append("1 - Infantry");	// Selection 1
-	Attacks_ComboBox_Class->Append("2 - Turtle Ships");
-	Attacks_ComboBox_Class->Append("3 - Base Pierce");
-	Attacks_ComboBox_Class->Append("4 - Base Melee");
-	Attacks_ComboBox_Class->Append("5 - War Elephants");
-	Attacks_ComboBox_Class->Append("6 - None");
-	Attacks_ComboBox_Class->Append("7 - None");
-	Attacks_ComboBox_Class->Append("8 - Cavalry");
-	Attacks_ComboBox_Class->Append("9 - None");
-	Attacks_ComboBox_Class->Append("10 - None");
-	Attacks_ComboBox_Class->Append("11 - All Buildings (except Port)");
-	Attacks_ComboBox_Class->Append("12 - None");
-	Attacks_ComboBox_Class->Append("13 - Stone Defense");
-	Attacks_ComboBox_Class->Append("14 - None");
-	Attacks_ComboBox_Class->Append("15 - Archers");
-	Attacks_ComboBox_Class->Append("16 - Ships & Camels & Saboteurs");
-	Attacks_ComboBox_Class->Append("17 - Rams");
-	Attacks_ComboBox_Class->Append("18 - Trees");
-	Attacks_ComboBox_Class->Append("19 - Unique Units (except Turtle Ship)");
-	Attacks_ComboBox_Class->Append("20 - Siege Weapons");
-	Attacks_ComboBox_Class->Append("21 - Standard Buildings");
-	Attacks_ComboBox_Class->Append("22 - Walls & Gates");
-	Attacks_ComboBox_Class->Append("23 - None");
-	Attacks_ComboBox_Class->Append("24 - Boars");
-	Attacks_ComboBox_Class->Append("25 - Monks");
-	Attacks_ComboBox_Class->Append("26 - Castle");
-	Attacks_ComboBox_Class->Append("27 - Spearmen");
-	Attacks_ComboBox_Class->Append("28 - Cavalry Archers");
-	Attacks_ComboBox_Class->Append("29 - Eagle Warriors");
-	Attacks_ComboBox_Class->Append("30 - None");	// Selection 30
-	Attacks_ComboBox_Class->Append("31 - Extra Class 1");
-	Attacks_ComboBox_Class->Append("32 - Extra Class 2");
-	Attacks_ComboBox_Class->Append("33 - Extra Class 3");
-	Attacks_ComboBox_Class->Append("34 - Extra Class 4");
-	Attacks_ComboBox_Class->Append("35 - Extra Class 5");
-	Attacks_ComboBox_Class->SetSelection(0);
-	
-	Armors_ComboBox_Class->Append("Unused Class/No Class");	// Selection 0
-	Armors_ComboBox_Class->Append("1 - Infantry");	// Selection 1
-	Armors_ComboBox_Class->Append("2 - Turtle Ships");
-	Armors_ComboBox_Class->Append("3 - Base Pierce");
-	Armors_ComboBox_Class->Append("4 - Base Melee");
-	Armors_ComboBox_Class->Append("5 - War Elephants");
-	Armors_ComboBox_Class->Append("6 - None");
-	Armors_ComboBox_Class->Append("7 - None");
-	Armors_ComboBox_Class->Append("8 - Cavalry");
-	Armors_ComboBox_Class->Append("9 - None");
-	Armors_ComboBox_Class->Append("10 - None");
-	Armors_ComboBox_Class->Append("11 - All Buildings (except Port)");
-	Armors_ComboBox_Class->Append("12 - None");
-	Armors_ComboBox_Class->Append("13 - Stone Defense");
-	Armors_ComboBox_Class->Append("14 - None");
-	Armors_ComboBox_Class->Append("15 - Archers");
-	Armors_ComboBox_Class->Append("16 - Ships & Camels & Saboteurs");
-	Armors_ComboBox_Class->Append("17 - Rams");
-	Armors_ComboBox_Class->Append("18 - Trees");
-	Armors_ComboBox_Class->Append("19 - Unique Units (except Turtle Ship)");
-	Armors_ComboBox_Class->Append("20 - Siege Weapons");
-	Armors_ComboBox_Class->Append("21 - Standard Buildings");
-	Armors_ComboBox_Class->Append("22 - Walls & Gates");
-	Armors_ComboBox_Class->Append("23 - None");
-	Armors_ComboBox_Class->Append("24 - Boars");
-	Armors_ComboBox_Class->Append("25 - Monks");
-	Armors_ComboBox_Class->Append("26 - Castle");
-	Armors_ComboBox_Class->Append("27 - Spearmen");
-	Armors_ComboBox_Class->Append("28 - Cavalry Archers");
-	Armors_ComboBox_Class->Append("29 - Eagle Warriors");
-	Armors_ComboBox_Class->Append("30 - None");	// Selection 30
-	Armors_ComboBox_Class->Append("31 - Extra Class 1");
-	Armors_ComboBox_Class->Append("32 - Extra Class 2");
-	Armors_ComboBox_Class->Append("33 - Extra Class 3");
-	Armors_ComboBox_Class->Append("34 - Extra Class 4");
-	Armors_ComboBox_Class->Append("35 - Extra Class 5");
-	Armors_ComboBox_Class->SetSelection(0);
-	
+
 	Units_ComboBox_GarrisonType->Append("No Type/Invalid Type");	// Selection 0
 	Units_ComboBox_GarrisonType->Append("0 - None");	// Selection 1
 	Units_ComboBox_GarrisonType->Append("1 - Villager");
@@ -3809,9 +3601,112 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_GarrisonType->Append("14 - Monk + Calavry + Infantry");
 	Units_ComboBox_GarrisonType->Append("15 - Monk + Villager + Infantry + Calavry");
 	Units_ComboBox_GarrisonType->SetSelection(0);
-	
+
 	for(short loop = 0;loop < 2;loop++)
 	{
+		Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
+		Units_ComboBox_Class[loop]->Append("0 - Archer");	// Selection 1
+		Units_ComboBox_Class[loop]->Append("1 - Artifact");
+		Units_ComboBox_Class[loop]->Append("2 - Trade Boat");
+		Units_ComboBox_Class[loop]->Append("3 - Building");
+		Units_ComboBox_Class[loop]->Append("4 - Civilian");
+		Units_ComboBox_Class[loop]->Append("5 - Sea Fish");
+		Units_ComboBox_Class[loop]->Append("6 - Soldier");
+		Units_ComboBox_Class[loop]->Append("7 - Berry Bush");
+		Units_ComboBox_Class[loop]->Append("8 - Stone Mine");
+		Units_ComboBox_Class[loop]->Append("9 - Prey Animal");
+		Units_ComboBox_Class[loop]->Append("10 - Predator Animal");
+		Units_ComboBox_Class[loop]->Append("11 - Other");
+		Units_ComboBox_Class[loop]->Append("12 - Cavalry");
+		Units_ComboBox_Class[loop]->Append("13 - Siege Weapon");
+		Units_ComboBox_Class[loop]->Append("14 - Terrain");
+		Units_ComboBox_Class[loop]->Append("15 - Trees");
+		Units_ComboBox_Class[loop]->Append("16 - Unused");
+		Units_ComboBox_Class[loop]->Append("17 - Unused");
+		Units_ComboBox_Class[loop]->Append("18 - Priest");
+		Units_ComboBox_Class[loop]->Append("19 - Trade Cart");
+		Units_ComboBox_Class[loop]->Append("20 - Transport Boat");
+		Units_ComboBox_Class[loop]->Append("21 - Fishing Boat");
+		Units_ComboBox_Class[loop]->Append("22 - War Boat");
+		Units_ComboBox_Class[loop]->Append("23 - Conquistador");
+		Units_ComboBox_Class[loop]->Append("24 - Unused");
+		Units_ComboBox_Class[loop]->Append("25 - Unused");
+		Units_ComboBox_Class[loop]->Append("26 - Unused");
+		Units_ComboBox_Class[loop]->Append("27 - Walls");
+		Units_ComboBox_Class[loop]->Append("28 - Phalanx");
+		Units_ComboBox_Class[loop]->Append("29 - Unused");
+		Units_ComboBox_Class[loop]->Append("30 - Flags");
+		Units_ComboBox_Class[loop]->Append("31 - Unused");
+		Units_ComboBox_Class[loop]->Append("32 - Gold Mine");
+		Units_ComboBox_Class[loop]->Append("33 - Shore Fish");
+		Units_ComboBox_Class[loop]->Append("34 - Cliff");
+		Units_ComboBox_Class[loop]->Append("35 - Petard");
+		Units_ComboBox_Class[loop]->Append("36 - Cavalry Archer");
+		Units_ComboBox_Class[loop]->Append("37 - Dolphin");
+		Units_ComboBox_Class[loop]->Append("38 - Birds");
+		Units_ComboBox_Class[loop]->Append("39 - Gates");
+		Units_ComboBox_Class[loop]->Append("40 - Piles");
+		Units_ComboBox_Class[loop]->Append("41 - Piles of Resource");
+		Units_ComboBox_Class[loop]->Append("42 - Relic");
+		Units_ComboBox_Class[loop]->Append("43 - Monk with Relic");
+		Units_ComboBox_Class[loop]->Append("44 - Hand Cannoneer");
+		Units_ComboBox_Class[loop]->Append("45 - Two Handed Swordsman");
+		Units_ComboBox_Class[loop]->Append("46 - Pikeman");
+		Units_ComboBox_Class[loop]->Append("47 - Scout Cavalry");
+		Units_ComboBox_Class[loop]->Append("48 - Ore Mine");
+		Units_ComboBox_Class[loop]->Append("49 - Farm");
+		Units_ComboBox_Class[loop]->Append("50 - Spearman");
+		Units_ComboBox_Class[loop]->Append("51 - Packed Siege Units");
+		Units_ComboBox_Class[loop]->Append("52 - Tower");
+		Units_ComboBox_Class[loop]->Append("53 - Boarding Boat");
+		Units_ComboBox_Class[loop]->Append("54 - Unpacked Siege Units");
+		Units_ComboBox_Class[loop]->Append("55 - Scorpion");
+		Units_ComboBox_Class[loop]->Append("56 - Raider");
+		Units_ComboBox_Class[loop]->Append("57 - Cavalry Raider");
+		Units_ComboBox_Class[loop]->Append("58 - Sheep");
+		Units_ComboBox_Class[loop]->Append("59 - King");
+		Units_ComboBox_Class[loop]->Append("60 - Unused");
+		Units_ComboBox_Class[loop]->Append("61 - Horse");
+		Units_ComboBox_Class[loop]->SetSelection(0);
+
+		Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
+		Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 1
+		Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
+		Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
+		Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
+		Attacks_ComboBox_Class[loop]->Append("5 - War Elephants");
+		Attacks_ComboBox_Class[loop]->Append("6 - None");
+		Attacks_ComboBox_Class[loop]->Append("7 - None");
+		Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
+		Attacks_ComboBox_Class[loop]->Append("9 - None");
+		Attacks_ComboBox_Class[loop]->Append("10 - None");
+		Attacks_ComboBox_Class[loop]->Append("11 - All Buildings (except Port)");
+		Attacks_ComboBox_Class[loop]->Append("12 - None");
+		Attacks_ComboBox_Class[loop]->Append("13 - Stone Defense");
+		Attacks_ComboBox_Class[loop]->Append("14 - None");
+		Attacks_ComboBox_Class[loop]->Append("15 - Archers");
+		Attacks_ComboBox_Class[loop]->Append("16 - Ships & Camels & Saboteurs");
+		Attacks_ComboBox_Class[loop]->Append("17 - Rams");
+		Attacks_ComboBox_Class[loop]->Append("18 - Trees");
+		Attacks_ComboBox_Class[loop]->Append("19 - Unique Units (except Turtle Ship)");
+		Attacks_ComboBox_Class[loop]->Append("20 - Siege Weapons");
+		Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
+		Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
+		Attacks_ComboBox_Class[loop]->Append("23 - None");
+		Attacks_ComboBox_Class[loop]->Append("24 - Boars");
+		Attacks_ComboBox_Class[loop]->Append("25 - Monks");
+		Attacks_ComboBox_Class[loop]->Append("26 - Castle");
+		Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
+		Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
+		Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
+		Attacks_ComboBox_Class[loop]->Append("30 - None");	// Selection 30
+		Attacks_ComboBox_Class[loop]->Append("31 - Extra Class 1");
+		Attacks_ComboBox_Class[loop]->Append("32 - Extra Class 2");
+		Attacks_ComboBox_Class[loop]->Append("33 - Extra Class 3");
+		Attacks_ComboBox_Class[loop]->Append("34 - Extra Class 4");
+		Attacks_ComboBox_Class[loop]->Append("35 - Extra Class 5");
+		Attacks_ComboBox_Class[loop]->SetSelection(0);
+
 		Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
 		Units_Units_SearchFilters[loop]->Append("Internal Name");
 		Units_Units_SearchFilters[loop]->Append("Type");
@@ -3963,7 +3858,6 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 40+
 
-	Units_Holder_SheepConversion->Add(Units_Text_SheepConversion, 0, wxEXPAND);
 	Units_Holder_SearchRadius->Add(Units_Text_SearchRadius, 0, wxEXPAND);
 	Units_Holder_WorkRate->Add(Units_Text_WorkRate, 0, wxEXPAND);
 	Units_Holder_AttributesDropSite->Add(Units_Text_DropSite, 0, wxEXPAND);
@@ -4059,7 +3953,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_LanguageDllCreation->Add(Units_LanguageDllCreation, 1, wxEXPAND);
 	Units_Holder_LanguageDllCreation->Add(Units_DLL_LanguageDllCreation, 1, wxEXPAND);
 	Units_Holder_Class->Add(Units_Class, 1, wxEXPAND);
-	Units_Holder_Class->Add(Units_ComboBox_Class, 2, wxEXPAND);
+	Units_Holder_Class->Add(Units_ComboBox_Class[0], 2, wxEXPAND);
 	Units_Holder_DeathMode->Add(Units_DeathMode, 1, wxEXPAND);
 	Units_Holder_DeathMode->Add(2, 2);
 	Units_Holder_DeathMode->Add(Units_CheckBox_DeathMode, 2, wxEXPAND);
@@ -4214,10 +4108,9 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 40+
 
-	Units_Holder_SheepConversionBox->Add(Units_SheepConversion, 2, wxEXPAND);
-	Units_Holder_SheepConversionBox->Add(2, 2);
-	Units_Holder_SheepConversionBox->Add(Units_CheckBox_SheepConversion, 1, wxEXPAND);
-	Units_Holder_SheepConversion->Add(Units_Holder_SheepConversionBox, 1, wxEXPAND);
+	Units_Holder_SheepConversion->Add(Units_SheepConversion, 1, wxEXPAND);
+	Units_Holder_SheepConversion->Add(2, -1);
+	Units_Holder_SheepConversion->Add(Units_CheckBox_SheepConversion, 2, wxEXPAND);
 	Units_Holder_SearchRadius->Add(2, 2);
 	Units_Holder_SearchRadius->Add(Units_SearchRadius, 1, wxEXPAND);
 	Units_Holder_WorkRate->Add(2, 2);
@@ -4331,7 +4224,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_MissileGraphicDelay->Add(2, 2);
 	Units_Holder_MissileGraphicDelay->Add(Units_MissileGraphicDelay, 1, wxEXPAND);
 	Units_Holder_HeroMode->Add(Units_HeroMode, 1, wxEXPAND);
-	Units_Holder_HeroMode->Add(2, 2);
+	Units_Holder_HeroMode->Add(2, -1);
 	Units_Holder_HeroMode->Add(Units_CheckBox_HeroMode, 2, wxEXPAND);
 	Units_Holder_AttackMissileDuplicationAmount1->Add(2, 2);
 	Units_Holder_AttackMissileDuplicationAmount1->Add(Units_AttackMissileDuplicationAmount1, 1, wxEXPAND);
@@ -4411,7 +4304,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ResourceStorage[2]->Add(ResourceStorage_Enabled[2], 4, wxEXPAND);
 	
 	Attacks_Holder_Class1->Add(Attacks_Class, 1, wxEXPAND);
-	Attacks_Holder_Class1->Add(Attacks_ComboBox_Class, 2, wxEXPAND);
+	Attacks_Holder_Class1->Add(Attacks_ComboBox_Class[0], 2, wxEXPAND);
 	Attacks_Holder_Class->Add(Attacks_Text_Class, 0, wxEXPAND);
 	Attacks_Holder_Class->Add(2, 2);
 	Attacks_Holder_Class->Add(Attacks_Holder_Class1, 1, wxEXPAND);
@@ -4432,7 +4325,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks->Add(Units_Attacks_Buttons, 0, wxEXPAND);
 	
 	Armors_Holder_Class1->Add(Armors_Class, 1, wxEXPAND);
-	Armors_Holder_Class1->Add(Armors_ComboBox_Class, 2, wxEXPAND);
+	Armors_Holder_Class1->Add(Attacks_ComboBox_Class[1], 2, wxEXPAND);
 	Armors_Holder_Class->Add(Armors_Text_Class, 0, wxEXPAND);
 	Armors_Holder_Class->Add(2, 2);
 	Armors_Holder_Class->Add(Armors_Holder_Class1, 1, wxEXPAND);
@@ -4467,7 +4360,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_ClassID->Add(UnitCommands_Text_ClassID, 0, wxEXPAND);
 	UnitCommands_Holder_ClassID->Add(-1, 2);
 	UnitCommands_Holder_ClassID->Add(UnitCommands_ClassID, 1, wxEXPAND);
-	UnitCommands_Holder_ClassID->Add(UnitCommands_ComboBox_ClassID, 1, wxEXPAND);
+	UnitCommands_Holder_ClassID->Add(Units_ComboBox_Class[1], 1, wxEXPAND);
 	UnitCommands_Holder_UnitID->Add(UnitCommands_Text_UnitID, 0, wxEXPAND);
 	UnitCommands_Holder_UnitID->Add(-1, 2);
 	UnitCommands_Holder_UnitID->Add(UnitCommands_UnitID, 1, wxEXPAND);
@@ -4751,7 +4644,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_Enabled, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_HideInEditor, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_VisibleInFog, 1, wxEXPAND);
-	Units_Grid_AttributesBoxes1->AddStretchSpacer(1);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_DeathMode, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_HeroMode, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_AirMode, 1, wxEXPAND);
@@ -4766,7 +4658,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_AttributesTerrain->Add(Units_Holder_TerrainRestriction, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_InteractionMode, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_MinimapMode, 1, wxEXPAND);
-	Units_Grid_AttributesModes1->Add(Units_Holder_SheepConversion, 1, wxEXPAND);
+	Units_Grid_AttributesBoxes1->Add(Units_Holder_SheepConversion, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_VillagerMode, 1, wxEXPAND);
 	Units_Holder_AttributesDropSite->Add(Units_Grid_DropSite, 0, wxEXPAND);
 	Units_Holder_AttributesSizes->Add(Units_Holder_SizeRadius, 1, wxEXPAND);
@@ -4797,18 +4689,18 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_CostHeader->Add(Units_Holder_CostAmount, 0, wxEXPAND);
 	Units_Holder_CostHeader->Add(5, 5);
 	Units_Holder_CostHeader->Add(Units_Holder_CostUsed, 0, wxEXPAND);
-	Units_Grid_AttributesTrain1->Add(Units_Holder_TrainTime, 1, wxEXPAND);
 	Units_Grid_AttributesTrain1->Add(Units_Holder_TrainLocationID, 1, wxEXPAND);
+	Units_Grid_AttributesTrain1->Add(Units_Holder_TrainTime, 1, wxEXPAND);
 	Units_Grid_AttributesTrain1->Add(Units_Holder_CommandAttribute, 1, wxEXPAND);
-	Units_Grid_AttributesTrain2->Add(Units_Holder_MinTechLevel, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Units_Grid_AttributesTrain2->Add(Units_Holder_ButtonID, 1, wxEXPAND);
 	Units_Grid_Attributes3->Add(Units_Holder_StackUnitID, 1, wxEXPAND);
-	Units_Grid_Attributes3->Add(Units_Holder_TerrainID, 1, wxEXPAND);
-	Units_Grid_Attributes3->Add(Units_Holder_ResearchID, 1, wxEXPAND);
+	Units_Grid_AttributesTrain2->Add(Units_Holder_TerrainID, 1, wxEXPAND);
+	Units_Grid_AttributesTrain2->Add(Units_Holder_ResearchID, 1, wxEXPAND);
 	Units_Holder_AttributesAnnexUnit->Add(Units_Holder_AnnexUnit1, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_AttributesAnnexUnit2->Add(Units_Holder_AnnexUnitMisplacement1, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Units_Grid_AttributesTrain2->Add(Units_Holder_HeadUnit, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Units_Grid_AttributesTrain2->Add(Units_Holder_TransformUnit, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Units_Grid_Attributes3->Add(Units_Holder_HeadUnit, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Units_Grid_Attributes3->Add(Units_Holder_TransformUnit, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Units_Grid_AttributesTrain2->Add(Units_Holder_ButtonID, 1, wxEXPAND);
+	Units_Grid_AttributesTrain2->Add(Units_Holder_MinTechLevel, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	
 	Units_Holder_Attributes->Add(Units_Grid_AttributesBoxes1, 0, wxEXPAND);
 	Units_Holder_Attributes->Add(5, 5);
@@ -5389,6 +5281,8 @@ void AGE_Frame::CreateUnitControls()
 		Units_ComboBox_WalkingGraphic[loop]->Connect(Units_ComboBox_WalkingGraphic[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 		Units_ComboBox_DropSite[loop]->Connect(Units_ComboBox_DropSite[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 		Units_ComboBox_GarrisonGraphic[loop]->Connect(Units_ComboBox_GarrisonGraphic[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
+		Units_ComboBox_Class[loop]->Connect(Units_ComboBox_Class[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
+		Attacks_ComboBox_Class[loop]->Connect(Attacks_ComboBox_Class[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType), NULL, this);
 	}
 	for(short loop = 0;loop < 3;loop++)
 	{
@@ -5405,7 +5299,6 @@ void AGE_Frame::CreateUnitControls()
 		UnitCommands_ComboBox_Graphics[loop]->Connect(UnitCommands_ComboBox_Graphics[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	}
 	Units_ComboBox_GarrisonType->Connect(Units_ComboBox_GarrisonType->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte), NULL, this);
-	Units_ComboBox_Class->Connect(Units_ComboBox_Class->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	Units_ComboBox_DeadUnitID->Connect(Units_ComboBox_DeadUnitID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	Units_ComboBox_TerrainRestriction->Connect(Units_ComboBox_TerrainRestriction->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	Units_ComboBox_SelectionSound->Connect(Units_ComboBox_SelectionSound->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
@@ -5428,9 +5321,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_AttackMissileDuplicationUnit->Connect(Units_ComboBox_AttackMissileDuplicationUnit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong), NULL, this);
 	Units_ComboBox_AttackMissileDuplicationGraphic->Connect(Units_ComboBox_AttackMissileDuplicationGraphic->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong), NULL, this);
 	DamageGraphics_ComboBox_GraphicID->Connect(DamageGraphics_ComboBox_GraphicID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
-	Attacks_ComboBox_Class->Connect(Attacks_ComboBox_Class->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType), NULL, this);
-	Armors_ComboBox_Class->Connect(Armors_ComboBox_Class->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType), NULL, this);
-	UnitCommands_ComboBox_ClassID->Connect(UnitCommands_ComboBox_ClassID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	UnitCommands_ComboBox_UnitID->Connect(UnitCommands_ComboBox_UnitID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	UnitCommands_ComboBox_ResourceIn->Connect(UnitCommands_ComboBox_ResourceIn->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	UnitCommands_ComboBox_ResourceOut->Connect(UnitCommands_ComboBox_ResourceOut->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);

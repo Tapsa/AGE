@@ -1742,11 +1742,11 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType(wxCommandEvent& Event)
 		OnUnitsCopy(E);
 		OnUnitsPaste(E);
 	}
-	if(Event.GetId() == Attacks_ComboBox_Class->GetId())
+	if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
 	{
 		ListUnitAttacks(UnitID, UnitCivID);
 	}
-	if(Event.GetId() == Armors_ComboBox_Class->GetId())
+	if(Event.GetId() == Attacks_ComboBox_Class[1]->GetId())
 	{
 		ListUnitArmors(UnitID, UnitCivID);
 	}
