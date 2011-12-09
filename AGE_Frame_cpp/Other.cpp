@@ -369,7 +369,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		ListTerrainRestrictions();
 		ListPlayerColors();
 		ListGeneral();
-	//	ListTerrainBorders();
+		ListTerrainBorders();
 	}
 	
 	DataOpened = true;
@@ -1617,7 +1617,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			
 			ListPlayerColors();
 		}
-	/*	if(Event.GetId() == General_BorderName[0]->GetId())
+		if(Event.GetId() == General_BorderName[0]->GetId())
 		{
 			ReducedName = GenieFile->TerrainBorders[BorderID].Name;
 			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
@@ -1632,7 +1632,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			GenieFile->TerrainBorders[BorderID].Name2 = ReducedName;
 			
 			ListTerrainBorders();
-		}*/
+		}
 	}
 }
 

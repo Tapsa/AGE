@@ -538,7 +538,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * General_Text_TerrainHeader;
 	TextCtrl_Byte * General_TerrainHeader[138];
 	
-	wxStaticBoxSizer * General_Holder_TerrainBorders;
+	wxBoxSizer * Borders_Main;
 	wxGridSizer * General_Borders_Buttons;
 	wxStaticBoxSizer * General_Borders;
 	wxTextCtrl * General_Borders_Search;
