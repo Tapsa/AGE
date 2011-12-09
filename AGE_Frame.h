@@ -898,7 +898,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_LanguageDllCreation;
 	wxStaticText * Units_DLL_LanguageDllCreation;
 	TextCtrl_Short * Units_Class;
-	ComboBox_Short * Units_ComboBox_Class;
+	ComboBox_Short * Units_ComboBox_Class[2];
 	TextCtrl_Short * Units_StandingGraphic[2];
 	ComboBox_Short * Units_ComboBox_StandingGraphic[2];
 	TextCtrl_Short * Units_DyingGraphic[2];
@@ -1202,7 +1202,6 @@ class AGE_Frame : public wxFrame
 
 //	Type 40+
 
-	wxStaticText * Units_Text_SheepConversion;
 	wxStaticText * Units_Text_SearchRadius;
 	wxStaticText * Units_Text_WorkRate;
 	wxStaticText * Units_Text_DropSite;
@@ -1387,7 +1386,6 @@ class AGE_Frame : public wxFrame
 
 //	Type 40+
 
-	wxBoxSizer * Units_Holder_SheepConversionBox;
 	wxBoxSizer * Units_Holder_SheepConversion;
 	wxBoxSizer * Units_Holder_SearchRadius;
 	wxBoxSizer * Units_Holder_WorkRate;
@@ -1513,7 +1511,7 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * Units_Grid_Attacks_Data2;
 //	wxBoxSizer * Units_Holder_Attacks_Data3;
 	TextCtrl_Short * Attacks_Class;
-	ComboBox_Short_AttackType * Attacks_ComboBox_Class;
+	ComboBox_Short_AttackType * Attacks_ComboBox_Class[2];
 	TextCtrl_Short * Attacks_Amount;
 	wxStaticText * Attacks_Text_Class;
 	wxStaticText * Attacks_Text_Amount;
@@ -1538,7 +1536,6 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Armors_Data3;
 	wxBoxSizer * Units_Holder_Armors_Space;
 	TextCtrl_Short * Armors_Class;
-	ComboBox_Short_AttackType * Armors_ComboBox_Class;
 	TextCtrl_Short * Armors_Amount;
 	wxStaticText * Armors_Text_Class;
 	wxStaticText * Armors_Text_Amount;
@@ -1727,7 +1724,6 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * UnitCommands_SubType;
 	wxOwnerDrawnComboBox * UnitCommands_ComboBox_Types;
 	TextCtrl_Short * UnitCommands_ClassID;
-	ComboBox_Short * UnitCommands_ComboBox_ClassID;
 	TextCtrl_Short * UnitCommands_UnitID;
 	ComboBox_Short * UnitCommands_ComboBox_UnitID;
 	TextCtrl_Short * UnitCommands_Unknown2;

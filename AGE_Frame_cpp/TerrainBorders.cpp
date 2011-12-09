@@ -164,12 +164,14 @@ void AGE_Frame::CreateTerrainBorderControls()
 	General_Borders_Buttons->Add(Borders_Copy, 1, wxEXPAND);
 	General_Borders_Buttons->Add(Borders_Paste, 1, wxEXPAND);
 
+	General_Borders->Add(-1, 10);
 	General_Borders->Add(General_Borders_Search, 0, wxEXPAND);
 	General_Borders->Add(General_Borders_Search_R, 0, wxEXPAND);
 	General_Borders->Add(-1, 2);
 	General_Borders->Add(General_Borders_List, 1, wxEXPAND);
 	General_Borders->Add(-1, 2);
 	General_Borders->Add(General_Borders_Buttons, 0, wxEXPAND);
+	General_Borders->Add(-1, 10);
 	
 	General_DataTopRow->Add(General_Holder_BorderName[0], 1, wxEXPAND);
 	General_DataTopRow->Add(5, -1);
@@ -177,12 +179,16 @@ void AGE_Frame::CreateTerrainBorderControls()
 	General_DataTopRow->Add(5, -1);
 	General_DataTopRow->Add(General_Holder_BorderEnabled, 1, wxEXPAND);
 
+	General_DataArea->Add(-1, 10);
 	General_DataArea->Add(General_DataTopRow, 0, wxEXPAND);
 	General_DataArea->Add(-1, 5);
+	General_DataArea->Add(-1, 10);
 	
+	Borders_Main->Add(10, -1);
 	Borders_Main->Add(General_Borders, 1, wxEXPAND);
 	Borders_Main->Add(10, -1);
 	Borders_Main->Add(General_DataArea, 3, wxEXPAND);
+	Borders_Main->Add(10, -1);
 	
 	Tab_TerrainBorders->SetSizer(Borders_Main);
 
