@@ -1601,11 +1601,12 @@ class AGE_Frame : public wxFrame
 //	wxBoxSizer * Units_Holder_AttributesBoxes2;
 	wxGridSizer * Units_Grid_Attributes1;
 	wxBoxSizer * Units_Holder_AttributesTerrain;
+	wxGridSizer * Units_Grid_AttributesTerrain;
 	wxGridSizer * Units_Grid_AttributesModes1;
 	wxBoxSizer * Units_Holder_AttributesDropSite;
 	wxBoxSizer * Units_Holder_AttributesSizes;
 	wxGridSizer * Units_Grid_AttributesSelection1;
-	wxBoxSizer * Units_Holder_AttributesSelection2;
+//	wxBoxSizer * Units_Holder_AttributesSelection2;
 	wxGridSizer * Units_Grid_Attributes2;
 	wxBoxSizer * Units_Holder_AttributesHotKey;
 	wxGridSizer * Units_Grid_AttributesTracking;
