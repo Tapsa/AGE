@@ -309,7 +309,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_RequiredTechArea = new wxBoxSizer(wxVERTICAL);
 	Research_Holder_RequiredTechs = new wxGridSizer(6, 0, 5);
 	Research_Text_RequiredTechArea = new wxStaticText(Research_Scroller, wxID_ANY, " Required Researches", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_Holder_MiscArea1 = new wxBoxSizer(wxHORIZONTAL);
+	Research_Grid_MiscArea1 = new wxGridSizer(4, 5, 5);
 	Research_Holder_LangDLLArea = new wxBoxSizer(wxHORIZONTAL);
 	Research_Holder_Misc2 = new wxBoxSizer(wxHORIZONTAL);
 	Research_Holder_PointerArea = new wxBoxSizer(wxHORIZONTAL);
@@ -518,13 +518,10 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_ResearchLocation->Add(Research_ResearchLocation, 1, wxEXPAND);
 	Research_Holder_ResearchLocation->Add(Research_ComboBox_ResearchLocation, 1, wxEXPAND);
 
-	Research_Holder_MiscArea1->Add(Research_Holder_TechID, 1, wxEXPAND);
-	Research_Holder_MiscArea1->Add(5, -1);
-	Research_Holder_MiscArea1->Add(Research_Holder_FullTechMode, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Research_Holder_MiscArea1->Add(5, -1);
-	Research_Holder_MiscArea1->Add(Research_Holder_Civ, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Research_Holder_MiscArea1->Add(5, -1);
-	Research_Holder_MiscArea1->Add(Research_Holder_ResearchLocation, 1, wxEXPAND);
+	Research_Grid_MiscArea1->Add(Research_Holder_TechID, 1, wxEXPAND);
+	Research_Grid_MiscArea1->Add(Research_Holder_ResearchLocation, 1, wxEXPAND);
+	Research_Grid_MiscArea1->Add(Research_Holder_FullTechMode, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Research_Grid_MiscArea1->Add(Research_Holder_Civ, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
 	Research_Holder_ResearchTime->Add(Research_Text_ResearchTime, 0, wxEXPAND);
 	Research_Holder_ResearchTime->Add(-1, 2);
@@ -579,7 +576,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_ScrollerWindowsSpace->Add(-1, 5);
 	Research_ScrollerWindowsSpace->Add(Research_Holder_RequiredTechArea, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_Holder_MiscArea1, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_Grid_MiscArea1, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
 	Research_ScrollerWindowsSpace->Add(Research_Holder_Misc2, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
