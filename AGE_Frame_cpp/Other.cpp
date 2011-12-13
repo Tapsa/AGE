@@ -281,9 +281,9 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
 		}
 		ListCivs();
+		ListUnits();
 		ListResearchs();
 		ListTechages();
-		ListUnits();
 		ListGraphics();
 		ListSounds();
 		ListTerrains();
@@ -303,17 +303,17 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 void AGE_Frame::OnGameVersionChange()
 {
+	Units_ScrollerWindowsSpace->Layout();
+	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
+	Units_Scroller->Scroll(0, 0);
+	Units_Scroller->GetSizer()->SetDimension(0, 0, Units_Scroller->GetSize().GetWidth() - 15, 1);
+//	Units_Scroller->Refresh();
 	Research_ScrollerWindowsSpace->Layout();
 	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
 	Research_Scroller->Scroll(0, 0);
 	Research_Scroller->GetSizer()->SetDimension(0, 0, Research_Scroller->GetSize().GetWidth() - 15, 1);
 //	Research_Scroller->Refresh();
 	Civs_DataArea->Layout();
-	Units_ScrollerWindowsSpace->Layout();
-	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
-	Units_Scroller->Scroll(0, 0);
-	Units_Scroller->GetSizer()->SetDimension(0, 0, Units_Scroller->GetSize().GetWidth() - 15, 1);
-//	Units_Scroller->Refresh();
 	Graphics_ScrollerWindowsSpace->Layout();
 	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
 	Graphics_Scroller->Scroll(0, 0);
@@ -1130,6 +1130,10 @@ void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
+		if(Event.GetId() == DamageGraphics_DamagePercent->GetId())
+		{
+			ListUnitDamageGraphics(UnitID, UnitCivID);
+		}
 	}
 }
 
@@ -1180,7 +1184,7 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent& Event)
 			wxCommandEvent E;
 			OnEffectsSelect(E);
 		}
-		if(Event.GetId() == General_BorderFrameID->GetId() || Event.GetId() == General_BorderFlag1->GetId() || Event.GetId() == General_BorderFlag2->GetId())
+		if(Event.GetId() == Borders_BorderFrameID->GetId() || Event.GetId() == Borders_BorderFlag1->GetId() || Event.GetId() == Borders_BorderFlag2->GetId())
 		{
 			ListTerrainBorderFrames(BorderID);
 		}
@@ -1229,10 +1233,6 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 		{
 			wxCommandEvent E;
 			OnUnitsSelect(E);
-		}
-		if(Event.GetId() == DamageGraphics_DamagePercent->GetId())
-		{
-			ListUnitDamageGraphics(UnitID, UnitCivID);
 		}
 		if(Event.GetId() == Attacks_Amount->GetId())
 		{
@@ -1491,7 +1491,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			
 			ListPlayerColors();
 		}
-		if(Event.GetId() == General_BorderName[0]->GetId())
+		if(Event.GetId() == Borders_BorderName[0]->GetId())
 		{
 			ReducedName = GenieFile->TerrainBorders[BorderID].Name;
 			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
@@ -1499,7 +1499,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			
 			ListTerrainBorders();
 		}
-		if(Event.GetId() == General_BorderName[1]->GetId())
+		if(Event.GetId() == Borders_BorderName[1]->GetId())
 		{
 			ReducedName = GenieFile->TerrainBorders[BorderID].Name2;
 			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
