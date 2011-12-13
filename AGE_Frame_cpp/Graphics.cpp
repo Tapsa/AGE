@@ -24,6 +24,11 @@ string AGE_Frame::GetGraphicName(short Index)
 	return Name;
 }
 
+void AGE_Frame::OnGraphicsSearch(wxCommandEvent& Event)
+{
+	ListGraphics();
+}
+
 void AGE_Frame::ListGraphics()
 {
 	string Name;
@@ -248,11 +253,6 @@ void AGE_Frame::ListGraphics()
 	OnGraphicsSelect(E);
 }
 
-void AGE_Frame::OnGraphicsSearch(wxCommandEvent& Event)
-{
-	ListGraphics();
-}
-
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 {
 	short Selection = Graphics_Graphics_List->GetSelection();
@@ -383,6 +383,11 @@ string AGE_Frame::GetGraphicDeltaName(short Index, short GraphicID)
 	return Name;
 }
 
+void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent& Event)
+{
+	ListGraphicDeltas(GraphicID);
+}
+
 void AGE_Frame::ListGraphicDeltas(short Index)
 {
 	string Name;
@@ -416,11 +421,6 @@ void AGE_Frame::ListGraphicDeltas(short Index)
 
 	wxCommandEvent E;
 	OnGraphicDeltasSelect(E);
-}
-
-void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent& Event)
-{
-	ListGraphicDeltas(GraphicID);
 }
 
 void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent& Event)
@@ -520,6 +520,11 @@ string AGE_Frame::GetGraphicAttackSoundName(short Index, short GraphicID)
 	return Name;
 }
 
+void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent& Event)
+{
+	ListGraphicAttackSounds(GraphicID);
+}
+
 void AGE_Frame::ListGraphicAttackSounds(short Index)
 {
 	string Name;
@@ -553,11 +558,6 @@ void AGE_Frame::ListGraphicAttackSounds(short Index)
 
 	wxCommandEvent E;
 	OnGraphicAttackSoundsSelect(E);
-}
-
-void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent& Event)
-{
-	ListGraphicAttackSounds(GraphicID);
 }
 
 void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent& Event)

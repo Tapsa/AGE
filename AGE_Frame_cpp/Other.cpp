@@ -34,11 +34,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			break;
 			case 1:
 			{
-				/*OpenBox.Radio_UnzFileLocation->SetValue(true);
-				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
-				Selected.SetId(OpenBox.Radio_UnzFileLocation->GetId());
-				Selected.SetInt(true);
-				OpenBox.ProcessEvent(Selected);*/
 			}
 			break;
 			case 2:
@@ -63,7 +58,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
-//		OpenBox.Path_UnzFileLocation->SetPath(UnzFileName);
 		OpenBox.Path_ApfFileLocation->SetPath(ApfFileName);
 
 		if(LangsUsed & 1)
@@ -129,10 +123,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		{
 			DatUsed = 0;
 		}
-		/*else if(OpenBox.Radio_UnzFileLocation->GetValue())
-		{
-			DatUsed = 1;
-		}*/
 		else if(OpenBox.Radio_ApfFileLocation->GetValue())
 		{
 			DatUsed = 2;
@@ -144,7 +134,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 		DriveLetter = OpenBox.DriveLetterBox->GetValue();
 		DatFileName = OpenBox.Path_DatFileLocation->GetPath();
-//		UnzFileName = OpenBox.Path_UnzFileLocation->GetPath();
 		ApfFileName = OpenBox.Path_ApfFileLocation->GetPath();
 
 		if(OpenBox.CheckBox_LangFileLocation->IsChecked())
@@ -217,64 +206,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 	switch(DatUsed)
 	{
-		/*case 1:
-		{
-			string OutputFile;
-			switch(GameVersion)
-			{
-				case 0:
-				{
-					OutputFile = "AoE.unz";
-				}
-				break;
-				case 1:
-				{
-					OutputFile = "RoR.unz";
-				}
-				break;
-				case 2:
-				{
-					OutputFile = "AoK.unz";
-				}
-				break;
-				case 3:
-				{
-					OutputFile = "TC.unz";
-				}
-				break;
-				case 4:
-				{
-					OutputFile = "SWGB.unz";
-				}
-				break;
-				case 5:
-				{
-					OutputFile = "CC.unz";
-				}
-				break;
-			}
-
-			if(GenieFile != NULL)
-			{
-				delete GenieFile;
-			}
-
-			
-		//	GenieFile = new DatObject(OutputFile.c_str(), GameVersion);
-			{
-				SetStatusText("Reading uncompressed file...", 0);
-				wxBusyCursor WaitCursor;
-				GenieFile = new gdat::File(UnzFileName.c_str(), GenieVersion, true);
-			}
-				ErrCode = GenieFile->Read();
-			}
-
-			if(ErrCode)
-			{
-				wxMessageBox(wxT("Error Code: " + lexical_cast<string>(ErrCode)));
-			}
-		}
-		break;*/
 		case 0:
 		{
 			if(GenieFile != NULL)
@@ -287,17 +218,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				wxBusyCursor WaitCursor;
 				GenieFile = new gdat::File(std::string(DatFileName.c_str()), GenieVersion);
 			}
-//			{
-				
-
-/*				ErrCode = GenieFile->Read();
-			}
-
-			if(ErrCode)
-			{
-				wxMessageBox(wxT("Error Code: " + lexical_cast<string>(ErrCode)));
-			}
-*/		}
+		}
 		break;
 		case 2:
 		{
@@ -414,8 +335,6 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 	int ErrCode = 0;
 	wxCommandEvent Selected;
 	
-//	if(!QuickSave)
-//	{
 		AGE_SaveDialog SaveBox (this);
 		SaveBox.Path_DatFileLocation->SetFocus();
 
@@ -429,15 +348,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		SaveBox.ProcessEvent(Selected);
 
 		SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
-
-		/*SaveBox.CheckBox_UnzFileLocation->SetValue(SaveUnz);
-		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-		Selected.SetId(SaveBox.CheckBox_UnzFileLocation->GetId());
-		Selected.SetInt(SaveUnz);
-		SaveBox.ProcessEvent(Selected);
-
-		SaveBox.Path_UnzFileLocation->SetPath(SaveUnzFileName);*/
-
+		
 		SaveBox.CheckBox_ApfFileLocation->SetValue(SaveApf);
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 		Selected.SetId(SaveBox.CheckBox_ApfFileLocation->GetId());
@@ -453,32 +364,11 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 
 		SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
 		SaveDat = SaveBox.CheckBox_DatFileLocation->IsChecked();
-//		SaveUnz = SaveBox.CheckBox_UnzFileLocation->IsChecked();
 		SaveApf = SaveBox.CheckBox_ApfFileLocation->IsChecked();
 
 		SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
-//		SaveUnzFileName = SaveBox.Path_UnzFileLocation->GetPath();
 		SaveApfFileName = SaveBox.Path_ApfFileLocation->GetPath();
-//	}
-	
-	/*if(SaveUnz && SaveDat)
-	{
-		{
-			SetStatusText("Saving unz file...", 0);
-			wxBusyCursor WaitCursor;
 
-			GenieFile->save(std::string(SaveUnzFileName.c_str()), true);
-		}
-		
-		{
-			SetStatusText("Saving dat file...", 0);
-			wxBusyCursor WaitCursor;
-
-			GenieFile->save(std::string(SaveDatFileName.c_str()));
-		}
-	}
-	else
-	{*/
 		if(SaveDat)
 		{
 			{
@@ -488,17 +378,11 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 				GenieFile->save(std::string(SaveDatFileName.c_str()));
 			}
 		}
-		/*if(SaveUnz)
-		{
-			SetStatusText("Saving unz file...", 0);
-			wxBusyCursor WaitCursor;
-			GenieFile->save(std::string(SaveUnzFileName.c_str()), true);
-		}*/
 		if(SaveApf)
 		{
 			//	 Not Implemented Yet = Nothing Happens
 		}
-//	}
+
 	SetStatusText("", 0);
 }
 
@@ -515,17 +399,14 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
 	Config->Write("DefaultFiles/DatUsed", DatUsed);
 	Config->Write("DefaultFiles/DatFilename", DatFileName);
-//	Config->Write("DefaultFiles/UnzFilename", UnzFileName);
 	Config->Write("DefaultFiles/ApfFilename", ApfFileName);
 	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
-//	Config->Write("DefaultFiles/SaveUnzFilename", SaveUnzFileName);
 	Config->Write("DefaultFiles/SaveApfFilename", SaveApfFileName);
 	Config->Write("DefaultFiles/LangsUsed", LangsUsed);
 	Config->Write("DefaultFiles/LangFilename", LangFileName);
 	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
 	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
 	Config->Write("DefaultFiles/SaveDat", SaveDat);
-//	Config->Write("DefaultFiles/SaveUnz", SaveUnz);
 	Config->Write("DefaultFiles/SaveApf", SaveApf);
 	delete Config;
 
@@ -556,6 +437,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Graphics_Holder_Unknowns->Show(true);
 				Graphics_Grid_Deltas_Data2->Show(true);
 				Terrains_Holder_UnknownArea->Show(true);
+				Borders_Unknonws->Show(true);
 				Sounds_Holder_Unknown->Show(true);
 				SoundItems_Holder_Unknown->Show(true);
 				Colors_Holder_UnknownArea->Show(true);
@@ -569,6 +451,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Graphics_Holder_Unknowns->Show(false);
 				Graphics_Grid_Deltas_Data2->Show(false);
 				Terrains_Holder_UnknownArea->Show(false);
+				Borders_Unknonws->Show(false);
 				Sounds_Holder_Unknown->Show(false);
 				SoundItems_Holder_Unknown->Show(false);
 				Colors_Holder_UnknownArea->Show(false);
@@ -590,6 +473,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			Terrains_Scroller->Scroll(0, 0);
 			Terrains_Scroller->GetSizer()->SetDimension(0, 0, Terrains_Scroller->GetSize().GetWidth() - 15, 1);
 		//	Terrains_Scroller->Refresh();
+			Borders_DataArea->Layout();
 			Sounds_DataArea->Layout();
 			Colors_DataArea->Layout();
 			General_Main->Layout();
@@ -1291,20 +1175,14 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent& Event)
 			wxCommandEvent E;
 			OnResearchSelect(E);
 		}
-		if(Event.GetId() == Effects_A->GetId())
+		if(Event.GetId() == Effects_A->GetId() || Event.GetId() == Effects_B->GetId() || Event.GetId() == Effects_C->GetId())
 		{
 			wxCommandEvent E;
 			OnEffectsSelect(E);
 		}
-		if(Event.GetId() == Effects_B->GetId())
+		if(Event.GetId() == General_BorderFrameID->GetId() || Event.GetId() == General_BorderFlag1->GetId() || Event.GetId() == General_BorderFlag2->GetId())
 		{
-			wxCommandEvent E;
-			OnEffectsSelect(E);
-		}
-		if(Event.GetId() == Effects_C->GetId())
-		{
-			wxCommandEvent E;
-			OnEffectsSelect(E);
+			ListTerrainBorderFrames(BorderID);
 		}
 	}
 }

@@ -97,6 +97,11 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 	return Name;
 }
 
+void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent& Event)
+{
+	ListTerrainRestrictions();
+}
+
 void AGE_Frame::ListTerrainRestrictions()
 {
 	string Name;
@@ -147,11 +152,6 @@ void AGE_Frame::ListTerrainRestrictions()
 	
 	wxCommandEvent E;
 	OnTerrainRestrictionsTerrainSelect(E);
-}
-
-void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent& Event)
-{
-	ListTerrainRestrictions();
 }
 
 void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)

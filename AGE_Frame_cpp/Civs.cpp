@@ -13,6 +13,11 @@ string AGE_Frame::GetCivName(short Index)
 	return Name;
 }
 
+void AGE_Frame::OnCivsSearch(wxCommandEvent& Event)
+{
+	ListCivs();
+}
+
 void AGE_Frame::ListCivs()
 {
 	string Name;
@@ -86,11 +91,6 @@ void AGE_Frame::ListCivs()
 
 	wxCommandEvent E;
 	OnCivsSelect(E);
-}
-
-void AGE_Frame::OnCivsSearch(wxCommandEvent& Event)
-{
-	ListCivs();
 }
 
 void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
@@ -514,6 +514,11 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	return Name;
 }
+
+void AGE_Frame::OnResourcesSearch(wxCommandEvent& Event)
+{
+	ListResources(CivID);
+}
 	
 void AGE_Frame::ListResources(short Index)
 {
@@ -714,11 +719,6 @@ void AGE_Frame::ListResources(short Index)
 	
 	wxCommandEvent E;
 	OnResourcesSelect(E);
-}
-
-void AGE_Frame::OnResourcesSearch(wxCommandEvent& Event)
-{
-	ListResources(CivID);
 }
 
 void AGE_Frame::OnResourcesSelect(wxCommandEvent& Event)
