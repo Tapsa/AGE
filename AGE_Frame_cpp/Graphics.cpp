@@ -704,7 +704,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Type = new wxBoxSizer(wxVERTICAL);
 	Graphics_Grid_1 = new wxGridSizer(4, 5, 5);
 	Graphics_Grid_2 = new wxGridSizer(4, 5, 5);
-	Graphics_Text_Type = new wxStaticText(Graphics_Scroller, wxID_ANY, " Type", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Text_Type = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_TypeS = new TextCtrl_Short(Graphics_Scroller, "0", NULL);
 
 	Graphics_Deltas = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Graphic Deltas slot");

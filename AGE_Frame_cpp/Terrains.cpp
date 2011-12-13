@@ -40,6 +40,7 @@ void AGE_Frame::ListTerrains()
 	short TerrainID5 = Units_ComboBox_PlacementTerrain[1]->GetSelection();
 	short TerrainID6 = Units_ComboBox_TerrainID->GetSelection();
 	short TerrainID7 = Terrains_ComboBox_TerrainReplacementID->GetSelection();
+	short TerrainID8 = Borders_ComboBox_BorderTerrain->GetSelection();
 
 	if(Terrains_Terrains_List->GetCount() > 0)
 	{
@@ -72,6 +73,10 @@ void AGE_Frame::ListTerrains()
 	if(Terrains_ComboBox_TerrainReplacementID->GetCount() > 0)
 	{
 		Terrains_ComboBox_TerrainReplacementID->Clear();
+	}
+	if(Borders_ComboBox_BorderTerrain->GetCount() > 0)
+	{
+		Borders_ComboBox_BorderTerrain->Clear();
 	}
 	
 	if(Selection == wxNOT_FOUND)
@@ -106,6 +111,10 @@ void AGE_Frame::ListTerrains()
 	{
 		TerrainID7 = 0;
 	}
+	if(TerrainID8 == wxNOT_FOUND)
+	{
+		TerrainID8 = 0;
+	}
 	
 	Units_ComboBox_PlacementBypassTerrain[0]->Append("-1 - None");
 	Units_ComboBox_PlacementBypassTerrain[1]->Append("-1 - None");
@@ -113,6 +122,7 @@ void AGE_Frame::ListTerrains()
 	Units_ComboBox_PlacementTerrain[1]->Append("-1 - None");
 	Units_ComboBox_TerrainID->Append("-1 - None");
 	Terrains_ComboBox_TerrainReplacementID->Append("-1 - None");
+	Borders_ComboBox_BorderTerrain->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Terrains.size();loop++)
 	{
@@ -128,6 +138,7 @@ void AGE_Frame::ListTerrains()
 		Units_ComboBox_PlacementTerrain[1]->Append(Name);
 		Units_ComboBox_TerrainID->Append(Name);
 		Terrains_ComboBox_TerrainReplacementID->Append(Name);
+		Borders_ComboBox_BorderTerrain->Append(Name);
 	}
 	SearchText = wxString(TerRestrict_Terrains_Search->GetValue()).Lower();
 	ExcludeText = wxString(TerRestrict_Terrains_Search_R->GetValue()).Lower();
@@ -151,6 +162,7 @@ void AGE_Frame::ListTerrains()
 	Units_ComboBox_PlacementTerrain[1]->SetSelection(TerrainID5);
 	Units_ComboBox_TerrainID->SetSelection(TerrainID6);
 	Terrains_ComboBox_TerrainReplacementID->SetSelection(TerrainID7);
+	Borders_ComboBox_BorderTerrain->SetSelection(TerrainID8);
 
 	wxCommandEvent E;
 	OnTerrainsSelect(E);
