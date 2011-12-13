@@ -24,6 +24,11 @@ string AGE_Frame::GetResearchName(short Index)
 	return Name;
 }
 
+void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
+{
+	ListResearchs();
+}
+
 void AGE_Frame::ListResearchs()
 {
 	string Name;
@@ -109,11 +114,6 @@ void AGE_Frame::ListResearchs()
 	
 	wxCommandEvent E;
 	OnResearchSelect(E);
-}
-
-void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
-{
-	ListResearchs();
 }
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)

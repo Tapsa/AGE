@@ -99,6 +99,11 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 	}
 }
 
+void AGE_Frame::OnTechageSearch(wxCommandEvent& Event)
+{
+	ListTechages();
+}
+
 void AGE_Frame::ListTechages()
 {
 	string Name;
@@ -174,11 +179,6 @@ void AGE_Frame::ListTechages()
 
 	wxCommandEvent E;
 	OnTechageSelect(E);
-}
-
-void AGE_Frame::OnTechageSearch(wxCommandEvent& Event)
-{
-	ListTechages();
 }
 
 void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
@@ -304,6 +304,11 @@ string AGE_Frame::GetEffectName(short Index, short TechID)
 	return Name;
 }
 
+void AGE_Frame::OnEffectsSearch(wxCommandEvent& Event)
+{
+	ListEffects(TechID);
+}
+
 void AGE_Frame::ListEffects(short Index)
 {
 	string Name;
@@ -337,11 +342,6 @@ void AGE_Frame::ListEffects(short Index)
 
 	wxCommandEvent E;
 	OnEffectsSelect(E);
-}
-
-void AGE_Frame::OnEffectsSearch(wxCommandEvent& Event)
-{
-	ListEffects(TechID);
 }
 
 void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
