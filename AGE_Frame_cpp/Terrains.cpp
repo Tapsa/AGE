@@ -20,6 +20,11 @@ string AGE_Frame::GetTerrainName(short Index)
 	return Name;
 }
 
+void AGE_Frame::OnTerrainsSearch(wxCommandEvent& Event)
+{
+	ListTerrains();
+}
+
 void AGE_Frame::ListTerrains()
 {
 	string Name;
@@ -149,11 +154,6 @@ void AGE_Frame::ListTerrains()
 
 	wxCommandEvent E;
 	OnTerrainsSelect(E);
-}
-
-void AGE_Frame::OnTerrainsSearch(wxCommandEvent& Event)
-{
-	ListTerrains();
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)

@@ -13,6 +13,11 @@ string AGE_Frame::GetSoundName(short Index)
 	return Name;
 }
 
+void AGE_Frame::OnSoundsSearch(wxCommandEvent& Event)
+{
+	ListSounds();
+}
+
 void AGE_Frame::ListSounds()
 {
 	string Name;
@@ -154,11 +159,6 @@ void AGE_Frame::ListSounds()
 	OnSoundsSelect(E);
 }
 
-void AGE_Frame::OnSoundsSearch(wxCommandEvent& Event)
-{
-	ListSounds();
-}
-
 void AGE_Frame::OnSoundsSelect(wxCommandEvent& Event)
 {
 	short Selection = Sounds_Sounds_List->GetSelection();
@@ -241,6 +241,11 @@ string AGE_Frame::GetSoundItemName(short Index, short SoundID)
 	return Name;
 }
 
+void AGE_Frame::OnSoundItemsSearch(wxCommandEvent& Event)
+{
+	ListSoundItems(SoundID);
+}
+
 void AGE_Frame::ListSoundItems(short Index)
 {
 	string Name;
@@ -274,11 +279,6 @@ void AGE_Frame::ListSoundItems(short Index)
 
 	wxCommandEvent E;
 	OnSoundItemsSelect(E);
-}
-
-void AGE_Frame::OnSoundItemsSearch(wxCommandEvent& Event)
-{
-	ListSoundItems(SoundID);
 }
 
 void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)

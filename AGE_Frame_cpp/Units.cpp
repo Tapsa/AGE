@@ -1737,6 +1737,11 @@ string AGE_Frame::GetUnitDamageGraphicName(short Index, short UnitCivID, short U
 	return Name;
 }
 
+void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent& Event)
+{
+	ListUnitDamageGraphics(UnitID, UnitCivID);
+}
+
 void AGE_Frame::ListUnitDamageGraphics(short Index, short UnitCivID)
 {
 	string Name;
@@ -1770,11 +1775,6 @@ void AGE_Frame::ListUnitDamageGraphics(short Index, short UnitCivID)
 
 	wxCommandEvent E;
 	OnUnitDamageGraphicsSelect(E);
-}
-
-void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent& Event)
-{
-	ListUnitDamageGraphics(UnitID, UnitCivID);
 }
 
 void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
@@ -1873,6 +1873,11 @@ string AGE_Frame::GetUnitAttackName(short Index, short UnitCivID, short UnitID)
 	return Name;
 }
 
+void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent& Event)
+{
+	ListUnitAttacks(UnitID, UnitCivID);
+}
+
 void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
 {
 	string Name;
@@ -1914,11 +1919,6 @@ void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
 
 	wxCommandEvent E;
 	OnUnitAttacksSelect(E);
-}
-
-void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent& Event)
-{
-	ListUnitAttacks(UnitID, UnitCivID);
 }
 
 void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
@@ -2014,6 +2014,11 @@ string AGE_Frame::GetUnitArmorName(short Index, short UnitCivID, short UnitID)
 	return Name;
 }
 
+void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent& Event)
+{
+	ListUnitArmors(UnitID, UnitCivID);
+}
+
 void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
 {
 	string Name;
@@ -2055,11 +2060,6 @@ void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
 
 	wxCommandEvent E;
 	OnUnitArmorsSelect(E);
-}
-
-void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent& Event)
-{
-	ListUnitArmors(UnitID, UnitCivID);
 }
 
 void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
@@ -2289,6 +2289,11 @@ string AGE_Frame::GetUnitCommandName(short Index, short UnitCivID, short UnitID)
 	return Name;
 }
 
+void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent& Event)
+{
+	ListUnitCommands(UnitID, UnitCivID);
+}
+
 void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 {
 	string Name;
@@ -2347,11 +2352,6 @@ void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 	
 	wxCommandEvent E;
 	OnUnitCommandsSelect(E);
-}
-
-void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent& Event)
-{
-	ListUnitCommands(UnitID, UnitCivID);
 }
 
 void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
