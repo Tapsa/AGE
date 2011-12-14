@@ -198,19 +198,35 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 1)
 	{
+		if(GameVersion < 4)
 		Name = "Wood Storage";
+		else
+		Name = "Carbon Storage";
 	}
 	else if(Index == 2)
 	{
+		if(GameVersion < 4)
 		Name = "Stone Storage";
+		else
+		Name = "Ore Storage";
 	}
 	else if(Index == 3)
 	{
+		if(GameVersion < 4)
 		Name = "Gold Storage ";
+		else
+		Name = "Nova Storage ";
 	}
 	else if(Index == 4)
 	{
 		Name = "Population Headroom";
+	}
+	else if(Index == 5)
+	{
+		if(GameVersion < 4)
+		Name = "Unknown";
+		else
+		Name = "Force Strong";
 	}
 	else if(Index == 6)
 	{
@@ -218,11 +234,21 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 7)
 	{
+		if(GameVersion < 4)
 		Name = "Captured Relics";
+		else
+		Name = "Captured Holocrons";
 	}
 	else if(Index == 9)
 	{
 		Name = "Goods (Used by Trade Workshops and Docks)";
+	}
+	else if(Index == 10)
+	{
+		if(GameVersion < 4)
+		Name = "Unknown";
+		else
+		Name = "Shields Recharge Rate";
 	}
 	else if(Index == 11)
 	{
@@ -242,11 +268,11 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 19)
 	{
-		Name = "Military Room (Used for counting Losses)";
+		Name = "Military Room (for counting Losses)";
 	}
 	else if(Index == 20)
 	{
-		Name = "Kill";
+		Name = "Kills";
 	}
 	else if(Index == 21)
 	{
@@ -254,7 +280,10 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 23)
 	{
+		if(GameVersion < 4)
 		Name = "Technology 1?";
+		else
+		Name = "Scanning Capability";
 	}
 	else if(Index == 24)
 	{
@@ -264,25 +293,52 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	{
 		Name = "Technology 3?";
 	}
+	else if(Index == 26)
+	{
+		if(GameVersion < 4)
+		Name = "Unknown";
+		else
+		Name = "Shields Drop Off Time";
+	}
 	else if(Index == 27)
 	{
-		Name = "Atonement (Boolean)";
+		if(GameVersion < 4)
+		Name = "Atonement";
+		else
+		Name = "Force Influence";
 	}
 	else if(Index == 28)
 	{
-		Name = "Redemption (Boolean)";
+		Name = "Redemption";
 	}
 	else if(Index == 30)
 	{
 		Name = "(Unknown)";
 	}
+	else if(Index == 31)
+	{
+		if(GameVersion < 4)
+		Name = "Unknown";
+		else
+		Name = "Walker Research";
+	}
 	else if(Index == 32)
 	{
 		Name = "Bonus Population";
 	}
+	else if(Index == 33)
+	{
+		if(GameVersion < 4)
+		Name = "Unknown";
+		else
+		Name = "Power Core Shielding";
+	}
 	else if(Index == 35)
 	{
+		if(GameVersion < 4)
 		Name = "Faith Recharging Rate";
+		else
+		Name = "Stamina Rate";
 	}
 	else if(Index == 36)
 	{
@@ -291,6 +347,10 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	else if(Index == 37)
 	{
 		Name = "Civilian Population";
+	}
+	else if(Index == 38)
+	{
+		Name = "Shields On";
 	}
 	else if(Index == 39)
 	{
@@ -302,11 +362,11 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 41)
 	{
-		Name = "Conversion Made";
+		Name = "Conversions Made";
 	}
 	else if(Index == 43)
 	{
-		Name = "Razing";
+		Name = "Razings";
 	}
 	else if(Index == 44)
 	{
@@ -314,7 +374,7 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 45)
 	{
-		Name = "Survival to Finish (Boolean)";
+		Name = "Survival to Finish";
 	}
 	else if(Index == 46)
 	{
@@ -322,19 +382,35 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 47)
 	{
+		if(GameVersion < 4)
 		Name = "Gold Mining Productivity";
+		else
+		Name = "Nova Mining Productivity";
 	}
 	else if(Index == 50)
 	{
-		Name = "Reveal Ally (Boolean)";
+		Name = "Reveal Ally";
+	}
+	else if(Index == 51)
+	{
+		if(GameVersion < 4)
+		Name = "Unknown";
+		else
+		Name = "Shielding";
 	}
 	else if(Index == 56)
 	{
+		if(GameVersion < 4)
 		Name = "Ore Storage? Unit Unload Room?";
+		else
+		Name = "Mind Trick";
 	}
 	else if(Index == 58)
 	{
+		if(GameVersion < 4)
 		Name = "Technology 5?";
+		else
+		Name = "Perception";
 	}
 	else if(Index == 59)
 	{
@@ -354,11 +430,11 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 66)
 	{
-		Name = "Dark Age? (Boolean)";
+		Name = "Dark Age?";
 	}
 	else if(Index == 67)
 	{
-		Name = "Conversion (Boolean)";
+		Name = "Conversion";
 	}
 	else if(Index == 77)
 	{
@@ -370,11 +446,17 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 79)
 	{
+		if(GameVersion < 4)
 		Name = "Stone Mining Productivity";
+		else
+		Name = "Ore Mining Productivity";
 	}
 	else if(Index == 80)
 	{
+		if(GameVersion < 4)
 		Name = "Achievements, Relic Gold";
+		else
+		Name = "Achievements, Holocron Nova";
 	}
 	else if(Index == 81)
 	{
@@ -386,15 +468,18 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 84)
 	{
-		Name = "Starting Villager";
+		Name = "Starting Villagers";
 	}
 	else if(Index == 85)
 	{
-		Name = "Technology Research Cost";
+		Name = "Researches' Cost";
 	}
 	else if(Index == 87)
 	{
-		Name = "Boarding (Boolean)";
+		if(GameVersion < 4)
+		Name = "Boarding";
+		else
+		Name = "Concentration";
 	}
 	else if(Index == 88)
 	{
@@ -414,15 +499,24 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 92)
 	{
+		if(GameVersion < 4)
 		Name = "Bonus Starting Wood";
+		else
+		Name = "Bonus Starting Carbon";
 	}
 	else if(Index == 93)
 	{
+		if(GameVersion < 4)
 		Name = "Bonus Starting Stone";
+		else
+		Name = "Bonus Starting Ore";
 	}
 	else if(Index == 94)
 	{
+		if(GameVersion < 4)
 		Name = "Bonus Starting Gold";
+		else
+		Name = "Bonus Starting Nova";
 	}
 	else if(Index == 95)
 	{
@@ -430,11 +524,11 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 96)
 	{
-		Name = "Berserker Self-Healing Second(s)";
+		Name = "Self Regeneration Seconds";
 	}
 	else if(Index == 97)
 	{
-		Name = "Sheep/Turkey Dominant LOS (Boolean)";
+		Name = "Sheep/Turkey Dominant LOS";
 	}
 	else if(Index == 98)
 	{
@@ -470,11 +564,14 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 183)
 	{
-		Name = "Reveal Enemy (Boolean)";
+		Name = "Reveal Enemy";
 	}
 	else if(Index == 189)
 	{
+		if(GameVersion < 4)
 		Name = "Chopping Productivity";
+		else
+		Name = "Carbon Gathering Productivity";
 	}
 	else if(Index == 190)
 	{
@@ -482,19 +579,28 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 191)
 	{
-		Name = "Relic Gold Production";
+		if(GameVersion < 4)
+		Name = "Relic Gold Production Rate";
+		else
+		Name = "Holocron Nova Production Rate";
 	}
 	else if(Index == 192)
 	{
-		Name = "Heresy (Boolean)";
+		if(GameVersion < 4)
+		Name = "Heresy";
+		else
+		Name = "Purge";
 	}
 	else if(Index == 193)
 	{
-		Name = "Theocracy (Boolean)";
+		if(GameVersion < 4)
+		Name = "Theocracy";
+		else
+		Name = "Meditation";
 	}
 	else if(Index == 194)
 	{
-		Name = "Crenellations (Boolean)";
+		Name = "Crenellations";
 	}
 	else if(Index == 195)
 	{
@@ -506,7 +612,7 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 197)
 	{
-		Name = "Atheism (Boolean)";
+		Name = "Atheism";
 	}
 	else
 	{

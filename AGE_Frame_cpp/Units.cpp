@@ -387,17 +387,26 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			case 20:
 				Units_ComboBox_Type->SetSelection(2);
 				break;
-			case 30:
+			case 25:
 				Units_ComboBox_Type->SetSelection(3);
 				break;
-			case 60:
+			case 30:
 				Units_ComboBox_Type->SetSelection(4);
 				break;
-			case 70:
+			case 40:
 				Units_ComboBox_Type->SetSelection(5);
 				break;
-			case 80:
+			case 60:
 				Units_ComboBox_Type->SetSelection(6);
+				break;
+			case 70:
+				Units_ComboBox_Type->SetSelection(7);
+				break;
+			case 80:
+				Units_ComboBox_Type->SetSelection(8);
+				break;
+			case 90:
+				Units_ComboBox_Type->SetSelection(9);
 				break;
 			default:
 				Units_ComboBox_Type->SetSelection(0);
@@ -3569,209 +3578,18 @@ void AGE_Frame::CreateUnitControls()
 
 //	UnitControls actual interface
 
-	Units_ComboBox_Type->Append("No Type/Invalid Type");	// Selection 0
-	Units_ComboBox_Type->Append("10 - Eye Candy");	// Selection 1
+	Units_ComboBox_Type->Append("No Type/Invalid Type");
+	Units_ComboBox_Type->Append("10 - Eye Candy");
 	Units_ComboBox_Type->Append("20 - Flag");
+	Units_ComboBox_Type->Append("25 - Doppleganger");
 	Units_ComboBox_Type->Append("30 - Dead Unit/Fish Unit");
+	Units_ComboBox_Type->Append("40 - Bird");
 	Units_ComboBox_Type->Append("60 - Projectile");
 	Units_ComboBox_Type->Append("70 - Living Unit");
-	Units_ComboBox_Type->Append("80 - Building");	// Selection 6
+	Units_ComboBox_Type->Append("80 - Building");
+	Units_ComboBox_Type->Append("90 - Tree");
 	Units_ComboBox_Type->SetSelection(0);
-	
-	UnitCommands_ComboBox_Types->Append("Unused Ability/Invalid Ability");	// Selection 0
-	UnitCommands_ComboBox_Types->Append("Ability to Garrison");	// Selection 1
-	UnitCommands_ComboBox_Types->Append("Ability to Mine Gold");
-	UnitCommands_ComboBox_Types->Append("Ability to Mine Stone");
-	UnitCommands_ComboBox_Types->Append("Ability to Fish, Forage, or Farm");
-	UnitCommands_ComboBox_Types->Append("Ability to Rebuild");
-	UnitCommands_ComboBox_Types->Append("Type 6, Sub -1");
-	UnitCommands_ComboBox_Types->Append("Ability to Attack");
-	UnitCommands_ComboBox_Types->Append("Ability to Fly");
-	UnitCommands_ComboBox_Types->Append("Type 11, Sub -1");
-	UnitCommands_ComboBox_Types->Append("Ability to Unload (Boat-Like)");
-	UnitCommands_ComboBox_Types->Append("Ability to Auto-Attack");
-	UnitCommands_ComboBox_Types->Append("Type 21, Sub -1");
-	UnitCommands_ComboBox_Types->Append("Ability to Build");
-	UnitCommands_ComboBox_Types->Append("Ability to Convert");
-	UnitCommands_ComboBox_Types->Append("Ability to Heal");
-	UnitCommands_ComboBox_Types->Append("Ability to Repair");
-	UnitCommands_ComboBox_Types->Append("Type 107, Sub -1");
-	UnitCommands_ComboBox_Types->Append("Type 109, Sub -1");
-	UnitCommands_ComboBox_Types->Append("Ability to Chop Wood");
-	UnitCommands_ComboBox_Types->Append("Ability to Hunt Prey Animals");
-	UnitCommands_ComboBox_Types->Append("Ability to Hunt Predator Animals");
-	UnitCommands_ComboBox_Types->Append("Ability to Trade");
-	UnitCommands_ComboBox_Types->Append("Ability to Generate Wonder Victory*");
-	UnitCommands_ComboBox_Types->Append("Type 121, Sub -1");
-	UnitCommands_ComboBox_Types->Append("Ability to Mine Porex (Ore)");
-	UnitCommands_ComboBox_Types->Append("Ability to Unpack & Attack");
-	UnitCommands_ComboBox_Types->Append("Type 131, Sub -1");
-	UnitCommands_ComboBox_Types->Append("Ability to Pickup Unit");
-	UnitCommands_ComboBox_Types->Append("Type 135, Sub -1");
-	UnitCommands_ComboBox_Types->Append("Ability to Deposit Unit");	// Selection 30
-	UnitCommands_ComboBox_Types->SetSelection(0);
 
-	Units_ComboBox_GarrisonType->Append("No Type/Invalid Type");	// Selection 0
-	Units_ComboBox_GarrisonType->Append("0 - None");	// Selection 1
-	Units_ComboBox_GarrisonType->Append("1 - Villager");
-	Units_ComboBox_GarrisonType->Append("2 - Infantry");
-	Units_ComboBox_GarrisonType->Append("3 - Villager + Infantry");
-	Units_ComboBox_GarrisonType->Append("4 - Cavalry");
-	Units_ComboBox_GarrisonType->Append("5 - Cavalry + Villager");
-	Units_ComboBox_GarrisonType->Append("6 - Cavalry + Infantry");
-	Units_ComboBox_GarrisonType->Append("7 - Cavalry + Infantry + Villager");
-	Units_ComboBox_GarrisonType->Append("8 - Monk");
-	Units_ComboBox_GarrisonType->Append("9 - Monk + Villager");
-	Units_ComboBox_GarrisonType->Append("10 - Monk + Infantry");
-	Units_ComboBox_GarrisonType->Append("11 - Monk + Infantry + Villager");
-	Units_ComboBox_GarrisonType->Append("12 - Monk + Cavalry");
-	Units_ComboBox_GarrisonType->Append("13 - Monk + Villager + Calavry");
-	Units_ComboBox_GarrisonType->Append("14 - Monk + Calavry + Infantry");
-	Units_ComboBox_GarrisonType->Append("15 - Monk + Villager + Infantry + Calavry");
-	Units_ComboBox_GarrisonType->SetSelection(0);
-
-	for(short loop = 0;loop < 2;loop++)
-	{
-		Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
-		Units_ComboBox_Class[loop]->Append("0 - Archer");	// Selection 1
-		Units_ComboBox_Class[loop]->Append("1 - Artifact");
-		Units_ComboBox_Class[loop]->Append("2 - Trade Boat");
-		Units_ComboBox_Class[loop]->Append("3 - Building");
-		Units_ComboBox_Class[loop]->Append("4 - Civilian");
-		Units_ComboBox_Class[loop]->Append("5 - Sea Fish");
-		Units_ComboBox_Class[loop]->Append("6 - Soldier");
-		Units_ComboBox_Class[loop]->Append("7 - Berry Bush");
-		Units_ComboBox_Class[loop]->Append("8 - Stone Mine");
-		Units_ComboBox_Class[loop]->Append("9 - Prey Animal");
-		Units_ComboBox_Class[loop]->Append("10 - Predator Animal");
-		Units_ComboBox_Class[loop]->Append("11 - Other");
-		Units_ComboBox_Class[loop]->Append("12 - Cavalry");
-		Units_ComboBox_Class[loop]->Append("13 - Siege Weapon");
-		Units_ComboBox_Class[loop]->Append("14 - Terrain");
-		Units_ComboBox_Class[loop]->Append("15 - Trees");
-		Units_ComboBox_Class[loop]->Append("16 - Unused");
-		Units_ComboBox_Class[loop]->Append("17 - Unused");
-		Units_ComboBox_Class[loop]->Append("18 - Priest");
-		Units_ComboBox_Class[loop]->Append("19 - Trade Cart");
-		Units_ComboBox_Class[loop]->Append("20 - Transport Boat");
-		Units_ComboBox_Class[loop]->Append("21 - Fishing Boat");
-		Units_ComboBox_Class[loop]->Append("22 - War Boat");
-		Units_ComboBox_Class[loop]->Append("23 - Conquistador");
-		Units_ComboBox_Class[loop]->Append("24 - Unused");
-		Units_ComboBox_Class[loop]->Append("25 - Unused");
-		Units_ComboBox_Class[loop]->Append("26 - Unused");
-		Units_ComboBox_Class[loop]->Append("27 - Walls");
-		Units_ComboBox_Class[loop]->Append("28 - Phalanx");
-		Units_ComboBox_Class[loop]->Append("29 - Unused");
-		Units_ComboBox_Class[loop]->Append("30 - Flags");
-		Units_ComboBox_Class[loop]->Append("31 - Unused");
-		Units_ComboBox_Class[loop]->Append("32 - Gold Mine");
-		Units_ComboBox_Class[loop]->Append("33 - Shore Fish");
-		Units_ComboBox_Class[loop]->Append("34 - Cliff");
-		Units_ComboBox_Class[loop]->Append("35 - Petard");
-		Units_ComboBox_Class[loop]->Append("36 - Cavalry Archer");
-		Units_ComboBox_Class[loop]->Append("37 - Dolphin");
-		Units_ComboBox_Class[loop]->Append("38 - Birds");
-		Units_ComboBox_Class[loop]->Append("39 - Gates");
-		Units_ComboBox_Class[loop]->Append("40 - Piles");
-		Units_ComboBox_Class[loop]->Append("41 - Piles of Resource");
-		Units_ComboBox_Class[loop]->Append("42 - Relic");
-		Units_ComboBox_Class[loop]->Append("43 - Monk with Relic");
-		Units_ComboBox_Class[loop]->Append("44 - Hand Cannoneer");
-		Units_ComboBox_Class[loop]->Append("45 - Two Handed Swordsman");
-		Units_ComboBox_Class[loop]->Append("46 - Pikeman");
-		Units_ComboBox_Class[loop]->Append("47 - Scout Cavalry");
-		Units_ComboBox_Class[loop]->Append("48 - Ore Mine");
-		Units_ComboBox_Class[loop]->Append("49 - Farm");
-		Units_ComboBox_Class[loop]->Append("50 - Spearman");
-		Units_ComboBox_Class[loop]->Append("51 - Packed Siege Units");
-		Units_ComboBox_Class[loop]->Append("52 - Tower");
-		Units_ComboBox_Class[loop]->Append("53 - Boarding Boat");
-		Units_ComboBox_Class[loop]->Append("54 - Unpacked Siege Units");
-		Units_ComboBox_Class[loop]->Append("55 - Scorpion");
-		Units_ComboBox_Class[loop]->Append("56 - Raider");
-		Units_ComboBox_Class[loop]->Append("57 - Cavalry Raider");
-		Units_ComboBox_Class[loop]->Append("58 - Sheep");
-		Units_ComboBox_Class[loop]->Append("59 - King");
-		Units_ComboBox_Class[loop]->Append("60 - Unused");
-		Units_ComboBox_Class[loop]->Append("61 - Horse");
-		Units_ComboBox_Class[loop]->SetSelection(0);
-
-		Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
-		Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 1
-		Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
-		Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
-		Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
-		Attacks_ComboBox_Class[loop]->Append("5 - War Elephants");
-		Attacks_ComboBox_Class[loop]->Append("6 - None");
-		Attacks_ComboBox_Class[loop]->Append("7 - None");
-		Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
-		Attacks_ComboBox_Class[loop]->Append("9 - None");
-		Attacks_ComboBox_Class[loop]->Append("10 - None");
-		Attacks_ComboBox_Class[loop]->Append("11 - All Buildings (except Port)");
-		Attacks_ComboBox_Class[loop]->Append("12 - None");
-		Attacks_ComboBox_Class[loop]->Append("13 - Stone Defense");
-		Attacks_ComboBox_Class[loop]->Append("14 - None");
-		Attacks_ComboBox_Class[loop]->Append("15 - Archers");
-		Attacks_ComboBox_Class[loop]->Append("16 - Ships & Camels & Saboteurs");
-		Attacks_ComboBox_Class[loop]->Append("17 - Rams");
-		Attacks_ComboBox_Class[loop]->Append("18 - Trees");
-		Attacks_ComboBox_Class[loop]->Append("19 - Unique Units (except Turtle Ship)");
-		Attacks_ComboBox_Class[loop]->Append("20 - Siege Weapons");
-		Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
-		Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
-		Attacks_ComboBox_Class[loop]->Append("23 - None");
-		Attacks_ComboBox_Class[loop]->Append("24 - Boars");
-		Attacks_ComboBox_Class[loop]->Append("25 - Monks");
-		Attacks_ComboBox_Class[loop]->Append("26 - Castle");
-		Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
-		Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
-		Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
-		Attacks_ComboBox_Class[loop]->Append("30 - None");	// Selection 30
-		Attacks_ComboBox_Class[loop]->Append("31 - Extra Class 1");
-		Attacks_ComboBox_Class[loop]->Append("32 - Extra Class 2");
-		Attacks_ComboBox_Class[loop]->Append("33 - Extra Class 3");
-		Attacks_ComboBox_Class[loop]->Append("34 - Extra Class 4");
-		Attacks_ComboBox_Class[loop]->Append("35 - Extra Class 5");
-		Attacks_ComboBox_Class[loop]->SetSelection(0);
-
-		Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
-		Units_Units_SearchFilters[loop]->Append("Internal Name");
-		Units_Units_SearchFilters[loop]->Append("Type");
-		Units_Units_SearchFilters[loop]->Append("Class");
-		Units_Units_SearchFilters[loop]->Append("Pointer");
-	/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
-		Units_Units_SearchFilters[loop]->Append("Projectile Unit");
-		Units_Units_SearchFilters[loop]->Append("Enabled");
-		Units_Units_SearchFilters[loop]->Append("Hidden In Editor");
-		Units_Units_SearchFilters[loop]->Append("Visible In Fog");
-		Units_Units_SearchFilters[loop]->Append("Death Mode");
-		Units_Units_SearchFilters[loop]->Append("Hero Mode");
-		Units_Units_SearchFilters[loop]->Append("Air Mode");
-		Units_Units_SearchFilters[loop]->Append("Fly Mode");
-		Units_Units_SearchFilters[loop]->Append("Building Mode");
-		Units_Units_SearchFilters[loop]->Append("Placement Mode");
-		Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
-		Units_Units_SearchFilters[loop]->Append("Interaction Mode");
-		Units_Units_SearchFilters[loop]->Append("Minimap Mode");
-		Units_Units_SearchFilters[loop]->Append("Sheep Conversion");
-		Units_Units_SearchFilters[loop]->Append("Villager Mode");
-		Units_Units_SearchFilters[loop]->Append("Unseletable");
-		Units_Units_SearchFilters[loop]->Append("Selection Mask");
-		Units_Units_SearchFilters[loop]->Append("Selection Shape Type");
-		Units_Units_SearchFilters[loop]->Append("Selection Shape");
-		Units_Units_SearchFilters[loop]->Append("Selection Effect");
-		Units_Units_SearchFilters[loop]->Append("Editor Selection Color");
-		Units_Units_SearchFilters[loop]->Append("Unitline");
-		Units_Units_SearchFilters[loop]->Append("Tracking Unit Used");
-		Units_Units_SearchFilters[loop]->Append("Train Location");
-		Units_Units_SearchFilters[loop]->Append("Command Attribute");
-		Units_Units_SearchFilters[loop]->Append("Stack Unit");
-		Units_Units_SearchFilters[loop]->Append("Terrain");
-		Units_Units_SearchFilters[loop]->Append("Research");
-	*/	Units_Units_SearchFilters[loop]->SetSelection(0);
-	}
-	
 	Units_Units_Buttons->Add(Units_Add, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Delete, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Copy, 1, wxEXPAND);
@@ -4756,13 +4574,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Attributes->Add(-1, 5);
 	Units_Holder_Attributes->Add(Units_Holder_ResourceStorageHeader, 0, wxEXPAND);
 	Units_Holder_Attributes->Add(-1, 5);
+	Units_Holder_Attributes->Add(Units_Holder_CostHeader, 0, wxEXPAND);
+	Units_Holder_Attributes->Add(-1, 5);
 	Units_Holder_Attributes->Add(Units_Grid_Attributes2, 0, wxEXPAND);
 	Units_Holder_Attributes->Add(-1, 5);
 	Units_Holder_Attributes->Add(Units_Holder_AttributesHotKey, 0, wxEXPAND);
 	Units_Holder_Attributes->Add(-1, 5);
 	Units_Holder_Attributes->Add(Units_Grid_AttributesTracking, 0, wxEXPAND);
-	Units_Holder_Attributes->Add(-1, 5);
-	Units_Holder_Attributes->Add(Units_Holder_CostHeader, 0, wxEXPAND);
 	Units_Holder_Attributes->Add(-1, 5);
 	Units_Holder_Attributes->Add(Units_Grid_AttributesTrain1, 0, wxEXPAND);
 	Units_Holder_Attributes->Add(-1, 5);

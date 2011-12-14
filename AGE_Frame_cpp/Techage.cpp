@@ -383,8 +383,8 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 		Effects_B->ChangeValue(lexical_cast<string>(EffectPointer->B));
 		Effects_B->Container = &EffectPointer->B;
 		Effects_CheckBox_ModeB->SetValue((bool)EffectPointer->B);
-		Effects_ComboBox_ClassB->SetSelection(0);
-		Effects_ComboBox_ClassB->SetSelection(EffectPointer->B + 1);
+		Units_ComboBox_Class[2]->SetSelection(0);
+		Units_ComboBox_Class[2]->SetSelection(EffectPointer->B + 1);
 		Effects_ComboBox_UnitsB->SetSelection(0);
 		Effects_ComboBox_UnitsB->SetSelection(EffectPointer->B + 1);
 		Effects_ComboBox_ResourcesB->SetSelection(0);
@@ -406,7 +406,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(true);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(true);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -433,17 +433,17 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
-					Effects_ComboBox_ClassF->Show(true);
-					Effects_ComboBox_ClassF->SetSelection(0);
+					Attacks_ComboBox_Class[2]->Show(true);
+					Attacks_ComboBox_Class[2]->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
 						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Effects_ComboBox_ClassF->SetSelection(-(short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256);
 					}
 					else
 					{
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Effects_ComboBox_ClassF->SetSelection((short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256);
 					}
 					Effects_Text_E->SetLabel("Value [Set] ");
 					Effects_Text_F->SetLabel("Class ");
@@ -455,7 +455,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					Effects_D->Enable(true);
 					Effects_E->Show(false);
 					Effects_F->Show(false);
-					Effects_ComboBox_ClassF->Show(false);
+					Attacks_ComboBox_Class[2]->Show(false);
 					Effects_Text_E->SetLabel("");
 					Effects_Text_F->SetLabel("");
 					Effects_Info_E->SetLabel("");
@@ -469,13 +469,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(true);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(true);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-				Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
 				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
@@ -511,13 +511,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(true);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-				Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
 				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
@@ -546,13 +546,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(true);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-				Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
 				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
@@ -581,7 +581,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(true);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(true);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -608,17 +608,17 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
-					Effects_ComboBox_ClassF->Show(true);
-					Effects_ComboBox_ClassF->SetSelection(0);
+					Attacks_ComboBox_Class[2]->Show(true);
+					Attacks_ComboBox_Class[2]->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
 						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Effects_ComboBox_ClassF->SetSelection(-(short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256);
 					}
 					else
 					{
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Effects_ComboBox_ClassF->SetSelection((short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256);
 					}
 					Effects_Text_E->SetLabel("Value [+/-] ");
 					Effects_Text_F->SetLabel("Class ");
@@ -630,7 +630,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					Effects_D->Enable(true);
 					Effects_E->Show(false);
 					Effects_F->Show(false);
-					Effects_ComboBox_ClassF->Show(false);
+					Attacks_ComboBox_Class[2]->Show(false);
 					Effects_Text_E->SetLabel("");
 					Effects_Text_F->SetLabel("");
 					Effects_Info_E->SetLabel("");
@@ -644,7 +644,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(true);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(true);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -671,17 +671,17 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
-					Effects_ComboBox_ClassF->Show(true);
-					Effects_ComboBox_ClassF->SetSelection(0);
+					Attacks_ComboBox_Class[2]->Show(true);
+					Attacks_ComboBox_Class[2]->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
 						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Effects_ComboBox_ClassF->SetSelection(-(short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256);
 					}
 					else
 					{
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Effects_ComboBox_ClassF->SetSelection((short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256);
 					}
 					Effects_Text_E->SetLabel("Value [%] ");
 					Effects_Text_F->SetLabel("Class ");
@@ -693,7 +693,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					Effects_D->Enable(true);
 					Effects_E->Show(false);
 					Effects_F->Show(false);
-					Effects_ComboBox_ClassF->Show(false);
+					Attacks_ComboBox_Class[2]->Show(false);
 					Effects_Text_E->SetLabel("");
 					Effects_Text_F->SetLabel("");
 					Effects_Info_E->SetLabel("");
@@ -707,13 +707,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(true);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-				Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(false);	// not for Effects 6, 102, 103
 				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
@@ -742,13 +742,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(true);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(true);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(true);	// for Effects 101, 103
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-				Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
 				Effects_C->Show(true);	// not for Effects 1, 2, 3, 6, 102
@@ -784,13 +784,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(true);	// for Effects 102
-				Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(false);	// not for Effects 102
 				Effects_B->Show(false);	// not for Effects 6, 102, 103
 				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
@@ -819,13 +819,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(true);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(true);	// for Effects 101, 103
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-				Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(false);	// not for Effects 6, 102, 103
 				Effects_C->Show(true);	// not for Effects 1, 2, 3, 6, 102
@@ -861,13 +861,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-				Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(false);	// not for Effects 102
 				Effects_B->Show(false);	// not for Effects 6, 102, 103
 				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
@@ -899,13 +899,13 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 		Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 		Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 		Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-		Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+		Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 		Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 		Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 		Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
 		Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 		Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-		Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+		Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 		Effects_A->Show(false);	// not for Effects 102
 		Effects_B->Show(false);	// not for Effects 6, 102, 103
 		Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
@@ -1043,7 +1043,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_B = new TextCtrl_Short(Tab_Techage, "0", NULL);
 	Effects_ComboBox_B = new wxBoxSizer(wxHORIZONTAL);
 	Effects_CheckBox_ModeB = new CheckBox_Short(Tab_Techage, "", Effects_B);
-	Effects_ComboBox_ClassB = new ComboBox_Short(Tab_Techage, Effects_B);
+	Units_ComboBox_Class[2] = new ComboBox_Short(Tab_Techage, Effects_B);
 	Effects_ComboBox_UnitsB = new ComboBox_Short(Tab_Techage, Effects_B);
 	Effects_ComboBox_ResourcesB = new ComboBox_Short(Tab_Techage, Effects_B);
 	Effects_Info_B = new wxStaticText(Tab_Techage, wxID_ANY, " Info B", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -1062,8 +1062,8 @@ void AGE_Frame::CreateTechageControls()
 	Effects_E = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Effects_Info_E = new wxStaticText(Tab_Techage, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_F = new wxStaticText(Tab_Techage, wxID_ANY, "Class ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_F = new wxTextCtrl(Tab_Techage, wxID_ANY);
-	Effects_ComboBox_ClassF = new wxOwnerDrawnComboBox(Tab_Techage, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+	Effects_F = new TextCtrl_Short(Tab_Techage, "0", NULL);
+	Attacks_ComboBox_Class[2] = new ComboBox_Short_AttackType(Tab_Techage, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techage, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Link = new wxHyperlinkCtrl(Tab_Techage, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
 	
@@ -1079,221 +1079,6 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ComboBox_Type->Append("102 - Disable Research");
 	Effects_ComboBox_Type->Append("103 - Research Time Modifier (Set/+/-)");	// Selection 10
 	Effects_ComboBox_Type->SetSelection(0);
-	
-	Effects_ComboBox_ClassB->Append("No Class/Invalid Class");	// Selection 0
-	Effects_ComboBox_ClassB->Append("0 - Archer");	// Selection 1
-	Effects_ComboBox_ClassB->Append("1 - Artifact");
-	Effects_ComboBox_ClassB->Append("2 - Trade Boat");
-	Effects_ComboBox_ClassB->Append("3 - Building");
-	Effects_ComboBox_ClassB->Append("4 - Civilian");
-	Effects_ComboBox_ClassB->Append("5 - Sea Fish");
-	Effects_ComboBox_ClassB->Append("6 - Soldier");
-	Effects_ComboBox_ClassB->Append("7 - Berry Bush");
-	Effects_ComboBox_ClassB->Append("8 - Stone Mine");
-	Effects_ComboBox_ClassB->Append("9 - Prey Animal");
-	Effects_ComboBox_ClassB->Append("10 - Predator Animal");
-	Effects_ComboBox_ClassB->Append("11 - Other");
-	Effects_ComboBox_ClassB->Append("12 - Cavalry");
-	Effects_ComboBox_ClassB->Append("13 - Siege Weapon");
-	Effects_ComboBox_ClassB->Append("14 - Terrain");
-	Effects_ComboBox_ClassB->Append("15 - Trees");
-	Effects_ComboBox_ClassB->Append("16 - Unused");
-	Effects_ComboBox_ClassB->Append("17 - Unused");
-	Effects_ComboBox_ClassB->Append("18 - Priest");
-	Effects_ComboBox_ClassB->Append("19 - Trade Cart");
-	Effects_ComboBox_ClassB->Append("20 - Transport Boat");
-	Effects_ComboBox_ClassB->Append("21 - Fishing Boat");
-	Effects_ComboBox_ClassB->Append("22 - War Boat");
-	Effects_ComboBox_ClassB->Append("23 - Conquistador");
-	Effects_ComboBox_ClassB->Append("24 - Unused");
-	Effects_ComboBox_ClassB->Append("25 - Unused");
-	Effects_ComboBox_ClassB->Append("26 - Unused");
-	Effects_ComboBox_ClassB->Append("27 - Walls");
-	Effects_ComboBox_ClassB->Append("28 - Phalanx");
-	Effects_ComboBox_ClassB->Append("29 - Unused");
-	Effects_ComboBox_ClassB->Append("30 - Flags");
-	Effects_ComboBox_ClassB->Append("31 - Unused");
-	Effects_ComboBox_ClassB->Append("32 - Gold Mine");
-	Effects_ComboBox_ClassB->Append("33 - Shore Fish");
-	Effects_ComboBox_ClassB->Append("34 - Cliff");
-	Effects_ComboBox_ClassB->Append("35 - Petard");
-	Effects_ComboBox_ClassB->Append("36 - Cavalry Archer");
-	Effects_ComboBox_ClassB->Append("37 - Dolphin");
-	Effects_ComboBox_ClassB->Append("38 - Birds");
-	Effects_ComboBox_ClassB->Append("39 - Gates");
-	Effects_ComboBox_ClassB->Append("40 - Piles");
-	Effects_ComboBox_ClassB->Append("41 - Piles of Resource");
-	Effects_ComboBox_ClassB->Append("42 - Relic");
-	Effects_ComboBox_ClassB->Append("43 - Monk with Relic");
-	Effects_ComboBox_ClassB->Append("44 - Hand Cannoneer");
-	Effects_ComboBox_ClassB->Append("45 - Two Handed Swordsman");
-	Effects_ComboBox_ClassB->Append("46 - Pikeman");
-	Effects_ComboBox_ClassB->Append("47 - Scout Cavalry");
-	Effects_ComboBox_ClassB->Append("48 - Ore Mine");
-	Effects_ComboBox_ClassB->Append("49 - Farm");
-	Effects_ComboBox_ClassB->Append("50 - Spearman");
-	Effects_ComboBox_ClassB->Append("51 - Packed Siege Units");
-	Effects_ComboBox_ClassB->Append("52 - Tower");
-	Effects_ComboBox_ClassB->Append("53 - Boarding Boat");
-	Effects_ComboBox_ClassB->Append("54 - Unpacked Siege Units");
-	Effects_ComboBox_ClassB->Append("55 - Scorpion");
-	Effects_ComboBox_ClassB->Append("56 - Raider");
-	Effects_ComboBox_ClassB->Append("57 - Cavalry Raider");
-	Effects_ComboBox_ClassB->Append("58 - Sheep");
-	Effects_ComboBox_ClassB->Append("59 - King");
-	Effects_ComboBox_ClassB->Append("60 - Unused");
-	Effects_ComboBox_ClassB->Append("61 - Horse");	// Selection 62
-	Effects_ComboBox_ClassB->SetSelection(0);
-
-	Effects_ComboBox_AttributesC->Append("No Attribute/Invalid Attribute");	// Selection 0
-	Effects_ComboBox_AttributesC->Append("0 - Hit Points");	// Selection 1
-	Effects_ComboBox_AttributesC->Append("1 - Line of Sight");
-	Effects_ComboBox_AttributesC->Append("2 - Garrison");
-	Effects_ComboBox_AttributesC->Append("3 - Unit Size Radius 1");
-	Effects_ComboBox_AttributesC->Append("4 - Unit Size Radius 2");
-	Effects_ComboBox_AttributesC->Append("5 - Movement Speed");
-	Effects_ComboBox_AttributesC->Append("6 - Garrison Recovery Rate");
-	Effects_ComboBox_AttributesC->Append("7 - Unknown?");
-	Effects_ComboBox_AttributesC->Append("8 - Armor");
-	Effects_ComboBox_AttributesC->Append("9 - Attack");
-	Effects_ComboBox_AttributesC->Append("10 - Attack Reloading Time");
-	Effects_ComboBox_AttributesC->Append("11 - Percent Accuracy");
-	Effects_ComboBox_AttributesC->Append("12 - Range");
-	Effects_ComboBox_AttributesC->Append("13 - Working Rate");
-	Effects_ComboBox_AttributesC->Append("14 - Resource Carriage");
-	Effects_ComboBox_AttributesC->Append("15 - Unknown?");
-	Effects_ComboBox_AttributesC->Append("16 - Unknown?");
-	Effects_ComboBox_AttributesC->Append("17 - Unknown Building Mode");
-	Effects_ComboBox_AttributesC->Append("18 - Unknown?");
-	Effects_ComboBox_AttributesC->Append("19 - Projectile Unit Intelligent Accuracy (Boolean)");
-	Effects_ComboBox_AttributesC->Append("20 - Minimum Range");
-	Effects_ComboBox_AttributesC->Append("21 - Population Support");
-	Effects_ComboBox_AttributesC->Append("22 - Blast Radius (Area Damage)");
-	Effects_ComboBox_AttributesC->Append("23 - Search Radius");
-	Effects_ComboBox_AttributesC->Append("24 - None");
-	Effects_ComboBox_AttributesC->Append("25 - None");
-	Effects_ComboBox_AttributesC->Append("26 - None");
-	Effects_ComboBox_AttributesC->Append("27 - None");
-	Effects_ComboBox_AttributesC->Append("28 - None");
-	Effects_ComboBox_AttributesC->Append("29 - None");
-	Effects_ComboBox_AttributesC->Append("30 - None");
-	Effects_ComboBox_AttributesC->Append("31 - None");
-	Effects_ComboBox_AttributesC->Append("32 - None");
-	Effects_ComboBox_AttributesC->Append("33 - None");
-	Effects_ComboBox_AttributesC->Append("34 - None");
-	Effects_ComboBox_AttributesC->Append("35 - None");
-	Effects_ComboBox_AttributesC->Append("36 - None");
-	Effects_ComboBox_AttributesC->Append("37 - None");
-	Effects_ComboBox_AttributesC->Append("38 - None");
-	Effects_ComboBox_AttributesC->Append("39 - None");
-	Effects_ComboBox_AttributesC->Append("40 - None");
-	Effects_ComboBox_AttributesC->Append("41 - None");
-	Effects_ComboBox_AttributesC->Append("42 - None");
-	Effects_ComboBox_AttributesC->Append("43 - None");
-	Effects_ComboBox_AttributesC->Append("44 - None");
-	Effects_ComboBox_AttributesC->Append("45 - None");
-	Effects_ComboBox_AttributesC->Append("46 - None");
-	Effects_ComboBox_AttributesC->Append("47 - None");
-	Effects_ComboBox_AttributesC->Append("48 - None");
-	Effects_ComboBox_AttributesC->Append("49 - None");
-	Effects_ComboBox_AttributesC->Append("50 - None");
-	Effects_ComboBox_AttributesC->Append("51 - None");
-	Effects_ComboBox_AttributesC->Append("52 - None");
-	Effects_ComboBox_AttributesC->Append("53 - None");
-	Effects_ComboBox_AttributesC->Append("54 - None");
-	Effects_ComboBox_AttributesC->Append("55 - None");
-	Effects_ComboBox_AttributesC->Append("56 - None");
-	Effects_ComboBox_AttributesC->Append("57 - None");
-	Effects_ComboBox_AttributesC->Append("58 - None");
-	Effects_ComboBox_AttributesC->Append("59 - None");
-	Effects_ComboBox_AttributesC->Append("60 - None");
-	Effects_ComboBox_AttributesC->Append("61 - None");
-	Effects_ComboBox_AttributesC->Append("62 - None");
-	Effects_ComboBox_AttributesC->Append("63 - None");
-	Effects_ComboBox_AttributesC->Append("64 - None");
-	Effects_ComboBox_AttributesC->Append("65 - None");
-	Effects_ComboBox_AttributesC->Append("66 - None");
-	Effects_ComboBox_AttributesC->Append("67 - None");
-	Effects_ComboBox_AttributesC->Append("68 - None");
-	Effects_ComboBox_AttributesC->Append("69 - None");
-	Effects_ComboBox_AttributesC->Append("70 - None");
-	Effects_ComboBox_AttributesC->Append("71 - None");
-	Effects_ComboBox_AttributesC->Append("72 - None");
-	Effects_ComboBox_AttributesC->Append("73 - None");
-	Effects_ComboBox_AttributesC->Append("74 - None");
-	Effects_ComboBox_AttributesC->Append("75 - None");
-	Effects_ComboBox_AttributesC->Append("76 - None");
-	Effects_ComboBox_AttributesC->Append("77 - None");
-	Effects_ComboBox_AttributesC->Append("78 - None");
-	Effects_ComboBox_AttributesC->Append("79 - None");
-	Effects_ComboBox_AttributesC->Append("80 - Boarding Energy Reload Speed");
-	Effects_ComboBox_AttributesC->Append("81 - None");
-	Effects_ComboBox_AttributesC->Append("82 - None");
-	Effects_ComboBox_AttributesC->Append("83 - None");
-	Effects_ComboBox_AttributesC->Append("84 - None");
-	Effects_ComboBox_AttributesC->Append("85 - None");
-	Effects_ComboBox_AttributesC->Append("86 - None");
-	Effects_ComboBox_AttributesC->Append("87 - None");
-	Effects_ComboBox_AttributesC->Append("88 - None");
-	Effects_ComboBox_AttributesC->Append("89 - None");
-	Effects_ComboBox_AttributesC->Append("90 - None");
-	Effects_ComboBox_AttributesC->Append("91 - None");
-	Effects_ComboBox_AttributesC->Append("92 - None");
-	Effects_ComboBox_AttributesC->Append("93 - None");
-	Effects_ComboBox_AttributesC->Append("94 - None");
-	Effects_ComboBox_AttributesC->Append("95 - None");
-	Effects_ComboBox_AttributesC->Append("96 - None");
-	Effects_ComboBox_AttributesC->Append("97 - None");
-	Effects_ComboBox_AttributesC->Append("98 - None");
-	Effects_ComboBox_AttributesC->Append("99 - None");
-	Effects_ComboBox_AttributesC->Append("100 - Resource Cost");
-	Effects_ComboBox_AttributesC->Append("101 - Creation Time");
-	Effects_ComboBox_AttributesC->Append("102 - Number of Garrison Arrows");
-	Effects_ComboBox_AttributesC->Append("103 - Food Cost");
-	Effects_ComboBox_AttributesC->Append("104 - Wood Cost");
-	Effects_ComboBox_AttributesC->Append("105 - Stone Cost");
-	Effects_ComboBox_AttributesC->Append("106 - Gold Cost");
-	Effects_ComboBox_AttributesC->Append("107 - OREX Cost?");
-	Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
-	Effects_ComboBox_AttributesC->SetSelection(0);
-
-	Effects_ComboBox_ClassF->Append("Unused Class/No Class");	// Selection 0
-	Effects_ComboBox_ClassF->Append("1 - Infantry");	// Selection 1
-	Effects_ComboBox_ClassF->Append("2 - Turtle Ships");
-	Effects_ComboBox_ClassF->Append("3 - Base Pierce");
-	Effects_ComboBox_ClassF->Append("4 - Base Melee");
-	Effects_ComboBox_ClassF->Append("5 - War Elephants");
-	Effects_ComboBox_ClassF->Append("6 - None");
-	Effects_ComboBox_ClassF->Append("7 - None");
-	Effects_ComboBox_ClassF->Append("8 - Cavalry");
-	Effects_ComboBox_ClassF->Append("9 - None");
-	Effects_ComboBox_ClassF->Append("10 - None");
-	Effects_ComboBox_ClassF->Append("11 - All Buildings (except Port)");
-	Effects_ComboBox_ClassF->Append("12 - None");
-	Effects_ComboBox_ClassF->Append("13 - Stone Defense");
-	Effects_ComboBox_ClassF->Append("14 - None");
-	Effects_ComboBox_ClassF->Append("15 - Archers");
-	Effects_ComboBox_ClassF->Append("16 - Ships & Camels & Saboteurs");
-	Effects_ComboBox_ClassF->Append("17 - Rams");
-	Effects_ComboBox_ClassF->Append("18 - Trees");
-	Effects_ComboBox_ClassF->Append("19 - Unique Units (except Turtle Ship)");
-	Effects_ComboBox_ClassF->Append("20 - Siege Weapons");
-	Effects_ComboBox_ClassF->Append("21 - Standard Buildings");
-	Effects_ComboBox_ClassF->Append("22 - Walls & Gates");
-	Effects_ComboBox_ClassF->Append("23 - None");
-	Effects_ComboBox_ClassF->Append("24 - Boars");
-	Effects_ComboBox_ClassF->Append("25 - Monks");
-	Effects_ComboBox_ClassF->Append("26 - Castle");
-	Effects_ComboBox_ClassF->Append("27 - Spearmen");
-	Effects_ComboBox_ClassF->Append("28 - Cavalry Archers");
-	Effects_ComboBox_ClassF->Append("29 - Eagle Warriors");
-	Effects_ComboBox_ClassF->Append("30 - None");	// Selection 30
-	Effects_ComboBox_ClassF->Append("31 - Extra Class 1");
-	Effects_ComboBox_ClassF->Append("32 - Extra Class 2");
-	Effects_ComboBox_ClassF->Append("33 - Extra Class 3");
-	Effects_ComboBox_ClassF->Append("34 - Extra Class 4");
-	Effects_ComboBox_ClassF->Append("35 - Extra Class 5");
-	Effects_ComboBox_ClassF->SetSelection(0);
 
 	Techs_Techs_Buttons->Add(Techs_Techs_Add, 1, wxEXPAND);
 	Techs_Techs_Buttons->Add(Techs_Techs_Delete, 1, wxEXPAND);
@@ -1353,7 +1138,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_DataA->Add(Effects_Info_A, 3, wxEXPAND);
 	
 	Effects_ComboBox_B->Add(Effects_CheckBox_ModeB, 1, wxEXPAND);	
-	Effects_ComboBox_B->Add(Effects_ComboBox_ClassB, 1, wxEXPAND);
+	Effects_ComboBox_B->Add(Units_ComboBox_Class[2], 1, wxEXPAND);
 	Effects_ComboBox_B->Add(Effects_ComboBox_UnitsB, 1, wxEXPAND);
 	Effects_ComboBox_B->Add(Effects_ComboBox_ResourcesB, 1, wxEXPAND);
 	Effects_Holder_B->Add(Effects_B, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -1387,7 +1172,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_DataE->Add(Effects_Info_E, 3, wxEXPAND);
 
 	Effects_Holder_F->Add(Effects_F, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_Holder_F->Add(Effects_ComboBox_ClassF, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_Holder_F->Add(Attacks_ComboBox_Class[2], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	
 	Effects_Holder_DataF->Add(Effects_Text_F, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
 	Effects_Holder_DataF->Add(Effects_Holder_F, 3, wxEXPAND);
@@ -1431,13 +1216,13 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 	Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 	Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-	Effects_ComboBox_ClassB->Show(false);	// for Effects 0, 4, 5
+	Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 	Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 	Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 	Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
 	Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 	Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
-	Effects_ComboBox_ClassF->Show(false);	// only for attributes 8, 9
+	Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 	Techs_Effects_UseAnd->Show(false);
 	
 	Tab_Techage->SetSizer(Techs_Main);
@@ -1460,7 +1245,7 @@ void AGE_Frame::CreateTechageControls()
 	Connect(Techs_Effects_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPaste));
 	Effects_E->Connect(Effects_E->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
 	Effects_F->Connect(Effects_F->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
-	Connect(Effects_ComboBox_ClassF->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
+	Connect(Attacks_ComboBox_Class[2]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
 
 	Techs_Name->Connect(Techs_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 	Effects_Type->Connect(Effects_Type->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxByteEffectType), NULL, this);
