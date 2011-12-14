@@ -505,43 +505,250 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			{
 				Attacks_ComboBox_Class[loop]->Clear();
 			}
-			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
-			Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 1
-			Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
-			Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
-			Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
-			Attacks_ComboBox_Class[loop]->Append("5 - War Elephants");
-			Attacks_ComboBox_Class[loop]->Append("6 - None");
-			Attacks_ComboBox_Class[loop]->Append("7 - None");
-			Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
-			Attacks_ComboBox_Class[loop]->Append("9 - None");
-			Attacks_ComboBox_Class[loop]->Append("10 - None");
-			Attacks_ComboBox_Class[loop]->Append("11 - All Buildings (except Port)");
-			Attacks_ComboBox_Class[loop]->Append("12 - None");
-			Attacks_ComboBox_Class[loop]->Append("13 - Stone Defense");
-			Attacks_ComboBox_Class[loop]->Append("14 - None");
-			Attacks_ComboBox_Class[loop]->Append("15 - Archers");
-			Attacks_ComboBox_Class[loop]->Append("16 - Ships & Camels & Saboteurs");
-			Attacks_ComboBox_Class[loop]->Append("17 - Rams");
-			Attacks_ComboBox_Class[loop]->Append("18 - Trees");
-			Attacks_ComboBox_Class[loop]->Append("19 - Unique Units (except Turtle Ship)");
-			Attacks_ComboBox_Class[loop]->Append("20 - Siege Weapons");
-			Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
-			Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
-			Attacks_ComboBox_Class[loop]->Append("23 - None");
-			Attacks_ComboBox_Class[loop]->Append("24 - Boars");
-			Attacks_ComboBox_Class[loop]->Append("25 - Monks");
-			Attacks_ComboBox_Class[loop]->Append("26 - Castle");
-			Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
-			Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
-			Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
-			Attacks_ComboBox_Class[loop]->Append("30 - None");	// Selection 30
-			Attacks_ComboBox_Class[loop]->Append("31 - Extra Class 1");
-			Attacks_ComboBox_Class[loop]->Append("32 - Extra Class 2");
-			Attacks_ComboBox_Class[loop]->Append("33 - Extra Class 3");
-			Attacks_ComboBox_Class[loop]->Append("34 - Extra Class 4");
-			Attacks_ComboBox_Class[loop]->Append("35 - Extra Class 5");
+			if(GameVersion < 4)
+			{
+				Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
+				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 1
+				Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
+				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
+				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
+				Attacks_ComboBox_Class[loop]->Append("5 - War Elephants");
+				Attacks_ComboBox_Class[loop]->Append("6 - None");
+				Attacks_ComboBox_Class[loop]->Append("7 - None");
+				Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
+				Attacks_ComboBox_Class[loop]->Append("9 - None");
+				Attacks_ComboBox_Class[loop]->Append("10 - None");
+				Attacks_ComboBox_Class[loop]->Append("11 - All Buildings (except Port)");
+				Attacks_ComboBox_Class[loop]->Append("12 - None");
+				Attacks_ComboBox_Class[loop]->Append("13 - Stone Defense");
+				Attacks_ComboBox_Class[loop]->Append("14 - None");
+				Attacks_ComboBox_Class[loop]->Append("15 - Archers");
+				Attacks_ComboBox_Class[loop]->Append("16 - Ships & Camels & Saboteurs");
+				Attacks_ComboBox_Class[loop]->Append("17 - Rams");
+				Attacks_ComboBox_Class[loop]->Append("18 - Trees");
+				Attacks_ComboBox_Class[loop]->Append("19 - Unique Units (except Turtle Ship)");
+				Attacks_ComboBox_Class[loop]->Append("20 - Siege Weapons");
+				Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
+				Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
+				Attacks_ComboBox_Class[loop]->Append("23 - None");
+				Attacks_ComboBox_Class[loop]->Append("24 - Boars");
+				Attacks_ComboBox_Class[loop]->Append("25 - Monks");
+				Attacks_ComboBox_Class[loop]->Append("26 - Castle");
+				Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
+				Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
+				Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
+				Attacks_ComboBox_Class[loop]->Append("30 - None");	// Selection 30
+				Attacks_ComboBox_Class[loop]->Append("31 - Extra Class 1");
+				Attacks_ComboBox_Class[loop]->Append("32 - Extra Class 2");
+				Attacks_ComboBox_Class[loop]->Append("33 - Extra Class 3");
+				Attacks_ComboBox_Class[loop]->Append("34 - Extra Class 4");
+				Attacks_ComboBox_Class[loop]->Append("35 - Extra Class 5");
+			}
+			else	// SWGB and CC
+			{
+				Attacks_ComboBox_Class[loop]->Append("0 - Flying Units");	// Selection 0
+				// Airspeeder
+				// AIR SHIPS!!!
+				// Geonosian Warrior
+				// Wild Gungan Flyer
+				Attacks_ComboBox_Class[loop]->Append("1 - Heavy Assault Machines");	// Selection 1
+				// Assault Mech
+				// AT-AT
+				// Blizzards
+				Attacks_ComboBox_Class[loop]->Append("2 - Conquer Machines");
+				// Undeployed Cannon
+				// Artillery
+				// A-A Mobiles
+				// Pummels
+				// Strike Mechs
+				// Mech Destroyers
+				// Cannon
+				// Decimator
+				// AT-AT
+				// Echo Base Ion Cannon
+				// Blizzards
+				// Evok Catapult
+				Attacks_ComboBox_Class[loop]->Append("3 - Base Armor");
+				Attacks_ComboBox_Class[loop]->Append("4 - Base DuraArmor");
+				Attacks_ComboBox_Class[loop]->Append("5 - Jedis & Bounty Hunters");
+				// Jedi
+				// Jedi with Holocron
+				// Bounty Hunter
+				Attacks_ComboBox_Class[loop]->Append("6 - Assault Machines");
+				// Destroyer Droids
+				// Strike Mechs
+				// Mech Destroyers
+				// Assault Mechs
+				// Scouts
+				// Jabba's Sail Barge
+				// Desert Skiff
+				// Decimator
+				// AT-AT
+				// Blizzards
+				Attacks_ComboBox_Class[loop]->Append("7 - Decimators");
+				// Assault Mechs
+				// Decimator
+				// AT-AT
+				// Blizzards
+				Attacks_ComboBox_Class[loop]->Append("8 - Shield & Power Units");
+				// Power Cores
+				// Shield Wall
+				// Shield Generators
+				// Droid Storage Facility
+				// Power Droids
+				// Echo Base Power Generator
+				Attacks_ComboBox_Class[loop]->Append("9 - Ships");
+				// Utility Trawler
+				// Frigates
+				// Cruisers
+				// Destroyers
+				// A-A Destroyers
+				// Transport Ships
+				Attacks_ComboBox_Class[loop]->Append("10 - Submarines");
+				// Frigates
+				// Underwater Prefab Shelters
+				// Gungan Buildings
+				Attacks_ComboBox_Class[loop]->Append("11 - All Buildings");
+				// BUILDINGS!!!
+				Attacks_ComboBox_Class[loop]->Append("12 - None");
+				Attacks_ComboBox_Class[loop]->Append("13 - Defense Buildings");
+				// Gate
+				// Turrets
+				// A-A Turrets
+				// Echo Base Ion Cannon
+				// Fortress
+				// Theed Arch
+				Attacks_ComboBox_Class[loop]->Append("14 - Troopers");
+				// Royal Crusaders
+				// Berserker
+				// Chewbacca
+				// Bounty Hunter
+				// Troopers
+				// Mounted Troopers
+				// Grenade Trooper
+				// A-A Troopers
+				// Acklay
+				// Nexu
+				// Klaatu
+				// Nikito
+				// Reek
+				// Rancor
+				Attacks_ComboBox_Class[loop]->Append("15 - Mounted Troopers");
+				// Berserker
+				// Scouts
+				// Mounted Troopers
+				// Anakin's Podracer
+				// Landspeeder
+				// Sebulba's Podracer
+				// Skyhopper
+				Attacks_ComboBox_Class[loop]->Append("16 - Cruisers");
+				// Cruisers
+				Attacks_ComboBox_Class[loop]->Append("17 - Pummels & Cannons");
+				// Undeployed Cannon
+				// Pummels
+				// Cannon
+				Attacks_ComboBox_Class[loop]->Append("18 - None");
+				Attacks_ComboBox_Class[loop]->Append("19 - Special Units");
+				// B'omarr Temple
+				// Underwater Prefab Shelters
+				// Asteroid Supply Depot
+				// Boorka's Palace
+				// Adv A-A Turret
+				// Reytha Soldier
+				// Mara Jade
+				// R2-D2
+				// Battleship Cores
+				// Landed Freighter
+				// Han Solo on Tauntaun
+				Attacks_ComboBox_Class[loop]->Append("20 - Destroyers");
+				// Destroyers
+				Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
+				// BUILDINGS!!!
+				Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
+				// GATES
+				// WALLS
+				// Theed Arch
+				Attacks_ComboBox_Class[loop]->Append("23 - Air Cruisers");
+				// Air Cruisers
+				// Blockade Runner
+				// Star Destroyer
+				// Deathstar
+				Attacks_ComboBox_Class[loop]->Append("24 - Wild Animals");
+				// Wild Fambaa
+				// Acklay
+				// Falumpaset
+				// Nexu
+				// Reek
+				// Dewback
+				// Ronto
+				// Fambaa
+				// Massif
+				// Orray
+				// Shaak
+				// Rancor
+				Attacks_ComboBox_Class[loop]->Append("25 - None");
+				Attacks_ComboBox_Class[loop]->Append("26 - Fortress");
+				// Fortress
+				Attacks_ComboBox_Class[loop]->Append("27 - None");
+				Attacks_ComboBox_Class[loop]->Append("28 - None");
+				Attacks_ComboBox_Class[loop]->Append("29 - None");
+				Attacks_ComboBox_Class[loop]->Append("30 - Tame Animals");	// Selection 30
+				// Fambaa Shield Generators
+				// Wild Fambaa
+				// Kaadu
+				// Tauntaun
+				// Cu-pa
+				// Womp Rat
+				Attacks_ComboBox_Class[loop]->Append("31 - Extra Class 1");
+				Attacks_ComboBox_Class[loop]->Append("32 - Extra Class 2");
+				Attacks_ComboBox_Class[loop]->Append("33 - Extra Class 3");
+				Attacks_ComboBox_Class[loop]->Append("34 - Extra Class 4");
+				Attacks_ComboBox_Class[loop]->Append("35 - Extra Class 5");
+			}
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
+		}
+
+		for(short loop = 0;loop < 2;loop++)
+		{
+			if(Units_Units_SearchFilters[loop]->GetCount() > 0)
+			{
+				Units_Units_SearchFilters[loop]->Clear();
+			}
+			Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
+			Units_Units_SearchFilters[loop]->Append("Internal Name");
+			Units_Units_SearchFilters[loop]->Append("Type");
+			Units_Units_SearchFilters[loop]->Append("Class");
+			Units_Units_SearchFilters[loop]->Append("Pointer");
+		/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
+			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
+			Units_Units_SearchFilters[loop]->Append("Enabled");
+			Units_Units_SearchFilters[loop]->Append("Hidden In Editor");
+			Units_Units_SearchFilters[loop]->Append("Visible In Fog");
+			Units_Units_SearchFilters[loop]->Append("Death Mode");
+			Units_Units_SearchFilters[loop]->Append("Hero Mode");
+			Units_Units_SearchFilters[loop]->Append("Air Mode");
+			Units_Units_SearchFilters[loop]->Append("Fly Mode");
+			Units_Units_SearchFilters[loop]->Append("Building Mode");
+			Units_Units_SearchFilters[loop]->Append("Placement Mode");
+			Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
+			Units_Units_SearchFilters[loop]->Append("Interaction Mode");
+			Units_Units_SearchFilters[loop]->Append("Minimap Mode");
+			Units_Units_SearchFilters[loop]->Append("Sheep Conversion");
+			Units_Units_SearchFilters[loop]->Append("Villager Mode");
+			Units_Units_SearchFilters[loop]->Append("Unseletable");
+			Units_Units_SearchFilters[loop]->Append("Selection Mask");
+			Units_Units_SearchFilters[loop]->Append("Selection Shape Type");
+			Units_Units_SearchFilters[loop]->Append("Selection Shape");
+			Units_Units_SearchFilters[loop]->Append("Selection Effect");
+			Units_Units_SearchFilters[loop]->Append("Editor Selection Color");
+			Units_Units_SearchFilters[loop]->Append("Unitline");
+			Units_Units_SearchFilters[loop]->Append("Tracking Unit Used");
+			Units_Units_SearchFilters[loop]->Append("Train Location");
+			Units_Units_SearchFilters[loop]->Append("Command Attribute");
+			Units_Units_SearchFilters[loop]->Append("Stack Unit");
+			Units_Units_SearchFilters[loop]->Append("Terrain");
+			Units_Units_SearchFilters[loop]->Append("Research");
+		*/	Units_Units_SearchFilters[loop]->SetSelection(0);
 		}
 
 		if(GameVersion > 1)
@@ -669,55 +876,21 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Effects_ComboBox_AttributesC->Append("101 - Creation Time");
 		Effects_ComboBox_AttributesC->Append("102 - Number of Garrison Arrows");
 		Effects_ComboBox_AttributesC->Append("103 - Food Cost");
-		Effects_ComboBox_AttributesC->Append("104 - Wood Cost");
-		Effects_ComboBox_AttributesC->Append("105 - Stone Cost");
-		Effects_ComboBox_AttributesC->Append("106 - Gold Cost");
+		if(GameVersion < 4)
+		{
+			Effects_ComboBox_AttributesC->Append("104 - Wood Cost");
+			Effects_ComboBox_AttributesC->Append("105 - Stone Cost");
+			Effects_ComboBox_AttributesC->Append("106 - Gold Cost");
+		}
+		else
+		{
+			Effects_ComboBox_AttributesC->Append("104 - Carbon Cost");
+			Effects_ComboBox_AttributesC->Append("105 - Ore Cost");
+			Effects_ComboBox_AttributesC->Append("106 - Nova Cost");
+		}
 		Effects_ComboBox_AttributesC->Append("107 - OREX Cost?");
 		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
 		Effects_ComboBox_AttributesC->SetSelection(0);
-
-		for(short loop = 0;loop < 2;loop++)
-		{
-			if(Units_Units_SearchFilters[loop]->GetCount() > 0)
-			{
-				Units_Units_SearchFilters[loop]->Clear();
-			}
-			Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
-			Units_Units_SearchFilters[loop]->Append("Internal Name");
-			Units_Units_SearchFilters[loop]->Append("Type");
-			Units_Units_SearchFilters[loop]->Append("Class");
-			Units_Units_SearchFilters[loop]->Append("Pointer");
-		/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
-			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
-			Units_Units_SearchFilters[loop]->Append("Enabled");
-			Units_Units_SearchFilters[loop]->Append("Hidden In Editor");
-			Units_Units_SearchFilters[loop]->Append("Visible In Fog");
-			Units_Units_SearchFilters[loop]->Append("Death Mode");
-			Units_Units_SearchFilters[loop]->Append("Hero Mode");
-			Units_Units_SearchFilters[loop]->Append("Air Mode");
-			Units_Units_SearchFilters[loop]->Append("Fly Mode");
-			Units_Units_SearchFilters[loop]->Append("Building Mode");
-			Units_Units_SearchFilters[loop]->Append("Placement Mode");
-			Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
-			Units_Units_SearchFilters[loop]->Append("Interaction Mode");
-			Units_Units_SearchFilters[loop]->Append("Minimap Mode");
-			Units_Units_SearchFilters[loop]->Append("Sheep Conversion");
-			Units_Units_SearchFilters[loop]->Append("Villager Mode");
-			Units_Units_SearchFilters[loop]->Append("Unseletable");
-			Units_Units_SearchFilters[loop]->Append("Selection Mask");
-			Units_Units_SearchFilters[loop]->Append("Selection Shape Type");
-			Units_Units_SearchFilters[loop]->Append("Selection Shape");
-			Units_Units_SearchFilters[loop]->Append("Selection Effect");
-			Units_Units_SearchFilters[loop]->Append("Editor Selection Color");
-			Units_Units_SearchFilters[loop]->Append("Unitline");
-			Units_Units_SearchFilters[loop]->Append("Tracking Unit Used");
-			Units_Units_SearchFilters[loop]->Append("Train Location");
-			Units_Units_SearchFilters[loop]->Append("Command Attribute");
-			Units_Units_SearchFilters[loop]->Append("Stack Unit");
-			Units_Units_SearchFilters[loop]->Append("Terrain");
-			Units_Units_SearchFilters[loop]->Append("Research");
-		*/	Units_Units_SearchFilters[loop]->SetSelection(0);
-		}
 	}
 	
 	DataOpened = true;
