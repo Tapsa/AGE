@@ -751,8 +751,8 @@ class AGE_Frame : public wxFrame
 	wxTextCtrl * Effects_E;	// amount
 	wxStaticText * Effects_Info_E;
 	wxStaticText * Effects_Text_F;
-	wxTextCtrl * Effects_F;	// class
-	wxOwnerDrawnComboBox * Effects_ComboBox_ClassF;	// class
+	TextCtrl_Short * Effects_F;	// class
+//	wxOwnerDrawnComboBox * Attacks_ComboBox_Class[2];	// class
 	wxStaticText * Effects_Info_F;
 	
 	wxStaticBoxSizer * Techs_Techs;
@@ -800,7 +800,6 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Effects_B;
 	wxBoxSizer * Effects_ComboBox_B;	// Space reserver, never used.
 	CheckBox_Short * Effects_CheckBox_ModeB;	// for Effects 1, 2
-	ComboBox_Short * Effects_ComboBox_ClassB;	// for Effects 0, 4, 5
 	ComboBox_Short * Effects_ComboBox_UnitsB;	// for Effects 3
 	ComboBox_Short * Effects_ComboBox_ResourcesB;	// for Effects 101
 	wxStaticText * Effects_Info_B;
@@ -910,7 +909,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_LanguageDllCreation;
 	wxStaticText * Units_DLL_LanguageDllCreation;
 	TextCtrl_Short * Units_Class;
-	ComboBox_Short * Units_ComboBox_Class[2];
+	ComboBox_Short * Units_ComboBox_Class[3];
 	TextCtrl_Short * Units_StandingGraphic[2];
 	ComboBox_Short * Units_ComboBox_StandingGraphic[2];
 	TextCtrl_Short * Units_DyingGraphic[2];
@@ -1526,7 +1525,7 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * Units_Grid_Attacks_Data2;
 //	wxBoxSizer * Units_Holder_Attacks_Data3;
 	TextCtrl_Short * Attacks_Class;
-	ComboBox_Short_AttackType * Attacks_ComboBox_Class[2];
+	ComboBox_Short_AttackType * Attacks_ComboBox_Class[3];
 	TextCtrl_Short * Attacks_Amount;
 	wxStaticText * Attacks_Text_Class;
 	wxStaticText * Attacks_Text_Amount;
