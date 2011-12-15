@@ -301,19 +301,11 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
 		SoundItems_Probability->Container = &SoundItemPointer->Probability;
 		if(GameVersion >= 2)
 		{
-			SoundItems_Holder_Civ->Show(true);
-			if(ShowUnknowns) SoundItems_Holder_Unknown->Show(true);
-		
 			SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
 			SoundItems_Civ->Container = &SoundItemPointer->Civ;
 			SoundItems_ComboBox_Civ->SetSelection(SoundItemPointer->Civ + 1);
 			SoundItems_Unknown->ChangeValue(lexical_cast<string>(SoundItemPointer->Unknown1));
 			SoundItems_Unknown->Container = &SoundItemPointer->Unknown1;
-		}
-		else
-		{
-			SoundItems_Holder_Civ->Show(false);
-			SoundItems_Holder_Unknown->Show(false);
 		}
 		Added = false;
 	}

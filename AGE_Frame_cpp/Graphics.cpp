@@ -265,7 +265,6 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 		}
 		gdat::Graphic * GraphicPointer = (gdat::Graphic*)Graphics_Graphics_List->GetClientData(Selection);
 		GraphicID = GraphicPointer - (&GenieFile->Graphics[0]);
-//		wxMessageBox("Graphic Pointer: "+lexical_cast<string>(GenieFile->GraphicPointers[GraphicID]));
 		Graphics_Name->ChangeValue(GraphicPointer->Name);
 		Graphics_Name->Container = &GraphicPointer->Name;
 		Graphics_Name2->ChangeValue(GraphicPointer->Name2);

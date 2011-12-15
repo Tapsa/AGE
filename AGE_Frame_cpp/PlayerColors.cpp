@@ -83,30 +83,12 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 		Colors_ColorL->Container = &PlayerColorPointer->Colour;
 		if(GameVersion < 2)	//	AoE and RoR
 		{
-			Colors_Holder_Name->Show(true);
-			Colors_Holder_Palette->Show(false);
-			Colors_Holder_MinimapColor->Show(false);
-			Colors_Holder_Unknown1->Show(false);
-			Colors_Holder_Unknown2->Show(false);
-			Colors_Holder_Unknown3->Show(false);
-			Colors_Holder_Unknown4->Show(false);
-			Colors_Holder_Unknown5->Show(false);
-		
 			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
 			Colors_Name->ChangeValue(PlayerColorPointer->Name);
 			Colors_Name->Container = &PlayerColorPointer->Name;
 		}
 		else	//	Above AoE and RoR
 		{
-			Colors_Holder_Name->Show(false);
-			Colors_Holder_Palette->Show(true);
-			Colors_Holder_MinimapColor->Show(true);
-			if(ShowUnknowns) Colors_Holder_Unknown1->Show(true);
-			if(ShowUnknowns) Colors_Holder_Unknown2->Show(true);
-			if(ShowUnknowns) Colors_Holder_Unknown3->Show(true);
-			if(ShowUnknowns) Colors_Holder_Unknown4->Show(true);
-			if(ShowUnknowns) Colors_Holder_Unknown5->Show(true);
-		
 			Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
 			Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
 			Colors_Palette->Container = &PlayerColorPointer->Palette;
