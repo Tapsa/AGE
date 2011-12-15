@@ -168,8 +168,6 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 		gdat::TerrainRestriction * TerrainRestrictionPointer = (gdat::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
 		gdat::Terrain * TerrainPointer = (gdat::Terrain*)TerRestrict_Terrains_List->GetClientData(Selection2);
 		TerRestrictID = TerrainRestrictionPointer - (&GenieFile->TerrainRestrictions[0]);
-//		wxMessageBox("Terrain Restriction Pointer 1: "+lexical_cast<string>(GenieFile->TerrainRestrictionPointers1[TerRestrictID]));
-//		wxMessageBox("Terrain Restriction Pointer 2: "+lexical_cast<string>(GenieFile->TerrainRestrictionPointers2[TerRestrictID]));
 		TerRestrictTerID = TerrainPointer - (&GenieFile->Terrains[0]);
 		
 	//	Make a code piece which renames terrains in the list with accessible value in front of them.
@@ -179,10 +177,6 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 		TerRestrict_CheckBox_Accessible->SetValue((bool)TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerID]);
 		if(GameVersion >= 2)	//	Above AoE and RoR
 		{
-			TerRestrict_Holder_Unknown1->Show(true);
-			TerRestrict_Holder_Graphics->Show(true);
-			TerRestrict_Holder_Amount->Show(true);
-		
 			TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].Buildable));
 			TerRestrict_Unknown1->Container = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].Buildable;
 			switch(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].Buildable)
@@ -211,12 +205,6 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 			TerRestrict_ComboBox_Graphics[1]->SetSelection(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].GraphicIDs.second + 1);
 			TerRestrict_Amount->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].ReplicationAmount));
 			TerRestrict_Amount->Container = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerID].ReplicationAmount;
-		}
-		else
-		{
-			TerRestrict_Holder_Unknown1->Show(false);
-			TerRestrict_Holder_Graphics->Show(false);
-			TerRestrict_Holder_Amount->Show(false);
 		}
 		Added = false;
 	}

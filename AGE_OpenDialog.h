@@ -52,7 +52,6 @@ class AGE_OpenDialog: public wxDialog
 	wxRadioButton * Radio_ApfFileLocation;
 	wxFilePickerCtrl * Path_ApfFileLocation;
 	wxRadioButton * Radio_NoFile;
-//	wxStaticText * stFileNotes;
 	wxCheckBox * CheckBox_LangFileLocation;
 	wxFilePickerCtrl * Path_LangFileLocation;
 	wxCheckBox * CheckBox_LangX1FileLocation;

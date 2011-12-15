@@ -21,7 +21,6 @@ class AGE_SaveDialog: public wxDialog
 	void OnDefaultSWGB(wxCommandEvent& Event);
 	void OnDefaultCC(wxCommandEvent& Event);
 	void OnSelectDat(wxCommandEvent& Event);
-	void OnSelectUnz(wxCommandEvent& Event);
 	void OnSelectApf(wxCommandEvent& Event);
 //	void OnSelectDrs(wxCommandEvent& Event);
 	void OnOK(wxCommandEvent& Event);

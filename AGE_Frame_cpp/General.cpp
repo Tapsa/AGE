@@ -86,7 +86,7 @@ void AGE_Frame::OnDataGridPrev(wxCommandEvent& Event)
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 {
-//	if(DataOpened == true)
+//	
 	{
 		if(GameVersion >= 4)
 		{

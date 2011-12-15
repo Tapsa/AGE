@@ -21,7 +21,6 @@ class AGE_AboutDialog: public wxDialog
 	wxHyperlinkCtrl * AoKHThread; //http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=ct&f=4,38606,0,365
 	wxStaticText * UPXInfo;
 	wxHyperlinkCtrl * UPXLink; //http://upx.sourceforge.net/
-//	wxStaticText * Version;
 	
 	wxBoxSizer * MainLeft;
 	wxBoxSizer * MainRight;
