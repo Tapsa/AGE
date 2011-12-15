@@ -236,7 +236,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
 	Borders_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 	Borders_DataArea = new wxBoxSizer(wxVERTICAL);
-	Borders_DataTopRow = new wxGridSizer(3, 5, 5);
+	Borders_DataTopRow = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Data1 = new wxGridSizer(4, 5, 5);
 
 	Borders_FrameData = new wxBoxSizer(wxHORIZONTAL);
@@ -317,7 +317,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	}
 	Borders_Holder_BorderEnabled1->Add(Borders_BorderEnabled, 1, wxEXPAND);
 	Borders_Holder_BorderEnabled1->Add(2, -1);
-	Borders_Holder_BorderEnabled1->Add(Borders_CheckBox_BorderEnabled, 2, wxEXPAND);
+	Borders_Holder_BorderEnabled1->Add(Borders_CheckBox_BorderEnabled, 1, wxEXPAND);
 	Borders_Holder_BorderEnabled->Add(Borders_Text_BorderEnabled, 0, wxEXPAND);
 	Borders_Holder_BorderEnabled->Add(-1, 2);
 	Borders_Holder_BorderEnabled->Add(Borders_Holder_BorderEnabled1, 1, wxEXPAND);
@@ -336,13 +336,17 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_ListArea->Add(Borders_Borders, 1, wxEXPAND);
 	Borders_ListArea->Add(-1, 10);
 	
-	for(short loop = 0;loop < 2;loop++)
-	Borders_DataTopRow->Add(Borders_Holder_BorderName[loop], 1, wxEXPAND);
-	Borders_Data1->Add(Borders_Holder_BorderEnabled, 1, wxEXPAND);
+	Borders_DataTopRow->Add(Borders_Holder_BorderEnabled, 1, wxEXPAND);
+	Borders_DataTopRow->Add(5, -1);
+	Borders_DataTopRow->Add(Borders_Holder_BorderName[0], 2, wxEXPAND);
+	Borders_DataTopRow->Add(5, -1);
+	Borders_DataTopRow->Add(Borders_Holder_BorderName[1], 2, wxEXPAND);
+	Borders_DataTopRow->AddStretchSpacer(1);
 	
 	Borders_Holder_BorderRessourceID->Add(Borders_Text_BorderRessourceID, 0, wxEXPAND);
 	Borders_Holder_BorderRessourceID->Add(-1, 2);
 	Borders_Holder_BorderRessourceID->Add(Borders_BorderRessourceID, 1, wxEXPAND);
+	Borders_Holder_BorderRessourceID->AddStretchSpacer(1);
 	Borders_Holder_BorderUnknown3->Add(Borders_Text_BorderUnknown3, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown3->Add(-1, 2);
 	Borders_Holder_BorderUnknown3->Add(Borders_BorderUnknown3, 1, wxEXPAND);
@@ -354,6 +358,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderColors->Add(Borders_Text_BorderColors, 0, wxEXPAND);
 	Borders_Holder_BorderColors->Add(-1, 2);
 	Borders_Holder_BorderColors->Add(Borders_Grid_BorderColors, 1, wxEXPAND);
+	Borders_Holder_BorderColors->AddStretchSpacer(1);
 	Borders_Holder_BorderUnknown5->Add(Borders_Text_BorderUnknown5, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown5->Add(-1, 2);
 	Borders_Holder_BorderUnknown5->Add(Borders_BorderUnknown5, 1, wxEXPAND);
@@ -366,6 +371,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderFrameCount->Add(Borders_Text_BorderFrameCount, 0, wxEXPAND);
 	Borders_Holder_BorderFrameCount->Add(-1, 2);
 	Borders_Holder_BorderFrameCount->Add(Borders_BorderFrameCount, 1, wxEXPAND);
+	Borders_Holder_BorderFrameCount->AddStretchSpacer(1);
 	Borders_Holder_BorderUnknown8->Add(Borders_Text_BorderUnknown8, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown8->Add(-1, 2);
 	Borders_Holder_BorderUnknown8->Add(Borders_BorderUnknown8, 1, wxEXPAND);
@@ -380,6 +386,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Data1->Add(Borders_Holder_BorderRessourceID, 1, wxEXPAND);
 	Borders_Data1->Add(Borders_Holder_BorderColors, 1, wxEXPAND);
 	Borders_Data1->Add(Borders_Holder_BorderFrameCount, 1, wxEXPAND);
+	Borders_Data1->Add(Borders_Holder_BorderTerrain, 1, wxEXPAND);
 
 	Borders_Frames_Buttons->Add(Frames_Copy, 1, wxEXPAND);
 	Borders_Frames_Buttons->Add(Frames_Paste, 1, wxEXPAND);
@@ -418,7 +425,6 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Unknonws->Add(Borders_Holder_BorderUnknown6, 1, wxEXPAND);
 	Borders_Unknonws->Add(Borders_Holder_BorderUnknown7, 1, wxEXPAND);
 	Borders_Unknonws->Add(Borders_Holder_BorderUnknown8, 1, wxEXPAND);
-	Borders_Unknonws->Add(Borders_Holder_BorderTerrain, 1, wxEXPAND);
 	Borders_Unknonws->Add(Borders_Holder_BorderUnknown10, 1, wxEXPAND);
 	
 	Borders_DataArea->Add(-1, 10);
