@@ -104,17 +104,11 @@ class AGE_Frame : public wxFrame
 //	General Events
 
 	void ListGeneral();
-/*	void OnTerrainsSearch(wxCommandEvent& Event);*/
 	void OnGeneralSelect(wxCommandEvent& Event);
-	void OnTechTreePage(wxCommandEvent& Event);
-	void OnTechTreeNext(wxCommandEvent& Event);
-	void OnTechTreePrev(wxCommandEvent& Event);
-/*	void OnTerrainsAdd(wxCommandEvent& Event);
-	void OnTerrainsDelete(wxCommandEvent& Event);
-	void OnTerrainsCopy(wxCommandEvent& Event);
-	void OnTerrainsPaste(wxCommandEvent& Event);
-	string GetTerrainName(short Index);
-*/
+	void OnDataGridPage(wxCommandEvent& Event);
+	void OnDataGridNext(wxCommandEvent& Event);
+	void OnDataGridPrev(wxCommandEvent& Event);
+
 	void ListBorders();
 	void OnBordersSearch(wxCommandEvent& Event);
 	void OnBordersSelect(wxCommandEvent& Event);
@@ -354,6 +348,10 @@ class AGE_Frame : public wxFrame
 
 	long TechTreePage;
 	long TechTreeSize;
+	long SWUnknownsPage;
+	long SWUnknownsSize;
+	long LastUnknownsPage;
+	long LastUnknownsSize;
 	gdat::Research ResearchCopy;
 	short ResearchID;
 	gdat::Techage TechageCopy;
@@ -609,7 +607,23 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Borders_Text_BorderUnknown10;
 	TextCtrl_Short * Borders_BorderUnknown10;
 	
-	wxBoxSizer * General_Holder_Unknown3; // [1410]
+	wxGridSizer * General_Grid_Variables;
+	wxBoxSizer * General_Holder_SUnknown7;
+	wxStaticText * General_Text_SUnknown7;
+	TextCtrl_Byte * General_SUnknown7;
+	wxBoxSizer * General_Holder_SUnknown2;
+	wxStaticText * General_Text_SUnknown2;
+	TextCtrl_Long * General_SUnknown2;
+	wxBoxSizer * General_Holder_SUnknown3;
+	wxStaticText * General_Text_SUnknown3;
+	TextCtrl_Long * General_SUnknown3;
+	wxBoxSizer * General_Holder_SUnknown4;
+	wxStaticText * General_Text_SUnknown4;
+	TextCtrl_Long * General_SUnknown4;
+	wxBoxSizer * General_Holder_SUnknown5;
+	wxStaticText * General_Text_SUnknown5;
+	TextCtrl_Long * General_SUnknown5;
+	
 	wxBoxSizer * General_Holder_TechTree;
 	wxBoxSizer * General_Holder_TechTreeTop;
 	wxStaticText * General_Text_TechTree;
@@ -619,6 +633,26 @@ class AGE_Frame : public wxFrame
 	wxStaticText * General_TechTreeSize;
 	wxGridSizer * General_Grid_TechTree;
 	TextCtrl_Byte * General_TechTree[324];
+	
+	wxBoxSizer * General_Holder_SWUnknowns;
+	wxBoxSizer * General_Holder_SWUnknownsTop;
+	wxStaticText * General_Text_SWUnknowns;
+	wxTextCtrl * General_SWUnknownsPicker;
+	wxButton * General_SWUnknownsNext;
+	wxButton * General_SWUnknownsPrev;
+	wxStaticText * General_SWUnknownsSize;
+	wxGridSizer * General_Grid_SWUnknowns;
+	TextCtrl_Byte * General_SWUnknowns[324];
+	
+	wxBoxSizer * General_Holder_LastUnknowns;
+	wxBoxSizer * General_Holder_LastUnknownsTop;
+	wxStaticText * General_Text_LastUnknowns;
+	wxTextCtrl * General_LastUnknownsPicker;
+	wxButton * General_LastUnknownsNext;
+	wxButton * General_LastUnknownsPrev;
+	wxStaticText * General_LastUnknownsSize;
+	wxGridSizer * General_Grid_LastUnknowns;
+	TextCtrl_Byte * General_LastUnknowns[324];
 	
 //	Researchs user interface
 
