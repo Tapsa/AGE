@@ -375,12 +375,6 @@ void AGE_Frame::CreateResearchControls()
 	Research_Text_Name[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Name[0] = new TextCtrl_String(Research_Scroller, "0", NULL);
 	Research_Name[1] = new TextCtrl_String(Research_Scroller, "0", NULL);
-	Research_Holder_NameLength[0] = new wxBoxSizer(wxVERTICAL);
-	Research_Holder_NameLength[1] = new wxBoxSizer(wxVERTICAL);
-	Research_Text_NameLength[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Name Length ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_Text_NameLength[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name Length 2 ", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_NameLength[0] = new TextCtrl_UnShort(Research_Scroller, "0", NULL);
-	Research_NameLength[1] = new TextCtrl_UnShort(Research_Scroller, "0", NULL);
 
 	Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Delete, 1, wxEXPAND);
@@ -406,15 +400,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_Name[1]->Add(-1, 2);
 	Research_Holder_Name[1]->Add(Research_Name[1], 1, wxEXPAND);
 
-	Research_Holder_NameLength[0]->Add(Research_Text_NameLength[0], 0, wxEXPAND);
-	Research_Holder_NameLength[0]->Add(Research_NameLength[0], 1, wxEXPAND);
-	Research_Holder_NameLength[1]->Add(Research_Text_NameLength[1], 0, wxEXPAND);
-	Research_Holder_NameLength[1]->Add(Research_NameLength[1], 1, wxEXPAND);
-
-	Research_Holder_Names->Add(Research_Holder_NameLength[0], 1, wxEXPAND);
 	Research_Holder_Names->Add(Research_Holder_Name[0], 2, wxEXPAND);
 	Research_Holder_Names->Add(5, -1);
-	Research_Holder_Names->Add(Research_Holder_NameLength[1], 1, wxEXPAND);
 	Research_Holder_Names->Add(Research_Holder_Name[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
 	Research_Holder_LangDllName->Add(Research_Text_LangDllName, 0, wxEXPAND);
@@ -575,9 +562,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Main->Add(10, -1);
 	Research_Main->Add(Research_DataArea, 3, wxEXPAND);
 	Research_Main->Add(10, -1);
-	
-	Research_Holder_NameLength[0]->Show(false);
-	Research_Holder_NameLength[1]->Show(false);
+
 	Research_Research_UseAnd->Show(false);
 
 	Tab_Research->SetSizer(Research_Main);

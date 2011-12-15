@@ -8,99 +8,146 @@ using std::tolower;
 
 void AGE_Frame::ListGeneral()
 {
-	switch(GameVersion) // is this really the techtree?
+	switch(GameVersion)
 	{
-		case 0: TechTreeSize = lexical_cast<long>(6946); break;
-		case 1: TechTreeSize = lexical_cast<long>(15118); break;
-		case 2: TechTreeSize = lexical_cast<long>(12722); break;
-		case 3: TechTreeSize = lexical_cast<long>(12722); break;
-		case 4: TechTreeSize = lexical_cast<long>(698); break;
-		case 5: TechTreeSize = lexical_cast<long>(698); break;
+		case 0:
+			TechTreeSize = lexical_cast<long>(6946);
+			break;
+		case 1:
+			TechTreeSize = lexical_cast<long>(15118);
+			break;
+		case 2:
+			TechTreeSize = lexical_cast<long>(12722);
+			LastUnknownsSize = lexical_cast<long>(21642);
+			break;
+		case 3:
+			TechTreeSize = lexical_cast<long>(12722);
+			LastUnknownsSize = lexical_cast<long>(27062);
+			break;
+		case 4:
+			TechTreeSize = lexical_cast<long>(698);
+			SWUnknownsSize = lexical_cast<long>(1380);
+			LastUnknownsSize = lexical_cast<long>(89341);
+			break;
+		case 5:
+			TechTreeSize = lexical_cast<long>(698);
+			SWUnknownsSize = lexical_cast<long>(0x646);
+			LastUnknownsSize = lexical_cast<long>(116820);
+			break;
 		default: break;
 	}
 	General_TechTreeSize->SetLabel("Size: "+lexical_cast<string>(TechTreeSize));
 	TechTreePage = lexical_cast<long>(0);
 	General_TechTreePicker->ChangeValue(lexical_cast<string>(TechTreePage));
+	if(GameVersion >= 2)
+	{
+		General_LastUnknownsSize->SetLabel("Size: "+lexical_cast<string>(LastUnknownsSize));
+		LastUnknownsPage = lexical_cast<long>(0);
+		General_LastUnknownsPicker->ChangeValue(lexical_cast<string>(LastUnknownsPage));
+		if(GameVersion >= 4)
+		{
+			General_SWUnknownsSize->SetLabel("Size: "+lexical_cast<string>(SWUnknownsSize));
+			SWUnknownsPage = lexical_cast<long>(0);
+			General_SWUnknownsPicker->ChangeValue(lexical_cast<string>(SWUnknownsPage));
+		}
+	}
 	
-/*	long TechTreePage;
-	long TechTreeSize;
-	long SWUnknownsPage;
-	long SWUnknownsSize;
-	long LastUnknownsPage;
-	long LastUnknownsSize;
-*/	wxCommandEvent E;
+	wxCommandEvent E;
 	OnGeneralSelect(E);
 }
 
 void AGE_Frame::OnDataGridPage(wxCommandEvent& Event)
 {
 	if(Event.GetId() == General_TechTreePicker->GetId())
-	wxMessageBox("Tech Tree!");
+	{
+		TechTreePage = lexical_cast<long>(0);
+		if(General_TechTreePicker->IsEmpty())
+		TechTreePage = lexical_cast<long>(General_TechTreePicker->GetValue());
+		if(TechTreePage >= (TechTreeSize - 324))
+		TechTreePage = lexical_cast<long>(TechTreeSize - 324);
+		if(TechTreePage < 0)
+		TechTreePage = lexical_cast<long>(0);
+	}
 	if(Event.GetId() == General_SWUnknownsPicker->GetId())
-	wxMessageBox("SW Data!");
+	{
+		SWUnknownsPage = lexical_cast<long>(0);
+		if(General_SWUnknownsPicker->IsEmpty())
+		SWUnknownsPage = lexical_cast<long>(General_SWUnknownsPicker->GetValue());
+		if(SWUnknownsPage >= (SWUnknownsSize - 324))
+		SWUnknownsPage = lexical_cast<long>(SWUnknownsSize - 324);
+		if(SWUnknownsPage < 0)
+		SWUnknownsPage = lexical_cast<long>(0);
+	}
 	if(Event.GetId() == General_LastUnknownsPicker->GetId())
-	wxMessageBox("Last Data!");
-/*	if(General_TechTreePicker->IsEmpty())
-	TechTreePage = lexical_cast<long>(0);
-	TechTreePage = lexical_cast<long>(General_TechTreePicker->GetValue());
-	if(TechTreePage >= (TechTreeSize - 324))
-	TechTreePage = lexical_cast<long>(TechTreeSize - 324);
-	if(TechTreePage < 0)
-	TechTreePage = lexical_cast<long>(0);
-	
+	{
+		LastUnknownsPage = lexical_cast<long>(0);
+		if(General_LastUnknownsPicker->IsEmpty())
+		LastUnknownsPage = lexical_cast<long>(General_LastUnknownsPicker->GetValue());
+		if(LastUnknownsPage >= (LastUnknownsSize - 324))
+		LastUnknownsPage = lexical_cast<long>(LastUnknownsSize - 324);
+		if(LastUnknownsPage < 0)
+		LastUnknownsPage = lexical_cast<long>(0);
+	}
+
 	wxCommandEvent E;
-	OnGeneralSelect(E);*/
+	OnGeneralSelect(E);
 }
 
 void AGE_Frame::OnDataGridNext(wxCommandEvent& Event)
 {
 	if(Event.GetId() == General_TechTreeNext->GetId())
-	wxMessageBox("Tech Tree!");
+	{
+		TechTreePage += lexical_cast<long>(324);
+		if(TechTreePage >= (TechTreeSize - 324))
+		TechTreePage = lexical_cast<long>(TechTreeSize - 324);
+	}
 	if(Event.GetId() == General_SWUnknownsNext->GetId())
-	wxMessageBox("SW Data!");
+	{
+		SWUnknownsPage += lexical_cast<long>(324);
+		if(SWUnknownsPage >= (SWUnknownsSize - 324))
+		SWUnknownsPage = lexical_cast<long>(SWUnknownsSize - 324);
+	}
 	if(Event.GetId() == General_LastUnknownsNext->GetId())
-	wxMessageBox("Last Data!");
-/*	TechTreePage += lexical_cast<long>(324);
-	if(TechTreePage >= (TechTreeSize - 324))
-	TechTreePage = lexical_cast<long>(TechTreeSize - 324);
-	
+	{
+		LastUnknownsPage += lexical_cast<long>(324);
+		if(LastUnknownsPage >= (LastUnknownsSize - 324))
+		LastUnknownsPage = lexical_cast<long>(LastUnknownsSize - 324);
+	}
+
 	wxCommandEvent E;
-	OnGeneralSelect(E);*/
+	OnGeneralSelect(E);
 }
 
 void AGE_Frame::OnDataGridPrev(wxCommandEvent& Event)
 {
 	if(Event.GetId() == General_TechTreePrev->GetId())
-	wxMessageBox("Tech Tree!");
+	{
+		TechTreePage -= lexical_cast<long>(324);
+		if(TechTreePage < 0)
+		TechTreePage = lexical_cast<long>(0);
+		
+	}
 	if(Event.GetId() == General_SWUnknownsPrev->GetId())
-	wxMessageBox("SW Data!");
+	{
+		SWUnknownsPage -= lexical_cast<long>(324);
+		if(SWUnknownsPage < 0)
+		SWUnknownsPage = lexical_cast<long>(0);
+	}
 	if(Event.GetId() == General_LastUnknownsPrev->GetId())
-	wxMessageBox("Last Data!");
-/*	TechTreePage -= lexical_cast<long>(324);
-	if(TechTreePage < 0)
-	TechTreePage = lexical_cast<long>(0);
-	
+	{
+		LastUnknownsPage -= lexical_cast<long>(324);
+		if(LastUnknownsPage < 0)
+		LastUnknownsPage = lexical_cast<long>(0);
+	}
+
 	wxCommandEvent E;
-	OnGeneralSelect(E);*/
+	OnGeneralSelect(E);
 }
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 {
 //	
 	{
-		if(GameVersion >= 4)
-		{
-			General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
-			General_SUnknown2->Container = &GenieFile->SUnknown2;
-			General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
-			General_SUnknown3->Container = &GenieFile->SUnknown3;
-			General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
-			General_SUnknown4->Container = &GenieFile->SUnknown4;
-			General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
-			General_SUnknown5->Container = &GenieFile->SUnknown5;
-			General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
-			General_SUnknown7->Container = &GenieFile->SUnknown7;
-		}
 		for(short loop = 0;loop < 138;loop++)
 		{
 			General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->TerrainHeader[loop]));
@@ -111,6 +158,34 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 		{
 			General_TechTree[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->TechTree[loop+TechTreePage]));
 			General_TechTree[loop]->Container = &GenieFile->TechTree[loop+TechTreePage];
+		}
+		if(GameVersion >= 2)
+		{
+			General_LastUnknownsPicker->ChangeValue(lexical_cast<string>(LastUnknownsPage));
+			for(long loop = 0;loop < 324;loop++)
+			{
+				General_LastUnknowns[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->Unknown1[loop+LastUnknownsPage]));
+				General_LastUnknowns[loop]->Container = &GenieFile->Unknown1[loop+LastUnknownsPage];
+			}
+			if(GameVersion >= 4)
+			{
+				General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
+				General_SUnknown2->Container = &GenieFile->SUnknown2;
+				General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
+				General_SUnknown3->Container = &GenieFile->SUnknown3;
+				General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
+				General_SUnknown4->Container = &GenieFile->SUnknown4;
+				General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
+				General_SUnknown5->Container = &GenieFile->SUnknown5;
+				General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
+				General_SUnknown7->Container = &GenieFile->SUnknown7;
+				General_SWUnknownsPicker->ChangeValue(lexical_cast<string>(SWUnknownsPage));
+				for(long loop = 0;loop < 324;loop++)
+				{
+					General_SWUnknowns[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown6[loop+SWUnknownsPage]));
+					General_SWUnknowns[loop]->Container = &GenieFile->SUnknown6[loop+SWUnknownsPage];
+				}
+			}
 		}
 	}
 }
@@ -126,7 +201,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	General_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
 	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
-	General_Grid_TerrainHeader = new wxGridSizer(12, 0, 0);
+	General_Grid_TerrainHeader = new wxGridSizer(18, 0, 0);
 	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Terrain Header?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 138;loop++)
 	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);

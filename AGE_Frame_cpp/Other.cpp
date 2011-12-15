@@ -905,56 +905,6 @@ void AGE_Frame::OnGameVersionChange()
 {
 	if(DataOpened == true)	// Hiding stuff according to game version should be here.
 	{
-		// Player Colors
-		if(GameVersion < 2)	//	AoE and RoR
-		{
-			Colors_Holder_Name->Show(true);
-			Colors_Holder_Palette->Show(false);
-			Colors_Holder_MinimapColor->Show(false);
-			Colors_Holder_UnknownArea->Show(false);
-		}
-		else	//	Above AoE and RoR
-		{
-			Colors_Holder_Name->Show(false);
-			Colors_Holder_Palette->Show(true);
-			Colors_Holder_MinimapColor->Show(true);
-			if(ShowUnknowns) Colors_Holder_UnknownArea->Show(true);
-		}
-		// Sounds
-		if(GameVersion >= 2)
-		{
-			SoundItems_Holder_Civ->Show(true);
-			if(ShowUnknowns) SoundItems_Holder_Unknown->Show(true);
-		}
-		else
-		{
-			SoundItems_Holder_Civ->Show(false);
-			SoundItems_Holder_Unknown->Show(false);
-		}
-		// Terrain Restriction
-		if(GameVersion >= 2)	//	Above AoE and RoR
-		{
-			TerRestrict_Holder_Unknown1->Show(true);
-			TerRestrict_Holder_Graphics->Show(true);
-			TerRestrict_Holder_Amount->Show(true);
-		}
-		else
-		{
-			TerRestrict_Holder_Unknown1->Show(false);
-			TerRestrict_Holder_Graphics->Show(false);
-			TerRestrict_Holder_Amount->Show(false);
-		}
-		// Terrains
-		if(GameVersion >= 2)
-		{
-			Terrains_Holder_BlendPriority->Show(true);
-			Terrains_Holder_BlendType->Show(true);
-		}
-		else
-		{
-			Terrains_Holder_BlendPriority->Show(false);
-			Terrains_Holder_BlendType->Show(false);
-		}
 		for(short loop = 64;loop < 84;loop++)
 		{
 			if(GameVersion >= 3)
@@ -966,34 +916,6 @@ void AGE_Frame::OnGameVersionChange()
 				Terrains_Unknown10[loop]->Show(false);
 			}
 		}
-		if(GameVersion >= 4)
-		{
-			if(ShowUnknowns) Terrains_Holder_SUnknown1->Show(true);
-		}
-		else
-		{
-			Terrains_Holder_SUnknown1->Show(false);
-		}
-		// Civs
-		if(GameVersion >= 4)
-		{
-			Civs_Holder_Name[1]->Show(true);
-			if(ShowUnknowns) Civs_Holder_SUnknown1->Show(true);
-		}
-		else
-		{
-			Civs_Holder_Name[1]->Show(false);
-			Civs_Holder_SUnknown1->Show(false);
-		}
-		if(GameVersion >= 2)
-		{
-			Civs_Holder_TeamBonus->Show(true);
-		}
-		else
-		{
-			Civs_Holder_TeamBonus->Show(false);
-		}
-		// Researches
 		for(short loop = 4;loop < 6;loop++)
 		{
 			if(GameVersion >= 2)
@@ -1007,26 +929,174 @@ void AGE_Frame::OnGameVersionChange()
 				Research_ComboBox_RequiredTechs[loop]->Show(false);
 			}
 		}
-		if(GameVersion >= 2)
+		if(GameVersion >= 3)
+		{
+			for(short loop = 2;loop < 4;loop++)
+			if(ShowUnknowns) Units_Unknown9[loop]->Show(true);
+		}
+		else if(GameVersion < 2)
+		{
+			for(short loop = 2;loop < 4;loop++)
+			Units_Unknown9[loop]->Show(false);
+		}
+		else
+		{
+			Units_Holder_Unknown9->Show(false);
+		}
+		
+		if(GameVersion >= 2) // AoK ->
 		{
 			Research_Holder_Civ->Show(true);
 			Research_Holder_FullTechMode->Show(true);
+			Civs_Holder_TeamBonus->Show(true);
+			Terrains_Holder_BlendPriority->Show(true);
+			Terrains_Holder_BlendType->Show(true);
+			TerRestrict_Holder_Unknown1->Show(true);
+			TerRestrict_Holder_Graphics->Show(true);
+			TerRestrict_Holder_Amount->Show(true);
+			SoundItems_Holder_Civ->Show(true);
+			Colors_Holder_Name->Show(false);
+			Colors_Holder_Palette->Show(true);
+			Colors_Holder_MinimapColor->Show(true);
+			Units_StandingGraphic[1]->Show(true);
+			Units_ComboBox_StandingGraphic[1]->Show(true);
+			Units_TrainSound[1]->Show(true);
+			Units_ComboBox_TrainSound[1]->Show(true);
+			Units_Holder_Unknown3a->Show(false);
+			Units_Holder_SelectionShapeType->Show(true);
+			Units_Holder_SelectionEffect->Show(true);
+			Units_Holder_EditorSelectionColour->Show(true);
+			Units_Holder_ID3->Show(true);
+			Units_Holder_GarrisonRecoveryRate->Show(true);
+			Units_Holder_MissileGraphicDelay->Show(true);
+			Units_Holder_HeroMode->Show(true);
+			Units_Holder_GarrisonGraphic->Show(true);
+			Units_Holder_AttackMissileDuplicationAmount1->Show(true);
+			Units_Holder_AttackMissileDuplicationAmount2->Show(true);
+			Units_Holder_AttackMissileDuplicationUnknown->Show(true);
+			Units_Holder_AttackMissileDuplicationUnit->Show(true);
+			Units_Holder_AttackMissileDuplicationGraphic->Show(true);
+			Units_Holder_AnnexUnit1->Show(true);
+			Units_Holder_AnnexUnitMisplacement1->Show(true);
+			Units_Holder_HeadUnit->Show(true);
+			Units_Holder_HeadUnit->Show(true);
+			Units_Holder_TransformUnit->Show(true);
+			Units_Holder_GarrisonType->Show(true);
+			Units_Holder_GarrisonHealRate->Show(true);
+			if(ShowUnknowns)
+			{
+				SoundItems_Holder_Unknown->Show(true);
+				Colors_Holder_UnknownArea->Show(true);
+				Units_Holder_Unknown7->Show(true);
+				Units_Holder_Unknown8->Show(true);
+				Units_Holder_Unknown12->Show(true);
+				for(short loop = 1;loop < 17;loop++)
+				Units_Unknown16[loop]->Show(true);
+				Units_Holder_Unknown26->Show(true);
+				Units_Holder_Unknown27->Show(true);
+				Units_Holder_Unknown28->Show(true);
+				Units_Holder_Unknown29->Show(true);
+				Units_Holder_Unknown33->Show(true);
+				Units_Holder_Unknown34->Show(true);
+				Units_Holder_Unknown35->Show(true);
+				Units_Holder_Unknown36->Show(true);
+				Units_Holder_Unknown37->Show(true);
+				General_Holder_LastUnknowns->Show(true);
+			}
 		}
-		else
+		else // <- RoR
 		{
 			Research_Holder_Civ->Show(false);
 			Research_Holder_FullTechMode->Show(false);
+			Civs_Holder_TeamBonus->Show(false);
+			Terrains_Holder_BlendPriority->Show(false);
+			Terrains_Holder_BlendType->Show(false);
+			TerRestrict_Holder_Unknown1->Show(false);
+			TerRestrict_Holder_Graphics->Show(false);
+			TerRestrict_Holder_Amount->Show(false);
+			SoundItems_Holder_Civ->Show(false);
+			SoundItems_Holder_Unknown->Show(false);
+			Colors_Holder_Name->Show(true);
+			Colors_Holder_Palette->Show(false);
+			Colors_Holder_MinimapColor->Show(false);
+			Colors_Holder_UnknownArea->Show(false);
+			Units_StandingGraphic[1]->Show(false);
+			Units_ComboBox_StandingGraphic[1]->Show(false);
+			Units_TrainSound[1]->Show(false);
+			Units_ComboBox_TrainSound[1]->Show(false);
+			Units_Holder_Unknown7->Show(false);
+			Units_Holder_Unknown8->Show(false);
+			Units_Holder_SelectionShapeType->Show(false);
+			Units_Holder_SelectionEffect->Show(false);
+			Units_Holder_EditorSelectionColour->Show(false);
+			Units_Holder_ID3->Show(false);
+			Units_Holder_Unknown12->Show(false);
+			for(short loop = 1;loop < 17;loop++)
+			Units_Unknown16[loop]->Show(false);
+			Units_Holder_GarrisonRecoveryRate->Show(false);
+			Units_Holder_Unknown26->Show(false);
+			Units_Holder_Unknown27->Show(false);
+			Units_Holder_Unknown28->Show(false);
+			Units_Holder_MissileGraphicDelay->Show(false);
+			Units_Holder_HeroMode->Show(false);
+			Units_Holder_GarrisonGraphic->Show(false);
+			Units_Holder_AttackMissileDuplicationAmount1->Show(false);
+			Units_Holder_AttackMissileDuplicationAmount2->Show(false);
+			Units_Holder_AttackMissileDuplicationUnknown->Show(false);
+			Units_Holder_AttackMissileDuplicationUnit->Show(false);
+			Units_Holder_AttackMissileDuplicationGraphic->Show(false);
+			Units_Holder_Unknown29->Show(false);
+			Units_Holder_Unknown33->Show(false);
+			Units_Holder_AnnexUnit1->Show(false);
+			Units_Holder_AnnexUnitMisplacement1->Show(false);
+			Units_Holder_HeadUnit->Show(false);
+			Units_Holder_TransformUnit->Show(false);
+			Units_Holder_Unknown34->Show(false);
+			Units_Holder_GarrisonType->Show(false);
+			Units_Holder_GarrisonHealRate->Show(false);
+			Units_Holder_Unknown35->Show(false);
+			Units_Holder_Unknown36->Show(false);
+			Units_Holder_Unknown37->Show(false);
+			General_Holder_LastUnknowns->Show(false);
+			if(ShowUnknowns) Units_Holder_Unknown3a->Show(true);
 		}
-		if(GameVersion >= 4)
+		if(GameVersion >= 4) // SWGB ->
 		{
 			Research_Holder_Name[1]->Show(true);
+			Civs_Holder_Name[1]->Show(true);
+			Units_Holder_Name2->Show(true);
+			Units_Holder_Unitline->Show(true);
+			Units_Holder_MinTechLevel->Show(true);
+			if(ShowUnknowns)
+			{
+				Civs_Holder_SUnknown1->Show(true);
+				Terrains_Holder_SUnknown1->Show(true);
+				General_Grid_Variables->Show(true);
+				General_Holder_SWUnknowns->Show(true);
+			}
 		}
-		else
+		else // <- TC
 		{
 			Research_Holder_Name[1]->Show(false);
+			Civs_Holder_Name[1]->Show(false);
+			Civs_Holder_SUnknown1->Show(false);
+			Terrains_Holder_SUnknown1->Show(false);
+			Units_Holder_Name2->Show(false);
+			Units_Holder_Unitline->Show(false);
+			Units_Holder_MinTechLevel->Show(false);
+			General_Grid_Variables->Show(false);
+			General_Holder_SWUnknowns->Show(false);
 		}
-		// Units
-		
+		if(GameVersion >= 3) // TC ->
+		{
+			Units_Holder_SnowGraphicID->Show(true);
+			if(ShowUnknowns) Units_Unknown20[1]->Show(true);
+		}
+		else // <- AoK
+		{
+			Units_Unknown20[1]->Show(false);
+			Units_Holder_SnowGraphicID->Show(false);
+		}
 	}
 
 //	Every data area should be layouted.
@@ -1055,6 +1125,11 @@ void AGE_Frame::OnGameVersionChange()
 	Sounds_DataArea->Layout();
 	Colors_DataArea->Layout();
 	Borders_DataArea->Layout();
+	General_ScrollerWindowsSpace->Layout();
+	General_Scroller->GetSizer()->FitInside(General_Scroller);
+	General_Scroller->Scroll(0, 0);
+	General_Scroller->GetSizer()->SetDimension(0, 0, General_Scroller->GetSize().GetWidth() - 15, 1);
+//	General_Scroller->Refresh();
 	General_Main->Layout();
 	Refresh(); // Does this refresh non-visible tabs?
 }
