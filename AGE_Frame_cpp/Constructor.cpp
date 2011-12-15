@@ -83,17 +83,17 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	this->SetMenuBar(MenuBar_Main);
 
-	CreateGeneralControls();
+	CreateUnitControls();
 	CreateResearchControls();
 	CreateTechageControls();
 	CreateCivControls();
-	CreateUnitControls();
 	CreateGraphicsControls();
 	CreateTerrainControls();
-	CreateTerrainBorderControls();
 	CreateTerrainRestrictionControls();
 	CreateSoundControls();
 	CreatePlayerColorControls();
+	CreateTerrainBorderControls();
+	CreateGeneralControls();
 
 	TabBar_Main->AddPage(Tab_General, "General");
 	TabBar_Main->AddPage(Tab_Research, "Researches");

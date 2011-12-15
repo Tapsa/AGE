@@ -134,14 +134,10 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 			if(GameVersion >= 2)
 			{
 				RequiredTechs = 6;
-				Research_RequiredTechs[loop]->Show(true);
-				Research_ComboBox_RequiredTechs[loop]->Show(true);
 			}
 			else
 			{
 				RequiredTechs = 4;
-				Research_RequiredTechs[loop]->Show(false);
-				Research_ComboBox_RequiredTechs[loop]->Show(false);
 			}
 		}
 		for(short loop = 0;loop < RequiredTechs;loop++)
@@ -178,20 +174,12 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
 		if(GameVersion >= 2)
 		{
-			Research_Holder_Civ->Show(true);
-			Research_Holder_FullTechMode->Show(true);
-			
 			Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
 			Research_Civ->Container = &ResearchPointer->Civ;
 			Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
 			Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
 			Research_FullTechMode->Container = &ResearchPointer->FullTechMode;
 			Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
-		}
-		else
-		{
-			Research_Holder_Civ->Show(false);
-			Research_Holder_FullTechMode->Show(false);
 		}
 		Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
 		Research_ResearchLocation->Container = &ResearchPointer->ResearchLocation;
@@ -221,22 +209,10 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		Research_Pointers[2]->Container = &ResearchPointer->Pointers[2];
 		Research_Name[0]->ChangeValue(ResearchPointer->Name);
 		Research_Name[0]->Container = &ResearchPointer->Name;
-	//	Research_NameLength[0]->ChangeValue(lexical_cast<string>(ResearchPointer->NameLength));
-	//	Research_NameLength[0]->Container = &ResearchPointer->NameLength;
 		if(GameVersion >= 4)
 		{
-			Research_Holder_Name[1]->Show(true);
-		//	Research_Holder_NameLength[1]->Show(true);
-			
 			Research_Name[1]->ChangeValue(ResearchPointer->Name2);
 			Research_Name[1]->Container = &ResearchPointer->Name2;
-		//	Research_NameLength[1]->ChangeValue(lexical_cast<string>(ResearchPointer->NameLength2));
-		//	Research_NameLength[1]->Container = &ResearchPointer->NameLength2;
-		}
-		else
-		{
-			Research_Holder_Name[1]->Show(false);
-		//	Research_Holder_NameLength[1]->Show(false);
 		}
 		Research_DLL_LangDllName->Wrap(Research_DLL_LangDllName->GetSize().GetWidth());
 		Research_DLL_LangDllDescription->Wrap(Research_DLL_LangDllDescription->GetSize().GetWidth());

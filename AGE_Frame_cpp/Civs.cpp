@@ -111,32 +111,18 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 		Civs_Name[0]->Container = &CivPointer->Name;
 		if(GameVersion >= 4)
 		{
-			Civs_Holder_Name[1]->Show(true);
-			if(ShowUnknowns) Civs_Holder_SUnknown1->Show(true);
-			
 			Civs_Name[1]->ChangeValue(CivPointer->Name);
 			Civs_Name[1]->Container = &CivPointer->Name;
 			for(short loop = 0;loop < 4;loop++)
 			Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->SUnknown1[loop]));
-		}
-		else
-		{
-			Civs_Holder_Name[1]->Show(false);
-			Civs_Holder_SUnknown1->Show(false);
 		}
 		Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
 		Civs_TechTree->Container = &CivPointer->TechTreeID;
 		Civs_ComboBox_TechTree->SetSelection(CivPointer->TechTreeID + 1);
 		if(GameVersion >= 2)
 		{
-			Civs_Holder_TeamBonus->Show(true);
-			
 			Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
 			Civs_TeamBonus->Container = &CivPointer->TeamBonusID;
-		}
-		else
-		{
-			Civs_Holder_TeamBonus->Show(false);
 		}
 		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
 		Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->GraphicSet));

@@ -12,7 +12,7 @@ using boost::lexical_cast;
 
 void AGE_Frame::OnOpen(wxCommandEvent& Event)
 {
-	int ErrCode = 0;
+//	int ErrCode = 0;
 	wxCommandEvent Selected;
 
 	if(!SkipOpenDialog)
@@ -182,25 +182,25 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	gdat::GameVersion GenieVersion;
 	switch(GameVersion)
 	{
-	case 0:
-	    GenieVersion = gdat::GV_AoE;
-		break;
-	case 1:
-	    GenieVersion = gdat::GV_RoR;
-		break;
-	case 2:
-	    GenieVersion = gdat::GV_AoK;
-		break;
-	case 3:
-	    GenieVersion = gdat::GV_TC;
-		break;
-	case 4:
-	    GenieVersion = gdat::GV_SWGB;
-		break;
-	case 5:
-	    GenieVersion = gdat::GV_CC;
-		break;
-	default:
+		case 0:
+			GenieVersion = gdat::GV_AoE;
+			break;
+		case 1:
+			GenieVersion = gdat::GV_RoR;
+			break;
+		case 2:
+			GenieVersion = gdat::GV_AoK;
+			break;
+		case 3:
+			GenieVersion = gdat::GV_TC;
+			break;
+		case 4:
+			GenieVersion = gdat::GV_SWGB;
+			break;
+		case 5:
+			GenieVersion = gdat::GV_CC;
+			break;
+		default:
 		GenieVersion = gdat::GV_None;
 	}
 
@@ -228,7 +228,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	}
 
 	if(GenieFile != NULL)
-	{	// As of now, without these, nothing can be edited.
+	{	// Without these, nothing can be edited.
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
 		
@@ -764,8 +764,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		ListTerrains();
 		ListTerrainRestrictions();
 		ListPlayerColors();
-		ListGeneral();
 		ListTerrainBorders();
+		ListGeneral();
 
 		if(Effects_ComboBox_AttributesC->GetCount() > 0)
 		{
@@ -903,6 +903,133 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 void AGE_Frame::OnGameVersionChange()
 {
+	if(DataOpened == true)	// Hiding stuff according to game version should be here.
+	{
+		// Player Colors
+		if(GameVersion < 2)	//	AoE and RoR
+		{
+			Colors_Holder_Name->Show(true);
+			Colors_Holder_Palette->Show(false);
+			Colors_Holder_MinimapColor->Show(false);
+			Colors_Holder_UnknownArea->Show(false);
+		}
+		else	//	Above AoE and RoR
+		{
+			Colors_Holder_Name->Show(false);
+			Colors_Holder_Palette->Show(true);
+			Colors_Holder_MinimapColor->Show(true);
+			if(ShowUnknowns) Colors_Holder_UnknownArea->Show(true);
+		}
+		// Sounds
+		if(GameVersion >= 2)
+		{
+			SoundItems_Holder_Civ->Show(true);
+			if(ShowUnknowns) SoundItems_Holder_Unknown->Show(true);
+		}
+		else
+		{
+			SoundItems_Holder_Civ->Show(false);
+			SoundItems_Holder_Unknown->Show(false);
+		}
+		// Terrain Restriction
+		if(GameVersion >= 2)	//	Above AoE and RoR
+		{
+			TerRestrict_Holder_Unknown1->Show(true);
+			TerRestrict_Holder_Graphics->Show(true);
+			TerRestrict_Holder_Amount->Show(true);
+		}
+		else
+		{
+			TerRestrict_Holder_Unknown1->Show(false);
+			TerRestrict_Holder_Graphics->Show(false);
+			TerRestrict_Holder_Amount->Show(false);
+		}
+		// Terrains
+		if(GameVersion >= 2)
+		{
+			Terrains_Holder_BlendPriority->Show(true);
+			Terrains_Holder_BlendType->Show(true);
+		}
+		else
+		{
+			Terrains_Holder_BlendPriority->Show(false);
+			Terrains_Holder_BlendType->Show(false);
+		}
+		for(short loop = 64;loop < 84;loop++)
+		{
+			if(GameVersion >= 3)
+			{
+				if(ShowUnknowns) Terrains_Unknown10[loop]->Show(true);
+			}
+			else
+			{
+				Terrains_Unknown10[loop]->Show(false);
+			}
+		}
+		if(GameVersion >= 4)
+		{
+			if(ShowUnknowns) Terrains_Holder_SUnknown1->Show(true);
+		}
+		else
+		{
+			Terrains_Holder_SUnknown1->Show(false);
+		}
+		// Civs
+		if(GameVersion >= 4)
+		{
+			Civs_Holder_Name[1]->Show(true);
+			if(ShowUnknowns) Civs_Holder_SUnknown1->Show(true);
+		}
+		else
+		{
+			Civs_Holder_Name[1]->Show(false);
+			Civs_Holder_SUnknown1->Show(false);
+		}
+		if(GameVersion >= 2)
+		{
+			Civs_Holder_TeamBonus->Show(true);
+		}
+		else
+		{
+			Civs_Holder_TeamBonus->Show(false);
+		}
+		// Researches
+		for(short loop = 4;loop < 6;loop++)
+		{
+			if(GameVersion >= 2)
+			{
+				Research_RequiredTechs[loop]->Show(true);
+				Research_ComboBox_RequiredTechs[loop]->Show(true);
+			}
+			else
+			{
+				Research_RequiredTechs[loop]->Show(false);
+				Research_ComboBox_RequiredTechs[loop]->Show(false);
+			}
+		}
+		if(GameVersion >= 2)
+		{
+			Research_Holder_Civ->Show(true);
+			Research_Holder_FullTechMode->Show(true);
+		}
+		else
+		{
+			Research_Holder_Civ->Show(false);
+			Research_Holder_FullTechMode->Show(false);
+		}
+		if(GameVersion >= 4)
+		{
+			Research_Holder_Name[1]->Show(true);
+		}
+		else
+		{
+			Research_Holder_Name[1]->Show(false);
+		}
+		// Units
+		
+	}
+
+//	Every data area should be layouted.
 	Units_ScrollerWindowsSpace->Layout();
 	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
 	Units_Scroller->Scroll(0, 0);
@@ -927,12 +1054,14 @@ void AGE_Frame::OnGameVersionChange()
 	TerRestrict_DataArea->Layout();
 	Sounds_DataArea->Layout();
 	Colors_DataArea->Layout();
-//	Refresh();
+	Borders_DataArea->Layout();
+	General_Main->Layout();
+	Refresh(); // Does this refresh non-visible tabs?
 }
 
 void AGE_Frame::OnSave(wxCommandEvent& Event)
 {
-	int ErrCode = 0;
+//	int ErrCode = 0;
 	wxCommandEvent Selected;
 	
 		AGE_SaveDialog SaveBox (this);
@@ -971,12 +1100,10 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 
 		if(SaveDat)
 		{
-			{
-				SetStatusText("Saving dat file...", 0);
-				wxBusyCursor WaitCursor;
-
-				GenieFile->save(std::string(SaveDatFileName.c_str()));
-			}
+			SetStatusText("Saving dat file...", 0);
+			wxBusyCursor WaitCursor;
+			
+			GenieFile->save(std::string(SaveDatFileName.c_str()));
 		}
 		if(SaveApf)
 		{
@@ -1058,30 +1185,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				General_TopRow->Show(false);
 				General_ScrollerWindowsSpace->Show(false);
 			}
-			Units_ScrollerWindowsSpace->Layout();
-			Units_Scroller->GetSizer()->FitInside(Units_Scroller);
-			Units_Scroller->Scroll(0, 0);
-			Units_Scroller->GetSizer()->SetDimension(0, 0, Units_Scroller->GetSize().GetWidth() - 15, 1);
-		//	Units_Scroller->Refresh();
-			Graphics_ScrollerWindowsSpace->Layout();
-			Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
-			Graphics_Scroller->Scroll(0, 0);
-			Graphics_Scroller->GetSizer()->SetDimension(0, 0, Graphics_Scroller->GetSize().GetWidth() - 15, 1);
-		//	Graphics_Scroller->Refresh();
-			Terrains_ScrollerWindowsSpace->Layout();
-			Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
-			Terrains_Scroller->Scroll(0, 0);
-			Terrains_Scroller->GetSizer()->SetDimension(0, 0, Terrains_Scroller->GetSize().GetWidth() - 15, 1);
-		//	Terrains_Scroller->Refresh();
-			Borders_DataArea->Layout();
-			Sounds_DataArea->Layout();
-			Colors_DataArea->Layout();
-			General_Main->Layout();
-		//	Refresh();
-			
-		//	We don't want to show unknowns that the current game version doesn't use.
-			if(DataOpened == true)
-			OnGameVersionChange();
+			OnGameVersionChange(); // Does layouting and refreshing and ... check it out.
 		}
 		break;
 		case MenuOption_Buttons:
@@ -1128,8 +1232,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 		case MenuOption_NoExtra:
 		case MenuOption_1stFilters:
 		case MenuOption_2ndFilters:
-//		case MenuOption_3rdFilters:
-//		case MenuOption_4rdFilters:
 		{
 			SearchFilters = Event.GetId();
 			if(SearchFilters == MenuOption_NoExtra)
@@ -1177,9 +1279,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 	}
 }
 
-
-
-/* Check if File Exists */
+/* Check if File Exists 
 
 bool AGE_Frame::FileExists(const char * value)
 {
@@ -1191,7 +1291,7 @@ bool AGE_Frame::FileExists(const char * value)
 	 	return true;
 	}
 	return false;
-}
+}*/
 
 string AGE_Frame::LanguageDllString(int ID)
 {
@@ -1327,7 +1427,6 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 {
 	if(Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId())
 	{
-//		wxMessageBox("AGE_Frame::OnKillFocus_TextControls");
 		if(!Effects_E->IsEmpty() && !Effects_F->IsEmpty()) // if has something, then update float value.
 		{
 			float Amount = lexical_cast<float>(Effects_E->GetValue());
@@ -1399,7 +1498,7 @@ void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
 		
 		wxCommandEvent E;
 		OnUnitsSearch(E);
-	//	ListUnits(UnitCivID);	muille tulee tällänen, unitseilla kaatuu jos ei oo avattu dataa
+	//	ListUnits(UnitCivID);	muille tulee tällänen, unitseilla kaatuu jos ei oo avattu tiedostoa
 	}
 }
 
@@ -1836,12 +1935,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 		{
 			ListUnits(UnitCivID);
 		}
-		if(Event.GetId() == Units_LanguageDllCreation->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);
-		}
-		if(Event.GetId() == Units_LanguageDllHelp->GetId())
+		if(Event.GetId() == Units_LanguageDllCreation->GetId() || Event.GetId() == Units_LanguageDllHelp->GetId())
 		{
 			wxCommandEvent E;
 			OnUnitsSelect(E);
@@ -1854,11 +1948,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 		{
 			ListUnitArmors(UnitID, UnitCivID);
 		}
-		if(Event.GetId() == UnitCommands_Type->GetId())
-		{
-			ListUnitCommands(UnitID, UnitCivID);
-		}
-		if(Event.GetId() == UnitCommands_SubType->GetId())
+		if(Event.GetId() == UnitCommands_Type->GetId() || Event.GetId() == UnitCommands_SubType->GetId())
 		{
 			ListUnitCommands(UnitID, UnitCivID);
 		}
@@ -2263,12 +2353,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_CheckBoxShort(wxCommandEvent& Event)
 {
 	((CheckBox_Short*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == Effects_CheckBox_ModeB->GetId())
-	{
-		wxCommandEvent E;
-		OnEffectsSelect(E);
-	}
-	if(Event.GetId() == Effects_CheckBox_ModeC->GetId())
+	if(Event.GetId() == Effects_CheckBox_ModeB->GetId() || Event.GetId() == Effects_CheckBox_ModeC->GetId())
 	{
 		wxCommandEvent E;
 		OnEffectsSelect(E);

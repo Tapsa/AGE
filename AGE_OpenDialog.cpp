@@ -20,8 +20,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	Button_DefaultTC = new wxButton(this, wxID_ANY, "TC defaults");
 	Button_DefaultSWGB = new wxButton(this, wxID_ANY, "SWGB defaults");
 	Button_DefaultCC = new wxButton(this, wxID_ANY, "CC defaults");
-//	Button_DefaultSWGB->Disable();
-//	Button_DefaultCC->Disable();
 
 	OpenDefaults->Add(Button_DefaultAoE, 1, wxEXPAND);
 	OpenDefaults->Add(Button_DefaultRoR, 1, wxEXPAND);
@@ -72,32 +70,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
-	
-/*	if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\";
-	}
 
-	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2_x1_p1.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("TC.unz"));
-	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires II\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1.dll"));
-	Path_LangX1P1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1_p1.dll"));
-	
-	CheckBox_LangFileLocation->SetValue(false);
-	CheckBox_LangFileLocation->Show(false);
-	CheckBox_LangX1FileLocation->SetValue(false);
-	CheckBox_LangX1FileLocation->Show(false);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_LangX1P1FileLocation->Show(false);
-	Path_LangFileLocation->Show(false);
-	Path_LangX1FileLocation->Show(false);
-	Path_LangX1P1FileLocation->Show(false);
-*/
 	OpenLayout->Add(Text_GenieVer, 1, wxEXPAND);
 	OpenLayout->Add(CheckBox_GenieVer, 1, wxEXPAND);
 	OpenLayout->Add(DriveText, 1, wxEXPAND);
@@ -124,8 +97,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenLayout->Add(Path_LangX1P1FileLocation, 1, wxEXPAND);
 	OpenLayout->AddSpacer(15);
 	OpenLayout->AddSpacer(15);
-//	OpenLayout->AddSpacer(0);
-//	OpenLayout->AddSpacer(0);
 //	OpenLayout->Add(chDrsFileLocation, 1, wxEXPAND);
 //	OpenLayout->Add(fpDrsFileLocation, 1, wxEXPAND);
 	
@@ -161,7 +132,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultSWGB));
 	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultCC));
 	Connect(Radio_DatFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
-//	Connect(Radio_UnzFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
 	Connect(Radio_ApfFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
 	Connect(Radio_NoFile->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
 	Connect(CheckBox_LangFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLang));
@@ -175,25 +145,16 @@ void AGE_OpenDialog::OnOK(wxCommandEvent& Event)
 	if(Event.GetId() == Radio_DatFileLocation->GetId())
 	{
 		Path_DatFileLocation->Enable(true);
-//		Path_UnzFileLocation->Enable(false);
 		Path_ApfFileLocation->Enable(false);
     }
-	/*else if(Event.GetId() == Radio_UnzFileLocation->GetId())
-	{
-		Path_DatFileLocation->Enable(false);
-		Path_UnzFileLocation->Enable(true);
-		Path_ApfFileLocation->Enable(false);
-    }*/
 	else if(Event.GetId() == Radio_ApfFileLocation->GetId())
 	{
 		Path_DatFileLocation->Enable(false);
-//		Path_UnzFileLocation->Enable(false);
 		Path_ApfFileLocation->Enable(true);
     }
 	else
 	{
 		Path_DatFileLocation->Enable(false);
-//		Path_UnzFileLocation->Enable(false);
 		Path_ApfFileLocation->Enable(false);
 	}
 	EndModal(wxID_OK);
@@ -215,7 +176,6 @@ void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(0);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires\\data\\Empires.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("AoE.unz"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
@@ -252,7 +212,6 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(1);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires\\data2\\Empires.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("RoR.unz"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Age of Empires\\languagex.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
@@ -289,7 +248,6 @@ void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(2);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("AoK.unz"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires II\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
@@ -326,7 +284,6 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(3);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2_x1_p1.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("TC.unz"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires II\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1_p1.dll"));
@@ -362,7 +319,6 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(4);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\GENIE.DAT"));
-//	Path_UnzFileLocation->SetPath(wxT("SWGB.unz"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
@@ -399,7 +355,6 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(5);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("CC.unz"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
@@ -425,25 +380,16 @@ void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent& Event)
 	if(Event.GetId() == Radio_DatFileLocation->GetId())
 	{
 		Path_DatFileLocation->Enable(true);
-//		Path_UnzFileLocation->Enable(false);
 		Path_ApfFileLocation->Enable(false);
     }
-	/*else if(Event.GetId() == Radio_UnzFileLocation->GetId())
-	{
-		Path_DatFileLocation->Enable(false);
-		Path_UnzFileLocation->Enable(true);
-		Path_ApfFileLocation->Enable(false);
-    }*/
 	else if(Event.GetId() == Radio_ApfFileLocation->GetId())
 	{
 		Path_DatFileLocation->Enable(false);
-//		Path_UnzFileLocation->Enable(false);
 		Path_ApfFileLocation->Enable(true);
     }
 	else
 	{
 		Path_DatFileLocation->Enable(false);
-//		Path_UnzFileLocation->Enable(false);
 		Path_ApfFileLocation->Enable(false);
 	}
 }

@@ -372,7 +372,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		gdat::Unit * UnitPointer = (gdat::Unit*)Units_Units_List->GetClientData(Selection);
 		UnitCivID = Units_Civs_List->GetSelection();
 		UnitID = UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]);
-//		wxMessageBox("Unit Pointer: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[UnitID]));
 
 //	Type 10+
 

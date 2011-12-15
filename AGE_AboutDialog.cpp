@@ -11,7 +11,6 @@ AGE_AboutDialog::AGE_AboutDialog(wxWindow * parent)
 	AoKHThread = new wxHyperlinkCtrl(this, wxID_ANY, "Age of Kings Heaven AGE forum topic", "http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=st&fn=4&tn=38606&st=recent&f=4,38606,0,365", wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_CONTEXTMENU | wxHL_ALIGN_LEFT);
 	UPXInfo = new wxStaticText(this, wxID_ANY, "Compressed with:");
 	UPXLink = new wxHyperlinkCtrl(this, wxID_ANY, "The Ultimate Packer for eXecutables", "http://upx.sourceforge.net", wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_CONTEXTMENU | wxHL_ALIGN_LEFT);
-//	Version = new wxStaticText(this, wxID_ANY, "");
 
 	MainLeft = new wxBoxSizer(wxVERTICAL);
 	MainRight = new wxBoxSizer(wxVERTICAL);
@@ -20,8 +19,6 @@ AGE_AboutDialog::AGE_AboutDialog(wxWindow * parent)
 	MainLeft->Add(-1, 15);
 	MainLeft->Add(Image, 0, 0);
 	MainLeft->Add(-1, 15);
-//	MainLeft->Add(Version, 0, 0);
-//	MainLeft->Add(-1, 15);
 
 	MainRight->Add(-1, 15);
 	MainRight->Add(Title, 0, wxEXPAND);

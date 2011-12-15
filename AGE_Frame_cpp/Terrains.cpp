@@ -197,18 +197,10 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_ComboBox_SoundID->SetSelection(TerrainPointer->SoundID + 1);
 		if(GameVersion >= 2)
 		{
-			Terrains_Holder_BlendPriority->Show(true);
-			Terrains_Holder_BlendType->Show(true);
-			
 			Terrains_BlendPriority->ChangeValue(lexical_cast<string>(TerrainPointer->BlendPriority));
 			Terrains_BlendPriority->Container = &TerrainPointer->BlendPriority;
 			Terrains_BlendType->ChangeValue(lexical_cast<string>(TerrainPointer->BlendType));
 			Terrains_BlendType->Container = &TerrainPointer->BlendType;
-		}
-		else
-		{
-			Terrains_Holder_BlendPriority->Show(false);
-			Terrains_Holder_BlendType->Show(false);
 		}
 		for(short loop = 0;loop < 3;loop++)
 		{
@@ -248,12 +240,10 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 			if(GameVersion >= 3)
 			{
 				Unknown10 = 84;
-				if(ShowUnknowns) Terrains_Unknown10[loop]->Show(true);
 			}
 			else
 			{
 				Unknown10 = 64;
-				Terrains_Unknown10[loop]->Show(false);
 			}
 		}
 		for(short loop = 0;loop < Unknown10;loop++)
@@ -278,17 +268,11 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_NumberOfTerrainUnitsUsed->Container = &TerrainPointer->NumberOfTerrainUnitsUsed;
 		if(GameVersion >= 4)
 		{
-			if(ShowUnknowns) Terrains_Holder_SUnknown1->Show(true);
-			
 			for(short loop = 0;loop < 24;loop++)
 			{
 				Terrains_SUnknown1[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->SWGBUnknown1[loop]));
 				Terrains_SUnknown1[loop]->Container = &TerrainPointer->SWGBUnknown1[loop];
 			}
-		}
-		else
-		{
-			Terrains_Holder_SUnknown1->Show(false);
 		}
 		Added = false;
 	}

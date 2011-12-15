@@ -17,8 +17,6 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	Button_DefaultTC = new wxButton(this, wxID_ANY, "TC defaults");
 	Button_DefaultSWGB = new wxButton(this, wxID_ANY, "SWGB defaults");
 	Button_DefaultCC = new wxButton(this, wxID_ANY, "CC defaults");
-//	Button_DefaultSWGB->Disable();
-//	Button_DefaultCC->Disable();
 
 	SaveDefaults->Add(Button_DefaultAoE, 1, wxEXPAND);
 	SaveDefaults->Add(Button_DefaultRoR, 1, wxEXPAND);
@@ -52,19 +50,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
-	
-/*	if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\";
-	}
 
-	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2_x1_p1.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("TC.unz"));
-*/
 	SaveLayout->Add(Text_GenieVer, 1, wxEXPAND);
 	SaveLayout->Add(CheckBox_GenieVer, 1, wxEXPAND);
 	SaveLayout->AddSpacer(15);
@@ -115,7 +101,6 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultSWGB));
 	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultCC));
 	Connect(CheckBox_DatFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDat));
-//	Connect(CheckBox_UnzFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectUnz));
 	Connect(CheckBox_ApfFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectApf));
 //	Connect(chDrsFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDrs));
 }
@@ -141,9 +126,7 @@ void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(0);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires\\data\\Empires.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("AoE.unz"));
 	CheckBox_DatFileLocation->SetValue(true);
-//	CheckBox_UnzFileLocation->SetValue(true);
 }
 
 void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent& Event)
@@ -162,9 +145,7 @@ void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(1);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires\\data2\\Empires.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("RoR.unz"));
 	CheckBox_DatFileLocation->SetValue(true);
-//	CheckBox_UnzFileLocation->SetValue(true);
 }
 
 void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent& Event)
@@ -183,9 +164,7 @@ void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(2);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("AoK.unz"));
 	CheckBox_DatFileLocation->SetValue(true);
-//	CheckBox_UnzFileLocation->SetValue(true);
 }
 
 void AGE_SaveDialog::OnDefaultTC(wxCommandEvent& Event)
@@ -204,9 +183,7 @@ void AGE_SaveDialog::OnDefaultTC(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(3);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2_x1_p1.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("TC.unz"));
 	CheckBox_DatFileLocation->SetValue(true);
-//	CheckBox_UnzFileLocation->SetValue(true);
 }
 
 void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent& Event)
@@ -225,9 +202,7 @@ void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(4);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\GENIE.DAT"));
-//	Path_UnzFileLocation->SetPath(wxT("SWGB.unz"));
 	CheckBox_DatFileLocation->SetValue(true);
-//	CheckBox_UnzFileLocation->SetValue(true);
 }
 
 void AGE_SaveDialog::OnDefaultCC(wxCommandEvent& Event)
@@ -246,9 +221,7 @@ void AGE_SaveDialog::OnDefaultCC(wxCommandEvent& Event)
 
 	CheckBox_GenieVer->SetSelection(5);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
-//	Path_UnzFileLocation->SetPath(wxT("CC.unz"));
 	CheckBox_DatFileLocation->SetValue(true);
-//	CheckBox_UnzFileLocation->SetValue(true);
 }
 
 void AGE_SaveDialog::OnSelectDat(wxCommandEvent& Event)
@@ -261,18 +234,6 @@ void AGE_SaveDialog::OnSelectDat(wxCommandEvent& Event)
 	{
 	    Path_DatFileLocation->Enable(false);
 	}
-}
-
-void AGE_SaveDialog::OnSelectUnz(wxCommandEvent& Event)
-{
-	/*if(Event.IsChecked())
-	{
-	    Path_UnzFileLocation->Enable(true);
-	}
-	else
-	{
-	    Path_UnzFileLocation->Enable(false);
-	}*/
 }
 
 void AGE_SaveDialog::OnSelectApf(wxCommandEvent& Event)
