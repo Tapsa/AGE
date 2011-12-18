@@ -1,519 +1,397 @@
-/* AGEFrame_cpp/Sounds.cpp */
+/* AGEFrame_cpp/UnitLine.cpp */
 
 #include "../AGE_Frame.h"
 #include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
-/*
-string AGE_Frame::GetSoundName(short Index)
+
+string AGE_Frame::GetUnitLineName(short Index)
 {
-	string Name = "File Count: ";
-	Name += lexical_cast<string>(GenieFile->Sounds[Index].Items.size());
+	string Name = "";
+	if(GenieFile->UnitLines[Index].Name != "")
+	{
+		Name = GenieFile->UnitLines[Index].Name;
+	}
+	else
+	{
+		Name = "Unitline "+lexical_cast<string>(Index);
+	}
 	return Name;
 }
 
-void AGE_Frame::OnSoundsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesSearch(wxCommandEvent& Event)
 {
-	ListSounds();
+	ListUnitLines();
 }
 
-void AGE_Frame::ListSounds()
+void AGE_Frame::ListUnitLines()
 {
 	string Name;
-	SearchText = wxString(Sounds_Sounds_Search->GetValue()).Lower();
-	ExcludeText = wxString(Sounds_Sounds_Search_R->GetValue()).Lower();
+	SearchText = wxString(UnitLines_UnitLines_Search->GetValue()).Lower();
+	ExcludeText = wxString(UnitLines_UnitLines_Search_R->GetValue()).Lower();
 	string CompareText;
 	
-	short Selection = Sounds_Sounds_List->GetSelection();
-	short SoundIDs[13];
-	SoundIDs[0] = Units_ComboBox_TrainSound[0]->GetSelection();
-	SoundIDs[1] = Units_ComboBox_TrainSound[1]->GetSelection();
-	SoundIDs[2] = Units_ComboBox_SelectionSound->GetSelection();
-	SoundIDs[3] = Units_ComboBox_DyingSound->GetSelection();
-	SoundIDs[4] = Units_ComboBox_AttackSound->GetSelection();
-	SoundIDs[5] = Units_ComboBox_MoveSound->GetSelection();
-	SoundIDs[6] = Units_ComboBox_StopSound->GetSelection();
-	SoundIDs[7] = Units_ComboBox_ConstructionSound->GetSelection();
-	SoundIDs[8] = Terrains_ComboBox_SoundID->GetSelection();
-	SoundIDs[9] = Graphics_ComboBox_SoundID->GetSelection();
-	for(short loop = 0;loop < 3;loop++)
-	SoundIDs[loop+10] = Graphics_ComboBox_AttackSoundID[loop]->GetSelection();
+	short Selection = UnitLines_UnitLines_List->GetSelection();
+	short UnitIDs = Units_ComboBox_Unitline->GetSelection();
 
-	if(Sounds_Sounds_List->GetCount() > 0)
+	if(UnitLines_UnitLines_List->GetCount() > 0)
 	{
-		Sounds_Sounds_List->Clear();
+		UnitLines_UnitLines_List->Clear();
 	}
-	if(Units_ComboBox_TrainSound[0]->GetCount() > 0)
+	if(Units_ComboBox_Unitline->GetCount() > 0)
 	{
-		Units_ComboBox_TrainSound[0]->Clear();
+		Units_ComboBox_Unitline->Clear();
 	}
-	if(Units_ComboBox_TrainSound[1]->GetCount() > 0)
-	{
-		Units_ComboBox_TrainSound[1]->Clear();
-	}
-	if(Units_ComboBox_SelectionSound->GetCount() > 0)
-	{
-		Units_ComboBox_SelectionSound->Clear();
-	}
-	if(Units_ComboBox_DyingSound->GetCount() > 0)
-	{
-		Units_ComboBox_DyingSound->Clear();
-	}
-	if(Units_ComboBox_AttackSound->GetCount() > 0)
-	{
-		Units_ComboBox_AttackSound->Clear();
-	}
-	if(Units_ComboBox_MoveSound->GetCount() > 0)
-	{
-		Units_ComboBox_MoveSound->Clear();
-	}
-	if(Units_ComboBox_StopSound->GetCount() > 0)
-	{
-		Units_ComboBox_StopSound->Clear();
-	}
-	if(Units_ComboBox_ConstructionSound->GetCount() > 0)
-	{
-		Units_ComboBox_ConstructionSound->Clear();
-	}
-	if(Terrains_ComboBox_SoundID->GetCount() > 0)
-	{
-		Terrains_ComboBox_SoundID->Clear();
-	}
-	if(Graphics_ComboBox_SoundID->GetCount() > 0)
-	{
-		Graphics_ComboBox_SoundID->Clear();
-	}
-	for(short loop = 0;loop < 3;loop++)
-	if(Graphics_ComboBox_AttackSoundID[loop]->GetCount() > 0)
-	{
-		Graphics_ComboBox_AttackSoundID[loop]->Clear();
-	}
-	
+
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 13;loop++)
+	if(UnitIDs == wxNOT_FOUND)
 	{
-		if(SoundIDs[loop] == wxNOT_FOUND)
-		{
-			SoundIDs[loop] = 0;
-		}
+		UnitIDs = 0;
 	}
+
+	Units_ComboBox_Unitline->Append("-1 - None");
 	
-	Units_ComboBox_TrainSound[0]->Append("-1 - None");
-	Units_ComboBox_TrainSound[1]->Append("-1 - None");
-	Units_ComboBox_SelectionSound->Append("-1 - None");
-	Units_ComboBox_DyingSound->Append("-1 - None");
-	Units_ComboBox_AttackSound->Append("-1 - None");
-	Units_ComboBox_MoveSound->Append("-1 - None");
-	Units_ComboBox_StopSound->Append("-1 - None");
-	Units_ComboBox_ConstructionSound->Append("-1 - None");
-	Terrains_ComboBox_SoundID->Append("-1 - None");
-	Graphics_ComboBox_SoundID->Append("-1 - None");
-	for(short loop = 0;loop < 3;loop++)
-	Graphics_ComboBox_AttackSoundID[loop]->Append("-1 - None");
-	
-	for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
+	for(short loop = 0;loop < GenieFile->UnitLines.size();loop++)
 	{
 		Name = lexical_cast<string>(loop);
 		Name += " - ";
-		Name += GetSoundName(loop);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetSoundName(loop)).Lower();
+		Name += GetUnitLineName(loop);
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitLineName(loop)).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
-			Sounds_Sounds_List->Append(Name, (void*)&GenieFile->Sounds[loop]);
+			UnitLines_UnitLines_List->Append(Name, (void*)&GenieFile->UnitLines[loop]);
 		}
-		Units_ComboBox_TrainSound[0]->Append(Name);
-		Units_ComboBox_TrainSound[1]->Append(Name);
-		Units_ComboBox_SelectionSound->Append(Name);
-		Units_ComboBox_DyingSound->Append(Name);
-		Units_ComboBox_AttackSound->Append(Name);
-		Units_ComboBox_MoveSound->Append(Name);
-		Units_ComboBox_StopSound->Append(Name);
-		Units_ComboBox_ConstructionSound->Append(Name);
-		Terrains_ComboBox_SoundID->Append(Name);
-		Graphics_ComboBox_SoundID->Append(Name);
-		for(short loop = 0;loop < 3;loop++)
-		Graphics_ComboBox_AttackSoundID[loop]->Append(Name);
+		Units_ComboBox_Unitline->Append(Name);
 	}
 	
-	Sounds_Sounds_List->SetSelection(0);
-	Sounds_Sounds_List->SetFirstItem(Selection - 3);
-	Sounds_Sounds_List->SetSelection(Selection);
-	Units_ComboBox_TrainSound[0]->SetSelection(SoundIDs[0]);
-	Units_ComboBox_TrainSound[1]->SetSelection(SoundIDs[1]);
-	Units_ComboBox_SelectionSound->SetSelection(SoundIDs[2]);
-	Units_ComboBox_DyingSound->SetSelection(SoundIDs[3]);
-	Units_ComboBox_AttackSound->SetSelection(SoundIDs[4]);
-	Units_ComboBox_MoveSound->SetSelection(SoundIDs[5]);
-	Units_ComboBox_StopSound->SetSelection(SoundIDs[6]);
-	Units_ComboBox_ConstructionSound->SetSelection(SoundIDs[7]);
-	Terrains_ComboBox_SoundID->SetSelection(SoundIDs[8]);
-	Graphics_ComboBox_SoundID->SetSelection(SoundIDs[9]);
-	for(short loop = 0;loop < 3;loop++)
-	Graphics_ComboBox_AttackSoundID[loop]->SetSelection(SoundIDs[loop+10]);
+	UnitLines_UnitLines_List->SetSelection(0);
+	UnitLines_UnitLines_List->SetFirstItem(Selection - 3);
+	UnitLines_UnitLines_List->SetSelection(Selection);
+	Units_ComboBox_Unitline->SetSelection(UnitIDs);
 	
 	wxCommandEvent E;
-	OnSoundsSelect(E);
+	OnUnitLinesSelect(E);
 }
 
-void AGE_Frame::OnSoundsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
 {
-	short Selection = Sounds_Sounds_List->GetSelection();
+	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
 		if(Added)
 		{
-			Selection = Sounds_Sounds_List->GetCount() - 1;
-			Sounds_Sounds_List->SetSelection(Selection);
+			Selection = UnitLines_UnitLines_List->GetCount() - 1;
+			UnitLines_UnitLines_List->SetSelection(Selection);
 		}
-		gdat::Sound * SoundPointer = (gdat::Sound*)Sounds_Sounds_List->GetClientData(Selection);
-		SoundID = SoundPointer - (&GenieFile->Sounds[0]);
-		Sounds_ID->ChangeValue(lexical_cast<string>(SoundPointer->ID));
-		Sounds_ID->Container = &SoundPointer->ID;
-		Sounds_Unknown->ChangeValue(lexical_cast<string>(SoundPointer->Unknown1));
-		Sounds_Unknown->Container = &SoundPointer->Unknown1;
+		gdat::UnitLine * LinePointer = (gdat::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection);
+		UnitLineID = LinePointer - (&GenieFile->UnitLines[0]);
+		UnitLines_ID->ChangeValue(lexical_cast<string>(LinePointer->ID));
+		UnitLines_ID->Container = &LinePointer->ID;
+		UnitLines_Name->ChangeValue(LinePointer->Name);
+		UnitLines_Name->Container = &LinePointer->Name;
 		Added = false;
-		ListSoundItems(SoundID);
+		ListUnitLineUnits(UnitLineID);
 	}
 }
 
-void AGE_Frame::OnSoundsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesAdd(wxCommandEvent& Event)
 {
-	gdat::Sound Temp;
-	GenieFile->Sounds.push_back(Temp);
-	GenieFile->Sounds[GenieFile->Sounds.size() - 1].ID = lexical_cast<long>(GenieFile->Sounds.size() - 1);	//	ID Fix
+	gdat::UnitLine Temp;
+	GenieFile->UnitLines.push_back(Temp);
+	GenieFile->UnitLines[GenieFile->UnitLines.size() - 1].ID = lexical_cast<short>(GenieFile->UnitLines.size() - 1);	//	ID Fix
 	Added = true;
-	ListSounds();
+	ListUnitLines();
 }
 
-void AGE_Frame::OnSoundsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Sounds_Sounds_List->GetSelection();
+	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Sounds.erase(GenieFile->Sounds.begin() + SoundID);
-		for(short loop = SoundID;loop < GenieFile->Sounds.size();loop++)	//	ID Fix
+		GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineID);
+		for(short loop = UnitLineID;loop < GenieFile->UnitLines.size();loop++)	//	ID Fix
 		{
-			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
+			GenieFile->UnitLines[loop].ID = lexical_cast<short>(loop);
 		}
-		if(Selection == Sounds_Sounds_List->GetCount() - 1)
-		Sounds_Sounds_List->SetSelection(Selection - 1);
-		ListSounds();
+		if(Selection == UnitLines_UnitLines_List->GetCount() - 1)
+		UnitLines_UnitLines_List->SetSelection(Selection - 1);
+		ListUnitLines();
 	}
 }
 
-void AGE_Frame::OnSoundsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesCopy(wxCommandEvent& Event)
 {
-	short Selection = Sounds_Sounds_List->GetSelection();
+	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		SoundCopy = *(gdat::Sound*)Sounds_Sounds_List->GetClientData(Selection);
+		UnitLineCopy = *(gdat::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection);
 	}
 }
 
-void AGE_Frame::OnSoundsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Sounds_Sounds_List->GetSelection();
+	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::Sound*)Sounds_Sounds_List->GetClientData(Selection) = SoundCopy;
-		GenieFile->Sounds[SoundID].ID = lexical_cast<long>(SoundID);	//	ID Fix
-		ListSounds();
+		*(gdat::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection) = UnitLineCopy;
+		GenieFile->UnitLines[UnitLineID].ID = lexical_cast<short>(UnitLineID);	//	ID Fix
+		ListUnitLines();
 	}
 }
 
-string AGE_Frame::GetSoundItemName(short Index, short SoundID)
+string AGE_Frame::GetUnitLineUnitName(short Index, short UnitLineID)
 {
 	string Name = "";
-	if(GenieFile->Sounds[SoundID].Items[Index].FileName != "")
+	Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineID].UnitIDs[Index])+" ";
+	if(LanguageDllString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineID].UnitIDs[Index]].LanguageDllName) != "")
 	{
-		Name = GenieFile->Sounds[SoundID].Items[Index].FileName;
+		Name += LanguageDllString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineID].UnitIDs[Index]].LanguageDllName);
+	}
+	else if(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineID].UnitIDs[Index]].Name != "")
+	{
+		Name += GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineID].UnitIDs[Index]].Name;
 	}
 	else
 	{
-		Name = "NewFile.wav";
+		Name += "New Unit";
 	}
 	return Name;
 }
 
-void AGE_Frame::OnSoundItemsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent& Event)
 {
-	ListSoundItems(SoundID);
+	ListUnitLineUnits(UnitLineID);
 }
 
-void AGE_Frame::ListSoundItems(short Index)
+void AGE_Frame::ListUnitLineUnits(short Index)
 {
 	string Name;
-	SearchText = wxString(Sounds_SoundItems_Search->GetValue()).Lower();
-	ExcludeText = wxString(Sounds_SoundItems_Search_R->GetValue()).Lower();
+	SearchText = wxString(UnitLines_UnitLineUnits_Search->GetValue()).Lower();
+	ExcludeText = wxString(UnitLines_UnitLineUnits_Search_R->GetValue()).Lower();
 	string CompareText;
-	short Selection = Sounds_SoundItems_List->GetSelection();
+	short Selection = UnitLines_UnitLineUnits_List->GetSelection();
 
-	if(Sounds_SoundItems_List->GetCount() > 0)
+	if(UnitLines_UnitLineUnits_List->GetCount() > 0)
 	{
-		Sounds_SoundItems_List->Clear();
+		UnitLines_UnitLineUnits_List->Clear();
 	}
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < GenieFile->Sounds[Index].Items.size();loop++)
+	for(short loop = 0;loop < GenieFile->UnitLines[Index].UnitIDs.size();loop++)
 	{
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetSoundItemName(loop, Index)).Lower();
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitLineUnitName(loop, Index)).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Name = lexical_cast<string>(loop);
 			Name += " - ";
-			Name += GetSoundItemName(loop, Index);
-			Sounds_SoundItems_List->Append(Name, (void*)&GenieFile->Sounds[Index].Items[loop]);
+			Name += GetUnitLineUnitName(loop, Index);
+			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[Index].UnitIDs[loop]);
 		}
 	}
-	Sounds_SoundItems_List->SetSelection(0);
-	Sounds_SoundItems_List->SetFirstItem(Selection - 3);
-	Sounds_SoundItems_List->SetSelection(Selection);
+	UnitLines_UnitLineUnits_List->SetSelection(0);
+	UnitLines_UnitLineUnits_List->SetFirstItem(Selection - 3);
+	UnitLines_UnitLineUnits_List->SetSelection(Selection);
 
 	wxCommandEvent E;
-	OnSoundItemsSelect(E);
+	OnUnitLineUnitsSelect(E);
 }
 
-void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent& Event)
 {
-	short Selection = Sounds_SoundItems_List->GetSelection();
+	short Selection = UnitLines_UnitLineUnits_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
 		if(Added)
 		{
-			Selection = Sounds_SoundItems_List->GetCount() - 1;
-			Sounds_SoundItems_List->SetSelection(Selection);
+			Selection = UnitLines_UnitLineUnits_List->GetCount() - 1;
+			UnitLines_UnitLineUnits_List->SetSelection(Selection);
 		}
-		gdat::SoundItem * SoundItemPointer = (gdat::SoundItem*)Sounds_SoundItems_List->GetClientData(Selection);
-		SoundItemID = SoundItemPointer - (&GenieFile->Sounds[SoundID].Items[0]);
-		SoundItems_Name->ChangeValue(SoundItemPointer->FileName);
-		SoundItems_Name->Container = &SoundItemPointer->FileName;
-		SoundItems_Resource->ChangeValue(lexical_cast<string>(SoundItemPointer->ResourceID));
-		SoundItems_Resource->Container = &SoundItemPointer->ResourceID;
-		SoundItems_Probability->ChangeValue(lexical_cast<string>(SoundItemPointer->Probability));
-		SoundItems_Probability->Container = &SoundItemPointer->Probability;
-		if(GameVersion >= 2)
-		{
-			SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
-			SoundItems_Civ->Container = &SoundItemPointer->Civ;
-			SoundItems_ComboBox_Civ->SetSelection(SoundItemPointer->Civ + 1);
-			SoundItems_Unknown->ChangeValue(lexical_cast<string>(SoundItemPointer->Unknown1));
-			SoundItems_Unknown->Container = &SoundItemPointer->Unknown1;
-		}
+		short * UnitPointer = (short*)UnitLines_UnitLineUnits_List->GetClientData(Selection);
+		UnitLineUnitID = UnitPointer - (&GenieFile->UnitLines[UnitLineID].UnitIDs[0]);
+		UnitLineUnits_Units->ChangeValue(lexical_cast<string>(*UnitPointer));
+		UnitLineUnits_Units->Container = UnitPointer;
+		UnitLineUnits_ComboBox_Units->SetSelection(*UnitPointer + 1);
 		Added = false;
 	}
 	else
 	{
-		SoundItems_Name->ChangeValue("0");
-		SoundItems_Resource->ChangeValue("0");
-		SoundItems_Probability->ChangeValue("0");
-		SoundItems_Civ->ChangeValue("0");
-		SoundItems_ComboBox_Civ->SetSelection(0);
-		SoundItems_Unknown->ChangeValue("0");
+		UnitLineUnits_Units->ChangeValue("0");
+		UnitLineUnits_ComboBox_Units->SetSelection(0);
 	}
 }
 
-void AGE_Frame::OnSoundItemsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent& Event)
 {
-	short Selection = Sounds_Sounds_List->GetSelection();
+	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::SoundItem Temp;
-		GenieFile->Sounds[SoundID].Items.push_back(Temp);
+		short Temp = 0;
+		GenieFile->UnitLines[UnitLineID].UnitIDs.push_back(Temp);
 		Added = true;
-		ListSoundItems(SoundID);
+		ListUnitLineUnits(UnitLineID);
 	}
 }
 
-void AGE_Frame::OnSoundItemsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Sounds_SoundItems_List->GetSelection();
+	short Selection = UnitLines_UnitLineUnits_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Sounds[SoundID].Items.erase(GenieFile->Sounds[SoundID].Items.begin() + SoundItemID);
-		if(Selection == Sounds_SoundItems_List->GetCount() - 1)
-		Sounds_SoundItems_List->SetSelection(Selection - 1);
-		ListSoundItems(SoundID);
+		GenieFile->UnitLines[UnitLineID].UnitIDs.erase(GenieFile->UnitLines[UnitLineID].UnitIDs.begin() + UnitLineUnitID);
+		if(Selection == UnitLines_UnitLineUnits_List->GetCount() - 1)
+		UnitLines_UnitLineUnits_List->SetSelection(Selection - 1);
+		ListUnitLineUnits(UnitLineID);
 	}
 }
 
-void AGE_Frame::OnSoundItemsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent& Event)
 {
-	short Selection = Sounds_SoundItems_List->GetSelection();
+	short Selection = UnitLines_UnitLineUnits_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		SoundItemCopy = *(gdat::SoundItem*)Sounds_SoundItems_List->GetClientData(Selection);
+		UnitLineUnitCopy = *(short*)UnitLines_UnitLineUnits_List->GetClientData(Selection);
 	}
 }
 
-void AGE_Frame::OnSoundItemsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Sounds_SoundItems_List->GetSelection();
+	short Selection = UnitLines_UnitLineUnits_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::SoundItem*)Sounds_SoundItems_List->GetClientData(Selection) = SoundItemCopy;
-		ListSoundItems(SoundID);
+		*(short*)UnitLines_UnitLineUnits_List->GetClientData(Selection) = UnitLineUnitCopy;
+		ListUnitLineUnits(UnitLineID);
 	}
 }
-*/
+
 void AGE_Frame::CreateUnitLineControls()
 {
 	Tab_UnitLine = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-/*	Sounds_Main = new wxBoxSizer(wxHORIZONTAL);
-	Sounds_ListArea = new wxBoxSizer(wxVERTICAL);
-	Sounds_Sounds_Buttons = new wxGridSizer(2, 0, 0);
-	SoundItems_ListArea = new wxBoxSizer(wxVERTICAL);
-	Sounds_SoundItems_Buttons = new wxGridSizer(2, 0, 0);
-	Sounds_DataArea = new wxBoxSizer(wxVERTICAL);
+	UnitLines_Main = new wxBoxSizer(wxHORIZONTAL);
+	UnitLines_ListArea = new wxBoxSizer(wxVERTICAL);
+	UnitLines_UnitLines_Buttons = new wxGridSizer(2, 0, 0);
+	UnitLineUnits_ListArea = new wxBoxSizer(wxVERTICAL);
+	UnitLines_UnitLineUnits_Buttons = new wxGridSizer(2, 0, 0);
+	UnitLines_DataArea = new wxBoxSizer(wxVERTICAL);
 	
-	Sounds_Sounds = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Sound slot");
-	Sounds_Sounds_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
-	Sounds_Sounds_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
-	Sounds_Sounds_List = new wxListBox(Tab_UnitLine, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
-	Sounds_Add = new wxButton(Tab_UnitLine, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
-	Sounds_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
-	Sounds_Copy = new wxButton(Tab_UnitLine, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
-	Sounds_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
+	UnitLines_UnitLines = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Unitlines slot");
+	UnitLines_UnitLines_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
+	UnitLines_UnitLines_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
+	UnitLines_UnitLines_List = new wxListBox(Tab_UnitLine, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
+	UnitLines_Add = new wxButton(Tab_UnitLine, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
+	UnitLines_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
+	UnitLines_Copy = new wxButton(Tab_UnitLine, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
+	UnitLines_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 
-	Sounds_Holder_ID = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_ID = new wxStaticText(Tab_UnitLine, wxID_ANY, " Sound ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_ID = new TextCtrl_Long(Tab_UnitLine, "0", NULL);
-	Sounds_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_Unknown = new wxStaticText(Tab_UnitLine, wxID_ANY, " Sound Unknown", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_Unknown = new TextCtrl_Long(Tab_UnitLine, "0", NULL);
+	UnitLines_Holder_ID = new wxBoxSizer(wxVERTICAL);
+	UnitLines_Text_ID = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitLines_ID = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
+	UnitLines_Holder_Name = new wxBoxSizer(wxVERTICAL);
+	UnitLines_Text_Name = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitLines_Name = new TextCtrl_String(Tab_UnitLine, "0", NULL);
 
-	Sounds_SoundItems = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Sound Item slot");
-	Sounds_SoundItems_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
-	Sounds_SoundItems_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
-	Sounds_SoundItems_List = new wxListBox(Tab_UnitLine, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
-	SoundItems_Add = new wxButton(Tab_UnitLine, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
-	SoundItems_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
-	SoundItems_Copy = new wxButton(Tab_UnitLine, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
-	SoundItems_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
+	UnitLines_UnitLineUnits = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Unitline Units slot");
+	UnitLines_UnitLineUnits_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
+	UnitLines_UnitLineUnits_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
+	UnitLines_UnitLineUnits_List = new wxListBox(Tab_UnitLine, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
+	UnitLineUnits_Add = new wxButton(Tab_UnitLine, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
+	UnitLineUnits_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
+	UnitLineUnits_Copy = new wxButton(Tab_UnitLine, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
+	UnitLineUnits_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
 
-	SoundItems_Holder_Name = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Name = new wxStaticText(Tab_UnitLine, wxID_ANY, " Item Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Name = new TextCtrl_String(Tab_UnitLine, "0", NULL);
-	SoundItems_Holder_Resource = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Resource = new wxStaticText(Tab_UnitLine, wxID_ANY, " Item Drs Resource", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Resource = new TextCtrl_Long(Tab_UnitLine, "0", NULL);
-	SoundItems_Holder_Probability = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Probability = new wxStaticText(Tab_UnitLine, wxID_ANY, " Item Probability", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Probability = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
-	SoundItems_Holder_Civ = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Civ = new wxStaticText(Tab_UnitLine, wxID_ANY, " Item Civilization", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Civ = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
-	SoundItems_ComboBox_Civ = new ComboBox_Short(Tab_UnitLine, SoundItems_Civ);
-	SoundItems_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Unknown = new wxStaticText(Tab_UnitLine, wxID_ANY, " Item Unknown", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Unknown = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
+	UnitLineUnits_Holder_Units = new wxBoxSizer(wxVERTICAL);
+	UnitLineUnits_Text_Units = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitLineUnits_Units = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
+	UnitLineUnits_ComboBox_Units = new ComboBox_Short(Tab_UnitLine, UnitLineUnits_Units);
 
-	Sounds_Sounds_Buttons->Add(Sounds_Add, 1, wxEXPAND);
-	Sounds_Sounds_Buttons->Add(Sounds_Delete, 1, wxEXPAND);
-	Sounds_Sounds_Buttons->Add(Sounds_Copy, 1, wxEXPAND);
-	Sounds_Sounds_Buttons->Add(Sounds_Paste, 1, wxEXPAND);
+	UnitLines_UnitLines_Buttons->Add(UnitLines_Add, 1, wxEXPAND);
+	UnitLines_UnitLines_Buttons->Add(UnitLines_Delete, 1, wxEXPAND);
+	UnitLines_UnitLines_Buttons->Add(UnitLines_Copy, 1, wxEXPAND);
+	UnitLines_UnitLines_Buttons->Add(UnitLines_Paste, 1, wxEXPAND);
 
-	Sounds_Sounds->Add(Sounds_Sounds_Search, 0, wxEXPAND);
-	Sounds_Sounds->Add(Sounds_Sounds_Search_R, 0, wxEXPAND);
-	Sounds_Sounds->Add(-1, 2);
-	Sounds_Sounds->Add(Sounds_Sounds_List, 1, wxEXPAND);
-	Sounds_Sounds->Add(-1, 2);
-	Sounds_Sounds->Add(Sounds_Sounds_Buttons, 0, wxEXPAND);
+	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search, 0, wxEXPAND);
+	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search_R, 0, wxEXPAND);
+	UnitLines_UnitLines->Add(-1, 2);
+	UnitLines_UnitLines->Add(UnitLines_UnitLines_List, 1, wxEXPAND);
+	UnitLines_UnitLines->Add(-1, 2);
+	UnitLines_UnitLines->Add(UnitLines_UnitLines_Buttons, 0, wxEXPAND);
 
-	Sounds_ListArea->Add(-1, 10);
-	Sounds_ListArea->Add(Sounds_Sounds, 1, wxEXPAND);
-	Sounds_ListArea->Add(-1, 10);
+	UnitLines_ListArea->Add(-1, 10);
+	UnitLines_ListArea->Add(UnitLines_UnitLines, 1, wxEXPAND);
+	UnitLines_ListArea->Add(-1, 10);
 
-	Sounds_SoundItems_Buttons->Add(SoundItems_Add, 1, wxEXPAND);
-	Sounds_SoundItems_Buttons->Add(SoundItems_Delete, 1, wxEXPAND);
-	Sounds_SoundItems_Buttons->Add(SoundItems_Copy, 1, wxEXPAND);
-	Sounds_SoundItems_Buttons->Add(SoundItems_Paste, 1, wxEXPAND);
+	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Add, 1, wxEXPAND);
+	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Delete, 1, wxEXPAND);
+	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Copy, 1, wxEXPAND);
+	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Paste, 1, wxEXPAND);
 
-	Sounds_SoundItems->Add(Sounds_SoundItems_Search, 0, wxEXPAND);
-	Sounds_SoundItems->Add(Sounds_SoundItems_Search_R, 0, wxEXPAND);
-	Sounds_SoundItems->Add(-1, 2);
-	Sounds_SoundItems->Add(Sounds_SoundItems_List, 1, wxEXPAND);
-	Sounds_SoundItems->Add(-1, 2);
-	Sounds_SoundItems->Add(Sounds_SoundItems_Buttons, 0, wxEXPAND);
+	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Search, 0, wxEXPAND);
+	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Search_R, 0, wxEXPAND);
+	UnitLines_UnitLineUnits->Add(-1, 2);
+	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_List, 1, wxEXPAND);
+	UnitLines_UnitLineUnits->Add(-1, 2);
+	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Buttons, 0, wxEXPAND);
 
-	SoundItems_ListArea->Add(-1, 10);
-	SoundItems_ListArea->Add(Sounds_SoundItems, 1, wxEXPAND);
-	SoundItems_ListArea->Add(-1, 10);
+	UnitLineUnits_ListArea->Add(-1, 10);
+	UnitLineUnits_ListArea->Add(UnitLines_UnitLineUnits, 1, wxEXPAND);
+	UnitLineUnits_ListArea->Add(-1, 10);
 
-	Sounds_Holder_ID->Add(Sounds_Text_ID, 0, wxEXPAND);
-	Sounds_Holder_ID->Add(-1, 2);
-	Sounds_Holder_ID->Add(Sounds_ID, 1, wxEXPAND);
-	Sounds_Holder_Unknown->Add(Sounds_Text_Unknown, 0, wxEXPAND);
-	Sounds_Holder_Unknown->Add(-1, 2);
-	Sounds_Holder_Unknown->Add(Sounds_Unknown, 1, wxEXPAND);
-	SoundItems_Holder_Name->Add(SoundItems_Text_Name, 0, wxEXPAND);
-	SoundItems_Holder_Name->Add(-1, 2);
-	SoundItems_Holder_Name->Add(SoundItems_Name, 1, wxEXPAND);
-	SoundItems_Holder_Resource->Add(SoundItems_Text_Resource, 0, wxEXPAND);
-	SoundItems_Holder_Resource->Add(-1, 2);
-	SoundItems_Holder_Resource->Add(SoundItems_Resource, 1, wxEXPAND);
-	SoundItems_Holder_Probability->Add(SoundItems_Text_Probability, 0, wxEXPAND);
-	SoundItems_Holder_Probability->Add(-1, 2);
-	SoundItems_Holder_Probability->Add(SoundItems_Probability, 1, wxEXPAND);
-	SoundItems_Holder_Civ->Add(SoundItems_Text_Civ, 0, wxEXPAND);
-	SoundItems_Holder_Civ->Add(-1, 2);
-	SoundItems_Holder_Civ->Add(SoundItems_Civ, 1, wxEXPAND);
-	SoundItems_Holder_Civ->Add(SoundItems_ComboBox_Civ, 1, wxEXPAND);
-	SoundItems_Holder_Unknown->Add(SoundItems_Text_Unknown, 0, wxEXPAND);
-	SoundItems_Holder_Unknown->Add(-1, 2);
-	SoundItems_Holder_Unknown->Add(SoundItems_Unknown, 1, wxEXPAND);
+	UnitLines_Holder_ID->Add(UnitLines_Text_ID, 0, wxEXPAND);
+	UnitLines_Holder_ID->Add(-1, 2);
+	UnitLines_Holder_ID->Add(UnitLines_ID, 1, wxEXPAND);
+	UnitLines_Holder_Name->Add(UnitLines_Text_Name, 0, wxEXPAND);
+	UnitLines_Holder_Name->Add(-1, 2);
+	UnitLines_Holder_Name->Add(UnitLines_Name, 1, wxEXPAND);
+	UnitLineUnits_Holder_Units->Add(UnitLineUnits_Text_Units, 0, wxEXPAND);
+	UnitLineUnits_Holder_Units->Add(-1, 2);
+	UnitLineUnits_Holder_Units->Add(UnitLineUnits_Units, 1, wxEXPAND);
+	UnitLineUnits_Holder_Units->Add(UnitLineUnits_ComboBox_Units, 1, wxEXPAND);
 
-	Sounds_DataArea->Add(-1, 10);
-	Sounds_DataArea->Add(Sounds_Holder_ID, 0, wxEXPAND);
-	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(Sounds_Holder_Unknown, 0, wxEXPAND);
-	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Name, 0, wxEXPAND);
-	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Resource, 0, wxEXPAND);
-	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Probability, 0, wxEXPAND);
-	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Civ, 0, wxEXPAND);
-	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Unknown, 0, wxEXPAND);
+	UnitLines_DataArea->Add(-1, 10);
+	UnitLines_DataArea->Add(UnitLines_Holder_ID, 0, wxEXPAND);
+	UnitLines_DataArea->Add(-1, 5);
+	UnitLines_DataArea->Add(UnitLines_Holder_Name, 0, wxEXPAND);
+	UnitLines_DataArea->Add(-1, 5);
+	UnitLines_DataArea->Add(UnitLineUnits_Holder_Units, 0, wxEXPAND);
 
-	Sounds_Main->Add(10, -1);
-	Sounds_Main->Add(Sounds_ListArea, 1, wxEXPAND);
-	Sounds_Main->Add(10, -1);
-	Sounds_Main->Add(SoundItems_ListArea, 1, wxEXPAND);
-	Sounds_Main->Add(10, -1);
-	Sounds_Main->Add(Sounds_DataArea, 1, wxEXPAND);
-	Sounds_Main->AddStretchSpacer(1);
+	UnitLines_Main->Add(10, -1);
+	UnitLines_Main->Add(UnitLines_ListArea, 1, wxEXPAND);
+	UnitLines_Main->Add(10, -1);
+	UnitLines_Main->Add(UnitLineUnits_ListArea, 1, wxEXPAND);
+	UnitLines_Main->Add(10, -1);
+	UnitLines_Main->Add(UnitLines_DataArea, 1, wxEXPAND);
+	UnitLines_Main->AddStretchSpacer(1);
 	
-	Sounds_ID->Enable(false);
+	UnitLines_ID->Enable(false);
 
-	Tab_UnitLine->SetSizer(Sounds_Main);
+	Tab_UnitLine->SetSizer(UnitLines_Main);
 	
-	Connect(Sounds_Sounds_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundsSelect));
-	Connect(Sounds_Sounds_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundsSearch));
-	Connect(Sounds_Sounds_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundsSearch));
-	Connect(Sounds_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundsAdd));
-	Connect(Sounds_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundsDelete));
-	Connect(Sounds_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundsCopy));
-	Connect(Sounds_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundsPaste));
-	Connect(Sounds_SoundItems_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSelect));
-	Connect(Sounds_SoundItems_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSearch));
-	Connect(Sounds_SoundItems_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSearch));
-	Connect(SoundItems_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsAdd));
-	Connect(SoundItems_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsDelete));
-	Connect(SoundItems_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsCopy));
-	Connect(SoundItems_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsPaste));
+	Connect(UnitLines_UnitLines_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSelect));
+	Connect(UnitLines_UnitLines_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSearch));
+	Connect(UnitLines_UnitLines_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSearch));
+	Connect(UnitLines_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesAdd));
+	Connect(UnitLines_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesDelete));
+	Connect(UnitLines_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesCopy));
+	Connect(UnitLines_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesPaste));
+	Connect(UnitLines_UnitLineUnits_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSelect));
+	Connect(UnitLines_UnitLineUnits_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSearch));
+	Connect(UnitLines_UnitLineUnits_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSearch));
+	Connect(UnitLineUnits_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsAdd));
+	Connect(UnitLineUnits_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsDelete));
+	Connect(UnitLineUnits_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsCopy));
+	Connect(UnitLineUnits_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsPaste));
 
-	SoundItems_Name->Connect(SoundItems_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-*/
+	UnitLines_Name->Connect(UnitLines_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
+	UnitLineUnits_Units->Connect(UnitLineUnits_Units->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxShort), NULL, this);
+	UnitLineUnits_ComboBox_Units->Connect(UnitLineUnits_ComboBox_Units->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
+
 }

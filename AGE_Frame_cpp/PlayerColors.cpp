@@ -15,8 +15,7 @@ string AGE_Frame::GetPlayerColorName(short Index)
 	}
 	else
 	{
-		Name = "Color ";
-		Name += lexical_cast<string>(GenieFile->PlayerColours[Index].ID);
+		Name = "Color "+lexical_cast<string>(Index);
 	}
 	return Name;
 }

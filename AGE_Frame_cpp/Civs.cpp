@@ -833,10 +833,10 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnResourcesAdd(wxCommandEvent& Event)
 {
-	float Temp = 0;
 	short Selection = Civs_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		float Temp = 0;
 		GenieFile->Civs[CivID].Resources.push_back(Temp);
 		Added = true;
 		ListResources(CivID);

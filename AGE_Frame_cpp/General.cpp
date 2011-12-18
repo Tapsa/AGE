@@ -121,13 +121,13 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 		for(short loop = 0;loop < 138;loop++)
 		{
 			General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->TerrainHeader[loop]));
-		//	General_TerrainHeader[loop]->Container = &GenieFile->TerrainHeader[loop];
+			General_TerrainHeader[loop]->Container = &GenieFile->TerrainHeader[loop];
 		}
 		General_TechTreePicker->ChangeValue(lexical_cast<string>(TechTreePage));
 		for(long loop = 0;loop < 256;loop++)
 		{
 			General_TechTree[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->TechTree[loop+TechTreePage]));
-		//	General_TechTree[loop]->Container = &GenieFile->TechTree[loop+TechTreePage];
+			General_TechTree[loop]->Container = &GenieFile->TechTree[loop+TechTreePage];
 		}
 		if(GameVersion >= 2)
 		{
@@ -135,7 +135,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 			for(long loop = 0;loop < 256;loop++)
 			{
 				General_LastUnknowns[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->Unknown1[loop+LastUnknownsPage]));
-			//	General_LastUnknowns[loop]->Container = &GenieFile->Unknown1[loop+LastUnknownsPage];
+				General_LastUnknowns[loop]->Container = &GenieFile->Unknown1[loop+LastUnknownsPage];
 			}
 			if(GameVersion >= 4)
 			{
