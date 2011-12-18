@@ -220,6 +220,26 @@ class AGE_Frame : public wxFrame
 	void OnUnitCommandsPaste(wxCommandEvent& Event);
 	string GetUnitCommandName(short Index, short CivID, short UnitID);
 
+//	Unitline Events
+
+	void ListUnitLines();
+	void OnUnitLinesSearch(wxCommandEvent& Event);
+	void OnUnitLinesSelect(wxCommandEvent& Event);
+	void OnUnitLinesAdd(wxCommandEvent& Event);
+	void OnUnitLinesDelete(wxCommandEvent& Event);
+	void OnUnitLinesCopy(wxCommandEvent& Event);
+	void OnUnitLinesPaste(wxCommandEvent& Event);
+	string GetUnitLineName(short Index);
+
+	void ListUnitLineUnits(short Index);
+	void OnUnitLineUnitsSearch(wxCommandEvent& Event);
+	void OnUnitLineUnitsSelect(wxCommandEvent& Event);
+	void OnUnitLineUnitsAdd(wxCommandEvent& Event);
+	void OnUnitLineUnitsDelete(wxCommandEvent& Event);
+	void OnUnitLineUnitsCopy(wxCommandEvent& Event);
+	void OnUnitLineUnitsPaste(wxCommandEvent& Event);
+	string GetUnitLineUnitName(short Index, short UnitLinesID);
+
 //	Graphic Events
 
 	void ListGraphics();
@@ -363,6 +383,10 @@ class AGE_Frame : public wxFrame
 	gdat::UnitHeader UnitHeaderCopy;
 	gdat::UnitCommand UnitCommandCopy;
 	short CommandID;
+	gdat::UnitLine UnitLineCopy;
+	short UnitLineID;
+	short UnitLineUnitCopy;
+	short UnitLineUnitID;
 	gdat::Graphic GraphicCopy;
 	short GraphicID;
 	gdat::GraphicDelta GraphicDeltaCopy;
@@ -936,6 +960,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_String * Units_Name;
 	TextCtrl_String * Units_Name2;
 	TextCtrl_Short * Units_Unitline;
+	ComboBox_Short * Units_ComboBox_Unitline;
 	TextCtrl_Byte * Units_MinTechLevel;
 	TextCtrl_Short * Units_ID2;
 	TextCtrl_Short * Units_ID3;
@@ -2088,6 +2113,45 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Long * Colors_Unknown3;
 	TextCtrl_Long * Colors_Unknown4;
 	TextCtrl_Long * Colors_Unknown5;
+
+//	Unitline user interface
+
+	wxBoxSizer * UnitLines_Main;
+	wxBoxSizer * UnitLines_ListArea;
+	wxGridSizer * UnitLines_UnitLines_Buttons;
+	wxBoxSizer * UnitLineUnits_ListArea;
+	wxGridSizer * UnitLines_UnitLineUnits_Buttons;
+	wxBoxSizer * UnitLines_DataArea;
+	
+	wxStaticBoxSizer * UnitLines_UnitLines;
+	wxTextCtrl * UnitLines_UnitLines_Search;
+	wxTextCtrl * UnitLines_UnitLines_Search_R;
+	wxListBox * UnitLines_UnitLines_List;
+	wxButton * UnitLines_Add;
+	wxButton * UnitLines_Delete;
+	wxButton * UnitLines_Copy;
+	wxButton * UnitLines_Paste;
+
+	wxBoxSizer * UnitLines_Holder_ID;
+	wxStaticText * UnitLines_Text_ID;
+	TextCtrl_Short * UnitLines_ID;
+	wxBoxSizer * UnitLines_Holder_Name;
+	wxStaticText * UnitLines_Text_Name;
+	TextCtrl_String * UnitLines_Name;
+
+	wxStaticBoxSizer * UnitLines_UnitLineUnits;
+	wxTextCtrl * UnitLines_UnitLineUnits_Search;
+	wxTextCtrl * UnitLines_UnitLineUnits_Search_R;
+	wxListBox * UnitLines_UnitLineUnits_List;
+	wxButton * UnitLineUnits_Add;
+	wxButton * UnitLineUnits_Delete;
+	wxButton * UnitLineUnits_Copy;
+	wxButton * UnitLineUnits_Paste;
+
+	wxBoxSizer * UnitLineUnits_Holder_Units;
+	wxStaticText * UnitLineUnits_Text_Units;
+	TextCtrl_Short * UnitLineUnits_Units;
+	ComboBox_Short * UnitLineUnits_ComboBox_Units;
 
 };
 
