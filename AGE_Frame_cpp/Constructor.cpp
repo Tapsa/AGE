@@ -92,6 +92,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	CreateTerrainRestrictionControls();
 	CreateSoundControls();
 	CreatePlayerColorControls();
+	CreateUnitLineControls();
 	CreateTerrainBorderControls();
 	CreateGeneralControls();
 
@@ -100,6 +101,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	TabBar_Main->AddPage(Tab_Techage, "Technologies");
 	TabBar_Main->AddPage(Tab_Civs, "Civilizations");
 	TabBar_Main->AddPage(Tab_Units, "Units");
+	TabBar_Main->AddPage(Tab_UnitLine, "Unitline");
 	TabBar_Main->AddPage(Tab_Graphics, "Graphics");
 	TabBar_Main->AddPage(Tab_Terrains, "Terrains");
 	TabBar_Main->AddPage(Tab_TerrainBorders, "Terrain Borders");

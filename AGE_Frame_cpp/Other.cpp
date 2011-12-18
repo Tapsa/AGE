@@ -894,11 +894,37 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	}
 	
 	DataOpened = true;
+	SetStatusText("", 0);
 	OnGameVersionChange();
+	
+	/*Extraction = new wxFileConfig("AGE_Extraction", wxEmptyString, "age2extraction.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	string Place, Data;
+	long Location = 0;
+	for(long loop = 0;Location <= 21642;loop++)
+	{
+		Place = "Data/"+lexical_cast<string>(Location)+"-"+lexical_cast<string>(Location+loop);
+		Data = "";
+		for(long loop2 = 0;loop2 < 40;loop2++)
+		{
+			if(Location+loop2 < 21642)
+			{
+				if((short)GenieFile->Unknown1[Location+loop2] >= 0)
+				Data += " ";
+				if((short)GenieFile->Unknown1[Location+loop2] > -10 && (short)GenieFile->Unknown1[Location+loop2] < 10)
+				Data += " ";
+				if((short)GenieFile->Unknown1[Location+loop2] > -100 && (short)GenieFile->Unknown1[Location+loop2] < 100)
+				Data += " ";
+				Data += " "+lexical_cast<string>((short)GenieFile->Unknown1[Location+loop2]);
+			}
+		}
+		Location += 40;
+	//	wxMessageBox(Place+Data);
+		Extraction->Write(Place, Data);
+	}
+	delete Extraction;*/
 
 	NeedDat = false;
 	SkipOpenDialog = false;
-	SetStatusText("", 0);
 }
 
 void AGE_Frame::OnGameVersionChange()
@@ -1072,7 +1098,6 @@ void AGE_Frame::OnGameVersionChange()
 				Civs_Holder_SUnknown1->Show(true);
 				Terrains_Holder_SUnknown1->Show(true);
 				General_Grid_Variables->Show(true);
-				General_Holder_SWUnknowns->Show(true);
 			}
 		}
 		else // <- TC
@@ -1085,7 +1110,6 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unitline->Show(false);
 			Units_Holder_MinTechLevel->Show(false);
 			General_Grid_Variables->Show(false);
-			General_Holder_SWUnknowns->Show(false);
 		}
 		if(GameVersion >= 3) // TC ->
 		{
