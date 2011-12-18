@@ -28,6 +28,7 @@ class AGE_Frame : public wxFrame
 	void CreateTechageControls();
 	void CreateCivControls();
 	void CreateUnitControls();
+	void CreateUnitLineControls();
 	void CreateGraphicsControls();
 	void CreateTerrainControls();
 	void CreateTerrainBorderControls();
@@ -331,12 +332,11 @@ class AGE_Frame : public wxFrame
 	bool NeedDat;
 	bool SkipOpenDialog;
 	wxFileConfig * Config;
+//	wxFileConfig * Extraction;
 	gdat::File * GenieFile;
 
 	long TechTreePage;
 	long TechTreeSize;
-	long SWUnknownsPage;
-	long SWUnknownsSize;
 	long LastUnknownsPage;
 	long LastUnknownsSize;
 	gdat::Research ResearchCopy;
@@ -440,6 +440,7 @@ class AGE_Frame : public wxFrame
 	wxPanel * Tab_Techage;
 	wxPanel * Tab_Civs;
 	wxPanel * Tab_Units;	// Unit tab
+	wxPanel * Tab_UnitLine;
 	wxPanel * Tab_Graphics;
 	wxPanel * Tab_Terrains;
 	wxPanel * Tab_TerrainBorders;
@@ -560,18 +561,8 @@ class AGE_Frame : public wxFrame
 	wxButton * General_TechTreePrev;
 	wxStaticText * General_TechTreeSize;
 	wxGridSizer * General_Grid_TechTree;
-	TextCtrl_Byte * General_TechTree[324];
-	
-	wxBoxSizer * General_Holder_SWUnknowns;
-	wxBoxSizer * General_Holder_SWUnknownsTop;
-	wxStaticText * General_Text_SWUnknowns;
-	wxTextCtrl * General_SWUnknownsPicker;
-	wxButton * General_SWUnknownsNext;
-	wxButton * General_SWUnknownsPrev;
-	wxStaticText * General_SWUnknownsSize;
-	wxGridSizer * General_Grid_SWUnknowns;
-	TextCtrl_Byte * General_SWUnknowns[324];
-	
+	TextCtrl_Byte * General_TechTree[256];
+
 	wxBoxSizer * General_Holder_LastUnknowns;
 	wxBoxSizer * General_Holder_LastUnknownsTop;
 	wxStaticText * General_Text_LastUnknowns;
@@ -580,7 +571,7 @@ class AGE_Frame : public wxFrame
 	wxButton * General_LastUnknownsPrev;
 	wxStaticText * General_LastUnknownsSize;
 	wxGridSizer * General_Grid_LastUnknowns;
-	TextCtrl_Byte * General_LastUnknowns[324];
+	TextCtrl_Byte * General_LastUnknowns[256];
 	
 //	Researchs user interface
 

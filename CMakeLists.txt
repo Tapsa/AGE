@@ -39,6 +39,7 @@ set(AGE_SRC Main.cpp
 			AGE_Frame_cpp/TerrainBorders.cpp
 			AGE_Frame_cpp/TerrainRestrictions.cpp
 			AGE_Frame_cpp/Terrains.cpp
+			AGE_Frame_cpp/UnitLine.cpp
 			AGE_Frame_cpp/Units.cpp
 			
 			Resources.rc
