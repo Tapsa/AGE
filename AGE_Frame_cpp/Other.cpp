@@ -274,6 +274,11 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = lexical_cast<long>(1);
 		}
+		if(GameVersion >= 4)
+		for(short loop = 0;loop < GenieFile->UnitLines.size();loop++)
+		{
+			GenieFile->UnitLines[loop].ID = lexical_cast<short>(loop);
+		}
 
 		Added = false;
 	
@@ -491,7 +496,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Units_ComboBox_Class[loop]->Append("55 - A-A Trooper");
 				Units_ComboBox_Class[loop]->Append("56 - Mounted Trooper");
 				Units_ComboBox_Class[loop]->Append("57 - Fambaa Shield Generator");
-				Units_ComboBox_Class[loop]->Append("58 - Mixed 2");
+				Units_ComboBox_Class[loop]->Append("58 - Workers");
 				Units_ComboBox_Class[loop]->Append("59 - Air Transport");
 				Units_ComboBox_Class[loop]->Append("60 - Horse-like Animal");
 				Units_ComboBox_Class[loop]->Append("61 - Power Droid");
@@ -546,7 +551,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			}
 			else	// SWGB and CC
 			{
-				Attacks_ComboBox_Class[loop]->Append("0 - Flying Units");	// Selection 0
+				Attacks_ComboBox_Class[loop]->Append("0 - Aircraft");	// Selection 0
 				// Airspeeder
 				// AIR SHIPS!!!
 				// Geonosian Warrior
@@ -555,7 +560,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Assault Mech
 				// AT-AT
 				// Blizzards
-				Attacks_ComboBox_Class[loop]->Append("2 - Conquer Machines");
+				Attacks_ComboBox_Class[loop]->Append("2 - Heavy Weapons");
 				// Undeployed Cannon
 				// Artillery
 				// A-A Mobiles
@@ -568,8 +573,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Echo Base Ion Cannon
 				// Blizzards
 				// Evok Catapult
-				Attacks_ComboBox_Class[loop]->Append("3 - Base Armor");
-				Attacks_ComboBox_Class[loop]->Append("4 - Base DuraArmor");
+				Attacks_ComboBox_Class[loop]->Append("3 - Base Melee/Armor");
+				Attacks_ComboBox_Class[loop]->Append("4 - Base Ranged/DuraArmor");
 				Attacks_ComboBox_Class[loop]->Append("5 - Jedis & Bounty Hunters");
 				// Jedi
 				// Jedi with Holocron
@@ -648,7 +653,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Pummels
 				// Cannon
 				Attacks_ComboBox_Class[loop]->Append("18 - None");
-				Attacks_ComboBox_Class[loop]->Append("19 - Special Units");
+				Attacks_ComboBox_Class[loop]->Append("19 - Workers");
 				// B'omarr Temple
 				// Underwater Prefab Shelters
 				// Asteroid Supply Depot
@@ -751,12 +756,12 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		*/	Units_Units_SearchFilters[loop]->SetSelection(0);
 		}
 
-		if(GameVersion > 1)
-		{
-			ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
-		}
+		if(GameVersion >= 2)
+		ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
 		ListCivs();
 		ListUnits();
+		if(GameVersion >= 4)
+		ListUnitLines();
 		ListResearchs();
 		ListTechages();
 		ListGraphics();
@@ -788,7 +793,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Effects_ComboBox_AttributesC->Append("13 - Working Rate");
 		Effects_ComboBox_AttributesC->Append("14 - Resource Carriage");
 		Effects_ComboBox_AttributesC->Append("15 - Unknown?");
-		Effects_ComboBox_AttributesC->Append("16 - Homing Sensors");
+		Effects_ComboBox_AttributesC->Append("16 - Change Projectile Unit To");
 		Effects_ComboBox_AttributesC->Append("17 - Unknown Building Mode");
 		Effects_ComboBox_AttributesC->Append("18 - Unknown?");
 		Effects_ComboBox_AttributesC->Append("19 - Projectile Intelligent Accuracy");
@@ -1093,6 +1098,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Name2->Show(true);
 			Units_Holder_Unitline->Show(true);
 			Units_Holder_MinTechLevel->Show(true);
+			UnitLines_Main->Show(true);
 			if(ShowUnknowns)
 			{
 				Civs_Holder_SUnknown1->Show(true);
@@ -1110,6 +1116,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unitline->Show(false);
 			Units_Holder_MinTechLevel->Show(false);
 			General_Grid_Variables->Show(false);
+			UnitLines_Main->Show(false);
 		}
 		if(GameVersion >= 3) // TC ->
 		{
@@ -1155,6 +1162,7 @@ void AGE_Frame::OnGameVersionChange()
 	General_Scroller->GetSizer()->SetDimension(0, 0, General_Scroller->GetSize().GetWidth() - 15, 1);
 //	General_Scroller->Refresh();
 	General_Main->Layout();
+	UnitLines_Main->Layout();
 	Refresh(); // Does this refresh non-visible tabs?
 }
 
@@ -1926,6 +1934,10 @@ void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent& Event)
 		{
 			ListGraphicDeltas(GraphicID);
 		}
+		if(Event.GetId() == UnitLineUnits_Units->GetId())
+		{
+			ListUnitLineUnits(UnitLineID);
+		}
 	}
 }
 
@@ -2292,6 +2304,14 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			
 			ListPlayerColors();
 		}
+		if(Event.GetId() == UnitLines_Name->GetId())
+		{
+			ReducedName = GenieFile->UnitLines[UnitLineID].Name;
+			ReducedName = ReducedName.substr(0, 30);
+			GenieFile->UnitLines[UnitLineID].Name = ReducedName;
+			
+			ListUnitLines();
+		}
 		if(Event.GetId() == Borders_BorderName[0]->GetId())
 		{
 			ReducedName = GenieFile->TerrainBorders[BorderID].Name;
@@ -2391,6 +2411,10 @@ void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
 	{
 		ListGraphicDeltas(GraphicID);
 	}
+	if(Event.GetId() == UnitLineUnits_ComboBox_Units->GetId())
+	{
+		ListUnitLineUnits(UnitLineID);
+	}
 }
 
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
@@ -2403,6 +2427,10 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 		OnUnitsPaste(E);
 	}
 	if(Event.GetId() == DamageGraphics_ComboBox_GraphicID->GetId())
+	{
+		ListUnitDamageGraphics(UnitID, UnitCivID);
+	}
+	if(Event.GetId() == Units_ComboBox_Unitline->GetId())
 	{
 		ListUnitDamageGraphics(UnitID, UnitCivID);
 	}

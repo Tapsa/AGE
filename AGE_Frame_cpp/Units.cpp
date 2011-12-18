@@ -145,7 +145,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	Units_Civs_List->SetSelection(UnitCivID);
 	
 	short Selection = Units_Units_List->GetSelection();
-	short UnitIDs[18];
+	short UnitIDs[19];
 	UnitIDs[0] = Units_ComboBox_DeadUnitID->GetSelection();
 	UnitIDs[1] = Units_ComboBox_ProjectileUnitID->GetSelection();
 	for(short loop = 0;loop < 2;loop++)
@@ -162,6 +162,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	UnitIDs[15] = Effects_ComboBox_UnitsA->GetSelection();
 	UnitIDs[16] = Effects_ComboBox_UnitsB->GetSelection();
 	UnitIDs[17] = UnitCommands_ComboBox_UnitID->GetSelection();
+	UnitIDs[18] = UnitLineUnits_ComboBox_Units->GetSelection();
 	short UnitIDloop[30];
 	for(short loop = 0;loop < 30;loop++)
 	UnitIDloop[loop] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
@@ -228,6 +229,10 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	{
 		UnitCommands_ComboBox_UnitID->Clear();
 	}
+	if(UnitLineUnits_ComboBox_Units->GetCount() > 0)
+	{
+		UnitLineUnits_ComboBox_Units->Clear();
+	}
 	for(short loop = 0;loop < 30;loop++)
 	if(Terrains_ComboBox_TerrainUnitID[loop]->GetCount() > 0)
 	{
@@ -238,7 +243,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 18;loop++)
+	for(short loop = 0;loop < 19;loop++)
 	{
 		if(UnitIDs[loop] == wxNOT_FOUND)
 		{
@@ -269,6 +274,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	Effects_ComboBox_UnitsA->Append("-1 - None");
 	Effects_ComboBox_UnitsB->Append("-1 - None");
 	UnitCommands_ComboBox_UnitID->Append("-1 - None");
+	UnitLineUnits_ComboBox_Units->Append("-1 - None");
 	for(short loop = 0;loop < 30;loop++)
 	Terrains_ComboBox_TerrainUnitID[loop]->Append("-1 - None");
 	
@@ -297,6 +303,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 		Effects_ComboBox_UnitsA->Append(Name);
 		Effects_ComboBox_UnitsB->Append(Name);
 		UnitCommands_ComboBox_UnitID->Append(Name);
+		UnitLineUnits_ComboBox_Units->Append(Name);
 		for(short loop = 0;loop < 30;loop++)
 		Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
 	}
@@ -320,6 +327,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	Effects_ComboBox_UnitsA->SetSelection(UnitIDs[15]);
 	Effects_ComboBox_UnitsB->SetSelection(UnitIDs[16]);
 	UnitCommands_ComboBox_UnitID->SetSelection(UnitIDs[17]);
+	UnitLineUnits_ComboBox_Units->SetSelection(UnitIDs[18]);
 	for(short loop = 0;loop < 30;loop++)
 	Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDloop[loop]);
 	
@@ -604,6 +612,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_Name2->Container = &UnitPointer->Name2;
 			Units_Unitline->ChangeValue(lexical_cast<string>(UnitPointer->Unitline));
 			Units_Unitline->Container = &UnitPointer->Unitline;
+			Units_ComboBox_Unitline->SetSelection(UnitPointer->Unitline + 1);
 			Units_MinTechLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->MinTechLevel));
 			Units_MinTechLevel->Container = &UnitPointer->MinTechLevel;
 		}
@@ -3053,6 +3062,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Name = new TextCtrl_String(Units_Scroller, "0", NULL);
 	Units_Name2 = new TextCtrl_String(Units_Scroller, "0", NULL);
 	Units_Unitline = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_ComboBox_Unitline = new ComboBox_Short(Units_Scroller, Units_Unitline);
 	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_ID2 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ID3 = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3696,6 +3706,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Unselectable->Add(Units_Unselectable, 1, wxEXPAND);
 	Units_Holder_Unknown6->Add(Units_Unknown6, 1, wxEXPAND);
 	Units_Holder_Unknown7->Add(Units_Unknown7, 1, wxEXPAND);
+	Units_Holder_Unknown7->AddStretchSpacer(1);
 	Units_Holder_Unknown8->Add(Units_Unknown8, 1, wxEXPAND);
 	Units_Holder_SelectionMask->Add(2, 2);
 	Units_Holder_SelectionMask->Add(Units_SelectionMask, 0, wxEXPAND);
@@ -3729,6 +3740,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Name2->Add(2, 2);
 	Units_Holder_Name2->Add(Units_Name2, 1, wxEXPAND);
 	Units_Holder_Unitline->Add(Units_Unitline, 1, wxEXPAND);
+	Units_Holder_Unitline->Add(Units_ComboBox_Unitline, 1, wxEXPAND);
 	Units_Holder_MinTechLevel->Add(Units_MinTechLevel, 1, wxEXPAND);
 	Units_Holder_MinTechLevel->AddStretchSpacer(1);
 	Units_Holder_ID2->Add(Units_ID2, 1, wxEXPAND);
@@ -4801,7 +4813,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionSound->Connect(Units_SelectionSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_DyingSound->Connect(Units_DyingSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_AttackSound->Connect(Units_AttackSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
-	Units_Unitline->Connect(Units_Unitline->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
+	Units_Unitline->Connect(Units_Unitline->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_TrackingUnit->Connect(Units_TrackingUnit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_SheepConversion->Connect(Units_SheepConversion->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion), NULL, this);
 	Units_MoveSound->Connect(Units_MoveSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
@@ -4956,6 +4968,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_SelectionSound->Connect(Units_ComboBox_SelectionSound->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	Units_ComboBox_DyingSound->Connect(Units_ComboBox_DyingSound->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	Units_ComboBox_AttackSound->Connect(Units_ComboBox_AttackSound->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
+	Units_ComboBox_Unitline->Connect(Units_ComboBox_Unitline->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	Units_ComboBox_TrackingUnit->Connect(Units_ComboBox_TrackingUnit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	Units_ComboBox_MoveSound->Connect(Units_ComboBox_MoveSound->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
 	Units_ComboBox_StopSound->Connect(Units_ComboBox_StopSound->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort), NULL, this);
