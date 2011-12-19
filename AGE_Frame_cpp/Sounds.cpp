@@ -450,26 +450,19 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_ListArea->Add(-1, 10);
 
 	Sounds_Holder_ID->Add(Sounds_Text_ID, 0, wxEXPAND);
-	Sounds_Holder_ID->Add(-1, 2);
 	Sounds_Holder_ID->Add(Sounds_ID, 1, wxEXPAND);
 	Sounds_Holder_Unknown->Add(Sounds_Text_Unknown, 0, wxEXPAND);
-	Sounds_Holder_Unknown->Add(-1, 2);
 	Sounds_Holder_Unknown->Add(Sounds_Unknown, 1, wxEXPAND);
 	SoundItems_Holder_Name->Add(SoundItems_Text_Name, 0, wxEXPAND);
-	SoundItems_Holder_Name->Add(-1, 2);
 	SoundItems_Holder_Name->Add(SoundItems_Name, 1, wxEXPAND);
 	SoundItems_Holder_Resource->Add(SoundItems_Text_Resource, 0, wxEXPAND);
-	SoundItems_Holder_Resource->Add(-1, 2);
 	SoundItems_Holder_Resource->Add(SoundItems_Resource, 1, wxEXPAND);
 	SoundItems_Holder_Probability->Add(SoundItems_Text_Probability, 0, wxEXPAND);
-	SoundItems_Holder_Probability->Add(-1, 2);
 	SoundItems_Holder_Probability->Add(SoundItems_Probability, 1, wxEXPAND);
 	SoundItems_Holder_Civ->Add(SoundItems_Text_Civ, 0, wxEXPAND);
-	SoundItems_Holder_Civ->Add(-1, 2);
 	SoundItems_Holder_Civ->Add(SoundItems_Civ, 1, wxEXPAND);
 	SoundItems_Holder_Civ->Add(SoundItems_ComboBox_Civ, 1, wxEXPAND);
 	SoundItems_Holder_Unknown->Add(SoundItems_Text_Unknown, 0, wxEXPAND);
-	SoundItems_Holder_Unknown->Add(-1, 2);
 	SoundItems_Holder_Unknown->Add(SoundItems_Unknown, 1, wxEXPAND);
 
 	Sounds_DataArea->Add(-1, 10);

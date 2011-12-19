@@ -1102,7 +1102,6 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Effects_Buttons->Add(Techs_Effects_Paste, 1, wxEXPAND);
 
 	Techs_Holder_Name->Add(Techs_Text_Name, 0, wxEXPAND);
-	Techs_Holder_Name->Add(-1, 2);
 	Techs_Holder_Name->Add(Techs_Name, 1, wxEXPAND);
 	Techs_Holder_Name->Add(Techs_Techs_Rename, 1, wxEXPAND);
 	Techs_Holder_Name->Add(Techs_Techs_Restore, 1, wxEXPAND);
@@ -1124,7 +1123,6 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_Type2->Add(Effects_Type, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_Type2->Add(Effects_ComboBox_Type, 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_Type->Add(Effects_Text_Type, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_Holder_Type->Add(-1, 2);
 	Effects_Holder_Type->Add(Effects_Holder_Type2, 1, wxEXPAND);
 	
 	Effects_ComboBox_A->Add(Effects_ComboBox_UnitsA, 1, wxEXPAND);

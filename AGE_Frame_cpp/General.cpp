@@ -224,22 +224,16 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_TerrainHeader->Add(General_Grid_TerrainHeader, 0, wxEXPAND);
 
 	General_Holder_SUnknown7->Add(General_Text_SUnknown7, 0, wxEXPAND);
-	General_Holder_SUnknown7->Add(-1, 2);
 	General_Holder_SUnknown7->Add(General_SUnknown7, 1, wxEXPAND);
 	General_Holder_SUnknown8->Add(General_Text_SUnknown8, 0, wxEXPAND);
-	General_Holder_SUnknown8->Add(-1, 2);
 	General_Holder_SUnknown8->Add(General_SUnknown8, 1, wxEXPAND);
 	General_Holder_SUnknown2->Add(General_Text_SUnknown2, 0, wxEXPAND);
-	General_Holder_SUnknown2->Add(-1, 2);
 	General_Holder_SUnknown2->Add(General_SUnknown2, 1, wxEXPAND);
 	General_Holder_SUnknown3->Add(General_Text_SUnknown3, 0, wxEXPAND);
-	General_Holder_SUnknown3->Add(-1, 2);
 	General_Holder_SUnknown3->Add(General_SUnknown3, 1, wxEXPAND);
 	General_Holder_SUnknown4->Add(General_Text_SUnknown4, 0, wxEXPAND);
-	General_Holder_SUnknown4->Add(-1, 2);
 	General_Holder_SUnknown4->Add(General_SUnknown4, 1, wxEXPAND);
 	General_Holder_SUnknown5->Add(General_Text_SUnknown5, 0, wxEXPAND);
-	General_Holder_SUnknown5->Add(-1, 2);
 	General_Holder_SUnknown5->Add(General_SUnknown5, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown2, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown3, 1, wxEXPAND);
