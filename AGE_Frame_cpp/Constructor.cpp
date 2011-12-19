@@ -12,11 +12,11 @@ using boost::lexical_cast;
 #include "../GateClosed.xpm"
 
 AGE_Frame::AGE_Frame(const wxString& title)
-: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxDefaultSize)
+: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
 {
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
-	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Config = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
@@ -143,5 +143,5 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	}
 
 	GenieFile = NULL;
-	wxToolTip::SetAutoPop(30000);
+//	wxToolTip::SetAutoPop(90000);
 }

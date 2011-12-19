@@ -141,7 +141,7 @@ void CheckBox_Long_ZeroIsYes::OnKillFocus(wxFocusEvent& Event)
 }
 
 CheckBox_Byte::CheckBox_Byte(wxWindow * parent, string InitValue, TextCtrl_Byte * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -153,7 +153,7 @@ CheckBox_Byte::CheckBox_Byte(wxWindow * parent, string InitValue, TextCtrl_Byte 
 }
 
 CheckBox_Float::CheckBox_Float(wxWindow * parent, string InitValue, TextCtrl_Float * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -165,7 +165,7 @@ CheckBox_Float::CheckBox_Float(wxWindow * parent, string InitValue, TextCtrl_Flo
 }
 
 CheckBox_Short::CheckBox_Short(wxWindow * parent, string InitValue, TextCtrl_Short * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -177,7 +177,7 @@ CheckBox_Short::CheckBox_Short(wxWindow * parent, string InitValue, TextCtrl_Sho
 }
 
 CheckBox_Short_ZeroIsYes::CheckBox_Short_ZeroIsYes(wxWindow * parent, string InitValue, TextCtrl_Short * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -189,7 +189,7 @@ CheckBox_Short_ZeroIsYes::CheckBox_Short_ZeroIsYes(wxWindow * parent, string Ini
 }
 
 CheckBox_Long_ZeroIsYes::CheckBox_Long_ZeroIsYes(wxWindow * parent, string InitValue, TextCtrl_Long * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;

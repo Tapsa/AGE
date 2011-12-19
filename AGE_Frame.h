@@ -10,7 +10,7 @@
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
-#include "AGE_ScrolledWindow.h"
+//#include "AGE_ScrolledWindow.h"
 
 #ifndef AGEFrame_h
 #define AGEFrame_h
@@ -478,7 +478,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * General_Main;
 	wxBoxSizer * General_TopRow;
 	wxButton * General_Refresh;
-	AGE_ScrolledWindow * General_Scroller;
+	wxScrolledWindow * General_Scroller;
 	wxBoxSizer * General_ScrollerWindows;
 	wxBoxSizer * General_ScrollerWindowsSpace;
 	wxBoxSizer * General_Holder_TerrainHeader;
@@ -607,7 +607,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Research_ListArea;
 	wxGridSizer * Research_Research_Buttons;
 	wxBoxSizer * Research_DataArea;
-	AGE_ScrolledWindow * Research_Scroller;
+	wxScrolledWindow * Research_Scroller;
 	wxBoxSizer * Research_ScrollerWindows;
 	wxBoxSizer * Research_ScrollerWindowsSpace;
 	wxGridSizer * Research_Grid_MiscArea1;
@@ -875,7 +875,7 @@ class AGE_Frame : public wxFrame
 //	Data Containers
 //	Type 10+
 
-	AGE_ScrolledWindow * Units_Scroller;	// Scrollable unit section
+	wxScrolledWindow * Units_Scroller;	// Scrollable unit section
 	
 	TextCtrl_Byte * Units_Type;
 	wxOwnerDrawnComboBox * Units_ComboBox_Type;
@@ -1454,9 +1454,8 @@ class AGE_Frame : public wxFrame
 	
 //	Unit Controls SubControls
 	
-	wxBoxSizer * Units_Holder_DamageGraphics;
+	wxGridSizer * Units_Holder_DamageGraphics;
 	wxBoxSizer * Units_Holder_DamageGraphics_Data;
-	wxBoxSizer * Units_Holder_DamageGraphics_Space;
 	TextCtrl_Short * DamageGraphics_GraphicID;
 	ComboBox_Short * DamageGraphics_ComboBox_GraphicID;
 	TextCtrl_Byte * DamageGraphics_DamagePercent;
@@ -1483,7 +1482,6 @@ class AGE_Frame : public wxFrame
 	
 	wxBoxSizer * Units_Holder_Attacks;
 	wxBoxSizer * Units_Holder_Attacks_Data;
-	wxBoxSizer * Units_Holder_Attacks_Space;
 	wxBoxSizer * Units_Holder_Attacks_Data1;
 	wxGridSizer * Units_Grid_Attacks_Data2;
 	TextCtrl_Short * Attacks_Class;
@@ -1510,7 +1508,6 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Armors_Data1;
 	wxBoxSizer * Units_Holder_Armors_Data2;
 	wxBoxSizer * Units_Holder_Armors_Data3;
-	wxBoxSizer * Units_Holder_Armors_Space;
 	TextCtrl_Short * Armors_Class;
 	TextCtrl_Short * Armors_Amount;
 	wxStaticText * Armors_Text_Class;
@@ -1733,7 +1730,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Graphics_Paste;
 	
 	wxBoxSizer * Graphics_DataArea;
-	AGE_ScrolledWindow * Graphics_Scroller;
+	wxScrolledWindow * Graphics_Scroller;
 	wxBoxSizer * Graphics_ScrollerWindows;
 	wxBoxSizer * Graphics_ScrollerWindowsSpace;
 	
@@ -1826,12 +1823,10 @@ class AGE_Frame : public wxFrame
 	
 	wxBoxSizer * Graphics_Holder_Deltas;
 	wxBoxSizer * Graphics_Holder_Deltas_Data;
-	wxBoxSizer * Graphics_Holder_Deltas_Space;
 	wxBoxSizer * Graphics_Holder_Deltas_Data1;
 	wxGridSizer * Graphics_Grid_Deltas_Data2;
 	wxBoxSizer * Graphics_Holder_AttackSoundArea;
 	wxBoxSizer * Graphics_Holder_AttackSounds_Data;
-	wxBoxSizer * Graphics_Holder_AttackSounds_Space;
 	
 	wxBoxSizer * GraphicDeltas_Holder_GraphicID;
 	wxStaticText * GraphicDeltas_Text_GraphicID;
@@ -1883,7 +1878,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Terrains_Paste;
 	
 	wxBoxSizer * Terrains_DataArea;
-	AGE_ScrolledWindow * Terrains_Scroller;
+	wxScrolledWindow * Terrains_Scroller;
 	wxBoxSizer * Terrains_ScrollerWindows;
 	wxBoxSizer * Terrains_ScrollerWindowsSpace;
 	wxBoxSizer * Terrains_Holder_NameArea;
