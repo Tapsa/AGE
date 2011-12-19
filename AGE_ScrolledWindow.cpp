@@ -4,13 +4,13 @@
 
 void AGE_ScrolledWindow::OnSize(wxSizeEvent& Event)
 {
-	wxScrolledWindow::HandleOnSize(Event);
-	SetAutoLayout(false);
+	Event.Skip();
+	SetAutoLayout(true);
 	GetSizer()->SetDimension(0, 0, GetSize().GetWidth() - 15, 1), Scroll(0, 0), FitInside();
 }
 
 AGE_ScrolledWindow::AGE_ScrolledWindow(wxWindow * parent, long style)
-: wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, style)
+: wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxSize(0, 20), style)
 {
 	Connect(this->GetId(), wxEVT_SIZE, wxSizeEventHandler(AGE_ScrolledWindow::OnSize));
 }

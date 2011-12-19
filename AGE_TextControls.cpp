@@ -229,7 +229,7 @@ void TextCtrl_String::OnKillFocus(wxFocusEvent& Event)	// This may crash the pro
 }
 
 TextCtrl_Byte::TextCtrl_Byte(wxWindow * parent, string InitValue, void * Pointer)
-: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	this->SetBackgroundColour(wxColour(255, 235, 215));
@@ -237,7 +237,7 @@ TextCtrl_Byte::TextCtrl_Byte(wxWindow * parent, string InitValue, void * Pointer
 }
 
 TextCtrl_Float::TextCtrl_Float(wxWindow * parent, string InitValue, float * Pointer)
-: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	this->SetBackgroundColour(wxColour(255, 225, 255));
@@ -245,7 +245,7 @@ TextCtrl_Float::TextCtrl_Float(wxWindow * parent, string InitValue, float * Poin
 }
 
 TextCtrl_Long::TextCtrl_Long(wxWindow * parent, string InitValue, long * Pointer)
-: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	this->SetBackgroundColour(wxColour(215, 255, 255));
@@ -253,7 +253,7 @@ TextCtrl_Long::TextCtrl_Long(wxWindow * parent, string InitValue, long * Pointer
 }
 
 TextCtrl_Short::TextCtrl_Short(wxWindow * parent, string InitValue, short * Pointer)
-: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	this->SetBackgroundColour(wxColour(210, 230, 255));
@@ -261,7 +261,7 @@ TextCtrl_Short::TextCtrl_Short(wxWindow * parent, string InitValue, short * Poin
 }
 
 TextCtrl_UnShort::TextCtrl_UnShort(wxWindow * parent, string InitValue, unsigned short * Pointer)
-: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	this->SetBackgroundColour(wxColour(210, 230, 255));
@@ -269,7 +269,7 @@ TextCtrl_UnShort::TextCtrl_UnShort(wxWindow * parent, string InitValue, unsigned
 }
 
 TextCtrl_String::TextCtrl_String(wxWindow * parent, string InitValue, void * Pointer, short CLength)
-: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator)
+: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
 	Length = CLength;

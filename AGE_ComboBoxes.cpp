@@ -244,7 +244,7 @@ void ComboBox_Short_AttackType::OnKillFocus(wxFocusEvent& Event)
 }
 
 ComboBox_Byte::ComboBox_Byte(wxWindow * parent, TextCtrl_Byte * Pointer)
-: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
+: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -256,7 +256,7 @@ ComboBox_Byte::ComboBox_Byte(wxWindow * parent, TextCtrl_Byte * Pointer)
 }
 
 ComboBox_Float::ComboBox_Float(wxWindow * parent, TextCtrl_Float * Pointer)
-: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
+: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -268,7 +268,7 @@ ComboBox_Float::ComboBox_Float(wxWindow * parent, TextCtrl_Float * Pointer)
 }
 
 ComboBox_Short::ComboBox_Short(wxWindow * parent, TextCtrl_Short * Pointer)
-: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
+: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -280,7 +280,7 @@ ComboBox_Short::ComboBox_Short(wxWindow * parent, TextCtrl_Short * Pointer)
 }
 
 ComboBox_Long::ComboBox_Long(wxWindow * parent, TextCtrl_Long * Pointer)
-: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
+: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -292,7 +292,7 @@ ComboBox_Long::ComboBox_Long(wxWindow * parent, TextCtrl_Long * Pointer)
 }
 
 ComboBox_Byte_EffectType::ComboBox_Byte_EffectType(wxWindow * parent, TextCtrl_Byte * Pointer)
-: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
+: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -304,7 +304,7 @@ ComboBox_Byte_EffectType::ComboBox_Byte_EffectType(wxWindow * parent, TextCtrl_B
 }
 /*
 ComboBox_Byte_UnitType::ComboBox_Byte_UnitType(wxWindow * parent, TextCtrl_Byte * Pointer)
-: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
+: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
@@ -316,7 +316,7 @@ ComboBox_Byte_UnitType::ComboBox_Byte_UnitType(wxWindow * parent, TextCtrl_Byte 
 }
 */
 ComboBox_Short_AttackType::ComboBox_Short_AttackType(wxWindow * parent, TextCtrl_Short * Pointer)
-: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
+: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;

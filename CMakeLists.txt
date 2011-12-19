@@ -24,7 +24,6 @@ set(AGE_SRC Main.cpp
 			AGE_ComboBoxes.cpp
 			AGE_OpenDialog.cpp
 			AGE_SaveDialog.cpp
-			AGE_ScrolledWindow.cpp
 			AGE_TextControls.cpp
 			
 			AGE_Frame_cpp/Civs.cpp
@@ -41,8 +40,6 @@ set(AGE_SRC Main.cpp
 			AGE_Frame_cpp/Terrains.cpp
 			AGE_Frame_cpp/UnitLine.cpp
 			AGE_Frame_cpp/Units.cpp
-			
-			Resources.rc
 			)
 			
 add_executable(AdvancedGenieEditor2 WIN32 ${AGE_SRC})

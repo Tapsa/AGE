@@ -47,11 +47,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			break;
 			case 3:
 			{
-				OpenBox.Radio_NoFile->SetValue(true);
-				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
-				Selected.SetId(OpenBox.Radio_NoFile->GetId());
-				Selected.SetInt(true);
-				OpenBox.ProcessEvent(Selected);
 			}
 			break;
 		}
@@ -1131,37 +1126,17 @@ void AGE_Frame::OnGameVersionChange()
 	}
 
 //	Every data area should be layouted.
-	Units_ScrollerWindowsSpace->Layout();
-	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
-	Units_Scroller->Scroll(0, 0);
-	Units_Scroller->GetSizer()->SetDimension(0, 0, Units_Scroller->GetSize().GetWidth() - 15, 1);
-//	Units_Scroller->Refresh();
-	Research_ScrollerWindowsSpace->Layout();
-	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
-	Research_Scroller->Scroll(0, 0);
-	Research_Scroller->GetSizer()->SetDimension(0, 0, Research_Scroller->GetSize().GetWidth() - 15, 1);
-//	Research_Scroller->Refresh();
-	Civs_DataArea->Layout();
-	Graphics_ScrollerWindowsSpace->Layout();
-	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
-	Graphics_Scroller->Scroll(0, 0);
-	Graphics_Scroller->GetSizer()->SetDimension(0, 0, Graphics_Scroller->GetSize().GetWidth() - 15, 1);
-//	Graphics_Scroller->Refresh();
-	Terrains_ScrollerWindowsSpace->Layout();
-	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
-	Terrains_Scroller->Scroll(0, 0);
-	Terrains_Scroller->GetSizer()->SetDimension(0, 0, Terrains_Scroller->GetSize().GetWidth() - 15, 1);
-//	Terrains_Scroller->Refresh();
-	TerRestrict_DataArea->Layout();
-	Sounds_DataArea->Layout();
-	Colors_DataArea->Layout();
-	Borders_DataArea->Layout();
-	General_ScrollerWindowsSpace->Layout();
-	General_Scroller->GetSizer()->FitInside(General_Scroller);
-	General_Scroller->Scroll(0, 0);
-	General_Scroller->GetSizer()->SetDimension(0, 0, General_Scroller->GetSize().GetWidth() - 15, 1);
-//	General_Scroller->Refresh();
 	General_Main->Layout();
+	Borders_Main->Layout();
+	Research_Main->Layout();
+	Techs_Main->Layout();
+	Civs_Main->Layout();
+	Units_Main->Layout();
+	Graphics_Main->Layout();
+	Terrains_Main->Layout();
+	TerRestrict_Main->Layout();
+	Sounds_Main->Layout();
+	Colors_Main->Layout();
 	UnitLines_Main->Layout();
 	Refresh(); // Does this refresh non-visible tabs?
 }
