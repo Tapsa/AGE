@@ -149,6 +149,8 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 				General_SUnknown5->Container = &GenieFile->SUnknown5;
 				General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
 				General_SUnknown7->Container = &GenieFile->SUnknown7;
+				General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
+				General_SUnknown8->Container = &GenieFile->SUnknown8;
 			}
 		}
 	}
@@ -170,10 +172,13 @@ void AGE_Frame::CreateGeneralControls()
 	for(short loop = 0;loop < 138;loop++)
 	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	
-	General_Grid_Variables = new wxGridSizer(5, 5, 5);
+	General_Grid_Variables = new wxGridSizer(6, 5, 5);
 	General_Holder_SUnknown7 = new wxBoxSizer(wxVERTICAL);
 	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 7", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown7 = new TextCtrl_Byte(General_Scroller, "0", NULL);
+	General_Holder_SUnknown8 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 8", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown8 = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_SUnknown2 = new wxBoxSizer(wxVERTICAL);
 	General_Text_SUnknown2 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 2", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown2 = new TextCtrl_Long(General_Scroller, "0", NULL);
@@ -221,6 +226,9 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_SUnknown7->Add(General_Text_SUnknown7, 0, wxEXPAND);
 	General_Holder_SUnknown7->Add(-1, 2);
 	General_Holder_SUnknown7->Add(General_SUnknown7, 1, wxEXPAND);
+	General_Holder_SUnknown8->Add(General_Text_SUnknown8, 0, wxEXPAND);
+	General_Holder_SUnknown8->Add(-1, 2);
+	General_Holder_SUnknown8->Add(General_SUnknown8, 1, wxEXPAND);
 	General_Holder_SUnknown2->Add(General_Text_SUnknown2, 0, wxEXPAND);
 	General_Holder_SUnknown2->Add(-1, 2);
 	General_Holder_SUnknown2->Add(General_SUnknown2, 1, wxEXPAND);
@@ -238,6 +246,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_Grid_Variables->Add(General_Holder_SUnknown4, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown5, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown7, 1, wxEXPAND);
+	General_Grid_Variables->Add(General_Holder_SUnknown8, 1, wxEXPAND);
 	
 	General_Holder_TechTreeTop->Add(General_Text_TechTree, 0, wxEXPAND);
 	General_Holder_TechTreeTop->Add(5, -1);

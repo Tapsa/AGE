@@ -5,6 +5,7 @@
 #include "wx/notebook.h"
 #include "wx/aboutdlg.h"
 #include "wx/hyperlink.h"
+#include "wx/tooltip.h"
 #include "geniedat/File.h"	// New dat system
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
@@ -564,6 +565,9 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * General_Holder_SUnknown7;
 	wxStaticText * General_Text_SUnknown7;
 	TextCtrl_Byte * General_SUnknown7;
+	wxBoxSizer * General_Holder_SUnknown8;
+	wxStaticText * General_Text_SUnknown8;
+	TextCtrl_Byte * General_SUnknown8;
 	wxBoxSizer * General_Holder_SUnknown2;
 	wxStaticText * General_Text_SUnknown2;
 	TextCtrl_Long * General_SUnknown2;
@@ -978,7 +982,6 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_TrackingUnit;
 	ComboBox_Short * Units_ComboBox_TrackingUnit;
 	TextCtrl_Byte * Units_TrackingUnitUsed;
-	CheckBox_Byte * Units_CheckBox_TrackingUnitUsed;
 	TextCtrl_Float * Units_TrackingUnitDensity;
 	TextCtrl_Float * Units_Unknown12;
 	TextCtrl_Byte * Units_Unknown16[17];

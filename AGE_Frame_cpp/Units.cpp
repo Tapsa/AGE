@@ -658,7 +658,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_TrackingUnit->Enable(true);
 			Units_ComboBox_TrackingUnit->Enable(true);
 			Units_TrackingUnitUsed->Enable(true);
-			Units_CheckBox_TrackingUnitUsed->Enable(true);
 			Units_TrackingUnitDensity->Enable(true);
 			Units_Unknown12->Enable(true);
 			for(short loop = 0;loop < 17;loop++)
@@ -679,7 +678,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ComboBox_TrackingUnit->SetSelection(UnitPointer->DeadFish.TrackingUnit + 1);
 			Units_TrackingUnitUsed->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.TrackingUnitUsed));
 			Units_TrackingUnitUsed->Container = &UnitPointer->DeadFish.TrackingUnitUsed;
-			Units_CheckBox_TrackingUnitUsed->SetValue((bool)UnitPointer->DeadFish.TrackingUnitUsed);
 			Units_TrackingUnitDensity->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.TrackingUnitDensity));
 			Units_TrackingUnitDensity->Container = &UnitPointer->DeadFish.TrackingUnitDensity;
 			if(GameVersion >= 2)
@@ -716,8 +714,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ComboBox_TrackingUnit->SetSelection(0);
 			Units_TrackingUnitUsed->Enable(false);
 			Units_TrackingUnitUsed->ChangeValue("0");
-			Units_CheckBox_TrackingUnitUsed->Enable(false);
-			Units_CheckBox_TrackingUnitUsed->SetValue(false);
 			Units_TrackingUnitDensity->Enable(false);
 			Units_TrackingUnitDensity->ChangeValue("0");
 			Units_Unknown12->Enable(false);
@@ -2981,6 +2977,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_ComboBox_PlacementTerrain[loop] = new ComboBox_Short(Units_Scroller, Units_PlacementTerrain[loop]);
 		Units_EditorRadius[loop] = new TextCtrl_Float(Units_Scroller, "0", NULL);
 		Units_BlastType[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+		Units_BlastType[loop]->SetToolTip("0 0 projectiles, dead units, fish, relics, trees\n0 2 gates, town center\n0 4 deer(unmoving), FLDOG\n1 0 things listed under \"others\" that have multiple rotations\n2 2 buildings, gates, walls, town centers, fish trap\n3 1 boar\n3 2 farm, TWAL\n3 3 fishing ship, villagers, trade carts, sheep, turkey\n3 4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 5 monks, BDGAL, ABGAL");
 		Units_SelectionRadius[loop] = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	}
 	for(short loop = 0;loop < 3;loop++)
@@ -2995,6 +2992,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_HotKey[loop] = new TextCtrl_Short(Units_Scroller, "0", NULL);
 		Units_Unknown9[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	}
+	Units_Unknown9[0]->SetToolTip("0 buildings, heroes, units\n1 rams\n2 OMBTO, ships, saboteurs\n");
 	Units_Type = new TextCtrl_Byte(Tab_Units, "0", NULL);
 	Units_ComboBox_Type = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	Units_ID1 = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3023,6 +3021,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Enabled = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_CheckBox_Enabled = new CheckBox_Short(Units_Scroller, "Enabled", Units_Enabled);
 	Units_BuildingMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_BuildingMode->SetToolTip("0 non buildings, gates, farms, walls, towers\n2 town center, trade workshop, CLF01, port\n3 any building");
 	Units_VisibleInFog = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_CheckBox_VisibleInFog = new CheckBox_Byte(Units_Scroller, "Visible In Fog", Units_VisibleInFog);
 	Units_TerrainRestriction = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3032,8 +3031,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceCapacity = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ResourceDecay = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_InteractionMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_InteractionMode->SetToolTip("0 unable to select, or move\n1 unable to select or move\n2 can select, doesn't move\n3 can select, no moving\n4 select and move\n5+ select and move");
 	Units_MinimapMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_MinimapMode->SetToolTip("0 invisable\n1 normal\n2 smaller, diamond\n3 smaller, diamond\n4 invisable(cliffs)\n5 invisable\n10 FLDOG, Macaw, stormy dog");
 	Units_CommandAttribute = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_CommandAttribute->SetToolTip("0 projectile, dead bodies, flowers\n1 boar, fish(all recources),trees, mountains\n2 Civilian buildings(+dock)\n3 villagers\n4 units, ships, seige\n5 junk, trade units\n6 monks\n8 relic cart, relics\n9 fishing ship\n10 Military buildings");
 	Units_Unknown3 = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_Unknown3a = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_LanguageDllHelp = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3045,12 +3047,16 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_Unselectable = new CheckBox_Byte(Units_Scroller, "Unselectable", Units_Unselectable);
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_Unknown7->SetToolTip("If you can walk throught it\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
 	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_SelectionMask = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_SelectionShapeType = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_SelectionShape = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_SelectionShape->SetToolTip("0 square\n1+ round");
 	Units_SelectionEffect = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_SelectionEffect->SetToolTip("0, 1, 4, 5, 8, 9 shows healthbar\n2, 3, 6, 7 no healthbar");
 	Units_EditorSelectionColour = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_EditorSelectionColour->SetToolTip("0 most\n-16 fish trap farm\n52 dead farm, OLD-(___)\n116 flare, WHAL1, WHAL2, DOLP, Great-fish\n-123 all fish");
 	Units_SelectionRadiusBox = new wxBoxSizer(wxHORIZONTAL);
 	Units_HPBarHeight2 = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_SelectionSound = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3079,12 +3085,14 @@ void AGE_Frame::CreateUnitControls()
 		Units_ComboBox_WalkingGraphic[loop] = new ComboBox_Short(Units_Scroller, Units_WalkingGraphic[loop]);
 	}
 	Units_RotationSpeed = new TextCtrl_Float(Units_Scroller, "0", NULL);
+	Units_RotationSpeed->SetToolTip("Makes it slower");
 	Units_Unknown11 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_TrackingUnit = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_TrackingUnit = new ComboBox_Short(Units_Scroller, Units_TrackingUnit);
 	Units_TrackingUnitUsed = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	Units_CheckBox_TrackingUnitUsed = new CheckBox_Byte(Units_Scroller, "Used", Units_TrackingUnitUsed);
+	Units_TrackingUnitUsed->SetToolTip("-1 unless a tracking unit value is present\n2 all projectiles with a tracking unit");
 	Units_TrackingUnitDensity = new TextCtrl_Float(Units_Scroller, "0", NULL);
+	Units_TrackingUnitDensity->SetToolTip("0 unless tracking unit value is present\n0.5 trade carts\n0.12 MFFFG(projectile)\n0.4 other projectiles");
 	Units_Unknown12 = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	for(short loop = 0;loop < 17;loop++)
 	Units_Unknown16[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
@@ -3092,6 +3100,7 @@ void AGE_Frame::CreateUnitControls()
 //	Type 40+
 
 	Units_SheepConversion = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_SheepConversion->SetToolTip("No most\nYes junk, farm, deer, fish trap, wonder, STRBO, sheep, birds, boar, monument, wild horse");
 	Units_CheckBox_SheepConversion = new CheckBox_Short_ZeroIsYes(Units_Scroller, "Convert Herd", Units_SheepConversion);
 	Units_SearchRadius = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_WorkRate = new TextCtrl_Float(Units_Scroller, "0", NULL);
@@ -3113,6 +3122,7 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0;loop < 2;loop++)
 	Units_Unknown20[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_Unknown21 = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_Unknown21->SetToolTip("-1 unit\n4 building");
 	Units_MaxRange = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_BlastRadius = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_ReloadTime1 = new TextCtrl_Float(Units_Scroller, "0", NULL);
@@ -3121,9 +3131,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_AccuracyPercent = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_TowerMode = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Delay = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_Delay->SetToolTip("0 projectile, buildings, melee, villager\n3 chu ko nu\n4 gun\n5 archers\n6 trebuchet, mameluke\n7 bombard cannon, scorpion\n8 Charlemangne\n10 cavalry archers\n12 throwing axeman");
 	for(short loop = 0;loop < 3;loop++)
 	Units_GraphicDisplacement[loop] = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_BlastLevel = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_BlastLevel->SetToolTip("How blast radius affects units\n0 most\n1 Siege Onager\n2 bombard cannons, bombard tower, war elephant(+), mangonel(+), projectiles(non arrows), ram(+), petards, saboteurs\n3 archer, guns, arrows");
 	Units_MinRange = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_GarrisonRecoveryRate = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_AttackGraphic = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3166,6 +3178,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown26 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_Unknown28 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_MissileGraphicDelay = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_MissileGraphicDelay->SetToolTip("0 projectiles, buildings, dead units, boar\n1 villagers\n2 melee\n3 mounted units\n4 relic cart, relics\n5 archers\n6 monks");
 	Units_HeroMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_CheckBox_HeroMode = new CheckBox_Byte(Units_Scroller, "Hero Mode", Units_HeroMode);
 	Units_AttackMissileDuplicationAmount1 = new TextCtrl_Float(Units_Scroller, "0", NULL);
@@ -3175,6 +3188,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackMissileDuplicationGraphic = new TextCtrl_Long(Units_Scroller, "0", NULL);
 	Units_ComboBox_AttackMissileDuplicationGraphic = new ComboBox_Long(Units_Scroller, Units_AttackMissileDuplicationGraphic);
 	Units_Unknown29 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_Unknown29->SetToolTip("0 default\n3 archer must walk to enemy when ordered to attack it");
+
 	Units_DisplayedPierceArmour = new TextCtrl_Short(Units_Scroller, "0", NULL);
 
 //	Type 80
@@ -3184,7 +3199,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_SnowGraphicID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_SnowGraphicID = new ComboBox_Short(Units_Scroller, Units_SnowGraphicID);
 	Units_Unknown30 = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_Unknown30->SetToolTip("If it's a gate, wall, or tower\n0 no\n1 yes");
 	Units_Unknown31 = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_Unknown31->SetToolTip("If a building is walkable underneath it?\n0 most\n256 some gates, some town centers");
 	Units_StackUnitID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_StackUnitID = new ComboBox_Short(Units_Scroller, Units_StackUnitID);
 	Units_TerrainID = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3760,8 +3777,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TrackingUnit->Add(Units_TrackingUnit, 1, wxEXPAND);
 	Units_Holder_TrackingUnit->Add(Units_ComboBox_TrackingUnit, 1, wxEXPAND);
 	Units_Holder_TrackingUnitUsedBox->Add(Units_TrackingUnitUsed, 2, wxEXPAND);
-	Units_Holder_TrackingUnitUsedBox->Add(2, 2);
-	Units_Holder_TrackingUnitUsedBox->Add(Units_CheckBox_TrackingUnitUsed, 1, wxEXPAND);
 	Units_Holder_TrackingUnitUsed->Add(-1, 2);
 	Units_Holder_TrackingUnitUsed->Add(Units_Holder_TrackingUnitUsedBox, 0, wxEXPAND);
 	Units_Holder_TrackingUnitUsed->AddStretchSpacer(1);
@@ -4751,7 +4766,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_EditorSelectionColour->Connect(Units_EditorSelectionColour->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	Units_MinTechLevel->Connect(Units_MinTechLevel->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	Units_Unknown11->Connect(Units_Unknown11->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
-	Units_TrackingUnitUsed->Connect(Units_TrackingUnitUsed->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte), NULL, this);
+	Units_TrackingUnitUsed->Connect(Units_TrackingUnitUsed->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	for(short loop = 0;loop < 17;loop++)
 	Units_Unknown16[loop]->Connect(Units_Unknown16[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	Units_VillagerMode->Connect(Units_VillagerMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
@@ -4995,7 +5010,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_HideInEditor->Connect(Units_CheckBox_HideInEditor->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_VisibleInFog->Connect(Units_CheckBox_VisibleInFog->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_FlyMode->Connect(Units_CheckBox_FlyMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
-	Units_CheckBox_TrackingUnitUsed->Connect(Units_CheckBox_TrackingUnitUsed->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_HeroMode->Connect(Units_CheckBox_HeroMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_Enabled->Connect(Units_CheckBox_Enabled->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort), NULL, this);
 	Units_CheckBox_SheepConversion->Connect(Units_CheckBox_SheepConversion->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion), NULL, this);
