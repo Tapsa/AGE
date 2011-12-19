@@ -158,59 +158,59 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 
 void AGE_Frame::CreateGeneralControls()
 {
-	Tab_General = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+	Tab_General = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	General_Main = new wxBoxSizer(wxVERTICAL);
 	General_TopRow = new wxBoxSizer(wxHORIZONTAL);
-	General_Refresh = new wxButton(Tab_General, wxID_ANY, "Refresh", wxDefaultPosition, wxSize(-1, 20));
-	General_Scroller = new AGE_ScrolledWindow(Tab_General, wxVSCROLL | wxTAB_TRAVERSAL);
+	General_Refresh = new wxButton(Tab_General, wxID_ANY, "Refresh", wxDefaultPosition, wxSize(0, 20));
+	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	General_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
 	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
 	General_Grid_TerrainHeader = new wxGridSizer(18, 0, 0);
-	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Terrain Header?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Terrain Header?", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 138;loop++)
 	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	
 	General_Grid_Variables = new wxGridSizer(6, 5, 5);
 	General_Holder_SUnknown7 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 7", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 7", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown7 = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_SUnknown8 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 8", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 8", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown8 = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_SUnknown2 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown2 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 2", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown2 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 2", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown2 = new TextCtrl_Long(General_Scroller, "0", NULL);
 	General_Holder_SUnknown3 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown3 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 3", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown3 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 3", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown3 = new TextCtrl_Long(General_Scroller, "0", NULL);
 	General_Holder_SUnknown4 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown4 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 4", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown4 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 4", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown4 = new TextCtrl_Long(General_Scroller, "0", NULL);
 	General_Holder_SUnknown5 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown5 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 5", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown5 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 5", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown5 = new TextCtrl_Long(General_Scroller, "0", NULL);
 	
 	General_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
 	General_Holder_TechTreeTop = new wxBoxSizer(wxHORIZONTAL);
 	General_TechTreePicker = new wxTextCtrl(General_Scroller, wxID_ANY);
-	General_TechTreeNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(-1, 20));
-	General_TechTreePrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(-1, 20));
-	General_TechTreeSize = new wxStaticText(General_Scroller, wxID_ANY, " Tech Tree Size", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_TechTreeNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
+	General_TechTreePrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
+	General_TechTreeSize = new wxStaticText(General_Scroller, wxID_ANY, " Tech Tree Size", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_Grid_TechTree = new wxGridSizer(16, 0, 0);
-	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Tech Tree?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data, Tech Tree?", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 256;loop++)
 	General_TechTree[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 
 	General_Holder_LastUnknowns = new wxBoxSizer(wxVERTICAL);
 	General_Holder_LastUnknownsTop = new wxBoxSizer(wxHORIZONTAL);
 	General_LastUnknownsPicker = new wxTextCtrl(General_Scroller, wxID_ANY);
-	General_LastUnknownsNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(-1, 20));
-	General_LastUnknownsPrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(-1, 20));
-	General_LastUnknownsSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Block Size", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_LastUnknownsNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
+	General_LastUnknownsPrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
+	General_LastUnknownsSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Block Size", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_Grid_LastUnknowns = new wxGridSizer(16, 0, 0);
-	General_Text_LastUnknowns = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data Block", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_LastUnknowns = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data Block", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 256;loop++)
 	General_LastUnknowns[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 

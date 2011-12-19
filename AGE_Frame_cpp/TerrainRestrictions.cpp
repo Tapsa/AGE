@@ -293,45 +293,45 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent& Event)
 void AGE_Frame::CreateTerrainRestrictionControls()
 {
 
-	Tab_TerrainRestrictions = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+	Tab_TerrainRestrictions = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	TerRestrict_Main = new wxBoxSizer(wxHORIZONTAL);
 	TerRestrict_ListArea = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_TerRestrict_Buttons = new wxGridSizer(2, 0, 0);
-	TerRestrict_TerRestrict = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainRestrictions, "Terrain Restriction slot");
+	TerRestrict_TerRestrict = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainRestrictions, "Terrain Restrictions");
 	TerRestrict_TerRestrict_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
 	TerRestrict_TerRestrict_Search_R = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
-	TerRestrict_TerRestrict_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
-	TerRestrict_Add = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Add", wxDefaultPosition, wxSize(-1, 20));
-	TerRestrict_Delete = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Delete", wxDefaultPosition, wxSize(-1, 20));
-	TerRestrict_Copy = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
-	TerRestrict_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
+	TerRestrict_TerRestrict_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(0, 70));
+	TerRestrict_Add = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	TerRestrict_Delete = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	TerRestrict_Copy = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	TerRestrict_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 
 	TerRestrict_Terrains = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_DataArea = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Terrains_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
 	TerRestrict_Terrains_Search_R = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
-	TerRestrict_Terrains_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(-1, 70));
+	TerRestrict_Terrains_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(0, 70));
 	TerRestrict_Terrains_Buttons = new wxGridSizer(2, 0, 0);
-	TerRestrict_Terrains_Copy = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Copy", wxDefaultPosition, wxSize(-1, 20));
-	TerRestrict_Terrains_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(-1, 20));
+	TerRestrict_Terrains_Copy = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	TerRestrict_Terrains_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TerRestrict_Holder_Accessible = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Holder_Accessible2 = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_Text_Accessible = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessible", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Text_Accessible = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessible", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Accessible = new TextCtrl_Float(Tab_TerrainRestrictions, "0", NULL);
 	TerRestrict_CheckBox_Accessible = new CheckBox_Float(Tab_TerrainRestrictions, "Terrain Is Accessible", TerRestrict_Accessible);
 	TerRestrict_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Holder_Unknown1Sub = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_Text_Unknown1 = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Can Be Built On", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Text_Unknown1 = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Can Be Built On", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Unknown1 = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
 	TerRestrict_CheckBox_Unknown1 = new CheckBox_Long_ZeroIsYes(Tab_TerrainRestrictions, "No", TerRestrict_Unknown1);
 	TerRestrict_Holder_Graphics = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Text_Graphics = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Graphics", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Text_Graphics = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Graphics[0] = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
 	TerRestrict_Graphics[1] = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
 	TerRestrict_ComboBox_Graphics[0] = new ComboBox_Long(Tab_TerrainRestrictions, TerRestrict_Graphics[0]);
 	TerRestrict_ComboBox_Graphics[1] = new ComboBox_Long(Tab_TerrainRestrictions, TerRestrict_Graphics[1]);
 	TerRestrict_Holder_Amount = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Text_Amount = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Text_Amount = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Amount = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
 
 	TerRestrict_TerRestrict_Buttons->Add(TerRestrict_Add, 1, wxEXPAND);
