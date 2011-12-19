@@ -312,14 +312,12 @@ void AGE_Frame::CreateTerrainBorderControls()
 	for(short loop = 0;loop < 2;loop++)
 	{
 		Borders_Holder_BorderName[loop]->Add(Borders_Text_BorderName[loop], 0, wxEXPAND);
-		Borders_Holder_BorderName[loop]->Add(-1, 2);
 		Borders_Holder_BorderName[loop]->Add(Borders_BorderName[loop], 0, wxEXPAND);
 	}
 	Borders_Holder_BorderEnabled1->Add(Borders_BorderEnabled, 1, wxEXPAND);
 	Borders_Holder_BorderEnabled1->Add(2, -1);
 	Borders_Holder_BorderEnabled1->Add(Borders_CheckBox_BorderEnabled, 1, wxEXPAND);
 	Borders_Holder_BorderEnabled->Add(Borders_Text_BorderEnabled, 0, wxEXPAND);
-	Borders_Holder_BorderEnabled->Add(-1, 2);
 	Borders_Holder_BorderEnabled->Add(Borders_Holder_BorderEnabled1, 1, wxEXPAND);
 
 	Borders_Borders_Buttons->Add(Borders_Copy, 1, wxEXPAND);
@@ -344,43 +342,32 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_DataTopRow->AddStretchSpacer(1);
 	
 	Borders_Holder_BorderRessourceID->Add(Borders_Text_BorderRessourceID, 0, wxEXPAND);
-	Borders_Holder_BorderRessourceID->Add(-1, 2);
 	Borders_Holder_BorderRessourceID->Add(Borders_BorderRessourceID, 1, wxEXPAND);
 	Borders_Holder_BorderRessourceID->AddStretchSpacer(1);
 	Borders_Holder_BorderUnknown3->Add(Borders_Text_BorderUnknown3, 0, wxEXPAND);
-	Borders_Holder_BorderUnknown3->Add(-1, 2);
 	Borders_Holder_BorderUnknown3->Add(Borders_BorderUnknown3, 1, wxEXPAND);
 	Borders_Holder_BorderUnknown4->Add(Borders_Text_BorderUnknown4, 0, wxEXPAND);
-	Borders_Holder_BorderUnknown4->Add(-1, 2);
 	Borders_Holder_BorderUnknown4->Add(Borders_BorderUnknown4, 1, wxEXPAND);
 	for(short loop = 0;loop < 3;loop++)
 	Borders_Grid_BorderColors->Add(Borders_BorderColors[loop], 1, wxEXPAND);
 	Borders_Holder_BorderColors->Add(Borders_Text_BorderColors, 0, wxEXPAND);
-	Borders_Holder_BorderColors->Add(-1, 2);
 	Borders_Holder_BorderColors->Add(Borders_Grid_BorderColors, 1, wxEXPAND);
 	Borders_Holder_BorderColors->AddStretchSpacer(1);
 	Borders_Holder_BorderUnknown5->Add(Borders_Text_BorderUnknown5, 0, wxEXPAND);
-	Borders_Holder_BorderUnknown5->Add(-1, 2);
 	Borders_Holder_BorderUnknown5->Add(Borders_BorderUnknown5, 1, wxEXPAND);
 	Borders_Holder_BorderUnknown6->Add(Borders_Text_BorderUnknown6, 0, wxEXPAND);
-	Borders_Holder_BorderUnknown6->Add(-1, 2);
 	Borders_Holder_BorderUnknown6->Add(Borders_BorderUnknown6, 1, wxEXPAND);
 	Borders_Holder_BorderUnknown7->Add(Borders_Text_BorderUnknown7, 0, wxEXPAND);
-	Borders_Holder_BorderUnknown7->Add(-1, 2);
 	Borders_Holder_BorderUnknown7->Add(Borders_BorderUnknown7, 1, wxEXPAND);
 	Borders_Holder_BorderFrameCount->Add(Borders_Text_BorderFrameCount, 0, wxEXPAND);
-	Borders_Holder_BorderFrameCount->Add(-1, 2);
 	Borders_Holder_BorderFrameCount->Add(Borders_BorderFrameCount, 1, wxEXPAND);
 	Borders_Holder_BorderFrameCount->AddStretchSpacer(1);
 	Borders_Holder_BorderUnknown8->Add(Borders_Text_BorderUnknown8, 0, wxEXPAND);
-	Borders_Holder_BorderUnknown8->Add(-1, 2);
 	Borders_Holder_BorderUnknown8->Add(Borders_BorderUnknown8, 1, wxEXPAND);
 	Borders_Holder_BorderTerrain->Add(Borders_Text_BorderTerrain, 0, wxEXPAND);
-	Borders_Holder_BorderTerrain->Add(-1, 2);
 	Borders_Holder_BorderTerrain->Add(Borders_BorderTerrain, 1, wxEXPAND);
 	Borders_Holder_BorderTerrain->Add(Borders_ComboBox_BorderTerrain, 1, wxEXPAND);
 	Borders_Holder_BorderUnknown10->Add(Borders_Text_BorderUnknown10, 0, wxEXPAND);
-	Borders_Holder_BorderUnknown10->Add(-1, 2);
 	Borders_Holder_BorderUnknown10->Add(Borders_BorderUnknown10, 1, wxEXPAND);
 
 	Borders_Data1->Add(Borders_Holder_BorderRessourceID, 1, wxEXPAND);
@@ -399,13 +386,10 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Frames->Add(Borders_Frames_Buttons, 0, wxEXPAND);
 
 	Borders_Holder_BorderFrameID->Add(Borders_Text_BorderFrameID, 0, wxEXPAND);
-	Borders_Holder_BorderFrameID->Add(-1, 2);
 	Borders_Holder_BorderFrameID->Add(Borders_BorderFrameID, 1, wxEXPAND);
 	Borders_Holder_BorderFlag1->Add(Borders_Text_BorderFlag1, 0, wxEXPAND);
-	Borders_Holder_BorderFlag1->Add(-1, 2);
 	Borders_Holder_BorderFlag1->Add(Borders_BorderFlag1, 1, wxEXPAND);
 	Borders_Holder_BorderFlag2->Add(Borders_Text_BorderFlag2, 0, wxEXPAND);
-	Borders_Holder_BorderFlag2->Add(-1, 2);
 	Borders_Holder_BorderFlag2->Add(Borders_BorderFlag2, 1, wxEXPAND);
 
 	Borders_Holder_FrameArea->Add(Borders_Holder_BorderFrameID, 0, wxEXPAND);

@@ -955,27 +955,21 @@ void AGE_Frame::CreateCivControls()
 	Civs_ListArea->Add(-1, 10);
 
 	Civs_Holder_One->Add(Civs_Text_One, 0, wxEXPAND);
-	Civs_Holder_One->Add(-1, 2);
 	Civs_Holder_One->Add(Civs_One, 1, wxEXPAND);
 	for(short loop = 0;loop < 2;loop++){
 	Civs_Holder_Name[loop]->Add(Civs_Text_Name[loop], 0, wxEXPAND);
-	Civs_Holder_Name[loop]->Add(-1, 2);
 	Civs_Holder_Name[loop]->Add(Civs_Name[loop], 1, wxEXPAND);}
 	Civs_Holder_SUnknown1->Add(Civs_Text_SUnknown1, 0, wxEXPAND);
-	Civs_Holder_SUnknown1->Add(-1, 2);
 	Civs_Holder_SUnknown1->Add(Civs_DataGrid3, 1, wxEXPAND);
 	for(short loop = 0;loop < 4;loop++)
 	Civs_DataGrid3->Add(Civs_SUnknown1[loop], 1, wxEXPAND);
 	Civs_Holder_TechTree->Add(Civs_Text_TechTree, 0, wxEXPAND);
-	Civs_Holder_TechTree->Add(-1, 2);
 	Civs_Holder_TechTree->Add(Civs_TechTree, 1, wxEXPAND);
 	Civs_Holder_TechTree->Add(Civs_ComboBox_TechTree, 1, wxEXPAND);
 	Civs_Holder_TeamBonus->Add(Civs_Text_TeamBonus, 0, wxEXPAND);
-	Civs_Holder_TeamBonus->Add(-1, 2);
 	Civs_Holder_TeamBonus->Add(Civs_TeamBonus, 1, wxEXPAND);
 	Civs_Holder_TeamBonus->Add(Civs_ComboBox_TeamBonus, 1, wxEXPAND);
 	Civs_Holder_GraphicSet->Add(Civs_Text_GraphicSet, 0, wxEXPAND);
-	Civs_Holder_GraphicSet->Add(-1, 2);
 	Civs_Holder_GraphicSet->Add(Civs_GraphicSet, 1, wxEXPAND);
 
 	Civs_DataGrid1->Add(Civs_Holder_GraphicSet, 1, wxEXPAND);
@@ -999,7 +993,6 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources_Buttons->Add(Resources_Paste, 1, wxEXPAND);
 
 	Civs_Holder_ResourceValue->Add(Civs_Text_ResourceValue, 0, wxEXPAND);
-	Civs_Holder_ResourceValue->Add(-1, 2);
 	Civs_Holder_ResourceValue->Add(Civs_ResourceValue, 1, wxEXPAND);
 
 	Civs_Resources_Data->Add(Civs_Holder_ResourceValue, 0, wxEXPAND);

@@ -366,23 +366,18 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Holder_Accessible2->Add(2, -1);
 	TerRestrict_Holder_Accessible2->Add(TerRestrict_CheckBox_Accessible, 2, wxEXPAND);
 	TerRestrict_Holder_Accessible->Add(TerRestrict_Text_Accessible, 0, wxEXPAND);
-	TerRestrict_Holder_Accessible->Add(-1, 2);
 	TerRestrict_Holder_Accessible->Add(TerRestrict_Holder_Accessible2, 1, wxEXPAND);
 
 	TerRestrict_Holder_Unknown1Sub->Add(TerRestrict_Unknown1, 1, wxEXPAND);
-	TerRestrict_Holder_Unknown1Sub->Add(2, -1);
 	TerRestrict_Holder_Unknown1Sub->Add(TerRestrict_CheckBox_Unknown1, 1, wxEXPAND);
 	TerRestrict_Holder_Unknown1->Add(TerRestrict_Text_Unknown1, 0, wxEXPAND);
-	TerRestrict_Holder_Unknown1->Add(-1, 2);
 	TerRestrict_Holder_Unknown1->Add(TerRestrict_Holder_Unknown1Sub, 1, wxEXPAND);
 	TerRestrict_Holder_Graphics->Add(TerRestrict_Text_Graphics, 0, wxEXPAND);
-	TerRestrict_Holder_Graphics->Add(-1, 2);
 	TerRestrict_Holder_Graphics->Add(TerRestrict_Graphics[0], 1, wxEXPAND);
 	TerRestrict_Holder_Graphics->Add(TerRestrict_ComboBox_Graphics[0], 1, wxEXPAND);
 	TerRestrict_Holder_Graphics->Add(TerRestrict_Graphics[1], 1, wxEXPAND);
 	TerRestrict_Holder_Graphics->Add(TerRestrict_ComboBox_Graphics[1], 1, wxEXPAND);
 	TerRestrict_Holder_Amount->Add(TerRestrict_Text_Amount, 0, wxEXPAND);
-	TerRestrict_Holder_Amount->Add(-1, 2);
 	TerRestrict_Holder_Amount->Add(TerRestrict_Amount, 1, wxEXPAND);
 
 	TerRestrict_DataArea->Add(-1, 10);
