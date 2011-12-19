@@ -779,72 +779,52 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ListArea->Add(-1, 10);
 	
 	Graphics_Holder_Name->Add(Graphics_Text_Name, 0, wxEXPAND);
-	Graphics_Holder_Name->Add(-1, 2);
 	Graphics_Holder_Name->Add(Graphics_Name, 1, wxEXPAND);
 	Graphics_Holder_Name2->Add(Graphics_Text_Name2, 0, wxEXPAND);
-	Graphics_Holder_Name2->Add(-1, 2);
 	Graphics_Holder_Name2->Add(Graphics_Name2, 1, wxEXPAND);
 	Graphics_Holder_ID->Add(Graphics_Text_ID, 0, wxEXPAND);
-	Graphics_Holder_ID->Add(-1, 2);
 	Graphics_Holder_ID->Add(Graphics_ID, 1, wxEXPAND);
 	Graphics_Holder_Unknown1->Add(Graphics_Text_Unknown1, 0, wxEXPAND);
-	Graphics_Holder_Unknown1->Add(-1, 2);
 	Graphics_Holder_Unknown1->Add(Graphics_Unknown1, 1, wxEXPAND);
 	Graphics_Holder_Unknown2->Add(Graphics_Text_Unknown2, 0, wxEXPAND);
-	Graphics_Holder_Unknown2->Add(-1, 2);
 	Graphics_Holder_Unknown2->Add(Graphics_Unknown2, 1, wxEXPAND);
 	Graphics_Holder_Unknown3->Add(Graphics_Text_Unknown3, 0, wxEXPAND);
-	Graphics_Holder_Unknown3->Add(-1, 2);
 	Graphics_Holder_Unknown3->Add(Graphics_Unknown3, 1, wxEXPAND);
 	Graphics_Holder_Unknown4->Add(Graphics_Text_Unknown4, 0, wxEXPAND);
-	Graphics_Holder_Unknown4->Add(-1, 2);
 	Graphics_Holder_Unknown4->Add(Graphics_Unknown4, 1, wxEXPAND);
 	for(short loop = 0;loop < 4;loop++)
 	Graphics_Holder_CoordinateGrid->Add(Graphics_Coordinates[loop], 1, wxEXPAND);
 	Graphics_Holder_Coordinates->Add(Graphics_Text_Coordinates, 0, wxEXPAND);
-	Graphics_Holder_Coordinates->Add(-1, 2);
 	Graphics_Holder_Coordinates->Add(Graphics_Holder_CoordinateGrid, 1, wxEXPAND);
 	Graphics_Holder_Unknown13->Add(Graphics_Text_Unknown13, 0, wxEXPAND);
-	Graphics_Holder_Unknown13->Add(-1, 2);
 	Graphics_Holder_Unknown13->Add(Graphics_Unknown13, 1, wxEXPAND);
 	Graphics_Holder_SLP->Add(Graphics_Text_SLP, 0, wxEXPAND);
-	Graphics_Holder_SLP->Add(-1, 2);
 	Graphics_Holder_SLP->Add(Graphics_SLP, 1, wxEXPAND);
 	Graphics_Holder_FrameType->Add(Graphics_Text_FrameType, 0, wxEXPAND);
-	Graphics_Holder_FrameType->Add(-1, 2);
 	Graphics_Holder_FrameType->Add(Graphics_FrameType, 1, wxEXPAND);
 	Graphics_Holder_Replay->Add(Graphics_Text_Replay, 0, wxEXPAND);
-	Graphics_Holder_Replay->Add(-1, 2);
 	Graphics_Holder_Replay->Add(Graphics_Replay, 1, wxEXPAND);
 	Graphics_Holder_Replay->AddStretchSpacer(1);
 	Graphics_Holder_SoundID->Add(Graphics_Text_SoundID, 0, wxEXPAND);
-	Graphics_Holder_SoundID->Add(-1, 2);
 	Graphics_Holder_SoundID->Add(Graphics_SoundID, 1, wxEXPAND);
 	Graphics_Holder_SoundID->Add(Graphics_ComboBox_SoundID, 1, wxEXPAND);
 	Graphics_Holder_AttackSoundUsed1->Add(Graphics_AttackSoundUsed, 2, wxEXPAND);
 	Graphics_Holder_AttackSoundUsed1->Add(2, -1);
 	Graphics_Holder_AttackSoundUsed1->Add(Graphics_CheckBox_AttackSoundUsed, 1, wxEXPAND);
 	Graphics_Holder_AttackSoundUsed->Add(Graphics_Text_AttackSoundUsed, 0, wxEXPAND);
-	Graphics_Holder_AttackSoundUsed->Add(-1, 2);
 	Graphics_Holder_AttackSoundUsed->Add(Graphics_Holder_AttackSoundUsed1, 1, wxEXPAND);
 	Graphics_Holder_FrameCount->Add(Graphics_Text_FrameCount, 0, wxEXPAND);
-	Graphics_Holder_FrameCount->Add(-1, 2);
 	Graphics_Holder_FrameCount->Add(Graphics_FrameCount, 1, wxEXPAND);
 	Graphics_Holder_AngleCount->Add(Graphics_Text_AngleCount, 0, wxEXPAND);
-	Graphics_Holder_AngleCount->Add(-1, 2);
 	Graphics_Holder_AngleCount->Add(Graphics_AngleCount, 1, wxEXPAND);
 	Graphics_Holder_FrameRate->Add(Graphics_Text_FrameRate, 0, wxEXPAND);
-	Graphics_Holder_FrameRate->Add(-1, 2);
 	Graphics_Holder_FrameRate->Add(Graphics_FrameRate, 1, wxEXPAND);
 	Graphics_Holder_ReplayDelay->Add(Graphics_Text_ReplayDelay, 0, wxEXPAND);
-	Graphics_Holder_ReplayDelay->Add(-1, 2);
 	Graphics_Holder_ReplayDelay->Add(Graphics_ReplayDelay, 1, wxEXPAND);
 	Graphics_Holder_ReplayDelay->AddStretchSpacer(1);
 	Graphics_Holder_SequenceType->Add(Graphics_Text_SequenceType, 0, wxEXPAND);
-	Graphics_Holder_SequenceType->Add(-1, 2);
 	Graphics_Holder_SequenceType->Add(Graphics_SequenceType, 1, wxEXPAND);
 	Graphics_Holder_Type->Add(Graphics_Text_Type, 0, wxEXPAND);
-	Graphics_Holder_Type->Add(-1, 2);
 	Graphics_Holder_Type->Add(Graphics_TypeS, 1, wxEXPAND);
 	
 	Graphics_Holder_NameArea->Add(Graphics_Holder_Name, 2, wxEXPAND);
@@ -925,10 +905,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
 	
 	Graphics_Holder_AttackSounds->Add(Graphics_Text_AttackSounds, 0, wxEXPAND);
-	Graphics_Holder_AttackSounds->Add(-1, 2);
 	Graphics_Holder_AttackSounds->Add(Graphics_Grid_AttackSounds, 0, wxEXPAND);
 	Graphics_Holder_AttackSoundDelays->Add(Graphics_Text_AttackSoundDelays, 0, wxEXPAND);
-	Graphics_Holder_AttackSoundDelays->Add(-1, 2);
 	for(short loop = 0;loop < 3;loop++)
 	{
 		Graphics_Grid_AttackSounds->Add(Graphics_AttackSoundID[loop], 0, wxEXPAND);

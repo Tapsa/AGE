@@ -45,6 +45,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 	    wxMessageBox("Empty entry!\nPlease enter a number from -128 to 127");
 	    SetFocus();
 	}
+	Event.Skip();
 }
 
 void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
@@ -81,6 +82,7 @@ void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 	    wxMessageBox("Empty entry!\nPlease enter a valid floating point number");
 	    SetFocus();
 	}
+	Event.Skip();
 }
 
 void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
@@ -117,6 +119,7 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 		wxMessageBox("Empty entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
 		SetFocus();
 	}
+	Event.Skip();
 }
 
 void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
@@ -153,6 +156,7 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 		wxMessageBox("Empty entry!\nPlease enter a number from -32 768 to 32 767");
 		SetFocus();
 	}
+	Event.Skip();
 }
 
 void TextCtrl_UnShort::OnKillFocus(wxFocusEvent& Event)
@@ -189,6 +193,7 @@ void TextCtrl_UnShort::OnKillFocus(wxFocusEvent& Event)
 		wxMessageBox("Empty entry!\nPlease enter a number from 0 to 65 535");
 		SetFocus();
 	}
+	Event.Skip();
 }
 
 void TextCtrl_String::OnKillFocus(wxFocusEvent& Event)	// This may crash the program.
@@ -226,6 +231,7 @@ void TextCtrl_String::OnKillFocus(wxFocusEvent& Event)	// This may crash the pro
 	    wxMessageBox("Max length: " + lexical_cast<string>(Length));
 	    SetFocus();
 	}
+	Event.Skip();
 }
 
 TextCtrl_Byte::TextCtrl_Byte(wxWindow * parent, string InitValue, void * Pointer)
