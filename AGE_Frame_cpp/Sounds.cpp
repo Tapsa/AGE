@@ -378,43 +378,43 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Sounds = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sounds");
 	Sounds_Sounds_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_Sounds_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_Sounds_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(0, 70));
+	Sounds_Sounds_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Sounds_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Sounds_Delete = new wxButton(Tab_Sounds, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Sounds_Copy = new wxButton(Tab_Sounds, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Sounds_Paste = new wxButton(Tab_Sounds, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 
 	Sounds_Holder_ID = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_ID = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Text_ID = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_ID = new TextCtrl_Long(Tab_Sounds, "0", NULL);
 	Sounds_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_Unknown = new TextCtrl_Long(Tab_Sounds, "0", NULL);
 
 	Sounds_SoundItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sound Items");
 	Sounds_SoundItems_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_SoundItems_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_SoundItems_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(0, 70));
+	Sounds_SoundItems_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	SoundItems_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Delete = new wxButton(Tab_Sounds, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Copy = new wxButton(Tab_Sounds, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Paste = new wxButton(Tab_Sounds, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 
 	SoundItems_Holder_Name = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Name = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Name", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Text_Name = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Name = new TextCtrl_String(Tab_Sounds, "0", NULL);
 	SoundItems_Holder_Resource = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Resource = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Drs Resource", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Text_Resource = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Drs Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Resource = new TextCtrl_Long(Tab_Sounds, "0", NULL);
 	SoundItems_Holder_Probability = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Probability = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Probability", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Text_Probability = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Probability", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Probability = new TextCtrl_Short(Tab_Sounds, "0", NULL);
 	SoundItems_Holder_Civ = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Civ = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Civilization", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Text_Civ = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Civ = new TextCtrl_Short(Tab_Sounds, "0", NULL);
 	SoundItems_ComboBox_Civ = new ComboBox_Short(Tab_Sounds, SoundItems_Civ);
 	SoundItems_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Unknown", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = new TextCtrl_Short(Tab_Sounds, "0", NULL);
 
 	Sounds_Sounds_Buttons->Add(Sounds_Add, 1, wxEXPAND);

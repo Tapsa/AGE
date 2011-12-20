@@ -17,6 +17,6 @@ bool AGE::OnInit()
 //	MainWindow->Refresh(); // Will be refreshed anyway.
 //	MainWindow->Update(); // Immediate refresh.
 	wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, MainWindow->ToolBar_Open);
-	MainWindow->ProcessWindowEvent(OpenFiles);
+	MainWindow->GetEventHandler()->ProcessEvent(OpenFiles);
 	return true;
 }
