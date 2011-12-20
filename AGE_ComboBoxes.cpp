@@ -248,7 +248,6 @@ ComboBox_Byte::ComboBox_Byte(wxWindow * parent, TextCtrl_Byte * Pointer)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
-
 	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));
 	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(ComboBox_Byte::OnKillFocus), this);
 
@@ -260,7 +259,6 @@ ComboBox_Float::ComboBox_Float(wxWindow * parent, TextCtrl_Float * Pointer)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
-
 	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
 	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(ComboBox_Float::OnKillFocus), this);
 
@@ -272,7 +270,6 @@ ComboBox_Short::ComboBox_Short(wxWindow * parent, TextCtrl_Short * Pointer)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
-
 	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
 	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(ComboBox_Short::OnKillFocus), this);
 
@@ -284,7 +281,6 @@ ComboBox_Long::ComboBox_Long(wxWindow * parent, TextCtrl_Long * Pointer)
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
-
 	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
 	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(ComboBox_Long::OnKillFocus), this);
 
@@ -296,7 +292,6 @@ ComboBox_Byte_EffectType::ComboBox_Byte_EffectType(wxWindow * parent, TextCtrl_B
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
-
 	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));
 	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(ComboBox_Byte_EffectType::OnKillFocus), this);
 
@@ -308,7 +303,6 @@ ComboBox_Byte_UnitType::ComboBox_Byte_UnitType(wxWindow * parent, TextCtrl_Byte 
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
-
 	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));
 	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(ComboBox_Byte_UnitType::OnKillFocus), this);
 
@@ -320,7 +314,6 @@ ComboBox_Short_AttackType::ComboBox_Short_AttackType(wxWindow * parent, TextCtrl
 {
 	Container = Pointer;
 	Container->ParentContainer = this;
-
 	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
 	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(ComboBox_Short_AttackType::OnKillFocus), this);
 

@@ -29,7 +29,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
 				Selected.SetId(OpenBox.Radio_DatFileLocation->GetId());
 				Selected.SetInt(true);
-				OpenBox.ProcessWindowEvent(Selected);
+				OpenBox.GetEventHandler()->ProcessEvent(Selected);
 			}
 			break;
 			case 1:
@@ -42,7 +42,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
 				Selected.SetId(OpenBox.Radio_ApfFileLocation->GetId());
 				Selected.SetInt(true);
-				OpenBox.ProcessWindowEvent(Selected);
+				OpenBox.GetEventHandler()->ProcessEvent(Selected);
 			}
 			break;
 			case 3:
@@ -61,7 +61,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangFileLocation->GetId());
 			Selected.SetInt(true);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.GetEventHandler()->ProcessEvent(Selected);
 		}
 		else
 		{
@@ -69,7 +69,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangFileLocation->GetId());
 			Selected.SetInt(false);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.GetEventHandler()->ProcessEvent(Selected);
 		}
 		if(LangsUsed & 2)
 		{
@@ -77,7 +77,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangX1FileLocation->GetId());
 			Selected.SetInt(true);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.GetEventHandler()->ProcessEvent(Selected);
 		}
 		else
 		{
@@ -85,7 +85,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangX1FileLocation->GetId());
 			Selected.SetInt(false);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.GetEventHandler()->ProcessEvent(Selected);
 		}
 		if(LangsUsed & 4)
 		{
@@ -93,7 +93,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangX1P1FileLocation->GetId());
 			Selected.SetInt(true);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.GetEventHandler()->ProcessEvent(Selected);
 		}
 		else
 		{
@@ -101,7 +101,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 			Selected.SetId(OpenBox.CheckBox_LangX1P1FileLocation->GetId());
 			Selected.SetInt(false);
-			OpenBox.ProcessWindowEvent(Selected);
+			OpenBox.GetEventHandler()->ProcessEvent(Selected);
 		}
 
 		OpenBox.Path_LangFileLocation->SetPath(LangFileName);
@@ -1156,7 +1156,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 		Selected.SetId(SaveBox.CheckBox_DatFileLocation->GetId());
 		Selected.SetInt(SaveDat);
-		SaveBox.ProcessWindowEvent(Selected);
+		SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
 		SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
 		
@@ -1164,7 +1164,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 		Selected.SetId(SaveBox.CheckBox_ApfFileLocation->GetId());
 		Selected.SetInt(SaveApf);
-		SaveBox.ProcessWindowEvent(Selected);
+		SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
 		SaveBox.Path_ApfFileLocation->SetPath(SaveApfFileName);
 

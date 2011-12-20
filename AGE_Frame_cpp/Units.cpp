@@ -2534,9 +2534,9 @@ void AGE_Frame::CreateUnitControls()
 	{
 		Units_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Units_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
-		Units_Units_UseAnd[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator);
+		Units_Units_UseAnd[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	}
-	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(0, 70));
+	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Units_Units_Buttons = new wxGridSizer(2, 0, 0);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -2547,7 +2547,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_MainRow1 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_TopRow = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Units, "Other");
 	Units_Holder_Type = new wxBoxSizer(wxHORIZONTAL);
-	Units_AutoCopyState = new wxStaticText(Tab_Units, wxID_ANY, "Undefined", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_AutoCopyState = new wxStaticText(Tab_Units, wxID_ANY, "Undefined", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Scroller = new wxScrolledWindow(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	Units_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	Units_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
@@ -2802,163 +2802,163 @@ void AGE_Frame::CreateUnitControls()
 //	Data Container Names
 //	Type 10+
 
-	Units_Text_Type = new wxStaticText(Tab_Units, wxID_ANY, "Type ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ID1 = new wxStaticText(Units_Scroller, wxID_ANY, "ID 1 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_LanguageDllName = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Name ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_LanguageDllCreation = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Creation ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, "Class ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_StandingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Standing Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DyingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HitPoints = new wxStaticText(Units_Scroller, wxID_ANY, " Hit Points ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_LineOfSight = new wxStaticText(Units_Scroller, wxID_ANY, " Line Of Sight ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Capacity ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_SizeRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Size Radius", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HPBarHeight1 = new wxStaticText(Units_Scroller, wxID_ANY, " HP Bar Height 1", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TrainSound = new wxStaticText(Units_Scroller, wxID_ANY, " Train Sound ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DeadUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Dead Unit", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_PlacementMode = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Mode", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_IconID = new wxStaticText(Units_Scroller, wxID_ANY, " Icon ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_PlacementBypassTerrain = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Bypass Terrain ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_PlacementTerrain = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Terrain ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_EditorRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Radius", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_BuildingMode = new wxStaticText(Units_Scroller, wxID_ANY, " Building Mode", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TerrainRestriction = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ResourceCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ResourceDecay = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_BlastType = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Type", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_InteractionMode = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_MinimapMode = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_CommandAttribute = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown3a = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3a ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_LanguageDllHelp = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Help ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HotKey = new wxStaticText(Units_Scroller, wxID_ANY, " Hot Key", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 4 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 5 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 6 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown8 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_SelectionMask = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_SelectionShapeType = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_SelectionShape = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, " Unit Attribute, Selection Color, ?, ?", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_SelectionEffect = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Effect ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_EditorSelectionColour = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Selection Colour ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_SelectionRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Radius ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HPBarHeight2 = new wxStaticText(Units_Scroller, wxID_ANY, " HP Bar Height 2", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	ResourceStorage_Text_Type = new wxStaticText(Units_Scroller, wxID_ANY, "Type ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	ResourceStorage_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, "Amount ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	ResourceStorage_Text_Enabled = new wxStaticText(Units_Scroller, wxID_ANY, "Enable Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Units_Text_SelectionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Sound ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DyingSound = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Sound ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AttackSound = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Sound ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Name = new wxStaticText(Units_Scroller, wxID_ANY, " Name ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Name2 = new wxStaticText(Units_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unitline = new wxStaticText(Units_Scroller, wxID_ANY, " Unitline", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_MinTechLevel = new wxStaticText(Units_Scroller, wxID_ANY, " Min Tech Level", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ID2 = new wxStaticText(Units_Scroller, wxID_ANY, "ID 2 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ID3 = new wxStaticText(Units_Scroller, wxID_ANY, "ID 3 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Type = new wxStaticText(Tab_Units, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ID1 = new wxStaticText(Units_Scroller, wxID_ANY, "ID 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_LanguageDllName = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_LanguageDllCreation = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Creation ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_StandingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Standing Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DyingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HitPoints = new wxStaticText(Units_Scroller, wxID_ANY, " Hit Points ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_LineOfSight = new wxStaticText(Units_Scroller, wxID_ANY, " Line Of Sight ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SizeRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Size Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HPBarHeight1 = new wxStaticText(Units_Scroller, wxID_ANY, " HP Bar Height 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TrainSound = new wxStaticText(Units_Scroller, wxID_ANY, " Train Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DeadUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Dead Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_PlacementMode = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_IconID = new wxStaticText(Units_Scroller, wxID_ANY, " Icon ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_PlacementBypassTerrain = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Bypass Terrain ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_PlacementTerrain = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Terrain ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_EditorRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_BuildingMode = new wxStaticText(Units_Scroller, wxID_ANY, " Building Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TerrainRestriction = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ResourceCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ResourceDecay = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_BlastType = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_InteractionMode = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_MinimapMode = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_CommandAttribute = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown3a = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3a ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_LanguageDllHelp = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Help ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HotKey = new wxStaticText(Units_Scroller, wxID_ANY, " Hot Key", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 4 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 5 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 6 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown8 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SelectionMask = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SelectionShapeType = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SelectionShape = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, " Unit Attribute, Selection Color, ?, ?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SelectionEffect = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Effect ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_EditorSelectionColour = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Selection Colour ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SelectionRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HPBarHeight2 = new wxStaticText(Units_Scroller, wxID_ANY, " HP Bar Height 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	ResourceStorage_Text_Type = new wxStaticText(Units_Scroller, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	ResourceStorage_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, "Amount ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	ResourceStorage_Text_Enabled = new wxStaticText(Units_Scroller, wxID_ANY, "Enable Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Units_Text_SelectionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DyingSound = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackSound = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Name = new wxStaticText(Units_Scroller, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Name2 = new wxStaticText(Units_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unitline = new wxStaticText(Units_Scroller, wxID_ANY, " Unitline", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_MinTechLevel = new wxStaticText(Units_Scroller, wxID_ANY, " Min Tech Level", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ID2 = new wxStaticText(Units_Scroller, wxID_ANY, "ID 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ID3 = new wxStaticText(Units_Scroller, wxID_ANY, "ID 3 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 20+
 
-	Units_Text_Speed = new wxStaticText(Units_Scroller, wxID_ANY, " Speed ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Speed = new wxStaticText(Units_Scroller, wxID_ANY, " Speed ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 30+
 
-	Units_Text_WalkingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Walking Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_RotationSpeed = new wxStaticText(Units_Scroller, wxID_ANY, " Rotation Speed ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown11 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TrackingUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TrackingUnitUsed = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Used ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TrackingUnitDensity = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Density ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown12 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 12", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown16 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 16", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_WalkingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Walking Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_RotationSpeed = new wxStaticText(Units_Scroller, wxID_ANY, " Rotation Speed ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown11 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TrackingUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TrackingUnitUsed = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Used ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TrackingUnitDensity = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Density ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown12 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 12", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown16 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 16", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 40+
 
-	Units_Text_SearchRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Search Radius ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_WorkRate = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DropSite = new wxStaticText(Units_Scroller, wxID_ANY, " Drop Site", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_VillagerMode = new wxStaticText(Units_Scroller, wxID_ANY, " Villager Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_MoveSound = new wxStaticText(Units_Scroller, wxID_ANY, " Move Sound ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_StopSound = new wxStaticText(Units_Scroller, wxID_ANY, " Stop Sound ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AnimalMode = new wxStaticText(Units_Scroller, wxID_ANY, "Animal Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Exists = new wxStaticText(Units_Scroller, wxID_ANY, " Exists", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SearchRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Search Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_WorkRate = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DropSite = new wxStaticText(Units_Scroller, wxID_ANY, " Drop Site", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_VillagerMode = new wxStaticText(Units_Scroller, wxID_ANY, " Villager Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_MoveSound = new wxStaticText(Units_Scroller, wxID_ANY, " Move Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_StopSound = new wxStaticText(Units_Scroller, wxID_ANY, " Stop Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AnimalMode = new wxStaticText(Units_Scroller, wxID_ANY, "Animal Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Exists = new wxStaticText(Units_Scroller, wxID_ANY, " Exists", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 60+
 
-	Units_Text_Unknown20 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 20", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown21 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 21", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_MaxRange = new wxStaticText(Units_Scroller, wxID_ANY, " Max Range ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_BlastRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Radius ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ReloadTime1 = new wxStaticText(Units_Scroller, wxID_ANY, " Reload Time 1 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ProjectileUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Projectile Unit ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AccuracyPercent = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Percent ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TowerMode = new wxStaticText(Units_Scroller, wxID_ANY, " Tower Mode", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Delay = new wxStaticText(Units_Scroller, wxID_ANY, " Delay ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GraphicDisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic Displacement XYZ ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_BlastLevel = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Level", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_MinRange = new wxStaticText(Units_Scroller, wxID_ANY, " Min Range ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonRecoveryRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Recovery Rate ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AttackGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DisplayedMeleeArmour = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Melee Armour ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DisplayedAttack = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Attack ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DisplayedRange = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Range ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ReloadTime2 = new wxStaticText(Units_Scroller, wxID_ANY, " Reload Time 2 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown20 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 20", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown21 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 21", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_MaxRange = new wxStaticText(Units_Scroller, wxID_ANY, " Max Range ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_BlastRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ReloadTime1 = new wxStaticText(Units_Scroller, wxID_ANY, " Reload Time 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ProjectileUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Projectile Unit ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AccuracyPercent = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Percent ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TowerMode = new wxStaticText(Units_Scroller, wxID_ANY, " Tower Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Delay = new wxStaticText(Units_Scroller, wxID_ANY, " Delay ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GraphicDisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic Displacement XYZ ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_BlastLevel = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Level", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_MinRange = new wxStaticText(Units_Scroller, wxID_ANY, " Min Range ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonRecoveryRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Recovery Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DisplayedMeleeArmour = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Melee Armour ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DisplayedAttack = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Attack ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DisplayedRange = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Range ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ReloadTime2 = new wxStaticText(Units_Scroller, wxID_ANY, " Reload Time 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 60 only
 
-	Units_Text_StretchMode = new wxStaticText(Units_Scroller, wxID_ANY, " Stretch Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_CompensationMode = new wxStaticText(Units_Scroller, wxID_ANY, " Compensation Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DropAnimationMode = new wxStaticText(Units_Scroller, wxID_ANY, " DropAnimation Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_PenetrationMode = new wxStaticText(Units_Scroller, wxID_ANY, " Penetration Mode ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown24 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 24 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ProjectileArc = new wxStaticText(Units_Scroller, wxID_ANY, " Projectile Arc ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_StretchMode = new wxStaticText(Units_Scroller, wxID_ANY, " Stretch Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_CompensationMode = new wxStaticText(Units_Scroller, wxID_ANY, " Compensation Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DropAnimationMode = new wxStaticText(Units_Scroller, wxID_ANY, " DropAnimation Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_PenetrationMode = new wxStaticText(Units_Scroller, wxID_ANY, " Penetration Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown24 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 24 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ProjectileArc = new wxStaticText(Units_Scroller, wxID_ANY, " Projectile Arc ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 70+
 
-	Units_Text_CostType = new wxStaticText(Units_Scroller, wxID_ANY, "Cost Type ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Units_Text_CostAmount = new wxStaticText(Units_Scroller, wxID_ANY, "Cost Amount ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Units_Text_CostUsed = new wxStaticText(Units_Scroller, wxID_ANY, "Cost Used ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Units_Text_TrainTime = new wxStaticText(Units_Scroller, wxID_ANY, " Train Time", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TrainLocationID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Location", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ButtonID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Button", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown26 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 26 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown27 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 27 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown28 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 28 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_MissileGraphicDelay = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Graphic Delay ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AttackMissileDuplicationAmount1 = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Missile Dupl. Amount 1 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AttackMissileDuplicationAmount2 = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Missile Dupl. Amount 2 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AttackMissileDuplicationUnknown = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Missile Dupl. Unknown ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AttackMissileDuplicationUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Missile Duplication Unit ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AttackMissileDuplicationGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Missile Dupl. Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown29 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 29 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DisplayedPierceArmour = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Pierce Armour ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_CostType = new wxStaticText(Units_Scroller, wxID_ANY, "Cost Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Units_Text_CostAmount = new wxStaticText(Units_Scroller, wxID_ANY, "Cost Amount ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Units_Text_CostUsed = new wxStaticText(Units_Scroller, wxID_ANY, "Cost Used ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Units_Text_TrainTime = new wxStaticText(Units_Scroller, wxID_ANY, " Train Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TrainLocationID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Location", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ButtonID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Button", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown26 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 26 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown27 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 27 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown28 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 28 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_MissileGraphicDelay = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Graphic Delay ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackMissileDuplicationAmount1 = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Amount 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackMissileDuplicationAmount2 = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Amount 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackMissileDuplicationUnknown = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackMissileDuplicationUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackMissileDuplicationGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown29 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 29 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DisplayedPierceArmour = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Pierce Armour ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 80
 
-	Units_Text_ConstructionGraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_SnowGraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Snow Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown30 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 30 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown31 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 31 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_StackUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Stack Unit ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TerrainID = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown32 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 32 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ResearchID = new wxStaticText(Units_Scroller, wxID_ANY, " Initiates Research", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown33 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 33 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AnnexUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Unit ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AnnexUnitMisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Unit Misplacement ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HeadUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Head Unit", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TransformUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Transform Unit", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown34 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 34 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ConstructionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Sound ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonType = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonHealRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 35 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown36 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 36 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown37 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 37 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ConstructionGraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SnowGraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Snow Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown30 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 30 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown31 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 31 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_StackUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Stack Unit ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TerrainID = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown32 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 32 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ResearchID = new wxStaticText(Units_Scroller, wxID_ANY, " Initiates Research", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown33 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 33 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AnnexUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Unit ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AnnexUnitMisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Unit Misplacement ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HeadUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Head Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TransformUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Transform Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown34 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 34 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ConstructionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonType = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonHealRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 35 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown36 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 36 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown37 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 37 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Data Containers
 //	Type 10+
@@ -3242,10 +3242,10 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_Holder_DamagePercent = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
-	DamageGraphics_Text_GraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_Text_DamagePercent = new wxStaticText(Units_Scroller, wxID_ANY, " Damage Percent ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	DamageGraphics_Text_GraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	DamageGraphics_Text_DamagePercent = new wxStaticText(Units_Scroller, wxID_ANY, " Damage Percent ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	DamageGraphics_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	DamageGraphics_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_GraphicID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	DamageGraphics_ComboBox_GraphicID = new ComboBox_Short(Units_Scroller, DamageGraphics_GraphicID);
 	DamageGraphics_DamagePercent = new TextCtrl_Byte(Units_Scroller, "0", NULL);
@@ -3268,8 +3268,8 @@ void AGE_Frame::CreateUnitControls()
 	Attacks_Holder_Class = new wxBoxSizer(wxVERTICAL);
 	Attacks_Holder_Class1 = new wxBoxSizer(wxHORIZONTAL);
 	Attacks_Holder_Amount = new wxBoxSizer(wxVERTICAL);
-	Attacks_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, " Class ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Attacks_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, " Amount ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Attacks_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, " Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Attacks_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, " Amount ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Attacks_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Attacks_ComboBox_Class[0] = new ComboBox_Short_AttackType(Units_Scroller, Attacks_Class);
 	Attacks_Amount = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3291,8 +3291,8 @@ void AGE_Frame::CreateUnitControls()
 	Armors_Holder_Class = new wxBoxSizer(wxVERTICAL);
 	Armors_Holder_Class1 = new wxBoxSizer(wxHORIZONTAL);
 	Armors_Holder_Amount = new wxBoxSizer(wxVERTICAL);
-	Armors_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, " Class ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Armors_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, " Amount ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Armors_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, " Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Armors_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, " Amount ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Armors_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Attacks_ComboBox_Class[1] = new ComboBox_Short_AttackType(Units_Scroller, Armors_Class);
 	Armors_Amount = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3308,7 +3308,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_CommandHolder_Lists = new wxBoxSizer(wxVERTICAL);
 	Units_UnitHeads = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "");
-	Units_UnitHeads_Name = new wxStaticText(Units_Scroller, wxID_ANY, "Unit Header", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_UnitHeads_Name = new wxStaticText(Units_Scroller, wxID_ANY, "Unit Header", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_UnitHeads_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Units_UnitCommands = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Commands");
 	Units_UnitCommands_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
@@ -3353,30 +3353,30 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Graphics = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Holder_GraphicsGrid = new wxGridSizer(2, 2, 2);
 	
-	UnitCommands_Text_One = new wxStaticText(Units_Scroller, wxID_ANY, "One ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_ID = new wxStaticText(Units_Scroller, wxID_ANY, "ID ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 1 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Type = new wxStaticText(Units_Scroller, wxID_ANY, " Type", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_ClassID = new wxStaticText(Units_Scroller, wxID_ANY, " Class", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_UnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 2 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_ResourceIn = new wxStaticText(Units_Scroller, wxID_ANY, " Resource In", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_SubType = new wxStaticText(Units_Scroller, wxID_ANY, " Sub Type", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_ResourceOut = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Out", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 3 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 4 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_ExecutionRadius = new wxStaticText(Units_Scroller, wxID_ANY, "Execution Radius ", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 5 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 6 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 7 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown8 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 8 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 9 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown10 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 10 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown11 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 11 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown12 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 12 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown13 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 13 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Unknown14 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 14 ", wxDefaultPosition, wxSize(0, 20), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	UnitCommands_Text_Graphics = new wxStaticText(Units_Scroller, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(0, 20), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_One = new wxStaticText(Units_Scroller, wxID_ANY, "One ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_ID = new wxStaticText(Units_Scroller, wxID_ANY, "ID ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Type = new wxStaticText(Units_Scroller, wxID_ANY, " Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_ClassID = new wxStaticText(Units_Scroller, wxID_ANY, " Class", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_UnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_ResourceIn = new wxStaticText(Units_Scroller, wxID_ANY, " Resource In", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_SubType = new wxStaticText(Units_Scroller, wxID_ANY, " Sub Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_ResourceOut = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Out", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 3 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 4 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_ExecutionRadius = new wxStaticText(Units_Scroller, wxID_ANY, "Execution Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 5 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 6 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 7 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown8 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 8 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 9 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown10 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 10 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown11 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 11 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown12 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 12 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown13 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 13 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown14 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 14 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Graphics = new wxStaticText(Units_Scroller, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 	UnitCommands_One = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	UnitCommands_ID = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3431,10 +3431,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Buttons->Add(Units_Copy, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Paste, 1, wxEXPAND);
 
-	Units_Units_Searches[0]->Add(Units_Units_Search, 4, wxEXPAND);
-	Units_Units_Searches[0]->Add(Units_Units_UseAnd[0], 1, wxEXPAND);
-	Units_Units_Searches[1]->Add(Units_Units_Search_R, 4, wxEXPAND);
-	Units_Units_Searches[1]->Add(Units_Units_UseAnd[1], 1, wxEXPAND);
+	Units_Units_Searches[0]->Add(Units_Units_Search, 1, wxEXPAND);
+	Units_Units_Searches[0]->Add(Units_Units_UseAnd[0], 0, wxEXPAND);
+	Units_Units_Searches[1]->Add(Units_Units_Search_R, 1, wxEXPAND);
+	Units_Units_Searches[1]->Add(Units_Units_UseAnd[1], 0, wxEXPAND);
 	
 	Units_Units->Add(Units_Civs_List, 0, wxEXPAND);
 	Units_Units->Add(-1, 2);
@@ -3612,6 +3612,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Class->Add(Units_Class, 1, wxEXPAND);
 	Units_Holder_Class->Add(Units_ComboBox_Class[0], 2, wxEXPAND);
 	Units_Holder_DeathMode->Add(Units_DeathMode, 1, wxEXPAND);
+	Units_Holder_DeathMode->Add(2, -1);
 	Units_Holder_DeathMode->Add(Units_CheckBox_DeathMode, 2, wxEXPAND);
 	Units_Holder_HitPoints->Add(Units_HitPoints, 1, wxEXPAND);
 	Units_Holder_LineOfSight->Add(Units_LineOfSight, 1, wxEXPAND);
@@ -3626,13 +3627,16 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_PlacementMode->Add(Units_PlacementMode, 1, wxEXPAND);
 	Units_Holder_PlacementMode->AddStretchSpacer(1);
 	Units_Holder_AirMode->Add(Units_AirMode, 1, wxEXPAND);
+	Units_Holder_AirMode->Add(2, -1);
 	Units_Holder_AirMode->Add(Units_CheckBox_AirMode, 2, wxEXPAND);
 	Units_Holder_IconID->Add(Units_IconID, 1, wxEXPAND);
 	Units_Holder_IconID->AddStretchSpacer(1);
 	Units_Holder_HideInEditor->Add(Units_HideInEditor, 1, wxEXPAND);
+	Units_Holder_HideInEditor->Add(2, -1);
 	Units_Holder_HideInEditor->Add(Units_CheckBox_HideInEditor, 2, wxEXPAND);
 	Units_Holder_Unknown1->Add(Units_Unknown1, 1, wxEXPAND);
 	Units_Holder_Enabled->Add(Units_Enabled, 1, wxEXPAND);
+	Units_Holder_Enabled->Add(2, -1);
 	Units_Holder_Enabled->Add(Units_CheckBox_Enabled, 2, wxEXPAND);
 	for(short loop = 0;loop < 2;loop++)
 	Units_Holder_PlacementBypassTerrainGrid->Add(Units_PlacementBypassTerrain[loop], 1, wxEXPAND);
@@ -3650,10 +3654,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_BuildingMode->Add(Units_BuildingMode, 1, wxEXPAND);
 	Units_Holder_BuildingMode->AddStretchSpacer(1);
 	Units_Holder_VisibleInFog->Add(Units_VisibleInFog, 1, wxEXPAND);
+	Units_Holder_VisibleInFog->Add(2, -1);
 	Units_Holder_VisibleInFog->Add(Units_CheckBox_VisibleInFog, 2, wxEXPAND);
 	Units_Holder_TerrainRestriction->Add(Units_TerrainRestriction, 1, wxEXPAND);
 	Units_Holder_TerrainRestriction->Add(Units_ComboBox_TerrainRestriction, 1, wxEXPAND);
 	Units_Holder_FlyMode->Add(Units_FlyMode, 1, wxEXPAND);
+	Units_Holder_FlyMode->Add(2, -1);
 	Units_Holder_FlyMode->Add(Units_CheckBox_FlyMode, 2, wxEXPAND);
 	Units_Holder_ResourceCapacity->Add(Units_ResourceCapacity, 1, wxEXPAND);
 	Units_Holder_ResourceDecay->Add(Units_ResourceDecay, 1, wxEXPAND);
@@ -3791,17 +3797,20 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_CostType->Add(Units_ComboBox_CostType[loop], 1, wxEXPAND);
 	Units_Holder_CostType->Add(Units_Grid_CostType, 12, wxEXPAND);
 	Units_Holder_CostAmount->Add(Units_CostAmount[0], 4, wxEXPAND);
-	Units_Holder_CostAmount->Add(5, 5);
+	Units_Holder_CostAmount->Add(5, -1);
 	Units_Holder_CostAmount->Add(Units_CostAmount[1], 4, wxEXPAND);
-	Units_Holder_CostAmount->Add(5, 5);
+	Units_Holder_CostAmount->Add(5, -1);
 	Units_Holder_CostAmount->Add(Units_CostAmount[2], 4, wxEXPAND);
 	Units_Holder_CostUsed->Add(Units_CostUsed[0], 3, wxEXPAND);
+	Units_Holder_CostUsed->Add(2, -1);
 	Units_Holder_CostUsed->Add(Units_CheckBox_CostUsed[0], 1, wxEXPAND);
-	Units_Holder_CostUsed->Add(5, 5);
+	Units_Holder_CostUsed->Add(5, -1);
 	Units_Holder_CostUsed->Add(Units_CostUsed[1], 3, wxEXPAND);
+	Units_Holder_CostUsed->Add(2, -1);
 	Units_Holder_CostUsed->Add(Units_CheckBox_CostUsed[1], 1, wxEXPAND);
-	Units_Holder_CostUsed->Add(5, 5);
+	Units_Holder_CostUsed->Add(5, -1);
 	Units_Holder_CostUsed->Add(Units_CostUsed[2], 3, wxEXPAND);
+	Units_Holder_CostUsed->Add(2, -1);
 	Units_Holder_CostUsed->Add(Units_CheckBox_CostUsed[2], 1, wxEXPAND);
 	Units_Holder_TrainTime->Add(Units_TrainTime, 1, wxEXPAND);
 	Units_Holder_TrainTime->AddStretchSpacer(1);
@@ -4155,15 +4164,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_StatsArea2->Add(Units_Holder_WorkRate, 1, wxEXPAND);
 	
 	Units_Holder_StatsArea->Add(Units_Grid_StatsArea1, 0, wxEXPAND);
-	Units_Holder_StatsArea->Add(5, 5);
-//	Units_Holder_StatsArea->Add(Units_Holder_StatsAreaRanges, 0, wxEXPAND);
-//	Units_Holder_StatsArea->Add(5, 5);
+	Units_Holder_StatsArea->Add(-1, 5);
 	Units_Holder_StatsArea->Add(Units_Holder_Attacks, 0, wxEXPAND);
-	Units_Holder_StatsArea->Add(5, 5);
+	Units_Holder_StatsArea->Add(-1, 5);
 	Units_Holder_StatsArea->Add(Units_Holder_Armors, 0, wxEXPAND);
-	Units_Holder_StatsArea->Add(5, 5);
+	Units_Holder_StatsArea->Add(-1, 5);
 	Units_Holder_StatsArea->Add(Units_Grid_StatsAreaGarrison, 0, wxEXPAND);
-	Units_Holder_StatsArea->Add(5, 5);
+	Units_Holder_StatsArea->Add(-1, 5);
 	Units_Holder_StatsArea->Add(Units_Grid_StatsArea2, 0, wxEXPAND);
 	
 	
