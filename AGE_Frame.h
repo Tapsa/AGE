@@ -924,11 +924,13 @@ class AGE_Frame : public wxFrame
 	CheckBox_Byte * Units_CheckBox_FlyMode;
 	TextCtrl_Short * Units_ResourceCapacity;
 	TextCtrl_Float * Units_ResourceDecay;
-	TextCtrl_Byte * Units_BlastType[2];
+	TextCtrl_Byte * Units_BlastType;
+	TextCtrl_Byte * Units_Unknown2;
 	TextCtrl_Byte * Units_InteractionMode;
 	TextCtrl_Byte * Units_MinimapMode;
 	TextCtrl_Short * Units_CommandAttribute;
-	TextCtrl_Float * Units_Unknown3;
+	TextCtrl_Short * Units_Unknown3;
+	TextCtrl_Short * Units_Unknown3B;
 	TextCtrl_Byte * Units_Unknown3a;
 	TextCtrl_Short * Units_LanguageDllHelp;
 	wxStaticText * Units_DLL_LanguageDllHelp;
@@ -944,7 +946,8 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Units_SelectionMask;
 	TextCtrl_Byte * Units_SelectionShapeType;
 	TextCtrl_Byte * Units_SelectionShape;
-	TextCtrl_Byte * Units_Unknown9[4];
+	TextCtrl_Byte * Units_Attribute;
+	TextCtrl_Byte * Units_Unknown9[3];
 	TextCtrl_Byte * Units_SelectionEffect;
 	TextCtrl_Byte * Units_EditorSelectionColour;
 	wxBoxSizer * Units_SelectionRadiusBox;
@@ -1000,6 +1003,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_StopSound;
 	ComboBox_Short * Units_ComboBox_StopSound;
 	TextCtrl_Byte * Units_AnimalMode;
+	CheckBox_Byte * Units_CheckBox_AnimalMode;
 	TextCtrl_Byte * Units_Exists;
 	TextCtrl_Short * Units_CommandCount;
 
@@ -1059,7 +1063,7 @@ class AGE_Frame : public wxFrame
 	ComboBox_Short * Units_ComboBox_GarrisonGraphic[2];
 	TextCtrl_Float * Units_AttackMissileDuplicationAmount1;
 	TextCtrl_Byte * Units_AttackMissileDuplicationAmount2;
-	TextCtrl_Float * Units_AttackMissileDuplicationUnknown[3];
+	TextCtrl_Float * Units_AttackMissileDuplicationSpawning[3];
 	TextCtrl_Long * Units_AttackMissileDuplicationUnit;
 	ComboBox_Long * Units_ComboBox_AttackMissileDuplicationUnit;
 	TextCtrl_Long * Units_AttackMissileDuplicationGraphic;
@@ -1073,7 +1077,8 @@ class AGE_Frame : public wxFrame
 	ComboBox_Short * Units_ComboBox_ConstructionGraphicID;
 	TextCtrl_Short * Units_SnowGraphicID;
 	ComboBox_Short * Units_ComboBox_SnowGraphicID;
-	TextCtrl_Short * Units_Unknown30;
+	TextCtrl_Short * Units_AdjacentMode;
+	CheckBox_Short * Units_CheckBox_AdjacentMode;
 	TextCtrl_Byte * Units_Unknown31;
 	TextCtrl_Byte * Units_Unknown31b;
 	CheckBox_Byte * Units_CheckBox_Unknown31b;
@@ -1130,10 +1135,12 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_ResourceCapacity;
 	wxStaticText * Units_Text_ResourceDecay;
 	wxStaticText * Units_Text_BlastType;
+	wxStaticText * Units_Text_Unknown2;
 	wxStaticText * Units_Text_InteractionMode;
 	wxStaticText * Units_Text_MinimapMode;
 	wxStaticText * Units_Text_CommandAttribute;
 	wxStaticText * Units_Text_Unknown3;
+	wxStaticText * Units_Text_Unknown3B;
 	wxStaticText * Units_Text_Unknown3a;
 	wxStaticText * Units_Text_LanguageDllHelp;
 	wxStaticText * Units_Text_HotKey;
@@ -1145,6 +1152,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_SelectionMask;
 	wxStaticText * Units_Text_SelectionShapeType;
 	wxStaticText * Units_Text_SelectionShape;
+	wxStaticText * Units_Text_Attribute;
 	wxStaticText * Units_Text_Unknown9;
 	wxStaticText * Units_Text_SelectionEffect;
 	wxStaticText * Units_Text_EditorSelectionColour;
@@ -1187,7 +1195,6 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_VillagerMode;
 	wxStaticText * Units_Text_MoveSound;
 	wxStaticText * Units_Text_StopSound;
-	wxStaticText * Units_Text_AnimalMode;
 	wxStaticText * Units_Text_Exists;
 	wxStaticText * Units_Text_CommandCount;
 
@@ -1202,7 +1209,6 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_ReloadTime1;
 	wxStaticText * Units_Text_ProjectileUnitID;
 	wxStaticText * Units_Text_AccuracyPercent;
-	wxStaticText * Units_Text_TowerMode;
 	wxStaticText * Units_Text_Delay;
 	wxStaticText * Units_Text_GraphicDisplacement;
 	wxStaticText * Units_Text_BlastLevel;
@@ -1238,7 +1244,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_GarrisonGraphic;
 	wxStaticText * Units_Text_AttackMissileDuplicationAmount1;
 	wxStaticText * Units_Text_AttackMissileDuplicationAmount2;
-	wxStaticText * Units_Text_AttackMissileDuplicationUnknown;
+	wxStaticText * Units_Text_AttackMissileDuplicationSpawning;
 	wxStaticText * Units_Text_AttackMissileDuplicationUnit;
 	wxStaticText * Units_Text_AttackMissileDuplicationGraphic;
 	wxStaticText * Units_Text_Unknown29;
@@ -1248,7 +1254,6 @@ class AGE_Frame : public wxFrame
 
 	wxStaticText * Units_Text_ConstructionGraphicID;
 	wxStaticText * Units_Text_SnowGraphicID;
-	wxStaticText * Units_Text_Unknown30;
 	wxStaticText * Units_Text_Unknown31;
 	wxStaticText * Units_Text_Unknown31b;
 	wxStaticText * Units_Text_StackUnitID;
@@ -1309,11 +1314,12 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_ResourceCapacity;
 	wxBoxSizer * Units_Holder_ResourceDecay;
 	wxBoxSizer * Units_Holder_BlastType;
-	wxGridSizer * Units_Grid_BlastType;
+	wxBoxSizer * Units_Holder_Unknown2;
 	wxBoxSizer * Units_Holder_InteractionMode;
 	wxBoxSizer * Units_Holder_MinimapMode;
 	wxBoxSizer * Units_Holder_CommandAttribute;
 	wxBoxSizer * Units_Holder_Unknown3;
+	wxBoxSizer * Units_Holder_Unknown3B;
 	wxBoxSizer * Units_Holder_Unknown3a;
 	wxBoxSizer * Units_Holder_LanguageDllHelp;
 	wxGridSizer * Units_Grid_HotKey;
@@ -1326,6 +1332,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_SelectionMask;
 	wxBoxSizer * Units_Holder_SelectionShapeType;
 	wxBoxSizer * Units_Holder_SelectionShape;
+	wxBoxSizer * Units_Holder_Attribute;
 	wxBoxSizer * Units_Holder_Unknown9;
 	wxGridSizer * Units_Grid_Unknown9;
 	wxBoxSizer * Units_Holder_SelectionEffect;
@@ -1424,8 +1431,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_GarrisonGraphic;
 	wxBoxSizer * Units_Holder_AttackMissileDuplicationAmount1;
 	wxBoxSizer * Units_Holder_AttackMissileDuplicationAmount2;
-	wxBoxSizer * Units_Holder_AttackMissileDuplicationUnknown;
-	wxGridSizer * Units_Grid_AttackMissileDuplicationUnknown;
+	wxBoxSizer * Units_Holder_AttackMissileDuplicationSpawning;
+	wxGridSizer * Units_Grid_AttackMissileDuplicationSpawning;
 	wxBoxSizer * Units_Holder_AttackMissileDuplicationUnit;
 	wxBoxSizer * Units_Holder_AttackMissileDuplicationGraphic;
 	wxBoxSizer * Units_Holder_Unknown29;
@@ -1435,9 +1442,10 @@ class AGE_Frame : public wxFrame
 
 	wxBoxSizer * Units_Holder_ConstructionGraphicID;
 	wxBoxSizer * Units_Holder_SnowGraphicID;
-	wxBoxSizer * Units_Holder_Unknown30;
+	wxBoxSizer * Units_Holder_AdjacentMode;
 	wxBoxSizer * Units_Holder_Unknown31;
 	wxBoxSizer * Units_Holder_Unknown31b;
+	wxBoxSizer * Units_Holder_Unknown31bsub;
 	wxBoxSizer * Units_Holder_StackUnitID;
 	wxBoxSizer * Units_Holder_TerrainID;
 	wxBoxSizer * Units_Holder_Unknown32;
@@ -1584,11 +1592,9 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_AttributesDropSite;
 	wxBoxSizer * Units_Holder_AttributesSizes;
 	wxGridSizer * Units_Grid_AttributesSelection1;
-	wxGridSizer * Units_Grid_Attributes2;
 	wxBoxSizer * Units_Holder_AttributesHotKey;
 	wxGridSizer * Units_Grid_AttributesTracking;
 	wxGridSizer * Units_Grid_AttributesTrain1;
-	wxGridSizer * Units_Grid_AttributesTrain2;
 	wxGridSizer * Units_Grid_Attributes3;
 	wxBoxSizer * Units_Holder_AttributesAnnexUnit;
 	wxBoxSizer * Units_Holder_AttributesAnnexUnit2;
