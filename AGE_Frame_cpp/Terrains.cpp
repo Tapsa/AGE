@@ -479,24 +479,20 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_Name2->Add(Terrains_Text_Name2, 0, wxEXPAND);
 	Terrains_Holder_Name2->Add(Terrains_Name2, 1, wxEXPAND);
 	Terrains_Holder_SLP->Add(Terrains_Text_SLP, 0, wxEXPAND);
-	Terrains_Holder_SLP->Add(Terrains_SLP, 1, wxEXPAND);
-	Terrains_Holder_SLP->AddStretchSpacer(1);
+	Terrains_Holder_SLP->Add(Terrains_SLP, 0, wxEXPAND);
 	Terrains_Holder_Unknown3->Add(Terrains_Text_Unknown3, 0, wxEXPAND);
 	Terrains_Holder_Unknown3->Add(Terrains_Unknown3, 1, wxEXPAND);
 	Terrains_Holder_SoundID->Add(Terrains_Text_SoundID, 0, wxEXPAND);
 	Terrains_Holder_SoundID->Add(Terrains_SoundID, 1, wxEXPAND);
 	Terrains_Holder_SoundID->Add(Terrains_ComboBox_SoundID, 1, wxEXPAND);
 	Terrains_Holder_BlendPriority->Add(Terrains_Text_BlendPriority, 0, wxEXPAND);
-	Terrains_Holder_BlendPriority->Add(Terrains_BlendPriority, 1, wxEXPAND);
-	Terrains_Holder_BlendPriority->AddStretchSpacer(1);
+	Terrains_Holder_BlendPriority->Add(Terrains_BlendPriority, 0, wxEXPAND);
 	Terrains_Holder_BlendType->Add(Terrains_Text_BlendType, 0, wxEXPAND);
-	Terrains_Holder_BlendType->Add(Terrains_BlendType, 1, wxEXPAND);
-	Terrains_Holder_BlendType->AddStretchSpacer(1);
+	Terrains_Holder_BlendType->Add(Terrains_BlendType, 0, wxEXPAND);
 	for(short loop = 0;loop < 3;loop++)
 	Terrains_Grid_Colours->Add(Terrains_Colours[loop], 1, wxEXPAND);
 	Terrains_Holder_Colours->Add(Terrains_Text_Colours, 0, wxEXPAND);
 	Terrains_Holder_Colours->Add(Terrains_Grid_Colours, 0, wxEXPAND);
-	Terrains_Holder_Colours->AddStretchSpacer(1);
 	Terrains_Holder_Unknown5->Add(Terrains_Text_Unknown5, 0, wxEXPAND);
 	Terrains_Holder_Unknown5->Add(Terrains_Unknown5, 1, wxEXPAND);
 	Terrains_Holder_Unknown6->Add(Terrains_Text_Unknown6, 0, wxEXPAND);
@@ -506,8 +502,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_Unknown7->Add(Terrains_Text_Unknown7, 0, wxEXPAND);
 	Terrains_Holder_Unknown7->Add(Terrains_Grid_Unknown7, 0, wxEXPAND);
 	Terrains_Holder_FrameCount->Add(Terrains_Text_FrameCount, 0, wxEXPAND);
-	Terrains_Holder_FrameCount->Add(Terrains_FrameCount, 1, wxEXPAND);
-	Terrains_Holder_FrameCount->AddStretchSpacer(1);
+	Terrains_Holder_FrameCount->Add(Terrains_FrameCount, 0, wxEXPAND);
 	Terrains_Holder_Unknown8->Add(Terrains_Text_Unknown8, 0, wxEXPAND);
 	Terrains_Holder_Unknown8->Add(Terrains_Unknown8[0], 1, wxEXPAND);
 	Terrains_Holder_Unknown8->Add(Terrains_Unknown8[1], 1, wxEXPAND);

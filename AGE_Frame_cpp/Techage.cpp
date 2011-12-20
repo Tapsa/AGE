@@ -1187,14 +1187,12 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_Data->Add(Effects_Holder_DataE, 0, wxEXPAND);
 	Effects_Holder_Data->Add(Effects_Holder_DataF, 0, wxEXPAND);
 
-//	Effects_DataArea->AddStretchSpacer(1);
 	Effects_DataArea->Add(-1, 10);
 	Effects_DataArea->Add(Effects_Holder_Type, 0, wxEXPAND);
 	Effects_DataArea->Add(-1, 5);
 	Effects_DataArea->Add(Effects_Holder_Data, 0, wxEXPAND);
 	Effects_DataArea->Add(-1, 5);
 	Effects_DataArea->Add(Effects_Link, 0, wxEXPAND);
-//	Effects_DataArea->AddStretchSpacer(2);
 
 	Techs_Main->Add(10, -1);
 	Techs_Main->Add(Techs_ListArea, 1, wxEXPAND);
