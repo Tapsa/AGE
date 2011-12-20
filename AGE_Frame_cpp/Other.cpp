@@ -955,19 +955,25 @@ void AGE_Frame::OnGameVersionChange()
 				Research_ComboBox_RequiredTechs[loop]->Show(false);
 			}
 		}
+		if(GameVersion != 2)
+		{
+			Units_Holder_Attribute->Show(true);
+			if(ShowUnknowns) Units_Holder_Unknown9->Show(true);
+		}
+		else
+		{
+			Units_Holder_Attribute->Show(false);
+			Units_Holder_Unknown9->Show(false);
+		}
 		if(GameVersion >= 3)
 		{
-			for(short loop = 2;loop < 4;loop++)
+			for(short loop = 1;loop < 3;loop++)
 			if(ShowUnknowns) Units_Unknown9[loop]->Show(true);
 		}
 		else if(GameVersion < 2)
 		{
-			for(short loop = 2;loop < 4;loop++)
+			for(short loop = 1;loop < 3;loop++)
 			Units_Unknown9[loop]->Show(false);
-		}
-		else
-		{
-			Units_Holder_Unknown9->Show(false);
 		}
 		
 		if(GameVersion >= 2) // AoK ->
@@ -999,7 +1005,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_GarrisonGraphic->Show(true);
 			Units_Holder_AttackMissileDuplicationAmount1->Show(true);
 			Units_Holder_AttackMissileDuplicationAmount2->Show(true);
-			Units_Holder_AttackMissileDuplicationUnknown->Show(true);
+			Units_Holder_AttackMissileDuplicationSpawning->Show(true);
 			Units_Holder_AttackMissileDuplicationUnit->Show(true);
 			Units_Holder_AttackMissileDuplicationGraphic->Show(true);
 			Units_Holder_AnnexUnit1->Show(true);
@@ -1068,7 +1074,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_GarrisonGraphic->Show(false);
 			Units_Holder_AttackMissileDuplicationAmount1->Show(false);
 			Units_Holder_AttackMissileDuplicationAmount2->Show(false);
-			Units_Holder_AttackMissileDuplicationUnknown->Show(false);
+			Units_Holder_AttackMissileDuplicationSpawning->Show(false);
 			Units_Holder_AttackMissileDuplicationUnit->Show(false);
 			Units_Holder_AttackMissileDuplicationGraphic->Show(false);
 			Units_Holder_Unknown29->Show(false);
@@ -1138,6 +1144,11 @@ void AGE_Frame::OnGameVersionChange()
 	Sounds_Main->Layout();
 	Colors_Main->Layout();
 	UnitLines_Main->Layout();
+	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
+	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
+	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
+	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
+	General_Scroller->GetSizer()->FitInside(General_Scroller);
 	Refresh(); // Does this refresh non-visible tabs?
 }
 
