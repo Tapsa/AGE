@@ -803,8 +803,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_FrameType->Add(Graphics_Text_FrameType, 0, wxEXPAND);
 	Graphics_Holder_FrameType->Add(Graphics_FrameType, 1, wxEXPAND);
 	Graphics_Holder_Replay->Add(Graphics_Text_Replay, 0, wxEXPAND);
-	Graphics_Holder_Replay->Add(Graphics_Replay, 1, wxEXPAND);
-	Graphics_Holder_Replay->AddStretchSpacer(1);
+	Graphics_Holder_Replay->Add(Graphics_Replay, 0, wxEXPAND);
 	Graphics_Holder_SoundID->Add(Graphics_Text_SoundID, 0, wxEXPAND);
 	Graphics_Holder_SoundID->Add(Graphics_SoundID, 1, wxEXPAND);
 	Graphics_Holder_SoundID->Add(Graphics_ComboBox_SoundID, 1, wxEXPAND);
@@ -820,8 +819,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_FrameRate->Add(Graphics_Text_FrameRate, 0, wxEXPAND);
 	Graphics_Holder_FrameRate->Add(Graphics_FrameRate, 1, wxEXPAND);
 	Graphics_Holder_ReplayDelay->Add(Graphics_Text_ReplayDelay, 0, wxEXPAND);
-	Graphics_Holder_ReplayDelay->Add(Graphics_ReplayDelay, 1, wxEXPAND);
-	Graphics_Holder_ReplayDelay->AddStretchSpacer(1);
+	Graphics_Holder_ReplayDelay->Add(Graphics_ReplayDelay, 0, wxEXPAND);
 	Graphics_Holder_SequenceType->Add(Graphics_Text_SequenceType, 0, wxEXPAND);
 	Graphics_Holder_SequenceType->Add(Graphics_SequenceType, 1, wxEXPAND);
 	Graphics_Holder_Type->Add(Graphics_Text_Type, 0, wxEXPAND);
@@ -872,11 +870,9 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Holder_Unknown3->Add(GraphicDeltas_Text_Unknown3, 0, wxEXPAND);
 	GraphicDeltas_Holder_Unknown3->Add(GraphicDeltas_Unknown3, 1, wxEXPAND);
 	GraphicDeltas_Holder_DirectionX->Add(GraphicDeltas_Text_DirectionX, 0, wxEXPAND);
-	GraphicDeltas_Holder_DirectionX->Add(GraphicDeltas_DirectionX, 1, wxEXPAND);
-	GraphicDeltas_Holder_DirectionX->AddStretchSpacer(1);
+	GraphicDeltas_Holder_DirectionX->Add(GraphicDeltas_DirectionX, 0, wxEXPAND);
 	GraphicDeltas_Holder_DirectionY->Add(GraphicDeltas_Text_DirectionY, 0, wxEXPAND);
-	GraphicDeltas_Holder_DirectionY->Add(GraphicDeltas_DirectionY, 1, wxEXPAND);
-	GraphicDeltas_Holder_DirectionY->AddStretchSpacer(1);
+	GraphicDeltas_Holder_DirectionY->Add(GraphicDeltas_DirectionY, 0, wxEXPAND);
 	GraphicDeltas_Holder_Unknown4->Add(GraphicDeltas_Text_Unknown4, 0, wxEXPAND);
 	GraphicDeltas_Holder_Unknown4->Add(GraphicDeltas_Unknown4, 1, wxEXPAND);
 	GraphicDeltas_Holder_Unknown5->Add(GraphicDeltas_Text_Unknown5, 0, wxEXPAND);

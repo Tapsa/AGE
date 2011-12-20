@@ -246,11 +246,19 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 14)
 	{
-		Name = "Ruin (Unused)";
+		Name = "Monument, Ruin?";
+	}
+	else if(Index == 15)
+	{
+		Name = "Predator Animal Food";
+	}
+	else if(Index == 16)
+	{
+		Name = "Crops";
 	}
 	else if(Index == 17)
 	{
-		Name = "Whale Storage";
+		Name = "Fish Storage";
 	}
 	else if(Index == 19)
 	{
@@ -420,7 +428,7 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 67)
 	{
-		Name = "Conversion";
+		Name = "Conversions";
 	}
 	else if(Index == 77)
 	{
@@ -463,7 +471,7 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	else if(Index == 87)
 	{
 		if(GameVersion < 4)
-		Name = "Boarding";
+		Name = "Boardings?";
 		else
 		Name = "Concentration";
 	}

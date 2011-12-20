@@ -1014,8 +1014,9 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Float * Units_ReloadTime1;
 	TextCtrl_Short * Units_ProjectileUnitID;
 	ComboBox_Short * Units_ComboBox_ProjectileUnitID;
-	TextCtrl_Byte * Units_AccuracyPercent;
-	TextCtrl_Short * Units_TowerMode;
+	TextCtrl_Short * Units_AccuracyPercent;
+	TextCtrl_Byte * Units_TowerMode;
+	CheckBox_Byte * Units_CheckBox_TowerMode;
 	TextCtrl_Short * Units_Delay;
 	TextCtrl_Float * Units_GraphicDisplacement[3];
 	TextCtrl_Byte * Units_BlastLevel;
@@ -1073,7 +1074,9 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_SnowGraphicID;
 	ComboBox_Short * Units_ComboBox_SnowGraphicID;
 	TextCtrl_Short * Units_Unknown30;
-	TextCtrl_Short * Units_Unknown31;
+	TextCtrl_Byte * Units_Unknown31;
+	TextCtrl_Byte * Units_Unknown31b;
+	CheckBox_Byte * Units_CheckBox_Unknown31b;
 	TextCtrl_Short * Units_StackUnitID;
 	ComboBox_Short * Units_ComboBox_StackUnitID;
 	TextCtrl_Short * Units_TerrainID;
@@ -1247,6 +1250,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_SnowGraphicID;
 	wxStaticText * Units_Text_Unknown30;
 	wxStaticText * Units_Text_Unknown31;
+	wxStaticText * Units_Text_Unknown31b;
 	wxStaticText * Units_Text_StackUnitID;
 	wxStaticText * Units_Text_TerrainID;
 	wxStaticText * Units_Text_Unknown32;
@@ -1433,6 +1437,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_SnowGraphicID;
 	wxBoxSizer * Units_Holder_Unknown30;
 	wxBoxSizer * Units_Holder_Unknown31;
+	wxBoxSizer * Units_Holder_Unknown31b;
 	wxBoxSizer * Units_Holder_StackUnitID;
 	wxBoxSizer * Units_Holder_TerrainID;
 	wxBoxSizer * Units_Holder_Unknown32;
