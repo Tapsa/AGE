@@ -281,7 +281,6 @@ void AGE_Frame::CreateGeneralControls()
 	General_ScrollerWindowsSpace->Add(General_Holder_TechTree, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 10);
 	General_ScrollerWindowsSpace->Add(General_Holder_LastUnknowns, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->AddStretchSpacer(1);
 	
 	General_ScrollerWindows->Add(10, -1);
 	General_ScrollerWindows->Add(General_ScrollerWindowsSpace, 1, wxEXPAND);

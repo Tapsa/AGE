@@ -342,8 +342,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_DataTopRow->AddStretchSpacer(1);
 	
 	Borders_Holder_BorderRessourceID->Add(Borders_Text_BorderRessourceID, 0, wxEXPAND);
-	Borders_Holder_BorderRessourceID->Add(Borders_BorderRessourceID, 1, wxEXPAND);
-	Borders_Holder_BorderRessourceID->AddStretchSpacer(1);
+	Borders_Holder_BorderRessourceID->Add(Borders_BorderRessourceID, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown3->Add(Borders_Text_BorderUnknown3, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown3->Add(Borders_BorderUnknown3, 1, wxEXPAND);
 	Borders_Holder_BorderUnknown4->Add(Borders_Text_BorderUnknown4, 0, wxEXPAND);
@@ -351,8 +350,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	for(short loop = 0;loop < 3;loop++)
 	Borders_Grid_BorderColors->Add(Borders_BorderColors[loop], 1, wxEXPAND);
 	Borders_Holder_BorderColors->Add(Borders_Text_BorderColors, 0, wxEXPAND);
-	Borders_Holder_BorderColors->Add(Borders_Grid_BorderColors, 1, wxEXPAND);
-	Borders_Holder_BorderColors->AddStretchSpacer(1);
+	Borders_Holder_BorderColors->Add(Borders_Grid_BorderColors, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown5->Add(Borders_Text_BorderUnknown5, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown5->Add(Borders_BorderUnknown5, 1, wxEXPAND);
 	Borders_Holder_BorderUnknown6->Add(Borders_Text_BorderUnknown6, 0, wxEXPAND);
@@ -360,8 +358,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderUnknown7->Add(Borders_Text_BorderUnknown7, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown7->Add(Borders_BorderUnknown7, 1, wxEXPAND);
 	Borders_Holder_BorderFrameCount->Add(Borders_Text_BorderFrameCount, 0, wxEXPAND);
-	Borders_Holder_BorderFrameCount->Add(Borders_BorderFrameCount, 1, wxEXPAND);
-	Borders_Holder_BorderFrameCount->AddStretchSpacer(1);
+	Borders_Holder_BorderFrameCount->Add(Borders_BorderFrameCount, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown8->Add(Borders_Text_BorderUnknown8, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown8->Add(Borders_BorderUnknown8, 1, wxEXPAND);
 	Borders_Holder_BorderTerrain->Add(Borders_Text_BorderTerrain, 0, wxEXPAND);
