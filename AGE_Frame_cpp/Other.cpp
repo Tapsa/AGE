@@ -290,7 +290,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		UnitCommands_ComboBox_Types->Append("Unknown Animal Ability");
 		UnitCommands_ComboBox_Types->Append("Ability to Attack");
 		UnitCommands_ComboBox_Types->Append("Ability to Fly");
-		UnitCommands_ComboBox_Types->Append("Unknown Rabid Wolf Ability");
+		UnitCommands_ComboBox_Types->Append("Unknown Predator Animal Ability");
 		UnitCommands_ComboBox_Types->Append("Ability to Unload (Boat-Like)");
 		UnitCommands_ComboBox_Types->Append("Ability to Auto-Attack");
 		UnitCommands_ComboBox_Types->Append("Unknown Farm Ability");
@@ -891,11 +891,16 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Effects_ComboBox_AttributesC->Append("107 - OREX Cost?");
 		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
 		Effects_ComboBox_AttributesC->SetSelection(0);
+		
+		DataOpened = true;
+		OnGameVersionChange();
+		
+		/*wxCommandEvent UseUndoCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Undo);
+		UseUndoCommand.SetId(MenuOption_Undo);
+		UseUndoCommand.SetInt(UseUndo);
+		ProcessEvent(UseUndoCommand);*/
 	}
-	
-	DataOpened = true;
 	SetStatusText("", 0);
-	OnGameVersionChange();
 	
 	/*Extraction = new wxFileConfig("AGE_Extraction", wxEmptyString, "age2extraction.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	string Place, Data;
@@ -925,11 +930,12 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 	NeedDat = false;
 	SkipOpenDialog = false;
+
 }
 
 void AGE_Frame::OnGameVersionChange()
 {
-	if(DataOpened == true)	// Hiding stuff according to game version should be here.
+	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
 		for(short loop = 64;loop < 84;loop++)
 		{
@@ -1212,6 +1218,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopyToAllCivs", AutoCopy);
 	Config->Write("Interaction/ExtraSearchFilters", SearchFilters);
+	//Config->Write("Interaction/UseUndo", UseUndo);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
@@ -1369,6 +1376,25 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			AGEAbout.ShowModal();
 		}
 		break;
+		/*case MenuOption_Undo:
+		{
+			UseUndo = Event.IsChecked();
+			if(UseUndo)
+			{
+				Units_Undo->Enable(true);
+				if(DataOpened)
+				for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+				CivBackup[loop].Units = GenieFile->Civs[loop].Units;
+			}
+			else
+			{
+				Units_Undo->Enable(false);
+				if(DataOpened)
+			//	if(CivBackup)
+				delete [] CivBackup;
+			}
+		}
+		break;*/
 	}
 }
 
@@ -1573,6 +1599,12 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 					}
 					break;
 				}
+				/*if(UseUndo)
+				{
+					EditCount++;
+					SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+					OnTempBackup();
+				}*/
 			}
 		}
 		wxCommandEvent E;
@@ -1677,6 +1709,12 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		wxCommandEvent E;
 		OnUnitsSelect(E);	// Updates unit layout.
 //		ListUnits(UnitCivID);	// For special search filters.
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 	if(Event.GetId() == UnitCommands_ComboBox_Types->GetId())
 	{
@@ -1942,6 +1980,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 		{
 			ListUnitDamageGraphics(UnitID, UnitCivID);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -1956,6 +2000,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -1970,6 +2020,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2049,6 +2105,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 		{
 			ListUnitCommands(UnitID, UnitCivID);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2067,6 +2129,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event)
 		{
 			ListUnitDamageGraphics(UnitID, UnitCivID);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2081,6 +2149,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2095,6 +2169,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEve
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2117,6 +2197,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShortAttackType(wxFocusEvent& Event
 		{
 			ListUnitArmors(UnitID, UnitCivID);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2140,6 +2226,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2154,6 +2246,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2185,6 +2283,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_Float(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2347,6 +2451,12 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 			wxCommandEvent E;
 			OnUnitsSelect(E);
 		}
+		/*if(UseUndo)
+		{
+			EditCount++;
+			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+			OnTempBackup();
+		}*/
 	}
 }
 
@@ -2383,6 +2493,12 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event)
 		OnUnitsCopy(E);
 		OnUnitsPaste(E);
 	}
+	/*if(UseUndo)
+	{
+		EditCount++;
+		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+		OnTempBackup();
+	}*/
 }
 
 void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
@@ -2420,6 +2536,12 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 	{
 		ListUnitDamageGraphics(UnitID, UnitCivID);
 	}
+	/*if(UseUndo)
+	{
+		EditCount++;
+		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+		OnTempBackup();
+	}*/
 }
 
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType(wxCommandEvent& Event)
@@ -2439,6 +2561,12 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType(wxCommandEvent& Event)
 	{
 		ListUnitArmors(UnitID, UnitCivID);
 	}
+	/*if(UseUndo)
+	{
+		EditCount++;
+		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+		OnTempBackup();
+	}*/
 }
 
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
@@ -2450,6 +2578,12 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 		OnUnitsCopy(E);
 		OnUnitsPaste(E);
 	}
+	/*if(UseUndo)
+	{
+		EditCount++;
+		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+		OnTempBackup();
+	}*/
 }
 
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event)
@@ -2461,6 +2595,12 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event)
 		OnUnitsCopy(E);
 		OnUnitsPaste(E);
 	}
+	/*if(UseUndo)
+	{
+		EditCount++;
+		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+		OnTempBackup();
+	}*/
 }
 
 void AGE_Frame::OnUpdate_CheckBoxShort(wxCommandEvent& Event)
@@ -2482,6 +2622,12 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event)
 		OnUnitsCopy(E);
 		OnUnitsPaste(E);
 	}
+	/*if(UseUndo)
+	{
+		EditCount++;
+		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+		OnTempBackup();
+	}*/
 }
 
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent& Event)
@@ -2493,7 +2639,25 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEven
 		OnUnitsCopy(E);
 		OnUnitsPaste(E);
 	}
+	/*if(UseUndo)
+	{
+		EditCount++;
+		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
+		OnTempBackup();
+	}*/
 }
+
+/*void AGE_Frame::OnTempBackup()
+{
+	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+	UnitBackup[EditCount][loop] = GenieFile->Civs[loop].Units[UnitID];
+	IDtoRestore[EditCount] = UnitID;
+}
+
+void AGE_Frame::OnUndoing(wxCommandEvent& Event)
+{
+	
+}*/
 
 AGE_Frame::~AGE_Frame()
 {

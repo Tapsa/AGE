@@ -41,6 +41,8 @@ class AGE_Frame : public wxFrame
 
 	bool DataOpened;
 	void OnGameVersionChange();
+//	void OnTempBackup();
+//	void OnUndoing(wxCommandEvent& Event);
 //	void OnReload(wxCommandEvent& Event);
 //	void OnSectionChange(wxCommandEvent& Event);
 	void OnSave(wxCommandEvent& Event);
@@ -350,12 +352,19 @@ class AGE_Frame : public wxFrame
 	bool UseAnd[2];
 	bool ShowUnknowns;
 	bool ShowButtons;
+//	bool UseUndo;
 	bool NeedDat;
 	bool SkipOpenDialog;
 	wxFileConfig * Config;
 //	wxFileConfig * Extraction;
 	gdat::File * GenieFile;
 
+/*	gdat::File FileBackup; // Can't copy the whole file?
+	long EditCount;
+	gdat::Unit UnitBackup[100][20];
+	short IDtoRestore[100];
+	gdat::Civ CivBackup[20];	// Only temporary solution!*/
+	
 	long TechTreePage;
 	long TechTreeSize;
 	long LastUnknownsPage;
@@ -438,6 +447,7 @@ class AGE_Frame : public wxFrame
 		MenuOption_Prompt,
 		MenuOption_Unknowns,
 		MenuOption_Buttons,
+//		MenuOption_Undo,
 		MenuOption_NoAuto,
 		MenuOption_Include,
 		MenuOption_Exclude,
@@ -1557,6 +1567,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Delete;
 	wxButton * Units_Copy;
 	wxButton * Units_Paste;
+//	wxButton * Units_Undo;
 
 	wxBoxSizer * Units_DataArea;	// Unit window other-than unit-list-section
 	wxBoxSizer * Units_MainRow1;	// Unscrollable top section
