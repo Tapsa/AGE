@@ -2044,7 +2044,7 @@ string AGE_Frame::GetUnitCommandName(short Index, short UnitCivID, short UnitID)
 	}
 	else if(CommandType == 6 && CommandSubType == -1)
 	{
-		Name = "Type 6, Sub -1";
+		Name = "Unknown Animal Ability";
 	}
 	else if(CommandType == 7 && CommandSubType == -1)
 	{
@@ -2056,7 +2056,7 @@ string AGE_Frame::GetUnitCommandName(short Index, short UnitCivID, short UnitID)
 	}
 	else if(CommandType == 11 && CommandSubType == -1)
 	{
-		Name = "Type 11, Sub -1";
+		Name = "Unknown Predator Animal Ability";
 	}
 	else if(CommandType == 12 && CommandSubType == -1)
 	{
@@ -2068,7 +2068,7 @@ string AGE_Frame::GetUnitCommandName(short Index, short UnitCivID, short UnitID)
 	}
 	else if(CommandType == 21 && CommandSubType == -1)
 	{
-		Name = "Type 21, Sub -1";
+		Name = "Unknown Farm Ability";
 	}
 	else if(CommandType == 101 && CommandSubType == -1)
 	{
@@ -2567,6 +2567,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_Copy = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+//	Units_Undo = new wxButton(Tab_Units, wxID_ANY, "Undo", wxDefaultPosition, wxSize(50, 20));
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_MainRow1 = new wxBoxSizer(wxHORIZONTAL);
@@ -2852,8 +2853,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_TerrainRestriction = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ResourceCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ResourceDecay = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_BlastType = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_BlastType = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_InteractionMode = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MinimapMode = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_CommandAttribute = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4551,6 +4552,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TopRow->Add(Units_Holder_Type, 2, wxEXPAND);
 	Units_Holder_TopRow->Add(15, 15);
 	Units_Holder_TopRow->Add(Units_AutoCopyState, 2, wxEXPAND);
+//	Units_Holder_TopRow->Add(Units_Undo, 0, wxEXPAND);
 
 	Units_MainRow1->Add(Units_Holder_TopRow, 1);
 	
@@ -4618,6 +4620,7 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsDelete));
 	Connect(Units_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsCopy));
 	Connect(Units_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsPaste));
+//	Connect(Units_Undo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUndoing));
 	Connect(Units_UnitCommands_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsSelect));
 	Connect(Units_UnitCommands_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsSearch));
 	Connect(Units_UnitCommands_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsSearch));
