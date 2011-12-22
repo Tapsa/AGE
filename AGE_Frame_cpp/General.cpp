@@ -114,6 +114,40 @@ void AGE_Frame::OnDataGridPrev(wxCommandEvent& Event)
 	OnGeneralSelect(E);
 }
 
+void AGE_Frame::OnVariableCalc(wxFocusEvent& Event)
+{
+	long Result, Temp;
+	
+	if(!General_CalcBoxes[0]->IsEmpty())
+	Result = lexical_cast<short>(General_CalcBoxes[0]->GetValue());
+	else Result = 0;
+	if(Result < 0)
+	Result = (unsigned char)Result;
+	
+	if(!General_CalcBoxes[1]->IsEmpty())
+	Temp = lexical_cast<short>(General_CalcBoxes[1]->GetValue());
+	else Temp = 0;
+	if(Temp < 0)
+	Temp = (unsigned char)Temp;
+	Result = Result + 256 * Temp;
+	
+	if(!General_CalcBoxes[2]->IsEmpty())
+	Temp = lexical_cast<short>(General_CalcBoxes[2]->GetValue());
+	else Temp = 0;
+	if(Temp < 0)
+	Temp = (unsigned char)Temp;
+	Result = Result + 65536 * Temp;
+	
+	if(!General_CalcBoxes[3]->IsEmpty())
+	Temp = lexical_cast<short>(General_CalcBoxes[3]->GetValue());
+	else Temp = 0;
+	if(Temp < 0)
+	Temp = (unsigned char)Temp;
+	Result = Result + 16777216 * Temp;
+	
+	General_CalcBoxes[4]->ChangeValue("= "+lexical_cast<string>(Result));
+}
+
 void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 {
 //	
@@ -165,6 +199,9 @@ void AGE_Frame::CreateGeneralControls()
 	General_Main = new wxBoxSizer(wxVERTICAL);
 	General_TopRow = new wxBoxSizer(wxHORIZONTAL);
 	General_Refresh = new wxButton(Tab_General, wxID_ANY, "Refresh", wxDefaultPosition, wxSize(0, 20));
+	General_Text_CalcBoxes = new wxStaticText(Tab_General, wxID_ANY, " Variable Converter", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop = 0;loop < 5;loop++)
+	General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY);
 	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	General_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
@@ -217,8 +254,12 @@ void AGE_Frame::CreateGeneralControls()
 	General_LastUnknowns[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 
 	General_TopRow->Add(10, -1);
-	General_TopRow->Add(General_Refresh, 1, wxEXPAND);
-	General_TopRow->AddStretchSpacer(4);
+	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
+	General_TopRow->AddStretchSpacer(3);
+	for(short loop = 0;loop < 5;loop++)
+	General_TopRow->Add(General_CalcBoxes[loop], 1, wxEXPAND);
+	General_TopRow->Add(General_Text_CalcBoxes, 0, wxEXPAND);
+	General_TopRow->AddStretchSpacer(1);
 	
 	for(short loop = 0;loop < 138;loop++)
 	General_Grid_TerrainHeader->Add(General_TerrainHeader[loop], 1, wxEXPAND);
@@ -306,5 +347,7 @@ void AGE_Frame::CreateGeneralControls()
 	Connect(General_LastUnknownsNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
 	Connect(General_TechTreePrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
 	Connect(General_LastUnknownsPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
+	for(short loop = 0;loop < 4;loop++)
+	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 
 }

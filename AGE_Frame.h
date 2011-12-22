@@ -111,6 +111,7 @@ class AGE_Frame : public wxFrame
 	void OnDataGridPage(wxCommandEvent& Event);
 	void OnDataGridNext(wxCommandEvent& Event);
 	void OnDataGridPrev(wxCommandEvent& Event);
+	void OnVariableCalc(wxFocusEvent& Event);
 
 	void ListBorders();
 	void OnBordersSearch(wxCommandEvent& Event);
@@ -488,6 +489,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * General_Main;
 	wxBoxSizer * General_TopRow;
 	wxButton * General_Refresh;
+	wxStaticText * General_Text_CalcBoxes;
+	wxTextCtrl * General_CalcBoxes[5];
 	wxScrolledWindow * General_Scroller;
 	wxBoxSizer * General_ScrollerWindows;
 	wxBoxSizer * General_ScrollerWindowsSpace;
