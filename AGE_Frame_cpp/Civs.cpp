@@ -29,6 +29,7 @@ void AGE_Frame::ListCivs()
 	short CivID1 = Research_ComboBox_Civ->GetSelection();
 	short CivID2 = Units_Civs_List->GetSelection();
 	short CivID3 = SoundItems_ComboBox_Civ->GetSelection();
+	short CivID4 = Units_ComboBox_Civ->GetSelection();
 
 	if(Civs_Civs_List->GetCount() > 0)
 	{
@@ -45,6 +46,10 @@ void AGE_Frame::ListCivs()
 	if(SoundItems_ComboBox_Civ->GetCount() > 0)
 	{
 		SoundItems_ComboBox_Civ->Clear();
+	}
+	if(Units_ComboBox_Civ->GetCount() > 0)
+	{
+		Units_ComboBox_Civ->Clear();
 	}
 	
 	if(Selection == wxNOT_FOUND)
@@ -63,9 +68,14 @@ void AGE_Frame::ListCivs()
 	{
 		CivID3 = 0;
 	}
+	if(CivID4 == wxNOT_FOUND)
+	{
+		CivID4 = 0;
+	}
 	
 	Research_ComboBox_Civ->Append("-1 - None");
 	SoundItems_ComboBox_Civ->Append("-1 - None");
+	Units_ComboBox_Civ->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
@@ -80,6 +90,7 @@ void AGE_Frame::ListCivs()
 		Research_ComboBox_Civ->Append(Name);
 		Units_Civs_List->Append(Name);
 		SoundItems_ComboBox_Civ->Append(Name);
+		Units_ComboBox_Civ->Append(Name);
 	}
 	
 	Civs_Civs_List->SetSelection(0);
@@ -88,6 +99,7 @@ void AGE_Frame::ListCivs()
 	Research_ComboBox_Civ->SetSelection(CivID1);
 	Units_Civs_List->SetSelection(CivID2);
 	SoundItems_ComboBox_Civ->SetSelection(CivID3);
+	Units_ComboBox_Civ->SetSelection(CivID4);
 
 	wxCommandEvent E;
 	OnCivsSelect(E);
