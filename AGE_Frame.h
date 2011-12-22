@@ -960,7 +960,9 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Units_SelectionShapeType;
 	TextCtrl_Byte * Units_SelectionShape;
 	TextCtrl_Byte * Units_Attribute;
-	TextCtrl_Byte * Units_Unknown9[3];
+	TextCtrl_Byte * Units_Civ;
+	ComboBox_Byte * Units_ComboBox_Civ;
+	TextCtrl_Byte * Units_Unknown9[2];
 	TextCtrl_Byte * Units_SelectionEffect;
 	TextCtrl_Byte * Units_EditorSelectionColour;
 	wxBoxSizer * Units_SelectionRadiusBox;
@@ -1166,6 +1168,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_SelectionShapeType;
 	wxStaticText * Units_Text_SelectionShape;
 	wxStaticText * Units_Text_Attribute;
+	wxStaticText * Units_Text_Civ;
 	wxStaticText * Units_Text_Unknown9;
 	wxStaticText * Units_Text_SelectionEffect;
 	wxStaticText * Units_Text_EditorSelectionColour;
@@ -1346,6 +1349,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_SelectionShapeType;
 	wxBoxSizer * Units_Holder_SelectionShape;
 	wxBoxSizer * Units_Holder_Attribute;
+	wxBoxSizer * Units_Holder_Civ;
 	wxBoxSizer * Units_Holder_Unknown9;
 	wxGridSizer * Units_Grid_Unknown9;
 	wxBoxSizer * Units_Holder_SelectionEffect;
