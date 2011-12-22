@@ -964,22 +964,12 @@ void AGE_Frame::OnGameVersionChange()
 		if(GameVersion != 2)
 		{
 			Units_Holder_Attribute->Show(true);
-			if(ShowUnknowns) Units_Holder_Unknown9->Show(true);
+			Units_Holder_Civ->Show(true);
 		}
 		else
 		{
 			Units_Holder_Attribute->Show(false);
-			Units_Holder_Unknown9->Show(false);
-		}
-		if(GameVersion >= 3)
-		{
-			for(short loop = 1;loop < 3;loop++)
-			if(ShowUnknowns) Units_Unknown9[loop]->Show(true);
-		}
-		else if(GameVersion < 2)
-		{
-			for(short loop = 1;loop < 3;loop++)
-			Units_Unknown9[loop]->Show(false);
+			Units_Holder_Civ->Show(false);
 		}
 		
 		if(GameVersion >= 2) // AoK ->
@@ -1128,10 +1118,15 @@ void AGE_Frame::OnGameVersionChange()
 		if(GameVersion >= 3) // TC ->
 		{
 			Units_Holder_SnowGraphicID->Show(true);
-			if(ShowUnknowns) Units_Unknown20[1]->Show(true);
+			if(ShowUnknowns)
+			{
+				Units_Holder_Unknown9->Show(true);
+				Units_Unknown20[1]->Show(true);
+			}
 		}
 		else // <- AoK
 		{
+			Units_Holder_Unknown9->Show(false);
 			Units_Unknown20[1]->Show(false);
 			Units_Holder_SnowGraphicID->Show(false);
 		}
