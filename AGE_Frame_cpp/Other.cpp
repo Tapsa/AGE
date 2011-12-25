@@ -752,11 +752,15 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 
 		if(GameVersion >= 2)
-		ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
+			ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
+		else
+			Units_UnitHeads_List->Clear();
 		ListCivs();
 		ListUnits();
 		if(GameVersion >= 4)
-		ListUnitLines();
+			ListUnitLines();
+		else
+			UnitLines_UnitLines_List->Clear();
 		ListResearchs();
 		ListTechages();
 		ListGraphics();
