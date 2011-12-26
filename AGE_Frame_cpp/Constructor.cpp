@@ -113,7 +113,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	TabBar_Main->AddPage(Tab_TerrainRestrictions, "Terrain Restrictions");
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
-	TabBar_Main->SetSelection(4);
+	TabBar_Main->SetSelection(5);
 
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
