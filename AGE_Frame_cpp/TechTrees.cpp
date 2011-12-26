@@ -8,17 +8,50 @@ using std::tolower;
 
 string AGE_Frame::GetTTAgesName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTAgesSearch(wxCommandEvent& Event)
 {
-
+	ListTTAgess();
 }
 
 void AGE_Frame::ListTTAgess()
 {
-
+	string Name;
+	SearchText = wxString(TechTrees_MainList_Ages_Search->GetValue()).Lower();
+	ExcludeText = wxString(TechTrees_MainList_Ages_Search_R->GetValue()).Lower();
+	string CompareText;
+	
+	short Selection = TechTrees_MainList_Ages_List->GetSelection();
+	if(TechTrees_MainList_Ages_List->GetCount() > 0)
+	{
+		TechTrees_MainList_Ages_List->Clear();
+	}
+	if(Selection == wxNOT_FOUND)
+	{
+		Selection = 0;
+	}
+	
+	for(short loop = 0;loop < GenieFile->TechTree.TechTreeAges.size();loop++)
+	{
+		Name = lexical_cast<string>(loop);
+		Name += " - ";
+		Name += GetTTAgesName(loop);
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTTAgesName(loop)).Lower();
+		if(SearchMatches(CompareText) == true)
+		{
+			TechTrees_MainList_Ages_List->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[loop]);
+		}
+	}
+	
+	TechTrees_MainList_Ages_List->SetSelection(0);
+	TechTrees_MainList_Ages_List->SetFirstItem(Selection - 3);
+	TechTrees_MainList_Ages_List->SetSelection(Selection);
+	
+	wxCommandEvent E;
+	OnTTAgesSelect(E);
 }
 
 void AGE_Frame::OnTTAgesSelect(wxCommandEvent& Event)
@@ -49,12 +82,13 @@ void AGE_Frame::OnTTAgesPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTAgesBuildingName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTAgesBuildingSearch(wxCommandEvent& Event)
 {
-
+	ListTTAgesBuildings();
 }
 
 void AGE_Frame::ListTTAgesBuildings()
@@ -90,12 +124,13 @@ void AGE_Frame::OnTTAgesBuildingPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTAgesUnitName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTAgesUnitSearch(wxCommandEvent& Event)
 {
-
+	ListTTAgesUnits();
 }
 
 void AGE_Frame::ListTTAgesUnits()
@@ -131,12 +166,13 @@ void AGE_Frame::OnTTAgesUnitPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTAgesResearchName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTAgesResearchSearch(wxCommandEvent& Event)
 {
-
+	ListTTAgesResearches();
 }
 
 void AGE_Frame::ListTTAgesResearches()
@@ -172,17 +208,50 @@ void AGE_Frame::OnTTAgesResearchPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTBuildingName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTBuildingSearch(wxCommandEvent& Event)
 {
-
+	ListTTBuildings();
 }
 
 void AGE_Frame::ListTTBuildings()
 {
-
+	string Name;
+	SearchText = wxString(TechTrees_MainList_Buildings_Search->GetValue()).Lower();
+	ExcludeText = wxString(TechTrees_MainList_Buildings_Search_R->GetValue()).Lower();
+	string CompareText;
+	
+	short Selection = TechTrees_MainList_Buildings_List->GetSelection();
+	if(TechTrees_MainList_Buildings_List->GetCount() > 0)
+	{
+		TechTrees_MainList_Buildings_List->Clear();
+	}
+	if(Selection == wxNOT_FOUND)
+	{
+		Selection = 0;
+	}
+	
+	for(short loop = 0;loop < GenieFile->TechTree.BuildingConnections.size();loop++)
+	{
+		Name = lexical_cast<string>(loop);
+		Name += " - ";
+		Name += GetTTBuildingName(loop);
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTTBuildingName(loop)).Lower();
+		if(SearchMatches(CompareText) == true)
+		{
+			TechTrees_MainList_Buildings_List->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[loop]);
+		}
+	}
+	
+	TechTrees_MainList_Buildings_List->SetSelection(0);
+	TechTrees_MainList_Buildings_List->SetFirstItem(Selection - 3);
+	TechTrees_MainList_Buildings_List->SetSelection(Selection);
+	
+	wxCommandEvent E;
+	OnTTBuildingSelect(E);
 }
 
 void AGE_Frame::OnTTBuildingSelect(wxCommandEvent& Event)
@@ -213,12 +282,13 @@ void AGE_Frame::OnTTBuildingPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTBuildingBuildingName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTBuildingBuildingSearch(wxCommandEvent& Event)
 {
-
+	ListTTBuildingBuildings();
 }
 
 void AGE_Frame::ListTTBuildingBuildings()
@@ -254,12 +324,13 @@ void AGE_Frame::OnTTBuildingBuildingPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTBuildingUnitName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTBuildingUnitSearch(wxCommandEvent& Event)
 {
-
+	ListTTBuildingUnits();
 }
 
 void AGE_Frame::ListTTBuildingUnits()
@@ -295,12 +366,13 @@ void AGE_Frame::OnTTBuildingUnitPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTBuildingResearchName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTBuildingResearchSearch(wxCommandEvent& Event)
 {
-
+	ListTTBuildingResearches();
 }
 
 void AGE_Frame::ListTTBuildingResearches()
@@ -336,17 +408,50 @@ void AGE_Frame::OnTTBuildingResearchPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTUnitName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTUnitSearch(wxCommandEvent& Event)
 {
-
+	ListTTUnits();
 }
 
 void AGE_Frame::ListTTUnits()
 {
-
+	string Name;
+	SearchText = wxString(TechTrees_MainList_Units_Search->GetValue()).Lower();
+	ExcludeText = wxString(TechTrees_MainList_Units_Search_R->GetValue()).Lower();
+	string CompareText;
+	
+	short Selection = TechTrees_MainList_Units_List->GetSelection();
+	if(TechTrees_MainList_Units_List->GetCount() > 0)
+	{
+		TechTrees_MainList_Units_List->Clear();
+	}
+	if(Selection == wxNOT_FOUND)
+	{
+		Selection = 0;
+	}
+	
+	for(short loop = 0;loop < GenieFile->TechTree.UnitConnections.size();loop++)
+	{
+		Name = lexical_cast<string>(loop);
+		Name += " - ";
+		Name += GetTTUnitName(loop);
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTTUnitName(loop)).Lower();
+		if(SearchMatches(CompareText) == true)
+		{
+			TechTrees_MainList_Units_List->Append(Name, (void*)&GenieFile->TechTree.UnitConnections[loop]);
+		}
+	}
+	
+	TechTrees_MainList_Units_List->SetSelection(0);
+	TechTrees_MainList_Units_List->SetFirstItem(Selection - 3);
+	TechTrees_MainList_Units_List->SetSelection(Selection);
+	
+	wxCommandEvent E;
+	OnTTUnitSelect(E);
 }
 
 void AGE_Frame::OnTTUnitSelect(wxCommandEvent& Event)
@@ -377,12 +482,13 @@ void AGE_Frame::OnTTUnitPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTUnitUnitName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTUnitUnitSearch(wxCommandEvent& Event)
 {
-
+	ListTTUnitUnits();
 }
 
 void AGE_Frame::ListTTUnitUnits()
@@ -418,17 +524,50 @@ void AGE_Frame::OnTTUnitUnitPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTResearchName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTResearchSearch(wxCommandEvent& Event)
 {
-
+	ListTTResearches();
 }
 
 void AGE_Frame::ListTTResearches()
 {
-
+	string Name;
+	SearchText = wxString(TechTrees_MainList_Researches_Search->GetValue()).Lower();
+	ExcludeText = wxString(TechTrees_MainList_Researches_Search_R->GetValue()).Lower();
+	string CompareText;
+	
+	short Selection = TechTrees_MainList_Researches_List->GetSelection();
+	if(TechTrees_MainList_Researches_List->GetCount() > 0)
+	{
+		TechTrees_MainList_Researches_List->Clear();
+	}
+	if(Selection == wxNOT_FOUND)
+	{
+		Selection = 0;
+	}
+	
+	for(short loop = 0;loop < GenieFile->TechTree.ResearchConnections.size();loop++)
+	{
+		Name = lexical_cast<string>(loop);
+		Name += " - ";
+		Name += GetTTResearchName(loop);
+		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTTResearchName(loop)).Lower();
+		if(SearchMatches(CompareText) == true)
+		{
+			TechTrees_MainList_Researches_List->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[loop]);
+		}
+	}
+	
+	TechTrees_MainList_Researches_List->SetSelection(0);
+	TechTrees_MainList_Researches_List->SetFirstItem(Selection - 3);
+	TechTrees_MainList_Researches_List->SetSelection(Selection);
+	
+	wxCommandEvent E;
+	OnTTResearchSelect(E);
 }
 
 void AGE_Frame::OnTTResearchSelect(wxCommandEvent& Event)
@@ -459,12 +598,13 @@ void AGE_Frame::OnTTResearchPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTTResearchBuildingName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTResearchBuildingSearch(wxCommandEvent& Event)
 {
-
+	ListTTResearchBuildings();
 }
 
 void AGE_Frame::ListTTResearchBuildings()
@@ -497,15 +637,15 @@ void AGE_Frame::OnTTResearchBuildingPaste(wxCommandEvent& Event)
 
 }
 
-
 string AGE_Frame::GetTTResearchUnitName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTResearchUnitSearch(wxCommandEvent& Event)
 {
-
+	ListTTResearchUnits();
 }
 
 void AGE_Frame::ListTTResearchUnits()
@@ -538,15 +678,15 @@ void AGE_Frame::OnTTResearchUnitPaste(wxCommandEvent& Event)
 
 }
 
-
 string AGE_Frame::GetTTResearchResearchName(short Index)
 {
-
+	string Name = "";
+	return Name;
 }
 
 void AGE_Frame::OnTTResearchResearchSearch(wxCommandEvent& Event)
 {
-
+	ListTTResearchResearches();
 }
 
 void AGE_Frame::ListTTResearchResearches()
