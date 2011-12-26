@@ -27,6 +27,7 @@ class AGE_Frame : public wxFrame
 	void CreateGeneralControls();
 	void CreateResearchControls();
 	void CreateTechageControls();
+	void CreateTechTreeControls();
 	void CreateCivControls();
 	void CreateUnitControls();
 	void CreateUnitLineControls();
@@ -152,6 +153,134 @@ class AGE_Frame : public wxFrame
 	void OnEffectsCopy(wxCommandEvent& Event);
 	void OnEffectsPaste(wxCommandEvent& Event);
 	string GetEffectName(short Index, short TechID);
+
+//	Tech Tree Events
+
+	void ListTTAgess();
+	void OnTTAgesSearch(wxCommandEvent& Event);
+	void OnTTAgesSelect(wxCommandEvent& Event);
+	void OnTTAgesAdd(wxCommandEvent& Event);
+	void OnTTAgesDelete(wxCommandEvent& Event);
+	void OnTTAgesCopy(wxCommandEvent& Event);
+	void OnTTAgesPaste(wxCommandEvent& Event);
+	string GetTTAgesName(short Index);
+
+	void ListTTAgesBuildings();
+	void OnTTAgesBuildingSearch(wxCommandEvent& Event);
+	void OnTTAgesBuildingSelect(wxCommandEvent& Event);
+	void OnTTAgesBuildingAdd(wxCommandEvent& Event);
+	void OnTTAgesBuildingDelete(wxCommandEvent& Event);
+	void OnTTAgesBuildingCopy(wxCommandEvent& Event);
+	void OnTTAgesBuildingPaste(wxCommandEvent& Event);
+	string GetTTAgesBuildingName(short Index);
+
+	void ListTTAgesUnits();
+	void OnTTAgesUnitSearch(wxCommandEvent& Event);
+	void OnTTAgesUnitSelect(wxCommandEvent& Event);
+	void OnTTAgesUnitAdd(wxCommandEvent& Event);
+	void OnTTAgesUnitDelete(wxCommandEvent& Event);
+	void OnTTAgesUnitCopy(wxCommandEvent& Event);
+	void OnTTAgesUnitPaste(wxCommandEvent& Event);
+	string GetTTAgesUnitName(short Index);
+
+	void ListTTAgesResearches();
+	void OnTTAgesResearchSearch(wxCommandEvent& Event);
+	void OnTTAgesResearchSelect(wxCommandEvent& Event);
+	void OnTTAgesResearchAdd(wxCommandEvent& Event);
+	void OnTTAgesResearchDelete(wxCommandEvent& Event);
+	void OnTTAgesResearchCopy(wxCommandEvent& Event);
+	void OnTTAgesResearchPaste(wxCommandEvent& Event);
+	string GetTTAgesResearchName(short Index);
+
+	void ListTTBuildings();
+	void OnTTBuildingSearch(wxCommandEvent& Event);
+	void OnTTBuildingSelect(wxCommandEvent& Event);
+	void OnTTBuildingAdd(wxCommandEvent& Event);
+	void OnTTBuildingDelete(wxCommandEvent& Event);
+	void OnTTBuildingCopy(wxCommandEvent& Event);
+	void OnTTBuildingPaste(wxCommandEvent& Event);
+	string GetTTBuildingName(short Index);
+
+	void ListTTBuildingBuildings();
+	void OnTTBuildingBuildingSearch(wxCommandEvent& Event);
+	void OnTTBuildingBuildingSelect(wxCommandEvent& Event);
+	void OnTTBuildingBuildingAdd(wxCommandEvent& Event);
+	void OnTTBuildingBuildingDelete(wxCommandEvent& Event);
+	void OnTTBuildingBuildingCopy(wxCommandEvent& Event);
+	void OnTTBuildingBuildingPaste(wxCommandEvent& Event);
+	string GetTTBuildingBuildingName(short Index);
+
+	void ListTTBuildingUnits();
+	void OnTTBuildingUnitSearch(wxCommandEvent& Event);
+	void OnTTBuildingUnitSelect(wxCommandEvent& Event);
+	void OnTTBuildingUnitAdd(wxCommandEvent& Event);
+	void OnTTBuildingUnitDelete(wxCommandEvent& Event);
+	void OnTTBuildingUnitCopy(wxCommandEvent& Event);
+	void OnTTBuildingUnitPaste(wxCommandEvent& Event);
+	string GetTTBuildingUnitName(short Index);
+
+	void ListTTBuildingResearches();
+	void OnTTBuildingResearchSearch(wxCommandEvent& Event);
+	void OnTTBuildingResearchSelect(wxCommandEvent& Event);
+	void OnTTBuildingResearchAdd(wxCommandEvent& Event);
+	void OnTTBuildingResearchDelete(wxCommandEvent& Event);
+	void OnTTBuildingResearchCopy(wxCommandEvent& Event);
+	void OnTTBuildingResearchPaste(wxCommandEvent& Event);
+	string GetTTBuildingResearchName(short Index);
+
+	void ListTTUnits();
+	void OnTTUnitSearch(wxCommandEvent& Event);
+	void OnTTUnitSelect(wxCommandEvent& Event);
+	void OnTTUnitAdd(wxCommandEvent& Event);
+	void OnTTUnitDelete(wxCommandEvent& Event);
+	void OnTTUnitCopy(wxCommandEvent& Event);
+	void OnTTUnitPaste(wxCommandEvent& Event);
+	string GetTTUnitName(short Index);
+
+	void ListTTUnitUnits();
+	void OnTTUnitUnitSearch(wxCommandEvent& Event);
+	void OnTTUnitUnitSelect(wxCommandEvent& Event);
+	void OnTTUnitUnitAdd(wxCommandEvent& Event);
+	void OnTTUnitUnitDelete(wxCommandEvent& Event);
+	void OnTTUnitUnitCopy(wxCommandEvent& Event);
+	void OnTTUnitUnitPaste(wxCommandEvent& Event);
+	string GetTTUnitUnitName(short Index);
+
+	void ListTTResearches();
+	void OnTTResearchSearch(wxCommandEvent& Event);
+	void OnTTResearchSelect(wxCommandEvent& Event);
+	void OnTTResearchAdd(wxCommandEvent& Event);
+	void OnTTResearchDelete(wxCommandEvent& Event);
+	void OnTTResearchCopy(wxCommandEvent& Event);
+	void OnTTResearchPaste(wxCommandEvent& Event);
+	string GetTTResearchName(short Index);
+
+	void ListTTResearchBuildings();
+	void OnTTResearchBuildingSearch(wxCommandEvent& Event);
+	void OnTTResearchBuildingSelect(wxCommandEvent& Event);
+	void OnTTResearchBuildingAdd(wxCommandEvent& Event);
+	void OnTTResearchBuildingDelete(wxCommandEvent& Event);
+	void OnTTResearchBuildingCopy(wxCommandEvent& Event);
+	void OnTTResearchBuildingPaste(wxCommandEvent& Event);
+	string GetTTResearchBuildingName(short Index);
+
+	void ListTTResearchUnits();
+	void OnTTResearchUnitSearch(wxCommandEvent& Event);
+	void OnTTResearchUnitSelect(wxCommandEvent& Event);
+	void OnTTResearchUnitAdd(wxCommandEvent& Event);
+	void OnTTResearchUnitDelete(wxCommandEvent& Event);
+	void OnTTResearchUnitCopy(wxCommandEvent& Event);
+	void OnTTResearchUnitPaste(wxCommandEvent& Event);
+	string GetTTResearchUnitName(short Index);
+
+	void ListTTResearchResearches();
+	void OnTTResearchResearchSearch(wxCommandEvent& Event);
+	void OnTTResearchResearchSelect(wxCommandEvent& Event);
+	void OnTTResearchResearchAdd(wxCommandEvent& Event);
+	void OnTTResearchResearchDelete(wxCommandEvent& Event);
+	void OnTTResearchResearchCopy(wxCommandEvent& Event);
+	void OnTTResearchResearchPaste(wxCommandEvent& Event);
+	string GetTTResearchResearchName(short Index);
 
 //	Civilization Events
 
@@ -474,6 +603,7 @@ class AGE_Frame : public wxFrame
 	wxPanel * Tab_General;
 	wxPanel * Tab_Research;
 	wxPanel * Tab_Techage;
+	wxPanel * Tab_TechTrees;
 	wxPanel * Tab_Civs;
 	wxPanel * Tab_Units;	// Unit tab
 	wxPanel * Tab_UnitLine;
@@ -2179,6 +2309,54 @@ class AGE_Frame : public wxFrame
 	wxStaticText * UnitLineUnits_Text_Units;
 	TextCtrl_Short * UnitLineUnits_Units;
 	ComboBox_Short * UnitLineUnits_ComboBox_Units;
+	
+//	Tech Tree user interface
+
+	wxBoxSizer * TechTrees_Main;
+	wxBoxSizer * TechTrees_All;
+	wxScrolledWindow * TechTrees_Scroller;
+	wxBoxSizer * TechTrees_ScrollerWindows;
+	wxBoxSizer * TechTrees_ScrollerWindowsSpace;
+	wxStaticBoxSizer * TechTrees_Ages;
+	wxStaticBoxSizer * TechTrees_Buildings;
+	wxStaticBoxSizer * TechTrees_Units;
+	wxStaticBoxSizer * TechTrees_Researches;
+	wxBoxSizer * TechTrees_MainList_Ages;
+	wxBoxSizer * TechTrees_MainList_Buildings;
+	wxBoxSizer * TechTrees_MainList_Units;
+	wxBoxSizer * TechTrees_MainList_Researches;
+	wxTextCtrl * TechTrees_MainList_Ages_Search;
+	wxTextCtrl * TechTrees_MainList_Buildings_Search;
+	wxTextCtrl * TechTrees_MainList_Units_Search;
+	wxTextCtrl * TechTrees_MainList_Researches_Search;
+	wxTextCtrl * TechTrees_MainList_Ages_Search_R;
+	wxTextCtrl * TechTrees_MainList_Buildings_Search_R;
+	wxTextCtrl * TechTrees_MainList_Units_Search_R;
+	wxTextCtrl * TechTrees_MainList_Researches_Search_R;
+	wxListBox * TechTrees_MainList_Ages_List;
+	wxListBox * TechTrees_MainList_Buildings_List;
+	wxListBox * TechTrees_MainList_Units_List;
+	wxListBox * TechTrees_MainList_Researches_List;
+	wxGridSizer * TechTrees_MainList_Ages_Buttons;
+	wxGridSizer * TechTrees_MainList_Buildings_Buttons;
+	wxGridSizer * TechTrees_MainList_Units_Buttons;
+	wxGridSizer * TechTrees_MainList_Researches_Buttons;
+	wxButton * TechTrees_MainList_Ages_Add;
+	wxButton * TechTrees_MainList_Buildings_Add;
+	wxButton * TechTrees_MainList_Units_Add;
+	wxButton * TechTrees_MainList_Researches_Add;
+	wxButton * TechTrees_MainList_Ages_Delete;
+	wxButton * TechTrees_MainList_Buildings_Delete;
+	wxButton * TechTrees_MainList_Units_Delete;
+	wxButton * TechTrees_MainList_Researches_Delete;
+	wxButton * TechTrees_MainList_Ages_Copy;
+	wxButton * TechTrees_MainList_Buildings_Copy;
+	wxButton * TechTrees_MainList_Units_Copy;
+	wxButton * TechTrees_MainList_Researches_Copy;
+	wxButton * TechTrees_MainList_Ages_Paste;
+	wxButton * TechTrees_MainList_Buildings_Paste;
+	wxButton * TechTrees_MainList_Units_Paste;
+	wxButton * TechTrees_MainList_Researches_Paste;
 
 };
 
