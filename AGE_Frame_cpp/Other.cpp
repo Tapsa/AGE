@@ -752,15 +752,33 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 
 		if(GameVersion >= 2)
+		{
 			ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
+			ListTTAgess();
+			ListTTBuildings();
+			ListTTUnits();
+			ListTTResearches();
+		}
 		else
+		{
+			if(Units_UnitHeads_List->GetCount() > 0)
 			Units_UnitHeads_List->Clear();
+		}
 		ListCivs();
 		ListUnits();
 		if(GameVersion >= 4)
+		{
 			ListUnitLines();
+		}
 		else
+		{
+			if(UnitLines_UnitLines_List->GetCount() > 0)
 			UnitLines_UnitLines_List->Clear();
+			if(Units_ComboBox_Unitline->GetCount() > 0)
+			Units_ComboBox_Unitline->Clear();
+			if(UnitLines_UnitLineUnits_List->GetCount() > 0)
+			UnitLines_UnitLineUnits_List->Clear();
+		}
 		ListResearchs();
 		ListTechages();
 		ListGraphics();
