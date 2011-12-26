@@ -168,8 +168,8 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 			General_LastUnknownsPicker->ChangeValue(lexical_cast<string>(LastUnknownsPage));
 			for(long loop = 0;loop < 256;loop++)
 			{
-				General_LastUnknowns[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->TechTrees[loop+LastUnknownsPage]));
-				General_LastUnknowns[loop]->Container = &GenieFile->TechTrees[loop+LastUnknownsPage];
+			//	General_LastUnknowns[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->TechTrees[loop+LastUnknownsPage]));
+			//	General_LastUnknowns[loop]->Container = &GenieFile->TechTrees[loop+LastUnknownsPage];
 			}
 			if(GameVersion >= 4)
 			{

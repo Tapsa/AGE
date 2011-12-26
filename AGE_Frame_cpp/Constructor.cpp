@@ -86,10 +86,11 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	this->SetMenuBar(MenuBar_Main);
 
+	CreateCivControls();
 	CreateUnitControls();
 	CreateResearchControls();
 	CreateTechageControls();
-	CreateCivControls();
+	CreateTechTreeControls();
 	CreateGraphicsControls();
 	CreateTerrainControls();
 	CreateTerrainRestrictionControls();
@@ -102,6 +103,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	TabBar_Main->AddPage(Tab_General, "General");
 	TabBar_Main->AddPage(Tab_Research, "Researches");
 	TabBar_Main->AddPage(Tab_Techage, "Technologies");
+	TabBar_Main->AddPage(Tab_TechTrees, "Technology Trees");
 	TabBar_Main->AddPage(Tab_Civs, "Civilizations");
 	TabBar_Main->AddPage(Tab_Units, "Units");
 	TabBar_Main->AddPage(Tab_UnitLine, "Unitline");
