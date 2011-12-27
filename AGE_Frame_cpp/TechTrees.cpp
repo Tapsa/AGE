@@ -79,14 +79,14 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent& Event)
 		TechTrees_Ages_Unknown4->Container = &AgePointer->Unknown4;
 		for(short loop = 0;loop < 49;loop++)
 		{
-			TechTrees_Ages_Zeroes[loop]->ChangeValue(lexical_cast<string>(AgePointer->Zeroes[loop]));
-			TechTrees_Ages_Zeroes[loop]->Container = &AgePointer->Zeroes[loop];
+			TechTrees_Ages_Zeroes1[loop]->ChangeValue(lexical_cast<string>(AgePointer->Zeroes[loop]));
+			TechTrees_Ages_Zeroes1[loop]->Container = &AgePointer->Zeroes[loop];
 		}
 		if(GameVersion >= 4)
 		for(short loop = 49;loop < 99;loop++)
 		{
-			TechTrees_Ages_Zeroes[loop]->ChangeValue(lexical_cast<string>(AgePointer->Zeroes[loop]));
-			TechTrees_Ages_Zeroes[loop]->Container = &AgePointer->Zeroes[loop];
+			TechTrees_Ages_Zeroes2[loop-49]->ChangeValue(lexical_cast<string>(AgePointer->Zeroes[loop]));
+			TechTrees_Ages_Zeroes2[loop-49]->Container = &AgePointer->Zeroes[loop];
 		}
 
 		Added = false;
@@ -1965,10 +1965,13 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Ages_Text_Unknown4 = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Second Age Number?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Ages_Unknown4 = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
 	TechTrees_Ages_Holder_Zeroes = new wxBoxSizer(wxVERTICAL);
-	TechTrees_Ages_Grid_Zeroes = new wxGridSizer(10, 0, 0);
+	TechTrees_Ages_Grid_Zeroes1 = new wxGridSizer(10, 0, 0);
+	TechTrees_Ages_Grid_Zeroes2 = new wxGridSizer(10, 0, 0);
 	TechTrees_Ages_Text_Zeroes = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Zeroes", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0;loop < 99;loop++)
-	TechTrees_Ages_Zeroes[loop] = new TextCtrl_Short(TechTrees_Scroller, "0", NULL);
+	for(short loop = 0;loop < 49;loop++)
+	TechTrees_Ages_Zeroes1[loop] = new TextCtrl_Short(TechTrees_Scroller, "0", NULL);
+	for(short loop = 0;loop < 50;loop++)
+	TechTrees_Ages_Zeroes2[loop] = new TextCtrl_Short(TechTrees_Scroller, "0", NULL);
 	
 	TechTrees_MainList_Ages_Buttons->Add(TechTrees_MainList_Ages_Add, 1, wxEXPAND);
 	TechTrees_MainList_Buildings_Buttons->Add(TechTrees_MainList_Buildings_Add, 1, wxEXPAND);
@@ -2150,10 +2153,13 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_Holder_Unknown3, 1, wxEXPAND);
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_Holder_Unknown2, 1, wxEXPAND);
 	
-	for(short loop = 0;loop < 99;loop++)
-	TechTrees_Ages_Grid_Zeroes->Add(TechTrees_Ages_Zeroes[loop], 1, wxEXPAND);
+	for(short loop = 0;loop < 49;loop++)
+	TechTrees_Ages_Grid_Zeroes1->Add(TechTrees_Ages_Zeroes1[loop], 1, wxEXPAND);
+	for(short loop = 0;loop < 50;loop++)
+	TechTrees_Ages_Grid_Zeroes2->Add(TechTrees_Ages_Zeroes2[loop], 1, wxEXPAND);
 	TechTrees_Ages_Holder_Zeroes->Add(TechTrees_Ages_Text_Zeroes, 0, wxEXPAND);
-	TechTrees_Ages_Holder_Zeroes->Add(TechTrees_Ages_Grid_Zeroes, 0, wxEXPAND);
+	TechTrees_Ages_Holder_Zeroes->Add(TechTrees_Ages_Grid_Zeroes1, 0, wxEXPAND);
+	TechTrees_Ages_Holder_Zeroes->Add(TechTrees_Ages_Grid_Zeroes2, 0, wxEXPAND);
 	
 	TechTrees_Data_Ages->Add(TechTrees_Data_Ages1, 0, wxEXPAND);
 	TechTrees_Data_Ages->Add(-1, 5);
