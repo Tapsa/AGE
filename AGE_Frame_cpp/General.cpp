@@ -18,32 +18,22 @@ void AGE_Frame::ListGeneral()
 			break;
 		case 2:
 			TechTreeSize = lexical_cast<long>(12722);
-			LastUnknownsSize = lexical_cast<long>(21642);
 			break;
 		case 3:
 			TechTreeSize = lexical_cast<long>(12722);
-			LastUnknownsSize = lexical_cast<long>(27062);
 			break;
 		case 4:
 			TechTreeSize = lexical_cast<long>(698);
-			LastUnknownsSize = lexical_cast<long>(89340);
 			break;
 		case 5:
 			TechTreeSize = lexical_cast<long>(698);
-			LastUnknownsSize = lexical_cast<long>(116819);
 			break;
 		default: break;
 	}
 	General_TechTreeSize->SetLabel("Size: "+lexical_cast<string>(TechTreeSize));
 	TechTreePage = lexical_cast<long>(0);
 	General_TechTreePicker->ChangeValue(lexical_cast<string>(TechTreePage));
-	if(GameVersion >= 2)
-	{
-		General_LastUnknownsSize->SetLabel("Size: "+lexical_cast<string>(LastUnknownsSize));
-		LastUnknownsPage = lexical_cast<long>(0);
-		General_LastUnknownsPicker->ChangeValue(lexical_cast<string>(LastUnknownsPage));
-	}
-	
+
 	wxCommandEvent E;
 	OnGeneralSelect(E);
 }
@@ -60,16 +50,6 @@ void AGE_Frame::OnDataGridPage(wxCommandEvent& Event)
 		if(TechTreePage < 0)
 		TechTreePage = lexical_cast<long>(0);
 	}
-	if(Event.GetId() == General_LastUnknownsPicker->GetId())
-	{
-		LastUnknownsPage = lexical_cast<long>(0);
-		if(!General_LastUnknownsPicker->IsEmpty())
-		LastUnknownsPage = lexical_cast<long>(General_LastUnknownsPicker->GetValue());
-		if(LastUnknownsPage >= (LastUnknownsSize - 256))
-		LastUnknownsPage = lexical_cast<long>(LastUnknownsSize - 256);
-		if(LastUnknownsPage < 0)
-		LastUnknownsPage = lexical_cast<long>(0);
-	}
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
@@ -82,12 +62,6 @@ void AGE_Frame::OnDataGridNext(wxCommandEvent& Event)
 		TechTreePage += lexical_cast<long>(256);
 		if(TechTreePage >= (TechTreeSize - 256))
 		TechTreePage = lexical_cast<long>(TechTreeSize - 256);
-	}
-	if(Event.GetId() == General_LastUnknownsNext->GetId())
-	{
-		LastUnknownsPage += lexical_cast<long>(256);
-		if(LastUnknownsPage >= (LastUnknownsSize - 256))
-		LastUnknownsPage = lexical_cast<long>(LastUnknownsSize - 256);
 	}
 
 	wxCommandEvent E;
@@ -102,12 +76,6 @@ void AGE_Frame::OnDataGridPrev(wxCommandEvent& Event)
 		if(TechTreePage < 0)
 		TechTreePage = lexical_cast<long>(0);
 		
-	}
-	if(Event.GetId() == General_LastUnknownsPrev->GetId())
-	{
-		LastUnknownsPage -= lexical_cast<long>(256);
-		if(LastUnknownsPage < 0)
-		LastUnknownsPage = lexical_cast<long>(0);
 	}
 
 	wxCommandEvent E;
@@ -163,29 +131,20 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 			General_TechTree[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->RenderingPlusSomething[loop+TechTreePage]));
 			General_TechTree[loop]->Container = &GenieFile->RenderingPlusSomething[loop+TechTreePage];
 		}
-		if(GameVersion >= 2)
+		if(GameVersion >= 4)
 		{
-			General_LastUnknownsPicker->ChangeValue(lexical_cast<string>(LastUnknownsPage));
-			for(long loop = 0;loop < 256;loop++)
-			{
-			//	General_LastUnknowns[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->TechTrees[loop+LastUnknownsPage]));
-			//	General_LastUnknowns[loop]->Container = &GenieFile->TechTrees[loop+LastUnknownsPage];
-			}
-			if(GameVersion >= 4)
-			{
-				General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
-				General_SUnknown2->Container = &GenieFile->SUnknown2;
-				General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
-				General_SUnknown3->Container = &GenieFile->SUnknown3;
-				General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
-				General_SUnknown4->Container = &GenieFile->SUnknown4;
-				General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
-				General_SUnknown5->Container = &GenieFile->SUnknown5;
-				General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
-				General_SUnknown7->Container = &GenieFile->SUnknown7;
-				General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
-				General_SUnknown8->Container = &GenieFile->SUnknown8;
-			}
+			General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
+			General_SUnknown2->Container = &GenieFile->SUnknown2;
+			General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
+			General_SUnknown3->Container = &GenieFile->SUnknown3;
+			General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
+			General_SUnknown4->Container = &GenieFile->SUnknown4;
+			General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
+			General_SUnknown5->Container = &GenieFile->SUnknown5;
+			General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
+			General_SUnknown7->Container = &GenieFile->SUnknown7;
+			General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
+			General_SUnknown8->Container = &GenieFile->SUnknown8;
 		}
 	}
 //	for(long loop = 0;loop < LastUnknownsSize;loop++)
@@ -242,17 +201,6 @@ void AGE_Frame::CreateGeneralControls()
 	for(short loop = 0;loop < 256;loop++)
 	General_TechTree[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 
-	General_Holder_LastUnknowns = new wxBoxSizer(wxVERTICAL);
-	General_Holder_LastUnknownsTop = new wxBoxSizer(wxHORIZONTAL);
-	General_LastUnknownsPicker = new wxTextCtrl(General_Scroller, wxID_ANY);
-	General_LastUnknownsNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
-	General_LastUnknownsPrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
-	General_LastUnknownsSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Size", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Grid_LastUnknowns = new wxGridSizer(16, 0, 0);
-	General_Text_LastUnknowns = new wxStaticText(General_Scroller, wxID_ANY, " Tech Trees", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0;loop < 256;loop++)
-	General_LastUnknowns[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
-
 	General_TopRow->Add(10, -1);
 	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
 	General_TopRow->AddStretchSpacer(3);
@@ -301,29 +249,11 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_TechTree->Add(-1, 5);
 	General_Holder_TechTree->Add(General_Grid_TechTree, 0, wxEXPAND);
 
-	General_Holder_LastUnknownsTop->Add(General_Text_LastUnknowns, 0, wxEXPAND);
-	General_Holder_LastUnknownsTop->Add(5, -1);
-	General_Holder_LastUnknownsTop->Add(General_LastUnknownsPicker, 1, wxEXPAND);
-	General_Holder_LastUnknownsTop->Add(5, -1);
-	General_Holder_LastUnknownsTop->Add(General_LastUnknownsNext, 1, wxEXPAND);
-	General_Holder_LastUnknownsTop->Add(5, -1);
-	General_Holder_LastUnknownsTop->Add(General_LastUnknownsPrev, 1, wxEXPAND);
-	General_Holder_LastUnknownsTop->Add(5, -1);
-	General_Holder_LastUnknownsTop->Add(General_LastUnknownsSize, 1, wxEXPAND);
-	General_Holder_LastUnknownsTop->AddStretchSpacer(2);
-	for(short loop = 0;loop < 256;loop++)
-	General_Grid_LastUnknowns->Add(General_LastUnknowns[loop], 1, wxEXPAND);
-	General_Holder_LastUnknowns->Add(General_Holder_LastUnknownsTop, 0, wxEXPAND);
-	General_Holder_LastUnknowns->Add(-1, 5);
-	General_Holder_LastUnknowns->Add(General_Grid_LastUnknowns, 0, wxEXPAND);
-
 	General_ScrollerWindowsSpace->Add(General_Grid_Variables, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 10);
 	General_ScrollerWindowsSpace->Add(General_Holder_TerrainHeader, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 10);
 	General_ScrollerWindowsSpace->Add(General_Holder_TechTree, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_Holder_LastUnknowns, 0, wxEXPAND);
 	
 	General_ScrollerWindows->Add(10, -1);
 	General_ScrollerWindows->Add(General_ScrollerWindowsSpace, 1, wxEXPAND);
@@ -342,11 +272,8 @@ void AGE_Frame::CreateGeneralControls()
 	
 	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGeneralSelect));
 	Connect(General_TechTreePicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
-	Connect(General_LastUnknownsPicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
 	Connect(General_TechTreeNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
-	Connect(General_LastUnknownsNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
 	Connect(General_TechTreePrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
-	Connect(General_LastUnknownsPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
 	for(short loop = 0;loop < 4;loop++)
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 
