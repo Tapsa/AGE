@@ -10,7 +10,6 @@
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
-//#include "AGE_ScrolledWindow.h"
 
 #ifndef AGEFrame_h
 #define AGEFrame_h
@@ -165,32 +164,32 @@ class AGE_Frame : public wxFrame
 	void OnTTAgesPaste(wxCommandEvent& Event);
 	string GetTTAgesName(short Index);
 
-	void ListTTAgesBuildings();
+	void ListTTAgesBuildings(short Index);
 	void OnTTAgesBuildingSearch(wxCommandEvent& Event);
 	void OnTTAgesBuildingSelect(wxCommandEvent& Event);
 	void OnTTAgesBuildingAdd(wxCommandEvent& Event);
 	void OnTTAgesBuildingDelete(wxCommandEvent& Event);
 	void OnTTAgesBuildingCopy(wxCommandEvent& Event);
 	void OnTTAgesBuildingPaste(wxCommandEvent& Event);
-	string GetTTAgesBuildingName(short Index);
+	string GetTTAgesBuildingName(short Index, short Upper);
 
-	void ListTTAgesUnits();
+	void ListTTAgesUnits(short Index);
 	void OnTTAgesUnitSearch(wxCommandEvent& Event);
 	void OnTTAgesUnitSelect(wxCommandEvent& Event);
 	void OnTTAgesUnitAdd(wxCommandEvent& Event);
 	void OnTTAgesUnitDelete(wxCommandEvent& Event);
 	void OnTTAgesUnitCopy(wxCommandEvent& Event);
 	void OnTTAgesUnitPaste(wxCommandEvent& Event);
-	string GetTTAgesUnitName(short Index);
+	string GetTTAgesUnitName(short Index, short Upper);
 
-	void ListTTAgesResearches();
+	void ListTTAgesResearches(short Index);
 	void OnTTAgesResearchSearch(wxCommandEvent& Event);
 	void OnTTAgesResearchSelect(wxCommandEvent& Event);
 	void OnTTAgesResearchAdd(wxCommandEvent& Event);
 	void OnTTAgesResearchDelete(wxCommandEvent& Event);
 	void OnTTAgesResearchCopy(wxCommandEvent& Event);
 	void OnTTAgesResearchPaste(wxCommandEvent& Event);
-	string GetTTAgesResearchName(short Index);
+	string GetTTAgesResearchName(short Index, short Upper);
 
 	void ListTTBuildings();
 	void OnTTBuildingSearch(wxCommandEvent& Event);
@@ -201,32 +200,32 @@ class AGE_Frame : public wxFrame
 	void OnTTBuildingPaste(wxCommandEvent& Event);
 	string GetTTBuildingName(short Index);
 
-	void ListTTBuildingBuildings();
+	void ListTTBuildingBuildings(short Index);
 	void OnTTBuildingBuildingSearch(wxCommandEvent& Event);
 	void OnTTBuildingBuildingSelect(wxCommandEvent& Event);
 	void OnTTBuildingBuildingAdd(wxCommandEvent& Event);
 	void OnTTBuildingBuildingDelete(wxCommandEvent& Event);
 	void OnTTBuildingBuildingCopy(wxCommandEvent& Event);
 	void OnTTBuildingBuildingPaste(wxCommandEvent& Event);
-	string GetTTBuildingBuildingName(short Index);
+	string GetTTBuildingBuildingName(short Index, short Upper);
 
-	void ListTTBuildingUnits();
+	void ListTTBuildingUnits(short Index);
 	void OnTTBuildingUnitSearch(wxCommandEvent& Event);
 	void OnTTBuildingUnitSelect(wxCommandEvent& Event);
 	void OnTTBuildingUnitAdd(wxCommandEvent& Event);
 	void OnTTBuildingUnitDelete(wxCommandEvent& Event);
 	void OnTTBuildingUnitCopy(wxCommandEvent& Event);
 	void OnTTBuildingUnitPaste(wxCommandEvent& Event);
-	string GetTTBuildingUnitName(short Index);
+	string GetTTBuildingUnitName(short Index, short Upper);
 
-	void ListTTBuildingResearches();
+	void ListTTBuildingResearches(short Index);
 	void OnTTBuildingResearchSearch(wxCommandEvent& Event);
 	void OnTTBuildingResearchSelect(wxCommandEvent& Event);
 	void OnTTBuildingResearchAdd(wxCommandEvent& Event);
 	void OnTTBuildingResearchDelete(wxCommandEvent& Event);
 	void OnTTBuildingResearchCopy(wxCommandEvent& Event);
 	void OnTTBuildingResearchPaste(wxCommandEvent& Event);
-	string GetTTBuildingResearchName(short Index);
+	string GetTTBuildingResearchName(short Index, short Upper);
 
 	void ListTTUnits();
 	void OnTTUnitSearch(wxCommandEvent& Event);
@@ -237,14 +236,14 @@ class AGE_Frame : public wxFrame
 	void OnTTUnitPaste(wxCommandEvent& Event);
 	string GetTTUnitName(short Index);
 
-	void ListTTUnitUnits();
+	void ListTTUnitUnits(short Index);
 	void OnTTUnitUnitSearch(wxCommandEvent& Event);
 	void OnTTUnitUnitSelect(wxCommandEvent& Event);
 	void OnTTUnitUnitAdd(wxCommandEvent& Event);
 	void OnTTUnitUnitDelete(wxCommandEvent& Event);
 	void OnTTUnitUnitCopy(wxCommandEvent& Event);
 	void OnTTUnitUnitPaste(wxCommandEvent& Event);
-	string GetTTUnitUnitName(short Index);
+	string GetTTUnitUnitName(short Index, short Upper);
 
 	void ListTTResearches();
 	void OnTTResearchSearch(wxCommandEvent& Event);
@@ -255,32 +254,32 @@ class AGE_Frame : public wxFrame
 	void OnTTResearchPaste(wxCommandEvent& Event);
 	string GetTTResearchName(short Index);
 
-	void ListTTResearchBuildings();
+	void ListTTResearchBuildings(short Index);
 	void OnTTResearchBuildingSearch(wxCommandEvent& Event);
 	void OnTTResearchBuildingSelect(wxCommandEvent& Event);
 	void OnTTResearchBuildingAdd(wxCommandEvent& Event);
 	void OnTTResearchBuildingDelete(wxCommandEvent& Event);
 	void OnTTResearchBuildingCopy(wxCommandEvent& Event);
 	void OnTTResearchBuildingPaste(wxCommandEvent& Event);
-	string GetTTResearchBuildingName(short Index);
+	string GetTTResearchBuildingName(short Index, short Upper);
 
-	void ListTTResearchUnits();
+	void ListTTResearchUnits(short Index);
 	void OnTTResearchUnitSearch(wxCommandEvent& Event);
 	void OnTTResearchUnitSelect(wxCommandEvent& Event);
 	void OnTTResearchUnitAdd(wxCommandEvent& Event);
 	void OnTTResearchUnitDelete(wxCommandEvent& Event);
 	void OnTTResearchUnitCopy(wxCommandEvent& Event);
 	void OnTTResearchUnitPaste(wxCommandEvent& Event);
-	string GetTTResearchUnitName(short Index);
+	string GetTTResearchUnitName(short Index, short Upper);
 
-	void ListTTResearchResearches();
+	void ListTTResearchResearches(short Index);
 	void OnTTResearchResearchSearch(wxCommandEvent& Event);
 	void OnTTResearchResearchSelect(wxCommandEvent& Event);
 	void OnTTResearchResearchAdd(wxCommandEvent& Event);
 	void OnTTResearchResearchDelete(wxCommandEvent& Event);
 	void OnTTResearchResearchCopy(wxCommandEvent& Event);
 	void OnTTResearchResearchPaste(wxCommandEvent& Event);
-	string GetTTResearchResearchName(short Index);
+	string GetTTResearchResearchName(short Index, short Upper);
 
 //	Civilization Events
 
@@ -505,6 +504,35 @@ class AGE_Frame : public wxFrame
 	short TechID;
 	gdat::TechageEffect EffectCopy;
 	short EffectID;
+	gdat::TechTreeAge TTAgeCopy;
+	short TTAgeID;
+	long TTAgeBuildingCopy;
+	long TTAgeBuildingID;
+	long TTAgeUnitCopy;
+	long TTAgeUnitID;
+	long TTAgeResearchCopy;
+	long TTAgeResearchID;
+	gdat::BuildingConnection TTBuildingConnectionCopy;
+	short TTBuildingConnectionID;
+	long TTBuildingBuildingCopy;
+	long TTBuildingBuildingID;
+	long TTBuildingUnitCopy;
+	long TTBuildingUnitID;
+	long TTBuildingResearchCopy;
+	long TTBuildingResearchID;
+	gdat::UnitConnection TTUnitConnectionCopy;
+	short TTUnitConnectionID;
+	long TTUnitUnitCopy;
+	long TTUnitUnitID;
+	gdat::ResearchConnection TTResearchConnectionCopy;
+	short TTResearchConnectionID;
+	long TTResearchBuildingCopy;
+	long TTResearchBuildingID;
+	long TTResearchUnitCopy;
+	long TTResearchUnitID;
+	long TTResearchResearchCopy;
+	long TTResearchResearchID;
+	
 	gdat::Civ CivCopy;
 	short CivID;
 	float ResourceCopy;
