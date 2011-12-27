@@ -498,8 +498,6 @@ class AGE_Frame : public wxFrame
 	
 	long TechTreePage;
 	long TechTreeSize;
-	long LastUnknownsPage;
-	long LastUnknownsSize;
 	gdat::Research ResearchCopy;
 	short ResearchID;
 	gdat::Techage TechageCopy;
@@ -764,16 +762,6 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * General_Grid_TechTree;
 	TextCtrl_Byte * General_TechTree[256];
 
-	wxBoxSizer * General_Holder_LastUnknowns;
-	wxBoxSizer * General_Holder_LastUnknownsTop;
-	wxStaticText * General_Text_LastUnknowns;
-	wxTextCtrl * General_LastUnknownsPicker;
-	wxButton * General_LastUnknownsNext;
-	wxButton * General_LastUnknownsPrev;
-	wxStaticText * General_LastUnknownsSize;
-	wxGridSizer * General_Grid_LastUnknowns;
-	TextCtrl_Byte * General_LastUnknowns[256];
-	
 //	Researchs user interface
 
 	wxBoxSizer * Research_Main;
@@ -2513,9 +2501,11 @@ class AGE_Frame : public wxFrame
 	wxStaticText * TechTrees_Ages_Text_Unknown4;
 	TextCtrl_Long * TechTrees_Ages_Unknown4;
 	wxBoxSizer * TechTrees_Ages_Holder_Zeroes;
-	wxGridSizer * TechTrees_Ages_Grid_Zeroes;
+	wxGridSizer * TechTrees_Ages_Grid_Zeroes1;
+	wxGridSizer * TechTrees_Ages_Grid_Zeroes2;
 	wxStaticText * TechTrees_Ages_Text_Zeroes;
-	TextCtrl_Short * TechTrees_Ages_Zeroes[99];
+	TextCtrl_Short * TechTrees_Ages_Zeroes1[49];
+	TextCtrl_Short * TechTrees_Ages_Zeroes2[50];
 
 };
 

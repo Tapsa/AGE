@@ -763,6 +763,34 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		{
 			if(Units_UnitHeads_List->GetCount() > 0)
 			Units_UnitHeads_List->Clear();
+			if(TechTrees_MainList_Ages_List->GetCount() > 0)
+			TechTrees_MainList_Ages_List->Clear();
+			if(TechTrees_DataList_Ages_List_Buildings->GetCount() > 0)
+			TechTrees_DataList_Ages_List_Buildings->Clear();
+			if(TechTrees_DataList_Ages_List_Units->GetCount() > 0)
+			TechTrees_DataList_Ages_List_Units->Clear();
+			if(TechTrees_DataList_Ages_List_Researches->GetCount() > 0)
+			TechTrees_DataList_Ages_List_Researches->Clear();
+			if(TechTrees_MainList_Buildings_List->GetCount() > 0)
+			TechTrees_MainList_Buildings_List->Clear();
+			if(TechTrees_DataList_Buildings_List_Buildings->GetCount() > 0)
+			TechTrees_DataList_Buildings_List_Buildings->Clear();
+			if(TechTrees_DataList_Buildings_List_Units->GetCount() > 0)
+			TechTrees_DataList_Buildings_List_Units->Clear();
+			if(TechTrees_DataList_Buildings_List_Researches->GetCount() > 0)
+			TechTrees_DataList_Buildings_List_Researches->Clear();
+			if(TechTrees_MainList_Units_List->GetCount() > 0)
+			TechTrees_MainList_Units_List->Clear();
+			if(TechTrees_DataList_Units_List_Units->GetCount() > 0)
+			TechTrees_DataList_Units_List_Units->Clear();
+			if(TechTrees_MainList_Researches_List->GetCount() > 0)
+			TechTrees_MainList_Researches_List->Clear();
+			if(TechTrees_DataList_Researches_List_Buildings->GetCount() > 0)
+			TechTrees_DataList_Researches_List_Buildings->Clear();
+			if(TechTrees_DataList_Researches_List_Units->GetCount() > 0)
+			TechTrees_DataList_Researches_List_Units->Clear();
+			if(TechTrees_DataList_Researches_List_Researches->GetCount() > 0)
+			TechTrees_DataList_Researches_List_Researches->Clear();
 		}
 		ListCivs();
 		ListUnits();
@@ -1033,6 +1061,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_TransformUnit->Show(true);
 			Units_Holder_GarrisonType->Show(true);
 			Units_Holder_GarrisonHealRate->Show(true);
+			TechTrees_Main->Show(true);
 			if(ShowUnknowns)
 			{
 				SoundItems_Holder_Unknown->Show(true);
@@ -1051,7 +1080,6 @@ void AGE_Frame::OnGameVersionChange()
 				Units_Holder_Unknown35->Show(true);
 				Units_Holder_Unknown36->Show(true);
 				Units_Holder_Unknown37->Show(true);
-				General_Holder_LastUnknowns->Show(true);
 			}
 		}
 		else // <- RoR
@@ -1107,7 +1135,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unknown35->Show(false);
 			Units_Holder_Unknown36->Show(false);
 			Units_Holder_Unknown37->Show(false);
-			General_Holder_LastUnknowns->Show(false);
+			TechTrees_Main->Show(false);
 			if(ShowUnknowns) Units_Holder_Unknown3a->Show(true);
 		}
 		if(GameVersion >= 4) // SWGB ->
@@ -1123,8 +1151,7 @@ void AGE_Frame::OnGameVersionChange()
 				Civs_Holder_SUnknown1->Show(true);
 				Terrains_Holder_SUnknown1->Show(true);
 				General_Grid_Variables->Show(true);
-				for(short loop = 49;loop < 99;loop++)
-				TechTrees_Ages_Zeroes[loop]->Show(true);
+				TechTrees_Ages_Grid_Zeroes2->Show(true);
 			}
 		}
 		else // <- TC
@@ -1138,8 +1165,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_MinTechLevel->Show(false);
 			General_Grid_Variables->Show(false);
 			UnitLines_Main->Show(false);
-			for(short loop = 49;loop < 99;loop++)
-			TechTrees_Ages_Zeroes[loop]->Show(false);
+			TechTrees_Ages_Grid_Zeroes2->Show(false);
 		}
 		if(GameVersion >= 3) // TC ->
 		{
