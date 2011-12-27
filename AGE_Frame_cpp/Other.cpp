@@ -1123,6 +1123,8 @@ void AGE_Frame::OnGameVersionChange()
 				Civs_Holder_SUnknown1->Show(true);
 				Terrains_Holder_SUnknown1->Show(true);
 				General_Grid_Variables->Show(true);
+				for(short loop = 49;loop < 99;loop++)
+				TechTrees_Ages_Zeroes[loop]->Show(true);
 			}
 		}
 		else // <- TC
@@ -1136,6 +1138,8 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_MinTechLevel->Show(false);
 			General_Grid_Variables->Show(false);
 			UnitLines_Main->Show(false);
+			for(short loop = 49;loop < 99;loop++)
+			TechTrees_Ages_Zeroes[loop]->Show(false);
 		}
 		if(GameVersion >= 3) // TC ->
 		{
@@ -1155,20 +1159,22 @@ void AGE_Frame::OnGameVersionChange()
 	}
 
 //	Every data area should be layouted.
-	General_Main->Layout();
-	Borders_Main->Layout();
-	Research_Main->Layout();
-	Techs_Main->Layout();
 	Civs_Main->Layout();
 	Units_Main->Layout();
+	Research_Main->Layout();
+	Techs_Main->Layout();
+	TechTrees_Main->Layout();
 	Graphics_Main->Layout();
 	Terrains_Main->Layout();
 	TerRestrict_Main->Layout();
 	Sounds_Main->Layout();
 	Colors_Main->Layout();
 	UnitLines_Main->Layout();
+	Borders_Main->Layout();
+	General_Main->Layout();
 	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
 	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
+	TechTrees_Scroller->GetSizer()->FitInside(TechTrees_Scroller);
 	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
 	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
 	General_Scroller->GetSizer()->FitInside(General_Scroller);
@@ -1278,6 +1284,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			{
 				Units_Holder_UnknownArea->Show(true);
 				Units_CommandHolder_Data2->Show(true);
+				TechTrees_Ages_Holder_Zeroes->Show(true);
 				Graphics_Holder_Unknowns->Show(true);
 				Graphics_Grid_Deltas_Data2->Show(true);
 				Terrains_Holder_UnknownArea->Show(true);
@@ -1292,6 +1299,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			{
 				Units_Holder_UnknownArea->Show(false);
 				Units_CommandHolder_Data2->Show(false);
+				TechTrees_Ages_Holder_Zeroes->Show(false);
 				Graphics_Holder_Unknowns->Show(false);
 				Graphics_Grid_Deltas_Data2->Show(false);
 				Terrains_Holder_UnknownArea->Show(false);
@@ -1982,6 +1990,26 @@ void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent& Event)
 	}
 }
 
+void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent& Event)
+{
+	((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
+	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
+	{
+		if(Event.GetId() == TechTrees_Ages_Building->GetId())
+		{
+			ListTTAgesBuildings(TTAgeID);
+		}
+		if(Event.GetId() == TechTrees_Ages_Unit->GetId())
+		{
+			ListTTAgesUnits(TTAgeID);
+		}
+		if(Event.GetId() == TechTrees_Ages_Research->GetId())
+		{
+			ListTTAgesResearches(TTAgeID);
+		}
+	}
+}
+
 void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 {
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
@@ -2228,7 +2256,10 @@ void AGE_Frame::OnKillFocus_Long(wxFocusEvent& Event)
 	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
 	{
-		
+		if(Event.GetId() == TechTrees_Ages_ID->GetId())
+		{
+			ListTTAgess();
+		}		
 	}
 }
 
@@ -2559,6 +2590,23 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
 		OnTempBackup();
 	}*/
+}
+
+void AGE_Frame::OnUpdate_ComboBoxLong(wxCommandEvent& Event)
+{
+	((ComboBox_Long*)Event.GetEventObject())->OnUpdate(Event);
+	if(Event.GetId() == TechTrees_Ages_ComboBox_Building->GetId())
+	{
+		ListTTAgesBuildings(TTAgeID);
+	}
+	if(Event.GetId() == TechTrees_Ages_ComboBox_Unit->GetId())
+	{
+		ListTTAgesUnits(TTAgeID);
+	}
+	if(Event.GetId() == TechTrees_Ages_ComboBox_Research->GetId())
+	{
+		ListTTAgesResearches(TTAgeID);
+	}
 }
 
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType(wxCommandEvent& Event)

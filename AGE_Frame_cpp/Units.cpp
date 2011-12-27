@@ -146,7 +146,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	Units_Civs_List->SetSelection(UnitCivID);
 	
 	short Selection = Units_Units_List->GetSelection();
-	short UnitIDs[19];
+	short UnitIDs[21];
 	UnitIDs[0] = Units_ComboBox_DeadUnitID->GetSelection();
 	UnitIDs[1] = Units_ComboBox_ProjectileUnitID->GetSelection();
 	for(short loop = 0;loop < 2;loop++)
@@ -164,6 +164,8 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	UnitIDs[16] = Effects_ComboBox_UnitsB->GetSelection();
 	UnitIDs[17] = UnitCommands_ComboBox_UnitID->GetSelection();
 	UnitIDs[18] = UnitLineUnits_ComboBox_Units->GetSelection();
+	UnitIDs[19] = TechTrees_Ages_ComboBox_Building->GetSelection();
+	UnitIDs[20] = TechTrees_Ages_ComboBox_Unit->GetSelection();
 	short UnitIDloop[30];
 	for(short loop = 0;loop < 30;loop++)
 	UnitIDloop[loop] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
@@ -234,6 +236,14 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	{
 		UnitLineUnits_ComboBox_Units->Clear();
 	}
+	if(TechTrees_Ages_ComboBox_Building->GetCount() > 0)
+	{
+		TechTrees_Ages_ComboBox_Building->Clear();
+	}
+	if(TechTrees_Ages_ComboBox_Unit->GetCount() > 0)
+	{
+		TechTrees_Ages_ComboBox_Unit->Clear();
+	}
 	for(short loop = 0;loop < 30;loop++)
 	if(Terrains_ComboBox_TerrainUnitID[loop]->GetCount() > 0)
 	{
@@ -244,7 +254,7 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 19;loop++)
+	for(short loop = 0;loop < 21;loop++)
 	{
 		if(UnitIDs[loop] == wxNOT_FOUND)
 		{
@@ -276,6 +286,8 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	Effects_ComboBox_UnitsB->Append("-1 - None");
 	UnitCommands_ComboBox_UnitID->Append("-1 - None");
 	UnitLineUnits_ComboBox_Units->Append("-1 - None");
+	TechTrees_Ages_ComboBox_Building->Append("-1 - None");
+	TechTrees_Ages_ComboBox_Unit->Append("-1 - None");
 	for(short loop = 0;loop < 30;loop++)
 	Terrains_ComboBox_TerrainUnitID[loop]->Append("-1 - None");
 	
@@ -305,6 +317,8 @@ void AGE_Frame::ListUnits(short UnitCivID)
 		Effects_ComboBox_UnitsB->Append(Name);
 		UnitCommands_ComboBox_UnitID->Append(Name);
 		UnitLineUnits_ComboBox_Units->Append(Name);
+		TechTrees_Ages_ComboBox_Building->Append(Name);
+		TechTrees_Ages_ComboBox_Unit->Append(Name);
 		for(short loop = 0;loop < 30;loop++)
 		Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
 	}
@@ -329,6 +343,8 @@ void AGE_Frame::ListUnits(short UnitCivID)
 	Effects_ComboBox_UnitsB->SetSelection(UnitIDs[16]);
 	UnitCommands_ComboBox_UnitID->SetSelection(UnitIDs[17]);
 	UnitLineUnits_ComboBox_Units->SetSelection(UnitIDs[18]);
+	TechTrees_Ages_ComboBox_Building->SetSelection(UnitIDs[19]);
+	TechTrees_Ages_ComboBox_Unit->SetSelection(UnitIDs[20]);
 	for(short loop = 0;loop < 30;loop++)
 	Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDloop[loop]);
 	

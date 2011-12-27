@@ -37,12 +37,13 @@ void AGE_Frame::ListResearchs()
 	string CompareText;
 	
 	short Selection = Research_Research_List->GetSelection();
-	short ResearchIDs[9];
+	short ResearchIDs[10];
 	ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
 	ResearchIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
 	ResearchIDs[2] = Units_ComboBox_ResearchID->GetSelection();
 	for(short loop = 0;loop < 6;loop++)
 	ResearchIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
+	ResearchIDs[9] = TechTrees_Ages_ComboBox_Research->GetSelection();
 
 	if(Research_Research_List->GetCount() > 0)
 	{
@@ -67,12 +68,16 @@ void AGE_Frame::ListResearchs()
 			Research_ComboBox_RequiredTechs[loop]->Clear();
 		}
 	}
+	if(TechTrees_Ages_ComboBox_Research->GetCount() > 0)
+	{
+		TechTrees_Ages_ComboBox_Research->Clear();
+	}
 	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 9;loop++)
+	for(short loop = 0;loop < 10;loop++)
 	{
 		if(ResearchIDs[loop] == wxNOT_FOUND)
 		{
@@ -85,6 +90,7 @@ void AGE_Frame::ListResearchs()
 	Units_ComboBox_ResearchID->Append("-1 - None");
 	for(short loop = 0;loop < 6;loop++)
 	Research_ComboBox_RequiredTechs[loop]->Append("-1 - None");
+	TechTrees_Ages_ComboBox_Research->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Researchs.size();loop++)
 	{
@@ -101,6 +107,7 @@ void AGE_Frame::ListResearchs()
 		Units_ComboBox_ResearchID->Append(Name);
 		for(short loop = 0;loop < 6;loop++)
 		Research_ComboBox_RequiredTechs[loop]->Append(Name);
+		TechTrees_Ages_ComboBox_Research->Append(Name);
 	}
 	
 	Research_Research_List->SetSelection(0);
@@ -111,6 +118,7 @@ void AGE_Frame::ListResearchs()
 	Units_ComboBox_ResearchID->SetSelection(ResearchIDs[2]);
 	for(short loop = 0;loop < 6;loop++)
 	Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchIDs[loop+3]);
+	TechTrees_Ages_ComboBox_Research->SetSelection(ResearchIDs[9]);
 	
 	wxCommandEvent E;
 	OnResearchSelect(E);

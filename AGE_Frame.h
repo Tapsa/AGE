@@ -69,6 +69,7 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_ComboBoxByteEffectType(wxFocusEvent& Event); // for effects' name update
 	void OnKillFocus_CheckBoxByte(wxFocusEvent& Event);
 	void OnKillFocus_ComboBoxShort(wxFocusEvent& Event);
+	void OnKillFocus_ComboBoxLong(wxFocusEvent& Event);
 	
 	void OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event);
@@ -88,6 +89,7 @@ class AGE_Frame : public wxFrame
 	void OnUpdate_CheckBoxByte(wxCommandEvent& Event);
 	void OnUpdate_ComboBoxShort(wxCommandEvent& Event);
 	void OnUpdate_CheckBoxShort(wxCommandEvent& Event);
+	void OnUpdate_ComboBoxLong(wxCommandEvent& Event);
 
 	void OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxByteUnitType(wxCommandEvent& Event);
@@ -2387,9 +2389,14 @@ class AGE_Frame : public wxFrame
 	wxButton * TechTrees_MainList_Researches_Paste;
 
 	wxBoxSizer * TechTrees_Data_Ages;
+	wxGridSizer * TechTrees_Data_Ages1;
 	wxBoxSizer * TechTrees_Data_Buildings;
 	wxBoxSizer * TechTrees_Data_Units;
 	wxBoxSizer * TechTrees_Data_Researches;
+	wxBoxSizer * TechTrees_DataListHolder_Ages;
+	wxBoxSizer * TechTrees_DataListHolder_Buildings;
+	wxBoxSizer * TechTrees_DataListHolder_Units;
+	wxBoxSizer * TechTrees_DataListHolder_Researches;
 	wxStaticBoxSizer * TechTrees_DataList_Ages_Buildings;
 	wxStaticBoxSizer * TechTrees_DataList_Ages_Units;
 	wxStaticBoxSizer * TechTrees_DataList_Ages_Researches;
@@ -2480,6 +2487,35 @@ class AGE_Frame : public wxFrame
 	wxButton * TechTrees_DataList_Researches_Paste_Buildings;
 	wxButton * TechTrees_DataList_Researches_Paste_Units;
 	wxButton * TechTrees_DataList_Researches_Paste_Researches;
+	
+	wxBoxSizer * TechTrees_Ages_Holder_Unknown1;
+	wxStaticText * TechTrees_Ages_Text_Unknown1;
+	TextCtrl_Long * TechTrees_Ages_Unknown1;
+	wxBoxSizer * TechTrees_Ages_Holder_ID;
+	wxStaticText * TechTrees_Ages_Text_ID;
+	TextCtrl_Long * TechTrees_Ages_ID;
+	wxBoxSizer * TechTrees_Ages_Holder_Unknown2;
+	wxStaticText * TechTrees_Ages_Text_Unknown2;
+	TextCtrl_Byte * TechTrees_Ages_Unknown2;
+	wxBoxSizer * TechTrees_Ages_Holder_Building;
+	TextCtrl_Long * TechTrees_Ages_Building;
+	ComboBox_Long * TechTrees_Ages_ComboBox_Building;
+	wxBoxSizer * TechTrees_Ages_Holder_Unit;
+	TextCtrl_Long * TechTrees_Ages_Unit;
+	ComboBox_Long * TechTrees_Ages_ComboBox_Unit;
+	wxBoxSizer * TechTrees_Ages_Holder_Research;
+	TextCtrl_Long * TechTrees_Ages_Research;
+	ComboBox_Long * TechTrees_Ages_ComboBox_Research;
+	wxBoxSizer * TechTrees_Ages_Holder_Unknown3;
+	wxStaticText * TechTrees_Ages_Text_Unknown3;
+	TextCtrl_Long * TechTrees_Ages_Unknown3;
+	wxBoxSizer * TechTrees_Ages_Holder_Unknown4;
+	wxStaticText * TechTrees_Ages_Text_Unknown4;
+	TextCtrl_Long * TechTrees_Ages_Unknown4;
+	wxBoxSizer * TechTrees_Ages_Holder_Zeroes;
+	wxGridSizer * TechTrees_Ages_Grid_Zeroes;
+	wxStaticText * TechTrees_Ages_Text_Zeroes;
+	TextCtrl_Short * TechTrees_Ages_Zeroes[99];
 
 };
 
