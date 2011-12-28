@@ -1152,9 +1152,12 @@ void AGE_Frame::OnGameVersionChange()
 				Terrains_Holder_SUnknown1->Show(true);
 				General_Grid_Variables->Show(true);
 				TechTrees_Ages_Grid_Zeroes2->Show(true);
-				TechTrees_Buildings_Grid_Unknown22->Show(true);
-				TechTrees_Units_Grid_Unknown22->Show(true);
-				TechTrees_Researches_Grid_Unknown22->Show(true);
+				TechTrees_Buildings_Grid_Unknown2a2->Show(true);
+				TechTrees_Buildings_Grid_Unknown2b2->Show(true);
+				TechTrees_Units_Grid_Unknown2a2->Show(true);
+				TechTrees_Units_Grid_Unknown2b2->Show(true);
+				TechTrees_Researches_Grid_Unknown2a2->Show(true);
+				TechTrees_Researches_Grid_Unknown2b2->Show(true);
 			}
 		}
 		else // <- TC
@@ -1169,9 +1172,12 @@ void AGE_Frame::OnGameVersionChange()
 			General_Grid_Variables->Show(false);
 			UnitLines_Main->Show(false);
 			TechTrees_Ages_Grid_Zeroes2->Show(false);
-			TechTrees_Buildings_Grid_Unknown22->Show(false);
-			TechTrees_Units_Grid_Unknown22->Show(false);
-			TechTrees_Researches_Grid_Unknown22->Show(false);
+			TechTrees_Buildings_Grid_Unknown2a2->Show(false);
+			TechTrees_Buildings_Grid_Unknown2b2->Show(false);
+			TechTrees_Units_Grid_Unknown2a2->Show(false);
+			TechTrees_Units_Grid_Unknown2b2->Show(false);
+			TechTrees_Researches_Grid_Unknown2a2->Show(false);
+			TechTrees_Researches_Grid_Unknown2b2->Show(false);
 		}
 		if(GameVersion >= 3) // TC ->
 		{
@@ -2039,6 +2045,46 @@ void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent& Event)
 		{
 			ListTTAgesResearches(TTAgeID);
 		}
+		if(Event.GetId() == TechTrees_Buildings_ID->GetId())
+		{
+			ListTTBuildings();
+		}
+		if(Event.GetId() == TechTrees_Buildings_Building->GetId())
+		{
+			ListTTBuildingBuildings(TTBuildingConnectionID);
+		}
+		if(Event.GetId() == TechTrees_Buildings_Unit->GetId())
+		{
+			ListTTBuildingUnits(TTBuildingConnectionID);
+		}
+		if(Event.GetId() == TechTrees_Buildings_Research->GetId())
+		{
+			ListTTBuildingResearches(TTBuildingConnectionID);
+		}
+		if(Event.GetId() == TechTrees_Units_ID->GetId())
+		{
+			ListTTUnits();
+		}
+		if(Event.GetId() == TechTrees_Units_Unit->GetId())
+		{
+			ListTTUnitUnits(TTUnitConnectionID);
+		}
+		if(Event.GetId() == TechTrees_Researches_ID->GetId())
+		{
+			ListTTResearches();
+		}
+		if(Event.GetId() == TechTrees_Researches_Building->GetId())
+		{
+			ListTTResearchBuildings(TTResearchConnectionID);
+		}
+		if(Event.GetId() == TechTrees_Researches_Unit->GetId())
+		{
+			ListTTResearchUnits(TTResearchConnectionID);
+		}
+		if(Event.GetId() == TechTrees_Researches_Research->GetId())
+		{
+			ListTTResearchResearches(TTResearchConnectionID);
+		}
 	}
 }
 
@@ -2638,6 +2684,46 @@ void AGE_Frame::OnUpdate_ComboBoxLong(wxCommandEvent& Event)
 	if(Event.GetId() == TechTrees_Ages_ComboBox_Research->GetId())
 	{
 		ListTTAgesResearches(TTAgeID);
+	}
+	if(Event.GetId() == TechTrees_Buildings_ComboBox_ID->GetId())
+	{
+		ListTTBuildings();
+	}
+	if(Event.GetId() == TechTrees_Buildings_ComboBox_Building->GetId())
+	{
+		ListTTBuildingBuildings(TTBuildingConnectionID);
+	}
+	if(Event.GetId() == TechTrees_Buildings_ComboBox_Unit->GetId())
+	{
+		ListTTBuildingUnits(TTBuildingConnectionID);
+	}
+	if(Event.GetId() == TechTrees_Buildings_ComboBox_Research->GetId())
+	{
+		ListTTBuildingResearches(TTBuildingConnectionID);
+	}
+	if(Event.GetId() == TechTrees_Units_ComboBox_ID->GetId())
+	{
+		ListTTUnits();
+	}
+	if(Event.GetId() == TechTrees_Units_ComboBox_Unit->GetId())
+	{
+		ListTTUnitUnits(TTUnitConnectionID);
+	}
+	if(Event.GetId() == TechTrees_Researches_ComboBox_ID->GetId())
+	{
+		ListTTResearches();
+	}
+	if(Event.GetId() == TechTrees_Researches_ComboBox_Building->GetId())
+	{
+		ListTTResearchBuildings(TTResearchConnectionID);
+	}
+	if(Event.GetId() == TechTrees_Researches_ComboBox_Unit->GetId())
+	{
+		ListTTResearchUnits(TTResearchConnectionID);
+	}
+	if(Event.GetId() == TechTrees_Researches_ComboBox_Research->GetId())
+	{
+		ListTTResearchResearches(TTResearchConnectionID);
 	}
 }
 
