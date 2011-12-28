@@ -1152,6 +1152,9 @@ void AGE_Frame::OnGameVersionChange()
 				Terrains_Holder_SUnknown1->Show(true);
 				General_Grid_Variables->Show(true);
 				TechTrees_Ages_Grid_Zeroes2->Show(true);
+				TechTrees_Buildings_Grid_Unknown22->Show(true);
+				TechTrees_Units_Grid_Unknown22->Show(true);
+				TechTrees_Researches_Grid_Unknown22->Show(true);
 			}
 		}
 		else // <- TC
@@ -1166,6 +1169,9 @@ void AGE_Frame::OnGameVersionChange()
 			General_Grid_Variables->Show(false);
 			UnitLines_Main->Show(false);
 			TechTrees_Ages_Grid_Zeroes2->Show(false);
+			TechTrees_Buildings_Grid_Unknown22->Show(false);
+			TechTrees_Units_Grid_Unknown22->Show(false);
+			TechTrees_Researches_Grid_Unknown22->Show(false);
 		}
 		if(GameVersion >= 3) // TC ->
 		{
