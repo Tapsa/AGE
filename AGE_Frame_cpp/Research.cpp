@@ -37,13 +37,19 @@ void AGE_Frame::ListResearchs()
 	string CompareText;
 	
 	short Selection = Research_Research_List->GetSelection();
-	short ResearchIDs[10];
+	short ResearchIDs[16];
 	ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
 	ResearchIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
 	ResearchIDs[2] = Units_ComboBox_ResearchID->GetSelection();
 	for(short loop = 0;loop < 6;loop++)
 	ResearchIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
 	ResearchIDs[9] = TechTrees_Ages_ComboBox_Research->GetSelection();
+	ResearchIDs[10] = TechTrees_Buildings_ComboBox_RequiredResearch->GetSelection();
+	ResearchIDs[11] = TechTrees_Buildings_ComboBox_Research->GetSelection();
+	ResearchIDs[12] = TechTrees_Units_ComboBox_RequiredResearch->GetSelection();
+	ResearchIDs[13] = TechTrees_Researches_ComboBox_ID->GetSelection();
+	ResearchIDs[14] = TechTrees_Researches_ComboBox_UpperResearch->GetSelection();
+	ResearchIDs[15] = TechTrees_Researches_ComboBox_Research->GetSelection();
 
 	if(Research_Research_List->GetCount() > 0)
 	{
@@ -72,12 +78,36 @@ void AGE_Frame::ListResearchs()
 	{
 		TechTrees_Ages_ComboBox_Research->Clear();
 	}
+	if(TechTrees_Buildings_ComboBox_RequiredResearch->GetCount() > 0)
+	{
+		TechTrees_Buildings_ComboBox_RequiredResearch->Clear();
+	}
+	if(TechTrees_Buildings_ComboBox_Research->GetCount() > 0)
+	{
+		TechTrees_Buildings_ComboBox_Research->Clear();
+	}
+	if(TechTrees_Units_ComboBox_RequiredResearch->GetCount() > 0)
+	{
+		TechTrees_Units_ComboBox_RequiredResearch->Clear();
+	}
+	if(TechTrees_Researches_ComboBox_ID->GetCount() > 0)
+	{
+		TechTrees_Researches_ComboBox_ID->Clear();
+	}
+	if(TechTrees_Researches_ComboBox_UpperResearch->GetCount() > 0)
+	{
+		TechTrees_Researches_ComboBox_UpperResearch->Clear();
+	}
+	if(TechTrees_Researches_ComboBox_Research->GetCount() > 0)
+	{
+		TechTrees_Researches_ComboBox_Research->Clear();
+	}
 	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 10;loop++)
+	for(short loop = 0;loop < 16;loop++)
 	{
 		if(ResearchIDs[loop] == wxNOT_FOUND)
 		{
@@ -91,6 +121,12 @@ void AGE_Frame::ListResearchs()
 	for(short loop = 0;loop < 6;loop++)
 	Research_ComboBox_RequiredTechs[loop]->Append("-1 - None");
 	TechTrees_Ages_ComboBox_Research->Append("-1 - None");
+	TechTrees_Buildings_ComboBox_RequiredResearch->Append("-1 - None");
+	TechTrees_Buildings_ComboBox_Research->Append("-1 - None");
+	TechTrees_Units_ComboBox_RequiredResearch->Append("-1 - None");
+	TechTrees_Researches_ComboBox_ID->Append("-1 - None");
+	TechTrees_Researches_ComboBox_UpperResearch->Append("-1 - None");
+	TechTrees_Researches_ComboBox_Research->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Researchs.size();loop++)
 	{
@@ -108,6 +144,12 @@ void AGE_Frame::ListResearchs()
 		for(short loop = 0;loop < 6;loop++)
 		Research_ComboBox_RequiredTechs[loop]->Append(Name);
 		TechTrees_Ages_ComboBox_Research->Append(Name);
+		TechTrees_Buildings_ComboBox_RequiredResearch->Append(Name);
+		TechTrees_Buildings_ComboBox_Research->Append(Name);
+		TechTrees_Units_ComboBox_RequiredResearch->Append(Name);
+		TechTrees_Researches_ComboBox_ID->Append(Name);
+		TechTrees_Researches_ComboBox_UpperResearch->Append(Name);
+		TechTrees_Researches_ComboBox_Research->Append(Name);
 	}
 	
 	Research_Research_List->SetSelection(0);
@@ -119,6 +161,12 @@ void AGE_Frame::ListResearchs()
 	for(short loop = 0;loop < 6;loop++)
 	Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchIDs[loop+3]);
 	TechTrees_Ages_ComboBox_Research->SetSelection(ResearchIDs[9]);
+	TechTrees_Buildings_ComboBox_RequiredResearch->SetSelection(ResearchIDs[10]);
+	TechTrees_Buildings_ComboBox_Research->SetSelection(ResearchIDs[11]);
+	TechTrees_Units_ComboBox_RequiredResearch->SetSelection(ResearchIDs[12]);
+	TechTrees_Researches_ComboBox_ID->SetSelection(ResearchIDs[13]);
+	TechTrees_Researches_ComboBox_UpperResearch->SetSelection(ResearchIDs[14]);
+	TechTrees_Researches_ComboBox_Research->SetSelection(ResearchIDs[15]);
 	
 	wxCommandEvent E;
 	OnResearchSelect(E);

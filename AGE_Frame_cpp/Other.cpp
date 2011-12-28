@@ -1323,6 +1323,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_Holder_UnknownArea->Show(true);
 				Units_CommandHolder_Data2->Show(true);
 				TechTrees_Ages_Holder_Zeroes->Show(true);
+				TechTrees_Buildings_Holder_Unknown2a->Show(true);
+				TechTrees_Buildings_Holder_Unknown2b->Show(true);
+				TechTrees_Units_Holder_Unknown2a->Show(true);
+				TechTrees_Units_Holder_Unknown2b->Show(true);
+				TechTrees_Researches_Holder_Unknown2a->Show(true);
+				TechTrees_Researches_Holder_Unknown2b->Show(true);
 				Graphics_Holder_Unknowns->Show(true);
 				Graphics_Grid_Deltas_Data2->Show(true);
 				Terrains_Holder_UnknownArea->Show(true);
@@ -1338,6 +1344,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_Holder_UnknownArea->Show(false);
 				Units_CommandHolder_Data2->Show(false);
 				TechTrees_Ages_Holder_Zeroes->Show(false);
+				TechTrees_Buildings_Holder_Unknown2a->Show(false);
+				TechTrees_Buildings_Holder_Unknown2b->Show(false);
+				TechTrees_Units_Holder_Unknown2a->Show(false);
+				TechTrees_Units_Holder_Unknown2b->Show(false);
+				TechTrees_Researches_Holder_Unknown2a->Show(false);
+				TechTrees_Researches_Holder_Unknown2b->Show(false);
 				Graphics_Holder_Unknowns->Show(false);
 				Graphics_Grid_Deltas_Data2->Show(false);
 				Terrains_Holder_UnknownArea->Show(false);
