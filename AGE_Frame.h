@@ -1093,7 +1093,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_Unknown3;
 	TextCtrl_Short * Units_Unknown3B;
 	TextCtrl_Byte * Units_Unknown3a;
-	TextCtrl_Short * Units_LanguageDllHelp;
+	TextCtrl_UnShort * Units_LanguageDllHelp;
 	wxStaticText * Units_DLL_LanguageDllHelp;
 	TextCtrl_Short * Units_HotKey[4];
 	wxStaticText * Units_DLL_HotKey4;
@@ -2625,6 +2625,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * TechTrees_Units_Holder_Unknown4;
 	wxStaticText * TechTrees_Units_Text_Unknown4;
 	TextCtrl_Long * TechTrees_Units_Unknown4;
+	ComboBox_Long * TechTrees_Units_ComboBox_Unknown4;
 	wxBoxSizer * TechTrees_Units_Holder_Unknown5;
 	wxStaticText * TechTrees_Units_Text_Unknown5;
 	TextCtrl_Long * TechTrees_Units_Unknown5;
