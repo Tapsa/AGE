@@ -154,5 +154,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	}
 
 	GenieFile = NULL;
-//	wxToolTip::SetAutoPop(300000);
+	wxToolTip::SetAutoPop(32700);
+	wxToolTip::SetReshow(1);
 }
