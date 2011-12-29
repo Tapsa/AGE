@@ -284,6 +284,10 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	{
 		Name = "Researched Technologies";
 	}
+	else if(Index == 22)
+	{
+		Name = "Explored Map %";
+	}
 	else if(Index == 23)
 	{
 		if(GameVersion < 4)
@@ -308,14 +312,11 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 27)
 	{
-		if(GameVersion < 4)
-		Name = "Atonement";
-		else
-		Name = "Force Influence";
+		Name = "Building Conversion Enabler";
 	}
 	else if(Index == 28)
 	{
-		Name = "Redemption";
+		Name = "Monk Conversion Enabler";
 	}
 	else if(Index == 30)
 	{
@@ -403,6 +404,18 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 		Name = "Unknown";
 		else
 		Name = "Shielding";
+	}
+	else if(Index == 53)
+	{
+		Name = "Tribute Given";
+	}
+	else if(Index == 54)
+	{
+		Name = "All Ruins Have Been Captured";
+	}
+	else if(Index == 55)
+	{
+		Name = "All Relics Have Been Captured";
 	}
 	else if(Index == 56)
 	{
