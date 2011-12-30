@@ -1988,7 +1988,35 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 			ListUnitCommands(UnitID, UnitCivID);
 		}
 	}
-	for(short loop = 0;loop < 2;loop++)
+	if(Event.GetId() == TechTrees_ComboBox_Modes[0]->GetId())
+	{
+		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Unknown9 = lexical_cast<long>(TechTrees_ComboBox_Modes[0]->GetSelection());
+		
+		wxCommandEvent E;
+		OnTTBuildingSelect(E);
+	}
+	else if(Event.GetId() == TechTrees_ComboBox_Modes[1]->GetId())
+	{
+		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Unknown10 = lexical_cast<long>(TechTrees_ComboBox_Modes[1]->GetSelection());
+		
+		wxCommandEvent E;
+		OnTTBuildingSelect(E);
+	}
+	else if(Event.GetId() == TechTrees_ComboBox_Modes[2]->GetId())
+	{
+		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Unknown10 = lexical_cast<long>(TechTrees_ComboBox_Modes[2]->GetSelection());
+		
+		wxCommandEvent E;
+		OnTTUnitSelect(E);
+	}
+	else if(Event.GetId() == TechTrees_ComboBox_Modes[3]->GetId())
+	{
+		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Unknown11 = lexical_cast<long>(TechTrees_ComboBox_Modes[3]->GetSelection());
+		
+		wxCommandEvent E;
+		OnTTUnitSelect(E);
+	}
+	for(short loop = 0;loop < 2;loop++) // Custom search filters
 	{
 		if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
 		{
@@ -1998,6 +2026,16 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		else if(Event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
 		{
 			ListTTUnits();
+			TechTrees_MainList_Units_Search->SetFocus();
+		}
+		else if(Event.GetId() == TechTrees_MainList_Buildings_SearchFilters[loop]->GetId())
+		{
+			ListTTBuildings();
+			TechTrees_MainList_Units_Search->SetFocus();
+		}
+		else if(Event.GetId() == TechTrees_MainList_Researches_SearchFilters[loop]->GetId())
+		{
+			ListTTResearches();
 			TechTrees_MainList_Units_Search->SetFocus();
 		}
 	}
@@ -2371,6 +2409,16 @@ void AGE_Frame::OnKillFocus_Long(wxFocusEvent& Event)
 		{
 			ListTTAgess();
 		}		
+		else if(Event.GetId() == TechTrees_Units_Mode1->GetId() || Event.GetId() == TechTrees_Units_Mode2->GetId())
+		{
+			wxCommandEvent E;
+			OnTTUnitSelect(E);
+		}
+		else if(Event.GetId() == TechTrees_Buildings_Mode1->GetId() || Event.GetId() == TechTrees_Buildings_Mode2->GetId())
+		{
+			wxCommandEvent E;
+			OnTTBuildingSelect(E);
+		}
 	}
 }
 
