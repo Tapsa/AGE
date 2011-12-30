@@ -1705,6 +1705,14 @@ void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
 		{
 			ListTTUnits();
 		}
+		else if(Event.GetId() == TechTrees_MainList_Buildings_UseAnd[loop]->GetId())
+		{
+			ListTTBuildings();
+		}
+		else if(Event.GetId() == TechTrees_MainList_Researches_UseAnd[loop]->GetId())
+		{
+			ListTTResearches();
+		}
 	}
 }
 
