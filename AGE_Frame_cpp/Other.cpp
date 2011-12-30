@@ -1691,14 +1691,20 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
 {
 	for(short loop = 0;loop < 2;loop++)
-	if(Event.GetId() == Units_Units_UseAnd[loop]->GetId())
 	{
-		if(Units_Units_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-		
-		wxCommandEvent E;
-		OnUnitsSearch(E);
-	//	ListUnits(UnitCivID);	muille tulee tällänen, unitseilla kaatuu jos ei oo avattu tiedostoa
+		if(Event.GetId() == Units_Units_UseAnd[loop]->GetId())
+		{
+		//	if(Units_Units_UseAnd[loop]->GetValue() == true)
+		//	UseAnd[loop] = true; else UseAnd[loop] = false;
+			
+			wxCommandEvent E;
+			OnUnitsSearch(E);
+		//	ListUnits(UnitCivID);	muille tulee tällänen, unitseilla kaatuu jos ei oo avattu tiedostoa
+		}
+		else if(Event.GetId() == TechTrees_MainList_Units_UseAnd[loop]->GetId())
+		{
+			ListTTUnits();
+		}
 	}
 }
 
@@ -1975,10 +1981,17 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		}
 	}
 	for(short loop = 0;loop < 2;loop++)
-	if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
 	{
-		ListUnits(UnitCivID);
-		Units_Units_Search->SetFocus();
+		if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
+		{
+			ListUnits(UnitCivID);
+			Units_Units_Search->SetFocus();
+		}
+		else if(Event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
+		{
+			ListTTUnits();
+			TechTrees_MainList_Units_Search->SetFocus();
+		}
 	}
 }
 
