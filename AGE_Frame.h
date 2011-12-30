@@ -2354,7 +2354,9 @@ class AGE_Frame : public wxFrame
 	wxTextCtrl * TechTrees_MainList_Buildings_Search_R;
 	wxTextCtrl * TechTrees_MainList_Units_Search_R;
 	wxTextCtrl * TechTrees_MainList_Researches_Search_R;
+	wxOwnerDrawnComboBox * TechTrees_MainList_Buildings_SearchFilters[2];
 	wxOwnerDrawnComboBox * TechTrees_MainList_Units_SearchFilters[2];
+	wxOwnerDrawnComboBox * TechTrees_MainList_Researches_SearchFilters[2];
 	wxCheckBox * TechTrees_MainList_Buildings_UseAnd[2];
 	wxCheckBox * TechTrees_MainList_Units_UseAnd[2];
 	wxCheckBox * TechTrees_MainList_Researches_UseAnd[2];
@@ -2552,6 +2554,10 @@ class AGE_Frame : public wxFrame
 	wxStaticText * TechTrees_Buildings_Text_Unknown2a;
 	TextCtrl_Long * TechTrees_Buildings_Unknown2a1[8];
 	TextCtrl_Long * TechTrees_Buildings_Unknown2a2[10];
+	wxBoxSizer * TechTrees_Holder_UnitAndResearch[4];
+	wxOwnerDrawnComboBox * TechTrees_ComboBox_Modes[4];
+	ComboBox_Long * TechTrees_ComboBox_Unit[4];
+	ComboBox_Long * TechTrees_ComboBox_Research[4];
 	wxBoxSizer * TechTrees_Buildings_Holder_Mode1;
 	wxStaticText * TechTrees_Buildings_Text_Mode1;
 	TextCtrl_Long * TechTrees_Buildings_Mode1;
