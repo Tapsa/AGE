@@ -168,7 +168,7 @@ void ComboBox_Long::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
 	{
-		long Value = lexical_cast<long>(((TextCtrl_Short*)Event.GetEventObject())->GetValue());
+		long Value = lexical_cast<long>(((TextCtrl_Long*)Event.GetEventObject())->GetValue());
 		((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->SetSelection(0);
 		((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->SetSelection(Value + 1);
 	}
