@@ -376,7 +376,7 @@ class AGE_Frame : public wxFrame
 
 //	Graphic Events
 
-	void ListGraphics();
+	void ListGraphics(bool Sized = true);
 	void OnGraphicsSearch(wxCommandEvent& Event);
 	void OnGraphicsSelect(wxCommandEvent& Event);
 	void OnGraphicsAdd(wxCommandEvent& Event);
@@ -1078,7 +1078,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Float * Units_EditorRadius[2];
 	TextCtrl_Byte * Units_BuildingMode;
 	TextCtrl_Byte * Units_VisibleInFog;
-	CheckBox_Byte * Units_CheckBox_VisibleInFog;
+	wxStaticText * Units_Text_VisibleInFog;
 	TextCtrl_Short * Units_TerrainRestriction;
 	ComboBox_Short * Units_ComboBox_TerrainRestriction;
 	TextCtrl_Byte * Units_FlyMode;

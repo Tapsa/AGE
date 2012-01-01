@@ -764,7 +764,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
-				Effects_Info_C->SetLabel(" add text");
+				Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
 				Effects_Info_D->SetLabel("");
 				Effects_Info_E->SetLabel("");
 				Effects_Info_F->SetLabel("");
@@ -841,7 +841,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
-				Effects_Info_C->SetLabel(" add text");
+				Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
 				Effects_Info_D->SetLabel("");
 				Effects_Info_E->SetLabel("");
 				Effects_Info_F->SetLabel("");

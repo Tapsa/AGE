@@ -584,7 +584,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_BuildingMode->Container = &UnitPointer->BuildingMode;
 		Units_VisibleInFog->ChangeValue(lexical_cast<string>((short)UnitPointer->VisibleInFog));
 		Units_VisibleInFog->Container = &UnitPointer->VisibleInFog;
-		Units_CheckBox_VisibleInFog->SetValue((bool)UnitPointer->VisibleInFog);
 		Units_TerrainRestriction->ChangeValue(lexical_cast<string>(UnitPointer->TerrainRestriction));
 		Units_TerrainRestriction->Container = &UnitPointer->TerrainRestriction;
 		Units_ComboBox_TerrainRestriction->SetSelection(UnitPointer->TerrainRestriction + 1);
@@ -2743,7 +2742,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_EditorRadius = new wxBoxSizer(wxVERTICAL);
 	Units_Grid_EditorRadius = new wxGridSizer(2, 0, 0);
 	Units_Holder_BuildingMode = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_VisibleInFog = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_VisibleInFog = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_TerrainRestriction = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_FlyMode = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_ResourceCapacity = new wxBoxSizer(wxVERTICAL);
@@ -2913,9 +2912,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_StandingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Standing Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DyingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HitPoints = new wxStaticText(Units_Scroller, wxID_ANY, " Hit Points ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HitPoints = new wxStaticText(Units_Scroller, wxID_ANY, " Hit Points *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LineOfSight = new wxStaticText(Units_Scroller, wxID_ANY, " Line Of Sight *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Capacity *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SizeRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Size Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_HPBarHeight1 = new wxStaticText(Units_Scroller, wxID_ANY, " HP Bar Height 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TrainSound = new wxStaticText(Units_Scroller, wxID_ANY, " Train Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2929,7 +2928,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_BuildingMode = new wxStaticText(Units_Scroller, wxID_ANY, " Building Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TerrainRestriction = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ResourceCapacity = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ResourceDecay = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ResourceDecay = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_BlastType = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_InteractionMode = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2945,7 +2944,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 6 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown8 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_SelectionMask = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_SelectionMask = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionShapeType = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionShape = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Attribute = new wxStaticText(Units_Scroller, wxID_ANY, " Unit Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2954,10 +2953,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_SelectionEffect = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Effect *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_EditorSelectionColour = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Selection Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HPBarHeight2 = new wxStaticText(Units_Scroller, wxID_ANY, " HP Bar Height 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HPBarHeight2 = new wxStaticText(Units_Scroller, wxID_ANY, " HP Bar Height 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	ResourceStorage_Text_Type = new wxStaticText(Units_Scroller, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	ResourceStorage_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, "Amount ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	ResourceStorage_Text_Enabled = new wxStaticText(Units_Scroller, wxID_ANY, "Enable Mode ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	ResourceStorage_Text_Enabled = new wxStaticText(Units_Scroller, wxID_ANY, "Enable Mode * ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DyingSound = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackSound = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2987,7 +2986,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Text_SearchRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Search Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_WorkRate = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_DropSite = new wxStaticText(Units_Scroller, wxID_ANY, " Drop Site", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DropSite = new wxStaticText(Units_Scroller, wxID_ANY, " Drop Site *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_VillagerMode = new wxStaticText(Units_Scroller, wxID_ANY, " Villager Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MoveSound = new wxStaticText(Units_Scroller, wxID_ANY, " Move Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_StopSound = new wxStaticText(Units_Scroller, wxID_ANY, " Stop Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3006,7 +3005,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_GraphicDisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic Displacement XYZ *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_BlastLevel = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Level *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MinRange = new wxStaticText(Units_Scroller, wxID_ANY, " Min Range ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonRecoveryRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Recovery Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonRecoveryRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Recovery Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DisplayedMeleeArmour = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Melee Armour ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DisplayedAttack = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Attack ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3029,7 +3028,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_CostUsed = new wxStaticText(Units_Scroller, wxID_ANY, "Cost Used ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Units_Text_TrainTime = new wxStaticText(Units_Scroller, wxID_ANY, " Train Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TrainLocationID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Location", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_ButtonID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Button", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_ButtonID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Button *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown26 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 26 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown27 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 27 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown28 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 28 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3056,12 +3055,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_Unknown33 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 33 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AnnexUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Units", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AnnexUnitMisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Units Misplacement", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HeadUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Head Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_TransformUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Transform Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HeadUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Head Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_TransformUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Transform Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown34 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 34 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ConstructionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonType = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonHealRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonHealRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 35 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown36 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 36 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown37 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 37 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3079,7 +3078,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_TrainSound[loop] = new TextCtrl_Short(Units_Scroller, "0", NULL);
 		Units_ComboBox_TrainSound[loop] = new ComboBox_Short(Units_Scroller, Units_TrainSound[loop]);
 		Units_PlacementBypassTerrain[loop] = new TextCtrl_Short(Units_Scroller, "0", NULL);
-		Units_PlacementBypassTerrain[loop]->SetToolTip("Terrain on some side");
+		Units_PlacementBypassTerrain[loop]->SetToolTip("Required terrain on some side");
 		Units_ComboBox_PlacementBypassTerrain[loop] = new ComboBox_Short(Units_Scroller, Units_PlacementBypassTerrain[loop]);
 		Units_PlacementTerrain[loop] = new TextCtrl_Short(Units_Scroller, "0", NULL);
 		Units_ComboBox_PlacementTerrain[loop] = new ComboBox_Short(Units_Scroller, Units_PlacementTerrain[loop]);
@@ -3093,6 +3092,7 @@ void AGE_Frame::CreateUnitControls()
 		ResourceStorage_ComboBox_Type[loop] = new ComboBox_Short(Units_Scroller, ResourceStorage_Type[loop]);
 		ResourceStorage_Amount[loop] = new TextCtrl_Float(Units_Scroller, "0", NULL);
 		ResourceStorage_Enabled[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+		ResourceStorage_Enabled[loop]->SetToolTip("2 Resets when the unit dies\n1 Doesn't reset");
 	}
 	for(short loop = 0;loop < 4;loop++)
 	{
@@ -3120,9 +3120,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_DeathMode->SetToolTip("Reviving does not make it usable");
 	Units_CheckBox_DeathMode = new CheckBox_Byte(Units_Scroller, "Death: Revives *", Units_DeathMode);
 	Units_HitPoints = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_HitPoints->SetToolTip("-1 Instantly dying unit");
 	Units_LineOfSight = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_LineOfSight->SetToolTip("Maximum (effective) value is 20");
 	Units_GarrisonCapacity = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_GarrisonCapacity->SetToolTip("If the unit has garrisoned units inside,\ngraphics tab \"New Speed?\" determines its new speed?");
 	Units_HPBarHeight1 = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_DeadUnitID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_DeadUnitID = new ComboBox_Short(Units_Scroller, Units_DeadUnitID);
@@ -3135,18 +3137,21 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_HideInEditor = new CheckBox_Byte(Units_Scroller, "Hide In Editor", Units_HideInEditor);
 	Units_Unknown1 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Enabled = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_Enabled->SetToolTip("Available without a research");
-	Units_CheckBox_Enabled = new CheckBox_Short(Units_Scroller, "Enabled *", Units_Enabled);
+	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
+	Units_CheckBox_Enabled = new CheckBox_Short(Units_Scroller, "No research *", Units_Enabled);
 	Units_BuildingMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_BuildingMode->SetToolTip("0 non buildings, gates, farms, walls, towers\n2 town center, trade workshop, CLF01, port\n3 any building");
 	Units_VisibleInFog = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	Units_CheckBox_VisibleInFog = new CheckBox_Byte(Units_Scroller, "Visible In Fog", Units_VisibleInFog);
+	Units_VisibleInFog->SetToolTip("0 Not visible\n1 Visible\n3 Inverted visibility");
+	Units_Text_VisibleInFog = new wxStaticText(Units_Scroller, wxID_ANY, " Fog Visibility *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TerrainRestriction = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_TerrainRestriction = new ComboBox_Short(Units_Scroller, Units_TerrainRestriction);
 	Units_FlyMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_FlyMode->SetToolTip("Requires class 22 and air mode 1?\n0 Normal\n1 Graphics appear higher than the shadow");
 	Units_CheckBox_FlyMode = new CheckBox_Byte(Units_Scroller, "Fly Mode", Units_FlyMode);
 	Units_ResourceCapacity = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ResourceDecay = new TextCtrl_Float(Units_Scroller, "0", NULL);
+	Units_ResourceDecay->SetToolTip("Can alter corpses' decay time\nSet to -1 for never decaying");
 	Units_InteractionMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_InteractionMode->SetToolTip("0 and 1 Unable to select, move or attack\n2 Can select, unable to move or attack\n3 Can select and attack, unable to move\n4 Can select, move and attack\n5+ Select and move?");
 	Units_MinimapMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
@@ -3165,18 +3170,20 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_Unselectable = new CheckBox_Byte(Units_Scroller, "Unselectable", Units_Unselectable);
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	Units_Unknown7->SetToolTip("0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
+	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
 	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_SelectionMask = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_SelectionMask->SetToolTip("Any odd value except 7 - Mask displayed behind buildings\nAny even value except 6, 10 - Mask not displayed\n-1, 7 - Mask partially displayed when in the open\n6, 10 - Building, causes mask to appear on units behind it\n");
 	Units_SelectionShapeType = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_SelectionShape = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	Units_SelectionShape->SetToolTip("0 square\n1+ round");
+	Units_SelectionShape->SetToolTip("0 Square\n1+ Round");
 	Units_SelectionEffect = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_SelectionEffect->SetToolTip("0\n1 HP Bar on, permanent darker outline in editor only\n4 HP Bar off, normal outline\n5, 8-9 HP Bar on\n2 HP Bar on, normal outline\n3 HP Bar off, selection shadow\n6-7 HP Bar off\nNote: this doesn't work with all units");
 	Units_EditorSelectionColour = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_EditorSelectionColour->SetToolTip("0 most\n-16 fish trap farm\n52 dead farm, OLD-(___)\n116 flare, WHAL1, WHAL2, DOLP, Great-fish\n-123 all fish");
 	Units_SelectionRadiusBox = new wxBoxSizer(wxHORIZONTAL);
 	Units_HPBarHeight2 = new TextCtrl_Float(Units_Scroller, "0", NULL);
+	Units_HPBarHeight2->SetToolTip("Vertical distance from ground");
 	Units_SelectionSound = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_SelectionSound = new ComboBox_Short(Units_Scroller, Units_SelectionSound);
 	Units_DyingSound = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3225,6 +3232,7 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0;loop < 2;loop++)
 	{
 		Units_DropSite[loop] = new TextCtrl_Short(Units_Scroller, "0", NULL);
+		Units_DropSite[loop]->SetToolTip("Giving a villager's drop site to a cart-like unit\ncan allow you to have mobile resource-gatherers,\nsimilar to those in Age of Mythology.");
 		Units_ComboBox_DropSite[loop] = new ComboBox_Short(Units_Scroller, Units_DropSite[loop]);
 	}
 	Units_VillagerMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
@@ -3262,6 +3270,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_BlastLevel->SetToolTip("How blast radius affects units\n0 Damages resources also\n1 Damages trees also\n2 Damages nearby units\n3 Damages only targeted unit");
 	Units_MinRange = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_GarrisonRecoveryRate = new TextCtrl_Float(Units_Scroller, "0", NULL);
+	Units_GarrisonRecoveryRate->SetToolTip("Healing speed factor when garrisoned into something");
 	Units_AttackGraphic = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_AttackGraphic = new ComboBox_Short(Units_Scroller, Units_AttackGraphic);
 	Units_DisplayedMeleeArmour = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3305,6 +3314,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrainLocationID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_TrainLocationID = new ComboBox_Short(Units_Scroller, Units_TrainLocationID);
 	Units_ButtonID = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_ButtonID->SetToolTip("First page (also second in TC) 1-15\nSecond page 21-35\nThird page ?-?");
 	Units_Unknown26 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_Unknown28 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_MissileGraphicDelay = new TextCtrl_Byte(Units_Scroller, "0", NULL);
@@ -3343,7 +3353,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_StackUnitID->SetToolTip("Second building to be placed directly on top of this building\nAdditional building gets added every time you load the scenario");
 	Units_ComboBox_StackUnitID = new ComboBox_Short(Units_Scroller, Units_StackUnitID);
 	Units_TerrainID = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_TerrainID->SetToolTip("Upon completion of this building, terrain under it changes to this");
+	Units_TerrainID->SetToolTip("Terrain produced under a building when completed");
 	Units_ComboBox_TerrainID = new ComboBox_Short(Units_Scroller, Units_TerrainID);
 	Units_Unknown32 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ResearchID = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3360,8 +3370,10 @@ void AGE_Frame::CreateUnitControls()
 		Units_AnnexUnitMisplacement[loop][loop2] = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	}
 	Units_HeadUnit = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_HeadUnit->SetToolTip("The building that an annex building is attached to");
 	Units_ComboBox_HeadUnit = new ComboBox_Short(Units_Scroller, Units_HeadUnit);
 	Units_TransformUnit = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_TransformUnit->SetToolTip("Determines what the unit changes into when given the order to unpack");
 	Units_ComboBox_TransformUnit = new ComboBox_Short(Units_Scroller, Units_TransformUnit);
 	Units_Unknown34 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ConstructionSound = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3369,6 +3381,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonType = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_ComboBox_GarrisonType = new ComboBox_Byte(Units_Scroller, Units_GarrisonType);
 	Units_GarrisonHealRate = new TextCtrl_Float(Units_Scroller, "0", NULL);
+	Units_GarrisonHealRate->SetToolTip("Building's garrisoned units' healing speed factor");
 	Units_Unknown35 = new TextCtrl_Long(Units_Scroller, "0", NULL);
 	Units_Unknown36 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	for(short loop = 0;loop < 6;loop++)
@@ -3382,12 +3395,13 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Text_GraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_Text_DamagePercent = new wxStaticText(Units_Scroller, wxID_ANY, " Damage Percent ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	DamageGraphics_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Apply Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_GraphicID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	DamageGraphics_ComboBox_GraphicID = new ComboBox_Short(Units_Scroller, DamageGraphics_GraphicID);
 	DamageGraphics_DamagePercent = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	DamageGraphics_Unknown1 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	DamageGraphics_Unknown1->SetToolTip("0 Adds graphics on top (flames on buildings)\n2 Replaces original graphics (damaged walls)");
 	DamageGraphics_Unknown2 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_DamageGraphics = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Damage Graphics");
 	Units_DamageGraphics_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
@@ -3789,9 +3803,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_EditorRadius->Add(Units_EditorRadius[loop], 1, wxEXPAND);
 	Units_Holder_EditorRadius->Add(Units_Grid_EditorRadius, 1, wxEXPAND);
 	Units_Holder_BuildingMode->Add(Units_BuildingMode, 0, wxEXPAND);
-	Units_Holder_VisibleInFog->Add(Units_VisibleInFog, 1, wxEXPAND);
-	Units_Holder_VisibleInFog->Add(2, -1);
-	Units_Holder_VisibleInFog->Add(Units_CheckBox_VisibleInFog, 2, wxEXPAND);
+	Units_Holder_VisibleInFog->Add(Units_Text_VisibleInFog, 0, wxEXPAND);
+	Units_Holder_VisibleInFog->Add(Units_VisibleInFog, 0, wxEXPAND);
 	Units_Holder_TerrainRestriction->Add(Units_TerrainRestriction, 1, wxEXPAND);
 	Units_Holder_TerrainRestriction->Add(Units_ComboBox_TerrainRestriction, 1, wxEXPAND);
 	Units_Holder_FlyMode->Add(Units_FlyMode, 1, wxEXPAND);
@@ -4349,9 +4362,9 @@ void AGE_Frame::CreateUnitControls()
 	
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_Enabled, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_HideInEditor, 1, wxEXPAND);
-	Units_Grid_AttributesBoxes1->Add(Units_Holder_VisibleInFog, 1, wxEXPAND);
-	Units_Grid_AttributesBoxes1->Add(Units_Holder_HeroMode, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Units_Grid_AttributesModes1->Add(Units_Holder_VisibleInFog, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_DeathMode, 1, wxEXPAND);
+	Units_Grid_AttributesBoxes1->Add(Units_Holder_HeroMode, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_AirMode, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_FlyMode, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_SheepConversion, 1, wxEXPAND);
@@ -4758,7 +4771,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AirMode->Connect(Units_AirMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte), NULL, this);
 	Units_HideInEditor->Connect(Units_HideInEditor->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte), NULL, this);
 	Units_BuildingMode->Connect(Units_BuildingMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte), NULL, this);
-	Units_VisibleInFog->Connect(Units_VisibleInFog->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte), NULL, this);
+	Units_VisibleInFog->Connect(Units_VisibleInFog->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	Units_FlyMode->Connect(Units_FlyMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte), NULL, this);
 	Units_InteractionMode->Connect(Units_InteractionMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	Units_MinimapMode->Connect(Units_MinimapMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
@@ -5024,7 +5037,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_DeathMode->Connect(Units_CheckBox_DeathMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_AirMode->Connect(Units_CheckBox_AirMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_HideInEditor->Connect(Units_CheckBox_HideInEditor->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
-	Units_CheckBox_VisibleInFog->Connect(Units_CheckBox_VisibleInFog->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_FlyMode->Connect(Units_CheckBox_FlyMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_HeroMode->Connect(Units_CheckBox_HeroMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_Enabled->Connect(Units_CheckBox_Enabled->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort), NULL, this);
