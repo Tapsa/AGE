@@ -2288,7 +2288,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 		{
 			ListUnits(UnitCivID, true);
 		}
-		else if(Event.GetId() == Units_LanguageDllCreation->GetId() || Event.GetId() == Units_LanguageDllHelp->GetId())
+		else if(Event.GetId() == Units_LanguageDllCreation->GetId())
 		{
 			wxCommandEvent E;
 			OnUnitsSelect(E);
@@ -2311,6 +2311,25 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
 			OnTempBackup();
 		}*/
+	}
+}
+
+void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event)
+{
+	((TextCtrl_UnShort*)Event.GetEventObject())->OnKillFocus(Event);
+	if(!((TextCtrl_UnShort*)Event.GetEventObject())->NoLoadList)
+	{
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		{
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
+		}
+		if(Event.GetId() == Units_LanguageDllHelp->GetId())
+		{
+			wxCommandEvent E;
+			OnUnitsSelect(E);
+		}
 	}
 }
 
