@@ -26,9 +26,9 @@ void AGE_Frame::ListSounds()
 	string CompareText;
 	
 	short Selection = Sounds_Sounds_List->GetSelection();
-	short SoundIDs[13];
-	SoundIDs[0] = Units_ComboBox_TrainSound[0]->GetSelection();
-	SoundIDs[1] = Units_ComboBox_TrainSound[1]->GetSelection();
+	short IDsCount = 13, SoundIDs[IDsCount];
+	for(short loop = 0;loop < 2;loop++)
+	SoundIDs[loop] = Units_ComboBox_TrainSound[loop]->GetSelection();
 	SoundIDs[2] = Units_ComboBox_SelectionSound->GetSelection();
 	SoundIDs[3] = Units_ComboBox_DyingSound->GetSelection();
 	SoundIDs[4] = Units_ComboBox_AttackSound->GetSelection();
@@ -44,13 +44,10 @@ void AGE_Frame::ListSounds()
 	{
 		Sounds_Sounds_List->Clear();
 	}
-	if(Units_ComboBox_TrainSound[0]->GetCount() > 0)
+	for(short loop = 0;loop < 2;loop++)
+	if(Units_ComboBox_TrainSound[loop]->GetCount() > 0)
 	{
-		Units_ComboBox_TrainSound[0]->Clear();
-	}
-	if(Units_ComboBox_TrainSound[1]->GetCount() > 0)
-	{
-		Units_ComboBox_TrainSound[1]->Clear();
+		Units_ComboBox_TrainSound[loop]->Clear();
 	}
 	if(Units_ComboBox_SelectionSound->GetCount() > 0)
 	{
@@ -94,7 +91,7 @@ void AGE_Frame::ListSounds()
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 13;loop++)
+	for(short loop = 0;loop < IDsCount;loop++)
 	{
 		if(SoundIDs[loop] == wxNOT_FOUND)
 		{
@@ -102,8 +99,8 @@ void AGE_Frame::ListSounds()
 		}
 	}
 	
-	Units_ComboBox_TrainSound[0]->Append("-1 - None");
-	Units_ComboBox_TrainSound[1]->Append("-1 - None");
+	for(short loop = 0;loop < 2;loop++)
+	Units_ComboBox_TrainSound[loop]->Append("-1 - None");
 	Units_ComboBox_SelectionSound->Append("-1 - None");
 	Units_ComboBox_DyingSound->Append("-1 - None");
 	Units_ComboBox_AttackSound->Append("-1 - None");
@@ -117,16 +114,14 @@ void AGE_Frame::ListSounds()
 	
 	for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetSoundName(loop);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetSoundName(loop)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetSoundName(loop);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Sounds_Sounds_List->Append(Name, (void*)&GenieFile->Sounds[loop]);
 		}
-		Units_ComboBox_TrainSound[0]->Append(Name);
-		Units_ComboBox_TrainSound[1]->Append(Name);
+		for(short loop = 0;loop < 2;loop++)
+		Units_ComboBox_TrainSound[loop]->Append(Name);
 		Units_ComboBox_SelectionSound->Append(Name);
 		Units_ComboBox_DyingSound->Append(Name);
 		Units_ComboBox_AttackSound->Append(Name);
@@ -142,8 +137,8 @@ void AGE_Frame::ListSounds()
 	Sounds_Sounds_List->SetSelection(0);
 	Sounds_Sounds_List->SetFirstItem(Selection - 3);
 	Sounds_Sounds_List->SetSelection(Selection);
-	Units_ComboBox_TrainSound[0]->SetSelection(SoundIDs[0]);
-	Units_ComboBox_TrainSound[1]->SetSelection(SoundIDs[1]);
+	for(short loop = 0;loop < 2;loop++)
+	Units_ComboBox_TrainSound[loop]->SetSelection(SoundIDs[loop]);
 	Units_ComboBox_SelectionSound->SetSelection(SoundIDs[2]);
 	Units_ComboBox_DyingSound->SetSelection(SoundIDs[3]);
 	Units_ComboBox_AttackSound->SetSelection(SoundIDs[4]);
@@ -264,12 +259,10 @@ void AGE_Frame::ListSoundItems(short Index)
 	}
 	for(short loop = 0;loop < GenieFile->Sounds[Index].Items.size();loop++)
 	{
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetSoundItemName(loop, Index)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetSoundItemName(loop, Index);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
-			Name = lexical_cast<string>(loop);
-			Name += " - ";
-			Name += GetSoundItemName(loop, Index);
 			Sounds_SoundItems_List->Append(Name, (void*)&GenieFile->Sounds[Index].Items[loop]);
 		}
 	}

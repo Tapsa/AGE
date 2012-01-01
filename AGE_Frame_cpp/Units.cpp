@@ -8,7 +8,7 @@ using std::tolower;
 
 void AGE_Frame::OnUnitSubList(wxCommandEvent& Event)
 {
-	ListUnits(Units_Civs_List->GetSelection());	// List units by selected civ.
+	ListUnits(Units_Civs_List->GetSelection(), false);	// List units by selected civ.
 }
 
 string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
@@ -110,14 +110,13 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent& Event)
 	short Selection = Units_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		ListUnits(Selection);
+		ListUnits(Selection, false);
 	}
 }
 
 // Following void thing is a series of lists for user interface.
-void AGE_Frame::ListUnits(short UnitCivID)
+void AGE_Frame::ListUnits(short UnitCivID, bool Sized)
 {
-
 	string Name;
 	SearchText = wxString(Units_Units_Search->GetValue()).Lower();
 	ExcludeText = wxString(Units_Units_Search_R->GetValue()).Lower();
@@ -128,329 +127,303 @@ void AGE_Frame::ListUnits(short UnitCivID)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
 	
-	if(Units_Civs_List->GetCount() > 0)
-	{
-		Units_Civs_List->Clear();
-	}
-	if(UnitCivID == -1)
-	{
-		UnitCivID = 0;
-	}
-	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetCivName(loop);
-		Units_Civs_List->Append(Name);
-	}
+	if(UnitCivID == -1) UnitCivID = 0;
 	Units_Civs_List->SetSelection(UnitCivID);
 	
 	short Selection = Units_Units_List->GetSelection();
-	short UnitIDs[34];
-	UnitIDs[0] = Units_ComboBox_DeadUnitID->GetSelection();
-	UnitIDs[1] = Units_ComboBox_ProjectileUnitID->GetSelection();
-	for(short loop = 0;loop < 2;loop++)
-	UnitIDs[loop+2] = Units_ComboBox_DropSite[loop]->GetSelection();
-	UnitIDs[4] = Units_ComboBox_AttackMissileDuplicationUnit->GetSelection();
-	UnitIDs[5] = Units_ComboBox_TrackingUnit->GetSelection();
-	UnitIDs[6] = Units_ComboBox_TrainLocationID->GetSelection();
-	UnitIDs[7] = Units_ComboBox_StackUnitID->GetSelection();
-	for(short loop = 0;loop < 4;loop++)
-	UnitIDs[loop+8] = Units_ComboBox_AnnexUnit[loop]->GetSelection();
-	UnitIDs[12] = Units_ComboBox_HeadUnit->GetSelection();
-	UnitIDs[13] = Units_ComboBox_TransformUnit->GetSelection();
-	UnitIDs[14] = Research_ComboBox_ResearchLocation->GetSelection();
-	UnitIDs[15] = Effects_ComboBox_UnitsA->GetSelection();
-	UnitIDs[16] = Effects_ComboBox_UnitsB->GetSelection();
-	UnitIDs[17] = UnitCommands_ComboBox_UnitID->GetSelection();
-	UnitIDs[18] = UnitLineUnits_ComboBox_Units->GetSelection();
-	UnitIDs[19] = TechTrees_Ages_ComboBox_Building->GetSelection();
-	UnitIDs[20] = TechTrees_Ages_ComboBox_Unit->GetSelection();
-	UnitIDs[21] = TechTrees_Buildings_ComboBox_ID->GetSelection();
-	UnitIDs[22] = TechTrees_Buildings_ComboBox_Building->GetSelection();
-	UnitIDs[23] = TechTrees_Buildings_ComboBox_Unit->GetSelection();
-	UnitIDs[24] = TechTrees_Units_ComboBox_ID->GetSelection();
-	UnitIDs[25] = TechTrees_Units_ComboBox_UpperBuilding->GetSelection();
-	UnitIDs[26] = TechTrees_Units_ComboBox_Unit->GetSelection();
-	UnitIDs[27] = TechTrees_Researches_ComboBox_UpperBuilding->GetSelection();
-	UnitIDs[28] = TechTrees_Researches_ComboBox_Building->GetSelection();
-	UnitIDs[29] = TechTrees_Researches_ComboBox_Unit->GetSelection();
-	UnitIDs[30] = TechTrees_ComboBox_Unit1->GetSelection();
-	UnitIDs[31] = TechTrees_ComboBox_Unit2->GetSelection();
-	UnitIDs[32] = TechTrees_ComboBox_Unit3->GetSelection();
-	UnitIDs[33] = TechTrees_ComboBox_Unit4->GetSelection();
-	short UnitIDloop[30];
-	for(short loop = 0;loop < 30;loop++)
-	UnitIDloop[loop] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
-
 	if(Units_Units_List->GetCount() > 0)
 	{
 		Units_Units_List->Clear();
 	}
-	if(Units_ComboBox_DeadUnitID->GetCount() > 0)
-	{
-		Units_ComboBox_DeadUnitID->Clear();
-	}
-	if(Units_ComboBox_ProjectileUnitID->GetCount() > 0)
-	{
-		Units_ComboBox_ProjectileUnitID->Clear();
-	}
-	if(Units_ComboBox_AttackMissileDuplicationUnit->GetCount() > 0)
-	{
-		Units_ComboBox_AttackMissileDuplicationUnit->Clear();
-	}
-	for(short loop = 0;loop < 2;loop++)
-	if(Units_ComboBox_DropSite[loop]->GetCount() > 0)
-	{
-		Units_ComboBox_DropSite[loop]->Clear();
-	}
-	if(Units_ComboBox_TrackingUnit->GetCount() > 0)
-	{
-		Units_ComboBox_TrackingUnit->Clear();
-	}
-	if(Units_ComboBox_TrainLocationID->GetCount() > 0)
-	{
-		Units_ComboBox_TrainLocationID->Clear();
-	}
-	if(Units_ComboBox_StackUnitID->GetCount() > 0)
-	{
-		Units_ComboBox_StackUnitID->Clear();
-	}
-	for(short loop = 0;loop < 4;loop++)
-	if(Units_ComboBox_AnnexUnit[loop]->GetCount() > 0)
-	{
-		Units_ComboBox_AnnexUnit[loop]->Clear();
-	}
-	if(Units_ComboBox_HeadUnit->GetCount() > 0)
-	{
-		Units_ComboBox_HeadUnit->Clear();
-	}
-	if(Units_ComboBox_TransformUnit->GetCount() > 0)
-	{
-		Units_ComboBox_TransformUnit->Clear();
-	}
-	if(Research_ComboBox_ResearchLocation->GetCount() > 0)
-	{
-		Research_ComboBox_ResearchLocation->Clear();
-	}
-	if(Effects_ComboBox_UnitsA->GetCount() > 0)
-	{
-		Effects_ComboBox_UnitsA->Clear();
-	}
-	if(Effects_ComboBox_UnitsB->GetCount() > 0)
-	{
-		Effects_ComboBox_UnitsB->Clear();
-	}
-	if(UnitCommands_ComboBox_UnitID->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_UnitID->Clear();
-	}
-	if(UnitLineUnits_ComboBox_Units->GetCount() > 0)
-	{
-		UnitLineUnits_ComboBox_Units->Clear();
-	}
-	if(TechTrees_Ages_ComboBox_Building->GetCount() > 0)
-	{
-		TechTrees_Ages_ComboBox_Building->Clear();
-	}
-	if(TechTrees_Ages_ComboBox_Unit->GetCount() > 0)
-	{
-		TechTrees_Ages_ComboBox_Unit->Clear();
-	}
-	if(TechTrees_Buildings_ComboBox_ID->GetCount() > 0)
-	{
-		TechTrees_Buildings_ComboBox_ID->Clear();
-	}
-	if(TechTrees_Buildings_ComboBox_Building->GetCount() > 0)
-	{
-		TechTrees_Buildings_ComboBox_Building->Clear();
-	}
-	if(TechTrees_Buildings_ComboBox_Unit->GetCount() > 0)
-	{
-		TechTrees_Buildings_ComboBox_Unit->Clear();
-	}
-	if(TechTrees_Units_ComboBox_ID->GetCount() > 0)
-	{
-		TechTrees_Units_ComboBox_ID->Clear();
-	}
-	if(TechTrees_Units_ComboBox_UpperBuilding->GetCount() > 0)
-	{
-		TechTrees_Units_ComboBox_UpperBuilding->Clear();
-	}
-	if(TechTrees_Units_ComboBox_Unit->GetCount() > 0)
-	{
-		TechTrees_Units_ComboBox_Unit->Clear();
-	}
-	if(TechTrees_Researches_ComboBox_UpperBuilding->GetCount() > 0)
-	{
-		TechTrees_Researches_ComboBox_UpperBuilding->Clear();
-	}
-	if(TechTrees_Researches_ComboBox_Building->GetCount() > 0)
-	{
-		TechTrees_Researches_ComboBox_Building->Clear();
-	}
-	if(TechTrees_Researches_ComboBox_Unit->GetCount() > 0)
-	{
-		TechTrees_Researches_ComboBox_Unit->Clear();
-	}
-	if(TechTrees_ComboBox_Unit1->GetCount() > 0)
-	{
-		TechTrees_ComboBox_Unit1->Clear();
-	}
-	if(TechTrees_ComboBox_Unit2->GetCount() > 0)
-	{
-		TechTrees_ComboBox_Unit2->Clear();
-	}
-	if(TechTrees_ComboBox_Unit3->GetCount() > 0)
-	{
-		TechTrees_ComboBox_Unit3->Clear();
-	}
-	if(TechTrees_ComboBox_Unit4->GetCount() > 0)
-	{
-		TechTrees_ComboBox_Unit4->Clear();
-	}
-	for(short loop = 0;loop < 30;loop++)
-	if(Terrains_ComboBox_TerrainUnitID[loop]->GetCount() > 0)
-	{
-		Terrains_ComboBox_TerrainUnitID[loop]->Clear();
-	}
-	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 34;loop++)
-	{
-		if(UnitIDs[loop] == wxNOT_FOUND)
-		{
-			UnitIDs[loop] = 0;
-		}
-	}
-	for(short loop = 0;loop < 30;loop++)
-	{
-		if(UnitIDloop[loop] == wxNOT_FOUND)
-		{
-			UnitIDloop[loop] = 0;
-		}
-	}
 	
-	Units_ComboBox_DeadUnitID->Append("-1 - None");
-	Units_ComboBox_ProjectileUnitID->Append("-1 - None");
-	Units_ComboBox_AttackMissileDuplicationUnit->Append("-1 - None");
-	for(short loop = 0;loop < 2;loop++)
-	Units_ComboBox_DropSite[loop]->Append("-1 - None");
-	Units_ComboBox_TrackingUnit->Append("-1 - None");
-	Units_ComboBox_TrainLocationID->Append("-1 - None");
-	Units_ComboBox_StackUnitID->Append("-1 - None");
-	for(short loop = 0;loop < 4;loop++)
-	Units_ComboBox_AnnexUnit[loop]->Append("-1 - None");
-	Units_ComboBox_HeadUnit->Append("-1 - None");
-	Units_ComboBox_TransformUnit->Append("-1 - None");
-	Research_ComboBox_ResearchLocation->Append("-1 - None");
-	Effects_ComboBox_UnitsA->Append("-1 - None");
-	Effects_ComboBox_UnitsB->Append("-1 - None");
-	UnitCommands_ComboBox_UnitID->Append("-1 - None");
-	UnitLineUnits_ComboBox_Units->Append("-1 - None");
-	TechTrees_Ages_ComboBox_Building->Append("-1 - None");
-	TechTrees_Ages_ComboBox_Unit->Append("-1 - None");
-	TechTrees_Buildings_ComboBox_ID->Append("-1 - None");
-	TechTrees_Buildings_ComboBox_Building->Append("-1 - None");
-	TechTrees_Buildings_ComboBox_Unit->Append("-1 - None");
-	TechTrees_Units_ComboBox_ID->Append("-1 - None");
-	TechTrees_Units_ComboBox_UpperBuilding->Append("-1 - None");
-	TechTrees_Units_ComboBox_Unit->Append("-1 - None");
-	TechTrees_Researches_ComboBox_UpperBuilding->Append("-1 - None");
-	TechTrees_Researches_ComboBox_Building->Append("-1 - None");
-	TechTrees_Researches_ComboBox_Unit->Append("-1 - None");
-	TechTrees_ComboBox_Unit1->Append("-1 - None");
-	TechTrees_ComboBox_Unit2->Append("-1 - None");
-	TechTrees_ComboBox_Unit3->Append("-1 - None");
-	TechTrees_ComboBox_Unit4->Append("-1 - None");
-	for(short loop = 0;loop < 30;loop++)
-	Terrains_ComboBox_TerrainUnitID[loop]->Append("-1 - None");
+	short IDsCount = 64, UnitIDs[IDsCount];
+	if(Sized)
+	{
+		UnitIDs[0] = Units_ComboBox_DeadUnitID->GetSelection();
+		UnitIDs[1] = Units_ComboBox_ProjectileUnitID->GetSelection();
+		for(short loop = 0;loop < 2;loop++)
+		UnitIDs[loop+2] = Units_ComboBox_DropSite[loop]->GetSelection();
+		UnitIDs[4] = Units_ComboBox_AttackMissileDuplicationUnit->GetSelection();
+		UnitIDs[5] = Units_ComboBox_TrackingUnit->GetSelection();
+		UnitIDs[6] = Units_ComboBox_TrainLocationID->GetSelection();
+		UnitIDs[7] = Units_ComboBox_StackUnitID->GetSelection();
+		for(short loop = 0;loop < 4;loop++)
+		{
+			UnitIDs[loop+8] = Units_ComboBox_AnnexUnit[loop]->GetSelection();
+			UnitIDs[loop+30] = TechTrees_ComboBox_Unit[loop]->GetSelection();
+		}
+		UnitIDs[12] = Units_ComboBox_HeadUnit->GetSelection();
+		UnitIDs[13] = Units_ComboBox_TransformUnit->GetSelection();
+		UnitIDs[14] = Research_ComboBox_ResearchLocation->GetSelection();
+		UnitIDs[15] = Effects_ComboBox_UnitsA->GetSelection();
+		UnitIDs[16] = Effects_ComboBox_UnitsB->GetSelection();
+		UnitIDs[17] = UnitCommands_ComboBox_UnitID->GetSelection();
+		UnitIDs[18] = UnitLineUnits_ComboBox_Units->GetSelection();
+		UnitIDs[19] = TechTrees_Ages_ComboBox_Building->GetSelection();
+		UnitIDs[20] = TechTrees_Ages_ComboBox_Unit->GetSelection();
+		UnitIDs[21] = TechTrees_Buildings_ComboBox_ID->GetSelection();
+		UnitIDs[22] = TechTrees_Buildings_ComboBox_Building->GetSelection();
+		UnitIDs[23] = TechTrees_Buildings_ComboBox_Unit->GetSelection();
+		UnitIDs[24] = TechTrees_Units_ComboBox_ID->GetSelection();
+		UnitIDs[25] = TechTrees_Units_ComboBox_UpperBuilding->GetSelection();
+		UnitIDs[26] = TechTrees_Units_ComboBox_Unit->GetSelection();
+		UnitIDs[27] = TechTrees_Researches_ComboBox_UpperBuilding->GetSelection();
+		UnitIDs[28] = TechTrees_Researches_ComboBox_Building->GetSelection();
+		UnitIDs[29] = TechTrees_Researches_ComboBox_Unit->GetSelection();
+		for(short loop = 0;loop < 30;loop++)
+		UnitIDs[loop+34] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
+		
+		if(Units_ComboBox_DeadUnitID->GetCount() > 0)
+		{
+			Units_ComboBox_DeadUnitID->Clear();
+		}
+		if(Units_ComboBox_ProjectileUnitID->GetCount() > 0)
+		{
+			Units_ComboBox_ProjectileUnitID->Clear();
+		}
+		if(Units_ComboBox_AttackMissileDuplicationUnit->GetCount() > 0)
+		{
+			Units_ComboBox_AttackMissileDuplicationUnit->Clear();
+		}
+		for(short loop = 0;loop < 2;loop++)
+		if(Units_ComboBox_DropSite[loop]->GetCount() > 0)
+		{
+			Units_ComboBox_DropSite[loop]->Clear();
+		}
+		if(Units_ComboBox_TrackingUnit->GetCount() > 0)
+		{
+			Units_ComboBox_TrackingUnit->Clear();
+		}
+		if(Units_ComboBox_TrainLocationID->GetCount() > 0)
+		{
+			Units_ComboBox_TrainLocationID->Clear();
+		}
+		if(Units_ComboBox_StackUnitID->GetCount() > 0)
+		{
+			Units_ComboBox_StackUnitID->Clear();
+		}
+		for(short loop = 0;loop < 4;loop++)
+		{
+			if(Units_ComboBox_AnnexUnit[loop]->GetCount() > 0)
+			{
+				Units_ComboBox_AnnexUnit[loop]->Clear();
+			}
+			if(TechTrees_ComboBox_Unit[loop]->GetCount() > 0)
+			{
+				TechTrees_ComboBox_Unit[loop]->Clear();
+			}
+		}
+		if(Units_ComboBox_HeadUnit->GetCount() > 0)
+		{
+			Units_ComboBox_HeadUnit->Clear();
+		}
+		if(Units_ComboBox_TransformUnit->GetCount() > 0)
+		{
+			Units_ComboBox_TransformUnit->Clear();
+		}
+		if(Research_ComboBox_ResearchLocation->GetCount() > 0)
+		{
+			Research_ComboBox_ResearchLocation->Clear();
+		}
+		if(Effects_ComboBox_UnitsA->GetCount() > 0)
+		{
+			Effects_ComboBox_UnitsA->Clear();
+		}
+		if(Effects_ComboBox_UnitsB->GetCount() > 0)
+		{
+			Effects_ComboBox_UnitsB->Clear();
+		}
+		if(UnitCommands_ComboBox_UnitID->GetCount() > 0)
+		{
+			UnitCommands_ComboBox_UnitID->Clear();
+		}
+		if(UnitLineUnits_ComboBox_Units->GetCount() > 0)
+		{
+			UnitLineUnits_ComboBox_Units->Clear();
+		}
+		if(TechTrees_Ages_ComboBox_Building->GetCount() > 0)
+		{
+			TechTrees_Ages_ComboBox_Building->Clear();
+		}
+		if(TechTrees_Ages_ComboBox_Unit->GetCount() > 0)
+		{
+			TechTrees_Ages_ComboBox_Unit->Clear();
+		}
+		if(TechTrees_Buildings_ComboBox_ID->GetCount() > 0)
+		{
+			TechTrees_Buildings_ComboBox_ID->Clear();
+		}
+		if(TechTrees_Buildings_ComboBox_Building->GetCount() > 0)
+		{
+			TechTrees_Buildings_ComboBox_Building->Clear();
+		}
+		if(TechTrees_Buildings_ComboBox_Unit->GetCount() > 0)
+		{
+			TechTrees_Buildings_ComboBox_Unit->Clear();
+		}
+		if(TechTrees_Units_ComboBox_ID->GetCount() > 0)
+		{
+			TechTrees_Units_ComboBox_ID->Clear();
+		}
+		if(TechTrees_Units_ComboBox_UpperBuilding->GetCount() > 0)
+		{
+			TechTrees_Units_ComboBox_UpperBuilding->Clear();
+		}
+		if(TechTrees_Units_ComboBox_Unit->GetCount() > 0)
+		{
+			TechTrees_Units_ComboBox_Unit->Clear();
+		}
+		if(TechTrees_Researches_ComboBox_UpperBuilding->GetCount() > 0)
+		{
+			TechTrees_Researches_ComboBox_UpperBuilding->Clear();
+		}
+		if(TechTrees_Researches_ComboBox_Building->GetCount() > 0)
+		{
+			TechTrees_Researches_ComboBox_Building->Clear();
+		}
+		if(TechTrees_Researches_ComboBox_Unit->GetCount() > 0)
+		{
+			TechTrees_Researches_ComboBox_Unit->Clear();
+		}
+		for(short loop = 0;loop < 30;loop++)
+		if(Terrains_ComboBox_TerrainUnitID[loop]->GetCount() > 0)
+		{
+			Terrains_ComboBox_TerrainUnitID[loop]->Clear();
+		}
+		
+		for(short loop = 0;loop < IDsCount;loop++)
+		{
+			if(UnitIDs[loop] == wxNOT_FOUND)
+			{
+				UnitIDs[loop] = 0;
+			}
+		}
+		
+		Units_ComboBox_DeadUnitID->Append("-1 - None");
+		Units_ComboBox_ProjectileUnitID->Append("-1 - None");
+		Units_ComboBox_AttackMissileDuplicationUnit->Append("-1 - None");
+		for(short loop = 0;loop < 2;loop++)
+		Units_ComboBox_DropSite[loop]->Append("-1 - None");
+		Units_ComboBox_TrackingUnit->Append("-1 - None");
+		Units_ComboBox_TrainLocationID->Append("-1 - None");
+		Units_ComboBox_StackUnitID->Append("-1 - None");
+		for(short loop = 0;loop < 4;loop++)
+		{
+			Units_ComboBox_AnnexUnit[loop]->Append("-1 - None");
+			TechTrees_ComboBox_Unit[loop]->Append("-1 - None");
+		}
+		Units_ComboBox_HeadUnit->Append("-1 - None");
+		Units_ComboBox_TransformUnit->Append("-1 - None");
+		Research_ComboBox_ResearchLocation->Append("-1 - None");
+		Effects_ComboBox_UnitsA->Append("-1 - None");
+		Effects_ComboBox_UnitsB->Append("-1 - None");
+		UnitCommands_ComboBox_UnitID->Append("-1 - None");
+		UnitLineUnits_ComboBox_Units->Append("-1 - None");
+		TechTrees_Ages_ComboBox_Building->Append("-1 - None");
+		TechTrees_Ages_ComboBox_Unit->Append("-1 - None");
+		TechTrees_Buildings_ComboBox_ID->Append("-1 - None");
+		TechTrees_Buildings_ComboBox_Building->Append("-1 - None");
+		TechTrees_Buildings_ComboBox_Unit->Append("-1 - None");
+		TechTrees_Units_ComboBox_ID->Append("-1 - None");
+		TechTrees_Units_ComboBox_UpperBuilding->Append("-1 - None");
+		TechTrees_Units_ComboBox_Unit->Append("-1 - None");
+		TechTrees_Researches_ComboBox_UpperBuilding->Append("-1 - None");
+		TechTrees_Researches_ComboBox_Building->Append("-1 - None");
+		TechTrees_Researches_ComboBox_Unit->Append("-1 - None");
+		for(short loop = 0;loop < 30;loop++)
+		Terrains_ComboBox_TerrainUnitID[loop]->Append("-1 - None");
+	}
 	
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units.size();loop++)
 	{
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitName(loop, UnitCivID, true)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetUnitName(loop, UnitCivID, true);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
-			Name = lexical_cast<string>(loop)+" - "+GetUnitName(loop, UnitCivID, true);
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[loop]);
 		}
-		Name = lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0, false);
-		Units_ComboBox_DeadUnitID->Append(Name);
-		Units_ComboBox_ProjectileUnitID->Append(Name);
-		Units_ComboBox_AttackMissileDuplicationUnit->Append(Name);
-		for(short loop = 0;loop < 2;loop++)
-		Units_ComboBox_DropSite[loop]->Append(Name);
-		Units_ComboBox_TrackingUnit->Append(Name);
-		Units_ComboBox_TrainLocationID->Append(Name);
-		Units_ComboBox_StackUnitID->Append(Name);
-		for(short loop = 0;loop < 4;loop++)
-		Units_ComboBox_AnnexUnit[loop]->Append(Name);
-		Units_ComboBox_HeadUnit->Append(Name);
-		Units_ComboBox_TransformUnit->Append(Name);
-		Research_ComboBox_ResearchLocation->Append(Name);
-		Effects_ComboBox_UnitsA->Append(Name);
-		Effects_ComboBox_UnitsB->Append(Name);
-		UnitCommands_ComboBox_UnitID->Append(Name);
-		UnitLineUnits_ComboBox_Units->Append(Name);
-		TechTrees_Ages_ComboBox_Building->Append(Name);
-		TechTrees_Ages_ComboBox_Unit->Append(Name);
-		TechTrees_Buildings_ComboBox_ID->Append(Name);
-		TechTrees_Buildings_ComboBox_Building->Append(Name);
-		TechTrees_Buildings_ComboBox_Unit->Append(Name);
-		TechTrees_Units_ComboBox_ID->Append(Name);
-		TechTrees_Units_ComboBox_UpperBuilding->Append(Name);
-		TechTrees_Units_ComboBox_Unit->Append(Name);
-		TechTrees_Researches_ComboBox_UpperBuilding->Append(Name);
-		TechTrees_Researches_ComboBox_Building->Append(Name);
-		TechTrees_Researches_ComboBox_Unit->Append(Name);
-		TechTrees_ComboBox_Unit1->Append(Name);
-		TechTrees_ComboBox_Unit2->Append(Name);
-		TechTrees_ComboBox_Unit3->Append(Name);
-		TechTrees_ComboBox_Unit4->Append(Name);
-		for(short loop = 0;loop < 30;loop++)
-		Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
+		if(Sized)
+		{
+			Name = lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0, false);
+			Units_ComboBox_DeadUnitID->Append(Name);
+			Units_ComboBox_ProjectileUnitID->Append(Name);
+			Units_ComboBox_AttackMissileDuplicationUnit->Append(Name);
+			for(short loop = 0;loop < 2;loop++)
+			Units_ComboBox_DropSite[loop]->Append(Name);
+			Units_ComboBox_TrackingUnit->Append(Name);
+			Units_ComboBox_TrainLocationID->Append(Name);
+			Units_ComboBox_StackUnitID->Append(Name);
+			for(short loop = 0;loop < 4;loop++)
+			{
+				Units_ComboBox_AnnexUnit[loop]->Append(Name);
+				TechTrees_ComboBox_Unit[loop]->Append(Name);
+			}
+			Units_ComboBox_HeadUnit->Append(Name);
+			Units_ComboBox_TransformUnit->Append(Name);
+			Research_ComboBox_ResearchLocation->Append(Name);
+			Effects_ComboBox_UnitsA->Append(Name);
+			Effects_ComboBox_UnitsB->Append(Name);
+			UnitCommands_ComboBox_UnitID->Append(Name);
+			UnitLineUnits_ComboBox_Units->Append(Name);
+			TechTrees_Ages_ComboBox_Building->Append(Name);
+			TechTrees_Ages_ComboBox_Unit->Append(Name);
+			TechTrees_Buildings_ComboBox_ID->Append(Name);
+			TechTrees_Buildings_ComboBox_Building->Append(Name);
+			TechTrees_Buildings_ComboBox_Unit->Append(Name);
+			TechTrees_Units_ComboBox_ID->Append(Name);
+			TechTrees_Units_ComboBox_UpperBuilding->Append(Name);
+			TechTrees_Units_ComboBox_Unit->Append(Name);
+			TechTrees_Researches_ComboBox_UpperBuilding->Append(Name);
+			TechTrees_Researches_ComboBox_Building->Append(Name);
+			TechTrees_Researches_ComboBox_Unit->Append(Name);
+			for(short loop = 0;loop < 30;loop++)
+			Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
+		}
 	}
 	
 	Units_Units_List->SetSelection(0);
 	Units_Units_List->SetFirstItem(Selection - 3);
 	Units_Units_List->SetSelection(Selection);
-	Units_ComboBox_DeadUnitID->SetSelection(UnitIDs[0]);
-	Units_ComboBox_ProjectileUnitID->SetSelection(UnitIDs[1]);
-	for(short loop = 0;loop < 2;loop++)
-	Units_ComboBox_DropSite[loop]->SetSelection(UnitIDs[loop+2]);// 2 ja 3
-	Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitIDs[4]);
-	Units_ComboBox_TrackingUnit->SetSelection(UnitIDs[5]);
-	Units_ComboBox_TrainLocationID->SetSelection(UnitIDs[6]);
-	Units_ComboBox_StackUnitID->SetSelection(UnitIDs[7]);
-	for(short loop = 0;loop < 4;loop++)
-	Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitIDs[loop+8]);// 8 - 11
-	Units_ComboBox_HeadUnit->SetSelection(UnitIDs[12]);
-	Units_ComboBox_TransformUnit->SetSelection(UnitIDs[13]);
-	Research_ComboBox_ResearchLocation->SetSelection(UnitIDs[14]);
-	Effects_ComboBox_UnitsA->SetSelection(UnitIDs[15]);
-	Effects_ComboBox_UnitsB->SetSelection(UnitIDs[16]);
-	UnitCommands_ComboBox_UnitID->SetSelection(UnitIDs[17]);
-	UnitLineUnits_ComboBox_Units->SetSelection(UnitIDs[18]);
-	TechTrees_Ages_ComboBox_Building->SetSelection(UnitIDs[19]);
-	TechTrees_Ages_ComboBox_Unit->SetSelection(UnitIDs[20]);
-	TechTrees_Buildings_ComboBox_ID->SetSelection(UnitIDs[21]);
-	TechTrees_Buildings_ComboBox_Building->SetSelection(UnitIDs[22]);
-	TechTrees_Buildings_ComboBox_Unit->SetSelection(UnitIDs[23]);
-	TechTrees_Units_ComboBox_ID->SetSelection(UnitIDs[24]);
-	TechTrees_Units_ComboBox_UpperBuilding->SetSelection(UnitIDs[25]);
-	TechTrees_Units_ComboBox_Unit->SetSelection(UnitIDs[26]);
-	TechTrees_Researches_ComboBox_UpperBuilding->SetSelection(UnitIDs[27]);
-	TechTrees_Researches_ComboBox_Building->SetSelection(UnitIDs[28]);
-	TechTrees_Researches_ComboBox_Unit->SetSelection(UnitIDs[29]);
-	TechTrees_ComboBox_Unit1->SetSelection(UnitIDs[30]);
-	TechTrees_ComboBox_Unit2->SetSelection(UnitIDs[31]);
-	TechTrees_ComboBox_Unit3->SetSelection(UnitIDs[32]);
-	TechTrees_ComboBox_Unit4->SetSelection(UnitIDs[33]);
-	for(short loop = 0;loop < 30;loop++)
-	Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDloop[loop]);
+	if(Sized)
+	{
+		Units_ComboBox_DeadUnitID->SetSelection(UnitIDs[0]);
+		Units_ComboBox_ProjectileUnitID->SetSelection(UnitIDs[1]);
+		for(short loop = 0;loop < 2;loop++)
+		Units_ComboBox_DropSite[loop]->SetSelection(UnitIDs[loop+2]);// 2 ja 3
+		Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitIDs[4]);
+		Units_ComboBox_TrackingUnit->SetSelection(UnitIDs[5]);
+		Units_ComboBox_TrainLocationID->SetSelection(UnitIDs[6]);
+		Units_ComboBox_StackUnitID->SetSelection(UnitIDs[7]);
+		for(short loop = 0;loop < 4;loop++)
+		{
+			Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitIDs[loop+8]);// 8 - 11
+			TechTrees_ComboBox_Unit[loop]->SetSelection(UnitIDs[loop+30]);
+		}
+		Units_ComboBox_HeadUnit->SetSelection(UnitIDs[12]);
+		Units_ComboBox_TransformUnit->SetSelection(UnitIDs[13]);
+		Research_ComboBox_ResearchLocation->SetSelection(UnitIDs[14]);
+		Effects_ComboBox_UnitsA->SetSelection(UnitIDs[15]);
+		Effects_ComboBox_UnitsB->SetSelection(UnitIDs[16]);
+		UnitCommands_ComboBox_UnitID->SetSelection(UnitIDs[17]);
+		UnitLineUnits_ComboBox_Units->SetSelection(UnitIDs[18]);
+		TechTrees_Ages_ComboBox_Building->SetSelection(UnitIDs[19]);
+		TechTrees_Ages_ComboBox_Unit->SetSelection(UnitIDs[20]);
+		TechTrees_Buildings_ComboBox_ID->SetSelection(UnitIDs[21]);
+		TechTrees_Buildings_ComboBox_Building->SetSelection(UnitIDs[22]);
+		TechTrees_Buildings_ComboBox_Unit->SetSelection(UnitIDs[23]);
+		TechTrees_Units_ComboBox_ID->SetSelection(UnitIDs[24]);
+		TechTrees_Units_ComboBox_UpperBuilding->SetSelection(UnitIDs[25]);
+		TechTrees_Units_ComboBox_Unit->SetSelection(UnitIDs[26]);
+		TechTrees_Researches_ComboBox_UpperBuilding->SetSelection(UnitIDs[27]);
+		TechTrees_Researches_ComboBox_Building->SetSelection(UnitIDs[28]);
+		TechTrees_Researches_ComboBox_Unit->SetSelection(UnitIDs[29]);
+		for(short loop = 0;loop < 30;loop++)
+		Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDs[loop+34]);
+	}
 	
 	for(short loop = 0;loop < 2;loop++)
 	UseAnd[loop] = false;
@@ -479,9 +452,7 @@ void AGE_Frame::ListUnitHeads()
 	}
 	for(short loop = 0;loop < GenieFile->UnitHeaders.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetUnitName(loop, CivSelection, false);
+		Name = lexical_cast<string>(loop)+" - "+GetUnitName(loop, CivSelection, false);
 		Units_UnitHeads_List->Append(Name, (void*)&GenieFile->UnitHeaders[loop]);
 	}
 	Units_UnitHeads_List->SetSelection(Selection);
@@ -1551,7 +1522,7 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 		ListUnitHeads();
 	}
 	Added = true;
-	ListUnits(UnitCivID);
+	ListUnits(UnitCivID, true);
 }
 
 void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
@@ -1587,7 +1558,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 		}
 		if(Selection == Units_Units_List->GetCount() - 1)
 		Units_Units_List->SetSelection(Selection - 1);
-		ListUnits(UnitCivID);
+		ListUnits(UnitCivID, true);
 	}
 }
 
@@ -1693,7 +1664,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 			{
 				ListUnitHeads();
 			}
-			ListUnits(UnitCivID);
+			ListUnits(UnitCivID, true);
 		}
 	}
 }
@@ -1732,12 +1703,10 @@ void AGE_Frame::ListUnitDamageGraphics(short Index, short UnitCivID)
 	}
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].DamageGraphics.size();loop++)
 	{
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitDamageGraphicName(loop, UnitCivID, Index)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop, UnitCivID, Index);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
-			Name = lexical_cast<string>(loop);
-			Name += " - ";
-			Name += GetUnitDamageGraphicName(loop, UnitCivID, Index);
 			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].DamageGraphics[loop]);
 		}
 	}
@@ -1874,12 +1843,10 @@ void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
 		Units_Attacks_Add->Enable(true);
 		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile.Attacks.size();loop++)
 		{
-			CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitAttackName(loop, UnitCivID, Index)).Lower();
+			Name = lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop, UnitCivID, Index);
+			CompareText = wxString(Name).Lower();
 			if(SearchMatches(CompareText) == true)
 			{
-				Name = lexical_cast<string>(loop);
-				Name += " - ";
-				Name += GetUnitAttackName(loop, UnitCivID, Index);
 				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile.Attacks[loop]);
 			}
 		}
@@ -2015,12 +1982,10 @@ void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
 		Units_Armors_Add->Enable(true);
 		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile.Armours.size();loop++)
 		{
-			CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitArmorName(loop, UnitCivID, Index)).Lower();
+			Name = lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop, UnitCivID, Index);
+			CompareText = wxString(Name).Lower();
 			if(SearchMatches(CompareText) == true)
 			{
-				Name = lexical_cast<string>(loop);
-				Name += " - ";
-				Name += GetUnitArmorName(loop, UnitCivID, Index);
 				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile.Armours[loop]);
 			}
 		}
@@ -2289,12 +2254,10 @@ void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 	{
 		for(short loop = 0;loop < GenieFile->UnitHeaders[Index].Commands.size();loop++)
 		{
-			CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitCommandName(loop, 0, Index)).Lower();
+			Name = lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop, 0, Index);
+			CompareText = wxString(Name).Lower();
 			if(SearchMatches(CompareText) == true)
 			{
-				Name = lexical_cast<string>(loop);
-				Name += " - ";
-				Name += GetUnitCommandName(loop, 0, Index);
 				Units_UnitCommands_List->Append(Name, (void*)&GenieFile->UnitHeaders[Index].Commands[loop]);
 			}
 		}
@@ -2306,12 +2269,10 @@ void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 			Units_UnitCommands_Add->Enable(true);
 			for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Bird.Commands.size();loop++)
 			{
-				CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetUnitCommandName(loop, UnitCivID, Index)).Lower();
+				Name = lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop, UnitCivID, Index);
+				CompareText = wxString(Name).Lower();
 				if(SearchMatches(CompareText) == true)
 				{
-					Name = lexical_cast<string>(loop);
-					Name += " - ";
-					Name += GetUnitCommandName(loop, UnitCivID, Index);
 					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Bird.Commands[loop]);
 				}
 			}

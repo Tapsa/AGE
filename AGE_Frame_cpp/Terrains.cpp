@@ -33,14 +33,16 @@ void AGE_Frame::ListTerrains()
 	string CompareText;
 	
 	short Selection = Terrains_Terrains_List->GetSelection();
-	short TerrainID1 = TerRestrict_Terrains_List->GetSelection();
-	short TerrainID2 = Units_ComboBox_PlacementBypassTerrain[0]->GetSelection();
-	short TerrainID3 = Units_ComboBox_PlacementBypassTerrain[1]->GetSelection();
-	short TerrainID4 = Units_ComboBox_PlacementTerrain[0]->GetSelection();
-	short TerrainID5 = Units_ComboBox_PlacementTerrain[1]->GetSelection();
-	short TerrainID6 = Units_ComboBox_TerrainID->GetSelection();
-	short TerrainID7 = Terrains_ComboBox_TerrainReplacementID->GetSelection();
-	short TerrainID8 = Borders_ComboBox_BorderTerrain->GetSelection();
+	short IDsCount = 8, TerrainIDs[IDsCount];
+	TerrainIDs[0] = TerRestrict_Terrains_List->GetSelection();
+	for(short loop = 0;loop < 2;loop++)
+	{
+		TerrainIDs[loop+1] = Units_ComboBox_PlacementBypassTerrain[loop]->GetSelection();
+		TerrainIDs[loop+3] = Units_ComboBox_PlacementTerrain[loop]->GetSelection();
+	}
+	TerrainIDs[5] = Units_ComboBox_TerrainID->GetSelection();
+	TerrainIDs[6] = Terrains_ComboBox_TerrainReplacementID->GetSelection();
+	TerrainIDs[7] = Borders_ComboBox_BorderTerrain->GetSelection();
 
 	if(Terrains_Terrains_List->GetCount() > 0)
 	{
@@ -50,21 +52,16 @@ void AGE_Frame::ListTerrains()
 	{
 		TerRestrict_Terrains_List->Clear();
 	}
-	if(Units_ComboBox_PlacementBypassTerrain[0]->GetCount() > 0)
+	for(short loop = 0;loop < 2;loop++)
 	{
-		Units_ComboBox_PlacementBypassTerrain[0]->Clear();
-	}
-	if(Units_ComboBox_PlacementBypassTerrain[1]->GetCount() > 0)
-	{
-		Units_ComboBox_PlacementBypassTerrain[1]->Clear();
-	}
-	if(Units_ComboBox_PlacementTerrain[0]->GetCount() > 0)
-	{
-		Units_ComboBox_PlacementTerrain[0]->Clear();
-	}
-	if(Units_ComboBox_PlacementTerrain[1]->GetCount() > 0)
-	{
-		Units_ComboBox_PlacementTerrain[1]->Clear();
+		if(Units_ComboBox_PlacementBypassTerrain[loop]->GetCount() > 0)
+		{
+			Units_ComboBox_PlacementBypassTerrain[loop]->Clear();
+		}
+		if(Units_ComboBox_PlacementTerrain[loop]->GetCount() > 0)
+		{
+			Units_ComboBox_PlacementTerrain[loop]->Clear();
+		}
 	}
 	if(Units_ComboBox_TerrainID->GetCount() > 0)
 	{
@@ -83,43 +80,19 @@ void AGE_Frame::ListTerrains()
 	{
 		Selection = 0;
 	}
-	if(TerrainID1 == wxNOT_FOUND)
+	for(short loop = 0;loop < IDsCount;loop++)
 	{
-		TerrainID1 = 0;
-	}
-	if(TerrainID2 == wxNOT_FOUND)
-	{
-		TerrainID2 = 0;
-	}
-	if(TerrainID3 == wxNOT_FOUND)
-	{
-		TerrainID3 = 0;
-	}
-	if(TerrainID4 == wxNOT_FOUND)
-	{
-		TerrainID4 = 0;
-	}
-	if(TerrainID5 == wxNOT_FOUND)
-	{
-		TerrainID5 = 0;
-	}
-	if(TerrainID6 == wxNOT_FOUND)
-	{
-		TerrainID6 = 0;
-	}
-	if(TerrainID7 == wxNOT_FOUND)
-	{
-		TerrainID7 = 0;
-	}
-	if(TerrainID8 == wxNOT_FOUND)
-	{
-		TerrainID8 = 0;
+		if(TerrainIDs[loop] == wxNOT_FOUND)
+		{
+			TerrainIDs[loop] = 0;
+		}
 	}
 	
-	Units_ComboBox_PlacementBypassTerrain[0]->Append("-1 - None");
-	Units_ComboBox_PlacementBypassTerrain[1]->Append("-1 - None");
-	Units_ComboBox_PlacementTerrain[0]->Append("-1 - None");
-	Units_ComboBox_PlacementTerrain[1]->Append("-1 - None");
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Units_ComboBox_PlacementBypassTerrain[loop]->Append("-1 - None");
+		Units_ComboBox_PlacementTerrain[loop]->Append("-1 - None");
+	}
 	Units_ComboBox_TerrainID->Append("-1 - None");
 	Terrains_ComboBox_TerrainReplacementID->Append("-1 - None");
 	Borders_ComboBox_BorderTerrain->Append("-1 - None");
@@ -127,15 +100,16 @@ void AGE_Frame::ListTerrains()
 	for(short loop = 0;loop < GenieFile->Terrains.size();loop++)
 	{
 		Name = lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
-		Units_ComboBox_PlacementBypassTerrain[0]->Append(Name);
-		Units_ComboBox_PlacementBypassTerrain[1]->Append(Name);
-		Units_ComboBox_PlacementTerrain[0]->Append(Name);
-		Units_ComboBox_PlacementTerrain[1]->Append(Name);
+		for(short loop = 0;loop < 2;loop++)
+		{
+			Units_ComboBox_PlacementBypassTerrain[loop]->Append(Name);
+			Units_ComboBox_PlacementTerrain[loop]->Append(Name);
+		}
 		Units_ComboBox_TerrainID->Append(Name);
 		Terrains_ComboBox_TerrainReplacementID->Append(Name);
 		Borders_ComboBox_BorderTerrain->Append(Name);
@@ -145,7 +119,7 @@ void AGE_Frame::ListTerrains()
 	for(short loop = 0;loop < GenieFile->TerrainRestrictions[0].TerrainAccessible.size();loop++)
 	{
 		Name = lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainName(loop)).Lower();
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
@@ -155,14 +129,15 @@ void AGE_Frame::ListTerrains()
 	Terrains_Terrains_List->SetSelection(0);
 	Terrains_Terrains_List->SetFirstItem(Selection - 3);
 	Terrains_Terrains_List->SetSelection(Selection);
-	TerRestrict_Terrains_List->SetSelection(TerrainID1);
-	Units_ComboBox_PlacementBypassTerrain[0]->SetSelection(TerrainID2);
-	Units_ComboBox_PlacementBypassTerrain[1]->SetSelection(TerrainID3);
-	Units_ComboBox_PlacementTerrain[0]->SetSelection(TerrainID4);
-	Units_ComboBox_PlacementTerrain[1]->SetSelection(TerrainID5);
-	Units_ComboBox_TerrainID->SetSelection(TerrainID6);
-	Terrains_ComboBox_TerrainReplacementID->SetSelection(TerrainID7);
-	Borders_ComboBox_BorderTerrain->SetSelection(TerrainID8);
+	TerRestrict_Terrains_List->SetSelection(TerrainIDs[0]);
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Units_ComboBox_PlacementBypassTerrain[loop]->SetSelection(TerrainIDs[loop+1]);
+		Units_ComboBox_PlacementTerrain[loop]->SetSelection(TerrainIDs[loop+3]);
+	}
+	Units_ComboBox_TerrainID->SetSelection(TerrainIDs[5]);
+	Terrains_ComboBox_TerrainReplacementID->SetSelection(TerrainIDs[6]);
+	Borders_ComboBox_BorderTerrain->SetSelection(TerrainIDs[7]);
 
 	wxCommandEvent E;
 	OnTerrainsSelect(E);

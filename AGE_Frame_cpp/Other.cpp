@@ -1684,7 +1684,7 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 		}
 		wxCommandEvent E;
 		OnUnitsSelect(E);	// Updates unit layout and unit type combo box.
-//		ListUnits(UnitCivID);	// For special search filters.
+//		ListUnits(UnitCivID, false);	// For special search filters.
 	}
 }
 
@@ -1694,12 +1694,8 @@ void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
 	{
 		if(Event.GetId() == Units_Units_UseAnd[loop]->GetId())
 		{
-		//	if(Units_Units_UseAnd[loop]->GetValue() == true)
-		//	UseAnd[loop] = true; else UseAnd[loop] = false;
-			
 			wxCommandEvent E;
 			OnUnitsSearch(E);
-		//	ListUnits(UnitCivID);	muille tulee tällänen, unitseilla kaatuu jos ei oo avattu tiedostoa
 		}
 		else if(Event.GetId() == TechTrees_MainList_Units_UseAnd[loop]->GetId())
 		{
@@ -1797,7 +1793,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		
 		wxCommandEvent E;
 		OnUnitsSelect(E);	// Updates unit layout.
-//		ListUnits(UnitCivID);	// For special search filters.
+//		ListUnits(UnitCivID, false);	// For special search filters.
 		/*if(UseUndo)
 		{
 			EditCount++;
@@ -2020,7 +2016,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 	{
 		if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
 		{
-			ListUnits(UnitCivID);
+			ListUnits(UnitCivID, false);
 			Units_Units_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
@@ -2290,7 +2286,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == Units_LanguageDllName->GetId())
 		{
-			ListUnits(UnitCivID);
+			ListUnits(UnitCivID, true);
 		}
 		else if(Event.GetId() == Units_LanguageDllCreation->GetId() || Event.GetId() == Units_LanguageDllHelp->GetId())
 		{
@@ -2656,15 +2652,14 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name = ReducedName;
 	
-			ListUnits(UnitCivID);
+			ListUnits(UnitCivID, true);
 		}
 		else if(Event.GetId() == Units_Name2->GetId())
 		{
 			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name2;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name2 = ReducedName;
-	
-		//	ListUnits(UnitCivID);
+			
 			wxCommandEvent E;
 			OnUnitsSelect(E);
 		}

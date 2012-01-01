@@ -15,9 +15,7 @@ string AGE_Frame::GetTerrainBorderName(short Index)
 	}
 	else
 	{
-		Name = GenieFile->TerrainBorders[Index].Name;
-		Name += " - ";
-		Name += GenieFile->TerrainBorders[Index].Name2;
+		Name = GenieFile->TerrainBorders[Index].Name+" - "+GenieFile->TerrainBorders[Index].Name2;
 	}
 	return Name;
 }
@@ -48,10 +46,8 @@ void AGE_Frame::ListTerrainBorders()
 	
 	for(short loop = 0;loop < GenieFile->TerrainBorders.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetTerrainBorderName(loop);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainBorderName(loop)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetTerrainBorderName(loop);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Borders_Borders_List->Append(Name, (void*)&GenieFile->TerrainBorders[loop]);
@@ -168,10 +164,8 @@ void AGE_Frame::ListTerrainBorderFrames(short Index)
 	
 	for(short loop = 0;loop < GenieFile->TerrainBorders[Index].Frames.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetTerrainBorderFrameName(loop, Index);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTerrainBorderFrameName(loop, Index)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetTerrainBorderFrameName(loop, Index);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Borders_Frames_List->Append(Name, (void*)&GenieFile->TerrainBorders[Index].Frames[loop]);
