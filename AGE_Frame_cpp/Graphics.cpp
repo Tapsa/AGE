@@ -26,10 +26,10 @@ string AGE_Frame::GetGraphicName(short Index)
 
 void AGE_Frame::OnGraphicsSearch(wxCommandEvent& Event)
 {
-	ListGraphics();
+	ListGraphics(false);
 }
 
-void AGE_Frame::ListGraphics()
+void AGE_Frame::ListGraphics(bool Sized)
 {
 	string Name;
 	SearchText = wxString(Graphics_Graphics_Search->GetValue()).Lower();
@@ -37,109 +37,113 @@ void AGE_Frame::ListGraphics()
 	string CompareText;
 	
 	short Selection = Graphics_Graphics_List->GetSelection();
-	short IDsCount = 22, GraphicIDs[IDsCount];
-	GraphicIDs[0] = Units_ComboBox_ConstructionGraphicID->GetSelection();
-	GraphicIDs[1] = Units_ComboBox_SnowGraphicID->GetSelection();
-	GraphicIDs[2] = Units_ComboBox_AttackGraphic->GetSelection();
-	for(short loop = 0;loop < 2;loop++)
-	{
-		GraphicIDs[loop+3] = Units_ComboBox_StandingGraphic[loop]->GetSelection();
-		GraphicIDs[loop+5] = Units_ComboBox_GarrisonGraphic[loop]->GetSelection();
-		GraphicIDs[loop+7] = Units_ComboBox_WalkingGraphic[loop]->GetSelection();
-		GraphicIDs[loop+9] = Units_ComboBox_DyingGraphic[loop]->GetSelection();
-		GraphicIDs[loop+19] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
-	}
-	GraphicIDs[11] = Units_ComboBox_AttackMissileDuplicationGraphic->GetSelection();
-	for(short loop = 0;loop < 6;loop++)
-	GraphicIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
-	GraphicIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
-	GraphicIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
-
 	if(Graphics_Graphics_List->GetCount() > 0)
 	{
 		Graphics_Graphics_List->Clear();
 	}
-	if(Units_ComboBox_ConstructionGraphicID->GetCount() > 0)
-	{
-		Units_ComboBox_ConstructionGraphicID->Clear();
-	}
-	if(Units_ComboBox_SnowGraphicID->GetCount() > 0)
-	{
-		Units_ComboBox_SnowGraphicID->Clear();
-	}
-	if(Units_ComboBox_AttackGraphic->GetCount() > 0)
-	{
-		Units_ComboBox_AttackGraphic->Clear();
-	}
-	for(short loop = 0;loop < 2;loop++)
-	{
-		if(Units_ComboBox_StandingGraphic[loop]->GetCount() > 0)
-		{
-			Units_ComboBox_StandingGraphic[loop]->Clear();
-		}
-		if(Units_ComboBox_GarrisonGraphic[loop]->GetCount() > 0)
-		{
-			Units_ComboBox_GarrisonGraphic[loop]->Clear();
-		}
-		if(Units_ComboBox_WalkingGraphic[loop]->GetCount() > 0)
-		{
-			Units_ComboBox_WalkingGraphic[loop]->Clear();
-		}
-		if(Units_ComboBox_DyingGraphic[loop]->GetCount() > 0)
-		{
-			Units_ComboBox_DyingGraphic[loop]->Clear();
-		}
-		if(TerRestrict_ComboBox_Graphics[loop]->GetCount() > 0)
-		{
-			TerRestrict_ComboBox_Graphics[loop]->Clear();
-		}
-	}
-	if(Units_ComboBox_AttackMissileDuplicationGraphic->GetCount() > 0)
-	{
-		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
-	}
-	for(short loop = 0;loop < 6;loop++)
-	if(UnitCommands_ComboBox_Graphics[loop]->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_Graphics[loop]->Clear();
-	}
-	if(DamageGraphics_ComboBox_GraphicID->GetCount() > 0)
-	{
-		DamageGraphics_ComboBox_GraphicID->Clear();
-	}
-	if(GraphicDeltas_ComboBox_GraphicID->GetCount() > 0)
-	{
-		GraphicDeltas_ComboBox_GraphicID->Clear();
-	}
-	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < IDsCount;loop++)
-	{
-		if(GraphicIDs[loop] == wxNOT_FOUND)
-		{
-			GraphicIDs[loop] = 0;
-		}
-	}
 	
-	Units_ComboBox_ConstructionGraphicID->Append("-1 - None");
-	Units_ComboBox_SnowGraphicID->Append("-1 - None");
-	Units_ComboBox_AttackGraphic->Append("-1 - None");
-	for(short loop = 0;loop < 2;loop++)
+	short IDsCount = 22, GraphicIDs[IDsCount];
+	if(Sized)
 	{
-		Units_ComboBox_StandingGraphic[loop]->Append("-1 - None");
-		Units_ComboBox_GarrisonGraphic[loop]->Append("-1 - None");
-		Units_ComboBox_WalkingGraphic[loop]->Append("-1 - None");
-		Units_ComboBox_DyingGraphic[loop]->Append("-1 - None");
-		TerRestrict_ComboBox_Graphics[loop]->Append("-1 - None");
+		GraphicIDs[0] = Units_ComboBox_ConstructionGraphicID->GetSelection();
+		GraphicIDs[1] = Units_ComboBox_SnowGraphicID->GetSelection();
+		GraphicIDs[2] = Units_ComboBox_AttackGraphic->GetSelection();
+		for(short loop = 0;loop < 2;loop++)
+		{
+			GraphicIDs[loop+3] = Units_ComboBox_StandingGraphic[loop]->GetSelection();
+			GraphicIDs[loop+5] = Units_ComboBox_GarrisonGraphic[loop]->GetSelection();
+			GraphicIDs[loop+7] = Units_ComboBox_WalkingGraphic[loop]->GetSelection();
+			GraphicIDs[loop+9] = Units_ComboBox_DyingGraphic[loop]->GetSelection();
+			GraphicIDs[loop+19] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
+		}
+		GraphicIDs[11] = Units_ComboBox_AttackMissileDuplicationGraphic->GetSelection();
+		for(short loop = 0;loop < 6;loop++)
+		GraphicIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
+		GraphicIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
+		GraphicIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
+		
+		if(Units_ComboBox_ConstructionGraphicID->GetCount() > 0)
+		{
+			Units_ComboBox_ConstructionGraphicID->Clear();
+		}
+		if(Units_ComboBox_SnowGraphicID->GetCount() > 0)
+		{
+			Units_ComboBox_SnowGraphicID->Clear();
+		}
+		if(Units_ComboBox_AttackGraphic->GetCount() > 0)
+		{
+			Units_ComboBox_AttackGraphic->Clear();
+		}
+		for(short loop = 0;loop < 2;loop++)
+		{
+			if(Units_ComboBox_StandingGraphic[loop]->GetCount() > 0)
+			{
+				Units_ComboBox_StandingGraphic[loop]->Clear();
+			}
+			if(Units_ComboBox_GarrisonGraphic[loop]->GetCount() > 0)
+			{
+				Units_ComboBox_GarrisonGraphic[loop]->Clear();
+			}
+			if(Units_ComboBox_WalkingGraphic[loop]->GetCount() > 0)
+			{
+				Units_ComboBox_WalkingGraphic[loop]->Clear();
+			}
+			if(Units_ComboBox_DyingGraphic[loop]->GetCount() > 0)
+			{
+				Units_ComboBox_DyingGraphic[loop]->Clear();
+			}
+			if(TerRestrict_ComboBox_Graphics[loop]->GetCount() > 0)
+			{
+				TerRestrict_ComboBox_Graphics[loop]->Clear();
+			}
+		}
+		if(Units_ComboBox_AttackMissileDuplicationGraphic->GetCount() > 0)
+		{
+			Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
+		}
+		for(short loop = 0;loop < 6;loop++)
+		if(UnitCommands_ComboBox_Graphics[loop]->GetCount() > 0)
+		{
+			UnitCommands_ComboBox_Graphics[loop]->Clear();
+		}
+		if(DamageGraphics_ComboBox_GraphicID->GetCount() > 0)
+		{
+			DamageGraphics_ComboBox_GraphicID->Clear();
+		}
+		if(GraphicDeltas_ComboBox_GraphicID->GetCount() > 0)
+		{
+			GraphicDeltas_ComboBox_GraphicID->Clear();
+		}
+		
+		for(short loop = 0;loop < IDsCount;loop++)
+		{
+			if(GraphicIDs[loop] == wxNOT_FOUND)
+			{
+				GraphicIDs[loop] = 0;
+			}
+		}
+		
+		Units_ComboBox_ConstructionGraphicID->Append("-1 - None");
+		Units_ComboBox_SnowGraphicID->Append("-1 - None");
+		Units_ComboBox_AttackGraphic->Append("-1 - None");
+		for(short loop = 0;loop < 2;loop++)
+		{
+			Units_ComboBox_StandingGraphic[loop]->Append("-1 - None");
+			Units_ComboBox_GarrisonGraphic[loop]->Append("-1 - None");
+			Units_ComboBox_WalkingGraphic[loop]->Append("-1 - None");
+			Units_ComboBox_DyingGraphic[loop]->Append("-1 - None");
+			TerRestrict_ComboBox_Graphics[loop]->Append("-1 - None");
+		}
+		Units_ComboBox_AttackMissileDuplicationGraphic->Append("-1 - None");
+		for(short loop = 0;loop < 6;loop++)
+		UnitCommands_ComboBox_Graphics[loop]->Append("-1 - None");
+		DamageGraphics_ComboBox_GraphicID->Append("-1 - None");
+		GraphicDeltas_ComboBox_GraphicID->Append("-1 - None");
 	}
-	Units_ComboBox_AttackMissileDuplicationGraphic->Append("-1 - None");
-	for(short loop = 0;loop < 6;loop++)
-	UnitCommands_ComboBox_Graphics[loop]->Append("-1 - None");
-	DamageGraphics_ComboBox_GraphicID->Append("-1 - None");
-	GraphicDeltas_ComboBox_GraphicID->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 	{
@@ -149,43 +153,49 @@ void AGE_Frame::ListGraphics()
 		{
 			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
 		}
-		Units_ComboBox_ConstructionGraphicID->Append(Name);
-		Units_ComboBox_SnowGraphicID->Append(Name);
-		Units_ComboBox_AttackGraphic->Append(Name);
-		for(short loop = 0;loop < 2;loop++)
+		if(Sized)
 		{
-			Units_ComboBox_StandingGraphic[loop]->Append(Name);
-			Units_ComboBox_GarrisonGraphic[loop]->Append(Name);
-			Units_ComboBox_WalkingGraphic[loop]->Append(Name);
-			Units_ComboBox_DyingGraphic[loop]->Append(Name);
-			TerRestrict_ComboBox_Graphics[loop]->Append(Name);
+			Units_ComboBox_ConstructionGraphicID->Append(Name);
+			Units_ComboBox_SnowGraphicID->Append(Name);
+			Units_ComboBox_AttackGraphic->Append(Name);
+			for(short loop = 0;loop < 2;loop++)
+			{
+				Units_ComboBox_StandingGraphic[loop]->Append(Name);
+				Units_ComboBox_GarrisonGraphic[loop]->Append(Name);
+				Units_ComboBox_WalkingGraphic[loop]->Append(Name);
+				Units_ComboBox_DyingGraphic[loop]->Append(Name);
+				TerRestrict_ComboBox_Graphics[loop]->Append(Name);
+			}
+			Units_ComboBox_AttackMissileDuplicationGraphic->Append(Name);
+			for(short loop = 0;loop < 6;loop++)
+			UnitCommands_ComboBox_Graphics[loop]->Append(Name);
+			DamageGraphics_ComboBox_GraphicID->Append(Name);
+			GraphicDeltas_ComboBox_GraphicID->Append(Name);
 		}
-		Units_ComboBox_AttackMissileDuplicationGraphic->Append(Name);
-		for(short loop = 0;loop < 6;loop++)
-		UnitCommands_ComboBox_Graphics[loop]->Append(Name);
-		DamageGraphics_ComboBox_GraphicID->Append(Name);
-		GraphicDeltas_ComboBox_GraphicID->Append(Name);
 	}
 	
 	Graphics_Graphics_List->SetSelection(0);
 	Graphics_Graphics_List->SetFirstItem(Selection - 3);
 	Graphics_Graphics_List->SetSelection(Selection);
-	Units_ComboBox_ConstructionGraphicID->SetSelection(GraphicIDs[0]);
-	Units_ComboBox_SnowGraphicID->SetSelection(GraphicIDs[1]);
-	Units_ComboBox_AttackGraphic->SetSelection(GraphicIDs[2]);
-	for(short loop = 0;loop < 2;loop++)
+	if(Sized)
 	{
-		Units_ComboBox_StandingGraphic[loop]->SetSelection(GraphicIDs[loop+3]);
-		Units_ComboBox_GarrisonGraphic[loop]->SetSelection(GraphicIDs[loop+5]);
-		Units_ComboBox_WalkingGraphic[loop]->SetSelection(GraphicIDs[loop+7]);
-		Units_ComboBox_DyingGraphic[loop]->SetSelection(GraphicIDs[loop+9]);
-		TerRestrict_ComboBox_Graphics[loop]->SetSelection(GraphicIDs[loop+19]);
+		Units_ComboBox_ConstructionGraphicID->SetSelection(GraphicIDs[0]);
+		Units_ComboBox_SnowGraphicID->SetSelection(GraphicIDs[1]);
+		Units_ComboBox_AttackGraphic->SetSelection(GraphicIDs[2]);
+		for(short loop = 0;loop < 2;loop++)
+		{
+			Units_ComboBox_StandingGraphic[loop]->SetSelection(GraphicIDs[loop+3]);
+			Units_ComboBox_GarrisonGraphic[loop]->SetSelection(GraphicIDs[loop+5]);
+			Units_ComboBox_WalkingGraphic[loop]->SetSelection(GraphicIDs[loop+7]);
+			Units_ComboBox_DyingGraphic[loop]->SetSelection(GraphicIDs[loop+9]);
+			TerRestrict_ComboBox_Graphics[loop]->SetSelection(GraphicIDs[loop+19]);
+		}
+		Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(GraphicIDs[11]);
+		for(short loop = 0;loop < 6;loop++)
+		UnitCommands_ComboBox_Graphics[loop]->SetSelection(GraphicIDs[loop+12]);
+		DamageGraphics_ComboBox_GraphicID->SetSelection(GraphicIDs[18]);
+		GraphicDeltas_ComboBox_GraphicID->SetSelection(GraphicIDs[21]);
 	}
-	Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(GraphicIDs[11]);
-	for(short loop = 0;loop < 6;loop++)
-	UnitCommands_ComboBox_Graphics[loop]->SetSelection(GraphicIDs[loop+12]);
-	DamageGraphics_ComboBox_GraphicID->SetSelection(GraphicIDs[18]);
-	GraphicDeltas_ComboBox_GraphicID->SetSelection(GraphicIDs[21]);
 	
 	wxCommandEvent E;
 	OnGraphicsSelect(E);
@@ -270,7 +280,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent& Event)
 	GenieFile->GraphicPointers.push_back(1);
 	GenieFile->Graphics[GenieFile->Graphics.size() - 1].ID = lexical_cast<short>(GenieFile->Graphics.size() - 1);	//	ID Fix
 	Added = true;
-	ListGraphics();
+	ListGraphics(true);
 }
 
 void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
@@ -287,7 +297,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
 		}
 		if(Selection == Graphics_Graphics_List->GetCount() - 1)
 		Graphics_Graphics_List->SetSelection(Selection - 1);
-		ListGraphics();
+		ListGraphics(true);
 	}
 }
 
@@ -308,7 +318,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent& Event)
 	{
 		*(gdat::Graphic*)Graphics_Graphics_List->GetClientData(Selection) = GraphicCopy;
 		GenieFile->Graphics[GraphicID].ID = lexical_cast<short>(GraphicID);	//	ID Fix
-		ListGraphics();
+		ListGraphics(true);
 	}
 }
 
@@ -576,7 +586,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_SLP = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_SLP = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SLP = new TextCtrl_Long(Graphics_Scroller, "0", NULL);
-	Graphics_Holder_Unknowns = new wxGridSizer(5, 0, 5);
+	Graphics_Holder_Unknowns = new wxGridSizer(4, 0, 5);
 	Graphics_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_Unknown1 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Unknown1 = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
@@ -584,8 +594,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_Unknown2 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Unknown2 = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
 	Graphics_Holder_FrameType = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_FrameType = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Text_FrameType = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_FrameType = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
+	Graphics_FrameType->SetToolTip("0 - Cliffs\n5 - Shadows, Farms\n6 - Rubble\n10 - Construction sequences, some shadows, corpses, stumps, flowers, paths, ruins, crack\n11 - Fish\n19 - Rugs, crater\n20 - Buildings, damage flames, mill animation, units\n21 - Blacksmith piece (no slp), blacksmith smoke\n22 - Hawk\n30 - Explosions, projectiles ");
 	Graphics_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_Unknown3 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Unknown3 = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
@@ -618,8 +629,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_AngleCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Angle Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_AngleCount = new TextCtrl_UnShort(Graphics_Scroller, "0", NULL);
 	Graphics_Holder_Unknown13 = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_Unknown13 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 13", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Text_Unknown13 = new wxStaticText(Graphics_Scroller, wxID_ANY, " New Speed? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Unknown13 = new TextCtrl_Float(Graphics_Scroller, "0", NULL);
+	Graphics_Unknown13->SetToolTip("Speed value to override the unit's original one?");
 	Graphics_Holder_FrameRate = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_FrameRate = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Rate", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_FrameRate = new TextCtrl_Float(Graphics_Scroller, "0", NULL);
@@ -731,7 +743,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Coordinates->Add(Graphics_Text_Coordinates, 0, wxEXPAND);
 	Graphics_Holder_Coordinates->Add(Graphics_Holder_CoordinateGrid, 1, wxEXPAND);
 	Graphics_Holder_Unknown13->Add(Graphics_Text_Unknown13, 0, wxEXPAND);
-	Graphics_Holder_Unknown13->Add(Graphics_Unknown13, 1, wxEXPAND);
+	Graphics_Holder_Unknown13->Add(Graphics_Unknown13, 0, wxEXPAND);
 	Graphics_Holder_SLP->Add(Graphics_Text_SLP, 0, wxEXPAND);
 	Graphics_Holder_SLP->Add(Graphics_SLP, 1, wxEXPAND);
 	Graphics_Holder_FrameType->Add(Graphics_Text_FrameType, 0, wxEXPAND);
@@ -775,12 +787,12 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Grid_2->Add(Graphics_Holder_SoundID, 1, wxEXPAND);
 	Graphics_Grid_2->Add(Graphics_Holder_Replay, 1, wxEXPAND);
 	Graphics_Grid_2->Add(Graphics_Holder_ReplayDelay, 1, wxEXPAND);
+	Graphics_Grid_2->Add(Graphics_Holder_Unknown13, 1, wxEXPAND);
 
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown1, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown2, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown3, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown4, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown13, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	
 	Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Delete, 1, wxEXPAND);

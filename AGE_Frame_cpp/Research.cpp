@@ -420,8 +420,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_TechID = new TextCtrl_Short(Research_Scroller, "0", NULL);
 	Research_ComboBox_TechID = new ComboBox_Short(Research_Scroller, Research_TechID);
 	Research_Holder_Type = new wxBoxSizer(wxVERTICAL);
-	Research_Text_Type = new wxStaticText(Research_Scroller, wxID_ANY, " Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Text_Type = new wxStaticText(Research_Scroller, wxID_ANY, " Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Type = new TextCtrl_Short(Research_Scroller, "0", NULL);
+	Research_Type->SetToolTip("0 Normal\n2 Age");
 	Research_Holder_IconID = new wxBoxSizer(wxVERTICAL);
 	Research_Text_IconID = new wxStaticText(Research_Scroller, wxID_ANY, " Icon", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_IconID = new TextCtrl_Short(Research_Scroller, "0", NULL);
