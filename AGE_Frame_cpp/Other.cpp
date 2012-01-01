@@ -824,7 +824,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Effects_ComboBox_AttributesC->Append("No Attribute/Invalid Attribute");		// Selection 0
 		Effects_ComboBox_AttributesC->Append("0 - Hit Points");		// Selection 1
 		Effects_ComboBox_AttributesC->Append("1 - Line of Sight");
-		Effects_ComboBox_AttributesC->Append("2 - Garrison");
+		Effects_ComboBox_AttributesC->Append("2 - Garrison Capacity");
 		Effects_ComboBox_AttributesC->Append("3 - Unit Size Radius 1");
 		Effects_ComboBox_AttributesC->Append("4 - Unit Size Radius 2");
 		Effects_ComboBox_AttributesC->Append("5 - Movement Speed");
@@ -2561,7 +2561,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getNameSize());
 			GenieFile->Graphics[GraphicID].Name = ReducedName;
 			
-			ListGraphics();
+			ListGraphics(true);
 		}
 		else if(Event.GetId() == Graphics_Name2->GetId())
 		{
@@ -2569,7 +2569,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getName2Size());
 			GenieFile->Graphics[GraphicID].Name2 = ReducedName;
 			
-		//	ListGraphics();
+		//	ListGraphics(true);
 			wxCommandEvent E;
 			OnGraphicsSelect(E);
 		}
