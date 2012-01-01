@@ -76,6 +76,7 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_AutoCopy_ComboBoxByteUnitType(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_Short(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxShortAttackType(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event);
