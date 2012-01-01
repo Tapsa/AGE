@@ -41,10 +41,8 @@ void AGE_Frame::ListPlayerColors()
 	
 	for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetPlayerColorName(loop);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetPlayerColorName(loop)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);

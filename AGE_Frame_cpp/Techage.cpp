@@ -112,9 +112,10 @@ void AGE_Frame::ListTechages()
 	string CompareText;
 	
 	short Selection = Techs_Techs_List->GetSelection();
-	short TechID1 = Research_ComboBox_TechID->GetSelection();
-	short TechID2 = Civs_ComboBox_TechTree->GetSelection();
-	short TechID3 = Civs_ComboBox_TeamBonus->GetSelection();
+	short IDsCount = 3, TechIDs[IDsCount];
+	TechIDs[1] = Research_ComboBox_TechID->GetSelection();
+	TechIDs[2] = Civs_ComboBox_TechTree->GetSelection();
+	TechIDs[3] = Civs_ComboBox_TeamBonus->GetSelection();
 
 	if(Techs_Techs_List->GetCount() > 0)
 	{
@@ -137,17 +138,12 @@ void AGE_Frame::ListTechages()
 	{
 		Selection = 0;
 	}
-	if(TechID1 == wxNOT_FOUND)
+	for(short loop = 0;loop < IDsCount;loop++)
 	{
-		TechID1 = 0;
-	}
-	if(TechID2 == wxNOT_FOUND)
-	{
-		TechID2 = 0;
-	}
-	if(TechID3 == wxNOT_FOUND)
-	{
-		TechID3 = 0;
+		if(TechIDs[loop] == wxNOT_FOUND)
+		{
+			TechIDs[loop] = 0;
+		}
 	}
 	
 	Research_ComboBox_TechID->Append("-1 - None");
@@ -156,10 +152,8 @@ void AGE_Frame::ListTechages()
 	
 	for(short loop = 0;loop < GenieFile->Techages.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetTechageName(loop); // Internal tech name.
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetTechageName(loop)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetTechageName(loop);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Techs_Techs_List->Append(Name, (void*)&GenieFile->Techages[loop]);
@@ -173,9 +167,9 @@ void AGE_Frame::ListTechages()
 	Techs_Techs_List->SetSelection(0);
 	Techs_Techs_List->SetFirstItem(Selection - 3);
 	Techs_Techs_List->SetSelection(Selection);
-	Research_ComboBox_TechID->SetSelection(TechID1);
-	Civs_ComboBox_TechTree->SetSelection(TechID2);
-	Civs_ComboBox_TeamBonus->SetSelection(TechID3);
+	Research_ComboBox_TechID->SetSelection(TechIDs[0]);
+	Civs_ComboBox_TechTree->SetSelection(TechIDs[1]);
+	Civs_ComboBox_TeamBonus->SetSelection(TechIDs[2]);
 
 	wxCommandEvent E;
 	OnTechageSelect(E);
@@ -327,12 +321,10 @@ void AGE_Frame::ListEffects(short Index)
 	}
 	for(short loop = 0;loop < GenieFile->Techages[Index].Effects.size();loop++)
 	{
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetEffectName(loop, Index)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetEffectName(loop, Index);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
-			Name = lexical_cast<string>(loop);
-			Name += " - ";
-			Name += GetEffectName(loop, Index);
 			Techs_Effects_List->Append(Name, (void*)&GenieFile->Techages[Index].Effects[loop]);
 		}
 	}

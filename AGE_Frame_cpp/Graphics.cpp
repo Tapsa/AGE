@@ -37,28 +37,22 @@ void AGE_Frame::ListGraphics()
 	string CompareText;
 	
 	short Selection = Graphics_Graphics_List->GetSelection();
-	short GraphicIDs[22];
+	short IDsCount = 22, GraphicIDs[IDsCount];
 	GraphicIDs[0] = Units_ComboBox_ConstructionGraphicID->GetSelection();
 	GraphicIDs[1] = Units_ComboBox_SnowGraphicID->GetSelection();
 	GraphicIDs[2] = Units_ComboBox_AttackGraphic->GetSelection();
-	GraphicIDs[3] = Units_ComboBox_StandingGraphic[0]->GetSelection();
-	GraphicIDs[4] = Units_ComboBox_StandingGraphic[1]->GetSelection();
-	GraphicIDs[5] = Units_ComboBox_GarrisonGraphic[0]->GetSelection();
-	GraphicIDs[6] = Units_ComboBox_GarrisonGraphic[1]->GetSelection();
-	GraphicIDs[7] = Units_ComboBox_WalkingGraphic[0]->GetSelection();
-	GraphicIDs[8] = Units_ComboBox_WalkingGraphic[1]->GetSelection();
-	GraphicIDs[9] = Units_ComboBox_DyingGraphic[0]->GetSelection();
-	GraphicIDs[10] = Units_ComboBox_DyingGraphic[1]->GetSelection();
+	for(short loop = 0;loop < 2;loop++)
+	{
+		GraphicIDs[loop+3] = Units_ComboBox_StandingGraphic[loop]->GetSelection();
+		GraphicIDs[loop+5] = Units_ComboBox_GarrisonGraphic[loop]->GetSelection();
+		GraphicIDs[loop+7] = Units_ComboBox_WalkingGraphic[loop]->GetSelection();
+		GraphicIDs[loop+9] = Units_ComboBox_DyingGraphic[loop]->GetSelection();
+		GraphicIDs[loop+19] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
+	}
 	GraphicIDs[11] = Units_ComboBox_AttackMissileDuplicationGraphic->GetSelection();
-	GraphicIDs[12] = UnitCommands_ComboBox_Graphics[0]->GetSelection();
-	GraphicIDs[13] = UnitCommands_ComboBox_Graphics[1]->GetSelection();
-	GraphicIDs[14] = UnitCommands_ComboBox_Graphics[2]->GetSelection();
-	GraphicIDs[15] = UnitCommands_ComboBox_Graphics[3]->GetSelection();
-	GraphicIDs[16] = UnitCommands_ComboBox_Graphics[4]->GetSelection();
-	GraphicIDs[17] = UnitCommands_ComboBox_Graphics[5]->GetSelection();
+	for(short loop = 0;loop < 6;loop++)
+	GraphicIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
 	GraphicIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
-	GraphicIDs[19] = TerRestrict_ComboBox_Graphics[0]->GetSelection();
-	GraphicIDs[20] = TerRestrict_ComboBox_Graphics[1]->GetSelection();
 	GraphicIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
 
 	if(Graphics_Graphics_List->GetCount() > 0)
@@ -77,77 +71,41 @@ void AGE_Frame::ListGraphics()
 	{
 		Units_ComboBox_AttackGraphic->Clear();
 	}
-	if(Units_ComboBox_StandingGraphic[0]->GetCount() > 0)
+	for(short loop = 0;loop < 2;loop++)
 	{
-		Units_ComboBox_StandingGraphic[0]->Clear();
-	}
-	if(Units_ComboBox_StandingGraphic[1]->GetCount() > 0)
-	{
-		Units_ComboBox_StandingGraphic[1]->Clear();
-	}
-	if(Units_ComboBox_GarrisonGraphic[0]->GetCount() > 0)
-	{
-		Units_ComboBox_GarrisonGraphic[0]->Clear();
-	}
-	if(Units_ComboBox_GarrisonGraphic[1]->GetCount() > 0)
-	{
-		Units_ComboBox_GarrisonGraphic[1]->Clear();
-	}
-	if(Units_ComboBox_WalkingGraphic[0]->GetCount() > 0)
-	{
-		Units_ComboBox_WalkingGraphic[0]->Clear();
-	}
-	if(Units_ComboBox_WalkingGraphic[1]->GetCount() > 0)
-	{
-		Units_ComboBox_WalkingGraphic[1]->Clear();
-	}
-	if(Units_ComboBox_DyingGraphic[0]->GetCount() > 0)
-	{
-		Units_ComboBox_DyingGraphic[0]->Clear();
-	}
-	if(Units_ComboBox_DyingGraphic[1]->GetCount() > 0)
-	{
-		Units_ComboBox_DyingGraphic[1]->Clear();
+		if(Units_ComboBox_StandingGraphic[loop]->GetCount() > 0)
+		{
+			Units_ComboBox_StandingGraphic[loop]->Clear();
+		}
+		if(Units_ComboBox_GarrisonGraphic[loop]->GetCount() > 0)
+		{
+			Units_ComboBox_GarrisonGraphic[loop]->Clear();
+		}
+		if(Units_ComboBox_WalkingGraphic[loop]->GetCount() > 0)
+		{
+			Units_ComboBox_WalkingGraphic[loop]->Clear();
+		}
+		if(Units_ComboBox_DyingGraphic[loop]->GetCount() > 0)
+		{
+			Units_ComboBox_DyingGraphic[loop]->Clear();
+		}
+		if(TerRestrict_ComboBox_Graphics[loop]->GetCount() > 0)
+		{
+			TerRestrict_ComboBox_Graphics[loop]->Clear();
+		}
 	}
 	if(Units_ComboBox_AttackMissileDuplicationGraphic->GetCount() > 0)
 	{
 		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
 	}
-	if(UnitCommands_ComboBox_Graphics[0]->GetCount() > 0)
+	for(short loop = 0;loop < 6;loop++)
+	if(UnitCommands_ComboBox_Graphics[loop]->GetCount() > 0)
 	{
-		UnitCommands_ComboBox_Graphics[0]->Clear();
-	}
-	if(UnitCommands_ComboBox_Graphics[1]->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_Graphics[1]->Clear();
-	}
-	if(UnitCommands_ComboBox_Graphics[2]->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_Graphics[2]->Clear();
-	}
-	if(UnitCommands_ComboBox_Graphics[3]->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_Graphics[3]->Clear();
-	}
-	if(UnitCommands_ComboBox_Graphics[4]->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_Graphics[4]->Clear();
-	}
-	if(UnitCommands_ComboBox_Graphics[5]->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_Graphics[5]->Clear();
+		UnitCommands_ComboBox_Graphics[loop]->Clear();
 	}
 	if(DamageGraphics_ComboBox_GraphicID->GetCount() > 0)
 	{
 		DamageGraphics_ComboBox_GraphicID->Clear();
-	}
-	if(TerRestrict_ComboBox_Graphics[0]->GetCount() > 0)
-	{
-		TerRestrict_ComboBox_Graphics[0]->Clear();
-	}
-	if(TerRestrict_ComboBox_Graphics[1]->GetCount() > 0)
-	{
-		TerRestrict_ComboBox_Graphics[1]->Clear();
 	}
 	if(GraphicDeltas_ComboBox_GraphicID->GetCount() > 0)
 	{
@@ -158,7 +116,7 @@ void AGE_Frame::ListGraphics()
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 22;loop++)
+	for(short loop = 0;loop < IDsCount;loop++)
 	{
 		if(GraphicIDs[loop] == wxNOT_FOUND)
 		{
@@ -169,32 +127,24 @@ void AGE_Frame::ListGraphics()
 	Units_ComboBox_ConstructionGraphicID->Append("-1 - None");
 	Units_ComboBox_SnowGraphicID->Append("-1 - None");
 	Units_ComboBox_AttackGraphic->Append("-1 - None");
-	Units_ComboBox_StandingGraphic[0]->Append("-1 - None");
-	Units_ComboBox_StandingGraphic[1]->Append("-1 - None");
-	Units_ComboBox_GarrisonGraphic[0]->Append("-1 - None");
-	Units_ComboBox_GarrisonGraphic[1]->Append("-1 - None");
-	Units_ComboBox_WalkingGraphic[0]->Append("-1 - None");
-	Units_ComboBox_WalkingGraphic[1]->Append("-1 - None");
-	Units_ComboBox_DyingGraphic[0]->Append("-1 - None");
-	Units_ComboBox_DyingGraphic[1]->Append("-1 - None");
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Units_ComboBox_StandingGraphic[loop]->Append("-1 - None");
+		Units_ComboBox_GarrisonGraphic[loop]->Append("-1 - None");
+		Units_ComboBox_WalkingGraphic[loop]->Append("-1 - None");
+		Units_ComboBox_DyingGraphic[loop]->Append("-1 - None");
+		TerRestrict_ComboBox_Graphics[loop]->Append("-1 - None");
+	}
 	Units_ComboBox_AttackMissileDuplicationGraphic->Append("-1 - None");
-	UnitCommands_ComboBox_Graphics[0]->Append("-1 - None");
-	UnitCommands_ComboBox_Graphics[1]->Append("-1 - None");
-	UnitCommands_ComboBox_Graphics[2]->Append("-1 - None");
-	UnitCommands_ComboBox_Graphics[3]->Append("-1 - None");
-	UnitCommands_ComboBox_Graphics[4]->Append("-1 - None");
-	UnitCommands_ComboBox_Graphics[5]->Append("-1 - None");
+	for(short loop = 0;loop < 6;loop++)
+	UnitCommands_ComboBox_Graphics[loop]->Append("-1 - None");
 	DamageGraphics_ComboBox_GraphicID->Append("-1 - None");
-	TerRestrict_ComboBox_Graphics[0]->Append("-1 - None");
-	TerRestrict_ComboBox_Graphics[1]->Append("-1 - None");
 	GraphicDeltas_ComboBox_GraphicID->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetGraphicName(loop);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetGraphicName(loop)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetGraphicName(loop);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
@@ -202,24 +152,18 @@ void AGE_Frame::ListGraphics()
 		Units_ComboBox_ConstructionGraphicID->Append(Name);
 		Units_ComboBox_SnowGraphicID->Append(Name);
 		Units_ComboBox_AttackGraphic->Append(Name);
-		Units_ComboBox_StandingGraphic[0]->Append(Name);
-		Units_ComboBox_StandingGraphic[1]->Append(Name);
-		Units_ComboBox_GarrisonGraphic[0]->Append(Name);
-		Units_ComboBox_GarrisonGraphic[1]->Append(Name);
-		Units_ComboBox_WalkingGraphic[0]->Append(Name);
-		Units_ComboBox_WalkingGraphic[1]->Append(Name);
-		Units_ComboBox_DyingGraphic[0]->Append(Name);
-		Units_ComboBox_DyingGraphic[1]->Append(Name);
+		for(short loop = 0;loop < 2;loop++)
+		{
+			Units_ComboBox_StandingGraphic[loop]->Append(Name);
+			Units_ComboBox_GarrisonGraphic[loop]->Append(Name);
+			Units_ComboBox_WalkingGraphic[loop]->Append(Name);
+			Units_ComboBox_DyingGraphic[loop]->Append(Name);
+			TerRestrict_ComboBox_Graphics[loop]->Append(Name);
+		}
 		Units_ComboBox_AttackMissileDuplicationGraphic->Append(Name);
-		UnitCommands_ComboBox_Graphics[0]->Append(Name);
-		UnitCommands_ComboBox_Graphics[1]->Append(Name);
-		UnitCommands_ComboBox_Graphics[2]->Append(Name);
-		UnitCommands_ComboBox_Graphics[3]->Append(Name);
-		UnitCommands_ComboBox_Graphics[4]->Append(Name);
-		UnitCommands_ComboBox_Graphics[5]->Append(Name);
+		for(short loop = 0;loop < 6;loop++)
+		UnitCommands_ComboBox_Graphics[loop]->Append(Name);
 		DamageGraphics_ComboBox_GraphicID->Append(Name);
-		TerRestrict_ComboBox_Graphics[0]->Append(Name);
-		TerRestrict_ComboBox_Graphics[1]->Append(Name);
 		GraphicDeltas_ComboBox_GraphicID->Append(Name);
 	}
 	
@@ -229,24 +173,18 @@ void AGE_Frame::ListGraphics()
 	Units_ComboBox_ConstructionGraphicID->SetSelection(GraphicIDs[0]);
 	Units_ComboBox_SnowGraphicID->SetSelection(GraphicIDs[1]);
 	Units_ComboBox_AttackGraphic->SetSelection(GraphicIDs[2]);
-	Units_ComboBox_StandingGraphic[0]->SetSelection(GraphicIDs[3]);
-	Units_ComboBox_StandingGraphic[1]->SetSelection(GraphicIDs[4]);
-	Units_ComboBox_GarrisonGraphic[0]->SetSelection(GraphicIDs[5]);
-	Units_ComboBox_GarrisonGraphic[1]->SetSelection(GraphicIDs[6]);
-	Units_ComboBox_WalkingGraphic[0]->SetSelection(GraphicIDs[7]);
-	Units_ComboBox_WalkingGraphic[1]->SetSelection(GraphicIDs[8]);
-	Units_ComboBox_DyingGraphic[0]->SetSelection(GraphicIDs[9]);
-	Units_ComboBox_DyingGraphic[1]->SetSelection(GraphicIDs[10]);
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Units_ComboBox_StandingGraphic[loop]->SetSelection(GraphicIDs[loop+3]);
+		Units_ComboBox_GarrisonGraphic[loop]->SetSelection(GraphicIDs[loop+5]);
+		Units_ComboBox_WalkingGraphic[loop]->SetSelection(GraphicIDs[loop+7]);
+		Units_ComboBox_DyingGraphic[loop]->SetSelection(GraphicIDs[loop+9]);
+		TerRestrict_ComboBox_Graphics[loop]->SetSelection(GraphicIDs[loop+19]);
+	}
 	Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(GraphicIDs[11]);
-	UnitCommands_ComboBox_Graphics[0]->SetSelection(GraphicIDs[12]);
-	UnitCommands_ComboBox_Graphics[1]->SetSelection(GraphicIDs[13]);
-	UnitCommands_ComboBox_Graphics[2]->SetSelection(GraphicIDs[14]);
-	UnitCommands_ComboBox_Graphics[3]->SetSelection(GraphicIDs[15]);
-	UnitCommands_ComboBox_Graphics[4]->SetSelection(GraphicIDs[16]);
-	UnitCommands_ComboBox_Graphics[5]->SetSelection(GraphicIDs[17]);
+	for(short loop = 0;loop < 6;loop++)
+	UnitCommands_ComboBox_Graphics[loop]->SetSelection(GraphicIDs[loop+12]);
 	DamageGraphics_ComboBox_GraphicID->SetSelection(GraphicIDs[18]);
-	TerRestrict_ComboBox_Graphics[0]->SetSelection(GraphicIDs[19]);
-	TerRestrict_ComboBox_Graphics[1]->SetSelection(GraphicIDs[20]);
 	GraphicDeltas_ComboBox_GraphicID->SetSelection(GraphicIDs[21]);
 	
 	wxCommandEvent E;
@@ -405,12 +343,10 @@ void AGE_Frame::ListGraphicDeltas(short Index)
 	}
 	for(short loop = 0;loop < GenieFile->Graphics[Index].Deltas.size();loop++)
 	{
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetGraphicDeltaName(loop, Index)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop, Index);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
-			Name = lexical_cast<string>(loop);
-			Name += " - ";
-			Name += GetGraphicDeltaName(loop, Index);
 			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[Index].Deltas[loop]);
 		}
 	}
@@ -542,12 +478,10 @@ void AGE_Frame::ListGraphicAttackSounds(short Index)
 	}
 	for(short loop = 0;loop < GenieFile->Graphics[Index].AttackSounds.size();loop++)
 	{
-//		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetGraphicAttackSoundName(loop, Index)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop, Index);
+//		CompareText = wxString(Name).Lower();
 //		if(SearchMatches(CompareText) == true)
 //		{
-			Name = lexical_cast<string>(loop);
-			Name += " - ";
-			Name += GetGraphicAttackSoundName(loop, Index);
 			Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[Index].AttackSounds[loop]);
 //		}
 	}
