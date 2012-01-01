@@ -303,7 +303,7 @@ class AGE_Frame : public wxFrame
 	void OnResourcesPaste(wxCommandEvent& Event);
 	string GetResourceName(short Index, short CivID);
 
-	void ListUnits(short CivID = -1);
+	void ListUnits(short CivID = -1, bool Sized = true);
 	void OnUnitsSearch(wxCommandEvent& Event);
 	void OnUnitsSelect(wxCommandEvent& Event);
 	void OnUnitsAdd(wxCommandEvent& Event);
@@ -2559,14 +2559,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * TechTrees_Holder_UnitAndResearch3;
 	wxBoxSizer * TechTrees_Holder_UnitAndResearch4;
 	wxOwnerDrawnComboBox * TechTrees_ComboBox_Modes[4];
-	ComboBox_Long * TechTrees_ComboBox_Unit1;
-	ComboBox_Long * TechTrees_ComboBox_Unit2;
-	ComboBox_Long * TechTrees_ComboBox_Unit3;
-	ComboBox_Long * TechTrees_ComboBox_Unit4;
-	ComboBox_Long * TechTrees_ComboBox_Research1;
-	ComboBox_Long * TechTrees_ComboBox_Research2;
-	ComboBox_Long * TechTrees_ComboBox_Research3;
-	ComboBox_Long * TechTrees_ComboBox_Research4;
+	ComboBox_Long * TechTrees_ComboBox_Unit[4];
+	ComboBox_Long * TechTrees_ComboBox_Research[4];
 	wxBoxSizer * TechTrees_Buildings_Holder_Mode1;
 	wxStaticText * TechTrees_Buildings_Text_Mode1;
 	TextCtrl_Long * TechTrees_Buildings_Mode1;

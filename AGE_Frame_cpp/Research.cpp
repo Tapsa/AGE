@@ -37,7 +37,7 @@ void AGE_Frame::ListResearchs()
 	string CompareText;
 	
 	short Selection = Research_Research_List->GetSelection();
-	short ResearchIDs[21];
+	short IDsCount = 21, ResearchIDs[IDsCount];
 	ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
 	ResearchIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
 	ResearchIDs[2] = Units_ComboBox_ResearchID->GetSelection();
@@ -51,10 +51,8 @@ void AGE_Frame::ListResearchs()
 	ResearchIDs[14] = TechTrees_Researches_ComboBox_UpperResearch->GetSelection();
 	ResearchIDs[15] = TechTrees_Researches_ComboBox_Research->GetSelection();
 	ResearchIDs[16] = TechTrees_Units_ComboBox_RequiredResearch->GetSelection();
-	ResearchIDs[17] = TechTrees_ComboBox_Research1->GetSelection();
-	ResearchIDs[18] = TechTrees_ComboBox_Research2->GetSelection();
-	ResearchIDs[19] = TechTrees_ComboBox_Research3->GetSelection();
-	ResearchIDs[20] = TechTrees_ComboBox_Research4->GetSelection();
+	for(short loop = 0;loop < 4;loop++)
+	ResearchIDs[loop+17] = TechTrees_ComboBox_Research[loop]->GetSelection();
 
 	if(Research_Research_List->GetCount() > 0)
 	{
@@ -111,28 +109,17 @@ void AGE_Frame::ListResearchs()
 	{
 		TechTrees_Units_ComboBox_RequiredResearch->Clear();
 	}
-	if(TechTrees_ComboBox_Research1->GetCount() > 0)
+	for(short loop = 0;loop < 4;loop++)
+	if(TechTrees_ComboBox_Research[loop]->GetCount() > 0)
 	{
-		TechTrees_ComboBox_Research1->Clear();
-	}
-	if(TechTrees_ComboBox_Research2->GetCount() > 0)
-	{
-		TechTrees_ComboBox_Research2->Clear();
-	}
-	if(TechTrees_ComboBox_Research3->GetCount() > 0)
-	{
-		TechTrees_ComboBox_Research3->Clear();
-	}
-	if(TechTrees_ComboBox_Research4->GetCount() > 0)
-	{
-		TechTrees_ComboBox_Research4->Clear();
+		TechTrees_ComboBox_Research[loop]->Clear();
 	}
 	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < 21;loop++)
+	for(short loop = 0;loop < IDsCount;loop++)
 	{
 		if(ResearchIDs[loop] == wxNOT_FOUND)
 		{
@@ -153,17 +140,13 @@ void AGE_Frame::ListResearchs()
 	TechTrees_Researches_ComboBox_UpperResearch->Append("-1 - None");
 	TechTrees_Researches_ComboBox_Research->Append("-1 - None");
 	TechTrees_Units_ComboBox_RequiredResearch->Append("-1 - None");
-	TechTrees_ComboBox_Research1->Append("-1 - None");
-	TechTrees_ComboBox_Research2->Append("-1 - None");
-	TechTrees_ComboBox_Research3->Append("-1 - None");
-	TechTrees_ComboBox_Research4->Append("-1 - None");
+	for(short loop = 0;loop < 4;loop++)
+	TechTrees_ComboBox_Research[loop]->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Researchs.size();loop++)
 	{
-		Name = lexical_cast<string>(loop);
-		Name += " - ";
-		Name += GetResearchName(loop);
-		CompareText = wxString(lexical_cast<string>(loop)+ " - "+GetResearchName(loop)).Lower();
+		Name = lexical_cast<string>(loop)+" - "+GetResearchName(loop);
+		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);
@@ -181,10 +164,8 @@ void AGE_Frame::ListResearchs()
 		TechTrees_Researches_ComboBox_UpperResearch->Append(Name);
 		TechTrees_Researches_ComboBox_Research->Append(Name);
 		TechTrees_Units_ComboBox_RequiredResearch->Append(Name);
-		TechTrees_ComboBox_Research1->Append(Name);
-		TechTrees_ComboBox_Research2->Append(Name);
-		TechTrees_ComboBox_Research3->Append(Name);
-		TechTrees_ComboBox_Research4->Append(Name);
+		for(short loop = 0;loop < 4;loop++)
+		TechTrees_ComboBox_Research[loop]->Append(Name);
 	}
 	
 	Research_Research_List->SetSelection(0);
@@ -203,10 +184,8 @@ void AGE_Frame::ListResearchs()
 	TechTrees_Researches_ComboBox_UpperResearch->SetSelection(ResearchIDs[14]);
 	TechTrees_Researches_ComboBox_Research->SetSelection(ResearchIDs[15]);
 	TechTrees_Units_ComboBox_RequiredResearch->SetSelection(ResearchIDs[16]);
-	TechTrees_ComboBox_Research1->SetSelection(ResearchIDs[17]);
-	TechTrees_ComboBox_Research2->SetSelection(ResearchIDs[18]);
-	TechTrees_ComboBox_Research3->SetSelection(ResearchIDs[19]);
-	TechTrees_ComboBox_Research4->SetSelection(ResearchIDs[20]);
+	for(short loop = 0;loop < 4;loop++)
+	TechTrees_ComboBox_Research[loop]->SetSelection(ResearchIDs[loop+17]);
 	
 	wxCommandEvent E;
 	OnResearchSelect(E);
