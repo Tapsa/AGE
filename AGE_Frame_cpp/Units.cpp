@@ -3138,7 +3138,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown1 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Enabled = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
-	Units_CheckBox_Enabled = new CheckBox_Short(Units_Scroller, "No research *", Units_Enabled);
+	Units_CheckBox_Enabled = new CheckBox_Short(Units_Scroller, "No Research *", Units_Enabled);
 	Units_BuildingMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_BuildingMode->SetToolTip("0 non buildings, gates, farms, walls, towers\n2 town center, trade workshop, CLF01, port\n3 any building");
 	Units_VisibleInFog = new TextCtrl_Byte(Units_Scroller, "0", NULL);

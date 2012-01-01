@@ -604,8 +604,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_Unknown4 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Unknown4 = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
 	Graphics_Holder_Replay = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_Replay = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Text_Replay = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Replay = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
+	Graphics_Replay->SetToolTip("Will the graphic be looped?");
 	Graphics_Holder_Coordinates = new wxBoxSizer(wxVERTICAL);
 	Graphics_Holder_CoordinateGrid = new wxGridSizer(4, 0, 5);
 	Graphics_Text_Coordinates = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -633,11 +634,13 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Unknown13 = new TextCtrl_Float(Graphics_Scroller, "0", NULL);
 	Graphics_Unknown13->SetToolTip("Speed value to override the unit's original one?");
 	Graphics_Holder_FrameRate = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_FrameRate = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Rate", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Text_FrameRate = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_FrameRate = new TextCtrl_Float(Graphics_Scroller, "0", NULL);
+	Graphics_FrameRate->SetToolTip("How long each frame is displayed in seconds");
 	Graphics_Holder_ReplayDelay = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_ReplayDelay = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay Delay", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Text_ReplayDelay = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay Delay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_ReplayDelay = new TextCtrl_Float(Graphics_Scroller, "0", NULL);
+	Graphics_ReplayDelay->SetToolTip("Waiting time in seconds before animation restarts again");
 	Graphics_Holder_SequenceType = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_SequenceType = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sequence Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SequenceType = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
