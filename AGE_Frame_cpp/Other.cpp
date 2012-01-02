@@ -244,6 +244,11 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 					GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = lexical_cast<short>(loop3);
 				}
 			}
+			//if(loop > 0)
+			//for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Resources.size();loop2++)
+			//if(loop2 != 82)
+			//if(GenieFile->Civs[loop].Resources[loop2] == 0)
+			//GenieFile->Civs[loop].Resources[loop2] = lexical_cast<float>(1);
 		}
 		for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
 		{

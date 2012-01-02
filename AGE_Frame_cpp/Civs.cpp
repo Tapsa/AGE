@@ -179,6 +179,50 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetResourceName(short Index, short CivID)
 {
+/* TUTKI NÄÄ!
+55
+57
+188
+197
+209
+210
+			Resource
+Military 0		yli 95!
+Economy 36700		yli 95???
+Tehcnology 1000		yli 95!
+Society 130		yli 95???
+Total Score 37830	
+			
+Units Killed 0		20
+Units Lost 0		yli 95!
+Buildings Razed 0	43
+Buildings Lost 0	yli 95!
+Units Converted 0	41
+Largest Army 1		40
+			
+Food Collected 0	yli 95!
+Wood Collected 0	yli 95!
+Stone Collected 0	yli 95!
+Gold Collected 0	yli 95!
+Trade Profit 0		yli 95!
+Tribute Sent/Rcvd	53/yli 95!
+			
+Feudal Age xx:xx	
+Castle Age xx:xx	
+Imperial Age xx:xx	
+% Map Explored 100%	22
+Research Count 0	21
+Research % 0%		calculated from count? or over 91
+			
+Total Wonders 0		yli 95!
+Total Castles 1		yli 95!
+Relics Captured 0	7
+Relic Gold 0		yli 95!
+Villager High 3		alle 58!
+Survival to Finish Yes	45
+			
+58-77 unknown shit
+*/
 	string Name = "";
 	if(Index == 0)
 	{
@@ -223,9 +267,9 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	else if(Index == 7)
 	{
 		if(GameVersion < 4)
-		Name = "Captured Relics";
+		Name = "Relics Captured";
 		else
-		Name = "Captured Holocrons";
+		Name = "Holocrons Captured";
 	}
 	else if(Index == 9)
 	{
@@ -248,7 +292,7 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 14)
 	{
-		Name = "Monument, Ruin?";
+		Name = "Monuments/Ruins Captured?";
 	}
 	else if(Index == 15)
 	{
@@ -268,30 +312,30 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 20)
 	{
-		Name = "Kills";
+		Name = "Units Killed";
 	}
 	else if(Index == 21)
 	{
-		Name = "Researched Technologies";
+		Name = "Research Count";
 	}
 	else if(Index == 22)
 	{
-		Name = "Explored Map %";
+		Name = "% Map Explored";
 	}
 	else if(Index == 23)
 	{
 		if(GameVersion < 4)
-		Name = "Technology 1?";
+		Name = "Castle Age?";
 		else
 		Name = "Scanning Capability";
 	}
 	else if(Index == 24)
 	{
-		Name = "Technology 2?";
+		Name = "Imperial Age?";
 	}
 	else if(Index == 25)
 	{
-		Name = "Technology 3?";
+		Name = "Feudal Age?";
 	}
 	else if(Index == 26)
 	{
@@ -302,11 +346,11 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 27)
 	{
-		Name = "Building Conversion Enabler";
+		Name = "Enable Monk Conversion";
 	}
 	else if(Index == 28)
 	{
-		Name = "Monk Conversion Enabler";
+		Name = "Enable Building Conversion";
 	}
 	else if(Index == 30)
 	{
@@ -333,9 +377,9 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	else if(Index == 35)
 	{
 		if(GameVersion < 4)
-		Name = "Faith Recharging Rate";
+		Name = "Monk Recharging Rate";
 		else
-		Name = "Stamina Rate";
+		Name = "Stamina Recharging Rate";
 	}
 	else if(Index == 36)
 	{
@@ -355,15 +399,15 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 40)
 	{
-		Name = "Military Population";
+		Name = "Military Units (Largest Army)";
 	}
 	else if(Index == 41)
 	{
-		Name = "Conversions Made";
+		Name = "Units Converted";
 	}
 	else if(Index == 43)
 	{
-		Name = "Razings";
+		Name = "Buildings Razed";
 	}
 	else if(Index == 44)
 	{
@@ -397,7 +441,7 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 53)
 	{
-		Name = "Tribute Given";
+		Name = "Tribute Sent";
 	}
 	else if(Index == 54)
 	{
@@ -417,9 +461,9 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	else if(Index == 58)
 	{
 		if(GameVersion < 4)
-		Name = "Technology 5?";
+		Name = "Dark Age?";
 		else
-		Name = "Perception";
+		Name = "Masters Can See Hidden Units";
 	}
 	else if(Index == 59)
 	{
@@ -462,14 +506,15 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 80)
 	{
-		if(GameVersion < 4)
-		Name = "Achievements, Relic Gold";
-		else
-		Name = "Achievements, Holocron Nova";
+		Name = "(Unknown)";
 	}
 	else if(Index == 81)
 	{
-		Name = "Achievements, Trade Profit";
+		Name = "(Unknown)";
+	}
+	else if(Index == 82)
+	{
+		Name = "Start With Packed Town Center";
 	}
 	else if(Index == 83)
 	{
@@ -529,7 +574,7 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 95)
 	{
-		Name = "(Unknown)";
+		Name = "Enable Town Center Packing";
 	}
 	else if(Index == 96)
 	{
@@ -595,10 +640,7 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 	}
 	else if(Index == 192)
 	{
-		if(GameVersion < 4)
-		Name = "Heresy";
-		else
-		Name = "Purge";
+		Name = "Units Converted By Enemy Dies";
 	}
 	else if(Index == 193)
 	{
