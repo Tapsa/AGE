@@ -1668,6 +1668,32 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 	}
 }
 
+void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
+{
+	short Selection = Units_Units_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		{
+			GenieFile->Civs[loop].UnitPointers[UnitID] = lexical_cast<long>(1);
+		}
+		ListUnits(UnitCivID, false);
+	}
+}
+
+void AGE_Frame::OnUnitsDisable(wxCommandEvent& Event)
+{
+	short Selection = Units_Units_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		{
+			GenieFile->Civs[loop].UnitPointers[UnitID] = lexical_cast<long>(0);
+		}
+		ListUnits(UnitCivID, false);
+	}
+}
+
 //	SubVectors
 
 string AGE_Frame::GetUnitDamageGraphicName(short Index, short UnitCivID, short UnitID)
@@ -2642,6 +2668,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_Copy = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
+	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 //	Units_Undo = new wxButton(Tab_Units, wxID_ANY, "Undo", wxDefaultPosition, wxSize(50, 20));
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
@@ -3582,6 +3610,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Buttons->Add(Units_Delete, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Copy, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Paste, 1, wxEXPAND);
+	Units_Units_Buttons->Add(Units_Enable, 1, wxEXPAND);
+	Units_Units_Buttons->Add(Units_Disable, 1, wxEXPAND);
 
 	Units_Units_Searches[0]->Add(Units_Units_Search, 1, wxEXPAND);
 	Units_Units_Searches[0]->Add(Units_Units_UseAnd[0], 0, wxEXPAND);
@@ -4723,6 +4753,8 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsDelete));
 	Connect(Units_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsCopy));
 	Connect(Units_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsPaste));
+	Connect(Units_Enable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsEnable));
+	Connect(Units_Disable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsDisable));
 //	Connect(Units_Undo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUndoing));
 	Connect(Units_UnitCommands_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsSelect));
 	Connect(Units_UnitCommands_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsSearch));

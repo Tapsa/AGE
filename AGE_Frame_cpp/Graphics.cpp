@@ -223,8 +223,8 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 		Graphics_Unknown1->Container = &GraphicPointer->Unknown1;
 		Graphics_Unknown2->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown2));
 		Graphics_Unknown2->Container = &GraphicPointer->Unknown2;
-		Graphics_FrameType->ChangeValue(lexical_cast<string>((short)GraphicPointer->FrameType));
-		Graphics_FrameType->Container = &GraphicPointer->FrameType;
+		Graphics_FrameType->ChangeValue(lexical_cast<string>((short)GraphicPointer->Layer));
+		Graphics_FrameType->Container = &GraphicPointer->Layer;
 		Graphics_Unknown3->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown3));
 		Graphics_Unknown3->Container = &GraphicPointer->Unknown3;
 		Graphics_Unknown4->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown4));
@@ -594,7 +594,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_Unknown2 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Unknown2 = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
 	Graphics_Holder_FrameType = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_FrameType = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Text_FrameType = new wxStaticText(Graphics_Scroller, wxID_ANY, " Layer *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_FrameType = new TextCtrl_Byte(Graphics_Scroller, "0", NULL);
 	Graphics_FrameType->SetToolTip("0 - Cliffs\n5 - Shadows, Farms\n6 - Rubble\n10 - Construction sequences, some shadows, corpses, stumps, flowers, paths, ruins, crack\n11 - Fish\n19 - Rugs, crater\n20 - Buildings, damage flames, mill animation, units\n21 - Blacksmith piece (no slp), blacksmith smoke\n22 - Hawk\n30 - Explosions, projectiles ");
 	Graphics_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
