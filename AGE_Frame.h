@@ -311,6 +311,8 @@ class AGE_Frame : public wxFrame
 	void OnUnitsDelete(wxCommandEvent& Event);
 	void OnUnitsCopy(wxCommandEvent& Event);
 	void OnUnitsPaste(wxCommandEvent& Event);
+	void OnUnitsEnable(wxCommandEvent& Event);
+	void OnUnitsDisable(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
 	string GetUnitName(short Index, short CivID, bool Filter);
 	
@@ -1723,6 +1725,8 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Delete;
 	wxButton * Units_Copy;
 	wxButton * Units_Paste;
+	wxButton * Units_Enable;
+	wxButton * Units_Disable;
 //	wxButton * Units_Undo;
 
 	wxBoxSizer * Units_DataArea;	// Unit window other-than unit-list-section
