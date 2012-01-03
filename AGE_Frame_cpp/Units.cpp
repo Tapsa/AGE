@@ -2937,7 +2937,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_ID1 = new wxStaticText(Units_Scroller, wxID_ANY, "ID 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDllName = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDllCreation = new wxStaticText(Units_Scroller, wxID_ANY, " Language Dll Creation ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, "Class *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_StandingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Standing Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DyingGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_HitPoints = new wxStaticText(Units_Scroller, wxID_ANY, " Hit Points *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3142,7 +3142,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDllCreation = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_DLL_LanguageDllCreation = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxALIGN_CENTRE | wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
 	Units_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_Class->SetToolTip("*test*");
+	Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
 	Units_ComboBox_Class[0] = new ComboBox_Short(Units_Scroller, Units_Class);
 	Units_DeathMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_DeathMode->SetToolTip("Reviving does not make it usable");
@@ -3185,7 +3185,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_MinimapMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_MinimapMode->SetToolTip("0 and 6-10 No dot on minimap\n1 Square dot turning white when selected\n2 Diamond dot turning white when selected\n3 Diamond dot keeping color\n4 and 5 Larger spot, not following the unit, no blinking when attacked, everyone can see it\n");
 	Units_CommandAttribute = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_CommandAttribute->SetToolTip("0 Commands: Delete, Garrison, Stop | Attributes: Hit Points\n1 Animal\n2 Non-Military Building (build page 1)\n3 Villager\n4 Military Unit\n5 Trading Unit\n6 Monk\n7 Transport Ship\n8 Relic / Monk with Relic\n9 Fishing Ship\n10 Military Building (build page 2)");
+	Units_CommandAttribute->SetToolTip("Class and this sets the interface for this unit\n0 Commands: Delete, Garrison, Stop | Attributes: Hit Points\n1 Animal\n2 Non-Military Building (build page 1)\n3 Villager\n4 Military Unit\n5 Trading Unit\n6 Monk\n7 Transport Ship\n8 Relic / Monk with Relic\n9 Fishing Ship\n10 Military Building (build page 2)\n11 Shield Building (build page 3)");
 	Units_Unknown3 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Unknown3B = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Unknown3a = new TextCtrl_Byte(Units_Scroller, "0", NULL);
@@ -3288,7 +3288,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TowerMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_CheckBox_TowerMode = new CheckBox_Byte(Units_Scroller, "Tower Mode", Units_TowerMode);
 	Units_Delay = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_Delay->SetToolTip("0 projectile, buildings, melee, villager\n3 chu ko nu\n4 gun\n5 archers\n6 trebuchet, mameluke\n7 bombard cannon, scorpion\n8 Charlemangne\n10 cavalry archers\n12 throwing axeman");
+	Units_Delay->SetToolTip("Can increase time between serial shots?\n0 projectile, buildings, melee, villager\n3 chu ko nu\n4 gun\n5 archers\n6 trebuchet, mameluke\n7 bombard cannon, scorpion\n8 Charlemangne\n10 cavalry archers\n12 throwing axeman");
 	for(short loop = 0;loop < 3;loop++)
 	Units_GraphicDisplacement[loop] = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_GraphicDisplacement[0]->SetToolTip("Left/Right distance");
