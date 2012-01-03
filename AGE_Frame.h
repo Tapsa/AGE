@@ -386,6 +386,8 @@ class AGE_Frame : public wxFrame
 	void OnGraphicsDelete(wxCommandEvent& Event);
 	void OnGraphicsCopy(wxCommandEvent& Event);
 	void OnGraphicsPaste(wxCommandEvent& Event);
+	void OnGraphicsEnable(wxCommandEvent& Event);
+	void OnGraphicsDisable(wxCommandEvent& Event);
 	string GetGraphicName(short Index);
 
 	void ListGraphicDeltas(short Index);
@@ -1910,6 +1912,8 @@ class AGE_Frame : public wxFrame
 	wxButton * Graphics_Delete;
 	wxButton * Graphics_Copy;
 	wxButton * Graphics_Paste;
+	wxButton * Graphics_Enable;
+	wxButton * Graphics_Disable;
 	
 	wxBoxSizer * Graphics_DataArea;
 	wxScrolledWindow * Graphics_Scroller;

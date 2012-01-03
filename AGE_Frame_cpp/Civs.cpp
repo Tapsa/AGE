@@ -387,7 +387,7 @@ Survival to Finish Yes	45
 	}
 	else if(Index == 37)
 	{
-		Name = "Civilian Population";
+		Name = "Civilian Units (Villager High)";
 	}
 	else if(Index == 38)
 	{
@@ -586,7 +586,30 @@ Survival to Finish Yes	45
 	}
 	else if(Index == 98)
 	{
-		Name = "(Unknown)";
+		Name = "Score: Economy 1";
+	}
+	else if(Index == 99)
+	{
+		Name = "Score: Technology";
+	}
+	else if(Index == 100)
+	{
+		if(GameVersion < 4)
+		Name = "Relic Gold (Collected)";
+		else
+		Name = "Holocron Nova (Collected)";
+	}
+	else if(Index == 101)
+	{
+		Name = "Trade Profit";
+	}
+	else if(Index == 154)
+	{
+		Name = "Units Lost";
+	}
+	else if(Index == 155)
+	{
+		Name = "Buildings Lost";
 	}
 	else if(Index == 164)
 	{
@@ -595,6 +618,57 @@ Survival to Finish Yes	45
 	else if(Index == 165)
 	{
 		Name = "(Unknown)";
+	}
+	else if(Index == 166)
+	{
+		Name = "Food Collected";
+	}
+	else if(Index == 167)
+	{
+		if(GameVersion < 4)
+		Name = "Wood Collected";
+		else
+		Name = "Carbon Collected";
+	}
+	else if(Index == 168)
+	{
+		if(GameVersion < 4)
+		Name = "Stone Collected";
+		else
+		Name = "Ore Collected";
+	}
+	else if(Index == 169)
+	{
+		if(GameVersion < 4)
+		Name = "Gold Collected";
+		else
+		Name = "Nova Collected";
+	}
+	else if(Index == 170)
+	{
+		Name = "Score: Military";
+	}
+	else if(Index == 171)
+	{
+		Name = "Tribute Received";
+	}
+	else if(Index == 173)
+	{
+		if(GameVersion < 4)
+		Name = "Total Castles";
+		else
+		Name = "Total Fortresses";
+	}
+	else if(Index == 174)
+	{
+		if(GameVersion < 4)
+		Name = "Total Wonders";
+		else
+		Name = "Total Monuments";
+	}
+	else if(Index == 175)
+	{
+		Name = "Score: Economy 2";
 	}
 	else if(Index == 178)
 	{
@@ -620,6 +694,10 @@ Survival to Finish Yes	45
 	{
 		Name = "Reveal Enemy";
 	}
+	else if(Index == 184)
+	{
+		Name = "Score: Society";
+	}
 	else if(Index == 189)
 	{
 		if(GameVersion < 4)
@@ -640,7 +718,7 @@ Survival to Finish Yes	45
 	}
 	else if(Index == 192)
 	{
-		Name = "Units Converted By Enemy Dies";
+		Name = "Units Converted By Enemy Die";
 	}
 	else if(Index == 193)
 	{
@@ -659,7 +737,7 @@ Survival to Finish Yes	45
 	}
 	else if(Index == 196)
 	{
-		Name = "Wonder Victory Time?";
+		Name = "Wonder Victory Time";
 	}
 	else if(Index == 197)
 	{
