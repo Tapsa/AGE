@@ -256,9 +256,9 @@ Survival to Finish Yes	45
 	else if(Index == 5)
 	{
 		if(GameVersion < 4)
-		Name = "Unknown";
+		Name = "Conversion Range?";
 		else
-		Name = "Force Strong";
+		Name = "Conversion Range";
 	}
 	else if(Index == 6)
 	{
@@ -306,6 +306,10 @@ Survival to Finish Yes	45
 	{
 		Name = "Fish Storage";
 	}
+	else if(Index == 18)
+	{
+		Name = "Power Core Range";
+	}
 	else if(Index == 19)
 	{
 		Name = "Military Room (for counting Losses)";
@@ -327,11 +331,14 @@ Survival to Finish Yes	45
 		if(GameVersion < 4)
 		Name = "Castle Age?";
 		else
-		Name = "Scanning Capability";
+		Name = "Submarine Detection";
 	}
 	else if(Index == 24)
 	{
+		if(GameVersion < 4)
 		Name = "Imperial Age?";
+		else
+		Name = "Shield Generator Range";
 	}
 	else if(Index == 25)
 	{
@@ -342,11 +349,14 @@ Survival to Finish Yes	45
 		if(GameVersion < 4)
 		Name = "Unknown";
 		else
-		Name = "Shields Drop Off Time";
+		Name = "Shields' Drop Off Time";
 	}
 	else if(Index == 27)
 	{
+		if(GameVersion < 4)
 		Name = "Enable Monk Conversion";
+		else
+		Name = "Enable Jedi Conversion";
 	}
 	else if(Index == 28)
 	{
@@ -361,7 +371,7 @@ Survival to Finish Yes	45
 		if(GameVersion < 4)
 		Name = "Unknown";
 		else
-		Name = "Walker Research";
+		Name = "Enable A-A Attack For AT-ST";
 	}
 	else if(Index == 32)
 	{
@@ -377,9 +387,9 @@ Survival to Finish Yes	45
 	else if(Index == 35)
 	{
 		if(GameVersion < 4)
-		Name = "Monk Recharging Rate";
+		Name = "Faith Recharging Rate";
 		else
-		Name = "Stamina Recharging Rate";
+		Name = "Force Recharging Rate";
 	}
 	else if(Index == 36)
 	{
@@ -391,7 +401,7 @@ Survival to Finish Yes	45
 	}
 	else if(Index == 38)
 	{
-		Name = "Shields On";
+		Name = "Shields On For Bombers/Fighters";
 	}
 	else if(Index == 39)
 	{
@@ -456,7 +466,7 @@ Survival to Finish Yes	45
 		if(GameVersion < 4)
 		Name = "Ore Storage? Unit Unload Room?";
 		else
-		Name = "Mind Trick";
+		Name = "Enable Stealth For Masters";
 	}
 	else if(Index == 58)
 	{
@@ -541,7 +551,10 @@ Survival to Finish Yes	45
 	}
 	else if(Index == 89)
 	{
+		if(GameVersion < 4)
 		Name = "Bonus Healing Rate";
+		else
+		Name = "Medic Healing Rate";
 	}
 	else if(Index == 90)
 	{
@@ -737,7 +750,10 @@ Survival to Finish Yes	45
 	}
 	else if(Index == 196)
 	{
+		if(GameVersion < 4)
 		Name = "Wonder Victory Time";
+		else
+		Name = "Biological Self Regeneration";
 	}
 	else if(Index == 197)
 	{
