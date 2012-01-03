@@ -131,20 +131,30 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 			General_TechTree[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->RenderingPlusSomething[loop+TechTreePage]));
 			General_TechTree[loop]->Container = &GenieFile->RenderingPlusSomething[loop+TechTreePage];
 		}
-		if(GameVersion >= 4)
+		if(GameVersion >= 2)
 		{
-			General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
-			General_SUnknown2->Container = &GenieFile->SUnknown2;
-			General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
-			General_SUnknown3->Container = &GenieFile->SUnknown3;
-			General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
-			General_SUnknown4->Container = &GenieFile->SUnknown4;
-			General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
-			General_SUnknown5->Container = &GenieFile->SUnknown5;
-			General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
-			General_SUnknown7->Container = &GenieFile->SUnknown7;
-			General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
-			General_SUnknown8->Container = &GenieFile->SUnknown8;
+			for(long loop = 0;loop < 7;loop++)
+			{
+				General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
+				General_TTUnknown[loop]->Container = &GenieFile->UnknownPreTechTree[loop];
+			}
+			General_TTUnknown[7]->ChangeValue(lexical_cast<string>(GenieFile->TechTree.Unknown2));
+			General_TTUnknown[7]->Container = &GenieFile->TechTree.Unknown2;
+			if(GameVersion >= 4)
+			{
+				General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
+				General_SUnknown2->Container = &GenieFile->SUnknown2;
+				General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
+				General_SUnknown3->Container = &GenieFile->SUnknown3;
+				General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
+				General_SUnknown4->Container = &GenieFile->SUnknown4;
+				General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
+				General_SUnknown5->Container = &GenieFile->SUnknown5;
+				General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
+				General_SUnknown7->Container = &GenieFile->SUnknown7;
+				General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
+				General_SUnknown8->Container = &GenieFile->SUnknown8;
+			}
 		}
 	}
 //	for(long loop = 0;loop < LastUnknownsSize;loop++)
@@ -171,27 +181,36 @@ void AGE_Frame::CreateGeneralControls()
 	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	
 	General_Grid_Variables = new wxGridSizer(6, 5, 5);
+	General_Grid_Variables2 = new wxGridSizer(8, 5, 5);
+	General_Holder_Variables1 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Star Wars Unknowns");
+	General_Holder_Variables2 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Technology Tree Related?");
 	General_Holder_SUnknown7 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown7 = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_SUnknown8 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown8 = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_SUnknown2 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown2 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown2 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown2 = new TextCtrl_Long(General_Scroller, "0", NULL);
 	General_Holder_SUnknown3 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown3 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown3 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown3 = new TextCtrl_Long(General_Scroller, "0", NULL);
 	General_Holder_SUnknown4 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown4 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown4 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown4 = new TextCtrl_Long(General_Scroller, "0", NULL);
 	General_Holder_SUnknown5 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown5 = new wxStaticText(General_Scroller, wxID_ANY, " SW Unkown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_SUnknown5 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown5 = new TextCtrl_Long(General_Scroller, "0", NULL);
+	for(short loop = 0;loop < 8;loop++)
+	{
+		General_Holder_TTUnknown[loop] = new wxBoxSizer(wxVERTICAL);
+		General_TTUnknown[loop] = new TextCtrl_Long(General_Scroller, "0", NULL);
+		General_Text_TTUnknown[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Unkown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	}
 	
-	General_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
-	General_Holder_TechTreeTop = new wxBoxSizer(wxHORIZONTAL);
+	General_Holder_RenderPlusUnknown = new wxBoxSizer(wxVERTICAL);
+	General_Holder_RenderPlusUnknownTop = new wxBoxSizer(wxHORIZONTAL);
 	General_TechTreePicker = new wxTextCtrl(General_Scroller, wxID_ANY);
 	General_TechTreeNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
 	General_TechTreePrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
@@ -226,34 +245,45 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_SUnknown4->Add(General_SUnknown4, 1, wxEXPAND);
 	General_Holder_SUnknown5->Add(General_Text_SUnknown5, 0, wxEXPAND);
 	General_Holder_SUnknown5->Add(General_SUnknown5, 1, wxEXPAND);
+	for(short loop = 0;loop < 8;loop++)
+	{
+		General_Holder_TTUnknown[loop]->Add(General_Text_TTUnknown[loop], 0, wxEXPAND);
+		General_Holder_TTUnknown[loop]->Add(General_TTUnknown[loop], 0, wxEXPAND);
+	}
 	General_Grid_Variables->Add(General_Holder_SUnknown2, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown3, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown4, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown5, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown7, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown8, 1, wxEXPAND);
-	
-	General_Holder_TechTreeTop->Add(General_Text_TechTree, 0, wxEXPAND);
-	General_Holder_TechTreeTop->Add(5, -1);
-	General_Holder_TechTreeTop->Add(General_TechTreePicker, 1, wxEXPAND);
-	General_Holder_TechTreeTop->Add(5, -1);
-	General_Holder_TechTreeTop->Add(General_TechTreeNext, 1, wxEXPAND);
-	General_Holder_TechTreeTop->Add(5, -1);
-	General_Holder_TechTreeTop->Add(General_TechTreePrev, 1, wxEXPAND);
-	General_Holder_TechTreeTop->Add(5, -1);
-	General_Holder_TechTreeTop->Add(General_TechTreeSize, 1, wxEXPAND);
-	General_Holder_TechTreeTop->AddStretchSpacer(2);
+	General_Holder_Variables1->Add(General_Grid_Variables, 0, wxEXPAND);
+	for(short loop = 0;loop < 8;loop++)
+	General_Grid_Variables2->Add(General_Holder_TTUnknown[loop], 1, wxEXPAND);
+	General_Holder_Variables2->Add(General_Grid_Variables2, 0, wxEXPAND);
+
+	General_Holder_RenderPlusUnknownTop->Add(General_Text_TechTree, 0, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(5, -1);
+	General_Holder_RenderPlusUnknownTop->Add(General_TechTreePicker, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(5, -1);
+	General_Holder_RenderPlusUnknownTop->Add(General_TechTreeNext, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(5, -1);
+	General_Holder_RenderPlusUnknownTop->Add(General_TechTreePrev, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(5, -1);
+	General_Holder_RenderPlusUnknownTop->Add(General_TechTreeSize, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->AddStretchSpacer(2);
 	for(short loop = 0;loop < 256;loop++)
 	General_Grid_TechTree->Add(General_TechTree[loop], 1, wxEXPAND);
-	General_Holder_TechTree->Add(General_Holder_TechTreeTop, 0, wxEXPAND);
-	General_Holder_TechTree->Add(-1, 5);
-	General_Holder_TechTree->Add(General_Grid_TechTree, 0, wxEXPAND);
+	General_Holder_RenderPlusUnknown->Add(General_Holder_RenderPlusUnknownTop, 0, wxEXPAND);
+	General_Holder_RenderPlusUnknown->Add(-1, 5);
+	General_Holder_RenderPlusUnknown->Add(General_Grid_TechTree, 0, wxEXPAND);
 
-	General_ScrollerWindowsSpace->Add(General_Grid_Variables, 0, wxEXPAND);
+	General_ScrollerWindowsSpace->Add(General_Holder_Variables1, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 10);
 	General_ScrollerWindowsSpace->Add(General_Holder_TerrainHeader, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_Holder_TechTree, 0, wxEXPAND);
+	General_ScrollerWindowsSpace->Add(General_Holder_RenderPlusUnknown, 0, wxEXPAND);
+	General_ScrollerWindowsSpace->Add(-1, 10);
+	General_ScrollerWindowsSpace->Add(General_Holder_Variables2, 0, wxEXPAND);
 	
 	General_ScrollerWindows->Add(10, -1);
 	General_ScrollerWindows->Add(General_ScrollerWindowsSpace, 1, wxEXPAND);

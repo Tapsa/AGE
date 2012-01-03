@@ -1085,6 +1085,7 @@ void AGE_Frame::OnGameVersionChange()
 				Units_Holder_Unknown35->Show(true);
 				Units_Holder_Unknown36->Show(true);
 				Units_Holder_Unknown37->Show(true);
+				General_Holder_Variables2->Show(true);
 			}
 		}
 		else // <- RoR
@@ -1141,6 +1142,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unknown36->Show(false);
 			Units_Holder_Unknown37->Show(false);
 			TechTrees_Main->Show(false);
+			General_Holder_Variables2->Show(false);
 			if(ShowUnknowns) Units_Holder_Unknown3a->Show(true);
 		}
 		if(GameVersion >= 4) // SWGB ->
@@ -1155,7 +1157,7 @@ void AGE_Frame::OnGameVersionChange()
 			{
 				Civs_Holder_SUnknown1->Show(true);
 				Terrains_Holder_SUnknown1->Show(true);
-				General_Grid_Variables->Show(true);
+				General_Holder_Variables1->Show(true);
 				TechTrees_Ages_Grid_Zeroes2->Show(true);
 				TechTrees_Buildings_Grid_Unknown2a2->Show(true);
 				TechTrees_Buildings_Grid_Unknown2b2->Show(true);
@@ -1174,7 +1176,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Name2->Show(false);
 			Units_Holder_Unitline->Show(false);
 			Units_Holder_MinTechLevel->Show(false);
-			General_Grid_Variables->Show(false);
+			General_Holder_Variables1->Show(false);
 			UnitLines_Main->Show(false);
 			TechTrees_Ages_Grid_Zeroes2->Show(false);
 			TechTrees_Buildings_Grid_Unknown2a2->Show(false);
