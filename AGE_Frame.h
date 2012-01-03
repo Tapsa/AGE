@@ -738,6 +738,9 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Borders_BorderUnknown10;
 	
 	wxGridSizer * General_Grid_Variables;
+	wxGridSizer * General_Grid_Variables2;
+	wxStaticBoxSizer * General_Holder_Variables1;
+	wxStaticBoxSizer * General_Holder_Variables2;
 	wxBoxSizer * General_Holder_SUnknown7;
 	wxStaticText * General_Text_SUnknown7;
 	TextCtrl_Byte * General_SUnknown7;
@@ -756,9 +759,12 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * General_Holder_SUnknown5;
 	wxStaticText * General_Text_SUnknown5;
 	TextCtrl_Long * General_SUnknown5;
+	wxBoxSizer * General_Holder_TTUnknown[8];
+	wxStaticText * General_Text_TTUnknown[8];
+	TextCtrl_Long * General_TTUnknown[8];
 	
-	wxBoxSizer * General_Holder_TechTree;
-	wxBoxSizer * General_Holder_TechTreeTop;
+	wxBoxSizer * General_Holder_RenderPlusUnknown;
+	wxBoxSizer * General_Holder_RenderPlusUnknownTop;
 	wxStaticText * General_Text_TechTree;
 	wxTextCtrl * General_TechTreePicker;
 	wxButton * General_TechTreeNext;
