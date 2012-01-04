@@ -179,50 +179,6 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetResourceName(short Index, short CivID)
 {
-/* TUTKI NÄÄ!
-55
-57
-188
-197
-209
-210
-			Resource
-Military 0		yli 95!
-Economy 36700		yli 95???
-Tehcnology 1000		yli 95!
-Society 130		yli 95???
-Total Score 37830	
-			
-Units Killed 0		20
-Units Lost 0		yli 95!
-Buildings Razed 0	43
-Buildings Lost 0	yli 95!
-Units Converted 0	41
-Largest Army 1		40
-			
-Food Collected 0	yli 95!
-Wood Collected 0	yli 95!
-Stone Collected 0	yli 95!
-Gold Collected 0	yli 95!
-Trade Profit 0		yli 95!
-Tribute Sent/Rcvd	53/yli 95!
-			
-Feudal Age xx:xx	
-Castle Age xx:xx	
-Imperial Age xx:xx	
-% Map Explored 100%	22
-Research Count 0	21
-Research % 0%		calculated from count? or over 91
-			
-Total Wonders 0		yli 95!
-Total Castles 1		yli 95!
-Relics Captured 0	7
-Relic Gold 0		yli 95!
-Villager High 3		alle 58!
-Survival to Finish Yes	45
-			
-58-77 unknown shit
-*/
 	string Name = "";
 	if(Index == 0)
 	{
@@ -913,7 +869,8 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		float Temp = 0;
-		GenieFile->Civs[CivID].Resources.push_back(Temp);
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		GenieFile->Civs[loop].Resources.push_back(Temp);
 		Added = true;
 		ListResources(CivID);
 	}
@@ -925,7 +882,8 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent& Event)
 	short Selection = Civs_Resources_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GenieFile->Civs[CivID].Resources.erase(GenieFile->Civs[CivID].Resources.begin() + ResourceID);
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		GenieFile->Civs[loop].Resources.erase(GenieFile->Civs[loop].Resources.begin() + ResourceID);
 		if(Selection == Civs_Resources_List->GetCount() - 1)
 		Civs_Resources_List->SetSelection(Selection - 1);
 		ListResources(CivID);
@@ -949,6 +907,18 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent& Event)
 	{
 		*(float*)Civs_Resources_List->GetClientData(Selection) = ResourceCopy;
 		ListResources(CivID);
+	}
+}
+
+void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent& Event)
+{
+	wxBusyCursor WaitCursor;
+	short Selection = Civs_Resources_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		float Copy = GenieFile->Civs[CivID].Resources[ResourceID];
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		GenieFile->Civs[loop].Resources[ResourceID] = Copy;
 	}
 }
 
@@ -1008,6 +978,7 @@ void AGE_Frame::CreateCivControls()
 	Resources_Delete = new wxButton(Tab_Civs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Resources_Copy = new wxButton(Tab_Civs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Resources_Paste = new wxButton(Tab_Civs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Resources_CopyToAll = new wxButton(Tab_Civs, wxID_ANY, "Copy To All Civs", wxDefaultPosition, wxSize(5, 20));
 	Civs_Resources_Data = new wxBoxSizer(wxVERTICAL);
 	Civs_Holder_ResourceValue = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_ResourceValue = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -1067,6 +1038,8 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources_Buttons->Add(Resources_Delete, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Copy, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Paste, 1, wxEXPAND);
+	Civs_Resources_Buttons->Add(Resources_CopyToAll, 1, wxEXPAND);
+	Civs_Resources_Buttons->Add(Civs_Holder_Resources_Link, 1, wxEXPAND);
 
 	Civs_Holder_ResourceValue->Add(Civs_Text_ResourceValue, 0, wxEXPAND);
 	Civs_Holder_ResourceValue->Add(Civs_ResourceValue, 1, wxEXPAND);
@@ -1078,7 +1051,6 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources->Add(Civs_Resources_Data, 0, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_List, 1, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
-	Civs_Resources->Add(Civs_Holder_Resources_Link, 0, wxEXPAND);
 
 	Civs_Holder_Resources->Add(-1, 10);
 	Civs_Holder_Resources->Add(Civs_Resources, 1, wxEXPAND);
@@ -1108,6 +1080,7 @@ void AGE_Frame::CreateCivControls()
 	Connect(Resources_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesPaste));
 	Connect(Resources_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesAdd));
 	Connect(Resources_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesDelete));
+	Connect(Resources_CopyToAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesCopyToAll));
 	
 	for(short loop = 0;loop < 2;loop++)
 	Civs_Name[loop]->Connect(Civs_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);

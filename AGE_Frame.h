@@ -302,6 +302,7 @@ class AGE_Frame : public wxFrame
 	void OnResourcesDelete(wxCommandEvent& Event);
 	void OnResourcesCopy(wxCommandEvent& Event);
 	void OnResourcesPaste(wxCommandEvent& Event);
+	void OnResourcesCopyToAll(wxCommandEvent& Event);
 	string GetResourceName(short Index, short CivID);
 
 	void ListUnits(short CivID = -1, bool Sized = true);
@@ -1015,6 +1016,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Resources_Delete;
 	wxButton * Resources_Copy;
 	wxButton * Resources_Paste;
+	wxButton * Resources_CopyToAll;
 	wxBoxSizer * Civs_Resources_Data;
 	wxBoxSizer * Civs_Holder_ResourceValue;
 	wxStaticText * Civs_Text_ResourceValue;
