@@ -1375,10 +1375,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			ShowButtons = Event.IsChecked();
 			if(ShowButtons)
 			{
-				Civs_Add->Enable(true); // Adding will seriously damage unit section and does not work in game.
+				Civs_Add->Enable(true); // Must copy existing civ over the new one
 				Civs_Delete->Enable(true);
-				Resources_Add->Enable(true);
-				Resources_Delete->Enable(true);
 				Terrains_Add->Enable(true);
 				Terrains_Delete->Enable(true);
 			}
@@ -1386,8 +1384,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			{
 				Civs_Add->Enable(false);
 				Civs_Delete->Enable(false);
-				Resources_Add->Enable(false);
-				Resources_Delete->Enable(false);
 				Terrains_Add->Enable(false);
 				Terrains_Delete->Enable(false);
 			}
