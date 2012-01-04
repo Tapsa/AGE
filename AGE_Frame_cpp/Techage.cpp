@@ -113,9 +113,9 @@ void AGE_Frame::ListTechages()
 	
 	short Selection = Techs_Techs_List->GetSelection();
 	short IDsCount = 3, TechIDs[IDsCount];
-	TechIDs[1] = Research_ComboBox_TechID->GetSelection();
-	TechIDs[2] = Civs_ComboBox_TechTree->GetSelection();
-	TechIDs[3] = Civs_ComboBox_TeamBonus->GetSelection();
+	TechIDs[0] = Research_ComboBox_TechID->GetSelection();
+	TechIDs[1] = Civs_ComboBox_TechTree->GetSelection();
+	TechIDs[2] = Civs_ComboBox_TeamBonus->GetSelection();
 
 	if(Techs_Techs_List->GetCount() > 0)
 	{
@@ -990,7 +990,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Techs_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Techs_Techs_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Techs_Techs_Rename = new wxButton(Tab_Techage, wxID_ANY, "Rename Technologies", wxDefaultPosition, wxSize(0, 20));
-	Techs_Techs_Restore = new wxButton(Tab_Techage, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(0, 20));
+	Techs_Techs_Restore = new wxButton(Tab_Techage, wxID_ANY, "Rename For GeniEd 2", wxDefaultPosition, wxSize(0, 20));
 
 	Techs_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Techs_Text_Name = new wxStaticText(Tab_Techage, wxID_ANY, " Technology Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
