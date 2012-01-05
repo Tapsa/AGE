@@ -21,7 +21,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
 	Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
-	Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_2ndFilters);
+	//Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_2ndFilters);
 	//Config->Read("Interaction/UseUndo", &UseUndo, false);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
@@ -59,7 +59,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Enable forbidden &buttons");
 	SubMenu_Options->Check(MenuOption_Buttons, ShowButtons);
 	/*SubMenu_Options->AppendCheckItem(MenuOption_Undo, "Use &undo function");
-	SubMenu_Options->Check(MenuOption_Undo, UseUndo);*/
+	SubMenu_Options->Check(MenuOption_Undo, UseUndo);
 
 	SubMenu_SearchFilters = new wxMenu();
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_NoExtra, "&Default");
@@ -67,7 +67,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	SubMenu_SearchFilters->AppendRadioItem(MenuOption_2ndFilters, "&2nd filters");
 	SubMenu_SearchFilters->Check(SearchFilters, true);
 
-	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &filters [| to separate]");
+	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &filters [| to separate]");*/
 
 	SubMenu_CivAutoCopy = new wxMenu();
 	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_NoAuto, "&Disabled");
@@ -127,9 +127,9 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(MenuOption_Exclude, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Tips, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_NoExtra, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_1stFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_2ndFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+//	Connect(MenuOption_NoExtra, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+//	Connect(MenuOption_1stFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+//	Connect(MenuOption_2ndFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = false;
 	wxCommandEvent ShowUnknownsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Unknowns);
