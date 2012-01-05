@@ -4678,7 +4678,7 @@ void AGE_Frame::CreateUnitControls()
 	{
 		Units_AutoCopyState->SetLabel("Auto-copy: Exclude graphics");
 	}
-	if(SearchFilters == MenuOption_NoExtra)
+	/*if(SearchFilters == MenuOption_NoExtra)
 	{
 		for(short loop = 0;loop < 2;loop++)
 		Units_Units_SearchFilters[loop]->Show(false);
@@ -4694,7 +4694,7 @@ void AGE_Frame::CreateUnitControls()
 	{
 		for(short loop = 0;loop < 2;loop++)
 		Units_Units_SearchFilters[loop]->Show(true);
-	}
+	}*/
 	Units_ID1->Enable(false);
 	Units_ID2->Enable(false);
 	Units_ID3->Enable(false);

@@ -1299,7 +1299,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopyToAllCivs", AutoCopy);
-	Config->Write("Interaction/ExtraSearchFilters", SearchFilters);
+	//Config->Write("Interaction/ExtraSearchFilters", SearchFilters);
 	//Config->Write("Interaction/UseUndo", UseUndo);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
@@ -1421,7 +1421,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_AutoCopyState->SetLabel("Auto-copy: Exclude graphics");
 			}
 		}
-		case MenuOption_NoExtra:
+		/*case MenuOption_NoExtra:
 		case MenuOption_1stFilters:
 		case MenuOption_2ndFilters:
 		{
@@ -1445,7 +1445,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			}
 			Units_Units->Layout();
 		}
-		break;
+		break;*/
 		case wxID_EXIT:
 		{
 			Close(true);

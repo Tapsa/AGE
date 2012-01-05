@@ -483,7 +483,7 @@ class AGE_Frame : public wxFrame
 
 	bool PromptForFilesOnOpen;
 	int AutoCopy;	// Complete.
-	int SearchFilters;
+//	int SearchFilters;
 	bool UseAnd[2];
 	bool ShowUnknowns;
 	bool ShowButtons;
@@ -615,9 +615,9 @@ class AGE_Frame : public wxFrame
 		MenuOption_Exclude,
 		MenuOption_Tips,
 		MenuOption_About,
-		MenuOption_NoExtra,
-		MenuOption_1stFilters,
-		MenuOption_2ndFilters,
+//		MenuOption_NoExtra,
+//		MenuOption_1stFilters,
+//		MenuOption_2ndFilters,
 		ToolBar_Open,
 		ToolBar_Save,
 	};
@@ -627,7 +627,7 @@ class AGE_Frame : public wxFrame
 	wxMenuBar * MenuBar_Main;
 	wxMenu * SubMenu_Options;
 	wxMenu * SubMenu_CivAutoCopy;
-	wxMenu * SubMenu_SearchFilters;
+//	wxMenu * SubMenu_SearchFilters;
 	wxMenu * SubMenu_Help;
 
 	wxNotebook * TabBar_Main;
