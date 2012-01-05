@@ -754,6 +754,20 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Units_Units_SearchFilters[loop]->Append("Terrain");
 			Units_Units_SearchFilters[loop]->Append("Research");
 		*/	Units_Units_SearchFilters[loop]->SetSelection(0);
+		
+			if(Research_Research_SearchFilters[loop]->GetCount() > 0)
+			{
+				Research_Research_SearchFilters[loop]->Clear();
+			}
+			Research_Research_SearchFilters[loop]->Append("Lang DLL Name");	// 0
+			Research_Research_SearchFilters[loop]->Append("Internal Name");
+			Research_Research_SearchFilters[loop]->Append("Research Location");
+			if(GameVersion >= 2)
+			{
+				Research_Research_SearchFilters[loop]->Append("Civilization");
+				Research_Research_SearchFilters[loop]->Append("Full Tech. Mode");
+			}
+			Research_Research_SearchFilters[loop]->SetSelection(0);
 		}
 
 		if(GameVersion >= 2)
@@ -812,12 +826,12 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			if(UnitLines_UnitLineUnits_List->GetCount() > 0)
 			UnitLines_UnitLineUnits_List->Clear();
 		}
-		ListResearchs();
+		ListResearches();
 		ListTechages();
 		ListGraphics();
 		ListSounds();
-		ListTerrains();
 		ListTerrainRestrictions();
+		ListTerrains();
 		ListPlayerColors();
 		ListTerrainBorders();
 		ListGeneral();
@@ -1712,6 +1726,10 @@ void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
 		{
 			ListTTResearches();
 		}
+		else if(Event.GetId() == Research_Research_UseAnd[loop]->GetId())
+		{
+			ListResearches();
+		}
 	}
 }
 
@@ -2030,12 +2048,17 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		else if(Event.GetId() == TechTrees_MainList_Buildings_SearchFilters[loop]->GetId())
 		{
 			ListTTBuildings();
-			TechTrees_MainList_Units_Search->SetFocus();
+			TechTrees_MainList_Buildings_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Researches_SearchFilters[loop]->GetId())
 		{
 			ListTTResearches();
-			TechTrees_MainList_Units_Search->SetFocus();
+			TechTrees_MainList_Researches_Search->SetFocus();
+		}
+		else if(Event.GetId() == Research_Research_SearchFilters[loop]->GetId())
+		{
+			ListResearches(false);
+			Research_Research_Search->SetFocus();
 		}
 	}
 }
@@ -2168,6 +2191,30 @@ void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent& Event)
 	}
 }
 
+void AGE_Frame::OnKillFocus_CheckBoxLong0Y(wxFocusEvent& Event)
+{
+	((CheckBox_Long_ZeroIsYes*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
+	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
+	{
+		if(Event.GetId() == TerRestrict_Unknown1->GetId())
+		{
+			ListTerrains(false);
+		}
+	}
+}
+
+void AGE_Frame::OnKillFocus_CheckBoxFloat(wxFocusEvent& Event)
+{
+	((CheckBox_Float*)((TextCtrl_Float*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
+	if(!((TextCtrl_Float*)Event.GetEventObject())->NoLoadList)
+	{
+		if(Event.GetId() == TerRestrict_Accessible->GetId())
+		{
+			ListTerrains(false);
+		}
+	}
+}
+
 void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 {
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
@@ -2239,7 +2286,7 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent& Event)
 	{
 		if(Event.GetId() == Research_LangDllName->GetId())
 		{
-			ListResearchs();
+			ListResearches();
 		}
 		else if(Event.GetId() == Research_LangDllDescription->GetId())
 		{
@@ -2289,7 +2336,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == Units_LanguageDllName->GetId())
 		{
-			ListUnits(UnitCivID, true);
+			ListUnits(UnitCivID);
 		}
 		else if(Event.GetId() == Units_LanguageDllCreation->GetId())
 		{
@@ -2539,7 +2586,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Researchs[ResearchID].Name = ReducedName;
 	
-			ListResearchs();
+			ListResearches();
 		}
 		else if(Event.GetId() == Research_Name[1]->GetId())
 		{
@@ -2547,7 +2594,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Researchs[ResearchID].Name2 = ReducedName;
 	
-		//	ListResearchs();
+		//	ListResearches();
 			wxCommandEvent E;
 			OnResearchSelect(E);
 		}
@@ -2583,7 +2630,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getNameSize());
 			GenieFile->Graphics[GraphicID].Name = ReducedName;
 			
-			ListGraphics(true);
+			ListGraphics();
 		}
 		else if(Event.GetId() == Graphics_Name2->GetId())
 		{
@@ -2591,7 +2638,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getName2Size());
 			GenieFile->Graphics[GraphicID].Name2 = ReducedName;
 			
-		//	ListGraphics(true);
+		//	ListGraphics();
 			wxCommandEvent E;
 			OnGraphicsSelect(E);
 		}
@@ -2674,7 +2721,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name = ReducedName;
 	
-			ListUnits(UnitCivID, true);
+			ListUnits(UnitCivID);
 		}
 		else if(Event.GetId() == Units_Name2->GetId())
 		{
@@ -2832,6 +2879,24 @@ void AGE_Frame::OnUpdate_ComboBoxLong(wxCommandEvent& Event)
 	else if(Event.GetId() == TechTrees_Researches_ComboBox_Research->GetId())
 	{
 		ListTTResearchResearches(TTResearchConnectionID);
+	}
+}
+
+void AGE_Frame::OnUpdate_CheckBoxLong0Y(wxCommandEvent& Event)
+{
+	((CheckBox_Long_ZeroIsYes*)Event.GetEventObject())->OnUpdate(Event);
+	if(Event.GetId() == TerRestrict_CheckBox_Unknown1->GetId())
+	{
+		ListTerrains(false);
+	}
+}
+
+void AGE_Frame::OnUpdate_CheckBoxFloat(wxCommandEvent& Event)
+{
+	((CheckBox_Float*)Event.GetEventObject())->OnUpdate(Event);
+	if(Event.GetId() == TerRestrict_CheckBox_Accessible->GetId())
+	{
+		ListTerrains(false);
 	}
 }
 
