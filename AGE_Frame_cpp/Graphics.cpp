@@ -280,7 +280,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent& Event)
 	GenieFile->GraphicPointers.push_back(1);
 	GenieFile->Graphics[GenieFile->Graphics.size() - 1].ID = lexical_cast<short>(GenieFile->Graphics.size() - 1);	//	ID Fix
 	Added = true;
-	ListGraphics(true);
+	ListGraphics();
 }
 
 void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
@@ -297,7 +297,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
 		}
 		if(Selection == Graphics_Graphics_List->GetCount() - 1)
 		Graphics_Graphics_List->SetSelection(Selection - 1);
-		ListGraphics(true);
+		ListGraphics();
 	}
 }
 
@@ -318,7 +318,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent& Event)
 	{
 		*(gdat::Graphic*)Graphics_Graphics_List->GetClientData(Selection) = GraphicCopy;
 		GenieFile->Graphics[GraphicID].ID = lexical_cast<short>(GraphicID);	//	ID Fix
-		ListGraphics(true);
+		ListGraphics();
 	}
 }
 void AGE_Frame::OnGraphicsEnable(wxCommandEvent& Event)
@@ -327,7 +327,7 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->GraphicPointers[GraphicID] = lexical_cast<long>(1);
-		ListGraphics(false);
+		ListGraphics();
 	}
 }
 
@@ -337,7 +337,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->GraphicPointers[GraphicID] = lexical_cast<long>(0);
-		ListGraphics(false);
+		ListGraphics();
 	}
 }
 
@@ -583,7 +583,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY);
 	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY);
-	Graphics_Graphics_UseAnd = new wxCheckBox(Tab_Graphics, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator);
+//	Graphics_Graphics_UseAnd = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Graphics_Graphics_Buttons = new wxGridSizer(2, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -740,7 +740,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_Graphics->Add(Graphics_Graphics_Search, 0, wxEXPAND);
 	Graphics_Graphics->Add(Graphics_Graphics_Search_R, 0, wxEXPAND);
-	Graphics_Graphics->Add(Graphics_Graphics_UseAnd, 0, wxEXPAND);
+//	Graphics_Graphics->Add(Graphics_Graphics_UseAnd, 0, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
@@ -929,7 +929,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Main->Add(10, -1);
 	
 	Graphics_ID->Enable(false);
-	Graphics_Graphics_UseAnd->Show(false);
+//	Graphics_Graphics_UseAnd->Show(false);
 
 	Tab_Graphics->SetSizer(Graphics_Main);
 	

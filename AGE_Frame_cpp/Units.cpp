@@ -14,60 +14,19 @@ void AGE_Frame::OnUnitSubList(wxCommandEvent& Event)
 string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
 {
 	string Name = "";
-	if(Filter == false)
+	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitID] == 0)
 	{
-		if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")
-		{
-			Name = LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
-		}
-		else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
-		{
-			Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
-		}
-		else
-		{
-			Name = "New Unit";
-		}
+		Name = "*Disabled*";
 	}
 	else
 	{
-		short Selection[2];
-		for(short loop = 0;loop < 2;loop++)
-		Selection[loop] = Units_Units_SearchFilters[loop]->GetSelection();
-		
-		if(GenieFile->Civs[UnitCivID].UnitPointers[UnitID] == 0)
+		if(Filter)
 		{
-			Name = "*Disabled*";
-		}
-		else if(Selection[0] == 0)	// Lang DLL Name
-		{
-			if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")	// Other than empty.
-			{
-				Name = LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
-			}
-			else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
-			{
-				Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;	// If lang DLL is empty, use internal name.
-			}
-			else
-			{
-				Name = "New Unit";
-			}
-		//	Name += " B:A "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Building.AdjacentMode);
-		}
-		else if(Selection[0] == 1)	// Internal Name
-		{
-			if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
-			{
-				Name = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
-			}
-			else
-			{
-				Name = "New Unit";
-			}
-		}
-		else
-		{
+			short Selection[2];
+			for(short loop = 0;loop < 2;loop++)
+			Selection[loop] = Units_Units_SearchFilters[loop]->GetSelection();
+			
+			if(Selection[0] > 1)
 			for(short loop = 0;loop < 2;loop++)
 			{
 				if(Selection[loop] == 2)	// Type
@@ -88,18 +47,20 @@ string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
 				if(Selection[loop+1] < 2) break;
 			}
 			
-			if(LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "")
-			{
-				Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
-			}
-			else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
-			{
-				Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
-			}
-			else
-			{
-				Name += "New Unit";
-			}
+			if(Selection[0] != 1) Filter = false; // Names
+		}
+		
+		if((LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "") && (Filter == false))
+		{
+			Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
+		}
+		else if(GenieFile->Civs[UnitCivID].Units[UnitID].Name != "")
+		{
+			Name += GenieFile->Civs[UnitCivID].Units[UnitID].Name;
+		}
+		else
+		{
+			Name += "New Unit";
 		}
 	}
 	return Name;
@@ -1521,7 +1482,7 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 		ListUnitHeads();
 	}
 	Added = true;
-	ListUnits(UnitCivID, true);
+	ListUnits(UnitCivID);
 }
 
 void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
@@ -1557,7 +1518,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 		}
 		if(Selection == Units_Units_List->GetCount() - 1)
 		Units_Units_List->SetSelection(Selection - 1);
-		ListUnits(UnitCivID, true);
+		ListUnits(UnitCivID);
 	}
 }
 
@@ -1663,7 +1624,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 			{
 				ListUnitHeads();
 			}
-			ListUnits(UnitCivID, true);
+			ListUnits(UnitCivID);
 		}
 	}
 }
@@ -1677,7 +1638,7 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[loop].UnitPointers[UnitID] = lexical_cast<long>(1);
 		}
-		ListUnits(UnitCivID, false);
+		ListUnits(UnitCivID);
 	}
 }
 
@@ -1690,7 +1651,7 @@ void AGE_Frame::OnUnitsDisable(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[loop].UnitPointers[UnitID] = lexical_cast<long>(0);
 		}
-		ListUnits(UnitCivID, false);
+		ListUnits(UnitCivID);
 	}
 }
 
@@ -3614,8 +3575,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Buttons->Add(Units_Disable, 1, wxEXPAND);
 
 	Units_Units_Searches[0]->Add(Units_Units_Search, 1, wxEXPAND);
+	Units_Units_Searches[0]->Add(2, -1);
 	Units_Units_Searches[0]->Add(Units_Units_UseAnd[0], 0, wxEXPAND);
 	Units_Units_Searches[1]->Add(Units_Units_Search_R, 1, wxEXPAND);
+	Units_Units_Searches[1]->Add(2, -1);
 	Units_Units_Searches[1]->Add(Units_Units_UseAnd[1], 0, wxEXPAND);
 	
 	Units_Units->Add(Units_Civs_List, 0, wxEXPAND);

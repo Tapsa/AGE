@@ -101,10 +101,10 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 
 void AGE_Frame::OnTechageSearch(wxCommandEvent& Event)
 {
-	ListTechages();
+	ListTechages(false);
 }
 
-void AGE_Frame::ListTechages()
+void AGE_Frame::ListTechages(bool Sized)
 {
 	string Name;
 	SearchText = wxString(Techs_Techs_Search->GetValue()).Lower();
@@ -112,43 +112,47 @@ void AGE_Frame::ListTechages()
 	string CompareText;
 	
 	short Selection = Techs_Techs_List->GetSelection();
-	short IDsCount = 3, TechIDs[IDsCount];
-	TechIDs[0] = Research_ComboBox_TechID->GetSelection();
-	TechIDs[1] = Civs_ComboBox_TechTree->GetSelection();
-	TechIDs[2] = Civs_ComboBox_TeamBonus->GetSelection();
-
 	if(Techs_Techs_List->GetCount() > 0)
 	{
 		Techs_Techs_List->Clear();
 	}
-	if(Research_ComboBox_TechID->GetCount() > 0)
-	{
-		Research_ComboBox_TechID->Clear();
-	}
-	if(Civs_ComboBox_TechTree->GetCount() > 0)
-	{
-		Civs_ComboBox_TechTree->Clear();
-	}
-	if(Civs_ComboBox_TeamBonus->GetCount() > 0)
-	{
-		Civs_ComboBox_TeamBonus->Clear();
-	}
-	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < IDsCount;loop++)
-	{
-		if(TechIDs[loop] == wxNOT_FOUND)
-		{
-			TechIDs[loop] = 0;
-		}
-	}
 	
-	Research_ComboBox_TechID->Append("-1 - None");
-	Civs_ComboBox_TechTree->Append("-1 - None");
-	Civs_ComboBox_TeamBonus->Append("-1 - None");
+	short IDsCount = 3, TechIDs[IDsCount];
+	if(Sized)
+	{
+		TechIDs[0] = Research_ComboBox_TechID->GetSelection();
+		TechIDs[1] = Civs_ComboBox_TechTree->GetSelection();
+		TechIDs[2] = Civs_ComboBox_TeamBonus->GetSelection();
+
+		if(Research_ComboBox_TechID->GetCount() > 0)
+		{
+			Research_ComboBox_TechID->Clear();
+		}
+		if(Civs_ComboBox_TechTree->GetCount() > 0)
+		{
+			Civs_ComboBox_TechTree->Clear();
+		}
+		if(Civs_ComboBox_TeamBonus->GetCount() > 0)
+		{
+			Civs_ComboBox_TeamBonus->Clear();
+		}
+		
+		for(short loop = 0;loop < IDsCount;loop++)
+		{
+			if(TechIDs[loop] == wxNOT_FOUND)
+			{
+				TechIDs[loop] = 0;
+			}
+		}
+		
+		Research_ComboBox_TechID->Append("-1 - None");
+		Civs_ComboBox_TechTree->Append("-1 - None");
+		Civs_ComboBox_TeamBonus->Append("-1 - None");
+	}
 	
 	for(short loop = 0;loop < GenieFile->Techages.size();loop++)
 	{
@@ -158,19 +162,24 @@ void AGE_Frame::ListTechages()
 		{
 			Techs_Techs_List->Append(Name, (void*)&GenieFile->Techages[loop]);
 		}
-//		Name = Techs_Techs_List->GetString(loop);
-		Research_ComboBox_TechID->Append(Name);
-		Civs_ComboBox_TechTree->Append(Name);
-		Civs_ComboBox_TeamBonus->Append(Name);
+		if(Sized)
+		{
+			Research_ComboBox_TechID->Append(Name);
+			Civs_ComboBox_TechTree->Append(Name);
+			Civs_ComboBox_TeamBonus->Append(Name);
+		}
 	}
 	
 	Techs_Techs_List->SetSelection(0);
 	Techs_Techs_List->SetFirstItem(Selection - 3);
 	Techs_Techs_List->SetSelection(Selection);
-	Research_ComboBox_TechID->SetSelection(TechIDs[0]);
-	Civs_ComboBox_TechTree->SetSelection(TechIDs[1]);
-	Civs_ComboBox_TeamBonus->SetSelection(TechIDs[2]);
-
+	if(Sized)
+	{
+		Research_ComboBox_TechID->SetSelection(TechIDs[0]);
+		Civs_ComboBox_TechTree->SetSelection(TechIDs[1]);
+		Civs_ComboBox_TeamBonus->SetSelection(TechIDs[2]);
+	}
+	
 	wxCommandEvent E;
 	OnTechageSelect(E);
 }
@@ -999,7 +1008,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Effects");
 	Techs_Effects_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);
-	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator);
+//	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	Techs_Effects_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Techs_Effects_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -1100,7 +1109,7 @@ void AGE_Frame::CreateTechageControls()
 
 	Techs_Effects->Add(Techs_Effects_Search, 0, wxEXPAND);
 	Techs_Effects->Add(Techs_Effects_Search_R, 0, wxEXPAND);
-	Techs_Effects->Add(Techs_Effects_UseAnd, 0, wxEXPAND);
+//	Techs_Effects->Add(Techs_Effects_UseAnd, 0, wxEXPAND);
 	Techs_Effects->Add(-1, 2);
 	Techs_Effects->Add(Techs_Effects_List, 1, wxEXPAND);
 	Techs_Effects->Add(-1, 2);
@@ -1211,7 +1220,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 	Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
 	Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
-	Techs_Effects_UseAnd->Show(false);
+//	Techs_Effects_UseAnd->Show(false);
 	
 	Tab_Techage->SetSizer(Techs_Main);
 	

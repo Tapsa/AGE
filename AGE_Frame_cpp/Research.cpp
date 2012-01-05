@@ -6,186 +6,237 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetResearchName(short Index)
+string AGE_Frame::GetResearchName(short Index, bool Filter)
 {
-	string Name = "";	
-	if(LanguageDllString(GenieFile->Researchs[Index].LanguageDllName) != "")
+	string Name = "";
+	if(Filter)
 	{
-		Name = LanguageDllString(GenieFile->Researchs[Index].LanguageDllName);
+		short Selection[2];
+		for(short loop = 0;loop < 2;loop++)
+		Selection[loop] = Research_Research_SearchFilters[loop]->GetSelection();
+		
+		if(Selection[0] > 1)
+		for(short loop = 0;loop < 2;loop++)
+		{
+			if(Selection[loop] == 2)	// Research Location
+			{
+				Name += "L ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].ResearchLocation);
+			}
+			else if(GameVersion < 2);
+			else if(Selection[loop] == 3)	// Civilization
+			{
+				Name += "C ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].Civ);
+			}
+			else if(Selection[loop] == 4)	// Full Tech. Mode
+			{
+				Name += "F ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].FullTechMode);
+			}
+			Name += ", ";
+			if(Selection[loop+1] < 2) break;
+		}
+		
+		if(Selection[0] != 1) Filter = false; // Names
+	}
+	
+	if((LanguageDllString(GenieFile->Researchs[Index].LanguageDllName) != "") && (Filter == false))
+	{
+		Name += LanguageDllString(GenieFile->Researchs[Index].LanguageDllName);
 	}
 	else if(GenieFile->Researchs[Index].Name != "")
 	{
-		Name = GenieFile->Researchs[Index].Name;
+		Name += GenieFile->Researchs[Index].Name;
 	}
 	else
 	{
-		Name = "New Research";
+		Name += "New Research";
 	}
 	return Name;
 }
 
 void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
 {
-	ListResearchs();
+	ListResearches(false);
 }
 
-void AGE_Frame::ListResearchs()
+void AGE_Frame::ListResearches(bool Sized)
 {
 	string Name;
 	SearchText = wxString(Research_Research_Search->GetValue()).Lower();
 	ExcludeText = wxString(Research_Research_Search_R->GetValue()).Lower();
 	string CompareText;
+	for(short loop = 0;loop < 2;loop++)
+	{
+		if(Research_Research_UseAnd[loop]->GetValue() == true)
+		UseAnd[loop] = true; else UseAnd[loop] = false;
+	}
 	
 	short Selection = Research_Research_List->GetSelection();
-	short IDsCount = 21, ResearchIDs[IDsCount];
-	ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
-	ResearchIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
-	ResearchIDs[2] = Units_ComboBox_ResearchID->GetSelection();
-	for(short loop = 0;loop < 6;loop++)
-	ResearchIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
-	ResearchIDs[9] = TechTrees_Ages_ComboBox_Research->GetSelection();
-	ResearchIDs[10] = TechTrees_Buildings_ComboBox_EnablingResearch->GetSelection();
-	ResearchIDs[11] = TechTrees_Buildings_ComboBox_Research->GetSelection();
-	ResearchIDs[12] = TechTrees_Units_ComboBox_EnablingResearch->GetSelection();
-	ResearchIDs[13] = TechTrees_Researches_ComboBox_ID->GetSelection();
-	ResearchIDs[14] = TechTrees_Researches_ComboBox_UpperResearch->GetSelection();
-	ResearchIDs[15] = TechTrees_Researches_ComboBox_Research->GetSelection();
-	ResearchIDs[16] = TechTrees_Units_ComboBox_RequiredResearch->GetSelection();
-	for(short loop = 0;loop < 4;loop++)
-	ResearchIDs[loop+17] = TechTrees_ComboBox_Research[loop]->GetSelection();
-
 	if(Research_Research_List->GetCount() > 0)
 	{
 		Research_Research_List->Clear();
 	}
-	if(Effects_ComboBox_ResearchsD->GetCount() > 0)
-	{
-		Effects_ComboBox_ResearchsD->Clear();
-	}
-	if(Effects_ComboBox_ResearchsA->GetCount() > 0)
-	{
-		Effects_ComboBox_ResearchsA->Clear();
-	}
-	if(Units_ComboBox_ResearchID->GetCount() > 0)
-	{
-		Units_ComboBox_ResearchID->Clear();
-	}
-	for(short loop = 0;loop < 6;loop++)
-	{
-		if(Research_ComboBox_RequiredTechs[loop]->GetCount() > 0)
-		{
-			Research_ComboBox_RequiredTechs[loop]->Clear();
-		}
-	}
-	if(TechTrees_Ages_ComboBox_Research->GetCount() > 0)
-	{
-		TechTrees_Ages_ComboBox_Research->Clear();
-	}
-	if(TechTrees_Buildings_ComboBox_EnablingResearch->GetCount() > 0)
-	{
-		TechTrees_Buildings_ComboBox_EnablingResearch->Clear();
-	}
-	if(TechTrees_Buildings_ComboBox_Research->GetCount() > 0)
-	{
-		TechTrees_Buildings_ComboBox_Research->Clear();
-	}
-	if(TechTrees_Units_ComboBox_EnablingResearch->GetCount() > 0)
-	{
-		TechTrees_Units_ComboBox_EnablingResearch->Clear();
-	}
-	if(TechTrees_Researches_ComboBox_ID->GetCount() > 0)
-	{
-		TechTrees_Researches_ComboBox_ID->Clear();
-	}
-	if(TechTrees_Researches_ComboBox_UpperResearch->GetCount() > 0)
-	{
-		TechTrees_Researches_ComboBox_UpperResearch->Clear();
-	}
-	if(TechTrees_Researches_ComboBox_Research->GetCount() > 0)
-	{
-		TechTrees_Researches_ComboBox_Research->Clear();
-	}
-	if(TechTrees_Units_ComboBox_RequiredResearch->GetCount() > 0)
-	{
-		TechTrees_Units_ComboBox_RequiredResearch->Clear();
-	}
-	for(short loop = 0;loop < 4;loop++)
-	if(TechTrees_ComboBox_Research[loop]->GetCount() > 0)
-	{
-		TechTrees_ComboBox_Research[loop]->Clear();
-	}
-	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < IDsCount;loop++)
-	{
-		if(ResearchIDs[loop] == wxNOT_FOUND)
-		{
-			ResearchIDs[loop] = 0;
-		}
-	}
 	
-	Effects_ComboBox_ResearchsD->Append("-1 - None");
-	Effects_ComboBox_ResearchsA->Append("-1 - None");
-	Units_ComboBox_ResearchID->Append("-1 - None");
-	for(short loop = 0;loop < 6;loop++)
-	Research_ComboBox_RequiredTechs[loop]->Append("-1 - None");
-	TechTrees_Ages_ComboBox_Research->Append("-1 - None");
-	TechTrees_Buildings_ComboBox_EnablingResearch->Append("-1 - None");
-	TechTrees_Buildings_ComboBox_Research->Append("-1 - None");
-	TechTrees_Units_ComboBox_EnablingResearch->Append("-1 - None");
-	TechTrees_Researches_ComboBox_ID->Append("-1 - None");
-	TechTrees_Researches_ComboBox_UpperResearch->Append("-1 - None");
-	TechTrees_Researches_ComboBox_Research->Append("-1 - None");
-	TechTrees_Units_ComboBox_RequiredResearch->Append("-1 - None");
-	for(short loop = 0;loop < 4;loop++)
-	TechTrees_ComboBox_Research[loop]->Append("-1 - None");
+	short IDsCount = 21, ResearchIDs[IDsCount];
+	if(Sized)
+	{
+		ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
+		ResearchIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
+		ResearchIDs[2] = Units_ComboBox_ResearchID->GetSelection();
+		for(short loop = 0;loop < 6;loop++)
+		ResearchIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
+		ResearchIDs[9] = TechTrees_Ages_ComboBox_Research->GetSelection();
+		ResearchIDs[10] = TechTrees_Buildings_ComboBox_EnablingResearch->GetSelection();
+		ResearchIDs[11] = TechTrees_Buildings_ComboBox_Research->GetSelection();
+		ResearchIDs[12] = TechTrees_Units_ComboBox_EnablingResearch->GetSelection();
+		ResearchIDs[13] = TechTrees_Researches_ComboBox_ID->GetSelection();
+		ResearchIDs[14] = TechTrees_Researches_ComboBox_UpperResearch->GetSelection();
+		ResearchIDs[15] = TechTrees_Researches_ComboBox_Research->GetSelection();
+		ResearchIDs[16] = TechTrees_Units_ComboBox_RequiredResearch->GetSelection();
+		for(short loop = 0;loop < 4;loop++)
+		ResearchIDs[loop+17] = TechTrees_ComboBox_Research[loop]->GetSelection();
+
+		if(Effects_ComboBox_ResearchsD->GetCount() > 0)
+		{
+			Effects_ComboBox_ResearchsD->Clear();
+		}
+		if(Effects_ComboBox_ResearchsA->GetCount() > 0)
+		{
+			Effects_ComboBox_ResearchsA->Clear();
+		}
+		if(Units_ComboBox_ResearchID->GetCount() > 0)
+		{
+			Units_ComboBox_ResearchID->Clear();
+		}
+		for(short loop = 0;loop < 6;loop++)
+		{
+			if(Research_ComboBox_RequiredTechs[loop]->GetCount() > 0)
+			{
+				Research_ComboBox_RequiredTechs[loop]->Clear();
+			}
+		}
+		if(TechTrees_Ages_ComboBox_Research->GetCount() > 0)
+		{
+			TechTrees_Ages_ComboBox_Research->Clear();
+		}
+		if(TechTrees_Buildings_ComboBox_EnablingResearch->GetCount() > 0)
+		{
+			TechTrees_Buildings_ComboBox_EnablingResearch->Clear();
+		}
+		if(TechTrees_Buildings_ComboBox_Research->GetCount() > 0)
+		{
+			TechTrees_Buildings_ComboBox_Research->Clear();
+		}
+		if(TechTrees_Units_ComboBox_EnablingResearch->GetCount() > 0)
+		{
+			TechTrees_Units_ComboBox_EnablingResearch->Clear();
+		}
+		if(TechTrees_Researches_ComboBox_ID->GetCount() > 0)
+		{
+			TechTrees_Researches_ComboBox_ID->Clear();
+		}
+		if(TechTrees_Researches_ComboBox_UpperResearch->GetCount() > 0)
+		{
+			TechTrees_Researches_ComboBox_UpperResearch->Clear();
+		}
+		if(TechTrees_Researches_ComboBox_Research->GetCount() > 0)
+		{
+			TechTrees_Researches_ComboBox_Research->Clear();
+		}
+		if(TechTrees_Units_ComboBox_RequiredResearch->GetCount() > 0)
+		{
+			TechTrees_Units_ComboBox_RequiredResearch->Clear();
+		}
+		for(short loop = 0;loop < 4;loop++)
+		if(TechTrees_ComboBox_Research[loop]->GetCount() > 0)
+		{
+			TechTrees_ComboBox_Research[loop]->Clear();
+		}
+		
+		for(short loop = 0;loop < IDsCount;loop++)
+		{
+			if(ResearchIDs[loop] == wxNOT_FOUND)
+			{
+				ResearchIDs[loop] = 0;
+			}
+		}
+		
+		Effects_ComboBox_ResearchsD->Append("-1 - None");
+		Effects_ComboBox_ResearchsA->Append("-1 - None");
+		Units_ComboBox_ResearchID->Append("-1 - None");
+		for(short loop = 0;loop < 6;loop++)
+		Research_ComboBox_RequiredTechs[loop]->Append("-1 - None");
+		TechTrees_Ages_ComboBox_Research->Append("-1 - None");
+		TechTrees_Buildings_ComboBox_EnablingResearch->Append("-1 - None");
+		TechTrees_Buildings_ComboBox_Research->Append("-1 - None");
+		TechTrees_Units_ComboBox_EnablingResearch->Append("-1 - None");
+		TechTrees_Researches_ComboBox_ID->Append("-1 - None");
+		TechTrees_Researches_ComboBox_UpperResearch->Append("-1 - None");
+		TechTrees_Researches_ComboBox_Research->Append("-1 - None");
+		TechTrees_Units_ComboBox_RequiredResearch->Append("-1 - None");
+		for(short loop = 0;loop < 4;loop++)
+		TechTrees_ComboBox_Research[loop]->Append("-1 - None");
+	}
 	
 	for(short loop = 0;loop < GenieFile->Researchs.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetResearchName(loop);
+		Name = lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);
 		}
-		Effects_ComboBox_ResearchsD->Append(Name);
-		Effects_ComboBox_ResearchsA->Append(Name);
-		Units_ComboBox_ResearchID->Append(Name);
-		for(short loop = 0;loop < 6;loop++)
-		Research_ComboBox_RequiredTechs[loop]->Append(Name);
-		TechTrees_Ages_ComboBox_Research->Append(Name);
-		TechTrees_Buildings_ComboBox_EnablingResearch->Append(Name);
-		TechTrees_Buildings_ComboBox_Research->Append(Name);
-		TechTrees_Units_ComboBox_EnablingResearch->Append(Name);
-		TechTrees_Researches_ComboBox_ID->Append(Name);
-		TechTrees_Researches_ComboBox_UpperResearch->Append(Name);
-		TechTrees_Researches_ComboBox_Research->Append(Name);
-		TechTrees_Units_ComboBox_RequiredResearch->Append(Name);
-		for(short loop = 0;loop < 4;loop++)
-		TechTrees_ComboBox_Research[loop]->Append(Name);
+		if(Sized)
+		{
+			Name = lexical_cast<string>(loop)+" - "+GetResearchName(loop, false);
+			Effects_ComboBox_ResearchsD->Append(Name);
+			Effects_ComboBox_ResearchsA->Append(Name);
+			Units_ComboBox_ResearchID->Append(Name);
+			for(short loop = 0;loop < 6;loop++)
+			Research_ComboBox_RequiredTechs[loop]->Append(Name);
+			TechTrees_Ages_ComboBox_Research->Append(Name);
+			TechTrees_Buildings_ComboBox_EnablingResearch->Append(Name);
+			TechTrees_Buildings_ComboBox_Research->Append(Name);
+			TechTrees_Units_ComboBox_EnablingResearch->Append(Name);
+			TechTrees_Researches_ComboBox_ID->Append(Name);
+			TechTrees_Researches_ComboBox_UpperResearch->Append(Name);
+			TechTrees_Researches_ComboBox_Research->Append(Name);
+			TechTrees_Units_ComboBox_RequiredResearch->Append(Name);
+			for(short loop = 0;loop < 4;loop++)
+			TechTrees_ComboBox_Research[loop]->Append(Name);
+		}
 	}
 	
 	Research_Research_List->SetSelection(0);
 	Research_Research_List->SetFirstItem(Selection - 3);
 	Research_Research_List->SetSelection(Selection);
-	Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
-	Effects_ComboBox_ResearchsA->SetSelection(ResearchIDs[1]);
-	Units_ComboBox_ResearchID->SetSelection(ResearchIDs[2]);
-	for(short loop = 0;loop < 6;loop++)
-	Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchIDs[loop+3]);
-	TechTrees_Ages_ComboBox_Research->SetSelection(ResearchIDs[9]);
-	TechTrees_Buildings_ComboBox_EnablingResearch->SetSelection(ResearchIDs[10]);
-	TechTrees_Buildings_ComboBox_Research->SetSelection(ResearchIDs[11]);
-	TechTrees_Units_ComboBox_EnablingResearch->SetSelection(ResearchIDs[12]);
-	TechTrees_Researches_ComboBox_ID->SetSelection(ResearchIDs[13]);
-	TechTrees_Researches_ComboBox_UpperResearch->SetSelection(ResearchIDs[14]);
-	TechTrees_Researches_ComboBox_Research->SetSelection(ResearchIDs[15]);
-	TechTrees_Units_ComboBox_RequiredResearch->SetSelection(ResearchIDs[16]);
-	for(short loop = 0;loop < 4;loop++)
-	TechTrees_ComboBox_Research[loop]->SetSelection(ResearchIDs[loop+17]);
+	if(Sized)
+	{
+		Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
+		Effects_ComboBox_ResearchsA->SetSelection(ResearchIDs[1]);
+		Units_ComboBox_ResearchID->SetSelection(ResearchIDs[2]);
+		for(short loop = 0;loop < 6;loop++)
+		Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchIDs[loop+3]);
+		TechTrees_Ages_ComboBox_Research->SetSelection(ResearchIDs[9]);
+		TechTrees_Buildings_ComboBox_EnablingResearch->SetSelection(ResearchIDs[10]);
+		TechTrees_Buildings_ComboBox_Research->SetSelection(ResearchIDs[11]);
+		TechTrees_Units_ComboBox_EnablingResearch->SetSelection(ResearchIDs[12]);
+		TechTrees_Researches_ComboBox_ID->SetSelection(ResearchIDs[13]);
+		TechTrees_Researches_ComboBox_UpperResearch->SetSelection(ResearchIDs[14]);
+		TechTrees_Researches_ComboBox_Research->SetSelection(ResearchIDs[15]);
+		TechTrees_Units_ComboBox_RequiredResearch->SetSelection(ResearchIDs[16]);
+		for(short loop = 0;loop < 4;loop++)
+		TechTrees_ComboBox_Research[loop]->SetSelection(ResearchIDs[loop+17]);
+	}
+	
+	for(short loop = 0;loop < 2;loop++)
+	UseAnd[loop] = false;
 	
 	wxCommandEvent E;
 	OnResearchSelect(E);
@@ -300,7 +351,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 	gdat::Research Temp;
 	GenieFile->Researchs.push_back(Temp);
 	Added = true;
-	ListResearchs();
+	ListResearches();
 }
 
 void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
@@ -312,7 +363,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchID);
 		if(Selection == Research_Research_List->GetCount() - 1)
 		Research_Research_List->SetSelection(Selection - 1);
-		ListResearchs();
+		ListResearches();
 	}
 }
 
@@ -332,7 +383,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(gdat::Research*)Research_Research_List->GetClientData(Selection) = ResearchCopy;
-		ListResearchs();
+		ListResearches();
 	}
 }
 
@@ -345,7 +396,12 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Researchs");
 	Research_Research_Search = new wxTextCtrl(Tab_Research, wxID_ANY);
 	Research_Research_Search_R = new wxTextCtrl(Tab_Research, wxID_ANY);
-	Research_Research_UseAnd = new wxCheckBox(Tab_Research, wxID_ANY, "Use AND instead of OR", wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator);
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
+		Research_Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Research_Research_UseAnd[loop] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+	}
 	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Research_Research_Buttons = new wxGridSizer(2, 0, 0);
 	Research_Add = new wxButton(Tab_Research, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -379,7 +435,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Civ = new TextCtrl_Short(Research_Scroller, "0", NULL);
 	Research_ComboBox_Civ = new ComboBox_Short(Research_Scroller, Research_Civ);
 	Research_Holder_FullTechMode = new wxBoxSizer(wxVERTICAL);
-	Research_Text_FullTechMode = new wxStaticText(Research_Scroller, wxID_ANY, " Full Tech Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Text_FullTechMode = new wxStaticText(Research_Scroller, wxID_ANY, " Full Tech. Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_FullTechMode = new TextCtrl_Short(Research_Scroller, "0", NULL);
 	Research_CheckBox_FullTechMode = new CheckBox_Short(Research_Scroller, "Available", Research_FullTechMode);
 	Research_Holder_ResearchLocation = new wxBoxSizer(wxVERTICAL);
@@ -448,9 +504,16 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research_Buttons->Add(Research_Copy, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Paste, 1, wxEXPAND);
 
-	Research_Research->Add(Research_Research_Search, 0, wxEXPAND);
-	Research_Research->Add(Research_Research_Search_R, 0, wxEXPAND);
-	Research_Research->Add(Research_Research_UseAnd, 0, wxEXPAND);
+	Research_Research_Searches[0]->Add(Research_Research_Search, 1, wxEXPAND);
+	Research_Research_Searches[0]->Add(2, -1);
+	Research_Research_Searches[0]->Add(Research_Research_UseAnd[0], 0, wxEXPAND);
+	Research_Research_Searches[1]->Add(Research_Research_Search_R, 1, wxEXPAND);
+	Research_Research_Searches[1]->Add(2, -1);
+	Research_Research_Searches[1]->Add(Research_Research_UseAnd[1], 0, wxEXPAND);
+	for(short loop = 0;loop < 2;loop++)
+	Research_Research->Add(Research_Research_Searches[loop], 0, wxEXPAND);
+	for(short loop = 0;loop < 2;loop++)
+	Research_Research->Add(Research_Research_SearchFilters[loop], 0, wxEXPAND);
 	Research_Research->Add(-1, 2);
 	Research_Research->Add(Research_Research_List, 1, wxEXPAND);
 	Research_Research->Add(-1, 2);
@@ -611,12 +674,15 @@ void AGE_Frame::CreateResearchControls()
 	Research_Main->Add(Research_DataArea, 3, wxEXPAND);
 	Research_Main->Add(10, -1);
 
-	Research_Research_UseAnd->Show(false);
-
 	Tab_Research->SetSizer(Research_Main);
 
 	Connect(Research_Research_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
 	Connect(Research_Research_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Connect(Research_Research_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSelection_CheckBoxes));
+		Connect(Research_Research_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
+	}
 	Connect(Research_Research_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
 	Connect(Research_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchAdd));
 	Connect(Research_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchDelete));

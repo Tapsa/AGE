@@ -15,10 +15,10 @@ string AGE_Frame::GetCivName(short Index)
 
 void AGE_Frame::OnCivsSearch(wxCommandEvent& Event)
 {
-	ListCivs();
+	ListCivs(false);
 }
 
-void AGE_Frame::ListCivs()
+void AGE_Frame::ListCivs(bool Sized)
 {
 	string Name;
 	SearchText = wxString(Civs_Civs_Search->GetValue()).Lower();
@@ -26,48 +26,52 @@ void AGE_Frame::ListCivs()
 	string CompareText;
 	
 	short Selection = Civs_Civs_List->GetSelection();
-	short IDsCount = 4, CivIDs[IDsCount];
-	CivIDs[0] = Research_ComboBox_Civ->GetSelection();
-	CivIDs[1] = Units_Civs_List->GetSelection();
-	CivIDs[2] = SoundItems_ComboBox_Civ->GetSelection();
-	CivIDs[3] = Units_ComboBox_Civ->GetSelection();
-	
 	if(Civs_Civs_List->GetCount() > 0)
 	{
 		Civs_Civs_List->Clear();
 	}
-	if(Research_ComboBox_Civ->GetCount() > 0)
-	{
-		Research_ComboBox_Civ->Clear();
-	}
-	if(Units_Civs_List->GetCount() > 0)
-	{
-		Units_Civs_List->Clear();
-	}
-	if(SoundItems_ComboBox_Civ->GetCount() > 0)
-	{
-		SoundItems_ComboBox_Civ->Clear();
-	}
-	if(Units_ComboBox_Civ->GetCount() > 0)
-	{
-		Units_ComboBox_Civ->Clear();
-	}
-	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < IDsCount;loop++)
-	{
-		if(CivIDs[loop] == wxNOT_FOUND)
-		{
-			CivIDs[loop] = 0;
-		}
-	}
 	
-	Research_ComboBox_Civ->Append("-1 - None");
-	SoundItems_ComboBox_Civ->Append("-1 - None");
-	Units_ComboBox_Civ->Append("-1 - None");
+	short IDsCount = 4, CivIDs[IDsCount];
+	if(Sized)
+	{
+		CivIDs[0] = Research_ComboBox_Civ->GetSelection();
+		CivIDs[1] = Units_Civs_List->GetSelection();
+		CivIDs[2] = SoundItems_ComboBox_Civ->GetSelection();
+		CivIDs[3] = Units_ComboBox_Civ->GetSelection();
+		
+		if(Research_ComboBox_Civ->GetCount() > 0)
+		{
+			Research_ComboBox_Civ->Clear();
+		}
+		if(Units_Civs_List->GetCount() > 0)
+		{
+			Units_Civs_List->Clear();
+		}
+		if(SoundItems_ComboBox_Civ->GetCount() > 0)
+		{
+			SoundItems_ComboBox_Civ->Clear();
+		}
+		if(Units_ComboBox_Civ->GetCount() > 0)
+		{
+			Units_ComboBox_Civ->Clear();
+		}
+		
+		for(short loop = 0;loop < IDsCount;loop++)
+		{
+			if(CivIDs[loop] == wxNOT_FOUND)
+			{
+				CivIDs[loop] = 0;
+			}
+		}
+		
+		Research_ComboBox_Civ->Append("-1 - None");
+		SoundItems_ComboBox_Civ->Append("-1 - None");
+		Units_ComboBox_Civ->Append("-1 - None");
+	}
 	
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
@@ -77,20 +81,26 @@ void AGE_Frame::ListCivs()
 		{
 			Civs_Civs_List->Append(Name, (void*)&GenieFile->Civs[loop]);
 		}
-		Research_ComboBox_Civ->Append(Name);
-		Units_Civs_List->Append(Name);
-		SoundItems_ComboBox_Civ->Append(Name);
-		Units_ComboBox_Civ->Append(Name);
+		if(Sized)
+		{
+			Research_ComboBox_Civ->Append(Name);
+			Units_Civs_List->Append(Name);
+			SoundItems_ComboBox_Civ->Append(Name);
+			Units_ComboBox_Civ->Append(Name);
+		}
 	}
 	
 	Civs_Civs_List->SetSelection(0);
 	Civs_Civs_List->SetFirstItem(Selection - 3);
 	Civs_Civs_List->SetSelection(Selection);
-	Research_ComboBox_Civ->SetSelection(CivIDs[0]);
-	Units_Civs_List->SetSelection(CivIDs[1]);
-	SoundItems_ComboBox_Civ->SetSelection(CivIDs[2]);
-	Units_ComboBox_Civ->SetSelection(CivIDs[3]);
-
+	if(Sized)
+	{
+		Research_ComboBox_Civ->SetSelection(CivIDs[0]);
+		Units_Civs_List->SetSelection(CivIDs[1]);
+		SoundItems_ComboBox_Civ->SetSelection(CivIDs[2]);
+		Units_ComboBox_Civ->SetSelection(CivIDs[3]);
+	}
+	
 	wxCommandEvent E;
 	OnCivsSelect(E);
 }
@@ -724,10 +734,10 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 
 void AGE_Frame::OnResourcesSearch(wxCommandEvent& Event)
 {
-	ListResources(CivID);
+	ListResources(CivID, false);
 }
 	
-void AGE_Frame::ListResources(short Index)
+void AGE_Frame::ListResources(short Index, bool Sized)
 {
 	string Name;
 	SearchText = wxString(Civs_Resources_Search->GetValue()).Lower();
@@ -735,76 +745,80 @@ void AGE_Frame::ListResources(short Index)
 	string CompareText;
 	
 	short Selection = Civs_Resources_List->GetSelection();
-	short IDsCount = 13, ResourceIDs[IDsCount];
-	for(short loop = 0;loop < 3;loop++)
-	{
-		ResourceIDs[loop] = Units_ComboBox_CostType[loop]->GetSelection();
-		ResourceIDs[loop+3] = ResourceStorage_ComboBox_Type[loop]->GetSelection();
-		ResourceIDs[loop+8] = Research_ComboBox_Resources[loop]->GetSelection();
-	}
-	ResourceIDs[6] = UnitCommands_ComboBox_ResourceIn->GetSelection();
-	ResourceIDs[7] = UnitCommands_ComboBox_ResourceOut->GetSelection();
-	ResourceIDs[11] = Effects_ComboBox_ResourcesA->GetSelection();
-	ResourceIDs[12] = Effects_ComboBox_ResourcesB->GetSelection();
-
 	if(Civs_Resources_List->GetCount() > 0)
 	{
 		Civs_Resources_List->Clear();
 	}
-	for(short loop = 0;loop < 3;loop++)
-	{
-		if(Units_ComboBox_CostType[loop]->GetCount() > 0)
-		{
-			Units_ComboBox_CostType[loop]->Clear();
-		}
-		if(ResourceStorage_ComboBox_Type[loop]->GetCount() > 0)
-		{
-			ResourceStorage_ComboBox_Type[loop]->Clear();
-		}
-		if(Research_ComboBox_Resources[loop]->GetCount() > 0)
-		{
-			Research_ComboBox_Resources[loop]->Clear();
-		}
-	}
-	if(UnitCommands_ComboBox_ResourceIn->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_ResourceIn->Clear();
-	}
-	if(UnitCommands_ComboBox_ResourceOut->GetCount() > 0)
-	{
-		UnitCommands_ComboBox_ResourceOut->Clear();
-	}
-	if(Effects_ComboBox_ResourcesA->GetCount() > 0)
-	{
-		Effects_ComboBox_ResourcesA->Clear();
-	}
-	if(Effects_ComboBox_ResourcesB->GetCount() > 0)
-	{
-		Effects_ComboBox_ResourcesB->Clear();
-	}
-	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < IDsCount;loop++)
-	{
-		if(ResourceIDs[loop] == wxNOT_FOUND)
-		{
-			ResourceIDs[loop] = 0;
-		}
-	}
 	
-	for(short loop = 0;loop < 3;loop++)
+	short IDsCount = 13, ResourceIDs[IDsCount];
+	if(Sized)
 	{
-		Units_ComboBox_CostType[loop]->Append("-1 - None");
-		ResourceStorage_ComboBox_Type[loop]->Append("-1 - None");
-		Research_ComboBox_Resources[loop]->Append("-1 - None");
+		for(short loop = 0;loop < 3;loop++)
+		{
+			ResourceIDs[loop] = Units_ComboBox_CostType[loop]->GetSelection();
+			ResourceIDs[loop+3] = ResourceStorage_ComboBox_Type[loop]->GetSelection();
+			ResourceIDs[loop+8] = Research_ComboBox_Resources[loop]->GetSelection();
+		}
+		ResourceIDs[6] = UnitCommands_ComboBox_ResourceIn->GetSelection();
+		ResourceIDs[7] = UnitCommands_ComboBox_ResourceOut->GetSelection();
+		ResourceIDs[11] = Effects_ComboBox_ResourcesA->GetSelection();
+		ResourceIDs[12] = Effects_ComboBox_ResourcesB->GetSelection();
+
+		for(short loop = 0;loop < 3;loop++)
+		{
+			if(Units_ComboBox_CostType[loop]->GetCount() > 0)
+			{
+				Units_ComboBox_CostType[loop]->Clear();
+			}
+			if(ResourceStorage_ComboBox_Type[loop]->GetCount() > 0)
+			{
+				ResourceStorage_ComboBox_Type[loop]->Clear();
+			}
+			if(Research_ComboBox_Resources[loop]->GetCount() > 0)
+			{
+				Research_ComboBox_Resources[loop]->Clear();
+			}
+		}
+		if(UnitCommands_ComboBox_ResourceIn->GetCount() > 0)
+		{
+			UnitCommands_ComboBox_ResourceIn->Clear();
+		}
+		if(UnitCommands_ComboBox_ResourceOut->GetCount() > 0)
+		{
+			UnitCommands_ComboBox_ResourceOut->Clear();
+		}
+		if(Effects_ComboBox_ResourcesA->GetCount() > 0)
+		{
+			Effects_ComboBox_ResourcesA->Clear();
+		}
+		if(Effects_ComboBox_ResourcesB->GetCount() > 0)
+		{
+			Effects_ComboBox_ResourcesB->Clear();
+		}
+		
+		for(short loop = 0;loop < IDsCount;loop++)
+		{
+			if(ResourceIDs[loop] == wxNOT_FOUND)
+			{
+				ResourceIDs[loop] = 0;
+			}
+		}
+		
+		for(short loop = 0;loop < 3;loop++)
+		{
+			Units_ComboBox_CostType[loop]->Append("-1 - None");
+			ResourceStorage_ComboBox_Type[loop]->Append("-1 - None");
+			Research_ComboBox_Resources[loop]->Append("-1 - None");
+		}
+		UnitCommands_ComboBox_ResourceIn->Append("-1 - None");
+		UnitCommands_ComboBox_ResourceOut->Append("-1 - None");
+		Effects_ComboBox_ResourcesA->Append("-1 - None");
+		Effects_ComboBox_ResourcesB->Append("-1 - None");
 	}
-	UnitCommands_ComboBox_ResourceIn->Append("-1 - None");
-	UnitCommands_ComboBox_ResourceOut->Append("-1 - None");
-	Effects_ComboBox_ResourcesA->Append("-1 - None");
-	Effects_ComboBox_ResourcesB->Append("-1 - None");
 	
 	for(short loop = 0;loop < GenieFile->Civs[Index].Resources.size();loop++)
 	{
@@ -814,32 +828,38 @@ void AGE_Frame::ListResources(short Index)
 		{
 			Civs_Resources_List->Append(Name, (void*)&GenieFile->Civs[Index].Resources[loop]);
 		}
-		Name = lexical_cast<string>(loop)+" - "+GetResourceName(loop, 0);
-		for(short loop = 0;loop < 3;loop++)
+		if(Sized)
 		{
-			Units_ComboBox_CostType[loop]->Append(Name);
-			ResourceStorage_ComboBox_Type[loop]->Append(Name);
-			Research_ComboBox_Resources[loop]->Append(Name);
+			Name = lexical_cast<string>(loop)+" - "+GetResourceName(loop, 0);
+			for(short loop = 0;loop < 3;loop++)
+			{
+				Units_ComboBox_CostType[loop]->Append(Name);
+				ResourceStorage_ComboBox_Type[loop]->Append(Name);
+				Research_ComboBox_Resources[loop]->Append(Name);
+			}
+			UnitCommands_ComboBox_ResourceIn->Append(Name);
+			UnitCommands_ComboBox_ResourceOut->Append(Name);
+			Effects_ComboBox_ResourcesA->Append(Name);
+			Effects_ComboBox_ResourcesB->Append(Name);
 		}
-		UnitCommands_ComboBox_ResourceIn->Append(Name);
-		UnitCommands_ComboBox_ResourceOut->Append(Name);
-		Effects_ComboBox_ResourcesA->Append(Name);
-		Effects_ComboBox_ResourcesB->Append(Name);
 	}
 	
 	Civs_Resources_List->SetSelection(0);
 	Civs_Resources_List->SetFirstItem(Selection - 3);
 	Civs_Resources_List->SetSelection(Selection);
-	for(short loop = 0;loop < 3;loop++)
+	if(Sized)
 	{
-		Units_ComboBox_CostType[loop]->SetSelection(ResourceIDs[loop]);
-		ResourceStorage_ComboBox_Type[loop]->SetSelection(ResourceIDs[loop+3]);
-		Research_ComboBox_Resources[loop]->SetSelection(ResourceIDs[loop+8]);
+		for(short loop = 0;loop < 3;loop++)
+		{
+			Units_ComboBox_CostType[loop]->SetSelection(ResourceIDs[loop]);
+			ResourceStorage_ComboBox_Type[loop]->SetSelection(ResourceIDs[loop+3]);
+			Research_ComboBox_Resources[loop]->SetSelection(ResourceIDs[loop+8]);
+		}
+		UnitCommands_ComboBox_ResourceIn->SetSelection(ResourceIDs[6]);
+		UnitCommands_ComboBox_ResourceOut->SetSelection(ResourceIDs[7]);
+		Effects_ComboBox_ResourcesA->SetSelection(ResourceIDs[11]);
+		Effects_ComboBox_ResourcesB->SetSelection(ResourceIDs[12]);
 	}
-	UnitCommands_ComboBox_ResourceIn->SetSelection(ResourceIDs[6]);
-	UnitCommands_ComboBox_ResourceOut->SetSelection(ResourceIDs[7]);
-	Effects_ComboBox_ResourcesA->SetSelection(ResourceIDs[11]);
-	Effects_ComboBox_ResourcesB->SetSelection(ResourceIDs[12]);
 	
 	wxCommandEvent E;
 	OnResourcesSelect(E);
