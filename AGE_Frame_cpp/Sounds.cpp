@@ -15,10 +15,10 @@ string AGE_Frame::GetSoundName(short Index)
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent& Event)
 {
-	ListSounds();
+	ListSounds(false);
 }
 
-void AGE_Frame::ListSounds()
+void AGE_Frame::ListSounds(bool Sized)
 {
 	string Name;
 	SearchText = wxString(Sounds_Sounds_Search->GetValue()).Lower();
@@ -26,91 +26,95 @@ void AGE_Frame::ListSounds()
 	string CompareText;
 	
 	short Selection = Sounds_Sounds_List->GetSelection();
-	short IDsCount = 13, SoundIDs[IDsCount];
-	for(short loop = 0;loop < 2;loop++)
-	SoundIDs[loop] = Units_ComboBox_TrainSound[loop]->GetSelection();
-	SoundIDs[2] = Units_ComboBox_SelectionSound->GetSelection();
-	SoundIDs[3] = Units_ComboBox_DyingSound->GetSelection();
-	SoundIDs[4] = Units_ComboBox_AttackSound->GetSelection();
-	SoundIDs[5] = Units_ComboBox_MoveSound->GetSelection();
-	SoundIDs[6] = Units_ComboBox_StopSound->GetSelection();
-	SoundIDs[7] = Units_ComboBox_ConstructionSound->GetSelection();
-	SoundIDs[8] = Terrains_ComboBox_SoundID->GetSelection();
-	SoundIDs[9] = Graphics_ComboBox_SoundID->GetSelection();
-	for(short loop = 0;loop < 3;loop++)
-	SoundIDs[loop+10] = Graphics_ComboBox_AttackSoundID[loop]->GetSelection();
-
 	if(Sounds_Sounds_List->GetCount() > 0)
 	{
 		Sounds_Sounds_List->Clear();
 	}
-	for(short loop = 0;loop < 2;loop++)
-	if(Units_ComboBox_TrainSound[loop]->GetCount() > 0)
-	{
-		Units_ComboBox_TrainSound[loop]->Clear();
-	}
-	if(Units_ComboBox_SelectionSound->GetCount() > 0)
-	{
-		Units_ComboBox_SelectionSound->Clear();
-	}
-	if(Units_ComboBox_DyingSound->GetCount() > 0)
-	{
-		Units_ComboBox_DyingSound->Clear();
-	}
-	if(Units_ComboBox_AttackSound->GetCount() > 0)
-	{
-		Units_ComboBox_AttackSound->Clear();
-	}
-	if(Units_ComboBox_MoveSound->GetCount() > 0)
-	{
-		Units_ComboBox_MoveSound->Clear();
-	}
-	if(Units_ComboBox_StopSound->GetCount() > 0)
-	{
-		Units_ComboBox_StopSound->Clear();
-	}
-	if(Units_ComboBox_ConstructionSound->GetCount() > 0)
-	{
-		Units_ComboBox_ConstructionSound->Clear();
-	}
-	if(Terrains_ComboBox_SoundID->GetCount() > 0)
-	{
-		Terrains_ComboBox_SoundID->Clear();
-	}
-	if(Graphics_ComboBox_SoundID->GetCount() > 0)
-	{
-		Graphics_ComboBox_SoundID->Clear();
-	}
-	for(short loop = 0;loop < 3;loop++)
-	if(Graphics_ComboBox_AttackSoundID[loop]->GetCount() > 0)
-	{
-		Graphics_ComboBox_AttackSoundID[loop]->Clear();
-	}
-	
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < IDsCount;loop++)
-	{
-		if(SoundIDs[loop] == wxNOT_FOUND)
-		{
-			SoundIDs[loop] = 0;
-		}
-	}
 	
-	for(short loop = 0;loop < 2;loop++)
-	Units_ComboBox_TrainSound[loop]->Append("-1 - None");
-	Units_ComboBox_SelectionSound->Append("-1 - None");
-	Units_ComboBox_DyingSound->Append("-1 - None");
-	Units_ComboBox_AttackSound->Append("-1 - None");
-	Units_ComboBox_MoveSound->Append("-1 - None");
-	Units_ComboBox_StopSound->Append("-1 - None");
-	Units_ComboBox_ConstructionSound->Append("-1 - None");
-	Terrains_ComboBox_SoundID->Append("-1 - None");
-	Graphics_ComboBox_SoundID->Append("-1 - None");
-	for(short loop = 0;loop < 3;loop++)
-	Graphics_ComboBox_AttackSoundID[loop]->Append("-1 - None");
+	short IDsCount = 13, SoundIDs[IDsCount];
+	if(Sized)
+	{
+		for(short loop = 0;loop < 2;loop++)
+		SoundIDs[loop] = Units_ComboBox_TrainSound[loop]->GetSelection();
+		SoundIDs[2] = Units_ComboBox_SelectionSound->GetSelection();
+		SoundIDs[3] = Units_ComboBox_DyingSound->GetSelection();
+		SoundIDs[4] = Units_ComboBox_AttackSound->GetSelection();
+		SoundIDs[5] = Units_ComboBox_MoveSound->GetSelection();
+		SoundIDs[6] = Units_ComboBox_StopSound->GetSelection();
+		SoundIDs[7] = Units_ComboBox_ConstructionSound->GetSelection();
+		SoundIDs[8] = Terrains_ComboBox_SoundID->GetSelection();
+		SoundIDs[9] = Graphics_ComboBox_SoundID->GetSelection();
+		for(short loop = 0;loop < 3;loop++)
+		SoundIDs[loop+10] = Graphics_ComboBox_AttackSoundID[loop]->GetSelection();
+
+		for(short loop = 0;loop < 2;loop++)
+		if(Units_ComboBox_TrainSound[loop]->GetCount() > 0)
+		{
+			Units_ComboBox_TrainSound[loop]->Clear();
+		}
+		if(Units_ComboBox_SelectionSound->GetCount() > 0)
+		{
+			Units_ComboBox_SelectionSound->Clear();
+		}
+		if(Units_ComboBox_DyingSound->GetCount() > 0)
+		{
+			Units_ComboBox_DyingSound->Clear();
+		}
+		if(Units_ComboBox_AttackSound->GetCount() > 0)
+		{
+			Units_ComboBox_AttackSound->Clear();
+		}
+		if(Units_ComboBox_MoveSound->GetCount() > 0)
+		{
+			Units_ComboBox_MoveSound->Clear();
+		}
+		if(Units_ComboBox_StopSound->GetCount() > 0)
+		{
+			Units_ComboBox_StopSound->Clear();
+		}
+		if(Units_ComboBox_ConstructionSound->GetCount() > 0)
+		{
+			Units_ComboBox_ConstructionSound->Clear();
+		}
+		if(Terrains_ComboBox_SoundID->GetCount() > 0)
+		{
+			Terrains_ComboBox_SoundID->Clear();
+		}
+		if(Graphics_ComboBox_SoundID->GetCount() > 0)
+		{
+			Graphics_ComboBox_SoundID->Clear();
+		}
+		for(short loop = 0;loop < 3;loop++)
+		if(Graphics_ComboBox_AttackSoundID[loop]->GetCount() > 0)
+		{
+			Graphics_ComboBox_AttackSoundID[loop]->Clear();
+		}
+		
+		for(short loop = 0;loop < IDsCount;loop++)
+		{
+			if(SoundIDs[loop] == wxNOT_FOUND)
+			{
+				SoundIDs[loop] = 0;
+			}
+		}
+		
+		for(short loop = 0;loop < 2;loop++)
+		Units_ComboBox_TrainSound[loop]->Append("-1 - None");
+		Units_ComboBox_SelectionSound->Append("-1 - None");
+		Units_ComboBox_DyingSound->Append("-1 - None");
+		Units_ComboBox_AttackSound->Append("-1 - None");
+		Units_ComboBox_MoveSound->Append("-1 - None");
+		Units_ComboBox_StopSound->Append("-1 - None");
+		Units_ComboBox_ConstructionSound->Append("-1 - None");
+		Terrains_ComboBox_SoundID->Append("-1 - None");
+		Graphics_ComboBox_SoundID->Append("-1 - None");
+		for(short loop = 0;loop < 3;loop++)
+		Graphics_ComboBox_AttackSoundID[loop]->Append("-1 - None");
+	}
 	
 	for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
 	{
@@ -120,35 +124,41 @@ void AGE_Frame::ListSounds()
 		{
 			Sounds_Sounds_List->Append(Name, (void*)&GenieFile->Sounds[loop]);
 		}
-		for(short loop = 0;loop < 2;loop++)
-		Units_ComboBox_TrainSound[loop]->Append(Name);
-		Units_ComboBox_SelectionSound->Append(Name);
-		Units_ComboBox_DyingSound->Append(Name);
-		Units_ComboBox_AttackSound->Append(Name);
-		Units_ComboBox_MoveSound->Append(Name);
-		Units_ComboBox_StopSound->Append(Name);
-		Units_ComboBox_ConstructionSound->Append(Name);
-		Terrains_ComboBox_SoundID->Append(Name);
-		Graphics_ComboBox_SoundID->Append(Name);
-		for(short loop = 0;loop < 3;loop++)
-		Graphics_ComboBox_AttackSoundID[loop]->Append(Name);
+		if(Sized)
+		{
+			for(short loop = 0;loop < 2;loop++)
+			Units_ComboBox_TrainSound[loop]->Append(Name);
+			Units_ComboBox_SelectionSound->Append(Name);
+			Units_ComboBox_DyingSound->Append(Name);
+			Units_ComboBox_AttackSound->Append(Name);
+			Units_ComboBox_MoveSound->Append(Name);
+			Units_ComboBox_StopSound->Append(Name);
+			Units_ComboBox_ConstructionSound->Append(Name);
+			Terrains_ComboBox_SoundID->Append(Name);
+			Graphics_ComboBox_SoundID->Append(Name);
+			for(short loop = 0;loop < 3;loop++)
+			Graphics_ComboBox_AttackSoundID[loop]->Append(Name);
+		}
 	}
 	
 	Sounds_Sounds_List->SetSelection(0);
 	Sounds_Sounds_List->SetFirstItem(Selection - 3);
 	Sounds_Sounds_List->SetSelection(Selection);
-	for(short loop = 0;loop < 2;loop++)
-	Units_ComboBox_TrainSound[loop]->SetSelection(SoundIDs[loop]);
-	Units_ComboBox_SelectionSound->SetSelection(SoundIDs[2]);
-	Units_ComboBox_DyingSound->SetSelection(SoundIDs[3]);
-	Units_ComboBox_AttackSound->SetSelection(SoundIDs[4]);
-	Units_ComboBox_MoveSound->SetSelection(SoundIDs[5]);
-	Units_ComboBox_StopSound->SetSelection(SoundIDs[6]);
-	Units_ComboBox_ConstructionSound->SetSelection(SoundIDs[7]);
-	Terrains_ComboBox_SoundID->SetSelection(SoundIDs[8]);
-	Graphics_ComboBox_SoundID->SetSelection(SoundIDs[9]);
-	for(short loop = 0;loop < 3;loop++)
-	Graphics_ComboBox_AttackSoundID[loop]->SetSelection(SoundIDs[loop+10]);
+	if(Sized)
+	{
+		for(short loop = 0;loop < 2;loop++)
+		Units_ComboBox_TrainSound[loop]->SetSelection(SoundIDs[loop]);
+		Units_ComboBox_SelectionSound->SetSelection(SoundIDs[2]);
+		Units_ComboBox_DyingSound->SetSelection(SoundIDs[3]);
+		Units_ComboBox_AttackSound->SetSelection(SoundIDs[4]);
+		Units_ComboBox_MoveSound->SetSelection(SoundIDs[5]);
+		Units_ComboBox_StopSound->SetSelection(SoundIDs[6]);
+		Units_ComboBox_ConstructionSound->SetSelection(SoundIDs[7]);
+		Terrains_ComboBox_SoundID->SetSelection(SoundIDs[8]);
+		Graphics_ComboBox_SoundID->SetSelection(SoundIDs[9]);
+		for(short loop = 0;loop < 3;loop++)
+		Graphics_ComboBox_AttackSoundID[loop]->SetSelection(SoundIDs[loop+10]);
+	}
 	
 	wxCommandEvent E;
 	OnSoundsSelect(E);
