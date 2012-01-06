@@ -3092,7 +3092,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_BlastType->SetToolTip("0 projectiles, dead units, fish, relics, trees\n0 gates, town center\n0 deer(unmoving), FLDOG\n1 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n3 boar\n3 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n3 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 monks, BDGAL, ABGAL");
 	Units_Unknown2->SetToolTip("0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
 	Units_Attribute = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	Units_Attribute->SetToolTip("0 Default\n1, 3, 5 Allows units to garrison inside\n2 Causes the unit not to join formations\n");
+	Units_Attribute->SetToolTip("0 Default\n1, 3, 5 Allows units to garrison inside\n2 Causes the unit not to join formations\nStar Wars:\n4 Stealth unit\n8 Detector unit\n16 Mechanical unit\n32 Biological unit\n64 Self-shielding unit");
 	Units_Civ = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_ComboBox_Civ = new ComboBox_Byte(Units_Scroller, Units_Civ);
 	Units_Type = new TextCtrl_Byte(Tab_Units, "0", NULL);
@@ -4678,28 +4678,10 @@ void AGE_Frame::CreateUnitControls()
 	{
 		Units_AutoCopyState->SetLabel("Auto-copy: Exclude graphics");
 	}
-	/*if(SearchFilters == MenuOption_NoExtra)
-	{
-		for(short loop = 0;loop < 2;loop++)
-		Units_Units_SearchFilters[loop]->Show(false);
-		Units_Units_SearchFilters[0]->SetSelection(0);
-	}
-	else if(SearchFilters == MenuOption_1stFilters)
-	{
-		Units_Units_SearchFilters[0]->Show(true);
-		Units_Units_SearchFilters[1]->Show(false);
-		Units_Units_SearchFilters[1]->SetSelection(0);
-	}
-	else if(SearchFilters == MenuOption_2ndFilters)
-	{
-		for(short loop = 0;loop < 2;loop++)
-		Units_Units_SearchFilters[loop]->Show(true);
-	}*/
 	Units_ID1->Enable(false);
 	Units_ID2->Enable(false);
 	Units_ID3->Enable(false);
 	UnitCommands_ID->Enable(false);
-//	Units_Holder_DamageGraphics->Show(false);
 
 	Tab_Units->SetSizer(Units_Main);
 	
