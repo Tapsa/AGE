@@ -976,7 +976,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Text_TechTree = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = new TextCtrl_Short(Tab_Civs, "0", NULL);
 	Civs_Holder_SUnknown1 = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_SUnknown1 = new wxStaticText(Tab_Civs, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Text_SUnknown1 = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 4;loop++)
 	Civs_SUnknown1[loop] = new TextCtrl_Short(Tab_Civs, "0", NULL);
 	Civs_ComboBox_TechTree = new ComboBox_Short(Tab_Civs, Civs_TechTree);
