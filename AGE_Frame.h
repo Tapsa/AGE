@@ -386,7 +386,7 @@ class AGE_Frame : public wxFrame
 	void OnGraphicsPaste(wxCommandEvent& Event);
 	void OnGraphicsEnable(wxCommandEvent& Event);
 	void OnGraphicsDisable(wxCommandEvent& Event);
-	string GetGraphicName(short Index);
+	string GetGraphicName(short Index, bool Filter);
 
 	void ListGraphicDeltas(short Index);
 	void OnGraphicDeltasSearch(wxCommandEvent& Event);
@@ -1905,9 +1905,11 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Graphics_ListArea;
 	wxGridSizer * Graphics_Graphics_Buttons;
 	wxStaticBoxSizer * Graphics_Graphics;
+	wxBoxSizer * Graphics_Graphics_Searches[2];
 	wxTextCtrl * Graphics_Graphics_Search;
 	wxTextCtrl * Graphics_Graphics_Search_R;
-//	wxCheckBox * Graphics_Graphics_UseAnd;
+	wxOwnerDrawnComboBox * Graphics_Graphics_SearchFilters[2];
+	wxCheckBox * Graphics_Graphics_UseAnd[2];
 	wxListBox * Graphics_Graphics_List;
 	wxButton * Graphics_Add;
 	wxButton * Graphics_Delete;

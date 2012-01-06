@@ -1714,6 +1714,10 @@ void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
 			wxCommandEvent E;
 			OnUnitsSearch(E);
 		}
+		else if(Event.GetId() == Graphics_Graphics_UseAnd[loop]->GetId())
+		{
+			ListGraphics(false);
+		}
 		else if(Event.GetId() == TechTrees_MainList_Units_UseAnd[loop]->GetId())
 		{
 			ListTTUnits();
@@ -2039,6 +2043,11 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		{
 			ListUnits(UnitCivID, false);
 			Units_Units_Search->SetFocus();
+		}
+		else if(Event.GetId() == Graphics_Graphics_SearchFilters[loop]->GetId())
+		{
+			ListGraphics(false);
+			Graphics_Graphics_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
 		{

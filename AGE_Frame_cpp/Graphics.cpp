@@ -6,20 +6,121 @@ using boost::lexical_cast;
 #include <cctype>
 using std::tolower;
 
-string AGE_Frame::GetGraphicName(short Index)
+string AGE_Frame::GetGraphicName(short Index, bool Filter)
 {
 	string Name = "";
 	if(GenieFile->GraphicPointers[Index] == 0)
 	{
-		Name += "*Disabled*";
-	}
-	else if(GenieFile->Graphics[Index].Name != "")
-	{
-		Name += GenieFile->Graphics[Index].Name;
+		Name = "*Disabled*";
 	}
 	else
 	{
-		Name += "New Graphic";
+		if(Filter)
+		{
+			short Selection[2];
+			for(short loop = 0;loop < 2;loop++)
+			Selection[loop] = Graphics_Graphics_SearchFilters[loop]->GetSelection();
+			
+			if(Selection[0] > 0) // Internal name prevents
+			for(short loop = 0;loop < 2;loop++)
+			{
+				if(Selection[loop] == 1)	// SLP
+				{
+					Name += "SLP ";
+					Name += lexical_cast<string>(GenieFile->Graphics[Index].SLP);
+				}
+				else if(Selection[loop] == 2)	// Unknown 1
+				{
+					Name += "U1 ";
+					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown1);
+				}
+				else if(Selection[loop] == 3)	// Unknown 2
+				{
+					Name += "U2 ";
+					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown2);
+				}
+				else if(Selection[loop] == 4)	// Layer
+				{
+					Name += "L ";
+					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Layer);
+				}
+				else if(Selection[loop] == 5)	// Unknown 3
+				{
+					Name += "U3 ";
+					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown3);
+				}
+				else if(Selection[loop] == 6)	// Unknown 4
+				{
+					Name += "U4 ";
+					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown4);
+				}
+				else if(Selection[loop] == 7)	// Replay
+				{
+					Name += "R ";
+					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Replay);
+				}
+				else if(Selection[loop] == 8)	// Sound
+				{
+					Name += "So ";
+					Name += lexical_cast<string>(GenieFile->Graphics[Index].SoundID);
+				}
+				else if(Selection[loop] == 9)	// Attack Sound Used
+				{
+					Name += "U ";
+					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].AttackSoundUsed);
+				}
+				else if(Selection[loop] == 10)	// Frame Count
+				{
+					Name += "FC ";
+					Name += lexical_cast<string>(GenieFile->Graphics[Index].FrameCount);
+				}
+				else if(Selection[loop] == 11)	// Angle Count
+				{
+					Name += "AC ";
+					Name += lexical_cast<string>(GenieFile->Graphics[Index].AngleCount);
+				}
+				else if(Selection[loop] == 12)	// Speed
+				{
+					Name += "Sp ";
+					Name += lexical_cast<string>(GenieFile->Graphics[Index].Unknown13);
+				}
+				else if(Selection[loop] == 13)	// Frame Rate
+				{
+					Name += "FR ";
+					Name += lexical_cast<string>(GenieFile->Graphics[Index].FrameRate);
+				}
+				else if(Selection[loop] == 14)	// Replay Delay
+				{
+					Name += "RD ";
+					Name += lexical_cast<string>(GenieFile->Graphics[Index].ReplayDelay);
+				}
+				else if(Selection[loop] == 15)	// Sequence Type
+				{
+					Name += "ST ";
+					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].SequenceType);
+				}
+				else if(Selection[loop] == 16)	// Mirroring Mode
+				{
+					Name += "T ";
+					Name += lexical_cast<string>(GenieFile->Graphics[Index].Type);
+				}
+				else if(Selection[loop] == 17)	// Pointer
+				{
+					Name = lexical_cast<string>(GenieFile->GraphicPointers[Index]);
+				}
+				Name += ", ";
+				if(Selection[loop+1] < 1) break; // Internal name breaks
+			}
+		}
+		
+		if(GenieFile->Graphics[Index].Name != "")
+		{
+			Name += GenieFile->Graphics[Index].Name;
+		}
+		else
+		{
+			Name += "New Graphic";
+		}
 	}
 	return Name;
 }
@@ -35,6 +136,11 @@ void AGE_Frame::ListGraphics(bool Sized)
 	SearchText = wxString(Graphics_Graphics_Search->GetValue()).Lower();
 	ExcludeText = wxString(Graphics_Graphics_Search_R->GetValue()).Lower();
 	string CompareText;
+	for(short loop = 0;loop < 2;loop++)
+	{
+		if(Graphics_Graphics_UseAnd[loop]->GetValue() == true)
+		UseAnd[loop] = true; else UseAnd[loop] = false;
+	}
 	
 	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Graphics_Graphics_List->GetCount() > 0)
@@ -147,7 +253,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 	
 	for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetGraphicName(loop);
+		Name = lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
@@ -155,6 +261,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		}
 		if(Sized)
 		{
+			Name = lexical_cast<string>(loop)+" - "+GetGraphicName(loop, false);
 			Units_ComboBox_ConstructionGraphicID->Append(Name);
 			Units_ComboBox_SnowGraphicID->Append(Name);
 			Units_ComboBox_AttackGraphic->Append(Name);
@@ -196,6 +303,9 @@ void AGE_Frame::ListGraphics(bool Sized)
 		DamageGraphics_ComboBox_GraphicID->SetSelection(GraphicIDs[18]);
 		GraphicDeltas_ComboBox_GraphicID->SetSelection(GraphicIDs[21]);
 	}
+	
+	for(short loop = 0;loop < 2;loop++)
+	UseAnd[loop] = false;
 	
 	wxCommandEvent E;
 	OnGraphicsSelect(E);
@@ -581,9 +691,14 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ListArea = new wxBoxSizer(wxVERTICAL);
 	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Graphics");
 
-	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY);
-	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY);
-//	Graphics_Graphics_UseAnd = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER, wxDefaultValidator, wxTextCtrlNameStr);
+	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER, wxDefaultValidator, wxTextCtrlNameStr);
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
+		Graphics_Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Graphics_Graphics_UseAnd[loop] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+	}
 	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Graphics_Graphics_Buttons = new wxGridSizer(2, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -731,6 +846,29 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_AttackSoundArea = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Holder_AttackSounds_Data = new wxBoxSizer(wxVERTICAL);
 
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Graphics_Graphics_SearchFilters[loop]->Append("Internal Name");	// 0
+		Graphics_Graphics_SearchFilters[loop]->Append("SLP");
+		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 1");
+		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 2");
+		Graphics_Graphics_SearchFilters[loop]->Append("Layer");
+		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 3");
+		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 4");
+		Graphics_Graphics_SearchFilters[loop]->Append("Replay");
+		Graphics_Graphics_SearchFilters[loop]->Append("Sound");
+		Graphics_Graphics_SearchFilters[loop]->Append("Attack Sound Used");
+		Graphics_Graphics_SearchFilters[loop]->Append("Frame Count");
+		Graphics_Graphics_SearchFilters[loop]->Append("Angle Count");
+		Graphics_Graphics_SearchFilters[loop]->Append("Speed");
+		Graphics_Graphics_SearchFilters[loop]->Append("Frame Rate");
+		Graphics_Graphics_SearchFilters[loop]->Append("Replay Delay");
+		Graphics_Graphics_SearchFilters[loop]->Append("Sequence Type");
+		Graphics_Graphics_SearchFilters[loop]->Append("Mirroring Mode");
+		Graphics_Graphics_SearchFilters[loop]->Append("Pointer");
+		Graphics_Graphics_SearchFilters[loop]->SetSelection(0);
+	}
+	
 	Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Delete, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Copy, 1, wxEXPAND);
@@ -738,9 +876,16 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_Buttons->Add(Graphics_Enable, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Disable, 1, wxEXPAND);
 
-	Graphics_Graphics->Add(Graphics_Graphics_Search, 0, wxEXPAND);
-	Graphics_Graphics->Add(Graphics_Graphics_Search_R, 0, wxEXPAND);
-//	Graphics_Graphics->Add(Graphics_Graphics_UseAnd, 0, wxEXPAND);
+	Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_Search, 1, wxEXPAND);
+	Graphics_Graphics_Searches[0]->Add(2, -1);
+	Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_UseAnd[0], 0, wxEXPAND);
+	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_Search_R, 1, wxEXPAND);
+	Graphics_Graphics_Searches[1]->Add(2, -1);
+	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_UseAnd[1], 0, wxEXPAND);
+	for(short loop = 0;loop < 2;loop++)
+	Graphics_Graphics->Add(Graphics_Graphics_Searches[loop], 0, wxEXPAND);
+	for(short loop = 0;loop < 2;loop++)
+	Graphics_Graphics->Add(Graphics_Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
@@ -929,12 +1074,16 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Main->Add(10, -1);
 	
 	Graphics_ID->Enable(false);
-//	Graphics_Graphics_UseAnd->Show(false);
-
+	
 	Tab_Graphics->SetSizer(Graphics_Main);
 	
-	Connect(Graphics_Graphics_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
-	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
+	Connect(Graphics_Graphics_Search->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
+	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSelection_CheckBoxes));
+		Connect(Graphics_Graphics_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
+	}
 	Connect(Graphics_Graphics_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect));
 	Connect(Graphics_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsAdd));
 	Connect(Graphics_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsDelete));
