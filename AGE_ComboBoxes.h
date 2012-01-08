@@ -133,26 +133,4 @@ class ComboBox_Byte_UnitType : public wxOwnerDrawnComboBox
 	TextCtrl_Byte * Container;
 };
 
-#endif
-*/
-#ifndef ComboBox_Short_AttackType_h
-#define ComboBox_Short_AttackType_h
-
-class ComboBox_Short_AttackType : public wxOwnerDrawnComboBox
-{
-	public:
-
-	ComboBox_Short_AttackType(wxWindow * parent, TextCtrl_Short * value);
-	~ComboBox_Short_AttackType(){}
-
-	/* Events */
-
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
-
-	/* Member Variables */
-
-	TextCtrl_Short * Container;
-};
-
-#endif
+#endif*/

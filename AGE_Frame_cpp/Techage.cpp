@@ -439,12 +439,12 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					if(EffectPointer->D < 0)
 					{
 						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256 + 1);
 					}
 					else
 					{
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256 + 1);
 					}
 					Effects_Text_E->SetLabel("Value [Set] ");
 					Effects_Text_F->SetLabel("Class ");
@@ -614,12 +614,12 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					if(EffectPointer->D < 0)
 					{
 						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256 + 1);
 					}
 					else
 					{
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256 + 1);
 					}
 					Effects_Text_E->SetLabel("Value [+/-] ");
 					Effects_Text_F->SetLabel("Class ");
@@ -677,12 +677,12 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 					if(EffectPointer->D < 0)
 					{
 						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection(-(short)EffectPointer->D / 256 + 1);
 					}
 					else
 					{
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256);
+						Attacks_ComboBox_Class[2]->SetSelection((short)EffectPointer->D / 256 + 1);
 					}
 					Effects_Text_E->SetLabel("Value [%] ");
 					Effects_Text_F->SetLabel("Class ");
@@ -1064,7 +1064,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Info_E = new wxStaticText(Tab_Techage, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_F = new wxStaticText(Tab_Techage, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_F = new TextCtrl_Short(Tab_Techage, "0", NULL);
-	Attacks_ComboBox_Class[2] = new ComboBox_Short_AttackType(Tab_Techage, Effects_F);
+	Attacks_ComboBox_Class[2] = new ComboBox_Short(Tab_Techage, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techage, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Link = new wxHyperlinkCtrl(Tab_Techage, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
 	
