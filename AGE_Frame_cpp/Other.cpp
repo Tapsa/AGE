@@ -510,10 +510,11 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			{
 				Attacks_ComboBox_Class[loop]->Clear();
 			}
+			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
 			if(GameVersion < 4)
 			{
-				Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
-				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 1
+				Attacks_ComboBox_Class[loop]->Append("0 - None");
+				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 2
 				Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
 				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
 				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
@@ -542,21 +543,16 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
 				Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
 				Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
-				Attacks_ComboBox_Class[loop]->Append("30 - None");	// Selection 30
-				Attacks_ComboBox_Class[loop]->Append("31 - Extra Class 1");
-				Attacks_ComboBox_Class[loop]->Append("32 - Extra Class 2");
-				Attacks_ComboBox_Class[loop]->Append("33 - Extra Class 3");
-				Attacks_ComboBox_Class[loop]->Append("34 - Extra Class 4");
-				Attacks_ComboBox_Class[loop]->Append("35 - Extra Class 5");
+				Attacks_ComboBox_Class[loop]->Append("30 - None");	// Selection 31
 			}
 			else	// SWGB and CC
 			{
-				Attacks_ComboBox_Class[loop]->Append("0 - Aircraft");	// Selection 0
+				Attacks_ComboBox_Class[loop]->Append("0 - Aircraft");	// Selection 1
 				// Airspeeder
 				// AIR SHIPS!!!
 				// Geonosian Warrior
 				// Wild Gungan Flyer
-				Attacks_ComboBox_Class[loop]->Append("1 - Heavy Assault Machines");	// Selection 1
+				Attacks_ComboBox_Class[loop]->Append("1 - Heavy Assault Machines");	// Selection 2
 				// Assault Mech
 				// AT-AT
 				// Blizzards
@@ -697,19 +693,16 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Attacks_ComboBox_Class[loop]->Append("27 - None");
 				Attacks_ComboBox_Class[loop]->Append("28 - None");
 				Attacks_ComboBox_Class[loop]->Append("29 - None");
-				Attacks_ComboBox_Class[loop]->Append("30 - Tame Animals");	// Selection 30
+				Attacks_ComboBox_Class[loop]->Append("30 - Tame Animals");	// Selection 31
 				// Fambaa Shield Generators
 				// Wild Fambaa
 				// Kaadu
 				// Tauntaun
 				// Cu-pa
 				// Womp Rat
-				Attacks_ComboBox_Class[loop]->Append("31 - Extra Class 1");
-				Attacks_ComboBox_Class[loop]->Append("32 - Extra Class 2");
-				Attacks_ComboBox_Class[loop]->Append("33 - Extra Class 3");
-				Attacks_ComboBox_Class[loop]->Append("34 - Extra Class 4");
-				Attacks_ComboBox_Class[loop]->Append("35 - Extra Class 5");
 			}
+			for(short loop2 = 1;loop2 <= 20;loop2++)
+			Attacks_ComboBox_Class[loop]->Append(lexical_cast<string>(30+loop2)+" - Extra Class "+lexical_cast<string>(loop2));
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
 		}
 
@@ -821,8 +814,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		{
 			if(UnitLines_UnitLines_List->GetCount() > 0)
 			UnitLines_UnitLines_List->Clear();
-			if(Units_ComboBox_Unitline->GetCount() > 0)
-			Units_ComboBox_Unitline->Clear();
 			if(UnitLines_UnitLineUnits_List->GetCount() > 0)
 			UnitLines_UnitLineUnits_List->Clear();
 		}
@@ -1444,8 +1435,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_Units_SearchFilters[loop]->Show(true);
 			}
 			Units_Units->Layout();
-		}
-		break;*/
+		}*/
+		break;
 		case wxID_EXIT:
 		{
 			Close(true);
@@ -1741,8 +1732,8 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 {
 	if(Event.GetId() == Attacks_ComboBox_Class[2]->GetId())
 	{
-		short Class = Attacks_ComboBox_Class[2]->GetSelection();
-		if(Class > 0)
+		short Class = Attacks_ComboBox_Class[2]->GetSelection() - 1;
+		if(Class >= 0)
 		{
 			float Amount = lexical_cast<float>(Effects_E->GetValue());
 			if(Amount > -1 && Amount < 256) // positive amount 0 to 255
@@ -2403,7 +2394,15 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
-		if(Event.GetId() == DamageGraphics_GraphicID->GetId())
+		if(Event.GetId() == Attacks_Class->GetId())
+		{
+			ListUnitAttacks(UnitID, UnitCivID);
+		}
+		else if(Event.GetId() == Armors_Class->GetId())
+		{
+			ListUnitArmors(UnitID, UnitCivID);
+		}
+		else if(Event.GetId() == DamageGraphics_GraphicID->GetId())
 		{
 			ListUnitDamageGraphics(UnitID, UnitCivID);
 		}
@@ -2446,34 +2445,6 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEve
 			wxCommandEvent E;
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
-		}
-		/*if(UseUndo)
-		{
-			EditCount++;
-			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
-			OnTempBackup();
-		}*/
-	}
-}
-
-void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShortAttackType(wxFocusEvent& Event)
-{
-	((ComboBox_Short_AttackType*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
-	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
-		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
-		}
-		if(Event.GetId() == Attacks_Class->GetId())
-		{
-			ListUnitAttacks(UnitID, UnitCivID);
-		}
-		else if(Event.GetId() == Armors_Class->GetId())
-		{
-			ListUnitArmors(UnitID, UnitCivID);
 		}
 		/*if(UseUndo)
 		{
@@ -2818,11 +2789,15 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 		OnUnitsCopy(E);
 		OnUnitsPaste(E);
 	}
-	if(Event.GetId() == DamageGraphics_ComboBox_GraphicID->GetId())
+	if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
 	{
-		ListUnitDamageGraphics(UnitID, UnitCivID);
+		ListUnitAttacks(UnitID, UnitCivID);
 	}
-	else if(Event.GetId() == Units_ComboBox_Unitline->GetId())
+	else if(Event.GetId() == Attacks_ComboBox_Class[1]->GetId())
+	{
+		ListUnitArmors(UnitID, UnitCivID);
+	}
+	else if(Event.GetId() == DamageGraphics_ComboBox_GraphicID->GetId())
 	{
 		ListUnitDamageGraphics(UnitID, UnitCivID);
 	}
@@ -2907,31 +2882,6 @@ void AGE_Frame::OnUpdate_CheckBoxFloat(wxCommandEvent& Event)
 	{
 		ListTerrains(false);
 	}
-}
-
-void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShortAttackType(wxCommandEvent& Event)
-{
-	((ComboBox_Short_AttackType*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
-	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
-	}
-	if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
-	{
-		ListUnitAttacks(UnitID, UnitCivID);
-	}
-	else if(Event.GetId() == Attacks_ComboBox_Class[1]->GetId())
-	{
-		ListUnitArmors(UnitID, UnitCivID);
-	}
-	/*if(UseUndo)
-	{
-		EditCount++;
-		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
-		OnTempBackup();
-	}*/
 }
 
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
