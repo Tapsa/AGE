@@ -80,7 +80,6 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_AutoCopy_Short(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event);
-	void OnKillFocus_AutoCopy_ComboBoxShortAttackType(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_Float(wxFocusEvent& Event);
@@ -99,7 +98,6 @@ class AGE_Frame : public wxFrame
 	void OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxByteUnitType(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event);
-	void OnUpdate_AutoCopy_ComboBoxShortAttackType(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event);
@@ -902,7 +900,6 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Effects_Info_E;
 	wxStaticText * Effects_Text_F;
 	TextCtrl_Short * Effects_F;	// class
-//	wxOwnerDrawnComboBox * Attacks_ComboBox_Class[2];	// class
 	wxStaticText * Effects_Info_F;
 	
 	wxStaticBoxSizer * Techs_Techs;
@@ -1672,7 +1669,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Attacks_Data1;
 	wxGridSizer * Units_Grid_Attacks_Data2;
 	TextCtrl_Short * Attacks_Class;
-	ComboBox_Short_AttackType * Attacks_ComboBox_Class[3];
+	ComboBox_Short * Attacks_ComboBox_Class[3];
 	TextCtrl_Short * Attacks_Amount;
 	wxStaticText * Attacks_Text_Class;
 	wxStaticText * Attacks_Text_Amount;

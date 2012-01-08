@@ -122,13 +122,6 @@ void ComboBox_Byte_UnitType::OnUpdate(wxCommandEvent& Event)
 	Container->OnKillFocus(Temp);
 }
 */
-void ComboBox_Short_AttackType::OnUpdate(wxCommandEvent& Event)
-{
-	Container->ChangeValue(lexical_cast<string>(GetSelection()));
-	
-	wxFocusEvent Temp(wxEVT_KILL_FOCUS);
-	Container->OnKillFocus(Temp);
-}
 
 void ComboBox_Byte::OnKillFocus(wxFocusEvent& Event)
 {
@@ -232,16 +225,6 @@ void ComboBox_Byte_UnitType::OnKillFocus(wxFocusEvent& Event)
 	}
 }
 */
-void ComboBox_Short_AttackType::OnKillFocus(wxFocusEvent& Event)
-{
-	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
-	{
-		short Value = lexical_cast<short>(((TextCtrl_Short*)Event.GetEventObject())->GetValue());
-		((ComboBox_Short_AttackType*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->SetSelection(0);
-		((ComboBox_Short_AttackType*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->SetSelection(Value);
-	}
-}
 
 ComboBox_Byte::ComboBox_Byte(wxWindow * parent, TextCtrl_Byte * Pointer)
 : wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
@@ -309,13 +292,3 @@ ComboBox_Byte_UnitType::ComboBox_Byte_UnitType(wxWindow * parent, TextCtrl_Byte 
 	Connect(this->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Byte_UnitType::OnUpdate));
 }
 */
-ComboBox_Short_AttackType::ComboBox_Short_AttackType(wxWindow * parent, TextCtrl_Short * Pointer)
-: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
-{
-	Container = Pointer;
-	Container->ParentContainer = this;
-	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
-	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(ComboBox_Short_AttackType::OnKillFocus), this);
-
-	Connect(this->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Short_AttackType::OnUpdate));
-}
