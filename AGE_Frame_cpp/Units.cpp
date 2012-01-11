@@ -1863,6 +1863,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 		AttackID = AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[0]);
 		Attacks_Class->ChangeValue(lexical_cast<string>(AttackPointer->Class));
 		Attacks_Class->Container = &AttackPointer->Class;
+		Attacks_ComboBox_Class[0]->SetSelection(0);
 		Attacks_ComboBox_Class[0]->SetSelection(AttackPointer->Class + 1);
 		Attacks_Amount->ChangeValue(lexical_cast<string>(AttackPointer->Amount));
 		Attacks_Amount->Container = &AttackPointer->Amount;
@@ -2002,6 +2003,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 		ArmorID = ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[0]);
 		Armors_Class->ChangeValue(lexical_cast<string>(ArmorPointer->Class));
 		Armors_Class->Container = &ArmorPointer->Class;
+		Attacks_ComboBox_Class[1]->SetSelection(0);
 		Attacks_ComboBox_Class[1]->SetSelection(ArmorPointer->Class + 1);
 		Armors_Amount->ChangeValue(lexical_cast<string>(ArmorPointer->Amount));
 		Armors_Amount->Container = &ArmorPointer->Amount;
@@ -3081,7 +3083,7 @@ void AGE_Frame::CreateUnitControls()
 		ResourceStorage_ComboBox_Type[loop] = new ComboBox_Short(Units_Scroller, ResourceStorage_Type[loop]);
 		ResourceStorage_Amount[loop] = new TextCtrl_Float(Units_Scroller, "0", NULL);
 		ResourceStorage_Enabled[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-		ResourceStorage_Enabled[loop]->SetToolTip("2 Resets when the unit dies\n1 Doesn't reset");
+		ResourceStorage_Enabled[loop]->SetToolTip("0 Decayable resource\n1 Stored after death also\n2 Resets on dying, enables instantly\n4 Resets on dying, enables on completion");
 	}
 	for(short loop = 0;loop < 4;loop++)
 	{

@@ -513,21 +513,21 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
 			if(GameVersion < 4)
 			{
-				Attacks_ComboBox_Class[loop]->Append("0 - None");
+				Attacks_ComboBox_Class[loop]->Append("0 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 2
 				Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
 				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
 				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
 				Attacks_ComboBox_Class[loop]->Append("5 - War Elephants");
-				Attacks_ComboBox_Class[loop]->Append("6 - None");
-				Attacks_ComboBox_Class[loop]->Append("7 - None");
+				Attacks_ComboBox_Class[loop]->Append("6 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("7 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
-				Attacks_ComboBox_Class[loop]->Append("9 - None");
-				Attacks_ComboBox_Class[loop]->Append("10 - None");
+				Attacks_ComboBox_Class[loop]->Append("9 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("10 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("11 - All Buildings (except Port)");
-				Attacks_ComboBox_Class[loop]->Append("12 - None");
+				Attacks_ComboBox_Class[loop]->Append("12 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("13 - Stone Defense");
-				Attacks_ComboBox_Class[loop]->Append("14 - None");
+				Attacks_ComboBox_Class[loop]->Append("14 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("15 - Archers");
 				Attacks_ComboBox_Class[loop]->Append("16 - Ships & Camels & Saboteurs");
 				Attacks_ComboBox_Class[loop]->Append("17 - Rams");
@@ -536,14 +536,14 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Attacks_ComboBox_Class[loop]->Append("20 - Siege Weapons");
 				Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
 				Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
-				Attacks_ComboBox_Class[loop]->Append("23 - None");
+				Attacks_ComboBox_Class[loop]->Append("23 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("24 - Boars");
 				Attacks_ComboBox_Class[loop]->Append("25 - Monks");
 				Attacks_ComboBox_Class[loop]->Append("26 - Castle");
 				Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
 				Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
 				Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
-				Attacks_ComboBox_Class[loop]->Append("30 - None");	// Selection 31
+				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
 			}
 			else	// SWGB and CC
 			{
@@ -611,7 +611,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Gungan Buildings
 				Attacks_ComboBox_Class[loop]->Append("11 - All Buildings");
 				// BUILDINGS!!!
-				Attacks_ComboBox_Class[loop]->Append("12 - None");
+				Attacks_ComboBox_Class[loop]->Append("12 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("13 - Defense Buildings");
 				// Gate
 				// Turrets
@@ -648,7 +648,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Undeployed Cannon
 				// Pummels
 				// Cannon
-				Attacks_ComboBox_Class[loop]->Append("18 - None");
+				Attacks_ComboBox_Class[loop]->Append("18 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("19 - Workers");
 				// B'omarr Temple
 				// Underwater Prefab Shelters
@@ -687,12 +687,12 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Orray
 				// Shaak
 				// Rancor
-				Attacks_ComboBox_Class[loop]->Append("25 - None");
+				Attacks_ComboBox_Class[loop]->Append("25 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("26 - Fortress");
 				// Fortress
-				Attacks_ComboBox_Class[loop]->Append("27 - None");
-				Attacks_ComboBox_Class[loop]->Append("28 - None");
-				Attacks_ComboBox_Class[loop]->Append("29 - None");
+				Attacks_ComboBox_Class[loop]->Append("27 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("28 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("29 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("30 - Tame Animals");	// Selection 31
 				// Fambaa Shield Generators
 				// Wild Fambaa
@@ -701,8 +701,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Cu-pa
 				// Womp Rat
 			}
-			for(short loop2 = 1;loop2 <= 20;loop2++)
-			Attacks_ComboBox_Class[loop]->Append(lexical_cast<string>(30+loop2)+" - Extra Class "+lexical_cast<string>(loop2));
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
 		}
 
