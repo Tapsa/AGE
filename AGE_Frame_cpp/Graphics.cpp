@@ -253,7 +253,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 	
 	for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
@@ -261,7 +261,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		}
 		if(Sized)
 		{
-			Name = lexical_cast<string>(loop)+" - "+GetGraphicName(loop, false);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, false);
 			Units_ComboBox_ConstructionGraphicID->Append(Name);
 			Units_ComboBox_SnowGraphicID->Append(Name);
 			Units_ComboBox_AttackGraphic->Append(Name);
@@ -482,7 +482,7 @@ void AGE_Frame::ListGraphicDeltas(short Index)
 	}
 	for(short loop = 0;loop < GenieFile->Graphics[Index].Deltas.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop, Index);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
@@ -617,7 +617,7 @@ void AGE_Frame::ListGraphicAttackSounds(short Index)
 	}
 	for(short loop = 0;loop < GenieFile->Graphics[Index].AttackSounds.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop, Index);
 //		CompareText = wxString(Name).Lower();
 //		if(SearchMatches(CompareText) == true)
 //		{
@@ -1081,7 +1081,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 	for(short loop = 0;loop < 2;loop++)
 	{
-		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSelection_CheckBoxes));
+		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 		Connect(Graphics_Graphics_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
 	}
 	Connect(Graphics_Graphics_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect));

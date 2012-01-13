@@ -156,7 +156,7 @@ void AGE_Frame::ListTechages(bool Sized)
 	
 	for(short loop = 0;loop < GenieFile->Techages.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetTechageName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetTechageName(loop);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
@@ -330,7 +330,7 @@ void AGE_Frame::ListEffects(short Index)
 	}
 	for(short loop = 0;loop < GenieFile->Techages[Index].Effects.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetEffectName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetEffectName(loop, Index);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
