@@ -57,7 +57,7 @@ void AGE_Frame::ListUnitLines()
 	
 	for(short loop = 0;loop < GenieFile->UnitLines.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
@@ -185,7 +185,7 @@ void AGE_Frame::ListUnitLineUnits(short Index)
 	}
 	for(short loop = 0;loop < GenieFile->UnitLines[Index].UnitIDs.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(loop, Index);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{

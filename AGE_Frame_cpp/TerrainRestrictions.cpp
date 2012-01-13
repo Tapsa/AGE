@@ -137,7 +137,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 
 	for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetTerrainRestrictionName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainRestrictionName(loop);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{

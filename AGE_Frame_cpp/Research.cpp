@@ -186,7 +186,7 @@ void AGE_Frame::ListResearches(bool Sized)
 	
 	for(short loop = 0;loop < GenieFile->Researchs.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
@@ -194,7 +194,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		}
 		if(Sized)
 		{
-			Name = lexical_cast<string>(loop)+" - "+GetResearchName(loop, false);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, false);
 			Effects_ComboBox_ResearchsD->Append(Name);
 			Effects_ComboBox_ResearchsA->Append(Name);
 			Units_ComboBox_ResearchID->Append(Name);
@@ -680,7 +680,7 @@ void AGE_Frame::CreateResearchControls()
 	Connect(Research_Research_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
 	for(short loop = 0;loop < 2;loop++)
 	{
-		Connect(Research_Research_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSelection_CheckBoxes));
+		Connect(Research_Research_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
 		Connect(Research_Research_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
 	}
 	Connect(Research_Research_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
