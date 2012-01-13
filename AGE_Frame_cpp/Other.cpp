@@ -1397,18 +1397,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 		case MenuOption_Exclude:
 		{
 			AutoCopy = Event.GetId();
-			if(AutoCopy == MenuOption_NoAuto)
-			{
-				Units_AutoCopyState->SetLabel("Auto-copy: Disabled");
-			}
-			else if(AutoCopy == MenuOption_Include)
-			{
-				Units_AutoCopyState->SetLabel("Auto-copy: Include graphics");
-			}
-			else if(AutoCopy == MenuOption_Exclude)
-			{
-				Units_AutoCopyState->SetLabel("Auto-copy: Exclude graphics");
-			}
+			AutoCopySettings();
 		}
 		/*case MenuOption_NoExtra:
 		case MenuOption_1stFilters:
@@ -1694,37 +1683,12 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 	}
 }
 
-void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
+/*void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
 {
 	for(short loop = 0;loop < 2;loop++)
 	{
-		if(Event.GetId() == Units_Units_UseAnd[loop]->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSearch(E);
-		}
-		else if(Event.GetId() == Graphics_Graphics_UseAnd[loop]->GetId())
-		{
-			ListGraphics(false);
-		}
-		else if(Event.GetId() == TechTrees_MainList_Units_UseAnd[loop]->GetId())
-		{
-			ListTTUnits();
-		}
-		else if(Event.GetId() == TechTrees_MainList_Buildings_UseAnd[loop]->GetId())
-		{
-			ListTTBuildings();
-		}
-		else if(Event.GetId() == TechTrees_MainList_Researches_UseAnd[loop]->GetId())
-		{
-			ListTTResearches();
-		}
-		else if(Event.GetId() == Research_Research_UseAnd[loop]->GetId())
-		{
-			ListResearches();
-		}
 	}
-}
+}*/
 
 void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 {

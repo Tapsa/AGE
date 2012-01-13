@@ -98,7 +98,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	
 	for(short loop = 0;loop < GenieFile->Terrains.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText) == true)
 		{
@@ -148,7 +148,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	}
 	for(short loop = 0;loop < GenieFile->TerrainRestrictions[0].TerrainAccessible.size();loop++)
 	{
-		Name = lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictID].TerrainAccessible[loop]);
+		Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictID].TerrainAccessible[loop]);
 		if(GameVersion >= 2)
 		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictID].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);

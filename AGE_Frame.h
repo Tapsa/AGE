@@ -41,6 +41,7 @@ class AGE_Frame : public wxFrame
 
 	bool DataOpened;
 	void OnGameVersionChange();
+	void AutoCopySettings();
 //	void OnTempBackup();
 //	void OnUndoing(wxCommandEvent& Event);
 //	void OnReload(wxCommandEvent& Event);
@@ -57,7 +58,7 @@ class AGE_Frame : public wxFrame
 	
 	void OnKillFocus_TextControls(wxFocusEvent& Event);
 	void OnSelection_ComboBoxes(wxCommandEvent& Event);
-	void OnSelection_CheckBoxes(wxCommandEvent& Event);
+//	void OnSelection_CheckBoxes(wxCommandEvent& Event);
 	
 	void OnKillFocus_Byte(wxFocusEvent& Event);
 	void OnKillFocus_Short(wxFocusEvent& Event);
@@ -306,7 +307,9 @@ class AGE_Frame : public wxFrame
 	void OnUnitsAdd(wxCommandEvent& Event);
 	void OnUnitsDelete(wxCommandEvent& Event);
 	void OnUnitsCopy(wxCommandEvent& Event);
+	void OnUnitsSpecialCopy(wxCommandEvent& Event);
 	void OnUnitsPaste(wxCommandEvent& Event);
+	void OnUnitsSpecialPaste(wxCommandEvent& Event);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
@@ -1728,6 +1731,9 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Paste;
 	wxButton * Units_Enable;
 	wxButton * Units_Disable;
+	wxButton * Units_SpecialCopy;
+	wxButton * Units_SpecialPaste;
+	wxOwnerDrawnComboBox * Units_SpecialCopy_Options;
 //	wxButton * Units_Undo;
 
 	wxBoxSizer * Units_DataArea;	// Unit window other-than unit-list-section
