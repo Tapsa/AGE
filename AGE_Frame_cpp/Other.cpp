@@ -1964,28 +1964,28 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[0]->GetId())
 	{
-		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Unknown9 = lexical_cast<long>(TechTrees_ComboBox_Modes[0]->GetSelection());
+		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[0]->GetSelection());
 		
 		wxCommandEvent E;
 		OnTTBuildingSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[1]->GetId())
 	{
-		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Unknown10 = lexical_cast<long>(TechTrees_ComboBox_Modes[1]->GetSelection());
+		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[1]->GetSelection());
 		
 		wxCommandEvent E;
 		OnTTBuildingSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[2]->GetId())
 	{
-		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Unknown10 = lexical_cast<long>(TechTrees_ComboBox_Modes[2]->GetSelection());
+		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[2]->GetSelection());
 		
 		wxCommandEvent E;
 		OnTTUnitSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[3]->GetId())
 	{
-		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Unknown11 = lexical_cast<long>(TechTrees_ComboBox_Modes[3]->GetSelection());
+		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[3]->GetSelection());
 		
 		wxCommandEvent E;
 		OnTTUnitSelect(E);

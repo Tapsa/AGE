@@ -307,8 +307,10 @@ class AGE_Frame : public wxFrame
 	void OnUnitsAdd(wxCommandEvent& Event);
 	void OnUnitsDelete(wxCommandEvent& Event);
 	void OnUnitsCopy(wxCommandEvent& Event);
+	void UnitsGraphicsCopy(short Size, short loop = 0, short Fix = 0);
 	void OnUnitsSpecialCopy(wxCommandEvent& Event);
 	void OnUnitsPaste(wxCommandEvent& Event);
+	void UnitsGraphicsPaste(short Size, short loop = 0, short Fix = 0);
 	void OnUnitsSpecialPaste(wxCommandEvent& Event);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
@@ -1734,6 +1736,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_SpecialCopy;
 	wxButton * Units_SpecialPaste;
 	wxOwnerDrawnComboBox * Units_SpecialCopy_Options;
+	wxCheckBox * Units_SpecialCopy_Civs;
 //	wxButton * Units_Undo;
 
 	wxBoxSizer * Units_DataArea;	// Unit window other-than unit-list-section
@@ -2648,7 +2651,7 @@ class AGE_Frame : public wxFrame
 	ComboBox_Long * TechTrees_Units_ComboBox_Unit;
 	wxBoxSizer * TechTrees_Units_Holder_LocationInAge;
 	wxStaticText * TechTrees_Units_Text_LocationInAge;
-	TextCtrl_Long * TechTrees_Units_Unknown3;
+	TextCtrl_Long * TechTrees_Units_LocationInAge;
 	wxBoxSizer * TechTrees_Units_Holder_RequiredResearch;
 	wxStaticText * TechTrees_Units_Text_RequiredResearch;
 	TextCtrl_Long * TechTrees_Units_RequiredResearch;
