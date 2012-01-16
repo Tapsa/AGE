@@ -2656,6 +2656,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Main = new wxBoxSizer(wxHORIZONTAL);
 	Units_ListArea = new wxBoxSizer(wxVERTICAL);
 	Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
+	Units_Units_Special = new wxBoxSizer(wxHORIZONTAL);
 	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
@@ -2666,24 +2667,24 @@ void AGE_Frame::CreateUnitControls()
 		Units_Units_UseAnd[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	}
 	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
-	Units_Units_Buttons = new wxGridSizer(2, 0, 0);
+	Units_Units_Buttons = new wxGridSizer(4, 0, 0);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_Copy = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
-	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "Special Copy", wxDefaultPosition, wxSize(5, 20));
-	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "Special Paste", wxDefaultPosition, wxSize(5, 20));
+	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "S Copy", wxDefaultPosition, wxSize(5, 20));
+	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialCopy_Options = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
-	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All Civs", wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator);
+	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All Civs", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
 //	Units_Undo = new wxButton(Tab_Units, wxID_ANY, "Undo", wxDefaultPosition, wxSize(50, 20));
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_MainRow1 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_TopRow = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Units, "Other");
 	Units_Holder_Type = new wxBoxSizer(wxHORIZONTAL);
-	Units_AutoCopyState = new wxStaticText(Tab_Units, wxID_ANY, "Undefined", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_AutoCopyState = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_Scroller = new wxScrolledWindow(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	Units_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	Units_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
@@ -3615,7 +3616,11 @@ void AGE_Frame::CreateUnitControls()
 	
 	Units_SpecialCopy_Options->Append("Special: Graphics Only");
 	Units_SpecialCopy_Options->SetSelection(0);
-
+	
+	Units_AutoCopyState->Append("Auto-copy: Disabled");
+	Units_AutoCopyState->Append("Auto-copy: Include graphics");
+	Units_AutoCopyState->Append("Auto-copy: Exclude graphics");
+	
 	Units_Units_Buttons->Add(Units_Add, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Delete, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Copy, 1, wxEXPAND);
@@ -3624,8 +3629,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Buttons->Add(Units_Disable, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_SpecialCopy, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_SpecialPaste, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_SpecialCopy_Options, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_SpecialCopy_Civs, 1, wxEXPAND);
+	Units_Units_Special->Add(Units_SpecialCopy_Options, 1, wxEXPAND);
+	Units_Units_Special->Add(2, -1);
+	Units_Units_Special->Add(Units_SpecialCopy_Civs, 0, wxEXPAND);
 
 	Units_Units_Searches[0]->Add(Units_Units_Search, 1, wxEXPAND);
 	Units_Units_Searches[0]->Add(2, -1);
@@ -3644,6 +3650,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units->Add(Units_Units_List, 1, wxEXPAND);
 	Units_Units->Add(-1, 2);
 	Units_Units->Add(Units_Units_Buttons, 0, wxEXPAND);
+	Units_Units->Add(-1, 2);
+	Units_Units->Add(Units_Units_Special, 0, wxEXPAND);
 	
 	Units_ListArea->Add(-1, 10);
 	Units_ListArea->Add(Units_Units, 1, wxEXPAND);
@@ -4697,9 +4705,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Scroller->SetSizer(Units_ScrollerWindows);
 	Units_Scroller->SetScrollRate(0, 20);
 	
-	Units_Holder_TopRow->Add(Units_Holder_Type, 2, wxEXPAND);
-	Units_Holder_TopRow->Add(15, 15);
+	Units_Holder_TopRow->Add(Units_Holder_Type, 3, wxEXPAND);
+	Units_Holder_TopRow->Add(15, -1);
 	Units_Holder_TopRow->Add(Units_AutoCopyState, 2, wxEXPAND);
+	Units_Holder_TopRow->AddStretchSpacer(1);
 //	Units_Holder_TopRow->Add(Units_Undo, 0, wxEXPAND);
 
 	Units_MainRow1->Add(Units_Holder_TopRow, 1);
@@ -4733,6 +4742,7 @@ void AGE_Frame::CreateUnitControls()
 		Connect(Units_Units_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 		Connect(Units_Units_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
 	}
+	Connect(Units_AutoCopyState->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::AutoCopyComboBox));
 	Connect(Units_Civs_List->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitSubList));
 	Connect(Units_Units_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitsSelect));
 	Connect(Units_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsAdd));
@@ -5073,14 +5083,31 @@ void AGE_Frame::AutoCopySettings()
 {
 	if(AutoCopy == MenuOption_NoAuto)
 	{
-		Units_AutoCopyState->SetLabel("Auto-copy: Disabled");
+		Units_AutoCopyState->SetSelection(0);
 	}
 	else if(AutoCopy == MenuOption_Include)
 	{
-		Units_AutoCopyState->SetLabel("Auto-copy: Include graphics");
+		Units_AutoCopyState->SetSelection(1);
 	}
 	else if(AutoCopy == MenuOption_Exclude)
 	{
-		Units_AutoCopyState->SetLabel("Auto-copy: Exclude graphics");
+		Units_AutoCopyState->SetSelection(2);
 	}
+}
+
+void AGE_Frame::AutoCopyComboBox(wxCommandEvent& Event)
+{
+	switch(Units_AutoCopyState->GetSelection())
+	{
+		case 0:
+			AutoCopy = MenuOption_NoAuto;
+			break;
+		case 1:
+			AutoCopy = MenuOption_Include;
+			break;
+		case 2:
+			AutoCopy = MenuOption_Exclude;
+			break;
+	}
+	SubMenu_CivAutoCopy->Check(AutoCopy, true);
 }

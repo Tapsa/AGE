@@ -42,6 +42,7 @@ class AGE_Frame : public wxFrame
 	bool DataOpened;
 	void OnGameVersionChange();
 	void AutoCopySettings();
+	void AutoCopyComboBox(wxCommandEvent& Event);
 //	void OnTempBackup();
 //	void OnUndoing(wxCommandEvent& Event);
 //	void OnReload(wxCommandEvent& Event);
@@ -1720,6 +1721,7 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * Units_Units_Buttons;	// Unit list section buttons
 
 	wxStaticBoxSizer * Units_Units;	// Unit list section vertical division excluding window borders
+	wxBoxSizer * Units_Units_Special;
 	wxComboBox * Units_Civs_List;	// Civ list combo box
 	wxBoxSizer * Units_Units_Searches[2];
 	wxTextCtrl * Units_Units_Search;	// Unit search
@@ -1798,7 +1800,7 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * Units_Grid_Type80plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_CommandsArea;
 	wxStaticBoxSizer * Units_Holder_TopRow;
-	wxStaticText * Units_AutoCopyState;
+	wxOwnerDrawnComboBox * Units_AutoCopyState;
 	
 //	Unit Attributes section
 
