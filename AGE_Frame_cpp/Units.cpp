@@ -475,10 +475,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_ID1->Container = &UnitPointer->ID1;
 		Units_LanguageDllName->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDllName));
 		Units_LanguageDllName->Container = &UnitPointer->LanguageDllName;
-		Units_DLL_LanguageDllName->SetLabel(LanguageDllString(lexical_cast<short>(Units_LanguageDllName->GetValue())));
+		Units_DLL_LanguageDllName->SetLabel(LanguageDllString(lexical_cast<unsigned short>(Units_LanguageDllName->GetValue())));
 		Units_LanguageDllCreation->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDllCreation));
 		Units_LanguageDllCreation->Container = &UnitPointer->LanguageDllCreation;
-		Units_DLL_LanguageDllCreation->SetLabel(LanguageDllString(lexical_cast<short>(Units_LanguageDllCreation->GetValue())));
+		Units_DLL_LanguageDllCreation->SetLabel(LanguageDllString(lexical_cast<unsigned short>(Units_LanguageDllCreation->GetValue())));
 		Units_Class->ChangeValue(lexical_cast<string>(UnitPointer->Class));
 		Units_Class->Container = &UnitPointer->Class;
 		Units_ComboBox_Class[0]->SetSelection(UnitPointer->Class + 1);
@@ -3143,9 +3143,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type = new TextCtrl_Byte(Tab_Units, "0", NULL);
 	Units_ComboBox_Type = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_ID1 = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_LanguageDllName = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_LanguageDllName = new TextCtrl_UnShort(Units_Scroller, "0", NULL);
 	Units_DLL_LanguageDllName = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxALIGN_CENTRE | wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
-	Units_LanguageDllCreation = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_LanguageDllCreation = new TextCtrl_UnShort(Units_Scroller, "0", NULL);
 	Units_DLL_LanguageDllCreation = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxALIGN_CENTRE | wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
 	Units_Class = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
@@ -4869,8 +4869,8 @@ void AGE_Frame::CreateUnitControls()
 		Units_HotKey[loop]->Connect(Units_HotKey[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
 		Units_AnnexUnit[loop]->Connect(Units_AnnexUnit[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	}
-	Units_LanguageDllName->Connect(Units_LanguageDllName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
-	Units_LanguageDllCreation->Connect(Units_LanguageDllCreation->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
+	Units_LanguageDllName->Connect(Units_LanguageDllName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_UnShort), NULL, this);
+	Units_LanguageDllCreation->Connect(Units_LanguageDllCreation->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_UnShort), NULL, this);
 	Units_Class->Connect(Units_Class->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_HitPoints->Connect(Units_HitPoints->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
 	Units_DeadUnitID->Connect(Units_DeadUnitID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);

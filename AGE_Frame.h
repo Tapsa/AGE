@@ -843,12 +843,12 @@ class AGE_Frame : public wxFrame
 
 	wxBoxSizer * Research_Holder_LangDllName;
 	wxStaticText * Research_Text_LangDllName;
-	TextCtrl_Short * Research_LangDllName;
+	TextCtrl_UnShort * Research_LangDllName;
 	wxStaticText * Research_DLL_LangDllName;
 
 	wxBoxSizer * Research_Holder_LangDllDescription;
 	wxStaticText * Research_Text_LangDllDescription;
-	TextCtrl_Short * Research_LangDllDescription;
+	TextCtrl_UnShort * Research_LangDllDescription;
 	wxStaticText * Research_DLL_LangDllDescription;
 
 	wxBoxSizer * Research_Holder_ResearchTime;
@@ -1054,9 +1054,9 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Units_Type;
 	wxOwnerDrawnComboBox * Units_ComboBox_Type;
 	TextCtrl_Short * Units_ID1;
-	TextCtrl_Short * Units_LanguageDllName;
+	TextCtrl_UnShort * Units_LanguageDllName;
 	wxStaticText * Units_DLL_LanguageDllName;
-	TextCtrl_Short * Units_LanguageDllCreation;
+	TextCtrl_UnShort * Units_LanguageDllCreation;
 	wxStaticText * Units_DLL_LanguageDllCreation;
 	TextCtrl_Short * Units_Class;
 	ComboBox_Short * Units_ComboBox_Class[3];
