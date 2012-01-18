@@ -2246,16 +2246,7 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent& Event)
 	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if(Event.GetId() == Research_LangDllName->GetId())
-		{
-			ListResearches();
-		}
-		else if(Event.GetId() == Research_LangDllDescription->GetId())
-		{
-			wxCommandEvent E;
-			OnResearchSelect(E);
-		}
-		else if(Event.GetId() == Effects_A->GetId() || Event.GetId() == Effects_B->GetId() || Event.GetId() == Effects_C->GetId())
+		if(Event.GetId() == Effects_A->GetId() || Event.GetId() == Effects_B->GetId() || Event.GetId() == Effects_C->GetId())
 		{
 			wxCommandEvent E;
 			OnEffectsSelect(E);
@@ -2272,7 +2263,16 @@ void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent& Event)
 	((TextCtrl_UnShort*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_UnShort*)Event.GetEventObject())->NoLoadList)
 	{
-		if(Event.GetId() == Graphics_AngleCount->GetId())
+		if(Event.GetId() == Research_LangDllName->GetId())
+		{
+			ListResearches();
+		}
+		else if(Event.GetId() == Research_LangDllDescription->GetId())
+		{
+			wxCommandEvent E;
+			OnResearchSelect(E);
+		}
+		else if(Event.GetId() == Graphics_AngleCount->GetId())
 		{
 			if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
 			{
@@ -2296,16 +2296,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
-		if(Event.GetId() == Units_LanguageDllName->GetId())
-		{
-			ListUnits(UnitCivID);
-		}
-		else if(Event.GetId() == Units_LanguageDllCreation->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);
-		}
-		else if(Event.GetId() == Attacks_Amount->GetId())
+		if(Event.GetId() == Attacks_Amount->GetId())
 		{
 			ListUnitAttacks(UnitID, UnitCivID);
 		}
@@ -2337,7 +2328,16 @@ void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event)
 			OnUnitsCopy(E);
 			OnUnitsPaste(E);
 		}
-		if(Event.GetId() == Units_LanguageDllHelp->GetId())
+		if(Event.GetId() == Units_LanguageDllName->GetId())
+		{
+			ListUnits(UnitCivID);
+		}
+		else if(Event.GetId() == Units_LanguageDllCreation->GetId())
+		{
+			wxCommandEvent E;
+			OnUnitsSelect(E);
+		}
+		else if(Event.GetId() == Units_LanguageDllHelp->GetId())
 		{
 			wxCommandEvent E;
 			OnUnitsSelect(E);
