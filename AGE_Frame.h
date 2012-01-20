@@ -1,15 +1,24 @@
 /* AGE_Frame.h */
 
+#include <boost/lexical_cast.hpp>
 #include "wx/wx.h"
 #include "wx/fileconf.h"
 #include "wx/notebook.h"
 #include "wx/aboutdlg.h"
 #include "wx/hyperlink.h"
+#include "wx/filename.h"
 #include "wx/tooltip.h"
+#include "windows.h"
 #include "geniedat/File.h"	// New dat system
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
+#include "AGE_OpenDialog.h"
+#include "AGE_SaveDialog.h"
+#include "AGE_AboutDialog.h"
+#include "AppIcon.xpm"
+#include "GateOpen.xpm"
+#include "GateClosed.xpm"
 
 #ifndef AGEFrame_h
 #define AGEFrame_h
