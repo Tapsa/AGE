@@ -1,7 +1,6 @@
 /* Main.cpp */
 
 #include "Main.h"
-#include "wx/busyinfo.h"
 
 IMPLEMENT_APP(AGE)
 

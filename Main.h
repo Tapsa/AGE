@@ -1,6 +1,5 @@
 /* Main.h */
 
-#include "wx/wx.h"
 #include "AGE_Frame.h"
 
 #ifndef Main_h
