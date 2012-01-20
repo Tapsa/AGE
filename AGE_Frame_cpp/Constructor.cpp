@@ -1,15 +1,7 @@
 /* AGEFrame_cpp/Constructor.cpp */
 
 #include "../AGE_Frame.h"
-#include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
-#include "../AppIcon.xpm"
-#include "../Villie.xpm"
-#include "../Tech.xpm"
-#include "../TC.xpm"
-#include "../AoK.xpm"
-#include "../GateOpen.xpm"
-#include "../GateClosed.xpm"
 
 AGE_Frame::AGE_Frame(const wxString& title)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))

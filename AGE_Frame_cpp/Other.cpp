@@ -1,14 +1,7 @@
 /* AGEFrame_cpp/Other.cpp */
 
 #include "../AGE_Frame.h"
-#include "../AGE_OpenDialog.h"
-#include "../AGE_SaveDialog.h"
-#include "../AGE_AboutDialog.h"
-#include <stdio.h>
-#include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
-#include "wx/filename.h"
-#include "windows.h"
 
 void AGE_Frame::OnOpen(wxCommandEvent& Event)
 {

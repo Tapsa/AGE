@@ -1,10 +1,7 @@
 /* AGEFrame_cpp/General.cpp */
 
 #include "../AGE_Frame.h"
-#include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
-#include <cctype>
-using std::tolower;
 
 void AGE_Frame::ListGeneral()
 {

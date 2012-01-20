@@ -1,10 +1,7 @@
 /* AGEFrame_cpp/Graphics.cpp */
 
 #include "../AGE_Frame.h"
-#include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
-#include <cctype>
-using std::tolower;
 
 string AGE_Frame::GetGraphicName(short Index, bool Filter)
 {

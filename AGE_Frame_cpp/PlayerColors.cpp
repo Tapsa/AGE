@@ -1,10 +1,7 @@
 /* AGEFrame_cpp/PlayerColors.cpp */
 
 #include "../AGE_Frame.h"
-#include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
-#include <cctype>
-using std::tolower;
 
 string AGE_Frame::GetPlayerColorName(short Index)
 {
