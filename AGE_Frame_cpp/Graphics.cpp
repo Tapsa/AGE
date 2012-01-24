@@ -683,7 +683,7 @@ void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent& Event)
 void AGE_Frame::CreateGraphicsControls()
 {
 
-	Tab_Graphics = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Graphics = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_ListArea = new wxBoxSizer(wxVERTICAL);
 	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Graphics");

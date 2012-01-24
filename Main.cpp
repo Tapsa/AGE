@@ -9,7 +9,7 @@ bool AGE::OnInit()
 	{
 		wxBusyCursor Wait;
 		MainWindow = new AGE_Frame("Advanced Genie Editor");
-		MainWindow->SetSize(900, 700);
+		MainWindow->SetSize(900, 730);
 		MainWindow->Show(true);
 		SetTopWindow(MainWindow);
 	}

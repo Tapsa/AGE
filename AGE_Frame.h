@@ -644,6 +644,8 @@ class AGE_Frame : public wxFrame
 	wxMenu * SubMenu_Help;
 
 	wxNotebook * TabBar_Main;
+	wxNotebook * TabBar_Data;
+	wxNotebook * TabBar_Test;
 
 	wxPanel * Tab_General;
 	wxPanel * Tab_Research;
