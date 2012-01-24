@@ -301,7 +301,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent& Event)
 void AGE_Frame::CreateTerrainRestrictionControls()
 {
 
-	Tab_TerrainRestrictions = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_TerrainRestrictions = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	TerRestrict_Main = new wxBoxSizer(wxHORIZONTAL);
 	TerRestrict_ListArea = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_TerRestrict_Buttons = new wxGridSizer(2, 0, 0);

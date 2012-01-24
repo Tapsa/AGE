@@ -978,7 +978,7 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::CreateTechageControls()
 {
-	Tab_Techage = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Techage = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Techs_Main = new wxBoxSizer(wxHORIZONTAL);
 	Techs_ListArea = new wxBoxSizer(wxVERTICAL);

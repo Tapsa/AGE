@@ -215,7 +215,7 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent& Event)
 
 void AGE_Frame::CreateTerrainBorderControls()
 {
-	Tab_TerrainBorders = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_TerrainBorders = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Borders_Main = new wxBoxSizer(wxHORIZONTAL);
 	Borders_ListArea = new wxBoxSizer(wxVERTICAL);

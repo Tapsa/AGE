@@ -9,6 +9,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	TabBar_Data = new wxNotebook(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	TabBar_Test = new wxNotebook(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Config = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
@@ -92,20 +94,23 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	CreateTerrainBorderControls();
 	CreateGeneralControls();
 
-	TabBar_Main->AddPage(Tab_General, "General");
-	TabBar_Main->AddPage(Tab_Research, "Researches");
-	TabBar_Main->AddPage(Tab_Techage, "Technologies");
-	TabBar_Main->AddPage(Tab_TechTrees, "Tech. Trees");
-	TabBar_Main->AddPage(Tab_Civs, "Civilizations");
-	TabBar_Main->AddPage(Tab_Units, "Units");
-	TabBar_Main->AddPage(Tab_UnitLine, "Unitline");
-	TabBar_Main->AddPage(Tab_Graphics, "Graphics");
-	TabBar_Main->AddPage(Tab_Terrains, "Terrains");
-	TabBar_Main->AddPage(Tab_TerrainBorders, "Terrain Borders");
-	TabBar_Main->AddPage(Tab_TerrainRestrictions, "Terrain Restrictions");
-	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
-	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
-	TabBar_Main->SetSelection(5);
+	TabBar_Main->AddPage(TabBar_Data, "Data");
+	TabBar_Main->AddPage(TabBar_Test, "Test");
+	
+	TabBar_Data->AddPage(Tab_General, "General");
+	TabBar_Data->AddPage(Tab_Research, "Researches");
+	TabBar_Data->AddPage(Tab_Techage, "Technologies");
+	TabBar_Data->AddPage(Tab_TechTrees, "Tech. Trees");
+	TabBar_Data->AddPage(Tab_Civs, "Civilizations");
+	TabBar_Data->AddPage(Tab_Units, "Units");
+	TabBar_Data->AddPage(Tab_UnitLine, "Unitline");
+	TabBar_Data->AddPage(Tab_Graphics, "Graphics");
+	TabBar_Data->AddPage(Tab_Terrains, "Terrains");
+	TabBar_Data->AddPage(Tab_TerrainBorders, "Terrain Borders");
+	TabBar_Data->AddPage(Tab_TerrainRestrictions, "Terrain Restrictions");
+	TabBar_Data->AddPage(Tab_Sounds, "Sounds");
+	TabBar_Data->AddPage(Tab_PlayerColors, "Player Colors");
+	TabBar_Data->SetSelection(5);
 
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
