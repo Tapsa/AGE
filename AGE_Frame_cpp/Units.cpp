@@ -1570,7 +1570,7 @@ void AGE_Frame::UnitsGraphicsCopy(short Size, short loop, short Fix)
 
 void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent& Event)
 {
-	if(Units_SpecialCopy_Civs->GetValue() == true)
+	if(Units_SpecialCopy_Civs->GetValue())
 	{
 		UnitsGraphicsCopy(GenieFile->Civs.size());
 	}
@@ -1654,7 +1654,7 @@ void AGE_Frame::UnitsGraphicsPaste(short Size, short loop, short Fix)
 
 void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent& Event)
 {
-	if(Units_SpecialCopy_Civs->GetValue() == true)
+	if(Units_SpecialCopy_Civs->GetValue())
 	{
 		UnitsGraphicsPaste(GenieFile->Civs.size());
 	}
@@ -3197,8 +3197,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_DLL_HotKey4 = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxALIGN_CENTRE | wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
 	Units_Unknown4 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_Unknown5 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	Units_Unselectable = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	Units_CheckBox_Unselectable = new CheckBox_Byte(Units_Scroller, "Unselectable", Units_Unselectable);
+	Units_Unselectable = new TextCtrl_Bool(Units_Scroller, "0", NULL);
+	Units_CheckBox_Unselectable = new CheckBox_Bool(Units_Scroller, "Unselectable", Units_Unselectable);
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
@@ -3274,7 +3274,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_StopSound = new ComboBox_Short(Units_Scroller, Units_StopSound);
 	Units_AnimalMode = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	Units_CheckBox_AnimalMode = new CheckBox_Byte(Units_Scroller, "Animal Mode", Units_AnimalMode);
-	Units_Exists = new TextCtrl_Byte(Units_Scroller, "0", NULL);
+	Units_Exists = new TextCtrl_Bool(Units_Scroller, "0", NULL);
 
 //	Type 60+
 
@@ -4950,7 +4950,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackMissileDuplicationAmount1->Connect(Units_AttackMissileDuplicationAmount1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 	Units_GarrisonHealRate->Connect(Units_GarrisonHealRate->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 
-	Units_Unselectable->Connect(Units_Unselectable->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte), NULL, this);
+	Units_Unselectable->Connect(Units_Unselectable->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool), NULL, this);
 	
 	Units_AttackMissileDuplicationUnit->Connect(Units_AttackMissileDuplicationUnit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong), NULL, this);
 	Units_AttackMissileDuplicationGraphic->Connect(Units_AttackMissileDuplicationGraphic->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong), NULL, this);
@@ -5068,7 +5068,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_HeroMode->Connect(Units_CheckBox_HeroMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_Enabled->Connect(Units_CheckBox_Enabled->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort), NULL, this);
 	Units_CheckBox_SheepConversion->Connect(Units_CheckBox_SheepConversion->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion), NULL, this);
-	Units_CheckBox_Unselectable->Connect(Units_CheckBox_Unselectable->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
+	Units_CheckBox_Unselectable->Connect(Units_CheckBox_Unselectable->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool), NULL, this);
 	Units_CheckBox_AnimalMode->Connect(Units_CheckBox_AnimalMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_TowerMode->Connect(Units_CheckBox_TowerMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_AdjacentMode->Connect(Units_CheckBox_AdjacentMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort), NULL, this);
