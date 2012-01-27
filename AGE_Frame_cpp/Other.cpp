@@ -2214,6 +2214,20 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event)
 	}
 }
 
+void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event)
+{
+	((CheckBox_Bool*)((TextCtrl_Bool*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
+	if(!((TextCtrl_Bool*)Event.GetEventObject())->NoLoadList)
+	{
+		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		{
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
+		}
+	}
+}
+
 void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event)
 {
 	((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
@@ -2854,6 +2868,17 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 		SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
 		OnTempBackup();
 	}*/
+}
+
+void AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event)
+{
+	((CheckBox_Bool*)Event.GetEventObject())->OnUpdate(Event);
+	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+	{
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
+	}
 }
 
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event)

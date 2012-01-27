@@ -2,6 +2,43 @@
 
 #include "AGE_TextControls.h"
 
+void TextCtrl_Bool::OnKillFocus(wxFocusEvent& Event)
+{
+	wxString Value = GetValue().c_str();
+	NoLoadList = false;
+	if(Container == NULL)
+	{
+	    NoLoadList = true;
+	}
+	else if(Value.size() > 0)
+	{
+		try
+		{
+			if(*((bool*)Container) != lexical_cast<bool>(Value))
+			{
+			    *((bool*)Container) = lexical_cast<bool>(Value);
+			}
+			else
+			{
+				NoLoadList = true;
+			}
+		}
+		catch(bad_lexical_cast e)
+		{
+			NoLoadList = true;
+		    wxMessageBox("Invalid entry!\nPlease enter 0 or 1");
+		    SetFocus();
+		}
+	}
+	else
+	{
+		NoLoadList = true;
+	    wxMessageBox("Empty entry!\nPlease enter 0 or 1");
+	    SetFocus();
+	}
+//	Event.Skip();
+}
+
 void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
@@ -35,7 +72,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 		catch(bad_lexical_cast e)
 		{
 			NoLoadList = true;
-		    wxMessageBox("Incorrect entry!\nPlease enter a number from -128 to 127");
+		    wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
 		    SetFocus();
 		}
 	}
@@ -60,9 +97,9 @@ void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 	{
 		try
 	    {
-			if(*Container != lexical_cast<float>(Value))
+			if(*((float*)Container) != lexical_cast<float>(Value))
 			{
-			    *Container = lexical_cast<float>(Value);
+			    *((float*)Container) = lexical_cast<float>(Value);
 			}
 			else
 			{
@@ -232,6 +269,14 @@ void TextCtrl_String::OnKillFocus(wxFocusEvent& Event)	// This may crash the pro
 	    SetFocus();
 	}
 //	Event.Skip();
+}
+
+TextCtrl_Bool::TextCtrl_Bool(wxWindow * parent, string InitValue, bool * Pointer)
+: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+{
+	Container = Pointer;
+	this->SetBackgroundColour(wxColour(255, 255, 205));
+	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Bool::OnKillFocus));	// Must-have
 }
 
 TextCtrl_Byte::TextCtrl_Byte(wxWindow * parent, string InitValue, void * Pointer)

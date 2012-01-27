@@ -2,6 +2,27 @@
 
 #include "AGE_TextControls.h"
 
+#ifndef CheckBox_Bool_h
+#define CheckBox_Bool_h
+
+class CheckBox_Bool : public wxCheckBox
+{
+	public:
+
+	CheckBox_Bool(wxWindow * parent, string InitValue, TextCtrl_Bool * value);
+
+	/* Events */
+
+	void OnUpdate(wxCommandEvent& Event);
+	void OnKillFocus(wxFocusEvent& Event);
+
+	/* Member Variables */
+
+	TextCtrl_Bool * Container;
+};
+
+#endif
+
 #ifndef CheckBox_Byte_h
 #define CheckBox_Byte_h
 

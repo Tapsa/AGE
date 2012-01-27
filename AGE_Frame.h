@@ -84,6 +84,7 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_CheckBoxLong0Y(wxFocusEvent& Event);
 	void OnKillFocus_CheckBoxFloat(wxFocusEvent& Event);
 	
+	void OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxByteUnitType(wxFocusEvent& Event);
@@ -110,6 +111,7 @@ class AGE_Frame : public wxFrame
 	void OnUpdate_AutoCopy_ComboBoxByteUnitType(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event);
+	void OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent& Event);
@@ -1123,8 +1125,8 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_DLL_HotKey4;
 	TextCtrl_Byte * Units_Unknown4;
 	TextCtrl_Byte * Units_Unknown5;
-	TextCtrl_Byte * Units_Unselectable;
-	CheckBox_Byte * Units_CheckBox_Unselectable;
+	TextCtrl_Bool * Units_Unselectable;
+	CheckBox_Bool * Units_CheckBox_Unselectable;
 	TextCtrl_Byte * Units_Unknown6;
 	TextCtrl_Byte * Units_Unknown7;
 	TextCtrl_Byte * Units_Unknown8;
@@ -1191,7 +1193,7 @@ class AGE_Frame : public wxFrame
 	ComboBox_Short * Units_ComboBox_StopSound;
 	TextCtrl_Byte * Units_AnimalMode;
 	CheckBox_Byte * Units_CheckBox_AnimalMode;
-	TextCtrl_Byte * Units_Exists;
+	TextCtrl_Bool * Units_Exists;
 	TextCtrl_Short * Units_CommandCount;
 
 //	Type 60+
