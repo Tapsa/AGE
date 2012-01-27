@@ -2,6 +2,14 @@
 
 #include "AGE_CheckBoxes.h"
 
+void CheckBox_Bool::OnUpdate(wxCommandEvent& Event)
+{
+	Container->ChangeValue(lexical_cast<string>((bool)GetValue()));
+
+	wxFocusEvent Temp;
+	Container->OnKillFocus(Temp);
+}
+
 void CheckBox_Byte::OnUpdate(wxCommandEvent& Event)
 {
 	Container->ChangeValue(lexical_cast<string>((short)GetValue()));
@@ -56,6 +64,16 @@ void CheckBox_Long_ZeroIsYes::OnUpdate(wxCommandEvent& Event)
 	
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
+}
+
+void CheckBox_Bool::OnKillFocus(wxFocusEvent& Event)
+{
+	((TextCtrl_Bool*)Event.GetEventObject())->OnKillFocus(Event);
+	if(!((TextCtrl_Bool*)Event.GetEventObject())->NoLoadList)
+	{
+		bool Value = lexical_cast<bool>(((TextCtrl_Bool*)Event.GetEventObject())->GetValue());
+		((CheckBox_Bool*)((TextCtrl_Bool*)Event.GetEventObject())->ParentContainer)->SetValue(Value);
+	}
 }
 
 void CheckBox_Byte::OnKillFocus(wxFocusEvent& Event)
@@ -138,6 +156,18 @@ void CheckBox_Long_ZeroIsYes::OnKillFocus(wxFocusEvent& Event)
 			break;
 		}
 	}
+}
+
+CheckBox_Bool::CheckBox_Bool(wxWindow * parent, string InitValue, TextCtrl_Bool * Pointer)
+: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+{
+	Container = Pointer;
+	Container->ParentContainer = this;
+
+	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Bool::OnKillFocus));
+	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Bool::OnKillFocus), this);
+
+	Connect(this->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Bool::OnUpdate));
 }
 
 CheckBox_Byte::CheckBox_Byte(wxWindow * parent, string InitValue, TextCtrl_Byte * Pointer)

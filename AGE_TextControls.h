@@ -10,6 +10,28 @@ using boost::bad_lexical_cast;
 //	The purpose of these custom text controls is that you get specified error messages
 //	when your mouse cursor focus gets off from a data edit box.
 
+#ifndef TextCtrl_Bool_h
+#define TextCtrl_Bool_h
+
+class TextCtrl_Bool : public wxTextCtrl
+{
+	public:
+	
+	TextCtrl_Bool(wxWindow*, string, bool*);
+	
+	/* Events */
+	
+	void OnKillFocus(wxFocusEvent& Event);
+	
+	/* Member Variables */
+	
+	bool * Container;
+	void * ParentContainer;
+	bool NoLoadList;
+};
+
+#endif
+
 #ifndef TextCtrl_Byte_h
 #define TextCtrl_Byte_h
 
@@ -25,7 +47,7 @@ class TextCtrl_Byte : public wxTextCtrl
 	
 	/* Member Variables */
 	
-	void * Container;	// chars and bools (1 byte).
+	void * Container;
 	void * ParentContainer;	//	These are for check and combo boxes.
 	bool NoLoadList;
 };
