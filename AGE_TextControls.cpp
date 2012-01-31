@@ -32,9 +32,7 @@ void TextCtrl_Bool::OnKillFocus(wxFocusEvent& Event)
 	}
 	else
 	{
-		NoLoadList = true;
-	    wxMessageBox("Empty entry!\nPlease enter 0 or 1");
-	    SetFocus();
+		ChangeValue(lexical_cast<string>(*Container));
 	}
 //	Event.Skip();
 }
@@ -78,9 +76,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 	}
 	else
 	{
-		NoLoadList = true;
-	    wxMessageBox("Empty entry!\nPlease enter a number from -128 to 127");
-	    SetFocus();
+		ChangeValue(lexical_cast<string>((short)*Container));
 	}
 //	Event.Skip();
 }
@@ -115,9 +111,7 @@ void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 	}
 	else
 	{
-		NoLoadList = true;
-	    wxMessageBox("Empty entry!\nPlease enter a valid floating point number");
-	    SetFocus();
+		ChangeValue(lexical_cast<string>(*Container));
 	}
 //	Event.Skip();
 }
@@ -152,9 +146,7 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 	}
 	else
 	{
-		NoLoadList = true;
-		wxMessageBox("Empty entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
-		SetFocus();
+		ChangeValue(lexical_cast<string>(*Container));
 	}
 //	Event.Skip();
 }
@@ -189,9 +181,7 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 	}
 	else
 	{
-		NoLoadList = true;
-		wxMessageBox("Empty entry!\nPlease enter a number from -32 768 to 32 767");
-		SetFocus();
+		ChangeValue(lexical_cast<string>(*Container));
 	}
 //	Event.Skip();
 }
@@ -226,9 +216,7 @@ void TextCtrl_UnShort::OnKillFocus(wxFocusEvent& Event)
 	}
 	else
 	{
-		NoLoadList = true;
-		wxMessageBox("Empty entry!\nPlease enter a number from 0 to 65 535");
-		SetFocus();
+		ChangeValue(lexical_cast<string>(*Container));
 	}
 //	Event.Skip();
 }
@@ -279,7 +267,7 @@ TextCtrl_Bool::TextCtrl_Bool(wxWindow * parent, string InitValue, bool * Pointer
 	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Bool::OnKillFocus));	// Must-have
 }
 
-TextCtrl_Byte::TextCtrl_Byte(wxWindow * parent, string InitValue, void * Pointer)
+TextCtrl_Byte::TextCtrl_Byte(wxWindow * parent, string InitValue, char * Pointer)
 : wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;

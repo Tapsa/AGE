@@ -39,7 +39,7 @@ class TextCtrl_Byte : public wxTextCtrl
 {
 	public:
 	
-	TextCtrl_Byte(wxWindow*, string, void*);
+	TextCtrl_Byte(wxWindow*, string, char*);
 	
 	/* Events */
 	
@@ -47,7 +47,7 @@ class TextCtrl_Byte : public wxTextCtrl
 	
 	/* Member Variables */
 	
-	void * Container;
+	char * Container;
 	void * ParentContainer;	//	These are for check and combo boxes.
 	bool NoLoadList;
 };
