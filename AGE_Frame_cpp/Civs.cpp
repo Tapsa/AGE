@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetCivName(short Index)
+string AGE_Frame::GetCivName(short &Index)
 {
 	string Name = "";
 	Name = GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
@@ -74,7 +74,7 @@ void AGE_Frame::ListCivs(bool Sized)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetCivName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			Civs_Civs_List->Append(Name, (void*)&GenieFile->Civs[loop]);
 		}
@@ -137,7 +137,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 		Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->GraphicSet));
 		Civs_GraphicSet->Container = &CivPointer->GraphicSet;
 		Added = false;
-		ListResources(CivID);
+		ListResources();
 	}
 }
 
@@ -184,7 +184,7 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetResourceName(short Index, short CivID)
+string AGE_Frame::GetResourceName(short &Index)
 {
 	string Name = "";
 	if(Index == 0)
@@ -731,10 +731,10 @@ string AGE_Frame::GetResourceName(short Index, short CivID)
 
 void AGE_Frame::OnResourcesSearch(wxCommandEvent& Event)
 {
-	ListResources(CivID, false);
+	ListResources(false);
 }
 	
-void AGE_Frame::ListResources(short Index, bool Sized)
+void AGE_Frame::ListResources(bool Sized)
 {
 	string Name;
 	SearchText = wxString(Civs_Resources_Search->GetValue()).Lower();
@@ -817,17 +817,17 @@ void AGE_Frame::ListResources(short Index, bool Sized)
 		Effects_ComboBox_ResourcesB->Append("-1 - None");
 	}
 	
-	for(short loop = 0;loop < GenieFile->Civs[Index].Resources.size();loop++)
+	for(short loop = 0;loop < GenieFile->Civs[CivID].Resources.size();loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - Value: "+lexical_cast<string>(GenieFile->Civs[Index].Resources[loop])+" - "+GetResourceName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - Value: "+lexical_cast<string>(GenieFile->Civs[CivID].Resources[loop])+" - "+GetResourceName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
-			Civs_Resources_List->Append(Name, (void*)&GenieFile->Civs[Index].Resources[loop]);
+			Civs_Resources_List->Append(Name, (void*)&GenieFile->Civs[CivID].Resources[loop]);
 		}
 		if(Sized)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetResourceName(loop, 0);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetResourceName(loop);
 			for(short loop = 0;loop < 3;loop++)
 			{
 				Units_ComboBox_CostType[loop]->Append(Name);
@@ -889,7 +889,7 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent& Event)
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		GenieFile->Civs[loop].Resources.push_back(Temp);
 		Added = true;
-		ListResources(CivID);
+		ListResources();
 	}
 }
 
@@ -903,7 +903,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent& Event)
 		GenieFile->Civs[loop].Resources.erase(GenieFile->Civs[loop].Resources.begin() + ResourceID);
 		if(Selection == Civs_Resources_List->GetCount() - 1)
 		Civs_Resources_List->SetSelection(Selection - 1);
-		ListResources(CivID);
+		ListResources();
 	}
 }
 
@@ -923,7 +923,7 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(float*)Civs_Resources_List->GetClientData(Selection) = ResourceCopy;
-		ListResources(CivID);
+		ListResources();
 	}
 }
 

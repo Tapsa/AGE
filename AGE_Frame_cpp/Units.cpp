@@ -5,10 +5,14 @@ using boost::lexical_cast;
 
 void AGE_Frame::OnUnitSubList(wxCommandEvent& Event)
 {
-	ListUnits(Units_Civs_List->GetSelection(), false);	// List units by selected civ.
+	short Selection = Units_Civs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		ListUnits(Selection, false);	// List units by selected civ.
+	}
 }
 
-string AGE_Frame::GetUnitName(short UnitID, short UnitCivID, bool Filter)
+string AGE_Frame::GetUnitName(short &UnitID, short &UnitCivID, bool Filter)
 {
 	string Name = "";
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitID] == 0)
@@ -73,7 +77,7 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent& Event)
 }
 
 // Following void thing is a series of lists for user interface.
-void AGE_Frame::ListUnits(short UnitCivID, bool Sized)
+void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 {
 	string Name;
 	SearchText = wxString(Units_Units_Search->GetValue()).Lower();
@@ -300,13 +304,13 @@ void AGE_Frame::ListUnits(short UnitCivID, bool Sized)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, UnitCivID, true);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[loop]);
 		}
 		if(Sized)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0, false);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, zero);
 			Units_ComboBox_DeadUnitID->Append(Name);
 			Units_ComboBox_ProjectileUnitID->Append(Name);
 			Units_ComboBox_AttackMissileDuplicationUnit->Append(Name);
@@ -410,7 +414,7 @@ void AGE_Frame::ListUnitHeads()
 	}
 	for(short loop = 0;loop < GenieFile->UnitHeaders.size();loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, CivSelection, false);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, CivSelection);
 		Units_UnitHeads_List->Append(Name, (void*)&GenieFile->UnitHeaders[loop]);
 	}
 	Units_UnitHeads_List->SetSelection(Selection);
@@ -1425,9 +1429,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_DLL_HotKey4->Wrap(Units_DLL_HotKey4->GetSize().GetWidth());
 		
 		Added = false;
-		ListUnitDamageGraphics(UnitID, UnitCivID);
-		ListUnitAttacks(UnitID, UnitCivID);
-		ListUnitArmors(UnitID, UnitCivID);
+		ListUnitDamageGraphics();
+		ListUnitAttacks();
+		ListUnitArmors();
 		if(GameVersion >= 2)	// AoK, TC, SWGB or CC
 		{	// Disabling this (unit headers) doesn't increase search speed.
 			Units_UnitHeads_List->SetSelection(UnitID); // Correct selection even when units are search filtered.
@@ -1437,7 +1441,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		else	// AoE or RoR
 		{
 			Units_UnitHeads_Name->SetLabel("");
-			ListUnitCommands(UnitID, UnitCivID);
+			ListUnitCommands();
 		}
 	//	Refresh(); // Too much lag.
 	}
@@ -1449,10 +1453,10 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		gdat::UnitHeader * UnitHeadPointer = (gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
-		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitID)+" - "+GetUnitName(UnitID, 0, false));
+		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitID)+" - "+GetUnitName(UnitID, zero));
 		Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
 		Units_Exists->Container = &UnitHeadPointer->Exists;
-		ListUnitCommands(UnitID, 0);
+		ListUnitCommands();
 	}
 }
 
@@ -1694,7 +1698,7 @@ void AGE_Frame::OnUnitsDisable(wxCommandEvent& Event)
 
 //	SubVectors
 
-string AGE_Frame::GetUnitDamageGraphicName(short Index, short UnitCivID, short UnitID)
+string AGE_Frame::GetUnitDamageGraphicName(short &Index)
 {
 	string Name = "";
 	Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[Index].DamagePercent);
@@ -1705,10 +1709,10 @@ string AGE_Frame::GetUnitDamageGraphicName(short Index, short UnitCivID, short U
 
 void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent& Event)
 {
-	ListUnitDamageGraphics(UnitID, UnitCivID);
+	ListUnitDamageGraphics();
 }
 
-void AGE_Frame::ListUnitDamageGraphics(short Index, short UnitCivID)
+void AGE_Frame::ListUnitDamageGraphics()
 {
 	string Name;
 	SearchText = wxString(Units_DamageGraphics_Search->GetValue()).Lower();
@@ -1724,13 +1728,13 @@ void AGE_Frame::ListUnitDamageGraphics(short Index, short UnitCivID)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].DamageGraphics.size();loop++)
+	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics.size();loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop, UnitCivID, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
-			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].DamageGraphics[loop]);
+			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[loop]);
 		}
 	}
 	Units_DamageGraphics_List->SetSelection(0);
@@ -1785,7 +1789,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitID].DamageGraphics.push_back(Temp);
 		}
 		Added = true;
-		ListUnitDamageGraphics(UnitID, UnitCivID);
+		ListUnitDamageGraphics();
 	}
 }
 
@@ -1801,7 +1805,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent& Event)
 		}
 		if(Selection == Units_DamageGraphics_List->GetCount() - 1)
 		Units_DamageGraphics_List->SetSelection(Selection - 1);
-		ListUnitDamageGraphics(UnitID, UnitCivID);
+		ListUnitDamageGraphics();
 	}
 }
 
@@ -1826,11 +1830,11 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[loop].Units[UnitID].DamageGraphics[DamageGraphicID] = DamageGraphicCopy;
 		}
-		ListUnitDamageGraphics(UnitID, UnitCivID);
+		ListUnitDamageGraphics();
 	}
 }
 
-string AGE_Frame::GetUnitAttackName(short Index, short UnitCivID, short UnitID)
+string AGE_Frame::GetUnitAttackName(short &Index)
 {
 	string Name = "";
 	Name += "Amount: ";
@@ -1842,10 +1846,10 @@ string AGE_Frame::GetUnitAttackName(short Index, short UnitCivID, short UnitID)
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent& Event)
 {
-	ListUnitAttacks(UnitID, UnitCivID);
+	ListUnitAttacks();
 }
 
-void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
+void AGE_Frame::ListUnitAttacks()
 {
 	string Name;
 	SearchText = wxString(Units_Attacks_Search->GetValue()).Lower();
@@ -1861,16 +1865,16 @@ void AGE_Frame::ListUnitAttacks(short Index, short UnitCivID)
 	{
 		Selection = 0;
 	}
-	if(GenieFile->Civs[UnitCivID].Units[Index].Type >= 60 && GenieFile->Civs[UnitCivID].Units[Index].Type <= 80)
+	if(GenieFile->Civs[UnitCivID].Units[UnitID].Type >= 60 && GenieFile->Civs[UnitCivID].Units[UnitID].Type <= 80)
 	{
 		Units_Attacks_Add->Enable(true);
-		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile.Attacks.size();loop++)
+		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks.size();loop++)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop, UnitCivID, Index);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
 			CompareText = wxString(Name).Lower();
-			if(SearchMatches(CompareText) == true)
+			if(SearchMatches(CompareText))
 			{
-				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile.Attacks[loop]);
+				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[loop]);
 			}
 		}
 	}
@@ -1925,7 +1929,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.push_back(Temp);
 		}
 		Added = true;
-		ListUnitAttacks(UnitID, UnitCivID);
+		ListUnitAttacks();
 	}
 }
 
@@ -1941,7 +1945,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 		}
 		if(Selection == Units_Attacks_List->GetCount() - 1)
 		Units_Attacks_List->SetSelection(Selection - 1);
-		ListUnitAttacks(UnitID, UnitCivID);
+		ListUnitAttacks();
 	}
 }
 
@@ -1966,11 +1970,11 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks[AttackID] = AttackCopy;
 		}
-		ListUnitAttacks(UnitID, UnitCivID);
+		ListUnitAttacks();
 	}
 }
 
-string AGE_Frame::GetUnitArmorName(short Index, short UnitCivID, short UnitID)
+string AGE_Frame::GetUnitArmorName(short &Index)
 {
 	string Name = "";
 	Name += "Amount: ";
@@ -1982,10 +1986,10 @@ string AGE_Frame::GetUnitArmorName(short Index, short UnitCivID, short UnitID)
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent& Event)
 {
-	ListUnitArmors(UnitID, UnitCivID);
+	ListUnitArmors();
 }
 
-void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
+void AGE_Frame::ListUnitArmors()
 {
 	string Name;
 	SearchText = wxString(Units_Armors_Search->GetValue()).Lower();
@@ -2001,16 +2005,16 @@ void AGE_Frame::ListUnitArmors(short Index, short UnitCivID)
 	{
 		Selection = 0;
 	}
-	if(GenieFile->Civs[UnitCivID].Units[Index].Type >= 60 && GenieFile->Civs[UnitCivID].Units[Index].Type <= 80)
+	if(GenieFile->Civs[UnitCivID].Units[UnitID].Type >= 60 && GenieFile->Civs[UnitCivID].Units[UnitID].Type <= 80)
 	{
 		Units_Armors_Add->Enable(true);
-		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Projectile.Armours.size();loop++)
+		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours.size();loop++)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop, UnitCivID, Index);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
 			CompareText = wxString(Name).Lower();
-			if(SearchMatches(CompareText) == true)
+			if(SearchMatches(CompareText))
 			{
-				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Projectile.Armours[loop]);
+				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[loop]);
 			}
 		}
 	}
@@ -2065,7 +2069,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.push_back(Temp);
 		}
 		Added = true;
-		ListUnitArmors(UnitID, UnitCivID);
+		ListUnitArmors();
 	}
 }
 
@@ -2081,7 +2085,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 		}
 		if(Selection == Units_Armors_List->GetCount() - 1)
 		Units_Armors_List->SetSelection(Selection - 1);
-		ListUnitArmors(UnitID, UnitCivID);
+		ListUnitArmors();
 	}
 }
 
@@ -2106,13 +2110,13 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours[ArmorID] = ArmorCopy;
 		}
-		ListUnitArmors(UnitID, UnitCivID);
+		ListUnitArmors();
 	}
 }
 
 //	AoE/TC/SWGB/CC Unit Commands
 
-string AGE_Frame::GetUnitCommandName(short Index, short UnitCivID, short UnitID)
+string AGE_Frame::GetUnitCommandName(short &Index)
 {
 	string Name = "";
 	short CommandType = -1;
@@ -2256,10 +2260,10 @@ string AGE_Frame::GetUnitCommandName(short Index, short UnitCivID, short UnitID)
 
 void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent& Event)
 {
-	ListUnitCommands(UnitID, UnitCivID);
+	ListUnitCommands();
 }
 
-void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
+void AGE_Frame::ListUnitCommands()
 {
 	string Name;
 	SearchText = wxString(Units_UnitCommands_Search->GetValue()).Lower();
@@ -2277,28 +2281,28 @@ void AGE_Frame::ListUnitCommands(short Index, short UnitCivID)
 	}
 	if(GameVersion >= 2)	// AoK, TC, SWGB or CC
 	{
-		for(short loop = 0;loop < GenieFile->UnitHeaders[Index].Commands.size();loop++)
+		for(short loop = 0;loop < GenieFile->UnitHeaders[UnitID].Commands.size();loop++)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop, 0, Index);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
 			CompareText = wxString(Name).Lower();
-			if(SearchMatches(CompareText) == true)
+			if(SearchMatches(CompareText))
 			{
-				Units_UnitCommands_List->Append(Name, (void*)&GenieFile->UnitHeaders[Index].Commands[loop]);
+				Units_UnitCommands_List->Append(Name, (void*)&GenieFile->UnitHeaders[UnitID].Commands[loop]);
 			}
 		}
 	}
 	else	// AoE or RoR
 	{
-		if(GenieFile->Civs[UnitCivID].Units[Index].Type >= 40 && GenieFile->Civs[UnitCivID].Units[Index].Type <= 80)
+		if(GenieFile->Civs[UnitCivID].Units[UnitID].Type >= 40 && GenieFile->Civs[UnitCivID].Units[UnitID].Type <= 80)
 		{
 			Units_UnitCommands_Add->Enable(true);
-			for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[Index].Bird.Commands.size();loop++)
+			for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands.size();loop++)
 			{
-				Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop, UnitCivID, Index);
+				Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
 				CompareText = wxString(Name).Lower();
-				if(SearchMatches(CompareText) == true)
+				if(SearchMatches(CompareText))
 				{
-					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[Index].Bird.Commands[loop]);
+					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[loop]);
 				}
 			}
 		}
@@ -2574,7 +2578,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 			}
 		}
 		Added = true;
-		ListUnitCommands(UnitID, UnitCivID);
+		ListUnitCommands();
 	}
 }
 
@@ -2605,7 +2609,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 		}
 		if(Selection == Units_UnitCommands_List->GetCount() - 1)
 		Units_UnitCommands_List->SetSelection(Selection - 1);
-		ListUnitCommands(UnitID, UnitCivID);
+		ListUnitCommands();
 	}
 }
 
@@ -2640,7 +2644,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[CommandID].ID = lexical_cast<short>(CommandID);	//	ID Fix
 			}
 		}
-		ListUnitCommands(UnitID, UnitCivID);
+		ListUnitCommands();
 	}
 }
 

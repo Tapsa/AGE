@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetGraphicName(short Index, bool Filter)
+string AGE_Frame::GetGraphicName(short &Index, bool Filter)
 {
 	string Name = "";
 	if(GenieFile->GraphicPointers[Index] == 0)
@@ -252,13 +252,13 @@ void AGE_Frame::ListGraphics(bool Sized)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
 		}
 		if(Sized)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, false);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop);
 			Units_ComboBox_ConstructionGraphicID->Append(Name);
 			Units_ComboBox_SnowGraphicID->Append(Name);
 			Units_ComboBox_AttackGraphic->Append(Name);
@@ -375,8 +375,8 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 		}
 		Graphics_TypeS->Container = &GraphicPointer->Type;
 		Added = false;
-		ListGraphicDeltas(GraphicID);
-		ListGraphicAttackSounds(GraphicID);
+		ListGraphicDeltas();
+		ListGraphicAttackSounds();
 	}
 }
 
@@ -448,7 +448,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetGraphicDeltaName(short Index, short GraphicID)
+string AGE_Frame::GetGraphicDeltaName(short &Index)
 {
 	string Name = "";
 	Name = "Graphic ID: ";
@@ -458,10 +458,10 @@ string AGE_Frame::GetGraphicDeltaName(short Index, short GraphicID)
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent& Event)
 {
-	ListGraphicDeltas(GraphicID);
+	ListGraphicDeltas();
 }
 
-void AGE_Frame::ListGraphicDeltas(short Index)
+void AGE_Frame::ListGraphicDeltas()
 {
 	string Name;
 	SearchText = wxString(Graphics_Deltas_Search->GetValue()).Lower();
@@ -477,13 +477,13 @@ void AGE_Frame::ListGraphicDeltas(short Index)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < GenieFile->Graphics[Index].Deltas.size();loop++)
+	for(short loop = 0;loop < GenieFile->Graphics[GraphicID].Deltas.size();loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
-			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[Index].Deltas[loop]);
+			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[GraphicID].Deltas[loop]);
 		}
 	}
 	Graphics_Deltas_List->SetSelection(0);
@@ -547,7 +547,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent& Event)
 		gdat::GraphicDelta Temp;
 		GenieFile->Graphics[GraphicID].Deltas.push_back(Temp);
 		Added = true;
-		ListGraphicDeltas(GraphicID);
+		ListGraphicDeltas();
 	}
 }
 
@@ -560,7 +560,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent& Event)
 		GenieFile->Graphics[GraphicID].Deltas.erase(GenieFile->Graphics[GraphicID].Deltas.begin() + DeltaID);
 		if(Selection == Graphics_Deltas_List->GetCount() - 1)
 		Graphics_Deltas_List->SetSelection(Selection - 1);
-		ListGraphicDeltas(GraphicID);
+		ListGraphicDeltas();
 	}
 }
 
@@ -580,11 +580,11 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(gdat::GraphicDelta*)Graphics_Deltas_List->GetClientData(Selection) = GraphicDeltaCopy;
-		ListGraphicDeltas(GraphicID);
+		ListGraphicDeltas();
 	}
 }
 
-string AGE_Frame::GetGraphicAttackSoundName(short Index, short GraphicID)
+string AGE_Frame::GetGraphicAttackSoundName(short &Index)
 {
 	string Name = "";
 	Name = "Attack Sound "+lexical_cast<string>(Index);
@@ -593,10 +593,10 @@ string AGE_Frame::GetGraphicAttackSoundName(short Index, short GraphicID)
 
 void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent& Event)
 {
-	ListGraphicAttackSounds(GraphicID);
+	ListGraphicAttackSounds();
 }
 
-void AGE_Frame::ListGraphicAttackSounds(short Index)
+void AGE_Frame::ListGraphicAttackSounds()
 {
 	string Name;
 //	SearchText = wxString(Graphics_AttackSounds_Search->GetValue()).Lower();
@@ -612,13 +612,13 @@ void AGE_Frame::ListGraphicAttackSounds(short Index)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < GenieFile->Graphics[Index].AttackSounds.size();loop++)
+	for(short loop = 0;loop < GenieFile->Graphics[GraphicID].AttackSounds.size();loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop);
 //		CompareText = wxString(Name).Lower();
-//		if(SearchMatches(CompareText) == true)
+//		if(SearchMatches(CompareText))
 //		{
-			Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[Index].AttackSounds[loop]);
+			Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[GraphicID].AttackSounds[loop]);
 //		}
 	}
 	Graphics_AttackSounds_List->SetSelection(0);
