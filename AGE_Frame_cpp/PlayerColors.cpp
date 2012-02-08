@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetPlayerColorName(short Index)
+string AGE_Frame::GetPlayerColorName(short &Index)
 {
 	string Name = "";
 	if(GameVersion <= 1)
@@ -40,7 +40,7 @@ void AGE_Frame::ListPlayerColors()
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
 		}

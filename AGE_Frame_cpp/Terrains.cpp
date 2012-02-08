@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetTerrainName(short Index)
+string AGE_Frame::GetTerrainName(short &Index)
 {
 	string Name = "";
 	if(GenieFile->Terrains[Index].Name != "")
@@ -97,7 +97,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
@@ -150,7 +150,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictID].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}

@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetTerrainBorderName(short Index)
+string AGE_Frame::GetTerrainBorderName(short &Index)
 {
 	string Name = "";
 	if(GenieFile->TerrainBorders[Index].Name == "" && GenieFile->TerrainBorders[Index].Name2 == "")
@@ -45,7 +45,7 @@ void AGE_Frame::ListTerrainBorders()
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			Borders_Borders_List->Append(Name, (void*)&GenieFile->TerrainBorders[loop]);
 		}
@@ -99,7 +99,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
 		Borders_ComboBox_BorderTerrain->SetSelection(BorderPointer->Unknown9 + 1);
 		Borders_BorderUnknown10->ChangeValue(lexical_cast<string>(BorderPointer->Unknown10));
 		Borders_BorderUnknown10->Container = &BorderPointer->Unknown10;
-		ListTerrainBorderFrames(BorderID);
+		ListTerrainBorderFrames();
 	}
 }
 
@@ -123,7 +123,7 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetTerrainBorderFrameName(short Index, short BorderID)
+string AGE_Frame::GetTerrainBorderFrameName(short &Index)
 {
 	string Name = "";
 	Name = "Frame ";
@@ -137,10 +137,10 @@ string AGE_Frame::GetTerrainBorderFrameName(short Index, short BorderID)
 
 void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent& Event)
 {
-	ListTerrainBorderFrames(BorderID);
+	ListTerrainBorderFrames();
 }
 
-void AGE_Frame::ListTerrainBorderFrames(short Index)
+void AGE_Frame::ListTerrainBorderFrames()
 {
 	string Name;
 	SearchText = wxString(Borders_Frames_Search->GetValue()).Lower();
@@ -159,13 +159,13 @@ void AGE_Frame::ListTerrainBorderFrames(short Index)
 		Selection = 0;
 	}
 	
-	for(short loop = 0;loop < GenieFile->TerrainBorders[Index].Frames.size();loop++)
+	for(short loop = 0;loop < GenieFile->TerrainBorders[BorderID].Frames.size();loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderFrameName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderFrameName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
-			Borders_Frames_List->Append(Name, (void*)&GenieFile->TerrainBorders[Index].Frames[loop]);
+			Borders_Frames_List->Append(Name, (void*)&GenieFile->TerrainBorders[BorderID].Frames[loop]);
 		}
 	}
 	
@@ -209,7 +209,7 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(gdat::TBFrameData*)Borders_Frames_List->GetClientData(Selection) = TBFrameDataCopy;
-		ListTerrainBorderFrames(BorderID);
+		ListTerrainBorderFrames();
 	}
 }
 
