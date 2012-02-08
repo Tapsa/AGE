@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetTerrainRestrictionName(short Index)
+string AGE_Frame::GetTerrainRestrictionName(short &Index)
 {
 	string Name = "";
 	Name = "Restriction "+lexical_cast<string>(Index);
@@ -136,7 +136,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainRestrictionName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			TerRestrict_TerRestrict_List->Append(Name, (void*)&GenieFile->TerrainRestrictions[loop]);
 		}

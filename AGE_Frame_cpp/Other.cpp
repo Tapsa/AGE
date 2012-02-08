@@ -796,7 +796,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			TechTrees_DataList_Researches_List_Researches->Clear();
 		}
 		ListCivs();
-		ListUnits();
+		ListUnits(zero);
 		if(GameVersion >= 4)
 		{
 			ListUnitLines();
@@ -1495,7 +1495,7 @@ string AGE_Frame::LanguageDllString(int ID)
 	return Result;
 }
 
-bool AGE_Frame::SearchMatches(string CompareText)
+bool AGE_Frame::SearchMatches(string &CompareText)
 {
 	bool Matches = false, And[2] = {true,true};
 	short Size = 30; // Maximum pieces for search text to be split.
@@ -1942,7 +1942,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		
 		if(GameVersion > 1)
 		{
-			ListUnitCommands(UnitID, 0);
+			ListUnitCommands();
 		}
 		else
 		{
@@ -1952,7 +1952,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 				OnUnitsCopy(E);
 				OnUnitsPaste(E);
 			}
-			ListUnitCommands(UnitID, UnitCivID);
+			ListUnitCommands();
 		}
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[0]->GetId())
@@ -2037,7 +2037,7 @@ void AGE_Frame::OnKillFocus_ComboBoxByteEffectType(wxFocusEvent& Event)
 	{
 		if(Event.GetId() == Effects_Type->GetId())
 		{
-			ListEffects(TechID);
+			ListEffects();
 		}
 	}
 }
@@ -2067,11 +2067,11 @@ void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent& Event)
 	{
 		if(Event.GetId() == GraphicDeltas_GraphicID->GetId())
 		{
-			ListGraphicDeltas(GraphicID);
+			ListGraphicDeltas();
 		}
 		else if(Event.GetId() == UnitLineUnits_Units->GetId())
 		{
-			ListUnitLineUnits(UnitLineID);
+			ListUnitLineUnits();
 		}
 	}
 }
@@ -2083,15 +2083,15 @@ void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent& Event)
 	{
 		if(Event.GetId() == TechTrees_Ages_Building->GetId())
 		{
-			ListTTAgesBuildings(TTAgeID);
+			ListTTAgesBuildings();
 		}
 		else if(Event.GetId() == TechTrees_Ages_Unit->GetId())
 		{
-			ListTTAgesUnits(TTAgeID);
+			ListTTAgesUnits();
 		}
 		else if(Event.GetId() == TechTrees_Ages_Research->GetId())
 		{
-			ListTTAgesResearches(TTAgeID);
+			ListTTAgesResearches();
 		}
 		else if(Event.GetId() == TechTrees_Buildings_ID->GetId())
 		{
@@ -2099,15 +2099,15 @@ void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == TechTrees_Buildings_Building->GetId())
 		{
-			ListTTBuildingBuildings(TTBuildingConnectionID);
+			ListTTBuildingBuildings();
 		}
 		else if(Event.GetId() == TechTrees_Buildings_Unit->GetId())
 		{
-			ListTTBuildingUnits(TTBuildingConnectionID);
+			ListTTBuildingUnits();
 		}
 		else if(Event.GetId() == TechTrees_Buildings_Research->GetId())
 		{
-			ListTTBuildingResearches(TTBuildingConnectionID);
+			ListTTBuildingResearches();
 		}
 		else if(Event.GetId() == TechTrees_Units_ID->GetId())
 		{
@@ -2115,7 +2115,7 @@ void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == TechTrees_Units_Unit->GetId())
 		{
-			ListTTUnitUnits(TTUnitConnectionID);
+			ListTTUnitUnits();
 		}
 		else if(Event.GetId() == TechTrees_Researches_ID->GetId())
 		{
@@ -2123,15 +2123,15 @@ void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == TechTrees_Researches_Building->GetId())
 		{
-			ListTTResearchBuildings(TTResearchConnectionID);
+			ListTTResearchBuildings();
 		}
 		else if(Event.GetId() == TechTrees_Researches_Unit->GetId())
 		{
-			ListTTResearchUnits(TTResearchConnectionID);
+			ListTTResearchUnits();
 		}
 		else if(Event.GetId() == TechTrees_Researches_Research->GetId())
 		{
-			ListTTResearchResearches(TTResearchConnectionID);
+			ListTTResearchResearches();
 		}
 		else if(Event.GetId() == TechTrees_Buildings_UnitOrResearch1->GetId() || Event.GetId() == TechTrees_Buildings_UnitOrResearch2->GetId())
 		{
@@ -2183,7 +2183,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == DamageGraphics_DamagePercent->GetId())
 		{
-			ListUnitDamageGraphics(UnitID, UnitCivID);
+			ListUnitDamageGraphics();
 		}
 		/*if(UseUndo)
 		{
@@ -2260,7 +2260,7 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == Borders_BorderFrameID->GetId() || Event.GetId() == Borders_BorderFlag1->GetId() || Event.GetId() == Borders_BorderFlag2->GetId())
 		{
-			ListTerrainBorderFrames(BorderID);
+			ListTerrainBorderFrames();
 		}
 	}
 }
@@ -2305,15 +2305,15 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == Attacks_Amount->GetId())
 		{
-			ListUnitAttacks(UnitID, UnitCivID);
+			ListUnitAttacks();
 		}
 		else if(Event.GetId() == Armors_Amount->GetId())
 		{
-			ListUnitArmors(UnitID, UnitCivID);
+			ListUnitArmors();
 		}
 		else if(Event.GetId() == UnitCommands_Type->GetId() || Event.GetId() == UnitCommands_SubType->GetId())
 		{
-			ListUnitCommands(UnitID, UnitCivID);
+			ListUnitCommands();
 		}
 		/*if(UseUndo)
 		{
@@ -2365,15 +2365,15 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == Attacks_Class->GetId())
 		{
-			ListUnitAttacks(UnitID, UnitCivID);
+			ListUnitAttacks();
 		}
 		else if(Event.GetId() == Armors_Class->GetId())
 		{
-			ListUnitArmors(UnitID, UnitCivID);
+			ListUnitArmors();
 		}
 		else if(Event.GetId() == DamageGraphics_GraphicID->GetId())
 		{
-			ListUnitDamageGraphics(UnitID, UnitCivID);
+			ListUnitDamageGraphics();
 		}
 		/*if(UseUndo)
 		{
@@ -2493,7 +2493,7 @@ void AGE_Frame::OnKillFocus_Float(wxFocusEvent& Event)
 	{
 		if(Event.GetId() == Civs_ResourceValue->GetId())
 		{
-			ListResources(CivID);
+			ListResources();
 		}
 		else if(Event.GetId() == Effects_D->GetId())
 		{
@@ -2615,7 +2615,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, GenieFile->Sounds[SoundID].Items[SoundItemID].getFileNameSize());
 			GenieFile->Sounds[SoundID].Items[SoundItemID].FileName = ReducedName;
 			
-			ListSoundItems(SoundID);
+			ListSoundItems();
 		}
 		else if(Event.GetId() == Colors_Name->GetId())
 		{
@@ -2695,7 +2695,7 @@ void AGE_Frame::OnUpdate_ComboBoxByteEffectType(wxCommandEvent& Event)
 	((ComboBox_Byte_EffectType*)Event.GetEventObject())->OnUpdate(Event);
 	if(Event.GetId() == Effects_ComboBox_Type->GetId())
 	{
-		ListEffects(TechID);
+		ListEffects();
 	}
 }
 
@@ -2741,11 +2741,11 @@ void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
 	}
 	else if(Event.GetId() == GraphicDeltas_ComboBox_GraphicID->GetId())
 	{
-		ListGraphicDeltas(GraphicID);
+		ListGraphicDeltas();
 	}
 	else if(Event.GetId() == UnitLineUnits_ComboBox_Units->GetId())
 	{
-		ListUnitLineUnits(UnitLineID);
+		ListUnitLineUnits();
 	}
 }
 
@@ -2760,15 +2760,15 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 	}
 	if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
 	{
-		ListUnitAttacks(UnitID, UnitCivID);
+		ListUnitAttacks();
 	}
 	else if(Event.GetId() == Attacks_ComboBox_Class[1]->GetId())
 	{
-		ListUnitArmors(UnitID, UnitCivID);
+		ListUnitArmors();
 	}
 	else if(Event.GetId() == DamageGraphics_ComboBox_GraphicID->GetId())
 	{
-		ListUnitDamageGraphics(UnitID, UnitCivID);
+		ListUnitDamageGraphics();
 	}
 	/*if(UseUndo)
 	{
@@ -2783,15 +2783,15 @@ void AGE_Frame::OnUpdate_ComboBoxLong(wxCommandEvent& Event)
 	((ComboBox_Long*)Event.GetEventObject())->OnUpdate(Event);
 	if(Event.GetId() == TechTrees_Ages_ComboBox_Building->GetId())
 	{
-		ListTTAgesBuildings(TTAgeID);
+		ListTTAgesBuildings();
 	}
 	else if(Event.GetId() == TechTrees_Ages_ComboBox_Unit->GetId())
 	{
-		ListTTAgesUnits(TTAgeID);
+		ListTTAgesUnits();
 	}
 	else if(Event.GetId() == TechTrees_Ages_ComboBox_Research->GetId())
 	{
-		ListTTAgesResearches(TTAgeID);
+		ListTTAgesResearches();
 	}
 	else if(Event.GetId() == TechTrees_Buildings_ComboBox_ID->GetId())
 	{
@@ -2799,15 +2799,15 @@ void AGE_Frame::OnUpdate_ComboBoxLong(wxCommandEvent& Event)
 	}
 	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Building->GetId())
 	{
-		ListTTBuildingBuildings(TTBuildingConnectionID);
+		ListTTBuildingBuildings();
 	}
 	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Unit->GetId())
 	{
-		ListTTBuildingUnits(TTBuildingConnectionID);
+		ListTTBuildingUnits();
 	}
 	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Research->GetId())
 	{
-		ListTTBuildingResearches(TTBuildingConnectionID);
+		ListTTBuildingResearches();
 	}
 	else if(Event.GetId() == TechTrees_Units_ComboBox_ID->GetId())
 	{
@@ -2815,7 +2815,7 @@ void AGE_Frame::OnUpdate_ComboBoxLong(wxCommandEvent& Event)
 	}
 	else if(Event.GetId() == TechTrees_Units_ComboBox_Unit->GetId())
 	{
-		ListTTUnitUnits(TTUnitConnectionID);
+		ListTTUnitUnits();
 	}
 	else if(Event.GetId() == TechTrees_Researches_ComboBox_ID->GetId())
 	{
@@ -2823,15 +2823,15 @@ void AGE_Frame::OnUpdate_ComboBoxLong(wxCommandEvent& Event)
 	}
 	else if(Event.GetId() == TechTrees_Researches_ComboBox_Building->GetId())
 	{
-		ListTTResearchBuildings(TTResearchConnectionID);
+		ListTTResearchBuildings();
 	}
 	else if(Event.GetId() == TechTrees_Researches_ComboBox_Unit->GetId())
 	{
-		ListTTResearchUnits(TTResearchConnectionID);
+		ListTTResearchUnits();
 	}
 	else if(Event.GetId() == TechTrees_Researches_ComboBox_Research->GetId())
 	{
-		ListTTResearchResearches(TTResearchConnectionID);
+		ListTTResearchResearches();
 	}
 }
 

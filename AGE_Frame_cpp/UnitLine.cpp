@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetUnitLineName(short Index)
+string AGE_Frame::GetUnitLineName(short &Index)
 {
 	string Name = "";
 	if(GenieFile->UnitLines[Index].Name != "")
@@ -56,7 +56,7 @@ void AGE_Frame::ListUnitLines()
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			UnitLines_UnitLines_List->Append(Name, (void*)&GenieFile->UnitLines[loop]);
 		}
@@ -89,7 +89,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
 		UnitLines_Name->ChangeValue(LinePointer->Name);
 		UnitLines_Name->Container = &LinePointer->Name;
 		Added = false;
-		ListUnitLineUnits(UnitLineID);
+		ListUnitLineUnits();
 	}
 }
 
@@ -140,7 +140,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetUnitLineUnitName(short Index, short UnitLineID)
+string AGE_Frame::GetUnitLineUnitName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineID].UnitIDs[Index])+" ";
@@ -161,10 +161,10 @@ string AGE_Frame::GetUnitLineUnitName(short Index, short UnitLineID)
 
 void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent& Event)
 {
-	ListUnitLineUnits(UnitLineID);
+	ListUnitLineUnits();
 }
 
-void AGE_Frame::ListUnitLineUnits(short Index)
+void AGE_Frame::ListUnitLineUnits()
 {
 	string Name;
 	SearchText = wxString(UnitLines_UnitLineUnits_Search->GetValue()).Lower();
@@ -180,13 +180,13 @@ void AGE_Frame::ListUnitLineUnits(short Index)
 	{
 		Selection = 0;
 	}
-	for(short loop = 0;loop < GenieFile->UnitLines[Index].UnitIDs.size();loop++)
+	for(short loop = 0;loop < GenieFile->UnitLines[UnitLineID].UnitIDs.size();loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(loop, Index);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(loop);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
-			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[Index].UnitIDs[loop]);
+			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[UnitLineID].UnitIDs[loop]);
 		}
 	}
 	UnitLines_UnitLineUnits_List->SetSelection(0);
@@ -229,7 +229,7 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent& Event)
 		short Temp = 0;
 		GenieFile->UnitLines[UnitLineID].UnitIDs.push_back(Temp);
 		Added = true;
-		ListUnitLineUnits(UnitLineID);
+		ListUnitLineUnits();
 	}
 }
 
@@ -242,7 +242,7 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent& Event)
 		GenieFile->UnitLines[UnitLineID].UnitIDs.erase(GenieFile->UnitLines[UnitLineID].UnitIDs.begin() + UnitLineUnitID);
 		if(Selection == UnitLines_UnitLineUnits_List->GetCount() - 1)
 		UnitLines_UnitLineUnits_List->SetSelection(Selection - 1);
-		ListUnitLineUnits(UnitLineID);
+		ListUnitLineUnits();
 	}
 }
 
@@ -262,7 +262,7 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(short*)UnitLines_UnitLineUnits_List->GetClientData(Selection) = UnitLineUnitCopy;
-		ListUnitLineUnits(UnitLineID);
+		ListUnitLineUnits();
 	}
 }
 

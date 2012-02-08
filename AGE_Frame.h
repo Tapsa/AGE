@@ -120,7 +120,7 @@ class AGE_Frame : public wxFrame
 
 //	bool FileExists(const char * value);
 	wxString SearchText, ExcludeText;
-	bool SearchMatches(string CompareText);
+	bool SearchMatches(string &CompareText);
 
 //	General Events
 
@@ -140,7 +140,7 @@ class AGE_Frame : public wxFrame
 	void OnResearchDelete(wxCommandEvent& Event);
 	void OnResearchCopy(wxCommandEvent& Event);
 	void OnResearchPaste(wxCommandEvent& Event);
-	string GetResearchName(short Index, bool Filter);
+	string GetResearchName(short &Index, bool Filter = false);
 
 //	Techage Events
 
@@ -153,16 +153,16 @@ class AGE_Frame : public wxFrame
 	void OnTechagePaste(wxCommandEvent& Event);
 	void OnTechageRename(wxCommandEvent& Event);
 	void OnTechageRenameGE2(wxCommandEvent& Event);
-	string GetTechageName(short Index);
+	string GetTechageName(short &Index);
 
-	void ListEffects(short Index);
+	void ListEffects();
 	void OnEffectsSearch(wxCommandEvent& Event);
 	void OnEffectsSelect(wxCommandEvent& Event);
 	void OnEffectsAdd(wxCommandEvent& Event);
 	void OnEffectsDelete(wxCommandEvent& Event);
 	void OnEffectsCopy(wxCommandEvent& Event);
 	void OnEffectsPaste(wxCommandEvent& Event);
-	string GetEffectName(short Index, short TechID);
+	string GetEffectName(short &Index);
 
 //	Tech Tree Events
 
@@ -173,34 +173,34 @@ class AGE_Frame : public wxFrame
 	void OnTTAgesDelete(wxCommandEvent& Event);
 	void OnTTAgesCopy(wxCommandEvent& Event);
 	void OnTTAgesPaste(wxCommandEvent& Event);
-	string GetTTAgesName(short Index);
+	string GetTTAgesName(short &Index);
 
-	void ListTTAgesBuildings(short Index);
+	void ListTTAgesBuildings();
 	void OnTTAgesBuildingSearch(wxCommandEvent& Event);
 	void OnTTAgesBuildingSelect(wxCommandEvent& Event);
 	void OnTTAgesBuildingAdd(wxCommandEvent& Event);
 	void OnTTAgesBuildingDelete(wxCommandEvent& Event);
 	void OnTTAgesBuildingCopy(wxCommandEvent& Event);
 	void OnTTAgesBuildingPaste(wxCommandEvent& Event);
-	string GetTTAgesBuildingName(short Index, short Upper);
+	string GetTTAgesBuildingName(short &Index);
 
-	void ListTTAgesUnits(short Index);
+	void ListTTAgesUnits();
 	void OnTTAgesUnitSearch(wxCommandEvent& Event);
 	void OnTTAgesUnitSelect(wxCommandEvent& Event);
 	void OnTTAgesUnitAdd(wxCommandEvent& Event);
 	void OnTTAgesUnitDelete(wxCommandEvent& Event);
 	void OnTTAgesUnitCopy(wxCommandEvent& Event);
 	void OnTTAgesUnitPaste(wxCommandEvent& Event);
-	string GetTTAgesUnitName(short Index, short Upper);
+	string GetTTAgesUnitName(short &Index);
 
-	void ListTTAgesResearches(short Index);
+	void ListTTAgesResearches();
 	void OnTTAgesResearchSearch(wxCommandEvent& Event);
 	void OnTTAgesResearchSelect(wxCommandEvent& Event);
 	void OnTTAgesResearchAdd(wxCommandEvent& Event);
 	void OnTTAgesResearchDelete(wxCommandEvent& Event);
 	void OnTTAgesResearchCopy(wxCommandEvent& Event);
 	void OnTTAgesResearchPaste(wxCommandEvent& Event);
-	string GetTTAgesResearchName(short Index, short Upper);
+	string GetTTAgesResearchName(short &Index);
 
 	void ListTTBuildings();
 	void OnTTBuildingSearch(wxCommandEvent& Event);
@@ -209,34 +209,34 @@ class AGE_Frame : public wxFrame
 	void OnTTBuildingDelete(wxCommandEvent& Event);
 	void OnTTBuildingCopy(wxCommandEvent& Event);
 	void OnTTBuildingPaste(wxCommandEvent& Event);
-	string GetTTBuildingName(short Index);
+	string GetTTBuildingName(short &Index);
 
-	void ListTTBuildingBuildings(short Index);
+	void ListTTBuildingBuildings();
 	void OnTTBuildingBuildingSearch(wxCommandEvent& Event);
 	void OnTTBuildingBuildingSelect(wxCommandEvent& Event);
 	void OnTTBuildingBuildingAdd(wxCommandEvent& Event);
 	void OnTTBuildingBuildingDelete(wxCommandEvent& Event);
 	void OnTTBuildingBuildingCopy(wxCommandEvent& Event);
 	void OnTTBuildingBuildingPaste(wxCommandEvent& Event);
-	string GetTTBuildingBuildingName(short Index, short Upper);
+	string GetTTBuildingBuildingName(short &Index);
 
-	void ListTTBuildingUnits(short Index);
+	void ListTTBuildingUnits();
 	void OnTTBuildingUnitSearch(wxCommandEvent& Event);
 	void OnTTBuildingUnitSelect(wxCommandEvent& Event);
 	void OnTTBuildingUnitAdd(wxCommandEvent& Event);
 	void OnTTBuildingUnitDelete(wxCommandEvent& Event);
 	void OnTTBuildingUnitCopy(wxCommandEvent& Event);
 	void OnTTBuildingUnitPaste(wxCommandEvent& Event);
-	string GetTTBuildingUnitName(short Index, short Upper);
+	string GetTTBuildingUnitName(short &Index);
 
-	void ListTTBuildingResearches(short Index);
+	void ListTTBuildingResearches();
 	void OnTTBuildingResearchSearch(wxCommandEvent& Event);
 	void OnTTBuildingResearchSelect(wxCommandEvent& Event);
 	void OnTTBuildingResearchAdd(wxCommandEvent& Event);
 	void OnTTBuildingResearchDelete(wxCommandEvent& Event);
 	void OnTTBuildingResearchCopy(wxCommandEvent& Event);
 	void OnTTBuildingResearchPaste(wxCommandEvent& Event);
-	string GetTTBuildingResearchName(short Index, short Upper);
+	string GetTTBuildingResearchName(short &Index);
 
 	void ListTTUnits();
 	void OnTTUnitSearch(wxCommandEvent& Event);
@@ -245,16 +245,16 @@ class AGE_Frame : public wxFrame
 	void OnTTUnitDelete(wxCommandEvent& Event);
 	void OnTTUnitCopy(wxCommandEvent& Event);
 	void OnTTUnitPaste(wxCommandEvent& Event);
-	string GetTTUnitName(short Index);
+	string GetTTUnitName(short &Index);
 
-	void ListTTUnitUnits(short Index);
+	void ListTTUnitUnits();
 	void OnTTUnitUnitSearch(wxCommandEvent& Event);
 	void OnTTUnitUnitSelect(wxCommandEvent& Event);
 	void OnTTUnitUnitAdd(wxCommandEvent& Event);
 	void OnTTUnitUnitDelete(wxCommandEvent& Event);
 	void OnTTUnitUnitCopy(wxCommandEvent& Event);
 	void OnTTUnitUnitPaste(wxCommandEvent& Event);
-	string GetTTUnitUnitName(short Index, short Upper);
+	string GetTTUnitUnitName(short &Index);
 
 	void ListTTResearches();
 	void OnTTResearchSearch(wxCommandEvent& Event);
@@ -263,34 +263,34 @@ class AGE_Frame : public wxFrame
 	void OnTTResearchDelete(wxCommandEvent& Event);
 	void OnTTResearchCopy(wxCommandEvent& Event);
 	void OnTTResearchPaste(wxCommandEvent& Event);
-	string GetTTResearchName(short Index);
+	string GetTTResearchName(short &Index);
 
-	void ListTTResearchBuildings(short Index);
+	void ListTTResearchBuildings();
 	void OnTTResearchBuildingSearch(wxCommandEvent& Event);
 	void OnTTResearchBuildingSelect(wxCommandEvent& Event);
 	void OnTTResearchBuildingAdd(wxCommandEvent& Event);
 	void OnTTResearchBuildingDelete(wxCommandEvent& Event);
 	void OnTTResearchBuildingCopy(wxCommandEvent& Event);
 	void OnTTResearchBuildingPaste(wxCommandEvent& Event);
-	string GetTTResearchBuildingName(short Index, short Upper);
+	string GetTTResearchBuildingName(short &Index);
 
-	void ListTTResearchUnits(short Index);
+	void ListTTResearchUnits();
 	void OnTTResearchUnitSearch(wxCommandEvent& Event);
 	void OnTTResearchUnitSelect(wxCommandEvent& Event);
 	void OnTTResearchUnitAdd(wxCommandEvent& Event);
 	void OnTTResearchUnitDelete(wxCommandEvent& Event);
 	void OnTTResearchUnitCopy(wxCommandEvent& Event);
 	void OnTTResearchUnitPaste(wxCommandEvent& Event);
-	string GetTTResearchUnitName(short Index, short Upper);
+	string GetTTResearchUnitName(short &Index);
 
-	void ListTTResearchResearches(short Index);
+	void ListTTResearchResearches();
 	void OnTTResearchResearchSearch(wxCommandEvent& Event);
 	void OnTTResearchResearchSelect(wxCommandEvent& Event);
 	void OnTTResearchResearchAdd(wxCommandEvent& Event);
 	void OnTTResearchResearchDelete(wxCommandEvent& Event);
 	void OnTTResearchResearchCopy(wxCommandEvent& Event);
 	void OnTTResearchResearchPaste(wxCommandEvent& Event);
-	string GetTTResearchResearchName(short Index, short Upper);
+	string GetTTResearchResearchName(short &Index);
 
 //	Civilization Events
 
@@ -301,9 +301,9 @@ class AGE_Frame : public wxFrame
 	void OnCivsDelete(wxCommandEvent& Event);
 	void OnCivsCopy(wxCommandEvent& Event);
 	void OnCivsPaste(wxCommandEvent& Event);
-	string GetCivName(short Index);
+	string GetCivName(short &Index);
 
-	void ListResources(short Index, bool Sized = true);
+	void ListResources(bool Sized = true);
 	void OnResourcesSearch(wxCommandEvent& Event);
 	void OnResourcesSelect(wxCommandEvent& Event);
 	void OnResourcesAdd(wxCommandEvent& Event);
@@ -311,9 +311,9 @@ class AGE_Frame : public wxFrame
 	void OnResourcesCopy(wxCommandEvent& Event);
 	void OnResourcesPaste(wxCommandEvent& Event);
 	void OnResourcesCopyToAll(wxCommandEvent& Event);
-	string GetResourceName(short Index, short CivID);
+	string GetResourceName(short &Index);
 
-	void ListUnits(short CivID = -1, bool Sized = true);
+	void ListUnits(short &CivID, bool Sized = true);
 	void OnUnitsSearch(wxCommandEvent& Event);
 	void OnUnitsSelect(wxCommandEvent& Event);
 	void OnUnitsAdd(wxCommandEvent& Event);
@@ -327,48 +327,48 @@ class AGE_Frame : public wxFrame
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
-	string GetUnitName(short Index, short CivID, bool Filter);
+	string GetUnitName(short &Index, short &CivID, bool Filter = false);
 	
-	void ListUnitDamageGraphics(short Index, short CivID);
+	void ListUnitDamageGraphics();
 	void OnUnitDamageGraphicsSearch(wxCommandEvent& Event);
 	void OnUnitDamageGraphicsSelect(wxCommandEvent& Event);
 	void OnUnitDamageGraphicsAdd(wxCommandEvent& Event);
 	void OnUnitDamageGraphicsDelete(wxCommandEvent& Event);
 	void OnUnitDamageGraphicsCopy(wxCommandEvent& Event);
 	void OnUnitDamageGraphicsPaste(wxCommandEvent& Event);
-	string GetUnitDamageGraphicName(short Index, short CivID, short UnitID);
+	string GetUnitDamageGraphicName(short &Index);
 
-	void ListUnitAttacks(short Index, short CivID);
+	void ListUnitAttacks();
 	void OnUnitAttacksSearch(wxCommandEvent& Event);
 	void OnUnitAttacksSelect(wxCommandEvent& Event);
 	void OnUnitAttacksAdd(wxCommandEvent& Event);
 	void OnUnitAttacksDelete(wxCommandEvent& Event);
 	void OnUnitAttacksCopy(wxCommandEvent& Event);
 	void OnUnitAttacksPaste(wxCommandEvent& Event);
-	string GetUnitAttackName(short Index, short CivID, short UnitID);
+	string GetUnitAttackName(short &Index);
 	
-	void ListUnitArmors(short Index, short CivID);
+	void ListUnitArmors();
 	void OnUnitArmorsSearch(wxCommandEvent& Event);
 	void OnUnitArmorsSelect(wxCommandEvent& Event);
 	void OnUnitArmorsAdd(wxCommandEvent& Event);
 	void OnUnitArmorsDelete(wxCommandEvent& Event);
 	void OnUnitArmorsCopy(wxCommandEvent& Event);
 	void OnUnitArmorsPaste(wxCommandEvent& Event);
-	string GetUnitArmorName(short Index, short CivID, short UnitID);
+	string GetUnitArmorName(short &Index);
 	
 //	Unit Events
 	
 	void ListUnitHeads();
 	void OnUnitHeadsSelect(wxCommandEvent& Event);
 
-	void ListUnitCommands(short Index, short CivID);
+	void ListUnitCommands();
 	void OnUnitCommandsSearch(wxCommandEvent& Event);
 	void OnUnitCommandsSelect(wxCommandEvent& Event);
 	void OnUnitCommandsAdd(wxCommandEvent& Event);
 	void OnUnitCommandsDelete(wxCommandEvent& Event);
 	void OnUnitCommandsCopy(wxCommandEvent& Event);
 	void OnUnitCommandsPaste(wxCommandEvent& Event);
-	string GetUnitCommandName(short Index, short CivID, short UnitID);
+	string GetUnitCommandName(short &Index);
 
 //	Unitline Events
 
@@ -379,16 +379,16 @@ class AGE_Frame : public wxFrame
 	void OnUnitLinesDelete(wxCommandEvent& Event);
 	void OnUnitLinesCopy(wxCommandEvent& Event);
 	void OnUnitLinesPaste(wxCommandEvent& Event);
-	string GetUnitLineName(short Index);
+	string GetUnitLineName(short &Index);
 
-	void ListUnitLineUnits(short Index);
+	void ListUnitLineUnits();
 	void OnUnitLineUnitsSearch(wxCommandEvent& Event);
 	void OnUnitLineUnitsSelect(wxCommandEvent& Event);
 	void OnUnitLineUnitsAdd(wxCommandEvent& Event);
 	void OnUnitLineUnitsDelete(wxCommandEvent& Event);
 	void OnUnitLineUnitsCopy(wxCommandEvent& Event);
 	void OnUnitLineUnitsPaste(wxCommandEvent& Event);
-	string GetUnitLineUnitName(short Index, short UnitLinesID);
+	string GetUnitLineUnitName(short &Index);
 
 //	Graphic Events
 
@@ -401,25 +401,25 @@ class AGE_Frame : public wxFrame
 	void OnGraphicsPaste(wxCommandEvent& Event);
 	void OnGraphicsEnable(wxCommandEvent& Event);
 	void OnGraphicsDisable(wxCommandEvent& Event);
-	string GetGraphicName(short Index, bool Filter);
+	string GetGraphicName(short &Index, bool Filter = false);
 
-	void ListGraphicDeltas(short Index);
+	void ListGraphicDeltas();
 	void OnGraphicDeltasSearch(wxCommandEvent& Event);
 	void OnGraphicDeltasSelect(wxCommandEvent& Event);
 	void OnGraphicDeltasAdd(wxCommandEvent& Event);
 	void OnGraphicDeltasDelete(wxCommandEvent& Event);
 	void OnGraphicDeltasCopy(wxCommandEvent& Event);
 	void OnGraphicDeltasPaste(wxCommandEvent& Event);
-	string GetGraphicDeltaName(short Index, short GraphicID);
+	string GetGraphicDeltaName(short &Index);
 
-	void ListGraphicAttackSounds(short Index);
+	void ListGraphicAttackSounds();
 	void OnGraphicAttackSoundsSearch(wxCommandEvent& Event);
 	void OnGraphicAttackSoundsSelect(wxCommandEvent& Event);
 	void OnGraphicAttackSoundsAdd(wxCommandEvent& Event);
 	void OnGraphicAttackSoundsDelete(wxCommandEvent& Event);
 	void OnGraphicAttackSoundsCopy(wxCommandEvent& Event);
 	void OnGraphicAttackSoundsPaste(wxCommandEvent& Event);
-	string GetGraphicAttackSoundName(short Index, short GraphicID);
+	string GetGraphicAttackSoundName(short &Index);
 
 //	Terrain Events
 
@@ -431,7 +431,7 @@ class AGE_Frame : public wxFrame
 	void OnTerrainsDelete(wxCommandEvent& Event);
 	void OnTerrainsCopy(wxCommandEvent& Event);
 	void OnTerrainsPaste(wxCommandEvent& Event);
-	string GetTerrainName(short Index);
+	string GetTerrainName(short &Index);
 
 //	Terrain Border Events
 	
@@ -440,14 +440,14 @@ class AGE_Frame : public wxFrame
 	void OnTerrainBordersSelect(wxCommandEvent& Event);
 	void OnTerrainBordersCopy(wxCommandEvent& Event);
 	void OnTerrainBordersPaste(wxCommandEvent& Event);
-	string GetTerrainBorderName(short Index);
+	string GetTerrainBorderName(short &Index);
 
-	void ListTerrainBorderFrames(short Index);
+	void ListTerrainBorderFrames();
 	void OnTerrainBorderFramesSearch(wxCommandEvent& Event);
 	void OnTerrainBorderFramesSelect(wxCommandEvent& Event);
 	void OnTerrainBorderFramesCopy(wxCommandEvent& Event);
 	void OnTerrainBorderFramesPaste(wxCommandEvent& Event);
-	string GetTerrainBorderFrameName(short Index, short BorderID);
+	string GetTerrainBorderFrameName(short &Index);
 
 //	Terrain Restriction Events
 
@@ -461,7 +461,7 @@ class AGE_Frame : public wxFrame
 	void OnTerrainRestrictionsPaste(wxCommandEvent& Event);
 	void OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event);
 	void OnTerrainRestrictionsTerrainPaste(wxCommandEvent& Event);
-	string GetTerrainRestrictionName(short Index);
+	string GetTerrainRestrictionName(short &Index);
 
 //	Sound Events
 
@@ -472,16 +472,16 @@ class AGE_Frame : public wxFrame
 	void OnSoundsDelete(wxCommandEvent& Event);
 	void OnSoundsCopy(wxCommandEvent& Event);
 	void OnSoundsPaste(wxCommandEvent& Event);
-	string GetSoundName(short Index);
+	string GetSoundName(short &Index);
 
-	void ListSoundItems(short Index);
+	void ListSoundItems();
 	void OnSoundItemsSearch(wxCommandEvent& Event);
 	void OnSoundItemsSelect(wxCommandEvent& Event);
 	void OnSoundItemsAdd(wxCommandEvent& Event);
 	void OnSoundItemsDelete(wxCommandEvent& Event);
 	void OnSoundItemsCopy(wxCommandEvent& Event);
 	void OnSoundItemsPaste(wxCommandEvent& Event);
-	string GetSoundItemName(short Index, short SoundID);
+	string GetSoundItemName(short &Index);
 	
 //	Player Color Events
 
@@ -492,7 +492,7 @@ class AGE_Frame : public wxFrame
 	void OnPlayerColorsDelete(wxCommandEvent& Event);
 	void OnPlayerColorsCopy(wxCommandEvent& Event);
 	void OnPlayerColorsPaste(wxCommandEvent& Event);
-	string GetPlayerColorName(short Index);
+	string GetPlayerColorName(short &Index);
 
 //	Application Variables
 
@@ -552,6 +552,7 @@ class AGE_Frame : public wxFrame
 	long TTResearchResearchCopy;
 	long TTResearchResearchID;
 	
+	short zero;
 	gdat::Civ CivCopy;
 	short CivID;
 	float ResourceCopy;

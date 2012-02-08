@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetResearchName(short Index, bool Filter)
+string AGE_Frame::GetResearchName(short &Index, bool Filter)
 {
 	string Name = "";
 	if(Filter)
@@ -185,13 +185,13 @@ void AGE_Frame::ListResearches(bool Sized)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
 		CompareText = wxString(Name).Lower();
-		if(SearchMatches(CompareText) == true)
+		if(SearchMatches(CompareText))
 		{
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);
 		}
 		if(Sized)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, false);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop);
 			Effects_ComboBox_ResearchsD->Append(Name);
 			Effects_ComboBox_ResearchsA->Append(Name);
 			Units_ComboBox_ResearchID->Append(Name);
