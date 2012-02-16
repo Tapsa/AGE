@@ -95,6 +95,7 @@ void AGE_Frame::OnTTAgesAdd(wxCommandEvent& Event)
 {
 	gdat::TechTreeAge Temp;
 	GenieFile->TechTree.TechTreeAges.push_back(Temp);
+	//GenieFile->TechTree.TechTreeAges.insert(GenieFile->TechTree.TechTreeAges.begin() + TTAgeID, Temp);
 	Added = true;
 	ListTTAgess();
 }
