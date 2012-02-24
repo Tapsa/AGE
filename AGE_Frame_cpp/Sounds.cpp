@@ -21,7 +21,7 @@ void AGE_Frame::ListSounds(bool Sized)
 	SearchText = wxString(Sounds_Sounds_Search->GetValue()).Lower();
 	ExcludeText = wxString(Sounds_Sounds_Search_R->GetValue()).Lower();
 	string CompareText;
-	
+
 	short Selection = Sounds_Sounds_List->GetSelection();
 	if(Sounds_Sounds_List->GetCount() > 0)
 	{
@@ -31,7 +31,7 @@ void AGE_Frame::ListSounds(bool Sized)
 	{
 		Selection = 0;
 	}
-	
+
 	short IDsCount = 13, SoundIDs[IDsCount];
 	if(Sized)
 	{
@@ -90,7 +90,7 @@ void AGE_Frame::ListSounds(bool Sized)
 		{
 			Graphics_ComboBox_AttackSoundID[loop]->Clear();
 		}
-		
+
 		for(short loop = 0;loop < IDsCount;loop++)
 		{
 			if(SoundIDs[loop] == wxNOT_FOUND)
@@ -98,7 +98,7 @@ void AGE_Frame::ListSounds(bool Sized)
 				SoundIDs[loop] = 0;
 			}
 		}
-		
+
 		for(short loop = 0;loop < 2;loop++)
 		Units_ComboBox_TrainSound[loop]->Append("-1 - None");
 		Units_ComboBox_SelectionSound->Append("-1 - None");
@@ -112,7 +112,7 @@ void AGE_Frame::ListSounds(bool Sized)
 		for(short loop = 0;loop < 3;loop++)
 		Graphics_ComboBox_AttackSoundID[loop]->Append("-1 - None");
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetSoundName(loop);
@@ -137,7 +137,7 @@ void AGE_Frame::ListSounds(bool Sized)
 			Graphics_ComboBox_AttackSoundID[loop]->Append(Name);
 		}
 	}
-	
+
 	Sounds_Sounds_List->SetSelection(0);
 	Sounds_Sounds_List->SetFirstItem(Selection - 3);
 	Sounds_Sounds_List->SetSelection(Selection);
@@ -156,7 +156,7 @@ void AGE_Frame::ListSounds(bool Sized)
 		for(short loop = 0;loop < 3;loop++)
 		Graphics_ComboBox_AttackSoundID[loop]->SetSelection(SoundIDs[loop+10]);
 	}
-	
+
 	wxCommandEvent E;
 	OnSoundsSelect(E);
 }
@@ -373,7 +373,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_ListArea = new wxBoxSizer(wxVERTICAL);
 	Sounds_SoundItems_Buttons = new wxGridSizer(2, 0, 0);
 	Sounds_DataArea = new wxBoxSizer(wxVERTICAL);
-	
+
 	Tab_Sounds = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	Sounds_Sounds = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sounds");
 	Sounds_Sounds_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
@@ -487,11 +487,11 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Main->Add(10, -1);
 	Sounds_Main->Add(Sounds_DataArea, 1, wxEXPAND);
 	Sounds_Main->AddStretchSpacer(1);
-	
+
 	Sounds_ID->Enable(false);
 
 	Tab_Sounds->SetSizer(Sounds_Main);
-	
+
 	Connect(Sounds_Sounds_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundsSelect));
 	Connect(Sounds_Sounds_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundsSearch));
 	Connect(Sounds_Sounds_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundsSearch));

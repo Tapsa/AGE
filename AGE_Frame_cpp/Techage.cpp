@@ -107,7 +107,7 @@ void AGE_Frame::ListTechages(bool Sized)
 	SearchText = wxString(Techs_Techs_Search->GetValue()).Lower();
 	ExcludeText = wxString(Techs_Techs_Search_R->GetValue()).Lower();
 	string CompareText;
-	
+
 	short Selection = Techs_Techs_List->GetSelection();
 	if(Techs_Techs_List->GetCount() > 0)
 	{
@@ -117,7 +117,7 @@ void AGE_Frame::ListTechages(bool Sized)
 	{
 		Selection = 0;
 	}
-	
+
 	short IDsCount = 3, TechIDs[IDsCount];
 	if(Sized)
 	{
@@ -137,7 +137,7 @@ void AGE_Frame::ListTechages(bool Sized)
 		{
 			Civs_ComboBox_TeamBonus->Clear();
 		}
-		
+
 		for(short loop = 0;loop < IDsCount;loop++)
 		{
 			if(TechIDs[loop] == wxNOT_FOUND)
@@ -145,12 +145,12 @@ void AGE_Frame::ListTechages(bool Sized)
 				TechIDs[loop] = 0;
 			}
 		}
-		
+
 		Research_ComboBox_TechID->Append("-1 - None");
 		Civs_ComboBox_TechTree->Append("-1 - None");
 		Civs_ComboBox_TeamBonus->Append("-1 - None");
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->Techages.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTechageName(loop);
@@ -166,7 +166,7 @@ void AGE_Frame::ListTechages(bool Sized)
 			Civs_ComboBox_TeamBonus->Append(Name);
 		}
 	}
-	
+
 	Techs_Techs_List->SetSelection(0);
 	Techs_Techs_List->SetFirstItem(Selection - 3);
 	Techs_Techs_List->SetSelection(Selection);
@@ -176,7 +176,7 @@ void AGE_Frame::ListTechages(bool Sized)
 		Civs_ComboBox_TechTree->SetSelection(TechIDs[1]);
 		Civs_ComboBox_TeamBonus->SetSelection(TechIDs[2]);
 	}
-	
+
 	wxCommandEvent E;
 	OnTechageSelect(E);
 }
@@ -316,7 +316,7 @@ void AGE_Frame::ListEffects()
 	ExcludeText = wxString(Techs_Effects_Search_R->GetValue()).Lower();
 	string CompareText;
 	short Selection = Techs_Effects_List->GetSelection();
-	
+
 	if(Techs_Effects_List->GetCount() > 0)
 	{
 		Techs_Effects_List->Clear();
@@ -414,17 +414,17 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
 				Effects_C->Show(true);	// not for Effects 1, 2, 3, 6, 102
 				Effects_D->Show(true);	// not for Effects 2, 3
-	
+
 				Effects_Text_A->SetLabel("Unit ");
 				Effects_Text_B->SetLabel("Class ");
 				Effects_Text_C->SetLabel("Attribute ");
 				Effects_Text_D->SetLabel("Value [Set] ");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel("");
 				Effects_Info_D->SetLabel("");
-				
+
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
 					Effects_D->Enable(false);
@@ -480,7 +480,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
-		
+
 				Effects_Text_A->SetLabel("Resource ");	/* add combo box */
 				Effects_Text_B->SetLabel("Mode ");	/* add boolean [X]=1=Set [ ]=0=+/- */
 				Effects_Text_C->SetLabel("Unused ");
@@ -494,7 +494,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				}
 				Effects_Text_E->SetLabel("");
 				Effects_Text_F->SetLabel("");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel(" [ ] = Set, [X] = +/-");
 				Effects_Info_C->SetLabel("");
@@ -522,14 +522,14 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_D->Show(false);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
-		
+
 				Effects_Text_A->SetLabel("Unit ");	/* add combo box */
 				Effects_Text_B->SetLabel("Mode ");	/* add boolean */
 				Effects_Text_C->SetLabel("Unused ");
 				Effects_Text_D->SetLabel("Unused ");
 				Effects_Text_E->SetLabel("");
 				Effects_Text_F->SetLabel("");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel(" [ ] = Disable, [X] = Enable");
 				Effects_Info_C->SetLabel("");
@@ -557,14 +557,14 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_D->Show(false);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
-	
+
 				Effects_Text_A->SetLabel("Unit ");	/* add combo box */
 				Effects_Text_B->SetLabel("To Unit ");	/* add combo box */
 				Effects_Text_C->SetLabel("Unused ");
 				Effects_Text_D->SetLabel("Unused ");
 				Effects_Text_E->SetLabel("");
 				Effects_Text_F->SetLabel("");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel("");
@@ -589,17 +589,17 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
 				Effects_C->Show(true);	// not for Effects 1, 2, 3, 6, 102
 				Effects_D->Show(true);	// not for Effects 2, 3
-				
+
 				Effects_Text_A->SetLabel("Unit ");	/* add combo box */
 				Effects_Text_B->SetLabel("Class ");	/* add combo box */
 				Effects_Text_C->SetLabel("Attribute ");	/* add combo box */
 				Effects_Text_D->SetLabel("Value [+/-] ");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel("");
 				Effects_Info_D->SetLabel("");
-				
+
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
 					Effects_D->Enable(false);
@@ -652,17 +652,17 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
 				Effects_C->Show(true);	// not for Effects 1, 2, 3, 6, 102
 				Effects_D->Show(true);	// not for Effects 2, 3
-				
+
 				Effects_Text_A->SetLabel("Unit ");	/* add combo box */
 				Effects_Text_B->SetLabel("Class ");	/* add combo box */
 				Effects_Text_C->SetLabel("Attribute ");	/* add combo box */
 				Effects_Text_D->SetLabel("Value [*] ");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel("");
 				Effects_Info_D->SetLabel("");
-				
+
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
 					Effects_D->Enable(false);
@@ -718,14 +718,14 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
-	
+
 				Effects_Text_A->SetLabel("Resource ");	/* add combo box */
 				Effects_Text_B->SetLabel("Unused ");
 				Effects_Text_C->SetLabel("Unused ");
 				Effects_Text_D->SetLabel("Value [*] ");
 				Effects_Text_E->SetLabel("");
 				Effects_Text_F->SetLabel("");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel("");
@@ -753,7 +753,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
-	
+
 				Effects_Text_A->SetLabel("Research ");	/* add combo box */
 				Effects_Text_B->SetLabel("Resource ");	/* add combo box */
 				Effects_Text_C->SetLabel("Mode ");
@@ -767,7 +767,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				}
 				Effects_Text_E->SetLabel("");
 				Effects_Text_F->SetLabel("");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
@@ -795,14 +795,14 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
-	
+
 				Effects_Text_A->SetLabel("Unused ");
 				Effects_Text_B->SetLabel("Unused ");
 				Effects_Text_C->SetLabel("Unused ");
 				Effects_Text_D->SetLabel("Research ");	/* add combo box */
 				Effects_Text_E->SetLabel("");
 				Effects_Text_F->SetLabel("");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel("");
@@ -830,7 +830,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
-	
+
 				Effects_Text_A->SetLabel("Research ");	/* add combo box */
 				Effects_Text_B->SetLabel("Unused ");
 				Effects_Text_C->SetLabel("Mode ");	/* add boolean */
@@ -844,7 +844,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				}
 				Effects_Text_E->SetLabel("");
 				Effects_Text_F->SetLabel("");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
@@ -872,14 +872,14 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 				Effects_D->Show(false);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
-	
+
 				Effects_Text_A->SetLabel("Attribute A ");
 				Effects_Text_B->SetLabel("Attribute B ");
 				Effects_Text_C->SetLabel("Attribute C ");
 				Effects_Text_D->SetLabel("Attribute D ");
 				Effects_Text_E->SetLabel("");
 				Effects_Text_F->SetLabel("");
-				
+
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
 				Effects_Info_C->SetLabel("");
@@ -1064,7 +1064,7 @@ void AGE_Frame::CreateTechageControls()
 	Attacks_ComboBox_Class[2] = new ComboBox_Short(Tab_Techage, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techage, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Link = new wxHyperlinkCtrl(Tab_Techage, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
-	
+
 	Effects_ComboBox_Type->Append("No Type/Invalid Type");	// Selection 0
 	Effects_ComboBox_Type->Append("0 - Attribute Modifier (Set)");	// Selection 1
 	Effects_ComboBox_Type->Append("1 - Resource Modifier (Set/+/-)");
@@ -1122,54 +1122,54 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_Type2->Add(Effects_ComboBox_Type, 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_Type->Add(Effects_Text_Type, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_Type->Add(Effects_Holder_Type2, 1, wxEXPAND);
-	
+
 	Effects_ComboBox_A->Add(Effects_ComboBox_UnitsA, 1, wxEXPAND);
 	Effects_ComboBox_A->Add(Effects_ComboBox_ResourcesA, 1, wxEXPAND);
 	Effects_ComboBox_A->Add(Effects_ComboBox_ResearchsA, 1, wxEXPAND);
 	Effects_Holder_A->Add(Effects_A, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_A->Add(Effects_ComboBox_A, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Effects_Holder_DataA->Add(Effects_Text_A, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
 	Effects_Holder_DataA->Add(Effects_Holder_A, 3, wxEXPAND);
 	Effects_Holder_DataA->Add(Effects_Info_A, 3, wxEXPAND);
-	
-	Effects_ComboBox_B->Add(Effects_CheckBox_ModeB, 1, wxEXPAND);	
+
+	Effects_ComboBox_B->Add(Effects_CheckBox_ModeB, 1, wxEXPAND);
 	Effects_ComboBox_B->Add(Units_ComboBox_Class[2], 1, wxEXPAND);
 	Effects_ComboBox_B->Add(Effects_ComboBox_UnitsB, 1, wxEXPAND);
 	Effects_ComboBox_B->Add(Effects_ComboBox_ResourcesB, 1, wxEXPAND);
 	Effects_Holder_B->Add(Effects_B, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_B->Add(Effects_ComboBox_B, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Effects_Holder_DataB->Add(Effects_Text_B, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
 	Effects_Holder_DataB->Add(Effects_Holder_B, 3, wxEXPAND);
 	Effects_Holder_DataB->Add(Effects_Info_B, 3, wxEXPAND);
-	
+
 	Effects_ComboBox_C->Add(Effects_CheckBox_ModeC, 1, wxEXPAND);
 	Effects_ComboBox_C->Add(Effects_ComboBox_AttributesC, 1, wxEXPAND);
 	Effects_Holder_C->Add(Effects_C, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_C->Add(Effects_ComboBox_C, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Effects_Holder_DataC->Add(Effects_Text_C, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
 	Effects_Holder_DataC->Add(Effects_Holder_C, 3, wxEXPAND);
 	Effects_Holder_DataC->Add(Effects_Info_C, 3, wxEXPAND);
-	
+
 	Effects_ComboBox_D->Add(Effects_ComboBox_ResearchsD, 1, wxEXPAND);
 	Effects_Holder_D->Add(Effects_D, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_D->Add(Effects_ComboBox_D, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Effects_Holder_DataD->Add(Effects_Text_D, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
 	Effects_Holder_DataD->Add(Effects_Holder_D, 3, wxEXPAND);
 	Effects_Holder_DataD->Add(Effects_Info_D, 3, wxEXPAND);
 
 	Effects_Holder_E->Add(Effects_E, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Effects_Holder_DataE->Add(Effects_Text_E, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
 	Effects_Holder_DataE->Add(Effects_Holder_E, 3, wxEXPAND);
 	Effects_Holder_DataE->Add(Effects_Info_E, 3, wxEXPAND);
 
 	Effects_Holder_F->Add(Effects_F, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_F->Add(Attacks_ComboBox_Class[2], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Effects_Holder_DataF->Add(Effects_Text_F, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
 	Effects_Holder_DataF->Add(Effects_Holder_F, 3, wxEXPAND);
 	Effects_Holder_DataF->Add(Effects_Info_F, 3, wxEXPAND);
@@ -1218,9 +1218,9 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
 	Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 //	Techs_Effects_UseAnd->Show(false);
-	
+
 	Tab_Techage->SetSizer(Techs_Main);
-	
+
 	Connect(Techs_Techs_Rename->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRename));
 	Connect(Techs_Techs_Restore->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRenameGE2));
 	Connect(Techs_Techs_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTechageSelect));
