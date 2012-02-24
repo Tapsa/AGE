@@ -21,7 +21,7 @@ void AGE_Frame::ListTTAgess()
 	SearchText = wxString(TechTrees_MainList_Ages_Search->GetValue()).Lower();
 	ExcludeText = wxString(TechTrees_MainList_Ages_Search_R->GetValue()).Lower();
 	string CompareText;
-	
+
 	short Selection = TechTrees_MainList_Ages_List->GetSelection();
 	if(TechTrees_MainList_Ages_List->GetCount() > 0)
 	{
@@ -31,7 +31,7 @@ void AGE_Frame::ListTTAgess()
 	{
 		Selection = 0;
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->TechTree.TechTreeAges.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTTAgesName(loop);
@@ -41,11 +41,11 @@ void AGE_Frame::ListTTAgess()
 			TechTrees_MainList_Ages_List->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[loop]);
 		}
 	}
-	
+
 	TechTrees_MainList_Ages_List->SetSelection(0);
 	TechTrees_MainList_Ages_List->SetFirstItem(Selection - 3);
 	TechTrees_MainList_Ages_List->SetSelection(Selection);
-	
+
 	wxCommandEvent E;
 	OnTTAgesSelect(E);
 }
@@ -95,8 +95,14 @@ void AGE_Frame::OnTTAgesAdd(wxCommandEvent& Event)
 {
 	gdat::TechTreeAge Temp;
 	GenieFile->TechTree.TechTreeAges.push_back(Temp);
-	//GenieFile->TechTree.TechTreeAges.insert(GenieFile->TechTree.TechTreeAges.begin() + TTAgeID, Temp);
 	Added = true;
+	ListTTAgess();
+}
+
+void AGE_Frame::OnTTAgesInsert(wxCommandEvent& Event)
+{
+	gdat::TechTreeAge Temp;
+	GenieFile->TechTree.TechTreeAges.insert(GenieFile->TechTree.TechTreeAges.begin() + TTAgeID, Temp);
 	ListTTAgess();
 }
 
@@ -514,11 +520,11 @@ void AGE_Frame::OnTTAgesResearchPaste(wxCommandEvent& Event)
 string AGE_Frame::GetTTBuildingName(short &Index)
 {
 	string Name = "";
-	
+
 	short Selection[2];
 	for(short loop = 0;loop < 2;loop++)
 	Selection[loop] = TechTrees_MainList_Buildings_SearchFilters[loop]->GetSelection();
-	
+
 	if(Selection[0] == 0)	// Normal Name
 	{
 		// Do nothing!
@@ -568,7 +574,7 @@ string AGE_Frame::GetTTBuildingName(short &Index)
 		Name += ", ";
 		if(Selection[loop+1] < 1) break;
 	}
-	
+
 	Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].ID)+" ";
 	if(LanguageDllString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[Index].ID].LanguageDllName) != "")
 	{
@@ -601,7 +607,7 @@ void AGE_Frame::ListTTBuildings()
 		if(TechTrees_MainList_Buildings_UseAnd[loop]->GetValue() == true)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
-	
+
 	short Selection = TechTrees_MainList_Buildings_List->GetSelection();
 	if(TechTrees_MainList_Buildings_List->GetCount() > 0)
 	{
@@ -611,7 +617,7 @@ void AGE_Frame::ListTTBuildings()
 	{
 		Selection = 0;
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->TechTree.BuildingConnections.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTTBuildingName(loop);
@@ -621,14 +627,14 @@ void AGE_Frame::ListTTBuildings()
 			TechTrees_MainList_Buildings_List->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[loop]);
 		}
 	}
-	
+
 	TechTrees_MainList_Buildings_List->SetSelection(0);
 	TechTrees_MainList_Buildings_List->SetFirstItem(Selection - 3);
 	TechTrees_MainList_Buildings_List->SetSelection(Selection);
-	
+
 	for(short loop = 0;loop < 2;loop++)
 	UseAnd[loop] = false;
-	
+
 	wxCommandEvent E;
 	OnTTBuildingSelect(E);
 }
@@ -739,12 +745,12 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent& Event)
 		TechTrees_Buildings_EnablingResearch->ChangeValue(lexical_cast<string>(BuildingConnectionPointer->EnablingResearch));
 		TechTrees_Buildings_EnablingResearch->Container = &BuildingConnectionPointer->EnablingResearch;
 		TechTrees_Buildings_ComboBox_EnablingResearch->SetSelection(BuildingConnectionPointer->EnablingResearch + 1);
-		
+
 		Added = false;
 		ListTTBuildingBuildings();
 		ListTTBuildingUnits();
 		ListTTBuildingResearches();
-		
+
 		TechTrees_Main->Layout();
 		TechTrees_Scroller->GetSizer()->FitInside(TechTrees_Scroller);
 	}
@@ -1172,11 +1178,11 @@ void AGE_Frame::OnTTBuildingResearchPaste(wxCommandEvent& Event)
 string AGE_Frame::GetTTUnitName(short &Index)
 {
 	string Name = "";
-	
+
 	short Selection[2];
 	for(short loop = 0;loop < 2;loop++)
 	Selection[loop] = TechTrees_MainList_Units_SearchFilters[loop]->GetSelection();
-	
+
 	if(Selection[0] == 0)	// Normal Name
 	{
 		// Do nothing!
@@ -1246,7 +1252,7 @@ string AGE_Frame::GetTTUnitName(short &Index)
 		Name += ", ";
 		if(Selection[loop+1] < 1) break;
 	}
-	
+
 	Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].ID)+" ";
 	if(LanguageDllString(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[Index].ID].LanguageDllName) != "")
 	{
@@ -1279,7 +1285,7 @@ void AGE_Frame::ListTTUnits()
 		if(TechTrees_MainList_Units_UseAnd[loop]->GetValue() == true)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
-	
+
 	short Selection = TechTrees_MainList_Units_List->GetSelection();
 	if(TechTrees_MainList_Units_List->GetCount() > 0)
 	{
@@ -1289,7 +1295,7 @@ void AGE_Frame::ListTTUnits()
 	{
 		Selection = 0;
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->TechTree.UnitConnections.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTTUnitName(loop);
@@ -1299,14 +1305,14 @@ void AGE_Frame::ListTTUnits()
 			TechTrees_MainList_Units_List->Append(Name, (void*)&GenieFile->TechTree.UnitConnections[loop]);
 		}
 	}
-	
+
 	TechTrees_MainList_Units_List->SetSelection(0);
 	TechTrees_MainList_Units_List->SetFirstItem(Selection - 3);
 	TechTrees_MainList_Units_List->SetSelection(Selection);
-	
+
 	for(short loop = 0;loop < 2;loop++)
 	UseAnd[loop] = false;
-	
+
 	wxCommandEvent E;
 	OnTTUnitSelect(E);
 }
@@ -1422,10 +1428,10 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent& Event)
 		TechTrees_Units_EnablingResearch->ChangeValue(lexical_cast<string>(UnitConnectionPointer->EnablingResearch));
 		TechTrees_Units_EnablingResearch->Container = &UnitConnectionPointer->EnablingResearch;
 		TechTrees_Units_ComboBox_EnablingResearch->SetSelection(UnitConnectionPointer->EnablingResearch + 1);
-		
+
 		Added = false;
 		ListTTUnitUnits();
-		
+
 		TechTrees_Main->Layout();
 		TechTrees_Scroller->GetSizer()->FitInside(TechTrees_Scroller);
 	}
@@ -1601,11 +1607,11 @@ void AGE_Frame::OnTTUnitUnitPaste(wxCommandEvent& Event)
 string AGE_Frame::GetTTResearchName(short &Index)
 {
 	string Name = "";
-	
+
 	short Selection[2];
 	for(short loop = 0;loop < 2;loop++)
 	Selection[loop] = TechTrees_MainList_Researches_SearchFilters[loop]->GetSelection();
-	
+
 	if(Selection[0] == 0)	// Normal Name
 	{
 		// Do nothing!
@@ -1655,7 +1661,7 @@ string AGE_Frame::GetTTResearchName(short &Index)
 		Name += ", ";
 		if(Selection[loop+1] < 1) break;
 	}
-	
+
 	Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].ID)+" ";
 	if(LanguageDllString(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[Index].ID].LanguageDllName) != "")
 	{
@@ -1688,7 +1694,7 @@ void AGE_Frame::ListTTResearches()
 		if(TechTrees_MainList_Researches_UseAnd[loop]->GetValue() == true)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
-	
+
 	short Selection = TechTrees_MainList_Researches_List->GetSelection();
 	if(TechTrees_MainList_Researches_List->GetCount() > 0)
 	{
@@ -1698,7 +1704,7 @@ void AGE_Frame::ListTTResearches()
 	{
 		Selection = 0;
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->TechTree.ResearchConnections.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTTResearchName(loop);
@@ -1708,14 +1714,14 @@ void AGE_Frame::ListTTResearches()
 			TechTrees_MainList_Researches_List->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[loop]);
 		}
 	}
-	
+
 	TechTrees_MainList_Researches_List->SetSelection(0);
 	TechTrees_MainList_Researches_List->SetFirstItem(Selection - 3);
 	TechTrees_MainList_Researches_List->SetSelection(Selection);
-	
+
 	for(short loop = 0;loop < 2;loop++)
 	UseAnd[loop] = false;
-	
+
 	wxCommandEvent E;
 	OnTTResearchSelect(E);
 }
@@ -1778,7 +1784,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent& Event)
 		TechTrees_Researches_LocationInAge->Container = &ResearchConnectionPointer->LocationInAge;
 		TechTrees_Researches_Unknown9->ChangeValue(lexical_cast<string>(ResearchConnectionPointer->Unknown9));
 		TechTrees_Researches_Unknown9->Container = &ResearchConnectionPointer->Unknown9;
-		
+
 		Added = false;
 		ListTTResearchBuildings();
 		ListTTResearchUnits();
@@ -2266,7 +2272,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Buildings_Paste = new wxButton(TechTrees_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TechTrees_MainList_Units_Paste = new wxButton(TechTrees_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TechTrees_MainList_Researches_Paste = new wxButton(TechTrees_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	
+
 	TechTrees_Data_Ages = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Data_Ages1 = new wxGridSizer(5, 5, 5);
 	TechTrees_Data_Buildings = new wxBoxSizer(wxVERTICAL);
@@ -2369,7 +2375,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Researches_Paste_Buildings = new wxButton(TechTrees_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TechTrees_DataList_Researches_Paste_Units = new wxButton(TechTrees_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TechTrees_DataList_Researches_Paste_Researches = new wxButton(TechTrees_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	
+
 	TechTrees_Ages_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Ages_Text_Unknown1 = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Ages_Unknown1 = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
@@ -2402,7 +2408,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Ages_Zeroes1[loop] = new TextCtrl_Short(TechTrees_Scroller, "0", NULL);
 	for(short loop = 0;loop < 50;loop++)
 	TechTrees_Ages_Zeroes2[loop] = new TextCtrl_Short(TechTrees_Scroller, "0", NULL);
-	
+
 	TechTrees_Buildings_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Buildings_Text_ID = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Building Number", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Buildings_ID = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
@@ -2472,7 +2478,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Buildings_EnablingResearch = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
 	TechTrees_Buildings_EnablingResearch->SetToolTip("Makes available\nUsed by buildings, which need a research to be available");
 	TechTrees_Buildings_ComboBox_EnablingResearch = new ComboBox_Long(TechTrees_Scroller, TechTrees_Buildings_EnablingResearch);
-	
+
 	TechTrees_Units_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Units_Text_ID = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Unit Number", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Units_ID = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
@@ -2555,7 +2561,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Units_EnablingResearch = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
 	TechTrees_Units_EnablingResearch->SetToolTip("Makes available\nUsed by units, which need a research to be available");
 	TechTrees_Units_ComboBox_EnablingResearch = new ComboBox_Long(TechTrees_Scroller, TechTrees_Units_EnablingResearch);
-	
+
 	TechTrees_Researches_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Researches_Text_ID = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Research Number", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Researches_ID = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
@@ -2618,7 +2624,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Researches_Unknown2b1[loop] = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
 	for(short loop = 0;loop < 10;loop++)
 	TechTrees_Researches_Unknown2b2[loop] = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
-	
+
 	for(short loop = 0;loop < 2;loop++)
 	{
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Normal Name");	// 0
@@ -2635,7 +2641,7 @@ void AGE_Frame::CreateTechTreeControls()
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Line Mode");
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Enabling Research");
 		TechTrees_MainList_Units_SearchFilters[loop]->SetSelection(0);
-		
+
 		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Normal Name");	// 0
 		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Required Researches");
 		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Age");
@@ -2646,7 +2652,7 @@ void AGE_Frame::CreateTechTreeControls()
 		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Connections");
 		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Enabling Research");
 		TechTrees_MainList_Buildings_SearchFilters[loop]->SetSelection(0);
-		
+
 		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Normal Name");	// 0
 		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Upper Building");
 		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Required Researches");
@@ -2658,7 +2664,7 @@ void AGE_Frame::CreateTechTreeControls()
 		TechTrees_MainList_Researches_SearchFilters[loop]->Append("First Age Mode");
 		TechTrees_MainList_Researches_SearchFilters[loop]->SetSelection(0);
 	}
-	
+
 	for(short loop = 0;loop < 4;loop++)
 	{
 		TechTrees_ComboBox_Modes[loop]->Append("No unit/research");	// 0
@@ -2667,7 +2673,7 @@ void AGE_Frame::CreateTechTreeControls()
 		TechTrees_ComboBox_Modes[loop]->Append("Research");
 		TechTrees_ComboBox_Modes[loop]->SetSelection(0);
 	}
-	
+
 	TechTrees_MainList_Ages_Buttons->Add(TechTrees_MainList_Ages_Add, 1, wxEXPAND);
 	TechTrees_MainList_Buildings_Buttons->Add(TechTrees_MainList_Buildings_Add, 1, wxEXPAND);
 	TechTrees_MainList_Units_Buttons->Add(TechTrees_MainList_Units_Add, 1, wxEXPAND);
@@ -2684,7 +2690,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Buildings_Buttons->Add(TechTrees_MainList_Buildings_Paste, 1, wxEXPAND);
 	TechTrees_MainList_Units_Buttons->Add(TechTrees_MainList_Units_Paste, 1, wxEXPAND);
 	TechTrees_MainList_Researches_Buttons->Add(TechTrees_MainList_Researches_Paste, 1, wxEXPAND);
-	
+
 	TechTrees_MainList_Ages->Add(TechTrees_MainList_Ages_Search, 0, wxEXPAND);
 	TechTrees_MainList_Ages->Add(TechTrees_MainList_Ages_Search_R, 0, wxEXPAND);
 	TechTrees_MainList_Buildings_Searches[0]->Add(TechTrees_MainList_Buildings_Search, 1, wxEXPAND);
@@ -2740,14 +2746,14 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Ages_Holder_Unit->Add(TechTrees_Ages_ComboBox_Unit, 0, wxEXPAND);
 	TechTrees_Ages_Holder_Research->Add(TechTrees_Ages_Research, 0, wxEXPAND);
 	TechTrees_Ages_Holder_Research->Add(TechTrees_Ages_ComboBox_Research, 0, wxEXPAND);
-	
+
 	TechTrees_Buildings_Holder_Building->Add(TechTrees_Buildings_Building, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Building->Add(TechTrees_Buildings_ComboBox_Building, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Unit->Add(TechTrees_Buildings_Unit, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Unit->Add(TechTrees_Buildings_ComboBox_Unit, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Research->Add(TechTrees_Buildings_Research, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Research->Add(TechTrees_Buildings_ComboBox_Research, 0, wxEXPAND);
-	
+
 	TechTrees_Units_Holder_Unit->Add(TechTrees_Units_Unit, 0, wxEXPAND);
 	TechTrees_Units_Holder_Unit->Add(TechTrees_Units_ComboBox_Unit, 0, wxEXPAND);
 
@@ -2879,13 +2885,13 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Researches_Buildings->Add(TechTrees_DataList_Researches_Buttons_Buildings, 0, wxEXPAND);
 	TechTrees_DataList_Researches_Units->Add(TechTrees_DataList_Researches_Buttons_Units, 0, wxEXPAND);
 	TechTrees_DataList_Researches_Researches->Add(TechTrees_DataList_Researches_Buttons_Researches, 0, wxEXPAND);
-	
+
 	TechTrees_DataListHolder_Ages->Add(TechTrees_DataList_Ages_Buildings, 1, wxEXPAND);
 	TechTrees_DataListHolder_Ages->Add(10, -1);
 	TechTrees_DataListHolder_Ages->Add(TechTrees_DataList_Ages_Units, 1, wxEXPAND);
 	TechTrees_DataListHolder_Ages->Add(10, -1);
 	TechTrees_DataListHolder_Ages->Add(TechTrees_DataList_Ages_Researches, 1, wxEXPAND);
-	
+
 	TechTrees_Ages_Holder_ID->Add(TechTrees_Ages_Text_ID, 0, wxEXPAND);
 	TechTrees_Ages_Holder_ID->Add(TechTrees_Ages_ID, 0, wxEXPAND);
 	TechTrees_Ages_Holder_Unknown4->Add(TechTrees_Ages_Text_Unknown4, 0, wxEXPAND);
@@ -2896,13 +2902,13 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Ages_Holder_Unknown3->Add(TechTrees_Ages_Unknown3, 0, wxEXPAND);
 	TechTrees_Ages_Holder_Unknown2->Add(TechTrees_Ages_Text_Unknown2, 0, wxEXPAND);
 	TechTrees_Ages_Holder_Unknown2->Add(TechTrees_Ages_Unknown2, 0, wxEXPAND);
-	
+
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_Holder_ID, 1, wxEXPAND);
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_Holder_Unknown4, 1, wxEXPAND);
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_Holder_Unknown1, 1, wxEXPAND);
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_Holder_Unknown3, 1, wxEXPAND);
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_Holder_Unknown2, 1, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 49;loop++)
 	TechTrees_Ages_Grid_Zeroes1->Add(TechTrees_Ages_Zeroes1[loop], 1, wxEXPAND);
 	for(short loop = 0;loop < 50;loop++)
@@ -2910,19 +2916,19 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Ages_Holder_Zeroes->Add(TechTrees_Ages_Text_Zeroes, 0, wxEXPAND);
 	TechTrees_Ages_Holder_Zeroes->Add(TechTrees_Ages_Grid_Zeroes1, 0, wxEXPAND);
 	TechTrees_Ages_Holder_Zeroes->Add(TechTrees_Ages_Grid_Zeroes2, 0, wxEXPAND);
-	
+
 	TechTrees_Data_Ages->Add(TechTrees_Data_Ages1, 0, wxEXPAND);
 	TechTrees_Data_Ages->Add(-1, 5);
 	TechTrees_Data_Ages->Add(TechTrees_DataListHolder_Ages, 0, wxEXPAND);
 	TechTrees_Data_Ages->Add(-1, 5);
 	TechTrees_Data_Ages->Add(TechTrees_Ages_Holder_Zeroes, 0, wxEXPAND);
-	
+
 	TechTrees_DataListHolder_Buildings->Add(TechTrees_DataList_Buildings_Buildings, 1, wxEXPAND);
 	TechTrees_DataListHolder_Buildings->Add(10, -1);
 	TechTrees_DataListHolder_Buildings->Add(TechTrees_DataList_Buildings_Units, 1, wxEXPAND);
 	TechTrees_DataListHolder_Buildings->Add(10, -1);
 	TechTrees_DataListHolder_Buildings->Add(TechTrees_DataList_Buildings_Researches, 1, wxEXPAND);
-	
+
 	TechTrees_Buildings_Holder_ID->Add(TechTrees_Buildings_Text_ID, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_ID->Add(TechTrees_Buildings_ID, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_ID->Add(TechTrees_Buildings_ComboBox_ID, 0, wxEXPAND);
@@ -2953,12 +2959,12 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Buildings_Holder_Mode2->Add(TechTrees_Buildings_Text_Mode2, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Mode2->Add(TechTrees_Buildings_Mode2, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Mode2->Add(TechTrees_ComboBox_Modes[1], 0, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 11;loop++)
 	TechTrees_Buildings_Grid_Unknown3->Add(TechTrees_Buildings_Unknown3[loop], 1, wxEXPAND);
 	TechTrees_Buildings_Holder_Unknown3->Add(TechTrees_Buildings_Text_Unknown3, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Unknown3->Add(TechTrees_Buildings_Grid_Unknown3, 0, wxEXPAND);
-	
+
 	TechTrees_Data_Buildings1->Add(TechTrees_Buildings_Holder_ID, 1, wxEXPAND);
 	TechTrees_Data_Buildings1->Add(TechTrees_Buildings_Holder_Age, 1, wxEXPAND);
 	TechTrees_Data_Buildings1->Add(TechTrees_Buildings_Holder_Connections, 1, wxEXPAND);
@@ -2969,7 +2975,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Buildings1->Add(TechTrees_Buildings_Holder_Mode1, 1, wxEXPAND);
 	TechTrees_Data_Buildings1->Add(TechTrees_Buildings_Holder_Mode2, 1, wxEXPAND);
 	TechTrees_Data_Buildings1->Add(TechTrees_Buildings_Holder_Always2, 1, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 8;loop++)
 	TechTrees_Buildings_Grid_Unknown2a1->Add(TechTrees_Buildings_Unknown2a1[loop], 1, wxEXPAND);
 	for(short loop = 0;loop < 10;loop++)
@@ -2977,7 +2983,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Buildings_Holder_Unknown2a->Add(TechTrees_Buildings_Text_Unknown2a, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Unknown2a->Add(TechTrees_Buildings_Grid_Unknown2a1, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Unknown2a->Add(TechTrees_Buildings_Grid_Unknown2a2, 0, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 7;loop++)
 	TechTrees_Buildings_Grid_Unknown2b1->Add(TechTrees_Buildings_Unknown2b1[loop], 1, wxEXPAND);
 	for(short loop = 0;loop < 10;loop++)
@@ -2985,7 +2991,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Buildings_Holder_Unknown2b->Add(TechTrees_Buildings_Text_Unknown2b, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Unknown2b->Add(TechTrees_Buildings_Grid_Unknown2b1, 0, wxEXPAND);
 	TechTrees_Buildings_Holder_Unknown2b->Add(TechTrees_Buildings_Grid_Unknown2b2, 0, wxEXPAND);
-	
+
 	TechTrees_Data_Buildings->Add(TechTrees_Data_Buildings1, 0, wxEXPAND);
 	TechTrees_Data_Buildings->Add(-1, 5);
 	TechTrees_Data_Buildings->Add(TechTrees_Buildings_Holder_Unknown3, 0, wxEXPAND);
@@ -2995,10 +3001,10 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Buildings->Add(TechTrees_Buildings_Holder_Unknown2a, 0, wxEXPAND);
 	TechTrees_Data_Buildings->Add(-1, 5);
 	TechTrees_Data_Buildings->Add(TechTrees_Buildings_Holder_Unknown2b, 0, wxEXPAND);
-	
+
 	TechTrees_DataListHolder_Units->Add(TechTrees_DataList_Units_Units, 1, wxEXPAND);
 	TechTrees_DataListHolder_Units->AddStretchSpacer(2);
-	
+
 	TechTrees_Units_Holder_ID->Add(TechTrees_Units_Text_ID, 0, wxEXPAND);
 	TechTrees_Units_Holder_ID->Add(TechTrees_Units_ID, 0, wxEXPAND);
 	TechTrees_Units_Holder_ID->Add(TechTrees_Units_ComboBox_ID, 0, wxEXPAND);
@@ -3039,13 +3045,13 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Units_Holder_Mode2->Add(TechTrees_ComboBox_Modes[3], 0, wxEXPAND);
 	TechTrees_Units_Holder_VerticalLine->Add(TechTrees_Units_Text_VerticalLine, 0, wxEXPAND);
 	TechTrees_Units_Holder_VerticalLine->Add(TechTrees_Units_VerticalLine, 0, wxEXPAND);
-	
+
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_ID, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_UpperBuilding, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_Age, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_LocationInAge, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_LineMode, 1, wxEXPAND);
-	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_UnitOrResearch1, 1, wxEXPAND);	
+	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_UnitOrResearch1, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_UnitOrResearch2, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_Mode1, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_Mode2, 1, wxEXPAND);
@@ -3054,7 +3060,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_EnablingResearch, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_RequiredResearch, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Holder_Always2, 1, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 8;loop++)
 	TechTrees_Units_Grid_Unknown2a1->Add(TechTrees_Units_Unknown2a1[loop], 1, wxEXPAND);
 	for(short loop = 0;loop < 10;loop++)
@@ -3062,7 +3068,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Units_Holder_Unknown2a->Add(TechTrees_Units_Text_Unknown2a, 0, wxEXPAND);
 	TechTrees_Units_Holder_Unknown2a->Add(TechTrees_Units_Grid_Unknown2a1, 0, wxEXPAND);
 	TechTrees_Units_Holder_Unknown2a->Add(TechTrees_Units_Grid_Unknown2a2, 0, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 7;loop++)
 	TechTrees_Units_Grid_Unknown2b1->Add(TechTrees_Units_Unknown2b1[loop], 1, wxEXPAND);
 	for(short loop = 0;loop < 10;loop++)
@@ -3070,7 +3076,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Units_Holder_Unknown2b->Add(TechTrees_Units_Text_Unknown2b, 0, wxEXPAND);
 	TechTrees_Units_Holder_Unknown2b->Add(TechTrees_Units_Grid_Unknown2b1, 0, wxEXPAND);
 	TechTrees_Units_Holder_Unknown2b->Add(TechTrees_Units_Grid_Unknown2b2, 0, wxEXPAND);
-	
+
 	TechTrees_Data_Units->Add(TechTrees_Data_Units1, 0, wxEXPAND);
 	TechTrees_Data_Units->Add(-1, 5);
 	TechTrees_Data_Units->Add(TechTrees_DataListHolder_Units, 0, wxEXPAND);
@@ -3078,13 +3084,13 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Units->Add(TechTrees_Units_Holder_Unknown2a, 0, wxEXPAND);
 	TechTrees_Data_Units->Add(-1, 5);
 	TechTrees_Data_Units->Add(TechTrees_Units_Holder_Unknown2b, 0, wxEXPAND);
-	
+
 	TechTrees_DataListHolder_Researches->Add(TechTrees_DataList_Researches_Buildings, 1, wxEXPAND);
 	TechTrees_DataListHolder_Researches->Add(10, -1);
 	TechTrees_DataListHolder_Researches->Add(TechTrees_DataList_Researches_Units, 1, wxEXPAND);
 	TechTrees_DataListHolder_Researches->Add(10, -1);
 	TechTrees_DataListHolder_Researches->Add(TechTrees_DataList_Researches_Researches, 1, wxEXPAND);
-	
+
 	TechTrees_Researches_Holder_ID->Add(TechTrees_Researches_Text_ID, 0, wxEXPAND);
 	TechTrees_Researches_Holder_ID->Add(TechTrees_Researches_ID, 0, wxEXPAND);
 	TechTrees_Researches_Holder_ID->Add(TechTrees_Researches_ComboBox_ID, 0, wxEXPAND);
@@ -3108,7 +3114,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Researches_Holder_LocationInAge->Add(TechTrees_Researches_LocationInAge, 0, wxEXPAND);
 	TechTrees_Researches_Holder_Unknown9->Add(TechTrees_Researches_Text_Unknown9, 0, wxEXPAND);
 	TechTrees_Researches_Holder_Unknown9->Add(TechTrees_Researches_Unknown9, 0, wxEXPAND);
-	
+
 	TechTrees_Data_Researches1->Add(TechTrees_Researches_Holder_ID, 1, wxEXPAND);
 	TechTrees_Data_Researches1->Add(TechTrees_Researches_Holder_UpperResearch, 1, wxEXPAND);
 	TechTrees_Data_Researches1->Add(TechTrees_Researches_Holder_UpperBuilding, 1, wxEXPAND);
@@ -3119,7 +3125,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Researches1->Add(TechTrees_Researches_Holder_VerticalLine, 1, wxEXPAND);
 	TechTrees_Data_Researches1->Add(TechTrees_Researches_Holder_Unknown9, 1, wxEXPAND);
 	TechTrees_Data_Researches1->Add(TechTrees_Researches_Holder_Always2, 1, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 9;loop++)
 	TechTrees_Researches_Grid_Unknown2a1->Add(TechTrees_Researches_Unknown2a1[loop], 1, wxEXPAND);
 	for(short loop = 0;loop < 10;loop++)
@@ -3127,7 +3133,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Researches_Holder_Unknown2a->Add(TechTrees_Researches_Text_Unknown2a, 0, wxEXPAND);
 	TechTrees_Researches_Holder_Unknown2a->Add(TechTrees_Researches_Grid_Unknown2a1, 0, wxEXPAND);
 	TechTrees_Researches_Holder_Unknown2a->Add(TechTrees_Researches_Grid_Unknown2a2, 0, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 8;loop++)
 	TechTrees_Researches_Grid_Unknown2b1->Add(TechTrees_Researches_Unknown2b1[loop], 1, wxEXPAND);
 	for(short loop = 0;loop < 10;loop++)
@@ -3135,7 +3141,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Researches_Holder_Unknown2b->Add(TechTrees_Researches_Text_Unknown2b, 0, wxEXPAND);
 	TechTrees_Researches_Holder_Unknown2b->Add(TechTrees_Researches_Grid_Unknown2b1, 0, wxEXPAND);
 	TechTrees_Researches_Holder_Unknown2b->Add(TechTrees_Researches_Grid_Unknown2b2, 0, wxEXPAND);
-	
+
 	TechTrees_Data_Researches->Add(TechTrees_Data_Researches1, 0, wxEXPAND);
 	TechTrees_Data_Researches->Add(-1, 5);
 	TechTrees_Data_Researches->Add(TechTrees_DataListHolder_Researches, 0, wxEXPAND);
@@ -3143,22 +3149,22 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Researches->Add(TechTrees_Researches_Holder_Unknown2a, 0, wxEXPAND);
 	TechTrees_Data_Researches->Add(-1, 5);
 	TechTrees_Data_Researches->Add(TechTrees_Researches_Holder_Unknown2b, 0, wxEXPAND);
-	
+
 	TechTrees_Ages->Add(TechTrees_MainList_Ages, 1, wxEXPAND);
 	TechTrees_Ages->Add(10, -1);
 	TechTrees_Ages->Add(TechTrees_Data_Ages, 3, wxEXPAND);
 //	TechTrees_Ages->AddStretchSpacer(3);
-	
+
 	TechTrees_Buildings->Add(TechTrees_MainList_Buildings, 1, wxEXPAND);
 	TechTrees_Buildings->Add(10, -1);
 	TechTrees_Buildings->Add(TechTrees_Data_Buildings, 3, wxEXPAND);
 //	TechTrees_Buildings->AddStretchSpacer(3);
-	
+
 	TechTrees_Units->Add(TechTrees_MainList_Units, 1, wxEXPAND);
 	TechTrees_Units->Add(10, -1);
 	TechTrees_Units->Add(TechTrees_Data_Units, 3, wxEXPAND);
 //	TechTrees_Units->AddStretchSpacer(3);
-	
+
 	TechTrees_Researches->Add(TechTrees_MainList_Researches, 1, wxEXPAND);
 	TechTrees_Researches->Add(10, -1);
 	TechTrees_Researches->Add(TechTrees_Data_Researches, 3, wxEXPAND);
@@ -3171,7 +3177,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_ScrollerWindowsSpace->Add(TechTrees_Units, 0, wxEXPAND);
 	TechTrees_ScrollerWindowsSpace->Add(-1, 5);
 	TechTrees_ScrollerWindowsSpace->Add(TechTrees_Researches, 0, wxEXPAND);
-	
+
 	TechTrees_ScrollerWindows->Add(TechTrees_ScrollerWindowsSpace, 1, wxEXPAND);
 	TechTrees_ScrollerWindows->Add(5, -1);
 
@@ -3185,15 +3191,15 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Main->Add(10, -1);
 	TechTrees_Main->Add(TechTrees_All, 1, wxEXPAND);
 	TechTrees_Main->Add(10, -1);
-	
+
 	for(short loop = 0;loop < 4;loop++)
 	{
 		TechTrees_ComboBox_Unit[loop]->Show(false);
 		TechTrees_ComboBox_Research[loop]->Show(false);
 	}
-	
+
 	Tab_TechTrees->SetSizer(TechTrees_Main);
-	
+
 	Connect(TechTrees_MainList_Ages_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTTAgesSearch));
 	Connect(TechTrees_MainList_Ages_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTTAgesSearch));
 	Connect(TechTrees_MainList_Ages_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTTAgesSelect));
@@ -3231,7 +3237,7 @@ void AGE_Frame::CreateTechTreeControls()
 	Connect(TechTrees_MainList_Researches_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTResearchDelete));
 	Connect(TechTrees_MainList_Researches_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTResearchCopy));
 	Connect(TechTrees_MainList_Researches_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTResearchPaste));
-	
+
 	Connect(TechTrees_DataList_Ages_Search_Buildings->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTTAgesBuildingSearch));
 	Connect(TechTrees_DataList_Ages_Search_Units->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTTAgesUnitSearch));
 	Connect(TechTrees_DataList_Ages_Search_Researches->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTTAgesResearchSearch));
@@ -3310,7 +3316,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Ages_ComboBox_Building->Connect(TechTrees_Ages_ComboBox_Building->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
 	TechTrees_Ages_ComboBox_Unit->Connect(TechTrees_Ages_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
 	TechTrees_Ages_ComboBox_Research->Connect(TechTrees_Ages_ComboBox_Research->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	
+
 	TechTrees_Buildings_ID->Connect(TechTrees_Buildings_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
 	TechTrees_Buildings_Building->Connect(TechTrees_Buildings_Building->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
 	TechTrees_Buildings_Unit->Connect(TechTrees_Buildings_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
@@ -3335,7 +3341,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Researches_ComboBox_Building->Connect(TechTrees_Researches_ComboBox_Building->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
 	TechTrees_Researches_ComboBox_Unit->Connect(TechTrees_Researches_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
 	TechTrees_Researches_ComboBox_Research->Connect(TechTrees_Researches_ComboBox_Research->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	
+
 	TechTrees_Buildings_Mode1->Connect(TechTrees_Buildings_Mode1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Long), NULL, this);
 	TechTrees_Buildings_Mode2->Connect(TechTrees_Buildings_Mode2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Long), NULL, this);
 	TechTrees_Units_Mode1->Connect(TechTrees_Units_Mode1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Long), NULL, this);

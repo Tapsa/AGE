@@ -28,7 +28,7 @@ void AGE_Frame::ListUnitLines()
 	SearchText = wxString(UnitLines_UnitLines_Search->GetValue()).Lower();
 	ExcludeText = wxString(UnitLines_UnitLines_Search_R->GetValue()).Lower();
 	string CompareText;
-	
+
 	short Selection = UnitLines_UnitLines_List->GetSelection();
 	short UnitIDs = Units_ComboBox_Unitline->GetSelection();
 
@@ -51,7 +51,7 @@ void AGE_Frame::ListUnitLines()
 	}
 
 	Units_ComboBox_Unitline->Append("-1 - None");
-	
+
 	for(short loop = 0;loop < GenieFile->UnitLines.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
@@ -62,12 +62,12 @@ void AGE_Frame::ListUnitLines()
 		}
 		Units_ComboBox_Unitline->Append(Name);
 	}
-	
+
 	UnitLines_UnitLines_List->SetSelection(0);
 	UnitLines_UnitLines_List->SetFirstItem(Selection - 3);
 	UnitLines_UnitLines_List->SetSelection(Selection);
 	Units_ComboBox_Unitline->SetSelection(UnitIDs);
-	
+
 	wxCommandEvent E;
 	OnUnitLinesSelect(E);
 }
@@ -275,7 +275,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLineUnits_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnitLines_UnitLineUnits_Buttons = new wxGridSizer(2, 0, 0);
 	UnitLines_DataArea = new wxBoxSizer(wxVERTICAL);
-	
+
 	UnitLines_UnitLines = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Unitlines");
 	UnitLines_UnitLines_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
 	UnitLines_UnitLines_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
@@ -360,11 +360,11 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_Main->Add(10, -1);
 	UnitLines_Main->Add(UnitLines_DataArea, 1, wxEXPAND);
 	UnitLines_Main->AddStretchSpacer(1);
-	
+
 	UnitLines_ID->Enable(false);
 
 	Tab_UnitLine->SetSizer(UnitLines_Main);
-	
+
 	Connect(UnitLines_UnitLines_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSelect));
 	Connect(UnitLines_UnitLines_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSearch));
 	Connect(UnitLines_UnitLines_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSearch));

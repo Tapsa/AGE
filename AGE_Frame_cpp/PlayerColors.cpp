@@ -30,12 +30,12 @@ void AGE_Frame::ListPlayerColors()
 	{
 		Colors_Colors_List->Clear();
 	}
-	
+
 	if(Selection == wxNOT_FOUND)
 	{
 		Selection = 0;
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
@@ -45,11 +45,11 @@ void AGE_Frame::ListPlayerColors()
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
 		}
 	}
-	
+
 	Colors_Colors_List->SetSelection(0);
 	Colors_Colors_List->SetFirstItem(Selection - 3);
 	Colors_Colors_List->SetSelection(Selection);
-	
+
 	wxCommandEvent E;
 	OnPlayerColorsSelect(E);
 }
@@ -198,7 +198,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown3 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_Unknown4 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_Unknown5 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	
+
 	Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Delete, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Copy, 1, wxEXPAND);
@@ -235,7 +235,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Holder_Unknown4->Add(Colors_Unknown4, 1, wxEXPAND);
 	Colors_Holder_Unknown5->Add(Colors_Text_Unknown5, 0, wxEXPAND);
 	Colors_Holder_Unknown5->Add(Colors_Unknown5, 1, wxEXPAND);
-	
+
 	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown1, 0, wxEXPAND);
 	Colors_Holder_UnknownArea->Add(-1, 5);
 	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown2, 0, wxEXPAND);
@@ -245,7 +245,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown4, 0, wxEXPAND);
 	Colors_Holder_UnknownArea->Add(-1, 5);
 	Colors_Holder_UnknownArea->Add(Colors_Holder_Unknown5, 0, wxEXPAND);
-	
+
 	Colors_DataArea->Add(-1, 10);
 	Colors_DataArea->Add(Colors_Holder_Name, 0, wxEXPAND);
 	Colors_DataArea->Add(-1, 5);
@@ -266,11 +266,11 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Main->Add(Colors_DataArea, 1, wxEXPAND);
 	Colors_Main->AddStretchSpacer(2);
 	Colors_Main->Add(10, -1);
-	
+
 	Colors_ID->Enable(false);
 
 	Tab_PlayerColors->SetSizer(Colors_Main);
-	
+
 	Connect(Colors_Colors_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsSearch));
 	Connect(Colors_Colors_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsSearch));
 	Connect(Colors_Colors_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsSelect));

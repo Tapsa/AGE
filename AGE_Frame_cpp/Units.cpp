@@ -26,7 +26,7 @@ string AGE_Frame::GetUnitName(short &UnitID, short &UnitCivID, bool Filter)
 			short Selection[2];
 			for(short loop = 0;loop < 2;loop++)
 			Selection[loop] = Units_Units_SearchFilters[loop]->GetSelection();
-			
+
 			if(Selection[0] > 1)
 			for(short loop = 0;loop < 2;loop++)
 			{
@@ -47,10 +47,10 @@ string AGE_Frame::GetUnitName(short &UnitID, short &UnitCivID, bool Filter)
 				Name += ", ";
 				if(Selection[loop+1] < 2) break;
 			}
-			
+
 			if(Selection[0] != 1) Filter = false; // Names
 		}
-		
+
 		if((LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName) != "") && (Filter == false))
 		{
 			Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName);
@@ -88,10 +88,10 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 		if(Units_Units_UseAnd[loop]->GetValue() == true)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
-	
+
 	if(UnitCivID == -1) UnitCivID = 0;
 	Units_Civs_List->SetSelection(UnitCivID);
-	
+
 	short Selection = Units_Units_List->GetSelection();
 	if(Units_Units_List->GetCount() > 0)
 	{
@@ -101,7 +101,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 	{
 		Selection = 0;
 	}
-	
+
 	short IDsCount = 64, UnitIDs[IDsCount];
 	if(Sized)
 	{
@@ -138,7 +138,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 		UnitIDs[29] = TechTrees_Researches_ComboBox_Unit->GetSelection();
 		for(short loop = 0;loop < 30;loop++)
 		UnitIDs[loop+34] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
-		
+
 		if(Units_ComboBox_DeadUnitID->GetCount() > 0)
 		{
 			Units_ComboBox_DeadUnitID->Clear();
@@ -256,7 +256,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 		{
 			Terrains_ComboBox_TerrainUnitID[loop]->Clear();
 		}
-		
+
 		for(short loop = 0;loop < IDsCount;loop++)
 		{
 			if(UnitIDs[loop] == wxNOT_FOUND)
@@ -264,7 +264,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 				UnitIDs[loop] = 0;
 			}
 		}
-		
+
 		Units_ComboBox_DeadUnitID->Append("-1 - None");
 		Units_ComboBox_ProjectileUnitID->Append("-1 - None");
 		Units_ComboBox_AttackMissileDuplicationUnit->Append("-1 - None");
@@ -299,7 +299,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 		for(short loop = 0;loop < 30;loop++)
 		Terrains_ComboBox_TerrainUnitID[loop]->Append("-1 - None");
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, UnitCivID, true);
@@ -346,7 +346,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 			Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
 		}
 	}
-	
+
 	Units_Units_List->SetSelection(0);
 	Units_Units_List->SetFirstItem(Selection - 3);
 	Units_Units_List->SetSelection(Selection);
@@ -386,10 +386,10 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 		for(short loop = 0;loop < 30;loop++)
 		Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDs[loop+34]);
 	}
-	
+
 	for(short loop = 0;loop < 2;loop++)
 	UseAnd[loop] = false;
-	
+
 	wxCommandEvent E;
 	OnUnitsSelect(E);
 }
@@ -671,7 +671,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_ID2->Container = &UnitPointer->ID2;
 
 //	Type 20+
-		
+
 		switch(UnitType)
 		{
 			case 20:
@@ -689,7 +689,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_Speed->Enable(false);
 			Units_Speed->ChangeValue("0");
 		}
-	
+
 //	Type 30+
 
 		switch(UnitType)
@@ -903,7 +903,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_DisplayedAttack->Enable(true);
 			Units_DisplayedRange->Enable(true);
 			Units_ReloadTime2->Enable(true);
-			
+
 			Attacks_Class->Enable(true);
 			for(short loop = 0;loop < 2;loop++)
 			Attacks_ComboBox_Class[loop]->Enable(true);
@@ -1011,7 +1011,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_DisplayedRange->ChangeValue("0");
 			Units_ReloadTime2->Enable(false);
 			Units_ReloadTime2->ChangeValue("0");
-			
+
 			Attacks_Class->Enable(false);
 			for(short loop = 0;loop < 2;loop++)
 			Attacks_ComboBox_Class[loop]->Enable(false);
@@ -1019,7 +1019,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Armors_Class->Enable(false);
 			Armors_Amount->Enable(false);
 		}
-		
+
 //	Type 60 only
 
 		switch(UnitType)
@@ -1059,7 +1059,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_ProjectileArc->Enable(false);
 			Units_ProjectileArc->ChangeValue("0");
 		}
-		
+
 //	Type 70+
 
 		switch(UnitType)
@@ -1220,7 +1220,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_DisplayedPierceArmour->Enable(false);
 			Units_DisplayedPierceArmour->ChangeValue("0");
 		}
-		
+
 //	Type 80
 
 		switch(UnitType)
@@ -1264,7 +1264,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Units_Unknown36->Enable(true);
 			for(short loop = 0;loop < 6;loop++)
 			Units_Unknown37[loop]->Enable(true);
-			
+
 			Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionGraphicID));
 			Units_ConstructionGraphicID->Container = &UnitPointer->Building.ConstructionGraphicID;
 			Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building.ConstructionGraphicID + 1);
@@ -1411,7 +1411,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 				Units_Unknown37[loop]->ChangeValue("0");
 			}
 		}
-		
+
 		for(short loop = 0;loop < 3;loop++)
 		{
 			ResourceStorage_Type[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorages[loop].Type));
@@ -1422,12 +1422,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			ResourceStorage_Enabled[loop]->Container = &UnitPointer->ResourceStorages[loop].Enabled;
 			ResourceStorage_ComboBox_Type[loop]->SetSelection(UnitPointer->ResourceStorages[loop].Type + 1);
 		}
-		
+
 		Units_DLL_LanguageDllName->Wrap(Units_DLL_LanguageDllName->GetSize().GetWidth());
 		Units_DLL_LanguageDllCreation->Wrap(Units_DLL_LanguageDllCreation->GetSize().GetWidth());
 		Units_DLL_LanguageDllHelp->Wrap(Units_DLL_LanguageDllHelp->GetSize().GetWidth());
 		Units_DLL_HotKey4->Wrap(Units_DLL_HotKey4->GetSize().GetWidth());
-		
+
 		Added = false;
 		ListUnitDamageGraphics();
 		ListUnitAttacks();
@@ -2314,7 +2314,7 @@ void AGE_Frame::ListUnitCommands()
 	Units_UnitCommands_List->SetSelection(0);
 	Units_UnitCommands_List->SetFirstItem(Selection - 3);
 	Units_UnitCommands_List->SetSelection(Selection);
-	
+
 	wxCommandEvent E;
 	OnUnitCommandsSelect(E);
 }
@@ -2653,7 +2653,7 @@ void AGE_Frame::CreateUnitControls()
 //	UnitControls new things
 
 	Tab_Units = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
-	
+
 	Units_Main = new wxBoxSizer(wxHORIZONTAL);
 	Units_ListArea = new wxBoxSizer(wxVERTICAL);
 	Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
@@ -2742,7 +2742,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Type80plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 80+ Unknowns");
 	Units_Grid_Type80plusUnknownArea = new wxGridSizer(4, 5, 5);
 	Units_Holder_CommandsArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Commands");
-	
+
 //	Invisible Holder Windows
 //	Type 10+
 
@@ -3421,7 +3421,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown36 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	for(short loop = 0;loop < 6;loop++)
 	Units_Unknown37[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	
+
 	Units_Holder_DamageGraphics = new wxGridSizer(4, 5, 5);
 	Units_Holder_DamageGraphics_Data = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Holder_GraphicID = new wxBoxSizer(wxVERTICAL);
@@ -3447,7 +3447,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_Delete = new wxButton(Units_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	
+
 	Units_Holder_Attacks = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_Attacks_Data = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Attacks_Data1 = new wxBoxSizer(wxHORIZONTAL);
@@ -3469,8 +3469,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_Delete = new wxButton(Units_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Units_Attacks_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));	
-	
+	Units_Attacks_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+
 	Units_Holder_Armors = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_Armors_Data = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Armors_Data1 = new wxBoxSizer(wxHORIZONTAL);
@@ -3541,7 +3541,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Unknown14 = new wxBoxSizer(wxHORIZONTAL);
 	UnitCommands_Holder_Graphics = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Holder_GraphicsGrid = new wxGridSizer(2, 2, 2);
-	
+
 	UnitCommands_Text_One = new wxStaticText(Units_Scroller, wxID_ANY, "One ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	UnitCommands_Text_ID = new wxStaticText(Units_Scroller, wxID_ANY, "ID ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	UnitCommands_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
@@ -3614,14 +3614,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_Type->Append("80 - Building");
 	Units_ComboBox_Type->Append("90 - Tree");
 	Units_ComboBox_Type->SetSelection(0);
-	
+
 	Units_SpecialCopy_Options->Append("Special: Graphics Only");
 	Units_SpecialCopy_Options->SetSelection(0);
-	
+
 	Units_AutoCopyState->Append("Auto-copy: Disabled");
 	Units_AutoCopyState->Append("Auto-copy: Include graphics");
 	Units_AutoCopyState->Append("Auto-copy: Exclude graphics");
-	
+
 	Units_Units_Buttons->Add(Units_Add, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Delete, 1, wxEXPAND);
 	Units_Units_Buttons->Add(Units_Copy, 1, wxEXPAND);
@@ -3640,7 +3640,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Searches[1]->Add(Units_Units_Search_R, 1, wxEXPAND);
 	Units_Units_Searches[1]->Add(2, -1);
 	Units_Units_Searches[1]->Add(Units_Units_UseAnd[1], 0, wxEXPAND);
-	
+
 	Units_Units->Add(Units_Civs_List, 0, wxEXPAND);
 	Units_Units->Add(-1, 2);
 	for(short loop = 0;loop < 2;loop++)
@@ -3653,11 +3653,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units->Add(Units_Units_Buttons, 0, wxEXPAND);
 	Units_Units->Add(-1, 2);
 	Units_Units->Add(Units_Units_Special, 0, wxEXPAND);
-	
+
 	Units_ListArea->Add(-1, 10);
 	Units_ListArea->Add(Units_Units, 1, wxEXPAND);
 	Units_ListArea->Add(-1, 10);
-	
+
 	Units_Holder_Type->Add(Units_Text_Type, 0, wxEXPAND);
 	Units_Holder_Type->Add(Units_Type, 1, wxEXPAND);
 	Units_Holder_Type->Add(Units_ComboBox_Type, 2, wxEXPAND);
@@ -3810,7 +3810,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Unknown35->Add(Units_Text_Unknown35, 0, wxEXPAND);
 	Units_Holder_Unknown36->Add(Units_Text_Unknown36, 0, wxEXPAND);
 	Units_Holder_Unknown37->Add(Units_Text_Unknown37, 0, wxEXPAND);
-	
+
 //	Type 10+
 
 	Units_Holder_ID1->Add(Units_ID1, 1, wxEXPAND);
@@ -4080,7 +4080,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Unknown36->Add(Units_Unknown36, 1, wxEXPAND);
 	for(short loop = 0;loop < 6;loop++)
 	Units_Holder_Unknown37->Add(Units_Unknown37[loop], 1, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 3;loop++)
 	Units_Grid_ResourceStorage->Add(ResourceStorage_Type[loop], 1, wxEXPAND);
 	for(short loop = 0;loop < 3;loop++)
@@ -4099,45 +4099,45 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ResourceStorage[2]->Add(ResourceStorage_Enabled[1], 4, wxEXPAND);
 	Units_Holder_ResourceStorage[2]->Add(5, 5);
 	Units_Holder_ResourceStorage[2]->Add(ResourceStorage_Enabled[2], 4, wxEXPAND);
-	
+
 	Attacks_Holder_Class1->Add(Attacks_Class, 1, wxEXPAND);
 	Attacks_Holder_Class1->Add(Attacks_ComboBox_Class[0], 2, wxEXPAND);
 	Attacks_Holder_Class->Add(Attacks_Text_Class, 0, wxEXPAND);
 	Attacks_Holder_Class->Add(Attacks_Holder_Class1, 1, wxEXPAND);
 	Attacks_Holder_Amount->Add(Attacks_Text_Amount, 0, wxEXPAND);
 	Attacks_Holder_Amount->Add(Attacks_Amount, 1, wxEXPAND);
-	
+
 	Units_Attacks_Buttons->Add(Units_Attacks_Add, 1, wxEXPAND);
 	Units_Attacks_Buttons->Add(Units_Attacks_Delete, 1, wxEXPAND);
 	Units_Attacks_Buttons->Add(Units_Attacks_Copy, 1, wxEXPAND);
 	Units_Attacks_Buttons->Add(Units_Attacks_Paste, 1, wxEXPAND);
-	
+
 	Units_Attacks->Add(Units_Attacks_Search, 0, wxEXPAND);
 	Units_Attacks->Add(Units_Attacks_Search_R, 0, wxEXPAND);
 	Units_Attacks->Add(-1, 2);
 	Units_Attacks->Add(Units_Attacks_List, 1, wxEXPAND);
 	Units_Attacks->Add(-1, 2);
 	Units_Attacks->Add(Units_Attacks_Buttons, 0, wxEXPAND);
-	
+
 	Armors_Holder_Class1->Add(Armors_Class, 1, wxEXPAND);
 	Armors_Holder_Class1->Add(Attacks_ComboBox_Class[1], 2, wxEXPAND);
 	Armors_Holder_Class->Add(Armors_Text_Class, 0, wxEXPAND);
 	Armors_Holder_Class->Add(Armors_Holder_Class1, 1, wxEXPAND);
 	Armors_Holder_Amount->Add(Armors_Text_Amount, 0, wxEXPAND);
 	Armors_Holder_Amount->Add(Armors_Amount, 1, wxEXPAND);
-	
+
 	Units_Armors_Buttons->Add(Units_Armors_Add, 1, wxEXPAND);
 	Units_Armors_Buttons->Add(Units_Armors_Delete, 1, wxEXPAND);
 	Units_Armors_Buttons->Add(Units_Armors_Copy, 1, wxEXPAND);
 	Units_Armors_Buttons->Add(Units_Armors_Paste, 1, wxEXPAND);
-	
+
 	Units_Armors->Add(Units_Armors_Search, 0, wxEXPAND);
 	Units_Armors->Add(Units_Armors_Search_R, 0, wxEXPAND);
 	Units_Armors->Add(-1, 2);
 	Units_Armors->Add(Units_Armors_List, 1, wxEXPAND);
 	Units_Armors->Add(-1, 2);
 	Units_Armors->Add(Units_Armors_Buttons, 0, wxEXPAND);
-	
+
 	UnitCommands_Holder_One->Add(UnitCommands_Text_One, 0, wxEXPAND);
 	UnitCommands_Holder_One->Add(UnitCommands_One, 1, wxEXPAND);
 	UnitCommands_Holder_ID->Add(UnitCommands_Text_ID, 0, wxEXPAND);
@@ -4202,7 +4202,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_GraphicsGrid->Add(UnitCommands_ComboBox_Graphics[loop], 1, wxEXPAND);
 	UnitCommands_Holder_Graphics->Add(UnitCommands_Text_Graphics, 1, wxEXPAND);
 	UnitCommands_Holder_Graphics->Add(UnitCommands_Holder_GraphicsGrid, 0, wxEXPAND);
-	
+
 	Units_Holder_TypeArea1->Add(Units_Holder_Class, 3, wxEXPAND);
 	Units_Holder_TypeArea2->Add(Units_Holder_Name, 2, wxEXPAND);
 	Units_Holder_TypeArea2->Add(5, -1);
@@ -4213,17 +4213,17 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TypeArea1->Add(Units_Holder_ID2, 1, wxEXPAND);
 	Units_Holder_TypeArea1->Add(5, -1);
 	Units_Holder_TypeArea1->Add(Units_Holder_ID3, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Units_Holder_TypeArea->Add(Units_Holder_TypeArea1, 0, wxEXPAND);
 	Units_Holder_TypeArea->Add(5, 5);
 	Units_Holder_TypeArea->Add(Units_Holder_TypeArea2, 0, wxEXPAND);
-	
+
 	Units_Holder_LangDLLArea->Add(Units_Holder_LanguageDllName, 1, wxEXPAND);
 	Units_Holder_LangDLLArea->Add(5, 5);
 	Units_Holder_LangDLLArea->Add(Units_Holder_LanguageDllCreation, 1, wxEXPAND);
 	Units_Holder_LangDLLArea->Add(5, 5);
 	Units_Holder_LangDLLArea->Add(Units_Holder_LanguageDllHelp, 1, wxEXPAND);
-	
+
 	for(short loop = 0;loop < 2;loop++)
 	Units_Holder_GraphicsArea2->Add(Units_StandingGraphic[loop], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	for(short loop = 0;loop < 2;loop++)
@@ -4244,7 +4244,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_GarrisonGraphic->Add(Units_Text_GarrisonGraphic, 0, wxEXPAND);
 	Units_Holder_WalkingGraphic->Add(Units_Text_WalkingGraphic, 0, wxEXPAND);
 	Units_Holder_DyingGraphic->Add(Units_Text_DyingGraphic, 0, wxEXPAND);
-	
+
 	Units_Holder_GraphicsArea1->Add(Units_Holder_IconID, 1, wxEXPAND);
 	Units_Holder_GraphicsArea1->Add(5, 5);
 	Units_Holder_GraphicsArea1->Add(Units_Holder_ConstructionGraphicID, 1, wxEXPAND);
@@ -4258,14 +4258,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_GraphicsArea5->Add(Units_Holder_WalkingGraphic, 1, wxEXPAND);
 	Units_Holder_GraphicsArea5->Add(5, 5);
 	Units_Holder_GraphicsArea5->Add(Units_Holder_DyingGraphic, 1, wxEXPAND);
-	
+
 	Units_Holder_GraphicsArea6->Add(Units_Holder_GraphicsArea4, 0, wxEXPAND);
 	Units_Holder_GraphicsArea6->Add(5, 5);
 	Units_Holder_GraphicsArea6->Add(Units_Holder_GraphicsArea2, 0, wxEXPAND);
 	Units_Holder_GraphicsArea7->Add(Units_Holder_GraphicsArea5, 0, wxEXPAND);
 	Units_Holder_GraphicsArea7->Add(5, 5);
 	Units_Holder_GraphicsArea7->Add(Units_Holder_GraphicsArea3, 0, wxEXPAND);
-	
+
 	DamageGraphics_Holder_GraphicID->Add(DamageGraphics_Text_GraphicID, 0, wxEXPAND);
 	DamageGraphics_Holder_GraphicID->Add(DamageGraphics_GraphicID, 1, wxEXPAND);
 	DamageGraphics_Holder_GraphicID->Add(DamageGraphics_ComboBox_GraphicID, 1, wxEXPAND);
@@ -4283,12 +4283,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_DamageGraphics_Data->Add(DamageGraphics_Holder_Unknown1, 0, wxEXPAND);
 	Units_Holder_DamageGraphics_Data->Add(-1, 5);
 	Units_Holder_DamageGraphics_Data->Add(DamageGraphics_Holder_Unknown2, 0, wxEXPAND);
-	
+
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Add, 1, wxEXPAND);
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Delete, 1, wxEXPAND);
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Copy, 1, wxEXPAND);
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Paste, 1, wxEXPAND);
-	
+
 	Units_DamageGraphics->Add(Units_DamageGraphics_Search, 0, wxEXPAND);
 	Units_DamageGraphics->Add(Units_DamageGraphics_Search_R, 0, wxEXPAND);
 	Units_DamageGraphics->Add(-1, 2);
@@ -4299,7 +4299,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_DamageGraphics->Add(Units_DamageGraphics, 1, wxEXPAND);
 	Units_Holder_DamageGraphics->Add(Units_Holder_DamageGraphics_Data, 1, wxEXPAND);
 	Units_Holder_DamageGraphics->AddStretchSpacer(2);
-	
+
 	Units_Holder_GraphicsArea->Add(Units_Holder_GraphicsArea1, 0, wxEXPAND);
 	Units_Holder_GraphicsArea->Add(5, 5);
 	Units_Holder_GraphicsArea->Add(Units_Holder_GraphicsArea6, 0, wxEXPAND);
@@ -4307,7 +4307,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_GraphicsArea->Add(Units_Holder_GraphicsArea7, 0, wxEXPAND);
 	Units_Holder_GraphicsArea->Add(5, 5);
 	Units_Holder_GraphicsArea->Add(Units_Holder_DamageGraphics, 0, wxEXPAND);
-	
+
 	Units_Grid_StatsArea1->Add(Units_Holder_HitPoints, 1, wxEXPAND);
 	Units_Grid_StatsArea1->Add(Units_Holder_Speed, 1, wxEXPAND);
 	Units_Grid_StatsArea1->Add(Units_Holder_RotationSpeed, 1, wxEXPAND);
@@ -4318,7 +4318,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_StatsArea1->Add(Units_Holder_MaxRange, 1, wxEXPAND);
 	Units_Grid_StatsArea1->Add(Units_Holder_MinRange, 1, wxEXPAND);
 	Units_Grid_StatsArea1->Add(Units_Holder_DisplayedRange, 1, wxEXPAND);
-	
+
 	Units_Holder_Attacks_Data1->Add(Attacks_Holder_Amount, 1, wxEXPAND);
 	Units_Holder_Attacks_Data1->Add(5, 5);
 	Units_Holder_Attacks_Data1->Add(Attacks_Holder_Class, 3, wxEXPAND);
@@ -4331,11 +4331,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_Attacks_Data2->AddStretchSpacer(1);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_BlastRadius, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_BlastLevel, 1, wxEXPAND);
-	
+
 	Units_Holder_Attacks_Data->Add(Units_Holder_Attacks_Data1, 0, wxEXPAND);
 	Units_Holder_Attacks_Data->Add(5, 5);
 	Units_Holder_Attacks_Data->Add(Units_Grid_Attacks_Data2, 0, wxEXPAND);
-	
+
 	Units_Holder_Armors_Data1->Add(Armors_Holder_Amount, 1, wxEXPAND);
 	Units_Holder_Armors_Data1->Add(5, 5);
 	Units_Holder_Armors_Data1->Add(Armors_Holder_Class, 3, wxEXPAND);
@@ -4343,10 +4343,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Armors_Data3->Add(Units_Holder_DisplayedMeleeArmour, 0, wxEXPAND);
 	Units_Holder_Armors_Data3->Add(5, 5);
 	Units_Holder_Armors_Data3->Add(Units_Holder_DisplayedPierceArmour, 0, wxEXPAND);
-	
+
 	Units_Holder_Armors_Data2->Add(Units_Holder_Armors_Data3, 1, wxEXPAND);
 	Units_Holder_Armors_Data2->AddStretchSpacer(2);
-	
+
 	Units_Holder_Armors_Data->Add(Units_Holder_Armors_Data1, 0, wxEXPAND);
 	Units_Holder_Armors_Data->Add(5, 5);
 	Units_Holder_Armors_Data->Add(Units_Holder_Armors_Data2, 0, wxEXPAND);
@@ -4368,7 +4368,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_StatsArea2->Add(Units_Holder_ResourceCapacity, 1, wxEXPAND);
 	Units_Grid_StatsArea2->Add(Units_Holder_ResourceDecay, 1, wxEXPAND);
 	Units_Grid_StatsArea2->Add(Units_Holder_WorkRate, 1, wxEXPAND);
-	
+
 	Units_Holder_StatsArea->Add(Units_Grid_StatsArea1, 0, wxEXPAND);
 	Units_Holder_StatsArea->Add(-1, 5);
 	Units_Holder_StatsArea->Add(Units_Holder_Attacks, 0, wxEXPAND);
@@ -4378,8 +4378,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_StatsArea->Add(Units_Grid_StatsAreaGarrison, 0, wxEXPAND);
 	Units_Holder_StatsArea->Add(-1, 5);
 	Units_Holder_StatsArea->Add(Units_Grid_StatsArea2, 0, wxEXPAND);
-	
-	
+
+
 	Units_Holder_ProjectileUnitID->Add(Units_Text_ProjectileUnitID, 0, wxEXPAND);
 	Units_Holder_ProjectileUnitID->Add(Units_ProjectileUnitID, 1, wxEXPAND);
 	Units_Holder_ProjectileUnitID->Add(Units_ComboBox_ProjectileUnitID, 1, wxEXPAND);
@@ -4403,7 +4403,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_ProjectilesArea3->Add(Units_Holder_AttackMissileDuplicationAmount2, 1, wxEXPAND);
 	Units_Grid_ProjectilesArea2->Add(Units_Holder_AttackMissileDuplicationUnit, 1, wxEXPAND);
 	Units_Grid_ProjectilesArea2->Add(Units_Holder_AttackMissileDuplicationGraphic, 1, wxEXPAND);
-	
+
 	Units_Holder_ProjectilesArea->Add(Units_Grid_ProjectilesArea2, 0, wxEXPAND);
 	Units_Holder_ProjectilesArea->Add(-1, 5);
 	Units_Holder_ProjectilesArea->Add(Units_Grid_ProjectilesArea3, 0, wxEXPAND);
@@ -4413,7 +4413,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ProjectilesArea->Add(Units_Holder_GraphicDisplacement, 0, wxEXPAND);
 	Units_Holder_ProjectilesArea->Add(-1, 5);
 	Units_Holder_ProjectilesArea->Add(Units_Grid_ProjectilesArea1, 0, wxEXPAND);
-	
+
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_Enabled, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_HideInEditor, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_VisibleInFog, 1, wxEXPAND);
@@ -4478,7 +4478,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_Attributes3->Add(Units_Holder_HeadUnit, 1, wxEXPAND);
 	Units_Grid_Attributes3->Add(Units_Holder_TransformUnit, 1, wxEXPAND);
 	Units_Grid_AttributesTrain1->Add(Units_Holder_ButtonID, 1, wxEXPAND);
-	
+
 	Units_Holder_Attributes->Add(Units_Grid_AttributesBoxes1, 0, wxEXPAND);
 	Units_Holder_Attributes->Add(-1, 5);
 	Units_Holder_Attributes->Add(Units_Grid_AttributesModes1, 0, wxEXPAND);
@@ -4512,19 +4512,19 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Attributes->Add(Units_Holder_AttributesAnnexUnit2, 0, wxEXPAND);
 	Units_Holder_Attributes->Add(-1, 5);
 	Units_Holder_Attributes->Add(Units_Holder_Attributes4, 0, wxEXPAND);
-	
+
 	Units_Holder_TrainSound1->Add(Units_TrainSound[0], 1, wxEXPAND);
 	Units_Holder_TrainSound1->Add(Units_ComboBox_TrainSound[0], 1, wxEXPAND);
 	Units_Holder_TrainSound2->Add(Units_TrainSound[1], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_Holder_TrainSound2->Add(Units_ComboBox_TrainSound[1], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Units_Holder_TrainSound3->Add(Units_Holder_TrainSound1, 1, wxEXPAND);
 	Units_Holder_TrainSound3->Add(5, 5);
 	Units_Holder_TrainSound3->Add(Units_Holder_TrainSound2, 1, wxEXPAND);
-	
+
 	Units_Holder_TrainSound->Add(Units_Text_TrainSound, 0, wxEXPAND);
 	Units_Holder_TrainSound->Add(Units_Holder_TrainSound3, 1, wxEXPAND);
-	
+
 	Units_Holder_SoundsArea1->Add(Units_Holder_ConstructionSound, 1, wxEXPAND);
 	Units_Holder_SoundsArea1->Add(5, 5);
 	Units_Holder_SoundsArea1->Add(Units_Holder_TrainSound, 2, wxEXPAND);
@@ -4534,15 +4534,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_SoundsArea2->Add(Units_Holder_MoveSound, 1, wxEXPAND);
 	Units_Grid_SoundsArea2->Add(Units_Holder_StopSound, 1, wxEXPAND);
 	Units_Grid_SoundsArea2->Add(Units_Holder_DyingSound, 1, wxEXPAND);
-	
+
 	Units_Holder_SoundsArea->Add(Units_Holder_SoundsArea1, 0, wxEXPAND);
 	Units_Holder_SoundsArea->Add(5, 5);
 	Units_Holder_SoundsArea->Add(Units_Grid_SoundsArea2, 0, wxEXPAND);
-	
+
 	Units_Grid_HPBars->Add(Units_Holder_HPBarHeight1, 1, wxEXPAND);
 	Units_Grid_HPBars->Add(Units_Holder_HPBarHeight2, 1, wxEXPAND);
 	Units_Holder_MiscArea->Add(Units_Grid_HPBars, 1, wxEXPAND);
-	
+
 	Units_Holder_Type10plusUnknowns1->Add(Units_Holder_Unknown9, 2, wxEXPAND);
 	Units_Holder_Type10plusUnknowns1->AddStretchSpacer(2);
 
@@ -4593,25 +4593,25 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Delete, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Copy, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Paste, 1, wxEXPAND);
-	
+
 	Units_UnitCommands->Add(Units_UnitCommands_Search, 0, wxEXPAND);
 	Units_UnitCommands->Add(Units_UnitCommands_Search_R, 0, wxEXPAND);
 	Units_UnitCommands->Add(-1, 2);
 	Units_UnitCommands->Add(Units_UnitCommands_List, 1, wxEXPAND);
 	Units_UnitCommands->Add(-1, 2);
 	Units_UnitCommands->Add(Units_UnitCommands_Buttons, 0, wxEXPAND);
-	
+
 	Units_CommandHolder_Lists->Add(Units_UnitHeads_Name, 0, wxEXPAND);
 	Units_CommandHolder_Lists->Add(Units_UnitHeads, 0, wxEXPAND);
 	Units_CommandHolder_Lists->Add(5, 5);
 	Units_CommandHolder_Lists->Add(Units_UnitCommands, 0, wxEXPAND);
 	Units_CommandHolder_Lists->Add(5, 5);
 	Units_CommandHolder_Lists->Add(Units_Holder_Exists, 0, wxEXPAND);
-	
+
 	UnitCommands_Holder_1->Add(UnitCommands_Holder_ID, 1, wxEXPAND);
 	UnitCommands_Holder_1->Add(5, 5);
 	UnitCommands_Holder_1->Add(UnitCommands_Holder_One, 1, wxEXPAND);
-	
+
 	UnitCommands_Holder_Types->Add(UnitCommands_Holder_Type, 1, wxEXPAND);
 	UnitCommands_Holder_Types->Add(5, -1);
 	UnitCommands_Holder_Types->Add(UnitCommands_Holder_SubType, 1, wxEXPAND);
@@ -4621,7 +4621,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Resources->Add(UnitCommands_Holder_ResourceIn, 1, wxEXPAND);
 	UnitCommands_Holder_Resources->Add(5, -1);
 	UnitCommands_Holder_Resources->Add(UnitCommands_Holder_ResourceOut, 1, wxEXPAND);
-	
+
 	Units_CommandHolder_Data1->Add(UnitCommands_Holder_1, 0, wxEXPAND);
 	Units_CommandHolder_Data1->Add(-1, 5);
 	Units_CommandHolder_Data1->Add(UnitCommands_Holder_Types, 0, wxEXPAND);
@@ -4661,15 +4661,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandHolder_Data2->Add(UnitCommands_Holder_Unknown13, 0, wxEXPAND);
 	Units_CommandHolder_Data2->Add(-1, 5);
 	Units_CommandHolder_Data2->Add(UnitCommands_Holder_Unknown14, 0, wxEXPAND);
-	
+
 	Units_CommandHolder_Data->Add(Units_CommandHolder_Data1, 3, wxEXPAND);
 	Units_CommandHolder_Data->Add(5, -1);
 	Units_CommandHolder_Data->Add(Units_CommandHolder_Data2, 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Units_Holder_CommandsArea->Add(Units_CommandHolder_Lists, 1, wxEXPAND);
 	Units_Holder_CommandsArea->Add(5, -1);
 	Units_Holder_CommandsArea->Add(Units_CommandHolder_Data, 3, wxEXPAND);
-	
+
 	Units_Holder_UnknownArea->Add(Units_Holder_Type10plusUnknownArea, 0, wxEXPAND);
 	Units_Holder_UnknownArea->Add(-1, 5);
 	Units_Holder_UnknownArea->Add(Units_Holder_Type30plusUnknownArea, 0, wxEXPAND);
@@ -4679,7 +4679,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_UnknownArea->Add(Units_Holder_Type70plusUnknownArea, 0, wxEXPAND);
 	Units_Holder_UnknownArea->Add(-1, 5);
 	Units_Holder_UnknownArea->Add(Units_Holder_Type80plusUnknownArea, 0, wxEXPAND);
-	
+
 	Units_ScrollerWindowsSpace->Add(Units_Holder_TypeArea, 0, wxEXPAND);
 	Units_ScrollerWindowsSpace->Add(-1, 10);
 	Units_ScrollerWindowsSpace->Add(Units_Holder_LangDLLArea, 0, wxEXPAND);
@@ -4699,13 +4699,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_ScrollerWindowsSpace->Add(Units_Holder_UnknownArea, 0, wxEXPAND);
 	Units_ScrollerWindowsSpace->Add(-1, 10);
 	Units_ScrollerWindowsSpace->Add(Units_Holder_CommandsArea, 0, wxEXPAND);
-	
+
 	Units_ScrollerWindows->Add(Units_ScrollerWindowsSpace, 1, wxEXPAND);
 	Units_ScrollerWindows->Add(5, -1);
-	
+
 	Units_Scroller->SetSizer(Units_ScrollerWindows);
 	Units_Scroller->SetScrollRate(0, 20);
-	
+
 	Units_Holder_TopRow->Add(Units_Holder_Type, 3, wxEXPAND);
 	Units_Holder_TopRow->Add(15, -1);
 	Units_Holder_TopRow->Add(Units_AutoCopyState, 2, wxEXPAND);
@@ -4713,13 +4713,13 @@ void AGE_Frame::CreateUnitControls()
 //	Units_Holder_TopRow->Add(Units_Undo, 0, wxEXPAND);
 
 	Units_MainRow1->Add(Units_Holder_TopRow, 1);
-	
+
 	Units_DataArea->Add(-1, 10);
 	Units_DataArea->Add(Units_MainRow1, 0, wxEXPAND);
 	Units_DataArea->Add(-1, 5);
 	Units_DataArea->Add(Units_Scroller, 1, wxEXPAND);
 	Units_DataArea->Add(-1, 10);
-	
+
 	Units_Main->Add(10, -1);
 	Units_Main->Add(Units_ListArea, 1, wxEXPAND);
 	Units_Main->Add(10, -1);
@@ -4735,7 +4735,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_ID->Enable(false);
 
 	Tab_Units->SetSizer(Units_Main);
-	
+
 	Connect(Units_Units_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 	Connect(Units_Units_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 	for(short loop = 0;loop < 2;loop++)
@@ -4784,7 +4784,7 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Armors_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsCopy));
 	Connect(Units_Armors_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsPaste));
 	Connect(UnitCommands_ComboBox_Types->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
-	
+
 //	Listing and Auto Copy
 
 	Units_Type->Connect(Units_Type->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
@@ -4955,7 +4955,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonHealRate->Connect(Units_GarrisonHealRate->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 
 	Units_Unselectable->Connect(Units_Unselectable->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool), NULL, this);
-	
+
 	Units_AttackMissileDuplicationUnit->Connect(Units_AttackMissileDuplicationUnit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong), NULL, this);
 	Units_AttackMissileDuplicationGraphic->Connect(Units_AttackMissileDuplicationGraphic->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong), NULL, this);
 	Units_Unknown35->Connect(Units_Unknown35->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Long), NULL, this);
@@ -4974,7 +4974,7 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_DamagePercent->Connect(DamageGraphics_DamagePercent->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	DamageGraphics_Unknown1->Connect(DamageGraphics_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	DamageGraphics_Unknown2->Connect(DamageGraphics_Unknown2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
-	
+
 	Attacks_Class->Connect(Attacks_Class->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Attacks_Amount->Connect(Attacks_Amount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
 	Armors_Class->Connect(Armors_Class->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
@@ -4998,7 +4998,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_ExecutionRadius->Connect(UnitCommands_ExecutionRadius->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 	UnitCommands_Unknown5->Connect(UnitCommands_Unknown5->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 	UnitCommands_Unknown7->Connect(UnitCommands_Unknown7->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
-	
+
 	UnitCommands_Unknown1->Connect(UnitCommands_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	UnitCommands_Unknown6->Connect(UnitCommands_Unknown6->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);
 	UnitCommands_Unknown8->Connect(UnitCommands_Unknown8->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Byte), NULL, this);

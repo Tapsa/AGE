@@ -97,7 +97,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	TabBar_Main->AddPage(TabBar_Data, "Data");
 	TabBar_Main->AddPage(TabBar_Test, "Test");
-	
+
 	TabBar_Data->AddPage(Tab_General, "General");
 	TabBar_Data->AddPage(Tab_Research, "Researches");
 	TabBar_Data->AddPage(Tab_Techage, "Technologies");
@@ -134,17 +134,17 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	ShowUnknownsCommand.SetId(MenuOption_Unknowns);
 	ShowUnknownsCommand.SetInt(ShowUnknowns);
 	ProcessEvent(ShowUnknownsCommand);
-	
+
 	wxCommandEvent ShowButtonsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
 	ShowButtonsCommand.SetId(MenuOption_Buttons);
 	ShowButtonsCommand.SetInt(ShowButtons);
 	ProcessEvent(ShowButtonsCommand);
-	
+
 	/*wxCommandEvent UseUndoCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Undo);
 	UseUndoCommand.SetId(MenuOption_Undo);
 	UseUndoCommand.SetInt(UseUndo);
 	ProcessEvent(UseUndoCommand);*/
-	
+
 	NeedDat = true;
 	if(!PromptForFilesOnOpen)
 	{
