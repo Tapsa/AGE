@@ -105,7 +105,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	SearchText = wxString(TerRestrict_TerRestrict_Search->GetValue()).Lower();
 	ExcludeText = wxString(TerRestrict_TerRestrict_Search_R->GetValue()).Lower();
 	string CompareText;
-	
+
 	short Selection = TerRestrict_TerRestrict_List->GetSelection();
 	if(TerRestrict_TerRestrict_List->GetCount() > 0)
 	{
@@ -115,7 +115,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	{
 		Selection = 0;
 	}
-	
+
 	short RestrictionID1 = Units_ComboBox_TerrainRestriction->GetSelection();
 	if(Sized)
 	{
@@ -123,12 +123,12 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 		{
 			Units_ComboBox_TerrainRestriction->Clear();
 		}
-		
+
 		if(RestrictionID1 == wxNOT_FOUND)
 		{
 			RestrictionID1 = 0;
 		}
-		
+
 		Units_ComboBox_TerrainRestriction->Append("-1 - None");
 	}
 
@@ -143,13 +143,13 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 		if(Sized)
 		Units_ComboBox_TerrainRestriction->Append(Name);
 	}
-	
+
 	TerRestrict_TerRestrict_List->SetSelection(0);
 	TerRestrict_TerRestrict_List->SetFirstItem(Selection - 3);
 	TerRestrict_TerRestrict_List->SetSelection(Selection);
 	if(Sized)
 	Units_ComboBox_TerrainRestriction->SetSelection(RestrictionID1);
-	
+
 	wxCommandEvent E;
 	OnTerrainRestrictionsSelect(E);
 }
@@ -180,7 +180,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 		gdat::TerrainRestriction * TerrainRestrictionPointer = (gdat::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
 		gdat::Terrain * TerrainPointer = (gdat::Terrain*)TerRestrict_Terrains_List->GetClientData(Selection2);
 		TerRestrictTerID = TerrainPointer - (&GenieFile->Terrains[0]);
-		
+
 		TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerID]));
 		TerRestrict_Accessible->Container = &TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerID];
 		TerRestrict_CheckBox_Accessible->SetValue((bool)TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerID]);
@@ -360,7 +360,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 
 	TerRestrict_Terrains_Buttons->Add(TerRestrict_Terrains_Copy, 1, wxEXPAND);
 	TerRestrict_Terrains_Buttons->Add(TerRestrict_Terrains_Paste, 1, wxEXPAND);
-	
+
 	TerRestrict_Terrains->Add(-1, 10);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Search, 0, wxEXPAND);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Search_R, 0, wxEXPAND);
@@ -406,9 +406,9 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Main->Add(10, -1);
 	TerRestrict_Main->Add(TerRestrict_DataArea, 1, wxEXPAND);
 	TerRestrict_Main->AddStretchSpacer(1);
-	
+
 	Tab_TerrainRestrictions->SetSizer(TerRestrict_Main);
-	
+
 	Connect(TerRestrict_TerRestrict_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSearch));
 	Connect(TerRestrict_TerRestrict_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSearch));
 	Connect(TerRestrict_TerRestrict_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSelect));
@@ -421,7 +421,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	Connect(TerRestrict_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsPaste));
 	Connect(TerRestrict_Terrains_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainCopy));
 	Connect(TerRestrict_Terrains_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainPaste));
-	
+
 	TerRestrict_Accessible->Connect(TerRestrict_Accessible->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_CheckBoxFloat), NULL, this);
 	TerRestrict_Unknown1->Connect(TerRestrict_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_CheckBoxLong0Y), NULL, this);
 	TerRestrict_CheckBox_Accessible->Connect(TerRestrict_CheckBox_Accessible->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_CheckBoxFloat), NULL, this);

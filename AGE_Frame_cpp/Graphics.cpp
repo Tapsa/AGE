@@ -17,7 +17,7 @@ string AGE_Frame::GetGraphicName(short &Index, bool Filter)
 			short Selection[2];
 			for(short loop = 0;loop < 2;loop++)
 			Selection[loop] = Graphics_Graphics_SearchFilters[loop]->GetSelection();
-			
+
 			if(Selection[0] > 0) // Internal name prevents
 			for(short loop = 0;loop < 2;loop++)
 			{
@@ -109,7 +109,7 @@ string AGE_Frame::GetGraphicName(short &Index, bool Filter)
 				if(Selection[loop+1] < 1) break; // Internal name breaks
 			}
 		}
-		
+
 		if(GenieFile->Graphics[Index].Name != "")
 		{
 			Name += GenieFile->Graphics[Index].Name;
@@ -138,7 +138,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		if(Graphics_Graphics_UseAnd[loop]->GetValue() == true)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
-	
+
 	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Graphics_Graphics_List->GetCount() > 0)
 	{
@@ -148,7 +148,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 	{
 		Selection = 0;
 	}
-	
+
 	short IDsCount = 22, GraphicIDs[IDsCount];
 	if(Sized)
 	{
@@ -168,7 +168,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		GraphicIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
 		GraphicIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
 		GraphicIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
-		
+
 		if(Units_ComboBox_ConstructionGraphicID->GetCount() > 0)
 		{
 			Units_ComboBox_ConstructionGraphicID->Clear();
@@ -221,7 +221,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		{
 			GraphicDeltas_ComboBox_GraphicID->Clear();
 		}
-		
+
 		for(short loop = 0;loop < IDsCount;loop++)
 		{
 			if(GraphicIDs[loop] == wxNOT_FOUND)
@@ -229,7 +229,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 				GraphicIDs[loop] = 0;
 			}
 		}
-		
+
 		Units_ComboBox_ConstructionGraphicID->Append("-1 - None");
 		Units_ComboBox_SnowGraphicID->Append("-1 - None");
 		Units_ComboBox_AttackGraphic->Append("-1 - None");
@@ -247,7 +247,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		DamageGraphics_ComboBox_GraphicID->Append("-1 - None");
 		GraphicDeltas_ComboBox_GraphicID->Append("-1 - None");
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
@@ -277,7 +277,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 			GraphicDeltas_ComboBox_GraphicID->Append(Name);
 		}
 	}
-	
+
 	Graphics_Graphics_List->SetSelection(0);
 	Graphics_Graphics_List->SetFirstItem(Selection - 3);
 	Graphics_Graphics_List->SetSelection(Selection);
@@ -300,10 +300,10 @@ void AGE_Frame::ListGraphics(bool Sized)
 		DamageGraphics_ComboBox_GraphicID->SetSelection(GraphicIDs[18]);
 		GraphicDeltas_ComboBox_GraphicID->SetSelection(GraphicIDs[21]);
 	}
-	
+
 	for(short loop = 0;loop < 2;loop++)
 	UseAnd[loop] = false;
-	
+
 	wxCommandEvent E;
 	OnGraphicsSelect(E);
 }
@@ -798,7 +798,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSounds = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Attack Sounds");
 	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140));
 	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy To All", wxDefaultPosition, wxSize(10, 20));
-	
+
 	GraphicDeltas_Holder_GraphicID = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Text_GraphicID = new wxStaticText(Graphics_Scroller, wxID_ANY, " Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_GraphicID = new TextCtrl_Short(Graphics_Scroller, "0", NULL);
@@ -835,7 +835,7 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_AttackSoundID[loop] = new TextCtrl_Short(Graphics_Scroller, "0", NULL);
 		Graphics_ComboBox_AttackSoundID[loop] = new ComboBox_Short(Graphics_Scroller, Graphics_AttackSoundID[loop]);
 	}
-	
+
 	Graphics_Holder_Deltas = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Holder_Deltas_Data = new wxBoxSizer(wxVERTICAL);
 	Graphics_Holder_Deltas_Data1 = new wxBoxSizer(wxHORIZONTAL);
@@ -865,7 +865,7 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Graphics_SearchFilters[loop]->Append("Pointer");
 		Graphics_Graphics_SearchFilters[loop]->SetSelection(0);
 	}
-	
+
 	Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Delete, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Copy, 1, wxEXPAND);
@@ -891,7 +891,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ListArea->Add(-1, 10);
 	Graphics_ListArea->Add(Graphics_Graphics, 1, wxEXPAND);
 	Graphics_ListArea->Add(-1, 10);
-	
+
 	Graphics_Holder_Name->Add(Graphics_Text_Name, 0, wxEXPAND);
 	Graphics_Holder_Name->Add(Graphics_Name, 1, wxEXPAND);
 	Graphics_Holder_Name2->Add(Graphics_Text_Name2, 0, wxEXPAND);
@@ -938,13 +938,13 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_SequenceType->Add(Graphics_SequenceType, 1, wxEXPAND);
 	Graphics_Holder_Type->Add(Graphics_Text_Type, 0, wxEXPAND);
 	Graphics_Holder_Type->Add(Graphics_TypeS, 1, wxEXPAND);
-	
+
 	Graphics_Holder_NameArea->Add(Graphics_Holder_Name, 2, wxEXPAND);
 	Graphics_Holder_NameArea->Add(5, -1);
 	Graphics_Holder_NameArea->Add(Graphics_Holder_Name2, 2, wxEXPAND);
 	Graphics_Holder_NameArea->Add(5, -1);
 	Graphics_Holder_NameArea->Add(Graphics_Holder_ID, 1, wxEXPAND);
-	
+
 	Graphics_Grid_1->Add(Graphics_Holder_Type, 1, wxEXPAND);
 	Graphics_Grid_1->Add(Graphics_Holder_SequenceType, 1, wxEXPAND);
 	Graphics_Grid_1->Add(Graphics_Holder_SLP, 1, wxEXPAND);
@@ -961,7 +961,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown2, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown3, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown4, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	
+
 	Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Delete, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Copy, 1, wxEXPAND);
@@ -991,7 +991,7 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Holder_Unknown4->Add(GraphicDeltas_Unknown4, 1, wxEXPAND);
 	GraphicDeltas_Holder_Unknown5->Add(GraphicDeltas_Text_Unknown5, 0, wxEXPAND);
 	GraphicDeltas_Holder_Unknown5->Add(GraphicDeltas_Unknown5, 1, wxEXPAND);
-	
+
 	Graphics_Holder_Deltas_Data1->Add(GraphicDeltas_Holder_GraphicID, 1, wxEXPAND);
 	Graphics_Holder_Deltas_Data1->Add(5, -1);
 	Graphics_Holder_Deltas_Data1->Add(GraphicDeltas_Holder_DirectionX, 1, wxEXPAND);
@@ -1013,7 +1013,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSounds->Add(Graphics_AttackSounds_List, 1, wxEXPAND);
 	Graphics_AttackSounds->Add(-1, 2);
 	Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
-	
+
 	Graphics_Holder_AttackSounds->Add(Graphics_Text_AttackSounds, 0, wxEXPAND);
 	Graphics_Holder_AttackSounds->Add(Graphics_Grid_AttackSounds, 0, wxEXPAND);
 	Graphics_Holder_AttackSoundDelays->Add(Graphics_Text_AttackSoundDelays, 0, wxEXPAND);
@@ -1031,7 +1031,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_4->Add(5, -1);
 	Graphics_Holder_4->Add(Graphics_Holder_AttackSoundUsed, 1, wxEXPAND);
 	Graphics_Holder_4->AddStretchSpacer(1);
-	
+
 	Graphics_Holder_AttackSounds_Data->Add(Graphics_Holder_4, 0, wxEXPAND);
 	Graphics_Holder_AttackSounds_Data->Add(-1, 5);
 	Graphics_Holder_AttackSounds_Data->Add(Graphics_Holder_5, 0, wxEXPAND);
@@ -1039,7 +1039,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_AttackSoundArea->Add(Graphics_AttackSounds, 1, wxEXPAND);
 	Graphics_Holder_AttackSoundArea->Add(5, -1);
 	Graphics_Holder_AttackSoundArea->Add(Graphics_Holder_AttackSounds_Data, 3, wxEXPAND);
-	
+
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_NameArea, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Grid_1, 0, wxEXPAND);
@@ -1053,7 +1053,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Coordinates, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Unknowns, 0, wxEXPAND);
-	
+
 	Graphics_ScrollerWindows->Add(Graphics_ScrollerWindowsSpace, 1, wxEXPAND);
 	Graphics_ScrollerWindows->Add(5, -1);
 
@@ -1069,11 +1069,11 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Main->Add(10, -1);
 	Graphics_Main->Add(Graphics_DataArea, 3, wxEXPAND);
 	Graphics_Main->Add(10, -1);
-	
+
 	Graphics_ID->Enable(false);
-	
+
 	Tab_Graphics->SetSizer(Graphics_Main);
-	
+
 	Connect(Graphics_Graphics_Search->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 	for(short loop = 0;loop < 2;loop++)

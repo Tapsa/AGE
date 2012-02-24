@@ -200,7 +200,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			{
 				delete GenieFile;
 			}
-			
+
 			{
 				SetStatusText("Reading file...", 0);
 				wxBusyCursor WaitCursor;
@@ -219,7 +219,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	{	// Without these, nothing can be edited.
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
-		
+
 //		ID and pointer fixes
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
@@ -274,7 +274,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 
 		Added = false;
-	
+
 		if(UnitCommands_ComboBox_Types->GetCount() > 0)
 		{
 			UnitCommands_ComboBox_Types->Clear();
@@ -498,7 +498,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Units_ComboBox_Class[loop]->Append("64 - Jedi Starfighter");
 			}
 			Units_ComboBox_Class[loop]->SetSelection(0);
-			
+
 			if(Attacks_ComboBox_Class[loop]->GetCount() > 0)
 			{
 				Attacks_ComboBox_Class[loop]->Clear();
@@ -738,7 +738,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Units_Units_SearchFilters[loop]->Append("Terrain");
 			Units_Units_SearchFilters[loop]->Append("Research");
 		*/	Units_Units_SearchFilters[loop]->SetSelection(0);
-		
+
 			if(Research_Research_SearchFilters[loop]->GetCount() > 0)
 			{
 				Research_Research_SearchFilters[loop]->Clear();
@@ -942,17 +942,17 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Effects_ComboBox_AttributesC->Append("107 - OREX Cost?");
 		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
 		Effects_ComboBox_AttributesC->SetSelection(0);
-		
+
 		DataOpened = true;
 		OnGameVersionChange();
-		
+
 		/*wxCommandEvent UseUndoCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Undo);
 		UseUndoCommand.SetId(MenuOption_Undo);
 		UseUndoCommand.SetInt(UseUndo);
 		ProcessEvent(UseUndoCommand);*/
 	}
 	SetStatusText("", 0);
-	
+
 	/*Extraction = new wxFileConfig("AGE_Extraction", wxEmptyString, "age2extraction.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	string Place, Data;
 	long Location = 0;
@@ -1022,7 +1022,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Attribute->Show(false);
 			Units_Holder_Civ->Show(false);
 		}
-		
+
 		if(GameVersion >= 2) // AoK ->
 		{
 			Research_Holder_Civ->Show(true);
@@ -1226,7 +1226,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 {
 //	int ErrCode = 0;
 	wxCommandEvent Selected;
-	
+
 		AGE_SaveDialog SaveBox (this);
 		SaveBox.Path_DatFileLocation->SetFocus();
 
@@ -1240,7 +1240,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
 		SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
-		
+
 		SaveBox.CheckBox_ApfFileLocation->SetValue(SaveApf);
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 		Selected.SetId(SaveBox.CheckBox_ApfFileLocation->GetId());
@@ -1265,7 +1265,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 		{
 			SetStatusText("Saving dat file...", 0);
 			wxBusyCursor WaitCursor;
-			
+
 			GenieFile->save(std::string(SaveDatFileName.c_str()));
 		}
 		if(SaveApf)
@@ -1303,7 +1303,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 
 	delete GenieFile;
 	GenieFile = 0;
-	
+
 	TabBar_Main->Show(false);
 	TabBar_Main->Destroy();
 	Destroy();
@@ -1404,7 +1404,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Units_Units_SearchFilters[0]->SetSelection(0);
 			}
 			else if(SearchFilters == MenuOption_1stFilters)
-			{	
+			{
 				Units_Units_SearchFilters[0]->Show(true);
 				Units_Units_SearchFilters[1]->Show(false);
 				Units_Units_SearchFilters[1]->SetSelection(0);
@@ -1461,7 +1461,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 	}
 }
 
-/* Check if File Exists 
+/* Check if File Exists
 
 bool AGE_Frame::FileExists(const char * value)
 {
@@ -1479,7 +1479,7 @@ string AGE_Frame::LanguageDllString(int ID)
 {
 	string Result = "";
 	char Buffer[256];
-	
+
 	if(LoadStringA(LanguageDll[2], ID, Buffer, 256) && strlen(Buffer) > 0)
 	{
 		Result = Buffer;
@@ -1519,7 +1519,7 @@ bool AGE_Frame::SearchMatches(string &CompareText)
 			// Splitting of search.
 			SearchEnd[0] = SearchText.substr(0, Found); // Cutting the first part.
 			SearchEnd[1] = SearchText.substr((Found+1), SearchText.length() - 1); // Cutting the remaining part.
-			
+
 			// Lets look if there are additional separation marks left.
 			for(short loop = 2;loop < Size;loop++) // Splits over 2 parts if necessary.
 			{
@@ -1535,7 +1535,7 @@ bool AGE_Frame::SearchMatches(string &CompareText)
 					break;
 				}
 			}
-		
+
 			// Searching for matches.
 			for(short loop = 0;loop < Size;loop++)
 			{
@@ -1569,7 +1569,7 @@ bool AGE_Frame::SearchMatches(string &CompareText)
 			// Splitting of exclude.
 			SearchEnd[0] = ExcludeText.substr(0, Found); // Cutting the first part.
 			SearchEnd[1] = ExcludeText.substr((Found+1), ExcludeText.length() - 1); // Cutting the remaining part.
-			
+
 			// Lets look if there are additional separation marks left.
 			for(short loop = 2;loop < Size;loop++) // Splits over 2 parts if necessary.
 			{
@@ -1585,7 +1585,7 @@ bool AGE_Frame::SearchMatches(string &CompareText)
 					break;
 				}
 			}
-		
+
 			// Searching for matches.
 			for(short loop = 0;loop < Size;loop++)
 			{
@@ -1599,7 +1599,7 @@ bool AGE_Frame::SearchMatches(string &CompareText)
 			if(UseAnd[1] == true && And[1] == false && Matches == false) Matches = true;
 		}
 	}
-	
+
 	return Matches;
 }
 
@@ -1654,7 +1654,7 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 						{
 							for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 							GenieFile->Civs[loop].Units[UnitID].Type = (char)UnitType;
-							
+
 							wxCommandEvent E;
 							OnUnitsCopy(E);
 							OnUnitsPaste(E);
@@ -1756,12 +1756,12 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitID].Type;
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			GenieFile->Civs[loop].Units[UnitID].Type = UnitType;
-			
+
 			wxCommandEvent E;
 			OnUnitsCopy(E);
-			OnUnitsPaste(E);	
+			OnUnitsPaste(E);
 		}
-		
+
 		wxCommandEvent E;
 		OnUnitsSelect(E);	// Updates unit layout.
 //		ListUnits(UnitCivID, false);	// For special search filters.
@@ -1935,11 +1935,11 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 			UnitCommands_Type->ChangeValue("-1");
 			UnitCommands_SubType->ChangeValue("-1");
 		}
-		
+
 		wxFocusEvent Temp(wxEVT_KILL_FOCUS);
 		UnitCommands_Type->OnKillFocus(Temp);
 		UnitCommands_SubType->OnKillFocus(Temp);
-		
+
 		if(GameVersion > 1)
 		{
 			ListUnitCommands();
@@ -1958,28 +1958,28 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[0]->GetId())
 	{
 		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[0]->GetSelection());
-		
+
 		wxCommandEvent E;
 		OnTTBuildingSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[1]->GetId())
 	{
 		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[1]->GetSelection());
-		
+
 		wxCommandEvent E;
 		OnTTBuildingSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[2]->GetId())
 	{
 		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[2]->GetSelection());
-		
+
 		wxCommandEvent E;
 		OnTTUnitSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[3]->GetId())
 	{
 		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[3]->GetSelection());
-		
+
 		wxCommandEvent E;
 		OnTTUnitSelect(E);
 	}
@@ -2052,7 +2052,7 @@ void AGE_Frame::OnKillFocus_CheckBoxByte(wxFocusEvent& Event)
 			if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
 			{
 				GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
-				
+
 				wxCommandEvent E;
 				OnGraphicsSelect(E);
 			}
@@ -2284,7 +2284,7 @@ void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent& Event)
 			if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
 			{
 				GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
-				
+
 				wxCommandEvent E;
 				OnGraphicsSelect(E);
 			}
@@ -2432,7 +2432,7 @@ void AGE_Frame::OnKillFocus_Long(wxFocusEvent& Event)
 		if(Event.GetId() == TechTrees_Ages_ID->GetId())
 		{
 			ListTTAgess();
-		}		
+		}
 		else if(Event.GetId() == TechTrees_Units_Mode1->GetId() || Event.GetId() == TechTrees_Units_Mode2->GetId())
 		{
 			wxCommandEvent E;
@@ -2534,7 +2534,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Researchs[ResearchID].Name;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Researchs[ResearchID].Name = ReducedName;
-	
+
 			ListResearches();
 		}
 		else if(Event.GetId() == Research_Name[1]->GetId())
@@ -2542,7 +2542,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Researchs[ResearchID].Name2;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Researchs[ResearchID].Name2 = ReducedName;
-	
+
 		//	ListResearches();
 			wxCommandEvent E;
 			OnResearchSelect(E);
@@ -2552,7 +2552,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Techages[TechID].Name;
 			ReducedName = ReducedName.substr(0, GenieFile->Techages[TechID].getNameSize());
 			GenieFile->Techages[TechID].Name = ReducedName;
-			
+
 			ListTechages();
 		}
 		else if(Event.GetId() == Civs_Name[0]->GetId())
@@ -2560,7 +2560,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Civs[CivID].Name;
 			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize());
 			GenieFile->Civs[CivID].Name = ReducedName;
-			
+
 			ListCivs();
 		}
 		else if(Event.GetId() == Civs_Name[1]->GetId())
@@ -2568,7 +2568,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Civs[CivID].Name2;
 			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize());
 			GenieFile->Civs[CivID].Name2 = ReducedName;
-			
+
 		//	ListCivs();
 			wxCommandEvent E;
 			OnCivsSelect(E);
@@ -2578,7 +2578,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Graphics[GraphicID].Name;
 			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getNameSize());
 			GenieFile->Graphics[GraphicID].Name = ReducedName;
-			
+
 			ListGraphics();
 		}
 		else if(Event.GetId() == Graphics_Name2->GetId())
@@ -2586,7 +2586,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Graphics[GraphicID].Name2;
 			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getName2Size());
 			GenieFile->Graphics[GraphicID].Name2 = ReducedName;
-			
+
 		//	ListGraphics();
 			wxCommandEvent E;
 			OnGraphicsSelect(E);
@@ -2596,7 +2596,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Terrains[TerrainID].Name;
 			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize());
 			GenieFile->Terrains[TerrainID].Name = ReducedName;
-			
+
 			ListTerrains();
 		}
 		else if(Event.GetId() == Terrains_Name2->GetId())
@@ -2604,7 +2604,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Terrains[TerrainID].Name2;
 			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize());
 			GenieFile->Terrains[TerrainID].Name2 = ReducedName;
-			
+
 		//	ListTerrains();
 			wxCommandEvent E;
 			OnTerrainsSelect(E);
@@ -2614,7 +2614,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Sounds[SoundID].Items[SoundItemID].FileName;
 			ReducedName = ReducedName.substr(0, GenieFile->Sounds[SoundID].Items[SoundItemID].getFileNameSize());
 			GenieFile->Sounds[SoundID].Items[SoundItemID].FileName = ReducedName;
-			
+
 			ListSoundItems();
 		}
 		else if(Event.GetId() == Colors_Name->GetId())
@@ -2622,7 +2622,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->PlayerColours[ColorID].Name;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->PlayerColours[ColorID].Name = ReducedName;
-			
+
 			ListPlayerColors();
 		}
 		else if(Event.GetId() == UnitLines_Name->GetId())
@@ -2630,7 +2630,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->UnitLines[UnitLineID].Name;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->UnitLines[UnitLineID].Name = ReducedName;
-			
+
 			ListUnitLines();
 		}
 		else if(Event.GetId() == Borders_BorderName[0]->GetId())
@@ -2638,7 +2638,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->TerrainBorders[BorderID].Name;
 			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
 			GenieFile->TerrainBorders[BorderID].Name = ReducedName;
-			
+
 			ListTerrainBorders();
 		}
 		else if(Event.GetId() == Borders_BorderName[1]->GetId())
@@ -2646,7 +2646,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->TerrainBorders[BorderID].Name2;
 			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
 			GenieFile->TerrainBorders[BorderID].Name2 = ReducedName;
-			
+
 			ListTerrainBorders();
 		}
 	}
@@ -2669,7 +2669,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name = ReducedName;
-	
+
 			ListUnits(UnitCivID);
 		}
 		else if(Event.GetId() == Units_Name2->GetId())
@@ -2677,7 +2677,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name2;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name2 = ReducedName;
-			
+
 			wxCommandEvent E;
 			OnUnitsSelect(E);
 		}
@@ -2707,7 +2707,7 @@ void AGE_Frame::OnUpdate_CheckBoxByte(wxCommandEvent& Event)
 		if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
 		{
 			GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
-			
+
 			wxCommandEvent E;
 			OnGraphicsSelect(E);
 		}
@@ -2951,7 +2951,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEven
 
 void AGE_Frame::OnUndoing(wxCommandEvent& Event)
 {
-	
+
 }*/
 
 AGE_Frame::~AGE_Frame()
