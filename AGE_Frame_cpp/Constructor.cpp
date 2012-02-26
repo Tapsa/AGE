@@ -155,4 +155,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
+	
+	// Let's create our SFML view
+    //    new MyCanvas(this, wxID_ANY, wxPoint(50, 50), wxSize(700, 500));
 }

@@ -390,12 +390,28 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent& Event)
 	ListGraphics();
 }
 
-void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnGraphicsInsert(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
 	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		gdat::Graphic Temp;
+		GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicID, Temp);
+		GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicID, 1);
+		for(short loop = GraphicID;loop < GenieFile->Graphics.size();loop++)	//	ID Fix
+		{
+			GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
+		}
+		ListGraphics();
+	}
+}
+
+void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
+{
+	short Selection = Graphics_Graphics_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		wxBusyCursor WaitCursor;
 		GenieFile->Graphics.erase(GenieFile->Graphics.begin() + GraphicID);
 		GenieFile->GraphicPointers.erase(GenieFile->GraphicPointers.begin() + GraphicID);
 		for(short loop = GraphicID;loop < GenieFile->Graphics.size();loop++)	//	ID Fix
@@ -551,12 +567,23 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent& Event)
+void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
 	short Selection = Graphics_Deltas_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		gdat::GraphicDelta Temp;
+		GenieFile->Graphics[GraphicID].Deltas.insert(GenieFile->Graphics[GraphicID].Deltas.begin() + DeltaID, Temp);
+		ListGraphicDeltas();
+	}
+}
+
+void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent& Event)
+{
+	short Selection = Graphics_Deltas_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		wxBusyCursor WaitCursor;
 		GenieFile->Graphics[GraphicID].Deltas.erase(GenieFile->Graphics[GraphicID].Deltas.begin() + DeltaID);
 		if(Selection == Graphics_Deltas_List->GetCount() - 1)
 		Graphics_Deltas_List->SetSelection(Selection - 1);
@@ -697,8 +724,9 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Graphics_UseAnd[loop] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	}
 	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
-	Graphics_Graphics_Buttons = new wxGridSizer(2, 0, 0);
+	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Graphics_Insert = new wxButton(Tab_Graphics, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Delete = new wxButton(Tab_Graphics, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Copy = new wxButton(Tab_Graphics, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Paste = new wxButton(Tab_Graphics, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
@@ -790,8 +818,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_Deltas_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_Deltas_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140));
-	Graphics_Deltas_Buttons = new wxGridSizer(2, 0, 0);
+	Graphics_Deltas_Buttons = new wxGridSizer(3, 0, 0);
 	Deltas_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Deltas_Insert = new wxButton(Graphics_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Deltas_Delete = new wxButton(Graphics_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Deltas_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Deltas_Paste = new wxButton(Graphics_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
@@ -867,9 +896,11 @@ void AGE_Frame::CreateGraphicsControls()
 	}
 
 	Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
+	Graphics_Graphics_Buttons->Add(Graphics_Insert, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Delete, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Copy, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Paste, 1, wxEXPAND);
+	Graphics_Graphics_Buttons->AddStretchSpacer(1);
 	Graphics_Graphics_Buttons->Add(Graphics_Enable, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Disable, 1, wxEXPAND);
 
@@ -963,6 +994,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown4, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
 	Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
+	Graphics_Deltas_Buttons->Add(Deltas_Insert, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Delete, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Copy, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Paste, 1, wxEXPAND);
@@ -1083,6 +1115,7 @@ void AGE_Frame::CreateGraphicsControls()
 	}
 	Connect(Graphics_Graphics_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect));
 	Connect(Graphics_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsAdd));
+	Connect(Graphics_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsInsert));
 	Connect(Graphics_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsDelete));
 	Connect(Graphics_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsCopy));
 	Connect(Graphics_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsPaste));
@@ -1092,6 +1125,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Connect(Graphics_Deltas_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasSearch));
 	Connect(Graphics_Deltas_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasSelect));
 	Connect(Deltas_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasAdd));
+	Connect(Deltas_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasInsert));
 	Connect(Deltas_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasDelete));
 	Connect(Deltas_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasCopy));
 	Connect(Deltas_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasPaste));

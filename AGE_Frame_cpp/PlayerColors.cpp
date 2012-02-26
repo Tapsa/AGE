@@ -112,12 +112,27 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent& Event)
 	ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
 	short Selection = Colors_Colors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		gdat::PlayerColour Temp;
+		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorID, Temp);
+		for(short loop = ColorID;loop < GenieFile->PlayerColours.size();loop++)	//	ID Fix
+		{
+			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
+		}
+		ListPlayerColors();
+	}
+}
+
+void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
+{
+	short Selection = Colors_Colors_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		wxBusyCursor WaitCursor;
 		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorID);
 		for(short loop = ColorID;loop < GenieFile->PlayerColours.size();loop++)	//	ID Fix
 		{
@@ -154,7 +169,7 @@ void AGE_Frame::CreatePlayerColorControls()
 {
 	Colors_Main = new wxBoxSizer(wxHORIZONTAL);
 	Colors_ListArea = new wxBoxSizer(wxVERTICAL);
-	Colors_Colors_Buttons = new wxGridSizer(2, 0, 0);
+	Colors_Colors_Buttons = new wxGridSizer(3, 0, 0);
 	Tab_PlayerColors = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Colors");
@@ -162,6 +177,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Colors_Search_R = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
 	Colors_Colors_List = new wxListBox(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Colors_Add = new wxButton(Tab_PlayerColors, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Colors_Insert = new wxButton(Tab_PlayerColors, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Colors_Delete = new wxButton(Tab_PlayerColors, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Colors_Copy = new wxButton(Tab_PlayerColors, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Colors_Paste = new wxButton(Tab_PlayerColors, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
@@ -200,6 +216,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown5 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 
 	Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
+	Colors_Colors_Buttons->Add(Colors_Insert, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Delete, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Copy, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Paste, 1, wxEXPAND);
@@ -275,6 +292,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Connect(Colors_Colors_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsSearch));
 	Connect(Colors_Colors_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsSelect));
 	Connect(Colors_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsAdd));
+	Connect(Colors_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsInsert));
 	Connect(Colors_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsDelete));
 	Connect(Colors_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsCopy));
 	Connect(Colors_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsPaste));
