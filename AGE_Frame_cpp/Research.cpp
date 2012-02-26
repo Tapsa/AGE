@@ -351,12 +351,23 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 	ListResearches();
 }
 
-void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
+void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
 	short Selection = Research_Research_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		gdat::Research Temp;
+		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchID, Temp);
+		ListResearches();
+	}
+}
+
+void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
+{
+	short Selection = Research_Research_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		wxBusyCursor WaitCursor;
 		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchID);
 		if(Selection == Research_Research_List->GetCount() - 1)
 		Research_Research_List->SetSelection(Selection - 1);
@@ -400,8 +411,9 @@ void AGE_Frame::CreateResearchControls()
 		Research_Research_UseAnd[loop] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	}
 	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
-	Research_Research_Buttons = new wxGridSizer(2, 0, 0);
+	Research_Research_Buttons = new wxGridSizer(3, 0, 0);
 	Research_Add = new wxButton(Tab_Research, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Research_Insert = new wxButton(Tab_Research, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Research_Delete = new wxButton(Tab_Research, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Research_Copy = new wxButton(Tab_Research, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Research_Paste = new wxButton(Tab_Research, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
@@ -497,6 +509,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Text_Name[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 	Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
+	Research_Research_Buttons->Add(Research_Insert, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Delete, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Copy, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Paste, 1, wxEXPAND);
@@ -682,6 +695,7 @@ void AGE_Frame::CreateResearchControls()
 	}
 	Connect(Research_Research_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
 	Connect(Research_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchAdd));
+	Connect(Research_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchInsert));
 	Connect(Research_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchDelete));
 	Connect(Research_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchCopy));
 	Connect(Research_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchPaste));
