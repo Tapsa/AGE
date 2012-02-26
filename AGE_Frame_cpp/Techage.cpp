@@ -208,12 +208,23 @@ void AGE_Frame::OnTechageAdd(wxCommandEvent& Event)	// Works.
 	ListTechages();
 }
 
-void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnTechageInsert(wxCommandEvent& Event)	// Works.
 {
-	wxBusyCursor WaitCursor;
 	short Selection = Techs_Techs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		gdat::Techage Temp;
+		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechID, Temp);
+		ListTechages();
+	}
+}
+
+void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
+{
+	short Selection = Techs_Techs_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		wxBusyCursor WaitCursor;
 		GenieFile->Techages.erase(GenieFile->Techages.begin() + TechID);
 		if(Selection == Techs_Techs_List->GetCount() - 1)
 		Techs_Techs_List->SetSelection(Selection - 1);
@@ -943,12 +954,23 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnEffectsInsert(wxCommandEvent& Event)	// Works.
 {
-	wxBusyCursor WaitCursor;
 	short Selection = Techs_Effects_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		gdat::TechageEffect Temp;
+		GenieFile->Techages[TechID].Effects.insert(GenieFile->Techages[TechID].Effects.begin() + EffectID, Temp);
+		ListEffects();
+	}
+}
+
+void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
+{
+	short Selection = Techs_Effects_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		wxBusyCursor WaitCursor;
 		GenieFile->Techages[TechID].Effects.erase(GenieFile->Techages[TechID].Effects.begin() + EffectID);
 		if(Selection == Techs_Effects_List->GetCount() - 1)
 		Techs_Effects_List->SetSelection(Selection - 1);
@@ -982,16 +1004,17 @@ void AGE_Frame::CreateTechageControls()
 
 	Techs_Main = new wxBoxSizer(wxHORIZONTAL);
 	Techs_ListArea = new wxBoxSizer(wxVERTICAL);
-	Techs_Techs_Buttons = new wxGridSizer(2, 0, 0);
+	Techs_Techs_Buttons = new wxGridSizer(3, 0, 0);
 	Effects_DataArea = new wxBoxSizer(wxVERTICAL);
 	Effects_ListArea = new wxBoxSizer(wxVERTICAL);
-	Techs_Effects_Buttons = new wxGridSizer(2, 0, 0);
+	Techs_Effects_Buttons = new wxGridSizer(3, 0, 0);
 	Effects_DataAreaProperties = new wxBoxSizer(wxVERTICAL);
 	Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Technologies");
 	Techs_Techs_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Techs_Techs_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Techs_Techs_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Techs_Techs_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Techs_Techs_Insert = new wxButton(Tab_Techage, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Techs_Techs_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Techs_Techs_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Techs_Techs_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
@@ -1008,6 +1031,7 @@ void AGE_Frame::CreateTechageControls()
 //	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	Techs_Effects_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Techs_Effects_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_Insert = new wxButton(Tab_Techage, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
@@ -1079,6 +1103,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ComboBox_Type->SetSelection(0);
 
 	Techs_Techs_Buttons->Add(Techs_Techs_Add, 1, wxEXPAND);
+	Techs_Techs_Buttons->Add(Techs_Techs_Insert, 1, wxEXPAND);
 	Techs_Techs_Buttons->Add(Techs_Techs_Delete, 1, wxEXPAND);
 	Techs_Techs_Buttons->Add(Techs_Techs_Copy, 1, wxEXPAND);
 	Techs_Techs_Buttons->Add(Techs_Techs_Paste, 1, wxEXPAND);
@@ -1095,6 +1120,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_ListArea->Add(-1, 10);
 
 	Techs_Effects_Buttons->Add(Techs_Effects_Add, 1, wxEXPAND);
+	Techs_Effects_Buttons->Add(Techs_Effects_Insert, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Delete, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Copy, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Paste, 1, wxEXPAND);
@@ -1230,10 +1256,12 @@ void AGE_Frame::CreateTechageControls()
 	Connect(Techs_Effects_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
 	Connect(Techs_Effects_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
 	Connect(Techs_Techs_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageAdd));
+	Connect(Techs_Techs_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageInsert));
 	Connect(Techs_Techs_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageDelete));
 	Connect(Techs_Techs_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageCopy));
 	Connect(Techs_Techs_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechagePaste));
 	Connect(Techs_Effects_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsAdd));
+	Connect(Techs_Effects_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsInsert));
 	Connect(Techs_Effects_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsDelete));
 	Connect(Techs_Effects_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsCopy));
 	Connect(Techs_Effects_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPaste));

@@ -1372,15 +1372,19 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			if(ShowButtons)
 			{
 				Civs_Add->Enable(true); // Must copy existing civ over the new one
+				Civs_Insert->Enable(true);
 				Civs_Delete->Enable(true);
 				Terrains_Add->Enable(true);
+				Terrains_Insert->Enable(true);
 				Terrains_Delete->Enable(true);
 			}
 			else
 			{
 				Civs_Add->Enable(false);
+				Civs_Insert->Enable(false);
 				Civs_Delete->Enable(false);
 				Terrains_Add->Enable(false);
+				Terrains_Insert->Enable(false);
 				Terrains_Delete->Enable(false);
 			}
 		}
