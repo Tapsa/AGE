@@ -247,14 +247,18 @@ string AGE_Frame::GetResourceName(short &Index)
 		else
 		Name = "Holocrons Captured";
 	}
+	else if(Index == 8)
+	{
+		Name = "Trade Bonus";
+	}
 	else if(Index == 9)
 	{
-		Name = "Goods (Used by Trade Workshops and Docks)";
+		Name = "Trade Goods";
 	}
 	else if(Index == 10)
 	{
 		if(GameVersion < 4)
-		Name = "Unknown";
+		Name = "Trade Production";
 		else
 		Name = "Shields Recharge Rate";
 	}
@@ -265,6 +269,10 @@ string AGE_Frame::GetResourceName(short &Index)
 	else if(Index == 12)
 	{
 		Name = "Corpse Decay Time";
+	}
+	else if(Index == 13)
+	{
+		Name = "Discovery";
 	}
 	else if(Index == 14)
 	{
@@ -284,11 +292,14 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 18)
 	{
+		if(GameVersion < 4)
+		Name = "Unknown";
+		else
 		Name = "Power Core Range";
 	}
 	else if(Index == 19)
 	{
-		Name = "Military Room (for counting Losses)";
+		Name = "Total Units Owned";
 	}
 	else if(Index == 20)
 	{
@@ -340,25 +351,35 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 30)
 	{
-		Name = "(Unknown)";
+		Name = "Building Limit";
 	}
 	else if(Index == 31)
 	{
 		if(GameVersion < 4)
-		Name = "Unknown";
+		Name = "Food Limit";
 		else
 		Name = "Enable A-A Attack For AT-ST";
 	}
 	else if(Index == 32)
 	{
+		if(GameVersion < 2)
+		Name = "Unit Limit";
+		else
 		Name = "Bonus Population";
 	}
 	else if(Index == 33)
 	{
 		if(GameVersion < 4)
-		Name = "Unknown";
+		Name = "Maintenance";
 		else
 		Name = "Power Core Shielding";
+	}
+	else if(Index == 34)
+	{
+		if(GameVersion < 4)
+		Name = "Faith";
+		else
+		Name = "Force";
 	}
 	else if(Index == 35)
 	{
@@ -377,11 +398,14 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 38)
 	{
+		if(GameVersion < 4)
+		Name = "Unknown";
+		else
 		Name = "Shields On For Bombers/Fighters";
 	}
 	else if(Index == 39)
 	{
-		Name = "Technology 4?";
+		Name = "All Techs Achieved";
 	}
 	else if(Index == 40)
 	{
@@ -390,6 +414,10 @@ string AGE_Frame::GetResourceName(short &Index)
 	else if(Index == 41)
 	{
 		Name = "Units Converted";
+	}
+	else if(Index == 42)
+	{
+		Name = "Standing? Wonders";
 	}
 	else if(Index == 43)
 	{
@@ -414,6 +442,14 @@ string AGE_Frame::GetResourceName(short &Index)
 		else
 		Name = "Nova Mining Productivity";
 	}
+	else if(Index == 48)
+	{
+		Name = "Town Center Unavailable";
+	}
+	else if(Index == 49)
+	{
+		Name = "Gold Counter";
+	}
 	else if(Index == 50)
 	{
 		Name = "Reveal Ally";
@@ -421,9 +457,13 @@ string AGE_Frame::GetResourceName(short &Index)
 	else if(Index == 51)
 	{
 		if(GameVersion < 4)
-		Name = "Unknown";
+		Name = "Houses (Unused)";
 		else
 		Name = "Shielding";
+	}
+	else if(Index == 52)
+	{
+		Name = "Monastery Count";
 	}
 	else if(Index == 53)
 	{
@@ -444,6 +484,10 @@ string AGE_Frame::GetResourceName(short &Index)
 		else
 		Name = "Enable Stealth For Masters";
 	}
+	else if(Index == 57)
+	{
+		Name = "Captured Unit";
+	}
 	else if(Index == 58)
 	{
 		if(GameVersion < 4)
@@ -453,31 +497,79 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 59)
 	{
-		Name = "(Boolean)";
+		Name = "Trade Good Quality";
 	}
 	else if(Index == 60)
 	{
-		Name = "(Boolean)";
+		Name = "Trade Market Level";
+	}
+	else if(Index == 61)
+	{
+		Name = "Formations";
 	}
 	else if(Index == 62)
 	{
-		Name = "Unknown";
+		Name = "Building Housing Rate";
+	}
+	else if(Index == 63)
+	{
+		Name = "Gather Tax Rate";
+	}
+	else if(Index == 64)
+	{
+		Name = "Gather Accumulator";
 	}
 	else if(Index == 65)
 	{
-		Name = "(Unknown)";
+		Name = "Salvage Decay Rate";
 	}
 	else if(Index == 66)
 	{
-		Name = "Dark Age?";
+		Name = "Ages? Allow Formations?";
 	}
 	else if(Index == 67)
 	{
 		Name = "Conversions";
 	}
+	else if(Index == 68)
+	{
+		Name = "Hit Points Killed (Unused)";
+	}
+	else if(Index == 69)
+	{
+		Name = "Killed P1";
+	}
+	else if(Index == 70)
+	{
+		Name = "Killed P2";
+	}
+	else if(Index == 71)
+	{
+		Name = "Killed P3";
+	}
+	else if(Index == 72)
+	{
+		Name = "Killed P4";
+	}
+	else if(Index == 73)
+	{
+		Name = "Killed P5";
+	}
+	else if(Index == 74)
+	{
+		Name = "Killed P6";
+	}
+	else if(Index == 75)
+	{
+		Name = "Killed P7";
+	}
+	else if(Index == 76)
+	{
+		Name = "Killed P8";
+	}
 	else if(Index == 77)
 	{
-		Name = "Conversion Resistance 1";
+		Name = "Conversion Resistance";
 	}
 	else if(Index == 78)
 	{
@@ -492,19 +584,19 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 80)
 	{
-		Name = "(Unknown)";
+		Name = "Queued Units";
 	}
 	else if(Index == 81)
 	{
-		Name = "(Unknown)";
+		Name = "Training Count";
 	}
 	else if(Index == 82)
 	{
-		Name = "Start With Packed Town Center";
+		Name = "Start With Packed Town Center / Raider";
 	}
 	else if(Index == 83)
 	{
-		Name = "(Unknown)";
+		Name = "Boarding Recharge Rate";
 	}
 	else if(Index == 84)
 	{
@@ -512,12 +604,16 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 85)
 	{
-		Name = "Researches' Cost";
+		Name = "Researches' Cost Multiplier";
+	}
+	else if(Index == 86)
+	{
+		Name = "Researches' Time Multiplier";
 	}
 	else if(Index == 87)
 	{
 		if(GameVersion < 4)
-		Name = "Boardings?";
+		Name = "Convert Ships";
 		else
 		Name = "Concentration";
 	}
@@ -563,11 +659,11 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 95)
 	{
-		Name = "Enable Town Center Packing";
+		Name = "Enable Town Center Packing / Raider Ability";
 	}
 	else if(Index == 96)
 	{
-		Name = "Self Regeneration Seconds";
+		Name = "Self Healing Seconds (Berserkers)";
 	}
 	else if(Index == 97)
 	{
@@ -575,7 +671,7 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 98)
 	{
-		Name = "Score: Economy 1";
+		Name = "Score: Economy (Object Cost Summation)";
 	}
 	else if(Index == 99)
 	{
@@ -592,6 +688,214 @@ string AGE_Frame::GetResourceName(short &Index)
 	{
 		Name = "Trade Profit";
 	}
+	else if(Index == 102)
+	{
+		Name = "P1 Tribute";
+	}
+	else if(Index == 103)
+	{
+		Name = "P2 Tribute";
+	}
+	else if(Index == 104)
+	{
+		Name = "P3 Tribute";
+	}
+	else if(Index == 105)
+	{
+		Name = "P4 Tribute";
+	}
+	else if(Index == 106)
+	{
+		Name = "P5 Tribute";
+	}
+	else if(Index == 107)
+	{
+		Name = "P6 Tribute";
+	}
+	else if(Index == 108)
+	{
+		Name = "P7 Tribute";
+	}
+	else if(Index == 109)
+	{
+		Name = "P8 Tribute";
+	}
+	else if(Index == 110)
+	{
+		Name = "P1 Kill Score";
+	}
+	else if(Index == 111)
+	{
+		Name = "P2 Kill Score";
+	}
+	else if(Index == 112)
+	{
+		Name = "P3 Kill Score";
+	}
+	else if(Index == 113)
+	{
+		Name = "P4 Kill Score";
+	}
+	else if(Index == 114)
+	{
+		Name = "P5 Kill Score";
+	}
+	else if(Index == 115)
+	{
+		Name = "P6 Kill Score";
+	}
+	else if(Index == 116)
+	{
+		Name = "P7 Kill Score";
+	}
+	else if(Index == 117)
+	{
+		Name = "P8 Kill Score";
+	}
+	else if(Index == 118)
+	{
+		Name = "P1 Razings";
+	}
+	else if(Index == 119)
+	{
+		Name = "P2 Razings";
+	}
+	else if(Index == 120)
+	{
+		Name = "P3 Razings";
+	}
+	else if(Index == 121)
+	{
+		Name = "P4 Razings";
+	}
+	else if(Index == 122)
+	{
+		Name = "P5 Razings";
+	}
+	else if(Index == 123)
+	{
+		Name = "P6 Razings";
+	}
+	else if(Index == 124)
+	{
+		Name = "P7 Razings";
+	}
+	else if(Index == 125)
+	{
+		Name = "P8 Razings";
+	}
+	else if(Index == 126)
+	{
+		Name = "P1 Razing Score";
+	}
+	else if(Index == 127)
+	{
+		Name = "P2 Razing Score";
+	}
+	else if(Index == 128)
+	{
+		Name = "P3 Razing Score";
+	}
+	else if(Index == 129)
+	{
+		Name = "P4 Razing Score";
+	}
+	else if(Index == 130)
+	{
+		Name = "P5 Razing Score";
+	}
+	else if(Index == 131)
+	{
+		Name = "P6 Razing Score";
+	}
+	else if(Index == 132)
+	{
+		Name = "P7 Razing Score";
+	}
+	else if(Index == 133)
+	{
+		Name = "P8 Razing Score";
+	}
+	else if(Index == 134)
+	{
+		Name = "Standing Castles";
+	}
+	else if(Index == 135)
+	{
+		Name = "Hit Points Razings (Unused)";
+	}
+	else if(Index == 136)
+	{
+		Name = "Kills By P1";
+	}
+	else if(Index == 137)
+	{
+		Name = "Kills By P2";
+	}
+	else if(Index == 138)
+	{
+		Name = "Kills By P3";
+	}
+	else if(Index == 139)
+	{
+		Name = "Kills By P4";
+	}
+	else if(Index == 140)
+	{
+		Name = "Kills By P5";
+	}
+	else if(Index == 141)
+	{
+		Name = "Kills By P6";
+	}
+	else if(Index == 142)
+	{
+		Name = "Kills By P7";
+	}
+	else if(Index == 143)
+	{
+		Name = "Kills By P8";
+	}
+	else if(Index == 144)
+	{
+		Name = "Razings By P1";
+	}
+	else if(Index == 145)
+	{
+		Name = "Razings By P2";
+	}
+	else if(Index == 146)
+	{
+		Name = "Razings By P3";
+	}
+	else if(Index == 147)
+	{
+		Name = "Razings By P4";
+	}
+	else if(Index == 148)
+	{
+		Name = "Razings By P5";
+	}
+	else if(Index == 149)
+	{
+		Name = "Razings By P6";
+	}
+	else if(Index == 150)
+	{
+		Name = "Razings By P7";
+	}
+	else if(Index == 151)
+	{
+		Name = "Razings By P8";
+	}
+	else if(Index == 152)
+	{
+		Name = "Units Lost Score";
+	}
+	else if(Index == 153)
+	{
+		Name = "Buildings Lost Score";
+	}
 	else if(Index == 154)
 	{
 		Name = "Units Lost";
@@ -600,13 +904,45 @@ string AGE_Frame::GetResourceName(short &Index)
 	{
 		Name = "Buildings Lost";
 	}
+	else if(Index == 156)
+	{
+		Name = "Tribute From P1";
+	}
+	else if(Index == 157)
+	{
+		Name = "Tribute From P2";
+	}
+	else if(Index == 158)
+	{
+		Name = "Tribute From P3";
+	}
+	else if(Index == 159)
+	{
+		Name = "Tribute From P4";
+	}
+	else if(Index == 160)
+	{
+		Name = "Tribute From P5";
+	}
+	else if(Index == 161)
+	{
+		Name = "Tribute From P6";
+	}
+	else if(Index == 162)
+	{
+		Name = "Tribute From P7";
+	}
+	else if(Index == 163)
+	{
+		Name = "Tribute From P8";
+	}
 	else if(Index == 164)
 	{
-		Name = "(Unknown)";
+		Name = "Current Units Score";
 	}
 	else if(Index == 165)
 	{
-		Name = "(Unknown)";
+		Name = "Current Buildings Score";
 	}
 	else if(Index == 166)
 	{
@@ -641,6 +977,10 @@ string AGE_Frame::GetResourceName(short &Index)
 	{
 		Name = "Tribute Received";
 	}
+	else if(Index == 172)
+	{
+		Name = "Razing Score";
+	}
 	else if(Index == 173)
 	{
 		if(GameVersion < 4)
@@ -657,27 +997,35 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 175)
 	{
-		Name = "Score: Economy 2";
+		Name = "Score: Economy (Tribute)";
+	}
+	else if(Index == 176)
+	{
+		Name = "Convert Min Adjustment";
+	}
+	else if(Index == 177)
+	{
+		Name = "Convert Max Adjustment";
 	}
 	else if(Index == 178)
 	{
-		Name = "Conversion Resistance 2";
+		Name = "Convert Resist Min Adjustment";
 	}
 	else if(Index == 179)
 	{
-		Name = "Conversion Resistance 3";
+		Name = "Convert Resist Max Adjustment";
 	}
 	else if(Index == 180)
 	{
-		Name = "(Unknown)";
+		Name = "Convert Building Min";
 	}
 	else if(Index == 181)
 	{
-		Name = "(Unknown)";
+		Name = "Convert Building Max";
 	}
 	else if(Index == 182)
 	{
-		Name = "(Unknown)";
+		Name = "Convert Building Chance";
 	}
 	else if(Index == 183)
 	{
@@ -686,6 +1034,31 @@ string AGE_Frame::GetResourceName(short &Index)
 	else if(Index == 184)
 	{
 		Name = "Score: Society";
+	}
+	else if(Index == 185)
+	{
+		Name = "Food Score";
+	}
+	else if(Index == 186)
+	{
+		if(GameVersion < 4)
+		Name = "Wood Score";
+		else
+		Name = "Carbon Score";
+	}
+	else if(Index == 187)
+	{
+		if(GameVersion < 4)
+		Name = "Stone Score";
+		else
+		Name = "Ore Score";
+	}
+	else if(Index == 188)
+	{
+		if(GameVersion < 4)
+		Name = "Gold Score";
+		else
+		Name = "Nova Score";
 	}
 	else if(Index == 189)
 	{
@@ -722,18 +1095,18 @@ string AGE_Frame::GetResourceName(short &Index)
 	}
 	else if(Index == 195)
 	{
-		Name = "Building Rate (Except Wonder)";
+		Name = "Construction Rate (Except Wonder)";
 	}
 	else if(Index == 196)
 	{
 		if(GameVersion < 4)
-		Name = "Wonder Victory Time";
+		Name = "Wonder Bonus";
 		else
 		Name = "Biological Self Regeneration";
 	}
 	else if(Index == 197)
 	{
-		Name = "Atheism";
+		Name = "Spies Discount";
 	}
 	else
 	{
