@@ -269,12 +269,16 @@ string AGE_Frame::GetEffectName(short &Index)
 		break;
 		case 2:
 		{
-			Name = "Enable/Disable Unit";
+			if(GenieFile->Techages[TechID].Effects[Index].B == 0)
+				Name = "Disable";
+			else
+				Name = "Enable";
+			Name += " Unit "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A);
 		}
 		break;
 		case 3:
 		{
-			Name = "Upgrade Unit";
+			Name = "Upgrade Unit "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" to "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].B);
 		}
 		break;
 		case 4:
@@ -299,12 +303,12 @@ string AGE_Frame::GetEffectName(short &Index)
 		break;
 		case 102:
 		{
-			Name = "Disable Research";
+			Name = "Disable Research "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D);
 		}
 		break;
 		case 103:
 		{
-			Name = "Research Time Modifier(Set/+/-)";
+			Name = "Research Time Modifier (Set/+/-)";
 		}
 		break;
 		default:
