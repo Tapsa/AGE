@@ -1630,8 +1630,7 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 				Effects_D->OnKillFocus(Temp);
 			}
 		}
-		wxCommandEvent E;
-		OnEffectsSelect(E);
+		ListEffects();
 	}
 	else if(Event.GetId() == Units_Type->GetId())
 	{
@@ -1713,8 +1712,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		wxFocusEvent Temp(wxEVT_KILL_FOCUS);
 		Effects_D->OnKillFocus(Temp);
 
-		wxCommandEvent E;
-		OnEffectsSelect(E);
+		ListEffects();
 	}
 	else if(Event.GetId() == Units_ComboBox_Type->GetId())
 	{
@@ -2259,8 +2257,7 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent& Event)
 	{
 		if(Event.GetId() == Effects_A->GetId() || Event.GetId() == Effects_B->GetId() || Event.GetId() == Effects_C->GetId())
 		{
-			wxCommandEvent E;
-			OnEffectsSelect(E);
+			ListEffects();
 		}
 		else if(Event.GetId() == Borders_BorderFrameID->GetId() || Event.GetId() == Borders_BorderFlag1->GetId() || Event.GetId() == Borders_BorderFlag2->GetId())
 		{
@@ -2501,8 +2498,7 @@ void AGE_Frame::OnKillFocus_Float(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == Effects_D->GetId())
 		{
-			wxCommandEvent E;
-			OnEffectsSelect(E);
+			ListEffects();
 		}
 	}
 }
@@ -2740,8 +2736,7 @@ void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
 	((ComboBox_Short*)Event.GetEventObject())->OnUpdate(Event);
 	if(Event.GetId() == Effects_ComboBox_AttributesC->GetId())
 	{
-		wxCommandEvent E;
-		OnEffectsSelect(E);
+		ListEffects();
 	}
 	else if(Event.GetId() == GraphicDeltas_ComboBox_GraphicID->GetId())
 	{
@@ -2907,8 +2902,7 @@ void AGE_Frame::OnUpdate_CheckBoxShort(wxCommandEvent& Event)
 	((CheckBox_Short*)Event.GetEventObject())->OnUpdate(Event);
 	if(Event.GetId() == Effects_CheckBox_ModeB->GetId() || Event.GetId() == Effects_CheckBox_ModeC->GetId())
 	{
-		wxCommandEvent E;
-		OnEffectsSelect(E);
+		ListEffects();
 	}
 }
 
