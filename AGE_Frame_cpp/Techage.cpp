@@ -259,12 +259,21 @@ string AGE_Frame::GetEffectName(short &Index)
 	{
 		case 0:
 		{
-			Name = "Attribute Modifier (Set)";
+			//Name = "Attribute Modifier (Set)";
+			Name = "Set Attribute "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].C)+" To "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D)+" For ";
+			if(GenieFile->Techages[TechID].Effects[Index].B == -1)
+				Name += "Unit "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A);
+			else
+				Name += "Class "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].B);
 		}
 		break;
 		case 1:
 		{
-			Name = "Resource Modifier (Set/+/-)";
+			//Name = "Resource Modifier (Set/+/-)";
+			if(GenieFile->Techages[TechID].Effects[Index].B == 0)
+				Name = "Set Resource "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" To "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D);
+			else
+				Name = "Change Resource "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" By "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D);
 		}
 		break;
 		case 2:
@@ -278,27 +287,42 @@ string AGE_Frame::GetEffectName(short &Index)
 		break;
 		case 3:
 		{
-			Name = "Upgrade Unit "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" to "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].B);
+			Name = "Upgrade Unit "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" To "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].B);
 		}
 		break;
 		case 4:
 		{
-			Name = "Attribute Modifier (+/-)";
+			//Name = "Attribute Modifier (+/-)";
+			Name = "Change Attribute "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].C)+" By "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D)+" For ";
+			if(GenieFile->Techages[TechID].Effects[Index].B == -1)
+				Name += "Unit "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A);
+			else
+				Name += "Class "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].B);
 		}
 		break;
 		case 5:
 		{
-			Name = "Attribute Modifier (Multiply)";
+			//Name = "Attribute Modifier (Multiply)";
+			Name = "Multiply Attribute "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].C)+" By "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D)+" For ";
+			if(GenieFile->Techages[TechID].Effects[Index].B == -1)
+				Name += "Unit "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A);
+			else
+				Name += "Class "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].B);
 		}
 		break;
 		case 6:
 		{
-			Name = "Resource Modifier (Multiply)";
+			//Name = "Resource Modifier (Multiply)";
+			Name = "Multiply Resource "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" By "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D);
 		}
 		break;
 		case 101:
 		{
-			Name = "Research Cost Modifier (Set/+/-)";
+			//Name = "Research Cost Modifier (Set/+/-)";
+			if(GenieFile->Techages[TechID].Effects[Index].C == 0)
+				Name = "Set Research "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" Cost Type "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].B)+" To "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D);
+			else
+				Name = "Change Research "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" Cost Type "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].B)+" By "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D);
 		}
 		break;
 		case 102:
@@ -308,7 +332,11 @@ string AGE_Frame::GetEffectName(short &Index)
 		break;
 		case 103:
 		{
-			Name = "Research Time Modifier (Set/+/-)";
+			//Name = "Research Time Modifier (Set/+/-)";
+			if(GenieFile->Techages[TechID].Effects[Index].C == 0)
+				Name = "Set Research "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" Time To "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D);
+			else
+				Name = "Change Research "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].A)+" Time By "+lexical_cast<string>(GenieFile->Techages[TechID].Effects[Index].D);
 		}
 		break;
 		default:
