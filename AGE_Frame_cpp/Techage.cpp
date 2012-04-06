@@ -1187,9 +1187,9 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_A->Add(Effects_A, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_A->Add(Effects_ComboBox_A, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_Holder_DataA->Add(Effects_Text_A, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_Holder_DataA->Add(Effects_Holder_A, 3, wxEXPAND);
-	Effects_Holder_DataA->Add(Effects_Info_A, 3, wxEXPAND);
+	Effects_Holder_DataA->Add(Effects_Text_A, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
+	Effects_Holder_DataA->Add(Effects_Holder_A, 2, wxEXPAND);
+	Effects_Holder_DataA->Add(Effects_Info_A, 2, wxEXPAND);
 
 	Effects_ComboBox_B->Add(Effects_CheckBox_ModeB, 1, wxEXPAND);
 	Effects_ComboBox_B->Add(Units_ComboBox_Class[2], 1, wxEXPAND);
@@ -1198,39 +1198,39 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_B->Add(Effects_B, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_B->Add(Effects_ComboBox_B, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_Holder_DataB->Add(Effects_Text_B, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_Holder_DataB->Add(Effects_Holder_B, 3, wxEXPAND);
-	Effects_Holder_DataB->Add(Effects_Info_B, 3, wxEXPAND);
+	Effects_Holder_DataB->Add(Effects_Text_B, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
+	Effects_Holder_DataB->Add(Effects_Holder_B, 2, wxEXPAND);
+	Effects_Holder_DataB->Add(Effects_Info_B, 2, wxEXPAND);
 
 	Effects_ComboBox_C->Add(Effects_CheckBox_ModeC, 1, wxEXPAND);
 	Effects_ComboBox_C->Add(Effects_ComboBox_AttributesC, 1, wxEXPAND);
 	Effects_Holder_C->Add(Effects_C, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_C->Add(Effects_ComboBox_C, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_Holder_DataC->Add(Effects_Text_C, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_Holder_DataC->Add(Effects_Holder_C, 3, wxEXPAND);
-	Effects_Holder_DataC->Add(Effects_Info_C, 3, wxEXPAND);
+	Effects_Holder_DataC->Add(Effects_Text_C, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
+	Effects_Holder_DataC->Add(Effects_Holder_C, 2, wxEXPAND);
+	Effects_Holder_DataC->Add(Effects_Info_C, 2, wxEXPAND);
 
 	Effects_ComboBox_D->Add(Effects_ComboBox_ResearchsD, 1, wxEXPAND);
 	Effects_Holder_D->Add(Effects_D, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_D->Add(Effects_ComboBox_D, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_Holder_DataD->Add(Effects_Text_D, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_Holder_DataD->Add(Effects_Holder_D, 3, wxEXPAND);
-	Effects_Holder_DataD->Add(Effects_Info_D, 3, wxEXPAND);
+	Effects_Holder_DataD->Add(Effects_Text_D, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
+	Effects_Holder_DataD->Add(Effects_Holder_D, 2, wxEXPAND);
+	Effects_Holder_DataD->Add(Effects_Info_D, 2, wxEXPAND);
 
 	Effects_Holder_E->Add(Effects_E, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_Holder_DataE->Add(Effects_Text_E, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_Holder_DataE->Add(Effects_Holder_E, 3, wxEXPAND);
-	Effects_Holder_DataE->Add(Effects_Info_E, 3, wxEXPAND);
+	Effects_Holder_DataE->Add(Effects_Text_E, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
+	Effects_Holder_DataE->Add(Effects_Holder_E, 2, wxEXPAND);
+	Effects_Holder_DataE->Add(Effects_Info_E, 2, wxEXPAND);
 
 	Effects_Holder_F->Add(Effects_F, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Holder_F->Add(Attacks_ComboBox_Class[2], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_Holder_DataF->Add(Effects_Text_F, 2, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_Holder_DataF->Add(Effects_Holder_F, 3, wxEXPAND);
-	Effects_Holder_DataF->Add(Effects_Info_F, 3, wxEXPAND);
+	Effects_Holder_DataF->Add(Effects_Text_F, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
+	Effects_Holder_DataF->Add(Effects_Holder_F, 2, wxEXPAND);
+	Effects_Holder_DataF->Add(Effects_Info_F, 2, wxEXPAND);
 
 	Effects_Holder_Data->Add(Effects_Holder_DataA, 0, wxEXPAND);
 	Effects_Holder_Data->Add(-1, 5);
@@ -1251,11 +1251,11 @@ void AGE_Frame::CreateTechageControls()
 	Effects_DataArea->Add(Effects_Link, 0, wxEXPAND);
 
 	Techs_Main->Add(10, -1);
-	Techs_Main->Add(Techs_ListArea, 1, wxEXPAND);
+	Techs_Main->Add(Techs_ListArea, 3, wxEXPAND); // 3
 	Techs_Main->Add(10, -1);
-	Techs_Main->Add(Effects_ListArea, 1, wxEXPAND);
+	Techs_Main->Add(Effects_ListArea, 4, wxEXPAND); // 3+1
 	Techs_Main->Add(10, -1);
-	Techs_Main->Add(Effects_DataArea, 2, wxEXPAND);
+	Techs_Main->Add(Effects_DataArea, 5, wxEXPAND); // 6-1
 	Techs_Main->Add(10, -1);
 
 	Effects_E->Show(false);	// only for attributes 8, 9
@@ -1307,9 +1307,16 @@ void AGE_Frame::CreateTechageControls()
 	Effects_B->Connect(Effects_B->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Short), NULL, this);
 	Effects_C->Connect(Effects_C->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Short), NULL, this);
 	Effects_D->Connect(Effects_D->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Float), NULL, this);
+	Effects_ComboBox_UnitsA->Connect(Effects_ComboBox_UnitsA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
+	Effects_ComboBox_ResourcesA->Connect(Effects_ComboBox_ResourcesA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
+	Effects_ComboBox_ResearchsA->Connect(Effects_ComboBox_ResearchsA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
 	Effects_CheckBox_ModeB->Connect(Effects_CheckBox_ModeB->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_CheckBoxShort), NULL, this);
+	Units_ComboBox_Class[2]->Connect(Units_ComboBox_Class[2]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
+	Effects_ComboBox_UnitsB->Connect(Effects_ComboBox_UnitsB->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
+	Effects_ComboBox_ResourcesB->Connect(Effects_ComboBox_ResourcesB->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
 	Effects_CheckBox_ModeC->Connect(Effects_CheckBox_ModeC->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_CheckBoxShort), NULL, this);
 	Effects_ComboBox_AttributesC->Connect(Effects_ComboBox_AttributesC->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
+	Effects_ComboBox_ResearchsD->Connect(Effects_ComboBox_ResearchsD->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxFloat), NULL, this);
 	Attacks_ComboBox_Class[2]->Connect(Attacks_ComboBox_Class[2]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes), NULL, this);
 
 }

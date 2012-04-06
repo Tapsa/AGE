@@ -140,6 +140,7 @@ class AGE_Frame : public wxFrame
 	void OnUpdate_CheckBoxShort(wxCommandEvent& Event);
 	void OnUpdate_ComboBoxLong(wxCommandEvent& Event);
 	void OnUpdate_CheckBoxLong0Y(wxCommandEvent& Event);
+	void OnUpdate_ComboBoxFloat(wxCommandEvent& Event);
 	void OnUpdate_CheckBoxFloat(wxCommandEvent& Event);
 
 	void OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event);
