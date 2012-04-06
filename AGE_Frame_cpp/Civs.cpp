@@ -358,7 +358,7 @@ string AGE_Frame::GetResourceName(short &Index)
 		if(GameVersion < 4)
 		Name = "Food Limit";
 		else
-		Name = "Enable A-A Attack For AT-ST";
+		Name = "Enable A-A Attack For AT-AT";
 	}
 	else if(Index == 32)
 	{

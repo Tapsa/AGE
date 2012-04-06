@@ -2734,7 +2734,15 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
 {
 	((ComboBox_Short*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == Effects_ComboBox_AttributesC->GetId())
+	if(
+		Event.GetId() == Effects_ComboBox_UnitsA->GetId() || 
+		Event.GetId() == Effects_ComboBox_ResourcesA->GetId() || 
+		Event.GetId() == Effects_ComboBox_ResearchsA->GetId() || 
+		Event.GetId() == Units_ComboBox_Class[2]->GetId() || 
+		Event.GetId() == Effects_ComboBox_UnitsB->GetId() || 
+		Event.GetId() == Effects_ComboBox_ResourcesB->GetId() || 
+		Event.GetId() == Effects_ComboBox_AttributesC->GetId()
+	)
 	{
 		ListEffects();
 	}
@@ -2840,6 +2848,15 @@ void AGE_Frame::OnUpdate_CheckBoxLong0Y(wxCommandEvent& Event)
 	if(Event.GetId() == TerRestrict_CheckBox_Unknown1->GetId())
 	{
 		ListTerrains(false);
+	}
+}
+
+void AGE_Frame::OnUpdate_ComboBoxFloat(wxCommandEvent& Event)
+{
+	((ComboBox_Float*)Event.GetEventObject())->OnUpdate(Event);
+	if(Event.GetId() == Effects_ComboBox_ResearchsD->GetId())
+	{
+		ListEffects();
 	}
 }
 
