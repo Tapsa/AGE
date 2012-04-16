@@ -97,6 +97,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent& Event)
 {
 	gdat::UnitLine Temp;
 	GenieFile->UnitLines.push_back(Temp);
+	if(EnableIDFix)
 	GenieFile->UnitLines[GenieFile->UnitLines.size() - 1].ID = lexical_cast<short>(GenieFile->UnitLines.size() - 1);	//	ID Fix
 	Added = true;
 	ListUnitLines();
@@ -109,6 +110,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent& Event)
 	{
 		gdat::UnitLine Temp;
 		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineID, Temp);
+		if(EnableIDFix)
 		for(short loop = UnitLineID;loop < GenieFile->UnitLines.size();loop++)	//	ID Fix
 		{
 			GenieFile->UnitLines[loop].ID = lexical_cast<short>(loop);
@@ -124,6 +126,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineID);
+		if(EnableIDFix)
 		for(short loop = UnitLineID;loop < GenieFile->UnitLines.size();loop++)	//	ID Fix
 		{
 			GenieFile->UnitLines[loop].ID = lexical_cast<short>(loop);
@@ -150,6 +153,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(gdat::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection) = UnitLineCopy;
+		if(EnableIDFix)
 		GenieFile->UnitLines[UnitLineID].ID = lexical_cast<short>(UnitLineID);	//	ID Fix
 		ListUnitLines();
 	}
@@ -391,6 +395,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_Main->Add(UnitLines_DataArea, 1, wxEXPAND);
 	UnitLines_Main->AddStretchSpacer(1);
 
+	if(EnableIDFix)
 	UnitLines_ID->Enable(false);
 
 	Tab_UnitLine->SetSizer(UnitLines_Main);

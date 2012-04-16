@@ -9,6 +9,7 @@
 #include "wx/hyperlink.h"
 #include "wx/filename.h"
 #include "wx/tooltip.h"
+#include "wx/statline.h"
 #include "windows.h"
 #include "geniedat/File.h"	// New dat system
 #include "AGE_TextControls.h"
@@ -569,6 +570,7 @@ class AGE_Frame : public wxFrame
 	int AutoCopy;	// Complete.
 //	int SearchFilters;
 	bool UseAnd[2];
+	bool EnableIDFix;
 	bool ShowUnknowns;
 	bool ShowButtons;
 //	bool UseUndo;
@@ -630,6 +632,7 @@ class AGE_Frame : public wxFrame
 	short UnitID;
 	short UnitCivID;
 	int RefreshLists;
+	bool UnitExists[30];
 	gdat::Unit UnitGraphics[30];	// This should be a vector equal to Civs.
 	gdat::unit::DamageGraphic DamageGraphicCopy;
 	short DamageGraphicID;
@@ -683,6 +686,8 @@ class AGE_Frame : public wxFrame
 	wxString LangFileName;
 	wxString LangX1FileName;
 	wxString LangX1P1FileName;
+	
+	//wxString ResourceName[210];
 
 	HINSTANCE LanguageDll[3];
 	string LanguageDllString(int ID);
@@ -693,6 +698,7 @@ class AGE_Frame : public wxFrame
 	{
 		MenuOption_Prompt,
 		MenuOption_Unknowns,
+		MenuOption_IDFix,
 		MenuOption_Buttons,
 //		MenuOption_Undo,
 		MenuOption_NoAuto,
@@ -1809,9 +1815,10 @@ class AGE_Frame : public wxFrame
 
 	wxBoxSizer * Units_Main;	// Unit window
 	wxBoxSizer * Units_ListArea;	// Unit list section vertical division
-	wxGridSizer * Units_Units_Buttons;	// Unit list section buttons
+	wxGridSizer * Units_Units_Buttons[2];	// Unit list section buttons
 
 	wxStaticBoxSizer * Units_Units;	// Unit list section vertical division excluding window borders
+	wxStaticLine * Units_Units_Line;
 	wxBoxSizer * Units_Units_Special;
 	wxComboBox * Units_Civs_List;	// Civ list combo box
 	wxBoxSizer * Units_Units_Searches[2];

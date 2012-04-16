@@ -228,13 +228,17 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
 				{
 					GenieFile->Civs[loop].UnitPointers[loop2] = lexical_cast<long>(1);
-					GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
-					GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
-					GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
-					if(GameVersion < 2)
-					if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
-					for(short loop3 = 0;loop3 < GenieFile->Civs[loop].Units[loop2].Bird.Commands.size();loop3++)
-					GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = lexical_cast<short>(loop3);
+					if(EnableIDFix)
+					{
+						GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
+						GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
+						if(GameVersion >= 2)
+						GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
+						else
+						if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
+						for(short loop3 = 0;loop3 < GenieFile->Civs[loop].Units[loop2].Bird.Commands.size();loop3++)
+						GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = lexical_cast<short>(loop3);
+					}
 				}
 			}
 			//if(loop > 0)
@@ -243,21 +247,30 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			//if(GenieFile->Civs[loop].Resources[loop2] == 0)
 			//GenieFile->Civs[loop].Resources[loop2] = lexical_cast<float>(1);
 		}
-		for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
+		if(EnableIDFix)
 		{
-			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
+			for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
+			{
+				GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
+			}
+			for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
+			{
+				GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
+			}
+			if(GameVersion >= 4)
+			for(short loop = 0;loop < GenieFile->UnitLines.size();loop++)
+			{
+				GenieFile->UnitLines[loop].ID = lexical_cast<short>(loop);
+			}
 		}
 		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 		{
 			if(GenieFile->GraphicPointers[loop] != 0)
 			{
 				GenieFile->GraphicPointers[loop] = lexical_cast<long>(1);
+				if(EnableIDFix)
 				GenieFile->Graphics[loop].ID = lexical_cast<short>(loop);
 			}
-		}
-		for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
-		{
-			GenieFile->Sounds[loop].ID = lexical_cast<long>(loop);
 		}
 		for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 		{
@@ -266,11 +279,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			if(GameVersion >= 2)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = lexical_cast<long>(1);
-		}
-		if(GameVersion >= 4)
-		for(short loop = 0;loop < GenieFile->UnitLines.size();loop++)
-		{
-			GenieFile->UnitLines[loop].ID = lexical_cast<short>(loop);
 		}
 
 		Added = false;
@@ -1283,6 +1291,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("Interaction/AutoCopyToAllCivs", AutoCopy);
 	//Config->Write("Interaction/ExtraSearchFilters", SearchFilters);
 	//Config->Write("Interaction/UseUndo", UseUndo);
+	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
@@ -1396,30 +1405,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			AutoCopy = Event.GetId();
 			AutoCopySettings();
 		}
-		/*case MenuOption_NoExtra:
-		case MenuOption_1stFilters:
-		case MenuOption_2ndFilters:
-		{
-			SearchFilters = Event.GetId();
-			if(SearchFilters == MenuOption_NoExtra)
-			{
-				for(short loop = 0;loop < 2;loop++)
-				Units_Units_SearchFilters[loop]->Show(false);
-				Units_Units_SearchFilters[0]->SetSelection(0);
-			}
-			else if(SearchFilters == MenuOption_1stFilters)
-			{
-				Units_Units_SearchFilters[0]->Show(true);
-				Units_Units_SearchFilters[1]->Show(false);
-				Units_Units_SearchFilters[1]->SetSelection(0);
-			}
-			else if(SearchFilters == MenuOption_2ndFilters)
-			{
-				for(short loop = 0;loop < 2;loop++)
-				Units_Units_SearchFilters[loop]->Show(true);
-			}
-			Units_Units->Layout();
-		}*/
 		break;
 		case wxID_EXIT:
 		{
@@ -1441,6 +1426,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 		{
 			AGE_AboutDialog AGEAbout(this);
 			AGEAbout.ShowModal();
+		}
+		break;
+		case MenuOption_IDFix:
+		{
+			EnableIDFix = Event.IsChecked();
+			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
 		}
 		break;
 		/*case MenuOption_Undo:
