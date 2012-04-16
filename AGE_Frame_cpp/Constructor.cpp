@@ -17,6 +17,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
 	//Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_2ndFilters);
 	//Config->Read("Interaction/UseUndo", &UseUndo, false);
+	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
@@ -34,6 +35,9 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
 	Config->Read("DefaultFiles/SaveApf", &SaveApf, false);
 	delete Config;
+	
+	//CustomNames = new wxFileConfig("AGE Lists", wxEmptyString, "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	//delete CustomNames;
 
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
 	CreateStatusBar();
@@ -70,6 +74,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	SubMenu_CivAutoCopy->Check(AutoCopy, true);
 
 	SubMenu_Options->AppendSubMenu(SubMenu_CivAutoCopy, "&Auto-copy to all civilizations");
+	SubMenu_Options->AppendCheckItem(MenuOption_IDFix, "Enable &index fixes");
+	SubMenu_Options->Check(MenuOption_IDFix, EnableIDFix);
 
 	SubMenu_Help = new wxMenu();
 	SubMenu_Help->Append(MenuOption_Tips, "&Tips");
@@ -118,6 +124,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Unknowns, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	//Connect(MenuOption_Undo, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_NoAuto, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
@@ -130,6 +137,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 //	Connect(MenuOption_2ndFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = false;
+	
 	wxCommandEvent ShowUnknownsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Unknowns);
 	ShowUnknownsCommand.SetId(MenuOption_Unknowns);
 	ShowUnknownsCommand.SetInt(ShowUnknowns);

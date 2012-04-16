@@ -1473,10 +1473,13 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 	{
 		GenieFile->Civs[loop].Units.push_back(Temp2);
 		GenieFile->Civs[loop].UnitPointers.push_back(1);
-		GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID1 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);	//	ID Fix
-		GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID2 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);
-		if(GameVersion >= 2)
-		GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID3 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);
+		if(EnableIDFix)
+		{
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID1 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);	//	ID Fix
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID2 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);
+			if(GameVersion >= 2)
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID3 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);
+		}
 	}
 	if(GameVersion > 1)
 	{
@@ -1506,6 +1509,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[loop].Units.insert(GenieFile->Civs[loop].Units.begin() + UnitID, Temp2);
 			GenieFile->Civs[loop].UnitPointers.insert(GenieFile->Civs[loop].UnitPointers.begin() + UnitID, 1);
+			if(EnableIDFix)
 			for(short loop2 = UnitID;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID Fix
 			{
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
@@ -1541,6 +1545,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[loop].Units.erase(GenieFile->Civs[loop].Units.begin() + UnitID);
 			GenieFile->Civs[loop].UnitPointers.erase(GenieFile->Civs[loop].UnitPointers.begin() + UnitID);
+			if(EnableIDFix)
 			for(short loop2 = UnitID;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID Fix
 			{
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
@@ -1574,6 +1579,8 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		RefreshLists = UnitID;
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			UnitExists[loop] = (bool)GenieFile->Civs[loop].UnitPointers[UnitID];
 		UnitCopy = GenieFile->Civs[UnitCivID].Units[UnitID];
 		if(AutoCopy == MenuOption_Exclude)
 		{// Let's copy graphics separately.
@@ -1651,6 +1658,9 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 		if(RefreshLists != UnitID)
 		{
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+				GenieFile->Civs[loop].UnitPointers[UnitID] = (long)UnitExists[loop];
+			if(EnableIDFix)
+			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{
 				GenieFile->Civs[loop].Units[UnitID].ID1 = lexical_cast<short>(UnitID);	//	ID Fix
 				GenieFile->Civs[loop].Units[UnitID].ID2 = lexical_cast<short>(UnitID);
@@ -1711,10 +1721,13 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(Units_SpecialCopy_Civs->GetValue())
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			GenieFile->Civs[loop].UnitPointers[UnitID] = lexical_cast<long>(1);
+			GenieFile->Civs[loop].UnitPointers[UnitID] = 1;
 		}
+		else
+			GenieFile->Civs[UnitCivID].UnitPointers[UnitID] = 1;
 		ListUnits(UnitCivID);
 	}
 }
@@ -1724,10 +1737,13 @@ void AGE_Frame::OnUnitsDisable(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
+		if(Units_SpecialCopy_Civs->GetValue())
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
-			GenieFile->Civs[loop].UnitPointers[UnitID] = lexical_cast<long>(0);
+			GenieFile->Civs[loop].UnitPointers[UnitID] = 0;
 		}
+		else
+			GenieFile->Civs[UnitCivID].UnitPointers[UnitID] = 0;
 		ListUnits(UnitCivID);
 	}
 }
@@ -2645,6 +2661,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.push_back(Temp);
+			if(EnableIDFix)
 			GenieFile->UnitHeaders[UnitID].Commands[GenieFile->UnitHeaders[UnitID].Commands.size() - 1].ID = lexical_cast<short>(GenieFile->UnitHeaders[UnitID].Commands.size() - 1);	//	ID Fix
 		}
 		else
@@ -2652,6 +2669,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands.push_back(Temp);
+				if(EnableIDFix)
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[GenieFile->Civs[0].Units[UnitID].Bird.Commands.size() - 1].ID = lexical_cast<short>(GenieFile->Civs[0].Units[UnitID].Bird.Commands.size() - 1);	//	ID Fix
 			}
 		}
@@ -2669,6 +2687,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.insert(GenieFile->UnitHeaders[UnitID].Commands.begin() + CommandID, Temp);
+			if(EnableIDFix)
 			for(short loop2 = CommandID;loop2 < GenieFile->UnitHeaders[UnitID].Commands.size();loop2++)	//	ID Fix
 			{
 				GenieFile->UnitHeaders[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
@@ -2679,6 +2698,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands.insert(GenieFile->Civs[loop].Units[UnitID].Bird.Commands.begin() + CommandID, Temp);
+				if(EnableIDFix)
 				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitID].Bird.Commands.size();loop2++)	//	ID Fix
 				{
 					GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ID = lexical_cast<short>(loop2);
@@ -2698,6 +2718,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.erase(GenieFile->UnitHeaders[UnitID].Commands.begin() + CommandID);
+			if(EnableIDFix)
 			for(short loop2 = CommandID;loop2 < GenieFile->UnitHeaders[UnitID].Commands.size();loop2++)	//	ID Fix
 			{
 				GenieFile->UnitHeaders[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
@@ -2708,6 +2729,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands.erase(GenieFile->Civs[loop].Units[UnitID].Bird.Commands.begin() + CommandID);
+				if(EnableIDFix)
 				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitID].Bird.Commands.size();loop2++)	//	ID Fix
 				{
 					GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ID = lexical_cast<short>(loop2);
@@ -2738,6 +2760,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 		if(GameVersion > 1)
 		{
 			*(gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection) = UnitCommandCopy;
+			if(EnableIDFix)
 			GenieFile->UnitHeaders[UnitID].Commands[CommandID].ID = lexical_cast<short>(CommandID);	//	ID Fix
 		}
 		else
@@ -2748,6 +2771,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 			{
 				if(AutoCopy != MenuOption_NoAuto)
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[CommandID] = UnitCommandCopy;
+				if(EnableIDFix)
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[CommandID].ID = lexical_cast<short>(CommandID);	//	ID Fix
 			}
 		}
@@ -2764,6 +2788,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Main = new wxBoxSizer(wxHORIZONTAL);
 	Units_ListArea = new wxBoxSizer(wxVERTICAL);
 	Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
+	Units_Units_Line = new wxStaticLine(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL, "");
 	Units_Units_Special = new wxBoxSizer(wxHORIZONTAL);
 	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
@@ -2775,7 +2800,8 @@ void AGE_Frame::CreateUnitControls()
 		Units_Units_UseAnd[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	}
 	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
-	Units_Units_Buttons = new wxGridSizer(4, 0, 0);
+	Units_Units_Buttons[0] = new wxGridSizer(3, 0, 0);
+	Units_Units_Buttons[1] = new wxGridSizer(4, 0, 0);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_Insert = new wxButton(Tab_Units, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -3734,16 +3760,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_AutoCopyState->Append("Auto-copy: Include graphics");
 	Units_AutoCopyState->Append("Auto-copy: Exclude graphics");
 
-	Units_Units_Buttons->Add(Units_Add, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_Insert, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_Delete, 1, wxEXPAND);
-	Units_Units_Buttons->AddStretchSpacer(1);
-	Units_Units_Buttons->Add(Units_Copy, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_Paste, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_Enable, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_Disable, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_SpecialCopy, 1, wxEXPAND);
-	Units_Units_Buttons->Add(Units_SpecialPaste, 1, wxEXPAND);
+	Units_Units_Buttons[0]->Add(Units_Add, 1, wxEXPAND);
+	Units_Units_Buttons[0]->Add(Units_Insert, 1, wxEXPAND);
+	Units_Units_Buttons[0]->Add(Units_Delete, 1, wxEXPAND);
+	Units_Units_Buttons[0]->Add(Units_Copy, 1, wxEXPAND);
+	Units_Units_Buttons[0]->Add(Units_Paste, 1, wxEXPAND);
+	Units_Units_Buttons[1]->Add(Units_SpecialCopy, 1, wxEXPAND);
+	Units_Units_Buttons[1]->Add(Units_SpecialPaste, 1, wxEXPAND);
+	Units_Units_Buttons[1]->Add(Units_Enable, 1, wxEXPAND);
+	Units_Units_Buttons[1]->Add(Units_Disable, 1, wxEXPAND);
 	Units_Units_Special->Add(Units_SpecialCopy_Options, 1, wxEXPAND);
 	Units_Units_Special->Add(2, -1);
 	Units_Units_Special->Add(Units_SpecialCopy_Civs, 0, wxEXPAND);
@@ -3764,7 +3789,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units->Add(-1, 2);
 	Units_Units->Add(Units_Units_List, 1, wxEXPAND);
 	Units_Units->Add(-1, 2);
-	Units_Units->Add(Units_Units_Buttons, 0, wxEXPAND);
+	Units_Units->Add(Units_Units_Buttons[0], 0, wxEXPAND);
+	Units_Units->Add(Units_Units_Line, 0, wxEXPAND);
+	Units_Units->Add(Units_Units_Buttons[1], 0, wxEXPAND);
 	Units_Units->Add(-1, 2);
 	Units_Units->Add(Units_Units_Special, 0, wxEXPAND);
 
@@ -4847,10 +4874,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnitHeads_List->Enable(false);
 	Units_UnitHeads->Show(false);
 	AutoCopySettings();
-	Units_ID1->Enable(false);
-	Units_ID2->Enable(false);
-	Units_ID3->Enable(false);
-	UnitCommands_ID->Enable(false);
+	if(EnableIDFix)
+	{
+		Units_ID1->Enable(false);
+		Units_ID2->Enable(false);
+		Units_ID3->Enable(false);
+		UnitCommands_ID->Enable(false);
+	}
 
 	Tab_Units->SetSizer(Units_Main);
 
