@@ -107,6 +107,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent& Event)
 {
 	gdat::PlayerColour Temp;
 	GenieFile->PlayerColours.push_back(Temp);
+	if(EnableIDFix)
 	GenieFile->PlayerColours[GenieFile->PlayerColours.size() - 1].ID = lexical_cast<long>(GenieFile->PlayerColours.size() - 1);	//	ID Fix
 	Added = true;
 	ListPlayerColors();
@@ -119,6 +120,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
 	{
 		gdat::PlayerColour Temp;
 		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorID, Temp);
+		if(EnableIDFix)
 		for(short loop = ColorID;loop < GenieFile->PlayerColours.size();loop++)	//	ID Fix
 		{
 			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
@@ -134,6 +136,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorID);
+		if(EnableIDFix)
 		for(short loop = ColorID;loop < GenieFile->PlayerColours.size();loop++)	//	ID Fix
 		{
 			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
@@ -160,6 +163,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		*(gdat::PlayerColour*)Colors_Colors_List->GetClientData(Selection) = PlayerColorCopy;
+		if(EnableIDFix)
 		GenieFile->PlayerColours[ColorID].ID = lexical_cast<long>(ColorID);	//	ID Fix
 		ListPlayerColors();
 	}
@@ -284,6 +288,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Main->AddStretchSpacer(2);
 	Colors_Main->Add(10, -1);
 
+	if(EnableIDFix)
 	Colors_ID->Enable(false);
 
 	Tab_PlayerColors->SetSizer(Colors_Main);
