@@ -44,16 +44,15 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
-	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns");
+	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
+	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->Realize();
-
+	
 	MenuBar_Main = new wxMenuBar();
 
 	SubMenu_Options = new wxMenu();
 	SubMenu_Options->AppendCheckItem(MenuOption_Prompt, "&Prompt for files on open");
 	SubMenu_Options->Check(MenuOption_Prompt, PromptForFilesOnOpen);
-	SubMenu_Options->AppendCheckItem(MenuOption_Unknowns, "&Show unknowns");
-	SubMenu_Options->Check(MenuOption_Unknowns, ShowUnknowns);
 	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Enable forbidden &buttons");
 	SubMenu_Options->Check(MenuOption_Buttons, ShowButtons);
 	/*SubMenu_Options->AppendCheckItem(MenuOption_Undo, "Use &undo function");
@@ -123,8 +122,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
+	Connect(ToolBar_Show, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_Unknowns, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	//Connect(MenuOption_Undo, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
@@ -139,11 +138,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	DataOpened = false;
 	
-	wxCommandEvent ShowUnknownsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Unknowns);
-	ShowUnknownsCommand.SetId(MenuOption_Unknowns);
-	ShowUnknownsCommand.SetInt(ShowUnknowns);
-	ProcessEvent(ShowUnknownsCommand);
-
 	wxCommandEvent ShowButtonsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
 	ShowButtonsCommand.SetId(MenuOption_Buttons);
 	ShowButtonsCommand.SetInt(ShowButtons);
