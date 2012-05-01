@@ -32,15 +32,38 @@ string AGE_Frame::GetUnitName(short &UnitID, short &UnitCivID, bool Filter)
 			{
 				if(Selection[loop] == 2)	// Type
 				{
-					Name += "T ";
-					Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitID].Type);
+					Name += "T "+lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitID].Type);
 				}
 				else if(Selection[loop] == 3)	// Class
 				{
-					Name += "C ";
-					Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Class);
+					Name += "C "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Class);
 				}
-				else if(Selection[loop] == 4)	// Pointer
+				else if(Selection[loop] == 4)	// Max Range
+				{
+					switch(GenieFile->Civs[UnitCivID].Units[UnitID].Type)
+					{
+						case 60:
+						case 70:
+						case 80:
+							Name += "MR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.MaxRange);
+						break;
+						default:
+							Name += "MR -1";
+					}
+				}
+				else if(Selection[loop] == 5)	// Train Location
+				{
+					switch(GenieFile->Civs[UnitCivID].Units[UnitID].Type)
+					{
+						case 70:
+						case 80:
+							Name += "TL "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.TrainLocationID);
+						break;
+						default:
+							Name += "TL -1";
+					}
+				}
+				else if(Selection[loop] == 6)	// Pointer
 				{
 					Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[UnitID]);
 				}
@@ -2809,17 +2832,21 @@ void AGE_Frame::CreateUnitControls()
 	Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
-	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "S Copy", wxDefaultPosition, wxSize(5, 20));
-	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S Paste", wxDefaultPosition, wxSize(5, 20));
+	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "S copy", wxDefaultPosition, wxSize(5, 20));
+	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S paste", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialCopy_Options = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
-	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All Civs", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
+	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
 //	Units_Undo = new wxButton(Tab_Units, wxID_ANY, "Undo", wxDefaultPosition, wxSize(50, 20));
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
-	Units_MainRow1 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_TopRow = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Units, "Other");
+	Units_Holder_TopRow = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "");
+	for(short loop = 0;loop < 2;loop++)
+	Units_Holder_Top[loop] = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_Type = new wxBoxSizer(wxHORIZONTAL);
 	Units_AutoCopyState = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_CopyToSelected = new wxButton(Tab_Units, wxID_ANY, "Copy to selected civs", wxDefaultPosition, wxSize(-1, 20));
+	Units_CopyToAll = new wxButton(Tab_Units, wxID_ANY, "Copy to all civs", wxDefaultPosition, wxSize(-1, 20));
+	Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Graphics", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
 	Units_Scroller = new wxScrolledWindow(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	Units_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	Units_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
@@ -3753,12 +3780,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_Type->Append("90 - Tree");
 	Units_ComboBox_Type->SetSelection(0);
 
-	Units_SpecialCopy_Options->Append("Special: Graphics Only");
+	Units_SpecialCopy_Options->Append("Special: graphics only");
 	Units_SpecialCopy_Options->SetSelection(0);
 
-	Units_AutoCopyState->Append("Auto-copy: Disabled");
-	Units_AutoCopyState->Append("Auto-copy: Include graphics");
-	Units_AutoCopyState->Append("Auto-copy: Exclude graphics");
+	Units_AutoCopyState->Append("Auto-copy: disabled");
+	Units_AutoCopyState->Append("Auto-copy: include graphics");
+	Units_AutoCopyState->Append("Auto-copy: exclude graphics");
 
 	Units_Units_Buttons[0]->Add(Units_Add, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_Insert, 1, wxEXPAND);
@@ -4851,16 +4878,24 @@ void AGE_Frame::CreateUnitControls()
 	Units_Scroller->SetSizer(Units_ScrollerWindows);
 	Units_Scroller->SetScrollRate(0, 20);
 
-	Units_Holder_TopRow->Add(Units_Holder_Type, 3, wxEXPAND);
-	Units_Holder_TopRow->Add(15, -1);
-	Units_Holder_TopRow->Add(Units_AutoCopyState, 2, wxEXPAND);
-	Units_Holder_TopRow->AddStretchSpacer(1);
-//	Units_Holder_TopRow->Add(Units_Undo, 0, wxEXPAND);
-
-	Units_MainRow1->Add(Units_Holder_TopRow, 1);
-
+	Units_Holder_Top[0]->Add(Units_Holder_Type, 3, wxEXPAND);
+	Units_Holder_Top[0]->Add(15, -1);
+	Units_Holder_Top[0]->Add(Units_AutoCopyState, 2, wxEXPAND);
+	Units_Holder_Top[0]->AddStretchSpacer(1);
+	
+	Units_Holder_Top[1]->Add(Units_CopyToSelected, 0, wxEXPAND);
+	Units_Holder_Top[1]->Add(5, -1);
+	Units_Holder_Top[1]->Add(Units_CopyToAll, 0, wxEXPAND);
+	Units_Holder_Top[1]->Add(5, -1);
+	Units_Holder_Top[1]->Add(Units_CopyGraphics, 0, wxEXPAND);
+	Units_Holder_Top[1]->Add(5, -1);
+	
+	Units_Holder_TopRow->Add(Units_Holder_Top[0], 0, wxEXPAND);
+	Units_Holder_TopRow->Add(-1, 5);
+	Units_Holder_TopRow->Add(Units_Holder_Top[1], 0, wxEXPAND);
+	
 	Units_DataArea->Add(-1, 10);
-	Units_DataArea->Add(Units_MainRow1, 0, wxEXPAND);
+	Units_DataArea->Add(Units_Holder_TopRow, 0, wxEXPAND);
 	Units_DataArea->Add(-1, 5);
 	Units_DataArea->Add(Units_Scroller, 1, wxEXPAND);
 	Units_DataArea->Add(-1, 10);
@@ -4881,6 +4916,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_ID3->Enable(false);
 		UnitCommands_ID->Enable(false);
 	}
+	Units_CopyToSelected->Enable(false);
 
 	Tab_Units->SetSizer(Units_Main);
 

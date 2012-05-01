@@ -715,6 +715,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Units_Units_SearchFilters[loop]->Append("Internal Name");
 			Units_Units_SearchFilters[loop]->Append("Type");
 			Units_Units_SearchFilters[loop]->Append("Class");
+			Units_Units_SearchFilters[loop]->Append("Max Range");
+			Units_Units_SearchFilters[loop]->Append("Train Location");
 			Units_Units_SearchFilters[loop]->Append("Pointer");
 		/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
 			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
@@ -740,7 +742,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Units_Units_SearchFilters[loop]->Append("Editor Selection Color");
 			Units_Units_SearchFilters[loop]->Append("Unitline");
 			Units_Units_SearchFilters[loop]->Append("Tracking Unit Used");
-			Units_Units_SearchFilters[loop]->Append("Train Location");
 			Units_Units_SearchFilters[loop]->Append("Command Attribute");
 			Units_Units_SearchFilters[loop]->Append("Stack Unit");
 			Units_Units_SearchFilters[loop]->Append("Terrain");

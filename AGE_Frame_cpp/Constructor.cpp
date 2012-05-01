@@ -44,7 +44,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
-
+	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns");
 	GetToolBar()->Realize();
 
 	MenuBar_Main = new wxMenuBar();
@@ -76,6 +76,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	SubMenu_Options->AppendSubMenu(SubMenu_CivAutoCopy, "&Auto-copy to all civilizations");
 	SubMenu_Options->AppendCheckItem(MenuOption_IDFix, "Enable &index fixes");
 	SubMenu_Options->Check(MenuOption_IDFix, EnableIDFix);
+	SubMenu_Options->Enable(MenuOption_IDFix, false);
 
 	SubMenu_Help = new wxMenu();
 	SubMenu_Help->Append(MenuOption_Tips, "&Tips");
