@@ -1395,7 +1395,7 @@ void AGE_Frame::CreateCivControls()
 	Resources_Delete = new wxButton(Tab_Civs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Resources_Copy = new wxButton(Tab_Civs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Resources_Paste = new wxButton(Tab_Civs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Resources_CopyToAll = new wxButton(Tab_Civs, wxID_ANY, "Copy To All Civs", wxDefaultPosition, wxSize(5, 20));
+	Resources_CopyToAll = new wxButton(Tab_Civs, wxID_ANY, "Copy to all civs", wxDefaultPosition, wxSize(5, 20));
 	Civs_Resources_Data = new wxBoxSizer(wxVERTICAL);
 	Civs_Holder_ResourceValue = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_ResourceValue = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);

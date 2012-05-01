@@ -21,6 +21,7 @@
 #include "AppIcon.xpm"
 #include "GateOpen.xpm"
 #include "GateClosed.xpm"
+#include "Question.xpm"
 
 /*class MyCanvas : public wxSFMLCanvas
 {
@@ -711,6 +712,7 @@ class AGE_Frame : public wxFrame
 //		MenuOption_2ndFilters,
 		ToolBar_Open,
 		ToolBar_Save,
+		ToolBar_Show,
 	};
 
 //	User Interface
@@ -1841,7 +1843,6 @@ class AGE_Frame : public wxFrame
 //	wxButton * Units_Undo;
 
 	wxBoxSizer * Units_DataArea;	// Unit window other-than unit-list-section
-	wxBoxSizer * Units_MainRow1;	// Unscrollable top section
 
 	wxBoxSizer * Units_ScrollerWindows;	// Scrollable section division
 	wxBoxSizer * Units_ScrollerWindowsSpace;
@@ -1899,7 +1900,11 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * Units_Grid_Type80plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_CommandsArea;
 	wxStaticBoxSizer * Units_Holder_TopRow;
+	wxBoxSizer * Units_Holder_Top[2];
 	wxOwnerDrawnComboBox * Units_AutoCopyState;
+	wxButton * Units_CopyToSelected;
+	wxButton * Units_CopyToAll;
+	wxCheckBox * Units_CopyGraphics;
 
 //	Unit Attributes section
 
