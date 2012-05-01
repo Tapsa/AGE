@@ -87,8 +87,6 @@ class AGE_Frame : public wxFrame
 
 	bool DataOpened;
 	void OnGameVersionChange();
-	void AutoCopySettings();
-	void AutoCopyComboBox(wxCommandEvent& Event);
 //	void OnTempBackup();
 //	void OnUndoing(wxCommandEvent& Event);
 //	void OnReload(wxCommandEvent& Event);
@@ -100,6 +98,7 @@ class AGE_Frame : public wxFrame
 	void OnOpen(wxCommandEvent& Event);
 	void OnExit(wxCloseEvent& Event);
 	void OnMenuOption(wxCommandEvent& Event);
+	void OnAutoCopy(wxCommandEvent& Event);
 
 //	Updates user interface after changing data name.
 
@@ -568,7 +567,8 @@ class AGE_Frame : public wxFrame
 //	Application Variables
 
 	bool PromptForFilesOnOpen;
-	int AutoCopy;	// Complete.
+	bool AutoCopy;
+	bool CopyGraphics;
 //	int SearchFilters;
 	bool UseAnd[2];
 	bool EnableIDFix;
@@ -701,9 +701,6 @@ class AGE_Frame : public wxFrame
 		MenuOption_IDFix,
 		MenuOption_Buttons,
 //		MenuOption_Undo,
-		MenuOption_NoAuto,
-		MenuOption_Include,
-		MenuOption_Exclude,
 		MenuOption_Tips,
 		MenuOption_About,
 //		MenuOption_NoExtra,
@@ -718,8 +715,6 @@ class AGE_Frame : public wxFrame
 
 	wxMenuBar * MenuBar_Main;
 	wxMenu * SubMenu_Options;
-	wxMenu * SubMenu_CivAutoCopy;
-//	wxMenu * SubMenu_SearchFilters;
 	wxMenu * SubMenu_Help;
 
 	wxNotebook * TabBar_Main;
@@ -1548,7 +1543,7 @@ class AGE_Frame : public wxFrame
 //	Invisible Holder Windows
 //	Type 10+
 
-	wxBoxSizer * Units_Holder_Type;
+	wxStaticBoxSizer * Units_Holder_Type;
 	wxBoxSizer * Units_Holder_ID1;
 	wxBoxSizer * Units_Holder_LanguageDllName;
 	wxBoxSizer * Units_Holder_LanguageDllCreation;
@@ -1898,12 +1893,11 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Units_Holder_Type80plusUnknownArea;
 	wxGridSizer * Units_Grid_Type80plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_CommandsArea;
-	wxStaticBoxSizer * Units_Holder_TopRow;
-	wxBoxSizer * Units_Holder_Top[2];
-	wxOwnerDrawnComboBox * Units_AutoCopyState;
-	wxButton * Units_CopyToSelected;
-	wxButton * Units_CopyToAll;
+	wxBoxSizer * Units_Holder_TopRow;
+	wxButton * Units_CopyTo;
 	wxCheckBox * Units_CopyGraphics;
+	wxCheckBox * Units_AutoCopy;
+	wxOwnerDrawnComboBox * Units_AutoCopyState;
 
 //	Unit Attributes section
 

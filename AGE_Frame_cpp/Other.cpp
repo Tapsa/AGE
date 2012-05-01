@@ -1289,9 +1289,8 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 {
 	Config = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
-	Config->Write("Interaction/AutoCopyToAllCivs", AutoCopy);
-	//Config->Write("Interaction/ExtraSearchFilters", SearchFilters);
-	//Config->Write("Interaction/UseUndo", UseUndo);
+	Config->Write("Interaction/AutoCopy", AutoCopy);
+	Config->Write("Interaction/CopyGraphics", CopyGraphics);
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
@@ -1317,6 +1316,27 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	TabBar_Main->Show(false);
 	TabBar_Main->Destroy();
 	Destroy();
+}
+
+void AGE_Frame::OnAutoCopy(wxCommandEvent& Event)
+{
+	if(Event.GetId() == Units_AutoCopy->GetId())
+	{
+		AutoCopy = Event.IsChecked();
+		Units_CopyTo->Enable(!AutoCopy);
+	}
+	else if(Event.GetId() == Units_CopyGraphics->GetId())
+	{
+		CopyGraphics = Event.IsChecked();
+	}
+	else
+	{
+		AutoCopy = true;
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
+		AutoCopy = false;
+	}
 }
 
 void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
@@ -1398,14 +1418,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Terrains_Insert->Enable(false);
 				Terrains_Delete->Enable(false);
 			}
-		}
-		break;
-		case MenuOption_NoAuto:
-		case MenuOption_Include:
-		case MenuOption_Exclude:
-		{
-			AutoCopy = Event.GetId();
-			AutoCopySettings();
 		}
 		break;
 		case wxID_EXIT:
@@ -1646,7 +1658,7 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 					case 90:
 					{
 						GenieFile->Civs[UnitCivID].Units[UnitID].Type = (char)UnitType;
-						if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+						if(AutoCopy)
 						{
 							for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 							GenieFile->Civs[loop].Units[UnitID].Type = (char)UnitType;
@@ -1746,7 +1758,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 90;
 		}
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitID].Type;
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
@@ -1941,7 +1953,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		}
 		else
 		{
-			if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+			if(AutoCopy)
 			{
 				wxCommandEvent E;
 				OnUnitsCopy(E);
@@ -2170,7 +2182,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2194,7 +2206,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event)
 	((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2214,7 +2226,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event)
 	((CheckBox_Bool*)((TextCtrl_Bool*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Bool*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2228,7 +2240,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event)
 	((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2291,7 +2303,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2323,7 +2335,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event)
 	((TextCtrl_UnShort*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_UnShort*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2351,7 +2363,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event)
 	((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2383,7 +2395,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event)
 	((CheckBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2403,7 +2415,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEve
 	((CheckBox_Short_ZeroIsYes*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2445,7 +2457,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent& Event)
 	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2465,7 +2477,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event)
 	((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2501,7 +2513,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Float(wxFocusEvent& Event)
 	((TextCtrl_Float*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Float*)Event.GetEventObject())->NoLoadList)
 	{
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2651,7 +2663,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 	if(!((TextCtrl_String*)Event.GetEventObject())->NoLoadList)
 	{
 		string ReducedName;
-		if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+		if(AutoCopy)
 		{
 			wxCommandEvent E;
 			OnUnitsCopy(E);
@@ -2710,7 +2722,7 @@ void AGE_Frame::OnUpdate_CheckBoxByte(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event)
 {
 	((ComboBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+	if(AutoCopy)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -2752,7 +2764,7 @@ void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 {
 	((ComboBox_Short*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+	if(AutoCopy)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -2865,7 +2877,7 @@ void AGE_Frame::OnUpdate_CheckBoxFloat(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 {
 	((ComboBox_Long*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+	if(AutoCopy)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -2882,7 +2894,7 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event)
 {
 	((CheckBox_Bool*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+	if(AutoCopy)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -2893,7 +2905,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event)
 {
 	((CheckBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+	if(AutoCopy)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -2919,7 +2931,7 @@ void AGE_Frame::OnUpdate_CheckBoxShort(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event)
 {
 	((CheckBox_Short*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+	if(AutoCopy)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);
@@ -2936,7 +2948,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent& Event)
 {
 	((CheckBox_Short_ZeroIsYes*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy == MenuOption_Include || AutoCopy == MenuOption_Exclude)
+	if(AutoCopy)
 	{
 		wxCommandEvent E;
 		OnUnitsCopy(E);

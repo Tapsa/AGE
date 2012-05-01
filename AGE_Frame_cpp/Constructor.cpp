@@ -14,9 +14,9 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	Config = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
-	Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
-	//Config->Read("Interaction/ExtraSearchFilters", (long*)&SearchFilters, MenuOption_2ndFilters);
-	//Config->Read("Interaction/UseUndo", &UseUndo, false);
+	//Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
+	Config->Read("Interaction/AutoCopy", &AutoCopy, true);
+	Config->Read("Interaction/CopyGraphics", &CopyGraphics, true);
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
@@ -66,13 +66,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &filters [| to separate]");*/
 
-	SubMenu_CivAutoCopy = new wxMenu();
-	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_NoAuto, "&Disabled");
-	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_Include, "&Include graphics");
-	SubMenu_CivAutoCopy->AppendRadioItem(MenuOption_Exclude, "&Exclude graphics");
-	SubMenu_CivAutoCopy->Check(AutoCopy, true);
-
-	SubMenu_Options->AppendSubMenu(SubMenu_CivAutoCopy, "&Auto-copy to all civilizations");
 	SubMenu_Options->AppendCheckItem(MenuOption_IDFix, "Enable &index fixes");
 	SubMenu_Options->Check(MenuOption_IDFix, EnableIDFix);
 	SubMenu_Options->Enable(MenuOption_IDFix, false);
@@ -100,6 +93,10 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	CreateUnitLineControls();
 	CreateTerrainBorderControls();
 	CreateGeneralControls();
+	
+	Units_AutoCopy->SetValue(AutoCopy);
+	Units_CopyGraphics->SetValue(CopyGraphics);
+	Units_CopyTo->Enable(!AutoCopy);
 
 	TabBar_Main->AddPage(TabBar_Data, "Data");
 	TabBar_Main->AddPage(TabBar_Test, "Test");
@@ -126,15 +123,11 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	//Connect(MenuOption_Undo, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_NoAuto, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_Include, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_Exclude, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(Units_AutoCopy->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+	Connect(Units_CopyTo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+	Connect(Units_CopyGraphics->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
 	Connect(MenuOption_Tips, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-//	Connect(MenuOption_NoExtra, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-//	Connect(MenuOption_1stFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-//	Connect(MenuOption_2ndFilters, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = false;
 	
