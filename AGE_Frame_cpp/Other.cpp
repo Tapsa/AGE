@@ -1328,8 +1328,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			PromptForFilesOnOpen = Event.IsChecked();
 		}
 		break;
-		case MenuOption_Unknowns:
+		case ToolBar_Show:
 		{
+			//wxMessageBox(lexical_cast<string>(GetToolBar()->GetToolState(ToolBar_Show)));
 			ShowUnknowns = Event.IsChecked();
 			if(ShowUnknowns)
 			{

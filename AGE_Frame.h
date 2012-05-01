@@ -698,7 +698,6 @@ class AGE_Frame : public wxFrame
 	enum
 	{
 		MenuOption_Prompt,
-		MenuOption_Unknowns,
 		MenuOption_IDFix,
 		MenuOption_Buttons,
 //		MenuOption_Undo,
