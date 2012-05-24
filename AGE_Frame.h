@@ -22,6 +22,7 @@
 #include "GateOpen.xpm"
 #include "GateClosed.xpm"
 #include "Question.xpm"
+//#include "AGE_Frame_cpp/Colors.h"
 
 /*class MyCanvas : public wxSFMLCanvas
 {
@@ -1895,10 +1896,15 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * Units_Grid_Type80plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_CommandsArea;
 	wxBoxSizer * Units_Holder_TopRow;
+	wxGridSizer * Units_Holder_TopGrid;
+	wxCheckBox * Units_CivBoxes[MaxCivs];
+	wxStaticText * Units_CivLabels[MaxCivs];
 	wxButton * Units_CopyTo;
 	wxCheckBox * Units_CopyGraphics;
 	wxCheckBox * Units_AutoCopy;
 	wxOwnerDrawnComboBox * Units_AutoCopyState;
+	wxStaticText * Units_GraphicSetText;
+	wxOwnerDrawnComboBox * Units_GraphicSet;
 
 //	Unit Attributes section
 

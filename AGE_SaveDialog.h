@@ -3,9 +3,6 @@
 #include "wx/wx.h"
 #include "wx/filepicker.h"
 
-#ifndef AGESaveDialog_h
-#define AGESaveDialog_h
-
 class AGE_SaveDialog: public wxDialog
 {
 	public:
@@ -52,5 +49,3 @@ class AGE_SaveDialog: public wxDialog
 	wxButton * SaveButtonOK;
 	wxButton * SaveButtonCancel;
 };
-
-#endif
