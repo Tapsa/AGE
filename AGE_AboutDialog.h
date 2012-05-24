@@ -4,16 +4,13 @@
 #include "wx/hyperlink.h"
 #include "AboutIcon.xpm"
 
-#ifndef AGEAboutDialog_h
-#define AGEAboutDialog_h
-
 class AGE_AboutDialog: public wxDialog
 {
 	public:
 
 	AGE_AboutDialog(wxWindow *parent);
 	
-	/* Member Variables */
+//	Member Variables
 	
 	wxStaticText * Title;
 	wxStaticBitmap * Image;
@@ -27,4 +24,24 @@ class AGE_AboutDialog: public wxDialog
 	wxBoxSizer * MainAbout;
 };
 
-#endif
+/*#ifndef AGEStorage_h
+#define AGEStorage_h
+
+class AGE_Storage
+{
+	public:
+
+	AGE_Storage();
+	
+//	Member Functions
+	
+	bool Save();
+	bool Undo();
+	bool Redo();
+	bool Release();
+	
+//	Member Variables
+	deque<short> Saves;
+};
+
+#endif*/

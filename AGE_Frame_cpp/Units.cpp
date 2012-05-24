@@ -2840,8 +2840,16 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_TopRow = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_TopGrid = new wxGridSizer(MaxCivs, 0, 0);
+	for(short loop = 0;loop < MaxCivs;loop++)
+	{
+		Units_CivBoxes[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
+		Units_CivLabels[loop] = new wxStaticText(Tab_Units, wxID_ANY, lexical_cast<string>(loop), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER | wxST_NO_AUTORESIZE);
+	}
 	Units_Holder_Type = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Units, "");
 	Units_AutoCopyState = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, NULL, wxCB_READONLY);
+	Units_GraphicSetText = new wxStaticText(Tab_Units, wxID_ANY, "Graphic set: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Units_GraphicSet = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, NULL, wxCB_READONLY);
 	Units_CopyTo = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(40, 20));
 	Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Excluding graphics", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
 	Units_AutoCopy = new wxCheckBox(Tab_Units, wxID_ANY, "Automatically", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
@@ -3783,8 +3791,17 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_AutoCopyState->Append("To all civilizations");
 	Units_AutoCopyState->Append("To selected civilizations");
-	Units_AutoCopyState->Enable(false);
+	//Units_AutoCopyState->Enable(false);
 	Units_AutoCopyState->SetSelection(0);
+	
+	Units_GraphicSet->Append("All");
+	Units_GraphicSet->Append("None");
+	Units_GraphicSet->Append("1 West Europeans");
+	Units_GraphicSet->Append("2 East Europeans");
+	Units_GraphicSet->Append("3 Asians");
+	Units_GraphicSet->Append("4 Arabs");
+	Units_GraphicSet->Append("5 Americans");
+	Units_GraphicSet->SetSelection(1);
 
 	Units_Units_Buttons[0]->Add(Units_Add, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_Insert, 1, wxEXPAND);
@@ -4877,15 +4894,24 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Scroller->SetSizer(Units_ScrollerWindows);
 	Units_Scroller->SetScrollRate(0, 20);
-
+	
+	for(short loop = 0;loop < MaxCivs;loop++)
+	Units_Holder_TopGrid->Add(Units_CivBoxes[loop], 0, wxEXPAND);
+	for(short loop = 0;loop < MaxCivs;loop++)
+	Units_Holder_TopGrid->Add(Units_CivLabels[loop], 0, wxEXPAND);
+	
 	Units_Holder_TopRow->Add(5, -1);
 	Units_Holder_TopRow->Add(Units_AutoCopy, 0, wxEXPAND);
 	Units_Holder_TopRow->Add(Units_CopyTo, 0, wxEXPAND);
 	Units_Holder_TopRow->Add(5, -1);
 	Units_Holder_TopRow->Add(Units_CopyGraphics, 0, wxEXPAND);
 	Units_Holder_TopRow->Add(Units_AutoCopyState, 0, wxEXPAND);
+	Units_Holder_TopRow->Add(5, -1);
+	Units_Holder_TopRow->Add(Units_GraphicSetText, 0, wxEXPAND);
+	Units_Holder_TopRow->Add(Units_GraphicSet, 0, wxEXPAND);
 	
 	Units_DataArea->Add(-1, 15);
+	Units_DataArea->Add(Units_Holder_TopGrid, 0, wxEXPAND);
 	Units_DataArea->Add(Units_Holder_TopRow, 0, wxEXPAND);
 	Units_DataArea->Add(Units_Holder_Type, 0, wxEXPAND);
 	Units_DataArea->Add(-1, 5);
