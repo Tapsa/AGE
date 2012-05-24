@@ -79,7 +79,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	this->SetMenuBar(MenuBar_Main);
 
-	zero = 0; // Global constant variable
+	Zero = 0;
 	CreateCivControls();
 	CreateUnitControls();
 	CreateResearchControls();

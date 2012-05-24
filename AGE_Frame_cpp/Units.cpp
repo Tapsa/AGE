@@ -333,7 +333,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 		}
 		if(Sized)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, zero);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, Zero);
 			Units_ComboBox_DeadUnitID->Append(Name);
 			Units_ComboBox_ProjectileUnitID->Append(Name);
 			Units_ComboBox_AttackMissileDuplicationUnit->Append(Name);
@@ -1476,7 +1476,7 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		gdat::UnitHeader * UnitHeadPointer = (gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
-		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitID)+" - "+GetUnitName(UnitID, zero));
+		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitID)+" - "+GetUnitName(UnitID, Zero));
 		Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
 		Units_Exists->Container = &UnitHeadPointer->Exists;
 		ListUnitCommands();

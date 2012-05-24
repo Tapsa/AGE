@@ -805,7 +805,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			TechTrees_DataList_Researches_List_Researches->Clear();
 		}
 		ListCivs();
-		ListUnits(zero);
+		ListUnits(Zero);
 		if(GameVersion >= 4)
 		{
 			ListUnitLines();
