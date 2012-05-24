@@ -624,7 +624,8 @@ class AGE_Frame : public wxFrame
 	long TTResearchResearchCopy;
 	long TTResearchResearchID;
 
-	short zero;
+	static const short MaxCivs = 30;
+	short Zero;
 	gdat::Civ CivCopy;
 	short CivID;
 	float ResourceCopy;
@@ -633,8 +634,8 @@ class AGE_Frame : public wxFrame
 	short UnitID;
 	short UnitCivID;
 	int RefreshLists;
-	bool UnitExists[30];
-	gdat::Unit UnitGraphics[30];	// This should be a vector equal to Civs.
+	bool UnitExists[MaxCivs];
+	gdat::Unit UnitGraphics[MaxCivs];	// This should be a vector equal to Civs.
 	gdat::unit::DamageGraphic DamageGraphicCopy;
 	short DamageGraphicID;
 	gdat::unit::AttackOrArmor AttackCopy;
