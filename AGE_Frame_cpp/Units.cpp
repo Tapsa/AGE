@@ -1605,7 +1605,7 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			UnitExists[loop] = (bool)GenieFile->Civs[loop].UnitPointers[UnitID];
 		UnitCopy = GenieFile->Civs[UnitCivID].Units[UnitID];
-		if(CopyGraphics)
+		if(!CopyGraphics)
 		{// Let's copy graphics separately.
 			UnitsGraphicsCopy(GenieFile->Civs.size());
 		}
@@ -1673,7 +1673,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 		{
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			GenieFile->Civs[loop].Units[UnitID] = UnitCopy;
-			if(CopyGraphics)
+			if(!CopyGraphics)
 			{// Let's paste graphics separately.
 				UnitsGraphicsPaste(GenieFile->Civs.size());
 			}
@@ -2839,20 +2839,24 @@ void AGE_Frame::CreateUnitControls()
 //	Units_Undo = new wxButton(Tab_Units, wxID_ANY, "Undo", wxDefaultPosition, wxSize(50, 20));
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_TopRow = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_TopGrid = new wxGridSizer(MaxCivs, 0, 0);
+	Units_Holder_Top[0] = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Top[1] = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_TopGrid = new wxGridSizer(MaxCivs, 0, 3);
 	for(short loop = 0;loop < MaxCivs;loop++)
 	{
 		Units_CivBoxes[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
-		Units_CivLabels[loop] = new wxStaticText(Tab_Units, wxID_ANY, lexical_cast<string>(loop), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER | wxST_NO_AUTORESIZE);
+		Units_CivBoxes[loop]->SetValue(true);
+		Units_CivLabels[loop] = new wxStaticText(Tab_Units, wxID_ANY, lexical_cast<string>(loop), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER_HORIZONTAL | wxST_NO_AUTORESIZE);
 	}
 	Units_Holder_Type = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Units, "");
-	Units_AutoCopyState = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, NULL, wxCB_READONLY);
-	Units_GraphicSetText = new wxStaticText(Tab_Units, wxID_ANY, "Graphic set: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Units_GraphicSet = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, NULL, wxCB_READONLY);
-	Units_CopyTo = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(40, 20));
-	Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Excluding graphics", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
 	Units_AutoCopy = new wxCheckBox(Tab_Units, wxID_ANY, "Automatically", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
+	Units_CopyTo = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(40, 20));
+	Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Including graphics", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
+	Units_CopyToText = new wxStaticText(Tab_Units, wxID_ANY, " To selected civilizations: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Units_SelectAll = new wxButton(Tab_Units, wxID_ANY, "All", wxDefaultPosition, wxSize(40, 20));
+	Units_SelectClear = new wxButton(Tab_Units, wxID_ANY, "None", wxDefaultPosition, wxSize(40, 20));
+	Units_GraphicSetText = new wxStaticText(Tab_Units, wxID_ANY, " Graphic set: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Units_GraphicSet = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(120, 20), 0, NULL, wxCB_READONLY);
 	Units_Scroller = new wxScrolledWindow(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	Units_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	Units_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
@@ -3789,19 +3793,22 @@ void AGE_Frame::CreateUnitControls()
 	Units_SpecialCopy_Options->Append("Special: graphics only");
 	Units_SpecialCopy_Options->SetSelection(0);
 
-	Units_AutoCopyState->Append("To all civilizations");
-	Units_AutoCopyState->Append("To selected civilizations");
-	//Units_AutoCopyState->Enable(false);
-	Units_AutoCopyState->SetSelection(0);
-	
-	Units_GraphicSet->Append("All");
-	Units_GraphicSet->Append("None");
-	Units_GraphicSet->Append("1 West Europeans");
-	Units_GraphicSet->Append("2 East Europeans");
+	// AoE
+	Units_GraphicSet->Append("0 Left Middle East");
+	Units_GraphicSet->Append("1 Greek");
+	Units_GraphicSet->Append("2 East Middle East");
+	Units_GraphicSet->Append("3 Asian");
+	// + RoR
+	Units_GraphicSet->Append("4 Roman");
+	// AoK
+	Units_GraphicSet->Append("1 East Europeans");
+	Units_GraphicSet->Append("2 West Europeans");
 	Units_GraphicSet->Append("3 Asians");
 	Units_GraphicSet->Append("4 Arabs");
+	// + TC
 	Units_GraphicSet->Append("5 Americans");
-	Units_GraphicSet->SetSelection(1);
+	// SWGB, forget this
+	Units_GraphicSet->SetSelection(0);
 
 	Units_Units_Buttons[0]->Add(Units_Add, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_Insert, 1, wxEXPAND);
@@ -4899,20 +4906,22 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TopGrid->Add(Units_CivBoxes[loop], 0, wxEXPAND);
 	for(short loop = 0;loop < MaxCivs;loop++)
 	Units_Holder_TopGrid->Add(Units_CivLabels[loop], 0, wxEXPAND);
+	Units_Holder_Top[1]->Add(Units_Holder_TopGrid, 0, wxEXPAND);
 	
-	Units_Holder_TopRow->Add(5, -1);
-	Units_Holder_TopRow->Add(Units_AutoCopy, 0, wxEXPAND);
-	Units_Holder_TopRow->Add(Units_CopyTo, 0, wxEXPAND);
-	Units_Holder_TopRow->Add(5, -1);
-	Units_Holder_TopRow->Add(Units_CopyGraphics, 0, wxEXPAND);
-	Units_Holder_TopRow->Add(Units_AutoCopyState, 0, wxEXPAND);
-	Units_Holder_TopRow->Add(5, -1);
-	Units_Holder_TopRow->Add(Units_GraphicSetText, 0, wxEXPAND);
-	Units_Holder_TopRow->Add(Units_GraphicSet, 0, wxEXPAND);
+	//Units_Holder_Top[0]->Add(5, -1);
+	Units_Holder_Top[0]->Add(Units_AutoCopy, 0, wxEXPAND);
+	Units_Holder_Top[0]->Add(Units_CopyTo, 0, wxEXPAND);
+	Units_Holder_Top[0]->Add(5, -1);
+	Units_Holder_Top[0]->Add(Units_CopyGraphics, 0, wxEXPAND);
+	Units_Holder_Top[0]->Add(Units_CopyToText, 0, wxEXPAND);
+	Units_Holder_Top[0]->Add(Units_SelectAll, 0, wxEXPAND);
+	Units_Holder_Top[0]->Add(Units_SelectClear, 0, wxEXPAND);
+	Units_Holder_Top[0]->Add(Units_GraphicSetText, 0, wxEXPAND);
+	Units_Holder_Top[0]->Add(Units_GraphicSet, 0, wxEXPAND);
 	
 	Units_DataArea->Add(-1, 15);
-	Units_DataArea->Add(Units_Holder_TopGrid, 0, wxEXPAND);
-	Units_DataArea->Add(Units_Holder_TopRow, 0, wxEXPAND);
+	Units_DataArea->Add(Units_Holder_Top[0], 0, wxEXPAND);
+	Units_DataArea->Add(Units_Holder_Top[1], 0, wxEXPAND);
 	Units_DataArea->Add(Units_Holder_Type, 0, wxEXPAND);
 	Units_DataArea->Add(-1, 5);
 	Units_DataArea->Add(Units_Scroller, 1, wxEXPAND);
@@ -5091,7 +5100,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackSound->Connect(Units_AttackSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_Unitline->Connect(Units_Unitline->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_TrackingUnit->Connect(Units_TrackingUnit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
-	Units_SheepConversion->Connect(Units_SheepConversion->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion), NULL, this);
+	Units_SheepConversion->Connect(Units_SheepConversion->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_SheepConversion_CheckBox), NULL, this);
 	Units_MoveSound->Connect(Units_MoveSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_StopSound->Connect(Units_StopSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_Unknown21->Connect(Units_Unknown21->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
@@ -5158,7 +5167,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackMissileDuplicationAmount1->Connect(Units_AttackMissileDuplicationAmount1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 	Units_GarrisonHealRate->Connect(Units_GarrisonHealRate->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 
-	Units_Unselectable->Connect(Units_Unselectable->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool), NULL, this);
+	Units_Unselectable->Connect(Units_Unselectable->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unselectable_CheckBox), NULL, this);
 
 	Units_AttackMissileDuplicationUnit->Connect(Units_AttackMissileDuplicationUnit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong), NULL, this);
 	Units_AttackMissileDuplicationGraphic->Connect(Units_AttackMissileDuplicationGraphic->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong), NULL, this);
