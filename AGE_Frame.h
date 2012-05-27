@@ -121,7 +121,7 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_CheckBoxLong0Y(wxFocusEvent& Event);
 	void OnKillFocus_CheckBoxFloat(wxFocusEvent& Event);
 
-	void OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event);
+	void OnKillFocus_Unselectable_CheckBox(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxByteUnitType(wxFocusEvent& Event);
@@ -130,7 +130,7 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event);
-	void OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEvent& Event);
+	void OnKillFocus_SheepConversion_CheckBox(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_Float(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_Long(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event);
@@ -1895,16 +1895,18 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Units_Holder_Type80plusUnknownArea;
 	wxGridSizer * Units_Grid_Type80plusUnknownArea;
 	wxStaticBoxSizer * Units_Holder_CommandsArea;
-	wxBoxSizer * Units_Holder_TopRow;
+	wxBoxSizer * Units_Holder_Top[2];
 	wxGridSizer * Units_Holder_TopGrid;
 	wxCheckBox * Units_CivBoxes[MaxCivs];
 	wxStaticText * Units_CivLabels[MaxCivs];
 	wxButton * Units_CopyTo;
 	wxCheckBox * Units_CopyGraphics;
 	wxCheckBox * Units_AutoCopy;
-	wxOwnerDrawnComboBox * Units_AutoCopyState;
+	wxStaticText * Units_CopyToText;
 	wxStaticText * Units_GraphicSetText;
 	wxOwnerDrawnComboBox * Units_GraphicSet;
+	wxButton * Units_SelectAll;
+	wxButton * Units_SelectClear;
 
 //	Unit Attributes section
 
