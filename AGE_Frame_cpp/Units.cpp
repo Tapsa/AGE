@@ -5284,7 +5284,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_FlyMode->Connect(Units_CheckBox_FlyMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_HeroMode->Connect(Units_CheckBox_HeroMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_Enabled->Connect(Units_CheckBox_Enabled->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort), NULL, this);
-	Units_CheckBox_SheepConversion->Connect(Units_CheckBox_SheepConversion->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion), NULL, this);
+	Units_CheckBox_SheepConversion->Connect(Units_CheckBox_SheepConversion->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_SheepConversion_CheckBox), NULL, this);
 	Units_CheckBox_Unselectable->Connect(Units_CheckBox_Unselectable->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool), NULL, this);
 	Units_CheckBox_AnimalMode->Connect(Units_CheckBox_AnimalMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_TowerMode->Connect(Units_CheckBox_TowerMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);

@@ -152,7 +152,7 @@ class AGE_Frame : public wxFrame
 	void OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event);
-	void OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent& Event);
+	void OnUpdate_SheepConversion_CheckBox(wxCommandEvent& Event);
 
 //	Other Methods
 
