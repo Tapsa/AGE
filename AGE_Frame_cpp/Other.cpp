@@ -1207,7 +1207,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_SnowGraphicID->Show(false);
 		}
 	}
-	
+
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
 		Units_CivBoxes[loop]->Show(true);
@@ -1692,12 +1692,6 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 					}
 					break;
 				}
-				/*if(UseUndo)
-				{
-					EditCount++;
-					SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
-					OnTempBackup();
-				}*/
 			}
 		}
 		wxCommandEvent E;
@@ -1705,13 +1699,6 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 //		ListUnits(UnitCivID, false);	// For special search filters.
 	}
 }
-
-/*void AGE_Frame::OnSelection_CheckBoxes(wxCommandEvent& Event)
-{
-	for(short loop = 0;loop < 2;loop++)
-	{
-	}
-}*/
 
 void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 {
@@ -1794,12 +1781,6 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		wxCommandEvent E;
 		OnUnitsSelect(E);	// Updates unit layout.
 //		ListUnits(UnitCivID, false);	// For special search filters.
-		/*if(UseUndo)
-		{
-			EditCount++;
-			SetStatusText(lexical_cast<string>(EditCount)+" edits done to units.", 0);
-			OnTempBackup();
-		}*/
 	}
 	else if(Event.GetId() == UnitCommands_ComboBox_Types->GetId())
 	{
@@ -2206,90 +2187,9 @@ void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			if(Event.GetId() == XXX->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].YYY;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].YYY = temp;
-			}
-	Units_Unknown20[0]
-	Units_Unknown20[1]
-	Units_BlastType
-	Units_Unknown2
-	Units_GarrisonCapacity
-	Units_PlacementMode
-	Units_VisibleInFog
-	Units_InteractionMode
-	Units_MinimapMode
-	Units_Unknown3a
-	Units_Unknown4
-	Units_Unknown5
-	Units_Unknown6
-	Units_Unknown7
-	Units_Unknown8
-	Units_SelectionMask
-	Units_SelectionShapeType
-	Units_SelectionShape
-	Units_Attribute
-	Units_Unknown9[0]
-	Units_Unknown9[1]
-	Units_SelectionEffect
-	Units_EditorSelectionColour
-	Units_MinTechLevel
-	Units_Unknown11
-	Units_TrackingUnitUsed
-	Units_Unknown16[0]
-	Units_Unknown16[1]
-	Units_Unknown16[2]
-	Units_Unknown16[3]
-	Units_Unknown16[4]
-	Units_Unknown16[5]
-	Units_Unknown16[6]
-	Units_Unknown16[7]
-	Units_Unknown16[8]
-	Units_Unknown16[9]
-	Units_Unknown16[10]
-	Units_Unknown16[11]
-	Units_Unknown16[12]
-	Units_Unknown16[13]
-	Units_Unknown16[14]
-	Units_Unknown16[15]
-	Units_Unknown16[16]
-	Units_VillagerMode
-	Units_BlastLevel
-	Units_StretchMode
-	Units_CompensationMode
-	Units_DropAnimationMode
-	Units_PenetrationMode
-	Units_Unknown24
-	Units_ButtonID
-	Units_Unknown26
-	Units_Unknown28
-	Units_MissileGraphicDelay
-	Units_AttackMissileDuplicationAmount2
-	Units_Unknown29
-	Units_Unknown33
-	Units_Unknown37[0]
-	Units_Unknown37[1]
-	Units_Unknown37[2]
-	Units_Unknown37[3]
-	Units_Unknown37[4]
-	Units_Unknown37[5]
-	Units_Unknown31
-	ResourceStorage_Enabled[0]
-	ResourceStorage_Enabled[1]
-	ResourceStorage_Enabled[2]
-	DamageGraphics_DamagePercent
-	DamageGraphics_Unknown1
-	DamageGraphics_Unknown2
-	UnitCommands_Unknown1
-	UnitCommands_Unknown6
-	UnitCommands_Unknown8
-	UnitCommands_Unknown9
-	UnitCommands_Unknown10
-	UnitCommands_Unknown11
-	UnitCommands_Unknown14
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 		if(Event.GetId() == DamageGraphics_DamagePercent->GetId())
 		{
@@ -2305,35 +2205,23 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			if(Event.GetId() == Units_Civ->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Civilization;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Civilization = temp;
-			}
-			else if(Event.GetId() == Units_GarrisonType->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.GarrisonType;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.GarrisonType = temp;
-			}
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 	}
 }
 
-void AGE_Frame::OnKillFocus_Unselectable_CheckBox(wxFocusEvent& Event)
+void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event)
 {
 	((CheckBox_Bool*)((TextCtrl_Bool*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Bool*)Event.GetEventObject())->NoLoadList)
 	{
 		if(AutoCopy)
 		{
-			bool temp = GenieFile->Civs[UnitCivID].Units[UnitID].Unselectable;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Unselectable = temp;
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 	}
 }
@@ -2345,69 +2233,9 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			if(Event.GetId() == Units_DeathMode->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeathMode;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DeathMode = temp;
-			}
-			else if(Event.GetId() == Units_AirMode->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].AirMode;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].AirMode = temp;
-			}
-			else if(Event.GetId() == Units_HideInEditor->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].HideInEditor;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].HideInEditor = temp;
-			}
-			else if(Event.GetId() == Units_BuildingMode->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].BuildingMode;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].BuildingMode = temp;
-			}
-			else if(Event.GetId() == Units_FlyMode->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].FlyMode;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].FlyMode = temp;
-			}
-			else if(Event.GetId() == Units_AnimalMode->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.AnimalMode;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.AnimalMode = temp;
-			}
-			else if(Event.GetId() == Units_HeroMode->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.HeroMode;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.HeroMode = temp;
-			}
-			else if(Event.GetId() == Units_TowerMode->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.TowerMode;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.TowerMode = temp;
-			}
-			else if(Event.GetId() == Units_Unknown31b->GetId())
-			{
-				char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Unknown31b;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.Unknown31b = temp;
-			}
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 	}
 }
@@ -2457,269 +2285,14 @@ void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent& Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 {
-	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event); // Saving of the data
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList) // Checking if the data was changed (saved)
+	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
+	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
 		if(AutoCopy)
 		{
-			if(Event.GetId() == Units_IconID->GetId())
-			{
-				if(CopyGraphics)
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].IconID;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].IconID = temp;
-				}
-			}
-			else if(Event.GetId() == Units_AccuracyPercent->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.AccuracyPercent;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.AccuracyPercent = temp;
-			}
-			else if(Event.GetId() == Units_HitPoints->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].HitPoints;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].HitPoints = temp;
-			}
-			else if(Event.GetId() == Units_Unknown1->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Unknown1;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Unknown1 = temp;
-			}
-			else if(Event.GetId() == Units_ResourceCapacity->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].ResourceCapacity;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].ResourceCapacity = temp;
-			}
-			else if(Event.GetId() == Units_CommandAttribute->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].CommandAttribute;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].CommandAttribute = temp;
-			}
-			else if(Event.GetId() == Units_Unknown21->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Unknown21;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.Unknown21 = temp;
-			}
-			else if(Event.GetId() == Units_Delay->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Delay;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.Delay = temp;
-			}
-			else if(Event.GetId() == Units_DisplayedMeleeArmour->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.DisplayedMeleeArmour;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.DisplayedMeleeArmour = temp;
-			}
-			else if(Event.GetId() == Units_DisplayedAttack->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.DisplayedAttack;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.DisplayedAttack = temp;
-			}
-			else if(Event.GetId() == Units_TrainTime->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.TrainTime;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.TrainTime = temp;
-			}
-			else if(Event.GetId() == Units_DisplayedPierceArmour->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.DisplayedPierceArmour;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.DisplayedPierceArmour = temp;
-			}
-			else if(Event.GetId() == Units_Unknown32->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Unknown32;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.Unknown32 = temp;
-			}
-			else if(Event.GetId() == Units_Unknown34->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Unknown34;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.Unknown34 = temp;
-			}
-			else if(Event.GetId() == Units_Unknown36->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Unknown36;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.Unknown36 = temp;
-			}
-			else if(Event.GetId() == Units_Unknown3->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Unknown3;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Unknown3 = temp;
-			}
-			else if(Event.GetId() == Units_Unknown3B->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Unknown3B;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Unknown3B = temp;
-			}
-			else if(Event.GetId() == Attacks_Amount->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[AttackID].Amount;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.Attacks[AttackID].Amount = temp;
-			}
-			else if(Event.GetId() == Armors_Amount->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[ArmorID].Amount;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.Armours[ArmorID].Amount = temp;
-			}
-			else if(Event.GetId() == Units_CostAmount[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[0].Amount;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[0].Amount = temp;
-			}
-			else if(Event.GetId() == Units_CostAmount[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[1].Amount;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[1].Amount = temp;
-			}
-			else if(Event.GetId() == Units_CostAmount[2]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[2].Amount;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[2].Amount = temp;
-			}
-			else if(Event.GetId() == Units_Unknown27[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.Unknown27[0];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.Unknown27[0] = temp;
-			}
-			else if(Event.GetId() == Units_Unknown27[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.Unknown27[1];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.Unknown27[1] = temp;
-			}
-			else if(Event.GetId() == Units_Unknown27[2]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.Unknown27[2];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.Unknown27[2] = temp;
-			}
-			else if(Event.GetId() == Units_HotKey[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].HotKey[0];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].HotKey[0] = temp;
-			}
-			else if(Event.GetId() == Units_HotKey[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].HotKey[1];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].HotKey[1] = temp;
-			}
-			else if(Event.GetId() == Units_HotKey[2]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].HotKey[2];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].HotKey[2] = temp;
-			}
-			else if(Event.GetId() == Units_HotKey[3]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].HotKey[3];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].HotKey[3] = temp;
-			}
-			else if(GameVersion < 2)
-			{
-				if(Event.GetId() == UnitCommands_One->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].One;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].One = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Type->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Type;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Type = temp;
-				}
-				else if(Event.GetId() == UnitCommands_SubType->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].SubType;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].SubType = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Unknown2->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Unknown2;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Unknown2 = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Unknown3->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Unknown3;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Unknown3 = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Unknown12->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Unknown12;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Unknown12 = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Unknown13->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Unknown13;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Unknown13 = temp;
-				}
-			}
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 		if(Event.GetId() == Attacks_Amount->GetId())
 		{
@@ -2741,38 +2314,23 @@ void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event)
 	((TextCtrl_UnShort*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_UnShort*)Event.GetEventObject())->NoLoadList)
 	{
+		if(AutoCopy)
+		{
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
+		}
 		if(Event.GetId() == Units_LanguageDllName->GetId())
 		{
-			if(AutoCopy)
-			{
-				unsigned short temp = GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllName;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].LanguageDllName = temp;
-			}
 			ListUnits(UnitCivID);
 		}
 		else if(Event.GetId() == Units_LanguageDllCreation->GetId())
 		{
-			if(AutoCopy)
-			{
-				unsigned short temp = GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllCreation;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].LanguageDllCreation = temp;
-			}
 			wxCommandEvent E;
 			OnUnitsSelect(E);
 		}
 		else if(Event.GetId() == Units_LanguageDllHelp->GetId())
 		{
-			if(AutoCopy)
-			{
-				unsigned short temp = GenieFile->Civs[UnitCivID].Units[UnitID].LanguageDllHelp;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].LanguageDllHelp = temp;
-			}
 			wxCommandEvent E;
 			OnUnitsSelect(E);
 		}
@@ -2786,432 +2344,9 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			if(CopyGraphics)
-			{
-				if(Event.GetId() == Units_StandingGraphic[0]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].StandingGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].StandingGraphic = temp;
-				}
-				else if(Event.GetId() == Units_StandingGraphic[1]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].StandingGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].StandingGraphic = temp;
-				}
-				else if(Event.GetId() == Units_DyingGraphic[0]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DyingGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].DyingGraphic = temp;
-				}
-				else if(Event.GetId() == Units_DyingGraphic[1]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DyingGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].DyingGraphic = temp;
-				}
-				else if(Event.GetId() == Units_ConstructionGraphicID->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.ConstructionGraphicID;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Building.ConstructionGraphicID = temp;
-				}
-				else if(Event.GetId() == Units_SnowGraphicID->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.SnowGraphicID;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Building.SnowGraphicID = temp;
-				}
-				else if(Event.GetId() == Units_AttackGraphic->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.AttackGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Projectile.AttackGraphic = temp;
-				}
-				else if(Event.GetId() == Units_GarrisonGraphic[0]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.GarrisonGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Creatable.GarrisonGraphic = temp;
-				}
-				else if(Event.GetId() == Units_GarrisonGraphic[1]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.GarrisonGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Creatable.GarrisonGraphic = temp;
-				}
-				else if(Event.GetId() == Units_WalkingGraphic[0]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish.WalkingGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].DeadFish.WalkingGraphic = temp;
-				}
-				else if(Event.GetId() == Units_WalkingGraphic[1]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish.WalkingGraphic;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].DeadFish.WalkingGraphic = temp;
-				}
-				else if(Event.GetId() == DamageGraphics_GraphicID->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[DamageGraphicID].GraphicID;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].DamageGraphics[DamageGraphicID].GraphicID = temp;
-				}
-			}
-			if(Event.GetId() == Units_DeadUnitID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeadUnitID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DeadUnitID = temp;
-			}
-			else if(Event.GetId() == Units_TerrainRestriction->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].TerrainRestriction;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].TerrainRestriction = temp;
-			}
-			else if(Event.GetId() == Units_SelectionSound->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].SelectionSound;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].SelectionSound = temp;
-			}
-			else if(Event.GetId() == Units_DyingSound->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DyingSound;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DyingSound = temp;
-			}
-			else if(Event.GetId() == Units_AttackSound->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].AttackSound;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].AttackSound = temp;
-			}
-			else if(Event.GetId() == Units_Unitline->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Unitline;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Unitline = temp;
-			}
-			else if(Event.GetId() == Units_TrackingUnit->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish.TrackingUnit;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DeadFish.TrackingUnit = temp;
-			}
-			else if(Event.GetId() == Units_MoveSound->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.MoveSound;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.MoveSound = temp;
-			}
-			else if(Event.GetId() == Units_StopSound->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.StopSound;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.StopSound = temp;
-			}
-			else if(Event.GetId() == Units_ProjectileUnitID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.ProjectileUnitID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.ProjectileUnitID = temp;
-			}
-			else if(Event.GetId() == Units_TrainLocationID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.TrainLocationID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.TrainLocationID = temp;
-			}
-			else if(Event.GetId() == Units_StackUnitID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.StackUnitID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.StackUnitID = temp;
-			}
-			else if(Event.GetId() == Units_TerrainID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.TerrainID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.TerrainID = temp;
-			}
-			else if(Event.GetId() == Units_ResearchID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.ResearchID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.ResearchID = temp;
-			}
-			else if(Event.GetId() == Units_HeadUnit->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.HeadUnit;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.HeadUnit = temp;
-			}
-			else if(Event.GetId() == Units_TransformUnit->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.TransformUnit;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.TransformUnit = temp;
-			}
-			else if(Event.GetId() == Units_ConstructionSound->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.ConstructionSound;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.ConstructionSound = temp;
-			}
-			else if(Event.GetId() == Units_TrainSound[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].TrainSound.first;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].TrainSound.first = temp;
-			}
-			else if(Event.GetId() == Units_TrainSound[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].TrainSound.second;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].TrainSound.second = temp;
-			}
-			else if(Event.GetId() == Units_PlacementBypassTerrain[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].PlacementBypassTerrain.first;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].PlacementBypassTerrain.first = temp;
-			}
-			else if(Event.GetId() == Units_PlacementBypassTerrain[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].PlacementBypassTerrain.second;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].PlacementBypassTerrain.second = temp;
-			}
-			else if(Event.GetId() == Units_PlacementTerrain[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].PlacementTerrain.first;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].PlacementTerrain.first = temp;
-			}
-			else if(Event.GetId() == Units_PlacementTerrain[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].PlacementTerrain.second;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].PlacementTerrain.second = temp;
-			}
-			else if(Event.GetId() == Units_DropSite[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.DropSite.first;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.DropSite.first = temp;
-			}
-			else if(Event.GetId() == Units_DropSite[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.DropSite.second;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.DropSite.second = temp;
-			}
-			else if(Event.GetId() == Units_Class->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Class;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Class = temp;
-			}
-			else if(Event.GetId() == Attacks_Class->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[AttackID].Class;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.Attacks[AttackID].Class = temp;
-			}
-			else if(Event.GetId() == Armors_Class->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[ArmorID].Class;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.Armours[ArmorID].Class = temp;
-			}
-			else if(Event.GetId() == Units_CostType[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[0].Type;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[0].Type = temp;
-			}
-			else if(Event.GetId() == Units_CostType[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[1].Type;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[1].Type = temp;
-			}
-			else if(Event.GetId() == Units_CostType[2]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[2].Type;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[2].Type = temp;
-			}
-			else if(Event.GetId() == ResourceStorage_Type[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].ResourceStorages[0].Type;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].ResourceStorages[0].Type = temp;
-			}
-			else if(Event.GetId() == ResourceStorage_Type[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].ResourceStorages[1].Type;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].ResourceStorages[1].Type = temp;
-			}
-			else if(Event.GetId() == ResourceStorage_Type[2]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].ResourceStorages[2].Type;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].ResourceStorages[2].Type = temp;
-			}
-			else if(Event.GetId() == Units_AnnexUnit[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Annexes[0].UnitID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.Annexes[0].UnitID = temp;
-			}
-			else if(Event.GetId() == Units_AnnexUnit[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Annexes[1].UnitID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.Annexes[1].UnitID = temp;
-			}
-			else if(Event.GetId() == Units_AnnexUnit[2]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Annexes[2].UnitID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.Annexes[2].UnitID = temp;
-			}
-			else if(Event.GetId() == Units_AnnexUnit[3]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Annexes[3].UnitID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.Annexes[3].UnitID = temp;
-			}
-			else if(GameVersion < 2)
-			{
-				if(Event.GetId() == UnitCommands_UnitID->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].UnitID;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].UnitID = temp;
-				}
-				else if(Event.GetId() == UnitCommands_ResourceIn->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].ResourceIn;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].ResourceIn = temp;
-				}
-				else if(Event.GetId() == UnitCommands_ResourceOut->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].ResourceOut;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].ResourceOut = temp;
-				}
-				else if(Event.GetId() == UnitCommands_ClassID->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].ClassID;
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].ClassID = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Graphics[0]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[0];
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[0] = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Graphics[1]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[1];
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[1] = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Graphics[2]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[2];
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[2] = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Graphics[3]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[3];
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[3] = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Graphics[4]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[4];
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[4] = temp;
-				}
-				else if(Event.GetId() == UnitCommands_Graphics[5]->GetId())
-				{
-					short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[5];
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					if(Units_CivBoxes[civ]->IsChecked())
-					GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[5] = temp;
-				}
-			}
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 		if(Event.GetId() == Attacks_Class->GetId())
 		{
@@ -3235,43 +2370,23 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			if(Event.GetId() == Units_Enabled->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Enabled;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Enabled = temp;
-			}
-			else if(Event.GetId() == Units_AdjacentMode->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.AdjacentMode;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.AdjacentMode = temp;
-			}
-			else for(short loop = 0;loop < 3;loop++)
-			if(Event.GetId() == Units_CostUsed[loop]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[loop].Enabled;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[loop].Enabled = temp;
-			}
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 	}
 }
 
-void AGE_Frame::OnKillFocus_SheepConversion_CheckBox(wxFocusEvent& Event)
+void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEvent& Event)
 {
 	((CheckBox_Short_ZeroIsYes*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
 		if(AutoCopy)
 		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.SheepConversion;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Bird.SheepConversion = temp;
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 	}
 }
@@ -3305,10 +2420,9 @@ void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			long temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Unknown35;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.Unknown35 = temp;
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 	}
 }
@@ -3320,20 +2434,9 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			if(Event.GetId() == Units_AttackMissileDuplicationUnit->GetId())
-			{
-				long temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.AttackMissileDuplicationUnit;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.AttackMissileDuplicationUnit = temp;
-			}
-			else if(Event.GetId() == Units_AttackMissileDuplicationGraphic->GetId())
-			{
-				long temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.AttackMissileDuplicationGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.AttackMissileDuplicationGraphic = temp;
-			}
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
 	}
 }
@@ -3361,61 +2464,10 @@ void AGE_Frame::OnKillFocus_AutoCopy_Float(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			if(Event.GetId() == XXX->GetId())
-			{
-				float temp = GenieFile->Civs[UnitCivID].Units[UnitID].YYY;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].YYY = temp;
-			}
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
 		}
-	Units_SizeRadius[0]
-	Units_SizeRadius[1]
-	Units_EditorRadius[0]
-	Units_EditorRadius[1]
-	Units_SelectionRadius[0]
-	Units_SelectionRadius[1]
-	Units_GraphicDisplacement[0]
-	Units_GraphicDisplacement[1]
-	Units_GraphicDisplacement[2]
-	Units_AttackMissileDuplicationSpawning[0]
-	Units_AttackMissileDuplicationSpawning[1]
-	Units_AttackMissileDuplicationSpawning[2]
-	Units_AnnexUnitMisplacement[0][0]
-	Units_AnnexUnitMisplacement[0][1]
-	Units_AnnexUnitMisplacement[1][0]
-	Units_AnnexUnitMisplacement[1][1]
-	Units_AnnexUnitMisplacement[2][0]
-	Units_AnnexUnitMisplacement[2][1]
-	Units_AnnexUnitMisplacement[3][0]
-	Units_AnnexUnitMisplacement[3][1]
-	Units_LineOfSight
-	Units_HPBarHeight1
-	Units_ResourceDecay
-	Units_HPBarHeight2
-	Units_Speed
-	Units_RotationSpeed
-	Units_TrackingUnitDensity
-	Units_Unknown12
-	Units_SearchRadius
-	Units_WorkRate
-	Units_MaxRange
-	Units_BlastRadius
-	Units_ReloadTime1
-	Units_MinRange
-	Units_GarrisonRecoveryRate
-	Units_DisplayedRange
-	Units_ReloadTime2
-	Units_ProjectileArc
-	Units_AttackMissileDuplicationAmount1
-	Units_GarrisonHealRate
-	ResourceStorage_Amount[0]
-	ResourceStorage_Amount[1]
-	ResourceStorage_Amount[2]
-	UnitCommands_Unknown4
-	UnitCommands_ExecutionRadius
-	UnitCommands_Unknown5
-	UnitCommands_Unknown7
 	}
 }
 
@@ -3554,17 +2606,17 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 	if(!((TextCtrl_String*)Event.GetEventObject())->NoLoadList)
 	{
 		string ReducedName;
+		if(AutoCopy)
+		{
+			wxCommandEvent E;
+			OnUnitsCopy(E);
+			OnUnitsPaste(E);
+		}
 		if(Event.GetId() == Units_Name->GetId())
 		{
 			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name = ReducedName;
-			if(AutoCopy)
-			{
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Name = ReducedName;
-			}
 
 			ListUnits(UnitCivID);
 		}
@@ -3573,12 +2625,6 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name2;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitID].Name2 = ReducedName;
-			if(AutoCopy)
-			{
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Name2 = ReducedName;
-			}
 
 			wxCommandEvent E;
 			OnUnitsSelect(E);
@@ -3615,20 +2661,9 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event)
 	((ComboBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		if(Event.GetId() == Units_ComboBox_Civ->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Civilization;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Civilization = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_GarrisonType->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.GarrisonType;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.GarrisonType = temp;
-		}
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
 	}
 }
 
@@ -3662,432 +2697,9 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 	((ComboBox_Short*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		if(CopyGraphics)
-		{
-			if(Event.GetId() == Units_ComboBox_StandingGraphic[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].StandingGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].StandingGraphic = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_StandingGraphic[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].StandingGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].StandingGraphic = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_DyingGraphic[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DyingGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DyingGraphic = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_DyingGraphic[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DyingGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DyingGraphic = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_ConstructionGraphicID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.ConstructionGraphicID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.ConstructionGraphicID = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_SnowGraphicID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.SnowGraphicID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Building.SnowGraphicID = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_AttackGraphic->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.AttackGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Projectile.AttackGraphic = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_GarrisonGraphic[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.GarrisonGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.GarrisonGraphic = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_GarrisonGraphic[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.GarrisonGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Creatable.GarrisonGraphic = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_WalkingGraphic[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish.WalkingGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DeadFish.WalkingGraphic = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_WalkingGraphic[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish.WalkingGraphic;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DeadFish.WalkingGraphic = temp;
-			}
-			else if(Event.GetId() == DamageGraphics_ComboBox_GraphicID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[DamageGraphicID].GraphicID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].DamageGraphics[DamageGraphicID].GraphicID = temp;
-			}
-		}
-		if(Event.GetId() == Units_ComboBox_DeadUnitID->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeadUnitID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].DeadUnitID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_TerrainRestriction->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].TerrainRestriction;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].TerrainRestriction = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_SelectionSound->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].SelectionSound;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].SelectionSound = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_DyingSound->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DyingSound;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].DyingSound = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_AttackSound->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].AttackSound;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].AttackSound = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_Unitline->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Unitline;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Unitline = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_TrackingUnit->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish.TrackingUnit;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].DeadFish.TrackingUnit = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_MoveSound->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.MoveSound;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Bird.MoveSound = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_StopSound->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.StopSound;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Bird.StopSound = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_ProjectileUnitID->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.ProjectileUnitID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Projectile.ProjectileUnitID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_TrainLocationID->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.TrainLocationID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Creatable.TrainLocationID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_StackUnitID->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.StackUnitID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.StackUnitID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_TerrainID->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.TerrainID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.TerrainID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_ResearchID->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.ResearchID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.ResearchID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_HeadUnit->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.HeadUnit;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.HeadUnit = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_TransformUnit->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.TransformUnit;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.TransformUnit = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_ConstructionSound->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.ConstructionSound;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.ConstructionSound = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_TrainSound[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].TrainSound.first;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].TrainSound.first = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_TrainSound[1]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].TrainSound.second;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].TrainSound.second = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_PlacementBypassTerrain[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].PlacementBypassTerrain.first;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].PlacementBypassTerrain.first = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_PlacementBypassTerrain[1]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].PlacementBypassTerrain.second;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].PlacementBypassTerrain.second = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_PlacementTerrain[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].PlacementTerrain.first;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].PlacementTerrain.first = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_PlacementTerrain[1]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].PlacementTerrain.second;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].PlacementTerrain.second = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_DropSite[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.DropSite.first;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Bird.DropSite.first = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_DropSite[1]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.DropSite.second;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Bird.DropSite.second = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_Class[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Class;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Class = temp;
-		}
-		else if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[AttackID].Class;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Projectile.Attacks[AttackID].Class = temp;
-		}
-		else if(Event.GetId() == Attacks_ComboBox_Class[1]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[ArmorID].Class;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Projectile.Armours[ArmorID].Class = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_CostType[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[0].Type;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[0].Type = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_CostType[1]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[1].Type;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[1].Type = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_CostType[2]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[2].Type;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[2].Type = temp;
-		}
-		else if(Event.GetId() == ResourceStorage_ComboBox_Type[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].ResourceStorages[0].Type;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].ResourceStorages[0].Type = temp;
-		}
-		else if(Event.GetId() == ResourceStorage_ComboBox_Type[1]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].ResourceStorages[1].Type;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].ResourceStorages[1].Type = temp;
-		}
-		else if(Event.GetId() == ResourceStorage_ComboBox_Type[2]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].ResourceStorages[2].Type;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].ResourceStorages[2].Type = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_AnnexUnit[0]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Annexes[0].UnitID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.Annexes[0].UnitID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_AnnexUnit[1]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Annexes[1].UnitID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.Annexes[1].UnitID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_AnnexUnit[2]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Annexes[2].UnitID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.Annexes[2].UnitID = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_AnnexUnit[3]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Annexes[3].UnitID;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.Annexes[3].UnitID = temp;
-		}
-		else if(GameVersion < 2)
-		{
-			if(Event.GetId() == UnitCommands_ComboBox_UnitID->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].UnitID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].UnitID = temp;
-			}
-			else if(Event.GetId() == UnitCommands_ComboBox_ResourceIn->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].ResourceIn;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].ResourceIn = temp;
-			}
-			else if(Event.GetId() == UnitCommands_ComboBox_ResourceOut->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].ResourceOut;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].ResourceOut = temp;
-			}
-			else if(Event.GetId() == Units_ComboBox_Class[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].ClassID;
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].ClassID = temp;
-			}
-			else if(Event.GetId() == UnitCommands_ComboBox_Graphics[0]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[0];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[0] = temp;
-			}
-			else if(Event.GetId() == UnitCommands_ComboBox_Graphics[1]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[1];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[1] = temp;
-			}
-			else if(Event.GetId() == UnitCommands_ComboBox_Graphics[2]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[2];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[2] = temp;
-			}
-			else if(Event.GetId() == UnitCommands_ComboBox_Graphics[3]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[3];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[3] = temp;
-			}
-			else if(Event.GetId() == UnitCommands_ComboBox_Graphics[4]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[4];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[4] = temp;
-			}
-			else if(Event.GetId() == UnitCommands_ComboBox_Graphics[5]->GetId())
-			{
-				short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.Commands[CommandID].Graphics[5];
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				if(Units_CivBoxes[civ]->IsChecked())
-				GenieFile->Civs[civ].Units[UnitID].Bird.Commands[CommandID].Graphics[5] = temp;
-			}
-		}
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
 	}
 	if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
 	{
@@ -4192,20 +2804,9 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 	((ComboBox_Long*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		if(Event.GetId() == Units_ComboBox_AttackMissileDuplicationUnit->GetId())
-		{
-			long temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.AttackMissileDuplicationUnit;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Creatable.AttackMissileDuplicationUnit = temp;
-		}
-		else if(Event.GetId() == Units_ComboBox_AttackMissileDuplicationGraphic->GetId())
-		{
-			long temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.AttackMissileDuplicationGraphic;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Creatable.AttackMissileDuplicationGraphic = temp;
-		}
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
 	}
 }
 
@@ -4214,10 +2815,9 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event)
 	((CheckBox_Bool*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		bool temp = GenieFile->Civs[UnitCivID].Units[UnitID].Unselectable;
-		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-		if(Units_CivBoxes[civ]->IsChecked())
-		GenieFile->Civs[civ].Units[UnitID].Unselectable = temp;
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
 	}
 }
 
@@ -4226,62 +2826,9 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event)
 	((CheckBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		if(Event.GetId() == Units_CheckBox_DeathMode->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].DeathMode;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].DeathMode = temp;
-		}
-		else if(Event.GetId() == Units_CheckBox_AirMode->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].AirMode;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].AirMode = temp;
-		}
-		else if(Event.GetId() == Units_CheckBox_HideInEditor->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].HideInEditor;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].HideInEditor = temp;
-		}
-		else if(Event.GetId() == Units_CheckBox_FlyMode->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].FlyMode;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].FlyMode = temp;
-		}
-		else if(Event.GetId() == Units_CheckBox_HeroMode->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.HeroMode;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Creatable.HeroMode = temp;
-		}
-		else if(Event.GetId() == Units_CheckBox_AnimalMode->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.AnimalMode;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Bird.AnimalMode = temp;
-		}
-		else if(Event.GetId() == Units_CheckBox_TowerMode->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.TowerMode;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Projectile.TowerMode = temp;
-		}
-		else if(Event.GetId() == Units_CheckBox_Unknown31b->GetId())
-		{
-			char temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.Unknown31b;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.Unknown31b = temp;
-		}
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
 	}
 }
 
@@ -4299,40 +2846,20 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event)
 	((CheckBox_Short*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		if(Event.GetId() == Units_CheckBox_Enabled->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Enabled;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Enabled = temp;
-		}
-		else if(Event.GetId() == Units_CheckBox_AdjacentMode->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Building.AdjacentMode;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Building.AdjacentMode = temp;
-		}
-		else for(short loop = 0;loop < 3;loop++)
-		if(Event.GetId() == Units_CheckBox_CostUsed[loop]->GetId())
-		{
-			short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.ResourceCosts[loop].Enabled;
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			if(Units_CivBoxes[civ]->IsChecked())
-			GenieFile->Civs[civ].Units[UnitID].Creatable.ResourceCosts[loop].Enabled = temp;
-		}
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
 	}
 }
 
-void AGE_Frame::OnUpdate_SheepConversion_CheckBox(wxCommandEvent& Event)
+void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent& Event)
 {
 	((CheckBox_Short_ZeroIsYes*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		short temp = GenieFile->Civs[UnitCivID].Units[UnitID].Bird.SheepConversion;
-		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-		if(Units_CivBoxes[civ]->IsChecked())
-		GenieFile->Civs[civ].Units[UnitID].Bird.SheepConversion = temp;
+		wxCommandEvent E;
+		OnUnitsCopy(E);
+		OnUnitsPaste(E);
 	}
 }
 
