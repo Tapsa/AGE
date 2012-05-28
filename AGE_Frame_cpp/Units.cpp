@@ -1612,6 +1612,14 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 	}
 }
 
+/*if(CopyGraphics)
+{
+	short temp = GenieFile->Civs[UnitCivID].Units[UnitID].YYY;
+	for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+	if(Units_CivBoxes[civ]->IsChecked())
+	GenieFile->Civs[civ].Units[UnitID].YYY = temp;
+}*/
+
 void AGE_Frame::UnitsGraphicsCopy(short Size, short loop, short Fix)
 {
 	for(;loop < Size;loop++, Fix++)
