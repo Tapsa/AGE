@@ -1620,9 +1620,9 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 	GenieFile->Civs[civ].Units[UnitID].YYY = temp;
 }*/
 
-void AGE_Frame::UnitsGraphicsCopy(short Size, short loop, short Fix)
+void AGE_Frame::UnitsGraphicsCopy(short Size, short loop)
 {
-	for(;loop < Size;loop++, Fix++)
+	for(short Fix = 0;loop < Size;loop++, Fix++)
 	{	// Collects only graphic data, not all data again.
 		UnitGraphics[Fix].IconID = GenieFile->Civs[loop].Units[UnitID].IconID;// This probably shouldn't be here.
 		UnitGraphics[Fix].StandingGraphic = GenieFile->Civs[loop].Units[UnitID].StandingGraphic;
@@ -1654,7 +1654,7 @@ void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent& Event)
 	}
 	else
 	{
-		UnitsGraphicsCopy(UnitCivID+1, UnitCivID, 0);
+		UnitsGraphicsCopy(UnitCivID+1, UnitCivID);
 	}
 }
 
@@ -1680,6 +1680,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 		else
 		{
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			if(Units_CivBoxes[loop]->IsChecked())
 			GenieFile->Civs[loop].Units[UnitID] = UnitCopy;
 			if(!CopyGraphics)
 			{// Let's paste graphics separately.
@@ -1707,28 +1708,31 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::UnitsGraphicsPaste(short Size, short loop, short Fix)
+void AGE_Frame::UnitsGraphicsPaste(short Size, short loop)
 {
-	for(;loop < Size;loop++, Fix++)
+	for(short Fix = 0;loop < Size;loop++, Fix++)
 	{
-		GenieFile->Civs[loop].Units[UnitID].IconID = UnitGraphics[Fix].IconID;
-		GenieFile->Civs[loop].Units[UnitID].StandingGraphic = UnitGraphics[Fix].StandingGraphic;
-		GenieFile->Civs[loop].Units[UnitID].DyingGraphic = UnitGraphics[Fix].DyingGraphic;
-		GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount = UnitGraphics[Fix].DamageGraphicCount;
-		GenieFile->Civs[loop].Units[UnitID].DamageGraphics = UnitGraphics[Fix].DamageGraphics;
-		switch((short)GenieFile->Civs[loop].Units[UnitID].Type)
+		if(Units_CivBoxes[loop]->IsChecked())
 		{
-			case 80:
-			GenieFile->Civs[loop].Units[UnitID].Building.ConstructionGraphicID = UnitGraphics[Fix].Building.ConstructionGraphicID;
-			GenieFile->Civs[loop].Units[UnitID].Building.SnowGraphicID = UnitGraphics[Fix].Building.SnowGraphicID;
-			case 70:
-			GenieFile->Civs[loop].Units[UnitID].Creatable.GarrisonGraphic = UnitGraphics[Fix].Creatable.GarrisonGraphic;
-			case 60:
-			GenieFile->Civs[loop].Units[UnitID].Projectile.AttackGraphic = UnitGraphics[Fix].Projectile.AttackGraphic;
-			case 40:
-			case 30:
-			GenieFile->Civs[loop].Units[UnitID].DeadFish.WalkingGraphic = UnitGraphics[Fix].DeadFish.WalkingGraphic;
-			break;
+			GenieFile->Civs[loop].Units[UnitID].IconID = UnitGraphics[Fix].IconID;
+			GenieFile->Civs[loop].Units[UnitID].StandingGraphic = UnitGraphics[Fix].StandingGraphic;
+			GenieFile->Civs[loop].Units[UnitID].DyingGraphic = UnitGraphics[Fix].DyingGraphic;
+			GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount = UnitGraphics[Fix].DamageGraphicCount;
+			GenieFile->Civs[loop].Units[UnitID].DamageGraphics = UnitGraphics[Fix].DamageGraphics;
+			switch((short)GenieFile->Civs[loop].Units[UnitID].Type)
+			{
+				case 80:
+				GenieFile->Civs[loop].Units[UnitID].Building.ConstructionGraphicID = UnitGraphics[Fix].Building.ConstructionGraphicID;
+				GenieFile->Civs[loop].Units[UnitID].Building.SnowGraphicID = UnitGraphics[Fix].Building.SnowGraphicID;
+				case 70:
+				GenieFile->Civs[loop].Units[UnitID].Creatable.GarrisonGraphic = UnitGraphics[Fix].Creatable.GarrisonGraphic;
+				case 60:
+				GenieFile->Civs[loop].Units[UnitID].Projectile.AttackGraphic = UnitGraphics[Fix].Projectile.AttackGraphic;
+				case 40:
+				case 30:
+				GenieFile->Civs[loop].Units[UnitID].DeadFish.WalkingGraphic = UnitGraphics[Fix].DeadFish.WalkingGraphic;
+				break;
+			}
 		}
 	}
 }
@@ -1741,7 +1745,7 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent& Event)
 	}
 	else
 	{
-		UnitsGraphicsPaste(UnitCivID+1, UnitCivID, 0);
+		UnitsGraphicsPaste(UnitCivID+1, UnitCivID);
 	}
 	wxCommandEvent E;
 	OnUnitsSelect(E);
@@ -5108,7 +5112,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackSound->Connect(Units_AttackSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_Unitline->Connect(Units_Unitline->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_TrackingUnit->Connect(Units_TrackingUnit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
-	Units_SheepConversion->Connect(Units_SheepConversion->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_SheepConversion_CheckBox), NULL, this);
+	Units_SheepConversion->Connect(Units_SheepConversion->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion), NULL, this);
 	Units_MoveSound->Connect(Units_MoveSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_StopSound->Connect(Units_StopSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_Unknown21->Connect(Units_Unknown21->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
@@ -5175,7 +5179,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackMissileDuplicationAmount1->Connect(Units_AttackMissileDuplicationAmount1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 	Units_GarrisonHealRate->Connect(Units_GarrisonHealRate->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Float), NULL, this);
 
-	Units_Unselectable->Connect(Units_Unselectable->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unselectable_CheckBox), NULL, this);
+	Units_Unselectable->Connect(Units_Unselectable->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool), NULL, this);
 
 	Units_AttackMissileDuplicationUnit->Connect(Units_AttackMissileDuplicationUnit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong), NULL, this);
 	Units_AttackMissileDuplicationGraphic->Connect(Units_AttackMissileDuplicationGraphic->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong), NULL, this);
@@ -5292,7 +5296,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_FlyMode->Connect(Units_CheckBox_FlyMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_HeroMode->Connect(Units_CheckBox_HeroMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_Enabled->Connect(Units_CheckBox_Enabled->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort), NULL, this);
-	Units_CheckBox_SheepConversion->Connect(Units_CheckBox_SheepConversion->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_SheepConversion_CheckBox), NULL, this);
+	Units_CheckBox_SheepConversion->Connect(Units_CheckBox_SheepConversion->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion), NULL, this);
 	Units_CheckBox_Unselectable->Connect(Units_CheckBox_Unselectable->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool), NULL, this);
 	Units_CheckBox_AnimalMode->Connect(Units_CheckBox_AnimalMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
 	Units_CheckBox_TowerMode->Connect(Units_CheckBox_TowerMode->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte), NULL, this);
