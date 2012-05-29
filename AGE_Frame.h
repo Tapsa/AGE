@@ -121,9 +121,6 @@ class AGE_Frame : public wxFrame
 	void OnKillFocus_CheckBoxLong0Y(wxFocusEvent& Event);
 	void OnKillFocus_CheckBoxFloat(wxFocusEvent& Event);
 
-	void OnKillFocus_Unselectable_CheckBox(wxFocusEvent& Event);
-	void OnKillFocus_SheepConversion_CheckBox(wxFocusEvent& Event);
-
 	void OnUpdate_ComboBoxByteEffectType(wxCommandEvent& Event); // for effects' name update
 	void OnUpdate_CheckBoxByte(wxCommandEvent& Event);
 	void OnUpdate_ComboBoxShort(wxCommandEvent& Event);
@@ -132,155 +129,27 @@ class AGE_Frame : public wxFrame
 	void OnUpdate_CheckBoxLong0Y(wxCommandEvent& Event);
 	void OnUpdate_ComboBoxFloat(wxCommandEvent& Event);
 	void OnUpdate_CheckBoxFloat(wxCommandEvent& Event);
-	void OnUpdate_SheepConversion_CheckBox(wxCommandEvent& Event);
 
-  serialize<char>(Type);
-  
-  serializeSize<uint16_t>(NameLength, Name);
-  serialize<int16_t>(ID1);
-  serialize<uint16_t>(LanguageDllName);
-  serialize<uint16_t>(LanguageDllCreation);
-  serialize<int16_t>(Class);
-  
-    serialize<int16_t>(StandingGraphic);
-  
-  serialize<int16_t>(DyingGraphic);
-  serialize<char>(DeathMode);
-  serialize<int16_t>(HitPoints);
-  serialize<float>(LineOfSight);
-  serialize<char>(GarrisonCapacity); 
-  serialize<float>(SizeRadius);
-  
-  serialize<float>(HPBarHeight1);
-  
-  serialize<int16_t>(TrainSound, (getGameVersion() >= genie::GV_AoK) ? false : true);
-  serialize<int16_t>(DeadUnitID);
-  serialize<char>(PlacementMode);
-  serialize<char>(AirMode);
-  serialize<int16_t>(IconID);
-  serialize<char>(HideInEditor);
-  serialize<int16_t>(Unknown1);
-  
-  if (getGameVersion() >= genie::GV_AoK)
-    serialize<int16_t>(Enabled);
-  else
-  {
-    char enabled = Enabled;
-    serialize<char>(enabled);
-    Enabled = enabled;
-  }
-  
-  serialize<int16_t>(PlacementBypassTerrain);
-  serialize<int16_t>(PlacementTerrain);
-  serialize<float>(EditorRadius);
-  serialize<char>(BuildingMode);
-  serialize<char>(VisibleInFog);
-  serialize<int16_t>(TerrainRestriction);
-  serialize<char>(FlyMode);
-  serialize<int16_t>(ResourceCapacity);
-  serialize<float>(ResourceDecay);
-  serialize<char>(BlastType);
-  serialize<char>(Unknown2);
-  serialize<char>(InteractionMode);
-  serialize<char>(MinimapMode);
-  
-  if (getGameVersion() >= genie::GV_AoK)
-    serialize<int16_t>(CommandAttribute);
-  else
-  {
-    char attr = CommandAttribute;
-    serialize<char>(attr);
-    CommandAttribute = attr;
-  }
-  
-  serialize<int16_t>(Unknown3);
-  serialize<int16_t>(Unknown3B);
-  
-  if (getGameVersion() <= genie::GV_RoR)
-    serialize<char>(Unknown3a);
-  
-  serialize<uint16_t>(LanguageDllHelp);
-  serialize<int16_t>(HotKey, getHotKeySize());
-  serialize<char>(Unknown4);
-  serialize<char>(Unknown5);
-  serialize<bool>(Unselectable);
-  serialize<char>(Unknown6);
-  
-  if (getGameVersion() >= genie::GV_AoK)
-  {
-    serialize<char>(Unknown7);
-    serialize<char>(Unknown8);
-  }
-  
-  serialize<char>(SelectionMask);
-  
-  if (getGameVersion() >= genie::GV_AoK)
-    serialize<char>(SelectionShapeType);
-  
-  serialize<char>(SelectionShape);
-  if (getGameVersion() != genie::GV_AoK)
-  {
-    serialize<char>(Attribute);
-    serialize<char>(Civilization);
-  }
-
-  if (getGameVersion() >= genie::GV_TC)
-    serialize<char>(Unknown9, getUnknown9Size());
-  
-  
-  if (getGameVersion() >= genie::GV_AoK)
-  {
-    serialize<char>(SelectionEffect);
-    serialize<char>(EditorSelectionColour);
-  }
-  
-  serialize<float>(SelectionRadius);
-  serialize<float>(HPBarHeight2);
-  
-  serializeSub<ResourceStorage>(ResourceStorages, 3);
-  
-  serializeSize<unsigned char>(DamageGraphicCount, DamageGraphics.size());
-  serializeSub<unit::DamageGraphic>(DamageGraphics, DamageGraphicCount);
-  
-  serialize<int16_t>(SelectionSound);
-  serialize<int16_t>(DyingSound);
-  serialize<int16_t>(AttackSound);
-  
-  serialize<std::string>(Name, NameLength);
-  
-    serializeSize<uint16_t>(NameLength2, Name2);
-    serialize<std::string>(Name2, NameLength2);
-    
-    serialize<int16_t>(Unitline);
-    serialize<char>(MinTechLevel);
-  
-  serialize<int16_t>(ID2);
-    
-  if (getGameVersion() >= genie::GV_AoK)
-    serialize<int16_t>(ID3);
-  
-  if (Type >= genie::UT_Flag)
-    serialize<float>(Speed);
-  else
-  if (Type >= genie::UT_Dead_Fish)
-    serialize<ISerializable>(DeadFish);
-  
-  if (Type >= genie::UT_Bird)
-    serialize<ISerializable>(Bird);
-  
-  if (Type >= genie::UT_Projectile)
-    serialize<ISerializable>(Projectile);
-  
-  if (Type == genie::UT_Projectile)
-    serialize<ISerializable>(ProjectileOnly);
-  
-  if (Type >= genie::UT_Creatable)
-    serialize<ISerializable>(Creatable);
-  
-  if (Type >= genie::UT_Building)
-    serialize<ISerializable>(Building);
-}
-
+	void OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_Short(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_Long(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_Float(wxFocusEvent& Event);
+	void OnKillFocus_AutoCopy_String(wxFocusEvent& Event);
+	void OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event);
+	void OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event);
+	void OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event);
+	void OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event);
+	void OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event);
+	void OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event);
+	void OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent& Event);
 
 //	Other Methods
 
@@ -485,10 +354,10 @@ class AGE_Frame : public wxFrame
 	void OnUnitsAdd(wxCommandEvent& Event);
 	void OnUnitsDelete(wxCommandEvent& Event);
 	void OnUnitsCopy(wxCommandEvent& Event);
-	void UnitsGraphicsCopy(short Size, short loop = 0, short Fix = 0);
+	void UnitsGraphicsCopy(short Size, short loop = 0);
 	void OnUnitsSpecialCopy(wxCommandEvent& Event);
 	void OnUnitsPaste(wxCommandEvent& Event);
-	void UnitsGraphicsPaste(short Size, short loop = 0, short Fix = 0);
+	void UnitsGraphicsPaste(short Size, short loop = 0);
 	void OnUnitsSpecialPaste(wxCommandEvent& Event);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
