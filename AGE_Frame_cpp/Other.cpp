@@ -1303,6 +1303,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopy", AutoCopy);
 	Config->Write("Interaction/CopyGraphics", CopyGraphics);
+	Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
@@ -1343,11 +1344,7 @@ void AGE_Frame::OnAutoCopy(wxCommandEvent& Event)
 	}
 	else if(Event.GetId() == Units_CopyTo->GetId())
 	{
-		AutoCopy = true;
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
-		AutoCopy = false;
+		UnitsAutoCopy();
 	}
 	else if(Event.GetId() == Units_SelectAll->GetId())
 	{
@@ -1685,9 +1682,7 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 							for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 							GenieFile->Civs[loop].Units[UnitID].Type = (char)UnitType;
 
-							wxCommandEvent E;
-							OnUnitsCopy(E);
-							OnUnitsPaste(E);
+							UnitsAutoCopy();
 						}
 					}
 					break;
@@ -1773,9 +1768,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			GenieFile->Civs[loop].Units[UnitID].Type = UnitType;
 
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 
 		wxCommandEvent E;
@@ -1958,9 +1951,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		{
 			if(AutoCopy)
 			{
-				wxCommandEvent E;
-				OnUnitsCopy(E);
-				OnUnitsPaste(E);
+				UnitsAutoCopy();
 			}
 			ListUnitCommands();
 		}
@@ -2187,9 +2178,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 		if(Event.GetId() == DamageGraphics_DamagePercent->GetId())
 		{
@@ -2205,9 +2194,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 	}
 }
@@ -2219,9 +2206,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 	}
 }
@@ -2233,9 +2218,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 	}
 }
@@ -2290,9 +2273,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 		if(Event.GetId() == Attacks_Amount->GetId())
 		{
@@ -2316,9 +2297,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 		if(Event.GetId() == Units_LanguageDllName->GetId())
 		{
@@ -2344,9 +2323,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 		if(Event.GetId() == Attacks_Class->GetId())
 		{
@@ -2370,9 +2347,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 	}
 }
@@ -2384,9 +2359,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEve
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 	}
 }
@@ -2420,9 +2393,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 	}
 }
@@ -2434,9 +2405,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 	}
 }
@@ -2464,9 +2433,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Float(wxFocusEvent& Event)
 	{
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 	}
 }
@@ -2608,9 +2575,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 		string ReducedName;
 		if(AutoCopy)
 		{
-			wxCommandEvent E;
-			OnUnitsCopy(E);
-			OnUnitsPaste(E);
+			UnitsAutoCopy();
 		}
 		if(Event.GetId() == Units_Name->GetId())
 		{
@@ -2661,9 +2626,7 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event)
 	((ComboBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
+		UnitsAutoCopy();
 	}
 }
 
@@ -2697,9 +2660,7 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event)
 	((ComboBox_Short*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
+		UnitsAutoCopy();
 	}
 	if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
 	{
@@ -2804,9 +2765,7 @@ void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 	((ComboBox_Long*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
+		UnitsAutoCopy();
 	}
 }
 
@@ -2815,9 +2774,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event)
 	((CheckBox_Bool*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
+		UnitsAutoCopy();
 	}
 }
 
@@ -2826,9 +2783,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event)
 	((CheckBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
+		UnitsAutoCopy();
 	}
 }
 
@@ -2846,9 +2801,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event)
 	((CheckBox_Short*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
+		UnitsAutoCopy();
 	}
 }
 
@@ -2857,9 +2810,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEven
 	((CheckBox_Short_ZeroIsYes*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
-		wxCommandEvent E;
-		OnUnitsCopy(E);
-		OnUnitsPaste(E);
+		UnitsAutoCopy();
 	}
 }
 
