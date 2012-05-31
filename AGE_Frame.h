@@ -356,10 +356,10 @@ class AGE_Frame : public wxFrame
 	void OnUnitsCopy(wxCommandEvent& Event);
 	void UnitsAutoCopy();
 	void OnUnitsSpecialCopy(wxCommandEvent& Event);
-	void UnitsGraphicsCopy();
+	void UnitsGraphicsCopy(short loop);
 	void OnUnitsPaste(wxCommandEvent& Event);
 	void OnUnitsSpecialPaste(wxCommandEvent& Event);
-	void UnitsGraphicsPaste();
+	void UnitsGraphicsPaste(short loop);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
@@ -1816,7 +1816,7 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * Units_Units_Buttons[2];	// Unit list section buttons
 
 	wxStaticBoxSizer * Units_Units;	// Unit list section vertical division excluding window borders
-	wxStaticLine * Units_Units_Line;
+	//wxStaticLine * Units_Units_Line;
 	wxBoxSizer * Units_Units_Special;
 	wxComboBox * Units_Civs_List;	// Civ list combo box
 	wxBoxSizer * Units_Units_Searches[2];
