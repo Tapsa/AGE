@@ -354,11 +354,12 @@ class AGE_Frame : public wxFrame
 	void OnUnitsAdd(wxCommandEvent& Event);
 	void OnUnitsDelete(wxCommandEvent& Event);
 	void OnUnitsCopy(wxCommandEvent& Event);
-	void UnitsGraphicsCopy(short Size, short loop = 0);
+	void UnitsAutoCopy();
 	void OnUnitsSpecialCopy(wxCommandEvent& Event);
+	void UnitsGraphicsCopy();
 	void OnUnitsPaste(wxCommandEvent& Event);
-	void UnitsGraphicsPaste(short Size, short loop = 0);
 	void OnUnitsSpecialPaste(wxCommandEvent& Event);
+	void UnitsGraphicsPaste();
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
@@ -567,6 +568,7 @@ class AGE_Frame : public wxFrame
 	bool PromptForFilesOnOpen;
 	bool AutoCopy;
 	bool CopyGraphics;
+	bool AllCivs;
 //	int SearchFilters;
 	bool UseAnd[2];
 	bool EnableIDFix;
@@ -629,9 +631,10 @@ class AGE_Frame : public wxFrame
 	float ResourceCopy;
 	short ResourceID;
 	gdat::Unit UnitCopy;
+	gdat::Unit UnitSpecialCopy;
 	short UnitID;
 	short UnitCivID;
-	int RefreshLists;
+//	int RefreshLists;
 	bool UnitExists[MaxCivs];
 	gdat::Unit UnitGraphics[MaxCivs];	// This should be a vector equal to Civs.
 	gdat::unit::DamageGraphic DamageGraphicCopy;
@@ -1827,6 +1830,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Delete;
 	wxButton * Units_Copy;
 	wxButton * Units_Paste;
+	wxStaticText * Units_Info;
 	wxButton * Units_Enable;
 	wxButton * Units_Disable;
 	wxButton * Units_SpecialCopy;
