@@ -3718,6 +3718,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 
 	Units_Holder_Attacks = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Attacks_Data = new wxBoxSizer(wxVERTICAL);
 	Units_Grid_Attacks_Data2 = new wxGridSizer(2, 5, 5);
 	Attacks_Holder_Class = new wxBoxSizer(wxVERTICAL);
 	Attacks_Holder_Amount = new wxBoxSizer(wxVERTICAL);
@@ -3886,23 +3887,6 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_SpecialCopy_Options->Append("Special: graphics only");
 	Units_SpecialCopy_Options->SetSelection(0);
-
-	// AoE
-	Units_GraphicSet->Append("0 Left Middle East");
-	Units_GraphicSet->Append("1 Greek");
-	Units_GraphicSet->Append("2 East Middle East");
-	Units_GraphicSet->Append("3 Asian");
-	// + RoR
-	Units_GraphicSet->Append("4 Roman");
-	// AoK
-	Units_GraphicSet->Append("1 East Europeans");
-	Units_GraphicSet->Append("2 West Europeans");
-	Units_GraphicSet->Append("3 Asians");
-	Units_GraphicSet->Append("4 Arabs");
-	// + TC
-	Units_GraphicSet->Append("5 Americans");
-	// SWGB, forget this
-	Units_GraphicSet->SetSelection(0);
 
 	Units_Units_Buttons[0]->Add(Units_Add, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_Insert, 1, wxEXPAND);
@@ -4610,18 +4594,20 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_DataArea->Add(Attacks_Holder_Amount, 0, wxEXPAND);
 	Units_Attacks_DataArea->Add(-1, 5);
 	Units_Attacks_DataArea->Add(Attacks_Holder_Class, 0, wxEXPAND);
-	Units_Grid_Attacks_Data2->Add(Units_Holder_AccuracyPercent, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_DisplayedAttack, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_Delay, 1, wxEXPAND);
+	Units_Grid_Attacks_Data2->Add(Units_Holder_AccuracyPercent, 1, wxEXPAND);
+	Units_Grid_Attacks_Data2->Add(Units_Holder_GarrisonRecoveryRate, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_ReloadTime1, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_ReloadTime2, 1, wxEXPAND);
-	Units_Grid_Attacks_Data2->AddStretchSpacer(1);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_BlastRadius, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_BlastLevel, 1, wxEXPAND);
+	Units_Holder_Attacks_Data->Add(-1, 5);
+	Units_Holder_Attacks_Data->Add(Units_Grid_Attacks_Data2, 0, wxEXPAND);
 
 	Units_Armors_DataArea->Add(Armors_Holder_Amount, 0, wxEXPAND);
-	Units_Armors_DataArea->Add(-1, 5);
 	Units_Armors_DataArea->Add(Armors_Holder_Class, 0, wxEXPAND);
+	Units_Holder_Armors_Data3->Add(-1, 5);
 	Units_Holder_Armors_Data3->Add(Units_Holder_DisplayedMeleeArmour, 0, wxEXPAND);
 	Units_Holder_Armors_Data3->Add(-1, 5);
 	Units_Holder_Armors_Data3->Add(Units_Holder_DisplayedPierceArmour, 0, wxEXPAND);
@@ -4638,14 +4624,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors->Add(Units_Armors_DataArea, 1, wxEXPAND);
 	Units_Holder_Attacks->Add(Units_Attacks, 1, wxEXPAND);
 	Units_Holder_Attacks->Add(5, -1);
-	Units_Holder_Attacks->Add(Units_Grid_Attacks_Data2, 1, wxEXPAND);
-	Units_Holder_Armors->Add(Units_Armors, 1, wxEXPAND);
+	Units_Holder_Attacks->Add(Units_Holder_Attacks_Data, 1, wxEXPAND);
+	Units_Holder_Armors->Add(Units_Armors, 2, wxEXPAND);
 	Units_Holder_Armors->Add(5, -1);
 	Units_Holder_Armors->Add(Units_Holder_Armors_Data3, 1, wxEXPAND);
+	Units_Holder_Armors->AddStretchSpacer(1);
 	Units_Grid_StatsAreaGarrison->Add(Units_Holder_GarrisonCapacity, 1, wxEXPAND);
 	Units_Grid_StatsAreaGarrison->Add(Units_Holder_GarrisonType, 2, wxEXPAND);
 	Units_Grid_StatsAreaGarrison->Add(Units_Holder_GarrisonHealRate, 1, wxEXPAND);
-	Units_Grid_StatsAreaGarrison->Add(Units_Holder_GarrisonRecoveryRate, 1, wxEXPAND);
 	Units_Grid_StatsArea2->Add(Units_Holder_ResourceCapacity, 1, wxEXPAND);
 	Units_Grid_StatsArea2->Add(Units_Holder_ResourceDecay, 1, wxEXPAND);
 	Units_Grid_StatsArea2->Add(Units_Holder_WorkRate, 1, wxEXPAND);
