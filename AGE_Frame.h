@@ -1765,6 +1765,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_DamageGraphics_Paste;
 
 	wxBoxSizer * Units_Holder_Attacks;
+	wxBoxSizer * Units_Holder_Attacks_Data;
 	wxGridSizer * Units_Grid_Attacks_Data2;
 	TextCtrl_Short * Attacks_Class;
 	ComboBox_Short * Attacks_ComboBox_Class[3];
