@@ -7,7 +7,7 @@ AGE_AboutDialog::AGE_AboutDialog(wxWindow * parent)
 {
 	Title = new wxStaticText(this, wxID_ANY, "Advanced Genie Editor\nVersion 2.33\nCopyleft 2011 - 2012\n\nDevelopers:\nKeisari Tapsa (from 2.0b)\nApre - libgeniedat (from 2.1a)\nEstien Nifo (aka StSB77) (1.0a to 2.0a)");
 	Image = new wxStaticBitmap(this, wxID_ANY, wxBitmap(AboutIcon_xpm));
-	Credits = new wxStaticText(this, wxID_ANY, "Credits:\nYkkrosh - GeniEd 1 source code\nScenario_t_c - GeniEd 2 source code\nAncient Warrior (aka Taichi San) - data file research\nDarkRain654 - data file research\nDiGiT - genie file structure (GenieWiki)\nSarthos - important help\nBF_Tanks - some help\nDonnieboy - tool tip texts\nSarn - tool tip texts\nBF_Tanks - tool tip texts\nqaz123tfg - help documentation\nLeif Ericson - new icon");
+	Credits = new wxStaticText(this, wxID_ANY, "Credits:\nYkkrosh - GeniEd 1 source code\nScenario_t_c - GeniEd 2 source code\nAncient Warrior (aka Taichi San) - data file research\nDarkRain654 - data file research\nDiGiT - genie file structure (GenieWiki)\nSarthos - important help\nBF_Tanks - some help\nDonnieboy - tool tip texts\nSarn - tool tip texts\nqaz123tfg - help documentation\nLeif Ericson - new icon");
 	AoKHThread = new wxHyperlinkCtrl(this, wxID_ANY, "Age of Kings Heaven AGE forum topic", "http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=st&fn=4&tn=38606&st=recent&f=4,38606,0,365", wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_CONTEXTMENU | wxHL_ALIGN_LEFT);
 	UPXInfo = new wxStaticText(this, wxID_ANY, "Compressed with:");
 	UPXLink = new wxHyperlinkCtrl(this, wxID_ANY, "The Ultimate Packer for eXecutables", "http://upx.sourceforge.net", wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_CONTEXTMENU | wxHL_ALIGN_LEFT);
