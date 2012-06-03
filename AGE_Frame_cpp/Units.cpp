@@ -1693,7 +1693,25 @@ void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent& Event)
 	}
 	else
 	{
-		UnitsGraphicsCopy(0);
+		UnitCopy.IconID = GenieFile->Civs[UnitCivID].Units[UnitID].IconID;// This probably shouldn't be here.
+		UnitCopy.StandingGraphic = GenieFile->Civs[UnitCivID].Units[UnitID].StandingGraphic;
+		UnitCopy.DyingGraphic = GenieFile->Civs[UnitCivID].Units[UnitID].DyingGraphic;
+		UnitCopy.DamageGraphicCount = GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphicCount;
+		UnitCopy.DamageGraphics = GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics;
+		switch((short)GenieFile->Civs[UnitCivID].Units[UnitID].Type)
+		{
+			case 80:
+			UnitCopy.Building.ConstructionGraphicID = GenieFile->Civs[UnitCivID].Units[UnitID].Building.ConstructionGraphicID;
+			UnitCopy.Building.SnowGraphicID = GenieFile->Civs[UnitCivID].Units[UnitID].Building.SnowGraphicID;
+			case 70:
+			UnitCopy.Creatable.GarrisonGraphic = GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.GarrisonGraphic;
+			case 60:
+			UnitCopy.Projectile.AttackGraphic = GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.AttackGraphic;
+			case 40:
+			case 30:
+			UnitCopy.DeadFish.WalkingGraphic = GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish.WalkingGraphic;
+			break;
+		}
 	}
 }
 
@@ -1791,7 +1809,25 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent& Event)
 	}
 	else
 	{
-		UnitsGraphicsPaste(0);
+		GenieFile->Civs[UnitCivID].Units[UnitID].IconID = UnitCopy.IconID;
+		GenieFile->Civs[UnitCivID].Units[UnitID].StandingGraphic = UnitCopy.StandingGraphic;
+		GenieFile->Civs[UnitCivID].Units[UnitID].DyingGraphic = UnitCopy.DyingGraphic;
+		GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphicCount = UnitCopy.DamageGraphicCount;
+		GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics = UnitCopy.DamageGraphics;
+		switch((short)GenieFile->Civs[UnitCivID].Units[UnitID].Type)
+		{
+			case 80:
+			GenieFile->Civs[UnitCivID].Units[UnitID].Building.ConstructionGraphicID = UnitCopy.Building.ConstructionGraphicID;
+			GenieFile->Civs[UnitCivID].Units[UnitID].Building.SnowGraphicID = UnitCopy.Building.SnowGraphicID;
+			case 70:
+			GenieFile->Civs[UnitCivID].Units[UnitID].Creatable.GarrisonGraphic = UnitCopy.Creatable.GarrisonGraphic;
+			case 60:
+			GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.AttackGraphic = UnitCopy.Projectile.AttackGraphic;
+			case 40:
+			case 30:
+			GenieFile->Civs[UnitCivID].Units[UnitID].DeadFish.WalkingGraphic = UnitCopy.DeadFish.WalkingGraphic;
+			break;
+		}
 	}
 	wxCommandEvent E;
 	OnUnitsSelect(E);
@@ -2889,7 +2925,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Copy = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Info = new wxStaticText(Tab_Units, wxID_ANY, " Info *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Info->SetToolTip("Add/Insert/Delete works for all civilizations.\n	More information coming soon!	");
+	Units_Info->SetToolTip("Add/Insert/Delete works for all civs.\nCopy/Paste copies/pastes from all civs if the check box below is checked.\nOtherwise Copy copies from current civ and Paste pastes according to auto-copy settings on right top.\nIn above case graphics get copied/pasted from all civs if the Including graphics check box is checked.\nS Copy/Paste and Enable/Disable works for all civs if the check box below is checked.\nOtherwise they only work for current civ.\n");
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "S copy", wxDefaultPosition, wxSize(5, 20));
@@ -3271,7 +3307,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_GraphicDisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic Displacement XYZ *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_BlastLevel = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Level *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MinRange = new wxStaticText(Units_Scroller, wxID_ANY, " Min Range ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_GarrisonRecoveryRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Recovery Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_GarrisonRecoveryRate = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Error Margin *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DisplayedMeleeArmour = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Melee Armour ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DisplayedAttack = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Attack ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3536,7 +3572,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_BlastLevel->SetToolTip("How blast radius affects units\n0 Damages resources also\n1 Damages trees also\n2 Damages nearby units\n3 Damages only targeted unit");
 	Units_MinRange = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	Units_GarrisonRecoveryRate = new TextCtrl_Float(Units_Scroller, "0", NULL);
-	Units_GarrisonRecoveryRate->SetToolTip("Healing speed factor when garrisoned into something");
+	Units_GarrisonRecoveryRate->SetToolTip("Higher values will make the unit less accurate");
 	Units_AttackGraphic = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_AttackGraphic = new ComboBox_Short(Units_Scroller, Units_AttackGraphic);
 	Units_DisplayedMeleeArmour = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -3653,7 +3689,7 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0;loop < 6;loop++)
 	Units_Unknown37[loop] = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 
-	Units_Holder_DamageGraphics = new wxGridSizer(4, 5, 5);
+	Units_Holder_DamageGraphics = new wxGridSizer(2, 5, 5);
 	Units_Holder_DamageGraphics_Data = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Holder_GraphicID = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Holder_DamagePercent = new wxBoxSizer(wxVERTICAL);
@@ -3669,7 +3705,8 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_Unknown1 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
 	DamageGraphics_Unknown1->SetToolTip("0 Adds graphics on top (flames on buildings)\n2 Replaces original graphics (damaged walls)");
 	DamageGraphics_Unknown2 = new TextCtrl_Byte(Units_Scroller, "0", NULL);
-	Units_DamageGraphics = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Damage Graphics");
+	Units_DamageGraphics = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Damage Graphics");
+	Units_DamageGraphics_ListArea = new wxBoxSizer(wxVERTICAL);
 	Units_DamageGraphics_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_DamageGraphics_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_DamageGraphics_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
@@ -3681,11 +3718,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 
 	Units_Holder_Attacks = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Attacks_Data = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Attacks_Data1 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Grid_Attacks_Data2 = new wxGridSizer(3, 5, 5);
+	Units_Grid_Attacks_Data2 = new wxGridSizer(2, 5, 5);
 	Attacks_Holder_Class = new wxBoxSizer(wxVERTICAL);
-	Attacks_Holder_Class1 = new wxBoxSizer(wxHORIZONTAL);
 	Attacks_Holder_Amount = new wxBoxSizer(wxVERTICAL);
 	Attacks_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, " Class *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Attacks_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, " Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3693,7 +3727,9 @@ void AGE_Frame::CreateUnitControls()
 	Attacks_Class->SetToolTip("Armor class that this unit can damage\nYou can make your own classes");
 	Attacks_ComboBox_Class[0] = new ComboBox_Short(Units_Scroller, Attacks_Class);
 	Attacks_Amount = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_Attacks = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Attacks");
+	Units_Attacks = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Attacks");
+	Units_Attacks_ListArea = new wxBoxSizer(wxVERTICAL);
+	Units_Attacks_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_Attacks_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_Attacks_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_Attacks_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
@@ -3705,12 +3741,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 
 	Units_Holder_Armors = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Armors_Data = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Armors_Data1 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Armors_Data2 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_Armors_Data3 = new wxBoxSizer(wxVERTICAL);
 	Armors_Holder_Class = new wxBoxSizer(wxVERTICAL);
-	Armors_Holder_Class1 = new wxBoxSizer(wxHORIZONTAL);
 	Armors_Holder_Amount = new wxBoxSizer(wxVERTICAL);
 	Armors_Text_Class = new wxStaticText(Units_Scroller, wxID_ANY, " Class *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Armors_Text_Amount = new wxStaticText(Units_Scroller, wxID_ANY, " Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3718,7 +3750,9 @@ void AGE_Frame::CreateUnitControls()
 	Armors_Class->SetToolTip("Attack class from which this unit can take damage\nYou can make your own classes");
 	Attacks_ComboBox_Class[1] = new ComboBox_Short(Units_Scroller, Armors_Class);
 	Armors_Amount = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_Armors = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Armors");
+	Units_Armors = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Armors");
+	Units_Armors_ListArea = new wxBoxSizer(wxVERTICAL);
+	Units_Armors_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_Armors_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_Armors_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_Armors_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
@@ -4353,10 +4387,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ResourceStorage[2]->Add(5, 5);
 	Units_Holder_ResourceStorage[2]->Add(ResourceStorage_Enabled[2], 4, wxEXPAND);
 
-	Attacks_Holder_Class1->Add(Attacks_Class, 1, wxEXPAND);
-	Attacks_Holder_Class1->Add(Attacks_ComboBox_Class[0], 2, wxEXPAND);
 	Attacks_Holder_Class->Add(Attacks_Text_Class, 0, wxEXPAND);
-	Attacks_Holder_Class->Add(Attacks_Holder_Class1, 1, wxEXPAND);
+	Attacks_Holder_Class->Add(Attacks_Class, 1, wxEXPAND);
+	Attacks_Holder_Class->Add(Attacks_ComboBox_Class[0], 1, wxEXPAND);
 	Attacks_Holder_Amount->Add(Attacks_Text_Amount, 0, wxEXPAND);
 	Attacks_Holder_Amount->Add(Attacks_Amount, 1, wxEXPAND);
 
@@ -4366,17 +4399,16 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Buttons->Add(Units_Attacks_Copy, 1, wxEXPAND);
 	Units_Attacks_Buttons->Add(Units_Attacks_Paste, 1, wxEXPAND);
 
-	Units_Attacks->Add(Units_Attacks_Search, 0, wxEXPAND);
-	Units_Attacks->Add(Units_Attacks_Search_R, 0, wxEXPAND);
-	Units_Attacks->Add(-1, 2);
-	Units_Attacks->Add(Units_Attacks_List, 1, wxEXPAND);
-	Units_Attacks->Add(-1, 2);
-	Units_Attacks->Add(Units_Attacks_Buttons, 0, wxEXPAND);
+	Units_Attacks_ListArea->Add(Units_Attacks_Search, 0, wxEXPAND);
+	Units_Attacks_ListArea->Add(Units_Attacks_Search_R, 0, wxEXPAND);
+	Units_Attacks_ListArea->Add(-1, 2);
+	Units_Attacks_ListArea->Add(Units_Attacks_List, 1, wxEXPAND);
+	Units_Attacks_ListArea->Add(-1, 2);
+	Units_Attacks_ListArea->Add(Units_Attacks_Buttons, 0, wxEXPAND);
 
-	Armors_Holder_Class1->Add(Armors_Class, 1, wxEXPAND);
-	Armors_Holder_Class1->Add(Attacks_ComboBox_Class[1], 2, wxEXPAND);
 	Armors_Holder_Class->Add(Armors_Text_Class, 0, wxEXPAND);
-	Armors_Holder_Class->Add(Armors_Holder_Class1, 1, wxEXPAND);
+	Armors_Holder_Class->Add(Armors_Class, 1, wxEXPAND);
+	Armors_Holder_Class->Add(Attacks_ComboBox_Class[1], 1, wxEXPAND);
 	Armors_Holder_Amount->Add(Armors_Text_Amount, 0, wxEXPAND);
 	Armors_Holder_Amount->Add(Armors_Amount, 1, wxEXPAND);
 
@@ -4386,12 +4418,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_Buttons->Add(Units_Armors_Copy, 1, wxEXPAND);
 	Units_Armors_Buttons->Add(Units_Armors_Paste, 1, wxEXPAND);
 
-	Units_Armors->Add(Units_Armors_Search, 0, wxEXPAND);
-	Units_Armors->Add(Units_Armors_Search_R, 0, wxEXPAND);
-	Units_Armors->Add(-1, 2);
-	Units_Armors->Add(Units_Armors_List, 1, wxEXPAND);
-	Units_Armors->Add(-1, 2);
-	Units_Armors->Add(Units_Armors_Buttons, 0, wxEXPAND);
+	Units_Armors_ListArea->Add(Units_Armors_Search, 0, wxEXPAND);
+	Units_Armors_ListArea->Add(Units_Armors_Search_R, 0, wxEXPAND);
+	Units_Armors_ListArea->Add(-1, 2);
+	Units_Armors_ListArea->Add(Units_Armors_List, 1, wxEXPAND);
+	Units_Armors_ListArea->Add(-1, 2);
+	Units_Armors_ListArea->Add(Units_Armors_Buttons, 0, wxEXPAND);
 
 	UnitCommands_Holder_One->Add(UnitCommands_Text_One, 0, wxEXPAND);
 	UnitCommands_Holder_One->Add(UnitCommands_One, 1, wxEXPAND);
@@ -4530,7 +4562,6 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_Holder_DamagePercent->Add(DamageGraphics_DamagePercent, 1, wxEXPAND);
 	DamageGraphics_Holder_Unknown2->Add(DamageGraphics_Text_Unknown2, 0, wxEXPAND);
 	DamageGraphics_Holder_Unknown2->Add(DamageGraphics_Unknown2, 1, wxEXPAND);
-	Units_Holder_DamageGraphics_Data->Add(-1, 5);
 	Units_Holder_DamageGraphics_Data->Add(DamageGraphics_Holder_GraphicID, 0, wxEXPAND);
 	Units_Holder_DamageGraphics_Data->Add(-1, 5);
 	Units_Holder_DamageGraphics_Data->Add(DamageGraphics_Holder_DamagePercent, 0, wxEXPAND);
@@ -4545,16 +4576,17 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Copy, 1, wxEXPAND);
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Paste, 1, wxEXPAND);
 
-	Units_DamageGraphics->Add(Units_DamageGraphics_Search, 0, wxEXPAND);
-	Units_DamageGraphics->Add(Units_DamageGraphics_Search_R, 0, wxEXPAND);
-	Units_DamageGraphics->Add(-1, 2);
-	Units_DamageGraphics->Add(Units_DamageGraphics_List, 1, wxEXPAND);
-	Units_DamageGraphics->Add(-1, 2);
-	Units_DamageGraphics->Add(Units_DamageGraphics_Buttons, 0, wxEXPAND);
+	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_Search, 0, wxEXPAND);
+	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_Search_R, 0, wxEXPAND);
+	Units_DamageGraphics_ListArea->Add(-1, 2);
+	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_List, 1, wxEXPAND);
+	Units_DamageGraphics_ListArea->Add(-1, 2);
+	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_Buttons, 0, wxEXPAND);
 
+	Units_DamageGraphics->Add(Units_DamageGraphics_ListArea, 1, wxEXPAND);
+	Units_DamageGraphics->Add(5, -1);
+	Units_DamageGraphics->Add(Units_Holder_DamageGraphics_Data, 1, wxEXPAND);
 	Units_Holder_DamageGraphics->Add(Units_DamageGraphics, 1, wxEXPAND);
-	Units_Holder_DamageGraphics->Add(Units_Holder_DamageGraphics_Data, 1, wxEXPAND);
-	Units_Holder_DamageGraphics->AddStretchSpacer(2);
 
 	Units_Holder_GraphicsArea->Add(Units_Holder_GraphicsArea1, 0, wxEXPAND);
 	Units_Holder_GraphicsArea->Add(5, 5);
@@ -4575,10 +4607,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_StatsArea1->Add(Units_Holder_MinRange, 1, wxEXPAND);
 	Units_Grid_StatsArea1->Add(Units_Holder_DisplayedRange, 1, wxEXPAND);
 
-	Units_Holder_Attacks_Data1->Add(Attacks_Holder_Amount, 1, wxEXPAND);
-	Units_Holder_Attacks_Data1->Add(5, 5);
-	Units_Holder_Attacks_Data1->Add(Attacks_Holder_Class, 3, wxEXPAND);
-	Units_Holder_Attacks_Data1->Add(5, 5);
+	Units_Attacks_DataArea->Add(Attacks_Holder_Amount, 0, wxEXPAND);
+	Units_Attacks_DataArea->Add(-1, 5);
+	Units_Attacks_DataArea->Add(Attacks_Holder_Class, 0, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_AccuracyPercent, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_DisplayedAttack, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_Delay, 1, wxEXPAND);
@@ -4588,35 +4619,29 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_Attacks_Data2->Add(Units_Holder_BlastRadius, 1, wxEXPAND);
 	Units_Grid_Attacks_Data2->Add(Units_Holder_BlastLevel, 1, wxEXPAND);
 
-	Units_Holder_Attacks_Data->Add(Units_Holder_Attacks_Data1, 0, wxEXPAND);
-	Units_Holder_Attacks_Data->Add(5, 5);
-	Units_Holder_Attacks_Data->Add(Units_Grid_Attacks_Data2, 0, wxEXPAND);
-
-	Units_Holder_Armors_Data1->Add(Armors_Holder_Amount, 1, wxEXPAND);
-	Units_Holder_Armors_Data1->Add(5, 5);
-	Units_Holder_Armors_Data1->Add(Armors_Holder_Class, 3, wxEXPAND);
-	Units_Holder_Armors_Data1->Add(5, 5);
+	Units_Armors_DataArea->Add(Armors_Holder_Amount, 0, wxEXPAND);
+	Units_Armors_DataArea->Add(-1, 5);
+	Units_Armors_DataArea->Add(Armors_Holder_Class, 0, wxEXPAND);
 	Units_Holder_Armors_Data3->Add(Units_Holder_DisplayedMeleeArmour, 0, wxEXPAND);
-	Units_Holder_Armors_Data3->Add(5, 5);
+	Units_Holder_Armors_Data3->Add(-1, 5);
 	Units_Holder_Armors_Data3->Add(Units_Holder_DisplayedPierceArmour, 0, wxEXPAND);
-
-	Units_Holder_Armors_Data2->Add(Units_Holder_Armors_Data3, 1, wxEXPAND);
-	Units_Holder_Armors_Data2->AddStretchSpacer(2);
-
-	Units_Holder_Armors_Data->Add(Units_Holder_Armors_Data1, 0, wxEXPAND);
-	Units_Holder_Armors_Data->Add(5, 5);
-	Units_Holder_Armors_Data->Add(Units_Holder_Armors_Data2, 0, wxEXPAND);
 
 	Units_Holder_GarrisonType->Add(Units_Text_GarrisonType, 0, wxEXPAND);
 	Units_Holder_GarrisonType->Add(Units_GarrisonType, 1, wxEXPAND);
 	Units_Holder_GarrisonType->Add(Units_ComboBox_GarrisonType, 1, wxEXPAND);
 
+	Units_Attacks->Add(Units_Attacks_ListArea, 1, wxEXPAND);
+	Units_Attacks->Add(5, -1);
+	Units_Attacks->Add(Units_Attacks_DataArea, 1, wxEXPAND);
+	Units_Armors->Add(Units_Armors_ListArea, 1, wxEXPAND);
+	Units_Armors->Add(5, -1);
+	Units_Armors->Add(Units_Armors_DataArea, 1, wxEXPAND);
 	Units_Holder_Attacks->Add(Units_Attacks, 1, wxEXPAND);
-	Units_Holder_Attacks->Add(5, 5);
-	Units_Holder_Attacks->Add(Units_Holder_Attacks_Data, 3, wxEXPAND);
+	Units_Holder_Attacks->Add(5, -1);
+	Units_Holder_Attacks->Add(Units_Grid_Attacks_Data2, 1, wxEXPAND);
 	Units_Holder_Armors->Add(Units_Armors, 1, wxEXPAND);
-	Units_Holder_Armors->Add(5, 5);
-	Units_Holder_Armors->Add(Units_Holder_Armors_Data, 3, wxEXPAND);
+	Units_Holder_Armors->Add(5, -1);
+	Units_Holder_Armors->Add(Units_Holder_Armors_Data3, 1, wxEXPAND);
 	Units_Grid_StatsAreaGarrison->Add(Units_Holder_GarrisonCapacity, 1, wxEXPAND);
 	Units_Grid_StatsAreaGarrison->Add(Units_Holder_GarrisonType, 2, wxEXPAND);
 	Units_Grid_StatsAreaGarrison->Add(Units_Holder_GarrisonHealRate, 1, wxEXPAND);

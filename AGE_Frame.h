@@ -1753,6 +1753,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * DamageGraphics_Holder_Unknown1;
 	wxBoxSizer * DamageGraphics_Holder_Unknown2;
 	wxStaticBoxSizer * Units_DamageGraphics;
+	wxBoxSizer * Units_DamageGraphics_ListArea;
 	wxTextCtrl * Units_DamageGraphics_Search;
 	wxTextCtrl * Units_DamageGraphics_Search_R;
 	wxListBox * Units_DamageGraphics_List;
@@ -1764,8 +1765,6 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_DamageGraphics_Paste;
 
 	wxBoxSizer * Units_Holder_Attacks;
-	wxBoxSizer * Units_Holder_Attacks_Data;
-	wxBoxSizer * Units_Holder_Attacks_Data1;
 	wxGridSizer * Units_Grid_Attacks_Data2;
 	TextCtrl_Short * Attacks_Class;
 	ComboBox_Short * Attacks_ComboBox_Class[3];
@@ -1773,9 +1772,10 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Attacks_Text_Class;
 	wxStaticText * Attacks_Text_Amount;
 	wxBoxSizer * Attacks_Holder_Class;
-	wxBoxSizer * Attacks_Holder_Class1;
 	wxBoxSizer * Attacks_Holder_Amount;
 	wxStaticBoxSizer * Units_Attacks;
+	wxBoxSizer * Units_Attacks_ListArea;
+	wxBoxSizer * Units_Attacks_DataArea;
 	wxTextCtrl * Units_Attacks_Search;
 	wxTextCtrl * Units_Attacks_Search_R;
 	wxListBox * Units_Attacks_List;
@@ -1787,18 +1787,16 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Attacks_Paste;
 
 	wxBoxSizer * Units_Holder_Armors;
-	wxBoxSizer * Units_Holder_Armors_Data;
-	wxBoxSizer * Units_Holder_Armors_Data1;
-	wxBoxSizer * Units_Holder_Armors_Data2;
 	wxBoxSizer * Units_Holder_Armors_Data3;
 	TextCtrl_Short * Armors_Class;
 	TextCtrl_Short * Armors_Amount;
 	wxStaticText * Armors_Text_Class;
 	wxStaticText * Armors_Text_Amount;
 	wxBoxSizer * Armors_Holder_Class;
-	wxBoxSizer * Armors_Holder_Class1;
 	wxBoxSizer * Armors_Holder_Amount;
 	wxStaticBoxSizer * Units_Armors;
+	wxBoxSizer * Units_Armors_ListArea;
+	wxBoxSizer * Units_Armors_DataArea;
 	wxTextCtrl * Units_Armors_Search;
 	wxTextCtrl * Units_Armors_Search_R;
 	wxListBox * Units_Armors_List;
