@@ -951,6 +951,54 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Effects_ComboBox_AttributesC->Append("107 - OREX Cost?");
 		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
 		Effects_ComboBox_AttributesC->SetSelection(0);
+		
+		if(Units_GraphicSet->GetCount() > 0)
+		{
+			Units_GraphicSet->Clear();
+		}
+		if(GameVersion < 2)
+		{
+			// AoE
+			Units_GraphicSet->Append("0 West Middle Easterns");
+			Units_GraphicSet->Append("1 Greeks");
+			Units_GraphicSet->Append("2 East Middle Easterns");
+			Units_GraphicSet->Append("3 Asians");
+			// + RoR
+			Units_GraphicSet->Append("4 Romans");
+			Units_GraphicSet->Append("5 Unused");
+			Units_GraphicSet->Append("6 Unused");
+			Units_GraphicSet->Append("7 Unused");
+			Units_GraphicSet->Append("8 Unused");
+		}
+		else if(GameVersion < 4)
+		{
+			Units_GraphicSet->Append("0 Unused");
+			// AoK
+			Units_GraphicSet->Append("1 East Europeans");
+			Units_GraphicSet->Append("2 West Europeans");
+			Units_GraphicSet->Append("3 Asians");
+			Units_GraphicSet->Append("4 Arabs");
+			// + TC
+			Units_GraphicSet->Append("5 Americans");
+			Units_GraphicSet->Append("6 Unused");
+			Units_GraphicSet->Append("7 Unused");
+			Units_GraphicSet->Append("8 Unused");
+		}
+		else
+		{
+			// SWGB, forget this
+			Units_GraphicSet->Append("0 Unused");
+			Units_GraphicSet->Append("1 Galactic Empire");
+			Units_GraphicSet->Append("2 Gungans");
+			Units_GraphicSet->Append("3 Rebels");
+			Units_GraphicSet->Append("4 Royal Naboo");
+			Units_GraphicSet->Append("5 Trade Federation");
+			Units_GraphicSet->Append("6 Wookiees");
+			Units_GraphicSet->Append("7 Republic");
+			Units_GraphicSet->Append("8 Confederacy");
+		}
+		Units_GraphicSet->Append("9 Ask me for more!");
+		Units_GraphicSet->SetSelection(0);
 
 		DataOpened = true;
 		OnGameVersionChange();
@@ -1355,6 +1403,21 @@ void AGE_Frame::OnAutoCopy(wxCommandEvent& Event)
 	{
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		Units_CivBoxes[loop]->SetValue(false);
+	}
+	else if(Event.GetId() == Units_GraphicSet->GetId())
+	{
+		short Selection = Units_GraphicSet->GetSelection();
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		{
+			if((short)GenieFile->Civs[loop].GraphicSet == Selection)
+			{
+				Units_CivBoxes[loop]->SetValue(true);
+			}
+			else
+			{
+				Units_CivBoxes[loop]->SetValue(false);
+			}
+		}
 	}
 }
 
