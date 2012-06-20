@@ -363,6 +363,7 @@ class AGE_Frame : public wxFrame
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
 	void OnUnitsExtract(wxCommandEvent& Event);
+	void OnUnitsImport(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
 	string GetUnitName(short &Index, short &CivID, bool Filter = false);
 
@@ -1833,6 +1834,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Paste;
 	wxStaticText * Units_Info;
 	wxButton * Units_Extract;
+	wxButton * Units_Import;
 	wxButton * Units_Enable;
 	wxButton * Units_Disable;
 	wxButton * Units_SpecialCopy;
