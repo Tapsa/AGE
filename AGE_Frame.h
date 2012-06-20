@@ -362,6 +362,7 @@ class AGE_Frame : public wxFrame
 	void UnitsGraphicsPaste(short loop);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
+	void OnUnitsExtract(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
 	string GetUnitName(short &Index, short &CivID, bool Filter = false);
 
@@ -578,6 +579,7 @@ class AGE_Frame : public wxFrame
 	bool NeedDat;
 	bool SkipOpenDialog;
 	wxFileConfig * Config;
+	wxFileConfig * ExtractUnit;
 //	wxFileConfig * Extraction;
 	gdat::File * GenieFile;
 
@@ -1830,6 +1832,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Copy;
 	wxButton * Units_Paste;
 	wxStaticText * Units_Info;
+	wxButton * Units_Extract;
 	wxButton * Units_Enable;
 	wxButton * Units_Disable;
 	wxButton * Units_SpecialCopy;
