@@ -1379,6 +1379,20 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Destroy();
 }
 
+void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
+{
+	ExtractUnit = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "a2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	ExtractUnit->Write("Version/Number", 1);
+	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+	{
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Type", GenieFile->Civs[loop].Units[UnitID].Type);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Class", GenieFile->Civs[loop].Units[UnitID].Class);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Name", GenieFile->Civs[loop].Units[UnitID].Name);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Name2", GenieFile->Civs[loop].Units[UnitID].Name2);
+	}
+	delete ExtractUnit;
+}
+
 void AGE_Frame::OnAutoCopy(wxCommandEvent& Event)
 {
 	if(Event.GetId() == Units_AutoCopy->GetId())

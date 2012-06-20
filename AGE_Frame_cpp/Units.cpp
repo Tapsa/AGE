@@ -2926,6 +2926,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Info = new wxStaticText(Tab_Units, wxID_ANY, " Info *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Info->SetToolTip("Add/Insert/Delete works for all civs.\nCopy/Paste copies/pastes from all civs if the check box below is checked.\nOtherwise Copy copies from current civ and Paste pastes according to auto-copy settings on right top.\nIn above case graphics get copied/pasted from all civs if the Including graphics check box is checked.\nS Copy/Paste and Enable/Disable works for all civs if the check box below is checked.\nOtherwise they only work for current civ.\n");
+	Units_Extract = new wxButton(Tab_Units, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "S copy", wxDefaultPosition, wxSize(5, 20));
@@ -3894,6 +3895,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Buttons[0]->Add(Units_Copy, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_Paste, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_Info, 1, wxEXPAND);
+	Units_Units_Buttons[0]->Add(Units_Extract, 1, wxEXPAND);
 	Units_Units_Buttons[1]->Add(Units_SpecialCopy, 1, wxEXPAND);
 	Units_Units_Buttons[1]->Add(Units_SpecialPaste, 1, wxEXPAND);
 	Units_Units_Buttons[1]->Add(Units_Enable, 1, wxEXPAND);
@@ -5033,6 +5035,7 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_SpecialCopy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsSpecialCopy));
 	Connect(Units_SpecialPaste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsSpecialPaste));
 	Connect(Units_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsPaste));
+	Connect(Units_Extract->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsExtract));
 	Connect(Units_Enable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsEnable));
 	Connect(Units_Disable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsDisable));
 //	Connect(Units_Undo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUndoing));
