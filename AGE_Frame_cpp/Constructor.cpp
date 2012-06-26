@@ -16,8 +16,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
 	//Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
 	Config->Read("Interaction/AutoCopy", &AutoCopy, true);
-	//Config->Read("Interaction/CopyGraphics", &CopyGraphics, false);
-	CopyGraphics = false; // This is because I inverted the functionality of this variable. Remove it some day.
+	Config->Read("Interaction/CopyGraphics", &CopyGraphics, false);
+	//CopyGraphics = false; // This is because I inverted the functionality of this variable. Remove it some day.
 	Config->Read("Interaction/AllCivs", &AllCivs, true);
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
