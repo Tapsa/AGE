@@ -1383,12 +1383,123 @@ void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 {
 	ExtractUnit = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "a2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	ExtractUnit->Write("Version/Number", 1);
+	// KORJAA IIDEET!
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Type", GenieFile->Civs[loop].Units[UnitID].Type);
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Class", GenieFile->Civs[loop].Units[UnitID].Class);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/NameLength", GenieFile->Civs[loop].Units[UnitID].NameLength);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDllName", GenieFile->Civs[loop].Units[UnitID].LanguageDllName);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDllCreation", GenieFile->Civs[loop].Units[UnitID].LanguageDllCreation);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/StandingGraphic1", GenieFile->Civs[loop].Units[UnitID].StandingGraphic.first);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/DyingGraphic1", GenieFile->Civs[loop].Units[UnitID].DyingGraphic.first);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/DyingGraphic2", GenieFile->Civs[loop].Units[UnitID].DyingGraphic.second);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/DeathMode", GenieFile->Civs[loop].Units[UnitID].DeathMode);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HitPoints", GenieFile->Civs[loop].Units[UnitID].HitPoints);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LineOfSight", GenieFile->Civs[loop].Units[UnitID].LineOfSight);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/GarrisonCapacity", GenieFile->Civs[loop].Units[UnitID].GarrisonCapacity);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SizeRadius1", GenieFile->Civs[loop].Units[UnitID].SizeRadius.first);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SizeRadius2", GenieFile->Civs[loop].Units[UnitID].SizeRadius.second);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HPBarHeight1", GenieFile->Civs[loop].Units[UnitID].HPBarHeight1);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/TrainSound1", GenieFile->Civs[loop].Units[UnitID].TrainSound.first);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/DeadUnitID", GenieFile->Civs[loop].Units[UnitID].DeadUnitID);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/PlacementMode", GenieFile->Civs[loop].Units[UnitID].PlacementMode);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/AirMode", GenieFile->Civs[loop].Units[UnitID].AirMode);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/IconID", GenieFile->Civs[loop].Units[UnitID].IconID);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HideInEditor", GenieFile->Civs[loop].Units[UnitID].HideInEditor);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown1", GenieFile->Civs[loop].Units[UnitID].Unknown1);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Enabled", GenieFile->Civs[loop].Units[UnitID].Enabled);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/PlacementBypassTerrain1", GenieFile->Civs[loop].Units[UnitID].PlacementBypassTerrain.first);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/PlacementBypassTerrain2", GenieFile->Civs[loop].Units[UnitID].PlacementBypassTerrain.second);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/PlacementTerrain1", GenieFile->Civs[loop].Units[UnitID].PlacementTerrain.first);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/PlacementTerrain2", GenieFile->Civs[loop].Units[UnitID].PlacementTerrain.second);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/EditorRadius1", GenieFile->Civs[loop].Units[UnitID].EditorRadius.first);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/EditorRadius2", GenieFile->Civs[loop].Units[UnitID].EditorRadius.second);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/BuildingMode", GenieFile->Civs[loop].Units[UnitID].BuildingMode);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/VisibleInFog", GenieFile->Civs[loop].Units[UnitID].VisibleInFog);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/TerrainRestriction", GenieFile->Civs[loop].Units[UnitID].TerrainRestriction);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/FlyMode", GenieFile->Civs[loop].Units[UnitID].FlyMode);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/ResourceCapacity", GenieFile->Civs[loop].Units[UnitID].ResourceCapacity);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/ResourceDecay", GenieFile->Civs[loop].Units[UnitID].ResourceDecay);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/BlastType", GenieFile->Civs[loop].Units[UnitID].BlastType);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown2", GenieFile->Civs[loop].Units[UnitID].Unknown2);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/InteractionMode", GenieFile->Civs[loop].Units[UnitID].InteractionMode);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/MinimapMode", GenieFile->Civs[loop].Units[UnitID].MinimapMode);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/CommandAttribute", GenieFile->Civs[loop].Units[UnitID].CommandAttribute);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown3", GenieFile->Civs[loop].Units[UnitID].Unknown3);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown3B", GenieFile->Civs[loop].Units[UnitID].Unknown3B);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDllHelp", GenieFile->Civs[loop].Units[UnitID].LanguageDllHelp);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HotKey1", GenieFile->Civs[loop].Units[UnitID].HotKey[0]);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HotKey2", GenieFile->Civs[loop].Units[UnitID].HotKey[1]);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HotKey3", GenieFile->Civs[loop].Units[UnitID].HotKey[2]);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HotKey4", GenieFile->Civs[loop].Units[UnitID].HotKey[3]);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown4", GenieFile->Civs[loop].Units[UnitID].Unknown4);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown5", GenieFile->Civs[loop].Units[UnitID].Unknown5);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unselectable", GenieFile->Civs[loop].Units[UnitID].Unselectable);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown6", GenieFile->Civs[loop].Units[UnitID].Unknown6);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SelectionMask", GenieFile->Civs[loop].Units[UnitID].SelectionMask);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SelectionShape", GenieFile->Civs[loop].Units[UnitID].SelectionShape);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SelectionRadius1", GenieFile->Civs[loop].Units[UnitID].SelectionRadius.first);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SelectionRadius2", GenieFile->Civs[loop].Units[UnitID].SelectionRadius.second);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HPBarHeight2", GenieFile->Civs[loop].Units[UnitID].HPBarHeight2);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SelectionSound", GenieFile->Civs[loop].Units[UnitID].SelectionSound);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/DyingSound", GenieFile->Civs[loop].Units[UnitID].DyingSound);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/AttackSound", GenieFile->Civs[loop].Units[UnitID].AttackSound);
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Name", GenieFile->Civs[loop].Units[UnitID].Name);
-		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Name2", GenieFile->Civs[loop].Units[UnitID].Name2);
+		if(GameVersion != 2)
+		{
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Attribute", GenieFile->Civs[loop].Units[UnitID].Attribute);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Civilization", GenieFile->Civs[loop].Units[UnitID].Civilization);
+		}
+		if(GameVersion >= 2)
+		{
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/StandingGraphic2", GenieFile->Civs[loop].Units[UnitID].StandingGraphic.second);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/TrainSound2", GenieFile->Civs[loop].Units[UnitID].TrainSound.second);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown7", GenieFile->Civs[loop].Units[UnitID].Unknown7);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown8", GenieFile->Civs[loop].Units[UnitID].Unknown8);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SelectionShapeType", GenieFile->Civs[loop].Units[UnitID].SelectionShapeType);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/SelectionEffect", GenieFile->Civs[loop].Units[UnitID].SelectionEffect);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/EditorSelectionColour", GenieFile->Civs[loop].Units[UnitID].EditorSelectionColour);
+			if(GameVersion >= 3)
+			{
+				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown9A", GenieFile->Civs[loop].Units[UnitID].Unknown9[0]);
+				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown9B", GenieFile->Civs[loop].Units[UnitID].Unknown9[1]);
+				if(GameVersion >= 4)
+				{
+					ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/NameLength2", GenieFile->Civs[loop].Units[UnitID].NameLength2);
+					ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Name2", GenieFile->Civs[loop].Units[UnitID].Name2);
+					ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unitline", GenieFile->Civs[loop].Units[UnitID].Unitline);
+					ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/MinTechLevel", GenieFile->Civs[loop].Units[UnitID].MinTechLevel);
+				}
+			}
+		}
+		else
+		{
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown3a", GenieFile->Civs[loop].Units[UnitID].Unknown3a);
+		}
+		for(short loop2 = 0;loop2 < 3;loop2++)
+		{
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/ResourceStorages"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].ResourceStorages[loop2].Type);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/ResourceStorages"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].ResourceStorages[loop2].Amount);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/ResourceStorages"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].ResourceStorages[loop2].Enabled);
+		}
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/DamageGraphicCount", GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount);
+		for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units[UnitID].DamageGraphicCount;loop2++)
+		{
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Dama"+lexical_cast<string>(loop2)+"GraphicID", GenieFile->Civs[loop].Units[UnitID].DamageGraphics[loop2].GraphicID);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Dama"+lexical_cast<string>(loop2)+"DamagePercent", GenieFile->Civs[loop].Units[UnitID].DamageGraphics[loop2].DamagePercent);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Dama"+lexical_cast<string>(loop2)+"Unknown1", GenieFile->Civs[loop].Units[UnitID].DamageGraphics[loop2].Unknown1);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Dama"+lexical_cast<string>(loop2)+"Unknown2", GenieFile->Civs[loop].Units[UnitID].DamageGraphics[loop2].Unknown2);
+		}
+		
+		/*if(GenieFile->Civs[loop].Units[UnitID].Type >= 10)
+		{
+		}
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);*/
 	}
 	delete ExtractUnit;
 }
