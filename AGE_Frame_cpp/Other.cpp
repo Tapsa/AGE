@@ -939,14 +939,14 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		if(GameVersion < 4)
 		{
 			Effects_ComboBox_AttributesC->Append("104 - Wood Cost");
-			Effects_ComboBox_AttributesC->Append("105 - Stone Cost");
-			Effects_ComboBox_AttributesC->Append("106 - Gold Cost");
+			Effects_ComboBox_AttributesC->Append("105 - Gold Cost");
+			Effects_ComboBox_AttributesC->Append("106 - Stone Cost");
 		}
 		else
 		{
 			Effects_ComboBox_AttributesC->Append("104 - Carbon Cost");
-			Effects_ComboBox_AttributesC->Append("105 - Ore Cost");
-			Effects_ComboBox_AttributesC->Append("106 - Nova Cost");
+			Effects_ComboBox_AttributesC->Append("105 - Nova Cost");
+			Effects_ComboBox_AttributesC->Append("106 - Ore Cost");
 		}
 		Effects_ComboBox_AttributesC->Append("107 - OREX Cost?");
 		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
