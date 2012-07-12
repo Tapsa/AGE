@@ -580,6 +580,7 @@ class AGE_Frame : public wxFrame
 	bool NeedDat;
 	bool SkipOpenDialog;
 	wxFileConfig * Config;
+	wxFileConfig * Customs;
 	wxFileConfig * ExtractUnit;
 //	wxFileConfig * Extraction;
 	gdat::File * GenieFile;
