@@ -365,6 +365,10 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 		Units_ComboBox_GarrisonType->SetSelection(0);
 
+		Customs = new wxFileConfig("AGE 2 Custom Names", wxEmptyString, "age2customs.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+		long ExtraCount;
+		Customs->Read("Count/ExtraCount", &ExtraCount, 5);
+		wxString MoveHolder = "";
 		for(short loop = 0;loop < 3;loop++)
 		{
 			if(Units_ComboBox_Class[loop]->GetCount() > 0)
@@ -702,25 +706,22 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Cu-pa
 				// Womp Rat
 			}
-			Customs = new wxFileConfig("AGE 2 Custom Names", wxEmptyString, "age2customs.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-			int ExtraCount;
 			//Well, if best APUs can run any game 1080p on lowest settings without considerable lag, I might consider buying one. 
-			Customs->Read("Count/ExtraCount", &ExtraCount, 5);
-			string MoveHolder = "";
 			for(short loop2 = 0;loop2 < ExtraCount;loop2++)
 			{
-				Customs->Read("Names/"+(wxString)(loop2+31), &MoveHolder, "Extra Class");
-				Attacks_ComboBox_Class[loop]->Append(lexical_cast<string>(loop2+31)+" - "+MoveHolder);
+				Customs->Read("Names/"+lexical_cast<string>(loop2+31), &MoveHolder, lexical_cast<string>(loop2+31)+" - Extra Class");
+				Attacks_ComboBox_Class[loop]->Append(MoveHolder);
 			}
-			Customs->Write("Count/ExtraCount", ExtraCount);
-			for(short loop2 = 0;loop2 < ExtraCount;loop2++)
-			{
-				//MoveHolder = Attacks_ComboBox_Class[loop]->GetValue();
-				Customs->Write("Names/"+lexical_cast<string>(loop2+31), MoveHolder);
-			}
-			delete Customs;
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
 		}
+		Customs->Write("Count/ExtraCount", ExtraCount);
+		for(short loop2 = 0;loop2 < ExtraCount;loop2++)
+		{
+			MoveHolder = Attacks_ComboBox_Class[0]->GetString(loop2+32);
+			//wxMessageBox(MoveHolder);
+			Customs->Write("Names/"+lexical_cast<string>(loop2+31), MoveHolder);
+		}
+		delete Customs;
 
 		for(short loop = 0;loop < 2;loop++)
 		{
