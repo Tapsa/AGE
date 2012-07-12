@@ -702,6 +702,23 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Cu-pa
 				// Womp Rat
 			}
+			Customs = new wxFileConfig("AGE 2 Custom Names", wxEmptyString, "age2customs.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+			int ExtraCount;
+			//Well, if best APUs can run any game 1080p on lowest settings without considerable lag, I might consider buying one. 
+			Customs->Read("Count/ExtraCount", &ExtraCount, 5);
+			string MoveHolder = "";
+			for(short loop2 = 0;loop2 < ExtraCount;loop2++)
+			{
+				Customs->Read("Names/"+(wxString)(loop2+31), &MoveHolder, "Extra Class");
+				Attacks_ComboBox_Class[loop]->Append(lexical_cast<string>(loop2+31)+" - "+MoveHolder);
+			}
+			Customs->Write("Count/ExtraCount", ExtraCount);
+			for(short loop2 = 0;loop2 < ExtraCount;loop2++)
+			{
+				//MoveHolder = Attacks_ComboBox_Class[loop]->GetValue();
+				Customs->Write("Names/"+lexical_cast<string>(loop2+31), MoveHolder);
+			}
+			delete Customs;
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
 		}
 
@@ -1381,7 +1398,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 
 void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 {
-	ExtractUnit = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "a2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	ExtractUnit = new wxFileConfig("AGE 2 Moving", wxEmptyString, "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	ExtractUnit->Write("Version/Number", 1);
 	// KORJAA IIDEET!
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
@@ -1535,7 +1552,7 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 {
 	long Number;
 	wxString Text;
-	ExtractUnit = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "a2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	ExtractUnit = new wxFileConfig("AGE 2 Moving", wxEmptyString, "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
 		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Type", &Number, 10);
