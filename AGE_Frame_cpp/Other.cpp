@@ -706,7 +706,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Cu-pa
 				// Womp Rat
 			}
-			//Well, if best APUs can run any game 1080p on lowest settings without considerable lag, I might consider buying one. 
+			//Well, if best APUs can run any game 1080p on lowest settings without considerable lag, I might consider buying one.
 			for(short loop2 = 0;loop2 < ExtraCount;loop2++)
 			{
 				Customs->Read("Names/"+lexical_cast<string>(loop2+31), &MoveHolder, lexical_cast<string>(loop2+31)+" - Extra Class");
@@ -1524,26 +1524,39 @@ void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/TrackingUnitUsed", GenieFile->Civs[loop].Units[UnitID].DeadFish.TrackingUnitUsed);
 			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/TrackingUnitDensity", GenieFile->Civs[loop].Units[UnitID].DeadFish.TrackingUnitDensity);
 			if(GameVersion >= 2)
-			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/Unknown12", GenieFile->Civs[loop].Units[UnitID].DeadFish.Unknown12);
+			{
+				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/Unknown12", GenieFile->Civs[loop].Units[UnitID].DeadFish.Unknown12);
+				for(short loop2 = 0;loop2 < 17;loop2++)
+				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/Unknown16_"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].DeadFish.Unknown16[loop2]);
+			}
 			else
 			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/Unknown16", GenieFile->Civs[loop].Units[UnitID].DeadFish.Unknown16[0]);
+		if(GenieFile->Civs[loop].Units[UnitID].Type >= 40)
+		{
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/SheepConversion", GenieFile->Civs[loop].Units[UnitID].Bird.SheepConversion);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/SearchRadius", GenieFile->Civs[loop].Units[UnitID].Bird.SearchRadius);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/WorkRate", GenieFile->Civs[loop].Units[UnitID].Bird.WorkRate);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/DropSite", GenieFile->Civs[loop].Units[UnitID].Bird.DropSite);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/VillagerMode", GenieFile->Civs[loop].Units[UnitID].Bird.VillagerMode);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/MoveSound", GenieFile->Civs[loop].Units[UnitID].Bird.MoveSound);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/StopSound", GenieFile->Civs[loop].Units[UnitID].Bird.StopSound);
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/AnimalMode", GenieFile->Civs[loop].Units[UnitID].Bird.AnimalMode);
+			if(GameVersion < 2)
 			for(short loop2 = 0;loop2 < 17;loop2++)
-			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/Unknown16_"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].DeadFish.Unknown16[loop2]);
-		if(GenieFile->Civs[loop].Units[UnitID].Type >= 30)
-		{/*
-			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
-			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
-			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
-			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
-		*/}
+			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Unknown16_"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].Bird.Unknown16[loop2]);
+		if(GenieFile->Civs[loop].Units[UnitID].Type >= 60)
+		{
+		if(GenieFile->Civs[loop].Units[UnitID].Type >= 70)
+		{
+		if(GenieFile->Civs[loop].Units[UnitID].Type >= 80)
+		{
+		
 		}
 		}
-	
-		/*ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
-		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
-		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
-		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);
-		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/XXXX", GenieFile->Civs[loop].Units[UnitID].XXXX);*/
+		}
+		}
+		}
+		}
 		}
 	}
 	delete ExtractUnit;
