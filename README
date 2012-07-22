@@ -1,7 +1,7 @@
 To compile you need to download MinGW, wxWidgets, boost, zlib and CMake.
 
 You probably have to add MinGW to the system path.
-Update paths in build.bat file, and then you are ready to go.
+Update paths in build*.bat files, and then you are ready to go.
 
 CMake:
 Install normally and select it to update PATH automatically.
@@ -13,6 +13,7 @@ Just install from the regular exe (mingw-get-inst-20120426.exe).
 
 wxWidgets (I have modded version 2.8.12):
 Unpack the 7z or zip file.
+To use my modded tool tips, seek them from AGE 2 sources and replace wxWidgets ones!
 In cmd.exe go to \wxWidgets\build\msw
 mingw32-make -f makefile.gcc SHARED=0 BUILD=debug clean
 mingw32-make -f makefile.gcc SHARED=0 BUILD=debug
