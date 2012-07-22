@@ -11,12 +11,13 @@ find_package(wxWidgets COMPONENTS adv core base REQUIRED)
 
 include( "${wxWidgets_USE_FILE}" )
 
+set(GDAT_TOOLS FALSE)
 set(GDAT_STATIC TRUE)
 
 include_directories( ${CMAKE_HOME_DIRECTORY}/extern/geniedat/include
   ${Boost_INCLUDE_DIRS})
   
-add_subdirectory (extern/geniedat )
+add_subdirectory (extern/geniedat)
 
 set(AGE_SRC Main.cpp
 			AGE_AboutDialog.cpp
