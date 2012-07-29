@@ -13,6 +13,7 @@
 #include "windows.h"
 //#include "geniedat/File.h"	// New dat system
 #include "genie/dat/DatFile.h"	// Newer dat system
+#include "genie/resource/DrsFile.h"	// DRS file system
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
@@ -84,6 +85,8 @@ class AGE_Frame : public wxFrame
 	void CreateTerrainRestrictionControls();
 	void CreateSoundControls();
 	void CreatePlayerColorControls();
+	
+	void CreateDRSControls();
 
 //	Other Events
 
@@ -741,6 +744,8 @@ class AGE_Frame : public wxFrame
 	wxPanel * Tab_TerrainRestrictions;
 	wxPanel * Tab_Sounds;
 	wxPanel * Tab_PlayerColors;
+
+	wxPanel * Tab_DRS;
 
 //	General user interface
 
@@ -2858,5 +2863,22 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * TechTrees_Researches_Holder_Unknown9;
 	wxStaticText * TechTrees_Researches_Text_Unknown9;
 	TextCtrl_Long * TechTrees_Researches_Unknown9;
+
+//	DRS user interface
+
+	genie::DrsFile * ResourceFile;
+	
+	void LoadDRSFile(wxCommandEvent& Event);
+	void UnLoadDRSFile(wxCommandEvent& Event);
+
+	wxBoxSizer * DRS_Main;
+	wxBoxSizer * DRS_TopRow;
+	wxBoxSizer * DRS_MidArea;
+	
+	wxStaticText * DRS_Text_FileLocation;
+	wxFilePickerCtrl * DRS_Path_FileLocation;
+	wxButton * DRS_LoadButton;
+	wxButton * DRS_UnLoadButton;
+	wxStaticText * DRS_StatusText;
 
 };

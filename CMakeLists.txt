@@ -34,6 +34,7 @@ set(AGE_SRC Main.cpp
 			
 			AGE_Frame_cpp/Civs.cpp
 			AGE_Frame_cpp/Constructor.cpp
+			AGE_Frame_cpp/DRS.cpp
 			AGE_Frame_cpp/General.cpp
 			AGE_Frame_cpp/Graphics.cpp
 			AGE_Frame_cpp/Other.cpp
