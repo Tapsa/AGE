@@ -64,7 +64,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
 	short Selection = Borders_Borders_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::TerrainBorder * BorderPointer = (gdat::TerrainBorder*)Borders_Borders_List->GetClientData(Selection);
+		genie::TerrainBorder * BorderPointer = (genie::TerrainBorder*)Borders_Borders_List->GetClientData(Selection);
 		BorderID = BorderPointer - (&GenieFile->TerrainBorders[0]);
 		Borders_BorderName[0]->ChangeValue(BorderPointer->Name);
 		Borders_BorderName[0]->Container = &BorderPointer->Name;
@@ -108,7 +108,7 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent& Event)
 	short Selection = Borders_Borders_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		TerrainBorderCopy = *(gdat::TerrainBorder*)Borders_Borders_List->GetClientData(Selection);
+		TerrainBorderCopy = *(genie::TerrainBorder*)Borders_Borders_List->GetClientData(Selection);
 	}
 }
 
@@ -118,7 +118,7 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent& Event)
 	short Selection = Borders_Borders_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::TerrainBorder*)Borders_Borders_List->GetClientData(Selection) = TerrainBorderCopy;
+		*(genie::TerrainBorder*)Borders_Borders_List->GetClientData(Selection) = TerrainBorderCopy;
 		ListTerrainBorders();
 	}
 }
@@ -182,7 +182,7 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent& Event)
 	short Selection = Borders_Frames_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::TBFrameData * FramePointer = (gdat::TBFrameData*)Borders_Frames_List->GetClientData(Selection);
+		genie::TBFrameData * FramePointer = (genie::TBFrameData*)Borders_Frames_List->GetClientData(Selection);
 		FrameID = FramePointer - (&GenieFile->TerrainBorders[BorderID].Frames[0]);
 		Borders_BorderFrameID->ChangeValue(lexical_cast<string>(FramePointer->FrameID));
 		Borders_BorderFrameID->Container = &FramePointer->FrameID;
@@ -198,7 +198,7 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent& Event)
 	short Selection = Borders_Frames_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		TBFrameDataCopy = *(gdat::TBFrameData*)Borders_Frames_List->GetClientData(Selection);
+		TBFrameDataCopy = *(genie::TBFrameData*)Borders_Frames_List->GetClientData(Selection);
 	}
 }
 
@@ -208,7 +208,7 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent& Event)
 	short Selection = Borders_Frames_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::TBFrameData*)Borders_Frames_List->GetClientData(Selection) = TBFrameDataCopy;
+		*(genie::TBFrameData*)Borders_Frames_List->GetClientData(Selection) = TBFrameDataCopy;
 		ListTerrainBorderFrames();
 	}
 }

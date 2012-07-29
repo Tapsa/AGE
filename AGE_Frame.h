@@ -11,7 +11,8 @@
 #include "wx/tooltip.h"
 #include "wx/statline.h"
 #include "windows.h"
-#include "geniedat/File.h"	// New dat system
+//#include "geniedat/File.h"	// New dat system
+#include "genie/dat/DatFile.h"	// Newer dat system
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
@@ -583,23 +584,23 @@ class AGE_Frame : public wxFrame
 	wxFileConfig * Customs;
 	wxFileConfig * ExtractUnit;
 //	wxFileConfig * Extraction;
-	gdat::File * GenieFile;
+	genie::DatFile * GenieFile;
 
-/*	gdat::File FileBackup; // Can't copy the whole file?
+/*	genie::DatFile FileBackup; // Can't copy the whole file?
 	long EditCount;
-	gdat::Unit UnitBackup[100][20];
+	genie::Unit UnitBackup[100][20];
 	short IDtoRestore[100];
-	gdat::Civ CivBackup[20];	// Only temporary solution!*/
+	genie::Civ CivBackup[20];	// Only temporary solution!*/
 
 	long TechTreePage;
 	long TechTreeSize;
-	gdat::Research ResearchCopy;
+	genie::Research ResearchCopy;
 	short ResearchID;
-	gdat::Techage TechageCopy;
+	genie::Techage TechageCopy;
 	short TechID;
-	gdat::TechageEffect EffectCopy;
+	genie::TechageEffect EffectCopy;
 	short EffectID;
-	gdat::TechTreeAge TTAgeCopy;
+	genie::TechTreeAge TTAgeCopy;
 	short TTAgeID;
 	long TTAgeBuildingCopy;
 	long TTAgeBuildingID;
@@ -607,7 +608,7 @@ class AGE_Frame : public wxFrame
 	long TTAgeUnitID;
 	long TTAgeResearchCopy;
 	long TTAgeResearchID;
-	gdat::BuildingConnection TTBuildingConnectionCopy;
+	genie::BuildingConnection TTBuildingConnectionCopy;
 	short TTBuildingConnectionID;
 	long TTBuildingBuildingCopy;
 	long TTBuildingBuildingID;
@@ -615,11 +616,11 @@ class AGE_Frame : public wxFrame
 	long TTBuildingUnitID;
 	long TTBuildingResearchCopy;
 	long TTBuildingResearchID;
-	gdat::UnitConnection TTUnitConnectionCopy;
+	genie::UnitConnection TTUnitConnectionCopy;
 	short TTUnitConnectionID;
 	long TTUnitUnitCopy;
 	long TTUnitUnitID;
-	gdat::ResearchConnection TTResearchConnectionCopy;
+	genie::ResearchConnection TTResearchConnectionCopy;
 	short TTResearchConnectionID;
 	long TTResearchBuildingCopy;
 	long TTResearchBuildingID;
@@ -630,52 +631,52 @@ class AGE_Frame : public wxFrame
 
 	static const short MaxCivs = 30;
 	short Zero;
-	gdat::Civ CivCopy;
+	genie::Civ CivCopy;
 	short CivID;
 	float ResourceCopy;
 	short ResourceID;
-	gdat::Unit UnitCopy;
-	gdat::Unit UnitSpecialCopy;
+	genie::Unit UnitCopy;
+	genie::Unit UnitSpecialCopy;
 	short UnitID;
 	short UnitCivID;
 //	int RefreshLists;
 	bool UnitExists[MaxCivs];
-	gdat::Unit UnitGraphics[MaxCivs];	// This should be a vector equal to Civs.
-	gdat::unit::DamageGraphic DamageGraphicCopy;
+	genie::Unit UnitGraphics[MaxCivs];	// This should be a vector equal to Civs.
+	genie::unit::DamageGraphic DamageGraphicCopy;
 	short DamageGraphicID;
-	gdat::unit::AttackOrArmor AttackCopy;
+	genie::unit::AttackOrArmor AttackCopy;
 	short AttackID;
-	gdat::unit::AttackOrArmor ArmorCopy;
+	genie::unit::AttackOrArmor ArmorCopy;
 	short ArmorID;
-	gdat::UnitHeader UnitHeaderCopy;
-	gdat::UnitCommand UnitCommandCopy;
+	genie::UnitHeader UnitHeaderCopy;
+	genie::UnitCommand UnitCommandCopy;
 	short CommandID;
-	gdat::UnitLine UnitLineCopy;
+	genie::UnitLine UnitLineCopy;
 	short UnitLineID;
 	short UnitLineUnitCopy;
 	short UnitLineUnitID;
-	gdat::Graphic GraphicCopy;
+	genie::Graphic GraphicCopy;
 	short GraphicID;
-	gdat::GraphicDelta GraphicDeltaCopy;
+	genie::GraphicDelta GraphicDeltaCopy;
 	short DeltaID;
-	gdat::GraphicAttackSound GraphicAttackSoundCopy;
+	genie::GraphicAttackSound GraphicAttackSoundCopy;
 	short AttackSoundID;
-	gdat::Terrain TerrainCopy;
+	genie::Terrain TerrainCopy;
 	short TerrainID;
-	gdat::TerrainRestriction TerrainRestrictionCopy;
+	genie::TerrainRestriction TerrainRestrictionCopy;
 	short TerRestrictID;
-	gdat::TerrainPassGraphic TerrainRestrictionSubCopy;
+	genie::TerrainPassGraphic TerrainRestrictionSubCopy;
 	short TerRestrictTerID;
 	float TerrainRestrictionSubCopyAccess;
-	gdat::Sound SoundCopy;
+	genie::Sound SoundCopy;
 	short SoundID;
-	gdat::SoundItem SoundItemCopy;
+	genie::SoundItem SoundItemCopy;
 	short SoundItemID;
-	gdat::PlayerColour PlayerColorCopy;
+	genie::PlayerColour PlayerColorCopy;
 	short ColorID;
-	gdat::TerrainBorder TerrainBorderCopy;
+	genie::TerrainBorder TerrainBorderCopy;
 	short BorderID;
-	gdat::TBFrameData TBFrameDataCopy;
+	genie::TBFrameData TBFrameDataCopy;
 	short FrameID;
 
 	bool Added;

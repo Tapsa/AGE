@@ -454,7 +454,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			Selection = Units_Units_List->GetCount() - 1;
 			Units_Units_List->SetSelection(Selection);
 		}
-		gdat::Unit * UnitPointer = (gdat::Unit*)Units_Units_List->GetClientData(Selection);
+		genie::Unit * UnitPointer = (genie::Unit*)Units_Units_List->GetClientData(Selection);
 		UnitCivID = Units_Civs_List->GetSelection();
 		UnitID = UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]);
 
@@ -1475,7 +1475,7 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 	short Selection = Units_UnitHeads_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::UnitHeader * UnitHeadPointer = (gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
+		genie::UnitHeader * UnitHeadPointer = (genie::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
 		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitID)+" - "+GetUnitName(UnitID, Zero));
 		Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
 		Units_Exists->Container = &UnitHeadPointer->Exists;
@@ -1487,11 +1487,11 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 {
 	if(GameVersion > 1)	// AoK, TC, SWGB or CC
 	{
-		gdat::UnitHeader Temp1;
+		genie::UnitHeader Temp1;
 		GenieFile->UnitHeaders.push_back(Temp1);
 	}
 
-	gdat::Unit Temp2;
+	genie::Unit Temp2;
 	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 	{
 		GenieFile->Civs[loop].Units.push_back(Temp2);
@@ -1519,7 +1519,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 		short Selection = Units_UnitHeads_List->GetSelection();
 		if(Selection != wxNOT_FOUND)	// If unit is selected.
 		{
-			gdat::UnitHeader Temp1;
+			genie::UnitHeader Temp1;
 			GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitID, Temp1);
 		}
 	}
@@ -1527,7 +1527,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Unit Temp2;
+		genie::Unit Temp2;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].Units.insert(GenieFile->Civs[loop].Units.begin() + UnitID, Temp2);
@@ -1594,7 +1594,7 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 		short Selection = Units_UnitHeads_List->GetSelection();
 		if(Selection != wxNOT_FOUND)
 		{
-			UnitHeaderCopy = *(gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
+			UnitHeaderCopy = *(genie::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
 		}
 	}
 
@@ -1723,7 +1723,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 		short Selection = Units_UnitHeads_List->GetSelection();
 		if(Selection != wxNOT_FOUND)
 		{
-			*(gdat::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection) = UnitHeaderCopy;
+			*(genie::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection) = UnitHeaderCopy;
 		}
 	}
 
@@ -1924,7 +1924,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 			Selection = Units_DamageGraphics_List->GetCount() - 1;
 			Units_DamageGraphics_List->SetSelection(Selection);
 		}
-		gdat::unit::DamageGraphic * DamageGraphicPointer = (gdat::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Selection);
+		genie::unit::DamageGraphic * DamageGraphicPointer = (genie::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Selection);
 		DamageGraphicID = DamageGraphicPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[0]);
 		DamageGraphics_GraphicID->ChangeValue(lexical_cast<string>(DamageGraphicPointer->GraphicID));
 		DamageGraphics_GraphicID->Container = &DamageGraphicPointer->GraphicID;
@@ -1952,7 +1952,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::unit::DamageGraphic Temp;
+		genie::unit::DamageGraphic Temp;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitID].DamageGraphics.push_back(Temp);
@@ -1967,7 +1967,7 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent& Event)
 	short Selection = Units_DamageGraphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::unit::DamageGraphic Temp;
+		genie::unit::DamageGraphic Temp;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitID].DamageGraphics.insert(GenieFile->Civs[loop].Units[UnitID].DamageGraphics.begin() + DamageGraphicID, Temp);
@@ -1997,7 +1997,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent& Event)
 	short Selection = Units_DamageGraphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		DamageGraphicCopy = *(gdat::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Selection);
+		DamageGraphicCopy = *(genie::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Selection);
 	}
 }
 
@@ -2083,7 +2083,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 			Selection = Units_Attacks_List->GetCount() - 1;
 			Units_Attacks_List->SetSelection(Selection);
 		}
-		gdat::unit::AttackOrArmor * AttackPointer = (gdat::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Selection);
+		genie::unit::AttackOrArmor * AttackPointer = (genie::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Selection);
 		AttackID = AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[0]);
 		Attacks_Class->ChangeValue(lexical_cast<string>(AttackPointer->Class));
 		Attacks_Class->Container = &AttackPointer->Class;
@@ -2106,7 +2106,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::unit::AttackOrArmor Temp;
+		genie::unit::AttackOrArmor Temp;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.push_back(Temp);
@@ -2121,7 +2121,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent& Event)
 	short Selection = Units_Attacks_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::unit::AttackOrArmor Temp;
+		genie::unit::AttackOrArmor Temp;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.insert(GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.begin() + AttackID, Temp);
@@ -2151,7 +2151,7 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent& Event)
 	short Selection = Units_Attacks_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		AttackCopy = *(gdat::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Selection);
+		AttackCopy = *(genie::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Selection);
 	}
 }
 
@@ -2237,7 +2237,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 			Selection = Units_Armors_List->GetCount() - 1;
 			Units_Armors_List->SetSelection(Selection);
 		}
-		gdat::unit::AttackOrArmor * ArmorPointer = (gdat::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Selection);
+		genie::unit::AttackOrArmor * ArmorPointer = (genie::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Selection);
 		ArmorID = ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[0]);
 		Armors_Class->ChangeValue(lexical_cast<string>(ArmorPointer->Class));
 		Armors_Class->Container = &ArmorPointer->Class;
@@ -2260,7 +2260,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::unit::AttackOrArmor Temp;
+		genie::unit::AttackOrArmor Temp;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.push_back(Temp);
@@ -2275,7 +2275,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent& Event)
 	short Selection = Units_Armors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::unit::AttackOrArmor Temp;
+		genie::unit::AttackOrArmor Temp;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.insert(GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.begin() + ArmorID, Temp);
@@ -2305,7 +2305,7 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent& Event)
 	short Selection = Units_Armors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		ArmorCopy = *(gdat::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Selection);
+		ArmorCopy = *(genie::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Selection);
 	}
 }
 
@@ -2540,7 +2540,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 			Selection = Units_UnitCommands_List->GetCount() - 1;
 			Units_UnitCommands_List->SetSelection(Selection);
 		}
-		gdat::UnitCommand * UnitCommandPointer = (gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection);
+		genie::UnitCommand * UnitCommandPointer = (genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection);
 		if(GameVersion >= 2)
 		{
 			CommandID = UnitCommandPointer - (&GenieFile->UnitHeaders[UnitID].Commands[0]);
@@ -2774,7 +2774,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::UnitCommand Temp;
+		genie::UnitCommand Temp;
 		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.push_back(Temp);
@@ -2800,7 +2800,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 	short Selection = Units_UnitCommands_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::UnitCommand Temp;
+		genie::UnitCommand Temp;
 		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.insert(GenieFile->UnitHeaders[UnitID].Commands.begin() + CommandID, Temp);
@@ -2864,7 +2864,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent& Event)
 	short Selection = Units_UnitCommands_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		UnitCommandCopy = *(gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection);
+		UnitCommandCopy = *(genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection);
 	}
 }
 
@@ -2876,7 +2876,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 	{
 		if(GameVersion > 1)
 		{
-			*(gdat::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection) = UnitCommandCopy;
+			*(genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection) = UnitCommandCopy;
 			if(EnableIDFix)
 			GenieFile->UnitHeaders[UnitID].Commands[CommandID].ID = lexical_cast<short>(CommandID);	//	ID Fix
 		}

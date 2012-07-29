@@ -82,7 +82,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
 			Selection = UnitLines_UnitLines_List->GetCount() - 1;
 			UnitLines_UnitLines_List->SetSelection(Selection);
 		}
-		gdat::UnitLine * LinePointer = (gdat::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection);
+		genie::UnitLine * LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection);
 		UnitLineID = LinePointer - (&GenieFile->UnitLines[0]);
 		UnitLines_ID->ChangeValue(lexical_cast<string>(LinePointer->ID));
 		UnitLines_ID->Container = &LinePointer->ID;
@@ -95,7 +95,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLinesAdd(wxCommandEvent& Event)
 {
-	gdat::UnitLine Temp;
+	genie::UnitLine Temp;
 	GenieFile->UnitLines.push_back(Temp);
 	if(EnableIDFix)
 	GenieFile->UnitLines[GenieFile->UnitLines.size() - 1].ID = lexical_cast<short>(GenieFile->UnitLines.size() - 1);	//	ID Fix
@@ -108,7 +108,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent& Event)
 	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::UnitLine Temp;
+		genie::UnitLine Temp;
 		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineID, Temp);
 		if(EnableIDFix)
 		for(short loop = UnitLineID;loop < GenieFile->UnitLines.size();loop++)	//	ID Fix
@@ -142,7 +142,7 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent& Event)
 	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		UnitLineCopy = *(gdat::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection);
+		UnitLineCopy = *(genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection);
 	}
 }
 
@@ -152,7 +152,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection) = UnitLineCopy;
+		*(genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection) = UnitLineCopy;
 		if(EnableIDFix)
 		GenieFile->UnitLines[UnitLineID].ID = lexical_cast<short>(UnitLineID);	//	ID Fix
 		ListUnitLines();

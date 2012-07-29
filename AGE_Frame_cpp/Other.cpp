@@ -169,29 +169,29 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		LanguageDll[2] = LoadLibrary(LangX1P1FileName.c_str());
 	}
 
-	gdat::GameVersion GenieVersion;
+	genie::GameVersion GenieVersion;
 	switch(GameVersion)
 	{
 		case 0:
-			GenieVersion = gdat::GV_AoE;
+			GenieVersion = genie::GV_AoE;
 			break;
 		case 1:
-			GenieVersion = gdat::GV_RoR;
+			GenieVersion = genie::GV_RoR;
 			break;
 		case 2:
-			GenieVersion = gdat::GV_AoK;
+			GenieVersion = genie::GV_AoK;
 			break;
 		case 3:
-			GenieVersion = gdat::GV_TC;
+			GenieVersion = genie::GV_TC;
 			break;
 		case 4:
-			GenieVersion = gdat::GV_SWGB;
+			GenieVersion = genie::GV_SWGB;
 			break;
 		case 5:
-			GenieVersion = gdat::GV_CC;
+			GenieVersion = genie::GV_CC;
 			break;
 		default:
-		GenieVersion = gdat::GV_None;
+		GenieVersion = genie::GV_None;
 	}
 
 	switch(DatUsed)
@@ -206,7 +206,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			{
 				SetStatusText("Reading file...", 0);
 				wxBusyCursor WaitCursor;
-				GenieFile = new gdat::File(std::string(DatFileName.c_str()), GenieVersion);
+				GenieFile = new genie::DatFile(std::string(DatFileName.c_str()), GenieVersion);
 			}
 		}
 		break;
