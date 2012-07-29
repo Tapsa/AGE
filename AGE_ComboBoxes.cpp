@@ -128,7 +128,7 @@ void ComboBox_Byte::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		short Value = lexical_cast<short>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
+		int8_t Value = lexical_cast<int8_t>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
 		((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetSelection(0);
 		((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetSelection(Value + 1);
 	}
@@ -150,7 +150,7 @@ void ComboBox_Short::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		short Value = lexical_cast<short>(((TextCtrl_Short*)Event.GetEventObject())->GetValue());
+		int16_t Value = lexical_cast<int16_t>(((TextCtrl_Short*)Event.GetEventObject())->GetValue());
 		((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->SetSelection(0);
 		((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->SetSelection(Value + 1);
 	}
@@ -161,7 +161,7 @@ void ComboBox_Long::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
 	{
-		int Value = lexical_cast<int>(((TextCtrl_Long*)Event.GetEventObject())->GetValue());
+		int32_t Value = lexical_cast<int32_t>(((TextCtrl_Long*)Event.GetEventObject())->GetValue());
 		((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->SetSelection(0);
 		((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->SetSelection(Value + 1);
 	}
@@ -172,7 +172,7 @@ void ComboBox_Byte_EffectType::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		short Value = lexical_cast<short>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
+		int8_t Value = lexical_cast<int8_t>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
 		if((Value >= 0) && (Value <= 6))
 		{
 			((ComboBox_Byte_EffectType*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetSelection(Value + 1);

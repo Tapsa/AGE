@@ -49,6 +49,23 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 	{
 		try
 		{
+			if(*((int8_t*)Container) != lexical_cast<int8_t>(Value))
+			{
+				*((int8_t*)Container) = lexical_cast<int8_t>(Value);
+			}
+			else
+			{
+				NoLoadList = true;
+			}
+		}
+		catch(bad_lexical_cast e)
+		{
+			NoLoadList = true;
+			wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
+			SetFocus();
+		}
+		/*try
+		{
 		    if(*((char*)Container) != (char)lexical_cast<short>(Value))
 			{
 			    if(lexical_cast<short>(Value) == (char)lexical_cast<short>(Value))
@@ -72,7 +89,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 			NoLoadList = true;
 		    wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
 		    SetFocus();
-		}
+		}*/
 	}
 	else
 	{
@@ -128,9 +145,9 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 	{
 		try
 		{
-			if(*((int*)Container) != lexical_cast<int>(Value))
+			if(*((int32_t*)Container) != lexical_cast<int32_t>(Value))
 			{
-				*((int*)Container) = lexical_cast<int>(Value);
+				*((int32_t*)Container) = lexical_cast<int32_t>(Value);
 			}
 			else
 			{
@@ -163,9 +180,9 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 	{
 		try
 		{
-			if(*((short*)Container) != lexical_cast<short>(Value))
+			if(*((int16_t*)Container) != lexical_cast<int16_t>(Value))
 			{
-				*((short*)Container) = lexical_cast<short>(Value);
+				*((int16_t*)Container) = lexical_cast<int16_t>(Value);
 			}
 			else
 			{
@@ -198,9 +215,9 @@ void TextCtrl_UnShort::OnKillFocus(wxFocusEvent& Event)
 	{
 		try
 		{
-			if(*((unsigned short*)Container) != lexical_cast<unsigned short>(Value))
+			if(*((uint16_t*)Container) != lexical_cast<uint16_t>(Value))
 			{
-				*((unsigned short*)Container) = lexical_cast<unsigned short>(Value);
+				*((uint16_t*)Container) = lexical_cast<uint16_t>(Value);
 			}
 			else
 			{
@@ -283,7 +300,7 @@ TextCtrl_Float::TextCtrl_Float(wxWindow * parent, string InitValue, float * Poin
 	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
 }
 
-TextCtrl_Long::TextCtrl_Long(wxWindow * parent, string InitValue, int * Pointer)
+TextCtrl_Long::TextCtrl_Long(wxWindow * parent, string InitValue, int32_t * Pointer)
 : wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
@@ -291,7 +308,7 @@ TextCtrl_Long::TextCtrl_Long(wxWindow * parent, string InitValue, int * Pointer)
 	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
 }
 
-TextCtrl_Short::TextCtrl_Short(wxWindow * parent, string InitValue, short * Pointer)
+TextCtrl_Short::TextCtrl_Short(wxWindow * parent, string InitValue, int16_t * Pointer)
 : wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
@@ -299,7 +316,7 @@ TextCtrl_Short::TextCtrl_Short(wxWindow * parent, string InitValue, short * Poin
 	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
 }
 
-TextCtrl_UnShort::TextCtrl_UnShort(wxWindow * parent, string InitValue, unsigned short * Pointer)
+TextCtrl_UnShort::TextCtrl_UnShort(wxWindow * parent, string InitValue, uint16_t * Pointer)
 : wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;
