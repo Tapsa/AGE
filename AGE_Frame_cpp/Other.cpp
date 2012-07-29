@@ -206,9 +206,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			{
 				SetStatusText("Reading file...", 0);
 				wxBusyCursor WaitCursor;
-				
+
 				GenieFile = new genie::DatFile();
-				//GenieFile = new genie::DatFile(std::string(), GenieVersion);
 				try
 				{
 					GenieFile->load(DatFileName.c_str());
@@ -217,6 +216,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				{
 					delete GenieFile;
 					wxMessageBox("Unable to load the file!");
+					return;
 				}
 			}
 		}
@@ -1366,7 +1366,6 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 			SetStatusText("Saving dat file...", 0);
 			wxBusyCursor WaitCursor;
 
-			//GenieFile->save(std::string(SaveDatFileName.c_str()));
 			try
 			{
 				GenieFile->saveAs(SaveDatFileName.c_str());
@@ -1374,6 +1373,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 			catch(std::ios_base::failure e)
 			{
 				wxMessageBox("Unable to save the file!");
+				return;
 			}
 		}
 		if(SaveApf)
