@@ -210,6 +210,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				GenieFile = new genie::DatFile();
 				try
 				{
+					GenieFile->setGameVersion(GenieVersion);
 					GenieFile->load(DatFileName.c_str());
 				}
 				catch(std::ios_base::failure e)

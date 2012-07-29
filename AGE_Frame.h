@@ -967,7 +967,7 @@ class AGE_Frame : public wxFrame
 
 	wxBoxSizer * Research_Holder_Pointers[3];
 	wxStaticText * Research_Text_Pointers[3];
-	TextCtrl_Long * Research_Pointers[3];	// long text = TextCtrl_Long
+	TextCtrl_Long * Research_Pointers[3];
 
 	wxBoxSizer * Research_Holder_Name[2];
 	wxStaticText * Research_Text_Name[2];
