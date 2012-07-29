@@ -83,7 +83,7 @@ class TextCtrl_Long : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_Long(wxWindow*, string, int*);
+	TextCtrl_Long(wxWindow*, string, int32_t*);
 
 	/* Events */
 
@@ -91,7 +91,7 @@ class TextCtrl_Long : public wxTextCtrl
 
 	/* Member Variables */
 
-	int * Container;
+	int32_t * Container;
 	void * ParentContainer;
 	bool NoLoadList;
 };
@@ -105,7 +105,7 @@ class TextCtrl_Short : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_Short(wxWindow*, string, short*);
+	TextCtrl_Short(wxWindow*, string, int16_t*);
 
 	/* Events */
 
@@ -113,7 +113,7 @@ class TextCtrl_Short : public wxTextCtrl
 
 	/* Member Variables */
 
-	short * Container;
+	int16_t * Container;
 	void * ParentContainer;
 	bool NoLoadList;
 };
@@ -127,7 +127,7 @@ class TextCtrl_UnShort : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_UnShort(wxWindow*, string, unsigned short*);
+	TextCtrl_UnShort(wxWindow*, string, uint16_t*);
 
 	/* Events */
 
@@ -135,7 +135,7 @@ class TextCtrl_UnShort : public wxTextCtrl
 
 	/* Member Variables */
 
-	unsigned short * Container;
+	uint16_t * Container;
 	void * ParentContainer;
 	bool NoLoadList;
 };
