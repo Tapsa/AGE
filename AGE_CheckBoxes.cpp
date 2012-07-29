@@ -12,7 +12,7 @@ void CheckBox_Bool::OnUpdate(wxCommandEvent& Event)
 
 void CheckBox_Byte::OnUpdate(wxCommandEvent& Event)
 {
-	Container->ChangeValue(lexical_cast<string>((short)GetValue()));
+	Container->ChangeValue(lexical_cast<string>((int8_t)GetValue()));
 
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
@@ -28,7 +28,7 @@ void CheckBox_Float::OnUpdate(wxCommandEvent& Event)
 
 void CheckBox_Short::OnUpdate(wxCommandEvent& Event)
 {
-	Container->ChangeValue(lexical_cast<string>((short)GetValue()));
+	Container->ChangeValue(lexical_cast<string>((int16_t)GetValue()));
 
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
@@ -81,7 +81,7 @@ void CheckBox_Byte::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		short Value = lexical_cast<short>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
+		int8_t Value = lexical_cast<int8_t>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
 		((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetValue(Value);
 	}
 }
@@ -101,7 +101,7 @@ void CheckBox_Short::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		short Value = lexical_cast<short>(((TextCtrl_Short*)Event.GetEventObject())->GetValue());
+		int16_t Value = lexical_cast<int16_t>(((TextCtrl_Short*)Event.GetEventObject())->GetValue());
 		((CheckBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->SetValue(Value);
 	}
 }
@@ -111,7 +111,7 @@ void CheckBox_Short_ZeroIsYes::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
 	{
-		switch(lexical_cast<short>(((TextCtrl_Short*)Event.GetEventObject())->GetValue()))
+		switch(lexical_cast<int16_t>(((TextCtrl_Short*)Event.GetEventObject())->GetValue()))
 		{
 			case -1:
 			{
@@ -137,7 +137,7 @@ void CheckBox_Long_ZeroIsYes::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
 	{
-		switch(lexical_cast<short>(((TextCtrl_Long*)Event.GetEventObject())->GetValue()))
+		switch(lexical_cast<int32_t>(((TextCtrl_Long*)Event.GetEventObject())->GetValue()))
 		{
 			case -1:
 			{
