@@ -83,7 +83,7 @@ class TextCtrl_Long : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_Long(wxWindow*, string, long*);
+	TextCtrl_Long(wxWindow*, string, int*);
 
 	/* Events */
 
@@ -91,7 +91,7 @@ class TextCtrl_Long : public wxTextCtrl
 
 	/* Member Variables */
 
-	long * Container;
+	int * Container;
 	void * ParentContainer;
 	bool NoLoadList;
 };

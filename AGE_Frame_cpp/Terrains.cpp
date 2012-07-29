@@ -170,7 +170,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 			Selection = Terrains_Terrains_List->GetCount() - 1;
 			Terrains_Terrains_List->SetSelection(Selection);
 		}
-		gdat::Terrain * TerrainPointer = (gdat::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
+		genie::Terrain * TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
 		TerrainID = TerrainPointer - (&GenieFile->Terrains[0]);
 		Terrains_Unknown1->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown1));
 		Terrains_Unknown1->Container = &TerrainPointer->Unknown1;
@@ -272,9 +272,9 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent& Event) // Their count is hardcoded.
 {
-	gdat::Terrain Temp1;
+	genie::Terrain Temp1;
 	GenieFile->Terrains.push_back(Temp1);
-	gdat::TerrainPassGraphic Temp2;
+	genie::TerrainPassGraphic Temp2;
 	for(int loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 	{
 		GenieFile->TerrainRestrictions[loop].TerrainAccessible.push_back(0);
@@ -289,9 +289,9 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent& Event) // Their count is hardco
 	short Selection = Terrains_Terrains_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Terrain Temp1;
+		genie::Terrain Temp1;
 		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainID, Temp1);
-		gdat::TerrainPassGraphic Temp2;
+		genie::TerrainPassGraphic Temp2;
 		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 		{
 			GenieFile->TerrainRestrictions[loop].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop].TerrainAccessible.begin() + TerrainID, 0);
@@ -324,7 +324,7 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent& Event)
 	short Selection = Terrains_Terrains_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		TerrainCopy = *(gdat::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
+		TerrainCopy = *(genie::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
 	}
 }
 
@@ -334,7 +334,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent& Event)
 	short Selection = Terrains_Terrains_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::Terrain*)Terrains_Terrains_List->GetClientData(Selection) = TerrainCopy;
+		*(genie::Terrain*)Terrains_Terrains_List->GetClientData(Selection) = TerrainCopy;
 		ListTerrains();
 	}
 }

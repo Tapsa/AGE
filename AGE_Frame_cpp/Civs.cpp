@@ -112,7 +112,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 			Selection = Civs_Civs_List->GetCount() - 1;
 			Civs_Civs_List->SetSelection(Selection);
 		}
-		gdat::Civ * CivPointer = (gdat::Civ*)Civs_Civs_List->GetClientData(Selection);
+		genie::Civ * CivPointer = (genie::Civ*)Civs_Civs_List->GetClientData(Selection);
 		CivID = CivPointer - (&GenieFile->Civs[0]);
 		Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
 		Civs_One->Container = &CivPointer->One;
@@ -143,7 +143,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnCivsAdd(wxCommandEvent& Event)
 {
-	gdat::Civ Temp;
+	genie::Civ Temp;
 	Temp.Resources.resize(GenieFile->Civs[0].Resources.size());
 	Temp.Units.resize(GenieFile->Civs[0].Units.size());
 	GenieFile->Civs.push_back(Temp);
@@ -156,7 +156,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent& Event)
 	short Selection = Civs_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Civ Temp;
+		genie::Civ Temp;
 		Temp.Resources.resize(GenieFile->Civs[0].Resources.size());
 		Temp.Units.resize(GenieFile->Civs[0].Units.size());
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivID, Temp);
@@ -182,7 +182,7 @@ void AGE_Frame::OnCivsCopy(wxCommandEvent& Event)
 	short Selection = Civs_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		CivCopy = *(gdat::Civ*)Civs_Civs_List->GetClientData(Selection);
+		CivCopy = *(genie::Civ*)Civs_Civs_List->GetClientData(Selection);
 	}
 }
 
@@ -192,7 +192,7 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 	short Selection = Civs_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::Civ*)Civs_Civs_List->GetClientData(Selection) = CivCopy;
+		*(genie::Civ*)Civs_Civs_List->GetClientData(Selection) = CivCopy;
 		ListCivs();
 	}
 }

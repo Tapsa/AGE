@@ -318,7 +318,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 			Selection = Graphics_Graphics_List->GetCount() - 1;
 			Graphics_Graphics_List->SetSelection(Selection);
 		}
-		gdat::Graphic * GraphicPointer = (gdat::Graphic*)Graphics_Graphics_List->GetClientData(Selection);
+		genie::Graphic * GraphicPointer = (genie::Graphic*)Graphics_Graphics_List->GetClientData(Selection);
 		GraphicID = GraphicPointer - (&GenieFile->Graphics[0]);
 		Graphics_Name->ChangeValue(GraphicPointer->Name);
 		Graphics_Name->Container = &GraphicPointer->Name;
@@ -382,7 +382,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent& Event)
 {
-	gdat::Graphic Temp;
+	genie::Graphic Temp;
 	GenieFile->Graphics.push_back(Temp);
 	GenieFile->GraphicPointers.push_back(1);
 	if(EnableIDFix)
@@ -396,7 +396,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent& Event)
 	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Graphic Temp;
+		genie::Graphic Temp;
 		GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicID, Temp);
 		GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicID, 1);
 		if(EnableIDFix)
@@ -432,7 +432,7 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent& Event)
 	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GraphicCopy = *(gdat::Graphic*)Graphics_Graphics_List->GetClientData(Selection);
+		GraphicCopy = *(genie::Graphic*)Graphics_Graphics_List->GetClientData(Selection);
 	}
 }
 
@@ -442,7 +442,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent& Event)
 	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::Graphic*)Graphics_Graphics_List->GetClientData(Selection) = GraphicCopy;
+		*(genie::Graphic*)Graphics_Graphics_List->GetClientData(Selection) = GraphicCopy;
 		if(EnableIDFix)
 		GenieFile->Graphics[GraphicID].ID = lexical_cast<short>(GraphicID);	//	ID Fix
 		ListGraphics();
@@ -524,7 +524,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent& Event)
 			Selection = Graphics_Deltas_List->GetCount() - 1;
 			Graphics_Deltas_List->SetSelection(Selection);
 		}
-		gdat::GraphicDelta * DeltaPointer = (gdat::GraphicDelta*)Graphics_Deltas_List->GetClientData(Selection);
+		genie::GraphicDelta * DeltaPointer = (genie::GraphicDelta*)Graphics_Deltas_List->GetClientData(Selection);
 		DeltaID = DeltaPointer - (&GenieFile->Graphics[GraphicID].Deltas[0]);
 		GraphicDeltas_GraphicID->ChangeValue(lexical_cast<string>(DeltaPointer->GraphicID));
 		GraphicDeltas_GraphicID->Container = &DeltaPointer->GraphicID;
@@ -564,7 +564,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent& Event)
 	short Selection = Graphics_Graphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::GraphicDelta Temp;
+		genie::GraphicDelta Temp;
 		GenieFile->Graphics[GraphicID].Deltas.push_back(Temp);
 		Added = true;
 		ListGraphicDeltas();
@@ -576,7 +576,7 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent& Event)
 	short Selection = Graphics_Deltas_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::GraphicDelta Temp;
+		genie::GraphicDelta Temp;
 		GenieFile->Graphics[GraphicID].Deltas.insert(GenieFile->Graphics[GraphicID].Deltas.begin() + DeltaID, Temp);
 		ListGraphicDeltas();
 	}
@@ -600,7 +600,7 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent& Event)
 	short Selection = Graphics_Deltas_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		GraphicDeltaCopy = *(gdat::GraphicDelta*)Graphics_Deltas_List->GetClientData(Selection);
+		GraphicDeltaCopy = *(genie::GraphicDelta*)Graphics_Deltas_List->GetClientData(Selection);
 	}
 }
 
@@ -610,7 +610,7 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent& Event)
 	short Selection = Graphics_Deltas_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::GraphicDelta*)Graphics_Deltas_List->GetClientData(Selection) = GraphicDeltaCopy;
+		*(genie::GraphicDelta*)Graphics_Deltas_List->GetClientData(Selection) = GraphicDeltaCopy;
 		ListGraphicDeltas();
 	}
 }
@@ -670,7 +670,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent& Event)
 			Selection = Graphics_AttackSounds_List->GetCount() - 1;
 			Graphics_AttackSounds_List->SetSelection(Selection);
 		}
-		gdat::GraphicAttackSound * AttackSoundPointer = (gdat::GraphicAttackSound*)Graphics_AttackSounds_List->GetClientData(Selection);
+		genie::GraphicAttackSound * AttackSoundPointer = (genie::GraphicAttackSound*)Graphics_AttackSounds_List->GetClientData(Selection);
 		AttackSoundID = AttackSoundPointer - (&GenieFile->Graphics[GraphicID].AttackSounds[0]);
 		Graphics_AttackSoundID[0]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundID));
 		Graphics_AttackSoundID[0]->Container = &AttackSoundPointer->SoundID;

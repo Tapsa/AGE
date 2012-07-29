@@ -249,7 +249,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 			Selection = Research_Research_List->GetCount() - 1;
 			Research_Research_List->SetSelection(Selection);
 		}
-		gdat::Research * ResearchPointer = (gdat::Research*)Research_Research_List->GetClientData(Selection);
+		genie::Research * ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Selection);
 		ResearchID = ResearchPointer - (&GenieFile->Researchs[0]);
 		short RequiredTechs;
 		for(short loop = 4;loop < 6;loop++)
@@ -345,7 +345,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 {
-	gdat::Research Temp;
+	genie::Research Temp;
 	GenieFile->Researchs.push_back(Temp);
 	Added = true;
 	ListResearches();
@@ -356,7 +356,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
 	short Selection = Research_Research_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Research Temp;
+		genie::Research Temp;
 		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchID, Temp);
 		ListResearches();
 	}
@@ -380,7 +380,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 	short Selection = Research_Research_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		ResearchCopy = *(gdat::Research*)Research_Research_List->GetClientData(Selection);
+		ResearchCopy = *(genie::Research*)Research_Research_List->GetClientData(Selection);
 	}
 }
 
@@ -390,7 +390,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 	short Selection = Research_Research_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::Research*)Research_Research_List->GetClientData(Selection) = ResearchCopy;
+		*(genie::Research*)Research_Research_List->GetClientData(Selection) = ResearchCopy;
 		ListResearches();
 	}
 }
