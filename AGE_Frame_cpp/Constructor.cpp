@@ -96,6 +96,8 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	CreateTerrainBorderControls();
 	CreateGeneralControls();
 	
+	CreateDRSControls();
+	
 	Units_AutoCopy->SetValue(AutoCopy);
 	Units_CopyGraphics->SetValue(CopyGraphics);
 	Units_CopyTo->Enable(!AutoCopy);
@@ -118,6 +120,9 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	TabBar_Data->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Data->AddPage(Tab_PlayerColors, "Player Colors");
 	TabBar_Data->SetSelection(5);
+	
+	TabBar_Test->AddPage(Tab_DRS, "DRS Files");
+	TabBar_Test->SetSelection(5);
 
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
