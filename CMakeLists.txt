@@ -49,10 +49,8 @@ set(AGE_SRC Main.cpp
 			AGE_Frame_cpp/Units.cpp
 			
 			Resources.rc
-			)
-			
+	)
+
 add_executable(AdvancedGenieEditor2 WIN32 ${AGE_SRC})
 
-target_link_libraries(AdvancedGenieEditor2 ${wxWidgets_LIBRARIES}
-# geniedat
- genieutils)
+target_link_libraries(AdvancedGenieEditor2 ${wxWidgets_LIBRARIES} genieutils)
