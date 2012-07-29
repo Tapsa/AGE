@@ -164,7 +164,7 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
 			Selection = TerRestrict_TerRestrict_List->GetCount() - 1;
 			TerRestrict_TerRestrict_List->SetSelection(Selection);
 		}
-		gdat::TerrainRestriction * TerrainRestrictionPointer = (gdat::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
+		genie::TerrainRestriction * TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
 		TerRestrictID = TerrainRestrictionPointer - (&GenieFile->TerrainRestrictions[0]);
 		Added = false;
 		ListTerrains(false);
@@ -177,8 +177,8 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 	short Selection2 = TerRestrict_Terrains_List->GetSelection();
 	if(Selection2 != wxNOT_FOUND)
 	{
-		gdat::TerrainRestriction * TerrainRestrictionPointer = (gdat::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
-		gdat::Terrain * TerrainPointer = (gdat::Terrain*)TerRestrict_Terrains_List->GetClientData(Selection2);
+		genie::TerrainRestriction * TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
+		genie::Terrain * TerrainPointer = (genie::Terrain*)TerRestrict_Terrains_List->GetClientData(Selection2);
 		TerRestrictTerID = TerrainPointer - (&GenieFile->Terrains[0]);
 
 		TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerID]));
@@ -220,7 +220,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent& Event)
 {
-	gdat::TerrainRestriction Temp;
+	genie::TerrainRestriction Temp;
 //	Temp.TerrainAccessible.resize(GenieFile->Terrains.size());
 //	Temp.TerrainPassGraphics.resize(GenieFile->Terrains.size());
 	GenieFile->TerrainRestrictions.push_back(Temp);
@@ -236,7 +236,7 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent& Event)
 	short Selection = TerRestrict_TerRestrict_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::TerrainRestriction Temp;
+		genie::TerrainRestriction Temp;
 		GenieFile->TerrainRestrictions.insert(GenieFile->TerrainRestrictions.begin() + TerRestrictID, Temp);
 		GenieFile->TerrainRestrictionPointers1.insert(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictID, 1);
 		if(GameVersion >= 2)
@@ -266,7 +266,7 @@ void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent& Event)
 	short Selection = TerRestrict_TerRestrict_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		TerrainRestrictionCopy = *(gdat::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
+		TerrainRestrictionCopy = *(genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
 	}
 }
 
@@ -276,7 +276,7 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent& Event)
 	short Selection = TerRestrict_TerRestrict_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection) = TerrainRestrictionCopy;
+		*(genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection) = TerrainRestrictionCopy;
 		ListTerrainRestrictions();
 	}
 }

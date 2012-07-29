@@ -191,7 +191,7 @@ void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
 			Selection = Techs_Techs_List->GetCount() - 1;
 			Techs_Techs_List->SetSelection(Selection);
 		}
-		gdat::Techage * TechPointer = (gdat::Techage*)Techs_Techs_List->GetClientData(Selection);
+		genie::Techage * TechPointer = (genie::Techage*)Techs_Techs_List->GetClientData(Selection);
 		TechID = TechPointer - (&GenieFile->Techages[0]);
 		Techs_Name->ChangeValue(TechPointer->Name);
 		Techs_Name->Container = &TechPointer->Name;
@@ -202,7 +202,7 @@ void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTechageAdd(wxCommandEvent& Event)	// Works.
 {
-	gdat::Techage Temp;
+	genie::Techage Temp;
 	GenieFile->Techages.push_back(Temp);
 	Added = true;
 	ListTechages();
@@ -213,7 +213,7 @@ void AGE_Frame::OnTechageInsert(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Techs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::Techage Temp;
+		genie::Techage Temp;
 		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechID, Temp);
 		ListTechages();
 	}
@@ -237,7 +237,7 @@ void AGE_Frame::OnTechageCopy(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Techs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		TechageCopy = *(gdat::Techage*)Techs_Techs_List->GetClientData(Selection);
+		TechageCopy = *(genie::Techage*)Techs_Techs_List->GetClientData(Selection);
 	}
 }
 
@@ -247,7 +247,7 @@ void AGE_Frame::OnTechagePaste(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Techs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::Techage*)Techs_Techs_List->GetClientData(Selection) = TechageCopy;
+		*(genie::Techage*)Techs_Techs_List->GetClientData(Selection) = TechageCopy;
 		ListTechages();
 	}
 }
@@ -397,7 +397,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 		}
 		Effects_Holder_Type->Show(true);
 		Effects_D->Enable(true);
-		gdat::TechageEffect * EffectPointer = (gdat::TechageEffect*)Techs_Effects_List->GetClientData(Selection);
+		genie::TechageEffect * EffectPointer = (genie::TechageEffect*)Techs_Effects_List->GetClientData(Selection);
 		EffectID = EffectPointer - (&GenieFile->Techages[TechID].Effects[0]);
 		Effects_Type->ChangeValue(lexical_cast<string>((short)(EffectPointer->Type)));
 		Effects_Type->Container = &EffectPointer->Type;
@@ -979,7 +979,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Techs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::TechageEffect Temp;
+		genie::TechageEffect Temp;
 		GenieFile->Techages[TechID].Effects.push_back(Temp);
 		Added = true;
 		ListEffects();
@@ -991,7 +991,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Effects_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::TechageEffect Temp;
+		genie::TechageEffect Temp;
 		GenieFile->Techages[TechID].Effects.insert(GenieFile->Techages[TechID].Effects.begin() + EffectID, Temp);
 		ListEffects();
 	}
@@ -1015,7 +1015,7 @@ void AGE_Frame::OnEffectsCopy(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Effects_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		EffectCopy = *(gdat::TechageEffect*)Techs_Effects_List->GetClientData(Selection);
+		EffectCopy = *(genie::TechageEffect*)Techs_Effects_List->GetClientData(Selection);
 	}
 }
 
@@ -1025,7 +1025,7 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent& Event)	// Works.
 	short Selection = Techs_Effects_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::TechageEffect*)Techs_Effects_List->GetClientData(Selection) = EffectCopy;
+		*(genie::TechageEffect*)Techs_Effects_List->GetClientData(Selection) = EffectCopy;
 		ListEffects();
 	}
 }

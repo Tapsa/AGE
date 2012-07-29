@@ -69,7 +69,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 			Selection = Colors_Colors_List->GetCount() - 1;
 			Colors_Colors_List->SetSelection(Selection);
 		}
-		gdat::PlayerColour * PlayerColorPointer = (gdat::PlayerColour*)Colors_Colors_List->GetClientData(Selection);
+		genie::PlayerColour * PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Selection);
 		ColorID = PlayerColorPointer - (&GenieFile->PlayerColours[0]);
 		Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
 		Colors_ID->Container = &PlayerColorPointer->ID;
@@ -105,7 +105,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent& Event)
 {
-	gdat::PlayerColour Temp;
+	genie::PlayerColour Temp;
 	GenieFile->PlayerColours.push_back(Temp);
 	if(EnableIDFix)
 	GenieFile->PlayerColours[GenieFile->PlayerColours.size() - 1].ID = lexical_cast<long>(GenieFile->PlayerColours.size() - 1);	//	ID Fix
@@ -118,7 +118,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
 	short Selection = Colors_Colors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		gdat::PlayerColour Temp;
+		genie::PlayerColour Temp;
 		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorID, Temp);
 		if(EnableIDFix)
 		for(short loop = ColorID;loop < GenieFile->PlayerColours.size();loop++)	//	ID Fix
@@ -152,7 +152,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
 	short Selection = Colors_Colors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		PlayerColorCopy = *(gdat::PlayerColour*)Colors_Colors_List->GetClientData(Selection);
+		PlayerColorCopy = *(genie::PlayerColour*)Colors_Colors_List->GetClientData(Selection);
 	}
 }
 
@@ -162,7 +162,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 	short Selection = Colors_Colors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		*(gdat::PlayerColour*)Colors_Colors_List->GetClientData(Selection) = PlayerColorCopy;
+		*(genie::PlayerColour*)Colors_Colors_List->GetClientData(Selection) = PlayerColorCopy;
 		if(EnableIDFix)
 		GenieFile->PlayerColours[ColorID].ID = lexical_cast<long>(ColorID);	//	ID Fix
 		ListPlayerColors();

@@ -128,9 +128,9 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 	{
 		try
 		{
-			if(*((long*)Container) != lexical_cast<long>(Value))
+			if(*((int*)Container) != lexical_cast<int>(Value))
 			{
-				*((long*)Container) = lexical_cast<long>(Value);
+				*((int*)Container) = lexical_cast<int>(Value);
 			}
 			else
 			{
@@ -283,7 +283,7 @@ TextCtrl_Float::TextCtrl_Float(wxWindow * parent, string InitValue, float * Poin
 	Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
 }
 
-TextCtrl_Long::TextCtrl_Long(wxWindow * parent, string InitValue, long * Pointer)
+TextCtrl_Long::TextCtrl_Long(wxWindow * parent, string InitValue, int * Pointer)
 : wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
 {
 	Container = Pointer;

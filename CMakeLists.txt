@@ -13,11 +13,16 @@ include( "${wxWidgets_USE_FILE}" )
 
 set(GDAT_TOOLS FALSE)
 set(GDAT_STATIC TRUE)
+set(GUTILS_TOOLS FALSE)
+set(GUTILS_TEST FALSE)
 
-include_directories( ${CMAKE_HOME_DIRECTORY}/extern/geniedat/include
+include_directories(
+#  ${CMAKE_HOME_DIRECTORY}/extern/geniedat/include
+  ${CMAKE_HOME_DIRECTORY}/extern/genieutils/include
   ${Boost_INCLUDE_DIRS})
   
-add_subdirectory (extern/geniedat)
+#add_subdirectory (extern/geniedat)
+add_subdirectory (extern/genieutils)
 
 set(AGE_SRC Main.cpp
 			AGE_AboutDialog.cpp
@@ -48,4 +53,6 @@ set(AGE_SRC Main.cpp
 			
 add_executable(AdvancedGenieEditor2 WIN32 ${AGE_SRC})
 
-target_link_libraries(AdvancedGenieEditor2 ${wxWidgets_LIBRARIES} geniedat)
+target_link_libraries(AdvancedGenieEditor2 ${wxWidgets_LIBRARIES}
+# geniedat
+ genieutils)
