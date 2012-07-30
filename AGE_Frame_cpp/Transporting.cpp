@@ -531,8 +531,10 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/Unknown12", &Decimal, 0);
 				GenieFile->Civs[loop].Units[UnitID].DeadFish.Unknown12 = (float)Decimal;
 				for(short loop2 = 0;loop2 < 17;loop2++)
+				{
 				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/Unknown16_"+lexical_cast<string>(loop2), &Number, 0);
 				GenieFile->Civs[loop].Units[UnitID].DeadFish.Unknown16[loop2] = (char)Number;
+				}
 			}
 			else
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_DeadFish/Unknown16", &Number, 0);
@@ -546,9 +548,9 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/WorkRate", &Decimal, 0);
 			GenieFile->Civs[loop].Units[UnitID].Bird.WorkRate = (float)Decimal;
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/DropSite1", &Number, -1);
-			GenieFile->Civs[loop].Units[UnitID].Bird.DropSite = (int16_t)Number;
+			GenieFile->Civs[loop].Units[UnitID].Bird.DropSite.first = (int16_t)Number;
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/DropSite2", &Number, -1);
-			GenieFile->Civs[loop].Units[UnitID].Bird.DropSite = (int16_t)Number;
+			GenieFile->Civs[loop].Units[UnitID].Bird.DropSite.second = (int16_t)Number;
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/VillagerMode", &Number, 0);
 			GenieFile->Civs[loop].Units[UnitID].Bird.VillagerMode = (char)Number;
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/MoveSound", &Number, -1);
@@ -683,116 +685,127 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 		{
 			for(short loop2 = 0;loop2 < 3;loop2++)
 			{
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/ResourceCost"+lexical_cast<string>(loop2)+"Type", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.ResourceCosts[loop2].Type = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/ResourceCost"+lexical_cast<string>(loop2)+"Amount", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.ResourceCosts[loop2].Amount = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/ResourceCost"+lexical_cast<string>(loop2)+"Enabled", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.ResourceCosts[loop2].Enabled = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/ResourceCost"+lexical_cast<string>(loop2)+"Type", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.ResourceCosts[loop2].Type = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/ResourceCost"+lexical_cast<string>(loop2)+"Amount", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.ResourceCosts[loop2].Amount = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/ResourceCost"+lexical_cast<string>(loop2)+"Enabled", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.ResourceCosts[loop2].Enabled = (int16_t)Number;
 			}
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/TrainTime", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.TrainTime = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/TrainLocationID", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.TrainLocationID = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/ButtonID", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.ButtonID = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/DisplayedPierceArmour", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.DisplayedPierceArmour = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/TrainTime", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.TrainTime = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/TrainLocationID", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.TrainLocationID = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/ButtonID", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.ButtonID = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/DisplayedPierceArmour", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.DisplayedPierceArmour = (int16_t)Number;
 			if(GameVersion >= 2)
 			{
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/Unknown26", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.Unknown26 = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/Unknown26", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.Unknown26 = (char)Number;
 			for(short loop2 = 0;loop2 < 3;loop2++)
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/Unknown27_"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].Creatable.Unknown27[loop2] = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/Unknown28", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.Unknown28 = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/MissileGraphicDelay", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.MissileGraphicDelay = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/HeroMode", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.HeroMode = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/GarrisonGraphic", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.GarrisonGraphic = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationAmount1", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationAmount1 = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationAmount2", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationAmount2 = (YYY)Number;
+			{
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/Unknown27_"+lexical_cast<string>(loop2), &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.Unknown27[loop2] = (int16_t)Number;
+			}
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/Unknown28", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.Unknown28 = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/MissileGraphicDelay", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.MissileGraphicDelay = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/HeroMode", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.HeroMode = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/GarrisonGraphic1", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.GarrisonGraphic.first = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/GarrisonGraphic1", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.GarrisonGraphic.second = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationAmount1", &Decimal, 1);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationAmount1 = (float)Decimal;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationAmount2", &Number, 1);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationAmount2 = (char)Number;
 			for(short loop2 = 0;loop2 < 3;loop2++)
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationSpawning"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationSpawning[loop2] = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationUnit", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationUnit = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationGraphic", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationGraphic = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/Unknown29", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Creatable.Unknown29 = (YYY)Number;
+			{
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationSpawning"+lexical_cast<string>(loop2), &Decimal, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationSpawning[loop2] = (float)Decimal;
+			}
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationUnit", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationUnit = (int32_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/AttackMissileDuplicationGraphic", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.AttackMissileDuplicationGraphic = (int32_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Creatable/Unknown29", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Creatable.Unknown29 = (char)Number;
 			}
 		if(GenieFile->Civs[loop].Units[UnitID].Type >= 80)
 		{
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/ConstructionGraphicID", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.ConstructionGraphicID = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/AdjacentMode", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.AdjacentMode = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown31", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Unknown31 = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown31b", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Unknown31b = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/StackUnitID", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.StackUnitID = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/TerrainID", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.TerrainID = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown32", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Unknown32 = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/ResearchID", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.ResearchID = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/ConstructionSound", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.ConstructionSound = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/ConstructionGraphicID", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.ConstructionGraphicID = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/AdjacentMode", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.AdjacentMode = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown31", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.Unknown31 = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown31b", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.Unknown31b = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/StackUnitID", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.StackUnitID = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/TerrainID", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.TerrainID = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown32", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.Unknown32 = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/ResearchID", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.ResearchID = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/ConstructionSound", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.ConstructionSound = (int16_t)Number;
 			if(GameVersion >= 2)
 			{
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown33", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Unknown33 = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown33", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.Unknown33 = (char)Number;
 			for(short loop2 = 0;loop2 < 4;loop2++)
 			{
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Annex"+lexical_cast<string>(loop2)+"UnitID", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Annexes[loop2].UnitID = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Annex"+lexical_cast<string>(loop2)+"Misplacement1", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Annexes[loop2].Misplacement.first = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Annex"+lexical_cast<string>(loop2)+"Misplacement2", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Annexes[loop2].Misplacement.second = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Annex"+lexical_cast<string>(loop2)+"UnitID", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.Annexes[loop2].UnitID = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Annex"+lexical_cast<string>(loop2)+"Misplacement1", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.Annexes[loop2].Misplacement.first = (float)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Annex"+lexical_cast<string>(loop2)+"Misplacement2", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.Annexes[loop2].Misplacement.second = (float)Number;
 			}
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/HeadUnit", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.HeadUnit = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/TransformUnit", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.TransformUnit = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown34", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Unknown34 = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/GarrisonType", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.GarrisonType = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/GarrisonHealRate", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.GarrisonHealRate = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown35", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Unknown35 = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown36", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.Unknown36 = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/HeadUnit", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.HeadUnit = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/TransformUnit", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.TransformUnit = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown34", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.Unknown34 = (int16_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/GarrisonType", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.GarrisonType = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/GarrisonHealRate", &Decimal, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.GarrisonHealRate = (float)Decimal;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown35", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.Unknown35 = (int32_t)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown36", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.Unknown36 = (int16_t)Number;
 			for(short loop2 = 0;loop2 < 6;loop2++)
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown37_"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitID].Building.Unknown37[loop2] = (YYY)Number;
+			{
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/Unknown37_"+lexical_cast<string>(loop2), &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].Building.Unknown37[loop2] = (char)Number;
+			}
 			if(GameVersion >= 3)
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/SnowGraphicID", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].Building.SnowGraphicID = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Building/SnowGraphicID", &Number, -1);
+			GenieFile->Civs[loop].Units[UnitID].Building.SnowGraphicID = (int16_t)Number;
 			}
 		}}}}}}
 		if(GenieFile->Civs[loop].Units[UnitID].Type == 60)
 		{
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/StretchMode", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.StretchMode = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/CompensationMode", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.CompensationMode = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/DropAnimationMode", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.DropAnimationMode = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/PenetrationMode", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.PenetrationMode = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/Unknown24", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.Unknown24 = (YYY)Number;
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/ProjectileArc", &Number, XXX);
-			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.ProjectileArc = (YYY)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/StretchMode", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.StretchMode = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/CompensationMode", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.CompensationMode = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/DropAnimationMode", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.DropAnimationMode = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/PenetrationMode", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.PenetrationMode = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/Unknown24", &Number, 0);
+			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.Unknown24 = (char)Number;
+			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/ProjectileArc", &Decimal, 0);
+			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.ProjectileArc = (float)Decimal;
 		}}
 	}
 	delete ExtractUnit;
