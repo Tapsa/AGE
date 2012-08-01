@@ -12,7 +12,7 @@ void CheckBox_Bool::OnUpdate(wxCommandEvent& Event)
 
 void CheckBox_Byte::OnUpdate(wxCommandEvent& Event)
 {
-	Container->ChangeValue(lexical_cast<string>((int8_t)GetValue()));
+	Container->ChangeValue(lexical_cast<string>((char)GetValue()));
 
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
@@ -81,7 +81,7 @@ void CheckBox_Byte::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		int8_t Value = lexical_cast<int8_t>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
+		char Value = lexical_cast<char>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
 		((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetValue(Value);
 	}
 }

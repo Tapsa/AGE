@@ -5009,7 +5009,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Main->Add(Units_DataArea, 3, wxEXPAND);
 	Units_Main->Add(10, -1);
 
-	Units_Import->Enable(false);
+	//Units_Import->Enable(false);
 	Units_UnitHeads_List->Enable(false);
 	Units_UnitHeads->Show(false);
 	if(EnableIDFix)

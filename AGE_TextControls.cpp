@@ -49,23 +49,6 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 	{
 		try
 		{
-			if(*((int8_t*)Container) != lexical_cast<int8_t>(Value))
-			{
-				*((int8_t*)Container) = lexical_cast<int8_t>(Value);
-			}
-			else
-			{
-				NoLoadList = true;
-			}
-		}
-		catch(bad_lexical_cast e)
-		{
-			NoLoadList = true;
-			wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
-			SetFocus();
-		}
-		/*try
-		{
 		    if(*((char*)Container) != (char)lexical_cast<short>(Value))
 			{
 			    if(lexical_cast<short>(Value) == (char)lexical_cast<short>(Value))
@@ -89,7 +72,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 			NoLoadList = true;
 		    wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
 		    SetFocus();
-		}*/
+		}
 	}
 	else
 	{
