@@ -5,7 +5,7 @@ using boost::lexical_cast;
 
 void AGE_Frame::LoadDRSFile(wxCommandEvent& Event)
 {
-	ResourceFile = new genie::DrsFile();
+	/*ResourceFile = new genie::DrsFile();
 	try
 	{
 		ResourceFile->setGameVersion(GenieFile->getGameVersion());
@@ -18,14 +18,14 @@ void AGE_Frame::LoadDRSFile(wxCommandEvent& Event)
 		wxMessageBox("Unable to load the file!");
 		DRS_StatusText->SetLabel("Loading failed.");
 		return;
-	}
+	}*/
 }
 
 void AGE_Frame::UnLoadDRSFile(wxCommandEvent& Event)
 {
-	delete ResourceFile;
+	/*delete ResourceFile;
 	ResourceFile = 0;
-	DRS_StatusText->SetLabel("DRS file unloaded.");
+	DRS_StatusText->SetLabel("DRS file unloaded.");*/
 }
 
 void AGE_Frame::CreateDRSControls()
@@ -39,7 +39,7 @@ void AGE_Frame::CreateDRSControls()
 	DRS_Path_FileLocation = new wxFilePickerCtrl(Tab_DRS, wxID_ANY, "", "Select a file", "DRS File (*.drs)|*.drs", wxDefaultPosition, wxSize(300, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	DRS_LoadButton = new wxButton(Tab_DRS, wxID_ANY, "Load DRS File");
 	DRS_UnLoadButton = new wxButton(Tab_DRS, wxID_ANY, "Unload DRS File");
-	DRS_StatusText = new wxStaticText(Tab_DRS, wxID_ANY, "Awaiting user...");
+	DRS_StatusText = new wxStaticText(Tab_DRS, wxID_ANY, "Awaiting user... (*DISABLED*)");
 	
 	DRS_TopRow->Add(10, -1);
 	DRS_TopRow->Add(DRS_Text_FileLocation, 0, wxEXPAND);

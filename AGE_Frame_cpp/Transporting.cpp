@@ -3,7 +3,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-#define VERSION_EXTRACT 1.1
+#define VERSION_EXTRACT 1.2
 
 void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 {
@@ -151,39 +151,6 @@ void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/MoveSound", GenieFile->Civs[loop].Units[UnitID].Bird.MoveSound);
 			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/StopSound", GenieFile->Civs[loop].Units[UnitID].Bird.StopSound);
 			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/AnimalMode", GenieFile->Civs[loop].Units[UnitID].Bird.AnimalMode);
-			if(GameVersion < 2)
-			{
-			CountHolder = GenieFile->Civs[loop].Units[UnitID].Bird.Commands.size();
-			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/CommandCount", CountHolder);
-			for(short loop2 = 0;loop2 < CountHolder;loop2++)
-			{
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"One", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].One);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ID", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ID);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown1", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown1);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Type", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Type);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ClassID", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ClassID);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"UnitID", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].UnitID);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown2", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown2);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceIn", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ResourceIn);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"SubType", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].SubType);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceOut", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ResourceOut);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown3", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown3);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown4", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown4);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ExecutionRadius", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ExecutionRadius);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown5", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown5);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown6", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown6);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown7", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown7);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown8", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown8);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown9", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown9);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown10", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown10);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown11", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown11);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown12", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown12);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown13", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown13);
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown14", GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown14);
-				for(short loop3 = 0;loop3 < 6;loop3++)
-				ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Graphic"+lexical_cast<string>(loop3), GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Graphics[loop3]);
-			}
-			}
 		if(GenieFile->Civs[loop].Units[UnitID].Type >= 60)
 		{
 			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/Unknown20", GenieFile->Civs[loop].Units[UnitID].Projectile.Unknown20);
@@ -297,6 +264,70 @@ void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 			ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_ProjectileOnly/ProjectileArc", GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.ProjectileArc);
 		}}
 	}
+	/*if(GameVersion < 2)
+	{
+	CountHolder = GenieFile->Civs[0].Units[UnitID].Bird.Commands.size();
+	ExtractUnit->Write("CivX_Unit_Bird/CommandCount", CountHolder);
+	for(short loop2 = 0;loop2 < CountHolder;loop2++)
+	{
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"One", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].One);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown1", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown1);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Type", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Type);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ClassID", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].ClassID);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"UnitID", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].UnitID);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown2", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown2);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceIn", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].ResourceIn);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"SubType", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].SubType);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceOut", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].ResourceOut);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown3", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown3);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown4", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown4);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ExecutionRadius", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].ExecutionRadius);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown5", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown5);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown6", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown6);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown7", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown7);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown8", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown8);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown9", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown9);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown10", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown10);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown11", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown11);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown12", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown12);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown13", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown13);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown14", GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown14);
+		for(short loop3 = 0;loop3 < 6;loop3++)
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Graphic"+lexical_cast<string>(loop3), GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Graphics[loop3]);
+	}
+	}
+	else
+	{
+	CountHolder = GenieFile->UnitHeaders[UnitID].Commands.size();
+	ExtractUnit->Write("CivX_Unit_Bird/CommandCount", CountHolder);
+	for(short loop2 = 0;loop2 < CountHolder;loop2++)
+	{
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"One", GenieFile->UnitHeaders[UnitID].Commands[loop2].One);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown1", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown1);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Type", GenieFile->UnitHeaders[UnitID].Commands[loop2].Type);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ClassID", GenieFile->UnitHeaders[UnitID].Commands[loop2].ClassID);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"UnitID", GenieFile->UnitHeaders[UnitID].Commands[loop2].UnitID);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown2", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown2);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceIn", GenieFile->UnitHeaders[UnitID].Commands[loop2].ResourceIn);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"SubType", GenieFile->UnitHeaders[UnitID].Commands[loop2].SubType);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceOut", GenieFile->UnitHeaders[UnitID].Commands[loop2].ResourceOut);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown3", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown3);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown4", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown4);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ExecutionRadius", GenieFile->UnitHeaders[UnitID].Commands[loop2].ExecutionRadius);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown5", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown5);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown6", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown6);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown7", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown7);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown8", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown8);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown9", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown9);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown10", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown10);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown11", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown11);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown12", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown12);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown13", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown13);
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown14", GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown14);
+		for(short loop3 = 0;loop3 < 6;loop3++)
+		ExtractUnit->Write("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Graphic"+lexical_cast<string>(loop3), GenieFile->UnitHeaders[UnitID].Commands[loop2].Graphics[loop3]);
+	}
+	}*/
 	delete ExtractUnit;
 }
 
@@ -492,8 +523,8 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitID].ResourceStorages[loop2].Enabled = (char)Number;
 		}
 		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/DamageGraphicCount", &Number, 0);
-		GenieFile->Civs[loop].Units[UnitID].DamageGraphics.size() = (unsigned char)Number;
-		for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units[UnitID].DamageGraphics.size()Number;loop2++)
+		GenieFile->Civs[loop].Units[UnitID].DamageGraphics.resize((unsigned char)Number);
+		for(short loop2 = 0;loop2 < (short)Number;loop2++)
 		{
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Dama"+lexical_cast<string>(loop2)+"GraphicID", &Number, -1);
 			GenieFile->Civs[loop].Units[UnitID].DamageGraphics[loop2].GraphicID = (int16_t)Number;
@@ -559,70 +590,13 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitID].Bird.StopSound = (int16_t)Number;
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/AnimalMode", &Number, 0);
 			GenieFile->Civs[loop].Units[UnitID].Bird.AnimalMode = (char)Number;
-			if(GameVersion < 2)
-			{
-			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/CommandCount", &Number, 0);
-			GenieFile->Civs[loop].Units[UnitID].Bird.Commands.size() = (uint16_t)Number;
-			for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units[UnitID].Bird.Commands.size()Number;loop2++)
-			{
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"One", &Number, 1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].One = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ID", &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ID = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown1", &Number, 0);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown1 = (char)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Type", &Number, 7);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Type = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ClassID", &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ClassID = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"UnitID", &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].UnitID = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown2", &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown2 = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceIn", &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ResourceIn = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"SubType", &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].SubType = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceOut", &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ResourceOut = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown3", &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown3 = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown4", &Decimal, 0);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown4 = (float)Decimal;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ExecutionRadius", &Decimal, 0);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ExecutionRadius = (float)Decimal;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown5", &Decimal, 0);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown5 = (float)Decimal;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown6", &Number, 1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown6 = (char)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown7", &Decimal, 3);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown7 = (float)Decimal;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown8", &Number, 1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown8 = (char)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown9", &Number, 1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown9 = (char)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown10", &Number, 1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown10 = (char)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown11", &Number, 0);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown11 = (char)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown12", &Number, 0);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown12 = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown13", &Number, 5);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown13 = (int16_t)Number;
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown14", &Number, 9);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Unknown14 = (char)Number;
-				for(short loop3 = 0;loop3 < 6;loop3++)
-				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Graphic"+lexical_cast<string>(loop3), &Number, -1);
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].Graphics[loop3] = (int16_t)Number;
-			}
-			}
 		if(GenieFile->Civs[loop].Units[UnitID].Type >= 60)
 		{
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/Unknown20", &Number, 0);
 			GenieFile->Civs[loop].Units[UnitID].Projectile.Unknown20 = (char)Number;
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/AttackCount", &Number, 0);
-			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.size() = (uint16_t)Number;
-			for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.size()Number;loop2++)
+			GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks.resize((uint16_t)Number);
+			for(short loop2 = 0;loop2 < (short)Number;loop2++)
 			{
 				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/Attack"+lexical_cast<string>(loop2)+"Class", &Number, 0);
 				GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks[loop2].Class = (int16_t)Number;
@@ -630,8 +604,8 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 				GenieFile->Civs[loop].Units[UnitID].Projectile.Attacks[loop2].Amount = (int16_t)Number;
 			}
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/ArmourCount", &Number, 0);
-			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.size() = (uint16_t)Number;
-			for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.size()Number;loop2++)
+			GenieFile->Civs[loop].Units[UnitID].Projectile.Armours.resize((uint16_t)Number);
+			for(short loop2 = 0;loop2 < (short)Number;loop2++)
 			{
 				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/Armor"+lexical_cast<string>(loop2)+"Class", &Number, 0);
 				GenieFile->Civs[loop].Units[UnitID].Projectile.Armours[loop2].Class = (int16_t)Number;
@@ -808,5 +782,120 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitID].ProjectileOnly.ProjectileArc = (float)Decimal;
 		}}
 	}
+	/*if(GameVersion < 2)
+	{
+	ExtractUnit->Read("CivX_Unit_Bird/CommandCount", &Number, 0);
+	GenieFile->Civs[0].Units[UnitID].Bird.Commands.resize((int16_t)Number);
+	for(short loop2 = 0;loop2 < (short)Number;loop2++)
+	{
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"One", &Number, 1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].One = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown1", &Number, 0);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown1 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Type", &Number, 7);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Type = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ClassID", &Number, -1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].ClassID = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"UnitID", &Number, -1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].UnitID = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown2", &Number, -1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown2 = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceIn", &Number, -1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].ResourceIn = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"SubType", &Number, -1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].SubType = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceOut", &Number, -1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].ResourceOut = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown3", &Number, -1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown3 = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown4", &Decimal, 0);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown4 = (float)Decimal;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ExecutionRadius", &Decimal, 0);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].ExecutionRadius = (float)Decimal;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown5", &Decimal, 0);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown5 = (float)Decimal;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown6", &Number, 1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown6 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown7", &Decimal, 3);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown7 = (float)Decimal;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown8", &Number, 1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown8 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown9", &Number, 1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown9 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown10", &Number, 1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown10 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown11", &Number, 0);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown11 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown12", &Number, 0);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown12 = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown13", &Number, 5); 
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown13 = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown14", &Number, 9);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Unknown14 = (char)Number;
+		for(short loop3 = 0;loop3 < 6;loop3++)
+		{
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Graphic"+lexical_cast<string>(loop3), &Number, -1);
+		GenieFile->Civs[0].Units[UnitID].Bird.Commands[loop2].Graphics[loop3] = (int16_t)Number;
+		}
+	}
+	}
+	else
+	{
+	ExtractUnit->Read("CivX_Unit_Bird/CommandCount", &Number, 0);
+	GenieFile->UnitHeaders[UnitID].Commands.resize((int16_t)Number);
+	//wxMessageBox("Command count = "lexical_cast<string>(GenieFile->Civs[0].Units[UnitID].Bird.Commands.size()));
+	for(short loop2 = 0;loop2 < (short)Number;loop2++)
+	{
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"One", &Number, 1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].One = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown1", &Number, 0);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown1 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Type", &Number, 7);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Type = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ClassID", &Number, -1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].ClassID = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"UnitID", &Number, -1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].UnitID = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown2", &Number, -1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown2 = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceIn", &Number, -1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].ResourceIn = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"SubType", &Number, -1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].SubType = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ResourceOut", &Number, -1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].ResourceOut = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown3", &Number, -1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown3 = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown4", &Decimal, 0);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown4 = (float)Decimal;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"ExecutionRadius", &Decimal, 0);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].ExecutionRadius = (float)Decimal;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown5", &Decimal, 0);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown5 = (float)Decimal;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown6", &Number, 1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown6 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown7", &Decimal, 3);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown7 = (float)Decimal;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown8", &Number, 1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown8 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown9", &Number, 1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown9 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown10", &Number, 1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown10 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown11", &Number, 0);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown11 = (char)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown12", &Number, 0);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown12 = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown13", &Number, 5);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown13 = (int16_t)Number;
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown14", &Number, 9);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Unknown14 = (char)Number;
+		for(short loop3 = 0;loop3 < 6;loop3++)
+		{
+		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Graphic"+lexical_cast<string>(loop3), &Number, -1);
+		GenieFile->UnitHeaders[UnitID].Commands[loop2].Graphics[loop3] = (int16_t)Number;
+		}
+	}
+	}*/
 	delete ExtractUnit;
 }
