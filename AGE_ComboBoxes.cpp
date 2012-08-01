@@ -128,7 +128,7 @@ void ComboBox_Byte::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		int8_t Value = lexical_cast<int8_t>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
+		char Value = lexical_cast<char>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
 		((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetSelection(0);
 		((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetSelection(Value + 1);
 	}
@@ -172,7 +172,7 @@ void ComboBox_Byte_EffectType::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		int8_t Value = lexical_cast<int8_t>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
+		char Value = lexical_cast<char>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
 		if((Value >= 0) && (Value <= 6))
 		{
 			((ComboBox_Byte_EffectType*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetSelection(Value + 1);
