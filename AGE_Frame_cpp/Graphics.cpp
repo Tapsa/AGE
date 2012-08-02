@@ -454,6 +454,7 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent& Event)
 	if(Selection != wxNOT_FOUND)
 	{
 		GenieFile->GraphicPointers[GraphicID] = lexical_cast<long>(1);
+		GenieFile->Graphics[GraphicID].ID = lexical_cast<short>(GraphicID);	//	ID Fix
 		ListGraphics();
 	}
 }
