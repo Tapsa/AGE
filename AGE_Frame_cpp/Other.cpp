@@ -101,10 +101,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		OpenBox.Path_LangX1FileLocation->SetPath(LangX1FileName);
 		OpenBox.Path_LangX1P1FileLocation->SetPath(LangX1P1FileName);
 
-		if (OpenBox.ShowModal() != wxID_OK)
-		{
-			return;
-		}
+		if(OpenBox.ShowModal() != wxID_OK) return; // What this does?
 
 		GameVersion = OpenBox.CheckBox_GenieVer->GetSelection();
 		if(OpenBox.Radio_DatFileLocation->GetValue())
@@ -199,6 +196,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			if(GenieFile != NULL)
 			{
 				delete GenieFile;
+				GenieFile = NULL;
 			}
 
 			{
@@ -214,6 +212,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				catch(std::ios_base::failure e)
 				{
 					delete GenieFile;
+					GenieFile = NULL;
 					wxMessageBox("Unable to load the file!");
 					return;
 				}
@@ -231,6 +230,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	{	// Without these, nothing can be edited.
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
+		//wxMessageBox("Started to open the file!");
+		//Units_Civs_List->SetSelection(0);
 
 //		ID and pointer fixes
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
@@ -726,13 +727,13 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			}
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
 		}
-		Customs->Write("Count/ExtraCount", ExtraCount);
+		/*Customs->Write("Count/ExtraCount", ExtraCount);
 		for(short loop2 = 0;loop2 < ExtraCount;loop2++)
 		{
 			MoveHolder = Attacks_ComboBox_Class[0]->GetString(loop2+32);
 			//wxMessageBox(MoveHolder);
 			Customs->Write("Names/"+lexical_cast<string>(loop2+31), MoveHolder);
-		}
+		}*/
 		delete Customs;
 
 		for(short loop = 0;loop < 2;loop++)
@@ -793,9 +794,10 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Research_Research_SearchFilters[loop]->SetSelection(0);
 		}
 
+		//wxMessageBox("Loaded!");
 		if(GameVersion >= 2)
 		{
-			ListUnitHeads();	// This needs to happen before unit listing to avoid crash.
+			ListUnitHeads(Zero);	// This needs to happen before unit listing to avoid crash.
 			ListTTAgess();
 			ListTTBuildings();
 			ListTTUnits();
@@ -1410,7 +1412,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	delete Config;
 
 	delete GenieFile;
-	GenieFile = 0;
+	GenieFile = NULL;
 
 	TabBar_Main->Show(false);
 	TabBar_Main->Destroy();
