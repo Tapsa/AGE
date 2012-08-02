@@ -400,7 +400,7 @@ class AGE_Frame : public wxFrame
 
 //	Unit Events
 
-	void ListUnitHeads();
+	void ListUnitHeads(short &CivID);
 	void OnUnitHeadsSelect(wxCommandEvent& Event);
 
 	void ListUnitCommands();
