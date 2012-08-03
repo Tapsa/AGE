@@ -1,9 +1,14 @@
 /* AGEFrame_cpp/PlayerColors.cpp */
 
 #include "../AGE_Frame.h"
+#include "wx/dynarray.h"
 using boost::lexical_cast;
 
-wxArrayInt Items;
+wxArrayInt Items, ItemIDs;
+//typedef wxArray<genie::PlayerColour> PlayerColorCopies;
+WX_DECLARE_OBJARRAY(genie::PlayerColour, PlayerColorCopies);
+#include <wx/arrimpl.cpp>
+WX_DEFINE_OBJARRAY(PlayerColorCopies);
 
 string AGE_Frame::GetPlayerColorName(short &Index)
 {
@@ -21,22 +26,13 @@ string AGE_Frame::GetPlayerColorName(short &Index)
 
 void AGE_Frame::ListPlayerColors()
 {
-	string Name;
+	string Name, CompareText;
 	SearchText = wxString(Colors_Colors_Search->GetValue()).Lower();
 	ExcludeText = wxString(Colors_Colors_Search_R->GetValue()).Lower();
-	string CompareText;
 
 	short Selections = Colors_Colors_List->GetSelections(Items);
 
-	if(Colors_Colors_List->GetCount() > 0)
-	{
-		Colors_Colors_List->Clear();
-	}
-
-	if(Selections == wxNOT_FOUND)
-	{
-		Selections = 0;
-	}
+	if(Colors_Colors_List->GetCount() > 0) Colors_Colors_List->Clear();
 
 	for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
 	{
@@ -48,9 +44,21 @@ void AGE_Frame::ListPlayerColors()
 		}
 	}
 
-	Colors_Colors_List->SetSelection(0);
-	Colors_Colors_List->SetFirstItem(Items.Item(0) - 3);
-	Colors_Colors_List->SetSelection(Items.Item(0));
+	if(Selections == 0)
+		Colors_Colors_List->SetSelection(0);
+	else
+	{
+		if(Added)
+		{
+			Colors_Colors_List->SetSelection(Colors_Colors_List->GetCount() - 1);
+			Added = false;
+		}
+		else
+		{
+			Colors_Colors_List->SetFirstItem(Items.Item(0) - 3);
+			Colors_Colors_List->SetSelection(Items.Item(0));
+		}
+	}
 
 	wxCommandEvent E;
 	OnPlayerColorsSelect(E);
@@ -64,17 +72,12 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent& Event)
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 {
 	short Selections = Colors_Colors_List->GetSelections(Items);
-	wxString Info = lexical_cast<string>(Items.GetCount())+" items selected.";
-	for(short loop = 0;loop < Items.GetCount();loop++)
+	wxString Info = lexical_cast<string>(Selections)+" items selected.";
+	for(short loop = 0;loop < Selections;loop++)
 	Info += " "+lexical_cast<string>(Items.Item(loop));
 	SetStatusText(Info, 0);
-	if(Selections != wxNOT_FOUND)
+	if(Selections != 0)
 	{
-		if(Added)
-		{
-			Selection = Colors_Colors_List->GetCount() - 1;
-			Colors_Colors_List->SetSelection(Selection);
-		}
 		genie::PlayerColour * PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(0));
 		ColorID = PlayerColorPointer - (&GenieFile->PlayerColours[0]);
 		Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
@@ -105,25 +108,38 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 			Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
 			Colors_Unknown5->Container = &PlayerColorPointer->Unknown5;
 		}
-		Added = false;
 	}
 }
 
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent& Event)
 {
+	short Last = GenieFile->PlayerColours.size();
 	genie::PlayerColour Temp;
 	GenieFile->PlayerColours.push_back(Temp);
 	if(EnableIDFix)
-	GenieFile->PlayerColours[GenieFile->PlayerColours.size() - 1].ID = lexical_cast<long>(GenieFile->PlayerColours.size() - 1);	//	ID Fix
-	Added = true;
-	ListPlayerColors();
+	GenieFile->PlayerColours[Last].ID = lexical_cast<long>(Last);	//	ID Fix
+	//Added = true;
+	//ListPlayerColors();
+	
+	// On debugger data gets wrong. Without debugger it appears fine. So is there a problem or not?
+	short Selections = Colors_Colors_List->GetSelections(Items);
+	if(Selections > 0)
+	for(short loop = 0;loop < Selections;loop++)
+	Colors_Colors_List->Deselect(Items.Item(loop));
+	
+	Colors_Colors_List->Append(" "+lexical_cast<string>(Last)+" - "+GetPlayerColorName(Last), (void*)&GenieFile->PlayerColours[Last]);
+	Colors_Colors_List->SetSelection(Last);
+
+	wxCommandEvent E;
+	OnPlayerColorsSelect(E);
 }
 
 void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
 {
 	short Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != wxNOT_FOUND)
+	if(Selections != 0)
 	{
+		wxBusyCursor WaitCursor;
 		genie::PlayerColour Temp;
 		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorID, Temp);
 		if(EnableIDFix)
@@ -132,47 +148,89 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
 			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
 		}
 		ListPlayerColors();
+		/*Colors_Colors_List->Insert(" "+lexical_cast<string>(ColorID)+" - "+GetPlayerColorName(ColorID), Items.Item(0), (void*)&GenieFile->PlayerColours[Last]);
+
+		wxCommandEvent E;
+		OnPlayerColorsSelect(E);*/
 	}
 }
 
 void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
 {
 	short Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != wxNOT_FOUND)
+	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorID);
+		ItemIDs.Clear();
+		ItemIDs.Alloc(Selections);
+		for(short loop = 0;loop < Selections;loop++)
+		{
+			genie::PlayerColour * PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
+			ItemIDs.Add(PlayerColorPointer - (&GenieFile->PlayerColours[0]));
+			GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ItemIDs.Item(loop));
+		}
+		
 		if(EnableIDFix)
 		for(short loop = ColorID;loop < GenieFile->PlayerColours.size();loop++)	//	ID Fix
 		{
 			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
 		}
-		if(Selection == Colors_Colors_List->GetCount() - 1)
-		Colors_Colors_List->SetSelection(Selection - 1);
-		ListPlayerColors();
+		if(Items.Item(0) == Colors_Colors_List->GetCount() - 1)
+		Colors_Colors_List->SetSelection(Items.Item(0) - 1);
+		
+		//ListPlayerColors();
+		// Because I don't want to relist, I have to rename the existing ones anyway.
+		// Is it faster to relist or rename? Probably rename.
+		for(short loop = Items.Item(0);loop < Colors_Colors_List->GetCount();loop++)
+		Colors_Colors_List->SetString(loop, " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop));
+		
+		for(short loop = Selections-1;loop >= 0;loop--)
+		Colors_Colors_List->Delete(Items.Item(loop));
+
+		wxCommandEvent E;
+		OnPlayerColorsSelect(E);
 	}
 }
 
 void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
 {
-	short Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != wxNOT_FOUND)
+	/*short Selections = Colors_Colors_List->GetSelections(Items);
+	if(Selections != 0)
 	{
-		PlayerColorCopy = *(genie::PlayerColour*)Colors_Colors_List->GetClientData(Selection);
-	}
+		wxBusyCursor WaitCursor;
+		PlayerColorCopies.Clear();
+		PlayerColorCopies.Alloc(Selections);
+		for(short loop = 0;loop < Selections;loop++)
+		PlayerColorCopies.Add(*(genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop)));
+	}*/
 }
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
-	short Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != wxNOT_FOUND)
+	/*short Selections = Colors_Colors_List->GetSelections(Items);
+	if(Selections != 0)
 	{
-		*(genie::PlayerColour*)Colors_Colors_List->GetClientData(Selection) = PlayerColorCopy;
+		wxBusyCursor WaitCursor;
+		for(short loop = 0;loop < PlayerColorCopies.GetCount();loop++)
+		Colors_Colors_List->SetSelection(Items.Item(0)+loop);
+		
+		ItemIDs.Clear();
+		ItemIDs.Alloc(Selections);
+		for(short loop = 0;loop < Selections;loop++)
+		{
+			genie::PlayerColour * PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
+			ItemIDs.Add(PlayerColorPointer - (&GenieFile->PlayerColours[0]));
+			GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ItemIDs.Item(loop));
+		}
+		
+		for(short loop = 0;loop < PlayerColorCopies.GetCount();loop++)
+		{
+		*(genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop)) = PlayerColorCopies.Item(loop);
 		if(EnableIDFix)
 		GenieFile->PlayerColours[ColorID].ID = lexical_cast<long>(ColorID);	//	ID Fix
+		}
 		ListPlayerColors();
-	}
+	}*/
 }
 
 void AGE_Frame::CreatePlayerColorControls()
