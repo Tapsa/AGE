@@ -10,7 +10,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 	if(!SkipOpenDialog)
 	{
-		AGE_OpenDialog OpenBox (this, NeedDat);
+		AGE_OpenDialog OpenBox(this, NeedDat);
 
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
 
@@ -1328,7 +1328,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 //	int ErrCode = 0;
 	wxCommandEvent Selected;
 
-		AGE_SaveDialog SaveBox (this);
+		AGE_SaveDialog SaveBox(this);
 		SaveBox.Path_DatFileLocation->SetFocus();
 
 		SaveBox.DriveLetterBox->ChangeValue(DriveLetter);
