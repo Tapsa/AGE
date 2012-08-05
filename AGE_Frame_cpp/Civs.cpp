@@ -87,9 +87,7 @@ void AGE_Frame::ListCivs(bool Sized)
 		}
 	}
 
-	Civs_Civs_List->SetSelection(0);
-	Civs_Civs_List->SetFirstItem(Selection - 3);
-	Civs_Civs_List->SetSelection(Selection);
+	ListingFix(Selection, Civs_Civs_List);
 	if(Sized)
 	{
 		Research_ComboBox_Civ->SetSelection(CivIDs[0]);
@@ -107,11 +105,6 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 	short Selection = Civs_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Civs_Civs_List->GetCount() - 1;
-			Civs_Civs_List->SetSelection(Selection);
-		}
 		genie::Civ * CivPointer = (genie::Civ*)Civs_Civs_List->GetClientData(Selection);
 		CivID = CivPointer - (&GenieFile->Civs[0]);
 		Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
@@ -136,7 +129,6 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
 		Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->GraphicSet));
 		Civs_GraphicSet->Container = &CivPointer->GraphicSet;
-		Added = false;
 		ListResources();
 	}
 }
@@ -1227,9 +1219,7 @@ void AGE_Frame::ListResources(bool Sized)
 		}
 	}
 
-	Civs_Resources_List->SetSelection(0);
-	Civs_Resources_List->SetFirstItem(Selection - 3);
-	Civs_Resources_List->SetSelection(Selection);
+	ListingFix(Selection, Civs_Resources_List);
 	if(Sized)
 	{
 		for(short loop = 0;loop < 3;loop++)
@@ -1253,16 +1243,10 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent& Event)
 	short Selection = Civs_Resources_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Civs_Resources_List->GetCount() - 1;
-			Civs_Resources_List->SetSelection(Selection);
-		}
 		float * CivResourcePointer = (float*)Civs_Resources_List->GetClientData(Selection);
 		ResourceID = CivResourcePointer - (&GenieFile->Civs[CivID].Resources[0]);
 		Civs_ResourceValue->ChangeValue(lexical_cast<string>(*CivResourcePointer));
 		Civs_ResourceValue->Container = CivResourcePointer;
-		Added = false;
 	}
 }
 

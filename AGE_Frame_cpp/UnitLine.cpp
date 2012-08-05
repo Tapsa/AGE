@@ -63,9 +63,7 @@ void AGE_Frame::ListUnitLines()
 		Units_ComboBox_Unitline->Append(Name);
 	}
 
-	UnitLines_UnitLines_List->SetSelection(0);
-	UnitLines_UnitLines_List->SetFirstItem(Selection - 3);
-	UnitLines_UnitLines_List->SetSelection(Selection);
+	ListingFix(Selection, UnitLines_UnitLines_List);
 	Units_ComboBox_Unitline->SetSelection(UnitIDs);
 
 	wxCommandEvent E;
@@ -77,18 +75,12 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
 	short Selection = UnitLines_UnitLines_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = UnitLines_UnitLines_List->GetCount() - 1;
-			UnitLines_UnitLines_List->SetSelection(Selection);
-		}
 		genie::UnitLine * LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection);
 		UnitLineID = LinePointer - (&GenieFile->UnitLines[0]);
 		UnitLines_ID->ChangeValue(lexical_cast<string>(LinePointer->ID));
 		UnitLines_ID->Container = &LinePointer->ID;
 		UnitLines_Name->ChangeValue(LinePointer->Name);
 		UnitLines_Name->Container = &LinePointer->Name;
-		Added = false;
 		ListUnitLineUnits();
 	}
 }
@@ -208,9 +200,7 @@ void AGE_Frame::ListUnitLineUnits()
 			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[UnitLineID].UnitIDs[loop]);
 		}
 	}
-	UnitLines_UnitLineUnits_List->SetSelection(0);
-	UnitLines_UnitLineUnits_List->SetFirstItem(Selection - 3);
-	UnitLines_UnitLineUnits_List->SetSelection(Selection);
+	ListingFix(Selection, UnitLines_UnitLineUnits_List);
 
 	wxCommandEvent E;
 	OnUnitLineUnitsSelect(E);
@@ -221,17 +211,11 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent& Event)
 	short Selection = UnitLines_UnitLineUnits_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = UnitLines_UnitLineUnits_List->GetCount() - 1;
-			UnitLines_UnitLineUnits_List->SetSelection(Selection);
-		}
 		short * UnitPointer = (short*)UnitLines_UnitLineUnits_List->GetClientData(Selection);
 		UnitLineUnitID = UnitPointer - (&GenieFile->UnitLines[UnitLineID].UnitIDs[0]);
 		UnitLineUnits_Units->ChangeValue(lexical_cast<string>(*UnitPointer));
 		UnitLineUnits_Units->Container = UnitPointer;
 		UnitLineUnits_ComboBox_Units->SetSelection(*UnitPointer + 1);
-		Added = false;
 	}
 	else
 	{

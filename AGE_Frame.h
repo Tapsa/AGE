@@ -24,6 +24,7 @@
 #include "GateOpen.xpm"
 #include "GateClosed.xpm"
 #include "Question.xpm"
+#include <wx/dynarray.h>
 //#include "AGE_Frame_cpp/Colors.h"
 
 /*class MyCanvas : public wxSFMLCanvas
@@ -62,6 +63,9 @@ private :
     sf::Image  myImage;  ///< Some image to load...
     sf::Sprite mySprite; ///< Something to draw...
 };*/
+
+//class genie::PlayerColour;
+WX_DECLARE_OBJARRAY(genie::PlayerColour, ArrayPlayerColour);
 
 class AGE_Frame : public wxFrame
 {
@@ -160,6 +164,7 @@ class AGE_Frame : public wxFrame
 //	bool FileExists(const char * value);
 	wxString SearchText, ExcludeText;
 	bool SearchMatches(string &CompareText);
+	void ListingFix(short &Selections, wxListBox* &List);
 
 //	General Events
 
@@ -595,6 +600,7 @@ class AGE_Frame : public wxFrame
 	short IDtoRestore[100];
 	genie::Civ CivBackup[20];	// Only temporary solution!*/
 
+	wxArrayInt Items;
 	long TechTreePage;
 	long TechTreeSize;
 	genie::Research ResearchCopy;
@@ -606,31 +612,31 @@ class AGE_Frame : public wxFrame
 	genie::TechTreeAge TTAgeCopy;
 	short TTAgeID;
 	long TTAgeBuildingCopy;
-	long TTAgeBuildingID;
+	short TTAgeBuildingID;
 	long TTAgeUnitCopy;
-	long TTAgeUnitID;
+	short TTAgeUnitID;
 	long TTAgeResearchCopy;
-	long TTAgeResearchID;
+	short TTAgeResearchID;
 	genie::BuildingConnection TTBuildingConnectionCopy;
 	short TTBuildingConnectionID;
 	long TTBuildingBuildingCopy;
-	long TTBuildingBuildingID;
+	short TTBuildingBuildingID;
 	long TTBuildingUnitCopy;
-	long TTBuildingUnitID;
+	short TTBuildingUnitID;
 	long TTBuildingResearchCopy;
-	long TTBuildingResearchID;
+	short TTBuildingResearchID;
 	genie::UnitConnection TTUnitConnectionCopy;
 	short TTUnitConnectionID;
 	long TTUnitUnitCopy;
-	long TTUnitUnitID;
+	short TTUnitUnitID;
 	genie::ResearchConnection TTResearchConnectionCopy;
 	short TTResearchConnectionID;
 	long TTResearchBuildingCopy;
-	long TTResearchBuildingID;
+	short TTResearchBuildingID;
 	long TTResearchUnitCopy;
-	long TTResearchUnitID;
+	short TTResearchUnitID;
 	long TTResearchResearchCopy;
-	long TTResearchResearchID;
+	short TTResearchResearchID;
 
 	static const short MaxCivs = 30;
 	short Zero;
@@ -675,8 +681,8 @@ class AGE_Frame : public wxFrame
 	short SoundID;
 	genie::SoundItem SoundItemCopy;
 	short SoundItemID;
-	genie::PlayerColour PlayerColorCopy;
-	short ColorID;
+	ArrayPlayerColour PlayerColorCopies;
+	wxArrayInt ColorIDs;
 	genie::TerrainBorder TerrainBorderCopy;
 	short BorderID;
 	genie::TBFrameData TBFrameDataCopy;
@@ -2880,5 +2886,10 @@ class AGE_Frame : public wxFrame
 	wxButton * DRS_LoadButton;
 	wxButton * DRS_UnLoadButton;
 	wxStaticText * DRS_StatusText;
+
+	/*template <class C, typename T> // These would only increase the file size.
+	void AddToList(C &Temp, T &Path);
+	template <class C, typename T>
+	void AddToListIDFix(C &Temp, T &Path);*/
 
 };
