@@ -2515,9 +2515,18 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Buildings_Unknown2b2[loop] = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);
 	TechTrees_Buildings_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Buildings_Grid_Unknown3 = new wxGridSizer(11, 0, 0);
-	TechTrees_Buildings_Text_Unknown3 = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Some Sequence", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TechTrees_Buildings_Text_Unknown3 = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Some Sequence *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 11;loop++)
 	TechTrees_Buildings_Unknown3[loop] = new TextCtrl_Byte(TechTrees_Scroller, "0", NULL);
+	TechTrees_Buildings_Unknown3[2]->SetToolTip("Units+techs in 1st Age?");
+	TechTrees_Buildings_Unknown3[3]->SetToolTip("Units+techs in 2nd Age?");
+	TechTrees_Buildings_Unknown3[4]->SetToolTip("Units+techs in 3rd Age?");
+	TechTrees_Buildings_Unknown3[5]->SetToolTip("Units+techs in 4th Age?");
+	TechTrees_Buildings_Unknown3[7]->SetToolTip("Units+techs on first line in 1st Age?");
+	TechTrees_Buildings_Unknown3[8]->SetToolTip("Units+techs on first line in 2nd Age?");
+	TechTrees_Buildings_Unknown3[9]->SetToolTip("Units+techs on first line in 3rd Age?");
+	TechTrees_Buildings_Unknown3[10]->SetToolTip("Units+techs on first line in 4th Age?");
+	
 	TechTrees_Buildings_Holder_Connections = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Buildings_Text_Connections = new wxStaticText(TechTrees_Scroller, wxID_ANY, " Connections *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Buildings_Connections = new TextCtrl_Long(TechTrees_Scroller, "0", NULL);

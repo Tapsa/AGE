@@ -233,6 +233,9 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		//wxMessageBox("Started to open the file!");
 		//Units_Civs_List->SetSelection(0);
 
+//		No research gaia fix
+		for(short loop = 0;loop < GenieFile->Civs[0].Units.size();loop++)
+			GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
 //		ID and pointer fixes
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
