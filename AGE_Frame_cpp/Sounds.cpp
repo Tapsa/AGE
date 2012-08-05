@@ -3,6 +3,42 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
+/*	Template Functions
+template <class C, typename T>
+void AGE_Frame::AddToListIDFix(C &Temp, T &Path)
+{
+	Path.push_back(Temp);
+	if(EnableIDFix)
+	Path[Path.size()-1].ID = lexical_cast<long>(Path.size()-1); // ID Fix
+	Added = true;
+}
+
+template <class C, typename T>
+void AGE_Frame::AddToList(C &Temp, T &Path)
+{
+	Path.push_back(Temp);
+	Added = true;
+}
+
+void AGE_Frame::OnSoundsAdd(wxCommandEvent& Event)
+{
+	genie::Sound Temp;
+	AddToListIDFix(Temp, GenieFile->Sounds);
+	ListSounds();
+}
+
+void AGE_Frame::OnSoundItemsAdd(wxCommandEvent& Event)
+{
+	short Selection = Sounds_Sounds_List->GetSelection();
+	if(Selection != wxNOT_FOUND)
+	{
+		genie::SoundItem Temp;
+		AddToList(Temp, GenieFile->Sounds[SoundID].Items);
+		ListSoundItems();
+	}
+}
+*/
+
 string AGE_Frame::GetSoundName(short &Index)
 {
 	string Name = "File Count: ";
@@ -138,9 +174,7 @@ void AGE_Frame::ListSounds(bool Sized)
 		}
 	}
 
-	Sounds_Sounds_List->SetSelection(0);
-	Sounds_Sounds_List->SetFirstItem(Selection - 3);
-	Sounds_Sounds_List->SetSelection(Selection);
+	ListingFix(Selection, Sounds_Sounds_List);
 	if(Sized)
 	{
 		for(short loop = 0;loop < 2;loop++)
@@ -166,18 +200,12 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent& Event)
 	short Selection = Sounds_Sounds_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Sounds_Sounds_List->GetCount() - 1;
-			Sounds_Sounds_List->SetSelection(Selection);
-		}
 		genie::Sound * SoundPointer = (genie::Sound*)Sounds_Sounds_List->GetClientData(Selection);
 		SoundID = SoundPointer - (&GenieFile->Sounds[0]);
 		Sounds_ID->ChangeValue(lexical_cast<string>(SoundPointer->ID));
 		Sounds_ID->Container = &SoundPointer->ID;
 		Sounds_Unknown->ChangeValue(lexical_cast<string>(SoundPointer->Unknown1));
 		Sounds_Unknown->Container = &SoundPointer->Unknown1;
-		Added = false;
 		ListSoundItems();
 	}
 }
@@ -292,9 +320,7 @@ void AGE_Frame::ListSoundItems()
 			Sounds_SoundItems_List->Append(Name, (void*)&GenieFile->Sounds[SoundID].Items[loop]);
 		}
 	}
-	Sounds_SoundItems_List->SetSelection(0);
-	Sounds_SoundItems_List->SetFirstItem(Selection - 3);
-	Sounds_SoundItems_List->SetSelection(Selection);
+	ListingFix(Selection, Sounds_SoundItems_List);
 
 	wxCommandEvent E;
 	OnSoundItemsSelect(E);
@@ -305,11 +331,6 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
 	short Selection = Sounds_SoundItems_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Sounds_SoundItems_List->GetCount() - 1;
-			Sounds_SoundItems_List->SetSelection(Selection);
-		}
 		genie::SoundItem * SoundItemPointer = (genie::SoundItem*)Sounds_SoundItems_List->GetClientData(Selection);
 		SoundItemID = SoundItemPointer - (&GenieFile->Sounds[SoundID].Items[0]);
 		SoundItems_Name->ChangeValue(SoundItemPointer->FileName);
@@ -326,7 +347,6 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
 			SoundItems_Unknown->ChangeValue(lexical_cast<string>(SoundItemPointer->Unknown1));
 			SoundItems_Unknown->Container = &SoundItemPointer->Unknown1;
 		}
-		Added = false;
 	}
 	else
 	{

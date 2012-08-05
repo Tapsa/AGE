@@ -794,6 +794,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Research_Research_SearchFilters[loop]->SetSelection(0);
 		}
 
+		Items.Add(0);
 		//wxMessageBox("Loaded!");
 		if(GameVersion >= 2)
 		{
@@ -2637,9 +2638,9 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == Colors_Name->GetId())
 		{
-			ReducedName = GenieFile->PlayerColours[ColorID].Name;
+			ReducedName = GenieFile->PlayerColours[ColorIDs.Item(0)].Name;
 			ReducedName = ReducedName.substr(0, 30);
-			GenieFile->PlayerColours[ColorID].Name = ReducedName;
+			GenieFile->PlayerColours[ColorIDs.Item(0)].Name = ReducedName;
 
 			ListPlayerColors();
 		}

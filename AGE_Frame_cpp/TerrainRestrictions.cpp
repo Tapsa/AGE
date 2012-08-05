@@ -144,9 +144,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 		Units_ComboBox_TerrainRestriction->Append(Name);
 	}
 
-	TerRestrict_TerRestrict_List->SetSelection(0);
-	TerRestrict_TerRestrict_List->SetFirstItem(Selection - 3);
-	TerRestrict_TerRestrict_List->SetSelection(Selection);
+	ListingFix(Selection, TerRestrict_TerRestrict_List);
 	if(Sized)
 	Units_ComboBox_TerrainRestriction->SetSelection(RestrictionID1);
 
@@ -159,14 +157,8 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
 	short Selection = TerRestrict_TerRestrict_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = TerRestrict_TerRestrict_List->GetCount() - 1;
-			TerRestrict_TerRestrict_List->SetSelection(Selection);
-		}
 		genie::TerrainRestriction * TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
 		TerRestrictID = TerrainRestrictionPointer - (&GenieFile->TerrainRestrictions[0]);
-		Added = false;
 		ListTerrains(false);
 	}
 }
