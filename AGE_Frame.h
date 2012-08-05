@@ -64,7 +64,6 @@ private :
     sf::Sprite mySprite; ///< Something to draw...
 };*/
 
-//class genie::PlayerColour;
 WX_DECLARE_OBJARRAY(genie::PlayerColour, ArrayPlayerColour);
 
 class AGE_Frame : public wxFrame
@@ -184,6 +183,7 @@ class AGE_Frame : public wxFrame
 	void OnResearchDelete(wxCommandEvent& Event);
 	void OnResearchCopy(wxCommandEvent& Event);
 	void OnResearchPaste(wxCommandEvent& Event);
+	void OnResearchPasteInsert(wxCommandEvent& Event);
 	string GetResearchName(short &Index, bool Filter = false);
 
 //	Techage Events
@@ -195,6 +195,7 @@ class AGE_Frame : public wxFrame
 	void OnTechageDelete(wxCommandEvent& Event);
 	void OnTechageCopy(wxCommandEvent& Event);
 	void OnTechagePaste(wxCommandEvent& Event);
+	void OnTechagePasteInsert(wxCommandEvent& Event);
 	void OnTechageRename(wxCommandEvent& Event);
 	void OnTechageRenameGE2(wxCommandEvent& Event);
 	string GetTechageName(short &Index);
@@ -206,6 +207,7 @@ class AGE_Frame : public wxFrame
 	void OnEffectsDelete(wxCommandEvent& Event);
 	void OnEffectsCopy(wxCommandEvent& Event);
 	void OnEffectsPaste(wxCommandEvent& Event);
+	void OnEffectsPasteInsert(wxCommandEvent& Event);
 	string GetEffectName(short &Index);
 
 //	Tech Tree Events
@@ -217,6 +219,7 @@ class AGE_Frame : public wxFrame
 	void OnTTAgesDelete(wxCommandEvent& Event);
 	void OnTTAgesCopy(wxCommandEvent& Event);
 	void OnTTAgesPaste(wxCommandEvent& Event);
+	void OnTTAgesPasteInsert(wxCommandEvent& Event);
 	string GetTTAgesName(short &Index);
 
 	void ListTTAgesBuildings();
@@ -226,6 +229,7 @@ class AGE_Frame : public wxFrame
 	void OnTTAgesBuildingDelete(wxCommandEvent& Event);
 	void OnTTAgesBuildingCopy(wxCommandEvent& Event);
 	void OnTTAgesBuildingPaste(wxCommandEvent& Event);
+	void OnTTAgesBuildingPasteInsert(wxCommandEvent& Event);
 	string GetTTAgesBuildingName(short &Index);
 
 	void ListTTAgesUnits();
@@ -235,6 +239,7 @@ class AGE_Frame : public wxFrame
 	void OnTTAgesUnitDelete(wxCommandEvent& Event);
 	void OnTTAgesUnitCopy(wxCommandEvent& Event);
 	void OnTTAgesUnitPaste(wxCommandEvent& Event);
+	void OnTTAgesUnitPasteInsert(wxCommandEvent& Event);
 	string GetTTAgesUnitName(short &Index);
 
 	void ListTTAgesResearches();
@@ -244,6 +249,7 @@ class AGE_Frame : public wxFrame
 	void OnTTAgesResearchDelete(wxCommandEvent& Event);
 	void OnTTAgesResearchCopy(wxCommandEvent& Event);
 	void OnTTAgesResearchPaste(wxCommandEvent& Event);
+	void OnTTAgesResearchPasteInsert(wxCommandEvent& Event);
 	string GetTTAgesResearchName(short &Index);
 
 	void ListTTBuildings();
@@ -253,6 +259,7 @@ class AGE_Frame : public wxFrame
 	void OnTTBuildingDelete(wxCommandEvent& Event);
 	void OnTTBuildingCopy(wxCommandEvent& Event);
 	void OnTTBuildingPaste(wxCommandEvent& Event);
+	void OnTTBuildingPasteInsert(wxCommandEvent& Event);
 	string GetTTBuildingName(short &Index);
 
 	void ListTTBuildingBuildings();
@@ -262,6 +269,7 @@ class AGE_Frame : public wxFrame
 	void OnTTBuildingBuildingDelete(wxCommandEvent& Event);
 	void OnTTBuildingBuildingCopy(wxCommandEvent& Event);
 	void OnTTBuildingBuildingPaste(wxCommandEvent& Event);
+	void OnTTBuildingBuildingPasteInsert(wxCommandEvent& Event);
 	string GetTTBuildingBuildingName(short &Index);
 
 	void ListTTBuildingUnits();
@@ -271,6 +279,7 @@ class AGE_Frame : public wxFrame
 	void OnTTBuildingUnitDelete(wxCommandEvent& Event);
 	void OnTTBuildingUnitCopy(wxCommandEvent& Event);
 	void OnTTBuildingUnitPaste(wxCommandEvent& Event);
+	void OnTTBuildingUnitPasteInsert(wxCommandEvent& Event);
 	string GetTTBuildingUnitName(short &Index);
 
 	void ListTTBuildingResearches();
@@ -280,6 +289,7 @@ class AGE_Frame : public wxFrame
 	void OnTTBuildingResearchDelete(wxCommandEvent& Event);
 	void OnTTBuildingResearchCopy(wxCommandEvent& Event);
 	void OnTTBuildingResearchPaste(wxCommandEvent& Event);
+	void OnTTBuildingResearchPasteInsert(wxCommandEvent& Event);
 	string GetTTBuildingResearchName(short &Index);
 
 	void ListTTUnits();
@@ -289,6 +299,7 @@ class AGE_Frame : public wxFrame
 	void OnTTUnitDelete(wxCommandEvent& Event);
 	void OnTTUnitCopy(wxCommandEvent& Event);
 	void OnTTUnitPaste(wxCommandEvent& Event);
+	void OnTTUnitPasteInsert(wxCommandEvent& Event);
 	string GetTTUnitName(short &Index);
 
 	void ListTTUnitUnits();
@@ -298,6 +309,7 @@ class AGE_Frame : public wxFrame
 	void OnTTUnitUnitDelete(wxCommandEvent& Event);
 	void OnTTUnitUnitCopy(wxCommandEvent& Event);
 	void OnTTUnitUnitPaste(wxCommandEvent& Event);
+	void OnTTUnitUnitPasteInsert(wxCommandEvent& Event);
 	string GetTTUnitUnitName(short &Index);
 
 	void ListTTResearches();
@@ -307,6 +319,7 @@ class AGE_Frame : public wxFrame
 	void OnTTResearchDelete(wxCommandEvent& Event);
 	void OnTTResearchCopy(wxCommandEvent& Event);
 	void OnTTResearchPaste(wxCommandEvent& Event);
+	void OnTTResearchPasteInsert(wxCommandEvent& Event);
 	string GetTTResearchName(short &Index);
 
 	void ListTTResearchBuildings();
@@ -316,6 +329,7 @@ class AGE_Frame : public wxFrame
 	void OnTTResearchBuildingDelete(wxCommandEvent& Event);
 	void OnTTResearchBuildingCopy(wxCommandEvent& Event);
 	void OnTTResearchBuildingPaste(wxCommandEvent& Event);
+	void OnTTResearchBuildingPasteInsert(wxCommandEvent& Event);
 	string GetTTResearchBuildingName(short &Index);
 
 	void ListTTResearchUnits();
@@ -325,6 +339,7 @@ class AGE_Frame : public wxFrame
 	void OnTTResearchUnitDelete(wxCommandEvent& Event);
 	void OnTTResearchUnitCopy(wxCommandEvent& Event);
 	void OnTTResearchUnitPaste(wxCommandEvent& Event);
+	void OnTTResearchUnitPasteInsert(wxCommandEvent& Event);
 	string GetTTResearchUnitName(short &Index);
 
 	void ListTTResearchResearches();
@@ -334,6 +349,7 @@ class AGE_Frame : public wxFrame
 	void OnTTResearchResearchDelete(wxCommandEvent& Event);
 	void OnTTResearchResearchCopy(wxCommandEvent& Event);
 	void OnTTResearchResearchPaste(wxCommandEvent& Event);
+	void OnTTResearchResearchPasteInsert(wxCommandEvent& Event);
 	string GetTTResearchResearchName(short &Index);
 
 //	Civilization Events
@@ -345,6 +361,7 @@ class AGE_Frame : public wxFrame
 	void OnCivsDelete(wxCommandEvent& Event);
 	void OnCivsCopy(wxCommandEvent& Event);
 	void OnCivsPaste(wxCommandEvent& Event);
+	void OnCivsPasteInsert(wxCommandEvent& Event);
 	string GetCivName(short &Index);
 
 	void ListResources(bool Sized = true);
@@ -354,6 +371,7 @@ class AGE_Frame : public wxFrame
 	void OnResourcesDelete(wxCommandEvent& Event);
 	void OnResourcesCopy(wxCommandEvent& Event);
 	void OnResourcesPaste(wxCommandEvent& Event);
+	void OnResourcesPasteInsert(wxCommandEvent& Event);
 	void OnResourcesCopyToAll(wxCommandEvent& Event);
 	string GetResourceName(short &Index);
 
@@ -367,7 +385,9 @@ class AGE_Frame : public wxFrame
 	void OnUnitsSpecialCopy(wxCommandEvent& Event);
 	void UnitsGraphicsCopy(short loop);
 	void OnUnitsPaste(wxCommandEvent& Event);
+	void OnUnitsPasteInsert(wxCommandEvent& Event);
 	void OnUnitsSpecialPaste(wxCommandEvent& Event);
+	void OnUnitsSpecialPasteInsert(wxCommandEvent& Event);
 	void UnitsGraphicsPaste(short loop);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
@@ -383,6 +403,7 @@ class AGE_Frame : public wxFrame
 	void OnUnitDamageGraphicsDelete(wxCommandEvent& Event);
 	void OnUnitDamageGraphicsCopy(wxCommandEvent& Event);
 	void OnUnitDamageGraphicsPaste(wxCommandEvent& Event);
+	void OnUnitDamageGraphicsPasteInsert(wxCommandEvent& Event);
 	string GetUnitDamageGraphicName(short &Index);
 
 	void ListUnitAttacks();
@@ -392,6 +413,7 @@ class AGE_Frame : public wxFrame
 	void OnUnitAttacksDelete(wxCommandEvent& Event);
 	void OnUnitAttacksCopy(wxCommandEvent& Event);
 	void OnUnitAttacksPaste(wxCommandEvent& Event);
+	void OnUnitAttacksPasteInsert(wxCommandEvent& Event);
 	string GetUnitAttackName(short &Index);
 
 	void ListUnitArmors();
@@ -401,6 +423,7 @@ class AGE_Frame : public wxFrame
 	void OnUnitArmorsDelete(wxCommandEvent& Event);
 	void OnUnitArmorsCopy(wxCommandEvent& Event);
 	void OnUnitArmorsPaste(wxCommandEvent& Event);
+	void OnUnitArmorsPasteInsert(wxCommandEvent& Event);
 	string GetUnitArmorName(short &Index);
 
 //	Unit Events
@@ -415,6 +438,7 @@ class AGE_Frame : public wxFrame
 	void OnUnitCommandsDelete(wxCommandEvent& Event);
 	void OnUnitCommandsCopy(wxCommandEvent& Event);
 	void OnUnitCommandsPaste(wxCommandEvent& Event);
+	void OnUnitCommandsPasteInsert(wxCommandEvent& Event);
 	string GetUnitCommandName(short &Index);
 
 //	Unitline Events
@@ -426,6 +450,7 @@ class AGE_Frame : public wxFrame
 	void OnUnitLinesDelete(wxCommandEvent& Event);
 	void OnUnitLinesCopy(wxCommandEvent& Event);
 	void OnUnitLinesPaste(wxCommandEvent& Event);
+	void OnUnitLinesPasteInsert(wxCommandEvent& Event);
 	string GetUnitLineName(short &Index);
 
 	void ListUnitLineUnits();
@@ -435,6 +460,7 @@ class AGE_Frame : public wxFrame
 	void OnUnitLineUnitsDelete(wxCommandEvent& Event);
 	void OnUnitLineUnitsCopy(wxCommandEvent& Event);
 	void OnUnitLineUnitsPaste(wxCommandEvent& Event);
+	void OnUnitLineUnitsPasteInsert(wxCommandEvent& Event);
 	string GetUnitLineUnitName(short &Index);
 
 //	Graphic Events
@@ -446,6 +472,7 @@ class AGE_Frame : public wxFrame
 	void OnGraphicsDelete(wxCommandEvent& Event);
 	void OnGraphicsCopy(wxCommandEvent& Event);
 	void OnGraphicsPaste(wxCommandEvent& Event);
+	void OnGraphicsPasteInsert(wxCommandEvent& Event);
 	void OnGraphicsEnable(wxCommandEvent& Event);
 	void OnGraphicsDisable(wxCommandEvent& Event);
 	string GetGraphicName(short &Index, bool Filter = false);
@@ -457,6 +484,7 @@ class AGE_Frame : public wxFrame
 	void OnGraphicDeltasDelete(wxCommandEvent& Event);
 	void OnGraphicDeltasCopy(wxCommandEvent& Event);
 	void OnGraphicDeltasPaste(wxCommandEvent& Event);
+	void OnGraphicDeltasPasteInsert(wxCommandEvent& Event);
 	string GetGraphicDeltaName(short &Index);
 
 	void ListGraphicAttackSounds();
@@ -475,6 +503,7 @@ class AGE_Frame : public wxFrame
 	void OnTerrainsDelete(wxCommandEvent& Event);
 	void OnTerrainsCopy(wxCommandEvent& Event);
 	void OnTerrainsPaste(wxCommandEvent& Event);
+	void OnTerrainsPasteInsert(wxCommandEvent& Event);
 	string GetTerrainName(short &Index);
 
 //	Terrain Border Events
@@ -503,8 +532,10 @@ class AGE_Frame : public wxFrame
 	void OnTerrainRestrictionsDelete(wxCommandEvent& Event);
 	void OnTerrainRestrictionsCopy(wxCommandEvent& Event);
 	void OnTerrainRestrictionsPaste(wxCommandEvent& Event);
+	void OnTerrainRestrictionsPasteInsert(wxCommandEvent& Event);
 	void OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event);
 	void OnTerrainRestrictionsTerrainPaste(wxCommandEvent& Event);
+	void OnTerrainRestrictionsTerrainPasteInsert(wxCommandEvent& Event);
 	string GetTerrainRestrictionName(short &Index);
 
 //	Sound Events
@@ -516,6 +547,7 @@ class AGE_Frame : public wxFrame
 	void OnSoundsDelete(wxCommandEvent& Event);
 	void OnSoundsCopy(wxCommandEvent& Event);
 	void OnSoundsPaste(wxCommandEvent& Event);
+	void OnSoundsPasteInsert(wxCommandEvent& Event);
 	string GetSoundName(short &Index);
 
 	void ListSoundItems();
@@ -525,6 +557,7 @@ class AGE_Frame : public wxFrame
 	void OnSoundItemsDelete(wxCommandEvent& Event);
 	void OnSoundItemsCopy(wxCommandEvent& Event);
 	void OnSoundItemsPaste(wxCommandEvent& Event);
+	void OnSoundItemsPasteInsert(wxCommandEvent& Event);
 	string GetSoundItemName(short &Index);
 
 //	Player Color Events
@@ -536,8 +569,10 @@ class AGE_Frame : public wxFrame
 	void OnPlayerColorsDelete(wxCommandEvent& Event);
 	void OnPlayerColorsCopy(wxCommandEvent& Event);
 	void OnPlayerColorsPaste(wxCommandEvent& Event);
+	void OnPlayerColorsPasteInsert(wxCommandEvent& Event);
 	string GetPlayerColorName(short &Index);
-	
+
+
 //	Common Events
 
 	void OnResearchInsert(wxCommandEvent& Event);
@@ -906,6 +941,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Research_Delete;
 	wxButton * Research_Copy;
 	wxButton * Research_Paste;
+	wxButton * Research_PasteInsert;
 
 	wxBoxSizer * Research_Holder_RequiredTechArea;
 	wxGridSizer * Research_Holder_RequiredTechs;
@@ -1023,6 +1059,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Techs_Techs_Delete;
 	wxButton * Techs_Techs_Copy;
 	wxButton * Techs_Techs_Paste;
+	wxButton * Techs_Techs_PasteInsert;
 
 	wxBoxSizer * Techs_Holder_Name;
 	wxStaticText * Techs_Text_Name;
@@ -1038,6 +1075,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Techs_Effects_Delete;
 	wxButton * Techs_Effects_Copy;
 	wxButton * Techs_Effects_Paste;
+	wxButton * Techs_Effects_PasteInsert;
 
 	wxBoxSizer * Effects_DataArea;
 
@@ -1088,6 +1126,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Civs_Delete;
 	wxButton * Civs_Copy;
 	wxButton * Civs_Paste;
+	wxButton * Civs_PasteInsert;
 
 	wxBoxSizer * Civs_DataArea;
 	wxGridSizer * Civs_DataGrid1;
@@ -1124,6 +1163,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Resources_Delete;
 	wxButton * Resources_Copy;
 	wxButton * Resources_Paste;
+	wxButton * Resources_PasteInsert;
 	wxButton * Resources_CopyToAll;
 	wxBoxSizer * Civs_Resources_Data;
 	wxBoxSizer * Civs_Holder_ResourceValue;
@@ -1779,6 +1819,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_DamageGraphics_Delete;
 	wxButton * Units_DamageGraphics_Copy;
 	wxButton * Units_DamageGraphics_Paste;
+	wxButton * Units_DamageGraphics_PasteInsert;
 
 	wxBoxSizer * Units_Holder_Attacks;
 	wxBoxSizer * Units_Holder_Attacks_Data;
@@ -1802,6 +1843,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Attacks_Delete;
 	wxButton * Units_Attacks_Copy;
 	wxButton * Units_Attacks_Paste;
+	wxButton * Units_Attacks_PasteInsert;
 
 	wxBoxSizer * Units_Holder_Armors;
 	wxBoxSizer * Units_Holder_Armors_Data3;
@@ -1823,6 +1865,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Armors_Delete;
 	wxButton * Units_Armors_Copy;
 	wxButton * Units_Armors_Paste;
+	wxButton * Units_Armors_PasteInsert;
 
 //	End of Unit Controls
 
@@ -1845,6 +1888,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Delete;
 	wxButton * Units_Copy;
 	wxButton * Units_Paste;
+	wxButton * Units_PasteInsert;
 	wxStaticText * Units_Info;
 	wxButton * Units_Extract;
 	wxButton * Units_Import;
@@ -1852,6 +1896,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_Disable;
 	wxButton * Units_SpecialCopy;
 	wxButton * Units_SpecialPaste;
+	wxButton * Units_SpecialPasteInsert;
 	wxOwnerDrawnComboBox * Units_SpecialCopy_Options;
 	wxCheckBox * Units_SpecialCopy_Civs;
 //	wxButton * Units_Undo;
@@ -1943,6 +1988,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Units_UnitCommands_Delete;
 	wxButton * Units_UnitCommands_Copy;
 	wxButton * Units_UnitCommands_Paste;
+	wxButton * Units_UnitCommands_PasteInsert;
 
 	wxBoxSizer * Units_CommandHolder_Data;
 	wxBoxSizer * Units_CommandHolder_Data1;
@@ -2049,6 +2095,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Graphics_Delete;
 	wxButton * Graphics_Copy;
 	wxButton * Graphics_Paste;
+	wxButton * Graphics_PasteInsert;
 	wxButton * Graphics_Enable;
 	wxButton * Graphics_Disable;
 
@@ -2140,6 +2187,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Deltas_Delete;
 	wxButton * Deltas_Copy;
 	wxButton * Deltas_Paste;
+	wxButton * Deltas_PasteInsert;
 	wxStaticBoxSizer * Graphics_AttackSounds;
 	wxListBox * Graphics_AttackSounds_List;
 	wxButton * AttackSounds_Copy;
@@ -2200,6 +2248,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Terrains_Delete;
 	wxButton * Terrains_Copy;
 	wxButton * Terrains_Paste;
+	wxButton * Terrains_PasteInsert;
 
 	wxBoxSizer * Terrains_DataArea;
 	wxScrolledWindow * Terrains_Scroller;
@@ -2308,6 +2357,7 @@ class AGE_Frame : public wxFrame
 	wxButton * TerRestrict_Delete;
 	wxButton * TerRestrict_Copy;
 	wxButton * TerRestrict_Paste;
+	wxButton * TerRestrict_PasteInsert;
 
 	wxBoxSizer * TerRestrict_Terrains;
 	wxBoxSizer * TerRestrict_DataArea;
@@ -2318,6 +2368,7 @@ class AGE_Frame : public wxFrame
 	wxGridSizer * TerRestrict_Terrains_Buttons;
 	wxButton * TerRestrict_Terrains_Copy;
 	wxButton * TerRestrict_Terrains_Paste;
+	wxButton * TerRestrict_Terrains_PasteInsert;
 	wxBoxSizer * TerRestrict_Holder_Accessible;
 	wxBoxSizer * TerRestrict_Holder_Accessible2;
 	wxStaticText * TerRestrict_Text_Accessible;
@@ -2354,6 +2405,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Sounds_Delete;
 	wxButton * Sounds_Copy;
 	wxButton * Sounds_Paste;
+	wxButton * Sounds_PasteInsert;
 
 	wxStaticBoxSizer * Sounds_SoundItems;
 	wxTextCtrl * Sounds_SoundItems_Search;
@@ -2365,6 +2417,7 @@ class AGE_Frame : public wxFrame
 	wxButton * SoundItems_Delete;
 	wxButton * SoundItems_Copy;
 	wxButton * SoundItems_Paste;
+	wxButton * SoundItems_PasteInsert;
 
 	wxBoxSizer * Sounds_Holder_ID;
 	wxStaticText * Sounds_Text_ID;
@@ -2403,6 +2456,7 @@ class AGE_Frame : public wxFrame
 	wxButton * Colors_Delete;
 	wxButton * Colors_Copy;
 	wxButton * Colors_Paste;
+	wxButton * Colors_PasteInsert;
 
 	wxBoxSizer * Colors_DataArea;
 	wxBoxSizer * Colors_Holder_Name;
@@ -2455,6 +2509,7 @@ class AGE_Frame : public wxFrame
 	wxButton * UnitLines_Delete;
 	wxButton * UnitLines_Copy;
 	wxButton * UnitLines_Paste;
+	wxButton * UnitLines_PasteInsert;
 
 	wxBoxSizer * UnitLines_Holder_ID;
 	wxStaticText * UnitLines_Text_ID;
@@ -2472,6 +2527,7 @@ class AGE_Frame : public wxFrame
 	wxButton * UnitLineUnits_Delete;
 	wxButton * UnitLineUnits_Copy;
 	wxButton * UnitLineUnits_Paste;
+	wxButton * UnitLineUnits_PasteInsert;
 
 	wxBoxSizer * UnitLineUnits_Holder_Units;
 	wxStaticText * UnitLineUnits_Text_Units;
@@ -2538,6 +2594,10 @@ class AGE_Frame : public wxFrame
 	wxButton * TechTrees_MainList_Buildings_Paste;
 	wxButton * TechTrees_MainList_Units_Paste;
 	wxButton * TechTrees_MainList_Researches_Paste;
+	wxButton * TechTrees_MainList_Ages_PasteInsert;
+	wxButton * TechTrees_MainList_Buildings_PasteInsert;
+	wxButton * TechTrees_MainList_Units_PasteInsert;
+	wxButton * TechTrees_MainList_Researches_PasteInsert;
 
 	wxBoxSizer * TechTrees_Data_Ages;
 	wxGridSizer * TechTrees_Data_Ages1;
@@ -2651,6 +2711,16 @@ class AGE_Frame : public wxFrame
 	wxButton * TechTrees_DataList_Researches_Paste_Buildings;
 	wxButton * TechTrees_DataList_Researches_Paste_Units;
 	wxButton * TechTrees_DataList_Researches_Paste_Researches;
+	wxButton * TechTrees_DataList_Ages_PasteInsert_Buildings;
+	wxButton * TechTrees_DataList_Ages_PasteInsert_Units;
+	wxButton * TechTrees_DataList_Ages_PasteInsert_Researches;
+	wxButton * TechTrees_DataList_Buildings_PasteInsert_Buildings;
+	wxButton * TechTrees_DataList_Buildings_PasteInsert_Units;
+	wxButton * TechTrees_DataList_Buildings_PasteInsert_Researches;
+	wxButton * TechTrees_DataList_Units_PasteInsert_Units;
+	wxButton * TechTrees_DataList_Researches_PasteInsert_Buildings;
+	wxButton * TechTrees_DataList_Researches_PasteInsert_Units;
+	wxButton * TechTrees_DataList_Researches_PasteInsert_Researches;
 
 	wxBoxSizer * TechTrees_Ages_Holder_Unknown1;
 	wxStaticText * TechTrees_Ages_Text_Unknown1;

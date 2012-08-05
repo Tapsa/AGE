@@ -177,29 +177,39 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 {
-	/*short Selections = Colors_Colors_List->GetSelections(Items);
+	short Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = 0;loop < PlayerColorCopies.GetCount();loop++)
-		
-		ItemIDs.Clear();
-		ItemIDs.Alloc(Selections);
-		for(short loop = 0;loop < Selections;loop++)
-		{
-			genie::PlayerColour * PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
-			ItemIDs.Add(PlayerColorPointer - (&GenieFile->PlayerColours[0]));
-			GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ItemIDs.Item(loop));
-		}
-		
+		if(PlayerColorCopies.GetCount()+ColorIDs.Item(0) > GenieFile->PlayerColours.size())
+			GenieFile->PlayerColours.resize(PlayerColorCopies.GetCount()+ColorIDs.Item(0));
 		for(short loop = 0;loop < PlayerColorCopies.GetCount();loop++)
 		{
-		*(genie::PlayerColour*)Colors_Colors_List->GetClientData(ItemIDs.Item(loop)) = PlayerColorCopies.Item(loop);
-		if(EnableIDFix)
-		GenieFile->PlayerColours[ColorID].ID = lexical_cast<long>(ColorID);	//	ID Fix
+			GenieFile->PlayerColours[ColorIDs.Item(0)+loop] = PlayerColorCopies.Item(loop);
+			if(EnableIDFix)
+			GenieFile->PlayerColours[ColorIDs.Item(0)+loop].ID = lexical_cast<long>(ColorIDs.Item(0)+loop); // ID Fix
 		}
 		ListPlayerColors();
-	}*/
+	}
+}
+
+void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent& Event)
+{
+	short Selections = Colors_Colors_List->GetSelections(Items);
+	if(Selections != 0)
+	{
+		wxBusyCursor WaitCursor;
+		genie::PlayerColour Temp;
+		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs.Item(0), PlayerColorCopies.GetCount(), Temp);
+		for(short loop = 0;loop < PlayerColorCopies.GetCount();loop++)
+			GenieFile->PlayerColours[ColorIDs.Item(0)+loop] = PlayerColorCopies.Item(loop);
+		if(EnableIDFix)
+		for(short loop = ColorIDs.Item(0);loop < GenieFile->PlayerColours.size();loop++) // ID Fix
+		{
+			GenieFile->PlayerColours[loop].ID = lexical_cast<long>(loop);
+		}
+		ListPlayerColors();		
+	}
 }
 
 void AGE_Frame::CreatePlayerColorControls()
@@ -218,6 +228,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Delete = new wxButton(Tab_PlayerColors, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Colors_Copy = new wxButton(Tab_PlayerColors, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Colors_Paste = new wxButton(Tab_PlayerColors, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Colors_PasteInsert = new wxButton(Tab_PlayerColors, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	Colors_DataArea = new wxBoxSizer(wxVERTICAL);
 	Colors_Holder_Name = new wxBoxSizer(wxVERTICAL);
@@ -257,6 +268,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Colors_Buttons->Add(Colors_Delete, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Copy, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Paste, 1, wxEXPAND);
+	Colors_Colors_Buttons->Add(Colors_PasteInsert, 1, wxEXPAND);
 
 	Colors_Colors->Add(Colors_Colors_Search, 0, wxEXPAND);
 	Colors_Colors->Add(Colors_Colors_Search_R, 0, wxEXPAND);
@@ -334,6 +346,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Connect(Colors_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsDelete));
 	Connect(Colors_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsCopy));
 	Connect(Colors_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsPaste));
+	Connect(Colors_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsPasteInsert));
 	Colors_Name->Connect(Colors_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 
 }
