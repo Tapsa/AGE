@@ -210,9 +210,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		}
 	}
 
-	Research_Research_List->SetSelection(0);
-	Research_Research_List->SetFirstItem(Selection - 3);
-	Research_Research_List->SetSelection(Selection);
+	ListingFix(Selection, Research_Research_List);
 	if(Sized)
 	{
 		Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
@@ -244,11 +242,6 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 	short Selection = Research_Research_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Research_Research_List->GetCount() - 1;
-			Research_Research_List->SetSelection(Selection);
-		}
 		genie::Research * ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Selection);
 		ResearchID = ResearchPointer - (&GenieFile->Researchs[0]);
 		short RequiredTechs;
@@ -339,7 +332,6 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		}
 		Research_DLL_LangDllName->Wrap(Research_DLL_LangDllName->GetSize().GetWidth());
 		Research_DLL_LangDllDescription->Wrap(Research_DLL_LangDllDescription->GetSize().GetWidth());
-		Added = false;
 	}
 }
 

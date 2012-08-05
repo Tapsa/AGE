@@ -114,9 +114,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 		}
 	}
 
-	Terrains_Terrains_List->SetSelection(0);
-	Terrains_Terrains_List->SetFirstItem(Selection - 3);
-	Terrains_Terrains_List->SetSelection(Selection);
+	ListingFix(Selection, Terrains_Terrains_List);
 	if(Sized)
 	{
 		for(short loop = 0;loop < 2;loop++)
@@ -165,11 +163,6 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 	short Selection = Terrains_Terrains_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Terrains_Terrains_List->GetCount() - 1;
-			Terrains_Terrains_List->SetSelection(Selection);
-		}
 		genie::Terrain * TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
 		TerrainID = TerrainPointer - (&GenieFile->Terrains[0]);
 		Terrains_Unknown1->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown1));
@@ -266,7 +259,6 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 				Terrains_SUnknown1[loop]->Container = &TerrainPointer->SWGBUnknown1[loop];
 			}
 		}
-		Added = false;
 	}
 }
 

@@ -371,9 +371,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 		}
 	}
 
-	Units_Units_List->SetSelection(0);
-	Units_Units_List->SetFirstItem(Selection - 3);
-	Units_Units_List->SetSelection(Selection);
+	ListingFix(Selection, Units_Units_List);
 	if(Sized)
 	{
 		Units_ComboBox_DeadUnitID->SetSelection(UnitIDs[0]);
@@ -451,11 +449,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 	short Selection = Units_Units_List->GetSelection();
 	if(Selection != wxNOT_FOUND)	// If a unit is selected.
 	{
-		if(Added)
-		{
-			Selection = Units_Units_List->GetCount() - 1;
-			Units_Units_List->SetSelection(Selection);
-		}
 		genie::Unit * UnitPointer = (genie::Unit*)Units_Units_List->GetClientData(Selection);
 		UnitCivID = Units_Civs_List->GetSelection();
 		UnitID = UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]);
@@ -1453,7 +1446,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_DLL_LanguageDllHelp->Wrap(Units_DLL_LanguageDllHelp->GetSize().GetWidth());
 		Units_DLL_HotKey4->Wrap(Units_DLL_HotKey4->GetSize().GetWidth());
 
-		Added = false;
 		ListUnitDamageGraphics();
 		ListUnitAttacks();
 		ListUnitArmors();
@@ -1918,9 +1910,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[loop]);
 		}
 	}
-	Units_DamageGraphics_List->SetSelection(0);
-	Units_DamageGraphics_List->SetFirstItem(Selection - 3);
-	Units_DamageGraphics_List->SetSelection(Selection);
+	ListingFix(Selection, Units_DamageGraphics_List);
 
 	wxCommandEvent E;
 	OnUnitDamageGraphicsSelect(E);
@@ -1931,11 +1921,6 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 	short Selection = Units_DamageGraphics_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Units_DamageGraphics_List->GetCount() - 1;
-			Units_DamageGraphics_List->SetSelection(Selection);
-		}
 		genie::unit::DamageGraphic * DamageGraphicPointer = (genie::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Selection);
 		DamageGraphicID = DamageGraphicPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].DamageGraphics[0]);
 		DamageGraphics_GraphicID->ChangeValue(lexical_cast<string>(DamageGraphicPointer->GraphicID));
@@ -1947,7 +1932,6 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 		DamageGraphics_Unknown1->Container = &DamageGraphicPointer->Unknown1;
 		DamageGraphics_Unknown2->ChangeValue(lexical_cast<string>((short)DamageGraphicPointer->Unknown2));
 		DamageGraphics_Unknown2->Container = &DamageGraphicPointer->Unknown2;
-		Added = false;
 	}
 	else
 	{
@@ -2077,9 +2061,7 @@ void AGE_Frame::ListUnitAttacks()
 	{
 		Units_Attacks_Add->Enable(false);
 	}
-	Units_Attacks_List->SetSelection(0);
-	Units_Attacks_List->SetFirstItem(Selection - 3);
-	Units_Attacks_List->SetSelection(Selection);
+	ListingFix(Selection, Units_Attacks_List);
 
 	wxCommandEvent E;
 	OnUnitAttacksSelect(E);
@@ -2090,11 +2072,6 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 	short Selection = Units_Attacks_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Units_Attacks_List->GetCount() - 1;
-			Units_Attacks_List->SetSelection(Selection);
-		}
 		genie::unit::AttackOrArmor * AttackPointer = (genie::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Selection);
 		AttackID = AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Attacks[0]);
 		Attacks_Class->ChangeValue(lexical_cast<string>(AttackPointer->Class));
@@ -2103,7 +2080,6 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 		Attacks_ComboBox_Class[0]->SetSelection(AttackPointer->Class + 1);
 		Attacks_Amount->ChangeValue(lexical_cast<string>(AttackPointer->Amount));
 		Attacks_Amount->Container = &AttackPointer->Amount;
-		Added = false;
 	}
 	else
 	{
@@ -2231,9 +2207,7 @@ void AGE_Frame::ListUnitArmors()
 	{
 		Units_Armors_Add->Enable(false);
 	}
-	Units_Armors_List->SetSelection(0);
-	Units_Armors_List->SetFirstItem(Selection - 3);
-	Units_Armors_List->SetSelection(Selection);
+	ListingFix(Selection, Units_Armors_List);
 
 	wxCommandEvent E;
 	OnUnitArmorsSelect(E);
@@ -2244,11 +2218,6 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 	short Selection = Units_Armors_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Units_Armors_List->GetCount() - 1;
-			Units_Armors_List->SetSelection(Selection);
-		}
 		genie::unit::AttackOrArmor * ArmorPointer = (genie::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Selection);
 		ArmorID = ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitID].Projectile.Armours[0]);
 		Armors_Class->ChangeValue(lexical_cast<string>(ArmorPointer->Class));
@@ -2257,7 +2226,6 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 		Attacks_ComboBox_Class[1]->SetSelection(ArmorPointer->Class + 1);
 		Armors_Amount->ChangeValue(lexical_cast<string>(ArmorPointer->Amount));
 		Armors_Amount->Container = &ArmorPointer->Amount;
-		Added = false;
 	}
 	else
 	{
@@ -2534,9 +2502,7 @@ void AGE_Frame::ListUnitCommands()
 			Units_UnitCommands_Add->Enable(false);
 		}
 	}
-	Units_UnitCommands_List->SetSelection(0);
-	Units_UnitCommands_List->SetFirstItem(Selection - 3);
-	Units_UnitCommands_List->SetSelection(Selection);
+	ListingFix(Selection, Units_UnitCommands_List);
 
 	wxCommandEvent E;
 	OnUnitCommandsSelect(E);
@@ -2547,11 +2513,6 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 	short Selection = Units_UnitCommands_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
 	{
-		if(Added)
-		{
-			Selection = Units_UnitCommands_List->GetCount() - 1;
-			Units_UnitCommands_List->SetSelection(Selection);
-		}
 		genie::UnitCommand * UnitCommandPointer = (genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection);
 		if(GameVersion >= 2)
 		{
@@ -2741,7 +2702,6 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 			UnitCommands_Graphics[loop]->Container = &UnitCommandPointer->Graphics[loop];
 			UnitCommands_ComboBox_Graphics[loop]->SetSelection(UnitCommandPointer->Graphics[loop] + 1);
 		}
-		Added = false;
 	}
 	else
 	{
