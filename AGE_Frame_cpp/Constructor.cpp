@@ -38,9 +38,6 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
 	Config->Read("DefaultFiles/SaveApf", &SaveApf, false);
 	delete Config;
-	
-	//CustomNames = new wxFileConfig("AGE Lists", wxEmptyString, "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-	//delete CustomNames;
 
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
 	CreateStatusBar();
@@ -48,6 +45,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
 	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
+	GetToolBar()->AddTool(ToolBar_CustomNames, "Names", wxNullBitmap, "Extract a setting file for custom names in some lists\nRestart this program after editing the file");
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->Realize();
 	
@@ -129,6 +127,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
 	Connect(ToolBar_Show, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(ToolBar_CustomNames, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
