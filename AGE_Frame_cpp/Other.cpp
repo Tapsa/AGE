@@ -381,7 +381,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 		Units_ComboBox_GarrisonType->SetSelection(0);
 
-		Customs = new wxFileConfig("AGE 2 Custom Names", wxEmptyString, "age2customs.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+		Customs = new wxFileConfig("AGE Lists", wxEmptyString, "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 		long ExtraCount;
 		Customs->Read("Count/ExtraCount", &ExtraCount, 5);
 		wxString MoveHolder = "";
@@ -730,13 +730,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			}
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
 		}
-		/*Customs->Write("Count/ExtraCount", ExtraCount);
-		for(short loop2 = 0;loop2 < ExtraCount;loop2++)
-		{
-			MoveHolder = Attacks_ComboBox_Class[0]->GetString(loop2+32);
-			//wxMessageBox(MoveHolder);
-			Customs->Write("Names/"+lexical_cast<string>(loop2+31), MoveHolder);
-		}*/
 		delete Customs;
 
 		for(short loop = 0;loop < 2;loop++)
@@ -1572,6 +1565,21 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 		{
 			EnableIDFix = Event.IsChecked();
 			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
+		}
+		break;
+		case ToolBar_CustomNames:
+		{
+			Customs = new wxFileConfig("AGE Lists", wxEmptyString, "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+			long ExtraCount = Attacks_ComboBox_Class[0]->GetCount()-32;
+			Customs->Write("Count/ExtraCount", ExtraCount);
+			wxString MoveHolder = "";
+			for(short loop = 0;loop < ExtraCount;loop++)
+			{
+				MoveHolder = Attacks_ComboBox_Class[0]->GetString(loop+32);
+				Customs->Write("Names/"+lexical_cast<string>(loop+31), MoveHolder);
+			}
+			delete Customs;
+			//wxMessageBox("File extracted successfully!");
 		}
 		break;
 		/*case MenuOption_Undo:

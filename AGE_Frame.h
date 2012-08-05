@@ -760,6 +760,7 @@ class AGE_Frame : public wxFrame
 		ToolBar_Open,
 		ToolBar_Save,
 		ToolBar_Show,
+		ToolBar_CustomNames,
 	};
 
 //	User Interface
