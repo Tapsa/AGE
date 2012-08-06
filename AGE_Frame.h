@@ -88,8 +88,8 @@ class AGE_Frame : public wxFrame
 	void CreateTerrainRestrictionControls();
 	void CreateSoundControls();
 	void CreatePlayerColorControls();
-	
-	void CreateDRSControls();
+
+//	void CreateDRSControls();
 
 //	Other Events
 
@@ -738,7 +738,7 @@ class AGE_Frame : public wxFrame
 	wxString LangFileName;
 	wxString LangX1FileName;
 	wxString LangX1P1FileName;
-	
+
 	//wxString ResourceName[210];
 
 	HINSTANCE LanguageDll[3];
@@ -787,7 +787,7 @@ class AGE_Frame : public wxFrame
 	wxPanel * Tab_Sounds;
 	wxPanel * Tab_PlayerColors;
 
-	wxPanel * Tab_DRS;
+//	wxPanel * Tab_DRS;
 
 //	General user interface
 
@@ -2943,24 +2943,88 @@ class AGE_Frame : public wxFrame
 
 //	DRS user interface
 
-	genie::DrsFile * ResourceFile;
-	
+	/*genie::DrsFile * ResourceFile;
+
 	void LoadDRSFile(wxCommandEvent& Event);
 	void UnLoadDRSFile(wxCommandEvent& Event);
 
 	wxBoxSizer * DRS_Main;
 	wxBoxSizer * DRS_TopRow;
 	wxBoxSizer * DRS_MidArea;
-	
+
 	wxStaticText * DRS_Text_FileLocation;
 	wxFilePickerCtrl * DRS_Path_FileLocation;
 	wxButton * DRS_LoadButton;
 	wxButton * DRS_UnLoadButton;
-	wxStaticText * DRS_StatusText;
+	wxStaticText * DRS_StatusText;*/
 
-	/*template <class C, typename T> // These would only increase the file size.
-	void AddToList(C &Temp, T &Path);
-	template <class C, typename T>
-	void AddToListIDFix(C &Temp, T &Path);*/
+//	Templates
+
+	template <typename T, class C>
+	void AddToListIDFix(T &Path, C &Temp)
+	{
+		wxBusyCursor WaitCursor;
+		Path.push_back(Temp);
+		if(EnableIDFix)
+		Path[Path.size()-1].ID = lexical_cast<long>(Path.size()-1); // ID Fix
+		Added = true;
+	};
+
+	template <typename T, class C>
+	void InsertToListIDFix(T &Path, wxArrayInt &Places, C &Temp)
+	{
+		wxBusyCursor WaitCursor;
+		Path.insert(Path.begin() + Places.Item(0), Temp);
+		if(EnableIDFix)
+		for(short loop = Places.Item(0);loop < Path.size();loop++) // ID Fix
+		Path[loop].ID = lexical_cast<long>(loop);
+	};
+
+	template <typename T>
+	void DeleteFromListIDFix(T &Path, wxArrayInt &Places)
+	{
+		wxBusyCursor WaitCursor;
+		for(short loop = 0;loop < Items.GetCount();loop++)
+		Path.erase(Path.begin() + Places.Item(loop));
+		if(EnableIDFix)
+		for(short loop = Places.Item(0);loop < Path.size();loop++)	//	ID Fix
+		Path[loop].ID = lexical_cast<long>(loop);
+	};
+
+	template <typename T, typename P>
+	void CopyFromList(T &Path, wxArrayInt &Places, P &Copies)
+	{
+		wxBusyCursor WaitCursor;
+		Copies.Clear();
+		Copies.Alloc(Items.GetCount());
+		for(short loop = 0;loop < Items.GetCount();loop++)
+		Copies.Add(Path[Places.Item(loop)]);
+	};
+
+	template <typename T, typename P>
+	void PasteToListIDFix(T &Path, wxArrayInt &Places, P &Copies)
+	{
+		wxBusyCursor WaitCursor;
+		if(Copies.GetCount()+Places.Item(0) > Path.size())
+		Path.resize(Copies.GetCount()+Places.Item(0));
+		for(short loop = 0;loop < Copies.GetCount();loop++)
+		{
+			Path[Places.Item(0)+loop] = Copies.Item(loop);
+			if(EnableIDFix)
+			Path[Places.Item(0)+loop].ID = lexical_cast<long>(Places.Item(0)+loop); // ID Fix
+		}
+	};
+
+	template <typename T, typename P, class C>
+	void PasteInsertToListIDFix(T &Path, wxArrayInt &Places, P &Copies, C &Temp)
+	{
+		wxBusyCursor WaitCursor;
+		Path.insert(Path.begin() + Places.Item(0), Copies.GetCount(), Temp);
+		for(short loop = 0;loop < Copies.GetCount();loop++)
+		Path[Places.Item(0)+loop] = Copies.Item(loop);
+		if(EnableIDFix)
+		for(short loop = Places.Item(0);loop < Path.size();loop++) // ID Fix
+		Path[loop].ID = lexical_cast<long>(loop);
+	};
 
 };
