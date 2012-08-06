@@ -980,7 +980,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Effects_ComboBox_AttributesC->Append("107 - OREX Cost?");
 		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
 		Effects_ComboBox_AttributesC->SetSelection(0);
-		
+
 		if(Units_GraphicSet->GetCount() > 0)
 		{
 			Units_GraphicSet->Clear();
@@ -2749,12 +2749,12 @@ void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent& Event)
 {
 	((ComboBox_Short*)Event.GetEventObject())->OnUpdate(Event);
 	if(
-		Event.GetId() == Effects_ComboBox_UnitsA->GetId() || 
-		Event.GetId() == Effects_ComboBox_ResourcesA->GetId() || 
-		Event.GetId() == Effects_ComboBox_ResearchsA->GetId() || 
-		Event.GetId() == Units_ComboBox_Class[2]->GetId() || 
-		Event.GetId() == Effects_ComboBox_UnitsB->GetId() || 
-		Event.GetId() == Effects_ComboBox_ResourcesB->GetId() || 
+		Event.GetId() == Effects_ComboBox_UnitsA->GetId() ||
+		Event.GetId() == Effects_ComboBox_ResourcesA->GetId() ||
+		Event.GetId() == Effects_ComboBox_ResearchsA->GetId() ||
+		Event.GetId() == Units_ComboBox_Class[2]->GetId() ||
+		Event.GetId() == Effects_ComboBox_UnitsB->GetId() ||
+		Event.GetId() == Effects_ComboBox_ResourcesB->GetId() ||
 		Event.GetId() == Effects_ComboBox_AttributesC->GetId()
 	)
 	{
