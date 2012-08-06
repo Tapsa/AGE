@@ -3,42 +3,6 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-/*	Template Functions
-template <class C, typename T>
-void AGE_Frame::AddToListIDFix(C &Temp, T &Path)
-{
-	Path.push_back(Temp);
-	if(EnableIDFix)
-	Path[Path.size()-1].ID = lexical_cast<long>(Path.size()-1); // ID Fix
-	Added = true;
-}
-
-template <class C, typename T>
-void AGE_Frame::AddToList(C &Temp, T &Path)
-{
-	Path.push_back(Temp);
-	Added = true;
-}
-
-void AGE_Frame::OnSoundsAdd(wxCommandEvent& Event)
-{
-	genie::Sound Temp;
-	AddToListIDFix(Temp, GenieFile->Sounds);
-	ListSounds();
-}
-
-void AGE_Frame::OnSoundItemsAdd(wxCommandEvent& Event)
-{
-	short Selection = Sounds_Sounds_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		genie::SoundItem Temp;
-		AddToList(Temp, GenieFile->Sounds[SoundID].Items);
-		ListSoundItems();
-	}
-}
-*/
-
 string AGE_Frame::GetSoundName(short &Index)
 {
 	string Name = "File Count: ";

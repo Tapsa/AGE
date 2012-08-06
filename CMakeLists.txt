@@ -25,19 +25,18 @@ include_directories(
 add_subdirectory (extern/genieutils)
 
 set(AGE_SRC Main.cpp
-			AGE_AboutDialog.cpp
+			AGE_TextControls.cpp
 			AGE_CheckBoxes.cpp
 			AGE_ComboBoxes.cpp
+			AGE_AboutDialog.cpp
 			AGE_OpenDialog.cpp
 			AGE_SaveDialog.cpp
-			AGE_TextControls.cpp
 			
-			AGE_Frame_cpp/Civs.cpp
 			AGE_Frame_cpp/Constructor.cpp
-			AGE_Frame_cpp/DRS.cpp
+			AGE_Frame_cpp/Other.cpp
+			AGE_Frame_cpp/Civs.cpp
 			AGE_Frame_cpp/General.cpp
 			AGE_Frame_cpp/Graphics.cpp
-			AGE_Frame_cpp/Other.cpp
 			AGE_Frame_cpp/PlayerColors.cpp
 			AGE_Frame_cpp/Research.cpp
 			AGE_Frame_cpp/Sounds.cpp
@@ -46,9 +45,9 @@ set(AGE_SRC Main.cpp
 			AGE_Frame_cpp/TerrainBorders.cpp
 			AGE_Frame_cpp/TerrainRestrictions.cpp
 			AGE_Frame_cpp/Terrains.cpp
-			AGE_Frame_cpp/Transporting.cpp
 			AGE_Frame_cpp/UnitLine.cpp
 			AGE_Frame_cpp/Units.cpp
+			AGE_Frame_cpp/Transporting.cpp
 			
 			Resources.rc
 	)
