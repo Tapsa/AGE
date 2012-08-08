@@ -25,7 +25,9 @@
 #include "GateClosed.xpm"
 #include "Question.xpm"
 #include <wx/dynarray.h>
+//#include <vector>
 //#include "AGE_Frame_cpp/Colors.h"
+using std::vector;
 
 /*class MyCanvas : public wxSFMLCanvas
 {
@@ -64,7 +66,10 @@ private :
     sf::Sprite mySprite; ///< Something to draw...
 };*/
 
-WX_DECLARE_OBJARRAY(genie::PlayerColour, ArrayPlayerColour);
+//Working stuff if you need custom wxArrays. I'll just use standard vectors instead.
+//WX_DECLARE_OBJARRAY(float, wxArrayFloat);
+//WX_DECLARE_OBJARRAY(genie::Civ, ArrayCivCopy);
+//WX_DECLARE_OBJARRAY(genie::PlayerColour, ArrayPlayerColour);
 
 class AGE_Frame : public wxFrame
 {
@@ -675,17 +680,19 @@ class AGE_Frame : public wxFrame
 
 	static const short MaxCivs = 30;
 	short Zero;
-	genie::Civ CivCopy;
-	short CivID;
-	float ResourceCopy;
-	short ResourceID;
+	//ArrayCivCopy CivCopies;
+	vector<genie::Civ> CivCopies;
+	wxArrayInt CivIDs;
+	//wxArrayFloat ResourceCopies;
+	vector<float> ResourceCopies;
+	wxArrayInt ResourceIDs;
 	genie::Unit UnitCopy;
 	genie::Unit UnitSpecialCopy;
 	short UnitID;
 	short UnitCivID;
 //	int RefreshLists;
-	bool UnitExists[MaxCivs];
-	genie::Unit UnitGraphics[MaxCivs];	// This should be a vector equal to Civs.
+	vector<bool> UnitExists;
+	vector<genie::Unit> UnitGraphics;	// This should be a vector equal to Civs.
 	genie::unit::DamageGraphic DamageGraphicCopy;
 	short DamageGraphicID;
 	genie::unit::AttackOrArmor AttackCopy;
@@ -716,7 +723,8 @@ class AGE_Frame : public wxFrame
 	short SoundID;
 	genie::SoundItem SoundItemCopy;
 	short SoundItemID;
-	ArrayPlayerColour PlayerColorCopies;
+	//ArrayPlayerColour PlayerColorCopies;
+	vector<genie::PlayerColour> PlayerColorCopies;
 	wxArrayInt ColorIDs;
 	genie::TerrainBorder TerrainBorderCopy;
 	short BorderID;
@@ -2961,9 +2969,15 @@ class AGE_Frame : public wxFrame
 //	Templates
 
 	template <typename T, class C>
+	void AddToList(T &Path, C &Temp)
+	{
+		Path.push_back(Temp);
+		Added = true;
+	};
+
+	template <typename T, class C>
 	void AddToListIDFix(T &Path, C &Temp)
 	{
-		wxBusyCursor WaitCursor;
 		Path.push_back(Temp);
 		if(EnableIDFix)
 		Path[Path.size()-1].ID = lexical_cast<long>(Path.size()-1); // ID Fix
@@ -2971,9 +2985,14 @@ class AGE_Frame : public wxFrame
 	};
 
 	template <typename T, class C>
+	void InsertToList(T &Path, wxArrayInt &Places, C &Temp)
+	{
+		Path.insert(Path.begin() + Places.Item(0), Temp);
+	};
+
+	template <typename T, class C>
 	void InsertToListIDFix(T &Path, wxArrayInt &Places, C &Temp)
 	{
-		wxBusyCursor WaitCursor;
 		Path.insert(Path.begin() + Places.Item(0), Temp);
 		if(EnableIDFix)
 		for(short loop = Places.Item(0);loop < Path.size();loop++) // ID Fix
@@ -2981,9 +3000,15 @@ class AGE_Frame : public wxFrame
 	};
 
 	template <typename T>
+	void DeleteFromList(T &Path, wxArrayInt &Places)
+	{
+		for(short loop = 0;loop < Items.GetCount();loop++)
+		Path.erase(Path.begin() + Places.Item(loop));
+	};
+
+	template <typename T>
 	void DeleteFromListIDFix(T &Path, wxArrayInt &Places)
 	{
-		wxBusyCursor WaitCursor;
 		for(short loop = 0;loop < Items.GetCount();loop++)
 		Path.erase(Path.begin() + Places.Item(loop));
 		if(EnableIDFix)
@@ -2994,34 +3019,47 @@ class AGE_Frame : public wxFrame
 	template <typename T, typename P>
 	void CopyFromList(T &Path, wxArrayInt &Places, P &Copies)
 	{
-		wxBusyCursor WaitCursor;
-		Copies.Clear();
-		Copies.Alloc(Items.GetCount());
+		Copies.resize(Items.GetCount());
 		for(short loop = 0;loop < Items.GetCount();loop++)
-		Copies.Add(Path[Places.Item(loop)]);
+		Copies[loop] = Path[Places.Item(loop)];
+	};
+
+	template <typename T, typename P>
+	void PasteToList(T &Path, wxArrayInt &Places, P &Copies)
+	{
+		if(Copies.size()+Places.Item(0) > Path.size())
+		Path.resize(Copies.size()+Places.Item(0));
+		for(short loop = 0;loop < Copies.size();loop++)
+		Path[Places.Item(0)+loop] = Copies[loop];
 	};
 
 	template <typename T, typename P>
 	void PasteToListIDFix(T &Path, wxArrayInt &Places, P &Copies)
 	{
-		wxBusyCursor WaitCursor;
-		if(Copies.GetCount()+Places.Item(0) > Path.size())
-		Path.resize(Copies.GetCount()+Places.Item(0));
-		for(short loop = 0;loop < Copies.GetCount();loop++)
+		if(Copies.size()+Places.Item(0) > Path.size())
+		Path.resize(Copies.size()+Places.Item(0));
+		for(short loop = 0;loop < Copies.size();loop++)
 		{
-			Path[Places.Item(0)+loop] = Copies.Item(loop);
+			Path[Places.Item(0)+loop] = Copies[loop];
 			if(EnableIDFix)
 			Path[Places.Item(0)+loop].ID = lexical_cast<long>(Places.Item(0)+loop); // ID Fix
 		}
 	};
 
 	template <typename T, typename P, class C>
+	void PasteInsertToList(T &Path, wxArrayInt &Places, P &Copies, C &Temp)
+	{
+		Path.insert(Path.begin() + Places.Item(0), Copies.size(), Temp);
+		for(short loop = 0;loop < Copies.size();loop++)
+		Path[Places.Item(0)+loop] = Copies[loop];
+	};
+
+	template <typename T, typename P, class C>
 	void PasteInsertToListIDFix(T &Path, wxArrayInt &Places, P &Copies, C &Temp)
 	{
-		wxBusyCursor WaitCursor;
-		Path.insert(Path.begin() + Places.Item(0), Copies.GetCount(), Temp);
-		for(short loop = 0;loop < Copies.GetCount();loop++)
-		Path[Places.Item(0)+loop] = Copies.Item(loop);
+		Path.insert(Path.begin() + Places.Item(0), Copies.size(), Temp);
+		for(short loop = 0;loop < Copies.size();loop++)
+		Path[Places.Item(0)+loop] = Copies[loop];
 		if(EnableIDFix)
 		for(short loop = Places.Item(0);loop < Path.size();loop++) // ID Fix
 		Path[loop].ID = lexical_cast<long>(loop);
