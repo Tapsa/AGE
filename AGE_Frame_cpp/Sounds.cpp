@@ -22,7 +22,7 @@ void AGE_Frame::ListSounds(bool Sized)
 	ExcludeText = wxString(Sounds_Sounds_Search_R->GetValue()).Lower();
 	string CompareText;
 
-	short Selection = Sounds_Sounds_List->GetSelection();
+	short Selections = Sounds_Sounds_List->GetSelection();
 	if(Sounds_Sounds_List->GetCount() > 0)
 	{
 		Sounds_Sounds_List->Clear();
@@ -32,7 +32,7 @@ void AGE_Frame::ListSounds(bool Sized)
 		Selection = 0;
 	}
 
-	short IDsCount = 13, SoundIDs[IDsCount];
+	short IDCount = 13, SoundIDs[IDCount];
 	if(Sized)
 	{
 		for(short loop = 0;loop < 2;loop++)
@@ -91,7 +91,7 @@ void AGE_Frame::ListSounds(bool Sized)
 			Graphics_ComboBox_AttackSoundID[loop]->Clear();
 		}
 
-		for(short loop = 0;loop < IDsCount;loop++)
+		for(short loop = 0;loop < IDCount;loop++)
 		{
 			if(SoundIDs[loop] == wxNOT_FOUND)
 			{
@@ -138,7 +138,7 @@ void AGE_Frame::ListSounds(bool Sized)
 		}
 	}
 
-	ListingFix(Selection, Sounds_Sounds_List);
+	ListingFix(Selections, Sounds_Sounds_List);
 	if(Sized)
 	{
 		for(short loop = 0;loop < 2;loop++)
@@ -161,8 +161,8 @@ void AGE_Frame::ListSounds(bool Sized)
 
 void AGE_Frame::OnSoundsSelect(wxCommandEvent& Event)
 {
-	short Selection = Sounds_Sounds_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_Sounds_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::Sound * SoundPointer = (genie::Sound*)Sounds_Sounds_List->GetClientData(Selection);
 		SoundID = SoundPointer - (&GenieFile->Sounds[0]);
@@ -186,8 +186,8 @@ void AGE_Frame::OnSoundsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnSoundsInsert(wxCommandEvent& Event)
 {
-	short Selection = Sounds_Sounds_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_Sounds_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::Sound Temp;
 		GenieFile->Sounds.insert(GenieFile->Sounds.begin() + SoundID, Temp);
@@ -202,8 +202,8 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnSoundsDelete(wxCommandEvent& Event)
 {
-	short Selection = Sounds_Sounds_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_Sounds_List->GetSelection();
+	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->Sounds.erase(GenieFile->Sounds.begin() + SoundID);
@@ -220,8 +220,8 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnSoundsCopy(wxCommandEvent& Event)
 {
-	short Selection = Sounds_Sounds_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_Sounds_List->GetSelection();
+	if(Selections != 0)
 	{
 		SoundCopy = *(genie::Sound*)Sounds_Sounds_List->GetClientData(Selection);
 	}
@@ -230,8 +230,8 @@ void AGE_Frame::OnSoundsCopy(wxCommandEvent& Event)
 void AGE_Frame::OnSoundsPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Sounds_Sounds_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_Sounds_List->GetSelection();
+	if(Selections != 0)
 	{
 		*(genie::Sound*)Sounds_Sounds_List->GetClientData(Selection) = SoundCopy;
 		if(EnableIDFix)
@@ -265,7 +265,7 @@ void AGE_Frame::ListSoundItems()
 	SearchText = wxString(Sounds_SoundItems_Search->GetValue()).Lower();
 	ExcludeText = wxString(Sounds_SoundItems_Search_R->GetValue()).Lower();
 	string CompareText;
-	short Selection = Sounds_SoundItems_List->GetSelection();
+	short Selections = Sounds_SoundItems_List->GetSelection();
 
 	if(Sounds_SoundItems_List->GetCount() > 0)
 	{
@@ -284,7 +284,7 @@ void AGE_Frame::ListSoundItems()
 			Sounds_SoundItems_List->Append(Name, (void*)&GenieFile->Sounds[SoundID].Items[loop]);
 		}
 	}
-	ListingFix(Selection, Sounds_SoundItems_List);
+	ListingFix(Selections, Sounds_SoundItems_List);
 
 	wxCommandEvent E;
 	OnSoundItemsSelect(E);
@@ -292,8 +292,8 @@ void AGE_Frame::ListSoundItems()
 
 void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
 {
-	short Selection = Sounds_SoundItems_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_SoundItems_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::SoundItem * SoundItemPointer = (genie::SoundItem*)Sounds_SoundItems_List->GetClientData(Selection);
 		SoundItemID = SoundItemPointer - (&GenieFile->Sounds[SoundID].Items[0]);
@@ -325,8 +325,8 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnSoundItemsAdd(wxCommandEvent& Event)
 {
-	short Selection = Sounds_Sounds_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_Sounds_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::SoundItem Temp;
 		GenieFile->Sounds[SoundID].Items.push_back(Temp);
@@ -337,8 +337,8 @@ void AGE_Frame::OnSoundItemsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnSoundItemsInsert(wxCommandEvent& Event)
 {
-	short Selection = Sounds_SoundItems_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_SoundItems_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::SoundItem Temp;
 		GenieFile->Sounds[SoundID].Items.insert(GenieFile->Sounds[SoundID].Items.begin() + SoundItemID, Temp);
@@ -348,8 +348,8 @@ void AGE_Frame::OnSoundItemsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnSoundItemsDelete(wxCommandEvent& Event)
 {
-	short Selection = Sounds_SoundItems_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_SoundItems_List->GetSelection();
+	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->Sounds[SoundID].Items.erase(GenieFile->Sounds[SoundID].Items.begin() + SoundItemID);
@@ -361,8 +361,8 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnSoundItemsCopy(wxCommandEvent& Event)
 {
-	short Selection = Sounds_SoundItems_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_SoundItems_List->GetSelection();
+	if(Selections != 0)
 	{
 		SoundItemCopy = *(genie::SoundItem*)Sounds_SoundItems_List->GetClientData(Selection);
 	}
@@ -371,8 +371,8 @@ void AGE_Frame::OnSoundItemsCopy(wxCommandEvent& Event)
 void AGE_Frame::OnSoundItemsPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Sounds_SoundItems_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Sounds_SoundItems_List->GetSelection();
+	if(Selections != 0)
 	{
 		*(genie::SoundItem*)Sounds_SoundItems_List->GetClientData(Selection) = SoundItemCopy;
 		ListSoundItems();
@@ -392,7 +392,7 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Sounds = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sounds");
 	Sounds_Sounds_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_Sounds_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_Sounds_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
+	Sounds_Sounds_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	Sounds_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Sounds_Insert = new wxButton(Tab_Sounds, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Sounds_Delete = new wxButton(Tab_Sounds, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -409,7 +409,7 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_SoundItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sound Items");
 	Sounds_SoundItems_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_SoundItems_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_SoundItems_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
+	Sounds_SoundItems_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	SoundItems_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Insert = new wxButton(Tab_Sounds, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Delete = new wxButton(Tab_Sounds, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));

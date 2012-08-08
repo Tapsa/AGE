@@ -233,10 +233,10 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		//wxMessageBox("Started to open the file!");
 		//Units_Civs_List->SetSelection(0);
 
-//		No research gaia fix
+//		No research gaia fix.
 		for(short loop = 0;loop < GenieFile->Civs[0].Units.size();loop++)
 			GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
-//		ID and pointer fixes
+//		ID and pointer fixes.
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units.size();loop2++)
@@ -296,6 +296,9 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = lexical_cast<long>(1);
 		}
+//		Unit copying fixes.
+		UnitExists.resize(GenieFile->Civs.size());
+		UnitGraphics.resize(GenieFile->Civs.size());
 
 		Added = false;
 
@@ -2587,17 +2590,17 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == Civs_Name[0]->GetId())
 		{
-			ReducedName = GenieFile->Civs[CivID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize());
-			GenieFile->Civs[CivID].Name = ReducedName;
+			ReducedName = GenieFile->Civs[CivIDs.Item(0)].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivIDs.Item(0)].getNameSize());
+			GenieFile->Civs[CivIDs.Item(0)].Name = ReducedName;
 
 			ListCivs();
 		}
 		else if(Event.GetId() == Civs_Name[1]->GetId())
 		{
-			ReducedName = GenieFile->Civs[CivID].Name2;
-			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivID].getNameSize());
-			GenieFile->Civs[CivID].Name2 = ReducedName;
+			ReducedName = GenieFile->Civs[CivIDs.Item(0)].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivIDs.Item(0)].getNameSize());
+			GenieFile->Civs[CivIDs.Item(0)].Name2 = ReducedName;
 
 		//	ListCivs();
 			wxCommandEvent E;

@@ -167,4 +167,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
     //    new MyCanvas(this, wxID_ANY, wxPoint(50, 50), wxSize(700, 500));
 }
 
-WX_DEFINE_OBJARRAY(ArrayPlayerColour);
+//Working stuff if you need custom wxArrays. I'll just use standard vectors instead.
+//WX_DEFINE_OBJARRAY(wxArrayFloat);
+//WX_DEFINE_OBJARRAY(ArrayCivCopy);
+//WX_DEFINE_OBJARRAY(ArrayPlayerColour);
