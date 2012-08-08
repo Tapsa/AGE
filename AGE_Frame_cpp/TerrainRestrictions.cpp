@@ -106,7 +106,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	ExcludeText = wxString(TerRestrict_TerRestrict_Search_R->GetValue()).Lower();
 	string CompareText;
 
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
 	if(TerRestrict_TerRestrict_List->GetCount() > 0)
 	{
 		TerRestrict_TerRestrict_List->Clear();
@@ -144,7 +144,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 		Units_ComboBox_TerrainRestriction->Append(Name);
 	}
 
-	ListingFix(Selection, TerRestrict_TerRestrict_List);
+	ListingFix(Selections, TerRestrict_TerRestrict_List);
 	if(Sized)
 	Units_ComboBox_TerrainRestriction->SetSelection(RestrictionID1);
 
@@ -154,8 +154,8 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 
 void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
 {
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::TerrainRestriction * TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
 		TerRestrictID = TerrainRestrictionPointer - (&GenieFile->TerrainRestrictions[0]);
@@ -165,8 +165,8 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 {
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	short Selection2 = TerRestrict_Terrains_List->GetSelection();
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
+	short Selections2 = TerRestrict_Terrains_List->GetSelection();
 	if(Selection2 != wxNOT_FOUND)
 	{
 		genie::TerrainRestriction * TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
@@ -225,8 +225,8 @@ void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent& Event)
 {
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::TerrainRestriction Temp;
 		GenieFile->TerrainRestrictions.insert(GenieFile->TerrainRestrictions.begin() + TerRestrictID, Temp);
@@ -239,8 +239,8 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 {
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
+	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->TerrainRestrictions.erase(GenieFile->TerrainRestrictions.begin() + TerRestrictID);
@@ -255,8 +255,8 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent& Event)
 {
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
+	if(Selections != 0)
 	{
 		TerrainRestrictionCopy = *(genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection);
 	}
@@ -265,8 +265,8 @@ void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent& Event)
 void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
+	if(Selections != 0)
 	{
 		*(genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Selection) = TerrainRestrictionCopy;
 		ListTerrainRestrictions();
@@ -275,8 +275,8 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event)
 {
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	short Selection2 = TerRestrict_Terrains_List->GetSelection();
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
+	short Selections2 = TerRestrict_Terrains_List->GetSelection();
 	if(Selection != wxNOT_FOUND && Selection2 != wxNOT_FOUND)
 	{
 		TerrainRestrictionSubCopyAccess = GenieFile->TerrainRestrictions[TerRestrictID].TerrainAccessible[TerRestrictTerID];
@@ -290,8 +290,8 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event)
 void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = TerRestrict_TerRestrict_List->GetSelection();
-	short Selection2 = TerRestrict_Terrains_List->GetSelection();
+	short Selections = TerRestrict_TerRestrict_List->GetSelection();
+	short Selections2 = TerRestrict_Terrains_List->GetSelection();
 	if(Selection != wxNOT_FOUND && Selection2 != wxNOT_FOUND)
 	{
 		GenieFile->TerrainRestrictions[TerRestrictID].TerrainAccessible[TerRestrictTerID] = TerrainRestrictionSubCopyAccess;
@@ -314,7 +314,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_TerRestrict = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainRestrictions, "Terrain Restrictions");
 	TerRestrict_TerRestrict_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
 	TerRestrict_TerRestrict_Search_R = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
-	TerRestrict_TerRestrict_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
+	TerRestrict_TerRestrict_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	TerRestrict_Add = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	TerRestrict_Insert = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	TerRestrict_Delete = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -325,7 +325,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_DataArea = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Terrains_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
 	TerRestrict_Terrains_Search_R = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
-	TerRestrict_Terrains_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
+	TerRestrict_Terrains_List = new wxListBox(Tab_TerrainRestrictions, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	TerRestrict_Terrains_Buttons = new wxGridSizer(2, 0, 0);
 	TerRestrict_Terrains_Copy = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	TerRestrict_Terrains_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));

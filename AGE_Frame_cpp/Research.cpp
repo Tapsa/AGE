@@ -8,7 +8,7 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 	string Name = "";
 	if(Filter)
 	{
-		short Selection[2];
+		short Selections[2];
 		for(short loop = 0;loop < 2;loop++)
 		Selection[loop] = Research_Research_SearchFilters[loop]->GetSelection();
 
@@ -70,7 +70,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
 
-	short Selection = Research_Research_List->GetSelection();
+	short Selections = Research_Research_List->GetSelection();
 	if(Research_Research_List->GetCount() > 0)
 	{
 		Research_Research_List->Clear();
@@ -80,7 +80,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		Selection = 0;
 	}
 
-	short IDsCount = 21, ResearchIDs[IDsCount];
+	short IDCount = 21, ResearchIDs[IDCount];
 	if(Sized)
 	{
 		ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
@@ -156,7 +156,7 @@ void AGE_Frame::ListResearches(bool Sized)
 			TechTrees_ComboBox_Research[loop]->Clear();
 		}
 
-		for(short loop = 0;loop < IDsCount;loop++)
+		for(short loop = 0;loop < IDCount;loop++)
 		{
 			if(ResearchIDs[loop] == wxNOT_FOUND)
 			{
@@ -210,7 +210,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		}
 	}
 
-	ListingFix(Selection, Research_Research_List);
+	ListingFix(Selections, Research_Research_List);
 	if(Sized)
 	{
 		Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
@@ -239,8 +239,8 @@ void AGE_Frame::ListResearches(bool Sized)
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 {
-	short Selection = Research_Research_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Research_Research_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::Research * ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Selection);
 		ResearchID = ResearchPointer - (&GenieFile->Researchs[0]);
@@ -345,8 +345,8 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
 {
-	short Selection = Research_Research_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Research_Research_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::Research Temp;
 		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchID, Temp);
@@ -356,8 +356,8 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 {
-	short Selection = Research_Research_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Research_Research_List->GetSelection();
+	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchID);
@@ -369,8 +369,8 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 {
-	short Selection = Research_Research_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Research_Research_List->GetSelection();
+	if(Selections != 0)
 	{
 		ResearchCopy = *(genie::Research*)Research_Research_List->GetClientData(Selection);
 	}
@@ -379,8 +379,8 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Research_Research_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Research_Research_List->GetSelection();
+	if(Selections != 0)
 	{
 		*(genie::Research*)Research_Research_List->GetClientData(Selection) = ResearchCopy;
 		ListResearches();
@@ -402,7 +402,7 @@ void AGE_Frame::CreateResearchControls()
 		Research_Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 		Research_Research_UseAnd[loop] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
 	}
-	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
+	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	Research_Research_Buttons = new wxGridSizer(3, 0, 0);
 	Research_Add = new wxButton(Tab_Research, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Research_Insert = new wxButton(Tab_Research, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));

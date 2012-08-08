@@ -29,7 +29,7 @@ void AGE_Frame::ListTerrainBorders()
 	ExcludeText = wxString(Borders_Borders_Search_R->GetValue()).Lower();
 	string CompareText;
 
-	short Selection = Borders_Borders_List->GetSelection();
+	short Selections = Borders_Borders_List->GetSelection();
 
 	if(Borders_Borders_List->GetCount() > 0)
 	{
@@ -61,8 +61,8 @@ void AGE_Frame::ListTerrainBorders()
 
 void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
 {
-	short Selection = Borders_Borders_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Borders_Borders_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::TerrainBorder * BorderPointer = (genie::TerrainBorder*)Borders_Borders_List->GetClientData(Selection);
 		BorderID = BorderPointer - (&GenieFile->TerrainBorders[0]);
@@ -105,8 +105,8 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent& Event)
 {
-	short Selection = Borders_Borders_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Borders_Borders_List->GetSelection();
+	if(Selections != 0)
 	{
 		TerrainBorderCopy = *(genie::TerrainBorder*)Borders_Borders_List->GetClientData(Selection);
 	}
@@ -115,8 +115,8 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent& Event)
 void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Borders_Borders_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Borders_Borders_List->GetSelection();
+	if(Selections != 0)
 	{
 		*(genie::TerrainBorder*)Borders_Borders_List->GetClientData(Selection) = TerrainBorderCopy;
 		ListTerrainBorders();
@@ -147,7 +147,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 	ExcludeText = wxString(Borders_Frames_Search_R->GetValue()).Lower();
 	string CompareText;
 
-	short Selection = Borders_Frames_List->GetSelection();
+	short Selections = Borders_Frames_List->GetSelection();
 
 	if(Borders_Frames_List->GetCount() > 0)
 	{
@@ -179,8 +179,8 @@ void AGE_Frame::ListTerrainBorderFrames()
 
 void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent& Event)
 {
-	short Selection = Borders_Frames_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Borders_Frames_List->GetSelection();
+	if(Selections != 0)
 	{
 		genie::TBFrameData * FramePointer = (genie::TBFrameData*)Borders_Frames_List->GetClientData(Selection);
 		FrameID = FramePointer - (&GenieFile->TerrainBorders[BorderID].Frames[0]);
@@ -195,8 +195,8 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent& Event)
 {
-	short Selection = Borders_Frames_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Borders_Frames_List->GetSelection();
+	if(Selections != 0)
 	{
 		TBFrameDataCopy = *(genie::TBFrameData*)Borders_Frames_List->GetClientData(Selection);
 	}
@@ -205,8 +205,8 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent& Event)
 void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selection = Borders_Frames_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
+	short Selections = Borders_Frames_List->GetSelection();
+	if(Selections != 0)
 	{
 		*(genie::TBFrameData*)Borders_Frames_List->GetClientData(Selection) = TBFrameDataCopy;
 		ListTerrainBorderFrames();
@@ -223,7 +223,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Borders = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainBorders, "Terrain Borders");
 	Borders_Borders_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_Borders_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
-	Borders_Borders_List = new wxListBox(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(10, 220));
+	Borders_Borders_List = new wxListBox(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(10, 220), 0, wxLB_EXTENDED);
 	Borders_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Borders_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Borders_DataArea = new wxBoxSizer(wxVERTICAL);
@@ -235,7 +235,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Frames_Buttons = new wxGridSizer(2, 0, 0);
 	Borders_Frames_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_Frames_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
-	Borders_Frames_List = new wxListBox(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(10, 220));
+	Borders_Frames_List = new wxListBox(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(10, 220), 0, wxLB_EXTENDED);
 	Frames_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Frames_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 
