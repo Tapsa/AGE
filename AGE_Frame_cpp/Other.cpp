@@ -1794,11 +1794,11 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 					case 80:
 					case 90:
 					{
-						GenieFile->Civs[UnitCivID].Units[UnitID].Type = (char)UnitType;
+						GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = (char)UnitType;
 						if(AutoCopy)
 						{
 							for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-							GenieFile->Civs[loop].Units[UnitID].Type = (char)UnitType;
+							GenieFile->Civs[loop].Units[UnitIDs[0]].Type = (char)UnitType;
 
 							UnitsAutoCopy();
 						}
@@ -1846,45 +1846,45 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		short Selection = Units_ComboBox_Type->GetSelection();
 		if(Selection == 1)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 10;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 10;
 		}
 		else if(Selection == 2)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 20;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 20;
 		}
 		else if(Selection == 3)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 25;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 25;
 		}
 		else if(Selection == 4)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 30;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 30;
 		}
 		else if(Selection == 5)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 40;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 40;
 		}
 		else if(Selection == 6)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 60;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 60;
 		}
 		else if(Selection == 7)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 70;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 70;
 		}
 		else if(Selection == 8)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 80;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 80;
 		}
 		else if(Selection == 9)
 		{
-			GenieFile->Civs[UnitCivID].Units[UnitID].Type = 90;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 90;
 		}
 		if(AutoCopy)
 		{
-			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitID].Type;
+			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type;
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-			GenieFile->Civs[loop].Units[UnitID].Type = UnitType;
+			GenieFile->Civs[loop].Units[UnitIDs[0]].Type = UnitType;
 
 			UnitsAutoCopy();
 		}
@@ -2076,28 +2076,28 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[0]->GetId())
 	{
-		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[0]->GetSelection());
+		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionIDs[0]].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[0]->GetSelection());
 
 		wxCommandEvent E;
 		OnTTBuildingSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[1]->GetId())
 	{
-		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionID].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[1]->GetSelection());
+		GenieFile->TechTree.BuildingConnections[TTBuildingConnectionIDs[0]].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[1]->GetSelection());
 
 		wxCommandEvent E;
 		OnTTBuildingSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[2]->GetId())
 	{
-		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[2]->GetSelection());
+		GenieFile->TechTree.UnitConnections[TTUnitConnectionIDs[0]].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[2]->GetSelection());
 
 		wxCommandEvent E;
 		OnTTUnitSelect(E);
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[3]->GetId())
 	{
-		GenieFile->TechTree.UnitConnections[TTUnitConnectionID].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[3]->GetSelection());
+		GenieFile->TechTree.UnitConnections[TTUnitConnectionIDs[0]].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[3]->GetSelection());
 
 		wxCommandEvent E;
 		OnTTUnitSelect(E);
@@ -2168,9 +2168,9 @@ void AGE_Frame::OnKillFocus_CheckBoxByte(wxFocusEvent& Event)
 	{
 		if(Event.GetId() == Graphics_AttackSoundUsed->GetId())
 		{
-			if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
+			if((GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size() != GenieFile->Graphics[GraphicIDs[0]].AngleCount) && GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 1)
 			{
-				GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
+				GenieFile->Graphics[GraphicIDs[0]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[0]].AngleCount);
 
 				wxCommandEvent E;
 				OnGraphicsSelect(E);
@@ -2373,9 +2373,9 @@ void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == Graphics_AngleCount->GetId())
 		{
-			if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
+			if((GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size() != GenieFile->Graphics[GraphicIDs[0]].AngleCount) && GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 1)
 			{
-				GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
+				GenieFile->Graphics[GraphicIDs[0]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[0]].AngleCount);
 
 				wxCommandEvent E;
 				OnGraphicsSelect(E);
@@ -2564,17 +2564,17 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		string ReducedName;
 		if(Event.GetId() == Research_Name[0]->GetId())
 		{
-			ReducedName = GenieFile->Researchs[ResearchID].Name;
+			ReducedName = GenieFile->Researchs[ResearchIDs[0]].Name;
 			ReducedName = ReducedName.substr(0, 30);
-			GenieFile->Researchs[ResearchID].Name = ReducedName;
+			GenieFile->Researchs[ResearchIDs[0]].Name = ReducedName;
 
 			ListResearches();
 		}
 		else if(Event.GetId() == Research_Name[1]->GetId())
 		{
-			ReducedName = GenieFile->Researchs[ResearchID].Name2;
+			ReducedName = GenieFile->Researchs[ResearchIDs[0]].Name2;
 			ReducedName = ReducedName.substr(0, 30);
-			GenieFile->Researchs[ResearchID].Name2 = ReducedName;
+			GenieFile->Researchs[ResearchIDs[0]].Name2 = ReducedName;
 
 		//	ListResearches();
 			wxCommandEvent E;
@@ -2582,25 +2582,25 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == Techs_Name->GetId())
 		{
-			ReducedName = GenieFile->Techages[TechID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Techages[TechID].getNameSize());
-			GenieFile->Techages[TechID].Name = ReducedName;
+			ReducedName = GenieFile->Techages[TechIDs[0]].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Techages[TechIDs[0]].getNameSize());
+			GenieFile->Techages[TechIDs[0]].Name = ReducedName;
 
 			ListTechages();
 		}
 		else if(Event.GetId() == Civs_Name[0]->GetId())
 		{
-			ReducedName = GenieFile->Civs[CivIDs.Item(0)].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivIDs.Item(0)].getNameSize());
-			GenieFile->Civs[CivIDs.Item(0)].Name = ReducedName;
+			ReducedName = GenieFile->Civs[CivIDs[0]].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivIDs[0]].getNameSize());
+			GenieFile->Civs[CivIDs[0]].Name = ReducedName;
 
 			ListCivs();
 		}
 		else if(Event.GetId() == Civs_Name[1]->GetId())
 		{
-			ReducedName = GenieFile->Civs[CivIDs.Item(0)].Name2;
-			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivIDs.Item(0)].getNameSize());
-			GenieFile->Civs[CivIDs.Item(0)].Name2 = ReducedName;
+			ReducedName = GenieFile->Civs[CivIDs[0]].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->Civs[CivIDs[0]].getNameSize());
+			GenieFile->Civs[CivIDs[0]].Name2 = ReducedName;
 
 		//	ListCivs();
 			wxCommandEvent E;
@@ -2608,17 +2608,17 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == Graphics_Name->GetId())
 		{
-			ReducedName = GenieFile->Graphics[GraphicID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getNameSize());
-			GenieFile->Graphics[GraphicID].Name = ReducedName;
+			ReducedName = GenieFile->Graphics[GraphicIDs[0]].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicIDs[0]].getNameSize());
+			GenieFile->Graphics[GraphicIDs[0]].Name = ReducedName;
 
 			ListGraphics();
 		}
 		else if(Event.GetId() == Graphics_Name2->GetId())
 		{
-			ReducedName = GenieFile->Graphics[GraphicID].Name2;
-			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicID].getName2Size());
-			GenieFile->Graphics[GraphicID].Name2 = ReducedName;
+			ReducedName = GenieFile->Graphics[GraphicIDs[0]].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->Graphics[GraphicIDs[0]].getName2Size());
+			GenieFile->Graphics[GraphicIDs[0]].Name2 = ReducedName;
 
 		//	ListGraphics();
 			wxCommandEvent E;
@@ -2626,17 +2626,17 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == Terrains_Name->GetId())
 		{
-			ReducedName = GenieFile->Terrains[TerrainID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize());
-			GenieFile->Terrains[TerrainID].Name = ReducedName;
+			ReducedName = GenieFile->Terrains[TerrainIDs[0]].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainIDs[0]].getNameSize());
+			GenieFile->Terrains[TerrainIDs[0]].Name = ReducedName;
 
 			ListTerrains();
 		}
 		else if(Event.GetId() == Terrains_Name2->GetId())
 		{
-			ReducedName = GenieFile->Terrains[TerrainID].Name2;
-			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainID].getNameSize());
-			GenieFile->Terrains[TerrainID].Name2 = ReducedName;
+			ReducedName = GenieFile->Terrains[TerrainIDs[0]].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->Terrains[TerrainIDs[0]].getNameSize());
+			GenieFile->Terrains[TerrainIDs[0]].Name2 = ReducedName;
 
 		//	ListTerrains();
 			wxCommandEvent E;
@@ -2644,41 +2644,41 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		}
 		else if(Event.GetId() == SoundItems_Name->GetId())
 		{
-			ReducedName = GenieFile->Sounds[SoundID].Items[SoundItemID].FileName;
-			ReducedName = ReducedName.substr(0, GenieFile->Sounds[SoundID].Items[SoundItemID].getFileNameSize());
-			GenieFile->Sounds[SoundID].Items[SoundItemID].FileName = ReducedName;
+			ReducedName = GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].FileName;
+			ReducedName = ReducedName.substr(0, GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].getFileNameSize());
+			GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].FileName = ReducedName;
 
 			ListSoundItems();
 		}
 		else if(Event.GetId() == Colors_Name->GetId())
 		{
-			ReducedName = GenieFile->PlayerColours[ColorIDs.Item(0)].Name;
+			ReducedName = GenieFile->PlayerColours[ColorIDs[0]].Name;
 			ReducedName = ReducedName.substr(0, 30);
-			GenieFile->PlayerColours[ColorIDs.Item(0)].Name = ReducedName;
+			GenieFile->PlayerColours[ColorIDs[0]].Name = ReducedName;
 
 			ListPlayerColors();
 		}
 		else if(Event.GetId() == UnitLines_Name->GetId())
 		{
-			ReducedName = GenieFile->UnitLines[UnitLineID].Name;
+			ReducedName = GenieFile->UnitLines[UnitLineIDs[0]].Name;
 			ReducedName = ReducedName.substr(0, 30);
-			GenieFile->UnitLines[UnitLineID].Name = ReducedName;
+			GenieFile->UnitLines[UnitLineIDs[0]].Name = ReducedName;
 
 			ListUnitLines();
 		}
 		else if(Event.GetId() == Borders_BorderName[0]->GetId())
 		{
-			ReducedName = GenieFile->TerrainBorders[BorderID].Name;
-			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
-			GenieFile->TerrainBorders[BorderID].Name = ReducedName;
+			ReducedName = GenieFile->TerrainBorders[BorderIDs[0]].Name;
+			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderIDs[0]].getNameSize());
+			GenieFile->TerrainBorders[BorderIDs[0]].Name = ReducedName;
 
 			ListTerrainBorders();
 		}
 		else if(Event.GetId() == Borders_BorderName[1]->GetId())
 		{
-			ReducedName = GenieFile->TerrainBorders[BorderID].Name2;
-			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderID].getNameSize());
-			GenieFile->TerrainBorders[BorderID].Name2 = ReducedName;
+			ReducedName = GenieFile->TerrainBorders[BorderIDs[0]].Name2;
+			ReducedName = ReducedName.substr(0, GenieFile->TerrainBorders[BorderIDs[0]].getNameSize());
+			GenieFile->TerrainBorders[BorderIDs[0]].Name2 = ReducedName;
 
 			ListTerrainBorders();
 		}
@@ -2697,17 +2697,17 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 		}
 		if(Event.GetId() == Units_Name->GetId())
 		{
-			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name;
+			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name;
 			ReducedName = ReducedName.substr(0, 30);
-			GenieFile->Civs[UnitCivID].Units[UnitID].Name = ReducedName;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name = ReducedName;
 
 			ListUnits(UnitCivID);
 		}
 		else if(Event.GetId() == Units_Name2->GetId())
 		{
-			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitID].Name2;
+			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name2;
 			ReducedName = ReducedName.substr(0, 30);
-			GenieFile->Civs[UnitCivID].Units[UnitID].Name2 = ReducedName;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name2 = ReducedName;
 
 			wxCommandEvent E;
 			OnUnitsSelect(E);
@@ -2729,9 +2729,9 @@ void AGE_Frame::OnUpdate_CheckBoxByte(wxCommandEvent& Event)
 	((CheckBox_Byte*)Event.GetEventObject())->OnUpdate(Event);
 	if(Event.GetId() == Graphics_CheckBox_AttackSoundUsed->GetId())
 	{
-		if((GenieFile->Graphics[GraphicID].AttackSounds.size() != GenieFile->Graphics[GraphicID].AngleCount) && GenieFile->Graphics[GraphicID].AttackSoundUsed == 1)
+		if((GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size() != GenieFile->Graphics[GraphicIDs[0]].AngleCount) && GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 1)
 		{
-			GenieFile->Graphics[GraphicID].AttackSounds.resize(GenieFile->Graphics[GraphicID].AngleCount);
+			GenieFile->Graphics[GraphicIDs[0]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[0]].AngleCount);
 
 			wxCommandEvent E;
 			OnGraphicsSelect(E);
@@ -2929,6 +2929,25 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEven
 	if(AutoCopy)
 	{
 		UnitsAutoCopy();
+	}
+}
+
+void AGE_Frame::ListingFix(short &Selections, wxListBox* &List)
+{
+	if(Selections == 0)
+		List->SetSelection(0);
+	else
+	{
+		if(Added || Items.Item(0) >= List->GetCount())
+		{
+			List->SetSelection(List->GetCount() - 1);
+			Added = false;
+		}
+		else
+		{
+			List->SetFirstItem(Items.Item(0) - 3);
+			List->SetSelection(Items.Item(0));
+		}
 	}
 }
 

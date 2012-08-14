@@ -45,7 +45,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
 	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_CustomNames, "Names", wxNullBitmap, "Extract a setting file for custom names in some lists\nRestart this program after editing the file");
+	GetToolBar()->AddTool(ToolBar_CustomNames, "Lists", wxNullBitmap, "Extract a setting file for custom names in some lists\nRestart this program after editing the file");
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->Realize();
 	

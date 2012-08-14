@@ -90,7 +90,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent& Event)
 	genie::UnitLine Temp;
 	GenieFile->UnitLines.push_back(Temp);
 	if(EnableIDFix)
-	GenieFile->UnitLines[GenieFile->UnitLines.size() - 1].ID = lexical_cast<short>(GenieFile->UnitLines.size() - 1);	//	ID Fix
+	GenieFile->UnitLines[GenieFile->UnitLines.size()-1].ID = lexical_cast<short>(GenieFile->UnitLines.size()-1); // ID Fix
 	Added = true;
 	ListUnitLines();
 }
@@ -103,7 +103,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent& Event)
 		genie::UnitLine Temp;
 		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineID, Temp);
 		if(EnableIDFix)
-		for(short loop = UnitLineID;loop < GenieFile->UnitLines.size();loop++)	//	ID Fix
+		for(short loop = UnitLineID;loop < GenieFile->UnitLines.size();loop++) // ID Fix
 		{
 			GenieFile->UnitLines[loop].ID = lexical_cast<short>(loop);
 		}
@@ -119,7 +119,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineID);
 		if(EnableIDFix)
-		for(short loop = UnitLineID;loop < GenieFile->UnitLines.size();loop++)	//	ID Fix
+		for(short loop = UnitLineID;loop < GenieFile->UnitLines.size();loop++) // ID Fix
 		{
 			GenieFile->UnitLines[loop].ID = lexical_cast<short>(loop);
 		}
@@ -146,7 +146,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 	{
 		*(genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Selection) = UnitLineCopy;
 		if(EnableIDFix)
-		GenieFile->UnitLines[UnitLineID].ID = lexical_cast<short>(UnitLineID);	//	ID Fix
+		GenieFile->UnitLines[UnitLineID].ID = lexical_cast<short>(UnitLineID); // ID Fix
 		ListUnitLines();
 	}
 }
