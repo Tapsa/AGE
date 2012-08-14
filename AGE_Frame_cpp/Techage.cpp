@@ -231,9 +231,9 @@ void AGE_Frame::OnTechageCopy(wxCommandEvent& Event)	// Works.
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TechageCopies.resize(Selections);
+		TechCopies.resize(Selections);
 		for(short loop = 0;loop < Selections;loop++)
-		TechageCopies[loop] = GenieFile->Techages[TechIDs[loop]];
+		TechCopies[loop] = GenieFile->Techages[TechIDs[loop]];
 	}
 }
 
@@ -243,10 +243,10 @@ void AGE_Frame::OnTechagePaste(wxCommandEvent& Event)	// Works.
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TechageCopies.size()+TechIDs[0] > GenieFile->Techages.size())
-		GenieFile->Techages.resize(TechageCopies.size()+TechIDs[0]);
-		for(short loop = 0;loop < TechageCopies.size();loop++)
-		GenieFile->Techages[TechIDs[0]+loop] = TechageCopies[loop];
+		if(TechCopies.size()+TechIDs[0] > GenieFile->Techages.size())
+		GenieFile->Techages.resize(TechCopies.size()+TechIDs[0]);
+		for(short loop = 0;loop < TechCopies.size();loop++)
+		GenieFile->Techages[TechIDs[0]+loop] = TechCopies[loop];
 		ListTechages();
 	}
 }
@@ -258,9 +258,9 @@ void AGE_Frame::OnTechagePasteInsert(wxCommandEvent& Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::Techage Temp;
-		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], TechageCopies.size(), Temp);
-		for(short loop = 0;loop < TechageCopies.size();loop++)
-		GenieFile->Techages[TechIDs[0]+loop] = TechageCopies[loop];
+		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], TechCopies.size(), Temp);
+		for(short loop = 0;loop < TechCopies.size();loop++)
+		GenieFile->Techages[TechIDs[0]+loop] = TechCopies[loop];
 		ListTechages();
 	}
 }
