@@ -1492,10 +1492,10 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 		GenieFile->Civs[loop].UnitPointers.push_back(1);
 		if(EnableIDFix)
 		{
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID1 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);	//	ID Fix
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID2 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID1 = lexical_cast<short>(GenieFile->Civs[0].Units.size()-1); // ID Fix
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID2 = lexical_cast<short>(GenieFile->Civs[0].Units.size()-1);
 			if(GameVersion >= 2)
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size() - 1].ID3 = lexical_cast<short>(GenieFile->Civs[0].Units.size() - 1);
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = lexical_cast<short>(GenieFile->Civs[0].Units.size()-1);
 		}
 	}
 	if(GameVersion > 1)
@@ -1527,7 +1527,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units.insert(GenieFile->Civs[loop].Units.begin() + UnitID, Temp2);
 			GenieFile->Civs[loop].UnitPointers.insert(GenieFile->Civs[loop].UnitPointers.begin() + UnitID, 1);
 			if(EnableIDFix)
-			for(short loop2 = UnitID;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID Fix
+			for(short loop2 = UnitID;loop2 < GenieFile->Civs[0].Units.size();loop2++) // ID Fix
 			{
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
 				GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
@@ -1563,7 +1563,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units.erase(GenieFile->Civs[loop].Units.begin() + UnitID);
 			GenieFile->Civs[loop].UnitPointers.erase(GenieFile->Civs[loop].UnitPointers.begin() + UnitID);
 			if(EnableIDFix)
-			for(short loop2 = UnitID;loop2 < GenieFile->Civs[0].Units.size();loop2++)	//	ID Fix
+			for(short loop2 = UnitID;loop2 < GenieFile->Civs[0].Units.size();loop2++) // ID Fix
 			{
 				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
 				GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
@@ -1605,7 +1605,6 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 		}
 		else
 		{
-			//RefreshLists = UnitID;
 			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 			{
 				UnitExists[loop] = (bool)GenieFile->Civs[loop].UnitPointers[UnitID];
@@ -1756,7 +1755,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 		{
 			GenieFile->Civs[loop].UnitPointers[UnitID] = (long)UnitExists[loop];
 			//if(EnableIDFix)
-			GenieFile->Civs[loop].Units[UnitID].ID1 = lexical_cast<short>(UnitID);	//	ID Fix
+			GenieFile->Civs[loop].Units[UnitID].ID1 = lexical_cast<short>(UnitID); // ID Fix
 			GenieFile->Civs[loop].Units[UnitID].ID2 = lexical_cast<short>(UnitID);
 			if(GameVersion >= 2)
 			GenieFile->Civs[loop].Units[UnitID].ID3 = lexical_cast<short>(UnitID);
@@ -1836,7 +1835,7 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
 			GenieFile->Civs[loop].UnitPointers[UnitID] = 1;
-			GenieFile->Civs[loop].Units[UnitID].ID1 = lexical_cast<short>(UnitID);	//	ID Fix
+			GenieFile->Civs[loop].Units[UnitID].ID1 = lexical_cast<short>(UnitID); // ID Fix
 			GenieFile->Civs[loop].Units[UnitID].ID2 = lexical_cast<short>(UnitID);
 			if(GameVersion >= 2)
 			GenieFile->Civs[loop].Units[UnitID].ID3 = lexical_cast<short>(UnitID);
@@ -1844,7 +1843,7 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
 		else
 		{
 			GenieFile->Civs[UnitCivID].UnitPointers[UnitID] = 1;
-			GenieFile->Civs[UnitCivID].Units[UnitID].ID1 = lexical_cast<short>(UnitID);	//	ID Fix
+			GenieFile->Civs[UnitCivID].Units[UnitID].ID1 = lexical_cast<short>(UnitID); // ID Fix
 			GenieFile->Civs[UnitCivID].Units[UnitID].ID2 = lexical_cast<short>(UnitID);
 			if(GameVersion >= 2)
 			GenieFile->Civs[UnitCivID].Units[UnitID].ID3 = lexical_cast<short>(UnitID);
@@ -2751,7 +2750,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.push_back(Temp);
 			if(EnableIDFix)
-			GenieFile->UnitHeaders[UnitID].Commands[GenieFile->UnitHeaders[UnitID].Commands.size() - 1].ID = lexical_cast<short>(GenieFile->UnitHeaders[UnitID].Commands.size() - 1);	//	ID Fix
+			GenieFile->UnitHeaders[UnitID].Commands[GenieFile->UnitHeaders[UnitID].Commands.size()-1].ID = lexical_cast<short>(GenieFile->UnitHeaders[UnitID].Commands.size()-1); // ID Fix
 		}
 		else
 		{
@@ -2759,7 +2758,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 			{
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands.push_back(Temp);
 				if(EnableIDFix)
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[GenieFile->Civs[0].Units[UnitID].Bird.Commands.size() - 1].ID = lexical_cast<short>(GenieFile->Civs[0].Units[UnitID].Bird.Commands.size() - 1);	//	ID Fix
+				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[GenieFile->Civs[0].Units[UnitID].Bird.Commands.size()-1].ID = lexical_cast<short>(GenieFile->Civs[0].Units[UnitID].Bird.Commands.size()-1); // ID Fix
 			}
 		}
 		Added = true;
@@ -2777,7 +2776,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.insert(GenieFile->UnitHeaders[UnitID].Commands.begin() + CommandID, Temp);
 			if(EnableIDFix)
-			for(short loop2 = CommandID;loop2 < GenieFile->UnitHeaders[UnitID].Commands.size();loop2++)	//	ID Fix
+			for(short loop2 = CommandID;loop2 < GenieFile->UnitHeaders[UnitID].Commands.size();loop2++) // ID Fix
 			{
 				GenieFile->UnitHeaders[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
@@ -2788,7 +2787,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 			{
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands.insert(GenieFile->Civs[loop].Units[UnitID].Bird.Commands.begin() + CommandID, Temp);
 				if(EnableIDFix)
-				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitID].Bird.Commands.size();loop2++)	//	ID Fix
+				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitID].Bird.Commands.size();loop2++) // ID Fix
 				{
 					GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ID = lexical_cast<short>(loop2);
 				}
@@ -2808,7 +2807,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 		{
 			GenieFile->UnitHeaders[UnitID].Commands.erase(GenieFile->UnitHeaders[UnitID].Commands.begin() + CommandID);
 			if(EnableIDFix)
-			for(short loop2 = CommandID;loop2 < GenieFile->UnitHeaders[UnitID].Commands.size();loop2++)	//	ID Fix
+			for(short loop2 = CommandID;loop2 < GenieFile->UnitHeaders[UnitID].Commands.size();loop2++) // ID Fix
 			{
 				GenieFile->UnitHeaders[UnitID].Commands[loop2].ID = lexical_cast<short>(loop2);
 			}
@@ -2819,7 +2818,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 			{
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands.erase(GenieFile->Civs[loop].Units[UnitID].Bird.Commands.begin() + CommandID);
 				if(EnableIDFix)
-				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitID].Bird.Commands.size();loop2++)	//	ID Fix
+				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitID].Bird.Commands.size();loop2++) // ID Fix
 				{
 					GenieFile->Civs[loop].Units[UnitID].Bird.Commands[loop2].ID = lexical_cast<short>(loop2);
 				}
@@ -2850,7 +2849,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 		{
 			*(genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Selection) = UnitCommandCopy;
 			if(EnableIDFix)
-			GenieFile->UnitHeaders[UnitID].Commands[CommandID].ID = lexical_cast<short>(CommandID);	//	ID Fix
+			GenieFile->UnitHeaders[UnitID].Commands[CommandID].ID = lexical_cast<short>(CommandID); // ID Fix
 		}
 		else
 		{
@@ -2861,7 +2860,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 				if(AutoCopy)
 				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[CommandID] = UnitCommandCopy;
 				if(EnableIDFix)
-				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[CommandID].ID = lexical_cast<short>(CommandID);	//	ID Fix
+				GenieFile->Civs[loop].Units[UnitID].Bird.Commands[CommandID].ID = lexical_cast<short>(CommandID); // ID Fix
 			}
 		}
 		ListUnitCommands();

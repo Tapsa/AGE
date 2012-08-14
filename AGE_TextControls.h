@@ -16,15 +16,21 @@ using boost::bad_lexical_cast;
 class TextCtrl_Bool : public wxTextCtrl
 {
 	public:
-	
-	TextCtrl_Bool(wxWindow*, string, bool*);
-	
-	/* Events */
-	
+
+	TextCtrl_Bool(wxWindow * parent, string InitValue, bool * Pointer)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	{
+		Container = Pointer;
+		this->SetBackgroundColour(wxColour(255, 255, 205));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Bool::OnKillFocus));	// Must-have
+	}
+
+//	Events
+
 	void OnKillFocus(wxFocusEvent& Event);
-	
-	/* Member Variables */
-	
+
+//	Member Variables
+
 	bool * Container;
 	void * ParentContainer;
 	bool NoLoadList;
@@ -38,15 +44,21 @@ class TextCtrl_Bool : public wxTextCtrl
 class TextCtrl_Byte : public wxTextCtrl
 {
 	public:
-	
-	TextCtrl_Byte(wxWindow*, string, char*);
-	
-	/* Events */
-	
+
+	TextCtrl_Byte(wxWindow * parent, string InitValue, char * Pointer)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	{
+		Container = Pointer;
+		this->SetBackgroundColour(wxColour(255, 235, 215));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));	// Must-have
+	}
+
+//	Events
+
 	void OnKillFocus(wxFocusEvent& Event);
-	
-	/* Member Variables */
-	
+
+//	Member Variables
+
 	char * Container;
 	void * ParentContainer;	//	These are for check and combo boxes.
 	bool NoLoadList;
@@ -61,13 +73,19 @@ class TextCtrl_Float : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_Float(wxWindow*, string, float*);
+	TextCtrl_Float(wxWindow * parent, string InitValue, float * Pointer)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	{
+		Container = Pointer;
+		this->SetBackgroundColour(wxColour(255, 225, 255));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
+	}
 
-	/* Events */
+//	Events
 
 	void OnKillFocus(wxFocusEvent& Event);
 
-	/* Member Variables */
+//	Member Variables
 
 	float * Container;
 	void * ParentContainer;
@@ -83,13 +101,19 @@ class TextCtrl_Long : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_Long(wxWindow*, string, int32_t*);
+	TextCtrl_Long(wxWindow * parent, string InitValue, int32_t * Pointer)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	{
+		Container = Pointer;
+		this->SetBackgroundColour(wxColour(215, 255, 255));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
+	}
 
-	/* Events */
+//	Events
 
 	void OnKillFocus(wxFocusEvent& Event);
 
-	/* Member Variables */
+//	Member Variables
 
 	int32_t * Container;
 	void * ParentContainer;
@@ -105,13 +129,19 @@ class TextCtrl_Short : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_Short(wxWindow*, string, int16_t*);
+	TextCtrl_Short(wxWindow * parent, string InitValue, int16_t * Pointer)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	{
+		Container = Pointer;
+		this->SetBackgroundColour(wxColour(210, 230, 255));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
+	}
 
-	/* Events */
+//	Events
 
 	void OnKillFocus(wxFocusEvent& Event);
 
-	/* Member Variables */
+//	Member Variables
 
 	int16_t * Container;
 	void * ParentContainer;
@@ -127,13 +157,19 @@ class TextCtrl_UnShort : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_UnShort(wxWindow*, string, uint16_t*);
+	TextCtrl_UnShort(wxWindow * parent, string InitValue, uint16_t * Pointer)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	{
+		Container = Pointer;
+		this->SetBackgroundColour(wxColour(210, 230, 255));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UnShort::OnKillFocus));
+	}
 
-	/* Events */
+//	Events
 
 	void OnKillFocus(wxFocusEvent& Event);
 
-	/* Member Variables */
+//	Member Variables
 
 	uint16_t * Container;
 	void * ParentContainer;
@@ -149,13 +185,20 @@ class TextCtrl_String : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_String(wxWindow*, string, void*, short = -1);
+	TextCtrl_String(wxWindow * parent, string InitValue, void * Pointer, short CLength = -1)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	{
+		Container = Pointer;
+		Length = CLength;
+		this->SetBackgroundColour(wxColour(220, 255, 220));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_String::OnKillFocus));
+	}
 
-	/* Events */
+//	Events
 
 	void OnKillFocus(wxFocusEvent& Event);
 
-	/* Member Variables */
+//	Member Variables
 
 	short Length;
 	void * Container;

@@ -12,7 +12,7 @@ void CheckBox_Bool::OnUpdate(wxCommandEvent& Event)
 
 void CheckBox_Byte::OnUpdate(wxCommandEvent& Event)
 {
-	Container->ChangeValue(lexical_cast<string>((char)GetValue()));
+	Container->ChangeValue(lexical_cast<string>((int16_t)GetValue()));
 
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
@@ -45,7 +45,7 @@ void CheckBox_Short_ZeroIsYes::OnUpdate(wxCommandEvent& Event)
 	{
 		Container->ChangeValue("-1");
 	}
-	
+
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
 }
@@ -61,7 +61,7 @@ void CheckBox_Long_ZeroIsYes::OnUpdate(wxCommandEvent& Event)
 	{
 		Container->ChangeValue("-1");
 	}
-	
+
 	wxFocusEvent Temp;
 	Container->OnKillFocus(Temp);
 }
@@ -81,7 +81,7 @@ void CheckBox_Byte::OnKillFocus(wxFocusEvent& Event)
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
 	{
-		char Value = lexical_cast<char>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
+		int16_t Value = lexical_cast<int16_t>(((TextCtrl_Byte*)Event.GetEventObject())->GetValue());
 		((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->SetValue(Value);
 	}
 }
@@ -156,76 +156,4 @@ void CheckBox_Long_ZeroIsYes::OnKillFocus(wxFocusEvent& Event)
 			break;
 		}
 	}
-}
-
-CheckBox_Bool::CheckBox_Bool(wxWindow * parent, string InitValue, TextCtrl_Bool * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
-{
-	Container = Pointer;
-	Container->ParentContainer = this;
-
-	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Bool::OnKillFocus));
-	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Bool::OnKillFocus), this);
-
-	Connect(this->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Bool::OnUpdate));
-}
-
-CheckBox_Byte::CheckBox_Byte(wxWindow * parent, string InitValue, TextCtrl_Byte * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
-{
-	Container = Pointer;
-	Container->ParentContainer = this;
-
-	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));
-	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Byte::OnKillFocus), this);
-
-	Connect(this->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Byte::OnUpdate));
-}
-
-CheckBox_Float::CheckBox_Float(wxWindow * parent, string InitValue, TextCtrl_Float * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
-{
-	Container = Pointer;
-	Container->ParentContainer = this;
-
-	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
-	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Float::OnKillFocus), this);
-
-	Connect(this->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Float::OnUpdate));
-}
-
-CheckBox_Short::CheckBox_Short(wxWindow * parent, string InitValue, TextCtrl_Short * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
-{
-	Container = Pointer;
-	Container->ParentContainer = this;
-
-	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
-	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Short::OnKillFocus), this);
-
-	Connect(this->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Short::OnUpdate));
-}
-
-CheckBox_Short_ZeroIsYes::CheckBox_Short_ZeroIsYes(wxWindow * parent, string InitValue, TextCtrl_Short * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
-{
-	Container = Pointer;
-	Container->ParentContainer = this;
-
-	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
-	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Short_ZeroIsYes::OnKillFocus), this);
-
-	Connect(this->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Short_ZeroIsYes::OnUpdate));
-}
-
-CheckBox_Long_ZeroIsYes::CheckBox_Long_ZeroIsYes(wxWindow * parent, string InitValue, TextCtrl_Long * Pointer)
-: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
-{
-	Container = Pointer;
-	Container->ParentContainer = this;
-
-	Container->Disconnect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
-	Container->Connect(Container->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Long_ZeroIsYes::OnKillFocus), this);
-
-	Connect(this->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Long_ZeroIsYes::OnUpdate));
 }

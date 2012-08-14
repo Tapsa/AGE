@@ -643,93 +643,88 @@ class AGE_Frame : public wxFrame
 	wxArrayInt Items;
 	long TechTreePage;
 	long TechTreeSize;
-	genie::Research ResearchCopy;
-	short ResearchID;
-	genie::Techage TechageCopy;
-	short TechID;
-	genie::TechageEffect EffectCopy;
-	short EffectID;
-	genie::TechTreeAge TTAgeCopy;
-	short TTAgeID;
-	long TTAgeBuildingCopy;
-	short TTAgeBuildingID;
-	long TTAgeUnitCopy;
-	short TTAgeUnitID;
-	long TTAgeResearchCopy;
-	short TTAgeResearchID;
-	genie::BuildingConnection TTBuildingConnectionCopy;
-	short TTBuildingConnectionID;
-	long TTBuildingBuildingCopy;
-	short TTBuildingBuildingID;
-	long TTBuildingUnitCopy;
-	short TTBuildingUnitID;
-	long TTBuildingResearchCopy;
-	short TTBuildingResearchID;
-	genie::UnitConnection TTUnitConnectionCopy;
-	short TTUnitConnectionID;
-	long TTUnitUnitCopy;
-	short TTUnitUnitID;
-	genie::ResearchConnection TTResearchConnectionCopy;
-	short TTResearchConnectionID;
-	long TTResearchBuildingCopy;
-	short TTResearchBuildingID;
-	long TTResearchUnitCopy;
-	short TTResearchUnitID;
-	long TTResearchResearchCopy;
-	short TTResearchResearchID;
+	vector<genie::Research> ResearchCopies;
+	vector<short> ResearchIDs;
+	vector<genie::Techage> TechageCopies;
+	vector<short> TechIDs;
+	vector<genie::TechageEffect> EffectCopies;
+	vector<short> EffectIDs;
+	vector<genie::TechTreeAge> TTAgeCopies;
+	vector<short> TTAgeIDs;
+	vector<long> TTAgeBuildingCopies;
+	vector<short> TTAgeBuildingIDs;
+	vector<long> TTAgeUnitCopies;
+	vector<short> TTAgeUnitIDs;
+	vector<long> TTAgeResearchCopies;
+	vector<short> TTAgeResearchIDs;
+	vector<genie::BuildingConnection> TTBuildingConnectionCopies;
+	vector<short> TTBuildingConnectionIDs;
+	vector<long> TTBuildingBuildingCopies;
+	vector<short> TTBuildingBuildingIDs;
+	vector<long> TTBuildingUnitCopies;
+	vector<short> TTBuildingUnitIDs;
+	vector<long> TTBuildingResearchCopies;
+	vector<short> TTBuildingResearchIDs;
+	vector<genie::UnitConnection> TTUnitConnectionCopies;
+	vector<short> TTUnitConnectionIDs;
+	vector<long> TTUnitUnitCopies;
+	vector<short> TTUnitUnitIDs;
+	vector<genie::ResearchConnection> TTResearchConnectionCopies;
+	vector<short> TTResearchConnectionIDs;
+	vector<long> TTResearchBuildingCopies;
+	vector<short> TTResearchBuildingIDs;
+	vector<long> TTResearchUnitCopies;
+	vector<short> TTResearchUnitIDs;
+	vector<long> TTResearchResearchCopies;
+	vector<short> TTResearchResearchIDs;
 
 	static const short MaxCivs = 30;
 	short Zero;
-	//ArrayCivCopy CivCopies;
 	vector<genie::Civ> CivCopies;
-	wxArrayInt CivIDs;
-	//wxArrayFloat ResourceCopies;
+	vector<short> CivIDs;
 	vector<float> ResourceCopies;
-	wxArrayInt ResourceIDs;
-	genie::Unit UnitCopy;
-	genie::Unit UnitSpecialCopy;
-	short UnitID;
+	vector<short> ResourceIDs;
+	vector<genie::Unit> UnitCopies;
+	vector<genie::Unit> UnitSpecialCopies;
+	vector<short> UnitIDs;
 	short UnitCivID;
-//	int RefreshLists;
 	vector<bool> UnitExists;
 	vector<genie::Unit> UnitGraphics;	// This should be a vector equal to Civs.
-	genie::unit::DamageGraphic DamageGraphicCopy;
-	short DamageGraphicID;
-	genie::unit::AttackOrArmor AttackCopy;
-	short AttackID;
-	genie::unit::AttackOrArmor ArmorCopy;
-	short ArmorID;
-	genie::UnitHeader UnitHeaderCopy;
-	genie::UnitCommand UnitCommandCopy;
-	short CommandID;
-	genie::UnitLine UnitLineCopy;
-	short UnitLineID;
-	short UnitLineUnitCopy;
-	short UnitLineUnitID;
-	genie::Graphic GraphicCopy;
-	short GraphicID;
-	genie::GraphicDelta GraphicDeltaCopy;
-	short DeltaID;
-	genie::GraphicAttackSound GraphicAttackSoundCopy;
-	short AttackSoundID;
-	genie::Terrain TerrainCopy;
-	short TerrainID;
-	genie::TerrainRestriction TerrainRestrictionCopy;
-	short TerRestrictID;
-	genie::TerrainPassGraphic TerrainRestrictionSubCopy;
-	short TerRestrictTerID;
-	float TerrainRestrictionSubCopyAccess;
-	genie::Sound SoundCopy;
-	short SoundID;
-	genie::SoundItem SoundItemCopy;
-	short SoundItemID;
-	//ArrayPlayerColour PlayerColorCopies;
+	vector<genie::unit::DamageGraphic> DamageGraphicCopies;
+	vector<short> DamageGraphicIDs;
+	vector<genie::unit::AttackOrArmor> AttackCopies;
+	vector<short> AttackIDs;
+	vector<genie::unit::AttackOrArmor> ArmorCopies;
+	vector<short> ArmorIDs;
+	vector<genie::UnitHeader> UnitHeaderCopies;
+	vector<genie::UnitCommand> UnitCommandCopies;
+	vector<short> CommandIDs;
+	vector<genie::UnitLine> UnitLineCopies;
+	vector<short> UnitLineIDs;
+	vector<short> UnitLineUnitCopies;
+	vector<short> UnitLineUnitIDs;
+	vector<genie::Graphic> GraphicCopies;
+	vector<short> GraphicIDs;
+	vector<genie::GraphicDelta> GraphicDeltaCopies;
+	vector<short> DeltaIDs;
+	vector<short> AttackSoundIDs;
+	vector<genie::Terrain> TerrainCopies;
+	vector<short> TerrainIDs;
+	vector<genie::TerrainRestriction> TerrainRestrictionCopies;
+	vector<short> TerRestrictIDs;
+	vector<genie::TerrainPassGraphic> TerrainRestrictionSubCopies;
+	vector<short> TerRestrictTerIDs;
+	vector<float> TerrainRestrictionSubCopyAccess;
+	vector<genie::Sound> SoundCopies;
+	vector<short> SoundIDs;
+	vector<genie::SoundItem> SoundItemCopies;
+	vector<short> SoundItemIDs;
 	vector<genie::PlayerColour> PlayerColorCopies;
-	wxArrayInt ColorIDs;
-	genie::TerrainBorder TerrainBorderCopy;
-	short BorderID;
-	genie::TBFrameData TBFrameDataCopy;
-	short FrameID;
+	vector<short> ColorIDs;
+	vector<genie::TerrainBorder> TerrainBorderCopies;
+	vector<short> BorderIDs;
+	vector<genie::TBFrameData> TBFrameDataCopies;
+	vector<short> FrameIDs;
 
 	bool Added;
 	int GameVersion;
@@ -2966,103 +2961,66 @@ class AGE_Frame : public wxFrame
 	wxButton * DRS_UnLoadButton;
 	wxStaticText * DRS_StatusText;*/
 
-//	Templates
+//	Templates (I'm not using these)
 
-	template <typename T, class C>
-	void AddToList(T &Path, C &Temp)
-	{
-		Path.push_back(Temp);
-		Added = true;
-	};
-
-	template <typename T, class C>
+/*	template <typename T, class C>
 	void AddToListIDFix(T &Path, C &Temp)
 	{
 		Path.push_back(Temp);
 		if(EnableIDFix)
-		Path[Path.size()-1].ID = lexical_cast<long>(Path.size()-1); // ID Fix
+		Path[Path.size()-1].ID = (long)(Path.size()-1); // ID Fix
 		Added = true;
 	};
 
-	template <typename T, class C>
-	void InsertToList(T &Path, wxArrayInt &Places, C &Temp)
+	template <typename T, typename V, class C>
+	void InsertToListIDFix(T &Path, vector<V> &Places, C &Temp)
 	{
-		Path.insert(Path.begin() + Places.Item(0), Temp);
-	};
-
-	template <typename T, class C>
-	void InsertToListIDFix(T &Path, wxArrayInt &Places, C &Temp)
-	{
-		Path.insert(Path.begin() + Places.Item(0), Temp);
+		Path.insert(Path.begin() + Places[0], Temp);
 		if(EnableIDFix)
-		for(short loop = Places.Item(0);loop < Path.size();loop++) // ID Fix
-		Path[loop].ID = lexical_cast<long>(loop);
+		for(short loop = Places[0];loop < Path.size();loop++) // ID Fix
+		Path[loop].ID = (long)loop;
 	};
 
-	template <typename T>
-	void DeleteFromList(T &Path, wxArrayInt &Places)
+	template <typename T, typename V>
+	void DeleteFromListIDFix(T &Path, vector<V> &Places, short &Selections)
 	{
-		for(short loop = 0;loop < Items.GetCount();loop++)
-		Path.erase(Path.begin() + Places.Item(loop));
-	};
-
-	template <typename T>
-	void DeleteFromListIDFix(T &Path, wxArrayInt &Places)
-	{
-		for(short loop = 0;loop < Items.GetCount();loop++)
-		Path.erase(Path.begin() + Places.Item(loop));
+		for(short loop = Selections-1;loop >= 0;loop--)
+		Path.erase(Path.begin() + Places[loop]);
 		if(EnableIDFix)
-		for(short loop = Places.Item(0);loop < Path.size();loop++)	//	ID Fix
-		Path[loop].ID = lexical_cast<long>(loop);
+		for(short loop = Places[0];loop < Path.size();loop++)	//	ID Fix
+		Path[loop].ID = (long)loop;
 	};
 
-	template <typename T, typename P>
-	void CopyFromList(T &Path, wxArrayInt &Places, P &Copies)
+	template <typename T, typename V, typename P>
+	void CopyFromList(T &Path, vector<V> &Places, P &Copies, short &Selections)
 	{
-		Copies.resize(Items.GetCount());
-		for(short loop = 0;loop < Items.GetCount();loop++)
-		Copies[loop] = Path[Places.Item(loop)];
+		Copies.resize(Selections);
+		for(short loop = 0;loop < Selections;loop++)
+		Copies[loop] = Path[Places[loop]];
 	};
 
-	template <typename T, typename P>
-	void PasteToList(T &Path, wxArrayInt &Places, P &Copies)
+	template <typename T, typename V, typename P>
+	void PasteToListIDFix(T &Path, vector<V> &Places, P &Copies)
 	{
-		if(Copies.size()+Places.Item(0) > Path.size())
-		Path.resize(Copies.size()+Places.Item(0));
-		for(short loop = 0;loop < Copies.size();loop++)
-		Path[Places.Item(0)+loop] = Copies[loop];
-	};
-
-	template <typename T, typename P>
-	void PasteToListIDFix(T &Path, wxArrayInt &Places, P &Copies)
-	{
-		if(Copies.size()+Places.Item(0) > Path.size())
-		Path.resize(Copies.size()+Places.Item(0));
+		if(Copies.size()+Places[0] > Path.size())
+		Path.resize(Copies.size()+Places[0]);
 		for(short loop = 0;loop < Copies.size();loop++)
 		{
-			Path[Places.Item(0)+loop] = Copies[loop];
+			Path[Places[0]+loop] = Copies[loop];
 			if(EnableIDFix)
-			Path[Places.Item(0)+loop].ID = lexical_cast<long>(Places.Item(0)+loop); // ID Fix
+			Path[Places[0]+loop].ID = (long)(Places[0]+loop); // ID Fix
 		}
 	};
 
-	template <typename T, typename P, class C>
-	void PasteInsertToList(T &Path, wxArrayInt &Places, P &Copies, C &Temp)
+	template <typename T, typename V, typename P, class C>
+	void PasteInsertToListIDFix(T &Path, vector<V> &Places, P &Copies, C &Temp)
 	{
-		Path.insert(Path.begin() + Places.Item(0), Copies.size(), Temp);
+		Path.insert(Path.begin() + Places[0], Copies.size(), Temp);
 		for(short loop = 0;loop < Copies.size();loop++)
-		Path[Places.Item(0)+loop] = Copies[loop];
-	};
-
-	template <typename T, typename P, class C>
-	void PasteInsertToListIDFix(T &Path, wxArrayInt &Places, P &Copies, C &Temp)
-	{
-		Path.insert(Path.begin() + Places.Item(0), Copies.size(), Temp);
-		for(short loop = 0;loop < Copies.size();loop++)
-		Path[Places.Item(0)+loop] = Copies[loop];
+		Path[Places[0]+loop] = Copies[loop];
 		if(EnableIDFix)
-		for(short loop = Places.Item(0);loop < Path.size();loop++) // ID Fix
-		Path[loop].ID = lexical_cast<long>(loop);
+		for(short loop = Places[0];loop < Path.size();loop++) // ID Fix
+		Path[loop].ID = (long)loop;
 	};
-
+//*/
 };

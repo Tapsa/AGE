@@ -8,7 +8,7 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 	string Name = "";
 	if(Filter)
 	{
-		short Selections[2];
+		short Selection[2];
 		for(short loop = 0;loop < 2;loop++)
 		Selection[loop] = Research_Research_SearchFilters[loop]->GetSelection();
 
@@ -60,25 +60,17 @@ void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListResearches(bool Sized)
 {
-	string Name;
+	string Name, CompareText;
 	SearchText = wxString(Research_Research_Search->GetValue()).Lower();
 	ExcludeText = wxString(Research_Research_Search_R->GetValue()).Lower();
-	string CompareText;
 	for(short loop = 0;loop < 2;loop++)
 	{
 		if(Research_Research_UseAnd[loop]->GetValue() == true)
 		UseAnd[loop] = true; else UseAnd[loop] = false;
 	}
 
-	short Selections = Research_Research_List->GetSelection();
-	if(Research_Research_List->GetCount() > 0)
-	{
-		Research_Research_List->Clear();
-	}
-	if(Selection == wxNOT_FOUND)
-	{
-		Selection = 0;
-	}
+	short Selections = Research_Research_List->GetSelections(Items);
+	if(Research_Research_List->GetCount() > 0) Research_Research_List->Clear();
 
 	short IDCount = 21, ResearchIDs[IDCount];
 	if(Sized)
@@ -239,11 +231,16 @@ void AGE_Frame::ListResearches(bool Sized)
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelection();
+	short Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		genie::Research * ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Selection);
-		ResearchID = ResearchPointer - (&GenieFile->Researchs[0]);
+		ResearchIDs.resize(Selections);
+		genie::Research * ResearchPointer;
+		for(short loop = Selections-1;loop >= 0;loop--)
+		{
+			ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Items.Item(loop));
+			ResearchIDs[loop] = (ResearchPointer - (&GenieFile->Researchs[0]));
+		}
 		short RequiredTechs;
 		for(short loop = 4;loop < 6;loop++)
 		{
@@ -337,52 +334,76 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 {
-	genie::Research Temp;
-	GenieFile->Researchs.push_back(Temp);
-	Added = true;
-	ListResearches();
+	if(GenieFile != NULL)
+	{
+		wxBusyCursor WaitCursor;
+		genie::Research Temp;
+		GenieFile->Researchs.push_back(Temp);
+		Added = true;
+		ListResearches();
+	}
 }
 
 void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelection();
+	short Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
+		wxBusyCursor WaitCursor;
 		genie::Research Temp;
-		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchID, Temp);
+		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], Temp);
 		ListResearches();
 	}
 }
 
 void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelection();
+	short Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchID);
-		if(Selection == Research_Research_List->GetCount() - 1)
-		Research_Research_List->SetSelection(Selection - 1);
+		for(short loop = Selections-1;loop >= 0;loop--)
+		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchIDs[loop]);
 		ListResearches();
 	}
 }
 
 void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelection();
+	short Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		ResearchCopy = *(genie::Research*)Research_Research_List->GetClientData(Selection);
+		wxBusyCursor WaitCursor;
+		ResearchCopies.resize(Selections);
+		for(short loop = 0;loop < Selections;loop++)
+		ResearchCopies[loop] = GenieFile->Researchs[ResearchIDs[loop]];
 	}
 }
 
 void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
-	short Selections = Research_Research_List->GetSelection();
+	short Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		*(genie::Research*)Research_Research_List->GetClientData(Selection) = ResearchCopy;
+		wxBusyCursor WaitCursor;
+		if(ResearchCopies.size()+ResearchIDs[0] > GenieFile->Researchs.size())
+		GenieFile->Researchs.resize(ResearchCopies.size()+ResearchIDs[0]);
+		for(short loop = 0;loop < ResearchCopies.size();loop++)
+		GenieFile->Researchs[ResearchIDs[0]+loop] = ResearchCopies[loop];
+		ListResearches();
+	}
+}
+
+void AGE_Frame::OnResearchPasteInsert(wxCommandEvent& Event)
+{
+	short Selections = Research_Research_List->GetSelections(Items);
+	if(Selections != 0)
+	{
+		wxBusyCursor WaitCursor;
+		genie::Research Temp;
+		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], ResearchCopies.size(), Temp);
+		for(short loop = 0;loop < ResearchCopies.size();loop++)
+		GenieFile->Researchs[ResearchIDs[0]+loop] = ResearchCopies[loop];
 		ListResearches();
 	}
 }
