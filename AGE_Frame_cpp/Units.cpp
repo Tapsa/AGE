@@ -12,10 +12,10 @@ void AGE_Frame::OnUnitSubList(wxCommandEvent& Event)
 	}
 }
 
-string AGE_Frame::GetUnitName(short &UnitIDs[0], short &UnitCivID, bool Filter)
+string AGE_Frame::GetUnitName(short &Index, short &UnitCivID, bool Filter)
 {
 	string Name = "";
-	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] == 0)
+	if(GenieFile->Civs[UnitCivID].UnitPointers[Index] == 0)
 	{
 		Name = "*Disabled*";
 	}
@@ -32,20 +32,20 @@ string AGE_Frame::GetUnitName(short &UnitIDs[0], short &UnitCivID, bool Filter)
 			{
 				if(Selection[loop] == 2)	// Type
 				{
-					Name += "T "+lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type);
+					Name += "T "+lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[Index].Type);
 				}
 				else if(Selection[loop] == 3)	// Class
 				{
-					Name += "C "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Class);
+					Name += "C "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Class);
 				}
 				else if(Selection[loop] == 4)	// Max Range
 				{
-					switch(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type)
+					switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
 					{
 						case 60:
 						case 70:
 						case 80:
-							Name += "MR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.MaxRange);
+							Name += "MR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Projectile.MaxRange);
 						break;
 						default:
 							Name += "MR -1";
@@ -53,11 +53,11 @@ string AGE_Frame::GetUnitName(short &UnitIDs[0], short &UnitCivID, bool Filter)
 				}
 				else if(Selection[loop] == 5)	// Train Location
 				{
-					switch(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type)
+					switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
 					{
 						case 70:
 						case 80:
-							Name += "TL "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Creatable.TrainLocationID);
+							Name += "TL "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Creatable.TrainLocationID);
 						break;
 						default:
 							Name += "TL -1";
@@ -65,7 +65,7 @@ string AGE_Frame::GetUnitName(short &UnitIDs[0], short &UnitCivID, bool Filter)
 				}
 				else if(Selection[loop] == 6)	// Pointer
 				{
-					Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]]);
+					Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[Index]);
 				}
 				Name += ", ";
 				if(Selection[loop+1] < 2) break;
@@ -74,13 +74,13 @@ string AGE_Frame::GetUnitName(short &UnitIDs[0], short &UnitCivID, bool Filter)
 			if(Selection[0] != 1) Filter = false; // Names
 		}
 
-		if((LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].LanguageDllName) != "") && (Filter == false))
+		if((LanguageDllString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDllName) != "") && (Filter == false))
 		{
-			Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].LanguageDllName);
+			Name += LanguageDllString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDllName);
 		}
-		else if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name != "")
+		else if(GenieFile->Civs[UnitCivID].Units[Index].Name != "")
 		{
-			Name += GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name;
+			Name += GenieFile->Civs[UnitCivID].Units[Index].Name;
 		}
 		else
 		{
@@ -1476,10 +1476,10 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 		GenieFile->Civs[loop].UnitPointers.push_back(1);
 		if(EnableIDFix)
 		{
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID1 = lexical_cast<short>(GenieFile->Civs[0].Units.size()-1); // ID Fix
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID2 = lexical_cast<short>(GenieFile->Civs[0].Units.size()-1);
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID1 = (short)(GenieFile->Civs[0].Units.size()-1); // ID Fix
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID2 = (short)(GenieFile->Civs[0].Units.size()-1);
 			if(GameVersion >= 2)
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = lexical_cast<short>(GenieFile->Civs[0].Units.size()-1);
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = (short)(GenieFile->Civs[0].Units.size()-1);
 		}
 	}
 	if(GameVersion > 1)
@@ -1513,10 +1513,10 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 			if(EnableIDFix)
 			for(short loop2 = UnitIDs[0];loop2 < GenieFile->Civs[0].Units.size();loop2++) // ID Fix
 			{
-				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
-				GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
+				GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
+				GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
 				if(GameVersion >= 2)
-				GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
+				GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
 			}
 		}
 		if(GameVersion > 1)
@@ -2734,7 +2734,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 		{
 			GenieFile->UnitHeaders[UnitIDs[0]].Commands.push_back(Temp);
 			if(EnableIDFix)
-			GenieFile->UnitHeaders[UnitIDs[0]].Commands[GenieFile->UnitHeaders[UnitIDs[0]].Commands.size()-1].ID = lexical_cast<short>(GenieFile->UnitHeaders[UnitIDs[0]].Commands.size()-1); // ID Fix
+			GenieFile->UnitHeaders[UnitIDs[0]].Commands[GenieFile->UnitHeaders[UnitIDs[0]].Commands.size()-1].ID = (short)(GenieFile->UnitHeaders[UnitIDs[0]].Commands.size()-1); // ID Fix
 		}
 		else
 		{
@@ -2742,7 +2742,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 			{
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands.push_back(Temp);
 				if(EnableIDFix)
-				GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands[GenieFile->Civs[0].Units[UnitIDs[0]].Bird.Commands.size()-1].ID = lexical_cast<short>(GenieFile->Civs[0].Units[UnitIDs[0]].Bird.Commands.size()-1); // ID Fix
+				GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands[GenieFile->Civs[0].Units[UnitIDs[0]].Bird.Commands.size()-1].ID = (short)(GenieFile->Civs[0].Units[UnitIDs[0]].Bird.Commands.size()-1); // ID Fix
 			}
 		}
 		Added = true;
@@ -2762,7 +2762,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 			if(EnableIDFix)
 			for(short loop2 = CommandID;loop2 < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size();loop2++) // ID Fix
 			{
-				GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop2].ID = lexical_cast<short>(loop2);
+				GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop2].ID = loop2;
 			}
 		}
 		else
@@ -2773,7 +2773,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 				if(EnableIDFix)
 				for(short loop2 = CommandID;loop2 < GenieFile->Civs[0].Units[UnitIDs[0]].Bird.Commands.size();loop2++) // ID Fix
 				{
-					GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands[loop2].ID = lexical_cast<short>(loop2);
+					GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands[loop2].ID = loop2;
 				}
 			}
 		}
