@@ -24,20 +24,12 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListTerrains(bool Sized)
 {
-	string Name;
-	string CompareText;
-
+	string Name, CompareText;
 	SearchText = wxString(Terrains_Terrains_Search->GetValue()).Lower();
 	ExcludeText = wxString(Terrains_Terrains_Search_R->GetValue()).Lower();
-	short Selections = Terrains_Terrains_List->GetSelection();
-	if(Terrains_Terrains_List->GetCount() > 0)
-	{
-		Terrains_Terrains_List->Clear();
-	}
-	if(Selection == wxNOT_FOUND)
-	{
-		Selection = 0;
-	}
+
+	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	if(Terrains_Terrains_List->GetCount() > 0) Terrains_Terrains_List->Clear();
 
 	short IDCount = 7, TerrainIDs[IDCount];
 	if(Sized)
@@ -132,20 +124,15 @@ void AGE_Frame::ListTerrains(bool Sized)
 
 	SearchText = wxString(TerRestrict_Terrains_Search->GetValue()).Lower();
 	ExcludeText = wxString(TerRestrict_Terrains_Search_R->GetValue()).Lower();
-	short Selections2 = TerRestrict_Terrains_List->GetSelection();
-	if(TerRestrict_Terrains_List->GetCount() > 0)
-	{
-		TerRestrict_Terrains_List->Clear();
-	}
-	if(Selection2 == wxNOT_FOUND)
-	{
-		Selection2 = 0;
-	}
+
+	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items);
+	if(TerRestrict_Terrains_List->GetCount() > 0) TerRestrict_Terrains_List->Clear();
+
 	for(short loop = 0;loop < GenieFile->TerrainRestrictions[0].TerrainAccessible.size();loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictID].TerrainAccessible[loop]);
+		Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
 		if(GameVersion >= 2)
-		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictID].TerrainPassGraphics[loop].Buildable);
+		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);
 		CompareText = wxString(Name).Lower();
 		if(SearchMatches(CompareText))
@@ -153,18 +140,23 @@ void AGE_Frame::ListTerrains(bool Sized)
 			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
 	}
-	TerRestrict_Terrains_List->SetSelection(Selection2);
+	TerRestrict_Terrains_List->SetSelection(Items.Item(0));
 
 	OnTerrainRestrictionsTerrainSelect(E);
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 {
-	short Selections = Terrains_Terrains_List->GetSelection();
+	short Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		genie::Terrain * TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
-		TerrainID = TerrainPointer - (&GenieFile->Terrains[0]);
+		TerrainIDs.resize(Selections);
+		genie::Terrain * TerrainPointer;
+		for(short loop = Selections-1;loop >= 0;loop--)
+		{
+			TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Items.Item(loop));
+			TerrainIDs[loop] = (TerrainPointer - (&GenieFile->Terrains[0]));
+		}
 		Terrains_Unknown1->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown1));
 		Terrains_Unknown1->Container = &TerrainPointer->Unknown1;
 		Terrains_Unknown2->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown2));
@@ -264,30 +256,35 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent& Event) // Their count is hardcoded.
 {
-	genie::Terrain Temp1;
-	GenieFile->Terrains.push_back(Temp1);
-	genie::TerrainPassGraphic Temp2;
-	for(int loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+	if(GenieFile != NULL)
 	{
-		GenieFile->TerrainRestrictions[loop].TerrainAccessible.push_back(0);
-		GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.push_back(Temp2);
+		wxBusyCursor WaitCursor;
+		genie::Terrain Temp1;
+		GenieFile->Terrains.push_back(Temp1);
+		genie::TerrainPassGraphic Temp2;
+		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+		{
+			GenieFile->TerrainRestrictions[loop].TerrainAccessible.push_back(0);
+			GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.push_back(Temp2);
+		}
+		Added = true;
+		ListTerrains();
 	}
-	Added = true;
-	ListTerrains();
 }
 
 void AGE_Frame::OnTerrainsInsert(wxCommandEvent& Event) // Their count is hardcoded.
 {
-	short Selections = Terrains_Terrains_List->GetSelection();
+	short Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
+		wxBusyCursor WaitCursor;
 		genie::Terrain Temp1;
-		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainID, Temp1);
+		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], Temp1);
 		genie::TerrainPassGraphic Temp2;
 		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 		{
-			GenieFile->TerrainRestrictions[loop].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop].TerrainAccessible.begin() + TerrainID, 0);
-			GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.insert(GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.begin() + TerrainID, Temp2);
+			GenieFile->TerrainRestrictions[loop].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop].TerrainAccessible.begin() + TerrainIDs[0], 0);
+			GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.insert(GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.begin() + TerrainIDs[0], Temp2);
 		}
 		ListTerrains();
 	}
@@ -295,38 +292,72 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent& Event) // Their count is hardco
 
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardcoded.
 {
-	short Selections = Terrains_Terrains_List->GetSelection();
+	short Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		GenieFile->Terrains.erase(GenieFile->Terrains.begin() + TerrainID);
-		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+		for(short loop = Selections-1;loop >= 0;loop--)
 		{
-			GenieFile->TerrainRestrictions[loop].TerrainAccessible.erase(GenieFile->TerrainRestrictions[loop].TerrainAccessible.begin() + TerrainID);
-			GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.erase(GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.begin() + TerrainID);
+			GenieFile->Terrains.erase(GenieFile->Terrains.begin() + TerrainIDs[loop]);
+			for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size();loop2++)
+			{
+				GenieFile->TerrainRestrictions[loop2].TerrainAccessible.erase(GenieFile->TerrainRestrictions[loop2].TerrainAccessible.begin() + TerrainIDs[loop]);
+				GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.erase(GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.begin() + TerrainIDs[loop]);
+			}
 		}
-		if(Selection == Terrains_Terrains_List->GetCount() - 1)
-		Terrains_Terrains_List->SetSelection(Selection - 1);
 		ListTerrains();
 	}
 }
 
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent& Event)
 {
-	short Selections = Terrains_Terrains_List->GetSelection();
+	short Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		TerrainCopy = *(genie::Terrain*)Terrains_Terrains_List->GetClientData(Selection);
+		wxBusyCursor WaitCursor;
+		TerrainCopies.resize(Selections);
+		for(short loop = 0;loop < Selections;loop++)
+		TerrainCopies[loop] = GenieFile->Terrains[TerrainIDs[loop]];
 	}
 }
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
-	short Selections = Terrains_Terrains_List->GetSelection();
+	short Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		*(genie::Terrain*)Terrains_Terrains_List->GetClientData(Selection) = TerrainCopy;
+		wxBusyCursor WaitCursor;
+		if(TerrainCopies.size()+TerrainIDs[0] > GenieFile->Terrains.size())
+		{
+			GenieFile->Terrains.resize(TerrainCopies.size()+TerrainIDs[0]);
+			for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size();loop2++)
+			{
+				GenieFile->TerrainRestrictions[loop2].TerrainAccessible.resize(TerrainCopies.size()+TerrainIDs[0]);
+				GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.resize(TerrainCopies.size()+TerrainIDs[0]);
+			}
+		}
+		for(short loop = 0;loop < TerrainCopies.size();loop++)
+		GenieFile->Terrains[TerrainIDs[0]+loop] = TerrainCopies[loop];
+		ListTerrains();
+	}
+}
+
+void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent& Event)
+{
+	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	if(Selections != 0)
+	{
+		wxBusyCursor WaitCursor;
+		genie::Terrain Temp1;
+		genie::TerrainPassGraphic Temp2;
+		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], TerrainCopies.size(), Temp1);
+		for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size();loop2++)
+		{
+			GenieFile->TerrainRestrictions[loop2].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop2].TerrainAccessible.begin() + TerrainIDs[0], TerrainCopies.size(), 0);
+			GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.insert(GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.begin() + TerrainIDs[0], TerrainCopies.size(), Temp2);
+		}
+		for(short loop = 0;loop < TerrainCopies.size();loop++)
+		GenieFile->Terrains[TerrainIDs[0]+loop] = TerrainCopies[loop];
 		ListTerrains();
 	}
 }
