@@ -2987,7 +2987,7 @@ class AGE_Frame : public wxFrame
 		for(short loop = Selections-1;loop >= 0;loop--)
 		Path.erase(Path.begin() + Places[loop]);
 		if(EnableIDFix)
-		for(short loop = Places[0];loop < Path.size();loop++)	//	ID Fix
+		for(short loop = Places[0];loop < Path.size();loop++) // ID Fix
 		Path[loop].ID = (long)loop;
 	};
 
