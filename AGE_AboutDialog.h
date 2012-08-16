@@ -3,45 +3,88 @@
 #include "wx/wx.h"
 #include "wx/hyperlink.h"
 #include "AboutIcon.xpm"
+#include "genie/dat/DatFile.h"
+using namespace std;
 
 class AGE_AboutDialog: public wxDialog
 {
 	public:
 
 	AGE_AboutDialog(wxWindow *parent);
-	
+
 //	Member Variables
-	
+
 	wxStaticText * Title;
 	wxStaticBitmap * Image;
 	wxStaticText * Credits;
 	wxHyperlinkCtrl * AoKHThread; //http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=ct&f=4,38606,0,365
 	wxStaticText * UPXInfo;
 	wxHyperlinkCtrl * UPXLink; //http://upx.sourceforge.net/
-	
+
 	wxBoxSizer * MainLeft;
 	wxBoxSizer * MainRight;
 	wxBoxSizer * MainAbout;
 };
 
-/*#ifndef AGEStorage_h
-#define AGEStorage_h
-
-class AGE_Storage
+class GraphicCopies
 {
 	public:
 
-	AGE_Storage();
-	
-//	Member Functions
-	
-	bool Save();
-	bool Undo();
-	bool Redo();
-	bool Release();
-	
-//	Member Variables
-	deque<short> Saves;
+	int16_t IconID;
+	pair<int16_t, int16_t> StandingGraphic;
+	pair<int16_t, int16_t> DyingGraphic;
+	uint8_t DamageGraphicCount;
+	vector<genie::unit::DamageGraphic> DamageGraphics;
+
+	int16_t ConstructionGraphicID;
+	int16_t SnowGraphicID;
+	pair<int16_t, int16_t> GarrisonGraphic;
+	int16_t AttackGraphic;
+	pair<int16_t, int16_t> WalkingGraphic;
+
+	GraphicCopies()
+	{
+		IconID = -1;
+		StandingGraphic.first = -1;
+		StandingGraphic.second = -1;
+		DyingGraphic.first = -1;
+		DyingGraphic.second = -1;
+		DamageGraphicCount = 0;
+		ConstructionGraphicID = -1;
+		SnowGraphicID = -1;
+		GarrisonGraphic.first = -1;
+		GarrisonGraphic.second = -1;
+		AttackGraphic = -1;
+		WalkingGraphic.first = -1;
+		WalkingGraphic.second = -1;
+	}
+	~GraphicCopies(){}
 };
 
-#endif*/
+class SubCopies
+{
+	public:
+
+	vector<bool> UnitExists;
+	vector<genie::Unit> UnitCopies;
+	vector<GraphicCopies> UnitGraphics;
+
+	SubCopies(){}
+	~SubCopies(){}
+};
+
+class Copies // Used to copy units with various settings.
+{
+	public:
+
+	bool AllCivs;
+	vector<SubCopies> Civs;
+
+	Copies()
+	{
+		Civs.resize(1);
+		Civs[0].UnitCopies.resize(1);
+		Civs[0].UnitGraphics.resize(1);
+	}
+	~Copies(){}
+};
