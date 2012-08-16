@@ -297,8 +297,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			GenieFile->TerrainRestrictionPointers2[loop] = lexical_cast<long>(1);
 		}
 //		Unit copying fixes.
-		UnitExists.resize(GenieFile->Civs.size());
-		UnitGraphics.resize(GenieFile->Civs.size());
+		DatCopies.Civs.resize(GenieFile->Civs.size());
 
 		Added = false;
 

@@ -13,7 +13,7 @@
 #include "windows.h"
 //#include "geniedat/File.h"	// New dat system
 #include "genie/dat/DatFile.h"	// Newer dat system
-#include "genie/resource/DrsFile.h"	// DRS file system
+//#include "genie/resource/DrsFile.h"	// DRS file system
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
@@ -388,12 +388,12 @@ class AGE_Frame : public wxFrame
 	void OnUnitsCopy(wxCommandEvent& Event);
 	void UnitsAutoCopy();
 	void OnUnitsSpecialCopy(wxCommandEvent& Event);
-	void UnitsGraphicsCopy(short loop);
+	void UnitsGraphicsCopy(short &civ, short disp, short loop);
 	void OnUnitsPaste(wxCommandEvent& Event);
 	void OnUnitsPasteInsert(wxCommandEvent& Event);
 	void OnUnitsSpecialPaste(wxCommandEvent& Event);
 	void OnUnitsSpecialPasteInsert(wxCommandEvent& Event);
-	void UnitsGraphicsPaste(short loop);
+	void UnitsGraphicsPaste(short &civ, short disp, short loop);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
 	void OnUnitsExtract(wxCommandEvent& Event);
@@ -684,12 +684,9 @@ class AGE_Frame : public wxFrame
 	vector<short> CivIDs;
 	vector<float> ResourceCopies;
 	vector<short> ResourceIDs;
-	vector<genie::Unit> UnitCopies;
-	vector<genie::Unit> UnitSpecialCopies;
-	vector<short> UnitIDs;
 	short UnitCivID;
-	vector<bool> UnitExists;
-	vector<genie::Unit> UnitGraphics;	// This should be a vector equal to Civs.
+	Copies DatCopies; // Advanced unit copying.
+	vector<short> UnitIDs;
 	vector<genie::unit::DamageGraphic> DamageGraphicCopies;
 	vector<short> DamageGraphicIDs;
 	vector<genie::unit::AttackOrArmor> AttackCopies;

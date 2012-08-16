@@ -39,13 +39,3 @@ AGE_AboutDialog::AGE_AboutDialog(wxWindow * parent)
 
 	SetSizerAndFit(MainAbout);
 }
-
-/*AGE_Storage::AGE_Storage()
-{
-
-}
-
-bool AGE_Storage::Save(){};
-bool AGE_Storage::Undo(){};
-bool AGE_Storage::Redo(){};
-bool AGE_Storage::Release(){};*/
