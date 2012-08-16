@@ -141,8 +141,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent& Event)
 		GenieFile->Civs.push_back(Temp);
 		Added = true;
 //		Unit copying fixes.
-		UnitExists.resize(GenieFile->Civs.size());
-		UnitGraphics.resize(GenieFile->Civs.size());
+		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
 	}
 }
@@ -158,8 +157,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent& Event)
 		Temp.Units.resize(GenieFile->Civs[0].Units.size());
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
 //		Unit copying fixes.
-		UnitExists.resize(GenieFile->Civs.size());
-		UnitGraphics.resize(GenieFile->Civs.size());
+		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
 	}
 }
@@ -173,8 +171,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent& Event)
 		for(short loop = Selections-1;loop >= 0;loop--)
 		GenieFile->Civs.erase(GenieFile->Civs.begin() + CivIDs[loop]);
 //		Unit copying fixes.
-		UnitExists.resize(GenieFile->Civs.size());
-		UnitGraphics.resize(GenieFile->Civs.size());
+		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
 	}
 }
@@ -210,8 +207,7 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 		for(short loop = 0;loop < CivCopies.size();loop++)
 		GenieFile->Civs[CivIDs[0]+loop] = CivCopies[loop];
 //		Unit copying fixes.
-		UnitExists.resize(CivCount);
-		UnitGraphics.resize(CivCount);
+		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
 	}
 }
@@ -229,8 +225,7 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent& Event)
 		for(short loop = 0;loop < CivCopies.size();loop++)
 		GenieFile->Civs[CivIDs[0]+loop] = CivCopies[loop];
 //		Unit copying fixes.
-		UnitExists.resize(GenieFile->Civs.size());
-		UnitGraphics.resize(GenieFile->Civs.size());
+		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
 	}
 }

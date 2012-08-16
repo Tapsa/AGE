@@ -1463,31 +1463,35 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 {
-	if(GameVersion > 1)	// AoK, TC, SWGB or CC
+	if(GenieFile != NULL)
 	{
-		genie::UnitHeader Temp1;
-		GenieFile->UnitHeaders.push_back(Temp1);
-	}
-
-	genie::Unit Temp2;
-	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-	{
-		GenieFile->Civs[loop].Units.push_back(Temp2);
-		GenieFile->Civs[loop].UnitPointers.push_back(1);
-		if(EnableIDFix)
+		wxBusyCursor WaitCursor;
+		if(GameVersion > 1)	// AoK, TC, SWGB or CC
 		{
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID1 = (short)(GenieFile->Civs[0].Units.size()-1); // ID Fix
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID2 = (short)(GenieFile->Civs[0].Units.size()-1);
-			if(GameVersion >= 2)
-			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = (short)(GenieFile->Civs[0].Units.size()-1);
+			genie::UnitHeader Temp1;
+			GenieFile->UnitHeaders.push_back(Temp1);
 		}
+
+		genie::Unit Temp2;
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		{
+			GenieFile->Civs[loop].Units.push_back(Temp2);
+			GenieFile->Civs[loop].UnitPointers.push_back(1);
+			if(EnableIDFix)
+			{
+				GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID1 = (short)(GenieFile->Civs[0].Units.size()-1); // ID Fix
+				GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID2 = (short)(GenieFile->Civs[0].Units.size()-1);
+				if(GameVersion >= 2)
+				GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = (short)(GenieFile->Civs[0].Units.size()-1);
+			}
+		}
+		if(GameVersion > 1)
+		{
+			ListUnitHeads(UnitCivID);
+		}
+		Added = true;
+		ListUnits(UnitCivID);
 	}
-	if(GameVersion > 1)
-	{
-		ListUnitHeads(UnitCivID);
-	}
-	Added = true;
-	ListUnits(UnitCivID);
 }
 
 void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
@@ -1497,6 +1501,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 		short Selections = Units_UnitHeads_List->GetSelection();
 		if(Selections != 0)	// If unit is selected.
 		{
+			wxBusyCursor WaitCursor;
 			genie::UnitHeader Temp1;
 			GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], Temp1);
 		}
@@ -1505,6 +1510,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 	short Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
+		wxBusyCursor WaitCursor;
 		genie::Unit Temp2;
 		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
 		{
@@ -1529,30 +1535,35 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)
 	{
 		short Selections = Units_UnitHeads_List->GetSelection();
 		if(Selections != 0)	// If unit is selected.
 		{
-			GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitIDs[0]);
+			wxBusyCursor WaitCursor;
+			for(short loop = Selections-1;loop >= 0;loop--)
+			GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitIDs[loop]);
 		}
 	}
 
 	short Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		wxBusyCursor WaitCursor;
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 		{
-			GenieFile->Civs[loop].Units.erase(GenieFile->Civs[loop].Units.begin() + UnitIDs[0]);
-			GenieFile->Civs[loop].UnitPointers.erase(GenieFile->Civs[loop].UnitPointers.begin() + UnitIDs[0]);
-			if(EnableIDFix)
-			for(short loop2 = UnitIDs[0];loop2 < GenieFile->Civs[0].Units.size();loop2++) // ID Fix
+			for(short loop = Selections-1;loop >= 0;loop--)
 			{
-				GenieFile->Civs[loop].Units[loop2].ID1 = lexical_cast<short>(loop2);
-				GenieFile->Civs[loop].Units[loop2].ID2 = lexical_cast<short>(loop2);
+				GenieFile->Civs[civ].Units.erase(GenieFile->Civs[civ].Units.begin() + UnitIDs[loop]);
+				GenieFile->Civs[civ].UnitPointers.erase(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[loop]);
+			}
+			if(EnableIDFix)
+			for(short loop = UnitIDs[0];loop < GenieFile->Civs[0].Units.size();loop++) // ID Fix
+			{
+				GenieFile->Civs[civ].Units[loop].ID1 = loop;
+				GenieFile->Civs[civ].Units[loop].ID2 = loop;
 				if(GameVersion >= 2)
-				GenieFile->Civs[loop].Units[loop2].ID3 = lexical_cast<short>(loop2);
+				GenieFile->Civs[civ].Units[loop].ID3 = loop;
 			}
 		}
 		if(GameVersion > 1)
@@ -1572,33 +1583,49 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 		short Selections = Units_UnitHeads_List->GetSelection();
 		if(Selections != 0)
 		{
-			UnitHeaderCopy = *(genie::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
+			wxBusyCursor WaitCursor;
+			UnitHeaderCopies.resize(Selections);
+			for(short loop = 0;loop < Selections;loop++)
+			UnitHeaderCopies[loop] = GenieFile->UnitHeaders[UnitIDs[loop]];
 		}
 	}
 
 	short Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		if(Units_SpecialCopy_Civs->GetValue())
+		wxBusyCursor WaitCursor;
+		DatCopies.AllCivs = Units_SpecialCopy_Civs->GetValue();
+		if(DatCopies.AllCivs)
 		{
-			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
-				UnitExists[loop] = (bool)GenieFile->Civs[loop].UnitPointers[UnitIDs[0]];
-				UnitGraphics[loop] = GenieFile->Civs[loop].Units[UnitIDs[0]];
+				DatCopies.Civs[civ].UnitExists.resize(Selections);
+				DatCopies.Civs[civ].UnitCopies.resize(Selections);
+				for(short loop = 0;loop < Selections;loop++)
+				{
+					DatCopies.Civs[civ].UnitExists[loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
+					DatCopies.Civs[civ].UnitCopies[loop] = GenieFile->Civs[civ].Units[UnitIDs[loop]];
+				}
 			}
 		}
 		else
 		{
-			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
-				UnitExists[loop] = (bool)GenieFile->Civs[loop].UnitPointers[UnitIDs[0]];
-				if(!CopyGraphics && AutoCopy)
-				{// Let's copy graphics separately.
-					// Collects only graphic data, not all data again.
-					UnitsGraphicsCopy(loop);
-				}
+				DatCopies.Civs[civ].UnitExists.resize(Selections);
+				for(short loop = 0;loop < Selections;loop++)
+				{
+					DatCopies.Civs[civ].UnitExists[loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
+					if(!CopyGraphics && AutoCopy)
+					{// Let's copy graphics separately.
+						// Collects only graphic data, not all data again.
+						UnitsGraphicsCopy(civ, civ, loop);
+					}
+				}				
 			}
-			UnitCopy = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]];
+			DatCopies.Civs[0].UnitCopies.resize(Selections);
+			for(short loop = 0;loop < Selections;loop++)
+			DatCopies.Civs[0].UnitCopies[loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
 		}
 	}
 }
@@ -1608,141 +1635,159 @@ void AGE_Frame::UnitsAutoCopy()
 	short Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		UnitCopy = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]];
-		if(!CopyGraphics)
-		{// Let's copy graphics separately.
-			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		DatCopies.Civs[0].UnitCopies[0] = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]];
+		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		{
+			if(!CopyGraphics)// Let's copy graphics separately.
 			{	// Collects only graphic data, not all data again.
 				if(loop != UnitCivID)
 				{
-					UnitsGraphicsCopy(loop);
+					UnitsGraphicsCopy(loop, loop, 0);
 				}
 			}
-		}
-
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-		if(Units_CivBoxes[loop]->IsChecked() && loop != UnitCivID)
-		GenieFile->Civs[loop].Units[UnitIDs[0]] = UnitCopy;
-		if(!CopyGraphics)
-		{// Let's paste graphics separately.
-			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			if(Units_CivBoxes[loop]->IsChecked() && loop != UnitCivID)
+			GenieFile->Civs[loop].Units[UnitIDs[0]] = DatCopies.Civs[0].UnitCopies[0];
+			if(!CopyGraphics)// Let's paste graphics separately.
 			{
-				if(Units_CivBoxes[loop]->IsChecked() && loop != UnitCivID)
-				{
-					UnitsGraphicsPaste(loop);
-				}
+				UnitsGraphicsPaste(loop, loop, 0);
 			}
 		}
 	}
 }
 
-void AGE_Frame::UnitsGraphicsCopy(short loop)
+void AGE_Frame::UnitsGraphicsCopy(short &civ, short disp, short loop)
 {
-	UnitGraphics[loop].IconID = GenieFile->Civs[loop].Units[UnitIDs[0]].IconID;// This probably shouldn't be here.
-	UnitGraphics[loop].StandingGraphic = GenieFile->Civs[loop].Units[UnitIDs[0]].StandingGraphic;
-	UnitGraphics[loop].DyingGraphic = GenieFile->Civs[loop].Units[UnitIDs[0]].DyingGraphic;
-	UnitGraphics[loop].DamageGraphicCount = GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphicCount;
-	UnitGraphics[loop].DamageGraphics = GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics;
-	switch((short)GenieFile->Civs[loop].Units[UnitIDs[0]].Type)
+	DatCopies.Civs[disp].UnitGraphics[loop].IconID = GenieFile->Civs[civ].Units[UnitIDs[0]].IconID;// This probably shouldn't be here.
+	DatCopies.Civs[disp].UnitGraphics[loop].StandingGraphic = GenieFile->Civs[civ].Units[UnitIDs[0]].StandingGraphic;
+	DatCopies.Civs[disp].UnitGraphics[loop].DyingGraphic = GenieFile->Civs[civ].Units[UnitIDs[0]].DyingGraphic;
+	DatCopies.Civs[disp].UnitGraphics[loop].DamageGraphicCount = GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphicCount;
+	DatCopies.Civs[disp].UnitGraphics[loop].DamageGraphics = GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics;
+	switch((short)GenieFile->Civs[civ].Units[UnitIDs[0]].Type)
 	{
 		case 80:
-		UnitGraphics[loop].Building.ConstructionGraphicID = GenieFile->Civs[loop].Units[UnitIDs[0]].Building.ConstructionGraphicID;
-		UnitGraphics[loop].Building.SnowGraphicID = GenieFile->Civs[loop].Units[UnitIDs[0]].Building.SnowGraphicID;
+		DatCopies.Civs[disp].UnitGraphics[loop].Building.ConstructionGraphicID = GenieFile->Civs[civ].Units[UnitIDs[0]].Building.ConstructionGraphicID;
+		DatCopies.Civs[disp].UnitGraphics[loop].Building.SnowGraphicID = GenieFile->Civs[civ].Units[UnitIDs[0]].Building.SnowGraphicID;
 		case 70:
-		UnitGraphics[loop].Creatable.GarrisonGraphic = GenieFile->Civs[loop].Units[UnitIDs[0]].Creatable.GarrisonGraphic;
+		DatCopies.Civs[disp].UnitGraphics[loop].Creatable.GarrisonGraphic = GenieFile->Civs[civ].Units[UnitIDs[0]].Creatable.GarrisonGraphic;
 		case 60:
-		UnitGraphics[loop].Projectile.AttackGraphic = GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.AttackGraphic;
+		DatCopies.Civs[disp].UnitGraphics[loop].Projectile.AttackGraphic = GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.AttackGraphic;
 		case 40:
 		case 30:
-		UnitGraphics[loop].DeadFish.WalkingGraphic = GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.WalkingGraphic;
+		DatCopies.Civs[disp].UnitGraphics[loop].DeadFish.WalkingGraphic = GenieFile->Civs[civ].Units[UnitIDs[0]].DeadFish.WalkingGraphic;
 		break;
 	}
 }
 
 void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent& Event)
 {
-	if(Units_SpecialCopy_Civs->GetValue())
+	short Selections = Units_Units_List->GetSelections(Items);
+	if(Selections != 0)
 	{
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
-		{	// Collects only graphic data, not all data again.
-			UnitsGraphicsCopy(loop);
-		}
-	}
-	else
-	{
-		UnitCopy.IconID = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].IconID;// This probably shouldn't be here.
-		UnitCopy.StandingGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].StandingGraphic;
-		UnitCopy.DyingGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DyingGraphic;
-		UnitCopy.DamageGraphicCount = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphicCount;
-		UnitCopy.DamageGraphics = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics;
-		switch((short)GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type)
+		wxBusyCursor WaitCursor;
+		DatCopies.AllCivs = Units_SpecialCopy_Civs->GetValue();
+		for(short loop = 0;loop < Selections;loop++)
 		{
-			case 80:
-			UnitCopy.Building.ConstructionGraphicID = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Building.ConstructionGraphicID;
-			UnitCopy.Building.SnowGraphicID = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Building.SnowGraphicID;
-			case 70:
-			UnitCopy.Creatable.GarrisonGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Creatable.GarrisonGraphic;
-			case 60:
-			UnitCopy.Projectile.AttackGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.AttackGraphic;
-			case 40:
-			case 30:
-			UnitCopy.DeadFish.WalkingGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DeadFish.WalkingGraphic;
-			break;
+			if(DatCopies.AllCivs)
+			{
+				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+				{
+					UnitsGraphicsCopy(civ, civ, loop);
+				}
+			}
+			else
+			{
+				UnitsGraphicsCopy(UnitCivID, 0, loop);
+				/*
+				UnitCopy.IconID = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].IconID;// This probably shouldn't be here.
+				UnitCopy.StandingGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].StandingGraphic;
+				UnitCopy.DyingGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DyingGraphic;
+				UnitCopy.DamageGraphicCount = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphicCount;
+				UnitCopy.DamageGraphics = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics;
+				switch((short)GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type)
+				{
+					case 80:
+					UnitCopy.Building.ConstructionGraphicID = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Building.ConstructionGraphicID;
+					UnitCopy.Building.SnowGraphicID = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Building.SnowGraphicID;
+					case 70:
+					UnitCopy.Creatable.GarrisonGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Creatable.GarrisonGraphic;
+					case 60:
+					UnitCopy.Projectile.AttackGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.AttackGraphic;
+					case 40:
+					case 30:
+					UnitCopy.DeadFish.WalkingGraphic = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DeadFish.WalkingGraphic;
+					break;
+				}*/
+			}
 		}
 	}
 }
 
 void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 {
-	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)
 	{
 		short Selections = Units_UnitHeads_List->GetSelection();
 		if(Selections != 0)
 		{
-			*(genie::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection) = UnitHeaderCopy;
+			wxBusyCursor WaitCursor;
+			if(UnitHeaderCopies.size()+UnitIDs[0] > GenieFile->UnitHeaders.size())
+			GenieFile->UnitHeaders.resize(UnitHeaderCopies.size()+UnitIDs[0]);
+			for(short loop = 0;loop < UnitHeaderCopies.size();loop++)
+			GenieFile->UnitHeaders[UnitIDs[0]+loop] = UnitHeaderCopies[loop];
 		}
 	}
 
 	short Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		if(Units_SpecialCopy_Civs->GetValue())
+		wxBusyCursor WaitCursor;
+		if(DatCopies.Civs[0].UnitCopies.size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++) // Resize if not enough room.
+		GenieFile->Civs[civ].Units.resize(DatCopies.Civs[0].UnitCopies.size()+UnitIDs[0]);
+		if(DatCopies.AllCivs) // Paste from all civs to all civs.
 		{
-			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
-				GenieFile->Civs[loop].Units[UnitIDs[0]] = UnitGraphics[loop];
+				for(short loop = 0;loop < DatCopies.Civs[civ].UnitCopies.size();loop++)
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = DatCopies.Civs[civ].UnitCopies[loop];
 			}
 		}
 		else
 		{
-			if(AutoCopy)
+			if(AutoCopy) // Paste from one civ to selected civs.
 			{
-				for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 				{
-					if(Units_CivBoxes[loop]->IsChecked())
+					if(Units_CivBoxes[civ]->IsChecked())
 					{
-						GenieFile->Civs[loop].Units[UnitIDs[0]] = UnitCopy;
-						if(!CopyGraphics)
-						{// Let's paste graphics separately.
-							UnitsGraphicsPaste(loop);
+						for(short loop = 0;loop < DatCopies.Civs[0].UnitCopies.size();loop++)
+						{
+							GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = DatCopies.Civs[0].UnitCopies[loop];
+							if(!CopyGraphics)
+							{// Let's paste graphics separately.
+								UnitsGraphicsPaste(civ, civ, loop);
+							}
 						}
 					}
 				}
 			}
-			else
+			else // Paste from one civ to another civ.
 			{
-				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]] = UnitCopy;
+				for(short loop = 0;loop < DatCopies.Civs[0].UnitCopies.size();loop++)
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]+loop] = DatCopies.Civs[0].UnitCopies[loop];
 			}
 		}
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 		{
-			GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] = (long)UnitExists[loop];
-			//if(EnableIDFix)
-			GenieFile->Civs[loop].Units[UnitIDs[0]].ID1 = lexical_cast<short>(UnitIDs[0]); // ID Fix
-			GenieFile->Civs[loop].Units[UnitIDs[0]].ID2 = lexical_cast<short>(UnitIDs[0]);
-			if(GameVersion >= 2)
-			GenieFile->Civs[loop].Units[UnitIDs[0]].ID3 = lexical_cast<short>(UnitIDs[0]);
+			for(short loop = 0;loop < DatCopies.Civs[0].UnitCopies.size();loop++)
+			{
+				GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)DatCopies.Civs[civ].UnitExists[loop];
+				if(EnableIDFix) // ID Fix
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID1 = UnitIDs[0]+loop;
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID2 = UnitIDs[0]+loop;
+				if(GameVersion >= 2)
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID3 = UnitIDs[0]+loop;
+			}
 		}
 		if(GameVersion > 1)
 		{
@@ -1752,62 +1797,72 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::UnitsGraphicsPaste(short loop)
+void AGE_Frame::UnitsGraphicsPaste(short &civ, short disp, short loop)
 {
-	GenieFile->Civs[loop].Units[UnitIDs[0]].IconID = UnitGraphics[loop].IconID;
-	GenieFile->Civs[loop].Units[UnitIDs[0]].StandingGraphic = UnitGraphics[loop].StandingGraphic;
-	GenieFile->Civs[loop].Units[UnitIDs[0]].DyingGraphic = UnitGraphics[loop].DyingGraphic;
-	GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphicCount = UnitGraphics[loop].DamageGraphicCount;
-	GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics = UnitGraphics[loop].DamageGraphics;
-	switch((short)GenieFile->Civs[loop].Units[UnitIDs[0]].Type)
+	GenieFile->Civs[civ].Units[UnitIDs[0]].IconID = DatCopies.Civs[disp].UnitGraphics[loop].IconID;
+	GenieFile->Civs[civ].Units[UnitIDs[0]].StandingGraphic = DatCopies.Civs[disp].UnitGraphics[loop].StandingGraphic;
+	GenieFile->Civs[civ].Units[UnitIDs[0]].DyingGraphic = DatCopies.Civs[disp].UnitGraphics[loop].DyingGraphic;
+	GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphicCount = DatCopies.Civs[disp].UnitGraphics[loop].DamageGraphicCount;
+	GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics = DatCopies.Civs[disp].UnitGraphics[loop].DamageGraphics;
+	switch((short)GenieFile->Civs[civ].Units[UnitIDs[0]].Type)
 	{
 		case 80:
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Building.ConstructionGraphicID = UnitGraphics[loop].Building.ConstructionGraphicID;
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Building.SnowGraphicID = UnitGraphics[loop].Building.SnowGraphicID;
+		GenieFile->Civs[civ].Units[UnitIDs[0]].Building.ConstructionGraphicID = DatCopies.Civs[disp].UnitGraphics[loop].Building.ConstructionGraphicID;
+		GenieFile->Civs[civ].Units[UnitIDs[0]].Building.SnowGraphicID = DatCopies.Civs[disp].UnitGraphics[loop].Building.SnowGraphicID;
 		case 70:
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Creatable.GarrisonGraphic = UnitGraphics[loop].Creatable.GarrisonGraphic;
+		GenieFile->Civs[civ].Units[UnitIDs[0]].Creatable.GarrisonGraphic = DatCopies.Civs[disp].UnitGraphics[loop].Creatable.GarrisonGraphic;
 		case 60:
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.AttackGraphic = UnitGraphics[loop].Projectile.AttackGraphic;
+		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.AttackGraphic = DatCopies.Civs[disp].UnitGraphics[loop].Projectile.AttackGraphic;
 		case 40:
 		case 30:
-		GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.WalkingGraphic = UnitGraphics[loop].DeadFish.WalkingGraphic;
+		GenieFile->Civs[civ].Units[UnitIDs[0]].DeadFish.WalkingGraphic = DatCopies.Civs[disp].UnitGraphics[loop].DeadFish.WalkingGraphic;
 		break;
 	}
 }
 
 void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent& Event)
 {
-	if(Units_SpecialCopy_Civs->GetValue())
+	short Selections = Units_Units_List->GetSelections(Items);
+	if(Selections != 0)
 	{
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		wxBusyCursor WaitCursor;
+		for(short loop = 0;loop < Selections;loop++)
 		{
-			UnitsGraphicsPaste(loop);
+			if(DatCopies.AllCivs)
+			{
+				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+				{
+					UnitsGraphicsPaste(civ, civ, loop);
+				}
+			}
+			else
+			{
+				UnitsGraphicsPaste(UnitCivID, 0, loop);
+				/*
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].IconID = UnitCopy.IconID;
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].StandingGraphic = UnitCopy.StandingGraphic;
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DyingGraphic = UnitCopy.DyingGraphic;
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphicCount = UnitCopy.DamageGraphicCount;
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics = UnitCopy.DamageGraphics;
+				switch((short)GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type)
+				{
+					case 80:
+					GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Building.ConstructionGraphicID = UnitCopy.Building.ConstructionGraphicID;
+					GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Building.SnowGraphicID = UnitCopy.Building.SnowGraphicID;
+					case 70:
+					GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Creatable.GarrisonGraphic = UnitCopy.Creatable.GarrisonGraphic;
+					case 60:
+					GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.AttackGraphic = UnitCopy.Projectile.AttackGraphic;
+					case 40:
+					case 30:
+					GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DeadFish.WalkingGraphic = UnitCopy.DeadFish.WalkingGraphic;
+					break;
+				}*/
+			}
 		}
+		wxCommandEvent E;
+		OnUnitsSelect(E);
 	}
-	else
-	{
-		GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].IconID = UnitCopy.IconID;
-		GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].StandingGraphic = UnitCopy.StandingGraphic;
-		GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DyingGraphic = UnitCopy.DyingGraphic;
-		GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphicCount = UnitCopy.DamageGraphicCount;
-		GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics = UnitCopy.DamageGraphics;
-		switch((short)GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type)
-		{
-			case 80:
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Building.ConstructionGraphicID = UnitCopy.Building.ConstructionGraphicID;
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Building.SnowGraphicID = UnitCopy.Building.SnowGraphicID;
-			case 70:
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Creatable.GarrisonGraphic = UnitCopy.Creatable.GarrisonGraphic;
-			case 60:
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.AttackGraphic = UnitCopy.Projectile.AttackGraphic;
-			case 40:
-			case 30:
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DeadFish.WalkingGraphic = UnitCopy.DeadFish.WalkingGraphic;
-			break;
-		}
-	}
-	wxCommandEvent E;
-	OnUnitsSelect(E);
 }
 
 void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
@@ -1815,22 +1870,26 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
 	short Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		if(Units_SpecialCopy_Civs->GetValue())
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		wxBusyCursor WaitCursor;
+		for(short loop = 0;loop < Selections;loop++)
 		{
-			GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] = 1;
-			GenieFile->Civs[loop].Units[UnitIDs[0]].ID1 = lexical_cast<short>(UnitIDs[0]); // ID Fix
-			GenieFile->Civs[loop].Units[UnitIDs[0]].ID2 = lexical_cast<short>(UnitIDs[0]);
-			if(GameVersion >= 2)
-			GenieFile->Civs[loop].Units[UnitIDs[0]].ID3 = lexical_cast<short>(UnitIDs[0]);
-		}
-		else
-		{
-			GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] = 1;
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].ID1 = lexical_cast<short>(UnitIDs[0]); // ID Fix
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].ID2 = lexical_cast<short>(UnitIDs[0]);
-			if(GameVersion >= 2)
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].ID3 = lexical_cast<short>(UnitIDs[0]);
+			if(Units_SpecialCopy_Civs->GetValue())
+			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+			{
+				GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]] = 1;
+				GenieFile->Civs[civ].Units[UnitIDs[loop]].ID1 = UnitIDs[loop]; // ID Fix
+				GenieFile->Civs[civ].Units[UnitIDs[loop]].ID2 = UnitIDs[loop];
+				if(GameVersion >= 2)
+				GenieFile->Civs[civ].Units[UnitIDs[loop]].ID3 = UnitIDs[loop];
+			}
+			else
+			{
+				GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[loop]] = 1;
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID1 = UnitIDs[loop]; // ID Fix
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID2 = UnitIDs[loop];
+				if(GameVersion >= 2)
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID3 = UnitIDs[loop];
+			}
 		}
 		ListUnits(UnitCivID);
 	}
@@ -1841,13 +1900,15 @@ void AGE_Frame::OnUnitsDisable(wxCommandEvent& Event)
 	short Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		if(Units_SpecialCopy_Civs->GetValue())
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		wxBusyCursor WaitCursor;
+		for(short loop = 0;loop < Selections;loop++)
 		{
-			GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] = 0;
+			if(Units_SpecialCopy_Civs->GetValue())
+			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+			GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]] = 0;
+			else
+			GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[loop]] = 0;
 		}
-		else
-			GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] = 0;
 		ListUnits(UnitCivID);
 	}
 }
