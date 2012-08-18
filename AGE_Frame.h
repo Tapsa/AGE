@@ -11,9 +11,8 @@
 #include "wx/tooltip.h"
 #include "wx/statline.h"
 #include "windows.h"
-//#include "geniedat/File.h"	// New dat system
 #include "genie/dat/DatFile.h"	// Newer dat system
-//#include "genie/resource/DrsFile.h"	// DRS file system
+#include "genie/resource/DrsFile.h"	// DRS file system
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
@@ -25,8 +24,6 @@
 #include "GateClosed.xpm"
 #include "Question.xpm"
 #include <wx/dynarray.h>
-//#include <vector>
-//#include "AGE_Frame_cpp/Colors.h"
 using std::vector;
 
 /*class MyCanvas : public wxSFMLCanvas
@@ -94,7 +91,7 @@ class AGE_Frame : public wxFrame
 	void CreateSoundControls();
 	void CreatePlayerColorControls();
 
-//	void CreateDRSControls();
+	void CreateDRSControls();
 
 //	Other Events
 
@@ -540,7 +537,6 @@ class AGE_Frame : public wxFrame
 	void OnTerrainRestrictionsPasteInsert(wxCommandEvent& Event);
 	void OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event);
 	void OnTerrainRestrictionsTerrainPaste(wxCommandEvent& Event);
-	void OnTerrainRestrictionsTerrainPasteInsert(wxCommandEvent& Event);
 	string GetTerrainRestrictionName(short &Index);
 
 //	Sound Events
@@ -787,7 +783,7 @@ class AGE_Frame : public wxFrame
 	wxPanel * Tab_Sounds;
 	wxPanel * Tab_PlayerColors;
 
-//	wxPanel * Tab_DRS;
+	wxPanel * Tab_DRS;
 
 //	General user interface
 
@@ -2943,7 +2939,7 @@ class AGE_Frame : public wxFrame
 
 //	DRS user interface
 
-	/*genie::DrsFile * ResourceFile;
+	genie::DrsFile * ResourceFile;
 
 	void LoadDRSFile(wxCommandEvent& Event);
 	void UnLoadDRSFile(wxCommandEvent& Event);
@@ -2956,11 +2952,11 @@ class AGE_Frame : public wxFrame
 	wxFilePickerCtrl * DRS_Path_FileLocation;
 	wxButton * DRS_LoadButton;
 	wxButton * DRS_UnLoadButton;
-	wxStaticText * DRS_StatusText;*/
+	wxStaticText * DRS_StatusText;
 
-//	Templates (I'm not using these)
+/*	Templates (I'm not using these)
 
-/*	template <typename T, class C>
+	template <typename T, class C>
 	void AddToListIDFix(T &Path, C &Temp)
 	{
 		Path.push_back(Temp);
