@@ -5,7 +5,7 @@ using boost::lexical_cast;
 
 void AGE_Frame::LoadDRSFile(wxCommandEvent& Event)
 {
-	/*ResourceFile = new genie::DrsFile();
+	ResourceFile = new genie::DrsFile();
 	try
 	{
 		ResourceFile->setGameVersion(GenieFile->getGameVersion());
@@ -18,14 +18,14 @@ void AGE_Frame::LoadDRSFile(wxCommandEvent& Event)
 		wxMessageBox("Unable to load the file!");
 		DRS_StatusText->SetLabel("Loading failed.");
 		return;
-	}*/
+	}
 }
 
 void AGE_Frame::UnLoadDRSFile(wxCommandEvent& Event)
 {
-	/*delete ResourceFile;
+	delete ResourceFile;
 	ResourceFile = 0;
-	DRS_StatusText->SetLabel("DRS file unloaded.");*/
+	DRS_StatusText->SetLabel("DRS file unloaded.");
 }
 
 void AGE_Frame::CreateDRSControls()
