@@ -1074,6 +1074,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Techs_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Techs_Techs_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Techs_Techs_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Techs_Techs_PasteInsert = new wxButton(Tab_Techage, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 	Techs_Techs_Rename = new wxButton(Tab_Techage, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(0, 20));
 	Techs_Techs_Restore = new wxButton(Tab_Techage, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(0, 20));
 
@@ -1091,6 +1092,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Effects_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_PasteInsert = new wxButton(Tab_Techage, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	Effects_Holder_Type = new wxBoxSizer(wxVERTICAL);
 	Effects_Holder_Type2 = new wxBoxSizer(wxHORIZONTAL);
@@ -1163,6 +1165,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Techs_Buttons->Add(Techs_Techs_Delete, 1, wxEXPAND);
 	Techs_Techs_Buttons->Add(Techs_Techs_Copy, 1, wxEXPAND);
 	Techs_Techs_Buttons->Add(Techs_Techs_Paste, 1, wxEXPAND);
+	Techs_Techs_Buttons->Add(Techs_Techs_PasteInsert, 1, wxEXPAND);
 
 	Techs_Techs->Add(Techs_Techs_Search, 0, wxEXPAND);
 	Techs_Techs->Add(Techs_Techs_Search_R, 0, wxEXPAND);
@@ -1180,6 +1183,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Effects_Buttons->Add(Techs_Effects_Delete, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Copy, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Paste, 1, wxEXPAND);
+	Techs_Effects_Buttons->Add(Techs_Effects_PasteInsert, 1, wxEXPAND);
 
 	Techs_Holder_Name->Add(Techs_Text_Name, 0, wxEXPAND);
 	Techs_Holder_Name->Add(Techs_Name, 1, wxEXPAND);
@@ -1316,11 +1320,13 @@ void AGE_Frame::CreateTechageControls()
 	Connect(Techs_Techs_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageDelete));
 	Connect(Techs_Techs_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageCopy));
 	Connect(Techs_Techs_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechagePaste));
+	Connect(Techs_Techs_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechagePasteInsert));
 	Connect(Techs_Effects_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsAdd));
 	Connect(Techs_Effects_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsInsert));
 	Connect(Techs_Effects_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsDelete));
 	Connect(Techs_Effects_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsCopy));
 	Connect(Techs_Effects_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPaste));
+	Connect(Techs_Effects_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPasteInsert));
 	Effects_E->Connect(Effects_E->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
 	Effects_F->Connect(Effects_F->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
 

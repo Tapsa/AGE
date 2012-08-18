@@ -379,6 +379,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Delete = new wxButton(Tab_Terrains, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Copy = new wxButton(Tab_Terrains, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Paste = new wxButton(Tab_Terrains, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Terrains_PasteInsert = new wxButton(Tab_Terrains, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	Terrains_DataArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Scroller = new wxScrolledWindow(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
@@ -491,6 +492,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Terrains_Buttons->Add(Terrains_Delete, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Copy, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Paste, 1, wxEXPAND);
+	Terrains_Terrains_Buttons->Add(Terrains_PasteInsert, 1, wxEXPAND);
 
 	Terrains_Terrains->Add(Terrains_Terrains_Search, 0, wxEXPAND);
 	Terrains_Terrains->Add(Terrains_Terrains_Search_R, 0, wxEXPAND);
@@ -654,6 +656,7 @@ void AGE_Frame::CreateTerrainControls()
 	Connect(Terrains_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsDelete));
 	Connect(Terrains_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsCopy));
 	Connect(Terrains_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsPaste));
+	Connect(Terrains_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsPasteInsert));
 
 	Terrains_Name->Connect(Terrains_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 	Terrains_Name2->Connect(Terrains_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);

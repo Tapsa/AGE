@@ -93,7 +93,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent& Event)
 		genie::UnitLine Temp;
 		GenieFile->UnitLines.push_back(Temp);
 		if(EnableIDFix)
-		GenieFile->UnitLines[GenieFile->UnitLines.size()-1].ID = (short)(GenieFile->UnitLines.size()-1); // ID Fix
+		GenieFile->UnitLines[GenieFile->UnitLines.size()-1].ID = (int16_t)(GenieFile->UnitLines.size()-1); // ID Fix
 		Added = true;
 		ListUnitLines();
 	}
@@ -109,7 +109,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent& Event)
 		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], Temp);
 		if(EnableIDFix)
 		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size();loop++) // ID Fix
-		GenieFile->UnitLines[loop].ID = loop;
+		GenieFile->UnitLines[loop].ID = (int16_t)loop;
 		ListUnitLines();
 	}
 }
@@ -124,7 +124,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
 		GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineIDs[loop]);
 		if(EnableIDFix)
 		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size();loop++) // ID Fix
-		GenieFile->UnitLines[loop].ID = loop;
+		GenieFile->UnitLines[loop].ID = (int16_t)loop;
 		ListUnitLines();
 	}
 }
@@ -153,7 +153,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 		{
 			GenieFile->UnitLines[UnitLineIDs[0]+loop] = UnitLineCopies[loop];
 			if(EnableIDFix)
-			GenieFile->UnitLines[UnitLineIDs[0]+loop].ID = UnitLineIDs[0]+loop; // ID Fix
+			GenieFile->UnitLines[UnitLineIDs[0]+loop].ID = (int16_t)(UnitLineIDs[0]+loop); // ID Fix
 		}
 		ListUnitLines();
 	}
@@ -171,7 +171,7 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent& Event)
 		GenieFile->UnitLines[UnitLineIDs[0]+loop] = UnitLineCopies[loop];
 		if(EnableIDFix)
 		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size();loop++) // ID Fix
-		GenieFile->UnitLines[loop].ID = loop;
+		GenieFile->UnitLines[loop].ID = (int16_t)loop;
 		ListUnitLines();
 	}
 }
@@ -340,6 +340,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	UnitLines_Copy = new wxButton(Tab_UnitLine, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	UnitLines_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	UnitLines_PasteInsert = new wxButton(Tab_UnitLine, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	UnitLines_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	UnitLines_Text_ID = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -357,6 +358,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLineUnits_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	UnitLineUnits_Copy = new wxButton(Tab_UnitLine, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	UnitLineUnits_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	UnitLineUnits_PasteInsert= new wxButton(Tab_UnitLine, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	UnitLineUnits_Holder_Units = new wxBoxSizer(wxVERTICAL);
 	UnitLineUnits_Text_Units = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -368,6 +370,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Delete, 1, wxEXPAND);
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Copy, 1, wxEXPAND);
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Paste, 1, wxEXPAND);
+	UnitLines_UnitLines_Buttons->Add(UnitLines_PasteInsert, 1, wxEXPAND);
 
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search, 0, wxEXPAND);
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search_R, 0, wxEXPAND);
@@ -385,6 +388,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Delete, 1, wxEXPAND);
 	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Copy, 1, wxEXPAND);
 	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Paste, 1, wxEXPAND);
+	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_PasteInsert, 1, wxEXPAND);
 
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Search, 0, wxEXPAND);
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Search_R, 0, wxEXPAND);
@@ -433,6 +437,7 @@ void AGE_Frame::CreateUnitLineControls()
 	Connect(UnitLines_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesDelete));
 	Connect(UnitLines_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesCopy));
 	Connect(UnitLines_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesPaste));
+	Connect(UnitLines_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesPasteInsert));
 	Connect(UnitLines_UnitLineUnits_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSelect));
 	Connect(UnitLines_UnitLineUnits_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSearch));
 	Connect(UnitLines_UnitLineUnits_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSearch));
@@ -441,6 +446,7 @@ void AGE_Frame::CreateUnitLineControls()
 	Connect(UnitLineUnits_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsDelete));
 	Connect(UnitLineUnits_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsCopy));
 	Connect(UnitLineUnits_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsPaste));
+	Connect(UnitLineUnits_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsPasteInsert));
 
 	UnitLines_Name->Connect(UnitLines_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 	UnitLineUnits_Units->Connect(UnitLineUnits_Units->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxShort), NULL, this);

@@ -430,6 +430,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Delete = new wxButton(Tab_Research, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Research_Copy = new wxButton(Tab_Research, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Research_Paste = new wxButton(Tab_Research, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	Research_DataArea = new wxBoxSizer(wxVERTICAL);
 	Research_Scroller = new wxScrolledWindow(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
@@ -526,6 +527,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research_Buttons->Add(Research_Delete, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Copy, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Paste, 1, wxEXPAND);
+	Research_Research_Buttons->Add(Research_PasteInsert, 1, wxEXPAND);
 
 	Research_Research_Searches[0]->Add(Research_Research_Search, 1, wxEXPAND);
 	Research_Research_Searches[0]->Add(2, -1);
@@ -712,6 +714,7 @@ void AGE_Frame::CreateResearchControls()
 	Connect(Research_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchDelete));
 	Connect(Research_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchCopy));
 	Connect(Research_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchPaste));
+	Connect(Research_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchPasteInsert));
 
 	Research_LangDllName->Connect(Research_LangDllName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnShort), NULL, this);
 	Research_LangDllDescription->Connect(Research_LangDllDescription->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnShort), NULL, this);
