@@ -39,7 +39,7 @@ void AGE_Frame::CreateDRSControls()
 	DRS_Path_FileLocation = new wxFilePickerCtrl(Tab_DRS, wxID_ANY, "", "Select a file", "DRS File (*.drs)|*.drs", wxDefaultPosition, wxSize(300, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	DRS_LoadButton = new wxButton(Tab_DRS, wxID_ANY, "Load DRS File");
 	DRS_UnLoadButton = new wxButton(Tab_DRS, wxID_ANY, "Unload DRS File");
-	DRS_StatusText = new wxStaticText(Tab_DRS, wxID_ANY, "Awaiting user... (*DISABLED*)");
+	DRS_StatusText = new wxStaticText(Tab_DRS, wxID_ANY, "Awaiting user...");
 	
 	DRS_TopRow->Add(10, -1);
 	DRS_TopRow->Add(DRS_Text_FileLocation, 0, wxEXPAND);

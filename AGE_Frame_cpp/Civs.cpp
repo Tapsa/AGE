@@ -144,6 +144,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent& Event)
 //		Unit copying fixes.
 		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
+		ListUnits(UnitCivID, false);
 	}
 }
 
@@ -161,6 +162,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent& Event)
 //		Unit copying fixes.
 		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
+		ListUnits(UnitCivID, false);
 	}
 }
 
@@ -175,6 +177,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent& Event)
 //		Unit copying fixes.
 		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
+		ListUnits(Zero, false);
 	}
 }
 
@@ -203,6 +206,7 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 //		Unit copying fixes.
 		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
+		ListUnits(UnitCivID, false);
 	}
 }
 
@@ -219,6 +223,7 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent& Event)
 //		Unit copying fixes.
 		DatCopies.Civs.resize(GenieFile->Civs.size());
 		ListCivs();
+		ListUnits(UnitCivID, false);
 	}
 }
 
@@ -1443,7 +1448,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Holder_ResourceValue = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_ResourceValue = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_ResourceValue = new TextCtrl_Float(Tab_Civs, "0", NULL);
-	Civs_Holder_Resources_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resources", "http://www.digitization.org/wiki/index.php?title=Resource", wxDefaultPosition, wxSize(5, 20), wxHL_ALIGN_LEFT);
+	Civs_Holder_Resources_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resources", "http://www.digitization.org/wiki/index.php?title=Resource", wxDefaultPosition, wxSize(5, 20), wxBORDER_NONE|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
 
 	Civs_Civs_Buttons->Add(Civs_Add, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Insert, 1, wxEXPAND);
