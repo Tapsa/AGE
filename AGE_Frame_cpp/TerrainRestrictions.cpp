@@ -390,8 +390,8 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Holder_Graphics = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Text_Graphics = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Graphics[0] = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
-	TerRestrict_Graphics[1] = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
 	TerRestrict_ComboBox_Graphics[0] = new ComboBox_Long(Tab_TerrainRestrictions, TerRestrict_Graphics[0]);
+	TerRestrict_Graphics[1] = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
 	TerRestrict_ComboBox_Graphics[1] = new ComboBox_Long(Tab_TerrainRestrictions, TerRestrict_Graphics[1]);
 	TerRestrict_Holder_Amount = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Text_Amount = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
