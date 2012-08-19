@@ -78,12 +78,12 @@ class Copies // Used to copy units with various settings.
 	public:
 
 	bool AllCivs;
+	int8_t CopyType; // 1 = normal, 2 = special, 3 = auto
 	vector<SubCopies> Civs;
 
 	Copies()
 	{
 		Civs.resize(1);
-		Civs[0].UnitCopies.resize(1);
 		Civs[0].UnitGraphics.resize(1);
 	}
 	~Copies(){}
