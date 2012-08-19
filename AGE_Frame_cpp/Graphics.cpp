@@ -424,9 +424,13 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
+		GraphicPointerCopies.resize(Selections);
 		GraphicCopies.resize(Selections);
 		for(short loop = 0;loop < Selections;loop++)
-		GraphicCopies[loop] = GenieFile->Graphics[GraphicIDs[loop]];
+		{
+			GraphicPointerCopies[loop] = GenieFile->GraphicPointers[GraphicIDs[loop]];
+			GraphicCopies[loop] = GenieFile->Graphics[GraphicIDs[loop]];
+		}
 	}
 }
 
@@ -437,9 +441,13 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		if(GraphicCopies.size()+GraphicIDs[0] > GenieFile->Graphics.size())
-		GenieFile->Graphics.resize(GraphicCopies.size()+GraphicIDs[0]);
+		{
+			GenieFile->GraphicPointers.resize(GraphicPointerCopies.size()+GraphicIDs[0]);
+			GenieFile->Graphics.resize(GraphicCopies.size()+GraphicIDs[0]);
+		}
 		for(short loop = 0;loop < GraphicCopies.size();loop++)
 		{
+			GenieFile->GraphicPointers[GraphicIDs[0]+loop] = GraphicPointerCopies[loop];
 			GenieFile->Graphics[GraphicIDs[0]+loop] = GraphicCopies[loop];
 			if(EnableIDFix)
 			GenieFile->Graphics[GraphicIDs[0]+loop].ID = (int16_t)(GraphicIDs[0]+loop); // ID Fix
@@ -455,9 +463,13 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Graphic Temp;
+		GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], GraphicPointerCopies.size(), 0);
 		GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicIDs[0], GraphicCopies.size(), Temp);
 		for(short loop = 0;loop < GraphicCopies.size();loop++)
-		GenieFile->Graphics[GraphicIDs[0]+loop] = GraphicCopies[loop];
+		{
+			GenieFile->GraphicPointers[GraphicIDs[0]+loop] = GraphicPointerCopies[loop];
+			GenieFile->Graphics[GraphicIDs[0]+loop] = GraphicCopies[loop];
+		}
 		if(EnableIDFix)
 		for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size();loop++) // ID Fix
 		GenieFile->Graphics[loop].ID = (int16_t)loop;
