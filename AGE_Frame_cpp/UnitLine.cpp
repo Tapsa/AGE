@@ -342,13 +342,6 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	UnitLines_PasteInsert = new wxButton(Tab_UnitLine, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
-	UnitLines_Holder_ID = new wxBoxSizer(wxVERTICAL);
-	UnitLines_Text_ID = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_ID = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
-	UnitLines_Holder_Name = new wxBoxSizer(wxVERTICAL);
-	UnitLines_Text_Name = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_Name = new TextCtrl_String(Tab_UnitLine, "0", NULL);
-
 	UnitLines_UnitLineUnits = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Units");
 	UnitLines_UnitLineUnits_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
 	UnitLines_UnitLineUnits_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
@@ -359,6 +352,13 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLineUnits_Copy = new wxButton(Tab_UnitLine, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	UnitLineUnits_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	UnitLineUnits_PasteInsert= new wxButton(Tab_UnitLine, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+
+	UnitLines_Holder_ID = new wxBoxSizer(wxVERTICAL);
+	UnitLines_Text_ID = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitLines_ID = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
+	UnitLines_Holder_Name = new wxBoxSizer(wxVERTICAL);
+	UnitLines_Text_Name = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitLines_Name = new TextCtrl_String(Tab_UnitLine, "0", NULL);
 
 	UnitLineUnits_Holder_Units = new wxBoxSizer(wxVERTICAL);
 	UnitLineUnits_Text_Units = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);

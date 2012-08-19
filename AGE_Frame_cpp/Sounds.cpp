@@ -441,13 +441,6 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Paste = new wxButton(Tab_Sounds, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Sounds_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
-	Sounds_Holder_ID = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_ID = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_ID = new TextCtrl_Long(Tab_Sounds, "0", NULL);
-	Sounds_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_Unknown = new TextCtrl_Long(Tab_Sounds, "0", NULL);
-
 	Sounds_SoundItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sound Items");
 	Sounds_SoundItems_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_SoundItems_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
@@ -458,6 +451,13 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Copy = new wxButton(Tab_Sounds, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Paste = new wxButton(Tab_Sounds, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+
+	Sounds_Holder_ID = new wxBoxSizer(wxVERTICAL);
+	Sounds_Text_ID = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_ID = new TextCtrl_Long(Tab_Sounds, "0", NULL);
+	Sounds_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
+	Sounds_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Unknown = new TextCtrl_Long(Tab_Sounds, "0", NULL);
 
 	SoundItems_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Name = new wxStaticText(Tab_Sounds, wxID_ANY, " Item Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);

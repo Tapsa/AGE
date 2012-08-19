@@ -1406,35 +1406,38 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid1 = new wxGridSizer(2, 0, 5);
 	Civs_DataGrid2 = new wxGridSizer(2, 0, 5);
 	Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
-	Civs_Holder_One = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_One = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_One = new TextCtrl_Byte(Tab_Civs, "0", NULL);
 	Civs_Holder_Name[0] = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_Name[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_Name[0] = new TextCtrl_String(Tab_Civs, "0", NULL);
 	Civs_Holder_Name[1] = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_Name[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_Name[1] = new TextCtrl_String(Tab_Civs, "0", NULL);
+	Civs_Holder_GraphicSet = new wxBoxSizer(wxVERTICAL);
+	Civs_Text_GraphicSet = new wxStaticText(Tab_Civs, wxID_ANY, " Graphic Set", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs, "0", NULL);
+	Civs_Holder_One = new wxBoxSizer(wxVERTICAL);
+	Civs_Text_One = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_One = new TextCtrl_Byte(Tab_Civs, "0", NULL);
 	Civs_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_TechTree = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = new TextCtrl_Short(Tab_Civs, "0", NULL);
-	Civs_Holder_SUnknown1 = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_SUnknown1 = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0;loop < 4;loop++)
-	Civs_SUnknown1[loop] = new TextCtrl_Short(Tab_Civs, "0", NULL);
 	Civs_ComboBox_TechTree = new ComboBox_Short(Tab_Civs, Civs_TechTree);
 	Civs_Holder_TeamBonus = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_TeamBonus = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TeamBonus = new TextCtrl_Short(Tab_Civs, "0", NULL);
 	Civs_ComboBox_TeamBonus = new ComboBox_Short(Tab_Civs, Civs_TeamBonus);
-	Civs_Holder_GraphicSet = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_GraphicSet = new wxStaticText(Tab_Civs, wxID_ANY, " Graphic Set", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs, "0", NULL);
+	Civs_Holder_SUnknown1 = new wxBoxSizer(wxVERTICAL);
+	Civs_Text_SUnknown1 = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop = 0;loop < 4;loop++)
+	Civs_SUnknown1[loop] = new TextCtrl_Short(Tab_Civs, "0", NULL);
 
 	Civs_Holder_Resources = new wxBoxSizer(wxVERTICAL);
 	Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources");
 	Civs_Resources_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Resources_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
+	Civs_Holder_ResourceValue = new wxBoxSizer(wxVERTICAL);
+	Civs_Text_ResourceValue = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_ResourceValue = new TextCtrl_Float(Tab_Civs, "0", NULL);
 	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
 	Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -1445,9 +1448,6 @@ void AGE_Frame::CreateCivControls()
 	Resources_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 	Resources_CopyToAll = new wxButton(Tab_Civs, wxID_ANY, "Copy to all civs", wxDefaultPosition, wxSize(5, 20));
 	Civs_Resources_Data = new wxBoxSizer(wxVERTICAL);
-	Civs_Holder_ResourceValue = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_ResourceValue = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_ResourceValue = new TextCtrl_Float(Tab_Civs, "0", NULL);
 	Civs_Holder_Resources_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resources", "http://www.digitization.org/wiki/index.php?title=Resource", wxDefaultPosition, wxSize(5, 20), wxBORDER_NONE|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
 
 	Civs_Civs_Buttons->Add(Civs_Add, 1, wxEXPAND);
