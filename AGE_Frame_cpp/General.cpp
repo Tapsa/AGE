@@ -171,22 +171,10 @@ void AGE_Frame::CreateGeneralControls()
 	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	General_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
-	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
-	General_Grid_TerrainHeader = new wxGridSizer(18, 0, 0);
-	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0;loop < 138;loop++)
-	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 
 	General_Grid_Variables = new wxGridSizer(6, 5, 5);
 	General_Grid_Variables2 = new wxGridSizer(8, 5, 5);
 	General_Holder_Variables1 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Star Wars Unknowns");
-	General_Holder_Variables2 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Technology Tree Related?");
-	General_Holder_SUnknown7 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown7 = new TextCtrl_Byte(General_Scroller, "0", NULL);
-	General_Holder_SUnknown8 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown8 = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_SUnknown2 = new wxBoxSizer(wxVERTICAL);
 	General_Text_SUnknown2 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown2 = new TextCtrl_Long(General_Scroller, "0", NULL);
@@ -199,13 +187,17 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_SUnknown5 = new wxBoxSizer(wxVERTICAL);
 	General_Text_SUnknown5 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown5 = new TextCtrl_Long(General_Scroller, "0", NULL);
-	for(short loop = 0;loop < 8;loop++)
-	{
-		General_Holder_TTUnknown[loop] = new wxBoxSizer(wxVERTICAL);
-		General_TTUnknown[loop] = new TextCtrl_Long(General_Scroller, "0", NULL);
-		General_Text_TTUnknown[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Unkown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	}
-
+	General_Holder_SUnknown7 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown7 = new TextCtrl_Byte(General_Scroller, "0", NULL);
+	General_Holder_SUnknown8 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown8 = new TextCtrl_Byte(General_Scroller, "0", NULL);
+	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
+	General_Grid_TerrainHeader = new wxGridSizer(18, 0, 0);
+	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop = 0;loop < 138;loop++)
+	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_RenderPlusUnknown = new wxBoxSizer(wxVERTICAL);
 	General_Holder_RenderPlusUnknownTop = new wxBoxSizer(wxHORIZONTAL);
 	General_TechTreePicker = new wxTextCtrl(General_Scroller, wxID_ANY);
@@ -216,6 +208,14 @@ void AGE_Frame::CreateGeneralControls()
 	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related + Unknown Data", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 256;loop++)
 	General_TechTree[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
+
+	General_Holder_Variables2 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Technology Tree Related?");
+	for(short loop = 0;loop < 8;loop++)
+	{
+		General_Holder_TTUnknown[loop] = new wxBoxSizer(wxVERTICAL);
+		General_TTUnknown[loop] = new TextCtrl_Long(General_Scroller, "0", NULL);
+		General_Text_TTUnknown[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Unkown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	}
 
 	General_TopRow->Add(10, -1);
 	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
