@@ -136,8 +136,9 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
-		Temp.Resources.resize(GenieFile->Civs[0].Resources.size());
-		Temp.Units.resize(GenieFile->Civs[0].Units.size());
+		Temp.Resources = GenieFile->Civs[1].Resources;
+		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
+		Temp.Units = GenieFile->Civs[1].Units;
 		GenieFile->Civs.push_back(Temp);
 		Added = true;
 //		Unit copying fixes.
@@ -153,8 +154,9 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
-		Temp.Resources.resize(GenieFile->Civs[0].Resources.size());
-		Temp.Units.resize(GenieFile->Civs[0].Units.size());
+		Temp.Resources = GenieFile->Civs[1].Resources;
+		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
+		Temp.Units = GenieFile->Civs[1].Units;
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
 //		Unit copying fixes.
 		DatCopies.Civs.resize(GenieFile->Civs.size());
@@ -194,16 +196,8 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		short CivCount = GenieFile->Civs.size();
-		if(CivCopies.size()+CivIDs[0] > CivCount)
-		{
-			GenieFile->Civs.resize(CivCopies.size()+CivIDs[0]);
-			for(short loop = CivCount;loop < (CivCopies.size()+CivIDs[0] - CivCount);loop++)
-			{
-				GenieFile->Civs[loop].Resources.resize(GenieFile->Civs[0].Resources.size());
-				GenieFile->Civs[loop].Units.resize(GenieFile->Civs[0].Units.size());
-			}
-		}
+		if(CivCopies.size()+CivIDs[0] > GenieFile->Civs.size())
+		GenieFile->Civs.resize(CivCopies.size()+CivIDs[0]);
 		for(short loop = 0;loop < CivCopies.size();loop++)
 		GenieFile->Civs[CivIDs[0]+loop] = CivCopies[loop];
 //		Unit copying fixes.
@@ -219,8 +213,6 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
-		Temp.Resources.resize(GenieFile->Civs[0].Resources.size());
-		Temp.Units.resize(GenieFile->Civs[0].Units.size());
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], CivCopies.size(), Temp);
 		for(short loop = 0;loop < CivCopies.size();loop++)
 		GenieFile->Civs[CivIDs[0]+loop] = CivCopies[loop];
@@ -1324,7 +1316,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent& Event)
 		for(short loop2 = 0;loop2 < GenieFile->Civs.size();loop2++)
 		{
 			for(short loop = Selections-1;loop >= 0;loop--)
-			GenieFile->Civs[loop2].Resources.erase(GenieFile->Civs[loop].Resources.begin() + ResourceIDs[loop]);
+			GenieFile->Civs[loop2].Resources.erase(GenieFile->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
 		}
 		ListResources();
 	}
@@ -1403,6 +1395,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Delete = new wxButton(Tab_Civs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Civs_Copy = new wxButton(Tab_Civs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Civs_Paste = new wxButton(Tab_Civs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Civs_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	Civs_DataArea = new wxBoxSizer(wxVERTICAL);
 	Civs_DataGrid1 = new wxGridSizer(2, 0, 5);
@@ -1444,18 +1437,20 @@ void AGE_Frame::CreateCivControls()
 	Resources_Delete = new wxButton(Tab_Civs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Resources_Copy = new wxButton(Tab_Civs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Resources_Paste = new wxButton(Tab_Civs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Resources_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 	Resources_CopyToAll = new wxButton(Tab_Civs, wxID_ANY, "Copy to all civs", wxDefaultPosition, wxSize(5, 20));
 	Civs_Resources_Data = new wxBoxSizer(wxVERTICAL);
 	Civs_Holder_ResourceValue = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_ResourceValue = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_ResourceValue = new TextCtrl_Float(Tab_Civs, "0", NULL);
-	Civs_Holder_Resources_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resource List", "http://www.digitization.org/wiki/index.php?title=Resource");
+	Civs_Holder_Resources_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resources", "http://www.digitization.org/wiki/index.php?title=Resource", wxDefaultPosition, wxSize(5, 20), wxHL_ALIGN_LEFT);
 
 	Civs_Civs_Buttons->Add(Civs_Add, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Insert, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Delete, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Copy, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Paste, 1, wxEXPAND);
+	Civs_Civs_Buttons->Add(Civs_PasteInsert, 1, wxEXPAND);
 
 	Civs_Civs->Add(Civs_Civs_Search, 0, wxEXPAND);
 	Civs_Civs->Add(Civs_Civs_Search_R, 0, wxEXPAND);
@@ -1506,7 +1501,9 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources_Buttons->Add(Resources_Delete, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Copy, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Paste, 1, wxEXPAND);
+	Civs_Resources_Buttons->Add(Resources_PasteInsert, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_CopyToAll, 1, wxEXPAND);
+	Civs_Resources_Buttons->Add(Civs_Holder_Resources_Link, 1, wxEXPAND);
 
 	Civs_Holder_ResourceValue->Add(Civs_Text_ResourceValue, 0, wxEXPAND);
 	Civs_Holder_ResourceValue->Add(Civs_ResourceValue, 1, wxEXPAND);
@@ -1521,7 +1518,6 @@ void AGE_Frame::CreateCivControls()
 
 	Civs_Holder_Resources->Add(-1, 10);
 	Civs_Holder_Resources->Add(Civs_Resources, 1, wxEXPAND);
-	Civs_Holder_Resources->Add(Civs_Holder_Resources_Link, 0, wxEXPAND);
 	Civs_Holder_Resources->Add(-1, 10);
 
 	Civs_Main->Add(10, -1);
@@ -1542,11 +1538,13 @@ void AGE_Frame::CreateCivControls()
 	Connect(Civs_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnCivsDelete));
 	Connect(Civs_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnCivsCopy));
 	Connect(Civs_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnCivsPaste));
+	Connect(Civs_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnCivsPasteInsert));
 	Connect(Civs_Resources_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResourcesSearch));
 	Connect(Civs_Resources_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResourcesSearch));
 	Connect(Civs_Resources_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnResourcesSelect));
 	Connect(Resources_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesCopy));
 	Connect(Resources_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesPaste));
+	Connect(Resources_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesPasteInsert));
 	Connect(Resources_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesAdd));
 	Connect(Resources_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesInsert));
 	Connect(Resources_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesDelete));

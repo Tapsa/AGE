@@ -385,12 +385,12 @@ class AGE_Frame : public wxFrame
 	void OnUnitsCopy(wxCommandEvent& Event);
 	void UnitsAutoCopy();
 	void OnUnitsSpecialCopy(wxCommandEvent& Event);
-	void UnitsGraphicsCopy(short &civ, short disp, short loop);
+	void UnitsGraphicsCopy(short civ, short disp, short loop);
 	void OnUnitsPaste(wxCommandEvent& Event);
 	void OnUnitsPasteInsert(wxCommandEvent& Event);
 	void OnUnitsSpecialPaste(wxCommandEvent& Event);
 	void OnUnitsSpecialPasteInsert(wxCommandEvent& Event);
-	void UnitsGraphicsPaste(short &civ, short disp, short loop);
+	void UnitsGraphicsPaste(short civ, short disp, short loop);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
 	void OnUnitsExtract(wxCommandEvent& Event);
@@ -694,9 +694,10 @@ class AGE_Frame : public wxFrame
 	vector<short> CommandIDs;
 	vector<genie::UnitLine> UnitLineCopies;
 	vector<short> UnitLineIDs;
-	vector<short> UnitLineUnitCopies;
+	vector<int16_t> UnitLineUnitCopies;
 	vector<short> UnitLineUnitIDs;
 	vector<genie::Graphic> GraphicCopies;
+	vector<int32_t> GraphicPointerCopies;
 	vector<short> GraphicIDs;
 	vector<genie::GraphicDelta> GraphicDeltaCopies;
 	vector<short> DeltaIDs;
