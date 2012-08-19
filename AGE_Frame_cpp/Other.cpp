@@ -2689,16 +2689,14 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 	if(!((TextCtrl_String*)Event.GetEventObject())->NoLoadList)
 	{
 		string ReducedName;
-		if(AutoCopy)
-		{
-			UnitsAutoCopy();
-		}
 		if(Event.GetId() == Units_Name->GetId())
 		{
 			ReducedName = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name;
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name = ReducedName;
 
+			if(AutoCopy)
+			UnitsAutoCopy();
 			ListUnits(UnitCivID);
 		}
 		else if(Event.GetId() == Units_Name2->GetId())
@@ -2707,6 +2705,8 @@ void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent& Event)
 			ReducedName = ReducedName.substr(0, 30);
 			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Name2 = ReducedName;
 
+			if(AutoCopy)
+			UnitsAutoCopy();
 			wxCommandEvent E;
 			OnUnitsSelect(E);
 		}
