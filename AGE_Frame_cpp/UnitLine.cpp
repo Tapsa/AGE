@@ -323,7 +323,7 @@ void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent& Event)
 
 void AGE_Frame::CreateUnitLineControls()
 {
-	Tab_UnitLine = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_UnitLine = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	UnitLines_Main = new wxBoxSizer(wxHORIZONTAL);
 	UnitLines_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnitLines_UnitLines_Buttons = new wxGridSizer(3, 0, 0);

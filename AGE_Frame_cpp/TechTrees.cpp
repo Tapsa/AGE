@@ -2522,7 +2522,7 @@ void AGE_Frame::OnTTResearchResearchPasteInsert(wxCommandEvent& Event)
 
 void AGE_Frame::CreateTechTreeControls()
 {
-	Tab_TechTrees = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_TechTrees = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	TechTrees_Main = new wxBoxSizer(wxHORIZONTAL);
 	TechTrees_All = new wxBoxSizer(wxVERTICAL);

@@ -8,6 +8,7 @@ set(Boost_USE_STATIC_RUNTIME     ON)
 
 find_package(Boost 1.42 COMPONENTS iostreams REQUIRED)
 find_package(wxWidgets COMPONENTS adv core base REQUIRED)
+#find_package(SFML 1.6 graphics REQUIRED)
 
 include( "${wxWidgets_USE_FILE}" )
 
@@ -16,13 +17,9 @@ set(GDAT_STATIC TRUE)
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
-include_directories(
-#  ${CMAKE_HOME_DIRECTORY}/extern/geniedat/include
-  ${CMAKE_HOME_DIRECTORY}/extern/genieutils/include
-  ${Boost_INCLUDE_DIRS})
-  
-#add_subdirectory (extern/geniedat)
-add_subdirectory (extern/genieutils)
+include_directories(${CMAKE_HOME_DIRECTORY}/extern/genieutils/include ${Boost_INCLUDE_DIRS})
+
+add_subdirectory(extern/genieutils)
 
 set(AGE_SRC Main.cpp
 			AGE_TextControls.cpp
@@ -31,10 +28,10 @@ set(AGE_SRC Main.cpp
 			AGE_AboutDialog.cpp
 			AGE_OpenDialog.cpp
 			AGE_SaveDialog.cpp
-			
+
 			AGE_Frame_cpp/Constructor.cpp
 			AGE_Frame_cpp/Other.cpp
-			AGE_Frame_cpp/DRS.cpp
+			#AGE_Frame_cpp/DRS.cpp
 			AGE_Frame_cpp/Civs.cpp
 			AGE_Frame_cpp/General.cpp
 			AGE_Frame_cpp/Graphics.cpp
@@ -49,7 +46,7 @@ set(AGE_SRC Main.cpp
 			AGE_Frame_cpp/UnitLine.cpp
 			AGE_Frame_cpp/Units.cpp
 			AGE_Frame_cpp/Transporting.cpp
-			
+
 			Resources.rc
 	)
 

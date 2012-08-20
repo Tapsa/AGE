@@ -171,7 +171,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Main = new wxBoxSizer(wxHORIZONTAL);
 	Colors_ListArea = new wxBoxSizer(wxVERTICAL);
 	Colors_Colors_Buttons = new wxGridSizer(3, 0, 0);
-	Tab_PlayerColors = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_PlayerColors = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Colors");
 	Colors_Colors_Search = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
