@@ -410,7 +410,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent& Event)
 
 void AGE_Frame::CreateResearchControls()
 {
-	Tab_Research = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Research = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Research_Main = new wxBoxSizer(wxHORIZONTAL);
 	Research_ListArea = new wxBoxSizer(wxVERTICAL);

@@ -160,7 +160,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 
 void AGE_Frame::CreateGeneralControls()
 {
-	Tab_General = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_General = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	General_Main = new wxBoxSizer(wxVERTICAL);
 	General_TopRow = new wxBoxSizer(wxHORIZONTAL);
