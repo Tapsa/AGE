@@ -1389,7 +1389,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Main = new wxBoxSizer(wxHORIZONTAL);
 	Civs_ListArea = new wxBoxSizer(wxVERTICAL);
 	Civs_Civs_Buttons = new wxGridSizer(3, 0, 0);
-	Tab_Civs = new wxPanel(TabBar_Data, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Civs = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Civs_Civs = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Civilizations");
 	Civs_Civs_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);

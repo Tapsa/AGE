@@ -91,7 +91,7 @@ class AGE_Frame : public wxFrame
 	void CreateSoundControls();
 	void CreatePlayerColorControls();
 
-	void CreateDRSControls();
+//	void CreateDRSControls();
 
 //	Other Events
 
@@ -767,8 +767,8 @@ class AGE_Frame : public wxFrame
 	wxMenu * SubMenu_Help;
 
 	wxNotebook * TabBar_Main;
-	wxNotebook * TabBar_Data;
-	wxNotebook * TabBar_Test;
+//	wxNotebook * TabBar_Data;
+//	wxNotebook * TabBar_Test;
 
 	wxPanel * Tab_General;
 	wxPanel * Tab_Research;
@@ -784,7 +784,7 @@ class AGE_Frame : public wxFrame
 	wxPanel * Tab_Sounds;
 	wxPanel * Tab_PlayerColors;
 
-	wxPanel * Tab_DRS;
+//	wxPanel * Tab_DRS;
 
 //	General user interface
 
@@ -2940,10 +2940,11 @@ class AGE_Frame : public wxFrame
 
 //	DRS user interface
 
-	genie::DrsFile * ResourceFile;
+	/*genie::DrsFile * ResourceFile;
 
 	void LoadDRSFile(wxCommandEvent& Event);
 	void UnLoadDRSFile(wxCommandEvent& Event);
+	void LoadSLP(wxCommandEvent& Event);
 
 	wxBoxSizer * DRS_Main;
 	wxBoxSizer * DRS_TopRow;
@@ -2953,7 +2954,8 @@ class AGE_Frame : public wxFrame
 	wxFilePickerCtrl * DRS_Path_FileLocation;
 	wxButton * DRS_LoadButton;
 	wxButton * DRS_UnLoadButton;
-	wxStaticText * DRS_StatusText;
+	wxButton * DRS_SLPLoadButton;
+	wxStaticText * DRS_StatusText;*/
 
 /*	Templates (I'm not using these)
 
