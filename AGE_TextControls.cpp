@@ -81,6 +81,50 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
+void TextCtrl_UByte::OnKillFocus(wxFocusEvent& Event)
+{
+	wxString Value = GetValue().c_str();
+	NoLoadList = false;
+	if(Container == NULL)
+	{
+	    NoLoadList = true;
+	}
+	else if(Value.size() > 0)
+	{
+		try
+		{
+		    if(*((unsigned char*)Container) != (unsigned char)lexical_cast<short>(Value))
+			{
+			    if(lexical_cast<short>(Value) == (unsigned char)lexical_cast<short>(Value))
+			    {
+					*((unsigned char*)Container) = (unsigned char)lexical_cast<short>(Value);
+				}
+			    else
+			    {
+					NoLoadList = true;
+			    	wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
+			    	SetFocus();
+			    }
+			}
+			else
+			{
+			    NoLoadList = true;
+			}
+		}
+		catch(bad_lexical_cast e)
+		{
+			NoLoadList = true;
+		    wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
+		    SetFocus();
+		}
+	}
+	else
+	{
+		ChangeValue(lexical_cast<string>((short)*Container));
+	}
+//	Event.Skip();
+}
+
 void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();

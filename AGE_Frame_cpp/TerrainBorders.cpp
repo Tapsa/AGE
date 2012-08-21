@@ -249,7 +249,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Grid_BorderColors = new wxGridSizer(3, 0, 0);
 	Borders_Text_BorderColors = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 3;loop++)
-	Borders_BorderColors[loop] = new TextCtrl_Byte(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderColors[loop] = new TextCtrl_UByte(Tab_TerrainBorders, "0", NULL);
 	Borders_Holder_BorderFrameCount = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderFrameCount = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_BorderFrameCount = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);

@@ -181,8 +181,8 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		}
 		for(short loop = 0;loop < 3;loop++)
 		{
-			Terrains_Colours[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Colours[loop]));
-			Terrains_Colours[loop]->Container = &TerrainPointer->Colours[loop];
+			Terrains_Colors[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Colors[loop]));
+			Terrains_Colors[loop]->Container = &TerrainPointer->Colors[loop];
 		}
 		Terrains_Unknown5->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown5));
 		Terrains_Unknown5->Container = &TerrainPointer->Unknown5;
@@ -406,11 +406,11 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_BlendType = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_BlendType = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_BlendType = new TextCtrl_Long(Terrains_Scroller, "0", NULL);
-	Terrains_Holder_Colours = new wxBoxSizer(wxVERTICAL);
-	Terrains_Grid_Colours = new wxGridSizer(3, 0, 0);
-	Terrains_Text_Colours = new wxStaticText(Terrains_Scroller, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_Holder_Colors = new wxBoxSizer(wxVERTICAL);
+	Terrains_Grid_Colors = new wxGridSizer(3, 0, 0);
+	Terrains_Text_Colors = new wxStaticText(Terrains_Scroller, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0;loop < 3;loop++)
-	Terrains_Colours[loop] = new TextCtrl_Byte(Terrains_Scroller, "0", NULL);
+	Terrains_Colors[loop] = new TextCtrl_UByte(Terrains_Scroller, "0", NULL);
 	Terrains_Holder_FrameCount = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_FrameCount = new wxStaticText(Terrains_Scroller, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_FrameCount = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
@@ -526,9 +526,9 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_BlendType->Add(Terrains_Text_BlendType, 0, wxEXPAND);
 	Terrains_Holder_BlendType->Add(Terrains_BlendType, 0, wxEXPAND);
 	for(short loop = 0;loop < 3;loop++)
-	Terrains_Grid_Colours->Add(Terrains_Colours[loop], 1, wxEXPAND);
-	Terrains_Holder_Colours->Add(Terrains_Text_Colours, 0, wxEXPAND);
-	Terrains_Holder_Colours->Add(Terrains_Grid_Colours, 0, wxEXPAND);
+	Terrains_Grid_Colors->Add(Terrains_Colors[loop], 1, wxEXPAND);
+	Terrains_Holder_Colors->Add(Terrains_Text_Colors, 0, wxEXPAND);
+	Terrains_Holder_Colors->Add(Terrains_Grid_Colors, 0, wxEXPAND);
 	Terrains_Holder_Unknown5->Add(Terrains_Text_Unknown5, 0, wxEXPAND);
 	Terrains_Holder_Unknown5->Add(Terrains_Unknown5, 1, wxEXPAND);
 	Terrains_Holder_Unknown6->Add(Terrains_Text_Unknown6, 0, wxEXPAND);
@@ -586,7 +586,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Grid_Area1->Add(Terrains_Holder_SoundID, 1, wxEXPAND);
 	Terrains_Grid_Area1->Add(Terrains_Holder_BlendPriority, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Terrains_Grid_Area1->Add(Terrains_Holder_BlendType, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Terrains_Grid_Area1->Add(Terrains_Holder_Colours, 1, wxEXPAND);
+	Terrains_Grid_Area1->Add(Terrains_Holder_Colors, 1, wxEXPAND);
 	Terrains_Grid_Area1->Add(Terrains_Holder_FrameCount, 1, wxEXPAND);
 	Terrains_Grid_Area1->Add(Terrains_Holder_TerrainReplacementID, 1, wxEXPAND);
 	Terrains_Grid_Area1->Add(Terrains_Holder_TerrainDimensions, 1, wxEXPAND);
