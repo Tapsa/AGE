@@ -58,9 +58,9 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			ResearchTechID = GenieFile->Researchs[loop].TechageID;
 			if(ResearchTechID > 0) // Only researches which have techs.
 			{
-				if(LanguageDllString(GenieFile->Researchs[loop].LanguageDllName) != "") // has a lang dll name
+				if(LanguageDLLString(GenieFile->Researchs[loop].LanguageDLLName, 64) != "") // has a lang dll name
 				{
-					Name = LanguageDllString(GenieFile->Researchs[loop].LanguageDllName);
+					Name = LanguageDLLString(GenieFile->Researchs[loop].LanguageDLLName, 64);
 				}
 				else // use internal name instead
 				{
