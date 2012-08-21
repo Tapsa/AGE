@@ -738,8 +738,8 @@ class AGE_Frame : public wxFrame
 
 	//wxString ResourceName[210];
 
-	HINSTANCE LanguageDll[3];
-	string LanguageDllString(int ID);
+	HINSTANCE LanguageDLL[3];
+	string LanguageDLLString(int ID, int Letters);
 
 //	Constants, remove unneeded entries.
 
@@ -979,15 +979,15 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Research_ResearchLocation;
 	ComboBox_Short * Research_ComboBox_ResearchLocation;
 
-	wxBoxSizer * Research_Holder_LangDllName;
-	wxStaticText * Research_Text_LangDllName;
-	TextCtrl_UnShort * Research_LangDllName;
-	wxStaticText * Research_DLL_LangDllName;
+	wxBoxSizer * Research_Holder_LangDLLName;
+	wxStaticText * Research_Text_LangDLLName;
+	TextCtrl_UShort * Research_LangDLLName;
+	wxStaticText * Research_DLL_LangDLLName;
 
-	wxBoxSizer * Research_Holder_LangDllDescription;
-	wxStaticText * Research_Text_LangDllDescription;
-	TextCtrl_UnShort * Research_LangDllDescription;
-	wxStaticText * Research_DLL_LangDllDescription;
+	wxBoxSizer * Research_Holder_LangDLLDescription;
+	wxStaticText * Research_Text_LangDLLDescription;
+	TextCtrl_UShort * Research_LangDLLDescription;
+	wxStaticText * Research_DLL_LangDLLDescription;
 
 	wxBoxSizer * Research_Holder_ResearchTime;
 	wxStaticText * Research_Text_ResearchTime;
@@ -1200,10 +1200,10 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Byte * Units_Type;
 	wxOwnerDrawnComboBox * Units_ComboBox_Type;
 	TextCtrl_Short * Units_ID1;
-	TextCtrl_UnShort * Units_LanguageDllName;
-	wxStaticText * Units_DLL_LanguageDllName;
-	TextCtrl_UnShort * Units_LanguageDllCreation;
-	wxStaticText * Units_DLL_LanguageDllCreation;
+	TextCtrl_UShort * Units_LanguageDLLName;
+	wxStaticText * Units_DLL_LanguageDLLName;
+	TextCtrl_UShort * Units_LanguageDLLCreation;
+	wxStaticText * Units_DLL_LanguageDLLCreation;
 	TextCtrl_Short * Units_Class;
 	ComboBox_Short * Units_ComboBox_Class[3];
 	TextCtrl_Short * Units_StandingGraphic[2];
@@ -1252,9 +1252,10 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_Unknown3;
 	TextCtrl_Short * Units_Unknown3B;
 	TextCtrl_Byte * Units_Unknown3a;
-	TextCtrl_UnShort * Units_LanguageDllHelp;
-	wxStaticText * Units_DLL_LanguageDllHelp;
-	TextCtrl_Short * Units_HotKey[4];
+	TextCtrl_Long * Units_LanguageDLLHelp;
+	TextCtrl_Long * Units_LanguageDLLUnknown;
+	wxStaticText * Units_DLL_LanguageDLLHelp;
+	TextCtrl_Short * Units_HotKey;
 	wxStaticText * Units_DLL_HotKey4;
 	TextCtrl_Byte * Units_Unknown4;
 	TextCtrl_Byte * Units_Unknown5;
@@ -1434,8 +1435,8 @@ class AGE_Frame : public wxFrame
 
 	wxStaticText * Units_Text_Type;
 	wxStaticText * Units_Text_ID1;
-	wxStaticText * Units_Text_LanguageDllName;
-	wxStaticText * Units_Text_LanguageDllCreation;
+	wxStaticText * Units_Text_LanguageDLLName;
+	wxStaticText * Units_Text_LanguageDLLCreation;
 	wxStaticText * Units_Text_Class;
 	wxStaticText * Units_Text_StandingGraphic;
 	wxStaticText * Units_Text_DyingGraphic;
@@ -1464,7 +1465,8 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_Unknown3;
 	wxStaticText * Units_Text_Unknown3B;
 	wxStaticText * Units_Text_Unknown3a;
-	wxStaticText * Units_Text_LanguageDllHelp;
+	wxStaticText * Units_Text_LanguageDLLHelp;
+	wxStaticText * Units_Text_LanguageDLLUnknown;
 	wxStaticText * Units_Text_HotKey;
 	wxStaticText * Units_Text_Unknown4;
 	wxStaticText * Units_Text_Unknown5;
@@ -1601,8 +1603,8 @@ class AGE_Frame : public wxFrame
 
 	wxStaticBoxSizer * Units_Holder_Type;
 	wxBoxSizer * Units_Holder_ID1;
-	wxBoxSizer * Units_Holder_LanguageDllName;
-	wxBoxSizer * Units_Holder_LanguageDllCreation;
+	wxBoxSizer * Units_Holder_LanguageDLLName;
+	wxBoxSizer * Units_Holder_LanguageDLLCreation;
 	wxBoxSizer * Units_Holder_Class;
 	wxBoxSizer * Units_Holder_StandingGraphic;
 	wxBoxSizer * Units_Holder_DyingGraphic;
@@ -1644,8 +1646,9 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Unknown3;
 	wxBoxSizer * Units_Holder_Unknown3B;
 	wxBoxSizer * Units_Holder_Unknown3a;
-	wxBoxSizer * Units_Holder_LanguageDllHelp;
-	wxGridSizer * Units_Grid_HotKey;
+	wxBoxSizer * Units_Holder_LanguageDLLHelp;
+	wxBoxSizer * Units_Holder_LanguageDLLUnknown;
+	wxBoxSizer * Units_Holder_HotKey;
 	wxBoxSizer * Units_Holder_Unknown4;
 	wxBoxSizer * Units_Holder_Unknown5;
 	wxBoxSizer * Units_Holder_Unselectable;
@@ -1932,7 +1935,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_AttributesDropSite;
 	wxBoxSizer * Units_Holder_AttributesSizes;
 	wxGridSizer * Units_Grid_AttributesSelection1;
-	wxBoxSizer * Units_Holder_AttributesHotKey;
+	wxBoxSizer * Units_Holder_LangRegular;
+	wxBoxSizer * Units_Holder_LangHotKey;
 	wxGridSizer * Units_Grid_AttributesTracking;
 	wxGridSizer * Units_Grid_AttributesTrain1;
 	wxGridSizer * Units_Grid_Attributes3;
@@ -2166,8 +2170,8 @@ class AGE_Frame : public wxFrame
 	ComboBox_Short * Graphics_ComboBox_SoundID;
 	TextCtrl_Byte * Graphics_AttackSoundUsed;
 	CheckBox_Byte * Graphics_CheckBox_AttackSoundUsed;
-	TextCtrl_UnShort * Graphics_FrameCount;
-	TextCtrl_UnShort * Graphics_AngleCount;
+	TextCtrl_UShort * Graphics_FrameCount;
+	TextCtrl_UShort * Graphics_AngleCount;
 	TextCtrl_Float * Graphics_Unknown13;
 	TextCtrl_Float * Graphics_FrameRate;
 	TextCtrl_Float * Graphics_ReplayDelay;

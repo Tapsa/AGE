@@ -230,7 +230,7 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
-void TextCtrl_UnShort::OnKillFocus(wxFocusEvent& Event)
+void TextCtrl_UShort::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;

@@ -153,15 +153,15 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 	if(LangsUsed & 1)
 	{
-		LanguageDll[0] = LoadLibrary(LangFileName.c_str());
+		LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
 	}
 	if(LangsUsed & 2)
 	{
-		LanguageDll[1] = LoadLibrary(LangX1FileName.c_str());
+		LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
 	}
 	if(LangsUsed & 4)
 	{
-		LanguageDll[2] = LoadLibrary(LangX1P1FileName.c_str());
+		LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
 	}
 
 	genie::GameVersion GenieVersion;
@@ -785,6 +785,38 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Research_Research_SearchFilters[loop]->Append("Full Tech. Mode");
 			}
 			Research_Research_SearchFilters[loop]->SetSelection(0);
+
+			/*serialize<int16_t>(RequiredTechs, getRequiredTechsSize());
+
+			serializeSub<ResearchResourceCost>(ResourceCosts, getResourceCostsSize());
+			serialize<int16_t>(RequiredTechCount);
+
+			if (getGameVersion() >= genie::GV_AoK)
+			{
+				serialize<int16_t>(Civ);
+				serialize<int16_t>(FullTechMode);
+			}
+
+			serialize<int16_t>(ResearchLocation);
+			serialize<uint16_t>(LanguageDLLName);
+			serialize<uint16_t>(LanguageDLLDescription);
+			serialize<int16_t>(ResearchTime);
+			serialize<int16_t>(TechageID);
+			serialize<int16_t>(Type);
+			serialize<int16_t>(IconID);
+			serialize<char>(ButtonID);
+			serialize<int32_t>(Pointers, getPointersSize()); //TODO: AoE/RoR: [0..1]: LanguagePointer
+
+			serializeSize<uint16_t>(NameLength, Name);
+			if (NameLength > 0)
+				serialize<std::string>(Name, NameLength);
+
+			if (getGameVersion() >= genie::GV_SWGB)
+			{
+				serializeSize<uint16_t>(NameLength2, Name2);
+				if (NameLength2 > 0)
+				serialize<std::string>(Name2, NameLength2);
+			}*/
 		}
 
 		Items.Add(0);
@@ -1619,20 +1651,20 @@ bool AGE_Frame::FileExists(const char * value)
 	return false;
 }*/
 
-string AGE_Frame::LanguageDllString(int ID)
+string AGE_Frame::LanguageDLLString(int ID, int Letters)
 {
 	string Result = "";
-	char Buffer[256];
+	char Buffer[Letters];
 
-	if(LoadStringA(LanguageDll[2], ID, Buffer, 256) && strlen(Buffer) > 0)
+	if(LoadStringA(LanguageDLL[2], ID, Buffer, Letters) && strlen(Buffer) > 0)
 	{
 		Result = Buffer;
 	}
-	else if(LoadStringA(LanguageDll[1], ID, Buffer, 256) && strlen(Buffer) > 0)
+	else if(LoadStringA(LanguageDLL[1], ID, Buffer, Letters) && strlen(Buffer) > 0)
 	{
 		Result = Buffer;
 	}
-	else if(LoadStringA(LanguageDll[0], ID, Buffer, 256) && strlen(Buffer) > 0)
+	else if(LoadStringA(LanguageDLL[0], ID, Buffer, Letters) && strlen(Buffer) > 0)
 	{
 		Result = Buffer;
 	}
@@ -2357,14 +2389,14 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent& Event)
 
 void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent& Event)
 {
-	((TextCtrl_UnShort*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_UnShort*)Event.GetEventObject())->NoLoadList)
+	((TextCtrl_UShort*)Event.GetEventObject())->OnKillFocus(Event);
+	if(!((TextCtrl_UShort*)Event.GetEventObject())->NoLoadList)
 	{
-		if(Event.GetId() == Research_LangDllName->GetId())
+		if(Event.GetId() == Research_LangDLLName->GetId())
 		{
 			ListResearches();
 		}
-		else if(Event.GetId() == Research_LangDllDescription->GetId())
+		else if(Event.GetId() == Research_LangDLLDescription->GetId())
 		{
 			wxCommandEvent E;
 			OnResearchSelect(E);
@@ -2408,23 +2440,18 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent& Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event)
 {
-	((TextCtrl_UnShort*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_UnShort*)Event.GetEventObject())->NoLoadList)
+	((TextCtrl_UShort*)Event.GetEventObject())->OnKillFocus(Event);
+	if(!((TextCtrl_UShort*)Event.GetEventObject())->NoLoadList)
 	{
 		if(AutoCopy)
 		{
 			UnitsAutoCopy();
 		}
-		if(Event.GetId() == Units_LanguageDllName->GetId())
+		if(Event.GetId() == Units_LanguageDLLName->GetId())
 		{
 			ListUnits(UnitCivID);
 		}
-		else if(Event.GetId() == Units_LanguageDllCreation->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);
-		}
-		else if(Event.GetId() == Units_LanguageDllHelp->GetId())
+		else if(Event.GetId() == Units_LanguageDLLCreation->GetId())
 		{
 			wxCommandEvent E;
 			OnUnitsSelect(E);
@@ -2510,6 +2537,11 @@ void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent& Event)
 		if(AutoCopy)
 		{
 			UnitsAutoCopy();
+		}
+		if(Event.GetId() == Units_LanguageDLLHelp->GetId())
+		{
+			wxCommandEvent E;
+			OnUnitsSelect(E);
 		}
 	}
 }

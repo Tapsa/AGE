@@ -802,7 +802,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_FrameType->SetToolTip("0 - Cliffs\n5 - Shadows, Farms\n6 - Rubble\n10 - Construction sequences, some shadows, corpses, stumps, flowers, paths, ruins, crack\n11 - Fish\n19 - Rugs, crater\n20 - Buildings, damage flames, mill animation, units\n21 - Blacksmith piece (no slp), blacksmith smoke\n22 - Hawk\n30 - Explosions, projectiles ");
 	Graphics_Holder_FrameCount = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_FrameCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_FrameCount = new TextCtrl_UnShort(Graphics_Scroller, "0", NULL);
+	Graphics_FrameCount = new TextCtrl_UShort(Graphics_Scroller, "0", NULL);
 	Graphics_Holder_FrameRate = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_FrameRate = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_FrameRate = new TextCtrl_Float(Graphics_Scroller, "0", NULL);
@@ -870,7 +870,7 @@ void AGE_Frame::CreateGraphicsControls()
 	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, 20));
 	Graphics_Holder_AngleCount = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_AngleCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Angle Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_AngleCount = new TextCtrl_UnShort(Graphics_Scroller, "0", NULL);
+	Graphics_AngleCount = new TextCtrl_UShort(Graphics_Scroller, "0", NULL);
 	Graphics_Holder_AttackSoundUsed = new wxBoxSizer(wxVERTICAL);
 	Graphics_Holder_AttackSoundUsed1 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Text_AttackSoundUsed = new wxStaticText(Graphics_Scroller, wxID_ANY, " Attack Sound Used", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);

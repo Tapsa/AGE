@@ -180,9 +180,9 @@ string AGE_Frame::GetUnitLineUnitName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index])+" ";
-	if(LanguageDllString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDllName) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 64) != "")
 	{
-		Name += LanguageDllString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDllName);
+		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 64);
 	}
 	else if(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].Name != "")
 	{
