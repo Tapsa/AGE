@@ -843,7 +843,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Borders_Holder_BorderColors;
 	wxGridSizer * Borders_Grid_BorderColors;
 	wxStaticText * Borders_Text_BorderColors;
-	TextCtrl_Byte * Borders_BorderColors[3];
+	TextCtrl_UByte * Borders_BorderColors[3];
 	wxBoxSizer * Borders_Holder_BorderUnknown5;
 	wxStaticText * Borders_Text_BorderUnknown5;
 	TextCtrl_Byte * Borders_BorderUnknown5;
@@ -2284,10 +2284,10 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Terrains_Holder_BlendType;
 	wxStaticText * Terrains_Text_BlendType;
 	TextCtrl_Long * Terrains_BlendType;
-	wxBoxSizer * Terrains_Holder_Colours;
-	wxGridSizer * Terrains_Grid_Colours;
-	wxStaticText * Terrains_Text_Colours;
-	TextCtrl_Byte * Terrains_Colours[3];
+	wxBoxSizer * Terrains_Holder_Colors;
+	wxGridSizer * Terrains_Grid_Colors;
+	wxStaticText * Terrains_Text_Colors;
+	TextCtrl_UByte * Terrains_Colors[3];
 	wxBoxSizer * Terrains_Holder_Unknown5;
 	wxStaticText * Terrains_Text_Unknown5;
 	TextCtrl_Short * Terrains_Unknown5;

@@ -66,6 +66,34 @@ class TextCtrl_Byte : public wxTextCtrl
 
 #endif
 
+#ifndef TextCtrl_UByte_h
+#define TextCtrl_UByte_h
+
+class TextCtrl_UByte : public wxTextCtrl
+{
+	public:
+
+	TextCtrl_UByte(wxWindow * parent, string InitValue, unsigned char * Pointer)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
+	{
+		Container = Pointer;
+		this->SetBackgroundColour(wxColour(255, 235, 215));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UByte::OnKillFocus));	// Must-have
+	}
+
+//	Events
+
+	void OnKillFocus(wxFocusEvent& Event);
+
+//	Member Variables
+
+	unsigned char * Container;
+	void * ParentContainer;	//	These are for check and combo boxes.
+	bool NoLoadList;
+};
+
+#endif
+
 #ifndef TextCtrl_Float_h
 #define TextCtrl_Float_h
 
