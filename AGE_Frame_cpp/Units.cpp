@@ -38,7 +38,11 @@ string AGE_Frame::GetUnitName(short &Index, short &UnitCivID, bool Filter)
 				{
 					Name += "C "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Class);
 				}
-				else if(Selection[loop] == 4)	// Max Range
+				else if(Selection[loop] == 4)	// Terrain Restriction
+				{
+					Name += "TR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].TerrainRestriction);
+				}
+				else if(Selection[loop] == 5)	// Max Range
 				{
 					switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
 					{
@@ -51,7 +55,7 @@ string AGE_Frame::GetUnitName(short &Index, short &UnitCivID, bool Filter)
 							Name += "MR -1";
 					}
 				}
-				else if(Selection[loop] == 5)	// Train Location
+				else if(Selection[loop] == 6)	// Train Location
 				{
 					switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
 					{
@@ -63,7 +67,7 @@ string AGE_Frame::GetUnitName(short &Index, short &UnitCivID, bool Filter)
 							Name += "TL -1";
 					}
 				}
-				else if(Selection[loop] == 6)	// Pointer
+				else if(Selection[loop] == 7)	// Pointer
 				{
 					Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[Index]);
 				}
@@ -3145,9 +3149,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Special = new wxBoxSizer(wxHORIZONTAL);
 	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
-	Units_Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+	Units_Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Units_Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
-	Units_Units_UseAnd[1] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+	Units_Units_UseAnd[1] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	for(short loop = 0;loop < 2;loop++)
 	{
 		Units_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
@@ -3171,7 +3175,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialCopy_Options = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
-	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
+	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs", wxDefaultPosition, wxSize(-1, 20));
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Top[0] = new wxBoxSizer(wxHORIZONTAL);
@@ -3179,13 +3183,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TopGrid = new wxGridSizer(MaxCivs, 0, 3);
 	for(short loop = 0;loop < MaxCivs;loop++)
 	{
-		Units_CivBoxes[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
+		Units_CivBoxes[loop] = new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20));
 		Units_CivBoxes[loop]->SetValue(true);
 		Units_CivLabels[loop] = new wxStaticText(Tab_Units, wxID_ANY, lexical_cast<string>(loop), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER_HORIZONTAL | wxST_NO_AUTORESIZE);
 	}
-	Units_AutoCopy = new wxCheckBox(Tab_Units, wxID_ANY, "Automatically", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
+	Units_AutoCopy = new wxCheckBox(Tab_Units, wxID_ANY, "Automatically", wxDefaultPosition, wxSize(-1, 20));
 	Units_CopyTo = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(40, 20));
-	Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Including graphics", wxDefaultPosition, wxSize(-1, 20), 0, wxDefaultValidator);
+	Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Including graphics", wxDefaultPosition, wxSize(-1, 20));
 	Units_CopyToText = new wxStaticText(Tab_Units, wxID_ANY, " To selected civilizations: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Units_SelectAll = new wxButton(Tab_Units, wxID_ANY, "All", wxDefaultPosition, wxSize(40, 20));
 	Units_SelectClear = new wxButton(Tab_Units, wxID_ANY, "None", wxDefaultPosition, wxSize(40, 20));
