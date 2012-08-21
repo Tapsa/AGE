@@ -1085,7 +1085,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Effects");
 	Techs_Effects_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
 	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);
-//	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+//	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_Effects_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	Techs_Effects_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Insert = new wxButton(Tab_Techage, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));

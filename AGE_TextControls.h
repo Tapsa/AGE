@@ -18,7 +18,7 @@ class TextCtrl_Bool : public wxTextCtrl
 	public:
 
 	TextCtrl_Bool(wxWindow * parent, string InitValue, bool * Pointer)
-	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		this->SetBackgroundColour(wxColour(255, 255, 205));
@@ -46,7 +46,7 @@ class TextCtrl_Byte : public wxTextCtrl
 	public:
 
 	TextCtrl_Byte(wxWindow * parent, string InitValue, char * Pointer)
-	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		this->SetBackgroundColour(wxColour(255, 235, 215));
@@ -74,7 +74,7 @@ class TextCtrl_Float : public wxTextCtrl
 	public:
 
 	TextCtrl_Float(wxWindow * parent, string InitValue, float * Pointer)
-	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		this->SetBackgroundColour(wxColour(255, 225, 255));
@@ -102,7 +102,7 @@ class TextCtrl_Long : public wxTextCtrl
 	public:
 
 	TextCtrl_Long(wxWindow * parent, string InitValue, int32_t * Pointer)
-	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		this->SetBackgroundColour(wxColour(215, 255, 255));
@@ -130,7 +130,7 @@ class TextCtrl_Short : public wxTextCtrl
 	public:
 
 	TextCtrl_Short(wxWindow * parent, string InitValue, int16_t * Pointer)
-	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		this->SetBackgroundColour(wxColour(210, 230, 255));
@@ -158,7 +158,7 @@ class TextCtrl_UnShort : public wxTextCtrl
 	public:
 
 	TextCtrl_UnShort(wxWindow * parent, string InitValue, uint16_t * Pointer)
-	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		this->SetBackgroundColour(wxColour(210, 230, 255));
@@ -186,7 +186,7 @@ class TextCtrl_String : public wxTextCtrl
 	public:
 
 	TextCtrl_String(wxWindow * parent, string InitValue, void * Pointer, short CLength = -1)
-	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20), 0, wxDefaultValidator)
+	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		Length = CLength;

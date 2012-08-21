@@ -416,9 +416,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_ListArea = new wxBoxSizer(wxVERTICAL);
 	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Researchs");
 	Research_Research_Search = new wxTextCtrl(Tab_Research, wxID_ANY);
-	Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+	Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Research_Research_Search_R = new wxTextCtrl(Tab_Research, wxID_ANY);
-	Research_Research_UseAnd[1] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+	Research_Research_UseAnd[1] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	for(short loop = 0;loop < 2;loop++)
 	{
 		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
