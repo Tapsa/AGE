@@ -181,16 +181,16 @@ class TextCtrl_Short : public wxTextCtrl
 #ifndef TextCtrl_UnShort_h
 #define TextCtrl_UnShort_h
 
-class TextCtrl_UnShort : public wxTextCtrl
+class TextCtrl_UShort : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_UnShort(wxWindow * parent, string InitValue, uint16_t * Pointer)
+	TextCtrl_UShort(wxWindow * parent, string InitValue, uint16_t * Pointer)
 	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		this->SetBackgroundColour(wxColour(210, 230, 255));
-		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UnShort::OnKillFocus));
+		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UShort::OnKillFocus));
 	}
 
 //	Events
