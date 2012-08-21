@@ -739,6 +739,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Units_Units_SearchFilters[loop]->Append("Internal Name");
 			Units_Units_SearchFilters[loop]->Append("Type");
 			Units_Units_SearchFilters[loop]->Append("Class");
+			Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
 			Units_Units_SearchFilters[loop]->Append("Max Range");
 			Units_Units_SearchFilters[loop]->Append("Train Location");
 			Units_Units_SearchFilters[loop]->Append("Pointer");
@@ -753,7 +754,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Units_Units_SearchFilters[loop]->Append("Fly Mode");
 			Units_Units_SearchFilters[loop]->Append("Building Mode");
 			Units_Units_SearchFilters[loop]->Append("Placement Mode");
-			Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
 			Units_Units_SearchFilters[loop]->Append("Interaction Mode");
 			Units_Units_SearchFilters[loop]->Append("Minimap Mode");
 			Units_Units_SearchFilters[loop]->Append("Sheep Conversion");

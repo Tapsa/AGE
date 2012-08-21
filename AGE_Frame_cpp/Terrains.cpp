@@ -372,7 +372,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Terrains = new wxStaticBoxSizer(wxVERTICAL, Tab_Terrains, "Terrains");
 	Terrains_Terrains_Search = new wxTextCtrl(Tab_Terrains, wxID_ANY);
 	Terrains_Terrains_Search_R = new wxTextCtrl(Tab_Terrains, wxID_ANY);
-//	Terrains_Terrains_UseAnd = new wxCheckBox(Tab_Terrains, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20), 0, wxDefaultValidator);
+//	Terrains_Terrains_UseAnd = new wxCheckBox(Tab_Terrains, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Terrains_Terrains_List = new wxListBox(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	Terrains_Add = new wxButton(Tab_Terrains, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Insert = new wxButton(Tab_Terrains, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
