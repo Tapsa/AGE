@@ -778,45 +778,23 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			}
 			Research_Research_SearchFilters[loop]->Append("Lang DLL Name");	// 0
 			Research_Research_SearchFilters[loop]->Append("Internal Name");
+			Research_Research_SearchFilters[loop]->Append("Required Researches");
+			Research_Research_SearchFilters[loop]->Append("Min. Req. Researches");
 			Research_Research_SearchFilters[loop]->Append("Research Location");
+			Research_Research_SearchFilters[loop]->Append("Research Time");
+			Research_Research_SearchFilters[loop]->Append("Technology");
+			Research_Research_SearchFilters[loop]->Append("Type");
+			Research_Research_SearchFilters[loop]->Append("Icon");
+			Research_Research_SearchFilters[loop]->Append("Button");
+			Research_Research_SearchFilters[loop]->Append("Lang DLL Pointer");
+			Research_Research_SearchFilters[loop]->Append("Pointer 2");
+			Research_Research_SearchFilters[loop]->Append("Pointer 3");
 			if(GameVersion >= 2)
 			{
 				Research_Research_SearchFilters[loop]->Append("Civilization");
 				Research_Research_SearchFilters[loop]->Append("Full Tech. Mode");
 			}
 			Research_Research_SearchFilters[loop]->SetSelection(0);
-
-			/*serialize<int16_t>(RequiredTechs, getRequiredTechsSize());
-
-			serializeSub<ResearchResourceCost>(ResourceCosts, getResourceCostsSize());
-			serialize<int16_t>(RequiredTechCount);
-
-			if (getGameVersion() >= genie::GV_AoK)
-			{
-				serialize<int16_t>(Civ);
-				serialize<int16_t>(FullTechMode);
-			}
-
-			serialize<int16_t>(ResearchLocation);
-			serialize<uint16_t>(LanguageDLLName);
-			serialize<uint16_t>(LanguageDLLDescription);
-			serialize<int16_t>(ResearchTime);
-			serialize<int16_t>(TechageID);
-			serialize<int16_t>(Type);
-			serialize<int16_t>(IconID);
-			serialize<char>(ButtonID);
-			serialize<int32_t>(Pointers, getPointersSize()); //TODO: AoE/RoR: [0..1]: LanguagePointer
-
-			serializeSize<uint16_t>(NameLength, Name);
-			if (NameLength > 0)
-				serialize<std::string>(Name, NameLength);
-
-			if (getGameVersion() >= genie::GV_SWGB)
-			{
-				serializeSize<uint16_t>(NameLength2, Name2);
-				if (NameLength2 > 0)
-				serialize<std::string>(Name2, NameLength2);
-			}*/
 		}
 
 		Items.Add(0);
@@ -2970,6 +2948,7 @@ void AGE_Frame::ListingFix(short &Selections, wxListBox* &List)
 	{
 		if(Added || Items.Item(0) >= List->GetCount())
 		{
+			List->SetFirstItem(List->GetCount() - 1);
 			List->SetSelection(List->GetCount() - 1);
 			Added = false;
 		}

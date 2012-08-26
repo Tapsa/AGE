@@ -15,25 +15,78 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 		if(Selection[0] > 1)
 		for(short loop = 0;loop < 2;loop++)
 		{
-			if(Selection[loop] == 2)	// Research Location
+			if(Selection[loop] == 2)	// Required Researches
 			{
-				Name += "L ";
+				if(GenieFile->Researchs[Index].RequiredTechs[0] > 0)
+				Name += "R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[0]);
+				for(short loop = 1;loop < GenieFile->Researchs[Index].getRequiredTechsSize();loop++)
+				if(GenieFile->Researchs[Index].RequiredTechs[loop] > 0)
+				Name += ", R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[loop]);
+			}
+			else if(Selection[loop] == 3)	// Min. Req. Researches
+			{
+				Name += "MR ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechCount);
+			}
+			else if(Selection[loop] == 4)	// Research Location
+			{
+				Name += "RL ";
 				Name += lexical_cast<string>(GenieFile->Researchs[Index].ResearchLocation);
 			}
+			else if(Selection[loop] == 5)	// Research Time
+			{
+				Name += "RT ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].ResearchTime);
+			}
+			else if(Selection[loop] == 6)	// Technology
+			{
+				Name += "Te ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].TechageID);
+			}
+			else if(Selection[loop] == 7)	// Type
+			{
+				Name += "T ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].Type);
+			}
+			else if(Selection[loop] == 8)	// Icon
+			{
+				Name += "I ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].IconID);
+			}
+			else if(Selection[loop] == 9)	// Button
+			{
+				Name += "B ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].ButtonID);
+			}
+			else if(Selection[loop] == 10)	// Lang DLL Pointer
+			{
+				Name += "LP ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].Pointers[0]);
+			}
+			else if(Selection[loop] == 11)	// Pointer 2
+			{
+				Name += "P2 ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].Pointers[1]);
+			}
+			else if(Selection[loop] == 12)	// Pointer 3
+			{
+				Name += "P3 ";
+				Name += lexical_cast<string>(GenieFile->Researchs[Index].Pointers[2]);
+			}
 			else if(GameVersion < 2);
-			else if(Selection[loop] == 3)	// Civilization
+			else if(Selection[loop] == 13)	// Civilization
 			{
 				Name += "C ";
 				Name += lexical_cast<string>(GenieFile->Researchs[Index].Civ);
 			}
-			else if(Selection[loop] == 4)	// Full Tech. Mode
+			else if(Selection[loop] == 14)	// Full Tech. Mode
 			{
 				Name += "F ";
 				Name += lexical_cast<string>(GenieFile->Researchs[Index].FullTechMode);
 			}
 			Name += ", ";
 			if(Selection[loop+1] < 2) break;
-		}
+			}
 
 		if(Selection[0] != 1) Filter = false; // Names
 	}
@@ -318,7 +371,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		Research_Pointers[0]->Container = &ResearchPointer->Pointers[0];
 		Research_Pointers[1]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[1]));
 		Research_Pointers[1]->Container = &ResearchPointer->Pointers[1];
-		Research_Pointers[1]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[2]));
+		Research_Pointers[2]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[2]));
 		Research_Pointers[2]->Container = &ResearchPointer->Pointers[2];
 		Research_Name[0]->ChangeValue(ResearchPointer->Name);
 		Research_Name[0]->Container = &ResearchPointer->Name;
@@ -520,10 +573,11 @@ void AGE_Frame::CreateResearchControls()
 		Research_Holder_Pointers[loop] = new wxBoxSizer(wxVERTICAL);
 		Research_Pointers[loop] = new TextCtrl_Long(Research_Scroller, "0", NULL);
 	}
-	Research_Text_Pointers[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Pointer *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_Text_Pointers[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Text_Pointers[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Pointer 1 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Text_Pointers[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Pointer 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Text_Pointers[2] = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[0]->SetToolTip("100000 + Language DLL Name");
+	Research_Pointers[1]->SetToolTip("150000 + Language DLL Name");
 
 	Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Insert, 1, wxEXPAND);
