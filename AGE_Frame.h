@@ -166,6 +166,11 @@ class AGE_Frame : public wxFrame
 	wxString SearchText, ExcludeText;
 	bool SearchMatches(string &CompareText);
 	void ListingFix(short &Selections, wxListBox* &List);
+	void LangDLLConverter(wxCommandEvent& Event);
+	void LoadAllTechEffects(wxCommandEvent& Event);
+	void OnAllTechEffectSelect(wxCommandEvent& Event);
+	void LoadAllSoundFiles(wxCommandEvent& Event);
+	void OnAllSoundFileSelect(wxCommandEvent& Event);
 
 //	General Events
 
@@ -772,7 +777,7 @@ class AGE_Frame : public wxFrame
 
 	wxPanel * Tab_General;
 	wxPanel * Tab_Research;
-	wxPanel * Tab_Techage;
+	wxPanel * Tab_Techs;
 	wxPanel * Tab_TechTrees;
 	wxPanel * Tab_Civs;
 	wxPanel * Tab_Units;	// Unit tab
@@ -1059,6 +1064,11 @@ class AGE_Frame : public wxFrame
 	wxButton * Techs_Techs_Paste;
 	wxButton * Techs_Techs_PasteInsert;
 
+	wxTextCtrl * Techs_AllEffects_Search;
+	wxTextCtrl * Techs_AllEffects_Search_R;
+	wxListBox * Techs_AllEffects_List;
+	wxButton * Techs_AllEffects_Load;
+
 	wxBoxSizer * Techs_Holder_Name;
 	wxStaticText * Techs_Text_Name;
 	TextCtrl_String * Techs_Name;
@@ -1253,6 +1263,7 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_Unknown3B;
 	TextCtrl_Byte * Units_Unknown3a;
 	TextCtrl_Long * Units_LanguageDLLHelp;
+	wxTextCtrl * Units_LanguageDLLConverter;
 	TextCtrl_Long * Units_LanguageDLLUnknown;
 	wxStaticText * Units_DLL_LanguageDLLHelp;
 	TextCtrl_Short * Units_HotKey;
@@ -1466,6 +1477,7 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_Unknown3B;
 	wxStaticText * Units_Text_Unknown3a;
 	wxStaticText * Units_Text_LanguageDLLHelp;
+	wxStaticText * Units_Text_LanguageDLLConverter;
 	wxStaticText * Units_Text_LanguageDLLUnknown;
 	wxStaticText * Units_Text_HotKey;
 	wxStaticText * Units_Text_Unknown4;
@@ -1647,6 +1659,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Unknown3B;
 	wxBoxSizer * Units_Holder_Unknown3a;
 	wxBoxSizer * Units_Holder_LanguageDLLHelp;
+	wxBoxSizer * Units_Holder_LanguageDLLConverter;
 	wxBoxSizer * Units_Holder_LanguageDLLUnknown;
 	wxBoxSizer * Units_Holder_HotKey;
 	wxBoxSizer * Units_Holder_Unknown4;

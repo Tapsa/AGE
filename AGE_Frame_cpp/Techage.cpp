@@ -273,7 +273,7 @@ string AGE_Frame::GetEffectName(short &Index)
 		case 0:
 		{
 			//Name = "Attribute Modifier (Set)";
-			Name = "Set Attribute "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)+" To "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" For ";
+			Name = "Set Attr "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)+" To "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" For ";
 			if(GenieFile->Techages[TechIDs[0]].Effects[Index].B == -1)
 				Name += "Unit "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A);
 			else
@@ -306,7 +306,7 @@ string AGE_Frame::GetEffectName(short &Index)
 		case 4:
 		{
 			//Name = "Attribute Modifier (+/-)";
-			Name = "Change Attribute "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)+" By "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" For ";
+			Name = "Change Attr "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)+" By "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" For ";
 			if(GenieFile->Techages[TechIDs[0]].Effects[Index].B == -1)
 				Name += "Unit "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A);
 			else
@@ -316,7 +316,7 @@ string AGE_Frame::GetEffectName(short &Index)
 		case 5:
 		{
 			//Name = "Attribute Modifier (Multiply)";
-			Name = "Multiply Attribute "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)+" By "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" For ";
+			Name = "Multiply Attr "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)+" By "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" For ";
 			if(GenieFile->Techages[TechIDs[0]].Effects[Index].B == -1)
 				Name += "Unit "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A);
 			else
@@ -1054,9 +1054,54 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent& Event)	// Works.
 	}
 }
 
+void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
+{
+	string Name, CompareText;
+	SearchText = wxString(Techs_AllEffects_Search->GetValue()).Lower();
+	ExcludeText = wxString(Techs_AllEffects_Search_R->GetValue()).Lower();
+
+	short Selections = Techs_AllEffects_List->GetSelections(Items);
+	if(Techs_AllEffects_List->GetCount() > 0) Techs_AllEffects_List->Clear();
+
+	short Store = TechIDs[0];
+	for(short tech = 0;tech < GenieFile->Techages.size();tech++)
+	{
+		TechIDs[0] = tech;
+		for(short effect = 0;effect < GenieFile->Techages[tech].Effects.size();effect++)
+		{
+			Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect);
+			CompareText = wxString(Name).Lower();
+			if(SearchMatches(CompareText))
+			{
+				Techs_AllEffects_List->Append(Name);
+			}
+		}
+	}
+	TechIDs[0] = Store;
+
+	Techs_AllEffects_List->SetSelection(Items.Item(0));
+
+	wxCommandEvent E;
+	OnAllTechEffectSelect(E);
+}
+
+void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent& Event)
+{
+	short Selections = Techs_AllEffects_List->GetSelections(Items);
+	if(Selections != 0)
+	{
+		wxString TechID, EffectID, Line = Techs_AllEffects_List->GetStringSelection();
+		size_t Found;
+		Found = Line.find(" ", 1);
+		TechID = Line.substr(1, Found); // Cutting the tech number.
+		EffectID = Line.substr((Found+1), Line.find(" ",Found+1)); // Cutting the effect number.
+		wxMessageBox("Tech "+TechID+" Effect "+EffectID+"\n"+Line+lexical_cast<string>(Found));
+	}
+}
+
 void AGE_Frame::CreateTechageControls()
 {
-	Tab_Techage = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Techs = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Techs_Main = new wxBoxSizer(wxHORIZONTAL);
 	Techs_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -1065,41 +1110,41 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ListArea = new wxBoxSizer(wxVERTICAL);
 	Techs_Effects_Buttons = new wxGridSizer(3, 0, 0);
 	Effects_DataAreaProperties = new wxBoxSizer(wxVERTICAL);
-	Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Technologies");
-	Techs_Techs_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
-	Techs_Techs_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);
-	Techs_Techs_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
-	Techs_Techs_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Techs_Techs_Insert = new wxButton(Tab_Techage, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
-	Techs_Techs_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	Techs_Techs_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Techs_Techs_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Techs_Techs_PasteInsert = new wxButton(Tab_Techage, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
-	Techs_Techs_Rename = new wxButton(Tab_Techage, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(0, 20));
-	Techs_Techs_Restore = new wxButton(Tab_Techage, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(0, 20));
+	Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Technologies");
+	Techs_Techs_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Techs_Techs_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Techs_Techs_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Techs_Techs_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Techs_Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Techs_Techs_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	Techs_Techs_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	Techs_Techs_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Techs_Techs_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Techs_Techs_Rename = new wxButton(Tab_Techs, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(0, 20));
+	Techs_Techs_Restore = new wxButton(Tab_Techs, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(0, 20));
 
 	Techs_Holder_Name = new wxBoxSizer(wxVERTICAL);
-	Techs_Text_Name = new wxStaticText(Tab_Techage, wxID_ANY, " Technology Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Techs_Name = new TextCtrl_String(Tab_Techage, "0", NULL);
+	Techs_Text_Name = new wxStaticText(Tab_Techs, wxID_ANY, " Technology Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Techs_Name = new TextCtrl_String(Tab_Techs, "0", NULL);
 
-	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Effects");
-	Techs_Effects_Search = new wxTextCtrl(Tab_Techage, wxID_ANY);
-	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techage, wxID_ANY);
-//	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techage, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Techs_Effects_List = new wxListBox(Tab_Techage, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
-	Techs_Effects_Add = new wxButton(Tab_Techage, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Insert = new wxButton(Tab_Techage, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Delete = new wxButton(Tab_Techage, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Copy = new wxButton(Tab_Techage, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Paste = new wxButton(Tab_Techage, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_PasteInsert = new wxButton(Tab_Techage, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects");
+	Techs_Effects_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
+//	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Techs_Effects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	Effects_Holder_Type = new wxBoxSizer(wxVERTICAL);
 	Effects_Holder_Type2 = new wxBoxSizer(wxHORIZONTAL);
-	Effects_Text_Type = new wxStaticText(Tab_Techage, wxID_ANY, " Effect Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Type = new TextCtrl_Byte(Tab_Techage, "0", NULL);
-	Effects_ComboBox_Type = new ComboBox_Byte_EffectType(Tab_Techage, Effects_Type);
-	Effects_Holder_Data = new wxStaticBoxSizer(wxVERTICAL, Tab_Techage, "Effect Attributes");
+	Effects_Text_Type = new wxStaticText(Tab_Techs, wxID_ANY, " Effect Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Type = new TextCtrl_Byte(Tab_Techs, "0", NULL);
+	Effects_ComboBox_Type = new ComboBox_Byte_EffectType(Tab_Techs, Effects_Type);
+	Effects_Holder_Data = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effect Attributes");
 	Effects_Holder_DataA = new wxBoxSizer(wxHORIZONTAL);
 	Effects_Holder_DataB = new wxBoxSizer(wxHORIZONTAL);
 	Effects_Holder_DataC = new wxBoxSizer(wxHORIZONTAL);
@@ -1112,40 +1157,45 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_D = new wxBoxSizer(wxVERTICAL);
 	Effects_Holder_E = new wxBoxSizer(wxVERTICAL);
 	Effects_Holder_F = new wxBoxSizer(wxVERTICAL);
-	Effects_Text_A = new wxStaticText(Tab_Techage, wxID_ANY, "Attribute A ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_A = new TextCtrl_Short(Tab_Techage, "0", NULL);
+	Effects_Text_A = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute A ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_A = new TextCtrl_Short(Tab_Techs, "0", NULL);
 	Effects_ComboBox_A = new wxBoxSizer(wxHORIZONTAL);
-	Effects_ComboBox_UnitsA = new ComboBox_Short(Tab_Techage, Effects_A);
-	Effects_ComboBox_ResourcesA = new ComboBox_Short(Tab_Techage, Effects_A);
-	Effects_ComboBox_ResearchsA = new ComboBox_Short(Tab_Techage, Effects_A);
-	Effects_Info_A = new wxStaticText(Tab_Techage, wxID_ANY, " Info A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Text_B = new wxStaticText(Tab_Techage, wxID_ANY, "Attribute B ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_B = new TextCtrl_Short(Tab_Techage, "0", NULL);
+	Effects_ComboBox_UnitsA = new ComboBox_Short(Tab_Techs, Effects_A);
+	Effects_ComboBox_ResourcesA = new ComboBox_Short(Tab_Techs, Effects_A);
+	Effects_ComboBox_ResearchsA = new ComboBox_Short(Tab_Techs, Effects_A);
+	Effects_Info_A = new wxStaticText(Tab_Techs, wxID_ANY, " Info A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Text_B = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute B ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_B = new TextCtrl_Short(Tab_Techs, "0", NULL);
 	Effects_ComboBox_B = new wxBoxSizer(wxHORIZONTAL);
-	Effects_CheckBox_ModeB = new CheckBox_Short(Tab_Techage, "", Effects_B);
-	Units_ComboBox_Class[2] = new ComboBox_Short(Tab_Techage, Effects_B);
-	Effects_ComboBox_UnitsB = new ComboBox_Short(Tab_Techage, Effects_B);
-	Effects_ComboBox_ResourcesB = new ComboBox_Short(Tab_Techage, Effects_B);
-	Effects_Info_B = new wxStaticText(Tab_Techage, wxID_ANY, " Info B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Text_C = new wxStaticText(Tab_Techage, wxID_ANY, "Attribute C ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_C = new TextCtrl_Short(Tab_Techage, "0", NULL);
+	Effects_CheckBox_ModeB = new CheckBox_Short(Tab_Techs, "", Effects_B);
+	Units_ComboBox_Class[2] = new ComboBox_Short(Tab_Techs, Effects_B);
+	Effects_ComboBox_UnitsB = new ComboBox_Short(Tab_Techs, Effects_B);
+	Effects_ComboBox_ResourcesB = new ComboBox_Short(Tab_Techs, Effects_B);
+	Effects_Info_B = new wxStaticText(Tab_Techs, wxID_ANY, " Info B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Text_C = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute C ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_C = new TextCtrl_Short(Tab_Techs, "0", NULL);
 	Effects_ComboBox_C = new wxBoxSizer(wxHORIZONTAL);
-	Effects_CheckBox_ModeC = new CheckBox_Short(Tab_Techage, "", Effects_C);
-	Effects_ComboBox_AttributesC = new ComboBox_Short(Tab_Techage, Effects_C);
-	Effects_Info_C = new wxStaticText(Tab_Techage, wxID_ANY, " Info C", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Text_D = new wxStaticText(Tab_Techage, wxID_ANY, "Attribute D ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_D = new TextCtrl_Float(Tab_Techage, "0", NULL);
+	Effects_CheckBox_ModeC = new CheckBox_Short(Tab_Techs, "", Effects_C);
+	Effects_ComboBox_AttributesC = new ComboBox_Short(Tab_Techs, Effects_C);
+	Effects_Info_C = new wxStaticText(Tab_Techs, wxID_ANY, " Info C", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Text_D = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute D ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_D = new TextCtrl_Float(Tab_Techs, "0", NULL);
 	Effects_ComboBox_D = new wxBoxSizer(wxHORIZONTAL);
-	Effects_ComboBox_ResearchsD = new ComboBox_Float(Tab_Techage, Effects_D);
-	Effects_Info_D = new wxStaticText(Tab_Techage, wxID_ANY, " Info D", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Text_E = new wxStaticText(Tab_Techage, wxID_ANY, "Amount or % ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_E = new wxTextCtrl(Tab_Techage, wxID_ANY);
-	Effects_Info_E = new wxStaticText(Tab_Techage, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Text_F = new wxStaticText(Tab_Techage, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_F = new TextCtrl_Short(Tab_Techage, "0", NULL);
-	Attacks_ComboBox_Class[2] = new ComboBox_Short(Tab_Techage, Effects_F);
-	Effects_Info_F = new wxStaticText(Tab_Techage, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Link = new wxHyperlinkCtrl(Tab_Techage, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
+	Effects_ComboBox_ResearchsD = new ComboBox_Float(Tab_Techs, Effects_D);
+	Effects_Info_D = new wxStaticText(Tab_Techs, wxID_ANY, " Info D", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Text_E = new wxStaticText(Tab_Techs, wxID_ANY, "Amount or % ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_E = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Effects_Info_E = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Text_F = new wxStaticText(Tab_Techs, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_F = new TextCtrl_Short(Tab_Techs, "0", NULL);
+	Attacks_ComboBox_Class[2] = new ComboBox_Short(Tab_Techs, Effects_F);
+	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Link = new wxHyperlinkCtrl(Tab_Techs, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
+
+	Techs_AllEffects_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Techs_AllEffects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Techs_AllEffects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));
 
 	Effects_ComboBox_Type->Append("No Type/Invalid Type");	// Selection 0
 	Effects_ComboBox_Type->Append("0 - Attribute Modifier (Set)");	// Selection 1
@@ -1277,6 +1327,13 @@ void AGE_Frame::CreateTechageControls()
 	Effects_DataArea->Add(Effects_Holder_Data, 0, wxEXPAND);
 	Effects_DataArea->Add(-1, 5);
 	Effects_DataArea->Add(Effects_Link, 0, wxEXPAND);
+	Effects_DataArea->Add(-1, 5);
+	Effects_DataArea->Add(Techs_AllEffects_Search, 0, wxEXPAND);
+	Effects_DataArea->Add(Techs_AllEffects_Search_R, 0, wxEXPAND);
+	Effects_DataArea->Add(-1, 2);
+	Effects_DataArea->Add(Techs_AllEffects_List, 1, wxEXPAND);
+	Effects_DataArea->Add(-1, 2);
+	Effects_DataArea->Add(Techs_AllEffects_Load, 0, wxEXPAND);
 
 	Techs_Main->Add(10, -1);
 	Techs_Main->Add(Techs_ListArea, 3, wxEXPAND); // 3
@@ -1305,7 +1362,7 @@ void AGE_Frame::CreateTechageControls()
 	Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 //	Techs_Effects_UseAnd->Show(false);
 
-	Tab_Techage->SetSizer(Techs_Main);
+	Tab_Techs->SetSizer(Techs_Main);
 
 	Connect(Techs_Techs_Rename->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRename));
 	Connect(Techs_Techs_Restore->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRenameGE2));
@@ -1329,6 +1386,10 @@ void AGE_Frame::CreateTechageControls()
 	Connect(Techs_Effects_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPasteInsert));
 	Effects_E->Connect(Effects_E->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
 	Effects_F->Connect(Effects_F->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
+	Connect(Techs_AllEffects_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
+	Connect(Techs_AllEffects_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
+	Connect(Techs_AllEffects_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllTechEffectSelect));
+	Connect(Techs_AllEffects_Load->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
 
 	Techs_Name->Connect(Techs_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 	Effects_Type->Connect(Effects_Type->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxByteEffectType), NULL, this);
