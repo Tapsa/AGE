@@ -107,7 +107,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	TabBar_Main->AddPage(Tab_General, "General");
 	TabBar_Main->AddPage(Tab_Research, "Researches");
-	TabBar_Main->AddPage(Tab_Techage, "Technologies");
+	TabBar_Main->AddPage(Tab_Techs, "Technologies");
 	TabBar_Main->AddPage(Tab_TechTrees, "Tech. Trees");
 	TabBar_Main->AddPage(Tab_Civs, "Civilizations");
 	TabBar_Main->AddPage(Tab_Units, "Units");
