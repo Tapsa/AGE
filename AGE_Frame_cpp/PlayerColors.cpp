@@ -206,7 +206,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Text_Unknown3 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown4 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown5 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Name = new TextCtrl_String(Tab_PlayerColors, "0", NULL);
+	Colors_Name = new TextCtrl_String(Tab_PlayerColors, "0", NULL, 30);
 	Colors_ID = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_Palette = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
 	Colors_ColorL = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);

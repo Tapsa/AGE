@@ -52,7 +52,7 @@ void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown3", GenieFile->Civs[loop].Units[UnitIDs[0]].Unknown3);
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown3B", GenieFile->Civs[loop].Units[UnitIDs[0]].Unknown3B);
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDLLHelp", GenieFile->Civs[loop].Units[UnitIDs[0]].LanguageDLLHelp);
-		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDLLUnknown", GenieFile->Civs[loop].Units[UnitIDs[0]].LanguageDLLUnknown);
+		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDLLHotKeyText", GenieFile->Civs[loop].Units[UnitIDs[0]].LanguageDLLHotKeyText);
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HotKey", GenieFile->Civs[loop].Units[UnitIDs[0]].HotKey);
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown4", GenieFile->Civs[loop].Units[UnitIDs[0]].Unknown4);
 		ExtractUnit->Write("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown5", GenieFile->Civs[loop].Units[UnitIDs[0]].Unknown5);
@@ -424,8 +424,8 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 		GenieFile->Civs[loop].Units[UnitIDs[0]].Unknown3B = (int16_t)Number;
 		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDLLHelp", &Number, 105000);
 		GenieFile->Civs[loop].Units[UnitIDs[0]].LanguageDLLHelp = (int32_t)Number;
-		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDLLUnknown", &Number, 155000);
-		GenieFile->Civs[loop].Units[UnitIDs[0]].LanguageDLLUnknown = (int32_t)Number;
+		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/LanguageDLLHotKeyText", &Number, 155000);
+		GenieFile->Civs[loop].Units[UnitIDs[0]].LanguageDLLHotKeyText = (int32_t)Number;
 		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/HotKey", &Number, 16000);
 		GenieFile->Civs[loop].Units[UnitIDs[0]].HotKey = (int16_t)Number;
 		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Unknown4", &Number, 0);
