@@ -160,7 +160,7 @@ string AGE_Frame::GetTTAgesBuildingName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index])+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index]].LanguageDLLName, 64);
 	}
@@ -308,7 +308,7 @@ string AGE_Frame::GetTTAgesUnitName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index])+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index]].LanguageDLLName, 64);
 	}
@@ -456,7 +456,7 @@ string AGE_Frame::GetTTAgesResearchName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index])+" ";
-	if(LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index]].LanguageDLLName, 64);
 	}
@@ -659,7 +659,7 @@ string AGE_Frame::GetTTBuildingName(short &Index)
 	}
 
 	Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].ID)+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[Index].ID].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[Index].ID].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[Index].ID].LanguageDLLName, 64);
 	}
@@ -908,7 +908,7 @@ string AGE_Frame::GetTTBuildingBuildingName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index])+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index]].LanguageDLLName, 64);
 	}
@@ -1056,7 +1056,7 @@ string AGE_Frame::GetTTBuildingUnitName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index])+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index]].LanguageDLLName, 64);
 	}
@@ -1204,7 +1204,7 @@ string AGE_Frame::GetTTBuildingResearchName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index])+" ";
-	if(LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index]].LanguageDLLName, 64);
 	}
@@ -1427,7 +1427,7 @@ string AGE_Frame::GetTTUnitName(short &Index)
 	}
 
 	Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].ID)+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[Index].ID].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[Index].ID].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[Index].ID].LanguageDLLName, 64);
 	}
@@ -1679,7 +1679,7 @@ string AGE_Frame::GetTTUnitUnitName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index])+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index]].LanguageDLLName, 64);
 	}
@@ -1882,7 +1882,7 @@ string AGE_Frame::GetTTResearchName(short &Index)
 	}
 
 	Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].ID)+" ";
-	if(LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[Index].ID].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[Index].ID].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[Index].ID].LanguageDLLName, 64);
 	}
@@ -2080,7 +2080,7 @@ string AGE_Frame::GetTTResearchBuildingName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index])+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index]].LanguageDLLName, 64);
 	}
@@ -2228,7 +2228,7 @@ string AGE_Frame::GetTTResearchUnitName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index])+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index]].LanguageDLLName, 64);
 	}
@@ -2376,7 +2376,7 @@ string AGE_Frame::GetTTResearchResearchName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index])+" ";
-	if(LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index]].LanguageDLLName, 64);
 	}

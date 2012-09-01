@@ -238,7 +238,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	for(short loop = 0;loop < 2;loop++)
 	{
 		Borders_Holder_BorderName[loop] = new wxBoxSizer(wxVERTICAL);
-		Borders_BorderName[loop] = new TextCtrl_String(Tab_TerrainBorders, "0", NULL);
+		Borders_BorderName[loop] = new TextCtrl_String(Tab_TerrainBorders, "0", NULL, 13);
 	}
 	Borders_Text_BorderName[0] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Text_BorderName[1] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);

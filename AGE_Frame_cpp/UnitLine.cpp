@@ -180,7 +180,7 @@ string AGE_Frame::GetUnitLineUnitName(short &Index)
 {
 	string Name = "";
 	Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index])+" ";
-	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 64) != "")
+	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 64);
 	}
@@ -358,7 +358,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_ID = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
 	UnitLines_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	UnitLines_Text_Name = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_Name = new TextCtrl_String(Tab_UnitLine, "0", NULL);
+	UnitLines_Name = new TextCtrl_String(Tab_UnitLine, "0", NULL, 30);
 
 	UnitLineUnits_Holder_Units = new wxBoxSizer(wxVERTICAL);
 	UnitLineUnits_Text_Units = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);

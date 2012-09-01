@@ -6,10 +6,7 @@ void TextCtrl_Bool::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
-	if(Container == NULL)
-	{
-	    NoLoadList = true;
-	}
+	if(Container == NULL) NoLoadList = true;
 	else if(Value.size() > 0)
 	{
 		try
@@ -41,10 +38,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
-	if(Container == NULL)
-	{
-	    NoLoadList = true;
-	}
+	if(Container == NULL) NoLoadList = true;
 	else if(Value.size() > 0)
 	{
 		try
@@ -85,10 +79,7 @@ void TextCtrl_UByte::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
-	if(Container == NULL)
-	{
-	    NoLoadList = true;
-	}
+	if(Container == NULL) NoLoadList = true;
 	else if(Value.size() > 0)
 	{
 		try
@@ -129,10 +120,7 @@ void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
-	if(Container == NULL)
-	{
-	    NoLoadList = true;
-	}
+	if(Container == NULL) NoLoadList = true;
 	else if(Value.size() > 0)
 	{
 		try
@@ -164,10 +152,7 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
-	if(Container == NULL)
-	{
-		NoLoadList = true;
-	}
+	if(Container == NULL) NoLoadList = true;
 	else if(Value.size() > 0)
 	{
 		try
@@ -199,10 +184,7 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
-	if(Container == NULL)
-	{
-		NoLoadList = true;
-	}
+	if(Container == NULL) NoLoadList = true;
 	else if(Value.size() > 0)
 	{
 		try
@@ -234,10 +216,7 @@ void TextCtrl_UShort::OnKillFocus(wxFocusEvent& Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
-	if(Container == NULL)
-	{
-		NoLoadList = true;
-	}
+	if(Container == NULL) NoLoadList = true;
 	else if(Value.size() > 0)
 	{
 		try
@@ -267,38 +246,32 @@ void TextCtrl_UShort::OnKillFocus(wxFocusEvent& Event)
 
 void TextCtrl_String::OnKillFocus(wxFocusEvent& Event)	// This may crash the program.
 {
+	wxString Value = GetValue().c_str();
 	NoLoadList = false;
-	if(Container == NULL)
+	if(Container == NULL) NoLoadList = true;
+	else if(Value.size() > 0)
 	{
-	    NoLoadList = true;
-	}
-	else if(Length == -1) // is a string, no warnings shows up.
-	{
-	    if(*((string*)Container) != GetValue().c_str()) // has been changed
+	    if(*((string*)Container) != Value) // Has been changed
 	    {
-	    	*((string*)Container) = GetValue().c_str(); // update data field
+			if(Value.size() <= MaxSize)
+			{
+				*((string*)Container) = Value; // Update data field
+			}
+			else
+			{
+				Value = Value.substr(0, MaxSize);
+				*((string*)Container) = Value;
+				ChangeValue(*Container);
+			}
 	    }
 	    else
 	    {
 	        NoLoadList = true;
 	    }
 	}
-	else if(Length > GetValue().size() + 1) // is a set of chars, this works!
+	else
 	{
-	    if(strncmp((char*)Container, GetValue().c_str(), Length) != 0)
-	    {
-			strncpy((char*)Container, GetValue().c_str(), Length);
-		}
-		else
-		{
-		    NoLoadList = true;
-		}
-	}
-	else // is shown when too many chars in a char control.
-	{
-	    NoLoadList = true;
-	    wxMessageBox("Max length: " + lexical_cast<string>(Length));
-	    SetFocus();
+		ChangeValue(*Container);
 	}
 //	Event.Skip();
 }

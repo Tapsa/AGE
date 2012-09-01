@@ -1408,10 +1408,10 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
 	Civs_Holder_Name[0] = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_Name[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_Name[0] = new TextCtrl_String(Tab_Civs, "0", NULL);
+	Civs_Name[0] = new TextCtrl_String(Tab_Civs, "0", NULL, 20);
 	Civs_Holder_Name[1] = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_Name[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_Name[1] = new TextCtrl_String(Tab_Civs, "0", NULL);
+	Civs_Name[1] = new TextCtrl_String(Tab_Civs, "0", NULL, 20);
 	Civs_Holder_GraphicSet = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_GraphicSet = new wxStaticText(Tab_Civs, wxID_ANY, " Graphic Set", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs, "0", NULL);

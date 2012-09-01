@@ -78,7 +78,7 @@ string AGE_Frame::GetUnitName(short &Index, short &UnitCivID, bool Filter)
 			if(Selection[0] != 1) Filter = false; // Names
 		}
 
-		if((LanguageDLLString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDLLName, 64) != "") && (Filter == false))
+		if((LanguageDLLString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDLLName, 2) != "") && (Filter == false))
 		{
 			Name += LanguageDLLString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDLLName, 64);
 		}
@@ -573,7 +573,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_MinimapMode->Container = &UnitPointer->MinimapMode;
 		if(GameVersion >= 2)
 		{
-			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-79000)+": "+LanguageDLLString(UnitPointer->LanguageDLLHelp-79000, 384));
+			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-79000)+": "+LanguageDLLString(UnitPointer->LanguageDLLHelp-79000, 512));
+			Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-140000)+": "+LanguageDLLString(UnitPointer->LanguageDLLHotKeyText-140000, 64));
 			Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
 			Units_StandingGraphic[1]->Container = &UnitPointer->StandingGraphic.second;
 			Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
@@ -599,7 +600,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		}
 		else
 		{
-			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-65536)+": "+LanguageDLLString(UnitPointer->LanguageDLLHelp-65536, 384));
+			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-65536)+": "+LanguageDLLString(UnitPointer->LanguageDLLHelp-65536, 512));
+			Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-131072)+": "+LanguageDLLString(UnitPointer->LanguageDLLHotKeyText-131072, 64));
 			Units_Unknown3a->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3a));
 			Units_Unknown3a->Container = &UnitPointer->Unknown3a;
 			Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
@@ -615,8 +617,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_Unknown3B->Container = &UnitPointer->Unknown3B;
 		Units_LanguageDLLHelp->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHelp));
 		Units_LanguageDLLHelp->Container = &UnitPointer->LanguageDLLHelp;
-		Units_LanguageDLLUnknown->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLUnknown));
-		Units_LanguageDLLUnknown->Container = &UnitPointer->LanguageDLLUnknown;
+		Units_LanguageDLLHotKeyText->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText));
+		Units_LanguageDLLHotKeyText->Container = &UnitPointer->LanguageDLLHotKeyText;
 		Units_HotKey->ChangeValue(lexical_cast<string>(UnitPointer->HotKey));
 		Units_HotKey->Container = &UnitPointer->HotKey;
 		Units_DLL_HotKey4->SetLabel(LanguageDLLString(UnitPointer->HotKey, 16));
@@ -1429,11 +1431,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 			ResourceStorage_Enabled[loop]->Container = &UnitPointer->ResourceStorages[loop].Enabled;
 			ResourceStorage_ComboBox_Type[loop]->SetSelection(UnitPointer->ResourceStorages[loop].Type + 1);
 		}
-
-		Units_DLL_LanguageDLLName->Wrap(Units_DLL_LanguageDLLName->GetSize().GetWidth());
-		Units_DLL_LanguageDLLCreation->Wrap(Units_DLL_LanguageDLLCreation->GetSize().GetWidth());
-		Units_DLL_LanguageDLLHelp->Wrap(Units_DLL_LanguageDLLHelp->GetSize().GetWidth());
-		Units_DLL_HotKey4->Wrap(Units_DLL_HotKey4->GetSize().GetWidth());
 
 		ListUnitDamageGraphics();
 		ListUnitAttacks();
@@ -3136,24 +3133,64 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::LangDLLConverter(wxCommandEvent& Event)
+void AGE_Frame::UnitLangDLLConverter(wxCommandEvent& Event)
 {
-	int32_t DLLValue = lexical_cast<int32_t>(Units_LanguageDLLConverter->GetValue());
-	if(GameVersion < 2)
+	int32_t DLLValue;
+	if(Event.GetId() == Units_LanguageDLLConverter[0]->GetId())
 	{
-		DLLValue += 65536;
+		try
+		{
+			DLLValue = lexical_cast<int32_t>(Units_LanguageDLLConverter[0]->GetValue());
+		}
+		catch(...)
+		{
+			wxMessageBox("Incorrect input!");
+			return;
+		}
+		if(GameVersion < 2)
+		{
+			DLLValue += 65536;
+		}
+		else
+		{
+			DLLValue += 79000;
+		}
+		if(!AutoCopy)
+		{
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].LanguageDLLHelp = DLLValue;
+		}
+		else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+		{
+			GenieFile->Civs[civ].Units[UnitIDs[0]].LanguageDLLHelp = DLLValue;
+		}
 	}
 	else
 	{
-		DLLValue += 79000;
-	}
-	if(!AutoCopy)
-	{
-		GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].LanguageDLLHelp = DLLValue;
-	}
-	else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-	{
-		GenieFile->Civs[civ].Units[UnitIDs[0]].LanguageDLLHelp = DLLValue;
+		try
+		{
+			DLLValue = lexical_cast<int32_t>(Units_LanguageDLLConverter[1]->GetValue());
+		}
+		catch(...)
+		{
+			wxMessageBox("Incorrect input!");
+			return;
+		}
+		if(GameVersion < 2)
+		{
+			DLLValue += 131072;
+		}
+		else
+		{
+			DLLValue += 140000;
+		}
+		if(!AutoCopy)
+		{
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].LanguageDLLHotKeyText = DLLValue;
+		}
+		else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+		{
+			GenieFile->Civs[civ].Units[UnitIDs[0]].LanguageDLLHotKeyText = DLLValue;
+		}
 	}
 	wxCommandEvent E;
 	OnUnitsSelect(E);
@@ -3328,8 +3365,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Unknown3B = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown3a = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_LanguageDLLHelp = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_LanguageDLLConverter = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_LanguageDLLUnknown = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_LanguageDLLConverter[0] = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_LanguageDLLConverter[1] = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_LanguageDLLHotKeyText = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_HotKey = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown4 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
@@ -3511,9 +3549,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_Unknown3B = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown3a = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3a", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDLLHelp = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_LanguageDLLConverter = new wxStaticText(Units_Scroller, wxID_ANY, " Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_LanguageDLLUnknown = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Unknown *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_HotKey = new wxStaticText(Units_Scroller, wxID_ANY, " Hot Key *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_LanguageDLLConverter[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_LanguageDLLConverter[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey Text Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_LanguageDLLHotKeyText = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Hotkey Text *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_HotKey = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 4 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 5 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 6 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3648,22 +3687,25 @@ void AGE_Frame::CreateUnitControls()
 	Units_ID1 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ID2 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ID3 = new TextCtrl_Short(Units_Scroller, "0", NULL);
-	Units_Name = new TextCtrl_String(Units_Scroller, "0", NULL);
-	Units_Name2 = new TextCtrl_String(Units_Scroller, "0", NULL);
+	Units_Name = new TextCtrl_String(Units_Scroller, "0", NULL, 30);
+	Units_Name2 = new TextCtrl_String(Units_Scroller, "0", NULL, 30);
 	Units_LanguageDLLName = new TextCtrl_UShort(Units_Scroller, "0", NULL);
-	Units_DLL_LanguageDLLName = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE);
+	Units_DLL_LanguageDLLName = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Units_LanguageDLLCreation = new TextCtrl_UShort(Units_Scroller, "0", NULL);
-	Units_DLL_LanguageDLLCreation = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE);
+	Units_DLL_LanguageDLLCreation = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Units_HotKey = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_HotKey->SetToolTip("10000 + Language DLL Creation (usually)");
-	Units_DLL_HotKey4 = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE);
+	Units_DLL_HotKey4 = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Units_LanguageDLLHelp = new TextCtrl_Long(Units_Scroller, "0", NULL);
 	Units_LanguageDLLHelp->SetToolTip("100000 + Language DLL Name\nThis is probably linked to the help text below");
-	Units_LanguageDLLConverter = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
-	Units_LanguageDLLConverter->SetToolTip("Put the value from language DLL file here and the DLL Help variable gets automatically calculated\nHit enter to get the correction");
-	Units_LanguageDLLUnknown = new TextCtrl_Long(Units_Scroller, "0", NULL);
-	Units_LanguageDLLUnknown->SetToolTip("150000 + Language DLL Name");
-	Units_DLL_LanguageDLLHelp = new wxStaticText(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 55), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Units_LanguageDLLConverter[0]->SetToolTip("Language help text in DLL\nHit enter to get the correction into dat file");
+	Units_LanguageDLLConverter[1] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in DLL\nHit enter to get the correction into dat file");
+	Units_LanguageDLLHotKeyText = new TextCtrl_Long(Units_Scroller, "0", NULL);
+	Units_LanguageDLLHotKeyText->SetToolTip("150000 + Language DLL Name\nThis seems to be used only in AoE (not RoR)\nThis language line has other purposes in SWGB and CC");
+	Units_DLL_LanguageDLLHelp = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 55), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_LanguageDLLHKText = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 
 	Units_IconID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ConstructionGraphicID = new TextCtrl_Short(Units_Scroller, "0", NULL);
@@ -4128,7 +4170,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 3 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown3 = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	UnitCommands_Holder_Unknown4 = new wxBoxSizer(wxHORIZONTAL);
-	UnitCommands_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 4 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown4 = new wxStaticText(Units_Scroller, wxID_ANY, "Work Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown4 = new TextCtrl_Float(Units_Scroller, "0", NULL);
 	UnitCommands_Holder_Unknown5 = new wxBoxSizer(wxHORIZONTAL);
 	UnitCommands_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 5 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
@@ -4779,10 +4821,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_LanguageDLLCreation->Add(Units_DLL_LanguageDLLCreation, 1, wxEXPAND);
 	Units_Holder_LanguageDLLHelp->Add(Units_Text_LanguageDLLHelp, 0, wxEXPAND);
 	Units_Holder_LanguageDLLHelp->Add(Units_LanguageDLLHelp, 1, wxEXPAND);
-	Units_Holder_LanguageDLLConverter->Add(Units_Text_LanguageDLLConverter, 0, wxEXPAND);
-	Units_Holder_LanguageDLLConverter->Add(Units_LanguageDLLConverter, 1, wxEXPAND);
-	Units_Holder_LanguageDLLUnknown->Add(Units_Text_LanguageDLLUnknown, 0, wxEXPAND);
-	Units_Holder_LanguageDLLUnknown->Add(Units_LanguageDLLUnknown, 1, wxEXPAND);
+	Units_Holder_LanguageDLLConverter[0]->Add(Units_Text_LanguageDLLConverter[0], 0, wxEXPAND);
+	Units_Holder_LanguageDLLConverter[0]->Add(Units_LanguageDLLConverter[0], 1, wxEXPAND);
+	Units_Holder_LanguageDLLHotKeyText->Add(Units_Text_LanguageDLLHotKeyText, 0, wxEXPAND);
+	Units_Holder_LanguageDLLHotKeyText->Add(Units_LanguageDLLHotKeyText, 1, wxEXPAND);
+	Units_Holder_LanguageDLLConverter[1]->Add(Units_Text_LanguageDLLConverter[1], 0, wxEXPAND);
+	Units_Holder_LanguageDLLConverter[1]->Add(Units_LanguageDLLConverter[1], 1, wxEXPAND);
 	Units_Holder_HotKey->Add(Units_Text_HotKey, 0, wxEXPAND);
 	Units_Holder_HotKey->Add(Units_HotKey, 1, wxEXPAND);
 	Units_Holder_HotKey->Add(Units_DLL_HotKey4, 1, wxEXPAND);
@@ -4794,15 +4838,18 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_LangRegular->Add(Units_Holder_HotKey, 1, wxEXPAND);
 	Units_Holder_LangHotKey->Add(Units_Holder_LanguageDLLHelp, 1, wxEXPAND);
 	Units_Holder_LangHotKey->Add(5, -1);
-	Units_Holder_LangHotKey->Add(Units_Holder_LanguageDLLConverter, 1, wxEXPAND);
+	Units_Holder_LangHotKey->Add(Units_Holder_LanguageDLLConverter[0], 1, wxEXPAND);
 	Units_Holder_LangHotKey->Add(5, -1);
-	Units_Holder_LangHotKey->Add(Units_Holder_LanguageDLLUnknown, 1, wxEXPAND);
+	Units_Holder_LangHotKey->Add(Units_Holder_LanguageDLLHotKeyText, 1, wxEXPAND);
+	Units_Holder_LangHotKey->Add(5, -1);
+	Units_Holder_LangHotKey->Add(Units_Holder_LanguageDLLConverter[1], 1, wxEXPAND);
 
 	Units_Holder_LangDLLArea->Add(Units_Holder_LangRegular, 0, wxEXPAND);
 	Units_Holder_LangDLLArea->Add(-1, 5);
 	Units_Holder_LangDLLArea->Add(Units_Holder_LangHotKey, 0, wxEXPAND);
 	Units_Holder_LangDLLArea->Add(-1, 5);
 	Units_Holder_LangDLLArea->Add(Units_DLL_LanguageDLLHelp, 0, wxEXPAND);
+	Units_Holder_LangDLLArea->Add(Units_DLL_LanguageDLLHKText, 0, wxEXPAND);
 
 	for(short loop = 0;loop < 2;loop++)
 	Units_Holder_GraphicsArea2->Add(Units_StandingGraphic[loop], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -5385,7 +5432,8 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Armors_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsPaste));
 	Connect(Units_Armors_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsPasteInsert));
 	Connect(UnitCommands_ComboBox_Types->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
-	Connect(Units_LanguageDLLConverter->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::LangDLLConverter));
+	Connect(Units_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
+	Connect(Units_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 
 //	Listing and Auto Copy
 
@@ -5483,7 +5531,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceCapacity->Connect(Units_ResourceCapacity->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
 	Units_CommandAttribute->Connect(Units_CommandAttribute->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
 	Units_LanguageDLLHelp->Connect(Units_LanguageDLLHelp->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Long), NULL, this);
-	Units_LanguageDLLUnknown->Connect(Units_LanguageDLLUnknown->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Long), NULL, this);
+	Units_LanguageDLLHotKeyText->Connect(Units_LanguageDLLHotKeyText->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Long), NULL, this);
 	Units_HotKey->Connect(Units_HotKey->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_Short), NULL, this);
 	Units_SelectionSound->Connect(Units_SelectionSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);
 	Units_DyingSound->Connect(Units_DyingSound->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort), NULL, this);

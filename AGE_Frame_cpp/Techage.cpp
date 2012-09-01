@@ -58,7 +58,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 			ResearchTechID = GenieFile->Researchs[loop].TechageID;
 			if(ResearchTechID > 0) // Only researches which have techs.
 			{
-				if(LanguageDLLString(GenieFile->Researchs[loop].LanguageDLLName, 64) != "") // has a lang dll name
+				if(LanguageDLLString(GenieFile->Researchs[loop].LanguageDLLName, 2) != "") // has a lang dll name
 				{
 					Name = LanguageDLLString(GenieFile->Researchs[loop].LanguageDLLName, 64);
 				}
@@ -357,7 +357,7 @@ string AGE_Frame::GetEffectName(short &Index)
 			Name = "No Type/Invalid Type";
 		}
 	}
-	return Name;
+	return Name+" ";
 }
 
 void AGE_Frame::OnEffectsSearch(wxCommandEvent& Event)
@@ -370,6 +370,11 @@ void AGE_Frame::ListEffects()
 	string Name, CompareText;
 	SearchText = wxString(Techs_Effects_Search->GetValue()).Lower();
 	ExcludeText = wxString(Techs_Effects_Search_R->GetValue()).Lower();
+	for(short loop = 0;loop < 2;loop++)
+	{
+		if(Techs_Effects_UseAnd[loop]->GetValue() == true)
+		UseAnd[loop] = true; else UseAnd[loop] = false;
+	}
 	
 	short Selections = Techs_Effects_List->GetSelections(Items);
 	if(Techs_Effects_List->GetCount() > 0) Techs_Effects_List->Clear();
@@ -384,6 +389,9 @@ void AGE_Frame::ListEffects()
 		}
 	}
 	ListingFix(Selections, Techs_Effects_List);
+
+	for(short loop = 0;loop < 2;loop++)
+	UseAnd[loop] = false;
 
 	wxCommandEvent E;
 	OnEffectsSelect(E);
@@ -1059,6 +1067,11 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
 	string Name, CompareText;
 	SearchText = wxString(Techs_AllEffects_Search->GetValue()).Lower();
 	ExcludeText = wxString(Techs_AllEffects_Search_R->GetValue()).Lower();
+	for(short loop = 0;loop < 2;loop++)
+	{
+		if(Techs_AllEffects_UseAnd[loop]->GetValue() == true)
+		UseAnd[loop] = true; else UseAnd[loop] = false;
+	}
 
 	short Selections = Techs_AllEffects_List->GetSelections(Items);
 	if(Techs_AllEffects_List->GetCount() > 0) Techs_AllEffects_List->Clear();
@@ -1081,6 +1094,9 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
 
 	Techs_AllEffects_List->SetSelection(Items.Item(0));
 
+	for(short loop = 0;loop < 2;loop++)
+	UseAnd[loop] = false;
+
 	wxCommandEvent E;
 	OnAllTechEffectSelect(E);
 }
@@ -1090,12 +1106,14 @@ void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent& Event)
 	short Selections = Techs_AllEffects_List->GetSelections(Items);
 	if(Selections != 0)
 	{
-		wxString TechID, EffectID, Line = Techs_AllEffects_List->GetStringSelection();
+		wxString TechID, EffectID, Line = Techs_AllEffects_List->GetString(Items.Item(0));
 		size_t Found;
-		Found = Line.find(" ", 1);
-		TechID = Line.substr(1, Found); // Cutting the tech number.
-		EffectID = Line.substr((Found+1), Line.find(" ",Found+1)); // Cutting the effect number.
-		wxMessageBox("Tech "+TechID+" Effect "+EffectID+"\n"+Line+lexical_cast<string>(Found));
+		Found = Line.find(" ", 3);
+		TechID = Line.substr(2, Found-1); // Cutting the tech number.
+		EffectID = Line.substr(Found+2, Line.find(" ", Found+3)-Found); // Cutting the effect number.
+		Techs_Techs_Search->SetValue(" "+TechID+"-");
+		Techs_Effects_Search->SetValue(" "+EffectID);
+		// Tee and laatikot molemmille effects listoille
 	}
 }
 
@@ -1125,12 +1143,15 @@ void AGE_Frame::CreateTechageControls()
 
 	Techs_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Techs_Text_Name = new wxStaticText(Tab_Techs, wxID_ANY, " Technology Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Techs_Name = new TextCtrl_String(Tab_Techs, "0", NULL);
+	Techs_Name = new TextCtrl_String(Tab_Techs, "0", NULL, 31);
 
 	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects");
+	Techs_Effects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
+	Techs_Effects_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
 	Techs_Effects_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Techs_Effects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
-//	Techs_Effects_UseAnd = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Techs_Effects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_Effects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -1192,8 +1213,13 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Link = new wxHyperlinkCtrl(Tab_Techs, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
 
+	Techs_AllEffects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects of all Technologies");
+	Techs_AllEffects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
+	Techs_AllEffects_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
 	Techs_AllEffects_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Techs_AllEffects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_AllEffects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Techs_AllEffects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_AllEffects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
 	Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));
 
@@ -1240,9 +1266,14 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Holder_Name->Add(Techs_Techs_Rename, 1, wxEXPAND);
 	Techs_Holder_Name->Add(Techs_Techs_Restore, 1, wxEXPAND);
 
-	Techs_Effects->Add(Techs_Effects_Search, 0, wxEXPAND);
-	Techs_Effects->Add(Techs_Effects_Search_R, 0, wxEXPAND);
-//	Techs_Effects->Add(Techs_Effects_UseAnd, 0, wxEXPAND);
+	Techs_Effects_Searches[0]->Add(Techs_Effects_Search, 1, wxEXPAND);
+	Techs_Effects_Searches[0]->Add(2, -1);
+	Techs_Effects_Searches[0]->Add(Techs_Effects_UseAnd[0], 0, wxEXPAND);
+	Techs_Effects_Searches[1]->Add(Techs_Effects_Search_R, 1, wxEXPAND);
+	Techs_Effects_Searches[1]->Add(2, -1);
+	Techs_Effects_Searches[1]->Add(Techs_Effects_UseAnd[1], 0, wxEXPAND);
+	Techs_Effects->Add(Techs_Effects_Searches[0], 0, wxEXPAND);
+	Techs_Effects->Add(Techs_Effects_Searches[1], 0, wxEXPAND);
 	Techs_Effects->Add(-1, 2);
 	Techs_Effects->Add(Techs_Effects_List, 1, wxEXPAND);
 	Techs_Effects->Add(-1, 2);
@@ -1321,6 +1352,19 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_Data->Add(Effects_Holder_DataE, 0, wxEXPAND);
 	Effects_Holder_Data->Add(Effects_Holder_DataF, 0, wxEXPAND);
 
+	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_Search, 1, wxEXPAND);
+	Techs_AllEffects_Searches[0]->Add(2, -1);
+	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_UseAnd[0], 0, wxEXPAND);
+	Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_Search_R, 1, wxEXPAND);
+	Techs_AllEffects_Searches[1]->Add(2, -1);
+	Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_UseAnd[1], 0, wxEXPAND);
+	Techs_AllEffects->Add(Techs_AllEffects_Searches[0], 0, wxEXPAND);
+	Techs_AllEffects->Add(Techs_AllEffects_Searches[1], 0, wxEXPAND);
+	Techs_AllEffects->Add(-1, 2);
+	Techs_AllEffects->Add(Techs_AllEffects_List, 1, wxEXPAND);
+	Techs_AllEffects->Add(-1, 2);
+	Techs_AllEffects->Add(Techs_AllEffects_Load, 0, wxEXPAND);
+
 	Effects_DataArea->Add(-1, 10);
 	Effects_DataArea->Add(Effects_Holder_Type, 0, wxEXPAND);
 	Effects_DataArea->Add(-1, 5);
@@ -1328,12 +1372,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_DataArea->Add(-1, 5);
 	Effects_DataArea->Add(Effects_Link, 0, wxEXPAND);
 	Effects_DataArea->Add(-1, 5);
-	Effects_DataArea->Add(Techs_AllEffects_Search, 0, wxEXPAND);
-	Effects_DataArea->Add(Techs_AllEffects_Search_R, 0, wxEXPAND);
-	Effects_DataArea->Add(-1, 2);
-	Effects_DataArea->Add(Techs_AllEffects_List, 1, wxEXPAND);
-	Effects_DataArea->Add(-1, 2);
-	Effects_DataArea->Add(Techs_AllEffects_Load, 0, wxEXPAND);
+	Effects_DataArea->Add(Techs_AllEffects, 1, wxEXPAND);
 
 	Techs_Main->Add(10, -1);
 	Techs_Main->Add(Techs_ListArea, 3, wxEXPAND); // 3
@@ -1364,6 +1403,11 @@ void AGE_Frame::CreateTechageControls()
 
 	Tab_Techs->SetSizer(Techs_Main);
 
+	for(short loop = 0;loop < 2;loop++)
+	{
+		Connect(Techs_Effects_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
+		Connect(Techs_AllEffects_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
+	}
 	Connect(Techs_Techs_Rename->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRename));
 	Connect(Techs_Techs_Restore->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRenameGE2));
 	Connect(Techs_Techs_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTechageSelect));
