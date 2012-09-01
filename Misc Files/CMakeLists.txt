@@ -21,19 +21,20 @@ set(Boost_USE_STATIC_LIBS        ON)
 set(Boost_USE_MULTITHREADED      ON)
 set(Boost_USE_STATIC_RUNTIME     ON)
 
+set(GUTILS_INCLUDE_DIRS ${Boost_INCLUDE_DIRS} extern/)
+
 if (GUTILS_TEST)
   include_directories(
       include/
-      ${Boost_INCLUDE_DIRS}
+      ${GUTILS_INCLUDE_DIRS}
       ${SFML_INCLUDE_DIR}
       )
 else (GUTILS_TEST)
   include_directories(
       include/
-      ${Boost_INCLUDE_DIRS}
+      ${GUTILS_INCLUDE_DIRS}
       )
 endif (GUTILS_TEST)
-include_directories(${ZLIB_INCLUDE_DIRS})
 
 add_definitions(-Wall)
 
@@ -119,13 +120,18 @@ set(EXTRACT_SRC src/tools/extract/datextract.cpp)
 set(BINCOMP_SRC src/tools/bincompare/bincomp.cpp
                 src/tools/bincompare/main.cpp)
 
+set(PCRIO_SRC extern/pcrio/pcrio.c)
+set_source_files_properties(extern/pcrio/pcrio.c PROPERTIES LANGUAGE CXX )
+
+
 
 #------------------------------------------------------------------------------#
 # Executeable:
 #------------------------------------------------------------------------------#
 
-add_library(${Genieutils_LIBRARY} STATIC ${FILE_SRC} ${LANG_SRC} ${DAT_SRC} 
-                                  ${RESOURCE_SRC} ${UTIL_SRC} ${SCRIPT_SRC})
+add_library(${Genieutils_LIBRARY} STATIC ${FILE_SRC} ${LANG_SRC} ${DAT_SRC}
+                                  ${RESOURCE_SRC} ${UTIL_SRC} ${SCRIPT_SRC}
+                                  ${PCRIO_SRC})
 target_link_libraries(${Genieutils_LIBRARY} ${ZLIB_LIBRARIES} ${Boost_LIBRARIES})
 
 #add_executable(main main.cpp)

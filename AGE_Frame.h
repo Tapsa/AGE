@@ -166,7 +166,8 @@ class AGE_Frame : public wxFrame
 	wxString SearchText, ExcludeText;
 	bool SearchMatches(string &CompareText);
 	void ListingFix(short &Selections, wxListBox* &List);
-	void LangDLLConverter(wxCommandEvent& Event);
+	void UnitLangDLLConverter(wxCommandEvent& Event);
+	void ResearchLangDLLConverter(wxCommandEvent& Event);
 	void LoadAllTechEffects(wxCommandEvent& Event);
 	void OnAllTechEffectSelect(wxCommandEvent& Event);
 	void LoadAllSoundFiles(wxCommandEvent& Event);
@@ -987,12 +988,12 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Research_Holder_LangDLLName;
 	wxStaticText * Research_Text_LangDLLName;
 	TextCtrl_UShort * Research_LangDLLName;
-	wxStaticText * Research_DLL_LangDLLName;
+	wxTextCtrl * Research_DLL_LangDLLName;
 
 	wxBoxSizer * Research_Holder_LangDLLDescription;
 	wxStaticText * Research_Text_LangDLLDescription;
 	TextCtrl_UShort * Research_LangDLLDescription;
-	wxStaticText * Research_DLL_LangDLLDescription;
+	wxTextCtrl * Research_DLL_LangDLLDescription;
 
 	wxBoxSizer * Research_Holder_ResearchTime;
 	wxStaticText * Research_Text_ResearchTime;
@@ -1018,6 +1019,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Research_Holder_Pointers[3];
 	wxStaticText * Research_Text_Pointers[3];
 	TextCtrl_Long * Research_Pointers[3];
+	wxTextCtrl * Research_DLL_Pointers[2];
 
 	wxBoxSizer * Research_Holder_Name[2];
 	wxStaticText * Research_Text_Name[2];
@@ -1064,8 +1066,11 @@ class AGE_Frame : public wxFrame
 	wxButton * Techs_Techs_Paste;
 	wxButton * Techs_Techs_PasteInsert;
 
+	wxStaticBoxSizer * Techs_AllEffects;
+	wxBoxSizer * Techs_AllEffects_Searches[2];
 	wxTextCtrl * Techs_AllEffects_Search;
 	wxTextCtrl * Techs_AllEffects_Search_R;
+	wxCheckBox * Techs_AllEffects_UseAnd[2];
 	wxListBox * Techs_AllEffects_List;
 	wxButton * Techs_AllEffects_Load;
 
@@ -1074,9 +1079,10 @@ class AGE_Frame : public wxFrame
 	TextCtrl_String * Techs_Name;
 
 	wxStaticBoxSizer * Techs_Effects;
+	wxBoxSizer * Techs_Effects_Searches[2];
 	wxTextCtrl * Techs_Effects_Search;
 	wxTextCtrl * Techs_Effects_Search_R;
-//	wxCheckBox * Techs_Effects_UseAnd;
+	wxCheckBox * Techs_Effects_UseAnd[2];
 	wxListBox * Techs_Effects_List;
 	wxButton * Techs_Effects_Add;
 	wxButton * Techs_Effects_Insert;
@@ -1211,9 +1217,9 @@ class AGE_Frame : public wxFrame
 	wxOwnerDrawnComboBox * Units_ComboBox_Type;
 	TextCtrl_Short * Units_ID1;
 	TextCtrl_UShort * Units_LanguageDLLName;
-	wxStaticText * Units_DLL_LanguageDLLName;
+	wxTextCtrl * Units_DLL_LanguageDLLName;
 	TextCtrl_UShort * Units_LanguageDLLCreation;
-	wxStaticText * Units_DLL_LanguageDLLCreation;
+	wxTextCtrl * Units_DLL_LanguageDLLCreation;
 	TextCtrl_Short * Units_Class;
 	ComboBox_Short * Units_ComboBox_Class[3];
 	TextCtrl_Short * Units_StandingGraphic[2];
@@ -1263,11 +1269,12 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * Units_Unknown3B;
 	TextCtrl_Byte * Units_Unknown3a;
 	TextCtrl_Long * Units_LanguageDLLHelp;
-	wxTextCtrl * Units_LanguageDLLConverter;
-	TextCtrl_Long * Units_LanguageDLLUnknown;
-	wxStaticText * Units_DLL_LanguageDLLHelp;
+	wxTextCtrl * Units_DLL_LanguageDLLHelp;
+	wxTextCtrl * Units_LanguageDLLConverter[2];
+	TextCtrl_Long * Units_LanguageDLLHotKeyText;
+	wxTextCtrl * Units_DLL_LanguageDLLHKText;
 	TextCtrl_Short * Units_HotKey;
-	wxStaticText * Units_DLL_HotKey4;
+	wxTextCtrl * Units_DLL_HotKey4;
 	TextCtrl_Byte * Units_Unknown4;
 	TextCtrl_Byte * Units_Unknown5;
 	TextCtrl_Bool * Units_Unselectable;
@@ -1477,8 +1484,8 @@ class AGE_Frame : public wxFrame
 	wxStaticText * Units_Text_Unknown3B;
 	wxStaticText * Units_Text_Unknown3a;
 	wxStaticText * Units_Text_LanguageDLLHelp;
-	wxStaticText * Units_Text_LanguageDLLConverter;
-	wxStaticText * Units_Text_LanguageDLLUnknown;
+	wxStaticText * Units_Text_LanguageDLLConverter[2];
+	wxStaticText * Units_Text_LanguageDLLHotKeyText;
 	wxStaticText * Units_Text_HotKey;
 	wxStaticText * Units_Text_Unknown4;
 	wxStaticText * Units_Text_Unknown5;
@@ -1659,8 +1666,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_Unknown3B;
 	wxBoxSizer * Units_Holder_Unknown3a;
 	wxBoxSizer * Units_Holder_LanguageDLLHelp;
-	wxBoxSizer * Units_Holder_LanguageDLLConverter;
-	wxBoxSizer * Units_Holder_LanguageDLLUnknown;
+	wxBoxSizer * Units_Holder_LanguageDLLConverter[2];
+	wxBoxSizer * Units_Holder_LanguageDLLHotKeyText;
 	wxBoxSizer * Units_Holder_HotKey;
 	wxBoxSizer * Units_Holder_Unknown4;
 	wxBoxSizer * Units_Holder_Unknown5;

@@ -20,7 +20,6 @@ class ComboBox_Byte : public wxOwnerDrawnComboBox
 
 		Connect(this->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Byte::OnUpdate));
 	}
-	~ComboBox_Byte(){}
 
 //	Events
 
@@ -51,7 +50,6 @@ class ComboBox_Float : public wxOwnerDrawnComboBox
 
 		Connect(this->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Float::OnUpdate));
 	}
-	~ComboBox_Float(){}
 
 //	Events
 
@@ -82,7 +80,6 @@ class ComboBox_Long : public wxOwnerDrawnComboBox
 
 		Connect(this->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Long::OnUpdate));
 	}
-	~ComboBox_Long(){}
 
 //	Events
 
@@ -113,7 +110,6 @@ class ComboBox_Short : public wxOwnerDrawnComboBox
 
 		Connect(this->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Short::OnUpdate));
 	}
-	~ComboBox_Short(){}
 
 //	Events
 
@@ -144,7 +140,6 @@ class ComboBox_Byte_EffectType : public wxOwnerDrawnComboBox
 
 		Connect(this->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Byte_EffectType::OnUpdate));
 	}
-	~ComboBox_Byte_EffectType(){}
 
 //	Events
 

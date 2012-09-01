@@ -213,11 +213,11 @@ class TextCtrl_String : public wxTextCtrl
 {
 	public:
 
-	TextCtrl_String(wxWindow * parent, string InitValue, void * Pointer, short CLength = -1)
+	TextCtrl_String(wxWindow * parent, string InitValue, string * Pointer, int16_t CLength = -1)
 	: wxTextCtrl(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
-		Length = CLength;
+		MaxSize = CLength;
 		this->SetBackgroundColour(wxColour(220, 255, 220));
 		Connect(this->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_String::OnKillFocus));
 	}
@@ -225,11 +225,12 @@ class TextCtrl_String : public wxTextCtrl
 //	Events
 
 	void OnKillFocus(wxFocusEvent& Event);
+	void SetMaxSize(int16_t Size){MaxSize = Size;}
 
 //	Member Variables
 
-	short Length;
-	void * Container;
+	int16_t MaxSize;
+	string * Container;
 	bool NoLoadList;
 };
 
