@@ -1113,7 +1113,6 @@ void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent& Event)
 		EffectID = Line.substr(Found+2, Line.find(" ", Found+3)-Found); // Cutting the effect number.
 		Techs_Techs_Search->SetValue(" "+TechID+"-");
 		Techs_Effects_Search->SetValue(" "+EffectID);
-		// Tee and laatikot molemmille effects listoille
 	}
 }
 
@@ -1373,6 +1372,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_DataArea->Add(Effects_Link, 0, wxEXPAND);
 	Effects_DataArea->Add(-1, 5);
 	Effects_DataArea->Add(Techs_AllEffects, 1, wxEXPAND);
+	Effects_DataArea->Add(-1, 10);
 
 	Techs_Main->Add(10, -1);
 	Techs_Main->Add(Techs_ListArea, 3, wxEXPAND); // 3

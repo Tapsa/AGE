@@ -635,6 +635,7 @@ class AGE_Frame : public wxFrame
 	wxFileConfig * ExtractUnit;
 //	wxFileConfig * Extraction;
 	genie::DatFile * GenieFile;
+//	wxSound SoundFile;
 
 /*	genie::DatFile FileBackup; // Can't copy the whole file?
 	long EditCount;
@@ -2415,7 +2416,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Sounds_ListArea;
 	wxGridSizer * Sounds_Sounds_Buttons;
 	wxBoxSizer * SoundItems_ListArea;
-	wxGridSizer * Sounds_SoundItems_Buttons;
+	wxGridSizer * Sounds_Items_Buttons;
 	wxBoxSizer * Sounds_DataArea;
 
 	wxStaticBoxSizer * Sounds_Sounds;
@@ -2429,11 +2430,13 @@ class AGE_Frame : public wxFrame
 	wxButton * Sounds_Paste;
 	wxButton * Sounds_PasteInsert;
 
-	wxStaticBoxSizer * Sounds_SoundItems;
-	wxTextCtrl * Sounds_SoundItems_Search;
-	wxTextCtrl * Sounds_SoundItems_Search_R;
-//	wxCheckBox * Sounds_SoundItems_UseAnd;
-	wxListBox * Sounds_SoundItems_List;
+	wxStaticBoxSizer * Sounds_Items;
+	wxBoxSizer * Sounds_Items_Searches[2];
+	wxTextCtrl * Sounds_Items_Search;
+	wxTextCtrl * Sounds_Items_Search_R;
+	wxOwnerDrawnComboBox * Sounds_Items_SearchFilters[2];
+	wxCheckBox * Sounds_Items_UseAnd[2];
+	wxListBox * Sounds_Items_List;
 	wxButton * SoundItems_Add;
 	wxButton * SoundItems_Insert;
 	wxButton * SoundItems_Delete;
@@ -2463,6 +2466,14 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * SoundItems_Holder_Unknown;
 	wxStaticText * SoundItems_Text_Unknown;
 	TextCtrl_Short * SoundItems_Unknown;
+
+	wxStaticBoxSizer * Sounds_AllItems;
+	wxBoxSizer * Sounds_AllItems_Searches[2];
+	wxTextCtrl * Sounds_AllItems_Search;
+	wxTextCtrl * Sounds_AllItems_Search_R;
+	wxCheckBox * Sounds_AllItems_UseAnd[2];
+	wxListBox * Sounds_AllItems_List;
+	wxButton * Sounds_AllItems_Load;
 
 //	Player Color user interface
 
