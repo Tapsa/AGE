@@ -56,7 +56,7 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 			else if(Selection[loop] == 9)	// Button
 			{
 				Name += "B ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].ButtonID);
+				Name += lexical_cast<string>((short)GenieFile->Researchs[Index].ButtonID);
 			}
 			else if(Selection[loop] == 10)	// Lang DLL Pointer
 			{
@@ -86,8 +86,7 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 			}
 			Name += ", ";
 			if(Selection[loop+1] < 2) break;
-			}
-
+		}
 		if(Selection[0] != 1) Filter = false; // Names
 	}
 

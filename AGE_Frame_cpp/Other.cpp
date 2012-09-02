@@ -786,8 +786,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Research_Research_SearchFilters[loop]->Append("Type");
 			Research_Research_SearchFilters[loop]->Append("Icon");
 			Research_Research_SearchFilters[loop]->Append("Button");
-			Research_Research_SearchFilters[loop]->Append("Lang DLL Pointer");
-			Research_Research_SearchFilters[loop]->Append("Pointer 2");
+			Research_Research_SearchFilters[loop]->Append("Lang DLL Pointer 1");
+			Research_Research_SearchFilters[loop]->Append("Lang DLL Pointer 2");
 			Research_Research_SearchFilters[loop]->Append("Pointer 3");
 			if(GameVersion >= 2)
 			{
@@ -795,6 +795,20 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Research_Research_SearchFilters[loop]->Append("Full Tech. Mode");
 			}
 			Research_Research_SearchFilters[loop]->SetSelection(0);
+
+			if(Sounds_Items_SearchFilters[loop]->GetCount() > 0)
+			{
+				Sounds_Items_SearchFilters[loop]->Clear();
+			}
+			Sounds_Items_SearchFilters[loop]->Append("Filename");	// 0
+			Sounds_Items_SearchFilters[loop]->Append("DRS");
+			Sounds_Items_SearchFilters[loop]->Append("Probability");
+			if(GameVersion >= 2)
+			{
+				Sounds_Items_SearchFilters[loop]->Append("Civilization");
+				Sounds_Items_SearchFilters[loop]->Append("Unknown");
+			}
+			Sounds_Items_SearchFilters[loop]->SetSelection(0);
 		}
 
 		Items.Add(0);
@@ -2122,6 +2136,11 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		{
 			ListResearches(false);
 			Research_Research_Search->SetFocus();
+		}
+		else if(Event.GetId() == Sounds_Items_SearchFilters[loop]->GetId())
+		{
+			ListSoundItems();
+			Sounds_Items_Search->SetFocus();
 		}
 	}
 }
