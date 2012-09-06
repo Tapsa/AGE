@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/Research.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -112,9 +111,9 @@ void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListResearches(bool Sized)
 {
-	string Name, CompareText;
-	SearchText = wxString(Research_Research_Search->GetValue()).Lower();
-	ExcludeText = wxString(Research_Research_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Research_Research_Search->GetValue().Lower();
+	ExcludeText = Research_Research_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
 	{
 		if(Research_Research_UseAnd[loop]->GetValue() == true)
@@ -228,7 +227,7 @@ void AGE_Frame::ListResearches(bool Sized)
 	for(short loop = 0;loop < GenieFile->Researchs.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);

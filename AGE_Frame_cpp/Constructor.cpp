@@ -1,7 +1,6 @@
-/* AGEFrame_cpp/Constructor.cpp */
 
 #include "../AGE_Frame.h"
-#include <wx/arrimpl.cpp>
+//#include <wx/arrimpl.cpp>
 using boost::lexical_cast;
 
 AGE_Frame::AGE_Frame(const wxString& title)

@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/Graphics.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -8,116 +7,83 @@ string AGE_Frame::GetGraphicName(short &Index, bool Filter)
 	string Name = "";
 	if(GenieFile->GraphicPointers[Index] == 0)
 	{
-		Name = "*Disabled*";
+		return "*Disabled*";
+	}
+	if(Filter)
+	{
+		short Selection[2];
+		for(short loop = 0;loop < 2;loop++)
+		Selection[loop] = Graphics_Graphics_SearchFilters[loop]->GetSelection();
+
+		if(Selection[0] > 0) // Internal name prevents
+		for(short loop = 0;loop < 2;loop++)
+		{
+			switch(Selection[loop])
+			{
+				case 1: // SLP
+					Name += "SLP "+lexical_cast<string>(GenieFile->Graphics[Index].SLP);
+					break;
+				case 2: // Unknown 1
+					Name += "U1 "+lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown1);
+					break;
+				case 3: // Unknown 2
+					Name += "U2 "+lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown2);
+					break;
+				case 4: // Layer
+					Name += "L "+lexical_cast<string>((short)GenieFile->Graphics[Index].Layer);
+					break;
+				case 5: // Unknown 3
+					Name += "U3 "+lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown3);
+					break;
+				case 6: // Unknown 4
+					Name += "U4 "+lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown4);
+					break;
+				case 7: // Replay
+					Name += "R "+lexical_cast<string>((short)GenieFile->Graphics[Index].Replay);
+					break;
+				case 8: // Sound
+					Name += "So "+lexical_cast<string>(GenieFile->Graphics[Index].SoundID);
+					break;
+				case 9: // Attack Sound Used
+					Name += "U "+lexical_cast<string>((short)GenieFile->Graphics[Index].AttackSoundUsed);
+					break;
+				case 10: // Frame Count
+					Name += "FC "+lexical_cast<string>(GenieFile->Graphics[Index].FrameCount);
+					break;
+				case 11: // Angle Count
+					Name += "AC "+lexical_cast<string>(GenieFile->Graphics[Index].AngleCount);
+					break;
+				case 12: // Speed
+					Name += "Sp "+lexical_cast<string>(GenieFile->Graphics[Index].Unknown13);
+					break;
+				case 13: // Frame Rate
+					Name += "FR "+lexical_cast<string>(GenieFile->Graphics[Index].FrameRate);
+					break;
+				case 14: // Replay Delay
+					Name += "RD "+lexical_cast<string>(GenieFile->Graphics[Index].ReplayDelay);
+					break;
+				case 15: // Sequence Type
+					Name += "ST "+lexical_cast<string>((short)GenieFile->Graphics[Index].SequenceType);
+					break;
+				case 16: // Mirroring Mode
+					Name += "T "+lexical_cast<string>(GenieFile->Graphics[Index].Type);
+					break;
+				case 17: // Pointer
+					Name = lexical_cast<string>(GenieFile->GraphicPointers[Index]);
+					break;
+			}
+			Name += ", ";
+			if(Selection[loop+1] < 1) break; // Internal name breaks
+		}
+	}
+
+	if(GenieFile->Graphics[Index].Name != "")
+	{
+		Name += GenieFile->Graphics[Index].Name;
 	}
 	else
 	{
-		if(Filter)
-		{
-			short Selection[2];
-			for(short loop = 0;loop < 2;loop++)
-			Selection[loop] = Graphics_Graphics_SearchFilters[loop]->GetSelection();
-
-			if(Selection[0] > 0) // Internal name prevents
-			for(short loop = 0;loop < 2;loop++)
-			{
-				if(Selection[loop] == 1)	// SLP
-				{
-					Name += "SLP ";
-					Name += lexical_cast<string>(GenieFile->Graphics[Index].SLP);
-				}
-				else if(Selection[loop] == 2)	// Unknown 1
-				{
-					Name += "U1 ";
-					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown1);
-				}
-				else if(Selection[loop] == 3)	// Unknown 2
-				{
-					Name += "U2 ";
-					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown2);
-				}
-				else if(Selection[loop] == 4)	// Layer
-				{
-					Name += "L ";
-					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Layer);
-				}
-				else if(Selection[loop] == 5)	// Unknown 3
-				{
-					Name += "U3 ";
-					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown3);
-				}
-				else if(Selection[loop] == 6)	// Unknown 4
-				{
-					Name += "U4 ";
-					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown4);
-				}
-				else if(Selection[loop] == 7)	// Replay
-				{
-					Name += "R ";
-					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].Replay);
-				}
-				else if(Selection[loop] == 8)	// Sound
-				{
-					Name += "So ";
-					Name += lexical_cast<string>(GenieFile->Graphics[Index].SoundID);
-				}
-				else if(Selection[loop] == 9)	// Attack Sound Used
-				{
-					Name += "U ";
-					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].AttackSoundUsed);
-				}
-				else if(Selection[loop] == 10)	// Frame Count
-				{
-					Name += "FC ";
-					Name += lexical_cast<string>(GenieFile->Graphics[Index].FrameCount);
-				}
-				else if(Selection[loop] == 11)	// Angle Count
-				{
-					Name += "AC ";
-					Name += lexical_cast<string>(GenieFile->Graphics[Index].AngleCount);
-				}
-				else if(Selection[loop] == 12)	// Speed
-				{
-					Name += "Sp ";
-					Name += lexical_cast<string>(GenieFile->Graphics[Index].Unknown13);
-				}
-				else if(Selection[loop] == 13)	// Frame Rate
-				{
-					Name += "FR ";
-					Name += lexical_cast<string>(GenieFile->Graphics[Index].FrameRate);
-				}
-				else if(Selection[loop] == 14)	// Replay Delay
-				{
-					Name += "RD ";
-					Name += lexical_cast<string>(GenieFile->Graphics[Index].ReplayDelay);
-				}
-				else if(Selection[loop] == 15)	// Sequence Type
-				{
-					Name += "ST ";
-					Name += lexical_cast<string>((short)GenieFile->Graphics[Index].SequenceType);
-				}
-				else if(Selection[loop] == 16)	// Mirroring Mode
-				{
-					Name += "T ";
-					Name += lexical_cast<string>(GenieFile->Graphics[Index].Type);
-				}
-				else if(Selection[loop] == 17)	// Pointer
-				{
-					Name = lexical_cast<string>(GenieFile->GraphicPointers[Index]);
-				}
-				Name += ", ";
-				if(Selection[loop+1] < 1) break; // Internal name breaks
-			}
-		}
-
-		if(GenieFile->Graphics[Index].Name != "")
-		{
-			Name += GenieFile->Graphics[Index].Name;
-		}
-		else
-		{
-			Name += "New Graphic";
-		}
+		Name += "New Graphic";
 	}
 	return Name;
 }
@@ -129,14 +95,11 @@ void AGE_Frame::OnGraphicsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListGraphics(bool Sized)
 {
-	string Name, CompareText;
-	SearchText = wxString(Graphics_Graphics_Search->GetValue()).Lower();
-	ExcludeText = wxString(Graphics_Graphics_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Graphics_Graphics_Search->GetValue().Lower();
+	ExcludeText = Graphics_Graphics_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(Graphics_Graphics_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
 	short Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Graphics_Graphics_List->GetCount() > 0) Graphics_Graphics_List->Clear();
@@ -243,7 +206,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 	for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
@@ -519,9 +482,9 @@ void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListGraphicDeltas()
 {
-	string Name, CompareText;
-	SearchText = wxString(Graphics_Deltas_Search->GetValue()).Lower();
-	ExcludeText = wxString(Graphics_Deltas_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Graphics_Deltas_Search->GetValue().Lower();
+	ExcludeText = Graphics_Deltas_Search_R->GetValue().Lower();
 
 	short Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Graphics_Deltas_List->GetCount() > 0) Graphics_Deltas_List->Clear();
@@ -529,7 +492,7 @@ void AGE_Frame::ListGraphicDeltas()
 	for(short loop = 0;loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].Deltas[loop]);

@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/Sounds.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -17,9 +16,9 @@ void AGE_Frame::OnSoundsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListSounds(bool Sized)
 {
-	string Name, CompareText;
-	SearchText = wxString(Sounds_Sounds_Search->GetValue()).Lower();
-	ExcludeText = wxString(Sounds_Sounds_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Sounds_Sounds_Search->GetValue().Lower();
+	ExcludeText = Sounds_Sounds_Search_R->GetValue().Lower();
 
 	short Selections = Sounds_Sounds_List->GetSelections(Items);
 	if(Sounds_Sounds_List->GetCount() > 0) Sounds_Sounds_List->Clear();
@@ -108,7 +107,7 @@ void AGE_Frame::ListSounds(bool Sized)
 	for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetSoundName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Sounds_Sounds_List->Append(Name, (void*)&GenieFile->Sounds[loop]);
@@ -315,9 +314,9 @@ void AGE_Frame::OnSoundItemsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListSoundItems()
 {
-	string Name, CompareText;
-	SearchText = wxString(Sounds_Items_Search->GetValue()).Lower();
-	ExcludeText = wxString(Sounds_Items_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Sounds_Items_Search->GetValue().Lower();
+	ExcludeText = Sounds_Items_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
 	{
 		if(Sounds_Items_UseAnd[loop]->GetValue() == true)
@@ -330,7 +329,7 @@ void AGE_Frame::ListSoundItems()
 	for(short loop = 0;loop < GenieFile->Sounds[SoundIDs[0]].Items.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetSoundItemName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Sounds_Items_List->Append(Name, (void*)&GenieFile->Sounds[SoundIDs[0]].Items[loop]);
@@ -464,9 +463,9 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent& Event)
 
 void AGE_Frame::LoadAllSoundFiles(wxCommandEvent& Event)
 {
-	string Name, CompareText;
-	SearchText = wxString(Sounds_AllItems_Search->GetValue()).Lower();
-	ExcludeText = wxString(Sounds_AllItems_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Sounds_AllItems_Search->GetValue().Lower();
+	ExcludeText = Sounds_AllItems_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
 	{
 		if(Sounds_AllItems_UseAnd[loop]->GetValue() == true)
@@ -483,7 +482,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent& Event)
 		for(short file = 0;file < GenieFile->Sounds[sound].Items.size();file++)
 		{
 			Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file);
-			CompareText = wxString(Name).Lower();
+			CompareText = Name.Lower();
 			if(SearchMatches(CompareText))
 			{
 				Sounds_AllItems_List->Append(Name);
