@@ -370,10 +370,7 @@ void AGE_Frame::ListEffects()
 	SearchText = Techs_Effects_Search->GetValue().Lower();
 	ExcludeText = Techs_Effects_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(Techs_Effects_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 	
 	short Selections = Techs_Effects_List->GetSelections(Items);
 	if(Techs_Effects_List->GetCount() > 0) Techs_Effects_List->Clear();
@@ -1067,10 +1064,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
 	SearchText = Techs_AllEffects_Search->GetValue().Lower();
 	ExcludeText = Techs_AllEffects_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(Techs_AllEffects_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
 	short Selections = Techs_AllEffects_List->GetSelections(Items);
 	if(Techs_AllEffects_List->GetCount() > 0) Techs_AllEffects_List->Clear();

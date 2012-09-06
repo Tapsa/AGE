@@ -27,51 +27,47 @@ string AGE_Frame::GetUnitName(short &Index, short &UnitCivID, bool Filter)
 		if(Selection[0] > 1)
 		for(short loop = 0;loop < 2;loop++)
 		{
-			if(Selection[loop] == 2)	// Type
+			switch(Selection[loop])
 			{
-				Name += "T "+lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[Index].Type);
-			}
-			else if(Selection[loop] == 3)	// Class
-			{
-				Name += "C "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Class);
-			}
-			else if(Selection[loop] == 4)	// Terrain Restriction
-			{
-				Name += "TR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].TerrainRestriction);
-			}
-			else if(Selection[loop] == 5)	// Max Range
-			{
-				switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
-				{
-					case 60:
-					case 70:
-					case 80:
-						Name += "MR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Projectile.MaxRange);
+				case 2: // Type
+					Name += "T "+lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[Index].Type);
 					break;
-					default:
-						Name += "MR -1";
-				}
-			}
-			else if(Selection[loop] == 6)	// Train Location
-			{
-				switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
-				{
-					case 70:
-					case 80:
-						Name += "TL "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Creatable.TrainLocationID);
+				case 3: // Class
+					Name += "C "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Class);
 					break;
-					default:
-						Name += "TL -1";
-				}
-			}
-			else if(Selection[loop] == 7)	// Pointer
-			{
-				Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[Index]);
+				case 4: // Terrain Restriction
+					Name += "TR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].TerrainRestriction);
+					break;
+				case 5: // Max Range
+					switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
+					{
+						case 60:
+						case 70:
+						case 80:
+							Name += "MR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Projectile.MaxRange);
+							break;
+						default:
+							Name += "MR -1";
+					}
+					break;
+				case 6: // Train Location
+					switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
+					{
+						case 70:
+						case 80:
+							Name += "TL "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Creatable.TrainLocationID);
+							break;
+						default:
+							Name += "TL -1";
+					}
+					break;
+				case 7: // Pointer
+					Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[Index]);
+					break;
 			}
 			Name += ", ";
 			if(Selection[loop+1] < 2) break;
 		}
-
 		if(Selection[0] != 1) Filter = false; // Names
 	}
 
@@ -105,10 +101,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 	SearchText = Units_Units_Search->GetValue().Lower();
 	ExcludeText = Units_Units_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(Units_Units_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = Units_Units_UseAnd[loop]->GetValue();
 
 	Units_Civs_List->SetSelection(UnitCivID);
 

@@ -271,26 +271,23 @@ string AGE_Frame::GetSoundItemName(short &Index)
 	if(Selection[0] > 0)
 	for(short loop = 0;loop < 2;loop++)
 	{
-		if(Selection[loop] == 1)	// DRS
+		switch(Selection[loop])
 		{
-			Name += "DRS ";
-			Name += lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].ResourceID);
-		}
-		else if(Selection[loop] == 2)	// Probability
-		{
-			Name += "P ";
-			Name += lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Probability);
-		}
-		else if(GameVersion < 2);
-		else if(Selection[loop] == 3)	// Civilization
-		{
-			Name += "C ";
-			Name += lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Civ);
-		}
-		else if(Selection[loop] == 4)	// Unknown
-		{
-			Name += "U ";
-			Name += lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Unknown1);
+			case 1: // DRS
+				Name += "DRS "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].ResourceID);
+				break;
+			case 2: // Probability
+				Name += "P "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Probability);
+				break;
+			if(GameVersion >= 2)
+			{
+			case 3: // Civilization
+				Name += "C "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Civ);
+				break;
+			case 4: // Unknown
+				Name += "U "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Unknown1);
+				break;
+			}
 		}
 		Name += ", ";
 		if(Selection[loop+1] < 1) break;
@@ -318,10 +315,7 @@ void AGE_Frame::ListSoundItems()
 	SearchText = Sounds_Items_Search->GetValue().Lower();
 	ExcludeText = Sounds_Items_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(Sounds_Items_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = Sounds_Items_UseAnd[loop]->GetValue();
 
 	short Selections = Sounds_Items_List->GetSelections(Items);
 	if(Sounds_Items_List->GetCount() > 0) Sounds_Items_List->Clear();
@@ -467,10 +461,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent& Event)
 	SearchText = Sounds_AllItems_Search->GetValue().Lower();
 	ExcludeText = Sounds_AllItems_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(Sounds_AllItems_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = Sounds_AllItems_UseAnd[loop]->GetValue();
 
 	short Selections = Sounds_AllItems_List->GetSelections(Items);
 	if(Sounds_AllItems_List->GetCount() > 0) Sounds_AllItems_List->Clear();
