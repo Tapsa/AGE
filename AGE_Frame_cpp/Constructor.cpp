@@ -164,6 +164,10 @@ AGE_Frame::AGE_Frame(const wxString& title)
 
 	// Let's create our SFML view
     //    new MyCanvas(this, wxID_ANY, wxPoint(50, 50), wxSize(700, 500));
+
+	// For custom search filters
+	SplitTop = 30; // Maximum pieces for search text to be split.
+	SearchEnd.resize(SplitTop); // Parts.
 }
 
 //Working stuff if you need custom wxArrays. I'll just use standard vectors instead.

@@ -1645,9 +1645,7 @@ string AGE_Frame::LanguageDLLString(int ID, int Letters)
 
 bool AGE_Frame::SearchMatches(wxString &CompareText)
 {
-	Matches = false, And = {true,true};
-	Splits = SplitTop = 30; // Maximum pieces for search text to be split.
-	SearchEnd[Splits]; // Parts.
+	Matches = false; And[0] = And[1] = true;
 
 	if(SearchText == "") // If there is no search text, list normally.
 	{
@@ -1659,20 +1657,21 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 	}
 	else
 	{
+		Splits = SplitTop;
 		Found = SearchText.find("|", 1); // Searching for separation mark in search text.
 		if((Found != string::npos) && 1 < (SearchText.length() - Found)) // Separation mark found and there is search text on its both sides.
 		{
 			// Splitting of search.
 			SearchEnd[0] = SearchText.substr(0, Found); // Cutting the first part.
-			SearchEnd[1] = SearchText.substr((Found+1), SearchText.length() - 1); // Cutting the remaining part.
+			SearchEnd[1] = SearchText.substr(Found+1); // Cutting the remaining part.
 
 			// Lets look if there are additional separation marks left.
 			for(short loop = 2;loop < Splits;loop++) // Splits over 2 parts if necessary.
 			{
-				Found = SearchEnd[loop-1].find("|");
-				if((Found != string::npos) && Found > 0 && 1 < (SearchEnd[loop-1].length() - Found))
+				Found = SearchEnd[loop-1].find("|", 1);
+				if((Found != string::npos) && 1 < (SearchEnd[loop-1].length() - Found))
 				{
-					SearchEnd[loop] = SearchEnd[loop-1].substr((Found+1), SearchEnd[loop-1].length() - 1);
+					SearchEnd[loop] = SearchEnd[loop-1].substr(Found+1);
 					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
 				}
 				else
@@ -1685,7 +1684,7 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			// Searching for matches.
 			for(short loop = 0;loop < Splits;loop++)
 			{
-				if(SearchEnd[loop] != "") // Can match only if not empty.
+				//if(SearchEnd[loop] != "") // Can match only if not empty.
 				{
 					if(CompareText.find(SearchEnd[loop]) != string::npos)
 					Matches = true;
@@ -1708,21 +1707,20 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 	else
 	{
 		Splits = SplitTop;
-		size_t Found; // Founding position.
-		Found = ExcludeText.find("|"); // Searching for separation mark in exclude text.
-		if((Found != string::npos) && Found > 0 && 1 < (ExcludeText.length() - Found)) // Separation mark found and there is exclude text on its both sides.
+		Found = ExcludeText.find("|", 1); // Searching for separation mark in exclude text.
+		if((Found != string::npos) && 1 < (ExcludeText.length() - Found)) // Separation mark found and there is exclude text on its both sides.
 		{
 			// Splitting of exclude.
 			SearchEnd[0] = ExcludeText.substr(0, Found); // Cutting the first part.
-			SearchEnd[1] = ExcludeText.substr((Found+1), ExcludeText.length() - 1); // Cutting the remaining part.
+			SearchEnd[1] = ExcludeText.substr(Found+1); // Cutting the remaining part.
 
 			// Lets look if there are additional separation marks left.
 			for(short loop = 2;loop < Splits;loop++) // Splits over 2 parts if necessary.
 			{
-				Found = SearchEnd[loop-1].find("|");
-				if((Found != string::npos) && Found > 0 && 1 < (SearchEnd[loop-1].length() - Found))
+				Found = SearchEnd[loop-1].find("|", 1);
+				if((Found != string::npos) && 1 < (SearchEnd[loop-1].length() - Found))
 				{
-					SearchEnd[loop] = SearchEnd[loop-1].substr((Found+1), SearchEnd[loop-1].length() - 1);
+					SearchEnd[loop] = SearchEnd[loop-1].substr(Found+1);
 					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
 				}
 				else
@@ -1735,7 +1733,7 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			// Searching for matches.
 			for(short loop = 0;loop < Splits;loop++)
 			{
-				if(SearchEnd[loop] != "") // Can match only if not empty.
+				//if(SearchEnd[loop] != "") // Can match only if not empty.
 				{
 					if(CompareText.find(SearchEnd[loop]) != string::npos)
 					Matches = false;

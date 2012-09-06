@@ -613,45 +613,32 @@ string AGE_Frame::GetTTBuildingName(short &Index)
 	}
 	else for(short loop = 0;loop < 2;loop++)
 	{
-		if(Selection[loop] == 1)	// Required Researches
+		switch(Selection[loop])
 		{
-			Name += "R ";
-			Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].RequiredResearches);
-		}
-		else if(Selection[loop] == 2)	// Age
-		{
-			Name += "A ";
-			Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Age);
-		}
-		else if(Selection[loop] == 3)	// Unit or Research 1
-		{
-			Name += "UR1 ";
-			Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].UnitOrResearch1);
-		}
-		else if(Selection[loop] == 4)	// Unit or Research 2
-		{
-			Name += "UR2 ";
-			Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].UnitOrResearch2);
-		}
-		else if(Selection[loop] == 5)	// U/R 1 Mode
-		{
-			Name += "1M ";
-			Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Mode1);
-		}
-		else if(Selection[loop] == 6)	// U/R 2 Mode
-		{
-			Name += "2M ";
-			Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Mode2);
-		}
-		else if(Selection[loop] == 7)	// Connections
-		{
-			Name += "C ";
-			Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Connections);
-		}
-		else if(Selection[loop] == 8)	// Enabling Research
-		{
-			Name += "E ";
-			Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].EnablingResearch);
+			case 1: // Required Researches
+				Name += "R "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].RequiredResearches);
+				break;
+			case 2: // Age
+				Name += "A "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Age);
+				break;
+			case 3: // Unit or Research 1
+				Name += "UR1 "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].UnitOrResearch1);
+				break;
+			case 4: // Unit or Research 2
+				Name += "UR2 "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].UnitOrResearch2);
+				break;
+			case 5: // U/R 1 Mode
+				Name += "1M "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Mode1);
+				break;
+			case 6: // U/R 2 Mode
+				Name += "2M "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Mode2);
+				break;
+			case 7: // Connections
+				Name += "C "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Connections);
+				break;
+			case 8: // Enabling Research
+				Name += "E "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].EnablingResearch);
+				break;
 		}
 		Name += ", ";
 		if(Selection[loop+1] < 1) break;
@@ -684,10 +671,7 @@ void AGE_Frame::ListTTBuildings()
 	SearchText = TechTrees_MainList_Buildings_Search->GetValue().Lower();
 	ExcludeText = TechTrees_MainList_Buildings_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(TechTrees_MainList_Buildings_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = TechTrees_MainList_Buildings_UseAnd[loop]->GetValue();
 
 	short Selections = TechTrees_MainList_Buildings_List->GetSelections(Items);
 	if(TechTrees_MainList_Buildings_List->GetCount() > 0) TechTrees_MainList_Buildings_List->Clear();
@@ -1361,65 +1345,44 @@ string AGE_Frame::GetTTUnitName(short &Index)
 	}
 	else for(short loop = 0;loop < 2;loop++)
 	{
-		if(Selection[loop] == 1)	// Upper Building
+		switch(Selection[loop])
 		{
-			Name += "U ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].UpperBuilding);
-		}
-		else if(Selection[loop] == 2)	// Required Researches
-		{
-			Name += "C ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].RequiredResearches);
-		}
-		else if(Selection[loop] == 3)	// Age
-		{
-			Name += "A ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].Age);
-		}
-		else if(Selection[loop] == 4)	// Unit or Research 1
-		{
-			Name += "UR1 ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].UnitOrResearch1);
-		}
-		else if(Selection[loop] == 5)	// Unit or Research 2
-		{
-			Name += "UR2 ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].UnitOrResearch2);
-		}
-		else if(Selection[loop] == 6)	// U/R 1 Mode
-		{
-			Name += "1M ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].Mode1);
-		}
-		else if(Selection[loop] == 7)	// U/R 2 Mode
-		{
-			Name += "2M ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].Mode2);
-		}
-		else if(Selection[loop] == 8)	// Vertical Line Number
-		{
-			Name += "V ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].VerticalLine);
-		}
-		else if(Selection[loop] == 9)	// Space Sharing
-		{
-			Name += "S ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].LocationInAge);
-		}
-		else if(Selection[loop] == 10)	// Required Research
-		{
-			Name += "R ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].RequiredResearch);
-		}
-		else if(Selection[loop] == 11)	// Placement
-		{
-			Name += "P ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].LineMode);
-		}
-		else if(Selection[loop] == 12)	// Enabling Research
-		{
-			Name += "E ";
-			Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].EnablingResearch);
+			case 1: // Upper Building
+				Name += "U "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].UpperBuilding);
+				break;
+			case 2: // Required Researches
+				Name += "C "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].RequiredResearches);
+				break;
+			case 3: // Age
+				Name += "A "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].Age);
+				break;
+			case 4: // Unit or Research 1
+				Name += "UR1 "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].UnitOrResearch1);
+				break;
+			case 5: // Unit or Research 2
+				Name += "UR2 "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].UnitOrResearch2);
+				break;
+			case 6: // U/R 1 Mode
+				Name += "1M "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].Mode1);
+				break;
+			case 7: // U/R 2 Mode
+				Name += "2M "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].Mode2);
+				break;
+			case 8: // Vertical Line Number
+				Name += "V "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].VerticalLine);
+				break;
+			case 9: // Space Sharing
+				Name += "S "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].LocationInAge);
+				break;
+			case 10: // Required Research
+				Name += "R "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].RequiredResearch);
+				break;
+			case 11: // Placement
+				Name += "P "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].LineMode);
+				break;
+			case 12: // Enabling Research
+				Name += "E "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].EnablingResearch);
+				break;
 		}
 		Name += ", ";
 		if(Selection[loop+1] < 1) break;
@@ -1452,10 +1415,7 @@ void AGE_Frame::ListTTUnits()
 	SearchText = TechTrees_MainList_Units_Search->GetValue().Lower();
 	ExcludeText = TechTrees_MainList_Units_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(TechTrees_MainList_Units_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = TechTrees_MainList_Units_UseAnd[loop]->GetValue();
 
 	short Selections = TechTrees_MainList_Units_List->GetSelections(Items);
 	if(TechTrees_MainList_Units_List->GetCount() > 0) TechTrees_MainList_Units_List->Clear();
@@ -1836,45 +1796,32 @@ string AGE_Frame::GetTTResearchName(short &Index)
 	}
 	else for(short loop = 0;loop < 2;loop++)
 	{
-		if(Selection[loop] == 1)	// Upper Building
+		switch(Selection[loop])
 		{
-			Name += "UB ";
-			Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].UpperBuilding);
-		}
-		else if(Selection[loop] == 2)	// Required Researches
-		{
-			Name += "RR ";
-			Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].RequiredResearches);
-		}
-		else if(Selection[loop] == 3)	// Age
-		{
-			Name += "A ";
-			Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].Age);
-		}
-		else if(Selection[loop] == 4)	// Upper Research
-		{
-			Name += "UR ";
-			Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].UpperResearch);
-		}
-		else if(Selection[loop] == 5)	// Line Mode
-		{
-			Name += "LM ";
-			Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].LineMode);
-		}
-		else if(Selection[loop] == 6)	// Vertical Line Number
-		{
-			Name += "VL ";
-			Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].VerticalLine);
-		}
-		else if(Selection[loop] == 7)	// Location In Age
-		{
-			Name += "LA ";
-			Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].LocationInAge);
-		}
-		else if(Selection[loop] == 8)	// First Age Mode
-		{
-			Name += "FA ";
-			Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].Unknown9);
+			case 1: // Upper Building
+				Name += "UB "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].UpperBuilding);
+				break;
+			case 2: // Required Researches
+				Name += "RR "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].RequiredResearches);
+				break;
+			case 3: // Age
+				Name += "A "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].Age);
+				break;
+			case 4: // Upper Research
+				Name += "UR "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].UpperResearch);
+				break;
+			case 5: // Line Mode
+				Name += "LM "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].LineMode);
+				break;
+			case 6: // Vertical Line Number
+				Name += "VL "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].VerticalLine);
+				break;
+			case 7: // Location In Age
+				Name += "LA "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].LocationInAge);
+				break;
+			case 8: // First Age Mode
+				Name += "FA "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].Unknown9);
+				break;
 		}
 		Name += ", ";
 		if(Selection[loop+1] < 1) break;
@@ -1907,10 +1854,7 @@ void AGE_Frame::ListTTResearches()
 	SearchText = TechTrees_MainList_Researches_Search->GetValue().Lower();
 	ExcludeText = TechTrees_MainList_Researches_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(TechTrees_MainList_Researches_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = TechTrees_MainList_Researches_UseAnd[loop]->GetValue();
 
 	short Selections = TechTrees_MainList_Researches_List->GetSelections(Items);
 	if(TechTrees_MainList_Researches_List->GetCount() > 0) TechTrees_MainList_Researches_List->Clear();
