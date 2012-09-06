@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/Techage.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -103,9 +102,9 @@ void AGE_Frame::OnTechageSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListTechages(bool Sized)
 {
-	string Name, CompareText;
-	SearchText = wxString(Techs_Techs_Search->GetValue()).Lower();
-	ExcludeText = wxString(Techs_Techs_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Techs_Techs_Search->GetValue().Lower();
+	ExcludeText = Techs_Techs_Search_R->GetValue().Lower();
 
 	short Selections = Techs_Techs_List->GetSelections(Items);
 	if(Techs_Techs_List->GetCount() > 0) Techs_Techs_List->Clear();
@@ -146,7 +145,7 @@ void AGE_Frame::ListTechages(bool Sized)
 	for(short loop = 0;loop < GenieFile->Techages.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTechageName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Techs_Techs_List->Append(Name, (void*)&GenieFile->Techages[loop]);
@@ -367,9 +366,9 @@ void AGE_Frame::OnEffectsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListEffects()
 {
-	string Name, CompareText;
-	SearchText = wxString(Techs_Effects_Search->GetValue()).Lower();
-	ExcludeText = wxString(Techs_Effects_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Techs_Effects_Search->GetValue().Lower();
+	ExcludeText = Techs_Effects_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
 	{
 		if(Techs_Effects_UseAnd[loop]->GetValue() == true)
@@ -382,7 +381,7 @@ void AGE_Frame::ListEffects()
 	for(short loop = 0;loop < GenieFile->Techages[TechIDs[0]].Effects.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetEffectName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Techs_Effects_List->Append(Name, (void*)&GenieFile->Techages[TechIDs[0]].Effects[loop]);
@@ -1064,9 +1063,9 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
 {
-	string Name, CompareText;
-	SearchText = wxString(Techs_AllEffects_Search->GetValue()).Lower();
-	ExcludeText = wxString(Techs_AllEffects_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Techs_AllEffects_Search->GetValue().Lower();
+	ExcludeText = Techs_AllEffects_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
 	{
 		if(Techs_AllEffects_UseAnd[loop]->GetValue() == true)
@@ -1083,7 +1082,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
 		for(short effect = 0;effect < GenieFile->Techages[tech].Effects.size();effect++)
 		{
 			Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect);
-			CompareText = wxString(Name).Lower();
+			CompareText = Name.Lower();
 			if(SearchMatches(CompareText))
 			{
 				Techs_AllEffects_List->Append(Name);

@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/Units.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -17,79 +16,76 @@ string AGE_Frame::GetUnitName(short &Index, short &UnitCivID, bool Filter)
 	string Name = "";
 	if(GenieFile->Civs[UnitCivID].UnitPointers[Index] == 0)
 	{
-		Name = "*Disabled*";
+		return "*Disabled*";
+	}
+	if(Filter)
+	{
+		short Selection[2];
+		for(short loop = 0;loop < 2;loop++)
+		Selection[loop] = Units_Units_SearchFilters[loop]->GetSelection();
+
+		if(Selection[0] > 1)
+		for(short loop = 0;loop < 2;loop++)
+		{
+			if(Selection[loop] == 2)	// Type
+			{
+				Name += "T "+lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[Index].Type);
+			}
+			else if(Selection[loop] == 3)	// Class
+			{
+				Name += "C "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Class);
+			}
+			else if(Selection[loop] == 4)	// Terrain Restriction
+			{
+				Name += "TR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].TerrainRestriction);
+			}
+			else if(Selection[loop] == 5)	// Max Range
+			{
+				switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
+				{
+					case 60:
+					case 70:
+					case 80:
+						Name += "MR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Projectile.MaxRange);
+					break;
+					default:
+						Name += "MR -1";
+				}
+			}
+			else if(Selection[loop] == 6)	// Train Location
+			{
+				switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
+				{
+					case 70:
+					case 80:
+						Name += "TL "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Creatable.TrainLocationID);
+					break;
+					default:
+						Name += "TL -1";
+				}
+			}
+			else if(Selection[loop] == 7)	// Pointer
+			{
+				Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[Index]);
+			}
+			Name += ", ";
+			if(Selection[loop+1] < 2) break;
+		}
+
+		if(Selection[0] != 1) Filter = false; // Names
+	}
+
+	if((LanguageDLLString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDLLName, 2) != "") && (Filter == false))
+	{
+		Name += LanguageDLLString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDLLName, 64);
+	}
+	else if(GenieFile->Civs[UnitCivID].Units[Index].Name != "")
+	{
+		Name += GenieFile->Civs[UnitCivID].Units[Index].Name;
 	}
 	else
 	{
-		if(Filter)
-		{
-			short Selection[2];
-			for(short loop = 0;loop < 2;loop++)
-			Selection[loop] = Units_Units_SearchFilters[loop]->GetSelection();
-
-			if(Selection[0] > 1)
-			for(short loop = 0;loop < 2;loop++)
-			{
-				if(Selection[loop] == 2)	// Type
-				{
-					Name += "T "+lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[Index].Type);
-				}
-				else if(Selection[loop] == 3)	// Class
-				{
-					Name += "C "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Class);
-				}
-				else if(Selection[loop] == 4)	// Terrain Restriction
-				{
-					Name += "TR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].TerrainRestriction);
-				}
-				else if(Selection[loop] == 5)	// Max Range
-				{
-					switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
-					{
-						case 60:
-						case 70:
-						case 80:
-							Name += "MR "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Projectile.MaxRange);
-						break;
-						default:
-							Name += "MR -1";
-					}
-				}
-				else if(Selection[loop] == 6)	// Train Location
-				{
-					switch(GenieFile->Civs[UnitCivID].Units[Index].Type)
-					{
-						case 70:
-						case 80:
-							Name += "TL "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[Index].Creatable.TrainLocationID);
-						break;
-						default:
-							Name += "TL -1";
-					}
-				}
-				else if(Selection[loop] == 7)	// Pointer
-				{
-					Name = lexical_cast<string>(GenieFile->Civs[UnitCivID].UnitPointers[Index]);
-				}
-				Name += ", ";
-				if(Selection[loop+1] < 2) break;
-			}
-
-			if(Selection[0] != 1) Filter = false; // Names
-		}
-
-		if((LanguageDLLString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDLLName, 2) != "") && (Filter == false))
-		{
-			Name += LanguageDLLString(GenieFile->Civs[UnitCivID].Units[Index].LanguageDLLName, 64);
-		}
-		else if(GenieFile->Civs[UnitCivID].Units[Index].Name != "")
-		{
-			Name += GenieFile->Civs[UnitCivID].Units[Index].Name;
-		}
-		else
-		{
-			Name += "New Unit";
-		}
+		Name += "New Unit";
 	}
 	return Name;
 }
@@ -105,9 +101,9 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 {
-	string Name, CompareText;
-	SearchText = wxString(Units_Units_Search->GetValue()).Lower();
-	ExcludeText = wxString(Units_Units_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Units_Units_Search->GetValue().Lower();
+	ExcludeText = Units_Units_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
 	{
 		if(Units_Units_UseAnd[loop]->GetValue() == true)
@@ -320,7 +316,7 @@ void AGE_Frame::ListUnits(short &UnitCivID, bool Sized)
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, UnitCivID, true);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[loop]);
@@ -1995,9 +1991,9 @@ void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListUnitDamageGraphics()
 {
-	string Name, CompareText;
-	SearchText = wxString(Units_DamageGraphics_Search->GetValue()).Lower();
-	ExcludeText = wxString(Units_DamageGraphics_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Units_DamageGraphics_Search->GetValue().Lower();
+	ExcludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
 
 	short Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Units_DamageGraphics_List->GetCount() > 0) Units_DamageGraphics_List->Clear();
@@ -2005,7 +2001,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[loop]);
@@ -2172,9 +2168,9 @@ void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListUnitAttacks()
 {
-	string Name, CompareText;
-	SearchText = wxString(Units_Attacks_Search->GetValue()).Lower();
-	ExcludeText = wxString(Units_Attacks_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Units_Attacks_Search->GetValue().Lower();
+	ExcludeText = Units_Attacks_Search_R->GetValue().Lower();
 
 	short Selections = Units_Attacks_List->GetSelections(Items);
 	if(Units_Attacks_List->GetCount() > 0) Units_Attacks_List->Clear();
@@ -2185,7 +2181,7 @@ void AGE_Frame::ListUnitAttacks()
 		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.size();loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
-			CompareText = wxString(Name).Lower();
+			CompareText = Name.Lower();
 			if(SearchMatches(CompareText))
 			{
 				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[loop]);
@@ -2351,9 +2347,9 @@ void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListUnitArmors()
 {
-	string Name, CompareText;
-	SearchText = wxString(Units_Armors_Search->GetValue()).Lower();
-	ExcludeText = wxString(Units_Armors_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Units_Armors_Search->GetValue().Lower();
+	ExcludeText = Units_Armors_Search_R->GetValue().Lower();
 
 	short Selections = Units_Armors_List->GetSelections(Items);
 	if(Units_Armors_List->GetCount() > 0) Units_Armors_List->Clear();
@@ -2364,7 +2360,7 @@ void AGE_Frame::ListUnitArmors()
 		for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.size();loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
-			CompareText = wxString(Name).Lower();
+			CompareText = Name.Lower();
 			if(SearchMatches(CompareText))
 			{
 				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[loop]);
@@ -2664,9 +2660,9 @@ void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListUnitCommands()
 {
-	string Name, CompareText;
-	SearchText = wxString(Units_UnitCommands_Search->GetValue()).Lower();
-	ExcludeText = wxString(Units_UnitCommands_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Units_UnitCommands_Search->GetValue().Lower();
+	ExcludeText = Units_UnitCommands_Search_R->GetValue().Lower();
 
 	short Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Units_UnitCommands_List->GetCount() > 0) Units_UnitCommands_List->Clear();
@@ -2676,7 +2672,7 @@ void AGE_Frame::ListUnitCommands()
 		for(short loop = 0;loop < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size();loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
-			CompareText = wxString(Name).Lower();
+			CompareText = Name.Lower();
 			if(SearchMatches(CompareText))
 			{
 				Units_UnitCommands_List->Append(Name, (void*)&GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop]);
@@ -2691,7 +2687,7 @@ void AGE_Frame::ListUnitCommands()
 			for(short loop = 0;loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size();loop++)
 			{
 				Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
-				CompareText = wxString(Name).Lower();
+				CompareText = Name.Lower();
 				if(SearchMatches(CompareText))
 				{
 					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop]);

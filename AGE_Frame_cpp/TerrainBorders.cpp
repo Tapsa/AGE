@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/TerrainBorders.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -24,9 +23,9 @@ void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListTerrainBorders()
 {
-	string Name, CompareText;
-	SearchText = wxString(Borders_Borders_Search->GetValue()).Lower();
-	ExcludeText = wxString(Borders_Borders_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Borders_Borders_Search->GetValue().Lower();
+	ExcludeText = Borders_Borders_Search_R->GetValue().Lower();
 
 	short Selections = Borders_Borders_List->GetSelections(Items);
 	if(Borders_Borders_List->GetCount() > 0) Borders_Borders_List->Clear();
@@ -34,7 +33,7 @@ void AGE_Frame::ListTerrainBorders()
 	for(short loop = 0;loop < GenieFile->TerrainBorders.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Borders_Borders_List->Append(Name, (void*)&GenieFile->TerrainBorders[loop]);
@@ -142,9 +141,9 @@ void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListTerrainBorderFrames()
 {
-	string Name, CompareText;
-	SearchText = wxString(Borders_Frames_Search->GetValue()).Lower();
-	ExcludeText = wxString(Borders_Frames_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Borders_Frames_Search->GetValue().Lower();
+	ExcludeText = Borders_Frames_Search_R->GetValue().Lower();
 
 	short Selections = Borders_Frames_List->GetSelections(Items);
 	if(Borders_Frames_List->GetCount() > 0) Borders_Frames_List->Clear();
@@ -152,7 +151,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 	for(short loop = 0;loop < GenieFile->TerrainBorders[BorderIDs[0]].Frames.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderFrameName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Borders_Frames_List->Append(Name, (void*)&GenieFile->TerrainBorders[BorderIDs[0]].Frames[loop]);

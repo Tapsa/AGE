@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/TerrainRestrictions.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -101,9 +100,9 @@ void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListTerrainRestrictions(bool Sized)
 {
-	string Name, CompareText;
-	SearchText = wxString(TerRestrict_TerRestrict_Search->GetValue()).Lower();
-	ExcludeText = wxString(TerRestrict_TerRestrict_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = TerRestrict_TerRestrict_Search->GetValue().Lower();
+	ExcludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
 
 	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(TerRestrict_TerRestrict_List->GetCount() > 0) TerRestrict_TerRestrict_List->Clear();
@@ -127,7 +126,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainRestrictionName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			TerRestrict_TerRestrict_List->Append(Name, (void*)&GenieFile->TerrainRestrictions[loop]);
