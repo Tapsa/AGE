@@ -14,74 +14,54 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 		if(Selection[0] > 1)
 		for(short loop = 0;loop < 2;loop++)
 		{
-			if(Selection[loop] == 2)	// Required Researches
+			switch(Selection[loop])
 			{
-				if(GenieFile->Researchs[Index].RequiredTechs[0] > 0)
-				Name += "R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[0]);
-				for(short loop = 1;loop < GenieFile->Researchs[Index].getRequiredTechsSize();loop++)
-				if(GenieFile->Researchs[Index].RequiredTechs[loop] > 0)
-				Name += ", R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[loop]);
-			}
-			else if(Selection[loop] == 3)	// Min. Req. Researches
-			{
-				Name += "MR ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechCount);
-			}
-			else if(Selection[loop] == 4)	// Research Location
-			{
-				Name += "RL ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].ResearchLocation);
-			}
-			else if(Selection[loop] == 5)	// Research Time
-			{
-				Name += "RT ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].ResearchTime);
-			}
-			else if(Selection[loop] == 6)	// Technology
-			{
-				Name += "Te ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].TechageID);
-			}
-			else if(Selection[loop] == 7)	// Type
-			{
-				Name += "T ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].Type);
-			}
-			else if(Selection[loop] == 8)	// Icon
-			{
-				Name += "I ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].IconID);
-			}
-			else if(Selection[loop] == 9)	// Button
-			{
-				Name += "B ";
-				Name += lexical_cast<string>((short)GenieFile->Researchs[Index].ButtonID);
-			}
-			else if(Selection[loop] == 10)	// Lang DLL Pointer
-			{
-				Name += "LP ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].Pointers[0]);
-			}
-			else if(Selection[loop] == 11)	// Pointer 2
-			{
-				Name += "P2 ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].Pointers[1]);
-			}
-			else if(Selection[loop] == 12)	// Pointer 3
-			{
-				Name += "P3 ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].Pointers[2]);
-			}
-			else if(GameVersion < 2);
-			else if(Selection[loop] == 13)	// Civilization
-			{
-				Name += "C ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].Civ);
-			}
-			else if(Selection[loop] == 14)	// Full Tech. Mode
-			{
-				Name += "F ";
-				Name += lexical_cast<string>(GenieFile->Researchs[Index].FullTechMode);
+				case 2: // Required Researches
+					if(GenieFile->Researchs[Index].RequiredTechs[0] > 0)
+					Name += "R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[0]);
+					for(short loop = 1;loop < GenieFile->Researchs[Index].getRequiredTechsSize();loop++)
+					if(GenieFile->Researchs[Index].RequiredTechs[loop] > 0)
+					Name += ", R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[loop]);
+					break;
+				case 3: // Min. Req. Researches
+					Name += "MR "+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechCount);
+					break;
+				case 4: // Research Location
+					Name += "RL "+lexical_cast<string>(GenieFile->Researchs[Index].ResearchLocation);
+					break;
+				case 5: // Research Time
+					Name += "RT "+lexical_cast<string>(GenieFile->Researchs[Index].ResearchTime);
+					break;
+				case 6: // Technology
+					Name += "Te "+lexical_cast<string>(GenieFile->Researchs[Index].TechageID);
+					break;
+				case 7: // Type
+					Name += "T "+lexical_cast<string>(GenieFile->Researchs[Index].Type);
+					break;
+				case 8: // Icon
+					Name += "I "+lexical_cast<string>(GenieFile->Researchs[Index].IconID);
+					break;
+				case 9: // Button
+					Name += "B "+lexical_cast<string>((short)GenieFile->Researchs[Index].ButtonID);
+					break;
+				case 10: // Lang DLL Pointer
+					Name += "LP "+lexical_cast<string>(GenieFile->Researchs[Index].Pointers[0]);
+					break;
+				case 11: // Pointer 2
+					Name += "P2 "+lexical_cast<string>(GenieFile->Researchs[Index].Pointers[1]);
+					break;
+				case 12: // Pointer 3
+					Name += "P3 "+lexical_cast<string>(GenieFile->Researchs[Index].Pointers[2]);
+					break;
+				if(GameVersion >= 2)
+				{
+				case 13: // Civilization
+					Name += "C "+lexical_cast<string>(GenieFile->Researchs[Index].Civ);
+					break;
+				case 14: // Full Tech. Mode
+					Name += "F "+lexical_cast<string>(GenieFile->Researchs[Index].FullTechMode);
+					break;
+				}
 			}
 			Name += ", ";
 			if(Selection[loop+1] < 2) break;
@@ -115,10 +95,7 @@ void AGE_Frame::ListResearches(bool Sized)
 	SearchText = Research_Research_Search->GetValue().Lower();
 	ExcludeText = Research_Research_Search_R->GetValue().Lower();
 	for(short loop = 0;loop < 2;loop++)
-	{
-		if(Research_Research_UseAnd[loop]->GetValue() == true)
-		UseAnd[loop] = true; else UseAnd[loop] = false;
-	}
+	UseAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 
 	short Selections = Research_Research_List->GetSelections(Items);
 	if(Research_Research_List->GetCount() > 0) Research_Research_List->Clear();

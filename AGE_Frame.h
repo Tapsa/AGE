@@ -162,7 +162,8 @@ class AGE_Frame : public wxFrame
 //	Other Methods
 
 //	bool FileExists(const char * value);
-	wxString SearchText, ExcludeText, SearchEnd[];
+	wxString SearchText, ExcludeText;
+	vector<wxString> SearchEnd;
 	size_t Found; // Founding position.
 	bool Matches, And[2];
 	short Splits, SplitTop; // Max splits for search texts.
