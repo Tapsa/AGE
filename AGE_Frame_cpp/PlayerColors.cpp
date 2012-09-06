@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/PlayerColors.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -19,9 +18,9 @@ string AGE_Frame::GetPlayerColorName(short &Index)
 
 void AGE_Frame::ListPlayerColors()
 {
-	string Name, CompareText;
-	SearchText = wxString(Colors_Colors_Search->GetValue()).Lower();
-	ExcludeText = wxString(Colors_Colors_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = Colors_Colors_Search->GetValue().Lower();
+	ExcludeText = Colors_Colors_Search_R->GetValue().Lower();
 
 	short Selections = Colors_Colors_List->GetSelections(Items);
 	if(Colors_Colors_List->GetCount() > 0) Colors_Colors_List->Clear();
@@ -29,7 +28,7 @@ void AGE_Frame::ListPlayerColors()
 	for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);

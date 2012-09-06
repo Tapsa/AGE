@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/UnitLine.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
@@ -24,9 +23,9 @@ void AGE_Frame::OnUnitLinesSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListUnitLines()
 {
-	string Name, CompareText;
-	SearchText = wxString(UnitLines_UnitLines_Search->GetValue()).Lower();
-	ExcludeText = wxString(UnitLines_UnitLines_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = UnitLines_UnitLines_Search->GetValue().Lower();
+	ExcludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
 
 	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	short UnitIDs = Units_ComboBox_Unitline->GetSelection();
@@ -50,7 +49,7 @@ void AGE_Frame::ListUnitLines()
 	for(short loop = 0;loop < GenieFile->UnitLines.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			UnitLines_UnitLines_List->Append(Name, (void*)&GenieFile->UnitLines[loop]);
@@ -202,9 +201,9 @@ void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::ListUnitLineUnits()
 {
-	string Name, CompareText;
-	SearchText = wxString(UnitLines_UnitLineUnits_Search->GetValue()).Lower();
-	ExcludeText = wxString(UnitLines_UnitLineUnits_Search_R->GetValue()).Lower();
+	wxString Name, CompareText;
+	SearchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
+	ExcludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
 
 	short Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(UnitLines_UnitLineUnits_List->GetCount() > 0) UnitLines_UnitLineUnits_List->Clear();
@@ -212,7 +211,7 @@ void AGE_Frame::ListUnitLineUnits()
 	for(short loop = 0;loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size();loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(loop);
-		CompareText = wxString(Name).Lower();
+		CompareText = Name.Lower();
 		if(SearchMatches(CompareText))
 		{
 			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);

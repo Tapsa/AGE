@@ -14,6 +14,7 @@ find_package(ZLIB REQUIRED)
 find_package(Boost 1.42 COMPONENTS iostreams REQUIRED)
 
 if (GUTILS_TEST)
+  set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
   find_package(SFML COMPONENTS SYSTEM WINDOW GRAPHICS REQUIRED)
 endif (GUTILS_TEST)
 
@@ -45,7 +46,7 @@ set(FILE_SRC
     src/file/ISerializable.cpp
     src/file/IFile.cpp
     src/file/Compressor.cpp
-	zlib.cpp
+    zlib.cpp
     )
 
 set(LANG_SRC
@@ -119,18 +120,17 @@ set(EXTRACT_SRC src/tools/extract/datextract.cpp)
 
 set(BINCOMP_SRC src/tools/bincompare/bincomp.cpp
                 src/tools/bincompare/main.cpp)
-
+                
 set(PCRIO_SRC extern/pcrio/pcrio.c)
 set_source_files_properties(extern/pcrio/pcrio.c PROPERTIES LANGUAGE CXX )
-
 
 
 #------------------------------------------------------------------------------#
 # Executeable:
 #------------------------------------------------------------------------------#
 
-add_library(${Genieutils_LIBRARY} STATIC ${FILE_SRC} ${LANG_SRC} ${DAT_SRC}
-                                  ${RESOURCE_SRC} ${UTIL_SRC} ${SCRIPT_SRC}
+add_library(${Genieutils_LIBRARY} STATIC ${FILE_SRC} ${LANG_SRC} ${DAT_SRC} 
+                                  ${RESOURCE_SRC} ${UTIL_SRC} ${SCRIPT_SRC} 
                                   ${PCRIO_SRC})
 target_link_libraries(${Genieutils_LIBRARY} ${ZLIB_LIBRARIES} ${Boost_LIBRARIES})
 
