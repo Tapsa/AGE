@@ -386,7 +386,7 @@ class AGE_Frame : public wxFrame
 	void OnResourcesCopyToAll(wxCommandEvent& Event);
 	string GetResourceName(short &Index);
 
-	void ListUnits(short &CivID, bool Sized = true);
+	void ListUnits(short &civ, bool Sized = true);
 	void OnUnitsSearch(wxCommandEvent& Event);
 	void OnUnitsSelect(wxCommandEvent& Event);
 	void OnUnitsAdd(wxCommandEvent& Event);
@@ -405,7 +405,7 @@ class AGE_Frame : public wxFrame
 	void OnUnitsExtract(wxCommandEvent& Event);
 	void OnUnitsImport(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
-	string GetUnitName(short &Index, short &CivID, bool Filter = false);
+	string GetUnitName(short &Index, short &civ, bool Filter = false);
 
 	void ListUnitDamageGraphics();
 	void OnUnitDamageGraphicsSearch(wxCommandEvent& Event);
@@ -439,7 +439,7 @@ class AGE_Frame : public wxFrame
 
 //	Unit Events
 
-	void ListUnitHeads(short &CivID);
+	void ListUnitHeads(short &civ);
 	void OnUnitHeadsSelect(wxCommandEvent& Event);
 
 	void ListUnitCommands();
