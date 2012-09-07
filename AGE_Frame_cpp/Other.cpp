@@ -562,7 +562,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
 				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
 			}
-			else	// SWGB and CC
+			else if(GameVersion >= 4) // SWGB and CC
 			{
 				Attacks_ComboBox_Class[loop]->Append("0 - Aircraft");	// Selection 1
 				// Airspeeder
@@ -718,7 +718,40 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Cu-pa
 				// Womp Rat
 			}
-			//Well, if best APUs can run any game 1080p on lowest settings without considerable lag, I might consider buying one.
+			else // AoE and RoR
+			{	// Use "atc -1|arc -1|disa" to discover these!
+				Attacks_ComboBox_Class[loop]->Append("0 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 2
+				Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
+				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
+				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
+				Attacks_ComboBox_Class[loop]->Append("5 - War Elephants");
+				Attacks_ComboBox_Class[loop]->Append("6 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("7 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
+				Attacks_ComboBox_Class[loop]->Append("9 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("10 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("11 - All Buildings (except Port)");
+				Attacks_ComboBox_Class[loop]->Append("12 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("13 - Stone Defense");
+				Attacks_ComboBox_Class[loop]->Append("14 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("15 - Archers");
+				Attacks_ComboBox_Class[loop]->Append("16 - Ships & Camels & Saboteurs");
+				Attacks_ComboBox_Class[loop]->Append("17 - Rams");
+				Attacks_ComboBox_Class[loop]->Append("18 - Trees");
+				Attacks_ComboBox_Class[loop]->Append("19 - Unique Units (except Turtle Ship)");
+				Attacks_ComboBox_Class[loop]->Append("20 - Siege Weapons");
+				Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
+				Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
+				Attacks_ComboBox_Class[loop]->Append("23 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("24 - Boars");
+				Attacks_ComboBox_Class[loop]->Append("25 - Monks");
+				Attacks_ComboBox_Class[loop]->Append("26 - Castle");
+				Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
+				Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
+				Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
+				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
+			}
 			for(short loop2 = 0;loop2 < ExtraCount;loop2++)
 			{
 				Customs->Read("Names/"+lexical_cast<string>(loop2+31), &MoveHolder, lexical_cast<string>(loop2+31)+" - Extra Class");
@@ -741,6 +774,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
 			Units_Units_SearchFilters[loop]->Append("Max Range");
 			Units_Units_SearchFilters[loop]->Append("Train Location");
+			Units_Units_SearchFilters[loop]->Append("Attacks");
+			Units_Units_SearchFilters[loop]->Append("Armors");
 			Units_Units_SearchFilters[loop]->Append("Pointer");
 		/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
 			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
@@ -1684,12 +1719,9 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			// Searching for matches.
 			for(short loop = 0;loop < Splits;loop++)
 			{
-				//if(SearchEnd[loop] != "") // Can match only if not empty.
-				{
-					if(CompareText.find(SearchEnd[loop]) != string::npos)
-					Matches = true;
-					else And[0] = false;
-				}
+				if(CompareText.find(SearchEnd[loop]) != string::npos)
+				Matches = true;
+				else And[0] = false;
 			}
 			if(UseAnd[0] == true && And[0] == false && Matches == true) Matches = false;
 		}
@@ -1733,12 +1765,9 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			// Searching for matches.
 			for(short loop = 0;loop < Splits;loop++)
 			{
-				//if(SearchEnd[loop] != "") // Can match only if not empty.
-				{
-					if(CompareText.find(SearchEnd[loop]) != string::npos)
-					Matches = false;
-					else And[1] = false;
-				}
+				if(CompareText.find(SearchEnd[loop]) != string::npos)
+				Matches = false;
+				else And[1] = false;
 			}
 			if(UseAnd[1] == true && And[1] == false && Matches == false) Matches = true;
 		}
