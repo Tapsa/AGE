@@ -720,36 +720,36 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			}
 			else // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
-				Attacks_ComboBox_Class[loop]->Append("0 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 2
-				Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
+				Attacks_ComboBox_Class[loop]->Append("0 - Stone Defense & Fire Galley");
+				Attacks_ComboBox_Class[loop]->Append("1 - Stone Defense & Archers");
+				Attacks_ComboBox_Class[loop]->Append("2 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
 				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
-				Attacks_ComboBox_Class[loop]->Append("5 - War Elephants");
-				Attacks_ComboBox_Class[loop]->Append("6 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("7 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("5 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("6 - Buildings");
+				Attacks_ComboBox_Class[loop]->Append("7 - Priests");
 				Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
-				Attacks_ComboBox_Class[loop]->Append("9 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("10 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("11 - All Buildings (except Port)");
-				Attacks_ComboBox_Class[loop]->Append("12 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("13 - Stone Defense");
+				Attacks_ComboBox_Class[loop]->Append("9 - Infantry");
+				Attacks_ComboBox_Class[loop]->Append("10 - Stone Defense");
+				Attacks_ComboBox_Class[loop]->Append("11 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("12 - Villagers & Gazelles & Medusa");
+				Attacks_ComboBox_Class[loop]->Append("13 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("14 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("15 - Archers");
-				Attacks_ComboBox_Class[loop]->Append("16 - Ships & Camels & Saboteurs");
-				Attacks_ComboBox_Class[loop]->Append("17 - Rams");
-				Attacks_ComboBox_Class[loop]->Append("18 - Trees");
-				Attacks_ComboBox_Class[loop]->Append("19 - Unique Units (except Turtle Ship)");
-				Attacks_ComboBox_Class[loop]->Append("20 - Siege Weapons");
-				Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
-				Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
+				Attacks_ComboBox_Class[loop]->Append("15 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("16 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("17 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("18 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("19 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("20 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("21 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("22 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("23 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("24 - Boars");
-				Attacks_ComboBox_Class[loop]->Append("25 - Monks");
-				Attacks_ComboBox_Class[loop]->Append("26 - Castle");
-				Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
-				Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
-				Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
+				Attacks_ComboBox_Class[loop]->Append("24 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("25 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("26 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("27 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("28 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("29 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
 			}
 			for(short loop2 = 0;loop2 < ExtraCount;loop2++)

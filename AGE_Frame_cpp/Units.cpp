@@ -1973,7 +1973,7 @@ string AGE_Frame::GetUnitDamageGraphicName(short &Index)
 	Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].DamagePercent);
 	Name += " % - ID: ";
 	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].GraphicID);
-	return Name;
+	return Name+" ";
 }
 
 void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent& Event)
@@ -2150,7 +2150,7 @@ string AGE_Frame::GetUnitAttackName(short &Index)
 	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Amount);
 	Name += " - Class ";
 	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Class);
-	return Name;
+	return Name+" ";
 }
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent& Event)
@@ -2329,7 +2329,7 @@ string AGE_Frame::GetUnitArmorName(short &Index)
 	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Amount);
 	Name += " - Class ";
 	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Class);
-	return Name;
+	return Name+" ";
 }
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent& Event)
