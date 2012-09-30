@@ -8,18 +8,18 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 	if(Filter)
 	{
 		short Selection[2];
-		for(short loop = 0;loop < 2;loop++)
+		for(short loop=0; loop < 2; loop++)
 		Selection[loop] = Research_Research_SearchFilters[loop]->GetSelection();
 
 		if(Selection[0] > 1)
-		for(short loop = 0;loop < 2;loop++)
+		for(short loop=0; loop < 2; loop++)
 		{
 			switch(Selection[loop])
 			{
 				case 2: // Required Researches
 					if(GenieFile->Researchs[Index].RequiredTechs[0] > 0)
 					Name += "R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[0]);
-					for(short loop = 1;loop < GenieFile->Researchs[Index].getRequiredTechsSize();loop++)
+					for(short loop = 1;loop < GenieFile->Researchs[Index].getRequiredTechsSize(); loop++)
 					if(GenieFile->Researchs[Index].RequiredTechs[loop] > 0)
 					Name += ", R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[loop]);
 					break;
@@ -94,7 +94,7 @@ void AGE_Frame::ListResearches(bool Sized)
 	wxString Name, CompareText;
 	SearchText = Research_Research_Search->GetValue().Lower();
 	ExcludeText = Research_Research_Search_R->GetValue().Lower();
-	for(short loop = 0;loop < 2;loop++)
+	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 
 	short Selections = Research_Research_List->GetSelections(Items);
@@ -106,7 +106,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
 		ResearchIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
 		ResearchIDs[2] = Units_ComboBox_ResearchID->GetSelection();
-		for(short loop = 0;loop < 6;loop++)
+		for(short loop=0; loop < 6; loop++)
 		ResearchIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
 		ResearchIDs[9] = TechTrees_Ages_ComboBox_Research->GetSelection();
 		ResearchIDs[10] = TechTrees_Buildings_ComboBox_EnablingResearch->GetSelection();
@@ -116,7 +116,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		ResearchIDs[14] = TechTrees_Researches_ComboBox_UpperResearch->GetSelection();
 		ResearchIDs[15] = TechTrees_Researches_ComboBox_Research->GetSelection();
 		ResearchIDs[16] = TechTrees_Units_ComboBox_RequiredResearch->GetSelection();
-		for(short loop = 0;loop < 4;loop++)
+		for(short loop=0; loop < 4; loop++)
 		ResearchIDs[loop+17] = TechTrees_ComboBox_Research[loop]->GetSelection();
 
 		if(Effects_ComboBox_ResearchsD->GetCount() > 0)
@@ -131,7 +131,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		{
 			Units_ComboBox_ResearchID->Clear();
 		}
-		for(short loop = 0;loop < 6;loop++)
+		for(short loop=0; loop < 6; loop++)
 		{
 			if(Research_ComboBox_RequiredTechs[loop]->GetCount() > 0)
 			{
@@ -170,13 +170,13 @@ void AGE_Frame::ListResearches(bool Sized)
 		{
 			TechTrees_Units_ComboBox_RequiredResearch->Clear();
 		}
-		for(short loop = 0;loop < 4;loop++)
+		for(short loop=0; loop < 4; loop++)
 		if(TechTrees_ComboBox_Research[loop]->GetCount() > 0)
 		{
 			TechTrees_ComboBox_Research[loop]->Clear();
 		}
 
-		for(short loop = 0;loop < IDCount;loop++)
+		for(short loop=0; loop < IDCount; loop++)
 		{
 			if(ResearchIDs[loop] == wxNOT_FOUND)
 			{
@@ -187,7 +187,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		Effects_ComboBox_ResearchsD->Append("-1 - None");
 		Effects_ComboBox_ResearchsA->Append("-1 - None");
 		Units_ComboBox_ResearchID->Append("-1 - None");
-		for(short loop = 0;loop < 6;loop++)
+		for(short loop=0; loop < 6; loop++)
 		Research_ComboBox_RequiredTechs[loop]->Append("-1 - None");
 		TechTrees_Ages_ComboBox_Research->Append("-1 - None");
 		TechTrees_Buildings_ComboBox_EnablingResearch->Append("-1 - None");
@@ -197,11 +197,11 @@ void AGE_Frame::ListResearches(bool Sized)
 		TechTrees_Researches_ComboBox_UpperResearch->Append("-1 - None");
 		TechTrees_Researches_ComboBox_Research->Append("-1 - None");
 		TechTrees_Units_ComboBox_RequiredResearch->Append("-1 - None");
-		for(short loop = 0;loop < 4;loop++)
+		for(short loop=0; loop < 4; loop++)
 		TechTrees_ComboBox_Research[loop]->Append("-1 - None");
 	}
 
-	for(short loop = 0;loop < GenieFile->Researchs.size();loop++)
+	for(short loop=0; loop < GenieFile->Researchs.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
 		CompareText = Name.Lower();
@@ -215,7 +215,7 @@ void AGE_Frame::ListResearches(bool Sized)
 			Effects_ComboBox_ResearchsD->Append(Name);
 			Effects_ComboBox_ResearchsA->Append(Name);
 			Units_ComboBox_ResearchID->Append(Name);
-			for(short loop = 0;loop < 6;loop++)
+			for(short loop=0; loop < 6; loop++)
 			Research_ComboBox_RequiredTechs[loop]->Append(Name);
 			TechTrees_Ages_ComboBox_Research->Append(Name);
 			TechTrees_Buildings_ComboBox_EnablingResearch->Append(Name);
@@ -225,7 +225,7 @@ void AGE_Frame::ListResearches(bool Sized)
 			TechTrees_Researches_ComboBox_UpperResearch->Append(Name);
 			TechTrees_Researches_ComboBox_Research->Append(Name);
 			TechTrees_Units_ComboBox_RequiredResearch->Append(Name);
-			for(short loop = 0;loop < 4;loop++)
+			for(short loop=0; loop < 4; loop++)
 			TechTrees_ComboBox_Research[loop]->Append(Name);
 		}
 	}
@@ -236,7 +236,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
 		Effects_ComboBox_ResearchsA->SetSelection(ResearchIDs[1]);
 		Units_ComboBox_ResearchID->SetSelection(ResearchIDs[2]);
-		for(short loop = 0;loop < 6;loop++)
+		for(short loop=0; loop < 6; loop++)
 		Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchIDs[loop+3]);
 		TechTrees_Ages_ComboBox_Research->SetSelection(ResearchIDs[9]);
 		TechTrees_Buildings_ComboBox_EnablingResearch->SetSelection(ResearchIDs[10]);
@@ -246,11 +246,11 @@ void AGE_Frame::ListResearches(bool Sized)
 		TechTrees_Researches_ComboBox_UpperResearch->SetSelection(ResearchIDs[14]);
 		TechTrees_Researches_ComboBox_Research->SetSelection(ResearchIDs[15]);
 		TechTrees_Units_ComboBox_RequiredResearch->SetSelection(ResearchIDs[16]);
-		for(short loop = 0;loop < 4;loop++)
+		for(short loop=0; loop < 4; loop++)
 		TechTrees_ComboBox_Research[loop]->SetSelection(ResearchIDs[loop+17]);
 	}
 
-	for(short loop = 0;loop < 2;loop++)
+	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = false;
 
 	wxCommandEvent E;
@@ -270,7 +270,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 			ResearchIDs[loop] = (ResearchPointer - (&GenieFile->Researchs[0]));
 		}
 		short RequiredTechs;
-		for(short loop = 4;loop < 6;loop++)
+		for(short loop = 4;loop < 6; loop++)
 		{
 			if(GameVersion >= 2)
 			{
@@ -281,7 +281,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 				RequiredTechs = 4;
 			}
 		}
-		for(short loop = 0;loop < RequiredTechs;loop++)
+		for(short loop=0; loop < RequiredTechs; loop++)
 		{
 			Research_RequiredTechs[loop]->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechs[loop]));
 			Research_RequiredTechs[loop]->Container = &ResearchPointer->RequiredTechs[loop];
@@ -337,7 +337,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 		Research_DLL_LangDLLName->SetLabel(LanguageDLLString(ResearchPointer->LanguageDLLName, 64));
 		Research_LangDLLDescription->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLDescription));
 		Research_LangDLLDescription->Container = &ResearchPointer->LanguageDLLDescription;
-		Research_DLL_LangDLLDescription->SetLabel(LanguageDLLString(ResearchPointer->LanguageDLLDescription, 64));
+		Research_DLL_LangDLLDescription->SetLabel(LanguageDLLString(ResearchPointer->LanguageDLLDescription, 128));
 		Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
 		Research_ResearchTime->Container = &ResearchPointer->ResearchTime;
 		Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
@@ -408,7 +408,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		ResearchCopies.resize(Selections);
-		for(short loop = 0;loop < Selections;loop++)
+		for(short loop=0; loop < Selections; loop++)
 		ResearchCopies[loop] = GenieFile->Researchs[ResearchIDs[loop]];
 	}
 }
@@ -421,7 +421,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		if(ResearchCopies.size()+ResearchIDs[0] > GenieFile->Researchs.size())
 		GenieFile->Researchs.resize(ResearchCopies.size()+ResearchIDs[0]);
-		for(short loop = 0;loop < ResearchCopies.size();loop++)
+		for(short loop=0; loop < ResearchCopies.size(); loop++)
 		GenieFile->Researchs[ResearchIDs[0]+loop] = ResearchCopies[loop];
 		ListResearches();
 	}
@@ -435,7 +435,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		genie::Research Temp;
 		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], ResearchCopies.size(), Temp);
-		for(short loop = 0;loop < ResearchCopies.size();loop++)
+		for(short loop=0; loop < ResearchCopies.size(); loop++)
 		GenieFile->Researchs[ResearchIDs[0]+loop] = ResearchCopies[loop];
 		ListResearches();
 	}
@@ -507,7 +507,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Research_Research_Search_R = new wxTextCtrl(Tab_Research, wxID_ANY);
 	Research_Research_UseAnd[1] = new wxCheckBox(Tab_Research, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	for(short loop = 0;loop < 2;loop++)
+	for(short loop=0; loop < 2; loop++)
 	{
 		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Research_Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -548,7 +548,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_PointerArea = new wxBoxSizer(wxHORIZONTAL);
 	Research_Holder_Names = new wxBoxSizer(wxHORIZONTAL);
 
-	for(short loop = 0;loop < 6;loop++)
+	for(short loop=0; loop < 6; loop++)
 	{
 		Research_RequiredTechs[loop] = new TextCtrl_Short(Research_Scroller, "0", NULL);
 		Research_ComboBox_RequiredTechs[loop] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[loop]);
@@ -575,7 +575,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_Type = new wxBoxSizer(wxVERTICAL);
 	Research_Text_Type = new wxStaticText(Research_Scroller, wxID_ANY, " Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Type = new TextCtrl_Short(Research_Scroller, "0", NULL);
-	Research_Type->SetToolTip("0 Normal\n2 Age");
+	Research_Type->SetToolTip("0 Normal\n2 Age\nAoE/RoR usages:\n1 = dock\n2 = granary\n3 = temple\n4 = market\n5 = government center\n6 = storage pit\n7 = siege workshop\n8 = archery range\n9 = barracks\n10 = stable\n11 = academy\n12 = town center");
 	Research_Holder_ResearchTime = new wxBoxSizer(wxVERTICAL);
 	Research_Text_ResearchTime = new wxStaticText(Research_Scroller, wxID_ANY, " Research Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_ResearchTime = new TextCtrl_Short(Research_Scroller, "0", NULL);
@@ -594,7 +594,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Text_Amount = new wxStaticText(Research_Scroller, wxID_ANY, "Cost Amount ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Research_Text_Used = new wxStaticText(Research_Scroller, wxID_ANY, "Cost Used ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Research_ResourceGrid = new wxGridSizer(3, 0, 5);
-	for(short loop = 0;loop < 3;loop++)
+	for(short loop=0; loop < 3; loop++)
 	{
 		Research_Resources[loop] = new TextCtrl_Short(Research_Scroller, "0", NULL);
 		Research_ComboBox_Resources[loop] = new ComboBox_Short(Research_Scroller, Research_Resources[loop]);
@@ -603,13 +603,13 @@ void AGE_Frame::CreateResearchControls()
 		Research_CheckBox_Used[loop] = new CheckBox_Byte(Research_Scroller, "Used", Research_Used[loop]);
 	}
 
-	for(short loop = 0;loop < 3;loop++)
+	for(short loop=0; loop < 3; loop++)
 	Research_Holder_Pointers[loop] = new wxBoxSizer(wxVERTICAL);
-	Research_Text_Pointers[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Pointer 1 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Text_Pointers[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Popup *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[0] = new TextCtrl_Long(Research_Scroller, "0", NULL);
 	Research_Pointers[0]->SetToolTip("100000 + Language DLL Name");
 	Research_DLL_Pointers[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
-	Research_Text_Pointers[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Pointer 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Text_Pointers[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[1] = new TextCtrl_Long(Research_Scroller, "0", NULL);
 	Research_Pointers[1]->SetToolTip("150000 + Language DLL Name");
 	Research_DLL_Pointers[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
@@ -629,9 +629,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research_Searches[1]->Add(Research_Research_Search_R, 1, wxEXPAND);
 	Research_Research_Searches[1]->Add(2, -1);
 	Research_Research_Searches[1]->Add(Research_Research_UseAnd[1], 0, wxEXPAND);
-	for(short loop = 0;loop < 2;loop++)
+	for(short loop=0; loop < 2; loop++)
 	Research_Research->Add(Research_Research_Searches[loop], 0, wxEXPAND);
-	for(short loop = 0;loop < 2;loop++)
+	for(short loop=0; loop < 2; loop++)
 	Research_Research->Add(Research_Research_SearchFilters[loop], 0, wxEXPAND);
 	Research_Research->Add(-1, 2);
 	Research_Research->Add(Research_Research_List, 1, wxEXPAND);
@@ -642,7 +642,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_ListArea->Add(Research_Research, 1, wxEXPAND);
 	Research_ListArea->Add(-1, 10);
 
-	for(short loop = 0;loop < 2;loop++)
+	for(short loop=0; loop < 2; loop++)
 	{
 		Research_Holder_Name[loop]->Add(Research_Text_Name[loop], 0, wxEXPAND);
 		Research_Holder_Name[loop]->Add(Research_Name[loop], 1, wxEXPAND);
@@ -663,9 +663,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_LangDLLArea->Add(5, -1);
 	Research_Holder_LangDLLArea->Add(Research_Holder_LangDLLDescription, 1, wxEXPAND);
 
-	for(short loop = 0;loop < 3;loop++)
+	for(short loop=0; loop < 3; loop++)
 	Research_ResourceGrid->Add(Research_Resources[loop], 1, wxEXPAND);
-	for(short loop = 0;loop < 3;loop++)
+	for(short loop=0; loop < 3; loop++)
 	Research_ResourceGrid->Add(Research_ComboBox_Resources[loop], 1, wxEXPAND);
 
 	Research_Holder_CostType->Add(Research_Text_Resources, 1, wxEXPAND);
@@ -697,9 +697,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_CostHeader->Add(-1, 5);
 	Research_Holder_CostHeader->Add(Research_Holder_CostUsed, 0, wxEXPAND);
 
-	for(short loop = 0;loop < 6;loop++)
+	for(short loop=0; loop < 6; loop++)
 	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[loop], 1, wxEXPAND);
-	for(short loop = 0;loop < 6;loop++)
+	for(short loop=0; loop < 6; loop++)
 	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[loop], 1, wxEXPAND);
 
 	Research_Holder_RequiredTechArea->Add(Research_Text_RequiredTechArea, 0, wxEXPAND);
@@ -800,7 +800,7 @@ void AGE_Frame::CreateResearchControls()
 
 	Connect(Research_Research_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
 	Connect(Research_Research_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
-	for(short loop = 0;loop < 2;loop++)
+	for(short loop=0; loop < 2; loop++)
 	{
 		Connect(Research_Research_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
 		Connect(Research_Research_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));

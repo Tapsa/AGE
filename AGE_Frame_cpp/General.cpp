@@ -116,20 +116,20 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 {
 //
 	{
-		for(short loop = 0;loop < 138;loop++)
+		for(short loop=0; loop < 138; loop++)
 		{
 			General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->GraphicsRendering[loop]));
 			General_TerrainHeader[loop]->Container = &GenieFile->GraphicsRendering[loop];
 		}
 		General_TechTreePicker->ChangeValue(lexical_cast<string>(TechTreePage));
-		for(long loop = 0;loop < 256;loop++)
+		for(long loop = 0;loop < 256; loop++)
 		{
 			General_TechTree[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->RenderingPlusSomething[loop+TechTreePage]));
 			General_TechTree[loop]->Container = &GenieFile->RenderingPlusSomething[loop+TechTreePage];
 		}
 		if(GameVersion >= 2)
 		{
-			for(long loop = 0;loop < 7;loop++)
+			for(long loop = 0;loop < 7; loop++)
 			{
 				General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
 				General_TTUnknown[loop]->Container = &GenieFile->UnknownPreTechTree[loop];
@@ -153,7 +153,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 			}
 		}
 	}
-//	for(long loop = 0;loop < LastUnknownsSize;loop++)
+//	for(long loop = 0;loop < LastUnknownsSize; loop++)
 //	GenieFile->TechTrees[loop] = 0;
 }
 
@@ -165,7 +165,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_TopRow = new wxBoxSizer(wxHORIZONTAL);
 	General_Refresh = new wxButton(Tab_General, wxID_ANY, "Refresh", wxDefaultPosition, wxSize(0, 20));
 	General_Text_CalcBoxes = new wxStaticText(Tab_General, wxID_ANY, " Variable Converter", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0;loop < 5;loop++)
+	for(short loop=0; loop < 5; loop++)
 	General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY);
 	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
@@ -195,7 +195,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
 	General_Grid_TerrainHeader = new wxGridSizer(18, 0, 0);
 	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0;loop < 138;loop++)
+	for(short loop=0; loop < 138; loop++)
 	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 	General_Holder_RenderPlusUnknown = new wxBoxSizer(wxVERTICAL);
 	General_Holder_RenderPlusUnknownTop = new wxBoxSizer(wxHORIZONTAL);
@@ -205,11 +205,11 @@ void AGE_Frame::CreateGeneralControls()
 	General_TechTreeSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Size", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_Grid_TechTree = new wxGridSizer(16, 0, 0);
 	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related + Unknown Data", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0;loop < 256;loop++)
+	for(short loop=0; loop < 256; loop++)
 	General_TechTree[loop] = new TextCtrl_Byte(General_Scroller, "0", NULL);
 
 	General_Holder_Variables2 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Technology Tree Related?");
-	for(short loop = 0;loop < 8;loop++)
+	for(short loop=0; loop < 8; loop++)
 	{
 		General_Holder_TTUnknown[loop] = new wxBoxSizer(wxVERTICAL);
 		General_TTUnknown[loop] = new TextCtrl_Long(General_Scroller, "0", NULL);
@@ -219,12 +219,12 @@ void AGE_Frame::CreateGeneralControls()
 	General_TopRow->Add(10, -1);
 	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
 	General_TopRow->AddStretchSpacer(3);
-	for(short loop = 0;loop < 5;loop++)
+	for(short loop=0; loop < 5; loop++)
 	General_TopRow->Add(General_CalcBoxes[loop], 1, wxEXPAND);
 	General_TopRow->Add(General_Text_CalcBoxes, 0, wxEXPAND);
 	General_TopRow->AddStretchSpacer(1);
 
-	for(short loop = 0;loop < 138;loop++)
+	for(short loop=0; loop < 138; loop++)
 	General_Grid_TerrainHeader->Add(General_TerrainHeader[loop], 1, wxEXPAND);
 	General_Holder_TerrainHeader->Add(General_Text_TerrainHeader, 0, wxEXPAND);
 	General_Holder_TerrainHeader->Add(General_Grid_TerrainHeader, 0, wxEXPAND);
@@ -241,7 +241,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_SUnknown4->Add(General_SUnknown4, 1, wxEXPAND);
 	General_Holder_SUnknown5->Add(General_Text_SUnknown5, 0, wxEXPAND);
 	General_Holder_SUnknown5->Add(General_SUnknown5, 1, wxEXPAND);
-	for(short loop = 0;loop < 8;loop++)
+	for(short loop=0; loop < 8; loop++)
 	{
 		General_Holder_TTUnknown[loop]->Add(General_Text_TTUnknown[loop], 0, wxEXPAND);
 		General_Holder_TTUnknown[loop]->Add(General_TTUnknown[loop], 0, wxEXPAND);
@@ -253,7 +253,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_Grid_Variables->Add(General_Holder_SUnknown7, 1, wxEXPAND);
 	General_Grid_Variables->Add(General_Holder_SUnknown8, 1, wxEXPAND);
 	General_Holder_Variables1->Add(General_Grid_Variables, 0, wxEXPAND);
-	for(short loop = 0;loop < 8;loop++)
+	for(short loop=0; loop < 8; loop++)
 	General_Grid_Variables2->Add(General_Holder_TTUnknown[loop], 1, wxEXPAND);
 	General_Holder_Variables2->Add(General_Grid_Variables2, 0, wxEXPAND);
 
@@ -267,7 +267,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_RenderPlusUnknownTop->Add(5, -1);
 	General_Holder_RenderPlusUnknownTop->Add(General_TechTreeSize, 1, wxEXPAND);
 	General_Holder_RenderPlusUnknownTop->AddStretchSpacer(2);
-	for(short loop = 0;loop < 256;loop++)
+	for(short loop=0; loop < 256; loop++)
 	General_Grid_TechTree->Add(General_TechTree[loop], 1, wxEXPAND);
 	General_Holder_RenderPlusUnknown->Add(General_Holder_RenderPlusUnknownTop, 0, wxEXPAND);
 	General_Holder_RenderPlusUnknown->Add(-1, 5);
@@ -300,7 +300,7 @@ void AGE_Frame::CreateGeneralControls()
 	Connect(General_TechTreePicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
 	Connect(General_TechTreeNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
 	Connect(General_TechTreePrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
-	for(short loop = 0;loop < 4;loop++)
+	for(short loop=0; loop < 4; loop++)
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 
 }
