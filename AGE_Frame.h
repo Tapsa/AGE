@@ -140,7 +140,6 @@ class AGE_Frame : public wxFrame
 
 	void OnKillFocus_AutoCopy_Byte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event);
-	void OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_Short(wxFocusEvent& Event);
 	void OnKillFocus_AutoCopy_UnShort(wxFocusEvent& Event);
@@ -154,7 +153,6 @@ class AGE_Frame : public wxFrame
 	void OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event);
-	void OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent& Event);
 	void OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent& Event);
@@ -1281,8 +1279,8 @@ class AGE_Frame : public wxFrame
 	wxTextCtrl * Units_DLL_HotKey4;
 	TextCtrl_Byte * Units_Unknown4;
 	TextCtrl_Byte * Units_Unknown5;
-	TextCtrl_Bool * Units_Unselectable;
-	CheckBox_Bool * Units_CheckBox_Unselectable;
+	TextCtrl_Byte * Units_Unselectable;
+	CheckBox_Byte * Units_CheckBox_Unselectable;
 	TextCtrl_Byte * Units_Unknown6;
 	TextCtrl_Byte * Units_Unknown7;
 	TextCtrl_Byte * Units_Unknown8;
@@ -1349,7 +1347,7 @@ class AGE_Frame : public wxFrame
 	ComboBox_Short * Units_ComboBox_StopSound;
 	TextCtrl_Byte * Units_AnimalMode;
 	CheckBox_Byte * Units_CheckBox_AnimalMode;
-	TextCtrl_Bool * Units_Exists;
+	TextCtrl_Byte * Units_Exists;
 	TextCtrl_Short * Units_CommandCount;
 
 //	Type 60+
@@ -1630,7 +1628,9 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_LanguageDLLCreation;
 	wxBoxSizer * Units_Holder_Class;
 	wxBoxSizer * Units_Holder_StandingGraphic;
+	wxGridSizer * Units_Grid_StandingGraphic;
 	wxBoxSizer * Units_Holder_DyingGraphic;
+	wxGridSizer * Units_Grid_DyingGraphic;
 	wxBoxSizer * Units_Holder_DeathMode;
 	wxBoxSizer * Units_Holder_HitPoints;
 	wxBoxSizer * Units_Holder_LineOfSight;
@@ -1710,6 +1710,7 @@ class AGE_Frame : public wxFrame
 //	Type 30+
 
 	wxBoxSizer * Units_Holder_WalkingGraphic;
+	wxGridSizer * Units_Grid_WalkingGraphic;
 	wxBoxSizer * Units_Holder_RotationSpeed;
 	wxBoxSizer * Units_Holder_Unknown11;
 	wxBoxSizer * Units_Holder_TrackingUnit;
@@ -1780,6 +1781,7 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Units_Holder_MissileGraphicDelay;
 	wxBoxSizer * Units_Holder_HeroMode;
 	wxBoxSizer * Units_Holder_GarrisonGraphic;
+	wxGridSizer * Units_Grid_GarrisonGraphic;
 	wxBoxSizer * Units_Holder_AttackMissileDuplicationAmount1;
 	wxBoxSizer * Units_Holder_AttackMissileDuplicationAmount2;
 	wxBoxSizer * Units_Holder_AttackMissileDuplicationSpawning;
@@ -1936,12 +1938,8 @@ class AGE_Frame : public wxFrame
 	wxStaticBoxSizer * Units_Holder_LangDLLArea;
 	wxStaticBoxSizer * Units_Holder_GraphicsArea;
 	wxBoxSizer * Units_Holder_GraphicsArea1;
-	wxGridSizer * Units_Holder_GraphicsArea2;
-	wxGridSizer * Units_Holder_GraphicsArea3;
 	wxBoxSizer * Units_Holder_GraphicsArea4;
 	wxBoxSizer * Units_Holder_GraphicsArea5;
-	wxBoxSizer * Units_Holder_GraphicsArea6;
-	wxBoxSizer * Units_Holder_GraphicsArea7;
 	wxStaticBoxSizer * Units_Holder_StatsArea;
 	wxGridSizer * Units_Grid_StatsArea1;
 	wxGridSizer * Units_Grid_StatsAreaGarrison;
@@ -2034,8 +2032,10 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * UnitCommands_Holder_ResourceIn;
 	wxBoxSizer * UnitCommands_Holder_ResourceOut;
 	wxBoxSizer * UnitCommands_Holder_Unknown3;
-	wxBoxSizer * UnitCommands_Holder_Unknown4;
+	wxBoxSizer * UnitCommands_Holder_WorkRateMultiplier;
 	wxBoxSizer * UnitCommands_Holder_ExecutionRadius;
+	wxBoxSizer * UnitCommands_Holder_ExtraRange;
+	wxBoxSizer * UnitCommands_Holder_Unknown4;
 	wxBoxSizer * UnitCommands_Holder_Unknown5;
 	wxBoxSizer * UnitCommands_Holder_Unknown6;
 	wxBoxSizer * UnitCommands_Holder_Unknown7;
@@ -2043,11 +2043,8 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * UnitCommands_Holder_Unknown9;
 	wxBoxSizer * UnitCommands_Holder_Unknown10;
 	wxBoxSizer * UnitCommands_Holder_Unknown11;
-	wxBoxSizer * UnitCommands_Holder_Unknown12;
-	wxBoxSizer * UnitCommands_Holder_Unknown13;
-	wxBoxSizer * UnitCommands_Holder_Unknown14;
 	wxBoxSizer * UnitCommands_Holder_Graphics;
-	wxGridSizer * UnitCommands_Holder_GraphicsGrid;
+	wxGridSizer * UnitCommands_Grid_Graphics[3];
 
 	wxStaticText * UnitCommands_Text_One;
 	wxStaticText * UnitCommands_Text_ID;
@@ -2060,8 +2057,10 @@ class AGE_Frame : public wxFrame
 	wxStaticText * UnitCommands_Text_SubType;
 	wxStaticText * UnitCommands_Text_ResourceOut;
 	wxStaticText * UnitCommands_Text_Unknown3;
-	wxStaticText * UnitCommands_Text_Unknown4;
+	wxStaticText * UnitCommands_Text_WorkRateMultiplier;
 	wxStaticText * UnitCommands_Text_ExecutionRadius;
+	wxStaticText * UnitCommands_Text_ExtraRange;
+	wxStaticText * UnitCommands_Text_Unknown4;
 	wxStaticText * UnitCommands_Text_Unknown5;
 	wxStaticText * UnitCommands_Text_Unknown6;
 	wxStaticText * UnitCommands_Text_Unknown7;
@@ -2069,9 +2068,6 @@ class AGE_Frame : public wxFrame
 	wxStaticText * UnitCommands_Text_Unknown9;
 	wxStaticText * UnitCommands_Text_Unknown10;
 	wxStaticText * UnitCommands_Text_Unknown11;
-	wxStaticText * UnitCommands_Text_Unknown12;
-	wxStaticText * UnitCommands_Text_Unknown13;
-	wxStaticText * UnitCommands_Text_Unknown14;
 	wxStaticText * UnitCommands_Text_Graphics;
 
 	TextCtrl_Short * UnitCommands_One;
@@ -2089,18 +2085,17 @@ class AGE_Frame : public wxFrame
 	TextCtrl_Short * UnitCommands_ResourceOut;
 	ComboBox_Short * UnitCommands_ComboBox_ResourceOut;
 	TextCtrl_Short * UnitCommands_Unknown3;
-	TextCtrl_Float * UnitCommands_Unknown4;
+	TextCtrl_Float * UnitCommands_WorkRateMultiplier;
 	TextCtrl_Float * UnitCommands_ExecutionRadius;
+	TextCtrl_Float * UnitCommands_ExtraRange;
+	TextCtrl_Byte * UnitCommands_Unknown4;
 	TextCtrl_Float * UnitCommands_Unknown5;
 	TextCtrl_Byte * UnitCommands_Unknown6;
-	TextCtrl_Float * UnitCommands_Unknown7;
-	TextCtrl_Byte * UnitCommands_Unknown8;
+	TextCtrl_Byte * UnitCommands_Unknown7;
+	TextCtrl_Long * UnitCommands_Unknown8;
 	TextCtrl_Byte * UnitCommands_Unknown9;
 	TextCtrl_Byte * UnitCommands_Unknown10;
 	TextCtrl_Byte * UnitCommands_Unknown11;
-	TextCtrl_Short * UnitCommands_Unknown12;
-	TextCtrl_Short * UnitCommands_Unknown13;
-	TextCtrl_Byte * UnitCommands_Unknown14;
 	TextCtrl_Short * UnitCommands_Graphics[6];
 	ComboBox_Short * UnitCommands_ComboBox_Graphics[6];
 
@@ -3011,7 +3006,7 @@ class AGE_Frame : public wxFrame
 	{
 		Path.insert(Path.begin() + Places[0], Temp);
 		if(EnableIDFix)
-		for(short loop = Places[0];loop < Path.size();loop++) // ID Fix
+		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
 		Path[loop].ID = (long)loop;
 	};
 
@@ -3021,7 +3016,7 @@ class AGE_Frame : public wxFrame
 		for(short loop = Selections-1;loop >= 0;loop--)
 		Path.erase(Path.begin() + Places[loop]);
 		if(EnableIDFix)
-		for(short loop = Places[0];loop < Path.size();loop++) // ID Fix
+		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
 		Path[loop].ID = (long)loop;
 	};
 
@@ -3029,7 +3024,7 @@ class AGE_Frame : public wxFrame
 	void CopyFromList(T &Path, vector<V> &Places, P &Copies, short &Selections)
 	{
 		Copies.resize(Selections);
-		for(short loop = 0;loop < Selections;loop++)
+		for(short loop=0; loop < Selections; loop++)
 		Copies[loop] = Path[Places[loop]];
 	};
 
@@ -3038,7 +3033,7 @@ class AGE_Frame : public wxFrame
 	{
 		if(Copies.size()+Places[0] > Path.size())
 		Path.resize(Copies.size()+Places[0]);
-		for(short loop = 0;loop < Copies.size();loop++)
+		for(short loop=0; loop < Copies.size(); loop++)
 		{
 			Path[Places[0]+loop] = Copies[loop];
 			if(EnableIDFix)
@@ -3050,10 +3045,10 @@ class AGE_Frame : public wxFrame
 	void PasteInsertToListIDFix(T &Path, vector<V> &Places, P &Copies, C &Temp)
 	{
 		Path.insert(Path.begin() + Places[0], Copies.size(), Temp);
-		for(short loop = 0;loop < Copies.size();loop++)
+		for(short loop=0; loop < Copies.size(); loop++)
 		Path[Places[0]+loop] = Copies[loop];
 		if(EnableIDFix)
-		for(short loop = Places[0];loop < Path.size();loop++) // ID Fix
+		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
 		Path[loop].ID = (long)loop;
 	};
 //*/

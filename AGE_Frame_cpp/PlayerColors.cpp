@@ -25,7 +25,7 @@ void AGE_Frame::ListPlayerColors()
 	short Selections = Colors_Colors_List->GetSelections(Items);
 	if(Colors_Colors_List->GetCount() > 0) Colors_Colors_List->Clear();
 
-	for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
+	for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
 		CompareText = Name.Lower();
@@ -132,7 +132,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
 	{
 		wxBusyCursor WaitCursor;
 		PlayerColorCopies.resize(Selections);
-		for(short loop = 0;loop < Selections;loop++)
+		for(short loop=0; loop < Selections; loop++)
 		PlayerColorCopies[loop] = GenieFile->PlayerColours[ColorIDs[loop]];
 	}
 }
@@ -145,7 +145,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		if(PlayerColorCopies.size()+ColorIDs[0] > GenieFile->PlayerColours.size())
 		GenieFile->PlayerColours.resize(PlayerColorCopies.size()+ColorIDs[0]);
-		for(short loop = 0;loop < PlayerColorCopies.size();loop++)
+		for(short loop=0; loop < PlayerColorCopies.size(); loop++)
 		GenieFile->PlayerColours[ColorIDs[0]+loop] = PlayerColorCopies[loop];
 		ListPlayerColors();
 	}
@@ -159,7 +159,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		genie::PlayerColour Temp;
 		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], PlayerColorCopies.size(), Temp);
-		for(short loop = 0;loop < PlayerColorCopies.size();loop++)
+		for(short loop=0; loop < PlayerColorCopies.size(); loop++)
 		GenieFile->PlayerColours[ColorIDs[0]+loop] = PlayerColorCopies[loop];
 		ListPlayerColors();
 	}

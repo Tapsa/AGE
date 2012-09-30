@@ -233,12 +233,12 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		//Units_Civs_List->SetSelection(0);
 
 //		No research gaia fix.
-		for(short loop = 0;loop < GenieFile->Civs[0].Units.size();loop++)
+		for(short loop=0; loop < GenieFile->Civs[0].Units.size(); loop++)
 			GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
 //		ID and pointer fixes.
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
-			for(short loop2 = 0;loop2 < GenieFile->Civs[loop].Units.size();loop2++)
+			for(short loop2=0; loop2 < GenieFile->Civs[loop].Units.size(); loop2++)
 			{
 				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
 				{
@@ -251,7 +251,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 						GenieFile->Civs[loop].Units[loop2].ID3 = (int16_t)loop2;
 						else
 						if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
-						for(short loop3 = 0;loop3 < GenieFile->Civs[loop].Units[loop2].Bird.Commands.size();loop3++)
+						for(short loop3=0; loop3 < GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3++)
 						GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = (int16_t)loop3;
 					}
 				}
@@ -259,21 +259,21 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 		if(EnableIDFix)
 		{
-			for(short loop = 0;loop < GenieFile->PlayerColours.size();loop++)
+			for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
 			{
 				GenieFile->PlayerColours[loop].ID = (int32_t)loop;
 			}
-			for(short loop = 0;loop < GenieFile->Sounds.size();loop++)
+			for(short loop=0; loop < GenieFile->Sounds.size(); loop++)
 			{
 				GenieFile->Sounds[loop].ID = (int32_t)loop;
 			}
 			if(GameVersion >= 4)
-			for(short loop = 0;loop < GenieFile->UnitLines.size();loop++)
+			for(short loop=0; loop < GenieFile->UnitLines.size(); loop++)
 			{
 				GenieFile->UnitLines[loop].ID = (int16_t)loop;
 			}
 		}
-		for(short loop = 0;loop < GenieFile->Graphics.size();loop++)
+		for(short loop=0; loop < GenieFile->Graphics.size(); loop++)
 		{
 			if(GenieFile->GraphicPointers[loop] != 0)
 			{
@@ -282,7 +282,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				GenieFile->Graphics[loop].ID = (int16_t)loop;
 			}
 		}
-		for(short loop = 0;loop < GenieFile->TerrainRestrictions.size();loop++)
+		for(short loop=0; loop < GenieFile->TerrainRestrictions.size(); loop++)
 		{
 			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
 			GenieFile->TerrainRestrictionPointers1[loop] = (int32_t)1;
@@ -381,7 +381,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		long ExtraCount;
 		Customs->Read("Count/ExtraCount", &ExtraCount, 5);
 		wxString MoveHolder = "";
-		for(short loop = 0;loop < 3;loop++)
+		for(short loop=0; loop < 3; loop++)
 		{
 			if(Units_ComboBox_Class[loop]->GetCount() > 0)
 			{
@@ -528,7 +528,41 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Attacks_ComboBox_Class[loop]->Clear();
 			}
 			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
-			if(GameVersion < 4)
+			if(GameVersion < 2) // AoE and RoR
+			{	// Use "atc -1|arc -1|disa" to discover these!
+				Attacks_ComboBox_Class[loop]->Append("0 - Stone Defense & Fire Galley");
+				Attacks_ComboBox_Class[loop]->Append("1 - Stone Defense & Archers");
+				Attacks_ComboBox_Class[loop]->Append("2 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
+				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
+				Attacks_ComboBox_Class[loop]->Append("5 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("6 - Buildings");
+				Attacks_ComboBox_Class[loop]->Append("7 - Priests");
+				Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
+				Attacks_ComboBox_Class[loop]->Append("9 - Infantry");
+				Attacks_ComboBox_Class[loop]->Append("10 - Stone Defense");
+				Attacks_ComboBox_Class[loop]->Append("11 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("12 - Villagers & Gazelles & Medusa");
+				Attacks_ComboBox_Class[loop]->Append("13 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("14 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("15 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("16 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("17 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("18 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("19 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("20 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("21 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("22 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("23 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("24 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("25 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("26 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("27 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("28 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("29 - Unused");
+				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
+			}
+			else if(GameVersion < 4) // AoK and TC
 			{
 				Attacks_ComboBox_Class[loop]->Append("0 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 2
@@ -562,7 +596,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
 				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
 			}
-			else if(GameVersion >= 4) // SWGB and CC
+			else // SWGB and CC
 			{
 				Attacks_ComboBox_Class[loop]->Append("0 - Aircraft");	// Selection 1
 				// Airspeeder
@@ -718,41 +752,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				// Cu-pa
 				// Womp Rat
 			}
-			else // AoE and RoR
-			{	// Use "atc -1|arc -1|disa" to discover these!
-				Attacks_ComboBox_Class[loop]->Append("0 - Stone Defense & Fire Galley");
-				Attacks_ComboBox_Class[loop]->Append("1 - Stone Defense & Archers");
-				Attacks_ComboBox_Class[loop]->Append("2 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
-				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
-				Attacks_ComboBox_Class[loop]->Append("5 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("6 - Buildings");
-				Attacks_ComboBox_Class[loop]->Append("7 - Priests");
-				Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
-				Attacks_ComboBox_Class[loop]->Append("9 - Infantry");
-				Attacks_ComboBox_Class[loop]->Append("10 - Stone Defense");
-				Attacks_ComboBox_Class[loop]->Append("11 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("12 - Villagers & Gazelles & Medusa");
-				Attacks_ComboBox_Class[loop]->Append("13 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("14 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("15 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("16 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("17 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("18 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("19 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("20 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("21 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("22 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("23 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("24 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("25 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("26 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("27 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("28 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("29 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
-			}
-			for(short loop2 = 0;loop2 < ExtraCount;loop2++)
+			for(short loop2=0; loop2 < ExtraCount; loop2++)
 			{
 				Customs->Read("Names/"+lexical_cast<string>(loop2+31), &MoveHolder, lexical_cast<string>(loop2+31)+" - Extra Class");
 				Attacks_ComboBox_Class[loop]->Append(MoveHolder);
@@ -761,7 +761,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 		delete Customs;
 
-		for(short loop = 0;loop < 2;loop++)
+		for(short loop=0; loop < 2; loop++)
 		{
 			if(Units_Units_SearchFilters[loop]->GetCount() > 0)
 			{
@@ -776,6 +776,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Units_Units_SearchFilters[loop]->Append("Train Location");
 			Units_Units_SearchFilters[loop]->Append("Attacks");
 			Units_Units_SearchFilters[loop]->Append("Armors");
+			Units_Units_SearchFilters[loop]->Append("Commands");
 			Units_Units_SearchFilters[loop]->Append("Pointer");
 		/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
 			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
@@ -932,8 +933,8 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		Effects_ComboBox_AttributesC->Append("13 - Working Rate");
 		Effects_ComboBox_AttributesC->Append("14 - Resource Carriage");
 		Effects_ComboBox_AttributesC->Append("15 - Unknown?");
-		Effects_ComboBox_AttributesC->Append("16 - Change Projectile Unit To");
-		Effects_ComboBox_AttributesC->Append("17 - Unknown Building Mode");
+		Effects_ComboBox_AttributesC->Append("16 - New Projectile Unit");
+		Effects_ComboBox_AttributesC->Append("17 - Upgrade Graphic");
 		Effects_ComboBox_AttributesC->Append("18 - Unknown?");
 		Effects_ComboBox_AttributesC->Append("19 - Projectile Intelligent Accuracy");
 		Effects_ComboBox_AttributesC->Append("20 - Minimum Range");
@@ -1032,7 +1033,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			Effects_ComboBox_AttributesC->Append("105 - Nova Cost");
 			Effects_ComboBox_AttributesC->Append("106 - Ore Cost");
 		}
-		Effects_ComboBox_AttributesC->Append("107 - OREX Cost?");
+		Effects_ComboBox_AttributesC->Append("107 - Max Dup. Missiles");
 		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
 		Effects_ComboBox_AttributesC->SetSelection(0);
 
@@ -1098,7 +1099,7 @@ void AGE_Frame::OnGameVersionChange()
 {
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
-		for(short loop = 64;loop < 84;loop++)
+		for(short loop = 64;loop < 84; loop++)
 		{
 			if(GameVersion >= 3)
 			{
@@ -1109,7 +1110,7 @@ void AGE_Frame::OnGameVersionChange()
 				Terrains_Unknown10[loop]->Show(false);
 			}
 		}
-		for(short loop = 4;loop < 6;loop++)
+		for(short loop = 4;loop < 6; loop++)
 		{
 			if(GameVersion >= 2)
 			{
@@ -1121,16 +1122,6 @@ void AGE_Frame::OnGameVersionChange()
 				Research_RequiredTechs[loop]->Show(false);
 				Research_ComboBox_RequiredTechs[loop]->Show(false);
 			}
-		}
-		if(GameVersion != 2)
-		{
-			Units_Holder_Attribute->Show(true);
-			Units_Holder_Civ->Show(true);
-		}
-		else
-		{
-			Units_Holder_Attribute->Show(false);
-			Units_Holder_Civ->Show(false);
 		}
 
 		if(GameVersion >= 2) // AoK ->
@@ -1153,8 +1144,6 @@ void AGE_Frame::OnGameVersionChange()
 			Units_ComboBox_TrainSound[1]->Show(true);
 			Units_Holder_Unknown3a->Show(false);
 			Units_Holder_SelectionShapeType->Show(true);
-			Units_Holder_SelectionEffect->Show(true);
-			Units_Holder_EditorSelectionColour->Show(true);
 			Units_Holder_ID3->Show(true);
 			Units_Holder_GarrisonRecoveryRate->Show(true);
 			Units_Holder_MissileGraphicDelay->Show(true);
@@ -1180,7 +1169,7 @@ void AGE_Frame::OnGameVersionChange()
 				Units_Holder_Unknown7->Show(true);
 				Units_Holder_Unknown8->Show(true);
 				Units_Holder_Unknown12->Show(true);
-				for(short loop = 1;loop < 17;loop++)
+				for(short loop = 1;loop < 17; loop++)
 				Units_Unknown16[loop]->Show(true);
 				Units_Holder_Unknown26->Show(true);
 				Units_Holder_Unknown27->Show(true);
@@ -1217,11 +1206,9 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unknown7->Show(false);
 			Units_Holder_Unknown8->Show(false);
 			Units_Holder_SelectionShapeType->Show(false);
-			Units_Holder_SelectionEffect->Show(false);
-			Units_Holder_EditorSelectionColour->Show(false);
 			Units_Holder_ID3->Show(false);
 			Units_Holder_Unknown12->Show(false);
-			for(short loop = 1;loop < 17;loop++)
+			for(short loop = 1;loop < 17; loop++)
 			Units_Unknown16[loop]->Show(false);
 			Units_Holder_GarrisonRecoveryRate->Show(false);
 			Units_Holder_Unknown26->Show(false);
@@ -1307,6 +1294,8 @@ void AGE_Frame::OnGameVersionChange()
 		if(GameVersion >= 3) // TC ->
 		{
 			Units_Holder_SnowGraphicID->Show(true);
+			Units_Holder_Attribute->Show(true);
+			Units_Holder_Civ->Show(true);
 			if(ShowUnknowns)
 			{
 				Units_Holder_Unknown9->Show(true);
@@ -1315,19 +1304,21 @@ void AGE_Frame::OnGameVersionChange()
 		}
 		else // <- AoK
 		{
+			Units_Holder_Attribute->Show(false);
+			Units_Holder_Civ->Show(false);
 			Units_Holder_Unknown9->Show(false);
 			Units_Unknown20[1]->Show(false);
 			Units_Holder_SnowGraphicID->Show(false);
 		}
 	}
 
-	for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 	{
 		Units_CivBoxes[loop]->Show(true);
 		Units_CivLabels[loop]->Show(true);
 		Units_CivLabels[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
 	}
-	for(short loop = GenieFile->Civs.size();loop < MaxCivs;loop++)
+	for(short loop = GenieFile->Civs.size();loop < MaxCivs; loop++)
 	{
 		Units_CivBoxes[loop]->Show(false);
 		Units_CivLabels[loop]->Show(false);
@@ -1469,18 +1460,18 @@ void AGE_Frame::OnAutoCopy(wxCommandEvent& Event)
 	}
 	else if(Event.GetId() == Units_SelectAll->GetId())
 	{
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		Units_CivBoxes[loop]->SetValue(true);
 	}
 	else if(Event.GetId() == Units_SelectClear->GetId())
 	{
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		Units_CivBoxes[loop]->SetValue(false);
 	}
 	else if(Event.GetId() == Units_GraphicSet->GetId())
 	{
 		short Selection = Units_GraphicSet->GetSelection();
-		for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			if((short)GenieFile->Civs[loop].GraphicSet == Selection)
 			{
@@ -1613,7 +1604,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			long ExtraCount = Attacks_ComboBox_Class[0]->GetCount()-32;
 			Customs->Write("Count/ExtraCount", ExtraCount);
 			wxString MoveHolder = "";
-			for(short loop = 0;loop < ExtraCount;loop++)
+			for(short loop=0; loop < ExtraCount; loop++)
 			{
 				MoveHolder = Attacks_ComboBox_Class[0]->GetString(loop+32);
 				Customs->Write("Names/"+lexical_cast<string>(loop+31), MoveHolder);
@@ -1629,7 +1620,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 			{
 				Units_Undo->Enable(true);
 				if(DataOpened)
-				for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+				for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 				CivBackup[loop].Units = GenieFile->Civs[loop].Units;
 			}
 			else
@@ -1701,7 +1692,7 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			SearchEnd[1] = SearchText.substr(Found+1); // Cutting the remaining part.
 
 			// Lets look if there are additional separation marks left.
-			for(short loop = 2;loop < Splits;loop++) // Splits over 2 parts if necessary.
+			for(short loop = 2;loop < Splits; loop++) // Splits over 2 parts if necessary.
 			{
 				Found = SearchEnd[loop-1].find("|", 1);
 				if((Found != string::npos) && 1 < (SearchEnd[loop-1].length() - Found))
@@ -1717,7 +1708,7 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			}
 
 			// Searching for matches.
-			for(short loop = 0;loop < Splits;loop++)
+			for(short loop=0; loop < Splits; loop++)
 			{
 				if(CompareText.find(SearchEnd[loop]) != string::npos)
 				Matches = true;
@@ -1747,7 +1738,7 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			SearchEnd[1] = ExcludeText.substr(Found+1); // Cutting the remaining part.
 
 			// Lets look if there are additional separation marks left.
-			for(short loop = 2;loop < Splits;loop++) // Splits over 2 parts if necessary.
+			for(short loop = 2;loop < Splits; loop++) // Splits over 2 parts if necessary.
 			{
 				Found = SearchEnd[loop-1].find("|", 1);
 				if((Found != string::npos) && 1 < (SearchEnd[loop-1].length() - Found))
@@ -1763,7 +1754,7 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			}
 
 			// Searching for matches.
-			for(short loop = 0;loop < Splits;loop++)
+			for(short loop=0; loop < Splits; loop++)
 			{
 				if(CompareText.find(SearchEnd[loop]) != string::npos)
 				Matches = false;
@@ -1824,7 +1815,7 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent& Event)
 						GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = (char)UnitType;
 						if(AutoCopy)
 						{
-							for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+							for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 							GenieFile->Civs[loop].Units[UnitIDs[0]].Type = (char)UnitType;
 
 							UnitsAutoCopy();
@@ -1910,7 +1901,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		if(AutoCopy)
 		{
 			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type;
-			for(short loop = 0;loop < GenieFile->Civs.size();loop++)
+			for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Type = UnitType;
 
 			UnitsAutoCopy();
@@ -2129,7 +2120,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent& Event)
 		wxCommandEvent E;
 		OnTTUnitSelect(E);
 	}
-	else for(short loop = 0;loop < 2;loop++) // Custom search filters
+	else for(short loop=0; loop < 2; loop++) // Custom search filters
 	{
 		if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
 		{
@@ -2341,18 +2332,6 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent& Event)
 {
 	((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
-	{
-		if(AutoCopy)
-		{
-			UnitsAutoCopy();
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxBool(wxFocusEvent& Event)
-{
-	((CheckBox_Bool*)((TextCtrl_Bool*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Bool*)Event.GetEventObject())->NoLoadList)
 	{
 		if(AutoCopy)
 		{
@@ -2844,15 +2823,6 @@ void AGE_Frame::OnUpdate_CheckBoxFloat(wxCommandEvent& Event)
 void AGE_Frame::OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent& Event)
 {
 	((ComboBox_Long*)Event.GetEventObject())->OnUpdate(Event);
-	if(AutoCopy)
-	{
-		UnitsAutoCopy();
-	}
-}
-
-void AGE_Frame::OnUpdate_AutoCopy_CheckBoxBool(wxCommandEvent& Event)
-{
-	((CheckBox_Bool*)Event.GetEventObject())->OnUpdate(Event);
 	if(AutoCopy)
 	{
 		UnitsAutoCopy();
