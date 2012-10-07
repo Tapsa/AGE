@@ -27,7 +27,7 @@ void AGE_Frame::ListUnitLines()
 	SearchText = UnitLines_UnitLines_Search->GetValue().Lower();
 	ExcludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
 
-	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	short UnitIDs = Units_ComboBox_Unitline->GetSelection();
 
 	if(UnitLines_UnitLines_List->GetCount() > 0)
@@ -66,7 +66,7 @@ void AGE_Frame::ListUnitLines()
 
 void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		UnitLineIDs.resize(Selections);
@@ -100,7 +100,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLinesInsert(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -115,7 +115,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -130,7 +130,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLinesCopy(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -142,7 +142,7 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -160,7 +160,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -205,7 +205,7 @@ void AGE_Frame::ListUnitLineUnits()
 	SearchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
 	ExcludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
 
-	short Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(UnitLines_UnitLineUnits_List->GetCount() > 0) UnitLines_UnitLineUnits_List->Clear();
 
 	for(short loop=0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); loop++)
@@ -225,7 +225,7 @@ void AGE_Frame::ListUnitLineUnits()
 
 void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		UnitLineUnitIDs.resize(Selections);
@@ -248,7 +248,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -260,7 +260,7 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -271,7 +271,7 @@ void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -283,7 +283,7 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -295,7 +295,7 @@ void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -309,7 +309,7 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;

@@ -97,7 +97,7 @@ void AGE_Frame::ListResearches(bool Sized)
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 
-	short Selections = Research_Research_List->GetSelections(Items);
+	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Research_Research_List->GetCount() > 0) Research_Research_List->Clear();
 
 	short IDCount = 21, ResearchIDs[IDCount];
@@ -259,7 +259,7 @@ void AGE_Frame::ListResearches(bool Sized)
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelections(Items);
+	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		ResearchIDs.resize(Selections);
@@ -379,7 +379,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelections(Items);
+	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -391,7 +391,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelections(Items);
+	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -403,7 +403,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelections(Items);
+	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -415,7 +415,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelections(Items);
+	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -429,7 +429,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnResearchPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = Research_Research_List->GetSelections(Items);
+	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;

@@ -22,7 +22,7 @@ void AGE_Frame::ListPlayerColors()
 	SearchText = Colors_Colors_Search->GetValue().Lower();
 	ExcludeText = Colors_Colors_Search_R->GetValue().Lower();
 
-	short Selections = Colors_Colors_List->GetSelections(Items);
+	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Colors_Colors_List->GetCount() > 0) Colors_Colors_List->Clear();
 
 	for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
@@ -48,7 +48,7 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 {
-	short Selections = Colors_Colors_List->GetSelections(Items);
+	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		ColorIDs.resize(Selections);
@@ -103,7 +103,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
 {
-	short Selections = Colors_Colors_List->GetSelections(Items);
+	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -115,7 +115,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
 {
-	short Selections = Colors_Colors_List->GetSelections(Items);
+	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -127,7 +127,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
 {
-	short Selections = Colors_Colors_List->GetSelections(Items);
+	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -139,7 +139,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 {
-	short Selections = Colors_Colors_List->GetSelections(Items);
+	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -153,7 +153,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = Colors_Colors_List->GetSelections(Items);
+	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;

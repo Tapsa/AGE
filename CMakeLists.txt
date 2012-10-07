@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 
 project(AdvancedGenieEditor2)
 
+set(CMAKE_CXX_FLAGS "-std=gnu++0x")
 set(Boost_USE_STATIC_LIBS        ON)
 set(Boost_USE_MULTITHREADED      ON)
 set(Boost_USE_STATIC_RUNTIME     ON)

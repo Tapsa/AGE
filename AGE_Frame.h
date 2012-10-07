@@ -166,7 +166,7 @@ class AGE_Frame : public wxFrame
 	bool Matches, And[2];
 	short Splits, SplitTop; // Max splits for search texts.
 	bool SearchMatches(wxString &CompareText);
-	void ListingFix(short &Selections, wxListBox* &List);
+	void ListingFix(int &Selections, wxListBox* &List);
 	void UnitLangDLLConverter(wxCommandEvent& Event);
 	void ResearchLangDLLConverter(wxCommandEvent& Event);
 	void LoadAllTechEffects(wxCommandEvent& Event);
@@ -372,6 +372,7 @@ class AGE_Frame : public wxFrame
 	void OnCivsPaste(wxCommandEvent& Event);
 	void OnCivsPasteInsert(wxCommandEvent& Event);
 	string GetCivName(short &Index);
+	void CivCountWarning();
 
 	void ListResources(bool Sized = true);
 	void OnResourcesSearch(wxCommandEvent& Event);
@@ -683,6 +684,7 @@ class AGE_Frame : public wxFrame
 	vector<short> TTResResIDs;
 
 	static const short MaxCivs = 30;
+	bool TooManyCivs, PopupCivWarning;
 	short Zero;
 	vector<genie::Civ> CivCopies;
 	vector<short> CivIDs;

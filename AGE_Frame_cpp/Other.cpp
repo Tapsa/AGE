@@ -290,8 +290,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = (int32_t)1;
 		}
-//		Unit copying fixes.
-		DatCopies.Civs.resize(GenieFile->Civs.size());
 
 		Added = false;
 
@@ -889,7 +887,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			if(TechTrees_DataList_Researches_List_Researches->GetCount() > 0)
 			TechTrees_DataList_Researches_List_Researches->Clear();
 		}
-		ListCivs();
+		CivCountWarning();// ListCivs();
 		ListUnits(Zero);
 		if(GameVersion >= 4)
 		{
@@ -2857,7 +2855,7 @@ void AGE_Frame::OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEven
 	}
 }
 
-void AGE_Frame::ListingFix(short &Selections, wxListBox* &List)
+void AGE_Frame::ListingFix(int &Selections, wxListBox* &List)
 {
 	if(Selections == 0)
 		List->SetSelection(0);

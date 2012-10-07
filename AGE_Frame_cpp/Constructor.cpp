@@ -140,6 +140,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = false;
+	PopupCivWarning = true;
 	
 	wxCommandEvent ShowButtonsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
 	ShowButtonsCommand.SetId(MenuOption_Buttons);
