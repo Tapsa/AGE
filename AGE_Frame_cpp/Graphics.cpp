@@ -101,7 +101,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Graphics_Graphics_List->GetCount() > 0) Graphics_Graphics_List->Clear();
 
 	short IDCount = 22, GraphicIDs[IDCount];
@@ -263,7 +263,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		GraphicIDs.resize(Selections);
@@ -349,7 +349,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicsInsert(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -365,7 +365,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -383,7 +383,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicsCopy(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -399,7 +399,7 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicsPaste(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -421,7 +421,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -442,7 +442,7 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicsEnable(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -457,7 +457,7 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicsDisable(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -486,7 +486,7 @@ void AGE_Frame::ListGraphicDeltas()
 	SearchText = Graphics_Deltas_Search->GetValue().Lower();
 	ExcludeText = Graphics_Deltas_Search_R->GetValue().Lower();
 
-	short Selections = Graphics_Deltas_List->GetSelections(Items);
+	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Graphics_Deltas_List->GetCount() > 0) Graphics_Deltas_List->Clear();
 
 	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); loop++)
@@ -506,7 +506,7 @@ void AGE_Frame::ListGraphicDeltas()
 
 void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Deltas_List->GetSelections(Items);
+	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		DeltaIDs.resize(Selections);
@@ -550,7 +550,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -563,7 +563,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Deltas_List->GetSelections(Items);
+	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -575,7 +575,7 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Deltas_List->GetSelections(Items);
+	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -587,7 +587,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Deltas_List->GetSelections(Items);
+	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -599,7 +599,7 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Deltas_List->GetSelections(Items);
+	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -613,7 +613,7 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = Graphics_Deltas_List->GetSelections(Items);
+	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -641,7 +641,7 @@ void AGE_Frame::ListGraphicAttackSounds()
 {
 	string Name;
 
-	short Selections = Graphics_AttackSounds_List->GetSelections(Items);
+	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
 	if(Graphics_AttackSounds_List->GetCount() > 0) Graphics_AttackSounds_List->Clear();
 
 	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); loop++)
@@ -658,7 +658,7 @@ void AGE_Frame::ListGraphicAttackSounds()
 
 void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent& Event)
 {
-	short Selections = Graphics_AttackSounds_List->GetSelections(Items);
+	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		AttackSoundIDs.resize(Selections);
@@ -697,7 +697,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent& Event)
 {
-	short Selections = Graphics_AttackSounds_List->GetSelections(Items);
+	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;

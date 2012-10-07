@@ -27,7 +27,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	SearchText = Terrains_Terrains_Search->GetValue().Lower();
 	ExcludeText = Terrains_Terrains_Search_R->GetValue().Lower();
 
-	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Terrains_Terrains_List->GetCount() > 0) Terrains_Terrains_List->Clear();
 
 	short IDCount = 7, TerrainIDs[IDCount];
@@ -146,7 +146,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 {
-	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		TerrainIDs.resize(Selections);
@@ -273,7 +273,7 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent& Event) // Their count is hardcoded
 
 void AGE_Frame::OnTerrainsInsert(wxCommandEvent& Event) // Their count is hardcoded.
 {
-	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -291,7 +291,7 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent& Event) // Their count is hardco
 
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardcoded.
 {
-	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -310,7 +310,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardco
 
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent& Event)
 {
-	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -322,7 +322,7 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent& Event)
 {
-	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -343,7 +343,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = Terrains_Terrains_List->GetSelections(Items);
+	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;

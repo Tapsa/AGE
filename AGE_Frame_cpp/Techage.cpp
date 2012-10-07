@@ -18,7 +18,7 @@ string AGE_Frame::GetTechageName(short &Index)
 
 void AGE_Frame::OnTechageRenameGE2(wxCommandEvent& Event)
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		string Name;
@@ -32,7 +32,7 @@ void AGE_Frame::OnTechageRenameGE2(wxCommandEvent& Event)
 
 void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		string Name;
@@ -106,7 +106,7 @@ void AGE_Frame::ListTechages(bool Sized)
 	SearchText = Techs_Techs_Search->GetValue().Lower();
 	ExcludeText = Techs_Techs_Search_R->GetValue().Lower();
 
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Techs_Techs_List->GetCount() > 0) Techs_Techs_List->Clear();
 
 	short IDCount = 3, TechIDs[IDCount];
@@ -172,7 +172,7 @@ void AGE_Frame::ListTechages(bool Sized)
 
 void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		TechIDs.resize(Selections);
@@ -202,7 +202,7 @@ void AGE_Frame::OnTechageAdd(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnTechageInsert(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -214,7 +214,7 @@ void AGE_Frame::OnTechageInsert(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -226,7 +226,7 @@ void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnTechageCopy(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -238,7 +238,7 @@ void AGE_Frame::OnTechageCopy(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnTechagePaste(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -252,7 +252,7 @@ void AGE_Frame::OnTechagePaste(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnTechagePasteInsert(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -372,7 +372,7 @@ void AGE_Frame::ListEffects()
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 	
-	short Selections = Techs_Effects_List->GetSelections(Items);
+	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Techs_Effects_List->GetCount() > 0) Techs_Effects_List->Clear();
 		
 	for(short loop=0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); loop++)
@@ -395,7 +395,7 @@ void AGE_Frame::ListEffects()
 
 void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 {
-	short Selections = Techs_Effects_List->GetSelections(Items);
+	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		Effects_Holder_Type->Show(true);
@@ -983,7 +983,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Techs_List->GetSelections(Items);
+	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -996,7 +996,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnEffectsInsert(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Effects_List->GetSelections(Items);
+	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -1008,7 +1008,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Effects_List->GetSelections(Items);
+	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -1020,7 +1020,7 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnEffectsCopy(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Effects_List->GetSelections(Items);
+	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -1032,7 +1032,7 @@ void AGE_Frame::OnEffectsCopy(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnEffectsPaste(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Effects_List->GetSelections(Items);
+	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -1046,7 +1046,7 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent& Event)	// Works.
 
 void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent& Event)	// Works.
 {
-	short Selections = Techs_Effects_List->GetSelections(Items);
+	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -1066,7 +1066,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
-	short Selections = Techs_AllEffects_List->GetSelections(Items);
+	auto Selections = Techs_AllEffects_List->GetSelections(Items);
 	if(Techs_AllEffects_List->GetCount() > 0) Techs_AllEffects_List->Clear();
 
 	short Store = TechIDs[0];
@@ -1096,7 +1096,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
 
 void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent& Event)
 {
-	short Selections = Techs_AllEffects_List->GetSelections(Items);
+	auto Selections = Techs_AllEffects_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxString TechID, EffectID, Line = Techs_AllEffects_List->GetString(Items.Item(0));
