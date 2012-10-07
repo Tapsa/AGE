@@ -146,7 +146,7 @@ void AGE_Frame::ListUnits(short &civ, bool Sized)
 
 	Units_Civs_List->SetSelection(civ);
 
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Units_Units_List->GetCount() > 0) Units_Units_List->Clear();
 
 	short IDCount = 64, UnitIDs[IDCount];
@@ -459,7 +459,7 @@ void AGE_Frame::ListUnitHeads(short &civ)
 //	This links data into user interface
 void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)	// If a unit is selected.
 	{
 		UnitCivID = Units_Civs_List->GetSelection();
@@ -1512,7 +1512,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 		}
 	}
 
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -1540,7 +1540,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(GameVersion > 1)
 	{
 		short Selection = Units_UnitHeads_List->GetSelection();
@@ -1580,7 +1580,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(GameVersion > 1)
 	{
 		short Selection = Units_UnitHeads_List->GetSelection();
@@ -1635,7 +1635,7 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::UnitsAutoCopy()
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		DatCopies.CopyType = 3;
@@ -1682,7 +1682,7 @@ void AGE_Frame::UnitsGraphicsCopy(short civ, short disp, short loop)
 
 void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -1726,7 +1726,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 			}
 		}
 
-		short Selections = Units_Units_List->GetSelections(Items);
+		auto Selections = Units_Units_List->GetSelections(Items);
 		if(Selections != 0)
 		{
 			wxBusyCursor WaitCursor;
@@ -1809,7 +1809,7 @@ void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent& Event)
 			}
 		}
 
-		short Selections = Units_Units_List->GetSelections(Items);
+		auto Selections = Units_Units_List->GetSelections(Items);
 		if(Selections != 0)
 		{
 			wxBusyCursor WaitCursor;
@@ -1901,7 +1901,7 @@ void AGE_Frame::UnitsGraphicsPaste(short civ, short disp, short loop)
 
 void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		if(DatCopies.CopyType != 2)
@@ -1934,7 +1934,7 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -1964,7 +1964,7 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitsDisable(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2002,7 +2002,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	SearchText = Units_DamageGraphics_Search->GetValue().Lower();
 	ExcludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
 
-	short Selections = Units_DamageGraphics_List->GetSelections(Items);
+	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Units_DamageGraphics_List->GetCount() > 0) Units_DamageGraphics_List->Clear();
 
 	for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size(); loop++)
@@ -2022,7 +2022,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 
 void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 {
-	short Selections = Units_DamageGraphics_List->GetSelections(Items);
+	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		DamageGraphicIDs.resize(Selections);
@@ -2054,7 +2054,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2070,7 +2070,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent& Event)
 {
-	short Selections = Units_DamageGraphics_List->GetSelections(Items);
+	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2085,7 +2085,7 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent& Event)
 {
-	short Selections = Units_DamageGraphics_List->GetSelections(Items); // Gives the current list selection.
+	auto Selections = Units_DamageGraphics_List->GetSelections(Items); // Gives the current list selection.
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2100,7 +2100,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent& Event)
 {
-	short Selections = Units_DamageGraphics_List->GetSelections(Items);
+	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2112,7 +2112,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent& Event)
 {
-	short Selections = Units_DamageGraphics_List->GetSelections(Items);
+	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2136,7 +2136,7 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = Units_DamageGraphics_List->GetSelections(Items);
+	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2179,7 +2179,7 @@ void AGE_Frame::ListUnitAttacks()
 	SearchText = Units_Attacks_Search->GetValue().Lower();
 	ExcludeText = Units_Attacks_Search_R->GetValue().Lower();
 
-	short Selections = Units_Attacks_List->GetSelections(Items);
+	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Units_Attacks_List->GetCount() > 0) Units_Attacks_List->Clear();
 
 	if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60 && GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
@@ -2207,7 +2207,7 @@ void AGE_Frame::ListUnitAttacks()
 
 void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 {
-	short Selections = Units_Attacks_List->GetSelections(Items);
+	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		AttackIDs.resize(Selections);
@@ -2234,7 +2234,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2250,7 +2250,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent& Event)
 {
-	short Selections = Units_Attacks_List->GetSelections(Items);
+	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2265,7 +2265,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 {
-	short Selections = Units_Attacks_List->GetSelections(Items); // Gives the current list selection.
+	auto Selections = Units_Attacks_List->GetSelections(Items); // Gives the current list selection.
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2280,7 +2280,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent& Event)
 {
-	short Selections = Units_Attacks_List->GetSelections(Items);
+	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2292,7 +2292,7 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent& Event)
 {
-	short Selections = Units_Attacks_List->GetSelections(Items);
+	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2316,7 +2316,7 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = Units_Attacks_List->GetSelections(Items);
+	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2358,7 +2358,7 @@ void AGE_Frame::ListUnitArmors()
 	SearchText = Units_Armors_Search->GetValue().Lower();
 	ExcludeText = Units_Armors_Search_R->GetValue().Lower();
 
-	short Selections = Units_Armors_List->GetSelections(Items);
+	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Units_Armors_List->GetCount() > 0) Units_Armors_List->Clear();
 
 	if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60 && GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
@@ -2386,7 +2386,7 @@ void AGE_Frame::ListUnitArmors()
 
 void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 {
-	short Selections = Units_Armors_List->GetSelections(Items);
+	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		ArmorIDs.resize(Selections);
@@ -2413,7 +2413,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2429,7 +2429,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent& Event)
 {
-	short Selections = Units_Armors_List->GetSelections(Items);
+	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2444,7 +2444,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 {
-	short Selections = Units_Armors_List->GetSelections(Items); // Gives the current list selection.
+	auto Selections = Units_Armors_List->GetSelections(Items); // Gives the current list selection.
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2459,7 +2459,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent& Event)
 {
-	short Selections = Units_Armors_List->GetSelections(Items);
+	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2471,7 +2471,7 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent& Event)
 {
-	short Selections = Units_Armors_List->GetSelections(Items);
+	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2495,7 +2495,7 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = Units_Armors_List->GetSelections(Items);
+	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2671,7 +2671,7 @@ void AGE_Frame::ListUnitCommands()
 	SearchText = Units_UnitCommands_Search->GetValue().Lower();
 	ExcludeText = Units_UnitCommands_Search_R->GetValue().Lower();
 
-	short Selections = Units_UnitCommands_List->GetSelections(Items);
+	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Units_UnitCommands_List->GetCount() > 0) Units_UnitCommands_List->Clear();
 
 	if(GameVersion >= 2)	// AoK, TC, SWGB or CC
@@ -2714,7 +2714,7 @@ void AGE_Frame::ListUnitCommands()
 
 void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 {
-	short Selections = Units_UnitCommands_List->GetSelections(Items);
+	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		CommandIDs.resize(Selections);
@@ -2945,7 +2945,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 {
-	short Selections = Units_Units_List->GetSelections(Items);
+	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -2972,7 +2972,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 {
-	short Selections = Units_UnitCommands_List->GetSelections(Items);
+	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -3000,7 +3000,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 {
-	short Selections = Units_UnitCommands_List->GetSelections(Items); // Gives the current list selection.
+	auto Selections = Units_UnitCommands_List->GetSelections(Items); // Gives the current list selection.
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -3029,7 +3029,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent& Event)
 {
-	short Selections = Units_UnitCommands_List->GetSelections(Items);
+	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -3047,7 +3047,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent& Event)
 void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selections = Units_UnitCommands_List->GetSelections(Items);
+	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -3094,7 +3094,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent& Event)
 {
 	wxBusyCursor WaitCursor;
-	short Selections = Units_UnitCommands_List->GetSelections(Items);
+	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;

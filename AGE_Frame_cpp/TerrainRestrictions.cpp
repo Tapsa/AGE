@@ -104,7 +104,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	SearchText = TerRestrict_TerRestrict_Search->GetValue().Lower();
 	ExcludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
 
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(TerRestrict_TerRestrict_List->GetCount() > 0) TerRestrict_TerRestrict_List->Clear();
 
 	short RestrictionID1 = Units_ComboBox_TerrainRestriction->GetSelection();
@@ -145,7 +145,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 
 void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
 {
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		TerRestrictIDs.resize(Selections);
@@ -162,7 +162,7 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
 void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 {
 	wxArrayInt Items2;
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items2);
 	if(Selections2 != wxNOT_FOUND)
 	{
@@ -231,7 +231,7 @@ void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent& Event)
 {
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -246,7 +246,7 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 {
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -263,7 +263,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent& Event)
 {
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -275,7 +275,7 @@ void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent& Event)
 {
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -294,7 +294,7 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent& Event)
 {
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -311,7 +311,7 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event)
 {
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items);
 	if(Selections != wxNOT_FOUND && Selections2 != wxNOT_FOUND)
 	{
@@ -330,7 +330,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent& Event)
 {
-	short Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items);
 	if(Selections != wxNOT_FOUND && Selections2 != wxNOT_FOUND)
 	{

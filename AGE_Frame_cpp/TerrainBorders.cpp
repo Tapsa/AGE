@@ -27,7 +27,7 @@ void AGE_Frame::ListTerrainBorders()
 	SearchText = Borders_Borders_Search->GetValue().Lower();
 	ExcludeText = Borders_Borders_Search_R->GetValue().Lower();
 
-	short Selections = Borders_Borders_List->GetSelections(Items);
+	auto Selections = Borders_Borders_List->GetSelections(Items);
 	if(Borders_Borders_List->GetCount() > 0) Borders_Borders_List->Clear();
 
 	for(short loop=0; loop < GenieFile->TerrainBorders.size(); loop++)
@@ -48,7 +48,7 @@ void AGE_Frame::ListTerrainBorders()
 
 void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
 {
-	short Selections = Borders_Borders_List->GetSelections(Items);
+	auto Selections = Borders_Borders_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		BorderIDs.resize(Selections);
@@ -97,7 +97,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent& Event)
 {
-	short Selections = Borders_Borders_List->GetSelections(Items);
+	auto Selections = Borders_Borders_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -109,7 +109,7 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent& Event)
 {
-	short Selections = Borders_Borders_List->GetSelections(Items);
+	auto Selections = Borders_Borders_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -145,7 +145,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 	SearchText = Borders_Frames_Search->GetValue().Lower();
 	ExcludeText = Borders_Frames_Search_R->GetValue().Lower();
 
-	short Selections = Borders_Frames_List->GetSelections(Items);
+	auto Selections = Borders_Frames_List->GetSelections(Items);
 	if(Borders_Frames_List->GetCount() > 0) Borders_Frames_List->Clear();
 
 	for(short loop=0; loop < GenieFile->TerrainBorders[BorderIDs[0]].Frames.size(); loop++)
@@ -166,7 +166,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 
 void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent& Event)
 {
-	short Selections = Borders_Frames_List->GetSelections(Items);
+	auto Selections = Borders_Frames_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		FrameIDs.resize(Selections);
@@ -187,7 +187,7 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent& Event)
 {
-	short Selections = Borders_Frames_List->GetSelections(Items);
+	auto Selections = Borders_Frames_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
@@ -199,7 +199,7 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent& Event)
 
 void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent& Event)
 {
-	short Selections = Borders_Frames_List->GetSelections(Items);
+	auto Selections = Borders_Frames_List->GetSelections(Items);
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
