@@ -1,0 +1,103 @@
+
+Version [b]2.28[/b]:
+•Speed improvements.
+
+Version [b]2.27[/b]:
+•Empty entries get reversed.
+
+Version [b]2.26[/b]:
+•Bug fixes.
+
+Version [b]2.25[/b]:
+•Added space into beginning of list items.
+•Relayouted annex unit misplacement grid.
+•Added copy graphics only for units.
+
+Version [b]2.24[/b]:
+•Improved resource-storage-enabler tool tip.
+•Simplified attack/armor lists.
+
+Version [b]2.23[/b]:
+•Auto-copy exiting bug fixed.
+•Improved attack/armor lists.
+
+Version [b]2.22[/b]:
+•Search filters for graphics.
+Searching them requires hitting enter button.
+
+Version [b]2.21[/b]:
+•Searching speed improvements.
+•Filters for researches.
+•Upgraded terrain restriction terrain list.
+•Upgraded civ resource list.
+
+Version [b]2.20[/b]:
+•Enable/Disable buttons for units and graphics.
+•Improved tool tips and resources lists.
+
+Version [b]2.19[/b]:
+•Speed improvements, especially unit searching.
+
+Version [b]2.18[/b]:
+•Upgraded tech tree section.
+
+Version [b]2.16[/b]:
+•Over six times longer tool tips' duration.
+•Added few more tool tips.
+
+Version [b]2.15[/b]:
+•Upgraded tech tree section.
+
+Version [b]2.14[/b]:
+•Finished tech tree section.
+
+Version [b]2.13[/b]:
+•Renamed things in general section.
+•Added data converter tool for discovering unknown data.
+
+Version [b]2.12[/b]:
+•[color=blue]Added tool tips for lots of unit variables.[/color]
+•Bug fixes.
+•Improvements.
+•Improved layout.
+
+Version [b]2.10[/b]:
+•Added Unitline tab for Star Wars versions.
+
+Version [b]2.9[/b]:
+•All data is editable now (except some zeroes and a one in SWGB).
+•Customized lists for Star Wars versions.
+•AoE/RoR related upgrades.
+•Completed terrain border section.
+•Improved layout.
+
+Version [b]2.8[/b]:
+•Unit section speed improvements.
+
+Version [b]2.7[/b]:
+•Fixed important bug in unit editing.
+•Improved layout.
+
+Version [b]2.6[/b]:
+•Corrected required researches initialization.
+•Improved layout.
+•Non-existent list items (some units and graphics) marked as disabled.
+•Terrain border section started.
+
+Version [b]2.5[/b]:
+•Fixed fatal bug in versions 2.3 and 2.4, which crashed in-game scenario editor. You need to abandon any dat files saved with version 2.3 or 2.4.
+
+Version [b]2.4[/b]:
+•Restored graphic name workaround.
+
+Version [b]2.3[/b]:
+•Fixed fatal bug in AoE and RoR command index fixes.
+•Added general unknown section.
+•Fixed bug in editing new units, etc.
+•Fixed "bug" when saving instantly after editing.
+
+Version [b]2.2[/b]:
+•Fixed bugs in research combo boxes.
+
+Version [b]2.1[/b]:
+•Graphics can be added again.

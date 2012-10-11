@@ -4,16 +4,9 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainName(short &Index)
 {
-	string Name = "";
 	if(GenieFile->Terrains[Index].Name != "")
-	{
-		Name = GenieFile->Terrains[Index].Name;
-	}
-	else
-	{
-		Name = "New Terrain";
-	}
-	return Name;
+		return GenieFile->Terrains[Index].Name;
+	return "New Terrain";
 }
 
 void AGE_Frame::OnTerrainsSearch(wxCommandEvent& Event)
@@ -151,7 +144,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 	{
 		TerrainIDs.resize(Selections);
 		genie::Terrain * TerrainPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Items.Item(loop));
 			TerrainIDs[loop] = (TerrainPointer - (&GenieFile->Terrains[0]));
@@ -295,7 +288,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardco
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			GenieFile->Terrains.erase(GenieFile->Terrains.begin() + TerrainIDs[loop]);
 			for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)

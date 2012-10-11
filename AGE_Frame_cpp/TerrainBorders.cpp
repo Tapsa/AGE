@@ -4,16 +4,9 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainBorderName(short &Index)
 {
-	string Name = "";
 	if(GenieFile->TerrainBorders[Index].Name == "" && GenieFile->TerrainBorders[Index].Name2 == "")
-	{
-		Name = "Border "+lexical_cast<string>(Index);
-	}
-	else
-	{
-		Name = GenieFile->TerrainBorders[Index].Name+" - "+GenieFile->TerrainBorders[Index].Name2;
-	}
-	return Name;
+		return "Border "+lexical_cast<string>(Index);
+	return GenieFile->TerrainBorders[Index].Name+" - "+GenieFile->TerrainBorders[Index].Name2;
 }
 
 void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent& Event)
@@ -53,7 +46,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
 	{
 		BorderIDs.resize(Selections);
 		genie::TerrainBorder * BorderPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			BorderPointer = (genie::TerrainBorder*)Borders_Borders_List->GetClientData(Items.Item(loop));
 			BorderIDs[loop] = (BorderPointer - (&GenieFile->TerrainBorders[0]));
@@ -124,14 +117,9 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent& Event)
 
 string AGE_Frame::GetTerrainBorderFrameName(short &Index)
 {
-	string Name = "";
-	Name = "Frame ";
-	Name += lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].FrameID);
-	Name += " - Flags ";
-	Name += lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].Flag1);
-	Name += " ";
-	Name += lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].Flag2);
-	return Name;
+	return "Frame "+lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].FrameID)
+	+" - Flags "+lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].Flag1)
+	+" "+lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].Flag2)+" ";
 }
 
 void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent& Event)
@@ -171,7 +159,7 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent& Event)
 	{
 		FrameIDs.resize(Selections);
 		genie::TBFrameData * FramePointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			FramePointer = (genie::TBFrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
 			FrameIDs[loop] = (FramePointer - (&GenieFile->TerrainBorders[BorderIDs[0]].Frames[0]));
