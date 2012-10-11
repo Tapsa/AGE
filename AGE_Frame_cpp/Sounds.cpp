@@ -4,9 +4,7 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetSoundName(short &Index)
 {
-	string Name = "File Count: ";
-	Name += lexical_cast<string>(GenieFile->Sounds[Index].Items.size());
-	return Name;
+	return "File count: "+lexical_cast<string>(GenieFile->Sounds[Index].Items.size())+" ";
 }
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent& Event)
@@ -157,7 +155,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent& Event)
 	{
 		SoundIDs.resize(Selections);
 		genie::Sound * SoundPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			SoundPointer = (genie::Sound*)Sounds_Sounds_List->GetClientData(Items.Item(loop));
 			SoundIDs[loop] = (SoundPointer - (&GenieFile->Sounds[0]));
@@ -205,7 +203,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		GenieFile->Sounds.erase(GenieFile->Sounds.begin() + SoundIDs[loop]);
 		if(EnableIDFix)
 		for(short loop = SoundIDs[0];loop < GenieFile->Sounds.size(); loop++)	//	ID Fix
@@ -345,7 +343,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent& Event)
 	{
 		SoundItemIDs.resize(Selections);
 		genie::SoundItem * SoundItemPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			SoundItemPointer = (genie::SoundItem*)Sounds_Items_List->GetClientData(Items.Item(loop));
 			SoundItemIDs[loop] = (SoundItemPointer - (&GenieFile->Sounds[SoundIDs[0]].Items[0]));
@@ -409,7 +407,7 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		GenieFile->Sounds[SoundIDs[0]].Items.erase(GenieFile->Sounds[SoundIDs[0]].Items.begin() + SoundItemIDs[loop]);
 		ListSoundItems();
 	}
@@ -491,19 +489,15 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent& Event)
 	OnAllSoundFileSelect(E);
 }
 
+void AGE_Frame::ClearAllSoundFiles(wxCommandEvent& Event)
+{
+	Sounds_Sounds_Search->SetValue("");
+	Sounds_Items_Search->SetValue("");
+}
+
 void AGE_Frame::OnAllSoundFileSelect(wxCommandEvent& Event)
 {
-	auto Selections = Sounds_AllItems_List->GetSelections(Items);
-	if(Selections != 0)
-	{
-		wxString SoundID, FileName, Line = Sounds_AllItems_List->GetString(Items.Item(0));
-		size_t Found;
-		Found = Line.find(" ", 3);
-		SoundID = Line.substr(2, Found-1); // Cutting the sound number.
-		FileName = Line.substr(Found+2, Line.find(" ", Found+3)-Found); // Cutting the filename.
-		Sounds_Sounds_Search->SetValue(" "+SoundID+"-");
-		Sounds_Items_Search->SetValue(" "+FileName);
-	}
+	SearchAllSubVectors(Sounds_AllItems_List, Sounds_Sounds_Search, Sounds_Items_Search);
 }
 
 void AGE_Frame::CreateSoundControls()
@@ -577,7 +571,10 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_AllItems_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_AllItems_UseAnd[1] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Sounds_AllItems_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Sounds_AllItems_Buttons = new wxBoxSizer(wxHORIZONTAL);
 	Sounds_AllItems_Load = new wxButton(Tab_Sounds, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));
+	Sounds_AllItems_Clear = new wxButton(Tab_Sounds, wxID_ANY, "Clear *", wxDefaultPosition, wxSize(5, 20));
+	Sounds_AllItems_Clear->SetToolTip("Clear the modified search texts");
 
 	Sounds_Sounds_Buttons->Add(Sounds_Add, 1, wxEXPAND);
 	Sounds_Sounds_Buttons->Add(Sounds_Insert, 1, wxEXPAND);
@@ -650,7 +647,10 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_AllItems->Add(-1, 2);
 	Sounds_AllItems->Add(Sounds_AllItems_List, 1, wxEXPAND);
 	Sounds_AllItems->Add(-1, 2);
-	Sounds_AllItems->Add(Sounds_AllItems_Load, 0, wxEXPAND);
+	Sounds_AllItems_Buttons->Add(Sounds_AllItems_Load, 2, wxEXPAND);
+	Sounds_AllItems_Buttons->Add(2, -1);
+	Sounds_AllItems_Buttons->Add(Sounds_AllItems_Clear, 1, wxEXPAND);
+	Sounds_AllItems->Add(Sounds_AllItems_Buttons, 0, wxEXPAND);
 
 	Sounds_DataArea->Add(-1, 10);
 	Sounds_DataArea->Add(Sounds_Holder_ID, 0, wxEXPAND);
@@ -711,6 +711,7 @@ void AGE_Frame::CreateSoundControls()
 	Connect(Sounds_AllItems_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
 	Connect(Sounds_AllItems_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));
 	Connect(Sounds_AllItems_Load->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
+	Connect(Sounds_AllItems_Clear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::ClearAllSoundFiles));
 
 	SoundItems_Name->Connect(SoundItems_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
 

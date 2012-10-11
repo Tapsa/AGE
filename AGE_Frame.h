@@ -164,14 +164,17 @@ class AGE_Frame : public wxFrame
 	vector<wxString> SearchEnd;
 	size_t Found; // Founding position.
 	bool Matches, And[2];
-	short Splits, SplitTop; // Max splits for search texts.
+	short Splits;
 	bool SearchMatches(wxString &CompareText);
 	void ListingFix(int &Selections, wxListBox* &List);
 	void UnitLangDLLConverter(wxCommandEvent& Event);
 	void ResearchLangDLLConverter(wxCommandEvent& Event);
+	void SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch);
 	void LoadAllTechEffects(wxCommandEvent& Event);
+	void ClearAllTechEffects(wxCommandEvent& Event);
 	void OnAllTechEffectSelect(wxCommandEvent& Event);
 	void LoadAllSoundFiles(wxCommandEvent& Event);
+	void ClearAllSoundFiles(wxCommandEvent& Event);
 	void OnAllSoundFileSelect(wxCommandEvent& Event);
 
 //	General Events
@@ -684,7 +687,7 @@ class AGE_Frame : public wxFrame
 	vector<short> TTResResIDs;
 
 	static const short MaxCivs = 30;
-	bool TooManyCivs, PopupCivWarning;
+	bool PopupCivWarning;
 	short Zero;
 	vector<genie::Civ> CivCopies;
 	vector<short> CivIDs;
@@ -1076,7 +1079,9 @@ class AGE_Frame : public wxFrame
 	wxTextCtrl * Techs_AllEffects_Search_R;
 	wxCheckBox * Techs_AllEffects_UseAnd[2];
 	wxListBox * Techs_AllEffects_List;
+	wxBoxSizer * Techs_AllEffects_Buttons;
 	wxButton * Techs_AllEffects_Load;
+	wxButton * Techs_AllEffects_Clear;
 
 	wxBoxSizer * Techs_Holder_Name;
 	wxStaticText * Techs_Text_Name;
@@ -2473,7 +2478,9 @@ class AGE_Frame : public wxFrame
 	wxTextCtrl * Sounds_AllItems_Search_R;
 	wxCheckBox * Sounds_AllItems_UseAnd[2];
 	wxListBox * Sounds_AllItems_List;
+	wxBoxSizer * Sounds_AllItems_Buttons;
 	wxButton * Sounds_AllItems_Load;
+	wxButton * Sounds_AllItems_Clear;
 
 //	Player Color user interface
 
@@ -3015,7 +3022,7 @@ class AGE_Frame : public wxFrame
 	template <typename T, typename V>
 	void DeleteFromListIDFix(T &Path, vector<V> &Places, short &Selections)
 	{
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		Path.erase(Path.begin() + Places[loop]);
 		if(EnableIDFix)
 		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
