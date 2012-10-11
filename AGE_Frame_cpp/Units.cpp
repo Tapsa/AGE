@@ -465,7 +465,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		UnitCivID = Units_Civs_List->GetSelection();
 		UnitIDs.resize(Selections);
 		genie::Unit * UnitPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			UnitPointer = (genie::Unit*)Units_Units_List->GetClientData(Items.Item(loop));
 			UnitIDs[loop] = (UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]));
@@ -1547,7 +1547,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 		if(Selection != wxNOT_FOUND)	// If unit is selected.
 		{
 			wxBusyCursor WaitCursor;
-			for(short loop = Selections-1;loop >= 0;loop--)
+			for(short loop = Selections; loop--> 0;)
 			GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitIDs[loop]);
 		}
 	}
@@ -1556,7 +1556,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 		{
-			for(short loop = Selections-1;loop >= 0;loop--)
+			for(short loop = Selections; loop--> 0;)
 			{
 				GenieFile->Civs[civ].Units.erase(GenieFile->Civs[civ].Units.begin() + UnitIDs[loop]);
 				GenieFile->Civs[civ].UnitPointers.erase(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[loop]);
@@ -1984,11 +1984,8 @@ void AGE_Frame::OnUnitsDisable(wxCommandEvent& Event)
 
 string AGE_Frame::GetUnitDamageGraphicName(short &Index)
 {
-	string Name = "";
-	Name += lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].DamagePercent);
-	Name += " % - ID: ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].GraphicID);
-	return Name+" ";
+	return lexical_cast<string>((short)GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].DamagePercent)
+	+" % - ID: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].GraphicID)+" ";
 }
 
 void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent& Event)
@@ -2027,7 +2024,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 	{
 		DamageGraphicIDs.resize(Selections);
 		genie::unit::DamageGraphic * DamageGraphicPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			DamageGraphicPointer = (genie::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Items.Item(loop));
 			DamageGraphicIDs[loop] = (DamageGraphicPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[0]));
@@ -2091,7 +2088,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 		{
-			for(short loop = Selections-1;loop >= 0;loop--)
+			for(short loop = Selections; loop--> 0;)
 			GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[loop]);
 		}
 		ListUnitDamageGraphics();
@@ -2160,12 +2157,8 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent& Event)
 
 string AGE_Frame::GetUnitAttackName(short &Index)
 {
-	string Name = "";
-	Name += "Amount: ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Amount);
-	Name += " - Class ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Class);
-	return Name+" ";
+	return "Amount: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Amount)
+	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Class)+" ";
 }
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent& Event)
@@ -2212,7 +2205,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 	{
 		AttackIDs.resize(Selections);
 		genie::unit::AttackOrArmor * AttackPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			AttackPointer = (genie::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Items.Item(loop));
 			AttackIDs[loop] = (AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[0]));
@@ -2271,7 +2264,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
-			for(short loop = Selections-1;loop >= 0;loop--)
+			for(short loop = Selections; loop--> 0;)
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.erase(GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[loop]);
 		}
 		ListUnitAttacks();
@@ -2339,12 +2332,8 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent& Event)
 
 string AGE_Frame::GetUnitArmorName(short &Index)
 {
-	string Name = "";
-	Name += "Amount: ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Amount);
-	Name += " - Class ";
-	Name += lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Class);
-	return Name+" ";
+	return "Amount: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Amount)
+	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Class)+" ";
 }
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent& Event)
@@ -2391,7 +2380,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 	{
 		ArmorIDs.resize(Selections);
 		genie::unit::AttackOrArmor * ArmorPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			ArmorPointer = (genie::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Items.Item(loop));
 			ArmorIDs[loop] = (ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[0]));
@@ -2450,7 +2439,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
-			for(short loop = Selections-1;loop >= 0;loop--)
+			for(short loop = Selections; loop--> 0;)
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.erase(GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[loop]);
 		}
 		ListUnitArmors();
@@ -2523,139 +2512,118 @@ string AGE_Frame::GetUnitCommandName(short &Index)
 	string Name = "";
 	short CommandType = -1;
 	short CommandSubType = -1;
-	if(GameVersion > 1)	// AoK, TC, SWGB or CC
+	if(GameVersion > 1) // AoK, TC, SWGB, CC
 	{
 		CommandType = GenieFile->UnitHeaders[UnitIDs[0]].Commands[Index].Type;
 		CommandSubType = GenieFile->UnitHeaders[UnitIDs[0]].Commands[Index].SubType;
 	}
-	else	// AoE or RoR
+	else // AoE, RoR
 	{
 		CommandType = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[Index].Type;
 		CommandSubType = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[Index].SubType;
 	}
-	if(CommandType == 3 && CommandSubType == -1)
+	switch(CommandType)
 	{
-		Name = "Ability to Garrison";
-	}
-	else if(CommandType == 5 && CommandSubType == 47)
-	{
-		Name = "Ability to Mine Gold";
-	}
-	else if(CommandType == 5 && CommandSubType == 79)
-	{
-		Name = "Ability to Mine Stone";
-	}
-	else if(CommandType == 5 && CommandSubType == 190)
-	{
-		Name = "Ability to Fish, Forage, or Farm";
-	}
-	else if(CommandType == 5 && CommandSubType == -1)
-	{
-		Name = "Ability to Rebuild";
-	}
-	else if(CommandType == 6 && CommandSubType == -1)
-	{
-		Name = "Unknown Animal Ability";
-	}
-	else if(CommandType == 7 && CommandSubType == -1)
-	{
-		Name = "Ability to Attack";
-	}
-	else if(CommandType == 10 && CommandSubType == -1)
-	{
-		Name = "Ability to Fly";
-	}
-	else if(CommandType == 11 && CommandSubType == -1)
-	{
-		Name = "Unknown Predator Animal Ability";
-	}
-	else if(CommandType == 12 && CommandSubType == -1)
-	{
-		Name = "Ability to Unload (Boat-Like)";
-	}
-	else if(CommandType == 13 && CommandSubType == -1)
-	{
-		Name = "Ability to Auto-Attack";
-	}
-	else if(CommandType == 21 && CommandSubType == -1)
-	{
-		Name = "Unknown Farm Ability";
-	}
-	else if(CommandType == 101 && CommandSubType == -1)
-	{
-		Name = "Ability to Build";
-	}
-	else if(CommandType == 104 && CommandSubType == -1)
-	{
-		Name = "Ability to Convert";
-	}
-	else if(CommandType == 105 && CommandSubType == -1)
-	{
-		Name = "Ability to Heal";
-	}
-	else if(CommandType == 106 && CommandSubType == -1)
-	{
-		Name = "Ability to Repair";
-	}
-	else if(CommandType == 107 && CommandSubType == -1)
-	{
-		Name = "Type 107, Sub -1";
-	}
-	else if(CommandType == 109 && CommandSubType == -1)
-	{
-		Name = "Type 109, Sub -1";
-	}
-	else if(CommandType == 110 && CommandSubType == 189)
-	{
-		Name = "Ability to Chop Wood";
-	}
-	else if(CommandType == 110 && CommandSubType == 190)
-	{
-		Name = "Ability to Hunt Prey Animals";
-	}
-	else if(CommandType == 110 && CommandSubType == -1)
-	{
-		Name = "Ability to Hunt Predator Animals";
-	}
-	else if(CommandType == 111 && CommandSubType == -1)
-	{
-		Name = "Ability to Trade";
-	}
-	else if(CommandType == 120 && CommandSubType == -1)
-	{
-		Name = "Ability to Generate Wonder Victory*";
-	}
-	else if(CommandType == 121 && CommandSubType == -1)
-	{
-		Name = "Type 121, Sub -1";
-	}
-	else if(CommandType == 122 && CommandSubType == -1)
-	{
-		Name = "Ability to Mine Porex (Ore)";
-	}
-	else if(CommandType == 125 && CommandSubType == -1)
-	{
-		Name = "Ability to Unpack & Attack";
-	}
-	else if(CommandType == 131 && CommandSubType == -1)
-	{
-		Name = "Type 131, Sub -1";
-	}
-	else if(CommandType == 132 && CommandSubType == -1)
-	{
-		Name = "Ability to Pickup Unit";
-	}
-	else if(CommandType == 135 && CommandSubType == -1)
-	{
-		Name = "Type 135, Sub -1";
-	}
-	else if(CommandType == 136 && CommandSubType == -1)
-	{
-		Name = "Ability to Deposit Unit";
-	}
-	else
-	{
-		Name = "Unknown";
+		case 3:
+			Name = "Ability to Garrison";
+			break;
+		case 5:
+			switch(CommandSubType)
+			{
+				case 47:
+					Name = "Ability to Mine Gold";
+					break;
+				case 79:
+					Name = "Ability to Mine Stone";
+					break;
+				case 190:
+					Name = "Ability to Fish, Forage, or Farm";
+					break;
+				default:
+					Name = "Ability to Rebuild";
+			}
+			break;
+		case 6:
+			Name = "Unknown Animal Ability";
+			break;
+		case 7:
+			Name = "Ability to Attack";
+			break;
+		case 10:
+			Name = "Ability to Fly";
+			break;
+		case 11:
+			Name = "Unknown Predator Animal Ability";
+			break;
+		case 12:
+			Name = "Ability to Unload (Boat-Like)";
+			break;
+		case 13:
+			Name = "Ability to Auto-Attack";
+			break;
+		case 21:
+			Name = "Unknown Farm Ability";
+			break;
+		case 101:
+			Name = "Ability to Build";
+			break;
+		case 104:
+			Name = "Ability to Convert";
+			break;
+		case 105:
+			Name = "Ability to Heal";
+			break;
+		case 106:
+			Name = "Ability to Repair";
+			break;
+		case 107:
+			Name = "Type 107, Sub -1";
+			break;
+		case 109:
+			Name = "Type 109, Sub -1";
+			break;
+		case 110:
+			switch(CommandSubType)
+			{
+				case 189:
+					Name = "Ability to Chop Wood";
+					break;
+				case 190:
+					Name = "Ability to Hunt Prey Animals";
+					break;
+				default:
+					Name = "Ability to Hunt Predator Animals";
+			}
+			break;
+		case 111:
+			Name = "Ability to Trade";
+			break;
+		case 120:
+			Name = "Ability to Generate Wonder Victory*";
+			break;
+		case 121:
+			Name = "Type 121, Sub -1";
+			break;
+		case 122:
+			Name = "Ability to Mine Porex (Ore)";
+			break;
+		case 125:
+			Name = "Ability to Unpack & Attack";
+			break;
+		case 131:
+			Name = "Type 131, Sub -1";
+			break;
+		case 132:
+			Name = "Ability to Pickup Unit";
+			break;
+		case 135:
+			Name = "Type 135, Sub -1";
+			break;
+		case 136:
+			Name = "Ability to Deposit Unit";
+			break;
+		default:
+			Name = "Unk. Type "+lexical_cast<string>(CommandType)+", Sub "+lexical_cast<string>(CommandSubType);
 	}
 	return Name;
 }
@@ -2719,7 +2687,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 	{
 		CommandIDs.resize(Selections);
 		genie::UnitCommand * CommandPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			CommandPointer = (genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Items.Item(loop));
 			if(GameVersion >= 2)
@@ -3006,7 +2974,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		if(GameVersion > 1)
 		{
-			for(short loop = Selections-1;loop >= 0;loop--)
+			for(short loop = Selections; loop--> 0;)
 			GenieFile->UnitHeaders[UnitIDs[0]].Commands.erase(GenieFile->UnitHeaders[UnitIDs[0]].Commands.begin() + CommandIDs[loop]);
 			if(EnableIDFix)
 			for(short loop2 = CommandIDs[0];loop2 < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); loop2++) // ID Fix
@@ -3016,7 +2984,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 		{
 			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
-				for(short loop = Selections-1;loop >= 0;loop--)
+				for(short loop = Selections; loop--> 0;)
 				GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.begin() + CommandIDs[loop]);
 				if(EnableIDFix)
 				for(short loop2 = CommandIDs[0];loop2 < GenieFile->Civs[0].Units[UnitIDs[0]].Bird.Commands.size(); loop2++) // ID Fix
@@ -3531,7 +3499,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_TrainSound = new wxStaticText(Units_Scroller, wxID_ANY, " Train Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DeadUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Dead Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_PlacementMode = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_IconID = new wxStaticText(Units_Scroller, wxID_ANY, " Icon ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_IconID = new wxStaticText(Units_Scroller, wxID_ANY, " Icon *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_PlacementBypassTerrain = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Bypass Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_PlacementTerrain = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3708,6 +3676,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DLL_LanguageDLLHKText = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 
 	Units_IconID = new TextCtrl_Short(Units_Scroller, "0", NULL);
+	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
 	Units_ConstructionGraphicID = new TextCtrl_Short(Units_Scroller, "0", NULL);
 	Units_ComboBox_ConstructionGraphicID = new ComboBox_Short(Units_Scroller, Units_ConstructionGraphicID);
 	Units_SnowGraphicID = new TextCtrl_Short(Units_Scroller, "0", NULL);

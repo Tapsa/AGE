@@ -4,9 +4,7 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetCivName(short &Index)
 {
-	string Name = "";
-	Name = GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
-	return Name;
+	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
 }
 
 void AGE_Frame::OnCivsSearch(wxCommandEvent& Event)
@@ -31,29 +29,14 @@ void AGE_Frame::ListCivs(bool Sized)
 		CivIDs[2] = SoundItems_ComboBox_Civ->GetSelection();
 		CivIDs[3] = Units_ComboBox_Civ->GetSelection();
 
-		if(Research_ComboBox_Civ->GetCount() > 0)
-		{
-			Research_ComboBox_Civ->Clear();
-		}
-		if(Units_Civs_List->GetCount() > 0)
-		{
-			Units_Civs_List->Clear();
-		}
-		if(SoundItems_ComboBox_Civ->GetCount() > 0)
-		{
-			SoundItems_ComboBox_Civ->Clear();
-		}
-		if(Units_ComboBox_Civ->GetCount() > 0)
-		{
-			Units_ComboBox_Civ->Clear();
-		}
+		if(Research_ComboBox_Civ->GetCount() > 0) Research_ComboBox_Civ->Clear();
+		if(Units_Civs_List->GetCount() > 0) Units_Civs_List->Clear();
+		if(SoundItems_ComboBox_Civ->GetCount() > 0) SoundItems_ComboBox_Civ->Clear();
+		if(Units_ComboBox_Civ->GetCount() > 0) Units_ComboBox_Civ->Clear();
 
 		for(short loop=0; loop < IDCount; loop++)
 		{
-			if(CivIDs[loop] == wxNOT_FOUND)
-			{
-				CivIDs[loop] = 0;
-			}
+			if(CivIDs[loop] == wxNOT_FOUND) CivIDs[loop] = 0;
 		}
 
 		Research_ComboBox_Civ->Append("-1 - None");
@@ -98,7 +81,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 	{
 		CivIDs.resize(Selections);
 		genie::Civ * CivPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			CivPointer = (genie::Civ*)Civs_Civs_List->GetClientData(Items.Item(loop));
 			CivIDs[loop] = (CivPointer - (&GenieFile->Civs[0]));
@@ -167,7 +150,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		GenieFile->Civs.erase(GenieFile->Civs.begin() + CivIDs[loop]);
 		CivCountWarning();
 		ListUnits(Zero, false);
@@ -220,9 +203,8 @@ void AGE_Frame::CivCountWarning()
 {
 //	Unit copying fixes.
 	DatCopies.Civs.resize(GenieFile->Civs.size());
-	if(PopupCivWarning && GenieFile->Civs.size() > MaxCivs)
+	if(PopupCivWarning && GenieFile->Civs.size() > MaxCivs) // Is shown only once.
 	{
-		TooManyCivs = true;
 		PopupCivWarning = false;
 		wxMessageBox("Auto-copy doesn't work for over "+lexical_cast<string>(MaxCivs)+" civilizations!\n"
 		+"Send a help request to AoKH.");
@@ -233,917 +215,721 @@ void AGE_Frame::CivCountWarning()
 string AGE_Frame::GetResourceName(short &Index)
 {
 	string Name = "";
-	if(Index == 0)
-	{
-		Name = "Food Storage";
-	}
-	else if(Index == 1)
-	{
-		if(GameVersion < 4)
-		Name = "Wood Storage";
-		else
-		Name = "Carbon Storage";
-	}
-	else if(Index == 2)
-	{
-		if(GameVersion < 4)
-		Name = "Stone Storage";
-		else
-		Name = "Ore Storage";
-	}
-	else if(Index == 3)
-	{
-		if(GameVersion < 4)
-		Name = "Gold Storage ";
-		else
-		Name = "Nova Storage ";
-	}
-	else if(Index == 4)
-	{
-		Name = "Population Headroom";
-	}
-	else if(Index == 5)
-	{
-		if(GameVersion < 4)
-		Name = "Conversion Range?";
-		else
-		Name = "Conversion Range";
-	}
-	else if(Index == 6)
-	{
-		Name = "Current Age";
-	}
-	else if(Index == 7)
-	{
-		if(GameVersion < 4)
-		Name = "Relics Captured";
-		else
-		Name = "Holocrons Captured";
-	}
-	else if(Index == 8)
-	{
-		Name = "Trade Bonus";
-	}
-	else if(Index == 9)
-	{
-		Name = "Trade Goods";
-	}
-	else if(Index == 10)
-	{
-		if(GameVersion < 4)
-		Name = "Trade Production";
-		else
-		Name = "Shields Recharge Rate";
-	}
-	else if(Index == 11)
-	{
-		Name = "Population (Both Current and Headroom)";
-	}
-	else if(Index == 12)
-	{
-		Name = "Corpse Decay Time";
-	}
-	else if(Index == 13)
-	{
-		Name = "Discovery";
-	}
-	else if(Index == 14)
-	{
-		Name = "Monuments/Ruins Captured?";
-	}
-	else if(Index == 15)
-	{
-		Name = "Predator Animal Food";
-	}
-	else if(Index == 16)
-	{
-		Name = "Crops";
-	}
-	else if(Index == 17)
-	{
-		Name = "Fish Storage";
-	}
-	else if(Index == 18)
-	{
-		if(GameVersion < 4)
-		Name = "Unknown";
-		else
-		Name = "Power Core Range";
-	}
-	else if(Index == 19)
-	{
-		Name = "Total Units Owned";
-	}
-	else if(Index == 20)
-	{
-		Name = "Units Killed";
-	}
-	else if(Index == 21)
-	{
-		Name = "Research Count";
-	}
-	else if(Index == 22)
-	{
-		Name = "% Map Explored";
-	}
-	else if(Index == 23)
-	{
-		if(GameVersion < 4)
-		Name = "Castle Age?";
-		else
-		Name = "Submarine Detection";
-	}
-	else if(Index == 24)
-	{
-		if(GameVersion < 4)
-		Name = "Imperial Age?";
-		else
-		Name = "Shield Generator Range";
-	}
-	else if(Index == 25)
-	{
-		Name = "Feudal Age?";
-	}
-	else if(Index == 26)
-	{
-		if(GameVersion < 4)
-		Name = "Unknown";
-		else
-		Name = "Shields' Drop Off Time";
-	}
-	else if(Index == 27)
-	{
-		if(GameVersion < 4)
-		Name = "Enable Monk Conversion";
-		else
-		Name = "Enable Jedi Conversion";
-	}
-	else if(Index == 28)
-	{
-		Name = "Enable Building Conversion";
-	}
-	else if(Index == 30)
-	{
-		Name = "Building Limit";
-	}
-	else if(Index == 31)
-	{
-		if(GameVersion < 4)
-		Name = "Food Limit";
-		else
-		Name = "Enable A-A Attack For AT-AT";
-	}
-	else if(Index == 32)
-	{
-		if(GameVersion < 2)
-		Name = "Unit Limit";
-		else
-		Name = "Bonus Population";
-	}
-	else if(Index == 33)
-	{
-		if(GameVersion < 4)
-		Name = "Maintenance";
-		else
-		Name = "Power Core Shielding";
-	}
-	else if(Index == 34)
-	{
-		if(GameVersion < 4)
-		Name = "Faith";
-		else
-		Name = "Force";
-	}
-	else if(Index == 35)
-	{
-		if(GameVersion < 4)
-		Name = "Faith Recharging Rate";
-		else
-		Name = "Force Recharging Rate";
-	}
-	else if(Index == 36)
-	{
-		Name = "Farm Food Amount";
-	}
-	else if(Index == 37)
-	{
-		Name = "Civilian Units (Villager High)";
-	}
-	else if(Index == 38)
-	{
-		if(GameVersion < 4)
-		Name = "Unknown";
-		else
-		Name = "Shields On For Bombers/Fighters";
-	}
-	else if(Index == 39)
-	{
-		Name = "All Techs Achieved";
-	}
-	else if(Index == 40)
-	{
-		Name = "Military Units (Largest Army)";
-	}
-	else if(Index == 41)
-	{
-		Name = "Units Converted";
-	}
-	else if(Index == 42)
-	{
-		Name = "Standing? Wonders";
-	}
-	else if(Index == 43)
-	{
-		Name = "Buildings Razed";
-	}
-	else if(Index == 44)
-	{
-		Name = "Kill Ratio";
-	}
-	else if(Index == 45)
-	{
-		Name = "Survival to Finish";
-	}
-	else if(Index == 46)
-	{
-		Name = "Tribute Fee";
-	}
-	else if(Index == 47)
-	{
-		if(GameVersion < 4)
-		Name = "Gold Mining Productivity";
-		else
-		Name = "Nova Mining Productivity";
-	}
-	else if(Index == 48)
-	{
-		Name = "Town Center Unavailable";
-	}
-	else if(Index == 49)
-	{
-		Name = "Gold Counter";
-	}
-	else if(Index == 50)
-	{
-		Name = "Reveal Ally";
-	}
-	else if(Index == 51)
-	{
-		if(GameVersion < 4)
-		Name = "Houses (Unused)";
-		else
-		Name = "Shielding";
-	}
-	else if(Index == 52)
-	{
-		Name = "Monastery Count";
-	}
-	else if(Index == 53)
-	{
-		Name = "Tribute Sent";
-	}
-	else if(Index == 54)
-	{
-		Name = "All Ruins Have Been Captured";
-	}
-	else if(Index == 55)
-	{
-		Name = "All Relics Have Been Captured";
-	}
-	else if(Index == 56)
-	{
-		if(GameVersion < 4)
-		Name = "Ore Storage? Unit Unload Room?";
-		else
-		Name = "Enable Stealth For Masters";
-	}
-	else if(Index == 57)
-	{
-		Name = "Captured Unit";
-	}
-	else if(Index == 58)
-	{
-		if(GameVersion < 4)
-		Name = "Dark Age?";
-		else
-		Name = "Masters Can See Hidden Units";
-	}
-	else if(Index == 59)
-	{
-		Name = "Trade Good Quality";
-	}
-	else if(Index == 60)
-	{
-		Name = "Trade Market Level";
-	}
-	else if(Index == 61)
-	{
-		Name = "Formations";
-	}
-	else if(Index == 62)
-	{
-		Name = "Building Housing Rate";
-	}
-	else if(Index == 63)
-	{
-		Name = "Gather Tax Rate";
-	}
-	else if(Index == 64)
-	{
-		Name = "Gather Accumulator";
-	}
-	else if(Index == 65)
-	{
-		Name = "Salvage Decay Rate";
-	}
-	else if(Index == 66)
-	{
-		Name = "Ages? Allow Formations?";
-	}
-	else if(Index == 67)
-	{
-		Name = "Conversions";
-	}
-	else if(Index == 68)
-	{
-		Name = "Hit Points Killed (Unused)";
-	}
-	else if(Index == 69)
-	{
-		Name = "Killed P1";
-	}
-	else if(Index == 70)
-	{
-		Name = "Killed P2";
-	}
-	else if(Index == 71)
-	{
-		Name = "Killed P3";
-	}
-	else if(Index == 72)
-	{
-		Name = "Killed P4";
-	}
-	else if(Index == 73)
-	{
-		Name = "Killed P5";
-	}
-	else if(Index == 74)
-	{
-		Name = "Killed P6";
-	}
-	else if(Index == 75)
-	{
-		Name = "Killed P7";
-	}
-	else if(Index == 76)
-	{
-		Name = "Killed P8";
-	}
-	else if(Index == 77)
-	{
-		Name = "Conversion Resistance";
-	}
-	else if(Index == 78)
-	{
-		Name = "Trade Fee";
-	}
-	else if(Index == 79)
-	{
-		if(GameVersion < 4)
-		Name = "Stone Mining Productivity";
-		else
-		Name = "Ore Mining Productivity";
-	}
-	else if(Index == 80)
-	{
-		Name = "Queued Units";
-	}
-	else if(Index == 81)
-	{
-		Name = "Training Count";
-	}
-	else if(Index == 82)
-	{
-		Name = "Start With Packed Town Center / Raider";
-	}
-	else if(Index == 83)
-	{
-		Name = "Boarding Recharge Rate";
-	}
-	else if(Index == 84)
-	{
-		Name = "Starting Villagers";
-	}
-	else if(Index == 85)
-	{
-		Name = "Researches' Cost Multiplier";
-	}
-	else if(Index == 86)
-	{
-		Name = "Researches' Time Multiplier";
-	}
-	else if(Index == 87)
-	{
-		if(GameVersion < 4)
-		Name = "Convert Ships";
-		else
-		Name = "Concentration";
-	}
-	else if(Index == 88)
-	{
-		Name = "Fish Trap Food Amount";
-	}
-	else if(Index == 89)
-	{
-		if(GameVersion < 4)
-		Name = "Bonus Healing Rate";
-		else
-		Name = "Medic Healing Rate";
-	}
-	else if(Index == 90)
-	{
-		Name = "Healing Range";
-	}
-	else if(Index == 91)
-	{
-		Name = "Bonus Starting Food";
-	}
-	else if(Index == 92)
-	{
-		if(GameVersion < 4)
-		Name = "Bonus Starting Wood";
-		else
-		Name = "Bonus Starting Carbon";
-	}
-	else if(Index == 93)
-	{
-		if(GameVersion < 4)
-		Name = "Bonus Starting Stone";
-		else
-		Name = "Bonus Starting Ore";
-	}
-	else if(Index == 94)
-	{
-		if(GameVersion < 4)
-		Name = "Bonus Starting Gold";
-		else
-		Name = "Bonus Starting Nova";
-	}
-	else if(Index == 95)
-	{
-		Name = "Enable Town Center Packing / Raider Ability";
-	}
-	else if(Index == 96)
-	{
-		Name = "Self Healing Seconds (Berserkers)";
-	}
-	else if(Index == 97)
-	{
-		Name = "Sheep/Turkey Dominant LOS";
-	}
-	else if(Index == 98)
-	{
-		Name = "Score: Economy (Object Cost Summation)";
-	}
-	else if(Index == 99)
-	{
-		Name = "Score: Technology";
-	}
-	else if(Index == 100)
-	{
-		if(GameVersion < 4)
-		Name = "Relic Gold (Collected)";
-		else
-		Name = "Holocron Nova (Collected)";
-	}
-	else if(Index == 101)
-	{
-		Name = "Trade Profit";
-	}
-	else if(Index == 102)
-	{
-		Name = "P1 Tribute";
-	}
-	else if(Index == 103)
-	{
-		Name = "P2 Tribute";
-	}
-	else if(Index == 104)
-	{
-		Name = "P3 Tribute";
-	}
-	else if(Index == 105)
-	{
-		Name = "P4 Tribute";
-	}
-	else if(Index == 106)
-	{
-		Name = "P5 Tribute";
-	}
-	else if(Index == 107)
-	{
-		Name = "P6 Tribute";
-	}
-	else if(Index == 108)
-	{
-		Name = "P7 Tribute";
-	}
-	else if(Index == 109)
-	{
-		Name = "P8 Tribute";
-	}
-	else if(Index == 110)
-	{
-		Name = "P1 Kill Score";
-	}
-	else if(Index == 111)
-	{
-		Name = "P2 Kill Score";
-	}
-	else if(Index == 112)
-	{
-		Name = "P3 Kill Score";
-	}
-	else if(Index == 113)
-	{
-		Name = "P4 Kill Score";
-	}
-	else if(Index == 114)
-	{
-		Name = "P5 Kill Score";
-	}
-	else if(Index == 115)
-	{
-		Name = "P6 Kill Score";
-	}
-	else if(Index == 116)
-	{
-		Name = "P7 Kill Score";
-	}
-	else if(Index == 117)
-	{
-		Name = "P8 Kill Score";
-	}
-	else if(Index == 118)
-	{
-		Name = "P1 Razings";
-	}
-	else if(Index == 119)
-	{
-		Name = "P2 Razings";
-	}
-	else if(Index == 120)
-	{
-		Name = "P3 Razings";
-	}
-	else if(Index == 121)
-	{
-		Name = "P4 Razings";
-	}
-	else if(Index == 122)
-	{
-		Name = "P5 Razings";
-	}
-	else if(Index == 123)
-	{
-		Name = "P6 Razings";
-	}
-	else if(Index == 124)
-	{
-		Name = "P7 Razings";
-	}
-	else if(Index == 125)
-	{
-		Name = "P8 Razings";
-	}
-	else if(Index == 126)
-	{
-		Name = "P1 Razing Score";
-	}
-	else if(Index == 127)
-	{
-		Name = "P2 Razing Score";
-	}
-	else if(Index == 128)
-	{
-		Name = "P3 Razing Score";
-	}
-	else if(Index == 129)
-	{
-		Name = "P4 Razing Score";
-	}
-	else if(Index == 130)
-	{
-		Name = "P5 Razing Score";
-	}
-	else if(Index == 131)
-	{
-		Name = "P6 Razing Score";
-	}
-	else if(Index == 132)
-	{
-		Name = "P7 Razing Score";
-	}
-	else if(Index == 133)
-	{
-		Name = "P8 Razing Score";
-	}
-	else if(Index == 134)
-	{
-		Name = "Standing Castles";
-	}
-	else if(Index == 135)
-	{
-		Name = "Hit Points Razings (Unused)";
-	}
-	else if(Index == 136)
-	{
-		Name = "Kills By P1";
-	}
-	else if(Index == 137)
-	{
-		Name = "Kills By P2";
-	}
-	else if(Index == 138)
-	{
-		Name = "Kills By P3";
-	}
-	else if(Index == 139)
-	{
-		Name = "Kills By P4";
-	}
-	else if(Index == 140)
-	{
-		Name = "Kills By P5";
-	}
-	else if(Index == 141)
-	{
-		Name = "Kills By P6";
-	}
-	else if(Index == 142)
-	{
-		Name = "Kills By P7";
-	}
-	else if(Index == 143)
-	{
-		Name = "Kills By P8";
-	}
-	else if(Index == 144)
-	{
-		Name = "Razings By P1";
-	}
-	else if(Index == 145)
-	{
-		Name = "Razings By P2";
-	}
-	else if(Index == 146)
-	{
-		Name = "Razings By P3";
-	}
-	else if(Index == 147)
-	{
-		Name = "Razings By P4";
-	}
-	else if(Index == 148)
-	{
-		Name = "Razings By P5";
-	}
-	else if(Index == 149)
-	{
-		Name = "Razings By P6";
-	}
-	else if(Index == 150)
-	{
-		Name = "Razings By P7";
-	}
-	else if(Index == 151)
-	{
-		Name = "Razings By P8";
-	}
-	else if(Index == 152)
-	{
-		Name = "Units Lost Score";
-	}
-	else if(Index == 153)
-	{
-		Name = "Buildings Lost Score";
-	}
-	else if(Index == 154)
-	{
-		Name = "Units Lost";
-	}
-	else if(Index == 155)
-	{
-		Name = "Buildings Lost";
-	}
-	else if(Index == 156)
-	{
-		Name = "Tribute From P1";
-	}
-	else if(Index == 157)
-	{
-		Name = "Tribute From P2";
-	}
-	else if(Index == 158)
-	{
-		Name = "Tribute From P3";
-	}
-	else if(Index == 159)
-	{
-		Name = "Tribute From P4";
-	}
-	else if(Index == 160)
-	{
-		Name = "Tribute From P5";
-	}
-	else if(Index == 161)
-	{
-		Name = "Tribute From P6";
-	}
-	else if(Index == 162)
-	{
-		Name = "Tribute From P7";
-	}
-	else if(Index == 163)
-	{
-		Name = "Tribute From P8";
-	}
-	else if(Index == 164)
-	{
-		Name = "Current Units Score";
-	}
-	else if(Index == 165)
-	{
-		Name = "Current Buildings Score";
-	}
-	else if(Index == 166)
-	{
-		Name = "Food Collected";
-	}
-	else if(Index == 167)
-	{
-		if(GameVersion < 4)
-		Name = "Wood Collected";
-		else
-		Name = "Carbon Collected";
-	}
-	else if(Index == 168)
-	{
-		if(GameVersion < 4)
-		Name = "Stone Collected";
-		else
-		Name = "Ore Collected";
-	}
-	else if(Index == 169)
-	{
-		if(GameVersion < 4)
-		Name = "Gold Collected";
-		else
-		Name = "Nova Collected";
-	}
-	else if(Index == 170)
-	{
-		Name = "Score: Military";
-	}
-	else if(Index == 171)
-	{
-		Name = "Tribute Received";
-	}
-	else if(Index == 172)
-	{
-		Name = "Razing Score";
-	}
-	else if(Index == 173)
-	{
-		if(GameVersion < 4)
-		Name = "Total Castles";
-		else
-		Name = "Total Fortresses";
-	}
-	else if(Index == 174)
-	{
-		if(GameVersion < 4)
-		Name = "Total Wonders";
-		else
-		Name = "Total Monuments";
-	}
-	else if(Index == 175)
-	{
-		Name = "Score: Economy (Tribute)";
-	}
-	else if(Index == 176)
-	{
-		Name = "Convert Min Adjustment";
-	}
-	else if(Index == 177)
-	{
-		Name = "Convert Max Adjustment";
-	}
-	else if(Index == 178)
-	{
-		Name = "Convert Resist Min Adjustment";
-	}
-	else if(Index == 179)
-	{
-		Name = "Convert Resist Max Adjustment";
-	}
-	else if(Index == 180)
-	{
-		Name = "Convert Building Min";
-	}
-	else if(Index == 181)
-	{
-		Name = "Convert Building Max";
-	}
-	else if(Index == 182)
-	{
-		Name = "Convert Building Chance";
-	}
-	else if(Index == 183)
-	{
-		Name = "Reveal Enemy";
-	}
-	else if(Index == 184)
-	{
-		Name = "Score: Society";
-	}
-	else if(Index == 185)
-	{
-		Name = "Food Score";
-	}
-	else if(Index == 186)
-	{
-		if(GameVersion < 4)
-		Name = "Wood Score";
-		else
-		Name = "Carbon Score";
-	}
-	else if(Index == 187)
-	{
-		if(GameVersion < 4)
-		Name = "Stone Score";
-		else
-		Name = "Ore Score";
-	}
-	else if(Index == 188)
-	{
-		if(GameVersion < 4)
-		Name = "Gold Score";
-		else
-		Name = "Nova Score";
-	}
-	else if(Index == 189)
-	{
-		if(GameVersion < 4)
-		Name = "Chopping Productivity";
-		else
-		Name = "Carbon Gathering Productivity";
-	}
-	else if(Index == 190)
-	{
-		Name = "Food-gathering Productivity";
-	}
-	else if(Index == 191)
-	{
-		if(GameVersion < 4)
-		Name = "Relic Gold Production Rate";
-		else
-		Name = "Holocron Nova Production Rate";
-	}
-	else if(Index == 192)
-	{
-		Name = "Units Converted By Enemy Die";
-	}
-	else if(Index == 193)
-	{
-		if(GameVersion < 4)
-		Name = "Theocracy";
-		else
-		Name = "Meditation";
-	}
-	else if(Index == 194)
-	{
-		Name = "Crenellations";
-	}
-	else if(Index == 195)
-	{
-		Name = "Construction Rate (Except Wonder)";
-	}
-	else if(Index == 196)
-	{
-		if(GameVersion < 4)
-		Name = "Wonder Bonus";
-		else
-		Name = "Biological Self Regeneration";
-	}
-	else if(Index == 197)
-	{
-		Name = "Spies Discount";
-	}
-	else
-	{
-		Name = "Unknown";
+	switch(Index)
+	{
+		case 0:
+			Name = "Food Storage";
+			break;
+		case 1:
+			if(GameVersion < 4)
+			Name = "Wood Storage";
+			else
+			Name = "Carbon Storage";
+			break;
+		case 2:
+			if(GameVersion < 4)
+			Name = "Stone Storage";
+			else
+			Name = "Ore Storage";
+			break;
+		case 3:
+			if(GameVersion < 4)
+			Name = "Gold Storage ";
+			else
+			Name = "Nova Storage ";
+			break;
+		case 4:
+			Name = "Population Headroom";
+			break;
+		case 5:
+			if(GameVersion < 4)
+			Name = "Conversion Range?";
+			else
+			Name = "Conversion Range";
+			break;
+		case 6:
+			Name = "Current Age";
+			break;
+		case 7:
+			if(GameVersion < 4)
+			Name = "Relics Captured";
+			else
+			Name = "Holocrons Captured";
+			break;
+		case 8:
+			Name = "Trade Bonus";
+			break;
+		case 9:
+			Name = "Trade Goods";
+			break;
+		case 10:
+			if(GameVersion < 4)
+			Name = "Trade Production";
+			else
+			Name = "Shields Recharge Rate";
+			break;
+		case 11:
+			Name = "Population (Both Current and Headroom)";
+			break;
+		case 12:
+			Name = "Corpse Decay Time";
+			break;
+		case 13:
+			Name = "Discovery";
+			break;
+		case 14:
+			Name = "Monuments/Ruins Captured?";
+			break;
+		case 15:
+			Name = "Predator Animal Food";
+			break;
+		case 16:
+			Name = "Crops";
+			break;
+		case 17:
+			Name = "Fish Storage";
+			break;
+		case 18:
+			if(GameVersion < 4)
+			Name = "Unknown";
+			else
+			Name = "Power Core Range";
+			break;
+		case 19:
+			Name = "Total Units Owned";
+			break;
+		case 20:
+			Name = "Units Killed";
+			break;
+		case 21:
+			Name = "Research Count";
+			break;
+		case 22:
+			Name = "% Map Explored";
+			break;
+		case 23:
+			if(GameVersion < 4)
+			Name = "Castle Age?";
+			else
+			Name = "Submarine Detection";
+			break;
+		case 24:
+			if(GameVersion < 4)
+			Name = "Imperial Age?";
+			else
+			Name = "Shield Generator Range";
+			break;
+		case 25:
+			Name = "Feudal Age?";
+			break;
+		case 26:
+			if(GameVersion < 4)
+			Name = "Unknown";
+			else
+			Name = "Shields' Drop Off Time";
+			break;
+		case 27:
+			if(GameVersion < 4)
+			Name = "Enable Monk Conversion";
+			else
+			Name = "Enable Jedi Conversion";
+			break;
+		case 28:
+			Name = "Enable Building Conversion";
+			break;
+		case 30:
+			Name = "Building Limit";
+			break;
+		case 31:
+			if(GameVersion < 4)
+			Name = "Food Limit";
+			else
+			Name = "Enable A-A Attack For AT-AT";
+			break;
+		case 32:
+			if(GameVersion < 2)
+			Name = "Unit Limit";
+			else
+			Name = "Bonus Population";
+			break;
+		case 33:
+			if(GameVersion < 4)
+			Name = "Maintenance";
+			else
+			Name = "Power Core Shielding";
+			break;
+		case 34:
+			if(GameVersion < 4)
+			Name = "Faith";
+			else
+			Name = "Force";
+			break;
+		case 35:
+			if(GameVersion < 4)
+			Name = "Faith Recharging Rate";
+			else
+			Name = "Force Recharging Rate";
+			break;
+		case 36:
+			Name = "Farm Food Amount";
+			break;
+		case 37:
+			Name = "Civilian Units (Villager High)";
+			break;
+		case 38:
+			if(GameVersion < 4)
+			Name = "Unknown";
+			else
+			Name = "Shields On For Bombers/Fighters";
+			break;
+		case 39:
+			Name = "All Techs Achieved";
+			break;
+		case 40:
+			Name = "Military Units (Largest Army)";
+			break;
+		case 41:
+			Name = "Units Converted";
+			break;
+		case 42:
+			Name = "Standing? Wonders";
+			break;
+		case 43:
+			Name = "Buildings Razed";
+			break;
+		case 44:
+			Name = "Kill Ratio";
+			break;
+		case 45:
+			Name = "Survival to Finish";
+			break;
+		case 46:
+			Name = "Tribute Fee";
+			break;
+		case 47:
+			if(GameVersion < 4)
+			Name = "Gold Mining Productivity";
+			else
+			Name = "Nova Mining Productivity";
+			break;
+		case 48:
+			Name = "Town Center Unavailable";
+			break;
+		case 49:
+			Name = "Gold Counter";
+			break;
+		case 50:
+			Name = "Reveal Ally";
+			break;
+		case 51:
+			if(GameVersion < 4)
+			Name = "Houses (Unused)";
+			else
+			Name = "Shielding";
+			break;
+		case 52:
+			Name = "Monastery Count";
+			break;
+		case 53:
+			Name = "Tribute Sent";
+			break;
+		case 54:
+			Name = "All Ruins Have Been Captured";
+			break;
+		case 55:
+			Name = "All Relics Have Been Captured";
+			break;
+		case 56:
+			if(GameVersion < 4)
+			Name = "Ore Storage? Unit Unload Room?";
+			else
+			Name = "Enable Stealth For Masters";
+			break;
+		case 57:
+			Name = "Captured Unit";
+			break;
+		case 58:
+			if(GameVersion < 4)
+			Name = "Dark Age?";
+			else
+			Name = "Masters Can See Hidden Units";
+			break;
+		case 59:
+			Name = "Trade Good Quality";
+			break;
+		case 60:
+			Name = "Trade Market Level";
+			break;
+		case 61:
+			Name = "Formations";
+			break;
+		case 62:
+			Name = "Building Housing Rate";
+			break;
+		case 63:
+			Name = "Gather Tax Rate";
+			break;
+		case 64:
+			Name = "Gather Accumulator";
+			break;
+		case 65:
+			Name = "Salvage Decay Rate";
+			break;
+		case 66:
+			Name = "Ages? Allow Formations?";
+			break;
+		case 67:
+			Name = "Conversions";
+			break;
+		case 68:
+			Name = "Hit Points Killed (Unused)";
+			break;
+		case 69:
+			Name = "Killed P1";
+			break;
+		case 70:
+			Name = "Killed P2";
+			break;
+		case 71:
+			Name = "Killed P3";
+			break;
+		case 72:
+			Name = "Killed P4";
+			break;
+		case 73:
+			Name = "Killed P5";
+			break;
+		case 74:
+			Name = "Killed P6";
+			break;
+		case 75:
+			Name = "Killed P7";
+			break;
+		case 76:
+			Name = "Killed P8";
+			break;
+		case 77:
+			Name = "Conversion Resistance";
+			break;
+		case 78:
+			Name = "Trade Fee";
+			break;
+		case 79:
+			if(GameVersion < 4)
+			Name = "Stone Mining Productivity";
+			else
+			Name = "Ore Mining Productivity";
+			break;
+		case 80:
+			Name = "Queued Units";
+			break;
+		case 81:
+			Name = "Training Count";
+			break;
+		case 82:
+			Name = "Start With Packed Town Center / Raider";
+			break;
+		case 83:
+			Name = "Boarding Recharge Rate";
+			break;
+		case 84:
+			Name = "Starting Villagers";
+			break;
+		case 85:
+			Name = "Researches' Cost Multiplier";
+			break;
+		case 86:
+			Name = "Researches' Time Multiplier";
+			break;
+		case 87:
+			if(GameVersion < 4)
+			Name = "Convert Ships";
+			else
+			Name = "Concentration";
+			break;
+		case 88:
+			Name = "Fish Trap Food Amount";
+			break;
+		case 89:
+			if(GameVersion < 4)
+			Name = "Bonus Healing Rate";
+			else
+			Name = "Medic Healing Rate";
+			break;
+		case 90:
+			Name = "Healing Range";
+			break;
+		case 91:
+			Name = "Bonus Starting Food";
+			break;
+		case 92:
+			if(GameVersion < 4)
+			Name = "Bonus Starting Wood";
+			else
+			Name = "Bonus Starting Carbon";
+			break;
+		case 93:
+			if(GameVersion < 4)
+			Name = "Bonus Starting Stone";
+			else
+			Name = "Bonus Starting Ore";
+			break;
+		case 94:
+			if(GameVersion < 4)
+			Name = "Bonus Starting Gold";
+			else
+			Name = "Bonus Starting Nova";
+			break;
+		case 95:
+			Name = "Enable Town Center Packing / Raider Ability";
+			break;
+		case 96:
+			Name = "Self Healing Seconds (Berserkers)";
+			break;
+		case 97:
+			Name = "Sheep/Turkey Dominant LOS";
+			break;
+		case 98:
+			Name = "Score: Economy (Object Cost Summation)";
+			break;
+		case 99:
+			Name = "Score: Technology";
+			break;
+		case 100:
+			if(GameVersion < 4)
+			Name = "Relic Gold (Collected)";
+			else
+			Name = "Holocron Nova (Collected)";
+			break;
+		case 101:
+			Name = "Trade Profit";
+			break;
+		case 102:
+			Name = "P1 Tribute";
+			break;
+		case 103:
+			Name = "P2 Tribute";
+			break;
+		case 104:
+			Name = "P3 Tribute";
+			break;
+		case 105:
+			Name = "P4 Tribute";
+			break;
+		case 106:
+			Name = "P5 Tribute";
+			break;
+		case 107:
+			Name = "P6 Tribute";
+			break;
+		case 108:
+			Name = "P7 Tribute";
+			break;
+		case 109:
+			Name = "P8 Tribute";
+			break;
+		case 110:
+			Name = "P1 Kill Score";
+			break;
+		case 111:
+			Name = "P2 Kill Score";
+			break;
+		case 112:
+			Name = "P3 Kill Score";
+			break;
+		case 113:
+			Name = "P4 Kill Score";
+			break;
+		case 114:
+			Name = "P5 Kill Score";
+			break;
+		case 115:
+			Name = "P6 Kill Score";
+			break;
+		case 116:
+			Name = "P7 Kill Score";
+			break;
+		case 117:
+			Name = "P8 Kill Score";
+			break;
+		case 118:
+			Name = "P1 Razings";
+			break;
+		case 119:
+			Name = "P2 Razings";
+			break;
+		case 120:
+			Name = "P3 Razings";
+			break;
+		case 121:
+			Name = "P4 Razings";
+			break;
+		case 122:
+			Name = "P5 Razings";
+			break;
+		case 123:
+			Name = "P6 Razings";
+			break;
+		case 124:
+			Name = "P7 Razings";
+			break;
+		case 125:
+			Name = "P8 Razings";
+			break;
+		case 126:
+			Name = "P1 Razing Score";
+			break;
+		case 127:
+			Name = "P2 Razing Score";
+			break;
+		case 128:
+			Name = "P3 Razing Score";
+			break;
+		case 129:
+			Name = "P4 Razing Score";
+			break;
+		case 130:
+			Name = "P5 Razing Score";
+			break;
+		case 131:
+			Name = "P6 Razing Score";
+			break;
+		case 132:
+			Name = "P7 Razing Score";
+			break;
+		case 133:
+			Name = "P8 Razing Score";
+			break;
+		case 134:
+			Name = "Standing Castles";
+			break;
+		case 135:
+			Name = "Hit Points Razings (Unused)";
+			break;
+		case 136:
+			Name = "Kills By P1";
+			break;
+		case 137:
+			Name = "Kills By P2";
+			break;
+		case 138:
+			Name = "Kills By P3";
+			break;
+		case 139:
+			Name = "Kills By P4";
+			break;
+		case 140:
+			Name = "Kills By P5";
+			break;
+		case 141:
+			Name = "Kills By P6";
+			break;
+		case 142:
+			Name = "Kills By P7";
+			break;
+		case 143:
+			Name = "Kills By P8";
+			break;
+		case 144:
+			Name = "Razings By P1";
+			break;
+		case 145:
+			Name = "Razings By P2";
+			break;
+		case 146:
+			Name = "Razings By P3";
+			break;
+		case 147:
+			Name = "Razings By P4";
+			break;
+		case 148:
+			Name = "Razings By P5";
+			break;
+		case 149:
+			Name = "Razings By P6";
+			break;
+		case 150:
+			Name = "Razings By P7";
+			break;
+		case 151:
+			Name = "Razings By P8";
+			break;
+		case 152:
+			Name = "Units Lost Score";
+			break;
+		case 153:
+			Name = "Buildings Lost Score";
+			break;
+		case 154:
+			Name = "Units Lost";
+			break;
+		case 155:
+			Name = "Buildings Lost";
+			break;
+		case 156:
+			Name = "Tribute From P1";
+			break;
+		case 157:
+			Name = "Tribute From P2";
+			break;
+		case 158:
+			Name = "Tribute From P3";
+			break;
+		case 159:
+			Name = "Tribute From P4";
+			break;
+		case 160:
+			Name = "Tribute From P5";
+			break;
+		case 161:
+			Name = "Tribute From P6";
+			break;
+		case 162:
+			Name = "Tribute From P7";
+			break;
+		case 163:
+			Name = "Tribute From P8";
+			break;
+		case 164:
+			Name = "Current Units Score";
+			break;
+		case 165:
+			Name = "Current Buildings Score";
+			break;
+		case 166:
+			Name = "Food Collected";
+			break;
+		case 167:
+			if(GameVersion < 4)
+			Name = "Wood Collected";
+			else
+			Name = "Carbon Collected";
+			break;
+		case 168:
+			if(GameVersion < 4)
+			Name = "Stone Collected";
+			else
+			Name = "Ore Collected";
+			break;
+		case 169:
+			if(GameVersion < 4)
+			Name = "Gold Collected";
+			else
+			Name = "Nova Collected";
+			break;
+		case 170:
+			Name = "Score: Military";
+			break;
+		case 171:
+			Name = "Tribute Received";
+			break;
+		case 172:
+			Name = "Razing Score";
+			break;
+		case 173:
+			if(GameVersion < 4)
+			Name = "Total Castles";
+			else
+			Name = "Total Fortresses";
+			break;
+		case 174:
+			if(GameVersion < 4)
+			Name = "Total Wonders";
+			else
+			Name = "Total Monuments";
+			break;
+		case 175:
+			Name = "Score: Economy (Tribute)";
+			break;
+		case 176:
+			Name = "Convert Min Adjustment";
+			break;
+		case 177:
+			Name = "Convert Max Adjustment";
+			break;
+		case 178:
+			Name = "Convert Resist Min Adjustment";
+			break;
+		case 179:
+			Name = "Convert Resist Max Adjustment";
+			break;
+		case 180:
+			Name = "Convert Building Min";
+			break;
+		case 181:
+			Name = "Convert Building Max";
+			break;
+		case 182:
+			Name = "Convert Building Chance";
+			break;
+		case 183:
+			Name = "Reveal Enemy";
+			break;
+		case 184:
+			Name = "Score: Society";
+			break;
+		case 185:
+			Name = "Food Score";
+			break;
+		case 186:
+			if(GameVersion < 4)
+			Name = "Wood Score";
+			else
+			Name = "Carbon Score";
+			break;
+		case 187:
+			if(GameVersion < 4)
+			Name = "Stone Score";
+			else
+			Name = "Ore Score";
+			break;
+		case 188:
+			if(GameVersion < 4)
+			Name = "Gold Score";
+			else
+			Name = "Nova Score";
+			break;
+		case 189:
+			if(GameVersion < 4)
+			Name = "Chopping Productivity";
+			else
+			Name = "Carbon Gathering Productivity";
+			break;
+		case 190:
+			Name = "Food-gathering Productivity";
+			break;
+		case 191:
+			if(GameVersion < 4)
+			Name = "Relic Gold Production Rate";
+			else
+			Name = "Holocron Nova Production Rate";
+			break;
+		case 192:
+			Name = "Units Converted By Enemy Die";
+			break;
+		case 193:
+			if(GameVersion < 4)
+			Name = "Theocracy";
+			else
+			Name = "Meditation";
+			break;
+		case 194:
+			Name = "Crenellations";
+			break;
+		case 195:
+			Name = "Construction Rate (Except Wonder)";
+			break;
+		case 196:
+			if(GameVersion < 4)
+			Name = "Wonder Bonus";
+			else
+			Name = "Biological Self Regeneration";
+			break;
+		case 197:
+			Name = "Spies Discount";
+			break;
+		default:
+			Name = "Unknown";
 	}
 	return Name;
 }
@@ -1278,7 +1064,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent& Event)
 	{
 		ResourceIDs.resize(Selections);
 		float * CivResourcePointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			CivResourcePointer = (float*)Civs_Resources_List->GetClientData(Items.Item(loop));
 			ResourceIDs[loop] = (CivResourcePointer - (&GenieFile->Civs[CivIDs[0]].Resources[0]));
@@ -1323,7 +1109,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent& Event)
 		wxBusyCursor WaitCursor;
 		for(short loop2=0; loop2 < GenieFile->Civs.size(); loop2++)
 		{
-			for(short loop = Selections-1;loop >= 0;loop--)
+			for(short loop = Selections; loop--> 0;)
 			GenieFile->Civs[loop2].Resources.erase(GenieFile->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
 		}
 		ListResources();
@@ -1398,7 +1184,8 @@ void AGE_Frame::CreateCivControls()
 	Civs_Civs_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Civs_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Civs_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
-	Civs_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Civs_Add = new wxButton(Tab_Civs, wxID_ANY, "Add *", wxDefaultPosition, wxSize(5, 20));
+	Civs_Add->SetToolTip("I highly recommend you to download UserPatch\nfrom xOmicron, if you play The Conquerors.\nWith it you can use added civilizations.\nStar Wars versions can already have more civilizations.");
 	Civs_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Civs_Delete = new wxButton(Tab_Civs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Civs_Copy = new wxButton(Tab_Civs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
@@ -1416,8 +1203,9 @@ void AGE_Frame::CreateCivControls()
 	Civs_Text_Name[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_Name[1] = new TextCtrl_String(Tab_Civs, "0", NULL, 20);
 	Civs_Holder_GraphicSet = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_GraphicSet = new wxStaticText(Tab_Civs, wxID_ANY, " Graphic Set", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Text_GraphicSet = new wxStaticText(Tab_Civs, wxID_ANY, " Graphic Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs, "0", NULL);
+	Civs_GraphicSet->SetToolTip("This doesn't change the graphics");
 	Civs_Holder_One = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_One = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = new TextCtrl_Byte(Tab_Civs, "0", NULL);

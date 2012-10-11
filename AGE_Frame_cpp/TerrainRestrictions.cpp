@@ -4,8 +4,7 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainRestrictionName(short &Index)
 {
-	string Name = "";
-	Name = "Restriction "+lexical_cast<string>(Index);
+	string Name = "Restriction "+lexical_cast<string>(Index);
 /*	if(Index == 1)
 	{
 		Name = "Overland " + lexical_cast<string>(Index);
@@ -150,7 +149,7 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
 	{
 		TerRestrictIDs.resize(Selections);
 		genie::TerrainRestriction * TerrainRestrictionPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(loop));
 			TerRestrictIDs[loop] = (TerrainRestrictionPointer - (&GenieFile->TerrainRestrictions[0]));
@@ -169,7 +168,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 		genie::TerrainRestriction * TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(0));
 		TerRestrictTerIDs.resize(Selections2);
 		genie::Terrain * TerrainPointer;
-		for(short loop = Selections2-1;loop >= 0;loop--)
+		for(short loop = Selections2; loop--> 0;)
 		{
 			TerrainPointer = (genie::Terrain*)TerRestrict_Terrains_List->GetClientData(Items2.Item(loop));
 			TerRestrictTerIDs[loop] = (TerrainPointer - (&GenieFile->Terrains[0]));
@@ -250,7 +249,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			GenieFile->TerrainRestrictions.erase(GenieFile->TerrainRestrictions.begin() + TerRestrictIDs[loop]);
 			GenieFile->TerrainRestrictionPointers1.erase(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[loop]);

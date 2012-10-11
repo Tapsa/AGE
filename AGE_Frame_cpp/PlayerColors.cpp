@@ -4,16 +4,9 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetPlayerColorName(short &Index)
 {
-	string Name = "";
 	if(GameVersion <= 1)
-	{
-		Name = GenieFile->PlayerColours[Index].Name;
-	}
-	else
-	{
-		Name = "Color "+lexical_cast<string>(Index);
-	}
-	return Name;
+		return GenieFile->PlayerColours[Index].Name;
+	return "Color "+lexical_cast<string>(Index)+" ";
 }
 
 void AGE_Frame::ListPlayerColors()
@@ -53,7 +46,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 	{
 		ColorIDs.resize(Selections);
 		genie::PlayerColour * PlayerColorPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
 			ColorIDs[loop] = (PlayerColorPointer - (&GenieFile->PlayerColours[0]));
@@ -119,7 +112,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorIDs[loop]);
 		ListPlayerColors();
 	}

@@ -1673,7 +1673,6 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 	}
 	else
 	{
-		Splits = SplitTop;
 		Found = SearchText.find("|", 1); // Searching for separation mark in search text.
 		if((Found != string::npos) && 1 < (SearchText.length() - Found)) // Separation mark found and there is search text on its both sides.
 		{
@@ -1682,11 +1681,12 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			SearchEnd[1] = SearchText.substr(Found+1); // Cutting the remaining part.
 
 			// Lets look if there are additional separation marks left.
-			for(short loop = 2;loop < Splits; loop++) // Splits over 2 parts if necessary.
+			for(auto loop=2; loop < SearchEnd.max_size(); loop++) // Splits over 2 parts if necessary.
 			{
 				Found = SearchEnd[loop-1].find("|", 1);
 				if((Found != string::npos) && 1 < (SearchEnd[loop-1].length() - Found))
 				{
+					if(loop == SearchEnd.size()) SearchEnd.resize(SearchEnd.size()*2);
 					SearchEnd[loop] = SearchEnd[loop-1].substr(Found+1);
 					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
 				}
@@ -1698,7 +1698,7 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			}
 
 			// Searching for matches.
-			for(short loop=0; loop < Splits; loop++)
+			for(auto loop=0; loop < Splits; loop++)
 			{
 				if(CompareText.find(SearchEnd[loop]) != string::npos)
 				Matches = true;
@@ -1719,7 +1719,6 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 	}
 	else
 	{
-		Splits = SplitTop;
 		Found = ExcludeText.find("|", 1); // Searching for separation mark in exclude text.
 		if((Found != string::npos) && 1 < (ExcludeText.length() - Found)) // Separation mark found and there is exclude text on its both sides.
 		{
@@ -1728,11 +1727,12 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			SearchEnd[1] = ExcludeText.substr(Found+1); // Cutting the remaining part.
 
 			// Lets look if there are additional separation marks left.
-			for(short loop = 2;loop < Splits; loop++) // Splits over 2 parts if necessary.
+			for(auto loop=2; loop < SearchEnd.max_size(); loop++) // Splits over 2 parts if necessary.
 			{
 				Found = SearchEnd[loop-1].find("|", 1);
 				if((Found != string::npos) && 1 < (SearchEnd[loop-1].length() - Found))
 				{
+					if(loop == SearchEnd.size()) SearchEnd.resize(SearchEnd.size()*2);
 					SearchEnd[loop] = SearchEnd[loop-1].substr(Found+1);
 					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
 				}
@@ -1744,7 +1744,7 @@ bool AGE_Frame::SearchMatches(wxString &CompareText)
 			}
 
 			// Searching for matches.
-			for(short loop=0; loop < Splits; loop++)
+			for(auto loop=0; loop < Splits; loop++)
 			{
 				if(CompareText.find(SearchEnd[loop]) != string::npos)
 				Matches = false;
@@ -2871,6 +2871,33 @@ void AGE_Frame::ListingFix(int &Selections, wxListBox* &List)
 		{
 			List->SetFirstItem(Items.Item(0) - 3);
 			List->SetSelection(Items.Item(0));
+		}
+	}
+}
+
+void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch)
+{
+	auto Selections = List->GetSelections(Items);
+	if(Selections > 0)
+	{
+		wxString TopText, SubText, Line;
+		size_t Found;
+		for(short loop=0; loop < Selections; loop++)
+		{
+			Line = List->GetString(Items.Item(loop));
+			Found = Line.find(" ", 3);
+			if(loop == 0)
+			{
+				TopText = " "+Line.substr(2, Found-1); // Cutting the tech number. (for example)
+				SubText = " "+Line.substr(Found+2, Line.find(" ", Found+3)-Found-1); // Cutting the effect number.
+			}
+			else
+			{
+				TopText += "| "+Line.substr(2, Found-1); // Cutting the sound number.
+				SubText += "| "+Line.substr(Found+2, Line.find(" ", Found+3)-Found-1); // Cutting the filename.
+			}
+			TopSearch->SetValue(TopText);
+			SubSearch->SetValue(SubText);
 		}
 	}
 }

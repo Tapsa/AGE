@@ -4,16 +4,9 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetUnitLineName(short &Index)
 {
-	string Name = "";
 	if(GenieFile->UnitLines[Index].Name != "")
-	{
-		Name = GenieFile->UnitLines[Index].Name;
-	}
-	else
-	{
-		Name = "Unitline "+lexical_cast<string>(Index);
-	}
-	return Name;
+		return GenieFile->UnitLines[Index].Name;
+	return "Unitline "+lexical_cast<string>(Index);
 }
 
 void AGE_Frame::OnUnitLinesSearch(wxCommandEvent& Event)
@@ -71,7 +64,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
 	{
 		UnitLineIDs.resize(Selections);
 		genie::UnitLine * LinePointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Items.Item(loop));
 			UnitLineIDs[loop] = (LinePointer - (&GenieFile->UnitLines[0]));
@@ -119,7 +112,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineIDs[loop]);
 		if(EnableIDFix)
 		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
@@ -177,8 +170,7 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent& Event)
 
 string AGE_Frame::GetUnitLineUnitName(short &Index)
 {
-	string Name = "";
-	Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index])+" ";
+	string Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index])+" ";
 	if(LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 2) != "")
 	{
 		Name += LanguageDLLString(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 64);
@@ -230,7 +222,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent& Event)
 	{
 		UnitLineUnitIDs.resize(Selections);
 		int16_t * UnitPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			UnitPointer = (int16_t*)UnitLines_UnitLineUnits_List->GetClientData(Items.Item(loop));
 			UnitLineUnitIDs[loop] = (UnitPointer - (&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[0]));
@@ -275,7 +267,7 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.erase(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[loop]);
 		ListUnitLineUnits();
 	}

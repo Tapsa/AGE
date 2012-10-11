@@ -268,7 +268,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent& Event)
 	{
 		GraphicIDs.resize(Selections);
 		genie::Graphic * GraphicPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			GraphicPointer = (genie::Graphic*)Graphics_Graphics_List->GetClientData(Items.Item(loop));
 			GraphicIDs[loop] = (GraphicPointer - (&GenieFile->Graphics[0]));
@@ -369,7 +369,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			GenieFile->Graphics.erase(GenieFile->Graphics.begin() + GraphicIDs[loop]);
 			GenieFile->GraphicPointers.erase(GenieFile->GraphicPointers.begin() + GraphicIDs[loop]);
@@ -469,10 +469,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent& Event)
 
 string AGE_Frame::GetGraphicDeltaName(short &Index)
 {
-	string Name = "";
-	Name = "Graphic ID: ";
-	Name += lexical_cast<string>(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID);
-	return Name;
+	return "Graphic "+lexical_cast<string>(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID)+" ";
 }
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent& Event)
@@ -511,7 +508,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent& Event)
 	{
 		DeltaIDs.resize(Selections);
 		genie::GraphicDelta * DeltaPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			DeltaPointer = (genie::GraphicDelta*)Graphics_Deltas_List->GetClientData(Items.Item(loop));
 			DeltaIDs[loop] = (DeltaPointer - (&GenieFile->Graphics[GraphicIDs[0]].Deltas[0]));
@@ -579,7 +576,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		GenieFile->Graphics[GraphicIDs[0]].Deltas.erase(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[loop]);
 		ListGraphicDeltas();
 	}
@@ -627,9 +624,7 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent& Event)
 
 string AGE_Frame::GetGraphicAttackSoundName(short &Index)
 {
-	string Name = "";
-	Name = "Attack Sound "+lexical_cast<string>(Index);
-	return Name;
+	return "Attack sound "+lexical_cast<string>(Index);
 }
 
 void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent& Event)
@@ -663,7 +658,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent& Event)
 	{
 		AttackSoundIDs.resize(Selections);
 		genie::GraphicAttackSound * AttackSoundPointer;
-		for(short loop = Selections-1;loop >= 0;loop--)
+		for(short loop = Selections; loop--> 0;)
 		{
 			AttackSoundPointer = (genie::GraphicAttackSound*)Graphics_AttackSounds_List->GetClientData(Items.Item(loop));
 			AttackSoundIDs[loop] = (AttackSoundPointer - (&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[0]));
