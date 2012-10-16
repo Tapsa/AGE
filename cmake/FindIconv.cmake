@@ -15,12 +15,14 @@ ENDIF (ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
 
 FIND_PATH(ICONV_INCLUDE_DIR iconv.h
   # mingw32:
-  c:/cpp/MinGW/include # MinGW default path
+  c:/MinGW/include # MinGW default path
+  c:/cpp/MinGW/include
 ) 
  
 FIND_LIBRARY(ICONV_LIBRARIES NAMES iconv libiconv libiconv-2 c PATHS
   # mingw32:
-  c:/cpp/MinGW/lib # MinGW default path
+  c:/MinGW/lib # MinGW default path
+  c:/cpp/MinGW/lib 
 )
  
 IF(ICONV_INCLUDE_DIR AND ICONV_LIBRARIES) 

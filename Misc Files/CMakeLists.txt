@@ -27,6 +27,7 @@ find_package(Iconv)
 
 if (${ICONV_FOUND})
   message(STATUS "Iconv found! Language file support: ENABLED")
+  message(STATUS "Lib at: " ${ICONV_LIBRARIES})
   set(GU_LANG_SUPPORT true)
 else (${ICONV_FOUND})
   message(STATUS "Iconv not found: Language file support: DISABLED")
