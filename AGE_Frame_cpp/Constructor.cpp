@@ -8,6 +8,10 @@ using boost::lexical_cast;
 AGE_Frame::AGE_Frame(const wxString& title)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
 {
+	// initialize LangFile
+	for (int i=0; i<3; i++)
+		LangFile[i] = 0;
+
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
@@ -161,7 +165,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	}
 
 	genie::Logger::setLogLevel(genie::Logger::L_INFO);
-	std::ofstream log_out;
+	static std::ofstream log_out;
 	log_out.open("gulog.txt");
 	genie::Logger::setGlobalOutputStream(log_out);
 	GenieFile = NULL;
