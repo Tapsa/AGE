@@ -169,6 +169,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	log_out.open("gulog.txt");
 	genie::Logger::setGlobalOutputStream(log_out);
 	GenieFile = NULL;
+	for(short loop=3; loop--> 0;) LangFile[loop] = NULL;
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
