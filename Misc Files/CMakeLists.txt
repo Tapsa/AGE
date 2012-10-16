@@ -155,7 +155,7 @@ set(BINCOMP_SRC src/tools/bincompare/bincomp.cpp
 
 add_library(${Genieutils_LIBRARY} STATIC ${FILE_SRC} ${LANG_SRC} ${DAT_SRC} 
                                   ${RESOURCE_SRC} ${UTIL_SRC} ${SCRIPT_SRC} )
-target_link_libraries(${Genieutils_LIBRARY} ${ZLIB_LIBRARIES} ${Boost_LIBRARIES} ${Icu_LIBRARY} ${ICONV_LIBRARIES})
+target_link_libraries(${Genieutils_LIBRARY} ${ZLIB_LIBRARIES} ${Boost_LIBRARIES} ${ICONV_LIBRARIES})
 
 #add_executable(main main.cpp)
 #target_link_libraries(main ${Genieutils_LIBRARY})

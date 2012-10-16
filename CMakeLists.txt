@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 project(AdvancedGenieEditor2)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
+set(ICONV_LIBRARIES "C:\Cpp\MinGW\lib\libiconv.a")
 set(CMAKE_CXX_FLAGS "-std=gnu++0x")
 set(Boost_USE_STATIC_LIBS        ON)
 set(Boost_USE_MULTITHREADED      ON)
