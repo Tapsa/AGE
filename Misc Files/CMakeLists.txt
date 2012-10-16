@@ -12,12 +12,14 @@ project(genieutils)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 
+# dependencies:
+
 find_package(ZLIB REQUIRED)
 find_package(Boost 1.42 COMPONENTS iostreams REQUIRED)
 
 
 if (GUTILS_TEST)
-  find_package(Boost 1.42 COMPONENTS program_options unit_test_framework REQUIRED)
+  find_package(Boost 1.42 COMPONENTS unit_test_framework program_options REQUIRED)
   find_package(SFML COMPONENTS SYSTEM WINDOW GRAPHICS REQUIRED)
 endif (GUTILS_TEST)
 
@@ -31,6 +33,7 @@ else (${ICONV_FOUND})
   set(GU_LANG_SUPPORT false)
 endif (${ICONV_FOUND})
 
+
 # boost options:
 
 set(Boost_USE_STATIC_LIBS        ON)
@@ -39,24 +42,17 @@ set(Boost_USE_STATIC_RUNTIME     ON)
 
 # include directories:
 
-set(GUTILS_INCLUDE_DIRS ${Boost_INCLUDE_DIRS} extern/)
+set(GU_INCLUDE_DIRS include/ extern/ ${Boost_INCLUDE_DIRS})
 
 if (${ICONV_FOUND})
-  set(GUTILS_INCLUDE_DIRS ${GUTILS_INCLUDE_DIRS} ${ICONV_INCLUDE_DIR})
+  set(GU_INCLUDE_DIRS ${GU_INCLUDE_DIRS} ${ICONV_INCLUDE_DIR})
 endif (${ICONV_FOUND})
 
-if (GUTILS_TEST)
-  include_directories(
-      include/
-      ${GUTILS_INCLUDE_DIRS}
-      ${SFML_INCLUDE_DIR}
-      )
-else (GUTILS_TEST)
-  include_directories(
-      include/
-      ${GUTILS_INCLUDE_DIRS}
-      )
-endif (GUTILS_TEST)
+if (${GUTILS_TEST})
+  set(GU_INCLUDE_DIRS ${GU_INCLUDE_DIRS} ${SFML_INCLUDE_DIR})
+endif (${GUTILS_TEST})
+
+include_directories(${GU_INCLUDE_DIRS})
 
 add_definitions(-Wall)
 
@@ -157,8 +153,7 @@ set(BINCOMP_SRC src/tools/bincompare/bincomp.cpp
 #------------------------------------------------------------------------------#
 
 add_library(${Genieutils_LIBRARY} STATIC ${FILE_SRC} ${LANG_SRC} ${DAT_SRC} 
-                                  ${RESOURCE_SRC} ${UTIL_SRC} ${SCRIPT_SRC} 
-                                )
+                                  ${RESOURCE_SRC} ${UTIL_SRC} ${SCRIPT_SRC} )
 target_link_libraries(${Genieutils_LIBRARY} ${ZLIB_LIBRARIES} ${Boost_LIBRARIES} ${Icu_LIBRARY} ${ICONV_LIBRARIES})
 
 #add_executable(main main.cpp)
