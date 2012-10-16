@@ -203,12 +203,12 @@ void AGE_Frame::CivCountWarning()
 {
 //	Unit copying fixes.
 	DatCopies.Civs.resize(GenieFile->Civs.size());
-	if(PopupCivWarning && GenieFile->Civs.size() > MaxCivs) // Is shown only once.
+	/*if(PopupCivWarning && GenieFile->Civs.size() > MaxCivs) // Is shown only once.
 	{
 		PopupCivWarning = false;
 		wxMessageBox("Auto-copy doesn't work for over "+lexical_cast<string>(MaxCivs)+" civilizations!\n"
 		+"Send a help request to AoKH.");
-	}
+	}*/
 	ListCivs();
 }
 

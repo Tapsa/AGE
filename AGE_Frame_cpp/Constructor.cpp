@@ -1,5 +1,7 @@
 
 #include "../AGE_Frame.h"
+#include "genie/util/Logger.h"
+
 //#include <wx/arrimpl.cpp>
 using boost::lexical_cast;
 

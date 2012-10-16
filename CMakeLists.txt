@@ -19,7 +19,9 @@ set(GDAT_STATIC TRUE)
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
-include_directories(${CMAKE_HOME_DIRECTORY}/extern/genieutils/include ${Boost_INCLUDE_DIRS})
+include_directories(
+    ${CMAKE_HOME_DIRECTORY}/extern/genieutils/include 
+	${Boost_INCLUDE_DIRS})
 
 add_subdirectory(extern/genieutils)
 
