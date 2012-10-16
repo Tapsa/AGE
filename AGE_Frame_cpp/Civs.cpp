@@ -206,8 +206,7 @@ void AGE_Frame::CivCountWarning()
 	if(PopupCivWarning && GenieFile->Civs.size() > MaxCivs) // Is shown only once.
 	{
 		PopupCivWarning = false;
-		wxMessageBox("Auto-copy doesn't work for over "+lexical_cast<string>(MaxCivs)+" civilizations!\n"
-		+"Send a help request to AoKH.");
+		wxMessageBox("Auto-copy doesn't work for over +lexical_cast<string>(MaxCivs)+ civilizations!\nSend a help request to AoKH.");
 	}
 	ListCivs();
 }
