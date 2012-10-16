@@ -183,7 +183,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 	if(LangsUsed & 1)
 	{
-		LangFile[0] = new genie::LangFile[0]();
+		LangFile[0] = new genie::LangFile();
 		try
 		{
 			LangFile[0]->setGameVersion(GenieVersion);
@@ -199,7 +199,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	}
 	if(LangsUsed & 2)
 	{
-		LangFile[1] = new genie::LangFile[1]();
+		LangFile[1] = new genie::LangFile();
 		try
 		{
 			LangFile[1]->setGameVersion(GenieVersion);
@@ -215,7 +215,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 	}
 	if(LangsUsed & 4)
 	{
-		LangFile[2] = new genie::LangFile[2]();
+		LangFile[2] = new genie::LangFile();
 		try
 		{
 			LangFile[2]->setGameVersion(GenieVersion);
