@@ -11,7 +11,8 @@
 #include "wx/statline.h"
 #include "windows.h"
 #include "genie/dat/DatFile.h"	// Newer dat system
-#include "genie/resource/DrsFile.h"	// DRS file system
+#include "genie/lang/LangFile.h"
+//#include "genie/resource/DrsFile.h"	// DRS file system
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
@@ -640,6 +641,7 @@ class AGE_Frame : public wxFrame
 	wxFileConfig * ExtractUnit;
 //	wxFileConfig * Extraction;
 	genie::DatFile * GenieFile;
+	genie::LangFile * LangFile[3];
 //	wxSound SoundFile;
 
 /*	genie::DatFile FileBackup; // Can't copy the whole file?
