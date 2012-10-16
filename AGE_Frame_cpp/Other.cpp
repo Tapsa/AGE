@@ -4,7 +4,6 @@ using boost::lexical_cast;
 
 void AGE_Frame::OnOpen(wxCommandEvent& Event)
 {
-//	int ErrCode = 0;
 	wxCommandEvent Selected;
 
 	if(!SkipOpenDialog)
@@ -150,19 +149,6 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
 	}
 
-	if(LangsUsed & 1)
-	{
-		LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
-	}
-	if(LangsUsed & 2)
-	{
-		LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
-	}
-	if(LangsUsed & 4)
-	{
-		LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
-	}
-
 	genie::GameVersion GenieVersion;
 	switch(GameVersion)
 	{
@@ -186,6 +172,62 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			break;
 		default:
 		GenieVersion = genie::GV_None;
+	}
+
+	for(short loop=3; loop--> 0;)
+	if(LangFile[loop] != NULL)
+	{
+		delete LangFile[loop];
+		LangFile[loop] = NULL;
+	}
+
+	if(LangsUsed & 1)
+	{
+		LangFile[0] = new genie::LangFile[0]();
+		try
+		{
+			LangFile[0]->setGameVersion(GenieVersion);
+			LangFile[0]->load(LangFileName.c_str());
+		}
+		catch(std::ios_base::failure e)
+		{
+			delete LangFile[0];
+			LangFile[0] = NULL;
+			return;
+		}
+		LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
+	}
+	if(LangsUsed & 2)
+	{
+		LangFile[1] = new genie::LangFile[1]();
+		try
+		{
+			LangFile[1]->setGameVersion(GenieVersion);
+			LangFile[1]->load(LangX1FileName.c_str());
+		}
+		catch(std::ios_base::failure e)
+		{
+			delete LangFile[1];
+			LangFile[1] = NULL;
+			return;
+		}
+		LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
+	}
+	if(LangsUsed & 4)
+	{
+		LangFile[2] = new genie::LangFile[2]();
+		try
+		{
+			LangFile[2]->setGameVersion(GenieVersion);
+			LangFile[2]->load(LangX1P1FileName.c_str());
+		}
+		catch(std::ios_base::failure e)
+		{
+			delete LangFile[2];
+			LangFile[2] = NULL;
+			return;
+		}
+		LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
 	}
 
 	switch(DatUsed)

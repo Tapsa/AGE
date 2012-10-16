@@ -158,6 +158,10 @@ AGE_Frame::AGE_Frame(const wxString& title)
 		SkipOpenDialog = true;
 	}
 
+	genie::Logger::setLogLevel(genie::Logger::L_INFO);
+	std::ofstream log_out;
+	log_out.open("gulog.txt");
+	genie::Logger::setGlobalOutputStream(log_out);
 	GenieFile = NULL;
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
