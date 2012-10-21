@@ -112,9 +112,9 @@ string AGE_Frame::GetUnitName(short &Index, short &civ, bool Filter)
 		if(Selection[0] != 1) Filter = false; // Names
 	}
 
-	if((LanguageDLLString(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 2) != "") && (Filter == false))
+	if((LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 2) != "") && (Filter == false))
 	{
-		Name += LanguageDLLString(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 64);
+		Name += LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 64);
 	}
 	else if(GenieFile->Civs[civ].Units[Index].Name != "")
 	{
@@ -924,10 +924,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_ID1->Container = &UnitPointer->ID1;
 		Units_LanguageDLLName->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLName));
 		Units_LanguageDLLName->Container = &UnitPointer->LanguageDLLName;
-		Units_DLL_LanguageDLLName->SetLabel(LanguageDLLString(UnitPointer->LanguageDLLName, 64));
+		Units_DLL_LanguageDLLName->SetLabel(LangDLLstring(UnitPointer->LanguageDLLName, 64));
 		Units_LanguageDLLCreation->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLCreation));
 		Units_LanguageDLLCreation->Container = &UnitPointer->LanguageDLLCreation;
-		Units_DLL_LanguageDLLCreation->SetLabel(LanguageDLLString(UnitPointer->LanguageDLLCreation, 64));
+		Units_DLL_LanguageDLLCreation->SetLabel(LangDLLstring(UnitPointer->LanguageDLLCreation, 64));
 		Units_Class->ChangeValue(lexical_cast<string>(UnitPointer->Class));
 		Units_Class->Container = &UnitPointer->Class;
 		Units_ComboBox_Class[0]->SetSelection(UnitPointer->Class + 1);
@@ -1018,8 +1018,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_EditorSelectionColour->Container = &UnitPointer->EditorSelectionColour;
 		if(GameVersion >= 2)
 		{
-			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-79000)+": "+LanguageDLLString(UnitPointer->LanguageDLLHelp-79000, 512));
-			Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-140000)+": "+LanguageDLLString(UnitPointer->LanguageDLLHotKeyText-140000, 64));
+			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-79000)+": "+LangDLLstring(UnitPointer->LanguageDLLHelp-79000, 512));
+			Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-140000)+": "+LangDLLstring(UnitPointer->LanguageDLLHotKeyText-140000, 64));
 			Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
 			Units_StandingGraphic[1]->Container = &UnitPointer->StandingGraphic.second;
 			Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
@@ -1041,8 +1041,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		}
 		else
 		{
-			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-65536)+": "+LanguageDLLString(UnitPointer->LanguageDLLHelp-65536, 512));
-			Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-131072)+": "+LanguageDLLString(UnitPointer->LanguageDLLHotKeyText-131072, 64));
+			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-65536)+": "+LangDLLstring(UnitPointer->LanguageDLLHelp-65536, 512));
+			Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-131072)+": "+LangDLLstring(UnitPointer->LanguageDLLHotKeyText-131072, 64));
 			Units_Unknown3a->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3a));
 			Units_Unknown3a->Container = &UnitPointer->Unknown3a;
 			Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
@@ -1062,7 +1062,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 		Units_LanguageDLLHotKeyText->Container = &UnitPointer->LanguageDLLHotKeyText;
 		Units_HotKey->ChangeValue(lexical_cast<string>(UnitPointer->HotKey));
 		Units_HotKey->Container = &UnitPointer->HotKey;
-		Units_DLL_HotKey4->SetLabel(LanguageDLLString(UnitPointer->HotKey, 16));
+		Units_DLL_HotKey4->SetLabel(LangDLLstring(UnitPointer->HotKey, 16));
 		Units_Unknown4->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown4));
 		Units_Unknown4->Container = &UnitPointer->Unknown4;
 		Units_Unknown5->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown5));
