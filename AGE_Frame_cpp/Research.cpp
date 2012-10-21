@@ -69,9 +69,9 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 		if(Selection[0] != 1) Filter = false; // Names
 	}
 
-	if((LanguageDLLString(GenieFile->Researchs[Index].LanguageDLLName, 2) != "") && (Filter == false))
+	if((LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 2) != "") && (Filter == false))
 	{
-		Name += LanguageDLLString(GenieFile->Researchs[Index].LanguageDLLName, 64);
+		Name += LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 64);
 	}
 	else if(GenieFile->Researchs[Index].Name != "")
 	{
@@ -321,23 +321,23 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 			Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
 			Research_FullTechMode->Container = &ResearchPointer->FullTechMode;
 			Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
-			Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-79000)+": "+LanguageDLLString(ResearchPointer->Pointers[0]-79000, 64));
-			Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-140000)+": "+LanguageDLLString(ResearchPointer->Pointers[1]-140000, 64));
+			Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-79000)+": "+LangDLLstring(ResearchPointer->Pointers[0]-79000, 64));
+			Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-140000)+": "+LangDLLstring(ResearchPointer->Pointers[1]-140000, 64));
 		}
 		else
 		{
-			Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-65536)+": "+LanguageDLLString(ResearchPointer->Pointers[0]-65536, 64));
-			Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-131072)+": "+LanguageDLLString(ResearchPointer->Pointers[1]-131072, 64));
+			Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-65536)+": "+LangDLLstring(ResearchPointer->Pointers[0]-65536, 64));
+			Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-131072)+": "+LangDLLstring(ResearchPointer->Pointers[1]-131072, 64));
 		}
 		Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
 		Research_ResearchLocation->Container = &ResearchPointer->ResearchLocation;
 		Research_ComboBox_ResearchLocation->SetSelection(ResearchPointer->ResearchLocation + 1);
 		Research_LangDLLName->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLName));
 		Research_LangDLLName->Container = &ResearchPointer->LanguageDLLName;
-		Research_DLL_LangDLLName->SetLabel(LanguageDLLString(ResearchPointer->LanguageDLLName, 64));
+		Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
 		Research_LangDLLDescription->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLDescription));
 		Research_LangDLLDescription->Container = &ResearchPointer->LanguageDLLDescription;
-		Research_DLL_LangDLLDescription->SetLabel(LanguageDLLString(ResearchPointer->LanguageDLLDescription, 128));
+		Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
 		Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
 		Research_ResearchTime->Container = &ResearchPointer->ResearchTime;
 		Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
