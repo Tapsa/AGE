@@ -195,7 +195,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			LangFile[0] = NULL;
 			return;
 		}
-		LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
+		//LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
 	}
 	if(LangsUsed & 2)
 	{
@@ -211,7 +211,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			LangFile[1] = NULL;
 			return;
 		}
-		LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
+		//LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
 	}
 	if(LangsUsed & 4)
 	{
@@ -227,7 +227,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 			LangFile[2] = NULL;
 			return;
 		}
-		LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
+		//LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
 	}
 
 	switch(DatUsed)
@@ -1681,10 +1681,10 @@ bool AGE_Frame::FileExists(const char * value)
 	return false;
 }*/
 
-string AGE_Frame::LanguageDLLString(int ID, int Letters)
+string AGE_Frame::LangDLLstring(int ID, int Letters)
 {
 	string Result = "";
-	char Buffer[Letters];
+	/*char Buffer[Letters];
 
 	if(LoadStringA(LanguageDLL[2], ID, Buffer, Letters) && strlen(Buffer) > 0)
 	{
@@ -1698,6 +1698,11 @@ string AGE_Frame::LanguageDLLString(int ID, int Letters)
 	{
 		Result = Buffer;
 	}
+	return Result;*/
+	
+	if((Result = LangFile[2]->getString(ID)) != ""){}
+	else if((Result = LangFile[1]->getString(ID)) != ""){}
+	else if((Result = LangFile[0]->getString(ID)) != ""){}
 	return Result;
 }
 

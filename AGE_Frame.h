@@ -753,8 +753,8 @@ class AGE_Frame : public wxFrame
 
 	//wxString ResourceName[210];
 
-	HINSTANCE LanguageDLL[3];
-	string LanguageDLLString(int ID, int Letters);
+	//HINSTANCE LanguageDLL[3];
+	string LangDLLstring(int ID, int Letters);
 
 //	Constants, remove unneeded entries.
 
