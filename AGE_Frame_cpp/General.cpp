@@ -7,27 +7,27 @@ void AGE_Frame::ListGeneral()
 	switch(GameVersion)
 	{
 		case 0:
-			TechTreeSize = lexical_cast<long>(6946);
+			TechTreeSize = 6946;
 			break;
 		case 1:
-			TechTreeSize = lexical_cast<long>(15118);
+			TechTreeSize = 15118;
 			break;
 		case 2:
-			TechTreeSize = lexical_cast<long>(12722);
+			TechTreeSize = 12722;
 			break;
 		case 3:
-			TechTreeSize = lexical_cast<long>(12722);
+			TechTreeSize = 12722;
 			break;
 		case 4:
-			TechTreeSize = lexical_cast<long>(698);
+			TechTreeSize = 698;
 			break;
 		case 5:
-			TechTreeSize = lexical_cast<long>(698);
+			TechTreeSize = 698;
 			break;
 		default: break;
 	}
 	General_TechTreeSize->SetLabel("Size: "+lexical_cast<string>(TechTreeSize));
-	TechTreePage = lexical_cast<long>(0);
+	TechTreePage = 0;
 	General_TechTreePicker->ChangeValue(lexical_cast<string>(TechTreePage));
 
 	wxCommandEvent E;
@@ -38,13 +38,13 @@ void AGE_Frame::OnDataGridPage(wxCommandEvent& Event)
 {
 	if(Event.GetId() == General_TechTreePicker->GetId())
 	{
-		TechTreePage = lexical_cast<long>(0);
+		TechTreePage = 0;
 		if(!General_TechTreePicker->IsEmpty())
 		TechTreePage = lexical_cast<long>(General_TechTreePicker->GetValue());
 		if(TechTreePage >= (TechTreeSize - 256))
-		TechTreePage = lexical_cast<long>(TechTreeSize - 256);
+		TechTreePage = TechTreeSize - 256;
 		if(TechTreePage < 0)
-		TechTreePage = lexical_cast<long>(0);
+		TechTreePage = 0;
 	}
 
 	wxCommandEvent E;
@@ -55,9 +55,9 @@ void AGE_Frame::OnDataGridNext(wxCommandEvent& Event)
 {
 	if(Event.GetId() == General_TechTreeNext->GetId())
 	{
-		TechTreePage += lexical_cast<long>(256);
+		TechTreePage += 256;
 		if(TechTreePage >= (TechTreeSize - 256))
-		TechTreePage = lexical_cast<long>(TechTreeSize - 256);
+		TechTreePage = TechTreeSize - 256;
 	}
 
 	wxCommandEvent E;
@@ -68,9 +68,9 @@ void AGE_Frame::OnDataGridPrev(wxCommandEvent& Event)
 {
 	if(Event.GetId() == General_TechTreePrev->GetId())
 	{
-		TechTreePage -= lexical_cast<long>(256);
+		TechTreePage -= 256;
 		if(TechTreePage < 0)
-		TechTreePage = lexical_cast<long>(0);
+		TechTreePage = 0;
 
 	}
 
@@ -80,41 +80,33 @@ void AGE_Frame::OnDataGridPrev(wxCommandEvent& Event)
 
 void AGE_Frame::OnVariableCalc(wxFocusEvent& Event)
 {
-	long Result, Temp;
+	int32_t Result, Temp;
 
 	if(!General_CalcBoxes[0]->IsEmpty())
-	Result = lexical_cast<short>(General_CalcBoxes[0]->GetValue());
+	Result = lexical_cast<int32_t>(General_CalcBoxes[0]->GetValue());
 	else Result = 0;
-	if(Result < 0)
-	Result = (unsigned char)Result;
+	Result = (uint8_t)Result;
 
 	if(!General_CalcBoxes[1]->IsEmpty())
-	Temp = lexical_cast<short>(General_CalcBoxes[1]->GetValue());
+	Temp = lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue());
 	else Temp = 0;
-	if(Temp < 0)
-	Temp = (unsigned char)Temp;
-	Result = Result + 256 * Temp;
+	Result += 256 * (uint8_t)Temp;
 
 	if(!General_CalcBoxes[2]->IsEmpty())
-	Temp = lexical_cast<short>(General_CalcBoxes[2]->GetValue());
+	Temp = lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue());
 	else Temp = 0;
-	if(Temp < 0)
-	Temp = (unsigned char)Temp;
-	Result = Result + 65536 * Temp;
+	Result += 65536 * (uint8_t)Temp;
 
 	if(!General_CalcBoxes[3]->IsEmpty())
-	Temp = lexical_cast<short>(General_CalcBoxes[3]->GetValue());
+	Temp = lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue());
 	else Temp = 0;
-	if(Temp < 0)
-	Temp = (unsigned char)Temp;
-	Result = Result + 16777216 * Temp;
+	Result += 16777216 * (uint8_t)Temp;
 
 	General_CalcBoxes[4]->ChangeValue("= "+lexical_cast<string>(Result));
 }
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 {
-//
 	{
 		for(short loop=0; loop < 138; loop++)
 		{
@@ -153,8 +145,6 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
 			}
 		}
 	}
-//	for(long loop = 0;loop < LastUnknownsSize; loop++)
-//	GenieFile->TechTrees[loop] = 0;
 }
 
 void AGE_Frame::CreateGeneralControls()

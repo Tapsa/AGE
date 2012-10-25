@@ -1700,9 +1700,9 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 	}
 	return Result;*/
 	
-	if((Result = LangFile[2]->getString(ID)) != ""){}
-	else if((Result = LangFile[1]->getString(ID)) != ""){}
-	else if((Result = LangFile[0]->getString(ID)) != ""){}
+	if((LangsUsed & 4) && (Result = LangFile[2]->getString(ID)) != ""){}
+	else if((LangsUsed & 2) && (Result = LangFile[1]->getString(ID)) != ""){}
+	else if((LangsUsed & 1) && (Result = LangFile[0]->getString(ID)) != ""){}
 	return Result;
 }
 
