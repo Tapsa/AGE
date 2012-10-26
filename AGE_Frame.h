@@ -489,6 +489,8 @@ class AGE_Frame : public wxFrame
 	void OnGraphicsPasteInsert(wxCommandEvent& Event);
 	void OnGraphicsEnable(wxCommandEvent& Event);
 	void OnGraphicsDisable(wxCommandEvent& Event);
+	void OnExtractGraphic(wxCommandEvent& Event);
+	void OnImportGraphic(wxCommandEvent& Event);
 	string GetGraphicName(short &Index, bool Filter = false);
 
 	void ListGraphicDeltas();
@@ -2126,6 +2128,8 @@ class AGE_Frame : public wxFrame
 	wxButton * Graphics_Copy;
 	wxButton * Graphics_Paste;
 	wxButton * Graphics_PasteInsert;
+	wxButton * Graphics_Extract;
+	wxButton * Graphics_Import;
 	wxButton * Graphics_Enable;
 	wxButton * Graphics_Disable;
 

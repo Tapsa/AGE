@@ -417,7 +417,7 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		}
 		Units_ComboBox_GarrisonType->SetSelection(0);
 
-		Customs = new wxFileConfig("AGE Lists", wxEmptyString, "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+		Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 		long ExtraCount;
 		Customs->Read("Count/ExtraCount", &ExtraCount, 5);
 		wxString MoveHolder = "";
@@ -1451,7 +1451,7 @@ void AGE_Frame::OnSave(wxCommandEvent& Event)
 
 void AGE_Frame::OnExit(wxCloseEvent& Event)
 {
-	Config = new wxFileConfig("AdvancedGenieEditor", wxEmptyString, "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopy", AutoCopy);
 	Config->Write("Interaction/CopyGraphics", CopyGraphics);
@@ -1632,7 +1632,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 		break;
 		case ToolBar_CustomNames:
 		{
-			Customs = new wxFileConfig("AGE Lists", wxEmptyString, "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+			Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 			long ExtraCount = Attacks_ComboBox_Class[0]->GetCount()-32;
 			Customs->Write("Count/ExtraCount", ExtraCount);
 			wxString MoveHolder = "";
