@@ -728,6 +728,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Copy = new wxButton(Tab_Graphics, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Paste = new wxButton(Tab_Graphics, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Graphics_PasteInsert = new wxButton(Tab_Graphics, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Graphics_Extract = new wxButton(Tab_Graphics, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
+	Graphics_Import = new wxButton(Tab_Graphics, wxID_ANY, "Import", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 
@@ -900,6 +902,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_Buttons->Add(Graphics_Copy, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Paste, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_PasteInsert, 1, wxEXPAND);
+	Graphics_Graphics_Buttons->Add(Graphics_Extract, 1, wxEXPAND);
+	Graphics_Graphics_Buttons->Add(Graphics_Import, 1, wxEXPAND);
+	Graphics_Graphics_Buttons->AddStretchSpacer(1);
 	Graphics_Graphics_Buttons->Add(Graphics_Enable, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Disable, 1, wxEXPAND);
 
@@ -1121,6 +1126,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Connect(Graphics_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsCopy));
 	Connect(Graphics_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsPaste));
 	Connect(Graphics_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsPasteInsert));
+	Connect(Graphics_Extract->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnExtractGraphic));
+	Connect(Graphics_Import->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnImportGraphic));
 	Connect(Graphics_Enable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsEnable));
 	Connect(Graphics_Disable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsDisable));
 	Connect(Graphics_Deltas_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasSearch));
