@@ -2,12 +2,12 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-const int VERSION_EXTRACT = 2;
+const int VERSION_EXTRACT = 3;
 
 void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 {
 	short CountHolder;
-	ExtractUnit = new wxFileConfig("AGE 2 Moving", wxEmptyString, "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	ExtractUnit = new wxFileConfig(wxEmptyString, "Tapsa", "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	ExtractUnit->Write("Version/Number", VERSION_EXTRACT);
 	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 	{
@@ -325,14 +325,16 @@ void AGE_Frame::OnUnitsExtract(wxCommandEvent& Event)
 
 void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 {
-	double Decimal; // float in newer wxWidgets!!!
+	ExtractUnit = new wxFileConfig(wxEmptyString, "Tapsa", "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	int Number;
-	wxString Text;
-	ExtractUnit = new wxFileConfig("AGE 2 Moving", wxEmptyString, "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	ExtractUnit->Read("Version/Number", &Number, 0);
 	if(Number < VERSION_EXTRACT)
+	{
 		wxMessageBox("Wrong version number on extraction file!");
-	else
+		return;
+	}
+	double Decimal; // float in newer wxWidgets!!!
+	wxString Text;
 	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 	{
 		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Type", &Number, 10);
@@ -508,7 +510,7 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitIDs[0]].ResourceStorages[loop2].Enabled = (char)Number;
 		}
 		ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/DamageGraphicCount", &Number, 0);
-		GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.resize((unsigned char)Number);
+		GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.resize(Number);
 		for(short loop2=0; loop2 < GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.size(); loop2++)
 		{
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Common/Dama"+lexical_cast<string>(loop2)+"GraphicID", &Number, -1);
@@ -580,7 +582,7 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/Unknown20", &Number, 0);
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Unknown20 = (char)Number;
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/AttackCount", &Number, 0);
-			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.resize((uint16_t)Number);
+			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.resize(Number);
 			for(short loop2=0; loop2 < GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.size(); loop2++)
 			{
 				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/Attack"+lexical_cast<string>(loop2)+"Class", &Number, 0);
@@ -589,7 +591,7 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks[loop2].Amount = (int16_t)Number;
 			}
 			ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/ArmourCount", &Number, 0);
-			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.resize((uint16_t)Number);
+			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.resize(Number);
 			for(short loop2=0; loop2 < GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.size(); loop2++)
 			{
 				ExtractUnit->Read("Civ"+lexical_cast<string>(loop)+"_Unit_Projectile/Armor"+lexical_cast<string>(loop2)+"Class", &Number, 0);
@@ -769,7 +771,7 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 		if(GameVersion < 2)
 		{
 		ExtractUnit->Read("CivX_Unit_Bird/CommandCount", &Number, 0);
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands.resize((int16_t)Number);
+		GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands.resize(Number);
 		for(short loop2=0; loop2 < GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands.size(); loop2++)
 		{
 			ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"One", &Number, 1);
@@ -812,7 +814,7 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands[loop2].Unknown9 = (char)Number;
 			ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown10", &Number, 0);
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands[loop2].Unknown10 = (char)Number;
-			ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown11", &Number, 0); 
+			ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"Unknown11", &Number, 0);
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands[loop2].Unknown11 = (char)Number;
 			for(short loop3=0; loop3 < 6; loop3++)
 			{
@@ -826,7 +828,7 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 	if(GameVersion >= 2)
 	{
 	ExtractUnit->Read("CivX_Unit_Bird/CommandCount", &Number, 0);
-	GenieFile->UnitHeaders[UnitIDs[0]].Commands.resize((int16_t)Number);
+	GenieFile->UnitHeaders[UnitIDs[0]].Commands.resize(Number);
 	for(short loop2=0; loop2 < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); loop2++)
 	{
 		ExtractUnit->Read("CivX_Unit_Bird/Command"+lexical_cast<string>(loop2)+"One", &Number, 1);
@@ -883,4 +885,180 @@ void AGE_Frame::OnUnitsImport(wxCommandEvent& Event)
 
 	wxCommandEvent E;
 	OnUnitsSelect(E);
+}
+
+void AGE_Frame::OnExtractGraphic(wxCommandEvent& Event)
+{
+	wxFileConfig ExtractGraphic(wxEmptyString, "Tapsa", "age2eGraphic.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	try
+	{
+		ExtractGraphic.DeleteGroup("Graphic");
+		auto CountHolder=0;
+		ExtractGraphic.Write("Version/Number", VERSION_EXTRACT);
+
+		ExtractGraphic.Write("Graphic/Name", GenieFile->Graphics[GraphicIDs[0]].Name);
+		ExtractGraphic.Write("Graphic/Name2", GenieFile->Graphics[GraphicIDs[0]].Name2);
+		ExtractGraphic.Write("Graphic/SLP", GenieFile->Graphics[GraphicIDs[0]].SLP);
+		ExtractGraphic.Write("Graphic/Unknown1", GenieFile->Graphics[GraphicIDs[0]].Unknown1);
+		ExtractGraphic.Write("Graphic/Unknown2", GenieFile->Graphics[GraphicIDs[0]].Unknown2);
+		ExtractGraphic.Write("Graphic/Layer", GenieFile->Graphics[GraphicIDs[0]].Layer);
+		ExtractGraphic.Write("Graphic/Unknown3", GenieFile->Graphics[GraphicIDs[0]].Unknown3);
+		ExtractGraphic.Write("Graphic/Unknown4", GenieFile->Graphics[GraphicIDs[0]].Unknown4);
+		ExtractGraphic.Write("Graphic/Replay", GenieFile->Graphics[GraphicIDs[0]].Replay);
+		ExtractGraphic.Write("Graphic/Coordinate1", GenieFile->Graphics[GraphicIDs[0]].Coordinates[0]);
+		ExtractGraphic.Write("Graphic/Coordinate2", GenieFile->Graphics[GraphicIDs[0]].Coordinates[1]);
+		ExtractGraphic.Write("Graphic/Coordinate3", GenieFile->Graphics[GraphicIDs[0]].Coordinates[2]);
+		ExtractGraphic.Write("Graphic/Coordinate4", GenieFile->Graphics[GraphicIDs[0]].Coordinates[3]);
+		CountHolder = GenieFile->Graphics[GraphicIDs[0]].Deltas.size();
+		ExtractGraphic.Write("Graphic/DeltaCount", CountHolder);
+		ExtractGraphic.Write("Graphic/SoundID", GenieFile->Graphics[GraphicIDs[0]].SoundID);
+		ExtractGraphic.Write("Graphic/AttackSoundUsed", GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed);
+		ExtractGraphic.Write("Graphic/FrameCount", GenieFile->Graphics[GraphicIDs[0]].FrameCount);
+		ExtractGraphic.Write("Graphic/AngleCount", GenieFile->Graphics[GraphicIDs[0]].AngleCount);
+		ExtractGraphic.Write("Graphic/Unknown13", GenieFile->Graphics[GraphicIDs[0]].Unknown13);
+		ExtractGraphic.Write("Graphic/FrameRate", GenieFile->Graphics[GraphicIDs[0]].FrameRate);
+		ExtractGraphic.Write("Graphic/ReplayDelay", GenieFile->Graphics[GraphicIDs[0]].ReplayDelay);
+		ExtractGraphic.Write("Graphic/SequenceType", GenieFile->Graphics[GraphicIDs[0]].SequenceType);
+		ExtractGraphic.Write("Graphic/Type", GenieFile->Graphics[GraphicIDs[0]].Type);
+		for(auto loop=0; loop < CountHolder; loop++)
+		{
+			ExtractGraphic.Write("Graphic/Delta"+lexical_cast<string>(loop)+"GraphicID", GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].GraphicID);
+			ExtractGraphic.Write("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown1", GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown1);
+			ExtractGraphic.Write("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown2", GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown2);
+			ExtractGraphic.Write("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown3", GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown3);
+			ExtractGraphic.Write("Graphic/Delta"+lexical_cast<string>(loop)+"DirectionX", GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].DirectionX);
+			ExtractGraphic.Write("Graphic/Delta"+lexical_cast<string>(loop)+"DirectionY", GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].DirectionY);
+			ExtractGraphic.Write("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown4", GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown4);
+			ExtractGraphic.Write("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown5", GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown5);
+		}
+		if(GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed != 0)
+		for(auto loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].AngleCount; loop++)
+		{
+			ExtractGraphic.Write("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundDelay", GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundDelay);
+			ExtractGraphic.Write("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundID", GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundID);
+			ExtractGraphic.Write("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundDelay2", GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundDelay2);
+			ExtractGraphic.Write("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundID2", GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundID2);
+			ExtractGraphic.Write("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundDelay3", GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundDelay3);
+			ExtractGraphic.Write("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundID3", GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundID3);
+		}
+
+		ExtractGraphic.Flush();
+	}
+	catch(...)
+	{
+		ExtractGraphic.DeleteAll();
+		wxMessageBox("An error occured!\nAborted extracting.");
+	}
+}
+
+void AGE_Frame::OnImportGraphic(wxCommandEvent& Event)
+{
+	wxFileConfig ImportGraphic(wxEmptyString, "Tapsa", "age2eGraphic.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	try
+	{
+		int Number;
+		ImportGraphic.Read("Version/Number", &Number, 0);
+		if(Number < VERSION_EXTRACT)
+		{
+			wxMessageBox("Wrong version number on extraction file!");
+			return;
+		}
+		double Decimal;
+		wxString Text;
+
+		ImportGraphic.Read("Graphic/Name", &Text, "Imported Graphic");
+		GenieFile->Graphics[GraphicIDs[0]].Name = ((string)Text).substr(0, GenieFile->Graphics[GraphicIDs[0]].getNameSize());
+		ImportGraphic.Read("Graphic/Name2", &Text, "Imported Graphic");
+		GenieFile->Graphics[GraphicIDs[0]].Name2 = ((string)Text).substr(0, GenieFile->Graphics[GraphicIDs[0]].getName2Size());
+		ImportGraphic.Read("Graphic/SLP", &Number, -1);
+		GenieFile->Graphics[GraphicIDs[0]].SLP = (int32_t)Number;
+		ImportGraphic.Read("Graphic/Unknown1", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Unknown1 = (char)Number;
+		ImportGraphic.Read("Graphic/Unknown2", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Unknown2 = (char)Number;
+		ImportGraphic.Read("Graphic/Layer", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Layer = (char)Number;
+		ImportGraphic.Read("Graphic/Unknown3", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Unknown3 = (char)Number;
+		ImportGraphic.Read("Graphic/Unknown4", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Unknown4 = (char)Number;
+		ImportGraphic.Read("Graphic/Replay", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Replay = (char)Number;
+		ImportGraphic.Read("Graphic/Coordinate1", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Coordinates[0] = (int16_t)Number;
+		ImportGraphic.Read("Graphic/Coordinate2", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Coordinates[1] = (int16_t)Number;
+		ImportGraphic.Read("Graphic/Coordinate3", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Coordinates[2] = (int16_t)Number;
+		ImportGraphic.Read("Graphic/Coordinate4", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Coordinates[3] = (int16_t)Number;
+		ImportGraphic.Read("Graphic/DeltaCount", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Deltas.resize(Number);
+		ImportGraphic.Read("Graphic/SoundID", &Number, -1);
+		GenieFile->Graphics[GraphicIDs[0]].SoundID = (int16_t)Number;
+		ImportGraphic.Read("Graphic/AttackSoundUsed", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed = (char)Number;
+		ImportGraphic.Read("Graphic/FrameCount", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].FrameCount = (uint16_t)Number;
+		ImportGraphic.Read("Graphic/AngleCount", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].AngleCount = (uint16_t)Number;
+		ImportGraphic.Read("Graphic/Unknown13", &Decimal, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Unknown13 = (float)Decimal;
+		ImportGraphic.Read("Graphic/FrameRate", &Decimal, 0);
+		GenieFile->Graphics[GraphicIDs[0]].FrameRate = (float)Decimal;
+		ImportGraphic.Read("Graphic/ReplayDelay", &Decimal, 0);
+		GenieFile->Graphics[GraphicIDs[0]].ReplayDelay = (float)Decimal;
+		ImportGraphic.Read("Graphic/SequenceType", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].SequenceType = (char)Number;
+		ImportGraphic.Read("Graphic/Type", &Number, 0);
+		if(GameVersion >= 2)
+		GenieFile->Graphics[GraphicIDs[0]].Type = (int16_t)Number;
+		else
+		GenieFile->Graphics[GraphicIDs[0]].Type = (char)Number;
+		for(auto loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); loop++)
+		{
+			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"GraphicID", &Number, -1);
+			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].GraphicID = (int16_t)Number;
+			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown1", &Number, 0);
+			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown1 = (int16_t)Number;
+			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown2", &Number, 0);
+			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown2 = (int16_t)Number;
+			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown3", &Number, 0);
+			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown3 = (int16_t)Number;
+			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"DirectionX", &Number, 0);
+			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].DirectionX = (int16_t)Number;
+			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"DirectionY", &Number, 0);
+			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].DirectionY = (int16_t)Number;
+			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown4", &Number, -1);
+			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown4 = (int16_t)Number;
+			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"Unknown5", &Number, 0);
+			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].Unknown5 = (int16_t)Number;
+		}
+		if(GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed != 0)
+		{
+			GenieFile->Graphics[GraphicIDs[0]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[0]].AngleCount);
+			for(auto loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].AngleCount; loop++)
+			{
+				ImportGraphic.Read("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundDelay", &Number, 0);
+				GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundDelay = (int16_t)Number;
+				ImportGraphic.Read("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundID", &Number, -1);
+				GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundID = (int16_t)Number;
+				ImportGraphic.Read("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundDelay2", &Number, 0);
+				GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundDelay2 = (int16_t)Number;
+				ImportGraphic.Read("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundID2", &Number, -1);
+				GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundID2 = (int16_t)Number;
+				ImportGraphic.Read("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundDelay3", &Number, 0);
+				GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundDelay3 = (int16_t)Number;
+				ImportGraphic.Read("Graphic/AttackSound"+lexical_cast<string>(loop)+"SoundID3", &Number, -1);
+				GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop].SoundID3 = (int16_t)Number;
+			}
+		}
+
+		wxCommandEvent E;
+		OnGraphicsSelect(E);
+	}
+	catch(...)
+	{
+		wxMessageBox("Importing malfunctioned.\nTry again.");
+	}
 }

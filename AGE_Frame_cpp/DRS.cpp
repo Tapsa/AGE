@@ -1,4 +1,3 @@
-/* AGEFrame_cpp/DRS.cpp */
 
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
