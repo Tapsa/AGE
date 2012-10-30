@@ -1,103 +1,103 @@
 
 Version [b]2.28[/b]:
-â€¢Speed improvements.
+•Speed improvements.
 
 Version [b]2.27[/b]:
-â€¢Empty entries get reversed.
+•Empty entries get reversed.
 
 Version [b]2.26[/b]:
-â€¢Bug fixes.
+•Bug fixes.
 
 Version [b]2.25[/b]:
-â€¢Added space into beginning of list items.
-â€¢Relayouted annex unit misplacement grid.
-â€¢Added copy graphics only for units.
+•Added space into beginning of list items.
+•Relayouted annex unit misplacement grid.
+•Added copy graphics only for units.
 
 Version [b]2.24[/b]:
-â€¢Improved resource-storage-enabler tool tip.
-â€¢Simplified attack/armor lists.
+•Improved resource-storage-enabler tool tip.
+•Simplified attack/armor lists.
 
 Version [b]2.23[/b]:
-â€¢Auto-copy exiting bug fixed.
-â€¢Improved attack/armor lists.
+•Auto-copy exiting bug fixed.
+•Improved attack/armor lists.
 
 Version [b]2.22[/b]:
-â€¢Search filters for graphics.
+•Search filters for graphics.
 Searching them requires hitting enter button.
 
 Version [b]2.21[/b]:
-â€¢Searching speed improvements.
-â€¢Filters for researches.
-â€¢Upgraded terrain restriction terrain list.
-â€¢Upgraded civ resource list.
+•Searching speed improvements.
+•Filters for researches.
+•Upgraded terrain restriction terrain list.
+•Upgraded civ resource list.
 
 Version [b]2.20[/b]:
-â€¢Enable/Disable buttons for units and graphics.
-â€¢Improved tool tips and resources lists.
+•Enable/Disable buttons for units and graphics.
+•Improved tool tips and resources lists.
 
 Version [b]2.19[/b]:
-â€¢Speed improvements, especially unit searching.
+•Speed improvements, especially unit searching.
 
 Version [b]2.18[/b]:
-â€¢Upgraded tech tree section.
+•Upgraded tech tree section.
 
 Version [b]2.16[/b]:
-â€¢Over six times longer tool tips' duration.
-â€¢Added few more tool tips.
+•Over six times longer tool tips' duration.
+•Added few more tool tips.
 
 Version [b]2.15[/b]:
-â€¢Upgraded tech tree section.
+•Upgraded tech tree section.
 
 Version [b]2.14[/b]:
-â€¢Finished tech tree section.
+•Finished tech tree section.
 
 Version [b]2.13[/b]:
-â€¢Renamed things in general section.
-â€¢Added data converter tool for discovering unknown data.
+•Renamed things in general section.
+•Added data converter tool for discovering unknown data.
 
 Version [b]2.12[/b]:
-â€¢[color=blue]Added tool tips for lots of unit variables.[/color]
-â€¢Bug fixes.
-â€¢Improvements.
-â€¢Improved layout.
+•[color=blue]Added tool tips for lots of unit variables.[/color]
+•Bug fixes.
+•Improvements.
+•Improved layout.
 
 Version [b]2.10[/b]:
-â€¢Added Unitline tab for Star Wars versions.
+•Added Unitline tab for Star Wars versions.
 
 Version [b]2.9[/b]:
-â€¢All data is editable now (except some zeroes and a one in SWGB).
-â€¢Customized lists for Star Wars versions.
-â€¢AoE/RoR related upgrades.
-â€¢Completed terrain border section.
-â€¢Improved layout.
+•All data is editable now (except some zeroes and a one in SWGB).
+•Customized lists for Star Wars versions.
+•AoE/RoR related upgrades.
+•Completed terrain border section.
+•Improved layout.
 
 Version [b]2.8[/b]:
-â€¢Unit section speed improvements.
+•Unit section speed improvements.
 
 Version [b]2.7[/b]:
-â€¢Fixed important bug in unit editing.
-â€¢Improved layout.
+•Fixed important bug in unit editing.
+•Improved layout.
 
 Version [b]2.6[/b]:
-â€¢Corrected required researches initialization.
-â€¢Improved layout.
-â€¢Non-existent list items (some units and graphics) marked as disabled.
-â€¢Terrain border section started.
+•Corrected required researches initialization.
+•Improved layout.
+•Non-existent list items (some units and graphics) marked as disabled.
+•Terrain border section started.
 
 Version [b]2.5[/b]:
-â€¢Fixed fatal bug in versions 2.3 and 2.4, which crashed in-game scenario editor. You need to abandon any dat files saved with version 2.3 or 2.4.
+•Fixed fatal bug in versions 2.3 and 2.4, which crashed in-game scenario editor. You need to abandon any dat files saved with version 2.3 or 2.4.
 
 Version [b]2.4[/b]:
-â€¢Restored graphic name workaround.
+•Restored graphic name workaround.
 
 Version [b]2.3[/b]:
-â€¢Fixed fatal bug in AoE and RoR command index fixes.
-â€¢Added general unknown section.
-â€¢Fixed bug in editing new units, etc.
-â€¢Fixed "bug" when saving instantly after editing.
+•Fixed fatal bug in AoE and RoR command index fixes.
+•Added general unknown section.
+•Fixed bug in editing new units, etc.
+•Fixed "bug" when saving instantly after editing.
 
 Version [b]2.2[/b]:
-â€¢Fixed bugs in research combo boxes.
+•Fixed bugs in research combo boxes.
 
 Version [b]2.1[/b]:
-â€¢Graphics can be added again.
+•Graphics can be added again.
