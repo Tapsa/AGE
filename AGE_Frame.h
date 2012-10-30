@@ -178,6 +178,11 @@ class AGE_Frame : public wxFrame
 	void ClearAllSoundFiles(wxCommandEvent& Event);
 	void OnAllSoundFileSelect(wxCommandEvent& Event);
 
+//	Exporting and importing common functions.
+	bool CorrectVersion(int &Version);
+	void ExpError(wxFileConfig &Extract);
+	void ImpError();
+
 //	General Events
 
 	void ListGeneral();
@@ -405,8 +410,8 @@ class AGE_Frame : public wxFrame
 	void UnitsGraphicsPaste(short civ, short disp, short loop);
 	void OnUnitsEnable(wxCommandEvent& Event);
 	void OnUnitsDisable(wxCommandEvent& Event);
-	void OnUnitsExtract(wxCommandEvent& Event);
-	void OnUnitsImport(wxCommandEvent& Event);
+	void OnExtractUnit(wxCommandEvent& Event);
+	void OnImportUnit(wxCommandEvent& Event);
 	void OnUnitSubList(wxCommandEvent& Event);
 	string GetUnitName(short &Index, short &civ, bool Filter = false);
 
@@ -640,8 +645,6 @@ class AGE_Frame : public wxFrame
 	bool SkipOpenDialog;
 	wxFileConfig * Config;
 	wxFileConfig * Customs;
-	wxFileConfig * ExtractUnit;
-//	wxFileConfig * Extraction;
 	genie::DatFile * GenieFile;
 	genie::LangFile * LangFile[3];
 //	wxSound SoundFile;

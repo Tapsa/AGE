@@ -1562,7 +1562,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 				GenieFile->Civs[civ].UnitPointers.erase(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[loop]);
 			}
 			if(EnableIDFix)
-			for(short loop = UnitIDs[0];loop < GenieFile->Civs[0].Units.size(); loop++) // ID Fix
+			for(short loop = UnitIDs[0]; loop < GenieFile->Civs[0].Units.size(); loop++) // ID Fix
 			{
 				GenieFile->Civs[civ].Units[loop].ID1 = (int16_t)loop;
 				GenieFile->Civs[civ].Units[loop].ID2 = (int16_t)loop;
@@ -2262,10 +2262,10 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+		for(short civ=0; civ < GenieFile->Civs.size(); civ++)
 		{
 			for(short loop = Selections; loop--> 0;)
-			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.erase(GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[loop]);
+			GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[loop]);
 		}
 		ListUnitAttacks();
 	}
@@ -2437,10 +2437,10 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+		for(short civ=0; civ < GenieFile->Civs.size(); civ++)
 		{
 			for(short loop = Selections; loop--> 0;)
-			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.erase(GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[loop]);
+			GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[loop]);
 		}
 		ListUnitArmors();
 	}
@@ -5362,8 +5362,8 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_SpecialPaste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsSpecialPaste));
 	Connect(Units_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsPaste));
 	Connect(Units_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsPasteInsert));
-	Connect(Units_Extract->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsExtract));
-	Connect(Units_Import->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsImport));
+	Connect(Units_Extract->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnExtractUnit));
+	Connect(Units_Import->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnImportUnit));
 	Connect(Units_Enable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsEnable));
 	Connect(Units_Disable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsDisable));
 //	Connect(Units_Undo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUndoing));
