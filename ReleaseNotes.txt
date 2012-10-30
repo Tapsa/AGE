@@ -15,71 +15,71 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 Guide makers et cetera, please include the version into which your guide was written.
 
 Version [b]2.40[/b]:
-â€¢Fixed a bug that prevented attacks/armors to be deleted.
-â€¢Added extracting/importing for graphics.
+•Fixed a bug that prevented attacks/armors to be deleted.
+•Added extracting/importing for graphics.
 
 Version [b]2.39[/b]:
-â€¢Practically unlimited search text parts with | character.
-â€¢All effects and all sound files lists have multiple selection fully working.
-â€¢Auto-copy related warning when over 30 civilizations are created.
+•Practically unlimited search text parts with | character.
+•All effects and all sound files lists have multiple selection fully working.
+•Auto-copy related warning when over 30 civilizations are created.
 
 Version [b]2.38[/b]:
-â€¢Updated unit command variables.
-â€¢Added/improved tooltips.
-â€¢Fixed some variables for AoE/RoR (selection effect and editor selection color earlier improperly shown as attribute and civilization).
-â€¢Armor class names really show up for AoE/RoR (instead of AoK/TC names).
+•Updated unit command variables.
+•Added/improved tooltips.
+•Fixed some variables for AoE/RoR (selection effect and editor selection color earlier improperly shown as attribute and civilization).
+•Armor class names really show up for AoE/RoR (instead of AoK/TC names).
 
 Version [b]2.37[/b]:
-â€¢Added a list of effects of all technologies.
-â€¢Added a list of files of all sounds.
-â€¢Added attack and armor counts to units' search filters.
-â€¢Improved attack/armor list for AoE/RoR.
+•Added a list of effects of all technologies.
+•Added a list of files of all sounds.
+•Added attack and armor counts to units' search filters.
+•Improved attack/armor list for AoE/RoR.
 
 Version [b]2.36[/b]:
-â€¢Fixed color and hotkey variables.
-â€¢Added terrain restriction to units' search filters.
-â€¢Added technology to research' search filters.
-â€¢Fixed research pointer 2.
-â€¢More tool tips.
+•Fixed color and hotkey variables.
+•Added terrain restriction to units' search filters.
+•Added technology to research' search filters.
+•Fixed research pointer 2.
+•More tool tips.
 
 Version [b]2.35[/b]:
-â€¢Loads of bug fixes.
-â€¢Multiple selections.
-â€¢Warning messages for file handling.
-â€¢Customizable names for extra attack/armor classes.
-â€¢Basic exporting/importing feature for units (works between game versions).
-â€¢More tool tips.
-â€¢No research gaia fix.
-â€¢Indexes fixed on enabling.
-â€¢Tab traversal corrected for all tabs.
+•Loads of bug fixes.
+•Multiple selections.
+•Warning messages for file handling.
+•Customizable names for extra attack/armor classes.
+•Basic exporting/importing feature for units (works between game versions).
+•More tool tips.
+•No research gaia fix.
+•Indexes fixed on enabling.
+•Tab traversal corrected for all tabs.
 
 Version [b]2.34[/b]:
-â€¢Corrected attributes 105 and 106.
-â€¢Another fix.
+•Corrected attributes 105 and 106.
+•Another fix.
 
 Version [b]2.33[/b]:
-â€¢Upgraded auto-copy interface.
-â€¢Upgraded units tab's layout.
-â€¢Fixed special copy/paste without all civs.
-â€¢Improved auto/normal copying/pasting.
+•Upgraded auto-copy interface.
+•Upgraded units tab's layout.
+•Fixed special copy/paste without all civs.
+•Improved auto/normal copying/pasting.
 
 Version [b]2.32[/b]:
-â€¢Relocated hiding unknowns option.
-â€¢Reformed auto-copy interface.
+•Relocated hiding unknowns option.
+•Reformed auto-copy interface.
 
 Version [b]2.31[/b]:
-â€¢All civilizations selectable for enabling/disabling.
-â€¢Index fixes can be disabled.
+•All civilizations selectable for enabling/disabling.
+•Index fixes can be disabled.
 
 Version [b]2.30[/b]:
-â€¢Almost completed resources list.
-â€¢Advanced effects list.
+•Almost completed resources list.
+•Advanced effects list.
 
 Version [b]2.29[/b]:
-â€¢Added inserting features.
+•Added inserting features.
 
 Version [b]2.0 Beta 3[/b]:
-â€¢Original release.
+•Original release.
 
 [b]Notes[/b]
 
