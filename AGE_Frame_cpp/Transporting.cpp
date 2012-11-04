@@ -26,8 +26,17 @@ void AGE_Frame::ImpError()
 }
 
 void AGE_Frame::OnExtractUnit(wxCommandEvent& Event)
-{
-	wxFileConfig ExtractUnit(wxEmptyString, "Tapsa", "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+{/*
+	fstream ExtractUnit("age2eUnit.txt", ios_base::trunc | ios_base::binary | ios_base::out);
+	ExtractUnit << VERSION_EXTRACT;
+	ExtractUnit << GenieFile->Civs.size();
+	for(auto loop=0; loop < GenieFile->Civs.size(); loop++)
+	{
+		ExtractUnit << GenieFile->Civs[loop].Units[UnitIDs[0]];
+	}
+	ExtractUnit.flush();
+	ExtractUnit.close();
+/*	wxFileConfig ExtractUnit(wxEmptyString, "Tapsa", "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	try
 	{
 		ExtractUnit.DeleteGroup("Unit");
@@ -138,7 +147,7 @@ void AGE_Frame::OnExtractUnit(wxCommandEvent& Event)
 				ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_Common/Dama"+lexical_cast<string>(loop2)+"Unknown1", GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics[loop2].Unknown1);
 				ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_Common/Dama"+lexical_cast<string>(loop2)+"Unknown2", GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics[loop2].Unknown2);
 			}
-			/*if(UnitType != 90)
+			if(UnitType != 90)
 			{
 			if(UnitType >= 20)
 			{
@@ -155,11 +164,10 @@ void AGE_Frame::OnExtractUnit(wxCommandEvent& Event)
 				if(GameVersion >= 2)
 				{
 					ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_DeadFish/Unknown12", GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.Unknown12);
-					for(auto loop2=0; loop2 < 17; loop2++)
+					for(auto loop2=1; loop2 < 17; loop2++)
 					ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_DeadFish/Unknown16_"+lexical_cast<string>(loop2), GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.Unknown16[loop2]);
 				}
-				else
-				ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_DeadFish/Unknown16", GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.Unknown16[0]);
+				ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_DeadFish/Unknown16_0", GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.Unknown16[0]);
 			if(UnitType >= 40)
 			{
 				ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_Bird/SheepConversion", GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.SheepConversion);
@@ -282,7 +290,7 @@ void AGE_Frame::OnExtractUnit(wxCommandEvent& Event)
 				ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_ProjectileOnly/PenetrationMode", GenieFile->Civs[loop].Units[UnitIDs[0]].ProjectileOnly.PenetrationMode);
 				ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_ProjectileOnly/Unknown24", GenieFile->Civs[loop].Units[UnitIDs[0]].ProjectileOnly.Unknown24);
 				ExtractUnit.Write("Unit/Civ"+lexical_cast<string>(loop)+"_ProjectileOnly/ProjectileArc", GenieFile->Civs[loop].Units[UnitIDs[0]].ProjectileOnly.ProjectileArc);
-			}}*/
+			}}
 		}
 		if(GameVersion < 2) // AoE and RoR
 		{
@@ -357,10 +365,10 @@ void AGE_Frame::OnExtractUnit(wxCommandEvent& Event)
 	{
 		ExpError(ExtractUnit);
 	}
-}
+*/}
 
 void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
-{
+{/*
 	wxFileConfig ImportUnit(wxEmptyString, "Tapsa", "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	try
 	{
@@ -559,7 +567,7 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 			}
 			if(UnitType != 90)
 			{
-			/*if(UnitType >= 20)
+			if(UnitType >= 20)
 			{
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Flag/Speed", &Decimal, 1);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Speed = (float)Decimal;
@@ -583,18 +591,17 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 				{
 					ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_DeadFish/Unknown12", &Decimal, 0);
 					GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.Unknown12 = (float)Decimal;
-					for(auto loop2=0; loop2 < 17; loop2++)
+					for(auto loop2=1; loop2 < 17; loop2++)
 					{
 					ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_DeadFish/Unknown16_"+lexical_cast<string>(loop2), &Number, 0);
 					GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.Unknown16[loop2] = (char)Number;
 					}
 				}
-				else
-				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_DeadFish/Unknown16", &Number, 0);
+				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_DeadFish/Unknown16_0", &Number, 0);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].DeadFish.Unknown16[0] = (char)Number;
-			*/if(UnitType >= 40)
+			if(UnitType >= 40)
 			{
-				/*ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Bird/SheepConversion", &Number, -1);
+				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Bird/SheepConversion", &Number, -1);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.SheepConversion = (int16_t)Number;
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Bird/SearchRadius", &Decimal, 0);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.SearchRadius = (float)Decimal;
@@ -611,7 +618,7 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Bird/StopSound", &Number, -1);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.StopSound = (int16_t)Number;
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Bird/AnimalMode", &Number, 0);
-				GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.AnimalMode = (char)Number;*/
+				GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.AnimalMode = (char)Number;
 				if(GameVersion < 2) // AoE and RoR
 				{
 					ImportUnit.Read("Unit/CivX_Bird/CommandCount", &Number, 0);
@@ -668,13 +675,13 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 						GenieFile->Civs[loop].Units[UnitIDs[0]].Bird.Commands[loop2].ID = loop2; // ID Fix
 					}
 				}
-			/*if(UnitType >= 60)
+			if(UnitType >= 60)
 			{
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Projectile/Unknown20", &Number, 0);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Unknown20 = (char)Number;
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Projectile/AttackCount", &Number, 0);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.resize(Number);
-				for(auto loop2=0; loop2 < GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.size(); loop2++)
+				for(auto loop2=0; loop2 < Number; loop2++)
 				{
 					ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Projectile/Attack"+lexical_cast<string>(loop2)+"Class", &Number, 0);
 					GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks[loop2].Class = (int16_t)Number;
@@ -683,7 +690,7 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 				}
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Projectile/ArmourCount", &Number, 0);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.resize(Number);
-				for(auto loop2=0; loop2 < GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.size(); loop2++)
+				for(auto loop2=0; loop2 < Number; loop2++)
 				{
 					ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Projectile/Armor"+lexical_cast<string>(loop2)+"Class", &Number, 0);
 					GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours[loop2].Class = (int16_t)Number;
@@ -843,7 +850,7 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_Building/SnowGraphicID", &Number, -1);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].Building.SnowGraphicID = (int16_t)Number;
 				}
-			*/}/*}}}}}
+			}}}}}}
 			if(UnitType == 60)
 			{
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_ProjectileOnly/StretchMode", &Number, 0);
@@ -858,7 +865,7 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 				GenieFile->Civs[loop].Units[UnitIDs[0]].ProjectileOnly.Unknown24 = (char)Number;
 				ImportUnit.Read("Unit/Civ"+lexical_cast<string>(loop)+"_ProjectileOnly/ProjectileArc", &Decimal, 0);
 				GenieFile->Civs[loop].Units[UnitIDs[0]].ProjectileOnly.ProjectileArc = (float)Decimal;
-			}*/}
+			}}
 		}
 		if(GameVersion >= 2) // AoK and above
 		{
@@ -924,7 +931,7 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 	{
 		ImpError();
 	}
-}
+*/}
 
 void AGE_Frame::OnExtractGraphic(wxCommandEvent& Event)
 {
@@ -1026,8 +1033,6 @@ void AGE_Frame::OnImportGraphic(wxCommandEvent& Event)
 		GenieFile->Graphics[GraphicIDs[0]].Coordinates[2] = (int16_t)Number;
 		ImportGraphic.Read("Graphic/Coordinate4", &Number, 0);
 		GenieFile->Graphics[GraphicIDs[0]].Coordinates[3] = (int16_t)Number;
-		ImportGraphic.Read("Graphic/DeltaCount", &Number, 0);
-		GenieFile->Graphics[GraphicIDs[0]].Deltas.resize(Number);
 		ImportGraphic.Read("Graphic/SoundID", &Number, -1);
 		GenieFile->Graphics[GraphicIDs[0]].SoundID = (int16_t)Number;
 		ImportGraphic.Read("Graphic/FrameCount", &Number, 0);
@@ -1045,7 +1050,9 @@ void AGE_Frame::OnImportGraphic(wxCommandEvent& Event)
 		GenieFile->Graphics[GraphicIDs[0]].Type = (int16_t)Number;
 		else
 		GenieFile->Graphics[GraphicIDs[0]].Type = (char)Number;
-		for(auto loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); loop++)
+		ImportGraphic.Read("Graphic/DeltaCount", &Number, 0);
+		GenieFile->Graphics[GraphicIDs[0]].Deltas.resize(Number);
+		for(auto loop=0; loop < Number; loop++)
 		{
 			ImportGraphic.Read("Graphic/Delta"+lexical_cast<string>(loop)+"GraphicID", &Number, -1);
 			GenieFile->Graphics[GraphicIDs[0]].Deltas[loop].GraphicID = (int16_t)Number;
