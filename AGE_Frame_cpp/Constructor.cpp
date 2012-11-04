@@ -33,6 +33,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	Config->Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxT(""));
 	Config->Read("DefaultFiles/SaveApfFilename", &SaveApfFileName, wxT(""));
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
+	Config->Read("DefaultFiles/LangWriteMode", &LangWriteMode, 1);
 	Config->Read("DefaultFiles/LangFilename", &LangFileName, wxT(""));
 	Config->Read("DefaultFiles/LangX1Filename", &LangX1FileName, wxT(""));
 	Config->Read("DefaultFiles/LangX1P1Filename", &LangX1P1FileName, wxT(""));
@@ -165,7 +166,9 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	log_out.open("gulog.txt");
 	genie::Logger::setGlobalOutputStream(log_out);
 	GenieFile = NULL;
-	for(short loop=3; loop--> 0;) LangFile[loop] = NULL;
+	Lang = NULL;
+	LangX = NULL;
+	LangXP = NULL;
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);

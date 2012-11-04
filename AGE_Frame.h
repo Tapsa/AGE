@@ -646,7 +646,9 @@ class AGE_Frame : public wxFrame
 	wxFileConfig * Config;
 	wxFileConfig * Customs;
 	genie::DatFile * GenieFile;
-	genie::LangFile * LangFile[3];
+	genie::LangFile * Lang;
+	genie::LangFile * LangX;
+	genie::LangFile * LangXP;
 //	wxSound SoundFile;
 
 /*	genie::DatFile FileBackup; // Can't copy the whole file?
@@ -752,14 +754,14 @@ class AGE_Frame : public wxFrame
 	wxString SaveDatFileName;
 	wxString SaveApfFileName;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
+	int LangWriteMode; // 1 = base file, 2 = newest file
 	wxString LangFileName;
 	wxString LangX1FileName;
 	wxString LangX1P1FileName;
 
-	//wxString ResourceName[210];
-
 	//HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters);
+	void WriteLangDLLstring(int ID, wxString Name);
 
 //	Constants, remove unneeded entries.
 
@@ -777,7 +779,7 @@ class AGE_Frame : public wxFrame
 		ToolBar_Open,
 		ToolBar_Save,
 		ToolBar_Show,
-		ToolBar_CustomNames,
+		ToolBar_CustomNames
 	};
 
 //	User Interface
@@ -2354,10 +2356,10 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Terrains_Holder_TerrainDimensions;
 	wxStaticText * Terrains_Text_TerrainDimensions;
 	TextCtrl_Short * Terrains_TerrainDimensions[2];
-	wxBoxSizer * Terrains_Holder_Unknown10;
-	wxGridSizer * Terrains_Grid_Unknown10;
-	wxStaticText * Terrains_Text_Unknown10;
-	TextCtrl_Byte * Terrains_Unknown10[84];
+	wxBoxSizer * Terrains_Holder_TerrainBorders;
+	wxGridSizer * Terrains_Grid_TerrainBorders;
+	wxStaticText * Terrains_Text_TerrainBorderID;
+	TextCtrl_Short * Terrains_TerrainBorderID[42];
 	wxBoxSizer * Terrains_Holder_TerrainUnits;
 	wxBoxSizer * Terrains_Holder_TerrainUnitID;
 	wxGridSizer * Terrains_Grid_TerrainUnitID;
