@@ -26,6 +26,7 @@ void AGE_Frame::ListGeneral()
 			break;
 		default: break;
 	}
+	// Ekat 686 on renderingiä AoK - CC? Koita tyhjentää sen jälkeiset asiat TCstä!
 	General_TechTreeSize->SetLabel("Size: "+lexical_cast<string>(TechTreeSize));
 	TechTreePage = 0;
 	General_TechTreePicker->ChangeValue(lexical_cast<string>(TechTreePage));

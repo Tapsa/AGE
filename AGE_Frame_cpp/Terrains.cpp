@@ -203,22 +203,13 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_TerrainDimensions[0]->Container = &TerrainPointer->TerrainDimensions.first;
 		Terrains_TerrainDimensions[1]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.second));
 		Terrains_TerrainDimensions[1]->Container = &TerrainPointer->TerrainDimensions.second;
-		short Unknown10;
-		for(short loop = 64;loop < 84; loop++)
+		short Borders;
+		if(GameVersion >= 3) Borders = 42;
+		else Borders = 32;
+		for(short loop=0; loop < Borders; loop++)
 		{
-			if(GameVersion >= 3)
-			{
-				Unknown10 = 84;
-			}
-			else
-			{
-				Unknown10 = 64;
-			}
-		}
-		for(short loop=0; loop < Unknown10; loop++)
-		{
-			Terrains_Unknown10[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Unknown10[loop]));
-			Terrains_Unknown10[loop]->Container = &TerrainPointer->Unknown10[loop];
+			Terrains_TerrainBorderID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainBorderID[loop]));
+			Terrains_TerrainBorderID[loop]->Container = &TerrainPointer->TerrainBorderID[loop];
 		}
 		for(short loop=0; loop < 30; loop++)
 		{
@@ -463,11 +454,11 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Text_Unknown7 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < 23; loop++)
 	Terrains_Unknown7[loop] = new TextCtrl_Byte(Terrains_Scroller, "0", NULL);
-	Terrains_Holder_Unknown10 = new wxBoxSizer(wxVERTICAL);
-	Terrains_Grid_Unknown10 = new wxGridSizer(12, 0, 0);
-	Terrains_Text_Unknown10 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 10", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop=0; loop < 84; loop++)
-	Terrains_Unknown10[loop] = new TextCtrl_Byte(Terrains_Scroller, "0", NULL);
+	Terrains_Holder_TerrainBorders = new wxBoxSizer(wxVERTICAL);
+	Terrains_Grid_TerrainBorders = new wxGridSizer(10, 0, 0);
+	Terrains_Text_TerrainBorderID = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Borders", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop=0; loop < 42; loop++)
+	Terrains_TerrainBorderID[loop] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
 	Terrains_Holder_Unknown11 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Grid_Unknown11 = new wxGridSizer(12, 0, 0);
 	Terrains_Text_Unknown11 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -546,10 +537,10 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_TerrainDimensions->Add(Terrains_Text_TerrainDimensions, 0, wxEXPAND);
 	Terrains_Holder_TerrainDimensions->Add(Terrains_TerrainDimensions[0], 1, wxEXPAND);
 	Terrains_Holder_TerrainDimensions->Add(Terrains_TerrainDimensions[1], 1, wxEXPAND);
-	for(short loop=0; loop < 84; loop++)
-	Terrains_Grid_Unknown10->Add(Terrains_Unknown10[loop], 1, wxEXPAND);
-	Terrains_Holder_Unknown10->Add(Terrains_Text_Unknown10, 0, wxEXPAND);
-	Terrains_Holder_Unknown10->Add(Terrains_Grid_Unknown10, 0, wxEXPAND);
+	for(short loop=0; loop < 42; loop++)
+	Terrains_Grid_TerrainBorders->Add(Terrains_TerrainBorderID[loop], 1, wxEXPAND);
+	Terrains_Holder_TerrainBorders->Add(Terrains_Text_TerrainBorderID, 0, wxEXPAND);
+	Terrains_Holder_TerrainBorders->Add(Terrains_Grid_TerrainBorders, 0, wxEXPAND);
 	Terrains_Holder_TerrainUnitDensity->Add(Terrains_Text_TerrainUnitDensity, 0, wxEXPAND);
 	for(short loop=0; loop < 30; loop++)
 	{
@@ -601,7 +592,6 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_UnknownArea->Add(-1, 5);
 	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown7, 0, wxEXPAND);
 	Terrains_Holder_UnknownArea->Add(-1, 5);
-	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown10, 0, wxEXPAND);
 	Terrains_Holder_UnknownArea->Add(-1, 5);
 	Terrains_Holder_UnknownArea->Add(Terrains_Holder_Unknown11, 0, wxEXPAND);
 	Terrains_Holder_UnknownArea->Add(-1, 5);
@@ -617,6 +607,8 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_NumberOfTerrainUnitsUsed1, 0, wxEXPAND);
 	Terrains_ScrollerWindowsSpace->Add(-1, 5);
 	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_TerrainUnits, 0, wxEXPAND);
+	Terrains_ScrollerWindowsSpace->Add(-1, 5);
+	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_TerrainBorders, 0, wxEXPAND);
 	Terrains_ScrollerWindowsSpace->Add(-1, 5);
 	Terrains_ScrollerWindowsSpace->Add(Terrains_Holder_UnknownArea, 0, wxEXPAND);
 

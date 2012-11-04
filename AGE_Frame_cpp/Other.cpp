@@ -174,57 +174,72 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 		GenieVersion = genie::GV_None;
 	}
 
-	for(short loop=3; loop--> 0;)
-	if(LangFile[loop] != NULL)
+	if(Lang != NULL)
 	{
-		delete LangFile[loop];
-		LangFile[loop] = NULL;
+		wxMessageBox("Resetting Lang file.");
+		delete Lang;
+		Lang = NULL;
+	}
+	if(LangX != NULL)
+	{
+		wxMessageBox("Resetting LangX file.");
+		delete LangX;
+		LangX = NULL;
+	}
+	if(LangXP != NULL)
+	{
+		wxMessageBox("Resetting LangXP file.");
+		delete LangXP;
+		LangXP = NULL;
 	}
 
 	if(LangsUsed & 1)
 	{
-		LangFile[0] = new genie::LangFile();
+		Lang = new genie::LangFile();
 		try
 		{
-			LangFile[0]->setGameVersion(GenieVersion);
-			LangFile[0]->load(LangFileName.c_str());
+			Lang->setGameVersion(GenieVersion);
+			Lang->load(LangFileName.c_str());
 		}
 		catch(std::ios_base::failure e)
 		{
-			delete LangFile[0];
-			LangFile[0] = NULL;
+			wxMessageBox("Failed to load "+LangFileName);
+			delete Lang;
+			Lang = NULL;
 			return;
 		}
 		//LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
 	}
 	if(LangsUsed & 2)
 	{
-		LangFile[1] = new genie::LangFile();
+		LangX = new genie::LangFile();
 		try
 		{
-			LangFile[1]->setGameVersion(GenieVersion);
-			LangFile[1]->load(LangX1FileName.c_str());
+			LangX->setGameVersion(GenieVersion);
+			LangX->load(LangX1FileName.c_str());
 		}
 		catch(std::ios_base::failure e)
 		{
-			delete LangFile[1];
-			LangFile[1] = NULL;
+			wxMessageBox("Failed to load "+LangX1FileName);
+			delete LangX;
+			LangX = NULL;
 			return;
 		}
 		//LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
 	}
 	if(LangsUsed & 4)
 	{
-		LangFile[2] = new genie::LangFile();
+		LangXP = new genie::LangFile();
 		try
 		{
-			LangFile[2]->setGameVersion(GenieVersion);
-			LangFile[2]->load(LangX1P1FileName.c_str());
+			LangXP->setGameVersion(GenieVersion);
+			LangXP->load(LangX1P1FileName.c_str());
 		}
 		catch(std::ios_base::failure e)
 		{
-			delete LangFile[2];
-			LangFile[2] = NULL;
+			wxMessageBox("Failed to load "+LangX1P1FileName);
+			delete LangXP;
+			LangXP = NULL;
 			return;
 		}
 		//LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
@@ -252,9 +267,9 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 				}
 				catch(std::ios_base::failure e)
 				{
+					wxMessageBox("Failed to load "+DatFileName);
 					delete GenieFile;
 					GenieFile = NULL;
-					wxMessageBox("Unable to load the file!");
 					return;
 				}
 			}
@@ -1139,15 +1154,15 @@ void AGE_Frame::OnGameVersionChange()
 {
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
-		for(short loop = 64;loop < 84; loop++)
+		for(short loop = 32;loop < 42; loop++)
 		{
 			if(GameVersion >= 3)
 			{
-				if(ShowUnknowns) Terrains_Unknown10[loop]->Show(true);
+				Terrains_TerrainBorderID[loop]->Show(true);
 			}
 			else
 			{
-				Terrains_Unknown10[loop]->Show(false);
+				Terrains_TerrainBorderID[loop]->Show(false);
 			}
 		}
 		for(short loop = 4;loop < 6; loop++)
@@ -1468,6 +1483,7 @@ void AGE_Frame::OnExit(wxCloseEvent& Event)
 	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
 	Config->Write("DefaultFiles/SaveApfFilename", SaveApfFileName);
 	Config->Write("DefaultFiles/LangsUsed", LangsUsed);
+	Config->Write("DefaultFiles/LangWriteMode", LangWriteMode);
 	Config->Write("DefaultFiles/LangFilename", LangFileName);
 	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
 	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
@@ -1684,26 +1700,27 @@ bool AGE_Frame::FileExists(const char * value)
 string AGE_Frame::LangDLLstring(int ID, int Letters)
 {
 	string Result = "";
-	/*char Buffer[Letters];
+	if(ID >= 0)
+	{
+		/*char Buffer[Letters];
+		if((LangsUsed & 4) && LoadStringA(LanguageDLL[2], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
+		else if((LangsUsed & 2) && LoadStringA(LanguageDLL[1], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
+		else if((LangsUsed & 1) && LoadStringA(LanguageDLL[0], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;*/
 
-	if(LoadStringA(LanguageDLL[2], ID, Buffer, Letters) && strlen(Buffer) > 0)
-	{
-		Result = Buffer;
+		if((LangsUsed & 4) && (Result = LangXP->getString(ID)) != ""){}
+		else if((LangsUsed & 2) && (Result = LangX->getString(ID)) != ""){}
+		else if((LangsUsed & 1) && (Result = Lang->getString(ID)) != ""){}
+		return Result;
 	}
-	else if(LoadStringA(LanguageDLL[1], ID, Buffer, Letters) && strlen(Buffer) > 0)
+	return "";
+}
+
+void AGE_Frame::WriteLangDLLstring(int ID, wxString Name)
+{
+	if((LangWriteMode & 1) && (LangsUsed & 1))
 	{
-		Result = Buffer;
+//		Lang->setString(ID, string(Name));
 	}
-	else if(LoadStringA(LanguageDLL[0], ID, Buffer, Letters) && strlen(Buffer) > 0)
-	{
-		Result = Buffer;
-	}
-	return Result;*/
-	
-	if((LangsUsed & 4) && (Result = LangFile[2]->getString(ID)) != ""){}
-	else if((LangsUsed & 2) && (Result = LangFile[1]->getString(ID)) != ""){}
-	else if((LangsUsed & 1) && (Result = LangFile[0]->getString(ID)) != ""){}
-	return Result;
 }
 
 bool AGE_Frame::SearchMatches(wxString &CompareText)
@@ -2929,7 +2946,7 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 	{
 		wxString TopText, SubText, Line;
 		size_t Found;
-		for(short loop=0; loop < Selections; loop++)
+		for(auto loop=0; loop < Selections; loop++)
 		{
 			Line = List->GetString(Items.Item(loop));
 			Found = Line.find(" ", 3);
