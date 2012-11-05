@@ -11,10 +11,10 @@ string AGE_Frame::GetTerrainBorderName(short &Index)
 
 void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent& Event)
 {
-	ListTerrainBorders();
+	ListTerrainBorders(false);
 }
 
-void AGE_Frame::ListTerrainBorders()
+void AGE_Frame::ListTerrainBorders(bool Sized)
 {
 	wxString Name, CompareText;
 	SearchText = Borders_Borders_Search->GetValue().Lower();
@@ -22,6 +22,19 @@ void AGE_Frame::ListTerrainBorders()
 
 	auto Selections = Borders_Borders_List->GetSelections(Items);
 	if(Borders_Borders_List->GetCount() > 0) Borders_Borders_List->Clear();
+	
+	short BorderIDs[TERRAINBORDERSMAX];
+	if(Sized)
+	{
+		for(short loop=0; loop < TERRAINBORDERSMAX; loop++)
+		{
+			BorderIDs[loop] = Terrains_ComboBox_TerrainBorderID[loop]->GetSelection();
+			if(Terrains_ComboBox_TerrainBorderID[loop]->GetCount() > 0)
+			Terrains_ComboBox_TerrainBorderID[loop]->Clear();
+			if(BorderIDs[loop] == wxNOT_FOUND) BorderIDs[loop] = 0;
+			Terrains_ComboBox_TerrainBorderID[loop]->Append("-1 - None");
+		}
+	}
 
 	for(short loop=0; loop < GenieFile->TerrainBorders.size(); loop++)
 	{
@@ -31,9 +44,19 @@ void AGE_Frame::ListTerrainBorders()
 		{
 			Borders_Borders_List->Append(Name, (void*)&GenieFile->TerrainBorders[loop]);
 		}
+		if(Sized)
+		{
+			for(short loop=0; loop < TERRAINBORDERSMAX; loop++)
+			Terrains_ComboBox_TerrainBorderID[loop]->Append(Name);
+		}
 	}
 
 	ListingFix(Selections, Borders_Borders_List);
+	if(Sized)
+	{
+		for(short loop=0; loop < TERRAINBORDERSMAX; loop++)
+		Terrains_ComboBox_TerrainBorderID[loop]->SetSelection(BorderIDs[loop]);
+	}
 
 	wxCommandEvent E;
 	OnTerrainBordersSelect(E);
