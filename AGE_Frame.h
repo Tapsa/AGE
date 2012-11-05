@@ -529,7 +529,7 @@ class AGE_Frame : public wxFrame
 
 //	Terrain Border Events
 
-	void ListTerrainBorders();
+	void ListTerrainBorders(bool Sized = true);
 	void OnTerrainBordersSearch(wxCommandEvent& Event);
 	void OnTerrainBordersSelect(wxCommandEvent& Event);
 	void OnTerrainBordersCopy(wxCommandEvent& Event);
@@ -2359,20 +2359,22 @@ class AGE_Frame : public wxFrame
 	wxBoxSizer * Terrains_Holder_TerrainBorders;
 	wxGridSizer * Terrains_Grid_TerrainBorders;
 	wxStaticText * Terrains_Text_TerrainBorderID;
-	TextCtrl_Short * Terrains_TerrainBorderID[42];
+	auto static const TERRAINBORDERSMAX = 42;
+	TextCtrl_Short * Terrains_TerrainBorderID[TERRAINBORDERSMAX];
+	ComboBox_Short * Terrains_ComboBox_TerrainBorderID[TERRAINBORDERSMAX];
+	auto static const TERRAINUNITS = 30;
 	wxBoxSizer * Terrains_Holder_TerrainUnits;
 	wxBoxSizer * Terrains_Holder_TerrainUnitID;
 	wxGridSizer * Terrains_Grid_TerrainUnitID;
 	wxStaticText * Terrains_Text_TerrainUnitID;
-	TextCtrl_Short * Terrains_TerrainUnitID[30];
-	ComboBox_Short * Terrains_ComboBox_TerrainUnitID[30];
+	TextCtrl_Short * Terrains_TerrainUnitID[TERRAINUNITS];
+	ComboBox_Short * Terrains_ComboBox_TerrainUnitID[TERRAINUNITS];
 	wxBoxSizer * Terrains_Holder_TerrainUnitDensity;
 	wxStaticText * Terrains_Text_TerrainUnitDensity;
-	TextCtrl_Short * Terrains_TerrainUnitDensity[30];
-	wxBoxSizer * Terrains_Holder_Unknown11;
-	wxGridSizer * Terrains_Grid_Unknown11;
-	wxStaticText * Terrains_Text_Unknown11;
-	TextCtrl_Byte * Terrains_Unknown11[30];
+	TextCtrl_Short * Terrains_TerrainUnitDensity[TERRAINUNITS];
+	wxBoxSizer * Terrains_Holder_TerrainUnitPriority;
+	wxStaticText * Terrains_Text_TerrainUnitPriority;
+	TextCtrl_Byte * Terrains_TerrainUnitPriority[TERRAINUNITS];
 	wxBoxSizer * Terrains_Holder_NumberOfTerrainUnitsUsed;
 	wxBoxSizer * Terrains_Holder_NumberOfTerrainUnitsUsed1;
 	wxStaticText * Terrains_Text_NumberOfTerrainUnitsUsed;
@@ -3071,5 +3073,13 @@ class AGE_Frame : public wxFrame
 		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
 		Path[loop].ID = (long)loop;
 	};
+};
+
+class DataFrame
+{
+	public:
+
+	DataFrame();
+	~DataFrame();
 //*/
 };

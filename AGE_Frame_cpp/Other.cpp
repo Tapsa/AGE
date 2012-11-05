@@ -176,19 +176,19 @@ void AGE_Frame::OnOpen(wxCommandEvent& Event)
 
 	if(Lang != NULL)
 	{
-		wxMessageBox("Resetting Lang file.");
+		//wxMessageBox("Resetting Lang file.");
 		delete Lang;
 		Lang = NULL;
 	}
 	if(LangX != NULL)
 	{
-		wxMessageBox("Resetting LangX file.");
+		//wxMessageBox("Resetting LangX file.");
 		delete LangX;
 		LangX = NULL;
 	}
 	if(LangXP != NULL)
 	{
-		wxMessageBox("Resetting LangXP file.");
+		//wxMessageBox("Resetting LangXP file.");
 		delete LangXP;
 		LangXP = NULL;
 	}
@@ -1154,15 +1154,17 @@ void AGE_Frame::OnGameVersionChange()
 {
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
-		for(short loop = 32;loop < 42; loop++)
+		for(short loop = 32;loop < TERRAINBORDERSMAX; loop++)
 		{
 			if(GameVersion >= 3)
 			{
 				Terrains_TerrainBorderID[loop]->Show(true);
+				Terrains_ComboBox_TerrainBorderID[loop]->Show(true);
 			}
 			else
 			{
 				Terrains_TerrainBorderID[loop]->Show(false);
+				Terrains_ComboBox_TerrainBorderID[loop]->Show(false);
 			}
 		}
 		for(short loop = 4;loop < 6; loop++)
