@@ -34,23 +34,23 @@ set(AGE_SRC Main.cpp
 			AGE_OpenDialog.cpp
 			AGE_SaveDialog.cpp
 
-			AGE_Frame_cpp/Constructor.cpp
-			AGE_Frame_cpp/Other.cpp
-			#AGE_Frame_cpp/DRS.cpp
-			AGE_Frame_cpp/Civs.cpp
-			AGE_Frame_cpp/General.cpp
-			AGE_Frame_cpp/Graphics.cpp
-			AGE_Frame_cpp/PlayerColors.cpp
-			AGE_Frame_cpp/Research.cpp
-			AGE_Frame_cpp/Sounds.cpp
-			AGE_Frame_cpp/Techage.cpp
-			AGE_Frame_cpp/TechTrees.cpp
-			AGE_Frame_cpp/TerrainBorders.cpp
-			AGE_Frame_cpp/TerrainRestrictions.cpp
-			AGE_Frame_cpp/Terrains.cpp
-			AGE_Frame_cpp/UnitLine.cpp
-			AGE_Frame_cpp/Units.cpp
-			AGE_Frame_cpp/Transporting.cpp
+			AGE_Frame/Constructor.cpp
+			AGE_Frame/Other.cpp
+			#AGE_Frame/DRS.cpp
+			AGE_Frame/Civs.cpp
+			AGE_Frame/General.cpp
+			AGE_Frame/Graphics.cpp
+			AGE_Frame/PlayerColors.cpp
+			AGE_Frame/Research.cpp
+			AGE_Frame/Sounds.cpp
+			AGE_Frame/Techage.cpp
+			AGE_Frame/TechTrees.cpp
+			AGE_Frame/TerrainBorders.cpp
+			AGE_Frame/TerrainRestrictions.cpp
+			AGE_Frame/Terrains.cpp
+			AGE_Frame/UnitLine.cpp
+			AGE_Frame/Units.cpp
+			AGE_Frame/Transporting.cpp
 
 			Resources.rc
 	)
