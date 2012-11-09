@@ -1,5 +1,4 @@
-/* AGE_CheckBoxes.h */
-
+#include "Common.hpp"
 #include "AGE_TextControls.h"
 
 #ifndef CheckBox_Bool_h
