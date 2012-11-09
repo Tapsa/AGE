@@ -1,7 +1,7 @@
-#include "Common.hpp"
+/* AGE_OpenDialog.h */
 
-#ifndef AGE_OpenDialog_h
-#define AGE_OpenDialog_h
+#include "wx/wx.h"
+#include "wx/filepicker.h"
 
 class AGE_OpenDialog: public wxDialog
 {
@@ -60,5 +60,3 @@ class AGE_OpenDialog: public wxDialog
 	wxButton * OpenButtonOK;
 	wxButton * OpenButtonCancel;
 };
-
-#endif
