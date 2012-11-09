@@ -1,6 +1,5 @@
-/* AGEAbouDialog.cpp */
-
 #include "AGE_AboutDialog.h"
+#include "AboutIcon.xpm"
 
 AGE_AboutDialog::AGE_AboutDialog(wxWindow * parent)
 : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)

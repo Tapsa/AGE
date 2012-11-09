@@ -1,4 +1,6 @@
-/* XPM */
+#ifndef AppIcon_xpm_h
+#define AppIcon_xpm_h
+
 static const char * AppIcon_xpm[] = {
 "32 32 195 2",
 "  	c None",
@@ -228,3 +230,5 @@ static const char * AppIcon_xpm[] = {
 ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ",
 ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ",
 ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "};
+
+#endif

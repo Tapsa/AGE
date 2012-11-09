@@ -1,28 +1,6 @@
-
-#include <boost/lexical_cast.hpp>
-#include "wx/wx.h"
-//#include "wxSFMLCanvas.hpp"
-#include "wx/fileconf.h"
-#include "wx/notebook.h"
-#include "wx/aboutdlg.h"
-#include "wx/hyperlink.h"
-#include "wx/filename.h"
-#include "wx/tooltip.h"
-#include "wx/statline.h"
-#include "windows.h"
-#include "genie/dat/DatFile.h"	// Newer dat system
-#include "genie/lang/LangFile.h"
-//#include "genie/resource/DrsFile.h"	// DRS file system
-#include "AGE_TextControls.h"
-#include "AGE_ComboBoxes.h"
-#include "AGE_CheckBoxes.h"
-#include "AGE_OpenDialog.h"
-#include "AGE_SaveDialog.h"
-#include "AGE_AboutDialog.h"
-#include "AppIcon.xpm"
-#include "GateOpen.xpm"
-#include "GateClosed.xpm"
-#include "Question.xpm"
+#include "Common.hpp"
+#include "Includes.hpp"
+#include "AGE_Frame/PlayerColors.hpp"
 //#include <wx/dynarray.h>
 using std::vector;
 
@@ -89,7 +67,6 @@ class AGE_Frame : public wxFrame
 	void CreateTerrainBorderControls();
 	void CreateTerrainRestrictionControls();
 	void CreateSoundControls();
-	void CreatePlayerColorControls();
 
 //	void CreateDRSControls();
 
@@ -582,6 +559,7 @@ class AGE_Frame : public wxFrame
 
 //	Player Color Events
 
+	void ConnectPlayerColors();
 	void ListPlayerColors();
 	void OnPlayerColorsSearch(wxCommandEvent& Event);
 	void OnPlayerColorsSelect(wxCommandEvent& Event);
@@ -804,7 +782,7 @@ class AGE_Frame : public wxFrame
 	wxPanel * Tab_TerrainBorders;
 	wxPanel * Tab_TerrainRestrictions;
 	wxPanel * Tab_Sounds;
-	wxPanel * Tab_PlayerColors;
+	TabColors * PlayerColors;
 
 //	wxPanel * Tab_DRS;
 
@@ -2495,55 +2473,6 @@ class AGE_Frame : public wxFrame
 	wxButton * Sounds_AllItems_Load;
 	wxButton * Sounds_AllItems_Clear;
 
-//	Player Color user interface
-
-	wxBoxSizer * Colors_Main;
-	wxBoxSizer * Colors_ListArea;
-	wxGridSizer * Colors_Colors_Buttons;
-	wxStaticBoxSizer * Colors_Colors;
-	wxTextCtrl * Colors_Colors_Search;
-	wxTextCtrl * Colors_Colors_Search_R;
-	wxListBox * Colors_Colors_List;
-	wxButton * Colors_Add;
-	wxButton * Colors_Insert;
-	wxButton * Colors_Delete;
-	wxButton * Colors_Copy;
-	wxButton * Colors_Paste;
-	wxButton * Colors_PasteInsert;
-
-	wxBoxSizer * Colors_DataArea;
-	wxBoxSizer * Colors_Holder_Name;
-	wxBoxSizer * Colors_Holder_ID;
-	wxBoxSizer * Colors_Holder_Palette;
-	wxBoxSizer * Colors_Holder_Color;
-	wxBoxSizer * Colors_Holder_MinimapColor;
-	wxBoxSizer * Colors_Holder_UnknownArea;
-	wxBoxSizer * Colors_Holder_Unknown1;
-	wxBoxSizer * Colors_Holder_Unknown2;
-	wxBoxSizer * Colors_Holder_Unknown3;
-	wxBoxSizer * Colors_Holder_Unknown4;
-	wxBoxSizer * Colors_Holder_Unknown5;
-	wxStaticText * Colors_Text_Name;
-	wxStaticText * Colors_Text_ID;
-	wxStaticText * Colors_Text_Palette;
-	wxStaticText * Colors_Text_Color;
-	wxStaticText * Colors_Text_MinimapColor;
-	wxStaticText * Colors_Text_Unknown1;
-	wxStaticText * Colors_Text_Unknown2;
-	wxStaticText * Colors_Text_Unknown3;
-	wxStaticText * Colors_Text_Unknown4;
-	wxStaticText * Colors_Text_Unknown5;
-	TextCtrl_String * Colors_Name;
-	TextCtrl_Long * Colors_ID;
-	TextCtrl_Long * Colors_Palette;
-	TextCtrl_Long * Colors_ColorL;
-	TextCtrl_Long * Colors_MinimapColor;
-	TextCtrl_Long * Colors_Unknown1;
-	TextCtrl_Long * Colors_Unknown2;
-	TextCtrl_Long * Colors_Unknown3;
-	TextCtrl_Long * Colors_Unknown4;
-	TextCtrl_Long * Colors_Unknown5;
-
 //	Unitline user interface
 
 	wxBoxSizer * UnitLines_Main;
@@ -3073,13 +3002,5 @@ class AGE_Frame : public wxFrame
 		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
 		Path[loop].ID = (long)loop;
 	};
-};
-
-class DataFrame
-{
-	public:
-
-	DataFrame();
-	~DataFrame();
 //*/
 };

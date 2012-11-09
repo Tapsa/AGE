@@ -1192,9 +1192,9 @@ void AGE_Frame::OnGameVersionChange()
 			TerRestrict_Holder_Graphics->Show(true);
 			TerRestrict_Holder_Amount->Show(true);
 			SoundItems_Holder_Civ->Show(true);
-			Colors_Holder_Name->Show(false);
-			Colors_Holder_Palette->Show(true);
-			Colors_Holder_MinimapColor->Show(true);
+			PlayerColors->Holder_Name->Show(false);
+			PlayerColors->Holder_Palette->Show(true);
+			PlayerColors->Holder_MinimapColor->Show(true);
 			Units_StandingGraphic[1]->Show(true);
 			Units_ComboBox_StandingGraphic[1]->Show(true);
 			Units_TrainSound[1]->Show(true);
@@ -1222,7 +1222,7 @@ void AGE_Frame::OnGameVersionChange()
 			if(ShowUnknowns)
 			{
 				SoundItems_Holder_Unknown->Show(true);
-				Colors_Holder_UnknownArea->Show(true);
+				PlayerColors->Holder_UnknownArea->Show(true);
 				Units_Holder_Unknown7->Show(true);
 				Units_Holder_Unknown8->Show(true);
 				Units_Holder_Unknown12->Show(true);
@@ -1252,10 +1252,10 @@ void AGE_Frame::OnGameVersionChange()
 			TerRestrict_Holder_Amount->Show(false);
 			SoundItems_Holder_Civ->Show(false);
 			SoundItems_Holder_Unknown->Show(false);
-			Colors_Holder_Name->Show(true);
-			Colors_Holder_Palette->Show(false);
-			Colors_Holder_MinimapColor->Show(false);
-			Colors_Holder_UnknownArea->Show(false);
+			PlayerColors->Holder_Name->Show(true);
+			PlayerColors->Holder_Palette->Show(false);
+			PlayerColors->Holder_MinimapColor->Show(false);
+			PlayerColors->Holder_UnknownArea->Show(false);
 			Units_StandingGraphic[1]->Show(false);
 			Units_ComboBox_StandingGraphic[1]->Show(false);
 			Units_TrainSound[1]->Show(false);
@@ -1391,7 +1391,7 @@ void AGE_Frame::OnGameVersionChange()
 	Terrains_Main->Layout();
 	TerRestrict_Main->Layout();
 	Sounds_Main->Layout();
-	Colors_Main->Layout();
+	PlayerColors->Main->Layout();
 	UnitLines_Main->Layout();
 	Borders_Main->Layout();
 	General_Main->Layout();
@@ -1573,7 +1573,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Borders_Unknonws->Show(true);
 				Sounds_Holder_Unknown->Show(true);
 				SoundItems_Holder_Unknown->Show(true);
-				Colors_Holder_UnknownArea->Show(true);
+				PlayerColors->Holder_UnknownArea->Show(true);
 				General_TopRow->Show(true);
 				General_ScrollerWindowsSpace->Show(true);
 			}
@@ -1594,7 +1594,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent& Event)
 				Borders_Unknonws->Show(false);
 				Sounds_Holder_Unknown->Show(false);
 				SoundItems_Holder_Unknown->Show(false);
-				Colors_Holder_UnknownArea->Show(false);
+				PlayerColors->Holder_UnknownArea->Show(false);
 				General_TopRow->Show(false);
 				General_ScrollerWindowsSpace->Show(false);
 			}
@@ -2673,7 +2673,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent& Event)
 		{
 			ListSoundItems();
 		}
-		else if(Event.GetId() == Colors_Name->GetId())
+		else if(Event.GetId() == PlayerColors->Name->GetId())
 		{
 			ListPlayerColors();
 		}

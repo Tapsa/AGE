@@ -1,4 +1,6 @@
-/* XPM */
+#ifndef Question_xpm_h
+#define Question_xpm_h
+
 static const char * Question_xpm[] = {
 "25 25 18 1",
 "  c #3F48CC",
@@ -44,3 +46,5 @@ static const char * Question_xpm[] = {
 ",,,,,,,,,,,,,,,,,,,,,,,,,",
 ",,,,,,,,,,,,,,,,,,,,,,,,,",
 ",,,,,,,,,,,,,,,,,,,,,,,,,"};
+
+#endif
