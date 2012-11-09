@@ -1,6 +1,4 @@
-#ifndef GateClosed_xpm_h
-#define GateClosed_xpm_h
-
+/* XPM */
 static const char * GateClosed_xpm[] = {
 "25 25 587 2",
 "  	c #505456",
@@ -615,5 +613,3 @@ static const char * GateClosed_xpm[] = {
 "y$z$A$B$C$D$E$F$G$H$I$J$K$L$M$N$O$P$Q$R$S$T$U$V$W$",
 "X$Y$Z$`$ %.%+%@%#%$%%%&%*%&%=%-%;%>%;%,%'%)%!%~%{%",
 "]%^%/%+%(%_%+%:%<%[%}%|%|%|%1%2%3%4%4%4%4%5%6%6%6%"};
-
-#endif

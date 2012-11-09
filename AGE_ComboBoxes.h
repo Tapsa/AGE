@@ -1,5 +1,7 @@
-#include "Common.hpp"
+/* AGE_ComboBoxes.h */
+
 #include "AGE_TextControls.h"
+#include "wx/odcombo.h"
 
 #ifndef ComboBox_Byte_h
 #define ComboBox_Byte_h

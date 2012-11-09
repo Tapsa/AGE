@@ -1,9 +1,11 @@
+/* Main.h */
+
 #include "AGE_Frame.h"
 
-#ifndef AGE_h
-#define AGE_h
+#ifndef Main_h
+#define Main_h
 
-class AGE : public wxApp
+class AGE: public wxApp
 {
     virtual bool OnInit();
     

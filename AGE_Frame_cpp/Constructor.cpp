@@ -1,3 +1,4 @@
+
 #include "../AGE_Frame.h"
 #include "genie/util/Logger.h"
 
@@ -91,7 +92,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	CreateTerrainControls();
 	CreateTerrainRestrictionControls();
 	CreateSoundControls();
-	PlayerColors = new TabColors(TabBar_Main, EnableIDFix); ConnectPlayerColors();
+	CreatePlayerColorControls();
 	CreateUnitLineControls();
 	CreateTerrainBorderControls();
 	CreateGeneralControls();
@@ -118,7 +119,7 @@ AGE_Frame::AGE_Frame(const wxString& title)
 	TabBar_Main->AddPage(Tab_TerrainBorders, "Terrain Borders");
 	TabBar_Main->AddPage(Tab_TerrainRestrictions, "Terrain Restrictions");
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
-	TabBar_Main->AddPage(PlayerColors->Tab, "Player Colors");
+	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
 	TabBar_Main->SetSelection(5);
 	
 //	TabBar_Test->AddPage(Tab_DRS, "DRS Files");

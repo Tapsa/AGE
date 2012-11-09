@@ -1,10 +1,12 @@
-#include "Common.hpp"
+/* AGE_AboutDialog.h */
+
+#include "wx/wx.h"
+#include "wx/hyperlink.h"
+#include "AboutIcon.xpm"
+#include "genie/dat/DatFile.h"
 using namespace std;
 
-#ifndef AGE_AboutDialog_h
-#define AGE_AboutDialog_h
-
-class AGE_AboutDialog : public wxDialog
+class AGE_AboutDialog: public wxDialog
 {
 	public:
 
@@ -86,5 +88,3 @@ class Copies // Used to copy units with various settings.
 	}
 	~Copies(){}
 };
-
-#endif
