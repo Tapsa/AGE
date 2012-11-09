@@ -10,6 +10,9 @@ Install/extract rest of the stuff into C:/Cpp or other folder which you like.
 MinGW:
 Just install from the regular exe (mingw-get-inst-20120426.exe).
 
+For now you need to run this from cmd or PowerShell:
+mingw-get install mingw32-libiconv
+
 wxWidgets (I have modded version 2.8.12):
 Unpack the zip file.
 To use my modded tool tips, seek them from AGE 2 sources and replace wxWidgets ones!
