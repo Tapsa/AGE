@@ -5,12 +5,12 @@
 #ifndef CheckBox_Bool_h
 #define CheckBox_Bool_h
 
-class CheckBox_Bool : public wxCheckBox
+class CheckBox_Bool: public wxCheckBox
 {
 	public:
 
-	CheckBox_Bool(wxWindow * parent, string InitValue, TextCtrl_Bool * Pointer)
-	: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
+	CheckBox_Bool(wxWindow *parent, string InitValue, TextCtrl_Bool *Pointer):
+	wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -23,12 +23,12 @@ class CheckBox_Bool : public wxCheckBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Bool * Container;
+	TextCtrl_Bool *Container;
 };
 
 #endif
@@ -36,12 +36,12 @@ class CheckBox_Bool : public wxCheckBox
 #ifndef CheckBox_Byte_h
 #define CheckBox_Byte_h
 
-class CheckBox_Byte : public wxCheckBox
+class CheckBox_Byte: public wxCheckBox
 {
 	public:
 
-	CheckBox_Byte(wxWindow * parent, string InitValue, TextCtrl_Byte * Pointer)
-	: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
+	CheckBox_Byte(wxWindow *parent, string InitValue, TextCtrl_Byte *Pointer):
+	wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -54,12 +54,12 @@ class CheckBox_Byte : public wxCheckBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Byte * Container;
+	TextCtrl_Byte *Container;
 };
 
 #endif
@@ -67,12 +67,12 @@ class CheckBox_Byte : public wxCheckBox
 #ifndef CheckBox_Float_h
 #define CheckBox_Float_h
 
-class CheckBox_Float : public wxCheckBox
+class CheckBox_Float: public wxCheckBox
 {
 	public:
 
-	CheckBox_Float(wxWindow * parent, string InitValue, TextCtrl_Float * Pointer)
-	: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
+	CheckBox_Float(wxWindow *parent, string InitValue, TextCtrl_Float *Pointer):
+	wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -85,12 +85,12 @@ class CheckBox_Float : public wxCheckBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Float * Container;
+	TextCtrl_Float *Container;
 };
 
 #endif
@@ -98,12 +98,12 @@ class CheckBox_Float : public wxCheckBox
 #ifndef CheckBox_Short_h
 #define CheckBox_Short_h
 
-class CheckBox_Short : public wxCheckBox
+class CheckBox_Short: public wxCheckBox
 {
 	public:
 
-	CheckBox_Short(wxWindow * parent, string InitValue, TextCtrl_Short * Pointer)
-	: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
+	CheckBox_Short(wxWindow *parent, string InitValue, TextCtrl_Short *Pointer):
+	wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -116,12 +116,12 @@ class CheckBox_Short : public wxCheckBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Short * Container;
+	TextCtrl_Short *Container;
 };
 
 #endif
@@ -129,12 +129,12 @@ class CheckBox_Short : public wxCheckBox
 #ifndef CheckBox_Short_ZeroIsYes_h
 #define CheckBox_Short_ZeroIsYes_h
 
-class CheckBox_Short_ZeroIsYes : public wxCheckBox
+class CheckBox_Short_ZeroIsYes: public wxCheckBox
 {
 	public:
 
-	CheckBox_Short_ZeroIsYes(wxWindow * parent, string InitValue, TextCtrl_Short * Pointer)
-	: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
+	CheckBox_Short_ZeroIsYes(wxWindow *parent, string InitValue, TextCtrl_Short *Pointer):
+	wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -147,12 +147,12 @@ class CheckBox_Short_ZeroIsYes : public wxCheckBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Short * Container;
+	TextCtrl_Short *Container;
 };
 
 #endif
@@ -160,12 +160,12 @@ class CheckBox_Short_ZeroIsYes : public wxCheckBox
 #ifndef CheckBox_Long_ZeroIsYes_h
 #define CheckBox_Long_ZeroIsYes_h
 
-class CheckBox_Long_ZeroIsYes : public wxCheckBox
+class CheckBox_Long_ZeroIsYes: public wxCheckBox
 {
 	public:
 
-	CheckBox_Long_ZeroIsYes(wxWindow * parent, string InitValue, TextCtrl_Long * Pointer)
-	: wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
+	CheckBox_Long_ZeroIsYes(wxWindow *parent, string InitValue, TextCtrl_Long *Pointer):
+	wxCheckBox(parent, wxID_ANY, InitValue, wxDefaultPosition, wxSize(0, 20))
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -178,12 +178,12 @@ class CheckBox_Long_ZeroIsYes : public wxCheckBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Long * Container;
+	TextCtrl_Long *Container;
 };
 
 #endif

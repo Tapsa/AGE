@@ -1,5 +1,5 @@
 /* XPM */
-static const char * AboutIcon_xpm[] = {
+static const char *AboutIcon_xpm[] = {
 "64 64 469 2",
 "  	c None",
 ". 	c #000000",

@@ -9,7 +9,7 @@ class AGE: public wxApp
 {
     virtual bool OnInit();
     
-    AGE_Frame * MainWindow;
+    AGE_Frame *MainWindow;
 };
 
 DECLARE_APP(AGE)

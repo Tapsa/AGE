@@ -2,7 +2,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-void AGE_Frame::OnUnitSubList(wxCommandEvent& Event)
+void AGE_Frame::OnUnitSubList(wxCommandEvent &Event)
 {
 	short Selection = Units_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
@@ -127,7 +127,7 @@ string AGE_Frame::GetUnitName(short &Index, short &civ, bool Filter)
 	return Name;
 }
 
-void AGE_Frame::OnUnitsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
 {
 	short Selection = Units_Civs_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
@@ -457,7 +457,7 @@ void AGE_Frame::ListUnitHeads(short &civ)
 }
 
 //	This links data into user interface
-void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)	// If a unit is selected.
@@ -1453,7 +1453,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent &Event)
 {
 	short Selection = Units_UnitHeads_List->GetSelection();
 	if(Selection != wxNOT_FOUND)
@@ -1466,7 +1466,7 @@ void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 {
 	if(GenieFile != NULL)
 	{
@@ -1499,7 +1499,7 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 {
 	if(GameVersion > 1)	// AoK, TC, SWGB or CC
 	{
@@ -1538,7 +1538,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(GameVersion > 1)
@@ -1578,7 +1578,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(GameVersion > 1)
@@ -1680,7 +1680,7 @@ void AGE_Frame::UnitsGraphicsCopy(short civ, short disp, short loop)
 	}
 }
 
-void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1707,7 +1707,7 @@ void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 {
 	if(DatCopies.CopyType != 1)
 	wxMessageBox("Wrong copy button clicked!");
@@ -1790,7 +1790,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 {
 	if(DatCopies.CopyType != 1)
 	wxMessageBox("Wrong copy button clicked!");
@@ -1899,7 +1899,7 @@ void AGE_Frame::UnitsGraphicsPaste(short civ, short disp, short loop)
 	}
 }
 
-void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1932,7 +1932,7 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1962,7 +1962,7 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitsDisable(wxCommandEvent& Event)
+void AGE_Frame::OnUnitsDisable(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1988,7 +1988,7 @@ string AGE_Frame::GetUnitDamageGraphicName(short &Index)
 	+" % - ID: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].GraphicID)+" ";
 }
 
-void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &Event)
 {
 	ListUnitDamageGraphics();
 }
@@ -2017,7 +2017,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	OnUnitDamageGraphicsSelect(E);
 }
 
-void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2049,7 +2049,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2065,7 +2065,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2080,7 +2080,7 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items); // Gives the current list selection.
 	if(Selections != 0)
@@ -2095,7 +2095,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2107,7 +2107,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2131,7 +2131,7 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2161,7 +2161,7 @@ string AGE_Frame::GetUnitAttackName(short &Index)
 	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Class)+" ";
 }
 
-void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &Event)
 {
 	ListUnitAttacks();
 }
@@ -2198,7 +2198,7 @@ void AGE_Frame::ListUnitAttacks()
 	OnUnitAttacksSelect(E);
 }
 
-void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2225,7 +2225,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2241,7 +2241,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2256,7 +2256,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items); // Gives the current list selection.
 	if(Selections != 0)
@@ -2271,7 +2271,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2283,7 +2283,7 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2307,7 +2307,7 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2336,7 +2336,7 @@ string AGE_Frame::GetUnitArmorName(short &Index)
 	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Class)+" ";
 }
 
-void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &Event)
 {
 	ListUnitArmors();
 }
@@ -2373,7 +2373,7 @@ void AGE_Frame::ListUnitArmors()
 	OnUnitArmorsSelect(E);
 }
 
-void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2400,7 +2400,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2416,7 +2416,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2431,7 +2431,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items); // Gives the current list selection.
 	if(Selections != 0)
@@ -2446,7 +2446,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2458,7 +2458,7 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2482,7 +2482,7 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2628,7 +2628,7 @@ string AGE_Frame::GetUnitCommandName(short &Index)
 	return Name;
 }
 
-void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &Event)
 {
 	ListUnitCommands();
 }
@@ -2680,7 +2680,7 @@ void AGE_Frame::ListUnitCommands()
 	OnUnitCommandsSelect(E);
 }
 
-void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2911,7 +2911,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2938,7 +2938,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Selections != 0)
@@ -2966,7 +2966,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_UnitCommands_List->GetSelections(Items); // Gives the current list selection.
 	if(Selections != 0)
@@ -2995,7 +2995,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Selections != 0)
@@ -3012,7 +3012,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
 {
 	wxBusyCursor WaitCursor;
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
@@ -3059,7 +3059,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 {
 	wxBusyCursor WaitCursor;
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
@@ -3101,7 +3101,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::UnitLangDLLConverter(wxCommandEvent& Event)
+void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &Event)
 {
 	int32_t DLLValue;
 	if(Event.GetId() == Units_LanguageDLLConverter[0]->GetId())

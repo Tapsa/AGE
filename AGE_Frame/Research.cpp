@@ -84,7 +84,7 @@ string AGE_Frame::GetResearchName(short &Index, bool Filter)
 	return Name;
 }
 
-void AGE_Frame::OnResearchSearch(wxCommandEvent& Event)
+void AGE_Frame::OnResearchSearch(wxCommandEvent &Event)
 {
 	ListResearches(false);
 }
@@ -257,7 +257,7 @@ void AGE_Frame::ListResearches(bool Sized)
 	OnResearchSelect(E);
 }
 
-void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
+void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
@@ -269,19 +269,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 			ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Items.Item(loop));
 			ResearchIDs[loop] = (ResearchPointer - (&GenieFile->Researchs[0]));
 		}
-		short RequiredTechs;
-		for(short loop = 4;loop < 6; loop++)
-		{
-			if(GameVersion >= 2)
-			{
-				RequiredTechs = 6;
-			}
-			else
-			{
-				RequiredTechs = 4;
-			}
-		}
-		for(short loop=0; loop < RequiredTechs; loop++)
+		for(short loop=0; loop < ResearchPointer->getRequiredTechsSize(); loop++)
 		{
 			Research_RequiredTechs[loop]->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechs[loop]));
 			Research_RequiredTechs[loop]->Container = &ResearchPointer->RequiredTechs[loop];
@@ -365,7 +353,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
+void AGE_Frame::OnResearchAdd(wxCommandEvent &Event)
 {
 	if(GenieFile != NULL)
 	{
@@ -377,7 +365,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
+void AGE_Frame::OnResearchInsert(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
@@ -389,7 +377,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
+void AGE_Frame::OnResearchDelete(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
@@ -401,7 +389,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
+void AGE_Frame::OnResearchCopy(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
@@ -413,7 +401,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
+void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
@@ -427,7 +415,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResearchPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Selections != 0)
@@ -441,7 +429,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent& Event)
+void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &Event)
 {
 	/*int32_t DLLValue;
 	if(Event.GetId() == Units_LanguageDLLConverter[0]->GetId())

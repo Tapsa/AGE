@@ -1,5 +1,5 @@
 /* XPM */
-static const char * GateClosed_xpm[] = {
+static const char *GateClosed_xpm[] = {
 "25 25 587 2",
 "  	c #505456",
 ". 	c #2B2A29",

@@ -6,12 +6,12 @@
 #ifndef ComboBox_Byte_h
 #define ComboBox_Byte_h
 
-class ComboBox_Byte : public wxOwnerDrawnComboBox
+class ComboBox_Byte: public wxOwnerDrawnComboBox
 {
 	public:
 
-	ComboBox_Byte(wxWindow * parent, TextCtrl_Byte * Pointer)
-	: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
+	ComboBox_Byte(wxWindow *parent, TextCtrl_Byte *Pointer):
+	wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -23,12 +23,12 @@ class ComboBox_Byte : public wxOwnerDrawnComboBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Byte * Container;
+	TextCtrl_Byte *Container;
 };
 
 #endif
@@ -36,12 +36,12 @@ class ComboBox_Byte : public wxOwnerDrawnComboBox
 #ifndef ComboBox_Float_h
 #define ComboBox_Float_h
 
-class ComboBox_Float : public wxOwnerDrawnComboBox
+class ComboBox_Float: public wxOwnerDrawnComboBox
 {
 	public:
 
-	ComboBox_Float(wxWindow * parent, TextCtrl_Float * Pointer)
-	: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
+	ComboBox_Float(wxWindow *parent, TextCtrl_Float *Pointer):
+	wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -53,12 +53,12 @@ class ComboBox_Float : public wxOwnerDrawnComboBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Float * Container;
+	TextCtrl_Float *Container;
 };
 
 #endif
@@ -66,12 +66,12 @@ class ComboBox_Float : public wxOwnerDrawnComboBox
 #ifndef ComboBox_Long_h
 #define ComboBox_Long_h
 
-class ComboBox_Long : public wxOwnerDrawnComboBox
+class ComboBox_Long: public wxOwnerDrawnComboBox
 {
 	public:
 
-	ComboBox_Long(wxWindow * parent, TextCtrl_Long * Pointer)
-	: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
+	ComboBox_Long(wxWindow *parent, TextCtrl_Long *Pointer):
+	wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -83,12 +83,12 @@ class ComboBox_Long : public wxOwnerDrawnComboBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Long * Container;
+	TextCtrl_Long *Container;
 };
 
 #endif
@@ -96,12 +96,12 @@ class ComboBox_Long : public wxOwnerDrawnComboBox
 #ifndef ComboBox_Short_h
 #define ComboBox_Short_h
 
-class ComboBox_Short : public wxOwnerDrawnComboBox
+class ComboBox_Short: public wxOwnerDrawnComboBox
 {
 	public:
 
-	ComboBox_Short(wxWindow * parent, TextCtrl_Short * Pointer)
-	: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
+	ComboBox_Short(wxWindow *parent, TextCtrl_Short *Pointer):
+	wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -113,12 +113,12 @@ class ComboBox_Short : public wxOwnerDrawnComboBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Short * Container;
+	TextCtrl_Short *Container;
 };
 
 #endif
@@ -126,12 +126,12 @@ class ComboBox_Short : public wxOwnerDrawnComboBox
 #ifndef ComboBox_Byte_EffectType_h
 #define ComboBox_Byte_EffectType_h
 
-class ComboBox_Byte_EffectType : public wxOwnerDrawnComboBox
+class ComboBox_Byte_EffectType: public wxOwnerDrawnComboBox
 {
 	public:
 
-	ComboBox_Byte_EffectType(wxWindow * parent, TextCtrl_Byte * Pointer)
-	: wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
+	ComboBox_Byte_EffectType(wxWindow *parent, TextCtrl_Byte *Pointer):
+	wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
 	{
 		Container = Pointer;
 		Container->ParentContainer = this;
@@ -143,12 +143,12 @@ class ComboBox_Byte_EffectType : public wxOwnerDrawnComboBox
 
 //	Events
 
-	void OnUpdate(wxCommandEvent& Event);
-	void OnKillFocus(wxFocusEvent& Event);
+	void OnUpdate(wxCommandEvent &Event);
+	void OnKillFocus(wxFocusEvent &Event);
 
 //	Member Variables
 
-	TextCtrl_Byte * Container;
+	TextCtrl_Byte *Container;
 };
 
 #endif

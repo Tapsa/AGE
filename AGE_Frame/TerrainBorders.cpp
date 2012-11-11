@@ -9,7 +9,7 @@ string AGE_Frame::GetTerrainBorderName(short &Index)
 	return GenieFile->TerrainBorders[Index].Name+" - "+GenieFile->TerrainBorders[Index].Name2;
 }
 
-void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &Event)
 {
 	ListTerrainBorders(false);
 }
@@ -62,7 +62,7 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 	OnTerrainBordersSelect(E);
 }
 
-void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
 	if(Selections != 0)
@@ -111,7 +111,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
 	if(Selections != 0)
@@ -123,7 +123,7 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
 	if(Selections != 0)
@@ -145,7 +145,7 @@ string AGE_Frame::GetTerrainBorderFrameName(short &Index)
 	+" "+lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].Flag2)+" ";
 }
 
-void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &Event)
 {
 	ListTerrainBorderFrames();
 }
@@ -175,7 +175,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 	OnTerrainBorderFramesSelect(E);
 }
 
-void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
 	if(Selections != 0)
@@ -196,7 +196,7 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
 	if(Selections != 0)
@@ -208,7 +208,7 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
 	if(Selections != 0)

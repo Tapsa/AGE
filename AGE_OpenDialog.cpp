@@ -139,7 +139,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 //	Connect(chDrsFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectDrs));
 }
 
-void AGE_OpenDialog::OnOK(wxCommandEvent& Event)
+void AGE_OpenDialog::OnOK(wxCommandEvent &Event)
 {
 	if(Event.GetId() == Radio_DatFileLocation->GetId())
 	{
@@ -159,7 +159,7 @@ void AGE_OpenDialog::OnOK(wxCommandEvent& Event)
 	EndModal(wxID_OK);
 }
 
-void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent& Event)
+void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -195,7 +195,7 @@ void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent& Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent& Event)
+void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -231,7 +231,7 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent& Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent& Event)
+void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -267,7 +267,7 @@ void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent& Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultTC(wxCommandEvent& Event)
+void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -302,7 +302,7 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent& Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent& Event)
+void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -338,7 +338,7 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent& Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultCC(wxCommandEvent& Event)
+void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -374,7 +374,7 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent& Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent& Event)
+void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent &Event)
 {
 	if(Event.GetId() == Radio_DatFileLocation->GetId())
 	{
@@ -393,7 +393,7 @@ void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent& Event)
 	}
 }
 
-void AGE_OpenDialog::OnSelectLang(wxCommandEvent& Event)
+void AGE_OpenDialog::OnSelectLang(wxCommandEvent &Event)
 {
 	if(Event.IsChecked())
 	{
@@ -405,7 +405,7 @@ void AGE_OpenDialog::OnSelectLang(wxCommandEvent& Event)
 	}
 }
 
-void AGE_OpenDialog::OnSelectLangX1(wxCommandEvent& Event)
+void AGE_OpenDialog::OnSelectLangX1(wxCommandEvent &Event)
 {
 	if(Event.IsChecked())
 	{
@@ -417,7 +417,7 @@ void AGE_OpenDialog::OnSelectLangX1(wxCommandEvent& Event)
 	}
 }
 
-void AGE_OpenDialog::OnSelectLangX1P1(wxCommandEvent& Event)
+void AGE_OpenDialog::OnSelectLangX1P1(wxCommandEvent &Event)
 {
 	if(Event.IsChecked())
 	{
@@ -429,7 +429,7 @@ void AGE_OpenDialog::OnSelectLangX1P1(wxCommandEvent& Event)
 	}
 }
 /*
-void AGE_OpenDialog::OnSelectDrs(wxCommandEvent& Event)
+void AGE_OpenDialog::OnSelectDrs(wxCommandEvent &Event)
 {
 	if(Event.IsChecked())
 	{

@@ -6,14 +6,14 @@
 #ifndef SFML_Canvas_h
 #define SFML_Canvas_h
 
-class SFML_Canvas : public wxControl, public sf::RenderWindow
+class SFML_Canvas: public wxControl, public sf::RenderWindow
 {
 public:
 
 	sf::Sprite SLP_Sprite;
 
-    SFML_Canvas(wxWindow * Parent, sf::Sprite Pic)
-	: wxControl(Parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
+    SFML_Canvas(wxWindow *Parent, sf::Sprite Pic):
+	wxControl(Parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 	{
 		SLP_Sprite = Pic;
 		sf::RenderWindow::Create(GetHandle());
