@@ -9,7 +9,7 @@ string AGE_Frame::GetUnitLineName(short &Index)
 	return "Unitline "+lexical_cast<string>(Index);
 }
 
-void AGE_Frame::OnUnitLinesSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &Event)
 {
 	ListUnitLines();
 }
@@ -57,7 +57,7 @@ void AGE_Frame::ListUnitLines()
 	OnUnitLinesSelect(E);
 }
 
-void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
@@ -77,7 +77,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLinesAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesAdd(wxCommandEvent &Event)
 {
 	if(GenieFile != NULL)
 	{
@@ -91,7 +91,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLinesInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
@@ -106,7 +106,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
@@ -121,7 +121,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLinesCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
@@ -133,7 +133,7 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
@@ -151,7 +151,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
@@ -186,7 +186,7 @@ string AGE_Frame::GetUnitLineUnitName(short &Index)
 	return Name;
 }
 
-void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &Event)
 {
 	ListUnitLineUnits();
 }
@@ -215,7 +215,7 @@ void AGE_Frame::ListUnitLineUnits()
 	OnUnitLineUnitsSelect(E);
 }
 
-void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
@@ -238,7 +238,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(Selections != 0)
@@ -250,7 +250,7 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
@@ -261,7 +261,7 @@ void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
@@ -273,7 +273,7 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
@@ -285,7 +285,7 @@ void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)
@@ -299,7 +299,7 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(Selections != 0)

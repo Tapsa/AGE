@@ -92,7 +92,7 @@ string AGE_Frame::GetTerrainRestrictionName(short &Index)
 	return Name;
 }
 
-void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &Event)
 {
 	ListTerrainRestrictions(false);
 }
@@ -142,7 +142,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	OnTerrainRestrictionsSelect(E);
 }
 
-void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
@@ -158,7 +158,7 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 {
 	wxArrayInt Items2;
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
@@ -211,7 +211,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &Event)
 {
 	if(GenieFile != NULL)
 	{
@@ -228,7 +228,7 @@ void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
@@ -243,7 +243,7 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
@@ -260,7 +260,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
@@ -272,7 +272,7 @@ void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
@@ -291,7 +291,7 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(Selections != 0)
@@ -308,7 +308,7 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items);
@@ -327,7 +327,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items);

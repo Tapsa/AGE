@@ -105,12 +105,12 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 //	Connect(chDrsFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDrs));
 }
 
-void AGE_SaveDialog::OnOK(wxCommandEvent& Event)
+void AGE_SaveDialog::OnOK(wxCommandEvent &Event)
 {
 	EndModal(wxID_OK);
 }
 
-void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent& Event)
+void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -129,7 +129,7 @@ void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent& Event)
 	CheckBox_DatFileLocation->SetValue(true);
 }
 
-void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent& Event)
+void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -148,7 +148,7 @@ void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent& Event)
 	CheckBox_DatFileLocation->SetValue(true);
 }
 
-void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent& Event)
+void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -167,7 +167,7 @@ void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent& Event)
 	CheckBox_DatFileLocation->SetValue(true);
 }
 
-void AGE_SaveDialog::OnDefaultTC(wxCommandEvent& Event)
+void AGE_SaveDialog::OnDefaultTC(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -186,7 +186,7 @@ void AGE_SaveDialog::OnDefaultTC(wxCommandEvent& Event)
 	CheckBox_DatFileLocation->SetValue(true);
 }
 
-void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent& Event)
+void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -205,7 +205,7 @@ void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent& Event)
 	CheckBox_DatFileLocation->SetValue(true);
 }
 
-void AGE_SaveDialog::OnDefaultCC(wxCommandEvent& Event)
+void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -224,7 +224,7 @@ void AGE_SaveDialog::OnDefaultCC(wxCommandEvent& Event)
 	CheckBox_DatFileLocation->SetValue(true);
 }
 
-void AGE_SaveDialog::OnSelectDat(wxCommandEvent& Event)
+void AGE_SaveDialog::OnSelectDat(wxCommandEvent &Event)
 {
 	if(Event.IsChecked())
 	{
@@ -236,7 +236,7 @@ void AGE_SaveDialog::OnSelectDat(wxCommandEvent& Event)
 	}
 }
 
-void AGE_SaveDialog::OnSelectApf(wxCommandEvent& Event)
+void AGE_SaveDialog::OnSelectApf(wxCommandEvent &Event)
 {
 	if(Event.IsChecked())
 	{
@@ -248,7 +248,7 @@ void AGE_SaveDialog::OnSelectApf(wxCommandEvent& Event)
 	}
 }
 /*
-void AGE_SaveDialog::OnSelectDrs(wxCommandEvent& Event)
+void AGE_SaveDialog::OnSelectDrs(wxCommandEvent &Event)
 {
 	if(Event.IsChecked())
 	{

@@ -4,7 +4,7 @@ using boost::lexical_cast;
 
 wxTextCtrl * DRS_SLP;
 
-void AGE_Frame::LoadDRSFile(wxCommandEvent& Event)
+void AGE_Frame::LoadDRSFile(wxCommandEvent &Event)
 {
 	ResourceFile = new genie::DrsFile();
 	try
@@ -22,14 +22,14 @@ void AGE_Frame::LoadDRSFile(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::UnLoadDRSFile(wxCommandEvent& Event)
+void AGE_Frame::UnLoadDRSFile(wxCommandEvent &Event)
 {
 	delete ResourceFile;
 	ResourceFile = 0;
 	DRS_StatusText->SetLabel("DRS file unloaded.");
 }
 
-void AGE_Frame::LoadSLP(wxCommandEvent& Event)
+void AGE_Frame::LoadSLP(wxCommandEvent &Event)
 {
 	genie::DrsFile Interface, GameData;
 

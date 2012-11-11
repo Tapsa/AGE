@@ -25,7 +25,7 @@ void AGE_Frame::ImpError()
 	wxMessageBox("Importing malfunctioned.\nTry again.");
 }
 
-void AGE_Frame::OnExtractUnit(wxCommandEvent& Event)
+void AGE_Frame::OnExtractUnit(wxCommandEvent &Event)
 {/*
 	fstream ExtractUnit("age2eUnit.txt", ios_base::trunc | ios_base::binary | ios_base::out);
 	ExtractUnit << VERSION_EXTRACT;
@@ -367,7 +367,7 @@ void AGE_Frame::OnExtractUnit(wxCommandEvent& Event)
 	}
 */}
 
-void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
+void AGE_Frame::OnImportUnit(wxCommandEvent &Event)
 {/*
 	wxFileConfig ImportUnit(wxEmptyString, "Tapsa", "age2eUnit.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	try
@@ -933,7 +933,7 @@ void AGE_Frame::OnImportUnit(wxCommandEvent& Event)
 	}
 */}
 
-void AGE_Frame::OnExtractGraphic(wxCommandEvent& Event)
+void AGE_Frame::OnExtractGraphic(wxCommandEvent &Event)
 {
 	wxFileConfig ExtractGraphic(wxEmptyString, "Tapsa", "age2eGraphic.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	try
@@ -996,7 +996,7 @@ void AGE_Frame::OnExtractGraphic(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnImportGraphic(wxCommandEvent& Event)
+void AGE_Frame::OnImportGraphic(wxCommandEvent &Event)
 {
 	wxFileConfig ImportGraphic(wxEmptyString, "Tapsa", "age2eGraphic.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	try

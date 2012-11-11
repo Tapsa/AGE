@@ -34,12 +34,12 @@ void AGE_Frame::ListPlayerColors()
 	OnPlayerColorsSelect(E);
 }
 
-void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
 {
 	ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -82,7 +82,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &Event)
 {
 	if(GenieFile != NULL)
 	{
@@ -94,7 +94,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -106,7 +106,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -118,7 +118,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -130,7 +130,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)
@@ -144,7 +144,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Selections != 0)

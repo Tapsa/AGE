@@ -2,7 +2,7 @@
 
 #include "AGE_ComboBoxes.h"
 
-void ComboBox_Byte::OnUpdate(wxCommandEvent& Event)
+void ComboBox_Byte::OnUpdate(wxCommandEvent &Event)
 {
 	Container->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	
@@ -10,7 +10,7 @@ void ComboBox_Byte::OnUpdate(wxCommandEvent& Event)
 	Container->OnKillFocus(Temp);
 }
 
-void ComboBox_Float::OnUpdate(wxCommandEvent& Event)
+void ComboBox_Float::OnUpdate(wxCommandEvent &Event)
 {
 	Container->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	
@@ -18,7 +18,7 @@ void ComboBox_Float::OnUpdate(wxCommandEvent& Event)
 	Container->OnKillFocus(Temp);
 }
 
-void ComboBox_Short::OnUpdate(wxCommandEvent& Event)
+void ComboBox_Short::OnUpdate(wxCommandEvent &Event)
 {
 	Container->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	
@@ -26,7 +26,7 @@ void ComboBox_Short::OnUpdate(wxCommandEvent& Event)
 	Container->OnKillFocus(Temp);
 }
 
-void ComboBox_Long::OnUpdate(wxCommandEvent& Event)
+void ComboBox_Long::OnUpdate(wxCommandEvent &Event)
 {
 	Container->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	
@@ -34,7 +34,7 @@ void ComboBox_Long::OnUpdate(wxCommandEvent& Event)
 	Container->OnKillFocus(Temp);
 }
 
-void ComboBox_Byte_EffectType::OnUpdate(wxCommandEvent& Event)
+void ComboBox_Byte_EffectType::OnUpdate(wxCommandEvent &Event)
 {
 	short Selection = GetSelection();
 	if(Selection == 1)
@@ -86,7 +86,7 @@ void ComboBox_Byte_EffectType::OnUpdate(wxCommandEvent& Event)
 	Container->OnKillFocus(Temp);
 }
 
-void ComboBox_Byte::OnKillFocus(wxFocusEvent& Event)
+void ComboBox_Byte::OnKillFocus(wxFocusEvent &Event)
 {
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
@@ -97,7 +97,7 @@ void ComboBox_Byte::OnKillFocus(wxFocusEvent& Event)
 	}
 }
 
-void ComboBox_Float::OnKillFocus(wxFocusEvent& Event)
+void ComboBox_Float::OnKillFocus(wxFocusEvent &Event)
 {
 	((TextCtrl_Float*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Float*)Event.GetEventObject())->NoLoadList)
@@ -108,7 +108,7 @@ void ComboBox_Float::OnKillFocus(wxFocusEvent& Event)
 	}
 }
 
-void ComboBox_Short::OnKillFocus(wxFocusEvent& Event)
+void ComboBox_Short::OnKillFocus(wxFocusEvent &Event)
 {
 	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
@@ -119,7 +119,7 @@ void ComboBox_Short::OnKillFocus(wxFocusEvent& Event)
 	}
 }
 
-void ComboBox_Long::OnKillFocus(wxFocusEvent& Event)
+void ComboBox_Long::OnKillFocus(wxFocusEvent &Event)
 {
 	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
@@ -130,7 +130,7 @@ void ComboBox_Long::OnKillFocus(wxFocusEvent& Event)
 	}
 }
 
-void ComboBox_Byte_EffectType::OnKillFocus(wxFocusEvent& Event)
+void ComboBox_Byte_EffectType::OnKillFocus(wxFocusEvent &Event)
 {
 	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
 	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)

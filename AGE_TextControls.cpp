@@ -2,7 +2,7 @@
 
 #include "AGE_TextControls.h"
 
-void TextCtrl_Bool::OnKillFocus(wxFocusEvent& Event)
+void TextCtrl_Bool::OnKillFocus(wxFocusEvent &Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
@@ -34,7 +34,7 @@ void TextCtrl_Bool::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
-void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
+void TextCtrl_Byte::OnKillFocus(wxFocusEvent &Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
@@ -75,7 +75,7 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
-void TextCtrl_UByte::OnKillFocus(wxFocusEvent& Event)
+void TextCtrl_UByte::OnKillFocus(wxFocusEvent &Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
@@ -116,7 +116,7 @@ void TextCtrl_UByte::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
-void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
+void TextCtrl_Float::OnKillFocus(wxFocusEvent &Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
@@ -148,7 +148,7 @@ void TextCtrl_Float::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
-void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
+void TextCtrl_Long::OnKillFocus(wxFocusEvent &Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
@@ -180,7 +180,7 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
-void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
+void TextCtrl_Short::OnKillFocus(wxFocusEvent &Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
@@ -212,7 +212,7 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
-void TextCtrl_UShort::OnKillFocus(wxFocusEvent& Event)
+void TextCtrl_UShort::OnKillFocus(wxFocusEvent &Event)
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
@@ -244,7 +244,7 @@ void TextCtrl_UShort::OnKillFocus(wxFocusEvent& Event)
 //	Event.Skip();
 }
 
-void TextCtrl_String::OnKillFocus(wxFocusEvent& Event)	// This may crash the program.
+void TextCtrl_String::OnKillFocus(wxFocusEvent &Event)	// This may crash the program.
 {
 	wxString Value = GetValue().c_str();
 	NoLoadList = false;
