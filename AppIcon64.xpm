@@ -1,5 +1,5 @@
 /* XPM */
-static const char * AppIcon64_xpm[] = {
+static const char *AppIcon64_xpm[] = {
 "64 64 46 1",
 " 	c None",
 ".	c #7E0080",

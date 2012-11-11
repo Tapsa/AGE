@@ -9,7 +9,7 @@ string AGE_Frame::GetTechageName(short &Index)
 	return "New Technology";
 }
 
-void AGE_Frame::OnTechageRenameGE2(wxCommandEvent& Event)
+void AGE_Frame::OnTechageRenameGE2(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -23,7 +23,7 @@ void AGE_Frame::OnTechageRenameGE2(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
+void AGE_Frame::OnTechageRename(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -75,7 +75,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTechageSearch(wxCommandEvent& Event)
+void AGE_Frame::OnTechageSearch(wxCommandEvent &Event)
 {
 	ListTechages(false);
 }
@@ -150,7 +150,7 @@ void AGE_Frame::ListTechages(bool Sized)
 	OnTechageSelect(E);
 }
 
-void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
+void AGE_Frame::OnTechageSelect(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -168,7 +168,7 @@ void AGE_Frame::OnTechageSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTechageAdd(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnTechageAdd(wxCommandEvent &Event)	// Works.
 {
 	if(GenieFile != NULL)
 	{
@@ -180,7 +180,7 @@ void AGE_Frame::OnTechageAdd(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnTechageInsert(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnTechageInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -192,7 +192,7 @@ void AGE_Frame::OnTechageInsert(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnTechageDelete(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -204,7 +204,7 @@ void AGE_Frame::OnTechageDelete(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnTechageCopy(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnTechageCopy(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -216,7 +216,7 @@ void AGE_Frame::OnTechageCopy(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnTechagePaste(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnTechagePaste(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -230,7 +230,7 @@ void AGE_Frame::OnTechagePaste(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnTechagePasteInsert(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnTechagePasteInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -342,7 +342,7 @@ string AGE_Frame::GetEffectName(short &Index)
 	return Name+" ";
 }
 
-void AGE_Frame::OnEffectsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnEffectsSearch(wxCommandEvent &Event)
 {
 	ListEffects();
 }
@@ -376,7 +376,7 @@ void AGE_Frame::ListEffects()
 	OnEffectsSelect(E);
 }
 
-void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
@@ -964,7 +964,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent& Event)
 //	Refresh(); // Too much lag.
 }
 
-void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -977,7 +977,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnEffectsInsert(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
@@ -989,7 +989,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnEffectsDelete(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1001,7 +1001,7 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnEffectsCopy(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnEffectsCopy(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1013,7 +1013,7 @@ void AGE_Frame::OnEffectsCopy(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnEffectsPaste(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1027,7 +1027,7 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent& Event)	// Works.
+void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1041,7 +1041,7 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent& Event)	// Works.
 	}
 }
 
-void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
+void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 {
 	wxString Name, CompareText;
 	SearchText = Techs_AllEffects_Search->GetValue().Lower();
@@ -1077,13 +1077,13 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent& Event)
 	OnAllTechEffectSelect(E);
 }
 
-void AGE_Frame::ClearAllTechEffects(wxCommandEvent& Event)
+void AGE_Frame::ClearAllTechEffects(wxCommandEvent &Event)
 {
 	Techs_Techs_Search->SetValue("");
 	Techs_Effects_Search->SetValue("");
 }
 
-void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent& Event)
+void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent &Event)
 {
 	SearchAllSubVectors(Techs_AllEffects_List, Techs_Techs_Search, Techs_Effects_Search);
 }

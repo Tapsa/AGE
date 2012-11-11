@@ -9,7 +9,7 @@ string AGE_Frame::GetTerrainName(short &Index)
 	return "New Terrain";
 }
 
-void AGE_Frame::OnTerrainsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 {
 	ListTerrains(false);
 }
@@ -137,7 +137,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	OnTerrainRestrictionsTerrainSelect(E);
 }
 
-void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
@@ -180,7 +180,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_Unknown5->Container = &TerrainPointer->Unknown5;
 		Terrains_Unknown6->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown6));
 		Terrains_Unknown6->Container = &TerrainPointer->Unknown6;
-		for(short loop=0; loop < 23; loop++)
+		for(short loop=0; loop < TerrainPointer->UNKNOWN7_LEN; loop++)
 		{
 			Terrains_Unknown7[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Unknown7[loop]));
 			Terrains_Unknown7[loop]->Container = &TerrainPointer->Unknown7[loop];
@@ -191,7 +191,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_Unknown8[0]->Container = &TerrainPointer->Unknown8[0];
 		Terrains_Unknown8[1]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown8[1]));
 		Terrains_Unknown8[1]->Container = &TerrainPointer->Unknown8[1];
-		for(short loop=0; loop < 54; loop++)
+		for(short loop=0; loop < TerrainPointer->UNKNOWN9_LEN; loop++)
 		{
 			Terrains_Unknown9[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown9[loop]));
 			Terrains_Unknown9[loop]->Container = &TerrainPointer->Unknown9[loop];
@@ -203,16 +203,13 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_TerrainDimensions[0]->Container = &TerrainPointer->TerrainDimensions.first;
 		Terrains_TerrainDimensions[1]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.second));
 		Terrains_TerrainDimensions[1]->Container = &TerrainPointer->TerrainDimensions.second;
-		short Borders;
-		if(GameVersion >= 3) Borders = TERRAINBORDERSMAX;
-		else Borders = 32;
-		for(short loop=0; loop < Borders; loop++)
+		for(short loop=0; loop < TerrainPointer->getTerrainBorderSize(); loop++)
 		{
-			Terrains_TerrainBorderID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainBorderID[loop]));
-			Terrains_TerrainBorderID[loop]->Container = &TerrainPointer->TerrainBorderID[loop];
-			Terrains_ComboBox_TerrainBorderID[loop]->SetSelection(TerrainPointer->TerrainBorderID[loop] + 1);
+			Terrains_TerrainBorderID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainBorderIDs[loop]));
+			Terrains_TerrainBorderID[loop]->Container = &TerrainPointer->TerrainBorderIDs[loop];
+			Terrains_ComboBox_TerrainBorderID[loop]->SetSelection(TerrainPointer->TerrainBorderIDs[loop] + 1);
 		}
-		for(short loop=0; loop < TERRAINUNITS; loop++)
+		for(short loop=0; loop < TerrainPointer->TERRAIN_UNITS_LEN; loop++)
 		{
 			Terrains_TerrainUnitID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitID[loop]));
 			Terrains_TerrainUnitID[loop]->Container = &TerrainPointer->TerrainUnitID[loop];
@@ -226,7 +223,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 		Terrains_NumberOfTerrainUnitsUsed->Container = &TerrainPointer->NumberOfTerrainUnitsUsed;
 		if(GameVersion >= 4)
 		{
-			for(short loop=0; loop < 24; loop++)
+			for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_LEN; loop++)
 			{
 				Terrains_SUnknown1[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->SWGBUnknown1[loop]));
 				Terrains_SUnknown1[loop]->Container = &TerrainPointer->SWGBUnknown1[loop];
@@ -235,7 +232,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainsAdd(wxCommandEvent& Event) // Their count is hardcoded.
+void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded.
 {
 	if(GenieFile != NULL)
 	{
@@ -253,7 +250,7 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent& Event) // Their count is hardcoded
 	}
 }
 
-void AGE_Frame::OnTerrainsInsert(wxCommandEvent& Event) // Their count is hardcoded.
+void AGE_Frame::OnTerrainsInsert(wxCommandEvent &Event) // Their count is hardcoded.
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
@@ -271,7 +268,7 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent& Event) // Their count is hardco
 	}
 }
 
-void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardcoded.
+void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardcoded.
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
@@ -290,7 +287,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent& Event) // Their count is hardco
 	}
 }
 
-void AGE_Frame::OnTerrainsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
@@ -302,7 +299,7 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)
@@ -323,7 +320,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Selections != 0)

@@ -35,7 +35,7 @@ void AGE_Frame::ListGeneral()
 	OnGeneralSelect(E);
 }
 
-void AGE_Frame::OnDataGridPage(wxCommandEvent& Event)
+void AGE_Frame::OnDataGridPage(wxCommandEvent &Event)
 {
 	if(Event.GetId() == General_TechTreePicker->GetId())
 	{
@@ -52,7 +52,7 @@ void AGE_Frame::OnDataGridPage(wxCommandEvent& Event)
 	OnGeneralSelect(E);
 }
 
-void AGE_Frame::OnDataGridNext(wxCommandEvent& Event)
+void AGE_Frame::OnDataGridNext(wxCommandEvent &Event)
 {
 	if(Event.GetId() == General_TechTreeNext->GetId())
 	{
@@ -65,7 +65,7 @@ void AGE_Frame::OnDataGridNext(wxCommandEvent& Event)
 	OnGeneralSelect(E);
 }
 
-void AGE_Frame::OnDataGridPrev(wxCommandEvent& Event)
+void AGE_Frame::OnDataGridPrev(wxCommandEvent &Event)
 {
 	if(Event.GetId() == General_TechTreePrev->GetId())
 	{
@@ -79,7 +79,7 @@ void AGE_Frame::OnDataGridPrev(wxCommandEvent& Event)
 	OnGeneralSelect(E);
 }
 
-void AGE_Frame::OnVariableCalc(wxFocusEvent& Event)
+void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 {
 	int32_t Result, Temp;
 
@@ -106,7 +106,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent& Event)
 	General_CalcBoxes[4]->ChangeValue("= "+lexical_cast<string>(Result));
 }
 
-void AGE_Frame::OnGeneralSelect(wxCommandEvent& Event)
+void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 {
 	{
 		for(short loop=0; loop < 138; loop++)

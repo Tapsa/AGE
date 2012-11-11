@@ -7,7 +7,7 @@ string AGE_Frame::GetCivName(short &Index)
 	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
 }
 
-void AGE_Frame::OnCivsSearch(wxCommandEvent& Event)
+void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 {
 	ListCivs(false);
 }
@@ -74,7 +74,7 @@ void AGE_Frame::ListCivs(bool Sized)
 	OnCivsSelect(E);
 }
 
-void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
+void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -112,7 +112,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnCivsAdd(wxCommandEvent& Event)
+void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 {
 	if(GenieFile != NULL)
 	{
@@ -128,7 +128,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnCivsInsert(wxCommandEvent& Event)
+void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -144,7 +144,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnCivsDelete(wxCommandEvent& Event)
+void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -157,7 +157,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnCivsCopy(wxCommandEvent& Event)
+void AGE_Frame::OnCivsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -169,7 +169,7 @@ void AGE_Frame::OnCivsCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
+void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -184,7 +184,7 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnCivsPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -933,7 +933,7 @@ string AGE_Frame::GetResourceName(short &Index)
 	return Name;
 }
 
-void AGE_Frame::OnResourcesSearch(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesSearch(wxCommandEvent &Event)
 {
 	ListResources(false);
 }
@@ -1056,7 +1056,7 @@ void AGE_Frame::ListResources(bool Sized)
 	OnResourcesSelect(E);
 }
 
-void AGE_Frame::OnResourcesSelect(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1073,7 +1073,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResourcesAdd(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1087,7 +1087,7 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResourcesInsert(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1100,7 +1100,7 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResourcesDelete(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesDelete(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1115,7 +1115,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResourcesCopy(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesCopy(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1127,7 +1127,7 @@ void AGE_Frame::OnResourcesCopy(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResourcesPaste(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesPaste(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1141,7 +1141,7 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Selections != 0)
@@ -1155,7 +1155,7 @@ void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent& Event)
 	}
 }
 
-void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent& Event)
+void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Selections != 0)
