@@ -149,7 +149,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
 	}
 
-	genie::GameVersion GenieVersion;
 	switch(GameVersion)
 	{
 		case 0:
@@ -1693,6 +1692,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 				SecondWindow->Show(true);
 				wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, SecondWindow->ToolBar_Open);
 				SecondWindow->GetEventHandler()->ProcessEvent(OpenFiles);
+				wxMessageBox("Close the new window from the tool from which you opened it,\nif you want to close and reopen it.");
 			}
 			else
 			{

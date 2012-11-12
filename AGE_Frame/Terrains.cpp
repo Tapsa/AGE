@@ -238,8 +238,10 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded
 	{
 		wxBusyCursor WaitCursor;
 		genie::Terrain Temp1;
+		Temp1.setGameVersion(GenieVersion);
 		GenieFile->Terrains.push_back(Temp1);
 		genie::TerrainPassGraphic Temp2;
+		Temp2.setGameVersion(GenieVersion);
 		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size(); loop++)
 		{
 			GenieFile->TerrainRestrictions[loop].TerrainAccessible.push_back(0);
@@ -257,8 +259,10 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent &Event) // Their count is hardco
 	{
 		wxBusyCursor WaitCursor;
 		genie::Terrain Temp1;
+		Temp1.setGameVersion(GenieVersion);
 		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], Temp1);
 		genie::TerrainPassGraphic Temp2;
+		Temp2.setGameVersion(GenieVersion);
 		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size(); loop++)
 		{
 			GenieFile->TerrainRestrictions[loop].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop].TerrainAccessible.begin() + TerrainIDs[0], 0);
@@ -327,7 +331,9 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Terrain Temp1;
+		Temp1.setGameVersion(GenieVersion);
 		genie::TerrainPassGraphic Temp2;
+		Temp2.setGameVersion(GenieVersion);
 		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], TerrainCopies.size(), Temp1);
 		for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)
 		{

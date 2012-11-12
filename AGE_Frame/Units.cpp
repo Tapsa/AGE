@@ -1474,10 +1474,12 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 		if(GameVersion > 1)	// AoK, TC, SWGB or CC
 		{
 			genie::UnitHeader Temp1;
+			Temp1.setGameVersion(GenieVersion);
 			GenieFile->UnitHeaders.push_back(Temp1);
 		}
 
 		genie::Unit Temp2;
+		Temp2.setGameVersion(GenieVersion);
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			GenieFile->Civs[loop].Units.push_back(Temp2);
@@ -1508,6 +1510,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 		{
 			wxBusyCursor WaitCursor;
 			genie::UnitHeader Temp1;
+			Temp1.setGameVersion(GenieVersion);
 			GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], Temp1);
 		}
 	}
@@ -1517,6 +1520,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Unit Temp2;
+		Temp2.setGameVersion(GenieVersion);
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			GenieFile->Civs[loop].Units.insert(GenieFile->Civs[loop].Units.begin() + UnitIDs[0], Temp2);
@@ -1803,6 +1807,7 @@ void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 			{
 				wxBusyCursor WaitCursor;
 				genie::UnitHeader Temp1;
+				Temp1.setGameVersion(GenieVersion);
 				GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], UnitHeaderCopies.size(), Temp1);
 				for(short loop=0; loop < UnitHeaderCopies.size(); loop++)
 				GenieFile->UnitHeaders[UnitIDs[0]+loop] = UnitHeaderCopies[loop];
@@ -1814,6 +1819,7 @@ void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 		{
 			wxBusyCursor WaitCursor;
 			genie::Unit Temp2;
+			Temp2.setGameVersion(GenieVersion);
 			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
 				GenieFile->Civs[civ].Units.insert(GenieFile->Civs[civ].Units.begin() + UnitIDs[0], DatCopies.Civs[0].UnitCopies.size(), Temp2);
@@ -2056,6 +2062,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::DamageGraphic Temp;
+		Temp.setGameVersion(GenieVersion);
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.push_back(Temp);
@@ -2072,6 +2079,7 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::DamageGraphic Temp;
+		Temp.setGameVersion(GenieVersion);
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[0], Temp);
@@ -2138,6 +2146,7 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::DamageGraphic Temp;
+		Temp.setGameVersion(GenieVersion);
 		if(!AutoCopy)
 		{
 			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.insert(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[0], DamageGraphicCopies.size(), Temp);
@@ -2232,6 +2241,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
+		Temp.setGameVersion(GenieVersion);
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.push_back(Temp);
@@ -2248,6 +2258,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
+		Temp.setGameVersion(GenieVersion);
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[0], Temp);
@@ -2314,6 +2325,7 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
+		Temp.setGameVersion(GenieVersion);
 		if(!AutoCopy)
 		{
 			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.insert(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[0], AttackCopies.size(), Temp);
@@ -2407,6 +2419,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
+		Temp.setGameVersion(GenieVersion);
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.push_back(Temp);
@@ -2423,6 +2436,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
+		Temp.setGameVersion(GenieVersion);
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
 			GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[0], Temp);
@@ -2489,6 +2503,7 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
+		Temp.setGameVersion(GenieVersion);
 		if(!AutoCopy)
 		{
 			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.insert(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[0], ArmorCopies.size(), Temp);
@@ -2918,6 +2933,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitCommand Temp;
+		Temp.setGameVersion(GenieVersion);
 		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitIDs[0]].Commands.push_back(Temp);
@@ -2945,6 +2961,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitCommand Temp;
+		Temp.setGameVersion(GenieVersion);
 		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitIDs[0]].Commands.insert(GenieFile->UnitHeaders[UnitIDs[0]].Commands.begin() + CommandIDs[0], Temp);
@@ -3067,6 +3084,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitCommand Temp;
+		Temp.setGameVersion(GenieVersion);
 		if(GameVersion > 1)
 		{
 			GenieFile->UnitHeaders[UnitIDs[0]].Commands.insert(GenieFile->UnitHeaders[UnitIDs[0]].Commands.begin() + CommandIDs[0], UnitCommandCopies.size(), Temp);
