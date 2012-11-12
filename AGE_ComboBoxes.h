@@ -1,10 +1,7 @@
-/* AGE_ComboBoxes.h */
-
 #include "AGE_TextControls.h"
-#include "wx/odcombo.h"
 
-#ifndef ComboBox_Byte_h
-#define ComboBox_Byte_h
+#ifndef AGE_ComboBoxes_h
+#define AGE_ComboBoxes_h
 
 class ComboBox_Byte: public wxOwnerDrawnComboBox
 {
@@ -31,11 +28,6 @@ class ComboBox_Byte: public wxOwnerDrawnComboBox
 	TextCtrl_Byte *Container;
 };
 
-#endif
-
-#ifndef ComboBox_Float_h
-#define ComboBox_Float_h
-
 class ComboBox_Float: public wxOwnerDrawnComboBox
 {
 	public:
@@ -60,11 +52,6 @@ class ComboBox_Float: public wxOwnerDrawnComboBox
 
 	TextCtrl_Float *Container;
 };
-
-#endif
-
-#ifndef ComboBox_Long_h
-#define ComboBox_Long_h
 
 class ComboBox_Long: public wxOwnerDrawnComboBox
 {
@@ -91,11 +78,6 @@ class ComboBox_Long: public wxOwnerDrawnComboBox
 	TextCtrl_Long *Container;
 };
 
-#endif
-
-#ifndef ComboBox_Short_h
-#define ComboBox_Short_h
-
 class ComboBox_Short: public wxOwnerDrawnComboBox
 {
 	public:
@@ -120,11 +102,6 @@ class ComboBox_Short: public wxOwnerDrawnComboBox
 
 	TextCtrl_Short *Container;
 };
-
-#endif
-
-#ifndef ComboBox_Byte_EffectType_h
-#define ComboBox_Byte_EffectType_h
 
 class ComboBox_Byte_EffectType: public wxOwnerDrawnComboBox
 {

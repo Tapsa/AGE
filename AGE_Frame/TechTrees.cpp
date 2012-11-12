@@ -1,4 +1,3 @@
-
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
@@ -121,9 +120,9 @@ void AGE_Frame::OnTTAgesCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTAgeCopies.resize(Selections);
+		copies->TTAge.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTAgeCopies[loop] = GenieFile->TechTree.TechTreeAges[TTAgeIDs[loop]];
+		copies->TTAge[loop] = GenieFile->TechTree.TechTreeAges[TTAgeIDs[loop]];
 	}
 }
 
@@ -133,10 +132,10 @@ void AGE_Frame::OnTTAgesPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTAgeCopies.size()+TTAgeIDs[0] > GenieFile->TechTree.TechTreeAges.size())
-		GenieFile->TechTree.TechTreeAges.resize(TTAgeCopies.size()+TTAgeIDs[0]);
-		for(short loop=0; loop < TTAgeCopies.size(); loop++)
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]+loop] = TTAgeCopies[loop];
+		if(copies->TTAge.size()+TTAgeIDs[0] > GenieFile->TechTree.TechTreeAges.size())
+		GenieFile->TechTree.TechTreeAges.resize(copies->TTAge.size()+TTAgeIDs[0]);
+		for(short loop=0; loop < copies->TTAge.size(); loop++)
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]+loop] = copies->TTAge[loop];
 		ListTTAgess();
 	}
 }
@@ -149,9 +148,9 @@ void AGE_Frame::OnTTAgesPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::TechTreeAge Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->TechTree.TechTreeAges.insert(GenieFile->TechTree.TechTreeAges.begin() + TTAgeIDs[0], TTAgeCopies.size(), Temp);
-		for(short loop=0; loop < TTAgeCopies.size(); loop++)
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]+loop] = TTAgeCopies[loop];
+		GenieFile->TechTree.TechTreeAges.insert(GenieFile->TechTree.TechTreeAges.begin() + TTAgeIDs[0], copies->TTAge.size(), Temp);
+		for(short loop=0; loop < copies->TTAge.size(); loop++)
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]+loop] = copies->TTAge[loop];
 		ListTTAgess();
 	}
 }
@@ -269,9 +268,9 @@ void AGE_Frame::OnTTAgesBuildingCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTAgeBuildCopies.resize(Selections);
+		copies->TTAgeBuild.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTAgeBuildCopies[loop] = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[TTAgeBuildIDs[loop]];
+		copies->TTAgeBuild[loop] = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[TTAgeBuildIDs[loop]];
 	}
 }
 
@@ -281,10 +280,10 @@ void AGE_Frame::OnTTAgesBuildingPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTAgeBuildCopies.size()+TTAgeBuildIDs[0] > GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.size())
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.resize(TTAgeBuildCopies.size()+TTAgeBuildIDs[0]);
-		for(short loop=0; loop < TTAgeBuildCopies.size(); loop++)
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[TTAgeBuildIDs[0]+loop] = TTAgeBuildCopies[loop];
+		if(copies->TTAgeBuild.size()+TTAgeBuildIDs[0] > GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.size())
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.resize(copies->TTAgeBuild.size()+TTAgeBuildIDs[0]);
+		for(short loop=0; loop < copies->TTAgeBuild.size(); loop++)
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[TTAgeBuildIDs[0]+loop] = copies->TTAgeBuild[loop];
 		ListTTAgesBuildings();
 	}
 }
@@ -296,9 +295,9 @@ void AGE_Frame::OnTTAgesBuildingPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.insert(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.begin() + TTAgeBuildIDs[0], TTAgeBuildCopies.size(), Temp);
-		for(short loop=0; loop < TTAgeBuildCopies.size(); loop++)
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[TTAgeBuildIDs[0]+loop] = TTAgeBuildCopies[loop];
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.insert(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.begin() + TTAgeBuildIDs[0], copies->TTAgeBuild.size(), Temp);
+		for(short loop=0; loop < copies->TTAgeBuild.size(); loop++)
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[TTAgeBuildIDs[0]+loop] = copies->TTAgeBuild[loop];
 		ListTTAgesBuildings();
 	}
 }
@@ -416,9 +415,9 @@ void AGE_Frame::OnTTAgesUnitCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTAgeUnitCopies.resize(Selections);
+		copies->TTAgeUnit.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTAgeUnitCopies[loop] = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[TTAgeUnitIDs[loop]];
+		copies->TTAgeUnit[loop] = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[TTAgeUnitIDs[loop]];
 	}
 }
 
@@ -428,10 +427,10 @@ void AGE_Frame::OnTTAgesUnitPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTAgeUnitCopies.size()+TTAgeUnitIDs[0] > GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.size())
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.resize(TTAgeUnitCopies.size()+TTAgeUnitIDs[0]);
-		for(short loop=0; loop < TTAgeUnitCopies.size(); loop++)
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[TTAgeUnitIDs[0]+loop] = TTAgeUnitCopies[loop];
+		if(copies->TTAgeUnit.size()+TTAgeUnitIDs[0] > GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.size())
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.resize(copies->TTAgeUnit.size()+TTAgeUnitIDs[0]);
+		for(short loop=0; loop < copies->TTAgeUnit.size(); loop++)
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[TTAgeUnitIDs[0]+loop] = copies->TTAgeUnit[loop];
 		ListTTAgesUnits();
 	}
 }
@@ -443,9 +442,9 @@ void AGE_Frame::OnTTAgesUnitPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.insert(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.begin() + TTAgeUnitIDs[0], TTAgeUnitCopies.size(), Temp);
-		for(short loop=0; loop < TTAgeUnitCopies.size(); loop++)
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[TTAgeUnitIDs[0]+loop] = TTAgeUnitCopies[loop];
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.insert(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.begin() + TTAgeUnitIDs[0], copies->TTAgeUnit.size(), Temp);
+		for(short loop=0; loop < copies->TTAgeUnit.size(); loop++)
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[TTAgeUnitIDs[0]+loop] = copies->TTAgeUnit[loop];
 		ListTTAgesUnits();
 	}
 }
@@ -563,9 +562,9 @@ void AGE_Frame::OnTTAgesResearchCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTAgeResCopies.resize(Selections);
+		copies->TTAgeRes.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTAgeResCopies[loop] = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[TTAgeResIDs[loop]];
+		copies->TTAgeRes[loop] = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[TTAgeResIDs[loop]];
 	}
 }
 
@@ -575,10 +574,10 @@ void AGE_Frame::OnTTAgesResearchPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTAgeResCopies.size()+TTAgeResIDs[0] > GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.size())
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.resize(TTAgeResCopies.size()+TTAgeResIDs[0]);
-		for(short loop=0; loop < TTAgeResCopies.size(); loop++)
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[TTAgeResIDs[0]+loop] = TTAgeResCopies[loop];
+		if(copies->TTAgeRes.size()+TTAgeResIDs[0] > GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.size())
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.resize(copies->TTAgeRes.size()+TTAgeResIDs[0]);
+		for(short loop=0; loop < copies->TTAgeRes.size(); loop++)
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[TTAgeResIDs[0]+loop] = copies->TTAgeRes[loop];
 		ListTTAgesResearches();
 	}
 }
@@ -590,9 +589,9 @@ void AGE_Frame::OnTTAgesResearchPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.insert(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.begin() + TTAgeResIDs[0], TTAgeResCopies.size(), Temp);
-		for(short loop=0; loop < TTAgeResCopies.size(); loop++)
-		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[TTAgeResIDs[0]+loop] = TTAgeResCopies[loop];
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.insert(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.begin() + TTAgeResIDs[0], copies->TTAgeRes.size(), Temp);
+		for(short loop=0; loop < copies->TTAgeRes.size(); loop++)
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[TTAgeResIDs[0]+loop] = copies->TTAgeRes[loop];
 		ListTTAgesResearches();
 	}
 }
@@ -853,9 +852,9 @@ void AGE_Frame::OnTTBuildingCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTBuildConCopies.resize(Selections);
+		copies->TTBuildCon.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTBuildConCopies[loop] = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[loop]];
+		copies->TTBuildCon[loop] = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[loop]];
 	}
 }
 
@@ -865,10 +864,10 @@ void AGE_Frame::OnTTBuildingPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTBuildConCopies.size()+TTBuildConIDs[0] > GenieFile->TechTree.BuildingConnections.size())
-		GenieFile->TechTree.BuildingConnections.resize(TTBuildConCopies.size()+TTBuildConIDs[0]);
-		for(short loop=0; loop < TTBuildConCopies.size(); loop++)
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]+loop] = TTBuildConCopies[loop];
+		if(copies->TTBuildCon.size()+TTBuildConIDs[0] > GenieFile->TechTree.BuildingConnections.size())
+		GenieFile->TechTree.BuildingConnections.resize(copies->TTBuildCon.size()+TTBuildConIDs[0]);
+		for(short loop=0; loop < copies->TTBuildCon.size(); loop++)
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]+loop] = copies->TTBuildCon[loop];
 		ListTTBuildings();
 	}
 }
@@ -881,9 +880,9 @@ void AGE_Frame::OnTTBuildingPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::BuildingConnection Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->TechTree.BuildingConnections.insert(GenieFile->TechTree.BuildingConnections.begin() + TTBuildConIDs[0], TTBuildConCopies.size(), Temp);
-		for(short loop=0; loop < TTBuildConCopies.size(); loop++)
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]+loop] = TTBuildConCopies[loop];
+		GenieFile->TechTree.BuildingConnections.insert(GenieFile->TechTree.BuildingConnections.begin() + TTBuildConIDs[0], copies->TTBuildCon.size(), Temp);
+		for(short loop=0; loop < copies->TTBuildCon.size(); loop++)
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]+loop] = copies->TTBuildCon[loop];
 		ListTTBuildings();
 	}
 }
@@ -1001,9 +1000,9 @@ void AGE_Frame::OnTTBuildingBuildingCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTBuildBuildCopies.resize(Selections);
+		copies->TTBuildBuild.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTBuildBuildCopies[loop] = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[TTBuildBuildIDs[loop]];
+		copies->TTBuildBuild[loop] = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[TTBuildBuildIDs[loop]];
 	}
 }
 
@@ -1013,10 +1012,10 @@ void AGE_Frame::OnTTBuildingBuildingPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTBuildBuildCopies.size()+TTBuildBuildIDs[0] > GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.size())
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.resize(TTBuildBuildCopies.size()+TTBuildBuildIDs[0]);
-		for(short loop=0; loop < TTBuildBuildCopies.size(); loop++)
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[TTBuildBuildIDs[0]+loop] = TTBuildBuildCopies[loop];
+		if(copies->TTBuildBuild.size()+TTBuildBuildIDs[0] > GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.size())
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.resize(copies->TTBuildBuild.size()+TTBuildBuildIDs[0]);
+		for(short loop=0; loop < copies->TTBuildBuild.size(); loop++)
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[TTBuildBuildIDs[0]+loop] = copies->TTBuildBuild[loop];
 		ListTTBuildingBuildings();
 	}
 }
@@ -1028,9 +1027,9 @@ void AGE_Frame::OnTTBuildingBuildingPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.insert(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.begin() + TTBuildBuildIDs[0], TTBuildBuildCopies.size(), Temp);
-		for(short loop=0; loop < TTBuildBuildCopies.size(); loop++)
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[TTBuildBuildIDs[0]+loop] = TTBuildBuildCopies[loop];
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.insert(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.begin() + TTBuildBuildIDs[0], copies->TTBuildBuild.size(), Temp);
+		for(short loop=0; loop < copies->TTBuildBuild.size(); loop++)
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[TTBuildBuildIDs[0]+loop] = copies->TTBuildBuild[loop];
 		ListTTBuildingBuildings();
 	}
 }
@@ -1148,9 +1147,9 @@ void AGE_Frame::OnTTBuildingUnitCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTBuildUnitCopies.resize(Selections);
+		copies->TTBuildUnit.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTBuildUnitCopies[loop] = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[TTBuildUnitIDs[loop]];
+		copies->TTBuildUnit[loop] = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[TTBuildUnitIDs[loop]];
 	}
 }
 
@@ -1160,10 +1159,10 @@ void AGE_Frame::OnTTBuildingUnitPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTBuildUnitCopies.size()+TTBuildUnitIDs[0] > GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.size())
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.resize(TTBuildUnitCopies.size()+TTBuildUnitIDs[0]);
-		for(short loop=0; loop < TTBuildUnitCopies.size(); loop++)
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[TTBuildUnitIDs[0]+loop] = TTBuildUnitCopies[loop];
+		if(copies->TTBuildUnit.size()+TTBuildUnitIDs[0] > GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.size())
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.resize(copies->TTBuildUnit.size()+TTBuildUnitIDs[0]);
+		for(short loop=0; loop < copies->TTBuildUnit.size(); loop++)
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[TTBuildUnitIDs[0]+loop] = copies->TTBuildUnit[loop];
 		ListTTBuildingUnits();
 	}
 }
@@ -1175,9 +1174,9 @@ void AGE_Frame::OnTTBuildingUnitPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.insert(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.begin() + TTBuildUnitIDs[0], TTBuildUnitCopies.size(), Temp);
-		for(short loop=0; loop < TTBuildUnitCopies.size(); loop++)
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[TTBuildUnitIDs[0]+loop] = TTBuildUnitCopies[loop];
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.insert(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.begin() + TTBuildUnitIDs[0], copies->TTBuildUnit.size(), Temp);
+		for(short loop=0; loop < copies->TTBuildUnit.size(); loop++)
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[TTBuildUnitIDs[0]+loop] = copies->TTBuildUnit[loop];
 		ListTTBuildingUnits();
 	}
 }
@@ -1295,9 +1294,9 @@ void AGE_Frame::OnTTBuildingResearchCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTBuildResCopies.resize(Selections);
+		copies->TTBuildRes.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTBuildResCopies[loop] = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[TTBuildResIDs[loop]];
+		copies->TTBuildRes[loop] = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[TTBuildResIDs[loop]];
 	}
 }
 
@@ -1307,10 +1306,10 @@ void AGE_Frame::OnTTBuildingResearchPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTBuildResCopies.size()+TTBuildResIDs[0] > GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.size())
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.resize(TTBuildResCopies.size()+TTBuildResIDs[0]);
-		for(short loop=0; loop < TTBuildResCopies.size(); loop++)
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[TTBuildResIDs[0]+loop] = TTBuildResCopies[loop];
+		if(copies->TTBuildRes.size()+TTBuildResIDs[0] > GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.size())
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.resize(copies->TTBuildRes.size()+TTBuildResIDs[0]);
+		for(short loop=0; loop < copies->TTBuildRes.size(); loop++)
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[TTBuildResIDs[0]+loop] = copies->TTBuildRes[loop];
 		ListTTBuildingResearches();
 	}
 }
@@ -1322,9 +1321,9 @@ void AGE_Frame::OnTTBuildingResearchPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.insert(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.begin() + TTBuildResIDs[0], TTBuildResCopies.size(), Temp);
-		for(short loop=0; loop < TTBuildResCopies.size(); loop++)
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[TTBuildResIDs[0]+loop] = TTBuildResCopies[loop];
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.insert(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.begin() + TTBuildResIDs[0], copies->TTBuildRes.size(), Temp);
+		for(short loop=0; loop < copies->TTBuildRes.size(); loop++)
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[TTBuildResIDs[0]+loop] = copies->TTBuildRes[loop];
 		ListTTBuildingResearches();
 	}
 }
@@ -1600,9 +1599,9 @@ void AGE_Frame::OnTTUnitCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTUnitConCopies.resize(Selections);
+		copies->TTUnitCon.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTUnitConCopies[loop] = GenieFile->TechTree.UnitConnections[TTUnitConIDs[loop]];
+		copies->TTUnitCon[loop] = GenieFile->TechTree.UnitConnections[TTUnitConIDs[loop]];
 	}
 }
 
@@ -1612,10 +1611,10 @@ void AGE_Frame::OnTTUnitPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTUnitConCopies.size()+TTUnitConIDs[0] > GenieFile->TechTree.UnitConnections.size())
-		GenieFile->TechTree.UnitConnections.resize(TTUnitConCopies.size()+TTUnitConIDs[0]);
-		for(short loop=0; loop < TTUnitConCopies.size(); loop++)
-		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]+loop] = TTUnitConCopies[loop];
+		if(copies->TTUnitCon.size()+TTUnitConIDs[0] > GenieFile->TechTree.UnitConnections.size())
+		GenieFile->TechTree.UnitConnections.resize(copies->TTUnitCon.size()+TTUnitConIDs[0]);
+		for(short loop=0; loop < copies->TTUnitCon.size(); loop++)
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]+loop] = copies->TTUnitCon[loop];
 		ListTTUnits();
 	}
 }
@@ -1628,9 +1627,9 @@ void AGE_Frame::OnTTUnitPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::UnitConnection Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->TechTree.UnitConnections.insert(GenieFile->TechTree.UnitConnections.begin() + TTUnitConIDs[0], TTUnitConCopies.size(), Temp);
-		for(short loop=0; loop < TTUnitConCopies.size(); loop++)
-		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]+loop] = TTUnitConCopies[loop];
+		GenieFile->TechTree.UnitConnections.insert(GenieFile->TechTree.UnitConnections.begin() + TTUnitConIDs[0], copies->TTUnitCon.size(), Temp);
+		for(short loop=0; loop < copies->TTUnitCon.size(); loop++)
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]+loop] = copies->TTUnitCon[loop];
 		ListTTUnits();
 	}
 }
@@ -1748,9 +1747,9 @@ void AGE_Frame::OnTTUnitUnitCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTUnitUnitCopies.resize(Selections);
+		copies->TTUnitUnit.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTUnitUnitCopies[loop] = GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[TTUnitUnitIDs[loop]];
+		copies->TTUnitUnit[loop] = GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[TTUnitUnitIDs[loop]];
 	}
 }
 
@@ -1760,10 +1759,10 @@ void AGE_Frame::OnTTUnitUnitPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTUnitUnitCopies.size()+TTUnitUnitIDs[0] > GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.size())
-		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.resize(TTUnitUnitCopies.size()+TTUnitUnitIDs[0]);
-		for(short loop=0; loop < TTUnitUnitCopies.size(); loop++)
-		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[TTUnitUnitIDs[0]+loop] = TTUnitUnitCopies[loop];
+		if(copies->TTUnitUnit.size()+TTUnitUnitIDs[0] > GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.size())
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.resize(copies->TTUnitUnit.size()+TTUnitUnitIDs[0]);
+		for(short loop=0; loop < copies->TTUnitUnit.size(); loop++)
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[TTUnitUnitIDs[0]+loop] = copies->TTUnitUnit[loop];
 		ListTTUnitUnits();
 	}
 }
@@ -1775,9 +1774,9 @@ void AGE_Frame::OnTTUnitUnitPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.insert(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.begin() + TTUnitUnitIDs[0], TTUnitUnitCopies.size(), Temp);
-		for(short loop=0; loop < TTUnitUnitCopies.size(); loop++)
-		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[TTUnitUnitIDs[0]+loop] = TTUnitUnitCopies[loop];
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.insert(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.begin() + TTUnitUnitIDs[0], copies->TTUnitUnit.size(), Temp);
+		for(short loop=0; loop < copies->TTUnitUnit.size(); loop++)
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[TTUnitUnitIDs[0]+loop] = copies->TTUnitUnit[loop];
 		ListTTUnitUnits();
 	}
 }
@@ -1987,9 +1986,9 @@ void AGE_Frame::OnTTResearchCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTResConCopies.resize(Selections);
+		copies->TTResCon.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTResConCopies[loop] = GenieFile->TechTree.ResearchConnections[TTResConIDs[loop]];
+		copies->TTResCon[loop] = GenieFile->TechTree.ResearchConnections[TTResConIDs[loop]];
 	}
 }
 
@@ -1999,10 +1998,10 @@ void AGE_Frame::OnTTResearchPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTResConCopies.size()+TTResConIDs[0] > GenieFile->TechTree.ResearchConnections.size())
-		GenieFile->TechTree.ResearchConnections.resize(TTResConCopies.size()+TTResConIDs[0]);
-		for(short loop=0; loop < TTResConCopies.size(); loop++)
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]+loop] = TTResConCopies[loop];
+		if(copies->TTResCon.size()+TTResConIDs[0] > GenieFile->TechTree.ResearchConnections.size())
+		GenieFile->TechTree.ResearchConnections.resize(copies->TTResCon.size()+TTResConIDs[0]);
+		for(short loop=0; loop < copies->TTResCon.size(); loop++)
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]+loop] = copies->TTResCon[loop];
 		ListTTResearches();
 	}
 }
@@ -2015,9 +2014,9 @@ void AGE_Frame::OnTTResearchPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::ResearchConnection Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->TechTree.ResearchConnections.insert(GenieFile->TechTree.ResearchConnections.begin() + TTResConIDs[0], TTResConCopies.size(), Temp);
-		for(short loop=0; loop < TTResConCopies.size(); loop++)
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]+loop] = TTResConCopies[loop];
+		GenieFile->TechTree.ResearchConnections.insert(GenieFile->TechTree.ResearchConnections.begin() + TTResConIDs[0], copies->TTResCon.size(), Temp);
+		for(short loop=0; loop < copies->TTResCon.size(); loop++)
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]+loop] = copies->TTResCon[loop];
 		ListTTResearches();
 	}
 }
@@ -2135,9 +2134,9 @@ void AGE_Frame::OnTTResearchBuildingCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTResBuildCopies.resize(Selections);
+		copies->TTResBuild.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTResBuildCopies[loop] = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[TTResBuildIDs[loop]];
+		copies->TTResBuild[loop] = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[TTResBuildIDs[loop]];
 	}
 }
 
@@ -2147,10 +2146,10 @@ void AGE_Frame::OnTTResearchBuildingPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTResBuildCopies.size()+TTResBuildIDs[0] > GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.size())
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.resize(TTResBuildCopies.size()+TTResBuildIDs[0]);
-		for(short loop=0; loop < TTResBuildCopies.size(); loop++)
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[TTResBuildIDs[0]+loop] = TTResBuildCopies[loop];
+		if(copies->TTResBuild.size()+TTResBuildIDs[0] > GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.size())
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.resize(copies->TTResBuild.size()+TTResBuildIDs[0]);
+		for(short loop=0; loop < copies->TTResBuild.size(); loop++)
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[TTResBuildIDs[0]+loop] = copies->TTResBuild[loop];
 		ListTTResearchBuildings();
 	}
 }
@@ -2162,9 +2161,9 @@ void AGE_Frame::OnTTResearchBuildingPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.insert(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.begin() + TTResBuildIDs[0], TTResBuildCopies.size(), Temp);
-		for(short loop=0; loop < TTResBuildCopies.size(); loop++)
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[TTResBuildIDs[0]+loop] = TTResBuildCopies[loop];
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.insert(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.begin() + TTResBuildIDs[0], copies->TTResBuild.size(), Temp);
+		for(short loop=0; loop < copies->TTResBuild.size(); loop++)
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[TTResBuildIDs[0]+loop] = copies->TTResBuild[loop];
 		ListTTResearchBuildings();
 	}
 }
@@ -2282,9 +2281,9 @@ void AGE_Frame::OnTTResearchUnitCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTResUnitCopies.resize(Selections);
+		copies->TTResUnit.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTResUnitCopies[loop] = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[TTResUnitIDs[loop]];
+		copies->TTResUnit[loop] = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[TTResUnitIDs[loop]];
 	}
 }
 
@@ -2294,10 +2293,10 @@ void AGE_Frame::OnTTResearchUnitPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTResUnitCopies.size()+TTResUnitIDs[0] > GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.size())
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.resize(TTResUnitCopies.size()+TTResUnitIDs[0]);
-		for(short loop=0; loop < TTResUnitCopies.size(); loop++)
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[TTResUnitIDs[0]+loop] = TTResUnitCopies[loop];
+		if(copies->TTResUnit.size()+TTResUnitIDs[0] > GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.size())
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.resize(copies->TTResUnit.size()+TTResUnitIDs[0]);
+		for(short loop=0; loop < copies->TTResUnit.size(); loop++)
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[TTResUnitIDs[0]+loop] = copies->TTResUnit[loop];
 		ListTTResearchUnits();
 	}
 }
@@ -2309,9 +2308,9 @@ void AGE_Frame::OnTTResearchUnitPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.insert(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.begin() + TTResUnitIDs[0], TTResUnitCopies.size(), Temp);
-		for(short loop=0; loop < TTResUnitCopies.size(); loop++)
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[TTResUnitIDs[0]+loop] = TTResUnitCopies[loop];
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.insert(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.begin() + TTResUnitIDs[0], copies->TTResUnit.size(), Temp);
+		for(short loop=0; loop < copies->TTResUnit.size(); loop++)
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[TTResUnitIDs[0]+loop] = copies->TTResUnit[loop];
 		ListTTResearchUnits();
 	}
 }
@@ -2429,9 +2428,9 @@ void AGE_Frame::OnTTResearchResearchCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TTResResCopies.resize(Selections);
+		copies->TTResRes.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TTResResCopies[loop] = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[TTResResIDs[loop]];
+		copies->TTResRes[loop] = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[TTResResIDs[loop]];
 	}
 }
 
@@ -2441,10 +2440,10 @@ void AGE_Frame::OnTTResearchResearchPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(TTResResCopies.size()+TTResResIDs[0] > GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.size())
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.resize(TTResResCopies.size()+TTResResIDs[0]);
-		for(short loop=0; loop < TTResResCopies.size(); loop++)
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[TTResResIDs[0]+loop] = TTResResCopies[loop];
+		if(copies->TTResRes.size()+TTResResIDs[0] > GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.size())
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.resize(copies->TTResRes.size()+TTResResIDs[0]);
+		for(short loop=0; loop < copies->TTResRes.size(); loop++)
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[TTResResIDs[0]+loop] = copies->TTResRes[loop];
 		ListTTResearchResearches();
 	}
 }
@@ -2456,9 +2455,9 @@ void AGE_Frame::OnTTResearchResearchPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		int32_t Temp = 0;
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.insert(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.begin() + TTResResIDs[0], TTResResCopies.size(), Temp);
-		for(short loop=0; loop < TTResResCopies.size(); loop++)
-		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[TTResResIDs[0]+loop] = TTResResCopies[loop];
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.insert(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.begin() + TTResResIDs[0], copies->TTResRes.size(), Temp);
+		for(short loop=0; loop < copies->TTResRes.size(); loop++)
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[TTResResIDs[0]+loop] = copies->TTResRes[loop];
 		ListTTResearchResearches();
 	}
 }

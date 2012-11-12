@@ -1,7 +1,4 @@
-/* AGE_OpenDialog.h */
-
-#include "wx/wx.h"
-#include "wx/filepicker.h"
+#include "Common.h"
 
 class AGE_OpenDialog: public wxDialog
 {

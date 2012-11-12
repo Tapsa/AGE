@@ -1,17 +1,13 @@
-/* AGE_TextControls.h */
-
-#include "wx/wx.h"
-#include <string>
+#include "Common.h"
 using std::string;
-#include "boost/lexical_cast.hpp"
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
 //	The purpose of these custom text controls is that you get specified error messages
 //	when your mouse cursor focus gets off from a data edit box.
 
-#ifndef TextCtrl_Bool_h
-#define TextCtrl_Bool_h
+#ifndef AGE_TextControls_h
+#define AGE_TextControls_h
 
 class TextCtrl_Bool: public wxTextCtrl
 {
@@ -36,11 +32,6 @@ class TextCtrl_Bool: public wxTextCtrl
 	bool NoLoadList;
 };
 
-#endif
-
-#ifndef TextCtrl_Byte_h
-#define TextCtrl_Byte_h
-
 class TextCtrl_Byte: public wxTextCtrl
 {
 	public:
@@ -63,11 +54,6 @@ class TextCtrl_Byte: public wxTextCtrl
 	void *ParentContainer;	//	These are for check and combo boxes.
 	bool NoLoadList;
 };
-
-#endif
-
-#ifndef TextCtrl_UByte_h
-#define TextCtrl_UByte_h
 
 class TextCtrl_UByte: public wxTextCtrl
 {
@@ -92,11 +78,6 @@ class TextCtrl_UByte: public wxTextCtrl
 	bool NoLoadList;
 };
 
-#endif
-
-#ifndef TextCtrl_Float_h
-#define TextCtrl_Float_h
-
 class TextCtrl_Float: public wxTextCtrl
 {
 	public:
@@ -119,11 +100,6 @@ class TextCtrl_Float: public wxTextCtrl
 	void *ParentContainer;
 	bool NoLoadList;
 };
-
-#endif
-
-#ifndef TextCtrl_Long_h
-#define TextCtrl_Long_h
 
 class TextCtrl_Long: public wxTextCtrl
 {
@@ -148,11 +124,6 @@ class TextCtrl_Long: public wxTextCtrl
 	bool NoLoadList;
 };
 
-#endif
-
-#ifndef TextCtrl_Short_h
-#define TextCtrl_Short_h
-
 class TextCtrl_Short: public wxTextCtrl
 {
 	public:
@@ -176,11 +147,6 @@ class TextCtrl_Short: public wxTextCtrl
 	bool NoLoadList;
 };
 
-#endif
-
-#ifndef TextCtrl_UnShort_h
-#define TextCtrl_UnShort_h
-
 class TextCtrl_UShort: public wxTextCtrl
 {
 	public:
@@ -203,11 +169,6 @@ class TextCtrl_UShort: public wxTextCtrl
 	void *ParentContainer;
 	bool NoLoadList;
 };
-
-#endif
-
-#ifndef TextCtrl_String_h
-#define TextCtrl_String_h
 
 class TextCtrl_String: public wxTextCtrl
 {

@@ -1,4 +1,3 @@
-
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
@@ -220,9 +219,9 @@ void AGE_Frame::OnSoundsCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		SoundCopies.resize(Selections);
+		copies->Sound.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		SoundCopies[loop] = GenieFile->Sounds[SoundIDs[loop]];
+		copies->Sound[loop] = GenieFile->Sounds[SoundIDs[loop]];
 	}
 }
 
@@ -232,11 +231,11 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(SoundCopies.size()+SoundIDs[0] > GenieFile->Sounds.size())
-		GenieFile->Sounds.resize(SoundCopies.size()+SoundIDs[0]);
-		for(short loop=0; loop < SoundCopies.size(); loop++)
+		if(copies->Sound.size()+SoundIDs[0] > GenieFile->Sounds.size())
+		GenieFile->Sounds.resize(copies->Sound.size()+SoundIDs[0]);
+		for(short loop=0; loop < copies->Sound.size(); loop++)
 		{
-			GenieFile->Sounds[SoundIDs[0]+loop] = SoundCopies[loop];
+			GenieFile->Sounds[SoundIDs[0]+loop] = copies->Sound[loop];
 			if(EnableIDFix)
 			GenieFile->Sounds[SoundIDs[0]+loop].ID = (int32_t)(SoundIDs[0]+loop); // ID Fix
 		}
@@ -252,9 +251,9 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::Sound Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->Sounds.insert(GenieFile->Sounds.begin() + SoundIDs[0], SoundCopies.size(), Temp);
-		for(short loop=0; loop < SoundCopies.size(); loop++)
-		GenieFile->Sounds[SoundIDs[0]+loop] = SoundCopies[loop];
+		GenieFile->Sounds.insert(GenieFile->Sounds.begin() + SoundIDs[0], copies->Sound.size(), Temp);
+		for(short loop=0; loop < copies->Sound.size(); loop++)
+		GenieFile->Sounds[SoundIDs[0]+loop] = copies->Sound[loop];
 		if(EnableIDFix)
 		for(short loop = SoundIDs[0];loop < GenieFile->Sounds.size(); loop++) // ID Fix
 		GenieFile->Sounds[loop].ID = (int32_t)loop;
@@ -424,9 +423,9 @@ void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		SoundItemCopies.resize(Selections);
+		copies->SoundItem.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		SoundItemCopies[loop] = GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[loop]];
+		copies->SoundItem[loop] = GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[loop]];
 	}
 }
 
@@ -436,10 +435,10 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(SoundItemCopies.size()+SoundItemIDs[0] > GenieFile->Sounds[SoundIDs[0]].Items.size())
-		GenieFile->Sounds[SoundIDs[0]].Items.resize(SoundItemCopies.size()+SoundItemIDs[0]);
-		for(short loop=0; loop < SoundItemCopies.size(); loop++)
-		GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = SoundItemCopies[loop];
+		if(copies->SoundItem.size()+SoundItemIDs[0] > GenieFile->Sounds[SoundIDs[0]].Items.size())
+		GenieFile->Sounds[SoundIDs[0]].Items.resize(copies->SoundItem.size()+SoundItemIDs[0]);
+		for(short loop=0; loop < copies->SoundItem.size(); loop++)
+		GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = copies->SoundItem[loop];
 		ListSoundItems();
 	}
 }
@@ -452,9 +451,9 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::SoundItem Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->Sounds[SoundIDs[0]].Items.insert(GenieFile->Sounds[SoundIDs[0]].Items.begin() + SoundItemIDs[0], SoundItemCopies.size(), Temp);
-		for(short loop=0; loop < SoundItemCopies.size(); loop++)
-		GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = SoundItemCopies[loop];
+		GenieFile->Sounds[SoundIDs[0]].Items.insert(GenieFile->Sounds[SoundIDs[0]].Items.begin() + SoundItemIDs[0], copies->SoundItem.size(), Temp);
+		for(short loop=0; loop < copies->SoundItem.size(); loop++)
+		GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = copies->SoundItem[loop];
 		ListSoundItems();
 	}
 }
