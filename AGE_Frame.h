@@ -748,6 +748,7 @@ class AGE_Frame: public wxFrame
 	bool Added;
 	int SimultaneousFiles;
 	int GameVersion;
+	genie::GameVersion GenieVersion;
 	int DatUsed;
 	int SaveGameVersion;
 	bool SaveDat;

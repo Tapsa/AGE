@@ -338,6 +338,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Graphic Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Graphics.push_back(Temp);
 		GenieFile->GraphicPointers.push_back(1);
 		if(EnableIDFix)
@@ -354,6 +355,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Graphic Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicIDs[0], Temp);
 		GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], 1);
 		if(EnableIDFix)
@@ -426,6 +428,7 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Graphic Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], GraphicPointerCopies.size(), 0);
 		GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicIDs[0], GraphicCopies.size(), Temp);
 		for(short loop=0; loop < GraphicCopies.size(); loop++)
@@ -552,6 +555,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::GraphicDelta Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Graphics[GraphicIDs[0]].Deltas.push_back(Temp);
 		Added = true;
 		ListGraphicDeltas();
@@ -565,6 +569,7 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::GraphicDelta Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Graphics[GraphicIDs[0]].Deltas.insert(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[0], Temp);
 		ListGraphicDeltas();
 	}
@@ -615,6 +620,7 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::GraphicDelta Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Graphics[GraphicIDs[0]].Deltas.insert(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[0], GraphicDeltaCopies.size(), Temp);
 		for(short loop=0; loop < GraphicDeltaCopies.size(); loop++)
 		GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[0]+loop] = GraphicDeltaCopies[loop];

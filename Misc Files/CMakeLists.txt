@@ -10,13 +10,16 @@ set(Genieutils_LIBRARY genieutils)
 
 project(genieutils)
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/)
 
 # dependencies:
 
 find_package(ZLIB REQUIRED)
 find_package(Boost 1.42 COMPONENTS iostreams REQUIRED)
 
+if (GUTILS_TOOLS)
+  find_package(Boost 1.42 COMPONENTS program_options REQUIRED)
+endif(GUTILS_TOOLS)
 
 if (GUTILS_TEST)
   find_package(Boost 1.42 COMPONENTS unit_test_framework program_options REQUIRED)
@@ -27,7 +30,6 @@ find_package(Iconv)
 
 if (${ICONV_FOUND})
   message(STATUS "Iconv found! Language file support: ENABLED")
-  message(STATUS "Lib at: " ${ICONV_LIBRARIES})
   set(GU_LANG_SUPPORT true)
 else (${ICONV_FOUND})
   message(STATUS "Iconv not found: Language file support: DISABLED")
@@ -55,7 +57,7 @@ endif (${GUTILS_TEST})
 
 include_directories(${GU_INCLUDE_DIRS})
 
-add_definitions(-Wall)
+add_definitions(-Wall -Wsign-compare)
 
 #------------------------------------------------------------------------------#
 # Source files: 
