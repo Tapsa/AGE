@@ -83,6 +83,7 @@ void AGE_Frame::OnTTAgesAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechTreeAge Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.TechTreeAges.push_back(Temp);
 		Added = true;
 		ListTTAgess();
@@ -96,6 +97,7 @@ void AGE_Frame::OnTTAgesInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechTreeAge Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.TechTreeAges.insert(GenieFile->TechTree.TechTreeAges.begin() + TTAgeIDs[0], Temp);
 		ListTTAgess();
 	}
@@ -146,6 +148,7 @@ void AGE_Frame::OnTTAgesPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechTreeAge Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.TechTreeAges.insert(GenieFile->TechTree.TechTreeAges.begin() + TTAgeIDs[0], TTAgeCopies.size(), Temp);
 		for(short loop=0; loop < TTAgeCopies.size(); loop++)
 		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]+loop] = TTAgeCopies[loop];
@@ -812,6 +815,7 @@ void AGE_Frame::OnTTBuildingAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::BuildingConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.BuildingConnections.push_back(Temp);
 		Added = true;
 		ListTTBuildings();
@@ -825,6 +829,7 @@ void AGE_Frame::OnTTBuildingInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::BuildingConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.BuildingConnections.insert(GenieFile->TechTree.BuildingConnections.begin() + TTBuildConIDs[0], Temp);
 		ListTTBuildings();
 	}
@@ -875,6 +880,7 @@ void AGE_Frame::OnTTBuildingPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::BuildingConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.BuildingConnections.insert(GenieFile->TechTree.BuildingConnections.begin() + TTBuildConIDs[0], TTBuildConCopies.size(), Temp);
 		for(short loop=0; loop < TTBuildConCopies.size(); loop++)
 		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]+loop] = TTBuildConCopies[loop];
@@ -1556,6 +1562,7 @@ void AGE_Frame::OnTTUnitAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.UnitConnections.push_back(Temp);
 		Added = true;
 		ListTTUnits();
@@ -1569,6 +1576,7 @@ void AGE_Frame::OnTTUnitInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.UnitConnections.insert(GenieFile->TechTree.UnitConnections.begin() + TTUnitConIDs[0], Temp);
 		ListTTUnits();
 	}
@@ -1619,6 +1627,7 @@ void AGE_Frame::OnTTUnitPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.UnitConnections.insert(GenieFile->TechTree.UnitConnections.begin() + TTUnitConIDs[0], TTUnitConCopies.size(), Temp);
 		for(short loop=0; loop < TTUnitConCopies.size(); loop++)
 		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]+loop] = TTUnitConCopies[loop];
@@ -1940,6 +1949,7 @@ void AGE_Frame::OnTTResearchAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::ResearchConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.ResearchConnections.push_back(Temp);
 		Added = true;
 		ListTTResearches();
@@ -1953,6 +1963,7 @@ void AGE_Frame::OnTTResearchInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::ResearchConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.ResearchConnections.insert(GenieFile->TechTree.ResearchConnections.begin() + TTResConIDs[0], Temp);
 		ListTTResearches();
 	}
@@ -2003,6 +2014,7 @@ void AGE_Frame::OnTTResearchPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::ResearchConnection Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TechTree.ResearchConnections.insert(GenieFile->TechTree.ResearchConnections.begin() + TTResConIDs[0], TTResConCopies.size(), Temp);
 		for(short loop=0; loop < TTResConCopies.size(); loop++)
 		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]+loop] = TTResConCopies[loop];

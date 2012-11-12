@@ -174,6 +174,7 @@ void AGE_Frame::OnSoundsAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Sound Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Sounds.push_back(Temp);
 		if(EnableIDFix)
 		GenieFile->Sounds[GenieFile->Sounds.size()-1].ID = (int32_t)(GenieFile->Sounds.size()-1); // ID Fix
@@ -189,6 +190,7 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Sound Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Sounds.insert(GenieFile->Sounds.begin() + SoundIDs[0], Temp);
 		if(EnableIDFix)
 		for(short loop = SoundIDs[0];loop < GenieFile->Sounds.size(); loop++) // ID Fix
@@ -249,6 +251,7 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Sound Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Sounds.insert(GenieFile->Sounds.begin() + SoundIDs[0], SoundCopies.size(), Temp);
 		for(short loop=0; loop < SoundCopies.size(); loop++)
 		GenieFile->Sounds[SoundIDs[0]+loop] = SoundCopies[loop];
@@ -383,6 +386,7 @@ void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::SoundItem Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Sounds[SoundIDs[0]].Items.push_back(Temp);
 		Added = true;
 		ListSoundItems();
@@ -396,6 +400,7 @@ void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::SoundItem Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Sounds[SoundIDs[0]].Items.insert(GenieFile->Sounds[SoundIDs[0]].Items.begin() + SoundItemIDs[0], Temp);
 		ListSoundItems();
 	}
@@ -446,6 +451,7 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::SoundItem Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Sounds[SoundIDs[0]].Items.insert(GenieFile->Sounds[SoundIDs[0]].Items.begin() + SoundItemIDs[0], SoundItemCopies.size(), Temp);
 		for(short loop=0; loop < SoundItemCopies.size(); loop++)
 		GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = SoundItemCopies[loop];

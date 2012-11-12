@@ -359,6 +359,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Research Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Researchs.push_back(Temp);
 		Added = true;
 		ListResearches();
@@ -372,6 +373,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Research Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], Temp);
 		ListResearches();
 	}
@@ -422,6 +424,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Research Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], ResearchCopies.size(), Temp);
 		for(short loop=0; loop < ResearchCopies.size(); loop++)
 		GenieFile->Researchs[ResearchIDs[0]+loop] = ResearchCopies[loop];

@@ -118,6 +118,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
+		Temp.setGameVersion(GenieVersion);
 		Temp.Resources = GenieFile->Civs[1].Resources;
 		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
 		Temp.Units = GenieFile->Civs[1].Units;
@@ -135,6 +136,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
+		Temp.setGameVersion(GenieVersion);
 		Temp.Resources = GenieFile->Civs[1].Resources;
 		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
 		Temp.Units = GenieFile->Civs[1].Units;
@@ -191,6 +193,7 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], CivCopies.size(), Temp);
 		for(short loop=0; loop < CivCopies.size(); loop++)
 		GenieFile->Civs[CivIDs[0]+loop] = CivCopies[loop];

@@ -217,6 +217,7 @@ void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TerrainRestriction Temp;
+		Temp.setGameVersion(GenieVersion);
 	//	Temp.TerrainAccessible.resize(GenieFile->Terrains.size());
 	//	Temp.TerrainPassGraphics.resize(GenieFile->Terrains.size());
 		GenieFile->TerrainRestrictions.push_back(Temp);
@@ -235,6 +236,7 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TerrainRestriction Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TerrainRestrictions.insert(GenieFile->TerrainRestrictions.begin() + TerRestrictIDs[0], Temp);
 		GenieFile->TerrainRestrictionPointers1.insert(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], 1);
 		if(GameVersion >= 2)
@@ -298,6 +300,7 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TerrainRestriction Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->TerrainRestrictions.insert(GenieFile->TerrainRestrictions.begin() + TerRestrictIDs[0], TerrainRestrictionCopies.size(), Temp);
 		GenieFile->TerrainRestrictionPointers1.insert(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], TerrainRestrictionCopies.size(), 1);
 		if(GameVersion >= 2)

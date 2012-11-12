@@ -174,6 +174,7 @@ void AGE_Frame::OnTechageAdd(wxCommandEvent &Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::Techage Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Techages.push_back(Temp);
 		Added = true;
 		ListTechages();
@@ -187,6 +188,7 @@ void AGE_Frame::OnTechageInsert(wxCommandEvent &Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::Techage Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], Temp);
 		ListTechages();
 	}
@@ -237,6 +239,7 @@ void AGE_Frame::OnTechagePasteInsert(wxCommandEvent &Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::Techage Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], TechCopies.size(), Temp);
 		for(short loop=0; loop < TechCopies.size(); loop++)
 		GenieFile->Techages[TechIDs[0]+loop] = TechCopies[loop];
@@ -971,6 +974,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechageEffect Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Techages[TechIDs[0]].Effects.push_back(Temp);
 		Added = true;
 		ListEffects();
@@ -984,6 +988,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechageEffect Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], Temp);
 		ListEffects();
 	}
@@ -1034,6 +1039,7 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechageEffect Temp;
+		Temp.setGameVersion(GenieVersion);
 		GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], EffectCopies.size(), Temp);
 		for(short loop=0; loop < EffectCopies.size(); loop++)
 		GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = EffectCopies[loop];
