@@ -1,4 +1,3 @@
-
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
@@ -126,9 +125,9 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		PlayerColorCopies.resize(Selections);
+		copies->PlayerColor.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		PlayerColorCopies[loop] = GenieFile->PlayerColours[ColorIDs[loop]];
+		copies->PlayerColor[loop] = GenieFile->PlayerColours[ColorIDs[loop]];
 	}
 }
 
@@ -138,10 +137,10 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(PlayerColorCopies.size()+ColorIDs[0] > GenieFile->PlayerColours.size())
-		GenieFile->PlayerColours.resize(PlayerColorCopies.size()+ColorIDs[0]);
-		for(short loop=0; loop < PlayerColorCopies.size(); loop++)
-		GenieFile->PlayerColours[ColorIDs[0]+loop] = PlayerColorCopies[loop];
+		if(copies->PlayerColor.size()+ColorIDs[0] > GenieFile->PlayerColours.size())
+		GenieFile->PlayerColours.resize(copies->PlayerColor.size()+ColorIDs[0]);
+		for(short loop=0; loop < copies->PlayerColor.size(); loop++)
+		GenieFile->PlayerColours[ColorIDs[0]+loop] = copies->PlayerColor[loop];
 		ListPlayerColors();
 	}
 }
@@ -154,9 +153,9 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::PlayerColour Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], PlayerColorCopies.size(), Temp);
-		for(short loop=0; loop < PlayerColorCopies.size(); loop++)
-		GenieFile->PlayerColours[ColorIDs[0]+loop] = PlayerColorCopies[loop];
+		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], copies->PlayerColor.size(), Temp);
+		for(short loop=0; loop < copies->PlayerColor.size(); loop++)
+		GenieFile->PlayerColours[ColorIDs[0]+loop] = copies->PlayerColor[loop];
 		ListPlayerColors();
 	}
 }

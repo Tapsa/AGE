@@ -1,7 +1,4 @@
-/* AGE_SaveDialog.h */
-
-#include "wx/wx.h"
-#include "wx/filepicker.h"
+#include "Common.h"
 
 class AGE_SaveDialog: public wxDialog
 {

@@ -1,4 +1,3 @@
-
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
@@ -129,9 +128,9 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		UnitLineCopies.resize(Selections);
+		copies->UnitLine.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		UnitLineCopies[loop] = GenieFile->UnitLines[UnitLineIDs[loop]];
+		copies->UnitLine[loop] = GenieFile->UnitLines[UnitLineIDs[loop]];
 	}
 }
 
@@ -141,11 +140,11 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(UnitLineCopies.size()+UnitLineIDs[0] > GenieFile->UnitLines.size())
-		GenieFile->UnitLines.resize(UnitLineCopies.size()+UnitLineIDs[0]);
-		for(short loop=0; loop < UnitLineCopies.size(); loop++)
+		if(copies->UnitLine.size()+UnitLineIDs[0] > GenieFile->UnitLines.size())
+		GenieFile->UnitLines.resize(copies->UnitLine.size()+UnitLineIDs[0]);
+		for(short loop=0; loop < copies->UnitLine.size(); loop++)
 		{
-			GenieFile->UnitLines[UnitLineIDs[0]+loop] = UnitLineCopies[loop];
+			GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
 			if(EnableIDFix)
 			GenieFile->UnitLines[UnitLineIDs[0]+loop].ID = (int16_t)(UnitLineIDs[0]+loop); // ID Fix
 		}
@@ -161,9 +160,9 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::UnitLine Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], UnitLineCopies.size(), Temp);
-		for(short loop=0; loop < UnitLineCopies.size(); loop++)
-		GenieFile->UnitLines[UnitLineIDs[0]+loop] = UnitLineCopies[loop];
+		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], copies->UnitLine.size(), Temp);
+		for(short loop=0; loop < copies->UnitLine.size(); loop++)
+		GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
 		if(EnableIDFix)
 		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
 		GenieFile->UnitLines[loop].ID = (int16_t)loop;
@@ -282,9 +281,9 @@ void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		UnitLineUnitCopies.resize(Selections);
+		copies->UnitLineUnit.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		UnitLineUnitCopies[loop] = GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[loop]];
+		copies->UnitLineUnit[loop] = GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[loop]];
 	}
 }
 
@@ -294,10 +293,10 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(UnitLineUnitCopies.size()+UnitLineUnitIDs[0] > GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size())
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.resize(UnitLineUnitCopies.size()+UnitLineUnitIDs[0]);
-		for(short loop=0; loop < UnitLineUnitCopies.size(); loop++)
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = UnitLineUnitCopies[loop];
+		if(copies->UnitLineUnit.size()+UnitLineUnitIDs[0] > GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size())
+		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.resize(copies->UnitLineUnit.size()+UnitLineUnitIDs[0]);
+		for(short loop=0; loop < copies->UnitLineUnit.size(); loop++)
+		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = copies->UnitLineUnit[loop];
 		ListUnitLineUnits();
 	}
 }
@@ -308,9 +307,9 @@ void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], UnitLineUnitCopies.size(), 0);
-		for(short loop=0; loop < UnitLineUnitCopies.size(); loop++)
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = UnitLineUnitCopies[loop];
+		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], copies->UnitLineUnit.size(), 0);
+		for(short loop=0; loop < copies->UnitLineUnit.size(); loop++)
+		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = copies->UnitLineUnit[loop];
 		ListUnitLineUnits();
 	}
 }

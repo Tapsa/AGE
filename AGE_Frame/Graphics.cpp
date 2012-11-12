@@ -1,4 +1,3 @@
-
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
@@ -389,12 +388,12 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		GraphicPointerCopies.resize(Selections);
-		GraphicCopies.resize(Selections);
+		copies->GraphicPointer.resize(Selections);
+		copies->Graphic.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
 		{
-			GraphicPointerCopies[loop] = GenieFile->GraphicPointers[GraphicIDs[loop]];
-			GraphicCopies[loop] = GenieFile->Graphics[GraphicIDs[loop]];
+			copies->GraphicPointer[loop] = GenieFile->GraphicPointers[GraphicIDs[loop]];
+			copies->Graphic[loop] = GenieFile->Graphics[GraphicIDs[loop]];
 		}
 	}
 }
@@ -405,15 +404,15 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(GraphicCopies.size()+GraphicIDs[0] > GenieFile->Graphics.size())
+		if(copies->Graphic.size()+GraphicIDs[0] > GenieFile->Graphics.size())
 		{
-			GenieFile->GraphicPointers.resize(GraphicPointerCopies.size()+GraphicIDs[0]);
-			GenieFile->Graphics.resize(GraphicCopies.size()+GraphicIDs[0]);
+			GenieFile->GraphicPointers.resize(copies->GraphicPointer.size()+GraphicIDs[0]);
+			GenieFile->Graphics.resize(copies->Graphic.size()+GraphicIDs[0]);
 		}
-		for(short loop=0; loop < GraphicCopies.size(); loop++)
+		for(short loop=0; loop < copies->Graphic.size(); loop++)
 		{
-			GenieFile->GraphicPointers[GraphicIDs[0]+loop] = GraphicPointerCopies[loop];
-			GenieFile->Graphics[GraphicIDs[0]+loop] = GraphicCopies[loop];
+			GenieFile->GraphicPointers[GraphicIDs[0]+loop] = copies->GraphicPointer[loop];
+			GenieFile->Graphics[GraphicIDs[0]+loop] = copies->Graphic[loop];
 			if(EnableIDFix)
 			GenieFile->Graphics[GraphicIDs[0]+loop].ID = (int16_t)(GraphicIDs[0]+loop); // ID Fix
 		}
@@ -429,12 +428,12 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::Graphic Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], GraphicPointerCopies.size(), 0);
-		GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicIDs[0], GraphicCopies.size(), Temp);
-		for(short loop=0; loop < GraphicCopies.size(); loop++)
+		GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], copies->GraphicPointer.size(), 0);
+		GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicIDs[0], copies->Graphic.size(), Temp);
+		for(short loop=0; loop < copies->Graphic.size(); loop++)
 		{
-			GenieFile->GraphicPointers[GraphicIDs[0]+loop] = GraphicPointerCopies[loop];
-			GenieFile->Graphics[GraphicIDs[0]+loop] = GraphicCopies[loop];
+			GenieFile->GraphicPointers[GraphicIDs[0]+loop] = copies->GraphicPointer[loop];
+			GenieFile->Graphics[GraphicIDs[0]+loop] = copies->Graphic[loop];
 		}
 		if(EnableIDFix)
 		for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); loop++) // ID Fix
@@ -593,9 +592,9 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		GraphicDeltaCopies.resize(Selections);
+		copies->GraphicDelta.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		GraphicDeltaCopies[loop] = GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[loop]];
+		copies->GraphicDelta[loop] = GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[loop]];
 	}
 }
 
@@ -605,10 +604,10 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(GraphicDeltaCopies.size()+DeltaIDs[0] > GenieFile->Graphics[GraphicIDs[0]].Deltas.size())
-		GenieFile->Graphics[GraphicIDs[0]].Deltas.resize(GraphicDeltaCopies.size()+DeltaIDs[0]);
-		for(short loop=0; loop < GraphicDeltaCopies.size(); loop++)
-		GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[0]+loop] = GraphicDeltaCopies[loop];
+		if(copies->GraphicDelta.size()+DeltaIDs[0] > GenieFile->Graphics[GraphicIDs[0]].Deltas.size())
+		GenieFile->Graphics[GraphicIDs[0]].Deltas.resize(copies->GraphicDelta.size()+DeltaIDs[0]);
+		for(short loop=0; loop < copies->GraphicDelta.size(); loop++)
+		GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[0]+loop] = copies->GraphicDelta[loop];
 		ListGraphicDeltas();
 	}
 }
@@ -621,9 +620,9 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::GraphicDelta Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->Graphics[GraphicIDs[0]].Deltas.insert(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[0], GraphicDeltaCopies.size(), Temp);
-		for(short loop=0; loop < GraphicDeltaCopies.size(); loop++)
-		GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[0]+loop] = GraphicDeltaCopies[loop];
+		GenieFile->Graphics[GraphicIDs[0]].Deltas.insert(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[0], copies->GraphicDelta.size(), Temp);
+		for(short loop=0; loop < copies->GraphicDelta.size(); loop++)
+		GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[0]+loop] = copies->GraphicDelta[loop];
 		ListGraphicDeltas();
 	}
 }

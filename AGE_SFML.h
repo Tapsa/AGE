@@ -1,7 +1,5 @@
-/* AGE_SFML.h */
-
+#include "Common.h"
 #include <SFML/Graphics.hpp>
-#include <wx/wx.h>
 
 #ifndef SFML_Canvas_h
 #define SFML_Canvas_h

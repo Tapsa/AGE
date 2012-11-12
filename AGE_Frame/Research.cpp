@@ -1,4 +1,3 @@
-
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
@@ -397,9 +396,9 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		ResearchCopies.resize(Selections);
+		copies->Research.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		ResearchCopies[loop] = GenieFile->Researchs[ResearchIDs[loop]];
+		copies->Research[loop] = GenieFile->Researchs[ResearchIDs[loop]];
 	}
 }
 
@@ -409,10 +408,10 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		if(ResearchCopies.size()+ResearchIDs[0] > GenieFile->Researchs.size())
-		GenieFile->Researchs.resize(ResearchCopies.size()+ResearchIDs[0]);
-		for(short loop=0; loop < ResearchCopies.size(); loop++)
-		GenieFile->Researchs[ResearchIDs[0]+loop] = ResearchCopies[loop];
+		if(copies->Research.size()+ResearchIDs[0] > GenieFile->Researchs.size())
+		GenieFile->Researchs.resize(copies->Research.size()+ResearchIDs[0]);
+		for(short loop=0; loop < copies->Research.size(); loop++)
+		GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
 		ListResearches();
 	}
 }
@@ -425,9 +424,9 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::Research Temp;
 		Temp.setGameVersion(GenieVersion);
-		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], ResearchCopies.size(), Temp);
-		for(short loop=0; loop < ResearchCopies.size(); loop++)
-		GenieFile->Researchs[ResearchIDs[0]+loop] = ResearchCopies[loop];
+		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], copies->Research.size(), Temp);
+		for(short loop=0; loop < copies->Research.size(); loop++)
+		GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
 		ListResearches();
 	}
 }

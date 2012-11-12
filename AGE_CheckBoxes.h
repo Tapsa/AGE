@@ -1,9 +1,7 @@
-/* AGE_CheckBoxes.h */
-
 #include "AGE_TextControls.h"
 
-#ifndef CheckBox_Bool_h
-#define CheckBox_Bool_h
+#ifndef AGE_CheckBoxes_h
+#define AGE_CheckBoxes_h
 
 class CheckBox_Bool: public wxCheckBox
 {
@@ -31,11 +29,6 @@ class CheckBox_Bool: public wxCheckBox
 	TextCtrl_Bool *Container;
 };
 
-#endif
-
-#ifndef CheckBox_Byte_h
-#define CheckBox_Byte_h
-
 class CheckBox_Byte: public wxCheckBox
 {
 	public:
@@ -61,11 +54,6 @@ class CheckBox_Byte: public wxCheckBox
 
 	TextCtrl_Byte *Container;
 };
-
-#endif
-
-#ifndef CheckBox_Float_h
-#define CheckBox_Float_h
 
 class CheckBox_Float: public wxCheckBox
 {
@@ -93,11 +81,6 @@ class CheckBox_Float: public wxCheckBox
 	TextCtrl_Float *Container;
 };
 
-#endif
-
-#ifndef CheckBox_Short_h
-#define CheckBox_Short_h
-
 class CheckBox_Short: public wxCheckBox
 {
 	public:
@@ -124,11 +107,6 @@ class CheckBox_Short: public wxCheckBox
 	TextCtrl_Short *Container;
 };
 
-#endif
-
-#ifndef CheckBox_Short_ZeroIsYes_h
-#define CheckBox_Short_ZeroIsYes_h
-
 class CheckBox_Short_ZeroIsYes: public wxCheckBox
 {
 	public:
@@ -154,11 +132,6 @@ class CheckBox_Short_ZeroIsYes: public wxCheckBox
 
 	TextCtrl_Short *Container;
 };
-
-#endif
-
-#ifndef CheckBox_Long_ZeroIsYes_h
-#define CheckBox_Long_ZeroIsYes_h
 
 class CheckBox_Long_ZeroIsYes: public wxCheckBox
 {

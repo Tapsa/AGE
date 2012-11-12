@@ -1,4 +1,3 @@
-
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
@@ -117,9 +116,9 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TerrainBorderCopies.resize(Selections);
+		copies->TerrainBorder.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TerrainBorderCopies[loop] = GenieFile->TerrainBorders[BorderIDs[loop]];
+		copies->TerrainBorder[loop] = GenieFile->TerrainBorders[BorderIDs[loop]];
 	}
 }
 
@@ -129,11 +128,11 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		short CopyCount = TerrainBorderCopies.size();
-		if(TerrainBorderCopies.size()+BorderIDs[0] > GenieFile->TerrainBorders.size())
-		CopyCount -= TerrainBorderCopies.size()+BorderIDs[0] - GenieFile->TerrainBorders.size();
+		short CopyCount = copies->TerrainBorder.size();
+		if(copies->TerrainBorder.size()+BorderIDs[0] > GenieFile->TerrainBorders.size())
+		CopyCount -= copies->TerrainBorder.size()+BorderIDs[0] - GenieFile->TerrainBorders.size();
 		for(short loop=0; loop < CopyCount; loop++)
-		GenieFile->TerrainBorders[BorderIDs[0]+loop] = TerrainBorderCopies[loop];
+		GenieFile->TerrainBorders[BorderIDs[0]+loop] = copies->TerrainBorder[loop];
 		ListTerrainBorders();
 	}
 }
@@ -202,9 +201,9 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		TBFrameDataCopies.resize(Selections);
+		copies->TBFrameData.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
-		TBFrameDataCopies[loop] = GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[loop]];
+		copies->TBFrameData[loop] = GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[loop]];
 	}
 }
 
@@ -214,11 +213,11 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		wxBusyCursor WaitCursor;
-		short CopyCount = TBFrameDataCopies.size();
-		if(TBFrameDataCopies.size()+FrameIDs[0] > GenieFile->TerrainBorders[BorderIDs[0]].Frames.size())
-		CopyCount -= TBFrameDataCopies.size()+FrameIDs[0] - GenieFile->TerrainBorders[BorderIDs[0]].Frames.size();
+		short CopyCount = copies->TBFrameData.size();
+		if(copies->TBFrameData.size()+FrameIDs[0] > GenieFile->TerrainBorders[BorderIDs[0]].Frames.size())
+		CopyCount -= copies->TBFrameData.size()+FrameIDs[0] - GenieFile->TerrainBorders[BorderIDs[0]].Frames.size();
 		for(short loop=0; loop < CopyCount; loop++)
-		GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[0]+loop] = TBFrameDataCopies[loop];
+		GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[0]+loop] = copies->TBFrameData[loop];
 		ListTerrainBorderFrames();
 	}
 }

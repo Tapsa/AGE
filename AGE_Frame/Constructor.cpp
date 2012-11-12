@@ -1,11 +1,10 @@
-
 #include "../AGE_Frame.h"
 #include "genie/util/Logger.h"
 
 //#include <wx/arrimpl.cpp>
 using boost::lexical_cast;
 
-AGE_Frame::AGE_Frame(const wxString &title)
+AGE_Frame::AGE_Frame(const wxString &title, Copies &c)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
 {
 	SetIcon(wxIcon(AppIcon_xpm));
@@ -13,6 +12,7 @@ AGE_Frame::AGE_Frame(const wxString &title)
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 //	TabBar_Data = new wxNotebook(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 //	TabBar_Test = new wxNotebook(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	copies = &c;
 
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);

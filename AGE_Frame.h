@@ -1,29 +1,16 @@
-
-#include <boost/lexical_cast.hpp>
-#include "wx/wx.h"
-//#include "wxSFMLCanvas.hpp"
-#include "wx/fileconf.h"
-#include "wx/notebook.h"
-#include "wx/aboutdlg.h"
-#include "wx/hyperlink.h"
-#include "wx/filename.h"
-#include "wx/tooltip.h"
-#include "wx/statline.h"
-#include "windows.h"
-#include "genie/dat/DatFile.h"	// Newer dat system
-#include "genie/lang/LangFile.h"
-//#include "genie/resource/DrsFile.h"	// DRS file system
+#include "Common.h"
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"
 #include "AGE_CheckBoxes.h"
 #include "AGE_OpenDialog.h"
 #include "AGE_SaveDialog.h"
 #include "AGE_AboutDialog.h"
+#include "AGE_Copies.hpp"
 #include "AppIcon.xpm"
 #include "GateOpen.xpm"
 #include "GateClosed.xpm"
 #include "Question.xpm"
-#include "SecondWindow.xpm"
+#include "secondWindow.xpm"
 //#include <wx/dynarray.h>
 using std::vector;
 
@@ -73,10 +60,13 @@ class AGE_Frame: public wxFrame
 {
 	public:
 
-	AGE_Frame(const wxString &title);
+	AGE_Frame(const wxString &title, Copies &c);
 	~AGE_Frame();
-	
-	AGE_Frame *SecondWindow;
+
+//	Stuff related to editing multiple files at once
+
+	//AGE_Frame *secondWindow;
+	Copies *copies;
 
 //	Constructions Methods
 
@@ -663,86 +653,48 @@ class AGE_Frame: public wxFrame
 	wxArrayInt Items;
 	long TechTreePage;
 	long TechTreeSize;
-	vector<genie::Research> ResearchCopies;
 	vector<short> ResearchIDs;
-	vector<genie::Techage> TechCopies;
 	vector<short> TechIDs;
-	vector<genie::TechageEffect> EffectCopies;
 	vector<short> EffectIDs;
-	vector<genie::TechTreeAge> TTAgeCopies;
 	vector<short> TTAgeIDs;
-	vector<long> TTAgeBuildCopies;
 	vector<short> TTAgeBuildIDs;
-	vector<long> TTAgeUnitCopies;
 	vector<short> TTAgeUnitIDs;
-	vector<long> TTAgeResCopies;
 	vector<short> TTAgeResIDs;
-	vector<genie::BuildingConnection> TTBuildConCopies;
 	vector<short> TTBuildConIDs;
-	vector<long> TTBuildBuildCopies;
 	vector<short> TTBuildBuildIDs;
-	vector<long> TTBuildUnitCopies;
 	vector<short> TTBuildUnitIDs;
-	vector<long> TTBuildResCopies;
 	vector<short> TTBuildResIDs;
-	vector<genie::UnitConnection> TTUnitConCopies;
 	vector<short> TTUnitConIDs;
-	vector<long> TTUnitUnitCopies;
 	vector<short> TTUnitUnitIDs;
-	vector<genie::ResearchConnection> TTResConCopies;
 	vector<short> TTResConIDs;
-	vector<long> TTResBuildCopies;
 	vector<short> TTResBuildIDs;
-	vector<long> TTResUnitCopies;
 	vector<short> TTResUnitIDs;
-	vector<long> TTResResCopies;
 	vector<short> TTResResIDs;
 
 	static const short MaxCivs = 30;
 	bool PopupCivWarning;
 	short Zero;
-	vector<genie::Civ> CivCopies;
 	vector<short> CivIDs;
-	vector<float> ResourceCopies;
 	vector<short> ResourceIDs;
 	short UnitCivID;
-	Copies DatCopies; // Advanced unit copying.
 	vector<short> UnitIDs;
-	vector<genie::unit::DamageGraphic> DamageGraphicCopies;
 	vector<short> DamageGraphicIDs;
-	vector<genie::unit::AttackOrArmor> AttackCopies;
 	vector<short> AttackIDs;
-	vector<genie::unit::AttackOrArmor> ArmorCopies;
 	vector<short> ArmorIDs;
-	vector<genie::UnitHeader> UnitHeaderCopies;
-	vector<genie::UnitCommand> UnitCommandCopies;
 	vector<short> CommandIDs;
-	vector<genie::UnitLine> UnitLineCopies;
 	vector<short> UnitLineIDs;
-	vector<int16_t> UnitLineUnitCopies;
 	vector<short> UnitLineUnitIDs;
-	vector<genie::Graphic> GraphicCopies;
-	vector<int32_t> GraphicPointerCopies;
 	vector<short> GraphicIDs;
-	vector<genie::GraphicDelta> GraphicDeltaCopies;
 	vector<short> DeltaIDs;
 	vector<short> AttackSoundIDs;
-	vector<genie::Terrain> TerrainCopies;
 	vector<short> TerrainIDs;
-	vector<genie::TerrainRestriction> TerrainRestrictionCopies;
 	vector<short> TerRestrictIDs;
-	vector<genie::TerrainPassGraphic> TerrainRestrictionSubCopies;
 	vector<short> TerRestrictTerIDs;
 	vector<float> TerrainRestrictionSubCopyAccess;
-	vector<genie::Sound> SoundCopies;
 	vector<short> SoundIDs;
-	vector<genie::SoundItem> SoundItemCopies;
 	vector<short> SoundItemIDs;
-	vector<genie::PlayerColour> PlayerColorCopies;
 	vector<short> ColorIDs;
-	vector<genie::TerrainBorder> TerrainBorderCopies;
 	vector<short> BorderIDs;
-	vector<genie::TBFrameData> TBFrameDataCopies;
 	vector<short> FrameIDs;
 
 	bool Added;
