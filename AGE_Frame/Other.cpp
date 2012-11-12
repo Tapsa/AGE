@@ -1,4 +1,3 @@
-
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
@@ -1684,20 +1683,20 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;*/
 		case ToolBar_MultipleFiles:
 		{
-			if(GetToolBar()->GetToolState(ToolBar_MultipleFiles))
+			/*if(GetToolBar()->GetToolState(ToolBar_MultipleFiles))
 			{
 				wxBusyCursor Wait;
-				SecondWindow = new AGE_Frame("AGE");
-				SecondWindow->SetSize(900, 720);
-				SecondWindow->Show(true);
-				wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, SecondWindow->ToolBar_Open);
-				SecondWindow->GetEventHandler()->ProcessEvent(OpenFiles);
+				secondWindow = new AGE_Frame("AGE", age, age.copies);
+				secondWindow->SetSize(900, 720);
+				secondWindow->Show(true);
+				wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, secondWindow->ToolBar_Open);
+				secondWindow->GetEventHandler()->ProcessEvent(OpenFiles);
 				wxMessageBox("Close the new window from the tool from which you opened it,\nif you want to close and reopen it.");
 			}
 			else
 			{
-				SecondWindow->Destroy();
-			}
+				secondWindow->Destroy();
+			}*/
 		}
 		break;
 	}
