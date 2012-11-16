@@ -4,7 +4,7 @@
 //#include <wx/arrimpl.cpp>
 using boost::lexical_cast;
 
-AGE_Frame::AGE_Frame(const wxString &title, Copies &c)
+AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
 {
 	SetIcon(wxIcon(AppIcon_xpm));
@@ -13,8 +13,9 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c)
 //	TabBar_Data = new wxNotebook(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 //	TabBar_Test = new wxNotebook(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	copies = &c;
+	AGEwindow = window;
 
-	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
 	//Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
 	Config->Read("Interaction/AutoCopy", &AutoCopy, true);
@@ -24,7 +25,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c)
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
-	Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 2); // 2 to showcase this feature.
+	if(AGEwindow == 1) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 2); // 2 to showcase this feature.
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
 	Config->Read("DefaultFiles/Version", &GameVersion, 3);
 	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, 3);
@@ -163,6 +164,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c)
 	{
 		SkipOpenDialog = true;
 	}
+	else SkipOpenDialog = false;
 
 	genie::Logger::setLogLevel(genie::Logger::L_INFO);
 	static std::ofstream log_out;
