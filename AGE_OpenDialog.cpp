@@ -39,8 +39,10 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	CheckBox_GenieVer->SetSelection(3);
 
 	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
-	DriveLetterArea = new wxBoxSizer(wxVERTICAL);
-	DriveLetterBox = new wxTextCtrl(this, wxID_ANY, "C", wxDefaultPosition, wxSize(50, 20), 0/*, wxDefaultValidator, wxTextCtrlNameStr*/);
+	WindowCountText = new wxStaticText(this, wxID_ANY, "      Windows (files) to open: ");
+	DriveLetterArea = new wxBoxSizer(wxHORIZONTAL);
+	DriveLetterBox = new wxTextCtrl(this, wxID_ANY, "C", wxDefaultPosition, wxSize(50, 20));
+	WindowCountBox = new wxTextCtrl(this, wxID_ANY, "2", wxDefaultPosition, wxSize(50, 20));
 	Radio_DatFileLocation = new wxRadioButton(this, wxID_ANY, "Compressed Dat File (*.dat):", wxDefaultPosition, wxSize(0, 20), wxRB_GROUP);
 	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Dat File (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Radio_UnzFileLocation = new wxRadioButton(this, wxID_ANY, "Decompressed Dat File (*.unz):");
@@ -75,6 +77,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenLayout->Add(CheckBox_GenieVer, 1, wxEXPAND);
 	OpenLayout->Add(DriveText, 1, wxEXPAND);
 	DriveLetterArea->Add(DriveLetterBox, 0);
+	DriveLetterArea->Add(WindowCountText, 0);
+	DriveLetterArea->Add(WindowCountBox, 0);
 	DriveLetterArea->AddStretchSpacer(1);
 	OpenLayout->Add(DriveLetterArea, 1, wxEXPAND);
 	OpenLayout->AddSpacer(15);
@@ -85,8 +89,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenLayout->Add(Path_UnzFileLocation, 1, wxEXPAND);
 	OpenLayout->Add(Radio_ApfFileLocation, 1, wxEXPAND);
 	OpenLayout->Add(Path_ApfFileLocation, 1, wxEXPAND);
-//	OpenLayout->Add(Radio_NoFile, 1, wxEXPAND);
-//	OpenLayout->AddSpacer(15);
 	OpenLayout->AddSpacer(15);
 	OpenLayout->AddSpacer(15);
 	OpenLayout->Add(CheckBox_LangFileLocation, 1, wxEXPAND);
@@ -97,8 +99,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenLayout->Add(Path_LangX1P1FileLocation, 1, wxEXPAND);
 	OpenLayout->AddSpacer(15);
 	OpenLayout->AddSpacer(15);
-//	OpenLayout->Add(chDrsFileLocation, 1, wxEXPAND);
-//	OpenLayout->Add(fpDrsFileLocation, 1, wxEXPAND);
 
 	OpenLayout->AddGrowableCol(1, 1);
 	OpenLayout->AddGrowableRow(1, 1);

@@ -38,6 +38,8 @@ class AGE_OpenDialog: public wxDialog
 	wxComboBox *CheckBox_GenieVer;
 	wxStaticText *DriveText;
 	wxTextCtrl *DriveLetterBox;
+	wxStaticText *WindowCountText;
+	wxTextCtrl *WindowCountBox;
 	wxBoxSizer *DriveLetterArea;
 	wxRadioButton *Radio_DatFileLocation;
 	wxFilePickerCtrl *Path_DatFileLocation;
