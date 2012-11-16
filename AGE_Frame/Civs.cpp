@@ -179,7 +179,10 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 		if(copies->Civ.size()+CivIDs[0] > GenieFile->Civs.size())
 		GenieFile->Civs.resize(copies->Civ.size()+CivIDs[0]);
 		for(short loop=0; loop < copies->Civ.size(); loop++)
-		GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
+		{
+			copies->Civ[loop].setGameVersion(GenieVersion);
+			GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
+		}
 		CivCountWarning();
 		ListUnits(UnitCivID, false);
 	}
@@ -192,10 +195,12 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
-		Temp.setGameVersion(GenieVersion);
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], copies->Civ.size(), Temp);
 		for(short loop=0; loop < copies->Civ.size(); loop++)
-		GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
+		{
+			copies->Civ[loop].setGameVersion(GenieVersion);
+			GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
+		}
 		CivCountWarning();
 		ListUnits(UnitCivID, false);
 	}

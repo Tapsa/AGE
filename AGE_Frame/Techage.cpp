@@ -226,7 +226,10 @@ void AGE_Frame::OnTechagePaste(wxCommandEvent &Event)	// Works.
 		if(copies->Tech.size()+TechIDs[0] > GenieFile->Techages.size())
 		GenieFile->Techages.resize(copies->Tech.size()+TechIDs[0]);
 		for(short loop=0; loop < copies->Tech.size(); loop++)
-		GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
+		{
+			copies->Tech[loop].setGameVersion(GenieVersion);
+			GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
+		}
 		ListTechages();
 	}
 }
@@ -238,10 +241,12 @@ void AGE_Frame::OnTechagePasteInsert(wxCommandEvent &Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::Techage Temp;
-		Temp.setGameVersion(GenieVersion);
 		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], copies->Tech.size(), Temp);
 		for(short loop=0; loop < copies->Tech.size(); loop++)
-		GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
+		{
+			copies->Tech[loop].setGameVersion(GenieVersion);
+			GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
+		}
 		ListTechages();
 	}
 }
@@ -1026,7 +1031,10 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 		if(copies->Effect.size()+EffectIDs[0] > GenieFile->Techages[TechIDs[0]].Effects.size())
 		GenieFile->Techages[TechIDs[0]].Effects.resize(copies->Effect.size()+EffectIDs[0]);
 		for(short loop=0; loop < copies->Effect.size(); loop++)
-		GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
+		{
+			copies->Effect[loop].setGameVersion(GenieVersion);
+			GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
+		}
 		ListEffects();
 	}
 }
@@ -1038,10 +1046,12 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechageEffect Temp;
-		Temp.setGameVersion(GenieVersion);
 		GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], copies->Effect.size(), Temp);
 		for(short loop=0; loop < copies->Effect.size(); loop++)
-		GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
+		{
+			copies->Effect[loop].setGameVersion(GenieVersion);
+			GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
+		}
 		ListEffects();
 	}
 }

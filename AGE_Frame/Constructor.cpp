@@ -50,7 +50,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
 	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
 	GetToolBar()->AddTool(ToolBar_CustomNames, "Lists", wxNullBitmap, "Extract a setting file for custom names in some lists\nRestart this program after editing the file");
-	GetToolBar()->AddTool(ToolBar_MultipleFiles, "Mult", wxBitmap(SecondWindow_xpm), "Opens another editor to easily copy between files (not game versions yet)", wxITEM_CHECK);
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->Realize();
 	
@@ -133,7 +132,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
 	Connect(ToolBar_Show, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(ToolBar_CustomNames, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_MultipleFiles, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
