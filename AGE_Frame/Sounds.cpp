@@ -235,6 +235,7 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &Event)
 		GenieFile->Sounds.resize(copies->Sound.size()+SoundIDs[0]);
 		for(short loop=0; loop < copies->Sound.size(); loop++)
 		{
+			copies->Sound[loop].setGameVersion(GenieVersion);
 			GenieFile->Sounds[SoundIDs[0]+loop] = copies->Sound[loop];
 			if(EnableIDFix)
 			GenieFile->Sounds[SoundIDs[0]+loop].ID = (int32_t)(SoundIDs[0]+loop); // ID Fix
@@ -250,10 +251,12 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Sound Temp;
-		Temp.setGameVersion(GenieVersion);
 		GenieFile->Sounds.insert(GenieFile->Sounds.begin() + SoundIDs[0], copies->Sound.size(), Temp);
 		for(short loop=0; loop < copies->Sound.size(); loop++)
-		GenieFile->Sounds[SoundIDs[0]+loop] = copies->Sound[loop];
+		{
+			copies->Sound[loop].setGameVersion(GenieVersion);
+			GenieFile->Sounds[SoundIDs[0]+loop] = copies->Sound[loop];
+		}
 		if(EnableIDFix)
 		for(short loop = SoundIDs[0];loop < GenieFile->Sounds.size(); loop++) // ID Fix
 		GenieFile->Sounds[loop].ID = (int32_t)loop;
@@ -438,7 +441,10 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &Event)
 		if(copies->SoundItem.size()+SoundItemIDs[0] > GenieFile->Sounds[SoundIDs[0]].Items.size())
 		GenieFile->Sounds[SoundIDs[0]].Items.resize(copies->SoundItem.size()+SoundItemIDs[0]);
 		for(short loop=0; loop < copies->SoundItem.size(); loop++)
-		GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = copies->SoundItem[loop];
+		{
+			copies->SoundItem[loop].setGameVersion(GenieVersion);
+			GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = copies->SoundItem[loop];
+		}
 		ListSoundItems();
 	}
 }
@@ -450,10 +456,12 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::SoundItem Temp;
-		Temp.setGameVersion(GenieVersion);
 		GenieFile->Sounds[SoundIDs[0]].Items.insert(GenieFile->Sounds[SoundIDs[0]].Items.begin() + SoundItemIDs[0], copies->SoundItem.size(), Temp);
 		for(short loop=0; loop < copies->SoundItem.size(); loop++)
-		GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = copies->SoundItem[loop];
+		{
+			copies->SoundItem[loop].setGameVersion(GenieVersion);
+			GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]+loop] = copies->SoundItem[loop];
+		}
 		ListSoundItems();
 	}
 }

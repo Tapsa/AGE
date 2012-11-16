@@ -132,7 +132,10 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 		if(copies->TerrainBorder.size()+BorderIDs[0] > GenieFile->TerrainBorders.size())
 		CopyCount -= copies->TerrainBorder.size()+BorderIDs[0] - GenieFile->TerrainBorders.size();
 		for(short loop=0; loop < CopyCount; loop++)
-		GenieFile->TerrainBorders[BorderIDs[0]+loop] = copies->TerrainBorder[loop];
+		{
+			copies->TerrainBorder[loop].setGameVersion(GenieVersion);
+			GenieFile->TerrainBorders[BorderIDs[0]+loop] = copies->TerrainBorder[loop];
+		}
 		ListTerrainBorders();
 	}
 }
@@ -217,7 +220,10 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 		if(copies->TBFrameData.size()+FrameIDs[0] > GenieFile->TerrainBorders[BorderIDs[0]].Frames.size())
 		CopyCount -= copies->TBFrameData.size()+FrameIDs[0] - GenieFile->TerrainBorders[BorderIDs[0]].Frames.size();
 		for(short loop=0; loop < CopyCount; loop++)
-		GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[0]+loop] = copies->TBFrameData[loop];
+		{
+			copies->TBFrameData[loop].setGameVersion(GenieVersion);
+			GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[0]+loop] = copies->TBFrameData[loop];
+		}
 		ListTerrainBorderFrames();
 	}
 }

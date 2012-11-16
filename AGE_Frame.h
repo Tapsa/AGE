@@ -10,7 +10,6 @@
 #include "GateOpen.xpm"
 #include "GateClosed.xpm"
 #include "Question.xpm"
-#include "secondWindow.xpm"
 //#include <wx/dynarray.h>
 using std::vector;
 
@@ -732,8 +731,7 @@ class AGE_Frame: public wxFrame
 		ToolBar_Open,
 		ToolBar_Save,
 		ToolBar_Show,
-		ToolBar_CustomNames,
-		ToolBar_MultipleFiles
+		ToolBar_CustomNames
 	};
 
 //	User Interface

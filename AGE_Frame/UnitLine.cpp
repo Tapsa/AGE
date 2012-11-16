@@ -144,6 +144,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 		GenieFile->UnitLines.resize(copies->UnitLine.size()+UnitLineIDs[0]);
 		for(short loop=0; loop < copies->UnitLine.size(); loop++)
 		{
+			copies->UnitLine[loop].setGameVersion(GenieVersion);
 			GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
 			if(EnableIDFix)
 			GenieFile->UnitLines[UnitLineIDs[0]+loop].ID = (int16_t)(UnitLineIDs[0]+loop); // ID Fix
@@ -159,10 +160,12 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitLine Temp;
-		Temp.setGameVersion(GenieVersion);
 		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], copies->UnitLine.size(), Temp);
 		for(short loop=0; loop < copies->UnitLine.size(); loop++)
-		GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
+		{
+			copies->UnitLine[loop].setGameVersion(GenieVersion);
+			GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
+		}
 		if(EnableIDFix)
 		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
 		GenieFile->UnitLines[loop].ID = (int16_t)loop;
