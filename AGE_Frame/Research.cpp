@@ -426,10 +426,12 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Research Temp;
-		Temp.setGameVersion(GenieVersion);
 		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], copies->Research.size(), Temp);
 		for(short loop=0; loop < copies->Research.size(); loop++)
-		GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
+		{
+			copies->Research[loop].setGameVersion(GenieVersion);
+			GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
+		}
 		ListResearches();
 	}
 }

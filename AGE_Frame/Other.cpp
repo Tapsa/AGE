@@ -1683,24 +1683,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			}
 		}
 		break;*/
-		case ToolBar_MultipleFiles:
-		{
-			/*if(GetToolBar()->GetToolState(ToolBar_MultipleFiles))
-			{
-				wxBusyCursor Wait;
-				secondWindow = new AGE_Frame("AGE", age, age.copies);
-				secondWindow->SetSize(900, 720);
-				secondWindow->Show(true);
-				wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, secondWindow->ToolBar_Open);
-				secondWindow->GetEventHandler()->ProcessEvent(OpenFiles);
-				wxMessageBox("Close the new window from the tool from which you opened it,\nif you want to close and reopen it.");
-			}
-			else
-			{
-				secondWindow->Destroy();
-			}*/
-		}
-		break;
 	}
 }
 

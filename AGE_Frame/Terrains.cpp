@@ -318,7 +318,10 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
 			}
 		}
 		for(short loop=0; loop < copies->Terrain.size(); loop++)
-		GenieFile->Terrains[TerrainIDs[0]+loop] = copies->Terrain[loop];
+		{
+			copies->Terrain[loop].setGameVersion(GenieVersion);
+			GenieFile->Terrains[TerrainIDs[0]+loop] = copies->Terrain[loop];
+		}
 		ListTerrains();
 	}
 }
@@ -330,9 +333,7 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Terrain Temp1;
-		Temp1.setGameVersion(GenieVersion);
 		genie::TerrainPassGraphic Temp2;
-		Temp2.setGameVersion(GenieVersion);
 		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], copies->Terrain.size(), Temp1);
 		for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)
 		{
@@ -340,7 +341,10 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 			GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.insert(GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.begin() + TerrainIDs[0], copies->Terrain.size(), Temp2);
 		}
 		for(short loop=0; loop < copies->Terrain.size(); loop++)
-		GenieFile->Terrains[TerrainIDs[0]+loop] = copies->Terrain[loop];
+		{
+			copies->Terrain[loop].setGameVersion(GenieVersion);
+			GenieFile->Terrains[TerrainIDs[0]+loop] = copies->Terrain[loop];
+		}
 		ListTerrains();
 	}
 }

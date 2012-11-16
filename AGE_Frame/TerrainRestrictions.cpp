@@ -287,7 +287,10 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &Event)
 			GenieFile->TerrainRestrictionPointers2.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
 		}
 		for(short loop=0; loop < copies->TerrainRestriction.size(); loop++)
-		GenieFile->TerrainRestrictions[TerRestrictIDs[0]+loop] = copies->TerrainRestriction[loop];
+		{
+			copies->TerrainRestriction[loop].setGameVersion(GenieVersion);
+			GenieFile->TerrainRestrictions[TerRestrictIDs[0]+loop] = copies->TerrainRestriction[loop];
+		}
 		ListTerrainRestrictions();
 	}
 }
@@ -299,13 +302,15 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TerrainRestriction Temp;
-		Temp.setGameVersion(GenieVersion);
 		GenieFile->TerrainRestrictions.insert(GenieFile->TerrainRestrictions.begin() + TerRestrictIDs[0], copies->TerrainRestriction.size(), Temp);
 		GenieFile->TerrainRestrictionPointers1.insert(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], copies->TerrainRestriction.size(), 1);
 		if(GameVersion >= 2)
 		GenieFile->TerrainRestrictionPointers2.insert(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictIDs[0], copies->TerrainRestriction.size(), 1);
 		for(short loop=0; loop < copies->TerrainRestriction.size(); loop++)
-		GenieFile->TerrainRestrictions[TerRestrictIDs[0]+loop] = copies->TerrainRestriction[loop];
+		{
+			copies->TerrainRestriction[loop].setGameVersion(GenieVersion);
+			GenieFile->TerrainRestrictions[TerRestrictIDs[0]+loop] = copies->TerrainRestriction[loop];
+		}
 		ListTerrainRestrictions();
 	}
 }
@@ -344,7 +349,10 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &Event)
 		if(GameVersion > 1)	// not AoE nor RoR
 		{
 			for(short loop=0; loop < CopyCount; loop++)
-			GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[0]+loop] = copies->TerrainRestrictionSub[loop];
+			{
+				copies->TerrainRestrictionSub[loop].setGameVersion(GenieVersion);
+				GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[0]+loop] = copies->TerrainRestrictionSub[loop];
+			}
 		}
 		wxCommandEvent E;
 		OnTerrainRestrictionsTerrainSelect(E);
