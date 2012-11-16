@@ -60,7 +60,7 @@ class AGE_Frame: public wxFrame
 {
 	public:
 
-	AGE_Frame(const wxString &title, Copies &c);
+	AGE_Frame(const wxString &title, Copies &c, short window = 1);
 	~AGE_Frame();
 
 //	Stuff related to editing multiple files at once
@@ -697,14 +697,10 @@ class AGE_Frame: public wxFrame
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool Added;
-	int SimultaneousFiles;
-	int GameVersion;
+	bool Added, SaveDat, SaveApf;
+	short AGEwindow;
+	int SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion;
 	genie::GameVersion GenieVersion;
-	int DatUsed;
-	int SaveGameVersion;
-	bool SaveDat;
-	bool SaveApf;
 	wxString DriveLetter;
 	wxString DatFileName;
 	wxString ApfFileName;

@@ -411,7 +411,10 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 		if(copies->Research.size()+ResearchIDs[0] > GenieFile->Researchs.size())
 		GenieFile->Researchs.resize(copies->Research.size()+ResearchIDs[0]);
 		for(short loop=0; loop < copies->Research.size(); loop++)
-		GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
+		{
+			copies->Research[loop].setGameVersion(GenieVersion);;
+			GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
+		}
 		ListResearches();
 	}
 }

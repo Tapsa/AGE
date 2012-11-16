@@ -42,6 +42,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
+		if(AGEwindow == 1) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
 		OpenBox.Path_ApfFileLocation->SetPath(ApfFileName);
 
@@ -115,6 +116,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 
 		DriveLetter = OpenBox.DriveLetterBox->GetValue();
+		if(AGEwindow == 1) SimultaneousFiles = lexical_cast<int>(OpenBox.WindowCountBox->GetValue());
 		DatFileName = OpenBox.Path_DatFileLocation->GetPath();
 		ApfFileName = OpenBox.Path_ApfFileLocation->GetPath();
 
@@ -1466,7 +1468,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 
 void AGE_Frame::OnExit(wxCloseEvent &Event)
 {
-	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2config.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopy", AutoCopy);
 	Config->Write("Interaction/CopyGraphics", CopyGraphics);
@@ -1474,7 +1476,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
-	Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
+	if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
 	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
 	Config->Write("DefaultFiles/Version", GameVersion);
 	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
