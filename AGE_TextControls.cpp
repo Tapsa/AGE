@@ -1,69 +1,29 @@
-/* AGE_TextControls.cpp */
-
 #include "AGE_TextControls.h"
 
-void TextCtrl_Bool::OnKillFocus(wxFocusEvent &Event)
+bool TextCtrl_Byte::SaveEdits()
 {
+	if(Container == NULL) return false;
 	wxString Value = GetValue().c_str();
-	NoLoadList = false;
-	if(Container == NULL) NoLoadList = true;
-	else if(Value.size() > 0)
+	if(Value.size() > 0)
 	{
 		try
 		{
-			if(*((bool*)Container) != lexical_cast<bool>(Value))
-			{
-			    *((bool*)Container) = lexical_cast<bool>(Value);
-			}
-			else
-			{
-				NoLoadList = true;
-			}
-		}
-		catch(bad_lexical_cast e)
-		{
-			NoLoadList = true;
-		    wxMessageBox("Invalid entry!\nPlease enter 0 or 1");
-		    SetFocus();
-		}
-	}
-	else
-	{
-		ChangeValue(lexical_cast<string>(*Container));
-	}
-//	Event.Skip();
-}
-
-void TextCtrl_Byte::OnKillFocus(wxFocusEvent &Event)
-{
-	wxString Value = GetValue().c_str();
-	NoLoadList = false;
-	if(Container == NULL) NoLoadList = true;
-	else if(Value.size() > 0)
-	{
-		try
-		{
-		    if(*((char*)Container) != (char)lexical_cast<short>(Value))
+		    if(*Container != (char)lexical_cast<short>(Value))
 			{
 			    if(lexical_cast<short>(Value) == (char)lexical_cast<short>(Value))
 			    {
-					*((char*)Container) = (char)lexical_cast<short>(Value);
+					*Container = (char)lexical_cast<short>(Value);
+					return true;
 				}
 			    else
 			    {
-					NoLoadList = true;
 			    	wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
 			    	SetFocus();
 			    }
 			}
-			else
-			{
-			    NoLoadList = true;
-			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			NoLoadList = true;
 		    wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
 		    SetFocus();
 		}
@@ -72,39 +32,33 @@ void TextCtrl_Byte::OnKillFocus(wxFocusEvent &Event)
 	{
 		ChangeValue(lexical_cast<string>((short)*Container));
 	}
-//	Event.Skip();
+	return false;
 }
 
-void TextCtrl_UByte::OnKillFocus(wxFocusEvent &Event)
+bool TextCtrl_UByte::SaveEdits()
 {
+	if(Container == NULL) return false;
 	wxString Value = GetValue().c_str();
-	NoLoadList = false;
-	if(Container == NULL) NoLoadList = true;
-	else if(Value.size() > 0)
+	if(Value.size() > 0)
 	{
 		try
 		{
-		    if(*((unsigned char*)Container) != (unsigned char)lexical_cast<short>(Value))
+		    if(*Container != (unsigned char)lexical_cast<short>(Value))
 			{
 			    if(lexical_cast<short>(Value) == (unsigned char)lexical_cast<short>(Value))
 			    {
-					*((unsigned char*)Container) = (unsigned char)lexical_cast<short>(Value);
+					*Container = (unsigned char)lexical_cast<short>(Value);
+					return true;
 				}
 			    else
 			    {
-					NoLoadList = true;
 			    	wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
 			    	SetFocus();
 			    }
 			}
-			else
-			{
-			    NoLoadList = true;
-			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			NoLoadList = true;
 		    wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
 		    SetFocus();
 		}
@@ -113,30 +67,25 @@ void TextCtrl_UByte::OnKillFocus(wxFocusEvent &Event)
 	{
 		ChangeValue(lexical_cast<string>((short)*Container));
 	}
-//	Event.Skip();
+	return false;
 }
 
-void TextCtrl_Float::OnKillFocus(wxFocusEvent &Event)
+bool TextCtrl_Float::SaveEdits()
 {
+	if(Container == NULL) return false;
 	wxString Value = GetValue().c_str();
-	NoLoadList = false;
-	if(Container == NULL) NoLoadList = true;
-	else if(Value.size() > 0)
+	if(Value.size() > 0)
 	{
 		try
 	    {
-			if(*((float*)Container) != lexical_cast<float>(Value))
+			if(*Container != lexical_cast<float>(Value))
 			{
-			    *((float*)Container) = lexical_cast<float>(Value);
-			}
-			else
-			{
-				NoLoadList = true;
+			    *Container = lexical_cast<float>(Value);
+				return true;
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			NoLoadList = true;
 		    wxMessageBox("Invalid entry!\nPlease enter a valid floating point number");
 		    SetFocus();
 		}
@@ -145,30 +94,25 @@ void TextCtrl_Float::OnKillFocus(wxFocusEvent &Event)
 	{
 		ChangeValue(lexical_cast<string>(*Container));
 	}
-//	Event.Skip();
+	return false;
 }
 
-void TextCtrl_Long::OnKillFocus(wxFocusEvent &Event)
+bool TextCtrl_Long::SaveEdits()
 {
+	if(Container == NULL) return false;
 	wxString Value = GetValue().c_str();
-	NoLoadList = false;
-	if(Container == NULL) NoLoadList = true;
-	else if(Value.size() > 0)
+	if(Value.size() > 0)
 	{
 		try
 		{
-			if(*((int32_t*)Container) != lexical_cast<int32_t>(Value))
+			if(*Container != lexical_cast<int32_t>(Value))
 			{
-				*((int32_t*)Container) = lexical_cast<int32_t>(Value);
-			}
-			else
-			{
-				NoLoadList = true;
+				*Container = lexical_cast<int32_t>(Value);
+				return true;
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			NoLoadList = true;
 			wxMessageBox("Invalid entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
 			SetFocus();
 		}
@@ -177,30 +121,25 @@ void TextCtrl_Long::OnKillFocus(wxFocusEvent &Event)
 	{
 		ChangeValue(lexical_cast<string>(*Container));
 	}
-//	Event.Skip();
+	return false;
 }
 
-void TextCtrl_Short::OnKillFocus(wxFocusEvent &Event)
+bool TextCtrl_Short::SaveEdits()
 {
+	if(Container == NULL) return false;
 	wxString Value = GetValue().c_str();
-	NoLoadList = false;
-	if(Container == NULL) NoLoadList = true;
-	else if(Value.size() > 0)
+	if(Value.size() > 0)
 	{
 		try
 		{
-			if(*((int16_t*)Container) != lexical_cast<int16_t>(Value))
+			if(*Container != lexical_cast<int16_t>(Value))
 			{
-				*((int16_t*)Container) = lexical_cast<int16_t>(Value);
-			}
-			else
-			{
-				NoLoadList = true;
+				*Container = lexical_cast<int16_t>(Value);
+				return true;
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			NoLoadList = true;
 			wxMessageBox("Invalid entry!\nPlease enter a number from -32 768 to 32 767");
 			SetFocus();
 		}
@@ -209,30 +148,25 @@ void TextCtrl_Short::OnKillFocus(wxFocusEvent &Event)
 	{
 		ChangeValue(lexical_cast<string>(*Container));
 	}
-//	Event.Skip();
+	return false;
 }
 
-void TextCtrl_UShort::OnKillFocus(wxFocusEvent &Event)
+bool TextCtrl_UShort::SaveEdits()
 {
+	if(Container == NULL) return false;
 	wxString Value = GetValue().c_str();
-	NoLoadList = false;
-	if(Container == NULL) NoLoadList = true;
-	else if(Value.size() > 0)
+	if(Value.size() > 0)
 	{
 		try
 		{
-			if(*((uint16_t*)Container) != lexical_cast<uint16_t>(Value))
+			if(*Container != lexical_cast<uint16_t>(Value))
 			{
-				*((uint16_t*)Container) = lexical_cast<uint16_t>(Value);
-			}
-			else
-			{
-				NoLoadList = true;
+				*Container = lexical_cast<uint16_t>(Value);
+				return true;
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			NoLoadList = true;
 			wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 65 535");
 			SetFocus();
 		}
@@ -241,37 +175,33 @@ void TextCtrl_UShort::OnKillFocus(wxFocusEvent &Event)
 	{
 		ChangeValue(lexical_cast<string>(*Container));
 	}
-//	Event.Skip();
+	return false;
 }
 
-void TextCtrl_String::OnKillFocus(wxFocusEvent &Event)	// This may crash the program.
+bool TextCtrl_String::SaveEdits()	// This may crash the program.
 {
+	if(Container == NULL) return false;
 	wxString Value = GetValue().c_str();
-	NoLoadList = false;
-	if(Container == NULL) NoLoadList = true;
-	else if(Value.size() > 0)
+	if(Value.size() > 0)
 	{
-	    if(*((string*)Container) != Value) // Has been changed
+	    if(*Container != Value) // Has been changed
 	    {
 			if(Value.size() <= MaxSize)
 			{
-				*((string*)Container) = Value; // Update data field
+				*Container = Value; // Update data field
 			}
 			else
 			{
 				Value = Value.substr(0, MaxSize);
-				*((string*)Container) = Value;
+				*Container = Value;
 				ChangeValue(*Container);
 			}
-	    }
-	    else
-	    {
-	        NoLoadList = true;
+			return true;
 	    }
 	}
 	else
 	{
 		ChangeValue(*Container);
 	}
-//	Event.Skip();
+	return false;
 }

@@ -1837,49 +1837,43 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent &Event)
 			if(Amount > -1 && Amount < 256 && Class > -1 && Class < 256) // positive amount 0 to 255
 			{
 				Effects_D->ChangeValue(lexical_cast<string>(Amount + (Class * 256)));
-				wxFocusEvent Temp(wxEVT_KILL_FOCUS);
-				Effects_D->OnKillFocus(Temp);
+				Effects_D->SaveEdits();
 			}
 			else if(Amount > -256 && Amount < 0 && Class > -1 && Class < 256) // negative amount -255 to -1
 			{
 				Effects_D->ChangeValue(lexical_cast<string>(Amount - (Class * 256)));
-				wxFocusEvent Temp(wxEVT_KILL_FOCUS);
-				Effects_D->OnKillFocus(Temp);
+				Effects_D->SaveEdits();
 			}
 		}
 		ListEffects();
 	}
 	else if(Event.GetId() == Units_Type->GetId())
 	{
-		if(!Units_Type->IsEmpty())
+		if(!Units_Type->IsEmpty() && ((TextCtrl_Byte*)Event.GetEventObject())->SaveEdits())
 		{
-			((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
-			if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
+			short UnitType = lexical_cast<short>(Units_Type->GetValue());
+			switch(UnitType)
 			{
-				short UnitType = lexical_cast<short>(Units_Type->GetValue());
-				switch(UnitType)
+				case 10:
+				case 20:
+				case 25:
+				case 30:
+				case 40:
+				case 60:
+				case 70:
+				case 80:
+				case 90:
 				{
-					case 10:
-					case 20:
-					case 25:
-					case 30:
-					case 40:
-					case 60:
-					case 70:
-					case 80:
-					case 90:
+					GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = (char)UnitType;
+					if(AutoCopy)
 					{
-						GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = (char)UnitType;
-						if(AutoCopy)
-						{
-							for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-							GenieFile->Civs[loop].Units[UnitIDs[0]].Type = (char)UnitType;
+						for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+						GenieFile->Civs[loop].Units[UnitIDs[0]].Type = (char)UnitType;
 
-							UnitsAutoCopy();
-						}
+						UnitsAutoCopy();
 					}
-					break;
 				}
+				break;
 			}
 		}
 		wxCommandEvent E;
@@ -1911,8 +1905,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent &Event)
 			Effects_F->ChangeValue("0");
 			Effects_D->ChangeValue("0");
 		}
-		wxFocusEvent Temp(wxEVT_KILL_FOCUS);
-		Effects_D->OnKillFocus(Temp);
+		Effects_D->SaveEdits();
 
 		ListEffects();
 	}
@@ -2132,9 +2125,8 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent &Event)
 			UnitCommands_SubType->ChangeValue("-1");
 		}
 
-		wxFocusEvent Temp(wxEVT_KILL_FOCUS);
-		UnitCommands_Type->OnKillFocus(Temp);
-		UnitCommands_SubType->OnKillFocus(Temp);
+		UnitCommands_Type->SaveEdits();
+		UnitCommands_SubType->SaveEdits();
 
 		if(GameVersion > 1)
 		{
@@ -2219,8 +2211,7 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent &Event)
 
 void AGE_Frame::OnKillFocus_Byte(wxFocusEvent &Event)
 {
-	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_Byte*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == Civs_GraphicSet->GetId())
 		{
@@ -2231,8 +2222,7 @@ void AGE_Frame::OnKillFocus_Byte(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_ComboBoxByteEffectType(wxFocusEvent &Event)
 {
-	((ComboBox_Byte_EffectType*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
+	if(((ComboBox_Byte_EffectType*)((TextCtrl_Byte*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(Event.GetId() == Effects_Type->GetId())
 		{
@@ -2243,8 +2233,7 @@ void AGE_Frame::OnKillFocus_ComboBoxByteEffectType(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_CheckBoxByte(wxFocusEvent &Event)
 {
-	((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
+	if(((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(Event.GetId() == Graphics_AttackSoundUsed->GetId())
 		{
@@ -2261,8 +2250,7 @@ void AGE_Frame::OnKillFocus_CheckBoxByte(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent &Event)
 {
-	((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
+	if(((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(Event.GetId() == GraphicDeltas_GraphicID->GetId())
 		{
@@ -2277,8 +2265,7 @@ void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent &Event)
 {
-	((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
+	if(((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(Event.GetId() == TechTrees_Ages_Building->GetId())
 		{
@@ -2347,8 +2334,7 @@ void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_CheckBoxLong0Y(wxFocusEvent &Event)
 {
-	((CheckBox_Long_ZeroIsYes*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
+	if(((CheckBox_Long_ZeroIsYes*)((TextCtrl_Long*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(Event.GetId() == TerRestrict_Unknown1->GetId())
 		{
@@ -2359,8 +2345,7 @@ void AGE_Frame::OnKillFocus_CheckBoxLong0Y(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_CheckBoxFloat(wxFocusEvent &Event)
 {
-	((CheckBox_Float*)((TextCtrl_Float*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Float*)Event.GetEventObject())->NoLoadList)
+	if(((CheckBox_Float*)((TextCtrl_Float*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(Event.GetId() == TerRestrict_Accessible->GetId())
 		{
@@ -2371,8 +2356,7 @@ void AGE_Frame::OnKillFocus_CheckBoxFloat(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent &Event)
 {
-	((TextCtrl_Byte*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_Byte*)Event.GetEventObject())->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2387,8 +2371,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent &Event)
 {
-	((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
+	if(((ComboBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2399,8 +2382,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent &Event)
 {
-	((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Byte*)Event.GetEventObject())->NoLoadList)
+	if(((CheckBox_Byte*)((TextCtrl_Byte*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2411,8 +2393,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_Short(wxFocusEvent &Event)
 {
-	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_Short*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == Effects_A->GetId() || Event.GetId() == Effects_B->GetId() || Event.GetId() == Effects_C->GetId())
 		{
@@ -2427,8 +2408,7 @@ void AGE_Frame::OnKillFocus_Short(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent &Event)
 {
-	((TextCtrl_UShort*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_UShort*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_UShort*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == Research_LangDLLName->GetId())
 		{
@@ -2454,8 +2434,7 @@ void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent &Event)
 {
-	((TextCtrl_Short*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_Short*)Event.GetEventObject())->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2478,8 +2457,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent &Event)
 {
-	((TextCtrl_UShort*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_UShort*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_UShort*)Event.GetEventObject())->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2499,8 +2477,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent &Event)
 {
-	((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
+	if(((ComboBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2523,8 +2500,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent &Event)
 {
-	((CheckBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
+	if(((CheckBox_Short*)((TextCtrl_Short*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2535,8 +2511,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEvent &Event)
 {
-	((CheckBox_Short_ZeroIsYes*)((TextCtrl_Short*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Short*)Event.GetEventObject())->NoLoadList)
+	if(((CheckBox_Short_ZeroIsYes*)((TextCtrl_Short*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2547,8 +2522,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEve
 
 void AGE_Frame::OnKillFocus_Long(wxFocusEvent &Event)
 {
-	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_Long*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == TechTrees_Ages_ID->GetId())
 		{
@@ -2569,8 +2543,7 @@ void AGE_Frame::OnKillFocus_Long(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent &Event)
 {
-	((TextCtrl_Long*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_Long*)Event.GetEventObject())->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2586,8 +2559,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent &Event)
 {
-	((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->ParentContainer)->OnKillFocus(Event);
-	if(!((TextCtrl_Long*)Event.GetEventObject())->NoLoadList)
+	if(((ComboBox_Long*)((TextCtrl_Long*)Event.GetEventObject())->LinkedBox)->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2598,8 +2570,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_Float(wxFocusEvent &Event)
 {
-	((TextCtrl_Float*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Float*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_Float*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == Civs_ResourceValue->GetId())
 		{
@@ -2614,8 +2585,7 @@ void AGE_Frame::OnKillFocus_Float(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_Float(wxFocusEvent &Event)
 {
-	((TextCtrl_Float*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_Float*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_Float*)Event.GetEventObject())->SaveEdits())
 	{
 		if(AutoCopy)
 		{
@@ -2626,8 +2596,7 @@ void AGE_Frame::OnKillFocus_AutoCopy_Float(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_String(wxFocusEvent &Event)
 {
-	((TextCtrl_String*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_String*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_String*)Event.GetEventObject())->SaveEdits())
 	{
 		string ReducedName;
 		if(Event.GetId() == Research_Name[0]->GetId())
@@ -2695,8 +2664,7 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent &Event)
 {
-	((TextCtrl_String*)Event.GetEventObject())->OnKillFocus(Event);
-	if(!((TextCtrl_String*)Event.GetEventObject())->NoLoadList)
+	if(((TextCtrl_String*)Event.GetEventObject())->SaveEdits())
 	{
 		if(AutoCopy)
 		{

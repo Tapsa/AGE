@@ -376,43 +376,43 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Grid_Area1 = new wxGridSizer(4, 5, 5);
 	Terrains_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Name = new wxStaticText(Terrains_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Name = new TextCtrl_String(Terrains_Scroller, "0", NULL);
+	Terrains_Name = new TextCtrl_String(Terrains_Scroller);
 	Terrains_Holder_Name2 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Name2 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Name2 = new TextCtrl_String(Terrains_Scroller, "0", NULL);
+	Terrains_Name2 = new TextCtrl_String(Terrains_Scroller);
 	Terrains_Holder_SLP = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_SLP = new wxStaticText(Terrains_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_SLP = new TextCtrl_Long(Terrains_Scroller, "0", NULL);
+	Terrains_SLP = new TextCtrl_Long(Terrains_Scroller);
 	Terrains_Holder_SoundID = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_SoundID = new wxStaticText(Terrains_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_SoundID = new TextCtrl_Long(Terrains_Scroller, "0", NULL);
+	Terrains_SoundID = new TextCtrl_Long(Terrains_Scroller);
 	Terrains_ComboBox_SoundID = new ComboBox_Long(Terrains_Scroller, Terrains_SoundID);
 	Terrains_Holder_BlendPriority = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_BlendPriority = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Priority", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_BlendPriority = new TextCtrl_Long(Terrains_Scroller, "0", NULL);
+	Terrains_BlendPriority = new TextCtrl_Long(Terrains_Scroller);
 	Terrains_Holder_BlendType = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_BlendType = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_BlendType = new TextCtrl_Long(Terrains_Scroller, "0", NULL);
+	Terrains_BlendType = new TextCtrl_Long(Terrains_Scroller);
 	Terrains_Holder_Colors = new wxBoxSizer(wxVERTICAL);
 	Terrains_Grid_Colors = new wxGridSizer(3, 0, 0);
 	Terrains_Text_Colors = new wxStaticText(Terrains_Scroller, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < 3; loop++)
-	Terrains_Colors[loop] = new TextCtrl_UByte(Terrains_Scroller, "0", NULL);
+	Terrains_Colors[loop] = new TextCtrl_UByte(Terrains_Scroller);
 	Terrains_Holder_FrameCount = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_FrameCount = new wxStaticText(Terrains_Scroller, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_FrameCount = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_FrameCount = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Holder_TerrainReplacementID = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_TerrainReplacementID = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Replacement", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_TerrainReplacementID = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_TerrainReplacementID = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_ComboBox_TerrainReplacementID = new ComboBox_Short(Terrains_Scroller, Terrains_TerrainReplacementID);
 	Terrains_Holder_TerrainDimensions = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_TerrainDimensions = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Dimensions", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_TerrainDimensions[0] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
-	Terrains_TerrainDimensions[1] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_TerrainDimensions[0] = new TextCtrl_Short(Terrains_Scroller);
+	Terrains_TerrainDimensions[1] = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Holder_NumberOfTerrainUnitsUsed = new wxBoxSizer(wxVERTICAL);
 	Terrains_Holder_NumberOfTerrainUnitsUsed1 = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Text_NumberOfTerrainUnitsUsed = new wxStaticText(Terrains_Scroller, wxID_ANY, " Number of Terrain Units Used", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_NumberOfTerrainUnitsUsed = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_NumberOfTerrainUnitsUsed = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Holder_TerrainUnits = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Holder_TerrainUnitID = new wxBoxSizer(wxVERTICAL);
 	Terrains_Grid_TerrainUnitID = new wxGridSizer(2, 0, 0);
@@ -423,10 +423,10 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Text_TerrainUnitPriority = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit Priority *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < TERRAINUNITS; loop++)
 	{
-		Terrains_TerrainUnitID[loop] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+		Terrains_TerrainUnitID[loop] = new TextCtrl_Short(Terrains_Scroller);
 		Terrains_ComboBox_TerrainUnitID[loop] = new ComboBox_Short(Terrains_Scroller, Terrains_TerrainUnitID[loop]);
-		Terrains_TerrainUnitDensity[loop] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
-		Terrains_TerrainUnitPriority[loop] = new TextCtrl_Byte(Terrains_Scroller, "0", NULL);
+		Terrains_TerrainUnitDensity[loop] = new TextCtrl_Short(Terrains_Scroller);
+		Terrains_TerrainUnitPriority[loop] = new TextCtrl_Byte(Terrains_Scroller);
 		Terrains_TerrainUnitPriority[loop]->SetToolTip("1 prevails, others don't");
 	}
 	Terrains_Holder_TerrainBorders = new wxBoxSizer(wxVERTICAL);
@@ -434,47 +434,47 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Text_TerrainBorderID = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Borders", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < TERRAINBORDERSMAX; loop++)
 	{
-		Terrains_TerrainBorderID[loop] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+		Terrains_TerrainBorderID[loop] = new TextCtrl_Short(Terrains_Scroller);
 		Terrains_ComboBox_TerrainBorderID[loop] = new ComboBox_Short(Terrains_Scroller, Terrains_TerrainBorderID[loop]);
 	}
 	Terrains_Holder_UnknownArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Grid_Unknowns1 = new wxGridSizer(5, 5, 5);
 	Terrains_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Unknown1 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Unknown1 = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_Unknown1 = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Unknown2 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Unknown2 = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_Unknown2 = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Unknown3 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Unknown3 = new TextCtrl_Long(Terrains_Scroller, "0", NULL);
+	Terrains_Unknown3 = new TextCtrl_Long(Terrains_Scroller);
 	Terrains_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Unknown5 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Unknown5 = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_Unknown5 = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Holder_Unknown6 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Unknown6 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Unknown6 = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_Unknown6 = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Holder_Unknown8 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_Unknown8 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Angles + unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Unknown8[0] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
-	Terrains_Unknown8[1] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+	Terrains_Unknown8[0] = new TextCtrl_Short(Terrains_Scroller);
+	Terrains_Unknown8[1] = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Holder_Unknown9 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Grid_Unknown9 = new wxGridSizer(6, 0, 0);
 	Terrains_Text_Unknown9 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < 54; loop++)
 	{
-		Terrains_Unknown9[loop] = new TextCtrl_Short(Terrains_Scroller, "0", NULL);
+		Terrains_Unknown9[loop] = new TextCtrl_Short(Terrains_Scroller);
 	}
 	Terrains_Holder_Unknown7 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Grid_Unknown7 = new wxGridSizer(12, 0, 0);
 	Terrains_Text_Unknown7 = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < 23; loop++)
-	Terrains_Unknown7[loop] = new TextCtrl_Byte(Terrains_Scroller, "0", NULL);
+	Terrains_Unknown7[loop] = new TextCtrl_Byte(Terrains_Scroller);
 	Terrains_Holder_SUnknown1 = new wxBoxSizer(wxVERTICAL);
 	Terrains_Grid_SUnknown1 = new wxGridSizer(12, 0, 0);
 	Terrains_Text_SUnknown1 = new wxStaticText(Terrains_Scroller, wxID_ANY, " SW Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < 24; loop++)
-	Terrains_SUnknown1[loop] = new TextCtrl_Byte(Terrains_Scroller, "0", NULL);
+	Terrains_SUnknown1[loop] = new TextCtrl_Byte(Terrains_Scroller);
 
 	Terrains_Terrains_Buttons->Add(Terrains_Add, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Insert, 1, wxEXPAND);
