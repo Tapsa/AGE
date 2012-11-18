@@ -1,4 +1,19 @@
 
+Version [b]2.32[/b]:
+•Relocated hiding unknowns option.
+•Reformed auto-copy interface.
+
+Version [b]2.31[/b]:
+•All civilizations selectable for enabling/disabling.
+•Index fixes can be disabled.
+
+Version [b]2.30[/b]:
+•Almost completed resources list.
+•Advanced effects list.
+
+Version [b]2.29[/b]:
+•Added inserting features.
+
 Version [b]2.28[/b]:
 •Speed improvements.
 

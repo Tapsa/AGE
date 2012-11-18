@@ -118,9 +118,12 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
 		Temp.setGameVersion(GenieVersion);
-		Temp.Resources = GenieFile->Civs[1].Resources;
-		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
-		Temp.Units = GenieFile->Civs[1].Units;
+		if(GenieFile->Civs.size() > 1)
+		{
+			Temp.Resources = GenieFile->Civs[1].Resources;
+			Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
+			Temp.Units = GenieFile->Civs[1].Units;
+		}
 		GenieFile->Civs.push_back(Temp);
 		Added = true;
 		CivCountWarning();
@@ -136,9 +139,12 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
 		Temp.setGameVersion(GenieVersion);
-		Temp.Resources = GenieFile->Civs[1].Resources;
-		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
-		Temp.Units = GenieFile->Civs[1].Units;
+		if(GenieFile->Civs.size() > 1)
+		{
+			Temp.Resources = GenieFile->Civs[1].Resources;
+			Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
+			Temp.Units = GenieFile->Civs[1].Units;
+		}
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
 		CivCountWarning();
 		ListUnits(UnitCivID, false);
@@ -1189,7 +1195,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Civs = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Civilizations");
 	Civs_Civs_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Civs_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
-	Civs_Civs_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Civs_Civs_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Civs_Add = new wxButton(Tab_Civs, wxID_ANY, "Add *", wxDefaultPosition, wxSize(5, 20));
 	Civs_Add->SetToolTip("I highly recommend you to download UserPatch\nfrom xOmicron, if you play The Conquerors.\nWith it you can use added civilizations.\nStar Wars versions can already have more civilizations.");
 	Civs_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -1235,7 +1241,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Holder_ResourceValue = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_ResourceValue = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_ResourceValue = new TextCtrl_Float(Tab_Civs);
-	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
 	Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Resources_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));

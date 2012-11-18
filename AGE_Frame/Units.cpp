@@ -3264,7 +3264,7 @@ void AGE_Frame::CreateUnitControls()
 		Units_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Units_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Units_Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Units_Units_Buttons[0] = new wxGridSizer(3, 0, 0);
 	Units_Units_Buttons[1] = new wxGridSizer(4, 0, 0);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -3276,7 +3276,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Info = new wxStaticText(Tab_Units, wxID_ANY, " Info *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Info->SetToolTip("Add/Insert/Delete works for all civs.\nCopy/Paste copies/pastes from all civs if the check box below is checked.\nOtherwise Copy copies from current civ and Paste pastes according to auto-copy settings on right top.\nIn above case graphics get copied/pasted from all civs if the Including graphics check box is checked.\nS Copy/Paste and Enable/Disable works for all civs if the check box below is checked.\nOtherwise they only work for current civ.\n");
 	Units_Extract = new wxButton(Tab_Units, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
+	Units_Extract->Enable(false);
 	Units_Import = new wxButton(Tab_Units, wxID_ANY, "Import", wxDefaultPosition, wxSize(5, 20));
+	Units_Import->Enable(false);
 	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "S copy", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
@@ -3787,7 +3789,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_ListArea = new wxBoxSizer(wxVERTICAL);
 	Units_DamageGraphics_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_DamageGraphics_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-	Units_DamageGraphics_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Units_DamageGraphics_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Units_DamageGraphics_Buttons = new wxGridSizer(3, 0, 0);
 	Units_DamageGraphics_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -3829,7 +3831,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_Attacks_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_Attacks_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-	Units_Attacks_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Units_Attacks_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Units_Attacks_Buttons = new wxGridSizer(3, 0, 0);
 	Units_Attacks_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -3866,7 +3868,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_Armors_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_Armors_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-	Units_Armors_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Units_Armors_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Units_Armors_Buttons = new wxGridSizer(3, 0, 0);
 	Units_Armors_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_Armors_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -4158,7 +4160,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnitCommands = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Commands");
 	Units_UnitCommands_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_UnitCommands_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-	Units_UnitCommands_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 190), 0, wxLB_EXTENDED);
+	Units_UnitCommands_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 190), 0, NULL, wxLB_EXTENDED);
 	Units_UnitCommands_Buttons = new wxGridSizer(3, 0, 0);
 	Units_UnitCommands_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_UnitCommands_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
