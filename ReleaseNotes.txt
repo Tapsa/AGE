@@ -1,4 +1,4 @@
-[b]Advanced Genie Editor 2.41[/b]
+[b]Advanced Genie Editor 2.42[/b]
 for Age of Empires, Rise of Rome, Age of Kings, The Conquerors, Star Wars Galactic Battlegrounds and Clone Campaigns.
 
 This is a program for editing genie (.dat) files' data. It can edit units, civilizations, graphics, researches, technologies, technology trees, terrains, terrain restrictions, sounds, player colors and some other things.
@@ -13,6 +13,9 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
+
+Version [b]2.42[/b]:
+•Unlinked auto-copy from other copy buttons.
 
 Version [b]2.41[/b]:
 •Adding bugs fixed.
@@ -67,21 +70,6 @@ Version [b]2.33[/b]:
 •Upgraded units tab's layout.
 •Fixed special copy/paste without all civs.
 •Improved auto/normal copying/pasting.
-
-Version [b]2.32[/b]:
-•Relocated hiding unknowns option.
-•Reformed auto-copy interface.
-
-Version [b]2.31[/b]:
-•All civilizations selectable for enabling/disabling.
-•Index fixes can be disabled.
-
-Version [b]2.30[/b]:
-•Almost completed resources list.
-•Advanced effects list.
-
-Version [b]2.29[/b]:
-•Added inserting features.
 
 Version [b]2.0 Beta 3[/b]:
 •Original release.

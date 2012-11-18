@@ -1869,8 +1869,6 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent &Event)
 					{
 						for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 						GenieFile->Civs[loop].Units[UnitIDs[0]].Type = (char)UnitType;
-
-						UnitsAutoCopy();
 					}
 				}
 				break;

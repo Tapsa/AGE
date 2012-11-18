@@ -933,7 +933,7 @@ void AGE_Frame::OnImportUnit(wxCommandEvent &Event)
 */}
 
 void AGE_Frame::OnExtractGraphic(wxCommandEvent &Event)
-{
+{/*
 	wxFileConfig ExtractGraphic(wxEmptyString, "Tapsa", "age2eGraphic.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	try
 	{
@@ -993,10 +993,10 @@ void AGE_Frame::OnExtractGraphic(wxCommandEvent &Event)
 	{
 		ExpError(ExtractGraphic);
 	}
-}
+*/}
 
 void AGE_Frame::OnImportGraphic(wxCommandEvent &Event)
-{
+{/*
 	wxFileConfig ImportGraphic(wxEmptyString, "Tapsa", "age2eGraphic.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	try
 	{
@@ -1101,4 +1101,4 @@ void AGE_Frame::OnImportGraphic(wxCommandEvent &Event)
 	{
 		ImpError();
 	}
-}
+*/}
