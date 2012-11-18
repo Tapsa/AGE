@@ -554,27 +554,27 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	Sounds_Text_ID = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_ID = new TextCtrl_Long(Tab_Sounds, "0", NULL);
+	Sounds_ID = new TextCtrl_Long(Tab_Sounds);
 	Sounds_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
 	Sounds_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_Unknown = new TextCtrl_Long(Tab_Sounds, "0", NULL);
+	Sounds_Unknown = new TextCtrl_Long(Tab_Sounds);
 
 	SoundItems_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Name = new wxStaticText(Tab_Sounds, wxID_ANY, " Filename", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Name = new TextCtrl_String(Tab_Sounds, "0", NULL);
+	SoundItems_Name = new TextCtrl_String(Tab_Sounds);
 	SoundItems_Holder_Resource = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Resource = new wxStaticText(Tab_Sounds, wxID_ANY, " File DRS Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Resource = new TextCtrl_Long(Tab_Sounds, "0", NULL);
+	SoundItems_Resource = new TextCtrl_Long(Tab_Sounds);
 	SoundItems_Holder_Probability = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Probability = new wxStaticText(Tab_Sounds, wxID_ANY, " File Probability", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Probability = new TextCtrl_Short(Tab_Sounds, "0", NULL);
+	SoundItems_Probability = new TextCtrl_Short(Tab_Sounds);
 	SoundItems_Holder_Civ = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Civ = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Civ = new TextCtrl_Short(Tab_Sounds, "0", NULL);
+	SoundItems_Civ = new TextCtrl_Short(Tab_Sounds);
 	SoundItems_ComboBox_Civ = new ComboBox_Short(Tab_Sounds, SoundItems_Civ);
 	SoundItems_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Unknown = new TextCtrl_Short(Tab_Sounds, "0", NULL);
+	SoundItems_Unknown = new TextCtrl_Short(Tab_Sounds);
 
 	Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
 	Sounds_AllItems_Searches[0] = new wxBoxSizer(wxHORIZONTAL);

@@ -248,29 +248,29 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderEnabled = new wxBoxSizer(wxVERTICAL);
 	Borders_Holder_BorderEnabled1 = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Text_BorderEnabled = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Enabled", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderEnabled = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderEnabled = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_CheckBox_BorderEnabled = new CheckBox_Short(Tab_TerrainBorders, " Yes", Borders_BorderEnabled);
 	for(short loop=0; loop < 2; loop++)
 	{
 		Borders_Holder_BorderName[loop] = new wxBoxSizer(wxVERTICAL);
-		Borders_BorderName[loop] = new TextCtrl_String(Tab_TerrainBorders, "0", NULL, 13);
+		Borders_BorderName[loop] = new TextCtrl_String(Tab_TerrainBorders, 13);
 	}
 	Borders_Text_BorderName[0] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Text_BorderName[1] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Holder_BorderRessourceID = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderRessourceID = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderRessourceID = new TextCtrl_Long(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderRessourceID = new TextCtrl_Long(Tab_TerrainBorders);
 	Borders_Holder_BorderColors = new wxBoxSizer(wxVERTICAL);
 	Borders_Grid_BorderColors = new wxGridSizer(3, 0, 0);
 	Borders_Text_BorderColors = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < 3; loop++)
-	Borders_BorderColors[loop] = new TextCtrl_UByte(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderColors[loop] = new TextCtrl_UByte(Tab_TerrainBorders);
 	Borders_Holder_BorderFrameCount = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderFrameCount = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderFrameCount = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderFrameCount = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_Holder_BorderTerrain = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderTerrain = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderTerrain = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderTerrain = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_ComboBox_BorderTerrain = new ComboBox_Short(Tab_TerrainBorders, Borders_BorderTerrain);
 
 	Borders_FrameData = new wxBoxSizer(wxHORIZONTAL);
@@ -285,36 +285,36 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_FrameArea = new wxBoxSizer(wxVERTICAL);
 	Borders_Holder_BorderFrameID = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderFrameID = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderFrameID = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderFrameID = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_Holder_BorderFlag1 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderFlag1 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Flag 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderFlag1 = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderFlag1 = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_Holder_BorderFlag2 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderFlag2 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Flag 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderFlag2 = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderFlag2 = new TextCtrl_Short(Tab_TerrainBorders);
 
 	Borders_Unknonws = new wxGridSizer(4, 5, 5);
 	Borders_Holder_BorderUnknown3 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderUnknown3 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderUnknown3 = new TextCtrl_Long(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderUnknown3 = new TextCtrl_Long(Tab_TerrainBorders);
 	Borders_Holder_BorderUnknown4 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderUnknown4 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderUnknown4 = new TextCtrl_Long(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderUnknown4 = new TextCtrl_Long(Tab_TerrainBorders);
 	Borders_Holder_BorderUnknown5 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderUnknown5 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderUnknown5 = new TextCtrl_Byte(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderUnknown5 = new TextCtrl_Byte(Tab_TerrainBorders);
 	Borders_Holder_BorderUnknown6 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderUnknown6 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderUnknown6 = new TextCtrl_Long(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderUnknown6 = new TextCtrl_Long(Tab_TerrainBorders);
 	Borders_Holder_BorderUnknown7 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderUnknown7 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderUnknown7 = new TextCtrl_Long(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderUnknown7 = new TextCtrl_Long(Tab_TerrainBorders);
 	Borders_Holder_BorderUnknown8 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderUnknown8 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderUnknown8 = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderUnknown8 = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_Holder_BorderUnknown10 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderUnknown10 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 10", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_BorderUnknown10 = new TextCtrl_Short(Tab_TerrainBorders, "0", NULL);
+	Borders_BorderUnknown10 = new TextCtrl_Short(Tab_TerrainBorders);
 
 	for(short loop=0; loop < 2; loop++)
 	{
