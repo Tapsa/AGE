@@ -351,14 +351,14 @@ void AGE_Frame::CreateUnitLineControls()
 
 	UnitLines_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	UnitLines_Text_ID = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_ID = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
+	UnitLines_ID = new TextCtrl_Short(Tab_UnitLine);
 	UnitLines_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	UnitLines_Text_Name = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_Name = new TextCtrl_String(Tab_UnitLine, "0", NULL, 30);
+	UnitLines_Name = new TextCtrl_String(Tab_UnitLine, 30);
 
 	UnitLineUnits_Holder_Units = new wxBoxSizer(wxVERTICAL);
 	UnitLineUnits_Text_Units = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLineUnits_Units = new TextCtrl_Short(Tab_UnitLine, "0", NULL);
+	UnitLineUnits_Units = new TextCtrl_Short(Tab_UnitLine);
 	UnitLineUnits_ComboBox_Units = new ComboBox_Short(Tab_UnitLine, UnitLineUnits_Units);
 
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Add, 1, wxEXPAND);

@@ -388,22 +388,22 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Holder_Accessible = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Holder_Accessible2 = new wxBoxSizer(wxHORIZONTAL);
 	TerRestrict_Text_Accessible = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessible", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Accessible = new TextCtrl_Float(Tab_TerrainRestrictions, "0", NULL);
+	TerRestrict_Accessible = new TextCtrl_Float(Tab_TerrainRestrictions);
 	TerRestrict_CheckBox_Accessible = new CheckBox_Float(Tab_TerrainRestrictions, "Terrain Is Accessible", TerRestrict_Accessible);
 	TerRestrict_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Holder_Unknown1Sub = new wxBoxSizer(wxHORIZONTAL);
 	TerRestrict_Text_Unknown1 = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Can Be Built On", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Unknown1 = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
+	TerRestrict_Unknown1 = new TextCtrl_Long(Tab_TerrainRestrictions);
 	TerRestrict_CheckBox_Unknown1 = new CheckBox_Long_ZeroIsYes(Tab_TerrainRestrictions, "No", TerRestrict_Unknown1);
 	TerRestrict_Holder_Graphics = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Text_Graphics = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Graphics[0] = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
+	TerRestrict_Graphics[0] = new TextCtrl_Long(Tab_TerrainRestrictions);
 	TerRestrict_ComboBox_Graphics[0] = new ComboBox_Long(Tab_TerrainRestrictions, TerRestrict_Graphics[0]);
-	TerRestrict_Graphics[1] = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
+	TerRestrict_Graphics[1] = new TextCtrl_Long(Tab_TerrainRestrictions);
 	TerRestrict_ComboBox_Graphics[1] = new ComboBox_Long(Tab_TerrainRestrictions, TerRestrict_Graphics[1]);
 	TerRestrict_Holder_Amount = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Text_Amount = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Amount = new TextCtrl_Long(Tab_TerrainRestrictions, "0", NULL);
+	TerRestrict_Amount = new TextCtrl_Long(Tab_TerrainRestrictions);
 
 	TerRestrict_TerRestrict_Buttons->Add(TerRestrict_Add, 1, wxEXPAND);
 	TerRestrict_TerRestrict_Buttons->Add(TerRestrict_Insert, 1, wxEXPAND);

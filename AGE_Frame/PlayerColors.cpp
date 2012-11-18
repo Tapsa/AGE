@@ -205,16 +205,16 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Text_Unknown3 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown4 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown5 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Name = new TextCtrl_String(Tab_PlayerColors, "0", NULL, 30);
-	Colors_ID = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_Palette = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_ColorL = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_MinimapColor = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_Unknown1 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_Unknown2 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_Unknown3 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_Unknown4 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
-	Colors_Unknown5 = new TextCtrl_Long(Tab_PlayerColors, "0", NULL);
+	Colors_Name = new TextCtrl_String(Tab_PlayerColors, 30);
+	Colors_ID = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_Palette = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_ColorL = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_MinimapColor = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_Unknown1 = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_Unknown2 = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_Unknown3 = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_Unknown4 = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_Unknown5 = new TextCtrl_Long(Tab_PlayerColors);
 
 	Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Insert, 1, wxEXPAND);

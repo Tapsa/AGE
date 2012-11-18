@@ -1129,7 +1129,7 @@ void AGE_Frame::CreateTechageControls()
 
 	Techs_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Techs_Text_Name = new wxStaticText(Tab_Techs, wxID_ANY, " Technology Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Techs_Name = new TextCtrl_String(Tab_Techs, "0", NULL, 31);
+	Techs_Name = new TextCtrl_String(Tab_Techs, 31);
 
 	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects");
 	Techs_Effects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
@@ -1149,7 +1149,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_Type = new wxBoxSizer(wxVERTICAL);
 	Effects_Holder_Type2 = new wxBoxSizer(wxHORIZONTAL);
 	Effects_Text_Type = new wxStaticText(Tab_Techs, wxID_ANY, " Effect Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Type = new TextCtrl_Byte(Tab_Techs, "0", NULL);
+	Effects_Type = new TextCtrl_Byte(Tab_Techs);
 	Effects_ComboBox_Type = new ComboBox_Byte_EffectType(Tab_Techs, Effects_Type);
 	Effects_Holder_Data = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effect Attributes");
 	Effects_Holder_DataA = new wxBoxSizer(wxHORIZONTAL);
@@ -1165,14 +1165,14 @@ void AGE_Frame::CreateTechageControls()
 	Effects_Holder_E = new wxBoxSizer(wxVERTICAL);
 	Effects_Holder_F = new wxBoxSizer(wxVERTICAL);
 	Effects_Text_A = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute A ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_A = new TextCtrl_Short(Tab_Techs, "0", NULL);
+	Effects_A = new TextCtrl_Short(Tab_Techs);
 	Effects_ComboBox_A = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ComboBox_UnitsA = new ComboBox_Short(Tab_Techs, Effects_A);
 	Effects_ComboBox_ResourcesA = new ComboBox_Short(Tab_Techs, Effects_A);
 	Effects_ComboBox_ResearchsA = new ComboBox_Short(Tab_Techs, Effects_A);
 	Effects_Info_A = new wxStaticText(Tab_Techs, wxID_ANY, " Info A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_B = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute B ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_B = new TextCtrl_Short(Tab_Techs, "0", NULL);
+	Effects_B = new TextCtrl_Short(Tab_Techs);
 	Effects_ComboBox_B = new wxBoxSizer(wxHORIZONTAL);
 	Effects_CheckBox_ModeB = new CheckBox_Short(Tab_Techs, "", Effects_B);
 	Units_ComboBox_Class[2] = new ComboBox_Short(Tab_Techs, Effects_B);
@@ -1180,13 +1180,13 @@ void AGE_Frame::CreateTechageControls()
 	Effects_ComboBox_ResourcesB = new ComboBox_Short(Tab_Techs, Effects_B);
 	Effects_Info_B = new wxStaticText(Tab_Techs, wxID_ANY, " Info B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_C = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute C ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_C = new TextCtrl_Short(Tab_Techs, "0", NULL);
+	Effects_C = new TextCtrl_Short(Tab_Techs);
 	Effects_ComboBox_C = new wxBoxSizer(wxHORIZONTAL);
 	Effects_CheckBox_ModeC = new CheckBox_Short(Tab_Techs, "", Effects_C);
 	Effects_ComboBox_AttributesC = new ComboBox_Short(Tab_Techs, Effects_C);
 	Effects_Info_C = new wxStaticText(Tab_Techs, wxID_ANY, " Info C", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_D = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute D ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_D = new TextCtrl_Float(Tab_Techs, "0", NULL);
+	Effects_D = new TextCtrl_Float(Tab_Techs);
 	Effects_ComboBox_D = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ComboBox_ResearchsD = new ComboBox_Float(Tab_Techs, Effects_D);
 	Effects_Info_D = new wxStaticText(Tab_Techs, wxID_ANY, " Info D", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -1194,7 +1194,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_E = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Effects_Info_E = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_F = new wxStaticText(Tab_Techs, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_F = new TextCtrl_Short(Tab_Techs, "0", NULL);
+	Effects_F = new TextCtrl_Short(Tab_Techs);
 	Attacks_ComboBox_Class[2] = new ComboBox_Short(Tab_Techs, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Link = new wxHyperlinkCtrl(Tab_Techs, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
