@@ -731,7 +731,7 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Graphics_Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Insert = new wxButton(Tab_Graphics, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -740,7 +740,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Paste = new wxButton(Tab_Graphics, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Graphics_PasteInsert = new wxButton(Tab_Graphics, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Extract = new wxButton(Tab_Graphics, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
+	Graphics_Extract->Enable(false);
 	Graphics_Import = new wxButton(Tab_Graphics, wxID_ANY, "Import", wxDefaultPosition, wxSize(5, 20));
+	Graphics_Import->Enable(false);
 	Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 
@@ -802,7 +804,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Deltas = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Deltas");
 	Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_Deltas_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
-	Graphics_Deltas_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, wxLB_EXTENDED);
+	Graphics_Deltas_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, NULL, wxLB_EXTENDED);
 	Graphics_Deltas_Buttons = new wxGridSizer(3, 0, 0);
 	Deltas_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Deltas_Insert = new wxButton(Graphics_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -837,7 +839,7 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Unknown5 = new TextCtrl_Short(Graphics_Scroller);
 
 	Graphics_AttackSounds = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Attack Sounds");
-	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, wxLB_EXTENDED);
+	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, NULL, wxLB_EXTENDED);
 	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, 20));
 	Graphics_Holder_AngleCount = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_AngleCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Angle Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);

@@ -43,7 +43,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	DriveLetterArea = new wxBoxSizer(wxHORIZONTAL);
 	DriveLetterBox = new wxTextCtrl(this, wxID_ANY, "C", wxDefaultPosition, wxSize(50, 20));
 	WindowCountBox = new wxTextCtrl(this, wxID_ANY, "2", wxDefaultPosition, wxSize(50, 20));
-	WindowCountBox->SetToolTip("You can open multiple editors to easily copy between files (not game versions yet)\nUse the normal copy and paste buttons");
+	WindowCountBox->SetToolTip("Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
 	Radio_DatFileLocation = new wxRadioButton(this, wxID_ANY, "Compressed Dat File (*.dat):", wxDefaultPosition, wxSize(0, 20), wxRB_GROUP);
 	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Dat File (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Radio_UnzFileLocation = new wxRadioButton(this, wxID_ANY, "Decompressed Dat File (*.unz):");

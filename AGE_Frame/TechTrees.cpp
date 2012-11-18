@@ -2501,7 +2501,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Researches = new wxBoxSizer(wxVERTICAL);
 	TechTrees_MainList_Ages_Search = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_MainList_Ages_Search_R = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_MainList_Ages_List = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 200), 0, wxLB_EXTENDED);
+	TechTrees_MainList_Ages_List = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 200), 0, NULL, wxLB_EXTENDED);
 	TechTrees_MainList_Ages_Buttons = new wxGridSizer(3, 0, 0);
 	TechTrees_MainList_Ages_Add = new wxButton(TechTrees_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	TechTrees_MainList_Ages_Insert = new wxButton(TechTrees_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -2531,7 +2531,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Ages_Buildings = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Buildings");
 	TechTrees_DataList_Ages_Search_Buildings = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Ages_Search_R_Buildings = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Ages_List_Buildings = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Ages_List_Buildings = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Ages_Holder_Building = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Ages_Building = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Ages_ComboBox_Building = new ComboBox_Long(TechTrees_Scroller, TechTrees_Ages_Building);
@@ -2545,7 +2545,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Ages_Units = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Units");
 	TechTrees_DataList_Ages_Search_Units = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Ages_Search_R_Units = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Ages_List_Units = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Ages_List_Units = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Ages_Holder_Unit = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Ages_Unit = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Ages_ComboBox_Unit = new ComboBox_Long(TechTrees_Scroller, TechTrees_Ages_Unit);
@@ -2559,7 +2559,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Ages_Researches = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Researches");
 	TechTrees_DataList_Ages_Search_Researches = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Ages_Search_R_Researches = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Ages_List_Researches = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Ages_List_Researches = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Ages_Holder_Research = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Ages_Research = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Ages_ComboBox_Research = new ComboBox_Long(TechTrees_Scroller, TechTrees_Ages_Research);
@@ -2588,7 +2588,7 @@ void AGE_Frame::CreateTechTreeControls()
 		TechTrees_MainList_Buildings_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		TechTrees_MainList_Buildings_SearchFilters[loop] = new wxOwnerDrawnComboBox(TechTrees_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	TechTrees_MainList_Buildings_List = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_MainList_Buildings_List = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_MainList_Buildings_Buttons = new wxGridSizer(3, 0, 0);
 	TechTrees_MainList_Buildings_Add = new wxButton(TechTrees_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	TechTrees_MainList_Buildings_Insert = new wxButton(TechTrees_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -2661,7 +2661,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Buildings_Buildings = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Buildings");
 	TechTrees_DataList_Buildings_Search_Buildings = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Buildings_Search_R_Buildings = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Buildings_List_Buildings = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Buildings_List_Buildings = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Buildings_Holder_Building = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Buildings_Building = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Buildings_ComboBox_Building = new ComboBox_Long(TechTrees_Scroller, TechTrees_Buildings_Building);
@@ -2675,7 +2675,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Buildings_Units = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Units");
 	TechTrees_DataList_Buildings_Search_Units = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Buildings_Search_R_Units = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Buildings_List_Units = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Buildings_List_Units = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Buildings_Holder_Unit = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Buildings_Unit = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Buildings_ComboBox_Unit = new ComboBox_Long(TechTrees_Scroller, TechTrees_Buildings_Unit);
@@ -2689,7 +2689,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Buildings_Researches = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Researches");
 	TechTrees_DataList_Buildings_Search_Researches = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Buildings_Search_R_Researches = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Buildings_List_Researches = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Buildings_List_Researches = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Buildings_Holder_Research = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Buildings_Research = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Buildings_ComboBox_Research = new ComboBox_Long(TechTrees_Scroller, TechTrees_Buildings_Research);
@@ -2726,7 +2726,7 @@ void AGE_Frame::CreateTechTreeControls()
 		TechTrees_MainList_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		TechTrees_MainList_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(TechTrees_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	TechTrees_MainList_Units_List = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_MainList_Units_List = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_MainList_Units_Buttons = new wxGridSizer(3, 0, 0);
 	TechTrees_MainList_Units_Add = new wxButton(TechTrees_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	TechTrees_MainList_Units_Insert = new wxButton(TechTrees_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -2798,7 +2798,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Units_Units = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Units");
 	TechTrees_DataList_Units_Search_Units = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Units_Search_R_Units = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Units_List_Units = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Units_List_Units = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Units_Holder_Unit = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Units_Unit = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Units_ComboBox_Unit = new ComboBox_Long(TechTrees_Scroller, TechTrees_Units_Unit);
@@ -2835,7 +2835,7 @@ void AGE_Frame::CreateTechTreeControls()
 		TechTrees_MainList_Researches_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		TechTrees_MainList_Researches_SearchFilters[loop] = new wxOwnerDrawnComboBox(TechTrees_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	TechTrees_MainList_Researches_List = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_MainList_Researches_List = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_MainList_Researches_Buttons = new wxGridSizer(3, 0, 0);
 	TechTrees_MainList_Researches_Add = new wxButton(TechTrees_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	TechTrees_MainList_Researches_Insert = new wxButton(TechTrees_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -2887,7 +2887,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Researches_Buildings = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Buildings");
 	TechTrees_DataList_Researches_Search_Buildings = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Researches_Search_R_Buildings = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Researches_List_Buildings = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Researches_List_Buildings = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Researches_Holder_Building = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Researches_Building = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Researches_ComboBox_Building = new ComboBox_Long(TechTrees_Scroller, TechTrees_Researches_Building);
@@ -2901,7 +2901,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Researches_Units = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Units");
 	TechTrees_DataList_Researches_Search_Units = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Researches_Search_R_Units = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Researches_List_Units = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Researches_List_Units = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Researches_Holder_Unit = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Researches_Unit = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Researches_ComboBox_Unit = new ComboBox_Long(TechTrees_Scroller, TechTrees_Researches_Unit);
@@ -2915,7 +2915,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_DataList_Researches_Researches = new wxStaticBoxSizer(wxVERTICAL, TechTrees_Scroller, "Connected Researches");
 	TechTrees_DataList_Researches_Search_Researches = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
 	TechTrees_DataList_Researches_Search_R_Researches = new wxTextCtrl(TechTrees_Scroller, wxID_ANY);
-	TechTrees_DataList_Researches_List_Researches = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, wxLB_EXTENDED);
+	TechTrees_DataList_Researches_List_Researches = new wxListBox(TechTrees_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	TechTrees_Researches_Holder_Research = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Researches_Research = new TextCtrl_Long(TechTrees_Scroller);
 	TechTrees_Researches_ComboBox_Research = new ComboBox_Long(TechTrees_Scroller, TechTrees_Researches_Research);
