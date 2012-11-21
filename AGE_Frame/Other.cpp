@@ -98,6 +98,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.Path_LangFileLocation->SetPath(LangFileName);
 		OpenBox.Path_LangX1FileLocation->SetPath(LangX1FileName);
 		OpenBox.Path_LangX1P1FileLocation->SetPath(LangX1P1FileName);
+		OpenBox.CheckBox_LangWrite->SetValue(WriteLangs);
 
 		if(OpenBox.ShowModal() != wxID_OK) return; // What this does?
 
@@ -148,6 +149,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		LangFileName = OpenBox.Path_LangFileLocation->GetPath();
 		LangX1FileName = OpenBox.Path_LangX1FileLocation->GetPath();
 		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
+		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
 	}
 
 	switch(GameVersion)
@@ -174,75 +176,84 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		GenieVersion = genie::GV_None;
 	}
 
-	if(Lang != NULL)
+	if(WriteLangs)
 	{
-		//wxMessageBox("Resetting Lang file.");
-		delete Lang;
-		Lang = NULL;
-	}
-	if(LangX != NULL)
-	{
-		//wxMessageBox("Resetting LangX file.");
-		delete LangX;
-		LangX = NULL;
-	}
-	if(LangXP != NULL)
-	{
-		//wxMessageBox("Resetting LangXP file.");
-		delete LangXP;
-		LangXP = NULL;
+		if(Lang != NULL)
+		{
+			delete Lang;
+			Lang = NULL;
+		}
+		if(LangX != NULL)
+		{
+			delete LangX;
+			LangX = NULL;
+		}
+		if(LangXP != NULL)
+		{
+			delete LangXP;
+			LangXP = NULL;
+		}
 	}
 
 	if(LangsUsed & 1)
 	{
-		Lang = new genie::LangFile();
-		try
+		if(WriteLangs)
 		{
-			Lang->setGameVersion(GenieVersion);
-			Lang->load(LangFileName.c_str());
+			Lang = new genie::LangFile();
+			try
+			{
+				Lang->setGameVersion(GenieVersion);
+				Lang->load(LangFileName.c_str());
+			}
+			catch(std::ios_base::failure e)
+			{
+				wxMessageBox("Failed to load "+LangFileName);
+				delete Lang;
+				Lang = NULL;
+				return;
+			}
 		}
-		catch(std::ios_base::failure e)
-		{
-			wxMessageBox("Failed to load "+LangFileName);
-			delete Lang;
-			Lang = NULL;
-			return;
-		}
-		//LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
+		else LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
 	}
 	if(LangsUsed & 2)
 	{
-		LangX = new genie::LangFile();
-		try
+		if(WriteLangs)
 		{
-			LangX->setGameVersion(GenieVersion);
-			LangX->load(LangX1FileName.c_str());
+			LangX = new genie::LangFile();
+			try
+			{
+				LangX->setGameVersion(GenieVersion);
+				LangX->load(LangX1FileName.c_str());
+			}
+			catch(std::ios_base::failure e)
+			{
+				wxMessageBox("Failed to load "+LangX1FileName);
+				delete LangX;
+				LangX = NULL;
+				return;
+			}
 		}
-		catch(std::ios_base::failure e)
-		{
-			wxMessageBox("Failed to load "+LangX1FileName);
-			delete LangX;
-			LangX = NULL;
-			return;
-		}
-		//LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
+		else LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
 	}
 	if(LangsUsed & 4)
 	{
-		LangXP = new genie::LangFile();
-		try
+		if(WriteLangs)
 		{
-			LangXP->setGameVersion(GenieVersion);
-			LangXP->load(LangX1P1FileName.c_str());
+			LangXP = new genie::LangFile();
+			try
+			{
+				LangXP->setGameVersion(GenieVersion);
+				LangXP->load(LangX1P1FileName.c_str());
+			}
+			catch(std::ios_base::failure e)
+			{
+				wxMessageBox("Failed to load "+LangX1P1FileName);
+				delete LangXP;
+				LangXP = NULL;
+				return;
+			}
 		}
-		catch(std::ios_base::failure e)
-		{
-			wxMessageBox("Failed to load "+LangX1P1FileName);
-			delete LangXP;
-			LangXP = NULL;
-			return;
-		}
-		//LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
+		else LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
 	}
 
 	switch(DatUsed)
@@ -1466,42 +1477,6 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	SetStatusText("", 0);
 }
 
-void AGE_Frame::OnExit(wxCloseEvent &Event)
-{
-	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
-	Config->Write("Interaction/AutoCopy", AutoCopy);
-	Config->Write("Interaction/CopyGraphics", CopyGraphics);
-	Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
-	Config->Write("Interaction/EnableIDFix", EnableIDFix);
-	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
-	Config->Write("Interface/ShowButtons", ShowButtons);
-	if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
-	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
-	Config->Write("DefaultFiles/Version", GameVersion);
-	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
-	Config->Write("DefaultFiles/DatUsed", DatUsed);
-	Config->Write("DefaultFiles/DatFilename", DatFileName);
-	Config->Write("DefaultFiles/ApfFilename", ApfFileName);
-	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
-	Config->Write("DefaultFiles/SaveApfFilename", SaveApfFileName);
-	Config->Write("DefaultFiles/LangsUsed", LangsUsed);
-	Config->Write("DefaultFiles/LangWriteMode", LangWriteMode);
-	Config->Write("DefaultFiles/LangFilename", LangFileName);
-	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
-	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
-	Config->Write("DefaultFiles/SaveDat", SaveDat);
-	Config->Write("DefaultFiles/SaveApf", SaveApf);
-	delete Config;
-
-	delete GenieFile;
-	GenieFile = NULL;
-
-	TabBar_Main->Show(false);
-	TabBar_Main->Destroy();
-	Destroy();
-}
-
 void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
 {
 	if(Event.GetId() == Units_AutoCopy->GetId())
@@ -1702,20 +1677,22 @@ bool AGE_Frame::FileExists(const char * value)
 
 string AGE_Frame::LangDLLstring(int ID, int Letters)
 {
+	if(ID < 0) return "";
 	string Result = "";
-	if(ID >= 0)
+	if(WriteLangs)
 	{
-		/*char Buffer[Letters];
-		if((LangsUsed & 4) && LoadStringA(LanguageDLL[2], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
-		else if((LangsUsed & 2) && LoadStringA(LanguageDLL[1], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
-		else if((LangsUsed & 1) && LoadStringA(LanguageDLL[0], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;*/
-
 		if((LangsUsed & 4) && (Result = LangXP->getString(ID)) != ""){}
 		else if((LangsUsed & 2) && (Result = LangX->getString(ID)) != ""){}
 		else if((LangsUsed & 1) && (Result = Lang->getString(ID)) != ""){}
-		return Result;
 	}
-	return "";
+	else
+	{
+		char Buffer[Letters];
+		if((LangsUsed & 4) && LoadStringA(LanguageDLL[2], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
+		else if((LangsUsed & 2) && LoadStringA(LanguageDLL[1], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
+		else if((LangsUsed & 1) && LoadStringA(LanguageDLL[0], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
+	}
+	return Result;
 }
 
 void AGE_Frame::WriteLangDLLstring(int ID, wxString Name)
@@ -2933,6 +2910,48 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 			SubSearch->SetValue(SubText);
 		}
 	}
+}
+
+void AGE_Frame::OnExit(wxCloseEvent &Event)
+{
+	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
+	Config->Write("Interaction/AutoCopy", AutoCopy);
+	Config->Write("Interaction/CopyGraphics", CopyGraphics);
+	Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
+	Config->Write("Interaction/EnableIDFix", EnableIDFix);
+	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
+	Config->Write("Interface/ShowButtons", ShowButtons);
+	if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
+	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
+	Config->Write("DefaultFiles/Version", GameVersion);
+	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
+	Config->Write("DefaultFiles/DatUsed", DatUsed);
+	Config->Write("DefaultFiles/DatFilename", DatFileName);
+	Config->Write("DefaultFiles/ApfFilename", ApfFileName);
+	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
+	Config->Write("DefaultFiles/SaveApfFilename", SaveApfFileName);
+	Config->Write("DefaultFiles/LangsUsed", LangsUsed);
+	Config->Write("DefaultFiles/WriteLangs", WriteLangs);
+	Config->Write("DefaultFiles/LangWriteMode", LangWriteMode);
+	Config->Write("DefaultFiles/LangFilename", LangFileName);
+	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
+	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
+	Config->Write("DefaultFiles/SaveDat", SaveDat);
+	Config->Write("DefaultFiles/SaveApf", SaveApf);
+	delete Config;
+
+	delete GenieFile;
+	if(WriteLangs)
+	{
+		delete Lang;
+		delete LangX;
+		delete LangXP;
+	}
+
+	TabBar_Main->Show(false);
+	TabBar_Main->Destroy();
+	Destroy();
 }
 
 AGE_Frame::~AGE_Frame()

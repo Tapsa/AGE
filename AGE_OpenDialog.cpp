@@ -70,6 +70,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	CheckBox_LangX1P1FileLocation = new wxCheckBox(this, wxID_ANY, "Language_x1_p1.dll location:");
 	CheckBox_LangX1P1FileLocation->SetValue(true);
 	Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Write language files *");
+	CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental\nand affects reading too");
 
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -98,6 +100,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenLayout->Add(Path_LangX1FileLocation, 1, wxEXPAND);
 	OpenLayout->Add(CheckBox_LangX1P1FileLocation, 1, wxEXPAND);
 	OpenLayout->Add(Path_LangX1P1FileLocation, 1, wxEXPAND);
+	OpenLayout->Add(CheckBox_LangWrite, 1, wxEXPAND);
+	OpenLayout->AddSpacer(15);
 	OpenLayout->AddSpacer(15);
 	OpenLayout->AddSpacer(15);
 

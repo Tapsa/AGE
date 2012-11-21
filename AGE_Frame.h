@@ -696,7 +696,7 @@ class AGE_Frame: public wxFrame
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool Added, SaveDat, SaveApf;
+	bool Added, SaveDat, SaveApf, WriteLangs;
 	short AGEwindow;
 	int SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion;
 	genie::GameVersion GenieVersion;
@@ -711,7 +711,7 @@ class AGE_Frame: public wxFrame
 	wxString LangX1FileName;
 	wxString LangX1P1FileName;
 
-	//HINSTANCE LanguageDLL[3];
+	HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters);
 	void WriteLangDLLstring(int ID, wxString Name);
 
