@@ -176,23 +176,20 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		GenieVersion = genie::GV_None;
 	}
 
-	if(WriteLangs)
+	if(Lang != NULL)
 	{
-		if(Lang != NULL)
-		{
-			delete Lang;
-			Lang = NULL;
-		}
-		if(LangX != NULL)
-		{
-			delete LangX;
-			LangX = NULL;
-		}
-		if(LangXP != NULL)
-		{
-			delete LangXP;
-			LangXP = NULL;
-		}
+		delete Lang;
+		Lang = NULL;
+	}
+	if(LangX != NULL)
+	{
+		delete LangX;
+		LangX = NULL;
+	}
+	if(LangXP != NULL)
+	{
+		delete LangXP;
+		LangXP = NULL;
 	}
 
 	if(LangsUsed & 1)
@@ -202,7 +199,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Lang = new genie::LangFile();
 			try
 			{
-				Lang->setGameVersion(GenieVersion);
 				Lang->load(LangFileName.c_str());
 			}
 			catch(std::ios_base::failure e)
@@ -222,7 +218,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			LangX = new genie::LangFile();
 			try
 			{
-				LangX->setGameVersion(GenieVersion);
 				LangX->load(LangX1FileName.c_str());
 			}
 			catch(std::ios_base::failure e)
@@ -242,7 +237,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			LangXP = new genie::LangFile();
 			try
 			{
-				LangXP->setGameVersion(GenieVersion);
 				LangXP->load(LangX1P1FileName.c_str());
 			}
 			catch(std::ios_base::failure e)
