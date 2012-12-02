@@ -788,7 +788,8 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Borders_DataTopRow;
 	wxGridSizer *Borders_Data1;
 	wxBoxSizer *Borders_FrameData;
-	wxStaticBoxSizer *Borders_Frames;
+	wxStaticBoxSizer *Borders_Holder_Frames;
+	wxBoxSizer *Borders_Frames;
 	wxGridSizer *Borders_Frames_Buttons;
 	wxTextCtrl *Borders_Frames_Search;
 	wxTextCtrl *Borders_Frames_Search_R;
@@ -2168,7 +2169,7 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Short *Graphics_ID;
 	TextCtrl_Short *Graphics_TypeS;
 
-	wxStaticBoxSizer *Graphics_Deltas;
+	wxBoxSizer *Graphics_Deltas;
 	wxTextCtrl *Graphics_Deltas_Search;
 	wxTextCtrl *Graphics_Deltas_Search_R;
 	wxListBox *Graphics_Deltas_List;
@@ -2179,16 +2180,15 @@ class AGE_Frame: public wxFrame
 	wxButton *Deltas_Copy;
 	wxButton *Deltas_Paste;
 	wxButton *Deltas_PasteInsert;
-	wxStaticBoxSizer *Graphics_AttackSounds;
+	wxBoxSizer *Graphics_AttackSounds;
 	wxListBox *Graphics_AttackSounds_List;
 	wxButton *AttackSounds_Copy;
 
-	wxBoxSizer *Graphics_Holder_Deltas;
+	wxStaticBoxSizer *Graphics_Holder_Deltas;
 	wxBoxSizer *Graphics_Holder_Deltas_Data;
 	wxBoxSizer *Graphics_Holder_Deltas_Data1;
 	wxGridSizer *Graphics_Grid_Deltas_Data2;
-	wxBoxSizer *Graphics_Holder_AttackSoundArea;
-	wxBoxSizer *Graphics_Holder_AttackSounds_Data;
+	wxStaticBoxSizer *Graphics_Holder_AttackSoundArea;
 
 	wxBoxSizer *GraphicDeltas_Holder_GraphicID;
 	wxStaticText *GraphicDeltas_Text_GraphicID;
