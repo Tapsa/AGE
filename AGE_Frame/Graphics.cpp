@@ -801,7 +801,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Grid_1 = new wxGridSizer(4, 5, 5);
 	Graphics_Grid_2 = new wxGridSizer(4, 5, 5);
 
-	Graphics_Deltas = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Deltas");
+	Graphics_Deltas = new wxBoxSizer(wxVERTICAL);
 	Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_Deltas_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
 	Graphics_Deltas_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, NULL, wxLB_EXTENDED);
@@ -838,7 +838,7 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Text_Unknown5 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_Unknown5 = new TextCtrl_Short(Graphics_Scroller);
 
-	Graphics_AttackSounds = new wxStaticBoxSizer(wxVERTICAL, Graphics_Scroller, "Attack Sounds");
+	Graphics_AttackSounds = new wxBoxSizer(wxVERTICAL);
 	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, NULL, wxLB_EXTENDED);
 	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, 20));
 	Graphics_Holder_AngleCount = new wxBoxSizer(wxVERTICAL);
@@ -879,12 +879,11 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_Unknown4 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Unknown4 = new TextCtrl_Byte(Graphics_Scroller);
 
-	Graphics_Holder_Deltas = new wxBoxSizer(wxHORIZONTAL);
+	Graphics_Holder_Deltas = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Deltas");
 	Graphics_Holder_Deltas_Data = new wxBoxSizer(wxVERTICAL);
 	Graphics_Holder_Deltas_Data1 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Grid_Deltas_Data2 = new wxGridSizer(3, 5, 5);
-	Graphics_Holder_AttackSoundArea = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_Holder_AttackSounds_Data = new wxBoxSizer(wxVERTICAL);
+	Graphics_Holder_AttackSoundArea = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Attack Sounds");
 
 	for(short loop=0; loop < 2; loop++)
 	{
@@ -1080,15 +1079,11 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_4->Add(Graphics_Holder_AngleCount, 1, wxEXPAND);
 	Graphics_Holder_4->Add(5, -1);
 	Graphics_Holder_4->Add(Graphics_Holder_AttackSoundUsed, 1, wxEXPAND);
-	Graphics_Holder_4->AddStretchSpacer(1);
-
-	Graphics_Holder_AttackSounds_Data->Add(Graphics_Holder_4, 0, wxEXPAND);
-	Graphics_Holder_AttackSounds_Data->Add(-1, 5);
-	Graphics_Holder_AttackSounds_Data->Add(Graphics_Holder_5, 0, wxEXPAND);
+	Graphics_Holder_4->AddStretchSpacer(2);
 
 	Graphics_Holder_AttackSoundArea->Add(Graphics_AttackSounds, 1, wxEXPAND);
 	Graphics_Holder_AttackSoundArea->Add(5, -1);
-	Graphics_Holder_AttackSoundArea->Add(Graphics_Holder_AttackSounds_Data, 3, wxEXPAND);
+	Graphics_Holder_AttackSoundArea->Add(Graphics_Holder_5, 3, wxEXPAND);
 
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_NameArea, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
@@ -1096,11 +1091,13 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Grid_2, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
+	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Coordinates, 0, wxEXPAND);
+	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Deltas, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_AttackSoundArea, 0, wxEXPAND);
+	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_4, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Coordinates, 0, wxEXPAND);
+	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_AttackSoundArea, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Unknowns, 0, wxEXPAND);
 
