@@ -274,7 +274,8 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_ComboBox_BorderTerrain = new ComboBox_Short(Tab_TerrainBorders, Borders_BorderTerrain);
 
 	Borders_FrameData = new wxBoxSizer(wxHORIZONTAL);
-	Borders_Frames = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainBorders, "Frames");
+	Borders_Holder_Frames = new wxStaticBoxSizer(wxHORIZONTAL, Tab_TerrainBorders, "Frames");
+	Borders_Frames = new wxBoxSizer(wxVERTICAL);
 	Borders_Frames_Buttons = new wxGridSizer(2, 0, 0);
 	Borders_Frames_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_Frames_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
@@ -402,9 +403,10 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_FrameArea->Add(-1, 5);
 	Borders_Holder_FrameArea->Add(Borders_Holder_BorderFlag2, 0, wxEXPAND);
 
-	Borders_FrameData->Add(Borders_Frames, 3, wxEXPAND);
-	Borders_FrameData->Add(5, -1);
-	Borders_FrameData->Add(Borders_Holder_FrameArea, 2, wxEXPAND);
+	Borders_Holder_Frames->Add(Borders_Frames, 3, wxEXPAND);
+	Borders_Holder_Frames->Add(5, -1);
+	Borders_Holder_Frames->Add(Borders_Holder_FrameArea, 2, wxEXPAND);
+	Borders_FrameData->Add(Borders_Holder_Frames, 5, wxEXPAND);
 	Borders_FrameData->AddStretchSpacer(3);
 
 	Borders_Unknonws->Add(Borders_Holder_BorderUnknown3, 1, wxEXPAND);
