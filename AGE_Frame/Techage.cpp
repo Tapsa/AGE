@@ -65,7 +65,7 @@ void AGE_Frame::OnTechageRename(wxCommandEvent &Event)
 			{
 				GenieFile->Techages[CivTechTreeID].Name = CivName+" Tech. Tree"; // Under 31 chars.
 			}
-			else if(CivTeamBonusID > 0)
+			if(CivTeamBonusID > 0)
 			{
 				GenieFile->Techages[CivTeamBonusID].Name = CivName+" Team Bonus"; // Under 31 chars.
 			}
