@@ -1,4 +1,14 @@
 
+Version [b]2.34[/b]:
+•Corrected attributes 105 and 106.
+•Another fix.
+
+Version [b]2.33[/b]:
+•Upgraded auto-copy interface.
+•Upgraded units tab's layout.
+•Fixed special copy/paste without all civs.
+•Improved auto/normal copying/pasting.
+
 Version [b]2.32[/b]:
 •Relocated hiding unknowns option.
 •Reformed auto-copy interface.
