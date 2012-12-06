@@ -90,9 +90,9 @@ void AGE_Frame::OnResearchSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListResearches(bool Sized)
 {
-	wxString Name, CompareText;
-	SearchText = Research_Research_Search->GetValue().Lower();
-	ExcludeText = Research_Research_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Research_Research_Search->GetValue().Lower();
+	excludeText = Research_Research_Search_R->GetValue().Lower();
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 
@@ -203,8 +203,7 @@ void AGE_Frame::ListResearches(bool Sized)
 	for(short loop=0; loop < GenieFile->Researchs.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);
 		}

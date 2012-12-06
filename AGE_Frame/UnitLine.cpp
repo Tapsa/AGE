@@ -15,9 +15,9 @@ void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitLines()
 {
-	wxString Name, CompareText;
-	SearchText = UnitLines_UnitLines_Search->GetValue().Lower();
-	ExcludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = UnitLines_UnitLines_Search->GetValue().Lower();
+	excludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
 
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	short UnitIDs = Units_ComboBox_Unitline->GetSelection();
@@ -41,8 +41,7 @@ void AGE_Frame::ListUnitLines()
 	for(short loop=0; loop < GenieFile->UnitLines.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			UnitLines_UnitLines_List->Append(Name, (void*)&GenieFile->UnitLines[loop]);
 		}
@@ -198,9 +197,9 @@ void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitLineUnits()
 {
-	wxString Name, CompareText;
-	SearchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
-	ExcludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
+	excludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
 
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(UnitLines_UnitLineUnits_List->GetCount() > 0) UnitLines_UnitLineUnits_List->Clear();
@@ -208,8 +207,7 @@ void AGE_Frame::ListUnitLineUnits()
 	for(short loop=0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		}

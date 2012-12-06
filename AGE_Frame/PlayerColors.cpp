@@ -10,9 +10,9 @@ string AGE_Frame::GetPlayerColorName(short &Index)
 
 void AGE_Frame::ListPlayerColors()
 {
-	wxString Name, CompareText;
-	SearchText = Colors_Colors_Search->GetValue().Lower();
-	ExcludeText = Colors_Colors_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Colors_Colors_Search->GetValue().Lower();
+	excludeText = Colors_Colors_Search_R->GetValue().Lower();
 
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	if(Colors_Colors_List->GetCount() > 0) Colors_Colors_List->Clear();
@@ -20,8 +20,7 @@ void AGE_Frame::ListPlayerColors()
 	for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
 		}

@@ -137,9 +137,9 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnits(short &civ, bool Sized)
 {
-	wxString Name, CompareText;
-	SearchText = Units_Units_Search->GetValue().Lower();
-	ExcludeText = Units_Units_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Units_Units_Search->GetValue().Lower();
+	excludeText = Units_Units_Search_R->GetValue().Lower();
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Units_Units_UseAnd[loop]->GetValue();
 
@@ -349,8 +349,7 @@ void AGE_Frame::ListUnits(short &civ, bool Sized)
 	for(short loop=0; loop < GenieFile->Civs[civ].Units.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, civ, true);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[civ].Units[loop]);
 		}
@@ -2018,9 +2017,9 @@ void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitDamageGraphics()
 {
-	wxString Name, CompareText;
-	SearchText = Units_DamageGraphics_Search->GetValue().Lower();
-	ExcludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Units_DamageGraphics_Search->GetValue().Lower();
+	excludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
 
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Units_DamageGraphics_List->GetCount() > 0) Units_DamageGraphics_List->Clear();
@@ -2028,8 +2027,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[loop]);
 		}
@@ -2205,9 +2203,9 @@ void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitAttacks()
 {
-	wxString Name, CompareText;
-	SearchText = Units_Attacks_Search->GetValue().Lower();
-	ExcludeText = Units_Attacks_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Units_Attacks_Search->GetValue().Lower();
+	excludeText = Units_Attacks_Search_R->GetValue().Lower();
 
 	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Units_Attacks_List->GetCount() > 0) Units_Attacks_List->Clear();
@@ -2218,8 +2216,7 @@ void AGE_Frame::ListUnitAttacks()
 		for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.size(); loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
-			CompareText = Name.Lower();
-			if(SearchMatches(CompareText))
+				if(SearchMatches(Name.Lower()))
 			{
 				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[loop]);
 			}
@@ -2394,9 +2391,9 @@ void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitArmors()
 {
-	wxString Name, CompareText;
-	SearchText = Units_Armors_Search->GetValue().Lower();
-	ExcludeText = Units_Armors_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Units_Armors_Search->GetValue().Lower();
+	excludeText = Units_Armors_Search_R->GetValue().Lower();
 
 	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Units_Armors_List->GetCount() > 0) Units_Armors_List->Clear();
@@ -2407,8 +2404,7 @@ void AGE_Frame::ListUnitArmors()
 		for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.size(); loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
-			CompareText = Name.Lower();
-			if(SearchMatches(CompareText))
+				if(SearchMatches(Name.Lower()))
 			{
 				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[loop]);
 			}
@@ -2700,9 +2696,9 @@ void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitCommands()
 {
-	wxString Name, CompareText;
-	SearchText = Units_UnitCommands_Search->GetValue().Lower();
-	ExcludeText = Units_UnitCommands_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Units_UnitCommands_Search->GetValue().Lower();
+	excludeText = Units_UnitCommands_Search_R->GetValue().Lower();
 
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
 	if(Units_UnitCommands_List->GetCount() > 0) Units_UnitCommands_List->Clear();
@@ -2712,8 +2708,7 @@ void AGE_Frame::ListUnitCommands()
 		for(short loop=0; loop < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
-			CompareText = Name.Lower();
-			if(SearchMatches(CompareText))
+				if(SearchMatches(Name.Lower()))
 			{
 				Units_UnitCommands_List->Append(Name, (void*)&GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop]);
 			}
@@ -2727,8 +2722,7 @@ void AGE_Frame::ListUnitCommands()
 			for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size(); loop++)
 			{
 				Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
-				CompareText = Name.Lower();
-				if(SearchMatches(CompareText))
+						if(SearchMatches(Name.Lower()))
 				{
 					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop]);
 				}

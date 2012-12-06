@@ -153,12 +153,8 @@ class AGE_Frame: public wxFrame
 //	Other Methods
 
 //	bool FileExists(const char *value);
-	wxString SearchText, ExcludeText;
-	vector<wxString> SearchEnd;
-	size_t Found; // Founding position.
-	bool Matches, And[2];
-	short Splits;
-	bool SearchMatches(wxString &CompareText);
+	wxString searchText, excludeText;
+	bool SearchMatches(wxString CompareText);
 	void ListingFix(int &Selections, wxListBox* &List);
 	void UnitLangDLLConverter(wxCommandEvent &Event);
 	void ResearchLangDLLConverter(wxCommandEvent &Event);
