@@ -43,39 +43,46 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		ColorIDs.resize(Selections);
+		Colors_Unknown1->resize(Selections);
 		genie::PlayerColour * PlayerColorPointer;
 		for(short loop = Selections; loop--> 0;)
 		{
 			PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
 			ColorIDs[loop] = (PlayerColorPointer - (&GenieFile->PlayerColours[0]));
-		}
-		Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
-		Colors_ID->Container = &PlayerColorPointer->ID;
-		Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
-		Colors_ColorL->Container = &PlayerColorPointer->Colour;
-		if(GameVersion < 2)	//	AoE and RoR
-		{
-			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
-			Colors_Name->ChangeValue(PlayerColorPointer->Name);
-			Colors_Name->Container = &PlayerColorPointer->Name;
-		}
-		else	//	Above AoE and RoR
-		{
-			Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
-			Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
-			Colors_Palette->Container = &PlayerColorPointer->Palette;
-			Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
-			Colors_MinimapColor->Container = &PlayerColorPointer->MinimapColour;
-			Colors_Unknown1->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown1));
-			Colors_Unknown1->Container = &PlayerColorPointer->Unknown1;
-			Colors_Unknown2->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown2));
-			Colors_Unknown2->Container = &PlayerColorPointer->Unknown2;
-			Colors_Unknown3->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown3));
-			Colors_Unknown3->Container = &PlayerColorPointer->Unknown3;
-			Colors_Unknown4->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown4));
-			Colors_Unknown4->Container = &PlayerColorPointer->Unknown4;
-			Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
-			Colors_Unknown5->Container = &PlayerColorPointer->Unknown5;
+			if(GameVersion >= 2)
+			{
+				Colors_Unknown1->container[loop] = &PlayerColorPointer->Unknown1;
+			}
+			if(loop == 0)
+			{
+				Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
+				Colors_ID->Container = &PlayerColorPointer->ID;
+				Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
+				Colors_ColorL->Container = &PlayerColorPointer->Colour;
+				if(GameVersion < 2)	//	AoE and RoR
+				{
+					Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
+					Colors_Name->ChangeValue(PlayerColorPointer->Name);
+					Colors_Name->Container = &PlayerColorPointer->Name;
+				}
+				else	//	Above AoE and RoR
+				{
+					Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
+					Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
+					Colors_Palette->Container = &PlayerColorPointer->Palette;
+					Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
+					Colors_MinimapColor->Container = &PlayerColorPointer->MinimapColour;
+					Colors_Unknown1->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown1));
+					Colors_Unknown2->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown2));
+					Colors_Unknown2->Container = &PlayerColorPointer->Unknown2;
+					Colors_Unknown3->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown3));
+					Colors_Unknown3->Container = &PlayerColorPointer->Unknown3;
+					Colors_Unknown4->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown4));
+					Colors_Unknown4->Container = &PlayerColorPointer->Unknown4;
+					Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
+					Colors_Unknown5->Container = &PlayerColorPointer->Unknown5;
+				}
+			}
 		}
 	}
 }
@@ -209,7 +216,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Palette = new TextCtrl_Long(Tab_PlayerColors);
 	Colors_ColorL = new TextCtrl_Long(Tab_PlayerColors);
 	Colors_MinimapColor = new TextCtrl_Long(Tab_PlayerColors);
-	Colors_Unknown1 = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_Unknown1 = new TextCtrl_LongMulti(Tab_PlayerColors);
 	Colors_Unknown2 = new TextCtrl_Long(Tab_PlayerColors);
 	Colors_Unknown3 = new TextCtrl_Long(Tab_PlayerColors);
 	Colors_Unknown4 = new TextCtrl_Long(Tab_PlayerColors);
