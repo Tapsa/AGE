@@ -1,5 +1,6 @@
 #include "Common.h"
 using std::string;
+using std::vector;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
@@ -98,6 +99,30 @@ class TextCtrl_Long: public wxTextCtrl
 //	Member Variables
 
 	int32_t *Container;
+	void *LinkedBox;
+};
+
+class TextCtrl_LongMulti: public wxTextCtrl
+{
+	public:
+
+	TextCtrl_LongMulti(wxWindow *parent):
+	wxTextCtrl(parent, wxID_ANY, "0", wxDefaultPosition, wxSize(0, 20))
+	{
+		container.resize(1);
+		SetBackgroundColour(wxColour(255, 128, 128));
+		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_LongMulti::OnKillFocus));
+	}
+
+//	Events
+
+	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
+	bool SaveEdits();
+	void resize(int size){container.resize(size);}
+
+//	Member Variables
+
+	vector<int32_t*> container;
 	void *LinkedBox;
 };
 
