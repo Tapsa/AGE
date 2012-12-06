@@ -124,6 +124,36 @@ bool TextCtrl_Long::SaveEdits()
 	return false;
 }
 
+bool TextCtrl_LongMulti::SaveEdits()
+{
+	if(container.size() < 1) return false;
+	wxString Value = GetValue().c_str();
+	if(Value.size() > 0)
+	{
+		try
+		{
+			if(*container[0] != lexical_cast<int32_t>(Value))
+			{
+				for(short loop=0; loop<container.size(); loop++)
+				{
+					*container[loop] = lexical_cast<int32_t>(Value);
+				}
+				return true;
+			}
+		}
+		catch(bad_lexical_cast e)
+		{
+			wxMessageBox("Invalid entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
+			SetFocus();
+		}
+	}
+	else
+	{
+		ChangeValue(lexical_cast<string>(*container[0]));
+	}
+	return false;
+}
+
 bool TextCtrl_Short::SaveEdits()
 {
 	if(Container == NULL) return false;
