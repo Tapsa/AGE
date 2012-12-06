@@ -94,9 +94,9 @@ void AGE_Frame::OnGraphicsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListGraphics(bool Sized)
 {
-	wxString Name, CompareText;
-	SearchText = Graphics_Graphics_Search->GetValue().Lower();
-	ExcludeText = Graphics_Graphics_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Graphics_Graphics_Search->GetValue().Lower();
+	excludeText = Graphics_Graphics_Search_R->GetValue().Lower();
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
@@ -205,8 +205,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 	for(short loop=0; loop < GenieFile->Graphics.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
 		}
@@ -482,9 +481,9 @@ void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListGraphicDeltas()
 {
-	wxString Name, CompareText;
-	SearchText = Graphics_Deltas_Search->GetValue().Lower();
-	ExcludeText = Graphics_Deltas_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Graphics_Deltas_Search->GetValue().Lower();
+	excludeText = Graphics_Deltas_Search_R->GetValue().Lower();
 
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	if(Graphics_Deltas_List->GetCount() > 0) Graphics_Deltas_List->Clear();
@@ -492,8 +491,7 @@ void AGE_Frame::ListGraphicDeltas()
 	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].Deltas[loop]);
 		}

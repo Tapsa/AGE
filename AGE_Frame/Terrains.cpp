@@ -15,9 +15,9 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTerrains(bool Sized)
 {
-	wxString Name, CompareText;
-	SearchText = Terrains_Terrains_Search->GetValue().Lower();
-	ExcludeText = Terrains_Terrains_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Terrains_Terrains_Search->GetValue().Lower();
+	excludeText = Terrains_Terrains_Search_R->GetValue().Lower();
 
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Terrains_Terrains_List->GetCount() > 0) Terrains_Terrains_List->Clear();
@@ -79,8 +79,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	for(short loop=0; loop < GenieFile->Terrains.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}
@@ -113,8 +112,8 @@ void AGE_Frame::ListTerrains(bool Sized)
 	wxCommandEvent E;
 	OnTerrainsSelect(E);
 
-	SearchText = TerRestrict_Terrains_Search->GetValue().Lower();
-	ExcludeText = TerRestrict_Terrains_Search_R->GetValue().Lower();
+	searchText = TerRestrict_Terrains_Search->GetValue().Lower();
+	excludeText = TerRestrict_Terrains_Search_R->GetValue().Lower();
 
 	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items);
 	if(TerRestrict_Terrains_List->GetCount() > 0) TerRestrict_Terrains_List->Clear();
@@ -125,8 +124,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 		if(GameVersion >= 2)
 		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
 		}

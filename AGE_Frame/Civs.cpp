@@ -13,9 +13,9 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListCivs(bool Sized)
 {
-	wxString Name, CompareText;
-	SearchText = Civs_Civs_Search->GetValue().Lower();
-	ExcludeText = Civs_Civs_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Civs_Civs_Search->GetValue().Lower();
+	excludeText = Civs_Civs_Search_R->GetValue().Lower();
 
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Civs_Civs_List->GetCount() > 0) Civs_Civs_List->Clear();
@@ -46,8 +46,7 @@ void AGE_Frame::ListCivs(bool Sized)
 	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetCivName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Civs_Civs_List->Append(Name, (void*)&GenieFile->Civs[loop]);
 		}
@@ -953,9 +952,9 @@ void AGE_Frame::OnResourcesSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListResources(bool Sized)
 {
-	wxString Name, CompareText;
-	SearchText = Civs_Resources_Search->GetValue().Lower();
-	ExcludeText = Civs_Resources_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = Civs_Resources_Search->GetValue().Lower();
+	excludeText = Civs_Resources_Search_R->GetValue().Lower();
 
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Civs_Resources_List->GetCount() > 0) Civs_Resources_List->Clear();
@@ -1029,8 +1028,7 @@ void AGE_Frame::ListResources(bool Sized)
 	for(short loop=0; loop < GenieFile->Civs[CivIDs[0]].Resources.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - Value: "+lexical_cast<string>(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			Civs_Resources_List->Append(Name, (void*)&GenieFile->Civs[CivIDs[0]].Resources[loop]);
 		}
