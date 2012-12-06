@@ -98,9 +98,9 @@ void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTerrainRestrictions(bool Sized)
 {
-	wxString Name, CompareText;
-	SearchText = TerRestrict_TerRestrict_Search->GetValue().Lower();
-	ExcludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
+	wxString Name;
+	searchText = TerRestrict_TerRestrict_Search->GetValue().Lower();
+	excludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
 
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(TerRestrict_TerRestrict_List->GetCount() > 0) TerRestrict_TerRestrict_List->Clear();
@@ -124,8 +124,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	for(short loop=0; loop < GenieFile->TerrainRestrictions.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainRestrictionName(loop);
-		CompareText = Name.Lower();
-		if(SearchMatches(CompareText))
+		if(SearchMatches(Name.Lower()))
 		{
 			TerRestrict_TerRestrict_List->Append(Name, (void*)&GenieFile->TerrainRestrictions[loop]);
 		}

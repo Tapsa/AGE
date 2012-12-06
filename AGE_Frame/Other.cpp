@@ -1697,102 +1697,170 @@ void AGE_Frame::WriteLangDLLstring(int ID, wxString Name)
 	}
 }
 
-bool AGE_Frame::SearchMatches(wxString &CompareText)
+bool AGE_Frame::SearchMatches(wxString itemText)
 {
-	Matches = false; And[0] = And[1] = true;
+	// Make this so that no strings are altered!
+	bool matches = false;
 
-	if(SearchText == "") // If there is no search text, list normally.
+	// If there is no search text, list normally
+	// If search text has a match
+	if(searchText.empty() || (itemText.find(searchText) != string::npos))
 	{
-		Matches = true;
-	}
-	else if(CompareText.find(SearchText) != string::npos) // If search text has a match.
-	{
-		Matches = true;
+		matches = true;
 	}
 	else
 	{
-		Found = SearchText.find("|", 1); // Searching for separation mark in search text.
-		if((Found != string::npos) && 1 < (SearchText.length() - Found)) // Separation mark found and there is search text on its both sides.
+		size_t found = searchText.find("|");
+		if(found != string::npos)
+		{
+			size_t pos = 0;
+			if(UseAnd[0]) // All search parts must match
+			{
+				matches = true;
+				while(1)
+				{
+					if(itemText.find(searchText.substr(pos, found-pos)) == string::npos)
+					{
+						matches = false;
+						break;
+					}
+					if(found == string::npos) break;
+					pos = found+1;
+					found = searchText.find("|", pos);
+				}
+			}
+			else // Only one match needed
+			{
+				while(1)
+				{
+					if(itemText.find(searchText.substr(pos, found-pos)) != string::npos)
+					{
+						matches = true;
+						break;
+					}
+					if(found == string::npos) break;
+					pos = found+1;
+					found = searchText.find("|", pos);
+				}
+			}
+		}
+
+		/*found = searchText.find("|", 1); // Searching for separation mark in search text.
+		if((found != string::npos) && 1 < (searchText.length() - found)) // Separation mark found and there is search text on its both sides.
 		{
 			// Splitting of search.
-			SearchEnd[0] = SearchText.substr(0, Found); // Cutting the first part.
-			SearchEnd[1] = SearchText.substr(Found+1); // Cutting the remaining part.
+			SearchEnd[0] = searchText.substr(0, found); // Cutting the first part.
+			SearchEnd[1] = searchText.substr(found+1); // Cutting the remaining part.
 
 			// Lets look if there are additional separation marks left.
-			for(auto loop=2; loop < SearchEnd.max_size(); loop++) // Splits over 2 parts if necessary.
+			for(auto loop=2; loop < SearchEnd.max_size(); loop++) // splits over 2 parts if necessary.
 			{
-				Found = SearchEnd[loop-1].find("|", 1);
-				if((Found != string::npos) && 1 < (SearchEnd[loop-1].length() - Found))
+				found = SearchEnd[loop-1].find("|", 1);
+				if((found != string::npos) && 1 < (SearchEnd[loop-1].length() - found))
 				{
 					if(loop == SearchEnd.size()) SearchEnd.resize(SearchEnd.size()*2);
-					SearchEnd[loop] = SearchEnd[loop-1].substr(Found+1);
-					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
+					SearchEnd[loop] = SearchEnd[loop-1].substr(found+1);
+					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, found);
 				}
 				else
 				{
-					Splits = loop;
+					splits = loop;
 					break;
 				}
 			}
 
 			// Searching for matches.
-			for(auto loop=0; loop < Splits; loop++)
+			for(auto loop=0; loop < splits; loop++)
 			{
-				if(CompareText.find(SearchEnd[loop]) != string::npos)
-				Matches = true;
+				if(itemText.find(SearchEnd[loop]) != string::npos)
+				matches = true;
 				else And[0] = false;
 			}
-			if(UseAnd[0] == true && And[0] == false && Matches == true) Matches = false;
-		}
+			if(UseAnd[0] && And[0] == false && matches) matches = false;
+		}*/
 	}
 
-	if(Matches == true)	// We don't need to check for excluding if it's not going to be listed.
-	if(ExcludeText == "") // If there is no exclude text, list normally.
+	// We don't need to check for excluding if it's not going to be listed.
+	// If there is no exclude text, list normally.
+	// If exclude text has a match.
+	if(matches && !excludeText.empty())
+	if(itemText.find(excludeText) != string::npos)
 	{
-		// Do nothing.
-	}
-	else if(CompareText.find(ExcludeText) != string::npos) // If exclude text has a match.
-	{
-		Matches = false;
+		matches = false;
 	}
 	else
 	{
-		Found = ExcludeText.find("|", 1); // Searching for separation mark in exclude text.
-		if((Found != string::npos) && 1 < (ExcludeText.length() - Found)) // Separation mark found and there is exclude text on its both sides.
+		size_t found = excludeText.find("|");
+		if(found != string::npos)
+		{
+			size_t pos = 0;
+			if(UseAnd[1]) // All search parts must match
+			{
+				matches = false;
+				while(1)
+				{
+					if(itemText.find(excludeText.substr(pos, found-pos)) == string::npos)
+					{
+						matches = true;
+						break;
+					}
+					if(found == string::npos) break;
+					pos = found+1;
+					found = excludeText.find("|", pos);
+				}
+			}
+			else // Only one match needed
+			{
+				while(1)
+				{
+					if(itemText.find(excludeText.substr(pos, found-pos)) != string::npos)
+					{
+						matches = false;
+						break;
+					}
+					if(found == string::npos) break;
+					pos = found+1;
+					found = excludeText.find("|", pos);
+				}
+			}
+		}
+
+		/*found = excludeText.find("|", 1); // Searching for separation mark in exclude text.
+		if((found != string::npos) && 1 < (excludeText.length() - found)) // Separation mark found and there is exclude text on its both sides.
 		{
 			// Splitting of exclude.
-			SearchEnd[0] = ExcludeText.substr(0, Found); // Cutting the first part.
-			SearchEnd[1] = ExcludeText.substr(Found+1); // Cutting the remaining part.
+			SearchEnd[0] = excludeText.substr(0, found); // Cutting the first part.
+			SearchEnd[1] = excludeText.substr(found+1); // Cutting the remaining part.
 
 			// Lets look if there are additional separation marks left.
-			for(auto loop=2; loop < SearchEnd.max_size(); loop++) // Splits over 2 parts if necessary.
+			for(auto loop=2; loop < SearchEnd.max_size(); loop++) // splits over 2 parts if necessary.
 			{
-				Found = SearchEnd[loop-1].find("|", 1);
-				if((Found != string::npos) && 1 < (SearchEnd[loop-1].length() - Found))
+				found = SearchEnd[loop-1].find("|", 1);
+				if((found != string::npos) && 1 < (SearchEnd[loop-1].length() - found))
 				{
 					if(loop == SearchEnd.size()) SearchEnd.resize(SearchEnd.size()*2);
-					SearchEnd[loop] = SearchEnd[loop-1].substr(Found+1);
-					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, Found);
+					SearchEnd[loop] = SearchEnd[loop-1].substr(found+1);
+					SearchEnd[loop-1] = SearchEnd[loop-1].substr(0, found);
 				}
 				else
 				{
-					Splits = loop;
+					splits = loop;
 					break;
 				}
 			}
 
 			// Searching for matches.
-			for(auto loop=0; loop < Splits; loop++)
+			for(auto loop=0; loop < splits; loop++)
 			{
-				if(CompareText.find(SearchEnd[loop]) != string::npos)
-				Matches = false;
+				if(itemText.find(SearchEnd[loop]) != string::npos)
+				matches = false;
 				else And[1] = false;
 			}
-			if(UseAnd[1] == true && And[1] == false && Matches == false) Matches = true;
-		}
+			if(UseAnd[1] && !And[1]) matches = true;
+		}*/
 	}
 
-	return Matches;
+	return matches;
 }
 
 //	Following kill focuses are used to update lists in user interface
@@ -2885,20 +2953,20 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 	if(Selections > 0)
 	{
 		wxString TopText, SubText, Line;
-		size_t Found;
+		size_t found;
 		for(auto loop=0; loop < Selections; loop++)
 		{
 			Line = List->GetString(Items.Item(loop));
-			Found = Line.find(" ", 3);
+			found = Line.find(" ", 3);
 			if(loop == 0)
 			{
-				TopText = " "+Line.substr(2, Found-1); // Cutting the tech number. (for example)
-				SubText = " "+Line.substr(Found+2, Line.find(" ", Found+3)-Found-1); // Cutting the effect number.
+				TopText = " "+Line.substr(2, found-1); // Cutting the tech number. (for example)
+				SubText = " "+Line.substr(found+2, Line.find(" ", found+3)-found-1); // Cutting the effect number.
 			}
 			else
 			{
-				TopText += "| "+Line.substr(2, Found-1); // Cutting the sound number.
-				SubText += "| "+Line.substr(Found+2, Line.find(" ", Found+3)-Found-1); // Cutting the filename.
+				TopText += "| "+Line.substr(2, found-1); // Cutting the sound number.
+				SubText += "| "+Line.substr(found+2, Line.find(" ", found+3)-found-1); // Cutting the filename.
 			}
 			TopSearch->SetValue(TopText);
 			SubSearch->SetValue(SubText);
