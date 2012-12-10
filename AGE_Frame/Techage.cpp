@@ -161,7 +161,7 @@ void AGE_Frame::OnTechageSelect(wxCommandEvent &Event)
 			TechIDs[loop] = (TechPointer - (&GenieFile->Techages[0]));
 		}
 		Techs_Name->ChangeValue(TechPointer->Name);
-		Techs_Name->Container = &TechPointer->Name;
+		Techs_Name->container[0] = &TechPointer->Name;
 		ListEffects();
 	}
 }
@@ -396,7 +396,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 			EffectIDs[loop] = (EffectPointer - (&GenieFile->Techages[TechIDs[0]].Effects[0]));
 		}
 		Effects_Type->ChangeValue(lexical_cast<string>((short)(EffectPointer->Type)));
-		Effects_Type->Container = &EffectPointer->Type;
+		Effects_Type->container[0] = &EffectPointer->Type;
 		if(EffectPointer->Type >= 0 && EffectPointer->Type <= 6)
 		{
 			Effects_ComboBox_Type->SetSelection(EffectPointer->Type + 1);
@@ -410,7 +410,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 			Effects_ComboBox_Type->SetSelection(0);
 		}
 		Effects_A->ChangeValue(lexical_cast<string>(EffectPointer->A));
-		Effects_A->Container = &EffectPointer->A;
+		Effects_A->container[0] = &EffectPointer->A;
 		Effects_ComboBox_UnitsA->SetSelection(0);
 		Effects_ComboBox_UnitsA->SetSelection(EffectPointer->A + 1);
 		Effects_ComboBox_ResourcesA->SetSelection(0);
@@ -418,7 +418,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		Effects_ComboBox_ResearchsA->SetSelection(0);
 		Effects_ComboBox_ResearchsA->SetSelection(EffectPointer->A + 1);
 		Effects_B->ChangeValue(lexical_cast<string>(EffectPointer->B));
-		Effects_B->Container = &EffectPointer->B;
+		Effects_B->container[0] = &EffectPointer->B;
 		Effects_CheckBox_ModeB->SetValue((bool)EffectPointer->B);
 		Units_ComboBox_Class[2]->SetSelection(0);
 		Units_ComboBox_Class[2]->SetSelection(EffectPointer->B + 1);
@@ -427,12 +427,12 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		Effects_ComboBox_ResourcesB->SetSelection(0);
 		Effects_ComboBox_ResourcesB->SetSelection(EffectPointer->B + 1);
 		Effects_C->ChangeValue(lexical_cast<string>(EffectPointer->C));
-		Effects_C->Container = &EffectPointer->C;
+		Effects_C->container[0] = &EffectPointer->C;
 		Effects_CheckBox_ModeC->SetValue((bool)EffectPointer->C);
 		Effects_ComboBox_AttributesC->SetSelection(0);
 		Effects_ComboBox_AttributesC->SetSelection(EffectPointer->C + 1);
 		Effects_D->ChangeValue(lexical_cast<string>(EffectPointer->D));
-		Effects_D->Container = &EffectPointer->D;
+		Effects_D->container[0] = &EffectPointer->D;
 		Effects_ComboBox_ResearchsD->SetSelection(0);
 		Effects_ComboBox_ResearchsD->SetSelection(EffectPointer->D + 1);
 		switch(EffectPointer->Type)

@@ -2486,7 +2486,7 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Long *Colors_Palette;
 	TextCtrl_Long *Colors_ColorL;
 	TextCtrl_Long *Colors_MinimapColor;
-	TextCtrl_LongMulti *Colors_Unknown1;
+	TextCtrl_Long *Colors_Unknown1;
 	TextCtrl_Long *Colors_Unknown2;
 	TextCtrl_Long *Colors_Unknown3;
 	TextCtrl_Long *Colors_Unknown4;
