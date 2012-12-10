@@ -2,24 +2,28 @@
 
 bool TextCtrl_Byte::SaveEdits()
 {
-	if(Container == NULL) return false;
-	wxString Value = GetValue().c_str();
-	if(Value.size() > 0)
+	if(container.size() < 1) return false;
+	wxString value = GetValue().c_str();
+	if(value.size() > 0)
 	{
 		try
 		{
-		    if(*Container != (char)lexical_cast<short>(Value))
+			char casted = (char)lexical_cast<short>(value);
+			if(lexical_cast<short>(value) == casted)
 			{
-			    if(lexical_cast<short>(Value) == (char)lexical_cast<short>(Value))
+				if(*container[0] != casted)
 			    {
-					*Container = (char)lexical_cast<short>(Value);
+					for(int loop=0; loop<container.size(); loop++)
+					{
+						*container[loop] = casted;
+					}
 					return true;
 				}
-			    else
-			    {
-			    	wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
-			    	SetFocus();
-			    }
+			}
+			else
+			{
+				wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
+				SetFocus();
 			}
 		}
 		catch(bad_lexical_cast e)
@@ -30,31 +34,35 @@ bool TextCtrl_Byte::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>((short)*Container));
+		ChangeValue(lexical_cast<string>((short)*container[0]));
 	}
 	return false;
 }
 
 bool TextCtrl_UByte::SaveEdits()
 {
-	if(Container == NULL) return false;
-	wxString Value = GetValue().c_str();
-	if(Value.size() > 0)
+	if(container.size() < 1) return false;
+	wxString value = GetValue().c_str();
+	if(value.size() > 0)
 	{
 		try
 		{
-		    if(*Container != (unsigned char)lexical_cast<short>(Value))
+			unsigned char casted = (unsigned char)lexical_cast<short>(value);
+			if(lexical_cast<short>(value) == casted)
 			{
-			    if(lexical_cast<short>(Value) == (unsigned char)lexical_cast<short>(Value))
+				if(*container[0] != casted)
 			    {
-					*Container = (unsigned char)lexical_cast<short>(Value);
+					for(int loop=0; loop<container.size(); loop++)
+					{
+						*container[loop] = casted;
+					}
 					return true;
 				}
-			    else
-			    {
-			    	wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
-			    	SetFocus();
-			    }
+			}
+			else
+			{
+				wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
+				SetFocus();
 			}
 		}
 		catch(bad_lexical_cast e)
@@ -65,22 +73,26 @@ bool TextCtrl_UByte::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>((short)*Container));
+		ChangeValue(lexical_cast<string>((short)*container[0]));
 	}
 	return false;
 }
 
 bool TextCtrl_Float::SaveEdits()
 {
-	if(Container == NULL) return false;
-	wxString Value = GetValue().c_str();
-	if(Value.size() > 0)
+	if(container.size() < 1) return false;
+	wxString value = GetValue().c_str();
+	if(value.size() > 0)
 	{
 		try
 	    {
-			if(*Container != lexical_cast<float>(Value))
+			float casted = lexical_cast<float>(value);
+			if(*container[0] != casted)
 			{
-			    *Container = lexical_cast<float>(Value);
+			    for(int loop=0; loop<container.size(); loop++)
+				{
+					*container[loop] = casted;
+				}
 				return true;
 			}
 		}
@@ -92,51 +104,25 @@ bool TextCtrl_Float::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>(*Container));
+		ChangeValue(lexical_cast<string>(*container[0]));
 	}
 	return false;
 }
 
 bool TextCtrl_Long::SaveEdits()
 {
-	if(Container == NULL) return false;
-	wxString Value = GetValue().c_str();
-	if(Value.size() > 0)
-	{
-		try
-		{
-			if(*Container != lexical_cast<int32_t>(Value))
-			{
-				*Container = lexical_cast<int32_t>(Value);
-				return true;
-			}
-		}
-		catch(bad_lexical_cast e)
-		{
-			wxMessageBox("Invalid entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
-			SetFocus();
-		}
-	}
-	else
-	{
-		ChangeValue(lexical_cast<string>(*Container));
-	}
-	return false;
-}
-
-bool TextCtrl_LongMulti::SaveEdits()
-{
 	if(container.size() < 1) return false;
-	wxString Value = GetValue().c_str();
-	if(Value.size() > 0)
+	wxString value = GetValue().c_str();
+	if(value.size() > 0)
 	{
 		try
 		{
-			if(*container[0] != lexical_cast<int32_t>(Value))
+			int32_t casted = lexical_cast<int32_t>(value);
+			if(*container[0] != casted)
 			{
-				for(short loop=0; loop<container.size(); loop++)
+				for(int loop=0; loop<container.size(); loop++)
 				{
-					*container[loop] = lexical_cast<int32_t>(Value);
+					*container[loop] = casted;
 				}
 				return true;
 			}
@@ -156,15 +142,19 @@ bool TextCtrl_LongMulti::SaveEdits()
 
 bool TextCtrl_Short::SaveEdits()
 {
-	if(Container == NULL) return false;
-	wxString Value = GetValue().c_str();
-	if(Value.size() > 0)
+	if(container.size() < 1) return false;
+	wxString value = GetValue().c_str();
+	if(value.size() > 0)
 	{
 		try
 		{
-			if(*Container != lexical_cast<int16_t>(Value))
+			int16_t casted = lexical_cast<int16_t>(value);
+			if(*container[0] != casted)
 			{
-				*Container = lexical_cast<int16_t>(Value);
+				for(int loop=0; loop<container.size(); loop++)
+				{
+					*container[loop] = casted;
+				}
 				return true;
 			}
 		}
@@ -176,22 +166,26 @@ bool TextCtrl_Short::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>(*Container));
+		ChangeValue(lexical_cast<string>(*container[0]));
 	}
 	return false;
 }
 
 bool TextCtrl_UShort::SaveEdits()
 {
-	if(Container == NULL) return false;
-	wxString Value = GetValue().c_str();
-	if(Value.size() > 0)
+	if(container.size() < 1) return false;
+	wxString value = GetValue().c_str();
+	if(value.size() > 0)
 	{
 		try
 		{
-			if(*Container != lexical_cast<uint16_t>(Value))
+			uint16_t casted = lexical_cast<uint16_t>(value);
+			if(*container[0] != casted)
 			{
-				*Container = lexical_cast<uint16_t>(Value);
+				for(int loop=0; loop<container.size(); loop++)
+				{
+					*container[loop] = casted;
+				}
 				return true;
 			}
 		}
@@ -203,35 +197,41 @@ bool TextCtrl_UShort::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>(*Container));
+		ChangeValue(lexical_cast<string>(*container[0]));
 	}
 	return false;
 }
 
 bool TextCtrl_String::SaveEdits()	// This may crash the program.
 {
-	if(Container == NULL) return false;
-	wxString Value = GetValue().c_str();
-	if(Value.size() > 0)
+	if(container.size() < 1) return false;
+	wxString value = GetValue().c_str();
+	if(value.size() > 0)
 	{
-	    if(*Container != Value) // Has been changed
+	    if(*container[0] != value) // Has been changed
 	    {
-			if(Value.size() <= MaxSize)
+			if(value.size() <= MaxSize)
 			{
-				*Container = Value; // Update data field
+				for(int loop=0; loop<container.size(); loop++)
+				{
+					*container[loop] = value; // Update data field
+				}
 			}
 			else
 			{
-				Value = Value.substr(0, MaxSize);
-				*Container = Value;
-				ChangeValue(*Container);
+				value = value.substr(0, MaxSize);
+				for(int loop=0; loop<container.size(); loop++)
+				{
+					*container[loop] = value;
+				}
+				ChangeValue(*container[0]);
 			}
 			return true;
 	    }
 	}
 	else
 	{
-		ChangeValue(*Container);
+		ChangeValue(*container[0]);
 	}
 	return false;
 }

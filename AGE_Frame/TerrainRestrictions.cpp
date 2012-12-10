@@ -173,12 +173,12 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 		}
 
 		TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerIDs[0]]));
-		TerRestrict_Accessible->Container = &TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerIDs[0]];
+		TerRestrict_Accessible->container[0] = &TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerIDs[0]];
 		TerRestrict_CheckBox_Accessible->SetValue((bool)TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
 		if(GameVersion >= 2)	//	Above AoE and RoR
 		{
 			TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable));
-			TerRestrict_Unknown1->Container = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable;
+			TerRestrict_Unknown1->container[0] = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable;
 			switch(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable)
 			{
 				case -1:
@@ -198,13 +198,13 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 				break;
 			}
 			TerRestrict_Graphics[0]->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first));
-			TerRestrict_Graphics[0]->Container = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first;
+			TerRestrict_Graphics[0]->container[0] = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first;
 			TerRestrict_Graphics[1]->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second));
-			TerRestrict_Graphics[1]->Container = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second;
+			TerRestrict_Graphics[1]->container[0] = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second;
 			TerRestrict_ComboBox_Graphics[0]->SetSelection(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first + 1);
 			TerRestrict_ComboBox_Graphics[1]->SetSelection(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second + 1);
 			TerRestrict_Amount->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount));
-			TerRestrict_Amount->Container = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount;
+			TerRestrict_Amount->container[0] = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount;
 		}
 	}
 }
