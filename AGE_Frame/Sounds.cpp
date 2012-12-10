@@ -159,9 +159,9 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 			SoundIDs[loop] = (SoundPointer - (&GenieFile->Sounds[0]));
 		}
 		Sounds_ID->ChangeValue(lexical_cast<string>(SoundPointer->ID));
-		Sounds_ID->Container = &SoundPointer->ID;
+		Sounds_ID->container[0] = &SoundPointer->ID;
 		Sounds_Unknown->ChangeValue(lexical_cast<string>(SoundPointer->Unknown1));
-		Sounds_Unknown->Container = &SoundPointer->Unknown1;
+		Sounds_Unknown->container[0] = &SoundPointer->Unknown1;
 		ListSoundItems();
 	}
 }
@@ -352,18 +352,18 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 			SoundItemIDs[loop] = (SoundItemPointer - (&GenieFile->Sounds[SoundIDs[0]].Items[0]));
 		}
 		SoundItems_Name->ChangeValue(SoundItemPointer->FileName);
-		SoundItems_Name->Container = &SoundItemPointer->FileName;
+		SoundItems_Name->container[0] = &SoundItemPointer->FileName;
 		SoundItems_Resource->ChangeValue(lexical_cast<string>(SoundItemPointer->ResourceID));
-		SoundItems_Resource->Container = &SoundItemPointer->ResourceID;
+		SoundItems_Resource->container[0] = &SoundItemPointer->ResourceID;
 		SoundItems_Probability->ChangeValue(lexical_cast<string>(SoundItemPointer->Probability));
-		SoundItems_Probability->Container = &SoundItemPointer->Probability;
+		SoundItems_Probability->container[0] = &SoundItemPointer->Probability;
 		if(GameVersion >= 2)
 		{
 			SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
-			SoundItems_Civ->Container = &SoundItemPointer->Civ;
+			SoundItems_Civ->container[0] = &SoundItemPointer->Civ;
 			SoundItems_ComboBox_Civ->SetSelection(SoundItemPointer->Civ + 1);
 			SoundItems_Unknown->ChangeValue(lexical_cast<string>(SoundItemPointer->Unknown1));
-			SoundItems_Unknown->Container = &SoundItemPointer->Unknown1;
+			SoundItems_Unknown->container[0] = &SoundItemPointer->Unknown1;
 		}
 		//SoundFile();
 		//SoundFile.Play();

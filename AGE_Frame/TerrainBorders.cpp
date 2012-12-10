@@ -73,38 +73,38 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 			BorderIDs[loop] = (BorderPointer - (&GenieFile->TerrainBorders[0]));
 		}
 		Borders_BorderName[0]->ChangeValue(BorderPointer->Name);
-		Borders_BorderName[0]->Container = &BorderPointer->Name;
+		Borders_BorderName[0]->container[0] = &BorderPointer->Name;
 		Borders_BorderName[1]->ChangeValue(BorderPointer->Name2);
-		Borders_BorderName[1]->Container = &BorderPointer->Name2;
+		Borders_BorderName[1]->container[0] = &BorderPointer->Name2;
 		Borders_BorderEnabled->ChangeValue(lexical_cast<string>(BorderPointer->Enabled));
-		Borders_BorderEnabled->Container = &BorderPointer->Enabled;
+		Borders_BorderEnabled->container[0] = &BorderPointer->Enabled;
 		Borders_CheckBox_BorderEnabled->SetValue((bool)BorderPointer->Enabled);
 		Borders_BorderRessourceID->ChangeValue(lexical_cast<string>(BorderPointer->RessourceID));
-		Borders_BorderRessourceID->Container = &BorderPointer->RessourceID;
+		Borders_BorderRessourceID->container[0] = &BorderPointer->RessourceID;
 		Borders_BorderUnknown3->ChangeValue(lexical_cast<string>(BorderPointer->Unknown3));
-		Borders_BorderUnknown3->Container = &BorderPointer->Unknown3;
+		Borders_BorderUnknown3->container[0] = &BorderPointer->Unknown3;
 		Borders_BorderUnknown4->ChangeValue(lexical_cast<string>(BorderPointer->Unknown4));
-		Borders_BorderUnknown4->Container = &BorderPointer->Unknown4;
+		Borders_BorderUnknown4->container[0] = &BorderPointer->Unknown4;
 		for(short loop=0; loop < 3; loop++)
 		{
 			Borders_BorderColors[loop]->ChangeValue(lexical_cast<string>((short)BorderPointer->Colors[loop]));
-			Borders_BorderColors[loop]->Container = &BorderPointer->Colors[loop];
+			Borders_BorderColors[loop]->container[0] = &BorderPointer->Colors[loop];
 		}
 		Borders_BorderUnknown5->ChangeValue(lexical_cast<string>((short)BorderPointer->Unknown5));
-		Borders_BorderUnknown5->Container = &BorderPointer->Unknown5;
+		Borders_BorderUnknown5->container[0] = &BorderPointer->Unknown5;
 		Borders_BorderUnknown6->ChangeValue(lexical_cast<string>(BorderPointer->Unknown6));
-		Borders_BorderUnknown6->Container = &BorderPointer->Unknown6;
+		Borders_BorderUnknown6->container[0] = &BorderPointer->Unknown6;
 		Borders_BorderUnknown7->ChangeValue(lexical_cast<string>(BorderPointer->Unknown7));
-		Borders_BorderUnknown7->Container = &BorderPointer->Unknown7;
+		Borders_BorderUnknown7->container[0] = &BorderPointer->Unknown7;
 		Borders_BorderFrameCount->ChangeValue(lexical_cast<string>(BorderPointer->FrameCount));
-		Borders_BorderFrameCount->Container = &BorderPointer->FrameCount;
+		Borders_BorderFrameCount->container[0] = &BorderPointer->FrameCount;
 		Borders_BorderUnknown8->ChangeValue(lexical_cast<string>(BorderPointer->Unknown8));
-		Borders_BorderUnknown8->Container = &BorderPointer->Unknown8;
+		Borders_BorderUnknown8->container[0] = &BorderPointer->Unknown8;
 		Borders_BorderTerrain->ChangeValue(lexical_cast<string>(BorderPointer->Unknown9));
-		Borders_BorderTerrain->Container = &BorderPointer->Unknown9;
+		Borders_BorderTerrain->container[0] = &BorderPointer->Unknown9;
 		Borders_ComboBox_BorderTerrain->SetSelection(BorderPointer->Unknown9 + 1);
 		Borders_BorderUnknown10->ChangeValue(lexical_cast<string>(BorderPointer->Unknown10));
-		Borders_BorderUnknown10->Container = &BorderPointer->Unknown10;
+		Borders_BorderUnknown10->container[0] = &BorderPointer->Unknown10;
 		ListTerrainBorderFrames();
 	}
 }
@@ -188,11 +188,11 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 			FrameIDs[loop] = (FramePointer - (&GenieFile->TerrainBorders[BorderIDs[0]].Frames[0]));
 		}
 		Borders_BorderFrameID->ChangeValue(lexical_cast<string>(FramePointer->FrameID));
-		Borders_BorderFrameID->Container = &FramePointer->FrameID;
+		Borders_BorderFrameID->container[0] = &FramePointer->FrameID;
 		Borders_BorderFlag1->ChangeValue(lexical_cast<string>(FramePointer->Flag1));
-		Borders_BorderFlag1->Container = &FramePointer->Flag1;
+		Borders_BorderFlag1->container[0] = &FramePointer->Flag1;
 		Borders_BorderFlag2->ChangeValue(lexical_cast<string>(FramePointer->Flag2));
-		Borders_BorderFlag2->Container = &FramePointer->Flag2;
+		Borders_BorderFlag2->container[0] = &FramePointer->Flag2;
 	}
 }
 

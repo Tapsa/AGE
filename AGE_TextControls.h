@@ -17,7 +17,7 @@ class TextCtrl_Byte: public wxTextCtrl
 	TextCtrl_Byte(wxWindow *parent):
 	wxTextCtrl(parent, wxID_ANY, "0", wxDefaultPosition, wxSize(0, 20))
 	{
-		Container = NULL;
+		container.resize(1);
 		SetBackgroundColour(wxColour(255, 235, 215));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));	// Must-have
 	}
@@ -26,10 +26,11 @@ class TextCtrl_Byte: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
+	void resize(int size){container.resize(size);}
 
 //	Member Variables
 
-	char *Container;
+	vector<char*> container;
 	void *LinkedBox;	//	These are for check and combo boxes.
 };
 
@@ -40,7 +41,7 @@ class TextCtrl_UByte: public wxTextCtrl
 	TextCtrl_UByte(wxWindow *parent):
 	wxTextCtrl(parent, wxID_ANY, "0", wxDefaultPosition, wxSize(0, 20))
 	{
-		Container = NULL;
+		container.resize(1);
 		SetBackgroundColour(wxColour(255, 235, 215));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UByte::OnKillFocus));	// Must-have
 	}
@@ -49,10 +50,11 @@ class TextCtrl_UByte: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
+	void resize(int size){container.resize(size);}
 
 //	Member Variables
 
-	unsigned char *Container;
+	vector<unsigned char*> container;
 	void *LinkedBox;	//	These are for check and combo boxes.
 };
 
@@ -63,7 +65,7 @@ class TextCtrl_Float: public wxTextCtrl
 	TextCtrl_Float(wxWindow *parent):
 	wxTextCtrl(parent, wxID_ANY, "0", wxDefaultPosition, wxSize(0, 20))
 	{
-		Container = NULL;
+		container.resize(1);
 		SetBackgroundColour(wxColour(255, 225, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
 	}
@@ -72,10 +74,11 @@ class TextCtrl_Float: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
+	void resize(int size){container.resize(size);}
 
 //	Member Variables
 
-	float *Container;
+	vector<float*> container;
 	void *LinkedBox;
 };
 
@@ -86,32 +89,9 @@ class TextCtrl_Long: public wxTextCtrl
 	TextCtrl_Long(wxWindow *parent):
 	wxTextCtrl(parent, wxID_ANY, "0", wxDefaultPosition, wxSize(0, 20))
 	{
-		Container = NULL;
+		container.resize(1);
 		SetBackgroundColour(wxColour(215, 255, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
-	}
-
-//	Events
-
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
-	bool SaveEdits();
-
-//	Member Variables
-
-	int32_t *Container;
-	void *LinkedBox;
-};
-
-class TextCtrl_LongMulti: public wxTextCtrl
-{
-	public:
-
-	TextCtrl_LongMulti(wxWindow *parent):
-	wxTextCtrl(parent, wxID_ANY, "0", wxDefaultPosition, wxSize(0, 20))
-	{
-		container.resize(1);
-		SetBackgroundColour(wxColour(255, 128, 128));
-		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_LongMulti::OnKillFocus));
 	}
 
 //	Events
@@ -133,7 +113,7 @@ class TextCtrl_Short: public wxTextCtrl
 	TextCtrl_Short(wxWindow *parent):
 	wxTextCtrl(parent, wxID_ANY, "0", wxDefaultPosition, wxSize(0, 20))
 	{
-		Container = NULL;
+		container.resize(1);
 		SetBackgroundColour(wxColour(210, 230, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
 	}
@@ -142,10 +122,11 @@ class TextCtrl_Short: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
+	void resize(int size){container.resize(size);}
 
 //	Member Variables
 
-	int16_t *Container;
+	vector<int16_t*> container;
 	void *LinkedBox;
 };
 
@@ -156,7 +137,7 @@ class TextCtrl_UShort: public wxTextCtrl
 	TextCtrl_UShort(wxWindow *parent):
 	wxTextCtrl(parent, wxID_ANY, "0", wxDefaultPosition, wxSize(0, 20))
 	{
-		Container = NULL;
+		container.resize(1);
 		SetBackgroundColour(wxColour(210, 230, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UShort::OnKillFocus));
 	}
@@ -165,10 +146,11 @@ class TextCtrl_UShort: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
+	void resize(int size){container.resize(size);}
 
 //	Member Variables
 
-	uint16_t *Container;
+	vector<uint16_t*> container;
 	void *LinkedBox;
 };
 
@@ -179,7 +161,7 @@ class TextCtrl_String: public wxTextCtrl
 	TextCtrl_String(wxWindow *parent, int16_t CLength = -1):
 	wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20))
 	{
-		Container = NULL;
+		container.resize(1);
 		MaxSize = CLength;
 		SetBackgroundColour(wxColour(220, 255, 220));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_String::OnKillFocus));
@@ -189,12 +171,13 @@ class TextCtrl_String: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
+	void resize(int size){container.resize(size);}
 	void SetMaxSize(int16_t Size){MaxSize = Size;}
 
 //	Member Variables
 
 	int16_t MaxSize;
-	string *Container;
+	vector<string*> container;
 };
 
 #endif

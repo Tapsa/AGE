@@ -85,27 +85,27 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 			CivIDs[loop] = (CivPointer - (&GenieFile->Civs[0]));
 		}
 		Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
-		Civs_One->Container = &CivPointer->One;
+		Civs_One->container[0] = &CivPointer->One;
 		Civs_Name[0]->ChangeValue(CivPointer->Name);
-		Civs_Name[0]->Container = &CivPointer->Name;
+		Civs_Name[0]->container[0] = &CivPointer->Name;
 		if(GameVersion >= 4)
 		{
 			Civs_Name[1]->ChangeValue(CivPointer->Name);
-			Civs_Name[1]->Container = &CivPointer->Name;
+			Civs_Name[1]->container[0] = &CivPointer->Name;
 			for(short loop=0; loop < 4; loop++)
 			Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->SUnknown1[loop]));
 		}
 		Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
-		Civs_TechTree->Container = &CivPointer->TechTreeID;
+		Civs_TechTree->container[0] = &CivPointer->TechTreeID;
 		Civs_ComboBox_TechTree->SetSelection(CivPointer->TechTreeID + 1);
 		if(GameVersion >= 2)
 		{
 			Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
-			Civs_TeamBonus->Container = &CivPointer->TeamBonusID;
+			Civs_TeamBonus->container[0] = &CivPointer->TeamBonusID;
 		}
 		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
 		Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->GraphicSet));
-		Civs_GraphicSet->Container = &CivPointer->GraphicSet;
+		Civs_GraphicSet->container[0] = &CivPointer->GraphicSet;
 		ListResources();
 	}
 }
@@ -1080,7 +1080,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 			ResourceIDs[loop] = (CivResourcePointer - (&GenieFile->Civs[CivIDs[0]].Resources[0]));
 		}
 		Civs_ResourceValue->ChangeValue(lexical_cast<string>(*CivResourcePointer));
-		Civs_ResourceValue->Container = CivResourcePointer;
+		Civs_ResourceValue->container[0] = CivResourcePointer;
 	}
 }
 
