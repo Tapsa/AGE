@@ -61,16 +61,21 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		UnitLineIDs.resize(Selections);
+		UnitLines_ID->resize(Selections);
+		UnitLines_Name->resize(Selections);
+
 		genie::UnitLine * LinePointer;
 		for(short loop = Selections; loop--> 0;)
 		{
 			LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Items.Item(loop));
 			UnitLineIDs[loop] = (LinePointer - (&GenieFile->UnitLines[0]));
+
+			UnitLines_ID->container[loop] = &LinePointer->ID;
+			UnitLines_Name->container[loop] = &LinePointer->Name;
 		}
+
 		UnitLines_ID->ChangeValue(lexical_cast<string>(LinePointer->ID));
-		UnitLines_ID->container[0] = &LinePointer->ID;
 		UnitLines_Name->ChangeValue(LinePointer->Name);
-		UnitLines_Name->container[0] = &LinePointer->Name;
 		ListUnitLineUnits();
 	}
 }
@@ -224,14 +229,17 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		UnitLineUnitIDs.resize(Selections);
+		UnitLineUnits_Units->resize(Selections);
+
 		int16_t * UnitPointer;
 		for(short loop = Selections; loop--> 0;)
 		{
 			UnitPointer = (int16_t*)UnitLines_UnitLineUnits_List->GetClientData(Items.Item(loop));
 			UnitLineUnitIDs[loop] = (UnitPointer - (&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[0]));
+			UnitLineUnits_Units->container[loop] = UnitPointer;
 		}
+
 		UnitLineUnits_Units->ChangeValue(lexical_cast<string>(*UnitPointer));
-		UnitLineUnits_Units->container[0] = UnitPointer;
 		UnitLineUnits_ComboBox_Units->SetSelection(*UnitPointer + 1);
 	}
 	else
