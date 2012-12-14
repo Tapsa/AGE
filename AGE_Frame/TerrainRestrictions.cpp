@@ -9,16 +9,46 @@ string AGE_Frame::GetTerrainRestrictionName(short &Index)
 		{
 			switch(Index)
 			{
-				case 1: return "Land "+lexical_cast<string>(Index); break;
-				default: return "Restriction "+lexical_cast<string>(Index);
+				case 30: return "Lava"; break;
+				case 31: return "Water2"; break;
+				case 32: return "Rock4"; break;
 			}
 		}
 		case 4: // SWGB
 		{
 			switch(Index)
 			{
-				case 1: return "Land "+lexical_cast<string>(Index); break;
-				default: return "Restriction "+lexical_cast<string>(Index);
+				case 0: return "All"; break;
+				case 1: return "Unnamed"; break;
+				case 2: return "Shore"; break;
+				case 3: return "Unnamed"; break;
+				case 4: return "Unnamed"; break;
+				case 5: return "Unnamed"; break;
+				case 6: return "Unnamed"; break;
+				case 7: return "Unnamed"; break;
+				case 8: return "Unnamed"; break;
+				case 9: return "Only water"; break;
+				case 10: return "Unnamed"; break;
+				case 11: return "Unnamed"; break;
+				case 12: return "All - lava"; break;
+				case 13: return "Unnamed"; break;
+				case 14: return "All - lava"; break;
+				case 15: return "Unnamed"; break;
+				case 16: return "Grass + shore"; break;
+				case 17: return "Unnamed"; break;
+				case 18: return "All - impassable water, lava"; break;
+				case 19: return "Unnamed"; break;
+				case 20: return "Unnamed"; break;
+				case 21: return "Unnamed"; break;
+				case 22: return "All - impassable water, lava"; break;
+				case 23: return "No restriction"; break;
+				case 24: return "Only water"; break;
+				case 25: return "Unnamed"; break;
+				case 26: return "Unnamed"; break;
+				case 27: return "Deep water"; break;
+				case 28: return "Wasteland"; break;
+				case 29: return "Ice"; break;
+				default: return "Restriction";
 			}
 		}
 		break;
@@ -26,123 +56,61 @@ string AGE_Frame::GetTerrainRestrictionName(short &Index)
 		{
 			switch(Index)
 			{
-				case 1: return "Land "+lexical_cast<string>(Index); break;
-				default: return "Restriction "+lexical_cast<string>(Index);
+				case 20: return "All - water"; break;
+				case 21: return "Shallow water"; break;
 			}
 		}
 		case 2: // AoK
 		{
 			switch(Index)
 			{
-				case 1: return "Land "+lexical_cast<string>(Index); break;
-				default: return "Restriction "+lexical_cast<string>(Index);
+				case 0: return "All"; break;
+				case 1: return "Land + shallows"; break;
+				case 2: return "Beach"; break;
+				case 3: return "Water"; break;
+				case 4: return "Land"; break;
+				case 5: return "Nothing"; break;
+				case 6: return "Water"; break;
+				case 7: return "All - water"; break;
+				case 8: return "Land - farm"; break;
+				case 9: return "Nothing"; break;
+				case 10: return "Land + beach"; break;
+				case 11: return "Land - farm"; break;
+				case 12: return "All - water bridge"; break;
+				case 13: return "Water"; break;
+				case 14: return "All - water bridge"; break;
+				case 15: return "Water"; break;
+				case 16: return "Grass + beach"; break;
+				case 17: return "Water (+bridge) - beach"; break;
+				case 18: return "All - water bridge"; break;
+				case 19: return "Only water + ice"; break;
+				default: return "Restriction";
 			}
 		}
 		break;
 		case 1: // RoR
-		{
-			switch(Index)
-			{
-				case 1: return "Land "+lexical_cast<string>(Index); break;
-				default: return "Restriction "+lexical_cast<string>(Index);
-			}
-		}
 		case 0: // AoE
 		{
 			switch(Index)
 			{
-				case 1: return "Land "+lexical_cast<string>(Index); break;
-				default: return "Restriction "+lexical_cast<string>(Index);
+				case 0: return "Land + water"; break;
+				case 1: return "Land"; break;
+				case 2: return "Beach"; break;
+				case 3: return "Water"; break;
+				case 4: return "Land"; break;
+				case 5: return "Nothing"; break;
+				case 6: return "Water + beach"; break;
+				case 7: return "Land + shallows"; break;
+				case 8: return "Plain"; break;
+				case 9: return "Land - dirt"; break;
+				case 10: return "Land + beach"; break;
+				default: return "Restriction";
 			}
 		}
 		break;
 		// Unknown game version
-		default: return "Restriction "+lexical_cast<string>(Index);
+		default: return "Restriction";
 	}
-/*	if(Index == 1)
-	{
-		Name = "Overland " + lexical_cast<string>(Index);
-	}
-	else if(Index == 2)
-	{
-		Name = "Shoreline " + lexical_cast<string>(Index);
-	}
-	else if(Index == 3)
-	{
-		Name = "Waterborne " + lexical_cast<string>(Index);
-	}
-	else if(Index == 4)
-	{
-		Name = "Overland " + lexical_cast<string>(Index);
-	}
-	else if(Index == 5)
-	{
-		Name = "All Restriction " + lexical_cast<string>(Index);
-	}
-	else if(Index == 6)
-	{
-		Name = "Waterborne " + lexical_cast<string>(Index);
-	}
-	else if(Index == 7)
-	{
-		Name = "Overland " + lexical_cast<string>(Index);
-	}
-	else if(Index == 8)
-	{
-		Name = "Overland " + lexical_cast<string>(Index);
-	}
-	else if(Index == 9)
-	{
-		Name = "All Restriction " + lexical_cast<string>(Index);
-	}
-	else if(Index == 10)
-	{
-		Name = "Overland " + lexical_cast<string>(Index);
-	}
-	else if(Index == 11)
-	{
-		Name = "Overland " + lexical_cast<string>(Index);
-	}
-	else if(Index == 12)
-	{
-		Name = "No Restriction " + lexical_cast<string>(Index);
-	}
-	else if(Index == 13)
-	{
-		Name = "Waterborne " + lexical_cast<string>(Index);
-	}
-	else if(Index == 14)
-	{
-		Name = "No Restriction " + lexical_cast<string>(Index);
-	}
-	else if(Index == 15)
-	{
-		Name = "Waterborne " + lexical_cast<string>(Index);
-	}
-	else if(Index == 16)
-	{
-		Name = "Grass 1 & Shoreline " + lexical_cast<string>(Index);
-	}
-	else if(Index == 17)
-	{
-		Name = "No Moving Restriction " + lexical_cast<string>(Index);
-	}
-	else if(Index == 18)
-	{
-		Name = "No Restriction " + lexical_cast<string>(Index);
-	}
-	else if(Index == 19)
-	{
-		Name = "Waterborne " + lexical_cast<string>(Index);
-	}
-	else if(Index == 20)
-	{
-		Name = "Overland " + lexical_cast<string>(Index);
-	}
-	else if(Index == 21)
-	{
-		Name = "Waterborne " + lexical_cast<string>(Index);
-	}*/
 }
 
 void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &Event)
@@ -215,7 +183,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 	wxArrayInt Items2;
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	auto Selections2 = TerRestrict_Terrains_List->GetSelections(Items2);
-	if(Selections2 != wxNOT_FOUND)
+	if(Selections2 != 0)
 	{
 		genie::TerrainRestriction * TerRestPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(0));
 
@@ -235,13 +203,13 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 			TerrainPointer = (genie::Terrain*)TerRestrict_Terrains_List->GetClientData(Items2.Item(loop));
 			TerRestrictTerIDs[loop] = (TerrainPointer - (&GenieFile->Terrains[0]));
 
-			TerRestrict_Accessible->container[loop] = &TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]];
+			TerRestrict_Accessible->container[loop] = &TerRestPointer->TerrainAccessible[TerRestrictTerIDs[loop]];
 			if(GameVersion >= 2)	//	Above AoE and RoR
 			{
-				TerRestrict_Unknown1->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable;
-				TerRestrict_Graphics[0]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first;
-				TerRestrict_Graphics[1]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second;
-				TerRestrict_Amount->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount;
+				TerRestrict_Unknown1->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].Buildable;
+				TerRestrict_Graphics[0]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.first;
+				TerRestrict_Graphics[1]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.second;
+				TerRestrict_Amount->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].ReplicationAmount;
 			}
 		}
 
