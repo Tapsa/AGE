@@ -3,7 +3,62 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainRestrictionName(short &Index)
 {
-	string Name = "Restriction "+lexical_cast<string>(Index);
+	switch(GameVersion)
+	{
+		case 5: // CC
+		{
+			switch(Index)
+			{
+				case 1: return "Land "+lexical_cast<string>(Index); break;
+				default: return "Restriction "+lexical_cast<string>(Index);
+			}
+		}
+		case 4: // SWGB
+		{
+			switch(Index)
+			{
+				case 1: return "Land "+lexical_cast<string>(Index); break;
+				default: return "Restriction "+lexical_cast<string>(Index);
+			}
+		}
+		break;
+		case 3: // TC
+		{
+			switch(Index)
+			{
+				case 1: return "Land "+lexical_cast<string>(Index); break;
+				default: return "Restriction "+lexical_cast<string>(Index);
+			}
+		}
+		case 2: // AoK
+		{
+			switch(Index)
+			{
+				case 1: return "Land "+lexical_cast<string>(Index); break;
+				default: return "Restriction "+lexical_cast<string>(Index);
+			}
+		}
+		break;
+		case 1: // RoR
+		{
+			switch(Index)
+			{
+				case 1: return "Land "+lexical_cast<string>(Index); break;
+				default: return "Restriction "+lexical_cast<string>(Index);
+			}
+		}
+		case 0: // AoE
+		{
+			switch(Index)
+			{
+				case 1: return "Land "+lexical_cast<string>(Index); break;
+				default: return "Restriction "+lexical_cast<string>(Index);
+			}
+		}
+		break;
+		// Unknown game version
+		default: return "Restriction "+lexical_cast<string>(Index);
+	}
 /*	if(Index == 1)
 	{
 		Name = "Overland " + lexical_cast<string>(Index);
@@ -88,7 +143,6 @@ string AGE_Frame::GetTerrainRestrictionName(short &Index)
 	{
 		Name = "Waterborne " + lexical_cast<string>(Index);
 	}*/
-	return Name;
 }
 
 void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &Event)
@@ -146,11 +200,11 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &Event)
 	if(Selections != 0)
 	{
 		TerRestrictIDs.resize(Selections);
-		genie::TerrainRestriction * TerrainRestrictionPointer;
+		genie::TerrainRestriction * TerRestPointer;
 		for(short loop = Selections; loop--> 0;)
 		{
-			TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(loop));
-			TerRestrictIDs[loop] = (TerrainRestrictionPointer - (&GenieFile->TerrainRestrictions[0]));
+			TerRestPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(loop));
+			TerRestrictIDs[loop] = (TerRestPointer - (&GenieFile->TerrainRestrictions[0]));
 		}
 		ListTerrains(false);
 	}
@@ -160,51 +214,56 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 {
 	wxArrayInt Items2;
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items2);
+	auto Selections2 = TerRestrict_Terrains_List->GetSelections(Items2);
 	if(Selections2 != wxNOT_FOUND)
 	{
-		genie::TerrainRestriction * TerrainRestrictionPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(0));
+		genie::TerrainRestriction * TerRestPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(0));
+
 		TerRestrictTerIDs.resize(Selections2);
+		TerRestrict_Accessible->resize(Selections2);
+		if(GameVersion >= 2)	//	Above AoE and RoR
+		{
+			TerRestrict_Unknown1->resize(Selections2);
+			TerRestrict_Graphics[0]->resize(Selections2);
+			TerRestrict_Graphics[1]->resize(Selections2);
+			TerRestrict_Amount->resize(Selections2);
+		}
+
 		genie::Terrain * TerrainPointer;
 		for(short loop = Selections2; loop--> 0;)
 		{
 			TerrainPointer = (genie::Terrain*)TerRestrict_Terrains_List->GetClientData(Items2.Item(loop));
 			TerRestrictTerIDs[loop] = (TerrainPointer - (&GenieFile->Terrains[0]));
+
+			TerRestrict_Accessible->container[loop] = &TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]];
+			if(GameVersion >= 2)	//	Above AoE and RoR
+			{
+				TerRestrict_Unknown1->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable;
+				TerRestrict_Graphics[0]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first;
+				TerRestrict_Graphics[1]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second;
+				TerRestrict_Amount->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount;
+			}
 		}
 
-		TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerIDs[0]]));
-		TerRestrict_Accessible->container[0] = &TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerIDs[0]];
-		TerRestrict_CheckBox_Accessible->SetValue((bool)TerrainRestrictionPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
+		TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]));
+		TerRestrict_CheckBox_Accessible->SetValue((bool)TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
 		if(GameVersion >= 2)	//	Above AoE and RoR
 		{
-			TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable));
-			TerRestrict_Unknown1->container[0] = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable;
-			switch(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable)
+			TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable));
+			switch(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable)
 			{
-				case -1:
-				{
-					TerRestrict_CheckBox_Unknown1->SetValue(false);
-				}
-				break;
 				case 0:
-				{
 					TerRestrict_CheckBox_Unknown1->SetValue(true);
-				}
-				break;
+					break;
 				default:
-				{
 					TerRestrict_CheckBox_Unknown1->SetValue(false);
-				}
-				break;
+					break;
 			}
-			TerRestrict_Graphics[0]->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first));
-			TerRestrict_Graphics[0]->container[0] = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first;
-			TerRestrict_Graphics[1]->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second));
-			TerRestrict_Graphics[1]->container[0] = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second;
-			TerRestrict_ComboBox_Graphics[0]->SetSelection(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first + 1);
-			TerRestrict_ComboBox_Graphics[1]->SetSelection(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second + 1);
-			TerRestrict_Amount->ChangeValue(lexical_cast<string>(TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount));
-			TerRestrict_Amount->container[0] = &TerrainRestrictionPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount;
+			TerRestrict_Graphics[0]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first));
+			TerRestrict_Graphics[1]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second));
+			TerRestrict_ComboBox_Graphics[0]->SetSelection(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first + 1);
+			TerRestrict_ComboBox_Graphics[1]->SetSelection(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second + 1);
+			TerRestrict_Amount->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount));
 		}
 	}
 }
