@@ -147,6 +147,8 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 
 	DataOpened = false;
 	PopupCivWarning = true;
+	for(short loop=0; loop < 2; loop++)
+	UseAnd[loop] = false;
 	
 	wxCommandEvent ShowButtonsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
 	ShowButtonsCommand.SetId(MenuOption_Buttons);
