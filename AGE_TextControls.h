@@ -26,7 +26,7 @@ class TextCtrl_Byte: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-	void resize(int size){container.resize(size);}
+	void resize(int &size){container.resize(size);}
 
 //	Member Variables
 
@@ -50,7 +50,7 @@ class TextCtrl_UByte: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-	void resize(int size){container.resize(size);}
+	void resize(int &size){container.resize(size);}
 
 //	Member Variables
 
@@ -74,7 +74,7 @@ class TextCtrl_Float: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-	void resize(int size){container.resize(size);}
+	void resize(int &size){container.resize(size);}
 
 //	Member Variables
 
@@ -98,7 +98,7 @@ class TextCtrl_Long: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-	void resize(int size){container.resize(size);}
+	void resize(int &size){container.resize(size);}
 
 //	Member Variables
 
@@ -122,7 +122,7 @@ class TextCtrl_Short: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-	void resize(int size){container.resize(size);}
+	void resize(int &size){container.resize(size);}
 
 //	Member Variables
 
@@ -146,7 +146,7 @@ class TextCtrl_UShort: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-	void resize(int size){container.resize(size);}
+	void resize(int &size){container.resize(size);}
 
 //	Member Variables
 
@@ -171,7 +171,7 @@ class TextCtrl_String: public wxTextCtrl
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-	void resize(int size){container.resize(size);}
+	void resize(int &size){container.resize(size);}
 	void SetMaxSize(int16_t Size){MaxSize = Size;}
 
 //	Member Variables

@@ -197,6 +197,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(WriteLangs)
 		{
 			Lang = new genie::LangFile();
+			Lang->setDefaultCharset("Windows-1252");
 			try
 			{
 				Lang->load(LangFileName.c_str());
@@ -216,6 +217,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(WriteLangs)
 		{
 			LangX = new genie::LangFile();
+			LangX->setDefaultCharset("Windows-1252");
 			try
 			{
 				LangX->load(LangX1FileName.c_str());
@@ -235,6 +237,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(WriteLangs)
 		{
 			LangXP = new genie::LangFile();
+			LangXP->setDefaultCharset("Windows-1252");
 			try
 			{
 				LangXP->load(LangX1P1FileName.c_str());
