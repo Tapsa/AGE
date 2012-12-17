@@ -1201,7 +1201,7 @@ void AGE_Frame::CreateTechageControls()
 	Effects_E = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Effects_Info_E = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_F = new wxStaticText(Tab_Techs, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_F = new TextCtrl_AShort(Tab_Techs);
+	Effects_F = new TextCtrl_Short(Tab_Techs);
 	Attacks_ComboBox_Class[2] = new ComboBox_Plus1(Tab_Techs, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Link = new wxHyperlinkCtrl(Tab_Techs, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
