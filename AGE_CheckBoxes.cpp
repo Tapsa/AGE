@@ -19,29 +19,19 @@ void CheckBox_ZeroIsYes::OnUpdate(wxCommandEvent &Event)
 	TextBox->SaveEdits();
 }
 
-bool CheckBox_2State::SaveEdits()
+void CheckBox_2State::Update(long value)
 {
-	if(TextBox->SaveEdits())
-	{
-		SetValue(lexical_cast<float>(TextBox->GetValue()));
-		return true;
-	}
-	return false;
+	SetValue(value);
 }
 
-bool CheckBox_ZeroIsYes::SaveEdits()
+void CheckBox_ZeroIsYes::Update(long value)
 {
-	if(TextBox->SaveEdits())
+	if(value == 0)
 	{
-		if(lexical_cast<long>(TextBox->GetValue()) == 0)
-		{
-			SetValue(true);
-		}
-		else
-		{
-			SetValue(false);
-		}
-		return true;
+		SetValue(true);
 	}
-	return false;
+	else
+	{
+		SetValue(false);
+	}
 }

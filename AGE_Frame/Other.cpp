@@ -1487,37 +1487,24 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 
 void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
 {
-	wxCommandEvent E;
 	if(Event.GetId() == Units_AutoCopy->GetId())
 	{
 		AutoCopy = Event.IsChecked();
 		Units_CopyTo->Enable(!AutoCopy);
-
-		OnUnitsSelect(E);
 	}
 	else if(Event.GetId() == Units_CopyGraphics->GetId())
 	{
 		CopyGraphics = Event.IsChecked();
-
-		OnUnitsSelect(E);
-	}
-	else if(Event.GetId() == Units_CopyTo->GetId())
-	{
-		UnitsAutoCopy();
 	}
 	else if(Event.GetId() == Units_SelectAll->GetId())
 	{
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		Units_CivBoxes[loop]->SetValue(true);
-
-		OnUnitsSelect(E);
 	}
 	else if(Event.GetId() == Units_SelectClear->GetId())
 	{
 		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		Units_CivBoxes[loop]->SetValue(false);
-
-		OnUnitsSelect(E);
 	}
 	else if(Event.GetId() == Units_GraphicSet->GetId())
 	{
@@ -1533,8 +1520,11 @@ void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
 				Units_CivBoxes[loop]->SetValue(false);
 			}
 		}
-		OnUnitsSelect(E);
 	}
+	// This ensures that proper data pointers are assigned to editing boxes.
+	// MAKE THIS SO THAT THE SELECTIONS REMAIN!!!
+	wxCommandEvent E;
+	OnUnitsSelect(E);
 }
 
 void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
@@ -1822,37 +1812,6 @@ void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent &Event)
 		}
 		ListEffects();
 	}
-	else if(Event.GetId() == Units_Type->GetId())
-	{
-		if(!Units_Type->IsEmpty() && ((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-		{
-			short UnitType = lexical_cast<short>(Units_Type->GetValue());
-			switch(UnitType)
-			{
-				case 10:
-				case 20:
-				case 25:
-				case 30:
-				case 40:
-				case 60:
-				case 70:
-				case 80:
-				case 90:
-				{
-					GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = (char)UnitType;
-					if(AutoCopy)
-					{
-						for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-						GenieFile->Civs[loop].Units[UnitIDs[0]].Type = (char)UnitType;
-					}
-				}
-				break;
-			}
-		}
-		wxCommandEvent E;
-		OnUnitsSelect(E);	// Updates unit layout and unit type combo box.
-//		ListUnits(UnitCivID, false);	// For special search filters.
-	}
 }
 
 void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent &Event)
@@ -1881,238 +1840,6 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent &Event)
 		Effects_D->SaveEdits();
 
 		ListEffects();
-	}
-	else if(Event.GetId() == Units_ComboBox_Type->GetId())
-	{
-		short Selection = Units_ComboBox_Type->GetSelection();
-		if(Selection == 1)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 10;
-		}
-		else if(Selection == 2)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 20;
-		}
-		else if(Selection == 3)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 25;
-		}
-		else if(Selection == 4)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 30;
-		}
-		else if(Selection == 5)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 40;
-		}
-		else if(Selection == 6)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 60;
-		}
-		else if(Selection == 7)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 70;
-		}
-		else if(Selection == 8)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 80;
-		}
-		else if(Selection == 9)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type = 90;
-		}
-		if(AutoCopy)
-		{
-			char UnitType = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type;
-			for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-			GenieFile->Civs[loop].Units[UnitIDs[0]].Type = UnitType;
-
-			//UnitsAutoCopy();
-		}
-
-		wxCommandEvent E;
-		OnUnitsSelect(E);	// Updates unit layout.
-//		ListUnits(UnitCivID, false);	// For special search filters.
-	}
-	else if(Event.GetId() == UnitCommands_ComboBox_Types->GetId())
-	{
-		short Selection = UnitCommands_ComboBox_Types->GetSelection();
-		if(Selection == 1)
-		{
-			UnitCommands_Type->ChangeValue("3");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 2)
-		{
-			UnitCommands_Type->ChangeValue("5");
-			UnitCommands_SubType->ChangeValue("47");
-		}
-		else if(Selection == 3)
-		{
-			UnitCommands_Type->ChangeValue("5");
-			UnitCommands_SubType->ChangeValue("79");
-		}
-		else if(Selection == 4)
-		{
-			UnitCommands_Type->ChangeValue("5");
-			UnitCommands_SubType->ChangeValue("190");
-		}
-		else if(Selection == 5)
-		{
-			UnitCommands_Type->ChangeValue("5");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 6)
-		{
-			UnitCommands_Type->ChangeValue("6");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 7)
-		{
-			UnitCommands_Type->ChangeValue("7");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 8)
-		{
-			UnitCommands_Type->ChangeValue("10");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 9)
-		{
-			UnitCommands_Type->ChangeValue("11");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 10)
-		{
-			UnitCommands_Type->ChangeValue("12");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 11)
-		{
-			UnitCommands_Type->ChangeValue("13");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 12)
-		{
-			UnitCommands_Type->ChangeValue("21");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 12)
-		{
-			UnitCommands_Type->ChangeValue("21");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 13)
-		{
-			UnitCommands_Type->ChangeValue("101");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 14)
-		{
-			UnitCommands_Type->ChangeValue("104");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 15)
-		{
-			UnitCommands_Type->ChangeValue("105");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 16)
-		{
-			UnitCommands_Type->ChangeValue("106");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 17)
-		{
-			UnitCommands_Type->ChangeValue("107");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 18)
-		{
-			UnitCommands_Type->ChangeValue("109");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 19)
-		{
-			UnitCommands_Type->ChangeValue("110");
-			UnitCommands_SubType->ChangeValue("189");
-		}
-		else if(Selection == 20)
-		{
-			UnitCommands_Type->ChangeValue("110");
-			UnitCommands_SubType->ChangeValue("190");
-		}
-		else if(Selection == 21)
-		{
-			UnitCommands_Type->ChangeValue("110");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 22)
-		{
-			UnitCommands_Type->ChangeValue("111");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 23)
-		{
-			UnitCommands_Type->ChangeValue("120");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 24)
-		{
-			UnitCommands_Type->ChangeValue("121");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 25)
-		{
-			UnitCommands_Type->ChangeValue("122");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 26)
-		{
-			UnitCommands_Type->ChangeValue("125");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 27)
-		{
-			UnitCommands_Type->ChangeValue("131");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 28)
-		{
-			UnitCommands_Type->ChangeValue("132");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 29)
-		{
-			UnitCommands_Type->ChangeValue("135");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else if(Selection == 30)
-		{
-			UnitCommands_Type->ChangeValue("136");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-		else
-		{
-			UnitCommands_Type->ChangeValue("-1");
-			UnitCommands_SubType->ChangeValue("-1");
-		}
-
-		UnitCommands_Type->SaveEdits();
-		UnitCommands_SubType->SaveEdits();
-
-		if(GameVersion > 1)
-		{
-			ListUnitCommands();
-		}
-		else
-		{
-			if(AutoCopy)
-			{
-				//UnitsAutoCopy();
-			}
-			ListUnitCommands();
-		}
 	}
 	else if(Event.GetId() == TechTrees_ComboBox_Modes[0]->GetId())
 	{
@@ -2195,7 +1922,7 @@ void AGE_Frame::OnKillFocus_Byte(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_ComboBoxByteEffectType(wxFocusEvent &Event)
 {
-	if(((AGEComboBox*)((AGETextCtrl*)Event.GetEventObject())->LinkedBox)->SaveEdits())
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == Effects_Type->GetId())
 		{
@@ -2206,7 +1933,7 @@ void AGE_Frame::OnKillFocus_ComboBoxByteEffectType(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_CheckBoxByte(wxFocusEvent &Event)
 {
-	if(((AGECheckBox*)((AGETextCtrl*)Event.GetEventObject())->LinkedBox)->SaveEdits())
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == Graphics_AttackSoundUsed->GetId())
 		{
@@ -2223,7 +1950,7 @@ void AGE_Frame::OnKillFocus_CheckBoxByte(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent &Event)
 {
-	if(((AGEComboBox*)((AGETextCtrl*)Event.GetEventObject())->LinkedBox)->SaveEdits())
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == GraphicDeltas_GraphicID->GetId())
 		{
@@ -2238,7 +1965,7 @@ void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent &Event)
 {
-	if(((AGEComboBox*)((AGETextCtrl*)Event.GetEventObject())->LinkedBox)->SaveEdits())
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == TechTrees_Ages_Building->GetId())
 		{
@@ -2307,7 +2034,7 @@ void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_CheckBoxLong0Y(wxFocusEvent &Event)
 {
-	if(((AGECheckBox*)((AGETextCtrl*)Event.GetEventObject())->LinkedBox)->SaveEdits())
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == TerRestrict_Unknown1->GetId())
 		{
@@ -2318,7 +2045,7 @@ void AGE_Frame::OnKillFocus_CheckBoxLong0Y(wxFocusEvent &Event)
 
 void AGE_Frame::OnKillFocus_CheckBoxFloat(wxFocusEvent &Event)
 {
-	if(((AGECheckBox*)((AGETextCtrl*)Event.GetEventObject())->LinkedBox)->SaveEdits())
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
 	{
 		if(Event.GetId() == TerRestrict_Accessible->GetId())
 		{
@@ -2327,11 +2054,36 @@ void AGE_Frame::OnKillFocus_CheckBoxFloat(wxFocusEvent &Event)
 	}
 }
 
-void AGE_Frame::OnKillFocus_AutoCopy_Byte(wxFocusEvent &Event)
+void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
 {
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
 	{
-		if(Event.GetId() == DamageGraphics_DamagePercent->GetId())
+		if(Event.GetId() == Units_Name->GetId() || Event.GetId() == Units_LanguageDLLName->GetId())
+		{
+			ListUnits(UnitCivID);
+		}
+		else if(Event.GetId() == Units_Type->GetId()
+		|| Event.GetId() == Units_Name2->GetId()
+		|| Event.GetId() == Units_LanguageDLLCreation->GetId()
+		|| Event.GetId() == Units_LanguageDLLHelp->GetId())
+		{
+			wxCommandEvent E;
+			OnUnitsSelect(E);
+		}
+		else if(Event.GetId() == Attacks_Amount->GetId() || Event.GetId() == Attacks_Class->GetId())
+		{
+			ListUnitAttacks();
+		}
+		else if(Event.GetId() == Armors_Amount->GetId() || Event.GetId() == Armors_Class->GetId())
+		{
+			ListUnitArmors();
+		}
+		else if(Event.GetId() == UnitCommands_Type->GetId() || Event.GetId() == UnitCommands_SubType->GetId())
+		{
+			ListUnitCommands();
+		}
+		else if(Event.GetId() == DamageGraphics_DamagePercent->GetId()
+		|| Event.GetId() == DamageGraphics_GraphicID->GetId())
 		{
 			ListUnitDamageGraphics();
 		}
@@ -2379,60 +2131,6 @@ void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent &Event)
 	}
 }
 
-void AGE_Frame::OnKillFocus_AutoCopy_Short(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Attacks_Amount->GetId())
-		{
-			ListUnitAttacks();
-		}
-		else if(Event.GetId() == Armors_Amount->GetId())
-		{
-			ListUnitArmors();
-		}
-		else if(Event.GetId() == UnitCommands_Type->GetId() || Event.GetId() == UnitCommands_SubType->GetId())
-		{
-			ListUnitCommands();
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_AutoCopy_UnShort(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Units_LanguageDLLName->GetId())
-		{
-			ListUnits(UnitCivID);
-		}
-		else if(Event.GetId() == Units_LanguageDLLCreation->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent &Event)
-{
-	if(((AGEComboBox*)((AGETextCtrl*)Event.GetEventObject())->LinkedBox)->SaveEdits())
-	{
-		if(Event.GetId() == Attacks_Class->GetId())
-		{
-			ListUnitAttacks();
-		}
-		else if(Event.GetId() == Armors_Class->GetId())
-		{
-			ListUnitArmors();
-		}
-		else if(Event.GetId() == DamageGraphics_GraphicID->GetId())
-		{
-			ListUnitDamageGraphics();
-		}
-	}
-}
-
 void AGE_Frame::OnKillFocus_Long(wxFocusEvent &Event)
 {
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
@@ -2450,18 +2148,6 @@ void AGE_Frame::OnKillFocus_Long(wxFocusEvent &Event)
 		{
 			wxCommandEvent E;
 			OnTTBuildingSelect(E);
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_AutoCopy_Long(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Units_LanguageDLLHelp->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);
 		}
 	}
 }
@@ -2549,22 +2235,6 @@ void AGE_Frame::OnKillFocus_String(wxFocusEvent &Event)
 	}
 }
 
-void AGE_Frame::OnKillFocus_AutoCopy_String(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Units_Name->GetId())
-		{
-			ListUnits(UnitCivID);
-		}
-		else if(Event.GetId() == Units_Name2->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);
-		}
-	}
-}
-
 void AGE_Frame::OnUpdate_ComboBoxByteEffectType(wxCommandEvent &Event)
 {
 	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
@@ -2614,8 +2284,204 @@ void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent &Event)
 	}
 }
 
-void AGE_Frame::OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent &Event)
+void AGE_Frame::OnUpdate_Units(wxCommandEvent &Event)
 {
+	if(Event.GetId() == Units_ComboBox_Type->GetId())
+	{
+		auto Selection = Units_ComboBox_Type->GetSelection();
+		for(int loop=0; loop < UnitIDs.size(); loop++)
+		{
+			switch(Selection)
+			{
+				case 1: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 10; break;
+				case 2: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 20; break;
+				case 3: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 25; break;
+				case 4: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 30; break;
+				case 5: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 40; break;
+				case 6: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 60; break;
+				case 7: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 70; break;
+				case 8: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 80; break;
+				case 9: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 90; break;
+			}
+			if(AutoCopy) // Should copy-to-civ selections affect this?
+			{
+				char UnitType = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type;
+				for(short civ=0; civ < GenieFile->Civs.size(); civ++)
+				GenieFile->Civs[civ].Units[UnitIDs[loop]].Type = UnitType;
+			}
+		}
+		wxCommandEvent E;
+		OnUnitsSelect(E);	// Updates unit layout.
+//		ListUnits(UnitCivID, false);	// For special search filters.
+		return;
+	}
+	if(Event.GetId() == UnitCommands_ComboBox_Types->GetId())
+	{
+		switch(UnitCommands_ComboBox_Types->GetSelection())
+		{
+			case 1:
+			{
+				UnitCommands_Type->ChangeValue("3");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 2:
+			{
+				UnitCommands_Type->ChangeValue("5");
+				UnitCommands_SubType->ChangeValue("47");
+			}	break;
+			case 3:
+			{
+				UnitCommands_Type->ChangeValue("5");
+				UnitCommands_SubType->ChangeValue("79");
+			}	break;
+			case 4:
+			{
+				UnitCommands_Type->ChangeValue("5");
+				UnitCommands_SubType->ChangeValue("190");
+			}	break;
+			case 5:
+			{
+				UnitCommands_Type->ChangeValue("5");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 6:
+			{
+				UnitCommands_Type->ChangeValue("6");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 7:
+			{
+				UnitCommands_Type->ChangeValue("7");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 8:
+			{
+				UnitCommands_Type->ChangeValue("10");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 9:
+			{
+				UnitCommands_Type->ChangeValue("11");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 10:
+			{
+				UnitCommands_Type->ChangeValue("12");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 11:
+			{
+				UnitCommands_Type->ChangeValue("13");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 12:
+			{
+				UnitCommands_Type->ChangeValue("21");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 13:
+			{
+				UnitCommands_Type->ChangeValue("101");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 14:
+			{
+				UnitCommands_Type->ChangeValue("104");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 15:
+			{
+				UnitCommands_Type->ChangeValue("105");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 16:
+			{
+				UnitCommands_Type->ChangeValue("106");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 17:
+			{
+				UnitCommands_Type->ChangeValue("107");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 18:
+			{
+				UnitCommands_Type->ChangeValue("109");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 19:
+			{
+				UnitCommands_Type->ChangeValue("110");
+				UnitCommands_SubType->ChangeValue("189");
+			}	break;
+			case 20:
+			{
+				UnitCommands_Type->ChangeValue("110");
+				UnitCommands_SubType->ChangeValue("190");
+			}	break;
+			case 21:
+			{
+				UnitCommands_Type->ChangeValue("110");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 22:
+			{
+				UnitCommands_Type->ChangeValue("111");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 23:
+			{
+				UnitCommands_Type->ChangeValue("120");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 24:
+			{
+				UnitCommands_Type->ChangeValue("121");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 25:
+			{
+				UnitCommands_Type->ChangeValue("122");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 26:
+			{
+				UnitCommands_Type->ChangeValue("125");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 27:
+			{
+				UnitCommands_Type->ChangeValue("131");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 28:
+			{
+				UnitCommands_Type->ChangeValue("132");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 29:
+			{
+				UnitCommands_Type->ChangeValue("135");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			case 30:
+			{
+				UnitCommands_Type->ChangeValue("136");
+				UnitCommands_SubType->ChangeValue("-1");
+			}	break;
+			default:
+			{
+				UnitCommands_Type->ChangeValue("-1");
+				UnitCommands_SubType->ChangeValue("-1");
+			}
+		}
+
+		UnitCommands_Type->SaveEdits();
+		UnitCommands_SubType->SaveEdits();
+
+		ListUnitCommands();
+		return;
+	}
 	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
 	if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
 	{
