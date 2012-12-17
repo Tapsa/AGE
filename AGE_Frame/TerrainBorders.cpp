@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetTerrainBorderName(short &Index)
+string AGE_Frame::GetTerrainBorderName(short Index)
 {
 	if(GenieFile->TerrainBorders[Index].Name == "" && GenieFile->TerrainBorders[Index].Name2 == "")
 		return "Border "+lexical_cast<string>(Index);
@@ -162,7 +162,7 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetTerrainBorderFrameName(short &Index)
+string AGE_Frame::GetTerrainBorderFrameName(short Index)
 {
 	return "Frame "+lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].FrameID)
 	+" - Flags "+lexical_cast<string>(GenieFile->TerrainBorders[BorderIDs[0]].Frames[Index].Flag1)
@@ -276,7 +276,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderEnabled1 = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Text_BorderEnabled = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Enabled", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_BorderEnabled = new TextCtrl_Short(Tab_TerrainBorders);
-	Borders_CheckBox_BorderEnabled = new CheckBox_Short(Tab_TerrainBorders, " Yes", Borders_BorderEnabled);
+	Borders_CheckBox_BorderEnabled = new CheckBox_2State(Tab_TerrainBorders, " Yes", Borders_BorderEnabled);
 	for(short loop=0; loop < 2; loop++)
 	{
 		Borders_Holder_BorderName[loop] = new wxBoxSizer(wxVERTICAL);
@@ -298,7 +298,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderTerrain = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderTerrain = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_BorderTerrain = new TextCtrl_Short(Tab_TerrainBorders);
-	Borders_ComboBox_BorderTerrain = new ComboBox_Short(Tab_TerrainBorders, Borders_BorderTerrain);
+	Borders_ComboBox_BorderTerrain = new ComboBox_Plus1(Tab_TerrainBorders, Borders_BorderTerrain);
 
 	Borders_FrameData = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Holder_Frames = new wxStaticBoxSizer(wxHORIZONTAL, Tab_TerrainBorders, "Frames");

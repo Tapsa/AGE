@@ -20,7 +20,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	//Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
 	Config->Read("Interaction/AutoCopy", &AutoCopy, true);
 	Config->Read("Interaction/CopyGraphics", &CopyGraphics, false);
-	//CopyGraphics = false; // This is because I inverted the functionality of this variable. Remove it some day.
 	Config->Read("Interaction/AllCivs", &AllCivs, true);
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
@@ -85,7 +84,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 
 	this->SetMenuBar(MenuBar_Main);
 
-	Zero = 0;
 	CreateCivControls();
 	CreateUnitControls();
 	CreateResearchControls();

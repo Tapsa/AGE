@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetSoundName(short &Index)
+string AGE_Frame::GetSoundName(short Index)
 {
 	return "File count: "+lexical_cast<string>(GenieFile->Sounds[Index].Items.size())+" ";
 }
@@ -268,7 +268,7 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetSoundItemName(short &Index)
+string AGE_Frame::GetSoundItemName(short Index)
 {
 	string Name = "";
 	short Selection[2];
@@ -585,7 +585,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Holder_Civ = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Civ = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Civ = new TextCtrl_Short(Tab_Sounds);
-	SoundItems_ComboBox_Civ = new ComboBox_Short(Tab_Sounds, SoundItems_Civ);
+	SoundItems_ComboBox_Civ = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
 	SoundItems_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = new TextCtrl_Short(Tab_Sounds);

@@ -50,7 +50,7 @@ set(AGE_SRC Main.cpp
 			AGE_Frame/Terrains.cpp
 			AGE_Frame/UnitLine.cpp
 			AGE_Frame/Units.cpp
-			AGE_Frame/Transporting.cpp
+			#AGE_Frame/Transporting.cpp
 
 			Resources.rc
 	)
