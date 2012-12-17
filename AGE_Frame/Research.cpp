@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetResearchName(short &Index, bool Filter)
+string AGE_Frame::GetResearchName(short Index, bool Filter)
 {
 	string Name = "";
 	if(Filter)
@@ -586,24 +586,24 @@ void AGE_Frame::CreateResearchControls()
 	for(short loop=0; loop < 6; loop++)
 	{
 		Research_RequiredTechs[loop] = new TextCtrl_Short(Research_Scroller);
-		Research_ComboBox_RequiredTechs[loop] = new ComboBox_Short(Research_Scroller, Research_RequiredTechs[loop]);
+		Research_ComboBox_RequiredTechs[loop] = new ComboBox_Plus1(Research_Scroller, Research_RequiredTechs[loop]);
 	}
 	Research_Holder_TechID = new wxBoxSizer(wxVERTICAL);
 	Research_Text_TechID = new wxStaticText(Research_Scroller, wxID_ANY, " Technology", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_TechID = new TextCtrl_Short(Research_Scroller);
-	Research_ComboBox_TechID = new ComboBox_Short(Research_Scroller, Research_TechID);
+	Research_ComboBox_TechID = new ComboBox_Plus1(Research_Scroller, Research_TechID);
 	Research_Holder_ResearchLocation = new wxBoxSizer(wxVERTICAL);
 	Research_Text_ResearchLocation = new wxStaticText(Research_Scroller, wxID_ANY, " Research Location", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_ResearchLocation = new TextCtrl_Short(Research_Scroller);
-	Research_ComboBox_ResearchLocation = new ComboBox_Short(Research_Scroller, Research_ResearchLocation);
+	Research_ComboBox_ResearchLocation = new ComboBox_Plus1(Research_Scroller, Research_ResearchLocation);
 	Research_Holder_FullTechMode = new wxBoxSizer(wxVERTICAL);
 	Research_Text_FullTechMode = new wxStaticText(Research_Scroller, wxID_ANY, " Full Tech. Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_FullTechMode = new TextCtrl_Short(Research_Scroller);
-	Research_CheckBox_FullTechMode = new CheckBox_Short(Research_Scroller, "Available", Research_FullTechMode);
+	Research_CheckBox_FullTechMode = new CheckBox_2State(Research_Scroller, "Available", Research_FullTechMode);
 	Research_Holder_Civ = new wxBoxSizer(wxVERTICAL);
 	Research_Text_Civ = new wxStaticText(Research_Scroller, wxID_ANY, " Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Civ = new TextCtrl_Short(Research_Scroller);
-	Research_ComboBox_Civ = new ComboBox_Short(Research_Scroller, Research_Civ);
+	Research_ComboBox_Civ = new ComboBox_Plus1(Research_Scroller, Research_Civ);
 	Research_Holder_RequiredTechCount = new wxBoxSizer(wxVERTICAL);
 	Research_Text_RequiredTechCount = new wxStaticText(Research_Scroller, wxID_ANY, " Min. Req. Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_RequiredTechCount = new TextCtrl_Short(Research_Scroller);
@@ -632,10 +632,10 @@ void AGE_Frame::CreateResearchControls()
 	for(short loop=0; loop < 3; loop++)
 	{
 		Research_Resources[loop] = new TextCtrl_Short(Research_Scroller);
-		Research_ComboBox_Resources[loop] = new ComboBox_Short(Research_Scroller, Research_Resources[loop]);
+		Research_ComboBox_Resources[loop] = new ComboBox_Plus1(Research_Scroller, Research_Resources[loop]);
 		Research_Amount[loop] = new TextCtrl_Short(Research_Scroller);
 		Research_Used[loop] = new TextCtrl_Byte(Research_Scroller);
-		Research_CheckBox_Used[loop] = new CheckBox_Byte(Research_Scroller, "Used", Research_Used[loop]);
+		Research_CheckBox_Used[loop] = new CheckBox_2State(Research_Scroller, "Used", Research_Used[loop]);
 	}
 
 	for(short loop=0; loop < 3; loop++)
