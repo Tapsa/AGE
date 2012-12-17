@@ -1,124 +1,42 @@
 #include "AGE_ComboBoxes.h"
 
-void ComboBox_Byte::OnUpdate(wxCommandEvent &Event)
+void ComboBox_Plus1::OnUpdate(wxCommandEvent &Event)
 {
 	TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));
 	TextBox->SaveEdits();
 }
 
-void ComboBox_Float::OnUpdate(wxCommandEvent &Event)
+void ComboBox_EffectType::OnUpdate(wxCommandEvent &Event)
 {
-	TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));
-	TextBox->SaveEdits();
-}
-
-void ComboBox_Short::OnUpdate(wxCommandEvent &Event)
-{
-	TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));
-	TextBox->SaveEdits();
-}
-
-void ComboBox_Long::OnUpdate(wxCommandEvent &Event)
-{
-	TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));
-	TextBox->SaveEdits();
-}
-
-void ComboBox_Byte_EffectType::OnUpdate(wxCommandEvent &Event)
-{
-	short Selection = GetSelection();
-	if(Selection == 1)
+	switch(GetSelection())
 	{
-		TextBox->ChangeValue("0");
-	}
-	else if(Selection == 2)
-	{
-		TextBox->ChangeValue("1");
-	}
-	else if(Selection == 3)
-	{
-		TextBox->ChangeValue("2");
-	}
-	else if(Selection == 4)
-	{
-		TextBox->ChangeValue("3");
-	}
-	else if(Selection == 5)
-	{
-		TextBox->ChangeValue("4");
-	}
-	else if(Selection == 6)
-	{
-		TextBox->ChangeValue("5");
-	}
-	else if(Selection == 7)
-	{
-		TextBox->ChangeValue("6");
-	}
-	else if(Selection == 8)
-	{
-		TextBox->ChangeValue("101");
-	}
-	else if(Selection == 9)
-	{
-		TextBox->ChangeValue("102");
-	}
-	else if(Selection == 10)
-	{
-		TextBox->ChangeValue("103");
-	}
-	else
-	{
-		TextBox->ChangeValue("-1");
+		case 1: TextBox->ChangeValue("0"); break;
+		case 2: TextBox->ChangeValue("1"); break;
+		case 3: TextBox->ChangeValue("2"); break;
+		case 4: TextBox->ChangeValue("3"); break;
+		case 5: TextBox->ChangeValue("4"); break;
+		case 6: TextBox->ChangeValue("5"); break;
+		case 7: TextBox->ChangeValue("6"); break;
+		case 8: TextBox->ChangeValue("101"); break;
+		case 9: TextBox->ChangeValue("102"); break;
+		case 10: TextBox->ChangeValue("103"); break;
+		default: TextBox->ChangeValue("-1");
 	}
 	TextBox->SaveEdits();
 }
 
-bool ComboBox_Byte::SaveEdits()
+bool ComboBox_Plus1::SaveEdits()
 {
 	if(TextBox->SaveEdits())
 	{
 		SetSelection(0);
-		SetSelection(lexical_cast<short>(TextBox->GetValue()) + 1);
+		SetSelection(lexical_cast<double>(TextBox->GetValue()) + 1);
 		return true;
 	}
 	return false;
 }
 
-bool ComboBox_Float::SaveEdits()
-{
-	if(TextBox->SaveEdits())
-	{
-		SetSelection(0);
-		SetSelection(lexical_cast<float>(TextBox->GetValue()) + 1);
-		return true;
-	}
-	return false;
-}
-
-bool ComboBox_Short::SaveEdits()
-{
-	if(TextBox->SaveEdits())
-	{
-		SetSelection(0);
-		SetSelection(lexical_cast<short>(TextBox->GetValue()) + 1);
-		return true;
-	}
-	return false;
-}
-
-bool ComboBox_Long::SaveEdits()
-{
-	if(TextBox->SaveEdits())
-	{
-		SetSelection(0);
-		SetSelection(lexical_cast<long>(TextBox->GetValue()) + 1);
-		return true;
-	}
-	return false;
-}
-
-bool ComboBox_Byte_EffectType::SaveEdits()
+bool ComboBox_EffectType::SaveEdits()
 {
 	if(TextBox->SaveEdits())
 	{

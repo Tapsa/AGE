@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetPlayerColorName(short &Index)
+string AGE_Frame::GetPlayerColorName(short Index)
 {
 	if(GameVersion <= 1)
 		return GenieFile->PlayerColours[Index].Name;

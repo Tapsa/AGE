@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetUnitLineName(short &Index)
+string AGE_Frame::GetUnitLineName(short Index)
 {
 	if(GenieFile->UnitLines[Index].Name != "")
 		return GenieFile->UnitLines[Index].Name;
@@ -177,7 +177,7 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetUnitLineUnitName(short &Index)
+string AGE_Frame::GetUnitLineUnitName(short Index)
 {
 	string Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index])+" ";
 	if(LangDLLstring(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 2) != "")
@@ -365,7 +365,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLineUnits_Holder_Units = new wxBoxSizer(wxVERTICAL);
 	UnitLineUnits_Text_Units = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitLineUnits_Units = new TextCtrl_Short(Tab_UnitLine);
-	UnitLineUnits_ComboBox_Units = new ComboBox_Short(Tab_UnitLine, UnitLineUnits_Units);
+	UnitLineUnits_ComboBox_Units = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units);
 
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Add, 1, wxEXPAND);
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Insert, 1, wxEXPAND);

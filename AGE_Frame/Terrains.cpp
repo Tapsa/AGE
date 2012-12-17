@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetTerrainName(short &Index)
+string AGE_Frame::GetTerrainName(short Index)
 {
 	if(GenieFile->Terrains[Index].Name != "")
 		return GenieFile->Terrains[Index].Name;
@@ -455,7 +455,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_SoundID = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_SoundID = new wxStaticText(Terrains_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_SoundID = new TextCtrl_Long(Terrains_Scroller);
-	Terrains_ComboBox_SoundID = new ComboBox_Long(Terrains_Scroller, Terrains_SoundID);
+	Terrains_ComboBox_SoundID = new ComboBox_Plus1(Terrains_Scroller, Terrains_SoundID);
 	Terrains_Holder_BlendPriority = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_BlendPriority = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Priority", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_BlendPriority = new TextCtrl_Long(Terrains_Scroller);
@@ -473,7 +473,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Holder_TerrainReplacementID = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_TerrainReplacementID = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Replacement", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_TerrainReplacementID = new TextCtrl_Short(Terrains_Scroller);
-	Terrains_ComboBox_TerrainReplacementID = new ComboBox_Short(Terrains_Scroller, Terrains_TerrainReplacementID);
+	Terrains_ComboBox_TerrainReplacementID = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainReplacementID);
 	Terrains_Holder_TerrainDimensions = new wxBoxSizer(wxVERTICAL);
 	Terrains_Text_TerrainDimensions = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Dimensions", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_TerrainDimensions[0] = new TextCtrl_Short(Terrains_Scroller);
@@ -493,7 +493,7 @@ void AGE_Frame::CreateTerrainControls()
 	for(short loop=0; loop < TERRAINUNITS; loop++)
 	{
 		Terrains_TerrainUnitID[loop] = new TextCtrl_Short(Terrains_Scroller);
-		Terrains_ComboBox_TerrainUnitID[loop] = new ComboBox_Short(Terrains_Scroller, Terrains_TerrainUnitID[loop]);
+		Terrains_ComboBox_TerrainUnitID[loop] = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainUnitID[loop]);
 		Terrains_TerrainUnitDensity[loop] = new TextCtrl_Short(Terrains_Scroller);
 		Terrains_TerrainUnitPriority[loop] = new TextCtrl_Byte(Terrains_Scroller);
 		Terrains_TerrainUnitPriority[loop]->SetToolTip("1 prevails, others don't");
@@ -504,7 +504,7 @@ void AGE_Frame::CreateTerrainControls()
 	for(short loop=0; loop < TERRAINBORDERSMAX; loop++)
 	{
 		Terrains_TerrainBorderID[loop] = new TextCtrl_Short(Terrains_Scroller);
-		Terrains_ComboBox_TerrainBorderID[loop] = new ComboBox_Short(Terrains_Scroller, Terrains_TerrainBorderID[loop]);
+		Terrains_ComboBox_TerrainBorderID[loop] = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainBorderID[loop]);
 	}
 	Terrains_Holder_UnknownArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Grid_Unknowns1 = new wxGridSizer(5, 5, 5);

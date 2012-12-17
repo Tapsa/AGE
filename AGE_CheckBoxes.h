@@ -3,134 +3,55 @@
 #ifndef AGE_CheckBoxes_h
 #define AGE_CheckBoxes_h
 
-class CheckBox_Byte: public wxCheckBox
+class AGECheckBox: public wxCheckBox
 {
 	public:
+	AGECheckBox(wxWindow *parent, wxString label):
+	wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20)){}
 
-	CheckBox_Byte(wxWindow *parent, string label, TextCtrl_Byte *Pointer):
-	wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20))
-	{
-		TextBox = Pointer;
-		TextBox->LinkedBox = this;
-		TextBox->Disconnect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));
-		TextBox->Connect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Byte::OnKillFocus), NULL, this);
+	virtual void OnUpdate(wxCommandEvent &Event)=0;
+	virtual void OnKillFocus(wxFocusEvent &Event)=0;
+	virtual bool SaveEdits()=0;
 
-		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Byte::OnUpdate));
-	}
-
-//	Events
-
-	void OnUpdate(wxCommandEvent &Event);
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
-	bool SaveEdits();
-
-//	Member Variables
-
-	TextCtrl_Byte *TextBox;
+	AGETextCtrl *TextBox;
 };
 
-class CheckBox_Float: public wxCheckBox
+class CheckBox_2State: public AGECheckBox
 {
 	public:
-
-	CheckBox_Float(wxWindow *parent, string label, TextCtrl_Float *Pointer):
-	wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20))
+	CheckBox_2State(wxWindow *parent, wxString label, AGETextCtrl *Pointer):
+	AGECheckBox(parent, label)
 	{
 		TextBox = Pointer;
 		TextBox->LinkedBox = this;
-		TextBox->Disconnect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
-		TextBox->Connect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Float::OnKillFocus), NULL, this);
+		TextBox->Disconnect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGETextCtrl::OnKillFocus));
+		TextBox->Connect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_2State::OnKillFocus), NULL, this);
 
-		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Float::OnUpdate));
+		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_2State::OnUpdate));
 	}
-
-//	Events
 
 	void OnUpdate(wxCommandEvent &Event);
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-
-//	Member Variables
-
-	TextCtrl_Float *TextBox;
 };
 
-class CheckBox_Short: public wxCheckBox
+class CheckBox_ZeroIsYes: public AGECheckBox
 {
 	public:
-
-	CheckBox_Short(wxWindow *parent, string label, TextCtrl_Short *Pointer):
-	wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20))
+	CheckBox_ZeroIsYes(wxWindow *parent, wxString label, AGETextCtrl *Pointer):
+	AGECheckBox(parent, label)
 	{
 		TextBox = Pointer;
 		TextBox->LinkedBox = this;
-		TextBox->Disconnect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
-		TextBox->Connect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Short::OnKillFocus), NULL, this);
+		TextBox->Disconnect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGETextCtrl::OnKillFocus));
+		TextBox->Connect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_ZeroIsYes::OnKillFocus), NULL, this);
 
-		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Short::OnUpdate));
+		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_ZeroIsYes::OnUpdate));
 	}
-
-//	Events
 
 	void OnUpdate(wxCommandEvent &Event);
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
-
-//	Member Variables
-
-	TextCtrl_Short *TextBox;
-};
-
-class CheckBox_Short_ZeroIsYes: public wxCheckBox
-{
-	public:
-
-	CheckBox_Short_ZeroIsYes(wxWindow *parent, string label, TextCtrl_Short *Pointer):
-	wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20))
-	{
-		TextBox = Pointer;
-		TextBox->LinkedBox = this;
-		TextBox->Disconnect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
-		TextBox->Connect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Short_ZeroIsYes::OnKillFocus), NULL, this);
-
-		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Short_ZeroIsYes::OnUpdate));
-	}
-
-//	Events
-
-	void OnUpdate(wxCommandEvent &Event);
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
-	bool SaveEdits();
-
-//	Member Variables
-
-	TextCtrl_Short *TextBox;
-};
-
-class CheckBox_Long_ZeroIsYes: public wxCheckBox
-{
-	public:
-
-	CheckBox_Long_ZeroIsYes(wxWindow *parent, string label, TextCtrl_Long *Pointer):
-	wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20))
-	{
-		TextBox = Pointer;
-		TextBox->LinkedBox = this;
-		TextBox->Disconnect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
-		TextBox->Connect(TextBox->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(CheckBox_Long_ZeroIsYes::OnKillFocus), NULL, this);
-
-		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_Long_ZeroIsYes::OnUpdate));
-	}
-
-//	Events
-
-	void OnUpdate(wxCommandEvent &Event);
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
-	bool SaveEdits();
-
-//	Member Variables
-
-	TextCtrl_Long *TextBox;
 };
 
 #endif

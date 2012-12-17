@@ -132,23 +132,12 @@ class AGE_Frame: public wxFrame
 	void OnUpdate_CheckBoxFloat(wxCommandEvent &Event);
 
 	void OnKillFocus_AutoCopy_Byte(wxFocusEvent &Event);
-	void OnKillFocus_AutoCopy_ComboBoxByte(wxFocusEvent &Event);
-	void OnKillFocus_AutoCopy_CheckBoxByte(wxFocusEvent &Event);
 	void OnKillFocus_AutoCopy_Short(wxFocusEvent &Event);
 	void OnKillFocus_AutoCopy_UnShort(wxFocusEvent &Event);
 	void OnKillFocus_AutoCopy_ComboBoxShort(wxFocusEvent &Event);
-	void OnKillFocus_AutoCopy_CheckBoxShort(wxFocusEvent &Event);
-	void OnKillFocus_AutoCopy_CheckBoxShortUnitSheepConversion(wxFocusEvent &Event);
 	void OnKillFocus_AutoCopy_Long(wxFocusEvent &Event);
-	void OnKillFocus_AutoCopy_ComboBoxLong(wxFocusEvent &Event);
-	void OnKillFocus_AutoCopy_Float(wxFocusEvent &Event);
 	void OnKillFocus_AutoCopy_String(wxFocusEvent &Event);
-	void OnUpdate_AutoCopy_ComboBoxByte(wxCommandEvent &Event);
 	void OnUpdate_AutoCopy_ComboBoxShort(wxCommandEvent &Event);
-	void OnUpdate_AutoCopy_ComboBoxLong(wxCommandEvent &Event);
-	void OnUpdate_AutoCopy_CheckBoxByte(wxCommandEvent &Event);
-	void OnUpdate_AutoCopy_CheckBoxShort(wxCommandEvent &Event);
-	void OnUpdate_AutoCopy_CheckBoxShortUnitSheepConversion(wxCommandEvent &Event);
 
 //	Other Methods
 
@@ -167,9 +156,9 @@ class AGE_Frame: public wxFrame
 	void OnAllSoundFileSelect(wxCommandEvent &Event);
 
 //	Exporting and importing common functions.
-	bool CorrectVersion(int &Version);
-	void ExpError(wxFileConfig &Extract);
-	void ImpError();
+	//bool CorrectVersion(int &Version);
+	//void ExpError(wxFileConfig &Extract);
+	//void ImpError();
 
 //	General Events
 
@@ -190,7 +179,7 @@ class AGE_Frame: public wxFrame
 	void OnResearchCopy(wxCommandEvent &Event);
 	void OnResearchPaste(wxCommandEvent &Event);
 	void OnResearchPasteInsert(wxCommandEvent &Event);
-	string GetResearchName(short &Index, bool Filter = false);
+	string GetResearchName(short Index, bool Filter = false);
 
 //	Techage Events
 
@@ -204,7 +193,7 @@ class AGE_Frame: public wxFrame
 	void OnTechagePasteInsert(wxCommandEvent &Event);
 	void OnTechageRename(wxCommandEvent &Event);
 	void OnTechageRenameGE2(wxCommandEvent &Event);
-	string GetTechageName(short &Index);
+	string GetTechageName(short);
 
 	void ListEffects();
 	void OnEffectsSearch(wxCommandEvent &Event);
@@ -214,7 +203,7 @@ class AGE_Frame: public wxFrame
 	void OnEffectsCopy(wxCommandEvent &Event);
 	void OnEffectsPaste(wxCommandEvent &Event);
 	void OnEffectsPasteInsert(wxCommandEvent &Event);
-	string GetEffectName(short &Index);
+	string GetEffectName(short);
 
 //	Tech Tree Events
 
@@ -226,7 +215,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesCopy(wxCommandEvent &Event);
 	void OnTTAgesPaste(wxCommandEvent &Event);
 	void OnTTAgesPasteInsert(wxCommandEvent &Event);
-	string GetTTAgesName(short &Index);
+	string GetTTAgesName(short);
 
 	void ListTTAgesBuildings();
 	void OnTTAgesBuildingSearch(wxCommandEvent &Event);
@@ -236,7 +225,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesBuildingCopy(wxCommandEvent &Event);
 	void OnTTAgesBuildingPaste(wxCommandEvent &Event);
 	void OnTTAgesBuildingPasteInsert(wxCommandEvent &Event);
-	string GetTTAgesBuildingName(short &Index);
+	string GetTTAgesBuildingName(short);
 
 	void ListTTAgesUnits();
 	void OnTTAgesUnitSearch(wxCommandEvent &Event);
@@ -246,7 +235,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesUnitCopy(wxCommandEvent &Event);
 	void OnTTAgesUnitPaste(wxCommandEvent &Event);
 	void OnTTAgesUnitPasteInsert(wxCommandEvent &Event);
-	string GetTTAgesUnitName(short &Index);
+	string GetTTAgesUnitName(short);
 
 	void ListTTAgesResearches();
 	void OnTTAgesResearchSearch(wxCommandEvent &Event);
@@ -256,7 +245,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesResearchCopy(wxCommandEvent &Event);
 	void OnTTAgesResearchPaste(wxCommandEvent &Event);
 	void OnTTAgesResearchPasteInsert(wxCommandEvent &Event);
-	string GetTTAgesResearchName(short &Index);
+	string GetTTAgesResearchName(short);
 
 	void ListTTBuildings();
 	void OnTTBuildingSearch(wxCommandEvent &Event);
@@ -266,7 +255,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingCopy(wxCommandEvent &Event);
 	void OnTTBuildingPaste(wxCommandEvent &Event);
 	void OnTTBuildingPasteInsert(wxCommandEvent &Event);
-	string GetTTBuildingName(short &Index);
+	string GetTTBuildingName(short);
 
 	void ListTTBuildingBuildings();
 	void OnTTBuildingBuildingSearch(wxCommandEvent &Event);
@@ -276,7 +265,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingBuildingCopy(wxCommandEvent &Event);
 	void OnTTBuildingBuildingPaste(wxCommandEvent &Event);
 	void OnTTBuildingBuildingPasteInsert(wxCommandEvent &Event);
-	string GetTTBuildingBuildingName(short &Index);
+	string GetTTBuildingBuildingName(short);
 
 	void ListTTBuildingUnits();
 	void OnTTBuildingUnitSearch(wxCommandEvent &Event);
@@ -286,7 +275,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingUnitCopy(wxCommandEvent &Event);
 	void OnTTBuildingUnitPaste(wxCommandEvent &Event);
 	void OnTTBuildingUnitPasteInsert(wxCommandEvent &Event);
-	string GetTTBuildingUnitName(short &Index);
+	string GetTTBuildingUnitName(short);
 
 	void ListTTBuildingResearches();
 	void OnTTBuildingResearchSearch(wxCommandEvent &Event);
@@ -296,7 +285,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingResearchCopy(wxCommandEvent &Event);
 	void OnTTBuildingResearchPaste(wxCommandEvent &Event);
 	void OnTTBuildingResearchPasteInsert(wxCommandEvent &Event);
-	string GetTTBuildingResearchName(short &Index);
+	string GetTTBuildingResearchName(short);
 
 	void ListTTUnits();
 	void OnTTUnitSearch(wxCommandEvent &Event);
@@ -306,7 +295,7 @@ class AGE_Frame: public wxFrame
 	void OnTTUnitCopy(wxCommandEvent &Event);
 	void OnTTUnitPaste(wxCommandEvent &Event);
 	void OnTTUnitPasteInsert(wxCommandEvent &Event);
-	string GetTTUnitName(short &Index);
+	string GetTTUnitName(short);
 
 	void ListTTUnitUnits();
 	void OnTTUnitUnitSearch(wxCommandEvent &Event);
@@ -316,7 +305,7 @@ class AGE_Frame: public wxFrame
 	void OnTTUnitUnitCopy(wxCommandEvent &Event);
 	void OnTTUnitUnitPaste(wxCommandEvent &Event);
 	void OnTTUnitUnitPasteInsert(wxCommandEvent &Event);
-	string GetTTUnitUnitName(short &Index);
+	string GetTTUnitUnitName(short);
 
 	void ListTTResearches();
 	void OnTTResearchSearch(wxCommandEvent &Event);
@@ -326,7 +315,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchCopy(wxCommandEvent &Event);
 	void OnTTResearchPaste(wxCommandEvent &Event);
 	void OnTTResearchPasteInsert(wxCommandEvent &Event);
-	string GetTTResearchName(short &Index);
+	string GetTTResearchName(short);
 
 	void ListTTResearchBuildings();
 	void OnTTResearchBuildingSearch(wxCommandEvent &Event);
@@ -336,7 +325,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchBuildingCopy(wxCommandEvent &Event);
 	void OnTTResearchBuildingPaste(wxCommandEvent &Event);
 	void OnTTResearchBuildingPasteInsert(wxCommandEvent &Event);
-	string GetTTResearchBuildingName(short &Index);
+	string GetTTResearchBuildingName(short);
 
 	void ListTTResearchUnits();
 	void OnTTResearchUnitSearch(wxCommandEvent &Event);
@@ -346,7 +335,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchUnitCopy(wxCommandEvent &Event);
 	void OnTTResearchUnitPaste(wxCommandEvent &Event);
 	void OnTTResearchUnitPasteInsert(wxCommandEvent &Event);
-	string GetTTResearchUnitName(short &Index);
+	string GetTTResearchUnitName(short);
 
 	void ListTTResearchResearches();
 	void OnTTResearchResearchSearch(wxCommandEvent &Event);
@@ -356,7 +345,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchResearchCopy(wxCommandEvent &Event);
 	void OnTTResearchResearchPaste(wxCommandEvent &Event);
 	void OnTTResearchResearchPasteInsert(wxCommandEvent &Event);
-	string GetTTResearchResearchName(short &Index);
+	string GetTTResearchResearchName(short);
 
 //	Civilization Events
 
@@ -368,7 +357,7 @@ class AGE_Frame: public wxFrame
 	void OnCivsCopy(wxCommandEvent &Event);
 	void OnCivsPaste(wxCommandEvent &Event);
 	void OnCivsPasteInsert(wxCommandEvent &Event);
-	string GetCivName(short &Index);
+	string GetCivName(short);
 	void CivCountWarning();
 
 	void ListResources(bool Sized = true);
@@ -380,9 +369,9 @@ class AGE_Frame: public wxFrame
 	void OnResourcesPaste(wxCommandEvent &Event);
 	void OnResourcesPasteInsert(wxCommandEvent &Event);
 	void OnResourcesCopyToAll(wxCommandEvent &Event);
-	string GetResourceName(short &Index);
+	string GetResourceName(short);
 
-	void ListUnits(short &civ, bool Sized = true);
+	void ListUnits(short civ, bool Sized = true);
 	void OnUnitsSearch(wxCommandEvent &Event);
 	void OnUnitsSelect(wxCommandEvent &Event);
 	void OnUnitsAdd(wxCommandEvent &Event);
@@ -398,10 +387,10 @@ class AGE_Frame: public wxFrame
 	void UnitsGraphicsPaste(GraphicCopies &store, short civ, short loop);
 	void OnUnitsEnable(wxCommandEvent &Event);
 	void OnUnitsDisable(wxCommandEvent &Event);
-	void OnExtractUnit(wxCommandEvent &Event);
-	void OnImportUnit(wxCommandEvent &Event);
+	//void OnExtractUnit(wxCommandEvent &Event);
+	//void OnImportUnit(wxCommandEvent &Event);
 	void OnUnitSubList(wxCommandEvent &Event);
-	string GetUnitName(short &Index, short &civ, bool Filter = false);
+	string GetUnitName(short Index, short civ, bool Filter = false);
 
 	void ListUnitDamageGraphics();
 	void OnUnitDamageGraphicsSearch(wxCommandEvent &Event);
@@ -411,7 +400,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitDamageGraphicsCopy(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsPaste(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event);
-	string GetUnitDamageGraphicName(short &Index);
+	string GetUnitDamageGraphicName(short);
 
 	void ListUnitAttacks();
 	void OnUnitAttacksSearch(wxCommandEvent &Event);
@@ -421,7 +410,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitAttacksCopy(wxCommandEvent &Event);
 	void OnUnitAttacksPaste(wxCommandEvent &Event);
 	void OnUnitAttacksPasteInsert(wxCommandEvent &Event);
-	string GetUnitAttackName(short &Index);
+	string GetUnitAttackName(short);
 
 	void ListUnitArmors();
 	void OnUnitArmorsSearch(wxCommandEvent &Event);
@@ -431,11 +420,11 @@ class AGE_Frame: public wxFrame
 	void OnUnitArmorsCopy(wxCommandEvent &Event);
 	void OnUnitArmorsPaste(wxCommandEvent &Event);
 	void OnUnitArmorsPasteInsert(wxCommandEvent &Event);
-	string GetUnitArmorName(short &Index);
+	string GetUnitArmorName(short);
 
 //	Unit Events
 
-	void ListUnitHeads(short &civ);
+	void ListUnitHeads(short);
 	void OnUnitHeadsSelect(wxCommandEvent &Event);
 
 	void ListUnitCommands();
@@ -446,7 +435,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitCommandsCopy(wxCommandEvent &Event);
 	void OnUnitCommandsPaste(wxCommandEvent &Event);
 	void OnUnitCommandsPasteInsert(wxCommandEvent &Event);
-	string GetUnitCommandName(short &Index);
+	string GetUnitCommandName(short);
 
 //	Unitline Events
 
@@ -458,7 +447,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitLinesCopy(wxCommandEvent &Event);
 	void OnUnitLinesPaste(wxCommandEvent &Event);
 	void OnUnitLinesPasteInsert(wxCommandEvent &Event);
-	string GetUnitLineName(short &Index);
+	string GetUnitLineName(short);
 
 	void ListUnitLineUnits();
 	void OnUnitLineUnitsSearch(wxCommandEvent &Event);
@@ -468,7 +457,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitLineUnitsCopy(wxCommandEvent &Event);
 	void OnUnitLineUnitsPaste(wxCommandEvent &Event);
 	void OnUnitLineUnitsPasteInsert(wxCommandEvent &Event);
-	string GetUnitLineUnitName(short &Index);
+	string GetUnitLineUnitName(short);
 
 //	Graphic Events
 
@@ -482,9 +471,9 @@ class AGE_Frame: public wxFrame
 	void OnGraphicsPasteInsert(wxCommandEvent &Event);
 	void OnGraphicsEnable(wxCommandEvent &Event);
 	void OnGraphicsDisable(wxCommandEvent &Event);
-	void OnExtractGraphic(wxCommandEvent &Event);
-	void OnImportGraphic(wxCommandEvent &Event);
-	string GetGraphicName(short &Index, bool Filter = false);
+	//void OnExtractGraphic(wxCommandEvent &Event);
+	//void OnImportGraphic(wxCommandEvent &Event);
+	string GetGraphicName(short Index, bool Filter = false);
 
 	void ListGraphicDeltas();
 	void OnGraphicDeltasSearch(wxCommandEvent &Event);
@@ -494,13 +483,13 @@ class AGE_Frame: public wxFrame
 	void OnGraphicDeltasCopy(wxCommandEvent &Event);
 	void OnGraphicDeltasPaste(wxCommandEvent &Event);
 	void OnGraphicDeltasPasteInsert(wxCommandEvent &Event);
-	string GetGraphicDeltaName(short &Index);
+	string GetGraphicDeltaName(short);
 
 	void ListGraphicAttackSounds();
 	void OnGraphicAttackSoundsSearch(wxCommandEvent &Event);
 	void OnGraphicAttackSoundsSelect(wxCommandEvent &Event);
 	void OnGraphicAttackSoundsCopy(wxCommandEvent &Event);
-	string GetGraphicAttackSoundName(short &Index);
+	string GetGraphicAttackSoundName(short);
 
 //	Terrain Events
 
@@ -513,7 +502,7 @@ class AGE_Frame: public wxFrame
 	void OnTerrainsCopy(wxCommandEvent &Event);
 	void OnTerrainsPaste(wxCommandEvent &Event);
 	void OnTerrainsPasteInsert(wxCommandEvent &Event);
-	string GetTerrainName(short &Index);
+	string GetTerrainName(short);
 
 //	Terrain Border Events
 
@@ -522,14 +511,14 @@ class AGE_Frame: public wxFrame
 	void OnTerrainBordersSelect(wxCommandEvent &Event);
 	void OnTerrainBordersCopy(wxCommandEvent &Event);
 	void OnTerrainBordersPaste(wxCommandEvent &Event);
-	string GetTerrainBorderName(short &Index);
+	string GetTerrainBorderName(short);
 
 	void ListTerrainBorderFrames();
 	void OnTerrainBorderFramesSearch(wxCommandEvent &Event);
 	void OnTerrainBorderFramesSelect(wxCommandEvent &Event);
 	void OnTerrainBorderFramesCopy(wxCommandEvent &Event);
 	void OnTerrainBorderFramesPaste(wxCommandEvent &Event);
-	string GetTerrainBorderFrameName(short &Index);
+	string GetTerrainBorderFrameName(short);
 
 //	Terrain Restriction Events
 
@@ -544,7 +533,7 @@ class AGE_Frame: public wxFrame
 	void OnTerrainRestrictionsPasteInsert(wxCommandEvent &Event);
 	void OnTerrainRestrictionsTerrainCopy(wxCommandEvent &Event);
 	void OnTerrainRestrictionsTerrainPaste(wxCommandEvent &Event);
-	string GetTerrainRestrictionName(short &Index);
+	string GetTerrainRestrictionName(short);
 
 //	Sound Events
 
@@ -556,7 +545,7 @@ class AGE_Frame: public wxFrame
 	void OnSoundsCopy(wxCommandEvent &Event);
 	void OnSoundsPaste(wxCommandEvent &Event);
 	void OnSoundsPasteInsert(wxCommandEvent &Event);
-	string GetSoundName(short &Index);
+	string GetSoundName(short);
 
 	void ListSoundItems();
 	void OnSoundItemsSearch(wxCommandEvent &Event);
@@ -566,7 +555,7 @@ class AGE_Frame: public wxFrame
 	void OnSoundItemsCopy(wxCommandEvent &Event);
 	void OnSoundItemsPaste(wxCommandEvent &Event);
 	void OnSoundItemsPasteInsert(wxCommandEvent &Event);
-	string GetSoundItemName(short &Index);
+	string GetSoundItemName(short);
 
 //	Player Color Events
 
@@ -578,7 +567,7 @@ class AGE_Frame: public wxFrame
 	void OnPlayerColorsCopy(wxCommandEvent &Event);
 	void OnPlayerColorsPaste(wxCommandEvent &Event);
 	void OnPlayerColorsPasteInsert(wxCommandEvent &Event);
-	string GetPlayerColorName(short &Index);
+	string GetPlayerColorName(short);
 
 
 //	Common Events
@@ -668,7 +657,6 @@ class AGE_Frame: public wxFrame
 
 	static const short MaxCivs = 30;
 	bool PopupCivWarning;
-	short Zero;
 	vector<short> CivIDs;
 	vector<short> ResourceIDs;
 	short UnitCivID;
@@ -798,7 +786,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Borders_Holder_BorderEnabled1;
 	wxStaticText *Borders_Text_BorderEnabled;
 	TextCtrl_Short *Borders_BorderEnabled;
-	CheckBox_Short *Borders_CheckBox_BorderEnabled;
+	CheckBox_2State *Borders_CheckBox_BorderEnabled;
 	wxBoxSizer *Borders_Holder_BorderName[2];
 	wxStaticText *Borders_Text_BorderName[2];
 	TextCtrl_String *Borders_BorderName[2];
@@ -842,7 +830,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Borders_Holder_BorderTerrain;
 	wxStaticText *Borders_Text_BorderTerrain;
 	TextCtrl_Short *Borders_BorderTerrain;
-	ComboBox_Short *Borders_ComboBox_BorderTerrain;
+	ComboBox_Plus1 *Borders_ComboBox_BorderTerrain;
 	wxBoxSizer *Borders_Holder_BorderUnknown10;
 	wxStaticText *Borders_Text_BorderUnknown10;
 	TextCtrl_Short *Borders_BorderUnknown10;
@@ -916,7 +904,7 @@ class AGE_Frame: public wxFrame
 	wxGridSizer *Research_Holder_RequiredTechs;
 	wxStaticText *Research_Text_RequiredTechArea;
 	TextCtrl_Short *Research_RequiredTechs[6];
-	ComboBox_Short *Research_ComboBox_RequiredTechs[6];
+	ComboBox_Plus1 *Research_ComboBox_RequiredTechs[6];
 	wxBoxSizer *Research_Holder_RequiredTechCount;
 	wxStaticText *Research_Text_RequiredTechCount;
 	TextCtrl_Short *Research_RequiredTechCount;
@@ -928,27 +916,27 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Research_Text_Resources;
 	wxGridSizer *Research_ResourceGrid;
 	TextCtrl_Short *Research_Resources[3];
-	ComboBox_Short *Research_ComboBox_Resources[3];
+	ComboBox_Plus1 *Research_ComboBox_Resources[3];
 	wxStaticText *Research_Text_Amount;
 	TextCtrl_Short *Research_Amount[3];
 	wxStaticText *Research_Text_Used;
 	TextCtrl_Byte *Research_Used[3];
-	CheckBox_Byte *Research_CheckBox_Used[3];
+	CheckBox_2State *Research_CheckBox_Used[3];
 
 	wxBoxSizer *Research_Holder_Civ;
 	wxStaticText *Research_Text_Civ;
 	TextCtrl_Short *Research_Civ;
-	ComboBox_Short *Research_ComboBox_Civ;
+	ComboBox_Plus1 *Research_ComboBox_Civ;
 
 	wxBoxSizer *Research_Holder_FullTechMode;
 	wxStaticText *Research_Text_FullTechMode;
 	TextCtrl_Short *Research_FullTechMode;
-	CheckBox_Short *Research_CheckBox_FullTechMode;
+	CheckBox_2State *Research_CheckBox_FullTechMode;
 
 	wxBoxSizer *Research_Holder_ResearchLocation;
 	wxStaticText *Research_Text_ResearchLocation;
 	TextCtrl_Short *Research_ResearchLocation;
-	ComboBox_Short *Research_ComboBox_ResearchLocation;
+	ComboBox_Plus1 *Research_ComboBox_ResearchLocation;
 
 	wxBoxSizer *Research_Holder_LangDLLName;
 	wxStaticText *Research_Text_LangDLLName;
@@ -967,7 +955,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Research_Holder_TechID;
 	wxStaticText *Research_Text_TechID;
 	TextCtrl_Short *Research_TechID;
-	ComboBox_Short *Research_ComboBox_TechID;
+	ComboBox_Plus1 *Research_ComboBox_TechID;
 
 	wxBoxSizer *Research_Holder_Type;
 	wxStaticText *Research_Text_Type;
@@ -1015,7 +1003,7 @@ class AGE_Frame: public wxFrame
 	wxTextCtrl *Effects_E;	// amount
 	wxStaticText *Effects_Info_E;
 	wxStaticText *Effects_Text_F;
-	TextCtrl_Short *Effects_F;	// class
+	TextCtrl_AShort *Effects_F;	// class
 	wxStaticText *Effects_Info_F;
 
 	wxStaticBoxSizer *Techs_Techs;
@@ -1063,33 +1051,34 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Effects_Holder_Type;
 	wxBoxSizer *Effects_Holder_Type2;
 	wxStaticText *Effects_Text_Type;
-	ComboBox_Byte_EffectType *Effects_ComboBox_Type;
+	ComboBox_EffectType *Effects_ComboBox_Type;
 	TextCtrl_Byte *Effects_Type;
 	wxStaticBoxSizer *Effects_Holder_Data;
 	wxStaticText *Effects_Text_A;
 	TextCtrl_Short *Effects_A;
 	wxBoxSizer *Effects_ComboBox_A;	// Space reserver, never used.
-	ComboBox_Short *Effects_ComboBox_UnitsA;	// for Effects 0, 2, 3, 4, 5
-	ComboBox_Short *Effects_ComboBox_ResourcesA;	// for Effects 1, 6
-	ComboBox_Short *Effects_ComboBox_ResearchsA;	// for Effects 101, 103
+	ComboBox_Plus1 *Effects_ComboBox_UnitsA;	// for Effects 0, 2, 3, 4, 5
+	ComboBox_Plus1 *Effects_ComboBox_ResourcesA;	// for Effects 1, 6
+	ComboBox_Plus1 *Effects_ComboBox_ResearchsA;	// for Effects 101, 103
 	wxStaticText *Effects_Info_A;
 	wxStaticText *Effects_Text_B;
 	TextCtrl_Short *Effects_B;
 	wxBoxSizer *Effects_ComboBox_B;	// Space reserver, never used.
-	CheckBox_Short *Effects_CheckBox_ModeB;	// for Effects 1, 2
-	ComboBox_Short *Effects_ComboBox_UnitsB;	// for Effects 3
-	ComboBox_Short *Effects_ComboBox_ResourcesB;	// for Effects 101
+	CheckBox_2State *Effects_CheckBox_ModeB;	// for Effects 1, 2
+	ComboBox_Plus1 *Effects_ComboBox_Class;	// for Effects 0, 4, 5
+	ComboBox_Plus1 *Effects_ComboBox_UnitsB;	// for Effects 3
+	ComboBox_Plus1 *Effects_ComboBox_ResourcesB;	// for Effects 101
 	wxStaticText *Effects_Info_B;
 	wxStaticText *Effects_Text_C;
 	TextCtrl_Short *Effects_C;
 	wxBoxSizer *Effects_ComboBox_C;	// Space reserver, never used.
-	CheckBox_Short *Effects_CheckBox_ModeC;	// for Effects 101, 103
-	ComboBox_Short *Effects_ComboBox_AttributesC;	// for Effects 0, 4, 5
+	CheckBox_2State *Effects_CheckBox_ModeC;	// for Effects 101, 103
+	ComboBox_Plus1 *Effects_ComboBox_AttributesC;	// for Effects 0, 4, 5
 	wxStaticText *Effects_Info_C;
 	wxStaticText *Effects_Text_D;
 	TextCtrl_Float *Effects_D;
 	wxBoxSizer *Effects_ComboBox_D;	// Space reserver, never used.
-	ComboBox_Float *Effects_ComboBox_ResearchsD;	// for Effects 102
+	ComboBox_Plus1 *Effects_ComboBox_ResearchsD;	// for Effects 102
 	wxStaticText *Effects_Info_D;
 	wxHyperlinkCtrl *Effects_Link;
 
@@ -1125,11 +1114,11 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Civs_Holder_TechTree;
 	wxStaticText *Civs_Text_TechTree;
 	TextCtrl_Short *Civs_TechTree;
-	ComboBox_Short *Civs_ComboBox_TechTree;
+	ComboBox_Plus1 *Civs_ComboBox_TechTree;
 	wxBoxSizer *Civs_Holder_TeamBonus;
 	wxStaticText *Civs_Text_TeamBonus;
 	TextCtrl_Short *Civs_TeamBonus;
-	ComboBox_Short *Civs_ComboBox_TeamBonus;
+	ComboBox_Plus1 *Civs_ComboBox_TeamBonus;
 	wxBoxSizer *Civs_Holder_GraphicSet;
 	wxStaticText *Civs_Text_GraphicSet;
 	TextCtrl_Byte *Civs_GraphicSet;
@@ -1180,240 +1169,236 @@ class AGE_Frame: public wxFrame
 
 	wxScrolledWindow *Units_Scroller;	// Scrollable unit section
 
-	TextCtrl_Byte *Units_Type;
+	TextCtrl_AByte *Units_Type;
 	wxOwnerDrawnComboBox *Units_ComboBox_Type;
-	TextCtrl_Short *Units_ID1;
-	TextCtrl_UShort *Units_LanguageDLLName;
+	TextCtrl_AShort *Units_ID1;
+	TextCtrl_AUShort *Units_LanguageDLLName;
 	wxTextCtrl *Units_DLL_LanguageDLLName;
-	TextCtrl_UShort *Units_LanguageDLLCreation;
+	TextCtrl_AUShort *Units_LanguageDLLCreation;
 	wxTextCtrl *Units_DLL_LanguageDLLCreation;
-	TextCtrl_Short *Units_Class;
-	ComboBox_Short *Units_ComboBox_Class[3];
-	TextCtrl_Short *Units_StandingGraphic[2];
-	ComboBox_Short *Units_ComboBox_StandingGraphic[2];
-	TextCtrl_Short *Units_DyingGraphic[2];
-	ComboBox_Short *Units_ComboBox_DyingGraphic[2];
-	TextCtrl_Byte *Units_DeathMode;
-	CheckBox_Byte *Units_CheckBox_DeathMode;
-	TextCtrl_Short *Units_HitPoints;
-	TextCtrl_Float *Units_LineOfSight;
-	TextCtrl_Byte *Units_GarrisonCapacity;
-	TextCtrl_Float *Units_SizeRadius[2];
-	TextCtrl_Float *Units_HPBarHeight1;
-	TextCtrl_Short *Units_TrainSound[2];
-	ComboBox_Short *Units_ComboBox_TrainSound[2];
-	TextCtrl_Short *Units_DeadUnitID;
-	ComboBox_Short *Units_ComboBox_DeadUnitID;
-	TextCtrl_Byte *Units_PlacementMode;
-	TextCtrl_Byte *Units_AirMode;
-	CheckBox_Byte *Units_CheckBox_AirMode;
-	TextCtrl_Short *Units_IconID;
-	TextCtrl_Byte *Units_HideInEditor;
-	CheckBox_Byte *Units_CheckBox_HideInEditor;
-	TextCtrl_Short *Units_Unknown1;
-	TextCtrl_Short *Units_Enabled;
-	CheckBox_Short *Units_CheckBox_Enabled;
-	TextCtrl_Short *Units_PlacementBypassTerrain[2];
-	ComboBox_Short *Units_ComboBox_PlacementBypassTerrain[2];
-	TextCtrl_Short *Units_PlacementTerrain[2];
-	ComboBox_Short *Units_ComboBox_PlacementTerrain[2];
-	TextCtrl_Float *Units_EditorRadius[2];
-	TextCtrl_Byte *Units_BuildingMode;
-	TextCtrl_Byte *Units_VisibleInFog;
+	TextCtrl_AShort *Units_Class;
+	ComboBox_Plus1 *Units_ComboBox_Class[2];
+	TextCtrl_AShort *Units_StandingGraphic[2];
+	ComboBox_Plus1 *Units_ComboBox_StandingGraphic[2];
+	TextCtrl_AShort *Units_DyingGraphic[2];
+	ComboBox_Plus1 *Units_ComboBox_DyingGraphic[2];
+	TextCtrl_AByte *Units_DeathMode;
+	CheckBox_2State *Units_CheckBox_DeathMode;
+	TextCtrl_AShort *Units_HitPoints;
+	TextCtrl_AFloat *Units_LineOfSight;
+	TextCtrl_AByte *Units_GarrisonCapacity;
+	TextCtrl_AFloat *Units_SizeRadius[2];
+	TextCtrl_AFloat *Units_HPBarHeight1;
+	TextCtrl_AShort *Units_TrainSound[2];
+	ComboBox_Plus1 *Units_ComboBox_TrainSound[2];
+	TextCtrl_AShort *Units_DeadUnitID;
+	ComboBox_Plus1 *Units_ComboBox_DeadUnitID;
+	TextCtrl_AByte *Units_PlacementMode;
+	TextCtrl_AByte *Units_AirMode;
+	CheckBox_2State *Units_CheckBox_AirMode;
+	TextCtrl_AShort *Units_IconID;
+	TextCtrl_AByte *Units_HideInEditor;
+	CheckBox_2State *Units_CheckBox_HideInEditor;
+	TextCtrl_AShort *Units_Unknown1;
+	TextCtrl_AShort *Units_Enabled;
+	CheckBox_2State *Units_CheckBox_Enabled;
+	TextCtrl_AShort *Units_PlacementBypassTerrain[2];
+	ComboBox_Plus1 *Units_ComboBox_PlacementBypassTerrain[2];
+	TextCtrl_AShort *Units_PlacementTerrain[2];
+	ComboBox_Plus1 *Units_ComboBox_PlacementTerrain[2];
+	TextCtrl_AFloat *Units_EditorRadius[2];
+	TextCtrl_AByte *Units_BuildingMode;
+	TextCtrl_AByte *Units_VisibleInFog;
 	wxStaticText *Units_Text_VisibleInFog;
-	TextCtrl_Short *Units_TerrainRestriction;
-	ComboBox_Short *Units_ComboBox_TerrainRestriction;
-	TextCtrl_Byte *Units_FlyMode;
-	CheckBox_Byte *Units_CheckBox_FlyMode;
-	TextCtrl_Short *Units_ResourceCapacity;
-	TextCtrl_Float *Units_ResourceDecay;
-	TextCtrl_Byte *Units_BlastType;
-	TextCtrl_Byte *Units_Unknown2;
-	TextCtrl_Byte *Units_InteractionMode;
-	TextCtrl_Byte *Units_MinimapMode;
-	TextCtrl_Short *Units_CommandAttribute;
-	TextCtrl_Short *Units_Unknown3;
-	TextCtrl_Short *Units_Unknown3B;
-	TextCtrl_Byte *Units_Unknown3a;
-	TextCtrl_Long *Units_LanguageDLLHelp;
+	TextCtrl_AShort *Units_TerrainRestriction;
+	ComboBox_Plus1 *Units_ComboBox_TerrainRestriction;
+	TextCtrl_AByte *Units_FlyMode;
+	CheckBox_2State *Units_CheckBox_FlyMode;
+	TextCtrl_AShort *Units_ResourceCapacity;
+	TextCtrl_AFloat *Units_ResourceDecay;
+	TextCtrl_AByte *Units_BlastType;
+	TextCtrl_AByte *Units_Unknown2;
+	TextCtrl_AByte *Units_InteractionMode;
+	TextCtrl_AByte *Units_MinimapMode;
+	TextCtrl_AShort *Units_CommandAttribute;
+	TextCtrl_AShort *Units_Unknown3;
+	TextCtrl_AShort *Units_Unknown3B;
+	TextCtrl_AByte *Units_Unknown3a;
+	TextCtrl_ALong *Units_LanguageDLLHelp;
 	wxTextCtrl *Units_DLL_LanguageDLLHelp;
 	wxTextCtrl *Units_LanguageDLLConverter[2];
-	TextCtrl_Long *Units_LanguageDLLHotKeyText;
+	TextCtrl_ALong *Units_LanguageDLLHotKeyText;
 	wxTextCtrl *Units_DLL_LanguageDLLHKText;
-	TextCtrl_Short *Units_HotKey;
+	TextCtrl_AShort *Units_HotKey;
 	wxTextCtrl *Units_DLL_HotKey4;
-	TextCtrl_Byte *Units_Unknown4;
-	TextCtrl_Byte *Units_Unknown5;
-	TextCtrl_Byte *Units_Unselectable;
-	CheckBox_Byte *Units_CheckBox_Unselectable;
-	TextCtrl_Byte *Units_Unknown6;
-	TextCtrl_Byte *Units_Unknown7;
-	TextCtrl_Byte *Units_Unknown8;
-	TextCtrl_Byte *Units_SelectionMask;
-	TextCtrl_Byte *Units_SelectionShapeType;
-	TextCtrl_Byte *Units_SelectionShape;
-	TextCtrl_Byte *Units_Attribute;
-	TextCtrl_Byte *Units_Civ;
-	ComboBox_Byte *Units_ComboBox_Civ;
-	TextCtrl_Byte *Units_Unknown9[2];
-	TextCtrl_Byte *Units_SelectionEffect;
-	TextCtrl_Byte *Units_EditorSelectionColour;
+	TextCtrl_AByte *Units_Unknown4;
+	TextCtrl_AByte *Units_Unknown5;
+	TextCtrl_AByte *Units_Unselectable;
+	CheckBox_2State *Units_CheckBox_Unselectable;
+	TextCtrl_AByte *Units_Unknown6;
+	TextCtrl_AByte *Units_Unknown7;
+	TextCtrl_AByte *Units_Unknown8;
+	TextCtrl_AByte *Units_SelectionMask;
+	TextCtrl_AByte *Units_SelectionShapeType;
+	TextCtrl_AByte *Units_SelectionShape;
+	TextCtrl_AByte *Units_Attribute;
+	TextCtrl_AByte *Units_Civ;
+	ComboBox_Plus1 *Units_ComboBox_Civ;
+	TextCtrl_AByte *Units_Unknown9[2];
+	TextCtrl_AByte *Units_SelectionEffect;
+	TextCtrl_AByte *Units_EditorSelectionColour;
 	wxBoxSizer *Units_SelectionRadiusBox;
-	TextCtrl_Float *Units_SelectionRadius[2];
-	TextCtrl_Float *Units_HPBarHeight2;
-	TextCtrl_Short *ResourceStorage_Type[3];
-	ComboBox_Short *ResourceStorage_ComboBox_Type[3];
-	TextCtrl_Float *ResourceStorage_Amount[3];
-	TextCtrl_Byte *ResourceStorage_Enabled[3];
-	TextCtrl_Byte *Units_DamageGraphicCount;
-	TextCtrl_Short *Units_SelectionSound;
-	ComboBox_Short *Units_ComboBox_SelectionSound;
-	TextCtrl_Short *Units_DyingSound;
-	ComboBox_Short *Units_ComboBox_DyingSound;
-	TextCtrl_Short *Units_AttackSound;
-	ComboBox_Short *Units_ComboBox_AttackSound;
-	TextCtrl_String *Units_Name;
-	TextCtrl_String *Units_Name2;
-	TextCtrl_Short *Units_Unitline;
-	ComboBox_Short *Units_ComboBox_Unitline;
-	TextCtrl_Byte *Units_MinTechLevel;
-	TextCtrl_Short *Units_ID2;
-	TextCtrl_Short *Units_ID3;
+	TextCtrl_AFloat *Units_SelectionRadius[2];
+	TextCtrl_AFloat *Units_HPBarHeight2;
+	TextCtrl_AShort *ResourceStorage_Type[3];
+	ComboBox_Plus1 *ResourceStorage_ComboBox_Type[3];
+	TextCtrl_AFloat *ResourceStorage_Amount[3];
+	TextCtrl_AByte *ResourceStorage_Enabled[3];
+	TextCtrl_AShort *Units_SelectionSound;
+	ComboBox_Plus1 *Units_ComboBox_SelectionSound;
+	TextCtrl_AShort *Units_DyingSound;
+	ComboBox_Plus1 *Units_ComboBox_DyingSound;
+	TextCtrl_AShort *Units_AttackSound;
+	ComboBox_Plus1 *Units_ComboBox_AttackSound;
+	TextCtrl_AString *Units_Name;
+	TextCtrl_AString *Units_Name2;
+	TextCtrl_AShort *Units_Unitline;
+	ComboBox_Plus1 *Units_ComboBox_Unitline;
+	TextCtrl_AByte *Units_MinTechLevel;
+	TextCtrl_AShort *Units_ID2;
+	TextCtrl_AShort *Units_ID3;
 
 //	Type 20+
 
-	TextCtrl_Float *Units_Speed;
+	TextCtrl_AFloat *Units_Speed;
 
 //	Type 30+
 
-	TextCtrl_Short *Units_WalkingGraphic[2];
-	ComboBox_Short *Units_ComboBox_WalkingGraphic[2];
-	TextCtrl_Float *Units_RotationSpeed;
-	TextCtrl_Byte *Units_Unknown11;
-	TextCtrl_Short *Units_TrackingUnit;
-	ComboBox_Short *Units_ComboBox_TrackingUnit;
-	TextCtrl_Byte *Units_TrackingUnitUsed;
-	TextCtrl_Float *Units_TrackingUnitDensity;
-	TextCtrl_Float *Units_Unknown12;
-	TextCtrl_Byte *Units_Unknown16[17];
+	TextCtrl_AShort *Units_WalkingGraphic[2];
+	ComboBox_Plus1 *Units_ComboBox_WalkingGraphic[2];
+	TextCtrl_AFloat *Units_RotationSpeed;
+	TextCtrl_AByte *Units_Unknown11;
+	TextCtrl_AShort *Units_TrackingUnit;
+	ComboBox_Plus1 *Units_ComboBox_TrackingUnit;
+	TextCtrl_AByte *Units_TrackingUnitUsed;
+	TextCtrl_AFloat *Units_TrackingUnitDensity;
+	TextCtrl_AFloat *Units_Unknown12;
+	TextCtrl_AByte *Units_Unknown16[17];
 
 //	Type 40+
 
-	TextCtrl_Short *Units_SheepConversion;
-	CheckBox_Short_ZeroIsYes *Units_CheckBox_SheepConversion;
-	TextCtrl_Float *Units_SearchRadius;
-	TextCtrl_Float *Units_WorkRate;
-	TextCtrl_Short *Units_DropSite[2];
-	ComboBox_Short *Units_ComboBox_DropSite[2];
-	TextCtrl_Byte *Units_VillagerMode;
-	TextCtrl_Short *Units_MoveSound;
-	ComboBox_Short *Units_ComboBox_MoveSound;
-	TextCtrl_Short *Units_StopSound;
-	ComboBox_Short *Units_ComboBox_StopSound;
-	TextCtrl_Byte *Units_AnimalMode;
-	CheckBox_Byte *Units_CheckBox_AnimalMode;
+	TextCtrl_AShort *Units_SheepConversion;
+	CheckBox_ZeroIsYes *Units_CheckBox_SheepConversion;
+	TextCtrl_AFloat *Units_SearchRadius;
+	TextCtrl_AFloat *Units_WorkRate;
+	TextCtrl_AShort *Units_DropSite[2];
+	ComboBox_Plus1 *Units_ComboBox_DropSite[2];
+	TextCtrl_AByte *Units_VillagerMode;
+	TextCtrl_AShort *Units_MoveSound;
+	ComboBox_Plus1 *Units_ComboBox_MoveSound;
+	TextCtrl_AShort *Units_StopSound;
+	ComboBox_Plus1 *Units_ComboBox_StopSound;
+	TextCtrl_AByte *Units_AnimalMode;
+	CheckBox_2State *Units_CheckBox_AnimalMode;
 	TextCtrl_Byte *Units_Exists;
-	TextCtrl_Short *Units_CommandCount;
 
 //	Type 60+
 
-	TextCtrl_Byte *Units_Unknown20[2];
-	TextCtrl_Short *Units_AttackCount;
-	TextCtrl_Short *Units_ArmourCount;
-	TextCtrl_Short *Units_Unknown21;
-	TextCtrl_Float *Units_MaxRange;
-	TextCtrl_Float *Units_BlastRadius;
-	TextCtrl_Float *Units_ReloadTime1;
-	TextCtrl_Short *Units_ProjectileUnitID;
-	ComboBox_Short *Units_ComboBox_ProjectileUnitID;
-	TextCtrl_Short *Units_AccuracyPercent;
-	TextCtrl_Byte *Units_TowerMode;
-	CheckBox_Byte *Units_CheckBox_TowerMode;
-	TextCtrl_Short *Units_Delay;
-	TextCtrl_Float *Units_GraphicDisplacement[3];
-	TextCtrl_Byte *Units_BlastLevel;
-	TextCtrl_Float *Units_MinRange;
-	TextCtrl_Float *Units_GarrisonRecoveryRate;
-	TextCtrl_Short *Units_AttackGraphic;
-	ComboBox_Short *Units_ComboBox_AttackGraphic;
-	TextCtrl_Short *Units_DisplayedMeleeArmour;
-	TextCtrl_Short *Units_DisplayedAttack;
-	TextCtrl_Float *Units_DisplayedRange;
-	TextCtrl_Float *Units_ReloadTime2;
+	TextCtrl_AByte *Units_Unknown20[2];
+	TextCtrl_AShort *Units_Unknown21;
+	TextCtrl_AFloat *Units_MaxRange;
+	TextCtrl_AFloat *Units_BlastRadius;
+	TextCtrl_AFloat *Units_ReloadTime1;
+	TextCtrl_AShort *Units_ProjectileUnitID;
+	ComboBox_Plus1 *Units_ComboBox_ProjectileUnitID;
+	TextCtrl_AShort *Units_AccuracyPercent;
+	TextCtrl_AByte *Units_TowerMode;
+	CheckBox_2State *Units_CheckBox_TowerMode;
+	TextCtrl_AShort *Units_Delay;
+	TextCtrl_AFloat *Units_GraphicDisplacement[3];
+	TextCtrl_AByte *Units_BlastLevel;
+	TextCtrl_AFloat *Units_MinRange;
+	TextCtrl_AFloat *Units_GarrisonRecoveryRate;
+	TextCtrl_AShort *Units_AttackGraphic;
+	ComboBox_Plus1 *Units_ComboBox_AttackGraphic;
+	TextCtrl_AShort *Units_DisplayedMeleeArmour;
+	TextCtrl_AShort *Units_DisplayedAttack;
+	TextCtrl_AFloat *Units_DisplayedRange;
+	TextCtrl_AFloat *Units_ReloadTime2;
 
 //	Type 60 only
 
-	TextCtrl_Byte *Units_StretchMode;
-	TextCtrl_Byte *Units_CompensationMode;
-	TextCtrl_Byte *Units_DropAnimationMode;
-	TextCtrl_Byte *Units_PenetrationMode;
-	TextCtrl_Byte *Units_Unknown24;
-	TextCtrl_Float *Units_ProjectileArc;
+	TextCtrl_AByte *Units_StretchMode;
+	TextCtrl_AByte *Units_CompensationMode;
+	TextCtrl_AByte *Units_DropAnimationMode;
+	TextCtrl_AByte *Units_PenetrationMode;
+	TextCtrl_AByte *Units_Unknown24;
+	TextCtrl_AFloat *Units_ProjectileArc;
 
 //	Type 70+
 
-	TextCtrl_Short *Units_CostType[3];
-	ComboBox_Short *Units_ComboBox_CostType[3];
-	TextCtrl_Short *Units_CostAmount[3];
-	TextCtrl_Short *Units_CostUsed[3];
-	CheckBox_Short *Units_CheckBox_CostUsed[3];
-	TextCtrl_Short *Units_TrainTime;
-	TextCtrl_Short *Units_TrainLocationID;
-	ComboBox_Short *Units_ComboBox_TrainLocationID;
-	TextCtrl_Byte *Units_ButtonID;
-	TextCtrl_Byte *Units_Unknown26;
-	TextCtrl_Short *Units_Unknown27[3];
-	TextCtrl_Byte *Units_Unknown28;
-	TextCtrl_Byte *Units_MissileGraphicDelay;
-	TextCtrl_Byte *Units_HeroMode;
-	CheckBox_Byte *Units_CheckBox_HeroMode;
-	TextCtrl_Short *Units_GarrisonGraphic[2];
-	ComboBox_Short *Units_ComboBox_GarrisonGraphic[2];
-	TextCtrl_Float *Units_AttackMissileDuplicationAmount1;
-	TextCtrl_Byte *Units_AttackMissileDuplicationAmount2;
-	TextCtrl_Float *Units_AttackMissileDuplicationSpawning[3];
-	TextCtrl_Long *Units_AttackMissileDuplicationUnit;
-	ComboBox_Long *Units_ComboBox_AttackMissileDuplicationUnit;
-	TextCtrl_Long *Units_AttackMissileDuplicationGraphic;
-	ComboBox_Long *Units_ComboBox_AttackMissileDuplicationGraphic;
-	TextCtrl_Byte *Units_Unknown29;
-	TextCtrl_Short *Units_DisplayedPierceArmour;
+	TextCtrl_AShort *Units_CostType[3];
+	ComboBox_Plus1 *Units_ComboBox_CostType[3];
+	TextCtrl_AShort *Units_CostAmount[3];
+	TextCtrl_AShort *Units_CostUsed[3];
+	CheckBox_2State *Units_CheckBox_CostUsed[3];
+	TextCtrl_AShort *Units_TrainTime;
+	TextCtrl_AShort *Units_TrainLocationID;
+	ComboBox_Plus1 *Units_ComboBox_TrainLocationID;
+	TextCtrl_AByte *Units_ButtonID;
+	TextCtrl_AByte *Units_Unknown26;
+	TextCtrl_AShort *Units_Unknown27[3];
+	TextCtrl_AByte *Units_Unknown28;
+	TextCtrl_AByte *Units_MissileGraphicDelay;
+	TextCtrl_AByte *Units_HeroMode;
+	CheckBox_2State *Units_CheckBox_HeroMode;
+	TextCtrl_AShort *Units_GarrisonGraphic[2];
+	ComboBox_Plus1 *Units_ComboBox_GarrisonGraphic[2];
+	TextCtrl_AFloat *Units_AttackMissileDuplicationAmount1;
+	TextCtrl_AByte *Units_AttackMissileDuplicationAmount2;
+	TextCtrl_AFloat *Units_AttackMissileDuplicationSpawning[3];
+	TextCtrl_ALong *Units_AttackMissileDuplicationUnit;
+	ComboBox_Plus1 *Units_ComboBox_AttackMissileDuplicationUnit;
+	TextCtrl_ALong *Units_AttackMissileDuplicationGraphic;
+	ComboBox_Plus1 *Units_ComboBox_AttackMissileDuplicationGraphic;
+	TextCtrl_AByte *Units_Unknown29;
+	TextCtrl_AShort *Units_DisplayedPierceArmour;
 
 //	Type 80
 
-	TextCtrl_Short *Units_ConstructionGraphicID;
-	ComboBox_Short *Units_ComboBox_ConstructionGraphicID;
-	TextCtrl_Short *Units_SnowGraphicID;
-	ComboBox_Short *Units_ComboBox_SnowGraphicID;
-	TextCtrl_Short *Units_AdjacentMode;
-	CheckBox_Short *Units_CheckBox_AdjacentMode;
-	TextCtrl_Byte *Units_Unknown31;
-	TextCtrl_Byte *Units_Unknown31b;
-	CheckBox_Byte *Units_CheckBox_Unknown31b;
-	TextCtrl_Short *Units_StackUnitID;
-	ComboBox_Short *Units_ComboBox_StackUnitID;
-	TextCtrl_Short *Units_TerrainID;
-	ComboBox_Short *Units_ComboBox_TerrainID;
-	TextCtrl_Short *Units_Unknown32;
-	TextCtrl_Short *Units_ResearchID;
-	ComboBox_Short *Units_ComboBox_ResearchID;
-	TextCtrl_Byte *Units_Unknown33;
-	TextCtrl_Short *Units_AnnexUnit[4];
-	ComboBox_Short *Units_ComboBox_AnnexUnit[4];
-	TextCtrl_Float *Units_AnnexUnitMisplacement[4][2];
-	TextCtrl_Short *Units_HeadUnit;
-	ComboBox_Short *Units_ComboBox_HeadUnit;
-	TextCtrl_Short *Units_TransformUnit;
-	ComboBox_Short *Units_ComboBox_TransformUnit;
-	TextCtrl_Short *Units_Unknown34;
-	TextCtrl_Short *Units_ConstructionSound;
-	ComboBox_Short *Units_ComboBox_ConstructionSound;
-	TextCtrl_Byte *Units_GarrisonType;
-	ComboBox_Byte *Units_ComboBox_GarrisonType;
-	TextCtrl_Float *Units_GarrisonHealRate;
-	TextCtrl_Long *Units_Unknown35;
-	TextCtrl_Short *Units_Unknown36;
-	TextCtrl_Byte *Units_Unknown37[6];
+	TextCtrl_AShort *Units_ConstructionGraphicID;
+	ComboBox_Plus1 *Units_ComboBox_ConstructionGraphicID;
+	TextCtrl_AShort *Units_SnowGraphicID;
+	ComboBox_Plus1 *Units_ComboBox_SnowGraphicID;
+	TextCtrl_AShort *Units_AdjacentMode;
+	CheckBox_2State *Units_CheckBox_AdjacentMode;
+	TextCtrl_AByte *Units_Unknown31;
+	TextCtrl_AByte *Units_Unknown31b;
+	CheckBox_2State *Units_CheckBox_Unknown31b;
+	TextCtrl_AShort *Units_StackUnitID;
+	ComboBox_Plus1 *Units_ComboBox_StackUnitID;
+	TextCtrl_AShort *Units_TerrainID;
+	ComboBox_Plus1 *Units_ComboBox_TerrainID;
+	TextCtrl_AShort *Units_Unknown32;
+	TextCtrl_AShort *Units_ResearchID;
+	ComboBox_Plus1 *Units_ComboBox_ResearchID;
+	TextCtrl_AByte *Units_Unknown33;
+	TextCtrl_AShort *Units_AnnexUnit[4];
+	ComboBox_Plus1 *Units_ComboBox_AnnexUnit[4];
+	TextCtrl_AFloat *Units_AnnexUnitMisplacement[4][2];
+	TextCtrl_AShort *Units_HeadUnit;
+	ComboBox_Plus1 *Units_ComboBox_HeadUnit;
+	TextCtrl_AShort *Units_TransformUnit;
+	ComboBox_Plus1 *Units_ComboBox_TransformUnit;
+	TextCtrl_AShort *Units_Unknown34;
+	TextCtrl_AShort *Units_ConstructionSound;
+	ComboBox_Plus1 *Units_ComboBox_ConstructionSound;
+	TextCtrl_AByte *Units_GarrisonType;
+	ComboBox_Plus1 *Units_ComboBox_GarrisonType;
+	TextCtrl_AFloat *Units_GarrisonHealRate;
+	TextCtrl_ALong *Units_Unknown35;
+	TextCtrl_AShort *Units_Unknown36;
+	TextCtrl_AByte *Units_Unknown37[6];
 
 //	Data Container Names
 //	Type 10+
@@ -1472,7 +1457,6 @@ class AGE_Frame: public wxFrame
 	wxStaticText *ResourceStorage_Text_Type;
 	wxStaticText *ResourceStorage_Text_Amount;
 	wxStaticText *ResourceStorage_Text_Enabled;
-	wxStaticText *Units_Text_DamageGraphicCount;
 	wxStaticText *Units_Text_SelectionSound;
 	wxStaticText *Units_Text_DyingSound;
 	wxStaticText *Units_Text_AttackSound;
@@ -1507,13 +1491,10 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_MoveSound;
 	wxStaticText *Units_Text_StopSound;
 	wxStaticText *Units_Text_Exists;
-	wxStaticText *Units_Text_CommandCount;
 
 //	Type 60+
 
 	wxStaticText *Units_Text_Unknown20;
-	wxStaticText *Units_Text_AttackCount;
-	wxStaticText *Units_Text_ArmourCount;
 	wxStaticText *Units_Text_Unknown21;
 	wxStaticText *Units_Text_MaxRange;
 	wxStaticText *Units_Text_BlastRadius;
@@ -1787,11 +1768,11 @@ class AGE_Frame: public wxFrame
 
 	wxGridSizer *Units_Holder_DamageGraphics;
 	wxBoxSizer *Units_Holder_DamageGraphics_Data;
-	TextCtrl_Short *DamageGraphics_GraphicID;
-	ComboBox_Short *DamageGraphics_ComboBox_GraphicID;
-	TextCtrl_Byte *DamageGraphics_DamagePercent;
-	TextCtrl_Byte *DamageGraphics_Unknown1;
-	TextCtrl_Byte *DamageGraphics_Unknown2;
+	TextCtrl_AShort *DamageGraphics_GraphicID;
+	ComboBox_Plus1 *DamageGraphics_ComboBox_GraphicID;
+	TextCtrl_AByte *DamageGraphics_DamagePercent;
+	TextCtrl_AByte *DamageGraphics_Unknown1;
+	TextCtrl_AByte *DamageGraphics_Unknown2;
 	wxStaticText *DamageGraphics_Text_GraphicID;
 	wxStaticText *DamageGraphics_Text_DamagePercent;
 	wxStaticText *DamageGraphics_Text_Unknown1;
@@ -1816,9 +1797,9 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_Attacks;
 	wxBoxSizer *Units_Holder_Attacks_Data;
 	wxGridSizer *Units_Grid_Attacks_Data2;
-	TextCtrl_Short *Attacks_Class;
-	ComboBox_Short *Attacks_ComboBox_Class[3];
-	TextCtrl_Short *Attacks_Amount;
+	TextCtrl_AShort *Attacks_Class;
+	ComboBox_Plus1 *Attacks_ComboBox_Class[3];
+	TextCtrl_AShort *Attacks_Amount;
 	wxStaticText *Attacks_Text_Class;
 	wxStaticText *Attacks_Text_Amount;
 	wxBoxSizer *Attacks_Holder_Class;
@@ -1839,8 +1820,8 @@ class AGE_Frame: public wxFrame
 
 	wxBoxSizer *Units_Holder_Armors;
 	wxBoxSizer *Units_Holder_Armors_Data3;
-	TextCtrl_Short *Armors_Class;
-	TextCtrl_Short *Armors_Amount;
+	TextCtrl_AShort *Armors_Class;
+	TextCtrl_AShort *Armors_Amount;
 	wxStaticText *Armors_Text_Class;
 	wxStaticText *Armors_Text_Amount;
 	wxBoxSizer *Armors_Holder_Class;
@@ -2035,34 +2016,34 @@ class AGE_Frame: public wxFrame
 	wxStaticText *UnitCommands_Text_Unknown11;
 	wxStaticText *UnitCommands_Text_Graphics;
 
-	TextCtrl_Short *UnitCommands_One;
-	TextCtrl_Short *UnitCommands_ID;
-	TextCtrl_Byte *UnitCommands_Unknown1;
-	TextCtrl_Short *UnitCommands_Type;
-	TextCtrl_Short *UnitCommands_SubType;
+	TextCtrl_AShort *UnitCommands_One;
+	TextCtrl_AShort *UnitCommands_ID;
+	TextCtrl_AByte *UnitCommands_Unknown1;
+	TextCtrl_AShort *UnitCommands_Type;
+	TextCtrl_AShort *UnitCommands_SubType;
 	wxOwnerDrawnComboBox *UnitCommands_ComboBox_Types;
-	TextCtrl_Short *UnitCommands_ClassID;
-	TextCtrl_Short *UnitCommands_UnitID;
-	ComboBox_Short *UnitCommands_ComboBox_UnitID;
-	TextCtrl_Short *UnitCommands_Unknown2;
-	TextCtrl_Short *UnitCommands_ResourceIn;
-	ComboBox_Short *UnitCommands_ComboBox_ResourceIn;
-	TextCtrl_Short *UnitCommands_ResourceOut;
-	ComboBox_Short *UnitCommands_ComboBox_ResourceOut;
-	TextCtrl_Short *UnitCommands_Unknown3;
-	TextCtrl_Float *UnitCommands_WorkRateMultiplier;
-	TextCtrl_Float *UnitCommands_ExecutionRadius;
-	TextCtrl_Float *UnitCommands_ExtraRange;
-	TextCtrl_Byte *UnitCommands_Unknown4;
-	TextCtrl_Float *UnitCommands_Unknown5;
-	TextCtrl_Byte *UnitCommands_Unknown6;
-	TextCtrl_Byte *UnitCommands_Unknown7;
-	TextCtrl_Long *UnitCommands_Unknown8;
-	TextCtrl_Byte *UnitCommands_Unknown9;
-	TextCtrl_Byte *UnitCommands_Unknown10;
-	TextCtrl_Byte *UnitCommands_Unknown11;
-	TextCtrl_Short *UnitCommands_Graphics[6];
-	ComboBox_Short *UnitCommands_ComboBox_Graphics[6];
+	TextCtrl_AShort *UnitCommands_ClassID;
+	TextCtrl_AShort *UnitCommands_UnitID;
+	ComboBox_Plus1 *UnitCommands_ComboBox_UnitID;
+	TextCtrl_AShort *UnitCommands_Unknown2;
+	TextCtrl_AShort *UnitCommands_ResourceIn;
+	ComboBox_Plus1 *UnitCommands_ComboBox_ResourceIn;
+	TextCtrl_AShort *UnitCommands_ResourceOut;
+	ComboBox_Plus1 *UnitCommands_ComboBox_ResourceOut;
+	TextCtrl_AShort *UnitCommands_Unknown3;
+	TextCtrl_AFloat *UnitCommands_WorkRateMultiplier;
+	TextCtrl_AFloat *UnitCommands_ExecutionRadius;
+	TextCtrl_AFloat *UnitCommands_ExtraRange;
+	TextCtrl_AByte *UnitCommands_Unknown4;
+	TextCtrl_AFloat *UnitCommands_Unknown5;
+	TextCtrl_AByte *UnitCommands_Unknown6;
+	TextCtrl_AByte *UnitCommands_Unknown7;
+	TextCtrl_ALong *UnitCommands_Unknown8;
+	TextCtrl_AByte *UnitCommands_Unknown9;
+	TextCtrl_AByte *UnitCommands_Unknown10;
+	TextCtrl_AByte *UnitCommands_Unknown11;
+	TextCtrl_AShort *UnitCommands_Graphics[6];
+	ComboBox_Plus1 *UnitCommands_ComboBox_Graphics[6];
 
 //	Graphics user interface
 
@@ -2153,9 +2134,9 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Byte *Graphics_Replay;
 	TextCtrl_Short *Graphics_Coordinates[4];
 	TextCtrl_Short *Graphics_SoundID;
-	ComboBox_Short *Graphics_ComboBox_SoundID;
+	ComboBox_Plus1 *Graphics_ComboBox_SoundID;
 	TextCtrl_Byte *Graphics_AttackSoundUsed;
-	CheckBox_Byte *Graphics_CheckBox_AttackSoundUsed;
+	CheckBox_2State *Graphics_CheckBox_AttackSoundUsed;
 	TextCtrl_UShort *Graphics_FrameCount;
 	TextCtrl_UShort *Graphics_AngleCount;
 	TextCtrl_Float *Graphics_Unknown13;
@@ -2189,7 +2170,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *GraphicDeltas_Holder_GraphicID;
 	wxStaticText *GraphicDeltas_Text_GraphicID;
 	TextCtrl_Short *GraphicDeltas_GraphicID;
-	ComboBox_Short *GraphicDeltas_ComboBox_GraphicID;
+	ComboBox_Plus1 *GraphicDeltas_ComboBox_GraphicID;
 	wxBoxSizer *GraphicDeltas_Holder_Unknown1;
 	wxStaticText *GraphicDeltas_Text_Unknown1;
 	TextCtrl_Short *GraphicDeltas_Unknown1;
@@ -2218,7 +2199,7 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Graphics_Text_AttackSoundDelays;
 	TextCtrl_Short *Graphics_AttackSoundDelay[3];
 	TextCtrl_Short *Graphics_AttackSoundID[3];
-	ComboBox_Short *Graphics_ComboBox_AttackSoundID[3];
+	ComboBox_Plus1 *Graphics_ComboBox_AttackSoundID[3];
 
 //	Terrains user interface
 
@@ -2266,7 +2247,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Terrains_Holder_SoundID;
 	wxStaticText *Terrains_Text_SoundID;
 	TextCtrl_Long *Terrains_SoundID;
-	ComboBox_Long *Terrains_ComboBox_SoundID;
+	ComboBox_Plus1 *Terrains_ComboBox_SoundID;
 	wxBoxSizer *Terrains_Holder_BlendPriority;
 	wxStaticText *Terrains_Text_BlendPriority;
 	TextCtrl_Long *Terrains_BlendPriority;
@@ -2300,7 +2281,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Terrains_Holder_TerrainReplacementID;
 	wxStaticText *Terrains_Text_TerrainReplacementID;
 	TextCtrl_Short *Terrains_TerrainReplacementID;
-	ComboBox_Short *Terrains_ComboBox_TerrainReplacementID;
+	ComboBox_Plus1 *Terrains_ComboBox_TerrainReplacementID;
 	wxBoxSizer *Terrains_Holder_TerrainDimensions;
 	wxStaticText *Terrains_Text_TerrainDimensions;
 	TextCtrl_Short *Terrains_TerrainDimensions[2];
@@ -2309,14 +2290,14 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Terrains_Text_TerrainBorderID;
 	auto static const TERRAINBORDERSMAX = 42;
 	TextCtrl_Short *Terrains_TerrainBorderID[TERRAINBORDERSMAX];
-	ComboBox_Short *Terrains_ComboBox_TerrainBorderID[TERRAINBORDERSMAX];
+	ComboBox_Plus1 *Terrains_ComboBox_TerrainBorderID[TERRAINBORDERSMAX];
 	auto static const TERRAINUNITS = 30;
 	wxBoxSizer *Terrains_Holder_TerrainUnits;
 	wxBoxSizer *Terrains_Holder_TerrainUnitID;
 	wxGridSizer *Terrains_Grid_TerrainUnitID;
 	wxStaticText *Terrains_Text_TerrainUnitID;
 	TextCtrl_Short *Terrains_TerrainUnitID[TERRAINUNITS];
-	ComboBox_Short *Terrains_ComboBox_TerrainUnitID[TERRAINUNITS];
+	ComboBox_Plus1 *Terrains_ComboBox_TerrainUnitID[TERRAINUNITS];
 	wxBoxSizer *Terrains_Holder_TerrainUnitDensity;
 	wxStaticText *Terrains_Text_TerrainUnitDensity;
 	TextCtrl_Short *Terrains_TerrainUnitDensity[TERRAINUNITS];
@@ -2362,16 +2343,16 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *TerRestrict_Holder_Accessible2;
 	wxStaticText *TerRestrict_Text_Accessible;
 	TextCtrl_Float *TerRestrict_Accessible;
-	CheckBox_Float *TerRestrict_CheckBox_Accessible;
+	CheckBox_2State *TerRestrict_CheckBox_Accessible;
 	wxBoxSizer *TerRestrict_Holder_Unknown1;
 	wxBoxSizer *TerRestrict_Holder_Unknown1Sub;
 	wxStaticText *TerRestrict_Text_Unknown1;
 	TextCtrl_Long *TerRestrict_Unknown1;
-	CheckBox_Long_ZeroIsYes *TerRestrict_CheckBox_Unknown1;
+	CheckBox_ZeroIsYes *TerRestrict_CheckBox_Unknown1;
 	wxBoxSizer *TerRestrict_Holder_Graphics;
 	wxStaticText *TerRestrict_Text_Graphics;
 	TextCtrl_Long *TerRestrict_Graphics[2];
-	ComboBox_Long *TerRestrict_ComboBox_Graphics[2];
+	ComboBox_Plus1 *TerRestrict_ComboBox_Graphics[2];
 	wxBoxSizer *TerRestrict_Holder_Amount;
 	wxStaticText *TerRestrict_Text_Amount;
 	TextCtrl_Long *TerRestrict_Amount;
@@ -2428,7 +2409,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *SoundItems_Holder_Civ;
 	wxStaticText *SoundItems_Text_Civ;
 	TextCtrl_Short *SoundItems_Civ;
-	ComboBox_Short *SoundItems_ComboBox_Civ;
+	ComboBox_Plus1 *SoundItems_ComboBox_Civ;
 	wxBoxSizer *SoundItems_Holder_Unknown;
 	wxStaticText *SoundItems_Text_Unknown;
 	TextCtrl_Short *SoundItems_Unknown;
@@ -2533,7 +2514,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *UnitLineUnits_Holder_Units;
 	wxStaticText *UnitLineUnits_Text_Units;
 	TextCtrl_Short *UnitLineUnits_Units;
-	ComboBox_Short *UnitLineUnits_ComboBox_Units;
+	ComboBox_Plus1 *UnitLineUnits_ComboBox_Units;
 
 //	Tech Tree user interface
 
@@ -2734,13 +2715,13 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Byte *TechTrees_Ages_Unknown2;
 	wxBoxSizer *TechTrees_Ages_Holder_Building;
 	TextCtrl_Long *TechTrees_Ages_Building;
-	ComboBox_Long *TechTrees_Ages_ComboBox_Building;
+	ComboBox_Plus1 *TechTrees_Ages_ComboBox_Building;
 	wxBoxSizer *TechTrees_Ages_Holder_Unit;
 	TextCtrl_Long *TechTrees_Ages_Unit;
-	ComboBox_Long *TechTrees_Ages_ComboBox_Unit;
+	ComboBox_Plus1 *TechTrees_Ages_ComboBox_Unit;
 	wxBoxSizer *TechTrees_Ages_Holder_Research;
 	TextCtrl_Long *TechTrees_Ages_Research;
-	ComboBox_Long *TechTrees_Ages_ComboBox_Research;
+	ComboBox_Plus1 *TechTrees_Ages_ComboBox_Research;
 	wxBoxSizer *TechTrees_Ages_Holder_Unknown3;
 	wxStaticText *TechTrees_Ages_Text_Unknown3;
 	TextCtrl_Long *TechTrees_Ages_Unknown3;
@@ -2757,19 +2738,19 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *TechTrees_Buildings_Holder_ID;
 	wxStaticText *TechTrees_Buildings_Text_ID;
 	TextCtrl_Long *TechTrees_Buildings_ID;
-	ComboBox_Long *TechTrees_Buildings_ComboBox_ID;
+	ComboBox_Plus1 *TechTrees_Buildings_ComboBox_ID;
 	wxBoxSizer *TechTrees_Buildings_Holder_Always2;
 	wxStaticText *TechTrees_Buildings_Text_Always2;
 	TextCtrl_Byte *TechTrees_Buildings_Always2;
 	wxBoxSizer *TechTrees_Buildings_Holder_Building;
 	TextCtrl_Long *TechTrees_Buildings_Building;
-	ComboBox_Long *TechTrees_Buildings_ComboBox_Building;
+	ComboBox_Plus1 *TechTrees_Buildings_ComboBox_Building;
 	wxBoxSizer *TechTrees_Buildings_Holder_Unit;
 	TextCtrl_Long *TechTrees_Buildings_Unit;
-	ComboBox_Long *TechTrees_Buildings_ComboBox_Unit;
+	ComboBox_Plus1 *TechTrees_Buildings_ComboBox_Unit;
 	wxBoxSizer *TechTrees_Buildings_Holder_Research;
 	TextCtrl_Long *TechTrees_Buildings_Research;
-	ComboBox_Long *TechTrees_Buildings_ComboBox_Research;
+	ComboBox_Plus1 *TechTrees_Buildings_ComboBox_Research;
 
 	wxBoxSizer *TechTrees_Buildings_Holder_RequiredResearches;
 	wxStaticText *TechTrees_Buildings_Text_RequiredResearches;
@@ -2794,8 +2775,8 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *TechTrees_Holder_UnitAndResearch3;
 	wxBoxSizer *TechTrees_Holder_UnitAndResearch4;
 	wxOwnerDrawnComboBox *TechTrees_ComboBox_Modes[4];
-	ComboBox_Long *TechTrees_ComboBox_Unit[4];
-	ComboBox_Long *TechTrees_ComboBox_Research[4];
+	ComboBox_Plus1 *TechTrees_ComboBox_Unit[4];
+	ComboBox_Plus1 *TechTrees_ComboBox_Research[4];
 	wxBoxSizer *TechTrees_Buildings_Holder_Mode1;
 	wxStaticText *TechTrees_Buildings_Text_Mode1;
 	TextCtrl_Long *TechTrees_Buildings_Mode1;
@@ -2819,19 +2800,19 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *TechTrees_Buildings_Holder_EnablingResearch;
 	wxStaticText *TechTrees_Buildings_Text_EnablingResearch;
 	TextCtrl_Long *TechTrees_Buildings_EnablingResearch;
-	ComboBox_Long *TechTrees_Buildings_ComboBox_EnablingResearch;
+	ComboBox_Plus1 *TechTrees_Buildings_ComboBox_EnablingResearch;
 
 	wxBoxSizer *TechTrees_Units_Holder_ID;
 	wxStaticText *TechTrees_Units_Text_ID;
 	TextCtrl_Long *TechTrees_Units_ID;
-	ComboBox_Long *TechTrees_Units_ComboBox_ID;
+	ComboBox_Plus1 *TechTrees_Units_ComboBox_ID;
 	wxBoxSizer *TechTrees_Units_Holder_Always2;
 	wxStaticText *TechTrees_Units_Text_Always2;
 	TextCtrl_Byte *TechTrees_Units_Always2;
 	wxBoxSizer *TechTrees_Units_Holder_UpperBuilding;
 	wxStaticText *TechTrees_Units_Text_UpperBuilding;
 	TextCtrl_Long *TechTrees_Units_UpperBuilding;
-	ComboBox_Long *TechTrees_Units_ComboBox_UpperBuilding;
+	ComboBox_Plus1 *TechTrees_Units_ComboBox_UpperBuilding;
 
 	wxBoxSizer *TechTrees_Units_Holder_RequiredResearches;
 	wxStaticText *TechTrees_Units_Text_RequiredResearches;
@@ -2869,42 +2850,42 @@ class AGE_Frame: public wxFrame
 
 	wxBoxSizer *TechTrees_Units_Holder_Unit;
 	TextCtrl_Long *TechTrees_Units_Unit;
-	ComboBox_Long *TechTrees_Units_ComboBox_Unit;
+	ComboBox_Plus1 *TechTrees_Units_ComboBox_Unit;
 	wxBoxSizer *TechTrees_Units_Holder_LocationInAge;
 	wxStaticText *TechTrees_Units_Text_LocationInAge;
 	TextCtrl_Long *TechTrees_Units_LocationInAge;
 	wxBoxSizer *TechTrees_Units_Holder_RequiredResearch;
 	wxStaticText *TechTrees_Units_Text_RequiredResearch;
 	TextCtrl_Long *TechTrees_Units_RequiredResearch;
-	ComboBox_Long *TechTrees_Units_ComboBox_RequiredResearch;
+	ComboBox_Plus1 *TechTrees_Units_ComboBox_RequiredResearch;
 	wxBoxSizer *TechTrees_Units_Holder_LineMode;
 	wxStaticText *TechTrees_Units_Text_LineMode;
 	TextCtrl_Long *TechTrees_Units_LineMode;
 	wxBoxSizer *TechTrees_Units_Holder_EnablingResearch;
 	wxStaticText *TechTrees_Units_Text_EnablingResearch;
 	TextCtrl_Long *TechTrees_Units_EnablingResearch;
-	ComboBox_Long *TechTrees_Units_ComboBox_EnablingResearch;
+	ComboBox_Plus1 *TechTrees_Units_ComboBox_EnablingResearch;
 
 	wxBoxSizer *TechTrees_Researches_Holder_ID;
 	wxStaticText *TechTrees_Researches_Text_ID;
 	TextCtrl_Long *TechTrees_Researches_ID;
-	ComboBox_Long *TechTrees_Researches_ComboBox_ID;
+	ComboBox_Plus1 *TechTrees_Researches_ComboBox_ID;
 	wxBoxSizer *TechTrees_Researches_Holder_Always2;
 	wxStaticText *TechTrees_Researches_Text_Always2;
 	TextCtrl_Byte *TechTrees_Researches_Always2;
 	wxBoxSizer *TechTrees_Researches_Holder_UpperBuilding;
 	wxStaticText *TechTrees_Researches_Text_UpperBuilding;
 	TextCtrl_Long *TechTrees_Researches_UpperBuilding;
-	ComboBox_Long *TechTrees_Researches_ComboBox_UpperBuilding;
+	ComboBox_Plus1 *TechTrees_Researches_ComboBox_UpperBuilding;
 	wxBoxSizer *TechTrees_Researches_Holder_Building;
 	TextCtrl_Long *TechTrees_Researches_Building;
-	ComboBox_Long *TechTrees_Researches_ComboBox_Building;
+	ComboBox_Plus1 *TechTrees_Researches_ComboBox_Building;
 	wxBoxSizer *TechTrees_Researches_Holder_Unit;
 	TextCtrl_Long *TechTrees_Researches_Unit;
-	ComboBox_Long *TechTrees_Researches_ComboBox_Unit;
+	ComboBox_Plus1 *TechTrees_Researches_ComboBox_Unit;
 	wxBoxSizer *TechTrees_Researches_Holder_Research;
 	TextCtrl_Long *TechTrees_Researches_Research;
-	ComboBox_Long *TechTrees_Researches_ComboBox_Research;
+	ComboBox_Plus1 *TechTrees_Researches_ComboBox_Research;
 
 	wxBoxSizer *TechTrees_Researches_Holder_RequiredResearches;
 	wxStaticText *TechTrees_Researches_Text_RequiredResearches;
@@ -2915,7 +2896,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *TechTrees_Researches_Holder_UpperResearch;
 	wxStaticText *TechTrees_Researches_Text_UpperResearch;
 	TextCtrl_Long *TechTrees_Researches_UpperResearch;
-	ComboBox_Long *TechTrees_Researches_ComboBox_UpperResearch;
+	ComboBox_Plus1 *TechTrees_Researches_ComboBox_UpperResearch;
 	wxBoxSizer *TechTrees_Researches_Holder_Unknown2a;
 	wxGridSizer *TechTrees_Researches_Grid_Unknown2a1;
 	wxGridSizer *TechTrees_Researches_Grid_Unknown2a2;

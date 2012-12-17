@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetCivName(short &Index)
+string AGE_Frame::GetCivName(short Index)
 {
 	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
 }
@@ -184,7 +184,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 		for(short loop = Selections; loop--> 0;)
 		GenieFile->Civs.erase(GenieFile->Civs.begin() + CivIDs[loop]);
 		CivCountWarning();
-		ListUnits(Zero, false);
+		ListUnits(0, false);
 	}
 }
 
@@ -248,7 +248,7 @@ void AGE_Frame::CivCountWarning()
 	ListCivs();
 }
 
-string AGE_Frame::GetResourceName(short &Index)
+string AGE_Frame::GetResourceName(short Index)
 {
 	string Name = "";
 	switch(Index)
@@ -1250,11 +1250,11 @@ void AGE_Frame::CreateCivControls()
 	Civs_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_TechTree = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = new TextCtrl_Short(Tab_Civs);
-	Civs_ComboBox_TechTree = new ComboBox_Short(Tab_Civs, Civs_TechTree);
+	Civs_ComboBox_TechTree = new ComboBox_Plus1(Tab_Civs, Civs_TechTree);
 	Civs_Holder_TeamBonus = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_TeamBonus = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TeamBonus = new TextCtrl_Short(Tab_Civs);
-	Civs_ComboBox_TeamBonus = new ComboBox_Short(Tab_Civs, Civs_TeamBonus);
+	Civs_ComboBox_TeamBonus = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus);
 	Civs_Holder_SUnknown1 = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_SUnknown1 = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < 4; loop++)
