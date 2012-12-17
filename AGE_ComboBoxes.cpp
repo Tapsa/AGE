@@ -25,35 +25,24 @@ void ComboBox_EffectType::OnUpdate(wxCommandEvent &Event)
 	TextBox->SaveEdits();
 }
 
-bool ComboBox_Plus1::SaveEdits()
+void ComboBox_Plus1::Update(long value)
 {
-	if(TextBox->SaveEdits())
-	{
-		SetSelection(0);
-		SetSelection(lexical_cast<double>(TextBox->GetValue()) + 1);
-		return true;
-	}
-	return false;
+	SetSelection(0);
+	SetSelection(value + 1);
 }
 
-bool ComboBox_EffectType::SaveEdits()
+void ComboBox_EffectType::Update(long value)
 {
-	if(TextBox->SaveEdits())
+	if((value >= 0) && (value <= 6))
 	{
-		short Value = lexical_cast<short>(TextBox->GetValue());
-		if((Value >= 0) && (Value <= 6))
-		{
-			SetSelection(Value + 1);
-		}
-		else if((Value >= 101) && (Value <= 103))
-		{
-			SetSelection(Value - 93);
-		}
-		else
-		{
-			SetSelection(0);
-		}
-		return true;
+		SetSelection(value + 1);
 	}
-	return false;
+	else if((value >= 101) && (value <= 103))
+	{
+		SetSelection(value - 93);
+	}
+	else
+	{
+		SetSelection(0);
+	}
 }
