@@ -60,7 +60,7 @@ class AGE_Frame: public wxFrame
 	public:
 
 	AGE_Frame(const wxString &title, Copies &c, short window = 1);
-	~AGE_Frame();
+	~AGE_Frame(){}
 
 //	Stuff related to editing multiple files at once
 
@@ -104,42 +104,37 @@ class AGE_Frame: public wxFrame
 
 //	Updates user interface after changing data name.
 
-	void OnKillFocus_TextControls(wxFocusEvent &Event);
-	void OnSelection_ComboBoxes(wxCommandEvent &Event);
-//	void OnSelection_CheckBoxes(wxCommandEvent &Event);
+	void OnSelection_SearchFilters(wxCommandEvent &Event);
 
-	void OnKillFocus_Byte(wxFocusEvent &Event);
-	void OnKillFocus_Short(wxFocusEvent &Event);
-	void OnKillFocus_UnShort(wxFocusEvent &Event);
-	void OnKillFocus_Long(wxFocusEvent &Event);
-	void OnKillFocus_Float(wxFocusEvent &Event);
-	void OnKillFocus_String(wxFocusEvent &Event);
-
-	void OnKillFocus_ComboBoxByteEffectType(wxFocusEvent &Event); // for effects' name update
-	void OnKillFocus_CheckBoxByte(wxFocusEvent &Event);
-	void OnKillFocus_ComboBoxShort(wxFocusEvent &Event);
-	void OnKillFocus_ComboBoxLong(wxFocusEvent &Event);
-	void OnKillFocus_CheckBoxLong0Y(wxFocusEvent &Event);
-	void OnKillFocus_CheckBoxFloat(wxFocusEvent &Event);
-
-	void OnUpdate_ComboBoxByteEffectType(wxCommandEvent &Event); // for effects' name update
-	void OnUpdate_CheckBoxByte(wxCommandEvent &Event);
-	void OnUpdate_ComboBoxShort(wxCommandEvent &Event);
-	void OnUpdate_CheckBoxShort(wxCommandEvent &Event);
-	void OnUpdate_ComboBoxLong(wxCommandEvent &Event);
-	void OnUpdate_CheckBoxLong0Y(wxCommandEvent &Event);
-	void OnUpdate_ComboBoxFloat(wxCommandEvent &Event);
-	void OnUpdate_CheckBoxFloat(wxCommandEvent &Event);
-
+	void OnKillFocus_Research(wxFocusEvent &Event);
+	void OnKillFocus_Techs(wxFocusEvent &Event);
+	void OnKillFocus_TechTrees(wxFocusEvent &Event);
+	void OnKillFocus_Civs(wxFocusEvent &Event);
 	void OnKillFocus_Units(wxFocusEvent &Event);
-	void OnUpdate_Units(wxCommandEvent &Event);
+	void OnKillFocus_UnitLines(wxFocusEvent &Event);
+	void OnKillFocus_Graphics(wxFocusEvent &Event);
+	void OnKillFocus_Terrains(wxFocusEvent &Event);
+	void OnKillFocus_Borders(wxFocusEvent &Event);
+	void OnKillFocus_TerRestrict(wxFocusEvent &Event);
+	void OnKillFocus_Sounds(wxFocusEvent &Event);
+	void OnKillFocus_Colors(wxFocusEvent &Event);
+
+	void OnUpdateCheck_Techs(wxCommandEvent &Event);
+	void OnUpdateCheck_Graphics(wxCommandEvent &Event);
+	void OnUpdateCheck_TerRestrict(wxCommandEvent &Event);
+
+	void OnUpdateCombo_Techs(wxCommandEvent &Event);
+	void OnUpdateCombo_TechTrees(wxCommandEvent &Event);
+	void OnUpdateCombo_Units(wxCommandEvent &Event);
+	void OnUpdateCombo_UnitLines(wxCommandEvent &Event);
+	void OnUpdateCombo_Graphics(wxCommandEvent &Event);
 
 //	Other Methods
 
 //	bool FileExists(const char *value);
 	wxString searchText, excludeText;
 	bool SearchMatches(wxString itemText);
-	void ListingFix(int &Selections, wxListBox* &List);
+	void ListingFix(int Selections, wxListBox* &List);
 	void UnitLangDLLConverter(wxCommandEvent &Event);
 	void ResearchLangDLLConverter(wxCommandEvent &Event);
 	void SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch);
@@ -170,6 +165,7 @@ class AGE_Frame: public wxFrame
 	void OnResearchSearch(wxCommandEvent &Event);
 	void OnResearchSelect(wxCommandEvent &Event);
 	void OnResearchAdd(wxCommandEvent &Event);
+	void OnResearchInsert(wxCommandEvent &Event);
 	void OnResearchDelete(wxCommandEvent &Event);
 	void OnResearchCopy(wxCommandEvent &Event);
 	void OnResearchPaste(wxCommandEvent &Event);
@@ -182,6 +178,7 @@ class AGE_Frame: public wxFrame
 	void OnTechageSearch(wxCommandEvent &Event);
 	void OnTechageSelect(wxCommandEvent &Event);
 	void OnTechageAdd(wxCommandEvent &Event);
+	void OnTechageInsert(wxCommandEvent &Event);
 	void OnTechageDelete(wxCommandEvent &Event);
 	void OnTechageCopy(wxCommandEvent &Event);
 	void OnTechagePaste(wxCommandEvent &Event);
@@ -194,6 +191,7 @@ class AGE_Frame: public wxFrame
 	void OnEffectsSearch(wxCommandEvent &Event);
 	void OnEffectsSelect(wxCommandEvent &Event);
 	void OnEffectsAdd(wxCommandEvent &Event);
+	void OnEffectsInsert(wxCommandEvent &Event);
 	void OnEffectsDelete(wxCommandEvent &Event);
 	void OnEffectsCopy(wxCommandEvent &Event);
 	void OnEffectsPaste(wxCommandEvent &Event);
@@ -206,6 +204,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesSearch(wxCommandEvent &Event);
 	void OnTTAgesSelect(wxCommandEvent &Event);
 	void OnTTAgesAdd(wxCommandEvent &Event);
+	void OnTTAgesInsert(wxCommandEvent &Event);
 	void OnTTAgesDelete(wxCommandEvent &Event);
 	void OnTTAgesCopy(wxCommandEvent &Event);
 	void OnTTAgesPaste(wxCommandEvent &Event);
@@ -216,6 +215,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesBuildingSearch(wxCommandEvent &Event);
 	void OnTTAgesBuildingSelect(wxCommandEvent &Event);
 	void OnTTAgesBuildingAdd(wxCommandEvent &Event);
+	void OnTTAgesBuildingInsert(wxCommandEvent &Event);
 	void OnTTAgesBuildingDelete(wxCommandEvent &Event);
 	void OnTTAgesBuildingCopy(wxCommandEvent &Event);
 	void OnTTAgesBuildingPaste(wxCommandEvent &Event);
@@ -226,6 +226,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesUnitSearch(wxCommandEvent &Event);
 	void OnTTAgesUnitSelect(wxCommandEvent &Event);
 	void OnTTAgesUnitAdd(wxCommandEvent &Event);
+	void OnTTAgesUnitInsert(wxCommandEvent &Event);
 	void OnTTAgesUnitDelete(wxCommandEvent &Event);
 	void OnTTAgesUnitCopy(wxCommandEvent &Event);
 	void OnTTAgesUnitPaste(wxCommandEvent &Event);
@@ -236,6 +237,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesResearchSearch(wxCommandEvent &Event);
 	void OnTTAgesResearchSelect(wxCommandEvent &Event);
 	void OnTTAgesResearchAdd(wxCommandEvent &Event);
+	void OnTTAgesResearchInsert(wxCommandEvent &Event);
 	void OnTTAgesResearchDelete(wxCommandEvent &Event);
 	void OnTTAgesResearchCopy(wxCommandEvent &Event);
 	void OnTTAgesResearchPaste(wxCommandEvent &Event);
@@ -246,6 +248,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingSearch(wxCommandEvent &Event);
 	void OnTTBuildingSelect(wxCommandEvent &Event);
 	void OnTTBuildingAdd(wxCommandEvent &Event);
+	void OnTTBuildingInsert(wxCommandEvent &Event);
 	void OnTTBuildingDelete(wxCommandEvent &Event);
 	void OnTTBuildingCopy(wxCommandEvent &Event);
 	void OnTTBuildingPaste(wxCommandEvent &Event);
@@ -256,6 +259,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingBuildingSearch(wxCommandEvent &Event);
 	void OnTTBuildingBuildingSelect(wxCommandEvent &Event);
 	void OnTTBuildingBuildingAdd(wxCommandEvent &Event);
+	void OnTTBuildingBuildingInsert(wxCommandEvent &Event);
 	void OnTTBuildingBuildingDelete(wxCommandEvent &Event);
 	void OnTTBuildingBuildingCopy(wxCommandEvent &Event);
 	void OnTTBuildingBuildingPaste(wxCommandEvent &Event);
@@ -266,6 +270,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingUnitSearch(wxCommandEvent &Event);
 	void OnTTBuildingUnitSelect(wxCommandEvent &Event);
 	void OnTTBuildingUnitAdd(wxCommandEvent &Event);
+	void OnTTBuildingUnitInsert(wxCommandEvent &Event);
 	void OnTTBuildingUnitDelete(wxCommandEvent &Event);
 	void OnTTBuildingUnitCopy(wxCommandEvent &Event);
 	void OnTTBuildingUnitPaste(wxCommandEvent &Event);
@@ -276,6 +281,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingResearchSearch(wxCommandEvent &Event);
 	void OnTTBuildingResearchSelect(wxCommandEvent &Event);
 	void OnTTBuildingResearchAdd(wxCommandEvent &Event);
+	void OnTTBuildingResearchInsert(wxCommandEvent &Event);
 	void OnTTBuildingResearchDelete(wxCommandEvent &Event);
 	void OnTTBuildingResearchCopy(wxCommandEvent &Event);
 	void OnTTBuildingResearchPaste(wxCommandEvent &Event);
@@ -286,6 +292,7 @@ class AGE_Frame: public wxFrame
 	void OnTTUnitSearch(wxCommandEvent &Event);
 	void OnTTUnitSelect(wxCommandEvent &Event);
 	void OnTTUnitAdd(wxCommandEvent &Event);
+	void OnTTUnitInsert(wxCommandEvent &Event);
 	void OnTTUnitDelete(wxCommandEvent &Event);
 	void OnTTUnitCopy(wxCommandEvent &Event);
 	void OnTTUnitPaste(wxCommandEvent &Event);
@@ -296,6 +303,7 @@ class AGE_Frame: public wxFrame
 	void OnTTUnitUnitSearch(wxCommandEvent &Event);
 	void OnTTUnitUnitSelect(wxCommandEvent &Event);
 	void OnTTUnitUnitAdd(wxCommandEvent &Event);
+	void OnTTUnitUnitInsert(wxCommandEvent &Event);
 	void OnTTUnitUnitDelete(wxCommandEvent &Event);
 	void OnTTUnitUnitCopy(wxCommandEvent &Event);
 	void OnTTUnitUnitPaste(wxCommandEvent &Event);
@@ -306,6 +314,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchSearch(wxCommandEvent &Event);
 	void OnTTResearchSelect(wxCommandEvent &Event);
 	void OnTTResearchAdd(wxCommandEvent &Event);
+	void OnTTResearchInsert(wxCommandEvent &Event);
 	void OnTTResearchDelete(wxCommandEvent &Event);
 	void OnTTResearchCopy(wxCommandEvent &Event);
 	void OnTTResearchPaste(wxCommandEvent &Event);
@@ -316,6 +325,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchBuildingSearch(wxCommandEvent &Event);
 	void OnTTResearchBuildingSelect(wxCommandEvent &Event);
 	void OnTTResearchBuildingAdd(wxCommandEvent &Event);
+	void OnTTResearchBuildingInsert(wxCommandEvent &Event);
 	void OnTTResearchBuildingDelete(wxCommandEvent &Event);
 	void OnTTResearchBuildingCopy(wxCommandEvent &Event);
 	void OnTTResearchBuildingPaste(wxCommandEvent &Event);
@@ -326,6 +336,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchUnitSearch(wxCommandEvent &Event);
 	void OnTTResearchUnitSelect(wxCommandEvent &Event);
 	void OnTTResearchUnitAdd(wxCommandEvent &Event);
+	void OnTTResearchUnitInsert(wxCommandEvent &Event);
 	void OnTTResearchUnitDelete(wxCommandEvent &Event);
 	void OnTTResearchUnitCopy(wxCommandEvent &Event);
 	void OnTTResearchUnitPaste(wxCommandEvent &Event);
@@ -336,6 +347,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchResearchSearch(wxCommandEvent &Event);
 	void OnTTResearchResearchSelect(wxCommandEvent &Event);
 	void OnTTResearchResearchAdd(wxCommandEvent &Event);
+	void OnTTResearchResearchInsert(wxCommandEvent &Event);
 	void OnTTResearchResearchDelete(wxCommandEvent &Event);
 	void OnTTResearchResearchCopy(wxCommandEvent &Event);
 	void OnTTResearchResearchPaste(wxCommandEvent &Event);
@@ -348,6 +360,7 @@ class AGE_Frame: public wxFrame
 	void OnCivsSearch(wxCommandEvent &Event);
 	void OnCivsSelect(wxCommandEvent &Event);
 	void OnCivsAdd(wxCommandEvent &Event);
+	void OnCivsInsert(wxCommandEvent &Event);
 	void OnCivsDelete(wxCommandEvent &Event);
 	void OnCivsCopy(wxCommandEvent &Event);
 	void OnCivsPaste(wxCommandEvent &Event);
@@ -359,6 +372,7 @@ class AGE_Frame: public wxFrame
 	void OnResourcesSearch(wxCommandEvent &Event);
 	void OnResourcesSelect(wxCommandEvent &Event);
 	void OnResourcesAdd(wxCommandEvent &Event);
+	void OnResourcesInsert(wxCommandEvent &Event);
 	void OnResourcesDelete(wxCommandEvent &Event);
 	void OnResourcesCopy(wxCommandEvent &Event);
 	void OnResourcesPaste(wxCommandEvent &Event);
@@ -370,6 +384,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitsSearch(wxCommandEvent &Event);
 	void OnUnitsSelect(wxCommandEvent &Event);
 	void OnUnitsAdd(wxCommandEvent &Event);
+	void OnUnitsInsert(wxCommandEvent &Event);
 	void OnUnitsDelete(wxCommandEvent &Event);
 	void OnUnitsCopy(wxCommandEvent &Event);
 	void UnitsAutoCopy(wxCommandEvent &Event);
@@ -391,6 +406,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitDamageGraphicsSearch(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsSelect(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsAdd(wxCommandEvent &Event);
+	void OnUnitDamageGraphicsInsert(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsDelete(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsCopy(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsPaste(wxCommandEvent &Event);
@@ -401,6 +417,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitAttacksSearch(wxCommandEvent &Event);
 	void OnUnitAttacksSelect(wxCommandEvent &Event);
 	void OnUnitAttacksAdd(wxCommandEvent &Event);
+	void OnUnitAttacksInsert(wxCommandEvent &Event);
 	void OnUnitAttacksDelete(wxCommandEvent &Event);
 	void OnUnitAttacksCopy(wxCommandEvent &Event);
 	void OnUnitAttacksPaste(wxCommandEvent &Event);
@@ -411,6 +428,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitArmorsSearch(wxCommandEvent &Event);
 	void OnUnitArmorsSelect(wxCommandEvent &Event);
 	void OnUnitArmorsAdd(wxCommandEvent &Event);
+	void OnUnitArmorsInsert(wxCommandEvent &Event);
 	void OnUnitArmorsDelete(wxCommandEvent &Event);
 	void OnUnitArmorsCopy(wxCommandEvent &Event);
 	void OnUnitArmorsPaste(wxCommandEvent &Event);
@@ -426,6 +444,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitCommandsSearch(wxCommandEvent &Event);
 	void OnUnitCommandsSelect(wxCommandEvent &Event);
 	void OnUnitCommandsAdd(wxCommandEvent &Event);
+	void OnUnitCommandsInsert(wxCommandEvent &Event);
 	void OnUnitCommandsDelete(wxCommandEvent &Event);
 	void OnUnitCommandsCopy(wxCommandEvent &Event);
 	void OnUnitCommandsPaste(wxCommandEvent &Event);
@@ -438,6 +457,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitLinesSearch(wxCommandEvent &Event);
 	void OnUnitLinesSelect(wxCommandEvent &Event);
 	void OnUnitLinesAdd(wxCommandEvent &Event);
+	void OnUnitLinesInsert(wxCommandEvent &Event);
 	void OnUnitLinesDelete(wxCommandEvent &Event);
 	void OnUnitLinesCopy(wxCommandEvent &Event);
 	void OnUnitLinesPaste(wxCommandEvent &Event);
@@ -448,6 +468,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitLineUnitsSearch(wxCommandEvent &Event);
 	void OnUnitLineUnitsSelect(wxCommandEvent &Event);
 	void OnUnitLineUnitsAdd(wxCommandEvent &Event);
+	void OnUnitLineUnitsInsert(wxCommandEvent &Event);
 	void OnUnitLineUnitsDelete(wxCommandEvent &Event);
 	void OnUnitLineUnitsCopy(wxCommandEvent &Event);
 	void OnUnitLineUnitsPaste(wxCommandEvent &Event);
@@ -460,6 +481,7 @@ class AGE_Frame: public wxFrame
 	void OnGraphicsSearch(wxCommandEvent &Event);
 	void OnGraphicsSelect(wxCommandEvent &Event);
 	void OnGraphicsAdd(wxCommandEvent &Event);
+	void OnGraphicsInsert(wxCommandEvent &Event);
 	void OnGraphicsDelete(wxCommandEvent &Event);
 	void OnGraphicsCopy(wxCommandEvent &Event);
 	void OnGraphicsPaste(wxCommandEvent &Event);
@@ -474,6 +496,7 @@ class AGE_Frame: public wxFrame
 	void OnGraphicDeltasSearch(wxCommandEvent &Event);
 	void OnGraphicDeltasSelect(wxCommandEvent &Event);
 	void OnGraphicDeltasAdd(wxCommandEvent &Event);
+	void OnGraphicDeltasInsert(wxCommandEvent &Event);
 	void OnGraphicDeltasDelete(wxCommandEvent &Event);
 	void OnGraphicDeltasCopy(wxCommandEvent &Event);
 	void OnGraphicDeltasPaste(wxCommandEvent &Event);
@@ -493,6 +516,7 @@ class AGE_Frame: public wxFrame
 //	void OnTerRestTerrainsSearch(wxCommandEvent &Event);
 	void OnTerrainsSelect(wxCommandEvent &Event);
 	void OnTerrainsAdd(wxCommandEvent &Event);
+	void OnTerrainsInsert(wxCommandEvent &Event);
 	void OnTerrainsDelete(wxCommandEvent &Event);
 	void OnTerrainsCopy(wxCommandEvent &Event);
 	void OnTerrainsPaste(wxCommandEvent &Event);
@@ -522,6 +546,7 @@ class AGE_Frame: public wxFrame
 	void OnTerrainRestrictionsSelect(wxCommandEvent &Event);
 	void OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event);
 	void OnTerrainRestrictionsAdd(wxCommandEvent &Event);
+	void OnTerrainRestrictionsInsert(wxCommandEvent &Event);
 	void OnTerrainRestrictionsDelete(wxCommandEvent &Event);
 	void OnTerrainRestrictionsCopy(wxCommandEvent &Event);
 	void OnTerrainRestrictionsPaste(wxCommandEvent &Event);
@@ -536,6 +561,7 @@ class AGE_Frame: public wxFrame
 	void OnSoundsSearch(wxCommandEvent &Event);
 	void OnSoundsSelect(wxCommandEvent &Event);
 	void OnSoundsAdd(wxCommandEvent &Event);
+	void OnSoundsInsert(wxCommandEvent &Event);
 	void OnSoundsDelete(wxCommandEvent &Event);
 	void OnSoundsCopy(wxCommandEvent &Event);
 	void OnSoundsPaste(wxCommandEvent &Event);
@@ -546,6 +572,7 @@ class AGE_Frame: public wxFrame
 	void OnSoundItemsSearch(wxCommandEvent &Event);
 	void OnSoundItemsSelect(wxCommandEvent &Event);
 	void OnSoundItemsAdd(wxCommandEvent &Event);
+	void OnSoundItemsInsert(wxCommandEvent &Event);
 	void OnSoundItemsDelete(wxCommandEvent &Event);
 	void OnSoundItemsCopy(wxCommandEvent &Event);
 	void OnSoundItemsPaste(wxCommandEvent &Event);
@@ -558,48 +585,12 @@ class AGE_Frame: public wxFrame
 	void OnPlayerColorsSearch(wxCommandEvent &Event);
 	void OnPlayerColorsSelect(wxCommandEvent &Event);
 	void OnPlayerColorsAdd(wxCommandEvent &Event);
+	void OnPlayerColorsInsert(wxCommandEvent &Event);
 	void OnPlayerColorsDelete(wxCommandEvent &Event);
 	void OnPlayerColorsCopy(wxCommandEvent &Event);
 	void OnPlayerColorsPaste(wxCommandEvent &Event);
 	void OnPlayerColorsPasteInsert(wxCommandEvent &Event);
 	string GetPlayerColorName(short);
-
-
-//	Common Events
-
-	void OnResearchInsert(wxCommandEvent &Event);
-	void OnTechageInsert(wxCommandEvent &Event);
-	void OnEffectsInsert(wxCommandEvent &Event);
-	void OnTTAgesInsert(wxCommandEvent &Event);
-	void OnTTAgesBuildingInsert(wxCommandEvent &Event);
-	void OnTTAgesUnitInsert(wxCommandEvent &Event);
-	void OnTTAgesResearchInsert(wxCommandEvent &Event);
-	void OnTTBuildingInsert(wxCommandEvent &Event);
-	void OnTTBuildingBuildingInsert(wxCommandEvent &Event);
-	void OnTTBuildingUnitInsert(wxCommandEvent &Event);
-	void OnTTBuildingResearchInsert(wxCommandEvent &Event);
-	void OnTTUnitInsert(wxCommandEvent &Event);
-	void OnTTUnitUnitInsert(wxCommandEvent &Event);
-	void OnTTResearchInsert(wxCommandEvent &Event);
-	void OnTTResearchBuildingInsert(wxCommandEvent &Event);
-	void OnTTResearchUnitInsert(wxCommandEvent &Event);
-	void OnTTResearchResearchInsert(wxCommandEvent &Event);
-	void OnCivsInsert(wxCommandEvent &Event);
-	void OnResourcesInsert(wxCommandEvent &Event);
-	void OnUnitsInsert(wxCommandEvent &Event);
-	void OnUnitDamageGraphicsInsert(wxCommandEvent &Event);
-	void OnUnitAttacksInsert(wxCommandEvent &Event);
-	void OnUnitArmorsInsert(wxCommandEvent &Event);
-	void OnUnitCommandsInsert(wxCommandEvent &Event);
-	void OnUnitLinesInsert(wxCommandEvent &Event);
-	void OnUnitLineUnitsInsert(wxCommandEvent &Event);
-	void OnGraphicsInsert(wxCommandEvent &Event);
-	void OnGraphicDeltasInsert(wxCommandEvent &Event);
-	void OnTerrainsInsert(wxCommandEvent &Event);
-	void OnTerrainRestrictionsInsert(wxCommandEvent &Event);
-	void OnSoundsInsert(wxCommandEvent &Event);
-	void OnSoundItemsInsert(wxCommandEvent &Event);
-	void OnPlayerColorsInsert(wxCommandEvent &Event);
 
 //	Application Variables
 

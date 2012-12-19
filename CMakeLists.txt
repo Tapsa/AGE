@@ -43,7 +43,7 @@ set(AGE_SRC Main.cpp
 			AGE_Frame/PlayerColors.cpp
 			AGE_Frame/Research.cpp
 			AGE_Frame/Sounds.cpp
-			AGE_Frame/Techage.cpp
+			AGE_Frame/Techs.cpp
 			AGE_Frame/TechTrees.cpp
 			AGE_Frame/TerrainBorders.cpp
 			AGE_Frame/TerrainRestrictions.cpp
