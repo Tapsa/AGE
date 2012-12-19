@@ -165,7 +165,7 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		TerRestrictIDs.resize(Selections);
 		genie::TerrainRestriction * TerRestPointer;
@@ -257,7 +257,7 @@ void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TerrainRestriction Temp;
@@ -273,7 +273,7 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -290,7 +290,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->TerrainRestriction.resize(Selections);
@@ -302,7 +302,7 @@ void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->TerrainRestriction.size()+TerRestrictIDs[0] > GenieFile->TerrainRestrictions.size())
@@ -324,7 +324,7 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TerrainRestriction Temp;

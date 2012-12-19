@@ -455,1511 +455,1508 @@ void AGE_Frame::ListUnitHeads(short civ)
 void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)	// If a unit is selected.
+	if(Selections < 1) return;	// If a unit is selected.
+
+	UnitCivID = Units_Civs_List->GetSelection();
+
+	// Auto-copy stuff
+	SelectedCivs = 1;
+	if(AutoCopy)
 	{
-		UnitCivID = Units_Civs_List->GetSelection();
-
-		// Auto-copy stuff
-		int selectedCivs = 1;
-		if(AutoCopy)
+		// Note that over 30 actual civs causes a crash!
+		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 		{
-			// Note that over 30 actual civs causes a crash!
-			for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-			{
-				// Counts all selected civs and always the one being edited.
-				if(Units_CivBoxes[loop]->IsChecked() && loop != UnitCivID) selectedCivs++;
-			}
+			// Counts all selected civs and always the one being edited.
+			if(Units_CivBoxes[loop]->IsChecked() && loop != UnitCivID) SelectedCivs++;
 		}
+	}
 
-		UnitIDs.resize(Selections);
-		selectedCivs = Selections * selectedCivs;
-		Units_Type->resize(selectedCivs);
-		// Type 80
-		Units_AdjacentMode->resize(selectedCivs);
-		Units_Unknown31->resize(selectedCivs);
-		Units_Unknown31b->resize(selectedCivs);
-		Units_StackUnitID->resize(selectedCivs);
-		Units_TerrainID->resize(selectedCivs);
-		Units_Unknown32->resize(selectedCivs);
-		Units_ResearchID->resize(selectedCivs);
-		if(GameVersion >= 2)
+	UnitIDs.resize(Selections);
+	int PointerCount = Selections * SelectedCivs;
+	Units_Type->resize(PointerCount);
+	// Type 80
+	Units_AdjacentMode->resize(PointerCount);
+	Units_Unknown31->resize(PointerCount);
+	Units_Unknown31b->resize(PointerCount);
+	Units_StackUnitID->resize(PointerCount);
+	Units_TerrainID->resize(PointerCount);
+	Units_Unknown32->resize(PointerCount);
+	Units_ResearchID->resize(PointerCount);
+	if(GameVersion >= 2)
+	{
+		Units_Unknown33->resize(PointerCount);
+		for(short loop=0; loop < 4; loop++)
 		{
-			Units_Unknown33->resize(selectedCivs);
-			for(short loop=0; loop < 4; loop++)
-			{
-				Units_AnnexUnit[loop]->resize(selectedCivs);
-				Units_AnnexUnitMisplacement[loop][0]->resize(selectedCivs);
-				Units_AnnexUnitMisplacement[loop][1]->resize(selectedCivs);
-			}
-			Units_HeadUnit->resize(selectedCivs);
-			Units_TransformUnit->resize(selectedCivs);
-			Units_Unknown34->resize(selectedCivs);
-			Units_GarrisonType->resize(selectedCivs);
-			Units_GarrisonHealRate->resize(selectedCivs);
-			Units_Unknown35->resize(selectedCivs);
-			Units_Unknown36->resize(selectedCivs);
-			for(short loop=0; loop < 6; loop++)
-			{
-				Units_Unknown37[loop]->resize(selectedCivs);
-			}
+			Units_AnnexUnit[loop]->resize(PointerCount);
+			Units_AnnexUnitMisplacement[loop][0]->resize(PointerCount);
+			Units_AnnexUnitMisplacement[loop][1]->resize(PointerCount);
 		}
-		Units_ConstructionSound->resize(selectedCivs);
-		// Type 70
+		Units_HeadUnit->resize(PointerCount);
+		Units_TransformUnit->resize(PointerCount);
+		Units_Unknown34->resize(PointerCount);
+		Units_GarrisonType->resize(PointerCount);
+		Units_GarrisonHealRate->resize(PointerCount);
+		Units_Unknown35->resize(PointerCount);
+		Units_Unknown36->resize(PointerCount);
+		for(short loop=0; loop < 6; loop++)
+		{
+			Units_Unknown37[loop]->resize(PointerCount);
+		}
+	}
+	Units_ConstructionSound->resize(PointerCount);
+	// Type 70
+	for(short loop=0; loop < 3; loop++)
+	{
+		Units_CostType[loop]->resize(PointerCount);
+		Units_CostAmount[loop]->resize(PointerCount);
+		Units_CostUsed[loop]->resize(PointerCount);
+	}
+	Units_TrainTime->resize(PointerCount);
+	Units_TrainLocationID->resize(PointerCount);
+	Units_ButtonID->resize(PointerCount);
+	if(GameVersion >= 2)
+	{
+		Units_Unknown26->resize(PointerCount);
 		for(short loop=0; loop < 3; loop++)
 		{
-			Units_CostType[loop]->resize(selectedCivs);
-			Units_CostAmount[loop]->resize(selectedCivs);
-			Units_CostUsed[loop]->resize(selectedCivs);
+			Units_Unknown27[loop]->resize(PointerCount);
 		}
-		Units_TrainTime->resize(selectedCivs);
-		Units_TrainLocationID->resize(selectedCivs);
-		Units_ButtonID->resize(selectedCivs);
-		if(GameVersion >= 2)
-		{
-			Units_Unknown26->resize(selectedCivs);
-			for(short loop=0; loop < 3; loop++)
-			{
-				Units_Unknown27[loop]->resize(selectedCivs);
-			}
-			Units_Unknown28->resize(selectedCivs);
-			Units_MissileGraphicDelay->resize(selectedCivs);
-			Units_HeroMode->resize(selectedCivs);
-			Units_AttackMissileDuplicationAmount1->resize(selectedCivs);
-			Units_AttackMissileDuplicationAmount2->resize(selectedCivs);
-			for(short loop=0; loop < 3; loop++)
-			{
-				Units_AttackMissileDuplicationSpawning[loop]->resize(selectedCivs);
-			}
-			Units_AttackMissileDuplicationUnit->resize(selectedCivs);
-			Units_AttackMissileDuplicationGraphic->resize(selectedCivs);
-			Units_Unknown29->resize(selectedCivs);
-		}
-		Units_DisplayedPierceArmour->resize(selectedCivs);
-		// Type 60
-		Units_Unknown20[0]->resize(selectedCivs);
-		Units_Unknown21->resize(selectedCivs);
-		Units_MaxRange->resize(selectedCivs);
-		Units_BlastRadius->resize(selectedCivs);
-		Units_ReloadTime1->resize(selectedCivs);
-		Units_ProjectileUnitID->resize(selectedCivs);
-		Units_AccuracyPercent->resize(selectedCivs);
-		Units_TowerMode->resize(selectedCivs);
-		Units_Delay->resize(selectedCivs);
+		Units_Unknown28->resize(PointerCount);
+		Units_MissileGraphicDelay->resize(PointerCount);
+		Units_HeroMode->resize(PointerCount);
+		Units_AttackMissileDuplicationAmount1->resize(PointerCount);
+		Units_AttackMissileDuplicationAmount2->resize(PointerCount);
 		for(short loop=0; loop < 3; loop++)
 		{
-			Units_GraphicDisplacement[loop]->resize(selectedCivs);
+			Units_AttackMissileDuplicationSpawning[loop]->resize(PointerCount);
 		}
-		Units_BlastLevel->resize(selectedCivs);
-		Units_MinRange->resize(selectedCivs);
-		if(GameVersion >= 2)
+		Units_AttackMissileDuplicationUnit->resize(PointerCount);
+		Units_AttackMissileDuplicationGraphic->resize(PointerCount);
+		Units_Unknown29->resize(PointerCount);
+	}
+	Units_DisplayedPierceArmour->resize(PointerCount);
+	// Type 60
+	Units_Unknown20[0]->resize(PointerCount);
+	Units_Unknown21->resize(PointerCount);
+	Units_MaxRange->resize(PointerCount);
+	Units_BlastRadius->resize(PointerCount);
+	Units_ReloadTime1->resize(PointerCount);
+	Units_ProjectileUnitID->resize(PointerCount);
+	Units_AccuracyPercent->resize(PointerCount);
+	Units_TowerMode->resize(PointerCount);
+	Units_Delay->resize(PointerCount);
+	for(short loop=0; loop < 3; loop++)
+	{
+		Units_GraphicDisplacement[loop]->resize(PointerCount);
+	}
+	Units_BlastLevel->resize(PointerCount);
+	Units_MinRange->resize(PointerCount);
+	if(GameVersion >= 2)
+	{
+		if(GameVersion >= 3)
 		{
-			if(GameVersion >= 3)
+			Units_Unknown20[1]->resize(PointerCount);
+		}
+		Units_GarrisonRecoveryRate->resize(PointerCount);
+	}
+	Units_DisplayedMeleeArmour->resize(PointerCount);
+	Units_DisplayedAttack->resize(PointerCount);
+	Units_DisplayedRange->resize(PointerCount);
+	Units_ReloadTime2->resize(PointerCount);
+	// Type 40
+	Units_SheepConversion->resize(PointerCount);
+	Units_SearchRadius->resize(PointerCount);
+	Units_WorkRate->resize(PointerCount);
+	Units_DropSite[0]->resize(PointerCount);
+	Units_DropSite[1]->resize(PointerCount);
+	Units_VillagerMode->resize(PointerCount);
+	Units_MoveSound->resize(PointerCount);
+	Units_StopSound->resize(PointerCount);
+	Units_AnimalMode->resize(PointerCount);
+	// Type 30
+	Units_RotationSpeed->resize(PointerCount);
+	Units_Unknown11->resize(PointerCount);
+	Units_TrackingUnit->resize(PointerCount);
+	Units_TrackingUnitUsed->resize(PointerCount);
+	Units_TrackingUnitDensity->resize(PointerCount);
+	if(GameVersion >= 2)
+	{
+		Units_Unknown12->resize(PointerCount);
+		for(short loop=0; loop < 17; loop++)
+		{
+			Units_Unknown16[loop]->resize(PointerCount);
+		}
+	}
+	else
+	{
+		Units_Unknown16[0]->resize(PointerCount);
+	}
+	// Type 20/25
+	Units_Speed->resize(PointerCount);
+	// Type 10
+	Units_ID1->resize(PointerCount);
+	Units_LanguageDLLName->resize(PointerCount);
+	Units_LanguageDLLCreation->resize(PointerCount);
+	Units_Class->resize(PointerCount);
+	Units_DeathMode->resize(PointerCount);
+	Units_HitPoints->resize(PointerCount);
+	Units_LineOfSight->resize(PointerCount);
+	Units_GarrisonCapacity->resize(PointerCount);
+	Units_SizeRadius[0]->resize(PointerCount);
+	Units_SizeRadius[1]->resize(PointerCount);
+	Units_HPBarHeight1->resize(PointerCount);
+	Units_TrainSound[0]->resize(PointerCount);
+	Units_DeadUnitID->resize(PointerCount);
+	Units_PlacementMode->resize(PointerCount);
+	Units_AirMode->resize(PointerCount);
+	Units_HideInEditor->resize(PointerCount);
+	Units_Unknown1->resize(PointerCount);
+	Units_PlacementBypassTerrain[0]->resize(PointerCount);
+	Units_PlacementBypassTerrain[1]->resize(PointerCount);
+	Units_PlacementTerrain[0]->resize(PointerCount);
+	Units_PlacementTerrain[1]->resize(PointerCount);
+	Units_EditorRadius[0]->resize(PointerCount);
+	Units_EditorRadius[1]->resize(PointerCount);
+	Units_BuildingMode->resize(PointerCount);
+	Units_VisibleInFog->resize(PointerCount);
+	Units_TerrainRestriction->resize(PointerCount);
+	Units_FlyMode->resize(PointerCount);
+	Units_ResourceCapacity->resize(PointerCount);
+	Units_ResourceDecay->resize(PointerCount);
+	Units_BlastType->resize(PointerCount);
+	Units_Unknown2->resize(PointerCount);
+	Units_InteractionMode->resize(PointerCount);
+	Units_MinimapMode->resize(PointerCount);
+	Units_SelectionEffect->resize(PointerCount);
+	Units_EditorSelectionColour->resize(PointerCount);
+	if(GameVersion >= 2)
+	{
+		Units_TrainSound[1]->resize(PointerCount);
+		Units_Unknown7->resize(PointerCount);
+		Units_Unknown8->resize(PointerCount);
+		Units_SelectionShapeType->resize(PointerCount);
+		Units_ID3->resize(PointerCount);
+		if(GameVersion >= 3)
+		{
+			Units_Attribute->resize(PointerCount);
+			Units_Civ->resize(PointerCount);
+			for(short loop=0; loop < 2; loop++)
 			{
-				Units_Unknown20[1]->resize(selectedCivs);
+				Units_Unknown9[loop]->resize(PointerCount);
 			}
-			Units_GarrisonRecoveryRate->resize(selectedCivs);
-		}
-		Units_DisplayedMeleeArmour->resize(selectedCivs);
-		Units_DisplayedAttack->resize(selectedCivs);
-		Units_DisplayedRange->resize(selectedCivs);
-		Units_ReloadTime2->resize(selectedCivs);
-		// Type 40
-		Units_SheepConversion->resize(selectedCivs);
-		Units_SearchRadius->resize(selectedCivs);
-		Units_WorkRate->resize(selectedCivs);
-		Units_DropSite[0]->resize(selectedCivs);
-		Units_DropSite[1]->resize(selectedCivs);
-		Units_VillagerMode->resize(selectedCivs);
-		Units_MoveSound->resize(selectedCivs);
-		Units_StopSound->resize(selectedCivs);
-		Units_AnimalMode->resize(selectedCivs);
-		// Type 30
-		Units_RotationSpeed->resize(selectedCivs);
-		Units_Unknown11->resize(selectedCivs);
-		Units_TrackingUnit->resize(selectedCivs);
-		Units_TrackingUnitUsed->resize(selectedCivs);
-		Units_TrackingUnitDensity->resize(selectedCivs);
-		if(GameVersion >= 2)
-		{
-			Units_Unknown12->resize(selectedCivs);
-			for(short loop=0; loop < 17; loop++)
+			if(GameVersion >= 4)
 			{
-				Units_Unknown16[loop]->resize(selectedCivs);
+				Units_Name2->resize(PointerCount);
+				Units_Unitline->resize(PointerCount);
+				Units_MinTechLevel->resize(PointerCount);
 			}
 		}
-		else
+	}
+	else
+	{
+		Units_Unknown3a->resize(PointerCount);
+	}
+	Units_Enabled->resize(PointerCount);
+	Units_CommandAttribute->resize(PointerCount);
+	Units_Unknown3->resize(PointerCount);
+	Units_Unknown3B->resize(PointerCount);
+	Units_LanguageDLLHelp->resize(PointerCount);
+	Units_LanguageDLLHotKeyText->resize(PointerCount);
+	Units_HotKey->resize(PointerCount);
+	Units_Unknown4->resize(PointerCount);
+	Units_Unknown5->resize(PointerCount);
+	Units_Unselectable->resize(PointerCount);
+	Units_Unknown6->resize(PointerCount);
+	Units_SelectionMask->resize(PointerCount);
+	Units_SelectionShape->resize(PointerCount);
+	Units_SelectionRadius[0]->resize(PointerCount);
+	Units_SelectionRadius[1]->resize(PointerCount);
+	Units_HPBarHeight2->resize(PointerCount);
+	Units_SelectionSound->resize(PointerCount);
+	Units_DyingSound->resize(PointerCount);
+	Units_AttackSound->resize(PointerCount);
+	Units_Name->resize(PointerCount);
+	Units_ID2->resize(PointerCount);
+	for(short loop=0; loop < 3; loop++)
+	{
+		ResourceStorage_Type[loop]->resize(PointerCount);
+		ResourceStorage_Amount[loop]->resize(PointerCount);
+		ResourceStorage_Enabled[loop]->resize(PointerCount);
+	}
+	// Type 60 only
+	Units_StretchMode->resize(PointerCount);
+	Units_CompensationMode->resize(PointerCount);
+	Units_DropAnimationMode->resize(PointerCount);
+	Units_PenetrationMode->resize(PointerCount);
+	Units_Unknown24->resize(PointerCount);
+	Units_ProjectileArc->resize(PointerCount);
+
+	// If no graphic copying, only one civ to edit.
+	if(!CopyGraphics) PointerCount = Selections;
+	Units_IconID->resize(PointerCount);
+	Units_ConstructionGraphicID->resize(PointerCount);
+	if(GameVersion >= 2)
+	{
+		if(GameVersion >= 3) Units_SnowGraphicID->resize(PointerCount);
+		Units_StandingGraphic[1]->resize(PointerCount);
+		Units_GarrisonGraphic[0]->resize(PointerCount);
+		Units_GarrisonGraphic[1]->resize(PointerCount);
+	}
+	Units_AttackGraphic->resize(PointerCount);
+	Units_StandingGraphic[0]->resize(PointerCount);
+	Units_WalkingGraphic[0]->resize(PointerCount);
+	Units_WalkingGraphic[1]->resize(PointerCount);
+	Units_DyingGraphic[0]->resize(PointerCount);
+	Units_DyingGraphic[1]->resize(PointerCount);
+
+	short UnitType;
+	genie::Unit * UnitPointer;
+	for(short sel = Selections; sel--> 0;)
+	{
+		UnitPointer = (genie::Unit*)Units_Units_List->GetClientData(Items.Item(sel));
+		UnitIDs[sel] = (UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]));
+
+		// This makes auto-copy automatic.
+		// MAKE IT SO THAT THERE CAN BE LIMITLESS AMOUNT OF CIVS!!!
+		for(short l=0, civ = UnitCivID, vecCiv=0; l < GenieFile->Civs.size(); l++, civ++)
 		{
-			Units_Unknown16[0]->resize(selectedCivs);
-		}
-		// Type 20/25
-		Units_Speed->resize(selectedCivs);
-		// Type 10
-		Units_ID1->resize(selectedCivs);
-		Units_LanguageDLLName->resize(selectedCivs);
-		Units_LanguageDLLCreation->resize(selectedCivs);
-		Units_Class->resize(selectedCivs);
-		Units_DeathMode->resize(selectedCivs);
-		Units_HitPoints->resize(selectedCivs);
-		Units_LineOfSight->resize(selectedCivs);
-		Units_GarrisonCapacity->resize(selectedCivs);
-		Units_SizeRadius[0]->resize(selectedCivs);
-		Units_SizeRadius[1]->resize(selectedCivs);
-		Units_HPBarHeight1->resize(selectedCivs);
-		Units_TrainSound[0]->resize(selectedCivs);
-		Units_DeadUnitID->resize(selectedCivs);
-		Units_PlacementMode->resize(selectedCivs);
-		Units_AirMode->resize(selectedCivs);
-		Units_HideInEditor->resize(selectedCivs);
-		Units_Unknown1->resize(selectedCivs);
-		Units_PlacementBypassTerrain[0]->resize(selectedCivs);
-		Units_PlacementBypassTerrain[1]->resize(selectedCivs);
-		Units_PlacementTerrain[0]->resize(selectedCivs);
-		Units_PlacementTerrain[1]->resize(selectedCivs);
-		Units_EditorRadius[0]->resize(selectedCivs);
-		Units_EditorRadius[1]->resize(selectedCivs);
-		Units_BuildingMode->resize(selectedCivs);
-		Units_VisibleInFog->resize(selectedCivs);
-		Units_TerrainRestriction->resize(selectedCivs);
-		Units_FlyMode->resize(selectedCivs);
-		Units_ResourceCapacity->resize(selectedCivs);
-		Units_ResourceDecay->resize(selectedCivs);
-		Units_BlastType->resize(selectedCivs);
-		Units_Unknown2->resize(selectedCivs);
-		Units_InteractionMode->resize(selectedCivs);
-		Units_MinimapMode->resize(selectedCivs);
-		Units_SelectionEffect->resize(selectedCivs);
-		Units_EditorSelectionColour->resize(selectedCivs);
-		if(GameVersion >= 2)
-		{
-			Units_TrainSound[1]->resize(selectedCivs);
-			Units_Unknown7->resize(selectedCivs);
-			Units_Unknown8->resize(selectedCivs);
-			Units_SelectionShapeType->resize(selectedCivs);
-			Units_ID3->resize(selectedCivs);
-			if(GameVersion >= 3)
+			// This ensures that the first referenced civ will always be the one which is being edited.
+			civ = civ % GenieFile->Civs.size();
+			if(!Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID) continue;
+			UnitPointer = &GenieFile->Civs[civ].Units[UnitIDs[sel]];
+			//wxMessageBox("Selection: "+lexical_cast<string>(sel)+"\nCiv: "+lexical_cast<string>(civ));
+
+			UnitType = (short)UnitPointer->Type;
+			// This ensures that the first pointer is always the current civ and its first selection.
+			int location = sel + vecCiv * Selections;
+			// Assing data to editing boxes
+			Units_Type->container[location] = &UnitPointer->Type;
+			//switch(UnitType)
 			{
-				Units_Attribute->resize(selectedCivs);
-				Units_Civ->resize(selectedCivs);
-				for(short loop=0; loop < 2; loop++)
-				{
-					Units_Unknown9[loop]->resize(selectedCivs);
-				}
-				if(GameVersion >= 4)
-				{
-					Units_Name2->resize(selectedCivs);
-					Units_Unitline->resize(selectedCivs);
-					Units_MinTechLevel->resize(selectedCivs);
-				}
-			}
-		}
-		else
-		{
-			Units_Unknown3a->resize(selectedCivs);
-		}
-		Units_Enabled->resize(selectedCivs);
-		Units_CommandAttribute->resize(selectedCivs);
-		Units_Unknown3->resize(selectedCivs);
-		Units_Unknown3B->resize(selectedCivs);
-		Units_LanguageDLLHelp->resize(selectedCivs);
-		Units_LanguageDLLHotKeyText->resize(selectedCivs);
-		Units_HotKey->resize(selectedCivs);
-		Units_Unknown4->resize(selectedCivs);
-		Units_Unknown5->resize(selectedCivs);
-		Units_Unselectable->resize(selectedCivs);
-		Units_Unknown6->resize(selectedCivs);
-		Units_SelectionMask->resize(selectedCivs);
-		Units_SelectionShape->resize(selectedCivs);
-		Units_SelectionRadius[0]->resize(selectedCivs);
-		Units_SelectionRadius[1]->resize(selectedCivs);
-		Units_HPBarHeight2->resize(selectedCivs);
-		Units_SelectionSound->resize(selectedCivs);
-		Units_DyingSound->resize(selectedCivs);
-		Units_AttackSound->resize(selectedCivs);
-		Units_Name->resize(selectedCivs);
-		Units_ID2->resize(selectedCivs);
-		for(short loop=0; loop < 3; loop++)
-		{
-			ResourceStorage_Type[loop]->resize(selectedCivs);
-			ResourceStorage_Amount[loop]->resize(selectedCivs);
-			ResourceStorage_Enabled[loop]->resize(selectedCivs);
-		}
-		// Type 60 only
-		Units_StretchMode->resize(selectedCivs);
-		Units_CompensationMode->resize(selectedCivs);
-		Units_DropAnimationMode->resize(selectedCivs);
-		Units_PenetrationMode->resize(selectedCivs);
-		Units_Unknown24->resize(selectedCivs);
-		Units_ProjectileArc->resize(selectedCivs);
-
-		// If no graphic copying, only one civ to edit.
-		if(!CopyGraphics) selectedCivs = Selections;
-		Units_IconID->resize(selectedCivs);
-		Units_ConstructionGraphicID->resize(selectedCivs);
-		if(GameVersion >= 2)
-		{
-			if(GameVersion >= 3) Units_SnowGraphicID->resize(selectedCivs);
-			Units_StandingGraphic[1]->resize(selectedCivs);
-			Units_GarrisonGraphic[0]->resize(selectedCivs);
-			Units_GarrisonGraphic[1]->resize(selectedCivs);
-		}
-		Units_AttackGraphic->resize(selectedCivs);
-		Units_StandingGraphic[0]->resize(selectedCivs);
-		Units_WalkingGraphic[0]->resize(selectedCivs);
-		Units_WalkingGraphic[1]->resize(selectedCivs);
-		Units_DyingGraphic[0]->resize(selectedCivs);
-		Units_DyingGraphic[1]->resize(selectedCivs);
-
-		short UnitType;
-		genie::Unit * UnitPointer;
-		for(short sel = Selections; sel--> 0;)
-		{
-			UnitPointer = (genie::Unit*)Units_Units_List->GetClientData(Items.Item(sel));
-			UnitIDs[sel] = (UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]));
-
-			// This makes auto-copy automatic.
-			// MAKE IT SO THAT THERE CAN BE LIMITLESS AMOUNT OF CIVS!!!
-			for(short l=0, civ = UnitCivID, vecCiv=0; l < GenieFile->Civs.size(); l++, civ++)
-			{
-				// This ensures that the first referenced civ will always be the one which is being edited.
-				civ = civ % GenieFile->Civs.size();
-				if(!Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID) continue;
-				UnitPointer = &GenieFile->Civs[civ].Units[UnitIDs[sel]];
-				//wxMessageBox("Selection: "+lexical_cast<string>(sel)+"\nCiv: "+lexical_cast<string>(civ));
-
-				UnitType = (short)UnitPointer->Type;
-				// This ensures that the first pointer is always the current civ and its first selection.
-				int location = sel + vecCiv * Selections;
-				// Assing data to editing boxes
-				Units_Type->container[location] = &UnitPointer->Type;
-				//switch(UnitType)
-				{
-					//case 80:
-					{
-						if(CopyGraphics || vecCiv == 0)
-						Units_ConstructionGraphicID->container[location] = &UnitPointer->Building.ConstructionGraphicID;
-						Units_AdjacentMode->container[location] = &UnitPointer->Building.AdjacentMode;
-						Units_Unknown31->container[location] = &UnitPointer->Building.Unknown31;
-						Units_Unknown31b->container[location] = &UnitPointer->Building.Unknown31b;
-						Units_StackUnitID->container[location] = &UnitPointer->Building.StackUnitID;
-						Units_TerrainID->container[location] = &UnitPointer->Building.TerrainID;
-						Units_Unknown32->container[location] = &UnitPointer->Building.Unknown32;
-						Units_ResearchID->container[location] = &UnitPointer->Building.ResearchID;
-						if(GameVersion >= 2)
-						{
-							if(GameVersion >= 3)
-							{
-								if(CopyGraphics || vecCiv == 0)
-								Units_SnowGraphicID->container[location] = &UnitPointer->Building.SnowGraphicID;
-							}
-							Units_Unknown33->container[location] = &UnitPointer->Building.Unknown33;
-							for(short loop=0; loop < 4; loop++)
-							{
-								Units_AnnexUnit[loop]->container[location] = &UnitPointer->Building.Annexes[loop].UnitID;
-								Units_AnnexUnitMisplacement[loop][0]->container[location] = &UnitPointer->Building.Annexes[loop].Misplacement.first;
-								Units_AnnexUnitMisplacement[loop][1]->container[location] = &UnitPointer->Building.Annexes[loop].Misplacement.second;
-							}
-							Units_HeadUnit->container[location] = &UnitPointer->Building.HeadUnit;
-							Units_TransformUnit->container[location] = &UnitPointer->Building.TransformUnit;
-							Units_Unknown34->container[location] = &UnitPointer->Building.Unknown34;
-							Units_GarrisonType->container[location] = &UnitPointer->Building.GarrisonType;
-							Units_GarrisonHealRate->container[location] = &UnitPointer->Building.GarrisonHealRate;
-							Units_Unknown35->container[location] = &UnitPointer->Building.Unknown35;
-							Units_Unknown36->container[location] = &UnitPointer->Building.Unknown36;
-							for(short loop=0; loop < 6; loop++)
-							{
-								Units_Unknown37[loop]->container[location] = &UnitPointer->Building.Unknown37[loop];
-							}
-						}
-						Units_ConstructionSound->container[location] = &UnitPointer->Building.ConstructionSound;
-					}
-					//case 70:
-					{
-						for(short loop=0; loop < 3; loop++)
-						{
-							Units_CostType[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Type;
-							Units_CostAmount[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Amount;
-							Units_CostUsed[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Enabled;
-						}
-						Units_TrainTime->container[location] = &UnitPointer->Creatable.TrainTime;
-						Units_TrainLocationID->container[location] = &UnitPointer->Creatable.TrainLocationID;
-						Units_ButtonID->container[location] = &UnitPointer->Creatable.ButtonID;
-						if(GameVersion >= 2)
-						{
-							Units_Unknown26->container[location] = &UnitPointer->Creatable.Unknown26;
-							for(short loop=0; loop < 3; loop++)
-							{
-								Units_Unknown27[loop]->container[location] = &UnitPointer->Creatable.Unknown27[loop];
-							}
-							Units_Unknown28->container[location] = &UnitPointer->Creatable.Unknown28;
-							Units_MissileGraphicDelay->container[location] = &UnitPointer->Creatable.MissileGraphicDelay;
-							Units_HeroMode->container[location] = &UnitPointer->Creatable.HeroMode;
-							if(CopyGraphics || vecCiv == 0)
-							{
-								Units_GarrisonGraphic[0]->container[location] = &UnitPointer->Creatable.GarrisonGraphic.first;
-								Units_GarrisonGraphic[1]->container[location] = &UnitPointer->Creatable.GarrisonGraphic.second;
-							}
-							Units_AttackMissileDuplicationAmount1->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationAmount1;
-							Units_AttackMissileDuplicationAmount2->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationAmount2;
-							for(short loop=0; loop < 3; loop++)
-							{
-								Units_AttackMissileDuplicationSpawning[loop]->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationSpawning[loop];
-							}
-							Units_AttackMissileDuplicationUnit->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationUnit;
-							Units_AttackMissileDuplicationGraphic->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationGraphic;
-							Units_Unknown29->container[location] = &UnitPointer->Creatable.Unknown29;
-						}
-						Units_DisplayedPierceArmour->container[location] = &UnitPointer->Creatable.DisplayedPierceArmour;
-					}
-					//case 60:
-					{
-						Units_Unknown20[0]->container[location] = &UnitPointer->Projectile.Unknown20;
-						Units_Unknown21->container[location] = &UnitPointer->Projectile.Unknown21;
-						Units_MaxRange->container[location] = &UnitPointer->Projectile.MaxRange;
-						Units_BlastRadius->container[location] = &UnitPointer->Projectile.BlastRadius;
-						Units_ReloadTime1->container[location] = &UnitPointer->Projectile.ReloadTime1;
-						Units_ProjectileUnitID->container[location] = &UnitPointer->Projectile.ProjectileUnitID;
-						Units_AccuracyPercent->container[location] = &UnitPointer->Projectile.AccuracyPercent;
-						Units_TowerMode->container[location] = &UnitPointer->Projectile.TowerMode;
-						Units_Delay->container[location] = &UnitPointer->Projectile.Delay;
-						for(short loop=0; loop < 3; loop++)
-						{
-							Units_GraphicDisplacement[loop]->container[location] = &UnitPointer->Projectile.GraphicDisplacement[loop];
-						}
-						Units_BlastLevel->container[location] = &UnitPointer->Projectile.Unknown23;
-						Units_MinRange->container[location] = &UnitPointer->Projectile.MinRange;
-						if(GameVersion >= 2)
-						{
-							if(GameVersion >= 3)
-							{
-								Units_Unknown20[1]->container[location] = &UnitPointer->Projectile.Unknown20_1;
-							}
-							Units_GarrisonRecoveryRate->container[location] = &UnitPointer->Projectile.GarrisonRecoveryRate;
-						}
-						if(CopyGraphics || vecCiv == 0)
-						Units_AttackGraphic->container[location] = &UnitPointer->Projectile.AttackGraphic;
-						Units_DisplayedMeleeArmour->container[location] = &UnitPointer->Projectile.DisplayedMeleeArmour;
-						Units_DisplayedAttack->container[location] = &UnitPointer->Projectile.DisplayedAttack;
-						Units_DisplayedRange->container[location] = &UnitPointer->Projectile.DisplayedRange;
-						Units_ReloadTime2->container[location] = &UnitPointer->Projectile.ReloadTime2;
-					}
-					//case 40:
-					{
-						Units_SheepConversion->container[location] = &UnitPointer->Bird.SheepConversion;
-						Units_SearchRadius->container[location] = &UnitPointer->Bird.SearchRadius;
-						Units_WorkRate->container[location] = &UnitPointer->Bird.WorkRate;
-						Units_DropSite[0]->container[location] = &UnitPointer->Bird.DropSite.first;
-						Units_DropSite[1]->container[location] = &UnitPointer->Bird.DropSite.second;
-						Units_VillagerMode->container[location] = &UnitPointer->Bird.VillagerMode;
-						Units_MoveSound->container[location] = &UnitPointer->Bird.MoveSound;
-						Units_StopSound->container[location] = &UnitPointer->Bird.StopSound;
-						Units_AnimalMode->container[location] = &UnitPointer->Bird.AnimalMode;
-					}
-					//case 30:
-					{
-						if(CopyGraphics || vecCiv == 0)
-						{
-							Units_WalkingGraphic[0]->container[location] = &UnitPointer->DeadFish.WalkingGraphic.first;
-							Units_WalkingGraphic[1]->container[location] = &UnitPointer->DeadFish.WalkingGraphic.second;
-						}
-						Units_RotationSpeed->container[location] = &UnitPointer->DeadFish.RotationSpeed;
-						Units_Unknown11->container[location] = &UnitPointer->DeadFish.Unknown11;
-						Units_TrackingUnit->container[location] = &UnitPointer->DeadFish.TrackingUnit;
-						Units_TrackingUnitUsed->container[location] = &UnitPointer->DeadFish.TrackingUnitUsed;
-						Units_TrackingUnitDensity->container[location] = &UnitPointer->DeadFish.TrackingUnitDensity;
-						if(GameVersion >= 2)
-						{
-							Units_Unknown12->container[location] = &UnitPointer->DeadFish.Unknown12;
-							for(short loop=0; loop < 17; loop++)
-							{
-								Units_Unknown16[loop]->container[location] = &UnitPointer->DeadFish.Unknown16[loop];
-							}
-						}
-						else
-						{
-							Units_Unknown16[0]->container[location] = &UnitPointer->DeadFish.Unknown16[0];
-						}
-					}
-					//case 25:
-					//case 20:
-					{
-						Units_Speed->container[location] = &UnitPointer->Speed;
-					}
-				}
-				Units_ID1->container[location] = &UnitPointer->ID1;
-				Units_LanguageDLLName->container[location] = &UnitPointer->LanguageDLLName;
-				Units_LanguageDLLCreation->container[location] = &UnitPointer->LanguageDLLCreation;
-				Units_Class->container[location] = &UnitPointer->Class;
-				if(CopyGraphics || vecCiv == 0)
-				{
-					Units_StandingGraphic[0]->container[location] = &UnitPointer->StandingGraphic.first;
-					Units_DyingGraphic[0]->container[location] = &UnitPointer->DyingGraphic.first;
-					Units_DyingGraphic[1]->container[location] = &UnitPointer->DyingGraphic.second;
-					Units_IconID->container[location] = &UnitPointer->IconID;
-				}
-				Units_DeathMode->container[location] = &UnitPointer->DeathMode;
-				Units_HitPoints->container[location] = &UnitPointer->HitPoints;
-				Units_LineOfSight->container[location] = &UnitPointer->LineOfSight;
-				Units_GarrisonCapacity->container[location] = &UnitPointer->GarrisonCapacity;
-				Units_SizeRadius[0]->container[location] = &UnitPointer->SizeRadius.first;
-				Units_SizeRadius[1]->container[location] = &UnitPointer->SizeRadius.second;
-				Units_HPBarHeight1->container[location] = &UnitPointer->HPBarHeight1;
-				Units_TrainSound[0]->container[location] = &UnitPointer->TrainSound.first;
-				Units_DeadUnitID->container[location] = &UnitPointer->DeadUnitID;
-				Units_PlacementMode->container[location] = &UnitPointer->PlacementMode;
-				Units_AirMode->container[location] = &UnitPointer->AirMode;
-				Units_HideInEditor->container[location] = &UnitPointer->HideInEditor;
-				Units_Unknown1->container[location] = &UnitPointer->Unknown1;
-				Units_PlacementBypassTerrain[0]->container[location] = &UnitPointer->PlacementBypassTerrain.first;
-				Units_PlacementBypassTerrain[1]->container[location] = &UnitPointer->PlacementBypassTerrain.second;
-				Units_PlacementTerrain[0]->container[location] = &UnitPointer->PlacementTerrain.first;
-				Units_PlacementTerrain[1]->container[location] = &UnitPointer->PlacementTerrain.second;
-				Units_EditorRadius[0]->container[location] = &UnitPointer->EditorRadius.first;
-				Units_EditorRadius[1]->container[location] = &UnitPointer->EditorRadius.second;
-				Units_BuildingMode->container[location] = &UnitPointer->BuildingMode;
-				Units_VisibleInFog->container[location] = &UnitPointer->VisibleInFog;
-				Units_TerrainRestriction->container[location] = &UnitPointer->TerrainRestriction;
-				Units_FlyMode->container[location] = &UnitPointer->FlyMode;
-				Units_ResourceCapacity->container[location] = &UnitPointer->ResourceCapacity;
-				Units_ResourceDecay->container[location] = &UnitPointer->ResourceDecay;
-				Units_BlastType->container[location] = &UnitPointer->BlastType;
-				Units_Unknown2->container[location] = &UnitPointer->Unknown2;
-				Units_InteractionMode->container[location] = &UnitPointer->InteractionMode;
-				Units_MinimapMode->container[location] = &UnitPointer->MinimapMode;
-				Units_SelectionEffect->container[location] = &UnitPointer->SelectionEffect;
-				Units_EditorSelectionColour->container[location] = &UnitPointer->EditorSelectionColour;
-				if(GameVersion >= 2)
+				//case 80:
 				{
 					if(CopyGraphics || vecCiv == 0)
-					Units_StandingGraphic[1]->container[location] = &UnitPointer->StandingGraphic.second;
-					Units_TrainSound[1]->container[location] = &UnitPointer->TrainSound.second;
-					Units_Unknown7->container[location] = &UnitPointer->Unknown7;
-					Units_Unknown8->container[location] = &UnitPointer->Unknown8;
-					Units_SelectionShapeType->container[location] = &UnitPointer->SelectionShapeType;
-					Units_ID3->container[location] = &UnitPointer->ID3;
-					if(GameVersion >= 3)
+					Units_ConstructionGraphicID->container[location] = &UnitPointer->Building.ConstructionGraphicID;
+					Units_AdjacentMode->container[location] = &UnitPointer->Building.AdjacentMode;
+					Units_Unknown31->container[location] = &UnitPointer->Building.Unknown31;
+					Units_Unknown31b->container[location] = &UnitPointer->Building.Unknown31b;
+					Units_StackUnitID->container[location] = &UnitPointer->Building.StackUnitID;
+					Units_TerrainID->container[location] = &UnitPointer->Building.TerrainID;
+					Units_Unknown32->container[location] = &UnitPointer->Building.Unknown32;
+					Units_ResearchID->container[location] = &UnitPointer->Building.ResearchID;
+					if(GameVersion >= 2)
 					{
-						Units_Attribute->container[location] = &UnitPointer->Attribute;
-						Units_Civ->container[location] = &UnitPointer->Civilization;
-						for(short loop=0; loop < 2; loop++)
+						if(GameVersion >= 3)
 						{
-							Units_Unknown9[loop]->container[location] = &UnitPointer->Unknown9[loop];
+							if(CopyGraphics || vecCiv == 0)
+							Units_SnowGraphicID->container[location] = &UnitPointer->Building.SnowGraphicID;
 						}
-						if(GameVersion >= 4)
+						Units_Unknown33->container[location] = &UnitPointer->Building.Unknown33;
+						for(short loop=0; loop < 4; loop++)
 						{
-							Units_Name2->container[location] = &UnitPointer->Name2;
-							Units_Unitline->container[location] = &UnitPointer->Unitline;
-							Units_MinTechLevel->container[location] = &UnitPointer->MinTechLevel;
+							Units_AnnexUnit[loop]->container[location] = &UnitPointer->Building.Annexes[loop].UnitID;
+							Units_AnnexUnitMisplacement[loop][0]->container[location] = &UnitPointer->Building.Annexes[loop].Misplacement.first;
+							Units_AnnexUnitMisplacement[loop][1]->container[location] = &UnitPointer->Building.Annexes[loop].Misplacement.second;
+						}
+						Units_HeadUnit->container[location] = &UnitPointer->Building.HeadUnit;
+						Units_TransformUnit->container[location] = &UnitPointer->Building.TransformUnit;
+						Units_Unknown34->container[location] = &UnitPointer->Building.Unknown34;
+						Units_GarrisonType->container[location] = &UnitPointer->Building.GarrisonType;
+						Units_GarrisonHealRate->container[location] = &UnitPointer->Building.GarrisonHealRate;
+						Units_Unknown35->container[location] = &UnitPointer->Building.Unknown35;
+						Units_Unknown36->container[location] = &UnitPointer->Building.Unknown36;
+						for(short loop=0; loop < 6; loop++)
+						{
+							Units_Unknown37[loop]->container[location] = &UnitPointer->Building.Unknown37[loop];
 						}
 					}
+					Units_ConstructionSound->container[location] = &UnitPointer->Building.ConstructionSound;
 				}
-				else
+				//case 70:
 				{
-					Units_Unknown3a->container[location] = &UnitPointer->Unknown3a;
-				}
-				Units_Enabled->container[location] = &UnitPointer->Enabled;
-				Units_CommandAttribute->container[location] = &UnitPointer->CommandAttribute;
-				Units_Unknown3->container[location] = &UnitPointer->Unknown3;
-				Units_Unknown3B->container[location] = &UnitPointer->Unknown3B;
-				Units_LanguageDLLHelp->container[location] = &UnitPointer->LanguageDLLHelp;
-				Units_LanguageDLLHotKeyText->container[location] = &UnitPointer->LanguageDLLHotKeyText;
-				Units_HotKey->container[location] = &UnitPointer->HotKey;
-				Units_Unknown4->container[location] = &UnitPointer->Unknown4;
-				Units_Unknown5->container[location] = &UnitPointer->Unknown5;
-				Units_Unselectable->container[location] = &UnitPointer->Unselectable;
-				Units_Unknown6->container[location] = &UnitPointer->Unknown6;
-				Units_SelectionMask->container[location] = &UnitPointer->SelectionMask;
-				Units_SelectionShape->container[location] = &UnitPointer->SelectionShape;
-				Units_SelectionRadius[0]->container[location] = &UnitPointer->SelectionRadius.first;
-				Units_SelectionRadius[1]->container[location] = &UnitPointer->SelectionRadius.second;
-				Units_HPBarHeight2->container[location] = &UnitPointer->HPBarHeight2;
-				Units_SelectionSound->container[location] = &UnitPointer->SelectionSound;
-				Units_DyingSound->container[location] = &UnitPointer->DyingSound;
-				Units_AttackSound->container[location] = &UnitPointer->AttackSound;
-				Units_Name->container[location] = &UnitPointer->Name;
-				Units_ID2->container[location] = &UnitPointer->ID2;
-				for(short loop=0; loop < 3; loop++)
-				{
-					ResourceStorage_Type[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Type;
-					ResourceStorage_Amount[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Amount;
-					ResourceStorage_Enabled[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Enabled;
-				}
-
-				//if(UnitType == 60)
-				{
-					Units_StretchMode->container[location] = &UnitPointer->ProjectileOnly.StretchMode;
-					Units_CompensationMode->container[location] = &UnitPointer->ProjectileOnly.CompensationMode;
-					Units_DropAnimationMode->container[location] = &UnitPointer->ProjectileOnly.DropAnimationMode;
-					Units_PenetrationMode->container[location] = &UnitPointer->ProjectileOnly.PenetrationMode;
-					Units_Unknown24->container[location] = &UnitPointer->ProjectileOnly.Unknown24;
-					Units_ProjectileArc->container[location] = &UnitPointer->ProjectileOnly.ProjectileArc;
-				}
-				if(!AutoCopy) break;
-				vecCiv++;
-			}
-		}
-		SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(Selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
-
-		Units_Type->ChangeValue(lexical_cast<string>((short)UnitPointer->Type));
-		switch(UnitType)
-		{
-			case 10: Units_ComboBox_Type->SetSelection(1); break;
-			case 20: Units_ComboBox_Type->SetSelection(2); break;
-			case 25: Units_ComboBox_Type->SetSelection(3); break;
-			case 30: Units_ComboBox_Type->SetSelection(4); break;
-			case 40: Units_ComboBox_Type->SetSelection(5); break;
-			case 60: Units_ComboBox_Type->SetSelection(6); break;
-			case 70: Units_ComboBox_Type->SetSelection(7); break;
-			case 80: Units_ComboBox_Type->SetSelection(8); break;
-			case 90: Units_ComboBox_Type->SetSelection(9); break;
-			default: Units_ComboBox_Type->SetSelection(0);
-		}
-
-		switch(UnitType) // Enable editing
-		{
-			case 80:
-			{
-				Units_ConstructionGraphicID->Enable(true);
-				Units_ComboBox_ConstructionGraphicID->Enable(true);
-				Units_SnowGraphicID->Enable(true);
-				Units_ComboBox_SnowGraphicID->Enable(true);
-				Units_AdjacentMode->Enable(true);
-				Units_CheckBox_AdjacentMode->Enable(true);
-				Units_Unknown31->Enable(true);
-				Units_Unknown31b->Enable(true);
-				Units_CheckBox_Unknown31b->Enable(true);
-				Units_StackUnitID->Enable(true);
-				Units_ComboBox_StackUnitID->Enable(true);
-				Units_TerrainID->Enable(true);
-				Units_ComboBox_TerrainID->Enable(true);
-				Units_Unknown32->Enable(true);
-				Units_ResearchID->Enable(true);
-				Units_ComboBox_ResearchID->Enable(true);
-				Units_Unknown33->Enable(true);
-				for(short loop=0; loop < 4; loop++)
-				{
-					Units_AnnexUnit[loop]->Enable(true);
-					Units_ComboBox_AnnexUnit[loop]->Enable(true);
-					for(short loop2=0; loop2 < 2; loop2++)
-					Units_AnnexUnitMisplacement[loop][loop2]->Enable(true);
-				}
-				Units_HeadUnit->Enable(true);
-				Units_ComboBox_HeadUnit->Enable(true);
-				Units_TransformUnit->Enable(true);
-				Units_ComboBox_TransformUnit->Enable(true);
-				Units_Unknown34->Enable(true);
-				Units_ConstructionSound->Enable(true);
-				Units_ComboBox_ConstructionSound->Enable(true);
-				Units_GarrisonType->Enable(true);
-				Units_ComboBox_GarrisonType->Enable(true);
-				Units_GarrisonHealRate->Enable(true);
-				Units_Unknown35->Enable(true);
-				Units_Unknown36->Enable(true);
-				for(short loop=0; loop < 6; loop++)
-				Units_Unknown37[loop]->Enable(true);
-
-				Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionGraphicID));
-				Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building.ConstructionGraphicID + 1);
-				Units_AdjacentMode->ChangeValue(lexical_cast<string>(UnitPointer->Building.AdjacentMode));
-				Units_CheckBox_AdjacentMode->SetValue((bool)UnitPointer->Building.AdjacentMode);
-				Units_Unknown31->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown31));
-				Units_Unknown31b->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown31b));
-				Units_CheckBox_Unknown31b->SetValue((bool)UnitPointer->Building.Unknown31b);
-				Units_StackUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Building.StackUnitID));
-				Units_ComboBox_StackUnitID->SetSelection(UnitPointer->Building.StackUnitID + 1);
-				Units_TerrainID->ChangeValue(lexical_cast<string>(UnitPointer->Building.TerrainID));
-				Units_ComboBox_TerrainID->SetSelection(UnitPointer->Building.TerrainID + 1);
-				Units_Unknown32->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown32));
-				Units_ResearchID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ResearchID));
-				Units_ComboBox_ResearchID->SetSelection(UnitPointer->Building.ResearchID + 1);
-				if(GameVersion >= 2)
-				{
-					if(GameVersion >= 3)
-					{
-						Units_SnowGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.SnowGraphicID));
-						Units_ComboBox_SnowGraphicID->SetSelection(UnitPointer->Building.SnowGraphicID + 1);
-					}
-					Units_Unknown33->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown33));
-					for(short loop=0; loop < 4; loop++)
-					{
-						Units_AnnexUnit[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].UnitID));
-						Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitPointer->Building.Annexes[loop].UnitID + 1);
-						Units_AnnexUnitMisplacement[loop][0]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].Misplacement.first));
-						Units_AnnexUnitMisplacement[loop][1]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].Misplacement.second));
-					}
-					Units_HeadUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building.HeadUnit));
-					Units_ComboBox_HeadUnit->SetSelection(UnitPointer->Building.HeadUnit + 1);
-					Units_TransformUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building.TransformUnit));
-					Units_ComboBox_TransformUnit->SetSelection(UnitPointer->Building.TransformUnit + 1);
-					Units_Unknown34->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown34));
-					Units_GarrisonType->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.GarrisonType));
-					Units_ComboBox_GarrisonType->SetSelection(UnitPointer->Building.GarrisonType + 1);
-					Units_GarrisonHealRate->ChangeValue(lexical_cast<string>(UnitPointer->Building.GarrisonHealRate));
-					Units_Unknown35->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown35));
-					Units_Unknown36->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown36));
-					for(short loop=0; loop < 6; loop++)
-					{
-						Units_Unknown37[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown37[loop]));
-					}
-				}
-				Units_ConstructionSound->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionSound));
-				Units_ComboBox_ConstructionSound->SetSelection(UnitPointer->Building.ConstructionSound + 1);
-			}
-			case 70:
-			{
-				for(short loop=0; loop < 2; loop++)
-				{
-					Units_GarrisonGraphic[loop]->Enable(true);
-					Units_ComboBox_GarrisonGraphic[loop]->Enable(true);
-				}
-				for(short loop=0; loop < 3; loop++)
-				{
-					Units_CostType[loop]->Enable(true);
-					Units_ComboBox_CostType[loop]->Enable(true);
-					Units_CostAmount[loop]->Enable(true);
-					Units_CostUsed[loop]->Enable(true);
-					Units_CheckBox_CostUsed[loop]->Enable(true);
-					Units_Unknown27[loop]->Enable(true);
-					Units_AttackMissileDuplicationSpawning[loop]->Enable(true);
-				}
-				Units_TrainTime->Enable(true);
-				Units_TrainLocationID->Enable(true);
-				Units_ComboBox_TrainLocationID->Enable(true);
-				Units_ButtonID->Enable(true);
-				Units_Unknown26->Enable(true);
-				Units_Unknown28->Enable(true);
-				Units_MissileGraphicDelay->Enable(true);
-				Units_HeroMode->Enable(true);
-				Units_CheckBox_HeroMode->Enable(true);
-				Units_AttackMissileDuplicationAmount1->Enable(true);
-				Units_AttackMissileDuplicationAmount2->Enable(true);
-				Units_AttackMissileDuplicationUnit->Enable(true);
-				Units_ComboBox_AttackMissileDuplicationUnit->Enable(true);
-				Units_AttackMissileDuplicationGraphic->Enable(true);
-				Units_ComboBox_AttackMissileDuplicationGraphic->Enable(true);
-				Units_Unknown29->Enable(true);
-				Units_DisplayedPierceArmour->Enable(true);
-
-				for(short loop=0; loop < 3; loop++)
-				{
-					Units_CostType[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Type));
-					Units_ComboBox_CostType[loop]->SetSelection(UnitPointer->Creatable.ResourceCosts[loop].Type + 1);
-					Units_CostAmount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Amount));
-					Units_CostUsed[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Enabled));
-					Units_CheckBox_CostUsed[loop]->SetValue((bool)UnitPointer->Creatable.ResourceCosts[loop].Enabled);
-				}
-				Units_TrainTime->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.TrainTime));
-				Units_TrainLocationID->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.TrainLocationID));
-				Units_ComboBox_TrainLocationID->SetSelection(UnitPointer->Creatable.TrainLocationID + 1);
-				Units_ButtonID->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.ButtonID));
-				if(GameVersion >= 2)
-				{
-					Units_Unknown26->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown26));
 					for(short loop=0; loop < 3; loop++)
 					{
-						Units_Unknown27[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.Unknown27[loop]));
+						Units_CostType[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Type;
+						Units_CostAmount[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Amount;
+						Units_CostUsed[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Enabled;
 					}
-					Units_Unknown28->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown28));
-					Units_MissileGraphicDelay->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.MissileGraphicDelay));
-					Units_HeroMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.HeroMode));
-					Units_CheckBox_HeroMode->SetValue((bool)UnitPointer->Creatable.HeroMode);
-					Units_GarrisonGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.first));
-					Units_ComboBox_GarrisonGraphic[0]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.first + 1);
-					Units_GarrisonGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.second));
-					Units_ComboBox_GarrisonGraphic[1]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.second + 1);
-					Units_AttackMissileDuplicationAmount1->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationAmount1));
-					Units_AttackMissileDuplicationAmount2->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.AttackMissileDuplicationAmount2));
+					Units_TrainTime->container[location] = &UnitPointer->Creatable.TrainTime;
+					Units_TrainLocationID->container[location] = &UnitPointer->Creatable.TrainLocationID;
+					Units_ButtonID->container[location] = &UnitPointer->Creatable.ButtonID;
+					if(GameVersion >= 2)
+					{
+						Units_Unknown26->container[location] = &UnitPointer->Creatable.Unknown26;
+						for(short loop=0; loop < 3; loop++)
+						{
+							Units_Unknown27[loop]->container[location] = &UnitPointer->Creatable.Unknown27[loop];
+						}
+						Units_Unknown28->container[location] = &UnitPointer->Creatable.Unknown28;
+						Units_MissileGraphicDelay->container[location] = &UnitPointer->Creatable.MissileGraphicDelay;
+						Units_HeroMode->container[location] = &UnitPointer->Creatable.HeroMode;
+						if(CopyGraphics || vecCiv == 0)
+						{
+							Units_GarrisonGraphic[0]->container[location] = &UnitPointer->Creatable.GarrisonGraphic.first;
+							Units_GarrisonGraphic[1]->container[location] = &UnitPointer->Creatable.GarrisonGraphic.second;
+						}
+						Units_AttackMissileDuplicationAmount1->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationAmount1;
+						Units_AttackMissileDuplicationAmount2->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationAmount2;
+						for(short loop=0; loop < 3; loop++)
+						{
+							Units_AttackMissileDuplicationSpawning[loop]->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationSpawning[loop];
+						}
+						Units_AttackMissileDuplicationUnit->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationUnit;
+						Units_AttackMissileDuplicationGraphic->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationGraphic;
+						Units_Unknown29->container[location] = &UnitPointer->Creatable.Unknown29;
+					}
+					Units_DisplayedPierceArmour->container[location] = &UnitPointer->Creatable.DisplayedPierceArmour;
+				}
+				//case 60:
+				{
+					Units_Unknown20[0]->container[location] = &UnitPointer->Projectile.Unknown20;
+					Units_Unknown21->container[location] = &UnitPointer->Projectile.Unknown21;
+					Units_MaxRange->container[location] = &UnitPointer->Projectile.MaxRange;
+					Units_BlastRadius->container[location] = &UnitPointer->Projectile.BlastRadius;
+					Units_ReloadTime1->container[location] = &UnitPointer->Projectile.ReloadTime1;
+					Units_ProjectileUnitID->container[location] = &UnitPointer->Projectile.ProjectileUnitID;
+					Units_AccuracyPercent->container[location] = &UnitPointer->Projectile.AccuracyPercent;
+					Units_TowerMode->container[location] = &UnitPointer->Projectile.TowerMode;
+					Units_Delay->container[location] = &UnitPointer->Projectile.Delay;
 					for(short loop=0; loop < 3; loop++)
 					{
-						Units_AttackMissileDuplicationSpawning[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationSpawning[loop]));
+						Units_GraphicDisplacement[loop]->container[location] = &UnitPointer->Projectile.GraphicDisplacement[loop];
 					}
-					Units_AttackMissileDuplicationUnit->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationUnit));
-					Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitPointer->Creatable.AttackMissileDuplicationUnit + 1);
-					Units_AttackMissileDuplicationGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationGraphic));
-					Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(UnitPointer->Creatable.AttackMissileDuplicationGraphic + 1);
-					Units_Unknown29->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown29));
-				}
-				Units_DisplayedPierceArmour->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.DisplayedPierceArmour));
-			}
-			case 60:
-			{
-				for(short loop=0; loop < 2; loop++)
-				Units_Unknown20[loop]->Enable(true);
-				Units_Unknown21->Enable(true);
-				Units_MaxRange->Enable(true);
-				Units_BlastRadius->Enable(true);
-				Units_ReloadTime1->Enable(true);
-				Units_ProjectileUnitID->Enable(true);
-				Units_ComboBox_ProjectileUnitID->Enable(true);
-				Units_AccuracyPercent->Enable(true);
-				Units_TowerMode->Enable(true);
-				Units_CheckBox_TowerMode->Enable(true);
-				Units_Delay->Enable(true);
-				for(short loop=0; loop < 4; loop++)
-				Units_GraphicDisplacement[loop]->Enable(true);
-				Units_BlastLevel->Enable(true);
-				Units_MinRange->Enable(true);
-				Units_GarrisonRecoveryRate->Enable(true);
-				Units_AttackGraphic->Enable(true);
-				Units_ComboBox_AttackGraphic->Enable(true);
-				Units_DisplayedMeleeArmour->Enable(true);
-				Units_DisplayedAttack->Enable(true);
-				Units_DisplayedRange->Enable(true);
-				Units_ReloadTime2->Enable(true);
-
-				Attacks_Class->Enable(true);
-				for(short loop=0; loop < 2; loop++)
-				Attacks_ComboBox_Class[loop]->Enable(true);
-				Attacks_Amount->Enable(true);
-				Armors_Class->Enable(true);
-				Armors_Amount->Enable(true);
-
-				Units_Unknown20[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown20));
-				Units_Unknown21->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Unknown21));
-				Units_MaxRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MaxRange));
-				Units_BlastRadius->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.BlastRadius));
-				Units_ReloadTime1->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime1));
-				Units_ProjectileUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ProjectileUnitID));
-				Units_ComboBox_ProjectileUnitID->SetSelection(UnitPointer->Projectile.ProjectileUnitID + 1);
-				Units_AccuracyPercent->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.AccuracyPercent));
-				Units_TowerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.TowerMode));
-				Units_CheckBox_TowerMode->SetValue((bool)UnitPointer->Projectile.TowerMode);
-				Units_Delay->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Delay));
-				for(short loop=0; loop < 3; loop++)
-				{
-					Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GraphicDisplacement[loop]));
-				}
-				Units_BlastLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown23));
-				Units_MinRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MinRange));
-				if(GameVersion >= 2)
-				{
-					if(GameVersion >= 3)
+					Units_BlastLevel->container[location] = &UnitPointer->Projectile.Unknown23;
+					Units_MinRange->container[location] = &UnitPointer->Projectile.MinRange;
+					if(GameVersion >= 2)
 					{
-						Units_Unknown20[1]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown20_1));
+						if(GameVersion >= 3)
+						{
+							Units_Unknown20[1]->container[location] = &UnitPointer->Projectile.Unknown20_1;
+						}
+						Units_GarrisonRecoveryRate->container[location] = &UnitPointer->Projectile.GarrisonRecoveryRate;
 					}
-					Units_GarrisonRecoveryRate->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GarrisonRecoveryRate));
+					if(CopyGraphics || vecCiv == 0)
+					Units_AttackGraphic->container[location] = &UnitPointer->Projectile.AttackGraphic;
+					Units_DisplayedMeleeArmour->container[location] = &UnitPointer->Projectile.DisplayedMeleeArmour;
+					Units_DisplayedAttack->container[location] = &UnitPointer->Projectile.DisplayedAttack;
+					Units_DisplayedRange->container[location] = &UnitPointer->Projectile.DisplayedRange;
+					Units_ReloadTime2->container[location] = &UnitPointer->Projectile.ReloadTime2;
 				}
-				Units_AttackGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.AttackGraphic));
-				Units_ComboBox_AttackGraphic->SetSelection(UnitPointer->Projectile.AttackGraphic + 1);
-				Units_DisplayedMeleeArmour->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedMeleeArmour));
-				Units_DisplayedAttack->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedAttack));
-				Units_DisplayedRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedRange));
-				Units_ReloadTime2->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime2));
-			}
-			case 40:
-			{
-				Units_SheepConversion->Enable(true);
-				Units_CheckBox_SheepConversion->Enable(true);
-				Units_SearchRadius->Enable(true);
-				Units_WorkRate->Enable(true);
-				for(short loop=0; loop < 2; loop++)
+				//case 40:
 				{
-					Units_DropSite[loop]->Enable(true);
-					Units_ComboBox_DropSite[loop]->Enable(true);
+					Units_SheepConversion->container[location] = &UnitPointer->Bird.SheepConversion;
+					Units_SearchRadius->container[location] = &UnitPointer->Bird.SearchRadius;
+					Units_WorkRate->container[location] = &UnitPointer->Bird.WorkRate;
+					Units_DropSite[0]->container[location] = &UnitPointer->Bird.DropSite.first;
+					Units_DropSite[1]->container[location] = &UnitPointer->Bird.DropSite.second;
+					Units_VillagerMode->container[location] = &UnitPointer->Bird.VillagerMode;
+					Units_MoveSound->container[location] = &UnitPointer->Bird.MoveSound;
+					Units_StopSound->container[location] = &UnitPointer->Bird.StopSound;
+					Units_AnimalMode->container[location] = &UnitPointer->Bird.AnimalMode;
 				}
-				Units_VillagerMode->Enable(true);
-				Units_MoveSound->Enable(true);
-				Units_ComboBox_MoveSound->Enable(true);
-				Units_StopSound->Enable(true);
-				Units_ComboBox_StopSound->Enable(true);
-				Units_AnimalMode->Enable(true);
-				Units_CheckBox_AnimalMode->Enable(true);
-
-				Units_SheepConversion->ChangeValue(lexical_cast<string>(UnitPointer->Bird.SheepConversion));
-				if(UnitPointer->Bird.SheepConversion == 0) Units_CheckBox_SheepConversion->SetValue(true);
-				else Units_CheckBox_SheepConversion->SetValue(false);
-				Units_SearchRadius->ChangeValue(lexical_cast<string>(UnitPointer->Bird.SearchRadius));
-				Units_WorkRate->ChangeValue(lexical_cast<string>(UnitPointer->Bird.WorkRate));
-				Units_DropSite[0]->ChangeValue(lexical_cast<string>(UnitPointer->Bird.DropSite.first));
-				Units_ComboBox_DropSite[0]->SetSelection(UnitPointer->Bird.DropSite.first + 1);
-				Units_DropSite[1]->ChangeValue(lexical_cast<string>(UnitPointer->Bird.DropSite.second));
-				Units_ComboBox_DropSite[1]->SetSelection(UnitPointer->Bird.DropSite.second + 1);
-				Units_VillagerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird.VillagerMode));
-				Units_MoveSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.MoveSound));
-				Units_ComboBox_MoveSound->SetSelection(UnitPointer->Bird.MoveSound + 1);
-				Units_StopSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.StopSound));
-				Units_ComboBox_StopSound->SetSelection(UnitPointer->Bird.StopSound + 1);
-				Units_AnimalMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird.AnimalMode));
-				Units_CheckBox_AnimalMode->SetValue((bool)UnitPointer->Bird.AnimalMode);
-			}
-			case 30:
-			{
-				for(short loop=0; loop < 2; loop++)
+				//case 30:
 				{
-					Units_WalkingGraphic[loop]->Enable(true);
-					Units_ComboBox_WalkingGraphic[loop]->Enable(true);
-				}
-				Units_RotationSpeed->Enable(true);
-				Units_Unknown11->Enable(true);
-				Units_TrackingUnit->Enable(true);
-				Units_ComboBox_TrackingUnit->Enable(true);
-				Units_TrackingUnitUsed->Enable(true);
-				Units_TrackingUnitDensity->Enable(true);
-				Units_Unknown12->Enable(true);
-				for(short loop=0; loop < 17; loop++)
-				Units_Unknown16[loop]->Enable(true);
-
-				Units_WalkingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.WalkingGraphic.first));
-				Units_ComboBox_WalkingGraphic[0]->SetSelection(UnitPointer->DeadFish.WalkingGraphic.first + 1);
-				Units_WalkingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.WalkingGraphic.second));
-				Units_ComboBox_WalkingGraphic[1]->SetSelection(UnitPointer->DeadFish.WalkingGraphic.second + 1);
-				Units_RotationSpeed->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.RotationSpeed));
-				Units_Unknown11->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown11));
-				Units_TrackingUnit->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.TrackingUnit));
-				Units_ComboBox_TrackingUnit->SetSelection(UnitPointer->DeadFish.TrackingUnit + 1);
-				Units_TrackingUnitUsed->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.TrackingUnitUsed));
-				Units_TrackingUnitDensity->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.TrackingUnitDensity));
-				if(GameVersion >= 2)
-				{
-					Units_Unknown12->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.Unknown12));
-					for(short loop=0; loop < 17; loop++)
+					if(CopyGraphics || vecCiv == 0)
 					{
-						Units_Unknown16[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16[loop]));
+						Units_WalkingGraphic[0]->container[location] = &UnitPointer->DeadFish.WalkingGraphic.first;
+						Units_WalkingGraphic[1]->container[location] = &UnitPointer->DeadFish.WalkingGraphic.second;
 					}
-				}
-				else
-				{
-					Units_Unknown16[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16[0]));
-				}
-			}
-			case 25:
-			case 20:
-			{
-				Units_Speed->Enable(true);
-				Units_Speed->ChangeValue(lexical_cast<string>(UnitPointer->Speed));
-			}
-		}
-		Units_ID1->ChangeValue(lexical_cast<string>(UnitPointer->ID1));
-		Units_LanguageDLLName->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLName));
-		Units_DLL_LanguageDLLName->SetLabel(LangDLLstring(UnitPointer->LanguageDLLName, 64));
-		Units_LanguageDLLCreation->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLCreation));
-		Units_DLL_LanguageDLLCreation->SetLabel(LangDLLstring(UnitPointer->LanguageDLLCreation, 64));
-		Units_Class->ChangeValue(lexical_cast<string>(UnitPointer->Class));
-		Units_ComboBox_Class[0]->SetSelection(UnitPointer->Class + 1);
-		Units_StandingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.first));
-		Units_ComboBox_StandingGraphic[0]->SetSelection(UnitPointer->StandingGraphic.first + 1);
-		Units_DyingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->DyingGraphic.first));
-		Units_ComboBox_DyingGraphic[0]->SetSelection(UnitPointer->DyingGraphic.first + 1);
-		Units_DyingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->DyingGraphic.second));
-		Units_ComboBox_DyingGraphic[1]->SetSelection(UnitPointer->DyingGraphic.second + 1);
-		Units_DeathMode->ChangeValue(lexical_cast<string>((short)UnitPointer->DeathMode));
-		Units_CheckBox_DeathMode->SetValue((bool)UnitPointer->DeathMode);
-		Units_HitPoints->ChangeValue(lexical_cast<string>(UnitPointer->HitPoints));
-		Units_LineOfSight->ChangeValue(lexical_cast<string>(UnitPointer->LineOfSight));
-		Units_GarrisonCapacity->ChangeValue(lexical_cast<string>((short)UnitPointer->GarrisonCapacity));
-		Units_SizeRadius[0]->ChangeValue(lexical_cast<string>(UnitPointer->SizeRadius.first));
-		Units_SizeRadius[1]->ChangeValue(lexical_cast<string>(UnitPointer->SizeRadius.second));
-		Units_HPBarHeight1->ChangeValue(lexical_cast<string>(UnitPointer->HPBarHeight1));
-		Units_TrainSound[0]->ChangeValue(lexical_cast<string>(UnitPointer->TrainSound.first));
-		Units_ComboBox_TrainSound[0]->SetSelection(UnitPointer->TrainSound.first + 1);
-		Units_DeadUnitID->ChangeValue(lexical_cast<string>(UnitPointer->DeadUnitID));
-		Units_ComboBox_DeadUnitID->SetSelection(UnitPointer->DeadUnitID + 1);
-		Units_PlacementMode->ChangeValue(lexical_cast<string>((short)UnitPointer->PlacementMode));
-		Units_AirMode->ChangeValue(lexical_cast<string>((short)UnitPointer->AirMode));
-		Units_CheckBox_AirMode->SetValue((bool)UnitPointer->AirMode);
-		Units_IconID->ChangeValue(lexical_cast<string>(UnitPointer->IconID));
-		Units_HideInEditor->ChangeValue(lexical_cast<string>((short)UnitPointer->HideInEditor));
-		Units_CheckBox_HideInEditor->SetValue((bool)UnitPointer->HideInEditor);
-		Units_Unknown1->ChangeValue(lexical_cast<string>(UnitPointer->Unknown1));
-		Units_CheckBox_Enabled->SetValue((bool)UnitPointer->Enabled);
-		Units_PlacementBypassTerrain[0]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementBypassTerrain.first));
-		Units_ComboBox_PlacementBypassTerrain[0]->SetSelection(UnitPointer->PlacementBypassTerrain.first + 1);
-		Units_PlacementBypassTerrain[1]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementBypassTerrain.second));
-		Units_ComboBox_PlacementBypassTerrain[1]->SetSelection(UnitPointer->PlacementBypassTerrain.second + 1);
-		Units_PlacementTerrain[0]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementTerrain.first));
-		Units_ComboBox_PlacementTerrain[0]->SetSelection(UnitPointer->PlacementTerrain.first + 1);
-		Units_PlacementTerrain[1]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementTerrain.second));
-		Units_ComboBox_PlacementTerrain[1]->SetSelection(UnitPointer->PlacementTerrain.second + 1);
-		Units_EditorRadius[0]->ChangeValue(lexical_cast<string>(UnitPointer->EditorRadius.first));
-		Units_EditorRadius[1]->ChangeValue(lexical_cast<string>(UnitPointer->EditorRadius.second));
-		Units_BuildingMode->ChangeValue(lexical_cast<string>((short)UnitPointer->BuildingMode));
-		Units_VisibleInFog->ChangeValue(lexical_cast<string>((short)UnitPointer->VisibleInFog));
-		Units_TerrainRestriction->ChangeValue(lexical_cast<string>(UnitPointer->TerrainRestriction));
-		Units_ComboBox_TerrainRestriction->SetSelection(UnitPointer->TerrainRestriction + 1);
-		Units_FlyMode->ChangeValue(lexical_cast<string>((short)UnitPointer->FlyMode));
-		Units_CheckBox_FlyMode->SetValue((bool)UnitPointer->FlyMode);
-		Units_ResourceCapacity->ChangeValue(lexical_cast<string>(UnitPointer->ResourceCapacity));
-		Units_ResourceDecay->ChangeValue(lexical_cast<string>(UnitPointer->ResourceDecay));
-		Units_BlastType->ChangeValue(lexical_cast<string>((short)UnitPointer->BlastType));
-		Units_Unknown2->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown2));
-		Units_InteractionMode->ChangeValue(lexical_cast<string>((short)UnitPointer->InteractionMode));
-		Units_MinimapMode->ChangeValue(lexical_cast<string>((short)UnitPointer->MinimapMode));
-		Units_SelectionEffect->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionEffect));
-		Units_EditorSelectionColour->ChangeValue(lexical_cast<string>((short)UnitPointer->EditorSelectionColour));
-		if(GameVersion >= 2)
-		{
-			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-79000)+": "+LangDLLstring(UnitPointer->LanguageDLLHelp-79000, 512));
-			Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-140000)+": "+LangDLLstring(UnitPointer->LanguageDLLHotKeyText-140000, 64));
-			Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
-			Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
-			Units_TrainSound[1]->ChangeValue(lexical_cast<string>(UnitPointer->TrainSound.second));
-			Units_ComboBox_TrainSound[1]->SetSelection(UnitPointer->TrainSound.second + 1);
-			Units_Unknown7->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown7));
-			Units_Unknown8->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown8));
-			Units_SelectionShapeType->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShapeType));
-			Units_ID3->ChangeValue(lexical_cast<string>(UnitPointer->ID3));
-			Units_Enabled->SetBackgroundColour(wxColour(210, 230, 255));
-			Units_Enabled->ChangeValue(lexical_cast<string>(UnitPointer->Enabled));
-			Units_CommandAttribute->SetBackgroundColour(wxColour(210, 230, 255));
-			Units_CommandAttribute->ChangeValue(lexical_cast<string>(UnitPointer->CommandAttribute));
-			if(GameVersion >= 3)
-			{
-				Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
-				Units_Civ->ChangeValue(lexical_cast<string>((short)UnitPointer->Civilization));
-				Units_ComboBox_Civ->SetSelection(UnitPointer->Civilization + 1);
-				for(short loop=0; loop < 2; loop++)
-				{
-					Units_Unknown9[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown9[loop]));
-				}
-				if(GameVersion >= 4)
-				{
-					Units_Name2->ChangeValue(lexical_cast<string>(UnitPointer->Name2));
-					Units_Unitline->ChangeValue(lexical_cast<string>(UnitPointer->Unitline));
-					Units_ComboBox_Unitline->SetSelection(UnitPointer->Unitline + 1);
-					Units_MinTechLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->MinTechLevel));
-				}
-			}
-		}
-		else
-		{
-			Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-65536)+": "+LangDLLstring(UnitPointer->LanguageDLLHelp-65536, 512));
-			Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-131072)+": "+LangDLLstring(UnitPointer->LanguageDLLHotKeyText-131072, 64));
-			Units_Unknown3a->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3a));
-			Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
-			Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
-			Units_CommandAttribute->SetBackgroundColour(wxColour(255, 235, 215));
-			Units_CommandAttribute->ChangeValue(lexical_cast<string>((short)UnitPointer->CommandAttribute));
-		}
-		Units_Unknown3->ChangeValue(lexical_cast<string>(UnitPointer->Unknown3));
-		Units_Unknown3B->ChangeValue(lexical_cast<string>(UnitPointer->Unknown3B));
-		Units_LanguageDLLHelp->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHelp));
-		Units_LanguageDLLHotKeyText->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText));
-		Units_HotKey->ChangeValue(lexical_cast<string>(UnitPointer->HotKey));
-		Units_DLL_HotKey4->SetLabel(LangDLLstring(UnitPointer->HotKey, 16));
-		Units_Unknown4->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown4));
-		Units_Unknown5->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown5));
-		Units_Unselectable->ChangeValue(lexical_cast<string>((short)UnitPointer->Unselectable));
-		Units_CheckBox_Unselectable->SetValue((bool)UnitPointer->Unselectable);
-		Units_Unknown6->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown6));
-		Units_SelectionMask->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionMask));
-		Units_SelectionShape->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShape));
-		Units_SelectionRadius[0]->ChangeValue(lexical_cast<string>(UnitPointer->SelectionRadius.first));
-		Units_SelectionRadius[1]->ChangeValue(lexical_cast<string>(UnitPointer->SelectionRadius.second));
-		Units_HPBarHeight2->ChangeValue(lexical_cast<string>(UnitPointer->HPBarHeight2));
-		Units_SelectionSound->ChangeValue(lexical_cast<string>(UnitPointer->SelectionSound));
-		Units_ComboBox_SelectionSound->SetSelection(UnitPointer->SelectionSound + 1);
-		Units_DyingSound->ChangeValue(lexical_cast<string>(UnitPointer->DyingSound));
-		Units_ComboBox_DyingSound->SetSelection(UnitPointer->DyingSound + 1);
-		Units_AttackSound->ChangeValue(lexical_cast<string>(UnitPointer->AttackSound));
-		Units_ComboBox_AttackSound->SetSelection(UnitPointer->AttackSound + 1);
-		Units_Name->ChangeValue(lexical_cast<string>(UnitPointer->Name));
-		Units_ID2->ChangeValue(lexical_cast<string>(UnitPointer->ID2));
-		for(short loop=0; loop < 3; loop++)
-		{
-			ResourceStorage_Type[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorages[loop].Type));
-			ResourceStorage_Amount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorages[loop].Amount));
-			ResourceStorage_Enabled[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->ResourceStorages[loop].Enabled));
-			ResourceStorage_ComboBox_Type[loop]->SetSelection(UnitPointer->ResourceStorages[loop].Type + 1);
-		}
-
-		switch(UnitType) // Disable editing
-		{
-			case 10:
-			{
-				Units_Speed->Enable(false);
-				Units_Speed->ChangeValue("0");
-			}
-			case 20:
-			case 25:
-			{
-				for(short loop=0; loop < 2; loop++)
-				{
-					Units_WalkingGraphic[loop]->Enable(false);
-					Units_WalkingGraphic[loop]->ChangeValue("0");
-					Units_ComboBox_WalkingGraphic[loop]->Enable(false);
-					Units_ComboBox_WalkingGraphic[loop]->SetSelection(0);
-				}
-				Units_RotationSpeed->Enable(false);
-				Units_RotationSpeed->ChangeValue("0");
-				Units_Unknown11->Enable(false);
-				Units_Unknown11->ChangeValue("0");
-				Units_TrackingUnit->Enable(false);
-				Units_TrackingUnit->ChangeValue("0");
-				Units_ComboBox_TrackingUnit->Enable(false);
-				Units_ComboBox_TrackingUnit->SetSelection(0);
-				Units_TrackingUnitUsed->Enable(false);
-				Units_TrackingUnitUsed->ChangeValue("0");
-				Units_TrackingUnitDensity->Enable(false);
-				Units_TrackingUnitDensity->ChangeValue("0");
-				Units_Unknown12->Enable(false);
-				Units_Unknown12->ChangeValue("0");
-				for(short loop=0; loop < 17; loop++)
-				{
-					Units_Unknown16[loop]->Enable(false);
-					Units_Unknown16[loop]->ChangeValue("0");
-				}
-			}
-			case 30:
-			{
-				Units_SheepConversion->Enable(false);
-				Units_SheepConversion->ChangeValue("0");
-				Units_CheckBox_SheepConversion->Enable(false);
-				Units_CheckBox_SheepConversion->SetValue(false);
-				Units_SearchRadius->Enable(false);
-				Units_SearchRadius->ChangeValue("0");
-				Units_WorkRate->Enable(false);
-				Units_WorkRate->ChangeValue("0");
-				for(short loop=0; loop < 2; loop++)
-				{
-					Units_DropSite[loop]->Enable(false);
-					Units_DropSite[loop]->ChangeValue("0");
-					Units_ComboBox_DropSite[loop]->Enable(false);
-					Units_ComboBox_DropSite[loop]->SetSelection(0);
-				}
-				Units_VillagerMode->Enable(false);
-				Units_VillagerMode->ChangeValue("0");
-				Units_MoveSound->Enable(false);
-				Units_MoveSound->ChangeValue("0");
-				Units_ComboBox_MoveSound->Enable(false);
-				Units_ComboBox_MoveSound->SetSelection(0);
-				Units_StopSound->Enable(false);
-				Units_StopSound->ChangeValue("0");
-				Units_ComboBox_StopSound->Enable(false);
-				Units_ComboBox_StopSound->SetSelection(0);
-				Units_AnimalMode->Enable(false);
-				Units_AnimalMode->ChangeValue("0");
-				Units_CheckBox_AnimalMode->Enable(false);
-				Units_CheckBox_AnimalMode->SetValue(false);
-			}
-			case 40:
-			{
-				for(short loop=0; loop < 2; loop++)
-				{
-					Units_Unknown20[loop]->Enable(false);
-					Units_Unknown20[loop]->ChangeValue("0");
-				}
-				Units_Unknown21->Enable(false);
-				Units_Unknown21->ChangeValue("0");
-				Units_MaxRange->Enable(false);
-				Units_MaxRange->ChangeValue("0");
-				Units_BlastRadius->Enable(false);
-				Units_BlastRadius->ChangeValue("0");
-				Units_ReloadTime1->Enable(false);
-				Units_ReloadTime1->ChangeValue("0");
-				Units_ProjectileUnitID->Enable(false);
-				Units_ProjectileUnitID->ChangeValue("0");
-				Units_ComboBox_ProjectileUnitID->Enable(false);
-				Units_ComboBox_ProjectileUnitID->SetSelection(0);
-				Units_AccuracyPercent->Enable(false);
-				Units_AccuracyPercent->ChangeValue("0");
-				Units_TowerMode->Enable(false);
-				Units_TowerMode->ChangeValue("0");
-				Units_CheckBox_TowerMode->Enable(false);
-				Units_CheckBox_TowerMode->SetValue(false);
-				Units_Delay->Enable(false);
-				Units_Delay->ChangeValue("0");
-				for(short loop=0; loop < 3; loop++)
-				{
-					Units_GraphicDisplacement[loop]->Enable(false);
-					Units_GraphicDisplacement[loop]->ChangeValue("0");
-				}
-				Units_BlastLevel->Enable(false);
-				Units_BlastLevel->ChangeValue("0");
-				Units_MinRange->Enable(false);
-				Units_MinRange->ChangeValue("0");
-				Units_GarrisonRecoveryRate->Enable(false);
-				Units_GarrisonRecoveryRate->ChangeValue("0");
-				Units_AttackGraphic->Enable(false);
-				Units_AttackGraphic->ChangeValue("0");
-				Units_ComboBox_AttackGraphic->Enable(false);
-				Units_ComboBox_AttackGraphic->SetSelection(0);
-				Units_DisplayedMeleeArmour->Enable(false);
-				Units_DisplayedMeleeArmour->ChangeValue("0");
-				Units_DisplayedAttack->Enable(false);
-				Units_DisplayedAttack->ChangeValue("0");
-				Units_DisplayedRange->Enable(false);
-				Units_DisplayedRange->ChangeValue("0");
-				Units_ReloadTime2->Enable(false);
-				Units_ReloadTime2->ChangeValue("0");
-
-				Attacks_Class->Enable(false);
-				for(short loop=0; loop < 2; loop++)
-				Attacks_ComboBox_Class[loop]->Enable(false);
-				Attacks_Amount->Enable(false);
-				Armors_Class->Enable(false);
-				Armors_Amount->Enable(false);
-			}
-			case 60:
-			{
-				for(short loop=0; loop < 2; loop++)
-				{
-					Units_GarrisonGraphic[loop]->Enable(false);
-					Units_GarrisonGraphic[loop]->ChangeValue("0");
-					Units_ComboBox_GarrisonGraphic[loop]->Enable(false);
-					Units_ComboBox_GarrisonGraphic[loop]->SetSelection(0);
-				}
-				for(short loop=0; loop < 3; loop++)
-				{
-					Units_CostType[loop]->Enable(false);
-					Units_CostType[loop]->ChangeValue("0");
-					Units_ComboBox_CostType[loop]->Enable(false);
-					Units_ComboBox_CostType[loop]->SetSelection(0);
-					Units_CostAmount[loop]->Enable(false);
-					Units_CostAmount[loop]->ChangeValue("0");
-					Units_CostUsed[loop]->Enable(false);
-					Units_CostUsed[loop]->ChangeValue("0");
-					Units_CheckBox_CostUsed[loop]->Enable(false);
-					Units_CheckBox_CostUsed[loop]->SetValue(false);
-					Units_Unknown27[loop]->Enable(false);
-					Units_Unknown27[loop]->ChangeValue("0");
-					Units_AttackMissileDuplicationSpawning[loop]->Enable(false);
-					Units_AttackMissileDuplicationSpawning[loop]->ChangeValue("0");
-				}
-				Units_TrainTime->Enable(false);
-				Units_TrainTime->ChangeValue("0");
-				Units_TrainLocationID->Enable(false);
-				Units_TrainLocationID->ChangeValue("0");
-				Units_ComboBox_TrainLocationID->Enable(false);
-				Units_ComboBox_TrainLocationID->SetSelection(0);
-				Units_ButtonID->Enable(false);
-				Units_ButtonID->ChangeValue("0");
-				Units_Unknown26->Enable(false);
-				Units_Unknown26->ChangeValue("0");
-				Units_Unknown28->Enable(false);
-				Units_Unknown28->ChangeValue("0");
-				Units_MissileGraphicDelay->Enable(false);
-				Units_MissileGraphicDelay->ChangeValue("0");
-				Units_HeroMode->Enable(false);
-				Units_HeroMode->ChangeValue("0");
-				Units_CheckBox_HeroMode->Enable(false);
-				Units_CheckBox_HeroMode->SetValue(false);
-				Units_AttackMissileDuplicationAmount1->Enable(false);
-				Units_AttackMissileDuplicationAmount1->ChangeValue("0");
-				Units_AttackMissileDuplicationAmount2->Enable(false);
-				Units_AttackMissileDuplicationAmount2->ChangeValue("0");
-				Units_AttackMissileDuplicationUnit->Enable(false);
-				Units_AttackMissileDuplicationUnit->ChangeValue("0");
-				Units_ComboBox_AttackMissileDuplicationUnit->Enable(false);
-				Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(0);
-				Units_AttackMissileDuplicationGraphic->Enable(false);
-				Units_AttackMissileDuplicationGraphic->ChangeValue("0");
-				Units_ComboBox_AttackMissileDuplicationGraphic->Enable(false);
-				Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(0);
-				Units_Unknown29->Enable(false);
-				Units_Unknown29->ChangeValue("0");
-				Units_DisplayedPierceArmour->Enable(false);
-				Units_DisplayedPierceArmour->ChangeValue("0");
-			}
-			case 70:
-			{
-				Units_ConstructionGraphicID->Enable(false);
-				Units_ConstructionGraphicID->ChangeValue("0");
-				Units_ComboBox_ConstructionGraphicID->Enable(false);
-				Units_ComboBox_ConstructionGraphicID->SetSelection(0);
-				Units_SnowGraphicID->Enable(false);
-				Units_SnowGraphicID->ChangeValue("0");
-				Units_ComboBox_SnowGraphicID->Enable(false);
-				Units_ComboBox_SnowGraphicID->SetSelection(0);
-				Units_AdjacentMode->Enable(false);
-				Units_AdjacentMode->ChangeValue("0");
-				Units_CheckBox_AdjacentMode->Enable(false);
-				Units_CheckBox_AdjacentMode->SetValue(false);
-				Units_Unknown31->Enable(false);
-				Units_Unknown31->ChangeValue("0");
-				Units_Unknown31b->Enable(false);
-				Units_Unknown31b->ChangeValue("0");
-				Units_CheckBox_Unknown31b->Enable(false);
-				Units_CheckBox_Unknown31b->SetValue(false);
-				Units_StackUnitID->Enable(false);
-				Units_StackUnitID->ChangeValue("0");
-				Units_ComboBox_StackUnitID->Enable(false);
-				Units_ComboBox_StackUnitID->SetSelection(0);
-				Units_TerrainID->Enable(false);
-				Units_TerrainID->ChangeValue("0");
-				Units_ComboBox_TerrainID->Enable(false);
-				Units_ComboBox_TerrainID->SetSelection(0);
-				Units_Unknown32->Enable(false);
-				Units_Unknown32->ChangeValue("0");
-				Units_ResearchID->Enable(false);
-				Units_ResearchID->ChangeValue("0");
-				Units_ComboBox_ResearchID->Enable(false);
-				Units_ComboBox_ResearchID->SetSelection(0);
-				Units_Unknown33->Enable(false);
-				Units_Unknown33->ChangeValue("0");
-				for(short loop=0; loop < 4; loop++)
-				{
-					Units_AnnexUnit[loop]->Enable(false);
-					Units_AnnexUnit[loop]->ChangeValue("0");
-					Units_ComboBox_AnnexUnit[loop]->Enable(false);
-					Units_ComboBox_AnnexUnit[loop]->SetSelection(0);
-					for(short loop2=0; loop2 < 2; loop2++)
+					Units_RotationSpeed->container[location] = &UnitPointer->DeadFish.RotationSpeed;
+					Units_Unknown11->container[location] = &UnitPointer->DeadFish.Unknown11;
+					Units_TrackingUnit->container[location] = &UnitPointer->DeadFish.TrackingUnit;
+					Units_TrackingUnitUsed->container[location] = &UnitPointer->DeadFish.TrackingUnitUsed;
+					Units_TrackingUnitDensity->container[location] = &UnitPointer->DeadFish.TrackingUnitDensity;
+					if(GameVersion >= 2)
 					{
-						Units_AnnexUnitMisplacement[loop][loop2]->Enable(false);
-						Units_AnnexUnitMisplacement[loop][loop2]->ChangeValue("0");
+						Units_Unknown12->container[location] = &UnitPointer->DeadFish.Unknown12;
+						for(short loop=0; loop < 17; loop++)
+						{
+							Units_Unknown16[loop]->container[location] = &UnitPointer->DeadFish.Unknown16[loop];
+						}
+					}
+					else
+					{
+						Units_Unknown16[0]->container[location] = &UnitPointer->DeadFish.Unknown16[0];
 					}
 				}
-				Units_HeadUnit->Enable(false);
-				Units_HeadUnit->ChangeValue("0");
-				Units_ComboBox_HeadUnit->Enable(false);
-				Units_ComboBox_HeadUnit->SetSelection(0);
-				Units_TransformUnit->Enable(false);
-				Units_TransformUnit->ChangeValue("0");
-				Units_ComboBox_TransformUnit->Enable(false);
-				Units_ComboBox_TransformUnit->SetSelection(0);
-				Units_Unknown34->Enable(false);
-				Units_Unknown34->ChangeValue("0");
-				Units_ConstructionSound->Enable(false);
-				Units_ConstructionSound->ChangeValue("0");
-				Units_ComboBox_ConstructionSound->Enable(false);
-				Units_ComboBox_ConstructionSound->SetSelection(0);
-				Units_GarrisonType->Enable(false);
-				Units_GarrisonType->ChangeValue("0");
-				Units_ComboBox_GarrisonType->Enable(false);
-				Units_ComboBox_GarrisonType->SetSelection(0);
-				Units_GarrisonHealRate->Enable(false);
-				Units_GarrisonHealRate->ChangeValue("0");
-				Units_Unknown35->Enable(false);
-				Units_Unknown35->ChangeValue("0");
-				Units_Unknown36->Enable(false);
-				Units_Unknown36->ChangeValue("0");
-				for(short loop=0; loop < 6; loop++)
+				//case 25:
+				//case 20:
 				{
-					Units_Unknown37[loop]->Enable(false);
-					Units_Unknown37[loop]->ChangeValue("0");
+					Units_Speed->container[location] = &UnitPointer->Speed;
 				}
 			}
-		}
+			Units_ID1->container[location] = &UnitPointer->ID1;
+			Units_LanguageDLLName->container[location] = &UnitPointer->LanguageDLLName;
+			Units_LanguageDLLCreation->container[location] = &UnitPointer->LanguageDLLCreation;
+			Units_Class->container[location] = &UnitPointer->Class;
+			if(CopyGraphics || vecCiv == 0)
+			{
+				Units_StandingGraphic[0]->container[location] = &UnitPointer->StandingGraphic.first;
+				Units_DyingGraphic[0]->container[location] = &UnitPointer->DyingGraphic.first;
+				Units_DyingGraphic[1]->container[location] = &UnitPointer->DyingGraphic.second;
+				Units_IconID->container[location] = &UnitPointer->IconID;
+			}
+			Units_DeathMode->container[location] = &UnitPointer->DeathMode;
+			Units_HitPoints->container[location] = &UnitPointer->HitPoints;
+			Units_LineOfSight->container[location] = &UnitPointer->LineOfSight;
+			Units_GarrisonCapacity->container[location] = &UnitPointer->GarrisonCapacity;
+			Units_SizeRadius[0]->container[location] = &UnitPointer->SizeRadius.first;
+			Units_SizeRadius[1]->container[location] = &UnitPointer->SizeRadius.second;
+			Units_HPBarHeight1->container[location] = &UnitPointer->HPBarHeight1;
+			Units_TrainSound[0]->container[location] = &UnitPointer->TrainSound.first;
+			Units_DeadUnitID->container[location] = &UnitPointer->DeadUnitID;
+			Units_PlacementMode->container[location] = &UnitPointer->PlacementMode;
+			Units_AirMode->container[location] = &UnitPointer->AirMode;
+			Units_HideInEditor->container[location] = &UnitPointer->HideInEditor;
+			Units_Unknown1->container[location] = &UnitPointer->Unknown1;
+			Units_PlacementBypassTerrain[0]->container[location] = &UnitPointer->PlacementBypassTerrain.first;
+			Units_PlacementBypassTerrain[1]->container[location] = &UnitPointer->PlacementBypassTerrain.second;
+			Units_PlacementTerrain[0]->container[location] = &UnitPointer->PlacementTerrain.first;
+			Units_PlacementTerrain[1]->container[location] = &UnitPointer->PlacementTerrain.second;
+			Units_EditorRadius[0]->container[location] = &UnitPointer->EditorRadius.first;
+			Units_EditorRadius[1]->container[location] = &UnitPointer->EditorRadius.second;
+			Units_BuildingMode->container[location] = &UnitPointer->BuildingMode;
+			Units_VisibleInFog->container[location] = &UnitPointer->VisibleInFog;
+			Units_TerrainRestriction->container[location] = &UnitPointer->TerrainRestriction;
+			Units_FlyMode->container[location] = &UnitPointer->FlyMode;
+			Units_ResourceCapacity->container[location] = &UnitPointer->ResourceCapacity;
+			Units_ResourceDecay->container[location] = &UnitPointer->ResourceDecay;
+			Units_BlastType->container[location] = &UnitPointer->BlastType;
+			Units_Unknown2->container[location] = &UnitPointer->Unknown2;
+			Units_InteractionMode->container[location] = &UnitPointer->InteractionMode;
+			Units_MinimapMode->container[location] = &UnitPointer->MinimapMode;
+			Units_SelectionEffect->container[location] = &UnitPointer->SelectionEffect;
+			Units_EditorSelectionColour->container[location] = &UnitPointer->EditorSelectionColour;
+			if(GameVersion >= 2)
+			{
+				if(CopyGraphics || vecCiv == 0)
+				Units_StandingGraphic[1]->container[location] = &UnitPointer->StandingGraphic.second;
+				Units_TrainSound[1]->container[location] = &UnitPointer->TrainSound.second;
+				Units_Unknown7->container[location] = &UnitPointer->Unknown7;
+				Units_Unknown8->container[location] = &UnitPointer->Unknown8;
+				Units_SelectionShapeType->container[location] = &UnitPointer->SelectionShapeType;
+				Units_ID3->container[location] = &UnitPointer->ID3;
+				if(GameVersion >= 3)
+				{
+					Units_Attribute->container[location] = &UnitPointer->Attribute;
+					Units_Civ->container[location] = &UnitPointer->Civilization;
+					for(short loop=0; loop < 2; loop++)
+					{
+						Units_Unknown9[loop]->container[location] = &UnitPointer->Unknown9[loop];
+					}
+					if(GameVersion >= 4)
+					{
+						Units_Name2->container[location] = &UnitPointer->Name2;
+						Units_Unitline->container[location] = &UnitPointer->Unitline;
+						Units_MinTechLevel->container[location] = &UnitPointer->MinTechLevel;
+					}
+				}
+			}
+			else
+			{
+				Units_Unknown3a->container[location] = &UnitPointer->Unknown3a;
+			}
+			Units_Enabled->container[location] = &UnitPointer->Enabled;
+			Units_CommandAttribute->container[location] = &UnitPointer->CommandAttribute;
+			Units_Unknown3->container[location] = &UnitPointer->Unknown3;
+			Units_Unknown3B->container[location] = &UnitPointer->Unknown3B;
+			Units_LanguageDLLHelp->container[location] = &UnitPointer->LanguageDLLHelp;
+			Units_LanguageDLLHotKeyText->container[location] = &UnitPointer->LanguageDLLHotKeyText;
+			Units_HotKey->container[location] = &UnitPointer->HotKey;
+			Units_Unknown4->container[location] = &UnitPointer->Unknown4;
+			Units_Unknown5->container[location] = &UnitPointer->Unknown5;
+			Units_Unselectable->container[location] = &UnitPointer->Unselectable;
+			Units_Unknown6->container[location] = &UnitPointer->Unknown6;
+			Units_SelectionMask->container[location] = &UnitPointer->SelectionMask;
+			Units_SelectionShape->container[location] = &UnitPointer->SelectionShape;
+			Units_SelectionRadius[0]->container[location] = &UnitPointer->SelectionRadius.first;
+			Units_SelectionRadius[1]->container[location] = &UnitPointer->SelectionRadius.second;
+			Units_HPBarHeight2->container[location] = &UnitPointer->HPBarHeight2;
+			Units_SelectionSound->container[location] = &UnitPointer->SelectionSound;
+			Units_DyingSound->container[location] = &UnitPointer->DyingSound;
+			Units_AttackSound->container[location] = &UnitPointer->AttackSound;
+			Units_Name->container[location] = &UnitPointer->Name;
+			Units_ID2->container[location] = &UnitPointer->ID2;
+			for(short loop=0; loop < 3; loop++)
+			{
+				ResourceStorage_Type[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Type;
+				ResourceStorage_Amount[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Amount;
+				ResourceStorage_Enabled[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Enabled;
+			}
 
-		if(UnitType == 60)
-		{
-			Units_StretchMode->Enable(true);
-			Units_CompensationMode->Enable(true);
-			Units_DropAnimationMode->Enable(true);
-			Units_PenetrationMode->Enable(true);
-			Units_Unknown24->Enable(true);
-			Units_ProjectileArc->Enable(true);
-
-			Units_StretchMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.StretchMode));
-			Units_CompensationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.CompensationMode));
-			Units_DropAnimationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.DropAnimationMode));
-			Units_PenetrationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.PenetrationMode));
-			Units_Unknown24->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.Unknown24));
-			Units_ProjectileArc->ChangeValue(lexical_cast<string>(UnitPointer->ProjectileOnly.ProjectileArc));
+			//if(UnitType == 60)
+			{
+				Units_StretchMode->container[location] = &UnitPointer->ProjectileOnly.StretchMode;
+				Units_CompensationMode->container[location] = &UnitPointer->ProjectileOnly.CompensationMode;
+				Units_DropAnimationMode->container[location] = &UnitPointer->ProjectileOnly.DropAnimationMode;
+				Units_PenetrationMode->container[location] = &UnitPointer->ProjectileOnly.PenetrationMode;
+				Units_Unknown24->container[location] = &UnitPointer->ProjectileOnly.Unknown24;
+				Units_ProjectileArc->container[location] = &UnitPointer->ProjectileOnly.ProjectileArc;
+			}
+			if(!AutoCopy) break;
+			vecCiv++;
 		}
-		else
-		{
-			Units_StretchMode->Enable(false);
-			Units_StretchMode->ChangeValue("0");
-			Units_CompensationMode->Enable(false);
-			Units_CompensationMode->ChangeValue("0");
-			Units_DropAnimationMode->Enable(false);
-			Units_DropAnimationMode->ChangeValue("0");
-			Units_PenetrationMode->Enable(false);
-			Units_PenetrationMode->ChangeValue("0");
-			Units_Unknown24->Enable(false);
-			Units_Unknown24->ChangeValue("0");
-			Units_ProjectileArc->Enable(false);
-			Units_ProjectileArc->ChangeValue("0");
-		}
-
-		ListUnitDamageGraphics();
-		ListUnitAttacks();
-		ListUnitArmors();
-		if(GameVersion >= 2)	// AoK, TC, SWGB or CC
-		{	// Disabling this (unit headers) doesn't increase search speed.
-			Units_UnitHeads_List->SetSelection(UnitIDs[0]); // Correct selection even when units are search filtered.
-			wxCommandEvent E;
-			OnUnitHeadsSelect(E);
-		}
-		else	// AoE or RoR
-		{
-			Units_UnitHeads_Name->SetLabel("");
-			ListUnitCommands();
-		}
-	//	Refresh(); // Too much lag.
 	}
+	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(Selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
+
+	Units_Type->ChangeValue(lexical_cast<string>((short)UnitPointer->Type));
+	switch(UnitType)
+	{
+		case 10: Units_ComboBox_Type->SetSelection(1); break;
+		case 20: Units_ComboBox_Type->SetSelection(2); break;
+		case 25: Units_ComboBox_Type->SetSelection(3); break;
+		case 30: Units_ComboBox_Type->SetSelection(4); break;
+		case 40: Units_ComboBox_Type->SetSelection(5); break;
+		case 60: Units_ComboBox_Type->SetSelection(6); break;
+		case 70: Units_ComboBox_Type->SetSelection(7); break;
+		case 80: Units_ComboBox_Type->SetSelection(8); break;
+		case 90: Units_ComboBox_Type->SetSelection(9); break;
+		default: Units_ComboBox_Type->SetSelection(0);
+	}
+
+	switch(UnitType) // Enable editing
+	{
+		case 80:
+		{
+			Units_ConstructionGraphicID->Enable(true);
+			Units_ComboBox_ConstructionGraphicID->Enable(true);
+			Units_SnowGraphicID->Enable(true);
+			Units_ComboBox_SnowGraphicID->Enable(true);
+			Units_AdjacentMode->Enable(true);
+			Units_CheckBox_AdjacentMode->Enable(true);
+			Units_Unknown31->Enable(true);
+			Units_Unknown31b->Enable(true);
+			Units_CheckBox_Unknown31b->Enable(true);
+			Units_StackUnitID->Enable(true);
+			Units_ComboBox_StackUnitID->Enable(true);
+			Units_TerrainID->Enable(true);
+			Units_ComboBox_TerrainID->Enable(true);
+			Units_Unknown32->Enable(true);
+			Units_ResearchID->Enable(true);
+			Units_ComboBox_ResearchID->Enable(true);
+			Units_Unknown33->Enable(true);
+			for(short loop=0; loop < 4; loop++)
+			{
+				Units_AnnexUnit[loop]->Enable(true);
+				Units_ComboBox_AnnexUnit[loop]->Enable(true);
+				for(short loop2=0; loop2 < 2; loop2++)
+				Units_AnnexUnitMisplacement[loop][loop2]->Enable(true);
+			}
+			Units_HeadUnit->Enable(true);
+			Units_ComboBox_HeadUnit->Enable(true);
+			Units_TransformUnit->Enable(true);
+			Units_ComboBox_TransformUnit->Enable(true);
+			Units_Unknown34->Enable(true);
+			Units_ConstructionSound->Enable(true);
+			Units_ComboBox_ConstructionSound->Enable(true);
+			Units_GarrisonType->Enable(true);
+			Units_ComboBox_GarrisonType->Enable(true);
+			Units_GarrisonHealRate->Enable(true);
+			Units_Unknown35->Enable(true);
+			Units_Unknown36->Enable(true);
+			for(short loop=0; loop < 6; loop++)
+			Units_Unknown37[loop]->Enable(true);
+
+			Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionGraphicID));
+			Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building.ConstructionGraphicID + 1);
+			Units_AdjacentMode->ChangeValue(lexical_cast<string>(UnitPointer->Building.AdjacentMode));
+			Units_CheckBox_AdjacentMode->SetValue((bool)UnitPointer->Building.AdjacentMode);
+			Units_Unknown31->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown31));
+			Units_Unknown31b->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown31b));
+			Units_CheckBox_Unknown31b->SetValue((bool)UnitPointer->Building.Unknown31b);
+			Units_StackUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Building.StackUnitID));
+			Units_ComboBox_StackUnitID->SetSelection(UnitPointer->Building.StackUnitID + 1);
+			Units_TerrainID->ChangeValue(lexical_cast<string>(UnitPointer->Building.TerrainID));
+			Units_ComboBox_TerrainID->SetSelection(UnitPointer->Building.TerrainID + 1);
+			Units_Unknown32->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown32));
+			Units_ResearchID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ResearchID));
+			Units_ComboBox_ResearchID->SetSelection(UnitPointer->Building.ResearchID + 1);
+			if(GameVersion >= 2)
+			{
+				if(GameVersion >= 3)
+				{
+					Units_SnowGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.SnowGraphicID));
+					Units_ComboBox_SnowGraphicID->SetSelection(UnitPointer->Building.SnowGraphicID + 1);
+				}
+				Units_Unknown33->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown33));
+				for(short loop=0; loop < 4; loop++)
+				{
+					Units_AnnexUnit[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].UnitID));
+					Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitPointer->Building.Annexes[loop].UnitID + 1);
+					Units_AnnexUnitMisplacement[loop][0]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].Misplacement.first));
+					Units_AnnexUnitMisplacement[loop][1]->ChangeValue(lexical_cast<string>(UnitPointer->Building.Annexes[loop].Misplacement.second));
+				}
+				Units_HeadUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building.HeadUnit));
+				Units_ComboBox_HeadUnit->SetSelection(UnitPointer->Building.HeadUnit + 1);
+				Units_TransformUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building.TransformUnit));
+				Units_ComboBox_TransformUnit->SetSelection(UnitPointer->Building.TransformUnit + 1);
+				Units_Unknown34->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown34));
+				Units_GarrisonType->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.GarrisonType));
+				Units_ComboBox_GarrisonType->SetSelection(UnitPointer->Building.GarrisonType + 1);
+				Units_GarrisonHealRate->ChangeValue(lexical_cast<string>(UnitPointer->Building.GarrisonHealRate));
+				Units_Unknown35->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown35));
+				Units_Unknown36->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown36));
+				for(short loop=0; loop < 6; loop++)
+				{
+					Units_Unknown37[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown37[loop]));
+				}
+			}
+			Units_ConstructionSound->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionSound));
+			Units_ComboBox_ConstructionSound->SetSelection(UnitPointer->Building.ConstructionSound + 1);
+		}
+		case 70:
+		{
+			for(short loop=0; loop < 2; loop++)
+			{
+				Units_GarrisonGraphic[loop]->Enable(true);
+				Units_ComboBox_GarrisonGraphic[loop]->Enable(true);
+			}
+			for(short loop=0; loop < 3; loop++)
+			{
+				Units_CostType[loop]->Enable(true);
+				Units_ComboBox_CostType[loop]->Enable(true);
+				Units_CostAmount[loop]->Enable(true);
+				Units_CostUsed[loop]->Enable(true);
+				Units_CheckBox_CostUsed[loop]->Enable(true);
+				Units_Unknown27[loop]->Enable(true);
+				Units_AttackMissileDuplicationSpawning[loop]->Enable(true);
+			}
+			Units_TrainTime->Enable(true);
+			Units_TrainLocationID->Enable(true);
+			Units_ComboBox_TrainLocationID->Enable(true);
+			Units_ButtonID->Enable(true);
+			Units_Unknown26->Enable(true);
+			Units_Unknown28->Enable(true);
+			Units_MissileGraphicDelay->Enable(true);
+			Units_HeroMode->Enable(true);
+			Units_CheckBox_HeroMode->Enable(true);
+			Units_AttackMissileDuplicationAmount1->Enable(true);
+			Units_AttackMissileDuplicationAmount2->Enable(true);
+			Units_AttackMissileDuplicationUnit->Enable(true);
+			Units_ComboBox_AttackMissileDuplicationUnit->Enable(true);
+			Units_AttackMissileDuplicationGraphic->Enable(true);
+			Units_ComboBox_AttackMissileDuplicationGraphic->Enable(true);
+			Units_Unknown29->Enable(true);
+			Units_DisplayedPierceArmour->Enable(true);
+
+			for(short loop=0; loop < 3; loop++)
+			{
+				Units_CostType[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Type));
+				Units_ComboBox_CostType[loop]->SetSelection(UnitPointer->Creatable.ResourceCosts[loop].Type + 1);
+				Units_CostAmount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Amount));
+				Units_CostUsed[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.ResourceCosts[loop].Enabled));
+				Units_CheckBox_CostUsed[loop]->SetValue((bool)UnitPointer->Creatable.ResourceCosts[loop].Enabled);
+			}
+			Units_TrainTime->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.TrainTime));
+			Units_TrainLocationID->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.TrainLocationID));
+			Units_ComboBox_TrainLocationID->SetSelection(UnitPointer->Creatable.TrainLocationID + 1);
+			Units_ButtonID->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.ButtonID));
+			if(GameVersion >= 2)
+			{
+				Units_Unknown26->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown26));
+				for(short loop=0; loop < 3; loop++)
+				{
+					Units_Unknown27[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.Unknown27[loop]));
+				}
+				Units_Unknown28->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown28));
+				Units_MissileGraphicDelay->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.MissileGraphicDelay));
+				Units_HeroMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.HeroMode));
+				Units_CheckBox_HeroMode->SetValue((bool)UnitPointer->Creatable.HeroMode);
+				Units_GarrisonGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.first));
+				Units_ComboBox_GarrisonGraphic[0]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.first + 1);
+				Units_GarrisonGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.second));
+				Units_ComboBox_GarrisonGraphic[1]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.second + 1);
+				Units_AttackMissileDuplicationAmount1->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationAmount1));
+				Units_AttackMissileDuplicationAmount2->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.AttackMissileDuplicationAmount2));
+				for(short loop=0; loop < 3; loop++)
+				{
+					Units_AttackMissileDuplicationSpawning[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationSpawning[loop]));
+				}
+				Units_AttackMissileDuplicationUnit->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationUnit));
+				Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitPointer->Creatable.AttackMissileDuplicationUnit + 1);
+				Units_AttackMissileDuplicationGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationGraphic));
+				Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(UnitPointer->Creatable.AttackMissileDuplicationGraphic + 1);
+				Units_Unknown29->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown29));
+			}
+			Units_DisplayedPierceArmour->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.DisplayedPierceArmour));
+		}
+		case 60:
+		{
+			for(short loop=0; loop < 2; loop++)
+			Units_Unknown20[loop]->Enable(true);
+			Units_Unknown21->Enable(true);
+			Units_MaxRange->Enable(true);
+			Units_BlastRadius->Enable(true);
+			Units_ReloadTime1->Enable(true);
+			Units_ProjectileUnitID->Enable(true);
+			Units_ComboBox_ProjectileUnitID->Enable(true);
+			Units_AccuracyPercent->Enable(true);
+			Units_TowerMode->Enable(true);
+			Units_CheckBox_TowerMode->Enable(true);
+			Units_Delay->Enable(true);
+			for(short loop=0; loop < 4; loop++)
+			Units_GraphicDisplacement[loop]->Enable(true);
+			Units_BlastLevel->Enable(true);
+			Units_MinRange->Enable(true);
+			Units_GarrisonRecoveryRate->Enable(true);
+			Units_AttackGraphic->Enable(true);
+			Units_ComboBox_AttackGraphic->Enable(true);
+			Units_DisplayedMeleeArmour->Enable(true);
+			Units_DisplayedAttack->Enable(true);
+			Units_DisplayedRange->Enable(true);
+			Units_ReloadTime2->Enable(true);
+
+			Attacks_Class->Enable(true);
+			for(short loop=0; loop < 2; loop++)
+			Attacks_ComboBox_Class[loop]->Enable(true);
+			Attacks_Amount->Enable(true);
+			Armors_Class->Enable(true);
+			Armors_Amount->Enable(true);
+
+			Units_Unknown20[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown20));
+			Units_Unknown21->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Unknown21));
+			Units_MaxRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MaxRange));
+			Units_BlastRadius->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.BlastRadius));
+			Units_ReloadTime1->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime1));
+			Units_ProjectileUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ProjectileUnitID));
+			Units_ComboBox_ProjectileUnitID->SetSelection(UnitPointer->Projectile.ProjectileUnitID + 1);
+			Units_AccuracyPercent->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.AccuracyPercent));
+			Units_TowerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.TowerMode));
+			Units_CheckBox_TowerMode->SetValue((bool)UnitPointer->Projectile.TowerMode);
+			Units_Delay->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Delay));
+			for(short loop=0; loop < 3; loop++)
+			{
+				Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GraphicDisplacement[loop]));
+			}
+			Units_BlastLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown23));
+			Units_MinRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MinRange));
+			if(GameVersion >= 2)
+			{
+				if(GameVersion >= 3)
+				{
+					Units_Unknown20[1]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown20_1));
+				}
+				Units_GarrisonRecoveryRate->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GarrisonRecoveryRate));
+			}
+			Units_AttackGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.AttackGraphic));
+			Units_ComboBox_AttackGraphic->SetSelection(UnitPointer->Projectile.AttackGraphic + 1);
+			Units_DisplayedMeleeArmour->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedMeleeArmour));
+			Units_DisplayedAttack->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedAttack));
+			Units_DisplayedRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedRange));
+			Units_ReloadTime2->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime2));
+		}
+		case 40:
+		{
+			Units_SheepConversion->Enable(true);
+			Units_CheckBox_SheepConversion->Enable(true);
+			Units_SearchRadius->Enable(true);
+			Units_WorkRate->Enable(true);
+			for(short loop=0; loop < 2; loop++)
+			{
+				Units_DropSite[loop]->Enable(true);
+				Units_ComboBox_DropSite[loop]->Enable(true);
+			}
+			Units_VillagerMode->Enable(true);
+			Units_MoveSound->Enable(true);
+			Units_ComboBox_MoveSound->Enable(true);
+			Units_StopSound->Enable(true);
+			Units_ComboBox_StopSound->Enable(true);
+			Units_AnimalMode->Enable(true);
+			Units_CheckBox_AnimalMode->Enable(true);
+
+			Units_SheepConversion->ChangeValue(lexical_cast<string>(UnitPointer->Bird.SheepConversion));
+			if(UnitPointer->Bird.SheepConversion == 0) Units_CheckBox_SheepConversion->SetValue(true);
+			else Units_CheckBox_SheepConversion->SetValue(false);
+			Units_SearchRadius->ChangeValue(lexical_cast<string>(UnitPointer->Bird.SearchRadius));
+			Units_WorkRate->ChangeValue(lexical_cast<string>(UnitPointer->Bird.WorkRate));
+			Units_DropSite[0]->ChangeValue(lexical_cast<string>(UnitPointer->Bird.DropSite.first));
+			Units_ComboBox_DropSite[0]->SetSelection(UnitPointer->Bird.DropSite.first + 1);
+			Units_DropSite[1]->ChangeValue(lexical_cast<string>(UnitPointer->Bird.DropSite.second));
+			Units_ComboBox_DropSite[1]->SetSelection(UnitPointer->Bird.DropSite.second + 1);
+			Units_VillagerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird.VillagerMode));
+			Units_MoveSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.MoveSound));
+			Units_ComboBox_MoveSound->SetSelection(UnitPointer->Bird.MoveSound + 1);
+			Units_StopSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.StopSound));
+			Units_ComboBox_StopSound->SetSelection(UnitPointer->Bird.StopSound + 1);
+			Units_AnimalMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird.AnimalMode));
+			Units_CheckBox_AnimalMode->SetValue((bool)UnitPointer->Bird.AnimalMode);
+		}
+		case 30:
+		{
+			for(short loop=0; loop < 2; loop++)
+			{
+				Units_WalkingGraphic[loop]->Enable(true);
+				Units_ComboBox_WalkingGraphic[loop]->Enable(true);
+			}
+			Units_RotationSpeed->Enable(true);
+			Units_Unknown11->Enable(true);
+			Units_TrackingUnit->Enable(true);
+			Units_ComboBox_TrackingUnit->Enable(true);
+			Units_TrackingUnitUsed->Enable(true);
+			Units_TrackingUnitDensity->Enable(true);
+			Units_Unknown12->Enable(true);
+			for(short loop=0; loop < 17; loop++)
+			Units_Unknown16[loop]->Enable(true);
+
+			Units_WalkingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.WalkingGraphic.first));
+			Units_ComboBox_WalkingGraphic[0]->SetSelection(UnitPointer->DeadFish.WalkingGraphic.first + 1);
+			Units_WalkingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.WalkingGraphic.second));
+			Units_ComboBox_WalkingGraphic[1]->SetSelection(UnitPointer->DeadFish.WalkingGraphic.second + 1);
+			Units_RotationSpeed->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.RotationSpeed));
+			Units_Unknown11->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown11));
+			Units_TrackingUnit->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.TrackingUnit));
+			Units_ComboBox_TrackingUnit->SetSelection(UnitPointer->DeadFish.TrackingUnit + 1);
+			Units_TrackingUnitUsed->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.TrackingUnitUsed));
+			Units_TrackingUnitDensity->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.TrackingUnitDensity));
+			if(GameVersion >= 2)
+			{
+				Units_Unknown12->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.Unknown12));
+				for(short loop=0; loop < 17; loop++)
+				{
+					Units_Unknown16[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16[loop]));
+				}
+			}
+			else
+			{
+				Units_Unknown16[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16[0]));
+			}
+		}
+		case 25:
+		case 20:
+		{
+			Units_Speed->Enable(true);
+			Units_Speed->ChangeValue(lexical_cast<string>(UnitPointer->Speed));
+		}
+	}
+	Units_ID1->ChangeValue(lexical_cast<string>(UnitPointer->ID1));
+	Units_LanguageDLLName->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLName));
+	Units_DLL_LanguageDLLName->SetLabel(LangDLLstring(UnitPointer->LanguageDLLName, 64));
+	Units_LanguageDLLCreation->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLCreation));
+	Units_DLL_LanguageDLLCreation->SetLabel(LangDLLstring(UnitPointer->LanguageDLLCreation, 64));
+	Units_Class->ChangeValue(lexical_cast<string>(UnitPointer->Class));
+	Units_ComboBox_Class[0]->SetSelection(UnitPointer->Class + 1);
+	Units_StandingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.first));
+	Units_ComboBox_StandingGraphic[0]->SetSelection(UnitPointer->StandingGraphic.first + 1);
+	Units_DyingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->DyingGraphic.first));
+	Units_ComboBox_DyingGraphic[0]->SetSelection(UnitPointer->DyingGraphic.first + 1);
+	Units_DyingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->DyingGraphic.second));
+	Units_ComboBox_DyingGraphic[1]->SetSelection(UnitPointer->DyingGraphic.second + 1);
+	Units_DeathMode->ChangeValue(lexical_cast<string>((short)UnitPointer->DeathMode));
+	Units_CheckBox_DeathMode->SetValue((bool)UnitPointer->DeathMode);
+	Units_HitPoints->ChangeValue(lexical_cast<string>(UnitPointer->HitPoints));
+	Units_LineOfSight->ChangeValue(lexical_cast<string>(UnitPointer->LineOfSight));
+	Units_GarrisonCapacity->ChangeValue(lexical_cast<string>((short)UnitPointer->GarrisonCapacity));
+	Units_SizeRadius[0]->ChangeValue(lexical_cast<string>(UnitPointer->SizeRadius.first));
+	Units_SizeRadius[1]->ChangeValue(lexical_cast<string>(UnitPointer->SizeRadius.second));
+	Units_HPBarHeight1->ChangeValue(lexical_cast<string>(UnitPointer->HPBarHeight1));
+	Units_TrainSound[0]->ChangeValue(lexical_cast<string>(UnitPointer->TrainSound.first));
+	Units_ComboBox_TrainSound[0]->SetSelection(UnitPointer->TrainSound.first + 1);
+	Units_DeadUnitID->ChangeValue(lexical_cast<string>(UnitPointer->DeadUnitID));
+	Units_ComboBox_DeadUnitID->SetSelection(UnitPointer->DeadUnitID + 1);
+	Units_PlacementMode->ChangeValue(lexical_cast<string>((short)UnitPointer->PlacementMode));
+	Units_AirMode->ChangeValue(lexical_cast<string>((short)UnitPointer->AirMode));
+	Units_CheckBox_AirMode->SetValue((bool)UnitPointer->AirMode);
+	Units_IconID->ChangeValue(lexical_cast<string>(UnitPointer->IconID));
+	Units_HideInEditor->ChangeValue(lexical_cast<string>((short)UnitPointer->HideInEditor));
+	Units_CheckBox_HideInEditor->SetValue((bool)UnitPointer->HideInEditor);
+	Units_Unknown1->ChangeValue(lexical_cast<string>(UnitPointer->Unknown1));
+	Units_CheckBox_Enabled->SetValue((bool)UnitPointer->Enabled);
+	Units_PlacementBypassTerrain[0]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementBypassTerrain.first));
+	Units_ComboBox_PlacementBypassTerrain[0]->SetSelection(UnitPointer->PlacementBypassTerrain.first + 1);
+	Units_PlacementBypassTerrain[1]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementBypassTerrain.second));
+	Units_ComboBox_PlacementBypassTerrain[1]->SetSelection(UnitPointer->PlacementBypassTerrain.second + 1);
+	Units_PlacementTerrain[0]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementTerrain.first));
+	Units_ComboBox_PlacementTerrain[0]->SetSelection(UnitPointer->PlacementTerrain.first + 1);
+	Units_PlacementTerrain[1]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementTerrain.second));
+	Units_ComboBox_PlacementTerrain[1]->SetSelection(UnitPointer->PlacementTerrain.second + 1);
+	Units_EditorRadius[0]->ChangeValue(lexical_cast<string>(UnitPointer->EditorRadius.first));
+	Units_EditorRadius[1]->ChangeValue(lexical_cast<string>(UnitPointer->EditorRadius.second));
+	Units_BuildingMode->ChangeValue(lexical_cast<string>((short)UnitPointer->BuildingMode));
+	Units_VisibleInFog->ChangeValue(lexical_cast<string>((short)UnitPointer->VisibleInFog));
+	Units_TerrainRestriction->ChangeValue(lexical_cast<string>(UnitPointer->TerrainRestriction));
+	Units_ComboBox_TerrainRestriction->SetSelection(UnitPointer->TerrainRestriction + 1);
+	Units_FlyMode->ChangeValue(lexical_cast<string>((short)UnitPointer->FlyMode));
+	Units_CheckBox_FlyMode->SetValue((bool)UnitPointer->FlyMode);
+	Units_ResourceCapacity->ChangeValue(lexical_cast<string>(UnitPointer->ResourceCapacity));
+	Units_ResourceDecay->ChangeValue(lexical_cast<string>(UnitPointer->ResourceDecay));
+	Units_BlastType->ChangeValue(lexical_cast<string>((short)UnitPointer->BlastType));
+	Units_Unknown2->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown2));
+	Units_InteractionMode->ChangeValue(lexical_cast<string>((short)UnitPointer->InteractionMode));
+	Units_MinimapMode->ChangeValue(lexical_cast<string>((short)UnitPointer->MinimapMode));
+	Units_SelectionEffect->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionEffect));
+	Units_EditorSelectionColour->ChangeValue(lexical_cast<string>((short)UnitPointer->EditorSelectionColour));
+	if(GameVersion >= 2)
+	{
+		Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-79000)+": "+LangDLLstring(UnitPointer->LanguageDLLHelp-79000, 512));
+		Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-140000)+": "+LangDLLstring(UnitPointer->LanguageDLLHotKeyText-140000, 64));
+		Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
+		Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
+		Units_TrainSound[1]->ChangeValue(lexical_cast<string>(UnitPointer->TrainSound.second));
+		Units_ComboBox_TrainSound[1]->SetSelection(UnitPointer->TrainSound.second + 1);
+		Units_Unknown7->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown7));
+		Units_Unknown8->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown8));
+		Units_SelectionShapeType->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShapeType));
+		Units_ID3->ChangeValue(lexical_cast<string>(UnitPointer->ID3));
+		Units_Enabled->SetBackgroundColour(wxColour(210, 230, 255));
+		Units_Enabled->ChangeValue(lexical_cast<string>(UnitPointer->Enabled));
+		Units_CommandAttribute->SetBackgroundColour(wxColour(210, 230, 255));
+		Units_CommandAttribute->ChangeValue(lexical_cast<string>(UnitPointer->CommandAttribute));
+		if(GameVersion >= 3)
+		{
+			Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
+			Units_Civ->ChangeValue(lexical_cast<string>((short)UnitPointer->Civilization));
+			Units_ComboBox_Civ->SetSelection(UnitPointer->Civilization + 1);
+			for(short loop=0; loop < 2; loop++)
+			{
+				Units_Unknown9[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown9[loop]));
+			}
+			if(GameVersion >= 4)
+			{
+				Units_Name2->ChangeValue(lexical_cast<string>(UnitPointer->Name2));
+				Units_Unitline->ChangeValue(lexical_cast<string>(UnitPointer->Unitline));
+				Units_ComboBox_Unitline->SetSelection(UnitPointer->Unitline + 1);
+				Units_MinTechLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->MinTechLevel));
+			}
+		}
+	}
+	else
+	{
+		Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-65536)+": "+LangDLLstring(UnitPointer->LanguageDLLHelp-65536, 512));
+		Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-131072)+": "+LangDLLstring(UnitPointer->LanguageDLLHotKeyText-131072, 64));
+		Units_Unknown3a->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3a));
+		Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
+		Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
+		Units_CommandAttribute->SetBackgroundColour(wxColour(255, 235, 215));
+		Units_CommandAttribute->ChangeValue(lexical_cast<string>((short)UnitPointer->CommandAttribute));
+	}
+	Units_Unknown3->ChangeValue(lexical_cast<string>(UnitPointer->Unknown3));
+	Units_Unknown3B->ChangeValue(lexical_cast<string>(UnitPointer->Unknown3B));
+	Units_LanguageDLLHelp->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHelp));
+	Units_LanguageDLLHotKeyText->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText));
+	Units_HotKey->ChangeValue(lexical_cast<string>(UnitPointer->HotKey));
+	Units_DLL_HotKey4->SetLabel(LangDLLstring(UnitPointer->HotKey, 16));
+	Units_Unknown4->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown4));
+	Units_Unknown5->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown5));
+	Units_Unselectable->ChangeValue(lexical_cast<string>((short)UnitPointer->Unselectable));
+	Units_CheckBox_Unselectable->SetValue((bool)UnitPointer->Unselectable);
+	Units_Unknown6->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown6));
+	Units_SelectionMask->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionMask));
+	Units_SelectionShape->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShape));
+	Units_SelectionRadius[0]->ChangeValue(lexical_cast<string>(UnitPointer->SelectionRadius.first));
+	Units_SelectionRadius[1]->ChangeValue(lexical_cast<string>(UnitPointer->SelectionRadius.second));
+	Units_HPBarHeight2->ChangeValue(lexical_cast<string>(UnitPointer->HPBarHeight2));
+	Units_SelectionSound->ChangeValue(lexical_cast<string>(UnitPointer->SelectionSound));
+	Units_ComboBox_SelectionSound->SetSelection(UnitPointer->SelectionSound + 1);
+	Units_DyingSound->ChangeValue(lexical_cast<string>(UnitPointer->DyingSound));
+	Units_ComboBox_DyingSound->SetSelection(UnitPointer->DyingSound + 1);
+	Units_AttackSound->ChangeValue(lexical_cast<string>(UnitPointer->AttackSound));
+	Units_ComboBox_AttackSound->SetSelection(UnitPointer->AttackSound + 1);
+	Units_Name->ChangeValue(lexical_cast<string>(UnitPointer->Name));
+	Units_ID2->ChangeValue(lexical_cast<string>(UnitPointer->ID2));
+	for(short loop=0; loop < 3; loop++)
+	{
+		ResourceStorage_Type[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorages[loop].Type));
+		ResourceStorage_Amount[loop]->ChangeValue(lexical_cast<string>(UnitPointer->ResourceStorages[loop].Amount));
+		ResourceStorage_Enabled[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->ResourceStorages[loop].Enabled));
+		ResourceStorage_ComboBox_Type[loop]->SetSelection(UnitPointer->ResourceStorages[loop].Type + 1);
+	}
+
+	switch(UnitType) // Disable editing
+	{
+		case 10:
+		{
+			Units_Speed->Enable(false);
+			Units_Speed->ChangeValue("0");
+		}
+		case 20:
+		case 25:
+		{
+			for(short loop=0; loop < 2; loop++)
+			{
+				Units_WalkingGraphic[loop]->Enable(false);
+				Units_WalkingGraphic[loop]->ChangeValue("0");
+				Units_ComboBox_WalkingGraphic[loop]->Enable(false);
+				Units_ComboBox_WalkingGraphic[loop]->SetSelection(0);
+			}
+			Units_RotationSpeed->Enable(false);
+			Units_RotationSpeed->ChangeValue("0");
+			Units_Unknown11->Enable(false);
+			Units_Unknown11->ChangeValue("0");
+			Units_TrackingUnit->Enable(false);
+			Units_TrackingUnit->ChangeValue("0");
+			Units_ComboBox_TrackingUnit->Enable(false);
+			Units_ComboBox_TrackingUnit->SetSelection(0);
+			Units_TrackingUnitUsed->Enable(false);
+			Units_TrackingUnitUsed->ChangeValue("0");
+			Units_TrackingUnitDensity->Enable(false);
+			Units_TrackingUnitDensity->ChangeValue("0");
+			Units_Unknown12->Enable(false);
+			Units_Unknown12->ChangeValue("0");
+			for(short loop=0; loop < 17; loop++)
+			{
+				Units_Unknown16[loop]->Enable(false);
+				Units_Unknown16[loop]->ChangeValue("0");
+			}
+		}
+		case 30:
+		{
+			Units_SheepConversion->Enable(false);
+			Units_SheepConversion->ChangeValue("0");
+			Units_CheckBox_SheepConversion->Enable(false);
+			Units_CheckBox_SheepConversion->SetValue(false);
+			Units_SearchRadius->Enable(false);
+			Units_SearchRadius->ChangeValue("0");
+			Units_WorkRate->Enable(false);
+			Units_WorkRate->ChangeValue("0");
+			for(short loop=0; loop < 2; loop++)
+			{
+				Units_DropSite[loop]->Enable(false);
+				Units_DropSite[loop]->ChangeValue("0");
+				Units_ComboBox_DropSite[loop]->Enable(false);
+				Units_ComboBox_DropSite[loop]->SetSelection(0);
+			}
+			Units_VillagerMode->Enable(false);
+			Units_VillagerMode->ChangeValue("0");
+			Units_MoveSound->Enable(false);
+			Units_MoveSound->ChangeValue("0");
+			Units_ComboBox_MoveSound->Enable(false);
+			Units_ComboBox_MoveSound->SetSelection(0);
+			Units_StopSound->Enable(false);
+			Units_StopSound->ChangeValue("0");
+			Units_ComboBox_StopSound->Enable(false);
+			Units_ComboBox_StopSound->SetSelection(0);
+			Units_AnimalMode->Enable(false);
+			Units_AnimalMode->ChangeValue("0");
+			Units_CheckBox_AnimalMode->Enable(false);
+			Units_CheckBox_AnimalMode->SetValue(false);
+		}
+		case 40:
+		{
+			for(short loop=0; loop < 2; loop++)
+			{
+				Units_Unknown20[loop]->Enable(false);
+				Units_Unknown20[loop]->ChangeValue("0");
+			}
+			Units_Unknown21->Enable(false);
+			Units_Unknown21->ChangeValue("0");
+			Units_MaxRange->Enable(false);
+			Units_MaxRange->ChangeValue("0");
+			Units_BlastRadius->Enable(false);
+			Units_BlastRadius->ChangeValue("0");
+			Units_ReloadTime1->Enable(false);
+			Units_ReloadTime1->ChangeValue("0");
+			Units_ProjectileUnitID->Enable(false);
+			Units_ProjectileUnitID->ChangeValue("0");
+			Units_ComboBox_ProjectileUnitID->Enable(false);
+			Units_ComboBox_ProjectileUnitID->SetSelection(0);
+			Units_AccuracyPercent->Enable(false);
+			Units_AccuracyPercent->ChangeValue("0");
+			Units_TowerMode->Enable(false);
+			Units_TowerMode->ChangeValue("0");
+			Units_CheckBox_TowerMode->Enable(false);
+			Units_CheckBox_TowerMode->SetValue(false);
+			Units_Delay->Enable(false);
+			Units_Delay->ChangeValue("0");
+			for(short loop=0; loop < 3; loop++)
+			{
+				Units_GraphicDisplacement[loop]->Enable(false);
+				Units_GraphicDisplacement[loop]->ChangeValue("0");
+			}
+			Units_BlastLevel->Enable(false);
+			Units_BlastLevel->ChangeValue("0");
+			Units_MinRange->Enable(false);
+			Units_MinRange->ChangeValue("0");
+			Units_GarrisonRecoveryRate->Enable(false);
+			Units_GarrisonRecoveryRate->ChangeValue("0");
+			Units_AttackGraphic->Enable(false);
+			Units_AttackGraphic->ChangeValue("0");
+			Units_ComboBox_AttackGraphic->Enable(false);
+			Units_ComboBox_AttackGraphic->SetSelection(0);
+			Units_DisplayedMeleeArmour->Enable(false);
+			Units_DisplayedMeleeArmour->ChangeValue("0");
+			Units_DisplayedAttack->Enable(false);
+			Units_DisplayedAttack->ChangeValue("0");
+			Units_DisplayedRange->Enable(false);
+			Units_DisplayedRange->ChangeValue("0");
+			Units_ReloadTime2->Enable(false);
+			Units_ReloadTime2->ChangeValue("0");
+
+			Attacks_Class->Enable(false);
+			for(short loop=0; loop < 2; loop++)
+			Attacks_ComboBox_Class[loop]->Enable(false);
+			Attacks_Amount->Enable(false);
+			Armors_Class->Enable(false);
+			Armors_Amount->Enable(false);
+		}
+		case 60:
+		{
+			for(short loop=0; loop < 2; loop++)
+			{
+				Units_GarrisonGraphic[loop]->Enable(false);
+				Units_GarrisonGraphic[loop]->ChangeValue("0");
+				Units_ComboBox_GarrisonGraphic[loop]->Enable(false);
+				Units_ComboBox_GarrisonGraphic[loop]->SetSelection(0);
+			}
+			for(short loop=0; loop < 3; loop++)
+			{
+				Units_CostType[loop]->Enable(false);
+				Units_CostType[loop]->ChangeValue("0");
+				Units_ComboBox_CostType[loop]->Enable(false);
+				Units_ComboBox_CostType[loop]->SetSelection(0);
+				Units_CostAmount[loop]->Enable(false);
+				Units_CostAmount[loop]->ChangeValue("0");
+				Units_CostUsed[loop]->Enable(false);
+				Units_CostUsed[loop]->ChangeValue("0");
+				Units_CheckBox_CostUsed[loop]->Enable(false);
+				Units_CheckBox_CostUsed[loop]->SetValue(false);
+				Units_Unknown27[loop]->Enable(false);
+				Units_Unknown27[loop]->ChangeValue("0");
+				Units_AttackMissileDuplicationSpawning[loop]->Enable(false);
+				Units_AttackMissileDuplicationSpawning[loop]->ChangeValue("0");
+			}
+			Units_TrainTime->Enable(false);
+			Units_TrainTime->ChangeValue("0");
+			Units_TrainLocationID->Enable(false);
+			Units_TrainLocationID->ChangeValue("0");
+			Units_ComboBox_TrainLocationID->Enable(false);
+			Units_ComboBox_TrainLocationID->SetSelection(0);
+			Units_ButtonID->Enable(false);
+			Units_ButtonID->ChangeValue("0");
+			Units_Unknown26->Enable(false);
+			Units_Unknown26->ChangeValue("0");
+			Units_Unknown28->Enable(false);
+			Units_Unknown28->ChangeValue("0");
+			Units_MissileGraphicDelay->Enable(false);
+			Units_MissileGraphicDelay->ChangeValue("0");
+			Units_HeroMode->Enable(false);
+			Units_HeroMode->ChangeValue("0");
+			Units_CheckBox_HeroMode->Enable(false);
+			Units_CheckBox_HeroMode->SetValue(false);
+			Units_AttackMissileDuplicationAmount1->Enable(false);
+			Units_AttackMissileDuplicationAmount1->ChangeValue("0");
+			Units_AttackMissileDuplicationAmount2->Enable(false);
+			Units_AttackMissileDuplicationAmount2->ChangeValue("0");
+			Units_AttackMissileDuplicationUnit->Enable(false);
+			Units_AttackMissileDuplicationUnit->ChangeValue("0");
+			Units_ComboBox_AttackMissileDuplicationUnit->Enable(false);
+			Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(0);
+			Units_AttackMissileDuplicationGraphic->Enable(false);
+			Units_AttackMissileDuplicationGraphic->ChangeValue("0");
+			Units_ComboBox_AttackMissileDuplicationGraphic->Enable(false);
+			Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(0);
+			Units_Unknown29->Enable(false);
+			Units_Unknown29->ChangeValue("0");
+			Units_DisplayedPierceArmour->Enable(false);
+			Units_DisplayedPierceArmour->ChangeValue("0");
+		}
+		case 70:
+		{
+			Units_ConstructionGraphicID->Enable(false);
+			Units_ConstructionGraphicID->ChangeValue("0");
+			Units_ComboBox_ConstructionGraphicID->Enable(false);
+			Units_ComboBox_ConstructionGraphicID->SetSelection(0);
+			Units_SnowGraphicID->Enable(false);
+			Units_SnowGraphicID->ChangeValue("0");
+			Units_ComboBox_SnowGraphicID->Enable(false);
+			Units_ComboBox_SnowGraphicID->SetSelection(0);
+			Units_AdjacentMode->Enable(false);
+			Units_AdjacentMode->ChangeValue("0");
+			Units_CheckBox_AdjacentMode->Enable(false);
+			Units_CheckBox_AdjacentMode->SetValue(false);
+			Units_Unknown31->Enable(false);
+			Units_Unknown31->ChangeValue("0");
+			Units_Unknown31b->Enable(false);
+			Units_Unknown31b->ChangeValue("0");
+			Units_CheckBox_Unknown31b->Enable(false);
+			Units_CheckBox_Unknown31b->SetValue(false);
+			Units_StackUnitID->Enable(false);
+			Units_StackUnitID->ChangeValue("0");
+			Units_ComboBox_StackUnitID->Enable(false);
+			Units_ComboBox_StackUnitID->SetSelection(0);
+			Units_TerrainID->Enable(false);
+			Units_TerrainID->ChangeValue("0");
+			Units_ComboBox_TerrainID->Enable(false);
+			Units_ComboBox_TerrainID->SetSelection(0);
+			Units_Unknown32->Enable(false);
+			Units_Unknown32->ChangeValue("0");
+			Units_ResearchID->Enable(false);
+			Units_ResearchID->ChangeValue("0");
+			Units_ComboBox_ResearchID->Enable(false);
+			Units_ComboBox_ResearchID->SetSelection(0);
+			Units_Unknown33->Enable(false);
+			Units_Unknown33->ChangeValue("0");
+			for(short loop=0; loop < 4; loop++)
+			{
+				Units_AnnexUnit[loop]->Enable(false);
+				Units_AnnexUnit[loop]->ChangeValue("0");
+				Units_ComboBox_AnnexUnit[loop]->Enable(false);
+				Units_ComboBox_AnnexUnit[loop]->SetSelection(0);
+				for(short loop2=0; loop2 < 2; loop2++)
+				{
+					Units_AnnexUnitMisplacement[loop][loop2]->Enable(false);
+					Units_AnnexUnitMisplacement[loop][loop2]->ChangeValue("0");
+				}
+			}
+			Units_HeadUnit->Enable(false);
+			Units_HeadUnit->ChangeValue("0");
+			Units_ComboBox_HeadUnit->Enable(false);
+			Units_ComboBox_HeadUnit->SetSelection(0);
+			Units_TransformUnit->Enable(false);
+			Units_TransformUnit->ChangeValue("0");
+			Units_ComboBox_TransformUnit->Enable(false);
+			Units_ComboBox_TransformUnit->SetSelection(0);
+			Units_Unknown34->Enable(false);
+			Units_Unknown34->ChangeValue("0");
+			Units_ConstructionSound->Enable(false);
+			Units_ConstructionSound->ChangeValue("0");
+			Units_ComboBox_ConstructionSound->Enable(false);
+			Units_ComboBox_ConstructionSound->SetSelection(0);
+			Units_GarrisonType->Enable(false);
+			Units_GarrisonType->ChangeValue("0");
+			Units_ComboBox_GarrisonType->Enable(false);
+			Units_ComboBox_GarrisonType->SetSelection(0);
+			Units_GarrisonHealRate->Enable(false);
+			Units_GarrisonHealRate->ChangeValue("0");
+			Units_Unknown35->Enable(false);
+			Units_Unknown35->ChangeValue("0");
+			Units_Unknown36->Enable(false);
+			Units_Unknown36->ChangeValue("0");
+			for(short loop=0; loop < 6; loop++)
+			{
+				Units_Unknown37[loop]->Enable(false);
+				Units_Unknown37[loop]->ChangeValue("0");
+			}
+		}
+	}
+
+	if(UnitType == 60)
+	{
+		Units_StretchMode->Enable(true);
+		Units_CompensationMode->Enable(true);
+		Units_DropAnimationMode->Enable(true);
+		Units_PenetrationMode->Enable(true);
+		Units_Unknown24->Enable(true);
+		Units_ProjectileArc->Enable(true);
+
+		Units_StretchMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.StretchMode));
+		Units_CompensationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.CompensationMode));
+		Units_DropAnimationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.DropAnimationMode));
+		Units_PenetrationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.PenetrationMode));
+		Units_Unknown24->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.Unknown24));
+		Units_ProjectileArc->ChangeValue(lexical_cast<string>(UnitPointer->ProjectileOnly.ProjectileArc));
+	}
+	else
+	{
+		Units_StretchMode->Enable(false);
+		Units_StretchMode->ChangeValue("0");
+		Units_CompensationMode->Enable(false);
+		Units_CompensationMode->ChangeValue("0");
+		Units_DropAnimationMode->Enable(false);
+		Units_DropAnimationMode->ChangeValue("0");
+		Units_PenetrationMode->Enable(false);
+		Units_PenetrationMode->ChangeValue("0");
+		Units_Unknown24->Enable(false);
+		Units_Unknown24->ChangeValue("0");
+		Units_ProjectileArc->Enable(false);
+		Units_ProjectileArc->ChangeValue("0");
+	}
+	
+	// Don't count disabled units anymore.
+	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+	{
+		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] == 0) SelectedCivs--;
+	}
+
+	ListUnitDamageGraphics();
+	ListUnitAttacks();
+	ListUnitArmors();
+	if(GameVersion >= 2)	// AoK, TC, SWGB or CC
+	{	// Disabling this (unit headers) doesn't increase search speed.
+		Units_UnitHeads_List->SetSelection(UnitIDs[0]); // Correct selection even when units are search filtered.
+		wxCommandEvent E;
+		OnUnitHeadsSelect(E);
+	}
+	else	// AoE or RoR
+	{
+		Units_UnitHeads_Name->SetLabel("");
+		ListUnitCommands();
+	}
+	//	Refresh(); // Too much lag.
 }
 
 void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent &Event)
 {
 	short Selection = Units_UnitHeads_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		genie::UnitHeader * UnitHeadPointer = (genie::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
-		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs[0])+" - "+GetUnitName(UnitIDs[0], 0));
-		Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
-		Units_Exists->container[0] = &UnitHeadPointer->Exists;
-		ListUnitCommands();
-	}
+	if(Selection == wxNOT_FOUND) return;
+
+	genie::UnitHeader * UnitHeadPointer = (genie::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
+	Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs[0])+" - "+GetUnitName(UnitIDs[0], 0));
+	Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
+	Units_Exists->container[0] = &UnitHeadPointer->Exists;
+	ListUnitCommands();
 }
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 {
-	if(GenieFile != NULL)
-	{
-		wxBusyCursor WaitCursor;
-		if(GameVersion > 1)	// AoK, TC, SWGB or CC
-		{
-			genie::UnitHeader Temp1;
-			Temp1.setGameVersion(GenieVersion);
-			GenieFile->UnitHeaders.push_back(Temp1);
-		}
+	if(GenieFile == NULL) return;
 
-		genie::Unit Temp2;
-		Temp2.setGameVersion(GenieVersion);
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-		{
-			GenieFile->Civs[loop].Units.push_back(Temp2);
-			GenieFile->Civs[loop].UnitPointers.push_back(1);
-			if(EnableIDFix)
-			{
-				GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID1 = (int16_t)(GenieFile->Civs[0].Units.size()-1); // ID Fix
-				GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID2 = (int16_t)(GenieFile->Civs[0].Units.size()-1);
-				if(GameVersion >= 2)
-				GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = (int16_t)(GenieFile->Civs[0].Units.size()-1);
-			}
-		}
-		if(GameVersion > 1)
-		{
-			ListUnitHeads(UnitCivID);
-		}
-		Added = true;
-		ListUnits(UnitCivID);
+	wxBusyCursor WaitCursor;
+	if(GameVersion > 1)	// AoK, TC, SWGB or CC
+	{
+		genie::UnitHeader Temp1;
+		Temp1.setGameVersion(GenieVersion);
+		GenieFile->UnitHeaders.push_back(Temp1);
 	}
+
+	genie::Unit Temp2;
+	Temp2.setGameVersion(GenieVersion);
+	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+	{
+		GenieFile->Civs[loop].Units.push_back(Temp2);
+		GenieFile->Civs[loop].UnitPointers.push_back(1);
+		if(EnableIDFix)
+		{
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID1 = (int16_t)(GenieFile->Civs[0].Units.size()-1); // ID Fix
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID2 = (int16_t)(GenieFile->Civs[0].Units.size()-1);
+			if(GameVersion >= 2)
+			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = (int16_t)(GenieFile->Civs[0].Units.size()-1);
+		}
+	}
+	if(GameVersion > 1)
+	{
+		ListUnitHeads(UnitCivID);
+	}
+	Added = true;
+	ListUnits(UnitCivID);
 }
 
 void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 {
+	auto Selections = Units_Units_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)	// AoK, TC, SWGB or CC
 	{
-		short Selection = Units_UnitHeads_List->GetSelection();
-		if(Selection != wxNOT_FOUND)	// If unit is selected.
-		{
-			wxBusyCursor WaitCursor;
-			genie::UnitHeader Temp1;
-			Temp1.setGameVersion(GenieVersion);
-			GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], Temp1);
-		}
+		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
+		wxMessageBox("You should never see this (unit header bug)");
+
+		genie::UnitHeader Temp1;
+		Temp1.setGameVersion(GenieVersion);
+		GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], Temp1);
 	}
 
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	genie::Unit Temp2;
+	Temp2.setGameVersion(GenieVersion);
+	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Unit Temp2;
-		Temp2.setGameVersion(GenieVersion);
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+		GenieFile->Civs[loop].Units.insert(GenieFile->Civs[loop].Units.begin() + UnitIDs[0], Temp2);
+		GenieFile->Civs[loop].UnitPointers.insert(GenieFile->Civs[loop].UnitPointers.begin() + UnitIDs[0], 1);
+		if(EnableIDFix)
+		for(short loop2 = UnitIDs[0];loop2 < GenieFile->Civs[0].Units.size(); loop2++) // ID Fix
 		{
-			GenieFile->Civs[loop].Units.insert(GenieFile->Civs[loop].Units.begin() + UnitIDs[0], Temp2);
-			GenieFile->Civs[loop].UnitPointers.insert(GenieFile->Civs[loop].UnitPointers.begin() + UnitIDs[0], 1);
-			if(EnableIDFix)
-			for(short loop2 = UnitIDs[0];loop2 < GenieFile->Civs[0].Units.size(); loop2++) // ID Fix
-			{
-				GenieFile->Civs[loop].Units[loop2].ID1 = (int16_t)loop2;
-				GenieFile->Civs[loop].Units[loop2].ID2 = (int16_t)loop2;
-				if(GameVersion >= 2)
-				GenieFile->Civs[loop].Units[loop2].ID3 = (int16_t)loop2;
-			}
+			GenieFile->Civs[loop].Units[loop2].ID1 = (int16_t)loop2;
+			GenieFile->Civs[loop].Units[loop2].ID2 = (int16_t)loop2;
+			if(GameVersion >= 2)
+			GenieFile->Civs[loop].Units[loop2].ID3 = (int16_t)loop2;
 		}
-		if(GameVersion > 1)
-		{
-			ListUnitHeads(UnitCivID);
-		}
-		ListUnits(UnitCivID);
 	}
+	if(GameVersion > 1)
+	{
+		ListUnitHeads(UnitCivID);
+	}
+	ListUnits(UnitCivID);
 }
 
 void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)
 	{
-		short Selection = Units_UnitHeads_List->GetSelection();
-		if(Selection != wxNOT_FOUND)	// If unit is selected.
-		{
-			wxBusyCursor WaitCursor;
-			for(short loop = Selections; loop--> 0;)
-			GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitIDs[loop]);
-		}
+		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
+		wxMessageBox("You should never see this (unit header bug)");
+
+		for(short loop = Selections; loop--> 0;)
+		GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitIDs[loop]);
 	}
-	if(Selections != 0)
+
+	for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 	{
-		wxBusyCursor WaitCursor;
-		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+		for(short loop = Selections; loop--> 0;)
 		{
-			for(short loop = Selections; loop--> 0;)
-			{
-				GenieFile->Civs[civ].Units.erase(GenieFile->Civs[civ].Units.begin() + UnitIDs[loop]);
-				GenieFile->Civs[civ].UnitPointers.erase(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[loop]);
-			}
-			if(EnableIDFix)
-			for(short loop = UnitIDs[0]; loop < GenieFile->Civs[0].Units.size(); loop++) // ID Fix
-			{
-				GenieFile->Civs[civ].Units[loop].ID1 = (int16_t)loop;
-				GenieFile->Civs[civ].Units[loop].ID2 = (int16_t)loop;
-				if(GameVersion >= 2)
-				GenieFile->Civs[civ].Units[loop].ID3 = (int16_t)loop;
-			}
+			GenieFile->Civs[civ].Units.erase(GenieFile->Civs[civ].Units.begin() + UnitIDs[loop]);
+			GenieFile->Civs[civ].UnitPointers.erase(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[loop]);
 		}
-		if(GameVersion > 1)
+		if(EnableIDFix)
+		for(short loop = UnitIDs[0]; loop < GenieFile->Civs[0].Units.size(); loop++) // ID Fix
 		{
-			ListUnitHeads(UnitCivID);
+			GenieFile->Civs[civ].Units[loop].ID1 = (int16_t)loop;
+			GenieFile->Civs[civ].Units[loop].ID2 = (int16_t)loop;
+			if(GameVersion >= 2)
+			GenieFile->Civs[civ].Units[loop].ID3 = (int16_t)loop;
 		}
-		ListUnits(UnitCivID);
 	}
+	if(GameVersion > 1)
+	{
+		ListUnitHeads(UnitCivID);
+	}
+	ListUnits(UnitCivID);
 }
 
 void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)
 	{
-		short Selection = Units_UnitHeads_List->GetSelection();
-		if(Selection != wxNOT_FOUND)
+		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
+		wxMessageBox("You should never see this (unit header bug)");
+
+		copies->UnitHeader.resize(Selections);
+		for(short loop=0; loop < Selections; loop++)
+		copies->UnitHeader[loop] = GenieFile->UnitHeaders[UnitIDs[loop]];
+	}
+
+	copies->Dat.CopyType = 1;
+	copies->Dat.AllCivs = Units_SpecialCopy_Civs->GetValue();
+	if(copies->Dat.AllCivs)
+	{
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 		{
-			wxBusyCursor WaitCursor;
-			copies->UnitHeader.resize(Selections);
+			copies->Dat.Civs[civ].UnitExists.resize(Selections);
+			copies->Dat.Civs[civ].UnitCopies.resize(Selections);
 			for(short loop=0; loop < Selections; loop++)
-			copies->UnitHeader[loop] = GenieFile->UnitHeaders[UnitIDs[loop]];
+			{
+				copies->Dat.Civs[civ].UnitExists[loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
+				copies->Dat.Civs[civ].UnitCopies[loop] = GenieFile->Civs[civ].Units[UnitIDs[loop]];
+			}
 		}
 	}
-	if(Selections != 0)
+	else
 	{
-		wxBusyCursor WaitCursor;
-		copies->Dat.CopyType = 1;
-		copies->Dat.AllCivs = Units_SpecialCopy_Civs->GetValue();
-		if(copies->Dat.AllCivs)
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 		{
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			{
-				copies->Dat.Civs[civ].UnitExists.resize(Selections);
-				copies->Dat.Civs[civ].UnitCopies.resize(Selections);
-				for(short loop=0; loop < Selections; loop++)
-				{
-					copies->Dat.Civs[civ].UnitExists[loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
-					copies->Dat.Civs[civ].UnitCopies[loop] = GenieFile->Civs[civ].Units[UnitIDs[loop]];
-				}
-			}
-		}
-		else
-		{
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			{
-				copies->Dat.Civs[civ].UnitExists.resize(Selections);
-				copies->Dat.Civs[civ].UnitGraphics.resize(Selections);
-				for(short loop=0; loop < Selections; loop++)
-				{
-					copies->Dat.Civs[civ].UnitExists[loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
-					if(!CopyGraphics && AutoCopy)
-					{// Let's copy graphics separately.
-						// Collects only graphic data, not all data again.
-						UnitsGraphicsCopy(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
-					}
-				}
-			}
-			copies->Dat.Civs[0].UnitCopies.resize(Selections);
+			copies->Dat.Civs[civ].UnitExists.resize(Selections);
+			if(AutoCopy && !CopyGraphics)
+			copies->Dat.Civs[civ].UnitGraphics.resize(Selections);
 			for(short loop=0; loop < Selections; loop++)
-			copies->Dat.Civs[0].UnitCopies[loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
+			{
+				copies->Dat.Civs[civ].UnitExists[loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
+				if(AutoCopy && !CopyGraphics)
+				{// Let's copy graphics separately.
+					// Collects only graphic data, not all data again.
+					UnitsGraphicsCopy(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
+				}
+			}
 		}
+		copies->Dat.Civs[0].UnitCopies.resize(Selections);
+		for(short loop=0; loop < Selections; loop++)
+		copies->Dat.Civs[0].UnitCopies[loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
 	}
 }
 
@@ -2008,21 +2005,20 @@ void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
 void AGE_Frame::UnitsAutoCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections < 1) return;
+
+	GraphicCopies graphics;
+	for(short civ=0; civ < GenieFile->Civs.size(); civ++)
 	{
-		GraphicCopies graphics;
-		for(short civ=0; civ < GenieFile->Civs.size(); civ++)
+		if(Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)
 		{
-			if(Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)
+			for(short loop=0; loop < Selections; loop++)
 			{
-				for(short loop=0; loop < Selections; loop++)
-				{
-					if(!CopyGraphics)// Let's copy graphics separately.
-					UnitsGraphicsCopy(graphics, civ, loop);
-					GenieFile->Civs[civ].Units[UnitIDs[loop]] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
-					if(!CopyGraphics)// Let's paste graphics separately.
-					UnitsGraphicsPaste(graphics, civ, loop);
-				}
+				if(!CopyGraphics)// Let's copy graphics separately.
+				UnitsGraphicsCopy(graphics, civ, loop);
+				GenieFile->Civs[civ].Units[UnitIDs[loop]] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
+				if(!CopyGraphics)// Let's paste graphics separately.
+				UnitsGraphicsPaste(graphics, civ, loop);
 			}
 		}
 	}
@@ -2055,217 +2051,212 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short loop)
 void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->Dat.CopyType = 2;
+	copies->Dat.AllCivs = Units_SpecialCopy_Civs->GetValue();
+	for(short loop=0; loop < Selections; loop++)
 	{
-		wxBusyCursor WaitCursor;
-		copies->Dat.CopyType = 2;
-		copies->Dat.AllCivs = Units_SpecialCopy_Civs->GetValue();
-		for(short loop=0; loop < Selections; loop++)
+		if(copies->Dat.AllCivs)
 		{
-			if(copies->Dat.AllCivs)
+			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				{
-					copies->Dat.Civs[civ].UnitGraphics.resize(Selections);
-					UnitsGraphicsCopy(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
-				}
+				copies->Dat.Civs[civ].UnitGraphics.resize(Selections);
+				UnitsGraphicsCopy(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
 			}
-			else
-			{
-				copies->Dat.Civs[0].UnitGraphics.resize(Selections);
-				UnitsGraphicsCopy(copies->Dat.Civs[0].UnitGraphics[loop], UnitCivID, loop);
-			}
+		}
+		else
+		{
+			copies->Dat.Civs[0].UnitGraphics.resize(Selections);
+			UnitsGraphicsCopy(copies->Dat.Civs[0].UnitGraphics[loop], UnitCivID, loop);
 		}
 	}
 }
 
 void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 {
+	auto Selections = Units_Units_List->GetSelections(Items);
+	if(Selections < 1) return;
 	if(copies->Dat.CopyType != 1)
-	wxMessageBox("Wrong copy button clicked!");
-	else
 	{
-		if(GameVersion > 1)
+		wxMessageBox("Wrong copy button clicked!");
+		return;
+	}
+
+	wxBusyCursor WaitCursor;
+	if(GameVersion > 1)
+	{
+		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
+		wxMessageBox("You should never see this (unit header bug)");
+
+		if(copies->UnitHeader.size()+UnitIDs[0] > GenieFile->UnitHeaders.size())
+		GenieFile->UnitHeaders.resize(copies->UnitHeader.size()+UnitIDs[0]);
+		for(short loop=0; loop < copies->UnitHeader.size(); loop++)
 		{
-			short Selection = Units_UnitHeads_List->GetSelection();
-			if(Selection != wxNOT_FOUND)
+			copies->UnitHeader[loop].setGameVersion(GenieVersion);
+			GenieFile->UnitHeaders[UnitIDs[0]+loop] = copies->UnitHeader[loop];
+		}
+	}
+
+	if(copies->Dat.Civs[0].UnitCopies.size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
+	for(short civ = 0;civ < GenieFile->Civs.size();civ++) // Resize if not enough room.
+	{
+		GenieFile->Civs[civ].Units.resize(copies->Dat.Civs[0].UnitCopies.size()+UnitIDs[0]);
+		GenieFile->Civs[civ].UnitPointers.resize(copies->Dat.Civs[0].UnitCopies.size()+UnitIDs[0]);
+	}
+	if(copies->Dat.AllCivs) // Paste from all civs to all civs.
+	{
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+		{
+			for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
 			{
-				wxBusyCursor WaitCursor;
-				if(copies->UnitHeader.size()+UnitIDs[0] > GenieFile->UnitHeaders.size())
-				GenieFile->UnitHeaders.resize(copies->UnitHeader.size()+UnitIDs[0]);
-				for(short loop=0; loop < copies->UnitHeader.size(); loop++)
-				{
-					copies->UnitHeader[loop].setGameVersion(GenieVersion);
-					GenieFile->UnitHeaders[UnitIDs[0]+loop] = copies->UnitHeader[loop];
-				}
+				copies->Dat.Civs[civ].UnitCopies[loop].setGameVersion(GenieVersion);
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.Civs[civ].UnitCopies[loop];
 			}
 		}
-
-		auto Selections = Units_Units_List->GetSelections(Items);
-		if(Selections != 0)
+	}
+	else
+	{
+		if(AutoCopy) // Paste from one civ to selected civs.
 		{
-			wxBusyCursor WaitCursor;
-			if(copies->Dat.Civs[0].UnitCopies.size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++) // Resize if not enough room.
+			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
-				GenieFile->Civs[civ].Units.resize(copies->Dat.Civs[0].UnitCopies.size()+UnitIDs[0]);
-				GenieFile->Civs[civ].UnitPointers.resize(copies->Dat.Civs[0].UnitCopies.size()+UnitIDs[0]);
-			}
-			if(copies->Dat.AllCivs) // Paste from all civs to all civs.
-			{
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				{
-					for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
-					{
-						copies->Dat.Civs[civ].UnitCopies[loop].setGameVersion(GenieVersion);
-						GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.Civs[civ].UnitCopies[loop];
-					}
-				}
-			}
-			else
-			{
-				if(AutoCopy) // Paste from one civ to selected civs.
-				{
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					{
-						if(Units_CivBoxes[civ]->IsChecked())
-						{
-							for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
-							{
-								copies->Dat.Civs[0].UnitCopies[loop].setGameVersion(GenieVersion);
-								GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.Civs[0].UnitCopies[loop];
-								if(!CopyGraphics)
-								{// Let's paste graphics separately.
-									UnitsGraphicsPaste(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
-								}
-							}
-						}
-					}
-				}
-				else // Paste from one civ to another civ.
+				if(Units_CivBoxes[civ]->IsChecked())
 				{
 					for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
 					{
 						copies->Dat.Civs[0].UnitCopies[loop].setGameVersion(GenieVersion);
-						GenieFile->Civs[UnitCivID].Units[UnitIDs[0]+loop] = copies->Dat.Civs[0].UnitCopies[loop];
+						GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.Civs[0].UnitCopies[loop];
+						if(!CopyGraphics)
+						{// Let's paste graphics separately.
+							UnitsGraphicsPaste(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
+						}
 					}
 				}
 			}
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+		}
+		else // Paste from one civ to another civ.
+		{
+			for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
 			{
-				for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
-				{
-					GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)copies->Dat.Civs[civ].UnitExists[loop];
-					if(EnableIDFix) // ID Fix
-					GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID1 = (int16_t)(UnitIDs[0]+loop);
-					GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID2 = (int16_t)(UnitIDs[0]+loop);
-					if(GameVersion >= 2)
-					GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID3 = (int16_t)(UnitIDs[0]+loop);
-				}
+				copies->Dat.Civs[0].UnitCopies[loop].setGameVersion(GenieVersion);
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]+loop] = copies->Dat.Civs[0].UnitCopies[loop];
 			}
-			if(GameVersion > 1)
-			{
-				ListUnitHeads(UnitCivID);
-			}
-			ListUnits(UnitCivID);
 		}
 	}
+	for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+	{
+		for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
+		{
+			GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)copies->Dat.Civs[civ].UnitExists[loop];
+			if(EnableIDFix) // ID Fix
+			{
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID1 = (int16_t)(UnitIDs[0]+loop);
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID2 = (int16_t)(UnitIDs[0]+loop);
+				if(GameVersion >= 2)
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID3 = (int16_t)(UnitIDs[0]+loop);
+			}
+		}
+	}
+	if(GameVersion > 1)
+	{
+		ListUnitHeads(UnitCivID);
+	}
+	ListUnits(UnitCivID);
 }
 
 void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 {
+	auto Selections = Units_Units_List->GetSelections(Items);
+	if(Selections < 1) return;
 	if(copies->Dat.CopyType != 1)
-	wxMessageBox("Wrong copy button clicked!");
-	else
 	{
-		if(GameVersion > 1)
+		wxMessageBox("Wrong copy button clicked!");
+		return;
+	}
+
+	wxBusyCursor WaitCursor;
+	if(GameVersion > 1)
+	{
+		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
+		wxMessageBox("You should never see this (unit header bug)");
+
+		genie::UnitHeader Temp1;
+		GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], copies->UnitHeader.size(), Temp1);
+		for(short loop=0; loop < copies->UnitHeader.size(); loop++)
 		{
-			short Selection = Units_UnitHeads_List->GetSelection();
-			if(Selection != wxNOT_FOUND)
+			copies->UnitHeader[loop].setGameVersion(GenieVersion);
+			GenieFile->UnitHeaders[UnitIDs[0]+loop] = copies->UnitHeader[loop];
+		}
+	}
+
+	genie::Unit Temp2;
+	for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+	{
+		GenieFile->Civs[civ].Units.insert(GenieFile->Civs[civ].Units.begin() + UnitIDs[0], copies->Dat.Civs[0].UnitCopies.size(), Temp2);
+		GenieFile->Civs[civ].UnitPointers.insert(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[0], copies->Dat.Civs[0].UnitCopies.size(), 0);
+	}
+	if(copies->Dat.AllCivs) // Paste from all civs to all civs.
+	{
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+		{
+			for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
 			{
-				wxBusyCursor WaitCursor;
-				genie::UnitHeader Temp1;
-				GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], copies->UnitHeader.size(), Temp1);
-				for(short loop=0; loop < copies->UnitHeader.size(); loop++)
-				{
-					copies->UnitHeader[loop].setGameVersion(GenieVersion);
-					GenieFile->UnitHeaders[UnitIDs[0]+loop] = copies->UnitHeader[loop];
-				}
+				copies->Dat.Civs[civ].UnitCopies[loop].setGameVersion(GenieVersion);
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.Civs[civ].UnitCopies[loop];
 			}
 		}
-
-		auto Selections = Units_Units_List->GetSelections(Items);
-		if(Selections != 0)
+	}
+	else
+	{
+		if(AutoCopy) // Paste from one civ to selected civs.
 		{
-			wxBusyCursor WaitCursor;
-			genie::Unit Temp2;
 			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
-				GenieFile->Civs[civ].Units.insert(GenieFile->Civs[civ].Units.begin() + UnitIDs[0], copies->Dat.Civs[0].UnitCopies.size(), Temp2);
-				GenieFile->Civs[civ].UnitPointers.insert(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[0], copies->Dat.Civs[0].UnitCopies.size(), 0);
-			}
-			if(copies->Dat.AllCivs) // Paste from all civs to all civs.
-			{
-				for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-				{
-					for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
-					{
-						copies->Dat.Civs[civ].UnitCopies[loop].setGameVersion(GenieVersion);
-						GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.Civs[civ].UnitCopies[loop];
-					}
-				}
-			}
-			else
-			{
-				if(AutoCopy) // Paste from one civ to selected civs.
-				{
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					{
-						if(Units_CivBoxes[civ]->IsChecked())
-						{
-							for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
-							{
-								copies->Dat.Civs[0].UnitCopies[loop].setGameVersion(GenieVersion);
-								GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.Civs[0].UnitCopies[loop];
-								if(!CopyGraphics)
-								{// Let's paste graphics separately.
-									UnitsGraphicsPaste(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
-								}
-							}
-						}
-					}
-				}
-				else // Paste from one civ to another civ.
+				if(Units_CivBoxes[civ]->IsChecked())
 				{
 					for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
 					{
 						copies->Dat.Civs[0].UnitCopies[loop].setGameVersion(GenieVersion);
-						GenieFile->Civs[UnitCivID].Units[UnitIDs[0]+loop] = copies->Dat.Civs[0].UnitCopies[loop];
+						GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.Civs[0].UnitCopies[loop];
+						if(!CopyGraphics)
+						{// Let's paste graphics separately.
+							UnitsGraphicsPaste(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
+						}
 					}
 				}
 			}
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+		}
+		else // Paste from one civ to another civ.
+		{
+			for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
 			{
-				for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
-				{
-					GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)copies->Dat.Civs[civ].UnitExists[loop];
-				}
-				if(EnableIDFix) // ID Fix
-				for(short loop = UnitIDs[0];loop < GenieFile->Civs[0].Units.size(); loop++)
-				{
-					GenieFile->Civs[civ].Units[loop].ID1 = (int16_t)loop;
-					GenieFile->Civs[civ].Units[loop].ID2 = (int16_t)loop;
-					if(GameVersion >= 2)
-					GenieFile->Civs[civ].Units[loop].ID3 = (int16_t)loop;
-				}
+				copies->Dat.Civs[0].UnitCopies[loop].setGameVersion(GenieVersion);
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]+loop] = copies->Dat.Civs[0].UnitCopies[loop];
 			}
-			if(GameVersion > 1)
-			{
-				ListUnitHeads(UnitCivID);
-			}
-			ListUnits(UnitCivID);
 		}
 	}
+	for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+	{
+		for(short loop=0; loop < copies->Dat.Civs[0].UnitCopies.size(); loop++)
+		{
+			GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)copies->Dat.Civs[civ].UnitExists[loop];
+		}
+		if(EnableIDFix) // ID Fix
+		for(short loop = UnitIDs[0];loop < GenieFile->Civs[0].Units.size(); loop++)
+		{
+			GenieFile->Civs[civ].Units[loop].ID1 = (int16_t)loop;
+			GenieFile->Civs[civ].Units[loop].ID2 = (int16_t)loop;
+			if(GameVersion >= 2)
+			GenieFile->Civs[civ].Units[loop].ID3 = (int16_t)loop;
+		}
+	}
+	if(GameVersion > 1)
+	{
+		ListUnitHeads(UnitCivID);
+	}
+	ListUnits(UnitCivID);
 }
 
 void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short loop)
@@ -2294,83 +2285,80 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short loop)
 void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections < 1) return;
+	if(copies->Dat.CopyType != 2)
 	{
-		if(copies->Dat.CopyType != 2)
 		wxMessageBox("Wrong copy button clicked!");
+		return;
+	}
+
+	wxBusyCursor WaitCursor;
+	short CopyCount = copies->Dat.Civs[0].UnitGraphics.size();
+	if(copies->Dat.Civs[0].UnitGraphics.size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
+	CopyCount -= copies->Dat.Civs[0].UnitGraphics.size()+UnitIDs[0] - GenieFile->Civs[0].Units.size();
+	for(short loop=0; loop < CopyCount; loop++)
+	{
+		if(copies->Dat.AllCivs)
+		{
+			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+			{
+				UnitsGraphicsPaste(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
+			}
+		}
 		else
 		{
-			wxBusyCursor WaitCursor;
-			short CopyCount = copies->Dat.Civs[0].UnitGraphics.size();
-			if(copies->Dat.Civs[0].UnitGraphics.size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
-			CopyCount -= copies->Dat.Civs[0].UnitGraphics.size()+UnitIDs[0] - GenieFile->Civs[0].Units.size();
-			for(short loop=0; loop < CopyCount; loop++)
-			{
-				if(copies->Dat.AllCivs)
-				{
-					for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-					{
-						UnitsGraphicsPaste(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
-					}
-				}
-				else
-				{
-					UnitsGraphicsPaste(copies->Dat.Civs[0].UnitGraphics[loop], UnitCivID, loop);
-				}
-			}
-			wxCommandEvent E;
-			OnUnitsSelect(E);
+			UnitsGraphicsPaste(copies->Dat.Civs[0].UnitGraphics[loop], UnitCivID, loop);
 		}
 	}
+	wxCommandEvent E;
+	OnUnitsSelect(E);
 }
 
 void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(short loop=0; loop < Selections; loop++)
 	{
-		wxBusyCursor WaitCursor;
-		for(short loop=0; loop < Selections; loop++)
+		// All subvectors need to be resized!
+		if(Units_SpecialCopy_Civs->GetValue())
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 		{
-			// All subvectors need to be resized!
-			if(Units_SpecialCopy_Civs->GetValue())
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			{
-				GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]] = 1;
-				GenieFile->Civs[civ].Units[UnitIDs[loop]].ID1 = (int16_t)UnitIDs[loop]; // ID Fix
-				GenieFile->Civs[civ].Units[UnitIDs[loop]].ID2 = (int16_t)UnitIDs[loop];
-				if(GameVersion >= 2)
-				GenieFile->Civs[civ].Units[UnitIDs[loop]].ID3 = (int16_t)UnitIDs[loop];
-			}
-			else
-			{
-				GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[loop]] = 1;
-				GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID1 = (int16_t)UnitIDs[loop]; // ID Fix
-				GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID2 = (int16_t)UnitIDs[loop];
-				if(GameVersion >= 2)
-				GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID3 = (int16_t)UnitIDs[loop];
-			}
+			GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]] = 1;
+			GenieFile->Civs[civ].Units[UnitIDs[loop]].ID1 = (int16_t)UnitIDs[loop]; // ID Fix
+			GenieFile->Civs[civ].Units[UnitIDs[loop]].ID2 = (int16_t)UnitIDs[loop];
+			if(GameVersion >= 2)
+			GenieFile->Civs[civ].Units[UnitIDs[loop]].ID3 = (int16_t)UnitIDs[loop];
 		}
-		ListUnits(UnitCivID);
+		else
+		{
+			GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[loop]] = 1;
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID1 = (int16_t)UnitIDs[loop]; // ID Fix
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID2 = (int16_t)UnitIDs[loop];
+			if(GameVersion >= 2)
+			GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].ID3 = (int16_t)UnitIDs[loop];
+		}
 	}
+	ListUnits(UnitCivID);
 }
 
 void AGE_Frame::OnUnitsDisable(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(short loop=0; loop < Selections; loop++)
 	{
-		wxBusyCursor WaitCursor;
-		for(short loop=0; loop < Selections; loop++)
-		{
-			if(Units_SpecialCopy_Civs->GetValue())
-			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-			GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]] = 0;
-			else
-			GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[loop]] = 0;
-		}
-		ListUnits(UnitCivID);
+		if(Units_SpecialCopy_Civs->GetValue())
+		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
+		GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]] = 0;
+		else
+		GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[loop]] = 0;
 	}
+	ListUnits(UnitCivID);
 }
 
 //	SubVectors
@@ -2412,24 +2400,51 @@ void AGE_Frame::ListUnitDamageGraphics()
 void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
+		// This and attacks/armors/commands still need a lot of thinking.
 		DamageGraphicIDs.resize(Selections);
-		DamageGraphics_GraphicID->resize(Selections);
-		DamageGraphics_DamagePercent->resize(Selections);
-		DamageGraphics_Unknown1->resize(Selections);
-		DamageGraphics_Unknown2->resize(Selections);
+		int PointerCount = (CopyGraphics) ? Selections * SelectedCivs : Selections;
+		DamageGraphics_GraphicID->resize(PointerCount);
+		DamageGraphics_DamagePercent->resize(PointerCount);
+		DamageGraphics_Unknown1->resize(PointerCount);
+		DamageGraphics_Unknown2->resize(PointerCount);
 
 		genie::unit::DamageGraphic * DamageGraphicPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(short sel = Selections; sel--> 0;)
 		{
-			DamageGraphicPointer = (genie::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Items.Item(loop));
-			DamageGraphicIDs[loop] = (DamageGraphicPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[0]));
+			DamageGraphicPointer = (genie::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Items.Item(sel));
+			DamageGraphicIDs[sel] = (DamageGraphicPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[0]));
 
-			DamageGraphics_GraphicID->container[loop] = &DamageGraphicPointer->GraphicID;
-			DamageGraphics_DamagePercent->container[loop] = &DamageGraphicPointer->DamagePercent;
-			DamageGraphics_Unknown1->container[loop] = &DamageGraphicPointer->Unknown1;
-			DamageGraphics_Unknown2->container[loop] = &DamageGraphicPointer->Unknown2;
+			for(short l=0, civ = UnitCivID, vecCiv=0; l < GenieFile->Civs.size(); l++, civ++)
+			{
+				civ = civ % GenieFile->Civs.size();
+				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0
+				|| (!Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)) continue;
+				if(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size())
+				{
+// Selasin kaikki unitsit, tätä ei tule jos unitsin olemassaolo=pointer tarkistetaan
+// Toisin sanoen unitsien enablissa pitää huolehtia siitä että jokaisella unitsilla on sama määrä
+// damage graffoja, attakkeja, armoreita ja commandseja
+// JÄTÄ SILTI tarkistus eroavaisuudesta ja varoitus siitä ainakin muutamaksi kuukaudeksi 
+// (tai pysyvästi jos joku kämmii tiedoston toisella ohjelmalla)
+					wxMessageBox("Damage graphic count of civ "+lexical_cast<string>(civ)+" differs from civ "+lexical_cast<string>(UnitCivID));
+					//GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.resize(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size());
+				}
+				DamageGraphicPointer = &GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics[DamageGraphicIDs[sel]];
+				//wxMessageBox("Civ: "+lexical_cast<string>(civ)+"\nUnit: "+lexical_cast<string>(UnitIDs[0])+"\nDamage graphic: "+lexical_cast<string>(sel));
+
+				int location = sel + vecCiv * Selections;
+				if(CopyGraphics || vecCiv == 0)
+				{
+					DamageGraphics_GraphicID->container[location] = &DamageGraphicPointer->GraphicID;
+					DamageGraphics_DamagePercent->container[location] = &DamageGraphicPointer->DamagePercent;
+					DamageGraphics_Unknown1->container[location] = &DamageGraphicPointer->Unknown1;
+					DamageGraphics_Unknown2->container[location] = &DamageGraphicPointer->Unknown2;
+				}
+				if(!AutoCopy) break;
+				vecCiv++;
+			}
 		}
 
 		DamageGraphics_GraphicID->ChangeValue(lexical_cast<string>(DamageGraphicPointer->GraphicID));
@@ -2451,7 +2466,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::DamageGraphic Temp;
@@ -2468,7 +2483,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::DamageGraphic Temp;
@@ -2484,7 +2499,7 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items); // Gives the current list selection.
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
@@ -2499,7 +2514,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->DamageGraphic.resize(Selections);
@@ -2511,7 +2526,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(!AutoCopy)
@@ -2541,7 +2556,7 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::DamageGraphic Temp;
@@ -2613,7 +2628,7 @@ void AGE_Frame::ListUnitAttacks()
 void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		AttackIDs.resize(Selections);
 		Attacks_Class->resize(Selections);
@@ -2645,7 +2660,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
@@ -2662,7 +2677,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
@@ -2678,7 +2693,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items); // Gives the current list selection.
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short civ=0; civ < GenieFile->Civs.size(); civ++)
@@ -2693,7 +2708,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Attack.resize(Selections);
@@ -2705,7 +2720,7 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
 void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(!AutoCopy)
@@ -2735,7 +2750,7 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
 void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
@@ -2806,7 +2821,7 @@ void AGE_Frame::ListUnitArmors()
 void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		ArmorIDs.resize(Selections);
 		Armors_Class->resize(Selections);
@@ -2838,7 +2853,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
@@ -2855,7 +2870,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
@@ -2871,7 +2886,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items); // Gives the current list selection.
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short civ=0; civ < GenieFile->Civs.size(); civ++)
@@ -2886,7 +2901,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Armor.resize(Selections);
@@ -2898,7 +2913,7 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(!AutoCopy)
@@ -2928,7 +2943,7 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::unit::AttackOrArmor Temp;
@@ -3130,7 +3145,7 @@ void AGE_Frame::ListUnitCommands()
 void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		CommandIDs.resize(Selections);
 		UnitCommands_One->resize(Selections);
@@ -3389,7 +3404,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
 {
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitCommand Temp;
@@ -3417,7 +3432,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitCommand Temp;
@@ -3446,7 +3461,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Units_UnitCommands_List->GetSelections(Items); // Gives the current list selection.
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(GameVersion > 1)
@@ -3475,7 +3490,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->UnitCommand.resize(Selections);
@@ -3493,7 +3508,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
 {
 	wxBusyCursor WaitCursor;
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(GameVersion > 1)
@@ -3543,7 +3558,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 {
 	wxBusyCursor WaitCursor;
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitCommand Temp;
@@ -3680,11 +3695,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_Insert = new wxButton(Tab_Units, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	Units_Copy = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	Units_Copy = new wxButton(Tab_Units, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(5, 20));
+	Units_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works just like automatic copy,\n(from current civilization to selected ones)\ntaking \"Including graphics\" option into account");
 	Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_PasteInsert = new wxButton(Tab_Units, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 	Units_Info = new wxStaticText(Tab_Units, wxID_ANY, " Info *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Info->SetToolTip("Add/Insert/Delete works for all civs.\nCopy/Paste copies/pastes from all civs if the check box below is checked.\nOtherwise Copy copies from current civ and Paste pastes according to auto-copy settings on right top.\nIn above case graphics get copied/pasted from all civs if the Including graphics check box is checked.\nS Copy/Paste and Enable/Disable works for all civs if the check box below is checked.\nOtherwise they only work for current civ.\n");
+	Units_Info->SetToolTip("Add/Insert/Delete works for all civilizations\n...");
 	Units_Extract = new wxButton(Tab_Units, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
 	Units_Extract->Enable(false);
 	Units_Import = new wxButton(Tab_Units, wxID_ANY, "Import", wxDefaultPosition, wxSize(5, 20));
@@ -3694,7 +3710,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialCopy_Options = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
-	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs", wxDefaultPosition, wxSize(-1, 20));
+	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs *", wxDefaultPosition, wxSize(-1, 20));
+	Units_SpecialCopy_Civs->SetToolTip("Whether buttons of units operate on all civilizations or just on the selected one\nNote that adding, inserting and deleting units always affect all civilizations!");
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Top[0] = new wxBoxSizer(wxHORIZONTAL);

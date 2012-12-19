@@ -40,7 +40,7 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		ColorIDs.resize(Selections);
 		Colors_ID->resize(Selections);
@@ -121,7 +121,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::PlayerColour Temp;
@@ -134,7 +134,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -146,7 +146,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->PlayerColor.resize(Selections);
@@ -158,7 +158,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->PlayerColor.size()+ColorIDs[0] > GenieFile->PlayerColours.size())
@@ -175,7 +175,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::PlayerColour Temp;
