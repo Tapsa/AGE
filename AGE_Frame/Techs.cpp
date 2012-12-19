@@ -88,12 +88,12 @@ void AGE_Frame::ListTechages(bool Sized)
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Techs_Techs_List->GetCount() > 0) Techs_Techs_List->Clear();
 
-	short IDCount = 3, TechIDs[IDCount];
+	std::array<short, 3> SavedIDs;
 	if(Sized)
 	{
-		TechIDs[0] = Research_ComboBox_TechID->GetSelection();
-		TechIDs[1] = Civs_ComboBox_TechTree->GetSelection();
-		TechIDs[2] = Civs_ComboBox_TeamBonus->GetSelection();
+		SavedIDs[0] = Research_ComboBox_TechID->GetSelection();
+		SavedIDs[1] = Civs_ComboBox_TechTree->GetSelection();
+		SavedIDs[2] = Civs_ComboBox_TeamBonus->GetSelection();
 
 		if(Research_ComboBox_TechID->GetCount() > 0)
 		{
@@ -108,12 +108,9 @@ void AGE_Frame::ListTechages(bool Sized)
 			Civs_ComboBox_TeamBonus->Clear();
 		}
 
-		for(short loop=0; loop < IDCount; loop++)
+		for(auto &ID: SavedIDs)
 		{
-			if(TechIDs[loop] == wxNOT_FOUND)
-			{
-				TechIDs[loop] = 0;
-			}
+			if(ID == wxNOT_FOUND) ID = 0;
 		}
 
 		Research_ComboBox_TechID->Append("-1 - None");
@@ -139,9 +136,9 @@ void AGE_Frame::ListTechages(bool Sized)
 	ListingFix(Selections, Techs_Techs_List);
 	if(Sized)
 	{
-		Research_ComboBox_TechID->SetSelection(TechIDs[0]);
-		Civs_ComboBox_TechTree->SetSelection(TechIDs[1]);
-		Civs_ComboBox_TeamBonus->SetSelection(TechIDs[2]);
+		Research_ComboBox_TechID->SetSelection(SavedIDs[0]);
+		Civs_ComboBox_TechTree->SetSelection(SavedIDs[1]);
+		Civs_ComboBox_TeamBonus->SetSelection(SavedIDs[2]);
 	}
 
 	wxCommandEvent E;

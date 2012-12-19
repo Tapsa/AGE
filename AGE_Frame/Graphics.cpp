@@ -103,25 +103,25 @@ void AGE_Frame::ListGraphics(bool Sized)
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	if(Graphics_Graphics_List->GetCount() > 0) Graphics_Graphics_List->Clear();
 
-	short IDCount = 22, GraphicIDs[IDCount];
+	std::array<short, 22> SavedIDs;
 	if(Sized)
 	{
-		GraphicIDs[0] = Units_ComboBox_ConstructionGraphicID->GetSelection();
-		GraphicIDs[1] = Units_ComboBox_SnowGraphicID->GetSelection();
-		GraphicIDs[2] = Units_ComboBox_AttackGraphic->GetSelection();
+		SavedIDs[0] = Units_ComboBox_ConstructionGraphicID->GetSelection();
+		SavedIDs[1] = Units_ComboBox_SnowGraphicID->GetSelection();
+		SavedIDs[2] = Units_ComboBox_AttackGraphic->GetSelection();
 		for(short loop=0; loop < 2; loop++)
 		{
-			GraphicIDs[loop+3] = Units_ComboBox_StandingGraphic[loop]->GetSelection();
-			GraphicIDs[loop+5] = Units_ComboBox_GarrisonGraphic[loop]->GetSelection();
-			GraphicIDs[loop+7] = Units_ComboBox_WalkingGraphic[loop]->GetSelection();
-			GraphicIDs[loop+9] = Units_ComboBox_DyingGraphic[loop]->GetSelection();
-			GraphicIDs[loop+19] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
+			SavedIDs[loop+3] = Units_ComboBox_StandingGraphic[loop]->GetSelection();
+			SavedIDs[loop+5] = Units_ComboBox_GarrisonGraphic[loop]->GetSelection();
+			SavedIDs[loop+7] = Units_ComboBox_WalkingGraphic[loop]->GetSelection();
+			SavedIDs[loop+9] = Units_ComboBox_DyingGraphic[loop]->GetSelection();
+			SavedIDs[loop+19] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
 		}
-		GraphicIDs[11] = Units_ComboBox_AttackMissileDuplicationGraphic->GetSelection();
+		SavedIDs[11] = Units_ComboBox_AttackMissileDuplicationGraphic->GetSelection();
 		for(short loop=0; loop < 6; loop++)
-		GraphicIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
-		GraphicIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
-		GraphicIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
+		SavedIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
+		SavedIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
+		SavedIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
 
 		if(Units_ComboBox_ConstructionGraphicID->GetCount() > 0)
 		{
@@ -176,12 +176,9 @@ void AGE_Frame::ListGraphics(bool Sized)
 			GraphicDeltas_ComboBox_GraphicID->Clear();
 		}
 
-		for(short loop=0; loop < IDCount; loop++)
+		for(auto &ID: SavedIDs)
 		{
-			if(GraphicIDs[loop] == wxNOT_FOUND)
-			{
-				GraphicIDs[loop] = 0;
-			}
+			if(ID == wxNOT_FOUND) ID = 0;
 		}
 
 		Units_ComboBox_ConstructionGraphicID->Append("-1 - None");
@@ -234,22 +231,22 @@ void AGE_Frame::ListGraphics(bool Sized)
 	ListingFix(Selections, Graphics_Graphics_List);
 	if(Sized)
 	{
-		Units_ComboBox_ConstructionGraphicID->SetSelection(GraphicIDs[0]);
-		Units_ComboBox_SnowGraphicID->SetSelection(GraphicIDs[1]);
-		Units_ComboBox_AttackGraphic->SetSelection(GraphicIDs[2]);
+		Units_ComboBox_ConstructionGraphicID->SetSelection(SavedIDs[0]);
+		Units_ComboBox_SnowGraphicID->SetSelection(SavedIDs[1]);
+		Units_ComboBox_AttackGraphic->SetSelection(SavedIDs[2]);
 		for(short loop=0; loop < 2; loop++)
 		{
-			Units_ComboBox_StandingGraphic[loop]->SetSelection(GraphicIDs[loop+3]);
-			Units_ComboBox_GarrisonGraphic[loop]->SetSelection(GraphicIDs[loop+5]);
-			Units_ComboBox_WalkingGraphic[loop]->SetSelection(GraphicIDs[loop+7]);
-			Units_ComboBox_DyingGraphic[loop]->SetSelection(GraphicIDs[loop+9]);
-			TerRestrict_ComboBox_Graphics[loop]->SetSelection(GraphicIDs[loop+19]);
+			Units_ComboBox_StandingGraphic[loop]->SetSelection(SavedIDs[loop+3]);
+			Units_ComboBox_GarrisonGraphic[loop]->SetSelection(SavedIDs[loop+5]);
+			Units_ComboBox_WalkingGraphic[loop]->SetSelection(SavedIDs[loop+7]);
+			Units_ComboBox_DyingGraphic[loop]->SetSelection(SavedIDs[loop+9]);
+			TerRestrict_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+19]);
 		}
-		Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(GraphicIDs[11]);
+		Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(SavedIDs[11]);
 		for(short loop=0; loop < 6; loop++)
-		UnitCommands_ComboBox_Graphics[loop]->SetSelection(GraphicIDs[loop+12]);
-		DamageGraphics_ComboBox_GraphicID->SetSelection(GraphicIDs[18]);
-		GraphicDeltas_ComboBox_GraphicID->SetSelection(GraphicIDs[21]);
+		UnitCommands_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+12]);
+		DamageGraphics_ComboBox_GraphicID->SetSelection(SavedIDs[18]);
+		GraphicDeltas_ComboBox_GraphicID->SetSelection(SavedIDs[21]);
 	}
 
 	for(short loop=0; loop < 2; loop++)

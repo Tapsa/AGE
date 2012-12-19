@@ -99,24 +99,24 @@ void AGE_Frame::ListResearches(bool Sized)
 	auto Selections = Research_Research_List->GetSelections(Items);
 	if(Research_Research_List->GetCount() > 0) Research_Research_List->Clear();
 
-	short IDCount = 21, ResearchIDs[IDCount];
+	std::array<short, 21> SavedIDs;
 	if(Sized)
 	{
-		ResearchIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
-		ResearchIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
-		ResearchIDs[2] = Units_ComboBox_ResearchID->GetSelection();
+		SavedIDs[0] = Effects_ComboBox_ResearchsD->GetSelection();
+		SavedIDs[1] = Effects_ComboBox_ResearchsA->GetSelection();
+		SavedIDs[2] = Units_ComboBox_ResearchID->GetSelection();
 		for(short loop=0; loop < 6; loop++)
-		ResearchIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
-		ResearchIDs[9] = TechTrees_Ages_ComboBox_Research->GetSelection();
-		ResearchIDs[10] = TechTrees_Buildings_ComboBox_EnablingResearch->GetSelection();
-		ResearchIDs[11] = TechTrees_Buildings_ComboBox_Research->GetSelection();
-		ResearchIDs[12] = TechTrees_Units_ComboBox_EnablingResearch->GetSelection();
-		ResearchIDs[13] = TechTrees_Researches_ComboBox_ID->GetSelection();
-		ResearchIDs[14] = TechTrees_Researches_ComboBox_UpperResearch->GetSelection();
-		ResearchIDs[15] = TechTrees_Researches_ComboBox_Research->GetSelection();
-		ResearchIDs[16] = TechTrees_Units_ComboBox_RequiredResearch->GetSelection();
+		SavedIDs[loop+3] = Research_ComboBox_RequiredTechs[loop]->GetSelection();
+		SavedIDs[9] = TechTrees_Ages_ComboBox_Research->GetSelection();
+		SavedIDs[10] = TechTrees_Buildings_ComboBox_EnablingResearch->GetSelection();
+		SavedIDs[11] = TechTrees_Buildings_ComboBox_Research->GetSelection();
+		SavedIDs[12] = TechTrees_Units_ComboBox_EnablingResearch->GetSelection();
+		SavedIDs[13] = TechTrees_Researches_ComboBox_ID->GetSelection();
+		SavedIDs[14] = TechTrees_Researches_ComboBox_UpperResearch->GetSelection();
+		SavedIDs[15] = TechTrees_Researches_ComboBox_Research->GetSelection();
+		SavedIDs[16] = TechTrees_Units_ComboBox_RequiredResearch->GetSelection();
 		for(short loop=0; loop < 4; loop++)
-		ResearchIDs[loop+17] = TechTrees_ComboBox_Research[loop]->GetSelection();
+		SavedIDs[loop+17] = TechTrees_ComboBox_Research[loop]->GetSelection();
 
 		if(Effects_ComboBox_ResearchsD->GetCount() > 0)
 		{
@@ -175,12 +175,9 @@ void AGE_Frame::ListResearches(bool Sized)
 			TechTrees_ComboBox_Research[loop]->Clear();
 		}
 
-		for(short loop=0; loop < IDCount; loop++)
+		for(auto &ID: SavedIDs)
 		{
-			if(ResearchIDs[loop] == wxNOT_FOUND)
-			{
-				ResearchIDs[loop] = 0;
-			}
+			if(ID == wxNOT_FOUND) ID = 0;
 		}
 
 		Effects_ComboBox_ResearchsD->Append("-1 - None");
@@ -231,21 +228,21 @@ void AGE_Frame::ListResearches(bool Sized)
 	ListingFix(Selections, Research_Research_List);
 	if(Sized)
 	{
-		Effects_ComboBox_ResearchsD->SetSelection(ResearchIDs[0]);
-		Effects_ComboBox_ResearchsA->SetSelection(ResearchIDs[1]);
-		Units_ComboBox_ResearchID->SetSelection(ResearchIDs[2]);
+		Effects_ComboBox_ResearchsD->SetSelection(SavedIDs[0]);
+		Effects_ComboBox_ResearchsA->SetSelection(SavedIDs[1]);
+		Units_ComboBox_ResearchID->SetSelection(SavedIDs[2]);
 		for(short loop=0; loop < 6; loop++)
-		Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchIDs[loop+3]);
-		TechTrees_Ages_ComboBox_Research->SetSelection(ResearchIDs[9]);
-		TechTrees_Buildings_ComboBox_EnablingResearch->SetSelection(ResearchIDs[10]);
-		TechTrees_Buildings_ComboBox_Research->SetSelection(ResearchIDs[11]);
-		TechTrees_Units_ComboBox_EnablingResearch->SetSelection(ResearchIDs[12]);
-		TechTrees_Researches_ComboBox_ID->SetSelection(ResearchIDs[13]);
-		TechTrees_Researches_ComboBox_UpperResearch->SetSelection(ResearchIDs[14]);
-		TechTrees_Researches_ComboBox_Research->SetSelection(ResearchIDs[15]);
-		TechTrees_Units_ComboBox_RequiredResearch->SetSelection(ResearchIDs[16]);
+		Research_ComboBox_RequiredTechs[loop]->SetSelection(SavedIDs[loop+3]);
+		TechTrees_Ages_ComboBox_Research->SetSelection(SavedIDs[9]);
+		TechTrees_Buildings_ComboBox_EnablingResearch->SetSelection(SavedIDs[10]);
+		TechTrees_Buildings_ComboBox_Research->SetSelection(SavedIDs[11]);
+		TechTrees_Units_ComboBox_EnablingResearch->SetSelection(SavedIDs[12]);
+		TechTrees_Researches_ComboBox_ID->SetSelection(SavedIDs[13]);
+		TechTrees_Researches_ComboBox_UpperResearch->SetSelection(SavedIDs[14]);
+		TechTrees_Researches_ComboBox_Research->SetSelection(SavedIDs[15]);
+		TechTrees_Units_ComboBox_RequiredResearch->SetSelection(SavedIDs[16]);
 		for(short loop=0; loop < 4; loop++)
-		TechTrees_ComboBox_Research[loop]->SetSelection(ResearchIDs[loop+17]);
+		TechTrees_ComboBox_Research[loop]->SetSelection(SavedIDs[loop+17]);
 	}
 
 	for(short loop=0; loop < 2; loop++)

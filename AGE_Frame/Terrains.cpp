@@ -22,17 +22,17 @@ void AGE_Frame::ListTerrains(bool Sized)
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
 	if(Terrains_Terrains_List->GetCount() > 0) Terrains_Terrains_List->Clear();
 
-	short IDCount = 7, TerrainIDs[IDCount];
+	std::array<short, 7> SavedIDs;
 	if(Sized)
 	{
 		for(short loop=0; loop < 2; loop++)
 		{
-			TerrainIDs[loop] = Units_ComboBox_PlacementBypassTerrain[loop]->GetSelection();
-			TerrainIDs[loop+2] = Units_ComboBox_PlacementTerrain[loop]->GetSelection();
+			SavedIDs[loop] = Units_ComboBox_PlacementBypassTerrain[loop]->GetSelection();
+			SavedIDs[loop+2] = Units_ComboBox_PlacementTerrain[loop]->GetSelection();
 		}
-		TerrainIDs[4] = Units_ComboBox_TerrainID->GetSelection();
-		TerrainIDs[5] = Terrains_ComboBox_TerrainReplacementID->GetSelection();
-		TerrainIDs[6] = Borders_ComboBox_BorderTerrain->GetSelection();
+		SavedIDs[4] = Units_ComboBox_TerrainID->GetSelection();
+		SavedIDs[5] = Terrains_ComboBox_TerrainReplacementID->GetSelection();
+		SavedIDs[6] = Borders_ComboBox_BorderTerrain->GetSelection();
 
 		for(short loop=0; loop < 2; loop++)
 		{
@@ -58,12 +58,9 @@ void AGE_Frame::ListTerrains(bool Sized)
 			Borders_ComboBox_BorderTerrain->Clear();
 		}
 
-		for(short loop=0; loop < IDCount; loop++)
+		for(auto &ID: SavedIDs)
 		{
-			if(TerrainIDs[loop] == wxNOT_FOUND)
-			{
-				TerrainIDs[loop] = 0;
-			}
+			if(ID == wxNOT_FOUND) ID = 0;
 		}
 
 		for(short loop=0; loop < 2; loop++)
@@ -101,12 +98,12 @@ void AGE_Frame::ListTerrains(bool Sized)
 	{
 		for(short loop=0; loop < 2; loop++)
 		{
-			Units_ComboBox_PlacementBypassTerrain[loop]->SetSelection(TerrainIDs[loop]);
-			Units_ComboBox_PlacementTerrain[loop]->SetSelection(TerrainIDs[loop+2]);
+			Units_ComboBox_PlacementBypassTerrain[loop]->SetSelection(SavedIDs[loop]);
+			Units_ComboBox_PlacementTerrain[loop]->SetSelection(SavedIDs[loop+2]);
 		}
-		Units_ComboBox_TerrainID->SetSelection(TerrainIDs[4]);
-		Terrains_ComboBox_TerrainReplacementID->SetSelection(TerrainIDs[5]);
-		Borders_ComboBox_BorderTerrain->SetSelection(TerrainIDs[6]);
+		Units_ComboBox_TerrainID->SetSelection(SavedIDs[4]);
+		Terrains_ComboBox_TerrainReplacementID->SetSelection(SavedIDs[5]);
+		Borders_ComboBox_BorderTerrain->SetSelection(SavedIDs[6]);
 	}
 
 	wxCommandEvent E;

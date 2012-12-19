@@ -58,9 +58,7 @@ private :
 class AGE_Frame: public wxFrame
 {
 	public:
-
 	AGE_Frame(const wxString &title, Copies &c, short window = 1);
-	~AGE_Frame(){}
 
 //	Stuff related to editing multiple files at once
 
@@ -2988,13 +2986,5 @@ class AGE_Frame: public wxFrame
 		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
 		Path[loop].ID = (long)loop;
 	};
-};
-
-class DataFrame
-{
-	public:
-
-	DataFrame();
-	~DataFrame();
 //*/
 };
