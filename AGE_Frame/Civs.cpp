@@ -20,22 +20,22 @@ void AGE_Frame::ListCivs(bool Sized)
 	auto Selections = Civs_Civs_List->GetSelections(Items);
 	if(Civs_Civs_List->GetCount() > 0) Civs_Civs_List->Clear();
 
-	short IDCount = 4, CivIDs[IDCount];
+	std::array<short, 4> SavedIDs;
 	if(Sized)
 	{
-		CivIDs[0] = Research_ComboBox_Civ->GetSelection();
-		CivIDs[1] = Units_Civs_List->GetSelection();
-		CivIDs[2] = SoundItems_ComboBox_Civ->GetSelection();
-		CivIDs[3] = Units_ComboBox_Civ->GetSelection();
+		SavedIDs[0] = Research_ComboBox_Civ->GetSelection();
+		SavedIDs[1] = Units_Civs_List->GetSelection();
+		SavedIDs[2] = SoundItems_ComboBox_Civ->GetSelection();
+		SavedIDs[3] = Units_ComboBox_Civ->GetSelection();
 
 		if(Research_ComboBox_Civ->GetCount() > 0) Research_ComboBox_Civ->Clear();
 		if(Units_Civs_List->GetCount() > 0) Units_Civs_List->Clear();
 		if(SoundItems_ComboBox_Civ->GetCount() > 0) SoundItems_ComboBox_Civ->Clear();
 		if(Units_ComboBox_Civ->GetCount() > 0) Units_ComboBox_Civ->Clear();
 
-		for(short loop=0; loop < IDCount; loop++)
+		for(auto &ID: SavedIDs)
 		{
-			if(CivIDs[loop] == wxNOT_FOUND) CivIDs[loop] = 0;
+			if(ID == wxNOT_FOUND) ID = 0;
 		}
 
 		Research_ComboBox_Civ->Append("-1 - None");
@@ -62,10 +62,10 @@ void AGE_Frame::ListCivs(bool Sized)
 	ListingFix(Selections, Civs_Civs_List);
 	if(Sized)
 	{
-		Research_ComboBox_Civ->SetSelection(CivIDs[0]);
-		Units_Civs_List->SetSelection(CivIDs[1]);
-		SoundItems_ComboBox_Civ->SetSelection(CivIDs[2]);
-		Units_ComboBox_Civ->SetSelection(CivIDs[3]);
+		Research_ComboBox_Civ->SetSelection(SavedIDs[0]);
+		Units_Civs_List->SetSelection(SavedIDs[1]);
+		SoundItems_ComboBox_Civ->SetSelection(SavedIDs[2]);
+		Units_ComboBox_Civ->SetSelection(SavedIDs[3]);
 	}
 
 	wxCommandEvent E;
@@ -984,19 +984,19 @@ void AGE_Frame::ListResources(bool Sized)
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	if(Civs_Resources_List->GetCount() > 0) Civs_Resources_List->Clear();
 
-	short IDCount = 13, ResourceIDs[IDCount];
+	std::array<short, 13> SavedIDs;
 	if(Sized)
 	{
 		for(short loop=0; loop < 3; loop++)
 		{
-			ResourceIDs[loop] = Units_ComboBox_CostType[loop]->GetSelection();
-			ResourceIDs[loop+3] = ResourceStorage_ComboBox_Type[loop]->GetSelection();
-			ResourceIDs[loop+8] = Research_ComboBox_Resources[loop]->GetSelection();
+			SavedIDs[loop] = Units_ComboBox_CostType[loop]->GetSelection();
+			SavedIDs[loop+3] = ResourceStorage_ComboBox_Type[loop]->GetSelection();
+			SavedIDs[loop+8] = Research_ComboBox_Resources[loop]->GetSelection();
 		}
-		ResourceIDs[6] = UnitCommands_ComboBox_ResourceIn->GetSelection();
-		ResourceIDs[7] = UnitCommands_ComboBox_ResourceOut->GetSelection();
-		ResourceIDs[11] = Effects_ComboBox_ResourcesA->GetSelection();
-		ResourceIDs[12] = Effects_ComboBox_ResourcesB->GetSelection();
+		SavedIDs[6] = UnitCommands_ComboBox_ResourceIn->GetSelection();
+		SavedIDs[7] = UnitCommands_ComboBox_ResourceOut->GetSelection();
+		SavedIDs[11] = Effects_ComboBox_ResourcesA->GetSelection();
+		SavedIDs[12] = Effects_ComboBox_ResourcesB->GetSelection();
 
 		for(short loop=0; loop < 3; loop++)
 		{
@@ -1030,12 +1030,9 @@ void AGE_Frame::ListResources(bool Sized)
 			Effects_ComboBox_ResourcesB->Clear();
 		}
 
-		for(short loop=0; loop < IDCount; loop++)
+		for(auto &ID: SavedIDs)
 		{
-			if(ResourceIDs[loop] == wxNOT_FOUND)
-			{
-				ResourceIDs[loop] = 0;
-			}
+			if(ID == wxNOT_FOUND) ID = 0;
 		}
 
 		for(short loop=0; loop < 3; loop++)
@@ -1078,14 +1075,14 @@ void AGE_Frame::ListResources(bool Sized)
 	{
 		for(short loop=0; loop < 3; loop++)
 		{
-			Units_ComboBox_CostType[loop]->SetSelection(ResourceIDs[loop]);
-			ResourceStorage_ComboBox_Type[loop]->SetSelection(ResourceIDs[loop+3]);
-			Research_ComboBox_Resources[loop]->SetSelection(ResourceIDs[loop+8]);
+			Units_ComboBox_CostType[loop]->SetSelection(SavedIDs[loop]);
+			ResourceStorage_ComboBox_Type[loop]->SetSelection(SavedIDs[loop+3]);
+			Research_ComboBox_Resources[loop]->SetSelection(SavedIDs[loop+8]);
 		}
-		UnitCommands_ComboBox_ResourceIn->SetSelection(ResourceIDs[6]);
-		UnitCommands_ComboBox_ResourceOut->SetSelection(ResourceIDs[7]);
-		Effects_ComboBox_ResourcesA->SetSelection(ResourceIDs[11]);
-		Effects_ComboBox_ResourcesB->SetSelection(ResourceIDs[12]);
+		UnitCommands_ComboBox_ResourceIn->SetSelection(SavedIDs[6]);
+		UnitCommands_ComboBox_ResourceOut->SetSelection(SavedIDs[7]);
+		Effects_ComboBox_ResourcesA->SetSelection(SavedIDs[11]);
+		Effects_ComboBox_ResourcesB->SetSelection(SavedIDs[12]);
 	}
 
 	wxCommandEvent E;
