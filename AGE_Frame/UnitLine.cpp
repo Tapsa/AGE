@@ -450,8 +450,28 @@ void AGE_Frame::CreateUnitLineControls()
 	Connect(UnitLineUnits_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsPaste));
 	Connect(UnitLineUnits_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsPasteInsert));
 
-	UnitLines_Name->Connect(UnitLines_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-	UnitLineUnits_Units->Connect(UnitLineUnits_Units->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxShort), NULL, this);
-	UnitLineUnits_ComboBox_Units->Connect(UnitLineUnits_ComboBox_Units->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
+	UnitLines_Name->Connect(UnitLines_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnitLines), NULL, this);
+	UnitLineUnits_Units->Connect(UnitLineUnits_Units->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnitLines), NULL, this);
+	UnitLineUnits_ComboBox_Units->Connect(UnitLineUnits_ComboBox_Units->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_UnitLines), NULL, this);
+}
 
+void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &Event)
+{
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	{
+		if(Event.GetId() == UnitLines_Name->GetId())
+		{
+			ListUnitLines();
+		}
+		else if(Event.GetId() == UnitLineUnits_Units->GetId())
+		{
+			ListUnitLineUnits();
+		}
+	}
+}
+
+void AGE_Frame::OnUpdateCombo_UnitLines(wxCommandEvent &Event)
+{
+	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
+	ListUnitLineUnits();
 }

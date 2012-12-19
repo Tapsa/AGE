@@ -363,10 +363,10 @@ void AGE_Frame::ListEffects()
 	excludeText = Techs_Effects_Search_R->GetValue().Lower();
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
-	
+
 	auto Selections = Techs_Effects_List->GetSelections(Items);
 	if(Techs_Effects_List->GetCount() > 0) Techs_Effects_List->Clear();
-		
+
 	for(short loop=0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); loop++)
 	{
 		Name = " "+lexical_cast<string>(loop)+" - "+GetEffectName(loop);
@@ -1428,31 +1428,103 @@ void AGE_Frame::CreateTechageControls()
 	Connect(Techs_Effects_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsCopy));
 	Connect(Techs_Effects_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPaste));
 	Connect(Techs_Effects_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPasteInsert));
-	Effects_E->Connect(Effects_E->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
-	Effects_F->Connect(Effects_F->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TextControls), NULL, this);
+	Effects_E->Connect(Effects_E->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
+	Effects_F->Connect(Effects_F->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
 	Connect(Techs_AllEffects_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
 	Connect(Techs_AllEffects_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
 	Connect(Techs_AllEffects_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllTechEffectSelect));
 	Connect(Techs_AllEffects_Load->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
 	Connect(Techs_AllEffects_Clear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::ClearAllTechEffects));
 
-	Techs_Name->Connect(Techs_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-	Effects_Type->Connect(Effects_Type->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxByteEffectType), NULL, this);
-	Effects_ComboBox_Type->Connect(Effects_ComboBox_Type->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxByteEffectType), NULL, this);
-	Effects_A->Connect(Effects_A->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Short), NULL, this);
-	Effects_B->Connect(Effects_B->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Short), NULL, this);
-	Effects_C->Connect(Effects_C->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Short), NULL, this);
-	Effects_D->Connect(Effects_D->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Float), NULL, this);
-	Effects_ComboBox_UnitsA->Connect(Effects_ComboBox_UnitsA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
-	Effects_ComboBox_ResourcesA->Connect(Effects_ComboBox_ResourcesA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
-	Effects_ComboBox_ResearchsA->Connect(Effects_ComboBox_ResearchsA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
-	Effects_CheckBox_ModeB->Connect(Effects_CheckBox_ModeB->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_CheckBoxShort), NULL, this);
-	Effects_ComboBox_Class->Connect(Effects_ComboBox_Class->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
-	Effects_ComboBox_UnitsB->Connect(Effects_ComboBox_UnitsB->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
-	Effects_ComboBox_ResourcesB->Connect(Effects_ComboBox_ResourcesB->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
-	Effects_CheckBox_ModeC->Connect(Effects_CheckBox_ModeC->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdate_CheckBoxShort), NULL, this);
-	Effects_ComboBox_AttributesC->Connect(Effects_ComboBox_AttributesC->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxShort), NULL, this);
-	Effects_ComboBox_ResearchsD->Connect(Effects_ComboBox_ResearchsD->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxFloat), NULL, this);
-	Attacks_ComboBox_Class[2]->Connect(Attacks_ComboBox_Class[2]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes), NULL, this);
+	Techs_Name->Connect(Techs_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
+	Effects_Type->Connect(Effects_Type->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
+	Effects_ComboBox_Type->Connect(Effects_ComboBox_Type->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Effects_A->Connect(Effects_A->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
+	Effects_B->Connect(Effects_B->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
+	Effects_C->Connect(Effects_C->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
+	Effects_D->Connect(Effects_D->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
+	Effects_ComboBox_UnitsA->Connect(Effects_ComboBox_UnitsA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Effects_ComboBox_ResourcesA->Connect(Effects_ComboBox_ResourcesA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Effects_ComboBox_ResearchsA->Connect(Effects_ComboBox_ResearchsA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Effects_CheckBox_ModeB->Connect(Effects_CheckBox_ModeB->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Techs), NULL, this);
+	Effects_ComboBox_Class->Connect(Effects_ComboBox_Class->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Effects_ComboBox_UnitsB->Connect(Effects_ComboBox_UnitsB->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Effects_ComboBox_ResourcesB->Connect(Effects_ComboBox_ResourcesB->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Effects_CheckBox_ModeC->Connect(Effects_CheckBox_ModeC->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Techs), NULL, this);
+	Effects_ComboBox_AttributesC->Connect(Effects_ComboBox_AttributesC->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Effects_ComboBox_ResearchsD->Connect(Effects_ComboBox_ResearchsD->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Attacks_ComboBox_Class[2]->Connect(Attacks_ComboBox_Class[2]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+}
 
+void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
+{
+	if(Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId())
+	{
+		if(!Effects_E->IsEmpty() && !Effects_F->IsEmpty()) // if has something, then update float value.
+		{
+			float Amount = lexical_cast<float>(Effects_E->GetValue());
+			short Class = lexical_cast<short>(Effects_F->GetValue());
+			if(Amount > -1 && Amount < 256 && Class > -1 && Class < 256) // positive amount 0 to 255
+			{
+				Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
+				Effects_D->SaveEdits();
+			}
+			else if(Amount > -256 && Amount < 0 && Class > -1 && Class < 256) // negative amount -255 to -1
+			{
+				Effects_D->ChangeValue(lexical_cast<string>(Amount - Class * 256));
+				Effects_D->SaveEdits();
+			}
+		}
+		ListEffects();
+		return;
+	}
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	{
+		if(Event.GetId() == Techs_Name->GetId())
+		{
+			ListTechages();
+		}
+		else
+		{
+			ListEffects();
+		}
+	}
+}
+
+void AGE_Frame::OnUpdateCheck_Techs(wxCommandEvent &Event)
+{
+	((AGECheckBox*)Event.GetEventObject())->OnUpdate(Event);
+	ListEffects();
+}
+
+void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &Event)
+{
+	if(Event.GetId() == Attacks_ComboBox_Class[2]->GetId())
+	{
+		short Class = Attacks_ComboBox_Class[2]->GetSelection() - 1;
+		if(Class >= 0)
+		{
+			float Amount = lexical_cast<float>(Effects_E->GetValue());
+			if(Amount > -1 && Amount < 256) // positive amount 0 to 255
+			{
+				Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
+			}
+			else if(Amount > -256 && Amount < 0) // negative amount -255 to -1
+			{
+				Effects_D->ChangeValue(lexical_cast<string>(Amount - Class * 256));
+			}
+		}
+		else
+		{
+			Effects_E->ChangeValue("0");
+			Effects_F->ChangeValue("0");
+			Effects_D->ChangeValue("0");
+		}
+		Effects_D->SaveEdits();
+
+		ListEffects();
+		return;
+	}
+	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
+	ListEffects();
 }

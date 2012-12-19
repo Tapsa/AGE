@@ -1149,7 +1149,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		else
 		{
-			// SWGB, forget this
+			// SWGB
 			Units_GraphicSet->Append("0 Unused");
 			Units_GraphicSet->Append("1 Galactic Empire");
 			Units_GraphicSet->Append("2 Gungans");
@@ -1170,7 +1170,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	NeedDat = false;
 	SkipOpenDialog = false;
-
 }
 
 void AGE_Frame::OnGameVersionChange()
@@ -1485,48 +1484,6 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	SetStatusText("", 0);
 }
 
-void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
-{
-	if(Event.GetId() == Units_AutoCopy->GetId())
-	{
-		AutoCopy = Event.IsChecked();
-		Units_CopyTo->Enable(!AutoCopy);
-	}
-	else if(Event.GetId() == Units_CopyGraphics->GetId())
-	{
-		CopyGraphics = Event.IsChecked();
-	}
-	else if(Event.GetId() == Units_SelectAll->GetId())
-	{
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-		Units_CivBoxes[loop]->SetValue(true);
-	}
-	else if(Event.GetId() == Units_SelectClear->GetId())
-	{
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-		Units_CivBoxes[loop]->SetValue(false);
-	}
-	else if(Event.GetId() == Units_GraphicSet->GetId())
-	{
-		short Selection = Units_GraphicSet->GetSelection();
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-		{
-			if((short)GenieFile->Civs[loop].GraphicSet == Selection)
-			{
-				Units_CivBoxes[loop]->SetValue(true);
-			}
-			else
-			{
-				Units_CivBoxes[loop]->SetValue(false);
-			}
-		}
-	}
-	// This ensures that proper data pointers are assigned to editing boxes.
-	// MAKE THIS SO THAT THE SELECTIONS REMAIN!!!
-	wxCommandEvent E;
-	OnUnitsSelect(E);
-}
-
 void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 {
 	switch(Event.GetId())
@@ -1539,68 +1496,37 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		case ToolBar_Show:
 		{
 			ShowUnknowns = Event.IsChecked();
-			if(ShowUnknowns)
-			{
-				Units_Holder_UnknownArea->Show(true);
-				Units_CommandHolder_Data2->Show(true);
-				TechTrees_Ages_Holder_Zeroes->Show(true);
-				TechTrees_Buildings_Holder_Unknown2a->Show(true);
-				TechTrees_Buildings_Holder_Unknown2b->Show(true);
-				TechTrees_Units_Holder_Unknown2a->Show(true);
-				TechTrees_Units_Holder_Unknown2b->Show(true);
-				TechTrees_Researches_Holder_Unknown2a->Show(true);
-				TechTrees_Researches_Holder_Unknown2b->Show(true);
-				Graphics_Holder_Unknowns->Show(true);
-				Graphics_Grid_Deltas_Data2->Show(true);
-				Terrains_Holder_UnknownArea->Show(true);
-				Borders_Unknonws->Show(true);
-				Sounds_Holder_Unknown->Show(true);
-				SoundItems_Holder_Unknown->Show(true);
-				Colors_Holder_UnknownArea->Show(true);
-				General_TopRow->Show(true);
-				General_ScrollerWindowsSpace->Show(true);
-			}
-			else
-			{
-				Units_Holder_UnknownArea->Show(false);
-				Units_CommandHolder_Data2->Show(false);
-				TechTrees_Ages_Holder_Zeroes->Show(false);
-				TechTrees_Buildings_Holder_Unknown2a->Show(false);
-				TechTrees_Buildings_Holder_Unknown2b->Show(false);
-				TechTrees_Units_Holder_Unknown2a->Show(false);
-				TechTrees_Units_Holder_Unknown2b->Show(false);
-				TechTrees_Researches_Holder_Unknown2a->Show(false);
-				TechTrees_Researches_Holder_Unknown2b->Show(false);
-				Graphics_Holder_Unknowns->Show(false);
-				Graphics_Grid_Deltas_Data2->Show(false);
-				Terrains_Holder_UnknownArea->Show(false);
-				Borders_Unknonws->Show(false);
-				Sounds_Holder_Unknown->Show(false);
-				SoundItems_Holder_Unknown->Show(false);
-				Colors_Holder_UnknownArea->Show(false);
-				General_TopRow->Show(false);
-				General_ScrollerWindowsSpace->Show(false);
-			}
+
+			Units_Holder_UnknownArea->Show(ShowUnknowns);
+			Units_CommandHolder_Data2->Show(ShowUnknowns);
+			TechTrees_Ages_Holder_Zeroes->Show(ShowUnknowns);
+			TechTrees_Buildings_Holder_Unknown2a->Show(ShowUnknowns);
+			TechTrees_Buildings_Holder_Unknown2b->Show(ShowUnknowns);
+			TechTrees_Units_Holder_Unknown2a->Show(ShowUnknowns);
+			TechTrees_Units_Holder_Unknown2b->Show(ShowUnknowns);
+			TechTrees_Researches_Holder_Unknown2a->Show(ShowUnknowns);
+			TechTrees_Researches_Holder_Unknown2b->Show(ShowUnknowns);
+			Graphics_Holder_Unknowns->Show(ShowUnknowns);
+			Graphics_Grid_Deltas_Data2->Show(ShowUnknowns);
+			Terrains_Holder_UnknownArea->Show(ShowUnknowns);
+			Borders_Unknonws->Show(ShowUnknowns);
+			Sounds_Holder_Unknown->Show(ShowUnknowns);
+			SoundItems_Holder_Unknown->Show(ShowUnknowns);
+			Colors_Holder_UnknownArea->Show(ShowUnknowns);
+			General_TopRow->Show(ShowUnknowns);
+			General_ScrollerWindowsSpace->Show(ShowUnknowns);
+
 			OnGameVersionChange(); // Does layouting and refreshing and ... check it out.
 		}
 		break;
 		case MenuOption_Buttons:
 		{
 			ShowButtons = Event.IsChecked();
-			if(ShowButtons)
-			{
-				Terrains_Add->Enable(true);
-				Terrains_Insert->Enable(true);
-				Terrains_Delete->Enable(true);
-				Terrains_PasteInsert->Enable(true);
-			}
-			else
-			{
-				Terrains_Add->Enable(false);
-				Terrains_Insert->Enable(false);
-				Terrains_Delete->Enable(false);
-				Terrains_PasteInsert->Enable(false);
-			}
+
+			Terrains_Add->Enable(ShowButtons);
+			Terrains_Insert->Enable(ShowButtons);
+			Terrains_Delete->Enable(ShowButtons);
+			Terrains_PasteInsert->Enable(ShowButtons);
 		}
 		break;
 		case wxID_EXIT:
@@ -1610,12 +1536,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case MenuOption_Tips:
 		{
-			string TipText = "Tips\n\n";
-			TipText += "You can have multiple search entries separated with \"|\" letter.\n";
-			TipText += "Upper search boxes are inclusive and lower ones exclusive.\n";
-			TipText += "Example: \"tower|ship|ram\"\n";
-			TipText += "You can switch from or finding to and finding with check boxes.\n";
-			TipText += "Meaning that every search entry has to match.\n";
+			wxString TipText = "Tips\n\n";
+			TipText.Append("You can have multiple search entries separated with \"|\" letter.\n");
+			TipText.Append("Upper search boxes are inclusive and lower ones exclusive.\n");
+			TipText.Append("Example: \"tower|ship|ram\"\n");
+			TipText.Append("You can switch from or finding to and finding with check boxes.\n");
+			TipText.Append("Meaning that every search entry has to match.\n");
 			wxMessageBox(TipText);
 		}
 		break;
@@ -1693,7 +1619,7 @@ void AGE_Frame::WriteLangDLLstring(int ID, wxString Name)
 
 bool AGE_Frame::SearchMatches(wxString itemText)
 {
-	// Make this so that no strings are altered!
+	// Make this so that no strings are altered! Easy ways?
 	bool matches = false;
 
 	// If there is no search text, list normally
@@ -1791,85 +1717,9 @@ bool AGE_Frame::SearchMatches(wxString itemText)
 
 //	Following kill focuses are used to update lists in user interface
 
-void AGE_Frame::OnKillFocus_TextControls(wxFocusEvent &Event)
+void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 {
-	if(Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId())
-	{
-		if(!Effects_E->IsEmpty() && !Effects_F->IsEmpty()) // if has something, then update float value.
-		{
-			float Amount = lexical_cast<float>(Effects_E->GetValue());
-			short Class = lexical_cast<short>(Effects_F->GetValue());
-			if(Amount > -1 && Amount < 256 && Class > -1 && Class < 256) // positive amount 0 to 255
-			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount + (Class * 256)));
-				Effects_D->SaveEdits();
-			}
-			else if(Amount > -256 && Amount < 0 && Class > -1 && Class < 256) // negative amount -255 to -1
-			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount - (Class * 256)));
-				Effects_D->SaveEdits();
-			}
-		}
-		ListEffects();
-	}
-}
-
-void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent &Event)
-{
-	if(Event.GetId() == Attacks_ComboBox_Class[2]->GetId())
-	{
-		short Class = Attacks_ComboBox_Class[2]->GetSelection() - 1;
-		if(Class >= 0)
-		{
-			float Amount = lexical_cast<float>(Effects_E->GetValue());
-			if(Amount > -1 && Amount < 256) // positive amount 0 to 255
-			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount + (Class * 256)));
-			}
-			else if(Amount > -256 && Amount < 0) // negative amount -255 to -1
-			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount - (Class * 256)));
-			}
-		}
-		else
-		{
-			Effects_E->ChangeValue("0");
-			Effects_F->ChangeValue("0");
-			Effects_D->ChangeValue("0");
-		}
-		Effects_D->SaveEdits();
-
-		ListEffects();
-	}
-	else if(Event.GetId() == TechTrees_ComboBox_Modes[0]->GetId())
-	{
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[0]->GetSelection());
-
-		wxCommandEvent E;
-		OnTTBuildingSelect(E);
-	}
-	else if(Event.GetId() == TechTrees_ComboBox_Modes[1]->GetId())
-	{
-		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[1]->GetSelection());
-
-		wxCommandEvent E;
-		OnTTBuildingSelect(E);
-	}
-	else if(Event.GetId() == TechTrees_ComboBox_Modes[2]->GetId())
-	{
-		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[2]->GetSelection());
-
-		wxCommandEvent E;
-		OnTTUnitSelect(E);
-	}
-	else if(Event.GetId() == TechTrees_ComboBox_Modes[3]->GetId())
-	{
-		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[3]->GetSelection());
-
-		wxCommandEvent E;
-		OnTTUnitSelect(E);
-	}
-	else for(short loop=0; loop < 2; loop++) // Custom search filters
+	for(short loop=0; loop < 2; loop++) // Custom search filters
 	{
 		if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
 		{
@@ -1909,691 +1759,12 @@ void AGE_Frame::OnSelection_ComboBoxes(wxCommandEvent &Event)
 	}
 }
 
-void AGE_Frame::OnKillFocus_Byte(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Civs_GraphicSet->GetId())
-		{
-			ListCivs();
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_ComboBoxByteEffectType(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Effects_Type->GetId())
-		{
-			ListEffects();
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_CheckBoxByte(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Graphics_AttackSoundUsed->GetId())
-		{
-			if((GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size() != GenieFile->Graphics[GraphicIDs[0]].AngleCount) && GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 1)
-			{
-				GenieFile->Graphics[GraphicIDs[0]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[0]].AngleCount);
-
-				wxCommandEvent E;
-				OnGraphicsSelect(E);
-			}
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_ComboBoxShort(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == GraphicDeltas_GraphicID->GetId())
-		{
-			ListGraphicDeltas();
-		}
-		else if(Event.GetId() == UnitLineUnits_Units->GetId())
-		{
-			ListUnitLineUnits();
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_ComboBoxLong(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == TechTrees_Ages_Building->GetId())
-		{
-			ListTTAgesBuildings();
-		}
-		else if(Event.GetId() == TechTrees_Ages_Unit->GetId())
-		{
-			ListTTAgesUnits();
-		}
-		else if(Event.GetId() == TechTrees_Ages_Research->GetId())
-		{
-			ListTTAgesResearches();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_ID->GetId())
-		{
-			ListTTBuildings();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_Building->GetId())
-		{
-			ListTTBuildingBuildings();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_Unit->GetId())
-		{
-			ListTTBuildingUnits();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_Research->GetId())
-		{
-			ListTTBuildingResearches();
-		}
-		else if(Event.GetId() == TechTrees_Units_ID->GetId())
-		{
-			ListTTUnits();
-		}
-		else if(Event.GetId() == TechTrees_Units_Unit->GetId())
-		{
-			ListTTUnitUnits();
-		}
-		else if(Event.GetId() == TechTrees_Researches_ID->GetId())
-		{
-			ListTTResearches();
-		}
-		else if(Event.GetId() == TechTrees_Researches_Building->GetId())
-		{
-			ListTTResearchBuildings();
-		}
-		else if(Event.GetId() == TechTrees_Researches_Unit->GetId())
-		{
-			ListTTResearchUnits();
-		}
-		else if(Event.GetId() == TechTrees_Researches_Research->GetId())
-		{
-			ListTTResearchResearches();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_UnitOrResearch1->GetId() || Event.GetId() == TechTrees_Buildings_UnitOrResearch2->GetId())
-		{
-			wxCommandEvent E;
-			OnTTBuildingSelect(E);
-		}
-		else if(Event.GetId() == TechTrees_Units_UnitOrResearch1->GetId() || Event.GetId() == TechTrees_Units_UnitOrResearch2->GetId())
-		{
-			wxCommandEvent E;
-			OnTTUnitSelect(E);
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_CheckBoxLong0Y(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == TerRestrict_Unknown1->GetId())
-		{
-			ListTerrains(false);
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_CheckBoxFloat(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == TerRestrict_Accessible->GetId())
-		{
-			ListTerrains(false);
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Units_Name->GetId() || Event.GetId() == Units_LanguageDLLName->GetId())
-		{
-			ListUnits(UnitCivID);
-		}
-		else if(Event.GetId() == Units_Type->GetId()
-		|| Event.GetId() == Units_Name2->GetId()
-		|| Event.GetId() == Units_LanguageDLLCreation->GetId()
-		|| Event.GetId() == Units_LanguageDLLHelp->GetId())
-		{
-			wxCommandEvent E;
-			OnUnitsSelect(E);
-		}
-		else if(Event.GetId() == Attacks_Amount->GetId() || Event.GetId() == Attacks_Class->GetId())
-		{
-			ListUnitAttacks();
-		}
-		else if(Event.GetId() == Armors_Amount->GetId() || Event.GetId() == Armors_Class->GetId())
-		{
-			ListUnitArmors();
-		}
-		else if(Event.GetId() == UnitCommands_Type->GetId() || Event.GetId() == UnitCommands_SubType->GetId())
-		{
-			ListUnitCommands();
-		}
-		else if(Event.GetId() == DamageGraphics_DamagePercent->GetId()
-		|| Event.GetId() == DamageGraphics_GraphicID->GetId())
-		{
-			ListUnitDamageGraphics();
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_Short(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Effects_A->GetId() || Event.GetId() == Effects_B->GetId() || Event.GetId() == Effects_C->GetId())
-		{
-			ListEffects();
-		}
-		else if(Event.GetId() == Borders_BorderFrameID->GetId() || Event.GetId() == Borders_BorderFlag1->GetId() || Event.GetId() == Borders_BorderFlag2->GetId())
-		{
-			ListTerrainBorderFrames();
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_UnShort(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Research_LangDLLName->GetId())
-		{
-			ListResearches();
-		}
-		else if(Event.GetId() == Research_LangDLLDescription->GetId())
-		{
-			wxCommandEvent E;
-			OnResearchSelect(E);
-		}
-		else if(Event.GetId() == Graphics_AngleCount->GetId())
-		{
-			if((GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size() != GenieFile->Graphics[GraphicIDs[0]].AngleCount) && GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 1)
-			{
-				GenieFile->Graphics[GraphicIDs[0]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[0]].AngleCount);
-
-				wxCommandEvent E;
-				OnGraphicsSelect(E);
-			}
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_Long(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == TechTrees_Ages_ID->GetId())
-		{
-			ListTTAgess();
-		}
-		else if(Event.GetId() == TechTrees_Units_Mode1->GetId() || Event.GetId() == TechTrees_Units_Mode2->GetId())
-		{
-			wxCommandEvent E;
-			OnTTUnitSelect(E);
-		}
-		else if(Event.GetId() == TechTrees_Buildings_Mode1->GetId() || Event.GetId() == TechTrees_Buildings_Mode2->GetId())
-		{
-			wxCommandEvent E;
-			OnTTBuildingSelect(E);
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_Float(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		if(Event.GetId() == Civs_ResourceValue->GetId())
-		{
-			ListResources();
-		}
-		else if(Event.GetId() == Effects_D->GetId())
-		{
-			ListEffects();
-		}
-	}
-}
-
-void AGE_Frame::OnKillFocus_String(wxFocusEvent &Event)
-{
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		string ReducedName;
-		if(Event.GetId() == Research_Name[0]->GetId())
-		{
-			ListResearches();
-		}
-		else if(Event.GetId() == Research_Name[1]->GetId())
-		{
-			wxCommandEvent E;
-			OnResearchSelect(E);
-		}
-		else if(Event.GetId() == Techs_Name->GetId())
-		{
-			ListTechages();
-		}
-		else if(Event.GetId() == Civs_Name[0]->GetId())
-		{
-			ListCivs();
-		}
-		else if(Event.GetId() == Civs_Name[1]->GetId())
-		{
-			wxCommandEvent E;
-			OnCivsSelect(E);
-		}
-		else if(Event.GetId() == Graphics_Name->GetId())
-		{
-			ListGraphics();
-		}
-		else if(Event.GetId() == Graphics_Name2->GetId())
-		{
-			wxCommandEvent E;
-			OnGraphicsSelect(E);
-		}
-		else if(Event.GetId() == Terrains_Name->GetId())
-		{
-			ListTerrains();
-		}
-		else if(Event.GetId() == Terrains_Name2->GetId())
-		{
-			wxCommandEvent E;
-			OnTerrainsSelect(E);
-		}
-		else if(Event.GetId() == SoundItems_Name->GetId())
-		{
-			ListSoundItems();
-		}
-		else if(Event.GetId() == Colors_Name->GetId())
-		{
-			ListPlayerColors();
-		}
-		else if(Event.GetId() == UnitLines_Name->GetId())
-		{
-			ListUnitLines();
-		}
-		else if(Event.GetId() == Borders_BorderName[0]->GetId())
-		{
-			ListTerrainBorders();
-		}
-		else if(Event.GetId() == Borders_BorderName[1]->GetId())
-		{
-			ListTerrainBorders();
-		}
-	}
-}
-
-void AGE_Frame::OnUpdate_ComboBoxByteEffectType(wxCommandEvent &Event)
-{
-	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == Effects_ComboBox_Type->GetId())
-	{
-		ListEffects();
-	}
-}
-
-void AGE_Frame::OnUpdate_CheckBoxByte(wxCommandEvent &Event)
-{
-	((AGECheckBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == Graphics_CheckBox_AttackSoundUsed->GetId())
-	{
-		if((GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size() != GenieFile->Graphics[GraphicIDs[0]].AngleCount) && GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 1)
-		{
-			GenieFile->Graphics[GraphicIDs[0]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[0]].AngleCount);
-
-			wxCommandEvent E;
-			OnGraphicsSelect(E);
-		}
-	}
-}
-
-void AGE_Frame::OnUpdate_ComboBoxShort(wxCommandEvent &Event)
-{
-	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(
-		Event.GetId() == Effects_ComboBox_UnitsA->GetId() ||
-		Event.GetId() == Effects_ComboBox_ResourcesA->GetId() ||
-		Event.GetId() == Effects_ComboBox_ResearchsA->GetId() ||
-		Event.GetId() == Effects_ComboBox_Class->GetId() ||
-		Event.GetId() == Effects_ComboBox_UnitsB->GetId() ||
-		Event.GetId() == Effects_ComboBox_ResourcesB->GetId() ||
-		Event.GetId() == Effects_ComboBox_AttributesC->GetId()
-	)
-	{
-		ListEffects();
-	}
-	else if(Event.GetId() == GraphicDeltas_ComboBox_GraphicID->GetId())
-	{
-		ListGraphicDeltas();
-	}
-	else if(Event.GetId() == UnitLineUnits_ComboBox_Units->GetId())
-	{
-		ListUnitLineUnits();
-	}
-}
-
-void AGE_Frame::OnUpdate_Units(wxCommandEvent &Event)
-{
-	if(Event.GetId() == Units_ComboBox_Type->GetId())
-	{
-		auto Selection = Units_ComboBox_Type->GetSelection();
-		for(int loop=0; loop < UnitIDs.size(); loop++)
-		{
-			switch(Selection)
-			{
-				case 1: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 10; break;
-				case 2: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 20; break;
-				case 3: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 25; break;
-				case 4: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 30; break;
-				case 5: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 40; break;
-				case 6: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 60; break;
-				case 7: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 70; break;
-				case 8: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 80; break;
-				case 9: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 90; break;
-			}
-			if(AutoCopy) // Should copy-to-civ selections affect this?
-			{
-				char UnitType = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type;
-				for(short civ=0; civ < GenieFile->Civs.size(); civ++)
-				GenieFile->Civs[civ].Units[UnitIDs[loop]].Type = UnitType;
-			}
-		}
-		wxCommandEvent E;
-		OnUnitsSelect(E);	// Updates unit layout.
-//		ListUnits(UnitCivID, false);	// For special search filters.
-		return;
-	}
-	if(Event.GetId() == UnitCommands_ComboBox_Types->GetId())
-	{
-		switch(UnitCommands_ComboBox_Types->GetSelection())
-		{
-			case 1:
-			{
-				UnitCommands_Type->ChangeValue("3");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 2:
-			{
-				UnitCommands_Type->ChangeValue("5");
-				UnitCommands_SubType->ChangeValue("47");
-			}	break;
-			case 3:
-			{
-				UnitCommands_Type->ChangeValue("5");
-				UnitCommands_SubType->ChangeValue("79");
-			}	break;
-			case 4:
-			{
-				UnitCommands_Type->ChangeValue("5");
-				UnitCommands_SubType->ChangeValue("190");
-			}	break;
-			case 5:
-			{
-				UnitCommands_Type->ChangeValue("5");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 6:
-			{
-				UnitCommands_Type->ChangeValue("6");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 7:
-			{
-				UnitCommands_Type->ChangeValue("7");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 8:
-			{
-				UnitCommands_Type->ChangeValue("10");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 9:
-			{
-				UnitCommands_Type->ChangeValue("11");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 10:
-			{
-				UnitCommands_Type->ChangeValue("12");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 11:
-			{
-				UnitCommands_Type->ChangeValue("13");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 12:
-			{
-				UnitCommands_Type->ChangeValue("21");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 13:
-			{
-				UnitCommands_Type->ChangeValue("101");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 14:
-			{
-				UnitCommands_Type->ChangeValue("104");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 15:
-			{
-				UnitCommands_Type->ChangeValue("105");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 16:
-			{
-				UnitCommands_Type->ChangeValue("106");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 17:
-			{
-				UnitCommands_Type->ChangeValue("107");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 18:
-			{
-				UnitCommands_Type->ChangeValue("109");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 19:
-			{
-				UnitCommands_Type->ChangeValue("110");
-				UnitCommands_SubType->ChangeValue("189");
-			}	break;
-			case 20:
-			{
-				UnitCommands_Type->ChangeValue("110");
-				UnitCommands_SubType->ChangeValue("190");
-			}	break;
-			case 21:
-			{
-				UnitCommands_Type->ChangeValue("110");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 22:
-			{
-				UnitCommands_Type->ChangeValue("111");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 23:
-			{
-				UnitCommands_Type->ChangeValue("120");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 24:
-			{
-				UnitCommands_Type->ChangeValue("121");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 25:
-			{
-				UnitCommands_Type->ChangeValue("122");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 26:
-			{
-				UnitCommands_Type->ChangeValue("125");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 27:
-			{
-				UnitCommands_Type->ChangeValue("131");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 28:
-			{
-				UnitCommands_Type->ChangeValue("132");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 29:
-			{
-				UnitCommands_Type->ChangeValue("135");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			case 30:
-			{
-				UnitCommands_Type->ChangeValue("136");
-				UnitCommands_SubType->ChangeValue("-1");
-			}	break;
-			default:
-			{
-				UnitCommands_Type->ChangeValue("-1");
-				UnitCommands_SubType->ChangeValue("-1");
-			}
-		}
-
-		UnitCommands_Type->SaveEdits();
-		UnitCommands_SubType->SaveEdits();
-
-		ListUnitCommands();
-		return;
-	}
-	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == Attacks_ComboBox_Class[0]->GetId())
-	{
-		ListUnitAttacks();
-	}
-	else if(Event.GetId() == Attacks_ComboBox_Class[1]->GetId())
-	{
-		ListUnitArmors();
-	}
-	else if(Event.GetId() == DamageGraphics_ComboBox_GraphicID->GetId())
-	{
-		ListUnitDamageGraphics();
-	}
-}
-
-void AGE_Frame::OnUpdate_ComboBoxLong(wxCommandEvent &Event)
-{
-	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == TechTrees_Ages_ComboBox_Building->GetId())
-	{
-		ListTTAgesBuildings();
-	}
-	else if(Event.GetId() == TechTrees_Ages_ComboBox_Unit->GetId())
-	{
-		ListTTAgesUnits();
-	}
-	else if(Event.GetId() == TechTrees_Ages_ComboBox_Research->GetId())
-	{
-		ListTTAgesResearches();
-	}
-	else if(Event.GetId() == TechTrees_Buildings_ComboBox_ID->GetId())
-	{
-		ListTTBuildings();
-	}
-	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Building->GetId())
-	{
-		ListTTBuildingBuildings();
-	}
-	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Unit->GetId())
-	{
-		ListTTBuildingUnits();
-	}
-	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Research->GetId())
-	{
-		ListTTBuildingResearches();
-	}
-	else if(Event.GetId() == TechTrees_Units_ComboBox_ID->GetId())
-	{
-		ListTTUnits();
-	}
-	else if(Event.GetId() == TechTrees_Units_ComboBox_Unit->GetId())
-	{
-		ListTTUnitUnits();
-	}
-	else if(Event.GetId() == TechTrees_Researches_ComboBox_ID->GetId())
-	{
-		ListTTResearches();
-	}
-	else if(Event.GetId() == TechTrees_Researches_ComboBox_Building->GetId())
-	{
-		ListTTResearchBuildings();
-	}
-	else if(Event.GetId() == TechTrees_Researches_ComboBox_Unit->GetId())
-	{
-		ListTTResearchUnits();
-	}
-	else if(Event.GetId() == TechTrees_Researches_ComboBox_Research->GetId())
-	{
-		ListTTResearchResearches();
-	}
-}
-
-void AGE_Frame::OnUpdate_CheckBoxLong0Y(wxCommandEvent &Event)
-{
-	((AGECheckBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == TerRestrict_CheckBox_Unknown1->GetId())
-	{
-		ListTerrains(false);
-	}
-}
-
-void AGE_Frame::OnUpdate_ComboBoxFloat(wxCommandEvent &Event)
-{
-	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == Effects_ComboBox_ResearchsD->GetId())
-	{
-		ListEffects();
-	}
-}
-
-void AGE_Frame::OnUpdate_CheckBoxFloat(wxCommandEvent &Event)
-{
-	((AGECheckBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == TerRestrict_CheckBox_Accessible->GetId())
-	{
-		ListTerrains(false);
-	}
-}
-
-void AGE_Frame::OnUpdate_CheckBoxShort(wxCommandEvent &Event)
-{
-	((AGECheckBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == Effects_CheckBox_ModeB->GetId() || Event.GetId() == Effects_CheckBox_ModeC->GetId())
-	{
-		ListEffects();
-	}
-}
-
-void AGE_Frame::ListingFix(int &Selections, wxListBox* &List)
+void AGE_Frame::ListingFix(int Selections, wxListBox* &List)
 {
 	if(Selections == 0)
+	{
 		List->SetSelection(0);
+	}
 	else
 	{
 		if(Added || Items.Item(0) >= List->GetCount())
@@ -2617,7 +1788,7 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 	{
 		wxString TopText, SubText, Line;
 		size_t found;
-		for(auto loop=0; loop < Selections; loop++)
+		for(int loop=0; loop < Selections; loop++)
 		{
 			Line = List->GetString(Items.Item(loop));
 			found = Line.find(" ", 3);
@@ -2674,11 +1845,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 		delete LangXP;
 	}
 
-	TabBar_Main->Show(false);
-	TabBar_Main->Destroy();
+	//TabBar_Main->Show(false);
+	//TabBar_Main->Destroy();
 	Destroy();
-}
-
-AGE_Frame::~AGE_Frame()
-{
 }
