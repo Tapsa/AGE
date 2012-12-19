@@ -148,42 +148,42 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Units_Units_List->GetCount() > 0) Units_Units_List->Clear();
 
-	short IDCount = 64, UnitIDs[IDCount];
+	std::array<short, 64> SavedIDs;
 	if(Sized)
 	{
-		UnitIDs[0] = Units_ComboBox_DeadUnitID->GetSelection();
-		UnitIDs[1] = Units_ComboBox_ProjectileUnitID->GetSelection();
+		SavedIDs[0] = Units_ComboBox_DeadUnitID->GetSelection();
+		SavedIDs[1] = Units_ComboBox_ProjectileUnitID->GetSelection();
 		for(short loop=0; loop < 2; loop++)
-		UnitIDs[loop+2] = Units_ComboBox_DropSite[loop]->GetSelection();
-		UnitIDs[4] = Units_ComboBox_AttackMissileDuplicationUnit->GetSelection();
-		UnitIDs[5] = Units_ComboBox_TrackingUnit->GetSelection();
-		UnitIDs[6] = Units_ComboBox_TrainLocationID->GetSelection();
-		UnitIDs[7] = Units_ComboBox_StackUnitID->GetSelection();
+		SavedIDs[loop+2] = Units_ComboBox_DropSite[loop]->GetSelection();
+		SavedIDs[4] = Units_ComboBox_AttackMissileDuplicationUnit->GetSelection();
+		SavedIDs[5] = Units_ComboBox_TrackingUnit->GetSelection();
+		SavedIDs[6] = Units_ComboBox_TrainLocationID->GetSelection();
+		SavedIDs[7] = Units_ComboBox_StackUnitID->GetSelection();
 		for(short loop=0; loop < 4; loop++)
 		{
-			UnitIDs[loop+8] = Units_ComboBox_AnnexUnit[loop]->GetSelection();
-			UnitIDs[loop+30] = TechTrees_ComboBox_Unit[loop]->GetSelection();
+			SavedIDs[loop+8] = Units_ComboBox_AnnexUnit[loop]->GetSelection();
+			SavedIDs[loop+30] = TechTrees_ComboBox_Unit[loop]->GetSelection();
 		}
-		UnitIDs[12] = Units_ComboBox_HeadUnit->GetSelection();
-		UnitIDs[13] = Units_ComboBox_TransformUnit->GetSelection();
-		UnitIDs[14] = Research_ComboBox_ResearchLocation->GetSelection();
-		UnitIDs[15] = Effects_ComboBox_UnitsA->GetSelection();
-		UnitIDs[16] = Effects_ComboBox_UnitsB->GetSelection();
-		UnitIDs[17] = UnitCommands_ComboBox_UnitID->GetSelection();
-		UnitIDs[18] = UnitLineUnits_ComboBox_Units->GetSelection();
-		UnitIDs[19] = TechTrees_Ages_ComboBox_Building->GetSelection();
-		UnitIDs[20] = TechTrees_Ages_ComboBox_Unit->GetSelection();
-		UnitIDs[21] = TechTrees_Buildings_ComboBox_ID->GetSelection();
-		UnitIDs[22] = TechTrees_Buildings_ComboBox_Building->GetSelection();
-		UnitIDs[23] = TechTrees_Buildings_ComboBox_Unit->GetSelection();
-		UnitIDs[24] = TechTrees_Units_ComboBox_ID->GetSelection();
-		UnitIDs[25] = TechTrees_Units_ComboBox_UpperBuilding->GetSelection();
-		UnitIDs[26] = TechTrees_Units_ComboBox_Unit->GetSelection();
-		UnitIDs[27] = TechTrees_Researches_ComboBox_UpperBuilding->GetSelection();
-		UnitIDs[28] = TechTrees_Researches_ComboBox_Building->GetSelection();
-		UnitIDs[29] = TechTrees_Researches_ComboBox_Unit->GetSelection();
+		SavedIDs[12] = Units_ComboBox_HeadUnit->GetSelection();
+		SavedIDs[13] = Units_ComboBox_TransformUnit->GetSelection();
+		SavedIDs[14] = Research_ComboBox_ResearchLocation->GetSelection();
+		SavedIDs[15] = Effects_ComboBox_UnitsA->GetSelection();
+		SavedIDs[16] = Effects_ComboBox_UnitsB->GetSelection();
+		SavedIDs[17] = UnitCommands_ComboBox_UnitID->GetSelection();
+		SavedIDs[18] = UnitLineUnits_ComboBox_Units->GetSelection();
+		SavedIDs[19] = TechTrees_Ages_ComboBox_Building->GetSelection();
+		SavedIDs[20] = TechTrees_Ages_ComboBox_Unit->GetSelection();
+		SavedIDs[21] = TechTrees_Buildings_ComboBox_ID->GetSelection();
+		SavedIDs[22] = TechTrees_Buildings_ComboBox_Building->GetSelection();
+		SavedIDs[23] = TechTrees_Buildings_ComboBox_Unit->GetSelection();
+		SavedIDs[24] = TechTrees_Units_ComboBox_ID->GetSelection();
+		SavedIDs[25] = TechTrees_Units_ComboBox_UpperBuilding->GetSelection();
+		SavedIDs[26] = TechTrees_Units_ComboBox_Unit->GetSelection();
+		SavedIDs[27] = TechTrees_Researches_ComboBox_UpperBuilding->GetSelection();
+		SavedIDs[28] = TechTrees_Researches_ComboBox_Building->GetSelection();
+		SavedIDs[29] = TechTrees_Researches_ComboBox_Unit->GetSelection();
 		for(short loop=0; loop < 30; loop++)
-		UnitIDs[loop+34] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
+		SavedIDs[loop+34] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
 
 		if(Units_ComboBox_DeadUnitID->GetCount() > 0)
 		{
@@ -303,12 +303,9 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 			Terrains_ComboBox_TerrainUnitID[loop]->Clear();
 		}
 
-		for(short loop=0; loop < IDCount; loop++)
+		for(auto &ID: SavedIDs)
 		{
-			if(UnitIDs[loop] == wxNOT_FOUND)
-			{
-				UnitIDs[loop] = 0;
-			}
+			if(ID == wxNOT_FOUND) ID = 0;
 		}
 
 		Units_ComboBox_DeadUnitID->Append("-1 - None");
@@ -395,39 +392,39 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 	ListingFix(Selections, Units_Units_List);
 	if(Sized)
 	{
-		Units_ComboBox_DeadUnitID->SetSelection(UnitIDs[0]);
-		Units_ComboBox_ProjectileUnitID->SetSelection(UnitIDs[1]);
+		Units_ComboBox_DeadUnitID->SetSelection(SavedIDs[0]);
+		Units_ComboBox_ProjectileUnitID->SetSelection(SavedIDs[1]);
 		for(short loop=0; loop < 2; loop++)
-		Units_ComboBox_DropSite[loop]->SetSelection(UnitIDs[loop+2]);// 2 ja 3
-		Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(UnitIDs[4]);
-		Units_ComboBox_TrackingUnit->SetSelection(UnitIDs[5]);
-		Units_ComboBox_TrainLocationID->SetSelection(UnitIDs[6]);
-		Units_ComboBox_StackUnitID->SetSelection(UnitIDs[7]);
+		Units_ComboBox_DropSite[loop]->SetSelection(SavedIDs[loop+2]);// 2 ja 3
+		Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(SavedIDs[4]);
+		Units_ComboBox_TrackingUnit->SetSelection(SavedIDs[5]);
+		Units_ComboBox_TrainLocationID->SetSelection(SavedIDs[6]);
+		Units_ComboBox_StackUnitID->SetSelection(SavedIDs[7]);
 		for(short loop=0; loop < 4; loop++)
 		{
-			Units_ComboBox_AnnexUnit[loop]->SetSelection(UnitIDs[loop+8]);// 8 - 11
-			TechTrees_ComboBox_Unit[loop]->SetSelection(UnitIDs[loop+30]);
+			Units_ComboBox_AnnexUnit[loop]->SetSelection(SavedIDs[loop+8]);// 8 - 11
+			TechTrees_ComboBox_Unit[loop]->SetSelection(SavedIDs[loop+30]);
 		}
-		Units_ComboBox_HeadUnit->SetSelection(UnitIDs[12]);
-		Units_ComboBox_TransformUnit->SetSelection(UnitIDs[13]);
-		Research_ComboBox_ResearchLocation->SetSelection(UnitIDs[14]);
-		Effects_ComboBox_UnitsA->SetSelection(UnitIDs[15]);
-		Effects_ComboBox_UnitsB->SetSelection(UnitIDs[16]);
-		UnitCommands_ComboBox_UnitID->SetSelection(UnitIDs[17]);
-		UnitLineUnits_ComboBox_Units->SetSelection(UnitIDs[18]);
-		TechTrees_Ages_ComboBox_Building->SetSelection(UnitIDs[19]);
-		TechTrees_Ages_ComboBox_Unit->SetSelection(UnitIDs[20]);
-		TechTrees_Buildings_ComboBox_ID->SetSelection(UnitIDs[21]);
-		TechTrees_Buildings_ComboBox_Building->SetSelection(UnitIDs[22]);
-		TechTrees_Buildings_ComboBox_Unit->SetSelection(UnitIDs[23]);
-		TechTrees_Units_ComboBox_ID->SetSelection(UnitIDs[24]);
-		TechTrees_Units_ComboBox_UpperBuilding->SetSelection(UnitIDs[25]);
-		TechTrees_Units_ComboBox_Unit->SetSelection(UnitIDs[26]);
-		TechTrees_Researches_ComboBox_UpperBuilding->SetSelection(UnitIDs[27]);
-		TechTrees_Researches_ComboBox_Building->SetSelection(UnitIDs[28]);
-		TechTrees_Researches_ComboBox_Unit->SetSelection(UnitIDs[29]);
+		Units_ComboBox_HeadUnit->SetSelection(SavedIDs[12]);
+		Units_ComboBox_TransformUnit->SetSelection(SavedIDs[13]);
+		Research_ComboBox_ResearchLocation->SetSelection(SavedIDs[14]);
+		Effects_ComboBox_UnitsA->SetSelection(SavedIDs[15]);
+		Effects_ComboBox_UnitsB->SetSelection(SavedIDs[16]);
+		UnitCommands_ComboBox_UnitID->SetSelection(SavedIDs[17]);
+		UnitLineUnits_ComboBox_Units->SetSelection(SavedIDs[18]);
+		TechTrees_Ages_ComboBox_Building->SetSelection(SavedIDs[19]);
+		TechTrees_Ages_ComboBox_Unit->SetSelection(SavedIDs[20]);
+		TechTrees_Buildings_ComboBox_ID->SetSelection(SavedIDs[21]);
+		TechTrees_Buildings_ComboBox_Building->SetSelection(SavedIDs[22]);
+		TechTrees_Buildings_ComboBox_Unit->SetSelection(SavedIDs[23]);
+		TechTrees_Units_ComboBox_ID->SetSelection(SavedIDs[24]);
+		TechTrees_Units_ComboBox_UpperBuilding->SetSelection(SavedIDs[25]);
+		TechTrees_Units_ComboBox_Unit->SetSelection(SavedIDs[26]);
+		TechTrees_Researches_ComboBox_UpperBuilding->SetSelection(SavedIDs[27]);
+		TechTrees_Researches_ComboBox_Building->SetSelection(SavedIDs[28]);
+		TechTrees_Researches_ComboBox_Unit->SetSelection(SavedIDs[29]);
 		for(short loop=0; loop < 30; loop++)
-		Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(UnitIDs[loop+34]);
+		Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(SavedIDs[loop+34]);
 	}
 
 	for(short loop=0; loop < 2; loop++)

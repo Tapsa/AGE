@@ -20,21 +20,21 @@ void AGE_Frame::ListSounds(bool Sized)
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
 	if(Sounds_Sounds_List->GetCount() > 0) Sounds_Sounds_List->Clear();
 
-	short IDCount = 13, SoundIDs[IDCount];
+	std::array<short, 13> SavedIDs;
 	if(Sized)
 	{
 		for(short loop=0; loop < 2; loop++)
-		SoundIDs[loop] = Units_ComboBox_TrainSound[loop]->GetSelection();
-		SoundIDs[2] = Units_ComboBox_SelectionSound->GetSelection();
-		SoundIDs[3] = Units_ComboBox_DyingSound->GetSelection();
-		SoundIDs[4] = Units_ComboBox_AttackSound->GetSelection();
-		SoundIDs[5] = Units_ComboBox_MoveSound->GetSelection();
-		SoundIDs[6] = Units_ComboBox_StopSound->GetSelection();
-		SoundIDs[7] = Units_ComboBox_ConstructionSound->GetSelection();
-		SoundIDs[8] = Terrains_ComboBox_SoundID->GetSelection();
-		SoundIDs[9] = Graphics_ComboBox_SoundID->GetSelection();
+		SavedIDs[loop] = Units_ComboBox_TrainSound[loop]->GetSelection();
+		SavedIDs[2] = Units_ComboBox_SelectionSound->GetSelection();
+		SavedIDs[3] = Units_ComboBox_DyingSound->GetSelection();
+		SavedIDs[4] = Units_ComboBox_AttackSound->GetSelection();
+		SavedIDs[5] = Units_ComboBox_MoveSound->GetSelection();
+		SavedIDs[6] = Units_ComboBox_StopSound->GetSelection();
+		SavedIDs[7] = Units_ComboBox_ConstructionSound->GetSelection();
+		SavedIDs[8] = Terrains_ComboBox_SoundID->GetSelection();
+		SavedIDs[9] = Graphics_ComboBox_SoundID->GetSelection();
 		for(short loop=0; loop < 3; loop++)
-		SoundIDs[loop+10] = Graphics_ComboBox_AttackSoundID[loop]->GetSelection();
+		SavedIDs[loop+10] = Graphics_ComboBox_AttackSoundID[loop]->GetSelection();
 
 		for(short loop=0; loop < 2; loop++)
 		if(Units_ComboBox_TrainSound[loop]->GetCount() > 0)
@@ -79,12 +79,9 @@ void AGE_Frame::ListSounds(bool Sized)
 			Graphics_ComboBox_AttackSoundID[loop]->Clear();
 		}
 
-		for(short loop=0; loop < IDCount; loop++)
+		for(auto &ID: SavedIDs)
 		{
-			if(SoundIDs[loop] == wxNOT_FOUND)
-			{
-				SoundIDs[loop] = 0;
-			}
+			if(ID == wxNOT_FOUND) ID = 0;
 		}
 
 		for(short loop=0; loop < 2; loop++)
@@ -129,17 +126,17 @@ void AGE_Frame::ListSounds(bool Sized)
 	if(Sized)
 	{
 		for(short loop=0; loop < 2; loop++)
-		Units_ComboBox_TrainSound[loop]->SetSelection(SoundIDs[loop]);
-		Units_ComboBox_SelectionSound->SetSelection(SoundIDs[2]);
-		Units_ComboBox_DyingSound->SetSelection(SoundIDs[3]);
-		Units_ComboBox_AttackSound->SetSelection(SoundIDs[4]);
-		Units_ComboBox_MoveSound->SetSelection(SoundIDs[5]);
-		Units_ComboBox_StopSound->SetSelection(SoundIDs[6]);
-		Units_ComboBox_ConstructionSound->SetSelection(SoundIDs[7]);
-		Terrains_ComboBox_SoundID->SetSelection(SoundIDs[8]);
-		Graphics_ComboBox_SoundID->SetSelection(SoundIDs[9]);
+		Units_ComboBox_TrainSound[loop]->SetSelection(SavedIDs[loop]);
+		Units_ComboBox_SelectionSound->SetSelection(SavedIDs[2]);
+		Units_ComboBox_DyingSound->SetSelection(SavedIDs[3]);
+		Units_ComboBox_AttackSound->SetSelection(SavedIDs[4]);
+		Units_ComboBox_MoveSound->SetSelection(SavedIDs[5]);
+		Units_ComboBox_StopSound->SetSelection(SavedIDs[6]);
+		Units_ComboBox_ConstructionSound->SetSelection(SavedIDs[7]);
+		Terrains_ComboBox_SoundID->SetSelection(SavedIDs[8]);
+		Graphics_ComboBox_SoundID->SetSelection(SavedIDs[9]);
 		for(short loop=0; loop < 3; loop++)
-		Graphics_ComboBox_AttackSoundID[loop]->SetSelection(SoundIDs[loop+10]);
+		Graphics_ComboBox_AttackSoundID[loop]->SetSelection(SavedIDs[loop+10]);
 	}
 
 	wxCommandEvent E;
