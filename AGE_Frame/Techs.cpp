@@ -11,7 +11,7 @@ string AGE_Frame::GetTechageName(short Index)
 void AGE_Frame::OnTechageRenameGE2(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		string Name;
 		for(short loop=0; loop < GenieFile->Techages.size(); loop++)
@@ -25,7 +25,7 @@ void AGE_Frame::OnTechageRenameGE2(wxCommandEvent &Event)
 void AGE_Frame::OnTechageRename(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		for(short loop3=0; loop3 < GenieFile->Techages.size(); loop3++)
 		{
@@ -148,7 +148,7 @@ void AGE_Frame::ListTechages(bool Sized)
 void AGE_Frame::OnTechageSelect(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		TechIDs.resize(Selections);
 		Techs_Name->resize(Selections);
@@ -182,7 +182,7 @@ void AGE_Frame::OnTechageAdd(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnTechageInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Techage Temp;
@@ -195,7 +195,7 @@ void AGE_Frame::OnTechageInsert(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnTechageDelete(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -207,7 +207,7 @@ void AGE_Frame::OnTechageDelete(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnTechageCopy(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Tech.resize(Selections);
@@ -219,7 +219,7 @@ void AGE_Frame::OnTechageCopy(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnTechagePaste(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Tech.size()+TechIDs[0] > GenieFile->Techages.size())
@@ -236,7 +236,7 @@ void AGE_Frame::OnTechagePaste(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnTechagePasteInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Techage Temp;
@@ -384,7 +384,7 @@ void AGE_Frame::ListEffects()
 void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		Effects_Holder_Type->Show(true);
 		Effects_D->Enable(true);
@@ -979,7 +979,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechageEffect Temp;
@@ -993,7 +993,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechageEffect Temp;
@@ -1006,7 +1006,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnEffectsDelete(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -1018,7 +1018,7 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnEffectsCopy(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Effect.resize(Selections);
@@ -1030,7 +1030,7 @@ void AGE_Frame::OnEffectsCopy(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Effect.size()+EffectIDs[0] > GenieFile->Techages[TechIDs[0]].Effects.size())
@@ -1047,7 +1047,7 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::TechageEffect Temp;

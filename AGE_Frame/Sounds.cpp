@@ -146,7 +146,7 @@ void AGE_Frame::ListSounds(bool Sized)
 void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		SoundIDs.resize(Selections);
 		Sounds_ID->resize(Selections);
@@ -186,7 +186,7 @@ void AGE_Frame::OnSoundsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnSoundsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Sound Temp;
@@ -202,7 +202,7 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnSoundsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -217,7 +217,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnSoundsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Sound.resize(Selections);
@@ -229,7 +229,7 @@ void AGE_Frame::OnSoundsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnSoundsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Sound.size()+SoundIDs[0] > GenieFile->Sounds.size())
@@ -248,7 +248,7 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Sound Temp;
@@ -344,7 +344,7 @@ void AGE_Frame::ListSoundItems()
 void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Items_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		SoundItemIDs.resize(Selections);
 		SoundItems_Name->resize(Selections);
@@ -396,7 +396,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::SoundItem Temp;
@@ -410,7 +410,7 @@ void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Items_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::SoundItem Temp;
@@ -423,7 +423,7 @@ void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Items_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -435,7 +435,7 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Items_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->SoundItem.resize(Selections);
@@ -447,7 +447,7 @@ void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Items_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->SoundItem.size()+SoundItemIDs[0] > GenieFile->Sounds[SoundIDs[0]].Items.size())
@@ -464,7 +464,7 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Sounds_Items_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::SoundItem Temp;

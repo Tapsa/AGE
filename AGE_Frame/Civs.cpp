@@ -75,7 +75,7 @@ void AGE_Frame::ListCivs(bool Sized)
 void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		CivIDs.resize(Selections);
 		Civs_One->resize(Selections);
@@ -158,7 +158,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
@@ -178,7 +178,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -191,7 +191,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnCivsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Civ.resize(Selections);
@@ -203,7 +203,7 @@ void AGE_Frame::OnCivsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Civ.size()+CivIDs[0] > GenieFile->Civs.size())
@@ -221,7 +221,7 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
@@ -1092,7 +1092,7 @@ void AGE_Frame::ListResources(bool Sized)
 void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		ResourceIDs.resize(Selections);
 		Civs_ResourceValue->resize(Selections);
@@ -1112,7 +1112,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		float Temp = 0;
@@ -1126,7 +1126,7 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)
 void AGE_Frame::OnResourcesInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		float Temp = 0;
@@ -1139,7 +1139,7 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &Event)
 void AGE_Frame::OnResourcesDelete(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop2=0; loop2 < GenieFile->Civs.size(); loop2++)
@@ -1154,7 +1154,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &Event)
 void AGE_Frame::OnResourcesCopy(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Resource.resize(Selections);
@@ -1166,7 +1166,7 @@ void AGE_Frame::OnResourcesCopy(wxCommandEvent &Event)
 void AGE_Frame::OnResourcesPaste(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Resource.size()+ResourceIDs[0] > GenieFile->Civs[CivIDs[0]].Resources.size())
@@ -1180,7 +1180,7 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent &Event)
 void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		float Temp = 0;
@@ -1194,7 +1194,7 @@ void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &Event)
 void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		float Copy;
