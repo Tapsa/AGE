@@ -716,7 +716,22 @@ void AGE_Frame::CreateTerrainControls()
 	Connect(Terrains_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsPaste));
 	Connect(Terrains_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsPasteInsert));
 
-	Terrains_Name->Connect(Terrains_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-	Terrains_Name2->Connect(Terrains_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
+	Terrains_Name->Connect(Terrains_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Terrains), NULL, this);
+	Terrains_Name2->Connect(Terrains_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Terrains), NULL, this);
+}
 
+void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
+{
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	{
+		if(Event.GetId() == Terrains_Name->GetId())
+		{
+			ListTerrains();
+		}
+		else if(Event.GetId() == Terrains_Name2->GetId())
+		{
+			wxCommandEvent E;
+			OnTerrainsSelect(E);
+		}
+	}
 }

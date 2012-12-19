@@ -1386,8 +1386,27 @@ void AGE_Frame::CreateCivControls()
 	Connect(Resources_CopyToAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesCopyToAll));
 
 	for(short loop=0; loop < 2; loop++)
-	Civs_Name[loop]->Connect(Civs_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_String), NULL, this);
-	Civs_GraphicSet->Connect(Civs_GraphicSet->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Byte), NULL, this);
-	Civs_ResourceValue->Connect(Civs_ResourceValue->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Float), NULL, this);
+	Civs_Name[loop]->Connect(Civs_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);
+	Civs_GraphicSet->Connect(Civs_GraphicSet->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);
+	Civs_ResourceValue->Connect(Civs_ResourceValue->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);
+}
 
+void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
+{
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	{
+		if(Event.GetId() == Civs_Name[0]->GetId() || Event.GetId() == Civs_GraphicSet->GetId())
+		{
+			ListCivs();
+		}
+		else if(Event.GetId() == Civs_ResourceValue->GetId())
+		{
+			ListResources();
+		}
+		else if(Event.GetId() == Civs_Name[1]->GetId())
+		{
+			wxCommandEvent E;
+			OnCivsSelect(E);
+		}
+	}
 }

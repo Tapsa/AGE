@@ -3763,9 +3763,9 @@ void AGE_Frame::CreateTechTreeControls()
 		Connect(TechTrees_MainList_Buildings_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTBuildingSearch));
 		Connect(TechTrees_MainList_Units_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTUnitSearch));
 		Connect(TechTrees_MainList_Researches_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTResearchSearch));
-		Connect(TechTrees_MainList_Buildings_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
-		Connect(TechTrees_MainList_Units_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
-		Connect(TechTrees_MainList_Researches_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
+		Connect(TechTrees_MainList_Buildings_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
+		Connect(TechTrees_MainList_Units_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
+		Connect(TechTrees_MainList_Researches_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 	}
 	Connect(TechTrees_MainList_Units_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTTUnitSelect));
 	Connect(TechTrees_MainList_Units_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTUnitAdd));
@@ -3875,44 +3875,211 @@ void AGE_Frame::CreateTechTreeControls()
 	Connect(TechTrees_DataList_Researches_PasteInsert_Units->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTResearchUnitPasteInsert));
 	Connect(TechTrees_DataList_Researches_PasteInsert_Researches->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTResearchResearchPasteInsert));
 
-	TechTrees_Ages_ID->Connect(TechTrees_Ages_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Long), NULL, this);
-	TechTrees_Ages_Building->Connect(TechTrees_Ages_Building->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Ages_Unit->Connect(TechTrees_Ages_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Ages_Research->Connect(TechTrees_Ages_Research->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Ages_ComboBox_Building->Connect(TechTrees_Ages_ComboBox_Building->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Ages_ComboBox_Unit->Connect(TechTrees_Ages_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Ages_ComboBox_Research->Connect(TechTrees_Ages_ComboBox_Research->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
+	TechTrees_Ages_ID->Connect(TechTrees_Ages_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Ages_Building->Connect(TechTrees_Ages_Building->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Ages_Unit->Connect(TechTrees_Ages_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Ages_Research->Connect(TechTrees_Ages_Research->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Ages_ComboBox_Building->Connect(TechTrees_Ages_ComboBox_Building->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Ages_ComboBox_Unit->Connect(TechTrees_Ages_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Ages_ComboBox_Research->Connect(TechTrees_Ages_ComboBox_Research->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
 
-	TechTrees_Buildings_ID->Connect(TechTrees_Buildings_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_Building->Connect(TechTrees_Buildings_Building->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_Unit->Connect(TechTrees_Buildings_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_Research->Connect(TechTrees_Buildings_Research->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Units_ID->Connect(TechTrees_Units_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Units_Unit->Connect(TechTrees_Units_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Researches_ID->Connect(TechTrees_Researches_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Researches_Building->Connect(TechTrees_Researches_Building->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Researches_Unit->Connect(TechTrees_Researches_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Researches_Research->Connect(TechTrees_Researches_Research->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_UnitOrResearch1->Connect(TechTrees_Buildings_UnitOrResearch1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_UnitOrResearch2->Connect(TechTrees_Buildings_UnitOrResearch2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Units_UnitOrResearch1->Connect(TechTrees_Units_UnitOrResearch1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Units_UnitOrResearch2->Connect(TechTrees_Units_UnitOrResearch2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_ComboBox_ID->Connect(TechTrees_Buildings_ComboBox_ID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_ComboBox_Building->Connect(TechTrees_Buildings_ComboBox_Building->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_ComboBox_Unit->Connect(TechTrees_Buildings_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Buildings_ComboBox_Research->Connect(TechTrees_Buildings_ComboBox_Research->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Units_ComboBox_ID->Connect(TechTrees_Units_ComboBox_ID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Units_ComboBox_Unit->Connect(TechTrees_Units_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Researches_ComboBox_ID->Connect(TechTrees_Researches_ComboBox_ID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Researches_ComboBox_Building->Connect(TechTrees_Researches_ComboBox_Building->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Researches_ComboBox_Unit->Connect(TechTrees_Researches_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
-	TechTrees_Researches_ComboBox_Research->Connect(TechTrees_Researches_ComboBox_Research->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdate_ComboBoxLong), NULL, this);
+	TechTrees_Buildings_ID->Connect(TechTrees_Buildings_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Buildings_Building->Connect(TechTrees_Buildings_Building->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Buildings_Unit->Connect(TechTrees_Buildings_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Buildings_Research->Connect(TechTrees_Buildings_Research->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Units_ID->Connect(TechTrees_Units_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Units_Unit->Connect(TechTrees_Units_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Researches_ID->Connect(TechTrees_Researches_ID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Researches_Building->Connect(TechTrees_Researches_Building->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Researches_Unit->Connect(TechTrees_Researches_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Researches_Research->Connect(TechTrees_Researches_Research->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Buildings_UnitOrResearch1->Connect(TechTrees_Buildings_UnitOrResearch1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Buildings_UnitOrResearch2->Connect(TechTrees_Buildings_UnitOrResearch2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Units_UnitOrResearch1->Connect(TechTrees_Units_UnitOrResearch1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Units_UnitOrResearch2->Connect(TechTrees_Units_UnitOrResearch2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Buildings_ComboBox_ID->Connect(TechTrees_Buildings_ComboBox_ID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Buildings_ComboBox_Building->Connect(TechTrees_Buildings_ComboBox_Building->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Buildings_ComboBox_Unit->Connect(TechTrees_Buildings_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Buildings_ComboBox_Research->Connect(TechTrees_Buildings_ComboBox_Research->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Units_ComboBox_ID->Connect(TechTrees_Units_ComboBox_ID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Units_ComboBox_Unit->Connect(TechTrees_Units_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Researches_ComboBox_ID->Connect(TechTrees_Researches_ComboBox_ID->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Researches_ComboBox_Building->Connect(TechTrees_Researches_ComboBox_Building->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Researches_ComboBox_Unit->Connect(TechTrees_Researches_ComboBox_Unit->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
+	TechTrees_Researches_ComboBox_Research->Connect(TechTrees_Researches_ComboBox_Research->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees), NULL, this);
 
-	TechTrees_Buildings_Mode1->Connect(TechTrees_Buildings_Mode1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Long), NULL, this);
-	TechTrees_Buildings_Mode2->Connect(TechTrees_Buildings_Mode2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Long), NULL, this);
-	TechTrees_Units_Mode1->Connect(TechTrees_Units_Mode1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Long), NULL, this);
-	TechTrees_Units_Mode2->Connect(TechTrees_Units_Mode2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Long), NULL, this);
+	TechTrees_Buildings_Mode1->Connect(TechTrees_Buildings_Mode1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Buildings_Mode2->Connect(TechTrees_Buildings_Mode2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Units_Mode1->Connect(TechTrees_Units_Mode1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
+	TechTrees_Units_Mode2->Connect(TechTrees_Units_Mode2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TechTrees), NULL, this);
 	for(short loop=0; loop < 4; loop++)
-	Connect(TechTrees_ComboBox_Modes[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_ComboBoxes));
+	Connect(TechTrees_ComboBox_Modes[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_TechTrees));
+}
 
+void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &Event)
+{
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	{
+		if(Event.GetId() == TechTrees_Ages_ID->GetId())
+		{
+			ListTTAgess();
+		}
+		else if(Event.GetId() == TechTrees_Ages_Building->GetId())
+		{
+			ListTTAgesBuildings();
+		}
+		else if(Event.GetId() == TechTrees_Ages_Unit->GetId())
+		{
+			ListTTAgesUnits();
+		}
+		else if(Event.GetId() == TechTrees_Ages_Research->GetId())
+		{
+			ListTTAgesResearches();
+		}
+		else if(Event.GetId() == TechTrees_Buildings_ID->GetId())
+		{
+			ListTTBuildings();
+		}
+		else if(Event.GetId() == TechTrees_Buildings_Building->GetId())
+		{
+			ListTTBuildingBuildings();
+		}
+		else if(Event.GetId() == TechTrees_Buildings_Unit->GetId())
+		{
+			ListTTBuildingUnits();
+		}
+		else if(Event.GetId() == TechTrees_Buildings_Research->GetId())
+		{
+			ListTTBuildingResearches();
+		}
+		else if(Event.GetId() == TechTrees_Units_ID->GetId())
+		{
+			ListTTUnits();
+		}
+		else if(Event.GetId() == TechTrees_Units_Unit->GetId())
+		{
+			ListTTUnitUnits();
+		}
+		else if(Event.GetId() == TechTrees_Researches_ID->GetId())
+		{
+			ListTTResearches();
+		}
+		else if(Event.GetId() == TechTrees_Researches_Building->GetId())
+		{
+			ListTTResearchBuildings();
+		}
+		else if(Event.GetId() == TechTrees_Researches_Unit->GetId())
+		{
+			ListTTResearchUnits();
+		}
+		else if(Event.GetId() == TechTrees_Researches_Research->GetId())
+		{
+			ListTTResearchResearches();
+		}
+		else if(Event.GetId() == TechTrees_Units_Mode1->GetId()
+		|| Event.GetId() == TechTrees_Units_Mode2->GetId()
+		|| Event.GetId() == TechTrees_Units_UnitOrResearch1->GetId()
+		|| Event.GetId() == TechTrees_Units_UnitOrResearch2->GetId())
+		{
+			wxCommandEvent E;
+			OnTTUnitSelect(E);
+		}
+		else if(Event.GetId() == TechTrees_Buildings_Mode1->GetId()
+		|| Event.GetId() == TechTrees_Buildings_Mode2->GetId()
+		|| Event.GetId() == TechTrees_Buildings_UnitOrResearch1->GetId()
+		|| Event.GetId() == TechTrees_Buildings_UnitOrResearch2->GetId())
+		{
+			wxCommandEvent E;
+			OnTTBuildingSelect(E);
+		}
+	}
+}
+
+void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &Event)
+{
+	if(Event.GetId() == TechTrees_ComboBox_Modes[2]->GetId())
+	{
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[2]->GetSelection());
+
+		wxCommandEvent E;
+		OnTTUnitSelect(E);
+		return;
+	}
+	if(Event.GetId() == TechTrees_ComboBox_Modes[3]->GetId())
+	{
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[3]->GetSelection());
+
+		wxCommandEvent E;
+		OnTTUnitSelect(E);
+		return;
+	}
+	if(Event.GetId() == TechTrees_ComboBox_Modes[0]->GetId())
+	{
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Mode1 = lexical_cast<long>(TechTrees_ComboBox_Modes[0]->GetSelection());
+
+		wxCommandEvent E;
+		OnTTBuildingSelect(E);
+		return;
+	}
+	if(Event.GetId() == TechTrees_ComboBox_Modes[1]->GetId())
+	{
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Mode2 = lexical_cast<long>(TechTrees_ComboBox_Modes[1]->GetSelection());
+
+		wxCommandEvent E;
+		OnTTBuildingSelect(E);
+		return;
+	}
+	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
+	if(Event.GetId() == TechTrees_Ages_ComboBox_Building->GetId())
+	{
+		ListTTAgesBuildings();
+	}
+	else if(Event.GetId() == TechTrees_Ages_ComboBox_Unit->GetId())
+	{
+		ListTTAgesUnits();
+	}
+	else if(Event.GetId() == TechTrees_Ages_ComboBox_Research->GetId())
+	{
+		ListTTAgesResearches();
+	}
+	else if(Event.GetId() == TechTrees_Buildings_ComboBox_ID->GetId())
+	{
+		ListTTBuildings();
+	}
+	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Building->GetId())
+	{
+		ListTTBuildingBuildings();
+	}
+	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Unit->GetId())
+	{
+		ListTTBuildingUnits();
+	}
+	else if(Event.GetId() == TechTrees_Buildings_ComboBox_Research->GetId())
+	{
+		ListTTBuildingResearches();
+	}
+	else if(Event.GetId() == TechTrees_Units_ComboBox_ID->GetId())
+	{
+		ListTTUnits();
+	}
+	else if(Event.GetId() == TechTrees_Units_ComboBox_Unit->GetId())
+	{
+		ListTTUnitUnits();
+	}
+	else if(Event.GetId() == TechTrees_Researches_ComboBox_ID->GetId())
+	{
+		ListTTResearches();
+	}
+	else if(Event.GetId() == TechTrees_Researches_ComboBox_Building->GetId())
+	{
+		ListTTResearchBuildings();
+	}
+	else if(Event.GetId() == TechTrees_Researches_ComboBox_Unit->GetId())
+	{
+		ListTTResearchUnits();
+	}
+	else if(Event.GetId() == TechTrees_Researches_ComboBox_Research->GetId())
+	{
+		ListTTResearchResearches();
+	}
 }
