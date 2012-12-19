@@ -259,7 +259,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		GraphicIDs.resize(Selections);
 		Graphics_Name->resize(Selections);
@@ -375,7 +375,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Graphic Temp;
@@ -392,7 +392,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -410,7 +410,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->GraphicPointer.resize(Selections);
@@ -426,7 +426,7 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Graphic.size()+GraphicIDs[0] > GenieFile->Graphics.size())
@@ -449,7 +449,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Graphic Temp;
@@ -471,7 +471,7 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicsEnable(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop=0; loop < Selections; loop++)
@@ -486,7 +486,7 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicsDisable(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop=0; loop < Selections; loop++)
@@ -531,7 +531,7 @@ void AGE_Frame::ListGraphicDeltas()
 void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		DeltaIDs.resize(Selections);
 		GraphicDeltas_GraphicID->resize(Selections);
@@ -586,7 +586,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::GraphicDelta Temp;
@@ -600,7 +600,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::GraphicDelta Temp;
@@ -613,7 +613,7 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -625,7 +625,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->GraphicDelta.resize(Selections);
@@ -637,7 +637,7 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->GraphicDelta.size()+DeltaIDs[0] > GenieFile->Graphics[GraphicIDs[0]].Deltas.size())
@@ -654,7 +654,7 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::GraphicDelta Temp;
@@ -700,7 +700,7 @@ void AGE_Frame::ListGraphicAttackSounds()
 void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		AttackSoundIDs.resize(Selections);
 		Graphics_AttackSoundID[0]->resize(Selections);
@@ -748,7 +748,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::GraphicAttackSound Copy;

@@ -596,6 +596,7 @@ class AGE_Frame: public wxFrame
 	bool AutoCopy;
 	bool CopyGraphics;
 	bool AllCivs;
+	short SelectedCivs;
 //	int SearchFilters;
 	bool UseAnd[2];
 	bool EnableIDFix;

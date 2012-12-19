@@ -134,7 +134,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		TerrainIDs.resize(Selections);
 		Terrains_Unknown1->resize(Selections);
@@ -320,7 +320,7 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded
 void AGE_Frame::OnTerrainsInsert(wxCommandEvent &Event) // Their count is hardcoded.
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Terrain Temp1;
@@ -340,7 +340,7 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent &Event) // Their count is hardco
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardcoded.
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -359,7 +359,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardco
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Terrain.resize(Selections);
@@ -371,7 +371,7 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Terrain.size()+TerrainIDs[0] > GenieFile->Terrains.size())
@@ -395,7 +395,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Terrain Temp1;

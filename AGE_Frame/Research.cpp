@@ -255,7 +255,7 @@ void AGE_Frame::ListResearches(bool Sized)
 void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		ResearchIDs.resize(Selections);
 		for(short loop2=0; loop2 < GenieFile->Researchs[0].getRequiredTechsSize(); loop2++)
@@ -405,7 +405,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent &Event)
 void AGE_Frame::OnResearchInsert(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Research Temp;
@@ -418,7 +418,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &Event)
 void AGE_Frame::OnResearchDelete(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -430,7 +430,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent &Event)
 void AGE_Frame::OnResearchCopy(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->Research.resize(Selections);
@@ -442,7 +442,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent &Event)
 void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Research.size()+ResearchIDs[0] > GenieFile->Researchs.size())
@@ -459,7 +459,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::Research Temp;

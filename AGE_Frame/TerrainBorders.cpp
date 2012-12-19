@@ -63,7 +63,7 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		BorderIDs.resize(Selections);
 		Borders_BorderName[0]->resize(Selections);
@@ -135,7 +135,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->TerrainBorder.resize(Selections);
@@ -147,7 +147,7 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		short CopyCount = copies->TerrainBorder.size();
@@ -201,7 +201,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		FrameIDs.resize(Selections);
 		Borders_BorderFrameID->resize(Selections);
@@ -228,7 +228,7 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->TBFrameData.resize(Selections);
@@ -240,7 +240,7 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)
 void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		short CopyCount = copies->TBFrameData.size();

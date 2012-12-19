@@ -13,9 +13,9 @@ bool TextCtrl_Byte::SaveEdits()
 			{
 				if(*container[0] != casted)
 			    {
-					for(int loop=0; loop<container.size(); loop++)
+					for(auto &pointer: container)
 					{
-						*container[loop] = casted;
+						*pointer = casted;
 					}
 					if(LinkedBox) LinkedBox->Update(casted);
 					return true;
@@ -53,9 +53,9 @@ bool TextCtrl_UByte::SaveEdits()
 			{
 				if(*container[0] != casted)
 			    {
-					for(int loop=0; loop<container.size(); loop++)
+					for(auto &pointer: container)
 					{
-						*container[loop] = casted;
+						*pointer = casted;
 					}
 					if(LinkedBox) LinkedBox->Update(casted);
 					return true;
@@ -91,9 +91,9 @@ bool TextCtrl_Float::SaveEdits()
 			float casted = lexical_cast<float>(value);
 			if(*container[0] != casted)
 			{
-			    for(int loop=0; loop<container.size(); loop++)
+			    for(auto &pointer: container)
 				{
-					*container[loop] = casted;
+					*pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
 				return true;
@@ -123,9 +123,9 @@ bool TextCtrl_Long::SaveEdits()
 			int32_t casted = lexical_cast<int32_t>(value);
 			if(*container[0] != casted)
 			{
-				for(int loop=0; loop<container.size(); loop++)
+				for(auto &pointer: container)
 				{
-					*container[loop] = casted;
+					*pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
 				return true;
@@ -155,9 +155,9 @@ bool TextCtrl_Short::SaveEdits()
 			int16_t casted = lexical_cast<int16_t>(value);
 			if(*container[0] != casted)
 			{
-				for(int loop=0; loop<container.size(); loop++)
+				for(auto &pointer: container)
 				{
-					*container[loop] = casted;
+					*pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
 				return true;
@@ -187,9 +187,9 @@ bool TextCtrl_UShort::SaveEdits()
 			uint16_t casted = lexical_cast<uint16_t>(value);
 			if(*container[0] != casted)
 			{
-				for(int loop=0; loop<container.size(); loop++)
+				for(auto &pointer: container)
 				{
-					*container[loop] = casted;
+					*pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
 				return true;
@@ -218,17 +218,17 @@ bool TextCtrl_String::SaveEdits()	// This may crash the program.
 	    {
 			if(value.size() <= MaxSize)
 			{
-				for(int loop=0; loop<container.size(); loop++)
+				for(auto &pointer: container)
 				{
-					*container[loop] = value; // Update data field
+					*pointer = value; // Update data field
 				}
 			}
 			else
 			{
 				value = value.substr(0, MaxSize);
-				for(int loop=0; loop<container.size(); loop++)
+				for(auto &pointer: container)
 				{
-					*container[loop] = value;
+					*pointer = value;
 				}
 				ChangeValue(*container[0]);
 			}

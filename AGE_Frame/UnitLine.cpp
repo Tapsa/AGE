@@ -58,7 +58,7 @@ void AGE_Frame::ListUnitLines()
 void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		UnitLineIDs.resize(Selections);
 		UnitLines_ID->resize(Selections);
@@ -98,7 +98,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitLine Temp;
@@ -114,7 +114,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -129,7 +129,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->UnitLine.resize(Selections);
@@ -141,7 +141,7 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->UnitLine.size()+UnitLineIDs[0] > GenieFile->UnitLines.size())
@@ -160,7 +160,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		genie::UnitLine Temp;
@@ -226,7 +226,7 @@ void AGE_Frame::ListUnitLineUnits()
 void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		UnitLineUnitIDs.resize(Selections);
 		UnitLineUnits_Units->resize(Selections);
@@ -252,7 +252,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.push_back(0);
@@ -264,7 +264,7 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], 0);
@@ -275,7 +275,7 @@ void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		for(short loop = Selections; loop--> 0;)
@@ -287,7 +287,7 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		copies->UnitLineUnit.resize(Selections);
@@ -299,7 +299,7 @@ void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->UnitLineUnit.size()+UnitLineUnitIDs[0] > GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size())
@@ -313,7 +313,7 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections != 0)
+	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
 		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], copies->UnitLineUnit.size(), 0);
