@@ -432,7 +432,7 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 	OnUnitsSelect(E);
 }
 
-void AGE_Frame::ListUnitHeads(short civ)
+/*void AGE_Frame::ListUnitHeads(short civ)
 {
 	string Name;
 	short Selection = Units_UnitHeads_List->GetSelection();
@@ -447,7 +447,7 @@ void AGE_Frame::ListUnitHeads(short civ)
 	Units_UnitHeads_List->SetSelection(0);
 	else
 	Units_UnitHeads_List->SetSelection(Selection);
-}
+}*/
 
 //	This links data into user interface
 void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
@@ -709,10 +709,16 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 
 	short UnitType;
 	genie::Unit * UnitPointer;
+	wxString locations = "Locations:\n";
 	for(auto sel = Selections; sel--> 0;)
 	{
 		UnitPointer = (genie::Unit*)Units_Units_List->GetClientData(Items.Item(sel));
 		UnitIDs[sel] = (UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]));
+		locations.Append("Unit "+lexical_cast<string>(UnitIDs[sel])+":   ");
+
+		// Nyt osoitin menee oikein valitun civin eka unitsi
+		// Mutta tekstit päivitetään vikan "valitun" civin perusteella (nykynen + 1)
+		// KORJAA TÄMÄ!!!
 
 		// This makes auto-copy automatic.
 		// MAKE IT SO THAT THERE CAN BE LIMITLESS AMOUNT OF CIVS!!!
@@ -722,11 +728,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			civ = civ % GenieFile->Civs.size();
 			if(!Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID) continue;
 			UnitPointer = &GenieFile->Civs[civ].Units[UnitIDs[sel]];
-			//wxMessageBox("Selection: "+lexical_cast<string>(sel)+"\nCiv: "+lexical_cast<string>(civ));
 
 			UnitType = (short)UnitPointer->Type;
 			// This ensures that the first pointer is always the current civ and its first selection.
 			int location = sel + vecCiv * Selections;
+			locations.Append(lexical_cast<string>(location)+" ");
 			// Assing data to editing boxes
 			Units_Type->container[location] = &UnitPointer->Type;
 			//switch(UnitType)
@@ -993,7 +999,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			}
 			vecCiv++;
 		}
+		locations.Append("\n");
 	}
+	wxMessageBox(locations);
 	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(Selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
 
 	Units_Type->ChangeValue(lexical_cast<string>((short)UnitPointer->Type));
@@ -1757,7 +1765,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_ProjectileArc->Enable(false);
 		Units_ProjectileArc->ChangeValue("0");
 	}
-	
+
 	// Don't count disabled units anymore.
 	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 	{
@@ -1768,45 +1776,39 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	ListUnitAttacks();
 	ListUnitArmors();
 	if(GameVersion >= 2)	// AoK, TC, SWGB or CC
-	{	// Disabling this (unit headers) doesn't increase search speed.
-		Units_UnitHeads_List->SetSelection(UnitIDs[0]); // Correct selection even when units are search filtered.
-		wxCommandEvent E;
-		OnUnitHeadsSelect(E);
+	{
+		//Units_UnitHeads_List->SetSelection(UnitIDs[0]); // Correct selection even when units are search filtered.
+		//OnUnitHeadsSelect();
+		Units_Exists->resize(Selections);
+
+		genie::UnitHeader * UnitHeadPointer;
+		for(auto sel = Selections; sel--> 0;)
+		{
+			UnitHeadPointer = &GenieFile->UnitHeaders[UnitIDs[sel]];
+
+			Units_Exists->container[sel] = &UnitHeadPointer->Exists;
+		}
+
+		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs[0])+" - "+GetUnitName(UnitIDs[0], 0));
+		Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
 	}
 	else	// AoE or RoR
 	{
 		Units_UnitHeads_Name->SetLabel("");
-		ListUnitCommands();
 	}
+	ListUnitCommands();
 	//	Refresh(); // Too much lag.
 }
 
-void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent &Event)
+/*void AGE_Frame::OnUnitHeadsSelect()
 {
-// THIS IS NOT DONE YET!!!
-	short Selection = Units_UnitHeads_List->GetSelection();
-	if(Selection == wxNOT_FOUND) return;
 	auto Selections = Units_Units_List->GetSelections(Items);
 	if(Selections < 1)
 	{
 		wxMessageBox("Unit header selected, but no unit!");
 		return;
 	}
-
-	Units_Exists->resize(Selections);
-
-	genie::UnitHeader * UnitHeadPointer;
-	for(auto sel = Selections; sel--> 0;)
-	{
-		UnitHeadPointer = (genie::UnitHeader*)Units_UnitHeads_List->GetClientData(UnitIDs[sel]);
-		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs[0])+" - "+GetUnitName(UnitIDs[0], 0));
-
-		Units_Exists->container[0] = &UnitHeadPointer->Exists;
-	}
-
-	Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
-	ListUnitCommands();
-}
+}*/
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 {
@@ -1834,10 +1836,6 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = (int16_t)(GenieFile->Civs[0].Units.size()-1);
 		}
 	}
-	if(GameVersion > 1)
-	{
-		ListUnitHeads(UnitCivID);
-	}
 	Added = true;
 	ListUnits(UnitCivID);
 }
@@ -1850,9 +1848,6 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)	// AoK, TC, SWGB or CC
 	{
-		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
-		wxMessageBox("You should never see this (unit header bug)");
-
 		genie::UnitHeader Temp1;
 		Temp1.setGameVersion(GenieVersion);
 		GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], Temp1);
@@ -1873,10 +1868,6 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 			GenieFile->Civs[loop].Units[loop2].ID3 = (int16_t)loop2;
 		}
 	}
-	if(GameVersion > 1)
-	{
-		ListUnitHeads(UnitCivID);
-	}
 	ListUnits(UnitCivID);
 }
 
@@ -1888,9 +1879,6 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)
 	{
-		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
-		wxMessageBox("You should never see this (unit header bug)");
-
 		for(auto loop = Selections; loop--> 0;)
 		GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitIDs[loop]);
 	}
@@ -1911,10 +1899,6 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 			GenieFile->Civs[civ].Units[loop].ID3 = (int16_t)loop;
 		}
 	}
-	if(GameVersion > 1)
-	{
-		ListUnitHeads(UnitCivID);
-	}
 	ListUnits(UnitCivID);
 }
 
@@ -1926,9 +1910,6 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)
 	{
-		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
-		wxMessageBox("You should never see this (unit header bug)");
-
 		copies->UnitHeader.resize(Selections);
 		for(short loop=0; loop < Selections; loop++)
 		copies->UnitHeader[loop] = GenieFile->UnitHeaders[UnitIDs[loop]];
@@ -2099,9 +2080,6 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)
 	{
-		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
-		wxMessageBox("You should never see this (unit header bug)");
-
 		if(copies->UnitHeader.size()+UnitIDs[0] > GenieFile->UnitHeaders.size())
 		GenieFile->UnitHeaders.resize(copies->UnitHeader.size()+UnitIDs[0]);
 		for(short loop=0; loop < copies->UnitHeader.size(); loop++)
@@ -2171,10 +2149,6 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 			}
 		}
 	}
-	if(GameVersion > 1)
-	{
-		ListUnitHeads(UnitCivID);
-	}
 	ListUnits(UnitCivID);
 }
 
@@ -2191,9 +2165,6 @@ void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(GameVersion > 1)
 	{
-		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
-		wxMessageBox("You should never see this (unit header bug)");
-
 		genie::UnitHeader Temp1;
 		GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], copies->UnitHeader.size(), Temp1);
 		for(short loop=0; loop < copies->UnitHeader.size(); loop++)
@@ -2263,10 +2234,6 @@ void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 			if(GameVersion >= 2)
 			GenieFile->Civs[civ].Units[loop].ID3 = (int16_t)loop;
 		}
-	}
-	if(GameVersion > 1)
-	{
-		ListUnitHeads(UnitCivID);
 	}
 	ListUnits(UnitCivID);
 }
@@ -2446,7 +2413,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 // Selasin kaikki unitsit, tätä ei tule jos unitsin olemassaolo=pointer tarkistetaan
 // Toisin sanoen unitsien enablissa pitää huolehtia siitä että jokaisella unitsilla on sama määrä
 // damage graffoja, attakkeja, armoreita ja commandseja
-// JÄTÄ SILTI tarkistus eroavaisuudesta ja varoitus siitä ainakin muutamaksi kuukaudeksi 
+// JÄTÄ SILTI tarkistus eroavaisuudesta ja varoitus siitä ainakin muutamaksi kuukaudeksi
 // (tai pysyvästi jos joku kämmii tiedoston toisella ohjelmalla)
 					wxMessageBox("Damage graphic count of civ "+lexical_cast<string>(civ)+" differs from civ "+lexical_cast<string>(UnitCivID));
 				}
@@ -4512,9 +4479,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown36 = new TextCtrl_Short(Units_Scroller);
 
 	Units_CommandHolder_Lists = new wxBoxSizer(wxVERTICAL);
-	Units_UnitHeads = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "");
+	//Units_UnitHeads = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "");
 	Units_UnitHeads_Name = new wxStaticText(Units_Scroller, wxID_ANY, "Unit Header", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_UnitHeads_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
+	//Units_UnitHeads_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100));
 	Units_UnitCommands = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Commands");
 	Units_UnitCommands_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
 	Units_UnitCommands_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
@@ -5622,7 +5589,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Type80plusUnknownArea->Add(-1, 5);
 	Units_Holder_Type80plusUnknownArea->Add(Units_Grid_Type80plusUnknownArea, 0, wxEXPAND);
 
-	Units_UnitHeads->Add(Units_UnitHeads_List, 1, wxEXPAND);
+	//Units_UnitHeads->Add(Units_UnitHeads_List, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Add, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Insert, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Delete, 1, wxEXPAND);
@@ -5638,7 +5605,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnitCommands->Add(Units_UnitCommands_Buttons, 0, wxEXPAND);
 
 	Units_CommandHolder_Lists->Add(Units_UnitHeads_Name, 0, wxEXPAND);
-	Units_CommandHolder_Lists->Add(Units_UnitHeads, 0, wxEXPAND);
+	//Units_CommandHolder_Lists->Add(Units_UnitHeads, 0, wxEXPAND);
 	Units_CommandHolder_Lists->Add(5, 5);
 	Units_CommandHolder_Lists->Add(Units_UnitCommands, 0, wxEXPAND);
 	Units_CommandHolder_Lists->Add(5, 5);
@@ -5772,8 +5739,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Main->Add(10, -1);
 
 	//Units_Import->Enable(false);
-	Units_UnitHeads_List->Enable(false);
-	Units_UnitHeads->Show(false);
+	//Units_UnitHeads_List->Enable(false);
+	//Units_UnitHeads->Show(false);
 	if(EnableIDFix)
 	{
 		Units_ID1->Enable(false);
