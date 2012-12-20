@@ -435,8 +435,8 @@ class AGE_Frame: public wxFrame
 
 //	Unit Events
 
-	void ListUnitHeads(short);
-	void OnUnitHeadsSelect(wxCommandEvent &Event);
+	//void ListUnitHeads(short);
+	//void OnUnitHeadsSelect();
 
 	void ListUnitCommands();
 	void OnUnitCommandsSearch(wxCommandEvent &Event);
@@ -1929,9 +1929,9 @@ class AGE_Frame: public wxFrame
 //	Unit Attributes section
 
 	wxBoxSizer *Units_CommandHolder_Lists;
-	wxStaticBoxSizer *Units_UnitHeads;
+	//wxStaticBoxSizer *Units_UnitHeads;
 	wxStaticText *Units_UnitHeads_Name;
-	wxListBox *Units_UnitHeads_List;
+	//wxListBox *Units_UnitHeads_List;
 
 	wxStaticBoxSizer *Units_UnitCommands;
 	wxTextCtrl *Units_UnitCommands_Search;

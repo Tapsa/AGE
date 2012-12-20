@@ -928,7 +928,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		//wxMessageBox("Loaded!");
 		if(GameVersion >= 2)
 		{
-			ListUnitHeads(0);	// This needs to happen before unit listing to avoid crash.
+			//ListUnitHeads(0);	// This needs to happen before unit listing to avoid crash.
 			ListTTAgess();
 			ListTTBuildings();
 			ListTTUnits();
@@ -936,8 +936,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		else
 		{
-			if(Units_UnitHeads_List->GetCount() > 0)
-			Units_UnitHeads_List->Clear();
+			//if(Units_UnitHeads_List->GetCount() > 0)
+			//Units_UnitHeads_List->Clear();
 			if(TechTrees_MainList_Ages_List->GetCount() > 0)
 			TechTrees_MainList_Ages_List->Clear();
 			if(TechTrees_DataList_Ages_List_Buildings->GetCount() > 0)
