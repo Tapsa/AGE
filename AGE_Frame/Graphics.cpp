@@ -287,7 +287,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 		Graphics_TypeS->resize(Selections);
 
 		genie::Graphic * GraphicPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			GraphicPointer = (genie::Graphic*)Graphics_Graphics_List->GetClientData(Items.Item(sel));
 			GraphicIDs[sel] = (GraphicPointer - (&GenieFile->Graphics[0]));
@@ -395,7 +395,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			GenieFile->Graphics.erase(GenieFile->Graphics.begin() + GraphicIDs[loop]);
 			GenieFile->GraphicPointers.erase(GenieFile->GraphicPointers.begin() + GraphicIDs[loop]);
@@ -544,7 +544,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 		GraphicDeltas_Unknown5->resize(Selections);
 
 		genie::GraphicDelta * DeltaPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			DeltaPointer = (genie::GraphicDelta*)Graphics_Deltas_List->GetClientData(Items.Item(loop));
 			DeltaIDs[loop] = (DeltaPointer - (&GenieFile->Graphics[GraphicIDs[0]].Deltas[0]));
@@ -616,7 +616,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Graphics[GraphicIDs[0]].Deltas.erase(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[loop]);
 		ListGraphicDeltas();
 	}
@@ -711,7 +711,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 		Graphics_AttackSoundDelay[2]->resize(Selections);
 
 		genie::GraphicAttackSound * AttackSoundPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			AttackSoundPointer = (genie::GraphicAttackSound*)Graphics_AttackSounds_List->GetClientData(Items.Item(sel));
 			AttackSoundIDs[sel] = (AttackSoundPointer - (&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[0]));

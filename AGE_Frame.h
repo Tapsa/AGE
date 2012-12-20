@@ -2949,7 +2949,7 @@ class AGE_Frame: public wxFrame
 	template <typename T, typename V>
 	void DeleteFromListIDFix(T &Path, vector<V> &Places, short &Selections)
 	{
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		Path.erase(Path.begin() + Places[loop]);
 		if(EnableIDFix)
 		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix

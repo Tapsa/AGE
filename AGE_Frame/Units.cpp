@@ -4,10 +4,9 @@ using boost::lexical_cast;
 void AGE_Frame::OnUnitSubList(wxCommandEvent &Event)
 {
 	short Selection = Units_Civs_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListUnits(Selection, false);	// List units by selected civ.
-	}
+	if(Selection == wxNOT_FOUND) return;
+
+	ListUnits(Selection, false);	// List units by selected civ.
 }
 
 string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
@@ -129,10 +128,9 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
 {
 	short Selection = Units_Civs_List->GetSelection();
-	if(Selection != wxNOT_FOUND)
-	{
-		ListUnits(Selection, false);
-	}
+	if(Selection == wxNOT_FOUND) return;
+
+	ListUnits(Selection, false);
 }
 
 void AGE_Frame::ListUnits(short civ, bool Sized)
@@ -711,14 +709,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 
 	short UnitType;
 	genie::Unit * UnitPointer;
-	for(short sel = Selections; sel--> 0;)
+	for(auto sel = Selections; sel--> 0;)
 	{
 		UnitPointer = (genie::Unit*)Units_Units_List->GetClientData(Items.Item(sel));
 		UnitIDs[sel] = (UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]));
 
 		// This makes auto-copy automatic.
 		// MAKE IT SO THAT THERE CAN BE LIMITLESS AMOUNT OF CIVS!!!
-		for(short l=0, civ = UnitCivID, vecCiv=0; l < GenieFile->Civs.size(); l++, civ++)
+		for(short l = (AutoCopy) ? GenieFile->Civs.size() : 1, civ = UnitCivID, vecCiv=0; l--> 0; civ++)
 		{
 			// This ensures that the first referenced civ will always be the one which is being edited.
 			civ = civ % GenieFile->Civs.size();
@@ -993,7 +991,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_Unknown24->container[location] = &UnitPointer->ProjectileOnly.Unknown24;
 				Units_ProjectileArc->container[location] = &UnitPointer->ProjectileOnly.ProjectileArc;
 			}
-			if(!AutoCopy) break;
 			vecCiv++;
 		}
 	}
@@ -1786,13 +1783,28 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitHeadsSelect(wxCommandEvent &Event)
 {
+// THIS IS NOT DONE YET!!!
 	short Selection = Units_UnitHeads_List->GetSelection();
 	if(Selection == wxNOT_FOUND) return;
+	auto Selections = Units_Units_List->GetSelections(Items);
+	if(Selections < 1)
+	{
+		wxMessageBox("Unit header selected, but no unit!");
+		return;
+	}
 
-	genie::UnitHeader * UnitHeadPointer = (genie::UnitHeader*)Units_UnitHeads_List->GetClientData(Selection);
-	Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs[0])+" - "+GetUnitName(UnitIDs[0], 0));
+	Units_Exists->resize(Selections);
+
+	genie::UnitHeader * UnitHeadPointer;
+	for(auto sel = Selections; sel--> 0;)
+	{
+		UnitHeadPointer = (genie::UnitHeader*)Units_UnitHeads_List->GetClientData(UnitIDs[sel]);
+		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs[0])+" - "+GetUnitName(UnitIDs[0], 0));
+
+		Units_Exists->container[0] = &UnitHeadPointer->Exists;
+	}
+
 	Units_Exists->ChangeValue(lexical_cast<string>((short)UnitHeadPointer->Exists));
-	Units_Exists->container[0] = &UnitHeadPointer->Exists;
 	ListUnitCommands();
 }
 
@@ -1879,13 +1891,13 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 		if(Units_UnitHeads_List->GetSelection() == wxNOT_FOUND)
 		wxMessageBox("You should never see this (unit header bug)");
 
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitIDs[loop]);
 	}
 
 	for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 	{
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			GenieFile->Civs[civ].Units.erase(GenieFile->Civs[civ].Units.begin() + UnitIDs[loop]);
 			GenieFile->Civs[civ].UnitPointers.erase(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[loop]);
@@ -2383,13 +2395,21 @@ void AGE_Frame::ListUnitDamageGraphics()
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(Units_DamageGraphics_List->GetCount() > 0) Units_DamageGraphics_List->Clear();
 
-	for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size(); loop++)
+	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
-		if(SearchMatches(Name.Lower()))
+		Units_DamageGraphics_Add->Enable(true);
+		for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size(); loop++)
 		{
-			Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[loop]);
+			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
+			if(SearchMatches(Name.Lower()))
+			{
+				Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[loop]);
+			}
 		}
+	}
+	else
+	{
+		Units_DamageGraphics_Add->Enable(false);
 	}
 	ListingFix(Selections, Units_DamageGraphics_List);
 
@@ -2411,12 +2431,12 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 		DamageGraphics_Unknown2->resize(PointerCount);
 
 		genie::unit::DamageGraphic * DamageGraphicPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			DamageGraphicPointer = (genie::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Items.Item(sel));
 			DamageGraphicIDs[sel] = (DamageGraphicPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[0]));
 
-			for(short l=0, civ = UnitCivID, vecCiv=0; l < GenieFile->Civs.size(); l++, civ++)
+			for(short l = (AutoCopy) ? GenieFile->Civs.size() : 1, civ = UnitCivID, vecCiv=0; l--> 0; civ++)
 			{
 				civ = civ % GenieFile->Civs.size();
 				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0
@@ -2429,10 +2449,8 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 // JÄTÄ SILTI tarkistus eroavaisuudesta ja varoitus siitä ainakin muutamaksi kuukaudeksi 
 // (tai pysyvästi jos joku kämmii tiedoston toisella ohjelmalla)
 					wxMessageBox("Damage graphic count of civ "+lexical_cast<string>(civ)+" differs from civ "+lexical_cast<string>(UnitCivID));
-					//GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.resize(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size());
 				}
 				DamageGraphicPointer = &GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics[DamageGraphicIDs[sel]];
-				//wxMessageBox("Civ: "+lexical_cast<string>(civ)+"\nUnit: "+lexical_cast<string>(UnitIDs[0])+"\nDamage graphic: "+lexical_cast<string>(sel));
 
 				int location = sel + vecCiv * Selections;
 				if(CopyGraphics || vecCiv == 0)
@@ -2442,7 +2460,6 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 					DamageGraphics_Unknown1->container[location] = &DamageGraphicPointer->Unknown1;
 					DamageGraphics_Unknown2->container[location] = &DamageGraphicPointer->Unknown2;
 				}
-				if(!AutoCopy) break;
 				vecCiv++;
 			}
 		}
@@ -2504,7 +2521,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 		{
-			for(short loop = Selections; loop--> 0;)
+			for(auto loop = Selections; loop--> 0;)
 			GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[loop]);
 		}
 		ListUnitDamageGraphics();
@@ -2578,7 +2595,6 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
 				GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics[DamageGraphicIDs[0]+loop] = copies->DamageGraphic[loop];
 			}
 		}
-
 		ListUnitDamageGraphics();
 	}
 }
@@ -2603,13 +2619,15 @@ void AGE_Frame::ListUnitAttacks()
 	auto Selections = Units_Attacks_List->GetSelections(Items);
 	if(Units_Attacks_List->GetCount() > 0) Units_Attacks_List->Clear();
 
-	if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60 && GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
+	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
+	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60
+	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
 	{
 		Units_Attacks_Add->Enable(true);
 		for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.size(); loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
-				if(SearchMatches(Name.Lower()))
+			if(SearchMatches(Name.Lower()))
 			{
 				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[loop]);
 			}
@@ -2631,17 +2649,32 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		AttackIDs.resize(Selections);
-		Attacks_Class->resize(Selections);
-		Attacks_Amount->resize(Selections);
+		int PointerCount = Selections * SelectedCivs;
+		Attacks_Class->resize(PointerCount);
+		Attacks_Amount->resize(PointerCount);
 
 		genie::unit::AttackOrArmor * AttackPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
-			AttackPointer = (genie::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Items.Item(loop));
-			AttackIDs[loop] = (AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[0]));
+			AttackPointer = (genie::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Items.Item(sel));
+			AttackIDs[sel] = (AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[0]));
 
-			Attacks_Class->container[loop] = &AttackPointer->Class;
-			Attacks_Amount->container[loop] = &AttackPointer->Amount;
+			for(short l = (AutoCopy) ? GenieFile->Civs.size() : 1, civ = UnitCivID, vecCiv=0; l--> 0; civ++)
+			{
+				civ = civ % GenieFile->Civs.size();
+				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0
+				|| (!Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)) continue;
+				if(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.size())
+				{
+					wxMessageBox("Attack count of civ "+lexical_cast<string>(civ)+" differs from civ "+lexical_cast<string>(UnitCivID));
+				}
+				AttackPointer = &GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks[AttackIDs[sel]];
+
+				int location = sel + vecCiv * Selections;
+				Attacks_Class->container[location] = &AttackPointer->Class;
+				Attacks_Amount->container[location] = &AttackPointer->Amount;
+				vecCiv++;
+			}
 		}
 
 		Attacks_Class->ChangeValue(lexical_cast<string>(AttackPointer->Class));
@@ -2698,7 +2731,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		for(short civ=0; civ < GenieFile->Civs.size(); civ++)
 		{
-			for(short loop = Selections; loop--> 0;)
+			for(auto loop = Selections; loop--> 0;)
 			GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[loop]);
 		}
 		ListUnitAttacks();
@@ -2796,13 +2829,15 @@ void AGE_Frame::ListUnitArmors()
 	auto Selections = Units_Armors_List->GetSelections(Items);
 	if(Units_Armors_List->GetCount() > 0) Units_Armors_List->Clear();
 
-	if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60 && GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
+	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
+	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60
+	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
 	{
 		Units_Armors_Add->Enable(true);
 		for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.size(); loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
-				if(SearchMatches(Name.Lower()))
+			if(SearchMatches(Name.Lower()))
 			{
 				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[loop]);
 			}
@@ -2824,17 +2859,32 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		ArmorIDs.resize(Selections);
-		Armors_Class->resize(Selections);
-		Armors_Amount->resize(Selections);
+		int PointerCount = Selections * SelectedCivs;
+		Armors_Class->resize(PointerCount);
+		Armors_Amount->resize(PointerCount);
 
 		genie::unit::AttackOrArmor * ArmorPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
-			ArmorPointer = (genie::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Items.Item(loop));
-			ArmorIDs[loop] = (ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[0]));
+			ArmorPointer = (genie::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Items.Item(sel));
+			ArmorIDs[sel] = (ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[0]));
 
-			Armors_Class->container[loop] = &ArmorPointer->Class;
-			Armors_Amount->container[loop] = &ArmorPointer->Amount;
+			for(short l = (AutoCopy) ? GenieFile->Civs.size() : 1, civ = UnitCivID, vecCiv=0; l--> 0; civ++)
+			{
+				civ = civ % GenieFile->Civs.size();
+				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0
+				|| (!Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)) continue;
+				if(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.size())
+				{
+					wxMessageBox("Armor count of civ "+lexical_cast<string>(civ)+" differs from civ "+lexical_cast<string>(UnitCivID));
+				}
+				ArmorPointer = &GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours[ArmorIDs[sel]];
+
+				int location = sel + vecCiv * Selections;
+				Armors_Class->container[location] = &ArmorPointer->Class;
+				Armors_Amount->container[location] = &ArmorPointer->Amount;
+				vecCiv++;
+			}
 		}
 
 		Armors_Class->ChangeValue(lexical_cast<string>(ArmorPointer->Class));
@@ -2891,7 +2941,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		for(short civ=0; civ < GenieFile->Civs.size(); civ++)
 		{
-			for(short loop = Selections; loop--> 0;)
+			for(auto loop = Selections; loop--> 0;)
 			GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[loop]);
 		}
 		ListUnitArmors();
@@ -2988,106 +3038,45 @@ string AGE_Frame::GetUnitCommandName(short Index)
 	}
 	switch(CommandType)
 	{
-		case 3:
-			Name = "Ability to Garrison";
-			break;
+		case 3: Name = "Ability to Garrison"; break;
 		case 5:
 			switch(CommandSubType)
 			{
-				case 47:
-					Name = "Ability to Mine Gold";
-					break;
-				case 79:
-					Name = "Ability to Mine Stone";
-					break;
-				case 190:
-					Name = "Ability to Fish, Forage, or Farm";
-					break;
-				default:
-					Name = "Ability to Rebuild";
-			}
-			break;
-		case 6:
-			Name = "Unknown Animal Ability";
-			break;
-		case 7:
-			Name = "Ability to Attack";
-			break;
-		case 10:
-			Name = "Ability to Fly";
-			break;
-		case 11:
-			Name = "Unknown Predator Animal Ability";
-			break;
-		case 12:
-			Name = "Ability to Unload (Boat-Like)";
-			break;
-		case 13:
-			Name = "Ability to Auto-Attack";
-			break;
-		case 21:
-			Name = "Unknown Farm Ability";
-			break;
-		case 101:
-			Name = "Ability to Build";
-			break;
-		case 104:
-			Name = "Ability to Convert";
-			break;
-		case 105:
-			Name = "Ability to Heal";
-			break;
-		case 106:
-			Name = "Ability to Repair";
-			break;
-		case 107:
-			Name = "Type 107, Sub -1";
-			break;
-		case 109:
-			Name = "Type 109, Sub -1";
-			break;
+				case 47: Name = "Ability to Mine Gold"; break;
+				case 79: Name = "Ability to Mine Stone"; break;
+				case 190: Name = "Ability to Fish, Forage, or Farm"; break;
+				default: Name = "Ability to Rebuild";
+			}	break;
+		case 6: Name = "Unknown Animal Ability"; break;
+		case 7: Name = "Ability to Attack"; break;
+		case 10: Name = "Ability to Fly"; break;
+		case 11: Name = "Unknown Predator Animal Ability"; break;
+		case 12: Name = "Ability to Unload (Boat-Like)"; break;
+		case 13: Name = "Ability to Auto-Attack"; break;
+		case 21: Name = "Unknown Farm Ability"; break;
+		case 101: Name = "Ability to Build"; break;
+		case 104: Name = "Ability to Convert"; break;
+		case 105: Name = "Ability to Heal"; break;
+		case 106: Name = "Ability to Repair"; break;
+		case 107: Name = "Type 107, Sub -1"; break;
+		case 109: Name = "Type 109, Sub -1"; break;
 		case 110:
 			switch(CommandSubType)
 			{
-				case 189:
-					Name = "Ability to Chop Wood";
-					break;
-				case 190:
-					Name = "Ability to Hunt Prey Animals";
-					break;
-				default:
-					Name = "Ability to Hunt Predator Animals";
-			}
-			break;
-		case 111:
-			Name = "Ability to Trade";
-			break;
-		case 120:
-			Name = "Ability to Generate Wonder Victory*";
-			break;
-		case 121:
-			Name = "Type 121, Sub -1";
-			break;
-		case 122:
-			Name = "Ability to Mine Porex (Ore)";
-			break;
-		case 125:
-			Name = "Ability to Unpack & Attack";
-			break;
-		case 131:
-			Name = "Type 131, Sub -1";
-			break;
-		case 132:
-			Name = "Ability to Pickup Unit";
-			break;
-		case 135:
-			Name = "Type 135, Sub -1";
-			break;
-		case 136:
-			Name = "Ability to Deposit Unit";
-			break;
-		default:
-			Name = "Unk. Type "+lexical_cast<string>(CommandType)+", Sub "+lexical_cast<string>(CommandSubType);
+				case 189: Name = "Ability to Chop Wood"; break;
+				case 190: Name = "Ability to Hunt Prey Animals"; break;
+				default: Name = "Ability to Hunt Predator Animals";
+			}	break;
+		case 111: Name = "Ability to Trade"; break;
+		case 120: Name = "Ability to Generate Wonder Victory*"; break;
+		case 121: Name = "Type 121, Sub -1"; break;
+		case 122: Name = "Ability to Mine Porex (Ore)"; break;
+		case 125: Name = "Ability to Unpack & Attack"; break;
+		case 131: Name = "Type 131, Sub -1"; break;
+		case 132: Name = "Ability to Pickup Unit"; break;
+		case 135: Name = "Type 135, Sub -1"; break;
+		case 136: Name = "Ability to Deposit Unit"; break;
+		default: Name = "Unk. Type "+lexical_cast<string>(CommandType)+", Sub "+lexical_cast<string>(CommandSubType);
 	}
 	return Name;
 }
@@ -3119,7 +3108,9 @@ void AGE_Frame::ListUnitCommands()
 	}
 	else	// AoE or RoR
 	{
-		if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 40 && GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
+		if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
+		&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 40
+		&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
 		{
 			Units_UnitCommands_Add->Enable(true);
 			for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size(); loop++)
@@ -3148,33 +3139,34 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		CommandIDs.resize(Selections);
-		UnitCommands_One->resize(Selections);
-		UnitCommands_ID->resize(Selections);
-		UnitCommands_Unknown1->resize(Selections);
-		UnitCommands_Type->resize(Selections);
-		UnitCommands_SubType->resize(Selections);
-		UnitCommands_ClassID->resize(Selections);
-		UnitCommands_UnitID->resize(Selections);
-		UnitCommands_Unknown2->resize(Selections);
-		UnitCommands_ResourceIn->resize(Selections);
-		UnitCommands_ResourceOut->resize(Selections);
-		UnitCommands_Unknown3->resize(Selections);
-		UnitCommands_WorkRateMultiplier->resize(Selections);
-		UnitCommands_ExecutionRadius->resize(Selections);
-		UnitCommands_ExtraRange->resize(Selections);
-		UnitCommands_Unknown4->resize(Selections);
-		UnitCommands_Unknown5->resize(Selections);
-		UnitCommands_Unknown6->resize(Selections);
-		UnitCommands_Unknown7->resize(Selections);
-		UnitCommands_Unknown8->resize(Selections);
-		UnitCommands_Unknown9->resize(Selections);
-		UnitCommands_Unknown10->resize(Selections);
-		UnitCommands_Unknown11->resize(Selections);
+		int PointerCount = (GameVersion < 2) ? Selections * SelectedCivs : Selections;
+		UnitCommands_One->resize(PointerCount);
+		UnitCommands_ID->resize(PointerCount);
+		UnitCommands_Unknown1->resize(PointerCount);
+		UnitCommands_Type->resize(PointerCount);
+		UnitCommands_SubType->resize(PointerCount);
+		UnitCommands_ClassID->resize(PointerCount);
+		UnitCommands_UnitID->resize(PointerCount);
+		UnitCommands_Unknown2->resize(PointerCount);
+		UnitCommands_ResourceIn->resize(PointerCount);
+		UnitCommands_ResourceOut->resize(PointerCount);
+		UnitCommands_Unknown3->resize(PointerCount);
+		UnitCommands_WorkRateMultiplier->resize(PointerCount);
+		UnitCommands_ExecutionRadius->resize(PointerCount);
+		UnitCommands_ExtraRange->resize(PointerCount);
+		UnitCommands_Unknown4->resize(PointerCount);
+		UnitCommands_Unknown5->resize(PointerCount);
+		UnitCommands_Unknown6->resize(PointerCount);
+		UnitCommands_Unknown7->resize(PointerCount);
+		UnitCommands_Unknown8->resize(PointerCount);
+		UnitCommands_Unknown9->resize(PointerCount);
+		UnitCommands_Unknown10->resize(PointerCount);
+		UnitCommands_Unknown11->resize(PointerCount);
 		for(short loop=0; loop < 6; loop++)
-		UnitCommands_Graphics[loop]->resize(Selections);
+		UnitCommands_Graphics[loop]->resize(PointerCount);
 
 		genie::UnitCommand * CommandPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			CommandPointer = (genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Items.Item(sel));
 			if(GameVersion >= 2)
@@ -3182,30 +3174,51 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 			else
 			CommandIDs[sel] = (CommandPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[0]));
 
-			UnitCommands_One->container[sel] = &CommandPointer->One;
-			UnitCommands_ID->container[sel] = &CommandPointer->ID;
-			UnitCommands_Unknown1->container[sel] = &CommandPointer->Unknown1;
-			UnitCommands_Type->container[sel] = &CommandPointer->Type;
-			UnitCommands_SubType->container[sel] = &CommandPointer->SubType;
-			UnitCommands_ClassID->container[sel] = &CommandPointer->ClassID;
-			UnitCommands_UnitID->container[sel] = &CommandPointer->UnitID;
-			UnitCommands_Unknown2->container[sel] = &CommandPointer->Unknown2;
-			UnitCommands_ResourceIn->container[sel] = &CommandPointer->ResourceIn;
-			UnitCommands_ResourceOut->container[sel] = &CommandPointer->ResourceOut;
-			UnitCommands_Unknown3->container[sel] = &CommandPointer->Unknown3;
-			UnitCommands_WorkRateMultiplier->container[sel] = &CommandPointer->WorkRateMultiplier;
-			UnitCommands_ExecutionRadius->container[sel] = &CommandPointer->ExecutionRadius;
-			UnitCommands_ExtraRange->container[sel] = &CommandPointer->ExtraRange;
-			UnitCommands_Unknown4->container[sel] = &CommandPointer->Unknown4;
-			UnitCommands_Unknown5->container[sel] = &CommandPointer->Unknown5;
-			UnitCommands_Unknown6->container[sel] = &CommandPointer->Unknown6;
-			UnitCommands_Unknown7->container[sel] = &CommandPointer->Unknown7;
-			UnitCommands_Unknown8->container[sel] = &CommandPointer->Unknown8;
-			UnitCommands_Unknown9->container[sel] = &CommandPointer->Unknown9;
-			UnitCommands_Unknown10->container[sel] = &CommandPointer->Unknown10;
-			UnitCommands_Unknown11->container[sel] = &CommandPointer->Unknown11;
-			for(short loop=0; loop < 6; loop++)
-			UnitCommands_Graphics[loop]->container[sel] = &CommandPointer->Graphics[loop];
+			for(short l = (GameVersion < 2 && AutoCopy) ? GenieFile->Civs.size() : 1, civ = UnitCivID, vecCiv=0; l--> 0; civ++)
+			{
+				if(GameVersion < 2)
+				{
+					civ = civ % GenieFile->Civs.size();
+					if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0
+					|| (!Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)) continue;
+					if(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size())
+					{
+						wxMessageBox("Command count of civ "+lexical_cast<string>(civ)+" differs from civ "+lexical_cast<string>(UnitCivID));
+					}
+					CommandPointer = &GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands[CommandIDs[sel]];
+				}
+				else
+				{
+					CommandPointer = &GenieFile->UnitHeaders[UnitIDs[0]].Commands[CommandIDs[sel]];
+				}
+
+				int location = (GameVersion < 2) ? (sel + vecCiv * Selections) : sel;
+				UnitCommands_One->container[location] = &CommandPointer->One;
+				UnitCommands_ID->container[location] = &CommandPointer->ID;
+				UnitCommands_Unknown1->container[location] = &CommandPointer->Unknown1;
+				UnitCommands_Type->container[location] = &CommandPointer->Type;
+				UnitCommands_SubType->container[location] = &CommandPointer->SubType;
+				UnitCommands_ClassID->container[location] = &CommandPointer->ClassID;
+				UnitCommands_UnitID->container[location] = &CommandPointer->UnitID;
+				UnitCommands_Unknown2->container[location] = &CommandPointer->Unknown2;
+				UnitCommands_ResourceIn->container[location] = &CommandPointer->ResourceIn;
+				UnitCommands_ResourceOut->container[location] = &CommandPointer->ResourceOut;
+				UnitCommands_Unknown3->container[location] = &CommandPointer->Unknown3;
+				UnitCommands_WorkRateMultiplier->container[location] = &CommandPointer->WorkRateMultiplier;
+				UnitCommands_ExecutionRadius->container[location] = &CommandPointer->ExecutionRadius;
+				UnitCommands_ExtraRange->container[location] = &CommandPointer->ExtraRange;
+				UnitCommands_Unknown4->container[location] = &CommandPointer->Unknown4;
+				UnitCommands_Unknown5->container[location] = &CommandPointer->Unknown5;
+				UnitCommands_Unknown6->container[location] = &CommandPointer->Unknown6;
+				UnitCommands_Unknown7->container[location] = &CommandPointer->Unknown7;
+				UnitCommands_Unknown8->container[location] = &CommandPointer->Unknown8;
+				UnitCommands_Unknown9->container[location] = &CommandPointer->Unknown9;
+				UnitCommands_Unknown10->container[location] = &CommandPointer->Unknown10;
+				UnitCommands_Unknown11->container[location] = &CommandPointer->Unknown11;
+				for(short loop=0; loop < 6; loop++)
+				UnitCommands_Graphics[loop]->container[location] = &CommandPointer->Graphics[loop];
+				vecCiv++;
+			}
 		}
 
 		UnitCommands_One->ChangeValue(lexical_cast<string>(CommandPointer->One));
@@ -3213,129 +3226,47 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 		UnitCommands_Unknown1->ChangeValue(lexical_cast<string>((short)CommandPointer->Unknown1));
 		UnitCommands_Type->ChangeValue(lexical_cast<string>(CommandPointer->Type));
 		UnitCommands_SubType->ChangeValue(lexical_cast<string>(CommandPointer->SubType));
-		if(CommandPointer->Type == 3 && CommandPointer->SubType == -1)
+		switch(CommandPointer->Type)
 		{
-			UnitCommands_ComboBox_Types->SetSelection(1);
-		}
-		else if(CommandPointer->Type == 5 && CommandPointer->SubType == 47)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(2);
-		}
-		else if(CommandPointer->Type == 5 && CommandPointer->SubType == 79)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(3);
-		}
-		else if(CommandPointer->Type == 5 && CommandPointer->SubType == 190)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(4);
-		}
-		else if(CommandPointer->Type == 5 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(5);
-		}
-		else if(CommandPointer->Type == 6 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(6);
-		}
-		else if(CommandPointer->Type == 7 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(7);
-		}
-		else if(CommandPointer->Type == 10 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(8);
-		}
-		else if(CommandPointer->Type == 11 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(9);
-		}
-		else if(CommandPointer->Type == 12 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(10);
-		}
-		else if(CommandPointer->Type == 13 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(11);
-		}
-		else if(CommandPointer->Type == 21 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(12);
-		}
-		else if(CommandPointer->Type == 101 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(13);
-		}
-		else if(CommandPointer->Type == 104 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(14);
-		}
-		else if(CommandPointer->Type == 105 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(15);
-		}
-		else if(CommandPointer->Type == 106 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(16);
-		}
-		else if(CommandPointer->Type == 107 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(17);
-		}
-		else if(CommandPointer->Type == 109 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(18);
-		}
-		else if(CommandPointer->Type == 110 && CommandPointer->SubType == 189)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(19);
-		}
-		else if(CommandPointer->Type == 110 && CommandPointer->SubType == 190)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(20);
-		}
-		else if(CommandPointer->Type == 110 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(21);
-		}
-		else if(CommandPointer->Type == 111 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(22);
-		}
-		else if(CommandPointer->Type == 120 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(23);
-		}
-		else if(CommandPointer->Type == 121 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(24);
-		}
-		else if(CommandPointer->Type == 122 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(25);
-		}
-		else if(CommandPointer->Type == 125 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(26);
-		}
-		else if(CommandPointer->Type == 131 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(27);
-		}
-		else if(CommandPointer->Type == 132 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(28);
-		}
-		else if(CommandPointer->Type == 135 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(29);
-		}
-		else if(CommandPointer->Type == 136 && CommandPointer->SubType == -1)
-		{
-			UnitCommands_ComboBox_Types->SetSelection(30);
-		}
-		else
-		{
-			UnitCommands_ComboBox_Types->SetSelection(0);
+			case 3: UnitCommands_ComboBox_Types->SetSelection(1); break;
+			case 5:
+				switch(CommandPointer->SubType)
+				{
+					case 47: UnitCommands_ComboBox_Types->SetSelection(2); break;
+					case 79: UnitCommands_ComboBox_Types->SetSelection(3); break;
+					case 190: UnitCommands_ComboBox_Types->SetSelection(4); break;
+					default: UnitCommands_ComboBox_Types->SetSelection(5);
+				}	break;
+			case 6: UnitCommands_ComboBox_Types->SetSelection(6); break;
+			case 7: UnitCommands_ComboBox_Types->SetSelection(7); break;
+			case 10: UnitCommands_ComboBox_Types->SetSelection(8); break;
+			case 11: UnitCommands_ComboBox_Types->SetSelection(9); break;
+			case 12: UnitCommands_ComboBox_Types->SetSelection(10); break;
+			case 13: UnitCommands_ComboBox_Types->SetSelection(11); break;
+			case 21: UnitCommands_ComboBox_Types->SetSelection(12); break;
+			case 101: UnitCommands_ComboBox_Types->SetSelection(13); break;
+			case 104: UnitCommands_ComboBox_Types->SetSelection(14); break;
+			case 105: UnitCommands_ComboBox_Types->SetSelection(15); break;
+			case 106: UnitCommands_ComboBox_Types->SetSelection(16); break;
+			case 107: UnitCommands_ComboBox_Types->SetSelection(17); break;
+			case 109: UnitCommands_ComboBox_Types->SetSelection(18); break;
+			case 110:
+				switch(CommandPointer->SubType)
+				{
+					case 189: UnitCommands_ComboBox_Types->SetSelection(19); break;
+					case 190: UnitCommands_ComboBox_Types->SetSelection(20); break;
+					default: UnitCommands_ComboBox_Types->SetSelection(21);
+				}	break;
+			case 111: UnitCommands_ComboBox_Types->SetSelection(22); break;
+			case 120: UnitCommands_ComboBox_Types->SetSelection(23); break;
+			case 121: UnitCommands_ComboBox_Types->SetSelection(24); break;
+			case 122: UnitCommands_ComboBox_Types->SetSelection(25); break;
+			case 125: UnitCommands_ComboBox_Types->SetSelection(26); break;
+			case 131: UnitCommands_ComboBox_Types->SetSelection(27); break;
+			case 132: UnitCommands_ComboBox_Types->SetSelection(28); break;
+			case 135: UnitCommands_ComboBox_Types->SetSelection(29); break;
+			case 136: UnitCommands_ComboBox_Types->SetSelection(30); break;
+			default: UnitCommands_ComboBox_Types->SetSelection(0);
 		}
 		UnitCommands_ClassID->ChangeValue(lexical_cast<string>(CommandPointer->ClassID));
 		Units_ComboBox_Class[1]->SetSelection(CommandPointer->ClassID + 1);
@@ -3466,7 +3397,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		if(GameVersion > 1)
 		{
-			for(short loop = Selections; loop--> 0;)
+			for(auto loop = Selections; loop--> 0;)
 			GenieFile->UnitHeaders[UnitIDs[0]].Commands.erase(GenieFile->UnitHeaders[UnitIDs[0]].Commands.begin() + CommandIDs[loop]);
 			if(EnableIDFix)
 			for(short loop2 = CommandIDs[0];loop2 < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); loop2++) // ID Fix
@@ -3476,7 +3407,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 		{
 			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
-				for(short loop = Selections; loop--> 0;)
+				for(auto loop = Selections; loop--> 0;)
 				GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.begin() + CommandIDs[loop]);
 				if(EnableIDFix)
 				for(short loop2 = CommandIDs[0];loop2 < GenieFile->Civs[0].Units[UnitIDs[0]].Bird.Commands.size(); loop2++) // ID Fix
