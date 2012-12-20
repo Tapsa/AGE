@@ -2,7 +2,7 @@
 
 bool TextCtrl_Byte::SaveEdits()
 {
-	if(container.size() < 1) return false;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -42,7 +42,7 @@ bool TextCtrl_Byte::SaveEdits()
 
 bool TextCtrl_UByte::SaveEdits()
 {
-	if(container.size() < 1) return false;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -82,7 +82,7 @@ bool TextCtrl_UByte::SaveEdits()
 
 bool TextCtrl_Float::SaveEdits()
 {
-	if(container.size() < 1) return false;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -114,7 +114,7 @@ bool TextCtrl_Float::SaveEdits()
 
 bool TextCtrl_Long::SaveEdits()
 {
-	if(container.size() < 1) return false;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -146,7 +146,7 @@ bool TextCtrl_Long::SaveEdits()
 
 bool TextCtrl_Short::SaveEdits()
 {
-	if(container.size() < 1) return false;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -178,7 +178,7 @@ bool TextCtrl_Short::SaveEdits()
 
 bool TextCtrl_UShort::SaveEdits()
 {
-	if(container.size() < 1) return false;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -210,7 +210,7 @@ bool TextCtrl_UShort::SaveEdits()
 
 bool TextCtrl_String::SaveEdits()	// This may crash the program.
 {
-	if(container.size() < 1) return false;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
