@@ -154,7 +154,7 @@ void AGE_Frame::OnTechageSelect(wxCommandEvent &Event)
 		Techs_Name->resize(Selections);
 
 		genie::Techage * TechPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			TechPointer = (genie::Techage*)Techs_Techs_List->GetClientData(Items.Item(loop));
 			TechIDs[loop] = (TechPointer - (&GenieFile->Techages[0]));
@@ -198,7 +198,7 @@ void AGE_Frame::OnTechageDelete(wxCommandEvent &Event)	// Works.
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Techages.erase(GenieFile->Techages.begin() + TechIDs[loop]);
 		ListTechages();
 	}
@@ -396,7 +396,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		Effects_D->resize(Selections);
 
 		genie::TechageEffect * EffectPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			EffectPointer = (genie::TechageEffect*)Techs_Effects_List->GetClientData(Items.Item(loop));
 			EffectIDs[loop] = (EffectPointer - (&GenieFile->Techages[TechIDs[0]].Effects[0]));
@@ -1009,7 +1009,7 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent &Event)	// Works.
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Techages[TechIDs[0]].Effects.erase(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[loop]);
 		ListEffects();
 	}

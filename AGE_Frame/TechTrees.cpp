@@ -57,7 +57,7 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 		}
 
 		genie::TechTreeAge * AgePointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			AgePointer = (genie::TechTreeAge*)TechTrees_MainList_Ages_List->GetClientData(Items.Item(sel));
 			TTAgeIDs[sel] = (AgePointer - (&GenieFile->TechTree.TechTreeAges[0]));
@@ -131,7 +131,7 @@ void AGE_Frame::OnTTAgesDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.TechTreeAges.erase(GenieFile->TechTree.TechTreeAges.begin() + TTAgeIDs[loop]);
 		ListTTAgess();
 	}
@@ -238,7 +238,7 @@ void AGE_Frame::OnTTAgesBuildingSelect(wxCommandEvent &Event)
 		TechTrees_Ages_Building->resize(Selections);
 
 		int32_t * BuildingPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			BuildingPointer = (int32_t*)TechTrees_DataList_Ages_List_Buildings->GetClientData(Items.Item(loop));
 			TTAgeBuildIDs[loop] = (BuildingPointer - (&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[0]));
@@ -286,7 +286,7 @@ void AGE_Frame::OnTTAgesBuildingDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.erase(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.begin() + TTAgeBuildIDs[loop]);
 		ListTTAgesBuildings();
 	}
@@ -387,7 +387,7 @@ void AGE_Frame::OnTTAgesUnitSelect(wxCommandEvent &Event)
 		TechTrees_Ages_Unit->resize(Selections);
 
 		int32_t * UnitPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			UnitPointer = (int32_t*)TechTrees_DataList_Ages_List_Units->GetClientData(Items.Item(loop));
 			TTAgeUnitIDs[loop] = (UnitPointer - (&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[0]));
@@ -435,7 +435,7 @@ void AGE_Frame::OnTTAgesUnitDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.erase(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.begin() + TTAgeUnitIDs[loop]);
 		ListTTAgesUnits();
 	}
@@ -536,7 +536,7 @@ void AGE_Frame::OnTTAgesResearchSelect(wxCommandEvent &Event)
 		TechTrees_Ages_Research->resize(Selections);
 
 		int32_t * ResearchPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			ResearchPointer = (int32_t*)TechTrees_DataList_Ages_List_Researches->GetClientData(Items.Item(loop));
 			TTAgeResIDs[loop] = (ResearchPointer - (&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[0]));
@@ -584,7 +584,7 @@ void AGE_Frame::OnTTAgesResearchDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.erase(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.begin() + TTAgeResIDs[loop]);
 		ListTTAgesResearches();
 	}
@@ -766,7 +766,7 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &Event)
 		TechTrees_Buildings_EnablingResearch->resize(Selections);
 
 		genie::BuildingConnection * BuildingConPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			BuildingConPointer = (genie::BuildingConnection*)TechTrees_MainList_Buildings_List->GetClientData(Items.Item(sel));
 			TTBuildConIDs[sel] = (BuildingConPointer - (&GenieFile->TechTree.BuildingConnections[0]));
@@ -927,7 +927,7 @@ void AGE_Frame::OnTTBuildingDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.BuildingConnections.erase(GenieFile->TechTree.BuildingConnections.begin() + TTBuildConIDs[loop]);
 		ListTTBuildings();
 	}
@@ -1034,7 +1034,7 @@ void AGE_Frame::OnTTBuildingBuildingSelect(wxCommandEvent &Event)
 		TechTrees_Buildings_Building->resize(Selections);
 
 		int32_t * BuildingPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			BuildingPointer = (int32_t*)TechTrees_DataList_Buildings_List_Buildings->GetClientData(Items.Item(loop));
 			TTBuildBuildIDs[loop] = (BuildingPointer - (&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[0]));
@@ -1082,7 +1082,7 @@ void AGE_Frame::OnTTBuildingBuildingDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.erase(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.begin() + TTBuildBuildIDs[loop]);
 		ListTTBuildingBuildings();
 	}
@@ -1183,7 +1183,7 @@ void AGE_Frame::OnTTBuildingUnitSelect(wxCommandEvent &Event)
 		TechTrees_Buildings_Unit->resize(Selections);
 
 		int32_t * UnitPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			UnitPointer = (int32_t*)TechTrees_DataList_Buildings_List_Units->GetClientData(Items.Item(loop));
 			TTBuildUnitIDs[loop] = (UnitPointer - (&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[0]));
@@ -1231,7 +1231,7 @@ void AGE_Frame::OnTTBuildingUnitDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.erase(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.begin() + TTBuildUnitIDs[loop]);
 		ListTTBuildingUnits();
 	}
@@ -1332,7 +1332,7 @@ void AGE_Frame::OnTTBuildingResearchSelect(wxCommandEvent &Event)
 		TechTrees_Buildings_Research->resize(Selections);
 
 		int32_t * ResearchPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			ResearchPointer = (int32_t*)TechTrees_DataList_Buildings_List_Researches->GetClientData(Items.Item(loop));
 			TTBuildResIDs[loop] = (ResearchPointer - (&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[0]));
@@ -1380,7 +1380,7 @@ void AGE_Frame::OnTTBuildingResearchDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.erase(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.begin() + TTBuildResIDs[loop]);
 		ListTTBuildingResearches();
 	}
@@ -1574,7 +1574,7 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &Event)
 		TechTrees_Units_EnablingResearch->resize(Selections);
 
 		genie::UnitConnection * UnitConPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			UnitConPointer = (genie::UnitConnection*)TechTrees_MainList_Units_List->GetClientData(Items.Item(sel));
 			TTUnitConIDs[sel] = (UnitConPointer - (&GenieFile->TechTree.UnitConnections[0]));
@@ -1735,7 +1735,7 @@ void AGE_Frame::OnTTUnitDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.UnitConnections.erase(GenieFile->TechTree.UnitConnections.begin() + TTUnitConIDs[loop]);
 		ListTTUnits();
 	}
@@ -1842,7 +1842,7 @@ void AGE_Frame::OnTTUnitUnitSelect(wxCommandEvent &Event)
 		TechTrees_Units_Unit->resize(Selections);
 
 		int32_t * UnitPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			UnitPointer = (int32_t*)TechTrees_DataList_Units_List_Units->GetClientData(Items.Item(loop));
 			TTUnitUnitIDs[loop] = (UnitPointer - (&GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[0]));
@@ -1890,7 +1890,7 @@ void AGE_Frame::OnTTUnitUnitDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.erase(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.begin() + TTUnitUnitIDs[loop]);
 		ListTTUnitUnits();
 	}
@@ -2068,7 +2068,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &Event)
 		TechTrees_Researches_Unknown9->resize(Selections);
 
 		genie::ResearchConnection * ResearchConPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			ResearchConPointer = (genie::ResearchConnection*)TechTrees_MainList_Researches_List->GetClientData(Items.Item(sel));
 			TTResConIDs[sel] = (ResearchConPointer - (&GenieFile->TechTree.ResearchConnections[0]));
@@ -2175,7 +2175,7 @@ void AGE_Frame::OnTTResearchDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.ResearchConnections.erase(GenieFile->TechTree.ResearchConnections.begin() + TTResConIDs[loop]);
 		ListTTResearches();
 	}
@@ -2282,7 +2282,7 @@ void AGE_Frame::OnTTResearchBuildingSelect(wxCommandEvent &Event)
 		TechTrees_Researches_Building->resize(Selections);
 
 		int32_t * BuildingPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			BuildingPointer = (int32_t*)TechTrees_DataList_Researches_List_Buildings->GetClientData(Items.Item(loop));
 			TTResBuildIDs[loop] = (BuildingPointer - (&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[0]));
@@ -2330,7 +2330,7 @@ void AGE_Frame::OnTTResearchBuildingDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.erase(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.begin() + TTResBuildIDs[loop]);
 		ListTTResearchBuildings();
 	}
@@ -2431,7 +2431,7 @@ void AGE_Frame::OnTTResearchUnitSelect(wxCommandEvent &Event)
 		TechTrees_Researches_Unit->resize(Selections);
 
 		int32_t * UnitPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			UnitPointer = (int32_t*)TechTrees_DataList_Researches_List_Units->GetClientData(Items.Item(loop));
 			TTResUnitIDs[loop] = (UnitPointer - (&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[0]));
@@ -2479,7 +2479,7 @@ void AGE_Frame::OnTTResearchUnitDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.erase(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.begin() + TTResUnitIDs[loop]);
 		ListTTResearchUnits();
 	}
@@ -2580,7 +2580,7 @@ void AGE_Frame::OnTTResearchResearchSelect(wxCommandEvent &Event)
 		TechTrees_Researches_Research->resize(Selections);
 
 		int32_t * ResearchPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			ResearchPointer = (int32_t*)TechTrees_DataList_Researches_List_Researches->GetClientData(Items.Item(loop));
 			TTResResIDs[loop] = (ResearchPointer - (&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[0]));
@@ -2628,7 +2628,7 @@ void AGE_Frame::OnTTResearchResearchDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.erase(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.begin() + TTResResIDs[loop]);
 		ListTTResearchResearches();
 	}

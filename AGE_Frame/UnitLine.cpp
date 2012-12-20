@@ -65,7 +65,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 		UnitLines_Name->resize(Selections);
 
 		genie::UnitLine * LinePointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Items.Item(loop));
 			UnitLineIDs[loop] = (LinePointer - (&GenieFile->UnitLines[0]));
@@ -117,7 +117,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineIDs[loop]);
 		if(EnableIDFix)
 		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
@@ -232,7 +232,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 		UnitLineUnits_Units->resize(Selections);
 
 		int16_t * UnitPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			UnitPointer = (int16_t*)UnitLines_UnitLineUnits_List->GetClientData(Items.Item(loop));
 			UnitLineUnitIDs[loop] = (UnitPointer - (&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[0]));
@@ -278,7 +278,7 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.erase(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[loop]);
 		ListUnitLineUnits();
 	}

@@ -187,7 +187,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_NumberOfTerrainUnitsUsed->resize(Selections);
 
 		genie::Terrain * TerrainPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Items.Item(sel));
 			TerrainIDs[sel] = (TerrainPointer - (&GenieFile->Terrains[0]));
@@ -343,7 +343,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardco
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			GenieFile->Terrains.erase(GenieFile->Terrains.begin() + TerrainIDs[loop]);
 			for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)

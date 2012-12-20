@@ -293,7 +293,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_Name[0]->resize(Selections);
 
 		genie::Research * ResearchPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Items.Item(loop));
 			ResearchIDs[loop] = (ResearchPointer - (&GenieFile->Researchs[0]));
@@ -421,7 +421,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchIDs[loop]);
 		ListResearches();
 	}
