@@ -153,7 +153,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 		Sounds_Unknown->resize(Selections);
 
 		genie::Sound * SoundPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			SoundPointer = (genie::Sound*)Sounds_Sounds_List->GetClientData(Items.Item(loop));
 			SoundIDs[loop] = (SoundPointer - (&GenieFile->Sounds[0]));
@@ -205,7 +205,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Sounds.erase(GenieFile->Sounds.begin() + SoundIDs[loop]);
 		if(EnableIDFix)
 		for(short loop = SoundIDs[0];loop < GenieFile->Sounds.size(); loop++)	//	ID Fix
@@ -357,7 +357,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 		}
 
 		genie::SoundItem * SoundItemPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			SoundItemPointer = (genie::SoundItem*)Sounds_Items_List->GetClientData(Items.Item(loop));
 			SoundItemIDs[loop] = (SoundItemPointer - (&GenieFile->Sounds[SoundIDs[0]].Items[0]));
@@ -426,7 +426,7 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Sounds[SoundIDs[0]].Items.erase(GenieFile->Sounds[SoundIDs[0]].Items.begin() + SoundItemIDs[loop]);
 		ListSoundItems();
 	}

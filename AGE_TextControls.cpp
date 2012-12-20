@@ -12,7 +12,7 @@ bool TextCtrl_Byte::SaveEdits()
 			if(lexical_cast<short>(value) == casted)
 			{
 				if(*container[0] != casted)
-			    {
+				{
 					for(auto &pointer: container)
 					{
 						*pointer = casted;
@@ -29,8 +29,8 @@ bool TextCtrl_Byte::SaveEdits()
 		}
 		catch(bad_lexical_cast e)
 		{
-		    wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
-		    SetFocus();
+			wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
+			SetFocus();
 		}
 	}
 	else
@@ -52,7 +52,7 @@ bool TextCtrl_UByte::SaveEdits()
 			if(lexical_cast<short>(value) == casted)
 			{
 				if(*container[0] != casted)
-			    {
+				{
 					for(auto &pointer: container)
 					{
 						*pointer = casted;
@@ -69,8 +69,8 @@ bool TextCtrl_UByte::SaveEdits()
 		}
 		catch(bad_lexical_cast e)
 		{
-		    wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
-		    SetFocus();
+			wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
+			SetFocus();
 		}
 	}
 	else
@@ -87,11 +87,11 @@ bool TextCtrl_Float::SaveEdits()
 	if(value.size() > 0)
 	{
 		try
-	    {
+		{
 			float casted = lexical_cast<float>(value);
 			if(*container[0] != casted)
 			{
-			    for(auto &pointer: container)
+				for(auto &pointer: container)
 				{
 					*pointer = casted;
 				}
@@ -101,8 +101,8 @@ bool TextCtrl_Float::SaveEdits()
 		}
 		catch(bad_lexical_cast e)
 		{
-		    wxMessageBox("Invalid entry!\nPlease enter a valid floating point number");
-		    SetFocus();
+			wxMessageBox("Invalid entry!\nPlease enter a valid floating point number");
+			SetFocus();
 		}
 	}
 	else
@@ -214,8 +214,8 @@ bool TextCtrl_String::SaveEdits()	// This may crash the program.
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
-	    if(*container[0] != value) // Has been changed
-	    {
+		if(*container[0] != value) // Has been changed
+		{
 			if(value.size() <= MaxSize)
 			{
 				for(auto &pointer: container)
@@ -233,7 +233,7 @@ bool TextCtrl_String::SaveEdits()	// This may crash the program.
 				ChangeValue(*container[0]);
 			}
 			return true;
-	    }
+		}
 	}
 	else
 	{

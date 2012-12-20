@@ -94,7 +94,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 		Civs_GraphicSet->resize(Selections);
 
 		genie::Civ * CivPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			CivPointer = (genie::Civ*)Civs_Civs_List->GetClientData(Items.Item(sel));
 			CivIDs[sel] = (CivPointer - (&GenieFile->Civs[0]));
@@ -181,7 +181,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Civs.erase(GenieFile->Civs.begin() + CivIDs[loop]);
 		CivCountWarning();
 		ListUnits(0, false);
@@ -1098,7 +1098,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 		Civs_ResourceValue->resize(Selections);
 
 		float * CivResourcePointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			CivResourcePointer = (float*)Civs_Resources_List->GetClientData(Items.Item(loop));
 			ResourceIDs[loop] = (CivResourcePointer - (&GenieFile->Civs[CivIDs[0]].Resources[0]));
@@ -1144,7 +1144,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		for(short loop2=0; loop2 < GenieFile->Civs.size(); loop2++)
 		{
-			for(short loop = Selections; loop--> 0;)
+			for(auto loop = Selections; loop--> 0;)
 			GenieFile->Civs[loop2].Resources.erase(GenieFile->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
 		}
 		ListResources();

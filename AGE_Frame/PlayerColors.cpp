@@ -61,7 +61,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 		}
 
 		genie::PlayerColour * PlayerColorPointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
 			ColorIDs[loop] = (PlayerColorPointer - (&GenieFile->PlayerColours[0]));
@@ -137,7 +137,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 	if(Selections > 0)
 	{
 		wxBusyCursor WaitCursor;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorIDs[loop]);
 		ListPlayerColors();
 	}

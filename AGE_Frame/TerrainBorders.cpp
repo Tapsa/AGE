@@ -85,7 +85,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 		Borders_BorderUnknown10->resize(Selections);
 
 		genie::TerrainBorder * BorderPointer;
-		for(short sel = Selections; sel--> 0;)
+		for(auto sel = Selections; sel--> 0;)
 		{
 			BorderPointer = (genie::TerrainBorder*)Borders_Borders_List->GetClientData(Items.Item(sel));
 			BorderIDs[sel] = (BorderPointer - (&GenieFile->TerrainBorders[0]));
@@ -209,7 +209,7 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 		Borders_BorderFlag2->resize(Selections);
 
 		genie::TBFrameData * FramePointer;
-		for(short loop = Selections; loop--> 0;)
+		for(auto loop = Selections; loop--> 0;)
 		{
 			FramePointer = (genie::TBFrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
 			FrameIDs[loop] = (FramePointer - (&GenieFile->TerrainBorders[BorderIDs[0]].Frames[0]));
