@@ -364,7 +364,7 @@ class AGE_Frame: public wxFrame
 	void OnCivsPaste(wxCommandEvent &Event);
 	void OnCivsPasteInsert(wxCommandEvent &Event);
 	string GetCivName(short);
-	void CivCountWarning();
+	void OnCivCountChange();
 
 	void ListResources(bool Sized = true);
 	void OnResourcesSearch(wxCommandEvent &Event);
@@ -596,7 +596,7 @@ class AGE_Frame: public wxFrame
 	bool AutoCopy;
 	bool CopyGraphics;
 	bool AllCivs;
-	short SelectedCivs;
+	vector<short> SelectedCivs;
 //	int SearchFilters;
 	bool UseAnd[2];
 	bool EnableIDFix;
@@ -640,8 +640,6 @@ class AGE_Frame: public wxFrame
 	vector<short> TTResUnitIDs;
 	vector<short> TTResResIDs;
 
-	static const short MaxCivs = 30;
-	bool PopupCivWarning;
 	vector<short> CivIDs;
 	vector<short> ResourceIDs;
 	short UnitCivID;
@@ -1913,10 +1911,10 @@ class AGE_Frame: public wxFrame
 	wxStaticBoxSizer *Units_Holder_Type80plusUnknownArea;
 	wxGridSizer *Units_Grid_Type80plusUnknownArea;
 	wxStaticBoxSizer *Units_Holder_CommandsArea;
-	wxBoxSizer *Units_Holder_Top[2];
+	wxBoxSizer *Units_Holder_Top;
 	wxGridSizer *Units_Holder_TopGrid;
-	wxCheckBox *Units_CivBoxes[MaxCivs];
-	wxStaticText *Units_CivLabels[MaxCivs];
+	vector<wxCheckBox*> Units_CivBoxes;
+	//vector<wxStaticText*> Units_CivLabels;
 	wxButton *Units_CopyTo;
 	wxCheckBox *Units_CopyGraphics;
 	wxCheckBox *Units_AutoCopy;
