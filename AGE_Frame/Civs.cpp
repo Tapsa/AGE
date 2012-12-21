@@ -149,8 +149,9 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 			Temp.Units = GenieFile->Civs[1].Units;
 		}
 		GenieFile->Civs.push_back(Temp);
+		OnCivCountChange();
 		Added = true;
-		CivCountWarning();
+		ListCivs();
 		ListUnits(UnitCivID, false);
 	}
 }
@@ -170,7 +171,8 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 			Temp.Units = GenieFile->Civs[1].Units;
 		}
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
-		CivCountWarning();
+		OnCivCountChange();
+		ListCivs();
 		ListUnits(UnitCivID, false);
 	}
 }
@@ -183,7 +185,8 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Civs.erase(GenieFile->Civs.begin() + CivIDs[loop]);
-		CivCountWarning();
+		OnCivCountChange();
+		ListCivs();
 		ListUnits(0, false);
 	}
 }
@@ -207,13 +210,16 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 	{
 		wxBusyCursor WaitCursor;
 		if(copies->Civ.size()+CivIDs[0] > GenieFile->Civs.size())
-		GenieFile->Civs.resize(copies->Civ.size()+CivIDs[0]);
+		{
+			GenieFile->Civs.resize(copies->Civ.size()+CivIDs[0]);
+			OnCivCountChange();
+		}
 		for(short loop=0; loop < copies->Civ.size(); loop++)
 		{
 			copies->Civ[loop].setGameVersion(GenieVersion);
 			GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
 		}
-		CivCountWarning();
+		ListCivs();
 		ListUnits(UnitCivID, false);
 	}
 }
@@ -226,26 +232,54 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], copies->Civ.size(), Temp);
+		OnCivCountChange();
 		for(short loop=0; loop < copies->Civ.size(); loop++)
 		{
 			copies->Civ[loop].setGameVersion(GenieVersion);
 			GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
 		}
-		CivCountWarning();
+		ListCivs();
 		ListUnits(UnitCivID, false);
 	}
 }
 
-void AGE_Frame::CivCountWarning()
+void AGE_Frame::OnCivCountChange()
 {
+	short CivCount = GenieFile->Civs.size();
 //	Unit copying fixes.
-	copies->Dat.Civs.resize(GenieFile->Civs.size());
-	if(PopupCivWarning && GenieFile->Civs.size() > MaxCivs) // Is shown only once.
+	copies->Dat.Civs.resize(CivCount);
+
+	if(Units_CivBoxes.size() < CivCount)
 	{
-		PopupCivWarning = false;
-		wxMessageBox("Auto-copy doesn't work for over +lexical_cast<string>(MaxCivs)+ civilizations!\nSend a help request to AoKH.");
+		Units_CivBoxes.reserve(CivCount);
+		//Units_CivLabels.reserve(CivCount);
+		for(short loop = Units_CivBoxes.size(); loop < CivCount; loop++)
+		{
+			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(30, 20)));
+			Units_CivBoxes[loop]->SetValue(true);
+			//Units_CivLabels.push_back(new wxStaticText(Tab_Units, wxID_ANY, GenieFile->Civs[loop].Name.substr(0, 2), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER_HORIZONTAL | wxST_NO_AUTORESIZE));
+			Units_Holder_TopGrid->Add(Units_CivBoxes[loop], 0, wxEXPAND);
+			//Units_Holder_TopGrid->Add(Units_CivLabels[loop], 0, wxEXPAND);
+			Connect(Units_CivBoxes[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+		}
 	}
-	ListCivs();
+	else if(Units_CivBoxes.size() > CivCount)
+	{
+		for(short loop = Units_CivBoxes.size(); loop--> CivCount;)
+		{
+			Units_CivBoxes[loop]->Destroy();
+			//Units_CivLabels[loop]->Destroy();
+		}
+		for(short loop=0; loop < CivCount; loop++)
+		{
+			Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
+		}
+		Units_CivBoxes.resize(CivCount);
+		//Units_CivLabels.resize(CivCount);
+	}
+	else return; // No change
+	Units_DataArea->Layout();
+	Refresh();
 }
 
 string AGE_Frame::GetResourceName(short Index)
@@ -1392,7 +1426,13 @@ void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 {
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
 	{
-		if(Event.GetId() == Civs_Name[0]->GetId() || Event.GetId() == Civs_GraphicSet->GetId())
+		if(Event.GetId() == Civs_Name[0]->GetId())
+		{
+			for(auto ID: CivIDs)
+			Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name.substr(0, 2));
+			ListCivs();
+		}
+		else if(Event.GetId() == Civs_GraphicSet->GetId())
 		{
 			ListCivs();
 		}

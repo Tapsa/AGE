@@ -967,7 +967,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			if(TechTrees_DataList_Researches_List_Researches->GetCount() > 0)
 			TechTrees_DataList_Researches_List_Researches->Clear();
 		}
-		CivCountWarning();// ListCivs();
+		OnCivCountChange();
+		ListCivs();
 		ListUnits(0);
 		if(GameVersion >= 4)
 		{
@@ -1393,14 +1394,7 @@ void AGE_Frame::OnGameVersionChange()
 
 	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 	{
-		Units_CivBoxes[loop]->Show(true);
-		Units_CivLabels[loop]->Show(true);
-		Units_CivLabels[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
-	}
-	for(short loop = GenieFile->Civs.size();loop < MaxCivs; loop++)
-	{
-		Units_CivBoxes[loop]->Show(false);
-		Units_CivLabels[loop]->Show(false);
+		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
 	}
 
 //	Every data area should be layouted.
