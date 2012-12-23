@@ -24,8 +24,35 @@ class AGETextCtrl: public wxTextCtrl
 
 	virtual void OnKillFocus(wxFocusEvent&)=0;
 	virtual bool SaveEdits()=0;
+	bool BatchCheck(wxString &value, short &batchMode)
+	{
+		if(value.size() < 3) return false;
+		switch(value[1])
+		{
+			case '+': batchMode = 1; value = value.substr(2); return true;
+			case '-': batchMode = 2; value = value.substr(2); return true;
+			case '*': batchMode = 3; value = value.substr(2); return true;
+			case '/': batchMode = 4; value = value.substr(2); return true;
+			default: return false;
+		}
+	}
+	template <class C, class V>
+	void BatchSave(C &container, short batchMode, V casted)
+	{
+		for(auto &pointer: container)
+		{
+			switch(batchMode)
+			{
+				case 1: *pointer += casted; break;
+				case 2: *pointer -= casted; break;
+				case 3: *pointer *= casted; break;
+				case 4: *pointer /= casted; break;
+			}
+		}
+	}
 
 	AGELinkedBox *LinkedBox; // These are for check and combo boxes.
+	static const wxString BATCHWARNING;
 };
 
 class TextCtrl_Byte: public AGETextCtrl

@@ -1,16 +1,32 @@
 #include "AGE_TextControls.h"
 
+const wxString AGETextCtrl::BATCHWARNING
+= "Incorrect batch script!\nUse b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
+
 bool TextCtrl_Byte::SaveEdits()
 {
 	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
+		short batchMode = 0;
+		if(value[0] == 'b' && !BatchCheck(value, batchMode))
+		{
+			wxMessageBox(BATCHWARNING);
+			return false;
+		}
 		try
 		{
 			char casted = (char)lexical_cast<short>(value);
 			if(lexical_cast<short>(value) == casted)
 			{
+				if(batchMode > 0)
+				{
+					BatchSave(container, batchMode, casted);
+					ChangeValue(lexical_cast<string>(*container[0]));
+					if(LinkedBox) LinkedBox->Update(casted);
+					return true;
+				}
 				if(*container[0] != casted)
 				{
 					for(auto &pointer: container)
@@ -46,11 +62,24 @@ bool TextCtrl_UByte::SaveEdits()
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
+		short batchMode = 0;
+		if(value[0] == 'b' && !BatchCheck(value, batchMode))
+		{
+			wxMessageBox(BATCHWARNING);
+			return false;
+		}
 		try
 		{
 			unsigned char casted = (unsigned char)lexical_cast<short>(value);
 			if(lexical_cast<short>(value) == casted)
 			{
+				if(batchMode > 0)
+				{
+					BatchSave(container, batchMode, casted);
+					ChangeValue(lexical_cast<string>(*container[0]));
+					if(LinkedBox) LinkedBox->Update(casted);
+					return true;
+				}
 				if(*container[0] != casted)
 				{
 					for(auto &pointer: container)
@@ -86,9 +115,22 @@ bool TextCtrl_Float::SaveEdits()
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
+		short batchMode = 0;
+		if(value[0] == 'b' && !BatchCheck(value, batchMode))
+		{
+			wxMessageBox(BATCHWARNING);
+			return false;
+		}
 		try
 		{
 			float casted = lexical_cast<float>(value);
+			if(batchMode > 0)
+			{
+				BatchSave(container, batchMode, casted);
+				ChangeValue(lexical_cast<string>(*container[0]));
+				if(LinkedBox) LinkedBox->Update(casted);
+				return true;
+			}
 			if(*container[0] != casted)
 			{
 				for(auto &pointer: container)
@@ -118,9 +160,22 @@ bool TextCtrl_Long::SaveEdits()
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
+		short batchMode = 0;
+		if(value[0] == 'b' && !BatchCheck(value, batchMode))
+		{
+			wxMessageBox(BATCHWARNING);
+			return false;
+		}
 		try
 		{
 			int32_t casted = lexical_cast<int32_t>(value);
+			if(batchMode > 0)
+			{
+				BatchSave(container, batchMode, casted);
+				ChangeValue(lexical_cast<string>(*container[0]));
+				if(LinkedBox) LinkedBox->Update(casted);
+				return true;
+			}
 			if(*container[0] != casted)
 			{
 				for(auto &pointer: container)
@@ -150,9 +205,22 @@ bool TextCtrl_Short::SaveEdits()
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
+		short batchMode = 0;
+		if(value[0] == 'b' && !BatchCheck(value, batchMode))
+		{
+			wxMessageBox(BATCHWARNING);
+			return false;
+		}
 		try
 		{
 			int16_t casted = lexical_cast<int16_t>(value);
+			if(batchMode > 0)
+			{
+				BatchSave(container, batchMode, casted);
+				ChangeValue(lexical_cast<string>(*container[0]));
+				if(LinkedBox) LinkedBox->Update(casted);
+				return true;
+			}
 			if(*container[0] != casted)
 			{
 				for(auto &pointer: container)
@@ -182,9 +250,22 @@ bool TextCtrl_UShort::SaveEdits()
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
+		short batchMode = 0;
+		if(value[0] == 'b' && !BatchCheck(value, batchMode))
+		{
+			wxMessageBox(BATCHWARNING);
+			return false;
+		}
 		try
 		{
 			uint16_t casted = lexical_cast<uint16_t>(value);
+			if(batchMode > 0)
+			{
+				BatchSave(container, batchMode, casted);
+				ChangeValue(lexical_cast<string>(*container[0]));
+				if(LinkedBox) LinkedBox->Update(casted);
+				return true;
+			}
 			if(*container[0] != casted)
 			{
 				for(auto &pointer: container)
