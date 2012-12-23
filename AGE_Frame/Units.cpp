@@ -3154,10 +3154,10 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 		for(auto sel = Selections; sel--> 0;)
 		{
 			CommandPointer = (genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Items.Item(sel));
-			if(GameVersion >= 2)
-			CommandIDs[sel] = (CommandPointer - (&GenieFile->UnitHeaders[UnitIDs[0]].Commands[0]));
-			else
+			if(GameVersion < 2)
 			CommandIDs[sel] = (CommandPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[0]));
+			else
+			CommandIDs[sel] = (CommandPointer - (&GenieFile->UnitHeaders[UnitIDs[0]].Commands[0]));
 
 			for(short vecCiv = (GameVersion < 2) ? SelectedCivs.size() : 1; vecCiv--> 0;)
 			{
@@ -3174,7 +3174,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 					CommandPointer = &GenieFile->UnitHeaders[UnitIDs[0]].Commands[CommandIDs[sel]];
 				}
 
-				int location = (GameVersion < 2) ? (sel + vecCiv * Selections) : sel;
+				int location = sel + vecCiv * Selections;
 				UnitCommands_One->container[location] = &CommandPointer->One;
 				UnitCommands_ID->container[location] = &CommandPointer->ID;
 				UnitCommands_Unknown1->container[location] = &CommandPointer->Unknown1;
