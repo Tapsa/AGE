@@ -1390,11 +1390,11 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Unknown20[1]->Show(false);
 			Units_Holder_SnowGraphicID->Show(false);
 		}
-	}
 
-	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-	{
-		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
+		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+		{
+			Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
+		}
 	}
 
 //	Every data area should be layouted.
@@ -1564,6 +1564,38 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			}
 			delete Customs;
 			//wxMessageBox("File extracted successfully!");
+		}
+		break;
+		case ToolBar_Help:
+		{
+			wxString help = "ATTENTION!\nChanges to editing boxes affect all selectetd items!\n\n";
+			help.Append("Short Guide to Advanced Editing\n");
+			help.Append("Click \"Help\" from the toolbar to see this again.\n\n");
+			help.Append("Here are examples which cover all the nice features.\n");
+			help.Append("(This is assuming that you edit Age of Empires II: The Conquerors)\n\n");
+			help.Append("Let's suppose that you want to edit buildings (type 80) of class 3,\n");
+			help.Append("but not camps nor houses or yurts.\n");
+			help.Append("See the two combo boxes having \"Lang DLL Name\" selected by default?\n");
+			help.Append("Select \"Type\" to the upper one and \"Class\" to the lower one.\n");
+			help.Append("Then put \"t 80|c 3,\" to the upper search box\n");
+			help.Append("and \"camp|house|yurt\" to the lower (exclusive) search box.\n");
+			help.Append("Select the upper \"And\" check box to make sure that the search returns\n");
+			help.Append("only units to which ALL search terms in the upper search box match.\n\n");
+			help.Append("Let's suppose that you want to multiply the garrison heal rate\n");
+			help.Append("of all selected units (buildings) by 1.3.\n");
+			help.Append("Simply select all the desired units and put into garrison heal rate box \"b*1.3\".\n");
+			help.Append("The other batch modifiers are b+, b-, b/ and b% (remainder of division).\n");
+			help.Append("Or just put the absolute value you want for all selected items (like units).\n\n");
+			help.Append("Let's suppose that you want to copy all ships to another dat file.\n");
+			help.Append("On the open dialog, you must put \"2\" into \"Windows to open\"!\n");
+			help.Append("Now that you have a second window titled \"AGE window 2\" open with a dat file, ");
+			help.Append("let's begin the copying.\n");
+			help.Append("(You can copy to another game version if you dare.)\n");
+			help.Append("On the first window, select all the ships (search for \"ship\").\n");
+			help.Append("Then click copy and go to the second window.\n");
+			help.Append("Then click paste or paste insert wherever you want the ships.\n");
+			help.Append("That's it.");
+			wxMessageBox(help);
 		}
 		break;
 	}
@@ -1810,6 +1842,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interaction/CopyGraphics", CopyGraphics);
 	Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
+	Config->Write("Interaction/ShowHelpOnStart", ShowHelpOnStart);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);

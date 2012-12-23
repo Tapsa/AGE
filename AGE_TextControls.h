@@ -35,7 +35,6 @@ class TextCtrl_Byte: public AGETextCtrl
 	AGETextCtrl(parent, "0")
 	{
 		LinkedBox = NULL;
-		container.resize(1);
 		SetBackgroundColour(wxColour(255, 235, 215));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));	// Must-have
 	}
@@ -54,7 +53,6 @@ class TextCtrl_UByte: public AGETextCtrl
 	AGETextCtrl(parent, "0")
 	{
 		LinkedBox = NULL;
-		container.resize(1);
 		SetBackgroundColour(wxColour(255, 235, 215));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UByte::OnKillFocus));
 	}
@@ -73,7 +71,6 @@ class TextCtrl_Float: public AGETextCtrl
 	AGETextCtrl(parent, "0")
 	{
 		LinkedBox = NULL;
-		container.resize(1);
 		SetBackgroundColour(wxColour(255, 225, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
 	}
@@ -92,7 +89,6 @@ class TextCtrl_Long: public AGETextCtrl
 	AGETextCtrl(parent, "0")
 	{
 		LinkedBox = NULL;
-		container.resize(1);
 		SetBackgroundColour(wxColour(215, 255, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
 	}
@@ -111,7 +107,6 @@ class TextCtrl_Short: public AGETextCtrl
 	AGETextCtrl(parent, "0")
 	{
 		LinkedBox = NULL;
-		container.resize(1);
 		SetBackgroundColour(wxColour(210, 230, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
 	}
@@ -130,7 +125,6 @@ class TextCtrl_UShort: public AGETextCtrl
 	AGETextCtrl(parent, "0")
 	{
 		LinkedBox = NULL;
-		container.resize(1);
 		SetBackgroundColour(wxColour(210, 230, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UShort::OnKillFocus));
 	}
@@ -148,7 +142,6 @@ class TextCtrl_String: public AGETextCtrl
 	TextCtrl_String(wxWindow *parent, int16_t CLength = -1):
 	AGETextCtrl(parent, "")
 	{
-		container.resize(1);
 		MaxSize = CLength;
 		SetBackgroundColour(wxColour(220, 255, 220));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_String::OnKillFocus));
