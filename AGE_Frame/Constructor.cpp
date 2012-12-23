@@ -22,6 +22,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Config->Read("Interaction/CopyGraphics", &CopyGraphics, false);
 	Config->Read("Interaction/AllCivs", &AllCivs, true);
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
+	Config->Read("Interaction/ShowHelpOnStart", &ShowHelpOnStart, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	if(AGEwindow == 1) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 2); // 2 to showcase this feature.
@@ -50,9 +51,10 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
 	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
 	GetToolBar()->AddTool(ToolBar_CustomNames, "Lists", wxNullBitmap, "Extract a setting file for custom names in some lists\nRestart this program after editing the file");
+	GetToolBar()->AddTool(ToolBar_Help, "Help", wxNullBitmap, "Show help");
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->Realize();
-	
+
 	MenuBar_Main = new wxMenuBar();
 
 	SubMenu_Options = new wxMenu();
@@ -97,9 +99,9 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	CreateUnitLineControls();
 	CreateTerrainBorderControls();
 	CreateGeneralControls();
-	
+
 //	CreateDRSControls();
-	
+
 	Units_AutoCopy->SetValue(AutoCopy);
 	Units_CopyGraphics->SetValue(CopyGraphics);
 	Units_CopyTo->Enable(!AutoCopy);
@@ -122,7 +124,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
 	TabBar_Main->SetSelection(5);
-	
+
 //	TabBar_Test->AddPage(Tab_DRS, "DRS Files");
 //	TabBar_Test->SetSelection(0);
 
@@ -131,6 +133,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
 	Connect(ToolBar_Show, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(ToolBar_CustomNames, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(ToolBar_Help, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
@@ -146,23 +149,24 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	DataOpened = false;
 	for(short loop=0; loop < 2; loop++)
 	UseAnd[loop] = false;
-	
-	wxCommandEvent ShowButtonsCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
-	ShowButtonsCommand.SetId(MenuOption_Buttons);
-	ShowButtonsCommand.SetInt(ShowButtons);
-	ProcessEvent(ShowButtonsCommand);
 
-	/*wxCommandEvent UseUndoCommand(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Undo);
-	UseUndoCommand.SetId(MenuOption_Undo);
-	UseUndoCommand.SetInt(UseUndo);
-	ProcessEvent(UseUndoCommand);*/
+	wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Show);
+	ShowUnknownsCmd.SetInt(ShowUnknowns);
+	ProcessEvent(ShowUnknownsCmd);
+
+	wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
+	ShowButtonsCmd.SetInt(ShowButtons);
+	ProcessEvent(ShowButtonsCmd);
+
+	if(ShowHelpOnStart)
+	{
+		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Help);
+		ProcessEvent(ShowHelpCmd);
+		ShowHelpOnStart = false;
+	}
 
 	NeedDat = true;
-	if(!PromptForFilesOnOpen)
-	{
-		SkipOpenDialog = true;
-	}
-	else SkipOpenDialog = false;
+	SkipOpenDialog = !PromptForFilesOnOpen;
 
 	genie::Logger::setLogLevel(genie::Logger::L_INFO);
 	static std::ofstream log_out;

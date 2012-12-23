@@ -602,6 +602,7 @@ class AGE_Frame: public wxFrame
 	bool EnableIDFix;
 	bool ShowUnknowns;
 	bool ShowButtons;
+	bool ShowHelpOnStart;
 //	bool UseUndo;
 	bool NeedDat;
 	bool SkipOpenDialog;
@@ -698,7 +699,8 @@ class AGE_Frame: public wxFrame
 		ToolBar_Open,
 		ToolBar_Save,
 		ToolBar_Show,
-		ToolBar_CustomNames
+		ToolBar_CustomNames,
+		ToolBar_Help
 	};
 
 //	User Interface
