@@ -1390,11 +1390,6 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Unknown20[1]->Show(false);
 			Units_Holder_SnowGraphicID->Show(false);
 		}
-
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-		{
-			Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
-		}
 	}
 
 //	Every data area should be layouted.
@@ -1568,7 +1563,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case ToolBar_Help:
 		{
-			wxString help = "ATTENTION!\nChanges to editing boxes affect all selectetd items!\n\n";
+			wxString help = "ATTENTION!\nChanges to editing boxes affect all selected items!\n\n";
 			help.Append("Short Guide to Advanced Editing\n");
 			help.Append("Click \"Help\" from the toolbar to see this again.\n\n");
 			help.Append("Here are examples which cover all the nice features.\n");
@@ -1584,7 +1579,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			help.Append("Let's suppose that you want to multiply the garrison heal rate\n");
 			help.Append("of all selected units (buildings) by 1.3.\n");
 			help.Append("Simply select all the desired units and put into garrison heal rate box \"b*1.3\".\n");
-			help.Append("The other batch modifiers are b+, b-, b/ and b% (remainder of division).\n");
+			help.Append("The other batch modifiers are b+, b- and b/.\n");
+			help.Append("Note that overflows are not checked!\n");
 			help.Append("Or just put the absolute value you want for all selected items (like units).\n\n");
 			help.Append("Let's suppose that you want to copy all ships to another dat file.\n");
 			help.Append("On the open dialog, you must put \"2\" into \"Windows to open\"!\n");

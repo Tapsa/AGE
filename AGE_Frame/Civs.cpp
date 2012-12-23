@@ -149,9 +149,8 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 			Temp.Units = GenieFile->Civs[1].Units;
 		}
 		GenieFile->Civs.push_back(Temp);
-		OnCivCountChange();
 		Added = true;
-		ListCivs();
+		OnCivCountChange();
 		ListUnits(UnitCivID, false);
 	}
 }
@@ -172,7 +171,6 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 		}
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
 		OnCivCountChange();
-		ListCivs();
 		ListUnits(UnitCivID, false);
 	}
 }
@@ -186,7 +184,6 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 		for(auto loop = Selections; loop--> 0;)
 		GenieFile->Civs.erase(GenieFile->Civs.begin() + CivIDs[loop]);
 		OnCivCountChange();
-		ListCivs();
 		ListUnits(0, false);
 	}
 }
@@ -212,14 +209,13 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 		if(copies->Civ.size()+CivIDs[0] > GenieFile->Civs.size())
 		{
 			GenieFile->Civs.resize(copies->Civ.size()+CivIDs[0]);
-			OnCivCountChange();
 		}
 		for(short loop=0; loop < copies->Civ.size(); loop++)
 		{
 			copies->Civ[loop].setGameVersion(GenieVersion);
 			GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
 		}
-		ListCivs();
+		OnCivCountChange();
 		ListUnits(UnitCivID, false);
 	}
 }
@@ -232,13 +228,12 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &Event)
 		wxBusyCursor WaitCursor;
 		genie::Civ Temp;
 		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], copies->Civ.size(), Temp);
-		OnCivCountChange();
 		for(short loop=0; loop < copies->Civ.size(); loop++)
 		{
 			copies->Civ[loop].setGameVersion(GenieVersion);
 			GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
 		}
-		ListCivs();
+		OnCivCountChange();
 		ListUnits(UnitCivID, false);
 	}
 }
@@ -270,14 +265,14 @@ void AGE_Frame::OnCivCountChange()
 			Units_CivBoxes[loop]->Destroy();
 			//Units_CivLabels[loop]->Destroy();
 		}
-		for(short loop=0; loop < CivCount; loop++)
-		{
-			Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
-		}
 		Units_CivBoxes.resize(CivCount);
 		//Units_CivLabels.resize(CivCount);
 	}
-	else return; // No change
+	for(short loop=0; loop < CivCount; loop++)
+	{
+		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
+	}
+	ListCivs();
 	Units_DataArea->Layout();
 	Refresh();
 }
