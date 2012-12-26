@@ -297,7 +297,7 @@ string AGE_Frame::GetSoundItemName(short Index)
 		if(Selection[loop+1] < 1) break;
 	}
 
-	if(GenieFile->Sounds[SoundIDs[0]].Items[Index].FileName != "")
+	if(!GenieFile->Sounds[SoundIDs[0]].Items[Index].FileName.empty())
 	{
 		Name += GenieFile->Sounds[SoundIDs[0]].Items[Index].FileName;
 	}
@@ -478,6 +478,10 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &Event)
 	}
 }
 
+void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &Event)
+{
+}
+
 void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &Event)
 {
 	wxString Name;
@@ -562,6 +566,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Copy = new wxButton(Tab_Sounds, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Paste = new wxButton(Tab_Sounds, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	SoundItems_CopyToSounds = new wxButton(Tab_Sounds, wxID_ANY, "Copy all to selected sounds", wxDefaultPosition, wxSize(5, 20));
 
 	Sounds_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	Sounds_Text_ID = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -639,6 +644,8 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Items->Add(Sounds_Items_List, 1, wxEXPAND);
 	Sounds_Items->Add(-1, 2);
 	Sounds_Items->Add(Sounds_Items_Buttons, 0, wxEXPAND);
+	Sounds_Items->Add(-1, 2);
+	Sounds_Items->Add(SoundItems_CopyToSounds, 0, wxEXPAND);
 
 	SoundItems_ListArea->Add(-1, 10);
 	SoundItems_ListArea->Add(Sounds_Items, 1, wxEXPAND);
@@ -731,6 +738,7 @@ void AGE_Frame::CreateSoundControls()
 	Connect(SoundItems_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsCopy));
 	Connect(SoundItems_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsPaste));
 	Connect(SoundItems_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsPasteInsert));
+	Connect(SoundItems_CopyToSounds->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsCopyToSounds));
 	Connect(Sounds_AllItems_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
 	Connect(Sounds_AllItems_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
 	Connect(Sounds_AllItems_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));

@@ -3,7 +3,7 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainBorderName(short Index)
 {
-	if(GenieFile->TerrainBorders[Index].Name == "" && GenieFile->TerrainBorders[Index].Name2 == "")
+	if(GenieFile->TerrainBorders[Index].Name.empty() && GenieFile->TerrainBorders[Index].Name2.empty())
 		return "Border "+lexical_cast<string>(Index);
 	return GenieFile->TerrainBorders[Index].Name+" - "+GenieFile->TerrainBorders[Index].Name2;
 }
@@ -255,6 +255,10 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 	}
 }
 
+void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &Event)
+{
+}
+
 void AGE_Frame::CreateTerrainBorderControls()
 {
 	Tab_TerrainBorders = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
@@ -309,6 +313,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Frames_List = new wxListBox(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(10, 220), 0, NULL, wxLB_EXTENDED);
 	Frames_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Frames_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Frames_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected borders", wxDefaultPosition, wxSize(5, 20));
 
 	Borders_Holder_FrameArea = new wxBoxSizer(wxVERTICAL);
 	Borders_Holder_BorderFrameID = new wxBoxSizer(wxVERTICAL);
@@ -416,6 +421,8 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Frames->Add(Borders_Frames_List, 1, wxEXPAND);
 	Borders_Frames->Add(-1, 2);
 	Borders_Frames->Add(Borders_Frames_Buttons, 0, wxEXPAND);
+	Borders_Frames->Add(-1, 2);
+	Borders_Frames->Add(Frames_CopyToBorders, 0, wxEXPAND);
 
 	Borders_Holder_BorderFrameID->Add(Borders_Text_BorderFrameID, 0, wxEXPAND);
 	Borders_Holder_BorderFrameID->Add(Borders_BorderFrameID, 1, wxEXPAND);
@@ -472,6 +479,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Connect(Borders_Frames_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesSelect));
 	Connect(Frames_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesCopy));
 	Connect(Frames_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesPaste));
+	Connect(Frames_CopyToBorders->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesCopyToBorders));
 
 	for(short loop=0; loop < 2; loop++)
 	Borders_BorderName[loop]->Connect(Borders_BorderName[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
