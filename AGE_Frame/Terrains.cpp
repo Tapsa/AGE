@@ -3,7 +3,7 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainName(short Index)
 {
-	if(GenieFile->Terrains[Index].Name != "")
+	if(!GenieFile->Terrains[Index].Name.empty())
 		return GenieFile->Terrains[Index].Name;
 	return "New Terrain";
 }

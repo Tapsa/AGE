@@ -40,153 +40,146 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	ColorIDs.resize(Selections);
+	Colors_ID->resize(Selections);
+	Colors_ColorL->resize(Selections);
+	if(GameVersion < 2)	//	AoE and RoR
 	{
-		ColorIDs.resize(Selections);
-		Colors_ID->resize(Selections);
-		Colors_ColorL->resize(Selections);
+		Colors_Name->resize(Selections);
+	}
+	else	//	Above AoE and RoR
+	{
+		Colors_Palette->resize(Selections);
+		Colors_MinimapColor->resize(Selections);
+		Colors_Unknown1->resize(Selections);
+		Colors_Unknown2->resize(Selections);
+		Colors_Unknown3->resize(Selections);
+		Colors_Unknown4->resize(Selections);
+		Colors_Unknown5->resize(Selections);
+	}
+
+	genie::PlayerColour * PlayerColorPointer;
+	for(auto loop = Selections; loop--> 0;)
+	{
+		PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
+		ColorIDs[loop] = (PlayerColorPointer - (&GenieFile->PlayerColours[0]));
+
+		Colors_ID->container[loop] = &PlayerColorPointer->ID;
+		Colors_ColorL->container[loop] = &PlayerColorPointer->Colour;
 		if(GameVersion < 2)	//	AoE and RoR
 		{
-			Colors_Name->resize(Selections);
+			Colors_Name->container[loop] = &PlayerColorPointer->Name;
 		}
 		else	//	Above AoE and RoR
 		{
-			Colors_Palette->resize(Selections);
-			Colors_MinimapColor->resize(Selections);
-			Colors_Unknown1->resize(Selections);
-			Colors_Unknown2->resize(Selections);
-			Colors_Unknown3->resize(Selections);
-			Colors_Unknown4->resize(Selections);
-			Colors_Unknown5->resize(Selections);
+			Colors_Palette->container[loop] = &PlayerColorPointer->Palette;
+			Colors_MinimapColor->container[loop] = &PlayerColorPointer->MinimapColour;
+			Colors_Unknown1->container[loop] = &PlayerColorPointer->Unknown1;
+			Colors_Unknown2->container[loop] = &PlayerColorPointer->Unknown2;
+			Colors_Unknown3->container[loop] = &PlayerColorPointer->Unknown3;
+			Colors_Unknown4->container[loop] = &PlayerColorPointer->Unknown4;
+			Colors_Unknown5->container[loop] = &PlayerColorPointer->Unknown5;
 		}
+	}
 
-		genie::PlayerColour * PlayerColorPointer;
-		for(auto loop = Selections; loop--> 0;)
-		{
-			PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
-			ColorIDs[loop] = (PlayerColorPointer - (&GenieFile->PlayerColours[0]));
-
-			Colors_ID->container[loop] = &PlayerColorPointer->ID;
-			Colors_ColorL->container[loop] = &PlayerColorPointer->Colour;
-			if(GameVersion < 2)	//	AoE and RoR
-			{
-				Colors_Name->container[loop] = &PlayerColorPointer->Name;
-			}
-			else	//	Above AoE and RoR
-			{
-				Colors_Palette->container[loop] = &PlayerColorPointer->Palette;
-				Colors_MinimapColor->container[loop] = &PlayerColorPointer->MinimapColour;
-				Colors_Unknown1->container[loop] = &PlayerColorPointer->Unknown1;
-				Colors_Unknown2->container[loop] = &PlayerColorPointer->Unknown2;
-				Colors_Unknown3->container[loop] = &PlayerColorPointer->Unknown3;
-				Colors_Unknown4->container[loop] = &PlayerColorPointer->Unknown4;
-				Colors_Unknown5->container[loop] = &PlayerColorPointer->Unknown5;
-			}
-		}
-
-		Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
-		Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
-		if(GameVersion < 2)	//	AoE and RoR
-		{
-			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
-			Colors_Name->ChangeValue(PlayerColorPointer->Name);
-		}
-		else	//	Above AoE and RoR
-		{
-			Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
-			Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
-			Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
-			Colors_Unknown1->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown1));
-			Colors_Unknown2->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown2));
-			Colors_Unknown3->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown3));
-			Colors_Unknown4->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown4));
-			Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
-		}
+	Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
+	Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
+	if(GameVersion < 2)	//	AoE and RoR
+	{
+		Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
+		Colors_Name->ChangeValue(PlayerColorPointer->Name);
+	}
+	else	//	Above AoE and RoR
+	{
+		Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
+		Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
+		Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
+		Colors_Unknown1->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown1));
+		Colors_Unknown2->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown2));
+		Colors_Unknown3->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown3));
+		Colors_Unknown4->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown4));
+		Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
 	}
 }
 
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &Event)
 {
-	if(GenieFile != NULL)
-	{
-		wxBusyCursor WaitCursor;
-		genie::PlayerColour Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->PlayerColours.push_back(Temp);
-		Added = true;
-		ListPlayerColors();
-	}
+	if(GenieFile == NULL) return;
+
+	wxBusyCursor WaitCursor;
+	genie::PlayerColour Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->PlayerColours.push_back(Temp);
+	Added = true;
+	ListPlayerColors();
 }
 
 void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		genie::PlayerColour Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], Temp);
-		ListPlayerColors();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::PlayerColour Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], Temp);
+	ListPlayerColors();
 }
 
 void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		for(auto loop = Selections; loop--> 0;)
-		GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorIDs[loop]);
-		ListPlayerColors();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(auto loop = Selections; loop--> 0;)
+	GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorIDs[loop]);
+	ListPlayerColors();
 }
 
 void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->PlayerColor.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->PlayerColor[loop] = GenieFile->PlayerColours[ColorIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->PlayerColor.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->PlayerColor[loop] = GenieFile->PlayerColours[ColorIDs[loop]];
 }
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->PlayerColor.size()+ColorIDs[0] > GenieFile->PlayerColours.size())
+	GenieFile->PlayerColours.resize(copies->PlayerColor.size()+ColorIDs[0]);
+	for(short loop=0; loop < copies->PlayerColor.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		if(copies->PlayerColor.size()+ColorIDs[0] > GenieFile->PlayerColours.size())
-		GenieFile->PlayerColours.resize(copies->PlayerColor.size()+ColorIDs[0]);
-		for(short loop=0; loop < copies->PlayerColor.size(); loop++)
-		{
-			copies->PlayerColor[loop].setGameVersion(GenieVersion);
-			GenieFile->PlayerColours[ColorIDs[0]+loop] = copies->PlayerColor[loop];
-		}
-		ListPlayerColors();
+		copies->PlayerColor[loop].setGameVersion(GenieVersion);
+		GenieFile->PlayerColours[ColorIDs[0]+loop] = copies->PlayerColor[loop];
 	}
+	ListPlayerColors();
 }
 
 void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::PlayerColour Temp;
+	GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], copies->PlayerColor.size(), Temp);
+	for(short loop=0; loop < copies->PlayerColor.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::PlayerColour Temp;
-		GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], copies->PlayerColor.size(), Temp);
-		for(short loop=0; loop < copies->PlayerColor.size(); loop++)
-		{
-			copies->PlayerColor[loop].setGameVersion(GenieVersion);
-			GenieFile->PlayerColours[ColorIDs[0]+loop] = copies->PlayerColor[loop];
-		}
-		ListPlayerColors();
+		copies->PlayerColor[loop].setGameVersion(GenieVersion);
+		GenieFile->PlayerColours[ColorIDs[0]+loop] = copies->PlayerColor[loop];
 	}
+	ListPlayerColors();
 }
 
 void AGE_Frame::CreatePlayerColorControls()

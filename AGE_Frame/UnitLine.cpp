@@ -3,7 +3,7 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetUnitLineName(short Index)
 {
-	if(GenieFile->UnitLines[Index].Name != "")
+	if(!GenieFile->UnitLines[Index].Name.empty())
 		return GenieFile->UnitLines[Index].Name;
 	return "Unitline "+lexical_cast<string>(Index);
 }
@@ -180,11 +180,11 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 string AGE_Frame::GetUnitLineUnitName(short Index)
 {
 	string Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index])+" ";
-	if(LangDLLstring(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 2) != "")
+	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 2).empty())
 	{
 		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 64);
 	}
-	else if(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].Name != "")
+	else if(!GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].Name.empty())
 	{
 		Name += GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].Name;
 	}
@@ -323,6 +323,10 @@ void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 	}
 }
 
+void AGE_Frame::OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &Event)
+{
+}
+
 void AGE_Frame::CreateUnitLineControls()
 {
 	Tab_UnitLine = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
@@ -353,7 +357,8 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLineUnits_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	UnitLineUnits_Copy = new wxButton(Tab_UnitLine, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	UnitLineUnits_Paste = new wxButton(Tab_UnitLine, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	UnitLineUnits_PasteInsert= new wxButton(Tab_UnitLine, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	UnitLineUnits_PasteInsert = new wxButton(Tab_UnitLine, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	UnitLineUnits_CopyToUnitLines = new wxButton(Tab_UnitLine, wxID_ANY, "Copy all to selected unitlines", wxDefaultPosition, wxSize(5, 20));
 
 	UnitLines_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	UnitLines_Text_ID = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -398,6 +403,8 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_List, 1, wxEXPAND);
 	UnitLines_UnitLineUnits->Add(-1, 2);
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Buttons, 0, wxEXPAND);
+	UnitLines_UnitLineUnits->Add(-1, 2);
+	UnitLines_UnitLineUnits->Add(UnitLineUnits_CopyToUnitLines, 0, wxEXPAND);
 
 	UnitLineUnits_ListArea->Add(-1, 10);
 	UnitLineUnits_ListArea->Add(UnitLines_UnitLineUnits, 1, wxEXPAND);
@@ -449,6 +456,7 @@ void AGE_Frame::CreateUnitLineControls()
 	Connect(UnitLineUnits_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsCopy));
 	Connect(UnitLineUnits_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsPaste));
 	Connect(UnitLineUnits_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsPasteInsert));
+	Connect(UnitLineUnits_CopyToUnitLines->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsCopyToUnitLines));
 
 	UnitLines_Name->Connect(UnitLines_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnitLines), NULL, this);
 	UnitLineUnits_Units->Connect(UnitLineUnits_Units->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnitLines), NULL, this);

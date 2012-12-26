@@ -1,85 +1,83 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetTechageName(short Index)
+string AGE_Frame::GetTechName(short Index)
 {
-	if(GenieFile->Techages[Index].Name != "")
+	if(!GenieFile->Techages[Index].Name.empty())
 		return GenieFile->Techages[Index].Name;
 	return "New Technology";
 }
 
-void AGE_Frame::OnTechageRenameGE2(wxCommandEvent &Event)
+void AGE_Frame::OnTechRenameGE2(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	string Name;
+	for(short loop=0; loop < GenieFile->Techages.size(); loop++)
 	{
-		string Name;
-		for(short loop=0; loop < GenieFile->Techages.size(); loop++)
-		{
-			GenieFile->Techages[loop].Name = "Tech";
-		}
-		ListTechages();
+		GenieFile->Techages[loop].Name = "Tech";
 	}
+	ListTechs();
 }
 
-void AGE_Frame::OnTechageRename(wxCommandEvent &Event)
+void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	for(short loop3=0; loop3 < GenieFile->Techages.size(); loop3++)
 	{
-		for(short loop3=0; loop3 < GenieFile->Techages.size(); loop3++)
+		if(GenieFile->Techages[loop3].Effects.size() < 1) // Empty techs.
 		{
-			if(GenieFile->Techages[loop3].Effects.size() < 1) // Empty techs.
-			{
-				GenieFile->Techages[loop3].Name = "New Technology";
-			}
-			else // Other than empty techs, not researches if research loop doesn't rename them.
-			{
-				GenieFile->Techages[loop3].Name = "Non-Research";
-			}
+			GenieFile->Techages[loop3].Name = "New Technology";
 		}
-		short ResearchTechID=0;
-		for(short loop=GenieFile->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
+		else // Other than empty techs, not researches if research loop doesn't rename them.
 		{
-			ResearchTechID = GenieFile->Researchs[loop].TechageID;
-			if(ResearchTechID > 0) // Only researches which have techs.
-			{
-				if(LangDLLstring(GenieFile->Researchs[loop].LanguageDLLName, 2) != "") // has a lang dll name
-				{
-					GenieFile->Techages[ResearchTechID].Name = LangDLLstring(GenieFile->Researchs[loop].LanguageDLLName, 31);
-				}
-				else // Use internal name instead.
-				{
-					GenieFile->Techages[ResearchTechID].Name = GenieFile->Researchs[loop].Name;
-				}
-			}
+			GenieFile->Techages[loop3].Name = "Non-Research";
 		}
-		string CivName;
-		short CivTechTreeID=0, CivTeamBonusID=0;
-		for(short loop2=GenieFile->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
-		{
-			string CivName = lexical_cast<string>(GenieFile->Civs[loop2].Name); // Civ internal name.
-			CivTechTreeID = GenieFile->Civs[loop2].TechTreeID;
-			CivTeamBonusID = GenieFile->Civs[loop2].TeamBonusID;
-			if(CivTechTreeID > 0)
-			{
-				GenieFile->Techages[CivTechTreeID].Name = CivName+" Tech. Tree"; // Under 31 chars.
-			}
-			if(CivTeamBonusID > 0)
-			{
-				GenieFile->Techages[CivTeamBonusID].Name = CivName+" Team Bonus"; // Under 31 chars.
-			}
-		}
-		ListTechages();
 	}
+	short ResearchTechID=0;
+	for(short loop=GenieFile->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
+	{
+		ResearchTechID = GenieFile->Researchs[loop].TechageID;
+		if(ResearchTechID > 0) // Only researches which have techs.
+		{
+			if(!LangDLLstring(GenieFile->Researchs[loop].LanguageDLLName, 2).empty()) // has a lang dll name
+			{
+				GenieFile->Techages[ResearchTechID].Name = LangDLLstring(GenieFile->Researchs[loop].LanguageDLLName, 31);
+			}
+			else // Use internal name instead.
+			{
+				GenieFile->Techages[ResearchTechID].Name = GenieFile->Researchs[loop].Name;
+			}
+		}
+	}
+	string CivName;
+	short CivTechTreeID=0, CivTeamBonusID=0;
+	for(short loop2=GenieFile->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
+	{
+		string CivName = lexical_cast<string>(GenieFile->Civs[loop2].Name); // Civ internal name.
+		CivTechTreeID = GenieFile->Civs[loop2].TechTreeID;
+		CivTeamBonusID = GenieFile->Civs[loop2].TeamBonusID;
+		if(CivTechTreeID > 0)
+		{
+			GenieFile->Techages[CivTechTreeID].Name = CivName+" Tech. Tree"; // Under 31 chars.
+		}
+		if(CivTeamBonusID > 0)
+		{
+			GenieFile->Techages[CivTeamBonusID].Name = CivName+" Team Bonus"; // Under 31 chars.
+		}
+	}
+	ListTechs();
 }
 
-void AGE_Frame::OnTechageSearch(wxCommandEvent &Event)
+void AGE_Frame::OnTechSearch(wxCommandEvent &Event)
 {
-	ListTechages(false);
+	ListTechs(false);
 }
 
-void AGE_Frame::ListTechages(bool Sized)
+void AGE_Frame::ListTechs(bool Sized)
 {
 	wxString Name;
 	searchText = Techs_Techs_Search->GetValue().Lower();
@@ -120,7 +118,7 @@ void AGE_Frame::ListTechages(bool Sized)
 
 	for(short loop=0; loop < GenieFile->Techages.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTechageName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetTechName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Techs_Techs_List->Append(Name, (void*)&GenieFile->Techages[loop]);
@@ -142,112 +140,105 @@ void AGE_Frame::ListTechages(bool Sized)
 	}
 
 	wxCommandEvent E;
-	OnTechageSelect(E);
+	OnTechSelect(E);
 }
 
-void AGE_Frame::OnTechageSelect(wxCommandEvent &Event)
+void AGE_Frame::OnTechSelect(wxCommandEvent &Event)
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	TechIDs.resize(Selections);
+	Techs_Name->resize(Selections);
+
+	genie::Techage * TechPointer;
+	for(auto loop = Selections; loop--> 0;)
 	{
-		TechIDs.resize(Selections);
-		Techs_Name->resize(Selections);
-
-		genie::Techage * TechPointer;
-		for(auto loop = Selections; loop--> 0;)
-		{
-			TechPointer = (genie::Techage*)Techs_Techs_List->GetClientData(Items.Item(loop));
-			TechIDs[loop] = (TechPointer - (&GenieFile->Techages[0]));
-			Techs_Name->container[loop] = &TechPointer->Name;
-		}
-
-		Techs_Name->ChangeValue(TechPointer->Name);
-		ListEffects();
+		TechPointer = (genie::Techage*)Techs_Techs_List->GetClientData(Items.Item(loop));
+		TechIDs[loop] = (TechPointer - (&GenieFile->Techages[0]));
+		Techs_Name->container[loop] = &TechPointer->Name;
 	}
+
+	Techs_Name->ChangeValue(TechPointer->Name);
+	ListEffects();
 }
 
-void AGE_Frame::OnTechageAdd(wxCommandEvent &Event)	// Works.
+void AGE_Frame::OnTechAdd(wxCommandEvent &Event)	// Works.
 {
-	if(GenieFile != NULL)
-	{
-		wxBusyCursor WaitCursor;
-		genie::Techage Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->Techages.push_back(Temp);
-		Added = true;
-		ListTechages();
-	}
+	if(GenieFile == NULL) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Techage Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->Techages.push_back(Temp);
+	Added = true;
+	ListTechs();
 }
 
-void AGE_Frame::OnTechageInsert(wxCommandEvent &Event)	// Works.
+void AGE_Frame::OnTechInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		genie::Techage Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], Temp);
-		ListTechages();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Techage Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], Temp);
+	ListTechs();
 }
 
-void AGE_Frame::OnTechageDelete(wxCommandEvent &Event)	// Works.
+void AGE_Frame::OnTechDelete(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		for(auto loop = Selections; loop--> 0;)
-		GenieFile->Techages.erase(GenieFile->Techages.begin() + TechIDs[loop]);
-		ListTechages();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(auto loop = Selections; loop--> 0;)
+	GenieFile->Techages.erase(GenieFile->Techages.begin() + TechIDs[loop]);
+	ListTechs();
 }
 
-void AGE_Frame::OnTechageCopy(wxCommandEvent &Event)	// Works.
+void AGE_Frame::OnTechCopy(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->Tech.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->Tech[loop] = GenieFile->Techages[TechIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->Tech.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->Tech[loop] = GenieFile->Techages[TechIDs[loop]];
 }
 
-void AGE_Frame::OnTechagePaste(wxCommandEvent &Event)	// Works.
+void AGE_Frame::OnTechPaste(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->Tech.size()+TechIDs[0] > GenieFile->Techages.size())
+	GenieFile->Techages.resize(copies->Tech.size()+TechIDs[0]);
+	for(short loop=0; loop < copies->Tech.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		if(copies->Tech.size()+TechIDs[0] > GenieFile->Techages.size())
-		GenieFile->Techages.resize(copies->Tech.size()+TechIDs[0]);
-		for(short loop=0; loop < copies->Tech.size(); loop++)
-		{
-			copies->Tech[loop].setGameVersion(GenieVersion);
-			GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
-		}
-		ListTechages();
+		copies->Tech[loop].setGameVersion(GenieVersion);
+		GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
 	}
+	ListTechs();
 }
 
-void AGE_Frame::OnTechagePasteInsert(wxCommandEvent &Event)	// Works.
+void AGE_Frame::OnTechPasteInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Techage Temp;
+	GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], copies->Tech.size(), Temp);
+	for(short loop=0; loop < copies->Tech.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Techage Temp;
-		GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], copies->Tech.size(), Temp);
-		for(short loop=0; loop < copies->Tech.size(); loop++)
-		{
-			copies->Tech[loop].setGameVersion(GenieVersion);
-			GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
-		}
-		ListTechages();
+		copies->Tech[loop].setGameVersion(GenieVersion);
+		GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
 	}
+	ListTechs();
 }
 
 string AGE_Frame::GetEffectName(short Index)
@@ -979,86 +970,84 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		genie::TechageEffect Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->Techages[TechIDs[0]].Effects.push_back(Temp);
-		Added = true;
-		ListEffects();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::TechageEffect Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->Techages[TechIDs[0]].Effects.push_back(Temp);
+	Added = true;
+	ListEffects();
 }
 
 void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		genie::TechageEffect Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], Temp);
-		ListEffects();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::TechageEffect Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], Temp);
+	ListEffects();
 }
 
 void AGE_Frame::OnEffectsDelete(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		for(auto loop = Selections; loop--> 0;)
-		GenieFile->Techages[TechIDs[0]].Effects.erase(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[loop]);
-		ListEffects();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(auto loop = Selections; loop--> 0;)
+	GenieFile->Techages[TechIDs[0]].Effects.erase(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[loop]);
+	ListEffects();
 }
 
 void AGE_Frame::OnEffectsCopy(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->Effect.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->Effect[loop] = GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->Effect.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->Effect[loop] = GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[loop]];
 }
 
 void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->Effect.size()+EffectIDs[0] > GenieFile->Techages[TechIDs[0]].Effects.size())
+	GenieFile->Techages[TechIDs[0]].Effects.resize(copies->Effect.size()+EffectIDs[0]);
+	for(short loop=0; loop < copies->Effect.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		if(copies->Effect.size()+EffectIDs[0] > GenieFile->Techages[TechIDs[0]].Effects.size())
-		GenieFile->Techages[TechIDs[0]].Effects.resize(copies->Effect.size()+EffectIDs[0]);
-		for(short loop=0; loop < copies->Effect.size(); loop++)
-		{
-			copies->Effect[loop].setGameVersion(GenieVersion);
-			GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
-		}
-		ListEffects();
+		copies->Effect[loop].setGameVersion(GenieVersion);
+		GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
 	}
+	ListEffects();
 }
 
 void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 {
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::TechageEffect Temp;
+	GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], copies->Effect.size(), Temp);
+	for(short loop=0; loop < copies->Effect.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::TechageEffect Temp;
-		GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], copies->Effect.size(), Temp);
-		for(short loop=0; loop < copies->Effect.size(); loop++)
-		{
-			copies->Effect[loop].setGameVersion(GenieVersion);
-			GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
-		}
-		ListEffects();
+		copies->Effect[loop].setGameVersion(GenieVersion);
+		GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
 	}
+	ListEffects();
+}
+
+void AGE_Frame::OnEffectsCopyToTechs(wxCommandEvent &Event)
+{
 }
 
 void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
@@ -1107,7 +1096,7 @@ void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent &Event)
 	SearchAllSubVectors(Techs_AllEffects_List, Techs_Techs_Search, Techs_Effects_Search);
 }
 
-void AGE_Frame::CreateTechageControls()
+void AGE_Frame::CreateTechControls()
 {
 	Tab_Techs = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
@@ -1149,6 +1138,7 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Effects_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_CopyToTechs = new wxButton(Tab_Techs, wxID_ANY, "Copy all to selected techs", wxDefaultPosition, wxSize(5, 20));
 
 	Effects_Holder_Type = new wxBoxSizer(wxVERTICAL);
 	Effects_Holder_Type2 = new wxBoxSizer(wxHORIZONTAL);
@@ -1271,6 +1261,8 @@ void AGE_Frame::CreateTechageControls()
 	Techs_Effects->Add(Techs_Effects_List, 1, wxEXPAND);
 	Techs_Effects->Add(-1, 2);
 	Techs_Effects->Add(Techs_Effects_Buttons, 0, wxEXPAND);
+	Techs_Effects->Add(-1, 2);
+	Techs_Effects->Add(Techs_Effects_CopyToTechs, 0, wxEXPAND);
 
 	Effects_ListArea->Add(-1, 10);
 	Effects_ListArea->Add(Techs_Holder_Name, 0, wxEXPAND);
@@ -1405,26 +1397,27 @@ void AGE_Frame::CreateTechageControls()
 		Connect(Techs_Effects_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
 		Connect(Techs_AllEffects_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
 	}
-	Connect(Techs_Techs_Rename->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRename));
-	Connect(Techs_Techs_Restore->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageRenameGE2));
-	Connect(Techs_Techs_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTechageSelect));
-	Connect(Techs_Techs_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechageSearch));
-	Connect(Techs_Techs_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechageSearch));
+	Connect(Techs_Techs_Rename->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechRename));
+	Connect(Techs_Techs_Restore->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechRenameGE2));
+	Connect(Techs_Techs_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTechSelect));
+	Connect(Techs_Techs_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechSearch));
+	Connect(Techs_Techs_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechSearch));
 	Connect(Techs_Effects_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnEffectsSelect));
 	Connect(Techs_Effects_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
 	Connect(Techs_Effects_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
-	Connect(Techs_Techs_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageAdd));
-	Connect(Techs_Techs_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageInsert));
-	Connect(Techs_Techs_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageDelete));
-	Connect(Techs_Techs_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechageCopy));
-	Connect(Techs_Techs_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechagePaste));
-	Connect(Techs_Techs_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechagePasteInsert));
+	Connect(Techs_Techs_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechAdd));
+	Connect(Techs_Techs_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechInsert));
+	Connect(Techs_Techs_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechDelete));
+	Connect(Techs_Techs_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechCopy));
+	Connect(Techs_Techs_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechPaste));
+	Connect(Techs_Techs_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechPasteInsert));
 	Connect(Techs_Effects_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsAdd));
 	Connect(Techs_Effects_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsInsert));
 	Connect(Techs_Effects_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsDelete));
 	Connect(Techs_Effects_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsCopy));
 	Connect(Techs_Effects_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPaste));
 	Connect(Techs_Effects_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsPasteInsert));
+	Connect(Techs_Effects_CopyToTechs->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsCopyToTechs));
 	Effects_E->Connect(Effects_E->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
 	Effects_F->Connect(Effects_F->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
 	Connect(Techs_AllEffects_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
@@ -1479,7 +1472,7 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
 	{
 		if(Event.GetId() == Techs_Name->GetId())
 		{
-			ListTechages();
+			ListTechs();
 		}
 		else
 		{
