@@ -982,7 +982,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			UnitLines_UnitLineUnits_List->Clear();
 		}
 		ListResearches();
-		ListTechages();
+		ListTechs();
 		ListGraphics();
 		ListSounds();
 		ListTerrainRestrictions();
@@ -1578,10 +1578,10 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			help.Append("only units to which ALL search terms in the upper search box match.\n\n");
 			help.Append("Let's suppose that you want to multiply the garrison heal rate\n");
 			help.Append("of all selected units (buildings) by 1.3.\n");
-			help.Append("Simply select all the desired units and put into garrison heal rate box \"b*1.3\".\n");
+			help.Append("Simply select all the desired units and put into garrison heal rate box \"b*1.3\", ");
+			help.Append("or just put the absolute value you want for all selected units.\n");
 			help.Append("The other batch modifiers are b+, b- and b/.\n");
-			help.Append("Note that overflows are not checked!\n");
-			help.Append("Or just put the absolute value you want for all selected items (like units).\n\n");
+			help.Append("Note that overflows are not checked!\n\n");
 			help.Append("Let's suppose that you want to copy all ships to another dat file.\n");
 			help.Append("On the open dialog, you must put \"2\" into \"Windows to open\"!\n");
 			help.Append("Now that you have a second window titled \"AGE window 2\" open with a dat file, ");
@@ -1617,9 +1617,9 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 	string Result = "";
 	if(WriteLangs)
 	{
-		if((LangsUsed & 4) && (Result = LangXP->getString(ID)) != ""){}
-		else if((LangsUsed & 2) && (Result = LangX->getString(ID)) != ""){}
-		else if((LangsUsed & 1) && (Result = Lang->getString(ID)) != ""){}
+		if((LangsUsed & 4) && !(Result = LangXP->getString(ID)).empty()){}
+		else if((LangsUsed & 2) && !(Result = LangX->getString(ID)).empty()){}
+		else if((LangsUsed & 1) && !(Result = Lang->getString(ID)).empty()){}
 	}
 	else
 	{

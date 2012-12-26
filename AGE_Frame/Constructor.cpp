@@ -89,7 +89,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	CreateCivControls();
 	CreateUnitControls();
 	CreateResearchControls();
-	CreateTechageControls();
+	CreateTechControls();
 	CreateTechTreeControls();
 	CreateGraphicsControls();
 	CreateTerrainControls();

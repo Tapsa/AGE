@@ -69,7 +69,7 @@ class AGE_Frame: public wxFrame
 
 	void CreateGeneralControls();
 	void CreateResearchControls();
-	void CreateTechageControls();
+	void CreateTechControls();
 	void CreateTechTreeControls();
 	void CreateCivControls();
 	void CreateUnitControls();
@@ -170,20 +170,20 @@ class AGE_Frame: public wxFrame
 	void OnResearchPasteInsert(wxCommandEvent &Event);
 	string GetResearchName(short Index, bool Filter = false);
 
-//	Techage Events
+//	Tech Events
 
-	void ListTechages(bool Sized = true);
-	void OnTechageSearch(wxCommandEvent &Event);
-	void OnTechageSelect(wxCommandEvent &Event);
-	void OnTechageAdd(wxCommandEvent &Event);
-	void OnTechageInsert(wxCommandEvent &Event);
-	void OnTechageDelete(wxCommandEvent &Event);
-	void OnTechageCopy(wxCommandEvent &Event);
-	void OnTechagePaste(wxCommandEvent &Event);
-	void OnTechagePasteInsert(wxCommandEvent &Event);
-	void OnTechageRename(wxCommandEvent &Event);
-	void OnTechageRenameGE2(wxCommandEvent &Event);
-	string GetTechageName(short);
+	void ListTechs(bool Sized = true);
+	void OnTechSearch(wxCommandEvent &Event);
+	void OnTechSelect(wxCommandEvent &Event);
+	void OnTechAdd(wxCommandEvent &Event);
+	void OnTechInsert(wxCommandEvent &Event);
+	void OnTechDelete(wxCommandEvent &Event);
+	void OnTechCopy(wxCommandEvent &Event);
+	void OnTechPaste(wxCommandEvent &Event);
+	void OnTechPasteInsert(wxCommandEvent &Event);
+	void OnTechRename(wxCommandEvent &Event);
+	void OnTechRenameGE2(wxCommandEvent &Event);
+	string GetTechName(short);
 
 	void ListEffects();
 	void OnEffectsSearch(wxCommandEvent &Event);
@@ -194,6 +194,7 @@ class AGE_Frame: public wxFrame
 	void OnEffectsCopy(wxCommandEvent &Event);
 	void OnEffectsPaste(wxCommandEvent &Event);
 	void OnEffectsPasteInsert(wxCommandEvent &Event);
+	void OnEffectsCopyToTechs(wxCommandEvent &Event);
 	string GetEffectName(short);
 
 //	Tech Tree Events
@@ -218,6 +219,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesBuildingCopy(wxCommandEvent &Event);
 	void OnTTAgesBuildingPaste(wxCommandEvent &Event);
 	void OnTTAgesBuildingPasteInsert(wxCommandEvent &Event);
+	void OnTTAgesBuildingCopyToAges(wxCommandEvent &Event);
 	string GetTTAgesBuildingName(short);
 
 	void ListTTAgesUnits();
@@ -229,6 +231,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesUnitCopy(wxCommandEvent &Event);
 	void OnTTAgesUnitPaste(wxCommandEvent &Event);
 	void OnTTAgesUnitPasteInsert(wxCommandEvent &Event);
+	void OnTTAgesUnitCopyToAges(wxCommandEvent &Event);
 	string GetTTAgesUnitName(short);
 
 	void ListTTAgesResearches();
@@ -240,6 +243,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesResearchCopy(wxCommandEvent &Event);
 	void OnTTAgesResearchPaste(wxCommandEvent &Event);
 	void OnTTAgesResearchPasteInsert(wxCommandEvent &Event);
+	void OnTTAgesResearchCopyToAges(wxCommandEvent &Event);
 	string GetTTAgesResearchName(short);
 
 	void ListTTBuildings();
@@ -262,6 +266,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingBuildingCopy(wxCommandEvent &Event);
 	void OnTTBuildingBuildingPaste(wxCommandEvent &Event);
 	void OnTTBuildingBuildingPasteInsert(wxCommandEvent &Event);
+	void OnTTBuildingBuildingCopyToBuildings(wxCommandEvent &Event);
 	string GetTTBuildingBuildingName(short);
 
 	void ListTTBuildingUnits();
@@ -273,6 +278,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingUnitCopy(wxCommandEvent &Event);
 	void OnTTBuildingUnitPaste(wxCommandEvent &Event);
 	void OnTTBuildingUnitPasteInsert(wxCommandEvent &Event);
+	void OnTTBuildingUnitCopyToBuildings(wxCommandEvent &Event);
 	string GetTTBuildingUnitName(short);
 
 	void ListTTBuildingResearches();
@@ -284,6 +290,7 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingResearchCopy(wxCommandEvent &Event);
 	void OnTTBuildingResearchPaste(wxCommandEvent &Event);
 	void OnTTBuildingResearchPasteInsert(wxCommandEvent &Event);
+	void OnTTBuildingResearchCopyToBuildings(wxCommandEvent &Event);
 	string GetTTBuildingResearchName(short);
 
 	void ListTTUnits();
@@ -306,6 +313,7 @@ class AGE_Frame: public wxFrame
 	void OnTTUnitUnitCopy(wxCommandEvent &Event);
 	void OnTTUnitUnitPaste(wxCommandEvent &Event);
 	void OnTTUnitUnitPasteInsert(wxCommandEvent &Event);
+	void OnTTUnitUnitCopyToUnits(wxCommandEvent &Event);
 	string GetTTUnitUnitName(short);
 
 	void ListTTResearches();
@@ -328,6 +336,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchBuildingCopy(wxCommandEvent &Event);
 	void OnTTResearchBuildingPaste(wxCommandEvent &Event);
 	void OnTTResearchBuildingPasteInsert(wxCommandEvent &Event);
+	void OnTTResearchBuildingCopyToResearches(wxCommandEvent &Event);
 	string GetTTResearchBuildingName(short);
 
 	void ListTTResearchUnits();
@@ -339,6 +348,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchUnitCopy(wxCommandEvent &Event);
 	void OnTTResearchUnitPaste(wxCommandEvent &Event);
 	void OnTTResearchUnitPasteInsert(wxCommandEvent &Event);
+	void OnTTResearchUnitCopyToResearches(wxCommandEvent &Event);
 	string GetTTResearchUnitName(short);
 
 	void ListTTResearchResearches();
@@ -350,6 +360,7 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchResearchCopy(wxCommandEvent &Event);
 	void OnTTResearchResearchPaste(wxCommandEvent &Event);
 	void OnTTResearchResearchPasteInsert(wxCommandEvent &Event);
+	void OnTTResearchResearchCopyToResearches(wxCommandEvent &Event);
 	string GetTTResearchResearchName(short);
 
 //	Civilization Events
@@ -409,6 +420,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitDamageGraphicsCopy(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsPaste(wxCommandEvent &Event);
 	void OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event);
+	void OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &Event);
 	string GetUnitDamageGraphicName(short);
 
 	void ListUnitAttacks();
@@ -420,6 +432,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitAttacksCopy(wxCommandEvent &Event);
 	void OnUnitAttacksPaste(wxCommandEvent &Event);
 	void OnUnitAttacksPasteInsert(wxCommandEvent &Event);
+	void OnUnitAttacksCopyToUnits(wxCommandEvent &Event);
 	string GetUnitAttackName(short);
 
 	void ListUnitArmors();
@@ -431,6 +444,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitArmorsCopy(wxCommandEvent &Event);
 	void OnUnitArmorsPaste(wxCommandEvent &Event);
 	void OnUnitArmorsPasteInsert(wxCommandEvent &Event);
+	void OnUnitArmorsCopyToUnits(wxCommandEvent &Event);
 	string GetUnitArmorName(short);
 
 //	Unit Events
@@ -447,6 +461,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitCommandsCopy(wxCommandEvent &Event);
 	void OnUnitCommandsPaste(wxCommandEvent &Event);
 	void OnUnitCommandsPasteInsert(wxCommandEvent &Event);
+	void OnUnitCommandsCopyToUnits(wxCommandEvent &Event);
 	string GetUnitCommandName(short);
 
 //	Unitline Events
@@ -471,6 +486,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitLineUnitsCopy(wxCommandEvent &Event);
 	void OnUnitLineUnitsPaste(wxCommandEvent &Event);
 	void OnUnitLineUnitsPasteInsert(wxCommandEvent &Event);
+	void OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &Event);
 	string GetUnitLineUnitName(short);
 
 //	Graphic Events
@@ -499,12 +515,14 @@ class AGE_Frame: public wxFrame
 	void OnGraphicDeltasCopy(wxCommandEvent &Event);
 	void OnGraphicDeltasPaste(wxCommandEvent &Event);
 	void OnGraphicDeltasPasteInsert(wxCommandEvent &Event);
+	void OnGraphicDeltasCopyToGraphics(wxCommandEvent &Event);
 	string GetGraphicDeltaName(short);
 
 	void ListGraphicAttackSounds();
 	void OnGraphicAttackSoundsSearch(wxCommandEvent &Event);
 	void OnGraphicAttackSoundsSelect(wxCommandEvent &Event);
 	void OnGraphicAttackSoundsCopy(wxCommandEvent &Event);
+	void OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &Event);
 	string GetGraphicAttackSoundName(short);
 
 //	Terrain Events
@@ -535,6 +553,7 @@ class AGE_Frame: public wxFrame
 	void OnTerrainBorderFramesSelect(wxCommandEvent &Event);
 	void OnTerrainBorderFramesCopy(wxCommandEvent &Event);
 	void OnTerrainBorderFramesPaste(wxCommandEvent &Event);
+	void OnTerrainBorderFramesCopyToBorders(wxCommandEvent &Event);
 	string GetTerrainBorderFrameName(short);
 
 //	Terrain Restriction Events
@@ -575,6 +594,7 @@ class AGE_Frame: public wxFrame
 	void OnSoundItemsCopy(wxCommandEvent &Event);
 	void OnSoundItemsPaste(wxCommandEvent &Event);
 	void OnSoundItemsPasteInsert(wxCommandEvent &Event);
+	void OnSoundItemsCopyToSounds(wxCommandEvent &Event);
 	string GetSoundItemName(short);
 
 //	Player Color Events
@@ -765,6 +785,7 @@ class AGE_Frame: public wxFrame
 	wxListBox *Borders_Frames_List;
 	wxButton *Frames_Copy;
 	wxButton *Frames_Paste;
+	wxButton *Frames_CopyToBorders;
 	wxBoxSizer *Borders_Holder_FrameArea;
 	wxGridSizer *Borders_Unknonws;
 	wxBoxSizer *Borders_Holder_BorderEnabled;
@@ -1030,6 +1051,7 @@ class AGE_Frame: public wxFrame
 	wxButton *Techs_Effects_Copy;
 	wxButton *Techs_Effects_Paste;
 	wxButton *Techs_Effects_PasteInsert;
+	wxButton *Techs_Effects_CopyToTechs;
 
 	wxBoxSizer *Effects_DataArea;
 
@@ -1778,6 +1800,7 @@ class AGE_Frame: public wxFrame
 	wxButton *Units_DamageGraphics_Copy;
 	wxButton *Units_DamageGraphics_Paste;
 	wxButton *Units_DamageGraphics_PasteInsert;
+	wxButton *Units_DamageGraphics_CopyToUnits;
 
 	wxBoxSizer *Units_Holder_Attacks;
 	wxBoxSizer *Units_Holder_Attacks_Data;
@@ -1802,6 +1825,7 @@ class AGE_Frame: public wxFrame
 	wxButton *Units_Attacks_Copy;
 	wxButton *Units_Attacks_Paste;
 	wxButton *Units_Attacks_PasteInsert;
+	wxButton *Units_Attacks_CopyToUnits;
 
 	wxBoxSizer *Units_Holder_Armors;
 	wxBoxSizer *Units_Holder_Armors_Data3;
@@ -1824,6 +1848,7 @@ class AGE_Frame: public wxFrame
 	wxButton *Units_Armors_Copy;
 	wxButton *Units_Armors_Paste;
 	wxButton *Units_Armors_PasteInsert;
+	wxButton *Units_Armors_CopyToUnits;
 
 //	End of Unit Controls
 
@@ -1944,6 +1969,7 @@ class AGE_Frame: public wxFrame
 	wxButton *Units_UnitCommands_Copy;
 	wxButton *Units_UnitCommands_Paste;
 	wxButton *Units_UnitCommands_PasteInsert;
+	wxButton *Units_UnitCommands_CopyToUnits;
 
 	wxBoxSizer *Units_CommandHolder_Data;
 	wxBoxSizer *Units_CommandHolder_Data1;
@@ -2142,9 +2168,11 @@ class AGE_Frame: public wxFrame
 	wxButton *Deltas_Copy;
 	wxButton *Deltas_Paste;
 	wxButton *Deltas_PasteInsert;
+	wxButton *Deltas_CopyToGraphics;
 	wxBoxSizer *Graphics_AttackSounds;
 	wxListBox *Graphics_AttackSounds_List;
 	wxButton *AttackSounds_Copy;
+	wxButton *AttackSounds_CopyToGraphics;
 
 	wxStaticBoxSizer *Graphics_Holder_Deltas;
 	wxBoxSizer *Graphics_Holder_Deltas_Data;
@@ -2375,6 +2403,7 @@ class AGE_Frame: public wxFrame
 	wxButton *SoundItems_Copy;
 	wxButton *SoundItems_Paste;
 	wxButton *SoundItems_PasteInsert;
+	wxButton *SoundItems_CopyToSounds;
 
 	wxBoxSizer *Sounds_Holder_ID;
 	wxStaticText *Sounds_Text_ID;
@@ -2495,6 +2524,7 @@ class AGE_Frame: public wxFrame
 	wxButton *UnitLineUnits_Copy;
 	wxButton *UnitLineUnits_Paste;
 	wxButton *UnitLineUnits_PasteInsert;
+	wxButton *UnitLineUnits_CopyToUnitLines;
 
 	wxBoxSizer *UnitLineUnits_Holder_Units;
 	wxStaticText *UnitLineUnits_Text_Units;
@@ -2688,6 +2718,16 @@ class AGE_Frame: public wxFrame
 	wxButton *TechTrees_DataList_Researches_PasteInsert_Buildings;
 	wxButton *TechTrees_DataList_Researches_PasteInsert_Units;
 	wxButton *TechTrees_DataList_Researches_PasteInsert_Researches;
+	wxButton *TechTrees_DataList_Ages_CopyToAges_Buildings;
+	wxButton *TechTrees_DataList_Ages_CopyToAges_Units;
+	wxButton *TechTrees_DataList_Ages_CopyToAges_Researches;
+	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Buildings;
+	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Units;
+	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Researches;
+	wxButton *TechTrees_DataList_Units_CopyToUnits_Units;
+	wxButton *TechTrees_DataList_Researches_CopyToResearches_Buildings;
+	wxButton *TechTrees_DataList_Researches_CopyToResearches_Units;
+	wxButton *TechTrees_DataList_Researches_CopyToResearches_Researches;
 
 	wxBoxSizer *TechTrees_Ages_Holder_Unknown1;
 	wxStaticText *TechTrees_Ages_Text_Unknown1;
@@ -2926,66 +2966,68 @@ class AGE_Frame: public wxFrame
 	wxButton *DRS_SLPLoadButton;
 	wxStaticText *DRS_StatusText;*/
 
-/*	Templates (I'm not using these)
+//	Template functions
 
-	template <typename T, class C>
-	void AddToListIDFix(T &Path, C &Temp)
+	template <class P>
+	void AddToList(P &path)
 	{
-		Path.push_back(Temp);
-		if(EnableIDFix)
-		Path[Path.size()-1].ID = (long)(Path.size()-1); // ID Fix
+		path.emplace_back();
+		path.back().setGameVersion(GenieVersion);
+		//if(EnableIDFix)
+		//Path[Path.size()-1].ID = (long)(Path.size()-1); // ID Fix
 		Added = true;
-	};
+	}
 
-	template <typename T, typename V, class C>
-	void InsertToListIDFix(T &Path, vector<V> &Places, C &Temp)
+	template <class P>
+	void InsertToList(P &path, short place)
 	{
-		Path.insert(Path.begin() + Places[0], Temp);
-		if(EnableIDFix)
-		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
-		Path[loop].ID = (long)loop;
-	};
+		path.emplace(path.begin() + place);
+		path[place].setGameVersion(GenieVersion);
+		//if(EnableIDFix)
+		//for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
+		//Path[loop].ID = (long)loop;
+	}
 
-	template <typename T, typename V>
-	void DeleteFromListIDFix(T &Path, vector<V> &Places, short &Selections)
+	template <class P>
+	void DeleteFromList(P &path, vector<short> &places)
 	{
-		for(auto loop = Selections; loop--> 0;)
-		Path.erase(Path.begin() + Places[loop]);
-		if(EnableIDFix)
-		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
-		Path[loop].ID = (long)loop;
-	};
+		for(auto loop = places.size(); loop--> 0;)
+		path.erase(path.begin() + places[loop]);
+		//if(EnableIDFix)
+		//for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
+		//Path[loop].ID = (long)loop;
+	}
 
-	template <typename T, typename V, typename P>
-	void CopyFromList(T &Path, vector<V> &Places, P &Copies, short &Selections)
+	template <class P, class C>
+	void CopyFromList(P &path, vector<short> &places, C &copies)
 	{
-		Copies.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		Copies[loop] = Path[Places[loop]];
-	};
+		copies.resize(places.size());
+		for(auto loop = places.size(); loop--> 0;)
+		copies[loop] = path[places[loop]];
+	}
 
-	template <typename T, typename V, typename P>
-	void PasteToListIDFix(T &Path, vector<V> &Places, P &Copies)
+	template <class P, class C>
+	void PasteToList(P &path, short place, C &copies)
 	{
-		if(Copies.size()+Places[0] > Path.size())
-		Path.resize(Copies.size()+Places[0]);
-		for(short loop=0; loop < Copies.size(); loop++)
+		if(copies.size() + place > path.size())
+		path.resize(copies.size() + place);
+		for(auto loop = copies.size(); loop--> 0;)
 		{
-			Path[Places[0]+loop] = Copies[loop];
-			if(EnableIDFix)
-			Path[Places[0]+loop].ID = (long)(Places[0]+loop); // ID Fix
+			copies[loop].setGameVersion(GenieVersion);
+			path[place + loop] = copies[loop];
+			//if(EnableIDFix)
+			//Path[Places[0]+loop].ID = (long)(Places[0]+loop); // ID Fix
 		}
-	};
+	}
 
-	template <typename T, typename V, typename P, class C>
-	void PasteInsertToListIDFix(T &Path, vector<V> &Places, P &Copies, C &Temp)
+	template <class P, class C>
+	void PasteInsertToList(P &path, short place, C &copies)
 	{
-		Path.insert(Path.begin() + Places[0], Copies.size(), Temp);
-		for(short loop=0; loop < Copies.size(); loop++)
-		Path[Places[0]+loop] = Copies[loop];
-		if(EnableIDFix)
-		for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
-		Path[loop].ID = (long)loop;
-	};
-//*/
+		for(auto loop = copies.size(); loop--> 0;)
+		copies[loop].setGameVersion(GenieVersion);
+		path.insert(path.begin() + place, copies.begin(), copies.end());
+		//if(EnableIDFix)
+		//for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
+		//Path[loop].ID = (long)loop;
+	}
 };

@@ -110,11 +110,11 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 		if(Selection[0] != 1) Filter = false; // Names
 	}
 
-	if((LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 2) != "") && (Filter == false))
+	if(!LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 2).empty() && Filter == false)
 	{
 		Name += LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 64);
 	}
-	else if(GenieFile->Civs[civ].Units[Index].Name != "")
+	else if(!GenieFile->Civs[civ].Units[Index].Name.empty())
 	{
 		Name += GenieFile->Civs[civ].Units[Index].Name;
 	}
@@ -2592,6 +2592,10 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
 	}
 }
 
+void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &Event)
+{
+}
+
 string AGE_Frame::GetUnitAttackName(short Index)
 {
 	return "Amount: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Amount)
@@ -2798,6 +2802,10 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
 	}
 }
 
+void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &Event)
+{
+}
+
 string AGE_Frame::GetUnitArmorName(short Index)
 {
 	return "Amount: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Amount)
@@ -3002,6 +3010,10 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
 		}
 		ListUnitArmors();
 	}
+}
+
+void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &Event)
+{
 }
 
 //	AoE/TC/SWGB/CC Unit Commands
@@ -3515,6 +3527,10 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 		}
 		ListUnitCommands();
 	}
+}
+
+void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &Event)
+{
 }
 
 void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &Event)
@@ -4129,6 +4145,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_DamageGraphics_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
 	Units_Holder_DamageGraphics = new wxGridSizer(2, 5, 5);
 	Units_Holder_DamageGraphics_Data = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Holder_GraphicID = new wxBoxSizer(wxVERTICAL);
@@ -4171,6 +4188,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_Attacks_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
 	Units_Holder_Attacks = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_Attacks_Data = new wxBoxSizer(wxVERTICAL);
 	Units_Grid_Attacks_Data2 = new wxGridSizer(2, 5, 5);
@@ -4208,6 +4226,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_Armors_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Armors_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_Armors_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
 	Units_Holder_Armors = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_Armors_Data3 = new wxBoxSizer(wxVERTICAL);
 	Armors_Holder_Amount = new wxBoxSizer(wxVERTICAL);
@@ -4500,6 +4519,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnitCommands_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Units_UnitCommands_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Units_UnitCommands_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_UnitCommands_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
 	Units_CommandHolder_Data = new wxBoxSizer(wxHORIZONTAL);
 	Units_CommandHolder_Data1 = new wxBoxSizer(wxVERTICAL);
 	Units_CommandHolder_Data2 = new wxBoxSizer(wxVERTICAL);
@@ -5105,6 +5125,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_ListArea->Add(Units_Attacks_List, 1, wxEXPAND);
 	Units_Attacks_ListArea->Add(-1, 2);
 	Units_Attacks_ListArea->Add(Units_Attacks_Buttons, 0, wxEXPAND);
+	Units_Attacks_ListArea->Add(-1, 2);
+	Units_Attacks_ListArea->Add(Units_Attacks_CopyToUnits, 0, wxEXPAND);
 
 	Armors_Holder_Class->Add(Armors_Text_Class, 0, wxEXPAND);
 	Armors_Holder_Class->Add(Armors_Class, 1, wxEXPAND);
@@ -5125,6 +5147,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_ListArea->Add(Units_Armors_List, 1, wxEXPAND);
 	Units_Armors_ListArea->Add(-1, 2);
 	Units_Armors_ListArea->Add(Units_Armors_Buttons, 0, wxEXPAND);
+	Units_Armors_ListArea->Add(-1, 2);
+	Units_Armors_ListArea->Add(Units_Armors_CopyToUnits, 0, wxEXPAND);
 
 	UnitCommands_Holder_One->Add(UnitCommands_Text_One, 0, wxEXPAND);
 	UnitCommands_Holder_One->Add(UnitCommands_One, 1, wxEXPAND);
@@ -5310,6 +5334,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_List, 1, wxEXPAND);
 	Units_DamageGraphics_ListArea->Add(-1, 2);
 	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_Buttons, 0, wxEXPAND);
+	Units_DamageGraphics_ListArea->Add(-1, 2);
+	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_CopyToUnits, 0, wxEXPAND);
 
 	Units_DamageGraphics->Add(Units_DamageGraphics_ListArea, 1, wxEXPAND);
 	Units_DamageGraphics->Add(5, -1);
@@ -5610,6 +5636,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnitCommands->Add(Units_UnitCommands_List, 1, wxEXPAND);
 	Units_UnitCommands->Add(-1, 2);
 	Units_UnitCommands->Add(Units_UnitCommands_Buttons, 0, wxEXPAND);
+	Units_UnitCommands->Add(-1, 2);
+	Units_UnitCommands->Add(Units_UnitCommands_CopyToUnits, 0, wxEXPAND);
 
 	Units_CommandHolder_Lists->Add(Units_UnitHeads_Name, 0, wxEXPAND);
 	//Units_CommandHolder_Lists->Add(Units_UnitHeads, 0, wxEXPAND);
@@ -5782,6 +5810,7 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_UnitCommands_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsCopy));
 	Connect(Units_UnitCommands_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsPaste));
 	Connect(Units_UnitCommands_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsPasteInsert));
+	Connect(Units_UnitCommands_CopyToUnits->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitCommandsCopyToUnits));
 	Connect(Units_DamageGraphics_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitDamageGraphicsSearch));
 	Connect(Units_DamageGraphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitDamageGraphicsSearch));
 	Connect(Units_DamageGraphics_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitDamageGraphicsSelect));
@@ -5791,6 +5820,7 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_DamageGraphics_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitDamageGraphicsCopy));
 	Connect(Units_DamageGraphics_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitDamageGraphicsPaste));
 	Connect(Units_DamageGraphics_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitDamageGraphicsPasteInsert));
+	Connect(Units_DamageGraphics_CopyToUnits->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitDamageGraphicsCopyToUnits));
 	Connect(Units_Attacks_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitAttacksSearch));
 	Connect(Units_Attacks_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitAttacksSearch));
 	Connect(Units_Attacks_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitAttacksSelect));
@@ -5800,6 +5830,7 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Attacks_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitAttacksCopy));
 	Connect(Units_Attacks_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitAttacksPaste));
 	Connect(Units_Attacks_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitAttacksPasteInsert));
+	Connect(Units_Attacks_CopyToUnits->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitAttacksCopyToUnits));
 	Connect(Units_Armors_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsSearch));
 	Connect(Units_Armors_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsSearch));
 	Connect(Units_Armors_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsSelect));
@@ -5809,6 +5840,7 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Armors_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsCopy));
 	Connect(Units_Armors_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsPaste));
 	Connect(Units_Armors_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsPasteInsert));
+	Connect(Units_Armors_CopyToUnits->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsCopyToUnits));
 	Connect(Units_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 	Connect(Units_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 

@@ -36,16 +36,13 @@ void AGE_Frame::ListGeneral()
 
 void AGE_Frame::OnDataGridPage(wxCommandEvent &Event)
 {
-	if(Event.GetId() == General_TechTreePicker->GetId())
-	{
-		TechTreePage = 0;
-		if(!General_TechTreePicker->IsEmpty())
-		TechTreePage = lexical_cast<long>(General_TechTreePicker->GetValue());
-		if(TechTreePage >= (TechTreeSize - 256))
-		TechTreePage = TechTreeSize - 256;
-		if(TechTreePage < 0)
-		TechTreePage = 0;
-	}
+	TechTreePage = 0;
+	if(!General_TechTreePicker->IsEmpty())
+	TechTreePage = lexical_cast<long>(General_TechTreePicker->GetValue());
+	if(TechTreePage >= (TechTreeSize - 256))
+	TechTreePage = TechTreeSize - 256;
+	if(TechTreePage < 0)
+	TechTreePage = 0;
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
@@ -53,12 +50,9 @@ void AGE_Frame::OnDataGridPage(wxCommandEvent &Event)
 
 void AGE_Frame::OnDataGridNext(wxCommandEvent &Event)
 {
-	if(Event.GetId() == General_TechTreeNext->GetId())
-	{
-		TechTreePage += 256;
-		if(TechTreePage >= (TechTreeSize - 256))
-		TechTreePage = TechTreeSize - 256;
-	}
+	TechTreePage += 256;
+	if(TechTreePage >= (TechTreeSize - 256))
+	TechTreePage = TechTreeSize - 256;
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
@@ -66,13 +60,9 @@ void AGE_Frame::OnDataGridNext(wxCommandEvent &Event)
 
 void AGE_Frame::OnDataGridPrev(wxCommandEvent &Event)
 {
-	if(Event.GetId() == General_TechTreePrev->GetId())
-	{
-		TechTreePage -= 256;
-		if(TechTreePage < 0)
-		TechTreePage = 0;
-
-	}
+	TechTreePage -= 256;
+	if(TechTreePage < 0)
+	TechTreePage = 0;
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
@@ -120,39 +110,35 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_TechTree[loop]->resize(1);
 		General_TechTree[loop]->container[0] = &GenieFile->RenderingPlusSomething[loop+TechTreePage];
 	}
-	if(GameVersion >= 2)
+	if(GameVersion < 2) return;
+	for(long loop = 0;loop < 7; loop++)
 	{
-		for(long loop = 0;loop < 7; loop++)
-		{
-			General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
-			General_TTUnknown[loop]->resize(1);
-			General_TTUnknown[loop]->container[0] = &GenieFile->UnknownPreTechTree[loop];
-		}
-		General_TTUnknown[7]->ChangeValue(lexical_cast<string>(GenieFile->TechTree.Unknown2));
-		General_TTUnknown[7]->resize(1);
-		General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
-		if(GameVersion >= 4)
-		{
-			General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
-			General_SUnknown2->resize(1);
-			General_SUnknown2->container[0] = &GenieFile->SUnknown2;
-			General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
-			General_SUnknown3->resize(1);
-			General_SUnknown3->container[0] = &GenieFile->SUnknown3;
-			General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
-			General_SUnknown4->resize(1);
-			General_SUnknown4->container[0] = &GenieFile->SUnknown4;
-			General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
-			General_SUnknown5->resize(1);
-			General_SUnknown5->container[0] = &GenieFile->SUnknown5;
-			General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
-			General_SUnknown7->resize(1);
-			General_SUnknown7->container[0] = &GenieFile->SUnknown7;
-			General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
-			General_SUnknown8->resize(1);
-			General_SUnknown8->container[0] = &GenieFile->SUnknown8;
-		}
+		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
+		General_TTUnknown[loop]->resize(1);
+		General_TTUnknown[loop]->container[0] = &GenieFile->UnknownPreTechTree[loop];
 	}
+	General_TTUnknown[7]->ChangeValue(lexical_cast<string>(GenieFile->TechTree.Unknown2));
+	General_TTUnknown[7]->resize(1);
+	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
+	if(GameVersion < 4) return;
+	General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
+	General_SUnknown2->resize(1);
+	General_SUnknown2->container[0] = &GenieFile->SUnknown2;
+	General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
+	General_SUnknown3->resize(1);
+	General_SUnknown3->container[0] = &GenieFile->SUnknown3;
+	General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
+	General_SUnknown4->resize(1);
+	General_SUnknown4->container[0] = &GenieFile->SUnknown4;
+	General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
+	General_SUnknown5->resize(1);
+	General_SUnknown5->container[0] = &GenieFile->SUnknown5;
+	General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
+	General_SUnknown7->resize(1);
+	General_SUnknown7->container[0] = &GenieFile->SUnknown7;
+	General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
+	General_SUnknown8->resize(1);
+	General_SUnknown8->container[0] = &GenieFile->SUnknown8;
 }
 
 void AGE_Frame::CreateGeneralControls()

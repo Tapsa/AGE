@@ -76,7 +76,7 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 		}
 	}
 
-	if(GenieFile->Graphics[Index].Name != "")
+	if(!GenieFile->Graphics[Index].Name.empty())
 	{
 		Name += GenieFile->Graphics[Index].Name;
 	}
@@ -668,6 +668,10 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &Event)
 	}
 }
 
+void AGE_Frame::OnGraphicDeltasCopyToGraphics(wxCommandEvent &Event)
+{
+}
+
 string AGE_Frame::GetGraphicAttackSoundName(short Index)
 {
 	return "Attack sound "+lexical_cast<string>(Index);
@@ -756,6 +760,10 @@ void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &Event)
 		for(short loop2=0; loop2 < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); loop2++)
 		GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop2] = Copy;
 	}
+}
+
+void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &Event)
+{
 }
 
 void AGE_Frame::CreateGraphicsControls()
@@ -856,6 +864,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Deltas_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Deltas_Paste = new wxButton(Graphics_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Deltas_PasteInsert = new wxButton(Graphics_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Deltas_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(5, 20));
 	GraphicDeltas_Holder_GraphicID = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Text_GraphicID = new wxStaticText(Graphics_Scroller, wxID_ANY, " Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_GraphicID = new TextCtrl_Short(Graphics_Scroller);
@@ -885,6 +894,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSounds = new wxBoxSizer(wxVERTICAL);
 	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, NULL, wxLB_EXTENDED);
 	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, 20));
+	AttackSounds_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, 20));
 	Graphics_Holder_AngleCount = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_AngleCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Angle Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_AngleCount = new TextCtrl_UShort(Graphics_Scroller);
@@ -1066,6 +1076,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Deltas->Add(Graphics_Deltas_List, 1, wxEXPAND);
 	Graphics_Deltas->Add(-1, 2);
 	Graphics_Deltas->Add(Graphics_Deltas_Buttons, 0, wxEXPAND);
+	Graphics_Deltas->Add(-1, 2);
+	Graphics_Deltas->Add(Deltas_CopyToGraphics, 0, wxEXPAND);
 
 	GraphicDeltas_Holder_GraphicID->Add(GraphicDeltas_Text_GraphicID, 0, wxEXPAND);
 	GraphicDeltas_Holder_GraphicID->Add(GraphicDeltas_GraphicID, 1, wxEXPAND);
@@ -1106,6 +1118,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSounds->Add(Graphics_AttackSounds_List, 1, wxEXPAND);
 	Graphics_AttackSounds->Add(-1, 2);
 	Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
+	Graphics_AttackSounds->Add(-1, 2);
+	Graphics_AttackSounds->Add(AttackSounds_CopyToGraphics, 0, wxEXPAND);
 
 	Graphics_Holder_AttackSounds->Add(Graphics_Text_AttackSounds, 0, wxEXPAND);
 	Graphics_Holder_AttackSounds->Add(Graphics_Grid_AttackSounds, 0, wxEXPAND);
@@ -1193,8 +1207,10 @@ void AGE_Frame::CreateGraphicsControls()
 	Connect(Deltas_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasCopy));
 	Connect(Deltas_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasPaste));
 	Connect(Deltas_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasPasteInsert));
+	Connect(Deltas_CopyToGraphics->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasCopyToGraphics));
 	Connect(Graphics_AttackSounds_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSelect));
 	Connect(AttackSounds_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopy));
+	Connect(AttackSounds_CopyToGraphics->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopyToGraphics));
 
 	Graphics_Name->Connect(Graphics_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_Name2->Connect(Graphics_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);

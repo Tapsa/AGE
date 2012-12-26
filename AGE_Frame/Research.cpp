@@ -68,11 +68,11 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 		if(Selection[0] != 1) Filter = false; // Names
 	}
 
-	if((LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 2) != "") && (Filter == false))
+	if(!LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 2).empty() && Filter == false)
 	{
 		Name += LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 64);
 	}
-	else if(GenieFile->Researchs[Index].Name != "")
+	else if(!GenieFile->Researchs[Index].Name.empty())
 	{
 		Name += GenieFile->Researchs[Index].Name;
 	}
@@ -255,222 +255,215 @@ void AGE_Frame::ListResearches(bool Sized)
 void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	ResearchIDs.resize(Selections);
+	for(short loop2=0; loop2 < GenieFile->Researchs[0].getRequiredTechsSize(); loop2++)
 	{
-		ResearchIDs.resize(Selections);
-		for(short loop2=0; loop2 < GenieFile->Researchs[0].getRequiredTechsSize(); loop2++)
-		{
-			Research_RequiredTechs[loop2]->resize(Selections);
-		}
-		Research_RequiredTechCount->resize(Selections);
-		Research_Resources[0]->resize(Selections);
-		Research_Resources[1]->resize(Selections);
-		Research_Resources[2]->resize(Selections);
-		Research_Amount[0]->resize(Selections);
-		Research_Amount[1]->resize(Selections);
-		Research_Amount[2]->resize(Selections);
-		Research_Used[0]->resize(Selections);
-		Research_Used[1]->resize(Selections);
-		Research_Used[2]->resize(Selections);
-		if(GameVersion >= 2)
-		{
-			Research_Civ->resize(Selections);
-			Research_FullTechMode->resize(Selections);
-			if(GameVersion >= 4)
-			Research_Name[1]->resize(Selections);
-		}
-		Research_ResearchLocation->resize(Selections);
-		Research_LangDLLName->resize(Selections);
-		Research_LangDLLDescription->resize(Selections);
-		Research_ResearchTime->resize(Selections);
-		Research_TechID->resize(Selections);
-		Research_Type->resize(Selections);
-		Research_IconID->resize(Selections);
-		Research_ButtonID->resize(Selections);
-		Research_Pointers[0]->resize(Selections);
-		Research_Pointers[1]->resize(Selections);
-		Research_Pointers[2]->resize(Selections);
-		Research_Name[0]->resize(Selections);
-
-		genie::Research * ResearchPointer;
-		for(auto loop = Selections; loop--> 0;)
-		{
-			ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Items.Item(loop));
-			ResearchIDs[loop] = (ResearchPointer - (&GenieFile->Researchs[0]));
-
-			for(short loop2=0; loop2 < ResearchPointer->getRequiredTechsSize(); loop2++)
-			{
-				Research_RequiredTechs[loop2]->container[loop] = &ResearchPointer->RequiredTechs[loop2];
-			}
-			Research_RequiredTechCount->container[loop] = &ResearchPointer->RequiredTechCount;
-			Research_Resources[0]->container[loop] = &ResearchPointer->ResourceCosts[0].Type;
-			Research_Resources[1]->container[loop] = &ResearchPointer->ResourceCosts[1].Type;
-			Research_Resources[2]->container[loop] = &ResearchPointer->ResourceCosts[2].Type;
-			Research_Amount[0]->container[loop] = &ResearchPointer->ResourceCosts[0].Amount;
-			Research_Amount[1]->container[loop] = &ResearchPointer->ResourceCosts[1].Amount;
-			Research_Amount[2]->container[loop] = &ResearchPointer->ResourceCosts[2].Amount;
-			Research_Used[0]->container[loop] = &ResearchPointer->ResourceCosts[0].Enabled;
-			Research_Used[1]->container[loop] = &ResearchPointer->ResourceCosts[1].Enabled;
-			Research_Used[2]->container[loop] = &ResearchPointer->ResourceCosts[2].Enabled;
-			if(GameVersion >= 2)
-			{
-				Research_Civ->container[loop] = &ResearchPointer->Civ;
-				Research_FullTechMode->container[loop] = &ResearchPointer->FullTechMode;
-				if(GameVersion >= 4)
-				Research_Name[1]->container[loop] = &ResearchPointer->Name2;
-			}
-			Research_ResearchLocation->container[loop] = &ResearchPointer->ResearchLocation;
-			Research_LangDLLName->container[loop] = &ResearchPointer->LanguageDLLName;
-			Research_LangDLLDescription->container[loop] = &ResearchPointer->LanguageDLLDescription;
-			Research_ResearchTime->container[loop] = &ResearchPointer->ResearchTime;
-			Research_TechID->container[loop] = &ResearchPointer->TechageID;
-			Research_Type->container[loop] = &ResearchPointer->Type;
-			Research_IconID->container[loop] = &ResearchPointer->IconID;
-			Research_ButtonID->container[loop] = &ResearchPointer->ButtonID;
-			Research_Pointers[0]->container[loop] = &ResearchPointer->Pointers[0];
-			Research_Pointers[1]->container[loop] = &ResearchPointer->Pointers[1];
-			Research_Pointers[2]->container[loop] = &ResearchPointer->Pointers[2];
-			Research_Name[0]->container[loop] = &ResearchPointer->Name;
-		}
-
-		for(short loop=0; loop < ResearchPointer->getRequiredTechsSize(); loop++)
-		{
-			Research_RequiredTechs[loop]->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechs[loop]));
-			Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchPointer->RequiredTechs[loop] + 1);
-		}
-		Research_RequiredTechCount->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechCount));
-		Research_Resources[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Type));
-		Research_Resources[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Type));
-		Research_Resources[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Type));
-		Research_ComboBox_Resources[0]->SetSelection(ResearchPointer->ResourceCosts[0].Type + 1);
-		Research_ComboBox_Resources[1]->SetSelection(ResearchPointer->ResourceCosts[1].Type + 1);
-		Research_ComboBox_Resources[2]->SetSelection(ResearchPointer->ResourceCosts[2].Type + 1);
-		Research_Amount[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Amount));
-		Research_Amount[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Amount));
-		Research_Amount[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Amount));
-		Research_Used[0]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[0].Enabled));
-		Research_CheckBox_Used[0]->SetValue((bool)ResearchPointer->ResourceCosts[0].Enabled);
-		Research_Used[1]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[1].Enabled));
-		Research_CheckBox_Used[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Enabled);
-		Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Enabled));
-		Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
-		if(GameVersion >= 2)
-		{
-			Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
-			Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
-			Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
-			Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
-			Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-79000)+": "+LangDLLstring(ResearchPointer->Pointers[0]-79000, 64));
-			Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-140000)+": "+LangDLLstring(ResearchPointer->Pointers[1]-140000, 64));
-			if(GameVersion >= 4)
-			Research_Name[1]->ChangeValue(ResearchPointer->Name2);
-		}
-		else
-		{
-			Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-65536)+": "+LangDLLstring(ResearchPointer->Pointers[0]-65536, 64));
-			Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-131072)+": "+LangDLLstring(ResearchPointer->Pointers[1]-131072, 64));
-		}
-		Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
-		Research_ComboBox_ResearchLocation->SetSelection(ResearchPointer->ResearchLocation + 1);
-		Research_LangDLLName->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLName));
-		Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
-		Research_LangDLLDescription->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLDescription));
-		Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
-		Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
-		Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
-		Research_ComboBox_TechID->SetSelection(ResearchPointer->TechageID + 1);
-		Research_Type->ChangeValue(lexical_cast<string>(ResearchPointer->Type));
-		Research_IconID->ChangeValue(lexical_cast<string>(ResearchPointer->IconID));
-		Research_ButtonID->ChangeValue(lexical_cast<string>((short)ResearchPointer->ButtonID));
-		Research_Pointers[0]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[0]));
-		Research_Pointers[1]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[1]));
-		Research_Pointers[2]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[2]));
-		Research_Name[0]->ChangeValue(ResearchPointer->Name);
+		Research_RequiredTechs[loop2]->resize(Selections);
 	}
+	Research_RequiredTechCount->resize(Selections);
+	Research_Resources[0]->resize(Selections);
+	Research_Resources[1]->resize(Selections);
+	Research_Resources[2]->resize(Selections);
+	Research_Amount[0]->resize(Selections);
+	Research_Amount[1]->resize(Selections);
+	Research_Amount[2]->resize(Selections);
+	Research_Used[0]->resize(Selections);
+	Research_Used[1]->resize(Selections);
+	Research_Used[2]->resize(Selections);
+	if(GameVersion >= 2)
+	{
+		Research_Civ->resize(Selections);
+		Research_FullTechMode->resize(Selections);
+		if(GameVersion >= 4)
+		Research_Name[1]->resize(Selections);
+	}
+	Research_ResearchLocation->resize(Selections);
+	Research_LangDLLName->resize(Selections);
+	Research_LangDLLDescription->resize(Selections);
+	Research_ResearchTime->resize(Selections);
+	Research_TechID->resize(Selections);
+	Research_Type->resize(Selections);
+	Research_IconID->resize(Selections);
+	Research_ButtonID->resize(Selections);
+	Research_Pointers[0]->resize(Selections);
+	Research_Pointers[1]->resize(Selections);
+	Research_Pointers[2]->resize(Selections);
+	Research_Name[0]->resize(Selections);
+
+	genie::Research * ResearchPointer;
+	for(auto loop = Selections; loop--> 0;)
+	{
+		ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Items.Item(loop));
+		ResearchIDs[loop] = (ResearchPointer - (&GenieFile->Researchs[0]));
+
+		for(short loop2=0; loop2 < ResearchPointer->getRequiredTechsSize(); loop2++)
+		{
+			Research_RequiredTechs[loop2]->container[loop] = &ResearchPointer->RequiredTechs[loop2];
+		}
+		Research_RequiredTechCount->container[loop] = &ResearchPointer->RequiredTechCount;
+		Research_Resources[0]->container[loop] = &ResearchPointer->ResourceCosts[0].Type;
+		Research_Resources[1]->container[loop] = &ResearchPointer->ResourceCosts[1].Type;
+		Research_Resources[2]->container[loop] = &ResearchPointer->ResourceCosts[2].Type;
+		Research_Amount[0]->container[loop] = &ResearchPointer->ResourceCosts[0].Amount;
+		Research_Amount[1]->container[loop] = &ResearchPointer->ResourceCosts[1].Amount;
+		Research_Amount[2]->container[loop] = &ResearchPointer->ResourceCosts[2].Amount;
+		Research_Used[0]->container[loop] = &ResearchPointer->ResourceCosts[0].Enabled;
+		Research_Used[1]->container[loop] = &ResearchPointer->ResourceCosts[1].Enabled;
+		Research_Used[2]->container[loop] = &ResearchPointer->ResourceCosts[2].Enabled;
+		if(GameVersion >= 2)
+		{
+			Research_Civ->container[loop] = &ResearchPointer->Civ;
+			Research_FullTechMode->container[loop] = &ResearchPointer->FullTechMode;
+			if(GameVersion >= 4)
+			Research_Name[1]->container[loop] = &ResearchPointer->Name2;
+		}
+		Research_ResearchLocation->container[loop] = &ResearchPointer->ResearchLocation;
+		Research_LangDLLName->container[loop] = &ResearchPointer->LanguageDLLName;
+		Research_LangDLLDescription->container[loop] = &ResearchPointer->LanguageDLLDescription;
+		Research_ResearchTime->container[loop] = &ResearchPointer->ResearchTime;
+		Research_TechID->container[loop] = &ResearchPointer->TechageID;
+		Research_Type->container[loop] = &ResearchPointer->Type;
+		Research_IconID->container[loop] = &ResearchPointer->IconID;
+		Research_ButtonID->container[loop] = &ResearchPointer->ButtonID;
+		Research_Pointers[0]->container[loop] = &ResearchPointer->Pointers[0];
+		Research_Pointers[1]->container[loop] = &ResearchPointer->Pointers[1];
+		Research_Pointers[2]->container[loop] = &ResearchPointer->Pointers[2];
+		Research_Name[0]->container[loop] = &ResearchPointer->Name;
+	}
+
+	for(short loop=0; loop < ResearchPointer->getRequiredTechsSize(); loop++)
+	{
+		Research_RequiredTechs[loop]->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechs[loop]));
+		Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchPointer->RequiredTechs[loop] + 1);
+	}
+	Research_RequiredTechCount->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechCount));
+	Research_Resources[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Type));
+	Research_Resources[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Type));
+	Research_Resources[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Type));
+	Research_ComboBox_Resources[0]->SetSelection(ResearchPointer->ResourceCosts[0].Type + 1);
+	Research_ComboBox_Resources[1]->SetSelection(ResearchPointer->ResourceCosts[1].Type + 1);
+	Research_ComboBox_Resources[2]->SetSelection(ResearchPointer->ResourceCosts[2].Type + 1);
+	Research_Amount[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Amount));
+	Research_Amount[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Amount));
+	Research_Amount[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Amount));
+	Research_Used[0]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[0].Enabled));
+	Research_CheckBox_Used[0]->SetValue((bool)ResearchPointer->ResourceCosts[0].Enabled);
+	Research_Used[1]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[1].Enabled));
+	Research_CheckBox_Used[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Enabled);
+	Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Enabled));
+	Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
+	if(GameVersion >= 2)
+	{
+		Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
+		Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
+		Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
+		Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
+		Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-79000)+": "+LangDLLstring(ResearchPointer->Pointers[0]-79000, 64));
+		Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-140000)+": "+LangDLLstring(ResearchPointer->Pointers[1]-140000, 64));
+		if(GameVersion >= 4)
+		Research_Name[1]->ChangeValue(ResearchPointer->Name2);
+	}
+	else
+	{
+		Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-65536)+": "+LangDLLstring(ResearchPointer->Pointers[0]-65536, 64));
+		Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-131072)+": "+LangDLLstring(ResearchPointer->Pointers[1]-131072, 64));
+	}
+	Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
+	Research_ComboBox_ResearchLocation->SetSelection(ResearchPointer->ResearchLocation + 1);
+	Research_LangDLLName->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLName));
+	Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
+	Research_LangDLLDescription->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLDescription));
+	Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
+	Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
+	Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
+	Research_ComboBox_TechID->SetSelection(ResearchPointer->TechageID + 1);
+	Research_Type->ChangeValue(lexical_cast<string>(ResearchPointer->Type));
+	Research_IconID->ChangeValue(lexical_cast<string>(ResearchPointer->IconID));
+	Research_ButtonID->ChangeValue(lexical_cast<string>((short)ResearchPointer->ButtonID));
+	Research_Pointers[0]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[0]));
+	Research_Pointers[1]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[1]));
+	Research_Pointers[2]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[2]));
+	Research_Name[0]->ChangeValue(ResearchPointer->Name);
 }
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent &Event)
 {
-	if(GenieFile != NULL)
-	{
-		wxBusyCursor WaitCursor;
-		genie::Research Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->Researchs.push_back(Temp);
-		Added = true;
-		ListResearches();
-	}
+	if(GenieFile == NULL) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Research Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->Researchs.push_back(Temp);
+	Added = true;
+	ListResearches();
 }
 
 void AGE_Frame::OnResearchInsert(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		genie::Research Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], Temp);
-		ListResearches();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Research Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], Temp);
+	ListResearches();
 }
 
 void AGE_Frame::OnResearchDelete(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		for(auto loop = Selections; loop--> 0;)
-		GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchIDs[loop]);
-		ListResearches();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(auto loop = Selections; loop--> 0;)
+	GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchIDs[loop]);
+	ListResearches();
 }
 
 void AGE_Frame::OnResearchCopy(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->Research.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->Research[loop] = GenieFile->Researchs[ResearchIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->Research.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->Research[loop] = GenieFile->Researchs[ResearchIDs[loop]];
 }
 
 void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->Research.size()+ResearchIDs[0] > GenieFile->Researchs.size())
+	GenieFile->Researchs.resize(copies->Research.size()+ResearchIDs[0]);
+	for(short loop=0; loop < copies->Research.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		if(copies->Research.size()+ResearchIDs[0] > GenieFile->Researchs.size())
-		GenieFile->Researchs.resize(copies->Research.size()+ResearchIDs[0]);
-		for(short loop=0; loop < copies->Research.size(); loop++)
-		{
-			copies->Research[loop].setGameVersion(GenieVersion);;
-			GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
-		}
-		ListResearches();
+		copies->Research[loop].setGameVersion(GenieVersion);;
+		GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
 	}
+	ListResearches();
 }
 
 void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Research Temp;
+	GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], copies->Research.size(), Temp);
+	for(short loop=0; loop < copies->Research.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Research Temp;
-		GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], copies->Research.size(), Temp);
-		for(short loop=0; loop < copies->Research.size(); loop++)
-		{
-			copies->Research[loop].setGameVersion(GenieVersion);
-			GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
-		}
-		ListResearches();
+		copies->Research[loop].setGameVersion(GenieVersion);
+		GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
 	}
+	ListResearches();
 }
 
 void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &Event)

@@ -12,6 +12,9 @@ Just install from the regular exe (mingw-get-inst-20120426.exe).
 
 For now you need to run this from cmd or PowerShell:
 mingw-get install mingw32-libiconv
+You can also download libiconv from here:
+http://ftp.gnu.org/pub/gnu/libiconv/
+Then install it like this: ???
 
 wxWidgets (I have modded version 2.8.12):
 Unpack the zip file.
