@@ -75,167 +75,160 @@ void AGE_Frame::ListCivs(bool Sized)
 void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	CivIDs.resize(Selections);
+	Civs_One->resize(Selections);
+	Civs_Name[0]->resize(Selections);
+	Civs_TechTree->resize(Selections);
+	if(GameVersion >= 2)
 	{
-		CivIDs.resize(Selections);
-		Civs_One->resize(Selections);
-		Civs_Name[0]->resize(Selections);
-		Civs_TechTree->resize(Selections);
-		if(GameVersion >= 2)
+		Civs_TeamBonus->resize(Selections);
+		if(GameVersion >= 4)
 		{
-			Civs_TeamBonus->resize(Selections);
-			if(GameVersion >= 4)
-			{
-				Civs_Name[1]->resize(Selections);
-				for(short loop=0; loop < 4; loop++)
-				Civs_SUnknown1[loop]->resize(Selections);
-			}
+			Civs_Name[1]->resize(Selections);
+			for(short loop=0; loop < 4; loop++)
+			Civs_SUnknown1[loop]->resize(Selections);
 		}
-		Civs_GraphicSet->resize(Selections);
-
-		genie::Civ * CivPointer;
-		for(auto sel = Selections; sel--> 0;)
-		{
-			CivPointer = (genie::Civ*)Civs_Civs_List->GetClientData(Items.Item(sel));
-			CivIDs[sel] = (CivPointer - (&GenieFile->Civs[0]));
-
-			Civs_One->container[sel] = &CivPointer->One;
-			Civs_Name[0]->container[sel] = &CivPointer->Name;
-			Civs_TechTree->container[sel] = &CivPointer->TechTreeID;
-			if(GameVersion >= 2)
-			{
-				Civs_TeamBonus->container[sel] = &CivPointer->TeamBonusID;
-				if(GameVersion >= 4)
-				{
-					Civs_Name[1]->container[sel] = &CivPointer->Name;
-					for(short loop=0; loop < 4; loop++)
-					Civs_SUnknown1[loop]->container[sel] = &CivPointer->SUnknown1[loop];
-				}
-			}
-			Civs_GraphicSet->container[sel] = &CivPointer->GraphicSet;
-		}
-
-		Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
-		Civs_Name[0]->ChangeValue(CivPointer->Name);
-		Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
-		Civs_ComboBox_TechTree->SetSelection(CivPointer->TechTreeID + 1);
-		if(GameVersion >= 2)
-		{
-			Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
-			Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
-			if(GameVersion >= 4)
-			{
-				Civs_Name[1]->ChangeValue(CivPointer->Name);
-				for(short loop=0; loop < 4; loop++)
-				Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->SUnknown1[loop]));
-			}
-		}
-		Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->GraphicSet));
-		ListResources();
 	}
+	Civs_GraphicSet->resize(Selections);
+
+	genie::Civ * CivPointer;
+	for(auto sel = Selections; sel--> 0;)
+	{
+		CivPointer = (genie::Civ*)Civs_Civs_List->GetClientData(Items.Item(sel));
+		CivIDs[sel] = (CivPointer - (&GenieFile->Civs[0]));
+
+		Civs_One->container[sel] = &CivPointer->One;
+		Civs_Name[0]->container[sel] = &CivPointer->Name;
+		Civs_TechTree->container[sel] = &CivPointer->TechTreeID;
+		if(GameVersion >= 2)
+		{
+			Civs_TeamBonus->container[sel] = &CivPointer->TeamBonusID;
+			if(GameVersion >= 4)
+			{
+				Civs_Name[1]->container[sel] = &CivPointer->Name;
+				for(short loop=0; loop < 4; loop++)
+				Civs_SUnknown1[loop]->container[sel] = &CivPointer->SUnknown1[loop];
+			}
+		}
+		Civs_GraphicSet->container[sel] = &CivPointer->GraphicSet;
+	}
+
+	Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
+	Civs_Name[0]->ChangeValue(CivPointer->Name);
+	Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
+	Civs_ComboBox_TechTree->SetSelection(CivPointer->TechTreeID + 1);
+	if(GameVersion >= 2)
+	{
+		Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
+		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
+		if(GameVersion >= 4)
+		{
+			Civs_Name[1]->ChangeValue(CivPointer->Name);
+			for(short loop=0; loop < 4; loop++)
+			Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->SUnknown1[loop]));
+		}
+	}
+	Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->GraphicSet));
+	ListResources();
 }
 
 void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 {
-	if(GenieFile != NULL)
+	if(GenieFile == NULL) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Civ Temp;
+	Temp.setGameVersion(GenieVersion);
+	if(GenieFile->Civs.size() > 1)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Civ Temp;
-		Temp.setGameVersion(GenieVersion);
-		if(GenieFile->Civs.size() > 1)
-		{
-			Temp.Resources = GenieFile->Civs[1].Resources;
-			Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
-			Temp.Units = GenieFile->Civs[1].Units;
-		}
-		GenieFile->Civs.push_back(Temp);
-		Added = true;
-		OnCivCountChange();
-		ListUnits(UnitCivID, false);
+		Temp.Resources = GenieFile->Civs[1].Resources;
+		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
+		Temp.Units = GenieFile->Civs[1].Units;
 	}
+	GenieFile->Civs.push_back(Temp);
+	Added = true;
+	OnCivCountChange();
+	ListUnits(UnitCivID, false);
 }
 
 void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Civ Temp;
+	Temp.setGameVersion(GenieVersion);
+	if(GenieFile->Civs.size() > 1)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Civ Temp;
-		Temp.setGameVersion(GenieVersion);
-		if(GenieFile->Civs.size() > 1)
-		{
-			Temp.Resources = GenieFile->Civs[1].Resources;
-			Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
-			Temp.Units = GenieFile->Civs[1].Units;
-		}
-		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
-		OnCivCountChange();
-		ListUnits(UnitCivID, false);
+		Temp.Resources = GenieFile->Civs[1].Resources;
+		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
+		Temp.Units = GenieFile->Civs[1].Units;
 	}
+	GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
+	OnCivCountChange();
+	ListUnits(UnitCivID, false);
 }
 
 void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		for(auto loop = Selections; loop--> 0;)
-		GenieFile->Civs.erase(GenieFile->Civs.begin() + CivIDs[loop]);
-		OnCivCountChange();
-		ListUnits(0, false);
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(auto loop = Selections; loop--> 0;)
+	GenieFile->Civs.erase(GenieFile->Civs.begin() + CivIDs[loop]);
+	OnCivCountChange();
+	ListUnits(0, false);
 }
 
 void AGE_Frame::OnCivsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->Civ.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->Civ[loop] = GenieFile->Civs[CivIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->Civ.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->Civ[loop] = GenieFile->Civs[CivIDs[loop]];
 }
 
 void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->Civ.size()+CivIDs[0] > GenieFile->Civs.size())
 	{
-		wxBusyCursor WaitCursor;
-		if(copies->Civ.size()+CivIDs[0] > GenieFile->Civs.size())
-		{
-			GenieFile->Civs.resize(copies->Civ.size()+CivIDs[0]);
-		}
-		for(short loop=0; loop < copies->Civ.size(); loop++)
-		{
-			copies->Civ[loop].setGameVersion(GenieVersion);
-			GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
-		}
-		OnCivCountChange();
-		ListUnits(UnitCivID, false);
+		GenieFile->Civs.resize(copies->Civ.size()+CivIDs[0]);
 	}
+	for(short loop=0; loop < copies->Civ.size(); loop++)
+	{
+		copies->Civ[loop].setGameVersion(GenieVersion);
+		GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
+	}
+	OnCivCountChange();
+	ListUnits(UnitCivID, false);
 }
 
 void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Civ Temp;
+	GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], copies->Civ.size(), Temp);
+	for(short loop=0; loop < copies->Civ.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Civ Temp;
-		GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], copies->Civ.size(), Temp);
-		for(short loop=0; loop < copies->Civ.size(); loop++)
-		{
-			copies->Civ[loop].setGameVersion(GenieVersion);
-			GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
-		}
-		OnCivCountChange();
-		ListUnits(UnitCivID, false);
+		copies->Civ[loop].setGameVersion(GenieVersion);
+		GenieFile->Civs[CivIDs[0]+loop] = copies->Civ[loop];
 	}
+	OnCivCountChange();
+	ListUnits(UnitCivID, false);
 }
 
 void AGE_Frame::OnCivCountChange()
@@ -805,124 +798,115 @@ void AGE_Frame::ListResources(bool Sized)
 void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	ResourceIDs.resize(Selections);
+	Civs_ResourceValue->resize(Selections);
+
+	float * CivResourcePointer;
+	for(auto loop = Selections; loop--> 0;)
 	{
-		ResourceIDs.resize(Selections);
-		Civs_ResourceValue->resize(Selections);
-
-		float * CivResourcePointer;
-		for(auto loop = Selections; loop--> 0;)
-		{
-			CivResourcePointer = (float*)Civs_Resources_List->GetClientData(Items.Item(loop));
-			ResourceIDs[loop] = (CivResourcePointer - (&GenieFile->Civs[CivIDs[0]].Resources[0]));
-			Civs_ResourceValue->container[loop] = CivResourcePointer;
-		}
-
-		Civs_ResourceValue->ChangeValue(lexical_cast<string>(*CivResourcePointer));
+		CivResourcePointer = (float*)Civs_Resources_List->GetClientData(Items.Item(loop));
+		ResourceIDs[loop] = (CivResourcePointer - (&GenieFile->Civs[CivIDs[0]].Resources[0]));
+		Civs_ResourceValue->container[loop] = CivResourcePointer;
 	}
+
+	Civs_ResourceValue->ChangeValue(lexical_cast<string>(*CivResourcePointer));
 }
 
 void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		float Temp = 0;
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-		GenieFile->Civs[loop].Resources.push_back(Temp);
-		Added = true;
-		ListResources();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	float Temp = 0;
+	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+	GenieFile->Civs[loop].Resources.push_back(Temp);
+	Added = true;
+	ListResources();
 }
 
 void AGE_Frame::OnResourcesInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		float Temp = 0;
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-		GenieFile->Civs[loop].Resources.insert(GenieFile->Civs[loop].Resources.begin() + ResourceIDs[0], Temp);
-		ListResources();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	float Temp = 0;
+	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+	GenieFile->Civs[loop].Resources.insert(GenieFile->Civs[loop].Resources.begin() + ResourceIDs[0], Temp);
+	ListResources();
 }
 
 void AGE_Frame::OnResourcesDelete(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(short loop2=0; loop2 < GenieFile->Civs.size(); loop2++)
 	{
-		wxBusyCursor WaitCursor;
-		for(short loop2=0; loop2 < GenieFile->Civs.size(); loop2++)
-		{
-			for(auto loop = Selections; loop--> 0;)
-			GenieFile->Civs[loop2].Resources.erase(GenieFile->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
-		}
-		ListResources();
+		for(auto loop = Selections; loop--> 0;)
+		GenieFile->Civs[loop2].Resources.erase(GenieFile->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
 	}
+	ListResources();
 }
 
 void AGE_Frame::OnResourcesCopy(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->Resource.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->Resource[loop] = GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->Resource.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->Resource[loop] = GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
 }
 
 void AGE_Frame::OnResourcesPaste(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		if(copies->Resource.size()+ResourceIDs[0] > GenieFile->Civs[CivIDs[0]].Resources.size())
-		GenieFile->Civs[CivIDs[0]].Resources.resize(copies->Resource.size()+ResourceIDs[0]);
-		for(short loop=0; loop < copies->Resource.size(); loop++)
-		GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[0]+loop] = copies->Resource[loop];
-		ListResources();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->Resource.size()+ResourceIDs[0] > GenieFile->Civs[CivIDs[0]].Resources.size())
+	GenieFile->Civs[CivIDs[0]].Resources.resize(copies->Resource.size()+ResourceIDs[0]);
+	for(short loop=0; loop < copies->Resource.size(); loop++)
+	GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[0]+loop] = copies->Resource[loop];
+	ListResources();
 }
 
 void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		float Temp = 0;
-		GenieFile->Civs[CivIDs[0]].Resources.insert(GenieFile->Civs[CivIDs[0]].Resources.begin() + ResourceIDs[0], copies->Resource.size(), Temp);
-		for(short loop=0; loop < copies->Resource.size(); loop++)
-		GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[0]+loop] = copies->Resource[loop];
-		ListResources();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	float Temp = 0;
+	GenieFile->Civs[CivIDs[0]].Resources.insert(GenieFile->Civs[CivIDs[0]].Resources.begin() + ResourceIDs[0], copies->Resource.size(), Temp);
+	for(short loop=0; loop < copies->Resource.size(); loop++)
+	GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[0]+loop] = copies->Resource[loop];
+	ListResources();
 }
 
 void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &Event)
 {
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	float Copy;
+	for(short loop=0; loop < Selections; loop++)
 	{
-		wxBusyCursor WaitCursor;
-		float Copy;
-		for(short loop=0; loop < Selections; loop++)
-		{
-			Copy = GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
-			for(short loop2=0; loop2 < GenieFile->Civs.size(); loop2++)
-			GenieFile->Civs[loop2].Resources[ResourceIDs[loop]] = Copy;
-		}
+		Copy = GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
+		for(short loop2=0; loop2 < GenieFile->Civs.size(); loop2++)
+		GenieFile->Civs[loop2].Resources[ResourceIDs[loop]] = Copy;
 	}
 }
 
 void AGE_Frame::CreateCivControls()
 {
-
 	Civs_Main = new wxBoxSizer(wxHORIZONTAL);
 	Civs_ListArea = new wxBoxSizer(wxVERTICAL);
 	Civs_Civs_Buttons = new wxGridSizer(3, 0, 0);
@@ -1103,26 +1087,24 @@ void AGE_Frame::CreateCivControls()
 
 void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 {
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(Event.GetId() == Civs_Name[0]->GetId())
 	{
-		if(Event.GetId() == Civs_Name[0]->GetId())
-		{
-			for(auto ID: CivIDs)
-			Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name.substr(0, 2));
-			ListCivs();
-		}
-		else if(Event.GetId() == Civs_GraphicSet->GetId())
-		{
-			ListCivs();
-		}
-		else if(Event.GetId() == Civs_ResourceValue->GetId())
-		{
-			ListResources();
-		}
-		else if(Event.GetId() == Civs_Name[1]->GetId())
-		{
-			wxCommandEvent E;
-			OnCivsSelect(E);
-		}
+		for(auto ID: CivIDs)
+		Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name.substr(0, 2));
+		ListCivs();
+	}
+	else if(Event.GetId() == Civs_GraphicSet->GetId())
+	{
+		ListCivs();
+	}
+	else if(Event.GetId() == Civs_ResourceValue->GetId())
+	{
+		ListResources();
+	}
+	else if(Event.GetId() == Civs_Name[1]->GetId())
+	{
+		wxCommandEvent E;
+		OnCivsSelect(E);
 	}
 }

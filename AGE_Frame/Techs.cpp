@@ -168,10 +168,7 @@ void AGE_Frame::OnTechAdd(wxCommandEvent &Event)	// Works.
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	genie::Techage Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->Techages.push_back(Temp);
-	Added = true;
+	AddToListNoGV(GenieFile->Techages);
 	ListTechs();
 }
 
@@ -181,9 +178,7 @@ void AGE_Frame::OnTechInsert(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::Techage Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], Temp);
+	InsertToListNoGV(GenieFile->Techages, TechIDs[0]);
 	ListTechs();
 }
 
@@ -193,8 +188,7 @@ void AGE_Frame::OnTechDelete(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(auto loop = Selections; loop--> 0;)
-	GenieFile->Techages.erase(GenieFile->Techages.begin() + TechIDs[loop]);
+	DeleteFromList(GenieFile->Techages, TechIDs);
 	ListTechs();
 }
 
@@ -204,9 +198,7 @@ void AGE_Frame::OnTechCopy(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->Tech.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
-	copies->Tech[loop] = GenieFile->Techages[TechIDs[loop]];
+	CopyFromList(GenieFile->Techages, TechIDs, copies->Tech);
 }
 
 void AGE_Frame::OnTechPaste(wxCommandEvent &Event)	// Works.
@@ -215,13 +207,7 @@ void AGE_Frame::OnTechPaste(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->Tech.size()+TechIDs[0] > GenieFile->Techages.size())
-	GenieFile->Techages.resize(copies->Tech.size()+TechIDs[0]);
-	for(short loop=0; loop < copies->Tech.size(); loop++)
-	{
-		copies->Tech[loop].setGameVersion(GenieVersion);
-		GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
-	}
+	PasteToListNoGV(GenieFile->Techages, TechIDs[0], copies->Tech);
 	ListTechs();
 }
 
@@ -231,13 +217,7 @@ void AGE_Frame::OnTechPasteInsert(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::Techage Temp;
-	GenieFile->Techages.insert(GenieFile->Techages.begin() + TechIDs[0], copies->Tech.size(), Temp);
-	for(short loop=0; loop < copies->Tech.size(); loop++)
-	{
-		copies->Tech[loop].setGameVersion(GenieVersion);
-		GenieFile->Techages[TechIDs[0]+loop] = copies->Tech[loop];
-	}
+	PasteInsertToListNoGV(GenieFile->Techages, TechIDs[0], copies->Tech);
 	ListTechs();
 }
 
@@ -973,10 +953,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::TechageEffect Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->Techages[TechIDs[0]].Effects.push_back(Temp);
-	Added = true;
+	AddToListNoGV(GenieFile->Techages[TechIDs[0]].Effects);
 	ListEffects();
 }
 
@@ -986,9 +963,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::TechageEffect Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], Temp);
+	InsertToListNoGV(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0]);
 	ListEffects();
 }
 
@@ -998,8 +973,7 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(auto loop = Selections; loop--> 0;)
-	GenieFile->Techages[TechIDs[0]].Effects.erase(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[loop]);
+	DeleteFromList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs);
 	ListEffects();
 }
 
@@ -1009,9 +983,7 @@ void AGE_Frame::OnEffectsCopy(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->Effect.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
-	copies->Effect[loop] = GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[loop]];
+	CopyFromList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs, copies->Effect);
 }
 
 void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
@@ -1020,13 +992,7 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->Effect.size()+EffectIDs[0] > GenieFile->Techages[TechIDs[0]].Effects.size())
-	GenieFile->Techages[TechIDs[0]].Effects.resize(copies->Effect.size()+EffectIDs[0]);
-	for(short loop=0; loop < copies->Effect.size(); loop++)
-	{
-		copies->Effect[loop].setGameVersion(GenieVersion);
-		GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
-	}
+	PasteToListNoGV(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
 	ListEffects();
 }
 
@@ -1036,13 +1002,7 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::TechageEffect Temp;
-	GenieFile->Techages[TechIDs[0]].Effects.insert(GenieFile->Techages[TechIDs[0]].Effects.begin() + EffectIDs[0], copies->Effect.size(), Temp);
-	for(short loop=0; loop < copies->Effect.size(); loop++)
-	{
-		copies->Effect[loop].setGameVersion(GenieVersion);
-		GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[0]+loop] = copies->Effect[loop];
-	}
+	PasteInsertToListNoGV(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
 	ListEffects();
 }
 
