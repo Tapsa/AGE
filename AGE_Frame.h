@@ -2979,6 +2979,13 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P>
+	void AddToListNoGV(P &path)
+	{
+		path.emplace_back();
+		Added = true;
+	}
+
+	template <class P>
 	void InsertToList(P &path, short place)
 	{
 		path.emplace(path.begin() + place);
@@ -2986,6 +2993,12 @@ class AGE_Frame: public wxFrame
 		//if(EnableIDFix)
 		//for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
 		//Path[loop].ID = (long)loop;
+	}
+
+	template <class P>
+	void InsertToListNoGV(P &path, short place)
+	{
+		path.emplace(path.begin() + place);
 	}
 
 	template <class P>
@@ -3021,6 +3034,17 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P, class C>
+	void PasteToListNoGV(P &path, short place, C &copies)
+	{
+		if(copies.size() + place > path.size())
+		path.resize(copies.size() + place);
+		for(auto loop = copies.size(); loop--> 0;)
+		{
+			path[place + loop] = copies[loop];
+		}
+	}
+
+	template <class P, class C>
 	void PasteInsertToList(P &path, short place, C &copies)
 	{
 		for(auto loop = copies.size(); loop--> 0;)
@@ -3030,4 +3054,11 @@ class AGE_Frame: public wxFrame
 		//for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
 		//Path[loop].ID = (long)loop;
 	}
+
+	template <class P, class C>
+	void PasteInsertToListNoGV(P &path, short place, C &copies)
+	{
+		path.insert(path.begin() + place, copies.begin(), copies.end());
+	}
+
 };

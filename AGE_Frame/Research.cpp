@@ -393,10 +393,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent &Event)
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	genie::Research Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->Researchs.push_back(Temp);
-	Added = true;
+	AddToList(GenieFile->Researchs);
 	ListResearches();
 }
 
@@ -406,9 +403,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::Research Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], Temp);
+	InsertToList(GenieFile->Researchs, ResearchIDs[0]);
 	ListResearches();
 }
 
@@ -418,8 +413,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(auto loop = Selections; loop--> 0;)
-	GenieFile->Researchs.erase(GenieFile->Researchs.begin() + ResearchIDs[loop]);
+	DeleteFromList(GenieFile->Researchs, ResearchIDs);
 	ListResearches();
 }
 
@@ -429,9 +423,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->Research.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
-	copies->Research[loop] = GenieFile->Researchs[ResearchIDs[loop]];
+	CopyFromList(GenieFile->Researchs, ResearchIDs, copies->Research);
 }
 
 void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
@@ -440,13 +432,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->Research.size()+ResearchIDs[0] > GenieFile->Researchs.size())
-	GenieFile->Researchs.resize(copies->Research.size()+ResearchIDs[0]);
-	for(short loop=0; loop < copies->Research.size(); loop++)
-	{
-		copies->Research[loop].setGameVersion(GenieVersion);;
-		GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
-	}
+	PasteToList(GenieFile->Researchs, ResearchIDs[0], copies->Research);
 	ListResearches();
 }
 
@@ -456,13 +442,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::Research Temp;
-	GenieFile->Researchs.insert(GenieFile->Researchs.begin() + ResearchIDs[0], copies->Research.size(), Temp);
-	for(short loop=0; loop < copies->Research.size(); loop++)
-	{
-		copies->Research[loop].setGameVersion(GenieVersion);
-		GenieFile->Researchs[ResearchIDs[0]+loop] = copies->Research[loop];
-	}
+	PasteInsertToList(GenieFile->Researchs, ResearchIDs[0], copies->Research);
 	ListResearches();
 }
 

@@ -58,123 +58,116 @@ void AGE_Frame::ListUnitLines()
 void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	UnitLineIDs.resize(Selections);
+	UnitLines_ID->resize(Selections);
+	UnitLines_Name->resize(Selections);
+
+	genie::UnitLine * LinePointer;
+	for(auto loop = Selections; loop--> 0;)
 	{
-		UnitLineIDs.resize(Selections);
-		UnitLines_ID->resize(Selections);
-		UnitLines_Name->resize(Selections);
+		LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Items.Item(loop));
+		UnitLineIDs[loop] = (LinePointer - (&GenieFile->UnitLines[0]));
 
-		genie::UnitLine * LinePointer;
-		for(auto loop = Selections; loop--> 0;)
-		{
-			LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Items.Item(loop));
-			UnitLineIDs[loop] = (LinePointer - (&GenieFile->UnitLines[0]));
-
-			UnitLines_ID->container[loop] = &LinePointer->ID;
-			UnitLines_Name->container[loop] = &LinePointer->Name;
-		}
-
-		UnitLines_ID->ChangeValue(lexical_cast<string>(LinePointer->ID));
-		UnitLines_Name->ChangeValue(LinePointer->Name);
-		ListUnitLineUnits();
+		UnitLines_ID->container[loop] = &LinePointer->ID;
+		UnitLines_Name->container[loop] = &LinePointer->Name;
 	}
+
+	UnitLines_ID->ChangeValue(lexical_cast<string>(LinePointer->ID));
+	UnitLines_Name->ChangeValue(LinePointer->Name);
+	ListUnitLineUnits();
 }
 
 void AGE_Frame::OnUnitLinesAdd(wxCommandEvent &Event)
 {
-	if(GenieFile != NULL)
-	{
-		wxBusyCursor WaitCursor;
-		genie::UnitLine Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->UnitLines.push_back(Temp);
-		if(EnableIDFix)
-		GenieFile->UnitLines[GenieFile->UnitLines.size()-1].ID = (int16_t)(GenieFile->UnitLines.size()-1); // ID Fix
-		Added = true;
-		ListUnitLines();
-	}
+	if(GenieFile == NULL) return;
+
+	wxBusyCursor WaitCursor;
+	genie::UnitLine Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->UnitLines.push_back(Temp);
+	if(EnableIDFix)
+	GenieFile->UnitLines[GenieFile->UnitLines.size()-1].ID = (int16_t)(GenieFile->UnitLines.size()-1); // ID Fix
+	Added = true;
+	ListUnitLines();
 }
 
 void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		genie::UnitLine Temp;
-		Temp.setGameVersion(GenieVersion);
-		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], Temp);
-		if(EnableIDFix)
-		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
-		GenieFile->UnitLines[loop].ID = (int16_t)loop;
-		ListUnitLines();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::UnitLine Temp;
+	Temp.setGameVersion(GenieVersion);
+	GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], Temp);
+	if(EnableIDFix)
+	for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
+	GenieFile->UnitLines[loop].ID = (int16_t)loop;
+	ListUnitLines();
 }
 
 void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		for(auto loop = Selections; loop--> 0;)
-		GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineIDs[loop]);
-		if(EnableIDFix)
-		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
-		GenieFile->UnitLines[loop].ID = (int16_t)loop;
-		ListUnitLines();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(auto loop = Selections; loop--> 0;)
+	GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineIDs[loop]);
+	if(EnableIDFix)
+	for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
+	GenieFile->UnitLines[loop].ID = (int16_t)loop;
+	ListUnitLines();
 }
 
 void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->UnitLine.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->UnitLine[loop] = GenieFile->UnitLines[UnitLineIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->UnitLine.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->UnitLine[loop] = GenieFile->UnitLines[UnitLineIDs[loop]];
 }
 
 void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->UnitLine.size()+UnitLineIDs[0] > GenieFile->UnitLines.size())
+	GenieFile->UnitLines.resize(copies->UnitLine.size()+UnitLineIDs[0]);
+	for(short loop=0; loop < copies->UnitLine.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		if(copies->UnitLine.size()+UnitLineIDs[0] > GenieFile->UnitLines.size())
-		GenieFile->UnitLines.resize(copies->UnitLine.size()+UnitLineIDs[0]);
-		for(short loop=0; loop < copies->UnitLine.size(); loop++)
-		{
-			copies->UnitLine[loop].setGameVersion(GenieVersion);
-			GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
-			if(EnableIDFix)
-			GenieFile->UnitLines[UnitLineIDs[0]+loop].ID = (int16_t)(UnitLineIDs[0]+loop); // ID Fix
-		}
-		ListUnitLines();
+		copies->UnitLine[loop].setGameVersion(GenieVersion);
+		GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
+		if(EnableIDFix)
+		GenieFile->UnitLines[UnitLineIDs[0]+loop].ID = (int16_t)(UnitLineIDs[0]+loop); // ID Fix
 	}
+	ListUnitLines();
 }
 
 void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::UnitLine Temp;
+	GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], copies->UnitLine.size(), Temp);
+	for(short loop=0; loop < copies->UnitLine.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::UnitLine Temp;
-		GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], copies->UnitLine.size(), Temp);
-		for(short loop=0; loop < copies->UnitLine.size(); loop++)
-		{
-			copies->UnitLine[loop].setGameVersion(GenieVersion);
-			GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
-		}
-		if(EnableIDFix)
-		for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
-		GenieFile->UnitLines[loop].ID = (int16_t)loop;
-		ListUnitLines();
+		copies->UnitLine[loop].setGameVersion(GenieVersion);
+		GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
 	}
+	if(EnableIDFix)
+	for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
+	GenieFile->UnitLines[loop].ID = (int16_t)loop;
+	ListUnitLines();
 }
 
 string AGE_Frame::GetUnitLineUnitName(short Index)
@@ -252,75 +245,69 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.push_back(0);
-		Added = true;
-		ListUnitLineUnits();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.push_back(0);
+	Added = true;
+	ListUnitLineUnits();
 }
 
 void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], 0);
-		ListUnitLineUnits();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], 0);
+	ListUnitLineUnits();
 }
 
 void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		for(auto loop = Selections; loop--> 0;)
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.erase(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[loop]);
-		ListUnitLineUnits();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(auto loop = Selections; loop--> 0;)
+	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.erase(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[loop]);
+	ListUnitLineUnits();
 }
 
 void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->UnitLineUnit.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->UnitLineUnit[loop] = GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->UnitLineUnit.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->UnitLineUnit[loop] = GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[loop]];
 }
 
 void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		if(copies->UnitLineUnit.size()+UnitLineUnitIDs[0] > GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size())
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.resize(copies->UnitLineUnit.size()+UnitLineUnitIDs[0]);
-		for(short loop=0; loop < copies->UnitLineUnit.size(); loop++)
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = copies->UnitLineUnit[loop];
-		ListUnitLineUnits();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->UnitLineUnit.size()+UnitLineUnitIDs[0] > GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size())
+	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.resize(copies->UnitLineUnit.size()+UnitLineUnitIDs[0]);
+	for(short loop=0; loop < copies->UnitLineUnit.size(); loop++)
+	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = copies->UnitLineUnit[loop];
+	ListUnitLineUnits();
 }
 
 void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], copies->UnitLineUnit.size(), 0);
-		for(short loop=0; loop < copies->UnitLineUnit.size(); loop++)
-		GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = copies->UnitLineUnit[loop];
-		ListUnitLineUnits();
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], copies->UnitLineUnit.size(), 0);
+	for(short loop=0; loop < copies->UnitLineUnit.size(); loop++)
+	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = copies->UnitLineUnit[loop];
+	ListUnitLineUnits();
 }
 
 void AGE_Frame::OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &Event)
@@ -465,16 +452,14 @@ void AGE_Frame::CreateUnitLineControls()
 
 void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &Event)
 {
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(Event.GetId() == UnitLines_Name->GetId())
 	{
-		if(Event.GetId() == UnitLines_Name->GetId())
-		{
-			ListUnitLines();
-		}
-		else if(Event.GetId() == UnitLineUnits_Units->GetId())
-		{
-			ListUnitLineUnits();
-		}
+		ListUnitLines();
+	}
+	else if(Event.GetId() == UnitLineUnits_Units->GetId())
+	{
+		ListUnitLineUnits();
 	}
 }
 
