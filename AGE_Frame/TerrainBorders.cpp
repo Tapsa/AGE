@@ -63,103 +63,100 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	BorderIDs.resize(Selections);
+	Borders_BorderName[0]->resize(Selections);
+	Borders_BorderName[1]->resize(Selections);
+	Borders_BorderEnabled->resize(Selections);
+	Borders_BorderRessourceID->resize(Selections);
+	Borders_BorderUnknown3->resize(Selections);
+	Borders_BorderUnknown4->resize(Selections);
+	for(short loop=0; loop < 3; loop++)
 	{
-		BorderIDs.resize(Selections);
-		Borders_BorderName[0]->resize(Selections);
-		Borders_BorderName[1]->resize(Selections);
-		Borders_BorderEnabled->resize(Selections);
-		Borders_BorderRessourceID->resize(Selections);
-		Borders_BorderUnknown3->resize(Selections);
-		Borders_BorderUnknown4->resize(Selections);
-		for(short loop=0; loop < 3; loop++)
-		{
-			Borders_BorderColors[loop]->resize(Selections);
-		}
-		Borders_BorderUnknown5->resize(Selections);
-		Borders_BorderUnknown6->resize(Selections);
-		Borders_BorderUnknown7->resize(Selections);
-		Borders_BorderFrameCount->resize(Selections);
-		Borders_BorderUnknown8->resize(Selections);
-		Borders_BorderTerrain->resize(Selections);
-		Borders_BorderUnknown10->resize(Selections);
-
-		genie::TerrainBorder * BorderPointer;
-		for(auto sel = Selections; sel--> 0;)
-		{
-			BorderPointer = (genie::TerrainBorder*)Borders_Borders_List->GetClientData(Items.Item(sel));
-			BorderIDs[sel] = (BorderPointer - (&GenieFile->TerrainBorders[0]));
-
-			Borders_BorderName[0]->container[sel] = &BorderPointer->Name;
-			Borders_BorderName[1]->container[sel] = &BorderPointer->Name2;
-			Borders_BorderEnabled->container[sel] = &BorderPointer->Enabled;
-			Borders_BorderRessourceID->container[sel] = &BorderPointer->RessourceID;
-			Borders_BorderUnknown3->container[sel] = &BorderPointer->Unknown3;
-			Borders_BorderUnknown4->container[sel] = &BorderPointer->Unknown4;
-			for(short loop=0; loop < 3; loop++)
-			{
-				Borders_BorderColors[loop]->container[sel] = &BorderPointer->Colors[loop];
-			}
-			Borders_BorderUnknown5->container[sel] = &BorderPointer->Unknown5;
-			Borders_BorderUnknown6->container[sel] = &BorderPointer->Unknown6;
-			Borders_BorderUnknown7->container[sel] = &BorderPointer->Unknown7;
-			Borders_BorderFrameCount->container[sel] = &BorderPointer->FrameCount;
-			Borders_BorderUnknown8->container[sel] = &BorderPointer->Unknown8;
-			Borders_BorderTerrain->container[sel] = &BorderPointer->Unknown9;
-			Borders_BorderUnknown10->container[sel] = &BorderPointer->Unknown10;
-		}
-
-		Borders_BorderName[0]->ChangeValue(BorderPointer->Name);
-		Borders_BorderName[1]->ChangeValue(BorderPointer->Name2);
-		Borders_BorderEnabled->ChangeValue(lexical_cast<string>(BorderPointer->Enabled));
-		Borders_CheckBox_BorderEnabled->SetValue((bool)BorderPointer->Enabled);
-		Borders_BorderRessourceID->ChangeValue(lexical_cast<string>(BorderPointer->RessourceID));
-		Borders_BorderUnknown3->ChangeValue(lexical_cast<string>(BorderPointer->Unknown3));
-		Borders_BorderUnknown4->ChangeValue(lexical_cast<string>(BorderPointer->Unknown4));
-		for(short loop=0; loop < 3; loop++)
-		{
-			Borders_BorderColors[loop]->ChangeValue(lexical_cast<string>((short)BorderPointer->Colors[loop]));
-		}
-		Borders_BorderUnknown5->ChangeValue(lexical_cast<string>((short)BorderPointer->Unknown5));
-		Borders_BorderUnknown6->ChangeValue(lexical_cast<string>(BorderPointer->Unknown6));
-		Borders_BorderUnknown7->ChangeValue(lexical_cast<string>(BorderPointer->Unknown7));
-		Borders_BorderFrameCount->ChangeValue(lexical_cast<string>(BorderPointer->FrameCount));
-		Borders_BorderUnknown8->ChangeValue(lexical_cast<string>(BorderPointer->Unknown8));
-		Borders_BorderTerrain->ChangeValue(lexical_cast<string>(BorderPointer->Unknown9));
-		Borders_ComboBox_BorderTerrain->SetSelection(BorderPointer->Unknown9 + 1);
-		Borders_BorderUnknown10->ChangeValue(lexical_cast<string>(BorderPointer->Unknown10));
-		ListTerrainBorderFrames();
+		Borders_BorderColors[loop]->resize(Selections);
 	}
+	Borders_BorderUnknown5->resize(Selections);
+	Borders_BorderUnknown6->resize(Selections);
+	Borders_BorderUnknown7->resize(Selections);
+	Borders_BorderFrameCount->resize(Selections);
+	Borders_BorderUnknown8->resize(Selections);
+	Borders_BorderTerrain->resize(Selections);
+	Borders_BorderUnknown10->resize(Selections);
+
+	genie::TerrainBorder * BorderPointer;
+	for(auto sel = Selections; sel--> 0;)
+	{
+		BorderPointer = (genie::TerrainBorder*)Borders_Borders_List->GetClientData(Items.Item(sel));
+		BorderIDs[sel] = (BorderPointer - (&GenieFile->TerrainBorders[0]));
+
+		Borders_BorderName[0]->container[sel] = &BorderPointer->Name;
+		Borders_BorderName[1]->container[sel] = &BorderPointer->Name2;
+		Borders_BorderEnabled->container[sel] = &BorderPointer->Enabled;
+		Borders_BorderRessourceID->container[sel] = &BorderPointer->RessourceID;
+		Borders_BorderUnknown3->container[sel] = &BorderPointer->Unknown3;
+		Borders_BorderUnknown4->container[sel] = &BorderPointer->Unknown4;
+		for(short loop=0; loop < 3; loop++)
+		{
+			Borders_BorderColors[loop]->container[sel] = &BorderPointer->Colors[loop];
+		}
+		Borders_BorderUnknown5->container[sel] = &BorderPointer->Unknown5;
+		Borders_BorderUnknown6->container[sel] = &BorderPointer->Unknown6;
+		Borders_BorderUnknown7->container[sel] = &BorderPointer->Unknown7;
+		Borders_BorderFrameCount->container[sel] = &BorderPointer->FrameCount;
+		Borders_BorderUnknown8->container[sel] = &BorderPointer->Unknown8;
+		Borders_BorderTerrain->container[sel] = &BorderPointer->Unknown9;
+		Borders_BorderUnknown10->container[sel] = &BorderPointer->Unknown10;
+	}
+
+	Borders_BorderName[0]->ChangeValue(BorderPointer->Name);
+	Borders_BorderName[1]->ChangeValue(BorderPointer->Name2);
+	Borders_BorderEnabled->ChangeValue(lexical_cast<string>(BorderPointer->Enabled));
+	Borders_CheckBox_BorderEnabled->SetValue((bool)BorderPointer->Enabled);
+	Borders_BorderRessourceID->ChangeValue(lexical_cast<string>(BorderPointer->RessourceID));
+	Borders_BorderUnknown3->ChangeValue(lexical_cast<string>(BorderPointer->Unknown3));
+	Borders_BorderUnknown4->ChangeValue(lexical_cast<string>(BorderPointer->Unknown4));
+	for(short loop=0; loop < 3; loop++)
+	{
+		Borders_BorderColors[loop]->ChangeValue(lexical_cast<string>((short)BorderPointer->Colors[loop]));
+	}
+	Borders_BorderUnknown5->ChangeValue(lexical_cast<string>((short)BorderPointer->Unknown5));
+	Borders_BorderUnknown6->ChangeValue(lexical_cast<string>(BorderPointer->Unknown6));
+	Borders_BorderUnknown7->ChangeValue(lexical_cast<string>(BorderPointer->Unknown7));
+	Borders_BorderFrameCount->ChangeValue(lexical_cast<string>(BorderPointer->FrameCount));
+	Borders_BorderUnknown8->ChangeValue(lexical_cast<string>(BorderPointer->Unknown8));
+	Borders_BorderTerrain->ChangeValue(lexical_cast<string>(BorderPointer->Unknown9));
+	Borders_ComboBox_BorderTerrain->SetSelection(BorderPointer->Unknown9 + 1);
+	Borders_BorderUnknown10->ChangeValue(lexical_cast<string>(BorderPointer->Unknown10));
+	ListTerrainBorderFrames();
 }
 
 void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->TerrainBorder.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->TerrainBorder[loop] = GenieFile->TerrainBorders[BorderIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->TerrainBorder.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->TerrainBorder[loop] = GenieFile->TerrainBorders[BorderIDs[loop]];
 }
 
 void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Borders_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	short CopyCount = copies->TerrainBorder.size();
+	if(copies->TerrainBorder.size()+BorderIDs[0] > GenieFile->TerrainBorders.size())
+	CopyCount -= copies->TerrainBorder.size()+BorderIDs[0] - GenieFile->TerrainBorders.size();
+	for(short loop=0; loop < CopyCount; loop++)
 	{
-		wxBusyCursor WaitCursor;
-		short CopyCount = copies->TerrainBorder.size();
-		if(copies->TerrainBorder.size()+BorderIDs[0] > GenieFile->TerrainBorders.size())
-		CopyCount -= copies->TerrainBorder.size()+BorderIDs[0] - GenieFile->TerrainBorders.size();
-		for(short loop=0; loop < CopyCount; loop++)
-		{
-			copies->TerrainBorder[loop].setGameVersion(GenieVersion);
-			GenieFile->TerrainBorders[BorderIDs[0]+loop] = copies->TerrainBorder[loop];
-		}
-		ListTerrainBorders();
+		copies->TerrainBorder[loop].setGameVersion(GenieVersion);
+		GenieFile->TerrainBorders[BorderIDs[0]+loop] = copies->TerrainBorder[loop];
 	}
+	ListTerrainBorders();
 }
 
 string AGE_Frame::GetTerrainBorderFrameName(short Index)
@@ -201,58 +198,55 @@ void AGE_Frame::ListTerrainBorderFrames()
 void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	FrameIDs.resize(Selections);
+	Borders_BorderFrameID->resize(Selections);
+	Borders_BorderFlag1->resize(Selections);
+	Borders_BorderFlag2->resize(Selections);
+
+	genie::TBFrameData * FramePointer;
+	for(auto loop = Selections; loop--> 0;)
 	{
-		FrameIDs.resize(Selections);
-		Borders_BorderFrameID->resize(Selections);
-		Borders_BorderFlag1->resize(Selections);
-		Borders_BorderFlag2->resize(Selections);
+		FramePointer = (genie::TBFrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
+		FrameIDs[loop] = (FramePointer - (&GenieFile->TerrainBorders[BorderIDs[0]].Frames[0]));
 
-		genie::TBFrameData * FramePointer;
-		for(auto loop = Selections; loop--> 0;)
-		{
-			FramePointer = (genie::TBFrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
-			FrameIDs[loop] = (FramePointer - (&GenieFile->TerrainBorders[BorderIDs[0]].Frames[0]));
-
-			Borders_BorderFrameID->container[loop] = &FramePointer->FrameID;
-			Borders_BorderFlag1->container[loop] = &FramePointer->Flag1;
-			Borders_BorderFlag2->container[loop] = &FramePointer->Flag2;
-		}
-
-		Borders_BorderFrameID->ChangeValue(lexical_cast<string>(FramePointer->FrameID));
-		Borders_BorderFlag1->ChangeValue(lexical_cast<string>(FramePointer->Flag1));
-		Borders_BorderFlag2->ChangeValue(lexical_cast<string>(FramePointer->Flag2));
+		Borders_BorderFrameID->container[loop] = &FramePointer->FrameID;
+		Borders_BorderFlag1->container[loop] = &FramePointer->Flag1;
+		Borders_BorderFlag2->container[loop] = &FramePointer->Flag2;
 	}
+
+	Borders_BorderFrameID->ChangeValue(lexical_cast<string>(FramePointer->FrameID));
+	Borders_BorderFlag1->ChangeValue(lexical_cast<string>(FramePointer->Flag1));
+	Borders_BorderFlag2->ChangeValue(lexical_cast<string>(FramePointer->Flag2));
 }
 
 void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->TBFrameData.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->TBFrameData[loop] = GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->TBFrameData.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->TBFrameData[loop] = GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[loop]];
 }
 
 void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 {
 	auto Selections = Borders_Frames_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	short CopyCount = copies->TBFrameData.size();
+	if(copies->TBFrameData.size()+FrameIDs[0] > GenieFile->TerrainBorders[BorderIDs[0]].Frames.size())
+	CopyCount -= copies->TBFrameData.size()+FrameIDs[0] - GenieFile->TerrainBorders[BorderIDs[0]].Frames.size();
+	for(short loop=0; loop < CopyCount; loop++)
 	{
-		wxBusyCursor WaitCursor;
-		short CopyCount = copies->TBFrameData.size();
-		if(copies->TBFrameData.size()+FrameIDs[0] > GenieFile->TerrainBorders[BorderIDs[0]].Frames.size())
-		CopyCount -= copies->TBFrameData.size()+FrameIDs[0] - GenieFile->TerrainBorders[BorderIDs[0]].Frames.size();
-		for(short loop=0; loop < CopyCount; loop++)
-		{
-			copies->TBFrameData[loop].setGameVersion(GenieVersion);
-			GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[0]+loop] = copies->TBFrameData[loop];
-		}
-		ListTerrainBorderFrames();
+		copies->TBFrameData[loop].setGameVersion(GenieVersion);
+		GenieFile->TerrainBorders[BorderIDs[0]].Frames[FrameIDs[0]+loop] = copies->TBFrameData[loop];
 	}
+	ListTerrainBorderFrames();
 }
 
 void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &Event)
@@ -490,15 +484,13 @@ void AGE_Frame::CreateTerrainBorderControls()
 
 void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &Event)
 {
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(Event.GetId() == Borders_BorderName[0]->GetId() || Event.GetId() == Borders_BorderName[1]->GetId())
 	{
-		if(Event.GetId() == Borders_BorderName[0]->GetId() || Event.GetId() == Borders_BorderName[1]->GetId())
-		{
-			ListTerrainBorders();
-		}
-		else if(Event.GetId() == Borders_BorderFrameID->GetId() || Event.GetId() == Borders_BorderFlag1->GetId() || Event.GetId() == Borders_BorderFlag2->GetId())
-		{
-			ListTerrainBorderFrames();
-		}
+		ListTerrainBorders();
+	}
+	else if(Event.GetId() == Borders_BorderFrameID->GetId() || Event.GetId() == Borders_BorderFlag1->GetId() || Event.GetId() == Borders_BorderFlag2->GetId())
+	{
+		ListTerrainBorderFrames();
 	}
 }

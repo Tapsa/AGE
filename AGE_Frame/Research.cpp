@@ -828,16 +828,14 @@ void AGE_Frame::CreateResearchControls()
 
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &Event)
 {
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(Event.GetId() == Research_Name[0]->GetId() || Event.GetId() == Research_LangDLLName->GetId())
 	{
-		if(Event.GetId() == Research_Name[0]->GetId() || Event.GetId() == Research_LangDLLName->GetId())
-		{
-			ListResearches();
-		}
-		else if(Event.GetId() == Research_Name[1]->GetId() || Event.GetId() == Research_LangDLLDescription->GetId())
-		{
-			wxCommandEvent E;
-			OnResearchSelect(E);
-		}
+		ListResearches();
+	}
+	else if(Event.GetId() == Research_Name[1]->GetId() || Event.GetId() == Research_LangDLLDescription->GetId())
+	{
+		wxCommandEvent E;
+		OnResearchSelect(E);
 	}
 }

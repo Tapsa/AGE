@@ -1428,16 +1428,14 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
 		ListEffects();
 		return;
 	}
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(Event.GetId() == Techs_Name->GetId())
 	{
-		if(Event.GetId() == Techs_Name->GetId())
-		{
-			ListTechs();
-		}
-		else
-		{
-			ListEffects();
-		}
+		ListTechs();
+	}
+	else
+	{
+		ListEffects();
 	}
 }
 

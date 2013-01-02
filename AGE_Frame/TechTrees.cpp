@@ -3710,80 +3710,78 @@ void AGE_Frame::CreateTechTreeControls()
 
 void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &Event)
 {
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(Event.GetId() == TechTrees_Ages_ID->GetId())
 	{
-		if(Event.GetId() == TechTrees_Ages_ID->GetId())
-		{
-			ListTTAgess();
-		}
-		else if(Event.GetId() == TechTrees_Ages_Building->GetId())
-		{
-			ListTTAgesBuildings();
-		}
-		else if(Event.GetId() == TechTrees_Ages_Unit->GetId())
-		{
-			ListTTAgesUnits();
-		}
-		else if(Event.GetId() == TechTrees_Ages_Research->GetId())
-		{
-			ListTTAgesResearches();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_ID->GetId())
-		{
-			ListTTBuildings();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_Building->GetId())
-		{
-			ListTTBuildingBuildings();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_Unit->GetId())
-		{
-			ListTTBuildingUnits();
-		}
-		else if(Event.GetId() == TechTrees_Buildings_Research->GetId())
-		{
-			ListTTBuildingResearches();
-		}
-		else if(Event.GetId() == TechTrees_Units_ID->GetId())
-		{
-			ListTTUnits();
-		}
-		else if(Event.GetId() == TechTrees_Units_Unit->GetId())
-		{
-			ListTTUnitUnits();
-		}
-		else if(Event.GetId() == TechTrees_Researches_ID->GetId())
-		{
-			ListTTResearches();
-		}
-		else if(Event.GetId() == TechTrees_Researches_Building->GetId())
-		{
-			ListTTResearchBuildings();
-		}
-		else if(Event.GetId() == TechTrees_Researches_Unit->GetId())
-		{
-			ListTTResearchUnits();
-		}
-		else if(Event.GetId() == TechTrees_Researches_Research->GetId())
-		{
-			ListTTResearchResearches();
-		}
-		else if(Event.GetId() == TechTrees_Units_Mode1->GetId()
-		|| Event.GetId() == TechTrees_Units_Mode2->GetId()
-		|| Event.GetId() == TechTrees_Units_UnitOrResearch1->GetId()
-		|| Event.GetId() == TechTrees_Units_UnitOrResearch2->GetId())
-		{
-			wxCommandEvent E;
-			OnTTUnitSelect(E);
-		}
-		else if(Event.GetId() == TechTrees_Buildings_Mode1->GetId()
-		|| Event.GetId() == TechTrees_Buildings_Mode2->GetId()
-		|| Event.GetId() == TechTrees_Buildings_UnitOrResearch1->GetId()
-		|| Event.GetId() == TechTrees_Buildings_UnitOrResearch2->GetId())
-		{
-			wxCommandEvent E;
-			OnTTBuildingSelect(E);
-		}
+		ListTTAgess();
+	}
+	else if(Event.GetId() == TechTrees_Ages_Building->GetId())
+	{
+		ListTTAgesBuildings();
+	}
+	else if(Event.GetId() == TechTrees_Ages_Unit->GetId())
+	{
+		ListTTAgesUnits();
+	}
+	else if(Event.GetId() == TechTrees_Ages_Research->GetId())
+	{
+		ListTTAgesResearches();
+	}
+	else if(Event.GetId() == TechTrees_Buildings_ID->GetId())
+	{
+		ListTTBuildings();
+	}
+	else if(Event.GetId() == TechTrees_Buildings_Building->GetId())
+	{
+		ListTTBuildingBuildings();
+	}
+	else if(Event.GetId() == TechTrees_Buildings_Unit->GetId())
+	{
+		ListTTBuildingUnits();
+	}
+	else if(Event.GetId() == TechTrees_Buildings_Research->GetId())
+	{
+		ListTTBuildingResearches();
+	}
+	else if(Event.GetId() == TechTrees_Units_ID->GetId())
+	{
+		ListTTUnits();
+	}
+	else if(Event.GetId() == TechTrees_Units_Unit->GetId())
+	{
+		ListTTUnitUnits();
+	}
+	else if(Event.GetId() == TechTrees_Researches_ID->GetId())
+	{
+		ListTTResearches();
+	}
+	else if(Event.GetId() == TechTrees_Researches_Building->GetId())
+	{
+		ListTTResearchBuildings();
+	}
+	else if(Event.GetId() == TechTrees_Researches_Unit->GetId())
+	{
+		ListTTResearchUnits();
+	}
+	else if(Event.GetId() == TechTrees_Researches_Research->GetId())
+	{
+		ListTTResearchResearches();
+	}
+	else if(Event.GetId() == TechTrees_Units_Mode1->GetId()
+	|| Event.GetId() == TechTrees_Units_Mode2->GetId()
+	|| Event.GetId() == TechTrees_Units_UnitOrResearch1->GetId()
+	|| Event.GetId() == TechTrees_Units_UnitOrResearch2->GetId())
+	{
+		wxCommandEvent E;
+		OnTTUnitSelect(E);
+	}
+	else if(Event.GetId() == TechTrees_Buildings_Mode1->GetId()
+	|| Event.GetId() == TechTrees_Buildings_Mode2->GetId()
+	|| Event.GetId() == TechTrees_Buildings_UnitOrResearch1->GetId()
+	|| Event.GetId() == TechTrees_Buildings_UnitOrResearch2->GetId())
+	{
+		wxCommandEvent E;
+		OnTTBuildingSelect(E);
 	}
 }
 

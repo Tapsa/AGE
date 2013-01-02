@@ -322,8 +322,6 @@ void AGE_Frame::CreatePlayerColorControls()
 
 void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &Event)
 {
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
-	{
-		ListPlayerColors();
-	}
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	ListPlayerColors();
 }
