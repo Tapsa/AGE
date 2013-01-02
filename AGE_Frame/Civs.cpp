@@ -820,9 +820,8 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	float Temp = 0;
 	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-	GenieFile->Civs[loop].Resources.push_back(Temp);
+	GenieFile->Civs[loop].Resources.push_back(0);
 	Added = true;
 	ListResources();
 }
@@ -833,9 +832,8 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	float Temp = 0;
 	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
-	GenieFile->Civs[loop].Resources.insert(GenieFile->Civs[loop].Resources.begin() + ResourceIDs[0], Temp);
+	GenieFile->Civs[loop].Resources.insert(GenieFile->Civs[loop].Resources.begin() + ResourceIDs[0], 0);
 	ListResources();
 }
 
@@ -883,8 +881,7 @@ void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	float Temp = 0;
-	GenieFile->Civs[CivIDs[0]].Resources.insert(GenieFile->Civs[CivIDs[0]].Resources.begin() + ResourceIDs[0], copies->Resource.size(), Temp);
+	GenieFile->Civs[CivIDs[0]].Resources.insert(GenieFile->Civs[CivIDs[0]].Resources.begin() + ResourceIDs[0], copies->Resource.size(), 0);
 	for(short loop=0; loop < copies->Resource.size(); loop++)
 	GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[0]+loop] = copies->Resource[loop];
 	ListResources();

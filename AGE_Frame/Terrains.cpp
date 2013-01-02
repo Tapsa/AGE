@@ -134,290 +134,282 @@ void AGE_Frame::ListTerrains(bool Sized)
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	TerrainIDs.resize(Selections);
+	Terrains_Unknown1->resize(Selections);
+	Terrains_Unknown2->resize(Selections);
+	Terrains_Name->resize(Selections);
+	Terrains_Name2->resize(Selections);
+	Terrains_SLP->resize(Selections);
+	Terrains_Unknown3->resize(Selections);
+	Terrains_SoundID->resize(Selections);
+	if(GameVersion >= 2)
 	{
-		TerrainIDs.resize(Selections);
-		Terrains_Unknown1->resize(Selections);
-		Terrains_Unknown2->resize(Selections);
-		Terrains_Name->resize(Selections);
-		Terrains_Name2->resize(Selections);
-		Terrains_SLP->resize(Selections);
-		Terrains_Unknown3->resize(Selections);
-		Terrains_SoundID->resize(Selections);
+		Terrains_BlendPriority->resize(Selections);
+		Terrains_BlendType->resize(Selections);
+		if(GameVersion >= 4)
+		for(short loop=0; loop < genie::Terrain::SWGBUNKNOWN1_LEN; loop++)
+		{
+			Terrains_SUnknown1[loop]->resize(Selections);
+		}
+	}
+	for(short loop=0; loop < 3; loop++)
+	{
+		Terrains_Colors[loop]->resize(Selections);
+	}
+	Terrains_Unknown5->resize(Selections);
+	Terrains_Unknown6->resize(Selections);
+	for(short loop=0; loop < genie::Terrain::UNKNOWN7_LEN; loop++)
+	{
+		Terrains_Unknown7[loop]->resize(Selections);
+	}
+	Terrains_FrameCount->resize(Selections);
+	Terrains_Unknown8[0]->resize(Selections);
+	Terrains_Unknown8[1]->resize(Selections);
+	for(short loop=0; loop < genie::Terrain::UNKNOWN9_LEN; loop++)
+	{
+		Terrains_Unknown9[loop]->resize(Selections);
+	}
+	Terrains_TerrainReplacementID->resize(Selections);
+	Terrains_TerrainDimensions[0]->resize(Selections);
+	Terrains_TerrainDimensions[1]->resize(Selections);
+	for(short loop=0; loop < GenieFile->Terrains[0].getTerrainBorderSize(); loop++)
+	{
+		Terrains_TerrainBorderID[loop]->resize(Selections);
+	}
+	for(short loop=0; loop < genie::Terrain::TERRAIN_UNITS_LEN; loop++)
+	{
+		Terrains_TerrainUnitID[loop]->resize(Selections);
+		Terrains_TerrainUnitDensity[loop]->resize(Selections);
+		Terrains_TerrainUnitPriority[loop]->resize(Selections);
+	}
+	Terrains_NumberOfTerrainUnitsUsed->resize(Selections);
+
+	genie::Terrain * TerrainPointer;
+	for(auto sel = Selections; sel--> 0;)
+	{
+		TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Items.Item(sel));
+		TerrainIDs[sel] = (TerrainPointer - (&GenieFile->Terrains[0]));
+
+		Terrains_Unknown1->container[sel] = &TerrainPointer->Unknown1;
+		Terrains_Unknown2->container[sel] = &TerrainPointer->Unknown2;
+		Terrains_Name->container[sel] = &TerrainPointer->Name;
+		Terrains_Name2->container[sel] = &TerrainPointer->Name2;
+		Terrains_SLP->container[sel] = &TerrainPointer->SLP;
+		Terrains_Unknown3->container[sel] = &TerrainPointer->Unknown3;
+		Terrains_SoundID->container[sel] = &TerrainPointer->SoundID;
 		if(GameVersion >= 2)
 		{
-			Terrains_BlendPriority->resize(Selections);
-			Terrains_BlendType->resize(Selections);
-			if(GameVersion >= 4)
-			for(short loop=0; loop < genie::Terrain::SWGBUNKNOWN1_LEN; loop++)
-			{
-				Terrains_SUnknown1[loop]->resize(Selections);
-			}
-		}
-		for(short loop=0; loop < 3; loop++)
-		{
-			Terrains_Colors[loop]->resize(Selections);
-		}
-		Terrains_Unknown5->resize(Selections);
-		Terrains_Unknown6->resize(Selections);
-		for(short loop=0; loop < genie::Terrain::UNKNOWN7_LEN; loop++)
-		{
-			Terrains_Unknown7[loop]->resize(Selections);
-		}
-		Terrains_FrameCount->resize(Selections);
-		Terrains_Unknown8[0]->resize(Selections);
-		Terrains_Unknown8[1]->resize(Selections);
-		for(short loop=0; loop < genie::Terrain::UNKNOWN9_LEN; loop++)
-		{
-			Terrains_Unknown9[loop]->resize(Selections);
-		}
-		Terrains_TerrainReplacementID->resize(Selections);
-		Terrains_TerrainDimensions[0]->resize(Selections);
-		Terrains_TerrainDimensions[1]->resize(Selections);
-		for(short loop=0; loop < GenieFile->Terrains[0].getTerrainBorderSize(); loop++)
-		{
-			Terrains_TerrainBorderID[loop]->resize(Selections);
-		}
-		for(short loop=0; loop < genie::Terrain::TERRAIN_UNITS_LEN; loop++)
-		{
-			Terrains_TerrainUnitID[loop]->resize(Selections);
-			Terrains_TerrainUnitDensity[loop]->resize(Selections);
-			Terrains_TerrainUnitPriority[loop]->resize(Selections);
-		}
-		Terrains_NumberOfTerrainUnitsUsed->resize(Selections);
-
-		genie::Terrain * TerrainPointer;
-		for(auto sel = Selections; sel--> 0;)
-		{
-			TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Items.Item(sel));
-			TerrainIDs[sel] = (TerrainPointer - (&GenieFile->Terrains[0]));
-
-			Terrains_Unknown1->container[sel] = &TerrainPointer->Unknown1;
-			Terrains_Unknown2->container[sel] = &TerrainPointer->Unknown2;
-			Terrains_Name->container[sel] = &TerrainPointer->Name;
-			Terrains_Name2->container[sel] = &TerrainPointer->Name2;
-			Terrains_SLP->container[sel] = &TerrainPointer->SLP;
-			Terrains_Unknown3->container[sel] = &TerrainPointer->Unknown3;
-			Terrains_SoundID->container[sel] = &TerrainPointer->SoundID;
-			if(GameVersion >= 2)
-			{
-				Terrains_BlendPriority->container[sel] = &TerrainPointer->BlendPriority;
-				Terrains_BlendType->container[sel] = &TerrainPointer->BlendType;
-				if(GameVersion >= 4)
-				for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_LEN; loop++)
-				{
-					Terrains_SUnknown1[loop]->container[sel] = &TerrainPointer->SWGBUnknown1[loop];
-				}
-			}
-			for(short loop=0; loop < 3; loop++)
-			{
-				Terrains_Colors[loop]->container[sel] = &TerrainPointer->Colors[loop];
-			}
-			Terrains_Unknown5->container[sel] = &TerrainPointer->Unknown5;
-			Terrains_Unknown6->container[sel] = &TerrainPointer->Unknown6;
-			for(short loop=0; loop < TerrainPointer->UNKNOWN7_LEN; loop++)
-			{
-				Terrains_Unknown7[loop]->container[sel] = &TerrainPointer->Unknown7[loop];
-			}
-			Terrains_FrameCount->container[sel] = &TerrainPointer->FrameCount;
-			Terrains_Unknown8[0]->container[sel] = &TerrainPointer->Unknown8[0];
-			Terrains_Unknown8[1]->container[sel] = &TerrainPointer->Unknown8[1];
-			for(short loop=0; loop < TerrainPointer->UNKNOWN9_LEN; loop++)
-			{
-				Terrains_Unknown9[loop]->container[sel] = &TerrainPointer->Unknown9[loop];
-			}
-			Terrains_TerrainReplacementID->container[sel] = &TerrainPointer->TerrainReplacementID;
-			Terrains_TerrainDimensions[0]->container[sel] = &TerrainPointer->TerrainDimensions.first;
-			Terrains_TerrainDimensions[1]->container[sel] = &TerrainPointer->TerrainDimensions.second;
-			for(short loop=0; loop < TerrainPointer->getTerrainBorderSize(); loop++)
-			{
-				Terrains_TerrainBorderID[loop]->container[sel] = &TerrainPointer->TerrainBorderIDs[loop];
-			}
-			for(short loop=0; loop < TerrainPointer->TERRAIN_UNITS_LEN; loop++)
-			{
-				Terrains_TerrainUnitID[loop]->container[sel] = &TerrainPointer->TerrainUnitID[loop];
-				Terrains_TerrainUnitDensity[loop]->container[sel] = &TerrainPointer->TerrainUnitDensity[loop];
-				Terrains_TerrainUnitPriority[loop]->container[sel] = &TerrainPointer->TerrainUnitPriority[loop];
-			}
-			Terrains_NumberOfTerrainUnitsUsed->container[sel] = &TerrainPointer->NumberOfTerrainUnitsUsed;
-		}
-
-		Terrains_Unknown1->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown1));
-		Terrains_Unknown2->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown2));
-		Terrains_Name->ChangeValue(TerrainPointer->Name);
-		Terrains_Name2->ChangeValue(TerrainPointer->Name2);
-		Terrains_SLP->ChangeValue(lexical_cast<string>(TerrainPointer->SLP));
-		Terrains_Unknown3->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown3));
-		Terrains_SoundID->ChangeValue(lexical_cast<string>(TerrainPointer->SoundID));
-		Terrains_ComboBox_SoundID->SetSelection(TerrainPointer->SoundID + 1);
-		if(GameVersion >= 2)
-		{
-			Terrains_BlendPriority->ChangeValue(lexical_cast<string>(TerrainPointer->BlendPriority));
-			Terrains_BlendType->ChangeValue(lexical_cast<string>(TerrainPointer->BlendType));
+			Terrains_BlendPriority->container[sel] = &TerrainPointer->BlendPriority;
+			Terrains_BlendType->container[sel] = &TerrainPointer->BlendType;
 			if(GameVersion >= 4)
 			for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_LEN; loop++)
 			{
-				Terrains_SUnknown1[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->SWGBUnknown1[loop]));
+				Terrains_SUnknown1[loop]->container[sel] = &TerrainPointer->SWGBUnknown1[loop];
 			}
 		}
 		for(short loop=0; loop < 3; loop++)
 		{
-			Terrains_Colors[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Colors[loop]));
+			Terrains_Colors[loop]->container[sel] = &TerrainPointer->Colors[loop];
 		}
-		Terrains_Unknown5->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown5));
-		Terrains_Unknown6->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown6));
+		Terrains_Unknown5->container[sel] = &TerrainPointer->Unknown5;
+		Terrains_Unknown6->container[sel] = &TerrainPointer->Unknown6;
 		for(short loop=0; loop < TerrainPointer->UNKNOWN7_LEN; loop++)
 		{
-			Terrains_Unknown7[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Unknown7[loop]));
+			Terrains_Unknown7[loop]->container[sel] = &TerrainPointer->Unknown7[loop];
 		}
-		Terrains_FrameCount->ChangeValue(lexical_cast<string>(TerrainPointer->FrameCount));
-		Terrains_Unknown8[0]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown8[0]));
-		Terrains_Unknown8[1]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown8[1]));
+		Terrains_FrameCount->container[sel] = &TerrainPointer->FrameCount;
+		Terrains_Unknown8[0]->container[sel] = &TerrainPointer->Unknown8[0];
+		Terrains_Unknown8[1]->container[sel] = &TerrainPointer->Unknown8[1];
 		for(short loop=0; loop < TerrainPointer->UNKNOWN9_LEN; loop++)
 		{
-			Terrains_Unknown9[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown9[loop]));
+			Terrains_Unknown9[loop]->container[sel] = &TerrainPointer->Unknown9[loop];
 		}
-		Terrains_TerrainReplacementID->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainReplacementID));
-		Terrains_ComboBox_TerrainReplacementID->SetSelection(TerrainPointer->TerrainReplacementID + 1);
-		Terrains_TerrainDimensions[0]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.first));
-		Terrains_TerrainDimensions[1]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.second));
+		Terrains_TerrainReplacementID->container[sel] = &TerrainPointer->TerrainReplacementID;
+		Terrains_TerrainDimensions[0]->container[sel] = &TerrainPointer->TerrainDimensions.first;
+		Terrains_TerrainDimensions[1]->container[sel] = &TerrainPointer->TerrainDimensions.second;
 		for(short loop=0; loop < TerrainPointer->getTerrainBorderSize(); loop++)
 		{
-			Terrains_TerrainBorderID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainBorderIDs[loop]));
-			Terrains_ComboBox_TerrainBorderID[loop]->SetSelection(TerrainPointer->TerrainBorderIDs[loop] + 1);
+			Terrains_TerrainBorderID[loop]->container[sel] = &TerrainPointer->TerrainBorderIDs[loop];
 		}
 		for(short loop=0; loop < TerrainPointer->TERRAIN_UNITS_LEN; loop++)
 		{
-			Terrains_TerrainUnitID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitID[loop]));
-			Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(TerrainPointer->TerrainUnitID[loop] + 1);
-			Terrains_TerrainUnitDensity[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitDensity[loop]));
-			Terrains_TerrainUnitPriority[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->TerrainUnitPriority[loop]));
+			Terrains_TerrainUnitID[loop]->container[sel] = &TerrainPointer->TerrainUnitID[loop];
+			Terrains_TerrainUnitDensity[loop]->container[sel] = &TerrainPointer->TerrainUnitDensity[loop];
+			Terrains_TerrainUnitPriority[loop]->container[sel] = &TerrainPointer->TerrainUnitPriority[loop];
 		}
-		Terrains_NumberOfTerrainUnitsUsed->ChangeValue(lexical_cast<string>(TerrainPointer->NumberOfTerrainUnitsUsed));
+		Terrains_NumberOfTerrainUnitsUsed->container[sel] = &TerrainPointer->NumberOfTerrainUnitsUsed;
 	}
+
+	Terrains_Unknown1->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown1));
+	Terrains_Unknown2->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown2));
+	Terrains_Name->ChangeValue(TerrainPointer->Name);
+	Terrains_Name2->ChangeValue(TerrainPointer->Name2);
+	Terrains_SLP->ChangeValue(lexical_cast<string>(TerrainPointer->SLP));
+	Terrains_Unknown3->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown3));
+	Terrains_SoundID->ChangeValue(lexical_cast<string>(TerrainPointer->SoundID));
+	Terrains_ComboBox_SoundID->SetSelection(TerrainPointer->SoundID + 1);
+	if(GameVersion >= 2)
+	{
+		Terrains_BlendPriority->ChangeValue(lexical_cast<string>(TerrainPointer->BlendPriority));
+		Terrains_BlendType->ChangeValue(lexical_cast<string>(TerrainPointer->BlendType));
+		if(GameVersion >= 4)
+		for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_LEN; loop++)
+		{
+			Terrains_SUnknown1[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->SWGBUnknown1[loop]));
+		}
+	}
+	for(short loop=0; loop < 3; loop++)
+	{
+		Terrains_Colors[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Colors[loop]));
+	}
+	Terrains_Unknown5->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown5));
+	Terrains_Unknown6->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown6));
+	for(short loop=0; loop < TerrainPointer->UNKNOWN7_LEN; loop++)
+	{
+		Terrains_Unknown7[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Unknown7[loop]));
+	}
+	Terrains_FrameCount->ChangeValue(lexical_cast<string>(TerrainPointer->FrameCount));
+	Terrains_Unknown8[0]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown8[0]));
+	Terrains_Unknown8[1]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown8[1]));
+	for(short loop=0; loop < TerrainPointer->UNKNOWN9_LEN; loop++)
+	{
+		Terrains_Unknown9[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown9[loop]));
+	}
+	Terrains_TerrainReplacementID->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainReplacementID));
+	Terrains_ComboBox_TerrainReplacementID->SetSelection(TerrainPointer->TerrainReplacementID + 1);
+	Terrains_TerrainDimensions[0]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.first));
+	Terrains_TerrainDimensions[1]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.second));
+	for(short loop=0; loop < TerrainPointer->getTerrainBorderSize(); loop++)
+	{
+		Terrains_TerrainBorderID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainBorderIDs[loop]));
+		Terrains_ComboBox_TerrainBorderID[loop]->SetSelection(TerrainPointer->TerrainBorderIDs[loop] + 1);
+	}
+	for(short loop=0; loop < TerrainPointer->TERRAIN_UNITS_LEN; loop++)
+	{
+		Terrains_TerrainUnitID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitID[loop]));
+		Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(TerrainPointer->TerrainUnitID[loop] + 1);
+		Terrains_TerrainUnitDensity[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitDensity[loop]));
+		Terrains_TerrainUnitPriority[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->TerrainUnitPriority[loop]));
+	}
+	Terrains_NumberOfTerrainUnitsUsed->ChangeValue(lexical_cast<string>(TerrainPointer->NumberOfTerrainUnitsUsed));
 }
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded.
 {
-	if(GenieFile != NULL)
+	if(GenieFile == NULL) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Terrain Temp1;
+	Temp1.setGameVersion(GenieVersion);
+	GenieFile->Terrains.push_back(Temp1);
+	genie::TerrainPassGraphic Temp2;
+	Temp2.setGameVersion(GenieVersion);
+	for(int loop = 0;loop < GenieFile->TerrainRestrictions.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Terrain Temp1;
-		Temp1.setGameVersion(GenieVersion);
-		GenieFile->Terrains.push_back(Temp1);
-		genie::TerrainPassGraphic Temp2;
-		Temp2.setGameVersion(GenieVersion);
-		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size(); loop++)
-		{
-			GenieFile->TerrainRestrictions[loop].TerrainAccessible.push_back(0);
-			GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.push_back(Temp2);
-		}
-		Added = true;
-		ListTerrains();
+		GenieFile->TerrainRestrictions[loop].TerrainAccessible.push_back(0);
+		GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.push_back(Temp2);
 	}
+	Added = true;
+	ListTerrains();
 }
 
 void AGE_Frame::OnTerrainsInsert(wxCommandEvent &Event) // Their count is hardcoded.
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Terrain Temp1;
+	Temp1.setGameVersion(GenieVersion);
+	GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], Temp1);
+	genie::TerrainPassGraphic Temp2;
+	Temp2.setGameVersion(GenieVersion);
+	for(int loop = 0;loop < GenieFile->TerrainRestrictions.size(); loop++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Terrain Temp1;
-		Temp1.setGameVersion(GenieVersion);
-		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], Temp1);
-		genie::TerrainPassGraphic Temp2;
-		Temp2.setGameVersion(GenieVersion);
-		for(int loop = 0;loop < GenieFile->TerrainRestrictions.size(); loop++)
-		{
-			GenieFile->TerrainRestrictions[loop].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop].TerrainAccessible.begin() + TerrainIDs[0], 0);
-			GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.insert(GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.begin() + TerrainIDs[0], Temp2);
-		}
-		ListTerrains();
+		GenieFile->TerrainRestrictions[loop].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop].TerrainAccessible.begin() + TerrainIDs[0], 0);
+		GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.insert(GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.begin() + TerrainIDs[0], Temp2);
 	}
+	ListTerrains();
 }
 
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardcoded.
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	for(auto loop = Selections; loop--> 0;)
 	{
-		wxBusyCursor WaitCursor;
-		for(auto loop = Selections; loop--> 0;)
+		GenieFile->Terrains.erase(GenieFile->Terrains.begin() + TerrainIDs[loop]);
+		for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)
 		{
-			GenieFile->Terrains.erase(GenieFile->Terrains.begin() + TerrainIDs[loop]);
-			for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)
-			{
-				GenieFile->TerrainRestrictions[loop2].TerrainAccessible.erase(GenieFile->TerrainRestrictions[loop2].TerrainAccessible.begin() + TerrainIDs[loop]);
-				GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.erase(GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.begin() + TerrainIDs[loop]);
-			}
+			GenieFile->TerrainRestrictions[loop2].TerrainAccessible.erase(GenieFile->TerrainRestrictions[loop2].TerrainAccessible.begin() + TerrainIDs[loop]);
+			GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.erase(GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.begin() + TerrainIDs[loop]);
 		}
-		ListTerrains();
 	}
+	ListTerrains();
 }
 
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections > 0)
-	{
-		wxBusyCursor WaitCursor;
-		copies->Terrain.resize(Selections);
-		for(short loop=0; loop < Selections; loop++)
-		copies->Terrain[loop] = GenieFile->Terrains[TerrainIDs[loop]];
-	}
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	copies->Terrain.resize(Selections);
+	for(short loop=0; loop < Selections; loop++)
+	copies->Terrain[loop] = GenieFile->Terrains[TerrainIDs[loop]];
 }
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(copies->Terrain.size()+TerrainIDs[0] > GenieFile->Terrains.size())
 	{
-		wxBusyCursor WaitCursor;
-		if(copies->Terrain.size()+TerrainIDs[0] > GenieFile->Terrains.size())
+		GenieFile->Terrains.resize(copies->Terrain.size()+TerrainIDs[0]);
+		for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)
 		{
-			GenieFile->Terrains.resize(copies->Terrain.size()+TerrainIDs[0]);
-			for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)
-			{
-				GenieFile->TerrainRestrictions[loop2].TerrainAccessible.resize(copies->Terrain.size()+TerrainIDs[0]);
-				GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.resize(copies->Terrain.size()+TerrainIDs[0]);
-			}
+			GenieFile->TerrainRestrictions[loop2].TerrainAccessible.resize(copies->Terrain.size()+TerrainIDs[0]);
+			GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.resize(copies->Terrain.size()+TerrainIDs[0]);
 		}
-		for(short loop=0; loop < copies->Terrain.size(); loop++)
-		{
-			copies->Terrain[loop].setGameVersion(GenieVersion);
-			GenieFile->Terrains[TerrainIDs[0]+loop] = copies->Terrain[loop];
-		}
-		ListTerrains();
 	}
+	for(short loop=0; loop < copies->Terrain.size(); loop++)
+	{
+		copies->Terrain[loop].setGameVersion(GenieVersion);
+		GenieFile->Terrains[TerrainIDs[0]+loop] = copies->Terrain[loop];
+	}
+	ListTerrains();
 }
 
 void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 {
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	genie::Terrain Temp1;
+	genie::TerrainPassGraphic Temp2;
+	GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], copies->Terrain.size(), Temp1);
+	for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)
 	{
-		wxBusyCursor WaitCursor;
-		genie::Terrain Temp1;
-		genie::TerrainPassGraphic Temp2;
-		GenieFile->Terrains.insert(GenieFile->Terrains.begin() + TerrainIDs[0], copies->Terrain.size(), Temp1);
-		for(int loop2 = 0;loop2 < GenieFile->TerrainRestrictions.size(); loop2++)
-		{
-			GenieFile->TerrainRestrictions[loop2].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop2].TerrainAccessible.begin() + TerrainIDs[0], copies->Terrain.size(), 0);
-			GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.insert(GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.begin() + TerrainIDs[0], copies->Terrain.size(), Temp2);
-		}
-		for(short loop=0; loop < copies->Terrain.size(); loop++)
-		{
-			copies->Terrain[loop].setGameVersion(GenieVersion);
-			GenieFile->Terrains[TerrainIDs[0]+loop] = copies->Terrain[loop];
-		}
-		ListTerrains();
+		GenieFile->TerrainRestrictions[loop2].TerrainAccessible.insert(GenieFile->TerrainRestrictions[loop2].TerrainAccessible.begin() + TerrainIDs[0], copies->Terrain.size(), 0);
+		GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.insert(GenieFile->TerrainRestrictions[loop2].TerrainPassGraphics.begin() + TerrainIDs[0], copies->Terrain.size(), Temp2);
 	}
+	for(short loop=0; loop < copies->Terrain.size(); loop++)
+	{
+		copies->Terrain[loop].setGameVersion(GenieVersion);
+		GenieFile->Terrains[TerrainIDs[0]+loop] = copies->Terrain[loop];
+	}
+	ListTerrains();
 }
 
 void AGE_Frame::CreateTerrainControls()
 {
-
 	Terrains_Main = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_ListArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Terrains_Buttons = new wxGridSizer(3, 0, 0);
@@ -719,16 +711,14 @@ void AGE_Frame::CreateTerrainControls()
 
 void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
 {
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits())
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(Event.GetId() == Terrains_Name->GetId())
 	{
-		if(Event.GetId() == Terrains_Name->GetId())
-		{
-			ListTerrains();
-		}
-		else if(Event.GetId() == Terrains_Name2->GetId())
-		{
-			wxCommandEvent E;
-			OnTerrainsSelect(E);
-		}
+		ListTerrains();
+	}
+	else if(Event.GetId() == Terrains_Name2->GetId())
+	{
+		wxCommandEvent E;
+		OnTerrainsSelect(E);
 	}
 }
