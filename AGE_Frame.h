@@ -2969,16 +2969,6 @@ class AGE_Frame: public wxFrame
 //	Template functions
 
 	template <class P>
-	void AddToList(P &path)
-	{
-		path.emplace_back();
-		path.back().setGameVersion(GenieVersion);
-		//if(EnableIDFix)
-		//Path[Path.size()-1].ID = (long)(Path.size()-1); // ID Fix
-		Added = true;
-	}
-
-	template <class P>
 	void AddToListNoGV(P &path)
 	{
 		path.emplace_back();
@@ -2986,13 +2976,21 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P>
-	void InsertToList(P &path, short place)
+	void AddToList(P &path)
 	{
-		path.emplace(path.begin() + place);
-		path[place].setGameVersion(GenieVersion);
-		//if(EnableIDFix)
-		//for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
-		//Path[loop].ID = (long)loop;
+		path.emplace_back();
+		path.back().setGameVersion(GenieVersion);
+		Added = true;
+	}
+
+	template <class P>
+	void AddToListIDFix(P &path)
+	{
+		path.emplace_back();
+		path.back().setGameVersion(GenieVersion);
+		if(EnableIDFix)
+		path.back().ID = path.size() - 1; // ID Fix
+		Added = true;
 	}
 
 	template <class P>
@@ -3002,13 +3000,37 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P>
+	void InsertToList(P &path, short place)
+	{
+		path.emplace(path.begin() + place);
+		path[place].setGameVersion(GenieVersion);
+	}
+
+	template <class P>
+	void InsertToListIDFix(P &path, short place)
+	{
+		path.emplace(path.begin() + place);
+		path[place].setGameVersion(GenieVersion);
+		if(EnableIDFix)
+		for(auto loop = path.size(); loop--> place;) // ID Fix
+		path[loop].ID = loop;
+	}
+
+	template <class P>
 	void DeleteFromList(P &path, vector<short> &places)
 	{
 		for(auto loop = places.size(); loop--> 0;)
 		path.erase(path.begin() + places[loop]);
-		//if(EnableIDFix)
-		//for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
-		//Path[loop].ID = (long)loop;
+	}
+
+	template <class P>
+	void DeleteFromListIDFix(P &path, vector<short> &places)
+	{
+		for(auto loop = places.size(); loop--> 0;)
+		path.erase(path.begin() + places[loop]);
+		if(EnableIDFix)
+		for(auto loop = path.size(); loop--> places[0];) // ID Fix
+		path[loop].ID = loop;
 	}
 
 	template <class P, class C>
@@ -3017,20 +3039,6 @@ class AGE_Frame: public wxFrame
 		copies.resize(places.size());
 		for(auto loop = places.size(); loop--> 0;)
 		copies[loop] = path[places[loop]];
-	}
-
-	template <class P, class C>
-	void PasteToList(P &path, short place, C &copies)
-	{
-		if(copies.size() + place > path.size())
-		path.resize(copies.size() + place);
-		for(auto loop = copies.size(); loop--> 0;)
-		{
-			copies[loop].setGameVersion(GenieVersion);
-			path[place + loop] = copies[loop];
-			//if(EnableIDFix)
-			//Path[Places[0]+loop].ID = (long)(Places[0]+loop); // ID Fix
-		}
 	}
 
 	template <class P, class C>
@@ -3045,20 +3053,54 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P, class C>
-	void PasteInsertToList(P &path, short place, C &copies)
+	void PasteToList(P &path, short place, C &copies)
 	{
+		if(copies.size() + place > path.size())
+		path.resize(copies.size() + place);
 		for(auto loop = copies.size(); loop--> 0;)
-		copies[loop].setGameVersion(GenieVersion);
-		path.insert(path.begin() + place, copies.begin(), copies.end());
-		//if(EnableIDFix)
-		//for(short loop = Places[0];loop < Path.size(); loop++) // ID Fix
-		//Path[loop].ID = (long)loop;
+		{
+			copies[loop].setGameVersion(GenieVersion);
+			path[place + loop] = copies[loop];
+		}
+	}
+
+	template <class P, class C>
+	void PasteToListIDFix(P &path, short place, C &copies)
+	{
+		if(copies.size() + place > path.size())
+		path.resize(copies.size() + place);
+		for(auto loop = copies.size(); loop--> 0;)
+		{
+			copies[loop].setGameVersion(GenieVersion);
+			path[place + loop] = copies[loop];
+			if(EnableIDFix)
+			path[place + loop].ID = place + loop; // ID Fix
+		}
 	}
 
 	template <class P, class C>
 	void PasteInsertToListNoGV(P &path, short place, C &copies)
 	{
 		path.insert(path.begin() + place, copies.begin(), copies.end());
+	}
+
+	template <class P, class C>
+	void PasteInsertToList(P &path, short place, C &copies)
+	{
+		for(auto loop = copies.size(); loop--> 0;)
+		copies[loop].setGameVersion(GenieVersion);
+		path.insert(path.begin() + place, copies.begin(), copies.end());
+	}
+
+	template <class P, class C>
+	void PasteInsertToListIDFix(P &path, short place, C &copies)
+	{
+		for(auto loop = copies.size(); loop--> 0;)
+		copies[loop].setGameVersion(GenieVersion);
+		path.insert(path.begin() + place, copies.begin(), copies.end());
+		if(EnableIDFix)
+		for(auto loop = path.size(); loop--> place;) // ID Fix
+		path[loop].ID = loop;
 	}
 
 };

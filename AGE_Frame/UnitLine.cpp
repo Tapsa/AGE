@@ -84,12 +84,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent &Event)
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	genie::UnitLine Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->UnitLines.push_back(Temp);
-	if(EnableIDFix)
-	GenieFile->UnitLines[GenieFile->UnitLines.size()-1].ID = (int16_t)(GenieFile->UnitLines.size()-1); // ID Fix
-	Added = true;
+	AddToListIDFix(GenieFile->UnitLines);
 	ListUnitLines();
 }
 
@@ -99,12 +94,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::UnitLine Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], Temp);
-	if(EnableIDFix)
-	for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
-	GenieFile->UnitLines[loop].ID = (int16_t)loop;
+	InsertToListIDFix(GenieFile->UnitLines, UnitLineIDs[0]);
 	ListUnitLines();
 }
 
@@ -114,11 +104,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(auto loop = Selections; loop--> 0;)
-	GenieFile->UnitLines.erase(GenieFile->UnitLines.begin() + UnitLineIDs[loop]);
-	if(EnableIDFix)
-	for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
-	GenieFile->UnitLines[loop].ID = (int16_t)loop;
+	DeleteFromListIDFix(GenieFile->UnitLines, UnitLineIDs);
 	ListUnitLines();
 }
 
@@ -128,9 +114,7 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->UnitLine.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
-	copies->UnitLine[loop] = GenieFile->UnitLines[UnitLineIDs[loop]];
+	CopyFromList(GenieFile->UnitLines, UnitLineIDs, copies->UnitLine);
 }
 
 void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
@@ -139,15 +123,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->UnitLine.size()+UnitLineIDs[0] > GenieFile->UnitLines.size())
-	GenieFile->UnitLines.resize(copies->UnitLine.size()+UnitLineIDs[0]);
-	for(short loop=0; loop < copies->UnitLine.size(); loop++)
-	{
-		copies->UnitLine[loop].setGameVersion(GenieVersion);
-		GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
-		if(EnableIDFix)
-		GenieFile->UnitLines[UnitLineIDs[0]+loop].ID = (int16_t)(UnitLineIDs[0]+loop); // ID Fix
-	}
+	PasteToListIDFix(GenieFile->UnitLines, UnitLineIDs[0], copies->UnitLine);
 	ListUnitLines();
 }
 
@@ -157,16 +133,7 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::UnitLine Temp;
-	GenieFile->UnitLines.insert(GenieFile->UnitLines.begin() + UnitLineIDs[0], copies->UnitLine.size(), Temp);
-	for(short loop=0; loop < copies->UnitLine.size(); loop++)
-	{
-		copies->UnitLine[loop].setGameVersion(GenieVersion);
-		GenieFile->UnitLines[UnitLineIDs[0]+loop] = copies->UnitLine[loop];
-	}
-	if(EnableIDFix)
-	for(short loop = UnitLineIDs[0];loop < GenieFile->UnitLines.size(); loop++) // ID Fix
-	GenieFile->UnitLines[loop].ID = (int16_t)loop;
+	PasteInsertToListIDFix(GenieFile->UnitLines, UnitLineIDs[0], copies->UnitLine);
 	ListUnitLines();
 }
 
@@ -248,8 +215,7 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.push_back(0);
-	Added = true;
+	AddToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs);
 	ListUnitLineUnits();
 }
 
@@ -259,7 +225,7 @@ void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], 0);
+	InsertToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs[0]);
 	ListUnitLineUnits();
 }
 
@@ -269,8 +235,7 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(auto loop = Selections; loop--> 0;)
-	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.erase(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[loop]);
+	DeleteFromList(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs);
 	ListUnitLineUnits();
 }
 
@@ -280,9 +245,7 @@ void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->UnitLineUnit.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
-	copies->UnitLineUnit[loop] = GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[loop]];
+	CopyFromList(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs, copies->UnitLineUnit);
 }
 
 void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
@@ -291,10 +254,7 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->UnitLineUnit.size()+UnitLineUnitIDs[0] > GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size())
-	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.resize(copies->UnitLineUnit.size()+UnitLineUnitIDs[0]);
-	for(short loop=0; loop < copies->UnitLineUnit.size(); loop++)
-	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = copies->UnitLineUnit[loop];
+	PasteToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs[0], copies->UnitLineUnit);
 	ListUnitLineUnits();
 }
 
@@ -304,9 +264,7 @@ void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.insert(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.begin() + UnitLineUnitIDs[0], copies->UnitLineUnit.size(), 0);
-	for(short loop=0; loop < copies->UnitLineUnit.size(); loop++)
-	GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[0]+loop] = copies->UnitLineUnit[loop];
+	PasteInsertToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs[0], copies->UnitLineUnit);
 	ListUnitLineUnits();
 }
 

@@ -1806,27 +1806,26 @@ void AGE_Frame::ListingFix(int Selections, wxListBox* &List)
 void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch)
 {
 	auto Selections = List->GetSelections(Items);
-	if(Selections > 0)
+	if(Selections < 1) return;
+
+	wxString TopText, SubText, Line;
+	size_t found;
+	for(int loop=0; loop < Selections; loop++)
 	{
-		wxString TopText, SubText, Line;
-		size_t found;
-		for(int loop=0; loop < Selections; loop++)
+		Line = List->GetString(Items.Item(loop));
+		found = Line.find(" ", 3);
+		if(loop == 0)
 		{
-			Line = List->GetString(Items.Item(loop));
-			found = Line.find(" ", 3);
-			if(loop == 0)
-			{
-				TopText = " "+Line.substr(2, found-1); // Cutting the tech number. (for example)
-				SubText = " "+Line.substr(found+2, Line.find(" ", found+3)-found-1); // Cutting the effect number.
-			}
-			else
-			{
-				TopText += "| "+Line.substr(2, found-1); // Cutting the sound number.
-				SubText += "| "+Line.substr(found+2, Line.find(" ", found+3)-found-1); // Cutting the filename.
-			}
-			TopSearch->SetValue(TopText);
-			SubSearch->SetValue(SubText);
+			TopText = " "+Line.substr(2, found-1); // Cutting the tech number. (for example)
+			SubText = " "+Line.substr(found+2, Line.find(" ", found+3)-found-1); // Cutting the effect number.
 		}
+		else
+		{
+			TopText += "| "+Line.substr(2, found-1); // Cutting the sound number.
+			SubText += "| "+Line.substr(found+2, Line.find(" ", found+3)-found-1); // Cutting the filename.
+		}
+		TopSearch->SetValue(TopText);
+		SubSearch->SetValue(SubText);
 	}
 }
 
