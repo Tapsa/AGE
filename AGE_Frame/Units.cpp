@@ -2588,6 +2588,11 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &Event)
 {
+	for(short civ=0; civ < GenieFile->Civs.size(); civ++)
+	for(short loop=1; loop < UnitIDs.size(); loop++)
+	{
+		GenieFile->Civs[civ].Units[UnitIDs[loop]].DamageGraphics = GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics;
+	}
 }
 
 string AGE_Frame::GetUnitAttackName(short Index)
@@ -2792,6 +2797,11 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &Event)
 {
+	for(short civ=0; civ < GenieFile->Civs.size(); civ++)
+	for(short loop=1; loop < UnitIDs.size(); loop++)
+	{
+		GenieFile->Civs[civ].Units[UnitIDs[loop]].Projectile.Attacks = GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks;
+	}
 }
 
 string AGE_Frame::GetUnitArmorName(short Index)
@@ -2996,6 +3006,11 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &Event)
 {
+	for(short civ=0; civ < GenieFile->Civs.size(); civ++)
+	for(short loop=1; loop < UnitIDs.size(); loop++)
+	{
+		GenieFile->Civs[civ].Units[UnitIDs[loop]].Projectile.Armours = GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours;
+	}
 }
 
 //	AoE/TC/SWGB/CC Unit Commands
@@ -3505,6 +3520,21 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &Event)
 {
+	if(GameVersion < 2)
+	{
+		for(short civ=0; civ < GenieFile->Civs.size(); civ++)
+		for(short loop=1; loop < UnitIDs.size(); loop++)
+		{
+			GenieFile->Civs[civ].Units[UnitIDs[loop]].Bird.Commands = GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands;
+		}
+	}
+	else
+	{
+		for(short loop=1; loop < UnitIDs.size(); loop++)
+		{
+			GenieFile->UnitHeaders[UnitIDs[loop]].Commands = GenieFile->UnitHeaders[UnitIDs[0]].Commands;
+		}
+	}
 }
 
 void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &Event)
@@ -4061,12 +4091,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Name = new TextCtrl_String(Units_Scroller, 30);
 	Units_Name2 = new TextCtrl_String(Units_Scroller, 30);
 	Units_LanguageDLLName = new TextCtrl_UShort(Units_Scroller);
-	Units_DLL_LanguageDLLName = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_LanguageDLLName = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Units_LanguageDLLCreation = new TextCtrl_UShort(Units_Scroller);
-	Units_DLL_LanguageDLLCreation = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_LanguageDLLCreation = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Units_HotKey = new TextCtrl_Short(Units_Scroller);
 	Units_HotKey->SetToolTip("10000 + Language DLL Creation (usually)");
-	Units_DLL_HotKey4 = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_HotKey4 = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Units_LanguageDLLHelp = new TextCtrl_Long(Units_Scroller);
 	Units_LanguageDLLHelp->SetToolTip("100000 + Language DLL Name\nThis is probably linked to the help text below");
 	Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
@@ -4075,8 +4105,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in DLL\nHit enter to get the correction into dat file");
 	Units_LanguageDLLHotKeyText = new TextCtrl_Long(Units_Scroller);
 	Units_LanguageDLLHotKeyText->SetToolTip("150000 + Language DLL Name\nThis seems to be used only in AoE (not RoR)\nThis language line has other purposes in SWGB and CC");
-	Units_DLL_LanguageDLLHelp = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 55), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
-	Units_DLL_LanguageDLLHKText = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_LanguageDLLHelp = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 55), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_LanguageDLLHKText = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 
 	Units_IconID = new TextCtrl_Short(Units_Scroller);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
@@ -5817,6 +5847,12 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Armors_CopyToUnits->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsCopyToUnits));
 	Connect(Units_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 	Connect(Units_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
+
+	Units_DLL_LanguageDLLName->Connect(Units_DLL_LanguageDLLName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
+	Units_DLL_LanguageDLLCreation->Connect(Units_DLL_LanguageDLLCreation->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
+	Units_DLL_HotKey4->Connect(Units_DLL_HotKey4->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
+	Units_DLL_LanguageDLLHelp->Connect(Units_DLL_LanguageDLLHelp->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
+	Units_DLL_LanguageDLLHKText->Connect(Units_DLL_LanguageDLLHKText->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
 
 //	Listing and Auto-Copy
 

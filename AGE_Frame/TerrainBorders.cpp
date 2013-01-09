@@ -251,6 +251,10 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < BorderIDs.size(); loop++)
+	{
+		GenieFile->TerrainBorders[BorderIDs[loop]].Frames = GenieFile->TerrainBorders[BorderIDs[0]].Frames;
+	}
 }
 
 void AGE_Frame::CreateTerrainBorderControls()

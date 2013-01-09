@@ -655,6 +655,10 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicDeltasCopyToGraphics(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < GraphicIDs.size(); loop++)
+	{
+		GenieFile->Graphics[GraphicIDs[loop]].Deltas = GenieFile->Graphics[GraphicIDs[0]].Deltas;
+	}
 }
 
 string AGE_Frame::GetGraphicAttackSoundName(short Index)
@@ -747,6 +751,10 @@ void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < GraphicIDs.size(); loop++)
+	{
+		GenieFile->Graphics[GraphicIDs[loop]].AttackSounds = GenieFile->Graphics[GraphicIDs[0]].AttackSounds;
+	}
 }
 
 void AGE_Frame::CreateGraphicsControls()

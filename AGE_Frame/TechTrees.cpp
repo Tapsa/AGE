@@ -289,6 +289,10 @@ void AGE_Frame::OnTTAgesBuildingPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgesBuildingCopyToAges(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTAgeIDs.size(); loop++)
+	{
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[loop]].Buildings = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings;
+	}
 }
 
 string AGE_Frame::GetTTAgesUnitName(short Index)
@@ -424,6 +428,10 @@ void AGE_Frame::OnTTAgesUnitPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgesUnitCopyToAges(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTAgeIDs.size(); loop++)
+	{
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[loop]].Units = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units;
+	}
 }
 
 string AGE_Frame::GetTTAgesResearchName(short Index)
@@ -559,6 +567,10 @@ void AGE_Frame::OnTTAgesResearchPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgesResearchCopyToAges(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTAgeIDs.size(); loop++)
+	{
+		GenieFile->TechTree.TechTreeAges[TTAgeIDs[loop]].Researches = GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches;
+	}
 }
 
 string AGE_Frame::GetTTBuildingName(short Index)
@@ -1016,6 +1028,10 @@ void AGE_Frame::OnTTBuildingBuildingPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingBuildingCopyToBuildings(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTBuildConIDs.size(); loop++)
+	{
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[loop]].Buildings = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings;
+	}
 }
 
 string AGE_Frame::GetTTBuildingUnitName(short Index)
@@ -1151,6 +1167,10 @@ void AGE_Frame::OnTTBuildingUnitPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingUnitCopyToBuildings(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTBuildConIDs.size(); loop++)
+	{
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[loop]].Units = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units;
+	}
 }
 
 string AGE_Frame::GetTTBuildingResearchName(short Index)
@@ -1286,6 +1306,10 @@ void AGE_Frame::OnTTBuildingResearchPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingResearchCopyToBuildings(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTBuildConIDs.size(); loop++)
+	{
+		GenieFile->TechTree.BuildingConnections[TTBuildConIDs[loop]].Researches = GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches;
+	}
 }
 
 string AGE_Frame::GetTTUnitName(short Index)
@@ -1755,6 +1779,10 @@ void AGE_Frame::OnTTUnitUnitPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTUnitUnitCopyToUnits(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTUnitConIDs.size(); loop++)
+	{
+		GenieFile->TechTree.UnitConnections[TTUnitConIDs[loop]].Units = GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units;
+	}
 }
 
 string AGE_Frame::GetTTResearchName(short Index)
@@ -2154,6 +2182,10 @@ void AGE_Frame::OnTTResearchBuildingPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchBuildingCopyToResearches(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTResConIDs.size(); loop++)
+	{
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[loop]].Buildings = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings;
+	}
 }
 
 string AGE_Frame::GetTTResearchUnitName(short Index)
@@ -2289,6 +2321,10 @@ void AGE_Frame::OnTTResearchUnitPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchUnitCopyToResearches(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTResConIDs.size(); loop++)
+	{
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[loop]].Units = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units;
+	}
 }
 
 string AGE_Frame::GetTTResearchResearchName(short Index)
@@ -2424,6 +2460,10 @@ void AGE_Frame::OnTTResearchResearchPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchResearchCopyToResearches(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TTResConIDs.size(); loop++)
+	{
+		GenieFile->TechTree.ResearchConnections[TTResConIDs[loop]].Researches = GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches;
+	}
 }
 
 void AGE_Frame::CreateTechTreeControls()

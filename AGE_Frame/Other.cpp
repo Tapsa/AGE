@@ -1635,7 +1635,18 @@ void AGE_Frame::WriteLangDLLstring(int ID, wxString Name)
 {
 	if((LangWriteMode & 1) && (LangsUsed & 1))
 	{
-//		Lang->setString(ID, string(Name));
+		try
+		{
+			Lang->setString(ID, string(Name));
+			if(LangsUsed & 2)
+			LangX->setString(ID, "");
+			if(LangsUsed & 4)
+			LangXP->setString(ID, "");
+		}
+		catch(...)
+		{
+			wxMessageBox("An error occured while trying to save the string");
+		}
 	}
 }
 
@@ -1780,6 +1791,14 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 		}
 	}
 }
+
+void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
+{/*
+	wxTextEntryDialog kysely(NULL, "DLL index:");
+	if(kysely.ShowModal() != wxID_OK) return;
+	wxMessageBox(((wxTextCtrl*)Event.GetEventObject())->GetValue());
+	WriteLangDLLstring(lexical_cast<int>(kysely.GetValue()), ((wxTextCtrl*)Event.GetEventObject())->GetValue());
+*/}
 
 void AGE_Frame::ListingFix(int Selections, wxListBox* &List)
 {

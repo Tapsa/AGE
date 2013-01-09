@@ -467,6 +467,10 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < SoundIDs.size(); loop++)
+	{
+		GenieFile->Sounds[SoundIDs[loop]].Items = GenieFile->Sounds[SoundIDs[0]].Items;
+	}
 }
 
 void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &Event)
