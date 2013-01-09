@@ -539,11 +539,11 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_LangDLLName = new wxBoxSizer(wxVERTICAL);
 	Research_Text_LangDLLName = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLName = new TextCtrl_UShort(Research_Scroller);
-	Research_DLL_LangDLLName = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Research_DLL_LangDLLName = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Research_Holder_LangDLLDescription = new wxBoxSizer(wxVERTICAL);
 	Research_Text_LangDLLDescription = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Description", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLDescription = new TextCtrl_UShort(Research_Scroller);
-	Research_DLL_LangDLLDescription = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Research_DLL_LangDLLDescription = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Research_Holder_RequiredTechArea = new wxBoxSizer(wxVERTICAL);
 	Research_Holder_RequiredTechs = new wxGridSizer(6, 0, 5);
 	Research_Text_RequiredTechArea = new wxStaticText(Research_Scroller, wxID_ANY, " Required Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -613,11 +613,11 @@ void AGE_Frame::CreateResearchControls()
 	Research_Text_Pointers[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Popup *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[0] = new TextCtrl_Long(Research_Scroller);
 	Research_Pointers[0]->SetToolTip("100000 + Language DLL Name");
-	Research_DLL_Pointers[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Research_DLL_Pointers[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Research_Text_Pointers[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[1] = new TextCtrl_Long(Research_Scroller);
 	Research_Pointers[1]->SetToolTip("150000 + Language DLL Name");
-	Research_DLL_Pointers[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_READONLY | wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Research_DLL_Pointers[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
 	Research_Text_Pointers[2] = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[2] = new TextCtrl_Long(Research_Scroller);
 
@@ -824,6 +824,10 @@ void AGE_Frame::CreateResearchControls()
 	Research_LangDLLDescription->Connect(Research_LangDLLDescription->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
 	Research_Name[0]->Connect(Research_Name[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
 	Research_Name[1]->Connect(Research_Name[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
+	Research_DLL_LangDLLName->Connect(Research_DLL_LangDLLName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
+	Research_DLL_LangDLLDescription->Connect(Research_DLL_LangDLLDescription->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
+	Research_DLL_Pointers[0]->Connect(Research_DLL_Pointers[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
+	Research_DLL_Pointers[1]->Connect(Research_DLL_Pointers[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
 }
 
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &Event)

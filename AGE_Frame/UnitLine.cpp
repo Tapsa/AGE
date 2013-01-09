@@ -270,6 +270,10 @@ void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < UnitLineIDs.size(); loop++)
+	{
+		GenieFile->UnitLines[UnitLineIDs[loop]].UnitIDs = GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs;
+	}
 }
 
 void AGE_Frame::CreateUnitLineControls()

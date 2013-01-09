@@ -103,6 +103,7 @@ class AGE_Frame: public wxFrame
 //	Updates user interface after changing data name.
 
 	void OnSelection_SearchFilters(wxCommandEvent &Event);
+	void OnKillFocus_LangDLL(wxFocusEvent &Event);
 
 	void OnKillFocus_Research(wxFocusEvent &Event);
 	void OnKillFocus_Techs(wxFocusEvent &Event);
