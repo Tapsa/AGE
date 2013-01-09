@@ -1008,6 +1008,10 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnEffectsCopyToTechs(wxCommandEvent &Event)
 {
+	for(short loop=1; loop < TechIDs.size(); loop++)
+	{
+		GenieFile->Techages[TechIDs[loop]].Effects = GenieFile->Techages[TechIDs[0]].Effects;
+	}
 }
 
 void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
@@ -1028,7 +1032,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 		for(short effect = 0;effect < GenieFile->Techages[tech].Effects.size();effect++)
 		{
 			Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect);
-				if(SearchMatches(Name.Lower()))
+			if(SearchMatches(Name.Lower()))
 			{
 				Techs_AllEffects_List->Append(Name);
 			}
