@@ -360,21 +360,27 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
 		Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
 		Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
-		Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-79000)+": "+LangDLLstring(ResearchPointer->Pointers[0]-79000, 64));
-		Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-140000)+": "+LangDLLstring(ResearchPointer->Pointers[1]-140000, 64));
+		Research_DLL_Pointers[0]->index = ResearchPointer->Pointers[0]-79000;
+		Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[0]->index)+": "+LangDLLstring(Research_DLL_Pointers[0]->index, 64));
+		Research_DLL_Pointers[1]->index = ResearchPointer->Pointers[1]-140000;
+		Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[1]->index)+": "+LangDLLstring(Research_DLL_Pointers[1]->index, 64));
 		if(GameVersion >= 4)
 		Research_Name[1]->ChangeValue(ResearchPointer->Name2);
 	}
 	else
 	{
-		Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[0]-65536)+": "+LangDLLstring(ResearchPointer->Pointers[0]-65536, 64));
-		Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(ResearchPointer->Pointers[1]-131072)+": "+LangDLLstring(ResearchPointer->Pointers[1]-131072, 64));
+		Research_DLL_Pointers[0]->index = ResearchPointer->Pointers[0]-65536;
+		Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[0]->index)+": "+LangDLLstring(Research_DLL_Pointers[0]->index, 64));
+		Research_DLL_Pointers[1]->index = ResearchPointer->Pointers[1]-131072;
+		Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[1]->index)+": "+LangDLLstring(Research_DLL_Pointers[1]->index, 64));
 	}
 	Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
 	Research_ComboBox_ResearchLocation->SetSelection(ResearchPointer->ResearchLocation + 1);
 	Research_LangDLLName->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLName));
+	Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
 	Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
 	Research_LangDLLDescription->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLDescription));
+	Research_DLL_LangDLLDescription->index = ResearchPointer->LanguageDLLDescription;
 	Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
 	Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
 	Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
@@ -539,11 +545,11 @@ void AGE_Frame::CreateResearchControls()
 	Research_Holder_LangDLLName = new wxBoxSizer(wxVERTICAL);
 	Research_Text_LangDLLName = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLName = new TextCtrl_UShort(Research_Scroller);
-	Research_DLL_LangDLLName = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Research_DLL_LangDLLName = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
 	Research_Holder_LangDLLDescription = new wxBoxSizer(wxVERTICAL);
 	Research_Text_LangDLLDescription = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Description", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLDescription = new TextCtrl_UShort(Research_Scroller);
-	Research_DLL_LangDLLDescription = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Research_DLL_LangDLLDescription = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
 	Research_Holder_RequiredTechArea = new wxBoxSizer(wxVERTICAL);
 	Research_Holder_RequiredTechs = new wxGridSizer(6, 0, 5);
 	Research_Text_RequiredTechArea = new wxStaticText(Research_Scroller, wxID_ANY, " Required Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -613,11 +619,11 @@ void AGE_Frame::CreateResearchControls()
 	Research_Text_Pointers[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Popup *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[0] = new TextCtrl_Long(Research_Scroller);
 	Research_Pointers[0]->SetToolTip("100000 + Language DLL Name");
-	Research_DLL_Pointers[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Research_DLL_Pointers[0] = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
 	Research_Text_Pointers[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[1] = new TextCtrl_Long(Research_Scroller);
 	Research_Pointers[1]->SetToolTip("150000 + Language DLL Name");
-	Research_DLL_Pointers[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 35), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Research_DLL_Pointers[1] = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
 	Research_Text_Pointers[2] = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[2] = new TextCtrl_Long(Research_Scroller);
 
