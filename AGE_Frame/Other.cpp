@@ -1793,12 +1793,11 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 }
 
 void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
-{/*
-	wxTextEntryDialog kysely(NULL, "DLL index:");
-	if(kysely.ShowModal() != wxID_OK) return;
-	wxMessageBox(((wxTextCtrl*)Event.GetEventObject())->GetValue());
-	WriteLangDLLstring(lexical_cast<int>(kysely.GetValue()), ((wxTextCtrl*)Event.GetEventObject())->GetValue());
-*/}
+{
+	TextCtrl_DLL *control = (TextCtrl_DLL*)Event.GetEventObject();
+	wxMessageBox(lexical_cast<string>(control->index)+" : "+control->GetValue());
+	WriteLangDLLstring(control->index, control->GetValue());
+}
 
 void AGE_Frame::ListingFix(int Selections, wxListBox* &List)
 {
