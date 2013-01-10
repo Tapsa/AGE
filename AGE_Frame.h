@@ -948,12 +948,12 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Research_Holder_LangDLLName;
 	wxStaticText *Research_Text_LangDLLName;
 	TextCtrl_UShort *Research_LangDLLName;
-	wxTextCtrl *Research_DLL_LangDLLName;
+	TextCtrl_DLL *Research_DLL_LangDLLName;
 
 	wxBoxSizer *Research_Holder_LangDLLDescription;
 	wxStaticText *Research_Text_LangDLLDescription;
 	TextCtrl_UShort *Research_LangDLLDescription;
-	wxTextCtrl *Research_DLL_LangDLLDescription;
+	TextCtrl_DLL *Research_DLL_LangDLLDescription;
 
 	wxBoxSizer *Research_Holder_ResearchTime;
 	wxStaticText *Research_Text_ResearchTime;
@@ -979,7 +979,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Research_Holder_Pointers[3];
 	wxStaticText *Research_Text_Pointers[3];
 	TextCtrl_Long *Research_Pointers[3];
-	wxTextCtrl *Research_DLL_Pointers[2];
+	TextCtrl_DLL *Research_DLL_Pointers[2];
 
 	wxBoxSizer *Research_Holder_Name[2];
 	wxStaticText *Research_Text_Name[2];
@@ -1181,9 +1181,9 @@ class AGE_Frame: public wxFrame
 	wxOwnerDrawnComboBox *Units_ComboBox_Type;
 	TextCtrl_Short *Units_ID1;
 	TextCtrl_UShort *Units_LanguageDLLName;
-	wxTextCtrl *Units_DLL_LanguageDLLName;
+	TextCtrl_DLL *Units_DLL_LanguageDLLName;
 	TextCtrl_UShort *Units_LanguageDLLCreation;
-	wxTextCtrl *Units_DLL_LanguageDLLCreation;
+	TextCtrl_DLL *Units_DLL_LanguageDLLCreation;
 	TextCtrl_Short *Units_Class;
 	ComboBox_Plus1 *Units_ComboBox_Class[2];
 	TextCtrl_Short *Units_StandingGraphic[2];
@@ -1233,12 +1233,12 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Short *Units_Unknown3B;
 	TextCtrl_Byte *Units_Unknown3a;
 	TextCtrl_Long *Units_LanguageDLLHelp;
-	wxTextCtrl *Units_DLL_LanguageDLLHelp;
+	TextCtrl_DLL *Units_DLL_LanguageDLLHelp;
 	wxTextCtrl *Units_LanguageDLLConverter[2];
 	TextCtrl_Long *Units_LanguageDLLHotKeyText;
-	wxTextCtrl *Units_DLL_LanguageDLLHKText;
+	TextCtrl_DLL *Units_DLL_LanguageDLLHKText;
 	TextCtrl_Short *Units_HotKey;
-	wxTextCtrl *Units_DLL_HotKey4;
+	TextCtrl_DLL *Units_DLL_HotKey4;
 	TextCtrl_Byte *Units_Unknown4;
 	TextCtrl_Byte *Units_Unknown5;
 	TextCtrl_Byte *Units_Unselectable;

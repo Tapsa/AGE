@@ -55,6 +55,15 @@ class AGETextCtrl: public wxTextCtrl
 	static const wxString BATCHWARNING;
 };
 
+class TextCtrl_DLL: public wxTextCtrl
+{
+	public:
+	TextCtrl_DLL(wxWindow *parent, wxSize dimensions):
+	wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, dimensions, wxTE_MULTILINE | wxTE_PROCESS_ENTER){}
+
+	int index;
+};
+
 class TextCtrl_Byte: public AGETextCtrl
 {
 	public:

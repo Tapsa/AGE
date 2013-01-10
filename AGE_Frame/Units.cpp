@@ -1334,8 +1334,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	}
 	Units_ID1->ChangeValue(lexical_cast<string>(UnitPointer->ID1));
 	Units_LanguageDLLName->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLName));
+	Units_DLL_LanguageDLLName->index = UnitPointer->LanguageDLLName;
 	Units_DLL_LanguageDLLName->SetLabel(LangDLLstring(UnitPointer->LanguageDLLName, 64));
 	Units_LanguageDLLCreation->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLCreation));
+	Units_DLL_LanguageDLLCreation->index = UnitPointer->LanguageDLLCreation;
 	Units_DLL_LanguageDLLCreation->SetLabel(LangDLLstring(UnitPointer->LanguageDLLCreation, 64));
 	Units_Class->ChangeValue(lexical_cast<string>(UnitPointer->Class));
 	Units_ComboBox_Class[0]->SetSelection(UnitPointer->Class + 1);
@@ -1391,8 +1393,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_EditorSelectionColour->ChangeValue(lexical_cast<string>((short)UnitPointer->EditorSelectionColour));
 	if(GameVersion >= 2)
 	{
-		Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-79000)+": "+LangDLLstring(UnitPointer->LanguageDLLHelp-79000, 512));
-		Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-140000)+": "+LangDLLstring(UnitPointer->LanguageDLLHotKeyText-140000, 64));
+		Units_DLL_LanguageDLLHelp->index = UnitPointer->LanguageDLLHelp-79000;
+		Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHelp->index)+": "+LangDLLstring(Units_DLL_LanguageDLLHelp->index, 512));
+		Units_DLL_LanguageDLLHKText->index = UnitPointer->LanguageDLLHotKeyText-140000;
+		Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHKText->index)+": "+LangDLLstring(Units_DLL_LanguageDLLHKText->index, 64));
 		Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
 		Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
 		Units_TrainSound[1]->ChangeValue(lexical_cast<string>(UnitPointer->TrainSound.second));
@@ -1425,8 +1429,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHelp-65536)+": "+LangDLLstring(UnitPointer->LanguageDLLHelp-65536, 512));
-		Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText-131072)+": "+LangDLLstring(UnitPointer->LanguageDLLHotKeyText-131072, 64));
+		Units_DLL_LanguageDLLHelp->index = UnitPointer->LanguageDLLHelp-65536;
+		Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHelp->index)+": "+LangDLLstring(Units_DLL_LanguageDLLHelp->index, 512));
+		Units_DLL_LanguageDLLHKText->index = UnitPointer->LanguageDLLHotKeyText-131072;
+		Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHKText->index)+": "+LangDLLstring(Units_DLL_LanguageDLLHKText->index, 64));
 		Units_Unknown3a->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3a));
 		Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
 		Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
@@ -1438,6 +1444,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_LanguageDLLHelp->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHelp));
 	Units_LanguageDLLHotKeyText->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHotKeyText));
 	Units_HotKey->ChangeValue(lexical_cast<string>(UnitPointer->HotKey));
+	Units_DLL_HotKey4->index = UnitPointer->HotKey;
 	Units_DLL_HotKey4->SetLabel(LangDLLstring(UnitPointer->HotKey, 16));
 	Units_Unknown4->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown4));
 	Units_Unknown5->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown5));
@@ -4091,12 +4098,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Name = new TextCtrl_String(Units_Scroller, 30);
 	Units_Name2 = new TextCtrl_String(Units_Scroller, 30);
 	Units_LanguageDLLName = new TextCtrl_UShort(Units_Scroller);
-	Units_DLL_LanguageDLLName = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_LanguageDLLName = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
 	Units_LanguageDLLCreation = new TextCtrl_UShort(Units_Scroller);
-	Units_DLL_LanguageDLLCreation = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_LanguageDLLCreation = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
 	Units_HotKey = new TextCtrl_Short(Units_Scroller);
 	Units_HotKey->SetToolTip("10000 + Language DLL Creation (usually)");
-	Units_DLL_HotKey4 = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_HotKey4 = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
 	Units_LanguageDLLHelp = new TextCtrl_Long(Units_Scroller);
 	Units_LanguageDLLHelp->SetToolTip("100000 + Language DLL Name\nThis is probably linked to the help text below");
 	Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
@@ -4105,8 +4112,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in DLL\nHit enter to get the correction into dat file");
 	Units_LanguageDLLHotKeyText = new TextCtrl_Long(Units_Scroller);
 	Units_LanguageDLLHotKeyText->SetToolTip("150000 + Language DLL Name\nThis seems to be used only in AoE (not RoR)\nThis language line has other purposes in SWGB and CC");
-	Units_DLL_LanguageDLLHelp = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 55), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
-	Units_DLL_LanguageDLLHKText = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), wxTE_MULTILINE | wxTE_PROCESS_ENTER);
+	Units_DLL_LanguageDLLHelp = new TextCtrl_DLL(Units_Scroller, wxSize(0, 55));
+	Units_DLL_LanguageDLLHKText = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
 
 	Units_IconID = new TextCtrl_Short(Units_Scroller);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
