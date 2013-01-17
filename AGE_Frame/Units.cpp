@@ -1394,9 +1394,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	if(GameVersion >= 2)
 	{
 		Units_DLL_LanguageDLLHelp->index = UnitPointer->LanguageDLLHelp-79000;
-		Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHelp->index)+": "+LangDLLstring(Units_DLL_LanguageDLLHelp->index, 512));
+		Units_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Units_DLL_LanguageDLLHelp->index, 512));
+		Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHelp->index));
 		Units_DLL_LanguageDLLHKText->index = UnitPointer->LanguageDLLHotKeyText-140000;
-		Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHKText->index)+": "+LangDLLstring(Units_DLL_LanguageDLLHKText->index, 64));
+		Units_DLL_LanguageDLLHKText->SetLabel(LangDLLstring(Units_DLL_LanguageDLLHKText->index, 64));
+		Units_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHKText->index));
 		Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
 		Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
 		Units_TrainSound[1]->ChangeValue(lexical_cast<string>(UnitPointer->TrainSound.second));
@@ -1430,9 +1432,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	else
 	{
 		Units_DLL_LanguageDLLHelp->index = UnitPointer->LanguageDLLHelp-65536;
-		Units_DLL_LanguageDLLHelp->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHelp->index)+": "+LangDLLstring(Units_DLL_LanguageDLLHelp->index, 512));
+		Units_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Units_DLL_LanguageDLLHelp->index, 512));
+		Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHelp->index));
 		Units_DLL_LanguageDLLHKText->index = UnitPointer->LanguageDLLHotKeyText-131072;
-		Units_DLL_LanguageDLLHKText->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHKText->index)+": "+LangDLLstring(Units_DLL_LanguageDLLHKText->index, 64));
+		Units_DLL_LanguageDLLHKText->SetLabel(LangDLLstring(Units_DLL_LanguageDLLHKText->index, 64));
+		Units_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Units_DLL_LanguageDLLHKText->index));
 		Units_Unknown3a->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3a));
 		Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
 		Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
@@ -5855,11 +5859,11 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 	Connect(Units_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 
-	Units_DLL_LanguageDLLName->Connect(Units_DLL_LanguageDLLName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
-	Units_DLL_LanguageDLLCreation->Connect(Units_DLL_LanguageDLLCreation->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
-	Units_DLL_HotKey4->Connect(Units_DLL_HotKey4->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
-	Units_DLL_LanguageDLLHelp->Connect(Units_DLL_LanguageDLLHelp->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
-	Units_DLL_LanguageDLLHKText->Connect(Units_DLL_LanguageDLLHKText->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL));
+	Units_DLL_LanguageDLLName->Connect(Units_DLL_LanguageDLLName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+	Units_DLL_LanguageDLLCreation->Connect(Units_DLL_LanguageDLLCreation->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+	Units_DLL_HotKey4->Connect(Units_DLL_HotKey4->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+	Units_DLL_LanguageDLLHelp->Connect(Units_DLL_LanguageDLLHelp->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+	Units_DLL_LanguageDLLHKText->Connect(Units_DLL_LanguageDLLHKText->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 
 //	Listing and Auto-Copy
 
