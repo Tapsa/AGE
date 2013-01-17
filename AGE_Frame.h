@@ -702,7 +702,7 @@ class AGE_Frame: public wxFrame
 
 	HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters);
-	void WriteLangDLLstring(int ID, wxString Name);
+	//void WriteLangDLLstring(int ID, wxString Name);
 
 //	Constants, remove unneeded entries.
 
