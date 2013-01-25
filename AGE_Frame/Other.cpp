@@ -46,54 +46,23 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
 		OpenBox.Path_ApfFileLocation->SetPath(ApfFileName);
 
-		if(LangsUsed & 1)
-		{
-			OpenBox.CheckBox_LangFileLocation->SetValue(true);
-			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-			Selected.SetId(OpenBox.CheckBox_LangFileLocation->GetId());
-			Selected.SetInt(true);
-			OpenBox.GetEventHandler()->ProcessEvent(Selected);
-		}
-		else
-		{
-			OpenBox.CheckBox_LangFileLocation->SetValue(false);
-			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-			Selected.SetId(OpenBox.CheckBox_LangFileLocation->GetId());
-			Selected.SetInt(false);
-			OpenBox.GetEventHandler()->ProcessEvent(Selected);
-		}
-		if(LangsUsed & 2)
-		{
-			OpenBox.CheckBox_LangX1FileLocation->SetValue(true);
-			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-			Selected.SetId(OpenBox.CheckBox_LangX1FileLocation->GetId());
-			Selected.SetInt(true);
-			OpenBox.GetEventHandler()->ProcessEvent(Selected);
-		}
-		else
-		{
-			OpenBox.CheckBox_LangX1FileLocation->SetValue(false);
-			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-			Selected.SetId(OpenBox.CheckBox_LangX1FileLocation->GetId());
-			Selected.SetInt(false);
-			OpenBox.GetEventHandler()->ProcessEvent(Selected);
-		}
-		if(LangsUsed & 4)
-		{
-			OpenBox.CheckBox_LangX1P1FileLocation->SetValue(true);
-			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-			Selected.SetId(OpenBox.CheckBox_LangX1P1FileLocation->GetId());
-			Selected.SetInt(true);
-			OpenBox.GetEventHandler()->ProcessEvent(Selected);
-		}
-		else
-		{
-			OpenBox.CheckBox_LangX1P1FileLocation->SetValue(false);
-			Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-			Selected.SetId(OpenBox.CheckBox_LangX1P1FileLocation->GetId());
-			Selected.SetInt(false);
-			OpenBox.GetEventHandler()->ProcessEvent(Selected);
-		}
+		OpenBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
+		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
+		Selected.SetId(OpenBox.CheckBox_LangFileLocation->GetId());
+		Selected.SetInt(LangsUsed & 1);
+		OpenBox.GetEventHandler()->ProcessEvent(Selected);
+
+		OpenBox.CheckBox_LangX1FileLocation->SetValue(LangsUsed & 2);
+		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
+		Selected.SetId(OpenBox.CheckBox_LangX1FileLocation->GetId());
+		Selected.SetInt(LangsUsed & 2);
+		OpenBox.GetEventHandler()->ProcessEvent(Selected);
+
+		OpenBox.CheckBox_LangX1P1FileLocation->SetValue(LangsUsed & 4);
+		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
+		Selected.SetId(OpenBox.CheckBox_LangX1P1FileLocation->GetId());
+		Selected.SetInt(LangsUsed & 4);
+		OpenBox.GetEventHandler()->ProcessEvent(Selected);
 
 		OpenBox.Path_LangFileLocation->SetPath(LangFileName);
 		OpenBox.Path_LangX1FileLocation->SetPath(LangX1FileName);
@@ -1441,14 +1410,40 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 
 	SaveBox.Path_ApfFileLocation->SetPath(SaveApfFileName);
 
+	SaveBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
+	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
+	Selected.SetId(SaveBox.CheckBox_LangFileLocation->GetId());
+	Selected.SetInt(LangsUsed & 1);
+	SaveBox.GetEventHandler()->ProcessEvent(Selected);
+
+	SaveBox.CheckBox_LangX1FileLocation->SetValue(LangsUsed & 2);
+	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
+	Selected.SetId(SaveBox.CheckBox_LangX1FileLocation->GetId());
+	Selected.SetInt(LangsUsed & 2);
+	SaveBox.GetEventHandler()->ProcessEvent(Selected);
+
+	SaveBox.CheckBox_LangX1P1FileLocation->SetValue(LangsUsed & 4);
+	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
+	Selected.SetId(SaveBox.CheckBox_LangX1P1FileLocation->GetId());
+	Selected.SetInt(LangsUsed & 4);
+	SaveBox.GetEventHandler()->ProcessEvent(Selected);
+
+	SaveBox.Path_LangFileLocation->SetPath(SaveLangFileName);
+	SaveBox.Path_LangX1FileLocation->SetPath(SaveLangX1FileName);
+	SaveBox.Path_LangX1P1FileLocation->SetPath(SaveLangX1P1FileName);
+
 	if(SaveBox.ShowModal() != wxID_OK) return;
 
 	SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
 	SaveDat = SaveBox.CheckBox_DatFileLocation->IsChecked();
 	SaveApf = SaveBox.CheckBox_ApfFileLocation->IsChecked();
+	SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
 
 	SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
 	SaveApfFileName = SaveBox.Path_ApfFileLocation->GetPath();
+	SaveLangFileName = SaveBox.Path_LangFileLocation->GetPath();
+	SaveLangX1FileName = SaveBox.Path_LangX1FileLocation->GetPath();
+	SaveLangX1P1FileName = SaveBox.Path_LangX1P1FileLocation->GetPath();
 
 	if(SaveDat)
 	{
@@ -1468,6 +1463,48 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	if(SaveApf)
 	{
 		//	 Not Implemented Yet = Nothing Happens
+	}
+
+	if(SaveLangs)
+	{
+		SetStatusText("Saving language files...", 0);
+		wxBusyCursor WaitCursor;
+		if(LangsUsed & 1)
+		{
+			try
+			{
+				Lang->saveAs(SaveLangFileName.c_str());
+			}
+			catch(std::ios_base::failure e)
+			{
+				wxMessageBox("Unable to save language file!");
+				return;
+			}
+		}
+		if(LangsUsed & 2)
+		{
+			try
+			{
+				LangX->saveAs(SaveLangX1FileName.c_str());
+			}
+			catch(std::ios_base::failure e)
+			{
+				wxMessageBox("Unable to save language expansion file!");
+				return;
+			}
+		}
+		if(LangsUsed & 4)
+		{
+			try
+			{
+				LangXP->saveAs(SaveLangX1P1FileName.c_str());
+			}
+			catch(std::ios_base::failure e)
+			{
+				wxMessageBox("Unable to save language expansion patch file!");
+				return;
+			}
+		}
 	}
 
 	SetStatusText("", 0);
@@ -1870,10 +1907,14 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("DefaultFiles/SaveApfFilename", SaveApfFileName);
 	Config->Write("DefaultFiles/LangsUsed", LangsUsed);
 	Config->Write("DefaultFiles/WriteLangs", WriteLangs);
+	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
 	Config->Write("DefaultFiles/LangWriteMode", LangWriteMode);
 	Config->Write("DefaultFiles/LangFilename", LangFileName);
 	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
 	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
+	Config->Write("DefaultFiles/SaveLangFilename", SaveLangFileName);
+	Config->Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName);
+	Config->Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
 	Config->Write("DefaultFiles/SaveDat", SaveDat);
 	Config->Write("DefaultFiles/SaveApf", SaveApf);
 	delete Config;

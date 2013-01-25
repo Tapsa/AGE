@@ -1,5 +1,3 @@
-/* AGE_OpenDialog.cpp */
-
 #include "AGE_OpenDialog.h"
 
 AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
@@ -54,13 +52,13 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	Path_ApfFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Patch File (*.apf)|*.apf", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Path_ApfFileLocation->Disable();
 //	Radio_NoFile = new wxRadioButton(this, wxID_ANY, "No data file");
-	
+
 	if(MustHaveDat)
 	{
 	    Radio_ApfFileLocation->Disable();
 //	    Radio_NoFile->Disable();
 	}
-	
+
 	CheckBox_LangFileLocation = new wxCheckBox(this, wxID_ANY, "Language.dll location:");
 	CheckBox_LangFileLocation->SetValue(true);
 	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
@@ -119,15 +117,15 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenArea->AddSpacer(15);
 	OpenArea->Add(OpenButtons, 0, wxALIGN_RIGHT);
 	OpenArea->AddSpacer(5);
-	
+
 	MainOpen->AddSpacer(5);
 	MainOpen->Add(OpenArea, 1, wxEXPAND);
 	MainOpen->AddSpacer(5);
 
 	this->SetSizerAndFit(MainOpen);
-	
+
 	SetDefaultItem(OpenButtonOK);
-	
+
 	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnOK));
 	Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoE));
 	Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultRoR));
@@ -400,49 +398,15 @@ void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent &Event)
 
 void AGE_OpenDialog::OnSelectLang(wxCommandEvent &Event)
 {
-	if(Event.IsChecked())
-	{
-	    Path_LangFileLocation->Enable(true);
-	}
-	else
-	{
-	    Path_LangFileLocation->Enable(false);
-	}
+	Path_LangFileLocation->Enable(Event.IsChecked());
 }
 
 void AGE_OpenDialog::OnSelectLangX1(wxCommandEvent &Event)
 {
-	if(Event.IsChecked())
-	{
-	    Path_LangX1FileLocation->Enable(true);
-	}
-	else
-	{
-	    Path_LangX1FileLocation->Enable(false);
-	}
+	Path_LangX1FileLocation->Enable(Event.IsChecked());
 }
 
 void AGE_OpenDialog::OnSelectLangX1P1(wxCommandEvent &Event)
 {
-	if(Event.IsChecked())
-	{
-	    Path_LangX1P1FileLocation->Enable(true);
-	}
-	else
-	{
-	    Path_LangX1P1FileLocation->Enable(false);
-	}
+    Path_LangX1P1FileLocation->Enable(Event.IsChecked());
 }
-/*
-void AGE_OpenDialog::OnSelectDrs(wxCommandEvent &Event)
-{
-	if(Event.IsChecked())
-	{
-	    fpDrsFileLocation->Enable(true);
-	}
-	else
-	{
-	    fpDrsFileLocation->Enable(false);
-	}
-}
-*/
