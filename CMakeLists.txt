@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(AdvancedGenieEditor2)
+project(AdvancedGenieEditor3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 set(ICONV_LIBRARIES "C:/Cpp/MinGW/lib/libiconv.a")
 set(CMAKE_CXX_FLAGS "-std=gnu++0x")
-set(Boost_USE_STATIC_LIBS        ON)
-set(Boost_USE_MULTITHREADED      ON)
-set(Boost_USE_STATIC_RUNTIME     ON)
+set(Boost_USE_STATIC_LIBS    ON)
+set(Boost_USE_MULTITHREADED  ON)
+set(Boost_USE_STATIC_RUNTIME ON)
 
 find_package(Boost 1.42 COMPONENTS iostreams REQUIRED)
 find_package(wxWidgets COMPONENTS adv core base REQUIRED)
@@ -55,6 +55,6 @@ set(AGE_SRC Main.cpp
 			Resources.rc
 	)
 
-add_executable(AdvancedGenieEditor2 WIN32 ${AGE_SRC})
+add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
 
-target_link_libraries(AdvancedGenieEditor2 ${wxWidgets_LIBRARIES} genieutils)
+target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils)

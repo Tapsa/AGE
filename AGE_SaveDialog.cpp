@@ -1,5 +1,3 @@
-/* AGE_SaveDialog.cpp */
-
 #include "AGE_SaveDialog.h"
 
 AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
@@ -48,6 +46,18 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	CheckBox_ApfFileLocation->Disable();
 	Path_ApfFileLocation->Disable();
 
+	CheckBox_LangFileLocation = new wxCheckBox(this, wxID_ANY, "Language.dll location:");
+	CheckBox_LangFileLocation->Enable(false);
+	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	CheckBox_LangX1FileLocation = new wxCheckBox(this, wxID_ANY, "Language_x1.dll location:");
+	CheckBox_LangX1FileLocation->Enable(false);
+	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	CheckBox_LangX1P1FileLocation = new wxCheckBox(this, wxID_ANY, "Language_x1_p1.dll location:");
+	CheckBox_LangX1P1FileLocation->Enable(false);
+	Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Save language files *");
+	CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental");
+
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
 
@@ -61,10 +71,20 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	SaveLayout->Add(Path_UnzFileLocation, 1, wxEXPAND);
 	SaveLayout->Add(CheckBox_ApfFileLocation, 1, wxEXPAND);
 	SaveLayout->Add(Path_ApfFileLocation, 1, wxEXPAND);
-	SaveLayout->AddSpacer(15);
-	SaveLayout->AddSpacer(15);
 //	SaveLayout->Add(chDrsFileLocation, 1, wxEXPAND);
 //	SaveLayout->Add(fpDrsFileLocation, 1, wxEXPAND);
+	SaveLayout->AddSpacer(15);
+	SaveLayout->AddSpacer(15);
+	SaveLayout->Add(CheckBox_LangFileLocation, 1, wxEXPAND);
+	SaveLayout->Add(Path_LangFileLocation, 1, wxEXPAND);
+	SaveLayout->Add(CheckBox_LangX1FileLocation, 1, wxEXPAND);
+	SaveLayout->Add(Path_LangX1FileLocation, 1, wxEXPAND);
+	SaveLayout->Add(CheckBox_LangX1P1FileLocation, 1, wxEXPAND);
+	SaveLayout->Add(Path_LangX1P1FileLocation, 1, wxEXPAND);
+	SaveLayout->Add(CheckBox_LangWrite, 1, wxEXPAND);
+	SaveLayout->AddSpacer(15);
+	SaveLayout->AddSpacer(15);
+	SaveLayout->AddSpacer(15);
 
 	SaveLayout->AddGrowableCol(1, 1);
 	SaveLayout->AddGrowableRow(1, 1);
@@ -87,7 +107,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
 	MainSave->AddSpacer(5);
 	MainSave->Add(SaveArea, 1, wxEXPAND);
 	MainSave->AddSpacer(5);
-	
+
 	CheckBox_GenieVer->Enable(false);
 	DriveLetterBox->Show(false);
 
@@ -114,7 +134,7 @@ void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
-	
+
 	if(wxIsPlatform64Bit())
 	{
 	    Path += ":\\Program Files (x86)\\Microsoft Games\\";
@@ -126,14 +146,20 @@ void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent &Event)
 
 	CheckBox_GenieVer->SetSelection(0);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires\\data\\Empires.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires\\language.dll"));
+	Path_LangX1FileLocation->SetPath(wxT(""));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
 	CheckBox_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
 void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
-	
+
 	if(wxIsPlatform64Bit())
 	{
 	    Path += ":\\Program Files (x86)\\Microsoft Games\\";
@@ -145,14 +171,20 @@ void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent &Event)
 
 	CheckBox_GenieVer->SetSelection(1);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires\\data2\\Empires.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires\\language.dll"));
+	Path_LangX1FileLocation->SetPath(wxString(Path + "Age of Empires\\languagex.dll"));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
 	CheckBox_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(true);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
 void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
-	
+
 	if(wxIsPlatform64Bit())
 	{
 	    Path += ":\\Program Files (x86)\\Microsoft Games\\";
@@ -164,14 +196,20 @@ void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent &Event)
 
 	CheckBox_GenieVer->SetSelection(2);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires II\\language.dll"));
+	Path_LangX1FileLocation->SetPath(wxT(""));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
 	CheckBox_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
 void AGE_SaveDialog::OnDefaultTC(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
-	
+
 	if(wxIsPlatform64Bit())
 	{
 	    Path += ":\\Program Files (x86)\\Microsoft Games\\";
@@ -183,14 +221,20 @@ void AGE_SaveDialog::OnDefaultTC(wxCommandEvent &Event)
 
 	CheckBox_GenieVer->SetSelection(3);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2_x1_p1.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires II\\language.dll"));
+	Path_LangX1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1.dll"));
+	Path_LangX1P1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1_p1.dll"));
 	CheckBox_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(true);
+	CheckBox_LangX1P1FileLocation->SetValue(true);
 }
 
 void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
-	
+
 	if(wxIsPlatform64Bit())
 	{
 	    Path += ":\\Program Files (x86)\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
@@ -202,14 +246,20 @@ void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent &Event)
 
 	CheckBox_GenieVer->SetSelection(4);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\GENIE.DAT"));
+	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
+	Path_LangX1FileLocation->SetPath(wxT(""));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
 	CheckBox_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
 void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &Event)
 {
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
-	
+
 	if(wxIsPlatform64Bit())
 	{
 	    Path += ":\\Program Files (x86)\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
@@ -221,42 +271,36 @@ void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &Event)
 
 	CheckBox_GenieVer->SetSelection(5);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
+	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
 	CheckBox_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(true);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
 void AGE_SaveDialog::OnSelectDat(wxCommandEvent &Event)
 {
-	if(Event.IsChecked())
-	{
-	    Path_DatFileLocation->Enable(true);
-	}
-	else
-	{
-	    Path_DatFileLocation->Enable(false);
-	}
+    Path_DatFileLocation->Enable(Event.IsChecked());
 }
 
 void AGE_SaveDialog::OnSelectApf(wxCommandEvent &Event)
 {
-	if(Event.IsChecked())
-	{
-	    Path_ApfFileLocation->Enable(true);
-	}
-	else
-	{
-	    Path_ApfFileLocation->Enable(false);
-	}
+    Path_ApfFileLocation->Enable(Event.IsChecked());
 }
-/*
-void AGE_SaveDialog::OnSelectDrs(wxCommandEvent &Event)
+
+void AGE_SaveDialog::OnSelectLang(wxCommandEvent &Event)
 {
-	if(Event.IsChecked())
-	{
-	    fpDrsFileLocation->Enable(true);
-	}
-	else
-	{
-	    fpDrsFileLocation->Enable(false);
-	}
+	Path_LangFileLocation->Enable(Event.IsChecked());
 }
-*/
+
+void AGE_SaveDialog::OnSelectLangX1(wxCommandEvent &Event)
+{
+	Path_LangX1FileLocation->Enable(Event.IsChecked());
+}
+
+void AGE_SaveDialog::OnSelectLangX1P1(wxCommandEvent &Event)
+{
+    Path_LangX1P1FileLocation->Enable(Event.IsChecked());
+}

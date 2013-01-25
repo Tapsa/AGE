@@ -16,6 +16,9 @@ class AGE_SaveDialog: public wxDialog
 	void OnDefaultCC(wxCommandEvent &Event);
 	void OnSelectDat(wxCommandEvent &Event);
 	void OnSelectApf(wxCommandEvent &Event);
+	void OnSelectLang(wxCommandEvent &Event);
+	void OnSelectLangX1(wxCommandEvent &Event);
+	void OnSelectLangX1P1(wxCommandEvent &Event);
 //	void OnSelectDrs(wxCommandEvent &Event);
 	void OnOK(wxCommandEvent &Event);
 
@@ -43,6 +46,13 @@ class AGE_SaveDialog: public wxDialog
 	wxFilePickerCtrl *Path_ApfFileLocation;
 //	wxCheckBox *chDrsFileLocation;
 //	wxFilePickerCtrl *fpDrsFileLocation;
+	wxCheckBox *CheckBox_LangFileLocation;
+	wxFilePickerCtrl *Path_LangFileLocation;
+	wxCheckBox *CheckBox_LangX1FileLocation;
+	wxFilePickerCtrl *Path_LangX1FileLocation;
+	wxCheckBox *CheckBox_LangX1P1FileLocation;
+	wxFilePickerCtrl *Path_LangX1P1FileLocation;
+	wxCheckBox *CheckBox_LangWrite;
 	wxButton *SaveButtonOK;
 	wxButton *SaveButtonCancel;
 };
