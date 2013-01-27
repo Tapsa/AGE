@@ -1668,31 +1668,41 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 	return Result;
 }
 
-/*void AGE_Frame::WriteLangDLLstring(int ID, wxString Name)
-{
-}*/
-
 void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
 {
 	TextCtrl_DLL *control = (TextCtrl_DLL*)Event.GetEventObject();
-	if(control->index < 0 || !WriteLangs) return;
+	if(!control->IsModified() || !WriteLangs || control->index < 0) return;
 	int ID = control->index;
-	wxString Name = control->GetValue();
+	string Name = string(control->GetValue());
+	//wxMessageBox(lexical_cast<string>(Name.size())+"\n"+lexical_cast<string>(LangDLLstring(ID).size()));
 	if(LangWriteMode & 1)
 	{
-		SetStatusText("Writing \""+Name+"\" to "+lexical_cast<string>(ID), 0);
 		try
 		{
 			if(LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
 			if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
-			if(LangsUsed & 1) Lang->setString(ID, string(Name));
-			SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
+			if(LangsUsed & 1) Lang->setString(ID, Name);
 		}
 		catch(...)
 		{
 			wxMessageBox("An error occured while trying to save the string!");
 		}
 	}
+	else // 2
+	{
+		try
+		{
+			if(LangsUsed & 4) LangXP->setString(ID, Name);
+			else if(LangsUsed & 2) LangX->setString(ID, Name);
+			else if(LangsUsed & 1) Lang->setString(ID, Name);
+		}
+		catch(...)
+		{
+			wxMessageBox("An error occured while trying to save the string!");
+		}
+	}
+	SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
+	control->DiscardEdits();
 }
 
 bool AGE_Frame::SearchMatches(wxString itemText)
