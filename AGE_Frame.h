@@ -704,7 +704,7 @@ class AGE_Frame: public wxFrame
 	wxString SaveLangX1P1FileName;
 
 	HINSTANCE LanguageDLL[3];
-	string LangDLLstring(int ID, int Letters);
+	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
 
 //	Constants, remove unneeded entries.

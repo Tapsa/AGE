@@ -1849,6 +1849,8 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 	}
 	Added = true;
 	ListUnits(UnitCivID);
+	
+	if(GameVersion < 4 && GenieFile->Civs[0].Units.size() > 900) SetStatusText("Units over 900 mess up the AI!!!", 0);
 }
 
 void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
