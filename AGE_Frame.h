@@ -618,6 +618,7 @@ class AGE_Frame: public wxFrame
 	bool CopyGraphics;
 	bool AllCivs;
 	vector<short> SelectedCivs;
+	static const wxString CIVCOUNTWARNING;
 //	int SearchFilters;
 	bool UseAnd[2];
 	bool EnableIDFix;
