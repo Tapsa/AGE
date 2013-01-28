@@ -360,19 +360,15 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
 		Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
 		Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
-		Research_DLL_Pointers[0]->index = ResearchPointer->Pointers[0]-79000;
-		Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[0]->index)+": "+LangDLLstring(Research_DLL_Pointers[0]->index, 64));
-		Research_DLL_Pointers[1]->index = ResearchPointer->Pointers[1]-140000;
-		Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[1]->index)+": "+LangDLLstring(Research_DLL_Pointers[1]->index, 64));
+		Research_DLL_Pointers[0]->index = ResearchPointer->Pointers[0] - 79000;
+		Research_DLL_Pointers[1]->index = ResearchPointer->Pointers[1] - 140000;
 		if(GameVersion >= 4)
 		Research_Name[1]->ChangeValue(ResearchPointer->Name2);
 	}
 	else
 	{
-		Research_DLL_Pointers[0]->index = ResearchPointer->Pointers[0]-65536;
-		Research_DLL_Pointers[0]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[0]->index)+": "+LangDLLstring(Research_DLL_Pointers[0]->index, 64));
-		Research_DLL_Pointers[1]->index = ResearchPointer->Pointers[1]-131072;
-		Research_DLL_Pointers[1]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[1]->index)+": "+LangDLLstring(Research_DLL_Pointers[1]->index, 64));
+		Research_DLL_Pointers[0]->index = ResearchPointer->Pointers[0] - 0x10000;
+		Research_DLL_Pointers[1]->index = ResearchPointer->Pointers[1] - 0x20000;
 	}
 	Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
 	Research_ComboBox_ResearchLocation->SetSelection(ResearchPointer->ResearchLocation + 1);
@@ -389,7 +385,11 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	Research_IconID->ChangeValue(lexical_cast<string>(ResearchPointer->IconID));
 	Research_ButtonID->ChangeValue(lexical_cast<string>((short)ResearchPointer->ButtonID));
 	Research_Pointers[0]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[0]));
+	Research_DLL_Pointers[0]->SetLabel(LangDLLstring(Research_DLL_Pointers[0]->index, 64));
+	Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[0]->index));
 	Research_Pointers[1]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[1]));
+	Research_DLL_Pointers[1]->SetLabel(LangDLLstring(Research_DLL_Pointers[1]->index, 64));
+	Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_Pointers[1]->index));
 	Research_Pointers[2]->ChangeValue(lexical_cast<string>(ResearchPointer->Pointers[2]));
 	Research_Name[0]->ChangeValue(ResearchPointer->Name);
 }
@@ -454,57 +454,30 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &Event)
 {
-	/*int32_t DLLValue;
-	if(Event.GetId() == Units_LanguageDLLConverter[0]->GetId())
+	int32_t DLLValue;
+	try
 	{
-		try
-			DLLValue = lexical_cast<int32_t>(Units_LanguageDLLConverter[0]->GetValue());
-		catch(...)
-			wxMessageBox("Incorrect input!");
-		if(GameVersion < 2)
-		{
-			DLLValue += 65536;
-		}
-		else
-		{
-			DLLValue += 79000;
-		}
-		if(!AutoCopy)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].LanguageDLLHelp = DLLValue;
-		}
-		else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-		{
-			GenieFile->Civs[civ].Units[UnitIDs[0]].LanguageDLLHelp = DLLValue;
-		}
+		DLLValue = lexical_cast<int32_t>(((wxTextCtrl*)Event.GetEventObject())->GetValue());
+	}
+	catch(...)
+	{
+		wxMessageBox("Incorrect input!");
+		return;
+	}
+	if(Event.GetId() == Research_LanguageDLLConverter[0]->GetId())
+	{
+		if(GameVersion < 2) DLLValue += 0x10000;
+		else DLLValue += 79000;
+		GenieFile->Researchs[ResearchIDs[0]].Pointers[0] = DLLValue;
 	}
 	else
 	{
-		try
-			DLLValue = lexical_cast<int32_t>(Units_LanguageDLLConverter[1]->GetValue());
-		catch(...)
-			wxMessageBox("Incorrect input!");
-		if(GameVersion < 2)
-		{
-			DLLValue += 131072;
-		}
-		else
-		{
-			Units_LanguageDLLConverter[1]->SetLabel("No idea what this should be.");
-			return;
-			DLLValue += 79000;
-		}
-		if(!AutoCopy)
-		{
-			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].LanguageDLLHotKeyText = DLLValue;
-		}
-		else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
-		{
-			GenieFile->Civs[civ].Units[UnitIDs[0]].LanguageDLLHotKeyText = DLLValue;
-		}
+		if(GameVersion < 2) DLLValue += 0x20000;
+		else DLLValue += 140000;
+		GenieFile->Researchs[ResearchIDs[0]].Pointers[1] = DLLValue;
 	}
 	wxCommandEvent E;
-	OnUnitsSelect(E);*/
+	OnResearchSelect(E);
 }
 
 void AGE_Frame::CreateResearchControls()
@@ -543,8 +516,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_Text_Name[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Name[1] = new TextCtrl_String(Research_Scroller, 30);
 	Research_Holder_LangDLLName = new wxBoxSizer(wxVERTICAL);
-	Research_Text_LangDLLName = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Text_LangDLLName = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Name *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLName = new TextCtrl_UShort(Research_Scroller);
+	Research_LangDLLName->SetToolTip("Usual Research DLL Pattern for The Conquerors\nName: 7000-7999\nDescription: Name +1000\nPopup: Name +100000, in DLL Name +21000\nHelp: Name +150000, in DLL Name +10000");
 	Research_DLL_LangDLLName = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
 	Research_Holder_LangDLLDescription = new wxBoxSizer(wxVERTICAL);
 	Research_Text_LangDLLDescription = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Description", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -619,11 +593,19 @@ void AGE_Frame::CreateResearchControls()
 	Research_Text_Pointers[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Popup *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[0] = new TextCtrl_Long(Research_Scroller);
 	Research_Pointers[0]->SetToolTip("100000 + Language DLL Name");
+	Research_Holder_LanguageDLLConverter[0] = new wxBoxSizer(wxVERTICAL);
+	Research_Text_LanguageDLLConverter[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Popup Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LanguageDLLConverter[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Research_LanguageDLLConverter[0]->SetToolTip("Language popup text in DLL\nHit enter to get the correction into dat file");
 	Research_DLL_Pointers[0] = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
 	Research_Text_Pointers[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[1] = new TextCtrl_Long(Research_Scroller);
 	Research_Pointers[1]->SetToolTip("150000 + Language DLL Name");
-	Research_DLL_Pointers[1] = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
+	Research_Holder_LanguageDLLConverter[1] = new wxBoxSizer(wxVERTICAL);
+	Research_Text_LanguageDLLConverter[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LanguageDLLConverter[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Research_LanguageDLLConverter[1]->SetToolTip("Language help text in DLL\nHit enter to get the correction into dat file");
+	Research_DLL_Pointers[1] = new TextCtrl_DLL(Research_Scroller, wxSize(0, 20));
 	Research_Text_Pointers[2] = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Pointers[2] = new TextCtrl_Long(Research_Scroller);
 
@@ -764,16 +746,22 @@ void AGE_Frame::CreateResearchControls()
 
 	Research_Holder_Pointers[0]->Add(Research_Text_Pointers[0], 0, wxEXPAND);
 	Research_Holder_Pointers[0]->Add(Research_Pointers[0], 0, wxEXPAND);
-	Research_Holder_Pointers[0]->Add(Research_DLL_Pointers[0], 0, wxEXPAND);
+	Research_Holder_LanguageDLLConverter[0]->Add(Research_Text_LanguageDLLConverter[0], 0, wxEXPAND);
+	Research_Holder_LanguageDLLConverter[0]->Add(Research_LanguageDLLConverter[0], 0, wxEXPAND);
 	Research_Holder_Pointers[1]->Add(Research_Text_Pointers[1], 0, wxEXPAND);
 	Research_Holder_Pointers[1]->Add(Research_Pointers[1], 0, wxEXPAND);
-	Research_Holder_Pointers[1]->Add(Research_DLL_Pointers[1], 0, wxEXPAND);
+	Research_Holder_LanguageDLLConverter[1]->Add(Research_Text_LanguageDLLConverter[1], 0, wxEXPAND);
+	Research_Holder_LanguageDLLConverter[1]->Add(Research_LanguageDLLConverter[1], 0, wxEXPAND);
 	Research_Holder_Pointers[2]->Add(Research_Text_Pointers[2], 0, wxEXPAND);
 	Research_Holder_Pointers[2]->Add(Research_Pointers[2], 0, wxEXPAND);
 
 	Research_Holder_PointerArea->Add(Research_Holder_Pointers[0], 1, wxEXPAND);
 	Research_Holder_PointerArea->Add(5, -1);
+	Research_Holder_PointerArea->Add(Research_Holder_LanguageDLLConverter[0], 1, wxEXPAND);
+	Research_Holder_PointerArea->Add(5, -1);
 	Research_Holder_PointerArea->Add(Research_Holder_Pointers[1], 1, wxEXPAND);
+	Research_Holder_PointerArea->Add(5, -1);
+	Research_Holder_PointerArea->Add(Research_Holder_LanguageDLLConverter[1], 1, wxEXPAND);
 	Research_Holder_PointerArea->Add(5, -1);
 	Research_Holder_PointerArea->Add(Research_Holder_Pointers[2], 1, wxEXPAND);
 
@@ -790,6 +778,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_ScrollerWindowsSpace->Add(Research_Holder_CostHeader, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
 	Research_ScrollerWindowsSpace->Add(Research_Holder_PointerArea, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(-1, 5);
+	Research_ScrollerWindowsSpace->Add(Research_DLL_Pointers[0], 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_DLL_Pointers[1], 0, wxEXPAND);
 
 	Research_ScrollerWindows->Add(Research_ScrollerWindowsSpace, 1, wxEXPAND);
 	Research_ScrollerWindows->Add(5, -1);
@@ -823,17 +814,19 @@ void AGE_Frame::CreateResearchControls()
 	Connect(Research_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchCopy));
 	Connect(Research_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchPaste));
 	Connect(Research_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchPasteInsert));
-//	Connect(Units_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::ResearchLangDLLConverter));
-//	Connect(Units_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::ResearchLangDLLConverter));
+	Connect(Research_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::ResearchLangDLLConverter));
+	Connect(Research_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::ResearchLangDLLConverter));
 
 	Research_LangDLLName->Connect(Research_LangDLLName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
 	Research_LangDLLDescription->Connect(Research_LangDLLDescription->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
 	Research_Name[0]->Connect(Research_Name[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
 	Research_Name[1]->Connect(Research_Name[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
+	Research_Pointers[0]->Connect(Research_Pointers[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
+	Research_Pointers[1]->Connect(Research_Pointers[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
 	Research_DLL_LangDLLName->Connect(Research_DLL_LangDLLName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 	Research_DLL_LangDLLDescription->Connect(Research_DLL_LangDLLDescription->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
-//	Research_DLL_Pointers[0]->Connect(Research_DLL_Pointers[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
-//	Research_DLL_Pointers[1]->Connect(Research_DLL_Pointers[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+	Research_DLL_Pointers[0]->Connect(Research_DLL_Pointers[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+	Research_DLL_Pointers[1]->Connect(Research_DLL_Pointers[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &Event)
@@ -843,7 +836,7 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &Event)
 	{
 		ListResearches();
 	}
-	else if(Event.GetId() == Research_Name[1]->GetId() || Event.GetId() == Research_LangDLLDescription->GetId())
+	else
 	{
 		wxCommandEvent E;
 		OnResearchSelect(E);

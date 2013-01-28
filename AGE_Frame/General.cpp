@@ -80,17 +80,17 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 	if(!General_CalcBoxes[1]->IsEmpty())
 	Temp = lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue());
 	else Temp = 0;
-	Result += 256 * (uint8_t)Temp;
+	Result += 0x100 * (uint8_t)Temp;
 
 	if(!General_CalcBoxes[2]->IsEmpty())
 	Temp = lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue());
 	else Temp = 0;
-	Result += 65536 * (uint8_t)Temp;
+	Result += 0x10000 * (uint8_t)Temp;
 
 	if(!General_CalcBoxes[3]->IsEmpty())
 	Temp = lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue());
 	else Temp = 0;
-	Result += 16777216 * (uint8_t)Temp;
+	Result += 0x1000000 * (uint8_t)Temp;
 
 	General_CalcBoxes[4]->ChangeValue("= "+lexical_cast<string>(Result));
 }

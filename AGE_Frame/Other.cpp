@@ -68,6 +68,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.Path_LangX1FileLocation->SetPath(LangX1FileName);
 		OpenBox.Path_LangX1P1FileLocation->SetPath(LangX1P1FileName);
 		OpenBox.CheckBox_LangWrite->SetValue(WriteLangs);
+		OpenBox.CheckBox_LangWriteToLatest->SetValue(LangWriteToLatest);
 
 		if(OpenBox.ShowModal() != wxID_OK) return; // What this does?
 
@@ -119,6 +120,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		LangX1FileName = OpenBox.Path_LangX1FileLocation->GetPath();
 		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
 		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
+		LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
 	}
 
 	switch(GameVersion)
@@ -897,7 +899,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		//wxMessageBox("Loaded!");
 		if(GameVersion >= 2)
 		{
-			//ListUnitHeads(0);	// This needs to happen before unit listing to avoid crash.
 			ListTTAgess();
 			ListTTBuildings();
 			ListTTUnits();
@@ -905,8 +906,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		else
 		{
-			//if(Units_UnitHeads_List->GetCount() > 0)
-			//Units_UnitHeads_List->Clear();
 			if(TechTrees_MainList_Ages_List->GetCount() > 0)
 			TechTrees_MainList_Ages_List->Clear();
 			if(TechTrees_DataList_Ages_List_Buildings->GetCount() > 0)
@@ -1675,26 +1674,26 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
 	int ID = control->index;
 	string Name = string(control->GetValue());
 	//wxMessageBox(lexical_cast<string>(Name.size())+"\n"+lexical_cast<string>(LangDLLstring(ID).size()));
-	if(LangWriteMode & 1)
-	{
-		try
-		{
-			if(LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
-			if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
-			if(LangsUsed & 1) Lang->setString(ID, Name);
-		}
-		catch(...)
-		{
-			wxMessageBox("An error occured while trying to save the string!");
-		}
-	}
-	else // 2
+	if(LangWriteToLatest)
 	{
 		try
 		{
 			if(LangsUsed & 4) LangXP->setString(ID, Name);
 			else if(LangsUsed & 2) LangX->setString(ID, Name);
 			else if(LangsUsed & 1) Lang->setString(ID, Name);
+		}
+		catch(...)
+		{
+			wxMessageBox("An error occured while trying to save the string!");
+		}
+	}
+	else
+	{
+		try
+		{
+			if(LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
+			if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
+			if(LangsUsed & 1) Lang->setString(ID, Name);
 		}
 		catch(...)
 		{
@@ -1918,7 +1917,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("DefaultFiles/LangsUsed", LangsUsed);
 	Config->Write("DefaultFiles/WriteLangs", WriteLangs);
 	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
-	Config->Write("DefaultFiles/LangWriteMode", LangWriteMode);
+	Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
 	Config->Write("DefaultFiles/LangFilename", LangFileName);
 	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
 	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
