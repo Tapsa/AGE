@@ -1,6 +1,8 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
+const wxString AGE_Frame::CIVCOUNTWARNING = "Civ count differs between copy and paste data!";
+
 void AGE_Frame::OnUnitSubList(wxCommandEvent &Event)
 {
 	short Selection = Units_Civs_List->GetSelection();
@@ -1810,7 +1812,7 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 	}
 	Added = true;
 	ListUnits(UnitCivID);
-	
+
 	if(GameVersion < 4 && GenieFile->Civs[0].Units.size() > 900) SetStatusText("Units over 900 mess up the AI!!!", 0);
 }
 
@@ -2063,6 +2065,10 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 		}
 	}
 
+	if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+	{
+		wxMessageBox(CIVCOUNTWARNING);
+	}
 	if(copies->Dat.Civs[0].UnitCopies.size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
 	for(short civ = 0;civ < GenieFile->Civs.size();civ++) // Resize if not enough room.
 	{
@@ -2153,6 +2159,10 @@ void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 	{
 		GenieFile->Civs[civ].Units.insert(GenieFile->Civs[civ].Units.begin() + UnitIDs[0], copies->Dat.Civs[0].UnitCopies.size(), Temp2);
 		GenieFile->Civs[civ].UnitPointers.insert(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[0], copies->Dat.Civs[0].UnitCopies.size(), 0);
+	}
+	if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+	{
+		wxMessageBox(CIVCOUNTWARNING);
 	}
 	if(copies->Dat.AllCivs) // Paste from all civs to all civs.
 	{
@@ -2253,6 +2263,10 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &Event)
 	{
 		if(copies->Dat.AllCivs)
 		{
+			if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+			{
+				wxMessageBox(CIVCOUNTWARNING);
+			}
 			for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 			{
 				UnitsGraphicsPaste(copies->Dat.Civs[civ].UnitGraphics[loop], civ, loop);
@@ -2521,6 +2535,10 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
 	}
 	else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 	{
+		if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+		{
+			wxMessageBox(CIVCOUNTWARNING);
+		}
 		if(copies->DamageGraphic.size()+DamageGraphicIDs[0] > GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.size())
 		GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.resize(copies->DamageGraphic.size()+DamageGraphicIDs[0]);
 		for(short loop=0; loop < copies->DamageGraphic.size(); loop++)
@@ -2550,6 +2568,10 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
 	}
 	else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 	{
+		if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+		{
+			wxMessageBox(CIVCOUNTWARNING);
+		}
 		GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.insert(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[0], copies->DamageGraphic.size(), Temp);
 		for(short loop=0; loop < copies->DamageGraphic.size(); loop++)
 		{
@@ -2730,6 +2752,10 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
 	}
 	else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 	{
+		if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+		{
+			wxMessageBox(CIVCOUNTWARNING);
+		}
 		if(copies->Attack.size()+AttackIDs[0] > GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.size())
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.resize(copies->Attack.size()+AttackIDs[0]);
 		for(short loop=0; loop < copies->Attack.size(); loop++)
@@ -2759,6 +2785,10 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
 	}
 	else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 	{
+		if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+		{
+			wxMessageBox(CIVCOUNTWARNING);
+		}
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.insert(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[0], copies->Attack.size(), Temp);
 		for(short loop=0; loop < copies->Attack.size(); loop++)
 		{
@@ -2939,6 +2969,10 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
 	}
 	else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 	{
+		if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+		{
+			wxMessageBox(CIVCOUNTWARNING);
+		}
 		if(copies->Armor.size()+ArmorIDs[0] > GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.size())
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.resize(copies->Armor.size()+ArmorIDs[0]);
 		for(short loop=0; loop < copies->Armor.size(); loop++)
@@ -2968,6 +3002,10 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
 	}
 	else for(short civ = 0;civ < GenieFile->Civs.size();civ++)
 	{
+		if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+		{
+			wxMessageBox(CIVCOUNTWARNING);
+		}
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.insert(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[0], copies->Armor.size(), Temp);
 		for(short loop=0; loop < copies->Armor.size(); loop++)
 		{
@@ -3415,6 +3453,10 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
 	}
 	else
 	{
+		if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+		{
+			wxMessageBox(CIVCOUNTWARNING);
+		}
 		if(!AutoCopy)
 		{
 			if(copies->UnitCommand.size()+CommandIDs[0] > GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size())
@@ -3464,6 +3506,10 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 	}
 	else
 	{
+		if(copies->Dat.Civs.size() != GenieFile->Civs.size())
+		{
+			wxMessageBox(CIVCOUNTWARNING);
+		}
 		if(!AutoCopy)
 		{
 			GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.insert(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.begin() + CommandIDs[0], copies->UnitCommand.size(), Temp);
