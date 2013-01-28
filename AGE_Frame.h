@@ -685,7 +685,7 @@ class AGE_Frame: public wxFrame
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool Added, SaveDat, SaveApf, WriteLangs, SaveLangs;
+	bool Added, SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest;
 	short AGEwindow;
 	int SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion;
 	genie::GameVersion GenieVersion;
@@ -695,7 +695,6 @@ class AGE_Frame: public wxFrame
 	wxString SaveDatFileName;
 	wxString SaveApfFileName;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
-	int LangWriteMode; // 1 = base file, 2 = newest file
 	wxString LangFileName;
 	wxString LangX1FileName;
 	wxString LangX1P1FileName;
@@ -983,6 +982,9 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Research_Text_Pointers[3];
 	TextCtrl_Long *Research_Pointers[3];
 	TextCtrl_DLL *Research_DLL_Pointers[2];
+	wxBoxSizer *Research_Holder_LanguageDLLConverter[2];
+	wxStaticText *Research_Text_LanguageDLLConverter[2];
+	wxTextCtrl *Research_LanguageDLLConverter[2];
 
 	wxBoxSizer *Research_Holder_Name[2];
 	wxStaticText *Research_Text_Name[2];
@@ -1184,9 +1186,9 @@ class AGE_Frame: public wxFrame
 	wxOwnerDrawnComboBox *Units_ComboBox_Type;
 	TextCtrl_Short *Units_ID1;
 	TextCtrl_UShort *Units_LanguageDLLName;
-	TextCtrl_DLL *Units_DLL_LanguageDLLName;
+	TextCtrl_DLL *Units_DLL_LanguageName;
 	TextCtrl_UShort *Units_LanguageDLLCreation;
-	TextCtrl_DLL *Units_DLL_LanguageDLLCreation;
+	TextCtrl_DLL *Units_DLL_LanguageCreation;
 	TextCtrl_Short *Units_Class;
 	ComboBox_Plus1 *Units_ComboBox_Class[2];
 	TextCtrl_Short *Units_StandingGraphic[2];
@@ -1236,10 +1238,10 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Short *Units_Unknown3B;
 	TextCtrl_Byte *Units_Unknown3a;
 	TextCtrl_Long *Units_LanguageDLLHelp;
-	TextCtrl_DLL *Units_DLL_LanguageDLLHelp;
+	TextCtrl_DLL *Units_DLL_LanguageHelp;
 	wxTextCtrl *Units_LanguageDLLConverter[2];
 	TextCtrl_Long *Units_LanguageDLLHotKeyText;
-	TextCtrl_DLL *Units_DLL_LanguageDLLHKText;
+	TextCtrl_DLL *Units_DLL_LanguageHKText;
 	TextCtrl_Short *Units_HotKey;
 	TextCtrl_DLL *Units_DLL_HotKey4;
 	TextCtrl_Byte *Units_Unknown4;
@@ -1958,9 +1960,7 @@ class AGE_Frame: public wxFrame
 //	Unit Attributes section
 
 	wxBoxSizer *Units_CommandHolder_Lists;
-	//wxStaticBoxSizer *Units_UnitHeads;
 	wxStaticText *Units_UnitHeads_Name;
-	//wxListBox *Units_UnitHeads_List;
 
 	wxStaticBoxSizer *Units_UnitCommands;
 	wxTextCtrl *Units_UnitCommands_Search;

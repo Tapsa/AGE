@@ -70,6 +70,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Write language files *");
 	CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental\nand affects reading too");
+	CheckBox_LangWriteToLatest = new wxCheckBox(this, wxID_ANY, "Write to the latest file instead of the base file *");
+	CheckBox_LangWriteToLatest->SetToolTip("If you write to the latest file (x1/p1),\nyou only need to distribute that file,\nbut your edits will not affect the vanilla game");
 
 	wxString Path;
 	Path = DriveLetterBox->GetValue();
@@ -99,7 +101,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	OpenLayout->Add(CheckBox_LangX1P1FileLocation, 1, wxEXPAND);
 	OpenLayout->Add(Path_LangX1P1FileLocation, 1, wxEXPAND);
 	OpenLayout->Add(CheckBox_LangWrite, 1, wxEXPAND);
-	OpenLayout->AddSpacer(15);
+	OpenLayout->Add(CheckBox_LangWriteToLatest, 1, wxEXPAND);
 	OpenLayout->AddSpacer(15);
 	OpenLayout->AddSpacer(15);
 
