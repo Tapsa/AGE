@@ -37,7 +37,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/WriteLangs", &WriteLangs, false);
 	Config->Read("DefaultFiles/SaveLangs", &SaveLangs, false);
-	Config->Read("DefaultFiles/LangWriteMode", &LangWriteMode, 1);
+	Config->Read("DefaultFiles/LangWriteToLatest", &LangWriteToLatest, false);
 	Config->Read("DefaultFiles/LangFilename", &LangFileName, wxT(""));
 	Config->Read("DefaultFiles/LangX1Filename", &LangX1FileName, wxT(""));
 	Config->Read("DefaultFiles/LangX1P1Filename", &LangX1P1FileName, wxT(""));
