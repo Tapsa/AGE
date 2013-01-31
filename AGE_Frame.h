@@ -402,6 +402,7 @@ class AGE_Frame: public wxFrame
 	void UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit);
 	void OnUnitsPaste(wxCommandEvent &Event);
 	void OnUnitsPasteInsert(wxCommandEvent &Event);
+	void PasteUnits();
 	void OnUnitsSpecialPaste(wxCommandEvent &Event);
 	void OnUnitsSpecialPasteInsert(wxCommandEvent &Event);
 	void UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit);
