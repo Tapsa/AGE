@@ -39,30 +39,37 @@ class GraphicCopies
 	~GraphicCopies(){}
 };
 
-class SubCopies
-{
-	public:
-
-	vector<bool> UnitExists;
-	vector<genie::Unit> UnitCopies;
-	vector<GraphicCopies> UnitGraphics;
-
-	SubCopies(){}
-	~SubCopies(){}
-};
-
 class AdvCopies // Used to copy units with various settings.
 {
 	public:
 
-	bool AllCivs;
-	int8_t CopyType; // 1 = normal, 2 = special, 3 = auto
-	vector<SubCopies> Civs;
+	// AllCivs is used as follows
+	// 0x01 = normal copy
+	// 0x02 = special copy
+	// 0x04 = 
+	// 0x08 = 
+	// 0x10 = damage graphics
+	// 0x20 = attacks
+	// 0x40 = armors
+	// 0x80 = commands
+	int8_t AllCivs;
+	vector<vector<bool>> UnitExists;
+	vector<vector<genie::Unit>> UnitCopies;
+	vector<vector<GraphicCopies>> UnitGraphics;
+	vector<vector<genie::unit::DamageGraphic>> UnitDamageGraphics;
+	vector<vector<genie::unit::AttackOrArmor>> UnitAttacks;
+	vector<vector<genie::unit::AttackOrArmor>> UnitArmors;
+	vector<vector<genie::UnitCommand>> UnitCommands;
 
 	AdvCopies()
 	{
-		Civs.resize(1);
-		Civs[0].UnitGraphics.resize(1);
+		UnitCopies.resize(1); // Civs
+		UnitGraphics.resize(1); // Civs
+		UnitDamageGraphics.resize(1); // Civs
+		UnitAttacks.resize(1); // Civs
+		UnitArmors.resize(1); // Civs
+		UnitCommands.resize(1); // Civs
+		UnitGraphics[0].resize(1);
 	}
 	~AdvCopies(){}
 };
@@ -94,11 +101,7 @@ class Copies
 	vector<genie::Civ> Civ;
 	vector<float> Resource;
 	AdvCopies Dat; // Advanced unit copying.
-	vector<genie::unit::DamageGraphic> DamageGraphic;
-	vector<genie::unit::AttackOrArmor> Attack;
-	vector<genie::unit::AttackOrArmor> Armor;
 	vector<genie::UnitHeader> UnitHeader;
-	vector<genie::UnitCommand> UnitCommand;
 	vector<genie::UnitLine> UnitLine;
 	vector<int16_t> UnitLineUnit;
 	vector<genie::Graphic> Graphic;

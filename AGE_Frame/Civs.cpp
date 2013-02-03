@@ -141,11 +141,12 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	genie::Civ Temp;
 	Temp.setGameVersion(GenieVersion);
-	if(GenieFile->Civs.size() > 1)
+	if(GenieFile->Civs.size() > 0)
 	{
-		Temp.Resources = GenieFile->Civs[1].Resources;
-		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
-		Temp.Units = GenieFile->Civs[1].Units;
+		short FillingCiv = (GenieFile->Civs.size() > 1) ? 1 : 0;
+		Temp.Resources = GenieFile->Civs[FillingCiv].Resources;
+		Temp.UnitPointers = GenieFile->Civs[FillingCiv].UnitPointers;
+		Temp.Units = GenieFile->Civs[FillingCiv].Units;
 	}
 	GenieFile->Civs.push_back(Temp);
 	Added = true;
@@ -161,11 +162,12 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	genie::Civ Temp;
 	Temp.setGameVersion(GenieVersion);
-	if(GenieFile->Civs.size() > 1)
+	if(GenieFile->Civs.size() > 0)
 	{
-		Temp.Resources = GenieFile->Civs[1].Resources;
-		Temp.UnitPointers = GenieFile->Civs[1].UnitPointers;
-		Temp.Units = GenieFile->Civs[1].Units;
+		short FillingCiv = (GenieFile->Civs.size() > 1) ? 1 : 0;
+		Temp.Resources = GenieFile->Civs[FillingCiv].Resources;
+		Temp.UnitPointers = GenieFile->Civs[FillingCiv].UnitPointers;
+		Temp.Units = GenieFile->Civs[FillingCiv].Units;
 	}
 	GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
 	OnCivCountChange();
@@ -235,7 +237,8 @@ void AGE_Frame::OnCivCountChange()
 {
 	short CivCount = GenieFile->Civs.size();
 //	Unit copying fixes.
-	copies->Dat.Civs.resize(CivCount);
+//	This messes copying if more than one window is opened!
+//	copies->Dat.Civs.resize(CivCount);
 
 	if(Units_CivBoxes.size() < CivCount)
 	{
