@@ -107,7 +107,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 			Civs_TeamBonus->container[sel] = &CivPointer->TeamBonusID;
 			if(GameVersion >= 4)
 			{
-				Civs_Name[1]->container[sel] = &CivPointer->Name;
+				Civs_Name[1]->container[sel] = &CivPointer->Name2;
 				for(short loop=0; loop < 4; loop++)
 				Civs_SUnknown1[loop]->container[sel] = &CivPointer->SUnknown1[loop];
 			}
@@ -125,7 +125,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
 		if(GameVersion >= 4)
 		{
-			Civs_Name[1]->ChangeValue(CivPointer->Name);
+			Civs_Name[1]->ChangeValue(CivPointer->Name2);
 			for(short loop=0; loop < 4; loop++)
 			Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->SUnknown1[loop]));
 		}

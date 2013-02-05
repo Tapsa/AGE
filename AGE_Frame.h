@@ -221,7 +221,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesBuildingPaste(wxCommandEvent &Event);
 	void OnTTAgesBuildingPasteInsert(wxCommandEvent &Event);
 	void OnTTAgesBuildingCopyToAges(wxCommandEvent &Event);
-	string GetTTAgesBuildingName(short);
+	string GetBuildingName(short);
 
 	void ListTTAgesUnits();
 	void OnTTAgesUnitSearch(wxCommandEvent &Event);
@@ -233,7 +233,6 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesUnitPaste(wxCommandEvent &Event);
 	void OnTTAgesUnitPasteInsert(wxCommandEvent &Event);
 	void OnTTAgesUnitCopyToAges(wxCommandEvent &Event);
-	string GetTTAgesUnitName(short);
 
 	void ListTTAgesResearches();
 	void OnTTAgesResearchSearch(wxCommandEvent &Event);
@@ -245,7 +244,7 @@ class AGE_Frame: public wxFrame
 	void OnTTAgesResearchPaste(wxCommandEvent &Event);
 	void OnTTAgesResearchPasteInsert(wxCommandEvent &Event);
 	void OnTTAgesResearchCopyToAges(wxCommandEvent &Event);
-	string GetTTAgesResearchName(short);
+	string GetSimpleResearchName(short);
 
 	void ListTTBuildings();
 	void OnTTBuildingSearch(wxCommandEvent &Event);
@@ -268,7 +267,6 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingBuildingPaste(wxCommandEvent &Event);
 	void OnTTBuildingBuildingPasteInsert(wxCommandEvent &Event);
 	void OnTTBuildingBuildingCopyToBuildings(wxCommandEvent &Event);
-	string GetTTBuildingBuildingName(short);
 
 	void ListTTBuildingUnits();
 	void OnTTBuildingUnitSearch(wxCommandEvent &Event);
@@ -280,7 +278,6 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingUnitPaste(wxCommandEvent &Event);
 	void OnTTBuildingUnitPasteInsert(wxCommandEvent &Event);
 	void OnTTBuildingUnitCopyToBuildings(wxCommandEvent &Event);
-	string GetTTBuildingUnitName(short);
 
 	void ListTTBuildingResearches();
 	void OnTTBuildingResearchSearch(wxCommandEvent &Event);
@@ -292,7 +289,6 @@ class AGE_Frame: public wxFrame
 	void OnTTBuildingResearchPaste(wxCommandEvent &Event);
 	void OnTTBuildingResearchPasteInsert(wxCommandEvent &Event);
 	void OnTTBuildingResearchCopyToBuildings(wxCommandEvent &Event);
-	string GetTTBuildingResearchName(short);
 
 	void ListTTUnits();
 	void OnTTUnitSearch(wxCommandEvent &Event);
@@ -315,7 +311,6 @@ class AGE_Frame: public wxFrame
 	void OnTTUnitUnitPaste(wxCommandEvent &Event);
 	void OnTTUnitUnitPasteInsert(wxCommandEvent &Event);
 	void OnTTUnitUnitCopyToUnits(wxCommandEvent &Event);
-	string GetTTUnitUnitName(short);
 
 	void ListTTResearches();
 	void OnTTResearchSearch(wxCommandEvent &Event);
@@ -338,7 +333,6 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchBuildingPaste(wxCommandEvent &Event);
 	void OnTTResearchBuildingPasteInsert(wxCommandEvent &Event);
 	void OnTTResearchBuildingCopyToResearches(wxCommandEvent &Event);
-	string GetTTResearchBuildingName(short);
 
 	void ListTTResearchUnits();
 	void OnTTResearchUnitSearch(wxCommandEvent &Event);
@@ -350,7 +344,6 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchUnitPaste(wxCommandEvent &Event);
 	void OnTTResearchUnitPasteInsert(wxCommandEvent &Event);
 	void OnTTResearchUnitCopyToResearches(wxCommandEvent &Event);
-	string GetTTResearchUnitName(short);
 
 	void ListTTResearchResearches();
 	void OnTTResearchResearchSearch(wxCommandEvent &Event);
@@ -362,7 +355,6 @@ class AGE_Frame: public wxFrame
 	void OnTTResearchResearchPaste(wxCommandEvent &Event);
 	void OnTTResearchResearchPasteInsert(wxCommandEvent &Event);
 	void OnTTResearchResearchCopyToResearches(wxCommandEvent &Event);
-	string GetTTResearchResearchName(short);
 
 //	Civilization Events
 

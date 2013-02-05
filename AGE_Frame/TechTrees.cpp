@@ -156,22 +156,19 @@ void AGE_Frame::OnTTAgesPasteInsert(wxCommandEvent &Event)
 	ListTTAgess();
 }
 
-string AGE_Frame::GetTTAgesBuildingName(short Index)
+string AGE_Frame::GetBuildingName(short Building)
 {
-	string Name = lexical_cast<string>(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index])+" ";
-	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index]].LanguageDLLName, 2).empty())
+	string Name = lexical_cast<string>(Building)+" ";
+	if(GenieFile->Civs[0].Units.size() <= Building) return Name + "Nonexistent Building";
+	if(!LangDLLstring(GenieFile->Civs[0].Units[Building].LanguageDLLName, 2).empty())
 	{
-		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index]].LanguageDLLName, 64);
+		return Name + LangDLLstring(GenieFile->Civs[0].Units[Building].LanguageDLLName, 64);
 	}
-	else if(!GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index]].Name.empty())
+	if(!GenieFile->Civs[0].Units[Building].Name.empty())
 	{
-		Name += GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[Index]].Name;
+		return Name + GenieFile->Civs[0].Units[Building].Name;
 	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
+	return Name + "New Building";
 }
 
 void AGE_Frame::OnTTAgesBuildingSearch(wxCommandEvent &Event)
@@ -190,7 +187,7 @@ void AGE_Frame::ListTTAgesBuildings()
 
 	for(short loop=0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTAgesBuildingName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetBuildingName(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Ages_List_Buildings->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[loop]);
@@ -295,24 +292,6 @@ void AGE_Frame::OnTTAgesBuildingCopyToAges(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetTTAgesUnitName(short Index)
-{
-	string Name = lexical_cast<string>(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index])+" ";
-	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index]].LanguageDLLName, 2).empty())
-	{
-		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index]].LanguageDLLName, 64);
-	}
-	else if(!GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index]].Name.empty())
-	{
-		Name += GenieFile->Civs[0].Units[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[Index]].Name;
-	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
-}
-
 void AGE_Frame::OnTTAgesUnitSearch(wxCommandEvent &Event)
 {
 	ListTTAgesUnits();
@@ -329,7 +308,7 @@ void AGE_Frame::ListTTAgesUnits()
 
 	for(short loop=0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTAgesUnitName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Ages_List_Units->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[loop]);
@@ -434,22 +413,19 @@ void AGE_Frame::OnTTAgesUnitCopyToAges(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetTTAgesResearchName(short Index)
+string AGE_Frame::GetSimpleResearchName(short Research)
 {
-	string Name = lexical_cast<string>(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index])+" ";
-	if(!LangDLLstring(GenieFile->Researchs[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index]].LanguageDLLName, 2).empty())
+	string Name = lexical_cast<string>(Research)+" ";
+	if(GenieFile->Researchs.size() <= Research) return Name + "Nonexistent Research";
+	if(!LangDLLstring(GenieFile->Researchs[Research].LanguageDLLName, 2).empty())
 	{
-		Name += LangDLLstring(GenieFile->Researchs[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index]].LanguageDLLName, 64);
+		return Name + LangDLLstring(GenieFile->Researchs[Research].LanguageDLLName, 64);
 	}
-	else if(!GenieFile->Researchs[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index]].Name.empty())
+	if(!GenieFile->Researchs[Research].Name.empty())
 	{
-		Name += GenieFile->Researchs[GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[Index]].Name;
+		return Name + GenieFile->Researchs[Research].Name;
 	}
-	else
-	{
-		Name += "New Research";
-	}
-	return Name;
+	return Name + "New Research";
 }
 
 void AGE_Frame::OnTTAgesResearchSearch(wxCommandEvent &Event)
@@ -468,7 +444,7 @@ void AGE_Frame::ListTTAgesResearches()
 
 	for(short loop=0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTAgesResearchName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetSimpleResearchName(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Ages_List_Researches->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[loop]);
@@ -895,24 +871,6 @@ void AGE_Frame::OnTTBuildingPasteInsert(wxCommandEvent &Event)
 	ListTTBuildings();
 }
 
-string AGE_Frame::GetTTBuildingBuildingName(short Index)
-{
-	string Name = lexical_cast<string>(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index])+" ";
-	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index]].LanguageDLLName, 2).empty())
-	{
-		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index]].LanguageDLLName, 64);
-	}
-	else if(!GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index]].Name.empty())
-	{
-		Name += GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[Index]].Name;
-	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
-}
-
 void AGE_Frame::OnTTBuildingBuildingSearch(wxCommandEvent &Event)
 {
 	ListTTBuildingBuildings();
@@ -929,7 +887,7 @@ void AGE_Frame::ListTTBuildingBuildings()
 
 	for(short loop=0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTBuildingBuildingName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetBuildingName(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Buildings_List_Buildings->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[loop]);
@@ -1034,24 +992,6 @@ void AGE_Frame::OnTTBuildingBuildingCopyToBuildings(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetTTBuildingUnitName(short Index)
-{
-	string Name = lexical_cast<string>(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index])+" ";
-	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index]].LanguageDLLName, 2).empty())
-	{
-		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index]].LanguageDLLName, 64);
-	}
-	else if(!GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index]].Name.empty())
-	{
-		Name += GenieFile->Civs[0].Units[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[Index]].Name;
-	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
-}
-
 void AGE_Frame::OnTTBuildingUnitSearch(wxCommandEvent &Event)
 {
 	ListTTBuildingUnits();
@@ -1068,7 +1008,7 @@ void AGE_Frame::ListTTBuildingUnits()
 
 	for(short loop=0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTBuildingUnitName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Buildings_List_Units->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[loop]);
@@ -1173,24 +1113,6 @@ void AGE_Frame::OnTTBuildingUnitCopyToBuildings(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetTTBuildingResearchName(short Index)
-{
-	string Name = lexical_cast<string>(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index])+" ";
-	if(!LangDLLstring(GenieFile->Researchs[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index]].LanguageDLLName, 2).empty())
-	{
-		Name += LangDLLstring(GenieFile->Researchs[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index]].LanguageDLLName, 64);
-	}
-	else if(!GenieFile->Researchs[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index]].Name.empty())
-	{
-		Name += GenieFile->Researchs[GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[Index]].Name;
-	}
-	else
-	{
-		Name += "New Research";
-	}
-	return Name;
-}
-
 void AGE_Frame::OnTTBuildingResearchSearch(wxCommandEvent &Event)
 {
 	ListTTBuildingResearches();
@@ -1207,7 +1129,7 @@ void AGE_Frame::ListTTBuildingResearches()
 
 	for(short loop=0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTBuildingResearchName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetSimpleResearchName(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Buildings_List_Researches->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[loop]);
@@ -1646,24 +1568,6 @@ void AGE_Frame::OnTTUnitPasteInsert(wxCommandEvent &Event)
 	ListTTUnits();
 }
 
-string AGE_Frame::GetTTUnitUnitName(short Index)
-{
-	string Name = lexical_cast<string>(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index])+" ";
-	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index]].LanguageDLLName, 2).empty())
-	{
-		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index]].LanguageDLLName, 64);
-	}
-	else if(!GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index]].Name.empty())
-	{
-		Name += GenieFile->Civs[0].Units[GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[Index]].Name;
-	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
-}
-
 void AGE_Frame::OnTTUnitUnitSearch(wxCommandEvent &Event)
 {
 	ListTTUnitUnits();
@@ -1680,7 +1584,7 @@ void AGE_Frame::ListTTUnitUnits()
 
 	for(short loop=0; loop < GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTUnitUnitName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Units_List_Units->Append(Name, (void*)&GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[loop]);
@@ -2049,24 +1953,6 @@ void AGE_Frame::OnTTResearchPasteInsert(wxCommandEvent &Event)
 	ListTTResearches();
 }
 
-string AGE_Frame::GetTTResearchBuildingName(short Index)
-{
-	string Name = lexical_cast<string>(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index])+" ";
-	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index]].LanguageDLLName, 2).empty())
-	{
-		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index]].LanguageDLLName, 64);
-	}
-	else if(!GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index]].Name.empty())
-	{
-		Name += GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[Index]].Name;
-	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
-}
-
 void AGE_Frame::OnTTResearchBuildingSearch(wxCommandEvent &Event)
 {
 	ListTTResearchBuildings();
@@ -2083,7 +1969,7 @@ void AGE_Frame::ListTTResearchBuildings()
 
 	for(short loop=0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTResearchBuildingName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetBuildingName(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Researches_List_Buildings->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[loop]);
@@ -2188,24 +2074,6 @@ void AGE_Frame::OnTTResearchBuildingCopyToResearches(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetTTResearchUnitName(short Index)
-{
-	string Name = lexical_cast<string>(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index])+" ";
-	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index]].LanguageDLLName, 2).empty())
-	{
-		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index]].LanguageDLLName, 64);
-	}
-	else if(!GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index]].Name.empty())
-	{
-		Name += GenieFile->Civs[0].Units[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[Index]].Name;
-	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
-}
-
 void AGE_Frame::OnTTResearchUnitSearch(wxCommandEvent &Event)
 {
 	ListTTResearchUnits();
@@ -2222,7 +2090,7 @@ void AGE_Frame::ListTTResearchUnits()
 
 	for(short loop=0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTResearchUnitName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Researches_List_Units->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[loop]);
@@ -2327,24 +2195,6 @@ void AGE_Frame::OnTTResearchUnitCopyToResearches(wxCommandEvent &Event)
 	}
 }
 
-string AGE_Frame::GetTTResearchResearchName(short Index)
-{
-	string Name = lexical_cast<string>(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index])+" ";
-	if(!LangDLLstring(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index]].LanguageDLLName, 2).empty())
-	{
-		Name += LangDLLstring(GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index]].LanguageDLLName, 64);
-	}
-	else if(!GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index]].Name.empty())
-	{
-		Name += GenieFile->Researchs[GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[Index]].Name;
-	}
-	else
-	{
-		Name += "New Research";
-	}
-	return Name;
-}
-
 void AGE_Frame::OnTTResearchResearchSearch(wxCommandEvent &Event)
 {
 	ListTTResearchResearches();
@@ -2361,7 +2211,7 @@ void AGE_Frame::ListTTResearchResearches()
 
 	for(short loop=0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTTResearchResearchName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetSimpleResearchName(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			TechTrees_DataList_Researches_List_Researches->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[loop]);
