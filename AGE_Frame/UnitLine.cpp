@@ -137,22 +137,19 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 	ListUnitLines();
 }
 
-string AGE_Frame::GetUnitLineUnitName(short Index)
+string AGE_Frame::GetUnitLineUnitName(short Unit)
 {
-	string Name = lexical_cast<string>(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index])+" ";
-	if(!LangDLLstring(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 2).empty())
+	string Name = lexical_cast<string>(Unit)+" ";
+	if(GenieFile->Civs[0].Units.size() <= Unit) return Name + "Nonexistent Unit";
+	if(!LangDLLstring(GenieFile->Civs[0].Units[Unit].LanguageDLLName, 2).empty())
 	{
-		Name += LangDLLstring(GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].LanguageDLLName, 64);
+		return Name + LangDLLstring(GenieFile->Civs[0].Units[Unit].LanguageDLLName, 64);
 	}
-	else if(!GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].Name.empty())
+	if(!GenieFile->Civs[0].Units[Unit].Name.empty())
 	{
-		Name += GenieFile->Civs[0].Units[GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[Index]].Name;
+		return Name + GenieFile->Civs[0].Units[Unit].Name;
 	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
+	return Name + "New Unit";
 }
 
 void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &Event)
@@ -171,7 +168,7 @@ void AGE_Frame::ListUnitLineUnits()
 
 	for(short loop=0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(loop);
+		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
