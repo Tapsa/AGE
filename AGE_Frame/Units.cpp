@@ -109,22 +109,19 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			Name += ", ";
 			if(Selection[loop+1] < 2) break;
 		}
-		if(Selection[0] != 1) Filter = false; // Names
+		if(Selection[0] == 1) goto InternalName;
 	}
 
-	if(!LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 2).empty() && Filter == false)
+	if(!LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 2).empty())
 	{
-		Name += LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 64);
+		return Name + LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 64);
 	}
-	else if(!GenieFile->Civs[civ].Units[Index].Name.empty())
+InternalName:
+	if(!GenieFile->Civs[civ].Units[Index].Name.empty())
 	{
-		Name += GenieFile->Civs[civ].Units[Index].Name;
+		return Name + GenieFile->Civs[civ].Units[Index].Name;
 	}
-	else
-	{
-		Name += "New Unit";
-	}
-	return Name;
+	return Name + "New Unit";
 }
 
 void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)

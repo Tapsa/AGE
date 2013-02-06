@@ -873,10 +873,15 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Research_Research_SearchFilters[loop]->Append("Lang DLL Pointer 1");
 			Research_Research_SearchFilters[loop]->Append("Lang DLL Pointer 2");
 			Research_Research_SearchFilters[loop]->Append("Pointer 3");
+			Research_Research_SearchFilters[loop]->Append("Cost Types");
+			Research_Research_SearchFilters[loop]->Append("Cost Amounts");
+			Research_Research_SearchFilters[loop]->Append("Cost Uses");
 			if(GameVersion >= 2)
 			{
 				Research_Research_SearchFilters[loop]->Append("Civilization");
 				Research_Research_SearchFilters[loop]->Append("Full Tech. Mode");
+				if(GameVersion >= 4)
+				Research_Research_SearchFilters[loop]->Append("Internal Name 2");
 			}
 			Research_Research_SearchFilters[loop]->SetSelection(0);
 
