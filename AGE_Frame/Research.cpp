@@ -16,12 +16,15 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 			switch(Selection[loop])
 			{
 				case 2: // Required Researches
-					if(GenieFile->Researchs[Index].RequiredTechs[0] > 0)
-					Name += "R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[0]);
-					for(short loop = 1;loop < GenieFile->Researchs[Index].getRequiredTechsSize(); loop++)
-					if(GenieFile->Researchs[Index].RequiredTechs[loop] > 0)
-					Name += ", R"+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[loop]);
-					break;
+				{
+					bool HasFore = false;
+					for(short loop = 0; loop < GenieFile->Researchs[Index].getRequiredTechsSize(); loop++)
+					if(GenieFile->Researchs[Index].RequiredTechs[loop] != -1)
+					{
+						if(HasFore) Name += ", R"; else {Name += "R"; HasFore = true;}
+						Name += lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[loop]);
+					}
+				}	break;
 				case 3: // Min. Req. Researches
 					Name += "MR "+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechCount);
 					break;
@@ -52,35 +55,67 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 				case 12: // Pointer 3
 					Name += "P3 "+lexical_cast<string>(GenieFile->Researchs[Index].Pointers[2]);
 					break;
+				case 13: // Cost Types
+				{
+					bool HasFore = false;
+					for(short loop = 0; loop < 3; loop++)
+					if(GenieFile->Researchs[Index].ResourceCosts[loop].Type != -1)
+					{
+						if(HasFore) Name += ", CT"; else {Name += "CT"; HasFore = true;}
+						Name += lexical_cast<string>(GenieFile->Researchs[Index].ResourceCosts[loop].Type);
+					}
+				}	break;
+				case 14: // Cost Amounts
+				{
+					bool HasFore = false;
+					for(short loop = 0; loop < 3; loop++)
+					{
+						if(HasFore) Name += ", CA"; else {Name += "CA"; HasFore = true;}
+						Name += lexical_cast<string>(GenieFile->Researchs[Index].ResourceCosts[loop].Amount);
+					}
+				}	break;
+				case 15: // Cost Uses
+				{
+					bool HasFore = false;
+					for(short loop = 0; loop < 3; loop++)
+					{
+						if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
+						Name += lexical_cast<string>((short)GenieFile->Researchs[Index].ResourceCosts[loop].Enabled);
+					}
+				}	break;
 				if(GameVersion >= 2)
 				{
-				case 13: // Civilization
+				case 16: // Civilization
 					Name += "C "+lexical_cast<string>(GenieFile->Researchs[Index].Civ);
 					break;
-				case 14: // Full Tech. Mode
+				case 17: // Full Tech. Mode
 					Name += "F "+lexical_cast<string>(GenieFile->Researchs[Index].FullTechMode);
 					break;
+				if(GameVersion >= 4)
+				{
+				case 18: // Internal Name 2
+					if(!GenieFile->Researchs[Index].Name2.empty())
+					return Name + GenieFile->Researchs[Index].Name2;
+					else goto InternalName;
+				}
 				}
 			}
 			Name += ", ";
 			if(Selection[loop+1] < 2) break;
 		}
-		if(Selection[0] != 1) Filter = false; // Names
+		if(Selection[0] == 1) goto InternalName;
 	}
 
-	if(!LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 2).empty() && Filter == false)
+	if(!LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 2).empty())
 	{
-		Name += LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 64);
+		return Name + LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 64);
 	}
-	else if(!GenieFile->Researchs[Index].Name.empty())
+InternalName:
+	if(!GenieFile->Researchs[Index].Name.empty())
 	{
-		Name += GenieFile->Researchs[Index].Name;
+		return Name + GenieFile->Researchs[Index].Name;
 	}
-	else
-	{
-		Name += "New Research";
-	}
-	return Name;
+	return Name + "New Research";
 }
 
 void AGE_Frame::OnResearchSearch(wxCommandEvent &Event)
@@ -118,18 +153,9 @@ void AGE_Frame::ListResearches(bool Sized)
 		for(short loop=0; loop < 4; loop++)
 		SavedIDs[loop+17] = TechTrees_ComboBox_Research[loop]->GetSelection();
 
-		if(Effects_ComboBox_ResearchsD->GetCount() > 0)
-		{
-			Effects_ComboBox_ResearchsD->Clear();
-		}
-		if(Effects_ComboBox_ResearchsA->GetCount() > 0)
-		{
-			Effects_ComboBox_ResearchsA->Clear();
-		}
-		if(Units_ComboBox_ResearchID->GetCount() > 0)
-		{
-			Units_ComboBox_ResearchID->Clear();
-		}
+		if(Effects_ComboBox_ResearchsD->GetCount() > 0) Effects_ComboBox_ResearchsD->Clear();
+		if(Effects_ComboBox_ResearchsA->GetCount() > 0) Effects_ComboBox_ResearchsA->Clear();
+		if(Units_ComboBox_ResearchID->GetCount() > 0) Units_ComboBox_ResearchID->Clear();
 		for(short loop=0; loop < 6; loop++)
 		{
 			if(Research_ComboBox_RequiredTechs[loop]->GetCount() > 0)
@@ -137,38 +163,14 @@ void AGE_Frame::ListResearches(bool Sized)
 				Research_ComboBox_RequiredTechs[loop]->Clear();
 			}
 		}
-		if(TechTrees_Ages_ComboBox_Research->GetCount() > 0)
-		{
-			TechTrees_Ages_ComboBox_Research->Clear();
-		}
-		if(TechTrees_Buildings_ComboBox_EnablingResearch->GetCount() > 0)
-		{
-			TechTrees_Buildings_ComboBox_EnablingResearch->Clear();
-		}
-		if(TechTrees_Buildings_ComboBox_Research->GetCount() > 0)
-		{
-			TechTrees_Buildings_ComboBox_Research->Clear();
-		}
-		if(TechTrees_Units_ComboBox_EnablingResearch->GetCount() > 0)
-		{
-			TechTrees_Units_ComboBox_EnablingResearch->Clear();
-		}
-		if(TechTrees_Researches_ComboBox_ID->GetCount() > 0)
-		{
-			TechTrees_Researches_ComboBox_ID->Clear();
-		}
-		if(TechTrees_Researches_ComboBox_UpperResearch->GetCount() > 0)
-		{
-			TechTrees_Researches_ComboBox_UpperResearch->Clear();
-		}
-		if(TechTrees_Researches_ComboBox_Research->GetCount() > 0)
-		{
-			TechTrees_Researches_ComboBox_Research->Clear();
-		}
-		if(TechTrees_Units_ComboBox_RequiredResearch->GetCount() > 0)
-		{
-			TechTrees_Units_ComboBox_RequiredResearch->Clear();
-		}
+		if(TechTrees_Ages_ComboBox_Research->GetCount() > 0) TechTrees_Ages_ComboBox_Research->Clear();
+		if(TechTrees_Buildings_ComboBox_EnablingResearch->GetCount() > 0) TechTrees_Buildings_ComboBox_EnablingResearch->Clear();
+		if(TechTrees_Buildings_ComboBox_Research->GetCount() > 0) TechTrees_Buildings_ComboBox_Research->Clear();
+		if(TechTrees_Units_ComboBox_EnablingResearch->GetCount() > 0) TechTrees_Units_ComboBox_EnablingResearch->Clear();
+		if(TechTrees_Researches_ComboBox_ID->GetCount() > 0) TechTrees_Researches_ComboBox_ID->Clear();
+		if(TechTrees_Researches_ComboBox_UpperResearch->GetCount() > 0) TechTrees_Researches_ComboBox_UpperResearch->Clear();
+		if(TechTrees_Researches_ComboBox_Research->GetCount() > 0) TechTrees_Researches_ComboBox_Research->Clear();
+		if(TechTrees_Units_ComboBox_RequiredResearch->GetCount() > 0) TechTrees_Units_ComboBox_RequiredResearch->Clear();
 		for(short loop=0; loop < 4; loop++)
 		if(TechTrees_ComboBox_Research[loop]->GetCount() > 0)
 		{
