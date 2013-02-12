@@ -157,6 +157,7 @@ class AGE_Frame: public wxFrame
 	void OnDataGridNext(wxCommandEvent &Event);
 	void OnDataGridPrev(wxCommandEvent &Event);
 	void OnVariableCalc(wxFocusEvent &Event);
+	void OnVariableCalcReverse(wxFocusEvent &Event);
 
 //	Research Events
 
@@ -456,7 +457,7 @@ class AGE_Frame: public wxFrame
 	void OnUnitCommandsPaste(wxCommandEvent &Event);
 	void OnUnitCommandsPasteInsert(wxCommandEvent &Event);
 	void OnUnitCommandsCopyToUnits(wxCommandEvent &Event);
-	string GetUnitCommandName(short);
+	wxString GetUnitCommandName(short);
 
 //	Unitline Events
 
@@ -520,6 +521,9 @@ class AGE_Frame: public wxFrame
 	string GetGraphicAttackSoundName(short);
 
 //	Terrain Events
+
+	void ListTerrainNumbers();
+	void OnTerrainCountChange(wxFocusEvent &Event);
 
 	void ListTerrains(bool Sized = true);
 	void OnTerrainsSearch(wxCommandEvent &Event);
@@ -636,8 +640,8 @@ class AGE_Frame: public wxFrame
 	genie::Civ CivBackup[20];	// Only temporary solution!*/
 
 	wxArrayInt Items;
-	long TechTreePage;
-	long TechTreeSize;
+	long SomethingPage;
+	long SomethingSize;
 	vector<short> ResearchIDs;
 	vector<short> TechIDs;
 	vector<short> EffectIDs;
@@ -752,6 +756,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *General_TopRow;
 	wxButton *General_Refresh;
 	wxStaticText *General_Text_CalcBoxes;
+	wxStaticText *General_Text_CalcBoxesMiddle;
 	wxTextCtrl *General_CalcBoxes[5];
 	wxScrolledWindow *General_Scroller;
 	wxBoxSizer *General_ScrollerWindows;
@@ -759,7 +764,8 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *General_Holder_TerrainHeader;
 	wxGridSizer *General_Grid_TerrainHeader;
 	wxStaticText *General_Text_TerrainHeader;
-	TextCtrl_Byte *General_TerrainHeader[138];
+	TextCtrl_Short *General_TerrainHeader[69];
+	TextCtrl_Short *General_TerrainRendering[19];
 
 	wxBoxSizer *Borders_Main;
 	wxBoxSizer *Borders_ListArea;
@@ -867,12 +873,12 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *General_Holder_RenderPlusUnknown;
 	wxBoxSizer *General_Holder_RenderPlusUnknownTop;
 	wxStaticText *General_Text_TechTree;
-	wxTextCtrl *General_TechTreePicker;
-	wxButton *General_TechTreeNext;
-	wxButton *General_TechTreePrev;
-	wxStaticText *General_TechTreeSize;
+	wxTextCtrl *General_SomethingPicker;
+	wxButton *General_SomethingNext;
+	wxButton *General_SomethingPrev;
+	wxStaticText *General_SomethingSize;
 	wxGridSizer *General_Grid_TechTree;
-	TextCtrl_Byte *General_TechTree[256];
+	TextCtrl_Long *General_Something[128];
 
 //	Researchs user interface
 
@@ -1873,8 +1879,8 @@ class AGE_Frame: public wxFrame
 	wxButton *Units_Paste;
 	wxButton *Units_PasteInsert;
 	wxStaticText *Units_Info;
-	wxButton *Units_Extract;
-	wxButton *Units_Import;
+	//wxButton *Units_Extract;
+	//wxButton *Units_Import;
 	wxButton *Units_Enable;
 	wxButton *Units_Disable;
 	wxButton *Units_SpecialCopy;
@@ -2072,8 +2078,8 @@ class AGE_Frame: public wxFrame
 	wxButton *Graphics_Copy;
 	wxButton *Graphics_Paste;
 	wxButton *Graphics_PasteInsert;
-	wxButton *Graphics_Extract;
-	wxButton *Graphics_Import;
+	//wxButton *Graphics_Extract;
+	//wxButton *Graphics_Import;
 	wxButton *Graphics_Enable;
 	wxButton *Graphics_Disable;
 
@@ -2221,6 +2227,9 @@ class AGE_Frame: public wxFrame
 	wxTextCtrl *Terrains_Terrains_Search_R;
 //	wxCheckBox *Terrains_Terrains_UseAnd;
 	wxListBox *Terrains_Terrains_List;
+	wxBoxSizer *Terrains_UsedCountHolder;
+	wxStaticText *Terrains_UsedCountText;
+	TextCtrl_UShort *Terrains_UsedCount;
 	wxGridSizer *Terrains_Terrains_Buttons;
 	wxButton *Terrains_Add;
 	wxButton *Terrains_Insert;
@@ -3056,6 +3065,19 @@ class AGE_Frame: public wxFrame
 		if(copies.size() + place > path.size())
 		path.resize(copies.size() + place);
 		for(auto loop = copies.size(); loop--> 0;)
+		{
+			copies[loop].setGameVersion(GenieVersion);
+			path[place + loop] = copies[loop];
+		}
+	}
+
+	template <class P, class C>
+	void PasteToListNoResize(P &path, short place, C &copies)
+	{
+		auto CopyCount = copies.size();
+		if(CopyCount + place > path.size())
+		CopyCount -= CopyCount + place - path.size();
+		for(auto loop = CopyCount; loop--> 0;)
 		{
 			copies[loop].setGameVersion(GenieVersion);
 			path[place + loop] = copies[loop];
