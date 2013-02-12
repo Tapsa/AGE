@@ -137,9 +137,7 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->TerrainBorder.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
-	copies->TerrainBorder[loop] = GenieFile->TerrainBorders[BorderIDs[loop]];
+	CopyFromList(GenieFile->TerrainBorders, BorderIDs, copies->TerrainBorder);
 }
 
 void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
@@ -148,14 +146,7 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	short CopyCount = copies->TerrainBorder.size();
-	if(copies->TerrainBorder.size()+BorderIDs[0] > GenieFile->TerrainBorders.size())
-	CopyCount -= copies->TerrainBorder.size()+BorderIDs[0] - GenieFile->TerrainBorders.size();
-	for(short loop=0; loop < CopyCount; loop++)
-	{
-		copies->TerrainBorder[loop].setGameVersion(GenieVersion);
-		GenieFile->TerrainBorders[BorderIDs[0]+loop] = copies->TerrainBorder[loop];
-	}
+	PasteToListNoResize(GenieFile->TerrainBorders, BorderIDs[0], copies->TerrainBorder);
 	ListTerrainBorders();
 }
 

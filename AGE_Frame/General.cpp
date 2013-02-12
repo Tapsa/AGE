@@ -6,29 +6,25 @@ void AGE_Frame::ListGeneral()
 	switch(GameVersion)
 	{
 		case 0:
-			TechTreeSize = 6946;
+			SomethingSize = 1727;
 			break;
 		case 1:
-			TechTreeSize = 15118;
+			SomethingSize = 3770;
 			break;
 		case 2:
-			TechTreeSize = 12722;
-			break;
 		case 3:
-			TechTreeSize = 12722;
+			SomethingSize = 3171;
 			break;
 		case 4:
-			TechTreeSize = 698;
-			break;
 		case 5:
-			TechTreeSize = 698;
+			SomethingSize = 165;
 			break;
 		default: break;
 	}
 	// Ekat 686 on renderingiä AoK - CC? Koita tyhjentää sen jälkeiset asiat TCstä!
-	General_TechTreeSize->SetLabel("Size: "+lexical_cast<string>(TechTreeSize));
-	TechTreePage = 0;
-	General_TechTreePicker->ChangeValue(lexical_cast<string>(TechTreePage));
+	General_SomethingSize->SetLabel("Size: "+lexical_cast<string>(SomethingSize));
+	SomethingPage = 0;
+	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
@@ -36,13 +32,13 @@ void AGE_Frame::ListGeneral()
 
 void AGE_Frame::OnDataGridPage(wxCommandEvent &Event)
 {
-	TechTreePage = 0;
-	if(!General_TechTreePicker->IsEmpty())
-	TechTreePage = lexical_cast<long>(General_TechTreePicker->GetValue());
-	if(TechTreePage >= (TechTreeSize - 256))
-	TechTreePage = TechTreeSize - 256;
-	if(TechTreePage < 0)
-	TechTreePage = 0;
+	SomethingPage = 0;
+	if(!General_SomethingPicker->IsEmpty())
+	SomethingPage = lexical_cast<long>(General_SomethingPicker->GetValue());
+	if(SomethingPage >= (SomethingSize - 128))
+	SomethingPage = SomethingSize - 128;
+	if(SomethingPage < 0)
+	SomethingPage = 0;
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
@@ -50,9 +46,9 @@ void AGE_Frame::OnDataGridPage(wxCommandEvent &Event)
 
 void AGE_Frame::OnDataGridNext(wxCommandEvent &Event)
 {
-	TechTreePage += 256;
-	if(TechTreePage >= (TechTreeSize - 256))
-	TechTreePage = TechTreeSize - 256;
+	SomethingPage += 128;
+	if(SomethingPage >= (SomethingSize - 128))
+	SomethingPage = SomethingSize - 128;
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
@@ -60,9 +56,9 @@ void AGE_Frame::OnDataGridNext(wxCommandEvent &Event)
 
 void AGE_Frame::OnDataGridPrev(wxCommandEvent &Event)
 {
-	TechTreePage -= 256;
-	if(TechTreePage < 0)
-	TechTreePage = 0;
+	SomethingPage -= 128;
+	if(SomethingPage < 0)
+	SomethingPage = 0;
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
@@ -73,42 +69,77 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 	int32_t Result, Temp;
 
 	if(!General_CalcBoxes[0]->IsEmpty())
-	Result = lexical_cast<int32_t>(General_CalcBoxes[0]->GetValue());
+	{
+		try{Result = lexical_cast<int32_t>(General_CalcBoxes[0]->GetValue());}
+		catch(bad_lexical_cast e){return;}
+	}
 	else Result = 0;
 	Result = (uint8_t)Result;
 
 	if(!General_CalcBoxes[1]->IsEmpty())
-	Temp = lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue());
+	{
+		try{Temp = lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue());}
+		catch(bad_lexical_cast e){return;}
+	}
 	else Temp = 0;
-	Result += 0x100 * (uint8_t)Temp;
+	Result += (uint8_t)Temp << 8;
 
 	if(!General_CalcBoxes[2]->IsEmpty())
-	Temp = lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue());
+	{
+		try{Temp = lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue());}
+		catch(bad_lexical_cast e){return;}
+	}
 	else Temp = 0;
-	Result += 0x10000 * (uint8_t)Temp;
+	Result += (uint8_t)Temp << 16;
 
 	if(!General_CalcBoxes[3]->IsEmpty())
-	Temp = lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue());
+	{
+		try{Temp = lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue());}
+		catch(bad_lexical_cast e){return;}
+	}
 	else Temp = 0;
-	Result += 0x1000000 * (uint8_t)Temp;
+	Result += (uint8_t)Temp << 24;
 
-	General_CalcBoxes[4]->ChangeValue("= "+lexical_cast<string>(Result));
+	General_CalcBoxes[4]->ChangeValue(lexical_cast<string>(Result));
+}
+
+void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
+{
+	if(General_CalcBoxes[4]->IsEmpty()) return;
+
+	int32_t Result;
+	try{Result = lexical_cast<int32_t>(General_CalcBoxes[4]->GetValue());}
+	catch(bad_lexical_cast e){return;}
+
+	General_CalcBoxes[0]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
+	Result >>= 8;
+	General_CalcBoxes[1]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
+	Result >>= 8;
+	General_CalcBoxes[2]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
+	Result >>= 8;
+	General_CalcBoxes[3]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
 }
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 {
-	for(short loop=0; loop < 138; loop++)
+	for(short loop=0; loop < 69; loop++)
 	{
-		General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->GraphicsRendering[loop]));
+		General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>(GenieFile->GraphicsRendering[loop]));
 		General_TerrainHeader[loop]->resize(1);
 		General_TerrainHeader[loop]->container[0] = &GenieFile->GraphicsRendering[loop];
 	}
-	General_TechTreePicker->ChangeValue(lexical_cast<string>(TechTreePage));
-	for(long loop = 0;loop < 256; loop++)
+	for(short loop=0; loop < 19; loop++)
 	{
-		General_TechTree[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->RenderingPlusSomething[loop+TechTreePage]));
-		General_TechTree[loop]->resize(1);
-		General_TechTree[loop]->container[0] = &GenieFile->RenderingPlusSomething[loop+TechTreePage];
+		General_TerrainRendering[loop]->ChangeValue(lexical_cast<string>(GenieFile->Rendering[loop]));
+		General_TerrainRendering[loop]->resize(1);
+		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
+	}
+	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
+	for(long loop = 0;loop < 128; loop++)
+	{
+		General_Something[loop]->ChangeValue(lexical_cast<string>((short)GenieFile->Something[loop+SomethingPage]));
+		General_Something[loop]->resize(1);
+		General_Something[loop]->container[0] = &GenieFile->Something[loop+SomethingPage];
 	}
 	if(GameVersion < 2) return;
 	for(long loop = 0;loop < 7; loop++)
@@ -148,7 +179,9 @@ void AGE_Frame::CreateGeneralControls()
 	General_Main = new wxBoxSizer(wxVERTICAL);
 	General_TopRow = new wxBoxSizer(wxHORIZONTAL);
 	General_Refresh = new wxButton(Tab_General, wxID_ANY, "Refresh", wxDefaultPosition, wxSize(0, 20));
-	General_Text_CalcBoxes = new wxStaticText(Tab_General, wxID_ANY, " Variable Converter", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_CalcBoxes = new wxStaticText(Tab_General, wxID_ANY, " Variable Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_CalcBoxes->SetToolTip("From four 8 bit integers to one 32 bit integer or vice versa");
+	General_Text_CalcBoxesMiddle = new wxStaticText(Tab_General, wxID_ANY, " = ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop=0; loop < 5; loop++)
 	General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY);
 	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
@@ -177,20 +210,22 @@ void AGE_Frame::CreateGeneralControls()
 	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown8 = new TextCtrl_Byte(General_Scroller);
 	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
-	General_Grid_TerrainHeader = new wxGridSizer(18, 0, 0);
+	General_Grid_TerrainHeader = new wxGridSizer(16, 0, 0);
 	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop=0; loop < 138; loop++)
-	General_TerrainHeader[loop] = new TextCtrl_Byte(General_Scroller);
+	for(short loop=0; loop < 69; loop++)
+	General_TerrainHeader[loop] = new TextCtrl_Short(General_Scroller);
+	for(short loop=0; loop < 19; loop++)
+	General_TerrainRendering[loop] = new TextCtrl_Short(General_Scroller);
 	General_Holder_RenderPlusUnknown = new wxBoxSizer(wxVERTICAL);
 	General_Holder_RenderPlusUnknownTop = new wxBoxSizer(wxHORIZONTAL);
-	General_TechTreePicker = new wxTextCtrl(General_Scroller, wxID_ANY);
-	General_TechTreeNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
-	General_TechTreePrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
-	General_TechTreeSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Size", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Grid_TechTree = new wxGridSizer(16, 0, 0);
-	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related + Unknown Data", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop=0; loop < 256; loop++)
-	General_TechTree[loop] = new TextCtrl_Byte(General_Scroller);
+	General_SomethingPicker = new wxTextCtrl(General_Scroller, wxID_ANY);
+	General_SomethingNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
+	General_SomethingPrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
+	General_SomethingSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Size", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Grid_TechTree = new wxGridSizer(8, 0, 0);
+	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop=0; loop < 128; loop++)
+	General_Something[loop] = new TextCtrl_Long(General_Scroller);
 
 	General_Holder_Variables2 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Technology Tree Related?");
 	for(short loop=0; loop < 8; loop++)
@@ -203,13 +238,17 @@ void AGE_Frame::CreateGeneralControls()
 	General_TopRow->Add(10, -1);
 	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
 	General_TopRow->AddStretchSpacer(3);
-	for(short loop=0; loop < 5; loop++)
+	for(short loop=0; loop < 4; loop++)
 	General_TopRow->Add(General_CalcBoxes[loop], 1, wxEXPAND);
+	General_TopRow->Add(General_Text_CalcBoxesMiddle, 0, wxEXPAND);
+	General_TopRow->Add(General_CalcBoxes[4], 1, wxEXPAND);
 	General_TopRow->Add(General_Text_CalcBoxes, 0, wxEXPAND);
 	General_TopRow->AddStretchSpacer(1);
 
-	for(short loop=0; loop < 138; loop++)
+	for(short loop=0; loop < 69; loop++)
 	General_Grid_TerrainHeader->Add(General_TerrainHeader[loop], 1, wxEXPAND);
+	for(short loop=0; loop < 19; loop++)
+	General_Grid_TerrainHeader->Add(General_TerrainRendering[loop], 1, wxEXPAND);
 	General_Holder_TerrainHeader->Add(General_Text_TerrainHeader, 0, wxEXPAND);
 	General_Holder_TerrainHeader->Add(General_Grid_TerrainHeader, 0, wxEXPAND);
 
@@ -243,16 +282,16 @@ void AGE_Frame::CreateGeneralControls()
 
 	General_Holder_RenderPlusUnknownTop->Add(General_Text_TechTree, 0, wxEXPAND);
 	General_Holder_RenderPlusUnknownTop->Add(5, -1);
-	General_Holder_RenderPlusUnknownTop->Add(General_TechTreePicker, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(General_SomethingPicker, 1, wxEXPAND);
 	General_Holder_RenderPlusUnknownTop->Add(5, -1);
-	General_Holder_RenderPlusUnknownTop->Add(General_TechTreeNext, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(General_SomethingNext, 1, wxEXPAND);
 	General_Holder_RenderPlusUnknownTop->Add(5, -1);
-	General_Holder_RenderPlusUnknownTop->Add(General_TechTreePrev, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(General_SomethingPrev, 1, wxEXPAND);
 	General_Holder_RenderPlusUnknownTop->Add(5, -1);
-	General_Holder_RenderPlusUnknownTop->Add(General_TechTreeSize, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(General_SomethingSize, 1, wxEXPAND);
 	General_Holder_RenderPlusUnknownTop->AddStretchSpacer(2);
-	for(short loop=0; loop < 256; loop++)
-	General_Grid_TechTree->Add(General_TechTree[loop], 1, wxEXPAND);
+	for(short loop=0; loop < 128; loop++)
+	General_Grid_TechTree->Add(General_Something[loop], 1, wxEXPAND);
 	General_Holder_RenderPlusUnknown->Add(General_Holder_RenderPlusUnknownTop, 0, wxEXPAND);
 	General_Holder_RenderPlusUnknown->Add(-1, 5);
 	General_Holder_RenderPlusUnknown->Add(General_Grid_TechTree, 0, wxEXPAND);
@@ -281,10 +320,11 @@ void AGE_Frame::CreateGeneralControls()
 	Tab_General->SetSizer(General_Main);
 
 	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGeneralSelect));
-	Connect(General_TechTreePicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
-	Connect(General_TechTreeNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
-	Connect(General_TechTreePrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
+	Connect(General_SomethingPicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
+	Connect(General_SomethingNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
+	Connect(General_SomethingPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
 	for(short loop=0; loop < 4; loop++)
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
+	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);
 
 }

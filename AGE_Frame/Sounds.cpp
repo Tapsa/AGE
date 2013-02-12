@@ -491,7 +491,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &Event)
 		for(short file = 0;file < GenieFile->Sounds[sound].Items.size();file++)
 		{
 			Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file);
-				if(SearchMatches(Name.Lower()))
+			if(SearchMatches(Name.Lower()))
 			{
 				Sounds_AllItems_List->Append(Name);
 			}
