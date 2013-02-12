@@ -241,6 +241,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				GenieFile = new genie::DatFile();
 				try
 				{
+					GenieFile->setVerboseMode(true);
 					GenieFile->setGameVersion(GenieVersion);
 					GenieFile->load(DatFileName.c_str());
 				}
@@ -278,17 +279,17 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			{
 				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
 				{
-					GenieFile->Civs[loop].UnitPointers[loop2] = (int32_t)1;
+					GenieFile->Civs[loop].UnitPointers[loop2] = 1;
 					if(EnableIDFix)
 					{
-						GenieFile->Civs[loop].Units[loop2].ID1 = (int16_t)loop2;
-						GenieFile->Civs[loop].Units[loop2].ID2 = (int16_t)loop2;
+						GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
+						GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
 						if(GameVersion >= 2)
-						GenieFile->Civs[loop].Units[loop2].ID3 = (int16_t)loop2;
+						GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
 						else
 						if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
 						for(short loop3=0; loop3 < GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3++)
-						GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = (int16_t)loop3;
+						GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
 					}
 				}
 			}
@@ -297,34 +298,34 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
 			{
-				GenieFile->PlayerColours[loop].ID = (int32_t)loop;
+				GenieFile->PlayerColours[loop].ID = loop;
 			}
 			for(short loop=0; loop < GenieFile->Sounds.size(); loop++)
 			{
-				GenieFile->Sounds[loop].ID = (int32_t)loop;
+				GenieFile->Sounds[loop].ID = loop;
 			}
 			if(GameVersion >= 4)
 			for(short loop=0; loop < GenieFile->UnitLines.size(); loop++)
 			{
-				GenieFile->UnitLines[loop].ID = (int16_t)loop;
+				GenieFile->UnitLines[loop].ID = loop;
 			}
 		}
 		for(short loop=0; loop < GenieFile->Graphics.size(); loop++)
 		{
 			if(GenieFile->GraphicPointers[loop] != 0)
 			{
-				GenieFile->GraphicPointers[loop] = (int32_t)1;
+				GenieFile->GraphicPointers[loop] = 1;
 				if(EnableIDFix)
-				GenieFile->Graphics[loop].ID = (int16_t)loop;
+				GenieFile->Graphics[loop].ID = loop;
 			}
 		}
 		for(short loop=0; loop < GenieFile->TerrainRestrictions.size(); loop++)
 		{
 			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
-			GenieFile->TerrainRestrictionPointers1[loop] = (int32_t)1;
+			GenieFile->TerrainRestrictionPointers1[loop] = 1;
 			if(GameVersion >= 2)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
-			GenieFile->TerrainRestrictionPointers2[loop] = (int32_t)1;
+			GenieFile->TerrainRestrictionPointers2[loop] = 1;
 		}
 
 		Added = false;
@@ -362,7 +363,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_ComboBox_Types->Append("Ability to Unpack & Attack");
 		UnitCommands_ComboBox_Types->Append("Type 131, Sub -1");
 		UnitCommands_ComboBox_Types->Append("Ability to Pickup Unit");
-		UnitCommands_ComboBox_Types->Append("Type 135, Sub -1");
+		UnitCommands_ComboBox_Types->Append("Ability to Kidnap Unit");
 		UnitCommands_ComboBox_Types->Append("Ability to Deposit Unit");	// Selection 30
 		UnitCommands_ComboBox_Types->SetSelection(0);
 
@@ -958,6 +959,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		ListTechs();
 		ListGraphics();
 		ListSounds();
+		ListTerrainNumbers();
 		ListTerrainRestrictions();
 		ListTerrains();
 		ListPlayerColors();
@@ -990,6 +992,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_ComboBox_AttributesC->Append("18 - Unknown?");
 		Effects_ComboBox_AttributesC->Append("19 - Projectile Intelligent Accuracy");
 		Effects_ComboBox_AttributesC->Append("20 - Minimum Range");
+		if(GameVersion < 2)
+		Effects_ComboBox_AttributesC->Append("21 - Unknown?");
+		else
 		Effects_ComboBox_AttributesC->Append("21 - Population Support");
 		Effects_ComboBox_AttributesC->Append("22 - Blast Radius");
 		Effects_ComboBox_AttributesC->Append("23 - Search Radius");
@@ -1070,6 +1075,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_ComboBox_AttributesC->Append("98 - None");
 		Effects_ComboBox_AttributesC->Append("99 - None");
 		Effects_ComboBox_AttributesC->Append("100 - Resource Cost");
+		if(GameVersion < 2)
+		Effects_ComboBox_AttributesC->Append("101 - Population Support");
+		else
 		Effects_ComboBox_AttributesC->Append("101 - Creation Time");
 		Effects_ComboBox_AttributesC->Append("102 - Number of Garrison Arrows");
 		Effects_ComboBox_AttributesC->Append("103 - Food Cost");
@@ -1856,21 +1864,17 @@ void AGE_Frame::ListingFix(int Selections, wxListBox* &List)
 	if(Selections == 0)
 	{
 		List->SetSelection(0);
+		return;
 	}
-	else
+	if(Added || Items.Item(0) >= List->GetCount())
 	{
-		if(Added || Items.Item(0) >= List->GetCount())
-		{
-			List->SetFirstItem(List->GetCount() - 1);
-			List->SetSelection(List->GetCount() - 1);
-			Added = false;
-		}
-		else
-		{
-			List->SetFirstItem(Items.Item(0) - 3);
-			List->SetSelection(Items.Item(0));
-		}
+		List->SetFirstItem(List->GetCount() - 1);
+		List->SetSelection(List->GetCount() - 1);
+		Added = false;
+		return;
 	}
+	List->SetFirstItem(Items.Item(0) - 3);
+	List->SetSelection(Items.Item(0));
 }
 
 void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch)

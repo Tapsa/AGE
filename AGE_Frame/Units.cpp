@@ -2965,9 +2965,8 @@ void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &Event)
 
 //	AoE/TC/SWGB/CC Unit Commands
 
-string AGE_Frame::GetUnitCommandName(short Index)
+wxString AGE_Frame::GetUnitCommandName(short Index)
 {
-	string Name = "";
 	short CommandType = -1;
 	short CommandSubType = -1;
 	if(GameVersion > 1) // AoK, TC, SWGB, CC
@@ -2982,47 +2981,46 @@ string AGE_Frame::GetUnitCommandName(short Index)
 	}
 	switch(CommandType)
 	{
-		case 3: Name = "Ability to Garrison"; break;
+		case 3: return UnitCommands_ComboBox_Types->GetString(1);
 		case 5:
 			switch(CommandSubType)
 			{
-				case 47: Name = "Ability to Mine Gold"; break;
-				case 79: Name = "Ability to Mine Stone"; break;
-				case 190: Name = "Ability to Fish, Forage, or Farm"; break;
-				default: Name = "Ability to Rebuild";
-			}	break;
-		case 6: Name = "Unknown Animal Ability"; break;
-		case 7: Name = "Ability to Attack"; break;
-		case 10: Name = "Ability to Fly"; break;
-		case 11: Name = "Unknown Predator Animal Ability"; break;
-		case 12: Name = "Ability to Unload (Boat-Like)"; break;
-		case 13: Name = "Ability to Auto-Attack"; break;
-		case 21: Name = "Unknown Farm Ability"; break;
-		case 101: Name = "Ability to Build"; break;
-		case 104: Name = "Ability to Convert"; break;
-		case 105: Name = "Ability to Heal"; break;
-		case 106: Name = "Ability to Repair"; break;
-		case 107: Name = "Type 107, Sub -1"; break;
-		case 109: Name = "Type 109, Sub -1"; break;
+				case 47: return UnitCommands_ComboBox_Types->GetString(2);
+				case 79: return UnitCommands_ComboBox_Types->GetString(3);
+				case 190: return UnitCommands_ComboBox_Types->GetString(4);
+				default: return UnitCommands_ComboBox_Types->GetString(5);
+			}
+		case 6: return UnitCommands_ComboBox_Types->GetString(6);
+		case 7: return UnitCommands_ComboBox_Types->GetString(7);
+		case 10: return UnitCommands_ComboBox_Types->GetString(8);
+		case 11: return UnitCommands_ComboBox_Types->GetString(9);
+		case 12: return UnitCommands_ComboBox_Types->GetString(10);
+		case 13: return UnitCommands_ComboBox_Types->GetString(11);
+		case 21: return UnitCommands_ComboBox_Types->GetString(12);
+		case 101: return UnitCommands_ComboBox_Types->GetString(13);
+		case 104: return UnitCommands_ComboBox_Types->GetString(14);
+		case 105: return UnitCommands_ComboBox_Types->GetString(15);
+		case 106: return UnitCommands_ComboBox_Types->GetString(16);
+		case 107: return UnitCommands_ComboBox_Types->GetString(17);
+		case 109: return UnitCommands_ComboBox_Types->GetString(18);
 		case 110:
 			switch(CommandSubType)
 			{
-				case 189: Name = "Ability to Chop Wood"; break;
-				case 190: Name = "Ability to Hunt Prey Animals"; break;
-				default: Name = "Ability to Hunt Predator Animals";
-			}	break;
-		case 111: Name = "Ability to Trade"; break;
-		case 120: Name = "Ability to Generate Wonder Victory*"; break;
-		case 121: Name = "Type 121, Sub -1"; break;
-		case 122: Name = "Ability to Mine Porex (Ore)"; break;
-		case 125: Name = "Ability to Unpack & Attack"; break;
-		case 131: Name = "Type 131, Sub -1"; break;
-		case 132: Name = "Ability to Pickup Unit"; break;
-		case 135: Name = "Type 135, Sub -1"; break;
-		case 136: Name = "Ability to Deposit Unit"; break;
-		default: Name = "Unk. Type "+lexical_cast<string>(CommandType)+", Sub "+lexical_cast<string>(CommandSubType);
+				case 189: return UnitCommands_ComboBox_Types->GetString(19);
+				case 190: return UnitCommands_ComboBox_Types->GetString(20);
+				default: return UnitCommands_ComboBox_Types->GetString(21);
+			}
+		case 111: return UnitCommands_ComboBox_Types->GetString(22);
+		case 120: return UnitCommands_ComboBox_Types->GetString(23);
+		case 121: return UnitCommands_ComboBox_Types->GetString(24);
+		case 122: return UnitCommands_ComboBox_Types->GetString(25);
+		case 125: return UnitCommands_ComboBox_Types->GetString(26);
+		case 131: return UnitCommands_ComboBox_Types->GetString(27);
+		case 132: return UnitCommands_ComboBox_Types->GetString(28);
+		case 135: return UnitCommands_ComboBox_Types->GetString(29);
+		case 136: return UnitCommands_ComboBox_Types->GetString(30);
+		default: return "Unk. Type "+lexical_cast<string>(CommandType)+", Sub "+lexical_cast<string>(CommandSubType);
 	}
-	return Name;
 }
 
 void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &Event)
@@ -3044,7 +3042,7 @@ void AGE_Frame::ListUnitCommands()
 		for(short loop=0; loop < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); loop++)
 		{
 			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
-				if(SearchMatches(Name.Lower()))
+			if(SearchMatches(Name.Lower()))
 			{
 				Units_UnitCommands_List->Append(Name, (void*)&GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop]);
 			}
@@ -3060,7 +3058,7 @@ void AGE_Frame::ListUnitCommands()
 			for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size(); loop++)
 			{
 				Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
-						if(SearchMatches(Name.Lower()))
+				if(SearchMatches(Name.Lower()))
 				{
 					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop]);
 				}
@@ -3470,7 +3468,7 @@ void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &Event)
 	{
 		DLLValue = lexical_cast<int32_t>(((wxTextCtrl*)Event.GetEventObject())->GetValue());
 	}
-	catch(...)
+	catch(bad_lexical_cast e)
 	{
 		wxMessageBox("Incorrect input!");
 		return;
@@ -3538,10 +3536,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_PasteInsert = new wxButton(Tab_Units, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 	Units_Info = new wxStaticText(Tab_Units, wxID_ANY, " Info *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Info->SetToolTip("Add/Insert/Delete works for all civilizations\n...");
-	Units_Extract = new wxButton(Tab_Units, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
-	Units_Extract->Enable(false);
-	Units_Import = new wxButton(Tab_Units, wxID_ANY, "Import", wxDefaultPosition, wxSize(5, 20));
-	Units_Import->Enable(false);
+	//Units_Extract = new wxButton(Tab_Units, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
+	//Units_Extract->Enable(false);
+	//Units_Import = new wxButton(Tab_Units, wxID_ANY, "Import", wxDefaultPosition, wxSize(5, 20));
+	//Units_Import->Enable(false);
 	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "S copy", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
@@ -4551,8 +4549,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units_Buttons[0]->Add(Units_Copy, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_Paste, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_PasteInsert, 1, wxEXPAND);
-	Units_Units_Buttons[0]->Add(Units_Extract, 1, wxEXPAND);
-	Units_Units_Buttons[0]->Add(Units_Import, 1, wxEXPAND);
+	//Units_Units_Buttons[0]->Add(Units_Extract, 1, wxEXPAND);
+	//Units_Units_Buttons[0]->Add(Units_Import, 1, wxEXPAND);
 	Units_Units_Buttons[0]->Add(Units_Info, 1, wxEXPAND);
 	Units_Units_Buttons[1]->Add(Units_SpecialCopy, 1, wxEXPAND);
 	Units_Units_Buttons[1]->Add(Units_SpecialPaste, 1, wxEXPAND);

@@ -461,7 +461,7 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &Event)
 	{
 		DLLValue = lexical_cast<int32_t>(((wxTextCtrl*)Event.GetEventObject())->GetValue());
 	}
-	catch(...)
+	catch(bad_lexical_cast e)
 	{
 		wxMessageBox("Incorrect input!");
 		return;
