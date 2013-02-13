@@ -241,7 +241,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				GenieFile = new genie::DatFile();
 				try
 				{
-					GenieFile->setVerboseMode(true);
 					GenieFile->setGameVersion(GenieVersion);
 					GenieFile->load(DatFileName.c_str());
 				}
@@ -1230,7 +1229,7 @@ void AGE_Frame::OnGameVersionChange()
 				Units_Holder_Unknown7->Show(true);
 				Units_Holder_Unknown8->Show(true);
 				Units_Holder_Unknown12->Show(true);
-				for(short loop = 1;loop < 17; loop++)
+				for(short loop=1; loop < 17; loop++)
 				Units_Unknown16[loop]->Show(true);
 				Units_Holder_Unknown26->Show(true);
 				Units_Holder_Unknown27->Show(true);
@@ -1241,6 +1240,8 @@ void AGE_Frame::OnGameVersionChange()
 				Units_Holder_Unknown35->Show(true);
 				Units_Holder_Unknown36->Show(true);
 				Units_Holder_Unknown37->Show(true);
+				for(short loop=1; loop < General_AfterBorders.size(); loop++)
+				General_AfterBorders[loop]->Show(true);
 				General_Holder_Variables2->Show(true);
 			}
 		}
@@ -1269,7 +1270,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_SelectionShapeType->Show(false);
 			Units_Holder_ID3->Show(false);
 			Units_Holder_Unknown12->Show(false);
-			for(short loop = 1;loop < 17; loop++)
+			for(short loop=1; loop < 17; loop++)
 			Units_Unknown16[loop]->Show(false);
 			Units_Holder_GarrisonRecoveryRate->Show(false);
 			Units_Holder_Unknown26->Show(false);
@@ -1296,6 +1297,8 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unknown36->Show(false);
 			Units_Holder_Unknown37->Show(false);
 			TechTrees_Main->Show(false);
+			for(short loop=1; loop < General_AfterBorders.size(); loop++)
+			General_AfterBorders[loop]->Show(false);
 			General_Holder_Variables2->Show(false);
 			if(ShowUnknowns) Units_Holder_Unknown3a->Show(true);
 		}
@@ -1937,6 +1940,10 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("DefaultFiles/SaveApf", SaveApf);
 	delete Config;
 
+	//TabBar_Main->Show(false);
+	//TabBar_Main->Destroy();
+	Destroy();
+
 	delete GenieFile;
 	if(WriteLangs)
 	{
@@ -1944,8 +1951,4 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 		delete LangX;
 		delete LangXP;
 	}
-
-	//TabBar_Main->Show(false);
-	//TabBar_Main->Destroy();
-	Destroy();
 }

@@ -11,6 +11,7 @@
 #include "GateClosed.xpm"
 #include "Question.xpm"
 //#include <wx/dynarray.h>
+using std::array;
 using std::vector;
 
 /*class MyCanvas: public wxSFMLCanvas
@@ -762,10 +763,20 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *General_ScrollerWindows;
 	wxBoxSizer *General_ScrollerWindowsSpace;
 	wxBoxSizer *General_Holder_TerrainHeader;
-	wxGridSizer *General_Grid_TerrainHeader;
 	wxStaticText *General_Text_TerrainHeader;
-	TextCtrl_Short *General_TerrainHeader[69];
-	TextCtrl_Short *General_TerrainRendering[19];
+	wxGridSizer *General_Grid_TerrainHeader;
+	array<TextCtrl_Short*, 69> General_TerrainHeader;
+
+	wxBoxSizer *General_Holder_BorderRelated;
+	wxStaticText *General_Text_BorderRelated;
+	wxGridSizer *General_Grid_BorderRelated;
+	TextCtrl_Short *General_BeforeBorders;
+	array<TextCtrl_Long*, 7> General_AfterBorders;
+
+	wxBoxSizer *General_Holder_TerrainRendering;
+	wxStaticText *General_Text_TerrainRendering;
+	wxGridSizer *General_Grid_TerrainRendering;
+	array<TextCtrl_Short*, 19> General_TerrainRendering;
 
 	wxBoxSizer *Borders_Main;
 	wxBoxSizer *Borders_ListArea;
@@ -866,9 +877,9 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *General_Holder_SUnknown5;
 	wxStaticText *General_Text_SUnknown5;
 	TextCtrl_Long *General_SUnknown5;
-	wxBoxSizer *General_Holder_TTUnknown[8];
-	wxStaticText *General_Text_TTUnknown[8];
-	TextCtrl_Long *General_TTUnknown[8];
+	array<wxBoxSizer*, 8> General_Holder_TTUnknown;
+	array<wxStaticText*, 8> General_Text_TTUnknown;
+	array<TextCtrl_Long*, 8> General_TTUnknown;
 
 	wxBoxSizer *General_Holder_RenderPlusUnknown;
 	wxBoxSizer *General_Holder_RenderPlusUnknownTop;
@@ -878,7 +889,7 @@ class AGE_Frame: public wxFrame
 	wxButton *General_SomethingPrev;
 	wxStaticText *General_SomethingSize;
 	wxGridSizer *General_Grid_TechTree;
-	TextCtrl_Long *General_Something[128];
+	array<TextCtrl_Long*, 128> General_Something;
 
 //	Researchs user interface
 
