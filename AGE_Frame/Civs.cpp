@@ -317,7 +317,7 @@ string AGE_Frame::GetResourceName(short Index)
 			if(GameVersion < 4)
 			Name = "Trade Production";
 			else
-			Name = "Shields Recharge Rate";
+			Name = "Shields' Recharge Rate";
 			break;
 		case 11: Name = "Population (Both Current and Headroom)"; break;
 		case 12: Name = "Corpse Decay Time"; break;
