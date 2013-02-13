@@ -961,7 +961,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_Buttons->Add(Graphics_PasteInsert, 1, wxEXPAND);
 	//Graphics_Graphics_Buttons->Add(Graphics_Extract, 1, wxEXPAND);
 	//Graphics_Graphics_Buttons->Add(Graphics_Import, 1, wxEXPAND);
-	Graphics_Graphics_Buttons->AddStretchSpacer(1);
+	//Graphics_Graphics_Buttons->AddStretchSpacer(1);
 	Graphics_Graphics_Buttons->Add(Graphics_Enable, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Disable, 1, wxEXPAND);
 
