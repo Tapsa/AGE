@@ -141,8 +141,8 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
 	}
 	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
-	/*wxString Info = "";
-	bool AddInfo = false;
+	//wxString Info = lexical_cast<string>(GenieFile->Unknown.Pointer)+", size: ";
+	/*bool AddInfo = false;
 	long max;
 	switch(GameVersion)
 	{
@@ -161,26 +161,38 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 			max = 165;
 			break;
 		default: break;
-	}
-	for(long loop = 0; loop < max; loop++) // 3171
+	}*/
+	/*Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks.size()));
+	//wxMessageBox(Info);
+	for(int loop = 0; loop < GenieFile->Unknown.Unknown1stBlocks.size(); loop++)
 	{
-		//if(AddInfo)
-		//{
-			if(GenieFile->Something[loop] > 70000)
-			{
-				//AddInfo = false;
-				wxMessageBox(Info);
-				Info = "";
-				continue;
-			}
-			Info.Append(lexical_cast<string>(GenieFile->Something[loop])+"\n");
-		/*}
-		if(GenieFile->Something[loop] > 70000)// && (GenieFile->Something[loop-1] == 1))
-		{
-			AddInfo = true;
-		}/
+		Info.Append("\n\nItem: "+lexical_cast<string>(loop)+"\n");
+		for(int loop2 = 0; loop2 < genie::Unknown1stBlock::UNKNOWN1_LEN; loop2++)
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Unknown1[loop2])+" ");
+		Info.Append("\n"+lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Pointer1)+", size: ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Count1)+", ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Pointer2)+", size: ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Count2)+", ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Pointer3)+", size: ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Count3)+"    ");
+		for(int loop2 = 0; loop2 < genie::Unknown1stBlock::UNKNOWN2_LEN; loop2++)
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Unknown2[loop2])+" ");
+
+		Info.Append("\n");
+		for(int loop2 = 0; loop2 < genie::Unknown2ndBlock::UNKNOWN3_LEN; loop2++)
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Unknown3[loop2])+" ");
+		Info.Append("\n"+lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Pointer1)+", size: ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].FirstSubDatas.size())+", ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Pointer2)+", size: ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].SecondSubDatas.size())+", ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Pointer3)+", size: ");
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].ThirdSubDatas.size())+"    ");
+		for(int loop2 = 0; loop2 < genie::Unknown2ndBlock::UNKNOWN4_LEN; loop2++)
+		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Unknown4[loop2])+" ");
 	}
-	wxMessageBox(Info);*/
+	wxMessageBox(Info);
+	GenieFile->Unknown.Unknown1stBlocks.resize(100);
+	GenieFile->Unknown.Unknown2ndBlocks.resize(100);*/
 	// First count is in 162 for AoK/TC and perhaps SW is +1?
 	// in 6 for AoE/RoR probably
 	// TC:
@@ -188,12 +200,12 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	// 348 = count
 	// 374 = count
 	// and so on every number before large pointer is a count
-	for(long loop=0; loop < General_Something.size(); loop++)
+	/*for(long loop=0; loop < General_Something.size(); loop++)
 	{
 		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop+SomethingPage]));
 		General_Something[loop]->resize(1);
 		General_Something[loop]->container[0] = &GenieFile->Something[loop+SomethingPage];
-	}
+	}*/
 	if(GameVersion < 2) return;
 	for(short loop=1; loop < General_AfterBorders.size(); loop++)
 	{
