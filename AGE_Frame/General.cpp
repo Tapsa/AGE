@@ -141,28 +141,46 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
 	}
 	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
-	wxString Info = "";
+	/*wxString Info = "";
 	bool AddInfo = false;
-	for(long loop = 163; loop < 3171; loop++) // 3171
+	long max;
+	switch(GameVersion)
 	{
-		if(AddInfo)
-		{
+		case 0:
+			max = 1727;
+			break;
+		case 1:
+			max = 3770;
+			break;
+		case 2:
+		case 3:
+			max = 3171; // 164 if some data (from back) is removed and its count set to 0
+			break;
+		case 4:
+		case 5:
+			max = 165;
+			break;
+		default: break;
+	}
+	for(long loop = 0; loop < max; loop++) // 3171
+	{
+		//if(AddInfo)
+		//{
 			if(GenieFile->Something[loop] > 70000)
 			{
-				AddInfo = false;
-				//wxMessageBox(Info);
+				//AddInfo = false;
+				wxMessageBox(Info);
 				Info = "";
 				continue;
 			}
 			Info.Append(lexical_cast<string>(GenieFile->Something[loop])+"\n");
-			continue;
-		}
-		if(GenieFile->Something[loop] > 70000 && (GenieFile->Something[loop-1] == 1))
+		/*}
+		if(GenieFile->Something[loop] > 70000)// && (GenieFile->Something[loop-1] == 1))
 		{
 			AddInfo = true;
-		}
+		}/
 	}
-	//wxMessageBox(Info);
+	wxMessageBox(Info);*/
 	// First count is in 162 for AoK/TC and perhaps SW is +1?
 	// in 6 for AoE/RoR probably
 	// TC:
