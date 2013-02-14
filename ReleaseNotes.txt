@@ -17,6 +17,16 @@ Guide makers et cetera, please include the version into which your guide was wri
 Version [b]3.1[/b]:
 •Fixed civilization related unit copy/paste issues.
 •Referencing nonexistent units and researches in tech tree tab and unitline tab no longer crashes the program.
+•Fixed showing the second name of civilization in Star Wars versions.
+•Added costs and second internal name to research searches.
+•Unit command type 135 renamed to ability to kidnap.
+•Import and export buttons removed for now as being useless.
+•All hardcoded terrains available for editing.
+•Attributes' 21 and 101 names corrected for AoE and RoR.
+•Variable calculator now works to other direction too.
+•Modified general tab's unknown data handling.
+•All data in the dat files is editable in some way or another.
+•Named rest of the Star Wars terrain restrictions.
 
 Version [b]3.0[/b]:
 •Language files can be edited.
