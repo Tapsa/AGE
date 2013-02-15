@@ -101,7 +101,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 	UseAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Graphics_Graphics_List->GetCount() > 0) Graphics_Graphics_List->Clear();
+	Graphics_Graphics_List->Clear();
 
 	std::array<short, 22> SavedIDs;
 	if(Sized)
@@ -123,58 +123,22 @@ void AGE_Frame::ListGraphics(bool Sized)
 		SavedIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
 		SavedIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
 
-		if(Units_ComboBox_ConstructionGraphicID->GetCount() > 0)
-		{
-			Units_ComboBox_ConstructionGraphicID->Clear();
-		}
-		if(Units_ComboBox_SnowGraphicID->GetCount() > 0)
-		{
-			Units_ComboBox_SnowGraphicID->Clear();
-		}
-		if(Units_ComboBox_AttackGraphic->GetCount() > 0)
-		{
-			Units_ComboBox_AttackGraphic->Clear();
-		}
+		Units_ComboBox_ConstructionGraphicID->Clear();
+		Units_ComboBox_SnowGraphicID->Clear();
+		Units_ComboBox_AttackGraphic->Clear();
 		for(short loop=0; loop < 2; loop++)
 		{
-			if(Units_ComboBox_StandingGraphic[loop]->GetCount() > 0)
-			{
-				Units_ComboBox_StandingGraphic[loop]->Clear();
-			}
-			if(Units_ComboBox_GarrisonGraphic[loop]->GetCount() > 0)
-			{
-				Units_ComboBox_GarrisonGraphic[loop]->Clear();
-			}
-			if(Units_ComboBox_WalkingGraphic[loop]->GetCount() > 0)
-			{
-				Units_ComboBox_WalkingGraphic[loop]->Clear();
-			}
-			if(Units_ComboBox_DyingGraphic[loop]->GetCount() > 0)
-			{
-				Units_ComboBox_DyingGraphic[loop]->Clear();
-			}
-			if(TerRestrict_ComboBox_Graphics[loop]->GetCount() > 0)
-			{
-				TerRestrict_ComboBox_Graphics[loop]->Clear();
-			}
+			Units_ComboBox_StandingGraphic[loop]->Clear();
+			Units_ComboBox_GarrisonGraphic[loop]->Clear();
+			Units_ComboBox_WalkingGraphic[loop]->Clear();
+			Units_ComboBox_DyingGraphic[loop]->Clear();
+			TerRestrict_ComboBox_Graphics[loop]->Clear();
 		}
-		if(Units_ComboBox_AttackMissileDuplicationGraphic->GetCount() > 0)
-		{
-			Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
-		}
+		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
 		for(short loop=0; loop < 6; loop++)
-		if(UnitCommands_ComboBox_Graphics[loop]->GetCount() > 0)
-		{
-			UnitCommands_ComboBox_Graphics[loop]->Clear();
-		}
-		if(DamageGraphics_ComboBox_GraphicID->GetCount() > 0)
-		{
-			DamageGraphics_ComboBox_GraphicID->Clear();
-		}
-		if(GraphicDeltas_ComboBox_GraphicID->GetCount() > 0)
-		{
-			GraphicDeltas_ComboBox_GraphicID->Clear();
-		}
+		UnitCommands_ComboBox_Graphics[loop]->Clear();
+		DamageGraphics_ComboBox_GraphicID->Clear();
+		GraphicDeltas_ComboBox_GraphicID->Clear();
 
 		for(auto &ID: SavedIDs)
 		{
@@ -503,7 +467,7 @@ void AGE_Frame::ListGraphicDeltas()
 	excludeText = Graphics_Deltas_Search_R->GetValue().Lower();
 
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Graphics_Deltas_List->GetCount() > 0) Graphics_Deltas_List->Clear();
+	Graphics_Deltas_List->Clear();
 
 	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); loop++)
 	{
@@ -676,7 +640,7 @@ void AGE_Frame::ListGraphicAttackSounds()
 	string Name;
 
 	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
-	if(Graphics_AttackSounds_List->GetCount() > 0) Graphics_AttackSounds_List->Clear();
+	Graphics_AttackSounds_List->Clear();
 
 	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); loop++)
 	{

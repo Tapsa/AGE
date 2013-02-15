@@ -15,7 +15,7 @@ void AGE_Frame::ListPlayerColors()
 	excludeText = Colors_Colors_Search_R->GetValue().Lower();
 
 	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Colors_Colors_List->GetCount() > 0) Colors_Colors_List->Clear();
+	Colors_Colors_List->Clear();
 
 	for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
 	{

@@ -18,7 +18,7 @@ void AGE_Frame::ListCivs(bool Sized)
 	excludeText = Civs_Civs_Search_R->GetValue().Lower();
 
 	auto Selections = Civs_Civs_List->GetSelections(Items);
-	if(Civs_Civs_List->GetCount() > 0) Civs_Civs_List->Clear();
+	Civs_Civs_List->Clear();
 
 	std::array<short, 4> SavedIDs;
 	if(Sized)
@@ -28,10 +28,10 @@ void AGE_Frame::ListCivs(bool Sized)
 		SavedIDs[2] = SoundItems_ComboBox_Civ->GetSelection();
 		SavedIDs[3] = Units_ComboBox_Civ->GetSelection();
 
-		if(Research_ComboBox_Civ->GetCount() > 0) Research_ComboBox_Civ->Clear();
-		if(Units_Civs_List->GetCount() > 0) Units_Civs_List->Clear();
-		if(SoundItems_ComboBox_Civ->GetCount() > 0) SoundItems_ComboBox_Civ->Clear();
-		if(Units_ComboBox_Civ->GetCount() > 0) Units_ComboBox_Civ->Clear();
+		Research_ComboBox_Civ->Clear();
+		Units_Civs_List->Clear();
+		SoundItems_ComboBox_Civ->Clear();
+		Units_ComboBox_Civ->Clear();
 
 		for(auto &ID: SavedIDs)
 		{
@@ -691,7 +691,7 @@ void AGE_Frame::ListResources(bool Sized)
 	excludeText = Civs_Resources_Search_R->GetValue().Lower();
 
 	auto Selections = Civs_Resources_List->GetSelections(Items);
-	if(Civs_Resources_List->GetCount() > 0) Civs_Resources_List->Clear();
+	Civs_Resources_List->Clear();
 
 	std::array<short, 13> SavedIDs;
 	if(Sized)
@@ -709,35 +709,14 @@ void AGE_Frame::ListResources(bool Sized)
 
 		for(short loop=0; loop < 3; loop++)
 		{
-			if(Units_ComboBox_CostType[loop]->GetCount() > 0)
-			{
-				Units_ComboBox_CostType[loop]->Clear();
-			}
-			if(ResourceStorage_ComboBox_Type[loop]->GetCount() > 0)
-			{
-				ResourceStorage_ComboBox_Type[loop]->Clear();
-			}
-			if(Research_ComboBox_Resources[loop]->GetCount() > 0)
-			{
-				Research_ComboBox_Resources[loop]->Clear();
-			}
+			Units_ComboBox_CostType[loop]->Clear();
+			ResourceStorage_ComboBox_Type[loop]->Clear();
+			Research_ComboBox_Resources[loop]->Clear();
 		}
-		if(UnitCommands_ComboBox_ResourceIn->GetCount() > 0)
-		{
-			UnitCommands_ComboBox_ResourceIn->Clear();
-		}
-		if(UnitCommands_ComboBox_ResourceOut->GetCount() > 0)
-		{
-			UnitCommands_ComboBox_ResourceOut->Clear();
-		}
-		if(Effects_ComboBox_ResourcesA->GetCount() > 0)
-		{
-			Effects_ComboBox_ResourcesA->Clear();
-		}
-		if(Effects_ComboBox_ResourcesB->GetCount() > 0)
-		{
-			Effects_ComboBox_ResourcesB->Clear();
-		}
+		UnitCommands_ComboBox_ResourceIn->Clear();
+		UnitCommands_ComboBox_ResourceOut->Clear();
+		Effects_ComboBox_ResourcesA->Clear();
+		Effects_ComboBox_ResourcesB->Clear();
 
 		for(auto &ID: SavedIDs)
 		{

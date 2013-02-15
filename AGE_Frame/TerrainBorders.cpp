@@ -20,7 +20,7 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 	excludeText = Borders_Borders_Search_R->GetValue().Lower();
 
 	auto Selections = Borders_Borders_List->GetSelections(Items);
-	if(Borders_Borders_List->GetCount() > 0) Borders_Borders_List->Clear();
+	Borders_Borders_List->Clear();
 	
 	short BorderIDs[TERRAINBORDERSMAX];
 	if(Sized)
@@ -28,7 +28,6 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 		for(short loop=0; loop < TERRAINBORDERSMAX; loop++)
 		{
 			BorderIDs[loop] = Terrains_ComboBox_TerrainBorderID[loop]->GetSelection();
-			if(Terrains_ComboBox_TerrainBorderID[loop]->GetCount() > 0)
 			Terrains_ComboBox_TerrainBorderID[loop]->Clear();
 			if(BorderIDs[loop] == wxNOT_FOUND) BorderIDs[loop] = 0;
 			Terrains_ComboBox_TerrainBorderID[loop]->Append("-1 - None");
@@ -169,7 +168,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 	excludeText = Borders_Frames_Search_R->GetValue().Lower();
 
 	auto Selections = Borders_Frames_List->GetSelections(Items);
-	if(Borders_Frames_List->GetCount() > 0) Borders_Frames_List->Clear();
+	Borders_Frames_List->Clear();
 
 	for(short loop=0; loop < GenieFile->TerrainBorders[BorderIDs[0]].Frames.size(); loop++)
 	{

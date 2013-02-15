@@ -1089,7 +1089,7 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Short *Effects_B;
 	wxBoxSizer *Effects_ComboBox_B;	// Space reserver, never used.
 	CheckBox_2State *Effects_CheckBox_ModeB;	// for Effects 1, 2
-	ComboBox_Plus1 *Effects_ComboBox_Class;	// for Effects 0, 4, 5
+	//ComboBox_Plus1 *Units_ComboBox_Class[2];	// for Effects 0, 4, 5
 	ComboBox_Plus1 *Effects_ComboBox_UnitsB;	// for Effects 3
 	ComboBox_Plus1 *Effects_ComboBox_ResourcesB;	// for Effects 101
 	wxStaticText *Effects_Info_B;
@@ -1201,7 +1201,7 @@ class AGE_Frame: public wxFrame
 	TextCtrl_UShort *Units_LanguageDLLCreation;
 	TextCtrl_DLL *Units_DLL_LanguageCreation;
 	TextCtrl_Short *Units_Class;
-	ComboBox_Plus1 *Units_ComboBox_Class[2];
+	ComboBox_Plus1 *Units_ComboBox_Class[3];
 	TextCtrl_Short *Units_StandingGraphic[2];
 	ComboBox_Plus1 *Units_ComboBox_StandingGraphic[2];
 	TextCtrl_Short *Units_DyingGraphic[2];

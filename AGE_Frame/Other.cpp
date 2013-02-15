@@ -329,10 +329,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Added = false;
 
-		if(UnitCommands_ComboBox_Types->GetCount() > 0)
-		{
-			UnitCommands_ComboBox_Types->Clear();
-		}
+		UnitCommands_ComboBox_Types->Clear();
 		UnitCommands_ComboBox_Types->Append("Unused Ability/Invalid Ability");	// Selection 0
 		UnitCommands_ComboBox_Types->Append("Ability to Garrison");	// Selection 1
 		UnitCommands_ComboBox_Types->Append("Ability to Mine Gold");
@@ -366,10 +363,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_ComboBox_Types->Append("Ability to Deposit Unit");	// Selection 30
 		UnitCommands_ComboBox_Types->SetSelection(0);
 
-		if(Units_ComboBox_GarrisonType->GetCount() > 0)
-		{
-			Units_ComboBox_GarrisonType->Clear();
-		}
+		Units_ComboBox_GarrisonType->Clear();
 		Units_ComboBox_GarrisonType->Append("No Type/Invalid Type");	// Selection 0
 		if(GameVersion >= 2)
 		{
@@ -411,159 +405,150 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		Units_ComboBox_GarrisonType->SetSelection(0);
 
-		wxArrayString AoEClasses, SWGBClasses;
-		AoEClasses.Alloc(62);
-		AoEClasses.Add("0 - Archer");	// Selection 1
-		AoEClasses.Add("1 - Artifact");
-		AoEClasses.Add("2 - Trade Boat");
-		AoEClasses.Add("3 - Building");
-		AoEClasses.Add("4 - Civilian");
-		AoEClasses.Add("5 - Sea Fish");
-		AoEClasses.Add("6 - Soldier");
-		AoEClasses.Add("7 - Berry Bush");
-		AoEClasses.Add("8 - Stone Mine");
-		AoEClasses.Add("9 - Prey Animal");
-		AoEClasses.Add("10 - Predator Animal");
-		AoEClasses.Add("11 - Other/Dead/Projectile");
-		AoEClasses.Add("12 - Cavalry");
-		AoEClasses.Add("13 - Siege Weapon");
-		AoEClasses.Add("14 - Terrain");
-		AoEClasses.Add("15 - Tree");
-		AoEClasses.Add("16 - Tree Stump");
-		AoEClasses.Add("17 - Unused");
-		AoEClasses.Add("18 - Priest");
-		AoEClasses.Add("19 - Trade Cart");
-		AoEClasses.Add("20 - Transport Boat");
-		AoEClasses.Add("21 - Fishing Boat");
-		AoEClasses.Add("22 - War Boat");
-		AoEClasses.Add("23 - Conquistador");
-		AoEClasses.Add("24 - War Elephant");
-		AoEClasses.Add("25 - Unused");
-		AoEClasses.Add("26 - Elephant Archer");
-		AoEClasses.Add("27 - Wall");
-		AoEClasses.Add("28 - Phalanx");
-		AoEClasses.Add("29 - Unused");
-		AoEClasses.Add("30 - Flag");
-		AoEClasses.Add("31 - Unused");
-		AoEClasses.Add("32 - Gold Mine");
-		AoEClasses.Add("33 - Shore Fish");
-		AoEClasses.Add("34 - Cliff");
-		AoEClasses.Add("35 - Petard/Chariot");
-		AoEClasses.Add("36 - Cavalry Archer");
-		AoEClasses.Add("37 - Dolphin/Smoke");
-		AoEClasses.Add("38 - Bird");
-		AoEClasses.Add("39 - Gate/Slinger");
-		AoEClasses.Add("40 - Pile");
-		AoEClasses.Add("41 - Pile of Resource");
-		AoEClasses.Add("42 - Relic");
-		AoEClasses.Add("43 - Monk with Relic");
-		AoEClasses.Add("44 - Hand Cannoneer");
-		AoEClasses.Add("45 - Two Handed Swordsman");
-		AoEClasses.Add("46 - Pikeman");
-		AoEClasses.Add("47 - Scout Cavalry");
-		AoEClasses.Add("48 - Ore Mine");
-		AoEClasses.Add("49 - Farm");
-		AoEClasses.Add("50 - Spearman");
-		AoEClasses.Add("51 - Packed Siege Unit");
-		AoEClasses.Add("52 - Tower");
-		AoEClasses.Add("53 - Boarding Boat");
-		AoEClasses.Add("54 - Unpacked Siege Unit");
-		AoEClasses.Add("55 - Scorpion");
-		AoEClasses.Add("56 - Raider");
-		AoEClasses.Add("57 - Cavalry Raider");
-		AoEClasses.Add("58 - Sheep");
-		AoEClasses.Add("59 - King");
-		AoEClasses.Add("60 - Unused");
-		AoEClasses.Add("61 - Horse");
-		SWGBClasses.Alloc(65);
-		SWGBClasses.Add("0 - Unused");	// Selection 1
-		SWGBClasses.Add("1 - Nerf/Bantha");
-		SWGBClasses.Add("2 - Fambaa");
-		SWGBClasses.Add("3 - Unused");
-		SWGBClasses.Add("4 - Wild Animal");
-		SWGBClasses.Add("5 - Monster/Trouble");
-		SWGBClasses.Add("6 - Wall");
-		SWGBClasses.Add("7 - Farm");
-		SWGBClasses.Add("8 - Gate");
-		SWGBClasses.Add("9 - Fortress/A-A Turret");
-		SWGBClasses.Add("10 - Turret");
-		SWGBClasses.Add("11 - Cruiser");
-		SWGBClasses.Add("12 - Unused");
-		SWGBClasses.Add("13 - Destroyer");
-		SWGBClasses.Add("14 - Utility Trawler");
-		SWGBClasses.Add("15 - Frigate 1");
-		SWGBClasses.Add("16 - A-A Destroyer 1");
-		SWGBClasses.Add("17 - Transport Ship");
-		SWGBClasses.Add("18 - Building");
-		SWGBClasses.Add("19 - Doppleganger");
-		SWGBClasses.Add("20 - Other/Dead/Projectile");
-		SWGBClasses.Add("21 - Command Base");
-		SWGBClasses.Add("22 - Cliff");
-		SWGBClasses.Add("23 - Fish");
-		SWGBClasses.Add("24 - Unused");
-		SWGBClasses.Add("25 - Shore Fish");
-		SWGBClasses.Add("26 - Game Engine Stuff");
-		SWGBClasses.Add("27 - Fruit Bush");
-		SWGBClasses.Add("28 - Holocron");
-		SWGBClasses.Add("29 - Nova");
-		SWGBClasses.Add("30 - Ore");
-		SWGBClasses.Add("31 - Tree/Carbon");
-		SWGBClasses.Add("32 - Artillery");
-		SWGBClasses.Add("33 - A-A Mobile");
-		SWGBClasses.Add("34 - Undeployed Cannon");
-		SWGBClasses.Add("35 - Pummel");
-		SWGBClasses.Add("36 - Cannon");
-		SWGBClasses.Add("37 - Unused");
-		SWGBClasses.Add("38 - Unused");
-		SWGBClasses.Add("39 - Frigate 2");
-		SWGBClasses.Add("40 - A-A Destroyer 2");
-		SWGBClasses.Add("41 - Unused");
-		SWGBClasses.Add("42 - Bridge/Eye Candy");
-		SWGBClasses.Add("43 - Bomber");
-		SWGBClasses.Add("44 - Bounty Hunter");
-		SWGBClasses.Add("45 - Cargo Trader");
-		SWGBClasses.Add("46 - Mixed 1");
-		SWGBClasses.Add("47 - Scout");
-		SWGBClasses.Add("48 - Fighter");
-		SWGBClasses.Add("49 - Grenade Trooper");
-		SWGBClasses.Add("50 - Jedi");
-		SWGBClasses.Add("51 - Jedi with Holocron");
-		SWGBClasses.Add("52 - Trooper");
-		SWGBClasses.Add("53 - War Machine");
-		SWGBClasses.Add("54 - Medic");
-		SWGBClasses.Add("55 - A-A Trooper");
-		SWGBClasses.Add("56 - Mounted Trooper");
-		SWGBClasses.Add("57 - Fambaa Shield Generator");
-		SWGBClasses.Add("58 - Workers");
-		SWGBClasses.Add("59 - Air Transport");
-		SWGBClasses.Add("60 - Horse-like Animal");
-		SWGBClasses.Add("61 - Power Droid");
-		SWGBClasses.Add("62 - Air Cruiser");
-		SWGBClasses.Add("63 - Geonosian Warrior");
-		SWGBClasses.Add("64 - Jedi Starfighter");
-
-		if(Effects_ComboBox_Class->GetCount() > 0) Effects_ComboBox_Class->Clear();
-		Effects_ComboBox_Class->Append("No Class/Invalid Class");	// Selection 0
-		if(GameVersion < 4)
-		{
-			Effects_ComboBox_Class->Append(AoEClasses);
-		}
-		else
-		{
-			Effects_ComboBox_Class->Append(SWGBClasses);
-		}
-		Effects_ComboBox_Class->SetSelection(0);
-
 		Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 		long ExtraCount;
 		Customs->Read("Count/ExtraCount", &ExtraCount, 5);
 		wxString MoveHolder = "";
 		for(short loop=0; loop < 3; loop++)
 		{
-			if(Attacks_ComboBox_Class[loop]->GetCount() > 0)
+			Units_ComboBox_Class[loop]->Clear();
+			Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
+			if(GameVersion < 4)
 			{
-				Attacks_ComboBox_Class[loop]->Clear();
+				Units_ComboBox_Class[loop]->Append("0 - Archer");	// Selection 1
+				Units_ComboBox_Class[loop]->Append("1 - Artifact/Ruins");
+				Units_ComboBox_Class[loop]->Append("2 - Trade Boat");
+				Units_ComboBox_Class[loop]->Append("3 - Building");
+				Units_ComboBox_Class[loop]->Append("4 - Civilian");
+				Units_ComboBox_Class[loop]->Append("5 - Sea Fish");
+				Units_ComboBox_Class[loop]->Append("6 - Soldier");
+				Units_ComboBox_Class[loop]->Append("7 - Berry Bush");
+				Units_ComboBox_Class[loop]->Append("8 - Stone Mine");
+				Units_ComboBox_Class[loop]->Append("9 - Prey Animal");
+				Units_ComboBox_Class[loop]->Append("10 - Predator Animal");
+				Units_ComboBox_Class[loop]->Append("11 - Other/Dead/Projectile");
+				Units_ComboBox_Class[loop]->Append("12 - Cavalry");
+				Units_ComboBox_Class[loop]->Append("13 - Siege Weapon");
+				Units_ComboBox_Class[loop]->Append("14 - Terrain");
+				Units_ComboBox_Class[loop]->Append("15 - Tree");
+				Units_ComboBox_Class[loop]->Append("16 - Tree Stump");
+				Units_ComboBox_Class[loop]->Append("17 - Unused");
+				Units_ComboBox_Class[loop]->Append("18 - Priest");
+				Units_ComboBox_Class[loop]->Append("19 - Trade Cart");
+				Units_ComboBox_Class[loop]->Append("20 - Transport Boat");
+				Units_ComboBox_Class[loop]->Append("21 - Fishing Boat");
+				Units_ComboBox_Class[loop]->Append("22 - War Boat");
+				Units_ComboBox_Class[loop]->Append("23 - Conquistador/Chariot Archer");
+				Units_ComboBox_Class[loop]->Append("24 - War Elephant");
+				Units_ComboBox_Class[loop]->Append("25 - Unused");
+				Units_ComboBox_Class[loop]->Append("26 - Elephant Archer");
+				Units_ComboBox_Class[loop]->Append("27 - Wall");
+				Units_ComboBox_Class[loop]->Append("28 - Phalanx");
+				Units_ComboBox_Class[loop]->Append("29 - Unused");
+				Units_ComboBox_Class[loop]->Append("30 - Flag");
+				Units_ComboBox_Class[loop]->Append("31 - Unused");
+				Units_ComboBox_Class[loop]->Append("32 - Gold Mine");
+				Units_ComboBox_Class[loop]->Append("33 - Shore Fish");
+				Units_ComboBox_Class[loop]->Append("34 - Cliff");
+				Units_ComboBox_Class[loop]->Append("35 - Petard/Chariot");
+				Units_ComboBox_Class[loop]->Append("36 - Cavalry Archer");
+				Units_ComboBox_Class[loop]->Append("37 - Dolphin/Smoke");
+				Units_ComboBox_Class[loop]->Append("38 - Bird");
+				Units_ComboBox_Class[loop]->Append("39 - Gate/Slinger");
+				Units_ComboBox_Class[loop]->Append("40 - Pile");
+				Units_ComboBox_Class[loop]->Append("41 - Pile of Resource");
+				Units_ComboBox_Class[loop]->Append("42 - Relic");
+				Units_ComboBox_Class[loop]->Append("43 - Monk with Relic");
+				Units_ComboBox_Class[loop]->Append("44 - Hand Cannoneer");
+				Units_ComboBox_Class[loop]->Append("45 - Two Handed Swordsman");
+				Units_ComboBox_Class[loop]->Append("46 - Pikeman");
+				Units_ComboBox_Class[loop]->Append("47 - Scout Cavalry");
+				Units_ComboBox_Class[loop]->Append("48 - Ore Mine");
+				Units_ComboBox_Class[loop]->Append("49 - Farm");
+				Units_ComboBox_Class[loop]->Append("50 - Spearman");
+				Units_ComboBox_Class[loop]->Append("51 - Packed Siege Unit");
+				Units_ComboBox_Class[loop]->Append("52 - Tower");
+				Units_ComboBox_Class[loop]->Append("53 - Boarding Boat");
+				Units_ComboBox_Class[loop]->Append("54 - Unpacked Siege Unit");
+				Units_ComboBox_Class[loop]->Append("55 - Scorpion");
+				Units_ComboBox_Class[loop]->Append("56 - Raider");
+				Units_ComboBox_Class[loop]->Append("57 - Cavalry Raider");
+				Units_ComboBox_Class[loop]->Append("58 - Sheep");
+				Units_ComboBox_Class[loop]->Append("59 - King");
+				Units_ComboBox_Class[loop]->Append("60 - Unused");
+				Units_ComboBox_Class[loop]->Append("61 - Horse");
 			}
+			else
+			{
+				Units_ComboBox_Class[loop]->Append("0 - Unused");	// Selection 1
+				Units_ComboBox_Class[loop]->Append("1 - Nerf/Bantha");
+				Units_ComboBox_Class[loop]->Append("2 - Fambaa");
+				Units_ComboBox_Class[loop]->Append("3 - Unused");
+				Units_ComboBox_Class[loop]->Append("4 - Wild Animal");
+				Units_ComboBox_Class[loop]->Append("5 - Monster/Trouble");
+				Units_ComboBox_Class[loop]->Append("6 - Wall");
+				Units_ComboBox_Class[loop]->Append("7 - Farm");
+				Units_ComboBox_Class[loop]->Append("8 - Gate");
+				Units_ComboBox_Class[loop]->Append("9 - Fortress/A-A Turret");
+				Units_ComboBox_Class[loop]->Append("10 - Turret");
+				Units_ComboBox_Class[loop]->Append("11 - Cruiser");
+				Units_ComboBox_Class[loop]->Append("12 - Unused");
+				Units_ComboBox_Class[loop]->Append("13 - Destroyer");
+				Units_ComboBox_Class[loop]->Append("14 - Utility Trawler");
+				Units_ComboBox_Class[loop]->Append("15 - Frigate 1");
+				Units_ComboBox_Class[loop]->Append("16 - A-A Destroyer 1");
+				Units_ComboBox_Class[loop]->Append("17 - Transport Ship");
+				Units_ComboBox_Class[loop]->Append("18 - Building");
+				Units_ComboBox_Class[loop]->Append("19 - Doppleganger");
+				Units_ComboBox_Class[loop]->Append("20 - Other/Dead/Projectile");
+				Units_ComboBox_Class[loop]->Append("21 - Command Base");
+				Units_ComboBox_Class[loop]->Append("22 - Cliff");
+				Units_ComboBox_Class[loop]->Append("23 - Fish");
+				Units_ComboBox_Class[loop]->Append("24 - Unused");
+				Units_ComboBox_Class[loop]->Append("25 - Shore Fish");
+				Units_ComboBox_Class[loop]->Append("26 - Game Engine Stuff");
+				Units_ComboBox_Class[loop]->Append("27 - Fruit Bush");
+				Units_ComboBox_Class[loop]->Append("28 - Holocron");
+				Units_ComboBox_Class[loop]->Append("29 - Nova");
+				Units_ComboBox_Class[loop]->Append("30 - Ore");
+				Units_ComboBox_Class[loop]->Append("31 - Tree/Carbon");
+				Units_ComboBox_Class[loop]->Append("32 - Artillery");
+				Units_ComboBox_Class[loop]->Append("33 - A-A Mobile");
+				Units_ComboBox_Class[loop]->Append("34 - Undeployed Cannon");
+				Units_ComboBox_Class[loop]->Append("35 - Pummel");
+				Units_ComboBox_Class[loop]->Append("36 - Cannon");
+				Units_ComboBox_Class[loop]->Append("37 - Unused");
+				Units_ComboBox_Class[loop]->Append("38 - Unused");
+				Units_ComboBox_Class[loop]->Append("39 - Frigate 2");
+				Units_ComboBox_Class[loop]->Append("40 - A-A Destroyer 2");
+				Units_ComboBox_Class[loop]->Append("41 - Unused");
+				Units_ComboBox_Class[loop]->Append("42 - Bridge/Eye Candy");
+				Units_ComboBox_Class[loop]->Append("43 - Bomber");
+				Units_ComboBox_Class[loop]->Append("44 - Bounty Hunter");
+				Units_ComboBox_Class[loop]->Append("45 - Cargo Trader");
+				Units_ComboBox_Class[loop]->Append("46 - Mixed 1");
+				Units_ComboBox_Class[loop]->Append("47 - Scout");
+				Units_ComboBox_Class[loop]->Append("48 - Fighter");
+				Units_ComboBox_Class[loop]->Append("49 - Grenade Trooper");
+				Units_ComboBox_Class[loop]->Append("50 - Jedi");
+				Units_ComboBox_Class[loop]->Append("51 - Jedi with Holocron");
+				Units_ComboBox_Class[loop]->Append("52 - Trooper");
+				Units_ComboBox_Class[loop]->Append("53 - War Machine");
+				Units_ComboBox_Class[loop]->Append("54 - Medic");
+				Units_ComboBox_Class[loop]->Append("55 - A-A Trooper");
+				Units_ComboBox_Class[loop]->Append("56 - Mounted Trooper");
+				Units_ComboBox_Class[loop]->Append("57 - Fambaa Shield Generator");
+				Units_ComboBox_Class[loop]->Append("58 - Workers");
+				Units_ComboBox_Class[loop]->Append("59 - Air Transport");
+				Units_ComboBox_Class[loop]->Append("60 - Horse-like Animal");
+				Units_ComboBox_Class[loop]->Append("61 - Power Droid");
+				Units_ComboBox_Class[loop]->Append("62 - Air Cruiser");
+				Units_ComboBox_Class[loop]->Append("63 - Geonosian Warrior");
+				Units_ComboBox_Class[loop]->Append("64 - Jedi Starfighter");
+			}
+			Units_ComboBox_Class[loop]->SetSelection(0);
+
+			Attacks_ComboBox_Class[loop]->Clear();
 			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
 			if(GameVersion < 2) // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
@@ -800,22 +785,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		for(short loop=0; loop < 2; loop++)
 		{
-			if(Units_ComboBox_Class[loop]->GetCount() > 0) Units_ComboBox_Class[loop]->Clear();
-			Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
-			if(GameVersion < 4)
-			{
-				Units_ComboBox_Class[loop]->Append(AoEClasses);
-			}
-			else
-			{
-				Units_ComboBox_Class[loop]->Append(SWGBClasses);
-			}
-			Units_ComboBox_Class[loop]->SetSelection(0);
-
-			if(Units_Units_SearchFilters[loop]->GetCount() > 0)
-			{
-				Units_Units_SearchFilters[loop]->Clear();
-			}
+			Units_Units_SearchFilters[loop]->Clear();
 			Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
 			Units_Units_SearchFilters[loop]->Append("Internal Name");
 			Units_Units_SearchFilters[loop]->Append("Type");
@@ -856,10 +826,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_Units_SearchFilters[loop]->Append("Research");
 		*/	Units_Units_SearchFilters[loop]->SetSelection(0);
 
-			if(Research_Research_SearchFilters[loop]->GetCount() > 0)
-			{
-				Research_Research_SearchFilters[loop]->Clear();
-			}
+			Research_Research_SearchFilters[loop]->Clear();
 			Research_Research_SearchFilters[loop]->Append("Lang DLL Name");	// 0
 			Research_Research_SearchFilters[loop]->Append("Internal Name");
 			Research_Research_SearchFilters[loop]->Append("Required Researches");
@@ -885,10 +852,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			}
 			Research_Research_SearchFilters[loop]->SetSelection(0);
 
-			if(Sounds_Items_SearchFilters[loop]->GetCount() > 0)
-			{
-				Sounds_Items_SearchFilters[loop]->Clear();
-			}
+			Sounds_Items_SearchFilters[loop]->Clear();
 			Sounds_Items_SearchFilters[loop]->Append("Filename");	// 0
 			Sounds_Items_SearchFilters[loop]->Append("DRS");
 			Sounds_Items_SearchFilters[loop]->Append("Probability");
@@ -911,33 +875,19 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		else
 		{
-			if(TechTrees_MainList_Ages_List->GetCount() > 0)
 			TechTrees_MainList_Ages_List->Clear();
-			if(TechTrees_DataList_Ages_List_Buildings->GetCount() > 0)
 			TechTrees_DataList_Ages_List_Buildings->Clear();
-			if(TechTrees_DataList_Ages_List_Units->GetCount() > 0)
 			TechTrees_DataList_Ages_List_Units->Clear();
-			if(TechTrees_DataList_Ages_List_Researches->GetCount() > 0)
 			TechTrees_DataList_Ages_List_Researches->Clear();
-			if(TechTrees_MainList_Buildings_List->GetCount() > 0)
 			TechTrees_MainList_Buildings_List->Clear();
-			if(TechTrees_DataList_Buildings_List_Buildings->GetCount() > 0)
 			TechTrees_DataList_Buildings_List_Buildings->Clear();
-			if(TechTrees_DataList_Buildings_List_Units->GetCount() > 0)
 			TechTrees_DataList_Buildings_List_Units->Clear();
-			if(TechTrees_DataList_Buildings_List_Researches->GetCount() > 0)
 			TechTrees_DataList_Buildings_List_Researches->Clear();
-			if(TechTrees_MainList_Units_List->GetCount() > 0)
 			TechTrees_MainList_Units_List->Clear();
-			if(TechTrees_DataList_Units_List_Units->GetCount() > 0)
 			TechTrees_DataList_Units_List_Units->Clear();
-			if(TechTrees_MainList_Researches_List->GetCount() > 0)
 			TechTrees_MainList_Researches_List->Clear();
-			if(TechTrees_DataList_Researches_List_Buildings->GetCount() > 0)
 			TechTrees_DataList_Researches_List_Buildings->Clear();
-			if(TechTrees_DataList_Researches_List_Units->GetCount() > 0)
 			TechTrees_DataList_Researches_List_Units->Clear();
-			if(TechTrees_DataList_Researches_List_Researches->GetCount() > 0)
 			TechTrees_DataList_Researches_List_Researches->Clear();
 		}
 		OnCivCountChange();
@@ -949,9 +899,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		else
 		{
-			if(UnitLines_UnitLines_List->GetCount() > 0)
 			UnitLines_UnitLines_List->Clear();
-			if(UnitLines_UnitLineUnits_List->GetCount() > 0)
 			UnitLines_UnitLineUnits_List->Clear();
 		}
 		ListResearches();
@@ -965,10 +913,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		ListTerrainBorders();
 		ListGeneral();
 
-		if(Effects_ComboBox_AttributesC->GetCount() > 0)
-		{
-			Effects_ComboBox_AttributesC->Clear();
-		}
+		Effects_ComboBox_AttributesC->Clear();
 		Effects_ComboBox_AttributesC->Append("No Attribute/Invalid Attribute");		// Selection 0
 		Effects_ComboBox_AttributesC->Append("0 - Hit Points");		// Selection 1
 		Effects_ComboBox_AttributesC->Append("1 - Line of Sight");
@@ -1096,10 +1041,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
 		Effects_ComboBox_AttributesC->SetSelection(0);
 
-		if(Units_GraphicSet->GetCount() > 0)
-		{
-			Units_GraphicSet->Clear();
-		}
+		Units_GraphicSet->Clear();
 		if(GameVersion < 2)
 		{
 			// AoE
