@@ -125,15 +125,12 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	excludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
 
 	auto Selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	if(TerRestrict_TerRestrict_List->GetCount() > 0) TerRestrict_TerRestrict_List->Clear();
+	TerRestrict_TerRestrict_List->Clear();
 
 	short RestrictionID1 = Units_ComboBox_TerrainRestriction->GetSelection();
 	if(Sized)
 	{
-		if(Units_ComboBox_TerrainRestriction->GetCount() > 0)
-		{
-			Units_ComboBox_TerrainRestriction->Clear();
-		}
+		Units_ComboBox_TerrainRestriction->Clear();
 
 		if(RestrictionID1 == wxNOT_FOUND)
 		{

@@ -21,7 +21,6 @@ void AGE_Frame::ListGeneral()
 			break;
 		default: break;
 	}
-	// Ekat 686 on renderingiä AoK - CC? Koita tyhjentää sen jälkeiset asiat TCstä!
 	General_SomethingSize->SetLabel("Size: "+lexical_cast<string>(SomethingSize));
 	SomethingPage = 0;
 	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));

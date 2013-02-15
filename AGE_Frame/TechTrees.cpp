@@ -18,7 +18,7 @@ void AGE_Frame::ListTTAgess()
 	excludeText = TechTrees_MainList_Ages_Search_R->GetValue().Lower();
 
 	auto Selections = TechTrees_MainList_Ages_List->GetSelections(Items);
-	if(TechTrees_MainList_Ages_List->GetCount() > 0) TechTrees_MainList_Ages_List->Clear();
+	TechTrees_MainList_Ages_List->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.TechTreeAges.size(); loop++)
 	{
@@ -183,7 +183,7 @@ void AGE_Frame::ListTTAgesBuildings()
 	excludeText = TechTrees_DataList_Ages_Search_R_Buildings->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Ages_List_Buildings->GetSelections(Items);
-	if(TechTrees_DataList_Ages_List_Buildings->GetCount() > 0) TechTrees_DataList_Ages_List_Buildings->Clear();
+	TechTrees_DataList_Ages_List_Buildings->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.size(); loop++)
 	{
@@ -304,7 +304,7 @@ void AGE_Frame::ListTTAgesUnits()
 	excludeText = TechTrees_DataList_Ages_Search_R_Units->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Ages_List_Units->GetSelections(Items);
-	if(TechTrees_DataList_Ages_List_Units->GetCount() > 0) TechTrees_DataList_Ages_List_Units->Clear();
+	TechTrees_DataList_Ages_List_Units->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.size(); loop++)
 	{
@@ -440,7 +440,7 @@ void AGE_Frame::ListTTAgesResearches()
 	excludeText = TechTrees_DataList_Ages_Search_R_Researches->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Ages_List_Researches->GetSelections(Items);
-	if(TechTrees_DataList_Ages_List_Researches->GetCount() > 0) TechTrees_DataList_Ages_List_Researches->Clear();
+	TechTrees_DataList_Ages_List_Researches->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.size(); loop++)
 	{
@@ -624,7 +624,7 @@ void AGE_Frame::ListTTBuildings()
 	UseAnd[loop] = TechTrees_MainList_Buildings_UseAnd[loop]->GetValue();
 
 	auto Selections = TechTrees_MainList_Buildings_List->GetSelections(Items);
-	if(TechTrees_MainList_Buildings_List->GetCount() > 0) TechTrees_MainList_Buildings_List->Clear();
+	TechTrees_MainList_Buildings_List->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.BuildingConnections.size(); loop++)
 	{
@@ -883,7 +883,7 @@ void AGE_Frame::ListTTBuildingBuildings()
 	excludeText = TechTrees_DataList_Buildings_Search_R_Buildings->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Buildings_List_Buildings->GetSelections(Items);
-	if(TechTrees_DataList_Buildings_List_Buildings->GetCount() > 0) TechTrees_DataList_Buildings_List_Buildings->Clear();
+	TechTrees_DataList_Buildings_List_Buildings->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.size(); loop++)
 	{
@@ -1004,7 +1004,7 @@ void AGE_Frame::ListTTBuildingUnits()
 	excludeText = TechTrees_DataList_Buildings_Search_R_Units->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Buildings_List_Units->GetSelections(Items);
-	if(TechTrees_DataList_Buildings_List_Units->GetCount() > 0) TechTrees_DataList_Buildings_List_Units->Clear();
+	TechTrees_DataList_Buildings_List_Units->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.size(); loop++)
 	{
@@ -1125,7 +1125,7 @@ void AGE_Frame::ListTTBuildingResearches()
 	excludeText = TechTrees_DataList_Buildings_Search_R_Researches->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Buildings_List_Researches->GetSelections(Items);
-	if(TechTrees_DataList_Buildings_List_Researches->GetCount() > 0) TechTrees_DataList_Buildings_List_Researches->Clear();
+	TechTrees_DataList_Buildings_List_Researches->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.size(); loop++)
 	{
@@ -1321,7 +1321,7 @@ void AGE_Frame::ListTTUnits()
 	UseAnd[loop] = TechTrees_MainList_Units_UseAnd[loop]->GetValue();
 
 	auto Selections = TechTrees_MainList_Units_List->GetSelections(Items);
-	if(TechTrees_MainList_Units_List->GetCount() > 0) TechTrees_MainList_Units_List->Clear();
+	TechTrees_MainList_Units_List->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.UnitConnections.size(); loop++)
 	{
@@ -1580,7 +1580,7 @@ void AGE_Frame::ListTTUnitUnits()
 	excludeText = TechTrees_DataList_Units_Search_R_Units->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Units_List_Units->GetSelections(Items);
-	if(TechTrees_DataList_Units_List_Units->GetCount() > 0) TechTrees_DataList_Units_List_Units->Clear();
+	TechTrees_DataList_Units_List_Units->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.size(); loop++)
 	{
@@ -1764,7 +1764,7 @@ void AGE_Frame::ListTTResearches()
 	UseAnd[loop] = TechTrees_MainList_Researches_UseAnd[loop]->GetValue();
 
 	auto Selections = TechTrees_MainList_Researches_List->GetSelections(Items);
-	if(TechTrees_MainList_Researches_List->GetCount() > 0) TechTrees_MainList_Researches_List->Clear();
+	TechTrees_MainList_Researches_List->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.ResearchConnections.size(); loop++)
 	{
@@ -1965,7 +1965,7 @@ void AGE_Frame::ListTTResearchBuildings()
 	excludeText = TechTrees_DataList_Researches_Search_R_Buildings->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Researches_List_Buildings->GetSelections(Items);
-	if(TechTrees_DataList_Researches_List_Buildings->GetCount() > 0) TechTrees_DataList_Researches_List_Buildings->Clear();
+	TechTrees_DataList_Researches_List_Buildings->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.size(); loop++)
 	{
@@ -2086,7 +2086,7 @@ void AGE_Frame::ListTTResearchUnits()
 	excludeText = TechTrees_DataList_Researches_Search_R_Units->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Researches_List_Units->GetSelections(Items);
-	if(TechTrees_DataList_Researches_List_Units->GetCount() > 0) TechTrees_DataList_Researches_List_Units->Clear();
+	TechTrees_DataList_Researches_List_Units->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.size(); loop++)
 	{
@@ -2207,7 +2207,7 @@ void AGE_Frame::ListTTResearchResearches()
 	excludeText = TechTrees_DataList_Researches_Search_R_Researches->GetValue().Lower();
 
 	auto Selections = TechTrees_DataList_Researches_List_Researches->GetSelections(Items);
-	if(TechTrees_DataList_Researches_List_Researches->GetCount() > 0) TechTrees_DataList_Researches_List_Researches->Clear();
+	TechTrees_DataList_Researches_List_Researches->Clear();
 
 	for(short loop=0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.size(); loop++)
 	{

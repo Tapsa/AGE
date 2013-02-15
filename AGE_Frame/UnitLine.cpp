@@ -22,14 +22,8 @@ void AGE_Frame::ListUnitLines()
 	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
 	short UnitIDs = Units_ComboBox_Unitline->GetSelection();
 
-	if(UnitLines_UnitLines_List->GetCount() > 0)
-	{
-		UnitLines_UnitLines_List->Clear();
-	}
-	if(Units_ComboBox_Unitline->GetCount() > 0)
-	{
-		Units_ComboBox_Unitline->Clear();
-	}
+	UnitLines_UnitLines_List->Clear();
+	Units_ComboBox_Unitline->Clear();
 
 	if(UnitIDs == wxNOT_FOUND)
 	{
@@ -164,7 +158,7 @@ void AGE_Frame::ListUnitLineUnits()
 	excludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
 
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(UnitLines_UnitLineUnits_List->GetCount() > 0) UnitLines_UnitLineUnits_List->Clear();
+	UnitLines_UnitLineUnits_List->Clear();
 
 	for(short loop=0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); loop++)
 	{

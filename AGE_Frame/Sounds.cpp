@@ -18,7 +18,7 @@ void AGE_Frame::ListSounds(bool Sized)
 	excludeText = Sounds_Sounds_Search_R->GetValue().Lower();
 
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
-	if(Sounds_Sounds_List->GetCount() > 0) Sounds_Sounds_List->Clear();
+	Sounds_Sounds_List->Clear();
 
 	std::array<short, 13> SavedIDs;
 	if(Sized)
@@ -37,47 +37,17 @@ void AGE_Frame::ListSounds(bool Sized)
 		SavedIDs[loop+10] = Graphics_ComboBox_AttackSoundID[loop]->GetSelection();
 
 		for(short loop=0; loop < 2; loop++)
-		if(Units_ComboBox_TrainSound[loop]->GetCount() > 0)
-		{
-			Units_ComboBox_TrainSound[loop]->Clear();
-		}
-		if(Units_ComboBox_SelectionSound->GetCount() > 0)
-		{
-			Units_ComboBox_SelectionSound->Clear();
-		}
-		if(Units_ComboBox_DyingSound->GetCount() > 0)
-		{
-			Units_ComboBox_DyingSound->Clear();
-		}
-		if(Units_ComboBox_AttackSound->GetCount() > 0)
-		{
-			Units_ComboBox_AttackSound->Clear();
-		}
-		if(Units_ComboBox_MoveSound->GetCount() > 0)
-		{
-			Units_ComboBox_MoveSound->Clear();
-		}
-		if(Units_ComboBox_StopSound->GetCount() > 0)
-		{
-			Units_ComboBox_StopSound->Clear();
-		}
-		if(Units_ComboBox_ConstructionSound->GetCount() > 0)
-		{
-			Units_ComboBox_ConstructionSound->Clear();
-		}
-		if(Terrains_ComboBox_SoundID->GetCount() > 0)
-		{
-			Terrains_ComboBox_SoundID->Clear();
-		}
-		if(Graphics_ComboBox_SoundID->GetCount() > 0)
-		{
-			Graphics_ComboBox_SoundID->Clear();
-		}
+		Units_ComboBox_TrainSound[loop]->Clear();
+		Units_ComboBox_SelectionSound->Clear();
+		Units_ComboBox_DyingSound->Clear();
+		Units_ComboBox_AttackSound->Clear();
+		Units_ComboBox_MoveSound->Clear();
+		Units_ComboBox_StopSound->Clear();
+		Units_ComboBox_ConstructionSound->Clear();
+		Terrains_ComboBox_SoundID->Clear();
+		Graphics_ComboBox_SoundID->Clear();
 		for(short loop=0; loop < 3; loop++)
-		if(Graphics_ComboBox_AttackSoundID[loop]->GetCount() > 0)
-		{
-			Graphics_ComboBox_AttackSoundID[loop]->Clear();
-		}
+		Graphics_ComboBox_AttackSoundID[loop]->Clear();
 
 		for(auto &ID: SavedIDs)
 		{
@@ -315,7 +285,7 @@ void AGE_Frame::ListSoundItems()
 	UseAnd[loop] = Sounds_Items_UseAnd[loop]->GetValue();
 
 	auto Selections = Sounds_Items_List->GetSelections(Items);
-	if(Sounds_Items_List->GetCount() > 0) Sounds_Items_List->Clear();
+	Sounds_Items_List->Clear();
 
 	for(short loop=0; loop < GenieFile->Sounds[SoundIDs[0]].Items.size(); loop++)
 	{
@@ -482,7 +452,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &Event)
 	UseAnd[loop] = Sounds_AllItems_UseAnd[loop]->GetValue();
 
 	auto Selections = Sounds_AllItems_List->GetSelections(Items);
-	if(Sounds_AllItems_List->GetCount() > 0) Sounds_AllItems_List->Clear();
+	Sounds_AllItems_List->Clear();
 
 	short Store = SoundIDs[0];
 	for(short sound = 0;sound < GenieFile->Sounds.size();sound++)
