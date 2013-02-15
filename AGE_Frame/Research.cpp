@@ -132,7 +132,7 @@ void AGE_Frame::ListResearches(bool Sized)
 	UseAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 
 	auto Selections = Research_Research_List->GetSelections(Items);
-	if(Research_Research_List->GetCount() > 0) Research_Research_List->Clear();
+	Research_Research_List->Clear();
 
 	std::array<short, 21> SavedIDs;
 	if(Sized)
@@ -153,29 +153,21 @@ void AGE_Frame::ListResearches(bool Sized)
 		for(short loop=0; loop < 4; loop++)
 		SavedIDs[loop+17] = TechTrees_ComboBox_Research[loop]->GetSelection();
 
-		if(Effects_ComboBox_ResearchsD->GetCount() > 0) Effects_ComboBox_ResearchsD->Clear();
-		if(Effects_ComboBox_ResearchsA->GetCount() > 0) Effects_ComboBox_ResearchsA->Clear();
-		if(Units_ComboBox_ResearchID->GetCount() > 0) Units_ComboBox_ResearchID->Clear();
+		Effects_ComboBox_ResearchsD->Clear();
+		Effects_ComboBox_ResearchsA->Clear();
+		Units_ComboBox_ResearchID->Clear();
 		for(short loop=0; loop < 6; loop++)
-		{
-			if(Research_ComboBox_RequiredTechs[loop]->GetCount() > 0)
-			{
-				Research_ComboBox_RequiredTechs[loop]->Clear();
-			}
-		}
-		if(TechTrees_Ages_ComboBox_Research->GetCount() > 0) TechTrees_Ages_ComboBox_Research->Clear();
-		if(TechTrees_Buildings_ComboBox_EnablingResearch->GetCount() > 0) TechTrees_Buildings_ComboBox_EnablingResearch->Clear();
-		if(TechTrees_Buildings_ComboBox_Research->GetCount() > 0) TechTrees_Buildings_ComboBox_Research->Clear();
-		if(TechTrees_Units_ComboBox_EnablingResearch->GetCount() > 0) TechTrees_Units_ComboBox_EnablingResearch->Clear();
-		if(TechTrees_Researches_ComboBox_ID->GetCount() > 0) TechTrees_Researches_ComboBox_ID->Clear();
-		if(TechTrees_Researches_ComboBox_UpperResearch->GetCount() > 0) TechTrees_Researches_ComboBox_UpperResearch->Clear();
-		if(TechTrees_Researches_ComboBox_Research->GetCount() > 0) TechTrees_Researches_ComboBox_Research->Clear();
-		if(TechTrees_Units_ComboBox_RequiredResearch->GetCount() > 0) TechTrees_Units_ComboBox_RequiredResearch->Clear();
+		Research_ComboBox_RequiredTechs[loop]->Clear();
+		TechTrees_Ages_ComboBox_Research->Clear();
+		TechTrees_Buildings_ComboBox_EnablingResearch->Clear();
+		TechTrees_Buildings_ComboBox_Research->Clear();
+		TechTrees_Units_ComboBox_EnablingResearch->Clear();
+		TechTrees_Researches_ComboBox_ID->Clear();
+		TechTrees_Researches_ComboBox_UpperResearch->Clear();
+		TechTrees_Researches_ComboBox_Research->Clear();
+		TechTrees_Units_ComboBox_RequiredResearch->Clear();
 		for(short loop=0; loop < 4; loop++)
-		if(TechTrees_ComboBox_Research[loop]->GetCount() > 0)
-		{
-			TechTrees_ComboBox_Research[loop]->Clear();
-		}
+		TechTrees_ComboBox_Research[loop]->Clear();
 
 		for(auto &ID: SavedIDs)
 		{

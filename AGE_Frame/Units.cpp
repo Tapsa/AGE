@@ -143,7 +143,7 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 	Units_Civs_List->SetSelection(civ);
 
 	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Units_Units_List->GetCount() > 0) Units_Units_List->Clear();
+	Units_Units_List->Clear();
 
 	std::array<short, 64> SavedIDs;
 	if(Sized)
@@ -182,123 +182,39 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 		for(short loop=0; loop < 30; loop++)
 		SavedIDs[loop+34] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
 
-		if(Units_ComboBox_DeadUnitID->GetCount() > 0)
-		{
-			Units_ComboBox_DeadUnitID->Clear();
-		}
-		if(Units_ComboBox_ProjectileUnitID->GetCount() > 0)
-		{
-			Units_ComboBox_ProjectileUnitID->Clear();
-		}
-		if(Units_ComboBox_AttackMissileDuplicationUnit->GetCount() > 0)
-		{
-			Units_ComboBox_AttackMissileDuplicationUnit->Clear();
-		}
+		Units_ComboBox_DeadUnitID->Clear();
+		Units_ComboBox_ProjectileUnitID->Clear();
+		Units_ComboBox_AttackMissileDuplicationUnit->Clear();
 		for(short loop=0; loop < 2; loop++)
-		if(Units_ComboBox_DropSite[loop]->GetCount() > 0)
-		{
-			Units_ComboBox_DropSite[loop]->Clear();
-		}
-		if(Units_ComboBox_TrackingUnit->GetCount() > 0)
-		{
-			Units_ComboBox_TrackingUnit->Clear();
-		}
-		if(Units_ComboBox_TrainLocationID->GetCount() > 0)
-		{
-			Units_ComboBox_TrainLocationID->Clear();
-		}
-		if(Units_ComboBox_StackUnitID->GetCount() > 0)
-		{
-			Units_ComboBox_StackUnitID->Clear();
-		}
+		Units_ComboBox_DropSite[loop]->Clear();
+		Units_ComboBox_TrackingUnit->Clear();
+		Units_ComboBox_TrainLocationID->Clear();
+		Units_ComboBox_StackUnitID->Clear();
 		for(short loop=0; loop < 4; loop++)
 		{
-			if(Units_ComboBox_AnnexUnit[loop]->GetCount() > 0)
-			{
-				Units_ComboBox_AnnexUnit[loop]->Clear();
-			}
-			if(TechTrees_ComboBox_Unit[loop]->GetCount() > 0)
-			{
-				TechTrees_ComboBox_Unit[loop]->Clear();
-			}
+			Units_ComboBox_AnnexUnit[loop]->Clear();
+			TechTrees_ComboBox_Unit[loop]->Clear();
 		}
-		if(Units_ComboBox_HeadUnit->GetCount() > 0)
-		{
-			Units_ComboBox_HeadUnit->Clear();
-		}
-		if(Units_ComboBox_TransformUnit->GetCount() > 0)
-		{
-			Units_ComboBox_TransformUnit->Clear();
-		}
-		if(Research_ComboBox_ResearchLocation->GetCount() > 0)
-		{
-			Research_ComboBox_ResearchLocation->Clear();
-		}
-		if(Effects_ComboBox_UnitsA->GetCount() > 0)
-		{
-			Effects_ComboBox_UnitsA->Clear();
-		}
-		if(Effects_ComboBox_UnitsB->GetCount() > 0)
-		{
-			Effects_ComboBox_UnitsB->Clear();
-		}
-		if(UnitCommands_ComboBox_UnitID->GetCount() > 0)
-		{
-			UnitCommands_ComboBox_UnitID->Clear();
-		}
-		if(UnitLineUnits_ComboBox_Units->GetCount() > 0)
-		{
-			UnitLineUnits_ComboBox_Units->Clear();
-		}
-		if(TechTrees_Ages_ComboBox_Building->GetCount() > 0)
-		{
-			TechTrees_Ages_ComboBox_Building->Clear();
-		}
-		if(TechTrees_Ages_ComboBox_Unit->GetCount() > 0)
-		{
-			TechTrees_Ages_ComboBox_Unit->Clear();
-		}
-		if(TechTrees_Buildings_ComboBox_ID->GetCount() > 0)
-		{
-			TechTrees_Buildings_ComboBox_ID->Clear();
-		}
-		if(TechTrees_Buildings_ComboBox_Building->GetCount() > 0)
-		{
-			TechTrees_Buildings_ComboBox_Building->Clear();
-		}
-		if(TechTrees_Buildings_ComboBox_Unit->GetCount() > 0)
-		{
-			TechTrees_Buildings_ComboBox_Unit->Clear();
-		}
-		if(TechTrees_Units_ComboBox_ID->GetCount() > 0)
-		{
-			TechTrees_Units_ComboBox_ID->Clear();
-		}
-		if(TechTrees_Units_ComboBox_UpperBuilding->GetCount() > 0)
-		{
-			TechTrees_Units_ComboBox_UpperBuilding->Clear();
-		}
-		if(TechTrees_Units_ComboBox_Unit->GetCount() > 0)
-		{
-			TechTrees_Units_ComboBox_Unit->Clear();
-		}
-		if(TechTrees_Researches_ComboBox_UpperBuilding->GetCount() > 0)
-		{
-			TechTrees_Researches_ComboBox_UpperBuilding->Clear();
-		}
-		if(TechTrees_Researches_ComboBox_Building->GetCount() > 0)
-		{
-			TechTrees_Researches_ComboBox_Building->Clear();
-		}
-		if(TechTrees_Researches_ComboBox_Unit->GetCount() > 0)
-		{
-			TechTrees_Researches_ComboBox_Unit->Clear();
-		}
+		Units_ComboBox_HeadUnit->Clear();
+		Units_ComboBox_TransformUnit->Clear();
+		Research_ComboBox_ResearchLocation->Clear();
+		Effects_ComboBox_UnitsA->Clear();
+		Effects_ComboBox_UnitsB->Clear();
+		UnitCommands_ComboBox_UnitID->Clear();
+		UnitLineUnits_ComboBox_Units->Clear();
+		TechTrees_Ages_ComboBox_Building->Clear();
+		TechTrees_Ages_ComboBox_Unit->Clear();
+		TechTrees_Buildings_ComboBox_ID->Clear();
+		TechTrees_Buildings_ComboBox_Building->Clear();
+		TechTrees_Buildings_ComboBox_Unit->Clear();
+		TechTrees_Units_ComboBox_ID->Clear();
+		TechTrees_Units_ComboBox_UpperBuilding->Clear();
+		TechTrees_Units_ComboBox_Unit->Clear();
+		TechTrees_Researches_ComboBox_UpperBuilding->Clear();
+		TechTrees_Researches_ComboBox_Building->Clear();
+		TechTrees_Researches_ComboBox_Unit->Clear();
 		for(short loop=0; loop < 30; loop++)
-		if(Terrains_ComboBox_TerrainUnitID[loop]->GetCount() > 0)
-		{
-			Terrains_ComboBox_TerrainUnitID[loop]->Clear();
-		}
+		Terrains_ComboBox_TerrainUnitID[loop]->Clear();
 
 		for(auto &ID: SavedIDs)
 		{
@@ -2323,7 +2239,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	excludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
 
 	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Units_DamageGraphics_List->GetCount() > 0) Units_DamageGraphics_List->Clear();
+	Units_DamageGraphics_List->Clear();
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0)
 	{
@@ -2547,7 +2463,7 @@ void AGE_Frame::ListUnitAttacks()
 	excludeText = Units_Attacks_Search_R->GetValue().Lower();
 
 	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Units_Attacks_List->GetCount() > 0) Units_Attacks_List->Clear();
+	Units_Attacks_List->Clear();
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60
@@ -2764,7 +2680,7 @@ void AGE_Frame::ListUnitArmors()
 	excludeText = Units_Armors_Search_R->GetValue().Lower();
 
 	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Units_Armors_List->GetCount() > 0) Units_Armors_List->Clear();
+	Units_Armors_List->Clear();
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60
@@ -3035,7 +2951,7 @@ void AGE_Frame::ListUnitCommands()
 	excludeText = Units_UnitCommands_Search_R->GetValue().Lower();
 
 	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Units_UnitCommands_List->GetCount() > 0) Units_UnitCommands_List->Clear();
+	Units_UnitCommands_List->Clear();
 
 	if(GameVersion >= 2)	// AoK, TC, SWGB or CC
 	{

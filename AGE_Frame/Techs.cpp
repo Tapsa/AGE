@@ -84,7 +84,7 @@ void AGE_Frame::ListTechs(bool Sized)
 	excludeText = Techs_Techs_Search_R->GetValue().Lower();
 
 	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Techs_Techs_List->GetCount() > 0) Techs_Techs_List->Clear();
+	Techs_Techs_List->Clear();
 
 	std::array<short, 3> SavedIDs;
 	if(Sized)
@@ -93,18 +93,9 @@ void AGE_Frame::ListTechs(bool Sized)
 		SavedIDs[1] = Civs_ComboBox_TechTree->GetSelection();
 		SavedIDs[2] = Civs_ComboBox_TeamBonus->GetSelection();
 
-		if(Research_ComboBox_TechID->GetCount() > 0)
-		{
-			Research_ComboBox_TechID->Clear();
-		}
-		if(Civs_ComboBox_TechTree->GetCount() > 0)
-		{
-			Civs_ComboBox_TechTree->Clear();
-		}
-		if(Civs_ComboBox_TeamBonus->GetCount() > 0)
-		{
-			Civs_ComboBox_TeamBonus->Clear();
-		}
+		Research_ComboBox_TechID->Clear();
+		Civs_ComboBox_TechTree->Clear();
+		Civs_ComboBox_TeamBonus->Clear();
 
 		for(auto &ID: SavedIDs)
 		{
@@ -333,7 +324,7 @@ void AGE_Frame::ListEffects()
 	UseAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 
 	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Techs_Effects_List->GetCount() > 0) Techs_Effects_List->Clear();
+	Techs_Effects_List->Clear();
 
 	for(short loop=0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); loop++)
 	{
@@ -400,8 +391,8 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		Effects_ComboBox_ResearchsA->SetSelection(EffectPointer->A + 1);
 		Effects_B->ChangeValue(lexical_cast<string>(EffectPointer->B));
 		Effects_CheckBox_ModeB->SetValue((bool)EffectPointer->B);
-		Effects_ComboBox_Class->SetSelection(0);
-		Effects_ComboBox_Class->SetSelection(EffectPointer->B + 1);
+		Units_ComboBox_Class[2]->SetSelection(0);
+		Units_ComboBox_Class[2]->SetSelection(EffectPointer->B + 1);
 		Effects_ComboBox_UnitsB->SetSelection(0);
 		Effects_ComboBox_UnitsB->SetSelection(EffectPointer->B + 1);
 		Effects_ComboBox_ResourcesB->SetSelection(0);
@@ -421,7 +412,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(true);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(true);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -484,7 +475,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(true);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(true);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -526,7 +517,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(true);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -561,7 +552,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(true);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -596,7 +587,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(true);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(true);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -659,7 +650,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(true);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(true);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -722,7 +713,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(true);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -757,7 +748,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(true);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(true);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(true);	// for Effects 101, 103
@@ -799,7 +790,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -834,7 +825,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(true);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(true);	// for Effects 101, 103
@@ -876,7 +867,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 				Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 				Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-				Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+				Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 				Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 				Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -913,7 +904,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 		Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 		Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-		Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+		Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 		Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 		Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 		Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -1023,7 +1014,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 	UseAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
 	auto Selections = Techs_AllEffects_List->GetSelections(Items);
-	if(Techs_AllEffects_List->GetCount() > 0) Techs_AllEffects_List->Clear();
+	Techs_AllEffects_List->Clear();
 
 	short Store = TechIDs[0];
 	for(short tech = 0;tech < GenieFile->Techages.size();tech++)
@@ -1133,7 +1124,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_B = new TextCtrl_Short(Tab_Techs);
 	Effects_ComboBox_B = new wxBoxSizer(wxHORIZONTAL);
 	Effects_CheckBox_ModeB = new CheckBox_2State(Tab_Techs, "", Effects_B);
-	Effects_ComboBox_Class = new ComboBox_Plus1(Tab_Techs, Effects_B);
+	Units_ComboBox_Class[2] = new ComboBox_Plus1(Tab_Techs, Effects_B);
 	Effects_ComboBox_UnitsB = new ComboBox_Plus1(Tab_Techs, Effects_B);
 	Effects_ComboBox_ResourcesB = new ComboBox_Plus1(Tab_Techs, Effects_B);
 	Effects_Info_B = new wxStaticText(Tab_Techs, wxID_ANY, " Info B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -1250,7 +1241,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_Holder_DataA->Add(Effects_Info_A, 2, wxEXPAND);
 
 	Effects_ComboBox_B->Add(Effects_CheckBox_ModeB, 1, wxEXPAND);
-	Effects_ComboBox_B->Add(Effects_ComboBox_Class, 1, wxEXPAND);
+	Effects_ComboBox_B->Add(Units_ComboBox_Class[2], 1, wxEXPAND);
 	Effects_ComboBox_B->Add(Effects_ComboBox_UnitsB, 1, wxEXPAND);
 	Effects_ComboBox_B->Add(Effects_ComboBox_ResourcesB, 1, wxEXPAND);
 	Effects_Holder_B->Add(Effects_B, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -1345,7 +1336,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_ComboBox_ResourcesA->Show(false);	// for Effects 1, 6
 	Effects_ComboBox_ResearchsA->Show(false);	// for Effects 101, 103
 	Effects_CheckBox_ModeB->Show(false);	// for Effects 1, 2
-	Effects_ComboBox_Class->Show(false);	// for Effects 0, 4, 5
+	Units_ComboBox_Class[2]->Show(false);	// for Effects 0, 4, 5
 	Effects_ComboBox_UnitsB->Show(false);	// for Effects 3
 	Effects_ComboBox_ResourcesB->Show(false);	// for Effects 101
 	Effects_CheckBox_ModeC->Show(false);	// for Effects 101, 103
@@ -1401,7 +1392,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_ComboBox_ResourcesA->Connect(Effects_ComboBox_ResourcesA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
 	Effects_ComboBox_ResearchsA->Connect(Effects_ComboBox_ResearchsA->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
 	Effects_CheckBox_ModeB->Connect(Effects_CheckBox_ModeB->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Techs), NULL, this);
-	Effects_ComboBox_Class->Connect(Effects_ComboBox_Class->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
+	Units_ComboBox_Class[2]->Connect(Units_ComboBox_Class[2]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
 	Effects_ComboBox_UnitsB->Connect(Effects_ComboBox_UnitsB->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
 	Effects_ComboBox_ResourcesB->Connect(Effects_ComboBox_ResourcesB->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
 	Effects_CheckBox_ModeC->Connect(Effects_CheckBox_ModeC->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Techs), NULL, this);

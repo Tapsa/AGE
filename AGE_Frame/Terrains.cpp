@@ -45,7 +45,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	excludeText = Terrains_Terrains_Search_R->GetValue().Lower();
 
 	auto Selections = Terrains_Terrains_List->GetSelections(Items);
-	if(Terrains_Terrains_List->GetCount() > 0) Terrains_Terrains_List->Clear();
+	Terrains_Terrains_List->Clear();
 
 	std::array<short, 7> SavedIDs;
 	if(Sized)
@@ -61,27 +61,12 @@ void AGE_Frame::ListTerrains(bool Sized)
 
 		for(short loop=0; loop < 2; loop++)
 		{
-			if(Units_ComboBox_PlacementBypassTerrain[loop]->GetCount() > 0)
-			{
-				Units_ComboBox_PlacementBypassTerrain[loop]->Clear();
-			}
-			if(Units_ComboBox_PlacementTerrain[loop]->GetCount() > 0)
-			{
-				Units_ComboBox_PlacementTerrain[loop]->Clear();
-			}
+			Units_ComboBox_PlacementBypassTerrain[loop]->Clear();
+			Units_ComboBox_PlacementTerrain[loop]->Clear();
 		}
-		if(Units_ComboBox_TerrainID->GetCount() > 0)
-		{
-			Units_ComboBox_TerrainID->Clear();
-		}
-		if(Terrains_ComboBox_TerrainReplacementID->GetCount() > 0)
-		{
-			Terrains_ComboBox_TerrainReplacementID->Clear();
-		}
-		if(Borders_ComboBox_BorderTerrain->GetCount() > 0)
-		{
-			Borders_ComboBox_BorderTerrain->Clear();
-		}
+		Units_ComboBox_TerrainID->Clear();
+		Terrains_ComboBox_TerrainReplacementID->Clear();
+		Borders_ComboBox_BorderTerrain->Clear();
 
 		for(auto &ID: SavedIDs)
 		{
@@ -138,7 +123,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	excludeText = TerRestrict_Terrains_Search_R->GetValue().Lower();
 
 	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items);
-	if(TerRestrict_Terrains_List->GetCount() > 0) TerRestrict_Terrains_List->Clear();
+	TerRestrict_Terrains_List->Clear();
 
 	for(short loop=0; loop < GenieFile->NumberOfTerrainsUsed; loop++)
 	{
