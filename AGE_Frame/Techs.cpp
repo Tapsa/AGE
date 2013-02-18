@@ -79,7 +79,6 @@ void AGE_Frame::OnTechSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTechs(bool Sized)
 {
-	wxString Name;
 	searchText = Techs_Techs_Search->GetValue().Lower();
 	excludeText = Techs_Techs_Search_R->GetValue().Lower();
 
@@ -109,7 +108,7 @@ void AGE_Frame::ListTechs(bool Sized)
 
 	for(short loop=0; loop < GenieFile->Techages.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTechName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTechName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Techs_Techs_List->Append(Name, (void*)&GenieFile->Techages[loop]);
@@ -317,7 +316,6 @@ void AGE_Frame::OnEffectsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListEffects()
 {
-	wxString Name;
 	searchText = Techs_Effects_Search->GetValue().Lower();
 	excludeText = Techs_Effects_Search_R->GetValue().Lower();
 	for(short loop=0; loop < 2; loop++)
@@ -328,7 +326,7 @@ void AGE_Frame::ListEffects()
 
 	for(short loop=0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetEffectName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetEffectName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Techs_Effects_List->Append(Name, (void*)&GenieFile->Techages[TechIDs[0]].Effects[loop]);

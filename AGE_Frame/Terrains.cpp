@@ -40,7 +40,6 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 
 void AGE_Frame::ListTerrains(bool Sized)
 {
-	wxString Name;
 	searchText = Terrains_Terrains_Search->GetValue().Lower();
 	excludeText = Terrains_Terrains_Search_R->GetValue().Lower();
 
@@ -85,7 +84,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 
 	for(short loop=0; loop < GenieFile->Terrains.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
@@ -127,7 +126,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 
 	for(short loop=0; loop < GenieFile->NumberOfTerrainsUsed; loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
+		wxString Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
 		if(GameVersion >= 2)
 		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);

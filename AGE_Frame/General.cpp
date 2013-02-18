@@ -3,33 +3,16 @@ using boost::lexical_cast;
 
 void AGE_Frame::ListGeneral()
 {
-	switch(GameVersion)
-	{
-		case 0:
-			SomethingSize = 1727;
-			break;
-		case 1:
-			SomethingSize = 3770;
-			break;
-		case 2:
-		case 3:
-			SomethingSize = 3171; // 164 if some data (from back) is removed and its count set to 0
-			break;
-		case 4:
-		case 5:
-			SomethingSize = 165;
-			break;
-		default: break;
-	}
 	General_SomethingSize->SetLabel("Size: "+lexical_cast<string>(SomethingSize));
-	SomethingPage = 0;
 	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
+	
+	ListUnknowns();
 }
 
-void AGE_Frame::OnDataGridPage(wxCommandEvent &Event)
+/*void AGE_Frame::OnDataGridPage(wxCommandEvent &Event)
 {
 	SomethingPage = 0;
 	if(!General_SomethingPicker->IsEmpty())
@@ -61,7 +44,7 @@ void AGE_Frame::OnDataGridPrev(wxCommandEvent &Event)
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
-}
+}*/
 
 void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 {
@@ -140,29 +123,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
 	}
 	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
-	//wxString Info = lexical_cast<string>(GenieFile->Unknown.Pointer)+", size: ";
-	/*bool AddInfo = false;
-	long max;
-	switch(GameVersion)
-	{
-		case 0:
-			max = 1727;
-			break;
-		case 1:
-			max = 3770;
-			break;
-		case 2:
-		case 3:
-			max = 3171; // 164 if some data (from back) is removed and its count set to 0
-			break;
-		case 4:
-		case 5:
-			max = 165;
-			break;
-		default: break;
-	}*/
-	/*Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks.size()));
-	//wxMessageBox(Info);
+	/*wxString Info = lexical_cast<string>(GenieFile->Unknown.Pointer)+", size: ";
 	for(int loop = 0; loop < GenieFile->Unknown.Unknown1stBlocks.size(); loop++)
 	{
 		Info.Append("\n\nItem: "+lexical_cast<string>(loop)+"\n");
@@ -189,22 +150,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		for(int loop2 = 0; loop2 < genie::Unknown2ndBlock::UNKNOWN4_LEN; loop2++)
 		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Unknown4[loop2])+" ");
 	}
-	wxMessageBox(Info);
-	GenieFile->Unknown.Unknown1stBlocks.resize(100);
-	GenieFile->Unknown.Unknown2ndBlocks.resize(100);*/
-	// First count is in 162 for AoK/TC and perhaps SW is +1?
-	// in 6 for AoE/RoR probably
-	// TC:
-	// 335 = count
-	// 348 = count
-	// 374 = count
-	// and so on every number before large pointer is a count
-	/*for(long loop=0; loop < General_Something.size(); loop++)
-	{
-		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop+SomethingPage]));
-		General_Something[loop]->resize(1);
-		General_Something[loop]->container[0] = &GenieFile->Something[loop+SomethingPage];
-	}*/
+	wxMessageBox(Info);*/
 	if(GameVersion < 2) return;
 	for(short loop=1; loop < General_AfterBorders.size(); loop++)
 	{
@@ -240,6 +186,34 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
 	General_SUnknown8->resize(1);
 	General_SUnknown8->container[0] = &GenieFile->SUnknown8;
+}
+
+string AGE_Frame::GetUnknownName(short Index)
+{
+	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[Index].Unknown1[0])+" ";
+}
+
+void AGE_Frame::ListUnknowns()
+{
+	searchText = Unknowns_Search->GetValue().Lower();
+	excludeText = Unknowns_Search_R->GetValue().Lower();
+
+	auto Selections = Unknowns_List->GetSelections(Items);
+	Unknowns_List->Clear();
+
+	for(short loop=0; loop < GenieFile->Unknown.Unknown1stBlocks.size(); loop++)
+	{
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownName(loop);
+		if(SearchMatches(Name.Lower()))
+		{
+			Unknowns_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[loop]);
+		}
+	}
+
+	ListingFix(Selections, Unknowns_List);
+
+	//wxCommandEvent E;
+	//OnPlayerColorsSelect(E);
 }
 
 void AGE_Frame::CreateGeneralControls()
@@ -312,10 +286,66 @@ void AGE_Frame::CreateGeneralControls()
 	General_SomethingNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
 	General_SomethingPrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
 	General_SomethingSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Size", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Grid_TechTree = new wxGridSizer(8, 0, 0);
+	//General_Grid_TechTree = new wxGridSizer(8, 0, 0);
 	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data with 32 Bit Pointers", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop=0; loop < General_Something.size(); loop++)
-	General_Something[loop] = new TextCtrl_Long(General_Scroller);
+	//for(short loop=0; loop < General_Something.size(); loop++)
+	//General_Something[loop] = new TextCtrl_Long(General_Scroller);
+
+	Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Unknown Removable Data Only Required in AoE 1");
+	Unknowns_ListArea = new wxBoxSizer(wxVERTICAL);
+	Unknowns_DataArea = new wxBoxSizer(wxVERTICAL);
+	Unknowns_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
+	Unknowns_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
+	Unknowns_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 220), 0, NULL, wxLB_EXTENDED);
+	Unknowns_Buttons = new wxGridSizer(3, 0, 0);
+	Unknowns_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Delete = new wxButton(General_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_PasteInsert = new wxButton(General_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+
+	UnknownFirstSubData = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "First Subdata");
+	UnknownFirstSubData_ListArea = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_DataArea = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
+	UnknownFirstSubData_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
+	UnknownFirstSubData_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	UnknownFirstSubData_Buttons = new wxGridSizer(3, 0, 0);
+	UnknownFirstSubData_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Delete = new wxButton(General_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_PasteInsert = new wxButton(General_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+
+	UnknownSecondSubData = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Second Subdata");
+	UnknownSecondSubData_ListArea = new wxBoxSizer(wxVERTICAL);
+	UnknownSecondSubData_DataArea = new wxBoxSizer(wxVERTICAL);
+	UnknownSecondSubData_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
+	UnknownSecondSubData_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
+	UnknownSecondSubData_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	UnknownSecondSubData_Buttons = new wxGridSizer(3, 0, 0);
+	UnknownSecondSubData_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Delete = new wxButton(General_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_PasteInsert = new wxButton(General_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+
+	UnknownThirdSubData = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Third Subdata");
+	UnknownThirdSubData_ListArea = new wxBoxSizer(wxVERTICAL);
+	UnknownThirdSubData_DataArea = new wxBoxSizer(wxVERTICAL);
+	UnknownThirdSubData_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
+	UnknownThirdSubData_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
+	UnknownThirdSubData_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	UnknownThirdSubData_Buttons = new wxGridSizer(3, 0, 0);
+	UnknownThirdSubData_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Delete = new wxButton(General_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_PasteInsert = new wxButton(General_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	General_Holder_Variables2 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Technology Tree Related?");
 	for(short loop=0; loop < General_TTUnknown.size(); loop++)
@@ -390,11 +420,88 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_RenderPlusUnknownTop->Add(5, -1);
 	General_Holder_RenderPlusUnknownTop->Add(General_SomethingSize, 1, wxEXPAND);
 	General_Holder_RenderPlusUnknownTop->AddStretchSpacer(2);
-	for(short loop=0; loop < General_Something.size(); loop++)
-	General_Grid_TechTree->Add(General_Something[loop], 1, wxEXPAND);
+	//for(short loop=0; loop < General_Something.size(); loop++)
+	//General_Grid_TechTree->Add(General_Something[loop], 1, wxEXPAND);
 	General_Holder_RenderPlusUnknown->Add(General_Holder_RenderPlusUnknownTop, 0, wxEXPAND);
-	General_Holder_RenderPlusUnknown->Add(-1, 5);
-	General_Holder_RenderPlusUnknown->Add(General_Grid_TechTree, 0, wxEXPAND);
+	//General_Holder_RenderPlusUnknown->Add(General_Grid_TechTree, 0, wxEXPAND);
+
+	Unknowns_Buttons->Add(Unknowns_Add, 1, wxEXPAND);
+	Unknowns_Buttons->Add(Unknowns_Insert, 1, wxEXPAND);
+	Unknowns_Buttons->Add(Unknowns_Delete, 1, wxEXPAND);
+	Unknowns_Buttons->Add(Unknowns_Copy, 1, wxEXPAND);
+	Unknowns_Buttons->Add(Unknowns_Paste, 1, wxEXPAND);
+	Unknowns_Buttons->Add(Unknowns_PasteInsert, 1, wxEXPAND);
+
+	Unknowns_ListArea->Add(Unknowns_Search, 0, wxEXPAND);
+	Unknowns_ListArea->Add(Unknowns_Search_R, 0, wxEXPAND);
+	Unknowns_ListArea->Add(-1, 2);
+	Unknowns_ListArea->Add(Unknowns_List, 0, wxEXPAND);
+	Unknowns_ListArea->Add(-1, 2);
+	Unknowns_ListArea->Add(Unknowns_Buttons, 0, wxEXPAND);
+
+	UnknownFirstSubData_Buttons->Add(UnknownFirstSubData_Add, 1, wxEXPAND);
+	UnknownFirstSubData_Buttons->Add(UnknownFirstSubData_Insert, 1, wxEXPAND);
+	UnknownFirstSubData_Buttons->Add(UnknownFirstSubData_Delete, 1, wxEXPAND);
+	UnknownFirstSubData_Buttons->Add(UnknownFirstSubData_Copy, 1, wxEXPAND);
+	UnknownFirstSubData_Buttons->Add(UnknownFirstSubData_Paste, 1, wxEXPAND);
+	UnknownFirstSubData_Buttons->Add(UnknownFirstSubData_PasteInsert, 1, wxEXPAND);
+
+	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_Search, 0, wxEXPAND);
+	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_Search_R, 0, wxEXPAND);
+	UnknownFirstSubData_ListArea->Add(-1, 2);
+	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_List, 1, wxEXPAND);
+	UnknownFirstSubData_ListArea->Add(-1, 2);
+	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_Buttons, 0, wxEXPAND);
+
+	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_Add, 1, wxEXPAND);
+	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_Insert, 1, wxEXPAND);
+	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_Delete, 1, wxEXPAND);
+	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_Copy, 1, wxEXPAND);
+	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_Paste, 1, wxEXPAND);
+	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_PasteInsert, 1, wxEXPAND);
+
+	UnknownSecondSubData_ListArea->Add(UnknownSecondSubData_Search, 0, wxEXPAND);
+	UnknownSecondSubData_ListArea->Add(UnknownSecondSubData_Search_R, 0, wxEXPAND);
+	UnknownSecondSubData_ListArea->Add(-1, 2);
+	UnknownSecondSubData_ListArea->Add(UnknownSecondSubData_List, 1, wxEXPAND);
+	UnknownSecondSubData_ListArea->Add(-1, 2);
+	UnknownSecondSubData_ListArea->Add(UnknownSecondSubData_Buttons, 0, wxEXPAND);
+
+	UnknownThirdSubData_Buttons->Add(UnknownThirdSubData_Add, 1, wxEXPAND);
+	UnknownThirdSubData_Buttons->Add(UnknownThirdSubData_Insert, 1, wxEXPAND);
+	UnknownThirdSubData_Buttons->Add(UnknownThirdSubData_Delete, 1, wxEXPAND);
+	UnknownThirdSubData_Buttons->Add(UnknownThirdSubData_Copy, 1, wxEXPAND);
+	UnknownThirdSubData_Buttons->Add(UnknownThirdSubData_Paste, 1, wxEXPAND);
+	UnknownThirdSubData_Buttons->Add(UnknownThirdSubData_PasteInsert, 1, wxEXPAND);
+
+	UnknownThirdSubData_ListArea->Add(UnknownThirdSubData_Search, 0, wxEXPAND);
+	UnknownThirdSubData_ListArea->Add(UnknownThirdSubData_Search_R, 0, wxEXPAND);
+	UnknownThirdSubData_ListArea->Add(-1, 2);
+	UnknownThirdSubData_ListArea->Add(UnknownThirdSubData_List, 1, wxEXPAND);
+	UnknownThirdSubData_ListArea->Add(-1, 2);
+	UnknownThirdSubData_ListArea->Add(UnknownThirdSubData_Buttons, 0, wxEXPAND);
+
+	UnknownFirstSubData->Add(UnknownFirstSubData_ListArea, 1, wxEXPAND);
+	UnknownFirstSubData->Add(10, -1);
+	UnknownFirstSubData->Add(UnknownFirstSubData_DataArea, 2, wxEXPAND);
+
+	UnknownSecondSubData->Add(UnknownSecondSubData_ListArea, 1, wxEXPAND);
+	UnknownSecondSubData->Add(10, -1);
+	UnknownSecondSubData->Add(UnknownSecondSubData_DataArea, 2, wxEXPAND);
+
+	UnknownThirdSubData->Add(UnknownThirdSubData_ListArea, 1, wxEXPAND);
+	UnknownThirdSubData->Add(10, -1);
+	UnknownThirdSubData->Add(UnknownThirdSubData_DataArea, 2, wxEXPAND);
+
+	Unknowns_DataArea->Add(UnknownFirstSubData, 1, wxEXPAND);
+	Unknowns_DataArea->Add(10, -1);
+	Unknowns_DataArea->Add(UnknownSecondSubData, 1, wxEXPAND);
+	Unknowns_DataArea->Add(10, -1);
+	Unknowns_DataArea->Add(UnknownThirdSubData, 1, wxEXPAND);
+
+	Unknowns->Add(Unknowns_ListArea, 1, wxEXPAND);
+	Unknowns->Add(10, -1);
+	Unknowns->Add(Unknowns_DataArea, 3, wxEXPAND);
 
 	General_ScrollerWindowsSpace->Add(General_Holder_Variables1, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 10);
@@ -405,6 +512,8 @@ void AGE_Frame::CreateGeneralControls()
 	General_ScrollerWindowsSpace->Add(General_Holder_TerrainRendering, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 10);
 	General_ScrollerWindowsSpace->Add(General_Holder_RenderPlusUnknown, 0, wxEXPAND);
+	General_ScrollerWindowsSpace->Add(-1, 10);
+	General_ScrollerWindowsSpace->Add(Unknowns, 0, wxEXPAND);
 	General_ScrollerWindowsSpace->Add(-1, 10);
 	General_ScrollerWindowsSpace->Add(General_Holder_Variables2, 0, wxEXPAND);
 
@@ -424,9 +533,9 @@ void AGE_Frame::CreateGeneralControls()
 	Tab_General->SetSizer(General_Main);
 
 	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGeneralSelect));
-	Connect(General_SomethingPicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
-	Connect(General_SomethingNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
-	Connect(General_SomethingPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
+	//Connect(General_SomethingPicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
+	//Connect(General_SomethingNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
+	//Connect(General_SomethingPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
 	for(short loop=0; loop < 4; loop++)
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);

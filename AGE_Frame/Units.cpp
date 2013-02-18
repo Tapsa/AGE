@@ -134,7 +134,6 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnits(short civ, bool Sized)
 {
-	wxString Name;
 	searchText = Units_Units_Search->GetValue().Lower();
 	excludeText = Units_Units_Search_R->GetValue().Lower();
 	for(short loop=0; loop < 2; loop++)
@@ -258,7 +257,7 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 
 	for(short loop=0; loop < GenieFile->Civs[civ].Units.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, civ, true);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, civ, true);
 		if(SearchMatches(Name.Lower()))
 		{
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[civ].Units[loop]);
@@ -2234,7 +2233,6 @@ void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitDamageGraphics()
 {
-	wxString Name;
 	searchText = Units_DamageGraphics_Search->GetValue().Lower();
 	excludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
 
@@ -2246,7 +2244,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 		Units_DamageGraphics_Add->Enable(true);
 		for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size(); loop++)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
+			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[loop]);
@@ -2458,7 +2456,6 @@ void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitAttacks()
 {
-	wxString Name;
 	searchText = Units_Attacks_Search->GetValue().Lower();
 	excludeText = Units_Attacks_Search_R->GetValue().Lower();
 
@@ -2472,7 +2469,7 @@ void AGE_Frame::ListUnitAttacks()
 		Units_Attacks_Add->Enable(true);
 		for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.size(); loop++)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
+			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[loop]);
@@ -2675,7 +2672,6 @@ void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitArmors()
 {
-	wxString Name;
 	searchText = Units_Armors_Search->GetValue().Lower();
 	excludeText = Units_Armors_Search_R->GetValue().Lower();
 
@@ -2689,7 +2685,7 @@ void AGE_Frame::ListUnitArmors()
 		Units_Armors_Add->Enable(true);
 		for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.size(); loop++)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
+			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[loop]);
@@ -2946,7 +2942,6 @@ void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitCommands()
 {
-	wxString Name;
 	searchText = Units_UnitCommands_Search->GetValue().Lower();
 	excludeText = Units_UnitCommands_Search_R->GetValue().Lower();
 
@@ -2957,7 +2952,7 @@ void AGE_Frame::ListUnitCommands()
 	{
 		for(short loop=0; loop < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); loop++)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
+			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				Units_UnitCommands_List->Append(Name, (void*)&GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop]);
@@ -2973,7 +2968,7 @@ void AGE_Frame::ListUnitCommands()
 			Units_UnitCommands_Add->Enable(true);
 			for(short loop=0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size(); loop++)
 			{
-				Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
+				wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
 				if(SearchMatches(Name.Lower()))
 				{
 					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop]);
