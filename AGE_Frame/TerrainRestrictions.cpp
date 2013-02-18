@@ -120,7 +120,6 @@ void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTerrainRestrictions(bool Sized)
 {
-	wxString Name;
 	searchText = TerRestrict_TerRestrict_Search->GetValue().Lower();
 	excludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
 
@@ -132,21 +131,14 @@ void AGE_Frame::ListTerrainRestrictions(bool Sized)
 	{
 		Units_ComboBox_TerrainRestriction->Clear();
 
-		if(RestrictionID1 == wxNOT_FOUND)
-		{
-			RestrictionID1 = 0;
-		}
+		if(RestrictionID1 == wxNOT_FOUND) RestrictionID1 = 0;
 
 		Units_ComboBox_TerrainRestriction->Append("-1 - None");
 	}
 
 	for(short loop=0; loop < GenieFile->TerrainRestrictions.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainRestrictionName(loop);
-		/*Name = " "+lexical_cast<string>(loop)+" - ";
-		Name += lexical_cast<string>(GenieFile->TerrainRestrictionPointers1[loop]);
-		Name += " "+lexical_cast<string>(GenieFile->TerrainRestrictionPointers2[loop]);
-		Name += " - "+GetTerrainRestrictionName(loop);*/
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainRestrictionName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			TerRestrict_TerRestrict_List->Append(Name, (void*)&GenieFile->TerrainRestrictions[loop]);

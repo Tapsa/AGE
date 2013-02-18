@@ -154,11 +154,14 @@ class AGE_Frame: public wxFrame
 
 	void ListGeneral();
 	void OnGeneralSelect(wxCommandEvent &Event);
-	void OnDataGridPage(wxCommandEvent &Event);
-	void OnDataGridNext(wxCommandEvent &Event);
-	void OnDataGridPrev(wxCommandEvent &Event);
+//	void OnDataGridPage(wxCommandEvent &Event);
+//	void OnDataGridNext(wxCommandEvent &Event);
+//	void OnDataGridPrev(wxCommandEvent &Event);
 	void OnVariableCalc(wxFocusEvent &Event);
 	void OnVariableCalcReverse(wxFocusEvent &Event);
+
+	void ListUnknowns();
+	string GetUnknownName(short Index);
 
 //	Research Events
 
@@ -888,8 +891,64 @@ class AGE_Frame: public wxFrame
 	wxButton *General_SomethingNext;
 	wxButton *General_SomethingPrev;
 	wxStaticText *General_SomethingSize;
-	wxGridSizer *General_Grid_TechTree;
-	array<TextCtrl_Long*, 128> General_Something;
+	//wxGridSizer *General_Grid_TechTree;
+	//array<TextCtrl_Long*, 128> General_Something;
+
+	wxStaticBoxSizer *Unknowns;
+	wxBoxSizer *Unknowns_ListArea;
+	wxBoxSizer *Unknowns_DataArea;
+	wxTextCtrl *Unknowns_Search;
+	wxTextCtrl *Unknowns_Search_R;
+	wxListBox *Unknowns_List;
+	wxGridSizer *Unknowns_Buttons;
+	wxButton *Unknowns_Add;
+	wxButton *Unknowns_Insert;
+	wxButton *Unknowns_Delete;
+	wxButton *Unknowns_Copy;
+	wxButton *Unknowns_Paste;
+	wxButton *Unknowns_PasteInsert;
+
+	wxStaticBoxSizer *UnknownFirstSubData;
+	wxBoxSizer *UnknownFirstSubData_ListArea;
+	wxBoxSizer *UnknownFirstSubData_DataArea;
+	wxTextCtrl *UnknownFirstSubData_Search;
+	wxTextCtrl *UnknownFirstSubData_Search_R;
+	wxListBox *UnknownFirstSubData_List;
+	wxGridSizer *UnknownFirstSubData_Buttons;
+	wxButton *UnknownFirstSubData_Add;
+	wxButton *UnknownFirstSubData_Insert;
+	wxButton *UnknownFirstSubData_Delete;
+	wxButton *UnknownFirstSubData_Copy;
+	wxButton *UnknownFirstSubData_Paste;
+	wxButton *UnknownFirstSubData_PasteInsert;
+
+	wxStaticBoxSizer *UnknownSecondSubData;
+	wxBoxSizer *UnknownSecondSubData_ListArea;
+	wxBoxSizer *UnknownSecondSubData_DataArea;
+	wxTextCtrl *UnknownSecondSubData_Search;
+	wxTextCtrl *UnknownSecondSubData_Search_R;
+	wxListBox *UnknownSecondSubData_List;
+	wxGridSizer *UnknownSecondSubData_Buttons;
+	wxButton *UnknownSecondSubData_Add;
+	wxButton *UnknownSecondSubData_Insert;
+	wxButton *UnknownSecondSubData_Delete;
+	wxButton *UnknownSecondSubData_Copy;
+	wxButton *UnknownSecondSubData_Paste;
+	wxButton *UnknownSecondSubData_PasteInsert;
+
+	wxStaticBoxSizer *UnknownThirdSubData;
+	wxBoxSizer *UnknownThirdSubData_ListArea;
+	wxBoxSizer *UnknownThirdSubData_DataArea;
+	wxTextCtrl *UnknownThirdSubData_Search;
+	wxTextCtrl *UnknownThirdSubData_Search_R;
+	wxListBox *UnknownThirdSubData_List;
+	wxGridSizer *UnknownThirdSubData_Buttons;
+	wxButton *UnknownThirdSubData_Add;
+	wxButton *UnknownThirdSubData_Insert;
+	wxButton *UnknownThirdSubData_Delete;
+	wxButton *UnknownThirdSubData_Copy;
+	wxButton *UnknownThirdSubData_Paste;
+	wxButton *UnknownThirdSubData_PasteInsert;
 
 //	Researchs user interface
 

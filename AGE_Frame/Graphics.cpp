@@ -94,7 +94,6 @@ void AGE_Frame::OnGraphicsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListGraphics(bool Sized)
 {
-	wxString Name;
 	searchText = Graphics_Graphics_Search->GetValue().Lower();
 	excludeText = Graphics_Graphics_Search_R->GetValue().Lower();
 	for(short loop=0; loop < 2; loop++)
@@ -165,7 +164,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 
 	for(short loop=0; loop < GenieFile->Graphics.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
 		if(SearchMatches(Name.Lower()))
 		{
 			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
@@ -462,7 +461,6 @@ void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListGraphicDeltas()
 {
-	wxString Name;
 	searchText = Graphics_Deltas_Search->GetValue().Lower();
 	excludeText = Graphics_Deltas_Search_R->GetValue().Lower();
 
@@ -471,7 +469,7 @@ void AGE_Frame::ListGraphicDeltas()
 
 	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].Deltas[loop]);
@@ -637,14 +635,12 @@ void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListGraphicAttackSounds()
 {
-	string Name;
-
 	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
 	Graphics_AttackSounds_List->Clear();
 
 	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop);
 		Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop]);
 	}
 
