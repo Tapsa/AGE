@@ -125,7 +125,6 @@ void AGE_Frame::OnResearchSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListResearches(bool Sized)
 {
-	wxString Name;
 	searchText = Research_Research_Search->GetValue().Lower();
 	excludeText = Research_Research_Search_R->GetValue().Lower();
 	for(short loop=0; loop < 2; loop++)
@@ -200,7 +199,7 @@ void AGE_Frame::ListResearches(bool Sized)
 		}
 		if(Sized)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop);
+			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop);
 			Effects_ComboBox_ResearchsD->Append(Name);
 			Effects_ComboBox_ResearchsA->Append(Name);
 			Units_ComboBox_ResearchID->Append(Name);

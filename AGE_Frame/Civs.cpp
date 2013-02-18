@@ -13,7 +13,6 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListCivs(bool Sized)
 {
-	wxString Name;
 	searchText = Civs_Civs_Search->GetValue().Lower();
 	excludeText = Civs_Civs_Search_R->GetValue().Lower();
 
@@ -45,7 +44,7 @@ void AGE_Frame::ListCivs(bool Sized)
 
 	for(short loop=0; loop < GenieFile->Civs.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetCivName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetCivName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Civs_Civs_List->Append(Name, (void*)&GenieFile->Civs[loop]);
@@ -686,7 +685,6 @@ void AGE_Frame::OnResourcesSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListResources(bool Sized)
 {
-	wxString Name;
 	searchText = Civs_Resources_Search->GetValue().Lower();
 	excludeText = Civs_Resources_Search_R->GetValue().Lower();
 
@@ -744,7 +742,7 @@ void AGE_Frame::ListResources(bool Sized)
 		}
 		if(Sized)
 		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetResourceName(loop);
+			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetResourceName(loop);
 			for(short loop=0; loop < 3; loop++)
 			{
 				Units_ComboBox_CostType[loop]->Append(Name);

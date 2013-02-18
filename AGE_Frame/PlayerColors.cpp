@@ -10,7 +10,6 @@ string AGE_Frame::GetPlayerColorName(short Index)
 
 void AGE_Frame::ListPlayerColors()
 {
-	wxString Name;
 	searchText = Colors_Colors_Search->GetValue().Lower();
 	excludeText = Colors_Colors_Search_R->GetValue().Lower();
 
@@ -19,7 +18,7 @@ void AGE_Frame::ListPlayerColors()
 
 	for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
@@ -186,13 +185,13 @@ void AGE_Frame::CreatePlayerColorControls()
 {
 	Colors_Main = new wxBoxSizer(wxHORIZONTAL);
 	Colors_ListArea = new wxBoxSizer(wxVERTICAL);
-	Colors_Colors_Buttons = new wxGridSizer(3, 0, 0);
 	Tab_PlayerColors = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
 	Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Colors");
 	Colors_Colors_Search = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
 	Colors_Colors_Search_R = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
 	Colors_Colors_List = new wxListBox(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	Colors_Colors_Buttons = new wxGridSizer(3, 0, 0);
 	Colors_Add = new wxButton(Tab_PlayerColors, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Colors_Insert = new wxButton(Tab_PlayerColors, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
 	Colors_Delete = new wxButton(Tab_PlayerColors, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
