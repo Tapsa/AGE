@@ -1,6 +1,11 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
+void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
+{
+	ListPlayerColors();
+}
+
 string AGE_Frame::GetPlayerColorName(short Index)
 {
 	if(GameVersion <= 1)
@@ -29,11 +34,6 @@ void AGE_Frame::ListPlayerColors()
 
 	wxCommandEvent E;
 	OnPlayerColorsSelect(E);
-}
-
-void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
-{
-	ListPlayerColors();
 }
 
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)

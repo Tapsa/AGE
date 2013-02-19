@@ -175,7 +175,7 @@ class TextCtrl_UShort: public AGETextCtrl
 class TextCtrl_String: public AGETextCtrl
 {
 	public:
-	TextCtrl_String(wxWindow *parent, int16_t CLength = -1):
+	TextCtrl_String(wxWindow *parent, unsigned short CLength = 0):
 	AGETextCtrl(parent, "")
 	{
 		MaxSize = CLength;
@@ -186,9 +186,9 @@ class TextCtrl_String: public AGETextCtrl
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
-	void SetMaxSize(int16_t Size){MaxSize = Size;}
+	void SetMaxSize(unsigned short Size){MaxSize = Size;}
 
-	int16_t MaxSize;
+	unsigned short MaxSize;
 	vector<string*> container;
 };
 

@@ -1,14 +1,14 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-string AGE_Frame::GetCivName(short Index)
-{
-	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
-}
-
 void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 {
 	ListCivs(false);
+}
+
+string AGE_Frame::GetCivName(short Index)
+{
+	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
 }
 
 void AGE_Frame::ListCivs(bool Sized)
@@ -735,7 +735,7 @@ void AGE_Frame::ListResources(bool Sized)
 
 	for(short loop=0; loop < GenieFile->Civs[CivIDs[0]].Resources.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - Value: "+lexical_cast<string>(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - Value: "+lexical_cast<string>(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Civs_Resources_List->Append(Name, (void*)&GenieFile->Civs[CivIDs[0]].Resources[loop]);

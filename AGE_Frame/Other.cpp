@@ -269,12 +269,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		//Units_Civs_List->SetSelection(0);
 
 //		No research gaia fix.
-		for(short loop=0; loop < GenieFile->Civs[0].Units.size(); loop++)
+		for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
 			GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
 //		ID and pointer fixes.
-		for(short loop=0; loop < GenieFile->Civs.size(); loop++)
+		for(short loop = GenieFile->Civs.size(); loop--> 0;)
 		{
-			for(short loop2=0; loop2 < GenieFile->Civs[loop].Units.size(); loop2++)
+			for(short loop2 = GenieFile->Civs[loop].Units.size(); loop2--> 0;)
 			{
 				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
 				{
@@ -287,7 +287,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 						GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
 						else
 						if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
-						for(short loop3=0; loop3 < GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3++)
+						for(short loop3 = GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
 						GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
 					}
 				}
@@ -295,21 +295,21 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		if(EnableIDFix)
 		{
-			for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
+			for(short loop = GenieFile->PlayerColours.size(); loop--> 0;)
 			{
 				GenieFile->PlayerColours[loop].ID = loop;
 			}
-			for(short loop=0; loop < GenieFile->Sounds.size(); loop++)
+			for(short loop = GenieFile->Sounds.size(); loop--> 0;)
 			{
 				GenieFile->Sounds[loop].ID = loop;
 			}
 			if(GameVersion >= 4)
-			for(short loop=0; loop < GenieFile->UnitLines.size(); loop++)
+			for(short loop = GenieFile->UnitLines.size(); loop--> 0;)
 			{
 				GenieFile->UnitLines[loop].ID = loop;
 			}
 		}
-		for(short loop=0; loop < GenieFile->Graphics.size(); loop++)
+		for(short loop = GenieFile->Graphics.size(); loop--> 0;)
 		{
 			if(GenieFile->GraphicPointers[loop] != 0)
 			{
@@ -318,7 +318,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				GenieFile->Graphics[loop].ID = loop;
 			}
 		}
-		for(short loop=0; loop < GenieFile->TerrainRestrictions.size(); loop++)
+		for(short loop = GenieFile->TerrainRestrictions.size(); loop--> 0;)
 		{
 			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
 			GenieFile->TerrainRestrictionPointers1[loop] = 1;
@@ -1714,7 +1714,7 @@ bool AGE_Frame::SearchMatches(wxString itemText)
 	// We don't need to check for excluding if it's not going to be listed.
 	// If there is no exclude text, list normally.
 	// If exclude text has a match.
-	if(matches && !excludeText.empty())
+	if(!matches || excludeText.empty()) return matches;
 	if(itemText.find(excludeText) != string::npos)
 	{
 		matches = false;
@@ -1882,9 +1882,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("DefaultFiles/SaveApf", SaveApf);
 	delete Config;
 
-	//TabBar_Main->Show(false);
-	//TabBar_Main->Destroy();
-	Destroy();
+	TabBar_Main->Destroy();
 
 	delete GenieFile;
 	if(WriteLangs)
@@ -1893,4 +1891,6 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 		delete LangX;
 		delete LangXP;
 	}
+
+	Destroy();
 }
