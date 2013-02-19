@@ -108,10 +108,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &Event)
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	genie::PlayerColour Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->PlayerColours.push_back(Temp);
-	Added = true;
+	AddToListNoGV(GenieFile->PlayerColours);
 	ListPlayerColors();
 }
 
@@ -121,9 +118,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::PlayerColour Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], Temp);
+	InsertToListNoGV(GenieFile->PlayerColours, ColorIDs[0]);
 	ListPlayerColors();
 }
 
@@ -133,8 +128,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(auto loop = Selections; loop--> 0;)
-	GenieFile->PlayerColours.erase(GenieFile->PlayerColours.begin() + ColorIDs[loop]);
+	DeleteFromList(GenieFile->PlayerColours, ColorIDs);
 	ListPlayerColors();
 }
 
@@ -144,9 +138,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->PlayerColor.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
-	copies->PlayerColor[loop] = GenieFile->PlayerColours[ColorIDs[loop]];
+	CopyFromList(GenieFile->PlayerColours, ColorIDs, copies->PlayerColor);
 }
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
@@ -155,13 +147,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->PlayerColor.size()+ColorIDs[0] > GenieFile->PlayerColours.size())
-	GenieFile->PlayerColours.resize(copies->PlayerColor.size()+ColorIDs[0]);
-	for(short loop=0; loop < copies->PlayerColor.size(); loop++)
-	{
-		copies->PlayerColor[loop].setGameVersion(GenieVersion);
-		GenieFile->PlayerColours[ColorIDs[0]+loop] = copies->PlayerColor[loop];
-	}
+	PasteToListNoGV(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
 	ListPlayerColors();
 }
 
@@ -171,13 +157,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::PlayerColour Temp;
-	GenieFile->PlayerColours.insert(GenieFile->PlayerColours.begin() + ColorIDs[0], copies->PlayerColor.size(), Temp);
-	for(short loop=0; loop < copies->PlayerColor.size(); loop++)
-	{
-		copies->PlayerColor[loop].setGameVersion(GenieVersion);
-		GenieFile->PlayerColours[ColorIDs[0]+loop] = copies->PlayerColor[loop];
-	}
+	PasteInsertToListNoGV(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
 	ListPlayerColors();
 }
 

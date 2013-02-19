@@ -161,7 +161,7 @@ void AGE_Frame::OnUnknownsSearch(wxCommandEvent &Event)
 
 string AGE_Frame::GetUnknownName(short Index)
 {
-	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[Index].Unknown1[0])+" ";
+	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[Index].UnknownLevel)+" ";
 }
 
 void AGE_Frame::ListUnknowns()
@@ -213,6 +213,70 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 	ListUnknownThirdSubData();
 }
 
+void AGE_Frame::OnUnknownsAdd(wxCommandEvent &Event)
+{
+	if(GenieFile == NULL) return;
+
+	wxBusyCursor WaitCursor;
+	AddToListNoGV(GenieFile->Unknown.Unknown1stBlocks);
+	AddToListNoGV(GenieFile->Unknown.Unknown2ndBlocks);
+	ListUnknowns();
+}
+
+void AGE_Frame::OnUnknownsInsert(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	InsertToListNoGV(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs[0]);
+	InsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs[0]);
+	ListUnknowns();
+}
+
+void AGE_Frame::OnUnknownsDelete(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	DeleteFromList(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs);
+	DeleteFromList(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs);
+	ListUnknowns();
+}
+
+void AGE_Frame::OnUnknownsCopy(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	CopyFromList(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs, copies->Unknown1stBlock);
+	CopyFromList(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs, copies->Unknown2ndBlock);
+}
+
+void AGE_Frame::OnUnknownsPaste(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteToListNoGV(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs[0], copies->Unknown1stBlock);
+	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs[0], copies->Unknown2ndBlock);
+	ListUnknowns();
+}
+
+void AGE_Frame::OnUnknownsPasteInsert(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteInsertToListNoGV(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs[0], copies->Unknown1stBlock);
+	PasteInsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs[0], copies->Unknown2ndBlock);
+	ListUnknowns();
+}
+
 void AGE_Frame::OnUnknownFirstSubDataSearch(wxCommandEvent &Event)
 {
 	ListUnknownFirstSubData();
@@ -257,6 +321,65 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 		UnknownPointer = (genie::FirstSubData*)UnknownFirstSubData_List->GetClientData(Items.Item(loop));
 		UnknownFSIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[0]));
 	}
+}
+
+void AGE_Frame::OnUnknownFirstSubDataAdd(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	AddToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas);
+	ListUnknownFirstSubData();
+}
+
+void AGE_Frame::OnUnknownFirstSubDataInsert(wxCommandEvent &Event)
+{
+	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	InsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs[0]);
+	ListUnknownFirstSubData();
+}
+
+void AGE_Frame::OnUnknownFirstSubDataDelete(wxCommandEvent &Event)
+{
+	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	DeleteFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs);
+	ListUnknownFirstSubData();
+}
+
+void AGE_Frame::OnUnknownFirstSubDataCopy(wxCommandEvent &Event)
+{
+	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	CopyFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs, copies->FirstSubData);
+}
+
+void AGE_Frame::OnUnknownFirstSubDataPaste(wxCommandEvent &Event)
+{
+	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs[0], copies->FirstSubData);
+	ListUnknownFirstSubData();
+}
+
+void AGE_Frame::OnUnknownFirstSubDataPasteInsert(wxCommandEvent &Event)
+{
+	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteInsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs[0], copies->FirstSubData);
+	ListUnknownFirstSubData();
 }
 
 void AGE_Frame::OnUnknownSecondSubDataSearch(wxCommandEvent &Event)
@@ -305,6 +428,65 @@ void AGE_Frame::OnUnknownSecondSubDataSelect(wxCommandEvent &Event)
 	}
 }
 
+void AGE_Frame::OnUnknownSecondSubDataAdd(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	AddToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas);
+	ListUnknownSecondSubData();
+}
+
+void AGE_Frame::OnUnknownSecondSubDataInsert(wxCommandEvent &Event)
+{
+	auto Selections = UnknownSecondSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	InsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs[0]);
+	ListUnknownSecondSubData();
+}
+
+void AGE_Frame::OnUnknownSecondSubDataDelete(wxCommandEvent &Event)
+{
+	auto Selections = UnknownSecondSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	DeleteFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs);
+	ListUnknownSecondSubData();
+}
+
+void AGE_Frame::OnUnknownSecondSubDataCopy(wxCommandEvent &Event)
+{
+	auto Selections = UnknownSecondSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	CopyFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs, copies->SecondSubData);
+}
+
+void AGE_Frame::OnUnknownSecondSubDataPaste(wxCommandEvent &Event)
+{
+	auto Selections = UnknownSecondSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs[0], copies->SecondSubData);
+	ListUnknownSecondSubData();
+}
+
+void AGE_Frame::OnUnknownSecondSubDataPasteInsert(wxCommandEvent &Event)
+{
+	auto Selections = UnknownSecondSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteInsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs[0], copies->SecondSubData);
+	ListUnknownSecondSubData();
+}
+
 void AGE_Frame::OnUnknownThirdSubDataSearch(wxCommandEvent &Event)
 {
 	ListUnknownThirdSubData();
@@ -349,6 +531,65 @@ void AGE_Frame::OnUnknownThirdSubDataSelect(wxCommandEvent &Event)
 		UnknownPointer = (genie::ThirdSubData*)UnknownThirdSubData_List->GetClientData(Items.Item(loop));
 		UnknownTSIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[0]));
 	}
+}
+
+void AGE_Frame::OnUnknownThirdSubDataAdd(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	AddToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas);
+	ListUnknownThirdSubData();
+}
+
+void AGE_Frame::OnUnknownThirdSubDataInsert(wxCommandEvent &Event)
+{
+	auto Selections = UnknownThirdSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	InsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs[0]);
+	ListUnknownThirdSubData();
+}
+
+void AGE_Frame::OnUnknownThirdSubDataDelete(wxCommandEvent &Event)
+{
+	auto Selections = UnknownThirdSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	DeleteFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs);
+	ListUnknownThirdSubData();
+}
+
+void AGE_Frame::OnUnknownThirdSubDataCopy(wxCommandEvent &Event)
+{
+	auto Selections = UnknownThirdSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	CopyFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs, copies->ThirdSubData);
+}
+
+void AGE_Frame::OnUnknownThirdSubDataPaste(wxCommandEvent &Event)
+{
+	auto Selections = UnknownThirdSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs[0], copies->ThirdSubData);
+	ListUnknownThirdSubData();
+}
+
+void AGE_Frame::OnUnknownThirdSubDataPasteInsert(wxCommandEvent &Event)
+{
+	auto Selections = UnknownThirdSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteInsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs[0], copies->ThirdSubData);
+	ListUnknownThirdSubData();
 }
 
 void AGE_Frame::CreateGeneralControls()
@@ -678,13 +919,37 @@ void AGE_Frame::CreateGeneralControls()
 	Connect(Unknowns_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownsSearch));
 	Connect(Unknowns_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownsSearch));
 	Connect(Unknowns_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnknownsSelect));
+	Connect(Unknowns_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsAdd));
+	Connect(Unknowns_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsInsert));
+	Connect(Unknowns_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsDelete));
+	Connect(Unknowns_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsCopy));
+	Connect(Unknowns_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsPaste));
+	Connect(Unknowns_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsPasteInsert));
 	Connect(UnknownFirstSubData_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataSearch));
 	Connect(UnknownFirstSubData_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataSearch));
 	Connect(UnknownFirstSubData_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataSelect));
+	Connect(UnknownFirstSubData_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataAdd));
+	Connect(UnknownFirstSubData_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataInsert));
+	Connect(UnknownFirstSubData_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataDelete));
+	Connect(UnknownFirstSubData_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataCopy));
+	Connect(UnknownFirstSubData_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataPaste));
+	Connect(UnknownFirstSubData_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataPasteInsert));
 	Connect(UnknownSecondSubData_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataSearch));
 	Connect(UnknownSecondSubData_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataSearch));
 	Connect(UnknownSecondSubData_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataSelect));
+	Connect(UnknownSecondSubData_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataAdd));
+	Connect(UnknownSecondSubData_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataInsert));
+	Connect(UnknownSecondSubData_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataDelete));
+	Connect(UnknownSecondSubData_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataCopy));
+	Connect(UnknownSecondSubData_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataPaste));
+	Connect(UnknownSecondSubData_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataPasteInsert));
 	Connect(UnknownThirdSubData_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataSearch));
 	Connect(UnknownThirdSubData_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataSearch));
 	Connect(UnknownThirdSubData_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataSelect));
+	Connect(UnknownThirdSubData_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataAdd));
+	Connect(UnknownThirdSubData_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataInsert));
+	Connect(UnknownThirdSubData_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataDelete));
+	Connect(UnknownThirdSubData_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataCopy));
+	Connect(UnknownThirdSubData_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataPaste));
+	Connect(UnknownThirdSubData_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataPasteInsert));
 }
