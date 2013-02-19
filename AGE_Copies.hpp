@@ -115,6 +115,11 @@ class Copies
 	vector<genie::PlayerColour> PlayerColor;
 	vector<genie::TerrainBorder> TerrainBorder;
 	vector<genie::TBFrameData> TBFrameData;
+	vector<genie::Unknown1stBlock> Unknown1stBlock;
+	vector<genie::Unknown2ndBlock> Unknown2ndBlock;
+	vector<genie::FirstSubData> FirstSubData;
+	vector<genie::SecondSubData> SecondSubData;
+	vector<genie::ThirdSubData> ThirdSubData;
 };
 
 #endif

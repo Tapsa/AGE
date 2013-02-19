@@ -159,21 +159,45 @@ class AGE_Frame: public wxFrame
 	void ListUnknowns();
 	void OnUnknownsSearch(wxCommandEvent &Event);
 	void OnUnknownsSelect(wxCommandEvent &Event);
+	void OnUnknownsAdd(wxCommandEvent &Event);
+	void OnUnknownsInsert(wxCommandEvent &Event);
+	void OnUnknownsDelete(wxCommandEvent &Event);
+	void OnUnknownsCopy(wxCommandEvent &Event);
+	void OnUnknownsPaste(wxCommandEvent &Event);
+	void OnUnknownsPasteInsert(wxCommandEvent &Event);
 	string GetUnknownName(short Index);
 
 	void ListUnknownFirstSubData();
 	void OnUnknownFirstSubDataSearch(wxCommandEvent &Event);
 	void OnUnknownFirstSubDataSelect(wxCommandEvent &Event);
+	void OnUnknownFirstSubDataAdd(wxCommandEvent &Event);
+	void OnUnknownFirstSubDataInsert(wxCommandEvent &Event);
+	void OnUnknownFirstSubDataDelete(wxCommandEvent &Event);
+	void OnUnknownFirstSubDataCopy(wxCommandEvent &Event);
+	void OnUnknownFirstSubDataPaste(wxCommandEvent &Event);
+	void OnUnknownFirstSubDataPasteInsert(wxCommandEvent &Event);
 	string GetUnknownFirstSubDataName(short Index);
 
 	void ListUnknownSecondSubData();
 	void OnUnknownSecondSubDataSearch(wxCommandEvent &Event);
 	void OnUnknownSecondSubDataSelect(wxCommandEvent &Event);
+	void OnUnknownSecondSubDataAdd(wxCommandEvent &Event);
+	void OnUnknownSecondSubDataInsert(wxCommandEvent &Event);
+	void OnUnknownSecondSubDataDelete(wxCommandEvent &Event);
+	void OnUnknownSecondSubDataCopy(wxCommandEvent &Event);
+	void OnUnknownSecondSubDataPaste(wxCommandEvent &Event);
+	void OnUnknownSecondSubDataPasteInsert(wxCommandEvent &Event);
 	string GetUnknownSecondSubDataName(short Index);
 
 	void ListUnknownThirdSubData();
 	void OnUnknownThirdSubDataSearch(wxCommandEvent &Event);
 	void OnUnknownThirdSubDataSelect(wxCommandEvent &Event);
+	void OnUnknownThirdSubDataAdd(wxCommandEvent &Event);
+	void OnUnknownThirdSubDataInsert(wxCommandEvent &Event);
+	void OnUnknownThirdSubDataDelete(wxCommandEvent &Event);
+	void OnUnknownThirdSubDataCopy(wxCommandEvent &Event);
+	void OnUnknownThirdSubDataPaste(wxCommandEvent &Event);
+	void OnUnknownThirdSubDataPasteInsert(wxCommandEvent &Event);
 	string GetUnknownThirdSubDataName(short Index);
 
 //	Research Events
