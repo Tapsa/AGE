@@ -1,5 +1,4 @@
 #include "Common.h"
-#include "AboutIcon.xpm"
 
 class AGE_AboutDialog: public wxDialog
 {

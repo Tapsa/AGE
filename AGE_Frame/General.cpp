@@ -12,40 +12,6 @@ void AGE_Frame::ListGeneral()
 	ListUnknowns();
 }
 
-/*void AGE_Frame::OnDataGridPage(wxCommandEvent &Event)
-{
-	SomethingPage = 0;
-	if(!General_SomethingPicker->IsEmpty())
-	SomethingPage = lexical_cast<long>(General_SomethingPicker->GetValue());
-	if(SomethingPage >= (SomethingSize - 128))
-	SomethingPage = SomethingSize - 128;
-	if(SomethingPage < 0)
-	SomethingPage = 0;
-
-	wxCommandEvent E;
-	OnGeneralSelect(E);
-}
-
-void AGE_Frame::OnDataGridNext(wxCommandEvent &Event)
-{
-	SomethingPage += 128;
-	if(SomethingPage >= (SomethingSize - 128))
-	SomethingPage = SomethingSize - 128;
-
-	wxCommandEvent E;
-	OnGeneralSelect(E);
-}
-
-void AGE_Frame::OnDataGridPrev(wxCommandEvent &Event)
-{
-	SomethingPage -= 128;
-	if(SomethingPage < 0)
-	SomethingPage = 0;
-
-	wxCommandEvent E;
-	OnGeneralSelect(E);
-}*/
-
 void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 {
 	int32_t Result, Temp;
@@ -188,6 +154,11 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_SUnknown8->container[0] = &GenieFile->SUnknown8;
 }
 
+void AGE_Frame::OnUnknownsSearch(wxCommandEvent &Event)
+{
+	ListUnknowns();
+}
+
 string AGE_Frame::GetUnknownName(short Index)
 {
 	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[Index].Unknown1[0])+" ";
@@ -212,8 +183,172 @@ void AGE_Frame::ListUnknowns()
 
 	ListingFix(Selections, Unknowns_List);
 
-	//wxCommandEvent E;
-	//OnPlayerColorsSelect(E);
+	wxCommandEvent E;
+	OnUnknownsSelect(E);
+}
+
+void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
+{
+	auto Selections = Unknowns_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	UnknownIDs.resize(Selections);
+	//Sounds_ID->resize(Selections);
+	//Sounds_Unknown->resize(Selections);
+
+	genie::Unknown2ndBlock * UnknownPointer;
+	for(auto loop = Selections; loop--> 0;)
+	{
+		UnknownPointer = (genie::Unknown2ndBlock*)Unknowns_List->GetClientData(Items.Item(loop));
+		UnknownIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[0]));
+
+		//Sounds_ID->container[loop] = &UnknownPointer->ID;
+		//Sounds_Unknown->container[loop] = &UnknownPointer->Unknown1;
+	}
+
+	//Sounds_ID->ChangeValue(lexical_cast<string>(UnknownPointer->ID));
+	//Sounds_Unknown->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1));
+	ListUnknownFirstSubData();
+	ListUnknownSecondSubData();
+	ListUnknownThirdSubData();
+}
+
+void AGE_Frame::OnUnknownFirstSubDataSearch(wxCommandEvent &Event)
+{
+	ListUnknownFirstSubData();
+}
+
+string AGE_Frame::GetUnknownFirstSubDataName(short Index)
+{
+	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[Index].Unknown1[0])+" ";
+}
+
+void AGE_Frame::ListUnknownFirstSubData()
+{
+	searchText = UnknownFirstSubData_Search->GetValue().Lower();
+	excludeText = UnknownFirstSubData_Search_R->GetValue().Lower();
+	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
+	UnknownFirstSubData_List->Clear();
+
+	for(short loop=0; loop < GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas.size(); loop++)
+	{
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownFirstSubDataName(loop);
+		if(SearchMatches(Name.Lower()))
+		{
+			UnknownFirstSubData_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[loop]);
+		}
+	}
+	ListingFix(Selections, UnknownFirstSubData_List);
+
+	wxCommandEvent E;
+	OnUnknownFirstSubDataSelect(E);
+}
+
+void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
+{
+	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	UnknownFSIDs.resize(Selections);
+
+	genie::FirstSubData * UnknownPointer;
+	for(auto loop = Selections; loop--> 0;)
+	{
+		UnknownPointer = (genie::FirstSubData*)UnknownFirstSubData_List->GetClientData(Items.Item(loop));
+		UnknownFSIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[0]));
+	}
+}
+
+void AGE_Frame::OnUnknownSecondSubDataSearch(wxCommandEvent &Event)
+{
+	ListUnknownSecondSubData();
+}
+
+string AGE_Frame::GetUnknownSecondSubDataName(short Index)
+{
+	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[Index].Unknown1[0])+" ";
+}
+
+void AGE_Frame::ListUnknownSecondSubData()
+{
+	searchText = UnknownSecondSubData_Search->GetValue().Lower();
+	excludeText = UnknownSecondSubData_Search_R->GetValue().Lower();
+	auto Selections = UnknownSecondSubData_List->GetSelections(Items);
+	UnknownSecondSubData_List->Clear();
+
+	for(short loop=0; loop < GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas.size(); loop++)
+	{
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownSecondSubDataName(loop);
+		if(SearchMatches(Name.Lower()))
+		{
+			UnknownSecondSubData_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[loop]);
+		}
+	}
+	ListingFix(Selections, UnknownSecondSubData_List);
+
+	wxCommandEvent E;
+	OnUnknownSecondSubDataSelect(E);
+}
+
+void AGE_Frame::OnUnknownSecondSubDataSelect(wxCommandEvent &Event)
+{
+	auto Selections = UnknownSecondSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	UnknownSSIDs.resize(Selections);
+
+	genie::SecondSubData * UnknownPointer;
+	for(auto loop = Selections; loop--> 0;)
+	{
+		UnknownPointer = (genie::SecondSubData*)UnknownSecondSubData_List->GetClientData(Items.Item(loop));
+		UnknownSSIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[0]));
+	}
+}
+
+void AGE_Frame::OnUnknownThirdSubDataSearch(wxCommandEvent &Event)
+{
+	ListUnknownThirdSubData();
+}
+
+string AGE_Frame::GetUnknownThirdSubDataName(short Index)
+{
+	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[Index].Unknown1[0])+" ";
+}
+
+void AGE_Frame::ListUnknownThirdSubData()
+{
+	searchText = UnknownThirdSubData_Search->GetValue().Lower();
+	excludeText = UnknownThirdSubData_Search_R->GetValue().Lower();
+	auto Selections = UnknownThirdSubData_List->GetSelections(Items);
+	UnknownThirdSubData_List->Clear();
+
+	for(short loop=0; loop < GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas.size(); loop++)
+	{
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownThirdSubDataName(loop);
+		if(SearchMatches(Name.Lower()))
+		{
+			UnknownThirdSubData_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[loop]);
+		}
+	}
+	ListingFix(Selections, UnknownThirdSubData_List);
+
+	wxCommandEvent E;
+	OnUnknownThirdSubDataSelect(E);
+}
+
+void AGE_Frame::OnUnknownThirdSubDataSelect(wxCommandEvent &Event)
+{
+	auto Selections = UnknownThirdSubData_List->GetSelections(Items);
+	if(Selections < 1) return;
+
+	UnknownTSIDs.resize(Selections);
+
+	genie::ThirdSubData * UnknownPointer;
+	for(auto loop = Selections; loop--> 0;)
+	{
+		UnknownPointer = (genie::ThirdSubData*)UnknownThirdSubData_List->GetClientData(Items.Item(loop));
+		UnknownTSIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[0]));
+	}
 }
 
 void AGE_Frame::CreateGeneralControls()
@@ -338,7 +473,7 @@ void AGE_Frame::CreateGeneralControls()
 	UnknownThirdSubData_DataArea = new wxBoxSizer(wxVERTICAL);
 	UnknownThirdSubData_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
 	UnknownThirdSubData_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
-	UnknownThirdSubData_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	UnknownThirdSubData_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 400), 0, NULL, wxLB_EXTENDED);
 	UnknownThirdSubData_Buttons = new wxGridSizer(3, 0, 0);
 	UnknownThirdSubData_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	UnknownThirdSubData_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -493,11 +628,11 @@ void AGE_Frame::CreateGeneralControls()
 	UnknownThirdSubData->Add(10, -1);
 	UnknownThirdSubData->Add(UnknownThirdSubData_DataArea, 2, wxEXPAND);
 
-	Unknowns_DataArea->Add(UnknownFirstSubData, 1, wxEXPAND);
+	Unknowns_DataArea->Add(UnknownFirstSubData, 0, wxEXPAND);
 	Unknowns_DataArea->Add(10, -1);
-	Unknowns_DataArea->Add(UnknownSecondSubData, 1, wxEXPAND);
+	Unknowns_DataArea->Add(UnknownSecondSubData, 0, wxEXPAND);
 	Unknowns_DataArea->Add(10, -1);
-	Unknowns_DataArea->Add(UnknownThirdSubData, 1, wxEXPAND);
+	Unknowns_DataArea->Add(UnknownThirdSubData, 0, wxEXPAND);
 
 	Unknowns->Add(Unknowns_ListArea, 1, wxEXPAND);
 	Unknowns->Add(10, -1);
@@ -540,4 +675,16 @@ void AGE_Frame::CreateGeneralControls()
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);
 
+	Connect(Unknowns_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownsSearch));
+	Connect(Unknowns_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownsSearch));
+	Connect(Unknowns_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnknownsSelect));
+	Connect(UnknownFirstSubData_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataSearch));
+	Connect(UnknownFirstSubData_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataSearch));
+	Connect(UnknownFirstSubData_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataSelect));
+	Connect(UnknownSecondSubData_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataSearch));
+	Connect(UnknownSecondSubData_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataSearch));
+	Connect(UnknownSecondSubData_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnknownSecondSubDataSelect));
+	Connect(UnknownThirdSubData_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataSearch));
+	Connect(UnknownThirdSubData_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataSearch));
+	Connect(UnknownThirdSubData_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataSelect));
 }
