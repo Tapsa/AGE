@@ -192,7 +192,7 @@ void AGE_Frame::ListResearches(bool Sized)
 
 	for(short loop=0; loop < GenieFile->Researchs.size(); loop++)
 	{
-		Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
 		if(SearchMatches(Name.Lower()))
 		{
 			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);

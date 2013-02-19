@@ -6,10 +6,6 @@
 #include "AGE_SaveDialog.h"
 #include "AGE_AboutDialog.h"
 #include "AGE_Copies.hpp"
-#include "AppIcon.xpm"
-#include "GateOpen.xpm"
-#include "GateClosed.xpm"
-#include "Question.xpm"
 //#include <wx/dynarray.h>
 using std::array;
 using std::vector;
@@ -161,7 +157,24 @@ class AGE_Frame: public wxFrame
 	void OnVariableCalcReverse(wxFocusEvent &Event);
 
 	void ListUnknowns();
+	void OnUnknownsSearch(wxCommandEvent &Event);
+	void OnUnknownsSelect(wxCommandEvent &Event);
 	string GetUnknownName(short Index);
+
+	void ListUnknownFirstSubData();
+	void OnUnknownFirstSubDataSearch(wxCommandEvent &Event);
+	void OnUnknownFirstSubDataSelect(wxCommandEvent &Event);
+	string GetUnknownFirstSubDataName(short Index);
+
+	void ListUnknownSecondSubData();
+	void OnUnknownSecondSubDataSearch(wxCommandEvent &Event);
+	void OnUnknownSecondSubDataSelect(wxCommandEvent &Event);
+	string GetUnknownSecondSubDataName(short Index);
+
+	void ListUnknownThirdSubData();
+	void OnUnknownThirdSubDataSearch(wxCommandEvent &Event);
+	void OnUnknownThirdSubDataSelect(wxCommandEvent &Event);
+	string GetUnknownThirdSubDataName(short Index);
 
 //	Research Events
 
@@ -646,6 +659,10 @@ class AGE_Frame: public wxFrame
 	wxArrayInt Items;
 	long SomethingPage;
 	long SomethingSize;
+	vector<short> UnknownIDs;
+	vector<short> UnknownFSIDs;
+	vector<short> UnknownSSIDs;
+	vector<short> UnknownTSIDs;
 	vector<short> ResearchIDs;
 	vector<short> TechIDs;
 	vector<short> EffectIDs;

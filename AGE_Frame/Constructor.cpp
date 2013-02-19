@@ -1,4 +1,8 @@
 #include "../AGE_Frame.h"
+#include "../AppIcon.xpm"
+#include "../GateOpen.xpm"
+#include "../GateClosed.xpm"
+#include "../Question.xpm"
 #include "genie/util/Logger.h"
 
 //#include <wx/arrimpl.cpp>
