@@ -912,6 +912,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		ListPlayerColors();
 		ListTerrainBorders();
 		ListGeneral();
+		ListUnknowns();
 
 		Effects_ComboBox_AttributesC->Clear();
 		Effects_ComboBox_AttributesC->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1099,152 +1100,116 @@ void AGE_Frame::OnGameVersionChange()
 {
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
+		bool show;
+
+		// TC ->
+		show = (GameVersion >= 3) ? true : false;
 		for(short loop = 32;loop < TERRAINBORDERSMAX; loop++)
 		{
-			if(GameVersion >= 3)
-			{
-				Terrains_TerrainBorderID[loop]->Show(true);
-				Terrains_ComboBox_TerrainBorderID[loop]->Show(true);
-			}
-			else
-			{
-				Terrains_TerrainBorderID[loop]->Show(false);
-				Terrains_ComboBox_TerrainBorderID[loop]->Show(false);
-			}
+			Terrains_TerrainBorderID[loop]->Show(show);
+			Terrains_ComboBox_TerrainBorderID[loop]->Show(show);
 		}
-		for(short loop = 4;loop < 6; loop++)
+		Units_Holder_SnowGraphicID->Show(show);
+		Units_Holder_Attribute->Show(show);
+		Units_Holder_Civ->Show(show);
+		if(!show || ShowUnknowns)
 		{
-			if(GameVersion >= 2)
-			{
-				Research_RequiredTechs[loop]->Show(true);
-				Research_ComboBox_RequiredTechs[loop]->Show(true);
-			}
-			else
-			{
-				Research_RequiredTechs[loop]->Show(false);
-				Research_ComboBox_RequiredTechs[loop]->Show(false);
-			}
+			Units_Holder_Unknown9->Show(show);
+			Units_Unknown20[1]->Show(show);
 		}
 
-		if(GameVersion >= 2) // AoK ->
+		// AoK ->
+		show = (GameVersion >= 2) ? true : false;
+		for(short loop = 4;loop < 6; loop++)
 		{
-			Research_Holder_Civ->Show(true);
-			Research_Holder_FullTechMode->Show(true);
-			Civs_Holder_TeamBonus->Show(true);
-			Terrains_Holder_BlendPriority->Show(true);
-			Terrains_Holder_BlendType->Show(true);
-			TerRestrict_Holder_Unknown1->Show(true);
-			TerRestrict_Holder_Graphics->Show(true);
-			TerRestrict_Holder_Amount->Show(true);
-			SoundItems_Holder_Civ->Show(true);
-			Colors_Holder_Name->Show(false);
-			Colors_Holder_Palette->Show(true);
-			Colors_Holder_MinimapColor->Show(true);
-			Units_StandingGraphic[1]->Show(true);
-			Units_ComboBox_StandingGraphic[1]->Show(true);
-			Units_TrainSound[1]->Show(true);
-			Units_ComboBox_TrainSound[1]->Show(true);
-			Units_Holder_Unknown3a->Show(false);
-			Units_Holder_SelectionShapeType->Show(true);
-			Units_Holder_ID3->Show(true);
-			Units_Holder_GarrisonRecoveryRate->Show(true);
-			Units_Holder_MissileGraphicDelay->Show(true);
-			Units_Holder_HeroMode->Show(true);
-			Units_Holder_GarrisonGraphic->Show(true);
-			Units_Holder_AttackMissileDuplicationAmount1->Show(true);
-			Units_Holder_AttackMissileDuplicationAmount2->Show(true);
-			Units_Holder_AttackMissileDuplicationSpawning->Show(true);
-			Units_Holder_AttackMissileDuplicationUnit->Show(true);
-			Units_Holder_AttackMissileDuplicationGraphic->Show(true);
-			Units_Holder_AnnexUnit1->Show(true);
-			Units_Holder_AnnexUnitMisplacement1->Show(true);
-			Units_Holder_HeadUnit->Show(true);
-			Units_Holder_HeadUnit->Show(true);
-			Units_Holder_TransformUnit->Show(true);
-			Units_Holder_GarrisonType->Show(true);
-			Units_Holder_GarrisonHealRate->Show(true);
-			TechTrees_Main->Show(true);
-			if(ShowUnknowns)
-			{
-				SoundItems_Holder_Unknown->Show(true);
-				Colors_Holder_UnknownArea->Show(true);
-				Units_Holder_Unknown7->Show(true);
-				Units_Holder_Unknown8->Show(true);
-				Units_Holder_Unknown12->Show(true);
-				for(short loop=1; loop < 17; loop++)
-				Units_Unknown16[loop]->Show(true);
-				Units_Holder_Unknown26->Show(true);
-				Units_Holder_Unknown27->Show(true);
-				Units_Holder_Unknown28->Show(true);
-				Units_Holder_Unknown29->Show(true);
-				Units_Holder_Unknown33->Show(true);
-				Units_Holder_Unknown34->Show(true);
-				Units_Holder_Unknown35->Show(true);
-				Units_Holder_Unknown36->Show(true);
-				Units_Holder_Unknown37->Show(true);
-				for(short loop=1; loop < General_AfterBorders.size(); loop++)
-				General_AfterBorders[loop]->Show(true);
-				General_Holder_Variables2->Show(true);
-			}
+			Research_RequiredTechs[loop]->Show(show);
+			Research_ComboBox_RequiredTechs[loop]->Show(show);
 		}
-		else // <- RoR
+		Research_Holder_Civ->Show(show);
+		Research_Holder_FullTechMode->Show(show);
+		Civs_Holder_TeamBonus->Show(show);
+		Terrains_Holder_BlendPriority->Show(show);
+		Terrains_Holder_BlendType->Show(show);
+		TerRestrict_Holder_Unknown1->Show(show);
+		TerRestrict_Holder_Graphics->Show(show);
+		TerRestrict_Holder_Amount->Show(show);
+		SoundItems_Holder_Civ->Show(show);
+		Colors_Holder_Palette->Show(show);
+		Colors_Holder_MinimapColor->Show(show);
+		Units_StandingGraphic[1]->Show(show);
+		Units_ComboBox_StandingGraphic[1]->Show(show);
+		Units_TrainSound[1]->Show(show);
+		Units_ComboBox_TrainSound[1]->Show(show);
+		Units_Holder_SelectionShapeType->Show(show);
+		Units_Holder_ID3->Show(show);
+		Units_Holder_GarrisonRecoveryRate->Show(show);
+		Units_Holder_MissileGraphicDelay->Show(show);
+		Units_Holder_HeroMode->Show(show);
+		Units_Holder_GarrisonGraphic->Show(show);
+		Units_Holder_AttackMissileDuplicationAmount1->Show(show);
+		Units_Holder_AttackMissileDuplicationAmount2->Show(show);
+		Units_Holder_AttackMissileDuplicationSpawning->Show(show);
+		Units_Holder_AttackMissileDuplicationUnit->Show(show);
+		Units_Holder_AttackMissileDuplicationGraphic->Show(show);
+		Units_Holder_AnnexUnit1->Show(show);
+		Units_Holder_AnnexUnitMisplacement1->Show(show);
+		Units_Holder_HeadUnit->Show(show);
+		Units_Holder_HeadUnit->Show(show);
+		Units_Holder_TransformUnit->Show(show);
+		Units_Holder_GarrisonType->Show(show);
+		Units_Holder_GarrisonHealRate->Show(show);
+		TechTrees_Main->Show(show);
+		if(!show || ShowUnknowns)
 		{
-			Research_Holder_Civ->Show(false);
-			Research_Holder_FullTechMode->Show(false);
-			Civs_Holder_TeamBonus->Show(false);
-			Terrains_Holder_BlendPriority->Show(false);
-			Terrains_Holder_BlendType->Show(false);
-			TerRestrict_Holder_Unknown1->Show(false);
-			TerRestrict_Holder_Graphics->Show(false);
-			TerRestrict_Holder_Amount->Show(false);
-			SoundItems_Holder_Civ->Show(false);
-			SoundItems_Holder_Unknown->Show(false);
-			Colors_Holder_Name->Show(true);
-			Colors_Holder_Palette->Show(false);
-			Colors_Holder_MinimapColor->Show(false);
-			Colors_Holder_UnknownArea->Show(false);
-			Units_StandingGraphic[1]->Show(false);
-			Units_ComboBox_StandingGraphic[1]->Show(false);
-			Units_TrainSound[1]->Show(false);
-			Units_ComboBox_TrainSound[1]->Show(false);
-			Units_Holder_Unknown7->Show(false);
-			Units_Holder_Unknown8->Show(false);
-			Units_Holder_SelectionShapeType->Show(false);
-			Units_Holder_ID3->Show(false);
-			Units_Holder_Unknown12->Show(false);
+			SoundItems_Holder_Unknown->Show(show);
+			Colors_Holder_UnknownArea->Show(show);
+			Units_Holder_Unknown7->Show(show);
+			Units_Holder_Unknown8->Show(show);
+			Units_Holder_Unknown12->Show(show);
 			for(short loop=1; loop < 17; loop++)
-			Units_Unknown16[loop]->Show(false);
-			Units_Holder_GarrisonRecoveryRate->Show(false);
-			Units_Holder_Unknown26->Show(false);
-			Units_Holder_Unknown27->Show(false);
-			Units_Holder_Unknown28->Show(false);
-			Units_Holder_MissileGraphicDelay->Show(false);
-			Units_Holder_HeroMode->Show(false);
-			Units_Holder_GarrisonGraphic->Show(false);
-			Units_Holder_AttackMissileDuplicationAmount1->Show(false);
-			Units_Holder_AttackMissileDuplicationAmount2->Show(false);
-			Units_Holder_AttackMissileDuplicationSpawning->Show(false);
-			Units_Holder_AttackMissileDuplicationUnit->Show(false);
-			Units_Holder_AttackMissileDuplicationGraphic->Show(false);
-			Units_Holder_Unknown29->Show(false);
-			Units_Holder_Unknown33->Show(false);
-			Units_Holder_AnnexUnit1->Show(false);
-			Units_Holder_AnnexUnitMisplacement1->Show(false);
-			Units_Holder_HeadUnit->Show(false);
-			Units_Holder_TransformUnit->Show(false);
-			Units_Holder_Unknown34->Show(false);
-			Units_Holder_GarrisonType->Show(false);
-			Units_Holder_GarrisonHealRate->Show(false);
-			Units_Holder_Unknown35->Show(false);
-			Units_Holder_Unknown36->Show(false);
-			Units_Holder_Unknown37->Show(false);
-			TechTrees_Main->Show(false);
+			Units_Unknown16[loop]->Show(show);
+			Units_Holder_Unknown26->Show(show);
+			Units_Holder_Unknown27->Show(show);
+			Units_Holder_Unknown28->Show(show);
+			Units_Holder_Unknown29->Show(show);
+			Units_Holder_Unknown33->Show(show);
+			Units_Holder_Unknown34->Show(show);
+			Units_Holder_Unknown35->Show(show);
+			Units_Holder_Unknown36->Show(show);
+			Units_Holder_Unknown37->Show(show);
 			for(short loop=1; loop < General_AfterBorders.size(); loop++)
-			General_AfterBorders[loop]->Show(false);
-			General_Holder_Variables2->Show(false);
-			if(ShowUnknowns) Units_Holder_Unknown3a->Show(true);
+			General_AfterBorders[loop]->Show(show);
+			for(short loop=6; loop < 162; loop++)
+			General_Something[loop]->Show(show);
 		}
-		if(GameVersion >= 4) // SWGB ->
+
+		// AoE & RoR
+		Colors_Holder_Name->Show(!show);
+
+		// SWGB ->
+		show = (GameVersion >= 4) ? true : false;
+		Research_Holder_Name[1]->Show(show);
+		Civs_Holder_Name[1]->Show(show);
+		Units_Holder_Name2->Show(show);
+		Units_Holder_Unitline->Show(show);
+		Units_Holder_MinTechLevel->Show(show);
+		UnitLines_Main->Show(show);
+		if(!show || ShowUnknowns)
+		{
+			Civs_Holder_SUnknown1->Show(show);
+			Terrains_Holder_SUnknown1->Show(show);
+			General_Holder_Variables1->Show(show);
+			TechTrees_Ages_Grid_Zeroes2->Show(show);
+			TechTrees_Buildings_Grid_Unknown2a2->Show(show);
+			TechTrees_Buildings_Grid_Unknown2b2->Show(show);
+			TechTrees_Units_Grid_Unknown2a2->Show(show);
+			TechTrees_Units_Grid_Unknown2b2->Show(show);
+			TechTrees_Researches_Grid_Unknown2a2->Show(show);
+			TechTrees_Researches_Grid_Unknown2b2->Show(show);
+			General_Something[162]->Show(show);
+		}
+
+		if(show) // SWGB ->
 		{
 			Graphics_Name->SetMaxSize(25);
 			Graphics_Name2->SetMaxSize(25);
@@ -1252,25 +1217,6 @@ void AGE_Frame::OnGameVersionChange()
 			Terrains_Name->SetMaxSize(17);
 			Terrains_Name2->SetMaxSize(17);
 
-			Research_Holder_Name[1]->Show(true);
-			Civs_Holder_Name[1]->Show(true);
-			Units_Holder_Name2->Show(true);
-			Units_Holder_Unitline->Show(true);
-			Units_Holder_MinTechLevel->Show(true);
-			UnitLines_Main->Show(true);
-			if(ShowUnknowns)
-			{
-				Civs_Holder_SUnknown1->Show(true);
-				Terrains_Holder_SUnknown1->Show(true);
-				General_Holder_Variables1->Show(true);
-				TechTrees_Ages_Grid_Zeroes2->Show(true);
-				TechTrees_Buildings_Grid_Unknown2a2->Show(true);
-				TechTrees_Buildings_Grid_Unknown2b2->Show(true);
-				TechTrees_Units_Grid_Unknown2a2->Show(true);
-				TechTrees_Units_Grid_Unknown2b2->Show(true);
-				TechTrees_Researches_Grid_Unknown2a2->Show(true);
-				TechTrees_Researches_Grid_Unknown2b2->Show(true);
-			}
 		}
 		else // <- TC
 		{
@@ -1279,42 +1225,6 @@ void AGE_Frame::OnGameVersionChange()
 			SoundItems_Name->SetMaxSize(13);
 			Terrains_Name->SetMaxSize(13);
 			Terrains_Name2->SetMaxSize(13);
-
-			Research_Holder_Name[1]->Show(false);
-			Civs_Holder_Name[1]->Show(false);
-			Civs_Holder_SUnknown1->Show(false);
-			Terrains_Holder_SUnknown1->Show(false);
-			Units_Holder_Name2->Show(false);
-			Units_Holder_Unitline->Show(false);
-			Units_Holder_MinTechLevel->Show(false);
-			General_Holder_Variables1->Show(false);
-			UnitLines_Main->Show(false);
-			TechTrees_Ages_Grid_Zeroes2->Show(false);
-			TechTrees_Buildings_Grid_Unknown2a2->Show(false);
-			TechTrees_Buildings_Grid_Unknown2b2->Show(false);
-			TechTrees_Units_Grid_Unknown2a2->Show(false);
-			TechTrees_Units_Grid_Unknown2b2->Show(false);
-			TechTrees_Researches_Grid_Unknown2a2->Show(false);
-			TechTrees_Researches_Grid_Unknown2b2->Show(false);
-		}
-		if(GameVersion >= 3) // TC ->
-		{
-			Units_Holder_SnowGraphicID->Show(true);
-			Units_Holder_Attribute->Show(true);
-			Units_Holder_Civ->Show(true);
-			if(ShowUnknowns)
-			{
-				Units_Holder_Unknown9->Show(true);
-				Units_Unknown20[1]->Show(true);
-			}
-		}
-		else // <- AoK
-		{
-			Units_Holder_Attribute->Show(false);
-			Units_Holder_Civ->Show(false);
-			Units_Holder_Unknown9->Show(false);
-			Units_Unknown20[1]->Show(false);
-			Units_Holder_SnowGraphicID->Show(false);
 		}
 	}
 

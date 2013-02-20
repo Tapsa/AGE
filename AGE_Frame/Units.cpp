@@ -548,10 +548,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			}
 		}
 	}
-	else
-	{
-		Units_Unknown3a->resize(PointerCount);
-	}
 	Units_Enabled->resize(PointerCount);
 	Units_CommandAttribute->resize(PointerCount);
 	Units_Unknown3->resize(PointerCount);
@@ -846,10 +842,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 						Units_MinTechLevel->container[location] = &UnitPointer->MinTechLevel;
 					}
 				}
-			}
-			else
-			{
-				Units_Unknown3a->container[location] = &UnitPointer->Unknown3a;
 			}
 			Units_Enabled->container[location] = &UnitPointer->Enabled;
 			Units_CommandAttribute->container[location] = &UnitPointer->CommandAttribute;
@@ -1296,8 +1288,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_ID3->ChangeValue(lexical_cast<string>(UnitPointer->ID3));
 		Units_Enabled->SetBackgroundColour(wxColour(210, 230, 255));
 		Units_Enabled->ChangeValue(lexical_cast<string>(UnitPointer->Enabled));
-		Units_CommandAttribute->SetBackgroundColour(wxColour(210, 230, 255));
-		Units_CommandAttribute->ChangeValue(lexical_cast<string>(UnitPointer->CommandAttribute));
 		if(GameVersion >= 3)
 		{
 			Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
@@ -1320,12 +1310,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	{
 		Units_DLL_LanguageHelp->index = UnitPointer->LanguageDLLHelp - 0x10000;
 		Units_DLL_LanguageHKText->index = UnitPointer->LanguageDLLHotKeyText - 0x20000;
-		Units_Unknown3a->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3a));
 		Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
 		Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
-		Units_CommandAttribute->SetBackgroundColour(wxColour(255, 235, 215));
-		Units_CommandAttribute->ChangeValue(lexical_cast<string>((short)UnitPointer->CommandAttribute));
 	}
+	Units_CommandAttribute->ChangeValue(lexical_cast<string>(UnitPointer->CommandAttribute));
 	Units_Unknown3->ChangeValue(lexical_cast<string>(UnitPointer->Unknown3));
 	Units_Unknown3B->ChangeValue(lexical_cast<string>(UnitPointer->Unknown3B));
 	Units_LanguageDLLHelp->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHelp));
@@ -3576,7 +3564,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_CommandAttribute = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown3B = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown3a = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_LanguageDLLHelp = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_LanguageDLLConverter[0] = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_LanguageDLLConverter[1] = new wxBoxSizer(wxVERTICAL);
@@ -3762,7 +3749,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_CommandAttribute = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown3B = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown3a = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3a", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDLLHelp = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDLLConverter[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDLLConverter[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey Text Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4283,7 +4269,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown1 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown3 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown3B = new TextCtrl_Short(Units_Scroller);
-	Units_Unknown3a = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown4 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown5 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller);
@@ -4529,7 +4514,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_CommandAttribute->Add(Units_Text_CommandAttribute, 0, wxEXPAND);
 	Units_Holder_Unknown3->Add(Units_Text_Unknown3, 0, wxEXPAND);
 	Units_Holder_Unknown3B->Add(Units_Text_Unknown3B, 0, wxEXPAND);
-	Units_Holder_Unknown3a->Add(Units_Text_Unknown3a, 0, wxEXPAND);
 	Units_Holder_Unknown4->Add(Units_Text_Unknown4, 0, wxEXPAND);
 	Units_Holder_Unknown5->Add(Units_Text_Unknown5, 0, wxEXPAND);
 	Units_Holder_Unknown6->Add(Units_Text_Unknown6, 0, wxEXPAND);
@@ -4706,7 +4690,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_CommandAttribute->Add(Units_CommandAttribute, 0, wxEXPAND);
 	Units_Holder_Unknown3->Add(Units_Unknown3, 1, wxEXPAND);
 	Units_Holder_Unknown3B->Add(Units_Unknown3B, 1, wxEXPAND);
-	Units_Holder_Unknown3a->Add(Units_Unknown3a, 1, wxEXPAND);
 	Units_Holder_Unknown4->Add(Units_Unknown4, 1, wxEXPAND);
 	Units_Holder_Unknown5->Add(Units_Unknown5, 1, wxEXPAND);
 	Units_Holder_Unselectable->Add(Units_CheckBox_Unselectable, 0, wxEXPAND);
@@ -5404,7 +5387,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown1, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3B, 0, wxEXPAND);
-	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3a, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown4, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown5, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown6, 0, wxEXPAND);
