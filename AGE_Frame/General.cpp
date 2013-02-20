@@ -3,13 +3,11 @@ using boost::lexical_cast;
 
 void AGE_Frame::ListGeneral()
 {
-	General_SomethingSize->SetLabel("Size: "+lexical_cast<string>(SomethingSize));
-	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
+	//General_SomethingSize->SetLabel("Size: "+lexical_cast<string>(SomethingSize));
+	//General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
 
 	wxCommandEvent E;
 	OnGeneralSelect(E);
-	
-	ListUnknowns();
 }
 
 void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
@@ -88,7 +86,13 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_TerrainRendering[loop]->resize(1);
 		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
 	}
-	General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
+	for(short loop=0; loop < 6; loop++)
+	{
+		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop]));
+		General_Something[loop]->resize(1);
+		General_Something[loop]->container[0] = &GenieFile->Something[loop];
+	}
+	//General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
 	/*wxString Info = lexical_cast<string>(GenieFile->Unknown.Pointer)+", size: ";
 	for(int loop = 0; loop < GenieFile->Unknown.Unknown1stBlocks.size(); loop++)
 	{
@@ -124,6 +128,12 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_AfterBorders[loop]->resize(1);
 		General_AfterBorders[loop]->container[0] = &GenieFile->ZeroSpace[loop];
 	}
+	for(short loop=6; loop < 162; loop++)
+	{
+		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop]));
+		General_Something[loop]->resize(1);
+		General_Something[loop]->container[0] = &GenieFile->Something[loop];
+	}
 	for(long loop = 0;loop < General_TTUnknown.size(); loop++)
 	{
 		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
@@ -134,6 +144,9 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_TTUnknown[7]->resize(1);
 	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
 	if(GameVersion < 4) return;
+	General_Something[162]->ChangeValue(lexical_cast<string>(GenieFile->Something[162]));
+	General_Something[162]->resize(1);
+	General_Something[162]->container[0] = &GenieFile->Something[162];
 	General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
 	General_SUnknown2->resize(1);
 	General_SUnknown2->container[0] = &GenieFile->SUnknown2;
@@ -152,6 +165,175 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
 	General_SUnknown8->resize(1);
 	General_SUnknown8->container[0] = &GenieFile->SUnknown8;
+}
+
+void AGE_Frame::CreateGeneralControls()
+{
+	Tab_General = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+
+	General_Main = new wxBoxSizer(wxVERTICAL);
+	General_TopRow = new wxBoxSizer(wxHORIZONTAL);
+	General_Refresh = new wxButton(Tab_General, wxID_ANY, "Refresh", wxDefaultPosition, wxSize(0, 20));
+	General_Text_CalcBoxes = new wxStaticText(Tab_General, wxID_ANY, " Variable Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_CalcBoxes->SetToolTip("From four 8 bit integers to one 32 bit integer or vice versa");
+	General_Text_CalcBoxesMiddle = new wxStaticText(Tab_General, wxID_ANY, " = ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop=0; loop < 5; loop++)
+	General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY);
+	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
+	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
+	General_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
+
+	const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain restrictions";
+	General_Grid_Variables = new wxGridSizer(6, 5, 5);
+	General_Holder_Variables1 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Star Wars Unknowns");
+	General_Holder_SUnknown2 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown2 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown2 = new TextCtrl_Long(General_Scroller);
+	General_SUnknown2->SetToolTip(SWUNKNOWNSINFO);
+	General_Holder_SUnknown3 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown3 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 3 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown3 = new TextCtrl_Long(General_Scroller);
+	General_SUnknown3->SetToolTip(SWUNKNOWNSINFO);
+	General_Holder_SUnknown4 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown4 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 4 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown4 = new TextCtrl_Long(General_Scroller);
+	General_SUnknown4->SetToolTip(SWUNKNOWNSINFO);
+	General_Holder_SUnknown5 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown5 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 5 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown5 = new TextCtrl_Long(General_Scroller);
+	General_SUnknown5->SetToolTip(SWUNKNOWNSINFO);
+	General_Holder_SUnknown7 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 7 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown7 = new TextCtrl_Byte(General_Scroller);
+	General_SUnknown7->SetToolTip("In the file this is\nright after civilizations and\nbefore researches");
+	General_Holder_SUnknown8 = new wxBoxSizer(wxVERTICAL);
+	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_SUnknown8 = new TextCtrl_Byte(General_Scroller);
+	General_SUnknown8->SetToolTip("In the file this is\nright after researches and\nbefore technology trees");
+	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
+	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Grid_TerrainHeader = new wxGridSizer(16, 0, 0);
+	General_Holder_BorderRelated = new wxBoxSizer(wxVERTICAL);
+	General_Text_BorderRelated = new wxStaticText(General_Scroller, wxID_ANY, " Borders-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Grid_BorderRelated = new wxGridSizer(8, 0, 0);
+	General_Holder_TerrainRendering = new wxBoxSizer(wxVERTICAL);
+	General_Text_TerrainRendering = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Grid_TerrainRendering = new wxGridSizer(16, 0, 0);
+	General_Grid_Something = new wxGridSizer(8, 0, 0);
+	for(short loop=0; loop < General_TerrainHeader.size(); loop++)
+	General_TerrainHeader[loop] = new TextCtrl_Short(General_Scroller);
+	General_BeforeBorders = new TextCtrl_Short(General_Scroller);
+	General_BeforeBorders->SetToolTip("In the file this is\nright after terrains and\nbefore terrain borders");
+	for(short loop=0; loop < General_AfterBorders.size(); loop++)
+	{
+		General_AfterBorders[loop] = new TextCtrl_Long(General_Scroller);
+		General_AfterBorders[loop]->SetToolTip("In the file these are\nright after terrain borders and\nbefore the second terrain count");
+	}
+	for(short loop=0; loop < General_TerrainRendering.size(); loop++)
+	General_TerrainRendering[loop] = new TextCtrl_Short(General_Scroller);
+	for(short loop=0; loop < General_Something.size(); loop++)
+	General_Something[loop] = new TextCtrl_Long(General_Scroller);
+/*	General_Holder_RenderPlusUnknown = new wxBoxSizer(wxVERTICAL);
+	General_Holder_RenderPlusUnknownTop = new wxBoxSizer(wxHORIZONTAL);
+	General_SomethingPicker = new wxTextCtrl(General_Scroller, wxID_ANY);
+	General_SomethingNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
+	General_SomethingPrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
+	General_SomethingSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Size", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data with 32 Bit Pointers", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+*/
+	General_TopRow->Add(10, -1);
+	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
+	General_TopRow->AddStretchSpacer(3);
+	for(short loop=0; loop < 4; loop++)
+	General_TopRow->Add(General_CalcBoxes[loop], 1, wxEXPAND);
+	General_TopRow->Add(General_Text_CalcBoxesMiddle, 0, wxEXPAND);
+	General_TopRow->Add(General_CalcBoxes[4], 1, wxEXPAND);
+	General_TopRow->Add(General_Text_CalcBoxes, 0, wxEXPAND);
+	General_TopRow->AddStretchSpacer(1);
+
+	for(short loop=0; loop < General_TerrainHeader.size(); loop++)
+	General_Grid_TerrainHeader->Add(General_TerrainHeader[loop], 1, wxEXPAND);
+	General_Holder_TerrainHeader->Add(General_Text_TerrainHeader, 0, wxEXPAND);
+	General_Holder_TerrainHeader->Add(General_Grid_TerrainHeader, 0, wxEXPAND);
+
+	General_Grid_BorderRelated->Add(General_BeforeBorders, 1, wxEXPAND);
+	for(short loop=0; loop < General_AfterBorders.size(); loop++)
+	General_Grid_BorderRelated->Add(General_AfterBorders[loop], 1, wxEXPAND);
+	General_Holder_BorderRelated->Add(General_Text_BorderRelated, 0, wxEXPAND);
+	General_Holder_BorderRelated->Add(General_Grid_BorderRelated, 0, wxEXPAND);
+
+	for(short loop=0; loop < General_TerrainRendering.size(); loop++)
+	General_Grid_TerrainRendering->Add(General_TerrainRendering[loop], 1, wxEXPAND);
+	for(short loop=0; loop < General_Something.size(); loop++)
+	General_Grid_Something->Add(General_Something[loop], 1, wxEXPAND);
+	General_Holder_TerrainRendering->Add(General_Text_TerrainRendering, 0, wxEXPAND);
+	General_Holder_TerrainRendering->Add(General_Grid_TerrainRendering, 0, wxEXPAND);
+	General_Holder_TerrainRendering->Add(General_Grid_Something, 0, wxEXPAND);
+
+	General_Holder_SUnknown7->Add(General_Text_SUnknown7, 0, wxEXPAND);
+	General_Holder_SUnknown7->Add(General_SUnknown7, 1, wxEXPAND);
+	General_Holder_SUnknown8->Add(General_Text_SUnknown8, 0, wxEXPAND);
+	General_Holder_SUnknown8->Add(General_SUnknown8, 1, wxEXPAND);
+	General_Holder_SUnknown2->Add(General_Text_SUnknown2, 0, wxEXPAND);
+	General_Holder_SUnknown2->Add(General_SUnknown2, 1, wxEXPAND);
+	General_Holder_SUnknown3->Add(General_Text_SUnknown3, 0, wxEXPAND);
+	General_Holder_SUnknown3->Add(General_SUnknown3, 1, wxEXPAND);
+	General_Holder_SUnknown4->Add(General_Text_SUnknown4, 0, wxEXPAND);
+	General_Holder_SUnknown4->Add(General_SUnknown4, 1, wxEXPAND);
+	General_Holder_SUnknown5->Add(General_Text_SUnknown5, 0, wxEXPAND);
+	General_Holder_SUnknown5->Add(General_SUnknown5, 1, wxEXPAND);
+	General_Grid_Variables->Add(General_Holder_SUnknown2, 1, wxEXPAND);
+	General_Grid_Variables->Add(General_Holder_SUnknown3, 1, wxEXPAND);
+	General_Grid_Variables->Add(General_Holder_SUnknown4, 1, wxEXPAND);
+	General_Grid_Variables->Add(General_Holder_SUnknown5, 1, wxEXPAND);
+	General_Grid_Variables->Add(General_Holder_SUnknown7, 1, wxEXPAND);
+	General_Grid_Variables->Add(General_Holder_SUnknown8, 1, wxEXPAND);
+	General_Holder_Variables1->Add(General_Grid_Variables, 0, wxEXPAND);
+/*
+	General_Holder_RenderPlusUnknownTop->Add(General_Text_TechTree, 0, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(5, -1);
+	General_Holder_RenderPlusUnknownTop->Add(General_SomethingPicker, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(5, -1);
+	General_Holder_RenderPlusUnknownTop->Add(General_SomethingNext, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(5, -1);
+	General_Holder_RenderPlusUnknownTop->Add(General_SomethingPrev, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->Add(5, -1);
+	General_Holder_RenderPlusUnknownTop->Add(General_SomethingSize, 1, wxEXPAND);
+	General_Holder_RenderPlusUnknownTop->AddStretchSpacer(2);
+	General_Holder_RenderPlusUnknown->Add(General_Holder_RenderPlusUnknownTop, 0, wxEXPAND);
+*/
+	General_ScrollerWindowsSpace->Add(General_Holder_Variables1, 0, wxEXPAND);
+	General_ScrollerWindowsSpace->Add(-1, 10);
+	General_ScrollerWindowsSpace->Add(General_Holder_TerrainHeader, 0, wxEXPAND);
+	General_ScrollerWindowsSpace->Add(-1, 10);
+	General_ScrollerWindowsSpace->Add(General_Holder_BorderRelated, 0, wxEXPAND);
+	General_ScrollerWindowsSpace->Add(-1, 10);
+	General_ScrollerWindowsSpace->Add(General_Holder_TerrainRendering, 0, wxEXPAND);
+	//General_ScrollerWindowsSpace->Add(-1, 10);
+	//General_ScrollerWindowsSpace->Add(General_Holder_RenderPlusUnknown, 0, wxEXPAND);
+
+	General_ScrollerWindows->Add(10, -1);
+	General_ScrollerWindows->Add(General_ScrollerWindowsSpace, 1, wxEXPAND);
+	General_ScrollerWindows->Add(5, -1);
+
+	General_Scroller->SetSizer(General_ScrollerWindows);
+	General_Scroller->SetScrollRate(0, 15);
+
+	General_Main->Add(-1, 10);
+	General_Main->Add(General_TopRow, 0, wxEXPAND);
+	General_Main->Add(-1, 5);
+	General_Main->Add(General_Scroller, 1, wxEXPAND);
+	General_Main->Add(-1, 10);
+
+	Tab_General->SetSizer(General_Main);
+
+	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGeneralSelect));
+	//Connect(General_SomethingPicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
+	//Connect(General_SomethingNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
+	//Connect(General_SomethingPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
+	for(short loop=0; loop < 4; loop++)
+	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
+	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);
 }
 
 void AGE_Frame::OnUnknownsSearch(wxCommandEvent &Event)
@@ -592,214 +774,138 @@ void AGE_Frame::OnUnknownThirdSubDataPasteInsert(wxCommandEvent &Event)
 	ListUnknownThirdSubData();
 }
 
-void AGE_Frame::CreateGeneralControls()
+void AGE_Frame::CreateUnknownControls()
 {
-	Tab_General = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Unknown = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 
-	General_Main = new wxBoxSizer(wxVERTICAL);
-	General_TopRow = new wxBoxSizer(wxHORIZONTAL);
-	General_Refresh = new wxButton(Tab_General, wxID_ANY, "Refresh", wxDefaultPosition, wxSize(0, 20));
-	General_Text_CalcBoxes = new wxStaticText(Tab_General, wxID_ANY, " Variable Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Text_CalcBoxes->SetToolTip("From four 8 bit integers to one 32 bit integer or vice versa");
-	General_Text_CalcBoxesMiddle = new wxStaticText(Tab_General, wxID_ANY, " = ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop=0; loop < 5; loop++)
-	General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY);
-	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
-	General_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
+	Unknown_Main = new wxBoxSizer(wxHORIZONTAL);
+	Unknown_Area = new wxBoxSizer(wxVERTICAL);
+	Unknown_Scroller = new wxScrolledWindow(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
+	Unknown_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
+	Unknown_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
 
-	const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain restrictions";
-	General_Grid_Variables = new wxGridSizer(6, 5, 5);
-	General_Grid_Variables2 = new wxGridSizer(8, 5, 5);
-	General_Holder_Variables1 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Star Wars Unknowns");
-	General_Holder_SUnknown2 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown2 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown2 = new TextCtrl_Long(General_Scroller);
-	General_SUnknown2->SetToolTip(SWUNKNOWNSINFO);
-	General_Holder_SUnknown3 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown3 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 3 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown3 = new TextCtrl_Long(General_Scroller);
-	General_SUnknown3->SetToolTip(SWUNKNOWNSINFO);
-	General_Holder_SUnknown4 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown4 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 4 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown4 = new TextCtrl_Long(General_Scroller);
-	General_SUnknown4->SetToolTip(SWUNKNOWNSINFO);
-	General_Holder_SUnknown5 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown5 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 5 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown5 = new TextCtrl_Long(General_Scroller);
-	General_SUnknown5->SetToolTip(SWUNKNOWNSINFO);
-	General_Holder_SUnknown7 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown7 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 7 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown7 = new TextCtrl_Byte(General_Scroller);
-	General_SUnknown7->SetToolTip("In the file this is\nright after civilizations and\nbefore researches");
-	General_Holder_SUnknown8 = new wxBoxSizer(wxVERTICAL);
-	General_Text_SUnknown8 = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown8 = new TextCtrl_Byte(General_Scroller);
-	General_SUnknown8->SetToolTip("In the file this is\nright after researches and\nbefore technology trees");
-	General_Holder_TerrainHeader = new wxBoxSizer(wxVERTICAL);
-	General_Text_TerrainHeader = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Grid_TerrainHeader = new wxGridSizer(16, 0, 0);
-	General_Holder_BorderRelated = new wxBoxSizer(wxVERTICAL);
-	General_Text_BorderRelated = new wxStaticText(General_Scroller, wxID_ANY, " Borders-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Grid_BorderRelated = new wxGridSizer(8, 0, 0);
-	General_Holder_TerrainRendering = new wxBoxSizer(wxVERTICAL);
-	General_Text_TerrainRendering = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Grid_TerrainRendering = new wxGridSizer(16, 0, 0);
-	for(short loop=0; loop < General_TerrainHeader.size(); loop++)
-	General_TerrainHeader[loop] = new TextCtrl_Short(General_Scroller);
-	General_BeforeBorders = new TextCtrl_Short(General_Scroller);
-	General_BeforeBorders->SetToolTip("In the file this is\nright after terrains and\nbefore terrain borders");
-	for(short loop=0; loop < General_AfterBorders.size(); loop++)
-	{
-		General_AfterBorders[loop] = new TextCtrl_Long(General_Scroller);
-		General_AfterBorders[loop]->SetToolTip("In the file these are\nright after terrain borders and\nbefore the second terrain count");
-	}
-	for(short loop=0; loop < General_TerrainRendering.size(); loop++)
-	General_TerrainRendering[loop] = new TextCtrl_Short(General_Scroller);
-	General_Holder_RenderPlusUnknown = new wxBoxSizer(wxVERTICAL);
-	General_Holder_RenderPlusUnknownTop = new wxBoxSizer(wxHORIZONTAL);
-	General_SomethingPicker = new wxTextCtrl(General_Scroller, wxID_ANY);
-	General_SomethingNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
-	General_SomethingPrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
-	General_SomethingSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Size", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	//General_Grid_TechTree = new wxGridSizer(8, 0, 0);
-	General_Text_TechTree = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data with 32 Bit Pointers", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	//for(short loop=0; loop < General_Something.size(); loop++)
-	//General_Something[loop] = new TextCtrl_Long(General_Scroller);
+	Unknown_Grid_UnknownPointer = new wxGridSizer(8, 0, 0);
+	Unknown_Holder_UnknownPointer = new wxBoxSizer(wxVERTICAL);
+	Unknown_Text_UnknownPointer = new wxStaticText(Tab_Unknown, wxID_ANY, " Unknown Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknown_UnknownPointer = new TextCtrl_Long(Tab_Unknown);
 
-	Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Unknown Removable Data Only Required in AoE 1");
+	Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Unknown, "Unknown Data Only Required in AoE/RoR");
 	Unknowns_ListArea = new wxBoxSizer(wxVERTICAL);
-	Unknowns_DataArea = new wxBoxSizer(wxVERTICAL);
-	Unknowns_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
-	Unknowns_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
-	Unknowns_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 220), 0, NULL, wxLB_EXTENDED);
+	Unknowns_Search = new wxTextCtrl(Tab_Unknown, wxID_ANY);
+	Unknowns_Search_R = new wxTextCtrl(Tab_Unknown, wxID_ANY);
+	Unknowns_List = new wxListBox(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxSize(10, 220), 0, NULL, wxLB_EXTENDED);
 	Unknowns_Buttons = new wxGridSizer(3, 0, 0);
-	Unknowns_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Unknowns_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
-	Unknowns_Delete = new wxButton(General_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	Unknowns_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Unknowns_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Unknowns_PasteInsert = new wxButton(General_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Add = new wxButton(Tab_Unknown, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Insert = new wxButton(Tab_Unknown, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Delete = new wxButton(Tab_Unknown, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Copy = new wxButton(Tab_Unknown, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Paste = new wxButton(Tab_Unknown, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_PasteInsert = new wxButton(Tab_Unknown, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
-	UnknownFirstSubData = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "First Subdata");
+	Unknowns_Space_UnknownLevel = new wxBoxSizer(wxHORIZONTAL);
+	Unknowns_Holder_UnknownLevel = new wxBoxSizer(wxVERTICAL);
+	Unknowns_Text_UnknownLevel = new wxStaticText(Unknown_Scroller, wxID_ANY, " Level", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_UnknownLevel = new TextCtrl_Long(Unknown_Scroller);
+	Unknowns_Grid_Unknown1 = new wxGridSizer(5, 5, 5);
+	for(short loop=0; loop < Unknowns_Unknown1.size(); loop++)
+	{
+		Unknowns_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
+		Unknowns_Text_Unknown1[loop] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+		Unknowns_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
+	}
+	Unknowns_Space_Pointer1 = new wxBoxSizer(wxHORIZONTAL);
+	Unknowns_Holder_Pointer1 = new wxBoxSizer(wxVERTICAL);
+	Unknowns_Text_Pointer1 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Pointer1 = new TextCtrl_Long(Unknown_Scroller);
+
+	UnknownFirstSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "First Subdata");
 	UnknownFirstSubData_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnknownFirstSubData_DataArea = new wxBoxSizer(wxVERTICAL);
-	UnknownFirstSubData_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
-	UnknownFirstSubData_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
-	UnknownFirstSubData_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	UnknownFirstSubData_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
+	UnknownFirstSubData_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
+	UnknownFirstSubData_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	UnknownFirstSubData_Buttons = new wxGridSizer(3, 0, 0);
-	UnknownFirstSubData_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	UnknownFirstSubData_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
-	UnknownFirstSubData_Delete = new wxButton(General_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	UnknownFirstSubData_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	UnknownFirstSubData_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	UnknownFirstSubData_PasteInsert = new wxButton(General_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
-	UnknownSecondSubData = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Second Subdata");
+	UnknownFirstSubData_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
+	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
+	{
+		UnknownFirstSubData_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
+		UnknownFirstSubData_Text_Unknown1[loop] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+		UnknownFirstSubData_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
+	}
+
+	Unknowns_Space_Pointer2 = new wxBoxSizer(wxHORIZONTAL);
+	Unknowns_Holder_Pointer2 = new wxBoxSizer(wxVERTICAL);
+	Unknowns_Text_Pointer2 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Pointer2 = new TextCtrl_Long(Unknown_Scroller);
+
+	UnknownSecondSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Second Subdata");
 	UnknownSecondSubData_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnknownSecondSubData_DataArea = new wxBoxSizer(wxVERTICAL);
-	UnknownSecondSubData_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
-	UnknownSecondSubData_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
-	UnknownSecondSubData_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	UnknownSecondSubData_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
+	UnknownSecondSubData_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
+	UnknownSecondSubData_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	UnknownSecondSubData_Buttons = new wxGridSizer(3, 0, 0);
-	UnknownSecondSubData_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	UnknownSecondSubData_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
-	UnknownSecondSubData_Delete = new wxButton(General_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	UnknownSecondSubData_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	UnknownSecondSubData_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	UnknownSecondSubData_PasteInsert = new wxButton(General_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	UnknownSecondSubData_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
-	UnknownThirdSubData = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Third Subdata");
+	UnknownSecondSubData_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
+	for(short loop=0; loop < UnknownSecondSubData_Unknown1.size(); loop++)
+	{
+		UnknownSecondSubData_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
+		UnknownSecondSubData_Text_Unknown1[loop] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+		UnknownSecondSubData_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
+	}
+
+	Unknowns_Space_Pointer3 = new wxBoxSizer(wxHORIZONTAL);
+	Unknowns_Holder_Pointer3 = new wxBoxSizer(wxVERTICAL);
+	Unknowns_Text_Pointer3 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Pointer3 = new TextCtrl_Long(Unknown_Scroller);
+
+	UnknownThirdSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Third Subdata");
 	UnknownThirdSubData_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnknownThirdSubData_DataArea = new wxBoxSizer(wxVERTICAL);
-	UnknownThirdSubData_Search = new wxTextCtrl(General_Scroller, wxID_ANY);
-	UnknownThirdSubData_Search_R = new wxTextCtrl(General_Scroller, wxID_ANY);
-	UnknownThirdSubData_List = new wxListBox(General_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 400), 0, NULL, wxLB_EXTENDED);
+	UnknownThirdSubData_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
+	UnknownThirdSubData_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
+	UnknownThirdSubData_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 250), 0, NULL, wxLB_EXTENDED);
 	UnknownThirdSubData_Buttons = new wxGridSizer(3, 0, 0);
-	UnknownThirdSubData_Add = new wxButton(General_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	UnknownThirdSubData_Insert = new wxButton(General_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
-	UnknownThirdSubData_Delete = new wxButton(General_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	UnknownThirdSubData_Copy = new wxButton(General_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	UnknownThirdSubData_Paste = new wxButton(General_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	UnknownThirdSubData_PasteInsert = new wxButton(General_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	UnknownThirdSubData_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
-	General_Holder_Variables2 = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Technology Tree Related?");
-	for(short loop=0; loop < General_TTUnknown.size(); loop++)
+	UnknownThirdSubData_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
+	for(short loop=0; loop < UnknownThirdSubData_Unknown1.size(); loop++)
 	{
-		General_Holder_TTUnknown[loop] = new wxBoxSizer(wxVERTICAL);
-		General_Text_TTUnknown[loop] = new wxStaticText(General_Scroller, wxID_ANY, " Unkown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-		General_TTUnknown[loop] = new TextCtrl_Long(General_Scroller);
+		UnknownThirdSubData_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
+		UnknownThirdSubData_Text_Unknown1[loop] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+		UnknownThirdSubData_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
 	}
-	General_TTUnknown[7]->SetToolTip("In the file this is\nright after technology tree ages and\nbefore rest of the tech tree data");
 
-	General_TopRow->Add(10, -1);
-	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
-	General_TopRow->AddStretchSpacer(3);
-	for(short loop=0; loop < 4; loop++)
-	General_TopRow->Add(General_CalcBoxes[loop], 1, wxEXPAND);
-	General_TopRow->Add(General_Text_CalcBoxesMiddle, 0, wxEXPAND);
-	General_TopRow->Add(General_CalcBoxes[4], 1, wxEXPAND);
-	General_TopRow->Add(General_Text_CalcBoxes, 0, wxEXPAND);
-	General_TopRow->AddStretchSpacer(1);
-
-	for(short loop=0; loop < General_TerrainHeader.size(); loop++)
-	General_Grid_TerrainHeader->Add(General_TerrainHeader[loop], 1, wxEXPAND);
-	General_Holder_TerrainHeader->Add(General_Text_TerrainHeader, 0, wxEXPAND);
-	General_Holder_TerrainHeader->Add(General_Grid_TerrainHeader, 0, wxEXPAND);
-
-	General_Grid_BorderRelated->Add(General_BeforeBorders, 1, wxEXPAND);
-	for(short loop=0; loop < General_AfterBorders.size(); loop++)
-	General_Grid_BorderRelated->Add(General_AfterBorders[loop], 1, wxEXPAND);
-	General_Holder_BorderRelated->Add(General_Text_BorderRelated, 0, wxEXPAND);
-	General_Holder_BorderRelated->Add(General_Grid_BorderRelated, 0, wxEXPAND);
-
-	for(short loop=0; loop < General_TerrainRendering.size(); loop++)
-	General_Grid_TerrainRendering->Add(General_TerrainRendering[loop], 1, wxEXPAND);
-	General_Holder_TerrainRendering->Add(General_Text_TerrainRendering, 0, wxEXPAND);
-	General_Holder_TerrainRendering->Add(General_Grid_TerrainRendering, 0, wxEXPAND);
-
-	General_Holder_SUnknown7->Add(General_Text_SUnknown7, 0, wxEXPAND);
-	General_Holder_SUnknown7->Add(General_SUnknown7, 1, wxEXPAND);
-	General_Holder_SUnknown8->Add(General_Text_SUnknown8, 0, wxEXPAND);
-	General_Holder_SUnknown8->Add(General_SUnknown8, 1, wxEXPAND);
-	General_Holder_SUnknown2->Add(General_Text_SUnknown2, 0, wxEXPAND);
-	General_Holder_SUnknown2->Add(General_SUnknown2, 1, wxEXPAND);
-	General_Holder_SUnknown3->Add(General_Text_SUnknown3, 0, wxEXPAND);
-	General_Holder_SUnknown3->Add(General_SUnknown3, 1, wxEXPAND);
-	General_Holder_SUnknown4->Add(General_Text_SUnknown4, 0, wxEXPAND);
-	General_Holder_SUnknown4->Add(General_SUnknown4, 1, wxEXPAND);
-	General_Holder_SUnknown5->Add(General_Text_SUnknown5, 0, wxEXPAND);
-	General_Holder_SUnknown5->Add(General_SUnknown5, 1, wxEXPAND);
-	for(short loop=0; loop < General_TTUnknown.size(); loop++)
+	Unknowns_Grid_Unknown2 = new wxGridSizer(5, 5, 5);
+	for(short loop=0; loop < Unknowns_Unknown2.size(); loop++)
 	{
-		General_Holder_TTUnknown[loop]->Add(General_Text_TTUnknown[loop], 0, wxEXPAND);
-		General_Holder_TTUnknown[loop]->Add(General_TTUnknown[loop], 0, wxEXPAND);
+		Unknowns_Holder_Unknown2[loop] = new wxBoxSizer(wxVERTICAL);
+		Unknowns_Unknown2[loop] = new TextCtrl_Long(Unknown_Scroller);
 	}
-	General_Grid_Variables->Add(General_Holder_SUnknown2, 1, wxEXPAND);
-	General_Grid_Variables->Add(General_Holder_SUnknown3, 1, wxEXPAND);
-	General_Grid_Variables->Add(General_Holder_SUnknown4, 1, wxEXPAND);
-	General_Grid_Variables->Add(General_Holder_SUnknown5, 1, wxEXPAND);
-	General_Grid_Variables->Add(General_Holder_SUnknown7, 1, wxEXPAND);
-	General_Grid_Variables->Add(General_Holder_SUnknown8, 1, wxEXPAND);
-	General_Holder_Variables1->Add(General_Grid_Variables, 0, wxEXPAND);
-	for(short loop=0; loop < General_TTUnknown.size(); loop++)
-	General_Grid_Variables2->Add(General_Holder_TTUnknown[loop], 1, wxEXPAND);
-	General_Holder_Variables2->Add(General_Grid_Variables2, 0, wxEXPAND);
+	Unknowns_Text_Unknown2[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 10", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Unknown2[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
-	General_Holder_RenderPlusUnknownTop->Add(General_Text_TechTree, 0, wxEXPAND);
-	General_Holder_RenderPlusUnknownTop->Add(5, -1);
-	General_Holder_RenderPlusUnknownTop->Add(General_SomethingPicker, 1, wxEXPAND);
-	General_Holder_RenderPlusUnknownTop->Add(5, -1);
-	General_Holder_RenderPlusUnknownTop->Add(General_SomethingNext, 1, wxEXPAND);
-	General_Holder_RenderPlusUnknownTop->Add(5, -1);
-	General_Holder_RenderPlusUnknownTop->Add(General_SomethingPrev, 1, wxEXPAND);
-	General_Holder_RenderPlusUnknownTop->Add(5, -1);
-	General_Holder_RenderPlusUnknownTop->Add(General_SomethingSize, 1, wxEXPAND);
-	General_Holder_RenderPlusUnknownTop->AddStretchSpacer(2);
-	//for(short loop=0; loop < General_Something.size(); loop++)
-	//General_Grid_TechTree->Add(General_Something[loop], 1, wxEXPAND);
-	General_Holder_RenderPlusUnknown->Add(General_Holder_RenderPlusUnknownTop, 0, wxEXPAND);
-	//General_Holder_RenderPlusUnknown->Add(General_Grid_TechTree, 0, wxEXPAND);
+	Unknown_Holder_UnknownPointer->Add(Unknown_Text_UnknownPointer, 0, wxEXPAND);
+	Unknown_Holder_UnknownPointer->Add(Unknown_UnknownPointer, 1, wxEXPAND);
+	Unknown_Grid_UnknownPointer->Add(Unknown_Holder_UnknownPointer, 1, wxEXPAND);
 
 	Unknowns_Buttons->Add(Unknowns_Add, 1, wxEXPAND);
 	Unknowns_Buttons->Add(Unknowns_Insert, 1, wxEXPAND);
@@ -811,9 +917,26 @@ void AGE_Frame::CreateGeneralControls()
 	Unknowns_ListArea->Add(Unknowns_Search, 0, wxEXPAND);
 	Unknowns_ListArea->Add(Unknowns_Search_R, 0, wxEXPAND);
 	Unknowns_ListArea->Add(-1, 2);
-	Unknowns_ListArea->Add(Unknowns_List, 0, wxEXPAND);
+	Unknowns_ListArea->Add(Unknowns_List, 1, wxEXPAND);
 	Unknowns_ListArea->Add(-1, 2);
 	Unknowns_ListArea->Add(Unknowns_Buttons, 0, wxEXPAND);
+
+	Unknowns_Holder_UnknownLevel->Add(Unknowns_Text_UnknownLevel, 0, wxEXPAND);
+	Unknowns_Holder_UnknownLevel->Add(Unknowns_UnknownLevel, 1, wxEXPAND);
+	Unknowns_Space_UnknownLevel->Add(Unknowns_Holder_UnknownLevel, 1, wxEXPAND);
+	Unknowns_Space_UnknownLevel->AddStretchSpacer(3);
+
+	for(short loop=0; loop < Unknowns_Unknown1.size(); loop++)
+	{
+		Unknowns_Holder_Unknown1[loop]->Add(Unknowns_Text_Unknown1[loop], 0, wxEXPAND);
+		Unknowns_Holder_Unknown1[loop]->Add(Unknowns_Unknown1[loop], 1, wxEXPAND);
+		Unknowns_Grid_Unknown1->Add(Unknowns_Holder_Unknown1[loop], 1, wxEXPAND);
+	}
+
+	Unknowns_Holder_Pointer1->Add(Unknowns_Text_Pointer1, 0, wxEXPAND);
+	Unknowns_Holder_Pointer1->Add(Unknowns_Pointer1, 1, wxEXPAND);
+	Unknowns_Space_Pointer1->Add(Unknowns_Holder_Pointer1, 1, wxEXPAND);
+	Unknowns_Space_Pointer1->AddStretchSpacer(3);
 
 	UnknownFirstSubData_Buttons->Add(UnknownFirstSubData_Add, 1, wxEXPAND);
 	UnknownFirstSubData_Buttons->Add(UnknownFirstSubData_Insert, 1, wxEXPAND);
@@ -829,6 +952,23 @@ void AGE_Frame::CreateGeneralControls()
 	UnknownFirstSubData_ListArea->Add(-1, 2);
 	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_Buttons, 0, wxEXPAND);
 
+	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
+	{
+		UnknownFirstSubData_Holder_Unknown1[loop]->Add(UnknownFirstSubData_Text_Unknown1[loop], 0, wxEXPAND);
+		UnknownFirstSubData_Holder_Unknown1[loop]->Add(UnknownFirstSubData_Unknown1[loop], 1, wxEXPAND);
+		UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown1[loop], 1, wxEXPAND);
+	}
+	UnknownFirstSubData_DataArea->Add(UnknownFirstSubData_Grid_Unknown1, 0, wxEXPAND);
+
+	UnknownFirstSubData->Add(UnknownFirstSubData_ListArea, 1, wxEXPAND);
+	UnknownFirstSubData->Add(10, -1);
+	UnknownFirstSubData->Add(UnknownFirstSubData_DataArea, 2, wxEXPAND);
+
+	Unknowns_Holder_Pointer2->Add(Unknowns_Text_Pointer2, 0, wxEXPAND);
+	Unknowns_Holder_Pointer2->Add(Unknowns_Pointer2, 1, wxEXPAND);
+	Unknowns_Space_Pointer2->Add(Unknowns_Holder_Pointer2, 1, wxEXPAND);
+	Unknowns_Space_Pointer2->AddStretchSpacer(3);
+
 	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_Add, 1, wxEXPAND);
 	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_Insert, 1, wxEXPAND);
 	UnknownSecondSubData_Buttons->Add(UnknownSecondSubData_Delete, 1, wxEXPAND);
@@ -842,6 +982,23 @@ void AGE_Frame::CreateGeneralControls()
 	UnknownSecondSubData_ListArea->Add(UnknownSecondSubData_List, 1, wxEXPAND);
 	UnknownSecondSubData_ListArea->Add(-1, 2);
 	UnknownSecondSubData_ListArea->Add(UnknownSecondSubData_Buttons, 0, wxEXPAND);
+
+	for(short loop=0; loop < UnknownSecondSubData_Unknown1.size(); loop++)
+	{
+		UnknownSecondSubData_Holder_Unknown1[loop]->Add(UnknownSecondSubData_Text_Unknown1[loop], 0, wxEXPAND);
+		UnknownSecondSubData_Holder_Unknown1[loop]->Add(UnknownSecondSubData_Unknown1[loop], 1, wxEXPAND);
+		UnknownSecondSubData_Grid_Unknown1->Add(UnknownSecondSubData_Holder_Unknown1[loop], 1, wxEXPAND);
+	}
+	UnknownSecondSubData_DataArea->Add(UnknownSecondSubData_Grid_Unknown1, 0, wxEXPAND);
+
+	UnknownSecondSubData->Add(UnknownSecondSubData_ListArea, 1, wxEXPAND);
+	UnknownSecondSubData->Add(10, -1);
+	UnknownSecondSubData->Add(UnknownSecondSubData_DataArea, 2, wxEXPAND);
+
+	Unknowns_Holder_Pointer3->Add(Unknowns_Text_Pointer3, 0, wxEXPAND);
+	Unknowns_Holder_Pointer3->Add(Unknowns_Pointer3, 1, wxEXPAND);
+	Unknowns_Space_Pointer3->Add(Unknowns_Holder_Pointer3, 1, wxEXPAND);
+	Unknowns_Space_Pointer3->AddStretchSpacer(3);
 
 	UnknownThirdSubData_Buttons->Add(UnknownThirdSubData_Add, 1, wxEXPAND);
 	UnknownThirdSubData_Buttons->Add(UnknownThirdSubData_Insert, 1, wxEXPAND);
@@ -857,64 +1014,64 @@ void AGE_Frame::CreateGeneralControls()
 	UnknownThirdSubData_ListArea->Add(-1, 2);
 	UnknownThirdSubData_ListArea->Add(UnknownThirdSubData_Buttons, 0, wxEXPAND);
 
-	UnknownFirstSubData->Add(UnknownFirstSubData_ListArea, 1, wxEXPAND);
-	UnknownFirstSubData->Add(10, -1);
-	UnknownFirstSubData->Add(UnknownFirstSubData_DataArea, 2, wxEXPAND);
-
-	UnknownSecondSubData->Add(UnknownSecondSubData_ListArea, 1, wxEXPAND);
-	UnknownSecondSubData->Add(10, -1);
-	UnknownSecondSubData->Add(UnknownSecondSubData_DataArea, 2, wxEXPAND);
+	for(short loop=0; loop < UnknownThirdSubData_Unknown1.size(); loop++)
+	{
+		UnknownThirdSubData_Holder_Unknown1[loop]->Add(UnknownThirdSubData_Text_Unknown1[loop], 0, wxEXPAND);
+		UnknownThirdSubData_Holder_Unknown1[loop]->Add(UnknownThirdSubData_Unknown1[loop], 1, wxEXPAND);
+		UnknownThirdSubData_Grid_Unknown1->Add(UnknownThirdSubData_Holder_Unknown1[loop], 1, wxEXPAND);
+	}
+	UnknownThirdSubData_DataArea->Add(UnknownThirdSubData_Grid_Unknown1, 0, wxEXPAND);
 
 	UnknownThirdSubData->Add(UnknownThirdSubData_ListArea, 1, wxEXPAND);
 	UnknownThirdSubData->Add(10, -1);
 	UnknownThirdSubData->Add(UnknownThirdSubData_DataArea, 2, wxEXPAND);
 
-	Unknowns_DataArea->Add(UnknownFirstSubData, 0, wxEXPAND);
-	Unknowns_DataArea->Add(10, -1);
-	Unknowns_DataArea->Add(UnknownSecondSubData, 0, wxEXPAND);
-	Unknowns_DataArea->Add(10, -1);
-	Unknowns_DataArea->Add(UnknownThirdSubData, 0, wxEXPAND);
+	for(short loop=0; loop < Unknowns_Unknown2.size(); loop++)
+	{
+		Unknowns_Holder_Unknown2[loop]->Add(Unknowns_Text_Unknown2[loop], 0, wxEXPAND);
+		Unknowns_Holder_Unknown2[loop]->Add(Unknowns_Unknown2[loop], 1, wxEXPAND);
+		Unknowns_Grid_Unknown2->Add(Unknowns_Holder_Unknown2[loop], 1, wxEXPAND);
+	}
+
+	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_UnknownLevel, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(Unknowns_Grid_Unknown1, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_Pointer1, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(UnknownFirstSubData, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_Pointer2, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(UnknownSecondSubData, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_Pointer3, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(UnknownThirdSubData, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(Unknowns_Grid_Unknown2, 0, wxEXPAND);
+
+	Unknown_ScrollerWindows->Add(Unknown_ScrollerWindowsSpace, 1, wxEXPAND);
+	Unknown_ScrollerWindows->Add(5, -1);
+
+	Unknown_Scroller->SetSizer(Unknown_ScrollerWindows);
+	Unknown_Scroller->SetScrollRate(0, 15);
 
 	Unknowns->Add(Unknowns_ListArea, 1, wxEXPAND);
 	Unknowns->Add(10, -1);
-	Unknowns->Add(Unknowns_DataArea, 3, wxEXPAND);
+	Unknowns->Add(Unknown_Scroller, 3, wxEXPAND);
 
-	General_ScrollerWindowsSpace->Add(General_Holder_Variables1, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_Holder_TerrainHeader, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_Holder_BorderRelated, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_Holder_TerrainRendering, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_Holder_RenderPlusUnknown, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(Unknowns, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_Holder_Variables2, 0, wxEXPAND);
+	Unknown_Area->Add(-1, 10);
+	Unknown_Area->Add(Unknown_Grid_UnknownPointer, 0, wxEXPAND);
+	Unknown_Area->Add(-1, 10);
+	Unknown_Area->Add(Unknowns, 1, wxEXPAND);
+	Unknown_Area->Add(-1, 10);
 
-	General_ScrollerWindows->Add(10, -1);
-	General_ScrollerWindows->Add(General_ScrollerWindowsSpace, 1, wxEXPAND);
-	General_ScrollerWindows->Add(5, -1);
+	Unknown_Main->Add(10, -1);
+	Unknown_Main->Add(Unknown_Area, 1, wxEXPAND);
+	Unknown_Main->Add(10, -1);
 
-	General_Scroller->SetSizer(General_ScrollerWindows);
-	General_Scroller->SetScrollRate(0, 15);
-
-	General_Main->Add(-1, 10);
-	General_Main->Add(General_TopRow, 0, wxEXPAND);
-	General_Main->Add(-1, 5);
-	General_Main->Add(General_Scroller, 1, wxEXPAND);
-	General_Main->Add(-1, 10);
-
-	Tab_General->SetSizer(General_Main);
-
-	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGeneralSelect));
-	//Connect(General_SomethingPicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
-	//Connect(General_SomethingNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
-	//Connect(General_SomethingPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
-	for(short loop=0; loop < 4; loop++)
-	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
-	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);
+	Tab_Unknown->SetSizer(Unknown_Main);
 
 	Connect(Unknowns_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownsSearch));
 	Connect(Unknowns_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownsSearch));

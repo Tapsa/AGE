@@ -77,6 +77,7 @@ class AGE_Frame: public wxFrame
 	void CreateTerrainRestrictionControls();
 	void CreateSoundControls();
 	void CreatePlayerColorControls();
+	void CreateUnknownControls();
 
 //	void CreateDRSControls();
 
@@ -792,6 +793,7 @@ class AGE_Frame: public wxFrame
 	wxPanel *Tab_TerrainRestrictions;
 	wxPanel *Tab_Sounds;
 	wxPanel *Tab_PlayerColors;
+	wxPanel *Tab_Unknown;
 
 //	wxPanel *Tab_DRS;
 
@@ -821,6 +823,8 @@ class AGE_Frame: public wxFrame
 	wxStaticText *General_Text_TerrainRendering;
 	wxGridSizer *General_Grid_TerrainRendering;
 	array<TextCtrl_Short*, 19> General_TerrainRendering;
+	wxGridSizer *General_Grid_Something;
+	array<TextCtrl_Long*, 163> General_Something;
 
 	wxBoxSizer *Borders_Main;
 	wxBoxSizer *Borders_ListArea;
@@ -925,19 +929,29 @@ class AGE_Frame: public wxFrame
 	array<wxStaticText*, 8> General_Text_TTUnknown;
 	array<TextCtrl_Long*, 8> General_TTUnknown;
 
-	wxBoxSizer *General_Holder_RenderPlusUnknown;
-	wxBoxSizer *General_Holder_RenderPlusUnknownTop;
-	wxStaticText *General_Text_TechTree;
-	wxTextCtrl *General_SomethingPicker;
-	wxButton *General_SomethingNext;
-	wxButton *General_SomethingPrev;
-	wxStaticText *General_SomethingSize;
+	//wxBoxSizer *General_Holder_RenderPlusUnknown;
+	//wxBoxSizer *General_Holder_RenderPlusUnknownTop;
+	//wxStaticText *General_Text_TechTree;
+	//wxTextCtrl *General_SomethingPicker;
+	//wxButton *General_SomethingNext;
+	//wxButton *General_SomethingPrev;
+	//wxStaticText *General_SomethingSize;
 	//wxGridSizer *General_Grid_TechTree;
 	//array<TextCtrl_Long*, 128> General_Something;
 
+	wxBoxSizer *Unknown_Main;
+	wxBoxSizer *Unknown_Area;
+	wxScrolledWindow *Unknown_Scroller;
+	wxBoxSizer *Unknown_ScrollerWindows;
+	wxBoxSizer *Unknown_ScrollerWindowsSpace;
+
+	wxGridSizer *Unknown_Grid_UnknownPointer;
+	wxBoxSizer *Unknown_Holder_UnknownPointer;
+	wxStaticText *Unknown_Text_UnknownPointer;
+	TextCtrl_Long *Unknown_UnknownPointer;
+
 	wxStaticBoxSizer *Unknowns;
 	wxBoxSizer *Unknowns_ListArea;
-	wxBoxSizer *Unknowns_DataArea;
 	wxTextCtrl *Unknowns_Search;
 	wxTextCtrl *Unknowns_Search_R;
 	wxListBox *Unknowns_List;
@@ -948,6 +962,31 @@ class AGE_Frame: public wxFrame
 	wxButton *Unknowns_Copy;
 	wxButton *Unknowns_Paste;
 	wxButton *Unknowns_PasteInsert;
+
+	wxBoxSizer *Unknowns_Space_UnknownLevel;
+	wxBoxSizer *Unknowns_Holder_UnknownLevel;
+	wxStaticText *Unknowns_Text_UnknownLevel;
+	TextCtrl_Long *Unknowns_UnknownLevel;
+	wxGridSizer *Unknowns_Grid_Unknown1;
+	array<wxBoxSizer*, 9> Unknowns_Holder_Unknown1;
+	array<wxStaticText*, 9> Unknowns_Text_Unknown1;
+	array<TextCtrl_Long*, 9> Unknowns_Unknown1;
+	wxBoxSizer *Unknowns_Space_Pointer1;
+	wxBoxSizer *Unknowns_Holder_Pointer1;
+	wxStaticText *Unknowns_Text_Pointer1;
+	TextCtrl_Long *Unknowns_Pointer1;
+	wxBoxSizer *Unknowns_Space_Pointer2;
+	wxBoxSizer *Unknowns_Holder_Pointer2;
+	wxStaticText *Unknowns_Text_Pointer2;
+	TextCtrl_Long *Unknowns_Pointer2;
+	wxBoxSizer *Unknowns_Space_Pointer3;
+	wxBoxSizer *Unknowns_Holder_Pointer3;
+	wxStaticText *Unknowns_Text_Pointer3;
+	TextCtrl_Long *Unknowns_Pointer3;
+	wxGridSizer *Unknowns_Grid_Unknown2;
+	array<wxBoxSizer*, 2> Unknowns_Holder_Unknown2;
+	array<wxStaticText*, 2> Unknowns_Text_Unknown2;
+	array<TextCtrl_Long*, 2> Unknowns_Unknown2;
 
 	wxStaticBoxSizer *UnknownFirstSubData;
 	wxBoxSizer *UnknownFirstSubData_ListArea;
@@ -963,6 +1002,11 @@ class AGE_Frame: public wxFrame
 	wxButton *UnknownFirstSubData_Paste;
 	wxButton *UnknownFirstSubData_PasteInsert;
 
+	wxGridSizer *UnknownFirstSubData_Grid_Unknown1;
+	array<wxBoxSizer*, 11> UnknownFirstSubData_Holder_Unknown1;
+	array<wxStaticText*, 11> UnknownFirstSubData_Text_Unknown1;
+	array<TextCtrl_Long*, 11> UnknownFirstSubData_Unknown1;
+
 	wxStaticBoxSizer *UnknownSecondSubData;
 	wxBoxSizer *UnknownSecondSubData_ListArea;
 	wxBoxSizer *UnknownSecondSubData_DataArea;
@@ -977,6 +1021,11 @@ class AGE_Frame: public wxFrame
 	wxButton *UnknownSecondSubData_Paste;
 	wxButton *UnknownSecondSubData_PasteInsert;
 
+	wxGridSizer *UnknownSecondSubData_Grid_Unknown1;
+	array<wxBoxSizer*, 6> UnknownSecondSubData_Holder_Unknown1;
+	array<wxStaticText*, 6> UnknownSecondSubData_Text_Unknown1;
+	array<TextCtrl_Long*, 6> UnknownSecondSubData_Unknown1;
+
 	wxStaticBoxSizer *UnknownThirdSubData;
 	wxBoxSizer *UnknownThirdSubData_ListArea;
 	wxBoxSizer *UnknownThirdSubData_DataArea;
@@ -990,6 +1039,11 @@ class AGE_Frame: public wxFrame
 	wxButton *UnknownThirdSubData_Copy;
 	wxButton *UnknownThirdSubData_Paste;
 	wxButton *UnknownThirdSubData_PasteInsert;
+
+	wxGridSizer *UnknownThirdSubData_Grid_Unknown1;
+	array<wxBoxSizer*, 11> UnknownThirdSubData_Holder_Unknown1;
+	array<wxStaticText*, 11> UnknownThirdSubData_Text_Unknown1;
+	array<TextCtrl_Long*, 11> UnknownThirdSubData_Unknown1;
 
 //	Researchs user interface
 
@@ -1347,7 +1401,6 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Short *Units_CommandAttribute;
 	TextCtrl_Short *Units_Unknown3;
 	TextCtrl_Short *Units_Unknown3B;
-	TextCtrl_Byte *Units_Unknown3a;
 	TextCtrl_Long *Units_LanguageDLLHelp;
 	TextCtrl_DLL *Units_DLL_LanguageHelp;
 	wxTextCtrl *Units_LanguageDLLConverter[2];
@@ -1558,7 +1611,6 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_CommandAttribute;
 	wxStaticText *Units_Text_Unknown3;
 	wxStaticText *Units_Text_Unknown3B;
-	wxStaticText *Units_Text_Unknown3a;
 	wxStaticText *Units_Text_LanguageDLLHelp;
 	wxStaticText *Units_Text_LanguageDLLConverter[2];
 	wxStaticText *Units_Text_LanguageDLLHotKeyText;
@@ -1738,7 +1790,6 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_CommandAttribute;
 	wxBoxSizer *Units_Holder_Unknown3;
 	wxBoxSizer *Units_Holder_Unknown3B;
-	wxBoxSizer *Units_Holder_Unknown3a;
 	wxBoxSizer *Units_Holder_LanguageDLLHelp;
 	wxBoxSizer *Units_Holder_LanguageDLLConverter[2];
 	wxBoxSizer *Units_Holder_LanguageDLLHotKeyText;
