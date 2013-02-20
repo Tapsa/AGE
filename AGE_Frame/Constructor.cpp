@@ -107,6 +107,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	CreateUnitLineControls();
 	CreateTerrainBorderControls();
 	CreateGeneralControls();
+	CreateUnknownControls();
 
 //	CreateDRSControls();
 
@@ -124,14 +125,15 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	TabBar_Main->AddPage(Tab_TechTrees, "Tech. Trees");
 	TabBar_Main->AddPage(Tab_Civs, "Civilizations");
 	TabBar_Main->AddPage(Tab_Units, "Units");
-	TabBar_Main->AddPage(Tab_UnitLine, "Unitline");
+	TabBar_Main->AddPage(Tab_UnitLine, "Unitlines");
 	TabBar_Main->AddPage(Tab_Graphics, "Graphics");
 	TabBar_Main->AddPage(Tab_Terrains, "Terrains");
-	TabBar_Main->AddPage(Tab_TerrainBorders, "Terrain Borders");
-	TabBar_Main->AddPage(Tab_TerrainRestrictions, "Terrain Restrictions");
+	TabBar_Main->AddPage(Tab_TerrainBorders, "T. Borders");
+	TabBar_Main->AddPage(Tab_TerrainRestrictions, "T. Restrictions");
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
-	TabBar_Main->SetSelection(5);
+	TabBar_Main->AddPage(Tab_Unknown, "Unknown");
+	TabBar_Main->ChangeSelection(5);
 
 //	TabBar_Test->AddPage(Tab_DRS, "DRS Files");
 //	TabBar_Test->SetSelection(0);
