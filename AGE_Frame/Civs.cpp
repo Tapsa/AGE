@@ -8,7 +8,10 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 
 string AGE_Frame::GetCivName(short Index)
 {
+	if(GameVersion < 4)
 	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
+	else
+	return GenieFile->Civs[Index].Name2+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
 }
 
 void AGE_Frame::ListCivs(bool Sized)
@@ -265,7 +268,10 @@ void AGE_Frame::OnCivCountChange()
 	}
 	for(short loop=0; loop < CivCount; loop++)
 	{
+		if(GameVersion < 4)
 		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
+		else
+		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name2.substr(0, 2));
 	}
 	ListCivs();
 	Units_DataArea->Layout();
@@ -1065,10 +1071,16 @@ void AGE_Frame::CreateCivControls()
 void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 {
 	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
-	if(Event.GetId() == Civs_Name[0]->GetId())
+	if(Event.GetId() == Civs_Name[0]->GetId()
+	|| Event.GetId() == Civs_Name[1]->GetId())
 	{
 		for(auto ID: CivIDs)
-		Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name.substr(0, 2));
+		{
+			if(GameVersion < 4)
+			Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name.substr(0, 2));
+			else
+			Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name2.substr(0, 2));
+		}
 		ListCivs();
 	}
 	else if(Event.GetId() == Civs_GraphicSet->GetId())
@@ -1078,10 +1090,5 @@ void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 	else if(Event.GetId() == Civs_ResourceValue->GetId())
 	{
 		ListResources();
-	}
-	else if(Event.GetId() == Civs_Name[1]->GetId())
-	{
-		wxCommandEvent E;
-		OnCivsSelect(E);
 	}
 }
