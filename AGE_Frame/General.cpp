@@ -92,35 +92,9 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_Something[loop]->resize(1);
 		General_Something[loop]->container[0] = &GenieFile->Something[loop];
 	}
-	//General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
-	/*wxString Info = lexical_cast<string>(GenieFile->Unknown.Pointer)+", size: ";
-	for(int loop = 0; loop < GenieFile->Unknown.Unknown1stBlocks.size(); loop++)
-	{
-		Info.Append("\n\nItem: "+lexical_cast<string>(loop)+"\n");
-		for(int loop2 = 0; loop2 < genie::Unknown1stBlock::UNKNOWN1_LEN; loop2++)
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Unknown1[loop2])+" ");
-		Info.Append("\n"+lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Pointer1)+", size: ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Count1)+", ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Pointer2)+", size: ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Count2)+", ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Pointer3)+", size: ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Count3)+"    ");
-		for(int loop2 = 0; loop2 < genie::Unknown1stBlock::UNKNOWN2_LEN; loop2++)
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[loop].Unknown2[loop2])+" ");
-
-		Info.Append("\n");
-		for(int loop2 = 0; loop2 < genie::Unknown2ndBlock::UNKNOWN3_LEN; loop2++)
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Unknown3[loop2])+" ");
-		Info.Append("\n"+lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Pointer1)+", size: ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].FirstSubDatas.size())+", ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Pointer2)+", size: ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].SecondSubDatas.size())+", ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Pointer3)+", size: ");
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].ThirdSubDatas.size())+"    ");
-		for(int loop2 = 0; loop2 < genie::Unknown2ndBlock::UNKNOWN4_LEN; loop2++)
-		Info.Append(lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[loop].Unknown4[loop2])+" ");
-	}
-	wxMessageBox(Info);*/
+	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->Unknown.Pointer));
+	Unknown_UnknownPointer->resize(1);
+	Unknown_UnknownPointer->container[0] = &GenieFile->Unknown.Pointer;
 	if(GameVersion < 2) return;
 	for(short loop=1; loop < General_AfterBorders.size(); loop++)
 	{
@@ -375,21 +349,53 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	UnknownIDs.resize(Selections);
-	//Sounds_ID->resize(Selections);
-	//Sounds_Unknown->resize(Selections);
+	Unknowns_UnknownLevel->resize(Selections);
+	int PointerCount = Selections * 2;
+	for(short loop=0; loop < Unknowns_Unknown1.size(); loop++)
+	Unknowns_Unknown1[loop]->resize(PointerCount);
+	Unknowns_Pointer1->resize(PointerCount);
+	Unknowns_Pointer2->resize(PointerCount);
+	Unknowns_Pointer3->resize(PointerCount);
+	for(short loop=0; loop < Unknowns_Unknown2.size(); loop++)
+	Unknowns_Unknown2[loop]->resize(PointerCount);
 
-	genie::Unknown2ndBlock * UnknownPointer;
-	for(auto loop = Selections; loop--> 0;)
+	genie::Unknown1stBlock * UnknownPointer1;
+	genie::Unknown2ndBlock * UnknownPointer2;
+	for(auto sel = Selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::Unknown2ndBlock*)Unknowns_List->GetClientData(Items.Item(loop));
-		UnknownIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[0]));
+		UnknownPointer2 = (genie::Unknown2ndBlock*)Unknowns_List->GetClientData(Items.Item(sel));
+		UnknownIDs[sel] = (UnknownPointer2 - (&GenieFile->Unknown.Unknown2ndBlocks[0]));
+		UnknownPointer1 = &GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[sel]];
 
-		//Sounds_ID->container[loop] = &UnknownPointer->ID;
-		//Sounds_Unknown->container[loop] = &UnknownPointer->Unknown1;
+		Unknowns_UnknownLevel->container[sel] = &UnknownPointer1->UnknownLevel;
+		int sel2 = sel + Selections;
+		for(short loop=0; loop < genie::Unknown1stBlock::UNKNOWN1_LEN; loop++)
+		{
+			Unknowns_Unknown1[loop]->container[sel] = &UnknownPointer1->Unknown1[loop];
+			Unknowns_Unknown1[loop]->container[sel2] = &UnknownPointer2->Unknown1[loop];
+		}
+		Unknowns_Pointer1->container[sel] = &UnknownPointer1->Pointer1;
+		Unknowns_Pointer1->container[sel2] = &UnknownPointer2->Pointer1;
+		Unknowns_Pointer2->container[sel] = &UnknownPointer1->Pointer2;
+		Unknowns_Pointer2->container[sel2] = &UnknownPointer2->Pointer2;
+		Unknowns_Pointer3->container[sel] = &UnknownPointer1->Pointer3;
+		Unknowns_Pointer3->container[sel2] = &UnknownPointer2->Pointer3;
+		for(short loop=0; loop < genie::Unknown1stBlock::UNKNOWN2_LEN; loop++)
+		{
+			Unknowns_Unknown2[loop]->container[sel] = &UnknownPointer1->Unknown2[loop];
+			Unknowns_Unknown2[loop]->container[sel2] = &UnknownPointer2->Unknown2[loop];
+		}
 	}
 
-	//Sounds_ID->ChangeValue(lexical_cast<string>(UnknownPointer->ID));
-	//Sounds_Unknown->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1));
+	Unknowns_UnknownLevel->ChangeValue(lexical_cast<string>(UnknownPointer1->UnknownLevel));
+	for(short loop=0; loop < Unknowns_Unknown1.size(); loop++)
+	Unknowns_Unknown1[loop]->ChangeValue(lexical_cast<string>(UnknownPointer1->Unknown1[loop]));
+	Unknowns_Pointer1->ChangeValue(lexical_cast<string>(UnknownPointer1->Pointer1));
+	Unknowns_Pointer2->ChangeValue(lexical_cast<string>(UnknownPointer1->Pointer2));
+	Unknowns_Pointer3->ChangeValue(lexical_cast<string>(UnknownPointer1->Pointer3));
+	for(short loop=0; loop < Unknowns_Unknown2.size(); loop++)
+	Unknowns_Unknown2[loop]->ChangeValue(lexical_cast<string>(UnknownPointer1->Unknown2[loop]));
+
 	ListUnknownFirstSubData();
 	ListUnknownSecondSubData();
 	ListUnknownThirdSubData();
@@ -443,8 +449,8 @@ void AGE_Frame::OnUnknownsPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs[0], copies->Unknown1stBlock);
-	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs[0], copies->Unknown2ndBlock);
+	PasteToListNoGV(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs, copies->Unknown1stBlock);
+	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs, copies->Unknown2ndBlock);
 	ListUnknowns();
 }
 
@@ -496,13 +502,21 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	UnknownFSIDs.resize(Selections);
+	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
+	UnknownFirstSubData_Unknown1[loop]->resize(Selections);
 
 	genie::FirstSubData * UnknownPointer;
-	for(auto loop = Selections; loop--> 0;)
+	for(auto sel = Selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::FirstSubData*)UnknownFirstSubData_List->GetClientData(Items.Item(loop));
-		UnknownFSIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[0]));
+		UnknownPointer = (genie::FirstSubData*)UnknownFirstSubData_List->GetClientData(Items.Item(sel));
+		UnknownFSIDs[sel] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[0]));
+
+		for(short loop=0; loop < genie::FirstSubData::UNKNOWN1_LEN; loop++)
+		UnknownFirstSubData_Unknown1[loop]->container[sel] = &UnknownPointer->Unknown1[loop];
 	}
+
+	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
+	UnknownFirstSubData_Unknown1[loop]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1[loop]));
 }
 
 void AGE_Frame::OnUnknownFirstSubDataAdd(wxCommandEvent &Event)
@@ -550,7 +564,7 @@ void AGE_Frame::OnUnknownFirstSubDataPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs[0], copies->FirstSubData);
+	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs, copies->FirstSubData);
 	ListUnknownFirstSubData();
 }
 
@@ -569,9 +583,15 @@ void AGE_Frame::OnUnknownSecondSubDataSearch(wxCommandEvent &Event)
 	ListUnknownSecondSubData();
 }
 
-string AGE_Frame::GetUnknownSecondSubDataName(short Index)
+string AGE_Frame::GetSimpleTerrainName(short Terrain)
 {
-	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[Index].Unknown1[0])+" ";
+	string Name = lexical_cast<string>(Terrain)+" ";
+	if(GenieFile->Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
+	if(!GenieFile->Terrains[Terrain].Name.empty())
+	{
+		return Name + GenieFile->Terrains[Terrain].Name;
+	}
+	return Name + "New Terrain";
 }
 
 void AGE_Frame::ListUnknownSecondSubData()
@@ -583,7 +603,7 @@ void AGE_Frame::ListUnknownSecondSubData()
 
 	for(short loop=0; loop < GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas.size(); loop++)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownSecondSubDataName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetSimpleTerrainName(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[loop].Unknown1[1]);
 		if(SearchMatches(Name.Lower()))
 		{
 			UnknownSecondSubData_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[loop]);
@@ -601,13 +621,21 @@ void AGE_Frame::OnUnknownSecondSubDataSelect(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	UnknownSSIDs.resize(Selections);
+	for(short loop=0; loop < UnknownSecondSubData_Unknown1.size(); loop++)
+	UnknownSecondSubData_Unknown1[loop]->resize(Selections);
 
 	genie::SecondSubData * UnknownPointer;
-	for(auto loop = Selections; loop--> 0;)
+	for(auto sel = Selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::SecondSubData*)UnknownSecondSubData_List->GetClientData(Items.Item(loop));
-		UnknownSSIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[0]));
+		UnknownPointer = (genie::SecondSubData*)UnknownSecondSubData_List->GetClientData(Items.Item(sel));
+		UnknownSSIDs[sel] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[0]));
+
+		for(short loop=0; loop < genie::SecondSubData::UNKNOWN1_LEN; loop++)
+		UnknownSecondSubData_Unknown1[loop]->container[sel] = &UnknownPointer->Unknown1[loop];
 	}
+
+	for(short loop=0; loop < UnknownSecondSubData_Unknown1.size(); loop++)
+	UnknownSecondSubData_Unknown1[loop]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1[loop]));
 }
 
 void AGE_Frame::OnUnknownSecondSubDataAdd(wxCommandEvent &Event)
@@ -655,7 +683,7 @@ void AGE_Frame::OnUnknownSecondSubDataPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs[0], copies->SecondSubData);
+	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs, copies->SecondSubData);
 	ListUnknownSecondSubData();
 }
 
@@ -688,7 +716,7 @@ void AGE_Frame::ListUnknownThirdSubData()
 
 	for(short loop=0; loop < GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas.size(); loop++)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownThirdSubDataName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[loop].Unknown1[0]);
 		if(SearchMatches(Name.Lower()))
 		{
 			UnknownThirdSubData_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[loop]);
@@ -706,13 +734,21 @@ void AGE_Frame::OnUnknownThirdSubDataSelect(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	UnknownTSIDs.resize(Selections);
+	for(short loop=0; loop < UnknownThirdSubData_Unknown1.size(); loop++)
+	UnknownThirdSubData_Unknown1[loop]->resize(Selections);
 
 	genie::ThirdSubData * UnknownPointer;
-	for(auto loop = Selections; loop--> 0;)
+	for(auto sel = Selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::ThirdSubData*)UnknownThirdSubData_List->GetClientData(Items.Item(loop));
-		UnknownTSIDs[loop] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[0]));
+		UnknownPointer = (genie::ThirdSubData*)UnknownThirdSubData_List->GetClientData(Items.Item(sel));
+		UnknownTSIDs[sel] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[0]));
+
+		for(short loop=0; loop < genie::ThirdSubData::UNKNOWN1_LEN; loop++)
+		UnknownThirdSubData_Unknown1[loop]->container[sel] = &UnknownPointer->Unknown1[loop];
 	}
+
+	for(short loop=0; loop < UnknownThirdSubData_Unknown1.size(); loop++)
+	UnknownThirdSubData_Unknown1[loop]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1[loop]));
 }
 
 void AGE_Frame::OnUnknownThirdSubDataAdd(wxCommandEvent &Event)
@@ -760,7 +796,7 @@ void AGE_Frame::OnUnknownThirdSubDataPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs[0], copies->ThirdSubData);
+	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs, copies->ThirdSubData);
 	ListUnknownThirdSubData();
 }
 
@@ -789,7 +825,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknown_Text_UnknownPointer = new wxStaticText(Tab_Unknown, wxID_ANY, " Unknown Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknown_UnknownPointer = new TextCtrl_Long(Tab_Unknown);
 
-	Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Unknown, "Unknown Data Only Required in AoE/RoR");
+	Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Unknown, "Random Map Scripts (Required in AoE/RoR)");
 	Unknowns_ListArea = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Search = new wxTextCtrl(Tab_Unknown, wxID_ANY);
 	Unknowns_Search_R = new wxTextCtrl(Tab_Unknown, wxID_ANY);
@@ -810,15 +846,25 @@ void AGE_Frame::CreateUnknownControls()
 	for(short loop=0; loop < Unknowns_Unknown1.size(); loop++)
 	{
 		Unknowns_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
-		Unknowns_Text_Unknown1[loop] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 		Unknowns_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
 	}
+	Unknowns_Text_Unknown1[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Southwest Border", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Northwest Border", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Unknown1[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Northeast Border", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Unknown1[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Southeast Border", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Unknown1[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Border Usage % *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Unknown1[4]->SetToolTip("% of border area covered with border terrain");
+	Unknowns_Text_Unknown1[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Water Shape?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Unknown1[6] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Default Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Unknown1[6]->SetToolTip("Used on the borders as well");
+	Unknowns_Text_Unknown1[7] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Terrain Coverage", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Unknown1[8] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Space_Pointer1 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Holder_Pointer1 = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Text_Pointer1 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Pointer1 = new TextCtrl_Long(Unknown_Scroller);
 
-	UnknownFirstSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "First Subdata");
+	UnknownFirstSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Base Terrain Data");
 	UnknownFirstSubData_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnknownFirstSubData_DataArea = new wxBoxSizer(wxVERTICAL);
 	UnknownFirstSubData_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
@@ -836,16 +882,26 @@ void AGE_Frame::CreateUnknownControls()
 	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
 	{
 		UnknownFirstSubData_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
-		UnknownFirstSubData_Text_Unknown1[loop] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 		UnknownFirstSubData_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
 	}
+	UnknownFirstSubData_Text_Unknown1[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[6] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[7] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[8] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Open Place %?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[9] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 10", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Text_Unknown1[10] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 	Unknowns_Space_Pointer2 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Holder_Pointer2 = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Text_Pointer2 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Pointer2 = new TextCtrl_Long(Unknown_Scroller);
 
-	UnknownSecondSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Second Subdata");
+	UnknownSecondSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Terrains Placed on the Map");
 	UnknownSecondSubData_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnknownSecondSubData_DataArea = new wxBoxSizer(wxVERTICAL);
 	UnknownSecondSubData_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
@@ -863,16 +919,22 @@ void AGE_Frame::CreateUnknownControls()
 	for(short loop=0; loop < UnknownSecondSubData_Unknown1.size(); loop++)
 	{
 		UnknownSecondSubData_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
-		UnknownSecondSubData_Text_Unknown1[loop] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 		UnknownSecondSubData_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
 	}
+	UnknownSecondSubData_Text_Unknown1[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Proportion", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownSecondSubData_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownSecondSubData_Text_Unknown1[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Number of Clumps", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownSecondSubData_Text_Unknown1[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Spacing to Other Terrains", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownSecondSubData_Text_Unknown1[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Zone *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownSecondSubData_Unknown1[4]->SetToolTip("0 Base Zone\n1 Default/Border Zone\n6 ?");
+	UnknownSecondSubData_Text_Unknown1[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 	Unknowns_Space_Pointer3 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Holder_Pointer3 = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Text_Pointer3 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Pointer3 = new TextCtrl_Long(Unknown_Scroller);
 
-	UnknownThirdSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Third Subdata");
+	UnknownThirdSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Units Placed on the Map");
 	UnknownThirdSubData_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnknownThirdSubData_DataArea = new wxBoxSizer(wxVERTICAL);
 	UnknownThirdSubData_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
@@ -890,9 +952,19 @@ void AGE_Frame::CreateUnknownControls()
 	for(short loop=0; loop < UnknownThirdSubData_Unknown1.size(); loop++)
 	{
 		UnknownThirdSubData_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
-		UnknownThirdSubData_Text_Unknown1[loop] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 		UnknownThirdSubData_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
 	}
+	UnknownThirdSubData_Text_Unknown1[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Terrain Restriction", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Number of Objects", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Number of Groups", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[6] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[7] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Own at Start (-1=Yes)", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[8] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[9] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Distance to Players", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownThirdSubData_Text_Unknown1[10] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Max Distance to Players", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 	Unknowns_Grid_Unknown2 = new wxGridSizer(5, 5, 5);
 	for(short loop=0; loop < Unknowns_Unknown2.size(); loop++)
@@ -1109,4 +1181,30 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(UnknownThirdSubData_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataCopy));
 	Connect(UnknownThirdSubData_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataPaste));
 	Connect(UnknownThirdSubData_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownThirdSubDataPasteInsert));
+
+	Unknowns_UnknownLevel->Connect(Unknowns_UnknownLevel->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
+	UnknownFirstSubData_Unknown1[0]->Connect(UnknownFirstSubData_Unknown1[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
+	UnknownSecondSubData_Unknown1[1]->Connect(UnknownSecondSubData_Unknown1[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
+	UnknownThirdSubData_Unknown1[0]->Connect(UnknownThirdSubData_Unknown1[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
+}
+
+void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
+{
+	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(Event.GetId() == Unknowns_UnknownLevel->GetId())
+	{
+		ListUnknowns();
+	}
+	else if(Event.GetId() == UnknownFirstSubData_Unknown1[0]->GetId())
+	{
+		ListUnknownFirstSubData();
+	}
+	else if(Event.GetId() == UnknownSecondSubData_Unknown1[1]->GetId())
+	{
+		ListUnknownSecondSubData();
+	}
+	else if(Event.GetId() == UnknownThirdSubData_Unknown1[0]->GetId())
+	{
+		ListUnknownThirdSubData();
+	}
 }

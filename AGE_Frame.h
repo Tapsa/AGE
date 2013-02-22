@@ -115,6 +115,7 @@ class AGE_Frame: public wxFrame
 	void OnKillFocus_TerRestrict(wxFocusEvent &Event);
 	void OnKillFocus_Sounds(wxFocusEvent &Event);
 	void OnKillFocus_Colors(wxFocusEvent &Event);
+	void OnKillFocus_Unknown(wxFocusEvent &Event);
 
 	void OnUpdateCheck_Techs(wxCommandEvent &Event);
 	void OnUpdateCheck_Graphics(wxCommandEvent &Event);
@@ -188,7 +189,7 @@ class AGE_Frame: public wxFrame
 	void OnUnknownSecondSubDataCopy(wxCommandEvent &Event);
 	void OnUnknownSecondSubDataPaste(wxCommandEvent &Event);
 	void OnUnknownSecondSubDataPasteInsert(wxCommandEvent &Event);
-	string GetUnknownSecondSubDataName(short Index);
+	string GetSimpleTerrainName(short Index);
 
 	void ListUnknownThirdSubData();
 	void OnUnknownThirdSubDataSearch(wxCommandEvent &Event);
@@ -3218,6 +3219,16 @@ class AGE_Frame: public wxFrame
 		for(auto loop = copies.size(); loop--> 0;)
 		{
 			path[place + loop] = copies[loop];
+		}
+	}
+
+	template <class P, class C>
+	void PasteToListNoGV(P &path, vector<short> &places, C &copies)
+	{
+		for(int loop = 0, from = 0; loop < places.size(); loop++, from++)
+		{
+			from %= copies.size();
+			path[places[loop]] = copies[from];
 		}
 	}
 

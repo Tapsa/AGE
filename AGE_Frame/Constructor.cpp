@@ -132,7 +132,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	TabBar_Main->AddPage(Tab_TerrainRestrictions, "T. Restrictions");
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
-	TabBar_Main->AddPage(Tab_Unknown, "Unknown");
+	TabBar_Main->AddPage(Tab_Unknown, "Map");
 	TabBar_Main->ChangeSelection(5);
 
 //	TabBar_Test->AddPage(Tab_DRS, "DRS Files");

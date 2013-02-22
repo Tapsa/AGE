@@ -1374,7 +1374,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		}
 	}
 
-	SetStatusText("", 0);
+	SetStatusText("Selected files saved.", 0);
 }
 
 void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
