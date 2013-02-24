@@ -167,9 +167,10 @@ class AGE_Frame: public wxFrame
 	void OnUnknownsCopy(wxCommandEvent &Event);
 	void OnUnknownsPaste(wxCommandEvent &Event);
 	void OnUnknownsPasteInsert(wxCommandEvent &Event);
-	string GetUnknownName(short Index);
+	string GetUnknownName(short);
 
 	void ListUnknownFirstSubData();
+	void DisableUnknownFirstSubData();
 	void OnUnknownFirstSubDataSearch(wxCommandEvent &Event);
 	void OnUnknownFirstSubDataSelect(wxCommandEvent &Event);
 	void OnUnknownFirstSubDataAdd(wxCommandEvent &Event);
@@ -178,29 +179,31 @@ class AGE_Frame: public wxFrame
 	void OnUnknownFirstSubDataCopy(wxCommandEvent &Event);
 	void OnUnknownFirstSubDataPaste(wxCommandEvent &Event);
 	void OnUnknownFirstSubDataPasteInsert(wxCommandEvent &Event);
-	string GetUnknownFirstSubDataName(short Index);
+	string GetUnknownFirstSubDataName(short);
 
-	void ListUnknownSecondSubData();
-	void OnUnknownSecondSubDataSearch(wxCommandEvent &Event);
-	void OnUnknownSecondSubDataSelect(wxCommandEvent &Event);
-	void OnUnknownSecondSubDataAdd(wxCommandEvent &Event);
-	void OnUnknownSecondSubDataInsert(wxCommandEvent &Event);
-	void OnUnknownSecondSubDataDelete(wxCommandEvent &Event);
-	void OnUnknownSecondSubDataCopy(wxCommandEvent &Event);
-	void OnUnknownSecondSubDataPaste(wxCommandEvent &Event);
-	void OnUnknownSecondSubDataPasteInsert(wxCommandEvent &Event);
-	string GetSimpleTerrainName(short Index);
+	void ListRMSTerrains();
+	void DisableRMSTerrains();
+	void OnRMSTerrainSearch(wxCommandEvent &Event);
+	void OnRMSTerrainSelect(wxCommandEvent &Event);
+	void OnRMSTerrainAdd(wxCommandEvent &Event);
+	void OnRMSTerrainInsert(wxCommandEvent &Event);
+	void OnRMSTerrainDelete(wxCommandEvent &Event);
+	void OnRMSTerrainCopy(wxCommandEvent &Event);
+	void OnRMSTerrainPaste(wxCommandEvent &Event);
+	void OnRMSTerrainPasteInsert(wxCommandEvent &Event);
+	string GetRMSTerrainName(short);
 
-	void ListUnknownThirdSubData();
-	void OnUnknownThirdSubDataSearch(wxCommandEvent &Event);
-	void OnUnknownThirdSubDataSelect(wxCommandEvent &Event);
-	void OnUnknownThirdSubDataAdd(wxCommandEvent &Event);
-	void OnUnknownThirdSubDataInsert(wxCommandEvent &Event);
-	void OnUnknownThirdSubDataDelete(wxCommandEvent &Event);
-	void OnUnknownThirdSubDataCopy(wxCommandEvent &Event);
-	void OnUnknownThirdSubDataPaste(wxCommandEvent &Event);
-	void OnUnknownThirdSubDataPasteInsert(wxCommandEvent &Event);
-	string GetUnknownThirdSubDataName(short Index);
+	void ListRMSUnits();
+	void DisableRMSUnits();
+	void OnRMSUnitSearch(wxCommandEvent &Event);
+	void OnRMSUnitSelect(wxCommandEvent &Event);
+	void OnRMSUnitAdd(wxCommandEvent &Event);
+	void OnRMSUnitInsert(wxCommandEvent &Event);
+	void OnRMSUnitDelete(wxCommandEvent &Event);
+	void OnRMSUnitCopy(wxCommandEvent &Event);
+	void OnRMSUnitPaste(wxCommandEvent &Event);
+	void OnRMSUnitPasteInsert(wxCommandEvent &Event);
+	string GetRMSUnitName(short);
 
 //	Research Events
 
@@ -213,7 +216,7 @@ class AGE_Frame: public wxFrame
 	void OnResearchCopy(wxCommandEvent &Event);
 	void OnResearchPaste(wxCommandEvent &Event);
 	void OnResearchPasteInsert(wxCommandEvent &Event);
-	string GetResearchName(short Index, bool Filter = false);
+	string GetResearchName(short, bool = false);
 
 //	Tech Events
 
@@ -447,7 +450,7 @@ class AGE_Frame: public wxFrame
 	//void OnExtractUnit(wxCommandEvent &Event);
 	//void OnImportUnit(wxCommandEvent &Event);
 	void OnUnitSubList(wxCommandEvent &Event);
-	string GetUnitName(short Index, short civ, bool Filter = false);
+	string GetUnitName(short, short, bool = false);
 
 	void ListUnitDamageGraphics();
 	void OnUnitDamageGraphicsSearch(wxCommandEvent &Event);
@@ -542,7 +545,7 @@ class AGE_Frame: public wxFrame
 	void OnGraphicsDisable(wxCommandEvent &Event);
 	//void OnExtractGraphic(wxCommandEvent &Event);
 	//void OnImportGraphic(wxCommandEvent &Event);
-	string GetGraphicName(short Index, bool Filter = false);
+	string GetGraphicName(short, bool = false);
 
 	void ListGraphicDeltas();
 	void OnGraphicDeltasSearch(wxCommandEvent &Event);
@@ -1008,43 +1011,43 @@ class AGE_Frame: public wxFrame
 	array<wxStaticText*, 11> UnknownFirstSubData_Text_Unknown1;
 	array<TextCtrl_Long*, 11> UnknownFirstSubData_Unknown1;
 
-	wxStaticBoxSizer *UnknownSecondSubData;
-	wxBoxSizer *UnknownSecondSubData_ListArea;
-	wxBoxSizer *UnknownSecondSubData_DataArea;
-	wxTextCtrl *UnknownSecondSubData_Search;
-	wxTextCtrl *UnknownSecondSubData_Search_R;
-	wxListBox *UnknownSecondSubData_List;
-	wxGridSizer *UnknownSecondSubData_Buttons;
-	wxButton *UnknownSecondSubData_Add;
-	wxButton *UnknownSecondSubData_Insert;
-	wxButton *UnknownSecondSubData_Delete;
-	wxButton *UnknownSecondSubData_Copy;
-	wxButton *UnknownSecondSubData_Paste;
-	wxButton *UnknownSecondSubData_PasteInsert;
+	wxStaticBoxSizer *RMSTerrain;
+	wxBoxSizer *RMSTerrain_ListArea;
+	wxBoxSizer *RMSTerrain_DataArea;
+	wxTextCtrl *RMSTerrain_Search;
+	wxTextCtrl *RMSTerrain_Search_R;
+	wxListBox *RMSTerrain_List;
+	wxGridSizer *RMSTerrain_Buttons;
+	wxButton *RMSTerrain_Add;
+	wxButton *RMSTerrain_Insert;
+	wxButton *RMSTerrain_Delete;
+	wxButton *RMSTerrain_Copy;
+	wxButton *RMSTerrain_Paste;
+	wxButton *RMSTerrain_PasteInsert;
 
-	wxGridSizer *UnknownSecondSubData_Grid_Unknown1;
-	array<wxBoxSizer*, 6> UnknownSecondSubData_Holder_Unknown1;
-	array<wxStaticText*, 6> UnknownSecondSubData_Text_Unknown1;
-	array<TextCtrl_Long*, 6> UnknownSecondSubData_Unknown1;
+	wxGridSizer *RMSTerrain_Grid_Unknown1;
+	array<wxBoxSizer*, 6> RMSTerrain_Holder_Unknown1;
+	array<wxStaticText*, 6> RMSTerrain_Text_Unknown1;
+	array<TextCtrl_Long*, 6> RMSTerrain_Unknown1;
 
-	wxStaticBoxSizer *UnknownThirdSubData;
-	wxBoxSizer *UnknownThirdSubData_ListArea;
-	wxBoxSizer *UnknownThirdSubData_DataArea;
-	wxTextCtrl *UnknownThirdSubData_Search;
-	wxTextCtrl *UnknownThirdSubData_Search_R;
-	wxListBox *UnknownThirdSubData_List;
-	wxGridSizer *UnknownThirdSubData_Buttons;
-	wxButton *UnknownThirdSubData_Add;
-	wxButton *UnknownThirdSubData_Insert;
-	wxButton *UnknownThirdSubData_Delete;
-	wxButton *UnknownThirdSubData_Copy;
-	wxButton *UnknownThirdSubData_Paste;
-	wxButton *UnknownThirdSubData_PasteInsert;
+	wxStaticBoxSizer *RMSUnit;
+	wxBoxSizer *RMSUnit_ListArea;
+	wxBoxSizer *RMSUnit_DataArea;
+	wxTextCtrl *RMSUnit_Search;
+	wxTextCtrl *RMSUnit_Search_R;
+	wxListBox *RMSUnit_List;
+	wxGridSizer *RMSUnit_Buttons;
+	wxButton *RMSUnit_Add;
+	wxButton *RMSUnit_Insert;
+	wxButton *RMSUnit_Delete;
+	wxButton *RMSUnit_Copy;
+	wxButton *RMSUnit_Paste;
+	wxButton *RMSUnit_PasteInsert;
 
-	wxGridSizer *UnknownThirdSubData_Grid_Unknown1;
-	array<wxBoxSizer*, 11> UnknownThirdSubData_Holder_Unknown1;
-	array<wxStaticText*, 11> UnknownThirdSubData_Text_Unknown1;
-	array<TextCtrl_Long*, 11> UnknownThirdSubData_Unknown1;
+	wxGridSizer *RMSUnit_Grid_Unknown1;
+	array<wxBoxSizer*, 11> RMSUnit_Holder_Unknown1;
+	array<wxStaticText*, 11> RMSUnit_Text_Unknown1;
+	array<TextCtrl_Long*, 11> RMSUnit_Unknown1;
 
 //	Researchs user interface
 

@@ -104,7 +104,6 @@ Sarthos - important help
 BF_Tanks - some help
 Donnieboy - tool tip texts
 Sarn - tool tip texts
-qaz123tfg - help documentation
 Leif Ericson - new icon
 
 [url=http://www.mediafire.com/advancedgenieeditor2]Latest development versions (only for testing)[/url].
