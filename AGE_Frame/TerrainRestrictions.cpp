@@ -3,9 +3,9 @@ using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainRestrictionName(short Index)
 {
-	switch(GameVersion)
+	switch(GenieVersion)
 	{
-		case 5: // CC
+		case genie::GV_CC:
 		{
 			switch(Index)
 			{
@@ -14,7 +14,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 				case 32: return "Rock4"; break;
 			}
 		}
-		case 4: // SWGB
+		case genie::GV_SWGB:
 		{
 			switch(Index)
 			{
@@ -52,7 +52,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 			}
 		}
 		break;
-		case 3: // TC
+		case genie::GV_TC:
 		{
 			switch(Index)
 			{
@@ -60,7 +60,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 				case 21: return "Shallow water"; break;
 			}
 		}
-		case 2: // AoK
+		case genie::GV_AoK:
 		{
 			switch(Index)
 			{
@@ -88,8 +88,8 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 			}
 		}
 		break;
-		case 1: // RoR
-		case 0: // AoE
+		case genie::GV_RoR:
+		case genie::GV_AoE:
 		{
 			switch(Index)
 			{
@@ -181,7 +181,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 
 	TerRestrictTerIDs.resize(Selections2);
 	TerRestrict_Accessible->resize(Selections2);
-	if(GameVersion >= 2)	//	Above AoE and RoR
+	if(GenieVersion >= genie::GV_AoK)	//	Above AoE and RoR
 	{
 		TerRestrict_Unknown1->resize(Selections2);
 		TerRestrict_Graphics[0]->resize(Selections2);
@@ -196,7 +196,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 		TerRestrictTerIDs[loop] = (TerrainPointer - (&GenieFile->Terrains[0]));
 
 		TerRestrict_Accessible->container[loop] = &TerRestPointer->TerrainAccessible[TerRestrictTerIDs[loop]];
-		if(GameVersion >= 2)	//	Above AoE and RoR
+		if(GenieVersion >= genie::GV_AoK)	//	Above AoE and RoR
 		{
 			TerRestrict_Unknown1->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].Buildable;
 			TerRestrict_Graphics[0]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.first;
@@ -208,7 +208,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 	TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]));
 	TerRestrict_CheckBox_Accessible->SetValue((bool)TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
 
-	if(GameVersion < 2) return; // Above AoE and RoR
+	if(GenieVersion <= genie::GV_RoR) return; // Above AoE and RoR
 	TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable));
 	switch(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable)
 	{
@@ -237,7 +237,7 @@ void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &Event)
 //	Temp.TerrainPassGraphics.resize(GenieFile->Terrains.size());
 	GenieFile->TerrainRestrictions.push_back(Temp);
 	GenieFile->TerrainRestrictionPointers1.push_back(1);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	GenieFile->TerrainRestrictionPointers2.push_back(1);
 	Added = true;
 	ListTerrainRestrictions();
@@ -253,7 +253,7 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &Event)
 	Temp.setGameVersion(GenieVersion);
 	GenieFile->TerrainRestrictions.insert(GenieFile->TerrainRestrictions.begin() + TerRestrictIDs[0], Temp);
 	GenieFile->TerrainRestrictionPointers1.insert(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], 1);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	GenieFile->TerrainRestrictionPointers2.insert(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictIDs[0], 1);
 	ListTerrainRestrictions();
 }
@@ -268,7 +268,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent &Event)
 	{
 		GenieFile->TerrainRestrictions.erase(GenieFile->TerrainRestrictions.begin() + TerRestrictIDs[loop]);
 		GenieFile->TerrainRestrictionPointers1.erase(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[loop]);
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		GenieFile->TerrainRestrictionPointers2.erase(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictIDs[loop]);
 	}
 	ListTerrainRestrictions();
@@ -295,7 +295,7 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &Event)
 	{
 		GenieFile->TerrainRestrictions.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
 		GenieFile->TerrainRestrictionPointers1.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		GenieFile->TerrainRestrictionPointers2.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
 	}
 	for(short loop=0; loop < copies->TerrainRestriction.size(); loop++)
@@ -315,7 +315,7 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &Event)
 	genie::TerrainRestriction Temp;
 	GenieFile->TerrainRestrictions.insert(GenieFile->TerrainRestrictions.begin() + TerRestrictIDs[0], copies->TerrainRestriction.size(), Temp);
 	GenieFile->TerrainRestrictionPointers1.insert(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], copies->TerrainRestriction.size(), 1);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	GenieFile->TerrainRestrictionPointers2.insert(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictIDs[0], copies->TerrainRestriction.size(), 1);
 	for(short loop=0; loop < copies->TerrainRestriction.size(); loop++)
 	{
@@ -335,7 +335,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &Event)
 	TerrainRestrictionSubCopyAccess.resize(Selections2);
 	for(short loop=0; loop < Selections2; loop++)
 	TerrainRestrictionSubCopyAccess[loop] = GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[TerRestrictTerIDs[loop]];
-	if(GameVersion > 1)	// not AoE nor RoR
+	if(GenieVersion >= genie::GV_AoK)	// not AoE nor RoR
 	{
 		copies->TerrainRestrictionSub.resize(Selections2);
 		for(short loop=0; loop < Selections2; loop++)
@@ -355,7 +355,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &Event)
 	CopyCount -= CopyCount+TerRestrictTerIDs[0] - GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible.size();
 	for(short loop=0; loop < CopyCount; loop++)
 	GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[TerRestrictTerIDs[0]+loop] = TerrainRestrictionSubCopyAccess[loop];
-	if(GameVersion > 1)	// not AoE nor RoR
+	if(GenieVersion >= genie::GV_AoK)	// not AoE nor RoR
 	{
 		for(short loop=0; loop < CopyCount; loop++)
 		{

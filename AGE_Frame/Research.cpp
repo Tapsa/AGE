@@ -83,7 +83,7 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 						Name += lexical_cast<string>((short)GenieFile->Researchs[Index].ResourceCosts[loop].Enabled);
 					}
 				}	break;
-				if(GameVersion >= 2)
+				if(GenieVersion >= genie::GV_AoK)
 				{
 				case 16: // Civilization
 					Name += "C "+lexical_cast<string>(GenieFile->Researchs[Index].Civ);
@@ -91,7 +91,7 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 				case 17: // Full Tech. Mode
 					Name += "F "+lexical_cast<string>(GenieFile->Researchs[Index].FullTechMode);
 					break;
-				if(GameVersion >= 4)
+				if(GenieVersion >= genie::GV_SWGB)
 				{
 				case 18: // Internal Name 2
 					if(!GenieFile->Researchs[Index].Name2.empty())
@@ -265,11 +265,11 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	Research_Used[0]->resize(Selections);
 	Research_Used[1]->resize(Selections);
 	Research_Used[2]->resize(Selections);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	{
 		Research_Civ->resize(Selections);
 		Research_FullTechMode->resize(Selections);
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		Research_Name[1]->resize(Selections);
 	}
 	Research_ResearchLocation->resize(Selections);
@@ -305,11 +305,11 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_Used[0]->container[loop] = &ResearchPointer->ResourceCosts[0].Enabled;
 		Research_Used[1]->container[loop] = &ResearchPointer->ResourceCosts[1].Enabled;
 		Research_Used[2]->container[loop] = &ResearchPointer->ResourceCosts[2].Enabled;
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		{
 			Research_Civ->container[loop] = &ResearchPointer->Civ;
 			Research_FullTechMode->container[loop] = &ResearchPointer->FullTechMode;
-			if(GameVersion >= 4)
+			if(GenieVersion >= genie::GV_SWGB)
 			Research_Name[1]->container[loop] = &ResearchPointer->Name2;
 		}
 		Research_ResearchLocation->container[loop] = &ResearchPointer->ResearchLocation;
@@ -347,7 +347,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	Research_CheckBox_Used[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Enabled);
 	Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Enabled));
 	Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	{
 		Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
 		Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
@@ -355,7 +355,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
 		Research_DLL_Pointers[0]->index = ResearchPointer->Pointers[0] - 79000;
 		Research_DLL_Pointers[1]->index = ResearchPointer->Pointers[1] - 140000;
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		Research_Name[1]->ChangeValue(ResearchPointer->Name2);
 	}
 	else
@@ -459,13 +459,13 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &Event)
 	}
 	if(Event.GetId() == Research_LanguageDLLConverter[0]->GetId())
 	{
-		if(GameVersion < 2) DLLValue += 0x10000;
+		if(GenieVersion <= genie::GV_RoR) DLLValue += 0x10000;
 		else DLLValue += 79000;
 		GenieFile->Researchs[ResearchIDs[0]].Pointers[0] = DLLValue;
 	}
 	else
 	{
-		if(GameVersion < 2) DLLValue += 0x20000;
+		if(GenieVersion <= genie::GV_RoR) DLLValue += 0x20000;
 		else DLLValue += 140000;
 		GenieFile->Researchs[ResearchIDs[0]].Pointers[1] = DLLValue;
 	}

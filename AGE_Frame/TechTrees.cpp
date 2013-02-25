@@ -49,7 +49,7 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 	{
 		TechTrees_Ages_Zeroes1[loop]->resize(Selections);
 	}
-	if(GameVersion >= 4)
+	if(GenieVersion >= genie::GV_SWGB)
 	for(short loop = 49;loop < 99; loop++)
 	{
 		TechTrees_Ages_Zeroes2[loop-49]->resize(Selections);
@@ -70,7 +70,7 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 		{
 			TechTrees_Ages_Zeroes1[loop]->container[sel] = &AgePointer->Zeroes[loop];
 		}
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		for(short loop = 49;loop < 99; loop++)
 		{
 			TechTrees_Ages_Zeroes2[loop-49]->container[sel] = &AgePointer->Zeroes[loop];
@@ -86,7 +86,7 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 	{
 		TechTrees_Ages_Zeroes1[loop]->ChangeValue(lexical_cast<string>(AgePointer->Zeroes[loop]));
 	}
-	if(GameVersion >= 4)
+	if(GenieVersion >= genie::GV_SWGB)
 	for(short loop = 49;loop < 99; loop++)
 	{
 		TechTrees_Ages_Zeroes2[loop-49]->ChangeValue(lexical_cast<string>(AgePointer->Zeroes[loop]));
@@ -659,7 +659,7 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &Event)
 	{
 		TechTrees_Buildings_Unknown2b1[loop]->resize(Selections);
 	}
-	if(GameVersion >= 4)
+	if(GenieVersion >= genie::GV_SWGB)
 	{
 		for(short loop = 8;loop < 18; loop++)
 		{
@@ -699,7 +699,7 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &Event)
 		{
 			TechTrees_Buildings_Unknown2b1[loop]->container[sel] = &BuildingConPointer->Unknown2b[loop];
 		}
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		{
 			for(short loop = 8;loop < 18; loop++)
 			{
@@ -775,7 +775,7 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &Event)
 	{
 		TechTrees_Buildings_Unknown2b1[loop]->ChangeValue(lexical_cast<string>(BuildingConPointer->Unknown2b[loop]));
 	}
-	if(GameVersion >= 4)
+	if(GenieVersion >= genie::GV_SWGB)
 	{
 		for(short loop = 8;loop < 18; loop++)
 		{
@@ -1355,7 +1355,7 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &Event)
 	{
 		TechTrees_Units_Unknown2b1[loop]->resize(Selections);
 	}
-	if(GameVersion >= 4)
+	if(GenieVersion >= genie::GV_SWGB)
 	{
 		for(short loop = 8;loop < 18; loop++)
 		{
@@ -1395,7 +1395,7 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &Event)
 		{
 			TechTrees_Units_Unknown2b1[loop]->container[sel] = &UnitConPointer->Unknown2b[loop];
 		}
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		{
 			for(short loop = 8;loop < 18; loop++)
 			{
@@ -1476,7 +1476,7 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &Event)
 	{
 		TechTrees_Units_Unknown2b1[loop]->ChangeValue(lexical_cast<string>(UnitConPointer->Unknown2b[loop]));
 	}
-	if(GameVersion >= 4)
+	if(GenieVersion >= genie::GV_SWGB)
 	{
 		for(short loop = 8;loop < 18; loop++)
 		{
@@ -1794,7 +1794,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &Event)
 	{
 		TechTrees_Researches_Unknown2b1[loop]->resize(Selections);
 	}
-	if(GameVersion >= 4)
+	if(GenieVersion >= genie::GV_SWGB)
 	{
 		for(short loop = 9;loop < 19; loop++)
 		{
@@ -1830,7 +1830,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &Event)
 		{
 			TechTrees_Researches_Unknown2b1[loop]->container[sel] = &ResearchConPointer->Unknown2b[loop];
 		}
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		{
 			for(short loop = 9;loop < 19; loop++)
 			{
@@ -1864,7 +1864,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &Event)
 	{
 		TechTrees_Researches_Unknown2b1[loop]->ChangeValue(lexical_cast<string>(ResearchConPointer->Unknown2b[loop]));
 	}
-	if(GameVersion >= 4)
+	if(GenieVersion >= genie::GV_SWGB)
 	{
 		for(short loop = 9;loop < 19; loop++)
 		{
