@@ -304,7 +304,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_ReplayDelay->ChangeValue(lexical_cast<string>(GraphicPointer->ReplayDelay));
 	Graphics_SequenceType->ChangeValue(lexical_cast<string>((short)GraphicPointer->SequenceType));
 	Graphics_ID->ChangeValue(lexical_cast<string>(GraphicPointer->ID));
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	{
 		Graphics_TypeS->SetBackgroundColour(wxColour(210, 230, 255));
 		Graphics_TypeS->ChangeValue(lexical_cast<string>(GraphicPointer->Type));
@@ -345,7 +345,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &Event)
 	GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], 1);
 	if(EnableIDFix)
 	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); loop++) // ID Fix
-	GenieFile->Graphics[loop].ID = (int16_t)loop;
+	GenieFile->Graphics[loop].ID = loop;
 	ListGraphics();
 }
 
@@ -362,7 +362,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &Event)
 	}
 	if(EnableIDFix)
 	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); loop++) // ID Fix
-	GenieFile->Graphics[loop].ID = (int16_t)loop;
+	GenieFile->Graphics[loop].ID = loop;
 	ListGraphics();
 }
 
@@ -420,7 +420,7 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 	}
 	if(EnableIDFix)
 	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); loop++) // ID Fix
-	GenieFile->Graphics[loop].ID = (int16_t)loop;
+	GenieFile->Graphics[loop].ID = loop;
 	ListGraphics();
 }
 

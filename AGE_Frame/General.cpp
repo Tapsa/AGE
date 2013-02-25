@@ -95,7 +95,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->Unknown.Pointer));
 	Unknown_UnknownPointer->resize(1);
 	Unknown_UnknownPointer->container[0] = &GenieFile->Unknown.Pointer;
-	if(GameVersion < 2) return;
+	if(GenieVersion <= genie::GV_RoR) return;
 	for(short loop=1; loop < General_AfterBorders.size(); loop++)
 	{
 		General_AfterBorders[loop]->ChangeValue(lexical_cast<string>(GenieFile->ZeroSpace[loop]));
@@ -117,7 +117,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_TTUnknown[7]->ChangeValue(lexical_cast<string>(GenieFile->TechTree.Unknown2));
 	General_TTUnknown[7]->resize(1);
 	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
-	if(GameVersion < 4) return;
+	if(GenieVersion <= genie::GV_TC) return;
 	General_Something[162]->ChangeValue(lexical_cast<string>(GenieFile->Something[162]));
 	General_Something[162]->resize(1);
 	General_Something[162]->container[0] = &GenieFile->Something[162];

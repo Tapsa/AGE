@@ -8,7 +8,7 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
 
 string AGE_Frame::GetPlayerColorName(short Index)
 {
-	if(GameVersion <= 1)
+	if(GenieVersion <= genie::GV_RoR)
 		return GenieFile->PlayerColours[Index].Name;
 	return "Color "+lexical_cast<string>(Index)+" ";
 }
@@ -44,7 +44,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 	ColorIDs.resize(Selections);
 	Colors_ID->resize(Selections);
 	Colors_ColorL->resize(Selections);
-	if(GameVersion < 2)	//	AoE and RoR
+	if(GenieVersion <= genie::GV_RoR)	//	AoE and RoR
 	{
 		Colors_Name->resize(Selections);
 	}
@@ -67,7 +67,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 
 		Colors_ID->container[loop] = &PlayerColorPointer->ID;
 		Colors_ColorL->container[loop] = &PlayerColorPointer->Colour;
-		if(GameVersion < 2)	//	AoE and RoR
+		if(GenieVersion <= genie::GV_RoR)	//	AoE and RoR
 		{
 			Colors_Name->container[loop] = &PlayerColorPointer->Name;
 		}
@@ -85,7 +85,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 
 	Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
 	Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
-	if(GameVersion < 2)	//	AoE and RoR
+	if(GenieVersion <= genie::GV_RoR)	//	AoE and RoR
 	{
 		Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
 		Colors_Name->ChangeValue(PlayerColorPointer->Name);

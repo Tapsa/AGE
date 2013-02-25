@@ -161,7 +161,7 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &Event)
 	GenieFile->Sounds.insert(GenieFile->Sounds.begin() + SoundIDs[0], Temp);
 	if(EnableIDFix)
 	for(short loop = SoundIDs[0];loop < GenieFile->Sounds.size(); loop++) // ID Fix
-	GenieFile->Sounds[loop].ID = (int32_t)loop;
+	GenieFile->Sounds[loop].ID = loop;
 	ListSounds();
 }
 
@@ -175,7 +175,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent &Event)
 	GenieFile->Sounds.erase(GenieFile->Sounds.begin() + SoundIDs[loop]);
 	if(EnableIDFix)
 	for(short loop = SoundIDs[0];loop < GenieFile->Sounds.size(); loop++)	//	ID Fix
-	GenieFile->Sounds[loop].ID = (int32_t)loop;
+	GenieFile->Sounds[loop].ID = loop;
 	ListSounds();
 }
 
@@ -223,7 +223,7 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &Event)
 	}
 	if(EnableIDFix)
 	for(short loop = SoundIDs[0];loop < GenieFile->Sounds.size(); loop++) // ID Fix
-	GenieFile->Sounds[loop].ID = (int32_t)loop;
+	GenieFile->Sounds[loop].ID = loop;
 	ListSounds();
 }
 
@@ -245,7 +245,7 @@ string AGE_Frame::GetSoundItemName(short Index)
 			case 2: // Probability
 				Name += "P "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Probability);
 				break;
-			if(GameVersion >= 2)
+			if(GenieVersion >= genie::GV_AoK)
 			{
 			case 3: // Civilization
 				Name += "C "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Civ);
@@ -311,7 +311,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 		SoundItems_Name->resize(Selections);
 		SoundItems_Resource->resize(Selections);
 		SoundItems_Probability->resize(Selections);
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		{
 			SoundItems_Civ->resize(Selections);
 			SoundItems_Unknown->resize(Selections);
@@ -326,7 +326,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 			SoundItems_Name->container[loop] = &SoundItemPointer->FileName;
 			SoundItems_Resource->container[loop] = &SoundItemPointer->ResourceID;
 			SoundItems_Probability->container[loop] = &SoundItemPointer->Probability;
-			if(GameVersion >= 2)
+			if(GenieVersion >= genie::GV_AoK)
 			{
 				SoundItems_Civ->container[loop] = &SoundItemPointer->Civ;
 				SoundItems_Unknown->container[loop] = &SoundItemPointer->Unknown1;
@@ -336,7 +336,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 		SoundItems_Name->ChangeValue(SoundItemPointer->FileName);
 		SoundItems_Resource->ChangeValue(lexical_cast<string>(SoundItemPointer->ResourceID));
 		SoundItems_Probability->ChangeValue(lexical_cast<string>(SoundItemPointer->Probability));
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		{
 			SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
 			SoundItems_ComboBox_Civ->SetSelection(SoundItemPointer->Civ + 1);

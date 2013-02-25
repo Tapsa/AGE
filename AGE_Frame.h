@@ -743,6 +743,7 @@ class AGE_Frame: public wxFrame
 	wxString SaveDatFileName;
 	wxString SaveApfFileName;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
+	wxString LangCharset;
 	wxString LangFileName;
 	wxString LangX1FileName;
 	wxString LangX1P1FileName;
