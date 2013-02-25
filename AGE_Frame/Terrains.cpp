@@ -30,7 +30,7 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 	for(short loop=0; loop < GenieFile->TerrainRestrictions.size(); loop++)
 	{
 		GenieFile->TerrainRestrictions[loop].TerrainAccessible.resize(UsedTerrains);
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.resize(UsedTerrains);
 	}
 	
@@ -127,7 +127,7 @@ void AGE_Frame::ListTerrains(bool Sized)
 	for(short loop=0; loop < GenieFile->NumberOfTerrainsUsed; loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -153,11 +153,11 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_SLP->resize(Selections);
 	Terrains_Unknown3->resize(Selections);
 	Terrains_SoundID->resize(Selections);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	{
 		Terrains_BlendPriority->resize(Selections);
 		Terrains_BlendType->resize(Selections);
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		for(short loop=0; loop < genie::Terrain::SWGBUNKNOWN1_LEN; loop++)
 		{
 			Terrains_SUnknown1[loop]->resize(Selections);
@@ -208,11 +208,11 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_SLP->container[sel] = &TerrainPointer->SLP;
 		Terrains_Unknown3->container[sel] = &TerrainPointer->Unknown3;
 		Terrains_SoundID->container[sel] = &TerrainPointer->SoundID;
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		{
 			Terrains_BlendPriority->container[sel] = &TerrainPointer->BlendPriority;
 			Terrains_BlendType->container[sel] = &TerrainPointer->BlendType;
-			if(GameVersion >= 4)
+			if(GenieVersion >= genie::GV_SWGB)
 			for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_LEN; loop++)
 			{
 				Terrains_SUnknown1[loop]->container[sel] = &TerrainPointer->SWGBUnknown1[loop];
@@ -259,11 +259,11 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_Unknown3->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown3));
 	Terrains_SoundID->ChangeValue(lexical_cast<string>(TerrainPointer->SoundID));
 	Terrains_ComboBox_SoundID->SetSelection(TerrainPointer->SoundID + 1);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	{
 		Terrains_BlendPriority->ChangeValue(lexical_cast<string>(TerrainPointer->BlendPriority));
 		Terrains_BlendType->ChangeValue(lexical_cast<string>(TerrainPointer->BlendType));
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_LEN; loop++)
 		{
 			Terrains_SUnknown1[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->SWGBUnknown1[loop]));

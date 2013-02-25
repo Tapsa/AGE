@@ -125,26 +125,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	switch(GameVersion)
 	{
-		case 0:
-			GenieVersion = genie::GV_AoE;
-			break;
-		case 1:
-			GenieVersion = genie::GV_RoR;
-			break;
-		case 2:
-			GenieVersion = genie::GV_AoK;
-			break;
-		case 3:
-			GenieVersion = genie::GV_TC;
-			break;
-		case 4:
-			GenieVersion = genie::GV_SWGB;
-			break;
-		case 5:
-			GenieVersion = genie::GV_CC;
-			break;
-		default:
-		GenieVersion = genie::GV_None;
+		case 0: GenieVersion = genie::GV_AoE; break;
+		case 1: GenieVersion = genie::GV_RoR; break;
+		case 2: GenieVersion = genie::GV_AoK; break;
+		case 3: GenieVersion = genie::GV_TC; break;
+		case 4: GenieVersion = genie::GV_SWGB; break;
+		case 5: GenieVersion = genie::GV_CC; break;
+		default: GenieVersion = genie::GV_None;
 	}
 
 	if(Lang != NULL)
@@ -168,7 +155,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(WriteLangs)
 		{
 			Lang = new genie::LangFile();
-			Lang->setDefaultCharset("Windows-1252");
+			Lang->setDefaultCharset(LangCharset);
 			try
 			{
 				Lang->load(LangFileName.c_str());
@@ -188,7 +175,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(WriteLangs)
 		{
 			LangX = new genie::LangFile();
-			LangX->setDefaultCharset("Windows-1252");
+			LangX->setDefaultCharset(LangCharset);
 			try
 			{
 				LangX->load(LangX1FileName.c_str());
@@ -208,7 +195,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(WriteLangs)
 		{
 			LangXP = new genie::LangFile();
-			LangXP->setDefaultCharset("Windows-1252");
+			LangXP->setDefaultCharset(LangCharset);
 			try
 			{
 				LangXP->load(LangX1P1FileName.c_str());
@@ -283,7 +270,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 					{
 						GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
 						GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
-						if(GameVersion >= 2)
+						if(GenieVersion >= genie::GV_AoK)
 						GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
 						else
 						if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
@@ -303,7 +290,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			{
 				GenieFile->Sounds[loop].ID = loop;
 			}
-			if(GameVersion >= 4)
+			if(GenieVersion >= genie::GV_SWGB)
 			for(short loop = GenieFile->UnitLines.size(); loop--> 0;)
 			{
 				GenieFile->UnitLines[loop].ID = loop;
@@ -322,7 +309,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
 			GenieFile->TerrainRestrictionPointers1[loop] = 1;
-			if(GameVersion >= 2)
+			if(GenieVersion >= genie::GV_AoK)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = 1;
 		}
@@ -365,7 +352,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Units_ComboBox_GarrisonType->Clear();
 		Units_ComboBox_GarrisonType->Append("No Type/Invalid Type");	// Selection 0
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		{
 			Units_ComboBox_GarrisonType->Append("0 - None");	// Selection 1
 			Units_ComboBox_GarrisonType->Append("1 - Villager");
@@ -384,7 +371,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_ComboBox_GarrisonType->Append("14 - Monk + Cavalry + Infantry");
 			Units_ComboBox_GarrisonType->Append("15 - Monk + Villager + Infantry + Cavalry");
 		}
-		else if(GameVersion >= 4)
+		else if(GenieVersion >= genie::GV_SWGB)
 		{
 			Units_ComboBox_GarrisonType->Append("0 - None");	// Selection 1
 			Units_ComboBox_GarrisonType->Append("1 - Worker");
@@ -413,7 +400,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			Units_ComboBox_Class[loop]->Clear();
 			Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			{
 				Units_ComboBox_Class[loop]->Append("0 - Archer");	// Selection 1
 				Units_ComboBox_Class[loop]->Append("1 - Artifact/Ruins");
@@ -550,7 +537,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 			Attacks_ComboBox_Class[loop]->Clear();
 			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
-			if(GameVersion < 2) // AoE and RoR
+			if(GenieVersion <= genie::GV_RoR) // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
 				Attacks_ComboBox_Class[loop]->Append("0 - Stone Defense & Fire Galley");
 				Attacks_ComboBox_Class[loop]->Append("1 - Stone Defense & Archers");
@@ -584,7 +571,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Attacks_ComboBox_Class[loop]->Append("29 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
 			}
-			else if(GameVersion < 4) // AoK and TC
+			else if(GenieVersion <= genie::GV_TC) // AoK and TC
 			{
 				Attacks_ComboBox_Class[loop]->Append("0 - Unused");
 				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 2
@@ -843,11 +830,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Research_Research_SearchFilters[loop]->Append("Cost Types");
 			Research_Research_SearchFilters[loop]->Append("Cost Amounts");
 			Research_Research_SearchFilters[loop]->Append("Cost Uses");
-			if(GameVersion >= 2)
+			if(GenieVersion >= genie::GV_AoK)
 			{
 				Research_Research_SearchFilters[loop]->Append("Civilization");
 				Research_Research_SearchFilters[loop]->Append("Full Tech. Mode");
-				if(GameVersion >= 4)
+				if(GenieVersion >= genie::GV_SWGB)
 				Research_Research_SearchFilters[loop]->Append("Internal Name 2");
 			}
 			Research_Research_SearchFilters[loop]->SetSelection(0);
@@ -856,7 +843,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Sounds_Items_SearchFilters[loop]->Append("Filename");	// 0
 			Sounds_Items_SearchFilters[loop]->Append("DRS");
 			Sounds_Items_SearchFilters[loop]->Append("Probability");
-			if(GameVersion >= 2)
+			if(GenieVersion >= genie::GV_AoK)
 			{
 				Sounds_Items_SearchFilters[loop]->Append("Civilization");
 				Sounds_Items_SearchFilters[loop]->Append("Unknown");
@@ -866,7 +853,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Items.Add(0);
 		//wxMessageBox("Loaded!");
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		{
 			ListTTAgess();
 			ListTTBuildings();
@@ -893,7 +880,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OnCivCountChange();
 		ListCivs();
 		ListUnits(0);
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		{
 			ListUnitLines();
 		}
@@ -937,7 +924,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_ComboBox_AttributesC->Append("18 - Unknown?");
 		Effects_ComboBox_AttributesC->Append("19 - Projectile Intelligent Accuracy");
 		Effects_ComboBox_AttributesC->Append("20 - Minimum Range");
-		if(GameVersion < 2)
+		if(GenieVersion <= genie::GV_RoR)
 		Effects_ComboBox_AttributesC->Append("21 - Unknown?");
 		else
 		Effects_ComboBox_AttributesC->Append("21 - Population Support");
@@ -1020,13 +1007,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_ComboBox_AttributesC->Append("98 - None");
 		Effects_ComboBox_AttributesC->Append("99 - None");
 		Effects_ComboBox_AttributesC->Append("100 - Resource Cost");
-		if(GameVersion < 2)
+		if(GenieVersion <= genie::GV_RoR)
 		Effects_ComboBox_AttributesC->Append("101 - Population Support");
 		else
 		Effects_ComboBox_AttributesC->Append("101 - Creation Time");
 		Effects_ComboBox_AttributesC->Append("102 - Number of Garrison Arrows");
 		Effects_ComboBox_AttributesC->Append("103 - Food Cost");
-		if(GameVersion < 4)
+		if(GenieVersion <= genie::GV_TC)
 		{
 			Effects_ComboBox_AttributesC->Append("104 - Wood Cost");
 			Effects_ComboBox_AttributesC->Append("105 - Gold Cost");
@@ -1043,7 +1030,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_ComboBox_AttributesC->SetSelection(0);
 
 		Units_GraphicSet->Clear();
-		if(GameVersion < 2)
+		if(GenieVersion <= genie::GV_RoR)
 		{
 			// AoE
 			Units_GraphicSet->Append("0 West Middle Easterns");
@@ -1057,7 +1044,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_GraphicSet->Append("7 Unused");
 			Units_GraphicSet->Append("8 Unused");
 		}
-		else if(GameVersion < 4)
+		else if(GenieVersion <= genie::GV_TC)
 		{
 			Units_GraphicSet->Append("0 Unused");
 			// AoK
@@ -1103,7 +1090,7 @@ void AGE_Frame::OnGameVersionChange()
 		bool show;
 
 		// TC ->
-		show = (GameVersion >= 3) ? true : false;
+		show = (GenieVersion >= genie::GV_TC) ? true : false;
 		for(short loop = 32;loop < TERRAINBORDERSMAX; loop++)
 		{
 			Terrains_TerrainBorderID[loop]->Show(show);
@@ -1119,7 +1106,7 @@ void AGE_Frame::OnGameVersionChange()
 		}
 
 		// AoK ->
-		show = (GameVersion >= 2) ? true : false;
+		show = (GenieVersion >= genie::GV_AoK) ? true : false;
 		for(short loop = 4;loop < 6; loop++)
 		{
 			Research_RequiredTechs[loop]->Show(show);
@@ -1187,7 +1174,7 @@ void AGE_Frame::OnGameVersionChange()
 		Colors_Holder_Name->Show(!show);
 
 		// SWGB ->
-		show = (GameVersion >= 4) ? true : false;
+		show = (GenieVersion >= genie::GV_SWGB) ? true : false;
 		Research_Holder_Name[1]->Show(show);
 		Civs_Holder_Name[1]->Show(show);
 		Units_Holder_Name2->Show(show);
@@ -1782,6 +1769,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("DefaultFiles/WriteLangs", WriteLangs);
 	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
 	Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
+	Config->Write("DefaultFiles/LangCharset", LangCharset);
 	Config->Write("DefaultFiles/LangFilename", LangFileName);
 	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
 	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);

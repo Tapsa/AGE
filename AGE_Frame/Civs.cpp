@@ -8,7 +8,7 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 
 string AGE_Frame::GetCivName(short Index)
 {
-	if(GameVersion < 4)
+	if(GenieVersion <= genie::GV_TC)
 	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
 	else
 	return GenieFile->Civs[Index].Name2+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
@@ -83,10 +83,10 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	Civs_One->resize(Selections);
 	Civs_Name[0]->resize(Selections);
 	Civs_TechTree->resize(Selections);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	{
 		Civs_TeamBonus->resize(Selections);
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		{
 			Civs_Name[1]->resize(Selections);
 			for(short loop=0; loop < 4; loop++)
@@ -104,10 +104,10 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 		Civs_One->container[sel] = &CivPointer->One;
 		Civs_Name[0]->container[sel] = &CivPointer->Name;
 		Civs_TechTree->container[sel] = &CivPointer->TechTreeID;
-		if(GameVersion >= 2)
+		if(GenieVersion >= genie::GV_AoK)
 		{
 			Civs_TeamBonus->container[sel] = &CivPointer->TeamBonusID;
-			if(GameVersion >= 4)
+			if(GenieVersion >= genie::GV_SWGB)
 			{
 				Civs_Name[1]->container[sel] = &CivPointer->Name2;
 				for(short loop=0; loop < 4; loop++)
@@ -121,11 +121,11 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	Civs_Name[0]->ChangeValue(CivPointer->Name);
 	Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
 	Civs_ComboBox_TechTree->SetSelection(CivPointer->TechTreeID + 1);
-	if(GameVersion >= 2)
+	if(GenieVersion >= genie::GV_AoK)
 	{
 		Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
 		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
-		if(GameVersion >= 4)
+		if(GenieVersion >= genie::GV_SWGB)
 		{
 			Civs_Name[1]->ChangeValue(CivPointer->Name2);
 			for(short loop=0; loop < 4; loop++)
@@ -268,7 +268,7 @@ void AGE_Frame::OnCivCountChange()
 	}
 	for(short loop=0; loop < CivCount; loop++)
 	{
-		if(GameVersion < 4)
+		if(GenieVersion <= genie::GV_TC)
 		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
 		else
 		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name2.substr(0, 2));
@@ -285,33 +285,33 @@ string AGE_Frame::GetResourceName(short Index)
 	{
 		case 0: Name = "Food Storage"; break;
 		case 1:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Wood Storage";
 			else
 			Name = "Carbon Storage";
 			break;
 		case 2:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Stone Storage";
 			else
 			Name = "Ore Storage";
 			break;
 		case 3:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Gold Storage ";
 			else
 			Name = "Nova Storage ";
 			break;
 		case 4: Name = "Population Headroom"; break;
 		case 5:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Conversion Range?";
 			else
 			Name = "Conversion Range";
 			break;
 		case 6: Name = "Current Age"; break;
 		case 7:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Relics Captured";
 			else
 			Name = "Holocrons Captured";
@@ -319,7 +319,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 8: Name = "Trade Bonus"; break;
 		case 9: Name = "Trade Goods"; break;
 		case 10:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Trade Production";
 			else
 			Name = "Shields' Recharge Rate";
@@ -332,7 +332,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 16: Name = "Crops"; break;
 		case 17: Name = "Fish Storage"; break;
 		case 18:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Unknown";
 			else
 			Name = "Power Core Range";
@@ -342,26 +342,26 @@ string AGE_Frame::GetResourceName(short Index)
 		case 21: Name = "Research Count"; break;
 		case 22: Name = "% Map Explored"; break;
 		case 23:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Castle Age?";
 			else
 			Name = "Submarine Detection";
 			break;
 		case 24:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Imperial Age?";
 			else
 			Name = "Shield Generator Range";
 			break;
 		case 25: Name = "Feudal Age?"; break;
 		case 26:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Unknown";
 			else
 			Name = "Shields' Drop Off Time";
 			break;
 		case 27:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Enable Monk Conversion";
 			else
 			Name = "Enable Jedi Conversion";
@@ -369,31 +369,31 @@ string AGE_Frame::GetResourceName(short Index)
 		case 28: Name = "Enable Building Conversion"; break;
 		case 30: Name = "Building Limit"; break;
 		case 31:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Food Limit";
 			else
 			Name = "Enable A-A Attack For AT-AT";
 			break;
 		case 32:
-			if(GameVersion < 2)
+			if(GenieVersion <= genie::GV_RoR)
 			Name = "Unit Limit";
 			else
 			Name = "Bonus Population";
 			break;
 		case 33:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Maintenance";
 			else
 			Name = "Power Core Shielding";
 			break;
 		case 34:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Faith";
 			else
 			Name = "Force";
 			break;
 		case 35:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Faith Recharging Rate";
 			else
 			Name = "Force Recharging Rate";
@@ -401,7 +401,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 36: Name = "Farm Food Amount"; break;
 		case 37: Name = "Civilian Units (Villager High)"; break;
 		case 38:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Unknown";
 			else
 			Name = "Shields On For Bombers/Fighters";
@@ -415,7 +415,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 45: Name = "Survival to Finish"; break;
 		case 46: Name = "Tribute Fee"; break;
 		case 47:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Gold Mining Productivity";
 			else
 			Name = "Nova Mining Productivity";
@@ -424,7 +424,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 49: Name = "Gold Counter"; break;
 		case 50: Name = "Reveal Ally"; break;
 		case 51:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Houses (Unused)";
 			else
 			Name = "Shielding";
@@ -434,14 +434,14 @@ string AGE_Frame::GetResourceName(short Index)
 		case 54: Name = "All Ruins Have Been Captured"; break;
 		case 55: Name = "All Relics Have Been Captured"; break;
 		case 56:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Ore Storage? Unit Unload Room?";
 			else
 			Name = "Enable Stealth For Masters";
 			break;
 		case 57: Name = "Captured Unit"; break;
 		case 58:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Dark Age?";
 			else
 			Name = "Masters Can See Hidden Units";
@@ -467,7 +467,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 77: Name = "Conversion Resistance"; break;
 		case 78: Name = "Trade Fee"; break;
 		case 79:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Stone Mining Productivity";
 			else
 			Name = "Ore Mining Productivity";
@@ -480,14 +480,14 @@ string AGE_Frame::GetResourceName(short Index)
 		case 85: Name = "Researches' Cost Multiplier"; break;
 		case 86: Name = "Researches' Time Multiplier"; break;
 		case 87:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Convert Ships";
 			else
 			Name = "Concentration";
 			break;
 		case 88: Name = "Fish Trap Food Amount"; break;
 		case 89:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Bonus Healing Rate";
 			else
 			Name = "Medic Healing Rate";
@@ -495,19 +495,19 @@ string AGE_Frame::GetResourceName(short Index)
 		case 90: Name = "Healing Range"; break;
 		case 91: Name = "Bonus Starting Food"; break;
 		case 92:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Bonus Starting Wood";
 			else
 			Name = "Bonus Starting Carbon";
 			break;
 		case 93:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Bonus Starting Stone";
 			else
 			Name = "Bonus Starting Ore";
 			break;
 		case 94:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Bonus Starting Gold";
 			else
 			Name = "Bonus Starting Nova";
@@ -518,7 +518,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 98: Name = "Score: Economy (Object Cost Summation)"; break;
 		case 99: Name = "Score: Technology"; break;
 		case 100:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Relic Gold (Collected)";
 			else
 			Name = "Holocron Nova (Collected)";
@@ -590,19 +590,19 @@ string AGE_Frame::GetResourceName(short Index)
 		case 165: Name = "Current Buildings Score"; break;
 		case 166: Name = "Food Collected"; break;
 		case 167:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Wood Collected";
 			else
 			Name = "Carbon Collected";
 			break;
 		case 168:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Stone Collected";
 			else
 			Name = "Ore Collected";
 			break;
 		case 169:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Gold Collected";
 			else
 			Name = "Nova Collected";
@@ -611,13 +611,13 @@ string AGE_Frame::GetResourceName(short Index)
 		case 171: Name = "Tribute Received"; break;
 		case 172: Name = "Razing Score"; break;
 		case 173:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Total Castles";
 			else
 			Name = "Total Fortresses";
 			break;
 		case 174:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Total Wonders";
 			else
 			Name = "Total Monuments"; break;
@@ -633,39 +633,39 @@ string AGE_Frame::GetResourceName(short Index)
 		case 184: Name = "Score: Society"; break;
 		case 185: Name = "Food Score"; break;
 		case 186:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Wood Score";
 			else
 			Name = "Carbon Score";
 			break;
 		case 187:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Stone Score";
 			else
 			Name = "Ore Score";
 			break;
 		case 188:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Gold Score";
 			else
 			Name = "Nova Score";
 			break;
 		case 189:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Chopping Productivity";
 			else
 			Name = "Carbon Gathering Productivity";
 			break;
 		case 190: Name = "Food-gathering Productivity"; break;
 		case 191:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Relic Gold Production Rate";
 			else
 			Name = "Holocron Nova Production Rate";
 			break;
 		case 192: Name = "Units Converted By Enemy Die"; break;
 		case 193:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Theocracy";
 			else
 			Name = "Meditation";
@@ -673,7 +673,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 194: Name = "Crenellations"; break;
 		case 195: Name = "Construction Rate (Except Wonder)"; break;
 		case 196:
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Name = "Wonder Bonus";
 			else
 			Name = "Biological Self Regeneration";
@@ -1076,7 +1076,7 @@ void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 	{
 		for(auto ID: CivIDs)
 		{
-			if(GameVersion < 4)
+			if(GenieVersion <= genie::GV_TC)
 			Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name.substr(0, 2));
 			else
 			Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name2.substr(0, 2));
