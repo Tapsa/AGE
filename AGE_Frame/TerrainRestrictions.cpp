@@ -9,105 +9,102 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 		{
 			switch(Index)
 			{
-				case 30: return "Lava"; break;
-				case 31: return "Water2"; break;
-				case 32: return "Rock4"; break;
+				case 30: return "Lava";
+				case 31: return "Water2";
+				case 32: return "Rock4";
 			}
 		}
 		case genie::GV_SWGB:
 		{
 			switch(Index)
 			{
-				case 0: return "All"; break;
-				case 1: return "Land + unbuildable"; break;
-				case 2: return "Shore"; break;
-				case 3: return "Water"; break;
-				case 4: return "Land"; break;
-				case 5: return "Land + shore, impassable water"; break;
-				case 6: return "Water + ice2 - swamp"; break;
-				case 7: return "Land - water, lava"; break;
-				case 8: return "Land - water, lava, farm"; break;
-				case 9: return "Only water"; break;
-				case 10: return "Land - shore"; break;
-				case 11: return "Land - water, lava, farm"; break;
-				case 12: return "All - lava"; break;
-				case 13: return "Water"; break;
-				case 14: return "All - lava"; break;
-				case 15: return "Land + shore, impassable water"; break;
-				case 16: return "Grass + shore"; break;
-				case 17: return "Water - shore + impassable water"; break;
-				case 18: return "All - impassable water, lava"; break;
-				case 19: return "Land + shore, impassable water"; break;
-				case 20: return "Land + shore, impassable water"; break;
-				case 21: return "Water - deep water"; break;
-				case 22: return "All - impassable water, lava"; break;
-				case 23: return "No restriction"; break;
-				case 24: return "Only water"; break;
-				case 25: return "Land + shore, impassable water"; break;
-				case 26: return "Land + shore, impassable water"; break;
-				case 27: return "Deep water"; break;
-				case 28: return "Wasteland"; break;
-				case 29: return "Ice"; break;
+				case 0: return "All";
+				case 1: return "Land + unbuildable";
+				case 2: return "Shore";
+				case 3: return "Water";
+				case 4: return "Land";
+				case 5: return "Land + shore, impassable water";
+				case 6: return "Water + ice2 - swamp";
+				case 7: return "Land - water, lava";
+				case 8: return "Land - water, lava, farm";
+				case 9: return "Only water";
+				case 10: return "Land - shore";
+				case 11: return "Land - water, lava, farm";
+				case 12: return "All - lava";
+				case 13: return "Water";
+				case 14: return "All - lava";
+				case 15: return "Land + shore, impassable water";
+				case 16: return "Grass + shore";
+				case 17: return "Water - shore + impassable water";
+				case 18: return "All - impassable water, lava";
+				case 19: return "Land + shore, impassable water";
+				case 20: return "Land + shore, impassable water";
+				case 21: return "Water - deep water";
+				case 22: return "All - impassable water, lava";
+				case 23: return "No restriction";
+				case 24: return "Only water";
+				case 25: return "Land + shore, impassable water";
+				case 26: return "Land + shore, impassable water";
+				case 27: return "Deep water";
+				case 28: return "Wasteland";
+				case 29: return "Ice";
 				default: return "Restriction";
 			}
 		}
-		break;
 		case genie::GV_TC:
 		{
 			switch(Index)
 			{
-				case 20: return "All - water"; break;
-				case 21: return "Shallow water"; break;
+				case 20: return "All - water";
+				case 21: return "Shallow water";
 			}
 		}
 		case genie::GV_AoK:
 		{
 			switch(Index)
 			{
-				case 0: return "All"; break;
-				case 1: return "Land + shallows"; break;
-				case 2: return "Beach"; break;
-				case 3: return "Water"; break;
-				case 4: return "Land"; break;
-				case 5: return "Nothing"; break;
-				case 6: return "Water"; break;
-				case 7: return "All - water"; break;
-				case 8: return "Land - farm"; break;
-				case 9: return "Nothing"; break;
-				case 10: return "Land + beach"; break;
-				case 11: return "Land - farm"; break;
-				case 12: return "All - water bridge"; break;
-				case 13: return "Water"; break;
-				case 14: return "All - water bridge"; break;
-				case 15: return "Water"; break;
-				case 16: return "Grass + beach"; break;
-				case 17: return "Water (+bridge) - beach"; break;
-				case 18: return "All - water bridge"; break;
-				case 19: return "Only water + ice"; break;
+				case 0: return "All";
+				case 1: return "Land + shallows";
+				case 2: return "Beach";
+				case 3: return "Water";
+				case 4: return "Land";
+				case 5: return "Nothing";
+				case 6: return "Water";
+				case 7: return "All - water";
+				case 8: return "Land - farm";
+				case 9: return "Nothing";
+				case 10: return "Land + beach";
+				case 11: return "Land - farm";
+				case 12: return "All - water bridge";
+				case 13: return "Water";
+				case 14: return "All - water bridge";
+				case 15: return "Water";
+				case 16: return "Grass + beach";
+				case 17: return "Water (+bridge) - beach";
+				case 18: return "All - water bridge";
+				case 19: return "Only water + ice";
 				default: return "Restriction";
 			}
 		}
-		break;
 		case genie::GV_RoR:
 		case genie::GV_AoE:
 		{
 			switch(Index)
 			{
-				case 0: return "Land + water"; break;
-				case 1: return "Land"; break;
-				case 2: return "Beach"; break;
-				case 3: return "Water"; break;
-				case 4: return "Land"; break;
-				case 5: return "Nothing"; break;
-				case 6: return "Water + beach"; break;
-				case 7: return "Land + shallows"; break;
-				case 8: return "Plain"; break;
-				case 9: return "Land - dirt"; break;
-				case 10: return "Land + beach"; break;
+				case 0: return "Land + water";
+				case 1: return "Land";
+				case 2: return "Beach";
+				case 3: return "Water";
+				case 4: return "Land";
+				case 5: return "Nothing";
+				case 6: return "Water + beach";
+				case 7: return "Land + shallows";
+				case 8: return "Plain";
+				case 9: return "Land - dirt";
+				case 10: return "Land + beach";
 				default: return "Restriction";
 			}
 		}
-		break;
 		// Unknown game version
 		default: return "Restriction";
 	}
