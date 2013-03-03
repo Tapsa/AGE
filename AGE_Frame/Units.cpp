@@ -475,17 +475,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_TrackingUnit->resize(PointerCount);
 	Units_TrackingUnitUsed->resize(PointerCount);
 	Units_TrackingUnitDensity->resize(PointerCount);
+	Units_Unknown16->resize(PointerCount);
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		Units_Unknown12->resize(PointerCount);
-		for(short loop=0; loop < 17; loop++)
+		for(short loop=0; loop < Units_Unknown16B.size(); loop++)
 		{
-			Units_Unknown16[loop]->resize(PointerCount);
+			Units_Unknown16B[loop]->resize(PointerCount);
 		}
-	}
-	else
-	{
-		Units_Unknown16[0]->resize(PointerCount);
 	}
 	// Type 20/25
 	Units_Speed->resize(PointerCount);
@@ -755,17 +752,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					Units_TrackingUnit->container[location] = &UnitPointer->DeadFish.TrackingUnit;
 					Units_TrackingUnitUsed->container[location] = &UnitPointer->DeadFish.TrackingUnitUsed;
 					Units_TrackingUnitDensity->container[location] = &UnitPointer->DeadFish.TrackingUnitDensity;
+					Units_Unknown16->container[location] = &UnitPointer->DeadFish.Unknown16;
 					if(GenieVersion >= genie::GV_AoK)
 					{
 						Units_Unknown12->container[location] = &UnitPointer->DeadFish.Unknown12;
-						for(short loop=0; loop < 17; loop++)
+						for(short loop=0; loop < Units_Unknown16B.size(); loop++)
 						{
-							Units_Unknown16[loop]->container[location] = &UnitPointer->DeadFish.Unknown16[loop];
+							Units_Unknown16B[loop]->container[location] = &UnitPointer->DeadFish.Unknown16B[loop];
 						}
-					}
-					else
-					{
-						Units_Unknown16[0]->container[location] = &UnitPointer->DeadFish.Unknown16[0];
 					}
 				}
 				//case 25:
@@ -1178,8 +1172,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_TrackingUnitUsed->Enable(true);
 			Units_TrackingUnitDensity->Enable(true);
 			Units_Unknown12->Enable(true);
-			for(short loop=0; loop < 17; loop++)
-			Units_Unknown16[loop]->Enable(true);
+			Units_Unknown16->Enable(true);
+			for(short loop=0; loop < Units_Unknown16B.size(); loop++)
+			Units_Unknown16B[loop]->Enable(true);
 
 			Units_WalkingGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.WalkingGraphic.first));
 			Units_ComboBox_WalkingGraphic[0]->SetSelection(UnitPointer->DeadFish.WalkingGraphic.first + 1);
@@ -1191,17 +1186,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ComboBox_TrackingUnit->SetSelection(UnitPointer->DeadFish.TrackingUnit + 1);
 			Units_TrackingUnitUsed->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.TrackingUnitUsed));
 			Units_TrackingUnitDensity->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.TrackingUnitDensity));
+			Units_Unknown16->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16));
 			if(GenieVersion >= genie::GV_AoK)
 			{
 				Units_Unknown12->ChangeValue(lexical_cast<string>(UnitPointer->DeadFish.Unknown12));
-				for(short loop=0; loop < 17; loop++)
+				for(short loop=0; loop < Units_Unknown16B.size(); loop++)
 				{
-					Units_Unknown16[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16[loop]));
+					Units_Unknown16B[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16B[loop]));
 				}
-			}
-			else
-			{
-				Units_Unknown16[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->DeadFish.Unknown16[0]));
 			}
 		}
 		case 25:
@@ -1376,10 +1368,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_TrackingUnitDensity->ChangeValue("0");
 			Units_Unknown12->Enable(false);
 			Units_Unknown12->ChangeValue("0");
-			for(short loop=0; loop < 17; loop++)
+			Units_Unknown16->Enable(false);
+			Units_Unknown16->ChangeValue("0");
+			for(short loop=0; loop < Units_Unknown16B.size(); loop++)
 			{
-				Units_Unknown16[loop]->Enable(false);
-				Units_Unknown16[loop]->ChangeValue("0");
+				Units_Unknown16B[loop]->Enable(false);
+				Units_Unknown16B[loop]->ChangeValue("0");
 			}
 		}
 		case 30:
@@ -3608,7 +3602,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TrackingUnitDensity = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown12 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown16 = new wxBoxSizer(wxVERTICAL);
-	Units_Grid_Unknown16 = new wxGridSizer(10, 0, 0);
+	Units_Holder_Unknown16B = new wxBoxSizer(wxVERTICAL);
+	Units_Grid_Unknown16B = new wxGridSizer(4, 5, 5);
 
 //	Type 40+
 
@@ -3786,6 +3781,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_TrackingUnitDensity = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Density *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown12 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 12", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown16 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 16", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown16B = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 16B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 40+
 
@@ -4264,10 +4260,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
 	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller);
 
-	for(short loop=0; loop < 17; loop++)
-	Units_Unknown16[loop] = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown11 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown12 = new TextCtrl_Float(Units_Scroller);
+	Units_Unknown16 = new TextCtrl_Byte(Units_Scroller);
+	for(short loop=0; loop < Units_Unknown16B.size(); loop++)
+	Units_Unknown16B[loop] = new TextCtrl_Byte(Units_Scroller);
 
 	for(short loop=0; loop < 2; loop++)
 	{
@@ -4538,6 +4535,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TrackingUnitDensity->Add(Units_Text_TrackingUnitDensity, 0, wxEXPAND);
 	Units_Holder_Unknown12->Add(Units_Text_Unknown12, 0, wxEXPAND);
 	Units_Holder_Unknown16->Add(Units_Text_Unknown16, 0, wxEXPAND);
+	Units_Holder_Unknown16B->Add(Units_Text_Unknown16B, 0, wxEXPAND);
 
 //	Type 40+
 
@@ -4724,9 +4722,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TrackingUnitUsed->Add(Units_Holder_TrackingUnitUsedBox, 0, wxEXPAND);
 	Units_Holder_TrackingUnitDensity->Add(Units_TrackingUnitDensity, 0, wxEXPAND);
 	Units_Holder_Unknown12->Add(Units_Unknown12, 1, wxEXPAND);
-	for(short loop=0; loop < 17; loop++)
-	Units_Grid_Unknown16->Add(Units_Unknown16[loop], 1, wxEXPAND);
-	Units_Holder_Unknown16->Add(Units_Grid_Unknown16, 0, wxEXPAND);
+	Units_Holder_Unknown16->Add(Units_Unknown16, 0, wxEXPAND);
+	for(short loop=0; loop < Units_Unknown16B.size(); loop++)
+	Units_Grid_Unknown16B->Add(Units_Unknown16B[loop], 1, wxEXPAND);
+	Units_Holder_Unknown16B->Add(Units_Grid_Unknown16B, 0, wxEXPAND);
 
 //	Type 40+
 
@@ -5380,9 +5379,10 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Grid_Type30plusUnknownArea->Add(Units_Holder_Unknown11, 0, wxEXPAND);
 	Units_Grid_Type30plusUnknownArea->Add(Units_Holder_Unknown12, 0, wxEXPAND);
-	Units_Holder_Type30plusUnknownArea->Add(Units_Holder_Unknown16, 0, wxEXPAND);
-	Units_Holder_Type30plusUnknownArea->Add(-1, 5);
+	Units_Grid_Type30plusUnknownArea->Add(Units_Holder_Unknown16, 0, wxEXPAND);
 	Units_Holder_Type30plusUnknownArea->Add(Units_Grid_Type30plusUnknownArea, 0, wxEXPAND);
+	Units_Holder_Type30plusUnknownArea->Add(-1, 5);
+	Units_Holder_Type30plusUnknownArea->Add(Units_Holder_Unknown16B, 0, wxEXPAND);
 
 	Units_Holder_Type60plusUnknownArea->Add(Units_Holder_Unknown20, 2, wxEXPAND);
 	Units_Holder_Type60plusUnknownArea->Add(5, -1);
