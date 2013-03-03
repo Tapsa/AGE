@@ -127,10 +127,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	{
 		case 0: GenieVersion = genie::GV_AoE; break;
 		case 1: GenieVersion = genie::GV_RoR; break;
-		case 2: GenieVersion = genie::GV_AoK; break;
-		case 3: GenieVersion = genie::GV_TC; break;
-		case 4: GenieVersion = genie::GV_SWGB; break;
-		case 5: GenieVersion = genie::GV_CC; break;
+		case 2: GenieVersion = genie::GV_AoKA; break;
+		case 3: GenieVersion = genie::GV_AoK; break;
+		case 4: GenieVersion = genie::GV_TC; break;
+		case 5: GenieVersion = genie::GV_SWGB; break;
+		case 6: GenieVersion = genie::GV_CC; break;
 		default: GenieVersion = genie::GV_None;
 	}
 
@@ -250,11 +251,14 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(GenieFile != NULL)
 	{	// Without these, nothing can be edited.
+		wxMessageBox("Listing...");
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
 		//wxMessageBox("Started to open the file!");
 		//Units_Civs_List->SetSelection(0);
 
+		if(GenieVersion != genie::GV_AoKA)
+		{
 //		No research gaia fix.
 		for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
 			GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
@@ -309,9 +313,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
 			GenieFile->TerrainRestrictionPointers1[loop] = 1;
-			if(GenieVersion >= genie::GV_AoK)
+			if(GenieVersion >= genie::GV_AoKA)
 			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
 			GenieFile->TerrainRestrictionPointers2[loop] = 1;
+		}
 		}
 
 		Added = false;
@@ -843,7 +848,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Sounds_Items_SearchFilters[loop]->Append("Filename");	// 0
 			Sounds_Items_SearchFilters[loop]->Append("DRS");
 			Sounds_Items_SearchFilters[loop]->Append("Probability");
-			if(GenieVersion >= genie::GV_AoK)
+			if(GenieVersion >= genie::GV_AoKA)
 			{
 				Sounds_Items_SearchFilters[loop]->Append("Civilization");
 				Sounds_Items_SearchFilters[loop]->Append("Unknown");
@@ -853,7 +858,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Items.Add(0);
 		//wxMessageBox("Loaded!");
-		if(GenieVersion >= genie::GV_AoK)
+		/*if(GenieVersion >= genie::GV_AoKA)
 		{
 			ListTTAgess();
 			ListTTBuildings();
@@ -877,7 +882,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			TechTrees_DataList_Researches_List_Units->Clear();
 			TechTrees_DataList_Researches_List_Researches->Clear();
 		}
-		OnCivCountChange();
+		/*OnCivCountChange();
 		ListCivs();
 		ListUnits(0);
 		if(GenieVersion >= genie::GV_SWGB)
@@ -888,7 +893,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			UnitLines_UnitLines_List->Clear();
 			UnitLines_UnitLineUnits_List->Clear();
-		}
+		}*/
 		ListResearches();
 		ListTechs();
 		ListGraphics();
@@ -899,7 +904,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		ListPlayerColors();
 		ListTerrainBorders();
 		ListGeneral();
-		ListUnknowns();
+		//ListUnknowns();
 
 		Effects_ComboBox_AttributesC->Clear();
 		Effects_ComboBox_AttributesC->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1107,22 +1112,11 @@ void AGE_Frame::OnGameVersionChange()
 
 		// AoK ->
 		show = (GenieVersion >= genie::GV_AoK) ? true : false;
-		for(short loop = 4;loop < 6; loop++)
-		{
-			Research_RequiredTechs[loop]->Show(show);
-			Research_ComboBox_RequiredTechs[loop]->Show(show);
-		}
 		Research_Holder_Civ->Show(show);
 		Research_Holder_FullTechMode->Show(show);
 		Civs_Holder_TeamBonus->Show(show);
 		Terrains_Holder_BlendPriority->Show(show);
 		Terrains_Holder_BlendType->Show(show);
-		TerRestrict_Holder_Unknown1->Show(show);
-		TerRestrict_Holder_Graphics->Show(show);
-		TerRestrict_Holder_Amount->Show(show);
-		SoundItems_Holder_Civ->Show(show);
-		Colors_Holder_Palette->Show(show);
-		Colors_Holder_MinimapColor->Show(show);
 		Units_StandingGraphic[1]->Show(show);
 		Units_ComboBox_StandingGraphic[1]->Show(show);
 		Units_TrainSound[1]->Show(show);
@@ -1141,15 +1135,11 @@ void AGE_Frame::OnGameVersionChange()
 		Units_Holder_AnnexUnit1->Show(show);
 		Units_Holder_AnnexUnitMisplacement1->Show(show);
 		Units_Holder_HeadUnit->Show(show);
-		Units_Holder_HeadUnit->Show(show);
 		Units_Holder_TransformUnit->Show(show);
 		Units_Holder_GarrisonType->Show(show);
 		Units_Holder_GarrisonHealRate->Show(show);
-		TechTrees_Main->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			SoundItems_Holder_Unknown->Show(show);
-			Colors_Holder_UnknownArea->Show(show);
 			Units_Holder_Unknown7->Show(show);
 			Units_Holder_Unknown8->Show(show);
 			Units_Holder_Unknown12->Show(show);
@@ -1168,6 +1158,26 @@ void AGE_Frame::OnGameVersionChange()
 			General_AfterBorders[loop]->Show(show);
 			for(short loop=6; loop < 162; loop++)
 			General_Something[loop]->Show(show);
+		}
+
+		// AoK Alfa  ->
+		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
+		for(short loop = 4;loop < 6; loop++)
+		{
+			Research_RequiredTechs[loop]->Show(show);
+			Research_ComboBox_RequiredTechs[loop]->Show(show);
+		}
+		TerRestrict_Holder_Unknown1->Show(show);
+		TerRestrict_Holder_Graphics->Show(show);
+		TerRestrict_Holder_Amount->Show(show);
+		SoundItems_Holder_Civ->Show(show);
+		Colors_Holder_Palette->Show(show);
+		Colors_Holder_MinimapColor->Show(show);
+		TechTrees_Main->Show(show);
+		if(!show || ShowUnknowns)
+		{
+			SoundItems_Holder_Unknown->Show(show);
+			Colors_Holder_UnknownArea->Show(show);
 		}
 
 		// AoE & RoR

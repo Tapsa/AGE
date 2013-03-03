@@ -30,11 +30,12 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
 	CheckBox_GenieVer = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	CheckBox_GenieVer->Append("Age of Empires");
 	CheckBox_GenieVer->Append("Rise of Rome");
+	CheckBox_GenieVer->Append("Age of Kings Alpha 09.07.0222");
 	CheckBox_GenieVer->Append("Age of Kings");
 	CheckBox_GenieVer->Append("The Conquerors");
 	CheckBox_GenieVer->Append("Star Wars Galactic Battlegrounds");
 	CheckBox_GenieVer->Append("Clone Campaigns");
-	CheckBox_GenieVer->SetSelection(3);
+	CheckBox_GenieVer->SetSelection(4);
 
 	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
 	WindowCountText = new wxStaticText(this, wxID_ANY, "      Windows (files) to open: * ");
@@ -250,7 +251,7 @@ void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Microsoft Games\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(2);
+	CheckBox_GenieVer->SetSelection(3);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires II\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
@@ -286,7 +287,7 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Microsoft Games\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(3);
+	CheckBox_GenieVer->SetSelection(4);
 	Path_DatFileLocation->SetPath(wxString(Path + "Age of Empires II\\data\\Empires2_x1_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Age of Empires II\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Age of Empires II\\language_x1.dll"));
@@ -321,7 +322,7 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(4);
+	CheckBox_GenieVer->SetSelection(5);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\GENIE.DAT"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
@@ -357,7 +358,7 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(5);
+	CheckBox_GenieVer->SetSelection(6);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
