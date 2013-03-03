@@ -1164,8 +1164,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unknown7->Show(show);
 			Units_Holder_Unknown8->Show(show);
 			Units_Holder_Unknown12->Show(show);
-			for(short loop=1; loop < 17; loop++)
-			Units_Unknown16[loop]->Show(show);
+			Units_Holder_Unknown16B->Show(show);
 			Units_Holder_Unknown26->Show(show);
 			Units_Holder_Unknown27->Show(show);
 			Units_Holder_Unknown28->Show(show);
