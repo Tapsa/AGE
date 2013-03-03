@@ -80,7 +80,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_AfterBorders[0]->ChangeValue(lexical_cast<string>(GenieFile->ZeroSpace[0]));
 	General_AfterBorders[0]->resize(1);
 	General_AfterBorders[0]->container[0] = &GenieFile->ZeroSpace[0];
-	for(short loop=0; loop < General_TerrainRendering.size(); loop++)
+	/*for(short loop=0; loop < General_TerrainRendering.size(); loop++)
 	{
 		General_TerrainRendering[loop]->ChangeValue(lexical_cast<string>(GenieFile->Rendering[loop]));
 		General_TerrainRendering[loop]->resize(1);
@@ -91,7 +91,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop]));
 		General_Something[loop]->resize(1);
 		General_Something[loop]->container[0] = &GenieFile->Something[loop];
-	}
+	}*/
 	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->Unknown.Pointer));
 	Unknown_UnknownPointer->resize(1);
 	Unknown_UnknownPointer->container[0] = &GenieFile->Unknown.Pointer;
@@ -102,13 +102,13 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_AfterBorders[loop]->resize(1);
 		General_AfterBorders[loop]->container[0] = &GenieFile->ZeroSpace[loop];
 	}
-	for(short loop=6; loop < 162; loop++)
+	/*for(short loop=6; loop < 162; loop++)
 	{
 		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop]));
 		General_Something[loop]->resize(1);
 		General_Something[loop]->container[0] = &GenieFile->Something[loop];
-	}
-	for(long loop = 0;loop < General_TTUnknown.size(); loop++)
+	}*/
+	/*for(long loop = 0;loop < General_TTUnknown.size(); loop++)
 	{
 		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
 		General_TTUnknown[loop]->resize(1);
@@ -116,11 +116,11 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	}
 	General_TTUnknown[7]->ChangeValue(lexical_cast<string>(GenieFile->TechTree.Unknown2));
 	General_TTUnknown[7]->resize(1);
-	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
+	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;*/
 	if(GenieVersion <= genie::GV_TC) return;
-	General_Something[162]->ChangeValue(lexical_cast<string>(GenieFile->Something[162]));
+	/*General_Something[162]->ChangeValue(lexical_cast<string>(GenieFile->Something[162]));
 	General_Something[162]->resize(1);
-	General_Something[162]->container[0] = &GenieFile->Something[162];
+	General_Something[162]->container[0] = &GenieFile->Something[162];*/
 	General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
 	General_SUnknown2->resize(1);
 	General_SUnknown2->container[0] = &GenieFile->SUnknown2;
@@ -1145,7 +1145,7 @@ void AGE_Frame::CreateUnknownControls()
 		RMSUnit_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
 	}
 	RMSUnit_Text_Unknown1[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Host Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	RMSUnit_Text_Unknown1[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	RMSUnit_Text_Unknown1[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Objects per Group", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	RMSUnit_Text_Unknown1[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
