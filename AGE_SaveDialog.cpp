@@ -1,6 +1,6 @@
 #include "AGE_SaveDialog.h"
 
-AGE_SaveDialog::AGE_SaveDialog(wxWindow * parent)
+AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 : wxDialog(parent, -1, "Save files...", wxDefaultPosition, wxSize(500, 250), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxNO_DEFAULT)
 {
 	SaveArea = new wxBoxSizer(wxVERTICAL);

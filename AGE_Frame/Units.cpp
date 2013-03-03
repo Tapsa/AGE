@@ -14,6 +14,7 @@ void AGE_Frame::OnUnitSubList(wxCommandEvent &Event)
 string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 {
 	string Name = "";
+
 	if(GenieFile->Civs[civ].UnitPointers[Index] == 0)
 	{
 		return "*Disabled*";
@@ -394,10 +395,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_GarrisonHealRate->resize(PointerCount);
 		Units_Unknown35->resize(PointerCount);
 		Units_Unknown36->resize(PointerCount);
-		for(short loop=0; loop < 6; loop++)
-		{
-			Units_Unknown37[loop]->resize(PointerCount);
-		}
+		Units_Unknown37->resize(PointerCount);
+		Units_Unknown38->resize(PointerCount);
+		Units_Unknown39->resize(PointerCount);
+		Units_Unknown40->resize(PointerCount);
 	}
 	Units_ConstructionSound->resize(PointerCount);
 	// Type 70
@@ -413,11 +414,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		Units_Unknown26->resize(PointerCount);
-		for(short loop=0; loop < 3; loop++)
-		{
-			Units_Unknown27[loop]->resize(PointerCount);
-		}
-		Units_Unknown28->resize(PointerCount);
+		Units_Unknown27->resize(PointerCount);
 		Units_MissileGraphicDelay->resize(PointerCount);
 		Units_HeroMode->resize(PointerCount);
 		Units_AttackMissileDuplicationAmount1->resize(PointerCount);
@@ -533,10 +530,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		{
 			Units_Attribute->resize(PointerCount);
 			Units_Civ->resize(PointerCount);
-			for(short loop=0; loop < 2; loop++)
-			{
-				Units_Unknown9[loop]->resize(PointerCount);
-			}
+			Units_Unknown9->resize(PointerCount);
 			if(GenieVersion >= genie::GV_SWGB)
 			{
 				Units_Name2->resize(PointerCount);
@@ -651,10 +645,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 						Units_GarrisonHealRate->container[location] = &UnitPointer->Building.GarrisonHealRate;
 						Units_Unknown35->container[location] = &UnitPointer->Building.Unknown35;
 						Units_Unknown36->container[location] = &UnitPointer->Building.Unknown36;
-						for(short loop=0; loop < 6; loop++)
-						{
-							Units_Unknown37[loop]->container[location] = &UnitPointer->Building.Unknown37[loop];
-						}
+						Units_Unknown37->container[location] = &UnitPointer->Building.Unknown37;
+						Units_Unknown38->container[location] = &UnitPointer->Building.Unknown38;
+						Units_Unknown39->container[location] = &UnitPointer->Building.Unknown39;
+						Units_Unknown40->container[location] = &UnitPointer->Building.Unknown40;
 					}
 					Units_ConstructionSound->container[location] = &UnitPointer->Building.ConstructionSound;
 				}
@@ -672,11 +666,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					if(GenieVersion >= genie::GV_AoK)
 					{
 						Units_Unknown26->container[location] = &UnitPointer->Creatable.Unknown26;
-						for(short loop=0; loop < 3; loop++)
-						{
-							Units_Unknown27[loop]->container[location] = &UnitPointer->Creatable.Unknown27[loop];
-						}
-						Units_Unknown28->container[location] = &UnitPointer->Creatable.Unknown28;
+						Units_Unknown27->container[location] = &UnitPointer->Creatable.Unknown27;
 						Units_MissileGraphicDelay->container[location] = &UnitPointer->Creatable.MissileGraphicDelay;
 						Units_HeroMode->container[location] = &UnitPointer->Creatable.HeroMode;
 						if(CopyGraphics || vecCiv == 0)
@@ -823,10 +813,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				{
 					Units_Attribute->container[location] = &UnitPointer->Attribute;
 					Units_Civ->container[location] = &UnitPointer->Civilization;
-					for(short loop=0; loop < 2; loop++)
-					{
-						Units_Unknown9[loop]->container[location] = &UnitPointer->Unknown9[loop];
-					}
+					Units_Unknown9->container[location] = &UnitPointer->Unknown9;
 					if(GenieVersion >= genie::GV_SWGB)
 					{
 						Units_Name2->container[location] = &UnitPointer->Name2;
@@ -931,8 +918,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_GarrisonHealRate->Enable(true);
 			Units_Unknown35->Enable(true);
 			Units_Unknown36->Enable(true);
-			for(short loop=0; loop < 6; loop++)
-			Units_Unknown37[loop]->Enable(true);
+			Units_Unknown37->Enable(true);
+			Units_Unknown38->Enable(true);
+			Units_Unknown39->Enable(true);
+			Units_Unknown40->Enable(true);
 
 			Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionGraphicID));
 			Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building.ConstructionGraphicID + 1);
@@ -973,10 +962,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_GarrisonHealRate->ChangeValue(lexical_cast<string>(UnitPointer->Building.GarrisonHealRate));
 				Units_Unknown35->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown35));
 				Units_Unknown36->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown36));
-				for(short loop=0; loop < 6; loop++)
-				{
-					Units_Unknown37[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown37[loop]));
-				}
+				Units_Unknown37->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown37));
+				Units_Unknown38->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown38));
+				Units_Unknown39->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown39));
+				Units_Unknown40->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown40));
 			}
 			Units_ConstructionSound->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionSound));
 			Units_ComboBox_ConstructionSound->SetSelection(UnitPointer->Building.ConstructionSound + 1);
@@ -995,7 +984,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_CostAmount[loop]->Enable(true);
 				Units_CostUsed[loop]->Enable(true);
 				Units_CheckBox_CostUsed[loop]->Enable(true);
-				Units_Unknown27[loop]->Enable(true);
 				Units_AttackMissileDuplicationSpawning[loop]->Enable(true);
 			}
 			Units_TrainTime->Enable(true);
@@ -1003,7 +991,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ComboBox_TrainLocationID->Enable(true);
 			Units_ButtonID->Enable(true);
 			Units_Unknown26->Enable(true);
-			Units_Unknown28->Enable(true);
+			Units_Unknown27->Enable(true);
 			Units_MissileGraphicDelay->Enable(true);
 			Units_HeroMode->Enable(true);
 			Units_CheckBox_HeroMode->Enable(true);
@@ -1030,12 +1018,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ButtonID->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.ButtonID));
 			if(GenieVersion >= genie::GV_AoK)
 			{
-				Units_Unknown26->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown26));
-				for(short loop=0; loop < 3; loop++)
-				{
-					Units_Unknown27[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.Unknown27[loop]));
-				}
-				Units_Unknown28->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.Unknown28));
+				Units_Unknown26->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.Unknown26));
+				Units_Unknown27->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.Unknown27));
 				Units_MissileGraphicDelay->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.MissileGraphicDelay));
 				Units_HeroMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.HeroMode));
 				Units_CheckBox_HeroMode->SetValue((bool)UnitPointer->Creatable.HeroMode);
@@ -1281,10 +1265,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
 			Units_Civ->ChangeValue(lexical_cast<string>((short)UnitPointer->Civilization));
 			Units_ComboBox_Civ->SetSelection(UnitPointer->Civilization + 1);
-			for(short loop=0; loop < 2; loop++)
-			{
-				Units_Unknown9[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown9[loop]));
-			}
+			Units_Unknown9->ChangeValue(lexical_cast<string>(UnitPointer->Unknown9));
 			if(GenieVersion >= genie::GV_SWGB)
 			{
 				Units_Name2->ChangeValue(lexical_cast<string>(UnitPointer->Name2));
@@ -1487,8 +1468,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_CostUsed[loop]->ChangeValue("0");
 				Units_CheckBox_CostUsed[loop]->Enable(false);
 				Units_CheckBox_CostUsed[loop]->SetValue(false);
-				Units_Unknown27[loop]->Enable(false);
-				Units_Unknown27[loop]->ChangeValue("0");
 				Units_AttackMissileDuplicationSpawning[loop]->Enable(false);
 				Units_AttackMissileDuplicationSpawning[loop]->ChangeValue("0");
 			}
@@ -1502,8 +1481,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ButtonID->ChangeValue("0");
 			Units_Unknown26->Enable(false);
 			Units_Unknown26->ChangeValue("0");
-			Units_Unknown28->Enable(false);
-			Units_Unknown28->ChangeValue("0");
+			Units_Unknown27->Enable(false);
+			Units_Unknown27->ChangeValue("0");
 			Units_MissileGraphicDelay->Enable(false);
 			Units_MissileGraphicDelay->ChangeValue("0");
 			Units_HeroMode->Enable(false);
@@ -1599,11 +1578,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_Unknown35->ChangeValue("0");
 			Units_Unknown36->Enable(false);
 			Units_Unknown36->ChangeValue("0");
-			for(short loop=0; loop < 6; loop++)
-			{
-				Units_Unknown37[loop]->Enable(false);
-				Units_Unknown37[loop]->ChangeValue("0");
-			}
+			Units_Unknown37->Enable(false);
+			Units_Unknown37->ChangeValue("0");
+			Units_Unknown38->Enable(false);
+			Units_Unknown38->ChangeValue("0");
+			Units_Unknown39->Enable(false);
+			Units_Unknown39->ChangeValue("0");
+			Units_Unknown40->Enable(false);
+			Units_Unknown40->ChangeValue("0");
 		}
 	}
 
@@ -3492,15 +3474,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_MiscArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Miscellaneous");
 	Units_Grid_HPBars = new wxGridSizer(4, 5, 5);
 	Units_Holder_UnknownArea = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Type10plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 10+ Unknowns");
-	Units_Holder_Type10plusUnknowns1 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Type10plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 10+ Unknowns (All Units)");
 	Units_Grid_Type10plusUnknowns = new wxGridSizer(4, 5, 5);
-	Units_Holder_Type30plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 30+ Unknowns");
+	Units_Holder_Type30plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 30+ Unknowns (Dead Fish)");
 	Units_Grid_Type30plusUnknownArea = new wxGridSizer(4, 5, 5);
-	Units_Holder_Type60plusUnknownArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Type 60+ Unknowns");
-	Units_Holder_Type70plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 70+ Unknowns");
+	Units_Holder_Type60plusUnknownArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Type 60+ Unknowns (Projectile)");
+	Units_Holder_Type70plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 70+ Unknowns (Creatable)");
 	Units_Grid_Type70plusUnknownArea = new wxGridSizer(4, 5, 5);
-	Units_Holder_Type80plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 80+ Unknowns");
+	Units_Holder_Type80plusUnknownArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 80+ Unknowns (Building)");
 	Units_Grid_Type80plusUnknownArea = new wxGridSizer(4, 5, 5);
 	Units_Holder_CommandsArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Commands");
 
@@ -3567,7 +3548,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Attribute = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Civ = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown9 = new wxBoxSizer(wxVERTICAL);
-	Units_Grid_Unknown9 = new wxGridSizer(3, 0, 0);
 	Units_Holder_SelectionEffect = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_EditorSelectionColour = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SelectionRadius = new wxBoxSizer(wxVERTICAL);
@@ -3660,8 +3640,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TrainLocationID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_ButtonID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown26 = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown27 = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown28 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown27 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MissileGraphicDelay = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_HeroMode = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_GarrisonGraphic = new wxBoxSizer(wxVERTICAL);
@@ -3697,11 +3676,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Unknown34 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_ConstructionSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_GarrisonType = new wxBoxSizer(wxVERTICAL);
-//	Units_Holder_GarrisonType1 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_GarrisonHealRate = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown35 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown36 = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown37 = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_Unknown37 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown38 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown39 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown40 = new wxBoxSizer(wxVERTICAL);
 
 //	Data Container Names
 //	Type 10+
@@ -3831,8 +3812,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_TrainLocationID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Location", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ButtonID = new wxStaticText(Units_Scroller, wxID_ANY, " Train Button *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown26 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 26 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown27 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 27 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown28 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 28 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown27 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 27 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MissileGraphicDelay = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Graphic Delay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonGraphic = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackMissileDuplicationAmount1 = new wxStaticText(Units_Scroller, wxID_ANY, " Min Dupl. Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3862,9 +3842,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_ConstructionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonType = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonHealRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 35 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown36 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 36 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown37 = new wxStaticText(Units_Scroller, wxID_ANY, "Unknown 37 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 35", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown36 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 36", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown37 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 37", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown38 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 38", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown39 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 39", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown40 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 40", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Data Containers
 
@@ -4248,10 +4231,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_HPBarHeight2 = new TextCtrl_Float(Units_Scroller);
 	Units_HPBarHeight2->SetToolTip("Vertical distance from ground");
 
-	for(short loop=0; loop < 2; loop++)
-	{
-		Units_Unknown9[loop] = new TextCtrl_Byte(Units_Scroller);
-	}
 	Units_Unknown1 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown3 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown3B = new TextCtrl_Short(Units_Scroller);
@@ -4259,6 +4238,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
 	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown9 = new TextCtrl_Short(Units_Scroller);
 
 	Units_Unknown11 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown12 = new TextCtrl_Float(Units_Scroller);
@@ -4274,17 +4254,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown21 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown21->SetToolTip("-1 Unit\n4 Building\n6 Dock\n10 Wall");
 
-	for(short loop=0; loop < 3; loop++)
-	{
-		Units_Unknown27[loop] = new TextCtrl_Short(Units_Scroller);
-	}
-	Units_Unknown26 = new TextCtrl_Byte(Units_Scroller);
-	Units_Unknown28 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown26 = new TextCtrl_Long(Units_Scroller);
+	Units_Unknown27 = new TextCtrl_Long(Units_Scroller);
 	Units_Unknown29 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown29->SetToolTip("0 Default\n3 Unit must walk to enemy when ordered to attack it");
 
-	for(short loop=0; loop < 6; loop++)
-	Units_Unknown37[loop] = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown31 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown31->SetToolTip("0 Default\n1+ Black icon");
 	Units_Unknown31b = new TextCtrl_Byte(Units_Scroller);
@@ -4295,6 +4269,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown34 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown35 = new TextCtrl_Long(Units_Scroller);
 	Units_Unknown36 = new TextCtrl_Short(Units_Scroller);
+	Units_Unknown37 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown38 = new TextCtrl_Short(Units_Scroller);
+	Units_Unknown39 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown40 = new TextCtrl_Short(Units_Scroller);
 
 	Units_CommandHolder_Lists = new wxBoxSizer(wxVERTICAL);
 	Units_UnitHeads_Name = new wxStaticText(Units_Scroller, wxID_ANY, "Unit Header", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4585,7 +4563,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ButtonID->Add(Units_Text_ButtonID, 0, wxEXPAND);
 	Units_Holder_Unknown26->Add(Units_Text_Unknown26, 0, wxEXPAND);
 	Units_Holder_Unknown27->Add(Units_Text_Unknown27, 0, wxEXPAND);
-	Units_Holder_Unknown28->Add(Units_Text_Unknown28, 0, wxEXPAND);
 	Units_Holder_MissileGraphicDelay->Add(Units_Text_MissileGraphicDelay, 0, wxEXPAND);
 	Units_Holder_AttackMissileDuplicationAmount1->Add(Units_Text_AttackMissileDuplicationAmount1, 0, wxEXPAND);
 	Units_Holder_AttackMissileDuplicationAmount2->Add(Units_Text_AttackMissileDuplicationAmount2, 0, wxEXPAND);
@@ -4614,6 +4591,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Unknown35->Add(Units_Text_Unknown35, 0, wxEXPAND);
 	Units_Holder_Unknown36->Add(Units_Text_Unknown36, 0, wxEXPAND);
 	Units_Holder_Unknown37->Add(Units_Text_Unknown37, 0, wxEXPAND);
+	Units_Holder_Unknown38->Add(Units_Text_Unknown38, 0, wxEXPAND);
+	Units_Holder_Unknown39->Add(Units_Text_Unknown39, 0, wxEXPAND);
+	Units_Holder_Unknown40->Add(Units_Text_Unknown40, 0, wxEXPAND);
 
 //	Type 10+
 
@@ -4685,9 +4665,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Attribute->Add(Units_Attribute, 1, wxEXPAND);
 	Units_Holder_Civ->Add(Units_Civ, 1, wxEXPAND);
 	Units_Holder_Civ->Add(Units_ComboBox_Civ, 1, wxEXPAND);
-	for(short loop=0; loop < 2; loop++)
-	Units_Grid_Unknown9->Add(Units_Unknown9[loop], 1, wxEXPAND);
-	Units_Holder_Unknown9->Add(Units_Grid_Unknown9, 0, wxEXPAND);
+	Units_Holder_Unknown9->Add(Units_Unknown9, 0, wxEXPAND);
 	Units_Holder_SelectionEffect->Add(Units_SelectionEffect, 0, wxEXPAND);
 	Units_Holder_EditorSelectionColour->Add(Units_EditorSelectionColour, 0, wxEXPAND);
 	for(short loop=0; loop < 2; loop++)
@@ -4814,9 +4792,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_TrainLocationID->Add(Units_ComboBox_TrainLocationID, 1, wxEXPAND);
 	Units_Holder_ButtonID->Add(Units_ButtonID, 0, wxEXPAND);
 	Units_Holder_Unknown26->Add(Units_Unknown26, 1, wxEXPAND);
-	for(short loop=0; loop < 3; loop++)
-	Units_Holder_Unknown27->Add(Units_Unknown27[loop], 1, wxEXPAND);
-	Units_Holder_Unknown28->Add(Units_Unknown28, 1, wxEXPAND);
+	Units_Holder_Unknown27->Add(Units_Unknown27, 1, wxEXPAND);
 	Units_Holder_MissileGraphicDelay->Add(Units_MissileGraphicDelay, 1, wxEXPAND);
 	Units_Holder_HeroMode->Add(Units_HeroMode, 1, wxEXPAND);
 	Units_Holder_HeroMode->Add(2, -1);
@@ -4871,8 +4847,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_GarrisonHealRate->Add(Units_GarrisonHealRate, 0, wxEXPAND);
 	Units_Holder_Unknown35->Add(Units_Unknown35, 1, wxEXPAND);
 	Units_Holder_Unknown36->Add(Units_Unknown36, 1, wxEXPAND);
-	for(short loop=0; loop < 6; loop++)
-	Units_Holder_Unknown37->Add(Units_Unknown37[loop], 1, wxEXPAND);
+	Units_Holder_Unknown37->Add(Units_Unknown37, 1, wxEXPAND);
+	Units_Holder_Unknown38->Add(Units_Unknown38, 1, wxEXPAND);
+	Units_Holder_Unknown39->Add(Units_Unknown39, 1, wxEXPAND);
+	Units_Holder_Unknown40->Add(Units_Unknown40, 1, wxEXPAND);
 
 	for(short loop=0; loop < 3; loop++)
 	Units_Grid_ResourceStorage->Add(ResourceStorage_Type[loop], 1, wxEXPAND);
@@ -5364,17 +5342,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_HPBars->Add(Units_Holder_HPBarHeight2, 1, wxEXPAND);
 	Units_Holder_MiscArea->Add(Units_Grid_HPBars, 1, wxEXPAND);
 
-	Units_Holder_Type10plusUnknowns1->Add(Units_Holder_Unknown9, 2, wxEXPAND);
-	Units_Holder_Type10plusUnknowns1->AddStretchSpacer(2);
-
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown1, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3B, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown6, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown7, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown8, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(Units_Holder_Type10plusUnknowns1, 0, wxEXPAND);
-	Units_Holder_Type10plusUnknownArea->Add(-1, 5);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown9, 0, wxEXPAND);
 	Units_Holder_Type10plusUnknownArea->Add(Units_Grid_Type10plusUnknowns, 0, wxEXPAND);
 
 	Units_Grid_Type30plusUnknownArea->Add(Units_Holder_Unknown11, 0, wxEXPAND);
@@ -5390,10 +5364,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Type60plusUnknownArea->AddStretchSpacer(1);
 
 	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown26, 0, wxEXPAND);
-	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown28, 0, wxEXPAND);
+	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown27, 0, wxEXPAND);
 	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown29, 0, wxEXPAND);
-	Units_Holder_Type70plusUnknownArea->Add(Units_Holder_Unknown27, 0, wxEXPAND);
-	Units_Holder_Type70plusUnknownArea->Add(-1, 5);
 	Units_Holder_Type70plusUnknownArea->Add(Units_Grid_Type70plusUnknownArea, 0, wxEXPAND);
 
 	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown31, 0, wxEXPAND);
@@ -5403,8 +5375,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown34, 0, wxEXPAND);
 	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown35, 0, wxEXPAND);
 	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown36, 0, wxEXPAND);
-	Units_Holder_Type80plusUnknownArea->Add(Units_Holder_Unknown37, 0, wxEXPAND);
-	Units_Holder_Type80plusUnknownArea->Add(-1, 5);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown37, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown38, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown39, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown40, 0, wxEXPAND);
 	Units_Holder_Type80plusUnknownArea->Add(Units_Grid_Type80plusUnknownArea, 0, wxEXPAND);
 
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Add, 1, wxEXPAND);

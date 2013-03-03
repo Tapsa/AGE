@@ -1,6 +1,6 @@
 #include "AGE_OpenDialog.h"
 
-AGE_OpenDialog::AGE_OpenDialog(wxWindow * parent, bool MustHaveDat)
+AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 : wxDialog(parent, -1, "Open files...", wxDefaultPosition, wxSize(500, 250), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxNO_DEFAULT)
 {
 	OpenArea = new wxBoxSizer(wxVERTICAL);

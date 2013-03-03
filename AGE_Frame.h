@@ -1492,7 +1492,7 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Byte *Units_Attribute;
 	TextCtrl_Byte *Units_Civ;
 	ComboBox_Plus1 *Units_ComboBox_Civ;
-	TextCtrl_Byte *Units_Unknown9[2];
+	TextCtrl_Short *Units_Unknown9;
 	TextCtrl_Byte *Units_SelectionEffect;
 	TextCtrl_Byte *Units_EditorSelectionColour;
 	wxBoxSizer *Units_SelectionRadiusBox;
@@ -1595,9 +1595,8 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Short *Units_TrainLocationID;
 	ComboBox_Plus1 *Units_ComboBox_TrainLocationID;
 	TextCtrl_Byte *Units_ButtonID;
-	TextCtrl_Byte *Units_Unknown26;
-	TextCtrl_Short *Units_Unknown27[3];
-	TextCtrl_Byte *Units_Unknown28;
+	TextCtrl_Long *Units_Unknown26;
+	TextCtrl_Long *Units_Unknown27;
 	TextCtrl_Byte *Units_MissileGraphicDelay;
 	TextCtrl_Byte *Units_HeroMode;
 	CheckBox_2State *Units_CheckBox_HeroMode;
@@ -1647,7 +1646,10 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Float *Units_GarrisonHealRate;
 	TextCtrl_Long *Units_Unknown35;
 	TextCtrl_Short *Units_Unknown36;
-	TextCtrl_Byte *Units_Unknown37[6];
+	TextCtrl_Byte *Units_Unknown37;
+	TextCtrl_Short *Units_Unknown38;
+	TextCtrl_Byte *Units_Unknown39;
+	TextCtrl_Short *Units_Unknown40;
 
 //	Data Container Names
 //	Type 10+
@@ -1778,7 +1780,6 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_ButtonID;
 	wxStaticText *Units_Text_Unknown26;
 	wxStaticText *Units_Text_Unknown27;
-	wxStaticText *Units_Text_Unknown28;
 	wxStaticText *Units_Text_MissileGraphicDelay;
 	wxStaticText *Units_Text_GarrisonGraphic;
 	wxStaticText *Units_Text_AttackMissileDuplicationAmount1;
@@ -1811,6 +1812,9 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_Unknown35;
 	wxStaticText *Units_Text_Unknown36;
 	wxStaticText *Units_Text_Unknown37;
+	wxStaticText *Units_Text_Unknown38;
+	wxStaticText *Units_Text_Unknown39;
+	wxStaticText *Units_Text_Unknown40;
 
 //	Invisible Holder Windows
 //	Type 10+
@@ -1875,7 +1879,6 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_Attribute;
 	wxBoxSizer *Units_Holder_Civ;
 	wxBoxSizer *Units_Holder_Unknown9;
-	wxGridSizer *Units_Grid_Unknown9;
 	wxBoxSizer *Units_Holder_SelectionEffect;
 	wxBoxSizer *Units_Holder_EditorSelectionColour;
 	wxBoxSizer *Units_Holder_SelectionRadius;
@@ -1968,7 +1971,6 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_ButtonID;
 	wxBoxSizer *Units_Holder_Unknown26;
 	wxBoxSizer *Units_Holder_Unknown27;
-	wxBoxSizer *Units_Holder_Unknown28;
 	wxBoxSizer *Units_Holder_MissileGraphicDelay;
 	wxBoxSizer *Units_Holder_HeroMode;
 	wxBoxSizer *Units_Holder_GarrisonGraphic;
@@ -2008,6 +2010,9 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_Unknown35;
 	wxBoxSizer *Units_Holder_Unknown36;
 	wxBoxSizer *Units_Holder_Unknown37;
+	wxBoxSizer *Units_Holder_Unknown38;
+	wxBoxSizer *Units_Holder_Unknown39;
+	wxBoxSizer *Units_Holder_Unknown40;
 
 //	Unit Controls SubControls
 
@@ -2166,7 +2171,6 @@ class AGE_Frame: public wxFrame
 	wxGridSizer *Units_Grid_HPBars;
 	wxBoxSizer *Units_Holder_UnknownArea;
 	wxStaticBoxSizer *Units_Holder_Type10plusUnknownArea;
-	wxBoxSizer *Units_Holder_Type10plusUnknowns1;
 	wxGridSizer *Units_Grid_Type10plusUnknowns;
 	wxStaticBoxSizer *Units_Holder_Type30plusUnknownArea;
 	wxGridSizer *Units_Grid_Type30plusUnknownArea;
