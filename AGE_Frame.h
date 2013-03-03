@@ -1531,7 +1531,8 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Byte *Units_TrackingUnitUsed;
 	TextCtrl_Float *Units_TrackingUnitDensity;
 	TextCtrl_Float *Units_Unknown12;
-	TextCtrl_Byte *Units_Unknown16[17];
+	TextCtrl_Byte *Units_Unknown16;
+	array<TextCtrl_Byte*, 16> Units_Unknown16B;
 
 //	Type 40+
 
@@ -1726,6 +1727,7 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_TrackingUnitDensity;
 	wxStaticText *Units_Text_Unknown12;
 	wxStaticText *Units_Text_Unknown16;
+	wxStaticText *Units_Text_Unknown16B;
 
 //	Type 40+
 
@@ -1907,7 +1909,8 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_TrackingUnitDensity;
 	wxBoxSizer *Units_Holder_Unknown12;
 	wxBoxSizer *Units_Holder_Unknown16;
-	wxGridSizer *Units_Grid_Unknown16;
+	wxBoxSizer *Units_Holder_Unknown16B;
+	wxGridSizer *Units_Grid_Unknown16B;
 
 //	Type 40+
 
