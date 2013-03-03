@@ -1167,13 +1167,15 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unknown16B->Show(show);
 			Units_Holder_Unknown26->Show(show);
 			Units_Holder_Unknown27->Show(show);
-			Units_Holder_Unknown28->Show(show);
 			Units_Holder_Unknown29->Show(show);
 			Units_Holder_Unknown33->Show(show);
 			Units_Holder_Unknown34->Show(show);
 			Units_Holder_Unknown35->Show(show);
 			Units_Holder_Unknown36->Show(show);
 			Units_Holder_Unknown37->Show(show);
+			Units_Holder_Unknown38->Show(show);
+			Units_Holder_Unknown39->Show(show);
+			Units_Holder_Unknown40->Show(show);
 		}
 
 		// AoK Alfa ->
@@ -1479,11 +1481,14 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case ToolBar_Help:
 		{
+			AGE_HelpInfo AGEHelp(this);
+			AGEHelp.ShowModal();
 			wxString help = "ATTENTION!\nChanges to editing boxes affect all selected items!\n\n";
 			help.Append("Short Guide to Advanced Editing\n");
 			help.Append("Click \"Help\" from the toolbar to see this again.\n\n");
 			help.Append("Here are examples which cover all the nice features.\n");
 			help.Append("(This is assuming that you edit Age of Empires II: The Conquerors)\n\n");
+			help.Append("Advanced Searching\n\n");
 			help.Append("Let's suppose that you want to edit buildings (type 80) of class 3,\n");
 			help.Append("but not camps nor houses or yurts.\n");
 			help.Append("See the two combo boxes having \"Lang DLL Name\" selected by default?\n");
@@ -1492,12 +1497,14 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			help.Append("and \"camp|house|yurt\" to the lower (exclusive) search box.\n");
 			help.Append("Select the upper \"And\" check box to make sure that the search returns\n");
 			help.Append("only units to which ALL search terms in the upper search box match.\n\n");
+			help.Append("Batch Editing\n\n");
 			help.Append("Let's suppose that you want to multiply the garrison heal rate\n");
 			help.Append("of all selected units (buildings) by 1.3.\n");
 			help.Append("Simply select all the desired units and put into garrison heal rate box \"b*1.3\", ");
 			help.Append("or just put the absolute value you want for all selected units.\n");
 			help.Append("The other batch modifiers are b+, b- and b/.\n");
 			help.Append("Note that overflows are not checked!\n\n");
+			help.Append("Cross-windows Mass Copying\n\n");
 			help.Append("Let's suppose that you want to copy all ships to another dat file.\n");
 			help.Append("On the open dialog, you must put \"2\" into \"Windows to open\"!\n");
 			help.Append("Now that you have a second window titled \"AGE window 2\" open with a dat file, ");
@@ -1507,6 +1514,15 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			help.Append("Then click copy and go to the second window.\n");
 			help.Append("Then click paste or paste insert wherever you want the ships.\n");
 			help.Append("That's it.");
+			help.Append("\n\nFor Discovering Unknowns\n");
+			help.Append("\nBlue Boxes (16 bit integers)\n");
+			help.Append("If 256 does something, the box might need to be split\n");
+			help.Append("into two orange boxes (8 bit integers).\n");
+			help.Append("\nLight Blue Boxes (32 bit integers)\n");
+			help.Append("If 256, 65536 or 16777216 does something,\nthe box might need to be split\n");
+			help.Append("into four orange boxes (8 bit integers)\n");
+			help.Append("or into two blue boxes (16 bit integers)\n");
+			help.Append("or into two orange boxes and one blue box.");
 			wxMessageBox(help);
 		}
 		break;

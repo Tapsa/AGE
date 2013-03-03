@@ -1,7 +1,7 @@
 #include "AGE_AboutDialog.h"
 #include "AboutIcon.xpm"
 
-AGE_AboutDialog::AGE_AboutDialog(wxWindow * parent)
+AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent)
 : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
 {
 	Title = new wxStaticText(this, wxID_ANY, "Advanced Genie Editor\nVersion 3.4\nCopyleft 2011 - 2013\n\nDevelopers:\nKeisari Tapsa (since 2.0b)\nApre - genieutils (since 2.1a)\nEstien Nifo (aka StSB77) (1.0a to 2.0a)");
@@ -14,7 +14,7 @@ AGE_AboutDialog::AGE_AboutDialog(wxWindow * parent)
 	MainLeft = new wxBoxSizer(wxVERTICAL);
 	MainRight = new wxBoxSizer(wxVERTICAL);
 	MainAbout = new wxBoxSizer(wxHORIZONTAL);
-	
+
 	MainLeft->Add(-1, 15);
 	MainLeft->Add(Image, 0, 0);
 	MainLeft->Add(-1, 15);
@@ -37,4 +37,50 @@ AGE_AboutDialog::AGE_AboutDialog(wxWindow * parent)
 	MainAbout->Add(15, -1);
 
 	SetSizerAndFit(MainAbout);
+}
+
+AGE_HelpInfo::AGE_HelpInfo(wxWindow *parent)
+: wxDialog(parent, -1, "Short Guide to Advanced Editing", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
+{
+	Main = new wxBoxSizer(wxVERTICAL);
+
+	AdvancedSearching = new wxCollapsiblePane(this, wxID_ANY, "Advanced Searching");
+	BatchEditing = new wxCollapsiblePane(this, wxID_ANY, "Batch Editing");
+	CrossWindowsMassCopying = new wxCollapsiblePane(this, wxID_ANY, "Cross-windows Mass Copying");
+	ForDiscoveringUnknowns = new wxCollapsiblePane(this, wxID_ANY, "For Discovering Unknowns");
+
+	AdvSearch = new wxBoxSizer(wxVERTICAL);
+	BatchEdit = new wxBoxSizer(wxVERTICAL);
+	MassCopy = new wxBoxSizer(wxVERTICAL);
+	Unknowns = new wxBoxSizer(wxVERTICAL);
+
+	MainInfo = new wxStaticText(this, wxID_ANY, "LOL it's a test!");
+	AdvSearchInfo = new wxStaticText(this, wxID_ANY, "LOL it's a test!");
+	BatchEditInfo = new wxStaticText(this, wxID_ANY, "LOL it's a test!");
+	MassCopyInfo = new wxStaticText(this, wxID_ANY, "LOL it's a test!");
+	UnknownsInfo = new wxStaticText(this, wxID_ANY, "LOL it's a test!");
+
+	AdvSearch->Add(AdvSearchInfo, 1, wxEXPAND);
+	AdvancedSearching->SetSizer(AdvSearch);
+
+	BatchEdit->Add(BatchEditInfo, 1, wxEXPAND);
+	BatchEditing->SetSizer(BatchEdit);
+
+	MassCopy->Add(MassCopyInfo, 1, wxEXPAND);
+	CrossWindowsMassCopying->SetSizer(MassCopy);
+
+	Unknowns->Add(UnknownsInfo, 1, wxEXPAND);
+	ForDiscoveringUnknowns->SetSizer(Unknowns);
+
+	Main->Add(MainInfo, 1, wxEXPAND);
+	Main->Add(-1, 5);
+	Main->Add(AdvancedSearching, 0, wxEXPAND);
+	Main->Add(-1, 5);
+	Main->Add(BatchEditing, 0, wxEXPAND);
+	Main->Add(-1, 5);
+	Main->Add(CrossWindowsMassCopying, 0, wxEXPAND);
+	Main->Add(-1, 5);
+	Main->Add(ForDiscoveringUnknowns, 0, wxEXPAND);
+
+	SetSizerAndFit(Main);
 }

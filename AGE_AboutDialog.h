@@ -19,3 +19,25 @@ class AGE_AboutDialog: public wxDialog
 	wxBoxSizer *MainRight;
 	wxBoxSizer *MainAbout;
 };
+
+class AGE_HelpInfo: public wxDialog
+{
+	public:
+
+	AGE_HelpInfo(wxWindow *parent);
+
+	wxBoxSizer *Main;
+	wxStaticText *MainInfo;
+	wxCollapsiblePane *AdvancedSearching;
+	wxBoxSizer *AdvSearch;
+	wxStaticText *AdvSearchInfo;
+	wxCollapsiblePane *BatchEditing;
+	wxBoxSizer *BatchEdit;
+	wxStaticText *BatchEditInfo;
+	wxCollapsiblePane *CrossWindowsMassCopying;
+	wxBoxSizer *MassCopy;
+	wxStaticText *MassCopyInfo;
+	wxCollapsiblePane *ForDiscoveringUnknowns;
+	wxBoxSizer *Unknowns;
+	wxStaticText *UnknownsInfo;
+};
