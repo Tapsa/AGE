@@ -827,9 +827,9 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *General_Holder_TerrainRendering;
 	wxStaticText *General_Text_TerrainRendering;
 	wxGridSizer *General_Grid_TerrainRendering;
-	array<TextCtrl_Short*, 19> General_TerrainRendering;
+	array<TextCtrl_Short*, 31> General_TerrainRendering;
 	wxGridSizer *General_Grid_Something;
-	array<TextCtrl_Long*, 163> General_Something;
+	array<TextCtrl_Long*, 157> General_Something;
 
 	wxBoxSizer *Borders_Main;
 	wxBoxSizer *Borders_ListArea;
@@ -1008,9 +1008,46 @@ class AGE_Frame: public wxFrame
 	wxButton *UnknownFirstSubData_PasteInsert;
 
 	wxGridSizer *UnknownFirstSubData_Grid_Unknown1;
-	array<wxBoxSizer*, 11> UnknownFirstSubData_Holder_Unknown1;
-	array<wxStaticText*, 11> UnknownFirstSubData_Text_Unknown1;
-	array<TextCtrl_Long*, 11> UnknownFirstSubData_Unknown1;
+
+	wxBoxSizer *UnknownFirstSubData_Holder_Unknown1;
+	wxStaticText *UnknownFirstSubData_Text_Unknown1;
+	TextCtrl_Long *UnknownFirstSubData_Unknown1;
+	wxBoxSizer *UnknownFirstSubData_Holder_BaseTerrain;
+	wxStaticText *UnknownFirstSubData_Text_BaseTerrain;
+	TextCtrl_Long *UnknownFirstSubData_BaseTerrain;
+	wxBoxSizer *UnknownFirstSubData_Holder_SpacingBetweenPlayers;
+	wxStaticText *UnknownFirstSubData_Text_SpacingBetweenPlayers;
+	TextCtrl_Long *UnknownFirstSubData_SpacingBetweenPlayers;
+	wxBoxSizer *UnknownFirstSubData_Holder_Unknown4;
+	wxStaticText *UnknownFirstSubData_Text_Unknown4;
+	TextCtrl_Long *UnknownFirstSubData_Unknown4;
+
+	wxBoxSizer *UnknownFirstSubData_Holder_Unknown5;
+	wxGridSizer *UnknownFirstSubData_Grid_Unknown5;
+	wxStaticText *UnknownFirstSubData_Text_Unknown5;
+	array<TextCtrl_Byte*, 4> UnknownFirstSubData_Unknown5;
+
+	wxBoxSizer *UnknownFirstSubData_Holder_Unknown6;
+	wxStaticText *UnknownFirstSubData_Text_Unknown6;
+	TextCtrl_Long *UnknownFirstSubData_Unknown6;
+	wxBoxSizer *UnknownFirstSubData_Holder_Unknown7;
+	wxStaticText *UnknownFirstSubData_Text_Unknown7;
+	TextCtrl_Long *UnknownFirstSubData_Unknown7;
+
+	wxBoxSizer *UnknownFirstSubData_Holder_Unknown8;
+	wxGridSizer *UnknownFirstSubData_Grid_Unknown8;
+	wxStaticText *UnknownFirstSubData_Text_Unknown8;
+	array<TextCtrl_Byte*, 4> UnknownFirstSubData_Unknown8;
+
+	wxBoxSizer *UnknownFirstSubData_Holder_StartAreaRadius;
+	wxStaticText *UnknownFirstSubData_Text_StartAreaRadius;
+	TextCtrl_Long *UnknownFirstSubData_StartAreaRadius;
+	wxBoxSizer *UnknownFirstSubData_Holder_Unknown10;
+	wxStaticText *UnknownFirstSubData_Text_Unknown10;
+	TextCtrl_Long *UnknownFirstSubData_Unknown10;
+	wxBoxSizer *UnknownFirstSubData_Holder_Unknown11;
+	wxStaticText *UnknownFirstSubData_Text_Unknown11;
+	TextCtrl_Long *UnknownFirstSubData_Unknown11;
 
 	wxStaticBoxSizer *RMSTerrain;
 	wxBoxSizer *RMSTerrain_ListArea;
@@ -1046,9 +1083,40 @@ class AGE_Frame: public wxFrame
 	wxButton *RMSUnit_PasteInsert;
 
 	wxGridSizer *RMSUnit_Grid_Unknown1;
-	array<wxBoxSizer*, 11> RMSUnit_Holder_Unknown1;
-	array<wxStaticText*, 11> RMSUnit_Text_Unknown1;
-	array<TextCtrl_Long*, 11> RMSUnit_Unknown1;
+	wxBoxSizer *RMSUnit_Holder_Unit;
+	wxStaticText *RMSUnit_Text_Unit;
+	TextCtrl_Long *RMSUnit_Unit;
+	wxBoxSizer *RMSUnit_Holder_HostTerrain;
+	wxStaticText *RMSUnit_Text_HostTerrain;
+	TextCtrl_Long *RMSUnit_HostTerrain;
+	wxBoxSizer *RMSUnit_Holder_Unknown3;
+	wxGridSizer *RMSUnit_Grid_Unknown3;
+	wxStaticText *RMSUnit_Text_Unknown3;
+	array<TextCtrl_Byte*, 4> RMSUnit_Unknown3;
+	wxBoxSizer *RMSUnit_Holder_ObjectsPerPlayer;
+	wxStaticText *RMSUnit_Text_ObjectsPerPlayer;
+	TextCtrl_Long *RMSUnit_ObjectsPerPlayer;
+	wxBoxSizer *RMSUnit_Holder_Unknown5;
+	wxStaticText *RMSUnit_Text_Unknown5;
+	TextCtrl_Long *RMSUnit_Unknown5;
+	wxBoxSizer *RMSUnit_Holder_GroupsPerPlayer;
+	wxStaticText *RMSUnit_Text_GroupsPerPlayer;
+	TextCtrl_Long *RMSUnit_GroupsPerPlayer;
+	wxBoxSizer *RMSUnit_Holder_Unknown7;
+	wxStaticText *RMSUnit_Text_Unknown7;
+	TextCtrl_Long *RMSUnit_Unknown7;
+	wxBoxSizer *RMSUnit_Holder_OwnAtStart;
+	wxStaticText *RMSUnit_Text_OwnAtStart;
+	TextCtrl_Long *RMSUnit_OwnAtStart;
+	wxBoxSizer *RMSUnit_Holder_SetPlaceForAllPlayers;
+	wxStaticText *RMSUnit_Text_SetPlaceForAllPlayers;
+	TextCtrl_Long *RMSUnit_SetPlaceForAllPlayers;
+	wxBoxSizer *RMSUnit_Holder_MinDistanceToPlayers;
+	wxStaticText *RMSUnit_Text_MinDistanceToPlayers;
+	TextCtrl_Long *RMSUnit_MinDistanceToPlayers;
+	wxBoxSizer *RMSUnit_Holder_MaxDistanceToPlayers;
+	wxStaticText *RMSUnit_Text_MaxDistanceToPlayers;
+	TextCtrl_Long *RMSUnit_MaxDistanceToPlayers;
 
 //	Researchs user interface
 
@@ -1411,10 +1479,8 @@ class AGE_Frame: public wxFrame
 	wxTextCtrl *Units_LanguageDLLConverter[2];
 	TextCtrl_Long *Units_LanguageDLLHotKeyText;
 	TextCtrl_DLL *Units_DLL_LanguageHKText;
-	TextCtrl_Short *Units_HotKey;
+	TextCtrl_Long *Units_HotKey;
 	TextCtrl_DLL *Units_DLL_HotKey4;
-	TextCtrl_Byte *Units_Unknown4;
-	TextCtrl_Byte *Units_Unknown5;
 	TextCtrl_Byte *Units_Unselectable;
 	CheckBox_2State *Units_CheckBox_Unselectable;
 	TextCtrl_Byte *Units_Unknown6;
@@ -1620,8 +1686,6 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_LanguageDLLConverter[2];
 	wxStaticText *Units_Text_LanguageDLLHotKeyText;
 	wxStaticText *Units_Text_HotKey;
-	wxStaticText *Units_Text_Unknown4;
-	wxStaticText *Units_Text_Unknown5;
 	wxStaticText *Units_Text_Unknown6;
 	wxStaticText *Units_Text_Unknown7;
 	wxStaticText *Units_Text_Unknown8;
@@ -1799,8 +1863,6 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_LanguageDLLConverter[2];
 	wxBoxSizer *Units_Holder_LanguageDLLHotKeyText;
 	wxBoxSizer *Units_Holder_HotKey;
-	wxBoxSizer *Units_Holder_Unknown4;
-	wxBoxSizer *Units_Holder_Unknown5;
 	wxBoxSizer *Units_Holder_Unselectable;
 	wxBoxSizer *Units_Holder_Unknown6;
 	wxBoxSizer *Units_Holder_Unknown7;

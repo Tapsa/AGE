@@ -858,7 +858,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Items.Add(0);
 		//wxMessageBox("Loaded!");
-		/*if(GenieVersion >= genie::GV_AoKA)
+		if(GenieVersion != genie::GV_AoKA)
+		{
+		if(GenieVersion >= genie::GV_AoKA)
 		{
 			ListTTAgess();
 			ListTTBuildings();
@@ -882,7 +884,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			TechTrees_DataList_Researches_List_Units->Clear();
 			TechTrees_DataList_Researches_List_Researches->Clear();
 		}
-		/*OnCivCountChange();
+		OnCivCountChange();
 		ListCivs();
 		ListUnits(0);
 		if(GenieVersion >= genie::GV_SWGB)
@@ -893,7 +895,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			UnitLines_UnitLines_List->Clear();
 			UnitLines_UnitLineUnits_List->Clear();
-		}*/
+		}
+		}
 		ListResearches();
 		ListTechs();
 		ListGraphics();
@@ -904,7 +907,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		ListPlayerColors();
 		ListTerrainBorders();
 		ListGeneral();
-		//ListUnknowns();
+		if(GenieVersion != genie::GV_AoKA)
+		ListUnknowns();
 
 		Effects_ComboBox_AttributesC->Clear();
 		Effects_ComboBox_AttributesC->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1092,6 +1096,23 @@ void AGE_Frame::OnGameVersionChange()
 {
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
+		// Some general tab handling
+		for(auto loop = GenieFile->getZeroSpaceSize(); loop < General_AfterBorders.size(); loop++)
+		General_AfterBorders[loop]->Show(false);
+		for(auto loop = GenieFile->getRenderingSize(); loop < General_TerrainRendering.size(); loop++)
+		General_TerrainRendering[loop]->Show(false);
+		for(auto loop = GenieFile->getSomethingSize(); loop < General_Something.size(); loop++)
+		General_Something[loop]->Show(false);
+		if(ShowUnknowns)
+		{
+			for(short loop = 0; loop < GenieFile->getZeroSpaceSize(); loop++)
+			General_AfterBorders[loop]->Show(true);
+			for(short loop = 0; loop < GenieFile->getRenderingSize(); loop++)
+			General_TerrainRendering[loop]->Show(true);
+			for(short loop = 0; loop < GenieFile->getSomethingSize(); loop++)
+			General_Something[loop]->Show(true);
+		}
+
 		bool show;
 
 		// TC ->
@@ -1154,13 +1175,9 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unknown35->Show(show);
 			Units_Holder_Unknown36->Show(show);
 			Units_Holder_Unknown37->Show(show);
-			for(short loop=1; loop < General_AfterBorders.size(); loop++)
-			General_AfterBorders[loop]->Show(show);
-			for(short loop=6; loop < 162; loop++)
-			General_Something[loop]->Show(show);
 		}
 
-		// AoK Alfa  ->
+		// AoK Alfa ->
 		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
 		for(short loop = 4;loop < 6; loop++)
 		{
@@ -1203,7 +1220,6 @@ void AGE_Frame::OnGameVersionChange()
 			TechTrees_Units_Grid_Unknown2b2->Show(show);
 			TechTrees_Researches_Grid_Unknown2a2->Show(show);
 			TechTrees_Researches_Grid_Unknown2b2->Show(show);
-			General_Something[162]->Show(show);
 		}
 
 		if(show) // SWGB ->
