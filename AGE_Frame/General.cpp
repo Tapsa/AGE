@@ -77,37 +77,28 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_BeforeBorders->ChangeValue(lexical_cast<string>(GenieFile->Unknown2));
 	General_BeforeBorders->resize(1);
 	General_BeforeBorders->container[0] = &GenieFile->Unknown2;
-	General_AfterBorders[0]->ChangeValue(lexical_cast<string>(GenieFile->ZeroSpace[0]));
-	General_AfterBorders[0]->resize(1);
-	General_AfterBorders[0]->container[0] = &GenieFile->ZeroSpace[0];
-	/*for(short loop=0; loop < General_TerrainRendering.size(); loop++)
-	{
-		General_TerrainRendering[loop]->ChangeValue(lexical_cast<string>(GenieFile->Rendering[loop]));
-		General_TerrainRendering[loop]->resize(1);
-		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
-	}
-	for(short loop=0; loop < 6; loop++)
-	{
-		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop]));
-		General_Something[loop]->resize(1);
-		General_Something[loop]->container[0] = &GenieFile->Something[loop];
-	}*/
-	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->Unknown.Pointer));
-	Unknown_UnknownPointer->resize(1);
-	Unknown_UnknownPointer->container[0] = &GenieFile->Unknown.Pointer;
-	if(GenieVersion <= genie::GV_RoR) return;
-	for(short loop=1; loop < General_AfterBorders.size(); loop++)
+	for(short loop=0; loop < GenieFile->ZeroSpace.size(); loop++)
 	{
 		General_AfterBorders[loop]->ChangeValue(lexical_cast<string>(GenieFile->ZeroSpace[loop]));
 		General_AfterBorders[loop]->resize(1);
 		General_AfterBorders[loop]->container[0] = &GenieFile->ZeroSpace[loop];
 	}
-	/*for(short loop=6; loop < 162; loop++)
+	for(short loop=0; loop < GenieFile->Rendering.size(); loop++)
+	{
+		General_TerrainRendering[loop]->ChangeValue(lexical_cast<string>(GenieFile->Rendering[loop]));
+		General_TerrainRendering[loop]->resize(1);
+		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
+	}
+	for(short loop=0; loop < GenieFile->Something.size(); loop++)
 	{
 		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop]));
 		General_Something[loop]->resize(1);
 		General_Something[loop]->container[0] = &GenieFile->Something[loop];
-	}*/
+	}
+	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->Unknown.Pointer));
+	Unknown_UnknownPointer->resize(1);
+	Unknown_UnknownPointer->container[0] = &GenieFile->Unknown.Pointer;
+	if(GenieVersion <= genie::GV_RoR) return;
 	/*for(long loop = 0;loop < General_TTUnknown.size(); loop++)
 	{
 		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
@@ -118,9 +109,6 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_TTUnknown[7]->resize(1);
 	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;*/
 	if(GenieVersion <= genie::GV_TC) return;
-	/*General_Something[162]->ChangeValue(lexical_cast<string>(GenieFile->Something[162]));
-	General_Something[162]->resize(1);
-	General_Something[162]->container[0] = &GenieFile->Something[162];*/
 	General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
 	General_SUnknown2->resize(1);
 	General_SUnknown2->container[0] = &GenieFile->SUnknown2;
@@ -573,8 +561,19 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 	}
 
 	UnknownFSIDs.resize(Selections);
-	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
-	UnknownFirstSubData_Unknown1[loop]->resize(Selections);
+	UnknownFirstSubData_Unknown1->resize(Selections);
+	UnknownFirstSubData_BaseTerrain->resize(Selections);
+	UnknownFirstSubData_SpacingBetweenPlayers->resize(Selections);
+	UnknownFirstSubData_Unknown4->resize(Selections);
+	for(short loop=0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+	UnknownFirstSubData_Unknown5[loop]->resize(Selections);
+	UnknownFirstSubData_Unknown6->resize(Selections);
+	UnknownFirstSubData_Unknown7->resize(Selections);
+	for(short loop=0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	UnknownFirstSubData_Unknown8[loop]->resize(Selections);
+	UnknownFirstSubData_StartAreaRadius->resize(Selections);
+	UnknownFirstSubData_Unknown10->resize(Selections);
+	UnknownFirstSubData_Unknown11->resize(Selections);
 
 	genie::FirstSubData * UnknownPointer;
 	for(auto sel = Selections; sel--> 0;)
@@ -582,43 +581,81 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 		UnknownPointer = (genie::FirstSubData*)UnknownFirstSubData_List->GetClientData(Items.Item(sel));
 		UnknownFSIDs[sel] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[0]));
 
-		UnknownFirstSubData_Unknown1[0]->container[sel] = &UnknownPointer->Unknown1;
-		UnknownFirstSubData_Unknown1[1]->container[sel] = &UnknownPointer->BaseTerrain;
-		UnknownFirstSubData_Unknown1[2]->container[sel] = &UnknownPointer->SpacingBetweenPlayers;
-		UnknownFirstSubData_Unknown1[3]->container[sel] = &UnknownPointer->Unknown4;
-		//UnknownFirstSubData_Unknown1[4]->container[sel] = &UnknownPointer->XXX;
-		UnknownFirstSubData_Unknown1[5]->container[sel] = &UnknownPointer->Unknown6;
-		UnknownFirstSubData_Unknown1[6]->container[sel] = &UnknownPointer->Unknown7;
-		//UnknownFirstSubData_Unknown1[7]->container[sel] = &UnknownPointer->XXX;
-		UnknownFirstSubData_Unknown1[8]->container[sel] = &UnknownPointer->StartAreaRadius;
-		UnknownFirstSubData_Unknown1[9]->container[sel] = &UnknownPointer->Unknown10;
-		UnknownFirstSubData_Unknown1[10]->container[sel] = &UnknownPointer->Unknown11;
+		UnknownFirstSubData_Unknown1->container[sel] = &UnknownPointer->Unknown1;
+		UnknownFirstSubData_BaseTerrain->container[sel] = &UnknownPointer->BaseTerrain;
+		UnknownFirstSubData_SpacingBetweenPlayers->container[sel] = &UnknownPointer->SpacingBetweenPlayers;
+		UnknownFirstSubData_Unknown4->container[sel] = &UnknownPointer->Unknown4;
+		for(short loop=0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+		UnknownFirstSubData_Unknown5[loop]->container[sel] = &UnknownPointer->Unknown5[loop];
+		UnknownFirstSubData_Unknown6->container[sel] = &UnknownPointer->Unknown6;
+		UnknownFirstSubData_Unknown7->container[sel] = &UnknownPointer->Unknown7;
+		for(short loop=0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+		UnknownFirstSubData_Unknown8[loop]->container[sel] = &UnknownPointer->Unknown8[loop];
+		UnknownFirstSubData_StartAreaRadius->container[sel] = &UnknownPointer->StartAreaRadius;
+		UnknownFirstSubData_Unknown10->container[sel] = &UnknownPointer->Unknown10;
+		UnknownFirstSubData_Unknown11->container[sel] = &UnknownPointer->Unknown11;
 	}
 
-	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
+	UnknownFirstSubData_Unknown1->Enable(true);
+	UnknownFirstSubData_Unknown1->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1));
+	UnknownFirstSubData_BaseTerrain->Enable(true);
+	UnknownFirstSubData_BaseTerrain->ChangeValue(lexical_cast<string>(UnknownPointer->BaseTerrain));
+	UnknownFirstSubData_SpacingBetweenPlayers->Enable(true);
+	UnknownFirstSubData_SpacingBetweenPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->SpacingBetweenPlayers));
+	UnknownFirstSubData_Unknown4->Enable(true);
+	UnknownFirstSubData_Unknown4->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown4));
+	for(short loop=0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
 	{
-		UnknownFirstSubData_Unknown1[loop]->Enable(true);
+		UnknownFirstSubData_Unknown5[loop]->Enable(true);
+		UnknownFirstSubData_Unknown5[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown5[loop]));
 	}
-	UnknownFirstSubData_Unknown1[0]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1));
-	UnknownFirstSubData_Unknown1[1]->ChangeValue(lexical_cast<string>(UnknownPointer->BaseTerrain));
-	UnknownFirstSubData_Unknown1[2]->ChangeValue(lexical_cast<string>(UnknownPointer->SpacingBetweenPlayers));
-	UnknownFirstSubData_Unknown1[3]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown4));
-	//UnknownFirstSubData_Unknown1[4]->ChangeValue(lexical_cast<string>(UnknownPointer->XXX));
-	UnknownFirstSubData_Unknown1[5]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown6));
-	UnknownFirstSubData_Unknown1[6]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown7));
-	//UnknownFirstSubData_Unknown1[7]->ChangeValue(lexical_cast<string>(UnknownPointer->XXX));
-	UnknownFirstSubData_Unknown1[8]->ChangeValue(lexical_cast<string>(UnknownPointer->StartAreaRadius));
-	UnknownFirstSubData_Unknown1[9]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown10));
-	UnknownFirstSubData_Unknown1[10]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown11));
+	UnknownFirstSubData_Unknown6->Enable(true);
+	UnknownFirstSubData_Unknown6->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown6));
+	UnknownFirstSubData_Unknown7->Enable(true);
+	UnknownFirstSubData_Unknown7->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown7));
+	for(short loop=0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	{
+		UnknownFirstSubData_Unknown8[loop]->Enable(true);
+		UnknownFirstSubData_Unknown8[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown8[loop]));
+	}
+	UnknownFirstSubData_StartAreaRadius->Enable(true);
+	UnknownFirstSubData_StartAreaRadius->ChangeValue(lexical_cast<string>(UnknownPointer->StartAreaRadius));
+	UnknownFirstSubData_Unknown10->Enable(true);
+	UnknownFirstSubData_Unknown10->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown10));
+	UnknownFirstSubData_Unknown11->Enable(true);
+	UnknownFirstSubData_Unknown11->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown11));
 }
 
 void AGE_Frame::DisableUnknownFirstSubData()
 {
-	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
+	UnknownFirstSubData_Unknown1->Enable(false);
+	UnknownFirstSubData_Unknown1->ChangeValue("0");
+	UnknownFirstSubData_BaseTerrain->Enable(false);
+	UnknownFirstSubData_BaseTerrain->ChangeValue("0");
+	UnknownFirstSubData_SpacingBetweenPlayers->Enable(false);
+	UnknownFirstSubData_SpacingBetweenPlayers->ChangeValue("0");
+	UnknownFirstSubData_Unknown4->Enable(false);
+	UnknownFirstSubData_Unknown4->ChangeValue("0");
+	for(short loop=0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
 	{
-		UnknownFirstSubData_Unknown1[loop]->Enable(false);
-		UnknownFirstSubData_Unknown1[loop]->ChangeValue("0");
+		UnknownFirstSubData_Unknown5[loop]->Enable(false);
+		UnknownFirstSubData_Unknown5[loop]->ChangeValue("0");
 	}
+	UnknownFirstSubData_Unknown6->Enable(false);
+	UnknownFirstSubData_Unknown6->ChangeValue("0");
+	UnknownFirstSubData_Unknown7->Enable(false);
+	UnknownFirstSubData_Unknown7->ChangeValue("0");
+	for(short loop=0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	{
+		UnknownFirstSubData_Unknown8[loop]->Enable(false);
+		UnknownFirstSubData_Unknown8[loop]->ChangeValue("0");
+	}
+	UnknownFirstSubData_StartAreaRadius->Enable(false);
+	UnknownFirstSubData_StartAreaRadius->ChangeValue("0");
+	UnknownFirstSubData_Unknown10->Enable(false);
+	UnknownFirstSubData_Unknown10->ChangeValue("0");
+	UnknownFirstSubData_Unknown11->Enable(false);
+	UnknownFirstSubData_Unknown11->ChangeValue("0");
 }
 
 void AGE_Frame::OnUnknownFirstSubDataAdd(wxCommandEvent &Event)
@@ -875,8 +912,18 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 	}
 
 	UnknownTSIDs.resize(Selections);
-	for(short loop=0; loop < RMSUnit_Unknown1.size(); loop++)
-	RMSUnit_Unknown1[loop]->resize(Selections);
+	RMSUnit_Unit->resize(Selections);
+	RMSUnit_HostTerrain->resize(Selections);
+	for(short loop=0; loop < RMSUnit_Unknown3.size(); loop++)
+	RMSUnit_Unknown3[loop]->resize(Selections);
+	RMSUnit_ObjectsPerPlayer->resize(Selections);
+	RMSUnit_Unknown5->resize(Selections);
+	RMSUnit_GroupsPerPlayer->resize(Selections);
+	RMSUnit_Unknown7->resize(Selections);
+	RMSUnit_OwnAtStart->resize(Selections);
+	RMSUnit_SetPlaceForAllPlayers->resize(Selections);
+	RMSUnit_MinDistanceToPlayers->resize(Selections);
+	RMSUnit_MaxDistanceToPlayers->resize(Selections);
 
 	genie::ThirdSubData * UnknownPointer;
 	for(auto sel = Selections; sel--> 0;)
@@ -884,43 +931,74 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 		UnknownPointer = (genie::ThirdSubData*)RMSUnit_List->GetClientData(Items.Item(sel));
 		UnknownTSIDs[sel] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[0]));
 
-		RMSUnit_Unknown1[0]->container[sel] = &UnknownPointer->Unit;
-		RMSUnit_Unknown1[1]->container[sel] = &UnknownPointer->HostTerrain;
-		//RMSUnit_Unknown1[2]->container[sel] = &UnknownPointer->XXX;
-		RMSUnit_Unknown1[3]->container[sel] = &UnknownPointer->ObjectsPerPlayer;
-		RMSUnit_Unknown1[4]->container[sel] = &UnknownPointer->Unknown5;
-		RMSUnit_Unknown1[5]->container[sel] = &UnknownPointer->GroupsPerPlayer;
-		RMSUnit_Unknown1[6]->container[sel] = &UnknownPointer->Unknown7;
-		RMSUnit_Unknown1[7]->container[sel] = &UnknownPointer->OwnAtStart;
-		RMSUnit_Unknown1[8]->container[sel] = &UnknownPointer->SetPlaceForAllPlayers;
-		RMSUnit_Unknown1[9]->container[sel] = &UnknownPointer->MinDistanceToPlayers;
-		RMSUnit_Unknown1[10]->container[sel] = &UnknownPointer->MaxDistanceToPlayers;
+		RMSUnit_Unit->container[sel] = &UnknownPointer->Unit;
+		RMSUnit_HostTerrain->container[sel] = &UnknownPointer->HostTerrain;
+		for(short loop=0; loop < RMSUnit_Unknown3.size(); loop++)
+		RMSUnit_Unknown3[loop]->container[sel] = &UnknownPointer->Unknown3[loop];
+		RMSUnit_ObjectsPerPlayer->container[sel] = &UnknownPointer->ObjectsPerPlayer;
+		RMSUnit_Unknown5->container[sel] = &UnknownPointer->Unknown5;
+		RMSUnit_GroupsPerPlayer->container[sel] = &UnknownPointer->GroupsPerPlayer;
+		RMSUnit_Unknown7->container[sel] = &UnknownPointer->Unknown7;
+		RMSUnit_OwnAtStart->container[sel] = &UnknownPointer->OwnAtStart;
+		RMSUnit_SetPlaceForAllPlayers->container[sel] = &UnknownPointer->SetPlaceForAllPlayers;
+		RMSUnit_MinDistanceToPlayers->container[sel] = &UnknownPointer->MinDistanceToPlayers;
+		RMSUnit_MaxDistanceToPlayers->container[sel] = &UnknownPointer->MaxDistanceToPlayers;
 	}
 
-	for(short loop=0; loop < RMSUnit_Unknown1.size(); loop++)
+	RMSUnit_Unit->Enable(true);
+	RMSUnit_Unit->ChangeValue(lexical_cast<string>(UnknownPointer->Unit));
+	RMSUnit_HostTerrain->Enable(true);
+	RMSUnit_HostTerrain->ChangeValue(lexical_cast<string>(UnknownPointer->HostTerrain));
+	for(short loop=0; loop < RMSUnit_Unknown3.size(); loop++)
 	{
-		RMSUnit_Unknown1[loop]->Enable(true);
+		RMSUnit_Unknown3[loop]->Enable(true);
+		RMSUnit_Unknown3[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown3[loop]));
 	}
-	RMSUnit_Unknown1[0]->ChangeValue(lexical_cast<string>(UnknownPointer->Unit));
-	RMSUnit_Unknown1[1]->ChangeValue(lexical_cast<string>(UnknownPointer->HostTerrain));
-	//RMSUnit_Unknown1[2]->ChangeValue(lexical_cast<string>(UnknownPointer->XXX));
-	RMSUnit_Unknown1[3]->ChangeValue(lexical_cast<string>(UnknownPointer->ObjectsPerPlayer));
-	RMSUnit_Unknown1[4]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown5));
-	RMSUnit_Unknown1[5]->ChangeValue(lexical_cast<string>(UnknownPointer->GroupsPerPlayer));
-	RMSUnit_Unknown1[6]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown7));
-	RMSUnit_Unknown1[7]->ChangeValue(lexical_cast<string>(UnknownPointer->OwnAtStart));
-	RMSUnit_Unknown1[8]->ChangeValue(lexical_cast<string>(UnknownPointer->SetPlaceForAllPlayers));
-	RMSUnit_Unknown1[9]->ChangeValue(lexical_cast<string>(UnknownPointer->MinDistanceToPlayers));
-	RMSUnit_Unknown1[10]->ChangeValue(lexical_cast<string>(UnknownPointer->MaxDistanceToPlayers));
+	RMSUnit_ObjectsPerPlayer->Enable(true);
+	RMSUnit_ObjectsPerPlayer->ChangeValue(lexical_cast<string>(UnknownPointer->ObjectsPerPlayer));
+	RMSUnit_Unknown5->Enable(true);
+	RMSUnit_Unknown5->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown5));
+	RMSUnit_GroupsPerPlayer->Enable(true);
+	RMSUnit_GroupsPerPlayer->ChangeValue(lexical_cast<string>(UnknownPointer->GroupsPerPlayer));
+	RMSUnit_Unknown7->Enable(true);
+	RMSUnit_Unknown7->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown7));
+	RMSUnit_OwnAtStart->Enable(true);
+	RMSUnit_OwnAtStart->ChangeValue(lexical_cast<string>(UnknownPointer->OwnAtStart));
+	RMSUnit_SetPlaceForAllPlayers->Enable(true);
+	RMSUnit_SetPlaceForAllPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->SetPlaceForAllPlayers));
+	RMSUnit_MinDistanceToPlayers->Enable(true);
+	RMSUnit_MinDistanceToPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->MinDistanceToPlayers));
+	RMSUnit_MaxDistanceToPlayers->Enable(true);
+	RMSUnit_MaxDistanceToPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->MaxDistanceToPlayers));
 }
 
 void AGE_Frame::DisableRMSUnits()
 {
-	for(short loop=0; loop < RMSUnit_Unknown1.size(); loop++)
+	RMSUnit_Unit->Enable(false);
+	RMSUnit_Unit->ChangeValue("0");
+	RMSUnit_HostTerrain->Enable(false);
+	RMSUnit_HostTerrain->ChangeValue("0");
+	for(short loop=0; loop < RMSUnit_Unknown3.size(); loop++)
 	{
-		RMSUnit_Unknown1[loop]->Enable(false);
-		RMSUnit_Unknown1[loop]->ChangeValue("0");
+		RMSUnit_Unknown3[loop]->Enable(false);
+		RMSUnit_Unknown3[loop]->ChangeValue("0");
 	}
+	RMSUnit_ObjectsPerPlayer->Enable(false);
+	RMSUnit_ObjectsPerPlayer->ChangeValue("0");
+	RMSUnit_Unknown5->Enable(false);
+	RMSUnit_Unknown5->ChangeValue("0");
+	RMSUnit_GroupsPerPlayer->Enable(false);
+	RMSUnit_GroupsPerPlayer->ChangeValue("0");
+	RMSUnit_Unknown7->Enable(false);
+	RMSUnit_Unknown7->ChangeValue("0");
+	RMSUnit_OwnAtStart->Enable(false);
+	RMSUnit_OwnAtStart->ChangeValue("0");
+	RMSUnit_SetPlaceForAllPlayers->Enable(false);
+	RMSUnit_SetPlaceForAllPlayers->ChangeValue("0");
+	RMSUnit_MinDistanceToPlayers->Enable(false);
+	RMSUnit_MinDistanceToPlayers->ChangeValue("0");
+	RMSUnit_MaxDistanceToPlayers->Enable(false);
+	RMSUnit_MaxDistanceToPlayers->ChangeValue("0");
 }
 
 void AGE_Frame::OnRMSUnitAdd(wxCommandEvent &Event)
@@ -1061,27 +1139,53 @@ void AGE_Frame::CreateUnknownControls()
 	UnknownFirstSubData_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	UnknownFirstSubData_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
-	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
-	{
-		UnknownFirstSubData_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
-		UnknownFirstSubData_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
-	}
-	UnknownFirstSubData_Text_Unknown1[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Text_Unknown1[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Spacing Between Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Unknown1[2]->SetToolTip("Non-base terrain (like rivers) space between players\nIf too large, they won't be created");
-	UnknownFirstSubData_Text_Unknown1[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Text_Unknown1[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Dist. Between Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Unknown1[4]->SetToolTip("Minimum distance in tiles between \"player initial zones\"");
-	UnknownFirstSubData_Text_Unknown1[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Text_Unknown1[6] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Text_Unknown1[7] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Unknown1[7]->SetToolTip("Base zone is created for every player");
-	UnknownFirstSubData_Text_Unknown1[8] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Players' Start Area Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Unknown1[8]->SetToolTip("This area cannot contain different elevations or terrains\nUnknown 10 affects this too");
-	UnknownFirstSubData_Text_Unknown1[9] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 10 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownFirstSubData_Unknown1[9]->SetToolTip("Has something to do with players' starting area");
-	UnknownFirstSubData_Text_Unknown1[10] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+
+	UnknownFirstSubData_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_Unknown1 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Unknown1 = new TextCtrl_Long(Unknown_Scroller);
+	UnknownFirstSubData_Holder_BaseTerrain = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_BaseTerrain = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_BaseTerrain = new TextCtrl_Long(Unknown_Scroller);
+	UnknownFirstSubData_Holder_SpacingBetweenPlayers = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_SpacingBetweenPlayers = new wxStaticText(Unknown_Scroller, wxID_ANY, " Spacing Between Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_SpacingBetweenPlayers = new TextCtrl_Long(Unknown_Scroller);
+	UnknownFirstSubData_SpacingBetweenPlayers->SetToolTip("Non-base terrain (like rivers) space between players\nIf too large, they won't be created");
+	UnknownFirstSubData_Holder_Unknown4 = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_Unknown4 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Unknown4 = new TextCtrl_Long(Unknown_Scroller);
+
+	UnknownFirstSubData_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Grid_Unknown5 = new wxGridSizer(4, 0, 0);
+	UnknownFirstSubData_Text_Unknown5 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Dist. Between Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop=0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+	UnknownFirstSubData_Unknown5[loop] = new TextCtrl_Byte(Unknown_Scroller);
+	UnknownFirstSubData_Unknown5[1]->SetToolTip("Minimum distance in tiles between \"player initial zones\"");
+
+	UnknownFirstSubData_Holder_Unknown6 = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_Unknown6 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Unknown6 = new TextCtrl_Long(Unknown_Scroller);
+	UnknownFirstSubData_Holder_Unknown7 = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_Unknown7 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Unknown7 = new TextCtrl_Long(Unknown_Scroller);
+
+	UnknownFirstSubData_Holder_Unknown8 = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Grid_Unknown8 = new wxGridSizer(4, 0, 0);
+	UnknownFirstSubData_Text_Unknown8 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop=0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	UnknownFirstSubData_Unknown8[loop] = new TextCtrl_Byte(Unknown_Scroller);
+	UnknownFirstSubData_Unknown8[1]->SetToolTip("Base zone is created for every player");
+
+	UnknownFirstSubData_Holder_StartAreaRadius = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_StartAreaRadius = new wxStaticText(Unknown_Scroller, wxID_ANY, " Players' Start Area Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_StartAreaRadius = new TextCtrl_Long(Unknown_Scroller);
+	UnknownFirstSubData_StartAreaRadius->SetToolTip("This area cannot contain different elevations or terrains\nUnknown 10 affects this too");
+	UnknownFirstSubData_Holder_Unknown10 = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_Unknown10 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 10 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Unknown10 = new TextCtrl_Long(Unknown_Scroller);
+	UnknownFirstSubData_Unknown10->SetToolTip("Has something to do with players' starting area");
+	UnknownFirstSubData_Holder_Unknown11 = new wxBoxSizer(wxVERTICAL);
+	UnknownFirstSubData_Text_Unknown11 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownFirstSubData_Unknown11 = new TextCtrl_Long(Unknown_Scroller);
 
 	Unknowns_Space_Pointer2 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Holder_Pointer2 = new wxBoxSizer(wxVERTICAL);
@@ -1139,25 +1243,44 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 
 	RMSUnit_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
-	for(short loop=0; loop < RMSUnit_Unknown1.size(); loop++)
-	{
-		RMSUnit_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
-		RMSUnit_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
-	}
-	RMSUnit_Text_Unknown1[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Objects per Group", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Groups per Player", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[6] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[7] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Own at Start (-1=Yes) *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Unknown1[7]->SetToolTip("Doesn't work if the unit isn't placed for all players");
-	RMSUnit_Text_Unknown1[8] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Set Place for All Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Unknown1[8]->SetToolTip("1 = Done once per player\n-1 = Done once, whatever the number of players is\n-2 = same as -1 ? Cannot find a difference");
-	RMSUnit_Text_Unknown1[9] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Distance to Players", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Text_Unknown1[10] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Max Distance to Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Unknown1[10]->SetToolTip("- Don't use 0 here for units that are own at start\n- 0 is OK for other units (gold/bushes/gazelle/etc)\n- You can use -1 as a wildcard for units that are own at start");
+	RMSUnit_Holder_Unit = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_Unit = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_Unit = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Holder_HostTerrain = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_HostTerrain = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_HostTerrain = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Grid_Unknown3 = new wxGridSizer(4, 0, 0);
+	RMSUnit_Text_Unknown3 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop=0; loop < RMSUnit_Unknown3.size(); loop++)
+	RMSUnit_Unknown3[loop] = new TextCtrl_Byte(Unknown_Scroller);
+	RMSUnit_Holder_ObjectsPerPlayer = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_ObjectsPerPlayer = new wxStaticText(Unknown_Scroller, wxID_ANY, " Objects per Group", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_ObjectsPerPlayer = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_Unknown5 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_Unknown5 = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Holder_GroupsPerPlayer = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_GroupsPerPlayer = new wxStaticText(Unknown_Scroller, wxID_ANY, " Groups per Player", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_GroupsPerPlayer = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Holder_Unknown7 = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_Unknown7 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_Unknown7 = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Holder_OwnAtStart = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_OwnAtStart = new wxStaticText(Unknown_Scroller, wxID_ANY, " Own at Start (-1=Yes) *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_OwnAtStart = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_OwnAtStart->SetToolTip("Doesn't work if the unit isn't placed for all players");
+	RMSUnit_Holder_SetPlaceForAllPlayers = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_SetPlaceForAllPlayers = new wxStaticText(Unknown_Scroller, wxID_ANY, " Set Place for All Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_SetPlaceForAllPlayers = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_SetPlaceForAllPlayers->SetToolTip("1 = Done once per player\n-1 = Done once, whatever the number of players is\n-2 = same as -1 ? Cannot find a difference");
+	RMSUnit_Holder_MinDistanceToPlayers = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_MinDistanceToPlayers = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Distance to Players", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_MinDistanceToPlayers = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Holder_MaxDistanceToPlayers = new wxBoxSizer(wxVERTICAL);
+	RMSUnit_Text_MaxDistanceToPlayers = new wxStaticText(Unknown_Scroller, wxID_ANY, " Max Distance to Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnit_MaxDistanceToPlayers = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_MaxDistanceToPlayers->SetToolTip("- Don't use 0 here for units that are own at start\n- 0 is OK for other units (gold/bushes/gazelle/etc)\n- You can use -1 as a wildcard for units that are own at start");
 
 	Unknowns_Grid_Unknown2 = new wxGridSizer(5, 5, 5);
 	for(short loop=0; loop < Unknowns_Unknown2.size(); loop++)
@@ -1217,12 +1340,43 @@ void AGE_Frame::CreateUnknownControls()
 	UnknownFirstSubData_ListArea->Add(-1, 2);
 	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_Buttons, 0, wxEXPAND);
 
-	for(short loop=0; loop < UnknownFirstSubData_Unknown1.size(); loop++)
-	{
-		UnknownFirstSubData_Holder_Unknown1[loop]->Add(UnknownFirstSubData_Text_Unknown1[loop], 0, wxEXPAND);
-		UnknownFirstSubData_Holder_Unknown1[loop]->Add(UnknownFirstSubData_Unknown1[loop], 1, wxEXPAND);
-		UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown1[loop], 1, wxEXPAND);
-	}
+	UnknownFirstSubData_Holder_Unknown1->Add(UnknownFirstSubData_Text_Unknown1, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown1->Add(UnknownFirstSubData_Unknown1, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_BaseTerrain->Add(UnknownFirstSubData_Text_BaseTerrain, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_BaseTerrain->Add(UnknownFirstSubData_BaseTerrain, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_SpacingBetweenPlayers->Add(UnknownFirstSubData_Text_SpacingBetweenPlayers, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_SpacingBetweenPlayers->Add(UnknownFirstSubData_SpacingBetweenPlayers, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown4->Add(UnknownFirstSubData_Text_Unknown4, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown4->Add(UnknownFirstSubData_Unknown4, 1, wxEXPAND);
+	for(short loop=0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+	UnknownFirstSubData_Grid_Unknown5->Add(UnknownFirstSubData_Unknown5[loop], 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown5->Add(UnknownFirstSubData_Text_Unknown5, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown5->Add(UnknownFirstSubData_Grid_Unknown5, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown6->Add(UnknownFirstSubData_Text_Unknown6, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown6->Add(UnknownFirstSubData_Unknown6, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown7->Add(UnknownFirstSubData_Text_Unknown7, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown7->Add(UnknownFirstSubData_Unknown7, 1, wxEXPAND);
+	for(short loop=0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	UnknownFirstSubData_Grid_Unknown8->Add(UnknownFirstSubData_Unknown8[loop], 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown8->Add(UnknownFirstSubData_Text_Unknown8, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown8->Add(UnknownFirstSubData_Grid_Unknown8, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_StartAreaRadius->Add(UnknownFirstSubData_Text_StartAreaRadius, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_StartAreaRadius->Add(UnknownFirstSubData_StartAreaRadius, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown10->Add(UnknownFirstSubData_Text_Unknown10, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown10->Add(UnknownFirstSubData_Unknown10, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown11->Add(UnknownFirstSubData_Text_Unknown11, 1, wxEXPAND);
+	UnknownFirstSubData_Holder_Unknown11->Add(UnknownFirstSubData_Unknown11, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown1, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_BaseTerrain, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_SpacingBetweenPlayers, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown4, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown5, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown6, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown7, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown8, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_StartAreaRadius, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown10, 1, wxEXPAND);
+	UnknownFirstSubData_Grid_Unknown1->Add(UnknownFirstSubData_Holder_Unknown11, 1, wxEXPAND);
 	UnknownFirstSubData_DataArea->Add(UnknownFirstSubData_Grid_Unknown1, 0, wxEXPAND);
 
 	UnknownFirstSubData->Add(UnknownFirstSubData_ListArea, 1, wxEXPAND);
@@ -1279,12 +1433,41 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_ListArea->Add(-1, 2);
 	RMSUnit_ListArea->Add(RMSUnit_Buttons, 0, wxEXPAND);
 
-	for(short loop=0; loop < RMSUnit_Unknown1.size(); loop++)
-	{
-		RMSUnit_Holder_Unknown1[loop]->Add(RMSUnit_Text_Unknown1[loop], 0, wxEXPAND);
-		RMSUnit_Holder_Unknown1[loop]->Add(RMSUnit_Unknown1[loop], 1, wxEXPAND);
-		RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_Unknown1[loop], 1, wxEXPAND);
-	}
+	RMSUnit_Holder_Unit->Add(RMSUnit_Text_Unit, 1, wxEXPAND);
+	RMSUnit_Holder_Unit->Add(RMSUnit_Unit, 1, wxEXPAND);
+	RMSUnit_Holder_HostTerrain->Add(RMSUnit_Text_HostTerrain, 1, wxEXPAND);
+	RMSUnit_Holder_HostTerrain->Add(RMSUnit_HostTerrain, 1, wxEXPAND);
+	for(short loop=0; loop < RMSUnit_Unknown3.size(); loop++)
+	RMSUnit_Grid_Unknown3->Add(RMSUnit_Unknown3[loop], 1, wxEXPAND);
+	RMSUnit_Holder_Unknown3->Add(RMSUnit_Text_Unknown3, 1, wxEXPAND);
+	RMSUnit_Holder_Unknown3->Add(RMSUnit_Grid_Unknown3, 1, wxEXPAND);
+	RMSUnit_Holder_ObjectsPerPlayer->Add(RMSUnit_Text_ObjectsPerPlayer, 1, wxEXPAND);
+	RMSUnit_Holder_ObjectsPerPlayer->Add(RMSUnit_ObjectsPerPlayer, 1, wxEXPAND);
+	RMSUnit_Holder_Unknown5->Add(RMSUnit_Text_Unknown5, 1, wxEXPAND);
+	RMSUnit_Holder_Unknown5->Add(RMSUnit_Unknown5, 1, wxEXPAND);
+	RMSUnit_Holder_GroupsPerPlayer->Add(RMSUnit_Text_GroupsPerPlayer, 1, wxEXPAND);
+	RMSUnit_Holder_GroupsPerPlayer->Add(RMSUnit_GroupsPerPlayer, 1, wxEXPAND);
+	RMSUnit_Holder_Unknown7->Add(RMSUnit_Text_Unknown7, 1, wxEXPAND);
+	RMSUnit_Holder_Unknown7->Add(RMSUnit_Unknown7, 1, wxEXPAND);
+	RMSUnit_Holder_OwnAtStart->Add(RMSUnit_Text_OwnAtStart, 1, wxEXPAND);
+	RMSUnit_Holder_OwnAtStart->Add(RMSUnit_OwnAtStart, 1, wxEXPAND);
+	RMSUnit_Holder_SetPlaceForAllPlayers->Add(RMSUnit_Text_SetPlaceForAllPlayers, 1, wxEXPAND);
+	RMSUnit_Holder_SetPlaceForAllPlayers->Add(RMSUnit_SetPlaceForAllPlayers, 1, wxEXPAND);
+	RMSUnit_Holder_MinDistanceToPlayers->Add(RMSUnit_Text_MinDistanceToPlayers, 1, wxEXPAND);
+	RMSUnit_Holder_MinDistanceToPlayers->Add(RMSUnit_MinDistanceToPlayers, 1, wxEXPAND);
+	RMSUnit_Holder_MaxDistanceToPlayers->Add(RMSUnit_Text_MaxDistanceToPlayers, 1, wxEXPAND);
+	RMSUnit_Holder_MaxDistanceToPlayers->Add(RMSUnit_MaxDistanceToPlayers, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_Unit, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_HostTerrain, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_Unknown3, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_ObjectsPerPlayer, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_Unknown5, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_GroupsPerPlayer, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_Unknown7, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_OwnAtStart, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_SetPlaceForAllPlayers, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_MinDistanceToPlayers, 1, wxEXPAND);
+	RMSUnit_Grid_Unknown1->Add(RMSUnit_Holder_MaxDistanceToPlayers, 1, wxEXPAND);
 	RMSUnit_DataArea->Add(RMSUnit_Grid_Unknown1, 0, wxEXPAND);
 
 	RMSUnit->Add(RMSUnit_ListArea, 1, wxEXPAND);
@@ -1376,9 +1559,9 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(RMSUnit_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitPasteInsert));
 
 	Unknowns_UnknownLevel->Connect(Unknowns_UnknownLevel->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
-	UnknownFirstSubData_Unknown1[0]->Connect(UnknownFirstSubData_Unknown1[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
+	UnknownFirstSubData_Unknown1->Connect(UnknownFirstSubData_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 	RMSTerrain_Unknown1[1]->Connect(RMSTerrain_Unknown1[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
-	RMSUnit_Unknown1[0]->Connect(RMSUnit_Unknown1[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
+	RMSUnit_Unit->Connect(RMSUnit_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
@@ -1388,7 +1571,7 @@ void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
 	{
 		ListUnknowns();
 	}
-	else if(Event.GetId() == UnknownFirstSubData_Unknown1[0]->GetId())
+	else if(Event.GetId() == UnknownFirstSubData_Unknown1->GetId())
 	{
 		ListUnknownFirstSubData();
 	}
@@ -1396,7 +1579,7 @@ void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
 	{
 		ListRMSTerrains();
 	}
-	else if(Event.GetId() == RMSUnit_Unknown1[0]->GetId())
+	else if(Event.GetId() == RMSUnit_Unit->GetId())
 	{
 		ListRMSUnits();
 	}
