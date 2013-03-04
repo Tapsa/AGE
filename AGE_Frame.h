@@ -2200,15 +2200,15 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_CommandHolder_Data;
 	wxBoxSizer *Units_CommandHolder_Data1;
 	wxBoxSizer *Units_CommandHolder_Data2;
+	wxGridSizer *Units_CommandHolder_Grid1;
+	wxGridSizer *Units_CommandHolder_Grid2;
+	wxGridSizer *Units_CommandHolder_Grid3;
 	wxBoxSizer *UnitCommands_Holder_One;
 	wxBoxSizer *UnitCommands_Holder_ID;
 	wxBoxSizer *UnitCommands_Holder_1;
 	wxBoxSizer *UnitCommands_Holder_Unknown1;
 	wxBoxSizer *UnitCommands_Holder_Type;
 	wxBoxSizer *UnitCommands_Holder_SubType;
-	wxBoxSizer *UnitCommands_Holder_Types;
-	wxBoxSizer *UnitCommands_Holder_2;
-	wxBoxSizer *UnitCommands_Holder_Resources;
 	wxBoxSizer *UnitCommands_Holder_ClassID;
 	wxBoxSizer *UnitCommands_Holder_UnitID;
 	wxBoxSizer *UnitCommands_Holder_Unknown2;
@@ -2226,8 +2226,8 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *UnitCommands_Holder_Unknown9;
 	wxBoxSizer *UnitCommands_Holder_Unknown10;
 	wxBoxSizer *UnitCommands_Holder_Unknown11;
-	wxBoxSizer *UnitCommands_Holder_Graphics;
-	wxGridSizer *UnitCommands_Grid_Graphics[3];
+	array<wxBoxSizer*, 6> UnitCommands_Holder_Graphics;
+	wxGridSizer *UnitCommands_Grid_Graphics;
 
 	wxStaticText *UnitCommands_Text_One;
 	wxStaticText *UnitCommands_Text_ID;
@@ -2251,23 +2251,25 @@ class AGE_Frame: public wxFrame
 	wxStaticText *UnitCommands_Text_Unknown9;
 	wxStaticText *UnitCommands_Text_Unknown10;
 	wxStaticText *UnitCommands_Text_Unknown11;
-	wxStaticText *UnitCommands_Text_Graphics;
+	array<wxStaticText*, 6> UnitCommands_Text_Graphics;
 
 	TextCtrl_Short *UnitCommands_One;
 	TextCtrl_Short *UnitCommands_ID;
 	TextCtrl_Byte *UnitCommands_Unknown1;
 	TextCtrl_Short *UnitCommands_Type;
-	TextCtrl_Short *UnitCommands_SubType;
-	wxOwnerDrawnComboBox *UnitCommands_ComboBox_Types;
+	wxOwnerDrawnComboBox *UnitCommands_ComboBox_Type;
 	TextCtrl_Short *UnitCommands_ClassID;
 	TextCtrl_Short *UnitCommands_UnitID;
 	ComboBox_Plus1 *UnitCommands_ComboBox_UnitID;
 	TextCtrl_Short *UnitCommands_Unknown2;
 	TextCtrl_Short *UnitCommands_ResourceIn;
 	ComboBox_Plus1 *UnitCommands_ComboBox_ResourceIn;
+	TextCtrl_Short *UnitCommands_SubType;
+	ComboBox_Plus1 *UnitCommands_ComboBox_SubType;
 	TextCtrl_Short *UnitCommands_ResourceOut;
 	ComboBox_Plus1 *UnitCommands_ComboBox_ResourceOut;
 	TextCtrl_Short *UnitCommands_Unknown3;
+	ComboBox_Plus1 *UnitCommands_ComboBox_Unknown3;
 	TextCtrl_Float *UnitCommands_WorkRateMultiplier;
 	TextCtrl_Float *UnitCommands_ExecutionRadius;
 	TextCtrl_Float *UnitCommands_ExtraRange;
@@ -2279,8 +2281,8 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Byte *UnitCommands_Unknown9;
 	TextCtrl_Byte *UnitCommands_Unknown10;
 	TextCtrl_Byte *UnitCommands_Unknown11;
-	TextCtrl_Short *UnitCommands_Graphics[6];
-	ComboBox_Plus1 *UnitCommands_ComboBox_Graphics[6];
+	array<TextCtrl_Short*, 6> UnitCommands_Graphics;
+	array<ComboBox_Plus1*, 6> UnitCommands_ComboBox_Graphics;
 
 //	Graphics user interface
 
