@@ -435,7 +435,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 55: Name = "All Relics Have Been Captured"; break;
 		case 56:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Ore Storage? Unit Unload Room?";
+			Name = "Loot Storage? Unit Unload Room?";
 			else
 			Name = "Enable Stealth For Masters";
 			break;
@@ -697,7 +697,7 @@ void AGE_Frame::ListResources(bool Sized)
 	auto Selections = Civs_Resources_List->GetSelections(Items);
 	Civs_Resources_List->Clear();
 
-	std::array<short, 13> SavedIDs;
+	std::array<short, 15> SavedIDs;
 	if(Sized)
 	{
 		for(short loop=0; loop < 3; loop++)
@@ -707,7 +707,9 @@ void AGE_Frame::ListResources(bool Sized)
 			SavedIDs[loop+8] = Research_ComboBox_Resources[loop]->GetSelection();
 		}
 		SavedIDs[6] = UnitCommands_ComboBox_ResourceIn->GetSelection();
+		SavedIDs[13] = UnitCommands_ComboBox_SubType->GetSelection();
 		SavedIDs[7] = UnitCommands_ComboBox_ResourceOut->GetSelection();
+		SavedIDs[14] = UnitCommands_ComboBox_Unknown3->GetSelection();
 		SavedIDs[11] = Effects_ComboBox_ResourcesA->GetSelection();
 		SavedIDs[12] = Effects_ComboBox_ResourcesB->GetSelection();
 
@@ -718,7 +720,9 @@ void AGE_Frame::ListResources(bool Sized)
 			Research_ComboBox_Resources[loop]->Clear();
 		}
 		UnitCommands_ComboBox_ResourceIn->Clear();
+		UnitCommands_ComboBox_SubType->Clear();
 		UnitCommands_ComboBox_ResourceOut->Clear();
+		UnitCommands_ComboBox_Unknown3->Clear();
 		Effects_ComboBox_ResourcesA->Clear();
 		Effects_ComboBox_ResourcesB->Clear();
 
@@ -734,7 +738,9 @@ void AGE_Frame::ListResources(bool Sized)
 			Research_ComboBox_Resources[loop]->Append("-1 - None");
 		}
 		UnitCommands_ComboBox_ResourceIn->Append("-1 - None");
+		UnitCommands_ComboBox_SubType->Append("-1 - None");
 		UnitCommands_ComboBox_ResourceOut->Append("-1 - None");
+		UnitCommands_ComboBox_Unknown3->Append("-1 - None");
 		Effects_ComboBox_ResourcesA->Append("-1 - None");
 		Effects_ComboBox_ResourcesB->Append("-1 - None");
 	}
@@ -756,7 +762,9 @@ void AGE_Frame::ListResources(bool Sized)
 				Research_ComboBox_Resources[loop]->Append(Name);
 			}
 			UnitCommands_ComboBox_ResourceIn->Append(Name);
+			UnitCommands_ComboBox_SubType->Append(Name);
 			UnitCommands_ComboBox_ResourceOut->Append(Name);
+			UnitCommands_ComboBox_Unknown3->Append(Name);
 			Effects_ComboBox_ResourcesA->Append(Name);
 			Effects_ComboBox_ResourcesB->Append(Name);
 		}
@@ -772,7 +780,9 @@ void AGE_Frame::ListResources(bool Sized)
 			Research_ComboBox_Resources[loop]->SetSelection(SavedIDs[loop+8]);
 		}
 		UnitCommands_ComboBox_ResourceIn->SetSelection(SavedIDs[6]);
+		UnitCommands_ComboBox_SubType->SetSelection(SavedIDs[13]);
 		UnitCommands_ComboBox_ResourceOut->SetSelection(SavedIDs[7]);
+		UnitCommands_ComboBox_Unknown3->SetSelection(SavedIDs[14]);
 		Effects_ComboBox_ResourcesA->SetSelection(SavedIDs[11]);
 		Effects_ComboBox_ResourcesB->SetSelection(SavedIDs[12]);
 	}
