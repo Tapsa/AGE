@@ -1645,11 +1645,7 @@ class AGE_Frame: public wxFrame
 	ComboBox_Plus1 *Units_ComboBox_GarrisonType;
 	TextCtrl_Float *Units_GarrisonHealRate;
 	TextCtrl_Long *Units_Unknown35;
-	TextCtrl_Short *Units_Unknown36;
-	TextCtrl_Byte *Units_Unknown37;
-	TextCtrl_Short *Units_Unknown38;
-	TextCtrl_Byte *Units_Unknown39;
-	TextCtrl_Short *Units_Unknown40;
+	array<TextCtrl_Byte*, 8> Units_AlfaThingy;
 
 //	Data Container Names
 //	Type 10+
@@ -1810,11 +1806,7 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_GarrisonType;
 	wxStaticText *Units_Text_GarrisonHealRate;
 	wxStaticText *Units_Text_Unknown35;
-	wxStaticText *Units_Text_Unknown36;
-	wxStaticText *Units_Text_Unknown37;
-	wxStaticText *Units_Text_Unknown38;
-	wxStaticText *Units_Text_Unknown39;
-	wxStaticText *Units_Text_Unknown40;
+	wxStaticText *Units_Text_AlfaThingy;
 
 //	Invisible Holder Windows
 //	Type 10+
@@ -2008,11 +2000,8 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_GarrisonType;
 	wxBoxSizer *Units_Holder_GarrisonHealRate;
 	wxBoxSizer *Units_Holder_Unknown35;
-	wxBoxSizer *Units_Holder_Unknown36;
-	wxBoxSizer *Units_Holder_Unknown37;
-	wxBoxSizer *Units_Holder_Unknown38;
-	wxBoxSizer *Units_Holder_Unknown39;
-	wxBoxSizer *Units_Holder_Unknown40;
+	wxBoxSizer *Units_Holder_AlfaThingy;
+	wxGridSizer *Units_Grid_AlfaThingy;
 
 //	Unit Controls SubControls
 
@@ -2161,9 +2150,6 @@ class AGE_Frame: public wxFrame
 	wxGridSizer *Units_Grid_AttributesTracking;
 	wxGridSizer *Units_Grid_AttributesTrain1;
 	wxGridSizer *Units_Grid_Attributes3;
-	wxBoxSizer *Units_Holder_AttributesAnnexUnit;
-	wxBoxSizer *Units_Holder_AttributesAnnexUnit2;
-	wxBoxSizer *Units_Holder_Attributes4;
 	wxStaticBoxSizer *Units_Holder_SoundsArea;
 	wxBoxSizer *Units_Holder_SoundsArea1;
 	wxGridSizer *Units_Grid_SoundsArea2;

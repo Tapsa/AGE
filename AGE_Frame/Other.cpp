@@ -259,64 +259,64 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		if(GenieVersion != genie::GV_AoKA)
 		{
-//		No research gaia fix.
-		for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
-			GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
-//		ID and pointer fixes.
-		for(short loop = GenieFile->Civs.size(); loop--> 0;)
-		{
-			for(short loop2 = GenieFile->Civs[loop].Units.size(); loop2--> 0;)
+			// No research gaia fix.
+			for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
+				GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
+			// ID and pointer fixes.
+			for(short loop = GenieFile->Civs.size(); loop--> 0;)
 			{
-				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
+				for(short loop2 = GenieFile->Civs[loop].Units.size(); loop2--> 0;)
 				{
-					GenieFile->Civs[loop].UnitPointers[loop2] = 1;
-					if(EnableIDFix)
+					if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
 					{
-						GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
-						GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
-						if(GenieVersion >= genie::GV_AoK)
-						GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
-						else
-						if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
-						for(short loop3 = GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
-						GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
+						GenieFile->Civs[loop].UnitPointers[loop2] = 1;
+						if(EnableIDFix)
+						{
+							GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
+							GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
+							if(GenieVersion >= genie::GV_AoK)
+							GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
+							else
+							if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
+							for(short loop3 = GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
+							GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
+						}
 					}
 				}
 			}
-		}
-		if(EnableIDFix)
-		{
-			for(short loop = GenieFile->PlayerColours.size(); loop--> 0;)
+			if(EnableIDFix)
 			{
-				GenieFile->PlayerColours[loop].ID = loop;
+				for(short loop = GenieFile->PlayerColours.size(); loop--> 0;)
+				{
+					GenieFile->PlayerColours[loop].ID = loop;
+				}
+				for(short loop = GenieFile->Sounds.size(); loop--> 0;)
+				{
+					GenieFile->Sounds[loop].ID = loop;
+				}
+				if(GenieVersion >= genie::GV_SWGB)
+				for(short loop = GenieFile->UnitLines.size(); loop--> 0;)
+				{
+					GenieFile->UnitLines[loop].ID = loop;
+				}
 			}
-			for(short loop = GenieFile->Sounds.size(); loop--> 0;)
+			for(short loop = GenieFile->Graphics.size(); loop--> 0;)
 			{
-				GenieFile->Sounds[loop].ID = loop;
+				if(GenieFile->GraphicPointers[loop] != 0)
+				{
+					GenieFile->GraphicPointers[loop] = 1;
+					if(EnableIDFix)
+					GenieFile->Graphics[loop].ID = loop;
+				}
 			}
-			if(GenieVersion >= genie::GV_SWGB)
-			for(short loop = GenieFile->UnitLines.size(); loop--> 0;)
+			for(short loop = GenieFile->TerrainRestrictions.size(); loop--> 0;)
 			{
-				GenieFile->UnitLines[loop].ID = loop;
+				if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
+				GenieFile->TerrainRestrictionPointers1[loop] = 1;
+				if(GenieVersion >= genie::GV_AoKA)
+				if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
+				GenieFile->TerrainRestrictionPointers2[loop] = 1;
 			}
-		}
-		for(short loop = GenieFile->Graphics.size(); loop--> 0;)
-		{
-			if(GenieFile->GraphicPointers[loop] != 0)
-			{
-				GenieFile->GraphicPointers[loop] = 1;
-				if(EnableIDFix)
-				GenieFile->Graphics[loop].ID = loop;
-			}
-		}
-		for(short loop = GenieFile->TerrainRestrictions.size(); loop--> 0;)
-		{
-			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
-			GenieFile->TerrainRestrictionPointers1[loop] = 1;
-			if(GenieVersion >= genie::GV_AoKA)
-			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
-			GenieFile->TerrainRestrictionPointers2[loop] = 1;
-		}
 		}
 
 		Added = false;
@@ -858,9 +858,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Items.Add(0);
 		//wxMessageBox("Loaded!");
-		if(GenieVersion != genie::GV_AoKA)
-		{
-		if(GenieVersion >= genie::GV_AoKA)
+		if(GenieVersion >= genie::GV_AoK)
 		{
 			ListTTAgess();
 			ListTTBuildings();
@@ -896,7 +894,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			UnitLines_UnitLines_List->Clear();
 			UnitLines_UnitLineUnits_List->Clear();
 		}
-		}
 		ListResearches();
 		ListTechs();
 		ListGraphics();
@@ -907,7 +904,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		ListPlayerColors();
 		ListTerrainBorders();
 		ListGeneral();
-		if(GenieVersion != genie::GV_AoKA)
 		ListUnknowns();
 
 		Effects_ComboBox_AttributesC->Clear();
@@ -1140,14 +1136,27 @@ void AGE_Frame::OnGameVersionChange()
 		Terrains_Holder_BlendType->Show(show);
 		Units_StandingGraphic[1]->Show(show);
 		Units_ComboBox_StandingGraphic[1]->Show(show);
+		Units_Holder_GarrisonRecoveryRate->Show(show);
+		Units_Holder_HeroMode->Show(show);
+		Units_Holder_GarrisonGraphic->Show(show);
+		if(!show || ShowUnknowns)
+		{
+			Units_Holder_Unknown12->Show(show);
+			Units_Holder_Unknown16B->Show(show);
+		}
+
+		// AoK Alfa ->
+		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
+		for(short loop = 4;loop < 6; loop++)
+		{
+			Research_RequiredTechs[loop]->Show(show);
+			Research_ComboBox_RequiredTechs[loop]->Show(show);
+		}
 		Units_TrainSound[1]->Show(show);
 		Units_ComboBox_TrainSound[1]->Show(show);
 		Units_Holder_SelectionShapeType->Show(show);
 		Units_Holder_ID3->Show(show);
-		Units_Holder_GarrisonRecoveryRate->Show(show);
 		Units_Holder_MissileGraphicDelay->Show(show);
-		Units_Holder_HeroMode->Show(show);
-		Units_Holder_GarrisonGraphic->Show(show);
 		Units_Holder_AttackMissileDuplicationAmount1->Show(show);
 		Units_Holder_AttackMissileDuplicationAmount2->Show(show);
 		Units_Holder_AttackMissileDuplicationSpawning->Show(show);
@@ -1159,32 +1168,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_Holder_TransformUnit->Show(show);
 		Units_Holder_GarrisonType->Show(show);
 		Units_Holder_GarrisonHealRate->Show(show);
-		if(!show || ShowUnknowns)
-		{
-			Units_Holder_Unknown7->Show(show);
-			Units_Holder_Unknown8->Show(show);
-			Units_Holder_Unknown12->Show(show);
-			Units_Holder_Unknown16B->Show(show);
-			Units_Holder_Unknown26->Show(show);
-			Units_Holder_Unknown27->Show(show);
-			Units_Holder_Unknown29->Show(show);
-			Units_Holder_Unknown33->Show(show);
-			Units_Holder_Unknown34->Show(show);
-			Units_Holder_Unknown35->Show(show);
-			Units_Holder_Unknown36->Show(show);
-			Units_Holder_Unknown37->Show(show);
-			Units_Holder_Unknown38->Show(show);
-			Units_Holder_Unknown39->Show(show);
-			Units_Holder_Unknown40->Show(show);
-		}
-
-		// AoK Alfa ->
-		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
-		for(short loop = 4;loop < 6; loop++)
-		{
-			Research_RequiredTechs[loop]->Show(show);
-			Research_ComboBox_RequiredTechs[loop]->Show(show);
-		}
+		Units_Holder_AlfaThingy->Show(show);
 		TerRestrict_Holder_Unknown1->Show(show);
 		TerRestrict_Holder_Graphics->Show(show);
 		TerRestrict_Holder_Amount->Show(show);
@@ -1194,6 +1178,14 @@ void AGE_Frame::OnGameVersionChange()
 		TechTrees_Main->Show(show);
 		if(!show || ShowUnknowns)
 		{
+			Units_Holder_Unknown7->Show(show);
+			Units_Holder_Unknown8->Show(show);
+			Units_Holder_Unknown26->Show(show);
+			Units_Holder_Unknown27->Show(show);
+			Units_Holder_Unknown29->Show(show);
+			Units_Holder_Unknown33->Show(show);
+			Units_Holder_Unknown34->Show(show);
+			Units_Holder_Unknown35->Show(show);
 			SoundItems_Holder_Unknown->Show(show);
 			Colors_Holder_UnknownArea->Show(show);
 		}
@@ -1572,29 +1564,15 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
 	//wxMessageBox(lexical_cast<string>(Name.size())+"\n"+lexical_cast<string>(LangDLLstring(ID).size()));
 	if(LangWriteToLatest)
 	{
-		try
-		{
-			if(LangsUsed & 4) LangXP->setString(ID, Name);
-			else if(LangsUsed & 2) LangX->setString(ID, Name);
-			else if(LangsUsed & 1) Lang->setString(ID, Name);
-		}
-		catch(...)
-		{
-			wxMessageBox("An error occured while trying to save the string!");
-		}
+		if(LangsUsed & 4) LangXP->setString(ID, Name);
+		else if(LangsUsed & 2) LangX->setString(ID, Name);
+		else if(LangsUsed & 1) Lang->setString(ID, Name);
 	}
 	else
 	{
-		try
-		{
-			if(LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
-			if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
-			if(LangsUsed & 1) Lang->setString(ID, Name);
-		}
-		catch(...)
-		{
-			wxMessageBox("An error occured while trying to save the string!");
-		}
+		if(LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
+		if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
+		if(LangsUsed & 1) Lang->setString(ID, Name);
 	}
 	SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
 	control->DiscardEdits();
