@@ -321,39 +321,34 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Added = false;
 
-		UnitCommands_ComboBox_Types->Clear();
-		UnitCommands_ComboBox_Types->Append("Unused Ability/Invalid Ability");	// Selection 0
-		UnitCommands_ComboBox_Types->Append("Ability to Garrison");	// Selection 1
-		UnitCommands_ComboBox_Types->Append("Ability to Mine Gold");
-		UnitCommands_ComboBox_Types->Append("Ability to Mine Stone");
-		UnitCommands_ComboBox_Types->Append("Ability to Fish, Forage, or Farm");
-		UnitCommands_ComboBox_Types->Append("Ability to Rebuild");
-		UnitCommands_ComboBox_Types->Append("Unknown Animal Ability");
-		UnitCommands_ComboBox_Types->Append("Ability to Attack");
-		UnitCommands_ComboBox_Types->Append("Ability to Fly");
-		UnitCommands_ComboBox_Types->Append("Unknown Predator Animal Ability");
-		UnitCommands_ComboBox_Types->Append("Ability to Unload (Boat-Like)");
-		UnitCommands_ComboBox_Types->Append("Ability to Auto-Attack");
-		UnitCommands_ComboBox_Types->Append("Unknown Farm Ability");
-		UnitCommands_ComboBox_Types->Append("Ability to Build");
-		UnitCommands_ComboBox_Types->Append("Ability to Convert");
-		UnitCommands_ComboBox_Types->Append("Ability to Heal");
-		UnitCommands_ComboBox_Types->Append("Ability to Repair");
-		UnitCommands_ComboBox_Types->Append("Ability to Get Auto-converted?");
-		UnitCommands_ComboBox_Types->Append("Type 109, Sub -1");
-		UnitCommands_ComboBox_Types->Append("Ability to Chop Wood");
-		UnitCommands_ComboBox_Types->Append("Ability to Hunt Prey Animals");
-		UnitCommands_ComboBox_Types->Append("Ability to Hunt Predator Animals");
-		UnitCommands_ComboBox_Types->Append("Ability to Trade");
-		UnitCommands_ComboBox_Types->Append("Ability to Generate Wonder Victory*");
-		UnitCommands_ComboBox_Types->Append("Type 121, Sub -1");
-		UnitCommands_ComboBox_Types->Append("Ability to Mine Porex (Ore)");
-		UnitCommands_ComboBox_Types->Append("Ability to Unpack & Attack");
-		UnitCommands_ComboBox_Types->Append("Type 131, Sub -1");
-		UnitCommands_ComboBox_Types->Append("Ability to Pickup Unit");
-		UnitCommands_ComboBox_Types->Append("Ability to Kidnap Unit");
-		UnitCommands_ComboBox_Types->Append("Ability to Deposit Unit");	// Selection 30
-		UnitCommands_ComboBox_Types->SetSelection(0);
+		UnitCommands_ComboBox_Type->Clear();
+		UnitCommands_ComboBox_Type->Append("Unused Ability/Invalid Ability");	// Selection 0
+		UnitCommands_ComboBox_Type->Append("Ability to Garrison");	// Selection 1
+		UnitCommands_ComboBox_Type->Append("Ability to Gather/Rebuild 1");
+		UnitCommands_ComboBox_Type->Append("Unknown Animal Ability");
+		UnitCommands_ComboBox_Type->Append("Ability to Attack");
+		UnitCommands_ComboBox_Type->Append("Ability to Fly");
+		UnitCommands_ComboBox_Type->Append("Unknown Predator Animal Ability");
+		UnitCommands_ComboBox_Type->Append("Ability to Unload (Boat-Like)");
+		UnitCommands_ComboBox_Type->Append("Ability to Auto-Attack");
+		UnitCommands_ComboBox_Type->Append("Unknown Farm Ability");
+		UnitCommands_ComboBox_Type->Append("Ability to Build");
+		UnitCommands_ComboBox_Type->Append("Ability to Convert");
+		UnitCommands_ComboBox_Type->Append("Ability to Heal");
+		UnitCommands_ComboBox_Type->Append("Ability to Repair");
+		UnitCommands_ComboBox_Type->Append("Ability to Get Auto-converted?");
+		UnitCommands_ComboBox_Type->Append("Type 109, Sub -1");
+		UnitCommands_ComboBox_Type->Append("Ability to Gather/Rebuild 2");
+		UnitCommands_ComboBox_Type->Append("Ability to Trade");
+		UnitCommands_ComboBox_Type->Append("Ability to Generate Wonder Victory*");
+		UnitCommands_ComboBox_Type->Append("Deselect when Tasked");
+		UnitCommands_ComboBox_Type->Append("Ability to Loot");
+		UnitCommands_ComboBox_Type->Append("Ability to Unpack & Attack");
+		UnitCommands_ComboBox_Type->Append("Type 131, Sub -1");
+		UnitCommands_ComboBox_Type->Append("Ability to Pickup Unit");
+		UnitCommands_ComboBox_Type->Append("Ability to Kidnap Unit");
+		UnitCommands_ComboBox_Type->Append("Ability to Deposit Unit");	// Selection 30
+		UnitCommands_ComboBox_Type->SetSelection(0);
 
 		Units_ComboBox_GarrisonType->Clear();
 		Units_ComboBox_GarrisonType->Append("No Type/Invalid Type");	// Selection 0
@@ -1397,7 +1392,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			ShowUnknowns = Event.IsChecked();
 
 			Units_Holder_UnknownArea->Show(ShowUnknowns);
-			Units_CommandHolder_Data2->Show(ShowUnknowns);
+			Units_CommandHolder_Grid3->Show(ShowUnknowns);
 			TechTrees_Ages_Holder_Zeroes->Show(ShowUnknowns);
 			TechTrees_Buildings_Holder_Unknown2a->Show(ShowUnknowns);
 			TechTrees_Buildings_Holder_Unknown2b->Show(ShowUnknowns);
