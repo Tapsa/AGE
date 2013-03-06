@@ -251,7 +251,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(GenieFile != NULL)
 	{	// Without these, nothing can be edited.
-		wxMessageBox("Listing...");
+		//wxMessageBox("Listing...");
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
 		//wxMessageBox("Started to open the file!");

@@ -95,15 +95,15 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_Something[loop]->resize(1);
 		General_Something[loop]->container[0] = &GenieFile->Something[loop];
 	}
-	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->Unknown.Pointer));
+	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->RandomMaps.RandomMapPointer));
 	Unknown_UnknownPointer->resize(1);
-	Unknown_UnknownPointer->container[0] = &GenieFile->Unknown.Pointer;
+	Unknown_UnknownPointer->container[0] = &GenieFile->RandomMaps.RandomMapPointer;
 	if(GenieVersion <= genie::GV_RoR) return;
 	/*for(long loop = 0;loop < General_TTUnknown.size(); loop++)
 	{
-		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
+		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->RandomMapsPreTechTree[loop]));
 		General_TTUnknown[loop]->resize(1);
-		General_TTUnknown[loop]->container[0] = &GenieFile->UnknownPreTechTree[loop];
+		General_TTUnknown[loop]->container[0] = &GenieFile->RandomMapsPreTechTree[loop];
 	}
 	General_TTUnknown[7]->ChangeValue(lexical_cast<string>(GenieFile->TechTree.Unknown2));
 	General_TTUnknown[7]->resize(1);
@@ -307,7 +307,7 @@ string AGE_Frame::GetUnknownName(short Index)
 {
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[Index].ScriptNumber)+" ";
+		return "Unknown "+lexical_cast<string>(GenieFile->RandomMaps.MapHeaders[Index].ScriptNumber)+" ";
 	}
 	string Name = "";
 	switch(Index)
@@ -324,7 +324,7 @@ string AGE_Frame::GetUnknownName(short Index)
 		case 9: Name += "Gigantic ("; break;
 		default: Name += "Unknown (";
 	}
-	return Name += lexical_cast<string>(GenieFile->Unknown.Unknown1stBlocks[Index].ScriptNumber)+")";
+	return Name += lexical_cast<string>(GenieFile->RandomMaps.MapHeaders[Index].ScriptNumber)+")";
 }
 
 void AGE_Frame::ListUnknowns()
@@ -335,12 +335,12 @@ void AGE_Frame::ListUnknowns()
 	auto Selections = Unknowns_List->GetSelections(Items);
 	Unknowns_List->Clear();
 
-	for(short loop=0; loop < GenieFile->Unknown.Unknown1stBlocks.size(); loop++)
+	for(short loop=0; loop < GenieFile->RandomMaps.MapHeaders.size(); loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Unknowns_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[loop]);
+			Unknowns_List->Append(Name, (void*)&GenieFile->RandomMaps.Maps[loop]);
 		}
 	}
 
@@ -355,7 +355,7 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 	auto Selections = Unknowns_List->GetSelections(Items);
 	if(Selections > 0)
 	{
-		UnknownIDs.resize(Selections);
+		RandomMapIDs.resize(Selections);
 		Unknowns_UnknownLevel->resize(Selections);
 		int PointerCount = Selections * 2;
 		for(short loop=0; loop < Unknowns_Unknown1.size(); loop++)
@@ -366,62 +366,62 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 		for(short loop=0; loop < Unknowns_Unknown2.size(); loop++)
 		Unknowns_Unknown2[loop]->resize(PointerCount);
 
-		genie::Unknown1stBlock * UnknownPointer1;
-		genie::Unknown2ndBlock * UnknownPointer2;
+		genie::MapHeader * MapPointer1;
+		genie::Map * MapPointer2;
 		for(auto sel = Selections; sel--> 0;)
 		{
-			UnknownPointer2 = (genie::Unknown2ndBlock*)Unknowns_List->GetClientData(Items.Item(sel));
-			UnknownIDs[sel] = (UnknownPointer2 - (&GenieFile->Unknown.Unknown2ndBlocks[0]));
-			UnknownPointer1 = &GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[sel]];
+			MapPointer2 = (genie::Map*)Unknowns_List->GetClientData(Items.Item(sel));
+			RandomMapIDs[sel] = (MapPointer2 - (&GenieFile->RandomMaps.Maps[0]));
+			MapPointer1 = &GenieFile->RandomMaps.MapHeaders[RandomMapIDs[sel]];
 
-			Unknowns_UnknownLevel->container[sel] = &UnknownPointer1->ScriptNumber;
+			Unknowns_UnknownLevel->container[sel] = &MapPointer1->ScriptNumber;
 			int sel2 = sel + Selections;
-			Unknowns_Unknown1[0]->container[sel] = &UnknownPointer1->BorderSouthWest;
-			Unknowns_Unknown1[0]->container[sel2] = &UnknownPointer2->BorderSouthWest;
-			Unknowns_Unknown1[1]->container[sel] = &UnknownPointer1->BorderNorthWest;
-			Unknowns_Unknown1[1]->container[sel2] = &UnknownPointer2->BorderNorthWest;
-			Unknowns_Unknown1[2]->container[sel] = &UnknownPointer1->BorderNorthEast;
-			Unknowns_Unknown1[2]->container[sel2] = &UnknownPointer2->BorderNorthEast;
-			Unknowns_Unknown1[3]->container[sel] = &UnknownPointer1->BorderSouthEast;
-			Unknowns_Unknown1[3]->container[sel2] = &UnknownPointer2->BorderSouthEast;
-			Unknowns_Unknown1[4]->container[sel] = &UnknownPointer1->BorderUsage;
-			Unknowns_Unknown1[4]->container[sel2] = &UnknownPointer2->BorderUsage;
-			Unknowns_Unknown1[5]->container[sel] = &UnknownPointer1->WaterShape;
-			Unknowns_Unknown1[5]->container[sel2] = &UnknownPointer2->WaterShape;
-			Unknowns_Unknown1[6]->container[sel] = &UnknownPointer1->NonBaseTerrain;
-			Unknowns_Unknown1[6]->container[sel2] = &UnknownPointer2->NonBaseTerrain;
-			Unknowns_Unknown1[7]->container[sel] = &UnknownPointer1->BaseZoneCoverage;
-			Unknowns_Unknown1[7]->container[sel2] = &UnknownPointer2->BaseZoneCoverage;
-			Unknowns_Unknown1[8]->container[sel] = &UnknownPointer1->Unknown9;
-			Unknowns_Unknown1[8]->container[sel2] = &UnknownPointer2->Unknown9;
-			Unknowns_Pointer1->container[sel] = &UnknownPointer1->Pointer1;
-			Unknowns_Pointer1->container[sel2] = &UnknownPointer2->Pointer1;
-			Unknowns_Pointer2->container[sel] = &UnknownPointer1->Pointer2;
-			Unknowns_Pointer2->container[sel2] = &UnknownPointer2->Pointer2;
-			Unknowns_Pointer3->container[sel] = &UnknownPointer1->Pointer3;
-			Unknowns_Pointer3->container[sel2] = &UnknownPointer2->Pointer3;
-			for(short loop=0; loop < genie::Unknown1stBlock::UNKNOWN2_LEN; loop++)
+			Unknowns_Unknown1[0]->container[sel] = &MapPointer1->BorderSouthWest;
+			Unknowns_Unknown1[0]->container[sel2] = &MapPointer2->BorderSouthWest;
+			Unknowns_Unknown1[1]->container[sel] = &MapPointer1->BorderNorthWest;
+			Unknowns_Unknown1[1]->container[sel2] = &MapPointer2->BorderNorthWest;
+			Unknowns_Unknown1[2]->container[sel] = &MapPointer1->BorderNorthEast;
+			Unknowns_Unknown1[2]->container[sel2] = &MapPointer2->BorderNorthEast;
+			Unknowns_Unknown1[3]->container[sel] = &MapPointer1->BorderSouthEast;
+			Unknowns_Unknown1[3]->container[sel2] = &MapPointer2->BorderSouthEast;
+			Unknowns_Unknown1[4]->container[sel] = &MapPointer1->BorderUsage;
+			Unknowns_Unknown1[4]->container[sel2] = &MapPointer2->BorderUsage;
+			Unknowns_Unknown1[5]->container[sel] = &MapPointer1->WaterShape;
+			Unknowns_Unknown1[5]->container[sel2] = &MapPointer2->WaterShape;
+			Unknowns_Unknown1[6]->container[sel] = &MapPointer1->NonBaseTerrain;
+			Unknowns_Unknown1[6]->container[sel2] = &MapPointer2->NonBaseTerrain;
+			Unknowns_Unknown1[7]->container[sel] = &MapPointer1->BaseZoneCoverage;
+			Unknowns_Unknown1[7]->container[sel2] = &MapPointer2->BaseZoneCoverage;
+			Unknowns_Unknown1[8]->container[sel] = &MapPointer1->Unknown9;
+			Unknowns_Unknown1[8]->container[sel2] = &MapPointer2->Unknown9;
+			Unknowns_Pointer1->container[sel] = &MapPointer1->BaseZonePointer;
+			Unknowns_Pointer1->container[sel2] = &MapPointer2->BaseZonePointer;
+			Unknowns_Pointer2->container[sel] = &MapPointer1->MapTerrainPointer;
+			Unknowns_Pointer2->container[sel2] = &MapPointer2->MapTerrainPointer;
+			Unknowns_Pointer3->container[sel] = &MapPointer1->MapUnitPointer;
+			Unknowns_Pointer3->container[sel2] = &MapPointer2->MapUnitPointer;
+			for(short loop=0; loop < genie::MapHeader::UNKNOWN2_SIZE; loop++)
 			{
-				Unknowns_Unknown2[loop]->container[sel] = &UnknownPointer1->Unknown2[loop];
-				Unknowns_Unknown2[loop]->container[sel2] = &UnknownPointer2->Unknown2[loop];
+				Unknowns_Unknown2[loop]->container[sel] = &MapPointer1->Unknown2[loop];
+				Unknowns_Unknown2[loop]->container[sel2] = &MapPointer2->Unknown2[loop];
 			}
 		}
 
-		Unknowns_UnknownLevel->ChangeValue(lexical_cast<string>(UnknownPointer1->ScriptNumber));
-		Unknowns_Unknown1[0]->ChangeValue(lexical_cast<string>(UnknownPointer1->BorderSouthWest));
-		Unknowns_Unknown1[1]->ChangeValue(lexical_cast<string>(UnknownPointer1->BorderNorthWest));
-		Unknowns_Unknown1[2]->ChangeValue(lexical_cast<string>(UnknownPointer1->BorderNorthEast));
-		Unknowns_Unknown1[3]->ChangeValue(lexical_cast<string>(UnknownPointer1->BorderSouthEast));
-		Unknowns_Unknown1[4]->ChangeValue(lexical_cast<string>(UnknownPointer1->BorderUsage));
-		Unknowns_Unknown1[5]->ChangeValue(lexical_cast<string>(UnknownPointer1->WaterShape));
-		Unknowns_Unknown1[6]->ChangeValue(lexical_cast<string>(UnknownPointer1->NonBaseTerrain));
-		Unknowns_Unknown1[7]->ChangeValue(lexical_cast<string>(UnknownPointer1->BaseZoneCoverage));
-		Unknowns_Unknown1[8]->ChangeValue(lexical_cast<string>(UnknownPointer1->Unknown9));
-		Unknowns_Pointer1->ChangeValue(lexical_cast<string>(UnknownPointer1->Pointer1));
-		Unknowns_Pointer2->ChangeValue(lexical_cast<string>(UnknownPointer1->Pointer2));
-		Unknowns_Pointer3->ChangeValue(lexical_cast<string>(UnknownPointer1->Pointer3));
+		Unknowns_UnknownLevel->ChangeValue(lexical_cast<string>(MapPointer1->ScriptNumber));
+		Unknowns_Unknown1[0]->ChangeValue(lexical_cast<string>(MapPointer1->BorderSouthWest));
+		Unknowns_Unknown1[1]->ChangeValue(lexical_cast<string>(MapPointer1->BorderNorthWest));
+		Unknowns_Unknown1[2]->ChangeValue(lexical_cast<string>(MapPointer1->BorderNorthEast));
+		Unknowns_Unknown1[3]->ChangeValue(lexical_cast<string>(MapPointer1->BorderSouthEast));
+		Unknowns_Unknown1[4]->ChangeValue(lexical_cast<string>(MapPointer1->BorderUsage));
+		Unknowns_Unknown1[5]->ChangeValue(lexical_cast<string>(MapPointer1->WaterShape));
+		Unknowns_Unknown1[6]->ChangeValue(lexical_cast<string>(MapPointer1->NonBaseTerrain));
+		Unknowns_Unknown1[7]->ChangeValue(lexical_cast<string>(MapPointer1->BaseZoneCoverage));
+		Unknowns_Unknown1[8]->ChangeValue(lexical_cast<string>(MapPointer1->Unknown9));
+		Unknowns_Pointer1->ChangeValue(lexical_cast<string>(MapPointer1->BaseZonePointer));
+		Unknowns_Pointer2->ChangeValue(lexical_cast<string>(MapPointer1->MapTerrainPointer));
+		Unknowns_Pointer3->ChangeValue(lexical_cast<string>(MapPointer1->MapUnitPointer));
 		for(short loop=0; loop < Unknowns_Unknown2.size(); loop++)
-		Unknowns_Unknown2[loop]->ChangeValue(lexical_cast<string>(UnknownPointer1->Unknown2[loop]));
+		Unknowns_Unknown2[loop]->ChangeValue(lexical_cast<string>(MapPointer1->Unknown2[loop]));
 
 		ListUnknownFirstSubData();
 		ListRMSTerrains();
@@ -461,8 +461,8 @@ void AGE_Frame::OnUnknownsAdd(wxCommandEvent &Event)
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListNoGV(GenieFile->Unknown.Unknown1stBlocks);
-	AddToListNoGV(GenieFile->Unknown.Unknown2ndBlocks);
+	AddToListNoGV(GenieFile->RandomMaps.MapHeaders);
+	AddToListNoGV(GenieFile->RandomMaps.Maps);
 	ListUnknowns();
 }
 
@@ -472,8 +472,8 @@ void AGE_Frame::OnUnknownsInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListNoGV(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs[0]);
-	InsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs[0]);
+	InsertToListNoGV(GenieFile->RandomMaps.MapHeaders, RandomMapIDs[0]);
+	InsertToListNoGV(GenieFile->RandomMaps.Maps, RandomMapIDs[0]);
 	ListUnknowns();
 }
 
@@ -483,8 +483,8 @@ void AGE_Frame::OnUnknownsDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs);
-	DeleteFromList(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs);
+	DeleteFromList(GenieFile->RandomMaps.MapHeaders, RandomMapIDs);
+	DeleteFromList(GenieFile->RandomMaps.Maps, RandomMapIDs);
 	ListUnknowns();
 }
 
@@ -494,8 +494,8 @@ void AGE_Frame::OnUnknownsCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs, copies->Unknown1stBlock);
-	CopyFromList(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs, copies->Unknown2ndBlock);
+	CopyFromList(GenieFile->RandomMaps.MapHeaders, RandomMapIDs, copies->MapHeader);
+	CopyFromList(GenieFile->RandomMaps.Maps, RandomMapIDs, copies->Map);
 }
 
 void AGE_Frame::OnUnknownsPaste(wxCommandEvent &Event)
@@ -504,8 +504,8 @@ void AGE_Frame::OnUnknownsPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs, copies->Unknown1stBlock);
-	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs, copies->Unknown2ndBlock);
+	PasteToListNoGV(GenieFile->RandomMaps.MapHeaders, RandomMapIDs, copies->MapHeader);
+	PasteToListNoGV(GenieFile->RandomMaps.Maps, RandomMapIDs, copies->Map);
 	ListUnknowns();
 }
 
@@ -515,8 +515,8 @@ void AGE_Frame::OnUnknownsPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->Unknown.Unknown1stBlocks, UnknownIDs[0], copies->Unknown1stBlock);
-	PasteInsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks, UnknownIDs[0], copies->Unknown2ndBlock);
+	PasteInsertToListNoGV(GenieFile->RandomMaps.MapHeaders, RandomMapIDs[0], copies->MapHeader);
+	PasteInsertToListNoGV(GenieFile->RandomMaps.Maps, RandomMapIDs[0], copies->Map);
 	ListUnknowns();
 }
 
@@ -527,7 +527,7 @@ void AGE_Frame::OnUnknownFirstSubDataSearch(wxCommandEvent &Event)
 
 string AGE_Frame::GetUnknownFirstSubDataName(short Index)
 {
-	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[Index].Unknown1)+" ";
+	return "Unknown "+lexical_cast<string>(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[Index].Unknown1)+" ";
 }
 
 void AGE_Frame::ListUnknownFirstSubData()
@@ -537,12 +537,12 @@ void AGE_Frame::ListUnknownFirstSubData()
 	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
 	UnknownFirstSubData_List->Clear();
 
-	for(short loop=0; loop < GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas.size(); loop++)
+	for(short loop=0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size(); loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownFirstSubDataName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			UnknownFirstSubData_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[loop]);
+			UnknownFirstSubData_List->Append(Name, (void*)&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[loop]);
 		}
 	}
 	ListingFix(Selections, UnknownFirstSubData_List);
@@ -575,11 +575,11 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 	UnknownFirstSubData_Unknown10->resize(Selections);
 	UnknownFirstSubData_Unknown11->resize(Selections);
 
-	genie::FirstSubData * UnknownPointer;
+	genie::BaseZone * UnknownPointer;
 	for(auto sel = Selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::FirstSubData*)UnknownFirstSubData_List->GetClientData(Items.Item(sel));
-		UnknownFSIDs[sel] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas[0]));
+		UnknownPointer = (genie::BaseZone*)UnknownFirstSubData_List->GetClientData(Items.Item(sel));
+		UnknownFSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[0]));
 
 		UnknownFirstSubData_Unknown1->container[sel] = &UnknownPointer->Unknown1;
 		UnknownFirstSubData_BaseTerrain->container[sel] = &UnknownPointer->BaseTerrain;
@@ -664,8 +664,8 @@ void AGE_Frame::OnUnknownFirstSubDataAdd(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count1 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas.size();
+	AddToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].BaseZoneCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size();
 	ListUnknownFirstSubData();
 }
 
@@ -675,8 +675,8 @@ void AGE_Frame::OnUnknownFirstSubDataInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs[0]);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count1 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas.size();
+	InsertToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs[0]);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].BaseZoneCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size();
 	ListUnknownFirstSubData();
 }
 
@@ -686,8 +686,8 @@ void AGE_Frame::OnUnknownFirstSubDataDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count1 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas.size();
+	DeleteFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].BaseZoneCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size();
 	ListUnknownFirstSubData();
 }
 
@@ -697,7 +697,7 @@ void AGE_Frame::OnUnknownFirstSubDataCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs, copies->FirstSubData);
+	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs, copies->BaseZone);
 }
 
 void AGE_Frame::OnUnknownFirstSubDataPaste(wxCommandEvent &Event)
@@ -706,8 +706,8 @@ void AGE_Frame::OnUnknownFirstSubDataPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs, copies->FirstSubData);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count1 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas.size();
+	PasteToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs, copies->BaseZone);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].BaseZoneCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size();
 	ListUnknownFirstSubData();
 }
 
@@ -717,8 +717,8 @@ void AGE_Frame::OnUnknownFirstSubDataPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas, UnknownFSIDs[0], copies->FirstSubData);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count1 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].FirstSubDatas.size();
+	PasteInsertToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs[0], copies->BaseZone);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].BaseZoneCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size();
 	ListUnknownFirstSubData();
 }
 
@@ -745,12 +745,12 @@ void AGE_Frame::ListRMSTerrains()
 	auto Selections = RMSTerrain_List->GetSelections(Items);
 	RMSTerrain_List->Clear();
 
-	for(short loop=0; loop < GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas.size(); loop++)
+	for(short loop=0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size(); loop++)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetRMSTerrainName(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[loop].Terrain);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetRMSTerrainName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[loop].Terrain);
 		if(SearchMatches(Name.Lower()))
 		{
-			RMSTerrain_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[loop]);
+			RMSTerrain_List->Append(Name, (void*)&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[loop]);
 		}
 	}
 	ListingFix(Selections, RMSTerrain_List);
@@ -772,11 +772,11 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &Event)
 	for(short loop=0; loop < RMSTerrain_Unknown1.size(); loop++)
 	RMSTerrain_Unknown1[loop]->resize(Selections);
 
-	genie::SecondSubData * UnknownPointer;
+	genie::MapTerrain * UnknownPointer;
 	for(auto sel = Selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::SecondSubData*)RMSTerrain_List->GetClientData(Items.Item(sel));
-		UnknownSSIDs[sel] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas[0]));
+		UnknownPointer = (genie::MapTerrain*)RMSTerrain_List->GetClientData(Items.Item(sel));
+		UnknownSSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[0]));
 
 		RMSTerrain_Unknown1[0]->container[sel] = &UnknownPointer->Proportion;
 		RMSTerrain_Unknown1[1]->container[sel] = &UnknownPointer->Terrain;
@@ -813,8 +813,8 @@ void AGE_Frame::OnRMSTerrainAdd(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count2 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas.size();
+	AddToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
 	ListRMSTerrains();
 }
 
@@ -824,8 +824,8 @@ void AGE_Frame::OnRMSTerrainInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs[0]);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count2 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas.size();
+	InsertToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs[0]);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
 	ListRMSTerrains();
 }
 
@@ -835,8 +835,8 @@ void AGE_Frame::OnRMSTerrainDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count2 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas.size();
+	DeleteFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
 	ListRMSTerrains();
 }
 
@@ -846,7 +846,7 @@ void AGE_Frame::OnRMSTerrainCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs, copies->SecondSubData);
+	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs, copies->MapTerrain);
 }
 
 void AGE_Frame::OnRMSTerrainPaste(wxCommandEvent &Event)
@@ -855,8 +855,8 @@ void AGE_Frame::OnRMSTerrainPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs, copies->SecondSubData);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count2 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas.size();
+	PasteToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs, copies->MapTerrain);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
 	ListRMSTerrains();
 }
 
@@ -866,8 +866,8 @@ void AGE_Frame::OnRMSTerrainPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas, UnknownSSIDs[0], copies->SecondSubData);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count2 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].SecondSubDatas.size();
+	PasteInsertToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs[0], copies->MapTerrain);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
 	ListRMSTerrains();
 }
 
@@ -878,7 +878,7 @@ void AGE_Frame::OnRMSUnitSearch(wxCommandEvent &Event)
 
 string AGE_Frame::GetRMSUnitName(short Unit)
 {
-	return "Unknown "+lexical_cast<string>(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[Unit].Unit)+" ";
+	return "Unknown "+lexical_cast<string>(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[Unit].Unit)+" ";
 }
 
 void AGE_Frame::ListRMSUnits()
@@ -888,12 +888,12 @@ void AGE_Frame::ListRMSUnits()
 	auto Selections = RMSUnit_List->GetSelections(Items);
 	RMSUnit_List->Clear();
 
-	for(short loop=0; loop < GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas.size(); loop++)
+	for(short loop=0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size(); loop++)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[loop].Unit);
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[loop].Unit);
 		if(SearchMatches(Name.Lower()))
 		{
-			RMSUnit_List->Append(Name, (void*)&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[loop]);
+			RMSUnit_List->Append(Name, (void*)&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[loop]);
 		}
 	}
 	ListingFix(Selections, RMSUnit_List);
@@ -925,11 +925,11 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 	RMSUnit_MinDistanceToPlayers->resize(Selections);
 	RMSUnit_MaxDistanceToPlayers->resize(Selections);
 
-	genie::ThirdSubData * UnknownPointer;
+	genie::MapUnit * UnknownPointer;
 	for(auto sel = Selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::ThirdSubData*)RMSUnit_List->GetClientData(Items.Item(sel));
-		UnknownTSIDs[sel] = (UnknownPointer - (&GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas[0]));
+		UnknownPointer = (genie::MapUnit*)RMSUnit_List->GetClientData(Items.Item(sel));
+		UnknownTSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[0]));
 
 		RMSUnit_Unit->container[sel] = &UnknownPointer->Unit;
 		RMSUnit_HostTerrain->container[sel] = &UnknownPointer->HostTerrain;
@@ -1007,8 +1007,8 @@ void AGE_Frame::OnRMSUnitAdd(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count3 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas.size();
+	AddToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnitCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size();
 	ListRMSUnits();
 }
 
@@ -1018,8 +1018,8 @@ void AGE_Frame::OnRMSUnitInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs[0]);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count3 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas.size();
+	InsertToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs[0]);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnitCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size();
 	ListRMSUnits();
 }
 
@@ -1029,8 +1029,8 @@ void AGE_Frame::OnRMSUnitDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count3 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas.size();
+	DeleteFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnitCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size();
 	ListRMSUnits();
 }
 
@@ -1040,7 +1040,7 @@ void AGE_Frame::OnRMSUnitCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs, copies->ThirdSubData);
+	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs, copies->MapUnit);
 }
 
 void AGE_Frame::OnRMSUnitPaste(wxCommandEvent &Event)
@@ -1049,8 +1049,8 @@ void AGE_Frame::OnRMSUnitPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs, copies->ThirdSubData);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count3 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas.size();
+	PasteToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs, copies->MapUnit);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnitCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size();
 	ListRMSUnits();
 }
 
@@ -1060,8 +1060,8 @@ void AGE_Frame::OnRMSUnitPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas, UnknownTSIDs[0], copies->ThirdSubData);
-	GenieFile->Unknown.Unknown1stBlocks[UnknownIDs[0]].Count3 = GenieFile->Unknown.Unknown2ndBlocks[UnknownIDs[0]].ThirdSubDatas.size();
+	PasteInsertToListNoGV(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs[0], copies->MapUnit);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnitCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size();
 	ListRMSUnits();
 }
 
@@ -1077,7 +1077,7 @@ void AGE_Frame::CreateUnknownControls()
 
 	Unknown_Grid_UnknownPointer = new wxGridSizer(8, 0, 0);
 	Unknown_Holder_UnknownPointer = new wxBoxSizer(wxVERTICAL);
-	Unknown_Text_UnknownPointer = new wxStaticText(Tab_Unknown, wxID_ANY, " Unknown Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknown_Text_UnknownPointer = new wxStaticText(Tab_Unknown, wxID_ANY, " Random Map Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknown_UnknownPointer = new TextCtrl_Long(Tab_Unknown);
 
 	Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Unknown, "Random Map Scripts (Required in AoE/RoR)");
@@ -1121,7 +1121,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Text_Unknown1[8] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Space_Pointer1 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Holder_Pointer1 = new wxBoxSizer(wxVERTICAL);
-	Unknowns_Text_Pointer1 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Pointer1 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Pointer1 = new TextCtrl_Long(Unknown_Scroller);
 
 	UnknownFirstSubData = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Base Zone Data");
@@ -1189,7 +1189,7 @@ void AGE_Frame::CreateUnknownControls()
 
 	Unknowns_Space_Pointer2 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Holder_Pointer2 = new wxBoxSizer(wxVERTICAL);
-	Unknowns_Text_Pointer2 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Pointer2 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Terrain Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Pointer2 = new TextCtrl_Long(Unknown_Scroller);
 
 	RMSTerrain = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Terrains Placed on the Map");
@@ -1225,7 +1225,7 @@ void AGE_Frame::CreateUnknownControls()
 
 	Unknowns_Space_Pointer3 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Holder_Pointer3 = new wxBoxSizer(wxVERTICAL);
-	Unknowns_Text_Pointer3 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Text_Pointer3 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Unit Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Pointer3 = new TextCtrl_Long(Unknown_Scroller);
 
 	RMSUnit = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Units Placed on the Map (Some may appear anyway)");
