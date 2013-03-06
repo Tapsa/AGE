@@ -688,7 +688,7 @@ class AGE_Frame: public wxFrame
 	wxArrayInt Items;
 	long SomethingPage;
 	long SomethingSize;
-	vector<short> UnknownIDs;
+	vector<short> RandomMapIDs;
 	vector<short> UnknownFSIDs;
 	vector<short> UnknownSSIDs;
 	vector<short> UnknownTSIDs;
@@ -1216,10 +1216,17 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Research_Text_ButtonID;
 	TextCtrl_Byte *Research_ButtonID;
 
-	wxBoxSizer *Research_Holder_Pointers[3];
-	wxStaticText *Research_Text_Pointers[3];
-	TextCtrl_Long *Research_Pointers[3];
-	TextCtrl_DLL *Research_DLL_Pointers[2];
+	wxBoxSizer *Research_Holder_LanguageDLLHelp;
+	wxStaticText *Research_Text_LanguageDLLHelp;
+	TextCtrl_Long *Research_LanguageDLLHelp;
+	wxBoxSizer *Research_Holder_LanguageDLLName2;
+	wxStaticText *Research_Text_LanguageDLLName2;
+	TextCtrl_Long *Research_LanguageDLLName2;
+	wxBoxSizer *Research_Holder_Unknown1;
+	wxStaticText *Research_Text_Unknown1;
+	TextCtrl_Long *Research_Unknown1;
+	TextCtrl_DLL *Research_DLL_LanguageDLLHelp;
+	TextCtrl_DLL *Research_DLL_LanguageDLLName2;
 	wxBoxSizer *Research_Holder_LanguageDLLConverter[2];
 	wxStaticText *Research_Text_LanguageDLLConverter[2];
 	wxTextCtrl *Research_LanguageDLLConverter[2];

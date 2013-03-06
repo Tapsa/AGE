@@ -1259,8 +1259,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		Units_DLL_LanguageHelp->index = UnitPointer->LanguageDLLHelp - 0x10000;
-		Units_DLL_LanguageHKText->index = UnitPointer->LanguageDLLHotKeyText - 0x20000;
+		Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
+		Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
 	}
 	if(GenieVersion >= genie::GV_AoK)
 	{
@@ -1872,7 +1872,6 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
 	store.IconID = GenieFile->Civs[civ].Units[unit].IconID;// This probably shouldn't be here.
 	store.StandingGraphic = GenieFile->Civs[civ].Units[unit].StandingGraphic;
 	store.DyingGraphic = GenieFile->Civs[civ].Units[unit].DyingGraphic;
-	store.DamageGraphicCount = GenieFile->Civs[civ].Units[unit].DamageGraphicCount;
 	store.DamageGraphics = GenieFile->Civs[civ].Units[unit].DamageGraphics;
 	switch((short)GenieFile->Civs[civ].Units[unit].Type)
 	{
@@ -2052,7 +2051,6 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
 	GenieFile->Civs[civ].Units[unit].IconID = store.IconID;
 	GenieFile->Civs[civ].Units[unit].StandingGraphic = store.StandingGraphic;
 	GenieFile->Civs[civ].Units[unit].DyingGraphic = store.DyingGraphic;
-	GenieFile->Civs[civ].Units[unit].DamageGraphicCount = store.DamageGraphicCount;
 	GenieFile->Civs[civ].Units[unit].DamageGraphics = store.DamageGraphics;
 	switch((short)GenieFile->Civs[civ].Units[unit].Type)
 	{
@@ -4047,7 +4045,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_FlyMode->SetToolTip("Requires class 22 and air mode 1?\n0 Normal\n1 Graphics appear higher than the shadow");
 	Units_CheckBox_FlyMode = new CheckBox_2State(Units_Scroller, "Fly Mode", Units_FlyMode);
 	Units_SheepConversion = new TextCtrl_Short(Units_Scroller);
-	Units_SheepConversion->SetToolTip("No most\nYes junk, farm, deer, fish trap, wonder, STRBO, sheep, birds, boar, monument, wild horse");
+	Units_SheepConversion->SetToolTip("To get the unit auto-converted to enemy,\nuse unit command 107, which sheep and monument have\nAll somehow auto-convertible units have this set to 0\nMost other units have -1");
 	Units_CheckBox_SheepConversion = new CheckBox_ZeroIsYes(Units_Scroller, "Convert Herd *", Units_SheepConversion);
 	Units_AnimalMode = new TextCtrl_Byte(Units_Scroller);
 	Units_CheckBox_AnimalMode = new CheckBox_2State(Units_Scroller, "Animal Mode", Units_AnimalMode);

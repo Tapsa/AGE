@@ -158,7 +158,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_BlendPriority->resize(Selections);
 		Terrains_BlendType->resize(Selections);
 		if(GenieVersion >= genie::GV_SWGB)
-		for(short loop=0; loop < genie::Terrain::SWGBUNKNOWN1_LEN; loop++)
+		for(short loop=0; loop < genie::Terrain::SWGBUNKNOWN1_SIZE; loop++)
 		{
 			Terrains_SUnknown1[loop]->resize(Selections);
 		}
@@ -169,14 +169,14 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	}
 	Terrains_Unknown5->resize(Selections);
 	Terrains_Unknown6->resize(Selections);
-	for(short loop=0; loop < genie::Terrain::UNKNOWN7_LEN; loop++)
+	for(short loop=0; loop < genie::Terrain::UNKNOWN7_SIZE; loop++)
 	{
 		Terrains_Unknown7[loop]->resize(Selections);
 	}
 	Terrains_FrameCount->resize(Selections);
 	Terrains_Unknown8[0]->resize(Selections);
 	Terrains_Unknown8[1]->resize(Selections);
-	for(short loop=0; loop < genie::Terrain::UNKNOWN9_LEN; loop++)
+	for(short loop=0; loop < genie::Terrain::UNKNOWN9_SIZE; loop++)
 	{
 		Terrains_Unknown9[loop]->resize(Selections);
 	}
@@ -187,7 +187,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	{
 		Terrains_TerrainBorderID[loop]->resize(Selections);
 	}
-	for(short loop=0; loop < genie::Terrain::TERRAIN_UNITS_LEN; loop++)
+	for(short loop=0; loop < genie::Terrain::TERRAIN_UNITS_SIZE; loop++)
 	{
 		Terrains_TerrainUnitID[loop]->resize(Selections);
 		Terrains_TerrainUnitDensity[loop]->resize(Selections);
@@ -213,7 +213,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 			Terrains_BlendPriority->container[sel] = &TerrainPointer->BlendPriority;
 			Terrains_BlendType->container[sel] = &TerrainPointer->BlendType;
 			if(GenieVersion >= genie::GV_SWGB)
-			for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_LEN; loop++)
+			for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_SIZE; loop++)
 			{
 				Terrains_SUnknown1[loop]->container[sel] = &TerrainPointer->SWGBUnknown1[loop];
 			}
@@ -224,14 +224,14 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		}
 		Terrains_Unknown5->container[sel] = &TerrainPointer->Unknown5;
 		Terrains_Unknown6->container[sel] = &TerrainPointer->Unknown6;
-		for(short loop=0; loop < TerrainPointer->UNKNOWN7_LEN; loop++)
+		for(short loop=0; loop < TerrainPointer->UNKNOWN7_SIZE; loop++)
 		{
 			Terrains_Unknown7[loop]->container[sel] = &TerrainPointer->Unknown7[loop];
 		}
 		Terrains_FrameCount->container[sel] = &TerrainPointer->FrameCount;
 		Terrains_Unknown8[0]->container[sel] = &TerrainPointer->Unknown8[0];
 		Terrains_Unknown8[1]->container[sel] = &TerrainPointer->Unknown8[1];
-		for(short loop=0; loop < TerrainPointer->UNKNOWN9_LEN; loop++)
+		for(short loop=0; loop < TerrainPointer->UNKNOWN9_SIZE; loop++)
 		{
 			Terrains_Unknown9[loop]->container[sel] = &TerrainPointer->Unknown9[loop];
 		}
@@ -242,7 +242,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		{
 			Terrains_TerrainBorderID[loop]->container[sel] = &TerrainPointer->TerrainBorderIDs[loop];
 		}
-		for(short loop=0; loop < TerrainPointer->TERRAIN_UNITS_LEN; loop++)
+		for(short loop=0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; loop++)
 		{
 			Terrains_TerrainUnitID[loop]->container[sel] = &TerrainPointer->TerrainUnitID[loop];
 			Terrains_TerrainUnitDensity[loop]->container[sel] = &TerrainPointer->TerrainUnitDensity[loop];
@@ -264,7 +264,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_BlendPriority->ChangeValue(lexical_cast<string>(TerrainPointer->BlendPriority));
 		Terrains_BlendType->ChangeValue(lexical_cast<string>(TerrainPointer->BlendType));
 		if(GenieVersion >= genie::GV_SWGB)
-		for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_LEN; loop++)
+		for(short loop=0; loop < TerrainPointer->SWGBUNKNOWN1_SIZE; loop++)
 		{
 			Terrains_SUnknown1[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->SWGBUnknown1[loop]));
 		}
@@ -275,14 +275,14 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	}
 	Terrains_Unknown5->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown5));
 	Terrains_Unknown6->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown6));
-	for(short loop=0; loop < TerrainPointer->UNKNOWN7_LEN; loop++)
+	for(short loop=0; loop < TerrainPointer->UNKNOWN7_SIZE; loop++)
 	{
 		Terrains_Unknown7[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Unknown7[loop]));
 	}
 	Terrains_FrameCount->ChangeValue(lexical_cast<string>(TerrainPointer->FrameCount));
 	Terrains_Unknown8[0]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown8[0]));
 	Terrains_Unknown8[1]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown8[1]));
-	for(short loop=0; loop < TerrainPointer->UNKNOWN9_LEN; loop++)
+	for(short loop=0; loop < TerrainPointer->UNKNOWN9_SIZE; loop++)
 	{
 		Terrains_Unknown9[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown9[loop]));
 	}
@@ -295,7 +295,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_TerrainBorderID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainBorderIDs[loop]));
 		Terrains_ComboBox_TerrainBorderID[loop]->SetSelection(TerrainPointer->TerrainBorderIDs[loop] + 1);
 	}
-	for(short loop=0; loop < TerrainPointer->TERRAIN_UNITS_LEN; loop++)
+	for(short loop=0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; loop++)
 	{
 		Terrains_TerrainUnitID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitID[loop]));
 		Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(TerrainPointer->TerrainUnitID[loop] + 1);
