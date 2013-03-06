@@ -74,9 +74,6 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_TerrainHeader[loop]->resize(1);
 		General_TerrainHeader[loop]->container[0] = &GenieFile->GraphicsRendering[loop];
 	}
-	General_BeforeBorders->ChangeValue(lexical_cast<string>(GenieFile->Unknown2));
-	General_BeforeBorders->resize(1);
-	General_BeforeBorders->container[0] = &GenieFile->Unknown2;
 	for(short loop=0; loop < GenieFile->ZeroSpace.size(); loop++)
 	{
 		General_AfterBorders[loop]->ChangeValue(lexical_cast<string>(GenieFile->ZeroSpace[loop]));
@@ -184,11 +181,9 @@ void AGE_Frame::CreateGeneralControls()
 	General_Grid_Something = new wxGridSizer(8, 0, 0);
 	for(short loop=0; loop < General_TerrainHeader.size(); loop++)
 	General_TerrainHeader[loop] = new TextCtrl_Short(General_Scroller);
-	General_BeforeBorders = new TextCtrl_Short(General_Scroller);
-	General_BeforeBorders->SetToolTip("In the file this is\nright after terrains and\nbefore terrain borders");
 	for(short loop=0; loop < General_AfterBorders.size(); loop++)
 	{
-		General_AfterBorders[loop] = new TextCtrl_Long(General_Scroller);
+		General_AfterBorders[loop] = new TextCtrl_Short(General_Scroller);
 		General_AfterBorders[loop]->SetToolTip("In the file these are\nright after terrain borders and\nbefore the second terrain count");
 	}
 	for(short loop=0; loop < General_TerrainRendering.size(); loop++)
@@ -218,7 +213,6 @@ void AGE_Frame::CreateGeneralControls()
 	General_Holder_TerrainHeader->Add(General_Text_TerrainHeader, 0, wxEXPAND);
 	General_Holder_TerrainHeader->Add(General_Grid_TerrainHeader, 0, wxEXPAND);
 
-	General_Grid_BorderRelated->Add(General_BeforeBorders, 1, wxEXPAND);
 	for(short loop=0; loop < General_AfterBorders.size(); loop++)
 	General_Grid_BorderRelated->Add(General_AfterBorders[loop], 1, wxEXPAND);
 	General_Holder_BorderRelated->Add(General_Text_BorderRelated, 0, wxEXPAND);
