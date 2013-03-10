@@ -12,7 +12,7 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]3.4[/b] 2013.3.9:
+Version [b]3.4[/b] (2013.3.10):
 •Copying damage graphics, attacks, armors and commands works even if some civilizations don't have them.
 •Unit commands improved.
 •AoK alpha 09.07.0222 editable. Tech tree hidden for it.
@@ -20,7 +20,7 @@ Version [b]3.4[/b] 2013.3.9:
 •Language reader/writer character set adjustable from the configuration ini files (LangCharset=Windows-1252).
 •Renames and more tooltips in map tab.
 
-Version [b]3.3[/b] 2013.2.22:
+Version [b]3.3[/b] (2013.2.22):
 •Unit unknowns 3 and command attribute fixed for AoE/RoR.
 •Moved large piece of unknown (random map) data to its own tab.
 •Moved possibly tech tree related data to tech tree tab.
