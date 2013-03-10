@@ -11,11 +11,11 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 	if(Filter)
 	{
 		short Selection[2];
-		for(short loop=0; loop < 2; loop++)
+		for(short loop = 0; loop < 2; loop++)
 		Selection[loop] = Graphics_Graphics_SearchFilters[loop]->GetSelection();
 
 		if(Selection[0] > 0) // Internal name prevents
-		for(short loop=0; loop < 2; loop++)
+		for(short loop = 0; loop < 2; loop++)
 		{
 			switch(Selection[loop])
 			{
@@ -96,7 +96,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 {
 	searchText = Graphics_Graphics_Search->GetValue().Lower();
 	excludeText = Graphics_Graphics_Search_R->GetValue().Lower();
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	UseAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
@@ -108,7 +108,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		SavedIDs[0] = Units_ComboBox_ConstructionGraphicID->GetSelection();
 		SavedIDs[1] = Units_ComboBox_SnowGraphicID->GetSelection();
 		SavedIDs[2] = Units_ComboBox_AttackGraphic->GetSelection();
-		for(short loop=0; loop < 2; loop++)
+		for(short loop = 0; loop < 2; loop++)
 		{
 			SavedIDs[loop+3] = Units_ComboBox_StandingGraphic[loop]->GetSelection();
 			SavedIDs[loop+5] = Units_ComboBox_GarrisonGraphic[loop]->GetSelection();
@@ -117,7 +117,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 			SavedIDs[loop+19] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
 		}
 		SavedIDs[11] = Units_ComboBox_AttackMissileDuplicationGraphic->GetSelection();
-		for(short loop=0; loop < 6; loop++)
+		for(short loop = 0; loop < 6; loop++)
 		SavedIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
 		SavedIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
 		SavedIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
@@ -125,7 +125,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		Units_ComboBox_ConstructionGraphicID->Clear();
 		Units_ComboBox_SnowGraphicID->Clear();
 		Units_ComboBox_AttackGraphic->Clear();
-		for(short loop=0; loop < 2; loop++)
+		for(short loop = 0; loop < 2; loop++)
 		{
 			Units_ComboBox_StandingGraphic[loop]->Clear();
 			Units_ComboBox_GarrisonGraphic[loop]->Clear();
@@ -134,7 +134,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 			TerRestrict_ComboBox_Graphics[loop]->Clear();
 		}
 		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
-		for(short loop=0; loop < 6; loop++)
+		for(short loop = 0; loop < 6; loop++)
 		UnitCommands_ComboBox_Graphics[loop]->Clear();
 		DamageGraphics_ComboBox_GraphicID->Clear();
 		GraphicDeltas_ComboBox_GraphicID->Clear();
@@ -147,7 +147,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		Units_ComboBox_ConstructionGraphicID->Append("-1 - None");
 		Units_ComboBox_SnowGraphicID->Append("-1 - None");
 		Units_ComboBox_AttackGraphic->Append("-1 - None");
-		for(short loop=0; loop < 2; loop++)
+		for(short loop = 0; loop < 2; loop++)
 		{
 			Units_ComboBox_StandingGraphic[loop]->Append("-1 - None");
 			Units_ComboBox_GarrisonGraphic[loop]->Append("-1 - None");
@@ -156,13 +156,13 @@ void AGE_Frame::ListGraphics(bool Sized)
 			TerRestrict_ComboBox_Graphics[loop]->Append("-1 - None");
 		}
 		Units_ComboBox_AttackMissileDuplicationGraphic->Append("-1 - None");
-		for(short loop=0; loop < 6; loop++)
+		for(short loop = 0; loop < 6; loop++)
 		UnitCommands_ComboBox_Graphics[loop]->Append("-1 - None");
 		DamageGraphics_ComboBox_GraphicID->Append("-1 - None");
 		GraphicDeltas_ComboBox_GraphicID->Append("-1 - None");
 	}
 
-	for(short loop=0; loop < GenieFile->Graphics.size(); loop++)
+	for(short loop = 0; loop < GenieFile->Graphics.size(); loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
 		if(SearchMatches(Name.Lower()))
@@ -175,7 +175,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 			Units_ComboBox_ConstructionGraphicID->Append(Name);
 			Units_ComboBox_SnowGraphicID->Append(Name);
 			Units_ComboBox_AttackGraphic->Append(Name);
-			for(short loop=0; loop < 2; loop++)
+			for(short loop = 0; loop < 2; loop++)
 			{
 				Units_ComboBox_StandingGraphic[loop]->Append(Name);
 				Units_ComboBox_GarrisonGraphic[loop]->Append(Name);
@@ -184,7 +184,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 				TerRestrict_ComboBox_Graphics[loop]->Append(Name);
 			}
 			Units_ComboBox_AttackMissileDuplicationGraphic->Append(Name);
-			for(short loop=0; loop < 6; loop++)
+			for(short loop = 0; loop < 6; loop++)
 			UnitCommands_ComboBox_Graphics[loop]->Append(Name);
 			DamageGraphics_ComboBox_GraphicID->Append(Name);
 			GraphicDeltas_ComboBox_GraphicID->Append(Name);
@@ -197,7 +197,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		Units_ComboBox_ConstructionGraphicID->SetSelection(SavedIDs[0]);
 		Units_ComboBox_SnowGraphicID->SetSelection(SavedIDs[1]);
 		Units_ComboBox_AttackGraphic->SetSelection(SavedIDs[2]);
-		for(short loop=0; loop < 2; loop++)
+		for(short loop = 0; loop < 2; loop++)
 		{
 			Units_ComboBox_StandingGraphic[loop]->SetSelection(SavedIDs[loop+3]);
 			Units_ComboBox_GarrisonGraphic[loop]->SetSelection(SavedIDs[loop+5]);
@@ -206,13 +206,13 @@ void AGE_Frame::ListGraphics(bool Sized)
 			TerRestrict_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+19]);
 		}
 		Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(SavedIDs[11]);
-		for(short loop=0; loop < 6; loop++)
+		for(short loop = 0; loop < 6; loop++)
 		UnitCommands_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+12]);
 		DamageGraphics_ComboBox_GraphicID->SetSelection(SavedIDs[18]);
 		GraphicDeltas_ComboBox_GraphicID->SetSelection(SavedIDs[21]);
 	}
 
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	UseAnd[loop] = false;
 
 	wxCommandEvent E;
@@ -234,7 +234,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_Unknown3->resize(Selections);
 	Graphics_Unknown4->resize(Selections);
 	Graphics_Replay->resize(Selections);
-	for(short loop=0; loop < 4; loop++)
+	for(short loop = 0; loop < 4; loop++)
 	{
 		Graphics_Coordinates[loop]->resize(Selections);
 	}
@@ -264,7 +264,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 		Graphics_Unknown3->container[sel] = &GraphicPointer->Unknown3;
 		Graphics_Unknown4->container[sel] = &GraphicPointer->Unknown4;
 		Graphics_Replay->container[sel] = &GraphicPointer->Replay;
-		for(short loop=0; loop < 4; loop++)
+		for(short loop = 0; loop < 4; loop++)
 		{
 			Graphics_Coordinates[loop]->container[sel] = &GraphicPointer->Coordinates[loop];
 		}
@@ -289,7 +289,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_Unknown3->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown3));
 	Graphics_Unknown4->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown4));
 	Graphics_Replay->ChangeValue(lexical_cast<string>((short)GraphicPointer->Replay));
-	for(short loop=0; loop < 4; loop++)
+	for(short loop = 0; loop < 4; loop++)
 	{
 		Graphics_Coordinates[loop]->ChangeValue(lexical_cast<string>(GraphicPointer->Coordinates[loop]));
 	}
@@ -328,7 +328,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent &Event)
 	GenieFile->Graphics.push_back(Temp);
 	GenieFile->GraphicPointers.push_back(1);
 	if(EnableIDFix)
-	GenieFile->Graphics[GenieFile->Graphics.size()-1].ID = (int16_t)(GenieFile->Graphics.size()-1); // ID Fix
+	GenieFile->Graphics[GenieFile->Graphics.size()-1].ID = (GenieFile->Graphics.size()-1); // ID Fix
 	Added = true;
 	ListGraphics();
 }
@@ -374,7 +374,7 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	copies->GraphicPointer.resize(Selections);
 	copies->Graphic.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
+	for(short loop = 0; loop < Selections; loop++)
 	{
 		copies->GraphicPointer[loop] = GenieFile->GraphicPointers[GraphicIDs[loop]];
 		copies->Graphic[loop] = GenieFile->Graphics[GraphicIDs[loop]];
@@ -392,13 +392,13 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 		GenieFile->GraphicPointers.resize(copies->GraphicPointer.size()+GraphicIDs[0]);
 		GenieFile->Graphics.resize(copies->Graphic.size()+GraphicIDs[0]);
 	}
-	for(short loop=0; loop < copies->Graphic.size(); loop++)
+	for(short loop = 0; loop < copies->Graphic.size(); loop++)
 	{
 		GenieFile->GraphicPointers[GraphicIDs[0]+loop] = copies->GraphicPointer[loop];
 		copies->Graphic[loop].setGameVersion(GenieVersion);
 		GenieFile->Graphics[GraphicIDs[0]+loop] = copies->Graphic[loop];
 		if(EnableIDFix)
-		GenieFile->Graphics[GraphicIDs[0]+loop].ID = (int16_t)(GraphicIDs[0]+loop); // ID Fix
+		GenieFile->Graphics[GraphicIDs[0]+loop].ID = (GraphicIDs[0]+loop); // ID Fix
 	}
 	ListGraphics();
 }
@@ -412,7 +412,7 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 	genie::Graphic Temp;
 	GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], copies->GraphicPointer.size(), 0);
 	GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicIDs[0], copies->Graphic.size(), Temp);
-	for(short loop=0; loop < copies->Graphic.size(); loop++)
+	for(short loop = 0; loop < copies->Graphic.size(); loop++)
 	{
 		GenieFile->GraphicPointers[GraphicIDs[0]+loop] = copies->GraphicPointer[loop];
 		copies->Graphic[loop].setGameVersion(GenieVersion);
@@ -430,10 +430,10 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop=0; loop < Selections; loop++)
+	for(short loop = 0; loop < Selections; loop++)
 	{
 		GenieFile->GraphicPointers[GraphicIDs[loop]] = 1;
-		GenieFile->Graphics[GraphicIDs[loop]].ID = (int16_t)GraphicIDs[loop]; // ID Fix
+		GenieFile->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
 	}
 	ListGraphics();
 }
@@ -444,7 +444,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop=0; loop < Selections; loop++)
+	for(short loop = 0; loop < Selections; loop++)
 	GenieFile->GraphicPointers[GraphicIDs[loop]] = 0;
 	ListGraphics();
 }
@@ -467,7 +467,7 @@ void AGE_Frame::ListGraphicDeltas()
 	auto Selections = Graphics_Deltas_List->GetSelections(Items);
 	Graphics_Deltas_List->Clear();
 
-	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); loop++)
+	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -542,10 +542,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::GraphicDelta Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->Graphics[GraphicIDs[0]].Deltas.push_back(Temp);
-	Added = true;
+	AddToList(GenieFile->Graphics[GraphicIDs[0]].Deltas);
 	ListGraphicDeltas();
 }
 
@@ -555,9 +552,7 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::GraphicDelta Temp;
-	Temp.setGameVersion(GenieVersion);
-	GenieFile->Graphics[GraphicIDs[0]].Deltas.insert(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[0], Temp);
+	InsertToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0]);
 	ListGraphicDeltas();
 }
 
@@ -567,8 +562,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(auto loop = Selections; loop--> 0;)
-	GenieFile->Graphics[GraphicIDs[0]].Deltas.erase(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[loop]);
+	DeleteFromList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs);
 	ListGraphicDeltas();
 }
 
@@ -578,9 +572,7 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->GraphicDelta.resize(Selections);
-	for(short loop=0; loop < Selections; loop++)
-	copies->GraphicDelta[loop] = GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[loop]];
+	CopyFromList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies->GraphicDelta);
 }
 
 void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
@@ -589,13 +581,7 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->GraphicDelta.size()+DeltaIDs[0] > GenieFile->Graphics[GraphicIDs[0]].Deltas.size())
-	GenieFile->Graphics[GraphicIDs[0]].Deltas.resize(copies->GraphicDelta.size()+DeltaIDs[0]);
-	for(short loop=0; loop < copies->GraphicDelta.size(); loop++)
-	{
-		copies->GraphicDelta[loop].setGameVersion(GenieVersion);
-		GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[0]+loop] = copies->GraphicDelta[loop];
-	}
+	PasteToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies->GraphicDelta);
 	ListGraphicDeltas();
 }
 
@@ -605,13 +591,7 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::GraphicDelta Temp;
-	GenieFile->Graphics[GraphicIDs[0]].Deltas.insert(GenieFile->Graphics[GraphicIDs[0]].Deltas.begin() + DeltaIDs[0], copies->GraphicDelta.size(), Temp);
-	for(short loop=0; loop < copies->GraphicDelta.size(); loop++)
-	{
-		copies->GraphicDelta[loop].setGameVersion(GenieVersion);
-		GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[0]+loop] = copies->GraphicDelta[loop];
-	}
+	PasteInsertToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies->GraphicDelta);
 	ListGraphicDeltas();
 }
 
@@ -638,7 +618,7 @@ void AGE_Frame::ListGraphicAttackSounds()
 	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
 	Graphics_AttackSounds_List->Clear();
 
-	for(short loop=0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); loop++)
+	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop);
 		Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop]);
@@ -689,7 +669,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		for(short loop=0; loop < 3; loop++)
+		for(short loop = 0; loop < 3; loop++)
 		{
 			Graphics_AttackSoundID[loop]->ChangeValue("0");
 			Graphics_ComboBox_AttackSoundID[loop]->SetSelection(0);
@@ -705,7 +685,7 @@ void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	genie::GraphicAttackSound Copy = GenieFile->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[0]];
-	for(short loop2=0; loop2 < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); loop2++)
+	for(short loop2 = 0; loop2 < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); loop2++)
 	GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop2] = Copy;
 }
 
@@ -729,7 +709,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Graphics_Graphics_UseAnd[1] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	{
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Graphics_Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -859,7 +839,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_AttackSounds = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Holder_AttackSoundDelays = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_AttackSoundDelays = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound Delay", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop=0; loop < 3; loop++)
+	for(short loop = 0; loop < 3; loop++)
 	{
 		Graphics_AttackSoundID[loop] = new TextCtrl_Short(Graphics_Scroller);
 		Graphics_ComboBox_AttackSoundID[loop] = new ComboBox_Plus1(Graphics_Scroller, Graphics_AttackSoundID[loop]);
@@ -868,7 +848,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Coordinates = new wxBoxSizer(wxVERTICAL);
 	Graphics_Holder_CoordinateGrid = new wxGridSizer(4, 0, 5);
 	Graphics_Text_Coordinates = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop=0; loop < 4; loop++)
+	for(short loop = 0; loop < 4; loop++)
 	Graphics_Coordinates[loop] = new TextCtrl_Short(Graphics_Scroller);
 	Graphics_Holder_Unknowns = new wxGridSizer(4, 0, 5);
 	Graphics_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
@@ -890,7 +870,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Grid_Deltas_Data2 = new wxGridSizer(3, 5, 5);
 	Graphics_Holder_AttackSoundArea = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Attack Sounds");
 
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	{
 		Graphics_Graphics_SearchFilters[loop]->Append("Internal Name");	// 0
 		Graphics_Graphics_SearchFilters[loop]->Append("SLP");
@@ -931,9 +911,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_Search_R, 1, wxEXPAND);
 	Graphics_Graphics_Searches[1]->Add(2, -1);
 	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_UseAnd[1], 0, wxEXPAND);
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	Graphics_Graphics->Add(Graphics_Graphics_Searches[loop], 0, wxEXPAND);
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	Graphics_Graphics->Add(Graphics_Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
@@ -958,7 +938,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Unknown3->Add(Graphics_Unknown3, 1, wxEXPAND);
 	Graphics_Holder_Unknown4->Add(Graphics_Text_Unknown4, 0, wxEXPAND);
 	Graphics_Holder_Unknown4->Add(Graphics_Unknown4, 1, wxEXPAND);
-	for(short loop=0; loop < 4; loop++)
+	for(short loop = 0; loop < 4; loop++)
 	Graphics_Holder_CoordinateGrid->Add(Graphics_Coordinates[loop], 1, wxEXPAND);
 	Graphics_Holder_Coordinates->Add(Graphics_Text_Coordinates, 0, wxEXPAND);
 	Graphics_Holder_Coordinates->Add(Graphics_Holder_CoordinateGrid, 1, wxEXPAND);
@@ -1075,7 +1055,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_AttackSounds->Add(Graphics_Text_AttackSounds, 0, wxEXPAND);
 	Graphics_Holder_AttackSounds->Add(Graphics_Grid_AttackSounds, 0, wxEXPAND);
 	Graphics_Holder_AttackSoundDelays->Add(Graphics_Text_AttackSoundDelays, 0, wxEXPAND);
-	for(short loop=0; loop < 3; loop++)
+	for(short loop = 0; loop < 3; loop++)
 	{
 		Graphics_Grid_AttackSounds->Add(Graphics_AttackSoundID[loop], 0, wxEXPAND);
 		Graphics_Grid_AttackSounds->Add(Graphics_ComboBox_AttackSoundID[loop], 0, wxEXPAND);
@@ -1133,7 +1113,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Connect(Graphics_Graphics_Search->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	{
 		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 		Connect(Graphics_Graphics_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
@@ -1192,12 +1172,13 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &Event)
 	{
 		if(GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
 
-		for(short loop=0; loop < GraphicIDs.size(); loop++)
+		for(short loop = 0; loop < GraphicIDs.size(); loop++)
 		GenieFile->Graphics[GraphicIDs[loop]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[loop]].AngleCount);
 
 		wxCommandEvent E;
 		OnGraphicsSelect(E);
 	}
+	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &Event)
@@ -1205,7 +1186,7 @@ void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &Event)
 	((AGECheckBox*)Event.GetEventObject())->OnUpdate(Event);
 	if(GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
 
-	for(short loop=0; loop < GraphicIDs.size(); loop++)
+	for(short loop = 0; loop < GraphicIDs.size(); loop++)
 	GenieFile->Graphics[GraphicIDs[loop]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[loop]].AngleCount);
 
 	wxCommandEvent E;

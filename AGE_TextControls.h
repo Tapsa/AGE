@@ -27,7 +27,7 @@ class AGETextCtrl: public wxTextCtrl
 	bool BatchCheck(wxString &value, short &batchMode)
 	{
 		if(value.size() < 3) return false;
-		switch(value[1])
+		switch((char)value[1])
 		{
 			case '+': batchMode = 1; value = value.substr(2); return true;
 			case '-': batchMode = 2; value = value.substr(2); return true;
@@ -75,7 +75,7 @@ class TextCtrl_Byte: public AGETextCtrl
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));	// Must-have
 	}
 
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
+	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 
@@ -93,7 +93,7 @@ class TextCtrl_UByte: public AGETextCtrl
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UByte::OnKillFocus));
 	}
 
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
+	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 
@@ -111,7 +111,7 @@ class TextCtrl_Float: public AGETextCtrl
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
 	}
 
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
+	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 
@@ -129,7 +129,7 @@ class TextCtrl_Long: public AGETextCtrl
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
 	}
 
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
+	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 
@@ -147,7 +147,7 @@ class TextCtrl_Short: public AGETextCtrl
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
 	}
 
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
+	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 
@@ -165,7 +165,7 @@ class TextCtrl_UShort: public AGETextCtrl
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UShort::OnKillFocus));
 	}
 
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
+	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 
@@ -183,7 +183,7 @@ class TextCtrl_String: public AGETextCtrl
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_String::OnKillFocus));
 	}
 
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits();}
+	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 	void SetMaxSize(unsigned short Size){MaxSize = Size;}

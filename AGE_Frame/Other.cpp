@@ -396,7 +396,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		long ExtraCount;
 		Customs->Read("Count/ExtraCount", &ExtraCount, 5);
 		wxString MoveHolder = "";
-		for(short loop=0; loop < 3; loop++)
+		for(short loop = 0; loop < 3; loop++)
 		{
 			Units_ComboBox_Class[loop]->Clear();
 			Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
@@ -761,7 +761,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				// Cu-pa
 				// Womp Rat
 			}
-			for(short loop2=0; loop2 < ExtraCount; loop2++)
+			for(short loop2 = 0; loop2 < ExtraCount; loop2++)
 			{
 				Customs->Read("Names/"+lexical_cast<string>(loop2+31), &MoveHolder, lexical_cast<string>(loop2+31)+" - Extra Class");
 				Attacks_ComboBox_Class[loop]->Append(MoveHolder);
@@ -770,7 +770,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		delete Customs;
 
-		for(short loop=0; loop < 2; loop++)
+		for(short loop = 0; loop < 2; loop++)
 		{
 			Units_Units_SearchFilters[loop]->Clear();
 			Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
@@ -1457,7 +1457,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			long ExtraCount = Attacks_ComboBox_Class[0]->GetCount()-32;
 			Customs->Write("Count/ExtraCount", ExtraCount);
 			wxString MoveHolder = "";
-			for(short loop=0; loop < ExtraCount; loop++)
+			for(short loop = 0; loop < ExtraCount; loop++)
 			{
 				MoveHolder = Attacks_ComboBox_Class[0]->GetString(loop+32);
 				Customs->Write("Names/"+lexical_cast<string>(loop+31), MoveHolder);
@@ -1571,6 +1571,7 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
 	}
 	SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
 	control->DiscardEdits();
+	Event.Skip();
 }
 
 bool AGE_Frame::SearchMatches(wxString itemText)
@@ -1675,7 +1676,7 @@ bool AGE_Frame::SearchMatches(wxString itemText)
 
 void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 {
-	for(short loop=0; loop < 2; loop++) // Custom search filters
+	for(short loop = 0; loop < 2; loop++) // Custom search filters
 	{
 		if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
 		{
@@ -1740,7 +1741,7 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 
 	wxString TopText, SubText, Line;
 	size_t found;
-	for(int loop=0; loop < Selections; loop++)
+	for(int loop = 0; loop < Selections; loop++)
 	{
 		Line = List->GetString(Items.Item(loop));
 		found = Line.find(" ", 3);
