@@ -1476,8 +1476,7 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Byte *Units_InteractionMode;
 	TextCtrl_Byte *Units_MinimapMode;
 	TextCtrl_Short *Units_CommandAttribute;
-	TextCtrl_Short *Units_Unknown3;
-	TextCtrl_Short *Units_Unknown3B;
+	array<TextCtrl_Byte*, 4> Units_Unknown3;
 	TextCtrl_Long *Units_LanguageDLLHelp;
 	TextCtrl_DLL *Units_DLL_LanguageHelp;
 	wxTextCtrl *Units_LanguageDLLConverter[2];
@@ -1684,7 +1683,6 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_MinimapMode;
 	wxStaticText *Units_Text_CommandAttribute;
 	wxStaticText *Units_Text_Unknown3;
-	wxStaticText *Units_Text_Unknown3B;
 	wxStaticText *Units_Text_LanguageDLLHelp;
 	wxStaticText *Units_Text_LanguageDLLConverter[2];
 	wxStaticText *Units_Text_LanguageDLLHotKeyText;
@@ -1860,7 +1858,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_MinimapMode;
 	wxBoxSizer *Units_Holder_CommandAttribute;
 	wxBoxSizer *Units_Holder_Unknown3;
-	wxBoxSizer *Units_Holder_Unknown3B;
+	wxGridSizer *Units_Grid_Unknown3;
 	wxBoxSizer *Units_Holder_LanguageDLLHelp;
 	wxBoxSizer *Units_Holder_LanguageDLLConverter[2];
 	wxBoxSizer *Units_Holder_LanguageDLLHotKeyText;
@@ -3208,22 +3206,20 @@ class AGE_Frame: public wxFrame
 //	Template functions
 
 	template <class P>
-	void AddToListNoGV(P &path)
+	inline void AddToListNoGV(P &path)
 	{
 		path.emplace_back();
 		Added = true;
 	}
-
 	template <class P>
-	void AddToList(P &path)
+	inline void AddToList(P &path)
 	{
 		path.emplace_back();
 		path.back().setGameVersion(GenieVersion);
 		Added = true;
 	}
-
 	template <class P>
-	void AddToListIDFix(P &path)
+	inline void AddToListIDFix(P &path)
 	{
 		path.emplace_back();
 		path.back().setGameVersion(GenieVersion);
@@ -3233,20 +3229,18 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P>
-	void InsertToListNoGV(P &path, short place)
+	inline void InsertToListNoGV(P &path, short place)
 	{
 		path.emplace(path.begin() + place);
 	}
-
 	template <class P>
-	void InsertToList(P &path, short place)
+	inline void InsertToList(P &path, short place)
 	{
 		path.emplace(path.begin() + place);
 		path[place].setGameVersion(GenieVersion);
 	}
-
 	template <class P>
-	void InsertToListIDFix(P &path, short place)
+	inline void InsertToListIDFix(P &path, short place)
 	{
 		path.emplace(path.begin() + place);
 		path[place].setGameVersion(GenieVersion);
@@ -3256,14 +3250,13 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P>
-	void DeleteFromList(P &path, vector<short> &places)
+	inline void DeleteFromList(P &path, vector<short> &places)
 	{
 		for(auto loop = places.size(); loop--> 0;)
 		path.erase(path.begin() + places[loop]);
 	}
-
 	template <class P>
-	void DeleteFromListIDFix(P &path, vector<short> &places)
+	inline void DeleteFromListIDFix(P &path, vector<short> &places)
 	{
 		for(auto loop = places.size(); loop--> 0;)
 		path.erase(path.begin() + places[loop]);
@@ -3273,15 +3266,60 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P, class C>
-	void CopyFromList(P &path, vector<short> &places, C &copies)
+	inline void CopyFromList(P &path, vector<short> &places, C &copies)
 	{
 		copies.resize(places.size());
 		for(auto loop = places.size(); loop--> 0;)
 		copies[loop] = path[places[loop]];
 	}
+	template <class P, class C>
+	inline void MultiCopyFromList(P &path, vector<short> &places, C &copies, vector<short> &existing)
+	{
+		short CivCount = GenieFile->Civs.size();
+		existing.resize(CivCount);
+		copies.resize(0);
+		copies.reserve(CivCount);
+		for(short civ = 0; civ < CivCount; civ++)
+		{
+			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
+			{
+				// Graphic set info not usefull.
+				existing[civ] = 255;
+			}
+			else
+			{
+				// Save info of graphic set to intelligently fill possible gaps when pasting.
+				existing[civ] = 256 + GenieFile->Civs[civ].GraphicSet;
+				// Only copy damage graphics from civs which have this unit enabled.
+				copies.push_back();
+				CopyFromList(path, places, copies.back());
+			}
+		}
+	}
+	template <class P, class C>
+	inline void MultiPasteToList(P &path, short place, C &copies, vector<short> &existing)
+	{
+		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); civ++)
+		{
+			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
+			{
+				// Consume copies.
+				if(existing[civ] > 255) copy++; continue;
+			}
+			// If the target unit exists then choose from following.
+			if(existing[civ] > 255 && copy < copies.size())
+			{
+				PasteToList(path, place, copies[copy]); copy++;
+			}
+			else
+			{
+				PasteToList(path, place, copies[0]);
+			}
+		}
+	}
 
 	template <class P, class C>
-	void PasteToListNoGV(P &path, short place, C &copies)
+	inline void PasteToListNoGV(P &path, short place, C &copies)
 	{
 		if(copies.size() + place > path.size())
 		path.resize(copies.size() + place);
@@ -3290,9 +3328,8 @@ class AGE_Frame: public wxFrame
 			path[place + loop] = copies[loop];
 		}
 	}
-
 	template <class P, class C>
-	void PasteToListNoGV(P &path, vector<short> &places, C &copies)
+	inline void PasteToListNoGV(P &path, vector<short> &places, C &copies)
 	{
 		for(int loop = 0, from = 0; loop < places.size(); loop++, from++)
 		{
@@ -3300,9 +3337,8 @@ class AGE_Frame: public wxFrame
 			path[places[loop]] = copies[from];
 		}
 	}
-
 	template <class P, class C>
-	void PasteToList(P &path, short place, C &copies)
+	inline void PasteToList(P &path, short place, C &copies)
 	{
 		if(copies.size() + place > path.size())
 		path.resize(copies.size() + place);
@@ -3312,9 +3348,18 @@ class AGE_Frame: public wxFrame
 			path[place + loop] = copies[loop];
 		}
 	}
-
 	template <class P, class C>
-	void PasteToListNoResize(P &path, short place, C &copies)
+	inline void PasteToList(P &path, vector<short> &places, C &copies)
+	{
+		for(int loop = 0, from = 0; loop < places.size(); loop++, from++)
+		{
+			from %= copies.size();
+			path[places[loop]] = copies[from];
+			path[places[loop]].setGameVersion(GenieVersion);
+		}
+	}
+	template <class P, class C>
+	inline void PasteToListNoResize(P &path, short place, C &copies)
 	{
 		auto CopyCount = copies.size();
 		if(CopyCount + place > path.size())
@@ -3325,9 +3370,8 @@ class AGE_Frame: public wxFrame
 			path[place + loop] = copies[loop];
 		}
 	}
-
 	template <class P, class C>
-	void PasteToListIDFix(P &path, short place, C &copies)
+	inline void PasteToListIDFix(P &path, short place, C &copies)
 	{
 		if(copies.size() + place > path.size())
 		path.resize(copies.size() + place);
@@ -3341,21 +3385,19 @@ class AGE_Frame: public wxFrame
 	}
 
 	template <class P, class C>
-	void PasteInsertToListNoGV(P &path, short place, C &copies)
+	inline void PasteInsertToListNoGV(P &path, short place, C &copies)
 	{
 		path.insert(path.begin() + place, copies.begin(), copies.end());
 	}
-
 	template <class P, class C>
-	void PasteInsertToList(P &path, short place, C &copies)
+	inline void PasteInsertToList(P &path, short place, C &copies)
 	{
 		for(auto loop = copies.size(); loop--> 0;)
 		copies[loop].setGameVersion(GenieVersion);
 		path.insert(path.begin() + place, copies.begin(), copies.end());
 	}
-
 	template <class P, class C>
-	void PasteInsertToListIDFix(P &path, short place, C &copies)
+	inline void PasteInsertToListIDFix(P &path, short place, C &copies)
 	{
 		for(auto loop = copies.size(); loop--> 0;)
 		copies[loop].setGameVersion(GenieVersion);

@@ -21,7 +21,7 @@ void AGE_Frame::ListPlayerColors()
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	Colors_Colors_List->Clear();
 
-	for(short loop=0; loop < GenieFile->PlayerColours.size(); loop++)
+	for(short loop = 0; loop < GenieFile->PlayerColours.size(); loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -108,7 +108,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &Event)
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListNoGV(GenieFile->PlayerColours);
+	AddToListIDFix(GenieFile->PlayerColours);
 	ListPlayerColors();
 }
 
@@ -118,7 +118,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListNoGV(GenieFile->PlayerColours, ColorIDs[0]);
+	InsertToListIDFix(GenieFile->PlayerColours, ColorIDs[0]);
 	ListPlayerColors();
 }
 
@@ -128,7 +128,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->PlayerColours, ColorIDs);
+	DeleteFromListIDFix(GenieFile->PlayerColours, ColorIDs);
 	ListPlayerColors();
 }
 
@@ -147,7 +147,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
+	PasteToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
 	ListPlayerColors();
 }
 
@@ -157,7 +157,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
+	PasteInsertToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
 	ListPlayerColors();
 }
 
@@ -303,4 +303,5 @@ void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &Event)
 {
 	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
 	ListPlayerColors();
+	Event.Skip();
 }
