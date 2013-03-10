@@ -14,7 +14,7 @@ void AGE_Frame::OnTechRenameGE2(wxCommandEvent &Event)
 	if(Selections < 1) return;
 
 	string Name;
-	for(short loop=0; loop < GenieFile->Techages.size(); loop++)
+	for(short loop = 0; loop < GenieFile->Techages.size(); loop++)
 	{
 		GenieFile->Techages[loop].Name = "Tech";
 	}
@@ -26,7 +26,7 @@ void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 	auto Selections = Techs_Techs_List->GetSelections(Items);
 	if(Selections < 1) return;
 
-	for(short loop3=0; loop3 < GenieFile->Techages.size(); loop3++)
+	for(short loop3 = 0; loop3 < GenieFile->Techages.size(); loop3++)
 	{
 		if(GenieFile->Techages[loop3].Effects.size() < 1) // Empty techs.
 		{
@@ -37,7 +37,7 @@ void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 			GenieFile->Techages[loop3].Name = "Non-Research";
 		}
 	}
-	short ResearchTechID=0;
+	short ResearchTechID = 0;
 	for(short loop=GenieFile->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
 	{
 		ResearchTechID = GenieFile->Researchs[loop].TechageID;
@@ -54,7 +54,7 @@ void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 		}
 	}
 	string CivName;
-	short CivTechTreeID=0, CivTeamBonusID=0;
+	short CivTechTreeID=0, CivTeamBonusID = 0;
 	for(short loop2=GenieFile->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
 	{
 		string CivName = lexical_cast<string>(GenieFile->Civs[loop2].Name); // Civ internal name.
@@ -106,7 +106,7 @@ void AGE_Frame::ListTechs(bool Sized)
 		Civs_ComboBox_TeamBonus->Append("-1 - None");
 	}
 
-	for(short loop=0; loop < GenieFile->Techages.size(); loop++)
+	for(short loop = 0; loop < GenieFile->Techages.size(); loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTechName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -158,7 +158,7 @@ void AGE_Frame::OnTechAdd(wxCommandEvent &Event)	// Works.
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListNoGV(GenieFile->Techages);
+	AddToList(GenieFile->Techages);
 	ListTechs();
 }
 
@@ -168,7 +168,7 @@ void AGE_Frame::OnTechInsert(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListNoGV(GenieFile->Techages, TechIDs[0]);
+	InsertToList(GenieFile->Techages, TechIDs[0]);
 	ListTechs();
 }
 
@@ -197,7 +197,7 @@ void AGE_Frame::OnTechPaste(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Techages, TechIDs[0], copies->Tech);
+	PasteToList(GenieFile->Techages, TechIDs[0], copies->Tech);
 	ListTechs();
 }
 
@@ -207,7 +207,7 @@ void AGE_Frame::OnTechPasteInsert(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->Techages, TechIDs[0], copies->Tech);
+	PasteInsertToList(GenieFile->Techages, TechIDs[0], copies->Tech);
 	ListTechs();
 }
 
@@ -318,13 +318,13 @@ void AGE_Frame::ListEffects()
 {
 	searchText = Techs_Effects_Search->GetValue().Lower();
 	excludeText = Techs_Effects_Search_R->GetValue().Lower();
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	UseAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 
 	auto Selections = Techs_Effects_List->GetSelections(Items);
 	Techs_Effects_List->Clear();
 
-	for(short loop=0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); loop++)
+	for(short loop = 0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); loop++)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetEffectName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -334,7 +334,7 @@ void AGE_Frame::ListEffects()
 	}
 	ListingFix(Selections, Techs_Effects_List);
 
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	UseAnd[loop] = false;
 
 	wxCommandEvent E;
@@ -942,7 +942,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListNoGV(GenieFile->Techages[TechIDs[0]].Effects);
+	AddToList(GenieFile->Techages[TechIDs[0]].Effects);
 	ListEffects();
 }
 
@@ -952,7 +952,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListNoGV(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0]);
+	InsertToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0]);
 	ListEffects();
 }
 
@@ -981,7 +981,7 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
+	PasteToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
 	ListEffects();
 }
 
@@ -991,7 +991,7 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 	if(Selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
+	PasteInsertToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
 	ListEffects();
 }
 
@@ -1008,7 +1008,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 	wxString Name;
 	searchText = Techs_AllEffects_Search->GetValue().Lower();
 	excludeText = Techs_AllEffects_Search_R->GetValue().Lower();
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	UseAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
 	auto Selections = Techs_AllEffects_List->GetSelections(Items);
@@ -1031,7 +1031,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 
 	Techs_AllEffects_List->SetSelection(Items.Item(0));
 
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	UseAnd[loop] = false;
 
 	wxCommandEvent E;
@@ -1345,7 +1345,7 @@ void AGE_Frame::CreateTechControls()
 
 	Tab_Techs->SetSizer(Techs_Main);
 
-	for(short loop=0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; loop++)
 	{
 		Connect(Techs_Effects_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
 		Connect(Techs_AllEffects_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
@@ -1430,6 +1430,7 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
 	{
 		ListEffects();
 	}
+	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_Techs(wxCommandEvent &Event)

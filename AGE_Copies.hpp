@@ -56,9 +56,13 @@ class AdvCopies // Used to copy units with various settings.
 	vector<vector<bool>> UnitExists;
 	vector<vector<genie::Unit>> UnitCopies;
 	vector<vector<GraphicCopies>> UnitGraphics;
+	vector<short> UnitDamageGraphicExists;
 	vector<vector<genie::unit::DamageGraphic>> UnitDamageGraphics;
+	vector<short> UnitAttackExists;
 	vector<vector<genie::unit::AttackOrArmor>> UnitAttacks;
+	vector<short> UnitArmorExists;
 	vector<vector<genie::unit::AttackOrArmor>> UnitArmors;
+	vector<short> UnitCommandExists;
 	vector<vector<genie::UnitCommand>> UnitCommands;
 
 	AdvCopies()
@@ -109,7 +113,8 @@ class Copies
 	vector<genie::GraphicDelta> GraphicDelta;
 	vector<genie::Terrain> Terrain;
 	vector<genie::TerrainRestriction> TerrainRestriction;
-	vector<genie::TerrainPassGraphic> TerrainRestrictionSub;
+	vector<float> TerrainRestrictionSubAccess;
+	vector<genie::TerrainPassGraphic> TerrainRestrictionSubGraphics;
 	vector<genie::Sound> Sound;
 	vector<genie::SoundItem> SoundItem;
 	vector<genie::PlayerColour> PlayerColor;
