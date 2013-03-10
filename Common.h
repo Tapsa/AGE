@@ -13,7 +13,7 @@
 #include <wx/odcombo.h>
 #include <wx/statline.h>
 #include <wx/tooltip.h>
-#include <wx/richtooltip.h>
+//#include <wx/richtooltip.h>
 #include <windows.h>
 #include "genie/dat/DatFile.h"	// Newer dat system
 #include "genie/lang/LangFile.h"

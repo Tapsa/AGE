@@ -3272,51 +3272,6 @@ class AGE_Frame: public wxFrame
 		for(auto loop = places.size(); loop--> 0;)
 		copies[loop] = path[places[loop]];
 	}
-	template <class P, class C>
-	inline void MultiCopyFromList(P &path, vector<short> &places, C &copies, vector<short> &existing)
-	{
-		short CivCount = GenieFile->Civs.size();
-		existing.resize(CivCount);
-		copies.resize(0);
-		copies.reserve(CivCount);
-		for(short civ = 0; civ < CivCount; civ++)
-		{
-			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
-			{
-				// Graphic set info not usefull.
-				existing[civ] = 255;
-			}
-			else
-			{
-				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				existing[civ] = 256 + GenieFile->Civs[civ].GraphicSet;
-				// Only copy damage graphics from civs which have this unit enabled.
-				copies.push_back();
-				CopyFromList(path, places, copies.back());
-			}
-		}
-	}
-	template <class P, class C>
-	inline void MultiPasteToList(P &path, short place, C &copies, vector<short> &existing)
-	{
-		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); civ++)
-		{
-			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
-			{
-				// Consume copies.
-				if(existing[civ] > 255) copy++; continue;
-			}
-			// If the target unit exists then choose from following.
-			if(existing[civ] > 255 && copy < copies.size())
-			{
-				PasteToList(path, place, copies[copy]); copy++;
-			}
-			else
-			{
-				PasteToList(path, place, copies[0]);
-			}
-		}
-	}
 
 	template <class P, class C>
 	inline void PasteToListNoGV(P &path, short place, C &copies)

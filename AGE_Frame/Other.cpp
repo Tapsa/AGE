@@ -1175,9 +1175,7 @@ void AGE_Frame::OnGameVersionChange()
 		{
 			Units_Holder_Unknown7->Show(show);
 			Units_Holder_Unknown8->Show(show);
-			Units_Holder_Unknown26->Show(show);
-			Units_Holder_Unknown27->Show(show);
-			Units_Holder_Unknown29->Show(show);
+			Units_Holder_Type70plusUnknownArea->Show(show);
 			Units_Holder_Unknown33->Show(show);
 			Units_Holder_Unknown34->Show(show);
 			Units_Holder_Unknown35->Show(show);
@@ -1468,8 +1466,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case ToolBar_Help:
 		{
-			AGE_HelpInfo AGEHelp(this);
-			AGEHelp.ShowModal();
+			//AGE_HelpInfo AGEHelp(this);
+			//AGEHelp.ShowModal();
 			wxString help = "ATTENTION!\nChanges to editing boxes affect all selected items!\n\n";
 			help.Append("Short Guide to Advanced Editing\n");
 			help.Append("Click \"Help\" from the toolbar to see this again.\n\n");
