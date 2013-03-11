@@ -16,7 +16,7 @@ You can also download libiconv from here:
 http://ftp.gnu.org/pub/gnu/libiconv/
 Then install it like this: ???
 
-wxWidgets (I have modded version 2.8.12):
+wxWidgets (I have modded version 2.8.12, unmodded 2.9.4+ works too):
 Unpack the zip file.
 To use my modded tool tips, seek them from AGE 2 sources and replace wxWidgets ones!
 In cmd.exe go to \wxWidgets\build\msw
@@ -47,6 +47,9 @@ Change zlib folder if it's in another place!!!
 Copy Boost folder from C: to C:\Cpp or wherever you want it.
 
 You'll need to download Apre's dat library from here:
-https://github.com/apreiml/genieutils
-Place it into AGE 2's subfolder named "extern\genieutils"
+https://github.com/Tapsa/genieutils
+Place it into AGE's subfolder named "extern\genieutils"
+Then you'll need to download his DLL library:
+https://github.com/Tapsa/pcrio
+Place it into genieutils's subfolder named "extern\pcrio"
 Update paths in build*.bat files, and then you are ready to go.
