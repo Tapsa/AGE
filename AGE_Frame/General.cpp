@@ -1258,7 +1258,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Text_Unknown5 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Fluctuation *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	RMSUnit_Unknown5 = new TextCtrl_Long(Unknown_Scroller);
-	RMSUnit_Unknown5->SetToolTip("Max amount of objects randomly decreased from group");
+	RMSUnit_Unknown5->SetToolTip("Max random variation in the number of objects in the group");
 	RMSUnit_Holder_GroupsPerPlayer = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Text_GroupsPerPlayer = new wxStaticText(Unknown_Scroller, wxID_ANY, " Groups per Player", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	RMSUnit_GroupsPerPlayer = new TextCtrl_Long(Unknown_Scroller);
