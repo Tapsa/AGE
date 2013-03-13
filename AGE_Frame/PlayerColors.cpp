@@ -20,6 +20,11 @@ void AGE_Frame::ListPlayerColors()
 
 	auto Selections = Colors_Colors_List->GetSelections(Items);
 	Colors_Colors_List->Clear();
+	
+	short SavedID = Graphics_ComboBox_PlayerColor->GetSelection();
+	Graphics_ComboBox_PlayerColor->Clear();
+	if(SavedID == wxNOT_FOUND) SavedID = 0;
+	Graphics_ComboBox_PlayerColor->Append("-1 - None");
 
 	for(short loop = 0; loop < GenieFile->PlayerColours.size(); loop++)
 	{
@@ -27,10 +32,12 @@ void AGE_Frame::ListPlayerColors()
 		if(SearchMatches(Name.Lower()))
 		{
 			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
+			Graphics_ComboBox_PlayerColor->Append(Name);
 		}
 	}
 
 	ListingFix(Selections, Colors_Colors_List);
+	Graphics_ComboBox_PlayerColor->SetSelection(SavedID);
 
 	wxCommandEvent E;
 	OnPlayerColorsSelect(E);
@@ -193,19 +200,22 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
 	Colors_Text_Name = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_ID = new wxStaticText(Tab_PlayerColors, wxID_ANY, " ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Text_Palette = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Palette", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Text_Color = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Color", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Text_MinimapColor = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Minimap Color", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Colors_Text_Palette = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Palette *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Colors_Text_Color = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Colors_Text_MinimapColor = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Minimap Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown1 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown2 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown3 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Text_Unknown4 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Text_Unknown5 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Colors_Text_Unknown5 = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Statistics Text", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Name = new TextCtrl_String(Tab_PlayerColors, 30);
 	Colors_ID = new TextCtrl_Long(Tab_PlayerColors);
 	Colors_Palette = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_Palette->SetToolTip("Starting index of the main color palette\nfrom where 8 colors are dedicated to this player color");
 	Colors_ColorL = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_ColorL->SetToolTip("Index of the main color palette");
 	Colors_MinimapColor = new TextCtrl_Long(Tab_PlayerColors);
+	Colors_MinimapColor->SetToolTip("Index of the main color palette");
 	Colors_Unknown1 = new TextCtrl_Long(Tab_PlayerColors);
 	Colors_Unknown2 = new TextCtrl_Long(Tab_PlayerColors);
 	Colors_Unknown3 = new TextCtrl_Long(Tab_PlayerColors);

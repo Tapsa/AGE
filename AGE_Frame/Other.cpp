@@ -1215,7 +1215,6 @@ void AGE_Frame::OnGameVersionChange()
 			SoundItems_Name->SetMaxSize(27);
 			Terrains_Name->SetMaxSize(17);
 			Terrains_Name2->SetMaxSize(17);
-
 		}
 		else // <- TC
 		{
