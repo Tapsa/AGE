@@ -54,7 +54,7 @@ private :
 
 class AGE_Frame: public wxFrame
 {
-	public:
+public:
 	AGE_Frame(const wxString &title, Copies &c, short window = 1);
 
 //	Stuff related to editing multiple files at once
@@ -1509,8 +1509,7 @@ class AGE_Frame: public wxFrame
 	ComboBox_Plus1 *Units_ComboBox_SelectionSound;
 	TextCtrl_Short *Units_DyingSound;
 	ComboBox_Plus1 *Units_ComboBox_DyingSound;
-	TextCtrl_Short *Units_AttackSound;
-	ComboBox_Plus1 *Units_ComboBox_AttackSound;
+	TextCtrl_Short *Units_AttackMode;
 	TextCtrl_String *Units_Name;
 	TextCtrl_String *Units_Name2;
 	TextCtrl_Short *Units_Unitline;
@@ -1546,10 +1545,10 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Short *Units_DropSite[2];
 	ComboBox_Plus1 *Units_ComboBox_DropSite[2];
 	TextCtrl_Byte *Units_VillagerMode;
+	TextCtrl_Short *Units_AttackSound;
+	ComboBox_Plus1 *Units_ComboBox_AttackSound;
 	TextCtrl_Short *Units_MoveSound;
 	ComboBox_Plus1 *Units_ComboBox_MoveSound;
-	TextCtrl_Short *Units_StopSound;
-	ComboBox_Plus1 *Units_ComboBox_StopSound;
 	TextCtrl_Byte *Units_AnimalMode;
 	CheckBox_2State *Units_CheckBox_AnimalMode;
 	TextCtrl_Byte *Units_Exists;
@@ -1705,7 +1704,7 @@ class AGE_Frame: public wxFrame
 	wxStaticText *ResourceStorage_Text_Enabled;
 	wxStaticText *Units_Text_SelectionSound;
 	wxStaticText *Units_Text_DyingSound;
-	wxStaticText *Units_Text_AttackSound;
+	wxStaticText *Units_Text_AttackMode;
 	wxStaticText *Units_Text_Name;
 	wxStaticText *Units_Text_Name2;
 	wxStaticText *Units_Text_Unitline;
@@ -1735,8 +1734,8 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Units_Text_WorkRate;
 	wxStaticText *Units_Text_DropSite;
 	wxStaticText *Units_Text_VillagerMode;
+	wxStaticText *Units_Text_AttackSound;
 	wxStaticText *Units_Text_MoveSound;
-	wxStaticText *Units_Text_StopSound;
 	wxStaticText *Units_Text_Exists;
 
 //	Type 60+
@@ -1882,7 +1881,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_ResourceStorage[3];
 	wxBoxSizer *Units_Holder_SelectionSound;
 	wxBoxSizer *Units_Holder_DyingSound;
-	wxBoxSizer *Units_Holder_AttackSound;
+	wxBoxSizer *Units_Holder_AttackMode;
 	wxBoxSizer *Units_Holder_Name;
 	wxBoxSizer *Units_Holder_Name2;
 	wxBoxSizer *Units_Holder_Unitline;
@@ -1916,8 +1915,8 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Units_Holder_WorkRate;
 	wxGridSizer *Units_Grid_DropSite;
 	wxBoxSizer *Units_Holder_VillagerMode;
+	wxBoxSizer *Units_Holder_AttackSound;
 	wxBoxSizer *Units_Holder_MoveSound;
-	wxBoxSizer *Units_Holder_StopSound;
 	wxBoxSizer *Units_Holder_AnimalMode;
 	wxBoxSizer *Units_Holder_Exists;
 
@@ -2322,7 +2321,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Graphics_Holder_Unknown1;
 	wxBoxSizer *Graphics_Holder_Unknown2;
 	wxBoxSizer *Graphics_Holder_FrameType;
-	wxBoxSizer *Graphics_Holder_Unknown3;
+	wxBoxSizer *Graphics_Holder_PlayerColor;
 	wxBoxSizer *Graphics_Holder_Unknown4;
 	wxBoxSizer *Graphics_Holder_Replay;
 	wxBoxSizer *Graphics_Holder_Coordinates;
@@ -2334,7 +2333,7 @@ class AGE_Frame: public wxFrame
 	wxBoxSizer *Graphics_Holder_5;
 	wxBoxSizer *Graphics_Holder_FrameCount;
 	wxBoxSizer *Graphics_Holder_AngleCount;
-	wxBoxSizer *Graphics_Holder_Unknown13;
+	wxBoxSizer *Graphics_Holder_NewSpeed;
 	wxBoxSizer *Graphics_Holder_FrameRate;
 	wxBoxSizer *Graphics_Holder_ReplayDelay;
 	wxBoxSizer *Graphics_Holder_SequenceType;
@@ -2349,7 +2348,7 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Graphics_Text_Unknown1;
 	wxStaticText *Graphics_Text_Unknown2;
 	wxStaticText *Graphics_Text_FrameType;
-	wxStaticText *Graphics_Text_Unknown3;
+	wxStaticText *Graphics_Text_PlayerColor;
 	wxStaticText *Graphics_Text_Unknown4;
 	wxStaticText *Graphics_Text_Replay;
 	wxStaticText *Graphics_Text_Coordinates;
@@ -2357,7 +2356,7 @@ class AGE_Frame: public wxFrame
 	wxStaticText *Graphics_Text_AttackSoundUsed;
 	wxStaticText *Graphics_Text_FrameCount;
 	wxStaticText *Graphics_Text_AngleCount;
-	wxStaticText *Graphics_Text_Unknown13;
+	wxStaticText *Graphics_Text_NewSpeed;
 	wxStaticText *Graphics_Text_FrameRate;
 	wxStaticText *Graphics_Text_ReplayDelay;
 	wxStaticText *Graphics_Text_SequenceType;
@@ -2370,8 +2369,8 @@ class AGE_Frame: public wxFrame
 	TextCtrl_Byte *Graphics_Unknown1;
 	TextCtrl_Byte *Graphics_Unknown2;
 	TextCtrl_Byte *Graphics_FrameType;
-	TextCtrl_Byte *Graphics_Unknown3;
-	TextCtrl_Byte *Graphics_Unknown4;
+	TextCtrl_Short *Graphics_PlayerColor;
+	ComboBox_Plus1 *Graphics_ComboBox_PlayerColor;
 	TextCtrl_Byte *Graphics_Replay;
 	TextCtrl_Short *Graphics_Coordinates[4];
 	TextCtrl_Short *Graphics_SoundID;
@@ -2380,7 +2379,7 @@ class AGE_Frame: public wxFrame
 	CheckBox_2State *Graphics_CheckBox_AttackSoundUsed;
 	TextCtrl_UShort *Graphics_FrameCount;
 	TextCtrl_UShort *Graphics_AngleCount;
-	TextCtrl_Float *Graphics_Unknown13;
+	TextCtrl_Float *Graphics_NewSpeed;
 	TextCtrl_Float *Graphics_FrameRate;
 	TextCtrl_Float *Graphics_ReplayDelay;
 	TextCtrl_Byte *Graphics_SequenceType;
@@ -3361,5 +3360,4 @@ class AGE_Frame: public wxFrame
 		for(auto loop = path.size(); loop--> place;) // ID Fix
 		path[loop].ID = loop;
 	}
-
 };

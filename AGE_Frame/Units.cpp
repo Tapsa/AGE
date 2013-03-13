@@ -463,8 +463,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_DropSite[0]->resize(PointerCount);
 	Units_DropSite[1]->resize(PointerCount);
 	Units_VillagerMode->resize(PointerCount);
+	Units_AttackSound->resize(PointerCount);
 	Units_MoveSound->resize(PointerCount);
-	Units_StopSound->resize(PointerCount);
 	Units_AnimalMode->resize(PointerCount);
 	// Type 30
 	Units_RotationSpeed->resize(PointerCount);
@@ -555,7 +555,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_HPBarHeight2->resize(PointerCount);
 	Units_SelectionSound->resize(PointerCount);
 	Units_DyingSound->resize(PointerCount);
-	Units_AttackSound->resize(PointerCount);
+	Units_AttackMode->resize(PointerCount);
 	Units_Name->resize(PointerCount);
 	Units_ID2->resize(PointerCount);
 	for(short loop = 0; loop < 3; loop++)
@@ -726,8 +726,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					Units_DropSite[0]->container[location] = &UnitPointer->Bird.DropSite.first;
 					Units_DropSite[1]->container[location] = &UnitPointer->Bird.DropSite.second;
 					Units_VillagerMode->container[location] = &UnitPointer->Bird.VillagerMode;
+					Units_AttackSound->container[location] = &UnitPointer->Bird.AttackSound;
 					Units_MoveSound->container[location] = &UnitPointer->Bird.MoveSound;
-					Units_StopSound->container[location] = &UnitPointer->Bird.StopSound;
 					Units_AnimalMode->container[location] = &UnitPointer->Bird.AnimalMode;
 				}
 				//case 30:
@@ -841,7 +841,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_HPBarHeight2->container[location] = &UnitPointer->HPBarHeight2;
 			Units_SelectionSound->container[location] = &UnitPointer->SelectionSound;
 			Units_DyingSound->container[location] = &UnitPointer->DyingSound;
-			Units_AttackSound->container[location] = &UnitPointer->AttackSound;
+			Units_AttackMode->container[location] = &UnitPointer->AttackMode;
 			Units_Name->container[location] = &UnitPointer->Name;
 			Units_ID2->container[location] = &UnitPointer->ID2;
 			for(short loop = 0; loop < 3; loop++)
@@ -1118,10 +1118,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_ComboBox_DropSite[loop]->Enable(true);
 			}
 			Units_VillagerMode->Enable(true);
+			Units_AttackSound->Enable(true);
+			Units_ComboBox_AttackSound->Enable(true);
 			Units_MoveSound->Enable(true);
 			Units_ComboBox_MoveSound->Enable(true);
-			Units_StopSound->Enable(true);
-			Units_ComboBox_StopSound->Enable(true);
 			Units_AnimalMode->Enable(true);
 			Units_CheckBox_AnimalMode->Enable(true);
 
@@ -1135,10 +1135,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_DropSite[1]->ChangeValue(lexical_cast<string>(UnitPointer->Bird.DropSite.second));
 			Units_ComboBox_DropSite[1]->SetSelection(UnitPointer->Bird.DropSite.second + 1);
 			Units_VillagerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird.VillagerMode));
+			Units_AttackSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.AttackSound));
+			Units_ComboBox_AttackSound->SetSelection(UnitPointer->Bird.AttackSound + 1);
 			Units_MoveSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.MoveSound));
 			Units_ComboBox_MoveSound->SetSelection(UnitPointer->Bird.MoveSound + 1);
-			Units_StopSound->ChangeValue(lexical_cast<string>(UnitPointer->Bird.StopSound));
-			Units_ComboBox_StopSound->SetSelection(UnitPointer->Bird.StopSound + 1);
 			Units_AnimalMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Bird.AnimalMode));
 			Units_CheckBox_AnimalMode->SetValue((bool)UnitPointer->Bird.AnimalMode);
 		}
@@ -1312,8 +1312,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_ComboBox_SelectionSound->SetSelection(UnitPointer->SelectionSound + 1);
 	Units_DyingSound->ChangeValue(lexical_cast<string>(UnitPointer->DyingSound));
 	Units_ComboBox_DyingSound->SetSelection(UnitPointer->DyingSound + 1);
-	Units_AttackSound->ChangeValue(lexical_cast<string>(UnitPointer->AttackSound));
-	Units_ComboBox_AttackSound->SetSelection(UnitPointer->AttackSound + 1);
+	Units_AttackMode->ChangeValue(lexical_cast<string>(UnitPointer->AttackMode));
 	Units_Name->ChangeValue(lexical_cast<string>(UnitPointer->Name));
 	Units_ID2->ChangeValue(lexical_cast<string>(UnitPointer->ID2));
 	for(short loop = 0; loop < 3; loop++)
@@ -1382,14 +1381,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			}
 			Units_VillagerMode->Enable(false);
 			Units_VillagerMode->ChangeValue("0");
+			Units_AttackSound->Enable(false);
+			Units_AttackSound->ChangeValue("0");
+			Units_ComboBox_AttackSound->Enable(false);
+			Units_ComboBox_AttackSound->SetSelection(0);
 			Units_MoveSound->Enable(false);
 			Units_MoveSound->ChangeValue("0");
 			Units_ComboBox_MoveSound->Enable(false);
 			Units_ComboBox_MoveSound->SetSelection(0);
-			Units_StopSound->Enable(false);
-			Units_StopSound->ChangeValue("0");
-			Units_ComboBox_StopSound->Enable(false);
-			Units_ComboBox_StopSound->SetSelection(0);
 			Units_AnimalMode->Enable(false);
 			Units_AnimalMode->ChangeValue("0");
 			Units_CheckBox_AnimalMode->Enable(false);
@@ -3686,7 +3685,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ResourceStorage[loop] = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_SelectionSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_DyingSound = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_AttackSound = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_AttackMode = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Name2 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unitline = new wxBoxSizer(wxVERTICAL);
@@ -3720,8 +3719,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_WorkRate = new wxBoxSizer(wxVERTICAL);
 	Units_Grid_DropSite = new wxGridSizer(4, 0, 5);
 	Units_Holder_VillagerMode = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_AttackSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MoveSound = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_StopSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AnimalMode = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_Exists = new wxBoxSizer(wxVERTICAL);
 
@@ -3864,7 +3863,7 @@ void AGE_Frame::CreateUnitControls()
 	ResourceStorage_Text_Enabled = new wxStaticText(Units_Scroller, wxID_ANY, "Enable Mode * ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Units_Text_SelectionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DyingSound = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_AttackSound = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Sound (Mode?) *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackMode = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Mode? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Name = new wxStaticText(Units_Scroller, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Name2 = new wxStaticText(Units_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unitline = new wxStaticText(Units_Scroller, wxID_ANY, " Unitline", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3894,8 +3893,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_WorkRate = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DropSite = new wxStaticText(Units_Scroller, wxID_ANY, " Drop Site *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_VillagerMode = new wxStaticText(Units_Scroller, wxID_ANY, " Villager Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_MoveSound = new wxStaticText(Units_Scroller, wxID_ANY, " Move Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_StopSound = new wxStaticText(Units_Scroller, wxID_ANY, " Stop Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_AttackSound = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_MoveSound = new wxStaticText(Units_Scroller, wxID_ANY, " Move Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Exists = new wxStaticText(Units_Scroller, wxID_ANY, " Exists", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 60+
@@ -4338,13 +4337,12 @@ void AGE_Frame::CreateUnitControls()
 	}
 	Units_SelectionSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_SelectionSound = new ComboBox_Plus1(Units_Scroller, Units_SelectionSound);
+	Units_AttackMode = new TextCtrl_Short(Units_Scroller);
+	Units_AttackMode->SetToolTip("This may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
 	Units_AttackSound = new TextCtrl_Short(Units_Scroller);
-	Units_AttackSound->SetToolTip("This may be attack mode instead of sound\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
 	Units_ComboBox_AttackSound = new ComboBox_Plus1(Units_Scroller, Units_AttackSound);
 	Units_MoveSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_MoveSound = new ComboBox_Plus1(Units_Scroller, Units_MoveSound);
-	Units_StopSound = new TextCtrl_Short(Units_Scroller);
-	Units_ComboBox_StopSound = new ComboBox_Plus1(Units_Scroller, Units_StopSound);
 	Units_DyingSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_DyingSound = new ComboBox_Plus1(Units_Scroller, Units_DyingSound);
 
@@ -4616,7 +4614,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_HPBarHeight2->Add(Units_Text_HPBarHeight2, 0, wxEXPAND);
 	Units_Holder_SelectionSound->Add(Units_Text_SelectionSound, 0, wxEXPAND);
 	Units_Holder_DyingSound->Add(Units_Text_DyingSound, 0, wxEXPAND);
-	Units_Holder_AttackSound->Add(Units_Text_AttackSound, 0, wxEXPAND);
+	Units_Holder_AttackMode->Add(Units_Text_AttackMode, 0, wxEXPAND);
 	Units_Holder_Name->Add(Units_Text_Name, 0, wxEXPAND);
 	Units_Holder_Name2->Add(Units_Text_Name2, 0, wxEXPAND);
 	Units_Holder_Unitline->Add(Units_Text_Unitline, 0, wxEXPAND);
@@ -4645,8 +4643,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_WorkRate->Add(Units_Text_WorkRate, 0, wxEXPAND);
 	Units_Holder_AttributesDropSite->Add(Units_Text_DropSite, 0, wxEXPAND);
 	Units_Holder_VillagerMode->Add(Units_Text_VillagerMode, 0, wxEXPAND);
+	Units_Holder_AttackSound->Add(Units_Text_AttackSound, 0, wxEXPAND);
 	Units_Holder_MoveSound->Add(Units_Text_MoveSound, 0, wxEXPAND);
-	Units_Holder_StopSound->Add(Units_Text_StopSound, 0, wxEXPAND);
 	Units_Holder_Exists->Add(Units_Text_Exists, 0, wxEXPAND);
 
 //	Type 60+
@@ -4797,8 +4795,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SelectionSound->Add(Units_ComboBox_SelectionSound, 1, wxEXPAND);
 	Units_Holder_DyingSound->Add(Units_DyingSound, 1, wxEXPAND);
 	Units_Holder_DyingSound->Add(Units_ComboBox_DyingSound, 1, wxEXPAND);
-	Units_Holder_AttackSound->Add(Units_AttackSound, 1, wxEXPAND);
-	Units_Holder_AttackSound->Add(Units_ComboBox_AttackSound, 1, wxEXPAND);
+	Units_Holder_AttackMode->Add(Units_AttackMode, 0, wxEXPAND);
 	Units_Holder_Name->Add(Units_Name, 1, wxEXPAND);
 	Units_Holder_Name2->Add(Units_Name2, 1, wxEXPAND);
 	Units_Holder_Unitline->Add(Units_Unitline, 1, wxEXPAND);
@@ -4840,10 +4837,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_DropSite->Add(Units_ComboBox_DropSite[0], 2, wxEXPAND);
 	Units_Grid_DropSite->Add(Units_ComboBox_DropSite[1], 2, wxEXPAND);
 	Units_Holder_VillagerMode->Add(Units_VillagerMode, 1, wxEXPAND);
+	Units_Holder_AttackSound->Add(Units_AttackSound, 1, wxEXPAND);
+	Units_Holder_AttackSound->Add(Units_ComboBox_AttackSound, 1, wxEXPAND);
 	Units_Holder_MoveSound->Add(Units_MoveSound, 1, wxEXPAND);
 	Units_Holder_MoveSound->Add(Units_ComboBox_MoveSound, 1, wxEXPAND);
-	Units_Holder_StopSound->Add(Units_StopSound, 1, wxEXPAND);
-	Units_Holder_StopSound->Add(Units_ComboBox_StopSound, 1, wxEXPAND);
 	Units_Holder_AnimalMode->Add(Units_AnimalMode, 1, wxEXPAND);
 	Units_Holder_AnimalMode->Add(2, -1);
 	Units_Holder_AnimalMode->Add(Units_CheckBox_AnimalMode, 2, wxEXPAND);
@@ -5446,9 +5443,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SoundsArea1->Add(Units_Holder_TrainSound, 2, wxEXPAND);
 	Units_Holder_SoundsArea1->Add(5, 5);
 	Units_Holder_SoundsArea1->Add(Units_Holder_SelectionSound, 1, wxEXPAND);
+	Units_Grid_SoundsArea2->Add(Units_Holder_AttackMode, 1, wxEXPAND);
 	Units_Grid_SoundsArea2->Add(Units_Holder_AttackSound, 1, wxEXPAND);
 	Units_Grid_SoundsArea2->Add(Units_Holder_MoveSound, 1, wxEXPAND);
-	Units_Grid_SoundsArea2->Add(Units_Holder_StopSound, 1, wxEXPAND);
 	Units_Grid_SoundsArea2->Add(Units_Holder_DyingSound, 1, wxEXPAND);
 
 	Units_Holder_SoundsArea->Add(Units_Holder_SoundsArea1, 0, wxEXPAND);

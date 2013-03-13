@@ -26,9 +26,8 @@ void AGE_Frame::ListSounds(bool Sized)
 		SavedIDs[loop] = Units_ComboBox_TrainSound[loop]->GetSelection();
 		SavedIDs[2] = Units_ComboBox_SelectionSound->GetSelection();
 		SavedIDs[3] = Units_ComboBox_DyingSound->GetSelection();
-		SavedIDs[4] = Units_ComboBox_AttackSound->GetSelection();
-		SavedIDs[5] = Units_ComboBox_MoveSound->GetSelection();
-		SavedIDs[6] = Units_ComboBox_StopSound->GetSelection();
+		SavedIDs[5] = Units_ComboBox_AttackSound->GetSelection();
+		SavedIDs[6] = Units_ComboBox_MoveSound->GetSelection();
 		SavedIDs[7] = Units_ComboBox_ConstructionSound->GetSelection();
 		SavedIDs[8] = Terrains_ComboBox_SoundID->GetSelection();
 		SavedIDs[9] = Graphics_ComboBox_SoundID->GetSelection();
@@ -41,7 +40,6 @@ void AGE_Frame::ListSounds(bool Sized)
 		Units_ComboBox_DyingSound->Clear();
 		Units_ComboBox_AttackSound->Clear();
 		Units_ComboBox_MoveSound->Clear();
-		Units_ComboBox_StopSound->Clear();
 		Units_ComboBox_ConstructionSound->Clear();
 		Terrains_ComboBox_SoundID->Clear();
 		Graphics_ComboBox_SoundID->Clear();
@@ -59,7 +57,6 @@ void AGE_Frame::ListSounds(bool Sized)
 		Units_ComboBox_DyingSound->Append("-1 - None");
 		Units_ComboBox_AttackSound->Append("-1 - None");
 		Units_ComboBox_MoveSound->Append("-1 - None");
-		Units_ComboBox_StopSound->Append("-1 - None");
 		Units_ComboBox_ConstructionSound->Append("-1 - None");
 		Terrains_ComboBox_SoundID->Append("-1 - None");
 		Graphics_ComboBox_SoundID->Append("-1 - None");
@@ -82,7 +79,6 @@ void AGE_Frame::ListSounds(bool Sized)
 			Units_ComboBox_DyingSound->Append(Name);
 			Units_ComboBox_AttackSound->Append(Name);
 			Units_ComboBox_MoveSound->Append(Name);
-			Units_ComboBox_StopSound->Append(Name);
 			Units_ComboBox_ConstructionSound->Append(Name);
 			Terrains_ComboBox_SoundID->Append(Name);
 			Graphics_ComboBox_SoundID->Append(Name);
@@ -98,9 +94,8 @@ void AGE_Frame::ListSounds(bool Sized)
 		Units_ComboBox_TrainSound[loop]->SetSelection(SavedIDs[loop]);
 		Units_ComboBox_SelectionSound->SetSelection(SavedIDs[2]);
 		Units_ComboBox_DyingSound->SetSelection(SavedIDs[3]);
-		Units_ComboBox_AttackSound->SetSelection(SavedIDs[4]);
-		Units_ComboBox_MoveSound->SetSelection(SavedIDs[5]);
-		Units_ComboBox_StopSound->SetSelection(SavedIDs[6]);
+		Units_ComboBox_AttackSound->SetSelection(SavedIDs[5]);
+		Units_ComboBox_MoveSound->SetSelection(SavedIDs[6]);
 		Units_ComboBox_ConstructionSound->SetSelection(SavedIDs[7]);
 		Terrains_ComboBox_SoundID->SetSelection(SavedIDs[8]);
 		Graphics_ComboBox_SoundID->SetSelection(SavedIDs[9]);
