@@ -1460,7 +1460,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 				Customs->Write("Names/"+lexical_cast<string>(loop+31), MoveHolder);
 			}
 			delete Customs;
-			//wxMessageBox("File extracted successfully!");
 		}
 		break;
 		case ToolBar_Help:
