@@ -4489,8 +4489,9 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown5 = new TextCtrl_Float(Units_Scroller);
 	UnitCommands_Holder_Unknown6 = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Enabler *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown6 = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_Unknown6->SetToolTip("1 Allows units to select their targets");
 	UnitCommands_Holder_Unknown7 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown7 = new TextCtrl_Byte(Units_Scroller);
@@ -4500,7 +4501,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Unknown9 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown9 = new TextCtrl_Byte(Units_Scroller);
-	UnitCommands_Unknown9->SetToolTip("Can allow/disallow selecting gatherable resources");
+	UnitCommands_Unknown9->SetToolTip("Determines what you can select as targets\n0 Can select anything\n1-4 Can select gaia objects only\n5 Can select enemy player objects only");
 	UnitCommands_Holder_Unknown10 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown10 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 10", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown10 = new TextCtrl_Byte(Units_Scroller);

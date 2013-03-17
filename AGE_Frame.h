@@ -1240,6 +1240,7 @@ public:
 	wxBoxSizer *Effects_ListArea;
 	wxGridSizer *Techs_Effects_Buttons;
 	wxBoxSizer *Effects_DataAreaProperties;
+	wxCheckBox *Effects_NeverHide;
 	wxBoxSizer *Effects_Holder_DataA;
 	wxBoxSizer *Effects_Holder_DataB;
 	wxBoxSizer *Effects_Holder_DataC;
