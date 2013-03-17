@@ -402,6 +402,8 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		Effects_D->ChangeValue(lexical_cast<string>(EffectPointer->D));
 		Effects_ComboBox_ResearchsD->SetSelection(0);
 		Effects_ComboBox_ResearchsD->SetSelection(EffectPointer->D + 1);
+
+		bool NeverHide = Effects_NeverHide->GetValue();
 		switch(EffectPointer->Type)
 		{
 			case 0:
@@ -482,7 +484,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
-				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
+				Effects_C->Show(NeverHide);	// not for Effects 1, 2, 3, 6, 102
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
@@ -524,8 +526,8 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
-				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
-				Effects_D->Show(false);	// not for Effects 2, 3
+				Effects_C->Show(NeverHide);	// not for Effects 1, 2, 3, 6, 102
+				Effects_D->Show(NeverHide);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
 
@@ -559,8 +561,8 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
 				Effects_B->Show(true);	// not for Effects 6, 102, 103
-				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
-				Effects_D->Show(false);	// not for Effects 2, 3
+				Effects_C->Show(NeverHide);	// not for Effects 1, 2, 3, 6, 102
+				Effects_D->Show(NeverHide);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
 
@@ -719,8 +721,8 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
 				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
-				Effects_B->Show(false);	// not for Effects 6, 102, 103
-				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
+				Effects_B->Show(NeverHide);	// not for Effects 6, 102, 103
+				Effects_C->Show(NeverHide);	// not for Effects 1, 2, 3, 6, 102
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
@@ -795,9 +797,9 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(true);	// for Effects 102
 				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
-				Effects_A->Show(false);	// not for Effects 102
-				Effects_B->Show(false);	// not for Effects 6, 102, 103
-				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
+				Effects_A->Show(NeverHide);	// not for Effects 102
+				Effects_B->Show(NeverHide);	// not for Effects 6, 102, 103
+				Effects_C->Show(NeverHide);	// not for Effects 1, 2, 3, 6, 102
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
@@ -831,7 +833,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
 				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
 				Effects_A->Show(true);	// not for Effects 102
-				Effects_B->Show(false);	// not for Effects 6, 102, 103
+				Effects_B->Show(NeverHide);	// not for Effects 6, 102, 103
 				Effects_C->Show(true);	// not for Effects 1, 2, 3, 6, 102
 				Effects_D->Show(true);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
@@ -872,10 +874,10 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 				Effects_ComboBox_AttributesC->Show(false);	// for Effects 0, 4, 5
 				Effects_ComboBox_ResearchsD->Show(false);	// for Effects 102
 				Attacks_ComboBox_Class[2]->Show(false);	// only for attributes 8, 9
-				Effects_A->Show(false);	// not for Effects 102
-				Effects_B->Show(false);	// not for Effects 6, 102, 103
-				Effects_C->Show(false);	// not for Effects 1, 2, 3, 6, 102
-				Effects_D->Show(false);	// not for Effects 2, 3
+				Effects_A->Show(NeverHide);	// not for Effects 102
+				Effects_B->Show(NeverHide);	// not for Effects 6, 102, 103
+				Effects_C->Show(NeverHide);	// not for Effects 1, 2, 3, 6, 102
+				Effects_D->Show(NeverHide);	// not for Effects 2, 3
 				Effects_E->Show(false);	// only for attributes 8, 9
 				Effects_F->Show(false);	// only for attributes 8, 9
 
@@ -1099,6 +1101,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_Type = new TextCtrl_Byte(Tab_Techs);
 	Effects_ComboBox_Type = new ComboBox_EffectType(Tab_Techs, Effects_Type);
 	Effects_Holder_Data = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effect Attributes");
+	Effects_NeverHide = new wxCheckBox(Tab_Techs, wxID_ANY, "Never hide attributes", wxDefaultPosition, wxSize(40, 20));
 	Effects_Holder_DataA = new wxBoxSizer(wxHORIZONTAL);
 	Effects_Holder_DataB = new wxBoxSizer(wxHORIZONTAL);
 	Effects_Holder_DataC = new wxBoxSizer(wxHORIZONTAL);
@@ -1279,6 +1282,8 @@ void AGE_Frame::CreateTechControls()
 	Effects_Holder_DataF->Add(Effects_Holder_F, 2, wxEXPAND);
 	Effects_Holder_DataF->Add(Effects_Info_F, 2, wxEXPAND);
 
+	Effects_Holder_Data->Add(Effects_NeverHide, 0, wxEXPAND);
+	Effects_Holder_Data->Add(-1, 5);
 	Effects_Holder_Data->Add(Effects_Holder_DataA, 0, wxEXPAND);
 	Effects_Holder_Data->Add(-1, 5);
 	Effects_Holder_Data->Add(Effects_Holder_DataB, 0, wxEXPAND);
