@@ -1,4 +1,5 @@
 #include "../AGE_Frame.h"
+#include <map>
 using boost::lexical_cast;
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
@@ -257,66 +258,64 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		//wxMessageBox("Started to open the file!");
 		//Units_Civs_List->SetSelection(0);
 
-		if(GenieVersion != genie::GV_AoKA)
+		// No research gaia fix.
+		for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
+			GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
+		// Pointers contain useless data, which the game overrides anyway.
+		// ID and pointer fixes.
+		for(short loop = GenieFile->Civs.size(); loop--> 0;)
 		{
-			// No research gaia fix.
-			for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
-				GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
-			// ID and pointer fixes.
-			for(short loop = GenieFile->Civs.size(); loop--> 0;)
+			for(short loop2 = GenieFile->Civs[loop].Units.size(); loop2--> 0;)
 			{
-				for(short loop2 = GenieFile->Civs[loop].Units.size(); loop2--> 0;)
+				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
 				{
-					if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
+					GenieFile->Civs[loop].UnitPointers[loop2] = 1;
+					if(EnableIDFix)
 					{
-						GenieFile->Civs[loop].UnitPointers[loop2] = 1;
-						if(EnableIDFix)
-						{
-							GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
-							GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
-							if(GenieVersion >= genie::GV_AoK)
-							GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
-							else
-							if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
-							for(short loop3 = GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
-							GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
-						}
+						GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
+						GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
+						if(GenieVersion >= genie::GV_AoK)
+						GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
+						else
+						if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
+						for(short loop3 = GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
+						GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
 					}
 				}
 			}
-			if(EnableIDFix)
+		}
+		if(EnableIDFix)
+		{
+			for(short loop = GenieFile->PlayerColours.size(); loop--> 0;)
 			{
-				for(short loop = GenieFile->PlayerColours.size(); loop--> 0;)
-				{
-					GenieFile->PlayerColours[loop].ID = loop;
-				}
-				for(short loop = GenieFile->Sounds.size(); loop--> 0;)
-				{
-					GenieFile->Sounds[loop].ID = loop;
-				}
-				if(GenieVersion >= genie::GV_SWGB)
-				for(short loop = GenieFile->UnitLines.size(); loop--> 0;)
-				{
-					GenieFile->UnitLines[loop].ID = loop;
-				}
+				GenieFile->PlayerColours[loop].ID = loop;
 			}
-			for(short loop = GenieFile->Graphics.size(); loop--> 0;)
+			for(short loop = GenieFile->Sounds.size(); loop--> 0;)
 			{
-				if(GenieFile->GraphicPointers[loop] != 0)
-				{
-					GenieFile->GraphicPointers[loop] = 1;
-					if(EnableIDFix)
-					GenieFile->Graphics[loop].ID = loop;
-				}
+				GenieFile->Sounds[loop].ID = loop;
 			}
-			for(short loop = GenieFile->TerrainRestrictions.size(); loop--> 0;)
+			if(GenieVersion >= genie::GV_SWGB)
+			for(short loop = GenieFile->UnitLines.size(); loop--> 0;)
 			{
-				if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
-				GenieFile->TerrainRestrictionPointers1[loop] = 1;
-				if(GenieVersion >= genie::GV_AoKA)
-				if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
-				GenieFile->TerrainRestrictionPointers2[loop] = 1;
+				GenieFile->UnitLines[loop].ID = loop;
 			}
+		}
+		for(short loop = GenieFile->Graphics.size(); loop--> 0;)
+		{
+			if(GenieFile->GraphicPointers[loop] != 0)
+			{
+				GenieFile->GraphicPointers[loop] = 1;
+				if(EnableIDFix)
+				GenieFile->Graphics[loop].ID = loop;
+			}
+		}
+		for(short loop = GenieFile->TerrainRestrictions.size(); loop--> 0;)
+		{
+			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
+			GenieFile->TerrainRestrictionPointers1[loop] = 1;
+			if(GenieVersion >= genie::GV_AoKA)
+			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
+			GenieFile->TerrainRestrictionPointers2[loop] = 1;
 		}
 
 		Added = false;
@@ -1459,7 +1458,69 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 				MoveHolder = Attacks_ComboBox_Class[0]->GetString(loop+32);
 				Customs->Write("Names/"+lexical_cast<string>(loop+31), MoveHolder);
 			}
+
+			/* Commands of all units of all civs
+			wxString tab = "    ";
+			for(short unit = 0; unit < GenieFile->Civs[0].Units.size(); unit++)
+			{
+				genie::UnitCommand *Command;
+				std::map<wxString, wxString> AllCommands;
+				for(short civ = (GenieVersion <= genie::GV_AoKA) ? 0 : GenieFile->Civs.size() - 1; civ < GenieFile->Civs.size(); civ++)
+				{
+					short CommandCount = (GenieVersion <= genie::GV_AoKA) ? GenieFile->Civs[civ].Units[unit].Bird.Commands.size() : GenieFile->UnitHeaders[unit].Commands.size();
+					if(GenieVersion >= genie::GV_AoK || (GenieFile->Civs[civ].Units[unit].Type >= 40 && GenieFile->Civs[civ].Units[unit].Type <= 80))
+					for(short command = 0; command < CommandCount; command++)
+					{
+						wxString val;
+						if(GenieVersion <= genie::GV_AoKA)
+						{
+							Command = &GenieFile->Civs[civ].Units[unit].Bird.Commands[command];
+							val = "Commands/Unit"+lexical_cast<string>(unit)+"_Civ"+lexical_cast<string>(civ)+"_Command"+lexical_cast<string>(command);
+						}
+						else
+						{
+							Command = &GenieFile->UnitHeaders[unit].Commands[command];
+							val = "Commands/Unit"+lexical_cast<string>(unit)+"_Command"+lexical_cast<string>(command);
+						}
+						wxString key = lexical_cast<string>(Command->One)+tab;
+						key.Append(lexical_cast<string>(Command->ID)+tab);
+						key.Append(lexical_cast<string>((short)Command->Unknown1)+tab);
+						key.Append(lexical_cast<string>(Command->Type)+tab);
+						key.Append(lexical_cast<string>(Command->ClassID)+tab);
+						key.Append(lexical_cast<string>(Command->UnitID)+tab);
+						key.Append(lexical_cast<string>(Command->Unknown2)+tab);
+						key.Append(lexical_cast<string>(Command->ResourceIn)+tab);
+						key.Append(lexical_cast<string>(Command->SubType)+tab);
+						key.Append(lexical_cast<string>(Command->ResourceOut)+tab);
+						key.Append(lexical_cast<string>(Command->Unknown3)+tab);
+						key.Append(lexical_cast<string>(Command->WorkRateMultiplier)+tab);
+						key.Append(lexical_cast<string>(Command->ExecutionRadius)+tab);
+						key.Append(lexical_cast<string>(Command->ExtraRange)+tab);
+						key.Append(lexical_cast<string>((short)Command->Unknown4)+tab);
+						key.Append(lexical_cast<string>(Command->Unknown5)+tab);
+						key.Append(lexical_cast<string>((short)Command->Unknown6)+tab);
+						key.Append(lexical_cast<string>((short)Command->Unknown7)+tab);
+						key.Append(lexical_cast<string>(Command->Unknown8)+tab);
+						key.Append(lexical_cast<string>((short)Command->Unknown9)+tab);
+						key.Append(lexical_cast<string>((short)Command->Unknown10)+tab);
+						key.Append(lexical_cast<string>((short)Command->Unknown11)+tab);
+						key.Append(lexical_cast<string>(Command->Graphics[0])+tab);
+						key.Append(lexical_cast<string>(Command->Graphics[1])+tab);
+						key.Append(lexical_cast<string>(Command->Graphics[2])+tab);
+						key.Append(lexical_cast<string>(Command->Graphics[3])+tab);
+						key.Append(lexical_cast<string>(Command->Graphics[4])+tab);
+						key.Append(lexical_cast<string>(Command->Graphics[5])+tab);
+						AllCommands.insert(std::pair<wxString, wxString>(key, val));
+					}
+				}
+				for(auto it = AllCommands.begin(); it != AllCommands.end(); it++)
+				{
+					Customs->Write(it->second, it->first);
+				}
+			}*/
+
 			delete Customs;
+			//wxMessageBox("File extracted successfully!");
 		}
 		break;
 		case ToolBar_Help:
