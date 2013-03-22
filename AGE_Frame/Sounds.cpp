@@ -19,11 +19,14 @@ void AGE_Frame::ListSounds(bool Sized)
 	auto Selections = Sounds_Sounds_List->GetSelections(Items);
 	Sounds_Sounds_List->Clear();
 
-	std::array<short, 13> SavedIDs;
+	std::array<short, 15> SavedIDs;
 	if(Sized)
 	{
 		for(short loop = 0; loop < 2; loop++)
-		SavedIDs[loop] = Units_ComboBox_TrainSound[loop]->GetSelection();
+		{
+			SavedIDs[loop] = Units_ComboBox_TrainSound[loop]->GetSelection();
+			SavedIDs[loop+13] = UnitCommands_ComboBox_Graphics[loop+4]->GetSelection();
+		}
 		SavedIDs[2] = Units_ComboBox_SelectionSound->GetSelection();
 		SavedIDs[3] = Units_ComboBox_DyingSound->GetSelection();
 		SavedIDs[5] = Units_ComboBox_AttackSound->GetSelection();
@@ -35,7 +38,10 @@ void AGE_Frame::ListSounds(bool Sized)
 		SavedIDs[loop+10] = Graphics_ComboBox_AttackSoundID[loop]->GetSelection();
 
 		for(short loop = 0; loop < 2; loop++)
-		Units_ComboBox_TrainSound[loop]->Clear();
+		{
+			Units_ComboBox_TrainSound[loop]->Clear();
+			UnitCommands_ComboBox_Graphics[loop+4]->Clear();
+		}
 		Units_ComboBox_SelectionSound->Clear();
 		Units_ComboBox_DyingSound->Clear();
 		Units_ComboBox_AttackSound->Clear();
@@ -52,7 +58,10 @@ void AGE_Frame::ListSounds(bool Sized)
 		}
 
 		for(short loop = 0; loop < 2; loop++)
-		Units_ComboBox_TrainSound[loop]->Append("-1 - None");
+		{
+			Units_ComboBox_TrainSound[loop]->Append("-1 - None");
+			UnitCommands_ComboBox_Graphics[loop+4]->Append("-1 - None");
+		}
 		Units_ComboBox_SelectionSound->Append("-1 - None");
 		Units_ComboBox_DyingSound->Append("-1 - None");
 		Units_ComboBox_AttackSound->Append("-1 - None");
@@ -74,7 +83,10 @@ void AGE_Frame::ListSounds(bool Sized)
 		if(Sized)
 		{
 			for(short loop = 0; loop < 2; loop++)
-			Units_ComboBox_TrainSound[loop]->Append(Name);
+			{
+				Units_ComboBox_TrainSound[loop]->Append(Name);
+				UnitCommands_ComboBox_Graphics[loop+4]->Append(Name);
+			}
 			Units_ComboBox_SelectionSound->Append(Name);
 			Units_ComboBox_DyingSound->Append(Name);
 			Units_ComboBox_AttackSound->Append(Name);
@@ -91,7 +103,10 @@ void AGE_Frame::ListSounds(bool Sized)
 	if(Sized)
 	{
 		for(short loop = 0; loop < 2; loop++)
-		Units_ComboBox_TrainSound[loop]->SetSelection(SavedIDs[loop]);
+		{
+			Units_ComboBox_TrainSound[loop]->SetSelection(SavedIDs[loop]);
+			UnitCommands_ComboBox_Graphics[loop+4]->SetSelection(SavedIDs[loop+13]);
+		}
 		Units_ComboBox_SelectionSound->SetSelection(SavedIDs[2]);
 		Units_ComboBox_DyingSound->SetSelection(SavedIDs[3]);
 		Units_ComboBox_AttackSound->SetSelection(SavedIDs[5]);

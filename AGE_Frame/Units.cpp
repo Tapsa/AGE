@@ -4475,10 +4475,10 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Graphics[2]->SetToolTip("Used when actually gathering a resource or attacking/converting");
 	UnitCommands_Text_Graphics[3] = new wxStaticText(Units_Scroller, wxID_ANY, " Carrying Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Graphics[3]->SetToolTip("Used when carrying a resource");
-	UnitCommands_Text_Graphics[4] = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Graphic 1 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Graphics[4]->SetToolTip("Unknown use");
-	UnitCommands_Text_Graphics[5] = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Graphic 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Graphics[5]->SetToolTip("Unknown use");
+	UnitCommands_Text_Graphics[4] = new wxStaticText(Units_Scroller, wxID_ANY, " Execution Sound *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Graphics[4]->SetToolTip("Example: Plays when lumberjack starts chopping wood");
+	UnitCommands_Text_Graphics[5] = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Deposit Sound *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Graphics[5]->SetToolTip("Example: Plays when lumberjack drops his wood into TC");
 	UnitCommands_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown1 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown1 = new TextCtrl_Byte(Units_Scroller);
@@ -4491,7 +4491,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Unknown6 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Enabler *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown6 = new TextCtrl_Byte(Units_Scroller);
-	UnitCommands_Unknown6->SetToolTip("1 Allows units to select their targets");
+	UnitCommands_Unknown6->SetToolTip("1 Allows units to select their targets\n2 ?");
 	UnitCommands_Holder_Unknown7 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown7 = new TextCtrl_Byte(Units_Scroller);
@@ -4501,7 +4501,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Unknown9 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown9 = new TextCtrl_Byte(Units_Scroller);
-	UnitCommands_Unknown9->SetToolTip("Determines what you can select as targets\n0 Can select anything\n1-4 Can select gaia objects only\n5 Can select enemy player objects only");
+	UnitCommands_Unknown9->SetToolTip("Determines what you can select as targets\n0, 7+ All objects\n1 Your objects only\n2 Neutral and enemy objects only\n3 Nothing\n4 Gaia, your and ally objects only\n5 Gaia, neutral and enemy objects only\n6 All but your objects");
 	UnitCommands_Holder_Unknown10 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown10 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 10", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown10 = new TextCtrl_Byte(Units_Scroller);
