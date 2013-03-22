@@ -79,7 +79,7 @@ class TextCtrl_Byte: public AGETextCtrl
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 
-	vector<char*> container;
+	vector<int8_t*> container;
 };
 
 class TextCtrl_UByte: public AGETextCtrl
@@ -97,7 +97,7 @@ class TextCtrl_UByte: public AGETextCtrl
 	bool SaveEdits();
 	void resize(int size){container.resize(size);}
 
-	vector<unsigned char*> container;
+	vector<uint8_t*> container;
 };
 
 class TextCtrl_Float: public AGETextCtrl

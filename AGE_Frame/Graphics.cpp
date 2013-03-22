@@ -99,7 +99,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 	auto Selections = Graphics_Graphics_List->GetSelections(Items);
 	Graphics_Graphics_List->Clear();
 
-	std::array<short, 22> SavedIDs;
+	std::array<short, 20> SavedIDs;
 	if(Sized)
 	{
 		SavedIDs[0] = Units_ComboBox_ConstructionGraphicID->GetSelection();
@@ -111,13 +111,13 @@ void AGE_Frame::ListGraphics(bool Sized)
 			SavedIDs[loop+5] = Units_ComboBox_GarrisonGraphic[loop]->GetSelection();
 			SavedIDs[loop+7] = Units_ComboBox_WalkingGraphic[loop]->GetSelection();
 			SavedIDs[loop+9] = Units_ComboBox_DyingGraphic[loop]->GetSelection();
-			SavedIDs[loop+19] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
+			SavedIDs[loop+16] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
 		}
 		SavedIDs[11] = Units_ComboBox_AttackMissileDuplicationGraphic->GetSelection();
-		for(short loop = 0; loop < 6; loop++)
+		for(short loop = 0; loop < 4; loop++)
 		SavedIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
 		SavedIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
-		SavedIDs[21] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
+		SavedIDs[19] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
 
 		Units_ComboBox_ConstructionGraphicID->Clear();
 		Units_ComboBox_SnowGraphicID->Clear();
@@ -131,7 +131,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 			TerRestrict_ComboBox_Graphics[loop]->Clear();
 		}
 		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
-		for(short loop = 0; loop < 6; loop++)
+		for(short loop = 0; loop < 4; loop++)
 		UnitCommands_ComboBox_Graphics[loop]->Clear();
 		DamageGraphics_ComboBox_GraphicID->Clear();
 		GraphicDeltas_ComboBox_GraphicID->Clear();
@@ -153,7 +153,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 			TerRestrict_ComboBox_Graphics[loop]->Append("-1 - None");
 		}
 		Units_ComboBox_AttackMissileDuplicationGraphic->Append("-1 - None");
-		for(short loop = 0; loop < 6; loop++)
+		for(short loop = 0; loop < 4; loop++)
 		UnitCommands_ComboBox_Graphics[loop]->Append("-1 - None");
 		DamageGraphics_ComboBox_GraphicID->Append("-1 - None");
 		GraphicDeltas_ComboBox_GraphicID->Append("-1 - None");
@@ -181,7 +181,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 				TerRestrict_ComboBox_Graphics[loop]->Append(Name);
 			}
 			Units_ComboBox_AttackMissileDuplicationGraphic->Append(Name);
-			for(short loop = 0; loop < 6; loop++)
+			for(short loop = 0; loop < 4; loop++)
 			UnitCommands_ComboBox_Graphics[loop]->Append(Name);
 			DamageGraphics_ComboBox_GraphicID->Append(Name);
 			GraphicDeltas_ComboBox_GraphicID->Append(Name);
@@ -200,13 +200,13 @@ void AGE_Frame::ListGraphics(bool Sized)
 			Units_ComboBox_GarrisonGraphic[loop]->SetSelection(SavedIDs[loop+5]);
 			Units_ComboBox_WalkingGraphic[loop]->SetSelection(SavedIDs[loop+7]);
 			Units_ComboBox_DyingGraphic[loop]->SetSelection(SavedIDs[loop+9]);
-			TerRestrict_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+19]);
+			TerRestrict_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+16]);
 		}
 		Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(SavedIDs[11]);
-		for(short loop = 0; loop < 6; loop++)
+		for(short loop = 0; loop < 4; loop++)
 		UnitCommands_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+12]);
 		DamageGraphics_ComboBox_GraphicID->SetSelection(SavedIDs[18]);
-		GraphicDeltas_ComboBox_GraphicID->SetSelection(SavedIDs[21]);
+		GraphicDeltas_ComboBox_GraphicID->SetSelection(SavedIDs[19]);
 	}
 
 	for(short loop = 0; loop < 2; loop++)

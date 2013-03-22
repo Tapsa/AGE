@@ -17,7 +17,7 @@ bool TextCtrl_Byte::SaveEdits()
 		}
 		try
 		{
-			char casted = (char)lexical_cast<short>(value);
+			int8_t casted = (int8_t)lexical_cast<short>(value);
 			if(lexical_cast<short>(value) == casted)
 			{
 				if(batchMode > 0)
@@ -70,7 +70,7 @@ bool TextCtrl_UByte::SaveEdits()
 		}
 		try
 		{
-			unsigned char casted = (unsigned char)lexical_cast<short>(value);
+			uint8_t casted = (uint8_t)lexical_cast<short>(value);
 			if(lexical_cast<short>(value) == casted)
 			{
 				if(batchMode > 0)
