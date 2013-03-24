@@ -100,15 +100,15 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	Unknown_UnknownPointer->resize(1);
 	Unknown_UnknownPointer->container[0] = &GenieFile->RandomMaps.RandomMapPointer;
 	if(GenieVersion <= genie::GV_RoR) return;
-	/*for(long loop = 0;loop < General_TTUnknown.size(); loop++)
+	for(long loop = 0;loop < General_TTUnknown.size(); loop++)
 	{
-		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->RandomMapsPreTechTree[loop]));
+		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
 		General_TTUnknown[loop]->resize(1);
-		General_TTUnknown[loop]->container[0] = &GenieFile->RandomMapsPreTechTree[loop];
+		General_TTUnknown[loop]->container[0] = &GenieFile->UnknownPreTechTree[loop];
 	}
 	General_TTUnknown[7]->ChangeValue(lexical_cast<string>(GenieFile->TechTree.Unknown2));
 	General_TTUnknown[7]->resize(1);
-	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;*/
+	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
 	if(GenieVersion <= genie::GV_TC) return;
 	General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
 	General_SUnknown2->resize(1);
