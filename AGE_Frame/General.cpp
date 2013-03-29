@@ -720,6 +720,14 @@ void AGE_Frame::OnUnknownFirstSubDataPasteInsert(wxCommandEvent &Event)
 	ListUnknownFirstSubData();
 }
 
+void AGE_Frame::OnUnknownFirstSubDataCopyToMaps(wxCommandEvent &Event)
+{
+	for(short loop=1; loop < RandomMapIDs.size(); loop++)
+	{
+		GenieFile->RandomMaps.Maps[RandomMapIDs[loop]].BaseZones = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones;
+	}
+}
+
 void AGE_Frame::OnRMSTerrainSearch(wxCommandEvent &Event)
 {
 	ListRMSTerrains();
@@ -867,6 +875,14 @@ void AGE_Frame::OnRMSTerrainPasteInsert(wxCommandEvent &Event)
 	PasteInsertToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs[0], copies->MapTerrain);
 	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
 	ListRMSTerrains();
+}
+
+void AGE_Frame::OnRMSTerrainCopyToMaps(wxCommandEvent &Event)
+{
+	for(short loop=1; loop < RandomMapIDs.size(); loop++)
+	{
+		GenieFile->RandomMaps.Maps[RandomMapIDs[loop]].MapTerrains = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains;
+	}
 }
 
 void AGE_Frame::OnRMSUnitSearch(wxCommandEvent &Event)
@@ -1063,6 +1079,14 @@ void AGE_Frame::OnRMSUnitPasteInsert(wxCommandEvent &Event)
 	ListRMSUnits();
 }
 
+void AGE_Frame::OnRMSUnitCopyToMaps(wxCommandEvent &Event)
+{
+	for(short loop=1; loop < RandomMapIDs.size(); loop++)
+	{
+		GenieFile->RandomMaps.Maps[RandomMapIDs[loop]].MapUnits = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits;
+	}
+}
+
 void AGE_Frame::CreateUnknownControls()
 {
 	Tab_Unknown = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
@@ -1135,6 +1159,7 @@ void AGE_Frame::CreateUnknownControls()
 	UnknownFirstSubData_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	UnknownFirstSubData_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	UnknownFirstSubData_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	UnknownFirstSubData_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
 
 	UnknownFirstSubData_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
 
@@ -1203,6 +1228,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	RMSTerrain_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	RMSTerrain_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	RMSTerrain_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
 
 	RMSTerrain_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
 	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); loop++)
@@ -1238,6 +1264,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	RMSUnit_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	RMSUnit_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	RMSUnit_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
 
 	RMSUnit_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
 	RMSUnit_Holder_Unit = new wxBoxSizer(wxVERTICAL);
@@ -1339,6 +1366,8 @@ void AGE_Frame::CreateUnknownControls()
 	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_List, 1, wxEXPAND);
 	UnknownFirstSubData_ListArea->Add(-1, 2);
 	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_Buttons, 0, wxEXPAND);
+	UnknownFirstSubData_ListArea->Add(-1, 2);
+	UnknownFirstSubData_ListArea->Add(UnknownFirstSubData_CopyToMaps, 0, wxEXPAND);
 
 	UnknownFirstSubData_Holder_Unknown1->Add(UnknownFirstSubData_Text_Unknown1, 0, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown1->Add(UnknownFirstSubData_Unknown1, 1, wxEXPAND);
@@ -1401,6 +1430,8 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_ListArea->Add(RMSTerrain_List, 1, wxEXPAND);
 	RMSTerrain_ListArea->Add(-1, 2);
 	RMSTerrain_ListArea->Add(RMSTerrain_Buttons, 0, wxEXPAND);
+	RMSTerrain_ListArea->Add(-1, 2);
+	RMSTerrain_ListArea->Add(RMSTerrain_CopyToMaps, 0, wxEXPAND);
 
 	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); loop++)
 	{
@@ -1432,6 +1463,8 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_ListArea->Add(RMSUnit_List, 1, wxEXPAND);
 	RMSUnit_ListArea->Add(-1, 2);
 	RMSUnit_ListArea->Add(RMSUnit_Buttons, 0, wxEXPAND);
+	RMSUnit_ListArea->Add(-1, 2);
+	RMSUnit_ListArea->Add(RMSUnit_CopyToMaps, 0, wxEXPAND);
 
 	RMSUnit_Holder_Unit->Add(RMSUnit_Text_Unit, 0, wxEXPAND);
 	RMSUnit_Holder_Unit->Add(RMSUnit_Unit, 1, wxEXPAND);
@@ -1539,6 +1572,7 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(UnknownFirstSubData_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataCopy));
 	Connect(UnknownFirstSubData_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataPaste));
 	Connect(UnknownFirstSubData_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataPasteInsert));
+	Connect(UnknownFirstSubData_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownFirstSubDataCopyToMaps));
 	Connect(RMSTerrain_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSearch));
 	Connect(RMSTerrain_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSearch));
 	Connect(RMSTerrain_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSelect));
@@ -1548,6 +1582,7 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(RMSTerrain_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainCopy));
 	Connect(RMSTerrain_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainPaste));
 	Connect(RMSTerrain_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainPasteInsert));
+	Connect(RMSTerrain_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainCopyToMaps));
 	Connect(RMSUnit_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSearch));
 	Connect(RMSUnit_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSearch));
 	Connect(RMSUnit_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSelect));
@@ -1557,6 +1592,7 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(RMSUnit_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitCopy));
 	Connect(RMSUnit_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitPaste));
 	Connect(RMSUnit_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitPasteInsert));
+	Connect(RMSUnit_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitCopyToMaps));
 
 	Unknowns_UnknownLevel->Connect(Unknowns_UnknownLevel->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 	UnknownFirstSubData_Unknown1->Connect(UnknownFirstSubData_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
