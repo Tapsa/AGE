@@ -179,6 +179,7 @@ public:
 	void OnUnknownFirstSubDataCopy(wxCommandEvent &Event);
 	void OnUnknownFirstSubDataPaste(wxCommandEvent &Event);
 	void OnUnknownFirstSubDataPasteInsert(wxCommandEvent &Event);
+	void OnUnknownFirstSubDataCopyToMaps(wxCommandEvent &Event);
 	string GetUnknownFirstSubDataName(short);
 
 	void ListRMSTerrains();
@@ -191,6 +192,7 @@ public:
 	void OnRMSTerrainCopy(wxCommandEvent &Event);
 	void OnRMSTerrainPaste(wxCommandEvent &Event);
 	void OnRMSTerrainPasteInsert(wxCommandEvent &Event);
+	void OnRMSTerrainCopyToMaps(wxCommandEvent &Event);
 	string GetRMSTerrainName(short);
 
 	void ListRMSUnits();
@@ -203,6 +205,7 @@ public:
 	void OnRMSUnitCopy(wxCommandEvent &Event);
 	void OnRMSUnitPaste(wxCommandEvent &Event);
 	void OnRMSUnitPasteInsert(wxCommandEvent &Event);
+	void OnRMSUnitCopyToMaps(wxCommandEvent &Event);
 	string GetRMSUnitName(short);
 
 //	Research Events
@@ -1003,6 +1006,7 @@ public:
 	wxButton *UnknownFirstSubData_Copy;
 	wxButton *UnknownFirstSubData_Paste;
 	wxButton *UnknownFirstSubData_PasteInsert;
+	wxButton *UnknownFirstSubData_CopyToMaps;
 
 	wxGridSizer *UnknownFirstSubData_Grid_Unknown1;
 
@@ -1059,6 +1063,7 @@ public:
 	wxButton *RMSTerrain_Copy;
 	wxButton *RMSTerrain_Paste;
 	wxButton *RMSTerrain_PasteInsert;
+	wxButton *RMSTerrain_CopyToMaps;
 
 	wxGridSizer *RMSTerrain_Grid_Unknown1;
 	array<wxBoxSizer*, 6> RMSTerrain_Holder_Unknown1;
@@ -1078,6 +1083,7 @@ public:
 	wxButton *RMSUnit_Copy;
 	wxButton *RMSUnit_Paste;
 	wxButton *RMSUnit_PasteInsert;
+	wxButton *RMSUnit_CopyToMaps;
 
 	wxGridSizer *RMSUnit_Grid_Unknown1;
 	wxBoxSizer *RMSUnit_Holder_Unit;
