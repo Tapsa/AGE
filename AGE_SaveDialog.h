@@ -12,6 +12,7 @@ class AGE_SaveDialog: public wxDialog
 	void OnDefaultRoR(wxCommandEvent &Event);
 	void OnDefaultAoK(wxCommandEvent &Event);
 	void OnDefaultTC(wxCommandEvent &Event);
+	void OnDefaultAoKHD(wxCommandEvent &Event);
 	void OnDefaultSWGB(wxCommandEvent &Event);
 	void OnDefaultCC(wxCommandEvent &Event);
 	void OnSelectDat(wxCommandEvent &Event);
@@ -33,11 +34,15 @@ class AGE_SaveDialog: public wxDialog
 	wxButton *Button_DefaultRoR;
 	wxButton *Button_DefaultAoK;
 	wxButton *Button_DefaultTC;
+	wxButton *Button_DefaultAoKHD;
 	wxButton *Button_DefaultSWGB;
 	wxButton *Button_DefaultCC;
 	wxStaticText *Text_GenieVer;
 	wxComboBox *CheckBox_GenieVer;
 	wxTextCtrl *DriveLetterBox;
+	wxTextCtrl *LanguageBox;
+	wxCheckBox *CheckBox_CustomDefault;
+	wxDirPickerCtrl *Path_CustomDefault;
 	wxCheckBox *CheckBox_DatFileLocation;
 	wxFilePickerCtrl *Path_DatFileLocation;
 	wxCheckBox *CheckBox_UnzFileLocation;
