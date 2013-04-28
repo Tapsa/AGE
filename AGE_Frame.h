@@ -736,11 +736,11 @@ public:
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool Added, SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest;
+	bool Added, SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
 	short AGEwindow;
 	int SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion;
 	genie::GameVersion GenieVersion;
-	wxString DriveLetter;
+	wxString DriveLetter, Language, CustomFolder;
 	wxString DatFileName;
 	wxString ApfFileName;
 	wxString SaveDatFileName;

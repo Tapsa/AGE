@@ -31,6 +31,8 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	if(AGEwindow == 1) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 2); // 2 to showcase this feature.
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
+	Config->Read("DefaultFiles/UseCustomPath", &UseCustomPath, false);
+	Config->Read("DefaultFiles/CustomFolder", &CustomFolder, wxT(""));
 	Config->Read("DefaultFiles/Version", &GameVersion, genie::GV_TC);
 	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, 3);
 	Config->Read("DefaultFiles/DatUsed", &DatUsed, 0);
@@ -42,6 +44,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Config->Read("DefaultFiles/WriteLangs", &WriteLangs, false);
 	Config->Read("DefaultFiles/SaveLangs", &SaveLangs, false);
 	Config->Read("DefaultFiles/LangWriteToLatest", &LangWriteToLatest, false);
+	Config->Read("DefaultFiles/Language", &Language, wxT("en"));
 	Config->Read("DefaultFiles/LangCharset", &LangCharset, wxT("Windows-1252"));
 	Config->Read("DefaultFiles/LangFilename", &LangFileName, wxT(""));
 	Config->Read("DefaultFiles/LangX1Filename", &LangX1FileName, wxT(""));
