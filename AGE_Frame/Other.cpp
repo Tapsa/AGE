@@ -43,6 +43,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
+		OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
+		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
+		OpenBox.LanguageBox->ChangeValue(Language);
 		if(AGEwindow == 1) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
 		OpenBox.Path_ApfFileLocation->SetPath(ApfFileName);
@@ -88,6 +91,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 
 		DriveLetter = OpenBox.DriveLetterBox->GetValue();
+		UseCustomPath = OpenBox.CheckBox_CustomDefault->GetValue();
+		CustomFolder = OpenBox.Path_CustomDefault->GetPath();
+		Language = OpenBox.LanguageBox->GetValue();
 		if(AGEwindow == 1) SimultaneousFiles = lexical_cast<int>(OpenBox.WindowCountBox->GetValue());
 		DatFileName = OpenBox.Path_DatFileLocation->GetPath();
 		ApfFileName = OpenBox.Path_ApfFileLocation->GetPath();
@@ -1256,6 +1262,9 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	SaveBox.Path_DatFileLocation->SetFocus();
 
 	SaveBox.DriveLetterBox->ChangeValue(DriveLetter);
+	SaveBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
+	SaveBox.Path_CustomDefault->SetPath(CustomFolder);
+	SaveBox.LanguageBox->ChangeValue(Language);
 	SaveBox.CheckBox_GenieVer->SetSelection(SaveGameVersion);
 
 	SaveBox.CheckBox_DatFileLocation->SetValue(SaveDat);
@@ -1830,6 +1839,8 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
 	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
+	Config->Write("DefaultFiles/UseCustomPath", UseCustomPath);
+	Config->Write("DefaultFiles/CustomFolder", CustomFolder);
 	Config->Write("DefaultFiles/Version", GameVersion);
 	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
 	Config->Write("DefaultFiles/DatUsed", DatUsed);
@@ -1841,6 +1852,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("DefaultFiles/WriteLangs", WriteLangs);
 	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
 	Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
+	Config->Write("DefaultFiles/Language", Language);
 	Config->Write("DefaultFiles/LangCharset", LangCharset);
 	Config->Write("DefaultFiles/LangFilename", LangFileName);
 	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
