@@ -1,4 +1,58 @@
 
+Version [b]2.44[/b]:
+•Improved layout of graphics.
+•Team bonus technologies get renamed again.
+
+Version [b]2.43[/b]:
+•Option to use Apre's language DLL reader/writer.
+
+Version [b]2.42[/b]:
+•Unlinked auto-copy from other copy buttons.
+
+Version [b]2.41[/b]:
+•Adding bugs fixed.
+•Ability to edit and copy between multiple files at once.
+•Copying between game versions may or may not work.
+
+Version [b]2.40[/b]:
+•Fixed a bug that prevented attacks/armors to be deleted.
+•Added extracting/importing for graphics.
+
+Version [b]2.39[/b]:
+•Practically unlimited search text parts with | character.
+•All effects and all sound files lists have multiple selection fully working.
+•Auto-copy related warning when over 30 civilizations are created.
+
+Version [b]2.38[/b]:
+•Updated unit command variables.
+•Added/improved tooltips.
+•Fixed some variables for AoE/RoR (selection effect and editor selection color earlier improperly shown as attribute and civilization).
+•Armor class names really show up for AoE/RoR (instead of AoK/TC names).
+
+Version [b]2.37[/b]:
+•Added a list of effects of all technologies.
+•Added a list of files of all sounds.
+•Added attack and armor counts to units' search filters.
+•Improved attack/armor list for AoE/RoR.
+
+Version [b]2.36[/b]:
+•Fixed color and hotkey variables.
+•Added terrain restriction to units' search filters.
+•Added technology to research' search filters.
+•Fixed research pointer 2.
+•More tool tips.
+
+Version [b]2.35[/b]:
+•Loads of bug fixes.
+•Multiple selections.
+•Warning messages for file handling.
+•Customizable names for extra attack/armor classes.
+•Basic exporting/importing feature for units (works between game versions).
+•More tool tips.
+•No research gaia fix.
+•Indexes fixed on enabling.
+•Tab traversal corrected for all tabs.
+
 Version [b]2.34[/b]:
 •Corrected attributes 105 and 106.
 •Another fix.
