@@ -3595,7 +3595,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_AttributesTracking = new wxGridSizer(4, 5, 5);
 	Units_Grid_AttributesTrain1 = new wxGridSizer(4, 5, 5);
 	Units_Grid_Attributes3 = new wxGridSizer(4, 5, 5);
-	Units_Holder_SoundsArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Sounds");
+	Units_Holder_SoundsArea = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Sounds (that only you hear)");
 	Units_Holder_SoundsArea1 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Grid_SoundsArea2 = new wxGridSizer(4, 5, 5);
 	Units_Holder_MiscArea = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Miscellaneous");
@@ -4098,7 +4098,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_DisplayedAttack = new TextCtrl_Short(Units_Scroller);
 	Units_Delay = new TextCtrl_Short(Units_Scroller);
-	Units_Delay->SetToolTip("Can increase time between serial shots?\n0 projectile, buildings, melee, villager\n3 chu ko nu\n4 gun\n5 archers\n6 trebuchet, mameluke\n7 bombard cannon, scorpion\n8 Charlemangne\n10 cavalry archers\n12 throwing axeman");
+	Units_Delay->SetToolTip("Graphical delay in frames before projectile is shot");
 	Units_AccuracyPercent = new TextCtrl_Short(Units_Scroller);
 	Units_GarrisonRecoveryRate = new TextCtrl_Float(Units_Scroller);
 	Units_GarrisonRecoveryRate->SetToolTip("Higher values will make the unit less accurate");

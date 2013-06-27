@@ -432,7 +432,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_ComboBox_Class[loop]->Append("22 - War Boat");
 				Units_ComboBox_Class[loop]->Append("23 - Conquistador/Chariot Archer");
 				Units_ComboBox_Class[loop]->Append("24 - War Elephant");
-				Units_ComboBox_Class[loop]->Append("25 - Unused");
+				Units_ComboBox_Class[loop]->Append("25 - Hero");
 				Units_ComboBox_Class[loop]->Append("26 - Elephant Archer");
 				Units_ComboBox_Class[loop]->Append("27 - Wall");
 				Units_ComboBox_Class[loop]->Append("28 - Phalanx");
