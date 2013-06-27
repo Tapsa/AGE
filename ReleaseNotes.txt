@@ -1,5 +1,5 @@
-[b]Advanced Genie Editor 3.5[/b]
-for Age of Empires, Rise of Rome, Age of Kings, The Conquerors, Star Wars Galactic Battlegrounds and Clone Campaigns.
+[b]Advanced Genie Editor 3.6[/b]
+for Age of Empires, Rise of Rome, Age of Kings, The Conquerors (including HD), Star Wars Galactic Battlegrounds and Clone Campaigns.
 
 This is a program for editing genie (.dat and .dll) files' data. It can edit units, civilizations, graphics, researches, technologies, technology trees, terrains, terrain restrictions, sounds, player colors and some other things.
 
@@ -11,6 +11,11 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
+
+Version [b]3.6[/b] (2013.4.28):
+•Default paths for Age of Empires II: HD Edition.
+•Custom game folder option, which gets saved.
+•Random map subdatas easily copyable to all maps.
 
 Version [b]3.5[/b] (2013.3.24):
 •Unknown data before and middle of tech trees shown and editable again.
@@ -62,26 +67,7 @@ Version [b]2.45[/b]:
 •Unknowns are again shown on opening according to settings ini file.
 •Graphic attack sound delays are correctly initialized.
 
-Version [b]2.44[/b]:
-•Improved layout of graphics.
-•Team bonus technologies get renamed again.
-
-Version [b]2.43[/b]:
-•Option to use Apre's language DLL reader/writer.
-
-Version [b]2.42[/b]:
-•Unlinked auto-copy from other copy buttons.
-
-Version [b]2.41[/b]:
-•Adding bugs fixed.
-•Ability to edit and copy between multiple files at once.
-•Copying between game versions may or may not work.
-
-Version [b]2.40[/b]:
-•Fixed a bug that prevented attacks/armors to be deleted.
-•Added extracting/importing for graphics.
-
-Version [b]2.0 Beta 3[/b] 2011.9.4:
+Version [b]2.0 Beta 3[/b] (2011.9.4):
 •Original release.
 
 [b]Notes[/b]
