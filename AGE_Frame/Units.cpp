@@ -40,7 +40,10 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				case 4: // Terrain Restriction
 					Name += "TR "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].TerrainRestriction);
 					break;
-				case 5: // Max Range
+				case 5: // Dead Unit
+					Name += "DU "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].DeadUnitID);
+					break;
+				case 6: // Max Range
 					switch(UnitType)
 					{
 						case 60:
@@ -52,7 +55,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "MR -1";
 					}
 					break;
-				case 6: // Train Location
+				case 7: // Train Location
 					switch(UnitType)
 					{
 						case 70:
@@ -63,7 +66,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "TL -1";
 					}
 					break;
-				case 7: // Attacks
+				case 8: // Attacks
 					switch(UnitType)
 					{
 						case 60:
@@ -75,7 +78,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "AtC -1";
 					}
 					break;
-				case 8: // Armors
+				case 9: // Armors
 					switch(UnitType)
 					{
 						case 60:
@@ -87,7 +90,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "ArC -1";
 					}
 					break;
-				case 9: // Commands
+				case 10: // Commands
 					switch(UnitType)
 					{
 						case 40:
@@ -103,7 +106,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "CC -1";
 					}
 					break;
-				case 10: // Pointer
+				case 11: // Pointer
 					Name = lexical_cast<string>(GenieFile->Civs[civ].UnitPointers[Index]);
 					break;
 			}

@@ -182,10 +182,10 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	NeedDat = true;
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
-	genie::Logger::setLogLevel(genie::Logger::L_INFO);
-	static std::ofstream log_out;
-	log_out.open("gulog.txt");
-	genie::Logger::setGlobalOutputStream(log_out);
+	//genie::Logger::setLogLevel(genie::Logger::L_INFO);
+	//static std::ofstream log_out;
+	//log_out.open("gulog.txt");
+	//genie::Logger::setGlobalOutputStream(log_out);
 	GenieFile = NULL;
 	Lang = NULL;
 	LangX = NULL;
