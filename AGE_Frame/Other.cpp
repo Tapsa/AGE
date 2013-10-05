@@ -598,7 +598,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		// Cu-pa
 		// Womp Rat
 
-		Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+		Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2armornames.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 		long ExtraCount, AoE1Count, AoE2Count, SWGBCount;
 		if(!Customs->Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
 			Customs->Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
@@ -1471,82 +1471,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
 		}
 		break;
-		/*case ToolBar_CustomNames:
-		{
-			Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-			long ExtraCount = Attacks_ComboBox_Class[0]->GetCount()-32;
-			Customs->Write("Count/ExtraCount", ExtraCount);
-			wxString MoveHolder = "";
-			for(short loop = 0; loop < ExtraCount; loop++)
-			{
-				MoveHolder = Attacks_ComboBox_Class[0]->GetString(loop+32);
-				Customs->Write("Names/"+lexical_cast<string>(loop+31), MoveHolder);
-			}
-
-			/* Commands of all units of all civs
-			wxString tab = "    ";
-			for(short unit = 0; unit < GenieFile->Civs[0].Units.size(); unit++)
-			{
-				genie::UnitCommand *Command;
-				std::map<wxString, wxString> AllCommands;
-				for(short civ = (GenieVersion <= genie::GV_AoKA) ? 0 : GenieFile->Civs.size() - 1; civ < GenieFile->Civs.size(); civ++)
-				{
-					short CommandCount = (GenieVersion <= genie::GV_AoKA) ? GenieFile->Civs[civ].Units[unit].Bird.Commands.size() : GenieFile->UnitHeaders[unit].Commands.size();
-					if(GenieVersion >= genie::GV_AoK || (GenieFile->Civs[civ].Units[unit].Type >= 40 && GenieFile->Civs[civ].Units[unit].Type <= 80))
-					for(short command = 0; command < CommandCount; command++)
-					{
-						wxString val;
-						if(GenieVersion <= genie::GV_AoKA)
-						{
-							Command = &GenieFile->Civs[civ].Units[unit].Bird.Commands[command];
-							val = "Commands/Unit"+lexical_cast<string>(unit)+"_Civ"+lexical_cast<string>(civ)+"_Command"+lexical_cast<string>(command);
-						}
-						else
-						{
-							Command = &GenieFile->UnitHeaders[unit].Commands[command];
-							val = "Commands/Unit"+lexical_cast<string>(unit)+"_Command"+lexical_cast<string>(command);
-						}
-						wxString key = lexical_cast<string>(Command->One)+tab;
-						key.Append(lexical_cast<string>(Command->ID)+tab);
-						key.Append(lexical_cast<string>((short)Command->Unknown1)+tab);
-						key.Append(lexical_cast<string>(Command->Type)+tab);
-						key.Append(lexical_cast<string>(Command->ClassID)+tab);
-						key.Append(lexical_cast<string>(Command->UnitID)+tab);
-						key.Append(lexical_cast<string>(Command->Unknown2)+tab);
-						key.Append(lexical_cast<string>(Command->ResourceIn)+tab);
-						key.Append(lexical_cast<string>(Command->SubType)+tab);
-						key.Append(lexical_cast<string>(Command->ResourceOut)+tab);
-						key.Append(lexical_cast<string>(Command->Unknown3)+tab);
-						key.Append(lexical_cast<string>(Command->WorkRateMultiplier)+tab);
-						key.Append(lexical_cast<string>(Command->ExecutionRadius)+tab);
-						key.Append(lexical_cast<string>(Command->ExtraRange)+tab);
-						key.Append(lexical_cast<string>((short)Command->Unknown4)+tab);
-						key.Append(lexical_cast<string>(Command->Unknown5)+tab);
-						key.Append(lexical_cast<string>((short)Command->Unknown6)+tab);
-						key.Append(lexical_cast<string>((short)Command->Unknown7)+tab);
-						key.Append(lexical_cast<string>(Command->Unknown8)+tab);
-						key.Append(lexical_cast<string>((short)Command->Unknown9)+tab);
-						key.Append(lexical_cast<string>((short)Command->Unknown10)+tab);
-						key.Append(lexical_cast<string>((short)Command->Unknown11)+tab);
-						key.Append(lexical_cast<string>(Command->Graphics[0])+tab);
-						key.Append(lexical_cast<string>(Command->Graphics[1])+tab);
-						key.Append(lexical_cast<string>(Command->Graphics[2])+tab);
-						key.Append(lexical_cast<string>(Command->Graphics[3])+tab);
-						key.Append(lexical_cast<string>(Command->Graphics[4])+tab);
-						key.Append(lexical_cast<string>(Command->Graphics[5])+tab);
-						AllCommands.insert(std::pair<wxString, wxString>(key, val));
-					}
-				}
-				for(auto it = AllCommands.begin(); it != AllCommands.end(); it++)
-				{
-					Customs->Write(it->second, it->first);
-				}
-			}
-
-			delete Customs;
-			//wxMessageBox("File extracted successfully!");
-		}
-		break;*/
 		case ToolBar_Help:
 		{
 			//AGE_HelpInfo AGEHelp(this);

@@ -21,7 +21,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
-	//Config->Read("Interaction/AutoCopyToAllCivs", (long*)&AutoCopy, MenuOption_Exclude);
 	Config->Read("Interaction/AutoCopy", &AutoCopy, true);
 	Config->Read("Interaction/CopyGraphics", &CopyGraphics, false);
 	Config->Read("Interaction/AllCivs", &AllCivs, true);
@@ -62,7 +61,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
 	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_CustomNames, "Lists", wxNullBitmap, "Extract a setting file for custom names in some lists\nRestart this program after editing the file");
 	GetToolBar()->AddTool(ToolBar_Help, "Help", wxNullBitmap, "Show help");
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->Realize();
@@ -74,16 +72,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	SubMenu_Options->Check(MenuOption_Prompt, PromptForFilesOnOpen);
 	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Enable forbidden &buttons");
 	SubMenu_Options->Check(MenuOption_Buttons, ShowButtons);
-	/*SubMenu_Options->AppendCheckItem(MenuOption_Undo, "Use &undo function");
-	SubMenu_Options->Check(MenuOption_Undo, UseUndo);
-
-	SubMenu_SearchFilters = new wxMenu();
-	SubMenu_SearchFilters->AppendRadioItem(MenuOption_NoExtra, "&Default");
-	SubMenu_SearchFilters->AppendRadioItem(MenuOption_1stFilters, "&1st filters");
-	SubMenu_SearchFilters->AppendRadioItem(MenuOption_2ndFilters, "&2nd filters");
-	SubMenu_SearchFilters->Check(SearchFilters, true);
-
-	SubMenu_Options->AppendSubMenu(SubMenu_SearchFilters, "Additional &filters [| to separate]");*/
 
 	SubMenu_Options->AppendCheckItem(MenuOption_IDFix, "Enable &index fixes");
 	SubMenu_Options->Check(MenuOption_IDFix, EnableIDFix);
@@ -146,7 +134,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
 	Connect(ToolBar_Show, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_CustomNames, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(ToolBar_Help, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
