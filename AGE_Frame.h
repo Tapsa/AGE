@@ -765,16 +765,11 @@ public:
 		MenuOption_Prompt,
 		MenuOption_IDFix,
 		MenuOption_Buttons,
-//		MenuOption_Undo,
 		MenuOption_Tips,
 		MenuOption_About,
-//		MenuOption_NoExtra,
-//		MenuOption_1stFilters,
-//		MenuOption_2ndFilters,
 		ToolBar_Open,
 		ToolBar_Save,
 		ToolBar_Show,
-		ToolBar_CustomNames,
 		ToolBar_Help
 	};
 
