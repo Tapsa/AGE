@@ -397,10 +397,239 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		Units_ComboBox_GarrisonType->SetSelection(0);
 
+		wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors;
+		// AoE & RoR
+		DefAoE1Armors.Add("0 - Stone Defense & Fire Galley");
+		DefAoE1Armors.Add("1 - Stone Defense & Archers");
+		DefAoE1Armors.Add("2 - Unused");
+		DefAoE1Armors.Add("3 - Base Pierce");
+		DefAoE1Armors.Add("4 - Base Melee");
+		DefAoE1Armors.Add("5 - Unused");
+		DefAoE1Armors.Add("6 - Buildings");
+		DefAoE1Armors.Add("7 - Priests");
+		DefAoE1Armors.Add("8 - Cavalry");
+		DefAoE1Armors.Add("9 - Infantry");
+		DefAoE1Armors.Add("10 - Stone Defense");
+		DefAoE1Armors.Add("11 - Unused");
+		DefAoE1Armors.Add("12 - Villagers & Gazelles & Medusa");
+		// AoK & TC
+		DefAoE2Armors.Add("0 - Unused");
+		DefAoE2Armors.Add("1 - Infantry");	// Selection 2
+		DefAoE2Armors.Add("2 - Turtle Ships");
+		DefAoE2Armors.Add("3 - Base Pierce");
+		DefAoE2Armors.Add("4 - Base Melee");
+		DefAoE2Armors.Add("5 - War Elephants");
+		DefAoE2Armors.Add("6 - Unused");
+		DefAoE2Armors.Add("7 - Unused");
+		DefAoE2Armors.Add("8 - Cavalry");
+		DefAoE2Armors.Add("9 - Unused");
+		DefAoE2Armors.Add("10 - Unused");
+		DefAoE2Armors.Add("11 - All Buildings (except Port)");
+		DefAoE2Armors.Add("12 - Unused");
+		DefAoE2Armors.Add("13 - Stone Defense");
+		DefAoE2Armors.Add("14 - Unused");
+		DefAoE2Armors.Add("15 - Archers");
+		DefAoE2Armors.Add("16 - Ships & Camels & Saboteurs");
+		DefAoE2Armors.Add("17 - Rams");
+		DefAoE2Armors.Add("18 - Trees");
+		DefAoE2Armors.Add("19 - Unique Units (except Turtle Ship)");
+		DefAoE2Armors.Add("20 - Siege Weapons");
+		DefAoE2Armors.Add("21 - Standard Buildings");
+		DefAoE2Armors.Add("22 - Walls & Gates");
+		DefAoE2Armors.Add("23 - Unused");
+		DefAoE2Armors.Add("24 - Boars");
+		DefAoE2Armors.Add("25 - Monks");
+		DefAoE2Armors.Add("26 - Castle");
+		DefAoE2Armors.Add("27 - Spearmen");
+		DefAoE2Armors.Add("28 - Cavalry Archers");
+		DefAoE2Armors.Add("29 - Eagle Warriors");
+		// SWGB & CC
+		DefSWGBArmors.Add("0 - Aircraft");	// Selection 1
+		// Airspeeder
+		// AIR SHIPS!!!
+		// Geonosian Warrior
+		// Wild Gungan Flyer
+		DefSWGBArmors.Add("1 - Heavy Assault Machines");	// Selection 2
+		// Assault Mech
+		// AT-AT
+		// Blizzards
+		DefSWGBArmors.Add("2 - Heavy Weapons");
+		// Undeployed Cannon
+		// Artillery
+		// A-A Mobiles
+		// Pummels
+		// Strike Mechs
+		// Mech Destroyers
+		// Cannon
+		// Decimator
+		// AT-AT
+		// Echo Base Ion Cannon
+		// Blizzards
+		// Evok Catapult
+		DefSWGBArmors.Add("3 - Base Melee/Armor");
+		DefSWGBArmors.Add("4 - Base Ranged/DuraArmor");
+		DefSWGBArmors.Add("5 - Jedis & Bounty Hunters");
+		// Jedi
+		// Jedi with Holocron
+		// Bounty Hunter
+		DefSWGBArmors.Add("6 - Assault Machines");
+		// Destroyer Droids
+		// Strike Mechs
+		// Mech Destroyers
+		// Assault Mechs
+		// Scouts
+		// Jabba's Sail Barge
+		// Desert Skiff
+		// Decimator
+		// AT-AT
+		// Blizzards
+		DefSWGBArmors.Add("7 - Decimators");
+		// Assault Mechs
+		// Decimator
+		// AT-AT
+		// Blizzards
+		DefSWGBArmors.Add("8 - Shield & Power Units");
+		// Power Cores
+		// Shield Wall
+		// Shield Generators
+		// Droid Storage Facility
+		// Power Droids
+		// Echo Base Power Generator
+		DefSWGBArmors.Add("9 - Ships");
+		// Utility Trawler
+		// Frigates
+		// Cruisers
+		// Destroyers
+		// A-A Destroyers
+		// Transport Ships
+		DefSWGBArmors.Add("10 - Submarines");
+		// Frigates
+		// Underwater Prefab Shelters
+		// Gungan Buildings
+		DefSWGBArmors.Add("11 - All Buildings");
+		// BUILDINGS!!!
+		DefSWGBArmors.Add("12 - Unused");
+		DefSWGBArmors.Add("13 - Defense Buildings");
+		// Gate
+		// Turrets
+		// A-A Turrets
+		// Echo Base Ion Cannon
+		// Fortress
+		// Theed Arch
+		DefSWGBArmors.Add("14 - Troopers");
+		// Royal Crusaders
+		// Berserker
+		// Chewbacca
+		// Bounty Hunter
+		// Troopers
+		// Mounted Troopers
+		// Grenade Trooper
+		// A-A Troopers
+		// Acklay
+		// Nexu
+		// Klaatu
+		// Nikito
+		// Reek
+		// Rancor
+		DefSWGBArmors.Add("15 - Mounted Troopers");
+		// Berserker
+		// Scouts
+		// Mounted Troopers
+		// Anakin's Podracer
+		// Landspeeder
+		// Sebulba's Podracer
+		// Skyhopper
+		DefSWGBArmors.Add("16 - Cruisers");
+		// Cruisers
+		DefSWGBArmors.Add("17 - Pummels & Cannons");
+		// Undeployed Cannon
+		// Pummels
+		// Cannon
+		DefSWGBArmors.Add("18 - Unused");
+		DefSWGBArmors.Add("19 - Workers");
+		// B'omarr Temple
+		// Underwater Prefab Shelters
+		// Asteroid Supply Depot
+		// Boorka's Palace
+		// Adv A-A Turret
+		// Reytha Soldier
+		// Mara Jade
+		// R2-D2
+		// Battleship Cores
+		// Landed Freighter
+		// Han Solo on Tauntaun
+		DefSWGBArmors.Add("20 - Destroyers");
+		// Destroyers
+		DefSWGBArmors.Add("21 - Standard Buildings");
+		// BUILDINGS!!!
+		DefSWGBArmors.Add("22 - Walls & Gates");
+		// GATES
+		// WALLS
+		// Theed Arch
+		DefSWGBArmors.Add("23 - Air Cruisers");
+		// Air Cruisers
+		// Blockade Runner
+		// Star Destroyer
+		// Deathstar
+		DefSWGBArmors.Add("24 - Wild Animals");
+		// Wild Fambaa
+		// Acklay
+		// Falumpaset
+		// Nexu
+		// Reek
+		// Dewback
+		// Ronto
+		// Fambaa
+		// Massif
+		// Orray
+		// Shaak
+		// Rancor
+		DefSWGBArmors.Add("25 - Unused");
+		DefSWGBArmors.Add("26 - Fortress");
+		// Fortress
+		DefSWGBArmors.Add("27 - Unused");
+		DefSWGBArmors.Add("28 - Unused");
+		DefSWGBArmors.Add("29 - Unused");
+		DefSWGBArmors.Add("30 - Tame Animals");	// Selection 31
+		// Fambaa Shield Generators
+		// Wild Fambaa
+		// Kaadu
+		// Tauntaun
+		// Cu-pa
+		// Womp Rat
+
 		Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-		long ExtraCount;
-		Customs->Read("Count/ExtraCount", &ExtraCount, 5);
-		wxString MoveHolder = "";
+		long ExtraCount, AoE1Count, AoE2Count, SWGBCount;
+		if(!Customs->Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
+			Customs->Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
+		if(!Customs->Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
+			Customs->Write("Count/AoE2Count", (int)DefAoE2Armors.GetCount());
+		if(!Customs->Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
+			Customs->Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
+		wxArrayString AoE1Armors, AoE2Armors, SWGBArmors;
+		for(short loop = 0; loop < AoE1Count; loop++)
+		{
+			wxString MoveHolder;
+			if(!Customs->Read("AoE1Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1Armors[loop]))
+				Customs->Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
+			AoE1Armors.Add(MoveHolder);
+		}
+		for(short loop = 0; loop < AoE2Count; loop++)
+		{
+			wxString MoveHolder;
+			if(!Customs->Read("AoE2Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2Armors[loop]))
+				Customs->Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
+			AoE2Armors.Add(MoveHolder);
+		}
+		for(short loop = 0; loop < SWGBCount; loop++)
+		{
+			wxString MoveHolder;
+			if(!Customs->Read("SWGBNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBArmors[loop]))
+				Customs->Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
+			SWGBArmors.Add(MoveHolder);
+		}
+		delete Customs;
+
 		for(short loop = 0; loop < 3; loop++)
 		{
 			Units_ComboBox_Class[loop]->Clear();
@@ -544,236 +773,21 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
 			if(GenieVersion <= genie::GV_RoR) // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
-				Attacks_ComboBox_Class[loop]->Append("0 - Stone Defense & Fire Galley");
-				Attacks_ComboBox_Class[loop]->Append("1 - Stone Defense & Archers");
-				Attacks_ComboBox_Class[loop]->Append("2 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
-				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
-				Attacks_ComboBox_Class[loop]->Append("5 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("6 - Buildings");
-				Attacks_ComboBox_Class[loop]->Append("7 - Priests");
-				Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
-				Attacks_ComboBox_Class[loop]->Append("9 - Infantry");
-				Attacks_ComboBox_Class[loop]->Append("10 - Stone Defense");
-				Attacks_ComboBox_Class[loop]->Append("11 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("12 - Villagers & Gazelles & Medusa");
-				Attacks_ComboBox_Class[loop]->Append("13 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("14 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("15 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("16 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("17 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("18 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("19 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("20 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("21 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("22 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("23 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("24 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("25 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("26 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("27 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("28 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("29 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
+				for(short loop2 = 0; loop2 < AoE1Count; loop2++)
+				Attacks_ComboBox_Class[loop]->Append(AoE1Armors[loop2]);
 			}
-			else if(GenieVersion <= genie::GV_TC) // AoK and TC
+			else if(GenieVersion < genie::GV_SWGB) // AoK and TC
 			{
-				Attacks_ComboBox_Class[loop]->Append("0 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("1 - Infantry");	// Selection 2
-				Attacks_ComboBox_Class[loop]->Append("2 - Turtle Ships");
-				Attacks_ComboBox_Class[loop]->Append("3 - Base Pierce");
-				Attacks_ComboBox_Class[loop]->Append("4 - Base Melee");
-				Attacks_ComboBox_Class[loop]->Append("5 - War Elephants");
-				Attacks_ComboBox_Class[loop]->Append("6 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("7 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("8 - Cavalry");
-				Attacks_ComboBox_Class[loop]->Append("9 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("10 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("11 - All Buildings (except Port)");
-				Attacks_ComboBox_Class[loop]->Append("12 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("13 - Stone Defense");
-				Attacks_ComboBox_Class[loop]->Append("14 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("15 - Archers");
-				Attacks_ComboBox_Class[loop]->Append("16 - Ships & Camels & Saboteurs");
-				Attacks_ComboBox_Class[loop]->Append("17 - Rams");
-				Attacks_ComboBox_Class[loop]->Append("18 - Trees");
-				Attacks_ComboBox_Class[loop]->Append("19 - Unique Units (except Turtle Ship)");
-				Attacks_ComboBox_Class[loop]->Append("20 - Siege Weapons");
-				Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
-				Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
-				Attacks_ComboBox_Class[loop]->Append("23 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("24 - Boars");
-				Attacks_ComboBox_Class[loop]->Append("25 - Monks");
-				Attacks_ComboBox_Class[loop]->Append("26 - Castle");
-				Attacks_ComboBox_Class[loop]->Append("27 - Spearmen");
-				Attacks_ComboBox_Class[loop]->Append("28 - Cavalry Archers");
-				Attacks_ComboBox_Class[loop]->Append("29 - Eagle Warriors");
-				Attacks_ComboBox_Class[loop]->Append("30 - Unused");	// Selection 31
+				for(short loop2 = 0; loop2 < AoE2Count; loop2++)
+				Attacks_ComboBox_Class[loop]->Append(AoE2Armors[loop2]);
 			}
 			else // SWGB and CC
 			{
-				Attacks_ComboBox_Class[loop]->Append("0 - Aircraft");	// Selection 1
-				// Airspeeder
-				// AIR SHIPS!!!
-				// Geonosian Warrior
-				// Wild Gungan Flyer
-				Attacks_ComboBox_Class[loop]->Append("1 - Heavy Assault Machines");	// Selection 2
-				// Assault Mech
-				// AT-AT
-				// Blizzards
-				Attacks_ComboBox_Class[loop]->Append("2 - Heavy Weapons");
-				// Undeployed Cannon
-				// Artillery
-				// A-A Mobiles
-				// Pummels
-				// Strike Mechs
-				// Mech Destroyers
-				// Cannon
-				// Decimator
-				// AT-AT
-				// Echo Base Ion Cannon
-				// Blizzards
-				// Evok Catapult
-				Attacks_ComboBox_Class[loop]->Append("3 - Base Melee/Armor");
-				Attacks_ComboBox_Class[loop]->Append("4 - Base Ranged/DuraArmor");
-				Attacks_ComboBox_Class[loop]->Append("5 - Jedis & Bounty Hunters");
-				// Jedi
-				// Jedi with Holocron
-				// Bounty Hunter
-				Attacks_ComboBox_Class[loop]->Append("6 - Assault Machines");
-				// Destroyer Droids
-				// Strike Mechs
-				// Mech Destroyers
-				// Assault Mechs
-				// Scouts
-				// Jabba's Sail Barge
-				// Desert Skiff
-				// Decimator
-				// AT-AT
-				// Blizzards
-				Attacks_ComboBox_Class[loop]->Append("7 - Decimators");
-				// Assault Mechs
-				// Decimator
-				// AT-AT
-				// Blizzards
-				Attacks_ComboBox_Class[loop]->Append("8 - Shield & Power Units");
-				// Power Cores
-				// Shield Wall
-				// Shield Generators
-				// Droid Storage Facility
-				// Power Droids
-				// Echo Base Power Generator
-				Attacks_ComboBox_Class[loop]->Append("9 - Ships");
-				// Utility Trawler
-				// Frigates
-				// Cruisers
-				// Destroyers
-				// A-A Destroyers
-				// Transport Ships
-				Attacks_ComboBox_Class[loop]->Append("10 - Submarines");
-				// Frigates
-				// Underwater Prefab Shelters
-				// Gungan Buildings
-				Attacks_ComboBox_Class[loop]->Append("11 - All Buildings");
-				// BUILDINGS!!!
-				Attacks_ComboBox_Class[loop]->Append("12 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("13 - Defense Buildings");
-				// Gate
-				// Turrets
-				// A-A Turrets
-				// Echo Base Ion Cannon
-				// Fortress
-				// Theed Arch
-				Attacks_ComboBox_Class[loop]->Append("14 - Troopers");
-				// Royal Crusaders
-				// Berserker
-				// Chewbacca
-				// Bounty Hunter
-				// Troopers
-				// Mounted Troopers
-				// Grenade Trooper
-				// A-A Troopers
-				// Acklay
-				// Nexu
-				// Klaatu
-				// Nikito
-				// Reek
-				// Rancor
-				Attacks_ComboBox_Class[loop]->Append("15 - Mounted Troopers");
-				// Berserker
-				// Scouts
-				// Mounted Troopers
-				// Anakin's Podracer
-				// Landspeeder
-				// Sebulba's Podracer
-				// Skyhopper
-				Attacks_ComboBox_Class[loop]->Append("16 - Cruisers");
-				// Cruisers
-				Attacks_ComboBox_Class[loop]->Append("17 - Pummels & Cannons");
-				// Undeployed Cannon
-				// Pummels
-				// Cannon
-				Attacks_ComboBox_Class[loop]->Append("18 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("19 - Workers");
-				// B'omarr Temple
-				// Underwater Prefab Shelters
-				// Asteroid Supply Depot
-				// Boorka's Palace
-				// Adv A-A Turret
-				// Reytha Soldier
-				// Mara Jade
-				// R2-D2
-				// Battleship Cores
-				// Landed Freighter
-				// Han Solo on Tauntaun
-				Attacks_ComboBox_Class[loop]->Append("20 - Destroyers");
-				// Destroyers
-				Attacks_ComboBox_Class[loop]->Append("21 - Standard Buildings");
-				// BUILDINGS!!!
-				Attacks_ComboBox_Class[loop]->Append("22 - Walls & Gates");
-				// GATES
-				// WALLS
-				// Theed Arch
-				Attacks_ComboBox_Class[loop]->Append("23 - Air Cruisers");
-				// Air Cruisers
-				// Blockade Runner
-				// Star Destroyer
-				// Deathstar
-				Attacks_ComboBox_Class[loop]->Append("24 - Wild Animals");
-				// Wild Fambaa
-				// Acklay
-				// Falumpaset
-				// Nexu
-				// Reek
-				// Dewback
-				// Ronto
-				// Fambaa
-				// Massif
-				// Orray
-				// Shaak
-				// Rancor
-				Attacks_ComboBox_Class[loop]->Append("25 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("26 - Fortress");
-				// Fortress
-				Attacks_ComboBox_Class[loop]->Append("27 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("28 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("29 - Unused");
-				Attacks_ComboBox_Class[loop]->Append("30 - Tame Animals");	// Selection 31
-				// Fambaa Shield Generators
-				// Wild Fambaa
-				// Kaadu
-				// Tauntaun
-				// Cu-pa
-				// Womp Rat
-			}
-			for(short loop2 = 0; loop2 < ExtraCount; loop2++)
-			{
-				Customs->Read("Names/"+lexical_cast<string>(loop2+31), &MoveHolder, lexical_cast<string>(loop2+31)+" - Extra Class");
-				Attacks_ComboBox_Class[loop]->Append(MoveHolder);
+				for(short loop2 = 0; loop2 < SWGBCount; loop2++)
+				Attacks_ComboBox_Class[loop]->Append(SWGBArmors[loop2]);
 			}
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
 		}
-		delete Customs;
 
 		for(short loop = 0; loop < 2; loop++)
 		{
@@ -1457,7 +1471,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
 		}
 		break;
-		case ToolBar_CustomNames:
+		/*case ToolBar_CustomNames:
 		{
 			Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2lists.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 			long ExtraCount = Attacks_ComboBox_Class[0]->GetCount()-32;
@@ -1527,12 +1541,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 				{
 					Customs->Write(it->second, it->first);
 				}
-			}*/
+			}
 
 			delete Customs;
 			//wxMessageBox("File extracted successfully!");
 		}
-		break;
+		break;*/
 		case ToolBar_Help:
 		{
 			//AGE_HelpInfo AGEHelp(this);
