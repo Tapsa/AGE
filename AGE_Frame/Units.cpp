@@ -78,7 +78,19 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "AtC -1";
 					}
 					break;
-				case 9: // Armors
+				case 9:
+					switch(UnitType)
+					{
+						case 60:
+						case 70:
+						case 80:
+						for(short i = 0; i < GenieFile->Civs[civ].Units[Index].Projectile.Attacks.size(); i++)
+						{
+							Name += "c" + lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.Attacks[i].Class) + " ";
+						}
+					}
+					break;
+				case 10: // Armors
 					switch(UnitType)
 					{
 						case 60:
@@ -90,7 +102,19 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "ArC -1";
 					}
 					break;
-				case 10: // Commands
+				case 11:
+					switch(UnitType)
+					{
+						case 60:
+						case 70:
+						case 80:
+						for(short i = 0; i < GenieFile->Civs[civ].Units[Index].Projectile.Armours.size(); i++)
+						{
+							Name += "c" + lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.Armours[i].Class) + " ";
+						}
+					}
+					break;
+				case 12: // Commands
 					switch(UnitType)
 					{
 						case 40:
@@ -106,7 +130,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "CC -1";
 					}
 					break;
-				case 11: // Pointer
+				case 13: // Pointer
 					Name = lexical_cast<string>(GenieFile->Civs[civ].UnitPointers[Index]);
 					break;
 			}

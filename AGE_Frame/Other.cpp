@@ -801,7 +801,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_Units_SearchFilters[loop]->Append("Max Range");
 			Units_Units_SearchFilters[loop]->Append("Train Location");
 			Units_Units_SearchFilters[loop]->Append("Attacks");
+			Units_Units_SearchFilters[loop]->Append("Attack Classes");
 			Units_Units_SearchFilters[loop]->Append("Armors");
+			Units_Units_SearchFilters[loop]->Append("Armor Classes");
 			Units_Units_SearchFilters[loop]->Append("Commands");
 			Units_Units_SearchFilters[loop]->Append("Pointer");
 		/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
