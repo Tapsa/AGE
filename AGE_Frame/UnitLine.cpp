@@ -31,7 +31,7 @@ void AGE_Frame::ListUnitLines()
 
 	Units_ComboBox_Unitline->Append("-1 - None");
 
-	for(short loop = 0; loop < GenieFile->UnitLines.size(); loop++)
+	for(short loop = 0; loop < GenieFile->UnitLines.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -158,7 +158,7 @@ void AGE_Frame::ListUnitLineUnits()
 	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	UnitLines_UnitLineUnits_List->Clear();
 
-	for(short loop = 0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); loop++)
+	for(short loop = 0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -259,7 +259,7 @@ void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &Event)
 {
-	for(short loop=1; loop < UnitLineIDs.size(); loop++)
+	for(short loop=1; loop < UnitLineIDs.size(); ++loop)
 	{
 		GenieFile->UnitLines[UnitLineIDs[loop]].UnitIDs = GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs;
 	}

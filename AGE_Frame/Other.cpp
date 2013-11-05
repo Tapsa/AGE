@@ -607,21 +607,21 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(!Customs->Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
 			Customs->Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
 		wxArrayString AoE1Armors, AoE2Armors, SWGBArmors;
-		for(short loop = 0; loop < AoE1Count; loop++)
+		for(short loop = 0; loop < AoE1Count; ++loop)
 		{
 			wxString MoveHolder;
 			if(!Customs->Read("AoE1Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1Armors[loop]))
 				Customs->Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
 			AoE1Armors.Add(MoveHolder);
 		}
-		for(short loop = 0; loop < AoE2Count; loop++)
+		for(short loop = 0; loop < AoE2Count; ++loop)
 		{
 			wxString MoveHolder;
 			if(!Customs->Read("AoE2Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2Armors[loop]))
 				Customs->Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
 			AoE2Armors.Add(MoveHolder);
 		}
-		for(short loop = 0; loop < SWGBCount; loop++)
+		for(short loop = 0; loop < SWGBCount; ++loop)
 		{
 			wxString MoveHolder;
 			if(!Customs->Read("SWGBNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBArmors[loop]))
@@ -630,7 +630,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		delete Customs;
 
-		for(short loop = 0; loop < 3; loop++)
+		for(short loop = 0; loop < 3; ++loop)
 		{
 			Units_ComboBox_Class[loop]->Clear();
 			Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
@@ -773,23 +773,23 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
 			if(GenieVersion <= genie::GV_RoR) // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
-				for(short loop2 = 0; loop2 < AoE1Count; loop2++)
+				for(short loop2 = 0; loop2 < AoE1Count; ++loop2)
 				Attacks_ComboBox_Class[loop]->Append(AoE1Armors[loop2]);
 			}
 			else if(GenieVersion < genie::GV_SWGB) // AoK and TC
 			{
-				for(short loop2 = 0; loop2 < AoE2Count; loop2++)
+				for(short loop2 = 0; loop2 < AoE2Count; ++loop2)
 				Attacks_ComboBox_Class[loop]->Append(AoE2Armors[loop2]);
 			}
 			else // SWGB and CC
 			{
-				for(short loop2 = 0; loop2 < SWGBCount; loop2++)
+				for(short loop2 = 0; loop2 < SWGBCount; ++loop2)
 				Attacks_ComboBox_Class[loop]->Append(SWGBArmors[loop2]);
 			}
 			Attacks_ComboBox_Class[loop]->SetSelection(0);
 		}
 
-		for(short loop = 0; loop < 2; loop++)
+		for(short loop = 0; loop < 2; ++loop)
 		{
 			Units_Units_SearchFilters[loop]->Clear();
 			Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
@@ -1110,19 +1110,19 @@ void AGE_Frame::OnGameVersionChange()
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
 		// Some general tab handling
-		for(auto loop = GenieFile->getZeroSpaceSize(); loop < General_AfterBorders.size(); loop++)
+		for(auto loop = GenieFile->getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
 		General_AfterBorders[loop]->Show(false);
-		for(auto loop = GenieFile->getRenderingSize(); loop < General_TerrainRendering.size(); loop++)
+		for(auto loop = GenieFile->getRenderingSize(); loop < General_TerrainRendering.size(); ++loop)
 		General_TerrainRendering[loop]->Show(false);
-		for(auto loop = GenieFile->getSomethingSize(); loop < General_Something.size(); loop++)
+		for(auto loop = GenieFile->getSomethingSize(); loop < General_Something.size(); ++loop)
 		General_Something[loop]->Show(false);
 		if(ShowUnknowns)
 		{
-			for(short loop = 0; loop < GenieFile->getZeroSpaceSize(); loop++)
+			for(short loop = 0; loop < GenieFile->getZeroSpaceSize(); ++loop)
 			General_AfterBorders[loop]->Show(true);
-			for(short loop = 0; loop < GenieFile->getRenderingSize(); loop++)
+			for(short loop = 0; loop < GenieFile->getRenderingSize(); ++loop)
 			General_TerrainRendering[loop]->Show(true);
-			for(short loop = 0; loop < GenieFile->getSomethingSize(); loop++)
+			for(short loop = 0; loop < GenieFile->getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
 		}
 
@@ -1130,7 +1130,7 @@ void AGE_Frame::OnGameVersionChange()
 
 		// TC ->
 		show = (GenieVersion >= genie::GV_TC) ? true : false;
-		for(short loop = 32;loop < TERRAINBORDERSMAX; loop++)
+		for(short loop = 32;loop < TERRAINBORDERSMAX; ++loop)
 		{
 			Terrains_TerrainBorderID[loop]->Show(show);
 			Terrains_ComboBox_TerrainBorderID[loop]->Show(show);
@@ -1164,7 +1164,7 @@ void AGE_Frame::OnGameVersionChange()
 
 		// AoK Alfa ->
 		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
-		for(short loop = 4;loop < 6; loop++)
+		for(short loop = 4;loop < 6; ++loop)
 		{
 			Research_RequiredTechs[loop]->Show(show);
 			Research_ComboBox_RequiredTechs[loop]->Show(show);
@@ -1683,7 +1683,7 @@ bool AGE_Frame::SearchMatches(wxString itemText)
 
 void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 {
-	for(short loop = 0; loop < 2; loop++) // Custom search filters
+	for(short loop = 0; loop < 2; ++loop) // Custom search filters
 	{
 		if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
 		{
@@ -1748,7 +1748,7 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 
 	wxString TopText, SubText, Line;
 	size_t found;
-	for(int loop = 0; loop < Selections; loop++)
+	for(int loop = 0; loop < Selections; ++loop)
 	{
 		Line = List->GetString(Items.Item(loop));
 		found = Line.find(" ", 3);
