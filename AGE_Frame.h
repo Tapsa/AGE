@@ -3287,7 +3287,7 @@ public:
 	template <class P, class C>
 	inline void PasteToListNoGV(P &path, vector<short> &places, C &copies)
 	{
-		for(int loop = 0, from = 0; loop < places.size(); loop++, from++)
+		for(int loop = 0, from = 0; loop < places.size(); ++loop, ++from)
 		{
 			from %= copies.size();
 			path[places[loop]] = copies[from];
@@ -3307,7 +3307,7 @@ public:
 	template <class P, class C>
 	inline void PasteToList(P &path, vector<short> &places, C &copies)
 	{
-		for(int loop = 0, from = 0; loop < places.size(); loop++, from++)
+		for(int loop = 0, from = 0; loop < places.size(); ++loop, ++from)
 		{
 			from %= copies.size();
 			path[places[loop]] = copies[from];

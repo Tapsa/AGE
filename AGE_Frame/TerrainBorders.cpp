@@ -24,7 +24,7 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 	short BorderIDs[TERRAINBORDERSMAX];
 	if(Sized)
 	{
-		for(short loop = 0; loop < TERRAINBORDERSMAX; loop++)
+		for(short loop = 0; loop < TERRAINBORDERSMAX; ++loop)
 		{
 			BorderIDs[loop] = Terrains_ComboBox_TerrainBorderID[loop]->GetSelection();
 			Terrains_ComboBox_TerrainBorderID[loop]->Clear();
@@ -33,7 +33,7 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 		}
 	}
 
-	for(short loop = 0; loop < GenieFile->TerrainBorders.size(); loop++)
+	for(short loop = 0; loop < GenieFile->TerrainBorders.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -42,7 +42,7 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 		}
 		if(Sized)
 		{
-			for(short loop = 0; loop < TERRAINBORDERSMAX; loop++)
+			for(short loop = 0; loop < TERRAINBORDERSMAX; ++loop)
 			Terrains_ComboBox_TerrainBorderID[loop]->Append(Name);
 		}
 	}
@@ -50,7 +50,7 @@ void AGE_Frame::ListTerrainBorders(bool Sized)
 	ListingFix(Selections, Borders_Borders_List);
 	if(Sized)
 	{
-		for(short loop = 0; loop < TERRAINBORDERSMAX; loop++)
+		for(short loop = 0; loop < TERRAINBORDERSMAX; ++loop)
 		Terrains_ComboBox_TerrainBorderID[loop]->SetSelection(BorderIDs[loop]);
 	}
 
@@ -71,11 +71,11 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	Borders_BorderRessourceID->resize(Selections);
 	Borders_BorderUnknown3->resize(Selections);
 	Borders_BorderUnknown4->resize(Selections);
-	for(short loop = 0; loop < 3; loop++)
+	for(short loop = 0; loop < 3; ++loop)
 	{
 		Borders_BorderColors[loop]->resize(Selections);
 	}
-	for(short loop = 0; loop < Borders_BorderUnknown5.size(); loop++)
+	for(short loop = 0; loop < Borders_BorderUnknown5.size(); ++loop)
 	Borders_BorderUnknown5[loop]->resize(Selections);
 	Borders_BorderUnknown6->resize(Selections);
 	Borders_BorderFrameCount->resize(Selections);
@@ -95,11 +95,11 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 		Borders_BorderRessourceID->container[sel] = &BorderPointer->SLP;
 		Borders_BorderUnknown3->container[sel] = &BorderPointer->Unknown3;
 		Borders_BorderUnknown4->container[sel] = &BorderPointer->SoundID;
-		for(short loop = 0; loop < 3; loop++)
+		for(short loop = 0; loop < 3; ++loop)
 		{
 			Borders_BorderColors[loop]->container[sel] = &BorderPointer->Colors[loop];
 		}
-		for(short loop = 0; loop < Borders_BorderUnknown5.size(); loop++)
+		for(short loop = 0; loop < Borders_BorderUnknown5.size(); ++loop)
 		Borders_BorderUnknown5[loop]->container[sel] = &BorderPointer->Unknown5[loop];
 		Borders_BorderUnknown6->container[sel] = &BorderPointer->Unknown6;
 		Borders_BorderFrameCount->container[sel] = &BorderPointer->FrameCount;
@@ -115,11 +115,11 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	Borders_BorderRessourceID->ChangeValue(lexical_cast<string>(BorderPointer->SLP));
 	Borders_BorderUnknown3->ChangeValue(lexical_cast<string>(BorderPointer->Unknown3));
 	Borders_BorderUnknown4->ChangeValue(lexical_cast<string>(BorderPointer->SoundID));
-	for(short loop = 0; loop < 3; loop++)
+	for(short loop = 0; loop < 3; ++loop)
 	{
 		Borders_BorderColors[loop]->ChangeValue(lexical_cast<string>((short)BorderPointer->Colors[loop]));
 	}
-	for(short loop = 0; loop < Borders_BorderUnknown5.size(); loop++)
+	for(short loop = 0; loop < Borders_BorderUnknown5.size(); ++loop)
 	Borders_BorderUnknown5[loop]->ChangeValue(lexical_cast<string>((short)BorderPointer->Unknown5[loop]));
 	Borders_BorderUnknown6->ChangeValue(lexical_cast<string>(BorderPointer->Unknown6));
 	Borders_BorderFrameCount->ChangeValue(lexical_cast<string>(BorderPointer->FrameCount));
@@ -168,7 +168,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 	auto Selections = Borders_Frames_List->GetSelections(Items);
 	Borders_Frames_List->Clear();
 
-	for(short loop = 0; loop < GenieFile->TerrainBorders[BorderIDs[0]].Frames.size(); loop++)
+	for(short loop = 0; loop < GenieFile->TerrainBorders[BorderIDs[0]].Frames.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderFrameName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -230,7 +230,7 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &Event)
 {
-	for(short loop=1; loop < BorderIDs.size(); loop++)
+	for(short loop=1; loop < BorderIDs.size(); ++loop)
 	{
 		GenieFile->TerrainBorders[BorderIDs[loop]].Frames = GenieFile->TerrainBorders[BorderIDs[0]].Frames;
 	}
@@ -258,7 +258,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Text_BorderEnabled = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Enabled", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_BorderEnabled = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_CheckBox_BorderEnabled = new CheckBox_2State(Tab_TerrainBorders, " Yes", Borders_BorderEnabled);
-	for(short loop = 0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; ++loop)
 	{
 		Borders_Holder_BorderName[loop] = new wxBoxSizer(wxVERTICAL);
 		Borders_BorderName[loop] = new TextCtrl_String(Tab_TerrainBorders, 13);
@@ -271,7 +271,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderColors = new wxBoxSizer(wxVERTICAL);
 	Borders_Grid_BorderColors = new wxGridSizer(3, 0, 0);
 	Borders_Text_BorderColors = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < 3; loop++)
+	for(short loop = 0; loop < 3; ++loop)
 	Borders_BorderColors[loop] = new TextCtrl_UByte(Tab_TerrainBorders);
 	Borders_Holder_BorderFrameCount = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderFrameCount = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -316,7 +316,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderUnknown5 = new wxBoxSizer(wxVERTICAL);
 	Borders_Grid_BorderUnknown5 = new wxGridSizer(5, 0, 0);
 	Borders_Text_BorderUnknown5 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < Borders_BorderUnknown5.size(); loop++)
+	for(short loop = 0; loop < Borders_BorderUnknown5.size(); ++loop)
 	Borders_BorderUnknown5[loop] = new TextCtrl_Byte(Tab_TerrainBorders);
 	Borders_Holder_BorderUnknown6 = new wxBoxSizer(wxVERTICAL);
 	Borders_Text_BorderUnknown6 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -325,7 +325,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Text_BorderUnknown8 = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Angle Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_BorderUnknown8 = new TextCtrl_Short(Tab_TerrainBorders);
 
-	for(short loop = 0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; ++loop)
 	{
 		Borders_Holder_BorderName[loop]->Add(Borders_Text_BorderName[loop], 0, wxEXPAND);
 		Borders_Holder_BorderName[loop]->Add(Borders_BorderName[loop], 0, wxEXPAND);
@@ -363,12 +363,12 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Holder_BorderUnknown3->Add(Borders_BorderUnknown3, 1, wxEXPAND);
 	Borders_Holder_BorderUnknown4->Add(Borders_Text_BorderUnknown4, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown4->Add(Borders_BorderUnknown4, 1, wxEXPAND);
-	for(short loop = 0; loop < 3; loop++)
+	for(short loop = 0; loop < 3; ++loop)
 	Borders_Grid_BorderColors->Add(Borders_BorderColors[loop], 1, wxEXPAND);
 	Borders_Holder_BorderColors->Add(Borders_Text_BorderColors, 0, wxEXPAND);
 	Borders_Holder_BorderColors->Add(Borders_Grid_BorderColors, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown5->Add(Borders_Text_BorderUnknown5, 0, wxEXPAND);
-	for(short loop = 0; loop < Borders_BorderUnknown5.size(); loop++)
+	for(short loop = 0; loop < Borders_BorderUnknown5.size(); ++loop)
 	Borders_Grid_BorderUnknown5->Add(Borders_BorderUnknown5[loop], 1, wxEXPAND);
 	Borders_Holder_BorderUnknown5->Add(Borders_Grid_BorderUnknown5, 0, wxEXPAND);
 	Borders_Holder_BorderUnknown6->Add(Borders_Text_BorderUnknown6, 0, wxEXPAND);
@@ -457,7 +457,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Connect(Frames_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesPaste));
 	Connect(Frames_CopyToBorders->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesCopyToBorders));
 
-	for(short loop = 0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; ++loop)
 	Borders_BorderName[loop]->Connect(Borders_BorderName[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_BorderFrameID->Connect(Borders_BorderFrameID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_BorderFlag1->Connect(Borders_BorderFlag1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);

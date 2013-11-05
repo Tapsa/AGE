@@ -148,7 +148,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = false;
-	for(short loop = 0; loop < 2; loop++)
+	for(short loop = 0; loop < 2; ++loop)
 	UseAnd[loop] = false;
 
 	wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Show);
