@@ -72,25 +72,25 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 {
-	for(short loop = 0; loop < General_TerrainHeader.size(); loop++)
+	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
 	{
 		General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>(GenieFile->GraphicsRendering[loop]));
 		General_TerrainHeader[loop]->resize(1);
 		General_TerrainHeader[loop]->container[0] = &GenieFile->GraphicsRendering[loop];
 	}
-	for(short loop = 0; loop < GenieFile->ZeroSpace.size(); loop++)
+	for(short loop = 0; loop < GenieFile->ZeroSpace.size(); ++loop)
 	{
 		General_AfterBorders[loop]->ChangeValue(lexical_cast<string>(GenieFile->ZeroSpace[loop]));
 		General_AfterBorders[loop]->resize(1);
 		General_AfterBorders[loop]->container[0] = &GenieFile->ZeroSpace[loop];
 	}
-	for(short loop = 0; loop < GenieFile->Rendering.size(); loop++)
+	for(short loop = 0; loop < GenieFile->Rendering.size(); ++loop)
 	{
 		General_TerrainRendering[loop]->ChangeValue(lexical_cast<string>(GenieFile->Rendering[loop]));
 		General_TerrainRendering[loop]->resize(1);
 		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
 	}
-	for(short loop = 0; loop < GenieFile->Something.size(); loop++)
+	for(short loop = 0; loop < GenieFile->Something.size(); ++loop)
 	{
 		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop]));
 		General_Something[loop]->resize(1);
@@ -100,7 +100,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	Unknown_UnknownPointer->resize(1);
 	Unknown_UnknownPointer->container[0] = &GenieFile->RandomMaps.RandomMapPointer;
 	if(GenieVersion <= genie::GV_RoR) return;
-	for(long loop = 0;loop < General_TTUnknown.size(); loop++)
+	for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
 	{
 		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
 		General_TTUnknown[loop]->resize(1);
@@ -140,7 +140,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_Text_CalcBoxes = new wxStaticText(Tab_General, wxID_ANY, " Variable Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_Text_CalcBoxes->SetToolTip("From four 8 bit integers to one 32 bit integer or vice versa");
 	General_Text_CalcBoxesMiddle = new wxStaticText(Tab_General, wxID_ANY, " = ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < 5; loop++)
+	for(short loop = 0; loop < 5; ++loop)
 	General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY);
 	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
@@ -183,16 +183,16 @@ void AGE_Frame::CreateGeneralControls()
 	General_Text_TerrainRendering = new wxStaticText(General_Scroller, wxID_ANY, " Graphics-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_Grid_TerrainRendering = new wxGridSizer(16, 0, 0);
 	General_Grid_Something = new wxGridSizer(8, 0, 0);
-	for(short loop = 0; loop < General_TerrainHeader.size(); loop++)
+	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
 	General_TerrainHeader[loop] = new TextCtrl_Short(General_Scroller);
-	for(short loop = 0; loop < General_AfterBorders.size(); loop++)
+	for(short loop = 0; loop < General_AfterBorders.size(); ++loop)
 	{
 		General_AfterBorders[loop] = new TextCtrl_Short(General_Scroller);
 		General_AfterBorders[loop]->SetToolTip("In the file these are\nright after terrain borders and\nbefore the second terrain count");
 	}
-	for(short loop = 0; loop < General_TerrainRendering.size(); loop++)
+	for(short loop = 0; loop < General_TerrainRendering.size(); ++loop)
 	General_TerrainRendering[loop] = new TextCtrl_Short(General_Scroller);
-	for(short loop = 0; loop < General_Something.size(); loop++)
+	for(short loop = 0; loop < General_Something.size(); ++loop)
 	General_Something[loop] = new TextCtrl_Long(General_Scroller);
 /*	General_Holder_RenderPlusUnknown = new wxBoxSizer(wxVERTICAL);
 	General_Holder_RenderPlusUnknownTop = new wxBoxSizer(wxHORIZONTAL);
@@ -205,26 +205,26 @@ void AGE_Frame::CreateGeneralControls()
 	General_TopRow->Add(10, -1);
 	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
 	General_TopRow->AddStretchSpacer(3);
-	for(short loop = 0; loop < 4; loop++)
+	for(short loop = 0; loop < 4; ++loop)
 	General_TopRow->Add(General_CalcBoxes[loop], 1, wxEXPAND);
 	General_TopRow->Add(General_Text_CalcBoxesMiddle, 0, wxEXPAND);
 	General_TopRow->Add(General_CalcBoxes[4], 1, wxEXPAND);
 	General_TopRow->Add(General_Text_CalcBoxes, 0, wxEXPAND);
 	General_TopRow->AddStretchSpacer(1);
 
-	for(short loop = 0; loop < General_TerrainHeader.size(); loop++)
+	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
 	General_Grid_TerrainHeader->Add(General_TerrainHeader[loop], 1, wxEXPAND);
 	General_Holder_TerrainHeader->Add(General_Text_TerrainHeader, 0, wxEXPAND);
 	General_Holder_TerrainHeader->Add(General_Grid_TerrainHeader, 0, wxEXPAND);
 
-	for(short loop = 0; loop < General_AfterBorders.size(); loop++)
+	for(short loop = 0; loop < General_AfterBorders.size(); ++loop)
 	General_Grid_BorderRelated->Add(General_AfterBorders[loop], 1, wxEXPAND);
 	General_Holder_BorderRelated->Add(General_Text_BorderRelated, 0, wxEXPAND);
 	General_Holder_BorderRelated->Add(General_Grid_BorderRelated, 0, wxEXPAND);
 
-	for(short loop = 0; loop < General_TerrainRendering.size(); loop++)
+	for(short loop = 0; loop < General_TerrainRendering.size(); ++loop)
 	General_Grid_TerrainRendering->Add(General_TerrainRendering[loop], 1, wxEXPAND);
-	for(short loop = 0; loop < General_Something.size(); loop++)
+	for(short loop = 0; loop < General_Something.size(); ++loop)
 	General_Grid_Something->Add(General_Something[loop], 1, wxEXPAND);
 	General_Holder_TerrainRendering->Add(General_Text_TerrainRendering, 0, wxEXPAND);
 	General_Holder_TerrainRendering->Add(General_Grid_TerrainRendering, 0, wxEXPAND);
@@ -291,7 +291,7 @@ void AGE_Frame::CreateGeneralControls()
 	//Connect(General_SomethingPicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
 	//Connect(General_SomethingNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
 	//Connect(General_SomethingPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
-	for(short loop = 0; loop < 4; loop++)
+	for(short loop = 0; loop < 4; ++loop)
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);
 }
@@ -333,7 +333,7 @@ void AGE_Frame::ListUnknowns()
 	auto Selections = Unknowns_List->GetSelections(Items);
 	Unknowns_List->Clear();
 
-	for(short loop = 0; loop < GenieFile->RandomMaps.MapHeaders.size(); loop++)
+	for(short loop = 0; loop < GenieFile->RandomMaps.MapHeaders.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -356,12 +356,12 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 		RandomMapIDs.resize(Selections);
 		Unknowns_UnknownLevel->resize(Selections);
 		int PointerCount = Selections * 2;
-		for(short loop = 0; loop < Unknowns_Unknown1.size(); loop++)
+		for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
 		Unknowns_Unknown1[loop]->resize(PointerCount);
 		Unknowns_Pointer1->resize(PointerCount);
 		Unknowns_Pointer2->resize(PointerCount);
 		Unknowns_Pointer3->resize(PointerCount);
-		for(short loop = 0; loop < Unknowns_Unknown2.size(); loop++)
+		for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
 		Unknowns_Unknown2[loop]->resize(PointerCount);
 
 		genie::MapHeader * MapPointer1;
@@ -398,7 +398,7 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 			Unknowns_Pointer2->container[sel2] = &MapPointer2->MapTerrainPointer;
 			Unknowns_Pointer3->container[sel] = &MapPointer1->MapUnitPointer;
 			Unknowns_Pointer3->container[sel2] = &MapPointer2->MapUnitPointer;
-			for(short loop = 0; loop < genie::MapHeader::UNKNOWN2_SIZE; loop++)
+			for(short loop = 0; loop < genie::MapHeader::UNKNOWN2_SIZE; ++loop)
 			{
 				Unknowns_Unknown2[loop]->container[sel] = &MapPointer1->Unknown2[loop];
 				Unknowns_Unknown2[loop]->container[sel2] = &MapPointer2->Unknown2[loop];
@@ -418,7 +418,7 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 		Unknowns_Pointer1->ChangeValue(lexical_cast<string>(MapPointer1->BaseZonePointer));
 		Unknowns_Pointer2->ChangeValue(lexical_cast<string>(MapPointer1->MapTerrainPointer));
 		Unknowns_Pointer3->ChangeValue(lexical_cast<string>(MapPointer1->MapUnitPointer));
-		for(short loop = 0; loop < Unknowns_Unknown2.size(); loop++)
+		for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
 		Unknowns_Unknown2[loop]->ChangeValue(lexical_cast<string>(MapPointer1->Unknown2[loop]));
 
 		ListUnknownFirstSubData();
@@ -428,12 +428,12 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 	else
 	{
 		Unknowns_UnknownLevel->ChangeValue("0");
-		for(short loop = 0; loop < Unknowns_Unknown1.size(); loop++)
+		for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
 		Unknowns_Unknown1[loop]->ChangeValue("0");
 		Unknowns_Pointer1->ChangeValue("0");
 		Unknowns_Pointer2->ChangeValue("0");
 		Unknowns_Pointer3->ChangeValue("0");
-		for(short loop = 0; loop < Unknowns_Unknown2.size(); loop++)
+		for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
 		Unknowns_Unknown2[loop]->ChangeValue("0");
 
 		UnknownFirstSubData_List->Clear();
@@ -444,12 +444,12 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 		DisableRMSUnits();
 	}
 	Unknowns_UnknownLevel->Enable(Selections);
-	for(short loop = 0; loop < Unknowns_Unknown1.size(); loop++)
+	for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
 	Unknowns_Unknown1[loop]->Enable(Selections);
 	Unknowns_Pointer1->Enable(Selections);
 	Unknowns_Pointer2->Enable(Selections);
 	Unknowns_Pointer3->Enable(Selections);
-	for(short loop = 0; loop < Unknowns_Unknown2.size(); loop++)
+	for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
 	Unknowns_Unknown2[loop]->Enable(Selections);
 
 }
@@ -535,7 +535,7 @@ void AGE_Frame::ListUnknownFirstSubData()
 	auto Selections = UnknownFirstSubData_List->GetSelections(Items);
 	UnknownFirstSubData_List->Clear();
 
-	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size(); loop++)
+	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnknownFirstSubDataName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -563,11 +563,11 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 	UnknownFirstSubData_BaseTerrain->resize(Selections);
 	UnknownFirstSubData_SpacingBetweenPlayers->resize(Selections);
 	UnknownFirstSubData_Unknown4->resize(Selections);
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); ++loop)
 	UnknownFirstSubData_Unknown5[loop]->resize(Selections);
 	UnknownFirstSubData_Unknown6->resize(Selections);
 	UnknownFirstSubData_Unknown7->resize(Selections);
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); ++loop)
 	UnknownFirstSubData_Unknown8[loop]->resize(Selections);
 	UnknownFirstSubData_StartAreaRadius->resize(Selections);
 	UnknownFirstSubData_Unknown10->resize(Selections);
@@ -583,11 +583,11 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 		UnknownFirstSubData_BaseTerrain->container[sel] = &UnknownPointer->BaseTerrain;
 		UnknownFirstSubData_SpacingBetweenPlayers->container[sel] = &UnknownPointer->SpacingBetweenPlayers;
 		UnknownFirstSubData_Unknown4->container[sel] = &UnknownPointer->Unknown4;
-		for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+		for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); ++loop)
 		UnknownFirstSubData_Unknown5[loop]->container[sel] = &UnknownPointer->Unknown5[loop];
 		UnknownFirstSubData_Unknown6->container[sel] = &UnknownPointer->Unknown6;
 		UnknownFirstSubData_Unknown7->container[sel] = &UnknownPointer->Unknown7;
-		for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+		for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); ++loop)
 		UnknownFirstSubData_Unknown8[loop]->container[sel] = &UnknownPointer->Unknown8[loop];
 		UnknownFirstSubData_StartAreaRadius->container[sel] = &UnknownPointer->StartAreaRadius;
 		UnknownFirstSubData_Unknown10->container[sel] = &UnknownPointer->Unknown10;
@@ -602,7 +602,7 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 	UnknownFirstSubData_SpacingBetweenPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->SpacingBetweenPlayers));
 	UnknownFirstSubData_Unknown4->Enable(true);
 	UnknownFirstSubData_Unknown4->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown4));
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); ++loop)
 	{
 		UnknownFirstSubData_Unknown5[loop]->Enable(true);
 		UnknownFirstSubData_Unknown5[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown5[loop]));
@@ -611,7 +611,7 @@ void AGE_Frame::OnUnknownFirstSubDataSelect(wxCommandEvent &Event)
 	UnknownFirstSubData_Unknown6->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown6));
 	UnknownFirstSubData_Unknown7->Enable(true);
 	UnknownFirstSubData_Unknown7->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown7));
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); ++loop)
 	{
 		UnknownFirstSubData_Unknown8[loop]->Enable(true);
 		UnknownFirstSubData_Unknown8[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown8[loop]));
@@ -634,7 +634,7 @@ void AGE_Frame::DisableUnknownFirstSubData()
 	UnknownFirstSubData_SpacingBetweenPlayers->ChangeValue("0");
 	UnknownFirstSubData_Unknown4->Enable(false);
 	UnknownFirstSubData_Unknown4->ChangeValue("0");
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); ++loop)
 	{
 		UnknownFirstSubData_Unknown5[loop]->Enable(false);
 		UnknownFirstSubData_Unknown5[loop]->ChangeValue("0");
@@ -643,7 +643,7 @@ void AGE_Frame::DisableUnknownFirstSubData()
 	UnknownFirstSubData_Unknown6->ChangeValue("0");
 	UnknownFirstSubData_Unknown7->Enable(false);
 	UnknownFirstSubData_Unknown7->ChangeValue("0");
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); ++loop)
 	{
 		UnknownFirstSubData_Unknown8[loop]->Enable(false);
 		UnknownFirstSubData_Unknown8[loop]->ChangeValue("0");
@@ -722,7 +722,7 @@ void AGE_Frame::OnUnknownFirstSubDataPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnknownFirstSubDataCopyToMaps(wxCommandEvent &Event)
 {
-	for(short loop=1; loop < RandomMapIDs.size(); loop++)
+	for(short loop=1; loop < RandomMapIDs.size(); ++loop)
 	{
 		GenieFile->RandomMaps.Maps[RandomMapIDs[loop]].BaseZones = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones;
 	}
@@ -751,7 +751,7 @@ void AGE_Frame::ListRMSTerrains()
 	auto Selections = RMSTerrain_List->GetSelections(Items);
 	RMSTerrain_List->Clear();
 
-	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size(); loop++)
+	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetRMSTerrainName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[loop].Terrain);
 		if(SearchMatches(Name.Lower()))
@@ -775,7 +775,7 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &Event)
 	}
 
 	UnknownSSIDs.resize(Selections);
-	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); loop++)
+	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	RMSTerrain_Unknown1[loop]->resize(Selections);
 
 	genie::MapTerrain * UnknownPointer;
@@ -792,7 +792,7 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &Event)
 		RMSTerrain_Unknown1[5]->container[sel] = &UnknownPointer->Unknown6;
 	}
 
-	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); loop++)
+	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	{
 		RMSTerrain_Unknown1[loop]->Enable(true);
 	}
@@ -806,7 +806,7 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &Event)
 
 void AGE_Frame::DisableRMSTerrains()
 {
-	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); loop++)
+	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	{
 		RMSTerrain_Unknown1[loop]->Enable(false);
 		RMSTerrain_Unknown1[loop]->ChangeValue("0");
@@ -879,7 +879,7 @@ void AGE_Frame::OnRMSTerrainPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSTerrainCopyToMaps(wxCommandEvent &Event)
 {
-	for(short loop=1; loop < RandomMapIDs.size(); loop++)
+	for(short loop=1; loop < RandomMapIDs.size(); ++loop)
 	{
 		GenieFile->RandomMaps.Maps[RandomMapIDs[loop]].MapTerrains = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains;
 	}
@@ -902,7 +902,7 @@ void AGE_Frame::ListRMSUnits()
 	auto Selections = RMSUnit_List->GetSelections(Items);
 	RMSUnit_List->Clear();
 
-	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size(); loop++)
+	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[loop].Unit);
 		if(SearchMatches(Name.Lower()))
@@ -928,7 +928,7 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 	UnknownTSIDs.resize(Selections);
 	RMSUnit_Unit->resize(Selections);
 	RMSUnit_HostTerrain->resize(Selections);
-	for(short loop = 0; loop < RMSUnit_Unknown3.size(); loop++)
+	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 	RMSUnit_Unknown3[loop]->resize(Selections);
 	RMSUnit_ObjectsPerPlayer->resize(Selections);
 	RMSUnit_Unknown5->resize(Selections);
@@ -947,7 +947,7 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 
 		RMSUnit_Unit->container[sel] = &UnknownPointer->Unit;
 		RMSUnit_HostTerrain->container[sel] = &UnknownPointer->HostTerrain;
-		for(short loop = 0; loop < RMSUnit_Unknown3.size(); loop++)
+		for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 		RMSUnit_Unknown3[loop]->container[sel] = &UnknownPointer->Unknown3[loop];
 		RMSUnit_ObjectsPerPlayer->container[sel] = &UnknownPointer->ObjectsPerPlayer;
 		RMSUnit_Unknown5->container[sel] = &UnknownPointer->Unknown5;
@@ -963,7 +963,7 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 	RMSUnit_Unit->ChangeValue(lexical_cast<string>(UnknownPointer->Unit));
 	RMSUnit_HostTerrain->Enable(true);
 	RMSUnit_HostTerrain->ChangeValue(lexical_cast<string>(UnknownPointer->HostTerrain));
-	for(short loop = 0; loop < RMSUnit_Unknown3.size(); loop++)
+	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 	{
 		RMSUnit_Unknown3[loop]->Enable(true);
 		RMSUnit_Unknown3[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown3[loop]));
@@ -992,7 +992,7 @@ void AGE_Frame::DisableRMSUnits()
 	RMSUnit_Unit->ChangeValue("0");
 	RMSUnit_HostTerrain->Enable(false);
 	RMSUnit_HostTerrain->ChangeValue("0");
-	for(short loop = 0; loop < RMSUnit_Unknown3.size(); loop++)
+	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 	{
 		RMSUnit_Unknown3[loop]->Enable(false);
 		RMSUnit_Unknown3[loop]->ChangeValue("0");
@@ -1081,7 +1081,7 @@ void AGE_Frame::OnRMSUnitPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSUnitCopyToMaps(wxCommandEvent &Event)
 {
-	for(short loop=1; loop < RandomMapIDs.size(); loop++)
+	for(short loop=1; loop < RandomMapIDs.size(); ++loop)
 	{
 		GenieFile->RandomMaps.Maps[RandomMapIDs[loop]].MapUnits = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits;
 	}
@@ -1120,7 +1120,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Text_UnknownLevel = new wxStaticText(Unknown_Scroller, wxID_ANY, " Script Number", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_UnknownLevel = new TextCtrl_Long(Unknown_Scroller);
 	Unknowns_Grid_Unknown1 = new wxGridSizer(5, 5, 5);
-	for(short loop = 0; loop < Unknowns_Unknown1.size(); loop++)
+	for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
 	{
 		Unknowns_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
 		Unknowns_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
@@ -1180,7 +1180,7 @@ void AGE_Frame::CreateUnknownControls()
 	UnknownFirstSubData_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
 	UnknownFirstSubData_Grid_Unknown5 = new wxGridSizer(4, 0, 0);
 	UnknownFirstSubData_Text_Unknown5 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Dist. Between Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); ++loop)
 	UnknownFirstSubData_Unknown5[loop] = new TextCtrl_Byte(Unknown_Scroller);
 	UnknownFirstSubData_Unknown5[1]->SetToolTip("Minimum distance in tiles between \"player initial zones\"");
 
@@ -1194,7 +1194,7 @@ void AGE_Frame::CreateUnknownControls()
 	UnknownFirstSubData_Holder_Unknown8 = new wxBoxSizer(wxVERTICAL);
 	UnknownFirstSubData_Grid_Unknown8 = new wxGridSizer(4, 0, 0);
 	UnknownFirstSubData_Text_Unknown8 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); ++loop)
 	UnknownFirstSubData_Unknown8[loop] = new TextCtrl_Byte(Unknown_Scroller);
 	UnknownFirstSubData_Unknown8[1]->SetToolTip("Base zone is created for every player");
 
@@ -1231,7 +1231,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
 
 	RMSTerrain_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
-	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); loop++)
+	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	{
 		RMSTerrain_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
 		RMSTerrain_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
@@ -1276,7 +1276,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Grid_Unknown3 = new wxGridSizer(4, 0, 0);
 	RMSUnit_Text_Unknown3 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Group Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < RMSUnit_Unknown3.size(); loop++)
+	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 	RMSUnit_Unknown3[loop] = new TextCtrl_Byte(Unknown_Scroller);
 	RMSUnit_Unknown3[0]->SetToolTip("0 Only 1 unit is placed from group\n1 & 2 All units are placed from group");
 	RMSUnit_Holder_ObjectsPerPlayer = new wxBoxSizer(wxVERTICAL);
@@ -1310,7 +1310,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_MaxDistanceToPlayers->SetToolTip("- Don't use 0 here for units that are own at start\n- 0 is OK for other units (gold/bushes/gazelle/etc)\n- You can use -1 as a wildcard for units that are own at start");
 
 	Unknowns_Grid_Unknown2 = new wxGridSizer(5, 5, 5);
-	for(short loop = 0; loop < Unknowns_Unknown2.size(); loop++)
+	for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
 	{
 		Unknowns_Holder_Unknown2[loop] = new wxBoxSizer(wxVERTICAL);
 		Unknowns_Unknown2[loop] = new TextCtrl_Long(Unknown_Scroller);
@@ -1341,7 +1341,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Space_UnknownLevel->Add(Unknowns_Holder_UnknownLevel, 1, wxEXPAND);
 	Unknowns_Space_UnknownLevel->AddStretchSpacer(3);
 
-	for(short loop = 0; loop < Unknowns_Unknown1.size(); loop++)
+	for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
 	{
 		Unknowns_Holder_Unknown1[loop]->Add(Unknowns_Text_Unknown1[loop], 0, wxEXPAND);
 		Unknowns_Holder_Unknown1[loop]->Add(Unknowns_Unknown1[loop], 1, wxEXPAND);
@@ -1377,7 +1377,7 @@ void AGE_Frame::CreateUnknownControls()
 	UnknownFirstSubData_Holder_SpacingBetweenPlayers->Add(UnknownFirstSubData_SpacingBetweenPlayers, 1, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown4->Add(UnknownFirstSubData_Text_Unknown4, 0, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown4->Add(UnknownFirstSubData_Unknown4, 1, wxEXPAND);
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown5.size(); ++loop)
 	UnknownFirstSubData_Grid_Unknown5->Add(UnknownFirstSubData_Unknown5[loop], 1, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown5->Add(UnknownFirstSubData_Text_Unknown5, 0, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown5->Add(UnknownFirstSubData_Grid_Unknown5, 1, wxEXPAND);
@@ -1385,7 +1385,7 @@ void AGE_Frame::CreateUnknownControls()
 	UnknownFirstSubData_Holder_Unknown6->Add(UnknownFirstSubData_Unknown6, 1, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown7->Add(UnknownFirstSubData_Text_Unknown7, 0, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown7->Add(UnknownFirstSubData_Unknown7, 1, wxEXPAND);
-	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); loop++)
+	for(short loop = 0; loop < UnknownFirstSubData_Unknown8.size(); ++loop)
 	UnknownFirstSubData_Grid_Unknown8->Add(UnknownFirstSubData_Unknown8[loop], 1, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown8->Add(UnknownFirstSubData_Text_Unknown8, 0, wxEXPAND);
 	UnknownFirstSubData_Holder_Unknown8->Add(UnknownFirstSubData_Grid_Unknown8, 1, wxEXPAND);
@@ -1433,7 +1433,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_ListArea->Add(-1, 2);
 	RMSTerrain_ListArea->Add(RMSTerrain_CopyToMaps, 0, wxEXPAND);
 
-	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); loop++)
+	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	{
 		RMSTerrain_Holder_Unknown1[loop]->Add(RMSTerrain_Text_Unknown1[loop], 0, wxEXPAND);
 		RMSTerrain_Holder_Unknown1[loop]->Add(RMSTerrain_Unknown1[loop], 1, wxEXPAND);
@@ -1470,7 +1470,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_Holder_Unit->Add(RMSUnit_Unit, 1, wxEXPAND);
 	RMSUnit_Holder_HostTerrain->Add(RMSUnit_Text_HostTerrain, 0, wxEXPAND);
 	RMSUnit_Holder_HostTerrain->Add(RMSUnit_HostTerrain, 1, wxEXPAND);
-	for(short loop = 0; loop < RMSUnit_Unknown3.size(); loop++)
+	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 	RMSUnit_Grid_Unknown3->Add(RMSUnit_Unknown3[loop], 1, wxEXPAND);
 	RMSUnit_Holder_Unknown3->Add(RMSUnit_Text_Unknown3, 0, wxEXPAND);
 	RMSUnit_Holder_Unknown3->Add(RMSUnit_Grid_Unknown3, 1, wxEXPAND);
@@ -1507,7 +1507,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit->Add(10, -1);
 	RMSUnit->Add(RMSUnit_DataArea, 3, wxEXPAND);
 
-	for(short loop = 0; loop < Unknowns_Unknown2.size(); loop++)
+	for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
 	{
 		Unknowns_Holder_Unknown2[loop]->Add(Unknowns_Text_Unknown2[loop], 0, wxEXPAND);
 		Unknowns_Holder_Unknown2[loop]->Add(Unknowns_Unknown2[loop], 1, wxEXPAND);
