@@ -21,7 +21,7 @@ bool AGE::OnInit()
 	if(windows[0]->SimultaneousFiles > 1)
 	{
 		windows.resize(windows[0]->SimultaneousFiles);
-		for(short loop=1; loop < windows[0]->SimultaneousFiles; loop++)
+		for(short loop=1; loop < windows[0]->SimultaneousFiles; ++loop)
 		{
 			{
 				wxBusyCursor Wait;

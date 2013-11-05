@@ -26,7 +26,7 @@ void AGE_Frame::ListPlayerColors()
 	if(SavedID == wxNOT_FOUND) SavedID = 0;
 	Graphics_ComboBox_PlayerColor->Append("-1 - None");
 
-	for(short loop = 0; loop < GenieFile->PlayerColours.size(); loop++)
+	for(short loop = 0; loop < GenieFile->PlayerColours.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
 		if(SearchMatches(Name.Lower()))
