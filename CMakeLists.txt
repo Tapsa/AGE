@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 project(AdvancedGenieEditor3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
-set(ICONV_LIBRARIES "C:/Cpp/MinGW/lib/libiconv.a")
+set(ICONV_LIBRARIES "C:/Cpp/mingw64/x86_64-w64-mingw32/lib32/libiconv.a")
 set(CMAKE_CXX_FLAGS "-std=gnu++0x")
 set(Boost_USE_STATIC_LIBS    ON)
 set(Boost_USE_MULTITHREADED  ON)
@@ -27,32 +27,31 @@ include_directories(
 add_subdirectory(extern/genieutils)
 
 set(AGE_SRC Main.cpp
-			AGE_TextControls.cpp
-			AGE_CheckBoxes.cpp
-			AGE_ComboBoxes.cpp
-			AGE_AboutDialog.cpp
-			AGE_OpenDialog.cpp
-			AGE_SaveDialog.cpp
+	AGE_TextControls.cpp
+	AGE_CheckBoxes.cpp
+	AGE_ComboBoxes.cpp
+	AGE_AboutDialog.cpp
+	AGE_OpenDialog.cpp
+	AGE_SaveDialog.cpp
 
-			AGE_Frame/Constructor.cpp
-			AGE_Frame/Other.cpp
-			#AGE_Frame/DRS.cpp
-			AGE_Frame/Civs.cpp
-			AGE_Frame/General.cpp
-			AGE_Frame/Graphics.cpp
-			AGE_Frame/PlayerColors.cpp
-			AGE_Frame/Research.cpp
-			AGE_Frame/Sounds.cpp
-			AGE_Frame/Techs.cpp
-			AGE_Frame/TechTrees.cpp
-			AGE_Frame/TerrainBorders.cpp
-			AGE_Frame/TerrainRestrictions.cpp
-			AGE_Frame/Terrains.cpp
-			AGE_Frame/UnitLine.cpp
-			AGE_Frame/Units.cpp
-			#AGE_Frame/Transporting.cpp
+	AGE_Frame/Constructor.cpp
+	AGE_Frame/Other.cpp
+	#AGE_Frame/DRS.cpp
+	AGE_Frame/Civs.cpp
+	AGE_Frame/General.cpp
+	AGE_Frame/Graphics.cpp
+	AGE_Frame/PlayerColors.cpp
+	AGE_Frame/Research.cpp
+	AGE_Frame/Sounds.cpp
+	AGE_Frame/Techs.cpp
+	AGE_Frame/TechTrees.cpp
+	AGE_Frame/TerrainBorders.cpp
+	AGE_Frame/TerrainRestrictions.cpp
+	AGE_Frame/Terrains.cpp
+	AGE_Frame/UnitLine.cpp
+	AGE_Frame/Units.cpp
 
-			Resources.rc
+	Resources.rc
 	)
 
 add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
