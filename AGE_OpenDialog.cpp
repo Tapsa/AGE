@@ -195,7 +195,7 @@ void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &Event)
 	}
 
 	CheckBox_GenieVer->SetSelection(0);
-	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\Empires.dat"));
+	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
@@ -234,7 +234,7 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &Event)
 	}
 
 	CheckBox_GenieVer->SetSelection(1);
-	Path_DatFileLocation->SetPath(wxString(Path + "\\data2\\Empires.dat"));
+	Path_DatFileLocation->SetPath(wxString(Path + "\\data2\\empires.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\languagex.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
@@ -273,7 +273,7 @@ void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &Event)
 	}
 
 	CheckBox_GenieVer->SetSelection(3);
-	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\Empires2.dat"));
+	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires2.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
@@ -312,7 +312,7 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &Event)
 	}
 
 	CheckBox_GenieVer->SetSelection(4);
-	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\Empires2_x1_p1.dat"));
+	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires2_x1_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\language_x1_p1.dll"));
@@ -351,7 +351,7 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 	}
 
 	CheckBox_GenieVer->SetSelection(4);
-	Path_DatFileLocation->SetPath(wxString(Path + "\\Data\\Empires2_x1_p1.dat"));
+	Path_DatFileLocation->SetPath(wxString(Path + "\\Data\\empires2_x1_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\Bin\\" + Lang + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\Bin\\" + Lang + "\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\Bin\\" + Lang + "\\language_x1_p1.dll"));
@@ -389,7 +389,7 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &Event)
 	}
 
 	CheckBox_GenieVer->SetSelection(5);
-	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\GENIE.DAT"));
+	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
 	Path_LangX1P1FileLocation->SetPath(wxT(""));
