@@ -1,4 +1,5 @@
 To compile you need to download MinGW, wxWidgets, boost, zlib and CMake.
+Apparently current compilers no longer work with the libraries (all wxWidgets versions).
 
 You have to add MinGW to the system path if you move your compiling environment to a new Windows installment.
 
@@ -7,8 +8,8 @@ Install normally and select it to update PATH automatically.
 
 Install/extract rest of the stuff into C:/Cpp or other folder which you like.
 
-MinGW:
-Just install from the regular exe (mingw-get-inst-20120426.exe).
+MinGW-w64:
+Download Mingw-builds for Windows 64 using SJLJ.
 
 For now you need to run this from cmd or PowerShell:
 mingw-get install mingw32-libiconv
