@@ -6,12 +6,12 @@ You have to add MinGW to the system path if you move your compiling environment 
 CMake:
 Install normally and select it to update PATH automatically.
 
-Install/extract rest of the stuff into C:/Cpp or other folder which you like.
+Install/extract rest of the stuff into C:/Cpp or another folder which you like.
 
 MinGW-w64:
-Download Mingw-builds for Windows 64 using SJLJ.
+Download Mingw-builds Windows 64 using SJLJ and threads-posix.
 
-For now you need to run this from cmd or PowerShell:
+You may (should not) need to run this from cmd or PowerShell:
 mingw-get install mingw32-libiconv
 You can also download libiconv from here:
 http://ftp.gnu.org/pub/gnu/libiconv/
@@ -30,6 +30,8 @@ zlib:
 Unpack the zip file.
 In cmd.exe go to \zlib
 mingw32-make -f win32/Makefile.gcc
+del *.o
+del *.exe
 Then copy as follows:
 /mingw/bin/zlib1.dll
 /mingw/include/zconf.h
