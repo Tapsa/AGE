@@ -22,9 +22,9 @@ Unpack the zip file.
 To use my modded tool tips, seek them from AGE 2 sources and replace wxWidgets ones!
 In cmd.exe go to \wxWidgets\build\msw
 mingw32-make -f makefile.gcc SHARED=0 BUILD=debug clean
-mingw32-make -f makefile.gcc SHARED=0 BUILD=debug
+mingw32-make -f makefile.gcc SHARED=0 BUILD=debug CXXFLAGS+=-fpermissive
 mingw32-make -f makefile.gcc SHARED=0 BUILD=release clean
-mingw32-make -f makefile.gcc SHARED=0 BUILD=release
+mingw32-make -f makefile.gcc SHARED=0 BUILD=release CXXFLAGS+=-fpermissive
 
 zlib:
 Unpack the zip file.
