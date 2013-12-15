@@ -1,6 +1,11 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
+void testi()
+{
+	cout << "Moi" << endl;
+}
+
 string AGE_Frame::GetGraphicName(short Index, bool Filter)
 {
 	string Name = "";
@@ -159,6 +164,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 		GraphicDeltas_ComboBox_GraphicID->Append("-1 - None");
 	}
 
+	thread searchPart(testi);
 	for(short loop = 0; loop < GenieFile->Graphics.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
@@ -187,6 +193,7 @@ void AGE_Frame::ListGraphics(bool Sized)
 			GraphicDeltas_ComboBox_GraphicID->Append(Name);
 		}
 	}
+	searchPart.join();
 
 	ListingFix(Selections, Graphics_Graphics_List);
 	if(Sized)
