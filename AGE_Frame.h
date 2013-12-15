@@ -8,6 +8,7 @@
 #include "AGE_Copies.hpp"
 //#include <wx/dynarray.h>
 using std::array;
+using std::list;
 using std::vector;
 
 /*class MyCanvas: public wxSFMLCanvas
@@ -132,7 +133,9 @@ public:
 //	bool FileExists(const char *value);
 	wxString searchText, excludeText;
 	bool SearchMatches(wxString itemText);
-	void ListingFix(int Selections, wxListBox* &List);
+	void ListingFix(int selections, wxListBox* &List);
+	void PrepareLists(list<ComboBox_Plus1*> &boxlist, list<short> &selections);
+	void FillLists(list<ComboBox_Plus1*> &boxlist, list<short> &selections, wxArrayString &names);
 	void UnitLangDLLConverter(wxCommandEvent &Event);
 	void ResearchLangDLLConverter(wxCommandEvent &Event);
 	void SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch);
@@ -210,7 +213,7 @@ public:
 
 //	Research Events
 
-	void ListResearches(bool Sized = true);
+	void ListResearches(bool all = true);
 	void OnResearchSearch(wxCommandEvent &Event);
 	void OnResearchSelect(wxCommandEvent &Event);
 	void OnResearchAdd(wxCommandEvent &Event);
@@ -223,7 +226,7 @@ public:
 
 //	Tech Events
 
-	void ListTechs(bool Sized = true);
+	void ListTechs(bool all = true);
 	void OnTechSearch(wxCommandEvent &Event);
 	void OnTechSelect(wxCommandEvent &Event);
 	void OnTechAdd(wxCommandEvent &Event);
@@ -408,7 +411,7 @@ public:
 
 //	Civilization Events
 
-	void ListCivs(bool Sized = true);
+	void ListCivs(bool all = true);
 	void OnCivsSearch(wxCommandEvent &Event);
 	void OnCivsSelect(wxCommandEvent &Event);
 	void OnCivsAdd(wxCommandEvent &Event);
@@ -420,7 +423,7 @@ public:
 	string GetCivName(short);
 	void OnCivCountChange();
 
-	void ListResources(bool Sized = true);
+	void ListResources(bool all = true);
 	void OnResourcesSearch(wxCommandEvent &Event);
 	void OnResourcesSelect(wxCommandEvent &Event);
 	void OnResourcesAdd(wxCommandEvent &Event);
@@ -432,7 +435,7 @@ public:
 	void OnResourcesCopyToAll(wxCommandEvent &Event);
 	string GetResourceName(short);
 
-	void ListUnits(short civ, bool Sized = true);
+	void ListUnits(short civ, bool all = true);
 	void OnUnitsSearch(wxCommandEvent &Event);
 	void OnUnitsSelect(wxCommandEvent &Event);
 	void OnUnitsAdd(wxCommandEvent &Event);
@@ -535,7 +538,7 @@ public:
 
 //	Graphic Events
 
-	void ListGraphics(bool Sized = true);
+	void ListGraphics(bool all = true);
 	void OnGraphicsSearch(wxCommandEvent &Event);
 	void OnGraphicsSelect(wxCommandEvent &Event);
 	void OnGraphicsAdd(wxCommandEvent &Event);
@@ -574,7 +577,7 @@ public:
 	void ListTerrainNumbers();
 	void OnTerrainCountChange(wxFocusEvent &Event);
 
-	void ListTerrains(bool Sized = true);
+	void ListTerrains(bool all = true);
 	void OnTerrainsSearch(wxCommandEvent &Event);
 //	void OnTerRestTerrainsSearch(wxCommandEvent &Event);
 	void OnTerrainsSelect(wxCommandEvent &Event);
@@ -588,7 +591,7 @@ public:
 
 //	Terrain Border Events
 
-	void ListTerrainBorders(bool Sized = true);
+	void ListTerrainBorders(bool all = true);
 	void OnTerrainBordersSearch(wxCommandEvent &Event);
 	void OnTerrainBordersSelect(wxCommandEvent &Event);
 	void OnTerrainBordersCopy(wxCommandEvent &Event);
@@ -605,7 +608,7 @@ public:
 
 //	Terrain Restriction Events
 
-	void ListTerrainRestrictions(bool Sized = true);
+	void ListTerrainRestrictions(bool all = true);
 	void OnTerrainRestrictionsSearch(wxCommandEvent &Event);
 	void OnTerrainRestrictionsSelect(wxCommandEvent &Event);
 	void OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event);
@@ -621,7 +624,7 @@ public:
 
 //	Sound Events
 
-	void ListSounds(bool Sized = true);
+	void ListSounds(bool all = true);
 	void OnSoundsSearch(wxCommandEvent &Event);
 	void OnSoundsSelect(wxCommandEvent &Event);
 	void OnSoundsAdd(wxCommandEvent &Event);
@@ -666,7 +669,7 @@ public:
 	vector<short> SelectedCivs;
 //	static const wxString CIVCOUNTWARNING;
 //	int SearchFilters;
-	bool UseAnd[2];
+	bool useAnd[2];
 	bool EnableIDFix;
 	bool ShowUnknowns;
 	bool ShowButtons;
@@ -681,6 +684,17 @@ public:
 	genie::LangFile *LangX;
 	genie::LangFile *LangXP;
 //	wxSound SoundFile;
+
+	list<ComboBox_Plus1*> ResearchComboBoxList;
+	list<ComboBox_Plus1*> TechComboBoxList;
+	list<ComboBox_Plus1*> CivComboBoxList;
+	list<ComboBox_Plus1*> ResourceComboBoxList;
+	list<ComboBox_Plus1*> UnitComboBoxList;
+	list<ComboBox_Plus1*> GraphicComboBoxList;
+	list<ComboBox_Plus1*> TerrainComboBoxList;
+	list<ComboBox_Plus1*> TerrainBorderComboBoxList;
+	list<ComboBox_Plus1*> TerrainRestrictionComboBoxList;
+	list<ComboBox_Plus1*> SoundComboBoxList;
 
 /*	genie::DatFile FileBackup; // Can't copy the whole file?
 	long EditCount;

@@ -10,8 +10,8 @@ string AGE_Frame::GetTechName(short Index)
 
 void AGE_Frame::OnTechRenameGE2(wxCommandEvent &Event)
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	string Name;
 	for(short loop = 0; loop < GenieFile->Techages.size(); ++loop)
@@ -23,8 +23,8 @@ void AGE_Frame::OnTechRenameGE2(wxCommandEvent &Event)
 
 void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	for(short loop3 = 0; loop3 < GenieFile->Techages.size(); ++loop3)
 	{
@@ -77,33 +77,20 @@ void AGE_Frame::OnTechSearch(wxCommandEvent &Event)
 	ListTechs(false);
 }
 
-void AGE_Frame::ListTechs(bool Sized)
+void AGE_Frame::ListTechs(bool all)
 {
 	searchText = Techs_Techs_Search->GetValue().Lower();
 	excludeText = Techs_Techs_Search_R->GetValue().Lower();
 
-	auto Selections = Techs_Techs_List->GetSelections(Items);
+	auto selections = Techs_Techs_List->GetSelections(Items);
 	Techs_Techs_List->Clear();
 
-	std::array<short, 3> SavedIDs;
-	if(Sized)
+	list<short> savedSelections;
+	wxArrayString names;
+	if(all)
 	{
-		SavedIDs[0] = Research_ComboBox_TechID->GetSelection();
-		SavedIDs[1] = Civs_ComboBox_TechTree->GetSelection();
-		SavedIDs[2] = Civs_ComboBox_TeamBonus->GetSelection();
-
-		Research_ComboBox_TechID->Clear();
-		Civs_ComboBox_TechTree->Clear();
-		Civs_ComboBox_TeamBonus->Clear();
-
-		for(auto &ID: SavedIDs)
-		{
-			if(ID == wxNOT_FOUND) ID = 0;
-		}
-
-		Research_ComboBox_TechID->Append("-1 - None");
-		Civs_ComboBox_TechTree->Append("-1 - None");
-		Civs_ComboBox_TeamBonus->Append("-1 - None");
+		PrepareLists(TechComboBoxList, savedSelections);
+		names.Alloc(GenieFile->Techages.size());
 	}
 
 	for(short loop = 0; loop < GenieFile->Techages.size(); ++loop)
@@ -113,21 +100,11 @@ void AGE_Frame::ListTechs(bool Sized)
 		{
 			Techs_Techs_List->Append(Name, (void*)&GenieFile->Techages[loop]);
 		}
-		if(Sized)
-		{
-			Research_ComboBox_TechID->Append(Name);
-			Civs_ComboBox_TechTree->Append(Name);
-			Civs_ComboBox_TeamBonus->Append(Name);
-		}
+		if(all) names.Add(Name);
 	}
 
-	ListingFix(Selections, Techs_Techs_List);
-	if(Sized)
-	{
-		Research_ComboBox_TechID->SetSelection(SavedIDs[0]);
-		Civs_ComboBox_TechTree->SetSelection(SavedIDs[1]);
-		Civs_ComboBox_TeamBonus->SetSelection(SavedIDs[2]);
-	}
+	ListingFix(selections, Techs_Techs_List);
+	if(all) FillLists(TechComboBoxList, savedSelections, names);
 
 	wxCommandEvent E;
 	OnTechSelect(E);
@@ -135,14 +112,14 @@ void AGE_Frame::ListTechs(bool Sized)
 
 void AGE_Frame::OnTechSelect(wxCommandEvent &Event)
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
-	TechIDs.resize(Selections);
-	Techs_Name->resize(Selections);
+	TechIDs.resize(selections);
+	Techs_Name->resize(selections);
 
 	genie::Techage * TechPointer;
-	for(auto loop = Selections; loop--> 0;)
+	for(auto loop = selections; loop--> 0;)
 	{
 		TechPointer = (genie::Techage*)Techs_Techs_List->GetClientData(Items.Item(loop));
 		TechIDs[loop] = (TechPointer - (&GenieFile->Techages[0]));
@@ -164,8 +141,8 @@ void AGE_Frame::OnTechAdd(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnTechInsert(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	InsertToList(GenieFile->Techages, TechIDs[0]);
@@ -174,8 +151,8 @@ void AGE_Frame::OnTechInsert(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnTechDelete(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	DeleteFromList(GenieFile->Techages, TechIDs);
@@ -184,8 +161,8 @@ void AGE_Frame::OnTechDelete(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnTechCopy(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Techages, TechIDs, copies->Tech);
@@ -193,8 +170,8 @@ void AGE_Frame::OnTechCopy(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnTechPaste(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteToList(GenieFile->Techages, TechIDs[0], copies->Tech);
@@ -203,8 +180,8 @@ void AGE_Frame::OnTechPaste(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnTechPasteInsert(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteInsertToList(GenieFile->Techages, TechIDs[0], copies->Tech);
@@ -319,9 +296,9 @@ void AGE_Frame::ListEffects()
 	searchText = Techs_Effects_Search->GetValue().Lower();
 	excludeText = Techs_Effects_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
+	useAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 
-	auto Selections = Techs_Effects_List->GetSelections(Items);
+	auto selections = Techs_Effects_List->GetSelections(Items);
 	Techs_Effects_List->Clear();
 
 	for(short loop = 0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); ++loop)
@@ -332,10 +309,10 @@ void AGE_Frame::ListEffects()
 			Techs_Effects_List->Append(Name, (void*)&GenieFile->Techages[TechIDs[0]].Effects[loop]);
 		}
 	}
-	ListingFix(Selections, Techs_Effects_List);
+	ListingFix(selections, Techs_Effects_List);
 
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = false;
+	useAnd[loop] = false;
 
 	wxCommandEvent E;
 	OnEffectsSelect(E);
@@ -343,20 +320,20 @@ void AGE_Frame::ListEffects()
 
 void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 {
-	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections > 0)
+	auto selections = Techs_Effects_List->GetSelections(Items);
+	if(selections > 0)
 	{
 		Effects_Holder_Type->Show(true);
 		Effects_D->Enable(true);
-		EffectIDs.resize(Selections);
-		Effects_Type->resize(Selections);
-		Effects_A->resize(Selections);
-		Effects_B->resize(Selections);
-		Effects_C->resize(Selections);
-		Effects_D->resize(Selections);
+		EffectIDs.resize(selections);
+		Effects_Type->resize(selections);
+		Effects_A->resize(selections);
+		Effects_B->resize(selections);
+		Effects_C->resize(selections);
+		Effects_D->resize(selections);
 
 		genie::TechageEffect * EffectPointer;
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		{
 			EffectPointer = (genie::TechageEffect*)Techs_Effects_List->GetClientData(Items.Item(loop));
 			EffectIDs[loop] = (EffectPointer - (&GenieFile->Techages[TechIDs[0]].Effects[0]));
@@ -940,8 +917,8 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Techs_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Techs_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->Techages[TechIDs[0]].Effects);
@@ -950,8 +927,8 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Effects_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	InsertToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0]);
@@ -960,8 +937,8 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnEffectsDelete(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Effects_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	DeleteFromList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs);
@@ -970,8 +947,8 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnEffectsCopy(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Effects_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs, copies->Effect);
@@ -979,8 +956,8 @@ void AGE_Frame::OnEffectsCopy(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Effects_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
@@ -989,8 +966,8 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 
 void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &Event)	// Works.
 {
-	auto Selections = Techs_Effects_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Techs_Effects_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteInsertToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
@@ -1011,9 +988,9 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 	searchText = Techs_AllEffects_Search->GetValue().Lower();
 	excludeText = Techs_AllEffects_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
+	useAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
-	auto Selections = Techs_AllEffects_List->GetSelections(Items);
+	auto selections = Techs_AllEffects_List->GetSelections(Items);
 	Techs_AllEffects_List->Clear();
 
 	short Store = TechIDs[0];
@@ -1034,7 +1011,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 	Techs_AllEffects_List->SetSelection(Items.Item(0));
 
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = false;
+	useAnd[loop] = false;
 
 	wxCommandEvent E;
 	OnAllTechEffectSelect(E);
@@ -1118,8 +1095,11 @@ void AGE_Frame::CreateTechControls()
 	Effects_A = new TextCtrl_Short(Tab_Techs);
 	Effects_ComboBox_A = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ComboBox_UnitsA = new ComboBox_Plus1(Tab_Techs, Effects_A);
+	UnitComboBoxList.push_back(Effects_ComboBox_UnitsA);
 	Effects_ComboBox_ResourcesA = new ComboBox_Plus1(Tab_Techs, Effects_A);
+	ResourceComboBoxList.push_back(Effects_ComboBox_ResourcesA);
 	Effects_ComboBox_ResearchsA = new ComboBox_Plus1(Tab_Techs, Effects_A);
+	ResearchComboBoxList.push_back(Effects_ComboBox_ResearchsA);
 	Effects_Info_A = new wxStaticText(Tab_Techs, wxID_ANY, " Info A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_B = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute B ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_B = new TextCtrl_Short(Tab_Techs);
@@ -1127,7 +1107,9 @@ void AGE_Frame::CreateTechControls()
 	Effects_CheckBox_ModeB = new CheckBox_2State(Tab_Techs, "", Effects_B);
 	Units_ComboBox_Class[2] = new ComboBox_Plus1(Tab_Techs, Effects_B);
 	Effects_ComboBox_UnitsB = new ComboBox_Plus1(Tab_Techs, Effects_B);
+	UnitComboBoxList.push_back(Effects_ComboBox_UnitsB);
 	Effects_ComboBox_ResourcesB = new ComboBox_Plus1(Tab_Techs, Effects_B);
+	ResourceComboBoxList.push_back(Effects_ComboBox_ResourcesB);
 	Effects_Info_B = new wxStaticText(Tab_Techs, wxID_ANY, " Info B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_C = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute C ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_C = new TextCtrl_Short(Tab_Techs);
@@ -1139,6 +1121,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_D = new TextCtrl_Float(Tab_Techs);
 	Effects_ComboBox_D = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ComboBox_ResearchsD = new ComboBox_Plus1(Tab_Techs, Effects_D);
+	ResearchComboBoxList.push_back(Effects_ComboBox_ResearchsD);
 	Effects_Info_D = new wxStaticText(Tab_Techs, wxID_ANY, " Info D", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Text_E = new wxStaticText(Tab_Techs, wxID_ANY, "Amount or % ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_E = new wxTextCtrl(Tab_Techs, wxID_ANY);
