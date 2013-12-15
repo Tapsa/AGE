@@ -18,7 +18,7 @@ void AGE_Frame::ListPlayerColors()
 	searchText = Colors_Colors_Search->GetValue().Lower();
 	excludeText = Colors_Colors_Search_R->GetValue().Lower();
 
-	auto Selections = Colors_Colors_List->GetSelections(Items);
+	auto selections = Colors_Colors_List->GetSelections(Items);
 	Colors_Colors_List->Clear();
 	
 	short SavedID = Graphics_ComboBox_PlayerColor->GetSelection();
@@ -36,7 +36,7 @@ void AGE_Frame::ListPlayerColors()
 		}
 	}
 
-	ListingFix(Selections, Colors_Colors_List);
+	ListingFix(selections, Colors_Colors_List);
 	Graphics_ComboBox_PlayerColor->SetSelection(SavedID);
 
 	wxCommandEvent E;
@@ -45,29 +45,29 @@ void AGE_Frame::ListPlayerColors()
 
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 {
-	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Colors_Colors_List->GetSelections(Items);
+	if(selections < 1) return;
 
-	ColorIDs.resize(Selections);
-	Colors_ID->resize(Selections);
-	Colors_ColorL->resize(Selections);
+	ColorIDs.resize(selections);
+	Colors_ID->resize(selections);
+	Colors_ColorL->resize(selections);
 	if(GenieVersion <= genie::GV_RoR)	//	AoE and RoR
 	{
-		Colors_Name->resize(Selections);
+		Colors_Name->resize(selections);
 	}
 	else	//	Above AoE and RoR
 	{
-		Colors_Palette->resize(Selections);
-		Colors_MinimapColor->resize(Selections);
-		Colors_Unknown1->resize(Selections);
-		Colors_Unknown2->resize(Selections);
-		Colors_Unknown3->resize(Selections);
-		Colors_Unknown4->resize(Selections);
-		Colors_Unknown5->resize(Selections);
+		Colors_Palette->resize(selections);
+		Colors_MinimapColor->resize(selections);
+		Colors_Unknown1->resize(selections);
+		Colors_Unknown2->resize(selections);
+		Colors_Unknown3->resize(selections);
+		Colors_Unknown4->resize(selections);
+		Colors_Unknown5->resize(selections);
 	}
 
 	genie::PlayerColour * PlayerColorPointer;
-	for(auto loop = Selections; loop--> 0;)
+	for(auto loop = selections; loop--> 0;)
 	{
 		PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
 		ColorIDs[loop] = (PlayerColorPointer - (&GenieFile->PlayerColours[0]));
@@ -121,8 +121,8 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 {
-	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Colors_Colors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	InsertToListIDFix(GenieFile->PlayerColours, ColorIDs[0]);
@@ -131,8 +131,8 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 {
-	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Colors_Colors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	DeleteFromListIDFix(GenieFile->PlayerColours, ColorIDs);
@@ -141,8 +141,8 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 {
-	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Colors_Colors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->PlayerColours, ColorIDs, copies->PlayerColor);
@@ -150,8 +150,8 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 {
-	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Colors_Colors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
@@ -160,8 +160,8 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = Colors_Colors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Colors_Colors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteInsertToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);

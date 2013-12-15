@@ -160,127 +160,24 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
 	ListUnits(Selection, false);
 }
 
-void AGE_Frame::ListUnits(short civ, bool Sized)
+void AGE_Frame::ListUnits(short civ, bool all)
 {
 	searchText = Units_Units_Search->GetValue().Lower();
 	excludeText = Units_Units_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = Units_Units_UseAnd[loop]->GetValue();
+	useAnd[loop] = Units_Units_UseAnd[loop]->GetValue();
 
 	Units_Civs_List->SetSelection(civ);
 
-	auto Selections = Units_Units_List->GetSelections(Items);
+	auto selections = Units_Units_List->GetSelections(Items);
 	Units_Units_List->Clear();
 
-	std::array<short, 64> SavedIDs;
-	if(Sized)
+	list<short> savedSelections;
+	wxArrayString names;
+	if(all)
 	{
-		SavedIDs[0] = Units_ComboBox_DeadUnitID->GetSelection();
-		SavedIDs[1] = Units_ComboBox_ProjectileUnitID->GetSelection();
-		for(short loop = 0; loop < 2; ++loop)
-		SavedIDs[loop+2] = Units_ComboBox_DropSite[loop]->GetSelection();
-		SavedIDs[4] = Units_ComboBox_AttackMissileDuplicationUnit->GetSelection();
-		SavedIDs[5] = Units_ComboBox_TrackingUnit->GetSelection();
-		SavedIDs[6] = Units_ComboBox_TrainLocationID->GetSelection();
-		SavedIDs[7] = Units_ComboBox_StackUnitID->GetSelection();
-		for(short loop = 0; loop < 4; ++loop)
-		{
-			SavedIDs[loop+8] = Units_ComboBox_AnnexUnit[loop]->GetSelection();
-			SavedIDs[loop+30] = TechTrees_ComboBox_Unit[loop]->GetSelection();
-		}
-		SavedIDs[12] = Units_ComboBox_HeadUnit->GetSelection();
-		SavedIDs[13] = Units_ComboBox_TransformUnit->GetSelection();
-		SavedIDs[14] = Research_ComboBox_ResearchLocation->GetSelection();
-		SavedIDs[15] = Effects_ComboBox_UnitsA->GetSelection();
-		SavedIDs[16] = Effects_ComboBox_UnitsB->GetSelection();
-		SavedIDs[17] = UnitCommands_ComboBox_UnitID->GetSelection();
-		SavedIDs[18] = UnitLineUnits_ComboBox_Units->GetSelection();
-		SavedIDs[19] = TechTrees_Ages_ComboBox_Building->GetSelection();
-		SavedIDs[20] = TechTrees_Ages_ComboBox_Unit->GetSelection();
-		SavedIDs[21] = TechTrees_Buildings_ComboBox_ID->GetSelection();
-		SavedIDs[22] = TechTrees_Buildings_ComboBox_Building->GetSelection();
-		SavedIDs[23] = TechTrees_Buildings_ComboBox_Unit->GetSelection();
-		SavedIDs[24] = TechTrees_Units_ComboBox_ID->GetSelection();
-		SavedIDs[25] = TechTrees_Units_ComboBox_UpperBuilding->GetSelection();
-		SavedIDs[26] = TechTrees_Units_ComboBox_Unit->GetSelection();
-		SavedIDs[27] = TechTrees_Researches_ComboBox_UpperBuilding->GetSelection();
-		SavedIDs[28] = TechTrees_Researches_ComboBox_Building->GetSelection();
-		SavedIDs[29] = TechTrees_Researches_ComboBox_Unit->GetSelection();
-		for(short loop = 0; loop < 30; ++loop)
-		SavedIDs[loop+34] = Terrains_ComboBox_TerrainUnitID[loop]->GetSelection();
-
-		Units_ComboBox_DeadUnitID->Clear();
-		Units_ComboBox_ProjectileUnitID->Clear();
-		Units_ComboBox_AttackMissileDuplicationUnit->Clear();
-		for(short loop = 0; loop < 2; ++loop)
-		Units_ComboBox_DropSite[loop]->Clear();
-		Units_ComboBox_TrackingUnit->Clear();
-		Units_ComboBox_TrainLocationID->Clear();
-		Units_ComboBox_StackUnitID->Clear();
-		for(short loop = 0; loop < 4; ++loop)
-		{
-			Units_ComboBox_AnnexUnit[loop]->Clear();
-			TechTrees_ComboBox_Unit[loop]->Clear();
-		}
-		Units_ComboBox_HeadUnit->Clear();
-		Units_ComboBox_TransformUnit->Clear();
-		Research_ComboBox_ResearchLocation->Clear();
-		Effects_ComboBox_UnitsA->Clear();
-		Effects_ComboBox_UnitsB->Clear();
-		UnitCommands_ComboBox_UnitID->Clear();
-		UnitLineUnits_ComboBox_Units->Clear();
-		TechTrees_Ages_ComboBox_Building->Clear();
-		TechTrees_Ages_ComboBox_Unit->Clear();
-		TechTrees_Buildings_ComboBox_ID->Clear();
-		TechTrees_Buildings_ComboBox_Building->Clear();
-		TechTrees_Buildings_ComboBox_Unit->Clear();
-		TechTrees_Units_ComboBox_ID->Clear();
-		TechTrees_Units_ComboBox_UpperBuilding->Clear();
-		TechTrees_Units_ComboBox_Unit->Clear();
-		TechTrees_Researches_ComboBox_UpperBuilding->Clear();
-		TechTrees_Researches_ComboBox_Building->Clear();
-		TechTrees_Researches_ComboBox_Unit->Clear();
-		for(short loop = 0; loop < 30; ++loop)
-		Terrains_ComboBox_TerrainUnitID[loop]->Clear();
-
-		for(auto &ID: SavedIDs)
-		{
-			if(ID == wxNOT_FOUND) ID = 0;
-		}
-
-		Units_ComboBox_DeadUnitID->Append("-1 - None");
-		Units_ComboBox_ProjectileUnitID->Append("-1 - None");
-		Units_ComboBox_AttackMissileDuplicationUnit->Append("-1 - None");
-		for(short loop = 0; loop < 2; ++loop)
-		Units_ComboBox_DropSite[loop]->Append("-1 - None");
-		Units_ComboBox_TrackingUnit->Append("-1 - None");
-		Units_ComboBox_TrainLocationID->Append("-1 - None");
-		Units_ComboBox_StackUnitID->Append("-1 - None");
-		for(short loop = 0; loop < 4; ++loop)
-		{
-			Units_ComboBox_AnnexUnit[loop]->Append("-1 - None");
-			TechTrees_ComboBox_Unit[loop]->Append("-1 - None");
-		}
-		Units_ComboBox_HeadUnit->Append("-1 - None");
-		Units_ComboBox_TransformUnit->Append("-1 - None");
-		Research_ComboBox_ResearchLocation->Append("-1 - None");
-		Effects_ComboBox_UnitsA->Append("-1 - None");
-		Effects_ComboBox_UnitsB->Append("-1 - None");
-		UnitCommands_ComboBox_UnitID->Append("-1 - None");
-		UnitLineUnits_ComboBox_Units->Append("-1 - None");
-		TechTrees_Ages_ComboBox_Building->Append("-1 - None");
-		TechTrees_Ages_ComboBox_Unit->Append("-1 - None");
-		TechTrees_Buildings_ComboBox_ID->Append("-1 - None");
-		TechTrees_Buildings_ComboBox_Building->Append("-1 - None");
-		TechTrees_Buildings_ComboBox_Unit->Append("-1 - None");
-		TechTrees_Units_ComboBox_ID->Append("-1 - None");
-		TechTrees_Units_ComboBox_UpperBuilding->Append("-1 - None");
-		TechTrees_Units_ComboBox_Unit->Append("-1 - None");
-		TechTrees_Researches_ComboBox_UpperBuilding->Append("-1 - None");
-		TechTrees_Researches_ComboBox_Building->Append("-1 - None");
-		TechTrees_Researches_ComboBox_Unit->Append("-1 - None");
-		for(short loop = 0; loop < 30; ++loop)
-		Terrains_ComboBox_TerrainUnitID[loop]->Append("-1 - None");
+		PrepareLists(UnitComboBoxList, savedSelections);
+		names.Alloc(GenieFile->Civs[0].Units.size());
 	}
 
 	for(short loop = 0; loop < GenieFile->Civs[civ].Units.size(); ++loop)
@@ -290,85 +187,14 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 		{
 			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[civ].Units[loop]);
 		}
-		if(Sized)
-		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0);
-			Units_ComboBox_DeadUnitID->Append(Name);
-			Units_ComboBox_ProjectileUnitID->Append(Name);
-			Units_ComboBox_AttackMissileDuplicationUnit->Append(Name);
-			for(short loop = 0; loop < 2; ++loop)
-			Units_ComboBox_DropSite[loop]->Append(Name);
-			Units_ComboBox_TrackingUnit->Append(Name);
-			Units_ComboBox_TrainLocationID->Append(Name);
-			Units_ComboBox_StackUnitID->Append(Name);
-			for(short loop = 0; loop < 4; ++loop)
-			{
-				Units_ComboBox_AnnexUnit[loop]->Append(Name);
-				TechTrees_ComboBox_Unit[loop]->Append(Name);
-			}
-			Units_ComboBox_HeadUnit->Append(Name);
-			Units_ComboBox_TransformUnit->Append(Name);
-			Research_ComboBox_ResearchLocation->Append(Name);
-			Effects_ComboBox_UnitsA->Append(Name);
-			Effects_ComboBox_UnitsB->Append(Name);
-			UnitCommands_ComboBox_UnitID->Append(Name);
-			UnitLineUnits_ComboBox_Units->Append(Name);
-			TechTrees_Ages_ComboBox_Building->Append(Name);
-			TechTrees_Ages_ComboBox_Unit->Append(Name);
-			TechTrees_Buildings_ComboBox_ID->Append(Name);
-			TechTrees_Buildings_ComboBox_Building->Append(Name);
-			TechTrees_Buildings_ComboBox_Unit->Append(Name);
-			TechTrees_Units_ComboBox_ID->Append(Name);
-			TechTrees_Units_ComboBox_UpperBuilding->Append(Name);
-			TechTrees_Units_ComboBox_Unit->Append(Name);
-			TechTrees_Researches_ComboBox_UpperBuilding->Append(Name);
-			TechTrees_Researches_ComboBox_Building->Append(Name);
-			TechTrees_Researches_ComboBox_Unit->Append(Name);
-			for(short loop = 0; loop < 30; ++loop)
-			Terrains_ComboBox_TerrainUnitID[loop]->Append(Name);
-		}
+		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0));
 	}
 
-	ListingFix(Selections, Units_Units_List);
-	if(Sized)
-	{
-		Units_ComboBox_DeadUnitID->SetSelection(SavedIDs[0]);
-		Units_ComboBox_ProjectileUnitID->SetSelection(SavedIDs[1]);
-		for(short loop = 0; loop < 2; ++loop)
-		Units_ComboBox_DropSite[loop]->SetSelection(SavedIDs[loop+2]);// 2 ja 3
-		Units_ComboBox_AttackMissileDuplicationUnit->SetSelection(SavedIDs[4]);
-		Units_ComboBox_TrackingUnit->SetSelection(SavedIDs[5]);
-		Units_ComboBox_TrainLocationID->SetSelection(SavedIDs[6]);
-		Units_ComboBox_StackUnitID->SetSelection(SavedIDs[7]);
-		for(short loop = 0; loop < 4; ++loop)
-		{
-			Units_ComboBox_AnnexUnit[loop]->SetSelection(SavedIDs[loop+8]);// 8 - 11
-			TechTrees_ComboBox_Unit[loop]->SetSelection(SavedIDs[loop+30]);
-		}
-		Units_ComboBox_HeadUnit->SetSelection(SavedIDs[12]);
-		Units_ComboBox_TransformUnit->SetSelection(SavedIDs[13]);
-		Research_ComboBox_ResearchLocation->SetSelection(SavedIDs[14]);
-		Effects_ComboBox_UnitsA->SetSelection(SavedIDs[15]);
-		Effects_ComboBox_UnitsB->SetSelection(SavedIDs[16]);
-		UnitCommands_ComboBox_UnitID->SetSelection(SavedIDs[17]);
-		UnitLineUnits_ComboBox_Units->SetSelection(SavedIDs[18]);
-		TechTrees_Ages_ComboBox_Building->SetSelection(SavedIDs[19]);
-		TechTrees_Ages_ComboBox_Unit->SetSelection(SavedIDs[20]);
-		TechTrees_Buildings_ComboBox_ID->SetSelection(SavedIDs[21]);
-		TechTrees_Buildings_ComboBox_Building->SetSelection(SavedIDs[22]);
-		TechTrees_Buildings_ComboBox_Unit->SetSelection(SavedIDs[23]);
-		TechTrees_Units_ComboBox_ID->SetSelection(SavedIDs[24]);
-		TechTrees_Units_ComboBox_UpperBuilding->SetSelection(SavedIDs[25]);
-		TechTrees_Units_ComboBox_Unit->SetSelection(SavedIDs[26]);
-		TechTrees_Researches_ComboBox_UpperBuilding->SetSelection(SavedIDs[27]);
-		TechTrees_Researches_ComboBox_Building->SetSelection(SavedIDs[28]);
-		TechTrees_Researches_ComboBox_Unit->SetSelection(SavedIDs[29]);
-		for(short loop = 0; loop < 30; ++loop)
-		Terrains_ComboBox_TerrainUnitID[loop]->SetSelection(SavedIDs[loop+34]);
-	}
+	ListingFix(selections, Units_Units_List);
+	if(all) FillLists(UnitComboBoxList, savedSelections, names);
 
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = false;
+	useAnd[loop] = false;
 
 	wxCommandEvent E;
 	OnUnitsSelect(E);
@@ -377,8 +203,8 @@ void AGE_Frame::ListUnits(short civ, bool Sized)
 //	This links data into user interface
 void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;	// If a unit is selected.
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;	// If a unit is selected.
 
 	UnitCivID = Units_Civs_List->GetSelection();
 
@@ -395,8 +221,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		}
 	}
 
-	UnitIDs.resize(Selections);
-	int PointerCount = Selections * SelectedCivs.size();
+	UnitIDs.resize(selections);
+	int PointerCount = selections * SelectedCivs.size();
 	Units_Type->resize(PointerCount);
 	// Type 80
 	Units_AdjacentMode->resize(PointerCount);
@@ -600,7 +426,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_ProjectileArc->resize(PointerCount);
 
 	// If no graphic copying, only one civ to edit.
-	if(!CopyGraphics) PointerCount = Selections;
+	if(!CopyGraphics) PointerCount = selections;
 	Units_IconID->resize(PointerCount);
 	Units_ConstructionGraphicID->resize(PointerCount);
 	if(GenieVersion >= genie::GV_AoK)
@@ -620,7 +446,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	short UnitType;
 	genie::Unit * UnitPointer;
 	//wxString locations = "Locations:\n";
-	for(auto sel = Selections; sel--> 0;)
+	for(auto sel = selections; sel--> 0;)
 	{
 		UnitPointer = (genie::Unit*)Units_Units_List->GetClientData(Items.Item(sel));
 		UnitIDs[sel] = (UnitPointer - (&GenieFile->Civs[UnitCivID].Units[0]));
@@ -634,7 +460,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 
 			UnitType = (short)UnitPointer->Type;
 			// This ensures that the first pointer is always the current civ and its first selection.
-			int location = sel + vecCiv * Selections;
+			int location = sel + vecCiv * selections;
 			//locations.Append(lexical_cast<string>(location)+" ");
 			// Assing data to editing boxes
 			Units_Type->container[location] = &UnitPointer->Type;
@@ -891,7 +717,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		//locations.Append("\n");
 	}
 	//wxMessageBox(locations);
-	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(Selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
+	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
 
 	Units_Type->ChangeValue(lexical_cast<string>((short)UnitPointer->Type));
 	switch(UnitType)
@@ -1660,10 +1486,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	ListUnitArmors();
 	if(GenieVersion >= genie::GV_AoK)	// AoK, TC, SWGB or CC
 	{
-		Units_Exists->resize(Selections);
+		Units_Exists->resize(selections);
 
 		genie::UnitHeader * UnitHeadPointer;
-		for(auto sel = Selections; sel--> 0;)
+		for(auto sel = selections; sel--> 0;)
 		{
 			UnitHeadPointer = &GenieFile->UnitHeaders[UnitIDs[sel]];
 
@@ -1715,8 +1541,8 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)	// AoK, TC, SWGB or CC
@@ -1746,19 +1572,19 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		GenieFile->UnitHeaders.erase(GenieFile->UnitHeaders.begin() + UnitIDs[loop]);
 	}
 
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		{
 			GenieFile->Civs[civ].Units.erase(GenieFile->Civs[civ].Units.begin() + UnitIDs[loop]);
 			GenieFile->Civs[civ].UnitPointers.erase(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[loop]);
@@ -1777,14 +1603,14 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		copies->UnitHeader.resize(Selections);
-		for(short loop = 0; loop < Selections; ++loop)
+		copies->UnitHeader.resize(selections);
+		for(short loop = 0; loop < selections; ++loop)
 		copies->UnitHeader[loop] = GenieFile->UnitHeaders[UnitIDs[loop]];
 	}
 
@@ -1796,9 +1622,9 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 		copies->Dat.UnitCopies.resize(CivCount);
 		for(short civ = 0; civ < CivCount; ++civ)
 		{
-			copies->Dat.UnitExists[civ].resize(Selections);
-			copies->Dat.UnitCopies[civ].resize(Selections);
-			for(short loop = 0; loop < Selections; ++loop)
+			copies->Dat.UnitExists[civ].resize(selections);
+			copies->Dat.UnitCopies[civ].resize(selections);
+			for(short loop = 0; loop < selections; ++loop)
 			{
 				copies->Dat.UnitExists[civ][loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
 				copies->Dat.UnitCopies[civ][loop] = GenieFile->Civs[civ].Units[UnitIDs[loop]];
@@ -1810,10 +1636,10 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 		copies->Dat.UnitGraphics.resize(CivCount);
 		for(short civ = 0; civ < CivCount; ++civ)
 		{
-			copies->Dat.UnitExists[civ].resize(Selections);
+			copies->Dat.UnitExists[civ].resize(selections);
 			if(AutoCopy && !CopyGraphics)
-			copies->Dat.UnitGraphics[civ].resize(Selections);
-			for(short loop = 0; loop < Selections; ++loop)
+			copies->Dat.UnitGraphics[civ].resize(selections);
+			for(short loop = 0; loop < selections; ++loop)
 			{
 				copies->Dat.UnitExists[civ][loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
 				if(AutoCopy && !CopyGraphics)
@@ -1823,8 +1649,8 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 				}
 			}
 		}
-		copies->Dat.UnitCopies[0].resize(Selections);
-		for(short loop = 0; loop < Selections; ++loop)
+		copies->Dat.UnitCopies[0].resize(selections);
+		for(short loop = 0; loop < selections; ++loop)
 		copies->Dat.UnitCopies[0][loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
 	}
 }
@@ -1873,15 +1699,15 @@ void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
 
 void AGE_Frame::UnitsAutoCopy(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	GraphicCopies graphics;
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
 		if(Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)
 		{
-			for(short loop = 0; loop < Selections; ++loop)
+			for(short loop = 0; loop < selections; ++loop)
 			{
 				if(!CopyGraphics)// Let's copy graphics separately.
 				UnitsGraphicsCopy(graphics, civ, UnitIDs[loop]);
@@ -1916,8 +1742,8 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
 
 void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x02; else copies->Dat.AllCivs &= ~0x02;
@@ -1927,15 +1753,15 @@ void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &Event)
 		copies->Dat.UnitGraphics.resize(CivCount);
 		for(short civ = 0; civ < CivCount; ++civ)
 		{
-			copies->Dat.UnitGraphics[civ].resize(Selections);
-			for(short loop = 0; loop < Selections; ++loop)
+			copies->Dat.UnitGraphics[civ].resize(selections);
+			for(short loop = 0; loop < selections; ++loop)
 			UnitsGraphicsCopy(copies->Dat.UnitGraphics[civ][loop], civ, UnitIDs[loop]);
 		}
 	}
 	else
 	{
-		copies->Dat.UnitGraphics[0].resize(Selections);
-		for(short loop = 0; loop < Selections; ++loop)
+		copies->Dat.UnitGraphics[0].resize(selections);
+		for(short loop = 0; loop < selections; ++loop)
 		UnitsGraphicsCopy(copies->Dat.UnitGraphics[0][loop], UnitCivID, UnitIDs[loop]);
 	}
 }
@@ -2033,7 +1859,7 @@ void AGE_Frame::PasteUnits()
 		copies->Dat.UnitCopies.resize(CivCount, copies->Dat.UnitCopies[FillingCiv]);
 		for(short civ = 0; civ < CivCount; ++civ)
 		{
-			for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop) // Selections
+			for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop) // selections
 			{
 				copies->Dat.UnitCopies[civ][loop].setGameVersion(GenieVersion);
 				GenieFile->Civs[civ].Units[UnitIDs[0]+loop] = copies->Dat.UnitCopies[civ][loop];
@@ -2123,11 +1949,11 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short sel = 0; sel < Selections; ++sel)
+	for(short sel = 0; sel < selections; ++sel)
 	{
 		// Find the correct sizes for subvectors.
 		short UnitType = 10, DamageGraphics = 0, Attacks = 0, Armors = 0, Commands = 0;
@@ -2184,11 +2010,11 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitsDisable(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short sel = 0; sel < Selections; ++sel)
+	for(short sel = 0; sel < selections; ++sel)
 	{
 		if(Units_SpecialCopy_Civs->GetValue())
 		for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
@@ -2217,7 +2043,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	searchText = Units_DamageGraphics_Search->GetValue().Lower();
 	excludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
 
-	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
+	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	Units_DamageGraphics_List->Clear();
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0)
@@ -2236,7 +2062,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	{
 		Units_DamageGraphics_Add->Enable(false);
 	}
-	ListingFix(Selections, Units_DamageGraphics_List);
+	ListingFix(selections, Units_DamageGraphics_List);
 
 	wxCommandEvent E;
 	OnUnitDamageGraphicsSelect(E);
@@ -2244,12 +2070,12 @@ void AGE_Frame::ListUnitDamageGraphics()
 
 void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 {
-	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections > 0)
+	auto selections = Units_DamageGraphics_List->GetSelections(Items);
+	if(selections > 0)
 	{
 		// This and attacks/armors/commands still need a lot of thinking.
-		DamageGraphicIDs.resize(Selections);
-		int PointerCount = (CopyGraphics) ? Selections * SelectedCivs.size() : Selections;
+		DamageGraphicIDs.resize(selections);
+		int PointerCount = (CopyGraphics) ? selections * SelectedCivs.size() : selections;
 		DamageGraphics_GraphicID->resize(PointerCount);
 		DamageGraphics_DamagePercent->resize(PointerCount);
 		DamageGraphics_Unknown1->resize(PointerCount);
@@ -2258,7 +2084,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 		bool showWarning = false;
 		wxString warning = "Damage graphic count of civs\n";
 		genie::unit::DamageGraphic * DamageGraphicPointer;
-		for(auto sel = Selections; sel--> 0;)
+		for(auto sel = selections; sel--> 0;)
 		{
 			DamageGraphicPointer = (genie::unit::DamageGraphic*)Units_DamageGraphics_List->GetClientData(Items.Item(sel));
 			DamageGraphicIDs[sel] = (DamageGraphicPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[0]));
@@ -2272,7 +2098,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 				}
 				DamageGraphicPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].DamageGraphics[DamageGraphicIDs[sel]];
 
-				int location = sel + vecCiv * Selections;
+				int location = sel + vecCiv * selections;
 				DamageGraphics_GraphicID->container[location] = &DamageGraphicPointer->GraphicID;
 				DamageGraphics_DamagePercent->container[location] = &DamageGraphicPointer->DamagePercent;
 				DamageGraphics_Unknown1->container[location] = &DamageGraphicPointer->Unknown1;
@@ -2303,8 +2129,8 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::unit::DamageGraphic Temp;
@@ -2320,8 +2146,8 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_DamageGraphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::unit::DamageGraphic Temp;
@@ -2336,14 +2162,14 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 {
-	auto Selections = Units_DamageGraphics_List->GetSelections(Items); // Gives the current list selection.
-	if(Selections < 1) return;
+	auto selections = Units_DamageGraphics_List->GetSelections(Items); // Gives the current list selection.
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
 		if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[loop]);
 	}
 	ListUnitDamageGraphics();
@@ -2351,8 +2177,8 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &Event)
 {
-	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_DamageGraphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x10; else copies->Dat.AllCivs &= ~0x10;
@@ -2387,8 +2213,8 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
 {
-	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_DamageGraphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(copies->Dat.AllCivs & 0x10)
@@ -2420,8 +2246,8 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_DamageGraphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_DamageGraphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::unit::DamageGraphic Temp;
@@ -2477,7 +2303,7 @@ void AGE_Frame::ListUnitAttacks()
 	searchText = Units_Attacks_Search->GetValue().Lower();
 	excludeText = Units_Attacks_Search_R->GetValue().Lower();
 
-	auto Selections = Units_Attacks_List->GetSelections(Items);
+	auto selections = Units_Attacks_List->GetSelections(Items);
 	Units_Attacks_List->Clear();
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
@@ -2498,7 +2324,7 @@ void AGE_Frame::ListUnitAttacks()
 	{
 		Units_Attacks_Add->Enable(false);
 	}
-	ListingFix(Selections, Units_Attacks_List);
+	ListingFix(selections, Units_Attacks_List);
 
 	wxCommandEvent E;
 	OnUnitAttacksSelect(E);
@@ -2506,18 +2332,18 @@ void AGE_Frame::ListUnitAttacks()
 
 void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 {
-	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections > 0)
+	auto selections = Units_Attacks_List->GetSelections(Items);
+	if(selections > 0)
 	{
-		AttackIDs.resize(Selections);
-		int PointerCount = Selections * SelectedCivs.size();
+		AttackIDs.resize(selections);
+		int PointerCount = selections * SelectedCivs.size();
 		Attacks_Class->resize(PointerCount);
 		Attacks_Amount->resize(PointerCount);
 
 		bool showWarning = false;
 		wxString warning = "Attack count of civs\n";
 		genie::unit::AttackOrArmor * AttackPointer;
-		for(auto sel = Selections; sel--> 0;)
+		for(auto sel = selections; sel--> 0;)
 		{
 			AttackPointer = (genie::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Items.Item(sel));
 			AttackIDs[sel] = (AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[0]));
@@ -2531,7 +2357,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 				}
 				AttackPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Projectile.Attacks[AttackIDs[sel]];
 
-				int location = sel + vecCiv * Selections;
+				int location = sel + vecCiv * selections;
 				Attacks_Class->container[location] = &AttackPointer->Class;
 				Attacks_Amount->container[location] = &AttackPointer->Amount;
 			}
@@ -2557,8 +2383,8 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::unit::AttackOrArmor Temp;
@@ -2574,8 +2400,8 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Attacks_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::unit::AttackOrArmor Temp;
@@ -2590,14 +2416,14 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 {
-	auto Selections = Units_Attacks_List->GetSelections(Items); // Gives the current list selection.
-	if(Selections < 1) return;
+	auto selections = Units_Attacks_List->GetSelections(Items); // Gives the current list selection.
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
 		if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[loop]);
 	}
 	ListUnitAttacks();
@@ -2605,8 +2431,8 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
 {
-	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Attacks_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x20; else copies->Dat.AllCivs &= ~0x20;
@@ -2641,8 +2467,8 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
 {
-	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Attacks_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(copies->Dat.AllCivs & 0x20)
@@ -2674,8 +2500,8 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_Attacks_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Attacks_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(copies->Dat.AllCivs & 0x20)
@@ -2730,7 +2556,7 @@ void AGE_Frame::ListUnitArmors()
 	searchText = Units_Armors_Search->GetValue().Lower();
 	excludeText = Units_Armors_Search_R->GetValue().Lower();
 
-	auto Selections = Units_Armors_List->GetSelections(Items);
+	auto selections = Units_Armors_List->GetSelections(Items);
 	Units_Armors_List->Clear();
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
@@ -2751,7 +2577,7 @@ void AGE_Frame::ListUnitArmors()
 	{
 		Units_Armors_Add->Enable(false);
 	}
-	ListingFix(Selections, Units_Armors_List);
+	ListingFix(selections, Units_Armors_List);
 
 	wxCommandEvent E;
 	OnUnitArmorsSelect(E);
@@ -2759,18 +2585,18 @@ void AGE_Frame::ListUnitArmors()
 
 void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 {
-	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections > 0)
+	auto selections = Units_Armors_List->GetSelections(Items);
+	if(selections > 0)
 	{
-		ArmorIDs.resize(Selections);
-		int PointerCount = Selections * SelectedCivs.size();
+		ArmorIDs.resize(selections);
+		int PointerCount = selections * SelectedCivs.size();
 		Armors_Class->resize(PointerCount);
 		Armors_Amount->resize(PointerCount);
 
 		bool showWarning = false;
 		wxString warning = "Armor count of civs\n";
 		genie::unit::AttackOrArmor * ArmorPointer;
-		for(auto sel = Selections; sel--> 0;)
+		for(auto sel = selections; sel--> 0;)
 		{
 			ArmorPointer = (genie::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Items.Item(sel));
 			ArmorIDs[sel] = (ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[0]));
@@ -2784,7 +2610,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 				}
 				ArmorPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Projectile.Armours[ArmorIDs[sel]];
 
-				int location = sel + vecCiv * Selections;
+				int location = sel + vecCiv * selections;
 				Armors_Class->container[location] = &ArmorPointer->Class;
 				Armors_Amount->container[location] = &ArmorPointer->Amount;
 			}
@@ -2810,8 +2636,8 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::unit::AttackOrArmor Temp;
@@ -2827,8 +2653,8 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Armors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::unit::AttackOrArmor Temp;
@@ -2843,14 +2669,14 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 {
-	auto Selections = Units_Armors_List->GetSelections(Items); // Gives the current list selection.
-	if(Selections < 1) return;
+	auto selections = Units_Armors_List->GetSelections(Items); // Gives the current list selection.
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
 		if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[loop]);
 	}
 	ListUnitArmors();
@@ -2858,8 +2684,8 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
 {
-	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Armors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x40; else copies->Dat.AllCivs &= ~0x40;
@@ -2894,8 +2720,8 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
 {
-	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Armors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(copies->Dat.AllCivs & 0x40)
@@ -2927,8 +2753,8 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_Armors_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Armors_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(copies->Dat.AllCivs & 0x40)
@@ -3024,7 +2850,7 @@ void AGE_Frame::ListUnitCommands()
 	searchText = Units_UnitCommands_Search->GetValue().Lower();
 	excludeText = Units_UnitCommands_Search_R->GetValue().Lower();
 
-	auto Selections = Units_UnitCommands_List->GetSelections(Items);
+	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	Units_UnitCommands_List->Clear();
 
 	if(GenieVersion >= genie::GV_AoK)	// AoK, TC, SWGB or CC
@@ -3059,7 +2885,7 @@ void AGE_Frame::ListUnitCommands()
 			Units_UnitCommands_Add->Enable(false);
 		}
 	}
-	ListingFix(Selections, Units_UnitCommands_List);
+	ListingFix(selections, Units_UnitCommands_List);
 
 	wxCommandEvent E;
 	OnUnitCommandsSelect(E);
@@ -3067,11 +2893,11 @@ void AGE_Frame::ListUnitCommands()
 
 void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 {
-	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections > 0)
+	auto selections = Units_UnitCommands_List->GetSelections(Items);
+	if(selections > 0)
 	{
-		CommandIDs.resize(Selections);
-		int PointerCount = (GenieVersion <= genie::GV_AoKA) ? Selections * SelectedCivs.size() : Selections;
+		CommandIDs.resize(selections);
+		int PointerCount = (GenieVersion <= genie::GV_AoKA) ? selections * SelectedCivs.size() : selections;
 		UnitCommands_One->resize(PointerCount);
 		UnitCommands_ID->resize(PointerCount);
 		UnitCommands_Unknown1->resize(PointerCount);
@@ -3100,7 +2926,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 		bool showWarning = false;
 		wxString warning = "Command count of civs\n";
 		genie::UnitCommand * CommandPointer;
-		for(auto sel = Selections; sel--> 0;)
+		for(auto sel = selections; sel--> 0;)
 		{
 			CommandPointer = (genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Items.Item(sel));
 			if(GenieVersion <= genie::GV_AoKA)
@@ -3124,7 +2950,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 					CommandPointer = &GenieFile->UnitHeaders[UnitIDs[0]].Commands[CommandIDs[sel]];
 				}
 
-				int location = sel + vecCiv * Selections;
+				int location = sel + vecCiv * selections;
 				UnitCommands_One->container[location] = &CommandPointer->One;
 				UnitCommands_ID->container[location] = &CommandPointer->ID;
 				UnitCommands_Unknown1->container[location] = &CommandPointer->Unknown1;
@@ -3261,8 +3087,8 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
 {
-	auto Selections = Units_Units_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_Units_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::UnitCommand Temp;
@@ -3291,8 +3117,8 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_UnitCommands_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::UnitCommand Temp;
@@ -3322,13 +3148,13 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 {
-	auto Selections = Units_UnitCommands_List->GetSelections(Items); // Gives the current list selection.
-	if(Selections < 1) return;
+	auto selections = Units_UnitCommands_List->GetSelections(Items); // Gives the current list selection.
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		GenieFile->UnitHeaders[UnitIDs[0]].Commands.erase(GenieFile->UnitHeaders[UnitIDs[0]].Commands.begin() + CommandIDs[loop]);
 		if(EnableIDFix)
 		for(short loop2 = CommandIDs[0];loop2 < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); ++loop2) // ID Fix
@@ -3340,7 +3166,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
 			{
-				for(auto loop = Selections; loop--> 0;)
+				for(auto loop = selections; loop--> 0;)
 				GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.begin() + CommandIDs[loop]);
 				if(EnableIDFix)
 				for(short loop2 = CommandIDs[0];loop2 < GenieFile->Civs[0].Units[UnitIDs[0]].Bird.Commands.size(); ++loop2) // ID Fix
@@ -3353,8 +3179,8 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
 {
-	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_UnitCommands_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
@@ -3396,8 +3222,8 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
 {
-	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_UnitCommands_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
@@ -3433,8 +3259,8 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = Units_UnitCommands_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Units_UnitCommands_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
@@ -4028,29 +3854,36 @@ void AGE_Frame::CreateUnitControls()
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
 	Units_ConstructionGraphicID = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_ConstructionGraphicID = new ComboBox_Plus1(Units_Scroller, Units_ConstructionGraphicID);
+	GraphicComboBoxList.push_back(Units_ComboBox_ConstructionGraphicID);
 	Units_SnowGraphicID = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_SnowGraphicID = new ComboBox_Plus1(Units_Scroller, Units_SnowGraphicID);
+	GraphicComboBoxList.push_back(Units_ComboBox_SnowGraphicID);
 	Units_AttackGraphic = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_AttackGraphic = new ComboBox_Plus1(Units_Scroller, Units_AttackGraphic);
+	GraphicComboBoxList.push_back(Units_ComboBox_AttackGraphic);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_StandingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_ComboBox_StandingGraphic[loop] = new ComboBox_Plus1(Units_Scroller, Units_StandingGraphic[loop]);
+		GraphicComboBoxList.push_back(Units_ComboBox_StandingGraphic[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_GarrisonGraphic[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_ComboBox_GarrisonGraphic[loop] = new ComboBox_Plus1(Units_Scroller, Units_GarrisonGraphic[loop]);
+		GraphicComboBoxList.push_back(Units_ComboBox_GarrisonGraphic[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_WalkingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_ComboBox_WalkingGraphic[loop] = new ComboBox_Plus1(Units_Scroller, Units_WalkingGraphic[loop]);
+		GraphicComboBoxList.push_back(Units_ComboBox_WalkingGraphic[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_DyingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_ComboBox_DyingGraphic[loop] = new ComboBox_Plus1(Units_Scroller, Units_DyingGraphic[loop]);
+		GraphicComboBoxList.push_back(Units_ComboBox_DyingGraphic[loop]);
 	}
 
 	Units_DamageGraphics = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Damage Graphics");
@@ -4073,6 +3906,7 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_Text_GraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_GraphicID = new TextCtrl_Short(Units_Scroller);
 	DamageGraphics_ComboBox_GraphicID = new ComboBox_Plus1(Units_Scroller, DamageGraphics_GraphicID);
+	GraphicComboBoxList.push_back(DamageGraphics_ComboBox_GraphicID);
 	DamageGraphics_Holder_DamagePercent = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Text_DamagePercent = new wxStaticText(Units_Scroller, wxID_ANY, " Damage Percent ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_DamagePercent = new TextCtrl_Byte(Units_Scroller);
@@ -4176,11 +4010,14 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_ProjectileUnitID = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_ProjectileUnitID = new ComboBox_Plus1(Units_Scroller, Units_ProjectileUnitID);
+	UnitComboBoxList.push_back(Units_ComboBox_ProjectileUnitID);
 	Units_AttackMissileDuplicationUnit = new TextCtrl_Long(Units_Scroller);
 	Units_AttackMissileDuplicationUnit->SetToolTip("Uses its own attack values!");
 	Units_ComboBox_AttackMissileDuplicationUnit = new ComboBox_Plus1(Units_Scroller, Units_AttackMissileDuplicationUnit);
+	UnitComboBoxList.push_back(Units_ComboBox_AttackMissileDuplicationUnit);
 	Units_AttackMissileDuplicationGraphic = new TextCtrl_Long(Units_Scroller);
 	Units_ComboBox_AttackMissileDuplicationGraphic = new ComboBox_Plus1(Units_Scroller, Units_AttackMissileDuplicationGraphic);
+	GraphicComboBoxList.push_back(Units_ComboBox_AttackMissileDuplicationGraphic);
 	Units_MissileGraphicDelay = new TextCtrl_Byte(Units_Scroller);
 	Units_MissileGraphicDelay->SetToolTip("0 projectiles, buildings, dead units, boar\n1 villagers\n2 melee\n3 mounted units\n4 relic cart, relics\n5 archers\n6 monks");
 	Units_AttackMissileDuplicationAmount1 = new TextCtrl_Float(Units_Scroller);
@@ -4255,34 +4092,42 @@ void AGE_Frame::CreateUnitControls()
 	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller);
 	Units_DeadUnitID = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_DeadUnitID = new ComboBox_Plus1(Units_Scroller, Units_DeadUnitID);
+	UnitComboBoxList.push_back(Units_ComboBox_DeadUnitID);
 	Units_ResearchID = new TextCtrl_Short(Units_Scroller);
 	Units_ResearchID->SetToolTip("Causes that research to be researched when the building is created");
 	Units_ComboBox_ResearchID = new ComboBox_Plus1(Units_Scroller, Units_ResearchID);
+	ResearchComboBoxList.push_back(Units_ComboBox_ResearchID);
 	Units_Civ = new TextCtrl_Byte(Units_Scroller);
 	Units_ComboBox_Civ = new ComboBox_Plus1(Units_Scroller, Units_Civ);
+	CivComboBoxList.push_back(Units_ComboBox_Civ);
 	Units_Unitline = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_Unitline = new ComboBox_Plus1(Units_Scroller, Units_Unitline);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_PlacementTerrain[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_ComboBox_PlacementTerrain[loop] = new ComboBox_Plus1(Units_Scroller, Units_PlacementTerrain[loop]);
+		TerrainComboBoxList.push_back(Units_ComboBox_PlacementTerrain[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_PlacementBypassTerrain[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_PlacementBypassTerrain[loop]->SetToolTip("Required terrain on some side");
 		Units_ComboBox_PlacementBypassTerrain[loop] = new ComboBox_Plus1(Units_Scroller, Units_PlacementBypassTerrain[loop]);
+		TerrainComboBoxList.push_back(Units_ComboBox_PlacementBypassTerrain[loop]);
 	}
 	Units_TerrainRestriction = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_TerrainRestriction = new ComboBox_Plus1(Units_Scroller, Units_TerrainRestriction);
+	TerrainRestrictionComboBoxList.push_back(Units_ComboBox_TerrainRestriction);
 	Units_TerrainID = new TextCtrl_Short(Units_Scroller);
 	Units_TerrainID->SetToolTip("Terrain produced under a building when completed");
 	Units_ComboBox_TerrainID = new ComboBox_Plus1(Units_Scroller, Units_TerrainID);
+	TerrainComboBoxList.push_back(Units_ComboBox_TerrainID);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_DropSite[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_DropSite[loop]->SetToolTip("Giving a villager's drop site to a cart-like unit\ncan allow you to have mobile resource-gatherers,\nsimilar to those in Age of Mythology.");
 		Units_ComboBox_DropSite[loop] = new ComboBox_Plus1(Units_Scroller, Units_DropSite[loop]);
+		UnitComboBoxList.push_back(Units_ComboBox_DropSite[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	Units_SizeRadius[loop] = new TextCtrl_Float(Units_Scroller);
@@ -4304,6 +4149,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_EditorSelectionColour->SetToolTip("0 most\n-16 fish trap farm\n52 dead farm, OLD-(___)\n116 flare, WHAL1, WHAL2, DOLP, Great-fish\n-123 all fish");
 	Units_TrainLocationID = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_TrainLocationID = new ComboBox_Plus1(Units_Scroller, Units_TrainLocationID);
+	UnitComboBoxList.push_back(Units_ComboBox_TrainLocationID);
 	Units_TrainTime = new TextCtrl_Short(Units_Scroller);
 	Units_CommandAttribute = new TextCtrl_Short(Units_Scroller);
 	Units_CommandAttribute->SetToolTip("Class and this sets the interface for this unit\n0 Commands: Delete, Garrison, Stop | Attributes: Hit Points\n1 Animal\n2 Non-Military Building (build page 1)\n3 Villager\n4 Military Unit\n5 Trading Unit\n6 Monk\n7 Transport Ship\n8 Relic / Monk with Relic\n9 Fishing Ship\n10 Military Building (build page 2)\n11 Shield Building (build page 3)");
@@ -4313,6 +4159,7 @@ void AGE_Frame::CreateUnitControls()
 	{
 		Units_CostType[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_ComboBox_CostType[loop] = new ComboBox_Plus1(Units_Scroller, Units_CostType[loop]);
+		ResourceComboBoxList.push_back(Units_ComboBox_CostType[loop]);
 		Units_CostAmount[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_CostUsed[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_CostUsed[loop]->SetToolTip("If set to 0 and there is an amount, the amount is required but not paid");
@@ -4322,6 +4169,7 @@ void AGE_Frame::CreateUnitControls()
 	{
 		ResourceStorage_Type[loop] = new TextCtrl_Short(Units_Scroller);
 		ResourceStorage_ComboBox_Type[loop] = new ComboBox_Plus1(Units_Scroller, ResourceStorage_Type[loop]);
+		ResourceComboBoxList.push_back(ResourceStorage_ComboBox_Type[loop]);
 		ResourceStorage_Amount[loop] = new TextCtrl_Float(Units_Scroller);
 		ResourceStorage_Enabled[loop] = new TextCtrl_Byte(Units_Scroller);
 		ResourceStorage_Enabled[loop]->SetToolTip("0 Decayable resource\n1 Stored after death also\n2 Resets on dying, enables instantly\n4 Resets on dying, enables on completion");
@@ -4329,6 +4177,7 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < 4; ++loop)
 	Units_TrackingUnit = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_TrackingUnit = new ComboBox_Plus1(Units_Scroller, Units_TrackingUnit);
+	UnitComboBoxList.push_back(Units_ComboBox_TrackingUnit);
 	Units_TrackingUnitUsed = new TextCtrl_Byte(Units_Scroller);
 	Units_TrackingUnitUsed->SetToolTip("-1 unless a tracking unit value is present\n2 all projectiles with a tracking unit");
 	Units_TrackingUnitDensity = new TextCtrl_Float(Units_Scroller);
@@ -4336,16 +4185,20 @@ void AGE_Frame::CreateUnitControls()
 	Units_StackUnitID = new TextCtrl_Short(Units_Scroller);
 	Units_StackUnitID->SetToolTip("Second building to be placed directly on top of this building\nAdditional building gets added every time you load the scenario");
 	Units_ComboBox_StackUnitID = new ComboBox_Plus1(Units_Scroller, Units_StackUnitID);
+	UnitComboBoxList.push_back(Units_ComboBox_StackUnitID);
 	Units_HeadUnit = new TextCtrl_Short(Units_Scroller);
 	Units_HeadUnit->SetToolTip("The building that an annex building is attached to");
 	Units_ComboBox_HeadUnit = new ComboBox_Plus1(Units_Scroller, Units_HeadUnit);
+	UnitComboBoxList.push_back(Units_ComboBox_HeadUnit);
 	Units_TransformUnit = new TextCtrl_Short(Units_Scroller);
 	Units_TransformUnit->SetToolTip("Determines what the unit changes into when given the order to unpack");
 	Units_ComboBox_TransformUnit = new ComboBox_Plus1(Units_Scroller, Units_TransformUnit);
+	UnitComboBoxList.push_back(Units_ComboBox_TransformUnit);
 	for(short loop = 0; loop < 4; ++loop)
 	{
 		Units_AnnexUnit[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_ComboBox_AnnexUnit[loop] = new ComboBox_Plus1(Units_Scroller, Units_AnnexUnit[loop]);
+		UnitComboBoxList.push_back(Units_ComboBox_AnnexUnit[loop]);
 	}
 	for(short loop = 0; loop < 4; ++loop)
 	{
@@ -4357,21 +4210,27 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_ConstructionSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_ConstructionSound = new ComboBox_Plus1(Units_Scroller, Units_ConstructionSound);
+	SoundComboBoxList.push_back(Units_ComboBox_ConstructionSound);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_TrainSound[loop] = new TextCtrl_Short(Units_Scroller);
 		Units_ComboBox_TrainSound[loop] = new ComboBox_Plus1(Units_Scroller, Units_TrainSound[loop]);
+		SoundComboBoxList.push_back(Units_ComboBox_TrainSound[loop]);
 	}
 	Units_SelectionSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_SelectionSound = new ComboBox_Plus1(Units_Scroller, Units_SelectionSound);
+	SoundComboBoxList.push_back(Units_ComboBox_SelectionSound);
 	Units_AttackMode = new TextCtrl_Short(Units_Scroller);
 	Units_AttackMode->SetToolTip("This may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
 	Units_AttackSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_AttackSound = new ComboBox_Plus1(Units_Scroller, Units_AttackSound);
+	SoundComboBoxList.push_back(Units_ComboBox_AttackSound);
 	Units_MoveSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_MoveSound = new ComboBox_Plus1(Units_Scroller, Units_MoveSound);
+	SoundComboBoxList.push_back(Units_ComboBox_MoveSound);
 	Units_DyingSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_DyingSound = new ComboBox_Plus1(Units_Scroller, Units_DyingSound);
+	SoundComboBoxList.push_back(Units_ComboBox_DyingSound);
 
 	Units_HPBarHeight1 = new TextCtrl_Float(Units_Scroller);
 	Units_HPBarHeight1->SetToolTip("Setting \"Air Mode\" to 1 and this to 0 causes farms to be walkable in AoE/RoR");
@@ -4459,6 +4318,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Text_UnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_UnitID = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_ComboBox_UnitID = new ComboBox_Plus1(Units_Scroller, UnitCommands_UnitID);
+	UnitComboBoxList.push_back(UnitCommands_ComboBox_UnitID);
 	UnitCommands_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown2 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown2 = new TextCtrl_Short(Units_Scroller);
@@ -4466,19 +4326,23 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Text_ResourceIn = new wxStaticText(Units_Scroller, wxID_ANY, " Resource In", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ResourceIn = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_ComboBox_ResourceIn = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceIn);
+	ResourceComboBoxList.push_back(UnitCommands_ComboBox_ResourceIn);
 	UnitCommands_Holder_SubType = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_SubType = new wxStaticText(Units_Scroller, wxID_ANY, " Productivity Resource *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_SubType = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_SubType->SetToolTip("Resource that multiplies the amount you can gather");
 	UnitCommands_ComboBox_SubType = new ComboBox_Plus1(Units_Scroller, UnitCommands_SubType);
+	ResourceComboBoxList.push_back(UnitCommands_ComboBox_SubType);
 	UnitCommands_Holder_ResourceOut = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_ResourceOut = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Out", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ResourceOut = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_ComboBox_ResourceOut = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceOut);
+	ResourceComboBoxList.push_back(UnitCommands_ComboBox_ResourceOut);
 	UnitCommands_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, " Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown3 = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_ComboBox_Unknown3 = new ComboBox_Plus1(Units_Scroller, UnitCommands_Unknown3);
+	ResourceComboBoxList.push_back(UnitCommands_ComboBox_Unknown3);
 	UnitCommands_Holder_WorkRateMultiplier = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_WorkRateMultiplier = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate Multiplier", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_WorkRateMultiplier = new TextCtrl_Float(Units_Scroller);
@@ -4495,6 +4359,10 @@ void AGE_Frame::CreateUnitControls()
 		UnitCommands_Graphics[loop] = new TextCtrl_Short(Units_Scroller);
 		UnitCommands_ComboBox_Graphics[loop] = new ComboBox_Plus1(Units_Scroller, UnitCommands_Graphics[loop]);
 	}
+	for(short loop = 0; loop < 4; ++loop)
+	GraphicComboBoxList.push_back(UnitCommands_ComboBox_Graphics[loop]);
+	for(short loop = 4; loop < 6; ++loop)
+	SoundComboBoxList.push_back(UnitCommands_ComboBox_Graphics[loop]);
 	UnitCommands_Text_Graphics[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Tool Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Graphics[0]->SetToolTip("Used when walking with a tool, but carrying no resources");
 	UnitCommands_Text_Graphics[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Proceeding Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);

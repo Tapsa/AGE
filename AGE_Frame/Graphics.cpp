@@ -94,77 +94,25 @@ void AGE_Frame::OnGraphicsSearch(wxCommandEvent &Event)
 	ListGraphics(false);
 }
 
-void AGE_Frame::ListGraphics(bool Sized)
+void AGE_Frame::ListGraphics(bool all)
 {
 	searchText = Graphics_Graphics_Search->GetValue().Lower();
 	excludeText = Graphics_Graphics_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
+	useAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
 	Graphics_Graphics_List->Clear();
 
-	std::array<short, 20> SavedIDs;
-	if(Sized)
+	list<short> savedSelections;
+	wxArrayString names;
+	if(all)
 	{
-		SavedIDs[0] = Units_ComboBox_ConstructionGraphicID->GetSelection();
-		SavedIDs[1] = Units_ComboBox_SnowGraphicID->GetSelection();
-		SavedIDs[2] = Units_ComboBox_AttackGraphic->GetSelection();
-		for(short loop = 0; loop < 2; ++loop)
-		{
-			SavedIDs[loop+3] = Units_ComboBox_StandingGraphic[loop]->GetSelection();
-			SavedIDs[loop+5] = Units_ComboBox_GarrisonGraphic[loop]->GetSelection();
-			SavedIDs[loop+7] = Units_ComboBox_WalkingGraphic[loop]->GetSelection();
-			SavedIDs[loop+9] = Units_ComboBox_DyingGraphic[loop]->GetSelection();
-			SavedIDs[loop+16] = TerRestrict_ComboBox_Graphics[loop]->GetSelection();
-		}
-		SavedIDs[11] = Units_ComboBox_AttackMissileDuplicationGraphic->GetSelection();
-		for(short loop = 0; loop < 4; ++loop)
-		SavedIDs[loop+12] = UnitCommands_ComboBox_Graphics[loop]->GetSelection();
-		SavedIDs[18] = DamageGraphics_ComboBox_GraphicID->GetSelection();
-		SavedIDs[19] = GraphicDeltas_ComboBox_GraphicID->GetSelection();
-
-		Units_ComboBox_ConstructionGraphicID->Clear();
-		Units_ComboBox_SnowGraphicID->Clear();
-		Units_ComboBox_AttackGraphic->Clear();
-		for(short loop = 0; loop < 2; ++loop)
-		{
-			Units_ComboBox_StandingGraphic[loop]->Clear();
-			Units_ComboBox_GarrisonGraphic[loop]->Clear();
-			Units_ComboBox_WalkingGraphic[loop]->Clear();
-			Units_ComboBox_DyingGraphic[loop]->Clear();
-			TerRestrict_ComboBox_Graphics[loop]->Clear();
-		}
-		Units_ComboBox_AttackMissileDuplicationGraphic->Clear();
-		for(short loop = 0; loop < 4; ++loop)
-		UnitCommands_ComboBox_Graphics[loop]->Clear();
-		DamageGraphics_ComboBox_GraphicID->Clear();
-		GraphicDeltas_ComboBox_GraphicID->Clear();
-
-		for(auto &ID: SavedIDs)
-		{
-			if(ID == wxNOT_FOUND) ID = 0;
-		}
-
-		Units_ComboBox_ConstructionGraphicID->Append("-1 - None");
-		Units_ComboBox_SnowGraphicID->Append("-1 - None");
-		Units_ComboBox_AttackGraphic->Append("-1 - None");
-		for(short loop = 0; loop < 2; ++loop)
-		{
-			Units_ComboBox_StandingGraphic[loop]->Append("-1 - None");
-			Units_ComboBox_GarrisonGraphic[loop]->Append("-1 - None");
-			Units_ComboBox_WalkingGraphic[loop]->Append("-1 - None");
-			Units_ComboBox_DyingGraphic[loop]->Append("-1 - None");
-			TerRestrict_ComboBox_Graphics[loop]->Append("-1 - None");
-		}
-		Units_ComboBox_AttackMissileDuplicationGraphic->Append("-1 - None");
-		for(short loop = 0; loop < 4; ++loop)
-		UnitCommands_ComboBox_Graphics[loop]->Append("-1 - None");
-		DamageGraphics_ComboBox_GraphicID->Append("-1 - None");
-		GraphicDeltas_ComboBox_GraphicID->Append("-1 - None");
+		PrepareLists(GraphicComboBoxList, savedSelections);
+		names.Alloc(GenieFile->Graphics.size());
 	}
 
-	thread searchPart(testi);
+	//thread searchPart(testi);
 	for(short loop = 0; loop < GenieFile->Graphics.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
@@ -172,52 +120,15 @@ void AGE_Frame::ListGraphics(bool Sized)
 		{
 			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
 		}
-		if(Sized)
-		{
-			Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop);
-			Units_ComboBox_ConstructionGraphicID->Append(Name);
-			Units_ComboBox_SnowGraphicID->Append(Name);
-			Units_ComboBox_AttackGraphic->Append(Name);
-			for(short loop = 0; loop < 2; ++loop)
-			{
-				Units_ComboBox_StandingGraphic[loop]->Append(Name);
-				Units_ComboBox_GarrisonGraphic[loop]->Append(Name);
-				Units_ComboBox_WalkingGraphic[loop]->Append(Name);
-				Units_ComboBox_DyingGraphic[loop]->Append(Name);
-				TerRestrict_ComboBox_Graphics[loop]->Append(Name);
-			}
-			Units_ComboBox_AttackMissileDuplicationGraphic->Append(Name);
-			for(short loop = 0; loop < 4; ++loop)
-			UnitCommands_ComboBox_Graphics[loop]->Append(Name);
-			DamageGraphics_ComboBox_GraphicID->Append(Name);
-			GraphicDeltas_ComboBox_GraphicID->Append(Name);
-		}
+		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop));
 	}
-	searchPart.join();
+	//searchPart.join();
 
-	ListingFix(Selections, Graphics_Graphics_List);
-	if(Sized)
-	{
-		Units_ComboBox_ConstructionGraphicID->SetSelection(SavedIDs[0]);
-		Units_ComboBox_SnowGraphicID->SetSelection(SavedIDs[1]);
-		Units_ComboBox_AttackGraphic->SetSelection(SavedIDs[2]);
-		for(short loop = 0; loop < 2; ++loop)
-		{
-			Units_ComboBox_StandingGraphic[loop]->SetSelection(SavedIDs[loop+3]);
-			Units_ComboBox_GarrisonGraphic[loop]->SetSelection(SavedIDs[loop+5]);
-			Units_ComboBox_WalkingGraphic[loop]->SetSelection(SavedIDs[loop+7]);
-			Units_ComboBox_DyingGraphic[loop]->SetSelection(SavedIDs[loop+9]);
-			TerRestrict_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+16]);
-		}
-		Units_ComboBox_AttackMissileDuplicationGraphic->SetSelection(SavedIDs[11]);
-		for(short loop = 0; loop < 4; ++loop)
-		UnitCommands_ComboBox_Graphics[loop]->SetSelection(SavedIDs[loop+12]);
-		DamageGraphics_ComboBox_GraphicID->SetSelection(SavedIDs[18]);
-		GraphicDeltas_ComboBox_GraphicID->SetSelection(SavedIDs[19]);
-	}
+	ListingFix(selections, Graphics_Graphics_List);
+	if(all) FillLists(GraphicComboBoxList, savedSelections, names);
 
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = false;
+	useAnd[loop] = false;
 
 	wxCommandEvent E;
 	OnGraphicsSelect(E);
@@ -225,35 +136,35 @@ void AGE_Frame::ListGraphics(bool Sized)
 
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
-	GraphicIDs.resize(Selections);
-	Graphics_Name->resize(Selections);
-	Graphics_Name2->resize(Selections);
-	Graphics_SLP->resize(Selections);
-	Graphics_Unknown1->resize(Selections);
-	Graphics_Unknown2->resize(Selections);
-	Graphics_FrameType->resize(Selections);
-	Graphics_PlayerColor->resize(Selections);
-	Graphics_Replay->resize(Selections);
+	GraphicIDs.resize(selections);
+	Graphics_Name->resize(selections);
+	Graphics_Name2->resize(selections);
+	Graphics_SLP->resize(selections);
+	Graphics_Unknown1->resize(selections);
+	Graphics_Unknown2->resize(selections);
+	Graphics_FrameType->resize(selections);
+	Graphics_PlayerColor->resize(selections);
+	Graphics_Replay->resize(selections);
 	for(short loop = 0; loop < 4; ++loop)
 	{
-		Graphics_Coordinates[loop]->resize(Selections);
+		Graphics_Coordinates[loop]->resize(selections);
 	}
-	Graphics_SoundID->resize(Selections);
-	Graphics_AttackSoundUsed->resize(Selections);
-	Graphics_FrameCount->resize(Selections);
-	Graphics_AngleCount->resize(Selections);
-	Graphics_NewSpeed->resize(Selections);
-	Graphics_FrameRate->resize(Selections);
-	Graphics_ReplayDelay->resize(Selections);
-	Graphics_SequenceType->resize(Selections);
-	Graphics_ID->resize(Selections);
-	Graphics_TypeS->resize(Selections);
+	Graphics_SoundID->resize(selections);
+	Graphics_AttackSoundUsed->resize(selections);
+	Graphics_FrameCount->resize(selections);
+	Graphics_AngleCount->resize(selections);
+	Graphics_NewSpeed->resize(selections);
+	Graphics_FrameRate->resize(selections);
+	Graphics_ReplayDelay->resize(selections);
+	Graphics_SequenceType->resize(selections);
+	Graphics_ID->resize(selections);
+	Graphics_TypeS->resize(selections);
 
 	genie::Graphic * GraphicPointer;
-	for(auto sel = Selections; sel--> 0;)
+	for(auto sel = selections; sel--> 0;)
 	{
 		GraphicPointer = (genie::Graphic*)Graphics_Graphics_List->GetClientData(Items.Item(sel));
 		GraphicIDs[sel] = (GraphicPointer - (&GenieFile->Graphics[0]));
@@ -337,8 +248,8 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicsInsert(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Graphic Temp;
@@ -353,11 +264,11 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicsDelete(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(auto loop = Selections; loop--> 0;)
+	for(auto loop = selections; loop--> 0;)
 	{
 		GenieFile->Graphics.erase(GenieFile->Graphics.begin() + GraphicIDs[loop]);
 		GenieFile->GraphicPointers.erase(GenieFile->GraphicPointers.begin() + GraphicIDs[loop]);
@@ -370,13 +281,13 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	copies->GraphicPointer.resize(Selections);
-	copies->Graphic.resize(Selections);
-	for(short loop = 0; loop < Selections; ++loop)
+	copies->GraphicPointer.resize(selections);
+	copies->Graphic.resize(selections);
+	for(short loop = 0; loop < selections; ++loop)
 	{
 		copies->GraphicPointer[loop] = GenieFile->GraphicPointers[GraphicIDs[loop]];
 		copies->Graphic[loop] = GenieFile->Graphics[GraphicIDs[loop]];
@@ -385,8 +296,8 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(copies->Graphic.size()+GraphicIDs[0] > GenieFile->Graphics.size())
@@ -407,8 +318,8 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Graphic Temp;
@@ -428,11 +339,11 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicsEnable(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < Selections; ++loop)
+	for(short loop = 0; loop < selections; ++loop)
 	{
 		GenieFile->GraphicPointers[GraphicIDs[loop]] = 1;
 		GenieFile->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
@@ -442,11 +353,11 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicsDisable(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < Selections; ++loop)
+	for(short loop = 0; loop < selections; ++loop)
 	GenieFile->GraphicPointers[GraphicIDs[loop]] = 0;
 	ListGraphics();
 }
@@ -466,7 +377,7 @@ void AGE_Frame::ListGraphicDeltas()
 	searchText = Graphics_Deltas_Search->GetValue().Lower();
 	excludeText = Graphics_Deltas_Search_R->GetValue().Lower();
 
-	auto Selections = Graphics_Deltas_List->GetSelections(Items);
+	auto selections = Graphics_Deltas_List->GetSelections(Items);
 	Graphics_Deltas_List->Clear();
 
 	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); ++loop)
@@ -477,7 +388,7 @@ void AGE_Frame::ListGraphicDeltas()
 			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].Deltas[loop]);
 		}
 	}
-	ListingFix(Selections, Graphics_Deltas_List);
+	ListingFix(selections, Graphics_Deltas_List);
 
 	wxCommandEvent E;
 	OnGraphicDeltasSelect(E);
@@ -485,21 +396,21 @@ void AGE_Frame::ListGraphicDeltas()
 
 void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections > 0)
+	auto selections = Graphics_Deltas_List->GetSelections(Items);
+	if(selections > 0)
 	{
-		DeltaIDs.resize(Selections);
-		GraphicDeltas_GraphicID->resize(Selections);
-		GraphicDeltas_Unknown1->resize(Selections);
-		GraphicDeltas_Unknown2->resize(Selections);
-		GraphicDeltas_Unknown3->resize(Selections);
-		GraphicDeltas_DirectionX->resize(Selections);
-		GraphicDeltas_DirectionY->resize(Selections);
-		GraphicDeltas_Unknown4->resize(Selections);
-		GraphicDeltas_Unknown5->resize(Selections);
+		DeltaIDs.resize(selections);
+		GraphicDeltas_GraphicID->resize(selections);
+		GraphicDeltas_Unknown1->resize(selections);
+		GraphicDeltas_Unknown2->resize(selections);
+		GraphicDeltas_Unknown3->resize(selections);
+		GraphicDeltas_DirectionX->resize(selections);
+		GraphicDeltas_DirectionY->resize(selections);
+		GraphicDeltas_Unknown4->resize(selections);
+		GraphicDeltas_Unknown5->resize(selections);
 
 		genie::GraphicDelta * DeltaPointer;
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		{
 			DeltaPointer = (genie::GraphicDelta*)Graphics_Deltas_List->GetClientData(Items.Item(loop));
 			DeltaIDs[loop] = (DeltaPointer - (&GenieFile->Graphics[GraphicIDs[0]].Deltas[0]));
@@ -540,8 +451,8 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Graphics_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->Graphics[GraphicIDs[0]].Deltas);
@@ -550,8 +461,8 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Deltas_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	InsertToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0]);
@@ -560,8 +471,8 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Deltas_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	DeleteFromList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs);
@@ -570,8 +481,8 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Deltas_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies->GraphicDelta);
@@ -579,8 +490,8 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Deltas_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies->GraphicDelta);
@@ -589,8 +500,8 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_Deltas_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_Deltas_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteInsertToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies->GraphicDelta);
@@ -617,7 +528,7 @@ void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListGraphicAttackSounds()
 {
-	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
+	auto selections = Graphics_AttackSounds_List->GetSelections(Items);
 	Graphics_AttackSounds_List->Clear();
 
 	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop)
@@ -626,7 +537,7 @@ void AGE_Frame::ListGraphicAttackSounds()
 		Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop]);
 	}
 
-	ListingFix(Selections, Graphics_AttackSounds_List);
+	ListingFix(selections, Graphics_AttackSounds_List);
 
 	wxCommandEvent E;
 	OnGraphicAttackSoundsSelect(E);
@@ -634,19 +545,19 @@ void AGE_Frame::ListGraphicAttackSounds()
 
 void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
-	if(Selections > 0)
+	auto selections = Graphics_AttackSounds_List->GetSelections(Items);
+	if(selections > 0)
 	{
-		AttackSoundIDs.resize(Selections);
-		Graphics_AttackSoundID[0]->resize(Selections);
-		Graphics_AttackSoundID[1]->resize(Selections);
-		Graphics_AttackSoundID[2]->resize(Selections);
-		Graphics_AttackSoundDelay[0]->resize(Selections);
-		Graphics_AttackSoundDelay[1]->resize(Selections);
-		Graphics_AttackSoundDelay[2]->resize(Selections);
+		AttackSoundIDs.resize(selections);
+		Graphics_AttackSoundID[0]->resize(selections);
+		Graphics_AttackSoundID[1]->resize(selections);
+		Graphics_AttackSoundID[2]->resize(selections);
+		Graphics_AttackSoundDelay[0]->resize(selections);
+		Graphics_AttackSoundDelay[1]->resize(selections);
+		Graphics_AttackSoundDelay[2]->resize(selections);
 
 		genie::GraphicAttackSound * AttackSoundPointer;
-		for(auto sel = Selections; sel--> 0;)
+		for(auto sel = selections; sel--> 0;)
 		{
 			AttackSoundPointer = (genie::GraphicAttackSound*)Graphics_AttackSounds_List->GetClientData(Items.Item(sel));
 			AttackSoundIDs[sel] = (AttackSoundPointer - (&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[0]));
@@ -682,8 +593,8 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &Event)
 {
-	auto Selections = Graphics_AttackSounds_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = Graphics_AttackSounds_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::GraphicAttackSound Copy = GenieFile->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[0]];
@@ -770,6 +681,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_SoundID = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SoundID = new TextCtrl_Short(Graphics_Scroller);
 	Graphics_ComboBox_SoundID = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID);
+	SoundComboBoxList.push_back(Graphics_ComboBox_SoundID);
 	Graphics_Holder_Replay = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_Replay = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Replay = new TextCtrl_Byte(Graphics_Scroller);
@@ -803,6 +715,7 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Text_GraphicID = new wxStaticText(Graphics_Scroller, wxID_ANY, " Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_GraphicID = new TextCtrl_Short(Graphics_Scroller);
 	GraphicDeltas_ComboBox_GraphicID = new ComboBox_Plus1(Graphics_Scroller, GraphicDeltas_GraphicID);
+	GraphicComboBoxList.push_back(GraphicDeltas_ComboBox_GraphicID);
 	GraphicDeltas_Holder_DirectionX = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Text_DirectionX = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction X", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_DirectionX = new TextCtrl_Short(Graphics_Scroller);
@@ -847,6 +760,7 @@ void AGE_Frame::CreateGraphicsControls()
 	{
 		Graphics_AttackSoundID[loop] = new TextCtrl_Short(Graphics_Scroller);
 		Graphics_ComboBox_AttackSoundID[loop] = new ComboBox_Plus1(Graphics_Scroller, Graphics_AttackSoundID[loop]);
+		SoundComboBoxList.push_back(Graphics_ComboBox_AttackSoundID[loop]);
 		Graphics_AttackSoundDelay[loop] = new TextCtrl_Short(Graphics_Scroller);
 	}
 	Graphics_Holder_Coordinates = new wxBoxSizer(wxVERTICAL);

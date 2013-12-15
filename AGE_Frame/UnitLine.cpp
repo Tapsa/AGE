@@ -18,7 +18,7 @@ void AGE_Frame::ListUnitLines()
 	searchText = UnitLines_UnitLines_Search->GetValue().Lower();
 	excludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
 
-	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
 	short UnitIDs = Units_ComboBox_Unitline->GetSelection();
 
 	UnitLines_UnitLines_List->Clear();
@@ -41,7 +41,7 @@ void AGE_Frame::ListUnitLines()
 		Units_ComboBox_Unitline->Append(Name);
 	}
 
-	ListingFix(Selections, UnitLines_UnitLines_List);
+	ListingFix(selections, UnitLines_UnitLines_List);
 	Units_ComboBox_Unitline->SetSelection(UnitIDs);
 
 	wxCommandEvent E;
@@ -50,15 +50,15 @@ void AGE_Frame::ListUnitLines()
 
 void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	if(selections < 1) return;
 
-	UnitLineIDs.resize(Selections);
-	UnitLines_ID->resize(Selections);
-	UnitLines_Name->resize(Selections);
+	UnitLineIDs.resize(selections);
+	UnitLines_ID->resize(selections);
+	UnitLines_Name->resize(selections);
 
 	genie::UnitLine * LinePointer;
-	for(auto loop = Selections; loop--> 0;)
+	for(auto loop = selections; loop--> 0;)
 	{
 		LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Items.Item(loop));
 		UnitLineIDs[loop] = (LinePointer - (&GenieFile->UnitLines[0]));
@@ -83,8 +83,8 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	InsertToListIDFix(GenieFile->UnitLines, UnitLineIDs[0]);
@@ -93,8 +93,8 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	DeleteFromListIDFix(GenieFile->UnitLines, UnitLineIDs);
@@ -103,8 +103,8 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->UnitLines, UnitLineIDs, copies->UnitLine);
@@ -112,8 +112,8 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteToListIDFix(GenieFile->UnitLines, UnitLineIDs[0], copies->UnitLine);
@@ -122,8 +122,8 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteInsertToListIDFix(GenieFile->UnitLines, UnitLineIDs[0], copies->UnitLine);
@@ -155,7 +155,7 @@ void AGE_Frame::ListUnitLineUnits()
 	searchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
 	excludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
 
-	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	UnitLines_UnitLineUnits_List->Clear();
 
 	for(short loop = 0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); ++loop)
@@ -166,7 +166,7 @@ void AGE_Frame::ListUnitLineUnits()
 			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		}
 	}
-	ListingFix(Selections, UnitLines_UnitLineUnits_List);
+	ListingFix(selections, UnitLines_UnitLineUnits_List);
 
 	wxCommandEvent E;
 	OnUnitLineUnitsSelect(E);
@@ -174,14 +174,14 @@ void AGE_Frame::ListUnitLineUnits()
 
 void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections > 0)
+	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	if(selections > 0)
 	{
-		UnitLineUnitIDs.resize(Selections);
-		UnitLineUnits_Units->resize(Selections);
+		UnitLineUnitIDs.resize(selections);
+		UnitLineUnits_Units->resize(selections);
 
 		int16_t * UnitPointer;
-		for(auto loop = Selections; loop--> 0;)
+		for(auto loop = selections; loop--> 0;)
 		{
 			UnitPointer = (int16_t*)UnitLines_UnitLineUnits_List->GetClientData(Items.Item(loop));
 			UnitLineUnitIDs[loop] = (UnitPointer - (&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[0]));
@@ -200,8 +200,8 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	AddToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs);
@@ -210,8 +210,8 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	InsertToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs[0]);
@@ -220,8 +220,8 @@ void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	DeleteFromList(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs);
@@ -230,8 +230,8 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs, copies->UnitLineUnit);
@@ -239,8 +239,8 @@ void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs[0], copies->UnitLineUnit);
@@ -249,8 +249,8 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &Event)
 {
-	auto Selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	PasteInsertToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs[0], copies->UnitLineUnit);
@@ -309,6 +309,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLineUnits_Text_Units = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitLineUnits_Units = new TextCtrl_Short(Tab_UnitLine);
 	UnitLineUnits_ComboBox_Units = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units);
+	UnitComboBoxList.push_back(UnitLineUnits_ComboBox_Units);
 
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Add, 1, wxEXPAND);
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Insert, 1, wxEXPAND);
