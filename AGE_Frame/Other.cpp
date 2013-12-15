@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-#include <map>
 using boost::lexical_cast;
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
@@ -160,7 +159,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(LangsUsed & 1)
 	{
-		if(WriteLangs)
+		if(1 || WriteLangs)
 		{
 			Lang = new genie::LangFile();
 			Lang->setDefaultCharset(LangCharset);
@@ -180,7 +179,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	}
 	if(LangsUsed & 2)
 	{
-		if(WriteLangs)
+		if(1 || WriteLangs)
 		{
 			LangX = new genie::LangFile();
 			LangX->setDefaultCharset(LangCharset);
@@ -200,7 +199,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	}
 	if(LangsUsed & 4)
 	{
-		if(WriteLangs)
+		if(1 || WriteLangs)
 		{
 			LangXP = new genie::LangFile();
 			LangXP->setDefaultCharset(LangCharset);
@@ -219,41 +218,33 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		else LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
 	}
 
-	switch(DatUsed)
+	if(GenieFile != NULL)
 	{
-		case 0:
+		delete GenieFile;
+		GenieFile = NULL;
+	}
+	else
+	{
+		TabBar_Main->ChangeSelection(5);
+	}
+
+	{
+		SetStatusText("Reading file...", 0);
+		wxBusyCursor WaitCursor;
+
+		GenieFile = new genie::DatFile();
+		try
 		{
-			if(GenieFile != NULL)
-			{
-				delete GenieFile;
-				GenieFile = NULL;
-			}
-
-			{
-				SetStatusText("Reading file...", 0);
-				wxBusyCursor WaitCursor;
-
-				GenieFile = new genie::DatFile();
-				try
-				{
-					GenieFile->setGameVersion(GenieVersion);
-					GenieFile->load(DatFileName.c_str());
-				}
-				catch(std::ios_base::failure e)
-				{
-					wxMessageBox("Failed to load "+DatFileName);
-					delete GenieFile;
-					GenieFile = NULL;
-					return;
-				}
-			}
+			GenieFile->setGameVersion(GenieVersion);
+			GenieFile->load(DatFileName.c_str());
 		}
-		break;
-		case 2:
+		catch(std::ios_base::failure e)
 		{
-
+			wxMessageBox("Failed to load "+DatFileName);
+			delete GenieFile;
+			GenieFile = NULL;
+			return;
 		}
-		break;
 	}
 
 	if(GenieFile != NULL)
@@ -1541,7 +1532,7 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 {
 	if(ID < 0) return "";
 	string Result = "";
-	if(WriteLangs)
+	if(1 || WriteLangs)
 	{
 		if(LangsUsed & 4 && !(Result = LangXP->getString(ID)).empty()){}
 		else if(LangsUsed & 2 && !(Result = LangX->getString(ID)).empty()){}
