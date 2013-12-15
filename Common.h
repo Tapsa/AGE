@@ -1,5 +1,6 @@
 #include <boost/lexical_cast.hpp>
 #include <array>
+#include <list>
 #include <string>
 //#include <atomic>
 #include <thread>

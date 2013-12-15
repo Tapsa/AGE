@@ -1589,7 +1589,7 @@ bool AGE_Frame::SearchMatches(wxString itemText)
 		if(found != string::npos)
 		{
 			size_t pos = 0;
-			if(UseAnd[0]) // All search parts must match
+			if(useAnd[0]) // All search parts must match
 			{
 				matches = true;
 				while(1)
@@ -1635,7 +1635,7 @@ bool AGE_Frame::SearchMatches(wxString itemText)
 		if(found != string::npos)
 		{
 			size_t pos = 0;
-			if(UseAnd[1]) // All search parts must match
+			if(useAnd[1]) // All search parts must match
 			{
 				matches = false;
 				while(1)
@@ -1714,9 +1714,9 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 	}
 }
 
-void AGE_Frame::ListingFix(int Selections, wxListBox* &List)
+void AGE_Frame::ListingFix(int selections, wxListBox* &List)
 {
-	if(Selections == 0)
+	if(selections == 0)
 	{
 		List->SetSelection(0);
 		return;
@@ -1732,14 +1732,34 @@ void AGE_Frame::ListingFix(int Selections, wxListBox* &List)
 	List->SetSelection(Items.Item(0));
 }
 
+void AGE_Frame::PrepareLists(list<ComboBox_Plus1*> &boxlist, list<short> &selections)
+{
+	for(ComboBox_Plus1* &list: boxlist)
+	{
+		selections.push_back(list->GetSelection());
+		list->Clear();
+		list->Append("-1 - None");
+	}
+}
+
+void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, list<short> &selections, wxArrayString &names)
+{
+	auto it = selections.begin();
+	for(ComboBox_Plus1* &list: boxlist)
+	{
+		list->Append(names);
+		list->SetSelection(*it++);
+	}
+}
+
 void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch)
 {
-	auto Selections = List->GetSelections(Items);
-	if(Selections < 1) return;
+	auto selections = List->GetSelections(Items);
+	if(selections < 1) return;
 
 	wxString TopText, SubText, Line;
 	size_t found;
-	for(int loop = 0; loop < Selections; ++loop)
+	for(int loop = 0; loop < selections; ++loop)
 	{
 		Line = List->GetString(Items.Item(loop));
 		found = Line.find(" ", 3);
