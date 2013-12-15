@@ -149,7 +149,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 
 	DataOpened = false;
 	for(short loop = 0; loop < 2; ++loop)
-	UseAnd[loop] = false;
+	useAnd[loop] = false;
 
 	wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Show);
 	ShowUnknownsCmd.SetInt(ShowUnknowns);
