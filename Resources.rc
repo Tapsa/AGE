@@ -1,6 +1,3 @@
-/* Resources.rc */
-
-#include "Resources.h"
 #include "wx/msw/wx.rc"
 
 iconAppIcon ICON "AppIcon.ico"

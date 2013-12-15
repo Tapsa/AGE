@@ -1,14 +1,14 @@
 To compile you need to download MinGW, wxWidgets, boost, zlib and CMake.
-Apparently current compilers no longer work with the libraries (all wxWidgets versions).
 
 You have to add MinGW to the system path if you move your compiling environment to a new Windows installment.
 
-CMake:
+CMake 2.8.12.1:
 Install normally and select it to update PATH automatically.
+Modify FindwxWidgets.cmake to look for 3.0 libs.
 
 Install/extract rest of the stuff into C:/Cpp or another folder which you like.
 
-MinGW-w64:
+MinGW-w64 4.8.2:
 Download Mingw-builds Windows 64 using SJLJ and threads-posix.
 
 You may (should not) need to run this from cmd or PowerShell:
@@ -17,16 +17,16 @@ You can also download libiconv from here:
 http://ftp.gnu.org/pub/gnu/libiconv/
 Then install it like this: ???
 
-wxWidgets (I have modded version 2.8.12, unmodded 2.9.4+ works too):
+wxWidgets 3.0.0:
 Unpack the zip file.
-To use my modded tool tips, seek them from AGE 2 sources and replace wxWidgets ones!
 In cmd.exe go to \wxWidgets\build\msw
-mingw32-make -f makefile.gcc SHARED=0 BUILD=debug clean
-mingw32-make -f makefile.gcc SHARED=0 BUILD=debug CXXFLAGS+=-fpermissive
-mingw32-make -f makefile.gcc SHARED=0 BUILD=release clean
-mingw32-make -f makefile.gcc SHARED=0 BUILD=release CXXFLAGS+=-fpermissive
+mingw32-make -f makefile.gcc clean
+mingw32-make -f makefile.gcc BUILD=debug SHARED=0 USE_RIBBON=0
+mingw32-make -f makefile.gcc BUILD=release SHARED=0 USE_RIBBON=0
+del /s *.o
+del /s *.o.d
 
-zlib:
+zlib 1.2.8:
 Unpack the zip file.
 In cmd.exe go to \zlib
 mingw32-make -f win32/Makefile.gcc
@@ -39,7 +39,7 @@ Then copy as follows:
 /mingw/lib/libz.a
 /mingw/lib/libz.dll.a
 
-Boost:
+Boost 1.55.0:
 Unpack the zip file.
 In cmd.exe go to \boost_1_50_0\tools\build\v2
 bootstrap.bat gcc

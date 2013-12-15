@@ -1,6 +1,8 @@
 #include <boost/lexical_cast.hpp>
 #include <array>
 #include <string>
+//#include <atomic>
+#include <thread>
 #include <wx/wx.h>
 //#include "wxSFMLCanvas.h"
 #include <wx/aboutdlg.h>
