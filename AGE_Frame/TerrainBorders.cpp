@@ -21,13 +21,8 @@ void AGE_Frame::ListTerrainBorders(bool all)
 	auto selections = Borders_Borders_List->GetSelections(Items);
 	Borders_Borders_List->Clear();
 
-	list<short> savedSelections;
 	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(TerrainBorderComboBoxList, savedSelections);
-		names.Alloc(GenieFile->TerrainBorders.size());
-	}
+	if(all) names.Alloc(GenieFile->TerrainBorders.size());
 
 	for(short loop = 0; loop < GenieFile->TerrainBorders.size(); ++loop)
 	{
@@ -40,7 +35,7 @@ void AGE_Frame::ListTerrainBorders(bool all)
 	}
 
 	ListingFix(selections, Borders_Borders_List);
-	if(all) FillLists(TerrainBorderComboBoxList, savedSelections, names);
+	if(all) FillLists(TerrainBorderComboBoxList, names);
 
 	wxCommandEvent E;
 	OnTerrainBordersSelect(E);

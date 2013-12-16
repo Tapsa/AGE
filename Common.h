@@ -14,7 +14,7 @@
 #include <wx/hyperlink.h>
 #include <wx/notebook.h>
 #include <wx/odcombo.h>
-#include <wx/statline.h>
+#include <wx/listctrl.h>
 #include <wx/tooltip.h>
 //#include <wx/richtooltip.h>
 #include <windows.h>
