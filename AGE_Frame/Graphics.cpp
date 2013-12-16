@@ -102,27 +102,35 @@ void AGE_Frame::ListGraphics(bool all)
 	useAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
 	auto selections = Graphics_Graphics_List->GetSelections(Items);
-	Graphics_Graphics_List->Clear();
 
 	list<short> savedSelections;
-	wxArrayString names;
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
 	if(all)
 	{
 		PrepareLists(GraphicComboBoxList, savedSelections);
 		names.Alloc(GenieFile->Graphics.size());
 	}
 
-	//thread searchPart(testi);
 	for(short loop = 0; loop < GenieFile->Graphics.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop, true);
 		if(SearchMatches(Name.Lower()))
 		{
-			Graphics_Graphics_List->Append(Name, (void*)&GenieFile->Graphics[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Graphics[loop]);
 		}
 		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop));
 	}
-	//searchPart.join();
+	auto time1 = chrono::system_clock::now();
+	Graphics_Graphics_List->Set(filteredNames); // The only time consuming call.
+	auto time2 = chrono::system_clock::now();
+	auto it = dataPointers.begin();
+	for(short loop = 0; loop < Graphics_Graphics_List->GetCount(); ++loop)
+	{
+		Graphics_Graphics_List->SetClientData(loop, *it++);
+	}
+	SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(time2 - time1)).count())+" ms", 0);
 
 	ListingFix(selections, Graphics_Graphics_List);
 	if(all) FillLists(GraphicComboBoxList, savedSelections, names);
