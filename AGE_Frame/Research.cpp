@@ -133,13 +133,8 @@ void AGE_Frame::ListResearches(bool all)
 	auto selections = Research_Research_List->GetSelections(Items);
 	Research_Research_List->Clear();
 
-	list<short> savedSelections;
 	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(ResearchComboBoxList, savedSelections);
-		names.Alloc(GenieFile->Researchs.size());
-	}
+	if(all) names.Alloc(GenieFile->Researchs.size());
 
 	for(short loop = 0; loop < GenieFile->Researchs.size(); ++loop)
 	{
@@ -152,7 +147,7 @@ void AGE_Frame::ListResearches(bool all)
 	}
 
 	ListingFix(selections, Research_Research_List);
-	if(all) FillLists(ResearchComboBoxList, savedSelections, names);
+	if(all) FillLists(ResearchComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;

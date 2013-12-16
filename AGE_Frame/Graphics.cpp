@@ -1,11 +1,6 @@
 #include "../AGE_Frame.h"
 using boost::lexical_cast;
 
-void testi()
-{
-	cout << "Moi" << endl;
-}
-
 string AGE_Frame::GetGraphicName(short Index, bool Filter)
 {
 	string Name = "";
@@ -101,16 +96,9 @@ void AGE_Frame::ListGraphics(bool all)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
-
-	list<short> savedSelections;
 	list<void*> dataPointers;
 	wxArrayString names, filteredNames;
-	if(all)
-	{
-		PrepareLists(GraphicComboBoxList, savedSelections);
-		names.Alloc(GenieFile->Graphics.size());
-	}
+	if(all) names.Alloc(GenieFile->Graphics.size());
 
 	for(short loop = 0; loop < GenieFile->Graphics.size(); ++loop)
 	{
@@ -122,18 +110,9 @@ void AGE_Frame::ListGraphics(bool all)
 		}
 		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetGraphicName(loop));
 	}
-	auto time1 = chrono::system_clock::now();
-	Graphics_Graphics_List->Set(filteredNames); // The only time consuming call.
-	auto time2 = chrono::system_clock::now();
-	auto it = dataPointers.begin();
-	for(short loop = 0; loop < Graphics_Graphics_List->GetCount(); ++loop)
-	{
-		Graphics_Graphics_List->SetClientData(loop, *it++);
-	}
-	SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(time2 - time1)).count())+" ms", 0);
 
-	ListingFix(selections, Graphics_Graphics_List);
-	if(all) FillLists(GraphicComboBoxList, savedSelections, names);
+	Listing(Graphics_Graphics_List, filteredNames, dataPointers);
+	if(all) FillLists(GraphicComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -636,6 +615,7 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
 	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	//Graphics_Graphics_ListV = new AGEListCtrl(Tab_Graphics, wxSize(10, 100));
 	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Insert = new wxButton(Tab_Graphics, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
@@ -846,6 +826,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics->Add(Graphics_Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
+	//Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
 

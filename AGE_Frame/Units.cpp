@@ -169,29 +169,23 @@ void AGE_Frame::ListUnits(short civ, bool all)
 
 	Units_Civs_List->SetSelection(civ);
 
-	auto selections = Units_Units_List->GetSelections(Items);
-	Units_Units_List->Clear();
-
-	list<short> savedSelections;
-	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(UnitComboBoxList, savedSelections);
-		names.Alloc(GenieFile->Civs[0].Units.size());
-	}
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
+	if(all) names.Alloc(GenieFile->Civs[0].Units.size());
 
 	for(short loop = 0; loop < GenieFile->Civs[civ].Units.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, civ, true);
 		if(SearchMatches(Name.Lower()))
 		{
-			Units_Units_List->Append(Name, (void*)&GenieFile->Civs[civ].Units[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Civs[civ].Units[loop]);
 		}
 		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0));
 	}
 
-	ListingFix(selections, Units_Units_List);
-	if(all) FillLists(UnitComboBoxList, savedSelections, names);
+	Listing(Units_Units_List, filteredNames, dataPointers);
+	if(all) FillLists(UnitComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;

@@ -85,13 +85,8 @@ void AGE_Frame::ListTechs(bool all)
 	auto selections = Techs_Techs_List->GetSelections(Items);
 	Techs_Techs_List->Clear();
 
-	list<short> savedSelections;
 	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(TechComboBoxList, savedSelections);
-		names.Alloc(GenieFile->Techages.size());
-	}
+	if(all) names.Alloc(GenieFile->Techages.size());
 
 	for(short loop = 0; loop < GenieFile->Techages.size(); ++loop)
 	{
@@ -104,7 +99,7 @@ void AGE_Frame::ListTechs(bool all)
 	}
 
 	ListingFix(selections, Techs_Techs_List);
-	if(all) FillLists(TechComboBoxList, savedSelections, names);
+	if(all) FillLists(TechComboBoxList, names);
 
 	wxCommandEvent E;
 	OnTechSelect(E);
