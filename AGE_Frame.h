@@ -133,9 +133,9 @@ public:
 //	bool FileExists(const char *value);
 	wxString searchText, excludeText;
 	bool SearchMatches(wxString itemText);
+	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
 	void ListingFix(int selections, wxListBox* &List);
-	void PrepareLists(list<ComboBox_Plus1*> &boxlist, list<short> &selections);
-	void FillLists(list<ComboBox_Plus1*> &boxlist, list<short> &selections, wxArrayString &names);
+	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
 	void UnitLangDLLConverter(wxCommandEvent &Event);
 	void ResearchLangDLLConverter(wxCommandEvent &Event);
 	void SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch);
@@ -2313,6 +2313,7 @@ public:
 	wxOwnerDrawnComboBox *Graphics_Graphics_SearchFilters[2];
 	wxCheckBox *Graphics_Graphics_UseAnd[2];
 	wxListBox *Graphics_Graphics_List;
+	//AGEListCtrl *Graphics_Graphics_ListV;
 	wxButton *Graphics_Add;
 	wxButton *Graphics_Insert;
 	wxButton *Graphics_Delete;

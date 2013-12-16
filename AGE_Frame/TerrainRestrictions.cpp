@@ -124,13 +124,8 @@ void AGE_Frame::ListTerrainRestrictions(bool all)
 	auto selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	TerRestrict_TerRestrict_List->Clear();
 
-	list<short> savedSelections;
 	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(TerrainRestrictionComboBoxList, savedSelections);
-		names.Alloc(GenieFile->TerrainRestrictions.size());
-	}
+	if(all) names.Alloc(GenieFile->TerrainRestrictions.size());
 
 	for(short loop = 0; loop < GenieFile->TerrainRestrictions.size(); ++loop)
 	{
@@ -143,7 +138,7 @@ void AGE_Frame::ListTerrainRestrictions(bool all)
 	}
 
 	ListingFix(selections, TerRestrict_TerRestrict_List);
-	if(all) FillLists(TerrainRestrictionComboBoxList, savedSelections, names);
+	if(all) FillLists(TerrainRestrictionComboBoxList, names);
 
 	wxCommandEvent E;
 	OnTerrainRestrictionsSelect(E);

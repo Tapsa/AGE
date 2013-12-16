@@ -47,13 +47,8 @@ void AGE_Frame::ListTerrains(bool all)
 	auto selections = Terrains_Terrains_List->GetSelections(Items);
 	Terrains_Terrains_List->Clear();
 
-	list<short> savedSelections;
 	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(TerrainComboBoxList, savedSelections);
-		names.Alloc(GenieFile->Terrains.size());
-	}
+	if(all) names.Alloc(GenieFile->Terrains.size());
 
 	for(short loop = 0; loop < GenieFile->Terrains.size(); ++loop)
 	{
@@ -66,7 +61,7 @@ void AGE_Frame::ListTerrains(bool all)
 	}
 
 	ListingFix(selections, Terrains_Terrains_List);
-	if(all) FillLists(TerrainComboBoxList, savedSelections, names);
+	if(all) FillLists(TerrainComboBoxList, names);
 
 	wxCommandEvent E;
 	OnTerrainsSelect(E);

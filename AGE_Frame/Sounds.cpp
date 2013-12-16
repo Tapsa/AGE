@@ -19,13 +19,8 @@ void AGE_Frame::ListSounds(bool all)
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	Sounds_Sounds_List->Clear();
 
-	list<short> savedSelections;
 	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(SoundComboBoxList, savedSelections);
-		names.Alloc(GenieFile->Sounds.size());
-	}
+	if(all) names.Alloc(GenieFile->Sounds.size());
 
 	for(short loop = 0; loop < GenieFile->Sounds.size(); ++loop)
 	{
@@ -38,7 +33,7 @@ void AGE_Frame::ListSounds(bool all)
 	}
 
 	ListingFix(selections, Sounds_Sounds_List);
-	if(all) FillLists(SoundComboBoxList, savedSelections, names);
+	if(all) FillLists(SoundComboBoxList, names);
 
 	wxCommandEvent E;
 	OnSoundsSelect(E);

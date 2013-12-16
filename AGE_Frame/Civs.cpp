@@ -22,16 +22,8 @@ void AGE_Frame::ListCivs(bool all)
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	Civs_Civs_List->Clear();
 
-	short savedUnitCiv;
-	list<short> savedSelections;
 	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(CivComboBoxList, savedSelections);
-		names.Alloc(GenieFile->Graphics.size());
-		savedUnitCiv = Units_Civs_List->GetSelection();
-		Units_Civs_List->Clear();
-	}
+	if(all) names.Alloc(GenieFile->Graphics.size());
 
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 	{
@@ -46,8 +38,9 @@ void AGE_Frame::ListCivs(bool all)
 	ListingFix(selections, Civs_Civs_List);
 	if(all)
 	{
-		FillLists(CivComboBoxList, savedSelections, names);
-		Units_Civs_List->Append(names);
+		FillLists(CivComboBoxList, names);
+		short savedUnitCiv = Units_Civs_List->GetSelection();
+		Units_Civs_List->Set(names);
 		Units_Civs_List->SetSelection(savedUnitCiv);
 	}
 
@@ -661,13 +654,8 @@ void AGE_Frame::ListResources(bool all)
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	Civs_Resources_List->Clear();
 
-	list<short> savedSelections;
 	wxArrayString names;
-	if(all)
-	{
-		PrepareLists(ResourceComboBoxList, savedSelections);
-		names.Alloc(GenieFile->Civs[CivIDs[0]].Resources.size());
-	}
+	if(all) names.Alloc(GenieFile->Civs[CivIDs[0]].Resources.size());
 
 	for(short loop = 0; loop < GenieFile->Civs[CivIDs[0]].Resources.size(); ++loop)
 	{
@@ -680,7 +668,7 @@ void AGE_Frame::ListResources(bool all)
 	}
 
 	ListingFix(selections, Civs_Resources_List);
-	if(all) FillLists(ResourceComboBoxList, savedSelections, names);
+	if(all) FillLists(ResourceComboBoxList, names);
 
 	wxCommandEvent E;
 	OnResourcesSelect(E);
