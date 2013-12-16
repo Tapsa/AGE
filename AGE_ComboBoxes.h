@@ -3,6 +3,27 @@
 #ifndef AGE_ComboBoxes_h
 #define AGE_ComboBoxes_h
 
+class AGEListCtrl: public wxListCtrl
+{
+	public:
+	AGEListCtrl(wxWindow *parent, const wxSize &size):
+	wxListCtrl(parent, wxID_ANY, wxDefaultPosition, size, wxLC_VIRTUAL | wxLC_REPORT | wxLC_NO_HEADER){}
+	
+	void PackItems(wxArrayString &items)
+	{
+		SetItemCount(items.GetCount());
+		labels = items;
+	}
+
+	wxArrayString labels;
+
+	protected:
+	virtual wxString OnGetItemText(long item, long column) const
+	{
+		return labels[item];
+	}
+};
+
 class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
 {
 	public:
