@@ -159,7 +159,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(LangsUsed & 1)
 	{
-		if(1 || WriteLangs)
+		if(sizeof(size_t) > 4 || WriteLangs)
 		{
 			Lang = new genie::LangFile();
 			Lang->setDefaultCharset(LangCharset);
@@ -179,7 +179,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	}
 	if(LangsUsed & 2)
 	{
-		if(1 || WriteLangs)
+		if(sizeof(size_t) > 4 || WriteLangs)
 		{
 			LangX = new genie::LangFile();
 			LangX->setDefaultCharset(LangCharset);
@@ -199,7 +199,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	}
 	if(LangsUsed & 4)
 	{
-		if(1 || WriteLangs)
+		if(sizeof(size_t) > 4 || WriteLangs)
 		{
 			LangXP = new genie::LangFile();
 			LangXP->setDefaultCharset(LangCharset);
@@ -1532,7 +1532,7 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 {
 	if(ID < 0) return "";
 	string Result = "";
-	if(1 || WriteLangs)
+	if(sizeof(size_t) > 4 || WriteLangs)
 	{
 		if(LangsUsed & 4 && !(Result = LangXP->getString(ID)).empty()){}
 		else if(LangsUsed & 2 && !(Result = LangX->getString(ID)).empty()){}
