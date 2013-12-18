@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 {
@@ -19,10 +18,8 @@ void AGE_Frame::ListCivs(bool all)
 	searchText = Civs_Civs_Search->GetValue().Lower();
 	excludeText = Civs_Civs_Search_R->GetValue().Lower();
 
-	auto selections = Civs_Civs_List->GetSelections(Items);
-	Civs_Civs_List->Clear();
-
-	wxArrayString names;
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
 	if(all) names.Alloc(GenieFile->Graphics.size());
 
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
@@ -30,17 +27,19 @@ void AGE_Frame::ListCivs(bool all)
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetCivName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Civs_Civs_List->Append(Name, (void*)&GenieFile->Civs[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Civs[loop]);
 		}
 		if(all) names.Add(Name);
 	}
 
-	ListingFix(selections, Civs_Civs_List);
+	Listing(Civs_Civs_List, filteredNames, dataPointers);
 	if(all)
 	{
 		FillLists(CivComboBoxList, names);
 		short savedUnitCiv = Units_Civs_List->GetSelection();
-		Units_Civs_List->Set(names);
+		Units_Civs_List->Clear();
+		Units_Civs_List->Append(names);
 		Units_Civs_List->SetSelection(savedUnitCiv);
 	}
 
@@ -651,10 +650,8 @@ void AGE_Frame::ListResources(bool all)
 	searchText = Civs_Resources_Search->GetValue().Lower();
 	excludeText = Civs_Resources_Search_R->GetValue().Lower();
 
-	auto selections = Civs_Resources_List->GetSelections(Items);
-	Civs_Resources_List->Clear();
-
-	wxArrayString names;
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
 	if(all) names.Alloc(GenieFile->Civs[CivIDs[0]].Resources.size());
 
 	for(short loop = 0; loop < GenieFile->Civs[CivIDs[0]].Resources.size(); ++loop)
@@ -662,12 +659,13 @@ void AGE_Frame::ListResources(bool all)
 		wxString Name = " "+lexical_cast<string>(loop)+" - Value: "+lexical_cast<string>(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Civs_Resources_List->Append(Name, (void*)&GenieFile->Civs[CivIDs[0]].Resources[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Civs[CivIDs[0]].Resources[loop]);
 		}
 		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetResourceName(loop));
 	}
 
-	ListingFix(selections, Civs_Resources_List);
+	Listing(Civs_Resources_List, filteredNames, dataPointers);
 	if(all) FillLists(ResourceComboBoxList, names);
 
 	wxCommandEvent E;
@@ -957,7 +955,7 @@ void AGE_Frame::CreateCivControls()
 
 void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Civs_Name[0]->GetId()
 	|| Event.GetId() == Civs_Name[1]->GetId())
 	{

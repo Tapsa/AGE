@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainBorderName(short Index)
 {
@@ -18,10 +17,8 @@ void AGE_Frame::ListTerrainBorders(bool all)
 	searchText = Borders_Borders_Search->GetValue().Lower();
 	excludeText = Borders_Borders_Search_R->GetValue().Lower();
 
-	auto selections = Borders_Borders_List->GetSelections(Items);
-	Borders_Borders_List->Clear();
-
-	wxArrayString names;
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
 	if(all) names.Alloc(GenieFile->TerrainBorders.size());
 
 	for(short loop = 0; loop < GenieFile->TerrainBorders.size(); ++loop)
@@ -29,12 +26,13 @@ void AGE_Frame::ListTerrainBorders(bool all)
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Borders_Borders_List->Append(Name, (void*)&GenieFile->TerrainBorders[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TerrainBorders[loop]);
 		}
 		if(all) names.Add(Name);
 	}
 
-	ListingFix(selections, Borders_Borders_List);
+	Listing(Borders_Borders_List, filteredNames, dataPointers);
 	if(all) FillLists(TerrainBorderComboBoxList, names);
 
 	wxCommandEvent E;
@@ -148,19 +146,20 @@ void AGE_Frame::ListTerrainBorderFrames()
 	searchText = Borders_Frames_Search->GetValue().Lower();
 	excludeText = Borders_Frames_Search_R->GetValue().Lower();
 
-	auto selections = Borders_Frames_List->GetSelections(Items);
-	Borders_Frames_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TerrainBorders[BorderIDs[0]].Frames.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderFrameName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Borders_Frames_List->Append(Name, (void*)&GenieFile->TerrainBorders[BorderIDs[0]].Frames[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TerrainBorders[BorderIDs[0]].Frames[loop]);
 		}
 	}
 
-	ListingFix(selections, Borders_Frames_List);
+	Listing(Borders_Frames_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTerrainBorderFramesSelect(E);
@@ -450,7 +449,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 
 void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Borders_BorderName[0]->GetId() || Event.GetId() == Borders_BorderName[1]->GetId())
 	{
 		ListTerrainBorders();

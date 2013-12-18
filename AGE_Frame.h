@@ -6,52 +6,6 @@
 #include "AGE_SaveDialog.h"
 #include "AGE_AboutDialog.h"
 #include "AGE_Copies.hpp"
-//#include <wx/dynarray.h>
-using std::array;
-using std::list;
-using std::vector;
-
-/*class MyCanvas: public wxSFMLCanvas
-{
-public :
-
-    ////////////////////////////////////////////////////////////
-    /// Construct the canvas
-    ///
-    ////////////////////////////////////////////////////////////
-    MyCanvas(wxWindow* Parent, wxWindowID Id, const wxPoint& Position, const wxSize& Size, long Style = 0) :
-    wxSFMLCanvas(Parent, Id, Position, Size, Style)
-    {
-        // Change background color
-        SetBackgroundColor(sfColor(0, 128, 128));
-
-        // Load an image and assign it to our sprite
-        myImage.LoadFromFile("sprite.png");
-        mySprite.SetImage(myImage);
-    }
-
-private :
-
-    ////////////////////////////////////////////////////////////
-    /// /see wxSFMLCanvas::OnUpdate
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual void OnUpdate()
-    {
-        Draw(mySprite);
-    }
-
-    ////////////////////////////////////////////////////////////
-    /// Member data
-    ////////////////////////////////////////////////////////////
-    sf::Image  myImage;  ///< Some image to load...
-    sf::Sprite mySprite; ///< Something to draw...
-};*/
-
-//Working stuff if you need custom wxArrays. I'll just use standard vectors instead.
-//WX_DECLARE_OBJARRAY(float, wxArrayFloat);
-//WX_DECLARE_OBJARRAY(genie::Civ, ArrayCivCopy);
-//WX_DECLARE_OBJARRAY(genie::PlayerColour, ArrayPlayerColour);
 
 class AGE_Frame: public wxFrame
 {
@@ -86,14 +40,7 @@ public:
 
 	bool DataOpened;
 	void OnGameVersionChange();
-//	void OnTempBackup();
-//	void OnUndoing(wxCommandEvent &Event);
-//	void OnReload(wxCommandEvent &Event);
-//	void OnSectionChange(wxCommandEvent &Event);
 	void OnSave(wxCommandEvent &Event);
-//	void OnReset(wxCommandEvent &Event);
-//	void OnExecute(wxCommandEvent &Event);
-//	void OnQuickExecute(wxCommandEvent &Event);
 	void OnOpen(wxCommandEvent &Event);
 	void OnExit(wxCloseEvent &Event);
 	void OnMenuOption(wxCommandEvent &Event);
@@ -134,7 +81,6 @@ public:
 	wxString searchText, excludeText;
 	bool SearchMatches(wxString itemText);
 	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
-	void ListingFix(int selections, wxListBox* &List);
 	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
 	void UnitLangDLLConverter(wxCommandEvent &Event);
 	void ResearchLangDLLConverter(wxCommandEvent &Event);
@@ -161,7 +107,7 @@ public:
 	void OnVariableCalc(wxFocusEvent &Event);
 	void OnVariableCalcReverse(wxFocusEvent &Event);
 
-	void ListUnknowns();
+	void ListRandomMaps();
 	void OnUnknownsSearch(wxCommandEvent &Event);
 	void OnUnknownsSelect(wxCommandEvent &Event);
 	void OnUnknownsAdd(wxCommandEvent &Event);
@@ -172,18 +118,18 @@ public:
 	void OnUnknownsPasteInsert(wxCommandEvent &Event);
 	string GetUnknownName(short);
 
-	void ListUnknownFirstSubData();
-	void DisableUnknownFirstSubData();
-	void OnUnknownFirstSubDataSearch(wxCommandEvent &Event);
-	void OnUnknownFirstSubDataSelect(wxCommandEvent &Event);
-	void OnUnknownFirstSubDataAdd(wxCommandEvent &Event);
-	void OnUnknownFirstSubDataInsert(wxCommandEvent &Event);
-	void OnUnknownFirstSubDataDelete(wxCommandEvent &Event);
-	void OnUnknownFirstSubDataCopy(wxCommandEvent &Event);
-	void OnUnknownFirstSubDataPaste(wxCommandEvent &Event);
-	void OnUnknownFirstSubDataPasteInsert(wxCommandEvent &Event);
-	void OnUnknownFirstSubDataCopyToMaps(wxCommandEvent &Event);
-	string GetUnknownFirstSubDataName(short);
+	void ListRMSBaseZones();
+	void DisableRMSBaseZones();
+	void OnRMSBaseZonesSearch(wxCommandEvent &Event);
+	void OnRMSBaseZonesSelect(wxCommandEvent &Event);
+	void OnRMSBaseZonesAdd(wxCommandEvent &Event);
+	void OnRMSBaseZonesInsert(wxCommandEvent &Event);
+	void OnRMSBaseZonesDelete(wxCommandEvent &Event);
+	void OnRMSBaseZonesCopy(wxCommandEvent &Event);
+	void OnRMSBaseZonesPaste(wxCommandEvent &Event);
+	void OnRMSBaseZonesPasteInsert(wxCommandEvent &Event);
+	void OnRMSBaseZonesCopyToMaps(wxCommandEvent &Event);
+	string GetRMSBaseZonesName(short);
 
 	void ListRMSTerrains();
 	void DisableRMSTerrains();
@@ -776,7 +722,7 @@ public:
 
 	enum
 	{
-		MenuOption_Prompt,
+		MenuOption_Prompt = wxID_HIGHEST + 1,
 		MenuOption_IDFix,
 		MenuOption_Buttons,
 		MenuOption_Tips,
@@ -1002,62 +948,62 @@ public:
 	array<wxStaticText*, 2> Unknowns_Text_Unknown2;
 	array<TextCtrl_Long*, 2> Unknowns_Unknown2;
 
-	wxStaticBoxSizer *UnknownFirstSubData;
-	wxBoxSizer *UnknownFirstSubData_ListArea;
-	wxBoxSizer *UnknownFirstSubData_DataArea;
-	wxTextCtrl *UnknownFirstSubData_Search;
-	wxTextCtrl *UnknownFirstSubData_Search_R;
-	wxListBox *UnknownFirstSubData_List;
-	wxGridSizer *UnknownFirstSubData_Buttons;
-	wxButton *UnknownFirstSubData_Add;
-	wxButton *UnknownFirstSubData_Insert;
-	wxButton *UnknownFirstSubData_Delete;
-	wxButton *UnknownFirstSubData_Copy;
-	wxButton *UnknownFirstSubData_Paste;
-	wxButton *UnknownFirstSubData_PasteInsert;
-	wxButton *UnknownFirstSubData_CopyToMaps;
+	wxStaticBoxSizer *RMSBaseZones;
+	wxBoxSizer *RMSBaseZones_ListArea;
+	wxBoxSizer *RMSBaseZones_DataArea;
+	wxTextCtrl *RMSBaseZones_Search;
+	wxTextCtrl *RMSBaseZones_Search_R;
+	wxListBox *RMSBaseZones_List;
+	wxGridSizer *RMSBaseZones_Buttons;
+	wxButton *RMSBaseZones_Add;
+	wxButton *RMSBaseZones_Insert;
+	wxButton *RMSBaseZones_Delete;
+	wxButton *RMSBaseZones_Copy;
+	wxButton *RMSBaseZones_Paste;
+	wxButton *RMSBaseZones_PasteInsert;
+	wxButton *RMSBaseZones_CopyToMaps;
 
-	wxGridSizer *UnknownFirstSubData_Grid_Unknown1;
+	wxGridSizer *RMSBaseZones_Grid_Unknown1;
 
-	wxBoxSizer *UnknownFirstSubData_Holder_Unknown1;
-	wxStaticText *UnknownFirstSubData_Text_Unknown1;
-	TextCtrl_Long *UnknownFirstSubData_Unknown1;
-	wxBoxSizer *UnknownFirstSubData_Holder_BaseTerrain;
-	wxStaticText *UnknownFirstSubData_Text_BaseTerrain;
-	TextCtrl_Long *UnknownFirstSubData_BaseTerrain;
-	wxBoxSizer *UnknownFirstSubData_Holder_SpacingBetweenPlayers;
-	wxStaticText *UnknownFirstSubData_Text_SpacingBetweenPlayers;
-	TextCtrl_Long *UnknownFirstSubData_SpacingBetweenPlayers;
-	wxBoxSizer *UnknownFirstSubData_Holder_Unknown4;
-	wxStaticText *UnknownFirstSubData_Text_Unknown4;
-	TextCtrl_Long *UnknownFirstSubData_Unknown4;
+	wxBoxSizer *RMSBaseZones_Holder_Unknown1;
+	wxStaticText *RMSBaseZones_Text_Unknown1;
+	TextCtrl_Long *RMSBaseZones_Unknown1;
+	wxBoxSizer *RMSBaseZones_Holder_BaseTerrain;
+	wxStaticText *RMSBaseZones_Text_BaseTerrain;
+	TextCtrl_Long *RMSBaseZones_BaseTerrain;
+	wxBoxSizer *RMSBaseZones_Holder_SpacingBetweenPlayers;
+	wxStaticText *RMSBaseZones_Text_SpacingBetweenPlayers;
+	TextCtrl_Long *RMSBaseZones_SpacingBetweenPlayers;
+	wxBoxSizer *RMSBaseZones_Holder_Unknown4;
+	wxStaticText *RMSBaseZones_Text_Unknown4;
+	TextCtrl_Long *RMSBaseZones_Unknown4;
 
-	wxBoxSizer *UnknownFirstSubData_Holder_Unknown5;
-	wxGridSizer *UnknownFirstSubData_Grid_Unknown5;
-	wxStaticText *UnknownFirstSubData_Text_Unknown5;
-	array<TextCtrl_Byte*, 4> UnknownFirstSubData_Unknown5;
+	wxBoxSizer *RMSBaseZones_Holder_Unknown5;
+	wxGridSizer *RMSBaseZones_Grid_Unknown5;
+	wxStaticText *RMSBaseZones_Text_Unknown5;
+	array<TextCtrl_Byte*, 4> RMSBaseZones_Unknown5;
 
-	wxBoxSizer *UnknownFirstSubData_Holder_Unknown6;
-	wxStaticText *UnknownFirstSubData_Text_Unknown6;
-	TextCtrl_Long *UnknownFirstSubData_Unknown6;
-	wxBoxSizer *UnknownFirstSubData_Holder_Unknown7;
-	wxStaticText *UnknownFirstSubData_Text_Unknown7;
-	TextCtrl_Long *UnknownFirstSubData_Unknown7;
+	wxBoxSizer *RMSBaseZones_Holder_Unknown6;
+	wxStaticText *RMSBaseZones_Text_Unknown6;
+	TextCtrl_Long *RMSBaseZones_Unknown6;
+	wxBoxSizer *RMSBaseZones_Holder_Unknown7;
+	wxStaticText *RMSBaseZones_Text_Unknown7;
+	TextCtrl_Long *RMSBaseZones_Unknown7;
 
-	wxBoxSizer *UnknownFirstSubData_Holder_Unknown8;
-	wxGridSizer *UnknownFirstSubData_Grid_Unknown8;
-	wxStaticText *UnknownFirstSubData_Text_Unknown8;
-	array<TextCtrl_Byte*, 4> UnknownFirstSubData_Unknown8;
+	wxBoxSizer *RMSBaseZones_Holder_Unknown8;
+	wxGridSizer *RMSBaseZones_Grid_Unknown8;
+	wxStaticText *RMSBaseZones_Text_Unknown8;
+	array<TextCtrl_Byte*, 4> RMSBaseZones_Unknown8;
 
-	wxBoxSizer *UnknownFirstSubData_Holder_StartAreaRadius;
-	wxStaticText *UnknownFirstSubData_Text_StartAreaRadius;
-	TextCtrl_Long *UnknownFirstSubData_StartAreaRadius;
-	wxBoxSizer *UnknownFirstSubData_Holder_Unknown10;
-	wxStaticText *UnknownFirstSubData_Text_Unknown10;
-	TextCtrl_Long *UnknownFirstSubData_Unknown10;
-	wxBoxSizer *UnknownFirstSubData_Holder_Unknown11;
-	wxStaticText *UnknownFirstSubData_Text_Unknown11;
-	TextCtrl_Long *UnknownFirstSubData_Unknown11;
+	wxBoxSizer *RMSBaseZones_Holder_StartAreaRadius;
+	wxStaticText *RMSBaseZones_Text_StartAreaRadius;
+	TextCtrl_Long *RMSBaseZones_StartAreaRadius;
+	wxBoxSizer *RMSBaseZones_Holder_Unknown10;
+	wxStaticText *RMSBaseZones_Text_Unknown10;
+	TextCtrl_Long *RMSBaseZones_Unknown10;
+	wxBoxSizer *RMSBaseZones_Holder_Unknown11;
+	wxStaticText *RMSBaseZones_Text_Unknown11;
+	TextCtrl_Long *RMSBaseZones_Unknown11;
 
 	wxStaticBoxSizer *RMSTerrain;
 	wxBoxSizer *RMSTerrain_ListArea;

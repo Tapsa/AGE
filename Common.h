@@ -21,3 +21,6 @@
 #include "genie/dat/DatFile.h"	// Newer dat system
 #include "genie/lang/LangFile.h"
 //#include "genie/resource/DrsFile.h"	// DRS file system
+using namespace std;
+using boost::lexical_cast;
+using boost::bad_lexical_cast;

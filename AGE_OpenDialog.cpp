@@ -154,7 +154,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Connect(CheckBox_LangFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLang));
 	Connect(CheckBox_LangX1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1));
 	Connect(CheckBox_LangX1P1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1P1));
-//	Connect(chDrsFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectDrs));
 }
 
 void AGE_OpenDialog::OnOK(wxCommandEvent &Event)
@@ -334,6 +333,7 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &Event)
 
 void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 {
+	CheckBox_LangWrite->Enable(false);
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
 	Lang = LanguageBox->GetValue();
 

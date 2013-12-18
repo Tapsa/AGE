@@ -1,7 +1,6 @@
 #include "Common.h"
 #include "AGE_Frame.h"
 #include "AGE_Copies.hpp"
-using namespace std;
 
 #ifndef Main_h
 #define Main_h
