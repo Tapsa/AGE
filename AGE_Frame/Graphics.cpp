@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetGraphicName(short Index, bool Filter)
 {
@@ -112,6 +111,7 @@ void AGE_Frame::ListGraphics(bool all)
 	}
 
 	Listing(Graphics_Graphics_List, filteredNames, dataPointers);
+	//Graphics_Graphics_ListV->Listing(filteredNames, dataPointers);
 	if(all) FillLists(GraphicComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
@@ -364,18 +364,19 @@ void AGE_Frame::ListGraphicDeltas()
 	searchText = Graphics_Deltas_Search->GetValue().Lower();
 	excludeText = Graphics_Deltas_Search_R->GetValue().Lower();
 
-	auto selections = Graphics_Deltas_List->GetSelections(Items);
-	Graphics_Deltas_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicDeltaName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Graphics_Deltas_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].Deltas[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Graphics[GraphicIDs[0]].Deltas[loop]);
 		}
 	}
-	ListingFix(selections, Graphics_Deltas_List);
+	Listing(Graphics_Deltas_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnGraphicDeltasSelect(E);
@@ -515,16 +516,16 @@ void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListGraphicAttackSounds()
 {
-	auto selections = Graphics_AttackSounds_List->GetSelections(Items);
-	Graphics_AttackSounds_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString names;
 
 	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop);
-		Graphics_AttackSounds_List->Append(Name, (void*)&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop]);
+		names.Add(" "+lexical_cast<string>(loop)+" - "+GetGraphicAttackSoundName(loop));
+		dataPointers.push_back((void*)&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop]);
 	}
 
-	ListingFix(selections, Graphics_AttackSounds_List);
+	Listing(Graphics_AttackSounds_List, names, dataPointers);
 
 	wxCommandEvent E;
 	OnGraphicAttackSoundsSelect(E);
@@ -623,10 +624,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Copy = new wxButton(Tab_Graphics, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Paste = new wxButton(Tab_Graphics, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Graphics_PasteInsert = new wxButton(Tab_Graphics, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
-	//Graphics_Extract = new wxButton(Tab_Graphics, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
-	//Graphics_Extract->Enable(false);
-	//Graphics_Import = new wxButton(Tab_Graphics, wxID_ANY, "Import", wxDefaultPosition, wxSize(5, 20));
-	//Graphics_Import->Enable(false);
 	Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 
@@ -808,9 +805,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_Buttons->Add(Graphics_Copy, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Paste, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_PasteInsert, 1, wxEXPAND);
-	//Graphics_Graphics_Buttons->Add(Graphics_Extract, 1, wxEXPAND);
-	//Graphics_Graphics_Buttons->Add(Graphics_Import, 1, wxEXPAND);
-	//Graphics_Graphics_Buttons->AddStretchSpacer(1);
 	Graphics_Graphics_Buttons->Add(Graphics_Enable, 1, wxEXPAND);
 	Graphics_Graphics_Buttons->Add(Graphics_Disable, 1, wxEXPAND);
 
@@ -826,7 +820,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics->Add(Graphics_Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
-	//Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND);
+	//Graphics_Graphics->Add(Graphics_Graphics_ListV, 2, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
 
@@ -1064,7 +1058,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Graphics_Name->GetId())
 	{
 		ListGraphics();

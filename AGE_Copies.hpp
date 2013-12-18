@@ -1,5 +1,4 @@
 #include "Common.h"
-using namespace std;
 
 #ifndef Copies_h
 #define Copies_h

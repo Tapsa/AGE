@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetTTAgesName(short Index)
 {
@@ -16,19 +15,20 @@ void AGE_Frame::ListTTAgess()
 	searchText = TechTrees_MainList_Ages_Search->GetValue().Lower();
 	excludeText = TechTrees_MainList_Ages_Search_R->GetValue().Lower();
 
-	auto selections = TechTrees_MainList_Ages_List->GetSelections(Items);
-	TechTrees_MainList_Ages_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.TechTreeAges.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTTAgesName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_MainList_Ages_List->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.TechTreeAges[loop]);
 		}
 	}
 
-	ListingFix(selections, TechTrees_MainList_Ages_List);
+	Listing(TechTrees_MainList_Ages_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTAgesSelect(E);
@@ -180,18 +180,19 @@ void AGE_Frame::ListTTAgesBuildings()
 	searchText = TechTrees_DataList_Ages_Search_Buildings->GetValue().Lower();
 	excludeText = TechTrees_DataList_Ages_Search_R_Buildings->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Ages_List_Buildings->GetSelections(Items);
-	TechTrees_DataList_Ages_List_Buildings->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetBuildingName(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Ages_List_Buildings->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Ages_List_Buildings);
+	Listing(TechTrees_DataList_Ages_List_Buildings, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTAgesBuildingSelect(E);
@@ -300,18 +301,19 @@ void AGE_Frame::ListTTAgesUnits()
 	searchText = TechTrees_DataList_Ages_Search_Units->GetValue().Lower();
 	excludeText = TechTrees_DataList_Ages_Search_R_Units->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Ages_List_Units->GetSelections(Items);
-	TechTrees_DataList_Ages_List_Units->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Ages_List_Units->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Ages_List_Units);
+	Listing(TechTrees_DataList_Ages_List_Units, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTAgesUnitSelect(E);
@@ -435,18 +437,19 @@ void AGE_Frame::ListTTAgesResearches()
 	searchText = TechTrees_DataList_Ages_Search_Researches->GetValue().Lower();
 	excludeText = TechTrees_DataList_Ages_Search_R_Researches->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Ages_List_Researches->GetSelections(Items);
-	TechTrees_DataList_Ages_List_Researches->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetSimpleResearchName(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Ages_List_Researches->Append(Name, (void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Ages_List_Researches);
+	Listing(TechTrees_DataList_Ages_List_Researches, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTAgesResearchSelect(E);
@@ -618,19 +621,20 @@ void AGE_Frame::ListTTBuildings()
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Buildings_UseAnd[loop]->GetValue();
 
-	auto selections = TechTrees_MainList_Buildings_List->GetSelections(Items);
-	TechTrees_MainList_Buildings_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.BuildingConnections.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTTBuildingName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_MainList_Buildings_List->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.BuildingConnections[loop]);
 		}
 	}
 
-	ListingFix(selections, TechTrees_MainList_Buildings_List);
+	Listing(TechTrees_MainList_Buildings_List, filteredNames, dataPointers);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -876,18 +880,19 @@ void AGE_Frame::ListTTBuildingBuildings()
 	searchText = TechTrees_DataList_Buildings_Search_Buildings->GetValue().Lower();
 	excludeText = TechTrees_DataList_Buildings_Search_R_Buildings->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Buildings_List_Buildings->GetSelections(Items);
-	TechTrees_DataList_Buildings_List_Buildings->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetBuildingName(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Buildings_List_Buildings->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Buildings_List_Buildings);
+	Listing(TechTrees_DataList_Buildings_List_Buildings, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTBuildingBuildingSelect(E);
@@ -996,18 +1001,19 @@ void AGE_Frame::ListTTBuildingUnits()
 	searchText = TechTrees_DataList_Buildings_Search_Units->GetValue().Lower();
 	excludeText = TechTrees_DataList_Buildings_Search_R_Units->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Buildings_List_Units->GetSelections(Items);
-	TechTrees_DataList_Buildings_List_Units->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Buildings_List_Units->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Buildings_List_Units);
+	Listing(TechTrees_DataList_Buildings_List_Units, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTBuildingUnitSelect(E);
@@ -1116,18 +1122,19 @@ void AGE_Frame::ListTTBuildingResearches()
 	searchText = TechTrees_DataList_Buildings_Search_Researches->GetValue().Lower();
 	excludeText = TechTrees_DataList_Buildings_Search_R_Researches->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Buildings_List_Researches->GetSelections(Items);
-	TechTrees_DataList_Buildings_List_Researches->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetSimpleResearchName(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Buildings_List_Researches->Append(Name, (void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Buildings_List_Researches);
+	Listing(TechTrees_DataList_Buildings_List_Researches, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTBuildingResearchSelect(E);
@@ -1311,19 +1318,20 @@ void AGE_Frame::ListTTUnits()
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Units_UseAnd[loop]->GetValue();
 
-	auto selections = TechTrees_MainList_Units_List->GetSelections(Items);
-	TechTrees_MainList_Units_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.UnitConnections.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTTUnitName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_MainList_Units_List->Append(Name, (void*)&GenieFile->TechTree.UnitConnections[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.UnitConnections[loop]);
 		}
 	}
 
-	ListingFix(selections, TechTrees_MainList_Units_List);
+	Listing(TechTrees_MainList_Units_List, filteredNames, dataPointers);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -1569,18 +1577,19 @@ void AGE_Frame::ListTTUnitUnits()
 	searchText = TechTrees_DataList_Units_Search_Units->GetValue().Lower();
 	excludeText = TechTrees_DataList_Units_Search_R_Units->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Units_List_Units->GetSelections(Items);
-	TechTrees_DataList_Units_List_Units->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Units_List_Units->Append(Name, (void*)&GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Units_List_Units);
+	Listing(TechTrees_DataList_Units_List_Units, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTUnitUnitSelect(E);
@@ -1752,19 +1761,20 @@ void AGE_Frame::ListTTResearches()
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Researches_UseAnd[loop]->GetValue();
 
-	auto selections = TechTrees_MainList_Researches_List->GetSelections(Items);
-	TechTrees_MainList_Researches_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.ResearchConnections.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTTResearchName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_MainList_Researches_List->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.ResearchConnections[loop]);
 		}
 	}
 
-	ListingFix(selections, TechTrees_MainList_Researches_List);
+	Listing(TechTrees_MainList_Researches_List, filteredNames, dataPointers);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -1952,18 +1962,19 @@ void AGE_Frame::ListTTResearchBuildings()
 	searchText = TechTrees_DataList_Researches_Search_Buildings->GetValue().Lower();
 	excludeText = TechTrees_DataList_Researches_Search_R_Buildings->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Researches_List_Buildings->GetSelections(Items);
-	TechTrees_DataList_Researches_List_Buildings->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetBuildingName(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Researches_List_Buildings->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Researches_List_Buildings);
+	Listing(TechTrees_DataList_Researches_List_Buildings, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTResearchBuildingSelect(E);
@@ -2072,18 +2083,19 @@ void AGE_Frame::ListTTResearchUnits()
 	searchText = TechTrees_DataList_Researches_Search_Units->GetValue().Lower();
 	excludeText = TechTrees_DataList_Researches_Search_R_Units->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Researches_List_Units->GetSelections(Items);
-	TechTrees_DataList_Researches_List_Units->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Researches_List_Units->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Researches_List_Units);
+	Listing(TechTrees_DataList_Researches_List_Units, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTResearchUnitSelect(E);
@@ -2192,18 +2204,19 @@ void AGE_Frame::ListTTResearchResearches()
 	searchText = TechTrees_DataList_Researches_Search_Researches->GetValue().Lower();
 	excludeText = TechTrees_DataList_Researches_Search_R_Researches->GetValue().Lower();
 
-	auto selections = TechTrees_DataList_Researches_List_Researches->GetSelections(Items);
-	TechTrees_DataList_Researches_List_Researches->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetSimpleResearchName(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			TechTrees_DataList_Researches_List_Researches->Append(Name, (void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches[loop]);
 		}
 	}
-	ListingFix(selections, TechTrees_DataList_Researches_List_Researches);
+	Listing(TechTrees_DataList_Researches_List_Researches, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnTTResearchResearchSelect(E);
@@ -3630,7 +3643,7 @@ void AGE_Frame::CreateTechTreeControls()
 
 void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == TechTrees_Ages_ID->GetId())
 	{
 		ListTTAgess();
