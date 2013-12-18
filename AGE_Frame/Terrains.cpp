@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainName(short Index)
 {
@@ -24,7 +23,7 @@ void AGE_Frame::ListTerrainNumbers()
 
 void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	uint16_t UsedTerrains = lexical_cast<uint16_t>(((wxTextCtrl*)Event.GetEventObject())->GetValue());
 	// Resize terrain restrictions
 	for(short loop = 0; loop < GenieFile->TerrainRestrictions.size(); ++loop)
@@ -44,10 +43,8 @@ void AGE_Frame::ListTerrains(bool all)
 	searchText = Terrains_Terrains_Search->GetValue().Lower();
 	excludeText = Terrains_Terrains_Search_R->GetValue().Lower();
 
-	auto selections = Terrains_Terrains_List->GetSelections(Items);
-	Terrains_Terrains_List->Clear();
-
-	wxArrayString names;
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
 	if(all) names.Alloc(GenieFile->Terrains.size());
 
 	for(short loop = 0; loop < GenieFile->Terrains.size(); ++loop)
@@ -55,12 +52,13 @@ void AGE_Frame::ListTerrains(bool all)
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Terrains_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Terrains[loop]);
 		}
 		if(all) names.Add(Name);
 	}
 
-	ListingFix(selections, Terrains_Terrains_List);
+	Listing(Terrains_Terrains_List, filteredNames, dataPointers);
 	if(all) FillLists(TerrainComboBoxList, names);
 
 	wxCommandEvent E;
@@ -640,7 +638,7 @@ void AGE_Frame::CreateTerrainControls()
 
 void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Terrains_Name->GetId())
 	{
 		ListTerrains();

@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 //const wxString AGE_Frame::CIVCOUNTWARNING = "Fewer civilizations copied than needed to paste!\nPasting data to extra civilizations from civilization 1!";
 
@@ -2037,8 +2036,8 @@ void AGE_Frame::ListUnitDamageGraphics()
 	searchText = Units_DamageGraphics_Search->GetValue().Lower();
 	excludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
 
-	auto selections = Units_DamageGraphics_List->GetSelections(Items);
-	Units_DamageGraphics_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0)
 	{
@@ -2048,7 +2047,8 @@ void AGE_Frame::ListUnitDamageGraphics()
 			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
-				Units_DamageGraphics_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[loop]);
+				filteredNames.Add(Name);
+				dataPointers.push_back((void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[loop]);
 			}
 		}
 	}
@@ -2056,7 +2056,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	{
 		Units_DamageGraphics_Add->Enable(false);
 	}
-	ListingFix(selections, Units_DamageGraphics_List);
+	Listing(Units_DamageGraphics_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnUnitDamageGraphicsSelect(E);
@@ -2297,8 +2297,8 @@ void AGE_Frame::ListUnitAttacks()
 	searchText = Units_Attacks_Search->GetValue().Lower();
 	excludeText = Units_Attacks_Search_R->GetValue().Lower();
 
-	auto selections = Units_Attacks_List->GetSelections(Items);
-	Units_Attacks_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60
@@ -2310,7 +2310,8 @@ void AGE_Frame::ListUnitAttacks()
 			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
-				Units_Attacks_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[loop]);
+				filteredNames.Add(Name);
+				dataPointers.push_back((void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[loop]);
 			}
 		}
 	}
@@ -2318,7 +2319,7 @@ void AGE_Frame::ListUnitAttacks()
 	{
 		Units_Attacks_Add->Enable(false);
 	}
-	ListingFix(selections, Units_Attacks_List);
+	Listing(Units_Attacks_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnUnitAttacksSelect(E);
@@ -2550,8 +2551,8 @@ void AGE_Frame::ListUnitArmors()
 	searchText = Units_Armors_Search->GetValue().Lower();
 	excludeText = Units_Armors_Search_R->GetValue().Lower();
 
-	auto selections = Units_Armors_List->GetSelections(Items);
-	Units_Armors_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 60
@@ -2563,7 +2564,8 @@ void AGE_Frame::ListUnitArmors()
 			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
-				Units_Armors_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[loop]);
+				filteredNames.Add(Name);
+				dataPointers.push_back((void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[loop]);
 			}
 		}
 	}
@@ -2571,7 +2573,7 @@ void AGE_Frame::ListUnitArmors()
 	{
 		Units_Armors_Add->Enable(false);
 	}
-	ListingFix(selections, Units_Armors_List);
+	Listing(Units_Armors_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnUnitArmorsSelect(E);
@@ -2844,8 +2846,8 @@ void AGE_Frame::ListUnitCommands()
 	searchText = Units_UnitCommands_Search->GetValue().Lower();
 	excludeText = Units_UnitCommands_Search_R->GetValue().Lower();
 
-	auto selections = Units_UnitCommands_List->GetSelections(Items);
-	Units_UnitCommands_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	if(GenieVersion >= genie::GV_AoK)	// AoK, TC, SWGB or CC
 	{
@@ -2854,7 +2856,8 @@ void AGE_Frame::ListUnitCommands()
 			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
-				Units_UnitCommands_List->Append(Name, (void*)&GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop]);
+				filteredNames.Add(Name);
+				dataPointers.push_back((void*)&GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop]);
 			}
 		}
 	}
@@ -2870,7 +2873,8 @@ void AGE_Frame::ListUnitCommands()
 				wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
 				if(SearchMatches(Name.Lower()))
 				{
-					Units_UnitCommands_List->Append(Name, (void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop]);
+					filteredNames.Add(Name);
+					dataPointers.push_back((void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop]);
 				}
 			}
 		}
@@ -2879,7 +2883,7 @@ void AGE_Frame::ListUnitCommands()
 			Units_UnitCommands_Add->Enable(false);
 		}
 	}
-	ListingFix(selections, Units_UnitCommands_List);
+	Listing(Units_UnitCommands_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnUnitCommandsSelect(E);
@@ -5618,7 +5622,7 @@ void AGE_Frame::CreateUnitControls()
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Units_Name->GetId() || Event.GetId() == Units_LanguageDLLName->GetId())
 	{
 		ListUnits(UnitCivID);

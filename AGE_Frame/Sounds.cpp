@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetSoundName(short Index)
 {
@@ -16,10 +15,8 @@ void AGE_Frame::ListSounds(bool all)
 	searchText = Sounds_Sounds_Search->GetValue().Lower();
 	excludeText = Sounds_Sounds_Search_R->GetValue().Lower();
 
-	auto selections = Sounds_Sounds_List->GetSelections(Items);
-	Sounds_Sounds_List->Clear();
-
-	wxArrayString names;
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
 	if(all) names.Alloc(GenieFile->Sounds.size());
 
 	for(short loop = 0; loop < GenieFile->Sounds.size(); ++loop)
@@ -27,12 +24,13 @@ void AGE_Frame::ListSounds(bool all)
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetSoundName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Sounds_Sounds_List->Append(Name, (void*)&GenieFile->Sounds[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Sounds[loop]);
 		}
 		if(all) names.Add(Name);
 	}
 
-	ListingFix(selections, Sounds_Sounds_List);
+	Listing(Sounds_Sounds_List, filteredNames, dataPointers);
 	if(all) FillLists(SoundComboBoxList, names);
 
 	wxCommandEvent E;
@@ -176,18 +174,19 @@ void AGE_Frame::ListSoundItems()
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Sounds_Items_UseAnd[loop]->GetValue();
 
-	auto selections = Sounds_Items_List->GetSelections(Items);
-	Sounds_Items_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->Sounds[SoundIDs[0]].Items.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetSoundItemName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Sounds_Items_List->Append(Name, (void*)&GenieFile->Sounds[SoundIDs[0]].Items[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Sounds[SoundIDs[0]].Items[loop]);
 		}
 	}
-	ListingFix(selections, Sounds_Items_List);
+	Listing(Sounds_Items_List, filteredNames, dataPointers);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -584,7 +583,7 @@ void AGE_Frame::CreateSoundControls()
 
 void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	ListSoundItems();
 	Event.Skip();
 }

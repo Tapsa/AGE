@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetUnitLineName(short Index)
 {
@@ -18,31 +17,28 @@ void AGE_Frame::ListUnitLines()
 	searchText = UnitLines_UnitLines_Search->GetValue().Lower();
 	excludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
 
-	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
-	short UnitIDs = Units_ComboBox_Unitline->GetSelection();
-
-	UnitLines_UnitLines_List->Clear();
-	Units_ComboBox_Unitline->Clear();
-
-	if(UnitIDs == wxNOT_FOUND)
-	{
-		UnitIDs = 0;
-	}
-
-	Units_ComboBox_Unitline->Append("-1 - None");
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
+	names.Alloc(GenieFile->Civs[0].Units.size());
 
 	for(short loop = 0; loop < GenieFile->UnitLines.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			UnitLines_UnitLines_List->Append(Name, (void*)&GenieFile->UnitLines[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->UnitLines[loop]);
 		}
-		Units_ComboBox_Unitline->Append(Name);
+		names.Add(Name);
 	}
 
-	ListingFix(selections, UnitLines_UnitLines_List);
-	Units_ComboBox_Unitline->SetSelection(UnitIDs);
+	Listing(UnitLines_UnitLines_List, filteredNames, dataPointers);
+
+	short selection = Units_ComboBox_Unitline->GetSelection();
+	Units_ComboBox_Unitline->Clear();
+	Units_ComboBox_Unitline->Append("-1 - None");
+	Units_ComboBox_Unitline->Append(names);
+	Units_ComboBox_Unitline->SetSelection(selection);
 
 	wxCommandEvent E;
 	OnUnitLinesSelect(E);
@@ -155,18 +151,19 @@ void AGE_Frame::ListUnitLineUnits()
 	searchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
 	excludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
 
-	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
-	UnitLines_UnitLineUnits_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			UnitLines_UnitLineUnits_List->Append(Name, (void*)&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		}
 	}
-	ListingFix(selections, UnitLines_UnitLineUnits_List);
+	Listing(UnitLines_UnitLineUnits_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
 	OnUnitLineUnitsSelect(E);
@@ -404,7 +401,7 @@ void AGE_Frame::CreateUnitLineControls()
 
 void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == UnitLines_Name->GetId())
 	{
 		ListUnitLines();

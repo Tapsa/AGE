@@ -5,9 +5,6 @@
 #include "../Question.xpm"
 #include "genie/util/Logger.h"
 
-//#include <wx/arrimpl.cpp>
-using boost::lexical_cast;
-
 AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
 {
@@ -61,7 +58,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
 	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_Help, "Help", wxNullBitmap, "Show help");
+	GetToolBar()->AddTool(ToolBar_Help, "Help", wxBitmap(Question_xpm), "Show help");
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->Realize();
 
@@ -180,12 +177,4 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
-
-	// Let's create our SFML view
-    // new MyCanvas(this, wxID_ANY, wxPoint(50, 50), wxSize(700, 500));
 }
-
-//Working stuff if you need custom wxArrays. I'll just use standard vectors instead.
-//WX_DEFINE_OBJARRAY(wxArrayFloat);
-//WX_DEFINE_OBJARRAY(ArrayCivCopy);
-//WX_DEFINE_OBJARRAY(ArrayPlayerColour);

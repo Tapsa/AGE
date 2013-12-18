@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetTerrainRestrictionName(short Index)
 {
@@ -121,10 +120,8 @@ void AGE_Frame::ListTerrainRestrictions(bool all)
 	searchText = TerRestrict_TerRestrict_Search->GetValue().Lower();
 	excludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
 
-	auto selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	TerRestrict_TerRestrict_List->Clear();
-
-	wxArrayString names;
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
 	if(all) names.Alloc(GenieFile->TerrainRestrictions.size());
 
 	for(short loop = 0; loop < GenieFile->TerrainRestrictions.size(); ++loop)
@@ -132,12 +129,13 @@ void AGE_Frame::ListTerrainRestrictions(bool all)
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainRestrictionName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			TerRestrict_TerRestrict_List->Append(Name, (void*)&GenieFile->TerrainRestrictions[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TerrainRestrictions[loop]);
 		}
 		if(all) names.Add(Name);
 	}
 
-	ListingFix(selections, TerRestrict_TerRestrict_List);
+	Listing(TerRestrict_TerRestrict_List, filteredNames, dataPointers);
 	if(all) FillLists(TerrainRestrictionComboBoxList, names);
 
 	wxCommandEvent E;
@@ -477,7 +475,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 
 void AGE_Frame::OnKillFocus_TerRestrict(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	ListTerrains(false);
 	Event.Skip();
 }

@@ -49,8 +49,6 @@ class AGE_SaveDialog: public wxDialog
 	wxFilePickerCtrl *Path_UnzFileLocation;
 	wxCheckBox *CheckBox_ApfFileLocation;
 	wxFilePickerCtrl *Path_ApfFileLocation;
-//	wxCheckBox *chDrsFileLocation;
-//	wxFilePickerCtrl *fpDrsFileLocation;
 	wxCheckBox *CheckBox_LangFileLocation;
 	wxFilePickerCtrl *Path_LangFileLocation;
 	wxCheckBox *CheckBox_LangX1FileLocation;

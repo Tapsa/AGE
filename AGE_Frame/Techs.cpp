@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetTechName(short Index)
 {
@@ -82,8 +81,8 @@ void AGE_Frame::ListTechs(bool all)
 	searchText = Techs_Techs_Search->GetValue().Lower();
 	excludeText = Techs_Techs_Search_R->GetValue().Lower();
 
-	auto selections = Techs_Techs_List->GetSelections(Items);
-	Techs_Techs_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	wxArrayString names;
 	if(all) names.Alloc(GenieFile->Techages.size());
@@ -93,12 +92,13 @@ void AGE_Frame::ListTechs(bool all)
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTechName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Techs_Techs_List->Append(Name, (void*)&GenieFile->Techages[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Techages[loop]);
 		}
 		if(all) names.Add(Name);
 	}
 
-	ListingFix(selections, Techs_Techs_List);
+	Listing(Techs_Techs_List, filteredNames, dataPointers);
 	if(all) FillLists(TechComboBoxList, names);
 
 	wxCommandEvent E;
@@ -293,18 +293,19 @@ void AGE_Frame::ListEffects()
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 
-	auto selections = Techs_Effects_List->GetSelections(Items);
-	Techs_Effects_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetEffectName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Techs_Effects_List->Append(Name, (void*)&GenieFile->Techages[TechIDs[0]].Effects[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Techages[TechIDs[0]].Effects[loop]);
 		}
 	}
-	ListingFix(selections, Techs_Effects_List);
+	Listing(Techs_Effects_List, filteredNames, dataPointers);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -1404,7 +1405,7 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
 		ListEffects();
 		return;
 	}
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Techs_Name->GetId())
 	{
 		ListTechs();

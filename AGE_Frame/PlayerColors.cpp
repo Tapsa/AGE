@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
 {
@@ -18,26 +17,28 @@ void AGE_Frame::ListPlayerColors()
 	searchText = Colors_Colors_Search->GetValue().Lower();
 	excludeText = Colors_Colors_Search_R->GetValue().Lower();
 
-	auto selections = Colors_Colors_List->GetSelections(Items);
-	Colors_Colors_List->Clear();
-	
-	short SavedID = Graphics_ComboBox_PlayerColor->GetSelection();
-	Graphics_ComboBox_PlayerColor->Clear();
-	if(SavedID == wxNOT_FOUND) SavedID = 0;
-	Graphics_ComboBox_PlayerColor->Append("-1 - None");
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
+	names.Alloc(GenieFile->PlayerColours.size());
 
 	for(short loop = 0; loop < GenieFile->PlayerColours.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Colors_Colors_List->Append(Name, (void*)&GenieFile->PlayerColours[loop]);
-			Graphics_ComboBox_PlayerColor->Append(Name);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->PlayerColours[loop]);
 		}
+		names.Add(Name);
 	}
 
-	ListingFix(selections, Colors_Colors_List);
-	Graphics_ComboBox_PlayerColor->SetSelection(SavedID);
+	Listing(Colors_Colors_List, filteredNames, dataPointers);
+
+	short selection = Graphics_ComboBox_PlayerColor->GetSelection();
+	Graphics_ComboBox_PlayerColor->Clear();
+	Graphics_ComboBox_PlayerColor->Append("-1 - None");
+	Graphics_ComboBox_PlayerColor->Append(names);
+	Graphics_ComboBox_PlayerColor->SetSelection(selection);
 
 	wxCommandEvent E;
 	OnPlayerColorsSelect(E);
@@ -311,7 +312,7 @@ void AGE_Frame::CreatePlayerColorControls()
 
 void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	ListPlayerColors();
 	Event.Skip();
 }
