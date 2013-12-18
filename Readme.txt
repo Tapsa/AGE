@@ -30,8 +30,8 @@ zlib 1.2.8:
 Unpack the zip file.
 In cmd.exe go to \zlib
 mingw32-make -f win32/Makefile.gcc
-del *.o
-del *.exe
+del /s *.o
+del /s *.exe
 Then copy as follows:
 /mingw/bin/zlib1.dll
 /mingw/include/zconf.h

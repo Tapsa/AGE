@@ -5,7 +5,7 @@
 
 class AGECheckBox: public wxCheckBox, public AGELinkedBox
 {
-	public:
+public:
 	AGECheckBox(wxWindow *parent, wxString label):
 	wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20)){}
 
@@ -16,7 +16,7 @@ class AGECheckBox: public wxCheckBox, public AGELinkedBox
 
 class CheckBox_2State: public AGECheckBox
 {
-	public:
+public:
 	CheckBox_2State(wxWindow *parent, wxString label, AGETextCtrl *Pointer):
 	AGECheckBox(parent, label)
 	{
@@ -31,7 +31,7 @@ class CheckBox_2State: public AGECheckBox
 
 class CheckBox_ZeroIsYes: public AGECheckBox
 {
-	public:
+public:
 	CheckBox_ZeroIsYes(wxWindow *parent, wxString label, AGETextCtrl *Pointer):
 	AGECheckBox(parent, label)
 	{

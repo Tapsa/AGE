@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
 {
@@ -912,7 +911,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		ListPlayerColors();
 		ListTerrainBorders();
 		ListGeneral();
-		ListUnknowns();
+		ListRandomMaps();
 
 		Effects_ComboBox_AttributesC->Clear();
 		Effects_ComboBox_AttributesC->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1458,12 +1457,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			AGEAbout.ShowModal();
 		}
 		break;
-		case MenuOption_IDFix:
+		/*case MenuOption_IDFix:
 		{
 			EnableIDFix = Event.IsChecked();
 			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
 		}
-		break;
+		break;*/
 		case ToolBar_Help:
 		{
 			//AGE_HelpInfo AGEHelp(this);
@@ -1511,6 +1510,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			wxMessageBox(help);
 		}
 		break;
+		default: wxMessageBox("wxEvent error! "+lexical_cast<string>(Event.GetId()));
 	}
 }
 
@@ -1538,7 +1538,7 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 		else if(LangsUsed & 2 && !(Result = LangX->getString(ID)).empty()){}
 		else if(LangsUsed & 1 && !(Result = Lang->getString(ID)).empty()){}
 	}
-	else
+	else // Does not work when building as 64-bit
 	{
 		char Buffer[Letters];
 		if(LangsUsed & 4 && LoadStringA(LanguageDLL[2], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
@@ -1725,12 +1725,8 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	{
 		List->SetClientData(loop, *it++);
 	}
-	ListingFix(selections, List);
 	SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(time2 - time1)).count())+" ms", 0);
-}
-
-void AGE_Frame::ListingFix(int selections, wxListBox* &List)
-{
+	
 	if(selections == 0)
 	{
 		List->SetSelection(0);

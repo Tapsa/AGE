@@ -62,8 +62,6 @@ class AGE_OpenDialog: public wxDialog
 	wxFilePickerCtrl *Path_LangX1P1FileLocation;
 	wxCheckBox *CheckBox_LangWrite;
 	wxCheckBox *CheckBox_LangWriteToLatest;
-//	wxCheckBox *chDrsFileLocation;
-//	wxFilePickerCtrl *fpDrsFileLocation;
 	wxButton *OpenButtonOK;
 	wxButton *OpenButtonCancel;
 };

@@ -1,5 +1,4 @@
 #include "../AGE_Frame.h"
-using boost::lexical_cast;
 
 string AGE_Frame::GetResearchName(short Index, bool Filter)
 {
@@ -130,10 +129,8 @@ void AGE_Frame::ListResearches(bool all)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 
-	auto selections = Research_Research_List->GetSelections(Items);
-	Research_Research_List->Clear();
-
-	wxArrayString names;
+	list<void*> dataPointers;
+	wxArrayString names, filteredNames;
 	if(all) names.Alloc(GenieFile->Researchs.size());
 
 	for(short loop = 0; loop < GenieFile->Researchs.size(); ++loop)
@@ -141,12 +138,13 @@ void AGE_Frame::ListResearches(bool all)
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
 		if(SearchMatches(Name.Lower()))
 		{
-			Research_Research_List->Append(Name, (void*)&GenieFile->Researchs[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->Researchs[loop]);
 		}
 		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetResearchName(loop));
 	}
 
-	ListingFix(selections, Research_Research_List);
+	Listing(Research_Research_List, filteredNames, dataPointers);
 	if(all) FillLists(ResearchComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
@@ -741,7 +739,7 @@ void AGE_Frame::CreateResearchControls()
 
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &Event)
 {
-	if(!((AGETextCtrl*)Event.GetEventObject())->SaveEdits()) return;
+	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Research_Name[0]->GetId() || Event.GetId() == Research_LangDLLName->GetId())
 	{
 		ListResearches();
