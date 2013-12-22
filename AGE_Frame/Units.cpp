@@ -710,7 +710,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		//locations.Append("\n");
 	}
 	//wxMessageBox(locations);
-	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
+	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
 
 	Units_Type->ChangeValue(lexical_cast<string>((short)UnitPointer->Type));
 	switch(UnitType)

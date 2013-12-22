@@ -3,7 +3,7 @@
 #include "../GateOpen.xpm"
 #include "../GateClosed.xpm"
 #include "../Question.xpm"
-#include "genie/util/Logger.h"
+//#include "genie/util/Logger.h"
 
 AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
@@ -53,7 +53,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	delete Config;
 
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
-	CreateStatusBar();
+	CreateStatusBar()->SetFieldsCount(3);
 
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
