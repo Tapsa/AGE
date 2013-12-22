@@ -1717,15 +1717,17 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &data)
 {
 	int selections = List->GetSelections(Items);
-	auto time1 = chrono::system_clock::now();
+	chrono::time_point<chrono::system_clock> startTime = chrono::system_clock::now();
 	List->Set(names);
-	auto time2 = chrono::system_clock::now();
+	bool showTime = ((chrono::duration_cast<chrono::milliseconds>(startTime - endTime)).count() > 1000) ? true : false;
+	endTime = chrono::system_clock::now();
 	auto it = data.begin();
 	for(short loop = 0; loop < List->GetCount(); ++loop)
 	{
 		List->SetClientData(loop, *it++);
 	}
-	SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(time2 - time1)).count())+" ms", 0);
+	if(showTime)
+	SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
 	
 	if(selections == 0)
 	{
@@ -1747,7 +1749,7 @@ void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names)
 {
 	for(ComboBox_Plus1* &list: boxlist)
 	{
-		auto selection = list->GetSelection();
+		int selection = list->GetSelection();
 		list->Clear();
 		list->Append("-1 - None");
 		list->Append(names);
@@ -1757,7 +1759,7 @@ void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names)
 
 void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch)
 {
-	auto selections = List->GetSelections(Items);
+	int selections = List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxString TopText, SubText, Line;

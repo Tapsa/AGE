@@ -120,15 +120,15 @@ public:
 
 	void ListRMSBaseZones();
 	void DisableRMSBaseZones();
-	void OnRMSBaseZonesSearch(wxCommandEvent &Event);
-	void OnRMSBaseZonesSelect(wxCommandEvent &Event);
-	void OnRMSBaseZonesAdd(wxCommandEvent &Event);
-	void OnRMSBaseZonesInsert(wxCommandEvent &Event);
-	void OnRMSBaseZonesDelete(wxCommandEvent &Event);
-	void OnRMSBaseZonesCopy(wxCommandEvent &Event);
-	void OnRMSBaseZonesPaste(wxCommandEvent &Event);
-	void OnRMSBaseZonesPasteInsert(wxCommandEvent &Event);
-	void OnRMSBaseZonesCopyToMaps(wxCommandEvent &Event);
+	void OnRMSBaseZoneSearch(wxCommandEvent &Event);
+	void OnRMSBaseZoneSelect(wxCommandEvent &Event);
+	void OnRMSBaseZoneAdd(wxCommandEvent &Event);
+	void OnRMSBaseZoneInsert(wxCommandEvent &Event);
+	void OnRMSBaseZoneDelete(wxCommandEvent &Event);
+	void OnRMSBaseZoneCopy(wxCommandEvent &Event);
+	void OnRMSBaseZonePaste(wxCommandEvent &Event);
+	void OnRMSBaseZonePasteInsert(wxCommandEvent &Event);
+	void OnRMSBaseZoneCopyToMaps(wxCommandEvent &Event);
 	string GetRMSBaseZonesName(short);
 
 	void ListRMSTerrains();
@@ -608,39 +608,17 @@ public:
 
 //	Application Variables
 
-	bool PromptForFilesOnOpen;
-	bool AutoCopy;
-	bool CopyGraphics;
-	bool AllCivs;
+	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs;
 	vector<short> SelectedCivs;
-//	static const wxString CIVCOUNTWARNING;
-//	int SearchFilters;
-	bool useAnd[2];
-	bool EnableIDFix;
-	bool ShowUnknowns;
-	bool ShowButtons;
-	bool ShowHelpOnStart;
-//	bool UseUndo;
-	bool NeedDat;
-	bool SkipOpenDialog;
-	wxFileConfig *Config;
-	wxFileConfig *Customs;
+	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, ShowHelpOnStart, NeedDat, SkipOpenDialog;
+	wxFileConfig *Config, *Customs;
 	genie::DatFile *GenieFile;
-	genie::LangFile *Lang;
-	genie::LangFile *LangX;
-	genie::LangFile *LangXP;
+	genie::LangFile *Lang, *LangX, *LangXP;
 //	wxSound SoundFile;
 
-	list<ComboBox_Plus1*> ResearchComboBoxList;
-	list<ComboBox_Plus1*> TechComboBoxList;
-	list<ComboBox_Plus1*> CivComboBoxList;
-	list<ComboBox_Plus1*> ResourceComboBoxList;
-	list<ComboBox_Plus1*> UnitComboBoxList;
-	list<ComboBox_Plus1*> GraphicComboBoxList;
-	list<ComboBox_Plus1*> TerrainComboBoxList;
-	list<ComboBox_Plus1*> TerrainBorderComboBoxList;
-	list<ComboBox_Plus1*> TerrainRestrictionComboBoxList;
-	list<ComboBox_Plus1*> SoundComboBoxList;
+	list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
+	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
+	TerrainRestrictionComboBoxList, SoundComboBoxList;
 
 /*	genie::DatFile FileBackup; // Can't copy the whole file?
 	long EditCount;
@@ -699,20 +677,15 @@ public:
 	bool Added, SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
 	short AGEwindow;
 	int SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion;
+	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;
-	wxString DatFileName;
-	wxString ApfFileName;
-	wxString SaveDatFileName;
-	wxString SaveApfFileName;
+	wxString DatFileName, ApfFileName;
+	wxString SaveDatFileName, SaveApfFileName;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
 	wxString LangCharset;
-	wxString LangFileName;
-	wxString LangX1FileName;
-	wxString LangX1P1FileName;
-	wxString SaveLangFileName;
-	wxString SaveLangX1FileName;
-	wxString SaveLangX1P1FileName;
+	wxString LangFileName, LangX1FileName, LangX1P1FileName;
+	wxString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
 
 	HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters = 0);

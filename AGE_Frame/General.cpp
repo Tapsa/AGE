@@ -517,7 +517,7 @@ void AGE_Frame::OnUnknownsPasteInsert(wxCommandEvent &Event)
 	ListRandomMaps();
 }
 
-void AGE_Frame::OnRMSBaseZonesSearch(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZoneSearch(wxCommandEvent &Event)
 {
 	ListRMSBaseZones();
 }
@@ -547,10 +547,10 @@ void AGE_Frame::ListRMSBaseZones()
 	Listing(RMSBaseZones_List, filteredNames, dataPointers);
 
 	wxCommandEvent E;
-	OnRMSBaseZonesSelect(E);
+	OnRMSBaseZoneSelect(E);
 }
 
-void AGE_Frame::OnRMSBaseZonesSelect(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &Event)
 {
 	auto selections = RMSBaseZones_List->GetSelections(Items);
 	if(selections < 1)
@@ -657,7 +657,7 @@ void AGE_Frame::DisableRMSBaseZones()
 	RMSBaseZones_Unknown11->ChangeValue("0");
 }
 
-void AGE_Frame::OnRMSBaseZonesAdd(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZoneAdd(wxCommandEvent &Event)
 {
 	auto selections = Unknowns_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -668,7 +668,7 @@ void AGE_Frame::OnRMSBaseZonesAdd(wxCommandEvent &Event)
 	ListRMSBaseZones();
 }
 
-void AGE_Frame::OnRMSBaseZonesInsert(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZoneInsert(wxCommandEvent &Event)
 {
 	auto selections = RMSBaseZones_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -679,7 +679,7 @@ void AGE_Frame::OnRMSBaseZonesInsert(wxCommandEvent &Event)
 	ListRMSBaseZones();
 }
 
-void AGE_Frame::OnRMSBaseZonesDelete(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZoneDelete(wxCommandEvent &Event)
 {
 	auto selections = RMSBaseZones_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -690,7 +690,7 @@ void AGE_Frame::OnRMSBaseZonesDelete(wxCommandEvent &Event)
 	ListRMSBaseZones();
 }
 
-void AGE_Frame::OnRMSBaseZonesCopy(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZoneCopy(wxCommandEvent &Event)
 {
 	auto selections = RMSBaseZones_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -699,7 +699,7 @@ void AGE_Frame::OnRMSBaseZonesCopy(wxCommandEvent &Event)
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs, copies->BaseZone);
 }
 
-void AGE_Frame::OnRMSBaseZonesPaste(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZonePaste(wxCommandEvent &Event)
 {
 	auto selections = RMSBaseZones_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -710,7 +710,7 @@ void AGE_Frame::OnRMSBaseZonesPaste(wxCommandEvent &Event)
 	ListRMSBaseZones();
 }
 
-void AGE_Frame::OnRMSBaseZonesPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZonePasteInsert(wxCommandEvent &Event)
 {
 	auto selections = RMSBaseZones_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -721,7 +721,7 @@ void AGE_Frame::OnRMSBaseZonesPasteInsert(wxCommandEvent &Event)
 	ListRMSBaseZones();
 }
 
-void AGE_Frame::OnRMSBaseZonesCopyToMaps(wxCommandEvent &Event)
+void AGE_Frame::OnRMSBaseZoneCopyToMaps(wxCommandEvent &Event)
 {
 	for(short loop=1; loop < RandomMapIDs.size(); ++loop)
 	{
@@ -1568,16 +1568,16 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(Unknowns_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsCopy));
 	Connect(Unknowns_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsPaste));
 	Connect(Unknowns_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnknownsPasteInsert));
-	Connect(RMSBaseZones_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesSearch));
-	Connect(RMSBaseZones_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesSearch));
-	Connect(RMSBaseZones_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesSelect));
-	Connect(RMSBaseZones_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesAdd));
-	Connect(RMSBaseZones_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesInsert));
-	Connect(RMSBaseZones_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesDelete));
-	Connect(RMSBaseZones_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesCopy));
-	Connect(RMSBaseZones_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesPaste));
-	Connect(RMSBaseZones_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesPasteInsert));
-	Connect(RMSBaseZones_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonesCopyToMaps));
+	Connect(RMSBaseZones_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSearch));
+	Connect(RMSBaseZones_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSearch));
+	Connect(RMSBaseZones_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSelect));
+	Connect(RMSBaseZones_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneAdd));
+	Connect(RMSBaseZones_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneInsert));
+	Connect(RMSBaseZones_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneDelete));
+	Connect(RMSBaseZones_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneCopy));
+	Connect(RMSBaseZones_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonePaste));
+	Connect(RMSBaseZones_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZonePasteInsert));
+	Connect(RMSBaseZones_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneCopyToMaps));
 	Connect(RMSTerrain_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSearch));
 	Connect(RMSTerrain_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSearch));
 	Connect(RMSTerrain_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSelect));
