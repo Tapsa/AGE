@@ -204,16 +204,8 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_ReplayDelay->ChangeValue(lexical_cast<string>(GraphicPointer->ReplayDelay));
 	Graphics_SequenceType->ChangeValue(lexical_cast<string>((short)GraphicPointer->SequenceType));
 	Graphics_ID->ChangeValue(lexical_cast<string>(GraphicPointer->ID));
-	if(GenieVersion >= genie::GV_AoK)
-	{
-		Graphics_TypeS->SetBackgroundColour(wxColour(210, 230, 255));
-		Graphics_TypeS->ChangeValue(lexical_cast<string>(GraphicPointer->MirroringMode));
-	}
-	else
-	{
-		Graphics_TypeS->SetBackgroundColour(wxColour(255, 235, 215));
-		Graphics_TypeS->ChangeValue(lexical_cast<string>((short)GraphicPointer->MirroringMode));
-	}
+	Graphics_TypeS->ChangeValue(lexical_cast<string>((short)GraphicPointer->MirroringMode));
+
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
 }

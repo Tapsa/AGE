@@ -1490,7 +1490,7 @@ public:
 
 //	Type 60+
 
-	TextCtrl_Byte *Units_Unknown20[2];
+	TextCtrl_Short *Units_DefaultArmor;
 	TextCtrl_Short *Units_Unknown21;
 	TextCtrl_Float *Units_MaxRange;
 	TextCtrl_Float *Units_BlastRadius;
@@ -1675,7 +1675,7 @@ public:
 
 //	Type 60+
 
-	wxStaticText *Units_Text_Unknown20;
+	wxStaticText *Units_Text_DefaultArmor;
 	wxStaticText *Units_Text_Unknown21;
 	wxStaticText *Units_Text_MaxRange;
 	wxStaticText *Units_Text_BlastRadius;
@@ -1857,8 +1857,7 @@ public:
 
 //	Type 60+
 
-	wxBoxSizer *Units_Holder_Unknown20;
-	wxGridSizer *Units_Grid_Unknown20;
+	wxBoxSizer *Units_Holder_DefaultArmor;
 	wxBoxSizer *Units_Holder_Unknown21;
 	wxBoxSizer *Units_Holder_MaxRange;
 	wxBoxSizer *Units_Holder_BlastRadius;
