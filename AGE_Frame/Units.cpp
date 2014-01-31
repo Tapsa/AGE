@@ -275,7 +275,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	}
 	Units_DisplayedPierceArmour->resize(PointerCount);
 	// Type 60
-	Units_Unknown20[0]->resize(PointerCount);
+	Units_DefaultArmor->resize(PointerCount);
 	Units_Unknown21->resize(PointerCount);
 	Units_MaxRange->resize(PointerCount);
 	Units_BlastRadius->resize(PointerCount);
@@ -292,10 +292,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_MinRange->resize(PointerCount);
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		if(GenieVersion >= genie::GV_TC)
-		{
-			Units_Unknown20[1]->resize(PointerCount);
-		}
 		Units_GarrisonRecoveryRate->resize(PointerCount);
 	}
 	Units_DisplayedMeleeArmour->resize(PointerCount);
@@ -534,7 +530,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				}
 				//case 60:
 				{
-					Units_Unknown20[0]->container[location] = &UnitPointer->Projectile.Unknown20;
+					Units_DefaultArmor->container[location] = &UnitPointer->Projectile.DefaultArmor;
 					Units_Unknown21->container[location] = &UnitPointer->Projectile.Unknown21;
 					Units_MaxRange->container[location] = &UnitPointer->Projectile.MaxRange;
 					Units_BlastRadius->container[location] = &UnitPointer->Projectile.BlastRadius;
@@ -547,14 +543,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					{
 						Units_GraphicDisplacement[loop]->container[location] = &UnitPointer->Projectile.GraphicDisplacement[loop];
 					}
-					Units_BlastLevel->container[location] = &UnitPointer->Projectile.Unknown23;
+					Units_BlastLevel->container[location] = &UnitPointer->Projectile.BlastLevel;
 					Units_MinRange->container[location] = &UnitPointer->Projectile.MinRange;
 					if(GenieVersion >= genie::GV_AoK)
 					{
-						if(GenieVersion >= genie::GV_TC)
-						{
-							Units_Unknown20[1]->container[location] = &UnitPointer->Projectile.Unknown20_1;
-						}
 						Units_GarrisonRecoveryRate->container[location] = &UnitPointer->Projectile.GarrisonRecoveryRate;
 					}
 					if(CopyGraphics || vecCiv == 0)
@@ -889,8 +881,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		}
 		case 60:
 		{
-			for(short loop = 0; loop < 2; ++loop)
-			Units_Unknown20[loop]->Enable(true);
+			Units_DefaultArmor->Enable(true);
 			Units_Unknown21->Enable(true);
 			Units_MaxRange->Enable(true);
 			Units_BlastRadius->Enable(true);
@@ -920,7 +911,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Armors_Class->Enable(true);
 			Armors_Amount->Enable(true);
 
-			Units_Unknown20[0]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown20));
+			Units_DefaultArmor->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.DefaultArmor));
 			Units_Unknown21->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Unknown21));
 			Units_MaxRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MaxRange));
 			Units_BlastRadius->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.BlastRadius));
@@ -935,13 +926,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			{
 				Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GraphicDisplacement[loop]));
 			}
-			Units_BlastLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown23));
+			Units_BlastLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.BlastLevel));
 			Units_MinRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MinRange));
 			if(GenieVersion >= genie::GV_AoK)
 			{
 				if(GenieVersion >= genie::GV_TC)
 				{
-					Units_Unknown20[1]->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown20_1));
 				}
 				Units_GarrisonRecoveryRate->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GarrisonRecoveryRate));
 			}
@@ -1102,38 +1092,32 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_Unknown8->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown8));
 		Units_SelectionShapeType->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShapeType));
 		Units_ID3->ChangeValue(lexical_cast<string>(UnitPointer->ID3));
+		if(GenieVersion >= genie::GV_AoK)
+		{
+			Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
+			Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
+			if(GenieVersion >= genie::GV_TC)
+			{
+				Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
+				Units_Civ->ChangeValue(lexical_cast<string>((short)UnitPointer->Civilization));
+				Units_ComboBox_Civ->SetSelection(UnitPointer->Civilization + 1);
+				Units_Unknown9->ChangeValue(lexical_cast<string>(UnitPointer->Unknown9));
+				if(GenieVersion >= genie::GV_SWGB)
+				{
+					Units_Name2->ChangeValue(lexical_cast<string>(UnitPointer->Name2));
+					Units_Unitline->ChangeValue(lexical_cast<string>(UnitPointer->Unitline));
+					Units_ComboBox_Unitline->SetSelection(UnitPointer->Unitline + 1);
+					Units_MinTechLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->MinTechLevel));
+				}
+			}
+		}
 	}
 	else
 	{
 		Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
 		Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
 	}
-	if(GenieVersion >= genie::GV_AoK)
-	{
-		Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
-		Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
-		Units_Enabled->SetBackgroundColour(wxColour(210, 230, 255));
-		Units_Enabled->ChangeValue(lexical_cast<string>(UnitPointer->Enabled));
-		if(GenieVersion >= genie::GV_TC)
-		{
-			Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
-			Units_Civ->ChangeValue(lexical_cast<string>((short)UnitPointer->Civilization));
-			Units_ComboBox_Civ->SetSelection(UnitPointer->Civilization + 1);
-			Units_Unknown9->ChangeValue(lexical_cast<string>(UnitPointer->Unknown9));
-			if(GenieVersion >= genie::GV_SWGB)
-			{
-				Units_Name2->ChangeValue(lexical_cast<string>(UnitPointer->Name2));
-				Units_Unitline->ChangeValue(lexical_cast<string>(UnitPointer->Unitline));
-				Units_ComboBox_Unitline->SetSelection(UnitPointer->Unitline + 1);
-				Units_MinTechLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->MinTechLevel));
-			}
-		}
-	}
-	else
-	{
-		Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
-		Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
-	}
+	Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
 	Units_CommandAttribute->ChangeValue(lexical_cast<string>(UnitPointer->CommandAttribute));
 	for(short loop = 0; loop < Units_Unknown3.size(); ++loop)
 	Units_Unknown3[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3[loop]));
@@ -1242,11 +1226,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		}
 		case 40:
 		{
-			for(short loop = 0; loop < 2; ++loop)
-			{
-				Units_Unknown20[loop]->Enable(false);
-				Units_Unknown20[loop]->ChangeValue("0");
-			}
+			Units_DefaultArmor->Enable(false);
+			Units_DefaultArmor->ChangeValue("0");
 			Units_Unknown21->Enable(false);
 			Units_Unknown21->ChangeValue("0");
 			Units_MaxRange->Enable(false);
@@ -3577,8 +3558,7 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 60+
 
-	Units_Holder_Unknown20 = new wxBoxSizer(wxVERTICAL);
-	Units_Grid_Unknown20 = new wxGridSizer(2, 0, 0);
+	Units_Holder_DefaultArmor = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown21 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MaxRange = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_BlastRadius = new wxBoxSizer(wxVERTICAL);
@@ -3750,7 +3730,7 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 60+
 
-	Units_Text_Unknown20 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 20 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_DefaultArmor = new wxStaticText(Units_Scroller, wxID_ANY, " Default Armor *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unknown21 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 21 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MaxRange = new wxStaticText(Units_Scroller, wxID_ANY, " Max Range ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_BlastRadius = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4251,11 +4231,8 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
 	Units_Unknown16B[loop] = new TextCtrl_Byte(Units_Scroller);
 
-	for(short loop = 0; loop < 2; ++loop)
-	{
-		Units_Unknown20[loop] = new TextCtrl_Byte(Units_Scroller);
-		Units_Unknown20[loop]->SetToolTip("These may be one variable in AoK and above (-24 & 3 = 1000)");
-	}
+	Units_DefaultArmor = new TextCtrl_Short(Units_Scroller);
+	Units_DefaultArmor->SetToolTip("This armor is used for all attack types that do not have corresponding armor type\nCan be negative only in The Conquerors and later games");
 	Units_Unknown21 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown21->SetToolTip("-1 Unit\n4 Building\n6 Dock\n10 Wall");
 
@@ -4544,7 +4521,7 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 60+
 
-	Units_Holder_Unknown20->Add(Units_Text_Unknown20, 0, wxEXPAND);
+	Units_Holder_DefaultArmor->Add(Units_Text_DefaultArmor, 0, wxEXPAND);
 	Units_Holder_Unknown21->Add(Units_Text_Unknown21, 0, wxEXPAND);
 	Units_Holder_MaxRange->Add(Units_Text_MaxRange, 0, wxEXPAND);
 	Units_Holder_BlastRadius->Add(Units_Text_BlastRadius, 0, wxEXPAND);
@@ -4743,9 +4720,7 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 60+
 
-	for(short loop = 0; loop < 2; ++loop)
-	Units_Grid_Unknown20->Add(Units_Unknown20[loop], 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Units_Holder_Unknown20->Add(Units_Grid_Unknown20, 0, wxEXPAND);
+	Units_Holder_DefaultArmor->Add(Units_DefaultArmor, 1, wxEXPAND);
 	Units_Holder_Unknown21->Add(Units_Unknown21, 1, wxEXPAND);
 	Units_Holder_MaxRange->Add(Units_MaxRange, 1, wxEXPAND);
 	Units_Holder_BlastRadius->Add(Units_BlastRadius, 1, wxEXPAND);
@@ -5154,6 +5129,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_DataArea->Add(Armors_Holder_Amount, 0, wxEXPAND);
 	Units_Armors_DataArea->Add(Armors_Holder_Class, 0, wxEXPAND);
 	Units_Holder_Armors_Data3->Add(-1, 5);
+	Units_Holder_Armors_Data3->Add(Units_Holder_DefaultArmor, 0, wxEXPAND);
+	Units_Holder_Armors_Data3->Add(-1, 5);
 	Units_Holder_Armors_Data3->Add(Units_Holder_DisplayedMeleeArmour, 0, wxEXPAND);
 	Units_Holder_Armors_Data3->Add(-1, 5);
 	Units_Holder_Armors_Data3->Add(Units_Holder_DisplayedPierceArmour, 0, wxEXPAND);
@@ -5366,10 +5343,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Type30plusUnknownArea->Add(-1, 5);
 	Units_Holder_Type30plusUnknownArea->Add(Units_Holder_Unknown16B, 0, wxEXPAND);
 
-	Units_Holder_Type60plusUnknownArea->Add(Units_Holder_Unknown20, 2, wxEXPAND);
-	Units_Holder_Type60plusUnknownArea->Add(5, -1);
 	Units_Holder_Type60plusUnknownArea->Add(Units_Holder_Unknown21, 1, wxEXPAND);
-	Units_Holder_Type60plusUnknownArea->AddStretchSpacer(1);
+	Units_Holder_Type60plusUnknownArea->AddStretchSpacer(3);
 
 	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown26, 0, wxEXPAND);
 	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown27, 0, wxEXPAND);
