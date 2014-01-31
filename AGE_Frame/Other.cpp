@@ -21,10 +21,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				OpenBox.GetEventHandler()->ProcessEvent(Selected);
 			}
 			break;
-			case 1:
-			{
-			}
-			break;
 			case 2:
 			{
 				OpenBox.Radio_ApfFileLocation->SetValue(true);
@@ -32,10 +28,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Selected.SetId(OpenBox.Radio_ApfFileLocation->GetId());
 				Selected.SetInt(true);
 				OpenBox.GetEventHandler()->ProcessEvent(Selected);
-			}
-			break;
-			case 3:
-			{
 			}
 			break;
 		}
@@ -1131,7 +1123,15 @@ void AGE_Frame::OnGameVersionChange()
 		if(!show || ShowUnknowns)
 		{
 			Units_Holder_Unknown9->Show(show);
-			Units_Unknown20[1]->Show(show);
+		}
+
+		if(show) // TC ->
+		{
+			Units_DefaultArmor->SetBackgroundColour(wxColour(210, 230, 255));
+		}
+		else // <- AoK
+		{
+			Units_DefaultArmor->SetBackgroundColour(wxColour(255, 235, 215));
 		}
 
 		// AoK ->
@@ -1150,6 +1150,17 @@ void AGE_Frame::OnGameVersionChange()
 		{
 			Units_Holder_Unknown12->Show(show);
 			Units_Holder_Unknown16B->Show(show);
+		}
+
+		if(show) // AoK ->
+		{
+			Units_Enabled->SetBackgroundColour(wxColour(210, 230, 255));
+			Graphics_TypeS->SetBackgroundColour(wxColour(210, 230, 255));
+		}
+		else // <- AoK Alfa
+		{
+			Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
+			Graphics_TypeS->SetBackgroundColour(wxColour(255, 235, 215));
 		}
 
 		// AoK Alfa ->
@@ -1197,6 +1208,15 @@ void AGE_Frame::OnGameVersionChange()
 
 		// AoE & RoR
 		Colors_Holder_Name->Show(!show);
+
+		if(show) // AoK Alfa ->
+		{
+			Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
+		}
+		else // <- RoR
+		{
+			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
+		}
 
 		// SWGB ->
 		show = (GenieVersion >= genie::GV_SWGB) ? true : false;
@@ -1728,7 +1748,7 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	}
 	if(showTime)
 	SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
-	
+
 	if(selections == 0)
 	{
 		List->SetSelection(0);
