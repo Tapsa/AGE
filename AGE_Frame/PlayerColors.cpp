@@ -95,12 +95,10 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 	Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
 	if(GenieVersion <= genie::GV_RoR)	//	AoE and RoR
 	{
-		Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
 		Colors_Name->ChangeValue(PlayerColorPointer->Name);
 	}
 	else	//	Above AoE and RoR
 	{
-		Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
 		Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
 		Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
 		Colors_Unknown1->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown1));
