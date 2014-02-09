@@ -448,8 +448,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		// Echo Base Ion Cannon
 		// Blizzards
 		// Evok Catapult
-		DefSWGBArmors.Add("3 - Base Melee/Armor");
-		DefSWGBArmors.Add("4 - Base Ranged/DuraArmor");
+		DefSWGBArmors.Add("3 - Base Ranged/DuraArmor");
+		DefSWGBArmors.Add("4 - Base Melee/Armor");
 		DefSWGBArmors.Add("5 - Jedis & Bounty Hunters");
 		// Jedi
 		// Jedi with Holocron
