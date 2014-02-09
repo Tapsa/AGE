@@ -12,8 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]3.10[/b] (2014.2.X):
-•Unknown discoveries.
+Version [b]3.10[/b] (2014.2.9):
+•Discovered default armor variable.
+•Swapped the base armor class names in SWGB.
+•Unit attribute tooltip improved.
 
 Version [b]3.9[/b] (2013.12.24):
 •Listing times improved.

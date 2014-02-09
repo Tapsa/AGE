@@ -1,4 +1,35 @@
 
+Version [b]3.2[/b]:
+•Instant crash fixed for AoE/RoR.
+
+Version [b]3.1[/b]:
+•Fixed civilization related unit copy/paste issues.
+•Referencing nonexistent units and researches in tech tree tab and unitline tab no longer crashes the program.
+•Fixed showing the second name of civilization in Star Wars versions.
+•Added costs and second internal name to research searches.
+•Unit command type 135 renamed to ability to kidnap.
+•Import and export buttons removed for now as being useless.
+•All hardcoded terrains available for editing.
+•Attributes' 21 and 101 names corrected for AoE and RoR.
+•Variable calculator now works to other direction too.
+•Modified general tab's unknown data handling.
+•All data in the dat files is editable in some way or another.
+•Named rest of the Star Wars terrain restrictions.
+
+Version [b]3.0[/b]:
+•Language files can be edited.
+•Fatal bug in non-automatic unit copy to all civilizations fixed.
+•Ability to copy all sub-items to all selected items.
+•AI warning if over 900 units added in AoE series.
+
+Version [b]2.45[/b]:
+•Editing all selected items simultaneously (b+, b-, b*, b/ prefixes available).
+•Civilization limits removed from auto-copy (works for 32767 civilizations).
+•German language file shows correctly when writing is enabled.
+•Added short guide about searching, batch editing and cross-window copying.
+•Unknowns are again shown on opening according to settings ini file.
+•Graphic attack sound delays are correctly initialized.
+
 Version [b]2.44[/b]:
 •Improved layout of graphics.
 •Team bonus technologies get renamed again.

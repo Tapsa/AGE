@@ -4066,7 +4066,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown2 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown2->SetToolTip("Action from mouse right-click?\n0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
 	Units_Attribute = new TextCtrl_Byte(Units_Scroller);
-	Units_Attribute->SetToolTip("This looks like one byte of eight booleans\nYou can probably combine these attributes\n0 Default\n(1st bit) 1, 3, 5 Allows units to garrison inside\n(2nd bit) 2 Causes the unit not to join formations\nStar Wars:\n(3rd bit) 4 Stealth unit\n(4th bit) 8 Detector unit\n(5th bit) 16 Mechanical unit\n(6th bit) 32 Biological unit\n(7th bit) 64 Self-shielding unit");
+	Units_Attribute->SetToolTip("This looks like one byte of eight booleans\nYou can probably combine these attributes\n0 Default\n(1st bit) 1, 3, 5 Allows units to garrison inside\n(2nd bit) 2 Causes the unit not to join formations\nStar Wars:\n(3rd bit) 4 Stealth unit\n(4th bit) 8 Detector unit\n(5th bit) 16 Mechanical unit\n(6th bit) 32 Biological unit\n(7th bit) 64 Self-shielding unit\n(8th bit) 128 Invisible unit");
 	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller);
 	Units_DeadUnitID = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_DeadUnitID = new ComboBox_Plus1(Units_Scroller, Units_DeadUnitID);
