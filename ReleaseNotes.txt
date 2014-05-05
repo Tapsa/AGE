@@ -1,4 +1,4 @@
-[b]Advanced Genie Editor 3.10[/b]
+[b]Advanced Genie Editor 3.11[/b]
 for Age of Empires, Rise of Rome, Age of Kings, The Conquerors (including HD), Star Wars Galactic Battlegrounds and Clone Campaigns.
 
 This is a program for editing genie (.dat and .dll) files' data. It can edit units, civilizations, graphics, researches, technologies, technology trees, terrains, terrain restrictions, sounds, player colors and some other things.
@@ -11,6 +11,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
+
+Version [b]3.11[/b] (2014.5.5):
+•Discovered player color mimicer.
+•Signedness fix in unit attribute.
 
 Version [b]3.10[/b] (2014.2.9):
 •Discovered default armor variable.
@@ -34,25 +38,6 @@ Version [b]3.6[/b] (2013.4.28):
 •Custom game folder option, which gets saved.
 •Random map subdatas easily copyable to all maps.
 
-Version [b]3.5[/b] (2013.3.24):
-•Unknown data before and middle of tech trees shown and editable again.
-•Discoveries in graphics, units and unit commands.
-•Option to never hide unused tech effect variables.
-
-Version [b]3.4[/b] (2013.3.10):
-•Copying damage graphics, attacks, armors and commands works even if some civilizations don't have them.
-•Unit commands improved.
-•AoK alpha 09.07.0222 editable. Tech tree hidden for it.
-•Random map scripts are named for AoE/RoR.
-•Language reader/writer character set adjustable from the configuration ini files (LangCharset=Windows-1252).
-•Renames and more tooltips in map tab.
-
-Version [b]3.3[/b] (2013.2.22):
-•Unit unknowns 3 and command attribute fixed for AoE/RoR.
-•Moved large piece of unknown (random map) data to its own tab.
-•Moved possibly tech tree related data to tech tree tab.
-•Civilizations are named after their second name in Star Wars versions.
-
 Version [b]2.0 Beta 3[/b] (2011.9.4):
 •Original release.
 
@@ -75,22 +60,21 @@ You can switch from or finding to and finding with check boxes. Meaning that eve
 [b]Developers[/b]
 
 Keisari Tapsa (since 2.0b)
-Apre - genieutils (since 2.1a)
+Apre - genieutils (2.1a to 3.1)
 Estien Nifo (aka StSB77) (1.0a to 2.0a)
 
 [b]Credits[/b]
 
 Ykkrosh - GeniEd 1 source code
 Scenario_t_c - GeniEd 2 source code
-Ancient Warrior (aka Taichi San), DarkRain654 - data file research
+Alexandra (aka Taichi San), DarkRain654 - data file research
 DiGiT - genie file structure (GenieWiki)
 Sarthos - important help
 BF_Tanks - some help
 Donnieboy, Sarn, chab - tooltip texts
 Leif Ericson - new icon
 
-[url=http://www.mediafire.com/advancedgenieeditor2]Latest development versions (only for testing)[/url].
-Follow coding [url=https://github.com/Tapsa/AGE/commits/master]here[/url] and [url=https://github.com/apreiml/genieutils]here[/url].
+Follow coding [url=https://github.com/Tapsa/AGE/commits/master]here[/url] and [url=https://github.com/Tapsa/genieutils/commits/master]here[/url].
 
 [url=http://aok.heavengames.com/blacksmith/lister.php?&pauthor=keisari%20tapsa&start=0&s=d&o=d]My other uploads[/url].
 
