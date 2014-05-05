@@ -1,4 +1,23 @@
 
+Version [b]3.5[/b] (2013.3.24):
+•Unknown data before and middle of tech trees shown and editable again.
+•Discoveries in graphics, units and unit commands.
+•Option to never hide unused tech effect variables.
+
+Version [b]3.4[/b] (2013.3.10):
+•Copying damage graphics, attacks, armors and commands works even if some civilizations don't have them.
+•Unit commands improved.
+•AoK alpha 09.07.0222 editable. Tech tree hidden for it.
+•Random map scripts are named for AoE/RoR.
+•Language reader/writer character set adjustable from the configuration ini files (LangCharset=Windows-1252).
+•Renames and more tooltips in map tab.
+
+Version [b]3.3[/b] (2013.2.22):
+•Unit unknowns 3 and command attribute fixed for AoE/RoR.
+•Moved large piece of unknown (random map) data to its own tab.
+•Moved possibly tech tree related data to tech tree tab.
+•Civilizations are named after their second name in Star Wars versions.
+
 Version [b]3.2[/b]:
 •Instant crash fixed for AoE/RoR.
 

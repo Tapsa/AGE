@@ -15,7 +15,7 @@ class GraphicCopies
 
 	int16_t ConstructionGraphicID;
 	int16_t SnowGraphicID;
-	pair<int16_t, int16_t> GarrisonGraphic;
+	int32_t GarrisonGraphic;
 	int16_t AttackGraphic;
 	pair<int16_t, int16_t> WalkingGraphic;
 
@@ -29,8 +29,7 @@ class GraphicCopies
 		DamageGraphicCount = 0;
 		ConstructionGraphicID = -1;
 		SnowGraphicID = -1;
-		GarrisonGraphic.first = -1;
-		GarrisonGraphic.second = -1;
+		GarrisonGraphic = -1;
 		AttackGraphic = -1;
 		WalkingGraphic.first = -1;
 		WalkingGraphic.second = -1;

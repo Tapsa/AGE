@@ -1427,7 +1427,7 @@ public:
 	TextCtrl_Byte *Units_SelectionMask;
 	TextCtrl_Byte *Units_SelectionShapeType;
 	TextCtrl_Byte *Units_SelectionShape;
-	TextCtrl_Byte *Units_Attribute;
+	TextCtrl_UByte *Units_Attribute;
 	TextCtrl_Byte *Units_Civ;
 	ComboBox_Plus1 *Units_ComboBox_Civ;
 	TextCtrl_Short *Units_Unknown9;
@@ -1537,8 +1537,8 @@ public:
 	TextCtrl_Byte *Units_MissileGraphicDelay;
 	TextCtrl_Byte *Units_HeroMode;
 	CheckBox_2State *Units_CheckBox_HeroMode;
-	TextCtrl_Short *Units_GarrisonGraphic[2];
-	ComboBox_Plus1 *Units_ComboBox_GarrisonGraphic[2];
+	TextCtrl_Long *Units_GarrisonGraphic;
+	ComboBox_Plus1 *Units_ComboBox_GarrisonGraphic;
 	TextCtrl_Float *Units_AttackMissileDuplicationAmount1;
 	TextCtrl_Byte *Units_AttackMissileDuplicationAmount2;
 	TextCtrl_Float *Units_AttackMissileDuplicationSpawning[3];
@@ -2257,7 +2257,7 @@ public:
 	wxBoxSizer *Graphics_Holder_Unknown2;
 	wxBoxSizer *Graphics_Holder_FrameType;
 	wxBoxSizer *Graphics_Holder_PlayerColor;
-	wxBoxSizer *Graphics_Holder_Unknown4;
+	wxBoxSizer *Graphics_Holder_Rainbow;
 	wxBoxSizer *Graphics_Holder_Replay;
 	wxBoxSizer *Graphics_Holder_Coordinates;
 	wxGridSizer *Graphics_Holder_CoordinateGrid;
@@ -2284,7 +2284,7 @@ public:
 	wxStaticText *Graphics_Text_Unknown2;
 	wxStaticText *Graphics_Text_FrameType;
 	wxStaticText *Graphics_Text_PlayerColor;
-	wxStaticText *Graphics_Text_Unknown4;
+	wxStaticText *Graphics_Text_Rainbow;
 	wxStaticText *Graphics_Text_Replay;
 	wxStaticText *Graphics_Text_Coordinates;
 	wxStaticText *Graphics_Text_SoundID;
@@ -2304,8 +2304,9 @@ public:
 	TextCtrl_Byte *Graphics_Unknown1;
 	TextCtrl_Byte *Graphics_Unknown2;
 	TextCtrl_Byte *Graphics_FrameType;
-	TextCtrl_Short *Graphics_PlayerColor;
+	TextCtrl_Byte *Graphics_PlayerColor;
 	ComboBox_Plus1 *Graphics_ComboBox_PlayerColor;
+	TextCtrl_Byte *Graphics_Rainbow;
 	TextCtrl_Byte *Graphics_Replay;
 	TextCtrl_Short *Graphics_Coordinates[4];
 	TextCtrl_Short *Graphics_SoundID;
