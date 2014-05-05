@@ -134,6 +134,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_Unknown2->resize(selections);
 	Graphics_FrameType->resize(selections);
 	Graphics_PlayerColor->resize(selections);
+	Graphics_Rainbow->resize(selections);
 	Graphics_Replay->resize(selections);
 	for(short loop = 0; loop < 4; ++loop)
 	{
@@ -163,6 +164,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 		Graphics_Unknown2->container[sel] = &GraphicPointer->Unknown2;
 		Graphics_FrameType->container[sel] = &GraphicPointer->Layer;
 		Graphics_PlayerColor->container[sel] = &GraphicPointer->PlayerColor;
+		Graphics_Rainbow->container[sel] = &GraphicPointer->Rainbow;
 		Graphics_Replay->container[sel] = &GraphicPointer->Replay;
 		for(short loop = 0; loop < 4; ++loop)
 		{
@@ -186,8 +188,9 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_Unknown1->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown1));
 	Graphics_Unknown2->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown2));
 	Graphics_FrameType->ChangeValue(lexical_cast<string>((short)GraphicPointer->Layer));
-	Graphics_PlayerColor->ChangeValue(lexical_cast<string>(GraphicPointer->PlayerColor));
+	Graphics_PlayerColor->ChangeValue(lexical_cast<string>((short)GraphicPointer->PlayerColor));
 	Graphics_ComboBox_PlayerColor->SetSelection(GraphicPointer->PlayerColor + 1);
+	Graphics_Rainbow->ChangeValue(lexical_cast<string>((short)GraphicPointer->Rainbow));
 	Graphics_Replay->ChangeValue(lexical_cast<string>((short)GraphicPointer->Replay));
 	for(short loop = 0; loop < 4; ++loop)
 	{
@@ -754,11 +757,13 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Unknown2 = new TextCtrl_Byte(Graphics_Scroller);
 	Graphics_Holder_PlayerColor = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_PlayerColor = new wxStaticText(Graphics_Scroller, wxID_ANY, " Forced Player Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_PlayerColor = new TextCtrl_Short(Graphics_Scroller);
+	Graphics_PlayerColor = new TextCtrl_Byte(Graphics_Scroller);
 	Graphics_PlayerColor->SetToolTip("The player color to be forced on the graphic");
 	Graphics_ComboBox_PlayerColor = new ComboBox_Plus1(Graphics_Scroller, Graphics_PlayerColor);
-	Graphics_Holder_Unknown4 = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_Unknown4 = new wxStaticText(Graphics_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Holder_Rainbow = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_Rainbow = new wxStaticText(Graphics_Scroller, wxID_ANY, " Rainbow *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Rainbow = new TextCtrl_Byte(Graphics_Scroller);
+	Graphics_Rainbow->SetToolTip("Makes the graphic change its player color according to nearby units");
 
 	Graphics_Holder_Deltas = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Deltas");
 	Graphics_Holder_Deltas_Data = new wxBoxSizer(wxVERTICAL);
@@ -833,7 +838,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_PlayerColor->Add(Graphics_Text_PlayerColor, 0, wxEXPAND);
 	Graphics_Holder_PlayerColor->Add(Graphics_PlayerColor, 1, wxEXPAND);
 	Graphics_Holder_PlayerColor->Add(Graphics_ComboBox_PlayerColor, 1, wxEXPAND);
-	Graphics_Holder_Unknown4->Add(Graphics_Text_Unknown4, 0, wxEXPAND);
+	Graphics_Holder_Rainbow->Add(Graphics_Text_Rainbow, 0, wxEXPAND);
+	Graphics_Holder_Rainbow->Add(Graphics_Rainbow, 0, wxEXPAND);
 	for(short loop = 0; loop < 4; ++loop)
 	Graphics_Holder_CoordinateGrid->Add(Graphics_Coordinates[loop], 1, wxEXPAND);
 	Graphics_Holder_Coordinates->Add(Graphics_Text_Coordinates, 0, wxEXPAND);
@@ -888,7 +894,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown1, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown2, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Graphics_Holder_Unknowns->Add(Graphics_Holder_PlayerColor, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown4, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Graphics_Holder_Unknowns->Add(Graphics_Holder_Rainbow, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
 	Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Insert, 1, wxEXPAND);
