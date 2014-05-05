@@ -422,8 +422,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	{
 		if(GenieVersion >= genie::GV_TC) Units_SnowGraphicID->resize(PointerCount);
 		Units_StandingGraphic[1]->resize(PointerCount);
-		Units_GarrisonGraphic[0]->resize(PointerCount);
-		Units_GarrisonGraphic[1]->resize(PointerCount);
+		Units_GarrisonGraphic->resize(PointerCount);
 	}
 	Units_AttackGraphic->resize(PointerCount);
 	Units_StandingGraphic[0]->resize(PointerCount);
@@ -512,8 +511,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 							Units_HeroMode->container[location] = &UnitPointer->Creatable.HeroMode;
 							if(CopyGraphics || vecCiv == 0)
 							{
-								Units_GarrisonGraphic[0]->container[location] = &UnitPointer->Creatable.GarrisonGraphic.first;
-								Units_GarrisonGraphic[1]->container[location] = &UnitPointer->Creatable.GarrisonGraphic.second;
+								Units_GarrisonGraphic->container[location] = &UnitPointer->Creatable.GarrisonGraphic;
+								//Units_GarrisonGraphic[1]->container[location] = &UnitPointer->Creatable.GarrisonGraphic.second;
 							}
 						}
 						Units_AttackMissileDuplicationAmount1->container[location] = &UnitPointer->Creatable.AttackMissileDuplicationAmount1;
@@ -807,11 +806,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		}
 		case 70:
 		{
-			for(short loop = 0; loop < 2; ++loop)
-			{
-				Units_GarrisonGraphic[loop]->Enable(true);
-				Units_ComboBox_GarrisonGraphic[loop]->Enable(true);
-			}
 			for(short loop = 0; loop < 3; ++loop)
 			{
 				Units_CostType[loop]->Enable(true);
@@ -821,6 +815,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_CheckBox_CostUsed[loop]->Enable(true);
 				Units_AttackMissileDuplicationSpawning[loop]->Enable(true);
 			}
+			Units_GarrisonGraphic->Enable(true);
+			Units_ComboBox_GarrisonGraphic->Enable(true);
 			Units_TrainTime->Enable(true);
 			Units_TrainLocationID->Enable(true);
 			Units_ComboBox_TrainLocationID->Enable(true);
@@ -860,10 +856,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				{
 					Units_HeroMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.HeroMode));
 					Units_CheckBox_HeroMode->SetValue((bool)UnitPointer->Creatable.HeroMode);
-					Units_GarrisonGraphic[0]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.first));
-					Units_ComboBox_GarrisonGraphic[0]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.first + 1);
-					Units_GarrisonGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.second));
-					Units_ComboBox_GarrisonGraphic[1]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.second + 1);
+					Units_GarrisonGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic));
+					Units_ComboBox_GarrisonGraphic->SetSelection(UnitPointer->Creatable.GarrisonGraphic + 1);
+					//Units_GarrisonGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.GarrisonGraphic.second));
+					//Units_ComboBox_GarrisonGraphic[1]->SetSelection(UnitPointer->Creatable.GarrisonGraphic.second + 1);
 				}
 				Units_AttackMissileDuplicationAmount1->ChangeValue(lexical_cast<string>(UnitPointer->Creatable.AttackMissileDuplicationAmount1));
 				Units_AttackMissileDuplicationAmount2->ChangeValue(lexical_cast<string>((short)UnitPointer->Creatable.AttackMissileDuplicationAmount2));
@@ -1281,13 +1277,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		}
 		case 60:
 		{
-			for(short loop = 0; loop < 2; ++loop)
-			{
-				Units_GarrisonGraphic[loop]->Enable(false);
-				Units_GarrisonGraphic[loop]->ChangeValue("0");
-				Units_ComboBox_GarrisonGraphic[loop]->Enable(false);
-				Units_ComboBox_GarrisonGraphic[loop]->SetSelection(0);
-			}
 			for(short loop = 0; loop < 3; ++loop)
 			{
 				Units_CostType[loop]->Enable(false);
@@ -1303,6 +1292,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_AttackMissileDuplicationSpawning[loop]->Enable(false);
 				Units_AttackMissileDuplicationSpawning[loop]->ChangeValue("0");
 			}
+			Units_GarrisonGraphic->Enable(false);
+			Units_GarrisonGraphic->ChangeValue("0");
+			Units_ComboBox_GarrisonGraphic->Enable(false);
+			Units_ComboBox_GarrisonGraphic->SetSelection(0);
 			Units_TrainTime->Enable(false);
 			Units_TrainTime->ChangeValue("0");
 			Units_TrainLocationID->Enable(false);
@@ -3845,12 +3838,9 @@ void AGE_Frame::CreateUnitControls()
 		Units_ComboBox_StandingGraphic[loop] = new ComboBox_Plus1(Units_Scroller, Units_StandingGraphic[loop]);
 		GraphicComboBoxList.push_back(Units_ComboBox_StandingGraphic[loop]);
 	}
-	for(short loop = 0; loop < 2; ++loop)
-	{
-		Units_GarrisonGraphic[loop] = new TextCtrl_Short(Units_Scroller);
-		Units_ComboBox_GarrisonGraphic[loop] = new ComboBox_Plus1(Units_Scroller, Units_GarrisonGraphic[loop]);
-		GraphicComboBoxList.push_back(Units_ComboBox_GarrisonGraphic[loop]);
-	}
+	Units_GarrisonGraphic = new TextCtrl_Long(Units_Scroller);
+	Units_ComboBox_GarrisonGraphic = new ComboBox_Plus1(Units_Scroller, Units_GarrisonGraphic);
+	GraphicComboBoxList.push_back(Units_ComboBox_GarrisonGraphic);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_WalkingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
@@ -4065,7 +4055,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_BlastType->SetToolTip("0 projectiles, dead units, fish, relics, trees\n0 gates, town center\n0 deer(unmoving), FLDOG\n1 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n3 boar\n3 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n3 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 monks, BDGAL, ABGAL");
 	Units_Unknown2 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown2->SetToolTip("Action from mouse right-click?\n0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
-	Units_Attribute = new TextCtrl_Byte(Units_Scroller);
+	Units_Attribute = new TextCtrl_UByte(Units_Scroller);
 	Units_Attribute->SetToolTip("This looks like one byte of eight booleans\nYou can probably combine these attributes\n0 Default\n(1st bit) 1, 3, 5 Allows units to garrison inside\n(2nd bit) 2 Causes the unit not to join formations\nStar Wars:\n(3rd bit) 4 Stealth unit\n(4th bit) 8 Detector unit\n(5th bit) 16 Mechanical unit\n(6th bit) 32 Biological unit\n(7th bit) 64 Self-shielding unit\n(8th bit) 128 Invisible unit");
 	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller);
 	Units_DeadUnitID = new TextCtrl_Short(Units_Scroller);
@@ -5022,10 +5012,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_StandingGraphic->Add(Units_ComboBox_StandingGraphic[1], 1, wxEXPAND);
 	Units_Holder_StandingGraphic->Add(Units_Text_StandingGraphic, 0, wxEXPAND);
 	Units_Holder_StandingGraphic->Add(Units_Grid_StandingGraphic, 0, wxEXPAND);
-	Units_Grid_GarrisonGraphic->Add(Units_GarrisonGraphic[0], 1, wxEXPAND);
-	Units_Grid_GarrisonGraphic->Add(Units_GarrisonGraphic[1], 1, wxEXPAND);
-	Units_Grid_GarrisonGraphic->Add(Units_ComboBox_GarrisonGraphic[0], 1, wxEXPAND);
-	Units_Grid_GarrisonGraphic->Add(Units_ComboBox_GarrisonGraphic[1], 1, wxEXPAND);
+	Units_Grid_GarrisonGraphic->Add(Units_GarrisonGraphic, 1, wxEXPAND);
+	Units_Grid_GarrisonGraphic->Add(Units_ComboBox_GarrisonGraphic, 1, wxEXPAND);
 	Units_Holder_GarrisonGraphic->Add(Units_Text_GarrisonGraphic, 0, wxEXPAND);
 	Units_Holder_GarrisonGraphic->Add(Units_Grid_GarrisonGraphic, 0, wxEXPAND);
 	Units_Grid_WalkingGraphic->Add(Units_WalkingGraphic[0], 1, wxEXPAND);
