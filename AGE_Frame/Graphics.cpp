@@ -111,7 +111,6 @@ void AGE_Frame::ListGraphics(bool all)
 	}
 
 	Listing(Graphics_Graphics_List, filteredNames, dataPointers);
-	//Graphics_Graphics_ListV->Listing(filteredNames, dataPointers);
 	if(all) FillLists(GraphicComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
