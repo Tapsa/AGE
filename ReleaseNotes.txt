@@ -12,8 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]3.11[/b] (2014.5.5):
+Version [b]3.11[/b] (2014.5.8):
+•Added options to unit search filters.
 •Discovered player color mimicer.
+•Garrison graphics combined into one variable.
 •Signedness fix in unit attribute.
 
 Version [b]3.10[/b] (2014.2.9):
@@ -59,7 +61,7 @@ You can switch from or finding to and finding with check boxes. Meaning that eve
 
 [b]Developers[/b]
 
-Keisari Tapsa (since 2.0b)
+Tapio (aka Keisari Tapsa) (since 2.0b)
 Apre - genieutils (2.1a to 3.1)
 Estien Nifo (aka StSB77) (1.0a to 2.0a)
 

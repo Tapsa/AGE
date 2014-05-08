@@ -42,7 +42,19 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				case 5: // Dead Unit
 					Name += "DU "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].DeadUnitID);
 					break;
-				case 6: // Max Range
+				case 6: // Projectile Unit
+					switch(UnitType)
+					{
+						case 60:
+						case 70:
+						case 80:
+							Name += "PU "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.ProjectileUnitID);
+							break;
+						default:
+							Name += "PU -1";
+					}
+					break;
+				case 7: // Max Range
 					switch(UnitType)
 					{
 						case 60:
@@ -54,7 +66,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "MR -1";
 					}
 					break;
-				case 7: // Train Location
+				case 8: // Train Location
 					switch(UnitType)
 					{
 						case 70:
@@ -65,7 +77,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "TL -1";
 					}
 					break;
-				case 8: // Attacks
+				case 9: // Attacks
 					switch(UnitType)
 					{
 						case 60:
@@ -77,7 +89,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "AtC -1";
 					}
 					break;
-				case 9:
+				case 10:
 					switch(UnitType)
 					{
 						case 60:
@@ -89,7 +101,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						}
 					}
 					break;
-				case 10: // Armors
+				case 11: // Armors
 					switch(UnitType)
 					{
 						case 60:
@@ -101,7 +113,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "ArC -1";
 					}
 					break;
-				case 11:
+				case 12:
 					switch(UnitType)
 					{
 						case 60:
@@ -113,7 +125,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						}
 					}
 					break;
-				case 12: // Commands
+				case 13: // Commands
 					switch(UnitType)
 					{
 						case 40:
@@ -129,7 +141,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "CC -1";
 					}
 					break;
-				case 13: // Pointer
+				case 14: // Pointer
 					Name = lexical_cast<string>(GenieFile->Civs[civ].UnitPointers[Index]);
 					break;
 			}
