@@ -780,6 +780,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_Units_SearchFilters[loop]->Append("Class");
 			Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
 			Units_Units_SearchFilters[loop]->Append("Dead Unit");
+			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
 			Units_Units_SearchFilters[loop]->Append("Max Range");
 			Units_Units_SearchFilters[loop]->Append("Train Location");
 			Units_Units_SearchFilters[loop]->Append("Attacks");
@@ -789,7 +790,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_Units_SearchFilters[loop]->Append("Commands");
 			Units_Units_SearchFilters[loop]->Append("Pointer");
 		/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
-			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
 			Units_Units_SearchFilters[loop]->Append("Enabled");
 			Units_Units_SearchFilters[loop]->Append("Hidden In Editor");
 			Units_Units_SearchFilters[loop]->Append("Visible In Fog");
