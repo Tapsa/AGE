@@ -803,7 +803,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Holder_GraphicSet = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_GraphicSet = new wxStaticText(Tab_Civs, wxID_ANY, " Graphic Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs);
-	Civs_GraphicSet->SetToolTip("This doesn't change the graphics");
+	Civs_GraphicSet->SetToolTip("Building icon set and trade cart graphics\nThis doesn't change other graphics");
 	Civs_Holder_One = new wxBoxSizer(wxVERTICAL);
 	Civs_Text_One = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = new TextCtrl_Byte(Tab_Civs);
