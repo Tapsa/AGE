@@ -670,9 +670,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ReplayDelay = new TextCtrl_Float(Graphics_Scroller);
 	Graphics_ReplayDelay->SetToolTip("Waiting time in seconds before animation restarts again");
 	Graphics_Holder_NewSpeed = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_NewSpeed = new wxStaticText(Graphics_Scroller, wxID_ANY, " New Speed? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Text_NewSpeed = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unit Speed Multiplier *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_NewSpeed = new TextCtrl_Float(Graphics_Scroller);
-	Graphics_NewSpeed->SetToolTip("Speed value to override the unit's original one?");
+	Graphics_NewSpeed->SetToolTip("Multiplies the speed of the unit this graphic is applied to");
 	Graphics_Holder_4 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Holder_5 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Grid_1 = new wxGridSizer(4, 5, 5);
