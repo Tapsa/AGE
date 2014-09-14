@@ -310,31 +310,39 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		UnitCommands_ComboBox_Type->Clear();
 		UnitCommands_ComboBox_Type->Append("Unused Ability/Invalid Ability");	// Selection 0
-		UnitCommands_ComboBox_Type->Append("Ability to Garrison");	// Selection 1
-		UnitCommands_ComboBox_Type->Append("Ability to Gather/Rebuild 1");
-		UnitCommands_ComboBox_Type->Append("Unknown Animal Ability");
-		UnitCommands_ComboBox_Type->Append("Ability to Attack");
-		UnitCommands_ComboBox_Type->Append("Ability to Fly");
-		UnitCommands_ComboBox_Type->Append("Unknown Predator Animal Ability");
-		UnitCommands_ComboBox_Type->Append("Ability to Unload (Boat-Like)");
-		UnitCommands_ComboBox_Type->Append("Ability to Auto-Attack");
-		UnitCommands_ComboBox_Type->Append("Unknown Farm Ability");
-		UnitCommands_ComboBox_Type->Append("Ability to Build");
-		UnitCommands_ComboBox_Type->Append("Ability to Convert");
-		UnitCommands_ComboBox_Type->Append("Ability to Heal");
-		UnitCommands_ComboBox_Type->Append("Ability to Repair");
-		UnitCommands_ComboBox_Type->Append("Ability to Get Auto-converted?");
-		UnitCommands_ComboBox_Type->Append("Type 109, Sub -1");
-		UnitCommands_ComboBox_Type->Append("Ability to Gather/Rebuild 2");
-		UnitCommands_ComboBox_Type->Append("Ability to Trade");
-		UnitCommands_ComboBox_Type->Append("Ability to Generate Wonder Victory*");
-		UnitCommands_ComboBox_Type->Append("Deselect when Tasked");
-		UnitCommands_ComboBox_Type->Append("Ability to Loot");
-		UnitCommands_ComboBox_Type->Append("Ability to Unpack & Attack");
-		UnitCommands_ComboBox_Type->Append("Type 131, Sub -1");
-		UnitCommands_ComboBox_Type->Append("Ability to Pickup Unit");
-		UnitCommands_ComboBox_Type->Append("Ability to Kidnap Unit");
-		UnitCommands_ComboBox_Type->Append("Ability to Deposit Unit");	// Selection 30
+		UnitCommands_ComboBox_Type->Append("1: Move to");
+		UnitCommands_ComboBox_Type->Append("2: Follow");
+		UnitCommands_ComboBox_Type->Append("3: Garrison");
+		UnitCommands_ComboBox_Type->Append("4: Explore");
+		UnitCommands_ComboBox_Type->Append("5: Gather/Rebuild");
+		UnitCommands_ComboBox_Type->Append("6: Unknown Animal Ability");
+		UnitCommands_ComboBox_Type->Append("7: Attack");
+		UnitCommands_ComboBox_Type->Append("8: Shoot");
+		UnitCommands_ComboBox_Type->Append("10: Fly");
+		UnitCommands_ComboBox_Type->Append("11: Unknown Predator Ability");
+		UnitCommands_ComboBox_Type->Append("12: Unload (Boat-Like)");
+		UnitCommands_ComboBox_Type->Append("13: Guard");
+		UnitCommands_ComboBox_Type->Append("20: Escape?");
+		UnitCommands_ComboBox_Type->Append("21: Unknown Farm Ability");
+		UnitCommands_ComboBox_Type->Append("101: Build");
+		UnitCommands_ComboBox_Type->Append("102: Make an Object");
+		UnitCommands_ComboBox_Type->Append("103: Make a Tech");
+		UnitCommands_ComboBox_Type->Append("104: Convert");
+		UnitCommands_ComboBox_Type->Append("105: Heal");
+		UnitCommands_ComboBox_Type->Append("106: Repair");
+		UnitCommands_ComboBox_Type->Append("107: Get Auto-converted");
+		UnitCommands_ComboBox_Type->Append("109: Unknown Ability");
+		UnitCommands_ComboBox_Type->Append("110: Hunt");
+		UnitCommands_ComboBox_Type->Append("111: Trade");
+		UnitCommands_ComboBox_Type->Append("120: Generate Wonder Victory");
+		UnitCommands_ComboBox_Type->Append("121: Deselect when Tasked");
+		UnitCommands_ComboBox_Type->Append("122: Loot");
+		UnitCommands_ComboBox_Type->Append("123: Housing");
+		UnitCommands_ComboBox_Type->Append("125: Unpack & Attack");
+		UnitCommands_ComboBox_Type->Append("131: Unknown Ability");
+		UnitCommands_ComboBox_Type->Append("132: Pickup Unit");
+		UnitCommands_ComboBox_Type->Append("135: Kidnap Unit");
+		UnitCommands_ComboBox_Type->Append("136: Deposit Unit");	// Selection 33
 		UnitCommands_ComboBox_Type->SetSelection(0);
 
 		Units_ComboBox_GarrisonType->Clear();
