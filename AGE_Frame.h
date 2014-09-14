@@ -1170,7 +1170,7 @@ public:
 
 	wxBoxSizer *Techs_Main;
 	wxBoxSizer *Techs_ListArea;
-	wxGridSizer *Techs_Techs_Buttons;
+	wxGridSizer *Techs_Buttons;
 	wxBoxSizer *Effects_ListArea;
 	wxGridSizer *Techs_Effects_Buttons;
 	wxBoxSizer *Effects_DataAreaProperties;
@@ -1196,17 +1196,19 @@ public:
 	wxStaticText *Effects_Info_F;
 
 	wxStaticBoxSizer *Techs_Techs;
-	wxTextCtrl *Techs_Techs_Search;
-	wxTextCtrl *Techs_Techs_Search_R;
-	wxListBox *Techs_Techs_List;
-	wxButton *Techs_Techs_Rename;
-	wxButton *Techs_Techs_Restore;
-	wxButton *Techs_Techs_Add;
-	wxButton *Techs_Techs_Insert;
-	wxButton *Techs_Techs_Delete;
-	wxButton *Techs_Techs_Copy;
-	wxButton *Techs_Techs_Paste;
-	wxButton *Techs_Techs_PasteInsert;
+	wxBoxSizer *Techs_Searches[2];
+	wxTextCtrl *Techs_Search;
+	wxTextCtrl *Techs_Search_R;
+	wxCheckBox *Techs_UseAnd[2];
+	wxListBox *Techs_List;
+	wxButton *Techs_Rename;
+	wxButton *Techs_Restore;
+	wxButton *Techs_Add;
+	wxButton *Techs_Insert;
+	wxButton *Techs_Delete;
+	wxButton *Techs_Copy;
+	wxButton *Techs_Paste;
+	wxButton *Techs_PasteInsert;
 
 	wxStaticBoxSizer *Techs_AllEffects;
 	wxBoxSizer *Techs_AllEffects_Searches[2];
