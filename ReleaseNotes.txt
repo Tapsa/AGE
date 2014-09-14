@@ -12,8 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]3.12[/b] (2014.8.11):
+Version [b]3.12[/b] (2014.9.14):
 •New info on speed variable in graphics.
+•Added and option to tech search.
+•Tech names now have space at the end of the line.
 
 Version [b]3.11[/b] (2014.5.8):
 •Added options to unit search filters.
