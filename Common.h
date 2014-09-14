@@ -2,6 +2,7 @@
 #include <array>
 #include <list>
 #include <string>
+#include <regex>
 //#include <atomic>
 #include <thread>
 #include <wx/wx.h>
