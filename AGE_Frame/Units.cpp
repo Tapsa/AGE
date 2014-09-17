@@ -2784,12 +2784,12 @@ wxString AGE_Frame::GetUnitCommandName(short Index)
 	if(GenieVersion >= genie::GV_AoK) // AoK, TC, SWGB, CC
 	{
 		CommandType = GenieFile->UnitHeaders[UnitIDs[0]].Commands[Index].Type;
-		CommandSubType = GenieFile->UnitHeaders[UnitIDs[0]].Commands[Index].SubType;
+		CommandSubType = GenieFile->UnitHeaders[UnitIDs[0]].Commands[Index].ResourceProductivityMultiplier;
 	}
 	else // AoE, RoR
 	{
 		CommandType = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[Index].Type;
-		CommandSubType = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[Index].SubType;
+		CommandSubType = GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[Index].ResourceProductivityMultiplier;
 	}
 	switch(CommandType)
 	{
@@ -2814,18 +2814,19 @@ wxString AGE_Frame::GetUnitCommandName(short Index)
 		case 105: return UnitCommands_ComboBox_Type->GetString(19);
 		case 106: return UnitCommands_ComboBox_Type->GetString(20);
 		case 107: return UnitCommands_ComboBox_Type->GetString(21);
-		case 109: return UnitCommands_ComboBox_Type->GetString(22);
-		case 110: return UnitCommands_ComboBox_Type->GetString(23);
-		case 111: return UnitCommands_ComboBox_Type->GetString(24);
-		case 120: return UnitCommands_ComboBox_Type->GetString(25);
-		case 121: return UnitCommands_ComboBox_Type->GetString(26);
-		case 122: return UnitCommands_ComboBox_Type->GetString(27);
-		case 123: return UnitCommands_ComboBox_Type->GetString(28);
-		case 125: return UnitCommands_ComboBox_Type->GetString(29);
-		case 131: return UnitCommands_ComboBox_Type->GetString(30);
-		case 132: return UnitCommands_ComboBox_Type->GetString(31);
-		case 135: return UnitCommands_ComboBox_Type->GetString(32);
-		case 136: return UnitCommands_ComboBox_Type->GetString(33);
+		case 108: return UnitCommands_ComboBox_Type->GetString(22);
+		case 109: return UnitCommands_ComboBox_Type->GetString(23);
+		case 110: return UnitCommands_ComboBox_Type->GetString(24);
+		case 111: return UnitCommands_ComboBox_Type->GetString(25);
+		case 120: return UnitCommands_ComboBox_Type->GetString(26);
+		case 121: return UnitCommands_ComboBox_Type->GetString(27);
+		case 122: return UnitCommands_ComboBox_Type->GetString(28);
+		case 123: return UnitCommands_ComboBox_Type->GetString(29);
+		case 125: return UnitCommands_ComboBox_Type->GetString(30);
+		case 131: return UnitCommands_ComboBox_Type->GetString(31);
+		case 132: return UnitCommands_ComboBox_Type->GetString(32);
+		case 135: return UnitCommands_ComboBox_Type->GetString(33);
+		case 136: return UnitCommands_ComboBox_Type->GetString(34);
 		default: return "Unk. Type "+lexical_cast<string>(CommandType)+", Sub "+lexical_cast<string>(CommandSubType);
 	}
 }
@@ -2894,24 +2895,25 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 		UnitCommands_ID->resize(PointerCount);
 		UnitCommands_Unknown1->resize(PointerCount);
 		UnitCommands_Type->resize(PointerCount);
-		UnitCommands_SubType->resize(PointerCount);
+		UnitCommands_ProductivityResource->resize(PointerCount);
 		UnitCommands_ClassID->resize(PointerCount);
 		UnitCommands_UnitID->resize(PointerCount);
 		UnitCommands_Unknown2->resize(PointerCount);
 		UnitCommands_ResourceIn->resize(PointerCount);
 		UnitCommands_ResourceOut->resize(PointerCount);
-		UnitCommands_Unknown3->resize(PointerCount);
+		UnitCommands_Resource->resize(PointerCount);
 		UnitCommands_WorkRateMultiplier->resize(PointerCount);
 		UnitCommands_ExecutionRadius->resize(PointerCount);
 		UnitCommands_ExtraRange->resize(PointerCount);
 		UnitCommands_Unknown4->resize(PointerCount);
 		UnitCommands_Unknown5->resize(PointerCount);
-		UnitCommands_Unknown6->resize(PointerCount);
+		UnitCommands_SelectionEnabler->resize(PointerCount);
 		UnitCommands_Unknown7->resize(PointerCount);
 		UnitCommands_Unknown8->resize(PointerCount);
 		UnitCommands_Unknown9->resize(PointerCount);
-		UnitCommands_Unknown10->resize(PointerCount);
+		UnitCommands_SelectionMode->resize(PointerCount);
 		UnitCommands_Unknown11->resize(PointerCount);
+		UnitCommands_Unknown12->resize(PointerCount);
 		for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 		UnitCommands_Graphics[loop]->resize(PointerCount);
 
@@ -2947,24 +2949,25 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 				UnitCommands_ID->container[location] = &CommandPointer->ID;
 				UnitCommands_Unknown1->container[location] = &CommandPointer->Unknown1;
 				UnitCommands_Type->container[location] = &CommandPointer->Type;
-				UnitCommands_SubType->container[location] = &CommandPointer->SubType;
+				UnitCommands_ProductivityResource->container[location] = &CommandPointer->ResourceProductivityMultiplier;
 				UnitCommands_ClassID->container[location] = &CommandPointer->ClassID;
 				UnitCommands_UnitID->container[location] = &CommandPointer->UnitID;
 				UnitCommands_Unknown2->container[location] = &CommandPointer->Unknown2;
 				UnitCommands_ResourceIn->container[location] = &CommandPointer->ResourceIn;
 				UnitCommands_ResourceOut->container[location] = &CommandPointer->ResourceOut;
-				UnitCommands_Unknown3->container[location] = &CommandPointer->Unknown3;
+				UnitCommands_Resource->container[location] = &CommandPointer->Resource;
 				UnitCommands_WorkRateMultiplier->container[location] = &CommandPointer->WorkRateMultiplier;
 				UnitCommands_ExecutionRadius->container[location] = &CommandPointer->ExecutionRadius;
 				UnitCommands_ExtraRange->container[location] = &CommandPointer->ExtraRange;
 				UnitCommands_Unknown4->container[location] = &CommandPointer->Unknown4;
 				UnitCommands_Unknown5->container[location] = &CommandPointer->Unknown5;
-				UnitCommands_Unknown6->container[location] = &CommandPointer->Unknown6;
+				UnitCommands_SelectionEnabler->container[location] = &CommandPointer->SelectionEnabler;
 				UnitCommands_Unknown7->container[location] = &CommandPointer->Unknown7;
 				UnitCommands_Unknown8->container[location] = &CommandPointer->Unknown8;
 				UnitCommands_Unknown9->container[location] = &CommandPointer->Unknown9;
-				UnitCommands_Unknown10->container[location] = &CommandPointer->Unknown10;
+				UnitCommands_SelectionMode->container[location] = &CommandPointer->SelectionMode;
 				UnitCommands_Unknown11->container[location] = &CommandPointer->Unknown11;
+				UnitCommands_Unknown12->container[location] = &CommandPointer->Unknown12;
 				for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 				UnitCommands_Graphics[loop]->container[location] = &CommandPointer->Graphics[loop];
 			}
@@ -3002,18 +3005,19 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 			case 105: UnitCommands_ComboBox_Type->SetSelection(19); break;
 			case 106: UnitCommands_ComboBox_Type->SetSelection(20); break;
 			case 107: UnitCommands_ComboBox_Type->SetSelection(21); break;
-			case 109: UnitCommands_ComboBox_Type->SetSelection(22); break;
-			case 110: UnitCommands_ComboBox_Type->SetSelection(23); break;
-			case 111: UnitCommands_ComboBox_Type->SetSelection(24); break;
-			case 120: UnitCommands_ComboBox_Type->SetSelection(25); break;
-			case 121: UnitCommands_ComboBox_Type->SetSelection(26); break;
-			case 122: UnitCommands_ComboBox_Type->SetSelection(27); break;
-			case 123: UnitCommands_ComboBox_Type->SetSelection(28); break;
-			case 125: UnitCommands_ComboBox_Type->SetSelection(29); break;
-			case 131: UnitCommands_ComboBox_Type->SetSelection(30); break;
-			case 132: UnitCommands_ComboBox_Type->SetSelection(31); break;
-			case 135: UnitCommands_ComboBox_Type->SetSelection(32); break;
-			case 136: UnitCommands_ComboBox_Type->SetSelection(33); break;
+			case 108: UnitCommands_ComboBox_Type->SetSelection(22); break;
+			case 109: UnitCommands_ComboBox_Type->SetSelection(23); break;
+			case 110: UnitCommands_ComboBox_Type->SetSelection(24); break;
+			case 111: UnitCommands_ComboBox_Type->SetSelection(25); break;
+			case 120: UnitCommands_ComboBox_Type->SetSelection(26); break;
+			case 121: UnitCommands_ComboBox_Type->SetSelection(27); break;
+			case 122: UnitCommands_ComboBox_Type->SetSelection(28); break;
+			case 123: UnitCommands_ComboBox_Type->SetSelection(29); break;
+			case 125: UnitCommands_ComboBox_Type->SetSelection(30); break;
+			case 131: UnitCommands_ComboBox_Type->SetSelection(31); break;
+			case 132: UnitCommands_ComboBox_Type->SetSelection(32); break;
+			case 135: UnitCommands_ComboBox_Type->SetSelection(33); break;
+			case 136: UnitCommands_ComboBox_Type->SetSelection(34); break;
 			default: UnitCommands_ComboBox_Type->SetSelection(0);
 		}
 		UnitCommands_ClassID->ChangeValue(lexical_cast<string>(CommandPointer->ClassID));
@@ -3023,23 +3027,24 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 		UnitCommands_Unknown2->ChangeValue(lexical_cast<string>(CommandPointer->Unknown2));
 		UnitCommands_ResourceIn->ChangeValue(lexical_cast<string>(CommandPointer->ResourceIn));
 		UnitCommands_ComboBox_ResourceIn->SetSelection(CommandPointer->ResourceIn + 1);
-		UnitCommands_SubType->ChangeValue(lexical_cast<string>(CommandPointer->SubType));
-		UnitCommands_ComboBox_SubType->SetSelection(CommandPointer->SubType + 1);
+		UnitCommands_ProductivityResource->ChangeValue(lexical_cast<string>(CommandPointer->ResourceProductivityMultiplier));
+		UnitCommands_ComboBox_ProductivityResource->SetSelection(CommandPointer->ResourceProductivityMultiplier + 1);
 		UnitCommands_ResourceOut->ChangeValue(lexical_cast<string>(CommandPointer->ResourceOut));
 		UnitCommands_ComboBox_ResourceOut->SetSelection(CommandPointer->ResourceOut + 1);
-		UnitCommands_Unknown3->ChangeValue(lexical_cast<string>(CommandPointer->Unknown3));
-		UnitCommands_ComboBox_Unknown3->SetSelection(CommandPointer->Unknown3 + 1);
+		UnitCommands_Resource->ChangeValue(lexical_cast<string>(CommandPointer->Resource));
+		UnitCommands_ComboBox_Resource->SetSelection(CommandPointer->Resource + 1);
 		UnitCommands_WorkRateMultiplier->ChangeValue(lexical_cast<string>(CommandPointer->WorkRateMultiplier));
 		UnitCommands_ExecutionRadius->ChangeValue(lexical_cast<string>(CommandPointer->ExecutionRadius));
 		UnitCommands_ExtraRange->ChangeValue(lexical_cast<string>(CommandPointer->ExtraRange));
 		UnitCommands_Unknown4->ChangeValue(lexical_cast<string>((short)CommandPointer->Unknown4));
 		UnitCommands_Unknown5->ChangeValue(lexical_cast<string>(CommandPointer->Unknown5));
-		UnitCommands_Unknown6->ChangeValue(lexical_cast<string>((short)CommandPointer->Unknown6));
+		UnitCommands_SelectionEnabler->ChangeValue(lexical_cast<string>((short)CommandPointer->SelectionEnabler));
 		UnitCommands_Unknown7->ChangeValue(lexical_cast<string>((short)CommandPointer->Unknown7));
 		UnitCommands_Unknown8->ChangeValue(lexical_cast<string>(CommandPointer->Unknown8));
-		UnitCommands_Unknown9->ChangeValue(lexical_cast<string>((short)CommandPointer->Unknown9));
-		UnitCommands_Unknown10->ChangeValue(lexical_cast<string>((short)CommandPointer->Unknown10));
+		UnitCommands_Unknown9->ChangeValue(lexical_cast<string>(CommandPointer->Unknown9));
+		UnitCommands_SelectionMode->ChangeValue(lexical_cast<string>((short)CommandPointer->SelectionMode));
 		UnitCommands_Unknown11->ChangeValue(lexical_cast<string>((short)CommandPointer->Unknown11));
+		UnitCommands_Unknown11->ChangeValue(lexical_cast<string>((short)CommandPointer->Unknown12));
 		for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 		{
 			UnitCommands_Graphics[loop]->ChangeValue(lexical_cast<string>(CommandPointer->Graphics[loop]));
@@ -3060,23 +3065,24 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 		UnitCommands_Unknown2->ChangeValue("0");
 		UnitCommands_ResourceIn->ChangeValue("0");
 		UnitCommands_ComboBox_ResourceIn->SetSelection(0);
-		UnitCommands_SubType->ChangeValue("0");
-		UnitCommands_ComboBox_SubType->SetSelection(0);
+		UnitCommands_ProductivityResource->ChangeValue("0");
+		UnitCommands_ComboBox_ProductivityResource->SetSelection(0);
 		UnitCommands_ResourceOut->ChangeValue("0");
 		UnitCommands_ComboBox_ResourceOut->SetSelection(0);
-		UnitCommands_Unknown3->ChangeValue("0");
-		UnitCommands_ComboBox_Unknown3->SetSelection(0);
+		UnitCommands_Resource->ChangeValue("0");
+		UnitCommands_ComboBox_Resource->SetSelection(0);
 		UnitCommands_WorkRateMultiplier->ChangeValue("0");
 		UnitCommands_ExecutionRadius->ChangeValue("0");
 		UnitCommands_ExtraRange->ChangeValue("0");
 		UnitCommands_Unknown4->ChangeValue("0");
 		UnitCommands_Unknown5->ChangeValue("0");
-		UnitCommands_Unknown6->ChangeValue("0");
+		UnitCommands_SelectionEnabler->ChangeValue("0");
 		UnitCommands_Unknown7->ChangeValue("0");
 		UnitCommands_Unknown8->ChangeValue("0");
 		UnitCommands_Unknown9->ChangeValue("0");
-		UnitCommands_Unknown10->ChangeValue("0");
+		UnitCommands_SelectionMode->ChangeValue("0");
 		UnitCommands_Unknown11->ChangeValue("0");
+		UnitCommands_Unknown12->ChangeValue("0");
 		for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 		{
 			UnitCommands_Graphics[loop]->ChangeValue("0");
@@ -4320,22 +4326,22 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_ResourceIn = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_ComboBox_ResourceIn = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceIn);
 	ResourceComboBoxList.push_back(UnitCommands_ComboBox_ResourceIn);
-	UnitCommands_Holder_SubType = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Text_SubType = new wxStaticText(Units_Scroller, wxID_ANY, " Productivity Resource *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_SubType = new TextCtrl_Short(Units_Scroller);
-	UnitCommands_SubType->SetToolTip("Resource that multiplies the amount you can gather");
-	UnitCommands_ComboBox_SubType = new ComboBox_Plus1(Units_Scroller, UnitCommands_SubType);
-	ResourceComboBoxList.push_back(UnitCommands_ComboBox_SubType);
+	UnitCommands_Holder_ProductivityResource = new wxBoxSizer(wxVERTICAL);
+	UnitCommands_Text_ProductivityResource = new wxStaticText(Units_Scroller, wxID_ANY, " Productivity Resource *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_ProductivityResource = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_ProductivityResource->SetToolTip("Resource that multiplies the amount you can gather");
+	UnitCommands_ComboBox_ProductivityResource = new ComboBox_Plus1(Units_Scroller, UnitCommands_ProductivityResource);
+	ResourceComboBoxList.push_back(UnitCommands_ComboBox_ProductivityResource);
 	UnitCommands_Holder_ResourceOut = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_ResourceOut = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Out", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ResourceOut = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_ComboBox_ResourceOut = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceOut);
 	ResourceComboBoxList.push_back(UnitCommands_ComboBox_ResourceOut);
-	UnitCommands_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, " Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown3 = new TextCtrl_Short(Units_Scroller);
-	UnitCommands_ComboBox_Unknown3 = new ComboBox_Plus1(Units_Scroller, UnitCommands_Unknown3);
-	ResourceComboBoxList.push_back(UnitCommands_ComboBox_Unknown3);
+	UnitCommands_Holder_Resource = new wxBoxSizer(wxVERTICAL);
+	UnitCommands_Text_Resource = new wxStaticText(Units_Scroller, wxID_ANY, " Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Resource = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_ComboBox_Resource = new ComboBox_Plus1(Units_Scroller, UnitCommands_Resource);
+	ResourceComboBoxList.push_back(UnitCommands_ComboBox_Resource);
 	UnitCommands_Holder_WorkRateMultiplier = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_WorkRateMultiplier = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate Multiplier", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_WorkRateMultiplier = new TextCtrl_Float(Units_Scroller);
@@ -4377,26 +4383,29 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Unknown5 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown5 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown5 = new TextCtrl_Float(Units_Scroller);
-	UnitCommands_Holder_Unknown6 = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Text_Unknown6 = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Enabler *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown6 = new TextCtrl_Byte(Units_Scroller);
-	UnitCommands_Unknown6->SetToolTip("1 Allows units to select their targets\n2 ?");
+	UnitCommands_Holder_SelectionEnabler = new wxBoxSizer(wxVERTICAL);
+	UnitCommands_Text_SelectionEnabler = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Enabler *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_SelectionEnabler = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_SelectionEnabler->SetToolTip("1 Allows units to select their targets\n2 ?");
 	UnitCommands_Holder_Unknown7 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown7 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown7 = new TextCtrl_Byte(Units_Scroller);
 	UnitCommands_Holder_Unknown8 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown8 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown8 = new TextCtrl_Long(Units_Scroller);
+	UnitCommands_Unknown8 = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_Holder_Unknown9 = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown9 = new TextCtrl_Byte(Units_Scroller);
-	UnitCommands_Unknown9->SetToolTip("Determines what you can select as targets\n0, 7+ All objects\n1 Your objects only\n2 Neutral and enemy objects only\n3 Nothing\n4 Gaia, your and ally objects only\n5 Gaia, neutral and enemy objects only\n6 All but your objects");
-	UnitCommands_Holder_Unknown10 = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Text_Unknown10 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 10", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown10 = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_Text_Unknown9 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Unknown9 = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_Holder_SelectionMode = new wxBoxSizer(wxVERTICAL);
+	UnitCommands_Text_SelectionMode = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_SelectionMode = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_SelectionMode->SetToolTip("Determines what you can select as targets\n0, 7+ All objects\n1 Your objects only\n2 Neutral and enemy objects only\n3 Nothing\n4 Gaia, your and ally objects only\n5 Gaia, neutral and enemy objects only\n6 All but your objects");
 	UnitCommands_Holder_Unknown11 = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Text_Unknown11 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown11 = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_Holder_Unknown12 = new wxBoxSizer(wxVERTICAL);
+	UnitCommands_Text_Unknown12 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 12", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Unknown12 = new TextCtrl_Byte(Units_Scroller);
 
 //	UnitControls actual interface
 
@@ -4930,9 +4939,9 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Type->Add(UnitCommands_Text_Type, 0, wxEXPAND);
 	UnitCommands_Holder_Type->Add(UnitCommands_Type, 0, wxEXPAND);
 	UnitCommands_Holder_Type->Add(UnitCommands_ComboBox_Type, 0, wxEXPAND);
-	UnitCommands_Holder_SubType->Add(UnitCommands_Text_SubType, 0, wxEXPAND);
-	UnitCommands_Holder_SubType->Add(UnitCommands_SubType, 0, wxEXPAND);
-	UnitCommands_Holder_SubType->Add(UnitCommands_ComboBox_SubType, 0, wxEXPAND);
+	UnitCommands_Holder_ProductivityResource->Add(UnitCommands_Text_ProductivityResource, 0, wxEXPAND);
+	UnitCommands_Holder_ProductivityResource->Add(UnitCommands_ProductivityResource, 0, wxEXPAND);
+	UnitCommands_Holder_ProductivityResource->Add(UnitCommands_ComboBox_ProductivityResource, 0, wxEXPAND);
 	UnitCommands_Holder_ClassID->Add(UnitCommands_Text_ClassID, 0, wxEXPAND);
 	UnitCommands_Holder_ClassID->Add(UnitCommands_ClassID, 0, wxEXPAND);
 	UnitCommands_Holder_ClassID->Add(Units_ComboBox_Class[1], 0, wxEXPAND);
@@ -4947,9 +4956,9 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_ResourceOut->Add(UnitCommands_Text_ResourceOut, 0, wxEXPAND);
 	UnitCommands_Holder_ResourceOut->Add(UnitCommands_ResourceOut, 0, wxEXPAND);
 	UnitCommands_Holder_ResourceOut->Add(UnitCommands_ComboBox_ResourceOut, 0, wxEXPAND);
-	UnitCommands_Holder_Unknown3->Add(UnitCommands_Text_Unknown3, 0, wxEXPAND);
-	UnitCommands_Holder_Unknown3->Add(UnitCommands_Unknown3, 0, wxEXPAND);
-	UnitCommands_Holder_Unknown3->Add(UnitCommands_ComboBox_Unknown3, 0, wxEXPAND);
+	UnitCommands_Holder_Resource->Add(UnitCommands_Text_Resource, 0, wxEXPAND);
+	UnitCommands_Holder_Resource->Add(UnitCommands_Resource, 0, wxEXPAND);
+	UnitCommands_Holder_Resource->Add(UnitCommands_ComboBox_Resource, 0, wxEXPAND);
 	UnitCommands_Holder_WorkRateMultiplier->Add(UnitCommands_Text_WorkRateMultiplier, 0, wxEXPAND);
 	UnitCommands_Holder_WorkRateMultiplier->Add(UnitCommands_WorkRateMultiplier, 0, wxEXPAND);
 	UnitCommands_Holder_ExecutionRadius->Add(UnitCommands_Text_ExecutionRadius, 0, wxEXPAND);
@@ -4960,18 +4969,20 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Holder_Unknown4->Add(UnitCommands_Unknown4, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown5->Add(UnitCommands_Text_Unknown5, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown5->Add(UnitCommands_Unknown5, 0, wxEXPAND);
-	UnitCommands_Holder_Unknown6->Add(UnitCommands_Text_Unknown6, 0, wxEXPAND);
-	UnitCommands_Holder_Unknown6->Add(UnitCommands_Unknown6, 0, wxEXPAND);
+	UnitCommands_Holder_SelectionEnabler->Add(UnitCommands_Text_SelectionEnabler, 0, wxEXPAND);
+	UnitCommands_Holder_SelectionEnabler->Add(UnitCommands_SelectionEnabler, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown7->Add(UnitCommands_Text_Unknown7, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown7->Add(UnitCommands_Unknown7, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown8->Add(UnitCommands_Text_Unknown8, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown8->Add(UnitCommands_Unknown8, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown9->Add(UnitCommands_Text_Unknown9, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown9->Add(UnitCommands_Unknown9, 0, wxEXPAND);
-	UnitCommands_Holder_Unknown10->Add(UnitCommands_Text_Unknown10, 0, wxEXPAND);
-	UnitCommands_Holder_Unknown10->Add(UnitCommands_Unknown10, 0, wxEXPAND);
+	UnitCommands_Holder_SelectionMode->Add(UnitCommands_Text_SelectionMode, 0, wxEXPAND);
+	UnitCommands_Holder_SelectionMode->Add(UnitCommands_SelectionMode, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown11->Add(UnitCommands_Text_Unknown11, 0, wxEXPAND);
 	UnitCommands_Holder_Unknown11->Add(UnitCommands_Unknown11, 0, wxEXPAND);
+	UnitCommands_Holder_Unknown12->Add(UnitCommands_Text_Unknown12, 0, wxEXPAND);
+	UnitCommands_Holder_Unknown12->Add(UnitCommands_Unknown12, 0, wxEXPAND);
 
 	for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 	{
@@ -5405,9 +5416,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_UnitID, 1, wxEXPAND);
 	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_Unknown2, 1, wxEXPAND);
 	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_ResourceIn, 1, wxEXPAND);
-	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_SubType, 1, wxEXPAND);
+	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_ProductivityResource, 1, wxEXPAND);
 	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_ResourceOut, 1, wxEXPAND);
-	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_Unknown3, 1, wxEXPAND);
+	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_Resource, 1, wxEXPAND);
 	Units_CommandHolder_Grid1->Add(UnitCommands_Holder_WorkRateMultiplier, 1, wxEXPAND);
 	Units_CommandHolder_Grid2->Add(UnitCommands_Holder_ExecutionRadius, 1, wxEXPAND);
 	Units_CommandHolder_Grid2->Add(UnitCommands_Holder_ExtraRange, 1, wxEXPAND);
@@ -5423,12 +5434,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown1, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown4, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown5, 1, wxEXPAND);
-	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown6, 1, wxEXPAND);
+	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_SelectionEnabler, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown7, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown8, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown9, 1, wxEXPAND);
-	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown10, 1, wxEXPAND);
+	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_SelectionMode, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown11, 1, wxEXPAND);
+	Units_CommandHolder_Grid3->Add(UnitCommands_Holder_Unknown12, 1, wxEXPAND);
 
 	Units_CommandHolder_Data1->Add(Units_CommandHolder_Data2, 2, wxEXPAND);
 	Units_CommandHolder_Data1->Add(5, -1);
@@ -5607,7 +5619,7 @@ void AGE_Frame::CreateUnitControls()
 	Attacks_ComboBox_Class[loop]->Connect(Attacks_ComboBox_Class[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
 
 	UnitCommands_Type->Connect(UnitCommands_Type->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
-	UnitCommands_SubType->Connect(UnitCommands_SubType->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	UnitCommands_ProductivityResource->Connect(UnitCommands_ProductivityResource->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	Connect(UnitCommands_ComboBox_Type->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units));
 }
 
@@ -5636,7 +5648,7 @@ void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
 	{
 		ListUnitArmors();
 	}
-	else if(Event.GetId() == UnitCommands_Type->GetId() || Event.GetId() == UnitCommands_SubType->GetId())
+	else if(Event.GetId() == UnitCommands_Type->GetId() || Event.GetId() == UnitCommands_ProductivityResource->GetId())
 	{
 		ListUnitCommands();
 	}
