@@ -331,6 +331,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_ComboBox_Type->Append("105: Heal");
 		UnitCommands_ComboBox_Type->Append("106: Repair");
 		UnitCommands_ComboBox_Type->Append("107: Get Auto-converted");
+		UnitCommands_ComboBox_Type->Append("108: Discovery");
 		UnitCommands_ComboBox_Type->Append("109: Unknown Ability");
 		UnitCommands_ComboBox_Type->Append("110: Hunt");
 		UnitCommands_ComboBox_Type->Append("111: Trade");
