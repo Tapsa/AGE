@@ -5695,31 +5695,40 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 	{
 		switch(UnitCommands_ComboBox_Type->GetSelection())
 		{
-			case 1: UnitCommands_Type->ChangeValue("3"); break;
-			case 2: UnitCommands_Type->ChangeValue("5"); break;
-			case 3: UnitCommands_Type->ChangeValue("6"); break;
-			case 4: UnitCommands_Type->ChangeValue("7"); break;
-			case 5: UnitCommands_Type->ChangeValue("10"); break;
-			case 6: UnitCommands_Type->ChangeValue("11"); break;
-			case 7: UnitCommands_Type->ChangeValue("12"); break;
-			case 8: UnitCommands_Type->ChangeValue("13"); break;
-			case 9: UnitCommands_Type->ChangeValue("21"); break;
-			case 10: UnitCommands_Type->ChangeValue("101"); break;
-			case 11: UnitCommands_Type->ChangeValue("104"); break;
-			case 12: UnitCommands_Type->ChangeValue("105"); break;
-			case 13: UnitCommands_Type->ChangeValue("106"); break;
-			case 14: UnitCommands_Type->ChangeValue("107"); break;
-			case 15: UnitCommands_Type->ChangeValue("109"); break;
-			case 16: UnitCommands_Type->ChangeValue("110"); break;
-			case 17: UnitCommands_Type->ChangeValue("111"); break;
-			case 18: UnitCommands_Type->ChangeValue("120"); break;
-			case 19: UnitCommands_Type->ChangeValue("121"); break;
-			case 20: UnitCommands_Type->ChangeValue("122"); break;
-			case 21: UnitCommands_Type->ChangeValue("125"); break;
-			case 22: UnitCommands_Type->ChangeValue("131"); break;
-			case 23: UnitCommands_Type->ChangeValue("132"); break;
-			case 24: UnitCommands_Type->ChangeValue("135"); break;
-			case 25: UnitCommands_Type->ChangeValue("136"); break;
+			case 1: UnitCommands_Type->ChangeValue("1"); break;
+			case 2: UnitCommands_Type->ChangeValue("2"); break;
+			case 3: UnitCommands_Type->ChangeValue("3"); break;
+			case 4: UnitCommands_Type->ChangeValue("4"); break;
+			case 5: UnitCommands_Type->ChangeValue("5"); break;
+			case 6: UnitCommands_Type->ChangeValue("6"); break;
+			case 7: UnitCommands_Type->ChangeValue("7"); break;
+			case 8: UnitCommands_Type->ChangeValue("8"); break;
+			case 9: UnitCommands_Type->ChangeValue("10"); break;
+			case 10: UnitCommands_Type->ChangeValue("11"); break;
+			case 11: UnitCommands_Type->ChangeValue("12"); break;
+			case 12: UnitCommands_Type->ChangeValue("13"); break;
+			case 13: UnitCommands_Type->ChangeValue("20"); break;
+			case 14: UnitCommands_Type->ChangeValue("21"); break;
+			case 15: UnitCommands_Type->ChangeValue("101"); break;
+			case 16: UnitCommands_Type->ChangeValue("102"); break;
+			case 17: UnitCommands_Type->ChangeValue("103"); break;
+			case 18: UnitCommands_Type->ChangeValue("104"); break;
+			case 19: UnitCommands_Type->ChangeValue("105"); break;
+			case 20: UnitCommands_Type->ChangeValue("106"); break;
+			case 21: UnitCommands_Type->ChangeValue("107"); break;
+			case 22: UnitCommands_Type->ChangeValue("108"); break;
+			case 23: UnitCommands_Type->ChangeValue("109"); break;
+			case 24: UnitCommands_Type->ChangeValue("110"); break;
+			case 25: UnitCommands_Type->ChangeValue("111"); break;
+			case 26: UnitCommands_Type->ChangeValue("120"); break;
+			case 27: UnitCommands_Type->ChangeValue("121"); break;
+			case 28: UnitCommands_Type->ChangeValue("122"); break;
+			case 29: UnitCommands_Type->ChangeValue("123"); break;
+			case 30: UnitCommands_Type->ChangeValue("125"); break;
+			case 31: UnitCommands_Type->ChangeValue("131"); break;
+			case 32: UnitCommands_Type->ChangeValue("132"); break;
+			case 33: UnitCommands_Type->ChangeValue("135"); break;
+			case 34: UnitCommands_Type->ChangeValue("136"); break;
 			default: UnitCommands_Type->ChangeValue("-1");
 		}
 
