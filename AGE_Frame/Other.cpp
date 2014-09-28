@@ -385,6 +385,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_ComboBox_GarrisonType->Append("13 - Jedi + Worker + Mounted");
 			Units_ComboBox_GarrisonType->Append("14 - Jedi + Mounted + Infantry");
 			Units_ComboBox_GarrisonType->Append("15 - Jedi + Worker + Infantry + Mounted");
+			Units_ComboBox_GarrisonType->Append("16 - Nerf/Bantha");
 		}
 		Units_ComboBox_GarrisonType->SetSelection(0);
 
@@ -656,7 +657,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_ComboBox_Class[loop]->Append("26 - Elephant Archer");
 				Units_ComboBox_Class[loop]->Append("27 - Wall");
 				Units_ComboBox_Class[loop]->Append("28 - Phalanx");
-				Units_ComboBox_Class[loop]->Append("29 - Unused");
+				Units_ComboBox_Class[loop]->Append("29 - Domesticated Animal");
 				Units_ComboBox_Class[loop]->Append("30 - Flag");
 				Units_ComboBox_Class[loop]->Append("31 - Unused");
 				Units_ComboBox_Class[loop]->Append("32 - Gold Mine");
