@@ -2827,6 +2827,7 @@ wxString AGE_Frame::GetUnitCommandName(short Index)
 		case 132: return UnitCommands_ComboBox_Type->GetString(32);
 		case 135: return UnitCommands_ComboBox_Type->GetString(33);
 		case 136: return UnitCommands_ComboBox_Type->GetString(34);
+		case 149: return UnitCommands_ComboBox_Type->GetString(35);
 		default: return "Unk. Type "+lexical_cast<string>(CommandType)+", Sub "+lexical_cast<string>(CommandSubType);
 	}
 }
@@ -3018,6 +3019,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 			case 132: UnitCommands_ComboBox_Type->SetSelection(32); break;
 			case 135: UnitCommands_ComboBox_Type->SetSelection(33); break;
 			case 136: UnitCommands_ComboBox_Type->SetSelection(34); break;
+			case 149: UnitCommands_ComboBox_Type->SetSelection(35); break;
 			default: UnitCommands_ComboBox_Type->SetSelection(0);
 		}
 		UnitCommands_ClassID->ChangeValue(lexical_cast<string>(CommandPointer->ClassID));
@@ -3412,7 +3414,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AutoCopy = new wxCheckBox(Tab_Units, wxID_ANY, "Automatically", wxDefaultPosition, wxSize(-1, 20));
 	Units_CopyTo = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(40, 20));
 	Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Including graphics", wxDefaultPosition, wxSize(-1, 20));
-	Units_CopyToText = new wxStaticText(Tab_Units, wxID_ANY, " To selected civilizations: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Units_CopyToText = new wxStaticText(Tab_Units, wxID_ANY, " to selected civilizations: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Units_SelectAll = new wxButton(Tab_Units, wxID_ANY, "All", wxDefaultPosition, wxSize(40, 20));
 	Units_SelectClear = new wxButton(Tab_Units, wxID_ANY, "None", wxDefaultPosition, wxSize(40, 20));
 	Units_GraphicSetText = new wxStaticText(Tab_Units, wxID_ANY, " Graphic set: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
@@ -4030,7 +4032,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackMissileDuplicationSpawning[loop] = new TextCtrl_Float(Units_Scroller);
 	Units_AttackMissileDuplicationSpawning[0]->SetToolTip("Spawning area's width");
 	Units_AttackMissileDuplicationSpawning[1]->SetToolTip("Spawning area's length");
-	Units_AttackMissileDuplicationSpawning[2]->SetToolTip("Spawning point's randomness inside the spawning area\n0 From a single spot\n1 Totally randomly inside the spawning area\n1+ Less randomly");
+	Units_AttackMissileDuplicationSpawning[2]->SetToolTip("Spawning point's randomness inside the spawning area\n0 from a single spot\n1 Totally randomly inside the spawning area\n1+ Less randomly");
 	for(short loop = 0; loop < 3; ++loop)
 	Units_GraphicDisplacement[loop] = new TextCtrl_Float(Units_Scroller);
 	Units_GraphicDisplacement[0]->SetToolTip("Left/Right distance");
@@ -5729,6 +5731,7 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 			case 32: UnitCommands_Type->ChangeValue("132"); break;
 			case 33: UnitCommands_Type->ChangeValue("135"); break;
 			case 34: UnitCommands_Type->ChangeValue("136"); break;
+			case 35: UnitCommands_Type->ChangeValue("149"); break;
 			default: UnitCommands_Type->ChangeValue("-1");
 		}
 
