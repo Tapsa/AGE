@@ -258,13 +258,8 @@ string AGE_Frame::GetResourceName(short Index)
 			else
 			Name = "Nova Storage ";
 			break;
-		case 4: Name = "Population Headroom"; break;
-		case 5:
-			if(GenieVersion <= genie::GV_TC)
-			Name = "Conversion Range?";
-			else
-			Name = "Conversion Range";
-			break;
+		case 4: Name = "Population Cap"; break;
+		case 5: Name = "Conversion Range"; break;
 		case 6: Name = "Current Age"; break;
 		case 7:
 			if(GenieVersion <= genie::GV_TC)
@@ -285,7 +280,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 13: Name = "Discovery"; break;
 		case 14: Name = "Monuments/Ruins Captured?"; break;
 		case 15: Name = "Predator Animal Food"; break;
-		case 16: Name = "Crops"; break;
+		case 16: Name = "Berries"; break;
 		case 17: Name = "Fish Storage"; break;
 		case 18:
 			if(GenieVersion <= genie::GV_TC)
@@ -312,7 +307,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 25: Name = "Feudal Age?"; break;
 		case 26:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Unknown";
+			Name = "Attack Warning Sound";
 			else
 			Name = "Shields' Drop Off Time";
 			break;
@@ -355,7 +350,7 @@ string AGE_Frame::GetResourceName(short Index)
 			Name = "Force Recharging Rate";
 			break;
 		case 36: Name = "Farm Food Amount"; break;
-		case 37: Name = "Civilian Units (Villager High)"; break;
+		case 37: Name = "Civilian Population"; break;
 		case 38:
 			if(GenieVersion <= genie::GV_TC)
 			Name = "Unknown";
@@ -363,13 +358,13 @@ string AGE_Frame::GetResourceName(short Index)
 			Name = "Shields On For Bombers/Fighters";
 			break;
 		case 39: Name = "All Techs Achieved"; break;
-		case 40: Name = "Military Units (Largest Army)"; break;
-		case 41: Name = "Units Converted"; break;
+		case 40: Name = "Military Population"; break;
+		case 41: Name = "Conversions"; break;
 		case 42: Name = "Standing? Wonders"; break;
-		case 43: Name = "Buildings Razed"; break;
+		case 43: Name = "Razings"; break;
 		case 44: Name = "Kill Ratio"; break;
 		case 45: Name = "Survival to Finish"; break;
-		case 46: Name = "Tribute Fee"; break;
+		case 46: Name = "Tribute Inefficiency"; break;
 		case 47:
 			if(GenieVersion <= genie::GV_TC)
 			Name = "Gold Mining Productivity";
@@ -381,17 +376,17 @@ string AGE_Frame::GetResourceName(short Index)
 		case 50: Name = "Reveal Ally"; break;
 		case 51:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Houses (Unused)";
+			Name = "Amount Houses";
 			else
 			Name = "Shielding";
 			break;
-		case 52: Name = "Monastery Count"; break;
+		case 52: Name = "Monasteries"; break;
 		case 53: Name = "Tribute Sent"; break;
 		case 54: Name = "All Ruins Have Been Captured"; break;
 		case 55: Name = "All Relics Have Been Captured"; break;
 		case 56:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Loot Storage? Unit Unload Room?";
+			Name = "Ore Storage";
 			else
 			Name = "Enable Stealth For Masters";
 			break;
@@ -409,9 +404,9 @@ string AGE_Frame::GetResourceName(short Index)
 		case 63: Name = "Gather Tax Rate"; break;
 		case 64: Name = "Gather Accumulator"; break;
 		case 65: Name = "Salvage Decay Rate"; break;
-		case 66: Name = "Ages? Allow Formations?"; break;
-		case 67: Name = "Conversions"; break;
-		case 68: Name = "Hit Points Killed (Unused)"; break;
+		case 66: Name = "Allow Formations"; break;
+		case 67: Name = "Can Convert"; break;
+		case 68: Name = "Hit Points Killed"; break;
 		case 69: Name = "Killed P1"; break;
 		case 70: Name = "Killed P2"; break;
 		case 71: Name = "Killed P3"; break;
@@ -421,7 +416,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 75: Name = "Killed P7"; break;
 		case 76: Name = "Killed P8"; break;
 		case 77: Name = "Conversion Resistance"; break;
-		case 78: Name = "Trade Fee"; break;
+		case 78: Name = "Trade Vig Rate"; break;
 		case 79:
 			if(GenieVersion <= genie::GV_TC)
 			Name = "Stone Mining Productivity";
@@ -433,53 +428,53 @@ string AGE_Frame::GetResourceName(short Index)
 		case 82: Name = "Start With Packed Town Center / Raider"; break;
 		case 83: Name = "Boarding Recharge Rate"; break;
 		case 84: Name = "Starting Villagers"; break;
-		case 85: Name = "Researches' Cost Multiplier"; break;
-		case 86: Name = "Researches' Time Multiplier"; break;
+		case 85: Name = "Research Cost Modifier"; break;
+		case 86: Name = "Research Time Modifier"; break;
 		case 87:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Convert Ships";
+			Name = "Convert Boats";
 			else
 			Name = "Concentration";
 			break;
 		case 88: Name = "Fish Trap Food Amount"; break;
 		case 89:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Bonus Healing Rate";
+			Name = "Heal Rate Modifier";
 			else
 			Name = "Medic Healing Rate";
 			break;
 		case 90: Name = "Healing Range"; break;
-		case 91: Name = "Bonus Starting Food"; break;
+		case 91: Name = "Starting Food"; break;
 		case 92:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Bonus Starting Wood";
+			Name = "Starting Wood";
 			else
-			Name = "Bonus Starting Carbon";
+			Name = "Starting Carbon";
 			break;
 		case 93:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Bonus Starting Stone";
+			Name = "Starting Stone";
 			else
-			Name = "Bonus Starting Ore";
+			Name = "Starting Ore";
 			break;
 		case 94:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Bonus Starting Gold";
+			Name = "Starting Gold";
 			else
-			Name = "Bonus Starting Nova";
+			Name = "Starting Nova";
 			break;
 		case 95: Name = "Enable Town Center Packing / Raider Ability"; break;
-		case 96: Name = "Self Healing Seconds (Berserkers)"; break;
-		case 97: Name = "Sheep/Turkey Dominant LOS"; break;
-		case 98: Name = "Score: Economy (Object Cost Summation)"; break;
-		case 99: Name = "Score: Technology"; break;
+		case 96: Name = "Berserker Heal Timer"; break;
+		case 97: Name = "Dominant Sheep Control"; break;
+		case 98: Name = "Object Cost Summation"; break;
+		case 99: Name = "Research Cost Summation"; break;
 		case 100:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Relic Gold (Collected)";
+			Name = "Relic Income Summation";
 			else
-			Name = "Holocron Nova (Collected)";
+			Name = "Holocron Nova Summation";
 			break;
-		case 101: Name = "Trade Profit"; break;
+		case 101: Name = "Trade Income Summation"; break;
 		case 102: Name = "P1 Tribute"; break;
 		case 103: Name = "P2 Tribute"; break;
 		case 104: Name = "P3 Tribute"; break;
@@ -488,14 +483,14 @@ string AGE_Frame::GetResourceName(short Index)
 		case 107: Name = "P6 Tribute"; break;
 		case 108: Name = "P7 Tribute"; break;
 		case 109: Name = "P8 Tribute"; break;
-		case 110: Name = "P1 Kill Score"; break;
-		case 111: Name = "P2 Kill Score"; break;
-		case 112: Name = "P3 Kill Score"; break;
-		case 113: Name = "P4 Kill Score"; break;
-		case 114: Name = "P5 Kill Score"; break;
-		case 115: Name = "P6 Kill Score"; break;
-		case 116: Name = "P7 Kill Score"; break;
-		case 117: Name = "P8 Kill Score"; break;
+		case 110: Name = "P1 Kill Value"; break;
+		case 111: Name = "P2 Kill Value"; break;
+		case 112: Name = "P3 Kill Value"; break;
+		case 113: Name = "P4 Kill Value"; break;
+		case 114: Name = "P5 Kill Value"; break;
+		case 115: Name = "P6 Kill Value"; break;
+		case 116: Name = "P7 Kill Value"; break;
+		case 117: Name = "P8 Kill Value"; break;
 		case 118: Name = "P1 Razings"; break;
 		case 119: Name = "P2 Razings"; break;
 		case 120: Name = "P3 Razings"; break;
@@ -504,80 +499,80 @@ string AGE_Frame::GetResourceName(short Index)
 		case 123: Name = "P6 Razings"; break;
 		case 124: Name = "P7 Razings"; break;
 		case 125: Name = "P8 Razings"; break;
-		case 126: Name = "P1 Razing Score"; break;
-		case 127: Name = "P2 Razing Score"; break;
-		case 128: Name = "P3 Razing Score"; break;
-		case 129: Name = "P4 Razing Score"; break;
-		case 130: Name = "P5 Razing Score"; break;
-		case 131: Name = "P6 Razing Score"; break;
-		case 132: Name = "P7 Razing Score"; break;
-		case 133: Name = "P8 Razing Score"; break;
+		case 126: Name = "P1 Razing Value"; break;
+		case 127: Name = "P2 Razing Value"; break;
+		case 128: Name = "P3 Razing Value"; break;
+		case 129: Name = "P4 Razing Value"; break;
+		case 130: Name = "P5 Razing Value"; break;
+		case 131: Name = "P6 Razing Value"; break;
+		case 132: Name = "P7 Razing Value"; break;
+		case 133: Name = "P8 Razing Value"; break;
 		case 134: Name = "Standing Castles"; break;
-		case 135: Name = "Hit Points Razings (Unused)"; break;
-		case 136: Name = "Kills By P1"; break;
-		case 137: Name = "Kills By P2"; break;
-		case 138: Name = "Kills By P3"; break;
-		case 139: Name = "Kills By P4"; break;
-		case 140: Name = "Kills By P5"; break;
-		case 141: Name = "Kills By P6"; break;
-		case 142: Name = "Kills By P7"; break;
-		case 143: Name = "Kills By P8"; break;
-		case 144: Name = "Razings By P1"; break;
-		case 145: Name = "Razings By P2"; break;
-		case 146: Name = "Razings By P3"; break;
-		case 147: Name = "Razings By P4"; break;
-		case 148: Name = "Razings By P5"; break;
-		case 149: Name = "Razings By P6"; break;
-		case 150: Name = "Razings By P7"; break;
-		case 151: Name = "Razings By P8"; break;
-		case 152: Name = "Units Lost Score"; break;
-		case 153: Name = "Buildings Lost Score"; break;
-		case 154: Name = "Units Lost"; break;
-		case 155: Name = "Buildings Lost"; break;
-		case 156: Name = "Tribute From P1"; break;
-		case 157: Name = "Tribute From P2"; break;
-		case 158: Name = "Tribute From P3"; break;
-		case 159: Name = "Tribute From P4"; break;
-		case 160: Name = "Tribute From P5"; break;
-		case 161: Name = "Tribute From P6"; break;
-		case 162: Name = "Tribute From P7"; break;
-		case 163: Name = "Tribute From P8"; break;
-		case 164: Name = "Current Units Score"; break;
-		case 165: Name = "Current Buildings Score"; break;
-		case 166: Name = "Food Collected"; break;
+		case 135: Name = "Hit Points Razings"; break;
+		case 136: Name = "Kills by P1"; break;
+		case 137: Name = "Kills by P2"; break;
+		case 138: Name = "Kills by P3"; break;
+		case 139: Name = "Kills by P4"; break;
+		case 140: Name = "Kills by P5"; break;
+		case 141: Name = "Kills by P6"; break;
+		case 142: Name = "Kills by P7"; break;
+		case 143: Name = "Kills by P8"; break;
+		case 144: Name = "Razings by P1"; break;
+		case 145: Name = "Razings by P2"; break;
+		case 146: Name = "Razings by P3"; break;
+		case 147: Name = "Razings by P4"; break;
+		case 148: Name = "Razings by P5"; break;
+		case 149: Name = "Razings by P6"; break;
+		case 150: Name = "Razings by P7"; break;
+		case 151: Name = "Razings by P8"; break;
+		case 152: Name = "Value Killed by Others"; break;
+		case 153: Name = "Value Razed by Others"; break;
+		case 154: Name = "Killed by Others"; break;
+		case 155: Name = "Razed by Others"; break;
+		case 156: Name = "Tribute from P1"; break;
+		case 157: Name = "Tribute from P2"; break;
+		case 158: Name = "Tribute from P3"; break;
+		case 159: Name = "Tribute from P4"; break;
+		case 160: Name = "Tribute from P5"; break;
+		case 161: Name = "Tribute from P6"; break;
+		case 162: Name = "Tribute from P7"; break;
+		case 163: Name = "Tribute from P8"; break;
+		case 164: Name = "Value Current Units"; break;
+		case 165: Name = "Value Current Buildings"; break;
+		case 166: Name = "Food Total"; break;
 		case 167:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Wood Collected";
+			Name = "Wood Total";
 			else
-			Name = "Carbon Collected";
+			Name = "Carbon Total";
 			break;
 		case 168:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Stone Collected";
+			Name = "Stone Total";
 			else
-			Name = "Ore Collected";
+			Name = "Ore Total";
 			break;
 		case 169:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Gold Collected";
+			Name = "Gold Total";
 			else
-			Name = "Nova Collected";
+			Name = "Nova Total";
 			break;
-		case 170: Name = "Score: Military"; break;
-		case 171: Name = "Tribute Received"; break;
-		case 172: Name = "Razing Score"; break;
+		case 170: Name = "Total Value of Kills"; break;
+		case 171: Name = "Total Tribute Received"; break;
+		case 172: Name = "Total Value of Razings"; break;
 		case 173:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Total Castles";
+			Name = "Total Castles Built";
 			else
-			Name = "Total Fortresses";
+			Name = "Total Fortresses Built";
 			break;
 		case 174:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Total Wonders";
+			Name = "Total Wonders Built";
 			else
-			Name = "Total Monuments"; break;
-		case 175: Name = "Score: Economy (Tribute)"; break;
+			Name = "Total Monuments Built"; break;
+		case 175: Name = "Tribute Score"; break;
 		case 176: Name = "Convert Min Adjustment"; break;
 		case 177: Name = "Convert Max Adjustment"; break;
 		case 178: Name = "Convert Resist Min Adjustment"; break;
@@ -586,7 +581,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 181: Name = "Convert Building Max"; break;
 		case 182: Name = "Convert Building Chance"; break;
 		case 183: Name = "Reveal Enemy"; break;
-		case 184: Name = "Score: Society"; break;
+		case 184: Name = "Value Wonders Castles"; break;
 		case 185: Name = "Food Score"; break;
 		case 186:
 			if(GenieVersion <= genie::GV_TC)
@@ -619,7 +614,7 @@ string AGE_Frame::GetResourceName(short Index)
 			else
 			Name = "Holocron Nova Production Rate";
 			break;
-		case 192: Name = "Units Converted By Enemy Die"; break;
+		case 192: Name = "Converted Units Die"; break;
 		case 193:
 			if(GenieVersion <= genie::GV_TC)
 			Name = "Theocracy";
@@ -627,10 +622,10 @@ string AGE_Frame::GetResourceName(short Index)
 			Name = "Meditation";
 			break;
 		case 194: Name = "Crenellations"; break;
-		case 195: Name = "Construction Rate (Except Wonder)"; break;
+		case 195: Name = "Construction Rate Modifier"; break;
 		case 196:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Wonder Bonus";
+			Name = "Hun Wonder Bonus";
 			else
 			Name = "Biological Self Regeneration";
 			break;
