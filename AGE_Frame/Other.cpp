@@ -247,8 +247,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		//Units_Civs_List->SetSelection(0);
 
 		// No research gaia fix.
-		for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
-			GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
+		if(GenieFile->Civs.size() > 1)
+		{
+			for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
+				GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
+		}
 		// Pointers contain useless data, which the game overrides anyway.
 		// ID and pointer fixes.
 		for(short loop = GenieFile->Civs.size(); loop--> 0;)
@@ -322,8 +325,16 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_ComboBox_Type->Append("11: Unknown Predator Ability");
 		UnitCommands_ComboBox_Type->Append("12: Unload (Boat-Like)");
 		UnitCommands_ComboBox_Type->Append("13: Guard");
+		//UnitCommands_ComboBox_Type->Append("14: Unknown Ability");
+		//UnitCommands_ComboBox_Type->Append("15: Unknown Ability");
+		//UnitCommands_ComboBox_Type->Append("17: Unknown Ability");
+		//UnitCommands_ComboBox_Type->Append("18: Unknown Ability");
+		//UnitCommands_ComboBox_Type->Append("19: Unknown Ability");
 		UnitCommands_ComboBox_Type->Append("20: Escape?");
-		UnitCommands_ComboBox_Type->Append("21: Unknown Farm Ability");
+		UnitCommands_ComboBox_Type->Append("21: Make");
+		//UnitCommands_ComboBox_Type->Append("22: Unknown Ability");
+		//UnitCommands_ComboBox_Type->Append("24: Unknown Ability");
+		//UnitCommands_ComboBox_Type->Append("100: Unknown Ability");
 		UnitCommands_ComboBox_Type->Append("101: Build");
 		UnitCommands_ComboBox_Type->Append("102: Make an Object");
 		UnitCommands_ComboBox_Type->Append("103: Make a Tech");
@@ -335,15 +346,21 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_ComboBox_Type->Append("109: Unknown Ability");
 		UnitCommands_ComboBox_Type->Append("110: Hunt");
 		UnitCommands_ComboBox_Type->Append("111: Trade");
+		//UnitCommands_ComboBox_Type->Append("112: Unknown Ability");
+		//UnitCommands_ComboBox_Type->Append("113: Unknown Ability");
 		UnitCommands_ComboBox_Type->Append("120: Generate Wonder Victory");
 		UnitCommands_ComboBox_Type->Append("121: Deselect when Tasked");
 		UnitCommands_ComboBox_Type->Append("122: Loot");
 		UnitCommands_ComboBox_Type->Append("123: Housing");
 		UnitCommands_ComboBox_Type->Append("125: Unpack & Attack");
+		//UnitCommands_ComboBox_Type->Append("130: Unknown Ability");
 		UnitCommands_ComboBox_Type->Append("131: Unknown Ability");
 		UnitCommands_ComboBox_Type->Append("132: Pickup Unit");
+		//UnitCommands_ComboBox_Type->Append("133: Unknown Pickup Ability");
+		//UnitCommands_ComboBox_Type->Append("134: Unknown Pickup Ability");
 		UnitCommands_ComboBox_Type->Append("135: Kidnap Unit");
 		UnitCommands_ComboBox_Type->Append("136: Deposit Unit");	// Selection 33
+		UnitCommands_ComboBox_Type->Append("149: Shear");	// Selection 33
 		UnitCommands_ComboBox_Type->SetSelection(0);
 
 		Units_ComboBox_GarrisonType->Clear();
@@ -628,13 +645,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
 			if(GenieVersion <= genie::GV_TC)
 			{
-				Units_ComboBox_Class[loop]->Append("0 - Archer");	// Selection 1
+				Units_ComboBox_Class[loop]->Append("0 - Archery");	// Selection 1
 				Units_ComboBox_Class[loop]->Append("1 - Artifact/Ruins");
 				Units_ComboBox_Class[loop]->Append("2 - Trade Boat");
 				Units_ComboBox_Class[loop]->Append("3 - Building");
 				Units_ComboBox_Class[loop]->Append("4 - Civilian");
-				Units_ComboBox_Class[loop]->Append("5 - Sea Fish");
-				Units_ComboBox_Class[loop]->Append("6 - Soldier");
+				Units_ComboBox_Class[loop]->Append("5 - Ocean Fish");
+				Units_ComboBox_Class[loop]->Append("6 - Infantry");
 				Units_ComboBox_Class[loop]->Append("7 - Berry Bush");
 				Units_ComboBox_Class[loop]->Append("8 - Stone Mine");
 				Units_ComboBox_Class[loop]->Append("9 - Prey Animal");
@@ -646,12 +663,15 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_ComboBox_Class[loop]->Append("15 - Tree");
 				Units_ComboBox_Class[loop]->Append("16 - Tree Stump");
 				Units_ComboBox_Class[loop]->Append("17 - Unused");
-				Units_ComboBox_Class[loop]->Append("18 - Priest");
+				Units_ComboBox_Class[loop]->Append("18 - Monastery");
 				Units_ComboBox_Class[loop]->Append("19 - Trade Cart");
 				Units_ComboBox_Class[loop]->Append("20 - Transport Boat");
 				Units_ComboBox_Class[loop]->Append("21 - Fishing Boat");
-				Units_ComboBox_Class[loop]->Append("22 - War Boat");
-				Units_ComboBox_Class[loop]->Append("23 - Conquistador/Chariot Archer");
+				Units_ComboBox_Class[loop]->Append("22 - Warship");
+				if(GenieVersion <= genie::GV_RoR)
+					Units_ComboBox_Class[loop]->Append("23 - Chariot Archer");
+				else
+					Units_ComboBox_Class[loop]->Append("23 - Cavalry Cannon");
 				Units_ComboBox_Class[loop]->Append("24 - War Elephant");
 				Units_ComboBox_Class[loop]->Append("25 - Hero");
 				Units_ComboBox_Class[loop]->Append("26 - Elephant Archer");
@@ -663,30 +683,36 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_ComboBox_Class[loop]->Append("32 - Gold Mine");
 				Units_ComboBox_Class[loop]->Append("33 - Shore Fish");
 				Units_ComboBox_Class[loop]->Append("34 - Cliff");
-				Units_ComboBox_Class[loop]->Append("35 - Petard/Chariot");
+				if(GenieVersion <= genie::GV_RoR)
+					Units_ComboBox_Class[loop]->Append("35 - Chariot");
+				else
+					Units_ComboBox_Class[loop]->Append("35 - Petard");
 				Units_ComboBox_Class[loop]->Append("36 - Cavalry Archer");
 				Units_ComboBox_Class[loop]->Append("37 - Dolphin/Smoke");
 				Units_ComboBox_Class[loop]->Append("38 - Bird");
-				Units_ComboBox_Class[loop]->Append("39 - Gate/Slinger");
+				if(GenieVersion <= genie::GV_RoR)
+					Units_ComboBox_Class[loop]->Append("39 - Slinger");
+				else
+					Units_ComboBox_Class[loop]->Append("39 - Gate");
 				Units_ComboBox_Class[loop]->Append("40 - Pile");
 				Units_ComboBox_Class[loop]->Append("41 - Pile of Resource");
 				Units_ComboBox_Class[loop]->Append("42 - Relic");
 				Units_ComboBox_Class[loop]->Append("43 - Monk with Relic");
-				Units_ComboBox_Class[loop]->Append("44 - Hand Cannoneer");
+				Units_ComboBox_Class[loop]->Append("44 - Archery Cannon");
 				Units_ComboBox_Class[loop]->Append("45 - Two Handed Swordsman");
 				Units_ComboBox_Class[loop]->Append("46 - Pikeman");
 				Units_ComboBox_Class[loop]->Append("47 - Scout Cavalry");
 				Units_ComboBox_Class[loop]->Append("48 - Ore Mine");
 				Units_ComboBox_Class[loop]->Append("49 - Farm");
 				Units_ComboBox_Class[loop]->Append("50 - Spearman");
-				Units_ComboBox_Class[loop]->Append("51 - Packed Siege Unit");
+				Units_ComboBox_Class[loop]->Append("51 - Packed Trebuchet");
 				Units_ComboBox_Class[loop]->Append("52 - Tower");
 				Units_ComboBox_Class[loop]->Append("53 - Boarding Boat");
-				Units_ComboBox_Class[loop]->Append("54 - Unpacked Siege Unit");
+				Units_ComboBox_Class[loop]->Append("54 - Unpacked Trebuchet");
 				Units_ComboBox_Class[loop]->Append("55 - Scorpion");
 				Units_ComboBox_Class[loop]->Append("56 - Raider");
 				Units_ComboBox_Class[loop]->Append("57 - Cavalry Raider");
-				Units_ComboBox_Class[loop]->Append("58 - Sheep");
+				Units_ComboBox_Class[loop]->Append("58 - Livestock");
 				Units_ComboBox_Class[loop]->Append("59 - King");
 				Units_ComboBox_Class[loop]->Append("60 - Unused");
 				Units_ComboBox_Class[loop]->Append("61 - Horse");
