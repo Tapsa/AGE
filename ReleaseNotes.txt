@@ -12,10 +12,13 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]3.12[/b] (2014.9.14):
-•New info on speed variable in graphics.
-•Added and option to tech search.
+Version [b]3.12[/b] (2014.11.4):
+•AoK HD string finds.
+•New info on graphic set and graphic speed.
+•Unit command discoveries.
+•Added [i]and[/i] option to tech search.
 •Tech names now have space at the end of the line.
+•Unit class 29 found to be domesticated animal.
 
 Version [b]3.11[/b] (2014.5.8):
 •Added options to unit search filters.
@@ -62,11 +65,11 @@ You may be able to undo changes by going back to the text box and pressing Ctrl 
 [color=blue]Oncoming versions will have more popup tooltips![/color]
 You can have multiple search entries separated with "|" letter. Upper search boxes are inclusive and lower ones exclusive.
 Example: "tower|ship|ram"
-You can switch from or finding to and finding with check boxes. Meaning that every search entry has to match.
+You can switch from [i]or[/i] finding to [i]and[/i] finding with check boxes. Meaning that every search entry has to match.
 
 [b]Developers[/b]
 
-Tapio (aka Keisari Tapsa) (since 2.0b)
+Keisari Tapsa (since 2.0b)
 Apre - genieutils (2.1a to 3.1)
 Estien Nifo (aka StSB77) (1.0a to 2.0a)
 
