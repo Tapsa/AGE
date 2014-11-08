@@ -18,7 +18,16 @@
 #include <wx/listctrl.h>
 #include <wx/tooltip.h>
 //#include <wx/richtooltip.h>
+
+#ifdef WIN32
 #include <windows.h>
+#else
+// dummies for code that is not used on linux
+#define HINSTANCE ssize_t
+#define LoadStringA(lib, id, buf, letters) (false)
+#define LoadLibrary(name) (0)
+#endif
+
 #include "genie/dat/DatFile.h"	// Newer dat system
 #include "genie/lang/LangFile.h"
 //#include "genie/resource/DrsFile.h"	// DRS file system
