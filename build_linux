@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# (you should probably run those commands manually.)
+
+# depends: wxwidgets-dev, libboost-all-dev
+
+git clone https://github.com/Tapsa/AGE
+cd AGE
+mkdir extern
+cd extern
+git clone https://github.com/Tapsa/genieutils
+cd genieutils
+cd extern
+git clone https://github.com/Tapsa/pcrio
+cd ../../../..
+
+cp "Misc Files"/zlib.cpp extern/genieutils
+
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
