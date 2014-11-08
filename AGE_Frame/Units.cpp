@@ -42,7 +42,11 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				case 5: // Dead Unit
 					Name += "DU "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].DeadUnitID);
 					break;
-				case 6: // Projectile Unit
+				case 6: // Civilization
+					if(GenieVersion >= genie::GV_TC)
+					Name += "CI "+lexical_cast<string>((short)GenieFile->Civs[civ].Units[Index].Civilization);
+					break;
+				case 7: // Projectile Unit
 					switch(UnitType)
 					{
 						case 60:
@@ -54,7 +58,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "PU -1";
 					}
 					break;
-				case 7: // Max Range
+				case 8: // Max Range
 					switch(UnitType)
 					{
 						case 60:
@@ -66,7 +70,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "MR -1";
 					}
 					break;
-				case 8: // Train Location
+				case 9: // Train Location
 					switch(UnitType)
 					{
 						case 70:
@@ -77,7 +81,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "TL -1";
 					}
 					break;
-				case 9: // Attacks
+				case 10: // Attacks
 					switch(UnitType)
 					{
 						case 60:
@@ -89,7 +93,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "AtC -1";
 					}
 					break;
-				case 10:
+				case 11:
 					switch(UnitType)
 					{
 						case 60:
@@ -101,7 +105,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						}
 					}
 					break;
-				case 11: // Armors
+				case 12: // Armors
 					switch(UnitType)
 					{
 						case 60:
@@ -113,7 +117,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "ArC -1";
 					}
 					break;
-				case 12:
+				case 13:
 					switch(UnitType)
 					{
 						case 60:
@@ -125,7 +129,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						}
 					}
 					break;
-				case 13: // Commands
+				case 14: // Commands
 					switch(UnitType)
 					{
 						case 40:
@@ -141,7 +145,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 							Name += "CC -1";
 					}
 					break;
-				case 14: // Pointer
+				case 15: // Pointer
 					Name = lexical_cast<string>(GenieFile->Civs[civ].UnitPointers[Index]);
 					break;
 			}
@@ -5054,6 +5058,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_StandingGraphic->Add(Units_Text_StandingGraphic, 0, wxEXPAND);
 	Units_Holder_StandingGraphic->Add(Units_Grid_StandingGraphic, 0, wxEXPAND);
 	Units_Grid_GarrisonGraphic->Add(Units_GarrisonGraphic, 1, wxEXPAND);
+	Units_Grid_GarrisonGraphic->AddStretchSpacer(1);
 	Units_Grid_GarrisonGraphic->Add(Units_ComboBox_GarrisonGraphic, 1, wxEXPAND);
 	Units_Holder_GarrisonGraphic->Add(Units_Text_GarrisonGraphic, 0, wxEXPAND);
 	Units_Holder_GarrisonGraphic->Add(Units_Grid_GarrisonGraphic, 0, wxEXPAND);
