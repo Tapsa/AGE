@@ -816,6 +816,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_Units_SearchFilters[loop]->Append("Class");
 			Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
 			Units_Units_SearchFilters[loop]->Append("Dead Unit");
+			Units_Units_SearchFilters[loop]->Append("Civilization (TC+)");
 			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
 			Units_Units_SearchFilters[loop]->Append("Max Range");
 			Units_Units_SearchFilters[loop]->Append("Train Location");
