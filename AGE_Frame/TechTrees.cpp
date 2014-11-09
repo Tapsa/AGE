@@ -65,7 +65,7 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 		TechTrees_Ages_ID->container[sel] = &AgePointer->ID;
 		TechTrees_Ages_Unknown2->container[sel] = &AgePointer->Unknown2;
 		TechTrees_Ages_Unknown3->container[sel] = &AgePointer->Unknown3;
-		TechTrees_Ages_Unknown4->container[sel] = &AgePointer->Unknown4;
+		TechTrees_Ages_Unknown4->container[sel] = &AgePointer->SecondAgeNumber;
 		for(short loop = 0; loop < 49; ++loop)
 		{
 			TechTrees_Ages_Zeroes1[loop]->container[sel] = &AgePointer->Zeroes[loop];
@@ -81,7 +81,7 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 	TechTrees_Ages_ID->ChangeValue(lexical_cast<string>(AgePointer->ID));
 	TechTrees_Ages_Unknown2->ChangeValue(lexical_cast<string>((short)AgePointer->Unknown2));
 	TechTrees_Ages_Unknown3->ChangeValue(lexical_cast<string>(AgePointer->Unknown3));
-	TechTrees_Ages_Unknown4->ChangeValue(lexical_cast<string>(AgePointer->Unknown4));
+	TechTrees_Ages_Unknown4->ChangeValue(lexical_cast<string>(AgePointer->SecondAgeNumber));
 	for(short loop = 0; loop < 49; ++loop)
 	{
 		TechTrees_Ages_Zeroes1[loop]->ChangeValue(lexical_cast<string>(AgePointer->Zeroes[loop]));
@@ -1726,7 +1726,7 @@ string AGE_Frame::GetTTResearchName(short Index)
 				Name += "LA "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].LocationInAge);
 				break;
 			case 8: // First Age Mode
-				Name += "FA "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].Unknown9);
+				Name += "FA "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].FirstAgeMode);
 				break;
 		}
 		Name += ", ";
@@ -1853,7 +1853,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &Event)
 		}
 		TechTrees_Researches_VerticalLine->container[sel] = &ResearchConPointer->VerticalLine;
 		TechTrees_Researches_LocationInAge->container[sel] = &ResearchConPointer->LocationInAge;
-		TechTrees_Researches_Unknown9->container[sel] = &ResearchConPointer->Unknown9;
+		TechTrees_Researches_Unknown9->container[sel] = &ResearchConPointer->FirstAgeMode;
 	}
 
 	TechTrees_Researches_ID->ChangeValue(lexical_cast<string>(ResearchConPointer->ID));
@@ -1887,7 +1887,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &Event)
 	}
 	TechTrees_Researches_VerticalLine->ChangeValue(lexical_cast<string>(ResearchConPointer->VerticalLine));
 	TechTrees_Researches_LocationInAge->ChangeValue(lexical_cast<string>(ResearchConPointer->LocationInAge));
-	TechTrees_Researches_Unknown9->ChangeValue(lexical_cast<string>(ResearchConPointer->Unknown9));
+	TechTrees_Researches_Unknown9->ChangeValue(lexical_cast<string>(ResearchConPointer->FirstAgeMode));
 
 	ListTTResearchBuildings();
 	ListTTResearchUnits();

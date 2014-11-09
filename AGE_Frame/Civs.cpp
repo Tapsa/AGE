@@ -8,9 +8,9 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 string AGE_Frame::GetCivName(short Index)
 {
 	if(GenieVersion <= genie::GV_TC)
-	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
+	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].IconSet)+")";
 	else
-	return GenieFile->Civs[Index].Name2+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].GraphicSet)+")";
+	return GenieFile->Civs[Index].Name2+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].IconSet)+")";
 }
 
 void AGE_Frame::ListCivs(bool all)
@@ -84,10 +84,10 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 			{
 				Civs_Name[1]->container[sel] = &CivPointer->Name2;
 				for(short loop = 0; loop < 4; ++loop)
-				Civs_SUnknown1[loop]->container[sel] = &CivPointer->SUnknown1[loop];
+				Civs_SUnknown1[loop]->container[sel] = &CivPointer->UniqueUnitsResearches[loop];
 			}
 		}
-		Civs_GraphicSet->container[sel] = &CivPointer->GraphicSet;
+		Civs_GraphicSet->container[sel] = &CivPointer->IconSet;
 	}
 
 	Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
@@ -102,10 +102,10 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 		{
 			Civs_Name[1]->ChangeValue(CivPointer->Name2);
 			for(short loop = 0; loop < 4; ++loop)
-			Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->SUnknown1[loop]));
+			Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->UniqueUnitsResearches[loop]));
 		}
 	}
-	Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->GraphicSet));
+	Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->IconSet));
 	ListResources();
 }
 
