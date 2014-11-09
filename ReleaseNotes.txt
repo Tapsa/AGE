@@ -1,4 +1,4 @@
-[b]Advanced Genie Editor 3.12[/b]
+[b]Advanced Genie Editor 3.13[/b]
 for Age of Empires, Rise of Rome, Age of Kings, The Conquerors (including HD), Star Wars Galactic Battlegrounds and Clone Campaigns.
 
 This is a program for editing genie (.dat and .dll) files' data. It can edit units, civilizations, graphics, researches, technologies, technology trees, terrains, terrain restrictions, sounds, player colors and some other things.
