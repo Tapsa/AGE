@@ -475,7 +475,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					if(CopyGraphics || vecCiv == 0)
 					Units_ConstructionGraphicID->container[location] = &UnitPointer->Building.ConstructionGraphicID;
 					Units_AdjacentMode->container[location] = &UnitPointer->Building.AdjacentMode;
-					Units_Unknown31->container[location] = &UnitPointer->Building.Unknown31;
+					Units_Unknown31->container[location] = &UnitPointer->Building.IconDisabler;
 					Units_Unknown31b->container[location] = &UnitPointer->Building.Unknown31b;
 					Units_StackUnitID->container[location] = &UnitPointer->Building.StackUnitID;
 					Units_TerrainID->container[location] = &UnitPointer->Building.TerrainID;
@@ -780,7 +780,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building.ConstructionGraphicID + 1);
 			Units_AdjacentMode->ChangeValue(lexical_cast<string>(UnitPointer->Building.AdjacentMode));
 			Units_CheckBox_AdjacentMode->SetValue((bool)UnitPointer->Building.AdjacentMode);
-			Units_Unknown31->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown31));
+			Units_Unknown31->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.IconDisabler));
 			Units_Unknown31b->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown31b));
 			Units_CheckBox_Unknown31b->SetValue((bool)UnitPointer->Building.Unknown31b);
 			Units_StackUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Building.StackUnitID));
@@ -1664,7 +1664,7 @@ void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
 		short Selection = Units_GraphicSet->GetSelection();
 		for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 		{
-			if((short)GenieFile->Civs[loop].GraphicSet == Selection)
+			if((short)GenieFile->Civs[loop].IconSet == Selection)
 			{
 				Units_CivBoxes[loop]->SetValue(true);
 			}
@@ -2085,7 +2085,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 				int location = sel + vecCiv * selections;
 				DamageGraphics_GraphicID->container[location] = &DamageGraphicPointer->GraphicID;
 				DamageGraphics_DamagePercent->container[location] = &DamageGraphicPointer->DamagePercent;
-				DamageGraphics_Unknown1->container[location] = &DamageGraphicPointer->Unknown1;
+				DamageGraphics_Unknown1->container[location] = &DamageGraphicPointer->ApplyMode;
 				DamageGraphics_Unknown2->container[location] = &DamageGraphicPointer->Unknown2;
 			}
 		}
@@ -2098,7 +2098,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 		DamageGraphics_GraphicID->ChangeValue(lexical_cast<string>(DamageGraphicPointer->GraphicID));
 		DamageGraphics_ComboBox_GraphicID->SetSelection(DamageGraphicPointer->GraphicID + 1);
 		DamageGraphics_DamagePercent->ChangeValue(lexical_cast<string>((short)DamageGraphicPointer->DamagePercent));
-		DamageGraphics_Unknown1->ChangeValue(lexical_cast<string>((short)DamageGraphicPointer->Unknown1));
+		DamageGraphics_Unknown1->ChangeValue(lexical_cast<string>((short)DamageGraphicPointer->ApplyMode));
 		DamageGraphics_Unknown2->ChangeValue(lexical_cast<string>((short)DamageGraphicPointer->Unknown2));
 	}
 	else
@@ -2182,7 +2182,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &Event)
 			else
 			{
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				copies->Dat.UnitDamageGraphicExists[civ] = 256 + GenieFile->Civs[civ].GraphicSet;
+				copies->Dat.UnitDamageGraphicExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy damage graphics from civs which have this unit enabled.
 				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies->Dat.UnitDamageGraphics[copy]); copy++;
 			}
@@ -2437,7 +2437,7 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
 			else
 			{
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				copies->Dat.UnitAttackExists[civ] = 256 + GenieFile->Civs[civ].GraphicSet;
+				copies->Dat.UnitAttackExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy attacks from civs which have this unit enabled.
 				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs, copies->Dat.UnitAttacks[copy]); copy++;
 			}
@@ -2691,7 +2691,7 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
 			else
 			{
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				copies->Dat.UnitArmorExists[civ] = 256 + GenieFile->Civs[civ].GraphicSet;
+				copies->Dat.UnitArmorExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy armors from civs which have this unit enabled.
 				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs, copies->Dat.UnitArmors[copy]); copy++;
 			}
@@ -3219,7 +3219,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
 			else
 			{
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				copies->Dat.UnitCommandExists[civ] = 256 + GenieFile->Civs[civ].GraphicSet;
+				copies->Dat.UnitCommandExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy commands from civs which have this unit enabled.
 				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies->Dat.UnitCommands[copy]); copy++;
 			}
