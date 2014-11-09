@@ -954,10 +954,10 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 		RMSUnit_HostTerrain->container[sel] = &UnknownPointer->HostTerrain;
 		for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 		RMSUnit_Unknown3[loop]->container[sel] = &UnknownPointer->Unknown3[loop];
-		RMSUnit_ObjectsPerPlayer->container[sel] = &UnknownPointer->ObjectsPerPlayer;
-		RMSUnit_Unknown5->container[sel] = &UnknownPointer->Unknown5;
+		RMSUnit_ObjectsPerPlayer->container[sel] = &UnknownPointer->ObjectsPerGroup;
+		RMSUnit_Unknown5->container[sel] = &UnknownPointer->Fluctuation;
 		RMSUnit_GroupsPerPlayer->container[sel] = &UnknownPointer->GroupsPerPlayer;
-		RMSUnit_Unknown7->container[sel] = &UnknownPointer->Unknown7;
+		RMSUnit_Unknown7->container[sel] = &UnknownPointer->GroupRadius;
 		RMSUnit_OwnAtStart->container[sel] = &UnknownPointer->OwnAtStart;
 		RMSUnit_SetPlaceForAllPlayers->container[sel] = &UnknownPointer->SetPlaceForAllPlayers;
 		RMSUnit_MinDistanceToPlayers->container[sel] = &UnknownPointer->MinDistanceToPlayers;
@@ -974,13 +974,13 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 		RMSUnit_Unknown3[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown3[loop]));
 	}
 	RMSUnit_ObjectsPerPlayer->Enable(true);
-	RMSUnit_ObjectsPerPlayer->ChangeValue(lexical_cast<string>(UnknownPointer->ObjectsPerPlayer));
+	RMSUnit_ObjectsPerPlayer->ChangeValue(lexical_cast<string>(UnknownPointer->ObjectsPerGroup));
 	RMSUnit_Unknown5->Enable(true);
-	RMSUnit_Unknown5->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown5));
+	RMSUnit_Unknown5->ChangeValue(lexical_cast<string>(UnknownPointer->Fluctuation));
 	RMSUnit_GroupsPerPlayer->Enable(true);
 	RMSUnit_GroupsPerPlayer->ChangeValue(lexical_cast<string>(UnknownPointer->GroupsPerPlayer));
 	RMSUnit_Unknown7->Enable(true);
-	RMSUnit_Unknown7->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown7));
+	RMSUnit_Unknown7->ChangeValue(lexical_cast<string>(UnknownPointer->GroupRadius));
 	RMSUnit_OwnAtStart->Enable(true);
 	RMSUnit_OwnAtStart->ChangeValue(lexical_cast<string>(UnknownPointer->OwnAtStart));
 	RMSUnit_SetPlaceForAllPlayers->Enable(true);

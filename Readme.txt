@@ -8,7 +8,7 @@ Modify FindwxWidgets.cmake to look for 3.0 libs.
 
 Install/extract rest of the stuff into C:/Cpp or another folder which you like.
 
-MinGW-w64 4.8.2:
+MinGW-w64 4.8.2: NOPE, 4.6.2 works!
 Download Mingw-builds Windows 64 using SJLJ and threads-posix.
 
 You may (should not) need to run this from cmd or PowerShell:
@@ -17,7 +17,7 @@ You can also download libiconv from here:
 http://ftp.gnu.org/pub/gnu/libiconv/
 Then install it like this: ???
 
-wxWidgets 3.0.0:
+wxWidgets 3.0.0: NOPE, 2.8 works!
 Unpack the zip file.
 In cmd.exe go to \wxWidgets\build\msw
 mingw32-make -f makefile.gcc clean

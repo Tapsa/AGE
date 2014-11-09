@@ -87,7 +87,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 			Colors_Unknown2->container[loop] = &PlayerColorPointer->Unknown2;
 			Colors_Unknown3->container[loop] = &PlayerColorPointer->Unknown3;
 			Colors_Unknown4->container[loop] = &PlayerColorPointer->Unknown4;
-			Colors_Unknown5->container[loop] = &PlayerColorPointer->Unknown5;
+			Colors_Unknown5->container[loop] = &PlayerColorPointer->StatisticsText;
 		}
 	}
 
@@ -105,7 +105,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 		Colors_Unknown2->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown2));
 		Colors_Unknown3->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown3));
 		Colors_Unknown4->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown4));
-		Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown5));
+		Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->StatisticsText));
 	}
 }
 
