@@ -1128,6 +1128,11 @@ void AGE_Frame::OnGameVersionChange()
 {
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
+		//General_CalcBoxes[0]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[4]));
+		//General_CalcBoxes[1]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[5]));
+		//General_CalcBoxes[2]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[6]));
+		//General_CalcBoxes[3]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[7]));
+
 		// Some general tab handling
 		for(auto loop = GenieFile->getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
 		General_AfterBorders[loop]->Show(false);
@@ -1209,7 +1214,9 @@ void AGE_Frame::OnGameVersionChange()
 		}
 		Units_TrainSound[1]->Show(show);
 		Units_ComboBox_TrainSound[1]->Show(show);
+		Units_Holder_SelectionMask->Show(show);
 		Units_Holder_SelectionShapeType->Show(show);
+		Units_Holder_SelectionShape->Show(show);
 		Units_Holder_ID3->Show(show);
 		Units_Holder_MissileGraphicDelay->Show(show);
 		Units_Holder_AttackMissileDuplicationAmount1->Show(show);
@@ -1233,12 +1240,11 @@ void AGE_Frame::OnGameVersionChange()
 		TechTrees_Main->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			Units_Holder_Unknown7->Show(show);
-			Units_Holder_Unknown8->Show(show);
 			Units_Holder_Type70plusUnknownArea->Show(show);
 			Units_Holder_Unknown33->Show(show);
 			Units_Holder_Unknown34->Show(show);
 			Units_Holder_Unknown35->Show(show);
+			Units_Holder_Unknown36->Show(show);
 			SoundItems_Holder_Unknown->Show(show);
 			Colors_Holder_UnknownArea->Show(show);
 		}
