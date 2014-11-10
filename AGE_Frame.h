@@ -1412,8 +1412,9 @@ public:
 	TextCtrl_Byte *Units_Unknown2;
 	TextCtrl_Byte *Units_InteractionMode;
 	TextCtrl_Byte *Units_MinimapMode;
-	TextCtrl_Short *Units_CommandAttribute;
-	array<TextCtrl_Byte*, 4> Units_Unknown3;
+	TextCtrl_Byte *Units_CommandAttribute;
+	TextCtrl_Float *Units_Unknown3A;
+	TextCtrl_Byte *Units_Unknown3B;
 	TextCtrl_Long *Units_LanguageDLLHelp;
 	TextCtrl_DLL *Units_DLL_LanguageHelp;
 	wxTextCtrl *Units_LanguageDLLConverter[2];
@@ -1446,7 +1447,8 @@ public:
 	ComboBox_Plus1 *Units_ComboBox_SelectionSound;
 	TextCtrl_Short *Units_DyingSound;
 	ComboBox_Plus1 *Units_ComboBox_DyingSound;
-	TextCtrl_Short *Units_AttackMode;
+	TextCtrl_Byte *Units_AttackMode;
+	TextCtrl_Byte *Units_EdibleMeat;
 	TextCtrl_String *Units_Name;
 	TextCtrl_String *Units_Name2;
 	TextCtrl_Short *Units_Unitline;
@@ -1557,10 +1559,10 @@ public:
 	ComboBox_Plus1 *Units_ComboBox_ConstructionGraphicID;
 	TextCtrl_Short *Units_SnowGraphicID;
 	ComboBox_Plus1 *Units_ComboBox_SnowGraphicID;
-	TextCtrl_Short *Units_AdjacentMode;
+	TextCtrl_Byte *Units_AdjacentMode;
 	CheckBox_2State *Units_CheckBox_AdjacentMode;
-	TextCtrl_Byte *Units_Unknown31;
-	TextCtrl_Byte *Units_Unknown31b;
+	TextCtrl_Short *Units_IconDisabler;
+	TextCtrl_Byte *Units_DisappearsWhenBuilt;
 	CheckBox_2State *Units_CheckBox_Unknown31b;
 	TextCtrl_Short *Units_StackUnitID;
 	ComboBox_Plus1 *Units_ComboBox_StackUnitID;
@@ -1584,7 +1586,8 @@ public:
 	ComboBox_Plus1 *Units_ComboBox_GarrisonType;
 	TextCtrl_Float *Units_GarrisonHealRate;
 	TextCtrl_Long *Units_Unknown35;
-	array<TextCtrl_Byte*, 8> Units_AlfaThingy;
+	TextCtrl_Short *Units_Unknown36;
+	array<TextCtrl_Byte*, 6> Units_AlfaThingy;
 
 //	Data Container Names
 //	Type 10+
@@ -1618,7 +1621,8 @@ public:
 	wxStaticText *Units_Text_InteractionMode;
 	wxStaticText *Units_Text_MinimapMode;
 	wxStaticText *Units_Text_CommandAttribute;
-	wxStaticText *Units_Text_Unknown3;
+	wxStaticText *Units_Text_Unknown3A;
+	wxStaticText *Units_Text_Unknown3B;
 	wxStaticText *Units_Text_LanguageDLLHelp;
 	wxStaticText *Units_Text_LanguageDLLConverter[2];
 	wxStaticText *Units_Text_LanguageDLLHotKeyText;
@@ -1642,6 +1646,7 @@ public:
 	wxStaticText *Units_Text_SelectionSound;
 	wxStaticText *Units_Text_DyingSound;
 	wxStaticText *Units_Text_AttackMode;
+	wxStaticText *Units_Text_EdibleMeat;
 	wxStaticText *Units_Text_Name;
 	wxStaticText *Units_Text_Name2;
 	wxStaticText *Units_Text_Unitline;
@@ -1728,8 +1733,7 @@ public:
 
 	wxStaticText *Units_Text_ConstructionGraphicID;
 	wxStaticText *Units_Text_SnowGraphicID;
-	wxStaticText *Units_Text_Unknown31;
-	wxStaticText *Units_Text_Unknown31b;
+	wxStaticText *Units_Text_IconDisabler;
 	wxStaticText *Units_Text_StackUnitID;
 	wxStaticText *Units_Text_TerrainID;
 	wxStaticText *Units_Text_Unknown32;
@@ -1744,6 +1748,7 @@ public:
 	wxStaticText *Units_Text_GarrisonType;
 	wxStaticText *Units_Text_GarrisonHealRate;
 	wxStaticText *Units_Text_Unknown35;
+	wxStaticText *Units_Text_Unknown36;
 	wxStaticText *Units_Text_AlfaThingy;
 
 //	Invisible Holder Windows
@@ -1793,8 +1798,8 @@ public:
 	wxBoxSizer *Units_Holder_InteractionMode;
 	wxBoxSizer *Units_Holder_MinimapMode;
 	wxBoxSizer *Units_Holder_CommandAttribute;
-	wxBoxSizer *Units_Holder_Unknown3;
-	wxGridSizer *Units_Grid_Unknown3;
+	wxBoxSizer *Units_Holder_Unknown3A;
+	wxBoxSizer *Units_Holder_Unknown3B;
 	wxBoxSizer *Units_Holder_LanguageDLLHelp;
 	wxBoxSizer *Units_Holder_LanguageDLLConverter[2];
 	wxBoxSizer *Units_Holder_LanguageDLLHotKeyText;
@@ -1819,6 +1824,7 @@ public:
 	wxBoxSizer *Units_Holder_SelectionSound;
 	wxBoxSizer *Units_Holder_DyingSound;
 	wxBoxSizer *Units_Holder_AttackMode;
+	wxBoxSizer *Units_Holder_EdibleMeat;
 	wxBoxSizer *Units_Holder_Name;
 	wxBoxSizer *Units_Holder_Name2;
 	wxBoxSizer *Units_Holder_Unitline;
@@ -1918,9 +1924,8 @@ public:
 	wxBoxSizer *Units_Holder_ConstructionGraphicID;
 	wxBoxSizer *Units_Holder_SnowGraphicID;
 	wxBoxSizer *Units_Holder_AdjacentMode;
-	wxBoxSizer *Units_Holder_Unknown31;
+	wxBoxSizer *Units_Holder_IconDisabler;
 	wxBoxSizer *Units_Holder_Unknown31b;
-	wxBoxSizer *Units_Holder_Unknown31bsub;
 	wxBoxSizer *Units_Holder_StackUnitID;
 	wxBoxSizer *Units_Holder_TerrainID;
 	wxBoxSizer *Units_Holder_Unknown32;
@@ -1937,6 +1942,7 @@ public:
 	wxBoxSizer *Units_Holder_GarrisonType;
 	wxBoxSizer *Units_Holder_GarrisonHealRate;
 	wxBoxSizer *Units_Holder_Unknown35;
+	wxBoxSizer *Units_Holder_Unknown36;
 	wxBoxSizer *Units_Holder_AlfaThingy;
 	wxGridSizer *Units_Grid_AlfaThingy;
 
