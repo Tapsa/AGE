@@ -235,8 +235,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_Type->resize(PointerCount);
 	// Type 80
 	Units_AdjacentMode->resize(PointerCount);
-	Units_Unknown31->resize(PointerCount);
-	Units_Unknown31b->resize(PointerCount);
+	Units_IconDisabler->resize(PointerCount);
+	Units_DisappearsWhenBuilt->resize(PointerCount);
 	Units_StackUnitID->resize(PointerCount);
 	Units_TerrainID->resize(PointerCount);
 	Units_Unknown32->resize(PointerCount);
@@ -256,6 +256,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_GarrisonType->resize(PointerCount);
 		Units_GarrisonHealRate->resize(PointerCount);
 		Units_Unknown35->resize(PointerCount);
+		Units_Unknown36->resize(PointerCount);
 		for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
 		Units_AlfaThingy[loop]->resize(PointerCount);
 	}
@@ -380,9 +381,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	if(GenieVersion >= genie::GV_AoKA)
 	{
 		Units_TrainSound[1]->resize(PointerCount);
-		Units_Unknown7->resize(PointerCount);
-		Units_Unknown8->resize(PointerCount);
+		Units_SelectionMask->resize(PointerCount);
 		Units_SelectionShapeType->resize(PointerCount);
+		Units_SelectionShape->resize(PointerCount);
 		Units_ID3->resize(PointerCount);
 		if(GenieVersion >= genie::GV_TC)
 		{
@@ -399,21 +400,22 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	}
 	Units_Enabled->resize(PointerCount);
 	Units_CommandAttribute->resize(PointerCount);
-	for(short loop = 0; loop < Units_Unknown3.size(); ++loop)
-	Units_Unknown3[loop]->resize(PointerCount);
+	Units_Unknown3A->resize(PointerCount);
+	Units_Unknown3B->resize(PointerCount);
 	Units_LanguageDLLHelp->resize(PointerCount);
 	Units_LanguageDLLHotKeyText->resize(PointerCount);
 	Units_HotKey->resize(PointerCount);
 	Units_Unselectable->resize(PointerCount);
 	Units_Unknown6->resize(PointerCount);
-	Units_SelectionMask->resize(PointerCount);
-	Units_SelectionShape->resize(PointerCount);
+	Units_Unknown7->resize(PointerCount);
+	Units_Unknown8->resize(PointerCount);
 	Units_SelectionRadius[0]->resize(PointerCount);
 	Units_SelectionRadius[1]->resize(PointerCount);
 	Units_HPBarHeight2->resize(PointerCount);
 	Units_SelectionSound->resize(PointerCount);
 	Units_DyingSound->resize(PointerCount);
 	Units_AttackMode->resize(PointerCount);
+	Units_EdibleMeat->resize(PointerCount);
 	Units_Name->resize(PointerCount);
 	Units_ID2->resize(PointerCount);
 	for(short loop = 0; loop < 3; ++loop)
@@ -475,11 +477,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					if(CopyGraphics || vecCiv == 0)
 					Units_ConstructionGraphicID->container[location] = &UnitPointer->Building.ConstructionGraphicID;
 					Units_AdjacentMode->container[location] = &UnitPointer->Building.AdjacentMode;
-					Units_Unknown31->container[location] = &UnitPointer->Building.IconDisabler;
-					Units_Unknown31b->container[location] = &UnitPointer->Building.Unknown31b;
+					Units_IconDisabler->container[location] = &UnitPointer->Building.IconDisabler;
+					Units_DisappearsWhenBuilt->container[location] = &UnitPointer->Building.DisappearsWhenBuilt;
 					Units_StackUnitID->container[location] = &UnitPointer->Building.StackUnitID;
 					Units_TerrainID->container[location] = &UnitPointer->Building.TerrainID;
-					Units_Unknown32->container[location] = &UnitPointer->Building.Unknown32;
+					Units_Unknown32->container[location] = &UnitPointer->Building.ResourceID;
 					Units_ResearchID->container[location] = &UnitPointer->Building.ResearchID;
 					if(GenieVersion >= genie::GV_AoKA)
 					{
@@ -497,10 +499,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 						}
 						Units_HeadUnit->container[location] = &UnitPointer->Building.HeadUnit;
 						Units_TransformUnit->container[location] = &UnitPointer->Building.TransformUnit;
-						Units_Unknown34->container[location] = &UnitPointer->Building.Unknown34;
+						Units_Unknown34->container[location] = &UnitPointer->Building.UnknownUnit;
 						Units_GarrisonType->container[location] = &UnitPointer->Building.GarrisonType;
 						Units_GarrisonHealRate->container[location] = &UnitPointer->Building.GarrisonHealRate;
 						Units_Unknown35->container[location] = &UnitPointer->Building.Unknown35;
+						Units_Unknown36->container[location] = &UnitPointer->Building.Unknown36;
 						for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
 						Units_AlfaThingy[loop]->container[location] = &UnitPointer->Building.AlfaThingy[loop];
 					}
@@ -656,9 +659,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			if(GenieVersion >= genie::GV_AoKA)
 			{
 				Units_TrainSound[1]->container[location] = &UnitPointer->TrainSound.second;
-				Units_Unknown7->container[location] = &UnitPointer->Unknown7;
-				Units_Unknown8->container[location] = &UnitPointer->Unknown8;
+				Units_SelectionMask->container[location] = &UnitPointer->SelectionMask;
 				Units_SelectionShapeType->container[location] = &UnitPointer->SelectionShapeType;
+				Units_SelectionShape->container[location] = &UnitPointer->SelectionShape;
 				Units_ID3->container[location] = &UnitPointer->ID3;
 			}
 			if(GenieVersion >= genie::GV_AoK)
@@ -680,21 +683,22 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			}
 			Units_Enabled->container[location] = &UnitPointer->Enabled;
 			Units_CommandAttribute->container[location] = &UnitPointer->CommandAttribute;
-			for(short loop = 0; loop < Units_Unknown3.size(); ++loop)
-			Units_Unknown3[loop]->container[location] = &UnitPointer->Unknown3[loop];
+			Units_Unknown3A->container[location] = &UnitPointer->Unknown3A;
+			Units_Unknown3B->container[location] = &UnitPointer->Unknown3B;
 			Units_LanguageDLLHelp->container[location] = &UnitPointer->LanguageDLLHelp;
 			Units_LanguageDLLHotKeyText->container[location] = &UnitPointer->LanguageDLLHotKeyText;
 			Units_HotKey->container[location] = &UnitPointer->HotKey;
 			Units_Unselectable->container[location] = &UnitPointer->Unselectable;
 			Units_Unknown6->container[location] = &UnitPointer->Unknown6;
-			Units_SelectionMask->container[location] = &UnitPointer->SelectionMask;
-			Units_SelectionShape->container[location] = &UnitPointer->SelectionShape;
+			Units_Unknown7->container[location] = &UnitPointer->Unknown7;
+			Units_Unknown8->container[location] = &UnitPointer->Unknown8;
 			Units_SelectionRadius[0]->container[location] = &UnitPointer->SelectionRadius.first;
 			Units_SelectionRadius[1]->container[location] = &UnitPointer->SelectionRadius.second;
 			Units_HPBarHeight2->container[location] = &UnitPointer->HPBarHeight2;
 			Units_SelectionSound->container[location] = &UnitPointer->SelectionSound;
 			Units_DyingSound->container[location] = &UnitPointer->DyingSound;
 			Units_AttackMode->container[location] = &UnitPointer->AttackMode;
+			Units_EdibleMeat->container[location] = &UnitPointer->EdibleMeat;
 			Units_Name->container[location] = &UnitPointer->Name;
 			Units_ID2->container[location] = &UnitPointer->ID2;
 			for(short loop = 0; loop < 3; ++loop)
@@ -744,8 +748,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ComboBox_SnowGraphicID->Enable(true);
 			Units_AdjacentMode->Enable(true);
 			Units_CheckBox_AdjacentMode->Enable(true);
-			Units_Unknown31->Enable(true);
-			Units_Unknown31b->Enable(true);
+			Units_IconDisabler->Enable(true);
+			Units_DisappearsWhenBuilt->Enable(true);
 			Units_CheckBox_Unknown31b->Enable(true);
 			Units_StackUnitID->Enable(true);
 			Units_ComboBox_StackUnitID->Enable(true);
@@ -773,21 +777,22 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ComboBox_GarrisonType->Enable(true);
 			Units_GarrisonHealRate->Enable(true);
 			Units_Unknown35->Enable(true);
+			Units_Unknown36->Enable(true);
 			for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
 			Units_AlfaThingy[loop]->Enable(true);
 
 			Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionGraphicID));
 			Units_ComboBox_ConstructionGraphicID->SetSelection(UnitPointer->Building.ConstructionGraphicID + 1);
-			Units_AdjacentMode->ChangeValue(lexical_cast<string>(UnitPointer->Building.AdjacentMode));
+			Units_AdjacentMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.AdjacentMode));
 			Units_CheckBox_AdjacentMode->SetValue((bool)UnitPointer->Building.AdjacentMode);
-			Units_Unknown31->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.IconDisabler));
-			Units_Unknown31b->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.Unknown31b));
-			Units_CheckBox_Unknown31b->SetValue((bool)UnitPointer->Building.Unknown31b);
+			Units_IconDisabler->ChangeValue(lexical_cast<string>(UnitPointer->Building.IconDisabler));
+			Units_DisappearsWhenBuilt->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.DisappearsWhenBuilt));
+			Units_CheckBox_Unknown31b->SetValue((bool)UnitPointer->Building.DisappearsWhenBuilt);
 			Units_StackUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Building.StackUnitID));
 			Units_ComboBox_StackUnitID->SetSelection(UnitPointer->Building.StackUnitID + 1);
 			Units_TerrainID->ChangeValue(lexical_cast<string>(UnitPointer->Building.TerrainID));
 			Units_ComboBox_TerrainID->SetSelection(UnitPointer->Building.TerrainID + 1);
-			Units_Unknown32->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown32));
+			Units_Unknown32->ChangeValue(lexical_cast<string>(UnitPointer->Building.ResourceID));
 			Units_ResearchID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ResearchID));
 			Units_ComboBox_ResearchID->SetSelection(UnitPointer->Building.ResearchID + 1);
 			if(GenieVersion >= genie::GV_AoKA)
@@ -809,11 +814,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_ComboBox_HeadUnit->SetSelection(UnitPointer->Building.HeadUnit + 1);
 				Units_TransformUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building.TransformUnit));
 				Units_ComboBox_TransformUnit->SetSelection(UnitPointer->Building.TransformUnit + 1);
-				Units_Unknown34->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown34));
+				Units_Unknown34->ChangeValue(lexical_cast<string>(UnitPointer->Building.UnknownUnit));
 				Units_GarrisonType->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.GarrisonType));
 				Units_ComboBox_GarrisonType->SetSelection(UnitPointer->Building.GarrisonType + 1);
 				Units_GarrisonHealRate->ChangeValue(lexical_cast<string>(UnitPointer->Building.GarrisonHealRate));
 				Units_Unknown35->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown35));
+				Units_Unknown36->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown36));
 				for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
 				Units_AlfaThingy[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.AlfaThingy[loop]));
 			}
@@ -1100,9 +1106,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_DLL_LanguageHKText->index = UnitPointer->LanguageDLLHotKeyText - 140000;
 		Units_TrainSound[1]->ChangeValue(lexical_cast<string>(UnitPointer->TrainSound.second));
 		Units_ComboBox_TrainSound[1]->SetSelection(UnitPointer->TrainSound.second + 1);
-		Units_Unknown7->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown7));
-		Units_Unknown8->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown8));
+		Units_SelectionMask->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionMask));
 		Units_SelectionShapeType->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShapeType));
+		Units_SelectionShape->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShape));
 		Units_ID3->ChangeValue(lexical_cast<string>(UnitPointer->ID3));
 		if(GenieVersion >= genie::GV_AoK)
 		{
@@ -1130,9 +1136,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
 	}
 	Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
-	Units_CommandAttribute->ChangeValue(lexical_cast<string>(UnitPointer->CommandAttribute));
-	for(short loop = 0; loop < Units_Unknown3.size(); ++loop)
-	Units_Unknown3[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3[loop]));
+	Units_CommandAttribute->ChangeValue(lexical_cast<string>((short)UnitPointer->CommandAttribute));
+	Units_Unknown3A->ChangeValue(lexical_cast<string>(UnitPointer->Unknown3A));
+	Units_Unknown3B->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3B));
 	Units_LanguageDLLHelp->ChangeValue(lexical_cast<string>(UnitPointer->LanguageDLLHelp));
 	Units_DLL_LanguageHelp->SetLabel(LangDLLstring(Units_DLL_LanguageHelp->index, 512));
 	Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHelp->index));
@@ -1145,8 +1151,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_Unselectable->ChangeValue(lexical_cast<string>((short)UnitPointer->Unselectable));
 	Units_CheckBox_Unselectable->SetValue((bool)UnitPointer->Unselectable);
 	Units_Unknown6->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown6));
-	Units_SelectionMask->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionMask));
-	Units_SelectionShape->ChangeValue(lexical_cast<string>((short)UnitPointer->SelectionShape));
+	Units_Unknown7->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown7));
+	Units_Unknown8->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown8));
 	Units_SelectionRadius[0]->ChangeValue(lexical_cast<string>(UnitPointer->SelectionRadius.first));
 	Units_SelectionRadius[1]->ChangeValue(lexical_cast<string>(UnitPointer->SelectionRadius.second));
 	Units_HPBarHeight2->ChangeValue(lexical_cast<string>(UnitPointer->HPBarHeight2));
@@ -1154,7 +1160,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_ComboBox_SelectionSound->SetSelection(UnitPointer->SelectionSound + 1);
 	Units_DyingSound->ChangeValue(lexical_cast<string>(UnitPointer->DyingSound));
 	Units_ComboBox_DyingSound->SetSelection(UnitPointer->DyingSound + 1);
-	Units_AttackMode->ChangeValue(lexical_cast<string>(UnitPointer->AttackMode));
+	Units_AttackMode->ChangeValue(lexical_cast<string>((short)UnitPointer->AttackMode));
+	Units_EdibleMeat->ChangeValue(lexical_cast<string>((short)UnitPointer->EdibleMeat));
 	Units_Name->ChangeValue(lexical_cast<string>(UnitPointer->Name));
 	Units_ID2->ChangeValue(lexical_cast<string>(UnitPointer->ID2));
 	for(short loop = 0; loop < 3; ++loop)
@@ -1361,10 +1368,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_AdjacentMode->ChangeValue("0");
 			Units_CheckBox_AdjacentMode->Enable(false);
 			Units_CheckBox_AdjacentMode->SetValue(false);
-			Units_Unknown31->Enable(false);
-			Units_Unknown31->ChangeValue("0");
-			Units_Unknown31b->Enable(false);
-			Units_Unknown31b->ChangeValue("0");
+			Units_IconDisabler->Enable(false);
+			Units_IconDisabler->ChangeValue("0");
+			Units_DisappearsWhenBuilt->Enable(false);
+			Units_DisappearsWhenBuilt->ChangeValue("0");
 			Units_CheckBox_Unknown31b->Enable(false);
 			Units_CheckBox_Unknown31b->SetValue(false);
 			Units_StackUnitID->Enable(false);
@@ -1417,6 +1424,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_GarrisonHealRate->ChangeValue("0");
 			Units_Unknown35->Enable(false);
 			Units_Unknown35->ChangeValue("0");
+			Units_Unknown36->Enable(false);
+			Units_Unknown36->ChangeValue("0");
 			for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
 			{
 				Units_AlfaThingy[loop]->Enable(false);
@@ -3523,8 +3532,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_InteractionMode = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_MinimapMode = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_CommandAttribute = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
-	Units_Grid_Unknown3 = new wxGridSizer(4, 0, 0);
+	Units_Holder_Unknown3A = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown3B = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_LanguageDLLHelp = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_LanguageDLLConverter[0] = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_LanguageDLLConverter[1] = new wxBoxSizer(wxVERTICAL);
@@ -3551,6 +3560,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SelectionSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_DyingSound = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AttackMode = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_EdibleMeat = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Name2 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unitline = new wxBoxSizer(wxVERTICAL);
@@ -3650,9 +3660,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ConstructionGraphicID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_SnowGraphicID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AdjacentMode = new wxBoxSizer(wxHORIZONTAL);
-	Units_Holder_Unknown31 = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown31b = new wxBoxSizer(wxVERTICAL);
-	Units_Holder_Unknown31bsub = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_IconDisabler = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown31b = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_StackUnitID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_TerrainID = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown32 = new wxBoxSizer(wxVERTICAL);
@@ -3669,8 +3678,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_GarrisonType = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_GarrisonHealRate = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Unknown35 = new wxBoxSizer(wxVERTICAL);
+	Units_Holder_Unknown36 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_AlfaThingy = new wxBoxSizer(wxVERTICAL);
-	Units_Grid_AlfaThingy = new wxGridSizer(4, 0, 5);
+	Units_Grid_AlfaThingy = new wxGridSizer(6, 0, 5);
 
 //	Data Container Names
 //	Type 10+
@@ -3703,7 +3713,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_InteractionMode = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_MinimapMode = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_CommandAttribute = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown3 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown3A = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown3B = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDLLHelp = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDLLConverter[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_LanguageDLLConverter[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey Text Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3728,6 +3739,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Text_SelectionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_DyingSound = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AttackMode = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Mode? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_EdibleMeat = new wxStaticText(Units_Scroller, wxID_ANY, " Edible Meat? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Name = new wxStaticText(Units_Scroller, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Name2 = new wxStaticText(Units_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_Unitline = new wxStaticText(Units_Scroller, wxID_ANY, " Unitline", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3814,22 +3826,22 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Text_ConstructionGraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_SnowGraphicID = new wxStaticText(Units_Scroller, wxID_ANY, " Snow Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown31 = new wxStaticText(Units_Scroller, wxID_ANY, " Icon Disabler? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown31b = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 31B *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_IconDisabler = new wxStaticText(Units_Scroller, wxID_ANY, " Icon Disabler? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_StackUnitID = new wxStaticText(Units_Scroller, wxID_ANY, " Stack Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TerrainID = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown32 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 32 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown32 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ResearchID = new wxStaticText(Units_Scroller, wxID_ANY, " Initiates Research *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown33 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 33 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown33 = new wxStaticText(Units_Scroller, wxID_ANY, " Player Alive? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AnnexUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Units", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AnnexUnitMisplacement = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Units Misplacement", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_HeadUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Head Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_TransformUnit = new wxStaticText(Units_Scroller, wxID_ANY, " Transform Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown34 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 34 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown34 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_ConstructionSound = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonType = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_GarrisonHealRate = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 35", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown35 = new wxStaticText(Units_Scroller, wxID_ANY, " Wonder Timer?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Text_Unknown36 = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 36", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Text_AlfaThingy = new wxStaticText(Units_Scroller, wxID_ANY, " Related to Annexes? Widespread usage in AoK Alpha 09.07.0222", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Data Containers
@@ -4075,20 +4087,27 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_AnimalMode = new CheckBox_2State(Units_Scroller, "Animal Mode", Units_AnimalMode);
 	Units_TowerMode = new TextCtrl_Byte(Units_Scroller);
 	Units_CheckBox_TowerMode = new CheckBox_2State(Units_Scroller, "Tower Mode", Units_TowerMode);
-	Units_AdjacentMode = new TextCtrl_Short(Units_Scroller);
+	Units_AdjacentMode = new TextCtrl_Byte(Units_Scroller);
 	Units_AdjacentMode->SetToolTip("0 Default\n1 Adjacent buildings can change this unit's graphics");
 	Units_CheckBox_AdjacentMode = new CheckBox_2State(Units_Scroller, "Adjacent Mode *", Units_AdjacentMode);
+	Units_DisappearsWhenBuilt = new TextCtrl_Byte(Units_Scroller);
+	Units_DisappearsWhenBuilt->SetToolTip("Useful for stack unit placement\n0 Default\n1 Makes the building disappear when built");
+	Units_CheckBox_Unknown31b = new CheckBox_2State(Units_Scroller, "Built: Vanishes *", Units_DisappearsWhenBuilt);
 	Units_Text_VisibleInFog = new wxStaticText(Units_Scroller, wxID_ANY, " Fog Visibility *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_VisibleInFog = new TextCtrl_Byte(Units_Scroller);
 	Units_VisibleInFog->SetToolTip("0 Not visible\n1 Visible\n3 Inverted visibility");
-	Units_BuildingMode = new TextCtrl_Byte(Units_Scroller);
-	Units_BuildingMode->SetToolTip("0 non buildings, gates, farms, walls, towers\n2 town center, trade workshop, CLF01, port\n3 any building");
 	Units_PlacementMode = new TextCtrl_Byte(Units_Scroller);
 	Units_PlacementMode->SetToolTip("0 Can be placed on top of other units in scenario editor\n5 Cannot be placed on top of other units in scenario editor");
+	Units_BuildingMode = new TextCtrl_Byte(Units_Scroller);
+	Units_BuildingMode->SetToolTip("0 non buildings, gates, farms, walls, towers\n2 town center, trade workshop, CLF01, port\n3 any building");
 	Units_InteractionMode = new TextCtrl_Byte(Units_Scroller);
 	Units_InteractionMode->SetToolTip("0 & 1 Unable to select, move or attack\n2 Can select, unable to move or attack\n3 Can select and attack, unable to move\n4 Can select, move and attack\n5+ Select and move?");
 	Units_MinimapMode = new TextCtrl_Byte(Units_Scroller);
 	Units_MinimapMode->SetToolTip("0 & 6-10 No dot on minimap\n1 Square dot turning white when selected\n2 Diamond dot turning white when selected\n3 Diamond dot keeping color\n4 & 5 Larger spot, not following the unit, no blinking when attacked, everyone can see it\n");
+	Units_AttackMode = new TextCtrl_Byte(Units_Scroller);
+	Units_AttackMode->SetToolTip("This may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
+	Units_EdibleMeat = new TextCtrl_Byte(Units_Scroller);
+	Units_EdibleMeat->SetToolTip("0 Default\n1 Rotting meat that can be gathered");
 	Units_VillagerMode = new TextCtrl_Byte(Units_Scroller);
 	Units_VillagerMode->SetToolTip("Changes according to task\n1 Male\n2 Female");
 	Units_BlastType = new TextCtrl_Byte(Units_Scroller);
@@ -4148,9 +4167,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_CheckBox_Unselectable = new CheckBox_2State(Units_Scroller, "Unselectable", Units_Unselectable);
 	Units_SelectionMask = new TextCtrl_Byte(Units_Scroller);
 	Units_SelectionMask->SetToolTip("Any odd value except 7 - Mask displayed behind buildings\nAny even value except 6, 10 - Mask not displayed\n-1, 7 - Mask partially displayed when in the open\n6, 10 - Building, causes mask to appear on units behind it\n");
+	Units_SelectionShapeType = new TextCtrl_Byte(Units_Scroller);
 	Units_SelectionShape = new TextCtrl_Byte(Units_Scroller);
 	Units_SelectionShape->SetToolTip("0 Square\n1+ Round");
-	Units_SelectionShapeType = new TextCtrl_Byte(Units_Scroller);
 	Units_SelectionEffect = new TextCtrl_Byte(Units_Scroller);
 	Units_SelectionEffect->SetToolTip("0\n1 HP Bar on, permanent darker outline in editor only\n4 HP Bar off, normal outline\n5, 8-9 HP Bar on\n2 HP Bar on, normal outline\n3 HP Bar off, selection shadow\n6-7 HP Bar off\nNote: this doesn't work with all units");
 	Units_EditorSelectionColour = new TextCtrl_Byte(Units_Scroller);
@@ -4159,7 +4178,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ComboBox_TrainLocationID = new ComboBox_Plus1(Units_Scroller, Units_TrainLocationID);
 	UnitComboBoxList.push_back(Units_ComboBox_TrainLocationID);
 	Units_TrainTime = new TextCtrl_Short(Units_Scroller);
-	Units_CommandAttribute = new TextCtrl_Short(Units_Scroller);
+	Units_CommandAttribute = new TextCtrl_Byte(Units_Scroller);
 	Units_CommandAttribute->SetToolTip("Class and this sets the interface for this unit\n0 Commands: Delete, Garrison, Stop | Attributes: Hit Points\n1 Animal\n2 Non-Military Building (build page 1)\n3 Villager\n4 Military Unit\n5 Trading Unit\n6 Monk\n7 Transport Ship\n8 Relic / Monk with Relic\n9 Fishing Ship\n10 Military Building (build page 2)\n11 Shield Building (build page 3)");
 	Units_ButtonID = new TextCtrl_Byte(Units_Scroller);
 	Units_ButtonID->SetToolTip("First page (also second in TC) 1-15\nSecond (dock) page 21-35\nThird page same as first (Star Wars)\nFirst page in AoE/RoR 1-10\nSecond page in AoE/RoR 11-20");
@@ -4228,8 +4247,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_SelectionSound = new ComboBox_Plus1(Units_Scroller, Units_SelectionSound);
 	SoundComboBoxList.push_back(Units_ComboBox_SelectionSound);
-	Units_AttackMode = new TextCtrl_Short(Units_Scroller);
-	Units_AttackMode->SetToolTip("This may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
 	Units_AttackSound = new TextCtrl_Short(Units_Scroller);
 	Units_ComboBox_AttackSound = new ComboBox_Plus1(Units_Scroller, Units_AttackSound);
 	SoundComboBoxList.push_back(Units_ComboBox_AttackSound);
@@ -4246,8 +4263,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_HPBarHeight2->SetToolTip("Vertical distance from ground");
 
 	Units_Unknown1 = new TextCtrl_Short(Units_Scroller);
-	for(short loop = 0; loop < Units_Unknown3.size(); ++loop)
-	Units_Unknown3[loop] = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown3A = new TextCtrl_Float(Units_Scroller);
+	Units_Unknown3B = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown6->SetToolTip("Seems to be 1 on all resource deposits");
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller);
@@ -4271,15 +4288,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown29 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown29->SetToolTip("0 Default\n3 Unit must walk to enemy when ordered to attack it");
 
-	Units_Unknown31 = new TextCtrl_Byte(Units_Scroller);
-	Units_Unknown31->SetToolTip("0 Default\n1+ Black icon");
-	Units_Unknown31b = new TextCtrl_Byte(Units_Scroller);
-	Units_Unknown31b->SetToolTip("If a building is walkable underneath it?\n0 Default\n1 Makes the building disappear? some gates, town centers, docks\nSW: also some shield generators, power cores");
-	Units_CheckBox_Unknown31b = new CheckBox_2State(Units_Scroller, "Yes *", Units_Unknown31b);
+	Units_IconDisabler = new TextCtrl_Short(Units_Scroller);
+	Units_IconDisabler->SetToolTip("0 Default\n1+ Black icon");
 	Units_Unknown32 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown33 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown33->SetToolTip("0 Default\n1 Counts as player being alive?");
 	Units_Unknown34 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown35 = new TextCtrl_Long(Units_Scroller);
+	Units_Unknown36 = new TextCtrl_Short(Units_Scroller);
 
 	Units_CommandHolder_Lists = new wxBoxSizer(wxVERTICAL);
 	Units_UnitHeads_Name = new wxStaticText(Units_Scroller, wxID_ANY, "Unit Header", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4503,7 +4519,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_InteractionMode->Add(Units_Text_InteractionMode, 0, wxEXPAND);
 	Units_Holder_MinimapMode->Add(Units_Text_MinimapMode, 0, wxEXPAND);
 	Units_Holder_CommandAttribute->Add(Units_Text_CommandAttribute, 0, wxEXPAND);
-	Units_Holder_Unknown3->Add(Units_Text_Unknown3, 0, wxEXPAND);
+	Units_Holder_Unknown3A->Add(Units_Text_Unknown3A, 0, wxEXPAND);
+	Units_Holder_Unknown3B->Add(Units_Text_Unknown3B, 0, wxEXPAND);
 	Units_Holder_Unknown6->Add(Units_Text_Unknown6, 0, wxEXPAND);
 	Units_Holder_Unknown7->Add(Units_Text_Unknown7, 0, wxEXPAND);
 	Units_Holder_Unknown8->Add(Units_Text_Unknown8, 0, wxEXPAND);
@@ -4520,6 +4537,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SelectionSound->Add(Units_Text_SelectionSound, 0, wxEXPAND);
 	Units_Holder_DyingSound->Add(Units_Text_DyingSound, 0, wxEXPAND);
 	Units_Holder_AttackMode->Add(Units_Text_AttackMode, 0, wxEXPAND);
+	Units_Holder_EdibleMeat->Add(Units_Text_EdibleMeat, 0, wxEXPAND);
 	Units_Holder_Name->Add(Units_Text_Name, 0, wxEXPAND);
 	Units_Holder_Name2->Add(Units_Text_Name2, 0, wxEXPAND);
 	Units_Holder_Unitline->Add(Units_Text_Unitline, 0, wxEXPAND);
@@ -4601,8 +4619,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Holder_ConstructionGraphicID->Add(Units_Text_ConstructionGraphicID, 0, wxEXPAND);
 	Units_Holder_SnowGraphicID->Add(Units_Text_SnowGraphicID, 0, wxEXPAND);
-	Units_Holder_Unknown31->Add(Units_Text_Unknown31, 0, wxEXPAND);
-	Units_Holder_Unknown31b->Add(Units_Text_Unknown31b, 0, wxEXPAND);
+	Units_Holder_IconDisabler->Add(Units_Text_IconDisabler, 0, wxEXPAND);
 	Units_Holder_StackUnitID->Add(Units_Text_StackUnitID, 0, wxEXPAND);
 	Units_Holder_TerrainID->Add(Units_Text_TerrainID, 0, wxEXPAND);
 	Units_Holder_Unknown32->Add(Units_Text_Unknown32, 0, wxEXPAND);
@@ -4616,6 +4633,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ConstructionSound->Add(Units_Text_ConstructionSound, 0, wxEXPAND);
 	Units_Holder_GarrisonHealRate->Add(Units_Text_GarrisonHealRate, 0, wxEXPAND);
 	Units_Holder_Unknown35->Add(Units_Text_Unknown35, 0, wxEXPAND);
+	Units_Holder_Unknown36->Add(Units_Text_Unknown36, 0, wxEXPAND);
 	Units_Holder_AlfaThingy->Add(Units_Text_AlfaThingy, 0, wxEXPAND);
 
 //	Type 10+
@@ -4675,9 +4693,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_InteractionMode->Add(Units_InteractionMode, 1, wxEXPAND);
 	Units_Holder_MinimapMode->Add(Units_MinimapMode, 1, wxEXPAND);
 	Units_Holder_CommandAttribute->Add(Units_CommandAttribute, 0, wxEXPAND);
-	for(short loop = 0; loop < Units_Unknown3.size(); ++loop)
-	Units_Grid_Unknown3->Add(Units_Unknown3[loop], 1, wxEXPAND);
-	Units_Holder_Unknown3->Add(Units_Grid_Unknown3, 0, wxEXPAND);
+	Units_Holder_Unknown3A->Add(Units_Unknown3A, 0, wxEXPAND);
+	Units_Holder_Unknown3B->Add(Units_Unknown3B, 0, wxEXPAND);
 	Units_Holder_Unselectable->Add(Units_CheckBox_Unselectable, 0, wxEXPAND);
 	Units_Holder_Unselectable->Add(Units_Unselectable, 1, wxEXPAND);
 	Units_Holder_Unknown6->Add(Units_Unknown6, 1, wxEXPAND);
@@ -4701,6 +4718,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_DyingSound->Add(Units_DyingSound, 1, wxEXPAND);
 	Units_Holder_DyingSound->Add(Units_ComboBox_DyingSound, 1, wxEXPAND);
 	Units_Holder_AttackMode->Add(Units_AttackMode, 0, wxEXPAND);
+	Units_Holder_EdibleMeat->Add(Units_EdibleMeat, 0, wxEXPAND);
 	Units_Holder_Name->Add(Units_Name, 1, wxEXPAND);
 	Units_Holder_Name2->Add(Units_Name2, 1, wxEXPAND);
 	Units_Holder_Unitline->Add(Units_Unitline, 1, wxEXPAND);
@@ -4835,11 +4853,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_AdjacentMode->Add(Units_AdjacentMode, 1, wxEXPAND);
 	Units_Holder_AdjacentMode->Add(2, -1);
 	Units_Holder_AdjacentMode->Add(Units_CheckBox_AdjacentMode, 2, wxEXPAND);
-	Units_Holder_Unknown31->Add(Units_Unknown31, 1, wxEXPAND);
-	Units_Holder_Unknown31bsub->Add(Units_Unknown31b, 1, wxEXPAND);
-	Units_Holder_Unknown31bsub->Add(2, -1);
-	Units_Holder_Unknown31bsub->Add(Units_CheckBox_Unknown31b, 2, wxEXPAND);
-	Units_Holder_Unknown31b->Add(Units_Holder_Unknown31bsub, 0, wxEXPAND);
+	Units_Holder_Unknown31b->Add(Units_DisappearsWhenBuilt, 1, wxEXPAND);
+	Units_Holder_Unknown31b->Add(2, -1);
+	Units_Holder_Unknown31b->Add(Units_CheckBox_Unknown31b, 2, wxEXPAND);
+	Units_Holder_IconDisabler->Add(Units_IconDisabler, 1, wxEXPAND);
 	Units_Holder_StackUnitID->Add(Units_StackUnitID, 1, wxEXPAND);
 	Units_Holder_StackUnitID->Add(Units_ComboBox_StackUnitID, 1, wxEXPAND);
 	Units_Holder_TerrainID->Add(Units_TerrainID, 1, wxEXPAND);
@@ -4867,9 +4884,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_ConstructionSound->Add(Units_ComboBox_ConstructionSound, 1, wxEXPAND);
 	Units_Holder_GarrisonHealRate->Add(Units_GarrisonHealRate, 0, wxEXPAND);
 	Units_Holder_Unknown35->Add(Units_Unknown35, 1, wxEXPAND);
-	for(short loop = 0; loop < Units_AlfaThingy.size(); loop += 2)
-	Units_Grid_AlfaThingy->Add(Units_AlfaThingy[loop], 1, wxEXPAND);
-	for(short loop = 1; loop < Units_AlfaThingy.size(); loop += 2)
+	Units_Holder_Unknown36->Add(Units_Unknown36, 1, wxEXPAND);
+	for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
 	Units_Grid_AlfaThingy->Add(Units_AlfaThingy[loop], 1, wxEXPAND);
 	Units_Holder_AlfaThingy->Add(Units_Grid_AlfaThingy, 0, wxEXPAND);
 
@@ -5249,10 +5265,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_AnimalMode, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_TowerMode, 1, wxEXPAND);
 	Units_Grid_AttributesBoxes1->Add(Units_Holder_AdjacentMode, 1, wxEXPAND);
-	Units_Grid_AttributesModes1->Add(Units_Holder_BuildingMode, 1, wxEXPAND);
+	Units_Grid_AttributesBoxes1->Add(Units_Holder_Unknown31b, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_PlacementMode, 1, wxEXPAND);
+	Units_Grid_AttributesModes1->Add(Units_Holder_BuildingMode, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_InteractionMode, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_MinimapMode, 1, wxEXPAND);
+	Units_Grid_AttributesModes1->Add(Units_Holder_AttackMode, 1, wxEXPAND);
+	Units_Grid_AttributesModes1->Add(Units_Holder_EdibleMeat, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_VillagerMode, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_BlastType, 1, wxEXPAND);
 	Units_Grid_AttributesModes1->Add(Units_Holder_Unknown2, 1, wxEXPAND);
@@ -5270,8 +5289,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_AttributesSizes->Add(Units_Holder_SelectionRadius, 1, wxEXPAND);
 	Units_Grid_AttributesSelection1->Add(Units_Holder_Unselectable, 1, wxEXPAND);
 	Units_Grid_AttributesSelection1->Add(Units_Holder_SelectionMask, 1, wxEXPAND);
-	Units_Grid_AttributesSelection1->Add(Units_Holder_SelectionShape, 1, wxEXPAND);
 	Units_Grid_AttributesSelection1->Add(Units_Holder_SelectionShapeType, 1, wxEXPAND);
+	Units_Grid_AttributesSelection1->Add(Units_Holder_SelectionShape, 1, wxEXPAND);
 	Units_Grid_AttributesSelection1->Add(Units_Holder_SelectionEffect, 1, wxEXPAND);
 	Units_Grid_AttributesSelection1->Add(Units_Holder_EditorSelectionColour, 1, wxEXPAND);
 	Units_Holder_ResourceStorageHeader->Add(Units_Holder_ResourceStorage[0], 0, wxEXPAND);
@@ -5349,7 +5368,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_SoundsArea1->Add(Units_Holder_TrainSound, 2, wxEXPAND);
 	Units_Holder_SoundsArea1->Add(5, 5);
 	Units_Holder_SoundsArea1->Add(Units_Holder_SelectionSound, 1, wxEXPAND);
-	Units_Grid_SoundsArea2->Add(Units_Holder_AttackMode, 1, wxEXPAND);
 	Units_Grid_SoundsArea2->Add(Units_Holder_AttackSound, 1, wxEXPAND);
 	Units_Grid_SoundsArea2->Add(Units_Holder_MoveSound, 1, wxEXPAND);
 	Units_Grid_SoundsArea2->Add(Units_Holder_DyingSound, 1, wxEXPAND);
@@ -5363,7 +5381,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_MiscArea->Add(Units_Grid_HPBars, 1, wxEXPAND);
 
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown1, 0, wxEXPAND);
-	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3A, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3B, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown6, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown7, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown8, 0, wxEXPAND);
@@ -5385,12 +5404,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Grid_Type70plusUnknownArea->Add(Units_Holder_Unknown29, 0, wxEXPAND);
 	Units_Holder_Type70plusUnknownArea->Add(Units_Grid_Type70plusUnknownArea, 0, wxEXPAND);
 
-	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown31, 0, wxEXPAND);
-	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown31b, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_IconDisabler, 0, wxEXPAND);
 	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown32, 0, wxEXPAND);
 	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown33, 0, wxEXPAND);
 	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown34, 0, wxEXPAND);
 	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown35, 0, wxEXPAND);
+	Units_Grid_Type80plusUnknownArea->Add(Units_Holder_Unknown36, 0, wxEXPAND);
 	Units_Holder_Type80plusUnknownArea->Add(Units_Grid_Type80plusUnknownArea, 0, wxEXPAND);
 
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Add, 1, wxEXPAND);
