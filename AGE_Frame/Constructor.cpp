@@ -109,9 +109,9 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 //	TabBar_Main->AddPage(TabBar_Test, "Test");
 
 	TabBar_Main->AddPage(Tab_General, "General");
-	TabBar_Main->AddPage(Tab_Research, "Researches");
-	TabBar_Main->AddPage(Tab_Techs, "Technologies");
-	TabBar_Main->AddPage(Tab_TechTrees, "Tech. Trees");
+	TabBar_Main->AddPage(Tab_Research, "Research");
+	TabBar_Main->AddPage(Tab_Techs, "Techs");
+	TabBar_Main->AddPage(Tab_TechTrees, "Tech Trees");
 	TabBar_Main->AddPage(Tab_Civs, "Civilizations");
 	TabBar_Main->AddPage(Tab_Units, "Units");
 	TabBar_Main->AddPage(Tab_UnitLine, "Unitlines");
@@ -120,8 +120,8 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	TabBar_Main->AddPage(Tab_TerrainBorders, "T. Borders");
 	TabBar_Main->AddPage(Tab_TerrainRestrictions, "T. Restrictions");
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
-	TabBar_Main->AddPage(Tab_PlayerColors, "Player Colors");
-	TabBar_Main->AddPage(Tab_Unknown, "Map");
+	TabBar_Main->AddPage(Tab_PlayerColors, "Colors");
+	TabBar_Main->AddPage(Tab_Unknown, "Maps");
 	TabBar_Main->ChangeSelection(0);
 
 //	TabBar_Test->AddPage(Tab_DRS, "DRS Files");
