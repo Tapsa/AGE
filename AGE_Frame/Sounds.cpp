@@ -44,7 +44,8 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 
 	SoundIDs.resize(selections);
 	Sounds_ID->resize(selections);
-	Sounds_Unknown->resize(selections);
+	Sounds_Unknown1->resize(selections);
+	Sounds_Unknown2->resize(selections);
 
 	genie::Sound * SoundPointer;
 	for(auto loop = selections; loop--> 0;)
@@ -53,11 +54,13 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 		SoundIDs[loop] = (SoundPointer - (&GenieFile->Sounds[0]));
 
 		Sounds_ID->container[loop] = &SoundPointer->ID;
-		Sounds_Unknown->container[loop] = &SoundPointer->Unknown1;
+		Sounds_Unknown1->container[loop] = &SoundPointer->Unknown1;
+		Sounds_Unknown2->container[loop] = &SoundPointer->Unknown2;
 	}
 
 	Sounds_ID->ChangeValue(lexical_cast<string>(SoundPointer->ID));
-	Sounds_Unknown->ChangeValue(lexical_cast<string>(SoundPointer->Unknown1));
+	Sounds_Unknown1->ChangeValue(lexical_cast<string>(SoundPointer->Unknown1));
+	Sounds_Unknown2->ChangeValue(lexical_cast<string>(SoundPointer->Unknown2));
 	ListSoundItems();
 }
 
@@ -402,10 +405,13 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	Sounds_Text_ID = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_ID = new TextCtrl_Long(Tab_Sounds);
-	Sounds_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_Unknown = new TextCtrl_Long(Tab_Sounds);
+	Sounds_ID = new TextCtrl_Short(Tab_Sounds);
+	Sounds_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
+	Sounds_Text_Unknown1 = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Unknown1 = new TextCtrl_Short(Tab_Sounds);
+	Sounds_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
+	Sounds_Text_Unknown2 = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Unknown2 = new TextCtrl_Long(Tab_Sounds);
 
 	SoundItems_Holder_Name = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Text_Name = new wxStaticText(Tab_Sounds, wxID_ANY, " Filename", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -486,8 +492,10 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_Holder_ID->Add(Sounds_Text_ID, 0, wxEXPAND);
 	Sounds_Holder_ID->Add(Sounds_ID, 1, wxEXPAND);
-	Sounds_Holder_Unknown->Add(Sounds_Text_Unknown, 0, wxEXPAND);
-	Sounds_Holder_Unknown->Add(Sounds_Unknown, 1, wxEXPAND);
+	Sounds_Holder_Unknown1->Add(Sounds_Text_Unknown1, 0, wxEXPAND);
+	Sounds_Holder_Unknown1->Add(Sounds_Unknown1, 1, wxEXPAND);
+	Sounds_Holder_Unknown2->Add(Sounds_Text_Unknown2, 0, wxEXPAND);
+	Sounds_Holder_Unknown2->Add(Sounds_Unknown2, 1, wxEXPAND);
 	SoundItems_Holder_Name->Add(SoundItems_Text_Name, 0, wxEXPAND);
 	SoundItems_Holder_Name->Add(SoundItems_Name, 1, wxEXPAND);
 	SoundItems_Holder_Resource->Add(SoundItems_Text_Resource, 0, wxEXPAND);
@@ -519,7 +527,9 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_DataArea->Add(-1, 10);
 	Sounds_DataArea->Add(Sounds_Holder_ID, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(Sounds_Holder_Unknown, 0, wxEXPAND);
+	Sounds_DataArea->Add(Sounds_Holder_Unknown1, 0, wxEXPAND);
+	Sounds_DataArea->Add(-1, 5);
+	Sounds_DataArea->Add(Sounds_Holder_Unknown2, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
 	Sounds_DataArea->Add(SoundItems_Holder_Name, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);

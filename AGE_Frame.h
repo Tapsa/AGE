@@ -92,10 +92,16 @@ public:
 	void ClearAllSoundFiles(wxCommandEvent &Event);
 	void OnAllSoundFileSelect(wxCommandEvent &Event);
 
-//	Exporting and importing common functions.
-	//bool CorrectVersion(int &Version);
-	//void ExpError(wxFileConfig &Extract);
-	//void ImpError();
+//	aoe trial beta 7.11
+//	aoe 7.2
+//	ror 7.24
+//	aok alpha 10.19
+//	aok beta 11.05
+//	aok 11.5
+//	aoc 11.76
+//	aok hd 12.0
+//	swgb 1.0
+//	swgb cc 1.1
 
 //	General Events
 
@@ -2590,10 +2596,13 @@ public:
 
 	wxBoxSizer *Sounds_Holder_ID;
 	wxStaticText *Sounds_Text_ID;
-	TextCtrl_Long *Sounds_ID;
-	wxBoxSizer *Sounds_Holder_Unknown;
-	wxStaticText *Sounds_Text_Unknown;
-	TextCtrl_Long *Sounds_Unknown;
+	TextCtrl_Short *Sounds_ID;
+	wxBoxSizer *Sounds_Holder_Unknown1;
+	wxStaticText *Sounds_Text_Unknown1;
+	TextCtrl_Short *Sounds_Unknown1;
+	wxBoxSizer *Sounds_Holder_Unknown2;
+	wxStaticText *Sounds_Text_Unknown2;
+	TextCtrl_Long *Sounds_Unknown2;
 	wxBoxSizer *SoundItems_Holder_Name;
 	wxStaticText *SoundItems_Text_Name;
 	TextCtrl_String *SoundItems_Name;
