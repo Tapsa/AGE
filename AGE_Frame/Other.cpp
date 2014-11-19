@@ -1238,6 +1238,7 @@ void AGE_Frame::OnGameVersionChange()
 		Colors_Holder_Palette->Show(show);
 		Colors_Holder_MinimapColor->Show(show);
 		TechTrees_Main->Show(show);
+		TabBar_Main->SetPageText(3, show ? "Tech. Trees" : "-");
 		if(!show || ShowUnknowns)
 		{
 			Units_Holder_Type70plusUnknownArea->Show(show);
@@ -1269,6 +1270,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_Holder_Unitline->Show(show);
 		Units_Holder_MinTechLevel->Show(show);
 		UnitLines_Main->Show(show);
+		TabBar_Main->SetPageText(6, show ? "Unitlines" : "-");
 		if(!show || ShowUnknowns)
 		{
 			Civs_Holder_SUnknown1->Show(show);
@@ -1479,7 +1481,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			Graphics_Grid_Deltas_Data2->Show(ShowUnknowns);
 			Terrains_Holder_UnknownArea->Show(ShowUnknowns);
 			Borders_Unknonws->Show(ShowUnknowns);
-			Sounds_Holder_Unknown->Show(ShowUnknowns);
+			Sounds_Holder_Unknown1->Show(ShowUnknowns);
+			Sounds_Holder_Unknown2->Show(ShowUnknowns);
 			SoundItems_Holder_Unknown->Show(ShowUnknowns);
 			Colors_Holder_UnknownArea->Show(ShowUnknowns);
 			General_TopRow->Show(ShowUnknowns);
