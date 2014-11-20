@@ -12,6 +12,11 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]3.13[/b] (2014.11.19):
+•Unit data discoveries.
+•Tab adjustments.
+•Added civilization to unit search filters.
+
 Version [b]3.12[/b] (2014.11.4):
 •AoK HD string finds.
 •New info on graphic set and graphic speed.
