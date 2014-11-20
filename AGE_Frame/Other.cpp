@@ -959,10 +959,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_ComboBox_AttributesC->Append("12 - Range");
 		Effects_ComboBox_AttributesC->Append("13 - Working Rate");
 		Effects_ComboBox_AttributesC->Append("14 - Resource Carriage");
-		Effects_ComboBox_AttributesC->Append("15 - Unknown?");
+		Effects_ComboBox_AttributesC->Append("15 - Default Armor");
 		Effects_ComboBox_AttributesC->Append("16 - New Projectile Unit");
 		Effects_ComboBox_AttributesC->Append("17 - Upgrade Graphic");
-		Effects_ComboBox_AttributesC->Append("18 - Unknown?");
+		Effects_ComboBox_AttributesC->Append("18 - Unknown21");
 		Effects_ComboBox_AttributesC->Append("19 - Projectile Intelligent Accuracy");
 		Effects_ComboBox_AttributesC->Append("20 - Minimum Range");
 		if(GenieVersion <= genie::GV_RoR)
