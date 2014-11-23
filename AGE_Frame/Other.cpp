@@ -1197,12 +1197,10 @@ void AGE_Frame::OnGameVersionChange()
 		if(show) // AoK ->
 		{
 			Units_Enabled->SetBackgroundColour(wxColour(210, 230, 255));
-			Graphics_TypeS->SetBackgroundColour(wxColour(210, 230, 255));
 		}
 		else // <- AoK Alfa
 		{
 			Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
-			Graphics_TypeS->SetBackgroundColour(wxColour(255, 235, 215));
 		}
 
 		// AoK Alfa ->
@@ -1248,6 +1246,13 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Holder_Unknown36->Show(show);
 			SoundItems_Holder_Unknown->Show(show);
 			Colors_Holder_UnknownArea->Show(show);
+		}
+
+		// AoK Beta ->
+		show = (GenieVersion >= genie::GV_AoKB) ? true : false;
+		if(!show || ShowUnknowns)
+		{
+			Graphics_Holder_Unknown3->Show(show);
 		}
 
 		// AoE & RoR
@@ -1477,7 +1482,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			TechTrees_Units_Holder_Unknown2b->Show(ShowUnknowns);
 			TechTrees_Researches_Holder_Unknown2a->Show(ShowUnknowns);
 			TechTrees_Researches_Holder_Unknown2b->Show(ShowUnknowns);
-			Graphics_Holder_Unknowns->Show(ShowUnknowns);
+			Graphics_Grid_3->Show(ShowUnknowns);
 			Graphics_Grid_Deltas_Data2->Show(ShowUnknowns);
 			Terrains_Holder_UnknownArea->Show(ShowUnknowns);
 			Borders_Unknonws->Show(ShowUnknowns);
