@@ -92,24 +92,10 @@ public:
 	void ClearAllSoundFiles(wxCommandEvent &Event);
 	void OnAllSoundFileSelect(wxCommandEvent &Event);
 
-//	aoe trial beta 7.11
-//	aoe 7.2
-//	ror 7.24
-//	aok alpha 10.19
-//	aok beta 11.05
-//	aok 11.5
-//	aoc 11.76
-//	aok hd 12.0
-//	swgb 1.0
-//	swgb cc 1.1
-
 //	General Events
 
 	void ListGeneral();
 	void OnGeneralSelect(wxCommandEvent &Event);
-//	void OnDataGridPage(wxCommandEvent &Event);
-//	void OnDataGridNext(wxCommandEvent &Event);
-//	void OnDataGridPrev(wxCommandEvent &Event);
 	void OnVariableCalc(wxFocusEvent &Event);
 	void OnVariableCalcReverse(wxFocusEvent &Event);
 
@@ -2269,7 +2255,6 @@ public:
 	wxBoxSizer *Graphics_Holder_Name;
 	wxBoxSizer *Graphics_Holder_Name2;
 	wxBoxSizer *Graphics_Holder_SLP;
-	wxGridSizer *Graphics_Holder_Unknowns;
 	wxBoxSizer *Graphics_Holder_Unknown1;
 	wxBoxSizer *Graphics_Holder_Unknown2;
 	wxBoxSizer *Graphics_Holder_FrameType;
@@ -2291,8 +2276,10 @@ public:
 	wxBoxSizer *Graphics_Holder_SequenceType;
 	wxBoxSizer *Graphics_Holder_ID;
 	wxBoxSizer *Graphics_Holder_Type;
+	wxBoxSizer *Graphics_Holder_Unknown3;
 	wxGridSizer *Graphics_Grid_1;
 	wxGridSizer *Graphics_Grid_2;
+	wxGridSizer *Graphics_Grid_3;
 
 	wxStaticText *Graphics_Text_Name;
 	wxStaticText *Graphics_Text_Name2;
@@ -2314,6 +2301,7 @@ public:
 	wxStaticText *Graphics_Text_SequenceType;
 	wxStaticText *Graphics_Text_ID;
 	wxStaticText *Graphics_Text_Type;
+	wxStaticText *Graphics_Text_Unknown3;
 
 	TextCtrl_String *Graphics_Name;
 	TextCtrl_String *Graphics_Name2;
@@ -2337,7 +2325,8 @@ public:
 	TextCtrl_Float *Graphics_ReplayDelay;
 	TextCtrl_Byte *Graphics_SequenceType;
 	TextCtrl_Short *Graphics_ID;
-	TextCtrl_Short *Graphics_TypeS;
+	TextCtrl_Byte *Graphics_MirroringMode;
+	TextCtrl_Byte *Graphics_Unknown3;
 
 	wxBoxSizer *Graphics_Deltas;
 	wxTextCtrl *Graphics_Deltas_Search;
@@ -2921,9 +2910,6 @@ public:
 	wxButton *TechTrees_DataList_Researches_CopyToResearches_Units;
 	wxButton *TechTrees_DataList_Researches_CopyToResearches_Researches;
 
-	wxBoxSizer *TechTrees_Ages_Holder_Unknown1;
-	wxStaticText *TechTrees_Ages_Text_Unknown1;
-	TextCtrl_Long *TechTrees_Ages_Unknown1;
 	wxBoxSizer *TechTrees_Ages_Holder_ID;
 	wxStaticText *TechTrees_Ages_Text_ID;
 	TextCtrl_Long *TechTrees_Ages_ID;
@@ -2941,10 +2927,10 @@ public:
 	ComboBox_Plus1 *TechTrees_Ages_ComboBox_Research;
 	wxBoxSizer *TechTrees_Ages_Holder_Unknown3;
 	wxStaticText *TechTrees_Ages_Text_Unknown3;
-	TextCtrl_Long *TechTrees_Ages_Unknown3;
+	TextCtrl_Byte *TechTrees_Ages_Unknown3;
 	wxBoxSizer *TechTrees_Ages_Holder_Unknown4;
 	wxStaticText *TechTrees_Ages_Text_Unknown4;
-	TextCtrl_Long *TechTrees_Ages_Unknown4;
+	TextCtrl_Byte *TechTrees_Ages_Unknown4;
 	wxBoxSizer *TechTrees_Ages_Holder_Zeroes;
 	wxGridSizer *TechTrees_Ages_Grid_Zeroes1;
 	wxGridSizer *TechTrees_Ages_Grid_Zeroes2;

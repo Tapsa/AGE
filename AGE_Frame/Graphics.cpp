@@ -148,7 +148,9 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_ReplayDelay->resize(selections);
 	Graphics_SequenceType->resize(selections);
 	Graphics_ID->resize(selections);
-	Graphics_TypeS->resize(selections);
+	Graphics_MirroringMode->resize(selections);
+	if(GenieVersion >= genie::GV_AoKB)
+	Graphics_Unknown3->resize(selections);
 
 	genie::Graphic * GraphicPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -178,7 +180,9 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 		Graphics_ReplayDelay->container[sel] = &GraphicPointer->ReplayDelay;
 		Graphics_SequenceType->container[sel] = &GraphicPointer->SequenceType;
 		Graphics_ID->container[sel] = &GraphicPointer->ID;
-		Graphics_TypeS->container[sel] = &GraphicPointer->MirroringMode;
+		Graphics_MirroringMode->container[sel] = &GraphicPointer->MirroringMode;
+		if(GenieVersion >= genie::GV_AoKB)
+		Graphics_Unknown3->container[sel] = &GraphicPointer->Unknown3;
 	}
 
 	Graphics_Name->ChangeValue(GraphicPointer->Name);
@@ -206,7 +210,9 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_ReplayDelay->ChangeValue(lexical_cast<string>(GraphicPointer->ReplayDelay));
 	Graphics_SequenceType->ChangeValue(lexical_cast<string>((short)GraphicPointer->SequenceType));
 	Graphics_ID->ChangeValue(lexical_cast<string>(GraphicPointer->ID));
-	Graphics_TypeS->ChangeValue(lexical_cast<string>((short)GraphicPointer->MirroringMode));
+	Graphics_MirroringMode->ChangeValue(lexical_cast<string>((short)GraphicPointer->MirroringMode));
+	if(GenieVersion >= genie::GV_AoKB)
+	Graphics_Unknown3->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown3));
 
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
@@ -635,13 +641,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_ID = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_ID = new wxStaticText(Graphics_Scroller, wxID_ANY, " ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_ID = new TextCtrl_Short(Graphics_Scroller);
-	Graphics_Holder_Type = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_Type = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_TypeS = new TextCtrl_Short(Graphics_Scroller);
-	Graphics_Holder_SequenceType = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_SequenceType = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sequence Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_SequenceType = new TextCtrl_Byte(Graphics_Scroller);
-	Graphics_SequenceType->SetToolTip("Animation type?\n6 Changes frames when placed in the scenario editor");
+
 	Graphics_Holder_SLP = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_SLP = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SLP = new TextCtrl_Long(Graphics_Scroller);
@@ -649,18 +649,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_FrameType = new wxStaticText(Graphics_Scroller, wxID_ANY, " Layer *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_FrameType = new TextCtrl_Byte(Graphics_Scroller);
 	Graphics_FrameType->SetToolTip("0 - Cliffs\n5 - Shadows, Farms\n6 - Rubble\n10 - Construction sequences, some shadows, corpses, stumps, flowers, paths, ruins, crack\n11 - Fish\n19 - Rugs, crater\n20 - Buildings, damage flames, mill animation, units\n21 - Blacksmith piece (no slp), blacksmith smoke\n22 - Hawk\n30 - Explosions, projectiles ");
-	Graphics_Holder_FrameCount = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_FrameCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_FrameCount = new TextCtrl_UShort(Graphics_Scroller);
-	Graphics_Holder_FrameRate = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_FrameRate = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_FrameRate = new TextCtrl_Float(Graphics_Scroller);
-	Graphics_FrameRate->SetToolTip("How long each frame is displayed in seconds");
-	Graphics_Holder_SoundID = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_SoundID = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_SoundID = new TextCtrl_Short(Graphics_Scroller);
-	Graphics_ComboBox_SoundID = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID);
-	SoundComboBoxList.push_back(Graphics_ComboBox_SoundID);
 	Graphics_Holder_Replay = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_Replay = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Replay = new TextCtrl_Byte(Graphics_Scroller);
@@ -669,14 +657,62 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_ReplayDelay = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay Delay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_ReplayDelay = new TextCtrl_Float(Graphics_Scroller);
 	Graphics_ReplayDelay->SetToolTip("Waiting time in seconds before animation restarts again");
+
+	Graphics_Holder_FrameCount = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_FrameCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_FrameCount = new TextCtrl_UShort(Graphics_Scroller);
+	Graphics_Holder_FrameRate = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_FrameRate = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_FrameRate = new TextCtrl_Float(Graphics_Scroller);
+	Graphics_FrameRate->SetToolTip("How long each frame is displayed in seconds");
+	Graphics_Holder_SequenceType = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_SequenceType = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sequence Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_SequenceType = new TextCtrl_Byte(Graphics_Scroller);
+	Graphics_SequenceType->SetToolTip("Animation type?\n6 Changes frames when placed in the scenario editor");
+	Graphics_Holder_Type = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_Type = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_MirroringMode = new TextCtrl_Byte(Graphics_Scroller);
+
+	Graphics_Holder_Coordinates = new wxBoxSizer(wxVERTICAL);
+	Graphics_Holder_CoordinateGrid = new wxGridSizer(4, 0, 5);
+	Graphics_Text_Coordinates = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	for(short loop = 0; loop < 4; ++loop)
+	Graphics_Coordinates[loop] = new TextCtrl_Short(Graphics_Scroller);
+
+	Graphics_Holder_SoundID = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_SoundID = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_SoundID = new TextCtrl_Short(Graphics_Scroller);
+	Graphics_ComboBox_SoundID = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID);
+	SoundComboBoxList.push_back(Graphics_ComboBox_SoundID);
+	Graphics_Holder_PlayerColor = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_PlayerColor = new wxStaticText(Graphics_Scroller, wxID_ANY, " Forced Player Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_PlayerColor = new TextCtrl_Byte(Graphics_Scroller);
+	Graphics_PlayerColor->SetToolTip("The player color to be forced on the graphic");
+	Graphics_ComboBox_PlayerColor = new ComboBox_Plus1(Graphics_Scroller, Graphics_PlayerColor);
+	Graphics_Holder_Rainbow = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_Rainbow = new wxStaticText(Graphics_Scroller, wxID_ANY, " Rainbow *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Rainbow = new TextCtrl_Byte(Graphics_Scroller);
+	Graphics_Rainbow->SetToolTip("Makes the graphic change its player color according to nearby units");
 	Graphics_Holder_NewSpeed = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_NewSpeed = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unit Speed Multiplier *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_NewSpeed = new TextCtrl_Float(Graphics_Scroller);
 	Graphics_NewSpeed->SetToolTip("Multiplies the speed of the unit this graphic is applied to");
+
+	Graphics_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_Unknown1 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Unknown1 = new TextCtrl_Byte(Graphics_Scroller);
+	Graphics_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_Unknown2 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Unknown2 = new TextCtrl_Byte(Graphics_Scroller);
+	Graphics_Holder_Unknown3 = new wxBoxSizer(wxVERTICAL);
+	Graphics_Text_Unknown3 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 3 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Unknown3 = new TextCtrl_Byte(Graphics_Scroller);
+	Graphics_Unknown3->SetToolTip("Related to sprite editor?");
 	Graphics_Holder_4 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Holder_5 = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Grid_1 = new wxGridSizer(4, 5, 5);
 	Graphics_Grid_2 = new wxGridSizer(4, 5, 5);
+	Graphics_Grid_3 = new wxGridSizer(4, 5, 5);
 
 	Graphics_Deltas = new wxBoxSizer(wxVERTICAL);
 	Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
@@ -717,10 +753,6 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Text_Unknown5 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_Unknown5 = new TextCtrl_Short(Graphics_Scroller);
 
-	Graphics_AttackSounds = new wxBoxSizer(wxVERTICAL);
-	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, NULL, wxLB_EXTENDED);
-	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, 20));
-	AttackSounds_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, 20));
 	Graphics_Holder_AngleCount = new wxBoxSizer(wxVERTICAL);
 	Graphics_Text_AngleCount = new wxStaticText(Graphics_Scroller, wxID_ANY, " Angle Count *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_AngleCount = new TextCtrl_UShort(Graphics_Scroller);
@@ -730,6 +762,10 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Text_AttackSoundUsed = new wxStaticText(Graphics_Scroller, wxID_ANY, " Attack Sound Used", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_AttackSoundUsed = new TextCtrl_Byte(Graphics_Scroller);
 	Graphics_CheckBox_AttackSoundUsed = new CheckBox_2State(Graphics_Scroller, "Used", Graphics_AttackSoundUsed);
+	Graphics_AttackSounds = new wxBoxSizer(wxVERTICAL);
+	Graphics_AttackSounds_List = new wxListBox(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 140), 0, NULL, wxLB_EXTENDED);
+	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, 20));
+	AttackSounds_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, 20));
 	Graphics_Holder_AttackSounds = new wxBoxSizer(wxVERTICAL);
 	Graphics_Grid_AttackSounds = new wxGridSizer(2, 0, 0);
 	Graphics_Text_AttackSounds = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -742,27 +778,6 @@ void AGE_Frame::CreateGraphicsControls()
 		SoundComboBoxList.push_back(Graphics_ComboBox_AttackSoundID[loop]);
 		Graphics_AttackSoundDelay[loop] = new TextCtrl_Short(Graphics_Scroller);
 	}
-	Graphics_Holder_Coordinates = new wxBoxSizer(wxVERTICAL);
-	Graphics_Holder_CoordinateGrid = new wxGridSizer(4, 0, 5);
-	Graphics_Text_Coordinates = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < 4; ++loop)
-	Graphics_Coordinates[loop] = new TextCtrl_Short(Graphics_Scroller);
-	Graphics_Holder_Unknowns = new wxGridSizer(4, 0, 5);
-	Graphics_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_Unknown1 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_Unknown1 = new TextCtrl_Byte(Graphics_Scroller);
-	Graphics_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_Unknown2 = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_Unknown2 = new TextCtrl_Byte(Graphics_Scroller);
-	Graphics_Holder_PlayerColor = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_PlayerColor = new wxStaticText(Graphics_Scroller, wxID_ANY, " Forced Player Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_PlayerColor = new TextCtrl_Byte(Graphics_Scroller);
-	Graphics_PlayerColor->SetToolTip("The player color to be forced on the graphic");
-	Graphics_ComboBox_PlayerColor = new ComboBox_Plus1(Graphics_Scroller, Graphics_PlayerColor);
-	Graphics_Holder_Rainbow = new wxBoxSizer(wxVERTICAL);
-	Graphics_Text_Rainbow = new wxStaticText(Graphics_Scroller, wxID_ANY, " Rainbow *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_Rainbow = new TextCtrl_Byte(Graphics_Scroller);
-	Graphics_Rainbow->SetToolTip("Makes the graphic change its player color according to nearby units");
 
 	Graphics_Holder_Deltas = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Deltas");
 	Graphics_Holder_Deltas_Data = new wxBoxSizer(wxVERTICAL);
@@ -870,7 +885,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_SequenceType->Add(Graphics_Text_SequenceType, 0, wxEXPAND);
 	Graphics_Holder_SequenceType->Add(Graphics_SequenceType, 1, wxEXPAND);
 	Graphics_Holder_Type->Add(Graphics_Text_Type, 0, wxEXPAND);
-	Graphics_Holder_Type->Add(Graphics_TypeS, 1, wxEXPAND);
+	Graphics_Holder_Type->Add(Graphics_MirroringMode, 1, wxEXPAND);
+	Graphics_Holder_Unknown3->Add(Graphics_Text_Unknown3, 0, wxEXPAND);
+	Graphics_Holder_Unknown3->Add(Graphics_Unknown3, 1, wxEXPAND);
 
 	Graphics_Holder_NameArea->Add(Graphics_Holder_Name, 2, wxEXPAND);
 	Graphics_Holder_NameArea->Add(5, -1);
@@ -878,22 +895,23 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Holder_NameArea->Add(5, -1);
 	Graphics_Holder_NameArea->Add(Graphics_Holder_ID, 1, wxEXPAND);
 
-	Graphics_Grid_1->Add(Graphics_Holder_Type, 1, wxEXPAND);
-	Graphics_Grid_1->Add(Graphics_Holder_SequenceType, 1, wxEXPAND);
 	Graphics_Grid_1->Add(Graphics_Holder_SLP, 1, wxEXPAND);
-	Graphics_Grid_1->AddStretchSpacer(1);
 	Graphics_Grid_1->Add(Graphics_Holder_FrameType, 1, wxEXPAND);
+	Graphics_Grid_1->Add(Graphics_Holder_Replay, 1, wxEXPAND);
+	Graphics_Grid_1->Add(Graphics_Holder_ReplayDelay, 1, wxEXPAND);
 	Graphics_Grid_1->Add(Graphics_Holder_FrameCount, 1, wxEXPAND);
 	Graphics_Grid_1->Add(Graphics_Holder_FrameRate, 1, wxEXPAND);
+	Graphics_Grid_1->Add(Graphics_Holder_SequenceType, 1, wxEXPAND);
+	Graphics_Grid_1->Add(Graphics_Holder_Type, 1, wxEXPAND);
+
 	Graphics_Grid_2->Add(Graphics_Holder_SoundID, 1, wxEXPAND);
-	Graphics_Grid_2->Add(Graphics_Holder_Replay, 1, wxEXPAND);
-	Graphics_Grid_2->Add(Graphics_Holder_ReplayDelay, 1, wxEXPAND);
+	Graphics_Grid_2->Add(Graphics_Holder_PlayerColor, 0, wxEXPAND);
+	Graphics_Grid_2->Add(Graphics_Holder_Rainbow, 0, wxEXPAND);
 	Graphics_Grid_2->Add(Graphics_Holder_NewSpeed, 1, wxEXPAND);
 
-	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown1, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Graphics_Holder_Unknowns->Add(Graphics_Holder_Unknown2, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Graphics_Holder_Unknowns->Add(Graphics_Holder_PlayerColor, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Graphics_Holder_Unknowns->Add(Graphics_Holder_Rainbow, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Graphics_Grid_3->Add(Graphics_Holder_Unknown1, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Graphics_Grid_3->Add(Graphics_Holder_Unknown2, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Graphics_Grid_3->Add(Graphics_Holder_Unknown3, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
 	Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Insert, 1, wxEXPAND);
@@ -979,17 +997,17 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Grid_1, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
+	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Coordinates, 0, wxEXPAND);
+	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Grid_2, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Coordinates, 0, wxEXPAND);
+	Graphics_ScrollerWindowsSpace->Add(Graphics_Grid_3, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Deltas, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_4, 0, wxEXPAND);
 	Graphics_ScrollerWindowsSpace->Add(-1, 5);
 	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_AttackSoundArea, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_Holder_Unknowns, 0, wxEXPAND);
 
 	Graphics_ScrollerWindows->Add(Graphics_ScrollerWindowsSpace, 1, wxEXPAND);
 	Graphics_ScrollerWindows->Add(5, -1);
