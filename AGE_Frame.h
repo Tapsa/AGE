@@ -1384,8 +1384,9 @@ public:
 	TextCtrl_Byte *Units_HideInEditor;
 	CheckBox_2State *Units_CheckBox_HideInEditor;
 	TextCtrl_Short *Units_Unknown1;
-	TextCtrl_Short *Units_Enabled;
+	TextCtrl_Byte *Units_Enabled;
 	CheckBox_2State *Units_CheckBox_Enabled;
+	TextCtrl_Byte *Units_NewUnknown;
 	TextCtrl_Short *Units_PlacementBypassTerrain[2];
 	ComboBox_Plus1 *Units_ComboBox_PlacementBypassTerrain[2];
 	TextCtrl_Short *Units_PlacementTerrain[2];
@@ -1773,6 +1774,7 @@ public:
 	wxBoxSizer *Units_Holder_HideInEditor;
 	wxBoxSizer *Units_Holder_Unknown1;
 	wxBoxSizer *Units_Holder_Enabled;
+	wxBoxSizer *Units_Holder_NewUnknown;
 	wxBoxSizer *Units_Holder_PlacementBypassTerrain;
 	wxGridSizer *Units_Holder_PlacementBypassTerrainGrid;
 	wxBoxSizer *Units_Holder_PlacementTerrain;
