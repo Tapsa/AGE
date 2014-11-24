@@ -39,13 +39,18 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 				case 8: // Sound
 					Name += "So "+lexical_cast<string>(GenieFile->Graphics[Index].SoundID);
 					break;
+				case 9: // Coordinates
+					break;
+				case 10: // Deltas
+					Name += "DC "+lexical_cast<string>(GenieFile->Graphics[Index].Deltas.size());
+					break;
 				case 11: // Attack Sound Used
 					Name += "U "+lexical_cast<string>((short)GenieFile->Graphics[Index].AttackSoundUsed);
 					break;
-				case 12: // Frame Count
+				case 12: // Frames
 					Name += "FC "+lexical_cast<string>(GenieFile->Graphics[Index].FrameCount);
 					break;
-				case 13: // Angle Count
+				case 13: // Angles
 					Name += "AC "+lexical_cast<string>(GenieFile->Graphics[Index].AngleCount);
 					break;
 				case 14: // Speed
@@ -61,9 +66,12 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 					Name += "ST "+lexical_cast<string>((short)GenieFile->Graphics[Index].SequenceType);
 					break;
 				case 18: // Mirroring Mode
-					Name += "M "+lexical_cast<string>(GenieFile->Graphics[Index].MirroringMode);
+					Name += "M "+lexical_cast<string>((short)GenieFile->Graphics[Index].MirroringMode);
 					break;
-				case 19: // Pointer
+				case 19: // Unknown 3
+					Name += "U3 "+lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown3);
+					break;
+				case 20: // Pointer
 					Name = lexical_cast<string>(GenieFile->GraphicPointers[Index]);
 					break;
 			}
@@ -806,6 +814,7 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Graphics_SearchFilters[loop]->Append("Replay Delay");
 		Graphics_Graphics_SearchFilters[loop]->Append("Sequence Type");
 		Graphics_Graphics_SearchFilters[loop]->Append("Mirroring Mode");
+		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 3");
 		Graphics_Graphics_SearchFilters[loop]->Append("Pointer");
 		Graphics_Graphics_SearchFilters[loop]->SetSelection(0);
 	}
