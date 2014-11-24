@@ -1463,9 +1463,9 @@ public:
 	ComboBox_Plus1 *Units_ComboBox_TrackingUnit;
 	TextCtrl_Byte *Units_TrackingUnitUsed;
 	TextCtrl_Float *Units_TrackingUnitDensity;
-	TextCtrl_Float *Units_Unknown12;
 	TextCtrl_Byte *Units_Unknown16;
-	array<TextCtrl_Byte*, 16> Units_Unknown16B;
+	TextCtrl_Long *Units_Unknown16A;
+	array<TextCtrl_Float*, 4> Units_Unknown16B;
 
 //	Type 40+
 
@@ -1484,7 +1484,7 @@ public:
 	CheckBox_2State *Units_CheckBox_AnimalMode;
 	TextCtrl_Byte *Units_Exists;
 
-//	Type 60+
+//	Type 50+
 
 	TextCtrl_Short *Units_DefaultArmor;
 	TextCtrl_Short *Units_Unknown21;
@@ -1577,7 +1577,7 @@ public:
 	TextCtrl_Byte *Units_GarrisonType;
 	ComboBox_Plus1 *Units_ComboBox_GarrisonType;
 	TextCtrl_Float *Units_GarrisonHealRate;
-	TextCtrl_Long *Units_Unknown35;
+	TextCtrl_Float *Units_Unknown35;
 	TextCtrl_Short *Units_Unknown36;
 	array<TextCtrl_Byte*, 6> Units_AlfaThingy;
 
@@ -1658,8 +1658,8 @@ public:
 	wxStaticText *Units_Text_TrackingUnit;
 	wxStaticText *Units_Text_TrackingUnitUsed;
 	wxStaticText *Units_Text_TrackingUnitDensity;
-	wxStaticText *Units_Text_Unknown12;
 	wxStaticText *Units_Text_Unknown16;
+	wxStaticText *Units_Text_Unknown16A;
 	wxStaticText *Units_Text_Unknown16B;
 
 //	Type 40+
@@ -1672,7 +1672,7 @@ public:
 	wxStaticText *Units_Text_MoveSound;
 	wxStaticText *Units_Text_Exists;
 
-//	Type 60+
+//	Type 50+
 
 	wxStaticText *Units_Text_DefaultArmor;
 	wxStaticText *Units_Text_Unknown21;
@@ -1838,8 +1838,8 @@ public:
 	wxBoxSizer *Units_Holder_TrackingUnitUsed;
 	wxBoxSizer *Units_Holder_TrackingUnitUsedBox;
 	wxBoxSizer *Units_Holder_TrackingUnitDensity;
-	wxBoxSizer *Units_Holder_Unknown12;
 	wxBoxSizer *Units_Holder_Unknown16;
+	wxBoxSizer *Units_Holder_Unknown16A;
 	wxBoxSizer *Units_Holder_Unknown16B;
 	wxGridSizer *Units_Grid_Unknown16B;
 
@@ -1855,7 +1855,7 @@ public:
 	wxBoxSizer *Units_Holder_AnimalMode;
 	wxBoxSizer *Units_Holder_Exists;
 
-//	Type 60+
+//	Type 50+
 
 	wxBoxSizer *Units_Holder_DefaultArmor;
 	wxBoxSizer *Units_Holder_Unknown21;
