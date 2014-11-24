@@ -392,16 +392,20 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_SelectionShapeType->resize(PointerCount);
 		Units_SelectionShape->resize(PointerCount);
 		Units_ID3->resize(PointerCount);
-		if(GenieVersion >= genie::GV_TC)
+		if(GenieVersion >= genie::GV_AoK)
 		{
-			Units_Attribute->resize(PointerCount);
-			Units_Civ->resize(PointerCount);
-			Units_Unknown9->resize(PointerCount);
-			if(GenieVersion >= genie::GV_SWGB)
+			Units_NewUnknown->resize(PointerCount);
+			if(GenieVersion >= genie::GV_TC)
 			{
-				Units_Name2->resize(PointerCount);
-				Units_Unitline->resize(PointerCount);
-				Units_MinTechLevel->resize(PointerCount);
+				Units_Attribute->resize(PointerCount);
+				Units_Civ->resize(PointerCount);
+				Units_Unknown9->resize(PointerCount);
+				if(GenieVersion >= genie::GV_SWGB)
+				{
+					Units_Name2->resize(PointerCount);
+					Units_Unitline->resize(PointerCount);
+					Units_MinTechLevel->resize(PointerCount);
+				}
 			}
 		}
 	}
@@ -562,7 +566,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					Units_Unknown21->container[location] = &UnitPointer->Projectile.Unknown21;
 					Units_MaxRange->container[location] = &UnitPointer->Projectile.MaxRange;
 					Units_BlastRadius->container[location] = &UnitPointer->Projectile.BlastRadius;
-					Units_ReloadTime1->container[location] = &UnitPointer->Projectile.ReloadTime1;
+					Units_ReloadTime1->container[location] = &UnitPointer->Projectile.ReloadTime;
 					Units_ProjectileUnitID->container[location] = &UnitPointer->Projectile.ProjectileUnitID;
 					Units_AccuracyPercent->container[location] = &UnitPointer->Projectile.AccuracyPercent;
 					Units_TowerMode->container[location] = &UnitPointer->Projectile.TowerMode;
@@ -676,6 +680,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			}
 			if(GenieVersion >= genie::GV_AoK)
 			{
+				Units_NewUnknown->container[location] = &UnitPointer->NewUnknown;
 				if(CopyGraphics || vecCiv == 0)
 				Units_StandingGraphic[1]->container[location] = &UnitPointer->StandingGraphic.second;
 				if(GenieVersion >= genie::GV_TC)
@@ -943,7 +948,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_Unknown21->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Unknown21));
 			Units_MaxRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MaxRange));
 			Units_BlastRadius->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.BlastRadius));
-			Units_ReloadTime1->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime1));
+			Units_ReloadTime1->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime));
 			Units_ProjectileUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ProjectileUnitID));
 			Units_ComboBox_ProjectileUnitID->SetSelection(UnitPointer->Projectile.ProjectileUnitID + 1);
 			Units_AccuracyPercent->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.AccuracyPercent));
@@ -1124,6 +1129,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		{
 			Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
 			Units_ComboBox_StandingGraphic[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
+			Units_NewUnknown->ChangeValue(lexical_cast<string>((short)UnitPointer->NewUnknown));
 			if(GenieVersion >= genie::GV_TC)
 			{
 				Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
@@ -3527,6 +3533,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_HideInEditor = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_Enabled = new wxBoxSizer(wxHORIZONTAL);
+	Units_Holder_NewUnknown = new wxBoxSizer(wxHORIZONTAL);
 	Units_Holder_PlacementBypassTerrain = new wxBoxSizer(wxVERTICAL);
 	Units_Holder_PlacementBypassTerrainGrid = new wxGridSizer(2, 0, 5);
 	Units_Holder_PlacementTerrain = new wxBoxSizer(wxVERTICAL);
@@ -4076,7 +4083,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_PenetrationMode->SetToolTip("0 Stops the graphics\n1 Graphics pass through the target instead of stopping\nOnly affects the graphics of the projectile");
 	Units_Unknown24 = new TextCtrl_Byte(Units_Scroller);
 
-	Units_Enabled = new TextCtrl_Short(Units_Scroller);
+	Units_Enabled = new TextCtrl_Byte(Units_Scroller);
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
 	Units_CheckBox_Enabled = new CheckBox_2State(Units_Scroller, "No Research *", Units_Enabled);
 	Units_HideInEditor = new TextCtrl_Byte(Units_Scroller);
@@ -4275,6 +4282,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_HPBarHeight2->SetToolTip("Vertical distance from ground");
 
 	Units_Unknown1 = new TextCtrl_Short(Units_Scroller);
+	Units_NewUnknown = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown3A = new TextCtrl_Float(Units_Scroller);
 	Units_Unknown3B = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller);
@@ -4680,6 +4688,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_Enabled->Add(Units_Enabled, 1, wxEXPAND);
 	Units_Holder_Enabled->Add(2, -1);
 	Units_Holder_Enabled->Add(Units_CheckBox_Enabled, 2, wxEXPAND);
+	Units_Holder_NewUnknown->Add(Units_NewUnknown, 1, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
 	Units_Holder_PlacementBypassTerrainGrid->Add(Units_PlacementBypassTerrain[loop], 1, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
@@ -5396,6 +5405,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Holder_MiscArea->Add(Units_Grid_HPBars, 1, wxEXPAND);
 
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown1, 0, wxEXPAND);
+	Units_Grid_Type10plusUnknowns->Add(Units_Holder_NewUnknown, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3A, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown3B, 0, wxEXPAND);
 	Units_Grid_Type10plusUnknowns->Add(Units_Holder_Unknown6, 0, wxEXPAND);
