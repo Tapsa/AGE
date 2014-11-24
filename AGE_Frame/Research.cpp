@@ -82,7 +82,7 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 						Name += lexical_cast<string>((short)GenieFile->Researchs[Index].ResourceCosts[loop].Enabled);
 					}
 				}	break;
-				if(GenieVersion >= genie::GV_AoK)
+				if(GenieVersion >= genie::GV_AoKB)
 				{
 				case 16: // Civilization
 					Name += "C "+lexical_cast<string>(GenieFile->Researchs[Index].Civ);
@@ -174,7 +174,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	Research_Used[0]->resize(selections);
 	Research_Used[1]->resize(selections);
 	Research_Used[2]->resize(selections);
-	if(GenieVersion >= genie::GV_AoK)
+	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Research_Civ->resize(selections);
 		Research_FullTechMode->resize(selections);
@@ -214,7 +214,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_Used[0]->container[loop] = &ResearchPointer->ResourceCosts[0].Enabled;
 		Research_Used[1]->container[loop] = &ResearchPointer->ResourceCosts[1].Enabled;
 		Research_Used[2]->container[loop] = &ResearchPointer->ResourceCosts[2].Enabled;
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKB)
 		{
 			Research_Civ->container[loop] = &ResearchPointer->Civ;
 			Research_FullTechMode->container[loop] = &ResearchPointer->FullTechMode;
@@ -256,7 +256,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	Research_CheckBox_Used[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Enabled);
 	Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Enabled));
 	Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
-	if(GenieVersion >= genie::GV_AoK)
+	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
 		Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
