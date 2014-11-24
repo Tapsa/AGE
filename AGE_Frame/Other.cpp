@@ -1186,13 +1186,6 @@ void AGE_Frame::OnGameVersionChange()
 		Units_StandingGraphic[1]->Show(show);
 		Units_ComboBox_StandingGraphic[1]->Show(show);
 		Units_Holder_GarrisonRecoveryRate->Show(show);
-		Units_Holder_HeroMode->Show(show);
-		Units_Holder_GarrisonGraphic->Show(show);
-		if(!show || ShowUnknowns)
-		{
-			Units_Holder_Unknown12->Show(show);
-			Units_Holder_Unknown16B->Show(show);
-		}
 
 		if(show) // AoK ->
 		{
@@ -1250,8 +1243,12 @@ void AGE_Frame::OnGameVersionChange()
 
 		// AoK Beta ->
 		show = (GenieVersion >= genie::GV_AoKB) ? true : false;
+		Units_Holder_HeroMode->Show(show);
+		Units_Holder_GarrisonGraphic->Show(show);
 		if(!show || ShowUnknowns)
 		{
+			Units_Holder_Unknown16A->Show(show);
+			Units_Holder_Unknown16B->Show(show);
 			Graphics_Holder_Unknown3->Show(show);
 		}
 
@@ -1569,7 +1566,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			help.Append("Then click copy and go to the second window.\n");
 			help.Append("Then click paste or paste insert wherever you want the ships.\n");
 			help.Append("That's it.");
-			help.Append("\n\nFor Discovering Unknowns\n");
+			/*help.Append("\n\nFor Discovering Unknowns\n");
 			help.Append("\nBlue Boxes (16 bit integers)\n");
 			help.Append("If 256 does something, the box might need to be split\n");
 			help.Append("into two orange boxes (8 bit integers).\n");
@@ -1577,7 +1574,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			help.Append("If 256, 65536 or 16777216 does something,\nthe box might need to be split\n");
 			help.Append("into four orange boxes (8 bit integers)\n");
 			help.Append("or into two blue boxes (16 bit integers)\n");
-			help.Append("or into two orange boxes and one blue box.");
+			help.Append("or into two orange boxes and one blue box.");*/
 			wxMessageBox(help);
 		}
 		break;

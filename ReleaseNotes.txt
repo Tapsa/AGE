@@ -77,15 +77,15 @@ You can switch from [i]or[/i] finding to [i]and[/i] finding with check boxes. Me
 
 [b]Developers[/b]
 
-Keisari Tapsa (since 2.0b)
-Apre - genieutils (2.1a to 3.1)
-Estien Nifo (aka StSB77) (1.0a to 2.0a)
+Mikko T P aka Keisari Tapsa, since 2.0b
+Apre - genieutils, 2.1a to 3.1
+Estien Nifo aka StSB77, 1.0a to 2.0a
 
 [b]Credits[/b]
 
 Ykkrosh - GeniEd 1 source code
 Scenario_t_c - GeniEd 2 source code
-Alexandra (aka Taichi San), DarkRain654 - data file research
+Alexandra aka Taichi San, DarkRain654 - data file research
 DiGiT, JustTesting1234 - genie file structure
 Sarthos - important help
 BF_Tanks - some help
