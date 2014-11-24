@@ -1186,14 +1186,9 @@ void AGE_Frame::OnGameVersionChange()
 		Units_StandingGraphic[1]->Show(show);
 		Units_ComboBox_StandingGraphic[1]->Show(show);
 		Units_Holder_GarrisonRecoveryRate->Show(show);
-
-		if(show) // AoK ->
+		if(!show || ShowUnknowns)
 		{
-			Units_Enabled->SetBackgroundColour(wxColour(210, 230, 255));
-		}
-		else // <- AoK Alfa
-		{
-			Units_Enabled->SetBackgroundColour(wxColour(255, 235, 215));
+			Units_Holder_NewUnknown->Show(show);
 		}
 
 		// AoK Alfa ->
