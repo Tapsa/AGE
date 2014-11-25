@@ -304,7 +304,7 @@ string AGE_Frame::GetUnknownName(short Index)
 {
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		return "Unknown "+lexical_cast<string>(GenieFile->RandomMaps.MapHeaders[Index].ScriptNumber)+" ";
+		return "Map "+lexical_cast<string>(GenieFile->RandomMaps.MapHeaders[Index].ScriptNumber)+" ";
 	}
 	string Name = "";
 	switch(Index)
@@ -319,7 +319,7 @@ string AGE_Frame::GetUnknownName(short Index)
 		case 7: Name += "Hill Country ("; break;
 		case 8: Name += "Narrows ("; break;
 		case 9: Name += "Gigantic ("; break;
-		default: Name += "Unknown (";
+		default: Name += "Map (";
 	}
 	return Name += lexical_cast<string>(GenieFile->RandomMaps.MapHeaders[Index].ScriptNumber)+")";
 }
@@ -360,8 +360,7 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 		Unknowns_Pointer1->resize(PointerCount);
 		Unknowns_Pointer2->resize(PointerCount);
 		Unknowns_Pointer3->resize(PointerCount);
-		for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
-		Unknowns_Unknown2[loop]->resize(PointerCount);
+		Unknowns_Pointer4->resize(PointerCount);
 
 		genie::MapHeader * MapPointer1;
 		genie::Map * MapPointer2;
@@ -397,11 +396,8 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 			Unknowns_Pointer2->container[sel2] = &MapPointer2->MapTerrainPointer;
 			Unknowns_Pointer3->container[sel] = &MapPointer1->MapUnitPointer;
 			Unknowns_Pointer3->container[sel2] = &MapPointer2->MapUnitPointer;
-			for(short loop = 0; loop < genie::MapHeader::UNKNOWN2_SIZE; ++loop)
-			{
-				Unknowns_Unknown2[loop]->container[sel] = &MapPointer1->Unknown2[loop];
-				Unknowns_Unknown2[loop]->container[sel2] = &MapPointer2->Unknown2[loop];
-			}
+			Unknowns_Pointer4->container[sel] = &MapPointer1->MapUnknownPointer;
+			Unknowns_Pointer4->container[sel2] = &MapPointer2->MapUnknownPointer;
 		}
 
 		Unknowns_UnknownLevel->ChangeValue(lexical_cast<string>(MapPointer1->ScriptNumber));
@@ -417,12 +413,12 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 		Unknowns_Pointer1->ChangeValue(lexical_cast<string>(MapPointer1->BaseZonePointer));
 		Unknowns_Pointer2->ChangeValue(lexical_cast<string>(MapPointer1->MapTerrainPointer));
 		Unknowns_Pointer3->ChangeValue(lexical_cast<string>(MapPointer1->MapUnitPointer));
-		for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
-		Unknowns_Unknown2[loop]->ChangeValue(lexical_cast<string>(MapPointer1->Unknown2[loop]));
+		Unknowns_Pointer4->ChangeValue(lexical_cast<string>(MapPointer1->MapUnknownPointer));
 
 		ListRMSBaseZones();
 		ListRMSTerrains();
 		ListRMSUnits();
+		ListRMSUnknowns();
 	}
 	else
 	{
@@ -432,8 +428,7 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 		Unknowns_Pointer1->ChangeValue("0");
 		Unknowns_Pointer2->ChangeValue("0");
 		Unknowns_Pointer3->ChangeValue("0");
-		for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
-		Unknowns_Unknown2[loop]->ChangeValue("0");
+		Unknowns_Pointer4->ChangeValue("0");
 
 		RMSBaseZones_List->Clear();
 		DisableRMSBaseZones();
@@ -441,6 +436,8 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 		DisableRMSTerrains();
 		RMSUnit_List->Clear();
 		DisableRMSUnits();
+		RMSUnknown_List->Clear();
+		DisableRMSUnknowns();
 	}
 	Unknowns_UnknownLevel->Enable(selections);
 	for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
@@ -448,9 +445,7 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 	Unknowns_Pointer1->Enable(selections);
 	Unknowns_Pointer2->Enable(selections);
 	Unknowns_Pointer3->Enable(selections);
-	for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
-	Unknowns_Unknown2[loop]->Enable(selections);
-
+	Unknowns_Pointer4->Enable(selections);
 }
 
 void AGE_Frame::OnUnknownsAdd(wxCommandEvent &Event)
@@ -524,7 +519,7 @@ void AGE_Frame::OnRMSBaseZoneSearch(wxCommandEvent &Event)
 
 string AGE_Frame::GetRMSBaseZonesName(short Index)
 {
-	return "Unknown "+lexical_cast<string>(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[Index].Unknown1)+" ";
+	return "Base Zone "+lexical_cast<string>(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[Index].Unknown1)+" ";
 }
 
 void AGE_Frame::ListRMSBaseZones()
@@ -893,11 +888,6 @@ void AGE_Frame::OnRMSUnitSearch(wxCommandEvent &Event)
 	ListRMSUnits();
 }
 
-string AGE_Frame::GetRMSUnitName(short Unit)
-{
-	return "Unknown "+lexical_cast<string>(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[Unit].Unit)+" ";
-}
-
 void AGE_Frame::ListRMSUnits()
 {
 	searchText = RMSUnit_Search->GetValue().Lower();
@@ -1089,6 +1079,165 @@ void AGE_Frame::OnRMSUnitCopyToMaps(wxCommandEvent &Event)
 	for(short loop=1; loop < RandomMapIDs.size(); ++loop)
 	{
 		GenieFile->RandomMaps.Maps[RandomMapIDs[loop]].MapUnits = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits;
+	}
+}
+
+void AGE_Frame::OnRMSUnknownSearch(wxCommandEvent &Event)
+{
+	ListRMSUnknowns();
+}
+
+string AGE_Frame::GetRMSUnknownName(short Terrain)
+{
+	string Name = lexical_cast<string>(Terrain)+" ";
+	if(GenieFile->Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
+	if(!GenieFile->Terrains[Terrain].Name.empty())
+	{
+		return Name + GenieFile->Terrains[Terrain].Name;
+	}
+	return Name + "New Terrain";
+}
+
+void AGE_Frame::ListRMSUnknowns()
+{
+	searchText = RMSUnknown_Search->GetValue().Lower();
+	excludeText = RMSUnknown_Search_R->GetValue().Lower();
+
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
+
+	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size(); ++loop)
+	{
+		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetRMSUnknownName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[loop].Unknown2);
+		if(SearchMatches(Name.Lower()))
+		{
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[loop]);
+		}
+	}
+	Listing(RMSUnknown_List, filteredNames, dataPointers);
+
+	wxCommandEvent E;
+	OnRMSUnknownSelect(E);
+}
+
+void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &Event)
+{
+	auto selections = RMSUnknown_List->GetSelections(Items);
+	if(selections < 1)
+	{
+		DisableRMSUnknowns();
+		return;
+	}
+
+	Unknown4SIDs.resize(selections);
+	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
+	RMSUnknown_Unknown1[loop]->resize(selections);
+
+	genie::MapUnknown * UnknownPointer;
+	for(auto sel = selections; sel--> 0;)
+	{
+		UnknownPointer = (genie::MapUnknown*)RMSUnknown_List->GetClientData(Items.Item(sel));
+		Unknown4SIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[0]));
+
+		RMSUnknown_Unknown1[0]->container[sel] = &UnknownPointer->Unknown1;
+		RMSUnknown_Unknown1[1]->container[sel] = &UnknownPointer->Unknown2;
+		RMSUnknown_Unknown1[2]->container[sel] = &UnknownPointer->Unknown3;
+		RMSUnknown_Unknown1[3]->container[sel] = &UnknownPointer->Unknown4;
+		RMSUnknown_Unknown1[4]->container[sel] = &UnknownPointer->Unknown5;
+		RMSUnknown_Unknown1[5]->container[sel] = &UnknownPointer->Unknown6;
+	}
+
+	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
+	{
+		RMSUnknown_Unknown1[loop]->Enable(true);
+	}
+	RMSUnknown_Unknown1[0]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1));
+	RMSUnknown_Unknown1[1]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown2));
+	RMSUnknown_Unknown1[2]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown3));
+	RMSUnknown_Unknown1[3]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown4));
+	RMSUnknown_Unknown1[4]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown5));
+	RMSUnknown_Unknown1[5]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown6));
+}
+
+void AGE_Frame::DisableRMSUnknowns()
+{
+	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
+	{
+		RMSUnknown_Unknown1[loop]->Enable(false);
+		RMSUnknown_Unknown1[loop]->ChangeValue("0");
+	}
+}
+
+void AGE_Frame::OnRMSUnknownAdd(wxCommandEvent &Event)
+{
+	auto selections = Unknowns_List->GetSelections(Items);
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	AddToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnknownCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size();
+	ListRMSUnknowns();
+}
+
+void AGE_Frame::OnRMSUnknownInsert(wxCommandEvent &Event)
+{
+	auto selections = RMSUnknown_List->GetSelections(Items);
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	InsertToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs[0]);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnknownCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size();
+	ListRMSUnknowns();
+}
+
+void AGE_Frame::OnRMSUnknownDelete(wxCommandEvent &Event)
+{
+	auto selections = RMSUnknown_List->GetSelections(Items);
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	DeleteFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnknownCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size();
+	ListRMSUnknowns();
+}
+
+void AGE_Frame::OnRMSUnknownCopy(wxCommandEvent &Event)
+{
+	auto selections = RMSUnknown_List->GetSelections(Items);
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs, copies->MapUnknown);
+}
+
+void AGE_Frame::OnRMSUnknownPaste(wxCommandEvent &Event)
+{
+	auto selections = RMSUnknown_List->GetSelections(Items);
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs, copies->MapUnknown);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnknownCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size();
+	ListRMSUnknowns();
+}
+
+void AGE_Frame::OnRMSUnknownPasteInsert(wxCommandEvent &Event)
+{
+	auto selections = RMSUnknown_List->GetSelections(Items);
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteInsertToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs[0], copies->MapUnknown);
+	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnknownCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size();
+	ListRMSUnknowns();
+}
+
+void AGE_Frame::OnRMSUnknownCopyToMaps(wxCommandEvent &Event)
+{
+	for(short loop=1; loop < RandomMapIDs.size(); ++loop)
+	{
+		GenieFile->RandomMaps.Maps[RandomMapIDs[loop]].MapUnknowns = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns;
 	}
 }
 
@@ -1314,18 +1463,41 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_MaxDistanceToPlayers = new TextCtrl_Long(Unknown_Scroller);
 	RMSUnit_MaxDistanceToPlayers->SetToolTip("- Don't use 0 here for units that are own at start\n- 0 is OK for other units (gold/bushes/gazelle/etc)\n- You can use -1 as a wildcard for units that are own at start");
 
-	Unknowns_Grid_Unknown2 = new wxGridSizer(5, 5, 5);
-	for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
-	{
-		Unknowns_Holder_Unknown2[loop] = new wxBoxSizer(wxVERTICAL);
-		Unknowns_Unknown2[loop] = new TextCtrl_Long(Unknown_Scroller);
-	}
-	Unknowns_Text_Unknown2[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 10", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Unknowns_Text_Unknown2[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Space_Pointer4 = new wxBoxSizer(wxHORIZONTAL);
+	Unknowns_Holder_Pointer4 = new wxBoxSizer(wxVERTICAL);
+	Unknowns_Text_Pointer4 = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Unknown Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Unknowns_Pointer4 = new TextCtrl_Long(Unknown_Scroller);
 
-	Unknown_Holder_UnknownPointer->Add(Unknown_Text_UnknownPointer, 0, wxEXPAND);
-	Unknown_Holder_UnknownPointer->Add(Unknown_UnknownPointer, 1, wxEXPAND);
-	Unknown_Grid_UnknownPointer->Add(Unknown_Holder_UnknownPointer, 1, wxEXPAND);
+	RMSUnknown = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Unknowns Placed on the Map");
+	RMSUnknown_ListArea = new wxBoxSizer(wxVERTICAL);
+	RMSUnknown_DataArea = new wxBoxSizer(wxVERTICAL);
+	RMSUnknown_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
+	RMSUnknown_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
+	RMSUnknown_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	RMSUnknown_Buttons = new wxGridSizer(3, 0, 0);
+	RMSUnknown_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
+	RMSUnknown_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	RMSUnknown_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
+	RMSUnknown_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	RMSUnknown_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	RMSUnknown_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	RMSUnknown_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
+
+	RMSUnknown_Grid_Unknown1 = new wxGridSizer(3, 5, 5);
+	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
+	{
+		RMSUnknown_Holder_Unknown1[loop] = new wxBoxSizer(wxVERTICAL);
+		RMSUnknown_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
+	}
+	RMSUnknown_Text_Unknown1[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Proportion *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnknown_Unknown1[0]->SetToolTip("% of the total map area");
+	RMSUnknown_Text_Unknown1[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnknown_Text_Unknown1[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Number of Clumps *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnknown_Unknown1[2]->SetToolTip("Clusters in the map");
+	RMSUnknown_Text_Unknown1[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Spacing to Other Terrains *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnknown_Unknown1[3]->SetToolTip("Minimum distance to base terrain (or non-base terrain)");
+	RMSUnknown_Text_Unknown1[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	RMSUnknown_Text_Unknown1[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 	Unknowns_Buttons->Add(Unknowns_Add, 1, wxEXPAND);
 	Unknowns_Buttons->Add(Unknowns_Insert, 1, wxEXPAND);
@@ -1512,12 +1684,38 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit->Add(10, -1);
 	RMSUnit->Add(RMSUnit_DataArea, 3, wxEXPAND);
 
-	for(short loop = 0; loop < Unknowns_Unknown2.size(); ++loop)
+	Unknowns_Holder_Pointer4->Add(Unknowns_Text_Pointer4, 0, wxEXPAND);
+	Unknowns_Holder_Pointer4->Add(Unknowns_Pointer4, 1, wxEXPAND);
+	Unknowns_Space_Pointer4->Add(Unknowns_Holder_Pointer4, 1, wxEXPAND);
+	Unknowns_Space_Pointer4->AddStretchSpacer(3);
+
+	RMSUnknown_Buttons->Add(RMSUnknown_Add, 1, wxEXPAND);
+	RMSUnknown_Buttons->Add(RMSUnknown_Insert, 1, wxEXPAND);
+	RMSUnknown_Buttons->Add(RMSUnknown_Delete, 1, wxEXPAND);
+	RMSUnknown_Buttons->Add(RMSUnknown_Copy, 1, wxEXPAND);
+	RMSUnknown_Buttons->Add(RMSUnknown_Paste, 1, wxEXPAND);
+	RMSUnknown_Buttons->Add(RMSUnknown_PasteInsert, 1, wxEXPAND);
+
+	RMSUnknown_ListArea->Add(RMSUnknown_Search, 0, wxEXPAND);
+	RMSUnknown_ListArea->Add(RMSUnknown_Search_R, 0, wxEXPAND);
+	RMSUnknown_ListArea->Add(-1, 2);
+	RMSUnknown_ListArea->Add(RMSUnknown_List, 1, wxEXPAND);
+	RMSUnknown_ListArea->Add(-1, 2);
+	RMSUnknown_ListArea->Add(RMSUnknown_Buttons, 0, wxEXPAND);
+	RMSUnknown_ListArea->Add(-1, 2);
+	RMSUnknown_ListArea->Add(RMSUnknown_CopyToMaps, 0, wxEXPAND);
+
+	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
 	{
-		Unknowns_Holder_Unknown2[loop]->Add(Unknowns_Text_Unknown2[loop], 0, wxEXPAND);
-		Unknowns_Holder_Unknown2[loop]->Add(Unknowns_Unknown2[loop], 1, wxEXPAND);
-		Unknowns_Grid_Unknown2->Add(Unknowns_Holder_Unknown2[loop], 1, wxEXPAND);
+		RMSUnknown_Holder_Unknown1[loop]->Add(RMSUnknown_Text_Unknown1[loop], 0, wxEXPAND);
+		RMSUnknown_Holder_Unknown1[loop]->Add(RMSUnknown_Unknown1[loop], 1, wxEXPAND);
+		RMSUnknown_Grid_Unknown1->Add(RMSUnknown_Holder_Unknown1[loop], 1, wxEXPAND);
 	}
+	RMSUnknown_DataArea->Add(RMSUnknown_Grid_Unknown1, 0, wxEXPAND);
+
+	RMSUnknown->Add(RMSUnknown_ListArea, 1, wxEXPAND);
+	RMSUnknown->Add(10, -1);
+	RMSUnknown->Add(RMSUnknown_DataArea, 3, wxEXPAND);
 
 	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_UnknownLevel, 0, wxEXPAND);
 	Unknown_ScrollerWindowsSpace->Add(-1, 5);
@@ -1535,7 +1733,9 @@ void AGE_Frame::CreateUnknownControls()
 	Unknown_ScrollerWindowsSpace->Add(-1, 5);
 	Unknown_ScrollerWindowsSpace->Add(RMSUnit, 0, wxEXPAND);
 	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(Unknowns_Grid_Unknown2, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_Pointer4, 0, wxEXPAND);
+	Unknown_ScrollerWindowsSpace->Add(-1, 5);
+	Unknown_ScrollerWindowsSpace->Add(RMSUnknown, 0, wxEXPAND);
 
 	Unknown_ScrollerWindows->Add(Unknown_ScrollerWindowsSpace, 1, wxEXPAND);
 	Unknown_ScrollerWindows->Add(5, -1);
@@ -1598,10 +1798,21 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(RMSUnit_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitPaste));
 	Connect(RMSUnit_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitPasteInsert));
 	Connect(RMSUnit_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitCopyToMaps));
+	Connect(RMSUnknown_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSearch));
+	Connect(RMSUnknown_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSearch));
+	Connect(RMSUnknown_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSelect));
+	Connect(RMSUnknown_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownAdd));
+	Connect(RMSUnknown_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownInsert));
+	Connect(RMSUnknown_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownDelete));
+	Connect(RMSUnknown_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownCopy));
+	Connect(RMSUnknown_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownPaste));
+	Connect(RMSUnknown_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownPasteInsert));
+	Connect(RMSUnknown_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownCopyToMaps));
 
 	Unknowns_UnknownLevel->Connect(Unknowns_UnknownLevel->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 	RMSBaseZones_Unknown1->Connect(RMSBaseZones_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 	RMSTerrain_Unknown1[1]->Connect(RMSTerrain_Unknown1[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
+	RMSUnknown_Unknown1[1]->Connect(RMSUnknown_Unknown1[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 	RMSUnit_Unit->Connect(RMSUnit_Unit->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 }
 
@@ -1623,6 +1834,10 @@ void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
 	else if(Event.GetId() == RMSUnit_Unit->GetId())
 	{
 		ListRMSUnits();
+	}
+	else if(Event.GetId() == RMSUnknown_Unknown1[1]->GetId())
+	{
+		ListRMSUnknowns();
 	}
 	Event.Skip();
 }

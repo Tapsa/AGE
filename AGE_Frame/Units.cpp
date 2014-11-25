@@ -3279,7 +3279,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
 				if(copies->Dat.UnitCommandExists[civ] > 255) copy++; continue;
 			}
 			// If the target unit exists then choose from following.
-			if(copies->Dat.UnitCommandExists[civ] > 255 && copy < copies->Dat.UnitCommands.size())
+			if(copies->Dat.UnitCommandExists.size() > 0 && copies->Dat.UnitCommandExists[civ] > 255 && copy < copies->Dat.UnitCommands.size())
 			{
 				PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies->Dat.UnitCommands[copy]); copy++;
 			}
@@ -3316,7 +3316,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 				if(copies->Dat.UnitCommandExists[civ] > 255) copy++; continue;
 			}
 			// If the target unit exists then choose from following.
-			if(copies->Dat.UnitCommandExists[civ] > 255 && copy < copies->Dat.UnitCommands.size())
+			if(copies->Dat.UnitCommandExists.size() > 0 && copies->Dat.UnitCommandExists[civ] > 255 && copy < copies->Dat.UnitCommands.size())
 			{
 				PasteInsertToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies->Dat.UnitCommands[copy]); copy++;
 			}
