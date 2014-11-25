@@ -123,6 +123,7 @@ class Copies
 	vector<genie::BaseZone> BaseZone;
 	vector<genie::MapTerrain> MapTerrain;
 	vector<genie::MapUnit> MapUnit;
+	vector<genie::MapUnknown> MapUnknown;
 };
 
 #endif
