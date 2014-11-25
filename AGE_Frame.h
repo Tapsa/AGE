@@ -149,6 +149,19 @@ public:
 	void OnRMSUnitCopyToMaps(wxCommandEvent &Event);
 	string GetRMSUnitName(short);
 
+	void ListRMSUnknowns();
+	void DisableRMSUnknowns();
+	void OnRMSUnknownSearch(wxCommandEvent &Event);
+	void OnRMSUnknownSelect(wxCommandEvent &Event);
+	void OnRMSUnknownAdd(wxCommandEvent &Event);
+	void OnRMSUnknownInsert(wxCommandEvent &Event);
+	void OnRMSUnknownDelete(wxCommandEvent &Event);
+	void OnRMSUnknownCopy(wxCommandEvent &Event);
+	void OnRMSUnknownPaste(wxCommandEvent &Event);
+	void OnRMSUnknownPasteInsert(wxCommandEvent &Event);
+	void OnRMSUnknownCopyToMaps(wxCommandEvent &Event);
+	string GetRMSUnknownName(short);
+
 //	Research Events
 
 	void ListResearches(bool all = true);
@@ -625,6 +638,7 @@ public:
 	vector<short> UnknownFSIDs;
 	vector<short> UnknownSSIDs;
 	vector<short> UnknownTSIDs;
+	vector<short> Unknown4SIDs;
 	vector<short> ResearchIDs;
 	vector<short> TechIDs;
 	vector<short> EffectIDs;
@@ -908,10 +922,10 @@ public:
 	wxBoxSizer *Unknowns_Holder_Pointer3;
 	wxStaticText *Unknowns_Text_Pointer3;
 	TextCtrl_Long *Unknowns_Pointer3;
-	wxGridSizer *Unknowns_Grid_Unknown2;
-	array<wxBoxSizer*, 2> Unknowns_Holder_Unknown2;
-	array<wxStaticText*, 2> Unknowns_Text_Unknown2;
-	array<TextCtrl_Long*, 2> Unknowns_Unknown2;
+	wxBoxSizer *Unknowns_Space_Pointer4;
+	wxBoxSizer *Unknowns_Holder_Pointer4;
+	wxStaticText *Unknowns_Text_Pointer4;
+	TextCtrl_Long *Unknowns_Pointer4;
 
 	wxStaticBoxSizer *RMSBaseZones;
 	wxBoxSizer *RMSBaseZones_ListArea;
@@ -1040,6 +1054,26 @@ public:
 	wxBoxSizer *RMSUnit_Holder_MaxDistanceToPlayers;
 	wxStaticText *RMSUnit_Text_MaxDistanceToPlayers;
 	TextCtrl_Long *RMSUnit_MaxDistanceToPlayers;
+
+	wxStaticBoxSizer *RMSUnknown;
+	wxBoxSizer *RMSUnknown_ListArea;
+	wxBoxSizer *RMSUnknown_DataArea;
+	wxTextCtrl *RMSUnknown_Search;
+	wxTextCtrl *RMSUnknown_Search_R;
+	wxListBox *RMSUnknown_List;
+	wxGridSizer *RMSUnknown_Buttons;
+	wxButton *RMSUnknown_Add;
+	wxButton *RMSUnknown_Insert;
+	wxButton *RMSUnknown_Delete;
+	wxButton *RMSUnknown_Copy;
+	wxButton *RMSUnknown_Paste;
+	wxButton *RMSUnknown_PasteInsert;
+	wxButton *RMSUnknown_CopyToMaps;
+
+	wxGridSizer *RMSUnknown_Grid_Unknown1;
+	array<wxBoxSizer*, 6> RMSUnknown_Holder_Unknown1;
+	array<wxStaticText*, 6> RMSUnknown_Text_Unknown1;
+	array<TextCtrl_Long*, 6> RMSUnknown_Unknown1;
 
 //	Researchs user interface
 
