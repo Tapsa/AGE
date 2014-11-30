@@ -311,100 +311,100 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Added = false;
 
-		UnitCommands_ComboBox_Type->Clear();
-		UnitCommands_ComboBox_Type->Append("Unused Ability/Invalid Ability");	// Selection 0
-		UnitCommands_ComboBox_Type->Append("1: Move to");
-		UnitCommands_ComboBox_Type->Append("2: Follow");
-		UnitCommands_ComboBox_Type->Append("3: Garrison");
-		UnitCommands_ComboBox_Type->Append("4: Explore");
-		UnitCommands_ComboBox_Type->Append("5: Gather/Rebuild");
-		UnitCommands_ComboBox_Type->Append("6: Unknown Animal Ability");
-		UnitCommands_ComboBox_Type->Append("7: Attack");
-		UnitCommands_ComboBox_Type->Append("8: Shoot");
-		UnitCommands_ComboBox_Type->Append("10: Fly");
-		UnitCommands_ComboBox_Type->Append("11: Unknown Predator Ability");
-		UnitCommands_ComboBox_Type->Append("12: Unload (Boat-Like)");
-		UnitCommands_ComboBox_Type->Append("13: Guard");
-		//UnitCommands_ComboBox_Type->Append("14: Unknown Ability");
-		//UnitCommands_ComboBox_Type->Append("15: Unknown Ability");
-		//UnitCommands_ComboBox_Type->Append("17: Unknown Ability");
-		//UnitCommands_ComboBox_Type->Append("18: Unknown Ability");
-		//UnitCommands_ComboBox_Type->Append("19: Unknown Ability");
-		UnitCommands_ComboBox_Type->Append("20: Escape?");
-		UnitCommands_ComboBox_Type->Append("21: Make");
-		//UnitCommands_ComboBox_Type->Append("22: Unknown Ability");
-		//UnitCommands_ComboBox_Type->Append("24: Unknown Ability");
-		//UnitCommands_ComboBox_Type->Append("100: Unknown Ability");
-		UnitCommands_ComboBox_Type->Append("101: Build");
-		UnitCommands_ComboBox_Type->Append("102: Make an Object");
-		UnitCommands_ComboBox_Type->Append("103: Make a Tech");
-		UnitCommands_ComboBox_Type->Append("104: Convert");
-		UnitCommands_ComboBox_Type->Append("105: Heal");
-		UnitCommands_ComboBox_Type->Append("106: Repair");
-		UnitCommands_ComboBox_Type->Append("107: Get Auto-converted");
-		UnitCommands_ComboBox_Type->Append("108: Discovery");
-		UnitCommands_ComboBox_Type->Append("109: Unknown Ability");
-		UnitCommands_ComboBox_Type->Append("110: Hunt");
-		UnitCommands_ComboBox_Type->Append("111: Trade");
-		//UnitCommands_ComboBox_Type->Append("112: Unknown Ability");
-		//UnitCommands_ComboBox_Type->Append("113: Unknown Ability");
-		UnitCommands_ComboBox_Type->Append("120: Generate Wonder Victory");
-		UnitCommands_ComboBox_Type->Append("121: Deselect when Tasked");
-		UnitCommands_ComboBox_Type->Append("122: Loot");
-		UnitCommands_ComboBox_Type->Append("123: Housing");
-		UnitCommands_ComboBox_Type->Append("125: Unpack & Attack");
-		//UnitCommands_ComboBox_Type->Append("130: Unknown Ability");
-		UnitCommands_ComboBox_Type->Append("131: Unknown Ability");
-		UnitCommands_ComboBox_Type->Append("132: Pickup Unit");
-		//UnitCommands_ComboBox_Type->Append("133: Unknown Pickup Ability");
-		//UnitCommands_ComboBox_Type->Append("134: Unknown Pickup Ability");
-		UnitCommands_ComboBox_Type->Append("135: Kidnap Unit");
-		UnitCommands_ComboBox_Type->Append("136: Deposit Unit");	// Selection 33
-		UnitCommands_ComboBox_Type->Append("149: Shear");	// Selection 33
-		UnitCommands_ComboBox_Type->SetSelection(0);
+		UnitCommands_Type_ComboBox->Clear();
+		UnitCommands_Type_ComboBox->Append("Unused Ability/Invalid Ability");	// Selection 0
+		UnitCommands_Type_ComboBox->Append("1: Move to");
+		UnitCommands_Type_ComboBox->Append("2: Follow");
+		UnitCommands_Type_ComboBox->Append("3: Garrison");
+		UnitCommands_Type_ComboBox->Append("4: Explore");
+		UnitCommands_Type_ComboBox->Append("5: Gather/Rebuild");
+		UnitCommands_Type_ComboBox->Append("6: Unknown Animal Ability");
+		UnitCommands_Type_ComboBox->Append("7: Attack");
+		UnitCommands_Type_ComboBox->Append("8: Shoot");
+		UnitCommands_Type_ComboBox->Append("10: Fly");
+		UnitCommands_Type_ComboBox->Append("11: Unknown Predator Ability");
+		UnitCommands_Type_ComboBox->Append("12: Unload (Boat-Like)");
+		UnitCommands_Type_ComboBox->Append("13: Guard");
+		//UnitCommands_Type_ComboBox->Append("14: Unknown Ability");
+		//UnitCommands_Type_ComboBox->Append("15: Unknown Ability");
+		//UnitCommands_Type_ComboBox->Append("17: Unknown Ability");
+		//UnitCommands_Type_ComboBox->Append("18: Unknown Ability");
+		//UnitCommands_Type_ComboBox->Append("19: Unknown Ability");
+		UnitCommands_Type_ComboBox->Append("20: Escape?");
+		UnitCommands_Type_ComboBox->Append("21: Make");
+		//UnitCommands_Type_ComboBox->Append("22: Unknown Ability");
+		//UnitCommands_Type_ComboBox->Append("24: Unknown Ability");
+		//UnitCommands_Type_ComboBox->Append("100: Unknown Ability");
+		UnitCommands_Type_ComboBox->Append("101: Build");
+		UnitCommands_Type_ComboBox->Append("102: Make an Object");
+		UnitCommands_Type_ComboBox->Append("103: Make a Tech");
+		UnitCommands_Type_ComboBox->Append("104: Convert");
+		UnitCommands_Type_ComboBox->Append("105: Heal");
+		UnitCommands_Type_ComboBox->Append("106: Repair");
+		UnitCommands_Type_ComboBox->Append("107: Get Auto-converted");
+		UnitCommands_Type_ComboBox->Append("108: Discovery");
+		UnitCommands_Type_ComboBox->Append("109: Unknown Ability");
+		UnitCommands_Type_ComboBox->Append("110: Hunt");
+		UnitCommands_Type_ComboBox->Append("111: Trade");
+		//UnitCommands_Type_ComboBox->Append("112: Unknown Ability");
+		//UnitCommands_Type_ComboBox->Append("113: Unknown Ability");
+		UnitCommands_Type_ComboBox->Append("120: Generate Wonder Victory");
+		UnitCommands_Type_ComboBox->Append("121: Deselect when Tasked");
+		UnitCommands_Type_ComboBox->Append("122: Loot");
+		UnitCommands_Type_ComboBox->Append("123: Housing");
+		UnitCommands_Type_ComboBox->Append("125: Unpack & Attack");
+		//UnitCommands_Type_ComboBox->Append("130: Unknown Ability");
+		UnitCommands_Type_ComboBox->Append("131: Unknown Ability");
+		UnitCommands_Type_ComboBox->Append("132: Pickup Unit");
+		//UnitCommands_Type_ComboBox->Append("133: Unknown Pickup Ability");
+		//UnitCommands_Type_ComboBox->Append("134: Unknown Pickup Ability");
+		UnitCommands_Type_ComboBox->Append("135: Kidnap Unit");
+		UnitCommands_Type_ComboBox->Append("136: Deposit Unit");	// Selection 33
+		UnitCommands_Type_ComboBox->Append("149: Shear");	// Selection 33
+		UnitCommands_Type_ComboBox->SetSelection(0);
 
-		Units_ComboBox_GarrisonType->Clear();
-		Units_ComboBox_GarrisonType->Append("No Type/Invalid Type");	// Selection 0
+		Units_GarrisonType_ComboBox->Clear();
+		Units_GarrisonType_ComboBox->Append("No Type/Invalid Type");	// Selection 0
 		if(GenieVersion >= genie::GV_AoK)
 		{
-			Units_ComboBox_GarrisonType->Append("0 - None");	// Selection 1
-			Units_ComboBox_GarrisonType->Append("1 - Villager");
-			Units_ComboBox_GarrisonType->Append("2 - Infantry");
-			Units_ComboBox_GarrisonType->Append("3 - Villager + Infantry");
-			Units_ComboBox_GarrisonType->Append("4 - Cavalry");
-			Units_ComboBox_GarrisonType->Append("5 - Cavalry + Villager");
-			Units_ComboBox_GarrisonType->Append("6 - Cavalry + Infantry");
-			Units_ComboBox_GarrisonType->Append("7 - Cavalry + Infantry + Villager");
-			Units_ComboBox_GarrisonType->Append("8 - Monk");
-			Units_ComboBox_GarrisonType->Append("9 - Monk + Villager");
-			Units_ComboBox_GarrisonType->Append("10 - Monk + Infantry");
-			Units_ComboBox_GarrisonType->Append("11 - Monk + Infantry + Villager");
-			Units_ComboBox_GarrisonType->Append("12 - Monk + Cavalry");
-			Units_ComboBox_GarrisonType->Append("13 - Monk + Villager + Cavalry");
-			Units_ComboBox_GarrisonType->Append("14 - Monk + Cavalry + Infantry");
-			Units_ComboBox_GarrisonType->Append("15 - Monk + Villager + Infantry + Cavalry");
+			Units_GarrisonType_ComboBox->Append("0 - None");	// Selection 1
+			Units_GarrisonType_ComboBox->Append("1 - Villager");
+			Units_GarrisonType_ComboBox->Append("2 - Infantry");
+			Units_GarrisonType_ComboBox->Append("3 - Villager + Infantry");
+			Units_GarrisonType_ComboBox->Append("4 - Cavalry");
+			Units_GarrisonType_ComboBox->Append("5 - Cavalry + Villager");
+			Units_GarrisonType_ComboBox->Append("6 - Cavalry + Infantry");
+			Units_GarrisonType_ComboBox->Append("7 - Cavalry + Infantry + Villager");
+			Units_GarrisonType_ComboBox->Append("8 - Monk");
+			Units_GarrisonType_ComboBox->Append("9 - Monk + Villager");
+			Units_GarrisonType_ComboBox->Append("10 - Monk + Infantry");
+			Units_GarrisonType_ComboBox->Append("11 - Monk + Infantry + Villager");
+			Units_GarrisonType_ComboBox->Append("12 - Monk + Cavalry");
+			Units_GarrisonType_ComboBox->Append("13 - Monk + Villager + Cavalry");
+			Units_GarrisonType_ComboBox->Append("14 - Monk + Cavalry + Infantry");
+			Units_GarrisonType_ComboBox->Append("15 - Monk + Villager + Infantry + Cavalry");
 		}
 		else if(GenieVersion >= genie::GV_SWGB)
 		{
-			Units_ComboBox_GarrisonType->Append("0 - None");	// Selection 1
-			Units_ComboBox_GarrisonType->Append("1 - Worker");
-			Units_ComboBox_GarrisonType->Append("2 - Infantry");
-			Units_ComboBox_GarrisonType->Append("3 - Worker + Infantry");
-			Units_ComboBox_GarrisonType->Append("4 - Mounted");
-			Units_ComboBox_GarrisonType->Append("5 - Mounted + Worker");
-			Units_ComboBox_GarrisonType->Append("6 - Mounted + Infantry");
-			Units_ComboBox_GarrisonType->Append("7 - Mounted + Infantry + Worker");
-			Units_ComboBox_GarrisonType->Append("8 - Jedi");
-			Units_ComboBox_GarrisonType->Append("9 - Jedi + Worker");
-			Units_ComboBox_GarrisonType->Append("10 - Jedi + Infantry");
-			Units_ComboBox_GarrisonType->Append("11 - Jedi + Infantry + Worker");
-			Units_ComboBox_GarrisonType->Append("12 - Jedi + Mounted");
-			Units_ComboBox_GarrisonType->Append("13 - Jedi + Worker + Mounted");
-			Units_ComboBox_GarrisonType->Append("14 - Jedi + Mounted + Infantry");
-			Units_ComboBox_GarrisonType->Append("15 - Jedi + Worker + Infantry + Mounted");
-			Units_ComboBox_GarrisonType->Append("16 - Nerf/Bantha");
+			Units_GarrisonType_ComboBox->Append("0 - None");	// Selection 1
+			Units_GarrisonType_ComboBox->Append("1 - Worker");
+			Units_GarrisonType_ComboBox->Append("2 - Infantry");
+			Units_GarrisonType_ComboBox->Append("3 - Worker + Infantry");
+			Units_GarrisonType_ComboBox->Append("4 - Mounted");
+			Units_GarrisonType_ComboBox->Append("5 - Mounted + Worker");
+			Units_GarrisonType_ComboBox->Append("6 - Mounted + Infantry");
+			Units_GarrisonType_ComboBox->Append("7 - Mounted + Infantry + Worker");
+			Units_GarrisonType_ComboBox->Append("8 - Jedi");
+			Units_GarrisonType_ComboBox->Append("9 - Jedi + Worker");
+			Units_GarrisonType_ComboBox->Append("10 - Jedi + Infantry");
+			Units_GarrisonType_ComboBox->Append("11 - Jedi + Infantry + Worker");
+			Units_GarrisonType_ComboBox->Append("12 - Jedi + Mounted");
+			Units_GarrisonType_ComboBox->Append("13 - Jedi + Worker + Mounted");
+			Units_GarrisonType_ComboBox->Append("14 - Jedi + Mounted + Infantry");
+			Units_GarrisonType_ComboBox->Append("15 - Jedi + Worker + Infantry + Mounted");
+			Units_GarrisonType_ComboBox->Append("16 - Nerf/Bantha");
 		}
-		Units_ComboBox_GarrisonType->SetSelection(0);
+		Units_GarrisonType_ComboBox->SetSelection(0);
 
 		wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors;
 		// AoE & RoR
@@ -641,170 +641,170 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		for(short loop = 0; loop < 3; ++loop)
 		{
-			Units_ComboBox_Class[loop]->Clear();
-			Units_ComboBox_Class[loop]->Append("No Class/Invalid Class");	// Selection 0
+			Units_Class_ComboBox[loop]->Clear();
+			Units_Class_ComboBox[loop]->Append("No Class/Invalid Class");	// Selection 0
 			if(GenieVersion <= genie::GV_TC)
 			{
-				Units_ComboBox_Class[loop]->Append("0 - Archery");	// Selection 1
-				Units_ComboBox_Class[loop]->Append("1 - Artifact/Ruins");
-				Units_ComboBox_Class[loop]->Append("2 - Trade Boat");
-				Units_ComboBox_Class[loop]->Append("3 - Building");
-				Units_ComboBox_Class[loop]->Append("4 - Civilian");
-				Units_ComboBox_Class[loop]->Append("5 - Ocean Fish");
-				Units_ComboBox_Class[loop]->Append("6 - Infantry");
-				Units_ComboBox_Class[loop]->Append("7 - Berry Bush");
-				Units_ComboBox_Class[loop]->Append("8 - Stone Mine");
-				Units_ComboBox_Class[loop]->Append("9 - Prey Animal");
-				Units_ComboBox_Class[loop]->Append("10 - Predator Animal");
-				Units_ComboBox_Class[loop]->Append("11 - Other/Dead/Projectile");
-				Units_ComboBox_Class[loop]->Append("12 - Cavalry");
-				Units_ComboBox_Class[loop]->Append("13 - Siege Weapon");
-				Units_ComboBox_Class[loop]->Append("14 - Terrain");
-				Units_ComboBox_Class[loop]->Append("15 - Tree");
-				Units_ComboBox_Class[loop]->Append("16 - Tree Stump");
-				Units_ComboBox_Class[loop]->Append("17 - Unused");
-				Units_ComboBox_Class[loop]->Append("18 - Monastery");
-				Units_ComboBox_Class[loop]->Append("19 - Trade Cart");
-				Units_ComboBox_Class[loop]->Append("20 - Transport Boat");
-				Units_ComboBox_Class[loop]->Append("21 - Fishing Boat");
-				Units_ComboBox_Class[loop]->Append("22 - Warship");
+				Units_Class_ComboBox[loop]->Append("0 - Archery");	// Selection 1
+				Units_Class_ComboBox[loop]->Append("1 - Artifact/Ruins");
+				Units_Class_ComboBox[loop]->Append("2 - Trade Boat");
+				Units_Class_ComboBox[loop]->Append("3 - Building");
+				Units_Class_ComboBox[loop]->Append("4 - Civilian");
+				Units_Class_ComboBox[loop]->Append("5 - Ocean Fish");
+				Units_Class_ComboBox[loop]->Append("6 - Infantry");
+				Units_Class_ComboBox[loop]->Append("7 - Berry Bush");
+				Units_Class_ComboBox[loop]->Append("8 - Stone Mine");
+				Units_Class_ComboBox[loop]->Append("9 - Prey Animal");
+				Units_Class_ComboBox[loop]->Append("10 - Predator Animal");
+				Units_Class_ComboBox[loop]->Append("11 - Other/Dead/Projectile");
+				Units_Class_ComboBox[loop]->Append("12 - Cavalry");
+				Units_Class_ComboBox[loop]->Append("13 - Siege Weapon");
+				Units_Class_ComboBox[loop]->Append("14 - Terrain");
+				Units_Class_ComboBox[loop]->Append("15 - Tree");
+				Units_Class_ComboBox[loop]->Append("16 - Tree Stump");
+				Units_Class_ComboBox[loop]->Append("17 - Unused");
+				Units_Class_ComboBox[loop]->Append("18 - Monastery");
+				Units_Class_ComboBox[loop]->Append("19 - Trade Cart");
+				Units_Class_ComboBox[loop]->Append("20 - Transport Boat");
+				Units_Class_ComboBox[loop]->Append("21 - Fishing Boat");
+				Units_Class_ComboBox[loop]->Append("22 - Warship");
 				if(GenieVersion <= genie::GV_RoR)
-					Units_ComboBox_Class[loop]->Append("23 - Chariot Archer");
+					Units_Class_ComboBox[loop]->Append("23 - Chariot Archer");
 				else
-					Units_ComboBox_Class[loop]->Append("23 - Cavalry Cannon");
-				Units_ComboBox_Class[loop]->Append("24 - War Elephant");
-				Units_ComboBox_Class[loop]->Append("25 - Hero");
-				Units_ComboBox_Class[loop]->Append("26 - Elephant Archer");
-				Units_ComboBox_Class[loop]->Append("27 - Wall");
-				Units_ComboBox_Class[loop]->Append("28 - Phalanx");
-				Units_ComboBox_Class[loop]->Append("29 - Domesticated Animal");
-				Units_ComboBox_Class[loop]->Append("30 - Flag");
-				Units_ComboBox_Class[loop]->Append("31 - Unused");
-				Units_ComboBox_Class[loop]->Append("32 - Gold Mine");
-				Units_ComboBox_Class[loop]->Append("33 - Shore Fish");
-				Units_ComboBox_Class[loop]->Append("34 - Cliff");
+					Units_Class_ComboBox[loop]->Append("23 - Cavalry Cannon");
+				Units_Class_ComboBox[loop]->Append("24 - War Elephant");
+				Units_Class_ComboBox[loop]->Append("25 - Hero");
+				Units_Class_ComboBox[loop]->Append("26 - Elephant Archer");
+				Units_Class_ComboBox[loop]->Append("27 - Wall");
+				Units_Class_ComboBox[loop]->Append("28 - Phalanx");
+				Units_Class_ComboBox[loop]->Append("29 - Domesticated Animal");
+				Units_Class_ComboBox[loop]->Append("30 - Flag");
+				Units_Class_ComboBox[loop]->Append("31 - Unused");
+				Units_Class_ComboBox[loop]->Append("32 - Gold Mine");
+				Units_Class_ComboBox[loop]->Append("33 - Shore Fish");
+				Units_Class_ComboBox[loop]->Append("34 - Cliff");
 				if(GenieVersion <= genie::GV_RoR)
-					Units_ComboBox_Class[loop]->Append("35 - Chariot");
+					Units_Class_ComboBox[loop]->Append("35 - Chariot");
 				else
-					Units_ComboBox_Class[loop]->Append("35 - Petard");
-				Units_ComboBox_Class[loop]->Append("36 - Cavalry Archer");
-				Units_ComboBox_Class[loop]->Append("37 - Dolphin/Smoke");
-				Units_ComboBox_Class[loop]->Append("38 - Bird");
+					Units_Class_ComboBox[loop]->Append("35 - Petard");
+				Units_Class_ComboBox[loop]->Append("36 - Cavalry Archer");
+				Units_Class_ComboBox[loop]->Append("37 - Dolphin/Smoke");
+				Units_Class_ComboBox[loop]->Append("38 - Bird");
 				if(GenieVersion <= genie::GV_RoR)
-					Units_ComboBox_Class[loop]->Append("39 - Slinger");
+					Units_Class_ComboBox[loop]->Append("39 - Slinger");
 				else
-					Units_ComboBox_Class[loop]->Append("39 - Gate");
-				Units_ComboBox_Class[loop]->Append("40 - Pile");
-				Units_ComboBox_Class[loop]->Append("41 - Pile of Resource");
-				Units_ComboBox_Class[loop]->Append("42 - Relic");
-				Units_ComboBox_Class[loop]->Append("43 - Monk with Relic");
-				Units_ComboBox_Class[loop]->Append("44 - Archery Cannon");
-				Units_ComboBox_Class[loop]->Append("45 - Two Handed Swordsman");
-				Units_ComboBox_Class[loop]->Append("46 - Pikeman");
-				Units_ComboBox_Class[loop]->Append("47 - Scout Cavalry");
-				Units_ComboBox_Class[loop]->Append("48 - Ore Mine");
-				Units_ComboBox_Class[loop]->Append("49 - Farm");
-				Units_ComboBox_Class[loop]->Append("50 - Spearman");
-				Units_ComboBox_Class[loop]->Append("51 - Packed Trebuchet");
-				Units_ComboBox_Class[loop]->Append("52 - Tower");
-				Units_ComboBox_Class[loop]->Append("53 - Boarding Boat");
-				Units_ComboBox_Class[loop]->Append("54 - Unpacked Trebuchet");
-				Units_ComboBox_Class[loop]->Append("55 - Scorpion");
-				Units_ComboBox_Class[loop]->Append("56 - Raider");
-				Units_ComboBox_Class[loop]->Append("57 - Cavalry Raider");
-				Units_ComboBox_Class[loop]->Append("58 - Livestock");
-				Units_ComboBox_Class[loop]->Append("59 - King");
-				Units_ComboBox_Class[loop]->Append("60 - Unused");
-				Units_ComboBox_Class[loop]->Append("61 - Horse");
+					Units_Class_ComboBox[loop]->Append("39 - Gate");
+				Units_Class_ComboBox[loop]->Append("40 - Pile");
+				Units_Class_ComboBox[loop]->Append("41 - Pile of Resource");
+				Units_Class_ComboBox[loop]->Append("42 - Relic");
+				Units_Class_ComboBox[loop]->Append("43 - Monk with Relic");
+				Units_Class_ComboBox[loop]->Append("44 - Archery Cannon");
+				Units_Class_ComboBox[loop]->Append("45 - Two Handed Swordsman");
+				Units_Class_ComboBox[loop]->Append("46 - Pikeman");
+				Units_Class_ComboBox[loop]->Append("47 - Scout Cavalry");
+				Units_Class_ComboBox[loop]->Append("48 - Ore Mine");
+				Units_Class_ComboBox[loop]->Append("49 - Farm");
+				Units_Class_ComboBox[loop]->Append("50 - Spearman");
+				Units_Class_ComboBox[loop]->Append("51 - Packed Trebuchet");
+				Units_Class_ComboBox[loop]->Append("52 - Tower");
+				Units_Class_ComboBox[loop]->Append("53 - Boarding Boat");
+				Units_Class_ComboBox[loop]->Append("54 - Unpacked Trebuchet");
+				Units_Class_ComboBox[loop]->Append("55 - Scorpion");
+				Units_Class_ComboBox[loop]->Append("56 - Raider");
+				Units_Class_ComboBox[loop]->Append("57 - Cavalry Raider");
+				Units_Class_ComboBox[loop]->Append("58 - Livestock");
+				Units_Class_ComboBox[loop]->Append("59 - King");
+				Units_Class_ComboBox[loop]->Append("60 - Unused");
+				Units_Class_ComboBox[loop]->Append("61 - Horse");
 			}
 			else
 			{
-				Units_ComboBox_Class[loop]->Append("0 - Unused");	// Selection 1
-				Units_ComboBox_Class[loop]->Append("1 - Nerf/Bantha");
-				Units_ComboBox_Class[loop]->Append("2 - Fambaa");
-				Units_ComboBox_Class[loop]->Append("3 - Unused");
-				Units_ComboBox_Class[loop]->Append("4 - Wild Animal");
-				Units_ComboBox_Class[loop]->Append("5 - Monster/Trouble");
-				Units_ComboBox_Class[loop]->Append("6 - Wall");
-				Units_ComboBox_Class[loop]->Append("7 - Farm");
-				Units_ComboBox_Class[loop]->Append("8 - Gate");
-				Units_ComboBox_Class[loop]->Append("9 - Fortress/A-A Turret");
-				Units_ComboBox_Class[loop]->Append("10 - Turret");
-				Units_ComboBox_Class[loop]->Append("11 - Cruiser");
-				Units_ComboBox_Class[loop]->Append("12 - Unused");
-				Units_ComboBox_Class[loop]->Append("13 - Destroyer");
-				Units_ComboBox_Class[loop]->Append("14 - Utility Trawler");
-				Units_ComboBox_Class[loop]->Append("15 - Frigate 1");
-				Units_ComboBox_Class[loop]->Append("16 - A-A Destroyer 1");
-				Units_ComboBox_Class[loop]->Append("17 - Transport Ship");
-				Units_ComboBox_Class[loop]->Append("18 - Building");
-				Units_ComboBox_Class[loop]->Append("19 - Doppleganger");
-				Units_ComboBox_Class[loop]->Append("20 - Other/Dead/Projectile");
-				Units_ComboBox_Class[loop]->Append("21 - Command Base");
-				Units_ComboBox_Class[loop]->Append("22 - Cliff");
-				Units_ComboBox_Class[loop]->Append("23 - Fish");
-				Units_ComboBox_Class[loop]->Append("24 - Unused");
-				Units_ComboBox_Class[loop]->Append("25 - Shore Fish");
-				Units_ComboBox_Class[loop]->Append("26 - Game Engine Stuff");
-				Units_ComboBox_Class[loop]->Append("27 - Fruit Bush");
-				Units_ComboBox_Class[loop]->Append("28 - Holocron");
-				Units_ComboBox_Class[loop]->Append("29 - Nova");
-				Units_ComboBox_Class[loop]->Append("30 - Ore");
-				Units_ComboBox_Class[loop]->Append("31 - Tree/Carbon");
-				Units_ComboBox_Class[loop]->Append("32 - Artillery");
-				Units_ComboBox_Class[loop]->Append("33 - A-A Mobile");
-				Units_ComboBox_Class[loop]->Append("34 - Undeployed Cannon");
-				Units_ComboBox_Class[loop]->Append("35 - Pummel");
-				Units_ComboBox_Class[loop]->Append("36 - Cannon");
-				Units_ComboBox_Class[loop]->Append("37 - Unused");
-				Units_ComboBox_Class[loop]->Append("38 - Unused");
-				Units_ComboBox_Class[loop]->Append("39 - Frigate 2");
-				Units_ComboBox_Class[loop]->Append("40 - A-A Destroyer 2");
-				Units_ComboBox_Class[loop]->Append("41 - Unused");
-				Units_ComboBox_Class[loop]->Append("42 - Bridge/Eye Candy");
-				Units_ComboBox_Class[loop]->Append("43 - Bomber");
-				Units_ComboBox_Class[loop]->Append("44 - Bounty Hunter");
-				Units_ComboBox_Class[loop]->Append("45 - Cargo Trader");
-				Units_ComboBox_Class[loop]->Append("46 - Mixed 1");
-				Units_ComboBox_Class[loop]->Append("47 - Scout");
-				Units_ComboBox_Class[loop]->Append("48 - Fighter");
-				Units_ComboBox_Class[loop]->Append("49 - Grenade Trooper");
-				Units_ComboBox_Class[loop]->Append("50 - Jedi");
-				Units_ComboBox_Class[loop]->Append("51 - Jedi with Holocron");
-				Units_ComboBox_Class[loop]->Append("52 - Trooper");
-				Units_ComboBox_Class[loop]->Append("53 - War Machine");
-				Units_ComboBox_Class[loop]->Append("54 - Medic");
-				Units_ComboBox_Class[loop]->Append("55 - A-A Trooper");
-				Units_ComboBox_Class[loop]->Append("56 - Mounted Trooper");
-				Units_ComboBox_Class[loop]->Append("57 - Fambaa Shield Generator");
-				Units_ComboBox_Class[loop]->Append("58 - Workers");
-				Units_ComboBox_Class[loop]->Append("59 - Air Transport");
-				Units_ComboBox_Class[loop]->Append("60 - Horse-like Animal");
-				Units_ComboBox_Class[loop]->Append("61 - Power Droid");
-				Units_ComboBox_Class[loop]->Append("62 - Air Cruiser");
-				Units_ComboBox_Class[loop]->Append("63 - Geonosian Warrior");
-				Units_ComboBox_Class[loop]->Append("64 - Jedi Starfighter");
+				Units_Class_ComboBox[loop]->Append("0 - Unused");	// Selection 1
+				Units_Class_ComboBox[loop]->Append("1 - Nerf/Bantha");
+				Units_Class_ComboBox[loop]->Append("2 - Fambaa");
+				Units_Class_ComboBox[loop]->Append("3 - Unused");
+				Units_Class_ComboBox[loop]->Append("4 - Wild Animal");
+				Units_Class_ComboBox[loop]->Append("5 - Monster/Trouble");
+				Units_Class_ComboBox[loop]->Append("6 - Wall");
+				Units_Class_ComboBox[loop]->Append("7 - Farm");
+				Units_Class_ComboBox[loop]->Append("8 - Gate");
+				Units_Class_ComboBox[loop]->Append("9 - Fortress/A-A Turret");
+				Units_Class_ComboBox[loop]->Append("10 - Turret");
+				Units_Class_ComboBox[loop]->Append("11 - Cruiser");
+				Units_Class_ComboBox[loop]->Append("12 - Unused");
+				Units_Class_ComboBox[loop]->Append("13 - Destroyer");
+				Units_Class_ComboBox[loop]->Append("14 - Utility Trawler");
+				Units_Class_ComboBox[loop]->Append("15 - Frigate 1");
+				Units_Class_ComboBox[loop]->Append("16 - A-A Destroyer 1");
+				Units_Class_ComboBox[loop]->Append("17 - Transport Ship");
+				Units_Class_ComboBox[loop]->Append("18 - Building");
+				Units_Class_ComboBox[loop]->Append("19 - Doppleganger");
+				Units_Class_ComboBox[loop]->Append("20 - Other/Dead/Projectile");
+				Units_Class_ComboBox[loop]->Append("21 - Command Base");
+				Units_Class_ComboBox[loop]->Append("22 - Cliff");
+				Units_Class_ComboBox[loop]->Append("23 - Fish");
+				Units_Class_ComboBox[loop]->Append("24 - Unused");
+				Units_Class_ComboBox[loop]->Append("25 - Shore Fish");
+				Units_Class_ComboBox[loop]->Append("26 - Game Engine Stuff");
+				Units_Class_ComboBox[loop]->Append("27 - Fruit Bush");
+				Units_Class_ComboBox[loop]->Append("28 - Holocron");
+				Units_Class_ComboBox[loop]->Append("29 - Nova");
+				Units_Class_ComboBox[loop]->Append("30 - Ore");
+				Units_Class_ComboBox[loop]->Append("31 - Tree/Carbon");
+				Units_Class_ComboBox[loop]->Append("32 - Artillery");
+				Units_Class_ComboBox[loop]->Append("33 - A-A Mobile");
+				Units_Class_ComboBox[loop]->Append("34 - Undeployed Cannon");
+				Units_Class_ComboBox[loop]->Append("35 - Pummel");
+				Units_Class_ComboBox[loop]->Append("36 - Cannon");
+				Units_Class_ComboBox[loop]->Append("37 - Unused");
+				Units_Class_ComboBox[loop]->Append("38 - Unused");
+				Units_Class_ComboBox[loop]->Append("39 - Frigate 2");
+				Units_Class_ComboBox[loop]->Append("40 - A-A Destroyer 2");
+				Units_Class_ComboBox[loop]->Append("41 - Unused");
+				Units_Class_ComboBox[loop]->Append("42 - Bridge/Eye Candy");
+				Units_Class_ComboBox[loop]->Append("43 - Bomber");
+				Units_Class_ComboBox[loop]->Append("44 - Bounty Hunter");
+				Units_Class_ComboBox[loop]->Append("45 - Cargo Trader");
+				Units_Class_ComboBox[loop]->Append("46 - Mixed 1");
+				Units_Class_ComboBox[loop]->Append("47 - Scout");
+				Units_Class_ComboBox[loop]->Append("48 - Fighter");
+				Units_Class_ComboBox[loop]->Append("49 - Grenade Trooper");
+				Units_Class_ComboBox[loop]->Append("50 - Jedi");
+				Units_Class_ComboBox[loop]->Append("51 - Jedi with Holocron");
+				Units_Class_ComboBox[loop]->Append("52 - Trooper");
+				Units_Class_ComboBox[loop]->Append("53 - War Machine");
+				Units_Class_ComboBox[loop]->Append("54 - Medic");
+				Units_Class_ComboBox[loop]->Append("55 - A-A Trooper");
+				Units_Class_ComboBox[loop]->Append("56 - Mounted Trooper");
+				Units_Class_ComboBox[loop]->Append("57 - Fambaa Shield Generator");
+				Units_Class_ComboBox[loop]->Append("58 - Workers");
+				Units_Class_ComboBox[loop]->Append("59 - Air Transport");
+				Units_Class_ComboBox[loop]->Append("60 - Horse-like Animal");
+				Units_Class_ComboBox[loop]->Append("61 - Power Droid");
+				Units_Class_ComboBox[loop]->Append("62 - Air Cruiser");
+				Units_Class_ComboBox[loop]->Append("63 - Geonosian Warrior");
+				Units_Class_ComboBox[loop]->Append("64 - Jedi Starfighter");
 			}
-			Units_ComboBox_Class[loop]->SetSelection(0);
+			Units_Class_ComboBox[loop]->SetSelection(0);
 
-			Attacks_ComboBox_Class[loop]->Clear();
-			Attacks_ComboBox_Class[loop]->Append("Unused Class/No Class");	// Selection 0
+			Attacks_Class_ComboBox[loop]->Clear();
+			Attacks_Class_ComboBox[loop]->Append("Unused Class/No Class");	// Selection 0
 			if(GenieVersion <= genie::GV_RoR) // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
 				for(short loop2 = 0; loop2 < AoE1Count; ++loop2)
-				Attacks_ComboBox_Class[loop]->Append(AoE1Armors[loop2]);
+				Attacks_Class_ComboBox[loop]->Append(AoE1Armors[loop2]);
 			}
 			else if(GenieVersion < genie::GV_SWGB) // AoK and TC
 			{
 				for(short loop2 = 0; loop2 < AoE2Count; ++loop2)
-				Attacks_ComboBox_Class[loop]->Append(AoE2Armors[loop2]);
+				Attacks_Class_ComboBox[loop]->Append(AoE2Armors[loop2]);
 			}
 			else // SWGB and CC
 			{
 				for(short loop2 = 0; loop2 < SWGBCount; ++loop2)
-				Attacks_ComboBox_Class[loop]->Append(SWGBArmors[loop2]);
+				Attacks_Class_ComboBox[loop]->Append(SWGBArmors[loop2]);
 			}
-			Attacks_ComboBox_Class[loop]->SetSelection(0);
+			Attacks_Class_ComboBox[loop]->SetSelection(0);
 		}
 
 		for(short loop = 0; loop < 2; ++loop)
@@ -942,133 +942,133 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		ListGeneral();
 		ListRandomMaps();
 
-		Effects_ComboBox_AttributesC->Clear();
-		Effects_ComboBox_AttributesC->Append("No Attribute/Invalid Attribute");		// Selection 0
-		Effects_ComboBox_AttributesC->Append("0 - Hit Points");		// Selection 1
-		Effects_ComboBox_AttributesC->Append("1 - Line of Sight");
-		Effects_ComboBox_AttributesC->Append("2 - Garrison Capacity");
-		Effects_ComboBox_AttributesC->Append("3 - Unit Size Radius 1");
-		Effects_ComboBox_AttributesC->Append("4 - Unit Size Radius 2");
-		Effects_ComboBox_AttributesC->Append("5 - Movement Speed");
-		Effects_ComboBox_AttributesC->Append("6 - Garrison Recovery Rate");
-		Effects_ComboBox_AttributesC->Append("7 - Unknown?");
-		Effects_ComboBox_AttributesC->Append("8 - Armor");
-		Effects_ComboBox_AttributesC->Append("9 - Attack");
-		Effects_ComboBox_AttributesC->Append("10 - Attack Reloading Time");
-		Effects_ComboBox_AttributesC->Append("11 - Accuracy Percent");
-		Effects_ComboBox_AttributesC->Append("12 - Range");
-		Effects_ComboBox_AttributesC->Append("13 - Working Rate");
-		Effects_ComboBox_AttributesC->Append("14 - Resource Carriage");
-		Effects_ComboBox_AttributesC->Append("15 - Default Armor");
-		Effects_ComboBox_AttributesC->Append("16 - New Projectile Unit");
-		Effects_ComboBox_AttributesC->Append("17 - Upgrade Graphic");
-		Effects_ComboBox_AttributesC->Append("18 - Unknown21");
-		Effects_ComboBox_AttributesC->Append("19 - Projectile Intelligent Accuracy");
-		Effects_ComboBox_AttributesC->Append("20 - Minimum Range");
+		Effects_AttributesC_ComboBox->Clear();
+		Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");		// Selection 0
+		Effects_AttributesC_ComboBox->Append("0 - Hit Points");		// Selection 1
+		Effects_AttributesC_ComboBox->Append("1 - Line of Sight");
+		Effects_AttributesC_ComboBox->Append("2 - Garrison Capacity");
+		Effects_AttributesC_ComboBox->Append("3 - Unit Size Radius 1");
+		Effects_AttributesC_ComboBox->Append("4 - Unit Size Radius 2");
+		Effects_AttributesC_ComboBox->Append("5 - Movement Speed");
+		Effects_AttributesC_ComboBox->Append("6 - Garrison Recovery Rate");
+		Effects_AttributesC_ComboBox->Append("7 - Unknown?");
+		Effects_AttributesC_ComboBox->Append("8 - Armor");
+		Effects_AttributesC_ComboBox->Append("9 - Attack");
+		Effects_AttributesC_ComboBox->Append("10 - Attack Reloading Time");
+		Effects_AttributesC_ComboBox->Append("11 - Accuracy Percent");
+		Effects_AttributesC_ComboBox->Append("12 - Range");
+		Effects_AttributesC_ComboBox->Append("13 - Working Rate");
+		Effects_AttributesC_ComboBox->Append("14 - Resource Carriage");
+		Effects_AttributesC_ComboBox->Append("15 - Default Armor");
+		Effects_AttributesC_ComboBox->Append("16 - New Projectile Unit");
+		Effects_AttributesC_ComboBox->Append("17 - Upgrade Graphic");
+		Effects_AttributesC_ComboBox->Append("18 - Unknown21");
+		Effects_AttributesC_ComboBox->Append("19 - Projectile Intelligent Accuracy");
+		Effects_AttributesC_ComboBox->Append("20 - Minimum Range");
 		if(GenieVersion <= genie::GV_RoR)
-		Effects_ComboBox_AttributesC->Append("21 - Unknown?");
+		Effects_AttributesC_ComboBox->Append("21 - Unknown?");
 		else
-		Effects_ComboBox_AttributesC->Append("21 - Population Support");
-		Effects_ComboBox_AttributesC->Append("22 - Blast Radius");
-		Effects_ComboBox_AttributesC->Append("23 - Search Radius");
-		Effects_ComboBox_AttributesC->Append("24 - None");
-		Effects_ComboBox_AttributesC->Append("25 - None");
-		Effects_ComboBox_AttributesC->Append("26 - None");
-		Effects_ComboBox_AttributesC->Append("27 - None");
-		Effects_ComboBox_AttributesC->Append("28 - None");
-		Effects_ComboBox_AttributesC->Append("29 - None");
-		Effects_ComboBox_AttributesC->Append("30 - None");
-		Effects_ComboBox_AttributesC->Append("31 - None");
-		Effects_ComboBox_AttributesC->Append("32 - None");
-		Effects_ComboBox_AttributesC->Append("33 - None");
-		Effects_ComboBox_AttributesC->Append("34 - None");
-		Effects_ComboBox_AttributesC->Append("35 - None");
-		Effects_ComboBox_AttributesC->Append("36 - None");
-		Effects_ComboBox_AttributesC->Append("37 - None");
-		Effects_ComboBox_AttributesC->Append("38 - None");
-		Effects_ComboBox_AttributesC->Append("39 - None");
-		Effects_ComboBox_AttributesC->Append("40 - None");
-		Effects_ComboBox_AttributesC->Append("41 - None");
-		Effects_ComboBox_AttributesC->Append("42 - None");
-		Effects_ComboBox_AttributesC->Append("43 - None");
-		Effects_ComboBox_AttributesC->Append("44 - None");
-		Effects_ComboBox_AttributesC->Append("45 - None");
-		Effects_ComboBox_AttributesC->Append("46 - None");
-		Effects_ComboBox_AttributesC->Append("47 - None");
-		Effects_ComboBox_AttributesC->Append("48 - None");
-		Effects_ComboBox_AttributesC->Append("49 - None");
-		Effects_ComboBox_AttributesC->Append("50 - None");
-		Effects_ComboBox_AttributesC->Append("51 - None");
-		Effects_ComboBox_AttributesC->Append("52 - None");
-		Effects_ComboBox_AttributesC->Append("53 - None");
-		Effects_ComboBox_AttributesC->Append("54 - None");
-		Effects_ComboBox_AttributesC->Append("55 - None");
-		Effects_ComboBox_AttributesC->Append("56 - None");
-		Effects_ComboBox_AttributesC->Append("57 - None");
-		Effects_ComboBox_AttributesC->Append("58 - None");
-		Effects_ComboBox_AttributesC->Append("59 - None");
-		Effects_ComboBox_AttributesC->Append("60 - None");
-		Effects_ComboBox_AttributesC->Append("61 - None");
-		Effects_ComboBox_AttributesC->Append("62 - None");
-		Effects_ComboBox_AttributesC->Append("63 - None");
-		Effects_ComboBox_AttributesC->Append("64 - None");
-		Effects_ComboBox_AttributesC->Append("65 - None");
-		Effects_ComboBox_AttributesC->Append("66 - None");
-		Effects_ComboBox_AttributesC->Append("67 - None");
-		Effects_ComboBox_AttributesC->Append("68 - None");
-		Effects_ComboBox_AttributesC->Append("69 - None");
-		Effects_ComboBox_AttributesC->Append("70 - None");
-		Effects_ComboBox_AttributesC->Append("71 - None");
-		Effects_ComboBox_AttributesC->Append("72 - None");
-		Effects_ComboBox_AttributesC->Append("73 - None");
-		Effects_ComboBox_AttributesC->Append("74 - None");
-		Effects_ComboBox_AttributesC->Append("75 - None");
-		Effects_ComboBox_AttributesC->Append("76 - None");
-		Effects_ComboBox_AttributesC->Append("77 - None");
-		Effects_ComboBox_AttributesC->Append("78 - None");
-		Effects_ComboBox_AttributesC->Append("79 - None");
-		Effects_ComboBox_AttributesC->Append("80 - Boarding Energy Reload Speed");
-		Effects_ComboBox_AttributesC->Append("81 - None");
-		Effects_ComboBox_AttributesC->Append("82 - None");
-		Effects_ComboBox_AttributesC->Append("83 - None");
-		Effects_ComboBox_AttributesC->Append("84 - None");
-		Effects_ComboBox_AttributesC->Append("85 - None");
-		Effects_ComboBox_AttributesC->Append("86 - None");
-		Effects_ComboBox_AttributesC->Append("87 - None");
-		Effects_ComboBox_AttributesC->Append("88 - None");
-		Effects_ComboBox_AttributesC->Append("89 - None");
-		Effects_ComboBox_AttributesC->Append("90 - None");
-		Effects_ComboBox_AttributesC->Append("91 - None");
-		Effects_ComboBox_AttributesC->Append("92 - None");
-		Effects_ComboBox_AttributesC->Append("93 - None");
-		Effects_ComboBox_AttributesC->Append("94 - None");
-		Effects_ComboBox_AttributesC->Append("95 - None");
-		Effects_ComboBox_AttributesC->Append("96 - None");
-		Effects_ComboBox_AttributesC->Append("97 - None");
-		Effects_ComboBox_AttributesC->Append("98 - None");
-		Effects_ComboBox_AttributesC->Append("99 - None");
-		Effects_ComboBox_AttributesC->Append("100 - Resource Cost");
+		Effects_AttributesC_ComboBox->Append("21 - Population Support");
+		Effects_AttributesC_ComboBox->Append("22 - Blast Radius");
+		Effects_AttributesC_ComboBox->Append("23 - Search Radius");
+		Effects_AttributesC_ComboBox->Append("24 - None");
+		Effects_AttributesC_ComboBox->Append("25 - None");
+		Effects_AttributesC_ComboBox->Append("26 - None");
+		Effects_AttributesC_ComboBox->Append("27 - None");
+		Effects_AttributesC_ComboBox->Append("28 - None");
+		Effects_AttributesC_ComboBox->Append("29 - None");
+		Effects_AttributesC_ComboBox->Append("30 - None");
+		Effects_AttributesC_ComboBox->Append("31 - None");
+		Effects_AttributesC_ComboBox->Append("32 - None");
+		Effects_AttributesC_ComboBox->Append("33 - None");
+		Effects_AttributesC_ComboBox->Append("34 - None");
+		Effects_AttributesC_ComboBox->Append("35 - None");
+		Effects_AttributesC_ComboBox->Append("36 - None");
+		Effects_AttributesC_ComboBox->Append("37 - None");
+		Effects_AttributesC_ComboBox->Append("38 - None");
+		Effects_AttributesC_ComboBox->Append("39 - None");
+		Effects_AttributesC_ComboBox->Append("40 - None");
+		Effects_AttributesC_ComboBox->Append("41 - None");
+		Effects_AttributesC_ComboBox->Append("42 - None");
+		Effects_AttributesC_ComboBox->Append("43 - None");
+		Effects_AttributesC_ComboBox->Append("44 - None");
+		Effects_AttributesC_ComboBox->Append("45 - None");
+		Effects_AttributesC_ComboBox->Append("46 - None");
+		Effects_AttributesC_ComboBox->Append("47 - None");
+		Effects_AttributesC_ComboBox->Append("48 - None");
+		Effects_AttributesC_ComboBox->Append("49 - None");
+		Effects_AttributesC_ComboBox->Append("50 - None");
+		Effects_AttributesC_ComboBox->Append("51 - None");
+		Effects_AttributesC_ComboBox->Append("52 - None");
+		Effects_AttributesC_ComboBox->Append("53 - None");
+		Effects_AttributesC_ComboBox->Append("54 - None");
+		Effects_AttributesC_ComboBox->Append("55 - None");
+		Effects_AttributesC_ComboBox->Append("56 - None");
+		Effects_AttributesC_ComboBox->Append("57 - None");
+		Effects_AttributesC_ComboBox->Append("58 - None");
+		Effects_AttributesC_ComboBox->Append("59 - None");
+		Effects_AttributesC_ComboBox->Append("60 - None");
+		Effects_AttributesC_ComboBox->Append("61 - None");
+		Effects_AttributesC_ComboBox->Append("62 - None");
+		Effects_AttributesC_ComboBox->Append("63 - None");
+		Effects_AttributesC_ComboBox->Append("64 - None");
+		Effects_AttributesC_ComboBox->Append("65 - None");
+		Effects_AttributesC_ComboBox->Append("66 - None");
+		Effects_AttributesC_ComboBox->Append("67 - None");
+		Effects_AttributesC_ComboBox->Append("68 - None");
+		Effects_AttributesC_ComboBox->Append("69 - None");
+		Effects_AttributesC_ComboBox->Append("70 - None");
+		Effects_AttributesC_ComboBox->Append("71 - None");
+		Effects_AttributesC_ComboBox->Append("72 - None");
+		Effects_AttributesC_ComboBox->Append("73 - None");
+		Effects_AttributesC_ComboBox->Append("74 - None");
+		Effects_AttributesC_ComboBox->Append("75 - None");
+		Effects_AttributesC_ComboBox->Append("76 - None");
+		Effects_AttributesC_ComboBox->Append("77 - None");
+		Effects_AttributesC_ComboBox->Append("78 - None");
+		Effects_AttributesC_ComboBox->Append("79 - None");
+		Effects_AttributesC_ComboBox->Append("80 - Boarding Energy Reload Speed");
+		Effects_AttributesC_ComboBox->Append("81 - None");
+		Effects_AttributesC_ComboBox->Append("82 - None");
+		Effects_AttributesC_ComboBox->Append("83 - None");
+		Effects_AttributesC_ComboBox->Append("84 - None");
+		Effects_AttributesC_ComboBox->Append("85 - None");
+		Effects_AttributesC_ComboBox->Append("86 - None");
+		Effects_AttributesC_ComboBox->Append("87 - None");
+		Effects_AttributesC_ComboBox->Append("88 - None");
+		Effects_AttributesC_ComboBox->Append("89 - None");
+		Effects_AttributesC_ComboBox->Append("90 - None");
+		Effects_AttributesC_ComboBox->Append("91 - None");
+		Effects_AttributesC_ComboBox->Append("92 - None");
+		Effects_AttributesC_ComboBox->Append("93 - None");
+		Effects_AttributesC_ComboBox->Append("94 - None");
+		Effects_AttributesC_ComboBox->Append("95 - None");
+		Effects_AttributesC_ComboBox->Append("96 - None");
+		Effects_AttributesC_ComboBox->Append("97 - None");
+		Effects_AttributesC_ComboBox->Append("98 - None");
+		Effects_AttributesC_ComboBox->Append("99 - None");
+		Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
 		if(GenieVersion <= genie::GV_RoR)
-		Effects_ComboBox_AttributesC->Append("101 - Population Support");
+		Effects_AttributesC_ComboBox->Append("101 - Population Support");
 		else
-		Effects_ComboBox_AttributesC->Append("101 - Creation Time");
-		Effects_ComboBox_AttributesC->Append("102 - Number of Garrison Arrows");
-		Effects_ComboBox_AttributesC->Append("103 - Food Cost");
+		Effects_AttributesC_ComboBox->Append("101 - Creation Time");
+		Effects_AttributesC_ComboBox->Append("102 - Number of Garrison Arrows");
+		Effects_AttributesC_ComboBox->Append("103 - Food Cost");
 		if(GenieVersion <= genie::GV_TC)
 		{
-			Effects_ComboBox_AttributesC->Append("104 - Wood Cost");
-			Effects_ComboBox_AttributesC->Append("105 - Gold Cost");
-			Effects_ComboBox_AttributesC->Append("106 - Stone Cost");
+			Effects_AttributesC_ComboBox->Append("104 - Wood Cost");
+			Effects_AttributesC_ComboBox->Append("105 - Gold Cost");
+			Effects_AttributesC_ComboBox->Append("106 - Stone Cost");
 		}
 		else
 		{
-			Effects_ComboBox_AttributesC->Append("104 - Carbon Cost");
-			Effects_ComboBox_AttributesC->Append("105 - Nova Cost");
-			Effects_ComboBox_AttributesC->Append("106 - Ore Cost");
+			Effects_AttributesC_ComboBox->Append("104 - Carbon Cost");
+			Effects_AttributesC_ComboBox->Append("105 - Nova Cost");
+			Effects_AttributesC_ComboBox->Append("106 - Ore Cost");
 		}
-		Effects_ComboBox_AttributesC->Append("107 - Max Dup. Missiles");
-		Effects_ComboBox_AttributesC->Append("108 - Healing Rate");	// Selection 109
-		Effects_ComboBox_AttributesC->SetSelection(0);
+		Effects_AttributesC_ComboBox->Append("107 - Max Dup. Missiles");
+		Effects_AttributesC_ComboBox->Append("108 - Healing Rate");	// Selection 109
+		Effects_AttributesC_ComboBox->SetSelection(0);
 
 		Units_GraphicSet->Clear();
 		if(GenieVersion <= genie::GV_RoR)
@@ -1157,14 +1157,14 @@ void AGE_Frame::OnGameVersionChange()
 		for(short loop = 32;loop < TERRAINBORDERSMAX; ++loop)
 		{
 			Terrains_TerrainBorderID[loop]->Show(show);
-			Terrains_ComboBox_TerrainBorderID[loop]->Show(show);
+			Terrains_TerrainBorderID_ComboBox[loop]->Show(show);
 		}
-		Units_Holder_SnowGraphicID->Show(show);
-		Units_Holder_Attribute->Show(show);
-		Units_Holder_Civ->Show(show);
+		Units_SnowGraphicID_Holder->Show(show);
+		Units_Attribute_Holder->Show(show);
+		Units_Civ_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			Units_Holder_Unknown9->Show(show);
+			Units_Unknown9_Holder->Show(show);
 		}
 
 		if(show) // TC ->
@@ -1178,17 +1178,17 @@ void AGE_Frame::OnGameVersionChange()
 
 		// AoK ->
 		show = (GenieVersion >= genie::GV_AoK) ? true : false;
-		Research_Holder_Civ->Show(show);
-		Research_Holder_FullTechMode->Show(show);
-		Civs_Holder_TeamBonus->Show(show);
-		Terrains_Holder_BlendPriority->Show(show);
-		Terrains_Holder_BlendType->Show(show);
+		Research_Civ_Holder->Show(show);
+		Research_FullTechMode_Holder->Show(show);
+		Civs_TeamBonus_Holder->Show(show);
+		Terrains_BlendPriority_Holder->Show(show);
+		Terrains_BlendType_Holder->Show(show);
 		Units_StandingGraphic[1]->Show(show);
-		Units_ComboBox_StandingGraphic[1]->Show(show);
-		Units_Holder_GarrisonRecoveryRate->Show(show);
+		Units_StandingGraphic_ComboBox[1]->Show(show);
+		Units_GarrisonRecoveryRate_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			Units_Holder_NewUnknown->Show(show);
+			Units_NewUnknown_Holder->Show(show);
 		}
 
 		// AoK Alfa ->
@@ -1196,59 +1196,59 @@ void AGE_Frame::OnGameVersionChange()
 		for(short loop = 4;loop < 6; ++loop)
 		{
 			Research_RequiredTechs[loop]->Show(show);
-			Research_ComboBox_RequiredTechs[loop]->Show(show);
+			Research_RequiredTechs_ComboBox[loop]->Show(show);
 		}
 		Units_TrainSound[1]->Show(show);
-		Units_ComboBox_TrainSound[1]->Show(show);
-		Units_Holder_SelectionMask->Show(show);
-		Units_Holder_SelectionShapeType->Show(show);
-		Units_Holder_SelectionShape->Show(show);
-		Units_Holder_ID3->Show(show);
-		Units_Holder_MissileGraphicDelay->Show(show);
-		Units_Holder_AttackMissileDuplicationAmount1->Show(show);
-		Units_Holder_AttackMissileDuplicationAmount2->Show(show);
-		Units_Holder_AttackMissileDuplicationSpawning->Show(show);
-		Units_Holder_AttackMissileDuplicationUnit->Show(show);
-		Units_Holder_AttackMissileDuplicationGraphic->Show(show);
-		Units_Holder_AnnexUnit1->Show(show);
-		Units_Holder_AnnexUnitMisplacement1->Show(show);
-		Units_Holder_HeadUnit->Show(show);
-		Units_Holder_TransformUnit->Show(show);
-		Units_Holder_GarrisonType->Show(show);
-		Units_Holder_GarrisonHealRate->Show(show);
-		Units_Holder_AlfaThingy->Show(show);
-		TerRestrict_Holder_Unknown1->Show(show);
-		TerRestrict_Holder_Graphics->Show(show);
-		TerRestrict_Holder_Amount->Show(show);
-		SoundItems_Holder_Civ->Show(show);
-		Colors_Holder_Palette->Show(show);
-		Colors_Holder_MinimapColor->Show(show);
+		Units_TrainSound_ComboBox[1]->Show(show);
+		Units_SelectionMask_Holder->Show(show);
+		Units_SelectionShapeType_Holder->Show(show);
+		Units_SelectionShape_Holder->Show(show);
+		Units_ID3_Holder->Show(show);
+		Units_MissileGraphicDelay_Holder->Show(show);
+		Units_AttackMissileDuplicationAmount1_Holder->Show(show);
+		Units_AttackMissileDuplicationAmount2_Holder->Show(show);
+		Units_AttackMissileDuplicationSpawning_Holder->Show(show);
+		Units_AttackMissileDuplicationUnit_Holder->Show(show);
+		Units_AttackMissileDuplicationGraphic_Holder->Show(show);
+		Units_AnnexUnit1_Holder->Show(show);
+		Units_AnnexUnitMisplacement1_Holder->Show(show);
+		Units_HeadUnit_Holder->Show(show);
+		Units_TransformUnit_Holder->Show(show);
+		Units_GarrisonType_Holder->Show(show);
+		Units_GarrisonHealRate_Holder->Show(show);
+		Units_AlfaThingy_Holder->Show(show);
+		TerRestrict_Unknown1_Holder->Show(show);
+		TerRestrict_Graphics_Holder->Show(show);
+		TerRestrict_Amount_Holder->Show(show);
+		SoundItems_Civ_Holder->Show(show);
+		Colors_Palette_Holder->Show(show);
+		Colors_MinimapColor_Holder->Show(show);
 		TechTrees_Main->Show(show);
 		TabBar_Main->SetPageText(3, show ? "Tech. Trees" : "-");
 		if(!show || ShowUnknowns)
 		{
-			Units_Holder_Type70plusUnknownArea->Show(show);
-			Units_Holder_Unknown33->Show(show);
-			Units_Holder_Unknown34->Show(show);
-			Units_Holder_Unknown35->Show(show);
-			Units_Holder_Unknown36->Show(show);
-			SoundItems_Holder_Unknown->Show(show);
-			Colors_Holder_UnknownArea->Show(show);
+			Units_Type70plusUnknownArea_Holder->Show(show);
+			Units_Unknown33_Holder->Show(show);
+			Units_Unknown34_Holder->Show(show);
+			Units_Unknown35_Holder->Show(show);
+			Units_Unknown36_Holder->Show(show);
+			SoundItems_Unknown_Holder->Show(show);
+			Colors_UnknownArea_Holder->Show(show);
 		}
 
 		// AoK Beta ->
 		show = (GenieVersion >= genie::GV_AoKB) ? true : false;
-		Units_Holder_HeroMode->Show(show);
-		Units_Holder_GarrisonGraphic->Show(show);
+		Units_HeroMode_Holder->Show(show);
+		Units_GarrisonGraphic_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			Units_Holder_Unknown16A->Show(show);
-			Units_Holder_Unknown16B->Show(show);
-			Graphics_Holder_Unknown3->Show(show);
+			Units_Unknown16A_Holder->Show(show);
+			Units_Unknown16B_Holder->Show(show);
+			Graphics_Unknown3_Holder->Show(show);
 		}
 
 		// AoE & RoR
-		Colors_Holder_Name->Show(!show);
+		Colors_Name_Holder->Show(!show);
 
 		if(show) // AoK Alfa ->
 		{
@@ -1261,25 +1261,25 @@ void AGE_Frame::OnGameVersionChange()
 
 		// SWGB ->
 		show = (GenieVersion >= genie::GV_SWGB) ? true : false;
-		Research_Holder_Name[1]->Show(show);
-		Civs_Holder_Name[1]->Show(show);
-		Units_Holder_Name2->Show(show);
-		Units_Holder_Unitline->Show(show);
-		Units_Holder_MinTechLevel->Show(show);
+		Research_Name_Holder[1]->Show(show);
+		Civs_Name_Holder[1]->Show(show);
+		Units_Name2_Holder->Show(show);
+		Units_Unitline_Holder->Show(show);
+		Units_MinTechLevel_Holder->Show(show);
 		UnitLines_Main->Show(show);
 		TabBar_Main->SetPageText(6, show ? "Unitlines" : "-");
 		if(!show || ShowUnknowns)
 		{
-			Civs_Holder_SUnknown1->Show(show);
-			Terrains_Holder_SUnknown1->Show(show);
-			General_Holder_Variables1->Show(show);
-			TechTrees_Ages_Grid_Zeroes2->Show(show);
-			TechTrees_Buildings_Grid_Unknown2a2->Show(show);
-			TechTrees_Buildings_Grid_Unknown2b2->Show(show);
-			TechTrees_Units_Grid_Unknown2a2->Show(show);
-			TechTrees_Units_Grid_Unknown2b2->Show(show);
-			TechTrees_Researches_Grid_Unknown2a2->Show(show);
-			TechTrees_Researches_Grid_Unknown2b2->Show(show);
+			Civs_SUnknown1_Holder->Show(show);
+			Terrains_SUnknown1_Holder->Show(show);
+			General_Variables1_Holder->Show(show);
+			TechTrees_Ages_Zeroes2_Grid->Show(show);
+			TechTrees_Buildings_Unknown2a2_Grid->Show(show);
+			TechTrees_Buildings_Unknown2b2_Grid->Show(show);
+			TechTrees_Units_Unknown2a2_Grid->Show(show);
+			TechTrees_Units_Unknown2b2_Grid->Show(show);
+			TechTrees_Researches_Unknown2a2_Grid->Show(show);
+			TechTrees_Researches_Unknown2b2_Grid->Show(show);
 		}
 
 		if(show) // SWGB ->
@@ -1465,23 +1465,23 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		{
 			ShowUnknowns = Event.IsChecked();
 
-			Units_Holder_UnknownArea->Show(ShowUnknowns);
+			Units_UnknownArea_Holder->Show(ShowUnknowns);
 			Units_CommandHolder_Grid3->Show(ShowUnknowns);
-			TechTrees_Ages_Holder_Zeroes->Show(ShowUnknowns);
-			TechTrees_Buildings_Holder_Unknown2a->Show(ShowUnknowns);
-			TechTrees_Buildings_Holder_Unknown2b->Show(ShowUnknowns);
-			TechTrees_Units_Holder_Unknown2a->Show(ShowUnknowns);
-			TechTrees_Units_Holder_Unknown2b->Show(ShowUnknowns);
-			TechTrees_Researches_Holder_Unknown2a->Show(ShowUnknowns);
-			TechTrees_Researches_Holder_Unknown2b->Show(ShowUnknowns);
-			Graphics_Grid_3->Show(ShowUnknowns);
-			Graphics_Grid_Deltas_Data2->Show(ShowUnknowns);
-			Terrains_Holder_UnknownArea->Show(ShowUnknowns);
+			TechTrees_Ages_Zeroes_Holder->Show(ShowUnknowns);
+			TechTrees_Buildings_Unknown2a_Holder->Show(ShowUnknowns);
+			TechTrees_Buildings_Unknown2b_Holder->Show(ShowUnknowns);
+			TechTrees_Units_Unknown2a_Holder->Show(ShowUnknowns);
+			TechTrees_Units_Unknown2b_Holder->Show(ShowUnknowns);
+			TechTrees_Researches_Unknown2a_Holder->Show(ShowUnknowns);
+			TechTrees_Researches_Unknown2b_Holder->Show(ShowUnknowns);
+			Graphics_3_Grid->Show(ShowUnknowns);
+			Graphics_Deltas_Grid_Data2->Show(ShowUnknowns);
+			Terrains_UnknownArea_Holder->Show(ShowUnknowns);
 			Borders_Unknonws->Show(ShowUnknowns);
-			Sounds_Holder_Unknown1->Show(ShowUnknowns);
-			Sounds_Holder_Unknown2->Show(ShowUnknowns);
-			SoundItems_Holder_Unknown->Show(ShowUnknowns);
-			Colors_Holder_UnknownArea->Show(ShowUnknowns);
+			Sounds_Unknown1_Holder->Show(ShowUnknowns);
+			Sounds_Unknown2_Holder->Show(ShowUnknowns);
+			SoundItems_Unknown_Holder->Show(ShowUnknowns);
+			Colors_UnknownArea_Holder->Show(ShowUnknowns);
 			General_TopRow->Show(ShowUnknowns);
 			General_ScrollerWindowsSpace->Show(ShowUnknowns);
 
