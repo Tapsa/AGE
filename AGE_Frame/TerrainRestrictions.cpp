@@ -193,23 +193,23 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 	}
 
 	TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]));
-	TerRestrict_CheckBox_Accessible->SetValue((bool)TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
+	TerRestrict_Accessible_CheckBox->SetValue((bool)TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
 
 	if(GenieVersion <= genie::GV_RoR) return; // Above AoE and RoR
 	TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable));
 	switch(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable)
 	{
 		case 0:
-			TerRestrict_CheckBox_Unknown1->SetValue(true);
+			TerRestrict_Unknown1_CheckBox->SetValue(true);
 			break;
 		default:
-			TerRestrict_CheckBox_Unknown1->SetValue(false);
+			TerRestrict_Unknown1_CheckBox->SetValue(false);
 			break;
 	}
 	TerRestrict_Graphics[0]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first));
 	TerRestrict_Graphics[1]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second));
-	TerRestrict_ComboBox_Graphics[0]->SetSelection(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first + 1);
-	TerRestrict_ComboBox_Graphics[1]->SetSelection(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second + 1);
+	TerRestrict_Graphics_ComboBox[0]->SetSelection(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first + 1);
+	TerRestrict_Graphics_ComboBox[1]->SetSelection(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second + 1);
 	TerRestrict_Amount->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount));
 }
 
@@ -361,26 +361,26 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains_Buttons = new wxGridSizer(2, 0, 0);
 	TerRestrict_Terrains_Copy = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	TerRestrict_Terrains_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	TerRestrict_Holder_Accessible = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Holder_Accessible2 = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_Text_Accessible = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessible", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Accessible_Holder = new wxBoxSizer(wxVERTICAL);
+	TerRestrict_Accessible2_Holder = new wxBoxSizer(wxHORIZONTAL);
+	TerRestrict_Accessible_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessible", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Accessible = new TextCtrl_Float(Tab_TerrainRestrictions);
-	TerRestrict_CheckBox_Accessible = new CheckBox_2State(Tab_TerrainRestrictions, "Terrain Is Accessible", TerRestrict_Accessible);
-	TerRestrict_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Holder_Unknown1Sub = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_Text_Unknown1 = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Can Be Built On", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Accessible_CheckBox = new CheckBox_2State(Tab_TerrainRestrictions, "Terrain Is Accessible", TerRestrict_Accessible);
+	TerRestrict_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
+	TerRestrict_Unknown1Sub_Holder = new wxBoxSizer(wxHORIZONTAL);
+	TerRestrict_Unknown1_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Can Be Built On", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Unknown1 = new TextCtrl_Long(Tab_TerrainRestrictions);
-	TerRestrict_CheckBox_Unknown1 = new CheckBox_ZeroIsYes(Tab_TerrainRestrictions, "No", TerRestrict_Unknown1);
-	TerRestrict_Holder_Graphics = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Text_Graphics = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Unknown1_CheckBox = new CheckBox_ZeroIsYes(Tab_TerrainRestrictions, "No", TerRestrict_Unknown1);
+	TerRestrict_Graphics_Holder = new wxBoxSizer(wxVERTICAL);
+	TerRestrict_Graphics_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Graphics[0] = new TextCtrl_Long(Tab_TerrainRestrictions);
-	TerRestrict_ComboBox_Graphics[0] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[0]);
-	GraphicComboBoxList.push_back(TerRestrict_ComboBox_Graphics[0]);
+	TerRestrict_Graphics_ComboBox[0] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[0]);
+	GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[0]);
 	TerRestrict_Graphics[1] = new TextCtrl_Long(Tab_TerrainRestrictions);
-	TerRestrict_ComboBox_Graphics[1] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[1]);
-	GraphicComboBoxList.push_back(TerRestrict_ComboBox_Graphics[1]);
-	TerRestrict_Holder_Amount = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Text_Amount = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Graphics_ComboBox[1] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[1]);
+	GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[1]);
+	TerRestrict_Amount_Holder = new wxBoxSizer(wxVERTICAL);
+	TerRestrict_Amount_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Amount = new TextCtrl_Long(Tab_TerrainRestrictions);
 
 	TerRestrict_TerRestrict_Buttons->Add(TerRestrict_Add, 1, wxEXPAND);
@@ -413,33 +413,33 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Buttons, 0, wxEXPAND);
 	TerRestrict_Terrains->Add(-1, 10);
 
-	TerRestrict_Holder_Accessible2->Add(TerRestrict_Accessible, 1, wxEXPAND);
-	TerRestrict_Holder_Accessible2->Add(2, -1);
-	TerRestrict_Holder_Accessible2->Add(TerRestrict_CheckBox_Accessible, 2, wxEXPAND);
-	TerRestrict_Holder_Accessible->Add(TerRestrict_Text_Accessible, 0, wxEXPAND);
-	TerRestrict_Holder_Accessible->Add(TerRestrict_Holder_Accessible2, 1, wxEXPAND);
+	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible, 1, wxEXPAND);
+	TerRestrict_Accessible2_Holder->Add(2, -1);
+	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible_CheckBox, 2, wxEXPAND);
+	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible_Text, 0, wxEXPAND);
+	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible2_Holder, 1, wxEXPAND);
 
-	TerRestrict_Holder_Unknown1Sub->Add(TerRestrict_Unknown1, 1, wxEXPAND);
-	TerRestrict_Holder_Unknown1Sub->Add(2, -1);
-	TerRestrict_Holder_Unknown1Sub->Add(TerRestrict_CheckBox_Unknown1, 1, wxEXPAND);
-	TerRestrict_Holder_Unknown1->Add(TerRestrict_Text_Unknown1, 0, wxEXPAND);
-	TerRestrict_Holder_Unknown1->Add(TerRestrict_Holder_Unknown1Sub, 1, wxEXPAND);
-	TerRestrict_Holder_Graphics->Add(TerRestrict_Text_Graphics, 0, wxEXPAND);
-	TerRestrict_Holder_Graphics->Add(TerRestrict_Graphics[0], 1, wxEXPAND);
-	TerRestrict_Holder_Graphics->Add(TerRestrict_ComboBox_Graphics[0], 1, wxEXPAND);
-	TerRestrict_Holder_Graphics->Add(TerRestrict_Graphics[1], 1, wxEXPAND);
-	TerRestrict_Holder_Graphics->Add(TerRestrict_ComboBox_Graphics[1], 1, wxEXPAND);
-	TerRestrict_Holder_Amount->Add(TerRestrict_Text_Amount, 0, wxEXPAND);
-	TerRestrict_Holder_Amount->Add(TerRestrict_Amount, 1, wxEXPAND);
+	TerRestrict_Unknown1Sub_Holder->Add(TerRestrict_Unknown1, 1, wxEXPAND);
+	TerRestrict_Unknown1Sub_Holder->Add(2, -1);
+	TerRestrict_Unknown1Sub_Holder->Add(TerRestrict_Unknown1_CheckBox, 1, wxEXPAND);
+	TerRestrict_Unknown1_Holder->Add(TerRestrict_Unknown1_Text, 0, wxEXPAND);
+	TerRestrict_Unknown1_Holder->Add(TerRestrict_Unknown1Sub_Holder, 1, wxEXPAND);
+	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_Text, 0, wxEXPAND);
+	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics[0], 1, wxEXPAND);
+	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_ComboBox[0], 1, wxEXPAND);
+	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics[1], 1, wxEXPAND);
+	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_ComboBox[1], 1, wxEXPAND);
+	TerRestrict_Amount_Holder->Add(TerRestrict_Amount_Text, 0, wxEXPAND);
+	TerRestrict_Amount_Holder->Add(TerRestrict_Amount, 1, wxEXPAND);
 
 	TerRestrict_DataArea->Add(-1, 10);
-	TerRestrict_DataArea->Add(TerRestrict_Holder_Accessible, 0, wxEXPAND);
+	TerRestrict_DataArea->Add(TerRestrict_Accessible_Holder, 0, wxEXPAND);
 	TerRestrict_DataArea->Add(-1, 5);
-	TerRestrict_DataArea->Add(TerRestrict_Holder_Unknown1, 0, wxEXPAND);
+	TerRestrict_DataArea->Add(TerRestrict_Unknown1_Holder, 0, wxEXPAND);
 	TerRestrict_DataArea->Add(-1, 5);
-	TerRestrict_DataArea->Add(TerRestrict_Holder_Graphics, 0, wxEXPAND);
+	TerRestrict_DataArea->Add(TerRestrict_Graphics_Holder, 0, wxEXPAND);
 	TerRestrict_DataArea->Add(-1, 5);
-	TerRestrict_DataArea->Add(TerRestrict_Holder_Amount, 0, wxEXPAND);
+	TerRestrict_DataArea->Add(TerRestrict_Amount_Holder, 0, wxEXPAND);
 	TerRestrict_DataArea->Add(-1, 10);
 
 	TerRestrict_Main->Add(10, -1);
@@ -469,8 +469,8 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 
 	TerRestrict_Accessible->Connect(TerRestrict_Accessible->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TerRestrict), NULL, this);
 	TerRestrict_Unknown1->Connect(TerRestrict_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TerRestrict), NULL, this);
-	TerRestrict_CheckBox_Accessible->Connect(TerRestrict_CheckBox_Accessible->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_TerRestrict), NULL, this);
-	TerRestrict_CheckBox_Unknown1->Connect(TerRestrict_CheckBox_Unknown1->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_TerRestrict), NULL, this);
+	TerRestrict_Accessible_CheckBox->Connect(TerRestrict_Accessible_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_TerRestrict), NULL, this);
+	TerRestrict_Unknown1_CheckBox->Connect(TerRestrict_Unknown1_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_TerRestrict), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_TerRestrict(wxFocusEvent &Event)

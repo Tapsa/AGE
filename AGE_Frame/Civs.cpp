@@ -93,11 +93,11 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
 	Civs_Name[0]->ChangeValue(CivPointer->Name);
 	Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
-	Civs_ComboBox_TechTree->SetSelection(CivPointer->TechTreeID + 1);
+	Civs_TechTree_ComboBox->SetSelection(CivPointer->TechTreeID + 1);
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
-		Civs_ComboBox_TeamBonus->SetSelection(CivPointer->TeamBonusID + 1);
+		Civs_TeamBonus_ComboBox->SetSelection(CivPointer->TeamBonusID + 1);
 		if(GenieVersion >= genie::GV_SWGB)
 		{
 			Civs_Name[1]->ChangeValue(CivPointer->Name2);
@@ -207,8 +207,8 @@ void AGE_Frame::OnCivCountChange()
 			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(30, 20)));
 			Units_CivBoxes[loop]->SetValue(true);
 			//Units_CivLabels.push_back(new wxStaticText(Tab_Units, wxID_ANY, GenieFile->Civs[loop].Name.substr(0, 2), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER_HORIZONTAL | wxST_NO_AUTORESIZE));
-			Units_Holder_TopGrid->Add(Units_CivBoxes[loop], 0, wxEXPAND);
-			//Units_Holder_TopGrid->Add(Units_CivLabels[loop], 0, wxEXPAND);
+			Units_TopGrid_Holder->Add(Units_CivBoxes[loop], 0, wxEXPAND);
+			//Units_TopGrid_Holder->Add(Units_CivLabels[loop], 0, wxEXPAND);
 			Connect(Units_CivBoxes[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
 		}
 	}
@@ -630,6 +630,11 @@ string AGE_Frame::GetResourceName(short Index)
 			Name = "Biological Self Regeneration";
 			break;
 		case 197: Name = "Spies Discount"; break;
+		case 200: Name = "Misc Counter 1"; break;
+		case 201: Name = "Misc Counter 2"; break;
+		case 202: Name = "Misc Counter 3"; break;
+		case 203: Name = "Misc Counter 4"; break;
+		case 204: Name = "Misc Counter 5"; break;
 		default: Name = "Unknown";
 	}
 	return Name;
@@ -789,40 +794,40 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid1 = new wxGridSizer(2, 0, 5);
 	Civs_DataGrid2 = new wxGridSizer(2, 0, 5);
 	Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
-	Civs_Holder_Name[0] = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_Name[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
+	Civs_Name_Text[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_Name[0] = new TextCtrl_String(Tab_Civs, 20);
-	Civs_Holder_Name[1] = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_Name[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
+	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_Name[1] = new TextCtrl_String(Tab_Civs, 20);
-	Civs_Holder_GraphicSet = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_GraphicSet = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
+	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs);
 	Civs_GraphicSet->SetToolTip("Building icon set and trade cart graphics\nThis doesn't change other graphics");
-	Civs_Holder_One = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_One = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
+	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = new TextCtrl_Byte(Tab_Civs);
-	Civs_Holder_TechTree = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_TechTree = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_TechTree_Holder = new wxBoxSizer(wxVERTICAL);
+	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = new TextCtrl_Short(Tab_Civs);
-	Civs_ComboBox_TechTree = new ComboBox_Plus1(Tab_Civs, Civs_TechTree);
-	TechComboBoxList.push_back(Civs_ComboBox_TechTree);
-	Civs_Holder_TeamBonus = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_TeamBonus = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_TechTree_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TechTree);
+	TechComboBoxList.push_back(Civs_TechTree_ComboBox);
+	Civs_TeamBonus_Holder = new wxBoxSizer(wxVERTICAL);
+	Civs_TeamBonus_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TeamBonus = new TextCtrl_Short(Tab_Civs);
-	Civs_ComboBox_TeamBonus = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus);
-	TechComboBoxList.push_back(Civs_ComboBox_TeamBonus);
-	Civs_Holder_SUnknown1 = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_SUnknown1 = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_TeamBonus_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus);
+	TechComboBoxList.push_back(Civs_TeamBonus_ComboBox);
+	Civs_SUnknown1_Holder = new wxBoxSizer(wxVERTICAL);
+	Civs_SUnknown1_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < 4; ++loop)
 	Civs_SUnknown1[loop] = new TextCtrl_Short(Tab_Civs);
 
-	Civs_Holder_Resources = new wxBoxSizer(wxVERTICAL);
+	Civs_Resources_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources");
 	Civs_Resources_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Resources_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
-	Civs_Holder_ResourceValue = new wxBoxSizer(wxVERTICAL);
-	Civs_Text_ResourceValue = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_ResourceValue_Holder = new wxBoxSizer(wxVERTICAL);
+	Civs_ResourceValue_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_ResourceValue = new TextCtrl_Float(Tab_Civs);
 	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
@@ -834,7 +839,7 @@ void AGE_Frame::CreateCivControls()
 	Resources_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 	Resources_CopyToAll = new wxButton(Tab_Civs, wxID_ANY, "Copy to all civs", wxDefaultPosition, wxSize(5, 20));
 	Civs_Resources_Data = new wxBoxSizer(wxVERTICAL);
-	Civs_Holder_Resources_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resources",
+	Civs_Resources_Holder_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resources",
 	"http://www.digitization.org/wiki/index.php?title=Resource", wxDefaultPosition, wxSize(5, 20), wxBORDER_NONE|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
 
 	Civs_Civs_Buttons->Add(Civs_Add, 1, wxEXPAND);
@@ -855,38 +860,38 @@ void AGE_Frame::CreateCivControls()
 	Civs_ListArea->Add(Civs_Civs, 1, wxEXPAND);
 	Civs_ListArea->Add(-1, 10);
 
-	Civs_Holder_One->Add(Civs_Text_One, 0, wxEXPAND);
-	Civs_Holder_One->Add(Civs_One, 1, wxEXPAND);
+	Civs_One_Holder->Add(Civs_One_Text, 0, wxEXPAND);
+	Civs_One_Holder->Add(Civs_One, 1, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop){
-	Civs_Holder_Name[loop]->Add(Civs_Text_Name[loop], 0, wxEXPAND);
-	Civs_Holder_Name[loop]->Add(Civs_Name[loop], 1, wxEXPAND);}
-	Civs_Holder_SUnknown1->Add(Civs_Text_SUnknown1, 0, wxEXPAND);
-	Civs_Holder_SUnknown1->Add(Civs_DataGrid3, 1, wxEXPAND);
+	Civs_Name_Holder[loop]->Add(Civs_Name_Text[loop], 0, wxEXPAND);
+	Civs_Name_Holder[loop]->Add(Civs_Name[loop], 1, wxEXPAND);}
+	Civs_SUnknown1_Holder->Add(Civs_SUnknown1_Text, 0, wxEXPAND);
+	Civs_SUnknown1_Holder->Add(Civs_DataGrid3, 1, wxEXPAND);
 	for(short loop = 0; loop < 4; ++loop)
 	Civs_DataGrid3->Add(Civs_SUnknown1[loop], 1, wxEXPAND);
-	Civs_Holder_TechTree->Add(Civs_Text_TechTree, 0, wxEXPAND);
-	Civs_Holder_TechTree->Add(Civs_TechTree, 1, wxEXPAND);
-	Civs_Holder_TechTree->Add(Civs_ComboBox_TechTree, 1, wxEXPAND);
-	Civs_Holder_TeamBonus->Add(Civs_Text_TeamBonus, 0, wxEXPAND);
-	Civs_Holder_TeamBonus->Add(Civs_TeamBonus, 1, wxEXPAND);
-	Civs_Holder_TeamBonus->Add(Civs_ComboBox_TeamBonus, 1, wxEXPAND);
-	Civs_Holder_GraphicSet->Add(Civs_Text_GraphicSet, 0, wxEXPAND);
-	Civs_Holder_GraphicSet->Add(Civs_GraphicSet, 1, wxEXPAND);
+	Civs_TechTree_Holder->Add(Civs_TechTree_Text, 0, wxEXPAND);
+	Civs_TechTree_Holder->Add(Civs_TechTree, 1, wxEXPAND);
+	Civs_TechTree_Holder->Add(Civs_TechTree_ComboBox, 1, wxEXPAND);
+	Civs_TeamBonus_Holder->Add(Civs_TeamBonus_Text, 0, wxEXPAND);
+	Civs_TeamBonus_Holder->Add(Civs_TeamBonus, 1, wxEXPAND);
+	Civs_TeamBonus_Holder->Add(Civs_TeamBonus_ComboBox, 1, wxEXPAND);
+	Civs_GraphicSet_Holder->Add(Civs_GraphicSet_Text, 0, wxEXPAND);
+	Civs_GraphicSet_Holder->Add(Civs_GraphicSet, 1, wxEXPAND);
 
-	Civs_DataGrid1->Add(Civs_Holder_GraphicSet, 1, wxEXPAND);
-	Civs_DataGrid1->Add(Civs_Holder_One, 1, wxEXPAND);
-	Civs_DataGrid2->Add(Civs_Holder_TechTree, 1, wxEXPAND);
-	Civs_DataGrid2->Add(Civs_Holder_TeamBonus, 1, wxEXPAND);
+	Civs_DataGrid1->Add(Civs_GraphicSet_Holder, 1, wxEXPAND);
+	Civs_DataGrid1->Add(Civs_One_Holder, 1, wxEXPAND);
+	Civs_DataGrid2->Add(Civs_TechTree_Holder, 1, wxEXPAND);
+	Civs_DataGrid2->Add(Civs_TeamBonus_Holder, 1, wxEXPAND);
 
 	Civs_DataArea->Add(-1, 10);
-	Civs_DataArea->Add(Civs_Holder_Name[0], 0, wxEXPAND);
-	Civs_DataArea->Add(Civs_Holder_Name[1], 0, wxEXPAND);
+	Civs_DataArea->Add(Civs_Name_Holder[0], 0, wxEXPAND);
+	Civs_DataArea->Add(Civs_Name_Holder[1], 0, wxEXPAND);
 	Civs_DataArea->Add(-1, 5);
 	Civs_DataArea->Add(Civs_DataGrid1, 0, wxEXPAND);
 	Civs_DataArea->Add(-1, 5);
 	Civs_DataArea->Add(Civs_DataGrid2, 0, wxEXPAND);
 	Civs_DataArea->Add(-1, 5);
-	Civs_DataArea->Add(Civs_Holder_SUnknown1, 0, wxEXPAND);
+	Civs_DataArea->Add(Civs_SUnknown1_Holder, 0, wxEXPAND);
 
 	Civs_Resources_Buttons->Add(Resources_Add, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Insert, 1, wxEXPAND);
@@ -895,12 +900,12 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources_Buttons->Add(Resources_Paste, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_PasteInsert, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_CopyToAll, 1, wxEXPAND);
-	Civs_Resources_Buttons->Add(Civs_Holder_Resources_Link, 1, wxEXPAND);
+	Civs_Resources_Buttons->Add(Civs_Resources_Holder_Link, 1, wxEXPAND);
 
-	Civs_Holder_ResourceValue->Add(Civs_Text_ResourceValue, 0, wxEXPAND);
-	Civs_Holder_ResourceValue->Add(Civs_ResourceValue, 1, wxEXPAND);
+	Civs_ResourceValue_Holder->Add(Civs_ResourceValue_Text, 0, wxEXPAND);
+	Civs_ResourceValue_Holder->Add(Civs_ResourceValue, 1, wxEXPAND);
 
-	Civs_Resources_Data->Add(Civs_Holder_ResourceValue, 0, wxEXPAND);
+	Civs_Resources_Data->Add(Civs_ResourceValue_Holder, 0, wxEXPAND);
 
 	Civs_Resources->Add(Civs_Resources_Search, 0, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Search_R, 0, wxEXPAND);
@@ -908,16 +913,16 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources->Add(Civs_Resources_List, 1, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
 
-	Civs_Holder_Resources->Add(-1, 10);
-	Civs_Holder_Resources->Add(Civs_Resources, 1, wxEXPAND);
-	Civs_Holder_Resources->Add(-1, 10);
+	Civs_Resources_Holder->Add(-1, 10);
+	Civs_Resources_Holder->Add(Civs_Resources, 1, wxEXPAND);
+	Civs_Resources_Holder->Add(-1, 10);
 
 	Civs_Main->Add(10, -1);
 	Civs_Main->Add(Civs_ListArea, 2, wxEXPAND);
 	Civs_Main->Add(10, -1);
 	Civs_Main->Add(Civs_DataArea, 3, wxEXPAND);
 	Civs_Main->Add(10, -1);
-	Civs_Main->Add(Civs_Holder_Resources, 3, wxEXPAND);
+	Civs_Main->Add(Civs_Resources_Holder, 3, wxEXPAND);
 	Civs_Main->Add(10, -1);
 
 	Tab_Civs->SetSizer(Civs_Main);
