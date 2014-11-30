@@ -168,7 +168,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 
 	//genie::Logger::setLogLevel(genie::Logger::L_INFO);
 	//static std::ofstream log_out;
-	//log_out.open("gulog.txt");
+	//log_out.open("gulog.ini");
 	//genie::Logger::setGlobalOutputStream(log_out);
 	GenieFile = NULL;
 	Lang = NULL;

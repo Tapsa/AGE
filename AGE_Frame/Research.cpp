@@ -238,30 +238,30 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	for(short loop = 0; loop < ResearchPointer->getRequiredTechsSize(); ++loop)
 	{
 		Research_RequiredTechs[loop]->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechs[loop]));
-		Research_ComboBox_RequiredTechs[loop]->SetSelection(ResearchPointer->RequiredTechs[loop] + 1);
+		Research_RequiredTechs_ComboBox[loop]->SetSelection(ResearchPointer->RequiredTechs[loop] + 1);
 	}
 	Research_RequiredTechCount->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechCount));
 	Research_Resources[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Type));
 	Research_Resources[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Type));
 	Research_Resources[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Type));
-	Research_ComboBox_Resources[0]->SetSelection(ResearchPointer->ResourceCosts[0].Type + 1);
-	Research_ComboBox_Resources[1]->SetSelection(ResearchPointer->ResourceCosts[1].Type + 1);
-	Research_ComboBox_Resources[2]->SetSelection(ResearchPointer->ResourceCosts[2].Type + 1);
+	Research_Resources_ComboBox[0]->SetSelection(ResearchPointer->ResourceCosts[0].Type + 1);
+	Research_Resources_ComboBox[1]->SetSelection(ResearchPointer->ResourceCosts[1].Type + 1);
+	Research_Resources_ComboBox[2]->SetSelection(ResearchPointer->ResourceCosts[2].Type + 1);
 	Research_Amount[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Amount));
 	Research_Amount[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Amount));
 	Research_Amount[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Amount));
 	Research_Used[0]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[0].Enabled));
-	Research_CheckBox_Used[0]->SetValue((bool)ResearchPointer->ResourceCosts[0].Enabled);
+	Research_Used_CheckBox[0]->SetValue((bool)ResearchPointer->ResourceCosts[0].Enabled);
 	Research_Used[1]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[1].Enabled));
-	Research_CheckBox_Used[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Enabled);
+	Research_Used_CheckBox[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Enabled);
 	Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Enabled));
-	Research_CheckBox_Used[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
+	Research_Used_CheckBox[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
 	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
-		Research_ComboBox_Civ->SetSelection(ResearchPointer->Civ + 1);
+		Research_Civ_ComboBox->SetSelection(ResearchPointer->Civ + 1);
 		Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
-		Research_CheckBox_FullTechMode->SetValue((bool)ResearchPointer->FullTechMode);
+		Research_FullTechMode_CheckBox->SetValue((bool)ResearchPointer->FullTechMode);
 		Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
 		Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLName2 - 140000;
 		if(GenieVersion >= genie::GV_SWGB)
@@ -273,7 +273,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_DLL_LanguageDLLName2->index = (uint16_t)ResearchPointer->LanguageDLLName2;
 	}
 	Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
-	Research_ComboBox_ResearchLocation->SetSelection(ResearchPointer->ResearchLocation + 1);
+	Research_ResearchLocation_ComboBox->SetSelection(ResearchPointer->ResearchLocation + 1);
 	Research_LangDLLName->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLName));
 	Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
 	Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
@@ -282,7 +282,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
 	Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
 	Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
-	Research_ComboBox_TechID->SetSelection(ResearchPointer->TechageID + 1);
+	Research_TechID_ComboBox->SetSelection(ResearchPointer->TechageID + 1);
 	Research_Type->ChangeValue(lexical_cast<string>(ResearchPointer->Type));
 	Research_IconID->ChangeValue(lexical_cast<string>(ResearchPointer->IconID));
 	Research_ButtonID->ChangeValue(lexical_cast<string>((short)ResearchPointer->ButtonID));
@@ -411,110 +411,110 @@ void AGE_Frame::CreateResearchControls()
 	Research_Scroller = new wxScrolledWindow(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	Research_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
 	Research_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
-	Research_Holder_Name[0] = new wxBoxSizer(wxVERTICAL);
-	Research_Text_Name[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
+	Research_Name_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Name[0] = new TextCtrl_String(Research_Scroller, 30);
-	Research_Holder_Name[1] = new wxBoxSizer(wxVERTICAL);
-	Research_Text_Name[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
+	Research_Name_Text[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Name[1] = new TextCtrl_String(Research_Scroller, 30);
-	Research_Holder_LangDLLName = new wxBoxSizer(wxVERTICAL);
-	Research_Text_LangDLLName = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Name *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LangDLLName_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_LangDLLName_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Name *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLName = new TextCtrl_UShort(Research_Scroller);
 	Research_LangDLLName->SetToolTip("Usual Research DLL Pattern for The Conquerors\nName: 7000-7999\nDescription: Name +1000\nPopup: Name +100000, in DLL Name +21000\nHelp: Name +150000, in DLL Name +10000");
 	Research_DLL_LangDLLName = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
-	Research_Holder_LangDLLDescription = new wxBoxSizer(wxVERTICAL);
-	Research_Text_LangDLLDescription = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Description", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LangDLLDescription_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_LangDLLDescription_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Description", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLDescription = new TextCtrl_UShort(Research_Scroller);
 	Research_DLL_LangDLLDescription = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
-	Research_Holder_RequiredTechArea = new wxBoxSizer(wxVERTICAL);
-	Research_Holder_RequiredTechs = new wxGridSizer(6, 0, 5);
-	Research_Text_RequiredTechArea = new wxStaticText(Research_Scroller, wxID_ANY, " Required Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_Grid_MiscArea1 = new wxGridSizer(4, 5, 5);
-	Research_Holder_LangDLLArea = new wxBoxSizer(wxHORIZONTAL);
-	Research_Holder_Misc2 = new wxBoxSizer(wxHORIZONTAL);
-	Research_Holder_PointerArea = new wxBoxSizer(wxHORIZONTAL);
-	Research_Holder_Names = new wxBoxSizer(wxHORIZONTAL);
+	Research_RequiredTechArea_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_RequiredTechs_Holder = new wxGridSizer(6, 0, 5);
+	Research_RequiredTechArea_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Required Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_MiscArea1_Grid = new wxGridSizer(4, 5, 5);
+	Research_LangDLLArea_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Research_Misc2_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Research_PointerArea_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Research_Names_Holder = new wxBoxSizer(wxHORIZONTAL);
 
 	for(short loop = 0; loop < 6; ++loop)
 	{
 		Research_RequiredTechs[loop] = new TextCtrl_Short(Research_Scroller);
-		Research_ComboBox_RequiredTechs[loop] = new ComboBox_Plus1(Research_Scroller, Research_RequiredTechs[loop]);
-		ResearchComboBoxList.push_back(Research_ComboBox_RequiredTechs[loop]);
+		Research_RequiredTechs_ComboBox[loop] = new ComboBox_Plus1(Research_Scroller, Research_RequiredTechs[loop]);
+		ResearchComboBoxList.push_back(Research_RequiredTechs_ComboBox[loop]);
 	}
-	Research_Holder_TechID = new wxBoxSizer(wxVERTICAL);
-	Research_Text_TechID = new wxStaticText(Research_Scroller, wxID_ANY, " Technology", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_TechID_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_TechID_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Technology", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_TechID = new TextCtrl_Short(Research_Scroller);
-	Research_ComboBox_TechID = new ComboBox_Plus1(Research_Scroller, Research_TechID);
-	TechComboBoxList.push_back(Research_ComboBox_TechID);
-	Research_Holder_ResearchLocation = new wxBoxSizer(wxVERTICAL);
-	Research_Text_ResearchLocation = new wxStaticText(Research_Scroller, wxID_ANY, " Research Location", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_TechID_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_TechID);
+	TechComboBoxList.push_back(Research_TechID_ComboBox);
+	Research_ResearchLocation_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_ResearchLocation_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Research Location", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_ResearchLocation = new TextCtrl_Short(Research_Scroller);
-	Research_ComboBox_ResearchLocation = new ComboBox_Plus1(Research_Scroller, Research_ResearchLocation);
-	UnitComboBoxList.push_back(Research_ComboBox_ResearchLocation);
-	Research_Holder_FullTechMode = new wxBoxSizer(wxVERTICAL);
-	Research_Text_FullTechMode = new wxStaticText(Research_Scroller, wxID_ANY, " Full Tech. Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_ResearchLocation_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_ResearchLocation);
+	UnitComboBoxList.push_back(Research_ResearchLocation_ComboBox);
+	Research_FullTechMode_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_FullTechMode_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Full Tech. Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_FullTechMode = new TextCtrl_Short(Research_Scroller);
-	Research_CheckBox_FullTechMode = new CheckBox_2State(Research_Scroller, "Available", Research_FullTechMode);
-	Research_Holder_Civ = new wxBoxSizer(wxVERTICAL);
-	Research_Text_Civ = new wxStaticText(Research_Scroller, wxID_ANY, " Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_FullTechMode_CheckBox = new CheckBox_2State(Research_Scroller, "Available", Research_FullTechMode);
+	Research_Civ_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_Civ_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Civ = new TextCtrl_Short(Research_Scroller);
-	Research_ComboBox_Civ = new ComboBox_Plus1(Research_Scroller, Research_Civ);
-	CivComboBoxList.push_back(Research_ComboBox_Civ);
-	Research_Holder_RequiredTechCount = new wxBoxSizer(wxVERTICAL);
-	Research_Text_RequiredTechCount = new wxStaticText(Research_Scroller, wxID_ANY, " Min. Req. Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Civ_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_Civ);
+	CivComboBoxList.push_back(Research_Civ_ComboBox);
+	Research_RequiredTechCount_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_RequiredTechCount_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Min. Req. Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_RequiredTechCount = new TextCtrl_Short(Research_Scroller);
-	Research_Holder_Type = new wxBoxSizer(wxVERTICAL);
-	Research_Text_Type = new wxStaticText(Research_Scroller, wxID_ANY, " Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Type_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_Type_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Type = new TextCtrl_Short(Research_Scroller);
 	Research_Type->SetToolTip("0 Normal\n2 Age\nAoE/RoR usages:\n1 = dock\n2 = granary\n3 = temple\n4 = market\n5 = government center\n6 = storage pit\n7 = siege workshop\n8 = archery range\n9 = barracks\n10 = stable\n11 = academy\n12 = town center");
-	Research_Holder_ResearchTime = new wxBoxSizer(wxVERTICAL);
-	Research_Text_ResearchTime = new wxStaticText(Research_Scroller, wxID_ANY, " Research Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_ResearchTime_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_ResearchTime_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Research Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_ResearchTime = new TextCtrl_Short(Research_Scroller);
-	Research_Holder_IconID = new wxBoxSizer(wxVERTICAL);
-	Research_Text_IconID = new wxStaticText(Research_Scroller, wxID_ANY, " Icon", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_IconID_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_IconID_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Icon", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_IconID = new TextCtrl_Short(Research_Scroller);
-	Research_Holder_ButtonID = new wxBoxSizer(wxVERTICAL);
-	Research_Text_ButtonID = new wxStaticText(Research_Scroller, wxID_ANY, " Button", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_ButtonID_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Button", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_ButtonID = new TextCtrl_Byte(Research_Scroller);
 
-	Research_Holder_CostHeader = new wxStaticBoxSizer(wxVERTICAL, Research_Scroller, "Costs");
-	Research_Holder_CostType = new wxBoxSizer(wxHORIZONTAL);
-	Research_Holder_CostAmount = new wxBoxSizer(wxHORIZONTAL);
-	Research_Holder_CostUsed = new wxBoxSizer(wxHORIZONTAL);
-	Research_Text_Resources = new wxStaticText(Research_Scroller, wxID_ANY, "Cost Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Research_Text_Amount = new wxStaticText(Research_Scroller, wxID_ANY, "Cost Amount ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Research_Text_Used = new wxStaticText(Research_Scroller, wxID_ANY, "Cost Used ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Research_CostHeader_Holder = new wxStaticBoxSizer(wxVERTICAL, Research_Scroller, "Costs");
+	Research_CostType_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Research_CostAmount_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Research_CostUsed_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Research_Resources_Text = new wxStaticText(Research_Scroller, wxID_ANY, "Cost Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Research_Amount_Text = new wxStaticText(Research_Scroller, wxID_ANY, "Cost Amount ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Research_Used_Text = new wxStaticText(Research_Scroller, wxID_ANY, "Cost Used ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Research_ResourceGrid = new wxGridSizer(3, 0, 5);
 	for(short loop = 0; loop < 3; ++loop)
 	{
 		Research_Resources[loop] = new TextCtrl_Short(Research_Scroller);
-		Research_ComboBox_Resources[loop] = new ComboBox_Plus1(Research_Scroller, Research_Resources[loop]);
-		ResourceComboBoxList.push_back(Research_ComboBox_Resources[loop]);
+		Research_Resources_ComboBox[loop] = new ComboBox_Plus1(Research_Scroller, Research_Resources[loop]);
+		ResourceComboBoxList.push_back(Research_Resources_ComboBox[loop]);
 		Research_Amount[loop] = new TextCtrl_Short(Research_Scroller);
 		Research_Used[loop] = new TextCtrl_Byte(Research_Scroller);
-		Research_CheckBox_Used[loop] = new CheckBox_2State(Research_Scroller, "Used", Research_Used[loop]);
+		Research_Used_CheckBox[loop] = new CheckBox_2State(Research_Scroller, "Used", Research_Used[loop]);
 	}
 
-	Research_Holder_LanguageDLLHelp = new wxBoxSizer(wxVERTICAL);
-	Research_Holder_LanguageDLLName2 = new wxBoxSizer(wxVERTICAL);
-	Research_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
-	Research_Text_LanguageDLLHelp = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Popup *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LanguageDLLHelp_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_LanguageDLLName2_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
+	Research_LanguageDLLHelp_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Popup *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LanguageDLLHelp = new TextCtrl_Long(Research_Scroller);
 	Research_LanguageDLLHelp->SetToolTip("100000 + Language DLL Name");
-	Research_Holder_LanguageDLLConverter[0] = new wxBoxSizer(wxVERTICAL);
-	Research_Text_LanguageDLLConverter[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Popup Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LanguageDLLConverter_Holder[0] = new wxBoxSizer(wxVERTICAL);
+	Research_LanguageDLLConverter_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Popup Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LanguageDLLConverter[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Research_LanguageDLLConverter[0]->SetToolTip("Language popup text in DLL\nHit enter to get the correction into dat file");
 	Research_DLL_LanguageDLLHelp = new TextCtrl_DLL(Research_Scroller, wxSize(0, 35));
-	Research_Text_LanguageDLLName2 = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LanguageDLLName2_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LanguageDLLName2 = new TextCtrl_Long(Research_Scroller);
 	Research_LanguageDLLName2->SetToolTip("150000 + Language DLL Name");
-	Research_Holder_LanguageDLLConverter[1] = new wxBoxSizer(wxVERTICAL);
-	Research_Text_LanguageDLLConverter[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LanguageDLLConverter_Holder[1] = new wxBoxSizer(wxVERTICAL);
+	Research_LanguageDLLConverter_Text[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LanguageDLLConverter[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Research_LanguageDLLConverter[1]->SetToolTip("Language help text in DLL\nHit enter to get the correction into dat file");
 	Research_DLL_LanguageDLLName2 = new TextCtrl_DLL(Research_Scroller, wxSize(0, 20));
-	Research_Text_Unknown1 = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Unknown1_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Unknown1 = new TextCtrl_Long(Research_Scroller);
 
 	Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
@@ -545,147 +545,147 @@ void AGE_Frame::CreateResearchControls()
 
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Research_Holder_Name[loop]->Add(Research_Text_Name[loop], 0, wxEXPAND);
-		Research_Holder_Name[loop]->Add(Research_Name[loop], 1, wxEXPAND);
+		Research_Name_Holder[loop]->Add(Research_Name_Text[loop], 0, wxEXPAND);
+		Research_Name_Holder[loop]->Add(Research_Name[loop], 1, wxEXPAND);
 	}
 
-	Research_Holder_Names->Add(Research_Holder_Name[0], 2, wxEXPAND);
-	Research_Holder_Names->Add(5, -1);
-	Research_Holder_Names->Add(Research_Holder_Name[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Research_Names_Holder->Add(Research_Name_Holder[0], 2, wxEXPAND);
+	Research_Names_Holder->Add(5, -1);
+	Research_Names_Holder->Add(Research_Name_Holder[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Research_Holder_LangDLLName->Add(Research_Text_LangDLLName, 0, wxEXPAND);
-	Research_Holder_LangDLLName->Add(Research_LangDLLName, 0, wxEXPAND);
-	Research_Holder_LangDLLName->Add(Research_DLL_LangDLLName, 0, wxEXPAND);
-	Research_Holder_LangDLLDescription->Add(Research_Text_LangDLLDescription, 0, wxEXPAND);
-	Research_Holder_LangDLLDescription->Add(Research_LangDLLDescription, 0, wxEXPAND);
-	Research_Holder_LangDLLDescription->Add(Research_DLL_LangDLLDescription, 0, wxEXPAND);
+	Research_LangDLLName_Holder->Add(Research_LangDLLName_Text, 0, wxEXPAND);
+	Research_LangDLLName_Holder->Add(Research_LangDLLName, 0, wxEXPAND);
+	Research_LangDLLName_Holder->Add(Research_DLL_LangDLLName, 0, wxEXPAND);
+	Research_LangDLLDescription_Holder->Add(Research_LangDLLDescription_Text, 0, wxEXPAND);
+	Research_LangDLLDescription_Holder->Add(Research_LangDLLDescription, 0, wxEXPAND);
+	Research_LangDLLDescription_Holder->Add(Research_DLL_LangDLLDescription, 0, wxEXPAND);
 
-	Research_Holder_LangDLLArea->Add(Research_Holder_LangDLLName, 1, wxEXPAND);
-	Research_Holder_LangDLLArea->Add(5, -1);
-	Research_Holder_LangDLLArea->Add(Research_Holder_LangDLLDescription, 1, wxEXPAND);
+	Research_LangDLLArea_Holder->Add(Research_LangDLLName_Holder, 1, wxEXPAND);
+	Research_LangDLLArea_Holder->Add(5, -1);
+	Research_LangDLLArea_Holder->Add(Research_LangDLLDescription_Holder, 1, wxEXPAND);
 
 	for(short loop = 0; loop < 3; ++loop)
 	Research_ResourceGrid->Add(Research_Resources[loop], 1, wxEXPAND);
 	for(short loop = 0; loop < 3; ++loop)
-	Research_ResourceGrid->Add(Research_ComboBox_Resources[loop], 1, wxEXPAND);
+	Research_ResourceGrid->Add(Research_Resources_ComboBox[loop], 1, wxEXPAND);
 
-	Research_Holder_CostType->Add(Research_Text_Resources, 1, wxEXPAND);
-	Research_Holder_CostType->Add(Research_ResourceGrid, 6, wxEXPAND);
+	Research_CostType_Holder->Add(Research_Resources_Text, 1, wxEXPAND);
+	Research_CostType_Holder->Add(Research_ResourceGrid, 6, wxEXPAND);
 
-	Research_Holder_CostAmount->Add(Research_Text_Amount, 2, wxEXPAND);
-	Research_Holder_CostAmount->Add(Research_Amount[0], 4, wxEXPAND);
-	Research_Holder_CostAmount->Add(5, -1);
-	Research_Holder_CostAmount->Add(Research_Amount[1], 4, wxEXPAND);
-	Research_Holder_CostAmount->Add(5, -1);
-	Research_Holder_CostAmount->Add(Research_Amount[2], 4, wxEXPAND);
+	Research_CostAmount_Holder->Add(Research_Amount_Text, 2, wxEXPAND);
+	Research_CostAmount_Holder->Add(Research_Amount[0], 4, wxEXPAND);
+	Research_CostAmount_Holder->Add(5, -1);
+	Research_CostAmount_Holder->Add(Research_Amount[1], 4, wxEXPAND);
+	Research_CostAmount_Holder->Add(5, -1);
+	Research_CostAmount_Holder->Add(Research_Amount[2], 4, wxEXPAND);
 
-	Research_Holder_CostUsed->Add(Research_Text_Used, 2, wxEXPAND);
-	Research_Holder_CostUsed->Add(Research_Used[0], 3, wxEXPAND);
-	Research_Holder_CostUsed->Add(2, -1);
-	Research_Holder_CostUsed->Add(Research_CheckBox_Used[0], 1, wxEXPAND);
-	Research_Holder_CostUsed->Add(5, -1);
-	Research_Holder_CostUsed->Add(Research_Used[1], 3, wxEXPAND);
-	Research_Holder_CostUsed->Add(2, -1);
-	Research_Holder_CostUsed->Add(Research_CheckBox_Used[1], 1, wxEXPAND);
-	Research_Holder_CostUsed->Add(5, -1);
-	Research_Holder_CostUsed->Add(Research_Used[2], 3, wxEXPAND);
-	Research_Holder_CostUsed->Add(2, -1);
-	Research_Holder_CostUsed->Add(Research_CheckBox_Used[2], 1, wxEXPAND);
+	Research_CostUsed_Holder->Add(Research_Used_Text, 2, wxEXPAND);
+	Research_CostUsed_Holder->Add(Research_Used[0], 3, wxEXPAND);
+	Research_CostUsed_Holder->Add(2, -1);
+	Research_CostUsed_Holder->Add(Research_Used_CheckBox[0], 1, wxEXPAND);
+	Research_CostUsed_Holder->Add(5, -1);
+	Research_CostUsed_Holder->Add(Research_Used[1], 3, wxEXPAND);
+	Research_CostUsed_Holder->Add(2, -1);
+	Research_CostUsed_Holder->Add(Research_Used_CheckBox[1], 1, wxEXPAND);
+	Research_CostUsed_Holder->Add(5, -1);
+	Research_CostUsed_Holder->Add(Research_Used[2], 3, wxEXPAND);
+	Research_CostUsed_Holder->Add(2, -1);
+	Research_CostUsed_Holder->Add(Research_Used_CheckBox[2], 1, wxEXPAND);
 
-	Research_Holder_CostHeader->Add(Research_Holder_CostType, 0, wxEXPAND);
-	Research_Holder_CostHeader->Add(-1, 5);
-	Research_Holder_CostHeader->Add(Research_Holder_CostAmount, 0, wxEXPAND);
-	Research_Holder_CostHeader->Add(-1, 5);
-	Research_Holder_CostHeader->Add(Research_Holder_CostUsed, 0, wxEXPAND);
+	Research_CostHeader_Holder->Add(Research_CostType_Holder, 0, wxEXPAND);
+	Research_CostHeader_Holder->Add(-1, 5);
+	Research_CostHeader_Holder->Add(Research_CostAmount_Holder, 0, wxEXPAND);
+	Research_CostHeader_Holder->Add(-1, 5);
+	Research_CostHeader_Holder->Add(Research_CostUsed_Holder, 0, wxEXPAND);
 
 	for(short loop = 0; loop < 6; ++loop)
-	Research_Holder_RequiredTechs->Add(Research_RequiredTechs[loop], 1, wxEXPAND);
+	Research_RequiredTechs_Holder->Add(Research_RequiredTechs[loop], 1, wxEXPAND);
 	for(short loop = 0; loop < 6; ++loop)
-	Research_Holder_RequiredTechs->Add(Research_ComboBox_RequiredTechs[loop], 1, wxEXPAND);
+	Research_RequiredTechs_Holder->Add(Research_RequiredTechs_ComboBox[loop], 1, wxEXPAND);
 
-	Research_Holder_RequiredTechArea->Add(Research_Text_RequiredTechArea, 0, wxEXPAND);
-	Research_Holder_RequiredTechArea->Add(Research_Holder_RequiredTechs, 1, wxEXPAND);
+	Research_RequiredTechArea_Holder->Add(Research_RequiredTechArea_Text, 0, wxEXPAND);
+	Research_RequiredTechArea_Holder->Add(Research_RequiredTechs_Holder, 1, wxEXPAND);
 
-	Research_Holder_RequiredTechCount->Add(Research_Text_RequiredTechCount, 0, wxEXPAND);
-	Research_Holder_RequiredTechCount->Add(Research_RequiredTechCount, 1, wxEXPAND);
+	Research_RequiredTechCount_Holder->Add(Research_RequiredTechCount_Text, 0, wxEXPAND);
+	Research_RequiredTechCount_Holder->Add(Research_RequiredTechCount, 1, wxEXPAND);
 
-	Research_Holder_Civ->Add(Research_Text_Civ, 0, wxEXPAND);
-	Research_Holder_Civ->Add(Research_Civ, 1, wxEXPAND);
-	Research_Holder_Civ->Add(Research_ComboBox_Civ, 1, wxEXPAND);
+	Research_Civ_Holder->Add(Research_Civ_Text, 0, wxEXPAND);
+	Research_Civ_Holder->Add(Research_Civ, 1, wxEXPAND);
+	Research_Civ_Holder->Add(Research_Civ_ComboBox, 1, wxEXPAND);
 
-	Research_Holder_FullTechMode->Add(Research_Text_FullTechMode, 0, wxEXPAND);
-	Research_Holder_FullTechMode->Add(Research_FullTechMode, 1, wxEXPAND);
-	Research_Holder_FullTechMode->Add(Research_CheckBox_FullTechMode, 1, wxEXPAND);
+	Research_FullTechMode_Holder->Add(Research_FullTechMode_Text, 0, wxEXPAND);
+	Research_FullTechMode_Holder->Add(Research_FullTechMode, 1, wxEXPAND);
+	Research_FullTechMode_Holder->Add(Research_FullTechMode_CheckBox, 1, wxEXPAND);
 
-	Research_Holder_ResearchLocation->Add(Research_Text_ResearchLocation, 0, wxEXPAND);
-	Research_Holder_ResearchLocation->Add(Research_ResearchLocation, 1, wxEXPAND);
-	Research_Holder_ResearchLocation->Add(Research_ComboBox_ResearchLocation, 1, wxEXPAND);
+	Research_ResearchLocation_Holder->Add(Research_ResearchLocation_Text, 0, wxEXPAND);
+	Research_ResearchLocation_Holder->Add(Research_ResearchLocation, 1, wxEXPAND);
+	Research_ResearchLocation_Holder->Add(Research_ResearchLocation_ComboBox, 1, wxEXPAND);
 
-	Research_Grid_MiscArea1->Add(Research_Holder_TechID, 1, wxEXPAND);
-	Research_Grid_MiscArea1->Add(Research_Holder_ResearchLocation, 1, wxEXPAND);
-	Research_Grid_MiscArea1->Add(Research_Holder_FullTechMode, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Research_Grid_MiscArea1->Add(Research_Holder_Civ, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Research_MiscArea1_Grid->Add(Research_TechID_Holder, 1, wxEXPAND);
+	Research_MiscArea1_Grid->Add(Research_ResearchLocation_Holder, 1, wxEXPAND);
+	Research_MiscArea1_Grid->Add(Research_FullTechMode_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Research_MiscArea1_Grid->Add(Research_Civ_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Research_Holder_ResearchTime->Add(Research_Text_ResearchTime, 0, wxEXPAND);
-	Research_Holder_ResearchTime->Add(Research_ResearchTime, 1, wxEXPAND);
+	Research_ResearchTime_Holder->Add(Research_ResearchTime_Text, 0, wxEXPAND);
+	Research_ResearchTime_Holder->Add(Research_ResearchTime, 1, wxEXPAND);
 
-	Research_Holder_TechID->Add(Research_Text_TechID, 0, wxEXPAND);
-	Research_Holder_TechID->Add(Research_TechID, 1, wxEXPAND);
-	Research_Holder_TechID->Add(Research_ComboBox_TechID, 1, wxEXPAND);
+	Research_TechID_Holder->Add(Research_TechID_Text, 0, wxEXPAND);
+	Research_TechID_Holder->Add(Research_TechID, 1, wxEXPAND);
+	Research_TechID_Holder->Add(Research_TechID_ComboBox, 1, wxEXPAND);
 
-	Research_Holder_Type->Add(Research_Text_Type, 0, wxEXPAND);
-	Research_Holder_Type->Add(Research_Type, 1, wxEXPAND);
+	Research_Type_Holder->Add(Research_Type_Text, 0, wxEXPAND);
+	Research_Type_Holder->Add(Research_Type, 1, wxEXPAND);
 
-	Research_Holder_IconID->Add(Research_Text_IconID, 0, wxEXPAND);
-	Research_Holder_IconID->Add(Research_IconID, 1, wxEXPAND);
+	Research_IconID_Holder->Add(Research_IconID_Text, 0, wxEXPAND);
+	Research_IconID_Holder->Add(Research_IconID, 1, wxEXPAND);
 
-	Research_Holder_ButtonID->Add(Research_Text_ButtonID, 0, wxEXPAND);
-	Research_Holder_ButtonID->Add(Research_ButtonID, 1, wxEXPAND);
+	Research_ButtonID_Holder->Add(Research_ButtonID_Text, 0, wxEXPAND);
+	Research_ButtonID_Holder->Add(Research_ButtonID, 1, wxEXPAND);
 
-	Research_Holder_Misc2->Add(Research_Holder_RequiredTechCount, 1, wxEXPAND);
-	Research_Holder_Misc2->Add(5, -1);
-	Research_Holder_Misc2->Add(Research_Holder_Type, 1, wxEXPAND);
-	Research_Holder_Misc2->Add(5, -1);
-	Research_Holder_Misc2->Add(Research_Holder_ResearchTime, 1, wxEXPAND);
-	Research_Holder_Misc2->Add(5, -1);
-	Research_Holder_Misc2->Add(Research_Holder_IconID, 1, wxEXPAND);
-	Research_Holder_Misc2->Add(5, -1);
-	Research_Holder_Misc2->Add(Research_Holder_ButtonID, 1, wxEXPAND);
+	Research_Misc2_Holder->Add(Research_RequiredTechCount_Holder, 1, wxEXPAND);
+	Research_Misc2_Holder->Add(5, -1);
+	Research_Misc2_Holder->Add(Research_Type_Holder, 1, wxEXPAND);
+	Research_Misc2_Holder->Add(5, -1);
+	Research_Misc2_Holder->Add(Research_ResearchTime_Holder, 1, wxEXPAND);
+	Research_Misc2_Holder->Add(5, -1);
+	Research_Misc2_Holder->Add(Research_IconID_Holder, 1, wxEXPAND);
+	Research_Misc2_Holder->Add(5, -1);
+	Research_Misc2_Holder->Add(Research_ButtonID_Holder, 1, wxEXPAND);
 
-	Research_Holder_LanguageDLLHelp->Add(Research_Text_LanguageDLLHelp, 0, wxEXPAND);
-	Research_Holder_LanguageDLLHelp->Add(Research_LanguageDLLHelp, 0, wxEXPAND);
-	Research_Holder_LanguageDLLConverter[0]->Add(Research_Text_LanguageDLLConverter[0], 0, wxEXPAND);
-	Research_Holder_LanguageDLLConverter[0]->Add(Research_LanguageDLLConverter[0], 0, wxEXPAND);
-	Research_Holder_LanguageDLLName2->Add(Research_Text_LanguageDLLName2, 0, wxEXPAND);
-	Research_Holder_LanguageDLLName2->Add(Research_LanguageDLLName2, 0, wxEXPAND);
-	Research_Holder_LanguageDLLConverter[1]->Add(Research_Text_LanguageDLLConverter[1], 0, wxEXPAND);
-	Research_Holder_LanguageDLLConverter[1]->Add(Research_LanguageDLLConverter[1], 0, wxEXPAND);
-	Research_Holder_Unknown1->Add(Research_Text_Unknown1, 0, wxEXPAND);
-	Research_Holder_Unknown1->Add(Research_Unknown1, 0, wxEXPAND);
+	Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp_Text, 0, wxEXPAND);
+	Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp, 0, wxEXPAND);
+	Research_LanguageDLLConverter_Holder[0]->Add(Research_LanguageDLLConverter_Text[0], 0, wxEXPAND);
+	Research_LanguageDLLConverter_Holder[0]->Add(Research_LanguageDLLConverter[0], 0, wxEXPAND);
+	Research_LanguageDLLName2_Holder->Add(Research_LanguageDLLName2_Text, 0, wxEXPAND);
+	Research_LanguageDLLName2_Holder->Add(Research_LanguageDLLName2, 0, wxEXPAND);
+	Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter_Text[1], 0, wxEXPAND);
+	Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter[1], 0, wxEXPAND);
+	Research_Unknown1_Holder->Add(Research_Unknown1_Text, 0, wxEXPAND);
+	Research_Unknown1_Holder->Add(Research_Unknown1, 0, wxEXPAND);
 
-	Research_Holder_PointerArea->Add(Research_Holder_LanguageDLLHelp, 1, wxEXPAND);
-	Research_Holder_PointerArea->Add(5, -1);
-	Research_Holder_PointerArea->Add(Research_Holder_LanguageDLLConverter[0], 1, wxEXPAND);
-	Research_Holder_PointerArea->Add(5, -1);
-	Research_Holder_PointerArea->Add(Research_Holder_LanguageDLLName2, 1, wxEXPAND);
-	Research_Holder_PointerArea->Add(5, -1);
-	Research_Holder_PointerArea->Add(Research_Holder_LanguageDLLConverter[1], 1, wxEXPAND);
-	Research_Holder_PointerArea->Add(5, -1);
-	Research_Holder_PointerArea->Add(Research_Holder_Unknown1, 1, wxEXPAND);
+	Research_PointerArea_Holder->Add(Research_LanguageDLLHelp_Holder, 1, wxEXPAND);
+	Research_PointerArea_Holder->Add(5, -1);
+	Research_PointerArea_Holder->Add(Research_LanguageDLLConverter_Holder[0], 1, wxEXPAND);
+	Research_PointerArea_Holder->Add(5, -1);
+	Research_PointerArea_Holder->Add(Research_LanguageDLLName2_Holder, 1, wxEXPAND);
+	Research_PointerArea_Holder->Add(5, -1);
+	Research_PointerArea_Holder->Add(Research_LanguageDLLConverter_Holder[1], 1, wxEXPAND);
+	Research_PointerArea_Holder->Add(5, -1);
+	Research_PointerArea_Holder->Add(Research_Unknown1_Holder, 1, wxEXPAND);
 
-	Research_ScrollerWindowsSpace->Add(Research_Holder_Names, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_Names_Holder, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_Holder_LangDLLArea, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_LangDLLArea_Holder, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_Holder_RequiredTechArea, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_RequiredTechArea_Holder, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_Grid_MiscArea1, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_MiscArea1_Grid, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_Holder_Misc2, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_Misc2_Holder, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_Holder_CostHeader, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_CostHeader_Holder, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_Holder_PointerArea, 0, wxEXPAND);
+	Research_ScrollerWindowsSpace->Add(Research_PointerArea_Holder, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(-1, 5);
 	Research_ScrollerWindowsSpace->Add(Research_DLL_LanguageDLLHelp, 0, wxEXPAND);
 	Research_ScrollerWindowsSpace->Add(Research_DLL_LanguageDLLName2, 0, wxEXPAND);
