@@ -235,7 +235,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 		if(GenieVersion >= genie::GV_AoKA)
 		{
 			SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
-			SoundItems_ComboBox_Civ->SetSelection(SoundItemPointer->Civ + 1);
+			SoundItems_Civ_ComboBox->SetSelection(SoundItemPointer->Civ + 1);
 			SoundItems_Unknown->ChangeValue(lexical_cast<string>(SoundItemPointer->Unknown1));
 		}
 	}
@@ -245,7 +245,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 		SoundItems_Resource->ChangeValue("0");
 		SoundItems_Probability->ChangeValue("0");
 		SoundItems_Civ->ChangeValue("0");
-		SoundItems_ComboBox_Civ->SetSelection(0);
+		SoundItems_Civ_ComboBox->SetSelection(0);
 		SoundItems_Unknown->ChangeValue("0");
 	}
 }
@@ -403,32 +403,32 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_CopyToSounds = new wxButton(Tab_Sounds, wxID_ANY, "Copy all to selected sounds", wxDefaultPosition, wxSize(5, 20));
 
-	Sounds_Holder_ID = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_ID = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_ID_Holder = new wxBoxSizer(wxVERTICAL);
+	Sounds_ID_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_ID = new TextCtrl_Short(Tab_Sounds);
-	Sounds_Holder_Unknown1 = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_Unknown1 = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
+	Sounds_Unknown1_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_Unknown1 = new TextCtrl_Short(Tab_Sounds);
-	Sounds_Holder_Unknown2 = new wxBoxSizer(wxVERTICAL);
-	Sounds_Text_Unknown2 = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
+	Sounds_Unknown2_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_Unknown2 = new TextCtrl_Long(Tab_Sounds);
 
-	SoundItems_Holder_Name = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Name = new wxStaticText(Tab_Sounds, wxID_ANY, " Filename", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Name_Holder = new wxBoxSizer(wxVERTICAL);
+	SoundItems_Name_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Filename", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Name = new TextCtrl_String(Tab_Sounds);
-	SoundItems_Holder_Resource = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Resource = new wxStaticText(Tab_Sounds, wxID_ANY, " File DRS Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Resource_Holder = new wxBoxSizer(wxVERTICAL);
+	SoundItems_Resource_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File DRS Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Resource = new TextCtrl_Long(Tab_Sounds);
-	SoundItems_Holder_Probability = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Probability = new wxStaticText(Tab_Sounds, wxID_ANY, " File Probability", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Probability_Holder = new wxBoxSizer(wxVERTICAL);
+	SoundItems_Probability_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Probability", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Probability = new TextCtrl_Short(Tab_Sounds);
-	SoundItems_Holder_Civ = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Civ = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Civ_Holder = new wxBoxSizer(wxVERTICAL);
+	SoundItems_Civ_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Civ = new TextCtrl_Short(Tab_Sounds);
-	SoundItems_ComboBox_Civ = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
-	CivComboBoxList.push_back(SoundItems_ComboBox_Civ);
-	SoundItems_Holder_Unknown = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Text_Unknown = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
+	CivComboBoxList.push_back(SoundItems_Civ_ComboBox);
+	SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
+	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = new TextCtrl_Short(Tab_Sounds);
 
 	Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
@@ -490,23 +490,23 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_ListArea->Add(Sounds_Items, 1, wxEXPAND);
 	SoundItems_ListArea->Add(-1, 10);
 
-	Sounds_Holder_ID->Add(Sounds_Text_ID, 0, wxEXPAND);
-	Sounds_Holder_ID->Add(Sounds_ID, 1, wxEXPAND);
-	Sounds_Holder_Unknown1->Add(Sounds_Text_Unknown1, 0, wxEXPAND);
-	Sounds_Holder_Unknown1->Add(Sounds_Unknown1, 1, wxEXPAND);
-	Sounds_Holder_Unknown2->Add(Sounds_Text_Unknown2, 0, wxEXPAND);
-	Sounds_Holder_Unknown2->Add(Sounds_Unknown2, 1, wxEXPAND);
-	SoundItems_Holder_Name->Add(SoundItems_Text_Name, 0, wxEXPAND);
-	SoundItems_Holder_Name->Add(SoundItems_Name, 1, wxEXPAND);
-	SoundItems_Holder_Resource->Add(SoundItems_Text_Resource, 0, wxEXPAND);
-	SoundItems_Holder_Resource->Add(SoundItems_Resource, 1, wxEXPAND);
-	SoundItems_Holder_Probability->Add(SoundItems_Text_Probability, 0, wxEXPAND);
-	SoundItems_Holder_Probability->Add(SoundItems_Probability, 1, wxEXPAND);
-	SoundItems_Holder_Civ->Add(SoundItems_Text_Civ, 0, wxEXPAND);
-	SoundItems_Holder_Civ->Add(SoundItems_Civ, 1, wxEXPAND);
-	SoundItems_Holder_Civ->Add(SoundItems_ComboBox_Civ, 1, wxEXPAND);
-	SoundItems_Holder_Unknown->Add(SoundItems_Text_Unknown, 0, wxEXPAND);
-	SoundItems_Holder_Unknown->Add(SoundItems_Unknown, 1, wxEXPAND);
+	Sounds_ID_Holder->Add(Sounds_ID_Text, 0, wxEXPAND);
+	Sounds_ID_Holder->Add(Sounds_ID, 1, wxEXPAND);
+	Sounds_Unknown1_Holder->Add(Sounds_Unknown1_Text, 0, wxEXPAND);
+	Sounds_Unknown1_Holder->Add(Sounds_Unknown1, 1, wxEXPAND);
+	Sounds_Unknown2_Holder->Add(Sounds_Unknown2_Text, 0, wxEXPAND);
+	Sounds_Unknown2_Holder->Add(Sounds_Unknown2, 1, wxEXPAND);
+	SoundItems_Name_Holder->Add(SoundItems_Name_Text, 0, wxEXPAND);
+	SoundItems_Name_Holder->Add(SoundItems_Name, 1, wxEXPAND);
+	SoundItems_Resource_Holder->Add(SoundItems_Resource_Text, 0, wxEXPAND);
+	SoundItems_Resource_Holder->Add(SoundItems_Resource, 1, wxEXPAND);
+	SoundItems_Probability_Holder->Add(SoundItems_Probability_Text, 0, wxEXPAND);
+	SoundItems_Probability_Holder->Add(SoundItems_Probability, 1, wxEXPAND);
+	SoundItems_Civ_Holder->Add(SoundItems_Civ_Text, 0, wxEXPAND);
+	SoundItems_Civ_Holder->Add(SoundItems_Civ, 1, wxEXPAND);
+	SoundItems_Civ_Holder->Add(SoundItems_Civ_ComboBox, 1, wxEXPAND);
+	SoundItems_Unknown_Holder->Add(SoundItems_Unknown_Text, 0, wxEXPAND);
+	SoundItems_Unknown_Holder->Add(SoundItems_Unknown, 1, wxEXPAND);
 
 	Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_Search, 1, wxEXPAND);
 	Sounds_AllItems_Searches[0]->Add(2, -1);
@@ -525,21 +525,21 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_AllItems->Add(Sounds_AllItems_Buttons, 0, wxEXPAND);
 
 	Sounds_DataArea->Add(-1, 10);
-	Sounds_DataArea->Add(Sounds_Holder_ID, 0, wxEXPAND);
+	Sounds_DataArea->Add(Sounds_ID_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(Sounds_Holder_Unknown1, 0, wxEXPAND);
+	Sounds_DataArea->Add(Sounds_Unknown1_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(Sounds_Holder_Unknown2, 0, wxEXPAND);
+	Sounds_DataArea->Add(Sounds_Unknown2_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Name, 0, wxEXPAND);
+	Sounds_DataArea->Add(SoundItems_Name_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Resource, 0, wxEXPAND);
+	Sounds_DataArea->Add(SoundItems_Resource_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Probability, 0, wxEXPAND);
+	Sounds_DataArea->Add(SoundItems_Probability_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Civ, 0, wxEXPAND);
+	Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
-	Sounds_DataArea->Add(SoundItems_Holder_Unknown, 0, wxEXPAND);
+	Sounds_DataArea->Add(SoundItems_Unknown_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(-1, 5);
 	Sounds_DataArea->Add(Sounds_AllItems, 1, wxEXPAND);
 	Sounds_DataArea->Add(-1, 10);
