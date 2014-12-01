@@ -18,9 +18,11 @@ class AGE_AboutDialog: public wxDialog
 	wxBoxSizer *MainLeft;
 	wxBoxSizer *MainRight;
 	wxBoxSizer *MainAbout;
+
+	static const wxString AGE_VER;
 };
 
-class AGE_HelpInfo: public wxDialog
+/*class AGE_HelpInfo: public wxDialog
 {
 	public:
 
@@ -40,4 +42,4 @@ class AGE_HelpInfo: public wxDialog
 	wxCollapsiblePane *ForDiscoveringUnknowns;
 	wxBoxSizer *Unknowns;
 	wxStaticText *UnknownsInfo;
-};
+};*/

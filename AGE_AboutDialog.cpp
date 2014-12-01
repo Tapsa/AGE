@@ -1,10 +1,12 @@
 #include "AGE_AboutDialog.h"
 #include "AboutIcon.xpm"
 
+const wxString AGE_AboutDialog::AGE_VER = "3.14a";
+
 AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent)
 : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
 {
-	Title = new wxStaticText(this, wxID_ANY, "Advanced Genie Editor\nVersion 3.14\nCopyleft 2011 - 2014\n\nDevelopers:\nMikko T P aka Keisari Tapsa, since 2.0b\nApre - genieutils, 2.1a to 3.1\nEstien Nifo aka StSB77, 1.0a to 2.0a");
+	Title = new wxStaticText(this, wxID_ANY, "Advanced Genie Editor\nVersion "+AGE_VER+"\nCopyleft 2011 - 2014\n\nDevelopers:\nMikko T P aka Keisari Tapsa, since 2.0b\nApre - genieutils, 2.1a to 3.1\nEstien Nifo aka StSB77, 1.0a to 2.0a");
 	Image = new wxStaticBitmap(this, wxID_ANY, wxBitmap(AboutIcon_xpm));
 	Credits = new wxStaticText(this, wxID_ANY, "Credits:\nYkkrosh - GeniEd 1 source code\nScenario_t_c - GeniEd 2 source code\nAlexandra aka Taichi San, DarkRain654 - data file research\nDiGiT, JustTesting1234 - genie file structure\nSarthos - important help\nBF_Tanks - some help\nDonnieboy, Sarn, chab - tooltip texts\nLeif Ericson - new icon");
 	AoKHThread = new wxHyperlinkCtrl(this, wxID_ANY, "Age of Kings Heaven AGE forum topic", "http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=st&fn=4&tn=41300&st=recent&f=4,41300,0,365", wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_CONTEXTMENU | wxHL_ALIGN_LEFT);
@@ -39,7 +41,7 @@ AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent)
 	SetSizerAndFit(MainAbout);
 }
 
-AGE_HelpInfo::AGE_HelpInfo(wxWindow *parent)
+/*AGE_HelpInfo::AGE_HelpInfo(wxWindow *parent)
 : wxDialog(parent, -1, "Short Guide to Advanced Editing", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
 {
 	Main = new wxBoxSizer(wxVERTICAL);
@@ -83,4 +85,4 @@ AGE_HelpInfo::AGE_HelpInfo(wxWindow *parent)
 	Main->Add(ForDiscoveringUnknowns, 0, wxEXPAND);
 
 	SetSizerAndFit(Main);
-}
+}*/

@@ -643,7 +643,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			Units_Class_ComboBox[loop]->Clear();
 			Units_Class_ComboBox[loop]->Append("No Class/Invalid Class");	// Selection 0
-			if(GenieVersion <= genie::GV_TC)
+			if(GenieVersion < genie::GV_SWGB)
 			{
 				Units_Class_ComboBox[loop]->Append("0 - Archery");	// Selection 1
 				Units_Class_ComboBox[loop]->Append("1 - Artifact/Ruins");
@@ -1054,7 +1054,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("101 - Creation Time");
 		Effects_AttributesC_ComboBox->Append("102 - Number of Garrison Arrows");
 		Effects_AttributesC_ComboBox->Append("103 - Food Cost");
-		if(GenieVersion <= genie::GV_TC)
+		if(GenieVersion < genie::GV_SWGB)
 		{
 			Effects_AttributesC_ComboBox->Append("104 - Wood Cost");
 			Effects_AttributesC_ComboBox->Append("105 - Gold Cost");
@@ -1085,7 +1085,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_GraphicSet->Append("7 Unused");
 			Units_GraphicSet->Append("8 Unused");
 		}
-		else if(GenieVersion <= genie::GV_TC)
+		else if(GenieVersion < genie::GV_SWGB)
 		{
 			Units_GraphicSet->Append("0 Unused");
 			// AoK
@@ -1273,13 +1273,6 @@ void AGE_Frame::OnGameVersionChange()
 			Civs_SUnknown1_Holder->Show(show);
 			Terrains_SUnknown1_Holder->Show(show);
 			General_Variables1_Holder->Show(show);
-			TechTrees_Ages_Zeroes2_Grid->Show(show);
-			TechTrees_Buildings_Unknown2a2_Grid->Show(show);
-			TechTrees_Buildings_Unknown2b2_Grid->Show(show);
-			TechTrees_Units_Unknown2a2_Grid->Show(show);
-			TechTrees_Units_Unknown2b2_Grid->Show(show);
-			TechTrees_Researches_Unknown2a2_Grid->Show(show);
-			TechTrees_Researches_Unknown2b2_Grid->Show(show);
 		}
 
 		if(show) // SWGB ->
@@ -1467,13 +1460,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 
 			Units_UnknownArea_Holder->Show(ShowUnknowns);
 			Units_CommandHolder_Grid3->Show(ShowUnknowns);
-			TechTrees_Ages_Zeroes_Holder->Show(ShowUnknowns);
-			TechTrees_Buildings_Unknown2a_Holder->Show(ShowUnknowns);
-			TechTrees_Buildings_Unknown2b_Holder->Show(ShowUnknowns);
-			TechTrees_Units_Unknown2a_Holder->Show(ShowUnknowns);
-			TechTrees_Units_Unknown2b_Holder->Show(ShowUnknowns);
-			TechTrees_Researches_Unknown2a_Holder->Show(ShowUnknowns);
-			TechTrees_Researches_Unknown2b_Holder->Show(ShowUnknowns);
 			Graphics_3_Grid->Show(ShowUnknowns);
 			Graphics_Deltas_Grid_Data2->Show(ShowUnknowns);
 			Terrains_UnknownArea_Holder->Show(ShowUnknowns);
