@@ -3057,41 +3057,14 @@ public:
 	TextCtrl_Long *TechTrees_Units_UpperBuilding;
 	ComboBox_Plus1 *TechTrees_Units_UpperBuilding_ComboBox;
 
-	wxBoxSizer *TechTrees_Units_RequiredResearches_Holder;
-	wxStaticText *TechTrees_Units_RequiredResearches_Text;
-	TextCtrl_Long *TechTrees_Units_RequiredResearches;
-	wxBoxSizer *TechTrees_Units_Age_Holder;
-	wxStaticText *TechTrees_Units_Age_Text;
-	TextCtrl_Long *TechTrees_Units_Age;
-	wxBoxSizer *TechTrees_Units_UnitOrResearch1_Holder;
-	wxStaticText *TechTrees_Units_UnitOrResearch1_Text;
-	TextCtrl_Long *TechTrees_Units_UnitOrResearch1;
-	wxBoxSizer *TechTrees_Units_UnitOrResearch2_Holder;
-	wxStaticText *TechTrees_Units_UnitOrResearch2_Text;
-	TextCtrl_Long *TechTrees_Units_UnitOrResearch2;
-	wxBoxSizer *TechTrees_Units_Unknown2a_Holder;
-	wxGridSizer *TechTrees_Units_Unknown2a1_Grid;
-	wxGridSizer *TechTrees_Units_Unknown2a2_Grid;
-	wxStaticText *TechTrees_Units_Unknown2a_Text;
-	TextCtrl_Long *TechTrees_Units_Unknown2a1[8];
-	TextCtrl_Long *TechTrees_Units_Unknown2a2[10];
-	wxBoxSizer *TechTrees_Units_Mode1_Holder;
-	wxStaticText *TechTrees_Units_Mode1_Text;
-	TextCtrl_Long *TechTrees_Units_Mode1;
-	wxBoxSizer *TechTrees_Units_Mode2_Holder;
-	wxStaticText *TechTrees_Units_Mode2_Text;
-	TextCtrl_Long *TechTrees_Units_Mode2;
-	wxBoxSizer *TechTrees_Units_Unknown2b_Holder;
-	wxGridSizer *TechTrees_Units_Unknown2b1_Grid;
-	wxGridSizer *TechTrees_Units_Unknown2b2_Grid;
-	wxStaticText *TechTrees_Units_Unknown2b_Text;
-	TextCtrl_Long *TechTrees_Units_Unknown2b1[7];
-	TextCtrl_Long *TechTrees_Units_Unknown2b2[10];
+	TextCtrl_Long *TechTrees_Units_Item;
+	ComboBox_Plus1 *TechTrees_Units_Item_ComboBox;
+	TextCtrl_Long *TechTrees_Units_Mode;
+
 	wxBoxSizer *TechTrees_Units_VerticalLine_Holder;
 	wxStaticText *TechTrees_Units_VerticalLine_Text;
 	TextCtrl_Long *TechTrees_Units_VerticalLine;
 
-	wxBoxSizer *TechTrees_Units_Unit_Holder;
 	TextCtrl_Long *TechTrees_Units_Unit;
 	ComboBox_Plus1 *TechTrees_Units_Unit_ComboBox;
 	wxBoxSizer *TechTrees_Units_LocationInAge_Holder;
