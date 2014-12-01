@@ -1421,6 +1421,7 @@ public:
 	TextCtrl_Byte *Units_Enabled;
 	CheckBox_2State *Units_Enabled_CheckBox;
 	TextCtrl_Byte *Units_NewUnknown;
+	CheckBox_2State *Units_NewUnknown_CheckBox;
 	TextCtrl_Short *Units_PlacementBypassTerrain[2];
 	ComboBox_Plus1 *Units_PlacementBypassTerrain_ComboBox[2];
 	TextCtrl_Short *Units_PlacementTerrain[2];
@@ -3057,6 +3058,9 @@ public:
 	TextCtrl_Long *TechTrees_Units_UpperBuilding;
 	ComboBox_Plus1 *TechTrees_Units_UpperBuilding_ComboBox;
 
+	wxBoxSizer *TechTrees_Units_UsedItems_Holder;
+	wxStaticText *TechTrees_Units_UsedItems_Text;
+	TextCtrl_Long *TechTrees_Units_UsedItems;
 	TextCtrl_Long *TechTrees_Units_Item;
 	ComboBox_Plus1 *TechTrees_Units_Item_ComboBox;
 	TextCtrl_Long *TechTrees_Units_Mode;
