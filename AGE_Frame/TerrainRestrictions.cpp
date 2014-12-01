@@ -180,7 +180,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 	for(short loop = Selections2; loop--> 0;)
 	{
 		TerrainPointer = (genie::Terrain*)TerRestrict_Terrains_List->GetClientData(Items2.Item(loop));
-		TerRestrictTerIDs[loop] = (TerrainPointer - (&GenieFile->Terrains[0]));
+		TerRestrictTerIDs[loop] = (TerrainPointer - (&GenieFile->TerrainBlock.Terrains[0]));
 
 		TerRestrict_Accessible->container[loop] = &TerRestPointer->TerrainAccessible[TerRestrictTerIDs[loop]];
 		if(GenieVersion >= genie::GV_AoKA)	//	Above AoE and RoR

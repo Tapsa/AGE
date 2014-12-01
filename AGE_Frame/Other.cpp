@@ -216,7 +216,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	}
 	else
 	{
-		TabBar_Main->ChangeSelection(5);
+		TabBar_Main->ChangeSelection(4);
 	}
 
 	{
@@ -1134,19 +1134,19 @@ void AGE_Frame::OnGameVersionChange()
 		//General_CalcBoxes[3]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[7]));
 
 		// Some general tab handling
-		for(auto loop = GenieFile->getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
+		for(auto loop = GenieFile->TerrainBlock.getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
 		General_AfterBorders[loop]->Show(false);
-		for(auto loop = GenieFile->getRenderingSize(); loop < General_TerrainRendering.size(); ++loop)
+		for(auto loop = GenieFile->TerrainBlock.getRenderingSize(); loop < General_TerrainRendering.size(); ++loop)
 		General_TerrainRendering[loop]->Show(false);
-		for(auto loop = GenieFile->getSomethingSize(); loop < General_Something.size(); ++loop)
+		for(auto loop = GenieFile->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
 		General_Something[loop]->Show(false);
 		if(ShowUnknowns)
 		{
-			for(short loop = 0; loop < GenieFile->getZeroSpaceSize(); ++loop)
+			for(short loop = 0; loop < GenieFile->TerrainBlock.getZeroSpaceSize(); ++loop)
 			General_AfterBorders[loop]->Show(true);
-			for(short loop = 0; loop < GenieFile->getRenderingSize(); ++loop)
+			for(short loop = 0; loop < GenieFile->TerrainBlock.getRenderingSize(); ++loop)
 			General_TerrainRendering[loop]->Show(true);
-			for(short loop = 0; loop < GenieFile->getSomethingSize(); ++loop)
+			for(short loop = 0; loop < GenieFile->TerrainBlock.getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
 		}
 
@@ -1224,7 +1224,7 @@ void AGE_Frame::OnGameVersionChange()
 		Colors_Palette_Holder->Show(show);
 		Colors_MinimapColor_Holder->Show(show);
 		TechTrees_Main->Show(show);
-		TabBar_Main->SetPageText(3, show ? "Tech. Trees" : "AoK+ only");
+		TabBar_Main->SetPageText(2, show ? "Tech. Trees" : "AoK+ only");
 		if(!show || ShowUnknowns)
 		{
 			Units_Type70plusUnknownArea_Holder->Show(show);
@@ -1267,7 +1267,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_Unitline_Holder->Show(show);
 		Units_MinTechLevel_Holder->Show(show);
 		UnitLines_Main->Show(show);
-		TabBar_Main->SetPageText(6, show ? "Unitlines" : "SW only");
+		TabBar_Main->SetPageText(5, show ? "Unitlines" : "SW only");
 		if(!show || ShowUnknowns)
 		{
 			Civs_SUnknown1_Holder->Show(show);
