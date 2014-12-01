@@ -742,15 +742,16 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	switch(UnitType)
 	{
 		case 10: Units_Type_ComboBox->SetSelection(1); break;
-		case 20: Units_Type_ComboBox->SetSelection(2); break;
-		case 25: Units_Type_ComboBox->SetSelection(3); break;
-		case 30: Units_Type_ComboBox->SetSelection(4); break;
-		case 40: Units_Type_ComboBox->SetSelection(5); break;
-		case 50: Units_Type_ComboBox->SetSelection(6); break;
-		case 60: Units_Type_ComboBox->SetSelection(7); break;
-		case 70: Units_Type_ComboBox->SetSelection(8); break;
-		case 80: Units_Type_ComboBox->SetSelection(9); break;
-		case 90: Units_Type_ComboBox->SetSelection(10); break;
+		case 15: Units_Type_ComboBox->SetSelection(2); break;
+		case 20: Units_Type_ComboBox->SetSelection(3); break;
+		case 25: Units_Type_ComboBox->SetSelection(4); break;
+		case 30: Units_Type_ComboBox->SetSelection(5); break;
+		case 40: Units_Type_ComboBox->SetSelection(6); break;
+		case 50: Units_Type_ComboBox->SetSelection(7); break;
+		case 60: Units_Type_ComboBox->SetSelection(8); break;
+		case 70: Units_Type_ComboBox->SetSelection(9); break;
+		case 80: Units_Type_ComboBox->SetSelection(10); break;
+		case 90: Units_Type_ComboBox->SetSelection(11); break;
 		default: Units_Type_ComboBox->SetSelection(0);
 	}
 
@@ -1090,6 +1091,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_HideInEditor->ChangeValue(lexical_cast<string>((short)UnitPointer->HideInEditor));
 	Units_HideInEditor_CheckBox->SetValue((bool)UnitPointer->HideInEditor);
 	Units_Unknown1->ChangeValue(lexical_cast<string>(UnitPointer->Unknown1));
+	Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
 	Units_Enabled_CheckBox->SetValue((bool)UnitPointer->Enabled);
 	Units_PlacementBypassTerrain[0]->ChangeValue(lexical_cast<string>(UnitPointer->PlacementBypassTerrain.first));
 	Units_PlacementBypassTerrain_ComboBox[0]->SetSelection(UnitPointer->PlacementBypassTerrain.first + 1);
@@ -1130,6 +1132,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
 			Units_StandingGraphic_ComboBox[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
 			Units_NewUnknown->ChangeValue(lexical_cast<string>((short)UnitPointer->NewUnknown));
+			Units_NewUnknown_CheckBox->SetValue((bool)UnitPointer->NewUnknown);
 			if(GenieVersion >= genie::GV_TC)
 			{
 				Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
@@ -1151,7 +1154,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
 		Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
 	}
-	Units_Enabled->ChangeValue(lexical_cast<string>((short)UnitPointer->Enabled));
 	Units_CommandAttribute->ChangeValue(lexical_cast<string>((short)UnitPointer->CommandAttribute));
 	Units_Unknown3A->ChangeValue(lexical_cast<string>(UnitPointer->Unknown3A));
 	Units_Unknown3B->ChangeValue(lexical_cast<string>((short)UnitPointer->Unknown3B));
@@ -1191,6 +1193,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	switch(UnitType) // Disable editing
 	{
 		case 10:
+		case 15:
 		{
 			Units_Speed->Enable(false);
 			Units_Speed->ChangeValue("0");
@@ -4086,6 +4089,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Enabled = new TextCtrl_Byte(Units_Scroller);
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
 	Units_Enabled_CheckBox = new CheckBox_2State(Units_Scroller, "No Research *", Units_Enabled);
+	Units_NewUnknown = new TextCtrl_Byte(Units_Scroller);
+	Units_NewUnknown->SetToolTip("0 Default\n1 Prevents enabling/disabling with a tech");
+	Units_NewUnknown_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_NewUnknown);
 	Units_HideInEditor = new TextCtrl_Byte(Units_Scroller);
 	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide In Editor", Units_HideInEditor);
 	Units_DeathMode = new TextCtrl_Byte(Units_Scroller);
@@ -4282,7 +4288,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_HPBarHeight2->SetToolTip("Vertical distance from ground");
 
 	Units_Unknown1 = new TextCtrl_Short(Units_Scroller);
-	Units_NewUnknown = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown3A = new TextCtrl_Float(Units_Scroller);
 	Units_Unknown3B = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller);
@@ -4455,15 +4460,16 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Type_ComboBox->Append("No Type/Invalid Type");
 	Units_Type_ComboBox->Append("10 - Eye Candy");
+	Units_Type_ComboBox->Append("15 - Tree (AoK)");
 	Units_Type_ComboBox->Append("20 - Flag");
 	Units_Type_ComboBox->Append("25 - Doppleganger");
-	Units_Type_ComboBox->Append("30 - Dead Unit/Fish Unit");
+	Units_Type_ComboBox->Append("30 - Dead/Fish");
 	Units_Type_ComboBox->Append("40 - Bird");
 	Units_Type_ComboBox->Append("50 - Unknown");
 	Units_Type_ComboBox->Append("60 - Projectile");
-	Units_Type_ComboBox->Append("70 - Living Unit");
+	Units_Type_ComboBox->Append("70 - Living");
 	Units_Type_ComboBox->Append("80 - Building");
-	Units_Type_ComboBox->Append("90 - Tree");
+	Units_Type_ComboBox->Append("90 - Tree (AoE)");
 	Units_Type_ComboBox->SetSelection(0);
 
 	Units_SpecialCopy_Options->Append("Special: graphics only");
@@ -4689,6 +4695,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Enabled_Holder->Add(2, -1);
 	Units_Enabled_Holder->Add(Units_Enabled_CheckBox, 2, wxEXPAND);
 	Units_NewUnknown_Holder->Add(Units_NewUnknown, 1, wxEXPAND);
+	Units_NewUnknown_Holder->Add(2, -1);
+	Units_NewUnknown_Holder->Add(Units_NewUnknown_CheckBox, 1, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
 	Units_PlacementBypassTerrainGrid_Holder->Add(Units_PlacementBypassTerrain[loop], 1, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
@@ -5279,6 +5287,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ProjectilesArea_Holder->Add(Units_ProjectilesArea1_Grid, 0, wxEXPAND);
 
 	Units_AttributesBoxes1_Grid->Add(Units_Enabled_Holder, 1, wxEXPAND);
+	Units_AttributesBoxes1_Grid->Add(Units_NewUnknown_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_HideInEditor_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_VisibleInFog_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_DeathMode_Holder, 1, wxEXPAND);
@@ -5405,7 +5414,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_MiscArea_Holder->Add(Units_HPBars_Grid, 1, wxEXPAND);
 
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown1_Holder, 0, wxEXPAND);
-	Units_Type10plusUnknowns_Grid->Add(Units_NewUnknown_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown3A_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown3B_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown6_Holder, 0, wxEXPAND);
@@ -5721,15 +5729,16 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 			switch(Selection)
 			{
 				case 1: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 10; break;
-				case 2: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 20; break;
-				case 3: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 25; break;
-				case 4: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 30; break;
-				case 5: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 40; break;
-				case 6: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 50; break;
-				case 7: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 60; break;
-				case 8: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 70; break;
-				case 9: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 80; break;
-				case 10: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 90; break;
+				case 2: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 15; break;
+				case 3: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 20; break;
+				case 4: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 25; break;
+				case 5: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 30; break;
+				case 6: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 40; break;
+				case 7: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 50; break;
+				case 8: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 60; break;
+				case 9: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 70; break;
+				case 10: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 80; break;
+				case 11: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 90; break;
 			}
 			if(AutoCopy) // Should copy-to-civ selections affect this?
 			{
