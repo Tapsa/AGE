@@ -73,27 +73,27 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 {
 	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
 	{
-		General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>(GenieFile->GraphicsRendering[loop]));
+		General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>(GenieFile->TerrainBlock.GraphicsRendering[loop]));
 		General_TerrainHeader[loop]->resize(1);
-		General_TerrainHeader[loop]->container[0] = &GenieFile->GraphicsRendering[loop];
+		General_TerrainHeader[loop]->container[0] = &GenieFile->TerrainBlock.GraphicsRendering[loop];
 	}
-	for(short loop = 0; loop < GenieFile->ZeroSpace.size(); ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainBlock.ZeroSpace.size(); ++loop)
 	{
-		General_AfterBorders[loop]->ChangeValue(lexical_cast<string>(GenieFile->ZeroSpace[loop]));
+		General_AfterBorders[loop]->ChangeValue(lexical_cast<string>(GenieFile->TerrainBlock.ZeroSpace[loop]));
 		General_AfterBorders[loop]->resize(1);
-		General_AfterBorders[loop]->container[0] = &GenieFile->ZeroSpace[loop];
+		General_AfterBorders[loop]->container[0] = &GenieFile->TerrainBlock.ZeroSpace[loop];
 	}
-	for(short loop = 0; loop < GenieFile->Rendering.size(); ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainBlock.Rendering.size(); ++loop)
 	{
-		General_TerrainRendering[loop]->ChangeValue(lexical_cast<string>(GenieFile->Rendering[loop]));
+		General_TerrainRendering[loop]->ChangeValue(lexical_cast<string>(GenieFile->TerrainBlock.Rendering[loop]));
 		General_TerrainRendering[loop]->resize(1);
-		General_TerrainRendering[loop]->container[0] = &GenieFile->Rendering[loop];
+		General_TerrainRendering[loop]->container[0] = &GenieFile->TerrainBlock.Rendering[loop];
 	}
-	for(short loop = 0; loop < GenieFile->Something.size(); ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainBlock.Something.size(); ++loop)
 	{
-		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->Something[loop]));
+		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->TerrainBlock.Something[loop]));
 		General_Something[loop]->resize(1);
-		General_Something[loop]->container[0] = &GenieFile->Something[loop];
+		General_Something[loop]->container[0] = &GenieFile->TerrainBlock.Something[loop];
 	}
 	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->RandomMaps.RandomMapPointer));
 	Unknown_UnknownPointer->resize(1);
@@ -732,10 +732,10 @@ void AGE_Frame::OnRMSTerrainSearch(wxCommandEvent &Event)
 string AGE_Frame::GetRMSTerrainName(short Terrain)
 {
 	string Name = lexical_cast<string>(Terrain)+" ";
-	if(GenieFile->Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
-	if(!GenieFile->Terrains[Terrain].Name.empty())
+	if(GenieFile->TerrainBlock.Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
+	if(!GenieFile->TerrainBlock.Terrains[Terrain].Name.empty())
 	{
-		return Name + GenieFile->Terrains[Terrain].Name;
+		return Name + GenieFile->TerrainBlock.Terrains[Terrain].Name;
 	}
 	return Name + "New Terrain";
 }
@@ -1090,10 +1090,10 @@ void AGE_Frame::OnRMSUnknownSearch(wxCommandEvent &Event)
 string AGE_Frame::GetRMSUnknownName(short Terrain)
 {
 	string Name = lexical_cast<string>(Terrain)+" ";
-	if(GenieFile->Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
-	if(!GenieFile->Terrains[Terrain].Name.empty())
+	if(GenieFile->TerrainBlock.Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
+	if(!GenieFile->TerrainBlock.Terrains[Terrain].Name.empty())
 	{
-		return Name + GenieFile->Terrains[Terrain].Name;
+		return Name + GenieFile->TerrainBlock.Terrains[Terrain].Name;
 	}
 	return Name + "New Terrain";
 }
