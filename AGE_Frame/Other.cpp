@@ -1224,7 +1224,7 @@ void AGE_Frame::OnGameVersionChange()
 		Colors_Palette_Holder->Show(show);
 		Colors_MinimapColor_Holder->Show(show);
 		TechTrees_Main->Show(show);
-		TabBar_Main->SetPageText(3, show ? "Tech. Trees" : "-");
+		TabBar_Main->SetPageText(3, show ? "Tech. Trees" : "AoK+ only");
 		if(!show || ShowUnknowns)
 		{
 			Units_Type70plusUnknownArea_Holder->Show(show);
@@ -1267,7 +1267,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_Unitline_Holder->Show(show);
 		Units_MinTechLevel_Holder->Show(show);
 		UnitLines_Main->Show(show);
-		TabBar_Main->SetPageText(6, show ? "Unitlines" : "-");
+		TabBar_Main->SetPageText(6, show ? "Unitlines" : "SW only");
 		if(!show || ShowUnknowns)
 		{
 			Civs_SUnknown1_Holder->Show(show);
