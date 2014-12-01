@@ -2,9 +2,9 @@
 
 string AGE_Frame::GetTerrainName(short Index)
 {
-	if(GenieFile->Terrains.size() <= Index) return "Nonexistent Terrain";
-	if(!GenieFile->Terrains[Index].Name.empty())
-		return GenieFile->Terrains[Index].Name;
+	if(GenieFile->TerrainBlock.Terrains.size() <= Index) return "Nonexistent Terrain";
+	if(!GenieFile->TerrainBlock.Terrains[Index].Name.empty())
+		return GenieFile->TerrainBlock.Terrains[Index].Name;
 	return "New Terrain";
 }
 
@@ -18,7 +18,7 @@ void AGE_Frame::ListTerrainNumbers()
 	Terrains_UsedCount->ChangeValue(lexical_cast<string>(GenieFile->NumberOfTerrainsUsed));
 	Terrains_UsedCount->resize(2);
 	Terrains_UsedCount->container[0] = &GenieFile->NumberOfTerrainsUsed;
-	Terrains_UsedCount->container[1] = &GenieFile->NumberOfTerrainsUsed2;
+	Terrains_UsedCount->container[1] = &GenieFile->TerrainBlock.NumberOfTerrainsUsed2;
 }
 
 void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
@@ -45,15 +45,15 @@ void AGE_Frame::ListTerrains(bool all)
 
 	list<void*> dataPointers;
 	wxArrayString names, filteredNames;
-	if(all) names.Alloc(GenieFile->Terrains.size());
+	if(all) names.Alloc(GenieFile->TerrainBlock.Terrains.size());
 
-	for(short loop = 0; loop < GenieFile->Terrains.size(); ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->Terrains[loop]);
+			dataPointers.push_back((void*)&GenieFile->TerrainBlock.Terrains[loop]);
 		}
 		if(all) names.Add(Name);
 	}
@@ -78,7 +78,7 @@ void AGE_Frame::ListTerrains(bool all)
 		Name += " - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->Terrains[loop]);
+			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->TerrainBlock.Terrains[loop]);
 		}
 	}
 	TerRestrict_Terrains_List->SetSelection(Items.Item(0));
@@ -130,7 +130,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_TerrainReplacementID->resize(selections);
 	Terrains_TerrainDimensions[0]->resize(selections);
 	Terrains_TerrainDimensions[1]->resize(selections);
-	for(short loop = 0; loop < GenieFile->Terrains[0].getTerrainBorderSize(); ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains[0].getTerrainBorderSize(); ++loop)
 	{
 		Terrains_TerrainBorderID[loop]->resize(selections);
 	}
@@ -146,7 +146,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	for(auto sel = selections; sel--> 0;)
 	{
 		TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Items.Item(sel));
-		TerrainIDs[sel] = (TerrainPointer - (&GenieFile->Terrains[0]));
+		TerrainIDs[sel] = (TerrainPointer - (&GenieFile->TerrainBlock.Terrains[0]));
 
 		Terrains_Unknown1->container[sel] = &TerrainPointer->Unknown1;
 		Terrains_Unknown2->container[sel] = &TerrainPointer->Enabled;
@@ -259,7 +259,7 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	AddToList(GenieFile->Terrains);
+	AddToList(GenieFile->TerrainBlock.Terrains);
 	ListTerrains();
 }
 
@@ -269,7 +269,7 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent &Event) // Their count is hardco
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(GenieFile->Terrains, TerrainIDs[0]);
+	InsertToList(GenieFile->TerrainBlock.Terrains, TerrainIDs[0]);
 	ListTerrains();
 }
 
@@ -279,7 +279,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardco
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Terrains, TerrainIDs);
+	DeleteFromList(GenieFile->TerrainBlock.Terrains, TerrainIDs);
 	ListTerrains();
 }
 
@@ -289,7 +289,7 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Terrains, TerrainIDs, copies->Terrain);
+	CopyFromList(GenieFile->TerrainBlock.Terrains, TerrainIDs, copies->Terrain);
 }
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
@@ -298,7 +298,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoResize(GenieFile->Terrains, TerrainIDs[0], copies->Terrain);
+	PasteToListNoResize(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies->Terrain);
 	ListTerrains();
 }
 
@@ -308,7 +308,7 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Terrains, TerrainIDs[0], copies->Terrain);
+	PasteInsertToList(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies->Terrain);
 	ListTerrains();
 }
 
