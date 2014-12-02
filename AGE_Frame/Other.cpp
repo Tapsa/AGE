@@ -912,7 +912,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			TechTrees_DataList_Buildings_List_Units->Clear();
 			TechTrees_DataList_Buildings_List_Researches->Clear();
 			TechTrees_MainList_Units_List->Clear();
-			TechTrees_DataList_Units_List_Units->Clear();
+			TechTrees_Units_Units.List->Clear();
 			TechTrees_MainList_Researches_List->Clear();
 			TechTrees_DataList_Researches_List_Buildings->Clear();
 			TechTrees_DataList_Researches_List_Units->Clear();

@@ -1,11 +1,9 @@
 #include "Common.h"
-#include "AGE_TextControls.h"
-#include "AGE_ComboBoxes.h"
-#include "AGE_CheckBoxes.h"
 #include "AGE_OpenDialog.h"
 #include "AGE_SaveDialog.h"
 #include "AGE_AboutDialog.h"
 #include "AGE_Copies.hpp"
+#include "AGE_FramePieces.h"
 
 class AGE_Frame: public wxFrame
 {
@@ -2814,6 +2812,8 @@ public:
 	wxButton *TechTrees_MainList_Units_PasteInsert;
 	wxButton *TechTrees_MainList_Researches_PasteInsert;
 
+	AGE_List TechTrees_Units_Units;
+
 	wxBoxSizer *TechTrees_Data_Ages;
 	wxGridSizer *TechTrees_Data_Ages1;
 	wxBoxSizer *TechTrees_Data_Buildings;
@@ -2834,7 +2834,6 @@ public:
 	wxStaticBoxSizer *TechTrees_DataList_Buildings_Units;
 	wxStaticBoxSizer *TechTrees_DataList_Buildings_Researches;
 	wxStaticBoxSizer *TechTrees_DataList_Buildings_Items;
-	wxStaticBoxSizer *TechTrees_DataList_Units_Units;
 	wxStaticBoxSizer *TechTrees_DataList_Units_Items;
 	wxStaticBoxSizer *TechTrees_DataList_Researches_Buildings;
 	wxStaticBoxSizer *TechTrees_DataList_Researches_Units;
@@ -2846,7 +2845,6 @@ public:
 	wxTextCtrl *TechTrees_DataList_Buildings_Search_Buildings;
 	wxTextCtrl *TechTrees_DataList_Buildings_Search_Units;
 	wxTextCtrl *TechTrees_DataList_Buildings_Search_Researches;
-	wxTextCtrl *TechTrees_DataList_Units_Search_Units;
 	wxTextCtrl *TechTrees_DataList_Researches_Search_Buildings;
 	wxTextCtrl *TechTrees_DataList_Researches_Search_Units;
 	wxTextCtrl *TechTrees_DataList_Researches_Search_Researches;
@@ -2856,7 +2854,6 @@ public:
 	wxTextCtrl *TechTrees_DataList_Buildings_Search_R_Buildings;
 	wxTextCtrl *TechTrees_DataList_Buildings_Search_R_Units;
 	wxTextCtrl *TechTrees_DataList_Buildings_Search_R_Researches;
-	wxTextCtrl *TechTrees_DataList_Units_Search_R_Units;
 	wxTextCtrl *TechTrees_DataList_Researches_Search_R_Buildings;
 	wxTextCtrl *TechTrees_DataList_Researches_Search_R_Units;
 	wxTextCtrl *TechTrees_DataList_Researches_Search_R_Researches;
@@ -2866,7 +2863,6 @@ public:
 	wxListBox *TechTrees_DataList_Buildings_List_Buildings;
 	wxListBox *TechTrees_DataList_Buildings_List_Units;
 	wxListBox *TechTrees_DataList_Buildings_List_Researches;
-	wxListBox *TechTrees_DataList_Units_List_Units;
 	wxListBox *TechTrees_DataList_Researches_List_Buildings;
 	wxListBox *TechTrees_DataList_Researches_List_Units;
 	wxListBox *TechTrees_DataList_Researches_List_Researches;
@@ -2876,7 +2872,6 @@ public:
 	wxGridSizer *TechTrees_DataList_Buildings_Buttons_Buildings;
 	wxGridSizer *TechTrees_DataList_Buildings_Buttons_Units;
 	wxGridSizer *TechTrees_DataList_Buildings_Buttons_Researches;
-	wxGridSizer *TechTrees_DataList_Units_Buttons_Units;
 	wxGridSizer *TechTrees_DataList_Researches_Buttons_Buildings;
 	wxGridSizer *TechTrees_DataList_Researches_Buttons_Units;
 	wxGridSizer *TechTrees_DataList_Researches_Buttons_Researches;
@@ -2886,7 +2881,6 @@ public:
 	wxButton *TechTrees_DataList_Buildings_Add_Buildings;
 	wxButton *TechTrees_DataList_Buildings_Add_Units;
 	wxButton *TechTrees_DataList_Buildings_Add_Researches;
-	wxButton *TechTrees_DataList_Units_Add_Units;
 	wxButton *TechTrees_DataList_Researches_Add_Buildings;
 	wxButton *TechTrees_DataList_Researches_Add_Units;
 	wxButton *TechTrees_DataList_Researches_Add_Researches;
@@ -2896,7 +2890,6 @@ public:
 	wxButton *TechTrees_DataList_Buildings_Insert_Buildings;
 	wxButton *TechTrees_DataList_Buildings_Insert_Units;
 	wxButton *TechTrees_DataList_Buildings_Insert_Researches;
-	wxButton *TechTrees_DataList_Units_Insert_Units;
 	wxButton *TechTrees_DataList_Researches_Insert_Buildings;
 	wxButton *TechTrees_DataList_Researches_Insert_Units;
 	wxButton *TechTrees_DataList_Researches_Insert_Researches;
@@ -2906,7 +2899,6 @@ public:
 	wxButton *TechTrees_DataList_Buildings_Delete_Buildings;
 	wxButton *TechTrees_DataList_Buildings_Delete_Units;
 	wxButton *TechTrees_DataList_Buildings_Delete_Researches;
-	wxButton *TechTrees_DataList_Units_Delete_Units;
 	wxButton *TechTrees_DataList_Researches_Delete_Buildings;
 	wxButton *TechTrees_DataList_Researches_Delete_Units;
 	wxButton *TechTrees_DataList_Researches_Delete_Researches;
@@ -2916,7 +2908,6 @@ public:
 	wxButton *TechTrees_DataList_Buildings_Copy_Buildings;
 	wxButton *TechTrees_DataList_Buildings_Copy_Units;
 	wxButton *TechTrees_DataList_Buildings_Copy_Researches;
-	wxButton *TechTrees_DataList_Units_Copy_Units;
 	wxButton *TechTrees_DataList_Researches_Copy_Buildings;
 	wxButton *TechTrees_DataList_Researches_Copy_Units;
 	wxButton *TechTrees_DataList_Researches_Copy_Researches;
@@ -2926,7 +2917,6 @@ public:
 	wxButton *TechTrees_DataList_Buildings_Paste_Buildings;
 	wxButton *TechTrees_DataList_Buildings_Paste_Units;
 	wxButton *TechTrees_DataList_Buildings_Paste_Researches;
-	wxButton *TechTrees_DataList_Units_Paste_Units;
 	wxButton *TechTrees_DataList_Researches_Paste_Buildings;
 	wxButton *TechTrees_DataList_Researches_Paste_Units;
 	wxButton *TechTrees_DataList_Researches_Paste_Researches;
@@ -2936,7 +2926,6 @@ public:
 	wxButton *TechTrees_DataList_Buildings_PasteInsert_Buildings;
 	wxButton *TechTrees_DataList_Buildings_PasteInsert_Units;
 	wxButton *TechTrees_DataList_Buildings_PasteInsert_Researches;
-	wxButton *TechTrees_DataList_Units_PasteInsert_Units;
 	wxButton *TechTrees_DataList_Researches_PasteInsert_Buildings;
 	wxButton *TechTrees_DataList_Researches_PasteInsert_Units;
 	wxButton *TechTrees_DataList_Researches_PasteInsert_Researches;
@@ -2946,7 +2935,6 @@ public:
 	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Buildings;
 	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Units;
 	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Researches;
-	wxButton *TechTrees_DataList_Units_CopyToUnits_Units;
 	wxButton *TechTrees_DataList_Researches_CopyToResearches_Buildings;
 	wxButton *TechTrees_DataList_Researches_CopyToResearches_Units;
 	wxButton *TechTrees_DataList_Researches_CopyToResearches_Researches;
@@ -3069,8 +3057,6 @@ public:
 	wxStaticText *TechTrees_Units_VerticalLine_Text;
 	TextCtrl_Long *TechTrees_Units_VerticalLine;
 
-	TextCtrl_Long *TechTrees_Units_Unit;
-	ComboBox_Plus1 *TechTrees_Units_Unit_ComboBox;
 	wxBoxSizer *TechTrees_Units_LocationInAge_Holder;
 	wxStaticText *TechTrees_Units_LocationInAge_Text;
 	TextCtrl_Long *TechTrees_Units_LocationInAge;
