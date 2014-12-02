@@ -1,9 +1,8 @@
-#include "Common.h"
+#include "AGE_FramePieces.h"
 #include "AGE_OpenDialog.h"
 #include "AGE_SaveDialog.h"
 #include "AGE_AboutDialog.h"
 #include "AGE_Copies.hpp"
-#include "AGE_FramePieces.h"
 
 class AGE_Frame: public wxFrame
 {
@@ -2812,7 +2811,16 @@ public:
 	wxButton *TechTrees_MainList_Units_PasteInsert;
 	wxButton *TechTrees_MainList_Researches_PasteInsert;
 
+	AGE_List TechTrees_Ages_Buildings;
+	AGE_List TechTrees_Ages_Units;
+	AGE_List TechTrees_Ages_Researches;
+	AGE_List TechTrees_Buildings_Buildings;
+	AGE_List TechTrees_Buildings_Units;
+	AGE_List TechTrees_Buildings_Researches;
 	AGE_List TechTrees_Units_Units;
+	AGE_List TechTrees_Researches_Buildings;
+	AGE_List TechTrees_Researches_Units;
+	AGE_List TechTrees_Researches_Researches;
 
 	wxBoxSizer *TechTrees_Data_Ages;
 	wxGridSizer *TechTrees_Data_Ages1;
@@ -2826,118 +2834,10 @@ public:
 	wxBoxSizer *TechTrees_DataListHolder_Buildings;
 	wxBoxSizer *TechTrees_DataListHolder_Units;
 	wxBoxSizer *TechTrees_DataListHolder_Researches;
-	wxStaticBoxSizer *TechTrees_DataList_Ages_Buildings;
-	wxStaticBoxSizer *TechTrees_DataList_Ages_Units;
-	wxStaticBoxSizer *TechTrees_DataList_Ages_Researches;
 	wxStaticBoxSizer *TechTrees_DataList_Ages_Items;
-	wxStaticBoxSizer *TechTrees_DataList_Buildings_Buildings;
-	wxStaticBoxSizer *TechTrees_DataList_Buildings_Units;
-	wxStaticBoxSizer *TechTrees_DataList_Buildings_Researches;
 	wxStaticBoxSizer *TechTrees_DataList_Buildings_Items;
 	wxStaticBoxSizer *TechTrees_DataList_Units_Items;
-	wxStaticBoxSizer *TechTrees_DataList_Researches_Buildings;
-	wxStaticBoxSizer *TechTrees_DataList_Researches_Units;
-	wxStaticBoxSizer *TechTrees_DataList_Researches_Researches;
 	wxStaticBoxSizer *TechTrees_DataList_Researches_Items;
-	wxTextCtrl *TechTrees_DataList_Ages_Search_Buildings;
-	wxTextCtrl *TechTrees_DataList_Ages_Search_Units;
-	wxTextCtrl *TechTrees_DataList_Ages_Search_Researches;
-	wxTextCtrl *TechTrees_DataList_Buildings_Search_Buildings;
-	wxTextCtrl *TechTrees_DataList_Buildings_Search_Units;
-	wxTextCtrl *TechTrees_DataList_Buildings_Search_Researches;
-	wxTextCtrl *TechTrees_DataList_Researches_Search_Buildings;
-	wxTextCtrl *TechTrees_DataList_Researches_Search_Units;
-	wxTextCtrl *TechTrees_DataList_Researches_Search_Researches;
-	wxTextCtrl *TechTrees_DataList_Ages_Search_R_Buildings;
-	wxTextCtrl *TechTrees_DataList_Ages_Search_R_Units;
-	wxTextCtrl *TechTrees_DataList_Ages_Search_R_Researches;
-	wxTextCtrl *TechTrees_DataList_Buildings_Search_R_Buildings;
-	wxTextCtrl *TechTrees_DataList_Buildings_Search_R_Units;
-	wxTextCtrl *TechTrees_DataList_Buildings_Search_R_Researches;
-	wxTextCtrl *TechTrees_DataList_Researches_Search_R_Buildings;
-	wxTextCtrl *TechTrees_DataList_Researches_Search_R_Units;
-	wxTextCtrl *TechTrees_DataList_Researches_Search_R_Researches;
-	wxListBox *TechTrees_DataList_Ages_List_Buildings;
-	wxListBox *TechTrees_DataList_Ages_List_Units;
-	wxListBox *TechTrees_DataList_Ages_List_Researches;
-	wxListBox *TechTrees_DataList_Buildings_List_Buildings;
-	wxListBox *TechTrees_DataList_Buildings_List_Units;
-	wxListBox *TechTrees_DataList_Buildings_List_Researches;
-	wxListBox *TechTrees_DataList_Researches_List_Buildings;
-	wxListBox *TechTrees_DataList_Researches_List_Units;
-	wxListBox *TechTrees_DataList_Researches_List_Researches;
-	wxGridSizer *TechTrees_DataList_Ages_Buttons_Buildings;
-	wxGridSizer *TechTrees_DataList_Ages_Buttons_Units;
-	wxGridSizer *TechTrees_DataList_Ages_Buttons_Researches;
-	wxGridSizer *TechTrees_DataList_Buildings_Buttons_Buildings;
-	wxGridSizer *TechTrees_DataList_Buildings_Buttons_Units;
-	wxGridSizer *TechTrees_DataList_Buildings_Buttons_Researches;
-	wxGridSizer *TechTrees_DataList_Researches_Buttons_Buildings;
-	wxGridSizer *TechTrees_DataList_Researches_Buttons_Units;
-	wxGridSizer *TechTrees_DataList_Researches_Buttons_Researches;
-	wxButton *TechTrees_DataList_Ages_Add_Buildings;
-	wxButton *TechTrees_DataList_Ages_Add_Units;
-	wxButton *TechTrees_DataList_Ages_Add_Researches;
-	wxButton *TechTrees_DataList_Buildings_Add_Buildings;
-	wxButton *TechTrees_DataList_Buildings_Add_Units;
-	wxButton *TechTrees_DataList_Buildings_Add_Researches;
-	wxButton *TechTrees_DataList_Researches_Add_Buildings;
-	wxButton *TechTrees_DataList_Researches_Add_Units;
-	wxButton *TechTrees_DataList_Researches_Add_Researches;
-	wxButton *TechTrees_DataList_Ages_Insert_Buildings;
-	wxButton *TechTrees_DataList_Ages_Insert_Units;
-	wxButton *TechTrees_DataList_Ages_Insert_Researches;
-	wxButton *TechTrees_DataList_Buildings_Insert_Buildings;
-	wxButton *TechTrees_DataList_Buildings_Insert_Units;
-	wxButton *TechTrees_DataList_Buildings_Insert_Researches;
-	wxButton *TechTrees_DataList_Researches_Insert_Buildings;
-	wxButton *TechTrees_DataList_Researches_Insert_Units;
-	wxButton *TechTrees_DataList_Researches_Insert_Researches;
-	wxButton *TechTrees_DataList_Ages_Delete_Buildings;
-	wxButton *TechTrees_DataList_Ages_Delete_Units;
-	wxButton *TechTrees_DataList_Ages_Delete_Researches;
-	wxButton *TechTrees_DataList_Buildings_Delete_Buildings;
-	wxButton *TechTrees_DataList_Buildings_Delete_Units;
-	wxButton *TechTrees_DataList_Buildings_Delete_Researches;
-	wxButton *TechTrees_DataList_Researches_Delete_Buildings;
-	wxButton *TechTrees_DataList_Researches_Delete_Units;
-	wxButton *TechTrees_DataList_Researches_Delete_Researches;
-	wxButton *TechTrees_DataList_Ages_Copy_Buildings;
-	wxButton *TechTrees_DataList_Ages_Copy_Units;
-	wxButton *TechTrees_DataList_Ages_Copy_Researches;
-	wxButton *TechTrees_DataList_Buildings_Copy_Buildings;
-	wxButton *TechTrees_DataList_Buildings_Copy_Units;
-	wxButton *TechTrees_DataList_Buildings_Copy_Researches;
-	wxButton *TechTrees_DataList_Researches_Copy_Buildings;
-	wxButton *TechTrees_DataList_Researches_Copy_Units;
-	wxButton *TechTrees_DataList_Researches_Copy_Researches;
-	wxButton *TechTrees_DataList_Ages_Paste_Buildings;
-	wxButton *TechTrees_DataList_Ages_Paste_Units;
-	wxButton *TechTrees_DataList_Ages_Paste_Researches;
-	wxButton *TechTrees_DataList_Buildings_Paste_Buildings;
-	wxButton *TechTrees_DataList_Buildings_Paste_Units;
-	wxButton *TechTrees_DataList_Buildings_Paste_Researches;
-	wxButton *TechTrees_DataList_Researches_Paste_Buildings;
-	wxButton *TechTrees_DataList_Researches_Paste_Units;
-	wxButton *TechTrees_DataList_Researches_Paste_Researches;
-	wxButton *TechTrees_DataList_Ages_PasteInsert_Buildings;
-	wxButton *TechTrees_DataList_Ages_PasteInsert_Units;
-	wxButton *TechTrees_DataList_Ages_PasteInsert_Researches;
-	wxButton *TechTrees_DataList_Buildings_PasteInsert_Buildings;
-	wxButton *TechTrees_DataList_Buildings_PasteInsert_Units;
-	wxButton *TechTrees_DataList_Buildings_PasteInsert_Researches;
-	wxButton *TechTrees_DataList_Researches_PasteInsert_Buildings;
-	wxButton *TechTrees_DataList_Researches_PasteInsert_Units;
-	wxButton *TechTrees_DataList_Researches_PasteInsert_Researches;
-	wxButton *TechTrees_DataList_Ages_CopyToAges_Buildings;
-	wxButton *TechTrees_DataList_Ages_CopyToAges_Units;
-	wxButton *TechTrees_DataList_Ages_CopyToAges_Researches;
-	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Buildings;
-	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Units;
-	wxButton *TechTrees_DataList_Buildings_CopyToBuildings_Researches;
-	wxButton *TechTrees_DataList_Researches_CopyToResearches_Buildings;
-	wxButton *TechTrees_DataList_Researches_CopyToResearches_Units;
-	wxButton *TechTrees_DataList_Researches_CopyToResearches_Researches;
 
 	wxBoxSizer *TechTrees_Ages_ID_Holder;
 	wxStaticText *TechTrees_Ages_ID_Text;
@@ -2945,15 +2845,6 @@ public:
 	wxBoxSizer *TechTrees_Ages_Unknown2_Holder;
 	wxStaticText *TechTrees_Ages_Unknown2_Text;
 	TextCtrl_Byte *TechTrees_Ages_Unknown2;
-	wxBoxSizer *TechTrees_Ages_Building_Holder;
-	TextCtrl_Long *TechTrees_Ages_Building;
-	ComboBox_Plus1 *TechTrees_Ages_Building_ComboBox;
-	wxBoxSizer *TechTrees_Ages_Unit_Holder;
-	TextCtrl_Long *TechTrees_Ages_Unit;
-	ComboBox_Plus1 *TechTrees_Ages_Unit_ComboBox;
-	wxBoxSizer *TechTrees_Ages_Research_Holder;
-	TextCtrl_Long *TechTrees_Ages_Research;
-	ComboBox_Plus1 *TechTrees_Ages_Research_ComboBox;
 	wxBoxSizer *TechTrees_Ages_Unknown3_Holder;
 	wxStaticText *TechTrees_Ages_Unknown3_Text;
 	TextCtrl_Byte *TechTrees_Ages_Unknown3;
@@ -2974,15 +2865,6 @@ public:
 	wxBoxSizer *TechTrees_Buildings_Always2_Holder;
 	wxStaticText *TechTrees_Buildings_Always2_Text;
 	TextCtrl_Byte *TechTrees_Buildings_Always2;
-	wxBoxSizer *TechTrees_Buildings_Building_Holder;
-	TextCtrl_Long *TechTrees_Buildings_Building;
-	ComboBox_Plus1 *TechTrees_Buildings_Building_ComboBox;
-	wxBoxSizer *TechTrees_Buildings_Unit_Holder;
-	TextCtrl_Long *TechTrees_Buildings_Unit;
-	ComboBox_Plus1 *TechTrees_Buildings_Unit_ComboBox;
-	wxBoxSizer *TechTrees_Buildings_Research_Holder;
-	TextCtrl_Long *TechTrees_Buildings_Research;
-	ComboBox_Plus1 *TechTrees_Buildings_Research_ComboBox;
 
 	wxBoxSizer *TechTrees_Buildings_RequiredResearches_Holder;
 	wxStaticText *TechTrees_Buildings_RequiredResearches_Text;
@@ -3083,15 +2965,6 @@ public:
 	wxStaticText *TechTrees_Researches_UpperBuilding_Text;
 	TextCtrl_Long *TechTrees_Researches_UpperBuilding;
 	ComboBox_Plus1 *TechTrees_Researches_UpperBuilding_ComboBox;
-	wxBoxSizer *TechTrees_Researches_Building_Holder;
-	TextCtrl_Long *TechTrees_Researches_Building;
-	ComboBox_Plus1 *TechTrees_Researches_Building_ComboBox;
-	wxBoxSizer *TechTrees_Researches_Unit_Holder;
-	TextCtrl_Long *TechTrees_Researches_Unit;
-	ComboBox_Plus1 *TechTrees_Researches_Unit_ComboBox;
-	wxBoxSizer *TechTrees_Researches_Research_Holder;
-	TextCtrl_Long *TechTrees_Researches_Research;
-	ComboBox_Plus1 *TechTrees_Researches_Research_ComboBox;
 
 	wxBoxSizer *TechTrees_Researches_RequiredResearches_Holder;
 	wxStaticText *TechTrees_Researches_RequiredResearches_Text;

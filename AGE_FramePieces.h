@@ -5,6 +5,8 @@
 
 class AGE_List
 {
+private:
+	wxGridSizer *Buttons;
 public:
 	AGE_List() {}
 	virtual ~AGE_List() {}
@@ -14,10 +16,9 @@ public:
 	wxListBox *List;
 	TextCtrl_Long *Item;
 	ComboBox_Plus1 *ItemCombo;
-	wxGridSizer *Buttons;
 	wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
 
-	void CreateControls(wxScrolledWindow* &scroller, const wxString &listName)
+	void CreateControls(wxScrolledWindow* &scroller, const wxString &listName, const wxString &itemName)
 	{
 		ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
 		Search = new wxTextCtrl(scroller, wxID_ANY);
@@ -32,7 +33,7 @@ public:
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 		Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 		PasteInsert = new wxButton(scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
-		CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
+		CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(5, 20));
 
 		Buttons->Add(Add, 1, wxEXPAND);
 		Buttons->Add(Insert, 1, wxEXPAND);
