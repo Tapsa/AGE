@@ -2811,16 +2811,20 @@ public:
 	wxButton *TechTrees_MainList_Units_PasteInsert;
 	wxButton *TechTrees_MainList_Researches_PasteInsert;
 
-	AGE_List TechTrees_Ages_Buildings;
-	AGE_List TechTrees_Ages_Units;
-	AGE_List TechTrees_Ages_Researches;
-	AGE_List TechTrees_Buildings_Buildings;
-	AGE_List TechTrees_Buildings_Units;
-	AGE_List TechTrees_Buildings_Researches;
-	AGE_List TechTrees_Units_Units;
-	AGE_List TechTrees_Researches_Buildings;
-	AGE_List TechTrees_Researches_Units;
-	AGE_List TechTrees_Researches_Researches;
+	AGE_List32Box TechTrees_Ages_Buildings;
+	AGE_List32Box TechTrees_Ages_Units;
+	AGE_List32Box TechTrees_Ages_Researches;
+	AGE_List32Box TechTrees_Buildings_Buildings;
+	AGE_List32Box TechTrees_Buildings_Units;
+	AGE_List32Box TechTrees_Buildings_Researches;
+	AGE_List32Box TechTrees_Units_Units;
+	AGE_List32Box TechTrees_Researches_Buildings;
+	AGE_List32Box TechTrees_Researches_Units;
+	AGE_List32Box TechTrees_Researches_Researches;
+	AGE_AreaTT84 TechTrees_Ages_Items;
+	AGE_AreaTT84 TechTrees_Buildings_Items;
+	AGE_AreaTT84 TechTrees_Units_Items;
+	AGE_AreaTT84 TechTrees_Researches_Items;
 
 	wxBoxSizer *TechTrees_Data_Ages;
 	wxGridSizer *TechTrees_Data_Ages1;
@@ -2834,10 +2838,6 @@ public:
 	wxBoxSizer *TechTrees_DataListHolder_Buildings;
 	wxBoxSizer *TechTrees_DataListHolder_Units;
 	wxBoxSizer *TechTrees_DataListHolder_Researches;
-	wxStaticBoxSizer *TechTrees_DataList_Ages_Items;
-	wxStaticBoxSizer *TechTrees_DataList_Buildings_Items;
-	wxStaticBoxSizer *TechTrees_DataList_Units_Items;
-	wxStaticBoxSizer *TechTrees_DataList_Researches_Items;
 
 	wxBoxSizer *TechTrees_Ages_ID_Holder;
 	wxStaticText *TechTrees_Ages_ID_Text;
@@ -2927,13 +2927,6 @@ public:
 	wxStaticText *TechTrees_Units_UpperBuilding_Text;
 	TextCtrl_Long *TechTrees_Units_UpperBuilding;
 	ComboBox_Plus1 *TechTrees_Units_UpperBuilding_ComboBox;
-
-	wxBoxSizer *TechTrees_Units_UsedItems_Holder;
-	wxStaticText *TechTrees_Units_UsedItems_Text;
-	TextCtrl_Long *TechTrees_Units_UsedItems;
-	TextCtrl_Long *TechTrees_Units_Item;
-	ComboBox_Plus1 *TechTrees_Units_Item_ComboBox;
-	TextCtrl_Long *TechTrees_Units_Mode;
 
 	wxBoxSizer *TechTrees_Units_VerticalLine_Holder;
 	wxStaticText *TechTrees_Units_VerticalLine_Text;

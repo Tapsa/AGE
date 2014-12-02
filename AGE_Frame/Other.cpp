@@ -874,7 +874,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			if(GenieVersion >= genie::GV_AoK)
 			{
 				Research_Research_SearchFilters[loop]->Append("Civilization");
-				Research_Research_SearchFilters[loop]->Append("Full Tech. Mode");
+				Research_Research_SearchFilters[loop]->Append("Full Tech Mode");
 				if(GenieVersion >= genie::GV_SWGB)
 				Research_Research_SearchFilters[loop]->Append("Internal Name 2");
 			}
@@ -1224,7 +1224,7 @@ void AGE_Frame::OnGameVersionChange()
 		Colors_Palette_Holder->Show(show);
 		Colors_MinimapColor_Holder->Show(show);
 		TechTrees_Main->Show(show);
-		TabBar_Main->SetPageText(2, show ? "Tech. Trees" : "AoK+ only");
+		TabBar_Main->SetPageText(2, show ? "Tech Trees" : "AoK+ only");
 		if(!show || ShowUnknowns)
 		{
 			Units_Type70plusUnknownArea_Holder->Show(show);
