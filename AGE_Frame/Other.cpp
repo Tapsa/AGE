@@ -904,19 +904,19 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		else
 		{
 			TechTrees_MainList_Ages_List->Clear();
-			TechTrees_DataList_Ages_List_Buildings->Clear();
-			TechTrees_DataList_Ages_List_Units->Clear();
-			TechTrees_DataList_Ages_List_Researches->Clear();
+			TechTrees_Ages_Buildings.List->Clear();
+			TechTrees_Ages_Units.List->Clear();
+			TechTrees_Ages_Researches.List->Clear();
 			TechTrees_MainList_Buildings_List->Clear();
-			TechTrees_DataList_Buildings_List_Buildings->Clear();
-			TechTrees_DataList_Buildings_List_Units->Clear();
-			TechTrees_DataList_Buildings_List_Researches->Clear();
+			TechTrees_Buildings_Buildings.List->Clear();
+			TechTrees_Buildings_Units.List->Clear();
+			TechTrees_Buildings_Researches.List->Clear();
 			TechTrees_MainList_Units_List->Clear();
 			TechTrees_Units_Units.List->Clear();
 			TechTrees_MainList_Researches_List->Clear();
-			TechTrees_DataList_Researches_List_Buildings->Clear();
-			TechTrees_DataList_Researches_List_Units->Clear();
-			TechTrees_DataList_Researches_List_Researches->Clear();
+			TechTrees_Researches_Buildings.List->Clear();
+			TechTrees_Researches_Units.List->Clear();
+			TechTrees_Researches_Researches.List->Clear();
 		}
 		OnCivCountChange();
 		ListCivs();
