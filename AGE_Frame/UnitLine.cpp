@@ -14,6 +14,13 @@ void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnitLines()
 {
+	InitUnitLines();
+	wxCommandEvent E;
+	OnUnitLinesSelect(E);
+}
+
+void AGE_Frame::InitUnitLines()
+{
 	searchText = UnitLines_UnitLines_Search->GetValue().Lower();
 	excludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
 
@@ -39,9 +46,6 @@ void AGE_Frame::ListUnitLines()
 	Units_Unitline_ComboBox->Append("-1 - None");
 	Units_Unitline_ComboBox->Append(names);
 	Units_Unitline_ComboBox->SetSelection(selection);
-
-	wxCommandEvent E;
-	OnUnitLinesSelect(E);
 }
 
 void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)

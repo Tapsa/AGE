@@ -98,6 +98,13 @@ void AGE_Frame::OnGraphicsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListGraphics(bool all)
 {
+	InitGraphics(all);
+	wxCommandEvent E;
+	OnGraphicsSelect(E);
+}
+
+void AGE_Frame::InitGraphics(bool all)
+{
 	searchText = Graphics_Graphics_Search->GetValue().Lower();
 	excludeText = Graphics_Graphics_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
@@ -123,9 +130,6 @@ void AGE_Frame::ListGraphics(bool all)
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
-
-	wxCommandEvent E;
-	OnGraphicsSelect(E);
 }
 
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)

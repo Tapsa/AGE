@@ -14,6 +14,13 @@ string AGE_Frame::GetPlayerColorName(short Index)
 
 void AGE_Frame::ListPlayerColors()
 {
+	InitPlayerColors();
+	wxCommandEvent E;
+	OnPlayerColorsSelect(E);
+}
+
+void AGE_Frame::InitPlayerColors()
+{
 	searchText = Colors_Colors_Search->GetValue().Lower();
 	excludeText = Colors_Colors_Search_R->GetValue().Lower();
 
@@ -39,9 +46,6 @@ void AGE_Frame::ListPlayerColors()
 	Graphics_PlayerColor_ComboBox->Append("-1 - None");
 	Graphics_PlayerColor_ComboBox->Append(names);
 	Graphics_PlayerColor_ComboBox->SetSelection(selection);
-
-	wxCommandEvent E;
-	OnPlayerColorsSelect(E);
 }
 
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)

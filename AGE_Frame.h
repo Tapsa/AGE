@@ -91,6 +91,23 @@ public:
 
 //	General Events
 
+	void InitTTAgess();
+	void InitTTBuildings();
+	void InitTTUnits();
+	void InitTTResearches();
+	void InitCivs(bool all);
+	void InitUnits(short civ, bool all);
+	void InitUnitLines();
+	void InitResearches(bool all);
+	void InitTechs(bool all);
+	void InitGraphics(bool all);
+	void InitSounds(bool all);
+	void InitTerrainRestrictions(bool all);
+	void InitTerrains(bool all);
+	void InitPlayerColors();
+	void InitTerrainBorders(bool all);
+	void InitRandomMaps();
+
 	void ListGeneral();
 	void OnGeneralSelect(wxCommandEvent &Event);
 	void OnVariableCalc(wxFocusEvent &Event);
@@ -525,7 +542,8 @@ public:
 	void ListTerrainNumbers();
 	void OnTerrainCountChange(wxFocusEvent &Event);
 
-	void ListTerrains(bool all = true);
+	void ListTerrains1(bool all = true);
+	void ListTerrains2();
 	void OnTerrainsSearch(wxCommandEvent &Event);
 //	void OnTerRestTerrainsSearch(wxCommandEvent &Event);
 	void OnTerrainsSelect(wxCommandEvent &Event);
@@ -2854,12 +2872,6 @@ public:
 	wxBoxSizer *TechTrees_Ages_LineMode_Holder;
 	wxStaticText *TechTrees_Ages_LineMode_Text;
 	TextCtrl_Long *TechTrees_Ages_LineMode;
-	wxBoxSizer *TechTrees_Ages_Zeroes_Holder;
-	wxGridSizer *TechTrees_Ages_Zeroes1_Grid;
-	wxGridSizer *TechTrees_Ages_Zeroes2_Grid;
-	wxStaticText *TechTrees_Ages_Zeroes_Text;
-	TextCtrl_Short *TechTrees_Ages_Zeroes1[49];
-	TextCtrl_Short *TechTrees_Ages_Zeroes2[50];
 
 	wxBoxSizer *TechTrees_Buildings_ID_Holder;
 	wxStaticText *TechTrees_Buildings_ID_Text;
@@ -2869,48 +2881,6 @@ public:
 	wxStaticText *TechTrees_Buildings_Always2_Text;
 	TextCtrl_Byte *TechTrees_Buildings_Always2;
 
-	wxBoxSizer *TechTrees_Buildings_RequiredResearches_Holder;
-	wxStaticText *TechTrees_Buildings_RequiredResearches_Text;
-	TextCtrl_Long *TechTrees_Buildings_RequiredResearches;
-	wxBoxSizer *TechTrees_Buildings_Age_Holder;
-	wxStaticText *TechTrees_Buildings_Age_Text;
-	TextCtrl_Long *TechTrees_Buildings_Age;
-	wxBoxSizer *TechTrees_Buildings_UnitOrResearch1_Holder;
-	wxStaticText *TechTrees_Buildings_UnitOrResearch1_Text;
-	TextCtrl_Long *TechTrees_Buildings_UnitOrResearch1;
-	wxBoxSizer *TechTrees_Buildings_UnitOrResearch2_Holder;
-	wxStaticText *TechTrees_Buildings_UnitOrResearch2_Text;
-	TextCtrl_Long *TechTrees_Buildings_UnitOrResearch2;
-	wxBoxSizer *TechTrees_Buildings_Unknown2a_Holder;
-	wxGridSizer *TechTrees_Buildings_Unknown2a1_Grid;
-	wxGridSizer *TechTrees_Buildings_Unknown2a2_Grid;
-	wxStaticText *TechTrees_Buildings_Unknown2a_Text;
-	TextCtrl_Long *TechTrees_Buildings_Unknown2a1[8];
-	TextCtrl_Long *TechTrees_Buildings_Unknown2a2[10];
-	wxBoxSizer *TechTrees_UnitAndResearch1_Holder;
-	wxBoxSizer *TechTrees_UnitAndResearch2_Holder;
-	wxBoxSizer *TechTrees_UnitAndResearch3_Holder;
-	wxBoxSizer *TechTrees_UnitAndResearch4_Holder;
-	wxOwnerDrawnComboBox *TechTrees_Modes_ComboBox[4];
-	ComboBox_Plus1 *TechTrees_Unit_ComboBox[4];
-	ComboBox_Plus1 *TechTrees_Research_ComboBox[4];
-	wxBoxSizer *TechTrees_Buildings_Mode1_Holder;
-	wxStaticText *TechTrees_Buildings_Mode1_Text;
-	TextCtrl_Long *TechTrees_Buildings_Mode1;
-	wxBoxSizer *TechTrees_Buildings_Mode2_Holder;
-	wxStaticText *TechTrees_Buildings_Mode2_Text;
-	TextCtrl_Long *TechTrees_Buildings_Mode2;
-	wxBoxSizer *TechTrees_Buildings_Unknown2b_Holder;
-	wxGridSizer *TechTrees_Buildings_Unknown2b1_Grid;
-	wxGridSizer *TechTrees_Buildings_Unknown2b2_Grid;
-	wxStaticText *TechTrees_Buildings_Unknown2b_Text;
-	TextCtrl_Long *TechTrees_Buildings_Unknown2b1[7];
-	TextCtrl_Long *TechTrees_Buildings_Unknown2b2[10];
-
-	wxBoxSizer *TechTrees_Buildings_Unknown3_Holder;
-	wxGridSizer *TechTrees_Buildings_Unknown3_Grid;
-	wxStaticText *TechTrees_Buildings_Unknown3_Text;
-	TextCtrl_Byte *TechTrees_Buildings_Unknown3[11];
 	wxBoxSizer *TechTrees_Buildings_LocationInAge_Holder;
 	wxStaticText *TechTrees_Buildings_LocationInAge_Text;
 	TextCtrl_Byte *TechTrees_Buildings_LocationInAge;
@@ -2965,28 +2935,6 @@ public:
 	TextCtrl_Long *TechTrees_Researches_UpperBuilding;
 	ComboBox_Plus1 *TechTrees_Researches_UpperBuilding_ComboBox;
 
-	wxBoxSizer *TechTrees_Researches_RequiredResearches_Holder;
-	wxStaticText *TechTrees_Researches_RequiredResearches_Text;
-	TextCtrl_Long *TechTrees_Researches_RequiredResearches;
-	wxBoxSizer *TechTrees_Researches_Age_Holder;
-	wxStaticText *TechTrees_Researches_Age_Text;
-	TextCtrl_Long *TechTrees_Researches_Age;
-	wxBoxSizer *TechTrees_Researches_UpperResearch_Holder;
-	wxStaticText *TechTrees_Researches_UpperResearch_Text;
-	TextCtrl_Long *TechTrees_Researches_UpperResearch;
-	ComboBox_Plus1 *TechTrees_Researches_UpperResearch_ComboBox;
-	wxBoxSizer *TechTrees_Researches_Unknown2a_Holder;
-	wxGridSizer *TechTrees_Researches_Unknown2a1_Grid;
-	wxGridSizer *TechTrees_Researches_Unknown2a2_Grid;
-	wxStaticText *TechTrees_Researches_Unknown2a_Text;
-	TextCtrl_Long *TechTrees_Researches_Unknown2a1[9];
-	TextCtrl_Long *TechTrees_Researches_Unknown2a2[10];
-	wxBoxSizer *TechTrees_Researches_Unknown2b_Holder;
-	wxGridSizer *TechTrees_Researches_Unknown2b1_Grid;
-	wxGridSizer *TechTrees_Researches_Unknown2b2_Grid;
-	wxStaticText *TechTrees_Researches_Unknown2b_Text;
-	TextCtrl_Long *TechTrees_Researches_Unknown2b1[8];
-	TextCtrl_Long *TechTrees_Researches_Unknown2b2[10];
 	wxBoxSizer *TechTrees_Researches_VerticalLine_Holder;
 	wxStaticText *TechTrees_Researches_VerticalLine_Text;
 	TextCtrl_Long *TechTrees_Researches_VerticalLine;

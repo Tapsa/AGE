@@ -184,6 +184,13 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListUnits(short civ, bool all)
 {
+	InitUnits(civ, all);
+	wxCommandEvent E;
+	OnUnitsSelect(E);
+}
+
+void AGE_Frame::InitUnits(short civ, bool all)
+{
 	searchText = Units_Units_Search->GetValue().Lower();
 	excludeText = Units_Units_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
@@ -211,9 +218,6 @@ void AGE_Frame::ListUnits(short civ, bool all)
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
-
-	wxCommandEvent E;
-	OnUnitsSelect(E);
 }
 
 //	This links data into user interface

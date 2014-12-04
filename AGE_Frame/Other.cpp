@@ -893,13 +893,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 
 		Items.Add(0);
-		//wxMessageBox("Loaded!");
 		if(GenieVersion >= genie::GV_AoK)
 		{
-			ListTTAgess();
-			ListTTBuildings();
-			ListTTUnits();
-			ListTTResearches();
+			InitTTAgess();
+			InitTTBuildings();
+			InitTTUnits();
+			InitTTResearches();
 		}
 		else
 		{
@@ -919,28 +918,50 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			TechTrees_Researches_Researches.List->Clear();
 		}
 		OnCivCountChange();
-		ListCivs();
-		ListUnits(0);
+		InitCivs(true);
+		InitUnits(0, true);
 		if(GenieVersion >= genie::GV_SWGB)
 		{
-			ListUnitLines();
+			InitUnitLines();
 		}
 		else
 		{
 			UnitLines_UnitLines_List->Clear();
 			UnitLines_UnitLineUnits_List->Clear();
 		}
-		ListResearches();
-		ListTechs();
-		ListGraphics();
-		ListSounds();
+		InitResearches(true);
+		InitTechs(true);
+		InitGraphics(true);
+		InitSounds(true);
 		ListTerrainNumbers();
-		ListTerrainRestrictions();
-		ListTerrains();
-		ListPlayerColors();
-		ListTerrainBorders();
+		ListTerrainRestrictions(true);
+		InitTerrains(true);
+		InitPlayerColors();
+		InitTerrainBorders(true);
 		ListGeneral();
-		ListRandomMaps();
+		InitRandomMaps();
+
+		wxCommandEvent E;
+		OnCivsSelect(E);
+		OnUnitsSelect(E);
+		OnResearchSelect(E);
+		OnTechSelect(E);
+		OnGraphicsSelect(E);
+		OnSoundsSelect(E);
+		OnTerrainsSelect(E);
+		OnTerrainRestrictionsTerrainSelect(E);
+		OnPlayerColorsSelect(E);
+		OnTerrainBordersSelect(E);
+		OnUnknownsSelect(E);
+		if(GenieVersion >= genie::GV_AoK)
+		{
+			OnTTAgesSelect(E);
+			OnTTBuildingSelect(E);
+			OnTTUnitSelect(E);
+			OnTTResearchSelect(E);
+			if(GenieVersion >= genie::GV_SWGB)
+			OnUnitLinesSelect(E);
+		}
 
 		Effects_AttributesC_ComboBox->Clear();
 		Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");		// Selection 0
