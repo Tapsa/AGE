@@ -1081,8 +1081,9 @@ void AGE_Frame::CreateTechControls()
 
 	Effects_Type_Holder = new wxBoxSizer(wxVERTICAL);
 	Effects_Type2_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Effects_Type_Text = new wxStaticText(Tab_Techs, wxID_ANY, " Effect Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Type_Text = new wxStaticText(Tab_Techs, wxID_ANY, " Effect Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Type = new TextCtrl_Byte(Tab_Techs);
+	Effects_Type->SetToolTip("101 and 103 are only for\ntech tree and team bonus");
 	Effects_Type_ComboBox = new ComboBox_EffectType(Tab_Techs, Effects_Type);
 	Effects_Data_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effect Attributes");
 	Effects_NeverHide = new wxCheckBox(Tab_Techs, wxID_ANY, "Never hide attributes", wxDefaultPosition, wxSize(40, 20));

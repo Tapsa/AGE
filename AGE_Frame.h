@@ -2845,12 +2845,15 @@ public:
 	wxBoxSizer *TechTrees_Ages_Unknown2_Holder;
 	wxStaticText *TechTrees_Ages_Unknown2_Text;
 	TextCtrl_Byte *TechTrees_Ages_Unknown2;
-	wxBoxSizer *TechTrees_Ages_Unknown3_Holder;
-	wxStaticText *TechTrees_Ages_Unknown3_Text;
-	TextCtrl_Byte *TechTrees_Ages_Unknown3;
-	wxBoxSizer *TechTrees_Ages_Unknown4_Holder;
-	wxStaticText *TechTrees_Ages_Unknown4_Text;
-	TextCtrl_Byte *TechTrees_Ages_Unknown4;
+	wxBoxSizer *TechTrees_Ages_SlotsUsed_Holder;
+	wxStaticText *TechTrees_Ages_SlotsUsed_Text;
+	TextCtrl_Byte *TechTrees_Ages_SlotsUsed;
+	wxBoxSizer *TechTrees_Ages_Unknown6_Holder;
+	wxStaticText *TechTrees_Ages_Unknown6_Text;
+	TextCtrl_Byte *TechTrees_Ages_Unknown6;
+	wxBoxSizer *TechTrees_Ages_LineMode_Holder;
+	wxStaticText *TechTrees_Ages_LineMode_Text;
+	TextCtrl_Long *TechTrees_Ages_LineMode;
 	wxBoxSizer *TechTrees_Ages_Zeroes_Holder;
 	wxGridSizer *TechTrees_Ages_Zeroes1_Grid;
 	wxGridSizer *TechTrees_Ages_Zeroes2_Grid;
@@ -2908,9 +2911,12 @@ public:
 	wxGridSizer *TechTrees_Buildings_Unknown3_Grid;
 	wxStaticText *TechTrees_Buildings_Unknown3_Text;
 	TextCtrl_Byte *TechTrees_Buildings_Unknown3[11];
-	wxBoxSizer *TechTrees_Buildings_Connections_Holder;
-	wxStaticText *TechTrees_Buildings_Connections_Text;
-	TextCtrl_Long *TechTrees_Buildings_Connections;
+	wxBoxSizer *TechTrees_Buildings_LocationInAge_Holder;
+	wxStaticText *TechTrees_Buildings_LocationInAge_Text;
+	TextCtrl_Byte *TechTrees_Buildings_LocationInAge;
+	wxBoxSizer *TechTrees_Buildings_LineMode_Holder;
+	wxStaticText *TechTrees_Buildings_LineMode_Text;
+	TextCtrl_Long *TechTrees_Buildings_LineMode;
 	wxBoxSizer *TechTrees_Buildings_EnablingResearch_Holder;
 	wxStaticText *TechTrees_Buildings_EnablingResearch_Text;
 	TextCtrl_Long *TechTrees_Buildings_EnablingResearch;
@@ -2975,9 +2981,6 @@ public:
 	wxStaticText *TechTrees_Researches_Unknown2a_Text;
 	TextCtrl_Long *TechTrees_Researches_Unknown2a1[9];
 	TextCtrl_Long *TechTrees_Researches_Unknown2a2[10];
-	wxBoxSizer *TechTrees_Researches_LineMode_Holder;
-	wxStaticText *TechTrees_Researches_LineMode_Text;
-	TextCtrl_Long *TechTrees_Researches_LineMode;
 	wxBoxSizer *TechTrees_Researches_Unknown2b_Holder;
 	wxGridSizer *TechTrees_Researches_Unknown2b1_Grid;
 	wxGridSizer *TechTrees_Researches_Unknown2b2_Grid;
@@ -2990,9 +2993,9 @@ public:
 	wxBoxSizer *TechTrees_Researches_LocationInAge_Holder;
 	wxStaticText *TechTrees_Researches_LocationInAge_Text;
 	TextCtrl_Long *TechTrees_Researches_LocationInAge;
-	wxBoxSizer *TechTrees_Researches_Unknown9_Holder;
-	wxStaticText *TechTrees_Researches_Unknown9_Text;
-	TextCtrl_Long *TechTrees_Researches_Unknown9;
+	wxBoxSizer *TechTrees_Researches_LineMode_Holder;
+	wxStaticText *TechTrees_Researches_LineMode_Text;
+	TextCtrl_Long *TechTrees_Researches_LineMode;
 
 //	DRS user interface
 
