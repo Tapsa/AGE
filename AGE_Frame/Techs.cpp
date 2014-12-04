@@ -78,6 +78,13 @@ void AGE_Frame::OnTechSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTechs(bool all)
 {
+	InitTechs(all);
+	wxCommandEvent E;
+	OnTechSelect(E);
+}
+
+void AGE_Frame::InitTechs(bool all)
+{
 	searchText = Techs_Search->GetValue().Lower();
 	excludeText = Techs_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
@@ -106,9 +113,6 @@ void AGE_Frame::ListTechs(bool all)
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
-
-	wxCommandEvent E;
-	OnTechSelect(E);
 }
 
 void AGE_Frame::OnTechSelect(wxCommandEvent &Event)

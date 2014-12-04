@@ -12,6 +12,13 @@ void AGE_Frame::OnSoundsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListSounds(bool all)
 {
+	InitSounds(all);
+	wxCommandEvent E;
+	OnSoundsSelect(E);
+}
+
+void AGE_Frame::InitSounds(bool all)
+{
 	searchText = Sounds_Sounds_Search->GetValue().Lower();
 	excludeText = Sounds_Sounds_Search_R->GetValue().Lower();
 
@@ -32,9 +39,6 @@ void AGE_Frame::ListSounds(bool all)
 
 	Listing(Sounds_Sounds_List, filteredNames, dataPointers);
 	if(all) FillLists(SoundComboBoxList, names);
-
-	wxCommandEvent E;
-	OnSoundsSelect(E);
 }
 
 void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
