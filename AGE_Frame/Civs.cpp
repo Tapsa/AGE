@@ -15,6 +15,13 @@ string AGE_Frame::GetCivName(short Index)
 
 void AGE_Frame::ListCivs(bool all)
 {
+	InitCivs(all);
+	wxCommandEvent E;
+	OnCivsSelect(E);
+}
+
+void AGE_Frame::InitCivs(bool all)
+{
 	searchText = Civs_Civs_Search->GetValue().Lower();
 	excludeText = Civs_Civs_Search_R->GetValue().Lower();
 
@@ -42,9 +49,6 @@ void AGE_Frame::ListCivs(bool all)
 		Units_Civs_List->Append(names);
 		Units_Civs_List->SetSelection(savedUnitCiv);
 	}
-
-	wxCommandEvent E;
-	OnCivsSelect(E);
 }
 
 void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)

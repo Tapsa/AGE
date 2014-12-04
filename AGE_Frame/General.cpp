@@ -326,6 +326,13 @@ string AGE_Frame::GetUnknownName(short Index)
 
 void AGE_Frame::ListRandomMaps()
 {
+	InitRandomMaps();
+	wxCommandEvent E;
+	OnUnknownsSelect(E);
+}
+
+void AGE_Frame::InitRandomMaps()
+{
 	searchText = Unknowns_Search->GetValue().Lower();
 	excludeText = Unknowns_Search_R->GetValue().Lower();
 
@@ -342,9 +349,6 @@ void AGE_Frame::ListRandomMaps()
 		}
 	}
 	Listing(Unknowns_List, filteredNames, dataPointers);
-
-	wxCommandEvent E;
-	OnUnknownsSelect(E);
 }
 
 void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)

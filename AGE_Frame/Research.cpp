@@ -124,6 +124,13 @@ void AGE_Frame::OnResearchSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListResearches(bool all)
 {
+	InitResearches(all);
+	wxCommandEvent E;
+	OnResearchSelect(E);
+}
+
+void AGE_Frame::InitResearches(bool all)
+{
 	searchText = Research_Research_Search->GetValue().Lower();
 	excludeText = Research_Research_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
@@ -149,9 +156,6 @@ void AGE_Frame::ListResearches(bool all)
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
-
-	wxCommandEvent E;
-	OnResearchSelect(E);
 }
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
