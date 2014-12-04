@@ -14,6 +14,13 @@ void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTerrainBorders(bool all)
 {
+	InitTerrainBorders(all);
+	wxCommandEvent E;
+	OnTerrainBordersSelect(E);
+}
+
+void AGE_Frame::InitTerrainBorders(bool all)
+{
 	searchText = Borders_Borders_Search->GetValue().Lower();
 	excludeText = Borders_Borders_Search_R->GetValue().Lower();
 
@@ -34,9 +41,6 @@ void AGE_Frame::ListTerrainBorders(bool all)
 
 	Listing(Borders_Borders_List, filteredNames, dataPointers);
 	if(all) FillLists(TerrainBorderComboBoxList, names);
-
-	wxCommandEvent E;
-	OnTerrainBordersSelect(E);
 }
 
 void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)

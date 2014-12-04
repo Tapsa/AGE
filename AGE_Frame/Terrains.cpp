@@ -10,7 +10,7 @@ string AGE_Frame::GetTerrainName(short Index)
 
 void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 {
-	ListTerrains(false);
+	ListTerrains1(false);
 }
 
 void AGE_Frame::ListTerrainNumbers()
@@ -38,7 +38,22 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 	Event.Skip();
 }
 
-void AGE_Frame::ListTerrains(bool all)
+void AGE_Frame::ListTerrains1(bool all)
+{
+	InitTerrains(all);
+	wxCommandEvent E;
+	OnTerrainsSelect(E);
+	if(all) OnTerrainRestrictionsTerrainSelect(E);
+}
+
+void AGE_Frame::ListTerrains2()
+{
+	InitTerrains(false);
+	wxCommandEvent E;
+	OnTerrainRestrictionsTerrainSelect(E);
+}
+
+void AGE_Frame::InitTerrains(bool all)
 {
 	searchText = Terrains_Terrains_Search->GetValue().Lower();
 	excludeText = Terrains_Terrains_Search_R->GetValue().Lower();
@@ -61,9 +76,6 @@ void AGE_Frame::ListTerrains(bool all)
 	Listing(Terrains_Terrains_List, filteredNames, dataPointers);
 	if(all) FillLists(TerrainComboBoxList, names);
 
-	wxCommandEvent E;
-	OnTerrainsSelect(E);
-
 	searchText = TerRestrict_Terrains_Search->GetValue().Lower();
 	excludeText = TerRestrict_Terrains_Search_R->GetValue().Lower();
 
@@ -82,8 +94,6 @@ void AGE_Frame::ListTerrains(bool all)
 		}
 	}
 	TerRestrict_Terrains_List->SetSelection(Items.Item(0));
-
-	OnTerrainRestrictionsTerrainSelect(E);
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
@@ -260,7 +270,7 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->TerrainBlock.Terrains);
-	ListTerrains();
+	ListTerrains1();
 }
 
 void AGE_Frame::OnTerrainsInsert(wxCommandEvent &Event) // Their count is hardcoded.
@@ -270,7 +280,7 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent &Event) // Their count is hardco
 
 	wxBusyCursor WaitCursor;
 	InsertToList(GenieFile->TerrainBlock.Terrains, TerrainIDs[0]);
-	ListTerrains();
+	ListTerrains1();
 }
 
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardcoded.
@@ -280,7 +290,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardco
 
 	wxBusyCursor WaitCursor;
 	DeleteFromList(GenieFile->TerrainBlock.Terrains, TerrainIDs);
-	ListTerrains();
+	ListTerrains1();
 }
 
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent &Event)
@@ -299,7 +309,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	PasteToListNoResize(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies->Terrain);
-	ListTerrains();
+	ListTerrains1();
 }
 
 void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
@@ -309,7 +319,7 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	PasteInsertToList(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies->Terrain);
-	ListTerrains();
+	ListTerrains1();
 }
 
 void AGE_Frame::CreateTerrainControls()
@@ -641,7 +651,7 @@ void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Terrains_Name->GetId())
 	{
-		ListTerrains();
+		ListTerrains1();
 	}
 	else if(Event.GetId() == Terrains_Name2->GetId())
 	{

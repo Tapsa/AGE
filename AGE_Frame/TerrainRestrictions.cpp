@@ -117,6 +117,13 @@ void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTerrainRestrictions(bool all)
 {
+	InitTerrainRestrictions(all);
+	wxCommandEvent E;
+	OnTerrainRestrictionsSelect(E);
+}
+
+void AGE_Frame::InitTerrainRestrictions(bool all)
+{
 	searchText = TerRestrict_TerRestrict_Search->GetValue().Lower();
 	excludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
 
@@ -137,9 +144,6 @@ void AGE_Frame::ListTerrainRestrictions(bool all)
 
 	Listing(TerRestrict_TerRestrict_List, filteredNames, dataPointers);
 	if(all) FillLists(TerrainRestrictionComboBoxList, names);
-
-	wxCommandEvent E;
-	OnTerrainRestrictionsSelect(E);
 }
 
 void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &Event)
@@ -154,7 +158,7 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &Event)
 		TerRestPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(loop));
 		TerRestrictIDs[loop] = (TerRestPointer - (&GenieFile->TerrainRestrictions[0]));
 	}
-	ListTerrains(false);
+	ListTerrains2();
 }
 
 void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
@@ -476,12 +480,12 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 void AGE_Frame::OnKillFocus_TerRestrict(wxFocusEvent &Event)
 {
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
-	ListTerrains(false);
+	ListTerrains2();
 	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_TerRestrict(wxCommandEvent &Event)
 {
 	((AGECheckBox*)Event.GetEventObject())->OnUpdate(Event);
-	ListTerrains(false);
+	ListTerrains2();
 }
