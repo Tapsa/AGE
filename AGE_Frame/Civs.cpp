@@ -803,7 +803,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs);
-	Civs_GraphicSet->SetToolTip("Building icon set and trade cart graphics\nThis doesn't change other graphics");
+	Civs_GraphicSet->SetToolTip("Building icon set and trade cart graphics\nThis doesn't change other graphics\n6+ seems to crash/bug the game");
 	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Always One", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = new TextCtrl_Byte(Tab_Civs);
