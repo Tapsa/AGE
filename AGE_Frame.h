@@ -1457,7 +1457,7 @@ public:
 	TextCtrl_Byte *Units_MinimapMode;
 	TextCtrl_Byte *Units_CommandAttribute;
 	TextCtrl_Float *Units_Unknown3A;
-	TextCtrl_Byte *Units_Unknown3B;
+	TextCtrl_UByte *Units_Unknown3B;
 	TextCtrl_Long *Units_LanguageDLLHelp;
 	TextCtrl_DLL *Units_DLL_LanguageHelp;
 	wxTextCtrl *Units_LanguageDLLConverter[2];
@@ -1478,7 +1478,7 @@ public:
 	ComboBox_Plus1 *Units_Civ_ComboBox;
 	TextCtrl_Short *Units_Unknown9;
 	TextCtrl_Byte *Units_SelectionEffect;
-	TextCtrl_Byte *Units_EditorSelectionColour;
+	TextCtrl_UByte *Units_EditorSelectionColour;
 	wxBoxSizer *Units_SelectionRadiusBox;
 	TextCtrl_Float *Units_SelectionRadius[2];
 	TextCtrl_Float *Units_HPBarHeight2;
@@ -1629,8 +1629,8 @@ public:
 	ComboBox_Plus1 *Units_GarrisonType_ComboBox;
 	TextCtrl_Float *Units_GarrisonHealRate;
 	TextCtrl_Float *Units_Unknown35;
-	TextCtrl_Short *Units_Unknown36;
-	array<TextCtrl_Byte*, 6> Units_AlfaThingy;
+	TextCtrl_Short *Units_PileUnit;
+	array<TextCtrl_Byte*, 6> Units_LootSwitch;
 
 //	Data Container Names
 //	Type 10+
@@ -1791,8 +1791,8 @@ public:
 	wxStaticText *Units_GarrisonType_Text;
 	wxStaticText *Units_GarrisonHealRate_Text;
 	wxStaticText *Units_Unknown35_Text;
-	wxStaticText *Units_Unknown36_Text;
-	wxStaticText *Units_AlfaThingy_Text;
+	wxStaticText *Units_PileUnit_Text;
+	wxStaticText *Units_LootSwitch_Text;
 
 //	Invisible Holder Windows
 //	Type 10+
@@ -1986,9 +1986,9 @@ public:
 	wxBoxSizer *Units_GarrisonType_Holder;
 	wxBoxSizer *Units_GarrisonHealRate_Holder;
 	wxBoxSizer *Units_Unknown35_Holder;
-	wxBoxSizer *Units_Unknown36_Holder;
-	wxBoxSizer *Units_AlfaThingy_Holder;
-	wxGridSizer *Units_AlfaThingy_Grid;
+	wxBoxSizer *Units_PileUnit_Holder;
+	wxBoxSizer *Units_LootSwitch_Holder;
+	wxGridSizer *Units_LootSwitch_Grid;
 
 //	Unit Controls SubControls
 
