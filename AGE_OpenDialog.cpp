@@ -352,9 +352,21 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 
 	CheckBox_GenieVer->SetSelection(4);
 	Path_DatFileLocation->SetPath(wxString(Path + "\\Data\\empires2_x1_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\Bin\\" + Lang + "\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\Bin\\" + Lang + "\\language_x1.dll"));
-	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\Bin\\" + Lang + "\\language_x1_p1.dll"));
+	if(Custom.size() == 0)
+	{
+		Path = DriveLetterBox->GetValue();
+		if(wxIsPlatform64Bit())
+		{
+			Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires II";
+		}
+		else
+		{
+			Path += ":\\Program Files\\Microsoft Games\\Age of Empires II";
+		}
+	}
+	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
+	Path_LangX1FileLocation->SetPath(wxString(Path + "\\language_x1.dll"));
+	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\language_x1_p1.dll"));
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
