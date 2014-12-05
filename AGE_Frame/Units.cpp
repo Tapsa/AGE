@@ -267,9 +267,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_GarrisonType->resize(PointerCount);
 		Units_GarrisonHealRate->resize(PointerCount);
 		Units_Unknown35->resize(PointerCount);
-		Units_Unknown36->resize(PointerCount);
-		for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
-		Units_AlfaThingy[loop]->resize(PointerCount);
+		Units_PileUnit->resize(PointerCount);
+		for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
+		Units_LootSwitch[loop]->resize(PointerCount);
 	}
 	Units_ConstructionSound->resize(PointerCount);
 	// Type 70
@@ -521,9 +521,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 						Units_GarrisonType->container[location] = &UnitPointer->Building.GarrisonType;
 						Units_GarrisonHealRate->container[location] = &UnitPointer->Building.GarrisonHealRate;
 						Units_Unknown35->container[location] = &UnitPointer->Building.Unknown35;
-						Units_Unknown36->container[location] = &UnitPointer->Building.UnknownDyingEffect;
-						for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
-						Units_AlfaThingy[loop]->container[location] = &UnitPointer->Building.AlfaThingy[loop];
+						Units_PileUnit->container[location] = &UnitPointer->Building.PileUnit;
+						for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
+						Units_LootSwitch[loop]->container[location] = &UnitPointer->Building.AlfaThingy[loop];
 					}
 					Units_ConstructionSound->container[location] = &UnitPointer->Building.ConstructionSound;
 				}
@@ -798,9 +798,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_GarrisonType_ComboBox->Enable(true);
 			Units_GarrisonHealRate->Enable(true);
 			Units_Unknown35->Enable(true);
-			Units_Unknown36->Enable(true);
-			for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
-			Units_AlfaThingy[loop]->Enable(true);
+			Units_PileUnit->Enable(true);
+			for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
+			Units_LootSwitch[loop]->Enable(true);
 
 			Units_ConstructionGraphicID->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionGraphicID));
 			Units_ConstructionGraphicID_ComboBox->SetSelection(UnitPointer->Building.ConstructionGraphicID + 1);
@@ -840,9 +840,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_GarrisonType_ComboBox->SetSelection(UnitPointer->Building.GarrisonType + 1);
 				Units_GarrisonHealRate->ChangeValue(lexical_cast<string>(UnitPointer->Building.GarrisonHealRate));
 				Units_Unknown35->ChangeValue(lexical_cast<string>(UnitPointer->Building.Unknown35));
-				Units_Unknown36->ChangeValue(lexical_cast<string>(UnitPointer->Building.UnknownDyingEffect));
-				for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
-				Units_AlfaThingy[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.AlfaThingy[loop]));
+				Units_PileUnit->ChangeValue(lexical_cast<string>(UnitPointer->Building.PileUnit));
+				for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
+				Units_LootSwitch[loop]->ChangeValue(lexical_cast<string>((short)UnitPointer->Building.AlfaThingy[loop]));
 			}
 			Units_ConstructionSound->ChangeValue(lexical_cast<string>(UnitPointer->Building.ConstructionSound));
 			Units_ConstructionSound_ComboBox->SetSelection(UnitPointer->Building.ConstructionSound + 1);
@@ -1448,12 +1448,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_GarrisonHealRate->ChangeValue("0");
 			Units_Unknown35->Enable(false);
 			Units_Unknown35->ChangeValue("0");
-			Units_Unknown36->Enable(false);
-			Units_Unknown36->ChangeValue("0");
-			for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
+			Units_PileUnit->Enable(false);
+			Units_PileUnit->ChangeValue("0");
+			for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
 			{
-				Units_AlfaThingy[loop]->Enable(false);
-				Units_AlfaThingy[loop]->ChangeValue("0");
+				Units_LootSwitch[loop]->Enable(false);
+				Units_LootSwitch[loop]->ChangeValue("0");
 			}
 		}
 	}
@@ -3704,9 +3704,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonType_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_GarrisonHealRate_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Unknown35_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_Unknown36_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_AlfaThingy_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_AlfaThingy_Grid = new wxGridSizer(6, 0, 5);
+	Units_PileUnit_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_LootSwitch_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_LootSwitch_Grid = new wxGridSizer(6, 0, 5);
 
 //	Data Container Names
 //	Type 10+
@@ -3740,21 +3740,21 @@ void AGE_Frame::CreateUnitControls()
 	Units_MinimapMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_CommandAttribute_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown3A_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown3B_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown3B_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Color", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLHelp_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLConverter_Text[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLConverter_Text[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey Text Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLHotKeyText_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Hotkey Text *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_HotKey_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown6_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 6 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown6_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Is a resource? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionMask_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionShapeType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionShape_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Attribute_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unit Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Civ_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown9_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown9_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Attribute Piece *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionEffect_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Effect *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_EditorSelectionColour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Selection Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3802,7 +3802,7 @@ void AGE_Frame::CreateUnitControls()
 //	Type 50+
 
 	Units_DefaultArmor_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Default Armor *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown21_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 21 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown21_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Armor Modifier *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MaxRange_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Range", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_BlastRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ReloadTime1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Reload Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3852,7 +3852,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_ConstructionGraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SnowGraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Snow Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_IconDisabler_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Icon Disabler? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_IconDisabler_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Icon Age *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_StackUnitID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Stack Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TerrainID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown32_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3867,8 +3867,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GarrisonHealRate_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown35_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Wonder Timer? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown36_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Dying Effect *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_AlfaThingy_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Related to Annexes? Widespread usage in AoK Alpha 09.07.0222", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_PileUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Pile Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_LootSwitch_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Looting Table *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Data Containers
 
@@ -4201,7 +4201,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionShape->SetToolTip("0 Square\n1+ Round");
 	Units_SelectionEffect = new TextCtrl_Byte(Units_Scroller);
 	Units_SelectionEffect->SetToolTip("0\n1 HP Bar on, permanent darker outline in editor only\n4 HP Bar off, normal outline\n5, 8-9 HP Bar on\n2 HP Bar on, normal outline\n3 HP Bar off, selection shadow\n6-7 HP Bar off\nNote: this doesn't work with all units");
-	Units_EditorSelectionColour = new TextCtrl_Byte(Units_Scroller);
+	Units_EditorSelectionColour = new TextCtrl_UByte(Units_Scroller);
 	Units_EditorSelectionColour->SetToolTip("0 most\n-16 fish trap farm\n52 dead farm, OLD-(___)\n116 flare, WHAL1, WHAL2, DOLP, Great-fish\n-123 all fish");
 	Units_TrainLocationID = new TextCtrl_Short(Units_Scroller);
 	Units_TrainLocationID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TrainLocationID);
@@ -4261,8 +4261,14 @@ void AGE_Frame::CreateUnitControls()
 		for(short loop2 = 0; loop2 < 2; ++loop2)
 		Units_AnnexUnitMisplacement[loop][loop2] = new TextCtrl_Float(Units_Scroller);
 	}
-	for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
-	Units_AlfaThingy[loop] = new TextCtrl_Byte(Units_Scroller);
+	for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
+	Units_LootSwitch[loop] = new TextCtrl_Byte(Units_Scroller);
+	Units_LootSwitch[0]->SetToolTip("Stone Loot Switch");
+	Units_LootSwitch[1]->SetToolTip("Wood Loot Switch");
+	Units_LootSwitch[2]->SetToolTip("Ore Loot Switch");
+	Units_LootSwitch[3]->SetToolTip("Gold Loot Switch");
+	Units_LootSwitch[4]->SetToolTip("Food Loot Switch");
+	Units_LootSwitch[5]->SetToolTip("Goods Loot Switch");
 
 	Units_ConstructionSound = new TextCtrl_Short(Units_Scroller);
 	Units_ConstructionSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ConstructionSound);
@@ -4293,13 +4299,15 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Unknown1 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown3A = new TextCtrl_Float(Units_Scroller);
-	Units_Unknown3B = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown3B = new TextCtrl_UByte(Units_Scroller);
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown6->SetToolTip("Seems to be 1 on all resource deposits");
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
 	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode");
 	Units_Unknown9 = new TextCtrl_Short(Units_Scroller);
+	Units_Unknown9->SetToolTip("This is actually leftover from attribute+civ variable\nProbably useless");
 
 	Units_Unknown11 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown16 = new TextCtrl_Byte(Units_Scroller);
@@ -4310,7 +4318,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DefaultArmor = new TextCtrl_Short(Units_Scroller);
 	Units_DefaultArmor->SetToolTip("This armor is used for all attack types that do not have corresponding armor type\nCan be negative only in The Conquerors and later games");
 	Units_Unknown21 = new TextCtrl_Short(Units_Scroller);
-	Units_Unknown21->SetToolTip("-1 Unit\n4 Building\n6 Dock\n10 Wall");
+	Units_Unknown21->SetToolTip("-1 adds damage received\n1+ seems same\n100 causes a crash when projectile lands on this unit");
 
 	Units_Unknown26 = new TextCtrl_Long(Units_Scroller);
 	Units_Unknown27 = new TextCtrl_Long(Units_Scroller);
@@ -4318,15 +4326,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown29->SetToolTip("0 Default\n3 Unit must walk to enemy when ordered to attack it");
 
 	Units_IconDisabler = new TextCtrl_Short(Units_Scroller);
-	Units_IconDisabler->SetToolTip("0 Default\n1+ Black icon");
+	Units_IconDisabler->SetToolTip("Upgrade icon tech attribute changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
 	Units_Unknown32 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown33 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown33->SetToolTip("0 Default\n1 Counts as player being alive?");
 	Units_Unknown34 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown35 = new TextCtrl_Float(Units_Scroller);
 	Units_Unknown35->SetToolTip("Probably related to garrison heal");
-	Units_Unknown36 = new TextCtrl_Short(Units_Scroller);
-	Units_Unknown36->SetToolTip("Affects resources");
+	Units_PileUnit = new TextCtrl_Short(Units_Scroller);
+	Units_PileUnit->SetToolTip("Appears when the unit dies\nAffects resources");
 
 	Units_CommandHolder_Lists = new wxBoxSizer(wxVERTICAL);
 	Units_UnitHeads_Name = new wxStaticText(Units_Scroller, wxID_ANY, "Unit Header", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4444,8 +4452,9 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown7 = new TextCtrl_Byte(Units_Scroller);
 	UnitCommands_Unknown8_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown8 = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_Unknown8->SetToolTip("0 Plunder from resource\n1 Plunder from players");
 	UnitCommands_Unknown9_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown9_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown9 = new TextCtrl_Short(Units_Scroller);
@@ -4666,8 +4675,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_ConstructionSound_Holder->Add(Units_ConstructionSound_Text, 0, wxEXPAND);
 	Units_GarrisonHealRate_Holder->Add(Units_GarrisonHealRate_Text, 0, wxEXPAND);
 	Units_Unknown35_Holder->Add(Units_Unknown35_Text, 0, wxEXPAND);
-	Units_Unknown36_Holder->Add(Units_Unknown36_Text, 0, wxEXPAND);
-	Units_AlfaThingy_Holder->Add(Units_AlfaThingy_Text, 0, wxEXPAND);
+	Units_PileUnit_Holder->Add(Units_PileUnit_Text, 0, wxEXPAND);
+	Units_LootSwitch_Holder->Add(Units_LootSwitch_Text, 0, wxEXPAND);
 
 //	Type 10+
 
@@ -4920,10 +4929,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_ConstructionSound_Holder->Add(Units_ConstructionSound_ComboBox, 1, wxEXPAND);
 	Units_GarrisonHealRate_Holder->Add(Units_GarrisonHealRate, 0, wxEXPAND);
 	Units_Unknown35_Holder->Add(Units_Unknown35, 1, wxEXPAND);
-	Units_Unknown36_Holder->Add(Units_Unknown36, 1, wxEXPAND);
-	for(short loop = 0; loop < Units_AlfaThingy.size(); ++loop)
-	Units_AlfaThingy_Grid->Add(Units_AlfaThingy[loop], 1, wxEXPAND);
-	Units_AlfaThingy_Holder->Add(Units_AlfaThingy_Grid, 0, wxEXPAND);
+	Units_PileUnit_Holder->Add(Units_PileUnit, 1, wxEXPAND);
+	for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
+	Units_LootSwitch_Grid->Add(Units_LootSwitch[loop], 1, wxEXPAND);
+	Units_LootSwitch_Holder->Add(Units_LootSwitch_Grid, 0, wxEXPAND);
 
 	for(short loop = 0; loop < 3; ++loop)
 	Units_ResourceStorage_Grid->Add(ResourceStorage_Type[loop], 1, wxEXPAND);
@@ -5386,7 +5395,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attributes_Holder->Add(-1, 5);
 	Units_Attributes_Holder->Add(Units_AnnexUnitMisplacement1_Holder, 0, wxEXPAND);
 	Units_Attributes_Holder->Add(-1, 5);
-	Units_Attributes_Holder->Add(Units_AlfaThingy_Holder, 0, wxEXPAND);
+	Units_Attributes_Holder->Add(Units_LootSwitch_Holder, 0, wxEXPAND);
 
 	Units_TrainSound1_Holder->Add(Units_TrainSound[0], 1, wxEXPAND);
 	Units_TrainSound1_Holder->Add(Units_TrainSound_ComboBox[0], 1, wxEXPAND);
@@ -5446,7 +5455,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type80plusUnknownArea_Grid->Add(Units_Unknown33_Holder, 0, wxEXPAND);
 	Units_Type80plusUnknownArea_Grid->Add(Units_Unknown34_Holder, 0, wxEXPAND);
 	Units_Type80plusUnknownArea_Grid->Add(Units_Unknown35_Holder, 0, wxEXPAND);
-	Units_Type80plusUnknownArea_Grid->Add(Units_Unknown36_Holder, 0, wxEXPAND);
+	Units_Type80plusUnknownArea_Grid->Add(Units_PileUnit_Holder, 0, wxEXPAND);
 	Units_Type80plusUnknownArea_Holder->Add(Units_Type80plusUnknownArea_Grid, 0, wxEXPAND);
 
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Add, 1, wxEXPAND);

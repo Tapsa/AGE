@@ -982,7 +982,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("14 - Resource Carriage");
 		Effects_AttributesC_ComboBox->Append("15 - Default Armor");
 		Effects_AttributesC_ComboBox->Append("16 - New Projectile Unit");
-		Effects_AttributesC_ComboBox->Append("17 - Upgrade Graphic");
+		Effects_AttributesC_ComboBox->Append("17 - Upgrade Icon (its age)");
 		Effects_AttributesC_ComboBox->Append("18 - Unknown21");
 		Effects_AttributesC_ComboBox->Append("19 - Projectile Intelligent Accuracy");
 		Effects_AttributesC_ComboBox->Append("20 - Minimum Range");
@@ -1237,7 +1237,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_TransformUnit_Holder->Show(show);
 		Units_GarrisonType_Holder->Show(show);
 		Units_GarrisonHealRate_Holder->Show(show);
-		Units_AlfaThingy_Holder->Show(show);
+		Units_LootSwitch_Holder->Show(show);
 		TerRestrict_Unknown1_Holder->Show(show);
 		TerRestrict_Graphics_Holder->Show(show);
 		TerRestrict_Amount_Holder->Show(show);
@@ -1252,7 +1252,7 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Unknown33_Holder->Show(show);
 			Units_Unknown34_Holder->Show(show);
 			Units_Unknown35_Holder->Show(show);
-			Units_Unknown36_Holder->Show(show);
+			Units_PileUnit_Holder->Show(show);
 			SoundItems_Unknown_Holder->Show(show);
 			Colors_UnknownArea_Holder->Show(show);
 		}
@@ -1840,13 +1840,13 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 		found = Line.find(" ", 3);
 		if(loop == 0)
 		{
-			TopText = " "+Line.substr(2, found-1); // Cutting the tech number. (for example)
-			SubText = " "+Line.substr(found+2, Line.find(" ", found+3)-found-1); // Cutting the effect number.
+			TopText = " "+Line.substr(2, found-1)+"-"; // Cutting the tech number. (for example)
+			SubText = " "+Line.substr(found+2, Line.find(" ", found+3)-found-1)+"-"; // Cutting the effect number.
 		}
 		else
 		{
-			TopText += "| "+Line.substr(2, found-1); // Cutting the sound number.
-			SubText += "| "+Line.substr(found+2, Line.find(" ", found+3)-found-1); // Cutting the filename.
+			TopText += "| "+Line.substr(2, found-1)+"-"; // Cutting the sound number.
+			SubText += "| "+Line.substr(found+2, Line.find(" ", found+3)-found-1)+"-"; // Cutting the filename.
 		}
 		TopSearch->SetValue(TopText);
 		SubSearch->SetValue(SubText);
