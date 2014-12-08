@@ -1617,8 +1617,13 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(GenieVersion >= genie::GV_AoK)
+	if(GenieVersion < genie::GV_AoK)
 	{
+		copies->Dat.AllCivs |= 0x08;
+	}
+	else
+	{
+		copies->Dat.AllCivs &= ~0x08;
 		copies->UnitHeader.resize(selections);
 		for(short loop = 0; loop < selections; ++loop)
 		copies->UnitHeader[loop] = GenieFile->UnitHeaders[UnitIDs[loop]];
@@ -1904,6 +1909,24 @@ void AGE_Frame::PasteUnits()
 			{
 				copies->Dat.UnitCopies[0][loop].setGameVersion(GenieVersion);
 				GenieFile->Civs[UnitCivID].Units[UnitIDs[0]+loop] = copies->Dat.UnitCopies[0][loop];
+			}
+		}
+	}
+	if(copies->Dat.AllCivs & 0x08) // Paste from AoE 1 to AoK+
+	{
+		// Paste commands properly
+		if(GenieVersion >= genie::GV_AoK)
+		{
+		}
+	}
+	else if(GenieVersion < genie::GV_AoK) // Paste from AoK+ to AoE 1
+	{
+		for(short loop = 0; loop < copies->UnitHeader.size(); ++loop)
+		{
+			for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
+			{
+				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
+				GenieFile->Civs[civ].Units[UnitIDs[0]+loop].Bird.Commands = copies->UnitHeader[loop].Commands;
 			}
 		}
 	}
@@ -3226,6 +3249,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		copies->Dat.AllCivs |= 0x80;
+		copies->Dat.UnitCommandExists.resize(0);
 		copies->Dat.UnitCommands.resize(1);
 		CopyFromList(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs, copies->Dat.UnitCommands[0]);
 		return;
@@ -4304,7 +4328,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
 	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller);
-	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n1 berries\n2 fishes\n3 ore deposit\n4 nova deposit\n5 ?");
+	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n1 berries\n2 fishes\n3 ore deposits\n4 nova deposits\n5 ?");
 	Units_Unknown9 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown9->SetToolTip("This is actually leftover from attribute+civ variable\nProbably useless");
 
@@ -4450,7 +4474,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown7 = new TextCtrl_Byte(Units_Scroller);
 	UnitCommands_Unknown8_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Plunder Source *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown8 = new TextCtrl_Short(Units_Scroller);
 	UnitCommands_Unknown8->SetToolTip("0 Plunder from resource\n1 Plunder from players");
 	UnitCommands_Unknown9_Holder = new wxBoxSizer(wxVERTICAL);
