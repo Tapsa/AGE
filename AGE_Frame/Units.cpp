@@ -1912,14 +1912,31 @@ void AGE_Frame::PasteUnits()
 			}
 		}
 	}
-	if(copies->Dat.AllCivs & 0x08) // Paste from AoE 1 to AoK+
+	if(copies->Dat.AllCivs & 0x08) // Paste from AoE to AoK+
 	{
 		// Paste commands properly
 		if(GenieVersion >= genie::GV_AoK)
 		{
+			if(copies->Dat.AllCivs & 0x01)
+			{
+				for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop)
+				{
+					for(short civ = 0; civ < copies->Dat.UnitCopies.size(); ++civ)
+					{
+						if(copies->Dat.UnitExists[civ][loop] != 0)
+						{
+							GenieFile->UnitHeaders[UnitIDs[0]+loop].Exists = 1;
+							GenieFile->UnitHeaders[UnitIDs[0]+loop].Commands = copies->Dat.UnitCopies[civ][loop].Bird.Commands;
+							break;
+						}
+					}
+				}
+			}
+			else
+			wxMessageBox("Ouch! Please select All civs from the bottom!");
 		}
 	}
-	else if(GenieVersion < genie::GV_AoK) // Paste from AoK+ to AoE 1
+	else if(GenieVersion < genie::GV_AoK) // Paste from AoK+ to AoE
 	{
 		for(short loop = 0; loop < copies->UnitHeader.size(); ++loop)
 		{
