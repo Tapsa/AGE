@@ -413,8 +413,8 @@ void AGE_Frame::CreateResearchControls()
 
 	Research_DataArea = new wxBoxSizer(wxVERTICAL);
 	Research_Scroller = new wxScrolledWindow(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	Research_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
-	Research_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
+	Research_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
 	Research_Name_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Name[0] = new TextCtrl_String(Research_Scroller, 30);
@@ -677,27 +677,27 @@ void AGE_Frame::CreateResearchControls()
 	Research_PointerArea_Holder->Add(5, -1);
 	Research_PointerArea_Holder->Add(Research_Unknown1_Holder, 1, wxEXPAND);
 
-	Research_ScrollerWindowsSpace->Add(Research_Names_Holder, 0, wxEXPAND);
-	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_LangDLLArea_Holder, 0, wxEXPAND);
-	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_RequiredTechArea_Holder, 0, wxEXPAND);
-	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_MiscArea1_Grid, 0, wxEXPAND);
-	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_Misc2_Holder, 0, wxEXPAND);
-	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_CostHeader_Holder, 0, wxEXPAND);
-	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_PointerArea_Holder, 0, wxEXPAND);
-	Research_ScrollerWindowsSpace->Add(-1, 5);
-	Research_ScrollerWindowsSpace->Add(Research_DLL_LanguageDLLHelp, 0, wxEXPAND);
-	Research_ScrollerWindowsSpace->Add(Research_DLL_LanguageDLLName2, 0, wxEXPAND);
+	Research_ScrollSpace->Add(Research_Names_Holder, 0, wxEXPAND);
+	Research_ScrollSpace->Add(-1, 5);
+	Research_ScrollSpace->Add(Research_LangDLLArea_Holder, 0, wxEXPAND);
+	Research_ScrollSpace->Add(-1, 5);
+	Research_ScrollSpace->Add(Research_RequiredTechArea_Holder, 0, wxEXPAND);
+	Research_ScrollSpace->Add(-1, 5);
+	Research_ScrollSpace->Add(Research_MiscArea1_Grid, 0, wxEXPAND);
+	Research_ScrollSpace->Add(-1, 5);
+	Research_ScrollSpace->Add(Research_Misc2_Holder, 0, wxEXPAND);
+	Research_ScrollSpace->Add(-1, 5);
+	Research_ScrollSpace->Add(Research_CostHeader_Holder, 0, wxEXPAND);
+	Research_ScrollSpace->Add(-1, 5);
+	Research_ScrollSpace->Add(Research_PointerArea_Holder, 0, wxEXPAND);
+	Research_ScrollSpace->Add(-1, 5);
+	Research_ScrollSpace->Add(Research_DLL_LanguageDLLHelp, 0, wxEXPAND);
+	Research_ScrollSpace->Add(Research_DLL_LanguageDLLName2, 0, wxEXPAND);
 
-	Research_ScrollerWindows->Add(Research_ScrollerWindowsSpace, 1, wxEXPAND);
-	Research_ScrollerWindows->Add(5, -1);
+	Research_ScrollArea->Add(Research_ScrollSpace, 1, wxEXPAND);
+	Research_ScrollArea->Add(5, -1);
 
-	Research_Scroller->SetSizer(Research_ScrollerWindows);
+	Research_Scroller->SetSizer(Research_ScrollArea);
 	Research_Scroller->SetScrollRate(0, 15);
 
 	Research_DataArea->Add(-1, 10);

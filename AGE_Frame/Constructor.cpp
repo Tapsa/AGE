@@ -11,8 +11,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
-//	TabBar_Data = new wxNotebook(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
-//	TabBar_Test = new wxNotebook(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	copies = &c;
 	AGEwindow = window;
 
