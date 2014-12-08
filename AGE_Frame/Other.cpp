@@ -1263,7 +1263,6 @@ void AGE_Frame::OnGameVersionChange()
 		Units_GarrisonGraphic_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			Units_Unknown16A_Holder->Show(show);
 			Units_Unknown16B_Holder->Show(show);
 			Graphics_Unknown3_Holder->Show(show);
 		}
@@ -1336,9 +1335,9 @@ void AGE_Frame::OnGameVersionChange()
 	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
 	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
 	TechTrees_ScrollerAges->GetSizer()->FitInside(TechTrees_ScrollerAges);
-	//TechTrees_ScrollerBuildings->GetSizer()->FitInside(TechTrees_ScrollerBuildings);
-	//TechTrees_ScrollerUnits->GetSizer()->FitInside(TechTrees_ScrollerUnits);
-	//TechTrees_ScrollerResearches->GetSizer()->FitInside(TechTrees_ScrollerResearches);
+	TechTrees_ScrollerBuildings->GetSizer()->FitInside(TechTrees_ScrollerBuildings);
+	TechTrees_ScrollerUnits->GetSizer()->FitInside(TechTrees_ScrollerUnits);
+	TechTrees_ScrollerResearches->GetSizer()->FitInside(TechTrees_ScrollerResearches);
 	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
 	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
 	General_Scroller->GetSizer()->FitInside(General_Scroller);
