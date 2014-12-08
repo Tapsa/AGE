@@ -1302,7 +1302,6 @@ public:
 	TextCtrl_Short *Effects_B;
 	wxBoxSizer *Effects_B_ComboBox;	// Space reserver, never used.
 	CheckBox_2State *Effects_ModeB_CheckBox;	// for Effects 1, 2
-	//ComboBox_Plus1 *Units_Class_ComboBox[2];	// for Effects 0, 4, 5
 	ComboBox_Plus1 *Effects_UnitsB_ComboBox;	// for Effects 3
 	ComboBox_Plus1 *Effects_ResourcesB_ComboBox;	// for Effects 101
 	wxStaticText *Effects_Info_B;
@@ -1519,8 +1518,7 @@ public:
 	TextCtrl_Byte *Units_TrackingUnitUsed;
 	TextCtrl_Float *Units_TrackingUnitDensity;
 	TextCtrl_Byte *Units_Unknown16;
-	TextCtrl_Long *Units_Unknown16A;
-	array<TextCtrl_Float*, 4> Units_Unknown16B;
+	array<TextCtrl_Float*, 5> Units_Unknown16B;
 
 //	Type 40+
 
@@ -1714,7 +1712,6 @@ public:
 	wxStaticText *Units_TrackingUnitUsed_Text;
 	wxStaticText *Units_TrackingUnitDensity_Text;
 	wxStaticText *Units_Unknown16_Text;
-	wxStaticText *Units_Unknown16A_Text;
 	wxStaticText *Units_Unknown16B_Text;
 
 //	Type 40+
@@ -1805,7 +1802,6 @@ public:
 	wxBoxSizer *Units_ID1_Holder;
 	wxBoxSizer *Units_LanguageDLLName_Holder;
 	wxBoxSizer *Units_LanguageDLLCreation_Holder;
-	wxBoxSizer *Units_Class_Holder;
 	wxBoxSizer *Units_StandingGraphic_Holder;
 	wxGridSizer *Units_StandingGraphic_Grid;
 	wxBoxSizer *Units_DyingGraphic_Holder;
@@ -1895,7 +1891,6 @@ public:
 	wxBoxSizer *Units_TrackingUnitUsedBox_Holder;
 	wxBoxSizer *Units_TrackingUnitDensity_Holder;
 	wxBoxSizer *Units_Unknown16_Holder;
-	wxBoxSizer *Units_Unknown16A_Holder;
 	wxBoxSizer *Units_Unknown16B_Holder;
 	wxGridSizer *Units_Unknown16B_Grid;
 
@@ -2113,8 +2108,6 @@ public:
 	wxBoxSizer *Units_ScrollArea;	// Scrollable section division
 	wxBoxSizer *Units_ScrollSpace;
 	wxStaticBoxSizer *Units_TypeArea_Holder;
-	wxBoxSizer *Units_TypeArea1_Holder;
-	wxBoxSizer *Units_TypeArea2_Holder;
 	wxStaticBoxSizer *Units_LangDLLArea_Holder;
 	wxStaticBoxSizer *Units_GraphicsArea_Holder;
 	wxBoxSizer *Units_GraphicsArea1_Holder;
@@ -2781,12 +2774,14 @@ public:
 	wxScrolledWindow *TechTrees_ScrollerBuildings;
 	wxScrolledWindow *TechTrees_ScrollerUnits;
 	wxScrolledWindow *TechTrees_ScrollerResearches;
-	wxBoxSizer *TechTrees_ScrollArea;
-	wxBoxSizer *TechTrees_ScrollSpace;
-	wxStaticBoxSizer *TechTrees_Ages;
-	wxStaticBoxSizer *TechTrees_Buildings;
-	wxStaticBoxSizer *TechTrees_Units;
-	wxStaticBoxSizer *TechTrees_Researches;
+	wxBoxSizer *TechTrees_ScrollArea1;
+	wxBoxSizer *TechTrees_ScrollArea2;
+	wxBoxSizer *TechTrees_ScrollArea3;
+	wxBoxSizer *TechTrees_ScrollArea4;
+	wxBoxSizer *TechTrees_ScrollSpace1;
+	wxBoxSizer *TechTrees_ScrollSpace2;
+	wxBoxSizer *TechTrees_ScrollSpace3;
+	wxBoxSizer *TechTrees_ScrollSpace4;
 	wxBoxSizer *TechTrees_MainList_Ages;
 	wxBoxSizer *TechTrees_MainList_Buildings;
 	wxBoxSizer *TechTrees_MainList_Units;
