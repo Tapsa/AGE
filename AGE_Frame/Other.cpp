@@ -809,50 +809,50 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		for(short loop = 0; loop < 2; ++loop)
 		{
-			Units_Units_SearchFilters[loop]->Clear();
-			Units_Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
-			Units_Units_SearchFilters[loop]->Append("Internal Name");
-			Units_Units_SearchFilters[loop]->Append("Type");
-			Units_Units_SearchFilters[loop]->Append("Class");
-			Units_Units_SearchFilters[loop]->Append("Terrain Restriction");
-			Units_Units_SearchFilters[loop]->Append("Dead Unit");
-			Units_Units_SearchFilters[loop]->Append("Civilization (TC+)");
-			Units_Units_SearchFilters[loop]->Append("Projectile Unit");
-			Units_Units_SearchFilters[loop]->Append("Max Range");
-			Units_Units_SearchFilters[loop]->Append("Train Location");
-			Units_Units_SearchFilters[loop]->Append("Attacks");
-			Units_Units_SearchFilters[loop]->Append("Attack Classes");
-			Units_Units_SearchFilters[loop]->Append("Armors");
-			Units_Units_SearchFilters[loop]->Append("Armor Classes");
-			Units_Units_SearchFilters[loop]->Append("Commands");
-			Units_Units_SearchFilters[loop]->Append("Pointer");
-		/*	Units_Units_SearchFilters[loop]->Append("Garrison Type");
-			Units_Units_SearchFilters[loop]->Append("Enabled");
-			Units_Units_SearchFilters[loop]->Append("Hidden In Editor");
-			Units_Units_SearchFilters[loop]->Append("Visible In Fog");
-			Units_Units_SearchFilters[loop]->Append("Death Mode");
-			Units_Units_SearchFilters[loop]->Append("Hero Mode");
-			Units_Units_SearchFilters[loop]->Append("Air Mode");
-			Units_Units_SearchFilters[loop]->Append("Fly Mode");
-			Units_Units_SearchFilters[loop]->Append("Building Mode");
-			Units_Units_SearchFilters[loop]->Append("Placement Mode");
-			Units_Units_SearchFilters[loop]->Append("Interaction Mode");
-			Units_Units_SearchFilters[loop]->Append("Minimap Mode");
-			Units_Units_SearchFilters[loop]->Append("Sheep Conversion");
-			Units_Units_SearchFilters[loop]->Append("Villager Mode");
-			Units_Units_SearchFilters[loop]->Append("Unseletable");
-			Units_Units_SearchFilters[loop]->Append("Selection Mask");
-			Units_Units_SearchFilters[loop]->Append("Selection Shape Type");
-			Units_Units_SearchFilters[loop]->Append("Selection Shape");
-			Units_Units_SearchFilters[loop]->Append("Selection Effect");
-			Units_Units_SearchFilters[loop]->Append("Editor Selection Color");
-			Units_Units_SearchFilters[loop]->Append("Unitline");
-			Units_Units_SearchFilters[loop]->Append("Tracking Unit Used");
-			Units_Units_SearchFilters[loop]->Append("Command Attribute");
-			Units_Units_SearchFilters[loop]->Append("Stack Unit");
-			Units_Units_SearchFilters[loop]->Append("Terrain");
-			Units_Units_SearchFilters[loop]->Append("Research");
-		*/	Units_Units_SearchFilters[loop]->SetSelection(0);
+			Units_SearchFilters[loop]->Clear();
+			Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
+			Units_SearchFilters[loop]->Append("Internal Name");
+			Units_SearchFilters[loop]->Append("Type");
+			Units_SearchFilters[loop]->Append("Class");
+			Units_SearchFilters[loop]->Append("Terrain Restriction");
+			Units_SearchFilters[loop]->Append("Dead Unit");
+			Units_SearchFilters[loop]->Append("Civilization (TC+)");
+			Units_SearchFilters[loop]->Append("Projectile Unit");
+			Units_SearchFilters[loop]->Append("Max Range");
+			Units_SearchFilters[loop]->Append("Train Location");
+			Units_SearchFilters[loop]->Append("Attacks");
+			Units_SearchFilters[loop]->Append("Attack Classes");
+			Units_SearchFilters[loop]->Append("Armors");
+			Units_SearchFilters[loop]->Append("Armor Classes");
+			Units_SearchFilters[loop]->Append("Commands");
+			Units_SearchFilters[loop]->Append("Pointer");
+		/*	Units_SearchFilters[loop]->Append("Garrison Type");
+			Units_SearchFilters[loop]->Append("Enabled");
+			Units_SearchFilters[loop]->Append("Hidden In Editor");
+			Units_SearchFilters[loop]->Append("Visible In Fog");
+			Units_SearchFilters[loop]->Append("Death Mode");
+			Units_SearchFilters[loop]->Append("Hero Mode");
+			Units_SearchFilters[loop]->Append("Air Mode");
+			Units_SearchFilters[loop]->Append("Fly Mode");
+			Units_SearchFilters[loop]->Append("Building Mode");
+			Units_SearchFilters[loop]->Append("Placement Mode");
+			Units_SearchFilters[loop]->Append("Interaction Mode");
+			Units_SearchFilters[loop]->Append("Minimap Mode");
+			Units_SearchFilters[loop]->Append("Sheep Conversion");
+			Units_SearchFilters[loop]->Append("Villager Mode");
+			Units_SearchFilters[loop]->Append("Unseletable");
+			Units_SearchFilters[loop]->Append("Selection Mask");
+			Units_SearchFilters[loop]->Append("Selection Shape Type");
+			Units_SearchFilters[loop]->Append("Selection Shape");
+			Units_SearchFilters[loop]->Append("Selection Effect");
+			Units_SearchFilters[loop]->Append("Editor Selection Color");
+			Units_SearchFilters[loop]->Append("Unitline");
+			Units_SearchFilters[loop]->Append("Tracking Unit Used");
+			Units_SearchFilters[loop]->Append("Command Attribute");
+			Units_SearchFilters[loop]->Append("Stack Unit");
+			Units_SearchFilters[loop]->Append("Terrain");
+			Units_SearchFilters[loop]->Append("Research");
+		*/	Units_SearchFilters[loop]->SetSelection(0);
 
 			Research_Research_SearchFilters[loop]->Clear();
 			Research_Research_SearchFilters[loop]->Append("Lang DLL Name");	// 0
@@ -982,7 +982,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("14 - Resource Carriage");
 		Effects_AttributesC_ComboBox->Append("15 - Default Armor");
 		Effects_AttributesC_ComboBox->Append("16 - New Projectile Unit");
-		Effects_AttributesC_ComboBox->Append("17 - Upgrade Icon (its age)");
+		Effects_AttributesC_ComboBox->Append("17 - Upgrade Icon (by age)");
 		Effects_AttributesC_ComboBox->Append("18 - Unknown21");
 		Effects_AttributesC_ComboBox->Append("19 - Projectile Intelligent Accuracy");
 		Effects_AttributesC_ComboBox->Append("20 - Minimum Range");
@@ -1320,6 +1320,10 @@ void AGE_Frame::OnGameVersionChange()
 	Research_Main->Layout();
 	Techs_Main->Layout();
 	TechTrees_Main->Layout();
+	TechTrees_TabAges->Layout();
+	TechTrees_TabBuildings->Layout();
+	TechTrees_TabUnits->Layout();
+	TechTrees_TabResearches->Layout();
 	Graphics_Main->Layout();
 	Terrains_Main->Layout();
 	TerRestrict_Main->Layout();
@@ -1328,12 +1332,17 @@ void AGE_Frame::OnGameVersionChange()
 	UnitLines_Main->Layout();
 	Borders_Main->Layout();
 	General_Main->Layout();
+	Unknown_Main->Layout();
 	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
 	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
-	TechTrees_Scroller->GetSizer()->FitInside(TechTrees_Scroller);
+	TechTrees_ScrollerAges->GetSizer()->FitInside(TechTrees_ScrollerAges);
+	//TechTrees_ScrollerBuildings->GetSizer()->FitInside(TechTrees_ScrollerBuildings);
+	//TechTrees_ScrollerUnits->GetSizer()->FitInside(TechTrees_ScrollerUnits);
+	//TechTrees_ScrollerResearches->GetSizer()->FitInside(TechTrees_ScrollerResearches);
 	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
 	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
 	General_Scroller->GetSizer()->FitInside(General_Scroller);
+	Unknown_Scroller->GetSizer()->FitInside(Unknown_Scroller);
 	Refresh(); // Does this refresh non-visible tabs?
 }
 
@@ -1490,7 +1499,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			SoundItems_Unknown_Holder->Show(ShowUnknowns);
 			Colors_UnknownArea_Holder->Show(ShowUnknowns);
 			General_TopRow->Show(ShowUnknowns);
-			General_ScrollerWindowsSpace->Show(ShowUnknowns);
+			General_ScrollSpace->Show(ShowUnknowns);
 
 			OnGameVersionChange(); // Does layouting and refreshing and ... check it out.
 		}
@@ -1746,10 +1755,10 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 {
 	for(short loop = 0; loop < 2; ++loop) // Custom search filters
 	{
-		if(Event.GetId() == Units_Units_SearchFilters[loop]->GetId())
+		if(Event.GetId() == Units_SearchFilters[loop]->GetId())
 		{
 			ListUnits(UnitCivID, false);
-			Units_Units_Search->SetFocus();
+			Units_Search->SetFocus();
 		}
 		else if(Event.GetId() == Graphics_Graphics_SearchFilters[loop]->GetId())
 		{
