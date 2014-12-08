@@ -346,8 +346,8 @@ void AGE_Frame::CreateTerrainControls()
 
 	Terrains_DataArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Scroller = new wxScrolledWindow(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	Terrains_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
-	Terrains_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
+	Terrains_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	Terrains_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Terrains_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Area1_Grid = new wxGridSizer(4, 5, 5);
 	Terrains_Name_Holder = new wxBoxSizer(wxVERTICAL);
@@ -599,22 +599,22 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_NumberOfTerrainUnitsUsed1_Holder->Add(Terrains_NumberOfTerrainUnitsUsed_Holder, 1, wxEXPAND);
 	Terrains_NumberOfTerrainUnitsUsed1_Holder->AddStretchSpacer(3);
 
-	Terrains_ScrollerWindowsSpace->Add(Terrains_NameArea_Holder, 0, wxEXPAND);
-	Terrains_ScrollerWindowsSpace->Add(-1, 5);
-	Terrains_ScrollerWindowsSpace->Add(Terrains_Area1_Grid, 0, wxEXPAND);
-	Terrains_ScrollerWindowsSpace->Add(-1, 5);
-	Terrains_ScrollerWindowsSpace->Add(Terrains_NumberOfTerrainUnitsUsed1_Holder, 0, wxEXPAND);
-	Terrains_ScrollerWindowsSpace->Add(-1, 5);
-	Terrains_ScrollerWindowsSpace->Add(Terrains_TerrainUnits_Holder, 0, wxEXPAND);
-	Terrains_ScrollerWindowsSpace->Add(-1, 5);
-	Terrains_ScrollerWindowsSpace->Add(Terrains_TerrainBorders_Holder, 0, wxEXPAND);
-	Terrains_ScrollerWindowsSpace->Add(-1, 5);
-	Terrains_ScrollerWindowsSpace->Add(Terrains_UnknownArea_Holder, 0, wxEXPAND);
+	Terrains_ScrollSpace->Add(Terrains_NameArea_Holder, 0, wxEXPAND);
+	Terrains_ScrollSpace->Add(-1, 5);
+	Terrains_ScrollSpace->Add(Terrains_Area1_Grid, 0, wxEXPAND);
+	Terrains_ScrollSpace->Add(-1, 5);
+	Terrains_ScrollSpace->Add(Terrains_NumberOfTerrainUnitsUsed1_Holder, 0, wxEXPAND);
+	Terrains_ScrollSpace->Add(-1, 5);
+	Terrains_ScrollSpace->Add(Terrains_TerrainUnits_Holder, 0, wxEXPAND);
+	Terrains_ScrollSpace->Add(-1, 5);
+	Terrains_ScrollSpace->Add(Terrains_TerrainBorders_Holder, 0, wxEXPAND);
+	Terrains_ScrollSpace->Add(-1, 5);
+	Terrains_ScrollSpace->Add(Terrains_UnknownArea_Holder, 0, wxEXPAND);
 
-	Terrains_ScrollerWindows->Add(Terrains_ScrollerWindowsSpace, 1, wxEXPAND);
-	Terrains_ScrollerWindows->Add(5, -1);
+	Terrains_ScrollArea->Add(Terrains_ScrollSpace, 1, wxEXPAND);
+	Terrains_ScrollArea->Add(5, -1);
 
-	Terrains_Scroller->SetSizer(Terrains_ScrollerWindows);
+	Terrains_Scroller->SetSizer(Terrains_ScrollArea);
 	Terrains_Scroller->SetScrollRate(0, 15);
 
 	Terrains_DataArea->Add(-1, 10);

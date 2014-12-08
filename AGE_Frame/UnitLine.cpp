@@ -190,12 +190,12 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 		}
 
 		UnitLineUnits_Units->ChangeValue(lexical_cast<string>(*UnitPointer));
-		UnitLineUnits_Units_ComboBox->SetSelection(*UnitPointer + 1);
+		UnitLineUnits_ComboBox->SetSelection(*UnitPointer + 1);
 	}
 	else
 	{
 		UnitLineUnits_Units->ChangeValue("0");
-		UnitLineUnits_Units_ComboBox->SetSelection(0);
+		UnitLineUnits_ComboBox->SetSelection(0);
 	}
 }
 
@@ -306,11 +306,11 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_Name_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitLines_Name = new TextCtrl_String(Tab_UnitLine, 30);
 
-	UnitLineUnits_Units_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitLineUnits_Units_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitLineUnits_Holder = new wxBoxSizer(wxVERTICAL);
+	UnitLineUnits_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitLineUnits_Units = new TextCtrl_Short(Tab_UnitLine);
-	UnitLineUnits_Units_ComboBox = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units);
-	UnitComboBoxList.push_back(UnitLineUnits_Units_ComboBox);
+	UnitLineUnits_ComboBox = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units);
+	UnitComboBoxList.push_back(UnitLineUnits_ComboBox);
 
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Add, 1, wxEXPAND);
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Insert, 1, wxEXPAND);
@@ -354,16 +354,16 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_ID_Holder->Add(UnitLines_ID, 1, wxEXPAND);
 	UnitLines_Name_Holder->Add(UnitLines_Name_Text, 0, wxEXPAND);
 	UnitLines_Name_Holder->Add(UnitLines_Name, 1, wxEXPAND);
-	UnitLineUnits_Units_Holder->Add(UnitLineUnits_Units_Text, 0, wxEXPAND);
-	UnitLineUnits_Units_Holder->Add(UnitLineUnits_Units, 1, wxEXPAND);
-	UnitLineUnits_Units_Holder->Add(UnitLineUnits_Units_ComboBox, 1, wxEXPAND);
+	UnitLineUnits_Holder->Add(UnitLineUnits_Text, 0, wxEXPAND);
+	UnitLineUnits_Holder->Add(UnitLineUnits_Units, 1, wxEXPAND);
+	UnitLineUnits_Holder->Add(UnitLineUnits_ComboBox, 1, wxEXPAND);
 
 	UnitLines_DataArea->Add(-1, 10);
 	UnitLines_DataArea->Add(UnitLines_ID_Holder, 0, wxEXPAND);
 	UnitLines_DataArea->Add(-1, 5);
 	UnitLines_DataArea->Add(UnitLines_Name_Holder, 0, wxEXPAND);
 	UnitLines_DataArea->Add(-1, 5);
-	UnitLines_DataArea->Add(UnitLineUnits_Units_Holder, 0, wxEXPAND);
+	UnitLines_DataArea->Add(UnitLineUnits_Holder, 0, wxEXPAND);
 
 	UnitLines_Main->Add(10, -1);
 	UnitLines_Main->Add(UnitLines_ListArea, 1, wxEXPAND);
@@ -400,7 +400,7 @@ void AGE_Frame::CreateUnitLineControls()
 
 	UnitLines_Name->Connect(UnitLines_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnitLines), NULL, this);
 	UnitLineUnits_Units->Connect(UnitLineUnits_Units->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnitLines), NULL, this);
-	UnitLineUnits_Units_ComboBox->Connect(UnitLineUnits_Units_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_UnitLines), NULL, this);
+	UnitLineUnits_ComboBox->Connect(UnitLineUnits_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_UnitLines), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &Event)
