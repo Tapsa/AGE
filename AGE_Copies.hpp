@@ -45,7 +45,7 @@ class AdvCopies // Used to copy units with various settings.
 	// 0x01 = normal copy
 	// 0x02 = special copy
 	// 0x04 = 
-	// 0x08 = 
+	// 0x08 = from AoE 1
 	// 0x10 = damage graphics
 	// 0x20 = attacks
 	// 0x40 = armors
