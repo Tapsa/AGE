@@ -142,8 +142,8 @@ void AGE_Frame::CreateGeneralControls()
 	for(short loop = 0; loop < 5; ++loop)
 	General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY);
 	General_Scroller = new wxScrolledWindow(Tab_General, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	General_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
-	General_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
+	General_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	General_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
 	const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain restrictions";
 	General_Variables_Grid = new wxGridSizer(6, 5, 5);
@@ -261,21 +261,21 @@ void AGE_Frame::CreateGeneralControls()
 	General_RenderPlusUnknownTop_Holder->AddStretchSpacer(2);
 	General_RenderPlusUnknown_Holder->Add(General_RenderPlusUnknownTop_Holder, 0, wxEXPAND);
 */
-	General_ScrollerWindowsSpace->Add(General_Variables1_Holder, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_TerrainHeader_Holder, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_BorderRelated_Holder, 0, wxEXPAND);
-	General_ScrollerWindowsSpace->Add(-1, 10);
-	General_ScrollerWindowsSpace->Add(General_TerrainRendering_Holder, 0, wxEXPAND);
-	//General_ScrollerWindowsSpace->Add(-1, 10);
-	//General_ScrollerWindowsSpace->Add(General_RenderPlusUnknown_Holder, 0, wxEXPAND);
+	General_ScrollSpace->Add(General_Variables1_Holder, 0, wxEXPAND);
+	General_ScrollSpace->Add(-1, 10);
+	General_ScrollSpace->Add(General_TerrainHeader_Holder, 0, wxEXPAND);
+	General_ScrollSpace->Add(-1, 10);
+	General_ScrollSpace->Add(General_BorderRelated_Holder, 0, wxEXPAND);
+	General_ScrollSpace->Add(-1, 10);
+	General_ScrollSpace->Add(General_TerrainRendering_Holder, 0, wxEXPAND);
+	//General_ScrollSpace->Add(-1, 10);
+	//General_ScrollSpace->Add(General_RenderPlusUnknown_Holder, 0, wxEXPAND);
 
-	General_ScrollerWindows->Add(10, -1);
-	General_ScrollerWindows->Add(General_ScrollerWindowsSpace, 1, wxEXPAND);
-	General_ScrollerWindows->Add(5, -1);
+	General_ScrollArea->Add(10, -1);
+	General_ScrollArea->Add(General_ScrollSpace, 1, wxEXPAND);
+	General_ScrollArea->Add(5, -1);
 
-	General_Scroller->SetSizer(General_ScrollerWindows);
+	General_Scroller->SetSizer(General_ScrollArea);
 	General_Scroller->SetScrollRate(0, 15);
 
 	General_Main->Add(-1, 10);
@@ -1252,8 +1252,8 @@ void AGE_Frame::CreateUnknownControls()
 	Unknown_Main = new wxBoxSizer(wxHORIZONTAL);
 	Unknown_Area = new wxBoxSizer(wxVERTICAL);
 	Unknown_Scroller = new wxScrolledWindow(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	Unknown_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
-	Unknown_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
+	Unknown_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	Unknown_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
 	Unknown_UnknownPointer_Grid = new wxGridSizer(8, 0, 0);
 	Unknown_UnknownPointer_Holder = new wxBoxSizer(wxVERTICAL);
@@ -1721,35 +1721,39 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnknown->Add(10, -1);
 	RMSUnknown->Add(RMSUnknown_DataArea, 3, wxEXPAND);
 
-	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_UnknownLevel, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(Unknowns_Unknown1_Grid, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_Pointer1, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(RMSBaseZones, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_Pointer2, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(RMSTerrain, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_Pointer3, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(RMSUnit, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(Unknowns_Space_Pointer4, 0, wxEXPAND);
-	Unknown_ScrollerWindowsSpace->Add(-1, 5);
-	Unknown_ScrollerWindowsSpace->Add(RMSUnknown, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(Unknowns_Space_UnknownLevel, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(Unknowns_Unknown1_Grid, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(Unknowns_Space_Pointer1, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(RMSBaseZones, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(Unknowns_Space_Pointer2, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(RMSTerrain, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(Unknowns_Space_Pointer3, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(RMSUnit, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(Unknowns_Space_Pointer4, 0, wxEXPAND);
+	Unknown_ScrollSpace->Add(-1, 5);
+	Unknown_ScrollSpace->Add(RMSUnknown, 0, wxEXPAND);
 
-	Unknown_ScrollerWindows->Add(Unknown_ScrollerWindowsSpace, 1, wxEXPAND);
-	Unknown_ScrollerWindows->Add(5, -1);
+	Unknown_ScrollArea->Add(Unknown_ScrollSpace, 1, wxEXPAND);
+	Unknown_ScrollArea->Add(5, -1);
 
-	Unknown_Scroller->SetSizer(Unknown_ScrollerWindows);
+	Unknown_Scroller->SetSizer(Unknown_ScrollArea);
 	Unknown_Scroller->SetScrollRate(0, 15);
 
 	Unknowns->Add(Unknowns_ListArea, 1, wxEXPAND);
 	Unknowns->Add(10, -1);
 	Unknowns->Add(Unknown_Scroller, 3, wxEXPAND);
+
+	Unknown_UnknownPointer_Holder->Add(Unknown_UnknownPointer_Text, 0, wxEXPAND);
+	Unknown_UnknownPointer_Holder->Add(Unknown_UnknownPointer, 0, wxEXPAND);
+	Unknown_UnknownPointer_Grid->Add(Unknown_UnknownPointer_Holder, 1, wxEXPAND);
 
 	Unknown_Area->Add(-1, 10);
 	Unknown_Area->Add(Unknown_UnknownPointer_Grid, 0, wxEXPAND);

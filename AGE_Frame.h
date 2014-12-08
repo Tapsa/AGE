@@ -734,8 +734,7 @@ public:
 	wxMenu *SubMenu_Help;
 
 	wxNotebook *TabBar_Main;
-//	wxNotebook *TabBar_Data;
-//	wxNotebook *TabBar_Test;
+	wxNotebook *TabBar_TechTree;
 
 	wxPanel *Tab_General;
 	wxPanel *Tab_Research;
@@ -752,6 +751,11 @@ public:
 	wxPanel *Tab_PlayerColors;
 	wxPanel *Tab_Unknown;
 
+	wxPanel *Tab_TechTreeAges;
+	wxPanel *Tab_TechTreeBuildings;
+	wxPanel *Tab_TechTreeUnits;
+	wxPanel *Tab_TechTreeResearches;
+
 //	wxPanel *Tab_DRS;
 
 //	General user interface
@@ -763,8 +767,8 @@ public:
 	wxStaticText *General_CalcBoxesMiddle_Text;
 	wxTextCtrl *General_CalcBoxes[5];
 	wxScrolledWindow *General_Scroller;
-	wxBoxSizer *General_ScrollerWindows;
-	wxBoxSizer *General_ScrollerWindowsSpace;
+	wxBoxSizer *General_ScrollArea;
+	wxBoxSizer *General_ScrollSpace;
 	wxBoxSizer *General_TerrainHeader_Holder;
 	wxStaticText *General_TerrainHeader_Text;
 	wxGridSizer *General_TerrainHeader_Grid;
@@ -896,8 +900,8 @@ public:
 	wxBoxSizer *Unknown_Main;
 	wxBoxSizer *Unknown_Area;
 	wxScrolledWindow *Unknown_Scroller;
-	wxBoxSizer *Unknown_ScrollerWindows;
-	wxBoxSizer *Unknown_ScrollerWindowsSpace;
+	wxBoxSizer *Unknown_ScrollArea;
+	wxBoxSizer *Unknown_ScrollSpace;
 
 	wxGridSizer *Unknown_UnknownPointer_Grid;
 	wxBoxSizer *Unknown_UnknownPointer_Holder;
@@ -1097,8 +1101,8 @@ public:
 	wxGridSizer *Research_Research_Buttons;
 	wxBoxSizer *Research_DataArea;
 	wxScrolledWindow *Research_Scroller;
-	wxBoxSizer *Research_ScrollerWindows;
-	wxBoxSizer *Research_ScrollerWindowsSpace;
+	wxBoxSizer *Research_ScrollArea;
+	wxBoxSizer *Research_ScrollSpace;
 	wxGridSizer *Research_MiscArea1_Grid;
 	wxBoxSizer *Research_LangDLLArea_Holder;
 	wxBoxSizer *Research_Misc2_Holder;
@@ -2073,18 +2077,19 @@ public:
 
 	wxBoxSizer *Units_Main;	// Unit window
 	wxBoxSizer *Units_ListArea;	// Unit list section vertical division
-	wxGridSizer *Units_Units_Buttons[2];	// Unit list section buttons
+	wxGridSizer *Units_Buttons[2];	// Unit list section buttons
 
 	wxStaticBoxSizer *Units_Units;	// Unit list section vertical division excluding window borders
-	//wxStaticLine *Units_Units_Line;
-	wxBoxSizer *Units_Units_Special;
+	//wxStaticLine *Units_Line;
+	wxBoxSizer *Units_Special;
 	wxComboBox *Units_Civs_List;	// Civ list combo box
-	wxBoxSizer *Units_Units_Searches[2];
-	wxTextCtrl *Units_Units_Search;	// Unit search
-	wxTextCtrl *Units_Units_Search_R;	// Unit reverse search
-	wxOwnerDrawnComboBox *Units_Units_SearchFilters[2];	// Unit search
-	wxCheckBox *Units_Units_UseAnd[2];
-	wxListBox *Units_Units_List;	// List of units
+	wxBoxSizer *Units_Searches[2];
+	wxTextCtrl *Units_Search;	// Unit search
+	wxTextCtrl *Units_Search_R;	// Unit reverse search
+	wxOwnerDrawnComboBox *Units_FilterSelector;
+	wxOwnerDrawnComboBox *Units_SearchFilters[2];	// Unit search
+	wxCheckBox *Units_UseAnd[2];
+	wxListBox *Units_List;	// List of units
 	wxButton *Units_Add;	// Buttons
 	wxButton *Units_Insert;
 	wxButton *Units_Delete;
@@ -2105,8 +2110,8 @@ public:
 
 	wxBoxSizer *Units_DataArea;	// Unit window other-than unit-list-section
 
-	wxBoxSizer *Units_ScrollerWindows;	// Scrollable section division
-	wxBoxSizer *Units_ScrollerWindowsSpace;
+	wxBoxSizer *Units_ScrollArea;	// Scrollable section division
+	wxBoxSizer *Units_ScrollSpace;
 	wxStaticBoxSizer *Units_TypeArea_Holder;
 	wxBoxSizer *Units_TypeArea1_Holder;
 	wxBoxSizer *Units_TypeArea2_Holder;
@@ -2300,8 +2305,8 @@ public:
 
 	wxBoxSizer *Graphics_DataArea;
 	wxScrolledWindow *Graphics_Scroller;
-	wxBoxSizer *Graphics_ScrollerWindows;
-	wxBoxSizer *Graphics_ScrollerWindowsSpace;
+	wxBoxSizer *Graphics_ScrollArea;
+	wxBoxSizer *Graphics_ScrollSpace;
 
 	wxBoxSizer *Graphics_NameArea_Holder;
 	wxBoxSizer *Graphics_Name_Holder;
@@ -2459,8 +2464,8 @@ public:
 
 	wxBoxSizer *Terrains_DataArea;
 	wxScrolledWindow *Terrains_Scroller;
-	wxBoxSizer *Terrains_ScrollerWindows;
-	wxBoxSizer *Terrains_ScrollerWindowsSpace;
+	wxBoxSizer *Terrains_ScrollArea;
+	wxBoxSizer *Terrains_ScrollSpace;
 	wxBoxSizer *Terrains_NameArea_Holder;
 	wxGridSizer *Terrains_Area1_Grid;
 	wxBoxSizer *Terrains_UnknownArea_Holder;
@@ -2759,18 +2764,25 @@ public:
 	wxButton *UnitLineUnits_PasteInsert;
 	wxButton *UnitLineUnits_CopyToUnitLines;
 
-	wxBoxSizer *UnitLineUnits_Units_Holder;
-	wxStaticText *UnitLineUnits_Units_Text;
+	wxBoxSizer *UnitLineUnits_Holder;
+	wxStaticText *UnitLineUnits_Text;
 	TextCtrl_Short *UnitLineUnits_Units;
-	ComboBox_Plus1 *UnitLineUnits_Units_ComboBox;
+	ComboBox_Plus1 *UnitLineUnits_ComboBox;
 
 //	Tech Tree user interface
 
 	wxBoxSizer *TechTrees_Main;
 	wxBoxSizer *TechTrees_All;
-	wxScrolledWindow *TechTrees_Scroller;
-	wxBoxSizer *TechTrees_ScrollerWindows;
-	wxBoxSizer *TechTrees_ScrollerWindowsSpace;
+	wxBoxSizer *TechTrees_TabAges;
+	wxBoxSizer *TechTrees_TabBuildings;
+	wxBoxSizer *TechTrees_TabUnits;
+	wxBoxSizer *TechTrees_TabResearches;
+	wxScrolledWindow *TechTrees_ScrollerAges;
+	wxScrolledWindow *TechTrees_ScrollerBuildings;
+	wxScrolledWindow *TechTrees_ScrollerUnits;
+	wxScrolledWindow *TechTrees_ScrollerResearches;
+	wxBoxSizer *TechTrees_ScrollArea;
+	wxBoxSizer *TechTrees_ScrollSpace;
 	wxStaticBoxSizer *TechTrees_Ages;
 	wxStaticBoxSizer *TechTrees_Buildings;
 	wxStaticBoxSizer *TechTrees_Units;
@@ -2845,17 +2857,20 @@ public:
 	AGE_AreaTT84 TechTrees_Researches_Items;
 
 	wxBoxSizer *TechTrees_Data_Ages;
+	wxBoxSizer *TechTrees_Data_Ages2;
 	wxGridSizer *TechTrees_Data_Ages1;
 	wxBoxSizer *TechTrees_Data_Buildings;
+	wxBoxSizer *TechTrees_Data_Buildings2;
 	wxGridSizer *TechTrees_Data_Buildings1;
 	wxBoxSizer *TechTrees_Data_Units;
 	wxGridSizer *TechTrees_Data_Units1;
 	wxBoxSizer *TechTrees_Data_Researches;
+	wxBoxSizer *TechTrees_Data_Researches2;
 	wxGridSizer *TechTrees_Data_Researches1;
-	wxBoxSizer *TechTrees_DataListHolder_Ages;
-	wxBoxSizer *TechTrees_DataListHolder_Buildings;
-	wxBoxSizer *TechTrees_DataListHolder_Units;
-	wxBoxSizer *TechTrees_DataListHolder_Researches;
+	wxBoxSizer *TechTrees_ConnectedHolder_Ages;
+	wxBoxSizer *TechTrees_ConnectedHolder_Buildings;
+	wxBoxSizer *TechTrees_ConnectedHolder_Units;
+	wxBoxSizer *TechTrees_ConnectedHolder_Researches;
 
 	wxBoxSizer *TechTrees_Ages_ID_Holder;
 	wxStaticText *TechTrees_Ages_ID_Text;

@@ -641,8 +641,8 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_DataArea = new wxBoxSizer(wxVERTICAL);
 	Graphics_Scroller = new wxScrolledWindow(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	Graphics_ScrollerWindows = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_ScrollerWindowsSpace = new wxBoxSizer(wxVERTICAL);
+	Graphics_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Graphics_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_Name_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -1006,26 +1006,26 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSoundArea_Holder->Add(5, -1);
 	Graphics_AttackSoundArea_Holder->Add(Graphics_5_Holder, 3, wxEXPAND);
 
-	Graphics_ScrollerWindowsSpace->Add(Graphics_NameArea_Holder, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_1_Grid, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_Coordinates_Holder, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_2_Grid, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_3_Grid, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_Deltas_Holder, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_4_Holder, 0, wxEXPAND);
-	Graphics_ScrollerWindowsSpace->Add(-1, 5);
-	Graphics_ScrollerWindowsSpace->Add(Graphics_AttackSoundArea_Holder, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(Graphics_NameArea_Holder, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(-1, 5);
+	Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(-1, 5);
+	Graphics_ScrollSpace->Add(Graphics_Coordinates_Holder, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(-1, 5);
+	Graphics_ScrollSpace->Add(Graphics_2_Grid, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(-1, 5);
+	Graphics_ScrollSpace->Add(Graphics_3_Grid, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(-1, 5);
+	Graphics_ScrollSpace->Add(Graphics_Deltas_Holder, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(-1, 5);
+	Graphics_ScrollSpace->Add(Graphics_4_Holder, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(-1, 5);
+	Graphics_ScrollSpace->Add(Graphics_AttackSoundArea_Holder, 0, wxEXPAND);
 
-	Graphics_ScrollerWindows->Add(Graphics_ScrollerWindowsSpace, 1, wxEXPAND);
-	Graphics_ScrollerWindows->Add(5, -1);
+	Graphics_ScrollArea->Add(Graphics_ScrollSpace, 1, wxEXPAND);
+	Graphics_ScrollArea->Add(5, -1);
 
-	Graphics_Scroller->SetSizer(Graphics_ScrollerWindows);
+	Graphics_Scroller->SetSizer(Graphics_ScrollArea);
 	Graphics_Scroller->SetScrollRate(0, 15);
 
 	Graphics_DataArea->Add(-1, 10);
