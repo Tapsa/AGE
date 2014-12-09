@@ -264,6 +264,13 @@ public:
 	void OnTTAgesResearchCopyToAges(wxCommandEvent &Event);
 	string GetSimpleResearchName(short);
 
+	void ListTTAgesItems();
+	void OnTTAgesItemSearch(wxCommandEvent &Event);
+	void OnTTAgesItemSelect(wxCommandEvent &Event);
+	void OnTTAgesItemCopy(wxCommandEvent &Event);
+	void OnTTAgesItemPaste(wxCommandEvent &Event);
+	void OnTTAgesItemCopyToAges(wxCommandEvent &Event);
+
 	void ListTTBuildings();
 	void OnTTBuildingSearch(wxCommandEvent &Event);
 	void OnTTBuildingSelect(wxCommandEvent &Event);
@@ -329,6 +336,13 @@ public:
 	void OnTTUnitUnitPaste(wxCommandEvent &Event);
 	void OnTTUnitUnitPasteInsert(wxCommandEvent &Event);
 	void OnTTUnitUnitCopyToUnits(wxCommandEvent &Event);
+
+	void ListTTUnitsItems();
+	void OnTTUnitsItemSearch(wxCommandEvent &Event);
+	void OnTTUnitsItemSelect(wxCommandEvent &Event);
+	void OnTTUnitsItemCopy(wxCommandEvent &Event);
+	void OnTTUnitsItemPaste(wxCommandEvent &Event);
+	void OnTTUnitsItemCopyToAges(wxCommandEvent &Event);
 
 	void ListTTResearches();
 	void OnTTResearchSearch(wxCommandEvent &Event);
