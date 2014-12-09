@@ -893,7 +893,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 
 		Items.Add(0);
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKA)
 		{
 			InitTTAgess();
 			InitTTBuildings();
@@ -953,7 +953,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OnPlayerColorsSelect(E);
 		OnTerrainBordersSelect(E);
 		OnUnknownsSelect(E);
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKA)
 		{
 			OnTTAgesSelect(E);
 			OnTTBuildingSelect(E);
@@ -1257,16 +1257,6 @@ void AGE_Frame::OnGameVersionChange()
 			Colors_UnknownArea_Holder->Show(show);
 		}
 
-		// AoK Beta ->
-		show = (GenieVersion >= genie::GV_AoKB) ? true : false;
-		Units_HeroMode_Holder->Show(show);
-		Units_GarrisonGraphic_Holder->Show(show);
-		if(!show || ShowUnknowns)
-		{
-			Units_Unknown16B_Holder->Show(show);
-			Graphics_Unknown3_Holder->Show(show);
-		}
-
 		// AoE & RoR
 		Colors_Name_Holder->Show(!show);
 
@@ -1277,6 +1267,57 @@ void AGE_Frame::OnGameVersionChange()
 		else // <- RoR
 		{
 			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
+		}
+
+		// AoK Beta ->
+		show = (GenieVersion >= genie::GV_AoKB) ? true : false;
+		Units_HeroMode_Holder->Show(show);
+		Units_GarrisonGraphic_Holder->Show(show);
+		TechTrees_Ages_Buildings.Add->Enable(show);
+		TechTrees_Ages_Units.Add->Enable(show);
+		TechTrees_Ages_Researches.Add->Enable(show);
+		TechTrees_Ages_Buildings.Insert->Enable(show);
+		TechTrees_Ages_Units.Insert->Enable(show);
+		TechTrees_Ages_Researches.Insert->Enable(show);
+		TechTrees_Ages_Buildings.Delete->Enable(show);
+		TechTrees_Ages_Units.Delete->Enable(show);
+		TechTrees_Ages_Researches.Delete->Enable(show);
+		TechTrees_Ages_Buildings.PasteInsert->Enable(show);
+		TechTrees_Ages_Units.PasteInsert->Enable(show);
+		TechTrees_Ages_Researches.PasteInsert->Enable(show);
+		TechTrees_Buildings_Buildings.Add->Enable(show);
+		TechTrees_Buildings_Units.Add->Enable(show);
+		TechTrees_Buildings_Researches.Add->Enable(show);
+		TechTrees_Buildings_Buildings.Insert->Enable(show);
+		TechTrees_Buildings_Units.Insert->Enable(show);
+		TechTrees_Buildings_Researches.Insert->Enable(show);
+		TechTrees_Buildings_Buildings.Delete->Enable(show);
+		TechTrees_Buildings_Units.Delete->Enable(show);
+		TechTrees_Buildings_Researches.Delete->Enable(show);
+		TechTrees_Buildings_Buildings.PasteInsert->Enable(show);
+		TechTrees_Buildings_Units.PasteInsert->Enable(show);
+		TechTrees_Buildings_Researches.PasteInsert->Enable(show);
+		TechTrees_Units_Units.Add->Enable(show);
+		TechTrees_Units_Units.Insert->Enable(show);
+		TechTrees_Units_Units.Delete->Enable(show);
+		TechTrees_Units_Units.PasteInsert->Enable(show);
+		TechTrees_Units_Units.CopyAllToSelected->Enable(show);
+		TechTrees_Researches_Buildings.Add->Enable(show);
+		TechTrees_Researches_Units.Add->Enable(show);
+		TechTrees_Researches_Researches.Add->Enable(show);
+		TechTrees_Researches_Buildings.Insert->Enable(show);
+		TechTrees_Researches_Units.Insert->Enable(show);
+		TechTrees_Researches_Researches.Insert->Enable(show);
+		TechTrees_Researches_Buildings.Delete->Enable(show);
+		TechTrees_Researches_Units.Delete->Enable(show);
+		TechTrees_Researches_Researches.Delete->Enable(show);
+		TechTrees_Researches_Buildings.PasteInsert->Enable(show);
+		TechTrees_Researches_Units.PasteInsert->Enable(show);
+		TechTrees_Researches_Researches.PasteInsert->Enable(show);
+		if(!show || ShowUnknowns)
+		{
+			Units_Unknown16B_Holder->Show(show);
+			Graphics_Unknown3_Holder->Show(show);
 		}
 
 		// SWGB ->
