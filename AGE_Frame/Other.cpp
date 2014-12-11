@@ -895,7 +895,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Items.Add(0);
 		if(GenieVersion >= genie::GV_AoKA)
 		{
-			InitTTAgess();
+			InitTTAges();
 			InitTTBuildings();
 			InitTTUnits();
 			InitTTResearches();
