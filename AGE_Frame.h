@@ -1835,6 +1835,7 @@ public:
 	wxBoxSizer *Units_PlacementMode_Holder;
 	wxBoxSizer *Units_AirMode_Holder;
 	wxBoxSizer *Units_IconID_Holder;
+	wxGridSizer *Units_IconID_Grid;
 	wxBoxSizer *Units_HideInEditor_Holder;
 	wxBoxSizer *Units_Unknown1_Holder;
 	wxBoxSizer *Units_Enabled_Holder;
@@ -2005,7 +2006,6 @@ public:
 
 //	Unit Controls SubControls
 
-	wxGridSizer *Units_DamageGraphics_Holder;
 	wxBoxSizer *Units_DamageGraphics_Holder_Data;
 	TextCtrl_Short *DamageGraphics_GraphicID;
 	ComboBox_Plus1 *DamageGraphics_GraphicID_ComboBox;
@@ -2125,8 +2125,8 @@ public:
 	wxStaticBoxSizer *Units_LangDLLArea_Holder;
 	wxStaticBoxSizer *Units_GraphicsArea_Holder;
 	wxBoxSizer *Units_GraphicsArea1_Holder;
-	wxBoxSizer *Units_GraphicsArea4_Holder;
-	wxBoxSizer *Units_GraphicsArea5_Holder;
+	wxGridSizer *Units_GraphicsArea4_Holder;
+	wxGridSizer *Units_GraphicsArea5_Holder;
 	wxStaticBoxSizer *Units_StatsArea_Holder;
 	wxGridSizer *Units_StatsArea1_Grid;
 	wxGridSizer *Units_StatsAreaGarrison_Grid;

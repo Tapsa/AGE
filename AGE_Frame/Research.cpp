@@ -405,11 +405,11 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Research_Research_Buttons = new wxGridSizer(3, 0, 0);
 	Research_Add = new wxButton(Tab_Research, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Research_Insert = new wxButton(Tab_Research, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Research_Insert = new wxButton(Tab_Research, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Research_Delete = new wxButton(Tab_Research, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Research_Copy = new wxButton(Tab_Research, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Research_Paste = new wxButton(Tab_Research, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 
 	Research_DataArea = new wxBoxSizer(wxVERTICAL);
 	Research_Scroller = new wxScrolledWindow(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
@@ -522,8 +522,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_Unknown1 = new TextCtrl_Long(Research_Scroller);
 
 	Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
-	Research_Research_Buttons->Add(Research_Insert, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Delete, 1, wxEXPAND);
+	Research_Research_Buttons->Add(Research_Insert, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Copy, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Paste, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_PasteInsert, 1, wxEXPAND);

@@ -53,7 +53,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						case 60:
 						case 70:
 						case 80:
-							Name += "PU "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.ProjectileUnitID);
+							Name += "PU "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.ProjectileUnitID);
 							break;
 						default:
 							Name += "PU -1";
@@ -66,7 +66,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						case 60:
 						case 70:
 						case 80:
-							Name += "MR "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.MaxRange);
+							Name += "MR "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.MaxRange);
 							break;
 						default:
 							Name += "MR -1";
@@ -90,7 +90,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						case 60:
 						case 70:
 						case 80:
-							Name += "AtC "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.Attacks.size());
+							Name += "AtC "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.Attacks.size());
 							break;
 						default:
 							Name += "AtC -1";
@@ -103,9 +103,9 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						case 60:
 						case 70:
 						case 80:
-						for(short i = 0; i < GenieFile->Civs[civ].Units[Index].Projectile.Attacks.size(); ++i)
+						for(short i = 0; i < GenieFile->Civs[civ].Units[Index].Type50.Attacks.size(); ++i)
 						{
-							Name += "c" + lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.Attacks[i].Class) + " ";
+							Name += "c" + lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.Attacks[i].Class) + " ";
 						}
 					}
 					break;
@@ -116,7 +116,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						case 60:
 						case 70:
 						case 80:
-							Name += "ArC "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.Armours.size());
+							Name += "ArC "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.Armours.size());
 							break;
 						default:
 							Name += "ArC -1";
@@ -129,9 +129,9 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						case 60:
 						case 70:
 						case 80:
-						for(short i = 0; i < GenieFile->Civs[civ].Units[Index].Projectile.Armours.size(); ++i)
+						for(short i = 0; i < GenieFile->Civs[civ].Units[Index].Type50.Armours.size(); ++i)
 						{
-							Name += "c" + lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Projectile.Armours[i].Class) + " ";
+							Name += "c" + lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.Armours[i].Class) + " ";
 						}
 					}
 					break;
@@ -565,31 +565,31 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				//case 60:
 				//case 50:
 				{
-					Units_DefaultArmor->container[location] = &UnitPointer->Projectile.DefaultArmor;
-					Units_Unknown21->container[location] = &UnitPointer->Projectile.Unknown21;
-					Units_MaxRange->container[location] = &UnitPointer->Projectile.MaxRange;
-					Units_BlastRadius->container[location] = &UnitPointer->Projectile.BlastRadius;
-					Units_ReloadTime1->container[location] = &UnitPointer->Projectile.ReloadTime;
-					Units_ProjectileUnitID->container[location] = &UnitPointer->Projectile.ProjectileUnitID;
-					Units_AccuracyPercent->container[location] = &UnitPointer->Projectile.AccuracyPercent;
-					Units_TowerMode->container[location] = &UnitPointer->Projectile.TowerMode;
-					Units_Delay->container[location] = &UnitPointer->Projectile.Delay;
+					Units_DefaultArmor->container[location] = &UnitPointer->Type50.DefaultArmor;
+					Units_Unknown21->container[location] = &UnitPointer->Type50.Unknown21;
+					Units_MaxRange->container[location] = &UnitPointer->Type50.MaxRange;
+					Units_BlastRadius->container[location] = &UnitPointer->Type50.BlastRadius;
+					Units_ReloadTime1->container[location] = &UnitPointer->Type50.ReloadTime;
+					Units_ProjectileUnitID->container[location] = &UnitPointer->Type50.ProjectileUnitID;
+					Units_AccuracyPercent->container[location] = &UnitPointer->Type50.AccuracyPercent;
+					Units_TowerMode->container[location] = &UnitPointer->Type50.TowerMode;
+					Units_Delay->container[location] = &UnitPointer->Type50.Delay;
 					for(short loop = 0; loop < 3; ++loop)
 					{
-						Units_GraphicDisplacement[loop]->container[location] = &UnitPointer->Projectile.GraphicDisplacement[loop];
+						Units_GraphicDisplacement[loop]->container[location] = &UnitPointer->Type50.GraphicDisplacement[loop];
 					}
-					Units_BlastLevel->container[location] = &UnitPointer->Projectile.BlastLevel;
-					Units_MinRange->container[location] = &UnitPointer->Projectile.MinRange;
+					Units_BlastLevel->container[location] = &UnitPointer->Type50.BlastLevel;
+					Units_MinRange->container[location] = &UnitPointer->Type50.MinRange;
 					if(GenieVersion >= genie::GV_AoK)
 					{
-						Units_GarrisonRecoveryRate->container[location] = &UnitPointer->Projectile.GarrisonRecoveryRate;
+						Units_GarrisonRecoveryRate->container[location] = &UnitPointer->Type50.GarrisonRecoveryRate;
 					}
 					if(CopyGraphics || vecCiv == 0)
-					Units_AttackGraphic->container[location] = &UnitPointer->Projectile.AttackGraphic;
-					Units_DisplayedMeleeArmour->container[location] = &UnitPointer->Projectile.DisplayedMeleeArmour;
-					Units_DisplayedAttack->container[location] = &UnitPointer->Projectile.DisplayedAttack;
-					Units_DisplayedRange->container[location] = &UnitPointer->Projectile.DisplayedRange;
-					Units_ReloadTime2->container[location] = &UnitPointer->Projectile.DisplayedReloadTime;
+					Units_AttackGraphic->container[location] = &UnitPointer->Type50.AttackGraphic;
+					Units_DisplayedMeleeArmour->container[location] = &UnitPointer->Type50.DisplayedMeleeArmour;
+					Units_DisplayedAttack->container[location] = &UnitPointer->Type50.DisplayedAttack;
+					Units_DisplayedRange->container[location] = &UnitPointer->Type50.DisplayedRange;
+					Units_ReloadTime2->container[location] = &UnitPointer->Type50.DisplayedReloadTime;
 				}
 				//case 40:
 				{
@@ -727,12 +727,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 
 			//if(UnitType == 60)
 			{
-				Units_StretchMode->container[location] = &UnitPointer->ProjectileOnly.StretchMode;
-				Units_CompensationMode->container[location] = &UnitPointer->ProjectileOnly.CompensationMode;
-				Units_DropAnimationMode->container[location] = &UnitPointer->ProjectileOnly.DropAnimationMode;
-				Units_PenetrationMode->container[location] = &UnitPointer->ProjectileOnly.PenetrationMode;
-				Units_Unknown24->container[location] = &UnitPointer->ProjectileOnly.Unknown24;
-				Units_ProjectileArc->container[location] = &UnitPointer->ProjectileOnly.ProjectileArc;
+				Units_StretchMode->container[location] = &UnitPointer->Projectile.StretchMode;
+				Units_CompensationMode->container[location] = &UnitPointer->Projectile.CompensationMode;
+				Units_DropAnimationMode->container[location] = &UnitPointer->Projectile.DropAnimationMode;
+				Units_PenetrationMode->container[location] = &UnitPointer->Projectile.PenetrationMode;
+				Units_Unknown24->container[location] = &UnitPointer->Projectile.Unknown24;
+				Units_ProjectileArc->container[location] = &UnitPointer->Projectile.ProjectileArc;
 			}
 		}
 		//locations.Append("\n");
@@ -947,36 +947,36 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Armors_Class->Enable(true);
 			Armors_Amount->Enable(true);
 
-			Units_DefaultArmor->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.DefaultArmor));
-			Units_Unknown21->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Unknown21));
-			Units_MaxRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MaxRange));
-			Units_BlastRadius->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.BlastRadius));
-			Units_ReloadTime1->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ReloadTime));
-			Units_ProjectileUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ProjectileUnitID));
-			Units_ProjectileUnitID_ComboBox->SetSelection(UnitPointer->Projectile.ProjectileUnitID + 1);
-			Units_AccuracyPercent->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.AccuracyPercent));
-			Units_TowerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.TowerMode));
-			Units_TowerMode_CheckBox->SetValue((bool)UnitPointer->Projectile.TowerMode);
-			Units_Delay->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.Delay));
+			Units_DefaultArmor->ChangeValue(lexical_cast<string>((short)UnitPointer->Type50.DefaultArmor));
+			Units_Unknown21->ChangeValue(lexical_cast<string>(UnitPointer->Type50.Unknown21));
+			Units_MaxRange->ChangeValue(lexical_cast<string>(UnitPointer->Type50.MaxRange));
+			Units_BlastRadius->ChangeValue(lexical_cast<string>(UnitPointer->Type50.BlastRadius));
+			Units_ReloadTime1->ChangeValue(lexical_cast<string>(UnitPointer->Type50.ReloadTime));
+			Units_ProjectileUnitID->ChangeValue(lexical_cast<string>(UnitPointer->Type50.ProjectileUnitID));
+			Units_ProjectileUnitID_ComboBox->SetSelection(UnitPointer->Type50.ProjectileUnitID + 1);
+			Units_AccuracyPercent->ChangeValue(lexical_cast<string>(UnitPointer->Type50.AccuracyPercent));
+			Units_TowerMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Type50.TowerMode));
+			Units_TowerMode_CheckBox->SetValue((bool)UnitPointer->Type50.TowerMode);
+			Units_Delay->ChangeValue(lexical_cast<string>(UnitPointer->Type50.Delay));
 			for(short loop = 0; loop < 3; ++loop)
 			{
-				Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GraphicDisplacement[loop]));
+				Units_GraphicDisplacement[loop]->ChangeValue(lexical_cast<string>(UnitPointer->Type50.GraphicDisplacement[loop]));
 			}
-			Units_BlastLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.BlastLevel));
-			Units_MinRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.MinRange));
+			Units_BlastLevel->ChangeValue(lexical_cast<string>((short)UnitPointer->Type50.BlastLevel));
+			Units_MinRange->ChangeValue(lexical_cast<string>(UnitPointer->Type50.MinRange));
 			if(GenieVersion >= genie::GV_AoK)
 			{
 				if(GenieVersion >= genie::GV_TC)
 				{
 				}
-				Units_GarrisonRecoveryRate->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.GarrisonRecoveryRate));
+				Units_GarrisonRecoveryRate->ChangeValue(lexical_cast<string>(UnitPointer->Type50.GarrisonRecoveryRate));
 			}
-			Units_AttackGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.AttackGraphic));
-			Units_AttackGraphic_ComboBox->SetSelection(UnitPointer->Projectile.AttackGraphic + 1);
-			Units_DisplayedMeleeArmour->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedMeleeArmour));
-			Units_DisplayedAttack->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedAttack));
-			Units_DisplayedRange->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedRange));
-			Units_ReloadTime2->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.DisplayedReloadTime));
+			Units_AttackGraphic->ChangeValue(lexical_cast<string>(UnitPointer->Type50.AttackGraphic));
+			Units_AttackGraphic_ComboBox->SetSelection(UnitPointer->Type50.AttackGraphic + 1);
+			Units_DisplayedMeleeArmour->ChangeValue(lexical_cast<string>(UnitPointer->Type50.DisplayedMeleeArmour));
+			Units_DisplayedAttack->ChangeValue(lexical_cast<string>(UnitPointer->Type50.DisplayedAttack));
+			Units_DisplayedRange->ChangeValue(lexical_cast<string>(UnitPointer->Type50.DisplayedRange));
+			Units_ReloadTime2->ChangeValue(lexical_cast<string>(UnitPointer->Type50.DisplayedReloadTime));
 		}
 		case 40:
 		{
@@ -1461,12 +1461,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_Unknown24->Enable(true);
 		Units_ProjectileArc->Enable(true);
 
-		Units_StretchMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.StretchMode));
-		Units_CompensationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.CompensationMode));
-		Units_DropAnimationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.DropAnimationMode));
-		Units_PenetrationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.PenetrationMode));
-		Units_Unknown24->ChangeValue(lexical_cast<string>((short)UnitPointer->ProjectileOnly.Unknown24));
-		Units_ProjectileArc->ChangeValue(lexical_cast<string>(UnitPointer->ProjectileOnly.ProjectileArc));
+		Units_StretchMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.StretchMode));
+		Units_CompensationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.CompensationMode));
+		Units_DropAnimationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.DropAnimationMode));
+		Units_PenetrationMode->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.PenetrationMode));
+		Units_Unknown24->ChangeValue(lexical_cast<string>((short)UnitPointer->Projectile.Unknown24));
+		Units_ProjectileArc->ChangeValue(lexical_cast<string>(UnitPointer->Projectile.ProjectileArc));
 	}
 	else
 	{
@@ -1749,7 +1749,7 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
 		store.GarrisonGraphic = GenieFile->Civs[civ].Units[unit].Creatable.GarrisonGraphic;
 		case 60:
 		case 50:
-		store.AttackGraphic = GenieFile->Civs[civ].Units[unit].Projectile.AttackGraphic;
+		store.AttackGraphic = GenieFile->Civs[civ].Units[unit].Type50.AttackGraphic;
 		case 40:
 		case 30:
 		store.WalkingGraphic = GenieFile->Civs[civ].Units[unit].DeadFish.WalkingGraphic;
@@ -1964,7 +1964,7 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
 		GenieFile->Civs[civ].Units[unit].Creatable.GarrisonGraphic = store.GarrisonGraphic;
 		case 60:
 		case 50:
-		GenieFile->Civs[civ].Units[unit].Projectile.AttackGraphic = store.AttackGraphic;
+		GenieFile->Civs[civ].Units[unit].Type50.AttackGraphic = store.AttackGraphic;
 		case 40:
 		case 30:
 		GenieFile->Civs[civ].Units[unit].DeadFish.WalkingGraphic = store.WalkingGraphic;
@@ -2015,8 +2015,8 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 			{
 				UnitType = GenieFile->Civs[civ].Units[UnitIDs[sel]].Type;
 				DamageGraphics = GenieFile->Civs[civ].Units[UnitIDs[sel]].DamageGraphics.size();
-				Attacks = GenieFile->Civs[civ].Units[UnitIDs[sel]].Projectile.Attacks.size();
-				Armors = GenieFile->Civs[civ].Units[UnitIDs[sel]].Projectile.Armours.size();
+				Attacks = GenieFile->Civs[civ].Units[UnitIDs[sel]].Type50.Attacks.size();
+				Armors = GenieFile->Civs[civ].Units[UnitIDs[sel]].Type50.Armours.size();
 				if(GenieVersion <= genie::GV_AoKA)
 				Commands = GenieFile->Civs[civ].Units[UnitIDs[sel]].Bird.Commands.size();
 				break;
@@ -2031,8 +2031,8 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 				GenieFile->Civs[civ].UnitPointers[UnitIDs[sel]] = 1;
 				GenieFile->Civs[civ].Units[UnitIDs[sel]].Type = UnitType;
 				GenieFile->Civs[civ].Units[UnitIDs[sel]].DamageGraphics.resize(DamageGraphics);
-				GenieFile->Civs[civ].Units[UnitIDs[sel]].Projectile.Attacks.resize(Attacks);
-				GenieFile->Civs[civ].Units[UnitIDs[sel]].Projectile.Armours.resize(Armors);
+				GenieFile->Civs[civ].Units[UnitIDs[sel]].Type50.Attacks.resize(Attacks);
+				GenieFile->Civs[civ].Units[UnitIDs[sel]].Type50.Armours.resize(Armors);
 				GenieFile->Civs[civ].Units[UnitIDs[sel]].Bird.Commands.resize(Commands);
 				GenieFile->Civs[civ].Units[UnitIDs[sel]].ID1 = UnitIDs[sel]; // ID Fix
 				GenieFile->Civs[civ].Units[UnitIDs[sel]].ID2 = UnitIDs[sel];
@@ -2047,8 +2047,8 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 				GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[sel]] = 1;
 				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].Type = UnitType;
 				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].DamageGraphics.resize(DamageGraphics);
-				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].Projectile.Attacks.resize(Attacks);
-				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].Projectile.Armours.resize(Armors);
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].Type50.Attacks.resize(Attacks);
+				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].Type50.Armours.resize(Armors);
 				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].Bird.Commands.resize(Commands);
 				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].ID1 = UnitIDs[sel]; // ID Fix
 				GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]].ID2 = UnitIDs[sel];
@@ -2342,8 +2342,8 @@ void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &Event)
 
 string AGE_Frame::GetUnitAttackName(short Index)
 {
-	return "Amount: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Amount)
-	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[Index].Class)+" ";
+	return "Amount: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[Index].Amount)
+	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[Index].Class)+" ";
 }
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &Event)
@@ -2364,13 +2364,13 @@ void AGE_Frame::ListUnitAttacks()
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
 	{
 		Units_Attacks_Add->Enable(true);
-		for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.size(); ++loop)
+		for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks.size(); ++loop)
 		{
 			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				filteredNames.Add(Name);
-				dataPointers.push_back((void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[loop]);
+				dataPointers.push_back((void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[loop]);
 			}
 		}
 	}
@@ -2400,16 +2400,16 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 		for(auto sel = selections; sel--> 0;)
 		{
 			AttackPointer = (genie::unit::AttackOrArmor*)Units_Attacks_List->GetClientData(Items.Item(sel));
-			AttackIDs[sel] = (AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks[0]));
+			AttackIDs[sel] = (AttackPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[0]));
 
 			for(short vecCiv = SelectedCivs.size(); vecCiv--> 0;)
 			{
-				if(sel == 0 && GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Projectile.Attacks.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks.size())
+				if(sel == 0 && GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Type50.Attacks.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks.size())
 				{
 					warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
 					showWarning = true;
 				}
-				AttackPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Projectile.Attacks[AttackIDs[sel]];
+				AttackPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Type50.Attacks[AttackIDs[sel]];
 
 				int location = sel + vecCiv * selections;
 				Attacks_Class->container[location] = &AttackPointer->Class;
@@ -2446,7 +2446,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 	{
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.push_back(Temp);
+		GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Attacks.push_back(Temp);
 	}
 	Added = true;
 	ListUnitAttacks();
@@ -2463,7 +2463,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 	{
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[0], Temp);
+		GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Attacks.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Attacks.begin() + AttackIDs[0], Temp);
 	}
 	ListUnitAttacks();
 }
@@ -2478,7 +2478,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 	{
 		if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
 		for(auto loop = selections; loop--> 0;)
-		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks.begin() + AttackIDs[loop]);
+		GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks.begin() + AttackIDs[loop]);
 	}
 	ListUnitAttacks();
 }
@@ -2508,14 +2508,14 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
 				copies->Dat.UnitAttackExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy attacks from civs which have this unit enabled.
-				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs, copies->Dat.UnitAttacks[copy]); copy++;
+				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies->Dat.UnitAttacks[copy]); copy++;
 			}
 		}
 		copies->Dat.UnitAttacks.resize(CivCount);
 	}
 	else
 	{
-		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs, copies->Dat.UnitAttacks[0]);
+		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies->Dat.UnitAttacks[0]);
 	}
 }
 
@@ -2537,17 +2537,17 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
 			// If the target unit exists then choose from following.
 			if(copies->Dat.UnitAttackExists[civ] > 255 && copy < copies->Dat.UnitAttacks.size())
 			{
-				PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[copy]); copy++;
+				PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[copy]); copy++;
 			}
 			else
 			{
-				PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
+				PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
 			}
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
+		PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
 	}
 	ListUnitAttacks();
 }
@@ -2570,17 +2570,17 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
 			// If the target unit exists then choose from following.
 			if(copies->Dat.UnitAttackExists[civ] > 255 && copy < copies->Dat.UnitAttacks.size())
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[copy]); copy++;
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[copy]); copy++;
 			}
 			else
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
 			}
 		}
 	}
 	else
 	{
-		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
+		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
 	}
 	ListUnitAttacks();
 }
@@ -2590,14 +2590,14 @@ void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &Event)
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	for(short loop=1; loop < UnitIDs.size(); ++loop)
 	{
-		GenieFile->Civs[civ].Units[UnitIDs[loop]].Projectile.Attacks = GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Attacks;
+		GenieFile->Civs[civ].Units[UnitIDs[loop]].Type50.Attacks = GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks;
 	}
 }
 
 string AGE_Frame::GetUnitArmorName(short Index)
 {
-	return "Amount: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Amount)
-	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[Index].Class)+" ";
+	return "Amount: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[Index].Amount)
+	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[Index].Class)+" ";
 }
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &Event)
@@ -2618,13 +2618,13 @@ void AGE_Frame::ListUnitArmors()
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
 	{
 		Units_Armors_Add->Enable(true);
-		for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.size(); ++loop)
+		for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours.size(); ++loop)
 		{
 			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				filteredNames.Add(Name);
-				dataPointers.push_back((void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[loop]);
+				dataPointers.push_back((void*)&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[loop]);
 			}
 		}
 	}
@@ -2654,16 +2654,16 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 		for(auto sel = selections; sel--> 0;)
 		{
 			ArmorPointer = (genie::unit::AttackOrArmor*)Units_Armors_List->GetClientData(Items.Item(sel));
-			ArmorIDs[sel] = (ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours[0]));
+			ArmorIDs[sel] = (ArmorPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[0]));
 
 			for(short vecCiv = SelectedCivs.size(); vecCiv--> 0;)
 			{
-				if(sel == 0 && GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Projectile.Armours.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours.size())
+				if(sel == 0 && GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Type50.Armours.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours.size())
 				{
 					warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
 					showWarning = true;
 				}
-				ArmorPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Projectile.Armours[ArmorIDs[sel]];
+				ArmorPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Type50.Armours[ArmorIDs[sel]];
 
 				int location = sel + vecCiv * selections;
 				Armors_Class->container[location] = &ArmorPointer->Class;
@@ -2700,7 +2700,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 	{
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.push_back(Temp);
+		GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Armours.push_back(Temp);
 	}
 	Added = true;
 	ListUnitArmors();
@@ -2717,7 +2717,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 	{
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
-		GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[0], Temp);
+		GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Armours.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Armours.begin() + ArmorIDs[0], Temp);
 	}
 	ListUnitArmors();
 }
@@ -2732,7 +2732,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 	{
 		if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
 		for(auto loop = selections; loop--> 0;)
-		GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours.begin() + ArmorIDs[loop]);
+		GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours.begin() + ArmorIDs[loop]);
 	}
 	ListUnitArmors();
 }
@@ -2762,14 +2762,14 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
 				copies->Dat.UnitArmorExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy armors from civs which have this unit enabled.
-				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs, copies->Dat.UnitArmors[copy]); copy++;
+				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies->Dat.UnitArmors[copy]); copy++;
 			}
 		}
 		copies->Dat.UnitArmors.resize(CivCount);
 	}
 	else
 	{
-		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs, copies->Dat.UnitArmors[0]);
+		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies->Dat.UnitArmors[0]);
 	}
 }
 
@@ -2791,17 +2791,17 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
 			// If the target unit exists then choose from following.
 			if(copies->Dat.UnitArmorExists[civ] > 255 && copy < copies->Dat.UnitArmors.size())
 			{
-				PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs[0], copies->Dat.UnitArmors[copy]); copy++;
+				PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[copy]); copy++;
 			}
 			else
 			{
-				PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
+				PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
 			}
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
+		PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
 	}
 	ListUnitArmors();
 }
@@ -2824,17 +2824,17 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
 			// If the target unit exists then choose from following.
 			if(copies->Dat.UnitArmorExists[civ] > 255 && copy < copies->Dat.UnitArmors.size())
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs[0], copies->Dat.UnitArmors[copy]); copy++;
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[copy]); copy++;
 			}
 			else
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
 			}
 		}
 	}
 	else
 	{
-		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Projectile.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
+		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
 	}
 	ListUnitArmors();
 }
@@ -2844,7 +2844,7 @@ void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &Event)
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	for(short loop=1; loop < UnitIDs.size(); ++loop)
 	{
-		GenieFile->Civs[civ].Units[UnitIDs[loop]].Projectile.Armours = GenieFile->Civs[civ].Units[UnitIDs[0]].Projectile.Armours;
+		GenieFile->Civs[civ].Units[UnitIDs[loop]].Type50.Armours = GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours;
 	}
 }
 
@@ -3462,12 +3462,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Buttons[0] = new wxGridSizer(3, 0, 0);
 	Units_Buttons[1] = new wxGridSizer(4, 0, 0);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Units_Insert = new wxButton(Tab_Units, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Units_Insert = new wxButton(Tab_Units, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_Copy = new wxButton(Tab_Units, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(5, 20));
 	Units_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works just like automatic copy,\n(from current civilization to selected ones)\ntaking \"Including graphics\" option into account");
 	Units_Paste = new wxButton(Tab_Units, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Units_PasteInsert = new wxButton(Tab_Units, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_PasteInsert = new wxButton(Tab_Units, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Units_Info = new wxStaticText(Tab_Units, wxID_ANY, " Info *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Info->SetToolTip("Add/Insert/Delete works for all civilizations\n...");
 	//Units_Extract = new wxButton(Tab_Units, wxID_ANY, "Extract", wxDefaultPosition, wxSize(5, 20));
@@ -3513,8 +3513,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language DLLs");
 	Units_GraphicsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Graphics");
 	Units_GraphicsArea1_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Units_GraphicsArea4_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Units_GraphicsArea5_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Units_GraphicsArea4_Holder = new wxGridSizer(1, 5, 0);
+	Units_GraphicsArea5_Holder = new wxGridSizer(4, 0, 5);
 	Units_StatsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Statistics");
 	Units_StatsArea1_Grid = new wxGridSizer(5, 5, 5);
 	Units_StatsAreaGarrison_Grid = new wxGridSizer(4, 5, 5);
@@ -3579,6 +3579,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_PlacementMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AirMode_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_IconID_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_IconID_Grid = new wxGridSizer(2, 5, 0);
 	Units_HideInEditor_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Enabled_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -3756,8 +3757,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDLLName_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Name *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLCreation_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Creation", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Class_Text = new wxStaticText(Tab_Units, wxID_ANY, "Class * ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_StandingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Standing Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_DyingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_StandingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Standing Graphics *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_DyingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_HitPoints_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Hit Points *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LineOfSight_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Line Of Sight *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GarrisonCapacity_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Capacity *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3820,7 +3821,7 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 30+
 
-	Units_WalkingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Walking Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_WalkingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Walking and Running Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_RotationSpeed_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Rotation Speed *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown11_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TrackingUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3854,7 +3855,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_MinRange_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Min Range", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GarrisonRecoveryRate_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Error Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_DisplayedMeleeArmour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Melee Armour", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_DisplayedMeleeArmour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Melee Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DisplayedAttack_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Attack", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DisplayedRange_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Range", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ReloadTime2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Reload Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3886,7 +3887,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackMissileDuplicationUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackMissileDuplicationGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown29_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 29 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_DisplayedPierceArmour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Pierce Armour ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_DisplayedPierceArmour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Pierce Armor ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 80
 
@@ -3953,6 +3954,7 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_StandingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_StandingGraphic[loop]->SetToolTip("Half of units in group use 1st,\nthe rest use 2nd");
 		Units_StandingGraphic_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_StandingGraphic[loop]);
 		GraphicComboBoxList.push_back(Units_StandingGraphic_ComboBox[loop]);
 	}
@@ -3979,14 +3981,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Units_DamageGraphics_Buttons = new wxGridSizer(3, 0, 0);
 	Units_DamageGraphics_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Units_DamageGraphics_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Units_DamageGraphics_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_Delete = new wxButton(Units_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works only for current civilization");
 	Units_DamageGraphics_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Units_DamageGraphics_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_DamageGraphics_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
-	Units_DamageGraphics_Holder = new wxGridSizer(2, 5, 5);
 	Units_DamageGraphics_Holder_Data = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_GraphicID_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_GraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4024,12 +4025,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Units_Attacks_Buttons = new wxGridSizer(3, 0, 0);
 	Units_Attacks_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Units_Attacks_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Units_Attacks_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_Delete = new wxButton(Units_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works only for current civilization");
 	Units_Attacks_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Units_Attacks_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_Attacks_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
 	Units_Attacks_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Attacks_Holder_Data = new wxBoxSizer(wxVERTICAL);
@@ -4063,12 +4064,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Units_Armors_Buttons = new wxGridSizer(3, 0, 0);
 	Units_Armors_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Units_Armors_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Units_Armors_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Units_Armors_Delete = new wxButton(Units_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_Armors_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(5, 20));
 	Units_Armors_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works only for current civilization");
 	Units_Armors_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Units_Armors_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_Armors_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Units_Armors_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
 	Units_Armors_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Armors_Holder_Data3 = new wxBoxSizer(wxVERTICAL);
@@ -4383,12 +4384,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnitCommands_List = new wxListBox(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 190), 0, NULL, wxLB_EXTENDED);
 	Units_UnitCommands_Buttons = new wxGridSizer(3, 0, 0);
 	Units_UnitCommands_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Units_UnitCommands_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Units_UnitCommands_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Units_UnitCommands_Delete = new wxButton(Units_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Units_UnitCommands_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(5, 20));
 	Units_UnitCommands_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works only for current civilization");
 	Units_UnitCommands_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Units_UnitCommands_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Units_UnitCommands_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Units_UnitCommands_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
 	Units_CommandHolder_Data = new wxBoxSizer(wxVERTICAL);
 	Units_CommandHolder_Data1 = new wxBoxSizer(wxHORIZONTAL);
@@ -4528,8 +4529,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_SpecialCopy_Options->SetSelection(0);
 
 	Units_Buttons[0]->Add(Units_Add, 1, wxEXPAND);
-	Units_Buttons[0]->Add(Units_Insert, 1, wxEXPAND);
 	Units_Buttons[0]->Add(Units_Delete, 1, wxEXPAND);
+	Units_Buttons[0]->Add(Units_Insert, 1, wxEXPAND);
 	Units_Buttons[0]->Add(Units_Copy, 1, wxEXPAND);
 	Units_Buttons[0]->Add(Units_Paste, 1, wxEXPAND);
 	Units_Buttons[0]->Add(Units_PasteInsert, 1, wxEXPAND);
@@ -4999,8 +5000,8 @@ void AGE_Frame::CreateUnitControls()
 	Attacks_Amount_Holder->Add(Attacks_Amount, 1, wxEXPAND);
 
 	Units_Attacks_Buttons->Add(Units_Attacks_Add, 1, wxEXPAND);
-	Units_Attacks_Buttons->Add(Units_Attacks_Insert, 1, wxEXPAND);
 	Units_Attacks_Buttons->Add(Units_Attacks_Delete, 1, wxEXPAND);
+	Units_Attacks_Buttons->Add(Units_Attacks_Insert, 1, wxEXPAND);
 	Units_Attacks_Buttons->Add(Units_Attacks_Copy, 1, wxEXPAND);
 	Units_Attacks_Buttons->Add(Units_Attacks_Paste, 1, wxEXPAND);
 	Units_Attacks_Buttons->Add(Units_Attacks_PasteInsert, 1, wxEXPAND);
@@ -5021,8 +5022,8 @@ void AGE_Frame::CreateUnitControls()
 	Armors_Amount_Holder->Add(Armors_Amount, 1, wxEXPAND);
 
 	Units_Armors_Buttons->Add(Units_Armors_Add, 1, wxEXPAND);
-	Units_Armors_Buttons->Add(Units_Armors_Insert, 1, wxEXPAND);
 	Units_Armors_Buttons->Add(Units_Armors_Delete, 1, wxEXPAND);
+	Units_Armors_Buttons->Add(Units_Armors_Insert, 1, wxEXPAND);
 	Units_Armors_Buttons->Add(Units_Armors_Copy, 1, wxEXPAND);
 	Units_Armors_Buttons->Add(Units_Armors_Paste, 1, wxEXPAND);
 	Units_Armors_Buttons->Add(Units_Armors_PasteInsert, 1, wxEXPAND);
@@ -5152,11 +5153,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_StandingGraphic_Grid->Add(Units_StandingGraphic_ComboBox[1], 1, wxEXPAND);
 	Units_StandingGraphic_Holder->Add(Units_StandingGraphic_Text, 0, wxEXPAND);
 	Units_StandingGraphic_Holder->Add(Units_StandingGraphic_Grid, 0, wxEXPAND);
-	Units_GarrisonGraphic_Grid->Add(Units_GarrisonGraphic, 1, wxEXPAND);
-	Units_GarrisonGraphic_Grid->AddStretchSpacer(1);
-	Units_GarrisonGraphic_Grid->Add(Units_GarrisonGraphic_ComboBox, 1, wxEXPAND);
 	Units_GarrisonGraphic_Holder->Add(Units_GarrisonGraphic_Text, 0, wxEXPAND);
-	Units_GarrisonGraphic_Holder->Add(Units_GarrisonGraphic_Grid, 0, wxEXPAND);
+	Units_GarrisonGraphic_Holder->Add(Units_GarrisonGraphic, 0, wxEXPAND);
+	Units_GarrisonGraphic_Holder->Add(Units_GarrisonGraphic_ComboBox, 0, wxEXPAND);
 	Units_WalkingGraphic_Grid->Add(Units_WalkingGraphic[0], 1, wxEXPAND);
 	Units_WalkingGraphic_Grid->Add(Units_WalkingGraphic[1], 1, wxEXPAND);
 	Units_WalkingGraphic_Grid->Add(Units_WalkingGraphic_ComboBox[0], 1, wxEXPAND);
@@ -5170,19 +5169,16 @@ void AGE_Frame::CreateUnitControls()
 	Units_DyingGraphic_Holder->Add(Units_DyingGraphic_Text, 0, wxEXPAND);
 	Units_DyingGraphic_Holder->Add(Units_DyingGraphic_Grid, 0, wxEXPAND);
 
-	Units_GraphicsArea1_Holder->Add(Units_IconID_Holder, 1, wxEXPAND);
-	Units_GraphicsArea1_Holder->Add(5, -1);
-	Units_GraphicsArea1_Holder->Add(Units_ConstructionGraphicID_Holder, 1, wxEXPAND);
-	Units_GraphicsArea1_Holder->Add(5, -1);
-	Units_GraphicsArea1_Holder->Add(Units_SnowGraphicID_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Units_GraphicsArea1_Holder->Add(5, -1);
-	Units_GraphicsArea1_Holder->Add(Units_AttackGraphic_Holder, 1, wxEXPAND);
+	Units_IconID_Grid->Add(Units_IconID_Holder, 1, wxEXPAND);
+	Units_GraphicsArea4_Holder->Add(Units_IconID_Grid, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_StandingGraphic_Holder, 1, wxEXPAND);
-	Units_GraphicsArea4_Holder->Add(5, -1);
-	Units_GraphicsArea4_Holder->Add(Units_GarrisonGraphic_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Units_GraphicsArea5_Holder->Add(Units_WalkingGraphic_Holder, 1, wxEXPAND);
-	Units_GraphicsArea5_Holder->Add(5, -1);
-	Units_GraphicsArea5_Holder->Add(Units_DyingGraphic_Holder, 1, wxEXPAND);
+	Units_GraphicsArea4_Holder->Add(Units_DyingGraphic_Holder, 1, wxEXPAND);
+	Units_GraphicsArea4_Holder->Add(Units_WalkingGraphic_Holder, 1, wxEXPAND);
+
+	Units_GraphicsArea5_Holder->Add(Units_SnowGraphicID_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Units_GraphicsArea5_Holder->Add(Units_ConstructionGraphicID_Holder, 1, wxEXPAND);
+	Units_GraphicsArea5_Holder->Add(Units_AttackGraphic_Holder, 1, wxEXPAND);
+	Units_GraphicsArea5_Holder->Add(Units_GarrisonGraphic_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
 	DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID_Text, 0, wxEXPAND);
 	DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID, 1, wxEXPAND);
@@ -5202,8 +5198,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_Holder_Data->Add(DamageGraphics_Unknown2_Holder, 0, wxEXPAND);
 
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Add, 1, wxEXPAND);
-	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Insert, 1, wxEXPAND);
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Delete, 1, wxEXPAND);
+	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Insert, 1, wxEXPAND);
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Copy, 1, wxEXPAND);
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Paste, 1, wxEXPAND);
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_PasteInsert, 1, wxEXPAND);
@@ -5220,15 +5216,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics->Add(Units_DamageGraphics_ListArea, 1, wxEXPAND);
 	Units_DamageGraphics->Add(5, -1);
 	Units_DamageGraphics->Add(Units_DamageGraphics_Holder_Data, 1, wxEXPAND);
-	Units_DamageGraphics_Holder->Add(Units_DamageGraphics, 1, wxEXPAND);
+
+	Units_GraphicsArea1_Holder->Add(Units_DamageGraphics, 1, wxEXPAND);
+	Units_GraphicsArea1_Holder->Add(5, -1);
+	Units_GraphicsArea1_Holder->Add(Units_GraphicsArea4_Holder, 1, wxEXPAND);
 
 	Units_GraphicsArea_Holder->Add(Units_GraphicsArea1_Holder, 0, wxEXPAND);
 	Units_GraphicsArea_Holder->Add(-1, 5);
-	Units_GraphicsArea_Holder->Add(Units_GraphicsArea4_Holder, 0, wxEXPAND);
-	Units_GraphicsArea_Holder->Add(-1, 5);
 	Units_GraphicsArea_Holder->Add(Units_GraphicsArea5_Holder, 0, wxEXPAND);
-	Units_GraphicsArea_Holder->Add(-1, 5);
-	Units_GraphicsArea_Holder->Add(Units_DamageGraphics_Holder, 0, wxEXPAND);
 
 	Units_StatsArea1_Grid->Add(Units_HitPoints_Holder, 1, wxEXPAND);
 	Units_StatsArea1_Grid->Add(Units_Speed_Holder, 1, wxEXPAND);
@@ -5492,8 +5487,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type80plusUnknownArea_Holder->Add(Units_Type80plusUnknownArea_Grid, 0, wxEXPAND);
 
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Add, 1, wxEXPAND);
-	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Insert, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Delete, 1, wxEXPAND);
+	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Insert, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Copy, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_Paste, 1, wxEXPAND);
 	Units_UnitCommands_Buttons->Add(Units_UnitCommands_PasteInsert, 1, wxEXPAND);
