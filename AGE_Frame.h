@@ -2861,6 +2861,7 @@ public:
 	AGE_List32Box TechTrees_Researches_Units;
 	AGE_List32Box TechTrees_Researches_Researches;
 	AGE_AreaTT84 TechTrees_Ages_Items;
+	AGE_AreaTT31020 TechTrees_Ages_UnknownItems;
 	AGE_AreaTT84 TechTrees_Buildings_Items;
 	AGE_AreaTT84 TechTrees_Units_Items;
 	AGE_AreaTT84 TechTrees_Researches_Items;
@@ -2889,12 +2890,6 @@ public:
 	wxBoxSizer *TechTrees_Ages_Unknown2_Holder;
 	wxStaticText *TechTrees_Ages_Unknown2_Text;
 	TextCtrl_Byte *TechTrees_Ages_Unknown2;
-	wxBoxSizer *TechTrees_Ages_SlotsUsed_Holder;
-	wxStaticText *TechTrees_Ages_SlotsUsed_Text;
-	TextCtrl_Byte *TechTrees_Ages_SlotsUsed;
-	wxBoxSizer *TechTrees_Ages_Unknown6_Holder;
-	wxStaticText *TechTrees_Ages_Unknown6_Text;
-	TextCtrl_Byte *TechTrees_Ages_Unknown6;
 	wxBoxSizer *TechTrees_Ages_LineMode_Holder;
 	wxStaticText *TechTrees_Ages_LineMode_Text;
 	TextCtrl_Long *TechTrees_Ages_LineMode;

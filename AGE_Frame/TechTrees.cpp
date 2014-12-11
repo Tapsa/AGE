@@ -46,8 +46,8 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 	TTAgeIDs.resize(selections);
 	TechTrees_Ages_ID->resize(selections);
 	TechTrees_Ages_Unknown2->resize(selections);
-	TechTrees_Ages_SlotsUsed->resize(selections);
-	TechTrees_Ages_Unknown6->resize(selections);
+	TechTrees_Ages_UnknownItems.UsedItems->resize(selections);
+	TechTrees_Ages_UnknownItems.Unknown->resize(selections);
 	TechTrees_Ages_LineMode->resize(selections);
 	TechTrees_Ages_Items.UsedItems->resize(selections);
 
@@ -59,8 +59,8 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 
 		TechTrees_Ages_ID->container[sel] = &AgePointer->ID;
 		TechTrees_Ages_Unknown2->container[sel] = &AgePointer->Unknown2;
-		TechTrees_Ages_SlotsUsed->container[sel] = &AgePointer->SlotsUsed;
-		TechTrees_Ages_Unknown6->container[sel] = &AgePointer->Unknown6;
+		TechTrees_Ages_UnknownItems.UsedItems->container[sel] = &AgePointer->SlotsUsed;
+		TechTrees_Ages_UnknownItems.Unknown->container[sel] = &AgePointer->Unknown6;
 		TechTrees_Ages_LineMode->container[sel] = &AgePointer->LineMode;
 		TechTrees_Ages_Items.UsedItems->container[sel] = &AgePointer->Common.SlotsUsed;
 	}
@@ -68,8 +68,8 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 	TechTrees_Ages_ID->ChangeValue(lexical_cast<string>(AgePointer->ID));
 	TechTrees_Ages_Unknown2->ChangeValue(lexical_cast<string>((short)AgePointer->Unknown2));
 	TechTrees_Ages_Items.UsedItems->ChangeValue(lexical_cast<string>(AgePointer->Common.SlotsUsed));
-	TechTrees_Ages_SlotsUsed->ChangeValue(lexical_cast<string>((short)AgePointer->SlotsUsed));
-	TechTrees_Ages_Unknown6->ChangeValue(lexical_cast<string>((short)AgePointer->Unknown6));
+	TechTrees_Ages_UnknownItems.UsedItems->ChangeValue(lexical_cast<string>((short)AgePointer->SlotsUsed));
+	TechTrees_Ages_UnknownItems.Unknown->ChangeValue(lexical_cast<string>((short)AgePointer->Unknown6));
 	TechTrees_Ages_LineMode->ChangeValue(lexical_cast<string>(AgePointer->LineMode));
 
 	ListTTAgesBuildings();
@@ -2168,12 +2168,6 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Ages_Unknown2 = new TextCtrl_Byte(TechTrees_ScrollerAges);
 	TechTrees_Ages_Unknown2->SetToolTip(StatusHelp);
 
-	TechTrees_Ages_SlotsUsed_Holder = new wxBoxSizer(wxVERTICAL);
-	TechTrees_Ages_SlotsUsed_Text = new wxStaticText(TechTrees_ScrollerAges, wxID_ANY, " Slots Used?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TechTrees_Ages_SlotsUsed = new TextCtrl_Byte(TechTrees_ScrollerAges);
-	TechTrees_Ages_Unknown6_Holder = new wxBoxSizer(wxVERTICAL);
-	TechTrees_Ages_Unknown6_Text = new wxStaticText(TechTrees_ScrollerAges, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TechTrees_Ages_Unknown6 = new TextCtrl_Byte(TechTrees_ScrollerAges);
 	TechTrees_Ages_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Ages_LineMode_Text = new wxStaticText(TechTrees_ScrollerAges, wxID_ANY, " Line Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Ages_LineMode = new TextCtrl_Long(TechTrees_ScrollerAges);
@@ -2190,6 +2184,7 @@ void AGE_Frame::CreateTechTreeControls()
 	ResearchComboBoxList.push_back(TechTrees_Ages_Researches.ItemCombo);
 
 	TechTrees_Ages_Items.CreateControls(TechTrees_ScrollerAges, "ages");
+	TechTrees_Ages_UnknownItems.CreateControls(TechTrees_ScrollerAges);
 
 	TechTrees_MainList_Buildings_Search = new wxTextCtrl(Tab_TechTreeBuildings, wxID_ANY);
 	TechTrees_MainList_Buildings_UseAnd[0] = new wxCheckBox(Tab_TechTreeBuildings, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
@@ -2523,24 +2518,19 @@ void AGE_Frame::CreateTechTreeControls()
 
 	TechTrees_Ages_ID_Holder->Add(TechTrees_Ages_ID_Text, 0, wxEXPAND);
 	TechTrees_Ages_ID_Holder->Add(TechTrees_Ages_ID, 0, wxEXPAND);
-	TechTrees_Ages_Unknown6_Holder->Add(TechTrees_Ages_Unknown6_Text, 0, wxEXPAND);
-	TechTrees_Ages_Unknown6_Holder->Add(TechTrees_Ages_Unknown6, 0, wxEXPAND);
 	TechTrees_Ages_LineMode_Holder->Add(TechTrees_Ages_LineMode_Text, 0, wxEXPAND);
 	TechTrees_Ages_LineMode_Holder->Add(TechTrees_Ages_LineMode, 0, wxEXPAND);
-	TechTrees_Ages_SlotsUsed_Holder->Add(TechTrees_Ages_SlotsUsed_Text, 0, wxEXPAND);
-	TechTrees_Ages_SlotsUsed_Holder->Add(TechTrees_Ages_SlotsUsed, 0, wxEXPAND);
 	TechTrees_Ages_Unknown2_Holder->Add(TechTrees_Ages_Unknown2_Text, 0, wxEXPAND);
 	TechTrees_Ages_Unknown2_Holder->Add(TechTrees_Ages_Unknown2, 0, wxEXPAND);
 
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_ID_Holder, 1, wxEXPAND);
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_Unknown2_Holder, 1, wxEXPAND);
-
-	TechTrees_Data_Ages1->Add(TechTrees_Ages_SlotsUsed_Holder, 1, wxEXPAND);
-	TechTrees_Data_Ages1->Add(TechTrees_Ages_Unknown6_Holder, 1, wxEXPAND);
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_LineMode_Holder, 1, wxEXPAND);
 
 	TechTrees_Data_Ages2->Add(TechTrees_Ages_Items.Area, 1, wxEXPAND);
-	TechTrees_Data_Ages2->AddStretchSpacer(2);
+	TechTrees_Data_Ages2->Add(10, -1);
+	TechTrees_Data_Ages2->Add(TechTrees_Ages_UnknownItems.Area, 1, wxEXPAND);
+	TechTrees_Data_Ages2->AddStretchSpacer(1);
 
 	TechTrees_Data_Ages->Add(TechTrees_Data_Ages1, 0, wxEXPAND);
 	TechTrees_Data_Ages->Add(-1, 5);
@@ -2592,9 +2582,9 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Buildings->Add(-1, 5);
 	TechTrees_Data_Buildings->Add(TechTrees_Data_Buildings2, 0, wxEXPAND);
 
-	TechTrees_ConnectedHolder_Units->Add(TechTrees_Units_Units.ItemList, 1, wxEXPAND);
-	TechTrees_ConnectedHolder_Units->Add(5, -1);
 	TechTrees_ConnectedHolder_Units->Add(TechTrees_Units_Items.Area, 1, wxEXPAND);
+	TechTrees_ConnectedHolder_Units->Add(5, -1);
+	TechTrees_ConnectedHolder_Units->Add(TechTrees_Units_Units.ItemList, 1, wxEXPAND);
 	TechTrees_ConnectedHolder_Units->AddStretchSpacer(1);
 
 	TechTrees_Units_ID_Holder->Add(TechTrees_Units_ID_Text, 0, wxEXPAND);
