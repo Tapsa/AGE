@@ -128,3 +128,73 @@ public:
 		Area->Add(ItemList, 0, wxEXPAND);
 	}
 };
+
+class AGE_AreaTT31020
+{
+private:
+	wxGridSizer *Buttons;
+	wxBoxSizer *ItemList, *UsedItems_H, *Unknowns_H, *Unknown_H, *Top;
+	wxStaticText *UsedItems_T, *Unknown_T;
+public:
+	AGE_AreaTT31020() {}
+	virtual ~AGE_AreaTT31020() {}
+
+	wxStaticBoxSizer *Area;
+	wxTextCtrl *Search, *SearchRecursive;
+	wxListBox *List;
+	TextCtrl_Byte *Unknown1, *Unknown2, *UsedItems, *Unknown;
+	wxButton *Copy, *Paste, *CopyAllToSelected;
+
+	void CreateControls(wxScrolledWindow* &scroller)
+	{
+		Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unknown Items");
+		ItemList = new wxBoxSizer(wxVERTICAL);
+		Top = new wxBoxSizer(wxHORIZONTAL);
+		UsedItems_H = new wxBoxSizer(wxVERTICAL);
+		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Slots Used?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
+		UsedItems = new TextCtrl_Byte(scroller);
+		Unknown_H = new wxBoxSizer(wxVERTICAL);
+		Unknown_T = new wxStaticText(scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
+		Unknown = new TextCtrl_Byte(scroller);
+
+		Search = new wxTextCtrl(scroller, wxID_ANY);
+		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
+		List = new wxListBox(scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+		Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
+		Unknown1 = new TextCtrl_Byte(scroller);
+		Unknown2 = new TextCtrl_Byte(scroller);
+		Buttons = new wxGridSizer(2, 0, 0);
+		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+		Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+		CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected ages", wxDefaultPosition, wxSize(5, 20));
+
+		Buttons->Add(Copy, 1, wxEXPAND);
+		Buttons->Add(Paste, 1, wxEXPAND);
+
+		Unknowns_H->Add(Unknown1, 1, wxEXPAND);
+		Unknowns_H->Add(2, -1);
+		Unknowns_H->Add(Unknown2, 1, wxEXPAND);
+
+		ItemList->Add(Search, 0, wxEXPAND);
+		ItemList->Add(SearchRecursive, 0, wxEXPAND);
+		ItemList->Add(-1, 2);
+		ItemList->Add(List, 1, wxEXPAND);
+		ItemList->Add(-1, 2);
+		ItemList->Add(Unknowns_H, 0, wxEXPAND);
+		ItemList->Add(-1, 2);
+		ItemList->Add(Buttons, 0, wxEXPAND);
+		ItemList->Add(-1, 2);
+		ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
+
+		UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
+		UsedItems_H->Add(UsedItems, 0, wxEXPAND);
+		Unknown_H->Add(Unknown_T, 0, wxEXPAND);
+		Unknown_H->Add(Unknown, 0, wxEXPAND);
+		Top->Add(UsedItems_H, 1, wxEXPAND);
+		Top->Add(5, -1);
+		Top->Add(Unknown_H, 1, wxEXPAND);
+		Area->Add(Top, 0, wxEXPAND);
+		Area->Add(-1, 2);
+		Area->Add(ItemList, 0, wxEXPAND);
+	}
+};
