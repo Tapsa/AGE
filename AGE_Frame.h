@@ -91,7 +91,7 @@ public:
 
 //	General Events
 
-	void InitTTAgess();
+	void InitTTAges();
 	void InitTTBuildings();
 	void InitTTUnits();
 	void InitTTResearches();
@@ -218,7 +218,7 @@ public:
 
 //	Tech Tree Events
 
-	void ListTTAgess();
+	void ListTTAges();
 	void OnTTAgesSearch(wxCommandEvent &Event);
 	void OnTTAgesSelect(wxCommandEvent &Event);
 	void OnTTAgesAdd(wxCommandEvent &Event);
@@ -229,7 +229,7 @@ public:
 	void OnTTAgesPasteInsert(wxCommandEvent &Event);
 	string GetTTAgesName(short);
 
-	void ListTTAgesBuildings();
+	void ListTTAgeBuildings();
 	void OnTTAgesBuildingSearch(wxCommandEvent &Event);
 	void OnTTAgesBuildingSelect(wxCommandEvent &Event);
 	void OnTTAgesBuildingAdd(wxCommandEvent &Event);
@@ -241,7 +241,7 @@ public:
 	void OnTTAgesBuildingCopyToAges(wxCommandEvent &Event);
 	string GetBuildingName(short);
 
-	void ListTTAgesUnits();
+	void ListTTAgeUnits();
 	void OnTTAgesUnitSearch(wxCommandEvent &Event);
 	void OnTTAgesUnitSelect(wxCommandEvent &Event);
 	void OnTTAgesUnitAdd(wxCommandEvent &Event);
@@ -252,7 +252,7 @@ public:
 	void OnTTAgesUnitPasteInsert(wxCommandEvent &Event);
 	void OnTTAgesUnitCopyToAges(wxCommandEvent &Event);
 
-	void ListTTAgesResearches();
+	void ListTTAgeResearches();
 	void OnTTAgesResearchSearch(wxCommandEvent &Event);
 	void OnTTAgesResearchSelect(wxCommandEvent &Event);
 	void OnTTAgesResearchAdd(wxCommandEvent &Event);
@@ -264,12 +264,19 @@ public:
 	void OnTTAgesResearchCopyToAges(wxCommandEvent &Event);
 	string GetSimpleResearchName(short);
 
-	void ListTTAgesItems();
-	void OnTTAgesItemSearch(wxCommandEvent &Event);
-	void OnTTAgesItemSelect(wxCommandEvent &Event);
-	void OnTTAgesItemCopy(wxCommandEvent &Event);
-	void OnTTAgesItemPaste(wxCommandEvent &Event);
-	void OnTTAgesItemCopyToAges(wxCommandEvent &Event);
+	void ListTTAgeItems();
+	void OnTTAgeItemSearch(wxCommandEvent &Event);
+	void OnTTAgeItemSelect(wxCommandEvent &Event);
+	void OnTTAgeItemCopy(wxCommandEvent &Event);
+	void OnTTAgeItemPaste(wxCommandEvent &Event);
+	void OnTTAgeItemCopyToAges(wxCommandEvent &Event);
+
+	void ListTTAgeUnknownItems();
+	void OnTTAgeUnknownItemSearch(wxCommandEvent &Event);
+	void OnTTAgeUnknownItemSelect(wxCommandEvent &Event);
+	void OnTTAgeUnknownItemCopy(wxCommandEvent &Event);
+	void OnTTAgeUnknownItemPaste(wxCommandEvent &Event);
+	void OnTTAgeUnknownItemCopyToAges(wxCommandEvent &Event);
 
 	void ListTTBuildings();
 	void OnTTBuildingSearch(wxCommandEvent &Event);
@@ -315,6 +322,13 @@ public:
 	void OnTTBuildingResearchPasteInsert(wxCommandEvent &Event);
 	void OnTTBuildingResearchCopyToBuildings(wxCommandEvent &Event);
 
+	void ListTTBuildingItems();
+	void OnTTBuildingItemSearch(wxCommandEvent &Event);
+	void OnTTBuildingItemSelect(wxCommandEvent &Event);
+	void OnTTBuildingItemCopy(wxCommandEvent &Event);
+	void OnTTBuildingItemPaste(wxCommandEvent &Event);
+	void OnTTBuildingItemCopyToBuildings(wxCommandEvent &Event);
+
 	void ListTTUnits();
 	void OnTTUnitSearch(wxCommandEvent &Event);
 	void OnTTUnitSelect(wxCommandEvent &Event);
@@ -337,12 +351,12 @@ public:
 	void OnTTUnitUnitPasteInsert(wxCommandEvent &Event);
 	void OnTTUnitUnitCopyToUnits(wxCommandEvent &Event);
 
-	void ListTTUnitsItems();
-	void OnTTUnitsItemSearch(wxCommandEvent &Event);
-	void OnTTUnitsItemSelect(wxCommandEvent &Event);
-	void OnTTUnitsItemCopy(wxCommandEvent &Event);
-	void OnTTUnitsItemPaste(wxCommandEvent &Event);
-	void OnTTUnitsItemCopyToAges(wxCommandEvent &Event);
+	void ListTTUnitItems();
+	void OnTTUnitItemSearch(wxCommandEvent &Event);
+	void OnTTUnitItemSelect(wxCommandEvent &Event);
+	void OnTTUnitItemCopy(wxCommandEvent &Event);
+	void OnTTUnitItemPaste(wxCommandEvent &Event);
+	void OnTTUnitItemCopyToUnits(wxCommandEvent &Event);
 
 	void ListTTResearches();
 	void OnTTResearchSearch(wxCommandEvent &Event);
@@ -387,6 +401,13 @@ public:
 	void OnTTResearchResearchPaste(wxCommandEvent &Event);
 	void OnTTResearchResearchPasteInsert(wxCommandEvent &Event);
 	void OnTTResearchResearchCopyToResearches(wxCommandEvent &Event);
+
+	void ListTTResearchItems();
+	void OnTTResearchItemSearch(wxCommandEvent &Event);
+	void OnTTResearchItemSelect(wxCommandEvent &Event);
+	void OnTTResearchItemCopy(wxCommandEvent &Event);
+	void OnTTResearchItemPaste(wxCommandEvent &Event);
+	void OnTTResearchItemCopyToResearches(wxCommandEvent &Event);
 
 //	Civilization Events
 
