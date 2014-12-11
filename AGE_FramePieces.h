@@ -28,16 +28,16 @@ public:
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
 		Buttons = new wxGridSizer(3, 0, 0);
 		Add = new wxButton(scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-		Insert = new wxButton(scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+		Insert = new wxButton(scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 		Delete = new wxButton(scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 		Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-		PasteInsert = new wxButton(scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+		PasteInsert = new wxButton(scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 		CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(5, 20));
 
 		Buttons->Add(Add, 1, wxEXPAND);
-		Buttons->Add(Insert, 1, wxEXPAND);
 		Buttons->Add(Delete, 1, wxEXPAND);
+		Buttons->Add(Insert, 1, wxEXPAND);
 		Buttons->Add(Copy, 1, wxEXPAND);
 		Buttons->Add(Paste, 1, wxEXPAND);
 		Buttons->Add(PasteInsert, 1, wxEXPAND);

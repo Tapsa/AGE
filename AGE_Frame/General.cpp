@@ -1267,11 +1267,11 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_List = new wxListBox(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxSize(10, 220), 0, NULL, wxLB_EXTENDED);
 	Unknowns_Buttons = new wxGridSizer(3, 0, 0);
 	Unknowns_Add = new wxButton(Tab_Unknown, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Unknowns_Insert = new wxButton(Tab_Unknown, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_Insert = new wxButton(Tab_Unknown, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Unknowns_Delete = new wxButton(Tab_Unknown, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Unknowns_Copy = new wxButton(Tab_Unknown, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Unknowns_Paste = new wxButton(Tab_Unknown, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Unknowns_PasteInsert = new wxButton(Tab_Unknown, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Unknowns_PasteInsert = new wxButton(Tab_Unknown, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 
 	Unknowns_Space_UnknownLevel = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_UnknownLevel_Holder = new wxBoxSizer(wxVERTICAL);
@@ -1312,11 +1312,11 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	RMSBaseZones_Buttons = new wxGridSizer(3, 0, 0);
 	RMSBaseZones_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	RMSBaseZones_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	RMSBaseZones_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	RMSBaseZones_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	RMSBaseZones_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	RMSBaseZones_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	RMSBaseZones_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	RMSBaseZones_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	RMSBaseZones_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
 
 	RMSBaseZones_Unknown1_Grid = new wxGridSizer(3, 5, 5);
@@ -1381,11 +1381,11 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	RMSTerrain_Buttons = new wxGridSizer(3, 0, 0);
 	RMSTerrain_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	RMSTerrain_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	RMSTerrain_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	RMSTerrain_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	RMSTerrain_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	RMSTerrain_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	RMSTerrain_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	RMSTerrain_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	RMSTerrain_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
 
 	RMSTerrain_Unknown1_Grid = new wxGridSizer(3, 5, 5);
@@ -1417,11 +1417,11 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 250), 0, NULL, wxLB_EXTENDED);
 	RMSUnit_Buttons = new wxGridSizer(3, 0, 0);
 	RMSUnit_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	RMSUnit_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	RMSUnit_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	RMSUnit_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	RMSUnit_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	RMSUnit_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	RMSUnit_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	RMSUnit_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	RMSUnit_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
 
 	RMSUnit_Unknown1_Grid = new wxGridSizer(3, 5, 5);
@@ -1480,11 +1480,11 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnknown_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	RMSUnknown_Buttons = new wxGridSizer(3, 0, 0);
 	RMSUnknown_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	RMSUnknown_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	RMSUnknown_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	RMSUnknown_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	RMSUnknown_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	RMSUnknown_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	RMSUnknown_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	RMSUnknown_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	RMSUnknown_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(5, 20));
 
 	RMSUnknown_Unknown1_Grid = new wxGridSizer(3, 5, 5);
@@ -1504,8 +1504,8 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnknown_Unknown1_Text[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 	Unknowns_Buttons->Add(Unknowns_Add, 1, wxEXPAND);
-	Unknowns_Buttons->Add(Unknowns_Insert, 1, wxEXPAND);
 	Unknowns_Buttons->Add(Unknowns_Delete, 1, wxEXPAND);
+	Unknowns_Buttons->Add(Unknowns_Insert, 1, wxEXPAND);
 	Unknowns_Buttons->Add(Unknowns_Copy, 1, wxEXPAND);
 	Unknowns_Buttons->Add(Unknowns_Paste, 1, wxEXPAND);
 	Unknowns_Buttons->Add(Unknowns_PasteInsert, 1, wxEXPAND);
@@ -1535,8 +1535,8 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Space_Pointer1->AddStretchSpacer(3);
 
 	RMSBaseZones_Buttons->Add(RMSBaseZones_Add, 1, wxEXPAND);
-	RMSBaseZones_Buttons->Add(RMSBaseZones_Insert, 1, wxEXPAND);
 	RMSBaseZones_Buttons->Add(RMSBaseZones_Delete, 1, wxEXPAND);
+	RMSBaseZones_Buttons->Add(RMSBaseZones_Insert, 1, wxEXPAND);
 	RMSBaseZones_Buttons->Add(RMSBaseZones_Copy, 1, wxEXPAND);
 	RMSBaseZones_Buttons->Add(RMSBaseZones_Paste, 1, wxEXPAND);
 	RMSBaseZones_Buttons->Add(RMSBaseZones_PasteInsert, 1, wxEXPAND);
@@ -1599,8 +1599,8 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Space_Pointer2->AddStretchSpacer(3);
 
 	RMSTerrain_Buttons->Add(RMSTerrain_Add, 1, wxEXPAND);
-	RMSTerrain_Buttons->Add(RMSTerrain_Insert, 1, wxEXPAND);
 	RMSTerrain_Buttons->Add(RMSTerrain_Delete, 1, wxEXPAND);
+	RMSTerrain_Buttons->Add(RMSTerrain_Insert, 1, wxEXPAND);
 	RMSTerrain_Buttons->Add(RMSTerrain_Copy, 1, wxEXPAND);
 	RMSTerrain_Buttons->Add(RMSTerrain_Paste, 1, wxEXPAND);
 	RMSTerrain_Buttons->Add(RMSTerrain_PasteInsert, 1, wxEXPAND);
@@ -1632,8 +1632,8 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Space_Pointer3->AddStretchSpacer(3);
 
 	RMSUnit_Buttons->Add(RMSUnit_Add, 1, wxEXPAND);
-	RMSUnit_Buttons->Add(RMSUnit_Insert, 1, wxEXPAND);
 	RMSUnit_Buttons->Add(RMSUnit_Delete, 1, wxEXPAND);
+	RMSUnit_Buttons->Add(RMSUnit_Insert, 1, wxEXPAND);
 	RMSUnit_Buttons->Add(RMSUnit_Copy, 1, wxEXPAND);
 	RMSUnit_Buttons->Add(RMSUnit_Paste, 1, wxEXPAND);
 	RMSUnit_Buttons->Add(RMSUnit_PasteInsert, 1, wxEXPAND);
@@ -1694,8 +1694,8 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Space_Pointer4->AddStretchSpacer(3);
 
 	RMSUnknown_Buttons->Add(RMSUnknown_Add, 1, wxEXPAND);
-	RMSUnknown_Buttons->Add(RMSUnknown_Insert, 1, wxEXPAND);
 	RMSUnknown_Buttons->Add(RMSUnknown_Delete, 1, wxEXPAND);
+	RMSUnknown_Buttons->Add(RMSUnknown_Insert, 1, wxEXPAND);
 	RMSUnknown_Buttons->Add(RMSUnknown_Copy, 1, wxEXPAND);
 	RMSUnknown_Buttons->Add(RMSUnknown_Paste, 1, wxEXPAND);
 	RMSUnknown_Buttons->Add(RMSUnknown_PasteInsert, 1, wxEXPAND);

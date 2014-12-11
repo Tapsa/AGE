@@ -183,11 +183,11 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Colors_List = new wxListBox(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Colors_Colors_Buttons = new wxGridSizer(3, 0, 0);
 	Colors_Add = new wxButton(Tab_PlayerColors, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Colors_Insert = new wxButton(Tab_PlayerColors, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Colors_Insert = new wxButton(Tab_PlayerColors, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Colors_Delete = new wxButton(Tab_PlayerColors, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Colors_Copy = new wxButton(Tab_PlayerColors, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Colors_Paste = new wxButton(Tab_PlayerColors, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Colors_PasteInsert = new wxButton(Tab_PlayerColors, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Colors_PasteInsert = new wxButton(Tab_PlayerColors, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 
 	Colors_DataArea = new wxBoxSizer(wxVERTICAL);
 	Colors_Name_Holder = new wxBoxSizer(wxVERTICAL);
@@ -226,8 +226,8 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown5 = new TextCtrl_Long(Tab_PlayerColors);
 
 	Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
-	Colors_Colors_Buttons->Add(Colors_Insert, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Delete, 1, wxEXPAND);
+	Colors_Colors_Buttons->Add(Colors_Insert, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Copy, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Paste, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_PasteInsert, 1, wxEXPAND);
