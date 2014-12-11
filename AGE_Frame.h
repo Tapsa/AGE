@@ -2870,12 +2870,14 @@ public:
 	wxGridSizer *TechTrees_Data_Ages1;
 	wxBoxSizer *TechTrees_Data_Buildings;
 	wxBoxSizer *TechTrees_Data_Buildings2;
+	wxBoxSizer *TechTrees_Data_Buildings3;
 	wxGridSizer *TechTrees_Data_Buildings1;
 	wxBoxSizer *TechTrees_Data_Units;
 	wxGridSizer *TechTrees_Data_Units1;
 	wxBoxSizer *TechTrees_Data_Researches;
 	wxBoxSizer *TechTrees_Data_Researches2;
 	wxGridSizer *TechTrees_Data_Researches1;
+	wxBoxSizer *TechTrees_Data_Researches3;
 	wxBoxSizer *TechTrees_ConnectedHolder_Ages;
 	wxBoxSizer *TechTrees_ConnectedHolder_Buildings;
 	wxBoxSizer *TechTrees_ConnectedHolder_Units;
@@ -2915,6 +2917,9 @@ public:
 	wxStaticText *TechTrees_Buildings_EnablingResearch_Text;
 	TextCtrl_Long *TechTrees_Buildings_EnablingResearch;
 	ComboBox_Plus1 *TechTrees_Buildings_EnablingResearch_ComboBox;
+	wxStaticBoxSizer *TechTrees_Buildings_TotalUnitsTechs_Holder[2];
+	wxGridSizer *TechTrees_Buildings_TotalUnitsTechs_Grid[2];
+	TextCtrl_Byte *TechTrees_Buildings_TotalUnitsTechs[10];
 
 	wxBoxSizer *TechTrees_Units_ID_Holder;
 	wxStaticText *TechTrees_Units_ID_Text;
