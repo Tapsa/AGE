@@ -338,11 +338,11 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_UsedCount = new TextCtrl_UShort(Tab_Terrains);
 	Terrains_UsedCount->SetToolTip("How many terrains are used\nstarting from the first terrain without gaps");
 	Terrains_Add = new wxButton(Tab_Terrains, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Terrains_Insert = new wxButton(Tab_Terrains, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Terrains_Insert = new wxButton(Tab_Terrains, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Delete = new wxButton(Tab_Terrains, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Copy = new wxButton(Tab_Terrains, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Paste = new wxButton(Tab_Terrains, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Terrains_PasteInsert = new wxButton(Tab_Terrains, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Terrains_PasteInsert = new wxButton(Tab_Terrains, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 
 	Terrains_DataArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Scroller = new wxScrolledWindow(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(0, 20), wxVSCROLL | wxTAB_TRAVERSAL);
@@ -465,8 +465,8 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_UsedCountHolder->Add(Terrains_UsedCount, 1, wxEXPAND);
 
 	Terrains_Terrains_Buttons->Add(Terrains_Add, 1, wxEXPAND);
-	Terrains_Terrains_Buttons->Add(Terrains_Insert, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Delete, 1, wxEXPAND);
+	Terrains_Terrains_Buttons->Add(Terrains_Insert, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Copy, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Paste, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_PasteInsert, 1, wxEXPAND);

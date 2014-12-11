@@ -1055,11 +1055,11 @@ void AGE_Frame::CreateTechControls()
 	Techs_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Techs_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Techs_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Techs_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Techs_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Techs_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Techs_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Techs_Rename = new wxButton(Tab_Techs, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(0, 20));
 	Techs_Restore = new wxButton(Tab_Techs, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(0, 20));
 
@@ -1076,11 +1076,11 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_Effects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_CopyToTechs = new wxButton(Tab_Techs, wxID_ANY, "Copy all to selected techs", wxDefaultPosition, wxSize(5, 20));
 
 	Effects_Type_Holder = new wxBoxSizer(wxVERTICAL);
@@ -1171,8 +1171,8 @@ void AGE_Frame::CreateTechControls()
 	Effects_Type_ComboBox->SetSelection(0);
 
 	Techs_Buttons->Add(Techs_Add, 1, wxEXPAND);
-	Techs_Buttons->Add(Techs_Insert, 1, wxEXPAND);
 	Techs_Buttons->Add(Techs_Delete, 1, wxEXPAND);
+	Techs_Buttons->Add(Techs_Insert, 1, wxEXPAND);
 	Techs_Buttons->Add(Techs_Copy, 1, wxEXPAND);
 	Techs_Buttons->Add(Techs_Paste, 1, wxEXPAND);
 	Techs_Buttons->Add(Techs_PasteInsert, 1, wxEXPAND);
@@ -1195,8 +1195,8 @@ void AGE_Frame::CreateTechControls()
 	Techs_ListArea->Add(-1, 10);
 
 	Techs_Effects_Buttons->Add(Techs_Effects_Add, 1, wxEXPAND);
-	Techs_Effects_Buttons->Add(Techs_Effects_Insert, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Delete, 1, wxEXPAND);
+	Techs_Effects_Buttons->Add(Techs_Effects_Insert, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Copy, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Paste, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_PasteInsert, 1, wxEXPAND);

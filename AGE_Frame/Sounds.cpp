@@ -382,11 +382,11 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Sounds_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_Sounds_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Sounds_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Sounds_Insert = new wxButton(Tab_Sounds, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Sounds_Insert = new wxButton(Tab_Sounds, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Sounds_Delete = new wxButton(Tab_Sounds, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Sounds_Copy = new wxButton(Tab_Sounds, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Sounds_Paste = new wxButton(Tab_Sounds, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Sounds_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Sounds_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 
 	Sounds_Items = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sound Files");
 	for(short loop = 0; loop < 2; ++loop)
@@ -400,11 +400,11 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Items_UseAnd[1] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Sounds_Items_List = new wxListBox(Tab_Sounds, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	SoundItems_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	SoundItems_Insert = new wxButton(Tab_Sounds, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	SoundItems_Insert = new wxButton(Tab_Sounds, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Delete = new wxButton(Tab_Sounds, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Copy = new wxButton(Tab_Sounds, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Paste = new wxButton(Tab_Sounds, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	SoundItems_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	SoundItems_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_CopyToSounds = new wxButton(Tab_Sounds, wxID_ANY, "Copy all to selected sounds", wxDefaultPosition, wxSize(5, 20));
 
 	Sounds_ID_Holder = new wxBoxSizer(wxVERTICAL);
@@ -449,8 +449,8 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_AllItems_Clear->SetToolTip("Clear the modified search texts");
 
 	Sounds_Sounds_Buttons->Add(Sounds_Add, 1, wxEXPAND);
-	Sounds_Sounds_Buttons->Add(Sounds_Insert, 1, wxEXPAND);
 	Sounds_Sounds_Buttons->Add(Sounds_Delete, 1, wxEXPAND);
+	Sounds_Sounds_Buttons->Add(Sounds_Insert, 1, wxEXPAND);
 	Sounds_Sounds_Buttons->Add(Sounds_Copy, 1, wxEXPAND);
 	Sounds_Sounds_Buttons->Add(Sounds_Paste, 1, wxEXPAND);
 	Sounds_Sounds_Buttons->Add(Sounds_PasteInsert, 1, wxEXPAND);
@@ -467,8 +467,8 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_ListArea->Add(-1, 10);
 
 	Sounds_Items_Buttons->Add(SoundItems_Add, 1, wxEXPAND);
-	Sounds_Items_Buttons->Add(SoundItems_Insert, 1, wxEXPAND);
 	Sounds_Items_Buttons->Add(SoundItems_Delete, 1, wxEXPAND);
+	Sounds_Items_Buttons->Add(SoundItems_Insert, 1, wxEXPAND);
 	Sounds_Items_Buttons->Add(SoundItems_Copy, 1, wxEXPAND);
 	Sounds_Items_Buttons->Add(SoundItems_Paste, 1, wxEXPAND);
 	Sounds_Items_Buttons->Add(SoundItems_PasteInsert, 1, wxEXPAND);
