@@ -788,11 +788,11 @@ void AGE_Frame::CreateCivControls()
 	Civs_Civs_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Civs_Add = new wxButton(Tab_Civs, wxID_ANY, "Add *", wxDefaultPosition, wxSize(5, 20));
 	Civs_Add->SetToolTip("I highly recommend you to download UserPatch\nfrom xOmicron, if you play The Conquerors.\nWith it you can use added civilizations.\nStar Wars versions can already have more civilizations.");
-	Civs_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Civs_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Civs_Delete = new wxButton(Tab_Civs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Civs_Copy = new wxButton(Tab_Civs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Civs_Paste = new wxButton(Tab_Civs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Civs_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Civs_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 
 	Civs_DataArea = new wxBoxSizer(wxVERTICAL);
 	Civs_DataGrid1 = new wxGridSizer(2, 0, 5);
@@ -836,19 +836,19 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
 	Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Resources_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert", wxDefaultPosition, wxSize(5, 20));
+	Resources_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Resources_Delete = new wxButton(Tab_Civs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Resources_Copy = new wxButton(Tab_Civs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Resources_Paste = new wxButton(Tab_Civs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Resources_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "PasteInsert", wxDefaultPosition, wxSize(5, 20));
+	Resources_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Resources_CopyToAll = new wxButton(Tab_Civs, wxID_ANY, "Copy to all civs", wxDefaultPosition, wxSize(5, 20));
 	Civs_Resources_Data = new wxBoxSizer(wxVERTICAL);
 	Civs_Resources_Holder_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resources",
 	"http://www.digitization.org/wiki/index.php?title=Resource", wxDefaultPosition, wxSize(5, 20), wxBORDER_NONE|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
 
 	Civs_Civs_Buttons->Add(Civs_Add, 1, wxEXPAND);
-	Civs_Civs_Buttons->Add(Civs_Insert, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Delete, 1, wxEXPAND);
+	Civs_Civs_Buttons->Add(Civs_Insert, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Copy, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Paste, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_PasteInsert, 1, wxEXPAND);
@@ -898,8 +898,8 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataArea->Add(Civs_SUnknown1_Holder, 0, wxEXPAND);
 
 	Civs_Resources_Buttons->Add(Resources_Add, 1, wxEXPAND);
-	Civs_Resources_Buttons->Add(Resources_Insert, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Delete, 1, wxEXPAND);
+	Civs_Resources_Buttons->Add(Resources_Insert, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Copy, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Paste, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_PasteInsert, 1, wxEXPAND);
