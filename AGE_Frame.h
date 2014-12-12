@@ -351,6 +351,7 @@ public:
 	void OnTTUnitUnitPasteInsert(wxCommandEvent &Event);
 	void OnTTUnitUnitCopyToUnits(wxCommandEvent &Event);
 
+	void ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer);
 	void ListTTUnitItems();
 	void OnTTUnitItemSearch(wxCommandEvent &Event);
 	void OnTTUnitItemSelect(wxCommandEvent &Event);

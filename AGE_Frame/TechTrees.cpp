@@ -532,35 +532,7 @@ void AGE_Frame::OnTTAgesResearchCopyToAges(wxCommandEvent &Event)
 
 void AGE_Frame::ListTTAgeItems()
 {
-	searchText = TechTrees_Ages_Items.Search->GetValue().Lower();
-	excludeText = TechTrees_Ages_Items.SearchRecursive->GetValue().Lower();
-
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
-
-	for(short loop = 0; loop < GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.getSlots(); ++loop)
-	{
-		wxString Name = " "+lexical_cast<string>(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.Mode[loop])+" - ";
-		switch(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.Mode[loop])
-		{
-			case 1:
-			case 2:
-				Name += GetBuildingName(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.UnitResearch[loop]);
-				break;
-			case 3:
-				Name += GetSimpleResearchName(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.UnitResearch[loop]);
-				break;
-			default:
-				Name += lexical_cast<string>(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.UnitResearch[loop]);
-		}
-		if(SearchMatches(Name.Lower()))
-		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.UnitResearch[loop]);
-		}
-	}
-	Listing(TechTrees_Ages_Items.List, filteredNames, dataPointers);
-
+	ListTTCommonItems(TechTrees_Ages_Items, &GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common);
 	wxCommandEvent E;
 	OnTTAgeItemSelect(E);
 }
@@ -1195,6 +1167,9 @@ void AGE_Frame::OnTTBuildingResearchCopyToBuildings(wxCommandEvent &Event)
 
 void AGE_Frame::ListTTBuildingItems()
 {
+	ListTTCommonItems(TechTrees_Buildings_Items, &GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Common);
+	wxCommandEvent E;
+	OnTTBuildingItemSelect(E);
 }
 
 void AGE_Frame::OnTTBuildingItemSearch(wxCommandEvent &Event)
@@ -1541,43 +1516,46 @@ void AGE_Frame::OnTTUnitUnitCopyToUnits(wxCommandEvent &Event)
 	}
 }
 
-void AGE_Frame::ListTTUnitItems()
+void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer)
 {
-	searchText = TechTrees_Units_Items.Search->GetValue().Lower();
-	excludeText = TechTrees_Units_Items.SearchRecursive->GetValue().Lower();
+	searchText = area.Search->GetValue().Lower();
+	excludeText = area.SearchRecursive->GetValue().Lower();
 
 	list<void*> dataPointers;
 	wxArrayString filteredNames;
-	genie::techtree::Common *common = &GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Common;
 
-	for(short loop = 0; loop < common->getSlots(); ++loop)
+	for(short loop = 0; loop < dataPointer->getSlots(); ++loop)
 	{
 		wxString Name = " ";
-		switch(common->Mode[loop])
+		switch(dataPointer->Mode[loop])
 		{
 			case 0:
-				Name += "Age: "+lexical_cast<string>(common->UnitResearch[loop]);
+				Name += "Age: "+lexical_cast<string>(dataPointer->UnitResearch[loop]);
 				break;
 			case 1:
-				Name += "Building: "+GetBuildingName(common->UnitResearch[loop]);
+				Name += "Building: "+GetBuildingName(dataPointer->UnitResearch[loop]);
 				break;
 			case 2:
-				Name += "Unit: "+GetBuildingName(common->UnitResearch[loop]);
+				Name += "Unit: "+GetBuildingName(dataPointer->UnitResearch[loop]);
 				break;
 			case 3:
-				Name += "Research: "+GetSimpleResearchName(common->UnitResearch[loop]);
+				Name += "Research: "+GetSimpleResearchName(dataPointer->UnitResearch[loop]);
 				break;
 			default:
-				Name += lexical_cast<string>(common->Mode[loop])+" None: "+lexical_cast<string>(common->UnitResearch[loop]);
+				Name += lexical_cast<string>(dataPointer->Mode[loop])+" None: "+lexical_cast<string>(dataPointer->UnitResearch[loop]);
 		}
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&common->Mode[loop]);
+			dataPointers.push_back((void*)&dataPointer->Mode[loop]);
 		}
 	}
-	Listing(TechTrees_Units_Items.List, filteredNames, dataPointers);
+	Listing(area.List, filteredNames, dataPointers);
+}
 
+void AGE_Frame::ListTTUnitItems()
+{
+	ListTTCommonItems(TechTrees_Units_Items, &GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Common);
 	wxCommandEvent E;
 	OnTTUnitItemSelect(E);
 }
@@ -2158,6 +2136,9 @@ void AGE_Frame::OnTTResearchResearchCopyToResearches(wxCommandEvent &Event)
 
 void AGE_Frame::ListTTResearchItems()
 {
+	ListTTCommonItems(TechTrees_Researches_Items, &GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Common);
+	wxCommandEvent E;
+	OnTTResearchItemSelect(E);
 }
 
 void AGE_Frame::OnTTResearchItemSearch(wxCommandEvent &Event)
@@ -2856,7 +2837,7 @@ void AGE_Frame::CreateTechTreeControls()
 	Connect(TechTrees_Ages_Buildings.List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTTAgesBuildingSelect));
 	Connect(TechTrees_Ages_Units.List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTTAgesUnitSelect));
 	Connect(TechTrees_Ages_Researches.List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTTAgesResearchSelect));
-	Connect(TechTrees_Ages_Items.List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTTAgesItemSelect));
+	Connect(TechTrees_Ages_Items.List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTTAgeItemSelect));
 	Connect(TechTrees_Ages_Buildings.Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTAgesBuildingAdd));
 	Connect(TechTrees_Ages_Units.Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTAgesUnitAdd));
 	Connect(TechTrees_Ages_Researches.Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTAgesResearchAdd));
