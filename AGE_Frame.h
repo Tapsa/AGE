@@ -352,6 +352,7 @@ public:
 	void OnTTUnitUnitCopyToUnits(wxCommandEvent &Event);
 
 	void ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer);
+	void SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer);
 	void ListTTUnitItems();
 	void OnTTUnitItemSearch(wxCommandEvent &Event);
 	void OnTTUnitItemSelect(wxCommandEvent &Event);
@@ -697,6 +698,8 @@ public:
 	vector<short> TTAgeBuildIDs;
 	vector<short> TTAgeUnitIDs;
 	vector<short> TTAgeResIDs;
+	vector<short> TTAgeUnknownIDs;
+	vector<short> TTItemIDs;
 	vector<short> TTBuildConIDs;
 	vector<short> TTBuildBuildIDs;
 	vector<short> TTBuildUnitIDs;
