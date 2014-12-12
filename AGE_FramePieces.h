@@ -104,9 +104,9 @@ public:
 		Buttons->Add(Copy, 1, wxEXPAND);
 		Buttons->Add(Paste, 1, wxEXPAND);
 
-		Item_H->Add(Item, 2, wxEXPAND);
-		Item_H->Add(2, -1);
 		Item_H->Add(Mode, 1, wxEXPAND);
+		Item_H->Add(2, -1);
+		Item_H->Add(Item, 2, wxEXPAND);
 
 		ItemList->Add(Search, 0, wxEXPAND);
 		ItemList->Add(SearchRecursive, 0, wxEXPAND);
