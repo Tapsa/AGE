@@ -77,7 +77,7 @@ You can switch from [i]or[/i] finding to [i]and[/i] finding with check boxes. Me
 
 [b]Developers[/b]
 
-Mikko T P aka Keisari Tapsa, since 2.0b
+Mikko "Tapsa" P, since 2.0b
 Apre - genieutils, 2.1a to 3.1
 Estien Nifo aka StSB77, 1.0a to 2.0a
 
