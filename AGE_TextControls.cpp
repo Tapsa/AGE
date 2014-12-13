@@ -1,22 +1,19 @@
 #include "AGE_TextControls.h"
 
 const wxString AGETextCtrl::BATCHWARNING
-= "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
-const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
-const wxString AGETextCtrl::IETITLE = "Invalid entry!";
+= "Incorrect batch script!\nUse b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
 
-int TextCtrl_Byte::SaveEdits()
+bool TextCtrl_Byte::SaveEdits()
 {
-	if(!AGETextCtrl::editable) return 1;
-	if(container.empty()) return 1;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
 		if(value[0] == 'b' && !BatchCheck(value, batchMode))
 		{
-			wxMessageBox(BATCHWARNING, BWTITLE);
-			return 1;
+			wxMessageBox(BATCHWARNING);
+			return false;
 		}
 		try
 		{
@@ -28,7 +25,7 @@ int TextCtrl_Byte::SaveEdits()
 					BatchSave(container, batchMode, casted);
 					ChangeValue(lexical_cast<string>(*container[0]));
 					if(LinkedBox) LinkedBox->Update(casted);
-					return 0;
+					return true;
 				}
 				if(*container[0] != casted)
 				{
@@ -37,38 +34,39 @@ int TextCtrl_Byte::SaveEdits()
 						*pointer = casted;
 					}
 					if(LinkedBox) LinkedBox->Update(casted);
-					return 0;
+					return true;
 				}
 			}
 			else
 			{
-				return 2;
+				wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
+				SetFocus();
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			return 2;
+			wxMessageBox("Invalid entry!\nPlease enter a number from -128 to 127");
+			SetFocus();
 		}
 	}
 	else
 	{
 		ChangeValue(lexical_cast<string>((short)*container[0]));
 	}
-	return 1;
+	return false;
 }
 
-int TextCtrl_UByte::SaveEdits()
+bool TextCtrl_UByte::SaveEdits()
 {
-	if(!AGETextCtrl::editable) return 1;
-	if(container.empty()) return 1;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
 		if(value[0] == 'b' && !BatchCheck(value, batchMode))
 		{
-			wxMessageBox(BATCHWARNING, BWTITLE);
-			return 1;
+			wxMessageBox(BATCHWARNING);
+			return false;
 		}
 		try
 		{
@@ -80,7 +78,7 @@ int TextCtrl_UByte::SaveEdits()
 					BatchSave(container, batchMode, casted);
 					ChangeValue(lexical_cast<string>(*container[0]));
 					if(LinkedBox) LinkedBox->Update(casted);
-					return 0;
+					return true;
 				}
 				if(*container[0] != casted)
 				{
@@ -89,38 +87,39 @@ int TextCtrl_UByte::SaveEdits()
 						*pointer = casted;
 					}
 					if(LinkedBox) LinkedBox->Update(casted);
-					return 0;
+					return true;
 				}
 			}
 			else
 			{
-				return 2;
+				wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
+				SetFocus();
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			return 2;
+			wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 255");
+			SetFocus();
 		}
 	}
 	else
 	{
 		ChangeValue(lexical_cast<string>((short)*container[0]));
 	}
-	return 1;
+	return false;
 }
 
-int TextCtrl_Float::SaveEdits()
+bool TextCtrl_Float::SaveEdits()
 {
-	if(!AGETextCtrl::editable) return 1;
-	if(container.empty()) return 1;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
 		if(value[0] == 'b' && !BatchCheck(value, batchMode))
 		{
-			wxMessageBox(BATCHWARNING, BWTITLE);
-			return 1;
+			wxMessageBox(BATCHWARNING);
+			return false;
 		}
 		try
 		{
@@ -130,7 +129,7 @@ int TextCtrl_Float::SaveEdits()
 				BatchSave(container, batchMode, casted);
 				ChangeValue(lexical_cast<string>(*container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
-				return 0;
+				return true;
 			}
 			if(*container[0] != casted)
 			{
@@ -139,33 +138,33 @@ int TextCtrl_Float::SaveEdits()
 					*pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
-				return 0;
+				return true;
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			return 2;
+			wxMessageBox("Invalid entry!\nPlease enter a valid floating point number");
+			SetFocus();
 		}
 	}
 	else
 	{
 		ChangeValue(lexical_cast<string>(*container[0]));
 	}
-	return 1;
+	return false;
 }
 
-int TextCtrl_Long::SaveEdits()
+bool TextCtrl_Long::SaveEdits()
 {
-	if(!AGETextCtrl::editable) return 1;
-	if(container.empty()) return 1;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
 		if(value[0] == 'b' && !BatchCheck(value, batchMode))
 		{
-			wxMessageBox(BATCHWARNING, BWTITLE);
-			return 1;
+			wxMessageBox(BATCHWARNING);
+			return false;
 		}
 		try
 		{
@@ -175,7 +174,7 @@ int TextCtrl_Long::SaveEdits()
 				BatchSave(container, batchMode, casted);
 				ChangeValue(lexical_cast<string>(*container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
-				return 0;
+				return true;
 			}
 			if(*container[0] != casted)
 			{
@@ -184,33 +183,33 @@ int TextCtrl_Long::SaveEdits()
 					*pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
-				return 0;
+				return true;
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			return 2;
+			wxMessageBox("Invalid entry!\nPlease enter a number from -2 147 483 648 to 2 147 483 647");
+			SetFocus();
 		}
 	}
 	else
 	{
 		ChangeValue(lexical_cast<string>(*container[0]));
 	}
-	return 1;
+	return false;
 }
 
-int TextCtrl_Short::SaveEdits()
+bool TextCtrl_Short::SaveEdits()
 {
-	if(!AGETextCtrl::editable) return 1;
-	if(container.empty()) return 1;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
 		if(value[0] == 'b' && !BatchCheck(value, batchMode))
 		{
-			wxMessageBox(BATCHWARNING, BWTITLE);
-			return 1;
+			wxMessageBox(BATCHWARNING);
+			return false;
 		}
 		try
 		{
@@ -220,7 +219,7 @@ int TextCtrl_Short::SaveEdits()
 				BatchSave(container, batchMode, casted);
 				ChangeValue(lexical_cast<string>(*container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
-				return 0;
+				return true;
 			}
 			if(*container[0] != casted)
 			{
@@ -229,33 +228,33 @@ int TextCtrl_Short::SaveEdits()
 					*pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
-				return 0;
+				return true;
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			return 2;
+			wxMessageBox("Invalid entry!\nPlease enter a number from -32 768 to 32 767");
+			SetFocus();
 		}
 	}
 	else
 	{
 		ChangeValue(lexical_cast<string>(*container[0]));
 	}
-	return 1;
+	return false;
 }
 
-int TextCtrl_UShort::SaveEdits()
+bool TextCtrl_UShort::SaveEdits()
 {
-	if(!AGETextCtrl::editable) return 1;
-	if(container.empty()) return 1;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
 		if(value[0] == 'b' && !BatchCheck(value, batchMode))
 		{
-			wxMessageBox(BATCHWARNING, BWTITLE);
-			return 1;
+			wxMessageBox(BATCHWARNING);
+			return false;
 		}
 		try
 		{
@@ -265,7 +264,7 @@ int TextCtrl_UShort::SaveEdits()
 				BatchSave(container, batchMode, casted);
 				ChangeValue(lexical_cast<string>(*container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
-				return 0;
+				return true;
 			}
 			if(*container[0] != casted)
 			{
@@ -274,25 +273,25 @@ int TextCtrl_UShort::SaveEdits()
 					*pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
-				return 0;
+				return true;
 			}
 		}
 		catch(bad_lexical_cast e)
 		{
-			return 2;
+			wxMessageBox("Invalid entry!\nPlease enter a number from 0 to 65 535");
+			SetFocus();
 		}
 	}
 	else
 	{
 		ChangeValue(lexical_cast<string>(*container[0]));
 	}
-	return 1;
+	return false;
 }
 
-int TextCtrl_String::SaveEdits()	// This may crash the program.
+bool TextCtrl_String::SaveEdits()	// This may crash the program.
 {
-	if(!AGETextCtrl::editable) return 1;
-	if(container.empty()) return 1;
+	if(container.empty()) return false;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -314,12 +313,12 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 				}
 				ChangeValue(*container[0]);
 			}
-			return 0;
+			return true;
 		}
 	}
 	else
 	{
 		ChangeValue(*container[0]);
 	}
-	return 1;
+	return false;
 }

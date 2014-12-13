@@ -1707,7 +1707,7 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
 	}
 	SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
 	control->DiscardEdits();
-	//Event.Skip();
+	Event.Skip();
 }
 
 bool AGE_Frame::SearchMatches(wxString itemText)

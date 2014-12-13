@@ -414,7 +414,7 @@ void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &Event)
 	{
 		ListUnitLineUnits();
 	}
-	//Event.Skip();
+	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCombo_UnitLines(wxCommandEvent &Event)

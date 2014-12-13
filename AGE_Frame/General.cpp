@@ -47,7 +47,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 
 	General_CalcBoxes[4]->ChangeValue(lexical_cast<string>(Result));
 
-	//Event.Skip();
+	Event.Skip();
 }
 
 void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
@@ -66,7 +66,7 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
 	Result >>= 8;
 	General_CalcBoxes[3]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
 
-	//Event.Skip();
+	Event.Skip();
 }
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
@@ -1868,5 +1868,5 @@ void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
 	{
 		ListRMSUnknowns();
 	}
-	//Event.Skip();
+	Event.Skip();
 }
