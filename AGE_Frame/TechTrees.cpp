@@ -3139,7 +3139,7 @@ void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnTTBuildingSelect(E);
 	}
-	//Event.Skip();
+	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &Event)

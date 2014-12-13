@@ -599,5 +599,5 @@ void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &Event)
 {
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	ListSoundItems();
-	//Event.Skip();
+	Event.Skip();
 }

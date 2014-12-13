@@ -767,5 +767,5 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnResearchSelect(E);
 	}
-	//Event.Skip();
+	Event.Skip();
 }
