@@ -1110,7 +1110,7 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnGraphicsSelect(E);
 	}
-	Event.Skip();
+	//Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &Event)

@@ -103,7 +103,8 @@ public:
 	void InitGraphics(bool all);
 	void InitSounds(bool all);
 	void InitTerrainRestrictions(bool all);
-	void InitTerrains(bool all);
+	void InitTerrains1(bool all);
+	void InitTerrains2();
 	void InitPlayerColors();
 	void InitTerrainBorders(bool all);
 	void InitRandomMaps();
@@ -1477,8 +1478,8 @@ public:
 	TextCtrl_Short *Units_Unknown1;
 	TextCtrl_Byte *Units_Enabled;
 	CheckBox_2State *Units_Enabled_CheckBox;
-	TextCtrl_Byte *Units_NewUnknown;
-	CheckBox_2State *Units_NewUnknown_CheckBox;
+	TextCtrl_Byte *Units_Disabled;
+	CheckBox_2State *Units_Disabled_CheckBox;
 	TextCtrl_Short *Units_PlacementBypassTerrain[2];
 	ComboBox_Plus1 *Units_PlacementBypassTerrain_ComboBox[2];
 	TextCtrl_Short *Units_PlacementTerrain[2];
@@ -1864,7 +1865,7 @@ public:
 	wxBoxSizer *Units_HideInEditor_Holder;
 	wxBoxSizer *Units_Unknown1_Holder;
 	wxBoxSizer *Units_Enabled_Holder;
-	wxBoxSizer *Units_NewUnknown_Holder;
+	wxBoxSizer *Units_Disabled_Holder;
 	wxBoxSizer *Units_PlacementBypassTerrain_Holder;
 	wxGridSizer *Units_PlacementBypassTerrainGrid_Holder;
 	wxBoxSizer *Units_PlacementTerrain_Holder;
