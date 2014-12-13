@@ -7,6 +7,7 @@ const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 
 int TextCtrl_Byte::SaveEdits()
 {
+	if(!AGETextCtrl::editable) return 1;
 	if(container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
@@ -58,6 +59,7 @@ int TextCtrl_Byte::SaveEdits()
 
 int TextCtrl_UByte::SaveEdits()
 {
+	if(!AGETextCtrl::editable) return 1;
 	if(container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
@@ -109,6 +111,7 @@ int TextCtrl_UByte::SaveEdits()
 
 int TextCtrl_Float::SaveEdits()
 {
+	if(!AGETextCtrl::editable) return 1;
 	if(container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
@@ -153,6 +156,7 @@ int TextCtrl_Float::SaveEdits()
 
 int TextCtrl_Long::SaveEdits()
 {
+	if(!AGETextCtrl::editable) return 1;
 	if(container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
@@ -197,6 +201,7 @@ int TextCtrl_Long::SaveEdits()
 
 int TextCtrl_Short::SaveEdits()
 {
+	if(!AGETextCtrl::editable) return 1;
 	if(container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
@@ -241,6 +246,7 @@ int TextCtrl_Short::SaveEdits()
 
 int TextCtrl_UShort::SaveEdits()
 {
+	if(!AGETextCtrl::editable) return 1;
 	if(container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
@@ -285,6 +291,7 @@ int TextCtrl_UShort::SaveEdits()
 
 int TextCtrl_String::SaveEdits()	// This may crash the program.
 {
+	if(!AGETextCtrl::editable) return 1;
 	if(container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)

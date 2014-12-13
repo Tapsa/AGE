@@ -462,5 +462,5 @@ void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &Event)
 	{
 		ListTerrainBorderFrames();
 	}
-	Event.Skip();
+	//Event.Skip();
 }
