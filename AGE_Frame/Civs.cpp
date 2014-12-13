@@ -980,5 +980,5 @@ void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 	{
 		ListResources();
 	}
-	Event.Skip();
+	//Event.Skip();
 }

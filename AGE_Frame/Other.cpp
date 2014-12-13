@@ -1,7 +1,11 @@
 #include "../AGE_Frame.h"
 
+wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
+bool AGETextCtrl::editable;
+
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
 {
+	AGETextCtrl::editable = false;
 	wxCommandEvent Selected;
 
 	if(!SkipOpenDialog)
@@ -211,6 +215,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(GenieFile != NULL)
 	{
+		TechTrees_Ages_Items.Mode->container.resize(0);
+		TechTrees_Buildings_Items.Mode->container.resize(0);
+		TechTrees_Units_Items.Mode->container.resize(0);
+		TechTrees_Researches_Items.Mode->container.resize(0);
 		delete GenieFile;
 		GenieFile = NULL;
 	}
@@ -240,11 +248,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(GenieFile != NULL)
 	{	// Without these, nothing can be edited.
-		//wxMessageBox("Listing...");
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
-		//wxMessageBox("Started to open the file!");
-		//Units_Civs_List->SetSelection(0);
 
 		// No research gaia fix.
 		if(GenieFile->Civs.size() > 1)
@@ -363,10 +368,17 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_Type_ComboBox->Append("149: Shear");	// Selection 33
 		UnitCommands_Type_ComboBox->SetSelection(0);
 
+		AGE_AreaTT84::ages.Clear();
 		Units_GarrisonType_ComboBox->Clear();
 		Units_GarrisonType_ComboBox->Append("No Type/Invalid Type");	// Selection 0
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKA)
 		{
+			AGE_AreaTT84::ages.Add("0 - None");
+			AGE_AreaTT84::ages.Add("Dark Age");
+			AGE_AreaTT84::ages.Add("Feudal Age");
+			AGE_AreaTT84::ages.Add("Castle Age");
+			AGE_AreaTT84::ages.Add("Imperial Age");
+			AGE_AreaTT84::ages.Add("Post-Imperial Age");
 			Units_GarrisonType_ComboBox->Append("0 - None");	// Selection 1
 			Units_GarrisonType_ComboBox->Append("1 - Villager");
 			Units_GarrisonType_ComboBox->Append("2 - Infantry");
@@ -386,6 +398,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 		else if(GenieVersion >= genie::GV_SWGB)
 		{
+			AGE_AreaTT84::ages.Add("0 - None");
+			AGE_AreaTT84::ages.Add("1st Tech Level");
+			AGE_AreaTT84::ages.Add("2nd Tech Level");
+			AGE_AreaTT84::ages.Add("3rd Tech Level");
+			AGE_AreaTT84::ages.Add("4th Tech Level");
+			AGE_AreaTT84::ages.Add("5th Tech Level");
 			Units_GarrisonType_ComboBox->Append("0 - None");	// Selection 1
 			Units_GarrisonType_ComboBox->Append("1 - Worker");
 			Units_GarrisonType_ComboBox->Append("2 - Infantry");
@@ -893,6 +911,29 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 
 		Items.Add(0);
+		OnCivCountChange();
+		InitCivs(true);
+		InitUnits(0, true);
+		if(GenieVersion >= genie::GV_SWGB)
+		{
+			InitUnitLines();
+		}
+		else
+		{
+			UnitLines_UnitLines_List->Clear();
+			UnitLines_UnitLineUnits_List->Clear();
+		}
+		InitResearches(true);
+		InitTechs(true);
+		InitGraphics(true);
+		InitSounds(true);
+		ListTerrainNumbers();
+		ListTerrainRestrictions(true);
+		InitTerrains1(true);
+		InitPlayerColors();
+		InitTerrainBorders(true);
+		ListGeneral();
+		InitRandomMaps();
 		if(GenieVersion >= genie::GV_AoKA)
 		{
 			InitTTAges();
@@ -917,29 +958,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			TechTrees_Researches_Units.List->Clear();
 			TechTrees_Researches_Researches.List->Clear();
 		}
-		OnCivCountChange();
-		InitCivs(true);
-		InitUnits(0, true);
-		if(GenieVersion >= genie::GV_SWGB)
-		{
-			InitUnitLines();
-		}
-		else
-		{
-			UnitLines_UnitLines_List->Clear();
-			UnitLines_UnitLineUnits_List->Clear();
-		}
-		InitResearches(true);
-		InitTechs(true);
-		InitGraphics(true);
-		InitSounds(true);
-		ListTerrainNumbers();
-		ListTerrainRestrictions(true);
-		InitTerrains(true);
-		InitPlayerColors();
-		InitTerrainBorders(true);
-		ListGeneral();
-		InitRandomMaps();
 
 		wxCommandEvent E;
 		OnCivsSelect(E);
@@ -1143,6 +1161,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	NeedDat = false;
 	SkipOpenDialog = false;
+	AGETextCtrl::editable = true;
 }
 
 void AGE_Frame::OnGameVersionChange()
@@ -1209,7 +1228,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_GarrisonRecoveryRate_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			Units_NewUnknown_Holder->Show(show);
+			Units_Disabled_Holder->Show(show);
 		}
 
 		// AoK Alfa ->
@@ -1688,7 +1707,7 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
 	}
 	SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
 	control->DiscardEdits();
-	Event.Skip();
+	//Event.Skip();
 }
 
 bool AGE_Frame::SearchMatches(wxString itemText)
@@ -1874,6 +1893,33 @@ void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names)
 		list->Append(names);
 		list->SetSelection(selection);
 	}
+}
+
+void AGE_AreaTT84::FillItemCombo(int selection, bool update)
+{
+	if(Mode->container.size() == 0) return;
+	int oldList = lastList;
+	lastList = *Mode->container[0];
+	if(lastList != oldList || update)
+	{
+		ItemCombo->Clear();
+		ItemCombo->Append("-1 - None");
+		switch(lastList)
+		{
+			case 0:
+				ItemCombo->Append(ages);
+				break;
+			case 1:
+			case 2:
+				ItemCombo->Append(units);
+				break;
+			case 3:
+				ItemCombo->Append(researches);
+				break;
+			default: return;
+		}
+	}
+	ItemCombo->SetSelection(selection);
 }
 
 void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch)

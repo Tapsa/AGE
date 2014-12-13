@@ -62,6 +62,7 @@ private:
 	wxGridSizer *Buttons;
 	wxBoxSizer *ItemList, *UsedItems_H, *Item_H;
 	wxStaticText *UsedItems_T;
+	int lastList;
 public:
 	AGE_AreaTT84() {}
 	virtual ~AGE_AreaTT84() {}
@@ -73,9 +74,19 @@ public:
 	ComboBox_Plus1 *ItemCombo;
 	wxOwnerDrawnComboBox *ModeCombo;
 	wxButton *Copy, *Paste, *CopyAllToSelected;
+	static wxArrayString ages, researches, units;
+
+	void FillItemCombo(int selection, bool update = false);
+	void ClearItemCombo()
+	{
+		lastList = 4;
+		ItemCombo->Clear();
+	}
 
 	void CreateControls(wxScrolledWindow* &scroller, const wxString &itemName)
 	{
+		lastList = 4;
+		wxArrayString ages, researches, units;
 		Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
 		ItemList = new wxBoxSizer(wxVERTICAL);
 		UsedItems_H = new wxBoxSizer(wxVERTICAL);
@@ -195,6 +206,6 @@ public:
 		Top->Add(Unknown_H, 1, wxEXPAND);
 		Area->Add(Top, 0, wxEXPAND);
 		Area->Add(-1, 2);
-		Area->Add(ItemList, 0, wxEXPAND);
+		Area->Add(ItemList, 1, wxEXPAND);
 	}
 };

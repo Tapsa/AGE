@@ -1436,7 +1436,7 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
 	{
 		ListEffects();
 	}
-	Event.Skip();
+	//Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_Techs(wxCommandEvent &Event)
