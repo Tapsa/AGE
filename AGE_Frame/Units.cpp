@@ -5775,7 +5775,7 @@ void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
 	{
 		ListUnitDamageGraphics();
 	}
-	//Event.Skip();
+	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
