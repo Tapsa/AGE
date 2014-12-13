@@ -35,7 +35,7 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 
 	wxCommandEvent E;
 	OnTerrainRestrictionsSelect(E);
-	//Event.Skip();
+	Event.Skip();
 }
 
 void AGE_Frame::ListTerrains1(bool all)
@@ -663,5 +663,5 @@ void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnTerrainsSelect(E);
 	}
-	//Event.Skip();
+	Event.Skip();
 }

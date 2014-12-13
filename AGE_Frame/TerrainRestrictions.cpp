@@ -158,7 +158,7 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &Event)
 		TerRestPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(loop));
 		TerRestrictIDs[loop] = (TerRestPointer - (&GenieFile->TerrainRestrictions[0]));
 	}
-	ListTerrains2(true);
+	ListTerrains2();
 }
 
 void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
@@ -481,7 +481,7 @@ void AGE_Frame::OnKillFocus_TerRestrict(wxFocusEvent &Event)
 {
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	ListTerrains2();
-	//Event.Skip();
+	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_TerRestrict(wxCommandEvent &Event)
