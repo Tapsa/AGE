@@ -137,8 +137,12 @@ void AGE_Frame::InitResearches(bool all)
 	useAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 
 	list<void*> dataPointers;
-	wxArrayString names, filteredNames;
-	if(all) names.Alloc(GenieFile->Researchs.size());
+	wxArrayString filteredNames;
+	if(all)
+	{
+		AGE_AreaTT84::researches.Clear();
+		AGE_AreaTT84::researches.Alloc(GenieFile->Researchs.size());
+	}
 
 	for(short loop = 0; loop < GenieFile->Researchs.size(); ++loop)
 	{
@@ -148,11 +152,21 @@ void AGE_Frame::InitResearches(bool all)
 			filteredNames.Add(Name);
 			dataPointers.push_back((void*)&GenieFile->Researchs[loop]);
 		}
-		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetResearchName(loop));
+		if(all) AGE_AreaTT84::researches.Add(" "+lexical_cast<string>(loop)+" - "+GetResearchName(loop));
 	}
 
 	Listing(Research_Research_List, filteredNames, dataPointers);
-	if(all) FillLists(ResearchComboBoxList, names);
+	if(all)
+	{
+		FillLists(ResearchComboBoxList, AGE_AreaTT84::researches);
+		if(GenieVersion >= genie::GV_AoKA)
+		{
+			TechTrees_Ages_Items.FillItemCombo(TechTrees_Ages_Items.ItemCombo->GetSelection(), true);
+			TechTrees_Buildings_Items.FillItemCombo(TechTrees_Buildings_Items.ItemCombo->GetSelection(), true);
+			TechTrees_Units_Items.FillItemCombo(TechTrees_Units_Items.ItemCombo->GetSelection(), true);
+			TechTrees_Researches_Items.FillItemCombo(TechTrees_Researches_Items.ItemCombo->GetSelection(), true);
+		}
+	}
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -753,5 +767,5 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnResearchSelect(E);
 	}
-	Event.Skip();
+	//Event.Skip();
 }

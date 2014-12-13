@@ -29,18 +29,18 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 	for(short loop = 0; loop < GenieFile->TerrainRestrictions.size(); ++loop)
 	{
 		GenieFile->TerrainRestrictions[loop].TerrainAccessible.resize(UsedTerrains);
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKA)
 		GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.resize(UsedTerrains);
 	}
 
 	wxCommandEvent E;
 	OnTerrainRestrictionsSelect(E);
-	Event.Skip();
+	//Event.Skip();
 }
 
 void AGE_Frame::ListTerrains1(bool all)
 {
-	InitTerrains(all);
+	InitTerrains1(all);
 	wxCommandEvent E;
 	OnTerrainsSelect(E);
 	if(all) OnTerrainRestrictionsTerrainSelect(E);
@@ -48,12 +48,12 @@ void AGE_Frame::ListTerrains1(bool all)
 
 void AGE_Frame::ListTerrains2()
 {
-	InitTerrains(false);
+	InitTerrains2();
 	wxCommandEvent E;
 	OnTerrainRestrictionsTerrainSelect(E);
 }
 
-void AGE_Frame::InitTerrains(bool all)
+void AGE_Frame::InitTerrains1(bool all)
 {
 	searchText = Terrains_Terrains_Search->GetValue().Lower();
 	excludeText = Terrains_Terrains_Search_R->GetValue().Lower();
@@ -75,25 +75,30 @@ void AGE_Frame::InitTerrains(bool all)
 
 	Listing(Terrains_Terrains_List, filteredNames, dataPointers);
 	if(all) FillLists(TerrainComboBoxList, names);
+	InitTerrains2();
+}
 
+void AGE_Frame::InitTerrains2()
+{
 	searchText = TerRestrict_Terrains_Search->GetValue().Lower();
 	excludeText = TerRestrict_Terrains_Search_R->GetValue().Lower();
 
-	short Selections2 = TerRestrict_Terrains_List->GetSelections(Items);
-	TerRestrict_Terrains_List->Clear();
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
 
 	for(short loop = 0; loop < GenieFile->NumberOfTerrainsUsed; ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKA)
 		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			TerRestrict_Terrains_List->Append(Name, (void*)&GenieFile->TerrainBlock.Terrains[loop]);
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TerrainBlock.Terrains[loop]);
 		}
 	}
-	TerRestrict_Terrains_List->SetSelection(Items.Item(0));
+	Listing(TerRestrict_Terrains_List, filteredNames, dataPointers);
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
@@ -658,5 +663,5 @@ void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnTerrainsSelect(E);
 	}
-	Event.Skip();
+	//Event.Skip();
 }

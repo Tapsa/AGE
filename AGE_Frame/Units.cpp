@@ -199,8 +199,12 @@ void AGE_Frame::InitUnits(short civ, bool all)
 	Units_Civs_List->SetSelection(civ);
 
 	list<void*> dataPointers;
-	wxArrayString names, filteredNames;
-	if(all) names.Alloc(GenieFile->Civs[0].Units.size());
+	wxArrayString filteredNames;
+	if(all)
+	{
+		AGE_AreaTT84::units.Clear();
+		AGE_AreaTT84::units.Alloc(GenieFile->Civs[0].Units.size());
+	}
 
 	for(short loop = 0; loop < GenieFile->Civs[civ].Units.size(); ++loop)
 	{
@@ -210,11 +214,21 @@ void AGE_Frame::InitUnits(short civ, bool all)
 			filteredNames.Add(Name);
 			dataPointers.push_back((void*)&GenieFile->Civs[civ].Units[loop]);
 		}
-		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0));
+		if(all) AGE_AreaTT84::units.Add(" "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0));
 	}
 
 	Listing(Units_List, filteredNames, dataPointers);
-	if(all) FillLists(UnitComboBoxList, names);
+	if(all)
+	{
+		FillLists(UnitComboBoxList, AGE_AreaTT84::units);
+		if(GenieVersion >= genie::GV_AoKA)
+		{
+			TechTrees_Ages_Items.FillItemCombo(TechTrees_Ages_Items.ItemCombo->GetSelection(), true);
+			TechTrees_Buildings_Items.FillItemCombo(TechTrees_Buildings_Items.ItemCombo->GetSelection(), true);
+			TechTrees_Units_Items.FillItemCombo(TechTrees_Units_Items.ItemCombo->GetSelection(), true);
+			TechTrees_Researches_Items.FillItemCombo(TechTrees_Researches_Items.ItemCombo->GetSelection(), true);
+		}
+	}
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -397,7 +411,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_ID3->resize(PointerCount);
 		if(GenieVersion >= genie::GV_AoK)
 		{
-			Units_NewUnknown->resize(PointerCount);
+			Units_Disabled->resize(PointerCount);
 			if(GenieVersion >= genie::GV_TC)
 			{
 				Units_Attribute->resize(PointerCount);
@@ -682,7 +696,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			}
 			if(GenieVersion >= genie::GV_AoK)
 			{
-				Units_NewUnknown->container[location] = &UnitPointer->NewUnknown;
+				Units_Disabled->container[location] = &UnitPointer->NewUnknown;
 				if(CopyGraphics || vecCiv == 0)
 				Units_StandingGraphic[1]->container[location] = &UnitPointer->StandingGraphic.second;
 				if(GenieVersion >= genie::GV_TC)
@@ -1131,8 +1145,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		{
 			Units_StandingGraphic[1]->ChangeValue(lexical_cast<string>(UnitPointer->StandingGraphic.second));
 			Units_StandingGraphic_ComboBox[1]->SetSelection(UnitPointer->StandingGraphic.second + 1);
-			Units_NewUnknown->ChangeValue(lexical_cast<string>((short)UnitPointer->NewUnknown));
-			Units_NewUnknown_CheckBox->SetValue((bool)UnitPointer->NewUnknown);
+			Units_Disabled->ChangeValue(lexical_cast<string>((short)UnitPointer->NewUnknown));
+			Units_Disabled_CheckBox->SetValue((bool)UnitPointer->NewUnknown);
 			if(GenieVersion >= genie::GV_TC)
 			{
 				Units_Attribute->ChangeValue(lexical_cast<string>((short)UnitPointer->Attribute));
@@ -1668,6 +1682,8 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 		for(short loop = 0; loop < selections; ++loop)
 		copies->Dat.UnitCopies[0][loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
 	}
+	Units_Paste->Enable(true);
+	Units_PasteInsert->Enable(true);
 }
 
 void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
@@ -3583,7 +3599,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_HideInEditor_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Enabled_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Units_NewUnknown_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Units_Disabled_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_PlacementBypassTerrain_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_PlacementBypassTerrainGrid_Holder = new wxGridSizer(2, 0, 5);
 	Units_PlacementTerrain_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3792,7 +3808,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionMask_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_SelectionShapeType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_SelectionShapeType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionShape_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Attribute_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unit Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Civ_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3922,7 +3938,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Name = new TextCtrl_String(Units_Scroller, 30);
 	Units_Name2 = new TextCtrl_String(Units_Scroller, 30);
 	Units_LanguageDLLName = new TextCtrl_UShort(Units_Scroller);
-	Units_LanguageDLLName->SetToolTip("Usual Unit DLL Pattern for The Conquerors\nName: 5000-5999\nCreation: Name +1000\nHotkey: Name +11000\nHelp: Name +100000, in DLL Name +21000\nHotkey Text: Name +150000, in DLL Name +10000\nSomething: Name +9000");
+	Units_LanguageDLLName->SetToolTip("Usual Unit DLL Pattern for The Conquerors\nName: 5000-5999\nCreation: Name +1000\nHotkey: Name +11000\nHelp: Name +100000, in DLL Name +21000\nHotkey Text: Name +150000, in DLL Name +10000\nTech tree: Name +9000");
 	Units_DLL_LanguageName = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
 	Units_LanguageDLLCreation = new TextCtrl_UShort(Units_Scroller);
 	Units_DLL_LanguageCreation = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
@@ -4134,9 +4150,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Enabled = new TextCtrl_Byte(Units_Scroller);
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
 	Units_Enabled_CheckBox = new CheckBox_2State(Units_Scroller, "No Research *", Units_Enabled);
-	Units_NewUnknown = new TextCtrl_Byte(Units_Scroller);
-	Units_NewUnknown->SetToolTip("0 Default\n1 Prevents enabling/disabling with a tech");
-	Units_NewUnknown_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_NewUnknown);
+	Units_Disabled = new TextCtrl_Byte(Units_Scroller);
+	Units_Disabled->SetToolTip("0 Default\n1 Prevents enabling/disabling with a tech");
+	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
 	Units_HideInEditor = new TextCtrl_Byte(Units_Scroller);
 	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide In Editor", Units_HideInEditor);
 	Units_DeathMode = new TextCtrl_Byte(Units_Scroller);
@@ -4238,6 +4254,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionMask = new TextCtrl_Byte(Units_Scroller);
 	Units_SelectionMask->SetToolTip("Any odd value except 7 - Mask displayed behind buildings\nAny even value except 6, 10 - Mask not displayed\n-1, 7 - Mask partially displayed when in the open\n6, 10 - Building, causes mask to appear on units behind it\n");
 	Units_SelectionShapeType = new TextCtrl_Byte(Units_Scroller);
+	Units_SelectionShapeType->SetToolTip("Seems to control 3 things\nIf square or round, value 5\nIf real size or selection size is used, value 2\nIf walkable or not, value 0");
 	Units_SelectionShape = new TextCtrl_Byte(Units_Scroller);
 	Units_SelectionShape->SetToolTip("0 Square\n1+ Round");
 	Units_SelectionEffect = new TextCtrl_Byte(Units_Scroller);
@@ -4748,9 +4765,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Enabled_Holder->Add(Units_Enabled, 1, wxEXPAND);
 	Units_Enabled_Holder->Add(2, -1);
 	Units_Enabled_Holder->Add(Units_Enabled_CheckBox, 2, wxEXPAND);
-	Units_NewUnknown_Holder->Add(Units_NewUnknown, 1, wxEXPAND);
-	Units_NewUnknown_Holder->Add(2, -1);
-	Units_NewUnknown_Holder->Add(Units_NewUnknown_CheckBox, 1, wxEXPAND);
+	Units_Disabled_Holder->Add(Units_Disabled, 1, wxEXPAND);
+	Units_Disabled_Holder->Add(2, -1);
+	Units_Disabled_Holder->Add(Units_Disabled_CheckBox, 2, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
 	Units_PlacementBypassTerrainGrid_Holder->Add(Units_PlacementBypassTerrain[loop], 1, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
@@ -5329,7 +5346,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ProjectilesArea_Holder->Add(Units_ProjectilesArea1_Grid, 0, wxEXPAND);
 
 	Units_AttributesBoxes1_Grid->Add(Units_Enabled_Holder, 1, wxEXPAND);
-	Units_AttributesBoxes1_Grid->Add(Units_NewUnknown_Holder, 1, wxEXPAND);
+	Units_AttributesBoxes1_Grid->Add(Units_Disabled_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_HideInEditor_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_VisibleInFog_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_DeathMode_Holder, 1, wxEXPAND);
@@ -5620,6 +5637,8 @@ void AGE_Frame::CreateUnitControls()
 		Units_ID3->Enable(false);
 		UnitCommands_ID->Enable(false);
 	}
+	Units_Paste->Enable(false);
+	Units_PasteInsert->Enable(false);
 
 	Tab_Units->SetSizer(Units_Main);
 
@@ -5756,7 +5775,7 @@ void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
 	{
 		ListUnitDamageGraphics();
 	}
-	Event.Skip();
+	//Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)

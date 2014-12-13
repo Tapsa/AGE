@@ -47,7 +47,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 
 	General_CalcBoxes[4]->ChangeValue(lexical_cast<string>(Result));
 
-	Event.Skip();
+	//Event.Skip();
 }
 
 void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
@@ -66,7 +66,7 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
 	Result >>= 8;
 	General_CalcBoxes[3]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
 
-	Event.Skip();
+	//Event.Skip();
 }
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
@@ -492,6 +492,8 @@ void AGE_Frame::OnUnknownsCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.MapHeaders, RandomMapIDs, copies->MapHeader);
 	CopyFromList(GenieFile->RandomMaps.Maps, RandomMapIDs, copies->Map);
+	Unknowns_Paste->Enable(true);
+	Unknowns_PasteInsert->Enable(true);
 }
 
 void AGE_Frame::OnUnknownsPaste(wxCommandEvent &Event)
@@ -696,6 +698,8 @@ void AGE_Frame::OnRMSBaseZoneCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs, copies->BaseZone);
+	RMSBaseZones_Paste->Enable(true);
+	RMSBaseZones_PasteInsert->Enable(true);
 }
 
 void AGE_Frame::OnRMSBaseZonePaste(wxCommandEvent &Event)
@@ -855,6 +859,8 @@ void AGE_Frame::OnRMSTerrainCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs, copies->MapTerrain);
+	RMSTerrain_Paste->Enable(true);
+	RMSTerrain_PasteInsert->Enable(true);
 }
 
 void AGE_Frame::OnRMSTerrainPaste(wxCommandEvent &Event)
@@ -1054,6 +1060,8 @@ void AGE_Frame::OnRMSUnitCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs, copies->MapUnit);
+	RMSUnit_Paste->Enable(true);
+	RMSUnit_PasteInsert->Enable(true);
 }
 
 void AGE_Frame::OnRMSUnitPaste(wxCommandEvent &Event)
@@ -1213,6 +1221,8 @@ void AGE_Frame::OnRMSUnknownCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs, copies->MapUnknown);
+	RMSUnknown_Paste->Enable(true);
+	RMSUnknown_PasteInsert->Enable(true);
 }
 
 void AGE_Frame::OnRMSUnknownPaste(wxCommandEvent &Event)
@@ -1765,6 +1775,17 @@ void AGE_Frame::CreateUnknownControls()
 	Unknown_Main->Add(Unknown_Area, 1, wxEXPAND);
 	Unknown_Main->Add(10, -1);
 
+	Unknowns_Paste->Enable(false);
+	Unknowns_PasteInsert->Enable(false);
+	RMSBaseZones_Paste->Enable(false);
+	RMSBaseZones_PasteInsert->Enable(false);
+	RMSTerrain_Paste->Enable(false);
+	RMSTerrain_PasteInsert->Enable(false);
+	RMSUnit_Paste->Enable(false);
+	RMSUnit_PasteInsert->Enable(false);
+	RMSUnknown_Paste->Enable(false);
+	RMSUnknown_PasteInsert->Enable(false);
+
 	Tab_Unknown->SetSizer(Unknown_Main);
 
 	Connect(Unknowns_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnknownsSearch));
@@ -1847,5 +1868,5 @@ void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
 	{
 		ListRMSUnknowns();
 	}
-	Event.Skip();
+	//Event.Skip();
 }

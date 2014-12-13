@@ -49,6 +49,7 @@ public:
 
 	AGELinkedBox *LinkedBox; // These are for check and combo boxes.
 	static const wxString BATCHWARNING, BWTITLE, IETITLE;
+	static bool editable;
 };
 
 class TextCtrl_DLL: public wxTextCtrl
@@ -73,12 +74,13 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event)
 	{
+		wxMessageBox("int8_t");
 		if(SaveEdits() == 2)
 		{
 			if(wxOK == wxMessageBox("Please enter a number from -128 to 127", IETITLE))
 			SetFocus();
 		}
-		Event.Skip();
+		//Event.Skip();
 	}
 	int SaveEdits();
 	void resize(int size){container.resize(size);}
@@ -99,12 +101,13 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event)
 	{
+		wxMessageBox("uint8_t");
 		if(SaveEdits() == 2)
 		{
 			if(wxOK == wxMessageBox("Please enter a number from 0 to 255", IETITLE))
 			SetFocus();
 		}
-		Event.Skip();
+		//Event.Skip();
 	}
 	int SaveEdits();
 	void resize(int size){container.resize(size);}
@@ -125,12 +128,13 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event)
 	{
+		wxMessageBox("float");
 		if(SaveEdits() == 2)
 		{
 			if(wxOK == wxMessageBox("Please enter a valid floating point number", IETITLE))
 			SetFocus();
 		}
-		Event.Skip();
+		//Event.Skip();
 	}
 	int SaveEdits();
 	void resize(int size){container.resize(size);}
@@ -151,12 +155,13 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event)
 	{
+		wxMessageBox("int32_t");
 		if(SaveEdits() == 2)
 		{
 			if(wxOK == wxMessageBox("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE))
 			SetFocus();
 		}
-		Event.Skip();
+		//Event.Skip();
 	}
 	int SaveEdits();
 	void resize(int size){container.resize(size);}
@@ -177,12 +182,13 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event)
 	{
+		wxMessageBox("int16_t "+lexical_cast<string>(AGETextCtrl::editable));
 		if(SaveEdits() == 2)
 		{
 			if(wxOK == wxMessageBox("Please enter a number from -32 768 to 32 767", IETITLE))
 			SetFocus();
 		}
-		Event.Skip();
+		//Event.Skip();
 	}
 	int SaveEdits();
 	void resize(int size){container.resize(size);}
@@ -203,12 +209,13 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event)
 	{
+		wxMessageBox("uint16_t");
 		if(SaveEdits() == 2)
 		{
 			if(wxOK == wxMessageBox("Please enter a number from 0 to 65 535", IETITLE))
 			SetFocus();
 		}
-		Event.Skip();
+		//Event.Skip();
 	}
 	int SaveEdits();
 	void resize(int size){container.resize(size);}
@@ -229,8 +236,9 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event)
 	{
+		wxMessageBox("string");
 		SaveEdits();
-		Event.Skip();
+		//Event.Skip();
 	}
 	int SaveEdits();
 	void resize(int size){container.resize(size);}
