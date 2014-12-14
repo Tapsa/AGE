@@ -352,40 +352,21 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		}
 
 		Effects_Type->ChangeValue(lexical_cast<string>((short)(EffectPointer->Type)));
-		if(EffectPointer->Type >= 0 && EffectPointer->Type <= 6)
-		{
-			Effects_Type_ComboBox->SetSelection(EffectPointer->Type + 1);
-		}
-		else if(EffectPointer->Type >= 101 && EffectPointer->Type <= 103)
-		{
-			Effects_Type_ComboBox->SetSelection(EffectPointer->Type - 93);
-		}
-		else
-		{
-			Effects_Type_ComboBox->SetSelection(0);
-		}
+		Effects_Type_ComboBox->Update(EffectPointer->Type);
 		Effects_A->ChangeValue(lexical_cast<string>(EffectPointer->A));
-		Effects_UnitsA_ComboBox->SetSelection(0);
-		Effects_UnitsA_ComboBox->SetSelection(EffectPointer->A + 1);
-		Effects_ResourcesA_ComboBox->SetSelection(0);
-		Effects_ResourcesA_ComboBox->SetSelection(EffectPointer->A + 1);
-		Effects_ResearchsA_ComboBox->SetSelection(0);
-		Effects_ResearchsA_ComboBox->SetSelection(EffectPointer->A + 1);
+		Effects_UnitsA_ComboBox->Update(EffectPointer->A);
+		Effects_ResourcesA_ComboBox->Update(EffectPointer->A);
+		Effects_ResearchsA_ComboBox->Update(EffectPointer->A);
 		Effects_B->ChangeValue(lexical_cast<string>(EffectPointer->B));
 		Effects_ModeB_CheckBox->SetValue((bool)EffectPointer->B);
-		Units_Class_ComboBox[2]->SetSelection(0);
-		Units_Class_ComboBox[2]->SetSelection(EffectPointer->B + 1);
-		Effects_UnitsB_ComboBox->SetSelection(0);
-		Effects_UnitsB_ComboBox->SetSelection(EffectPointer->B + 1);
-		Effects_ResourcesB_ComboBox->SetSelection(0);
-		Effects_ResourcesB_ComboBox->SetSelection(EffectPointer->B + 1);
+		Units_Class_ComboBox[2]->Update(EffectPointer->B);
+		Effects_UnitsB_ComboBox->Update(EffectPointer->B);
+		Effects_ResourcesB_ComboBox->Update(EffectPointer->B);
 		Effects_C->ChangeValue(lexical_cast<string>(EffectPointer->C));
 		Effects_ModeC_CheckBox->SetValue((bool)EffectPointer->C);
-		Effects_AttributesC_ComboBox->SetSelection(0);
-		Effects_AttributesC_ComboBox->SetSelection(EffectPointer->C + 1);
+		Effects_AttributesC_ComboBox->Update(EffectPointer->C);
 		Effects_D->ChangeValue(lexical_cast<string>(EffectPointer->D));
-		Effects_ResearchsD_ComboBox->SetSelection(0);
-		Effects_ResearchsD_ComboBox->SetSelection(EffectPointer->D + 1);
+		Effects_ResearchsD_ComboBox->Update(EffectPointer->D);
 
 		bool NeverHide = Effects_NeverHide->GetValue();
 		switch(EffectPointer->Type)
@@ -1127,7 +1108,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_C = new TextCtrl_Short(Tab_Techs);
 	Effects_C_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ModeC_CheckBox = new CheckBox_2State(Tab_Techs, "", Effects_C);
-	Effects_AttributesC_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_C);
+	Effects_AttributesC_ComboBox = new ComboBox_EffectAttribute(Tab_Techs, Effects_C);
 	Effects_Info_C = new wxStaticText(Tab_Techs, wxID_ANY, " Info C", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_D_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute D ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_D = new TextCtrl_Float(Tab_Techs);

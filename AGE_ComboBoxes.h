@@ -44,4 +44,19 @@ public:
 	void Update(long value);
 };
 
+class ComboBox_EffectAttribute: public AGEComboBox
+{
+public:
+	ComboBox_EffectAttribute(wxWindow *parent, AGETextCtrl *Pointer):
+	AGEComboBox(parent)
+	{
+		TextBox = Pointer;
+		TextBox->LinkedBox = this;
+		Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectAttribute::OnUpdate));
+	}
+
+	void OnUpdate(wxCommandEvent &Event);
+	void Update(long value);
+};
+
 #endif
