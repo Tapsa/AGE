@@ -204,7 +204,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_Unknown2->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown2));
 	Graphics_FrameType->ChangeValue(lexical_cast<string>((short)GraphicPointer->Layer));
 	Graphics_PlayerColor->ChangeValue(lexical_cast<string>((short)GraphicPointer->PlayerColor));
-	Graphics_PlayerColor_ComboBox->SetSelection(GraphicPointer->PlayerColor + 1);
+	Graphics_PlayerColor_ComboBox->Update(GraphicPointer->PlayerColor);
 	Graphics_Rainbow->ChangeValue(lexical_cast<string>((short)GraphicPointer->Rainbow));
 	Graphics_Replay->ChangeValue(lexical_cast<string>((short)GraphicPointer->Replay));
 	for(short loop = 0; loop < 4; ++loop)
@@ -212,7 +212,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 		Graphics_Coordinates[loop]->ChangeValue(lexical_cast<string>(GraphicPointer->Coordinates[loop]));
 	}
 	Graphics_SoundID->ChangeValue(lexical_cast<string>(GraphicPointer->SoundID));
-	Graphics_SoundID_ComboBox->SetSelection(GraphicPointer->SoundID + 1);
+	Graphics_SoundID_ComboBox->Update(GraphicPointer->SoundID);
 	Graphics_AttackSoundUsed->ChangeValue(lexical_cast<string>((short)GraphicPointer->AttackSoundUsed));
 	Graphics_AttackSoundUsed_CheckBox->SetValue((bool)GraphicPointer->AttackSoundUsed);
 	Graphics_FrameCount->ChangeValue(lexical_cast<string>(GraphicPointer->FrameCount));
@@ -426,7 +426,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 		}
 
 		GraphicDeltas_GraphicID->ChangeValue(lexical_cast<string>(DeltaPointer->GraphicID));
-		GraphicDeltas_GraphicID_ComboBox->SetSelection(DeltaPointer->GraphicID + 1);
+		GraphicDeltas_GraphicID_ComboBox->Update(DeltaPointer->GraphicID);
 		GraphicDeltas_Unknown1->ChangeValue(lexical_cast<string>(DeltaPointer->Unknown1));
 		GraphicDeltas_Unknown2->ChangeValue(lexical_cast<string>(DeltaPointer->Unknown2));
 		GraphicDeltas_Unknown3->ChangeValue(lexical_cast<string>(DeltaPointer->Unknown3));
@@ -573,9 +573,9 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 		Graphics_AttackSoundID[0]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundID));
 		Graphics_AttackSoundID[1]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundID2));
 		Graphics_AttackSoundID[2]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundID3));
-		Graphics_AttackSoundID_ComboBox[0]->SetSelection(AttackSoundPointer->SoundID + 1);
-		Graphics_AttackSoundID_ComboBox[1]->SetSelection(AttackSoundPointer->SoundID2 + 1);
-		Graphics_AttackSoundID_ComboBox[2]->SetSelection(AttackSoundPointer->SoundID3 + 1);
+		Graphics_AttackSoundID_ComboBox[0]->Update(AttackSoundPointer->SoundID);
+		Graphics_AttackSoundID_ComboBox[1]->Update(AttackSoundPointer->SoundID2);
+		Graphics_AttackSoundID_ComboBox[2]->Update(AttackSoundPointer->SoundID3);
 		Graphics_AttackSoundDelay[0]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundDelay));
 		Graphics_AttackSoundDelay[1]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundDelay2));
 		Graphics_AttackSoundDelay[2]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundDelay3));

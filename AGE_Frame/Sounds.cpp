@@ -239,7 +239,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 		if(GenieVersion >= genie::GV_AoKA)
 		{
 			SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
-			SoundItems_Civ_ComboBox->SetSelection(SoundItemPointer->Civ + 1);
+			SoundItems_Civ_ComboBox->Update(SoundItemPointer->Civ);
 			SoundItems_Unknown->ChangeValue(lexical_cast<string>(SoundItemPointer->Unknown1));
 		}
 	}
