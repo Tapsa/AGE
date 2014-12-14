@@ -663,75 +663,75 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_Class_ComboBox[loop]->Append("No Class/Invalid Class");	// Selection 0
 			if(GenieVersion < genie::GV_SWGB)
 			{
-				Units_Class_ComboBox[loop]->Append("0 - Archery");	// Selection 1
+				Units_Class_ComboBox[loop]->Append("0 - Archery");// archery-class
 				Units_Class_ComboBox[loop]->Append("1 - Artifact/Ruins");
 				Units_Class_ComboBox[loop]->Append("2 - Trade Boat");
-				Units_Class_ComboBox[loop]->Append("3 - Building");
-				Units_Class_ComboBox[loop]->Append("4 - Civilian");
-				Units_Class_ComboBox[loop]->Append("5 - Ocean Fish");
-				Units_Class_ComboBox[loop]->Append("6 - Infantry");
-				Units_Class_ComboBox[loop]->Append("7 - Berry Bush");
+				Units_Class_ComboBox[loop]->Append("3 - Building");// building-class
+				Units_Class_ComboBox[loop]->Append("4 - Villager");// villager-class
+				Units_Class_ComboBox[loop]->Append("5 - Ocean Fish");// ocean-fish-class
+				Units_Class_ComboBox[loop]->Append("6 - Infantry");// infantry-class
+				Units_Class_ComboBox[loop]->Append("7 - Berry Bush");// forage-food
 				Units_Class_ComboBox[loop]->Append("8 - Stone Mine");
-				Units_Class_ComboBox[loop]->Append("9 - Prey Animal");
-				Units_Class_ComboBox[loop]->Append("10 - Predator Animal");
+				Units_Class_ComboBox[loop]->Append("9 - Prey Animal");// deer-food
+				Units_Class_ComboBox[loop]->Append("10 - Predator Animal");// boar-food
 				Units_Class_ComboBox[loop]->Append("11 - Other/Dead/Projectile");
-				Units_Class_ComboBox[loop]->Append("12 - Cavalry");
-				Units_Class_ComboBox[loop]->Append("13 - Siege Weapon");
+				Units_Class_ComboBox[loop]->Append("12 - Cavalry");// cavalry-class
+				Units_Class_ComboBox[loop]->Append("13 - Siege Weapon");// siege-weapon-class
 				Units_Class_ComboBox[loop]->Append("14 - Terrain");
 				Units_Class_ComboBox[loop]->Append("15 - Tree");
 				Units_Class_ComboBox[loop]->Append("16 - Tree Stump");
 				Units_Class_ComboBox[loop]->Append("17 - Unused");
-				Units_Class_ComboBox[loop]->Append("18 - Monastery");
+				Units_Class_ComboBox[loop]->Append("18 - Monastery");// monastery-class
 				Units_Class_ComboBox[loop]->Append("19 - Trade Cart");
 				Units_Class_ComboBox[loop]->Append("20 - Transport Boat");
 				Units_Class_ComboBox[loop]->Append("21 - Fishing Boat");
-				Units_Class_ComboBox[loop]->Append("22 - Warship");
+				Units_Class_ComboBox[loop]->Append("22 - Warship");// warship-class
 				if(GenieVersion <= genie::GV_RoR)
 					Units_Class_ComboBox[loop]->Append("23 - Chariot Archer");
 				else
-					Units_Class_ComboBox[loop]->Append("23 - Cavalry Cannon");
+					Units_Class_ComboBox[loop]->Append("23 - Cavalry Cannon");// cavalry-cannon-class
 				Units_Class_ComboBox[loop]->Append("24 - War Elephant");
 				Units_Class_ComboBox[loop]->Append("25 - Hero");
 				Units_Class_ComboBox[loop]->Append("26 - Elephant Archer");
-				Units_Class_ComboBox[loop]->Append("27 - Wall");
+				Units_Class_ComboBox[loop]->Append("27 - Wall");// wall-class
 				Units_Class_ComboBox[loop]->Append("28 - Phalanx");
 				Units_Class_ComboBox[loop]->Append("29 - Domesticated Animal");
 				Units_Class_ComboBox[loop]->Append("30 - Flag");
-				Units_Class_ComboBox[loop]->Append("31 - Unused");
+				Units_Class_ComboBox[loop]->Append("31 - Unknown Fish");
 				Units_Class_ComboBox[loop]->Append("32 - Gold Mine");
-				Units_Class_ComboBox[loop]->Append("33 - Shore Fish");
+				Units_Class_ComboBox[loop]->Append("33 - Shore Fish");// fish-food // shore-fish-class
 				Units_Class_ComboBox[loop]->Append("34 - Cliff");
 				if(GenieVersion <= genie::GV_RoR)
 					Units_Class_ComboBox[loop]->Append("35 - Chariot");
 				else
-					Units_Class_ComboBox[loop]->Append("35 - Petard");
-				Units_Class_ComboBox[loop]->Append("36 - Cavalry Archer");
+					Units_Class_ComboBox[loop]->Append("35 - Petard");// petard-class
+				Units_Class_ComboBox[loop]->Append("36 - Cavalry Archer");// cavalry-archer-class
 				Units_Class_ComboBox[loop]->Append("37 - Dolphin/Smoke");
 				Units_Class_ComboBox[loop]->Append("38 - Bird");
 				if(GenieVersion <= genie::GV_RoR)
 					Units_Class_ComboBox[loop]->Append("39 - Slinger");
 				else
-					Units_Class_ComboBox[loop]->Append("39 - Gate");
+					Units_Class_ComboBox[loop]->Append("39 - Gate");// gate-class
 				Units_Class_ComboBox[loop]->Append("40 - Pile");
 				Units_Class_ComboBox[loop]->Append("41 - Pile of Resource");
 				Units_Class_ComboBox[loop]->Append("42 - Relic");
 				Units_Class_ComboBox[loop]->Append("43 - Monk with Relic");
-				Units_Class_ComboBox[loop]->Append("44 - Archery Cannon");
+				Units_Class_ComboBox[loop]->Append("44 - Archery Cannon");// archery-cannon-class
 				Units_Class_ComboBox[loop]->Append("45 - Two Handed Swordsman");
 				Units_Class_ComboBox[loop]->Append("46 - Pikeman");
 				Units_Class_ComboBox[loop]->Append("47 - Scout Cavalry");
 				Units_Class_ComboBox[loop]->Append("48 - Ore Mine");
-				Units_Class_ComboBox[loop]->Append("49 - Farm");
+				Units_Class_ComboBox[loop]->Append("49 - Farm");// farm-food // farm-class
 				Units_Class_ComboBox[loop]->Append("50 - Spearman");
-				Units_Class_ComboBox[loop]->Append("51 - Packed Trebuchet");
-				Units_Class_ComboBox[loop]->Append("52 - Tower");
+				Units_Class_ComboBox[loop]->Append("51 - Packed Trebuchet");// packed-trebuchet-class
+				Units_Class_ComboBox[loop]->Append("52 - Tower");// tower-class
 				Units_Class_ComboBox[loop]->Append("53 - Boarding Boat");
-				Units_Class_ComboBox[loop]->Append("54 - Unpacked Trebuchet");
-				Units_Class_ComboBox[loop]->Append("55 - Scorpion");
+				Units_Class_ComboBox[loop]->Append("54 - Unpacked Trebuchet");// unpacked-trebuchet-class
+				Units_Class_ComboBox[loop]->Append("55 - Scorpion");// scorpion-class
 				Units_Class_ComboBox[loop]->Append("56 - Raider");
 				Units_Class_ComboBox[loop]->Append("57 - Cavalry Raider");
-				Units_Class_ComboBox[loop]->Append("58 - Livestock");
-				Units_Class_ComboBox[loop]->Append("59 - King");
+				Units_Class_ComboBox[loop]->Append("58 - Livestock");// sheep-food // livestock-class
+				Units_Class_ComboBox[loop]->Append("59 - King");// king-class
 				Units_Class_ComboBox[loop]->Append("60 - Unused");
 				Units_Class_ComboBox[loop]->Append("61 - Horse");
 			}
@@ -1010,82 +1010,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("21 - Population Support");
 		Effects_AttributesC_ComboBox->Append("22 - Blast Radius");
 		Effects_AttributesC_ComboBox->Append("23 - Search Radius");
-		Effects_AttributesC_ComboBox->Append("24 - None");
-		Effects_AttributesC_ComboBox->Append("25 - None");
-		Effects_AttributesC_ComboBox->Append("26 - None");
-		Effects_AttributesC_ComboBox->Append("27 - None");
-		Effects_AttributesC_ComboBox->Append("28 - None");
-		Effects_AttributesC_ComboBox->Append("29 - None");
-		Effects_AttributesC_ComboBox->Append("30 - None");
-		Effects_AttributesC_ComboBox->Append("31 - None");
-		Effects_AttributesC_ComboBox->Append("32 - None");
-		Effects_AttributesC_ComboBox->Append("33 - None");
-		Effects_AttributesC_ComboBox->Append("34 - None");
-		Effects_AttributesC_ComboBox->Append("35 - None");
-		Effects_AttributesC_ComboBox->Append("36 - None");
-		Effects_AttributesC_ComboBox->Append("37 - None");
-		Effects_AttributesC_ComboBox->Append("38 - None");
-		Effects_AttributesC_ComboBox->Append("39 - None");
-		Effects_AttributesC_ComboBox->Append("40 - None");
-		Effects_AttributesC_ComboBox->Append("41 - None");
-		Effects_AttributesC_ComboBox->Append("42 - None");
-		Effects_AttributesC_ComboBox->Append("43 - None");
-		Effects_AttributesC_ComboBox->Append("44 - None");
-		Effects_AttributesC_ComboBox->Append("45 - None");
-		Effects_AttributesC_ComboBox->Append("46 - None");
-		Effects_AttributesC_ComboBox->Append("47 - None");
-		Effects_AttributesC_ComboBox->Append("48 - None");
-		Effects_AttributesC_ComboBox->Append("49 - None");
-		Effects_AttributesC_ComboBox->Append("50 - None");
-		Effects_AttributesC_ComboBox->Append("51 - None");
-		Effects_AttributesC_ComboBox->Append("52 - None");
-		Effects_AttributesC_ComboBox->Append("53 - None");
-		Effects_AttributesC_ComboBox->Append("54 - None");
-		Effects_AttributesC_ComboBox->Append("55 - None");
-		Effects_AttributesC_ComboBox->Append("56 - None");
-		Effects_AttributesC_ComboBox->Append("57 - None");
-		Effects_AttributesC_ComboBox->Append("58 - None");
-		Effects_AttributesC_ComboBox->Append("59 - None");
-		Effects_AttributesC_ComboBox->Append("60 - None");
-		Effects_AttributesC_ComboBox->Append("61 - None");
-		Effects_AttributesC_ComboBox->Append("62 - None");
-		Effects_AttributesC_ComboBox->Append("63 - None");
-		Effects_AttributesC_ComboBox->Append("64 - None");
-		Effects_AttributesC_ComboBox->Append("65 - None");
-		Effects_AttributesC_ComboBox->Append("66 - None");
-		Effects_AttributesC_ComboBox->Append("67 - None");
-		Effects_AttributesC_ComboBox->Append("68 - None");
-		Effects_AttributesC_ComboBox->Append("69 - None");
-		Effects_AttributesC_ComboBox->Append("70 - None");
-		Effects_AttributesC_ComboBox->Append("71 - None");
-		Effects_AttributesC_ComboBox->Append("72 - None");
-		Effects_AttributesC_ComboBox->Append("73 - None");
-		Effects_AttributesC_ComboBox->Append("74 - None");
-		Effects_AttributesC_ComboBox->Append("75 - None");
-		Effects_AttributesC_ComboBox->Append("76 - None");
-		Effects_AttributesC_ComboBox->Append("77 - None");
-		Effects_AttributesC_ComboBox->Append("78 - None");
-		Effects_AttributesC_ComboBox->Append("79 - None");
-		Effects_AttributesC_ComboBox->Append("80 - Boarding Energy Reload Speed");
-		Effects_AttributesC_ComboBox->Append("81 - None");
-		Effects_AttributesC_ComboBox->Append("82 - None");
-		Effects_AttributesC_ComboBox->Append("83 - None");
-		Effects_AttributesC_ComboBox->Append("84 - None");
-		Effects_AttributesC_ComboBox->Append("85 - None");
-		Effects_AttributesC_ComboBox->Append("86 - None");
-		Effects_AttributesC_ComboBox->Append("87 - None");
-		Effects_AttributesC_ComboBox->Append("88 - None");
-		Effects_AttributesC_ComboBox->Append("89 - None");
-		Effects_AttributesC_ComboBox->Append("90 - None");
-		Effects_AttributesC_ComboBox->Append("91 - None");
-		Effects_AttributesC_ComboBox->Append("92 - None");
-		Effects_AttributesC_ComboBox->Append("93 - None");
-		Effects_AttributesC_ComboBox->Append("94 - None");
-		Effects_AttributesC_ComboBox->Append("95 - None");
-		Effects_AttributesC_ComboBox->Append("96 - None");
-		Effects_AttributesC_ComboBox->Append("97 - None");
-		Effects_AttributesC_ComboBox->Append("98 - None");
-		Effects_AttributesC_ComboBox->Append("99 - None");
 		Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
 		if(GenieVersion <= genie::GV_RoR)
 		Effects_AttributesC_ComboBox->Append("101 - Population Support");

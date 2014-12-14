@@ -701,6 +701,7 @@ public:
 	vector<short> TTAgeResIDs;
 	vector<short> TTAgeUnknownIDs;
 	vector<short> TTItemIDs;
+	vector<short> TTUnknownItemIDs;
 	vector<short> TTBuildConIDs;
 	vector<short> TTBuildBuildIDs;
 	vector<short> TTBuildUnitIDs;
@@ -1349,7 +1350,7 @@ public:
 	TextCtrl_Short *Effects_C;
 	wxBoxSizer *Effects_C_ComboBox;	// Space reserver, never used.
 	CheckBox_2State *Effects_ModeC_CheckBox;	// for Effects 101, 103
-	ComboBox_Plus1 *Effects_AttributesC_ComboBox;	// for Effects 0, 4, 5
+	ComboBox_EffectAttribute *Effects_AttributesC_ComboBox;	// for Effects 0, 4, 5
 	wxStaticText *Effects_Info_C;
 	wxStaticText *Effects_D_Text;
 	TextCtrl_Float *Effects_D;
@@ -3078,6 +3079,14 @@ public:
 
 	template <class P, class C>
 	inline void CopyFromList(P &path, vector<short> &places, C &copies)
+	{
+		copies.resize(places.size());
+		for(auto loop = places.size(); loop--> 0;)
+		copies[loop] = path[places[loop]];
+	}
+
+	template <class P, class C>
+	inline void CopyFromCommonList(P &path, vector<short> &places, C &copies)
 	{
 		copies.resize(places.size());
 		for(auto loop = places.size(); loop--> 0;)
