@@ -90,6 +90,10 @@ class Copies
 	vector<long> TTAgeBuild;
 	vector<long> TTAgeUnit;
 	vector<long> TTAgeRes;
+	vector<long> TTMode;
+	vector<long> TTItem;
+	vector<char> TTUnknown4;
+	vector<char> TTUnknown5;
 	vector<genie::BuildingConnection> TTBuildCon;
 	vector<long> TTBuildBuild;
 	vector<long> TTBuildUnit;

@@ -25,6 +25,14 @@ void ComboBox_EffectType::OnUpdate(wxCommandEvent &Event)
 	TextBox->SaveEdits();
 }
 
+void ComboBox_EffectAttribute::OnUpdate(wxCommandEvent &Event)
+{
+	int selection = GetSelection();
+	selection = (selection < 25) ? selection - 1 : selection + 75;
+	TextBox->ChangeValue(lexical_cast<string>(selection));
+	TextBox->SaveEdits();
+}
+
 void ComboBox_Plus1::Update(long value)
 {
 	SetSelection(0);
@@ -40,6 +48,22 @@ void ComboBox_EffectType::Update(long value)
 	else if((value >= 101) && (value <= 103))
 	{
 		SetSelection(value - 93);
+	}
+	else
+	{
+		SetSelection(0);
+	}
+}
+
+void ComboBox_EffectAttribute::Update(long value)
+{
+	if((value >= 0) && (value <= 23))
+	{
+		SetSelection(value + 1);
+	}
+	else if((value >= 100) && (value <= 108))
+	{
+		SetSelection(value - 75);
 	}
 	else
 	{
