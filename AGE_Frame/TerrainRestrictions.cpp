@@ -212,8 +212,8 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 	}
 	TerRestrict_Graphics[0]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first));
 	TerRestrict_Graphics[1]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second));
-	TerRestrict_Graphics_ComboBox[0]->SetSelection(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first + 1);
-	TerRestrict_Graphics_ComboBox[1]->SetSelection(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second + 1);
+	TerRestrict_Graphics_ComboBox[0]->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first);
+	TerRestrict_Graphics_ComboBox[1]->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second);
 	TerRestrict_Amount->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount));
 }
 

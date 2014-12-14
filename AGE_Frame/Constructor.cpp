@@ -15,12 +15,15 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	AGEwindow = window;
 
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config->Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
+	sscanf(EditorVersionString, "%f", &EditorVersion);
+	Config->Read("/TimesOpened", &TimesOpened, 0);
+	if(EditorVersionString != AGE_AboutDialog::AGE_VER) TimesOpened = 0;
 	Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
 	Config->Read("Interaction/AutoCopy", &AutoCopy, true);
 	Config->Read("Interaction/CopyGraphics", &CopyGraphics, false);
 	Config->Read("Interaction/AllCivs", &AllCivs, true);
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
-	Config->Read("Interaction/ShowHelpOnStart", &ShowHelpOnStart, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	if(AGEwindow == 1) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 2); // 2 to showcase this feature.
@@ -31,9 +34,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, 3);
 	Config->Read("DefaultFiles/DatUsed", &DatUsed, 0);
 	Config->Read("DefaultFiles/DatFilename", &DatFileName, wxT(""));
-	Config->Read("DefaultFiles/ApfFilename", &ApfFileName, wxT(""));
 	Config->Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxT(""));
-	Config->Read("DefaultFiles/SaveApfFilename", &SaveApfFileName, wxT(""));
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/WriteLangs", &WriteLangs, false);
 	Config->Read("DefaultFiles/SaveLangs", &SaveLangs, false);
@@ -47,7 +48,6 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	Config->Read("DefaultFiles/SaveLangX1Filename", &SaveLangX1FileName, wxT(""));
 	Config->Read("DefaultFiles/SaveLangX1P1Filename", &SaveLangX1P1FileName, wxT(""));
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
-	Config->Read("DefaultFiles/SaveApf", &SaveApf, false);
 	delete Config;
 
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
@@ -155,11 +155,10 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	ShowButtonsCmd.SetInt(ShowButtons);
 	ProcessEvent(ShowButtonsCmd);
 
-	if(ShowHelpOnStart)
+	if(TimesOpened < 1)
 	{
 		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Help);
 		ProcessEvent(ShowHelpCmd);
-		ShowHelpOnStart = false;
 	}
 
 	NeedDat = true;

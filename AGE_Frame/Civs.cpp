@@ -97,11 +97,11 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
 	Civs_Name[0]->ChangeValue(CivPointer->Name);
 	Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
-	Civs_TechTree_ComboBox->SetSelection(CivPointer->TechTreeID + 1);
+	Civs_TechTree_ComboBox->Update(CivPointer->TechTreeID);
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
-		Civs_TeamBonus_ComboBox->SetSelection(CivPointer->TeamBonusID + 1);
+		Civs_TeamBonus_ComboBox->Update(CivPointer->TeamBonusID);
 		if(GenieVersion >= genie::GV_SWGB)
 		{
 			Civs_Name[1]->ChangeValue(CivPointer->Name2);

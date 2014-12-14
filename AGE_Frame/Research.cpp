@@ -256,15 +256,15 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	for(short loop = 0; loop < ResearchPointer->getRequiredTechsSize(); ++loop)
 	{
 		Research_RequiredTechs[loop]->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechs[loop]));
-		Research_RequiredTechs_ComboBox[loop]->SetSelection(ResearchPointer->RequiredTechs[loop] + 1);
+		Research_RequiredTechs_ComboBox[loop]->Update(ResearchPointer->RequiredTechs[loop]);
 	}
 	Research_RequiredTechCount->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechCount));
 	Research_Resources[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Type));
 	Research_Resources[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Type));
 	Research_Resources[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Type));
-	Research_Resources_ComboBox[0]->SetSelection(ResearchPointer->ResourceCosts[0].Type + 1);
-	Research_Resources_ComboBox[1]->SetSelection(ResearchPointer->ResourceCosts[1].Type + 1);
-	Research_Resources_ComboBox[2]->SetSelection(ResearchPointer->ResourceCosts[2].Type + 1);
+	Research_Resources_ComboBox[0]->Update(ResearchPointer->ResourceCosts[0].Type);
+	Research_Resources_ComboBox[1]->Update(ResearchPointer->ResourceCosts[1].Type);
+	Research_Resources_ComboBox[2]->Update(ResearchPointer->ResourceCosts[2].Type);
 	Research_Amount[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Amount));
 	Research_Amount[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Amount));
 	Research_Amount[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Amount));
@@ -277,7 +277,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
-		Research_Civ_ComboBox->SetSelection(ResearchPointer->Civ + 1);
+		Research_Civ_ComboBox->Update(ResearchPointer->Civ);
 		Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
 		Research_FullTechMode_CheckBox->SetValue((bool)ResearchPointer->FullTechMode);
 		Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
@@ -291,7 +291,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_DLL_LanguageDLLName2->index = (uint16_t)ResearchPointer->LanguageDLLName2;
 	}
 	Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
-	Research_ResearchLocation_ComboBox->SetSelection(ResearchPointer->ResearchLocation + 1);
+	Research_ResearchLocation_ComboBox->Update(ResearchPointer->ResearchLocation);
 	Research_LangDLLName->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLName));
 	Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
 	Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
@@ -300,7 +300,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
 	Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
 	Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
-	Research_TechID_ComboBox->SetSelection(ResearchPointer->TechageID + 1);
+	Research_TechID_ComboBox->Update(ResearchPointer->TechageID);
 	Research_Type->ChangeValue(lexical_cast<string>(ResearchPointer->Type));
 	Research_IconID->ChangeValue(lexical_cast<string>(ResearchPointer->IconID));
 	Research_ButtonID->ChangeValue(lexical_cast<string>((short)ResearchPointer->ButtonID));

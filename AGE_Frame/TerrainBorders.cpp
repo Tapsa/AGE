@@ -110,7 +110,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	Borders_BorderFrameCount->ChangeValue(lexical_cast<string>(BorderPointer->FrameCount));
 	Borders_BorderUnknown8->ChangeValue(lexical_cast<string>(BorderPointer->AngleCount));
 	Borders_BorderTerrain->ChangeValue(lexical_cast<string>(BorderPointer->TerrainID));
-	Borders_BorderTerrain_ComboBox->SetSelection(BorderPointer->TerrainID + 1);
+	Borders_BorderTerrain_ComboBox->Update(BorderPointer->TerrainID);
 	ListTerrainBorderFrames();
 }
 
