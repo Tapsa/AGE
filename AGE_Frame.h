@@ -666,9 +666,11 @@ public:
 
 //	Application Variables
 
+	float EditorVersion;
+	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs;
 	vector<short> SelectedCivs;
-	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, ShowHelpOnStart, NeedDat, SkipOpenDialog;
+	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, NeedDat, SkipOpenDialog;
 	wxFileConfig *Config, *Customs;
 	genie::DatFile *GenieFile;
 	genie::LangFile *Lang, *LangX, *LangXP;
@@ -738,7 +740,7 @@ public:
 
 	bool Added, SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
 	short AGEwindow;
-	int SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion;
+	int TimesOpened, SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion;
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;

@@ -958,12 +958,15 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			TechTrees_Researches_Units.List->Clear();
 			TechTrees_Researches_Researches.List->Clear();
 		}
-		Units_List->Deselect(0);
-		srand(time(NULL));
-		short sels = rand() % 2 + 3;
-		for(short i=0; ++i<sels;)
-		Units_List->SetSelection(rand() % 12 + 4);
-		Units_List->SetFirstItem(0);
+		if(TimesOpened < 3)
+		{
+			Units_List->Deselect(0);
+			srand(time(NULL));
+			short sels = rand() % 2 + 3;
+			for(short i=0; ++i<sels;)
+			Units_List->SetSelection(rand() % (12 - TimesOpened) + 4);
+			Units_List->SetFirstItem(0);
+		}
 
 		wxCommandEvent E;
 		OnCivsSelect(E);
@@ -1095,7 +1098,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_GraphicSet->Append("7 Republic");
 			Units_GraphicSet->Append("8 Confederacy");
 		}
-		Units_GraphicSet->Append("9 Ask me for more!");
+		Units_GraphicSet->Append("9 Ask Tapsa for more!");
 		Units_GraphicSet->SetSelection(0);
 
 		DataOpened = true;
@@ -1893,12 +1896,13 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 void AGE_Frame::OnExit(wxCloseEvent &Event)
 {
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config->Write("/EditorVersion", AGE_AboutDialog::AGE_VER);
+	Config->Write("/TimesOpened", ++TimesOpened);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopy", AutoCopy);
 	Config->Write("Interaction/CopyGraphics", CopyGraphics);
 	Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
-	Config->Write("Interaction/ShowHelpOnStart", ShowHelpOnStart);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
