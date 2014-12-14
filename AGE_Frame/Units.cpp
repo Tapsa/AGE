@@ -1949,7 +1949,7 @@ void AGE_Frame::PasteUnits()
 				}
 			}
 			else
-			wxMessageBox("Ouch! Please select All civs from the bottom!");
+			wxMessageBox("Please select All civs from the bottom!", "Ouch!");
 		}
 	}
 	else if(GenieVersion < genie::GV_AoK) // Paste from AoK+ to AoE
