@@ -221,7 +221,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_SLP->ChangeValue(lexical_cast<string>(TerrainPointer->SLP));
 	Terrains_Unknown3->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown3));
 	Terrains_SoundID->ChangeValue(lexical_cast<string>(TerrainPointer->SoundID));
-	Terrains_SoundID_ComboBox->SetSelection(TerrainPointer->SoundID + 1);
+	Terrains_SoundID_ComboBox->Update(TerrainPointer->SoundID);
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		Terrains_BlendPriority->ChangeValue(lexical_cast<string>(TerrainPointer->BlendPriority));
@@ -251,18 +251,18 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_ElevationGraphics[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->ElevationGraphics[loop]));
 	}
 	Terrains_TerrainReplacementID->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainReplacementID));
-	Terrains_TerrainReplacementID_ComboBox->SetSelection(TerrainPointer->TerrainReplacementID + 1);
+	Terrains_TerrainReplacementID_ComboBox->Update(TerrainPointer->TerrainReplacementID);
 	Terrains_TerrainDimensions[0]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.first));
 	Terrains_TerrainDimensions[1]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.second));
 	for(short loop = 0; loop < TerrainPointer->getTerrainBorderSize(); ++loop)
 	{
 		Terrains_TerrainBorderID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainBorderIDs[loop]));
-		Terrains_TerrainBorderID_ComboBox[loop]->SetSelection(TerrainPointer->TerrainBorderIDs[loop] + 1);
+		Terrains_TerrainBorderID_ComboBox[loop]->Update(TerrainPointer->TerrainBorderIDs[loop]);
 	}
 	for(short loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
 	{
 		Terrains_TerrainUnitID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitID[loop]));
-		Terrains_TerrainUnitID_ComboBox[loop]->SetSelection(TerrainPointer->TerrainUnitID[loop] + 1);
+		Terrains_TerrainUnitID_ComboBox[loop]->Update(TerrainPointer->TerrainUnitID[loop]);
 		Terrains_TerrainUnitDensity[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitDensity[loop]));
 		Terrains_TerrainUnitPriority[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->TerrainUnitPriority[loop]));
 	}

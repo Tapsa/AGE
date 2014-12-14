@@ -190,7 +190,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 		}
 
 		UnitLineUnits_Units->ChangeValue(lexical_cast<string>(*UnitPointer));
-		UnitLineUnits_ComboBox->SetSelection(*UnitPointer + 1);
+		UnitLineUnits_ComboBox->Update(*UnitPointer);
 	}
 	else
 	{
