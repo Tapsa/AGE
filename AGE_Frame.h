@@ -3086,14 +3086,6 @@ public:
 	}
 
 	template <class P, class C>
-	inline void CopyFromCommonList(P &path, vector<short> &places, C &copies)
-	{
-		copies.resize(places.size());
-		for(auto loop = places.size(); loop--> 0;)
-		copies[loop] = path[places[loop]];
-	}
-
-	template <class P, class C>
 	inline void PasteToListNoGV(P &path, short place, C &copies)
 	{
 		if(copies.size() + place > path.size())

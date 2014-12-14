@@ -958,6 +958,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			TechTrees_Researches_Units.List->Clear();
 			TechTrees_Researches_Researches.List->Clear();
 		}
+		Units_List->Deselect(0);
+		srand(time(NULL));
+		short sels = rand() % 2 + 3;
+		for(short i=0; ++i<sels;)
+		Units_List->SetSelection(rand() % 12 + 4);
+		Units_List->SetFirstItem(0);
 
 		wxCommandEvent E;
 		OnCivsSelect(E);
@@ -991,8 +997,16 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("5 - Movement Speed");
 		Effects_AttributesC_ComboBox->Append("6 - Garrison Recovery Rate");
 		Effects_AttributesC_ComboBox->Append("7 - Unknown?");
-		Effects_AttributesC_ComboBox->Append("8 - Armor");
-		Effects_AttributesC_ComboBox->Append("9 - Attack");
+		if(GenieVersion > genie::GV_RoR)
+		{
+			Effects_AttributesC_ComboBox->Append("8 - Armor");
+			Effects_AttributesC_ComboBox->Append("9 - Attack");
+		}
+		else
+		{
+			Effects_AttributesC_ComboBox->Append("8 - Armor (no multiply)");
+			Effects_AttributesC_ComboBox->Append("9 - Attack (no multiply)");
+		}
 		Effects_AttributesC_ComboBox->Append("10 - Attack Reloading Time");
 		Effects_AttributesC_ComboBox->Append("11 - Accuracy Percent");
 		Effects_AttributesC_ComboBox->Append("12 - Range");
@@ -1000,37 +1014,43 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("14 - Resource Carriage");
 		Effects_AttributesC_ComboBox->Append("15 - Default Armor");
 		Effects_AttributesC_ComboBox->Append("16 - New Projectile Unit");
-		Effects_AttributesC_ComboBox->Append("17 - Upgrade Icon (by age)");
-		Effects_AttributesC_ComboBox->Append("18 - Unknown21");
-		Effects_AttributesC_ComboBox->Append("19 - Projectile Intelligent Accuracy");
-		Effects_AttributesC_ComboBox->Append("20 - Minimum Range");
-		if(GenieVersion <= genie::GV_RoR)
-		Effects_AttributesC_ComboBox->Append("21 - Unknown?");
-		else
-		Effects_AttributesC_ComboBox->Append("21 - Population Support");
-		Effects_AttributesC_ComboBox->Append("22 - Blast Radius");
-		Effects_AttributesC_ComboBox->Append("23 - Search Radius");
-		Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
-		if(GenieVersion <= genie::GV_RoR)
-		Effects_AttributesC_ComboBox->Append("101 - Population Support");
-		else
-		Effects_AttributesC_ComboBox->Append("101 - Creation Time");
-		Effects_AttributesC_ComboBox->Append("102 - Number of Garrison Arrows");
-		Effects_AttributesC_ComboBox->Append("103 - Food Cost");
-		if(GenieVersion < genie::GV_SWGB)
+		Effects_AttributesC_ComboBox->Append("17 - Upgrade Icon (by age, no multiply)");
+		Effects_AttributesC_ComboBox->Append("18 - Unknown21 (always sets)");
+		Effects_AttributesC_ComboBox->Append("19 - Enable Intelligent Projectiles");
+		if(GenieVersion > genie::GV_RoR)
 		{
-			Effects_AttributesC_ComboBox->Append("104 - Wood Cost");
-			Effects_AttributesC_ComboBox->Append("105 - Gold Cost");
-			Effects_AttributesC_ComboBox->Append("106 - Stone Cost");
+			Effects_AttributesC_ComboBox->Append("20 - Minimum Range");
+			Effects_AttributesC_ComboBox->Append("21 - Population Support");
+			Effects_AttributesC_ComboBox->Append("22 - Blast Radius");
+			Effects_AttributesC_ComboBox->Append("23 - Search Radius");
+			Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
+			Effects_AttributesC_ComboBox->Append("101 - Creation Time");
+			Effects_AttributesC_ComboBox->Append("102 - Number of Garrison Arrows");
+			Effects_AttributesC_ComboBox->Append("103 - Food Cost");
+			if(GenieVersion < genie::GV_SWGB)
+			{
+				Effects_AttributesC_ComboBox->Append("104 - Wood Cost");
+				Effects_AttributesC_ComboBox->Append("105 - Gold Cost");
+				Effects_AttributesC_ComboBox->Append("106 - Stone Cost");
+			}
+			else
+			{
+				Effects_AttributesC_ComboBox->Append("104 - Carbon Cost");
+				Effects_AttributesC_ComboBox->Append("105 - Nova Cost");
+				Effects_AttributesC_ComboBox->Append("106 - Ore Cost");
+			}
+			Effects_AttributesC_ComboBox->Append("107 - Max Dup. Missiles");
+			Effects_AttributesC_ComboBox->Append("108 - Healing Rate");
 		}
 		else
 		{
-			Effects_AttributesC_ComboBox->Append("104 - Carbon Cost");
-			Effects_AttributesC_ComboBox->Append("105 - Nova Cost");
-			Effects_AttributesC_ComboBox->Append("106 - Ore Cost");
+			Effects_AttributesC_ComboBox->Append("20 - Unused");
+			Effects_AttributesC_ComboBox->Append("21 - Unused");
+			Effects_AttributesC_ComboBox->Append("22 - Unused");
+			Effects_AttributesC_ComboBox->Append("23 - Unused");
+			Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
+			Effects_AttributesC_ComboBox->Append("101 - Population Support (set only)");
 		}
-		Effects_AttributesC_ComboBox->Append("107 - Max Dup. Missiles");
-		Effects_AttributesC_ComboBox->Append("108 - Healing Rate");	// Selection 109
 		Effects_AttributesC_ComboBox->SetSelection(0);
 
 		Units_GraphicSet->Clear();
