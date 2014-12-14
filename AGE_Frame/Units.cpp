@@ -3859,7 +3859,7 @@ void AGE_Frame::CreateUnitControls()
 //	Type 50+
 
 	Units_DefaultArmor_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Default Armor *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown21_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Armor Modifier *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown21_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 21 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MaxRange_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Range", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_BlastRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ReloadTime1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Reload Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4375,7 +4375,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DefaultArmor = new TextCtrl_Short(Units_Scroller);
 	Units_DefaultArmor->SetToolTip("This armor is used for all attack types that do not have corresponding armor type\nCan be negative only in The Conquerors and later games");
 	Units_Unknown21 = new TextCtrl_Short(Units_Scroller);
-	Units_Unknown21->SetToolTip("-1 adds damage received\n1+ seems same\n100 causes a crash when projectile lands on this unit");
+	Units_Unknown21->SetToolTip("Happens when projectile lands on this unit?");
 
 	Units_Unknown26 = new TextCtrl_Long(Units_Scroller);
 	Units_Unknown27 = new TextCtrl_Long(Units_Scroller);
