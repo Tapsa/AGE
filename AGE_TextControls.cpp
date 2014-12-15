@@ -24,7 +24,7 @@ int TextCtrl_Byte::SaveEdits()
 				if(batchMode > 0)
 				{
 					BatchSave(container, batchMode, casted);
-					ChangeValue(lexical_cast<string>(*container[0]));
+					ChangeValue(lexical_cast<string>((short)*container[0]));
 					if(LinkedBox) LinkedBox->Update(casted);
 					return 0;
 				}
@@ -79,7 +79,7 @@ int TextCtrl_UByte::SaveEdits()
 				if(batchMode > 0)
 				{
 					BatchSave(container, batchMode, casted);
-					ChangeValue(lexical_cast<string>(*container[0]));
+					ChangeValue(lexical_cast<string>((short)*container[0]));
 					if(LinkedBox) LinkedBox->Update(casted);
 					return 0;
 				}
@@ -330,4 +330,39 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 		ChangeValue(*container[0]);
 	}
 	return 1;
+}
+
+void TextCtrl_Byte::Update(int8_t value)
+{
+	ChangeValue(lexical_cast<string>((short)*container[0]));
+}
+
+void TextCtrl_UByte::Update(uint8_t value)
+{
+	ChangeValue(lexical_cast<string>((short)*container[0]));
+}
+
+void TextCtrl_Float::Update(float value)
+{
+	ChangeValue(lexical_cast<string>(*container[0]));
+}
+
+void TextCtrl_Long::Update(int32_t value)
+{
+	ChangeValue(lexical_cast<string>(*container[0]));
+}
+
+void TextCtrl_Short::Update(int16_t value)
+{
+	ChangeValue(lexical_cast<string>(*container[0]));
+}
+
+void TextCtrl_UShort::Update(uint16_t value)
+{
+	ChangeValue(lexical_cast<string>(*container[0]));
+}
+
+void TextCtrl_String::Update()
+{
+	ChangeValue(*container[0]);
 }
