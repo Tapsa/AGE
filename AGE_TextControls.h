@@ -74,6 +74,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
+	void Update(int8_t value){ChangeValue(lexical_cast<string>((short)value));}
 	void resize(int size){container.resize(size);}
 
 	vector<int8_t*> container;
@@ -92,6 +93,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
+	void Update(uint8_t value){ChangeValue(lexical_cast<string>((short)value));}
 	void resize(int size){container.resize(size);}
 
 	vector<uint8_t*> container;
@@ -110,6 +112,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
+	void Update(float value){ChangeValue(lexical_cast<string>(value));}
 	void resize(int size){container.resize(size);}
 
 	vector<float*> container;
@@ -128,6 +131,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
+	void Update(int32_t value){ChangeValue(lexical_cast<string>(value));}
 	void resize(int size){container.resize(size);}
 
 	vector<int32_t*> container;
@@ -146,6 +150,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
+	void Update(int16_t value){ChangeValue(lexical_cast<string>(value));}
 	void resize(int size){container.resize(size);}
 
 	vector<int16_t*> container;
@@ -164,6 +169,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
+	void Update(uint16_t value){ChangeValue(lexical_cast<string>(value));}
 	void resize(int size){container.resize(size);}
 
 	vector<uint16_t*> container;

@@ -197,19 +197,11 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 	}
 
 	TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]));
-	TerRestrict_Accessible_CheckBox->SetValue((bool)TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
+	TerRestrict_Accessible_CheckBox->Update(TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
 
 	if(GenieVersion <= genie::GV_RoR) return; // Above AoE and RoR
 	TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable));
-	switch(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable)
-	{
-		case 0:
-			TerRestrict_Unknown1_CheckBox->SetValue(true);
-			break;
-		default:
-			TerRestrict_Unknown1_CheckBox->SetValue(false);
-			break;
-	}
+	TerRestrict_Unknown1_CheckBox->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable);
 	TerRestrict_Graphics[0]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first));
 	TerRestrict_Graphics[1]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second));
 	TerRestrict_Graphics_ComboBox[0]->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first);
