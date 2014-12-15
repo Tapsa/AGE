@@ -15,7 +15,7 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTerrainNumbers()
 {
-	Terrains_UsedCount->ChangeValue(lexical_cast<string>(GenieFile->NumberOfTerrainsUsed));
+	Terrains_UsedCount->Update(GenieFile->NumberOfTerrainsUsed);
 	Terrains_UsedCount->resize(2);
 	Terrains_UsedCount->container[0] = &GenieFile->NumberOfTerrainsUsed;
 	Terrains_UsedCount->container[1] = &GenieFile->TerrainBlock.NumberOfTerrainsUsed2;
@@ -214,59 +214,59 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_NumberOfTerrainUnitsUsed->container[sel] = &TerrainPointer->NumberOfTerrainUnitsUsed;
 	}
 
-	Terrains_Unknown1->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown1));
-	Terrains_Unknown2->ChangeValue(lexical_cast<string>(TerrainPointer->Enabled));
+	Terrains_Unknown1->Update(TerrainPointer->Unknown1);
+	Terrains_Unknown2->Update(TerrainPointer->Enabled);
 	Terrains_Name->ChangeValue(TerrainPointer->Name);
 	Terrains_Name2->ChangeValue(TerrainPointer->Name2);
-	Terrains_SLP->ChangeValue(lexical_cast<string>(TerrainPointer->SLP));
-	Terrains_Unknown3->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown3));
-	Terrains_SoundID->ChangeValue(lexical_cast<string>(TerrainPointer->SoundID));
+	Terrains_SLP->Update(TerrainPointer->SLP);
+	Terrains_Unknown3->Update(TerrainPointer->Unknown3);
+	Terrains_SoundID->Update(TerrainPointer->SoundID);
 	Terrains_SoundID_ComboBox->Update(TerrainPointer->SoundID);
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		Terrains_BlendPriority->ChangeValue(lexical_cast<string>(TerrainPointer->BlendPriority));
-		Terrains_BlendType->ChangeValue(lexical_cast<string>(TerrainPointer->BlendType));
+		Terrains_BlendPriority->Update(TerrainPointer->BlendPriority);
+		Terrains_BlendType->Update(TerrainPointer->BlendType);
 		if(GenieVersion >= genie::GV_SWGB)
 		for(short loop = 0; loop < TerrainPointer->SWGBUNKNOWN1_SIZE; ++loop)
 		{
-			Terrains_SUnknown1[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->SWGBUnknown1[loop]));
+			Terrains_SUnknown1[loop]->Update(TerrainPointer->SWGBUnknown1[loop]);
 		}
 	}
 	for(short loop = 0; loop < 3; ++loop)
 	{
-		Terrains_Colors[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Colors[loop]));
+		Terrains_Colors[loop]->Update(TerrainPointer->Colors[loop]);
 	}
 	for(short loop = 0; loop < Terrains_Unknown5.size(); ++loop)
-	Terrains_Unknown5[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Unknown5[loop]));
-	Terrains_Unknown6->ChangeValue(lexical_cast<string>(TerrainPointer->Unknown6));
+	Terrains_Unknown5[loop]->Update(TerrainPointer->Unknown5[loop]);
+	Terrains_Unknown6->Update(TerrainPointer->Unknown6);
 	for(short loop = 0; loop < TerrainPointer->UNKNOWN7_SIZE; ++loop)
 	{
-		Terrains_Unknown7[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->Unknown7[loop]));
+		Terrains_Unknown7[loop]->Update(TerrainPointer->Unknown7[loop]);
 	}
-	Terrains_FrameCount->ChangeValue(lexical_cast<string>(TerrainPointer->FrameCount));
-	Terrains_AngleCount->ChangeValue(lexical_cast<string>(TerrainPointer->AngleCount));
-	Terrains_TerrainID->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainID));
+	Terrains_FrameCount->Update(TerrainPointer->FrameCount);
+	Terrains_AngleCount->Update(TerrainPointer->AngleCount);
+	Terrains_TerrainID->Update(TerrainPointer->TerrainID);
 	for(short loop = 0; loop < TerrainPointer->ELEVATION_GRAPHICS_SIZE; ++loop)
 	{
-		Terrains_ElevationGraphics[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->ElevationGraphics[loop]));
+		Terrains_ElevationGraphics[loop]->Update(TerrainPointer->ElevationGraphics[loop]);
 	}
-	Terrains_TerrainReplacementID->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainReplacementID));
+	Terrains_TerrainReplacementID->Update(TerrainPointer->TerrainReplacementID);
 	Terrains_TerrainReplacementID_ComboBox->Update(TerrainPointer->TerrainReplacementID);
-	Terrains_TerrainDimensions[0]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.first));
-	Terrains_TerrainDimensions[1]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainDimensions.second));
+	Terrains_TerrainDimensions[0]->Update(TerrainPointer->TerrainDimensions.first);
+	Terrains_TerrainDimensions[1]->Update(TerrainPointer->TerrainDimensions.second);
 	for(short loop = 0; loop < TerrainPointer->getTerrainBorderSize(); ++loop)
 	{
-		Terrains_TerrainBorderID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainBorderIDs[loop]));
+		Terrains_TerrainBorderID[loop]->Update(TerrainPointer->TerrainBorderIDs[loop]);
 		Terrains_TerrainBorderID_ComboBox[loop]->Update(TerrainPointer->TerrainBorderIDs[loop]);
 	}
 	for(short loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
 	{
-		Terrains_TerrainUnitID[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitID[loop]));
+		Terrains_TerrainUnitID[loop]->Update(TerrainPointer->TerrainUnitID[loop]);
 		Terrains_TerrainUnitID_ComboBox[loop]->Update(TerrainPointer->TerrainUnitID[loop]);
-		Terrains_TerrainUnitDensity[loop]->ChangeValue(lexical_cast<string>(TerrainPointer->TerrainUnitDensity[loop]));
-		Terrains_TerrainUnitPriority[loop]->ChangeValue(lexical_cast<string>((short)TerrainPointer->TerrainUnitPriority[loop]));
+		Terrains_TerrainUnitDensity[loop]->Update(TerrainPointer->TerrainUnitDensity[loop]);
+		Terrains_TerrainUnitPriority[loop]->Update(TerrainPointer->TerrainUnitPriority[loop]);
 	}
-	Terrains_NumberOfTerrainUnitsUsed->ChangeValue(lexical_cast<string>(TerrainPointer->NumberOfTerrainUnitsUsed));
+	Terrains_NumberOfTerrainUnitsUsed->Update(TerrainPointer->NumberOfTerrainUnitsUsed);
 }
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded.

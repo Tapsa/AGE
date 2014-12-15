@@ -67,7 +67,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 		UnitLines_Name->container[loop] = &LinePointer->Name;
 	}
 
-	UnitLines_ID->ChangeValue(lexical_cast<string>(LinePointer->ID));
+	UnitLines_ID->Update(LinePointer->ID);
 	UnitLines_Name->ChangeValue(LinePointer->Name);
 	ListUnitLineUnits();
 }
@@ -189,7 +189,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 			UnitLineUnits_Units->container[loop] = UnitPointer;
 		}
 
-		UnitLineUnits_Units->ChangeValue(lexical_cast<string>(*UnitPointer));
+		UnitLineUnits_Units->Update(*UnitPointer);
 		UnitLineUnits_ComboBox->Update(*UnitPointer);
 	}
 	else

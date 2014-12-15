@@ -94,22 +94,22 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 		Civs_GraphicSet->container[sel] = &CivPointer->IconSet;
 	}
 
-	Civs_One->ChangeValue(lexical_cast<string>((short)CivPointer->One));
+	Civs_One->Update(CivPointer->One);
 	Civs_Name[0]->ChangeValue(CivPointer->Name);
-	Civs_TechTree->ChangeValue(lexical_cast<string>(CivPointer->TechTreeID));
+	Civs_TechTree->Update(CivPointer->TechTreeID);
 	Civs_TechTree_ComboBox->Update(CivPointer->TechTreeID);
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		Civs_TeamBonus->ChangeValue(lexical_cast<string>(CivPointer->TeamBonusID));
+		Civs_TeamBonus->Update(CivPointer->TeamBonusID);
 		Civs_TeamBonus_ComboBox->Update(CivPointer->TeamBonusID);
 		if(GenieVersion >= genie::GV_SWGB)
 		{
 			Civs_Name[1]->ChangeValue(CivPointer->Name2);
 			for(short loop = 0; loop < 4; ++loop)
-			Civs_SUnknown1[loop]->ChangeValue(lexical_cast<string>(CivPointer->UniqueUnitsResearches[loop]));
+			Civs_SUnknown1[loop]->Update(CivPointer->UniqueUnitsResearches[loop]);
 		}
 	}
-	Civs_GraphicSet->ChangeValue(lexical_cast<string>((short)CivPointer->IconSet));
+	Civs_GraphicSet->Update(CivPointer->IconSet);
 	ListResources();
 }
 
@@ -692,7 +692,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 		Civs_ResourceValue->container[loop] = CivResourcePointer;
 	}
 
-	Civs_ResourceValue->ChangeValue(lexical_cast<string>(*CivResourcePointer));
+	Civs_ResourceValue->Update(*CivResourcePointer);
 }
 
 void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)

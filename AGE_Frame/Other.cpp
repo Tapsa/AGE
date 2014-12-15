@@ -1115,11 +1115,6 @@ void AGE_Frame::OnGameVersionChange()
 {
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
-		//General_CalcBoxes[0]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[4]));
-		//General_CalcBoxes[1]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[5]));
-		//General_CalcBoxes[2]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[6]));
-		//General_CalcBoxes[3]->ChangeValue(lexical_cast<string>(GenieFile->FileVersion[7]));
-
 		// Some general tab handling
 		for(auto loop = GenieFile->TerrainBlock.getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
 		General_AfterBorders[loop]->Show(false);

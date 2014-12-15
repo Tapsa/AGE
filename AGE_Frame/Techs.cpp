@@ -351,21 +351,21 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 			Effects_D->container[loop] = &EffectPointer->D;
 		}
 
-		Effects_Type->ChangeValue(lexical_cast<string>((short)(EffectPointer->Type)));
+		Effects_Type->Update(EffectPointer->Type);
 		Effects_Type_ComboBox->Update(EffectPointer->Type);
-		Effects_A->ChangeValue(lexical_cast<string>(EffectPointer->A));
+		Effects_A->Update(EffectPointer->A);
 		Effects_UnitsA_ComboBox->Update(EffectPointer->A);
 		Effects_ResourcesA_ComboBox->Update(EffectPointer->A);
 		Effects_ResearchsA_ComboBox->Update(EffectPointer->A);
-		Effects_B->ChangeValue(lexical_cast<string>(EffectPointer->B));
+		Effects_B->Update(EffectPointer->B);
 		Effects_ModeB_CheckBox->Update(EffectPointer->B);
 		Units_Class_ComboBox[2]->Update(EffectPointer->B);
 		Effects_UnitsB_ComboBox->Update(EffectPointer->B);
 		Effects_ResourcesB_ComboBox->Update(EffectPointer->B);
-		Effects_C->ChangeValue(lexical_cast<string>(EffectPointer->C));
+		Effects_C->Update(EffectPointer->C);
 		Effects_ModeC_CheckBox->Update(EffectPointer->C);
 		Effects_AttributesC_ComboBox->Update(EffectPointer->C);
-		Effects_D->ChangeValue(lexical_cast<string>(EffectPointer->D));
+		Effects_D->Update(EffectPointer->D);
 		Effects_ResearchsD_ComboBox->Update(EffectPointer->D);
 
 		bool NeverHide = Effects_NeverHide->GetValue();
@@ -405,16 +405,15 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
 					Attacks_Class_ComboBox[2]->Show(true);
-					Attacks_Class_ComboBox[2]->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
-						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Attacks_Class_ComboBox[2]->SetSelection(-(short)EffectPointer->D / 256 + 1);
+						Effects_F->Update(-EffectPointer->D / 256); // Correct class
+						Attacks_Class_ComboBox[2]->Update(-EffectPointer->D / 256 + 1);
 					}
 					else
 					{
-						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Attacks_Class_ComboBox[2]->SetSelection((short)EffectPointer->D / 256 + 1);
+						Effects_F->Update(EffectPointer->D / 256); // Correct class
+						Attacks_Class_ComboBox[2]->Update(EffectPointer->D / 256 + 1);
 					}
 					Effects_E_Text->SetLabel("Value [Set] ");
 					Effects_F_Text->SetLabel("Class ");
@@ -580,16 +579,15 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
 					Attacks_Class_ComboBox[2]->Show(true);
-					Attacks_Class_ComboBox[2]->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
-						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Attacks_Class_ComboBox[2]->SetSelection(-(short)EffectPointer->D / 256 + 1);
+						Effects_F->Update(-EffectPointer->D / 256); // Correct class
+						Attacks_Class_ComboBox[2]->Update(-EffectPointer->D / 256 + 1);
 					}
 					else
 					{
-						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Attacks_Class_ComboBox[2]->SetSelection((short)EffectPointer->D / 256 + 1);
+						Effects_F->Update(EffectPointer->D / 256); // Correct class
+						Attacks_Class_ComboBox[2]->Update(EffectPointer->D / 256 + 1);
 					}
 					Effects_E_Text->SetLabel("Value [+/-] ");
 					Effects_F_Text->SetLabel("Class ");
@@ -643,16 +641,15 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
 					Attacks_Class_ComboBox[2]->Show(true);
-					Attacks_Class_ComboBox[2]->SetSelection(0);
 					if(EffectPointer->D < 0)
 					{
-						Effects_F->ChangeValue(lexical_cast<string>(-(short)EffectPointer->D / 256)); // Correct class
-						Attacks_Class_ComboBox[2]->SetSelection(-(short)EffectPointer->D / 256 + 1);
+						Effects_F->Update(-EffectPointer->D / 256); // Correct class
+						Attacks_Class_ComboBox[2]->Update(-EffectPointer->D / 256 + 1);
 					}
 					else
 					{
-						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
-						Attacks_Class_ComboBox[2]->SetSelection((short)EffectPointer->D / 256 + 1);
+						Effects_F->Update(EffectPointer->D / 256); // Correct class
+						Attacks_Class_ComboBox[2]->Update(EffectPointer->D / 256 + 1);
 					}
 					Effects_E_Text->SetLabel("Value [%] ");
 					Effects_F_Text->SetLabel("Class ");
@@ -1396,12 +1393,12 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
 			short Class = lexical_cast<short>(Effects_F->GetValue());
 			if(Amount > -1 && Amount < 256 && Class > -1 && Class < 256) // positive amount 0 to 255
 			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
+				Effects_D->Update(Amount + Class * 256);
 				Effects_D->SaveEdits();
 			}
 			else if(Amount > -256 && Amount < 0 && Class > -1 && Class < 256) // negative amount -255 to -1
 			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount - Class * 256));
+				Effects_D->Update(Amount - Class * 256);
 				Effects_D->SaveEdits();
 			}
 		}
@@ -1436,11 +1433,11 @@ void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &Event)
 			float Amount = lexical_cast<float>(Effects_E->GetValue());
 			if(Amount > -1 && Amount < 256) // positive amount 0 to 255
 			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
+				Effects_D->Update(Amount + Class * 256);
 			}
 			else if(Amount > -256 && Amount < 0) // negative amount -255 to -1
 			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount - Class * 256));
+				Effects_D->Update(Amount - Class * 256);
 			}
 		}
 		else

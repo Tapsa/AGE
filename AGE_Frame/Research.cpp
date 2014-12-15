@@ -255,30 +255,30 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 
 	for(short loop = 0; loop < ResearchPointer->getRequiredTechsSize(); ++loop)
 	{
-		Research_RequiredTechs[loop]->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechs[loop]));
+		Research_RequiredTechs[loop]->Update(ResearchPointer->RequiredTechs[loop]);
 		Research_RequiredTechs_ComboBox[loop]->Update(ResearchPointer->RequiredTechs[loop]);
 	}
-	Research_RequiredTechCount->ChangeValue(lexical_cast<string>(ResearchPointer->RequiredTechCount));
-	Research_Resources[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Type));
-	Research_Resources[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Type));
-	Research_Resources[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Type));
+	Research_RequiredTechCount->Update(ResearchPointer->RequiredTechCount);
+	Research_Resources[0]->Update(ResearchPointer->ResourceCosts[0].Type);
+	Research_Resources[1]->Update(ResearchPointer->ResourceCosts[1].Type);
+	Research_Resources[2]->Update(ResearchPointer->ResourceCosts[2].Type);
 	Research_Resources_ComboBox[0]->Update(ResearchPointer->ResourceCosts[0].Type);
 	Research_Resources_ComboBox[1]->Update(ResearchPointer->ResourceCosts[1].Type);
 	Research_Resources_ComboBox[2]->Update(ResearchPointer->ResourceCosts[2].Type);
-	Research_Amount[0]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[0].Amount));
-	Research_Amount[1]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[1].Amount));
-	Research_Amount[2]->ChangeValue(lexical_cast<string>(ResearchPointer->ResourceCosts[2].Amount));
-	Research_Used[0]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[0].Enabled));
-	Research_Used_CheckBox[0]->SetValue((bool)ResearchPointer->ResourceCosts[0].Enabled);
-	Research_Used[1]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[1].Enabled));
-	Research_Used_CheckBox[1]->SetValue((bool)ResearchPointer->ResourceCosts[1].Enabled);
-	Research_Used[2]->ChangeValue(lexical_cast<string>((short)ResearchPointer->ResourceCosts[2].Enabled));
-	Research_Used_CheckBox[2]->SetValue((bool)ResearchPointer->ResourceCosts[2].Enabled);
+	Research_Amount[0]->Update(ResearchPointer->ResourceCosts[0].Amount);
+	Research_Amount[1]->Update(ResearchPointer->ResourceCosts[1].Amount);
+	Research_Amount[2]->Update(ResearchPointer->ResourceCosts[2].Amount);
+	Research_Used[0]->Update(ResearchPointer->ResourceCosts[0].Enabled);
+	Research_Used_CheckBox[0]->Update(ResearchPointer->ResourceCosts[0].Enabled);
+	Research_Used[1]->Update(ResearchPointer->ResourceCosts[1].Enabled);
+	Research_Used_CheckBox[1]->Update(ResearchPointer->ResourceCosts[1].Enabled);
+	Research_Used[2]->Update(ResearchPointer->ResourceCosts[2].Enabled);
+	Research_Used_CheckBox[2]->Update(ResearchPointer->ResourceCosts[2].Enabled);
 	if(GenieVersion >= genie::GV_AoKB)
 	{
-		Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
+		Research_Civ->Update(ResearchPointer->Civ);
 		Research_Civ_ComboBox->Update(ResearchPointer->Civ);
-		Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
+		Research_FullTechMode->Update(ResearchPointer->FullTechMode);
 		Research_FullTechMode_CheckBox->Update(ResearchPointer->FullTechMode);
 		Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
 		Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLName2 - 140000;
@@ -290,27 +290,27 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_DLL_LanguageDLLHelp->index = (uint16_t)ResearchPointer->LanguageDLLHelp;
 		Research_DLL_LanguageDLLName2->index = (uint16_t)ResearchPointer->LanguageDLLName2;
 	}
-	Research_ResearchLocation->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchLocation));
+	Research_ResearchLocation->Update(ResearchPointer->ResearchLocation);
 	Research_ResearchLocation_ComboBox->Update(ResearchPointer->ResearchLocation);
-	Research_LangDLLName->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLName));
+	Research_LangDLLName->Update(ResearchPointer->LanguageDLLName);
 	Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
 	Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
-	Research_LangDLLDescription->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLDescription));
+	Research_LangDLLDescription->Update(ResearchPointer->LanguageDLLDescription);
 	Research_DLL_LangDLLDescription->index = ResearchPointer->LanguageDLLDescription;
 	Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
-	Research_ResearchTime->ChangeValue(lexical_cast<string>(ResearchPointer->ResearchTime));
-	Research_TechID->ChangeValue(lexical_cast<string>(ResearchPointer->TechageID));
+	Research_ResearchTime->Update(ResearchPointer->ResearchTime);
+	Research_TechID->Update(ResearchPointer->TechageID);
 	Research_TechID_ComboBox->Update(ResearchPointer->TechageID);
-	Research_Type->ChangeValue(lexical_cast<string>(ResearchPointer->Type));
-	Research_IconID->ChangeValue(lexical_cast<string>(ResearchPointer->IconID));
-	Research_ButtonID->ChangeValue(lexical_cast<string>((short)ResearchPointer->ButtonID));
-	Research_LanguageDLLHelp->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLHelp));
+	Research_Type->Update(ResearchPointer->Type);
+	Research_IconID->Update(ResearchPointer->IconID);
+	Research_ButtonID->Update(ResearchPointer->ButtonID);
+	Research_LanguageDLLHelp->Update(ResearchPointer->LanguageDLLHelp);
 	Research_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Research_DLL_LanguageDLLHelp->index, 64));
 	Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
-	Research_LanguageDLLName2->ChangeValue(lexical_cast<string>(ResearchPointer->LanguageDLLName2));
+	Research_LanguageDLLName2->Update(ResearchPointer->LanguageDLLName2);
 	Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
 	Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
-	Research_Unknown1->ChangeValue(lexical_cast<string>(ResearchPointer->Unknown1));
+	Research_Unknown1->Update(ResearchPointer->Unknown1);
 	Research_Name[0]->ChangeValue(ResearchPointer->Name);
 }
 

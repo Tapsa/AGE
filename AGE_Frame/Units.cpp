@@ -896,7 +896,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_CostType_ComboBox[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Type);
 				Units_CostAmount[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Amount);
 				Units_CostUsed[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Enabled);
-				Units_CostUsed_CheckBox[loop]->SetValue((bool)UnitPointer->Creatable.ResourceCosts[loop].Enabled);
+				Units_CostUsed_CheckBox[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Enabled);
 			}
 			Units_TrainTime->Update(UnitPointer->Creatable.TrainTime);
 			Units_TrainLocationID->Update(UnitPointer->Creatable.TrainLocationID);
