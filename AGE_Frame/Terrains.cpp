@@ -15,10 +15,10 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 
 void AGE_Frame::ListTerrainNumbers()
 {
-	Terrains_UsedCount->Update(GenieFile->NumberOfTerrainsUsed);
 	Terrains_UsedCount->resize(2);
 	Terrains_UsedCount->container[0] = &GenieFile->NumberOfTerrainsUsed;
 	Terrains_UsedCount->container[1] = &GenieFile->TerrainBlock.NumberOfTerrainsUsed2;
+	Terrains_UsedCount->Update(GenieFile->NumberOfTerrainsUsed);
 }
 
 void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)

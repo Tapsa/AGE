@@ -70,60 +70,60 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 {
 	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
 	{
-		General_TerrainHeader[loop]->Update(GenieFile->TerrainBlock.GraphicsRendering[loop]);
 		General_TerrainHeader[loop]->resize(1);
 		General_TerrainHeader[loop]->container[0] = &GenieFile->TerrainBlock.GraphicsRendering[loop];
+		General_TerrainHeader[loop]->Update(GenieFile->TerrainBlock.GraphicsRendering[loop]);
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.ZeroSpace.size(); ++loop)
 	{
-		General_AfterBorders[loop]->Update(GenieFile->TerrainBlock.ZeroSpace[loop]);
 		General_AfterBorders[loop]->resize(1);
 		General_AfterBorders[loop]->container[0] = &GenieFile->TerrainBlock.ZeroSpace[loop];
+		General_AfterBorders[loop]->Update(GenieFile->TerrainBlock.ZeroSpace[loop]);
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Rendering.size(); ++loop)
 	{
-		General_TerrainRendering[loop]->Update(GenieFile->TerrainBlock.Rendering[loop]);
 		General_TerrainRendering[loop]->resize(1);
 		General_TerrainRendering[loop]->container[0] = &GenieFile->TerrainBlock.Rendering[loop];
+		General_TerrainRendering[loop]->Update(GenieFile->TerrainBlock.Rendering[loop]);
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Something.size(); ++loop)
 	{
-		General_Something[loop]->Update(GenieFile->TerrainBlock.Something[loop]);
 		General_Something[loop]->resize(1);
 		General_Something[loop]->container[0] = &GenieFile->TerrainBlock.Something[loop];
+		General_Something[loop]->Update(GenieFile->TerrainBlock.Something[loop]);
 	}
-	Unknown_UnknownPointer->Update(GenieFile->RandomMaps.RandomMapPointer);
 	Unknown_UnknownPointer->resize(1);
 	Unknown_UnknownPointer->container[0] = &GenieFile->RandomMaps.RandomMapPointer;
+	Unknown_UnknownPointer->Update(GenieFile->RandomMaps.RandomMapPointer);
 	if(GenieVersion <= genie::GV_RoR) return;
 	for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
 	{
-		General_TTUnknown[loop]->Update(GenieFile->UnknownPreTechTree[loop]);
 		General_TTUnknown[loop]->resize(1);
 		General_TTUnknown[loop]->container[0] = &GenieFile->UnknownPreTechTree[loop];
+		General_TTUnknown[loop]->Update(GenieFile->UnknownPreTechTree[loop]);
 	}
-	General_TTUnknown[7]->Update(GenieFile->TechTree.Unknown2);
 	General_TTUnknown[7]->resize(1);
 	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
+	General_TTUnknown[7]->Update(GenieFile->TechTree.Unknown2);
 	if(GenieVersion <= genie::GV_TC) return;
-	General_SUnknown2->Update(GenieFile->SUnknown2);
 	General_SUnknown2->resize(1);
 	General_SUnknown2->container[0] = &GenieFile->SUnknown2;
-	General_SUnknown3->Update(GenieFile->SUnknown3);
+	General_SUnknown2->Update(GenieFile->SUnknown2);
 	General_SUnknown3->resize(1);
 	General_SUnknown3->container[0] = &GenieFile->SUnknown3;
-	General_SUnknown4->Update(GenieFile->SUnknown4);
+	General_SUnknown3->Update(GenieFile->SUnknown3);
 	General_SUnknown4->resize(1);
 	General_SUnknown4->container[0] = &GenieFile->SUnknown4;
-	General_SUnknown5->Update(GenieFile->SUnknown5);
+	General_SUnknown4->Update(GenieFile->SUnknown4);
 	General_SUnknown5->resize(1);
 	General_SUnknown5->container[0] = &GenieFile->SUnknown5;
-	General_SUnknown7->Update(GenieFile->SUnknown7);
+	General_SUnknown5->Update(GenieFile->SUnknown5);
 	General_SUnknown7->resize(1);
 	General_SUnknown7->container[0] = &GenieFile->SUnknown7;
-	General_SUnknown8->Update(GenieFile->SUnknown8);
+	General_SUnknown7->Update(GenieFile->SUnknown7);
 	General_SUnknown8->resize(1);
 	General_SUnknown8->container[0] = &GenieFile->SUnknown8;
+	General_SUnknown8->Update(GenieFile->SUnknown8);
 }
 
 void AGE_Frame::CreateGeneralControls()
