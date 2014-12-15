@@ -94,7 +94,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 
 	Borders_BorderUnknown1->ChangeValue(lexical_cast<string>(BorderPointer->Unknown1));
 	Borders_BorderEnabled->ChangeValue(lexical_cast<string>(BorderPointer->Enabled));
-	Borders_BorderEnabled_CheckBox->SetValue((bool)BorderPointer->Enabled);
+	Borders_BorderEnabled_CheckBox->Update(BorderPointer->Enabled);
 	Borders_BorderName[0]->ChangeValue(BorderPointer->Name);
 	Borders_BorderName[1]->ChangeValue(BorderPointer->Name2);
 	Borders_BorderRessourceID->ChangeValue(lexical_cast<string>(BorderPointer->SLP));

@@ -358,12 +358,12 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		Effects_ResourcesA_ComboBox->Update(EffectPointer->A);
 		Effects_ResearchsA_ComboBox->Update(EffectPointer->A);
 		Effects_B->ChangeValue(lexical_cast<string>(EffectPointer->B));
-		Effects_ModeB_CheckBox->SetValue((bool)EffectPointer->B);
+		Effects_ModeB_CheckBox->Update(EffectPointer->B);
 		Units_Class_ComboBox[2]->Update(EffectPointer->B);
 		Effects_UnitsB_ComboBox->Update(EffectPointer->B);
 		Effects_ResourcesB_ComboBox->Update(EffectPointer->B);
 		Effects_C->ChangeValue(lexical_cast<string>(EffectPointer->C));
-		Effects_ModeC_CheckBox->SetValue((bool)EffectPointer->C);
+		Effects_ModeC_CheckBox->Update(EffectPointer->C);
 		Effects_AttributesC_ComboBox->Update(EffectPointer->C);
 		Effects_D->ChangeValue(lexical_cast<string>(EffectPointer->D));
 		Effects_ResearchsD_ComboBox->Update(EffectPointer->D);
