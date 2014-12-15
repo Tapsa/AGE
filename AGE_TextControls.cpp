@@ -23,18 +23,28 @@ int TextCtrl_Byte::SaveEdits()
 			{
 				if(batchMode > 0)
 				{
-					BatchSave(container, batchMode, casted);
-					ChangeValue(lexical_cast<string>((short)*container[0]));
-					if(LinkedBox) LinkedBox->Update(casted);
+					for(auto &pointer: container)
+					{
+						switch(batchMode)
+						{
+							case 1: *(int8_t*)pointer += casted; break;
+							case 2: *(int8_t*)pointer -= casted; break;
+							case 3: *(int8_t*)pointer *= casted; break;
+							case 4: *(int8_t*)pointer /= casted; break;
+							case 5: *(int8_t*)pointer %= casted; break;
+						}
+					}
+					ChangeValue(lexical_cast<string>((short)*(int8_t*)container[0]));
+					if(LinkedBox) LinkedBox->Update();
 					return 0;
 				}
-				if(*container[0] != casted)
+				if(*(int8_t*)container[0] != casted)
 				{
 					for(auto &pointer: container)
 					{
-						*pointer = casted;
+						*(int8_t*)pointer = casted;
 					}
-					if(LinkedBox) LinkedBox->Update(casted);
+					if(LinkedBox) LinkedBox->Update();
 					return 0;
 				}
 			}
@@ -54,7 +64,7 @@ int TextCtrl_Byte::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>((short)*container[0]));
+		ChangeValue(lexical_cast<string>((short)*(int8_t*)container[0]));
 	}
 	return 1;
 }
@@ -78,18 +88,28 @@ int TextCtrl_UByte::SaveEdits()
 			{
 				if(batchMode > 0)
 				{
-					BatchSave(container, batchMode, casted);
-					ChangeValue(lexical_cast<string>((short)*container[0]));
-					if(LinkedBox) LinkedBox->Update(casted);
+					for(auto &pointer: container)
+					{
+						switch(batchMode)
+						{
+							case 1: *(uint8_t*)pointer += casted; break;
+							case 2: *(uint8_t*)pointer -= casted; break;
+							case 3: *(uint8_t*)pointer *= casted; break;
+							case 4: *(uint8_t*)pointer /= casted; break;
+							case 5: *(uint8_t*)pointer %= casted; break;
+						}
+					}
+					ChangeValue(lexical_cast<string>((short)*(uint8_t*)container[0]));
+					if(LinkedBox) LinkedBox->Update();
 					return 0;
 				}
-				if(*container[0] != casted)
+				if(*(uint8_t*)container[0] != casted)
 				{
 					for(auto &pointer: container)
 					{
-						*pointer = casted;
+						*(uint8_t*)pointer = casted;
 					}
-					if(LinkedBox) LinkedBox->Update(casted);
+					if(LinkedBox) LinkedBox->Update();
 					return 0;
 				}
 			}
@@ -109,7 +129,7 @@ int TextCtrl_UByte::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>((short)*container[0]));
+		ChangeValue(lexical_cast<string>((short)*(uint8_t*)container[0]));
 	}
 	return 1;
 }
@@ -131,18 +151,27 @@ int TextCtrl_Float::SaveEdits()
 			float casted = lexical_cast<float>(value);
 			if(batchMode > 0)
 			{
-				BatchSave(container, batchMode, casted);
-				ChangeValue(lexical_cast<string>(*container[0]));
-				if(LinkedBox) LinkedBox->Update(casted);
+				for(auto &pointer: container)
+				{
+					switch(batchMode)
+					{
+						case 1: *(float*)pointer += casted; break;
+						case 2: *(float*)pointer -= casted; break;
+						case 3: *(float*)pointer *= casted; break;
+						case 4: *(float*)pointer /= casted; break;
+					}
+				}
+				ChangeValue(lexical_cast<string>(*(float*)container[0]));
+				if(LinkedBox) LinkedBox->Update();
 				return 0;
 			}
-			if(*container[0] != casted)
+			if(*(float*)container[0] != casted)
 			{
 				for(auto &pointer: container)
 				{
-					*pointer = casted;
+					*(float*)pointer = casted;
 				}
-				if(LinkedBox) LinkedBox->Update(casted);
+				if(LinkedBox) LinkedBox->Update();
 				return 0;
 			}
 		}
@@ -155,7 +184,7 @@ int TextCtrl_Float::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>(*container[0]));
+		ChangeValue(lexical_cast<string>(*(float*)container[0]));
 	}
 	return 1;
 }
@@ -177,18 +206,28 @@ int TextCtrl_Long::SaveEdits()
 			int32_t casted = lexical_cast<int32_t>(value);
 			if(batchMode > 0)
 			{
-				BatchSave(container, batchMode, casted);
-				ChangeValue(lexical_cast<string>(*container[0]));
-				if(LinkedBox) LinkedBox->Update(casted);
+				for(auto &pointer: container)
+				{
+					switch(batchMode)
+					{
+						case 1: *(int32_t*)pointer += casted; break;
+						case 2: *(int32_t*)pointer -= casted; break;
+						case 3: *(int32_t*)pointer *= casted; break;
+						case 4: *(int32_t*)pointer /= casted; break;
+						case 5: *(int32_t*)pointer %= casted; break;
+					}
+				}
+				ChangeValue(lexical_cast<string>(*(int32_t*)container[0]));
+				if(LinkedBox) LinkedBox->Update();
 				return 0;
 			}
-			if(*container[0] != casted)
+			if(*(int32_t*)container[0] != casted)
 			{
 				for(auto &pointer: container)
 				{
-					*pointer = casted;
+					*(int32_t*)pointer = casted;
 				}
-				if(LinkedBox) LinkedBox->Update(casted);
+				if(LinkedBox) LinkedBox->Update();
 				return 0;
 			}
 		}
@@ -201,7 +240,7 @@ int TextCtrl_Long::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>(*container[0]));
+		ChangeValue(lexical_cast<string>(*(int32_t*)container[0]));
 	}
 	return 1;
 }
@@ -223,18 +262,28 @@ int TextCtrl_Short::SaveEdits()
 			int16_t casted = lexical_cast<int16_t>(value);
 			if(batchMode > 0)
 			{
-				BatchSave(container, batchMode, casted);
-				ChangeValue(lexical_cast<string>(*container[0]));
-				if(LinkedBox) LinkedBox->Update(casted);
+				for(auto &pointer: container)
+				{
+					switch(batchMode)
+					{
+						case 1: *(int16_t*)pointer += casted; break;
+						case 2: *(int16_t*)pointer -= casted; break;
+						case 3: *(int16_t*)pointer *= casted; break;
+						case 4: *(int16_t*)pointer /= casted; break;
+						case 5: *(int16_t*)pointer %= casted; break;
+					}
+				}
+				ChangeValue(lexical_cast<string>(*(int16_t*)container[0]));
+				if(LinkedBox) LinkedBox->Update();
 				return 0;
 			}
-			if(*container[0] != casted)
+			if(*(int16_t*)container[0] != casted)
 			{
 				for(auto &pointer: container)
 				{
-					*pointer = casted;
+					*(int16_t*)pointer = casted;
 				}
-				if(LinkedBox) LinkedBox->Update(casted);
+				if(LinkedBox) LinkedBox->Update();
 				return 0;
 			}
 		}
@@ -247,7 +296,7 @@ int TextCtrl_Short::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>(*container[0]));
+		ChangeValue(lexical_cast<string>(*(int16_t*)container[0]));
 	}
 	return 1;
 }
@@ -269,18 +318,28 @@ int TextCtrl_UShort::SaveEdits()
 			uint16_t casted = lexical_cast<uint16_t>(value);
 			if(batchMode > 0)
 			{
-				BatchSave(container, batchMode, casted);
-				ChangeValue(lexical_cast<string>(*container[0]));
-				if(LinkedBox) LinkedBox->Update(casted);
+				for(auto &pointer: container)
+				{
+					switch(batchMode)
+					{
+						case 1: *(uint16_t*)pointer += casted; break;
+						case 2: *(uint16_t*)pointer -= casted; break;
+						case 3: *(uint16_t*)pointer *= casted; break;
+						case 4: *(uint16_t*)pointer /= casted; break;
+						case 5: *(uint16_t*)pointer %= casted; break;
+					}
+				}
+				ChangeValue(lexical_cast<string>(*(uint16_t*)container[0]));
+				if(LinkedBox) LinkedBox->Update();
 				return 0;
 			}
-			if(*container[0] != casted)
+			if(*(uint16_t*)container[0] != casted)
 			{
 				for(auto &pointer: container)
 				{
-					*pointer = casted;
+					*(uint16_t*)pointer = casted;
 				}
-				if(LinkedBox) LinkedBox->Update(casted);
+				if(LinkedBox) LinkedBox->Update();
 				return 0;
 			}
 		}
@@ -293,7 +352,7 @@ int TextCtrl_UShort::SaveEdits()
 	}
 	else
 	{
-		ChangeValue(lexical_cast<string>(*container[0]));
+		ChangeValue(lexical_cast<string>(*(uint16_t*)container[0]));
 	}
 	return 1;
 }
@@ -304,13 +363,13 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
-		if(*container[0] != value) // Has been changed
+		if(*(string*)container[0] != value) // Has been changed
 		{
 			if(value.size() <= MaxSize)
 			{
 				for(auto &pointer: container)
 				{
-					*pointer = value; // Update data field
+					*(string*)pointer = value; // Update data field
 				}
 			}
 			else
@@ -318,51 +377,51 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 				value = value.substr(0, MaxSize);
 				for(auto &pointer: container)
 				{
-					*pointer = value;
+					*(string*)pointer = value;
 				}
-				ChangeValue(*container[0]);
+				ChangeValue(*(string*)container[0]);
 			}
 			return 0;
 		}
 	}
 	else
 	{
-		ChangeValue(*container[0]);
+		ChangeValue(*(string*)container[0]);
 	}
 	return 1;
 }
 
-void TextCtrl_Byte::Update(int8_t value)
+void TextCtrl_Byte::Update()
 {
-	ChangeValue(lexical_cast<string>((short)*container[0]));
+	ChangeValue(lexical_cast<string>((short)*(int8_t*)container[0]));
 }
 
-void TextCtrl_UByte::Update(uint8_t value)
+void TextCtrl_UByte::Update()
 {
-	ChangeValue(lexical_cast<string>((short)*container[0]));
+	ChangeValue(lexical_cast<string>((short)*(uint8_t*)container[0]));
 }
 
-void TextCtrl_Float::Update(float value)
+void TextCtrl_Float::Update()
 {
-	ChangeValue(lexical_cast<string>(*container[0]));
+	ChangeValue(lexical_cast<string>(*(float*)container[0]));
 }
 
-void TextCtrl_Long::Update(int32_t value)
+void TextCtrl_Long::Update()
 {
-	ChangeValue(lexical_cast<string>(*container[0]));
+	ChangeValue(lexical_cast<string>(*(int32_t*)container[0]));
 }
 
-void TextCtrl_Short::Update(int16_t value)
+void TextCtrl_Short::Update()
 {
-	ChangeValue(lexical_cast<string>(*container[0]));
+	ChangeValue(lexical_cast<string>(*(int16_t*)container[0]));
 }
 
-void TextCtrl_UShort::Update(uint16_t value)
+void TextCtrl_UShort::Update()
 {
-	ChangeValue(lexical_cast<string>(*container[0]));
+	ChangeValue(lexical_cast<string>(*(uint16_t*)container[0]));
 }
 
 void TextCtrl_String::Update()
 {
-	ChangeValue(*container[0]);
+	ChangeValue(*(string*)container[0]);
 }
