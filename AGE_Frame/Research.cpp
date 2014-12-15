@@ -279,7 +279,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_Civ->ChangeValue(lexical_cast<string>(ResearchPointer->Civ));
 		Research_Civ_ComboBox->Update(ResearchPointer->Civ);
 		Research_FullTechMode->ChangeValue(lexical_cast<string>(ResearchPointer->FullTechMode));
-		Research_FullTechMode_CheckBox->SetValue((bool)ResearchPointer->FullTechMode);
+		Research_FullTechMode_CheckBox->Update(ResearchPointer->FullTechMode);
 		Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
 		Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLName2 - 140000;
 		if(GenieVersion >= genie::GV_SWGB)

@@ -214,7 +214,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_SoundID->ChangeValue(lexical_cast<string>(GraphicPointer->SoundID));
 	Graphics_SoundID_ComboBox->Update(GraphicPointer->SoundID);
 	Graphics_AttackSoundUsed->ChangeValue(lexical_cast<string>((short)GraphicPointer->AttackSoundUsed));
-	Graphics_AttackSoundUsed_CheckBox->SetValue((bool)GraphicPointer->AttackSoundUsed);
+	Graphics_AttackSoundUsed_CheckBox->Update(GraphicPointer->AttackSoundUsed);
 	Graphics_FrameCount->ChangeValue(lexical_cast<string>(GraphicPointer->FrameCount));
 	Graphics_AngleCount->ChangeValue(lexical_cast<string>(GraphicPointer->AngleCount));
 	Graphics_NewSpeed->ChangeValue(lexical_cast<string>(GraphicPointer->NewSpeed));
