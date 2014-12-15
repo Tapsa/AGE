@@ -20,6 +20,7 @@ public:
 
 	virtual void OnKillFocus(wxFocusEvent&)=0;
 	virtual int SaveEdits()=0;
+	//virtual void Update()=0;
 	bool BatchCheck(wxString &value, short &batchMode)
 	{
 		if(value.size() < 3) return false;
@@ -74,7 +75,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
-	void Update(int8_t value){ChangeValue(lexical_cast<string>((short)value));}
+	void Update(int8_t value);
 	void resize(int size){container.resize(size);}
 
 	vector<int8_t*> container;
@@ -93,7 +94,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
-	void Update(uint8_t value){ChangeValue(lexical_cast<string>((short)value));}
+	void Update(uint8_t value);
 	void resize(int size){container.resize(size);}
 
 	vector<uint8_t*> container;
@@ -112,7 +113,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
-	void Update(float value){ChangeValue(lexical_cast<string>(value));}
+	void Update(float value);
 	void resize(int size){container.resize(size);}
 
 	vector<float*> container;
@@ -131,7 +132,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
-	void Update(int32_t value){ChangeValue(lexical_cast<string>(value));}
+	void Update(int32_t value);
 	void resize(int size){container.resize(size);}
 
 	vector<int32_t*> container;
@@ -150,7 +151,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
-	void Update(int16_t value){ChangeValue(lexical_cast<string>(value));}
+	void Update(int16_t value);
 	void resize(int size){container.resize(size);}
 
 	vector<int16_t*> container;
@@ -169,7 +170,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
-	void Update(uint16_t value){ChangeValue(lexical_cast<string>(value));}
+	void Update(uint16_t value);
 	void resize(int size){container.resize(size);}
 
 	vector<uint16_t*> container;
@@ -188,6 +189,7 @@ public:
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	int SaveEdits();
+	void Update();
 	void resize(int size){container.resize(size);}
 	void SetMaxSize(unsigned short Size){MaxSize = Size;}
 
