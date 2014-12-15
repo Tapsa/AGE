@@ -175,4 +175,7 @@ AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
+	AGETextCtrl::editable = false;
+	AGETextCtrl::hexMode = false;
+	AGETextCtrl::accurateFloats = false;
 }

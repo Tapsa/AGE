@@ -38,7 +38,7 @@ public:
 
 	AGELinkedBox *LinkedBox; // These are for check and combo boxes.
 	static const wxString BATCHWARNING, BWTITLE, IETITLE;
-	static bool editable;
+	static bool editable, hexMode, accurateFloats;
 	vector<void*> container;
 };
 
