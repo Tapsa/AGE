@@ -2,6 +2,8 @@
 
 wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
 bool AGETextCtrl::editable;
+bool AGETextCtrl::hexMode;
+bool AGETextCtrl::accurateFloats;
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
 {
@@ -371,32 +373,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		AGE_AreaTT84::ages.Clear();
 		Units_GarrisonType_ComboBox->Clear();
 		Units_GarrisonType_ComboBox->Append("No Type/Invalid Type");	// Selection 0
-		if(GenieVersion >= genie::GV_AoKA)
-		{
-			AGE_AreaTT84::ages.Add("0 - None");
-			AGE_AreaTT84::ages.Add("Dark Age");
-			AGE_AreaTT84::ages.Add("Feudal Age");
-			AGE_AreaTT84::ages.Add("Castle Age");
-			AGE_AreaTT84::ages.Add("Imperial Age");
-			AGE_AreaTT84::ages.Add("Post-Imperial Age");
-			Units_GarrisonType_ComboBox->Append("0 - None");	// Selection 1
-			Units_GarrisonType_ComboBox->Append("1 - Villager");
-			Units_GarrisonType_ComboBox->Append("2 - Infantry");
-			Units_GarrisonType_ComboBox->Append("3 - Villager + Infantry");
-			Units_GarrisonType_ComboBox->Append("4 - Cavalry");
-			Units_GarrisonType_ComboBox->Append("5 - Cavalry + Villager");
-			Units_GarrisonType_ComboBox->Append("6 - Cavalry + Infantry");
-			Units_GarrisonType_ComboBox->Append("7 - Cavalry + Infantry + Villager");
-			Units_GarrisonType_ComboBox->Append("8 - Monk");
-			Units_GarrisonType_ComboBox->Append("9 - Monk + Villager");
-			Units_GarrisonType_ComboBox->Append("10 - Monk + Infantry");
-			Units_GarrisonType_ComboBox->Append("11 - Monk + Infantry + Villager");
-			Units_GarrisonType_ComboBox->Append("12 - Monk + Cavalry");
-			Units_GarrisonType_ComboBox->Append("13 - Monk + Villager + Cavalry");
-			Units_GarrisonType_ComboBox->Append("14 - Monk + Cavalry + Infantry");
-			Units_GarrisonType_ComboBox->Append("15 - Monk + Villager + Infantry + Cavalry");
-		}
-		else if(GenieVersion >= genie::GV_SWGB)
+		if(GenieVersion >= genie::GV_SWGB)
 		{
 			AGE_AreaTT84::ages.Add("0 - None");
 			AGE_AreaTT84::ages.Add("1st Tech Level");
@@ -421,6 +398,31 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_GarrisonType_ComboBox->Append("14 - Jedi + Mounted + Infantry");
 			Units_GarrisonType_ComboBox->Append("15 - Jedi + Worker + Infantry + Mounted");
 			Units_GarrisonType_ComboBox->Append("16 - Nerf/Bantha");
+		}
+		else if(GenieVersion >= genie::GV_AoKA)
+		{
+			AGE_AreaTT84::ages.Add("0 - None");
+			AGE_AreaTT84::ages.Add("Dark Age");
+			AGE_AreaTT84::ages.Add("Feudal Age");
+			AGE_AreaTT84::ages.Add("Castle Age");
+			AGE_AreaTT84::ages.Add("Imperial Age");
+			AGE_AreaTT84::ages.Add("Post-Imperial Age");
+			Units_GarrisonType_ComboBox->Append("0 - None");	// Selection 1
+			Units_GarrisonType_ComboBox->Append("1 - Villager");
+			Units_GarrisonType_ComboBox->Append("2 - Infantry");
+			Units_GarrisonType_ComboBox->Append("3 - Villager + Infantry");
+			Units_GarrisonType_ComboBox->Append("4 - Cavalry");
+			Units_GarrisonType_ComboBox->Append("5 - Cavalry + Villager");
+			Units_GarrisonType_ComboBox->Append("6 - Cavalry + Infantry");
+			Units_GarrisonType_ComboBox->Append("7 - Cavalry + Infantry + Villager");
+			Units_GarrisonType_ComboBox->Append("8 - Monk");
+			Units_GarrisonType_ComboBox->Append("9 - Monk + Villager");
+			Units_GarrisonType_ComboBox->Append("10 - Monk + Infantry");
+			Units_GarrisonType_ComboBox->Append("11 - Monk + Infantry + Villager");
+			Units_GarrisonType_ComboBox->Append("12 - Monk + Cavalry");
+			Units_GarrisonType_ComboBox->Append("13 - Monk + Villager + Cavalry");
+			Units_GarrisonType_ComboBox->Append("14 - Monk + Cavalry + Infantry");
+			Units_GarrisonType_ComboBox->Append("15 - Monk + Villager + Infantry + Cavalry");
 		}
 		Units_GarrisonType_ComboBox->SetSelection(0);
 
@@ -1533,6 +1535,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case MenuOption_About:
 		{
+			AGETextCtrl::accurateFloats = !AGETextCtrl::accurateFloats;
 			AGE_AboutDialog AGEAbout(this);
 			AGEAbout.ShowModal();
 		}
@@ -1545,6 +1548,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;*/
 		case ToolBar_Help:
 		{
+			AGETextCtrl::hexMode = !AGETextCtrl::hexMode;
 			//AGE_HelpInfo AGEHelp(this);
 			//AGEHelp.ShowModal();
 			wxString help = "ATTENTION!\nChanges to editing boxes affect all selected items!\n";
