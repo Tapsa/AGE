@@ -6,7 +6,7 @@ const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 
 int TextCtrl_Byte::SaveEdits()
 {
-	if(!AGETextCtrl::editable || container.empty()) return 1;
+	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -71,7 +71,7 @@ int TextCtrl_Byte::SaveEdits()
 
 int TextCtrl_UByte::SaveEdits()
 {
-	if(!AGETextCtrl::editable || container.empty()) return 1;
+	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -136,7 +136,7 @@ int TextCtrl_UByte::SaveEdits()
 
 int TextCtrl_Float::SaveEdits()
 {
-	if(!AGETextCtrl::editable || container.empty()) return 1;
+	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -191,7 +191,7 @@ int TextCtrl_Float::SaveEdits()
 
 int TextCtrl_Long::SaveEdits()
 {
-	if(!AGETextCtrl::editable || container.empty()) return 1;
+	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -247,7 +247,7 @@ int TextCtrl_Long::SaveEdits()
 
 int TextCtrl_Short::SaveEdits()
 {
-	if(!AGETextCtrl::editable || container.empty()) return 1;
+	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -303,7 +303,7 @@ int TextCtrl_Short::SaveEdits()
 
 int TextCtrl_UShort::SaveEdits()
 {
-	if(!AGETextCtrl::editable || container.empty()) return 1;
+	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
 	wxString value = GetValue().c_str();
 	if(value.size() > 0)
 	{
@@ -393,37 +393,107 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 
 void TextCtrl_Byte::Update()
 {
-	ChangeValue(lexical_cast<string>((short)*(int8_t*)container[0]));
+	if(AGETextCtrl::hexMode)
+	{
+		stringbuf buffer;
+		ostream os (&buffer);
+		os << hex << showbase << uppercase << (short)*(uint8_t*)container[0];
+		ChangeValue(buffer.str());
+	}
+	else
+	{
+		ChangeValue(lexical_cast<string>((short)*(int8_t*)container[0]));
+	}
 	if(LinkedBox) LinkedBox->Update(*(int8_t*)container[0]);
 }
 
 void TextCtrl_UByte::Update()
 {
-	ChangeValue(lexical_cast<string>((short)*(uint8_t*)container[0]));
+	if(AGETextCtrl::hexMode)
+	{
+		stringbuf buffer;
+		ostream os (&buffer);
+		os << hex << showbase << uppercase << (short)*(uint8_t*)container[0];
+		ChangeValue(buffer.str());
+	}
+	else
+	{
+		ChangeValue(lexical_cast<string>((short)*(uint8_t*)container[0]));
+	}
 	if(LinkedBox) LinkedBox->Update(*(uint8_t*)container[0]);
 }
 
 void TextCtrl_Float::Update()
 {
-	ChangeValue(lexical_cast<string>(*(float*)container[0]));
+	if(AGETextCtrl::hexMode)
+	{
+		stringbuf buffer;
+		ostream os (&buffer);
+		os << hex << showbase << uppercase << *(uint32_t*)container[0];
+		ChangeValue(buffer.str());
+	}
+	else
+	{
+		if(AGETextCtrl::accurateFloats)
+		{
+			ChangeValue(lexical_cast<string>(*(float*)container[0]));
+		}
+		else
+		{
+			stringbuf buffer;
+			ostream os (&buffer);
+			os << *(float*)container[0];
+			ChangeValue(buffer.str());
+		}
+	}
 	if(LinkedBox) LinkedBox->Update(*(float*)container[0]);
 }
 
 void TextCtrl_Long::Update()
 {
-	ChangeValue(lexical_cast<string>(*(int32_t*)container[0]));
+	if(AGETextCtrl::hexMode)
+	{
+		stringbuf buffer;
+		ostream os (&buffer);
+		os << hex << showbase << uppercase << *(uint32_t*)container[0];
+		ChangeValue(buffer.str());
+	}
+	else
+	{
+		ChangeValue(lexical_cast<string>(*(int32_t*)container[0]));
+	}
 	if(LinkedBox) LinkedBox->Update(*(int32_t*)container[0]);
 }
 
 void TextCtrl_Short::Update()
 {
-	ChangeValue(lexical_cast<string>(*(int16_t*)container[0]));
+	if(AGETextCtrl::hexMode)
+	{
+		stringbuf buffer;
+		ostream os (&buffer);
+		os << hex << showbase << uppercase << *(uint16_t*)container[0];
+		ChangeValue(buffer.str());
+	}
+	else
+	{
+		ChangeValue(lexical_cast<string>(*(int16_t*)container[0]));
+	}
 	if(LinkedBox) LinkedBox->Update(*(int16_t*)container[0]);
 }
 
 void TextCtrl_UShort::Update()
 {
-	ChangeValue(lexical_cast<string>(*(uint16_t*)container[0]));
+	if(AGETextCtrl::hexMode)
+	{
+		stringbuf buffer;
+		ostream os (&buffer);
+		os << hex << showbase << uppercase << *(uint16_t*)container[0];
+		ChangeValue(buffer.str());
+	}
+	else
+	{
+		ChangeValue(lexical_cast<string>(*(uint16_t*)container[0]));
+	}
 	if(LinkedBox) LinkedBox->Update(*(uint16_t*)container[0]);
 }
 
