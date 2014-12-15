@@ -62,9 +62,9 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 		Sounds_Unknown2->container[loop] = &SoundPointer->Unknown2;
 	}
 
-	Sounds_ID->ChangeValue(lexical_cast<string>(SoundPointer->ID));
-	Sounds_Unknown1->ChangeValue(lexical_cast<string>(SoundPointer->Unknown1));
-	Sounds_Unknown2->ChangeValue(lexical_cast<string>(SoundPointer->Unknown2));
+	Sounds_ID->Update(SoundPointer->ID);
+	Sounds_Unknown1->Update(SoundPointer->Unknown1);
+	Sounds_Unknown2->Update(SoundPointer->Unknown2);
 	ListSoundItems();
 }
 
@@ -234,13 +234,13 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 		}
 
 		SoundItems_Name->ChangeValue(SoundItemPointer->FileName);
-		SoundItems_Resource->ChangeValue(lexical_cast<string>(SoundItemPointer->ResourceID));
-		SoundItems_Probability->ChangeValue(lexical_cast<string>(SoundItemPointer->Probability));
+		SoundItems_Resource->Update(SoundItemPointer->ResourceID);
+		SoundItems_Probability->Update(SoundItemPointer->Probability);
 		if(GenieVersion >= genie::GV_AoKA)
 		{
-			SoundItems_Civ->ChangeValue(lexical_cast<string>(SoundItemPointer->Civ));
+			SoundItems_Civ->Update(SoundItemPointer->Civ);
 			SoundItems_Civ_ComboBox->Update(SoundItemPointer->Civ);
-			SoundItems_Unknown->ChangeValue(lexical_cast<string>(SoundItemPointer->Unknown1));
+			SoundItems_Unknown->Update(SoundItemPointer->Unknown1);
 		}
 	}
 	else

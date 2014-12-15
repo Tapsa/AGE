@@ -65,12 +65,12 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 		TechTrees_Ages_Items.UsedItems->container[sel] = &AgePointer->Common.SlotsUsed;
 	}
 
-	TechTrees_Ages_ID->ChangeValue(lexical_cast<string>(AgePointer->ID));
-	TechTrees_Ages_Unknown2->ChangeValue(lexical_cast<string>((short)AgePointer->Unknown2));
-	TechTrees_Ages_Items.UsedItems->ChangeValue(lexical_cast<string>(AgePointer->Common.SlotsUsed));
-	TechTrees_Ages_UnknownItems.UsedItems->ChangeValue(lexical_cast<string>((short)AgePointer->SlotsUsed));
-	TechTrees_Ages_UnknownItems.Unknown->ChangeValue(lexical_cast<string>((short)AgePointer->Unknown6));
-	TechTrees_Ages_LineMode->ChangeValue(lexical_cast<string>(AgePointer->LineMode));
+	TechTrees_Ages_ID->Update(AgePointer->ID);
+	TechTrees_Ages_Unknown2->Update(AgePointer->Unknown2);
+	TechTrees_Ages_Items.UsedItems->Update(AgePointer->Common.SlotsUsed);
+	TechTrees_Ages_UnknownItems.UsedItems->Update(AgePointer->SlotsUsed);
+	TechTrees_Ages_UnknownItems.Unknown->Update(AgePointer->Unknown6);
+	TechTrees_Ages_LineMode->Update(AgePointer->LineMode);
 
 	ListTTAgeBuildings();
 	ListTTAgeUnits();
@@ -196,7 +196,7 @@ void AGE_Frame::OnTTAgesBuildingSelect(wxCommandEvent &Event)
 			TechTrees_Ages_Buildings.Item->container[loop] = BuildingPointer;
 		}
 
-		TechTrees_Ages_Buildings.Item->ChangeValue(lexical_cast<string>(*BuildingPointer));
+		TechTrees_Ages_Buildings.Item->Update(*BuildingPointer);
 		TechTrees_Ages_Buildings.ItemCombo->Update(*BuildingPointer);
 	}
 	else
@@ -317,7 +317,7 @@ void AGE_Frame::OnTTAgesUnitSelect(wxCommandEvent &Event)
 			TechTrees_Ages_Units.Item->container[loop] = UnitPointer;
 		}
 
-		TechTrees_Ages_Units.Item->ChangeValue(lexical_cast<string>(*UnitPointer));
+		TechTrees_Ages_Units.Item->Update(*UnitPointer);
 		TechTrees_Ages_Units.ItemCombo->Update(*UnitPointer);
 	}
 	else
@@ -453,7 +453,7 @@ void AGE_Frame::OnTTAgesResearchSelect(wxCommandEvent &Event)
 			TechTrees_Ages_Researches.Item->container[loop] = ResearchPointer;
 		}
 
-		TechTrees_Ages_Researches.Item->ChangeValue(lexical_cast<string>(*ResearchPointer));
+		TechTrees_Ages_Researches.Item->Update(*ResearchPointer);
 		TechTrees_Ages_Researches.ItemCombo->Update(*ResearchPointer);
 	}
 	else
@@ -560,9 +560,9 @@ void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common*
 			area.Item->container[loop] = &dataPointer->UnitResearch[TTItemIDs[loop]];
 		}
 
-		area.Mode->ChangeValue(lexical_cast<string>(*ItemPointer));
+		area.Mode->Update(*ItemPointer);
 		area.ModeCombo->SetSelection(*ItemPointer);
-		area.Item->ChangeValue(lexical_cast<string>(dataPointer->UnitResearch[TTItemIDs[0]]));
+		area.Item->Update(dataPointer->UnitResearch[TTItemIDs[0]]);
 		area.FillItemCombo(dataPointer->UnitResearch[TTItemIDs[0]] + 1);
 	}
 	else
@@ -656,8 +656,8 @@ void AGE_Frame::OnTTAgeUnknownItemSelect(wxCommandEvent &Event)
 			TechTrees_Ages_UnknownItems.Unknown2->container[loop] = &agePointer->Unknown5[TTUnknownItemIDs[loop]];
 		}
 
-		TechTrees_Ages_UnknownItems.Unknown1->ChangeValue(lexical_cast<string>((short)*unknown4Pointer));
-		TechTrees_Ages_UnknownItems.Unknown2->ChangeValue(lexical_cast<string>((short)agePointer->Unknown5[TTUnknownItemIDs[0]]));
+		TechTrees_Ages_UnknownItems.Unknown1->Update(*unknown4Pointer);
+		TechTrees_Ages_UnknownItems.Unknown2->Update(agePointer->Unknown5[TTUnknownItemIDs[0]]);
 	}
 	else
 	{
@@ -812,18 +812,18 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &Event)
 		}
 	}
 
-	TechTrees_Buildings_ID->ChangeValue(lexical_cast<string>(BuildingConPointer->ID));
+	TechTrees_Buildings_ID->Update(BuildingConPointer->ID);
 	TechTrees_Buildings_ID_ComboBox->Update(BuildingConPointer->ID);
-	TechTrees_Buildings_Always2->ChangeValue(lexical_cast<string>((short)BuildingConPointer->Unknown1));
-	TechTrees_Buildings_Items.UsedItems->ChangeValue(lexical_cast<string>(BuildingConPointer->Common.SlotsUsed));
-	TechTrees_Buildings_LocationInAge->ChangeValue(lexical_cast<string>((short)BuildingConPointer->LocationInAge));
+	TechTrees_Buildings_Always2->Update(BuildingConPointer->Unknown1);
+	TechTrees_Buildings_Items.UsedItems->Update(BuildingConPointer->Common.SlotsUsed);
+	TechTrees_Buildings_LocationInAge->Update(BuildingConPointer->LocationInAge);
 	for(short loop = 0; loop < 5; ++loop)
 	{
-		TechTrees_Buildings_TotalUnitsTechs[loop]->ChangeValue(lexical_cast<string>((short)BuildingConPointer->UnitsTechsTotal[loop]));
-		TechTrees_Buildings_TotalUnitsTechs[loop+5]->ChangeValue(lexical_cast<string>((short)BuildingConPointer->UnitsTechsFirst[loop]));
+		TechTrees_Buildings_TotalUnitsTechs[loop]->Update(BuildingConPointer->UnitsTechsTotal[loop]);
+		TechTrees_Buildings_TotalUnitsTechs[loop+5]->Update(BuildingConPointer->UnitsTechsFirst[loop]);
 	}
-	TechTrees_Buildings_LineMode->ChangeValue(lexical_cast<string>(BuildingConPointer->LineMode));
-	TechTrees_Buildings_EnablingResearch->ChangeValue(lexical_cast<string>(BuildingConPointer->EnablingResearch));
+	TechTrees_Buildings_LineMode->Update(BuildingConPointer->LineMode);
+	TechTrees_Buildings_EnablingResearch->Update(BuildingConPointer->EnablingResearch);
 	TechTrees_Buildings_EnablingResearch_ComboBox->Update(BuildingConPointer->EnablingResearch);
 
 	ListTTBuildingBuildings();
@@ -934,7 +934,7 @@ void AGE_Frame::OnTTBuildingBuildingSelect(wxCommandEvent &Event)
 			TechTrees_Buildings_Buildings.Item->container[loop] = BuildingPointer;
 		}
 
-		TechTrees_Buildings_Buildings.Item->ChangeValue(lexical_cast<string>(*BuildingPointer));
+		TechTrees_Buildings_Buildings.Item->Update(*BuildingPointer);
 		TechTrees_Buildings_Buildings.ItemCombo->Update(*BuildingPointer);
 	}
 	else
@@ -1055,7 +1055,7 @@ void AGE_Frame::OnTTBuildingUnitSelect(wxCommandEvent &Event)
 			TechTrees_Buildings_Units.Item->container[loop] = UnitPointer;
 		}
 
-		TechTrees_Buildings_Units.Item->ChangeValue(lexical_cast<string>(*UnitPointer));
+		TechTrees_Buildings_Units.Item->Update(*UnitPointer);
 		TechTrees_Buildings_Units.ItemCombo->Update(*UnitPointer);
 	}
 	else
@@ -1176,7 +1176,7 @@ void AGE_Frame::OnTTBuildingResearchSelect(wxCommandEvent &Event)
 			TechTrees_Buildings_Researches.Item->container[loop] = ResearchPointer;
 		}
 
-		TechTrees_Buildings_Researches.Item->ChangeValue(lexical_cast<string>(*ResearchPointer));
+		TechTrees_Buildings_Researches.Item->Update(*ResearchPointer);
 		TechTrees_Buildings_Researches.ItemCombo->Update(*ResearchPointer);
 	}
 	else
@@ -1426,18 +1426,18 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &Event)
 		TechTrees_Units_EnablingResearch->container[sel] = &UnitConPointer->EnablingResearch;
 	}
 
-	TechTrees_Units_ID->ChangeValue(lexical_cast<string>(UnitConPointer->ID));
+	TechTrees_Units_ID->Update(UnitConPointer->ID);
 	TechTrees_Units_ID_ComboBox->Update(UnitConPointer->ID);
-	TechTrees_Units_Always2->ChangeValue(lexical_cast<string>((short)UnitConPointer->Unknown1));
-	TechTrees_Units_UpperBuilding->ChangeValue(lexical_cast<string>(UnitConPointer->UpperBuilding));
+	TechTrees_Units_Always2->Update(UnitConPointer->Unknown1);
+	TechTrees_Units_UpperBuilding->Update(UnitConPointer->UpperBuilding);
 	TechTrees_Units_UpperBuilding_ComboBox->Update(UnitConPointer->UpperBuilding);
-	TechTrees_Units_Items.UsedItems->ChangeValue(lexical_cast<string>(UnitConPointer->Common.SlotsUsed));
-	TechTrees_Units_VerticalLine->ChangeValue(lexical_cast<string>(UnitConPointer->VerticalLine));
-	TechTrees_Units_LocationInAge->ChangeValue(lexical_cast<string>(UnitConPointer->LocationInAge));
-	TechTrees_Units_RequiredResearch->ChangeValue(lexical_cast<string>(UnitConPointer->RequiredResearch));
+	TechTrees_Units_Items.UsedItems->Update(UnitConPointer->Common.SlotsUsed);
+	TechTrees_Units_VerticalLine->Update(UnitConPointer->VerticalLine);
+	TechTrees_Units_LocationInAge->Update(UnitConPointer->LocationInAge);
+	TechTrees_Units_RequiredResearch->Update(UnitConPointer->RequiredResearch);
 	TechTrees_Units_RequiredResearch_ComboBox->Update(UnitConPointer->RequiredResearch);
-	TechTrees_Units_LineMode->ChangeValue(lexical_cast<string>(UnitConPointer->LineMode));
-	TechTrees_Units_EnablingResearch->ChangeValue(lexical_cast<string>(UnitConPointer->EnablingResearch));
+	TechTrees_Units_LineMode->Update(UnitConPointer->LineMode);
+	TechTrees_Units_EnablingResearch->Update(UnitConPointer->EnablingResearch);
 	TechTrees_Units_EnablingResearch_ComboBox->Update(UnitConPointer->EnablingResearch);
 
 	ListTTUnitUnits();
@@ -1546,7 +1546,7 @@ void AGE_Frame::OnTTUnitUnitSelect(wxCommandEvent &Event)
 			TechTrees_Units_Units.Item->container[loop] = UnitPointer;
 		}
 
-		TechTrees_Units_Units.Item->ChangeValue(lexical_cast<string>(*UnitPointer));
+		TechTrees_Units_Units.Item->Update(*UnitPointer);
 		TechTrees_Units_Units.ItemCombo->Update(*UnitPointer);
 	}
 	else
@@ -1823,15 +1823,15 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &Event)
 		TechTrees_Researches_LineMode->container[sel] = &ResearchConPointer->LineMode;
 	}
 
-	TechTrees_Researches_ID->ChangeValue(lexical_cast<string>(ResearchConPointer->ID));
+	TechTrees_Researches_ID->Update(ResearchConPointer->ID);
 	TechTrees_Researches_ID_ComboBox->Update(ResearchConPointer->ID);
-	TechTrees_Researches_Always2->ChangeValue(lexical_cast<string>((short)ResearchConPointer->Unknown1));
-	TechTrees_Researches_UpperBuilding->ChangeValue(lexical_cast<string>(ResearchConPointer->UpperBuilding));
+	TechTrees_Researches_Always2->Update(ResearchConPointer->Unknown1);
+	TechTrees_Researches_UpperBuilding->Update(ResearchConPointer->UpperBuilding);
 	TechTrees_Researches_UpperBuilding_ComboBox->Update(ResearchConPointer->UpperBuilding);
-	TechTrees_Researches_Items.UsedItems->ChangeValue(lexical_cast<string>(ResearchConPointer->Common.SlotsUsed));
-	TechTrees_Researches_VerticalLine->ChangeValue(lexical_cast<string>(ResearchConPointer->VerticalLine));
-	TechTrees_Researches_LocationInAge->ChangeValue(lexical_cast<string>(ResearchConPointer->LocationInAge));
-	TechTrees_Researches_LineMode->ChangeValue(lexical_cast<string>(ResearchConPointer->LineMode));
+	TechTrees_Researches_Items.UsedItems->Update(ResearchConPointer->Common.SlotsUsed);
+	TechTrees_Researches_VerticalLine->Update(ResearchConPointer->VerticalLine);
+	TechTrees_Researches_LocationInAge->Update(ResearchConPointer->LocationInAge);
+	TechTrees_Researches_LineMode->Update(ResearchConPointer->LineMode);
 
 	ListTTResearchBuildings();
 	ListTTResearchUnits();
@@ -1941,7 +1941,7 @@ void AGE_Frame::OnTTResearchBuildingSelect(wxCommandEvent &Event)
 			TechTrees_Researches_Buildings.Item->container[loop] = BuildingPointer;
 		}
 
-		TechTrees_Researches_Buildings.Item->ChangeValue(lexical_cast<string>(*BuildingPointer));
+		TechTrees_Researches_Buildings.Item->Update(*BuildingPointer);
 		TechTrees_Researches_Buildings.ItemCombo->Update(*BuildingPointer);
 	}
 	else
@@ -2062,7 +2062,7 @@ void AGE_Frame::OnTTResearchUnitSelect(wxCommandEvent &Event)
 			TechTrees_Researches_Units.Item->container[loop] = UnitPointer;
 		}
 
-		TechTrees_Researches_Units.Item->ChangeValue(lexical_cast<string>(*UnitPointer));
+		TechTrees_Researches_Units.Item->Update(*UnitPointer);
 		TechTrees_Researches_Units.ItemCombo->Update(*UnitPointer);
 	}
 	else
@@ -2183,7 +2183,7 @@ void AGE_Frame::OnTTResearchResearchSelect(wxCommandEvent &Event)
 			TechTrees_Researches_Researches.Item->container[loop] = ResearchPointer;
 		}
 
-		TechTrees_Researches_Researches.Item->ChangeValue(lexical_cast<string>(*ResearchPointer));
+		TechTrees_Researches_Researches.Item->Update(*ResearchPointer);
 		TechTrees_Researches_Researches.ItemCombo->Update(*ResearchPointer);
 	}
 	else

@@ -199,32 +199,32 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 
 	Graphics_Name->ChangeValue(GraphicPointer->Name);
 	Graphics_Name2->ChangeValue(GraphicPointer->Name2);
-	Graphics_SLP->ChangeValue(lexical_cast<string>(GraphicPointer->SLP));
-	Graphics_Unknown1->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown1));
-	Graphics_Unknown2->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown2));
-	Graphics_FrameType->ChangeValue(lexical_cast<string>((short)GraphicPointer->Layer));
-	Graphics_PlayerColor->ChangeValue(lexical_cast<string>((short)GraphicPointer->PlayerColor));
+	Graphics_SLP->Update(GraphicPointer->SLP);
+	Graphics_Unknown1->Update(GraphicPointer->Unknown1);
+	Graphics_Unknown2->Update(GraphicPointer->Unknown2);
+	Graphics_FrameType->Update(GraphicPointer->Layer);
+	Graphics_PlayerColor->Update(GraphicPointer->PlayerColor);
 	Graphics_PlayerColor_ComboBox->Update(GraphicPointer->PlayerColor);
-	Graphics_Rainbow->ChangeValue(lexical_cast<string>((short)GraphicPointer->Rainbow));
-	Graphics_Replay->ChangeValue(lexical_cast<string>((short)GraphicPointer->Replay));
+	Graphics_Rainbow->Update(GraphicPointer->Rainbow);
+	Graphics_Replay->Update(GraphicPointer->Replay);
 	for(short loop = 0; loop < 4; ++loop)
 	{
-		Graphics_Coordinates[loop]->ChangeValue(lexical_cast<string>(GraphicPointer->Coordinates[loop]));
+		Graphics_Coordinates[loop]->Update(GraphicPointer->Coordinates[loop]);
 	}
-	Graphics_SoundID->ChangeValue(lexical_cast<string>(GraphicPointer->SoundID));
+	Graphics_SoundID->Update(GraphicPointer->SoundID);
 	Graphics_SoundID_ComboBox->Update(GraphicPointer->SoundID);
-	Graphics_AttackSoundUsed->ChangeValue(lexical_cast<string>((short)GraphicPointer->AttackSoundUsed));
+	Graphics_AttackSoundUsed->Update(GraphicPointer->AttackSoundUsed);
 	Graphics_AttackSoundUsed_CheckBox->Update(GraphicPointer->AttackSoundUsed);
-	Graphics_FrameCount->ChangeValue(lexical_cast<string>(GraphicPointer->FrameCount));
-	Graphics_AngleCount->ChangeValue(lexical_cast<string>(GraphicPointer->AngleCount));
-	Graphics_NewSpeed->ChangeValue(lexical_cast<string>(GraphicPointer->NewSpeed));
-	Graphics_FrameRate->ChangeValue(lexical_cast<string>(GraphicPointer->FrameRate));
-	Graphics_ReplayDelay->ChangeValue(lexical_cast<string>(GraphicPointer->ReplayDelay));
-	Graphics_SequenceType->ChangeValue(lexical_cast<string>((short)GraphicPointer->SequenceType));
-	Graphics_ID->ChangeValue(lexical_cast<string>(GraphicPointer->ID));
-	Graphics_MirroringMode->ChangeValue(lexical_cast<string>((short)GraphicPointer->MirroringMode));
+	Graphics_FrameCount->Update(GraphicPointer->FrameCount);
+	Graphics_AngleCount->Update(GraphicPointer->AngleCount);
+	Graphics_NewSpeed->Update(GraphicPointer->NewSpeed);
+	Graphics_FrameRate->Update(GraphicPointer->FrameRate);
+	Graphics_ReplayDelay->Update(GraphicPointer->ReplayDelay);
+	Graphics_SequenceType->Update(GraphicPointer->SequenceType);
+	Graphics_ID->Update(GraphicPointer->ID);
+	Graphics_MirroringMode->Update(GraphicPointer->MirroringMode);
 	if(GenieVersion >= genie::GV_AoKB)
-	Graphics_Unknown3->ChangeValue(lexical_cast<string>((short)GraphicPointer->Unknown3));
+	Graphics_Unknown3->Update(GraphicPointer->Unknown3);
 
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
@@ -425,15 +425,15 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 			GraphicDeltas_Unknown5->container[loop] = &DeltaPointer->Unknown5;
 		}
 
-		GraphicDeltas_GraphicID->ChangeValue(lexical_cast<string>(DeltaPointer->GraphicID));
+		GraphicDeltas_GraphicID->Update(DeltaPointer->GraphicID);
 		GraphicDeltas_GraphicID_ComboBox->Update(DeltaPointer->GraphicID);
-		GraphicDeltas_Unknown1->ChangeValue(lexical_cast<string>(DeltaPointer->Unknown1));
-		GraphicDeltas_Unknown2->ChangeValue(lexical_cast<string>(DeltaPointer->Unknown2));
-		GraphicDeltas_Unknown3->ChangeValue(lexical_cast<string>(DeltaPointer->Unknown3));
-		GraphicDeltas_DirectionX->ChangeValue(lexical_cast<string>(DeltaPointer->DirectionX));
-		GraphicDeltas_DirectionY->ChangeValue(lexical_cast<string>(DeltaPointer->DirectionY));
-		GraphicDeltas_Unknown4->ChangeValue(lexical_cast<string>(DeltaPointer->Unknown4));
-		GraphicDeltas_Unknown5->ChangeValue(lexical_cast<string>(DeltaPointer->Unknown5));
+		GraphicDeltas_Unknown1->Update(DeltaPointer->Unknown1);
+		GraphicDeltas_Unknown2->Update(DeltaPointer->Unknown2);
+		GraphicDeltas_Unknown3->Update(DeltaPointer->Unknown3);
+		GraphicDeltas_DirectionX->Update(DeltaPointer->DirectionX);
+		GraphicDeltas_DirectionY->Update(DeltaPointer->DirectionY);
+		GraphicDeltas_Unknown4->Update(DeltaPointer->Unknown4);
+		GraphicDeltas_Unknown5->Update(DeltaPointer->Unknown5);
 	}
 	else
 	{
@@ -570,15 +570,15 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 			Graphics_AttackSoundDelay[2]->container[sel] = &AttackSoundPointer->SoundDelay3;
 		}
 
-		Graphics_AttackSoundID[0]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundID));
-		Graphics_AttackSoundID[1]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundID2));
-		Graphics_AttackSoundID[2]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundID3));
+		Graphics_AttackSoundID[0]->Update(AttackSoundPointer->SoundID);
+		Graphics_AttackSoundID[1]->Update(AttackSoundPointer->SoundID2);
+		Graphics_AttackSoundID[2]->Update(AttackSoundPointer->SoundID3);
 		Graphics_AttackSoundID_ComboBox[0]->Update(AttackSoundPointer->SoundID);
 		Graphics_AttackSoundID_ComboBox[1]->Update(AttackSoundPointer->SoundID2);
 		Graphics_AttackSoundID_ComboBox[2]->Update(AttackSoundPointer->SoundID3);
-		Graphics_AttackSoundDelay[0]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundDelay));
-		Graphics_AttackSoundDelay[1]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundDelay2));
-		Graphics_AttackSoundDelay[2]->ChangeValue(lexical_cast<string>(AttackSoundPointer->SoundDelay3));
+		Graphics_AttackSoundDelay[0]->Update(AttackSoundPointer->SoundDelay);
+		Graphics_AttackSoundDelay[1]->Update(AttackSoundPointer->SoundDelay2);
+		Graphics_AttackSoundDelay[2]->Update(AttackSoundPointer->SoundDelay3);
 	}
 	else
 	{
