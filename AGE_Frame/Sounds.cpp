@@ -62,9 +62,9 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 		Sounds_Unknown2->container[loop] = &SoundPointer->Unknown2;
 	}
 
-	Sounds_ID->Update(SoundPointer->ID);
-	Sounds_Unknown1->Update(SoundPointer->Unknown1);
-	Sounds_Unknown2->Update(SoundPointer->Unknown2);
+	Sounds_ID->Update();
+	Sounds_Unknown1->Update();
+	Sounds_Unknown2->Update();
 	ListSoundItems();
 }
 
@@ -234,13 +234,12 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 		}
 
 		SoundItems_Name->ChangeValue(SoundItemPointer->FileName);
-		SoundItems_Resource->Update(SoundItemPointer->ResourceID);
-		SoundItems_Probability->Update(SoundItemPointer->Probability);
+		SoundItems_Resource->Update();
+		SoundItems_Probability->Update();
 		if(GenieVersion >= genie::GV_AoKA)
 		{
-			SoundItems_Civ->Update(SoundItemPointer->Civ);
-			SoundItems_Civ_ComboBox->Update(SoundItemPointer->Civ);
-			SoundItems_Unknown->Update(SoundItemPointer->Unknown1);
+			SoundItems_Civ->Update();
+			SoundItems_Unknown->Update();
 		}
 	}
 	else

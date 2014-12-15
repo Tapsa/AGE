@@ -92,25 +92,23 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 		Borders_BorderTerrain->container[sel] = &BorderPointer->TerrainID;
 	}
 
-	Borders_BorderUnknown1->Update(BorderPointer->Unknown1);
-	Borders_BorderEnabled->Update(BorderPointer->Enabled);
-	Borders_BorderEnabled_CheckBox->Update(BorderPointer->Enabled);
+	Borders_BorderUnknown1->Update();
+	Borders_BorderEnabled->Update();
 	Borders_BorderName[0]->ChangeValue(BorderPointer->Name);
 	Borders_BorderName[1]->ChangeValue(BorderPointer->Name2);
-	Borders_BorderRessourceID->Update(BorderPointer->SLP);
-	Borders_BorderUnknown3->Update(BorderPointer->Unknown3);
-	Borders_BorderUnknown4->Update(BorderPointer->SoundID);
+	Borders_BorderRessourceID->Update();
+	Borders_BorderUnknown3->Update();
+	Borders_BorderUnknown4->Update();
 	for(short loop = 0; loop < 3; ++loop)
 	{
-		Borders_BorderColors[loop]->Update(BorderPointer->Colors[loop]);
+		Borders_BorderColors[loop]->Update();
 	}
 	for(short loop = 0; loop < Borders_BorderUnknown5.size(); ++loop)
-	Borders_BorderUnknown5[loop]->Update(BorderPointer->Unknown5[loop]);
-	Borders_BorderUnknown6->Update(BorderPointer->Unknown6);
-	Borders_BorderFrameCount->Update(BorderPointer->FrameCount);
-	Borders_BorderUnknown8->Update(BorderPointer->AngleCount);
-	Borders_BorderTerrain->Update(BorderPointer->TerrainID);
-	Borders_BorderTerrain_ComboBox->Update(BorderPointer->TerrainID);
+	Borders_BorderUnknown5[loop]->Update();
+	Borders_BorderUnknown6->Update();
+	Borders_BorderFrameCount->Update();
+	Borders_BorderUnknown8->Update();
+	Borders_BorderTerrain->Update();
 	ListTerrainBorderFrames();
 }
 
@@ -190,9 +188,9 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 		Borders_BorderFlag2->container[loop] = &FramePointer->Flag2;
 	}
 
-	Borders_BorderFrameID->Update(FramePointer->FrameID);
-	Borders_BorderFlag1->Update(FramePointer->Flag1);
-	Borders_BorderFlag2->Update(FramePointer->Flag2);
+	Borders_BorderFrameID->Update();
+	Borders_BorderFlag1->Update();
+	Borders_BorderFlag2->Update();
 }
 
 void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)

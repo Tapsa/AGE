@@ -21,12 +21,15 @@ public:
 	AGECheckBox(parent, label)
 	{
 		TextBox = Pointer;
-		TextBox->LinkedBox = this;
-		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_2State::OnUpdate));
+		if(!TextBox->LinkedBox)
+		{
+			TextBox->LinkedBox = this;
+			Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_2State::OnUpdate));
+		}
 	}
 
 	void OnUpdate(wxCommandEvent &Event);
-	void Update(long value);
+	void Update(int value);
 };
 
 class CheckBox_ZeroIsYes: public AGECheckBox
@@ -36,12 +39,15 @@ public:
 	AGECheckBox(parent, label)
 	{
 		TextBox = Pointer;
-		TextBox->LinkedBox = this;
-		Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_ZeroIsYes::OnUpdate));
+		if(!TextBox->LinkedBox)
+		{
+			TextBox->LinkedBox = this;
+			Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_ZeroIsYes::OnUpdate));
+		}
 	}
 
 	void OnUpdate(wxCommandEvent &Event);
-	void Update(long value);
+	void Update(int value);
 };
 
 #endif
