@@ -1839,7 +1839,7 @@ void AGE_AreaTT84::FillItemCombo(int selection, bool update)
 {
 	if(Mode->container.size() == 0) return;
 	int oldList = lastList;
-	lastList = *Mode->container[0];
+	lastList = *(int32_t*)Mode->container[0];
 	if(lastList != oldList || update)
 	{
 		ItemCombo->Clear();

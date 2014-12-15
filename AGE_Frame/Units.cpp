@@ -754,7 +754,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	//wxMessageBox(locations);
 	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
 
-	Units_Type->Update(UnitPointer->Type);
+	Units_Type->Update();
 	switch(UnitType)
 	{
 		case 10: Units_Type_ComboBox->SetSelection(1); break;
@@ -814,50 +814,38 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
 			Units_LootSwitch[loop]->Enable(true);
 
-			Units_ConstructionGraphicID->Update(UnitPointer->Building.ConstructionGraphicID);
-			Units_ConstructionGraphicID_ComboBox->Update(UnitPointer->Building.ConstructionGraphicID);
-			Units_AdjacentMode->Update(UnitPointer->Building.AdjacentMode);
-			Units_AdjacentMode_CheckBox->Update(UnitPointer->Building.AdjacentMode);
-			Units_IconDisabler->Update(UnitPointer->Building.IconDisabler);
-			Units_DisappearsWhenBuilt->Update(UnitPointer->Building.DisappearsWhenBuilt);
-			Units_Unknown31b_CheckBox->Update(UnitPointer->Building.DisappearsWhenBuilt);
-			Units_StackUnitID->Update(UnitPointer->Building.StackUnitID);
-			Units_StackUnitID_ComboBox->Update(UnitPointer->Building.StackUnitID);
-			Units_TerrainID->Update(UnitPointer->Building.TerrainID);
-			Units_TerrainID_ComboBox->Update(UnitPointer->Building.TerrainID);
-			Units_Unknown32->Update(UnitPointer->Building.ResourceID);
-			Units_ResearchID->Update(UnitPointer->Building.ResearchID);
-			Units_ResearchID_ComboBox->Update(UnitPointer->Building.ResearchID);
+			Units_ConstructionGraphicID->Update();
+			Units_AdjacentMode->Update();
+			Units_IconDisabler->Update();
+			Units_DisappearsWhenBuilt->Update();
+			Units_StackUnitID->Update();
+			Units_TerrainID->Update();
+			Units_Unknown32->Update();
+			Units_ResearchID->Update();
 			if(GenieVersion >= genie::GV_AoKA)
 			{
 				if(GenieVersion >= genie::GV_TC)
 				{
-					Units_SnowGraphicID->Update(UnitPointer->Building.SnowGraphicID);
-					Units_SnowGraphicID_ComboBox->Update(UnitPointer->Building.SnowGraphicID);
+					Units_SnowGraphicID->Update();
 				}
-				Units_Unknown33->Update(UnitPointer->Building.PlayerAlive);
+				Units_Unknown33->Update();
 				for(short loop = 0; loop < 4; ++loop)
 				{
-					Units_AnnexUnit[loop]->Update(UnitPointer->Building.Annexes[loop].UnitID);
-					Units_AnnexUnit_ComboBox[loop]->Update(UnitPointer->Building.Annexes[loop].UnitID);
-					Units_AnnexUnitMisplacement[loop][0]->Update(UnitPointer->Building.Annexes[loop].Misplacement.first);
-					Units_AnnexUnitMisplacement[loop][1]->Update(UnitPointer->Building.Annexes[loop].Misplacement.second);
+					Units_AnnexUnit[loop]->Update();
+					Units_AnnexUnitMisplacement[loop][0]->Update();
+					Units_AnnexUnitMisplacement[loop][1]->Update();
 				}
-				Units_HeadUnit->Update(UnitPointer->Building.HeadUnit);
-				Units_HeadUnit_ComboBox->Update(UnitPointer->Building.HeadUnit);
-				Units_TransformUnit->Update(UnitPointer->Building.TransformUnit);
-				Units_TransformUnit_ComboBox->Update(UnitPointer->Building.TransformUnit);
-				Units_Unknown34->Update(UnitPointer->Building.UnknownSound);
-				Units_GarrisonType->Update(UnitPointer->Building.GarrisonType);
-				Units_GarrisonType_ComboBox->Update(UnitPointer->Building.GarrisonType);
-				Units_GarrisonHealRate->Update(UnitPointer->Building.GarrisonHealRate);
-				Units_Unknown35->Update(UnitPointer->Building.Unknown35);
-				Units_PileUnit->Update(UnitPointer->Building.PileUnit);
+				Units_HeadUnit->Update();
+				Units_TransformUnit->Update();
+				Units_Unknown34->Update();
+				Units_GarrisonType->Update();
+				Units_GarrisonHealRate->Update();
+				Units_Unknown35->Update();
+				Units_PileUnit->Update();
 				for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
-				Units_LootSwitch[loop]->Update(UnitPointer->Building.AlfaThingy[loop]);
+				Units_LootSwitch[loop]->Update();
 			}
-			Units_ConstructionSound->Update(UnitPointer->Building.ConstructionSound);
-			Units_ConstructionSound_ComboBox->Update(UnitPointer->Building.ConstructionSound);
+			Units_ConstructionSound->Update();
 		}
 		case 70:
 		{
@@ -892,41 +880,34 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 
 			for(short loop = 0; loop < 3; ++loop)
 			{
-				Units_CostType[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Type);
-				Units_CostType_ComboBox[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Type);
-				Units_CostAmount[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Amount);
-				Units_CostUsed[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Enabled);
-				Units_CostUsed_CheckBox[loop]->Update(UnitPointer->Creatable.ResourceCosts[loop].Enabled);
+				Units_CostType[loop]->Update();
+				Units_CostAmount[loop]->Update();
+				Units_CostUsed[loop]->Update();
 			}
-			Units_TrainTime->Update(UnitPointer->Creatable.TrainTime);
-			Units_TrainLocationID->Update(UnitPointer->Creatable.TrainLocationID);
-			Units_TrainLocationID_ComboBox->Update(UnitPointer->Creatable.TrainLocationID);
-			Units_ButtonID->Update(UnitPointer->Creatable.ButtonID);
+			Units_TrainTime->Update();
+			Units_TrainLocationID->Update();
+			Units_ButtonID->Update();
 			if(GenieVersion >= genie::GV_AoKA)
 			{
-				Units_Unknown26->Update(UnitPointer->Creatable.Unknown26);
-				Units_Unknown27->Update(UnitPointer->Creatable.Unknown27);
-				Units_MissileGraphicDelay->Update(UnitPointer->Creatable.MissileGraphicDelay);
+				Units_Unknown26->Update();
+				Units_Unknown27->Update();
+				Units_MissileGraphicDelay->Update();
 				if(GenieVersion >= genie::GV_AoKB)
 				{
-					Units_HeroMode->Update(UnitPointer->Creatable.HeroMode);
-					Units_HeroMode_CheckBox->Update(UnitPointer->Creatable.HeroMode);
-					Units_GarrisonGraphic->Update(UnitPointer->Creatable.GarrisonGraphic);
-					Units_GarrisonGraphic_ComboBox->Update(UnitPointer->Creatable.GarrisonGraphic);
+					Units_HeroMode->Update();
+					Units_GarrisonGraphic->Update();
 				}
-				Units_AttackMissileDuplicationAmount1->Update(UnitPointer->Creatable.DuplicatedMissilesMin);
-				Units_AttackMissileDuplicationAmount2->Update(UnitPointer->Creatable.DuplicatedMissilesMax);
+				Units_AttackMissileDuplicationAmount1->Update();
+				Units_AttackMissileDuplicationAmount2->Update();
 				for(short loop = 0; loop < 3; ++loop)
 				{
-					Units_AttackMissileDuplicationSpawning[loop]->Update(UnitPointer->Creatable.MissileSpawningArea[loop]);
+					Units_AttackMissileDuplicationSpawning[loop]->Update();
 				}
-				Units_AttackMissileDuplicationUnit->Update(UnitPointer->Creatable.AttackMissileDuplicationUnit);
-				Units_AttackMissileDuplicationUnit_ComboBox->Update(UnitPointer->Creatable.AttackMissileDuplicationUnit);
-				Units_AttackMissileDuplicationGraphic->Update(UnitPointer->Creatable.AttackMissileDuplicationGraphic);
-				Units_AttackMissileDuplicationGraphic_ComboBox->Update(UnitPointer->Creatable.AttackMissileDuplicationGraphic);
-				Units_Unknown29->Update(UnitPointer->Creatable.Unknown29);
+				Units_AttackMissileDuplicationUnit->Update();
+				Units_AttackMissileDuplicationGraphic->Update();
+				Units_Unknown29->Update();
 			}
-			Units_DisplayedPierceArmour->Update(UnitPointer->Creatable.DisplayedPierceArmour);
+			Units_DisplayedPierceArmour->Update();
 		}
 		case 60:
 		case 50:
@@ -961,36 +942,33 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Armors_Class->Enable(true);
 			Armors_Amount->Enable(true);
 
-			Units_DefaultArmor->Update(UnitPointer->Type50.DefaultArmor);
-			Units_Unknown21->Update(UnitPointer->Type50.Unknown21);
-			Units_MaxRange->Update(UnitPointer->Type50.MaxRange);
-			Units_BlastRadius->Update(UnitPointer->Type50.BlastRadius);
-			Units_ReloadTime1->Update(UnitPointer->Type50.ReloadTime);
-			Units_ProjectileUnitID->Update(UnitPointer->Type50.ProjectileUnitID);
-			Units_ProjectileUnitID_ComboBox->Update(UnitPointer->Type50.ProjectileUnitID);
-			Units_AccuracyPercent->Update(UnitPointer->Type50.AccuracyPercent);
-			Units_TowerMode->Update(UnitPointer->Type50.TowerMode);
-			Units_TowerMode_CheckBox->Update(UnitPointer->Type50.TowerMode);
-			Units_Delay->Update(UnitPointer->Type50.Delay);
+			Units_DefaultArmor->Update();
+			Units_Unknown21->Update();
+			Units_MaxRange->Update();
+			Units_BlastRadius->Update();
+			Units_ReloadTime1->Update();
+			Units_ProjectileUnitID->Update();
+			Units_AccuracyPercent->Update();
+			Units_TowerMode->Update();
+			Units_Delay->Update();
 			for(short loop = 0; loop < 3; ++loop)
 			{
-				Units_GraphicDisplacement[loop]->Update(UnitPointer->Type50.GraphicDisplacement[loop]);
+				Units_GraphicDisplacement[loop]->Update();
 			}
-			Units_BlastLevel->Update(UnitPointer->Type50.BlastLevel);
-			Units_MinRange->Update(UnitPointer->Type50.MinRange);
+			Units_BlastLevel->Update();
+			Units_MinRange->Update();
 			if(GenieVersion >= genie::GV_AoK)
 			{
 				if(GenieVersion >= genie::GV_TC)
 				{
 				}
-				Units_GarrisonRecoveryRate->Update(UnitPointer->Type50.GarrisonRecoveryRate);
+				Units_GarrisonRecoveryRate->Update();
 			}
-			Units_AttackGraphic->Update(UnitPointer->Type50.AttackGraphic);
-			Units_AttackGraphic_ComboBox->Update(UnitPointer->Type50.AttackGraphic);
-			Units_DisplayedMeleeArmour->Update(UnitPointer->Type50.DisplayedMeleeArmour);
-			Units_DisplayedAttack->Update(UnitPointer->Type50.DisplayedAttack);
-			Units_DisplayedRange->Update(UnitPointer->Type50.DisplayedRange);
-			Units_ReloadTime2->Update(UnitPointer->Type50.DisplayedReloadTime);
+			Units_AttackGraphic->Update();
+			Units_DisplayedMeleeArmour->Update();
+			Units_DisplayedAttack->Update();
+			Units_DisplayedRange->Update();
+			Units_ReloadTime2->Update();
 		}
 		case 40:
 		{
@@ -1011,21 +989,15 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_AnimalMode->Enable(true);
 			Units_AnimalMode_CheckBox->Enable(true);
 
-			Units_SheepConversion->Update(UnitPointer->Bird.SheepConversion);
-			Units_SheepConversion_CheckBox->Update(UnitPointer->Bird.SheepConversion);
-			Units_SearchRadius->Update(UnitPointer->Bird.SearchRadius);
-			Units_WorkRate->Update(UnitPointer->Bird.WorkRate);
-			Units_DropSite[0]->Update(UnitPointer->Bird.DropSite.first);
-			Units_DropSite_ComboBox[0]->Update(UnitPointer->Bird.DropSite.first);
-			Units_DropSite[1]->Update(UnitPointer->Bird.DropSite.second);
-			Units_DropSite_ComboBox[1]->Update(UnitPointer->Bird.DropSite.second);
-			Units_VillagerMode->Update(UnitPointer->Bird.VillagerMode);
-			Units_AttackSound->Update(UnitPointer->Bird.AttackSound);
-			Units_AttackSound_ComboBox->Update(UnitPointer->Bird.AttackSound);
-			Units_MoveSound->Update(UnitPointer->Bird.MoveSound);
-			Units_MoveSound_ComboBox->Update(UnitPointer->Bird.MoveSound);
-			Units_AnimalMode->Update(UnitPointer->Bird.AnimalMode);
-			Units_AnimalMode_CheckBox->Update(UnitPointer->Bird.AnimalMode);
+			Units_SheepConversion->Update();
+			Units_SearchRadius->Update();
+			Units_WorkRate->Update();
+			Units_DropSite[0]->Update();
+			Units_DropSite[1]->Update();
+			Units_VillagerMode->Update();
+			Units_AttackSound->Update();
+			Units_MoveSound->Update();
+			Units_AnimalMode->Update();
 		}
 		case 30:
 		{
@@ -1044,22 +1016,19 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
 			Units_Unknown16B[loop]->Enable(true);
 
-			Units_WalkingGraphic[0]->Update(UnitPointer->DeadFish.WalkingGraphic.first);
-			Units_WalkingGraphic_ComboBox[0]->Update(UnitPointer->DeadFish.WalkingGraphic.first);
-			Units_WalkingGraphic[1]->Update(UnitPointer->DeadFish.WalkingGraphic.second);
-			Units_WalkingGraphic_ComboBox[1]->Update(UnitPointer->DeadFish.WalkingGraphic.second);
-			Units_RotationSpeed->Update(UnitPointer->DeadFish.RotationSpeed);
-			Units_Unknown11->Update(UnitPointer->DeadFish.Unknown11);
-			Units_TrackingUnit->Update(UnitPointer->DeadFish.TrackingUnit);
-			Units_TrackingUnit_ComboBox->Update(UnitPointer->DeadFish.TrackingUnit);
-			Units_TrackingUnitUsed->Update(UnitPointer->DeadFish.TrackingUnitUsed);
-			Units_TrackingUnitDensity->Update(UnitPointer->DeadFish.TrackingUnitDensity);
-			Units_Unknown16->Update(UnitPointer->DeadFish.Unknown16);
+			Units_WalkingGraphic[0]->Update();
+			Units_WalkingGraphic[1]->Update();
+			Units_RotationSpeed->Update();
+			Units_Unknown11->Update();
+			Units_TrackingUnit->Update();
+			Units_TrackingUnitUsed->Update();
+			Units_TrackingUnitDensity->Update();
+			Units_Unknown16->Update();
 			if(GenieVersion >= genie::GV_AoKB)
 			{
 				for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
 				{
-					Units_Unknown16B[loop]->Update(UnitPointer->DeadFish.Unknown16B[loop]);
+					Units_Unknown16B[loop]->Update();
 				}
 			}
 		}
@@ -1067,97 +1036,76 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		case 20:
 		{
 			Units_Speed->Enable(true);
-			Units_Speed->Update(UnitPointer->Speed);
+			Units_Speed->Update();
 		}
 	}
-	Units_ID1->Update(UnitPointer->ID1);
-	Units_LanguageDLLName->Update(UnitPointer->LanguageDLLName);
+	Units_ID1->Update();
+	Units_LanguageDLLName->Update();
 	Units_DLL_LanguageName->index = UnitPointer->LanguageDLLName;
 	Units_DLL_LanguageName->SetLabel(LangDLLstring(UnitPointer->LanguageDLLName, 64));
-	Units_LanguageDLLCreation->Update(UnitPointer->LanguageDLLCreation);
+	Units_LanguageDLLCreation->Update();
 	Units_DLL_LanguageCreation->index = UnitPointer->LanguageDLLCreation;
 	Units_DLL_LanguageCreation->SetLabel(LangDLLstring(UnitPointer->LanguageDLLCreation, 64));
-	Units_Class->Update(UnitPointer->Class);
-	Units_Class_ComboBox[0]->Update(UnitPointer->Class);
-	Units_StandingGraphic[0]->Update(UnitPointer->StandingGraphic.first);
-	Units_StandingGraphic_ComboBox[0]->Update(UnitPointer->StandingGraphic.first);
-	Units_DyingGraphic[0]->Update(UnitPointer->DyingGraphic.first);
-	Units_DyingGraphic_ComboBox[0]->Update(UnitPointer->DyingGraphic.first);
-	Units_DyingGraphic[1]->Update(UnitPointer->DyingGraphic.second);
-	Units_DyingGraphic_ComboBox[1]->Update(UnitPointer->DyingGraphic.second);
-	Units_DeathMode->Update(UnitPointer->DeathMode);
-	Units_DeathMode_CheckBox->Update(UnitPointer->DeathMode);
-	Units_HitPoints->Update(UnitPointer->HitPoints);
-	Units_LineOfSight->Update(UnitPointer->LineOfSight);
-	Units_GarrisonCapacity->Update(UnitPointer->GarrisonCapacity);
-	Units_SizeRadius[0]->Update(UnitPointer->SizeRadius.first);
-	Units_SizeRadius[1]->Update(UnitPointer->SizeRadius.second);
-	Units_HPBarHeight1->Update(UnitPointer->HPBarHeight1);
-	Units_TrainSound[0]->Update(UnitPointer->TrainSound.first);
-	Units_TrainSound_ComboBox[0]->Update(UnitPointer->TrainSound.first);
-	Units_DeadUnitID->Update(UnitPointer->DeadUnitID);
-	Units_DeadUnitID_ComboBox->Update(UnitPointer->DeadUnitID);
-	Units_PlacementMode->Update(UnitPointer->PlacementMode);
-	Units_AirMode->Update(UnitPointer->AirMode);
-	Units_AirMode_CheckBox->Update(UnitPointer->AirMode);
-	Units_IconID->Update(UnitPointer->IconID);
-	Units_HideInEditor->Update(UnitPointer->HideInEditor);
-	Units_HideInEditor_CheckBox->Update(UnitPointer->HideInEditor);
-	Units_Unknown1->Update(UnitPointer->Unknown1);
-	Units_Enabled->Update(UnitPointer->Enabled);
-	Units_Enabled_CheckBox->Update(UnitPointer->Enabled);
-	Units_PlacementBypassTerrain[0]->Update(UnitPointer->PlacementBypassTerrain.first);
-	Units_PlacementBypassTerrain_ComboBox[0]->Update(UnitPointer->PlacementBypassTerrain.first);
-	Units_PlacementBypassTerrain[1]->Update(UnitPointer->PlacementBypassTerrain.second);
-	Units_PlacementBypassTerrain_ComboBox[1]->Update(UnitPointer->PlacementBypassTerrain.second);
-	Units_PlacementTerrain[0]->Update(UnitPointer->PlacementTerrain.first);
-	Units_PlacementTerrain_ComboBox[0]->Update(UnitPointer->PlacementTerrain.first);
-	Units_PlacementTerrain[1]->Update(UnitPointer->PlacementTerrain.second);
-	Units_PlacementTerrain_ComboBox[1]->Update(UnitPointer->PlacementTerrain.second);
-	Units_EditorRadius[0]->Update(UnitPointer->EditorRadius.first);
-	Units_EditorRadius[1]->Update(UnitPointer->EditorRadius.second);
-	Units_BuildingMode->Update(UnitPointer->HillMode);
-	Units_VisibleInFog->Update(UnitPointer->VisibleInFog);
-	Units_TerrainRestriction->Update(UnitPointer->TerrainRestriction);
-	Units_TerrainRestriction_ComboBox->Update(UnitPointer->TerrainRestriction);
-	Units_FlyMode->Update(UnitPointer->FlyMode);
-	Units_FlyMode_CheckBox->Update(UnitPointer->FlyMode);
-	Units_ResourceCapacity->Update(UnitPointer->ResourceCapacity);
-	Units_ResourceDecay->Update(UnitPointer->ResourceDecay);
-	Units_BlastType->Update(UnitPointer->BlastType);
-	Units_Unknown2->Update(UnitPointer->Unknown2);
-	Units_InteractionMode->Update(UnitPointer->InteractionMode);
-	Units_MinimapMode->Update(UnitPointer->MinimapMode);
-	Units_SelectionEffect->Update(UnitPointer->SelectionEffect);
-	Units_EditorSelectionColour->Update(UnitPointer->EditorSelectionColour);
+	Units_Class->Update();
+	Units_StandingGraphic[0]->Update();
+	Units_DyingGraphic[0]->Update();
+	Units_DyingGraphic[1]->Update();
+	Units_DeathMode->Update();
+	Units_HitPoints->Update();
+	Units_LineOfSight->Update();
+	Units_GarrisonCapacity->Update();
+	Units_SizeRadius[0]->Update();
+	Units_SizeRadius[1]->Update();
+	Units_HPBarHeight1->Update();
+	Units_TrainSound[0]->Update();
+	Units_DeadUnitID->Update();
+	Units_PlacementMode->Update();
+	Units_AirMode->Update();
+	Units_IconID->Update();
+	Units_HideInEditor->Update();
+	Units_Unknown1->Update();
+	Units_Enabled->Update();
+	Units_PlacementBypassTerrain[0]->Update();
+	Units_PlacementBypassTerrain[1]->Update();
+	Units_PlacementTerrain[0]->Update();
+	Units_PlacementTerrain[1]->Update();
+	Units_EditorRadius[0]->Update();
+	Units_EditorRadius[1]->Update();
+	Units_BuildingMode->Update();
+	Units_VisibleInFog->Update();
+	Units_TerrainRestriction->Update();
+	Units_FlyMode->Update();
+	Units_ResourceCapacity->Update();
+	Units_ResourceDecay->Update();
+	Units_BlastType->Update();
+	Units_Unknown2->Update();
+	Units_InteractionMode->Update();
+	Units_MinimapMode->Update();
+	Units_SelectionEffect->Update();
+	Units_EditorSelectionColour->Update();
 	if(GenieVersion >= genie::GV_AoKA)
 	{
 		Units_DLL_LanguageHelp->index = UnitPointer->LanguageDLLHelp - 79000;
 		Units_DLL_LanguageHKText->index = UnitPointer->LanguageDLLHotKeyText - 140000;
-		Units_TrainSound[1]->Update(UnitPointer->TrainSound.second);
-		Units_TrainSound_ComboBox[1]->Update(UnitPointer->TrainSound.second);
-		Units_SelectionMask->Update(UnitPointer->SelectionMask);
-		Units_SelectionShapeType->Update(UnitPointer->SelectionShapeType);
-		Units_SelectionShape->Update(UnitPointer->SelectionShape);
-		Units_ID3->Update(UnitPointer->ID3);
+		Units_TrainSound[1]->Update();
+		Units_SelectionMask->Update();
+		Units_SelectionShapeType->Update();
+		Units_SelectionShape->Update();
+		Units_ID3->Update();
 		if(GenieVersion >= genie::GV_AoK)
 		{
-			Units_StandingGraphic[1]->Update(UnitPointer->StandingGraphic.second);
-			Units_StandingGraphic_ComboBox[1]->Update(UnitPointer->StandingGraphic.second);
-			Units_Disabled->Update(UnitPointer->NewUnknown);
-			Units_Disabled_CheckBox->Update(UnitPointer->NewUnknown);
+			Units_StandingGraphic[1]->Update();
+			Units_Disabled->Update();
 			if(GenieVersion >= genie::GV_TC)
 			{
-				Units_Attribute->Update(UnitPointer->Attribute);
-				Units_Civ->Update(UnitPointer->Civilization);
-				Units_Civ_ComboBox->Update(UnitPointer->Civilization);
-				Units_Unknown9->Update(UnitPointer->Unknown9);
+				Units_Attribute->Update();
+				Units_Civ->Update();
+				Units_Unknown9->Update();
 				if(GenieVersion >= genie::GV_SWGB)
 				{
 					Units_Name2->ChangeValue(UnitPointer->Name2);
-					Units_Unitline->Update(UnitPointer->Unitline);
-					Units_Unitline_ComboBox->Update(UnitPointer->Unitline);
-					Units_MinTechLevel->Update(UnitPointer->MinTechLevel);
+					Units_Unitline->Update();
+					Units_MinTechLevel->Update();
 				}
 			}
 		}
@@ -1167,40 +1115,36 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
 		Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
 	}
-	Units_CommandAttribute->Update(UnitPointer->CommandAttribute);
-	Units_Unknown3A->Update(UnitPointer->Unknown3A);
-	Units_Unknown3B->Update(UnitPointer->Unknown3B);
-	Units_LanguageDLLHelp->Update(UnitPointer->LanguageDLLHelp);
+	Units_CommandAttribute->Update();
+	Units_Unknown3A->Update();
+	Units_Unknown3B->Update();
+	Units_LanguageDLLHelp->Update();
 	Units_DLL_LanguageHelp->SetLabel(LangDLLstring(Units_DLL_LanguageHelp->index, 512));
 	Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHelp->index));
-	Units_LanguageDLLHotKeyText->Update(UnitPointer->LanguageDLLHotKeyText);
+	Units_LanguageDLLHotKeyText->Update();
 	Units_DLL_LanguageHKText->SetLabel(LangDLLstring(Units_DLL_LanguageHKText->index, 64));
 	Units_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHKText->index));
-	Units_HotKey->Update(UnitPointer->HotKey);
+	Units_HotKey->Update();
 	Units_DLL_HotKey4->index = UnitPointer->HotKey;
 	Units_DLL_HotKey4->SetLabel(LangDLLstring(UnitPointer->HotKey, 16));
-	Units_Unselectable->Update(UnitPointer->Unselectable);
-	Units_Unselectable_CheckBox->Update(UnitPointer->Unselectable);
-	Units_Unknown6->Update(UnitPointer->Unknown6);
-	Units_Unknown7->Update(UnitPointer->Unknown7);
-	Units_Unknown8->Update(UnitPointer->Unknown8);
-	Units_SelectionRadius[0]->Update(UnitPointer->SelectionRadius.first);
-	Units_SelectionRadius[1]->Update(UnitPointer->SelectionRadius.second);
-	Units_HPBarHeight2->Update(UnitPointer->HPBarHeight2);
-	Units_SelectionSound->Update(UnitPointer->SelectionSound);
-	Units_SelectionSound_ComboBox->Update(UnitPointer->SelectionSound);
-	Units_DyingSound->Update(UnitPointer->DyingSound);
-	Units_DyingSound_ComboBox->Update(UnitPointer->DyingSound);
-	Units_AttackMode->Update(UnitPointer->AttackMode);
-	Units_EdibleMeat->Update(UnitPointer->EdibleMeat);
+	Units_Unselectable->Update();
+	Units_Unknown6->Update();
+	Units_Unknown7->Update();
+	Units_Unknown8->Update();
+	Units_SelectionRadius[0]->Update();
+	Units_SelectionRadius[1]->Update();
+	Units_HPBarHeight2->Update();
+	Units_SelectionSound->Update();
+	Units_DyingSound->Update();
+	Units_AttackMode->Update();
+	Units_EdibleMeat->Update();
 	Units_Name->ChangeValue(UnitPointer->Name);
-	Units_ID2->Update(UnitPointer->ID2);
+	Units_ID2->Update();
 	for(short loop = 0; loop < 3; ++loop)
 	{
-		ResourceStorage_Type[loop]->Update(UnitPointer->ResourceStorages[loop].Type);
-		ResourceStorage_Amount[loop]->Update(UnitPointer->ResourceStorages[loop].Amount);
-		ResourceStorage_Enabled[loop]->Update(UnitPointer->ResourceStorages[loop].Enabled);
-		ResourceStorage_Type_ComboBox[loop]->Update(UnitPointer->ResourceStorages[loop].Type);
+		ResourceStorage_Type[loop]->Update();
+		ResourceStorage_Amount[loop]->Update();
+		ResourceStorage_Enabled[loop]->Update();
 	}
 
 	switch(UnitType) // Disable editing
@@ -1474,12 +1418,12 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_Unknown24->Enable(true);
 		Units_ProjectileArc->Enable(true);
 
-		Units_StretchMode->Update(UnitPointer->Projectile.StretchMode);
-		Units_CompensationMode->Update(UnitPointer->Projectile.CompensationMode);
-		Units_DropAnimationMode->Update(UnitPointer->Projectile.DropAnimationMode);
-		Units_PenetrationMode->Update(UnitPointer->Projectile.PenetrationMode);
-		Units_Unknown24->Update(UnitPointer->Projectile.Unknown24);
-		Units_ProjectileArc->Update(UnitPointer->Projectile.ProjectileArc);
+		Units_StretchMode->Update();
+		Units_CompensationMode->Update();
+		Units_DropAnimationMode->Update();
+		Units_PenetrationMode->Update();
+		Units_Unknown24->Update();
+		Units_ProjectileArc->Update();
 	}
 	else
 	{
@@ -1520,7 +1464,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		}
 
 		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs[0])+" - "+GetUnitName(UnitIDs[0], 0));
-		Units_Exists->Update(UnitHeadPointer->Exists);
+		Units_Exists->Update();
 	}
 	else	// AoE or RoR
 	{
@@ -2179,11 +2123,10 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 			wxMessageBox(warning);
 		}
 
-		DamageGraphics_GraphicID->Update(DamageGraphicPointer->GraphicID);
-		DamageGraphics_GraphicID_ComboBox->Update(DamageGraphicPointer->GraphicID);
-		DamageGraphics_DamagePercent->Update(DamageGraphicPointer->DamagePercent);
-		DamageGraphics_Unknown1->Update(DamageGraphicPointer->ApplyMode);
-		DamageGraphics_Unknown2->Update(DamageGraphicPointer->Unknown2);
+		DamageGraphics_GraphicID->Update();
+		DamageGraphics_DamagePercent->Update();
+		DamageGraphics_Unknown1->Update();
+		DamageGraphics_Unknown2->Update();
 	}
 	else
 	{
@@ -2437,9 +2380,8 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 			wxMessageBox(warning);
 		}
 
-		Attacks_Class->Update(AttackPointer->Class);
-		Attacks_Class_ComboBox[0]->Update(AttackPointer->Class);
-		Attacks_Amount->Update(AttackPointer->Amount);
+		Attacks_Class->Update();
+		Attacks_Amount->Update();
 	}
 	else
 	{
@@ -2690,9 +2632,8 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 			wxMessageBox(warning);
 		}
 
-		Armors_Class->Update(ArmorPointer->Class);
-		Attacks_Class_ComboBox[1]->Update(ArmorPointer->Class);
-		Armors_Amount->Update(ArmorPointer->Amount);
+		Armors_Class->Update();
+		Armors_Amount->Update();
 	}
 	else
 	{
@@ -3064,10 +3005,10 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 			}
 		}
 
-		UnitCommands_One->Update(CommandPointer->One);
-		UnitCommands_ID->Update(CommandPointer->ID);
-		UnitCommands_Unknown1->Update(CommandPointer->Unknown1);
-		UnitCommands_Type->Update(CommandPointer->Type);
+		UnitCommands_One->Update();
+		UnitCommands_ID->Update();
+		UnitCommands_Unknown1->Update();
+		UnitCommands_Type->Update();
 		switch(CommandPointer->Type)
 		{
 			case 1: UnitCommands_Type_ComboBox->SetSelection(1); break;
@@ -3107,35 +3048,28 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 			case 149: UnitCommands_Type_ComboBox->SetSelection(35); break;
 			default: UnitCommands_Type_ComboBox->SetSelection(0);
 		}
-		UnitCommands_ClassID->Update(CommandPointer->ClassID);
-		Units_Class_ComboBox[1]->Update(CommandPointer->ClassID);
-		UnitCommands_UnitID->Update(CommandPointer->UnitID);
-		UnitCommands_UnitID_ComboBox->Update(CommandPointer->UnitID);
-		UnitCommands_Unknown2->Update(CommandPointer->Unknown2);
-		UnitCommands_ResourceIn->Update(CommandPointer->ResourceIn);
-		UnitCommands_ResourceIn_ComboBox->Update(CommandPointer->ResourceIn);
-		UnitCommands_ProductivityResource->Update(CommandPointer->ResourceProductivityMultiplier);
-		UnitCommands_ProductivityResource_ComboBox->Update(CommandPointer->ResourceProductivityMultiplier);
-		UnitCommands_ResourceOut->Update(CommandPointer->ResourceOut);
-		UnitCommands_ResourceOut_ComboBox->Update(CommandPointer->ResourceOut);
-		UnitCommands_Resource->Update(CommandPointer->Resource);
-		UnitCommands_Resource_ComboBox->Update(CommandPointer->Resource);
-		UnitCommands_WorkRateMultiplier->Update(CommandPointer->WorkRateMultiplier);
-		UnitCommands_ExecutionRadius->Update(CommandPointer->ExecutionRadius);
-		UnitCommands_ExtraRange->Update(CommandPointer->ExtraRange);
-		UnitCommands_Unknown4->Update(CommandPointer->Unknown4);
-		UnitCommands_Unknown5->Update(CommandPointer->Unknown5);
-		UnitCommands_SelectionEnabler->Update(CommandPointer->SelectionEnabler);
-		UnitCommands_Unknown7->Update(CommandPointer->Unknown7);
-		UnitCommands_Unknown8->Update(CommandPointer->Unknown8);
-		UnitCommands_Unknown9->Update(CommandPointer->Unknown9);
-		UnitCommands_SelectionMode->Update(CommandPointer->SelectionMode);
-		UnitCommands_Unknown11->Update(CommandPointer->Unknown11);
-		UnitCommands_Unknown11->Update(CommandPointer->Unknown12);
+		UnitCommands_ClassID->Update();
+		UnitCommands_UnitID->Update();
+		UnitCommands_Unknown2->Update();
+		UnitCommands_ResourceIn->Update();
+		UnitCommands_ProductivityResource->Update();
+		UnitCommands_ResourceOut->Update();
+		UnitCommands_Resource->Update();
+		UnitCommands_WorkRateMultiplier->Update();
+		UnitCommands_ExecutionRadius->Update();
+		UnitCommands_ExtraRange->Update();
+		UnitCommands_Unknown4->Update();
+		UnitCommands_Unknown5->Update();
+		UnitCommands_SelectionEnabler->Update();
+		UnitCommands_Unknown7->Update();
+		UnitCommands_Unknown8->Update();
+		UnitCommands_Unknown9->Update();
+		UnitCommands_SelectionMode->Update();
+		UnitCommands_Unknown11->Update();
+		UnitCommands_Unknown11->Update();
 		for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 		{
-			UnitCommands_Graphics[loop]->Update(CommandPointer->Graphics[loop]);
-			UnitCommands_Graphics_ComboBox[loop]->Update(CommandPointer->Graphics[loop]);
+			UnitCommands_Graphics[loop]->Update();
 		}
 	}
 	else
