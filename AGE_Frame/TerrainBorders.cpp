@@ -92,24 +92,24 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 		Borders_BorderTerrain->container[sel] = &BorderPointer->TerrainID;
 	}
 
-	Borders_BorderUnknown1->ChangeValue(lexical_cast<string>(BorderPointer->Unknown1));
-	Borders_BorderEnabled->ChangeValue(lexical_cast<string>(BorderPointer->Enabled));
+	Borders_BorderUnknown1->Update(BorderPointer->Unknown1);
+	Borders_BorderEnabled->Update(BorderPointer->Enabled);
 	Borders_BorderEnabled_CheckBox->Update(BorderPointer->Enabled);
 	Borders_BorderName[0]->ChangeValue(BorderPointer->Name);
 	Borders_BorderName[1]->ChangeValue(BorderPointer->Name2);
-	Borders_BorderRessourceID->ChangeValue(lexical_cast<string>(BorderPointer->SLP));
-	Borders_BorderUnknown3->ChangeValue(lexical_cast<string>(BorderPointer->Unknown3));
-	Borders_BorderUnknown4->ChangeValue(lexical_cast<string>(BorderPointer->SoundID));
+	Borders_BorderRessourceID->Update(BorderPointer->SLP);
+	Borders_BorderUnknown3->Update(BorderPointer->Unknown3);
+	Borders_BorderUnknown4->Update(BorderPointer->SoundID);
 	for(short loop = 0; loop < 3; ++loop)
 	{
-		Borders_BorderColors[loop]->ChangeValue(lexical_cast<string>((short)BorderPointer->Colors[loop]));
+		Borders_BorderColors[loop]->Update(BorderPointer->Colors[loop]);
 	}
 	for(short loop = 0; loop < Borders_BorderUnknown5.size(); ++loop)
-	Borders_BorderUnknown5[loop]->ChangeValue(lexical_cast<string>((short)BorderPointer->Unknown5[loop]));
-	Borders_BorderUnknown6->ChangeValue(lexical_cast<string>(BorderPointer->Unknown6));
-	Borders_BorderFrameCount->ChangeValue(lexical_cast<string>(BorderPointer->FrameCount));
-	Borders_BorderUnknown8->ChangeValue(lexical_cast<string>(BorderPointer->AngleCount));
-	Borders_BorderTerrain->ChangeValue(lexical_cast<string>(BorderPointer->TerrainID));
+	Borders_BorderUnknown5[loop]->Update(BorderPointer->Unknown5[loop]);
+	Borders_BorderUnknown6->Update(BorderPointer->Unknown6);
+	Borders_BorderFrameCount->Update(BorderPointer->FrameCount);
+	Borders_BorderUnknown8->Update(BorderPointer->AngleCount);
+	Borders_BorderTerrain->Update(BorderPointer->TerrainID);
 	Borders_BorderTerrain_ComboBox->Update(BorderPointer->TerrainID);
 	ListTerrainBorderFrames();
 }
@@ -190,9 +190,9 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 		Borders_BorderFlag2->container[loop] = &FramePointer->Flag2;
 	}
 
-	Borders_BorderFrameID->ChangeValue(lexical_cast<string>(FramePointer->FrameID));
-	Borders_BorderFlag1->ChangeValue(lexical_cast<string>(FramePointer->Flag1));
-	Borders_BorderFlag2->ChangeValue(lexical_cast<string>(FramePointer->Flag2));
+	Borders_BorderFrameID->Update(FramePointer->FrameID);
+	Borders_BorderFlag1->Update(FramePointer->Flag1);
+	Borders_BorderFlag2->Update(FramePointer->Flag2);
 }
 
 void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)

@@ -2,9 +2,6 @@
 
 void AGE_Frame::ListGeneral()
 {
-	//General_SomethingSize->SetLabel("Size: "+lexical_cast<string>(SomethingSize));
-	//General_SomethingPicker->ChangeValue(lexical_cast<string>(SomethingPage));
-
 	wxCommandEvent E;
 	OnGeneralSelect(E);
 }
@@ -73,58 +70,58 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 {
 	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
 	{
-		General_TerrainHeader[loop]->ChangeValue(lexical_cast<string>(GenieFile->TerrainBlock.GraphicsRendering[loop]));
+		General_TerrainHeader[loop]->Update(GenieFile->TerrainBlock.GraphicsRendering[loop]);
 		General_TerrainHeader[loop]->resize(1);
 		General_TerrainHeader[loop]->container[0] = &GenieFile->TerrainBlock.GraphicsRendering[loop];
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.ZeroSpace.size(); ++loop)
 	{
-		General_AfterBorders[loop]->ChangeValue(lexical_cast<string>(GenieFile->TerrainBlock.ZeroSpace[loop]));
+		General_AfterBorders[loop]->Update(GenieFile->TerrainBlock.ZeroSpace[loop]);
 		General_AfterBorders[loop]->resize(1);
 		General_AfterBorders[loop]->container[0] = &GenieFile->TerrainBlock.ZeroSpace[loop];
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Rendering.size(); ++loop)
 	{
-		General_TerrainRendering[loop]->ChangeValue(lexical_cast<string>(GenieFile->TerrainBlock.Rendering[loop]));
+		General_TerrainRendering[loop]->Update(GenieFile->TerrainBlock.Rendering[loop]);
 		General_TerrainRendering[loop]->resize(1);
 		General_TerrainRendering[loop]->container[0] = &GenieFile->TerrainBlock.Rendering[loop];
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Something.size(); ++loop)
 	{
-		General_Something[loop]->ChangeValue(lexical_cast<string>(GenieFile->TerrainBlock.Something[loop]));
+		General_Something[loop]->Update(GenieFile->TerrainBlock.Something[loop]);
 		General_Something[loop]->resize(1);
 		General_Something[loop]->container[0] = &GenieFile->TerrainBlock.Something[loop];
 	}
-	Unknown_UnknownPointer->ChangeValue(lexical_cast<string>(GenieFile->RandomMaps.RandomMapPointer));
+	Unknown_UnknownPointer->Update(GenieFile->RandomMaps.RandomMapPointer);
 	Unknown_UnknownPointer->resize(1);
 	Unknown_UnknownPointer->container[0] = &GenieFile->RandomMaps.RandomMapPointer;
 	if(GenieVersion <= genie::GV_RoR) return;
 	for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
 	{
-		General_TTUnknown[loop]->ChangeValue(lexical_cast<string>(GenieFile->UnknownPreTechTree[loop]));
+		General_TTUnknown[loop]->Update(GenieFile->UnknownPreTechTree[loop]);
 		General_TTUnknown[loop]->resize(1);
 		General_TTUnknown[loop]->container[0] = &GenieFile->UnknownPreTechTree[loop];
 	}
-	General_TTUnknown[7]->ChangeValue(lexical_cast<string>(GenieFile->TechTree.Unknown2));
+	General_TTUnknown[7]->Update(GenieFile->TechTree.Unknown2);
 	General_TTUnknown[7]->resize(1);
 	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
 	if(GenieVersion <= genie::GV_TC) return;
-	General_SUnknown2->ChangeValue(lexical_cast<string>(GenieFile->SUnknown2));
+	General_SUnknown2->Update(GenieFile->SUnknown2);
 	General_SUnknown2->resize(1);
 	General_SUnknown2->container[0] = &GenieFile->SUnknown2;
-	General_SUnknown3->ChangeValue(lexical_cast<string>(GenieFile->SUnknown3));
+	General_SUnknown3->Update(GenieFile->SUnknown3);
 	General_SUnknown3->resize(1);
 	General_SUnknown3->container[0] = &GenieFile->SUnknown3;
-	General_SUnknown4->ChangeValue(lexical_cast<string>(GenieFile->SUnknown4));
+	General_SUnknown4->Update(GenieFile->SUnknown4);
 	General_SUnknown4->resize(1);
 	General_SUnknown4->container[0] = &GenieFile->SUnknown4;
-	General_SUnknown5->ChangeValue(lexical_cast<string>(GenieFile->SUnknown5));
+	General_SUnknown5->Update(GenieFile->SUnknown5);
 	General_SUnknown5->resize(1);
 	General_SUnknown5->container[0] = &GenieFile->SUnknown5;
-	General_SUnknown7->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown7));
+	General_SUnknown7->Update(GenieFile->SUnknown7);
 	General_SUnknown7->resize(1);
 	General_SUnknown7->container[0] = &GenieFile->SUnknown7;
-	General_SUnknown8->ChangeValue(lexical_cast<string>((short)GenieFile->SUnknown8));
+	General_SUnknown8->Update(GenieFile->SUnknown8);
 	General_SUnknown8->resize(1);
 	General_SUnknown8->container[0] = &GenieFile->SUnknown8;
 }
@@ -404,20 +401,20 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 			Unknowns_Pointer4->container[sel2] = &MapPointer2->MapUnknownPointer;
 		}
 
-		Unknowns_UnknownLevel->ChangeValue(lexical_cast<string>(MapPointer1->ScriptNumber));
-		Unknowns_Unknown1[0]->ChangeValue(lexical_cast<string>(MapPointer1->BorderSouthWest));
-		Unknowns_Unknown1[1]->ChangeValue(lexical_cast<string>(MapPointer1->BorderNorthWest));
-		Unknowns_Unknown1[2]->ChangeValue(lexical_cast<string>(MapPointer1->BorderNorthEast));
-		Unknowns_Unknown1[3]->ChangeValue(lexical_cast<string>(MapPointer1->BorderSouthEast));
-		Unknowns_Unknown1[4]->ChangeValue(lexical_cast<string>(MapPointer1->BorderUsage));
-		Unknowns_Unknown1[5]->ChangeValue(lexical_cast<string>(MapPointer1->WaterShape));
-		Unknowns_Unknown1[6]->ChangeValue(lexical_cast<string>(MapPointer1->NonBaseTerrain));
-		Unknowns_Unknown1[7]->ChangeValue(lexical_cast<string>(MapPointer1->BaseZoneCoverage));
-		Unknowns_Unknown1[8]->ChangeValue(lexical_cast<string>(MapPointer1->Unknown9));
-		Unknowns_Pointer1->ChangeValue(lexical_cast<string>(MapPointer1->BaseZonePointer));
-		Unknowns_Pointer2->ChangeValue(lexical_cast<string>(MapPointer1->MapTerrainPointer));
-		Unknowns_Pointer3->ChangeValue(lexical_cast<string>(MapPointer1->MapUnitPointer));
-		Unknowns_Pointer4->ChangeValue(lexical_cast<string>(MapPointer1->MapUnknownPointer));
+		Unknowns_UnknownLevel->Update(MapPointer1->ScriptNumber);
+		Unknowns_Unknown1[0]->Update(MapPointer1->BorderSouthWest);
+		Unknowns_Unknown1[1]->Update(MapPointer1->BorderNorthWest);
+		Unknowns_Unknown1[2]->Update(MapPointer1->BorderNorthEast);
+		Unknowns_Unknown1[3]->Update(MapPointer1->BorderSouthEast);
+		Unknowns_Unknown1[4]->Update(MapPointer1->BorderUsage);
+		Unknowns_Unknown1[5]->Update(MapPointer1->WaterShape);
+		Unknowns_Unknown1[6]->Update(MapPointer1->NonBaseTerrain);
+		Unknowns_Unknown1[7]->Update(MapPointer1->BaseZoneCoverage);
+		Unknowns_Unknown1[8]->Update(MapPointer1->Unknown9);
+		Unknowns_Pointer1->Update(MapPointer1->BaseZonePointer);
+		Unknowns_Pointer2->Update(MapPointer1->MapTerrainPointer);
+		Unknowns_Pointer3->Update(MapPointer1->MapUnitPointer);
+		Unknowns_Pointer4->Update(MapPointer1->MapUnknownPointer);
 
 		ListRMSBaseZones();
 		ListRMSTerrains();
@@ -597,33 +594,33 @@ void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &Event)
 	}
 
 	RMSBaseZones_Unknown1->Enable(true);
-	RMSBaseZones_Unknown1->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1));
+	RMSBaseZones_Unknown1->Update(UnknownPointer->Unknown1);
 	RMSBaseZones_BaseTerrain->Enable(true);
-	RMSBaseZones_BaseTerrain->ChangeValue(lexical_cast<string>(UnknownPointer->BaseTerrain));
+	RMSBaseZones_BaseTerrain->Update(UnknownPointer->BaseTerrain);
 	RMSBaseZones_SpacingBetweenPlayers->Enable(true);
-	RMSBaseZones_SpacingBetweenPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->SpacingBetweenPlayers));
+	RMSBaseZones_SpacingBetweenPlayers->Update(UnknownPointer->SpacingBetweenPlayers);
 	RMSBaseZones_Unknown4->Enable(true);
-	RMSBaseZones_Unknown4->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown4));
+	RMSBaseZones_Unknown4->Update(UnknownPointer->Unknown4);
 	for(short loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
 	{
 		RMSBaseZones_Unknown5[loop]->Enable(true);
-		RMSBaseZones_Unknown5[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown5[loop]));
+		RMSBaseZones_Unknown5[loop]->Update(UnknownPointer->Unknown5[loop]);
 	}
 	RMSBaseZones_Unknown6->Enable(true);
-	RMSBaseZones_Unknown6->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown6));
+	RMSBaseZones_Unknown6->Update(UnknownPointer->Unknown6);
 	RMSBaseZones_Unknown7->Enable(true);
-	RMSBaseZones_Unknown7->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown7));
+	RMSBaseZones_Unknown7->Update(UnknownPointer->Unknown7);
 	for(short loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
 	{
 		RMSBaseZones_Unknown8[loop]->Enable(true);
-		RMSBaseZones_Unknown8[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown8[loop]));
+		RMSBaseZones_Unknown8[loop]->Update(UnknownPointer->Unknown8[loop]);
 	}
 	RMSBaseZones_StartAreaRadius->Enable(true);
-	RMSBaseZones_StartAreaRadius->ChangeValue(lexical_cast<string>(UnknownPointer->StartAreaRadius));
+	RMSBaseZones_StartAreaRadius->Update(UnknownPointer->StartAreaRadius);
 	RMSBaseZones_Unknown10->Enable(true);
-	RMSBaseZones_Unknown10->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown10));
+	RMSBaseZones_Unknown10->Update(UnknownPointer->Unknown10);
 	RMSBaseZones_Unknown11->Enable(true);
-	RMSBaseZones_Unknown11->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown11));
+	RMSBaseZones_Unknown11->Update(UnknownPointer->Unknown11);
 }
 
 void AGE_Frame::DisableRMSBaseZones()
@@ -802,12 +799,12 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &Event)
 	{
 		RMSTerrain_Unknown1[loop]->Enable(true);
 	}
-	RMSTerrain_Unknown1[0]->ChangeValue(lexical_cast<string>(UnknownPointer->Proportion));
-	RMSTerrain_Unknown1[1]->ChangeValue(lexical_cast<string>(UnknownPointer->Terrain));
-	RMSTerrain_Unknown1[2]->ChangeValue(lexical_cast<string>(UnknownPointer->NumberOfClumps));
-	RMSTerrain_Unknown1[3]->ChangeValue(lexical_cast<string>(UnknownPointer->SpacingToOtherTerrains));
-	RMSTerrain_Unknown1[4]->ChangeValue(lexical_cast<string>(UnknownPointer->PlacementZone));
-	RMSTerrain_Unknown1[5]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown6));
+	RMSTerrain_Unknown1[0]->Update(UnknownPointer->Proportion);
+	RMSTerrain_Unknown1[1]->Update(UnknownPointer->Terrain);
+	RMSTerrain_Unknown1[2]->Update(UnknownPointer->NumberOfClumps);
+	RMSTerrain_Unknown1[3]->Update(UnknownPointer->SpacingToOtherTerrains);
+	RMSTerrain_Unknown1[4]->Update(UnknownPointer->PlacementZone);
+	RMSTerrain_Unknown1[5]->Update(UnknownPointer->Unknown6);
 }
 
 void AGE_Frame::DisableRMSTerrains()
@@ -965,30 +962,30 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 	}
 
 	RMSUnit_Unit->Enable(true);
-	RMSUnit_Unit->ChangeValue(lexical_cast<string>(UnknownPointer->Unit));
+	RMSUnit_Unit->Update(UnknownPointer->Unit);
 	RMSUnit_HostTerrain->Enable(true);
-	RMSUnit_HostTerrain->ChangeValue(lexical_cast<string>(UnknownPointer->HostTerrain));
+	RMSUnit_HostTerrain->Update(UnknownPointer->HostTerrain);
 	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 	{
 		RMSUnit_Unknown3[loop]->Enable(true);
-		RMSUnit_Unknown3[loop]->ChangeValue(lexical_cast<string>((short)UnknownPointer->Unknown3[loop]));
+		RMSUnit_Unknown3[loop]->Update(UnknownPointer->Unknown3[loop]);
 	}
 	RMSUnit_ObjectsPerPlayer->Enable(true);
-	RMSUnit_ObjectsPerPlayer->ChangeValue(lexical_cast<string>(UnknownPointer->ObjectsPerGroup));
+	RMSUnit_ObjectsPerPlayer->Update(UnknownPointer->ObjectsPerGroup);
 	RMSUnit_Unknown5->Enable(true);
-	RMSUnit_Unknown5->ChangeValue(lexical_cast<string>(UnknownPointer->Fluctuation));
+	RMSUnit_Unknown5->Update(UnknownPointer->Fluctuation);
 	RMSUnit_GroupsPerPlayer->Enable(true);
-	RMSUnit_GroupsPerPlayer->ChangeValue(lexical_cast<string>(UnknownPointer->GroupsPerPlayer));
+	RMSUnit_GroupsPerPlayer->Update(UnknownPointer->GroupsPerPlayer);
 	RMSUnit_Unknown7->Enable(true);
-	RMSUnit_Unknown7->ChangeValue(lexical_cast<string>(UnknownPointer->GroupRadius));
+	RMSUnit_Unknown7->Update(UnknownPointer->GroupRadius);
 	RMSUnit_OwnAtStart->Enable(true);
-	RMSUnit_OwnAtStart->ChangeValue(lexical_cast<string>(UnknownPointer->OwnAtStart));
+	RMSUnit_OwnAtStart->Update(UnknownPointer->OwnAtStart);
 	RMSUnit_SetPlaceForAllPlayers->Enable(true);
-	RMSUnit_SetPlaceForAllPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->SetPlaceForAllPlayers));
+	RMSUnit_SetPlaceForAllPlayers->Update(UnknownPointer->SetPlaceForAllPlayers);
 	RMSUnit_MinDistanceToPlayers->Enable(true);
-	RMSUnit_MinDistanceToPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->MinDistanceToPlayers));
+	RMSUnit_MinDistanceToPlayers->Update(UnknownPointer->MinDistanceToPlayers);
 	RMSUnit_MaxDistanceToPlayers->Enable(true);
-	RMSUnit_MaxDistanceToPlayers->ChangeValue(lexical_cast<string>(UnknownPointer->MaxDistanceToPlayers));
+	RMSUnit_MaxDistanceToPlayers->Update(UnknownPointer->MaxDistanceToPlayers);
 }
 
 void AGE_Frame::DisableRMSUnits()
@@ -1164,12 +1161,12 @@ void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &Event)
 	{
 		RMSUnknown_Unknown1[loop]->Enable(true);
 	}
-	RMSUnknown_Unknown1[0]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown1));
-	RMSUnknown_Unknown1[1]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown2));
-	RMSUnknown_Unknown1[2]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown3));
-	RMSUnknown_Unknown1[3]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown4));
-	RMSUnknown_Unknown1[4]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown5));
-	RMSUnknown_Unknown1[5]->ChangeValue(lexical_cast<string>(UnknownPointer->Unknown6));
+	RMSUnknown_Unknown1[0]->Update(UnknownPointer->Unknown1);
+	RMSUnknown_Unknown1[1]->Update(UnknownPointer->Unknown2);
+	RMSUnknown_Unknown1[2]->Update(UnknownPointer->Unknown3);
+	RMSUnknown_Unknown1[3]->Update(UnknownPointer->Unknown4);
+	RMSUnknown_Unknown1[4]->Update(UnknownPointer->Unknown5);
+	RMSUnknown_Unknown1[5]->Update(UnknownPointer->Unknown6);
 }
 
 void AGE_Frame::DisableRMSUnknowns()

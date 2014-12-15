@@ -196,17 +196,17 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 		}
 	}
 
-	TerRestrict_Accessible->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]));
+	TerRestrict_Accessible->Update(TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
 	TerRestrict_Accessible_CheckBox->Update(TerRestPointer->TerrainAccessible[TerRestrictTerIDs[0]]);
 
 	if(GenieVersion <= genie::GV_RoR) return; // Above AoE and RoR
-	TerRestrict_Unknown1->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable));
+	TerRestrict_Unknown1->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable);
 	TerRestrict_Unknown1_CheckBox->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].Buildable);
-	TerRestrict_Graphics[0]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first));
-	TerRestrict_Graphics[1]->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second));
+	TerRestrict_Graphics[0]->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first);
+	TerRestrict_Graphics[1]->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second);
 	TerRestrict_Graphics_ComboBox[0]->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.first);
 	TerRestrict_Graphics_ComboBox[1]->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].GraphicIDs.second);
-	TerRestrict_Amount->ChangeValue(lexical_cast<string>(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount));
+	TerRestrict_Amount->Update(TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[0]].ReplicationAmount);
 }
 
 void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &Event)

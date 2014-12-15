@@ -95,21 +95,21 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 		}
 	}
 
-	Colors_ID->ChangeValue(lexical_cast<string>(PlayerColorPointer->ID));
-	Colors_ColorL->ChangeValue(lexical_cast<string>(PlayerColorPointer->Colour));
+	Colors_ID->Update(PlayerColorPointer->ID);
+	Colors_ColorL->Update(PlayerColorPointer->Colour);
 	if(GenieVersion <= genie::GV_RoR)	//	AoE and RoR
 	{
 		Colors_Name->ChangeValue(PlayerColorPointer->Name);
 	}
 	else	//	Above AoE and RoR
 	{
-		Colors_Palette->ChangeValue(lexical_cast<string>(PlayerColorPointer->Palette));
-		Colors_MinimapColor->ChangeValue(lexical_cast<string>(PlayerColorPointer->MinimapColour));
-		Colors_Unknown1->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown1));
-		Colors_Unknown2->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown2));
-		Colors_Unknown3->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown3));
-		Colors_Unknown4->ChangeValue(lexical_cast<string>(PlayerColorPointer->Unknown4));
-		Colors_Unknown5->ChangeValue(lexical_cast<string>(PlayerColorPointer->StatisticsText));
+		Colors_Palette->Update(PlayerColorPointer->Palette);
+		Colors_MinimapColor->Update(PlayerColorPointer->MinimapColour);
+		Colors_Unknown1->Update(PlayerColorPointer->Unknown1);
+		Colors_Unknown2->Update(PlayerColorPointer->Unknown2);
+		Colors_Unknown3->Update(PlayerColorPointer->Unknown3);
+		Colors_Unknown4->Update(PlayerColorPointer->Unknown4);
+		Colors_Unknown5->Update(PlayerColorPointer->StatisticsText);
 	}
 }
 
