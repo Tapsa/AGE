@@ -19,19 +19,12 @@ void CheckBox_ZeroIsYes::OnUpdate(wxCommandEvent &Event)
 	TextBox->SaveEdits();
 }
 
-void CheckBox_2State::Update(long value)
+void CheckBox_2State::Update(int value)
 {
 	SetValue(value);
 }
 
-void CheckBox_ZeroIsYes::Update(long value)
+void CheckBox_ZeroIsYes::Update(int value)
 {
-	if(value == 0)
-	{
-		SetValue(true);
-	}
-	else
-	{
-		SetValue(false);
-	}
+	SetValue(value == 0);
 }

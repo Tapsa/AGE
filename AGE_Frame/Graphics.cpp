@@ -199,32 +199,29 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 
 	Graphics_Name->ChangeValue(GraphicPointer->Name);
 	Graphics_Name2->ChangeValue(GraphicPointer->Name2);
-	Graphics_SLP->Update(GraphicPointer->SLP);
-	Graphics_Unknown1->Update(GraphicPointer->Unknown1);
-	Graphics_Unknown2->Update(GraphicPointer->Unknown2);
-	Graphics_FrameType->Update(GraphicPointer->Layer);
-	Graphics_PlayerColor->Update(GraphicPointer->PlayerColor);
-	Graphics_PlayerColor_ComboBox->Update(GraphicPointer->PlayerColor);
-	Graphics_Rainbow->Update(GraphicPointer->Rainbow);
-	Graphics_Replay->Update(GraphicPointer->Replay);
+	Graphics_SLP->Update();
+	Graphics_Unknown1->Update();
+	Graphics_Unknown2->Update();
+	Graphics_FrameType->Update();
+	Graphics_PlayerColor->Update();
+	Graphics_Rainbow->Update();
+	Graphics_Replay->Update();
 	for(short loop = 0; loop < 4; ++loop)
 	{
-		Graphics_Coordinates[loop]->Update(GraphicPointer->Coordinates[loop]);
+		Graphics_Coordinates[loop]->Update();
 	}
-	Graphics_SoundID->Update(GraphicPointer->SoundID);
-	Graphics_SoundID_ComboBox->Update(GraphicPointer->SoundID);
-	Graphics_AttackSoundUsed->Update(GraphicPointer->AttackSoundUsed);
-	Graphics_AttackSoundUsed_CheckBox->Update(GraphicPointer->AttackSoundUsed);
-	Graphics_FrameCount->Update(GraphicPointer->FrameCount);
-	Graphics_AngleCount->Update(GraphicPointer->AngleCount);
-	Graphics_NewSpeed->Update(GraphicPointer->NewSpeed);
-	Graphics_FrameRate->Update(GraphicPointer->FrameRate);
-	Graphics_ReplayDelay->Update(GraphicPointer->ReplayDelay);
-	Graphics_SequenceType->Update(GraphicPointer->SequenceType);
-	Graphics_ID->Update(GraphicPointer->ID);
-	Graphics_MirroringMode->Update(GraphicPointer->MirroringMode);
+	Graphics_SoundID->Update();
+	Graphics_AttackSoundUsed->Update();
+	Graphics_FrameCount->Update();
+	Graphics_AngleCount->Update();
+	Graphics_NewSpeed->Update();
+	Graphics_FrameRate->Update();
+	Graphics_ReplayDelay->Update();
+	Graphics_SequenceType->Update();
+	Graphics_ID->Update();
+	Graphics_MirroringMode->Update();
 	if(GenieVersion >= genie::GV_AoKB)
-	Graphics_Unknown3->Update(GraphicPointer->Unknown3);
+	Graphics_Unknown3->Update();
 
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
@@ -425,15 +422,14 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 			GraphicDeltas_Unknown5->container[loop] = &DeltaPointer->Unknown5;
 		}
 
-		GraphicDeltas_GraphicID->Update(DeltaPointer->GraphicID);
-		GraphicDeltas_GraphicID_ComboBox->Update(DeltaPointer->GraphicID);
-		GraphicDeltas_Unknown1->Update(DeltaPointer->Unknown1);
-		GraphicDeltas_Unknown2->Update(DeltaPointer->Unknown2);
-		GraphicDeltas_Unknown3->Update(DeltaPointer->Unknown3);
-		GraphicDeltas_DirectionX->Update(DeltaPointer->DirectionX);
-		GraphicDeltas_DirectionY->Update(DeltaPointer->DirectionY);
-		GraphicDeltas_Unknown4->Update(DeltaPointer->Unknown4);
-		GraphicDeltas_Unknown5->Update(DeltaPointer->Unknown5);
+		GraphicDeltas_GraphicID->Update();
+		GraphicDeltas_Unknown1->Update();
+		GraphicDeltas_Unknown2->Update();
+		GraphicDeltas_Unknown3->Update();
+		GraphicDeltas_DirectionX->Update();
+		GraphicDeltas_DirectionY->Update();
+		GraphicDeltas_Unknown4->Update();
+		GraphicDeltas_Unknown5->Update();
 	}
 	else
 	{
@@ -570,15 +566,12 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 			Graphics_AttackSoundDelay[2]->container[sel] = &AttackSoundPointer->SoundDelay3;
 		}
 
-		Graphics_AttackSoundID[0]->Update(AttackSoundPointer->SoundID);
-		Graphics_AttackSoundID[1]->Update(AttackSoundPointer->SoundID2);
-		Graphics_AttackSoundID[2]->Update(AttackSoundPointer->SoundID3);
-		Graphics_AttackSoundID_ComboBox[0]->Update(AttackSoundPointer->SoundID);
-		Graphics_AttackSoundID_ComboBox[1]->Update(AttackSoundPointer->SoundID2);
-		Graphics_AttackSoundID_ComboBox[2]->Update(AttackSoundPointer->SoundID3);
-		Graphics_AttackSoundDelay[0]->Update(AttackSoundPointer->SoundDelay);
-		Graphics_AttackSoundDelay[1]->Update(AttackSoundPointer->SoundDelay2);
-		Graphics_AttackSoundDelay[2]->Update(AttackSoundPointer->SoundDelay3);
+		Graphics_AttackSoundID[0]->Update();
+		Graphics_AttackSoundID[1]->Update();
+		Graphics_AttackSoundID[2]->Update();
+		Graphics_AttackSoundDelay[0]->Update();
+		Graphics_AttackSoundDelay[1]->Update();
+		Graphics_AttackSoundDelay[2]->Update();
 	}
 	else
 	{

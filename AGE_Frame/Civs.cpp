@@ -94,22 +94,20 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 		Civs_GraphicSet->container[sel] = &CivPointer->IconSet;
 	}
 
-	Civs_One->Update(CivPointer->One);
+	Civs_One->Update();
 	Civs_Name[0]->ChangeValue(CivPointer->Name);
-	Civs_TechTree->Update(CivPointer->TechTreeID);
-	Civs_TechTree_ComboBox->Update(CivPointer->TechTreeID);
+	Civs_TechTree->Update();
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		Civs_TeamBonus->Update(CivPointer->TeamBonusID);
-		Civs_TeamBonus_ComboBox->Update(CivPointer->TeamBonusID);
+		Civs_TeamBonus->Update();
 		if(GenieVersion >= genie::GV_SWGB)
 		{
 			Civs_Name[1]->ChangeValue(CivPointer->Name2);
 			for(short loop = 0; loop < 4; ++loop)
-			Civs_SUnknown1[loop]->Update(CivPointer->UniqueUnitsResearches[loop]);
+			Civs_SUnknown1[loop]->Update();
 		}
 	}
-	Civs_GraphicSet->Update(CivPointer->IconSet);
+	Civs_GraphicSet->Update();
 	ListResources();
 }
 
@@ -692,7 +690,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 		Civs_ResourceValue->container[loop] = CivResourcePointer;
 	}
 
-	Civs_ResourceValue->Update(*CivResourcePointer);
+	Civs_ResourceValue->Update();
 }
 
 void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)

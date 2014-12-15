@@ -18,7 +18,7 @@ void AGE_Frame::ListTerrainNumbers()
 	Terrains_UsedCount->resize(2);
 	Terrains_UsedCount->container[0] = &GenieFile->NumberOfTerrainsUsed;
 	Terrains_UsedCount->container[1] = &GenieFile->TerrainBlock.NumberOfTerrainsUsed2;
-	Terrains_UsedCount->Update(GenieFile->NumberOfTerrainsUsed);
+	Terrains_UsedCount->Update();
 }
 
 void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
@@ -214,59 +214,55 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_NumberOfTerrainUnitsUsed->container[sel] = &TerrainPointer->NumberOfTerrainUnitsUsed;
 	}
 
-	Terrains_Unknown1->Update(TerrainPointer->Unknown1);
-	Terrains_Unknown2->Update(TerrainPointer->Enabled);
+	Terrains_Unknown1->Update();
+	Terrains_Unknown2->Update();
 	Terrains_Name->ChangeValue(TerrainPointer->Name);
 	Terrains_Name2->ChangeValue(TerrainPointer->Name2);
-	Terrains_SLP->Update(TerrainPointer->SLP);
-	Terrains_Unknown3->Update(TerrainPointer->Unknown3);
-	Terrains_SoundID->Update(TerrainPointer->SoundID);
-	Terrains_SoundID_ComboBox->Update(TerrainPointer->SoundID);
+	Terrains_SLP->Update();
+	Terrains_Unknown3->Update();
+	Terrains_SoundID->Update();
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		Terrains_BlendPriority->Update(TerrainPointer->BlendPriority);
-		Terrains_BlendType->Update(TerrainPointer->BlendType);
+		Terrains_BlendPriority->Update();
+		Terrains_BlendType->Update();
 		if(GenieVersion >= genie::GV_SWGB)
 		for(short loop = 0; loop < TerrainPointer->SWGBUNKNOWN1_SIZE; ++loop)
 		{
-			Terrains_SUnknown1[loop]->Update(TerrainPointer->SWGBUnknown1[loop]);
+			Terrains_SUnknown1[loop]->Update();
 		}
 	}
 	for(short loop = 0; loop < 3; ++loop)
 	{
-		Terrains_Colors[loop]->Update(TerrainPointer->Colors[loop]);
+		Terrains_Colors[loop]->Update();
 	}
 	for(short loop = 0; loop < Terrains_Unknown5.size(); ++loop)
-	Terrains_Unknown5[loop]->Update(TerrainPointer->Unknown5[loop]);
-	Terrains_Unknown6->Update(TerrainPointer->Unknown6);
+	Terrains_Unknown5[loop]->Update();
+	Terrains_Unknown6->Update();
 	for(short loop = 0; loop < TerrainPointer->UNKNOWN7_SIZE; ++loop)
 	{
-		Terrains_Unknown7[loop]->Update(TerrainPointer->Unknown7[loop]);
+		Terrains_Unknown7[loop]->Update();
 	}
-	Terrains_FrameCount->Update(TerrainPointer->FrameCount);
-	Terrains_AngleCount->Update(TerrainPointer->AngleCount);
-	Terrains_TerrainID->Update(TerrainPointer->TerrainID);
+	Terrains_FrameCount->Update();
+	Terrains_AngleCount->Update();
+	Terrains_TerrainID->Update();
 	for(short loop = 0; loop < TerrainPointer->ELEVATION_GRAPHICS_SIZE; ++loop)
 	{
-		Terrains_ElevationGraphics[loop]->Update(TerrainPointer->ElevationGraphics[loop]);
+		Terrains_ElevationGraphics[loop]->Update();
 	}
-	Terrains_TerrainReplacementID->Update(TerrainPointer->TerrainReplacementID);
-	Terrains_TerrainReplacementID_ComboBox->Update(TerrainPointer->TerrainReplacementID);
-	Terrains_TerrainDimensions[0]->Update(TerrainPointer->TerrainDimensions.first);
-	Terrains_TerrainDimensions[1]->Update(TerrainPointer->TerrainDimensions.second);
+	Terrains_TerrainReplacementID->Update();
+	Terrains_TerrainDimensions[0]->Update();
+	Terrains_TerrainDimensions[1]->Update();
 	for(short loop = 0; loop < TerrainPointer->getTerrainBorderSize(); ++loop)
 	{
-		Terrains_TerrainBorderID[loop]->Update(TerrainPointer->TerrainBorderIDs[loop]);
-		Terrains_TerrainBorderID_ComboBox[loop]->Update(TerrainPointer->TerrainBorderIDs[loop]);
+		Terrains_TerrainBorderID[loop]->Update();
 	}
 	for(short loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
 	{
-		Terrains_TerrainUnitID[loop]->Update(TerrainPointer->TerrainUnitID[loop]);
-		Terrains_TerrainUnitID_ComboBox[loop]->Update(TerrainPointer->TerrainUnitID[loop]);
-		Terrains_TerrainUnitDensity[loop]->Update(TerrainPointer->TerrainUnitDensity[loop]);
-		Terrains_TerrainUnitPriority[loop]->Update(TerrainPointer->TerrainUnitPriority[loop]);
+		Terrains_TerrainUnitID[loop]->Update();
+		Terrains_TerrainUnitDensity[loop]->Update();
+		Terrains_TerrainUnitPriority[loop]->Update();
 	}
-	Terrains_NumberOfTerrainUnitsUsed->Update(TerrainPointer->NumberOfTerrainUnitsUsed);
+	Terrains_NumberOfTerrainUnitsUsed->Update();
 }
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded.

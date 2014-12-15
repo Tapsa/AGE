@@ -21,12 +21,15 @@ public:
 	AGEComboBox(parent)
 	{
 		TextBox = Pointer;
-		TextBox->LinkedBox = this;
-		Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Plus1::OnUpdate));
+		if(!TextBox->LinkedBox)
+		{
+			TextBox->LinkedBox = this;
+			Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Plus1::OnUpdate));
+		}
 	}
 
 	void OnUpdate(wxCommandEvent &Event);
-	void Update(long value);
+	void Update(int value);
 };
 
 class ComboBox_EffectType: public AGEComboBox
@@ -36,12 +39,15 @@ public:
 	AGEComboBox(parent)
 	{
 		TextBox = Pointer;
-		TextBox->LinkedBox = this;
-		Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectType::OnUpdate));
+		if(!TextBox->LinkedBox)
+		{
+			TextBox->LinkedBox = this;
+			Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectType::OnUpdate));
+		}
 	}
 
 	void OnUpdate(wxCommandEvent &Event);
-	void Update(long value);
+	void Update(int value);
 };
 
 class ComboBox_EffectAttribute: public AGEComboBox
@@ -51,12 +57,15 @@ public:
 	AGEComboBox(parent)
 	{
 		TextBox = Pointer;
-		TextBox->LinkedBox = this;
-		Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectAttribute::OnUpdate));
+		if(!TextBox->LinkedBox)
+		{
+			TextBox->LinkedBox = this;
+			Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectAttribute::OnUpdate));
+		}
 	}
 
 	void OnUpdate(wxCommandEvent &Event);
-	void Update(long value);
+	void Update(int value);
 };
 
 #endif

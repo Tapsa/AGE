@@ -9,7 +9,7 @@
 class AGELinkedBox
 {
 public:
-	virtual void Update()=0;
+	virtual void Update(int)=0;
 };
 
 class AGETextCtrl: public wxTextCtrl

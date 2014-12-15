@@ -95,21 +95,21 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 		}
 	}
 
-	Colors_ID->Update(PlayerColorPointer->ID);
-	Colors_ColorL->Update(PlayerColorPointer->Colour);
+	Colors_ID->Update();
+	Colors_ColorL->Update();
 	if(GenieVersion <= genie::GV_RoR)	//	AoE and RoR
 	{
 		Colors_Name->ChangeValue(PlayerColorPointer->Name);
 	}
 	else	//	Above AoE and RoR
 	{
-		Colors_Palette->Update(PlayerColorPointer->Palette);
-		Colors_MinimapColor->Update(PlayerColorPointer->MinimapColour);
-		Colors_Unknown1->Update(PlayerColorPointer->Unknown1);
-		Colors_Unknown2->Update(PlayerColorPointer->Unknown2);
-		Colors_Unknown3->Update(PlayerColorPointer->Unknown3);
-		Colors_Unknown4->Update(PlayerColorPointer->Unknown4);
-		Colors_Unknown5->Update(PlayerColorPointer->StatisticsText);
+		Colors_Palette->Update();
+		Colors_MinimapColor->Update();
+		Colors_Unknown1->Update();
+		Colors_Unknown2->Update();
+		Colors_Unknown3->Update();
+		Colors_Unknown4->Update();
+		Colors_Unknown5->Update();
 	}
 }
 

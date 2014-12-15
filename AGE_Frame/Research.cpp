@@ -255,31 +255,22 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 
 	for(short loop = 0; loop < ResearchPointer->getRequiredTechsSize(); ++loop)
 	{
-		Research_RequiredTechs[loop]->Update(ResearchPointer->RequiredTechs[loop]);
-		Research_RequiredTechs_ComboBox[loop]->Update(ResearchPointer->RequiredTechs[loop]);
+		Research_RequiredTechs[loop]->Update();
 	}
-	Research_RequiredTechCount->Update(ResearchPointer->RequiredTechCount);
-	Research_Resources[0]->Update(ResearchPointer->ResourceCosts[0].Type);
-	Research_Resources[1]->Update(ResearchPointer->ResourceCosts[1].Type);
-	Research_Resources[2]->Update(ResearchPointer->ResourceCosts[2].Type);
-	Research_Resources_ComboBox[0]->Update(ResearchPointer->ResourceCosts[0].Type);
-	Research_Resources_ComboBox[1]->Update(ResearchPointer->ResourceCosts[1].Type);
-	Research_Resources_ComboBox[2]->Update(ResearchPointer->ResourceCosts[2].Type);
-	Research_Amount[0]->Update(ResearchPointer->ResourceCosts[0].Amount);
-	Research_Amount[1]->Update(ResearchPointer->ResourceCosts[1].Amount);
-	Research_Amount[2]->Update(ResearchPointer->ResourceCosts[2].Amount);
-	Research_Used[0]->Update(ResearchPointer->ResourceCosts[0].Enabled);
-	Research_Used_CheckBox[0]->Update(ResearchPointer->ResourceCosts[0].Enabled);
-	Research_Used[1]->Update(ResearchPointer->ResourceCosts[1].Enabled);
-	Research_Used_CheckBox[1]->Update(ResearchPointer->ResourceCosts[1].Enabled);
-	Research_Used[2]->Update(ResearchPointer->ResourceCosts[2].Enabled);
-	Research_Used_CheckBox[2]->Update(ResearchPointer->ResourceCosts[2].Enabled);
+	Research_RequiredTechCount->Update();
+	Research_Resources[0]->Update();
+	Research_Resources[1]->Update();
+	Research_Resources[2]->Update();
+	Research_Amount[0]->Update();
+	Research_Amount[1]->Update();
+	Research_Amount[2]->Update();
+	Research_Used[0]->Update();
+	Research_Used[1]->Update();
+	Research_Used[2]->Update();
 	if(GenieVersion >= genie::GV_AoKB)
 	{
-		Research_Civ->Update(ResearchPointer->Civ);
-		Research_Civ_ComboBox->Update(ResearchPointer->Civ);
-		Research_FullTechMode->Update(ResearchPointer->FullTechMode);
-		Research_FullTechMode_CheckBox->Update(ResearchPointer->FullTechMode);
+		Research_Civ->Update();
+		Research_FullTechMode->Update();
 		Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
 		Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLName2 - 140000;
 		if(GenieVersion >= genie::GV_SWGB)
@@ -290,27 +281,25 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_DLL_LanguageDLLHelp->index = (uint16_t)ResearchPointer->LanguageDLLHelp;
 		Research_DLL_LanguageDLLName2->index = (uint16_t)ResearchPointer->LanguageDLLName2;
 	}
-	Research_ResearchLocation->Update(ResearchPointer->ResearchLocation);
-	Research_ResearchLocation_ComboBox->Update(ResearchPointer->ResearchLocation);
-	Research_LangDLLName->Update(ResearchPointer->LanguageDLLName);
+	Research_ResearchLocation->Update();
+	Research_LangDLLName->Update();
 	Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
 	Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
-	Research_LangDLLDescription->Update(ResearchPointer->LanguageDLLDescription);
+	Research_LangDLLDescription->Update();
 	Research_DLL_LangDLLDescription->index = ResearchPointer->LanguageDLLDescription;
 	Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
-	Research_ResearchTime->Update(ResearchPointer->ResearchTime);
-	Research_TechID->Update(ResearchPointer->TechageID);
-	Research_TechID_ComboBox->Update(ResearchPointer->TechageID);
-	Research_Type->Update(ResearchPointer->Type);
-	Research_IconID->Update(ResearchPointer->IconID);
-	Research_ButtonID->Update(ResearchPointer->ButtonID);
-	Research_LanguageDLLHelp->Update(ResearchPointer->LanguageDLLHelp);
+	Research_ResearchTime->Update();
+	Research_TechID->Update();
+	Research_Type->Update();
+	Research_IconID->Update();
+	Research_ButtonID->Update();
+	Research_LanguageDLLHelp->Update();
 	Research_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Research_DLL_LanguageDLLHelp->index, 64));
 	Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
-	Research_LanguageDLLName2->Update(ResearchPointer->LanguageDLLName2);
+	Research_LanguageDLLName2->Update();
 	Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
 	Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
-	Research_Unknown1->Update(ResearchPointer->Unknown1);
+	Research_Unknown1->Update();
 	Research_Name[0]->ChangeValue(ResearchPointer->Name);
 }
 
