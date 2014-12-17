@@ -200,9 +200,11 @@ void AGE_Frame::OnTTAgesBuildingSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Ages_Buildings.Item->ChangeValue("0");
+		TechTrees_Ages_Buildings.Item->Clear();
 		TechTrees_Ages_Buildings.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Ages_Buildings.Item->Enable(selections);
+	TechTrees_Ages_Buildings.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTAgesBuildingAdd(wxCommandEvent &Event)
@@ -320,9 +322,11 @@ void AGE_Frame::OnTTAgesUnitSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Ages_Units.Item->ChangeValue("0");
+		TechTrees_Ages_Units.Item->Clear();
 		TechTrees_Ages_Units.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Ages_Units.Item->Enable(selections);
+	TechTrees_Ages_Units.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTAgesUnitAdd(wxCommandEvent &Event)
@@ -455,9 +459,11 @@ void AGE_Frame::OnTTAgesResearchSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Ages_Researches.Item->ChangeValue("0");
+		TechTrees_Ages_Researches.Item->Clear();
 		TechTrees_Ages_Researches.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Ages_Researches.Item->Enable(selections);
+	TechTrees_Ages_Researches.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTAgesResearchAdd(wxCommandEvent &Event)
@@ -562,13 +568,6 @@ void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common*
 		area.Item->Update();
 		area.FillItemCombo(dataPointer->UnitResearch[TTItemIDs[0]] + 1);
 	}
-	else
-	{
-		area.Item->ChangeValue("0");
-		area.ModeCombo->SetSelection(0);
-		area.Mode->ChangeValue("0");
-		area.ClearItemCombo();
-	}
 }
 
 void AGE_Frame::OnTTAgeItemSelect(wxCommandEvent &Event)
@@ -655,11 +654,6 @@ void AGE_Frame::OnTTAgeUnknownItemSelect(wxCommandEvent &Event)
 
 		TechTrees_Ages_UnknownItems.Unknown1->Update();
 		TechTrees_Ages_UnknownItems.Unknown2->Update();
-	}
-	else
-	{
-		TechTrees_Ages_UnknownItems.Unknown1->ChangeValue("0");
-		TechTrees_Ages_UnknownItems.Unknown2->ChangeValue("0");
 	}
 }
 
@@ -955,9 +949,11 @@ void AGE_Frame::OnTTBuildingBuildingSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Buildings_Buildings.Item->ChangeValue("0");
+		TechTrees_Buildings_Buildings.Item->Clear();
 		TechTrees_Buildings_Buildings.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Buildings_Buildings.Item->Enable(selections);
+	TechTrees_Buildings_Buildings.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTBuildingBuildingAdd(wxCommandEvent &Event)
@@ -1075,9 +1071,11 @@ void AGE_Frame::OnTTBuildingUnitSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Buildings_Units.Item->ChangeValue("0");
+		TechTrees_Buildings_Units.Item->Clear();
 		TechTrees_Buildings_Units.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Buildings_Units.Item->Enable(selections);
+	TechTrees_Buildings_Units.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTBuildingUnitAdd(wxCommandEvent &Event)
@@ -1195,9 +1193,11 @@ void AGE_Frame::OnTTBuildingResearchSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Buildings_Researches.Item->ChangeValue("0");
+		TechTrees_Buildings_Researches.Item->Clear();
 		TechTrees_Buildings_Researches.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Buildings_Researches.Item->Enable(selections);
+	TechTrees_Buildings_Researches.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTBuildingResearchAdd(wxCommandEvent &Event)
@@ -1569,9 +1569,11 @@ void AGE_Frame::OnTTUnitUnitSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Units_Units.Item->ChangeValue("0");
+		TechTrees_Units_Units.Item->Clear();
 		TechTrees_Units_Units.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Units_Units.Item->Enable(selections);
+	TechTrees_Units_Units.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTUnitUnitAdd(wxCommandEvent &Event)
@@ -1970,9 +1972,11 @@ void AGE_Frame::OnTTResearchBuildingSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Researches_Buildings.Item->ChangeValue("0");
+		TechTrees_Researches_Buildings.Item->Clear();
 		TechTrees_Researches_Buildings.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Researches_Buildings.Item->Enable(selections);
+	TechTrees_Researches_Buildings.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTResearchBuildingAdd(wxCommandEvent &Event)
@@ -2090,9 +2094,11 @@ void AGE_Frame::OnTTResearchUnitSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Researches_Units.Item->ChangeValue("0");
+		TechTrees_Researches_Units.Item->Clear();
 		TechTrees_Researches_Units.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Researches_Units.Item->Enable(selections);
+	TechTrees_Researches_Units.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTResearchUnitAdd(wxCommandEvent &Event)
@@ -2210,9 +2216,11 @@ void AGE_Frame::OnTTResearchResearchSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		TechTrees_Researches_Researches.Item->ChangeValue("0");
+		TechTrees_Researches_Researches.Item->Clear();
 		TechTrees_Researches_Researches.ItemCombo->SetSelection(0);
 	}
+	TechTrees_Researches_Researches.Item->Enable(selections);
+	TechTrees_Researches_Researches.ItemCombo->Enable(selections);
 }
 
 void AGE_Frame::OnTTResearchResearchAdd(wxCommandEvent &Event)
