@@ -1,4 +1,5 @@
 #include "AGE_TextControls.h"
+#include <iomanip>
 
 const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
 const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
@@ -397,7 +398,7 @@ void TextCtrl_Byte::Update()
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
-		os << hex << showbase << uppercase << (short)*(uint8_t*)container[0];
+		os << hex << setw(2) << setfill('0') << uppercase << (short)*(uint8_t*)container[0];
 		ChangeValue(buffer.str());
 	}
 	else
@@ -413,7 +414,7 @@ void TextCtrl_UByte::Update()
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
-		os << hex << showbase << uppercase << (short)*(uint8_t*)container[0];
+		os << hex << setw(2) << setfill('0') << uppercase << (short)*(uint8_t*)container[0];
 		ChangeValue(buffer.str());
 	}
 	else
@@ -429,7 +430,7 @@ void TextCtrl_Float::Update()
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
-		os << hex << showbase << uppercase << *(uint32_t*)container[0];
+		os << hex << setw(8) << setfill('0') << uppercase << *(uint32_t*)container[0];
 		ChangeValue(buffer.str());
 	}
 	else
@@ -455,7 +456,7 @@ void TextCtrl_Long::Update()
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
-		os << hex << showbase << uppercase << *(uint32_t*)container[0];
+		os << hex << setw(8) << setfill('0') << uppercase << *(uint32_t*)container[0];
 		ChangeValue(buffer.str());
 	}
 	else
@@ -471,7 +472,7 @@ void TextCtrl_Short::Update()
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
-		os << hex << showbase << uppercase << *(uint16_t*)container[0];
+		os << hex << setw(4) << setfill('0') << uppercase << *(uint16_t*)container[0];
 		ChangeValue(buffer.str());
 	}
 	else
@@ -487,7 +488,7 @@ void TextCtrl_UShort::Update()
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
-		os << hex << showbase << uppercase << *(uint16_t*)container[0];
+		os << hex << setw(4) << setfill('0') << uppercase << *(uint16_t*)container[0];
 		ChangeValue(buffer.str());
 	}
 	else
