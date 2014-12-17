@@ -767,7 +767,9 @@ public:
 		ToolBar_Open,
 		ToolBar_Save,
 		ToolBar_Show,
-		ToolBar_Help
+		ToolBar_Help,
+		ToolBar_Hex,
+		ToolBar_Float
 	};
 
 //	User Interface

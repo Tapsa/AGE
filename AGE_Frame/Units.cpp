@@ -1625,8 +1625,6 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 		for(short loop = 0; loop < selections; ++loop)
 		copies->Dat.UnitCopies[0][loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
 	}
-	Units_Paste->Enable(true);
-	Units_PasteInsert->Enable(true);
 }
 
 void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
@@ -1743,7 +1741,7 @@ void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 {
-	if(Units_List->GetSelections(Items) < 1) return;
+	if(Units_List->GetSelections(Items) < 1 || copies->Dat.UnitExists.size() < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
@@ -1783,7 +1781,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 {
-	if(Units_List->GetSelections(Items) < 1) return;
+	if(Units_List->GetSelections(Items) < 1 || copies->Dat.UnitExists.size() < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
@@ -4085,7 +4083,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Disabled->SetToolTip("0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
 	Units_HideInEditor = new TextCtrl_Byte(Units_Scroller);
-	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide In Editor", Units_HideInEditor);
+	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide in Editor", Units_HideInEditor);
 	Units_DeathMode = new TextCtrl_Byte(Units_Scroller);
 	Units_DeathMode->SetToolTip("Reviving does not make it usable");
 	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "Death: Revives *", Units_DeathMode);
@@ -5568,8 +5566,6 @@ void AGE_Frame::CreateUnitControls()
 		Units_ID3->Enable(false);
 		UnitCommands_ID->Enable(false);
 	}
-	Units_Paste->Enable(false);
-	Units_PasteInsert->Enable(false);
 
 	Tab_Units->SetSizer(Units_Main);
 
