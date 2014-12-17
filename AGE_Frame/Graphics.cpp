@@ -13,7 +13,7 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 		for(short loop = 0; loop < 2; ++loop)
 		Selection[loop] = Graphics_Graphics_SearchFilters[loop]->GetSelection();
 
-		if(Selection[0] > 0) // Internal name prevents
+		if(Selection[0] > 1) // Internal name prevents
 		for(short loop = 0; loop < 2; ++loop)
 		{
 			switch(Selection[loop])
@@ -78,17 +78,19 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 			Name += ", ";
 			if(Selection[loop+1] < 1) break; // Internal name breaks
 		}
+		if(Selection[0] == 1) goto InternalName;
 	}
 
 	if(!GenieFile->Graphics[Index].Name.empty())
 	{
-		Name += GenieFile->Graphics[Index].Name;
+		return Name + GenieFile->Graphics[Index].Name;
 	}
-	else
+InternalName:
+	if(!GenieFile->Graphics[Index].Name2.empty())
 	{
-		Name += "New Graphic";
+		return Name + GenieFile->Graphics[Index].Name2;
 	}
-	return Name;
+	return Name + "New Graphic";
 }
 
 void AGE_Frame::OnGraphicsSearch(wxCommandEvent &Event)
@@ -135,94 +137,153 @@ void AGE_Frame::InitGraphics(bool all)
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 {
 	auto selections = Graphics_Graphics_List->GetSelections(Items);
-	if(selections < 1) return;
-
-	GraphicIDs.resize(selections);
-	Graphics_Name->resize(selections);
-	Graphics_Name2->resize(selections);
-	Graphics_SLP->resize(selections);
-	Graphics_Unknown1->resize(selections);
-	Graphics_Unknown2->resize(selections);
-	Graphics_FrameType->resize(selections);
-	Graphics_PlayerColor->resize(selections);
-	Graphics_Rainbow->resize(selections);
-	Graphics_Replay->resize(selections);
-	for(short loop = 0; loop < 4; ++loop)
+	if(selections > 0)
 	{
-		Graphics_Coordinates[loop]->resize(selections);
-	}
-	Graphics_SoundID->resize(selections);
-	Graphics_AttackSoundUsed->resize(selections);
-	Graphics_FrameCount->resize(selections);
-	Graphics_AngleCount->resize(selections);
-	Graphics_NewSpeed->resize(selections);
-	Graphics_FrameRate->resize(selections);
-	Graphics_ReplayDelay->resize(selections);
-	Graphics_SequenceType->resize(selections);
-	Graphics_ID->resize(selections);
-	Graphics_MirroringMode->resize(selections);
-	if(GenieVersion >= genie::GV_AoKB)
-	Graphics_Unknown3->resize(selections);
-
-	genie::Graphic * GraphicPointer;
-	for(auto sel = selections; sel--> 0;)
-	{
-		GraphicPointer = (genie::Graphic*)Graphics_Graphics_List->GetClientData(Items.Item(sel));
-		GraphicIDs[sel] = (GraphicPointer - (&GenieFile->Graphics[0]));
-
-		Graphics_Name->container[sel] = &GraphicPointer->Name;
-		Graphics_Name2->container[sel] = &GraphicPointer->Name2;
-		Graphics_SLP->container[sel] = &GraphicPointer->SLP;
-		Graphics_Unknown1->container[sel] = &GraphicPointer->Unknown1;
-		Graphics_Unknown2->container[sel] = &GraphicPointer->Unknown2;
-		Graphics_FrameType->container[sel] = &GraphicPointer->Layer;
-		Graphics_PlayerColor->container[sel] = &GraphicPointer->PlayerColor;
-		Graphics_Rainbow->container[sel] = &GraphicPointer->Rainbow;
-		Graphics_Replay->container[sel] = &GraphicPointer->Replay;
+		GraphicIDs.resize(selections);
+		Graphics_Name->resize(selections);
+		Graphics_Name2->resize(selections);
+		Graphics_SLP->resize(selections);
+		Graphics_Unknown1->resize(selections);
+		Graphics_Unknown2->resize(selections);
+		Graphics_FrameType->resize(selections);
+		Graphics_PlayerColor->resize(selections);
+		Graphics_Rainbow->resize(selections);
+		Graphics_Replay->resize(selections);
 		for(short loop = 0; loop < 4; ++loop)
 		{
-			Graphics_Coordinates[loop]->container[sel] = &GraphicPointer->Coordinates[loop];
+			Graphics_Coordinates[loop]->resize(selections);
 		}
-		Graphics_SoundID->container[sel] = &GraphicPointer->SoundID;
-		Graphics_AttackSoundUsed->container[sel] = &GraphicPointer->AttackSoundUsed;
-		Graphics_FrameCount->container[sel] = &GraphicPointer->FrameCount;
-		Graphics_AngleCount->container[sel] = &GraphicPointer->AngleCount;
-		Graphics_NewSpeed->container[sel] = &GraphicPointer->NewSpeed;
-		Graphics_FrameRate->container[sel] = &GraphicPointer->FrameRate;
-		Graphics_ReplayDelay->container[sel] = &GraphicPointer->ReplayDelay;
-		Graphics_SequenceType->container[sel] = &GraphicPointer->SequenceType;
-		Graphics_ID->container[sel] = &GraphicPointer->ID;
-		Graphics_MirroringMode->container[sel] = &GraphicPointer->MirroringMode;
+		Graphics_SoundID->resize(selections);
+		Graphics_AttackSoundUsed->resize(selections);
+		Graphics_FrameCount->resize(selections);
+		Graphics_AngleCount->resize(selections);
+		Graphics_NewSpeed->resize(selections);
+		Graphics_FrameRate->resize(selections);
+		Graphics_ReplayDelay->resize(selections);
+		Graphics_SequenceType->resize(selections);
+		Graphics_ID->resize(selections);
+		Graphics_MirroringMode->resize(selections);
 		if(GenieVersion >= genie::GV_AoKB)
-		Graphics_Unknown3->container[sel] = &GraphicPointer->Unknown3;
-	}
+		Graphics_Unknown3->resize(selections);
 
-	Graphics_Name->ChangeValue(GraphicPointer->Name);
-	Graphics_Name2->ChangeValue(GraphicPointer->Name2);
-	Graphics_SLP->Update();
-	Graphics_Unknown1->Update();
-	Graphics_Unknown2->Update();
-	Graphics_FrameType->Update();
-	Graphics_PlayerColor->Update();
-	Graphics_Rainbow->Update();
-	Graphics_Replay->Update();
-	for(short loop = 0; loop < 4; ++loop)
+		genie::Graphic * GraphicPointer;
+		for(auto sel = selections; sel--> 0;)
+		{
+			GraphicPointer = (genie::Graphic*)Graphics_Graphics_List->GetClientData(Items.Item(sel));
+			GraphicIDs[sel] = (GraphicPointer - (&GenieFile->Graphics[0]));
+
+			Graphics_Name->container[sel] = &GraphicPointer->Name;
+			Graphics_Name2->container[sel] = &GraphicPointer->Name2;
+			Graphics_SLP->container[sel] = &GraphicPointer->SLP;
+			Graphics_Unknown1->container[sel] = &GraphicPointer->Unknown1;
+			Graphics_Unknown2->container[sel] = &GraphicPointer->Unknown2;
+			Graphics_FrameType->container[sel] = &GraphicPointer->Layer;
+			Graphics_PlayerColor->container[sel] = &GraphicPointer->PlayerColor;
+			Graphics_Rainbow->container[sel] = &GraphicPointer->Rainbow;
+			Graphics_Replay->container[sel] = &GraphicPointer->Replay;
+			for(short loop = 0; loop < 4; ++loop)
+			{
+				Graphics_Coordinates[loop]->container[sel] = &GraphicPointer->Coordinates[loop];
+			}
+			Graphics_SoundID->container[sel] = &GraphicPointer->SoundID;
+			Graphics_AttackSoundUsed->container[sel] = &GraphicPointer->AttackSoundUsed;
+			Graphics_FrameCount->container[sel] = &GraphicPointer->FrameCount;
+			Graphics_AngleCount->container[sel] = &GraphicPointer->AngleCount;
+			Graphics_NewSpeed->container[sel] = &GraphicPointer->NewSpeed;
+			Graphics_FrameRate->container[sel] = &GraphicPointer->FrameRate;
+			Graphics_ReplayDelay->container[sel] = &GraphicPointer->ReplayDelay;
+			Graphics_SequenceType->container[sel] = &GraphicPointer->SequenceType;
+			Graphics_ID->container[sel] = &GraphicPointer->ID;
+			Graphics_MirroringMode->container[sel] = &GraphicPointer->MirroringMode;
+			if(GenieVersion >= genie::GV_AoKB)
+			Graphics_Unknown3->container[sel] = &GraphicPointer->Unknown3;
+		}
+
+		Graphics_Name->Update();
+		Graphics_Name2->Update();
+		Graphics_SLP->Update();
+		Graphics_Unknown1->Update();
+		Graphics_Unknown2->Update();
+		Graphics_FrameType->Update();
+		Graphics_PlayerColor->Update();
+		Graphics_Rainbow->Update();
+		Graphics_Replay->Update();
+		for(short loop = 0; loop < 4; ++loop)
+		{
+			Graphics_Coordinates[loop]->Update();
+		}
+		Graphics_SoundID->Update();
+		Graphics_AttackSoundUsed->Update();
+		Graphics_FrameCount->Update();
+		Graphics_AngleCount->Update();
+		Graphics_NewSpeed->Update();
+		Graphics_FrameRate->Update();
+		Graphics_ReplayDelay->Update();
+		Graphics_SequenceType->Update();
+		Graphics_ID->Update();
+		Graphics_MirroringMode->Update();
+		if(GenieVersion >= genie::GV_AoKB)
+		Graphics_Unknown3->Update();
+
+		selections = GenieFile->GraphicPointers[GraphicIDs[0]];
+	}
+	if(!selections)
 	{
-		Graphics_Coordinates[loop]->Update();
+		Graphics_Name->Clear();
+		Graphics_Name2->Clear();
+		Graphics_SLP->Clear();
+		Graphics_Unknown1->Clear();
+		Graphics_Unknown2->Clear();
+		Graphics_FrameType->Clear();
+		Graphics_PlayerColor->Clear();
+		Graphics_PlayerColor_ComboBox->SetSelection(0);
+		Graphics_Rainbow->Clear();
+		Graphics_Replay->Clear();
+		for(short loop = 0; loop < 4; ++loop)
+		Graphics_Coordinates[loop]->Clear();
+		Graphics_SoundID->Clear();
+		Graphics_SoundID_ComboBox->SetSelection(0);
+		Graphics_AttackSoundUsed->Clear();
+		Graphics_AttackSoundUsed_CheckBox->SetValue(0);
+		Graphics_FrameCount->Clear();
+		Graphics_AngleCount->Clear();
+		Graphics_NewSpeed->Clear();
+		Graphics_FrameRate->Clear();
+		Graphics_ReplayDelay->Clear();
+		Graphics_SequenceType->Clear();
+		Graphics_ID->Clear();
+		Graphics_MirroringMode->Clear();
+		if(GenieVersion >= genie::GV_AoKB)
+		Graphics_Unknown3->Clear();
 	}
-	Graphics_SoundID->Update();
-	Graphics_AttackSoundUsed->Update();
-	Graphics_FrameCount->Update();
-	Graphics_AngleCount->Update();
-	Graphics_NewSpeed->Update();
-	Graphics_FrameRate->Update();
-	Graphics_ReplayDelay->Update();
-	Graphics_SequenceType->Update();
-	Graphics_ID->Update();
-	Graphics_MirroringMode->Update();
+	Graphics_Name->Enable(selections);
+	Graphics_Name2->Enable(selections);
+	Graphics_SLP->Enable(selections);
+	Graphics_Unknown1->Enable(selections);
+	Graphics_Unknown2->Enable(selections);
+	Graphics_FrameType->Enable(selections);
+	Graphics_PlayerColor->Enable(selections);
+	Graphics_PlayerColor_ComboBox->Enable(selections);
+	Graphics_Rainbow->Enable(selections);
+	Graphics_Replay->Enable(selections);
+	for(short loop = 0; loop < 4; ++loop)
+	Graphics_Coordinates[loop]->Enable(selections);
+	Graphics_SoundID->Enable(selections);
+	Graphics_SoundID_ComboBox->Enable(selections);
+	Graphics_AttackSoundUsed->Enable(selections);
+	Graphics_AttackSoundUsed_CheckBox->Enable(selections);
+	Graphics_FrameCount->Enable(selections);
+	Graphics_AngleCount->Enable(selections);
+	Graphics_NewSpeed->Enable(selections);
+	Graphics_FrameRate->Enable(selections);
+	Graphics_ReplayDelay->Enable(selections);
+	Graphics_SequenceType->Enable(selections);
+	Graphics_ID->Enable(selections);
+	Graphics_MirroringMode->Enable(selections);
 	if(GenieVersion >= genie::GV_AoKB)
-	Graphics_Unknown3->Update();
+	Graphics_Unknown3->Enable(selections);
 
+	Deltas_Add->Enable(selections);
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
 }
