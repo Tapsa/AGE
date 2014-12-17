@@ -423,13 +423,13 @@ void AGE_Frame::OnUnknownsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		Unknowns_UnknownLevel->ChangeValue("0");
+		Unknowns_UnknownLevel->Clear();
 		for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
-		Unknowns_Unknown1[loop]->ChangeValue("0");
-		Unknowns_Pointer1->ChangeValue("0");
-		Unknowns_Pointer2->ChangeValue("0");
-		Unknowns_Pointer3->ChangeValue("0");
-		Unknowns_Pointer4->ChangeValue("0");
+		Unknowns_Unknown1[loop]->Clear();
+		Unknowns_Pointer1->Clear();
+		Unknowns_Pointer2->Clear();
+		Unknowns_Pointer3->Clear();
+		Unknowns_Pointer4->Clear();
 
 		RMSBaseZones_List->Clear();
 		DisableRMSBaseZones();
@@ -626,33 +626,33 @@ void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &Event)
 void AGE_Frame::DisableRMSBaseZones()
 {
 	RMSBaseZones_Unknown1->Enable(false);
-	RMSBaseZones_Unknown1->ChangeValue("0");
+	RMSBaseZones_Unknown1->Clear();
 	RMSBaseZones_BaseTerrain->Enable(false);
-	RMSBaseZones_BaseTerrain->ChangeValue("0");
+	RMSBaseZones_BaseTerrain->Clear();
 	RMSBaseZones_SpacingBetweenPlayers->Enable(false);
-	RMSBaseZones_SpacingBetweenPlayers->ChangeValue("0");
+	RMSBaseZones_SpacingBetweenPlayers->Clear();
 	RMSBaseZones_Unknown4->Enable(false);
-	RMSBaseZones_Unknown4->ChangeValue("0");
+	RMSBaseZones_Unknown4->Clear();
 	for(short loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
 	{
 		RMSBaseZones_Unknown5[loop]->Enable(false);
-		RMSBaseZones_Unknown5[loop]->ChangeValue("0");
+		RMSBaseZones_Unknown5[loop]->Clear();
 	}
 	RMSBaseZones_Unknown6->Enable(false);
-	RMSBaseZones_Unknown6->ChangeValue("0");
+	RMSBaseZones_Unknown6->Clear();
 	RMSBaseZones_Unknown7->Enable(false);
-	RMSBaseZones_Unknown7->ChangeValue("0");
+	RMSBaseZones_Unknown7->Clear();
 	for(short loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
 	{
 		RMSBaseZones_Unknown8[loop]->Enable(false);
-		RMSBaseZones_Unknown8[loop]->ChangeValue("0");
+		RMSBaseZones_Unknown8[loop]->Clear();
 	}
 	RMSBaseZones_StartAreaRadius->Enable(false);
-	RMSBaseZones_StartAreaRadius->ChangeValue("0");
+	RMSBaseZones_StartAreaRadius->Clear();
 	RMSBaseZones_Unknown10->Enable(false);
-	RMSBaseZones_Unknown10->ChangeValue("0");
+	RMSBaseZones_Unknown10->Clear();
 	RMSBaseZones_Unknown11->Enable(false);
-	RMSBaseZones_Unknown11->ChangeValue("0");
+	RMSBaseZones_Unknown11->Clear();
 }
 
 void AGE_Frame::OnRMSBaseZoneAdd(wxCommandEvent &Event)
@@ -812,7 +812,7 @@ void AGE_Frame::DisableRMSTerrains()
 	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	{
 		RMSTerrain_Unknown1[loop]->Enable(false);
-		RMSTerrain_Unknown1[loop]->ChangeValue("0");
+		RMSTerrain_Unknown1[loop]->Clear();
 	}
 }
 
@@ -991,30 +991,30 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 void AGE_Frame::DisableRMSUnits()
 {
 	RMSUnit_Unit->Enable(false);
-	RMSUnit_Unit->ChangeValue("0");
+	RMSUnit_Unit->Clear();
 	RMSUnit_HostTerrain->Enable(false);
-	RMSUnit_HostTerrain->ChangeValue("0");
+	RMSUnit_HostTerrain->Clear();
 	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
 	{
 		RMSUnit_Unknown3[loop]->Enable(false);
-		RMSUnit_Unknown3[loop]->ChangeValue("0");
+		RMSUnit_Unknown3[loop]->Clear();
 	}
 	RMSUnit_ObjectsPerPlayer->Enable(false);
-	RMSUnit_ObjectsPerPlayer->ChangeValue("0");
+	RMSUnit_ObjectsPerPlayer->Clear();
 	RMSUnit_Unknown5->Enable(false);
-	RMSUnit_Unknown5->ChangeValue("0");
+	RMSUnit_Unknown5->Clear();
 	RMSUnit_GroupsPerPlayer->Enable(false);
-	RMSUnit_GroupsPerPlayer->ChangeValue("0");
+	RMSUnit_GroupsPerPlayer->Clear();
 	RMSUnit_Unknown7->Enable(false);
-	RMSUnit_Unknown7->ChangeValue("0");
+	RMSUnit_Unknown7->Clear();
 	RMSUnit_OwnAtStart->Enable(false);
-	RMSUnit_OwnAtStart->ChangeValue("0");
+	RMSUnit_OwnAtStart->Clear();
 	RMSUnit_SetPlaceForAllPlayers->Enable(false);
-	RMSUnit_SetPlaceForAllPlayers->ChangeValue("0");
+	RMSUnit_SetPlaceForAllPlayers->Clear();
 	RMSUnit_MinDistanceToPlayers->Enable(false);
-	RMSUnit_MinDistanceToPlayers->ChangeValue("0");
+	RMSUnit_MinDistanceToPlayers->Clear();
 	RMSUnit_MaxDistanceToPlayers->Enable(false);
-	RMSUnit_MaxDistanceToPlayers->ChangeValue("0");
+	RMSUnit_MaxDistanceToPlayers->Clear();
 }
 
 void AGE_Frame::OnRMSUnitAdd(wxCommandEvent &Event)
@@ -1174,7 +1174,7 @@ void AGE_Frame::DisableRMSUnknowns()
 	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
 	{
 		RMSUnknown_Unknown1[loop]->Enable(false);
-		RMSUnknown_Unknown1[loop]->ChangeValue("0");
+		RMSUnknown_Unknown1[loop]->Clear();
 	}
 }
 

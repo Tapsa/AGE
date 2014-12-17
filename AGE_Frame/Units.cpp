@@ -1153,7 +1153,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		case 15:
 		{
 			Units_Speed->Enable(false);
-			Units_Speed->ChangeValue("0");
+			Units_Speed->Clear();
 		}
 		case 20:
 		case 25:
@@ -1161,109 +1161,109 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			for(short loop = 0; loop < 2; ++loop)
 			{
 				Units_WalkingGraphic[loop]->Enable(false);
-				Units_WalkingGraphic[loop]->ChangeValue("0");
+				Units_WalkingGraphic[loop]->Clear();
 				Units_WalkingGraphic_ComboBox[loop]->Enable(false);
 				Units_WalkingGraphic_ComboBox[loop]->SetSelection(0);
 			}
 			Units_RotationSpeed->Enable(false);
-			Units_RotationSpeed->ChangeValue("0");
+			Units_RotationSpeed->Clear();
 			Units_Unknown11->Enable(false);
-			Units_Unknown11->ChangeValue("0");
+			Units_Unknown11->Clear();
 			Units_TrackingUnit->Enable(false);
-			Units_TrackingUnit->ChangeValue("0");
+			Units_TrackingUnit->Clear();
 			Units_TrackingUnit_ComboBox->Enable(false);
 			Units_TrackingUnit_ComboBox->SetSelection(0);
 			Units_TrackingUnitUsed->Enable(false);
-			Units_TrackingUnitUsed->ChangeValue("0");
+			Units_TrackingUnitUsed->Clear();
 			Units_TrackingUnitDensity->Enable(false);
-			Units_TrackingUnitDensity->ChangeValue("0");
+			Units_TrackingUnitDensity->Clear();
 			Units_Unknown16->Enable(false);
-			Units_Unknown16->ChangeValue("0");
+			Units_Unknown16->Clear();
 			for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
 			{
 				Units_Unknown16B[loop]->Enable(false);
-				Units_Unknown16B[loop]->ChangeValue("0");
+				Units_Unknown16B[loop]->Clear();
 			}
 		}
 		case 30:
 		{
 			Units_SheepConversion->Enable(false);
-			Units_SheepConversion->ChangeValue("0");
+			Units_SheepConversion->Clear();
 			Units_SheepConversion_CheckBox->Enable(false);
 			Units_SheepConversion_CheckBox->SetValue(false);
 			Units_SearchRadius->Enable(false);
-			Units_SearchRadius->ChangeValue("0");
+			Units_SearchRadius->Clear();
 			Units_WorkRate->Enable(false);
-			Units_WorkRate->ChangeValue("0");
+			Units_WorkRate->Clear();
 			for(short loop = 0; loop < 2; ++loop)
 			{
 				Units_DropSite[loop]->Enable(false);
-				Units_DropSite[loop]->ChangeValue("0");
+				Units_DropSite[loop]->Clear();
 				Units_DropSite_ComboBox[loop]->Enable(false);
 				Units_DropSite_ComboBox[loop]->SetSelection(0);
 			}
 			Units_VillagerMode->Enable(false);
-			Units_VillagerMode->ChangeValue("0");
+			Units_VillagerMode->Clear();
 			Units_AttackSound->Enable(false);
-			Units_AttackSound->ChangeValue("0");
+			Units_AttackSound->Clear();
 			Units_AttackSound_ComboBox->Enable(false);
 			Units_AttackSound_ComboBox->SetSelection(0);
 			Units_MoveSound->Enable(false);
-			Units_MoveSound->ChangeValue("0");
+			Units_MoveSound->Clear();
 			Units_MoveSound_ComboBox->Enable(false);
 			Units_MoveSound_ComboBox->SetSelection(0);
 			Units_AnimalMode->Enable(false);
-			Units_AnimalMode->ChangeValue("0");
+			Units_AnimalMode->Clear();
 			Units_AnimalMode_CheckBox->Enable(false);
 			Units_AnimalMode_CheckBox->SetValue(false);
 		}
 		case 40:
 		{
 			Units_DefaultArmor->Enable(false);
-			Units_DefaultArmor->ChangeValue("0");
+			Units_DefaultArmor->Clear();
 			Units_Unknown21->Enable(false);
-			Units_Unknown21->ChangeValue("0");
+			Units_Unknown21->Clear();
 			Units_MaxRange->Enable(false);
-			Units_MaxRange->ChangeValue("0");
+			Units_MaxRange->Clear();
 			Units_BlastRadius->Enable(false);
-			Units_BlastRadius->ChangeValue("0");
+			Units_BlastRadius->Clear();
 			Units_ReloadTime1->Enable(false);
-			Units_ReloadTime1->ChangeValue("0");
+			Units_ReloadTime1->Clear();
 			Units_ProjectileUnitID->Enable(false);
-			Units_ProjectileUnitID->ChangeValue("0");
+			Units_ProjectileUnitID->Clear();
 			Units_ProjectileUnitID_ComboBox->Enable(false);
 			Units_ProjectileUnitID_ComboBox->SetSelection(0);
 			Units_AccuracyPercent->Enable(false);
-			Units_AccuracyPercent->ChangeValue("0");
+			Units_AccuracyPercent->Clear();
 			Units_TowerMode->Enable(false);
-			Units_TowerMode->ChangeValue("0");
+			Units_TowerMode->Clear();
 			Units_TowerMode_CheckBox->Enable(false);
 			Units_TowerMode_CheckBox->SetValue(false);
 			Units_Delay->Enable(false);
-			Units_Delay->ChangeValue("0");
+			Units_Delay->Clear();
 			for(short loop = 0; loop < 3; ++loop)
 			{
 				Units_GraphicDisplacement[loop]->Enable(false);
-				Units_GraphicDisplacement[loop]->ChangeValue("0");
+				Units_GraphicDisplacement[loop]->Clear();
 			}
 			Units_BlastLevel->Enable(false);
-			Units_BlastLevel->ChangeValue("0");
+			Units_BlastLevel->Clear();
 			Units_MinRange->Enable(false);
-			Units_MinRange->ChangeValue("0");
+			Units_MinRange->Clear();
 			Units_GarrisonRecoveryRate->Enable(false);
-			Units_GarrisonRecoveryRate->ChangeValue("0");
+			Units_GarrisonRecoveryRate->Clear();
 			Units_AttackGraphic->Enable(false);
-			Units_AttackGraphic->ChangeValue("0");
+			Units_AttackGraphic->Clear();
 			Units_AttackGraphic_ComboBox->Enable(false);
 			Units_AttackGraphic_ComboBox->SetSelection(0);
 			Units_DisplayedMeleeArmour->Enable(false);
-			Units_DisplayedMeleeArmour->ChangeValue("0");
+			Units_DisplayedMeleeArmour->Clear();
 			Units_DisplayedAttack->Enable(false);
-			Units_DisplayedAttack->ChangeValue("0");
+			Units_DisplayedAttack->Clear();
 			Units_DisplayedRange->Enable(false);
-			Units_DisplayedRange->ChangeValue("0");
+			Units_DisplayedRange->Clear();
 			Units_ReloadTime2->Enable(false);
-			Units_ReloadTime2->ChangeValue("0");
+			Units_ReloadTime2->Clear();
 
 			Attacks_Class->Enable(false);
 			for(short loop = 0; loop < 2; ++loop)
@@ -1278,133 +1278,133 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			for(short loop = 0; loop < 3; ++loop)
 			{
 				Units_CostType[loop]->Enable(false);
-				Units_CostType[loop]->ChangeValue("0");
+				Units_CostType[loop]->Clear();
 				Units_CostType_ComboBox[loop]->Enable(false);
 				Units_CostType_ComboBox[loop]->SetSelection(0);
 				Units_CostAmount[loop]->Enable(false);
-				Units_CostAmount[loop]->ChangeValue("0");
+				Units_CostAmount[loop]->Clear();
 				Units_CostUsed[loop]->Enable(false);
-				Units_CostUsed[loop]->ChangeValue("0");
+				Units_CostUsed[loop]->Clear();
 				Units_CostUsed_CheckBox[loop]->Enable(false);
 				Units_CostUsed_CheckBox[loop]->SetValue(false);
 				Units_AttackMissileDuplicationSpawning[loop]->Enable(false);
-				Units_AttackMissileDuplicationSpawning[loop]->ChangeValue("0");
+				Units_AttackMissileDuplicationSpawning[loop]->Clear();
 			}
 			Units_GarrisonGraphic->Enable(false);
-			Units_GarrisonGraphic->ChangeValue("0");
+			Units_GarrisonGraphic->Clear();
 			Units_GarrisonGraphic_ComboBox->Enable(false);
 			Units_GarrisonGraphic_ComboBox->SetSelection(0);
 			Units_TrainTime->Enable(false);
-			Units_TrainTime->ChangeValue("0");
+			Units_TrainTime->Clear();
 			Units_TrainLocationID->Enable(false);
-			Units_TrainLocationID->ChangeValue("0");
+			Units_TrainLocationID->Clear();
 			Units_TrainLocationID_ComboBox->Enable(false);
 			Units_TrainLocationID_ComboBox->SetSelection(0);
 			Units_ButtonID->Enable(false);
-			Units_ButtonID->ChangeValue("0");
+			Units_ButtonID->Clear();
 			Units_Unknown26->Enable(false);
-			Units_Unknown26->ChangeValue("0");
+			Units_Unknown26->Clear();
 			Units_Unknown27->Enable(false);
-			Units_Unknown27->ChangeValue("0");
+			Units_Unknown27->Clear();
 			Units_MissileGraphicDelay->Enable(false);
-			Units_MissileGraphicDelay->ChangeValue("0");
+			Units_MissileGraphicDelay->Clear();
 			Units_HeroMode->Enable(false);
-			Units_HeroMode->ChangeValue("0");
+			Units_HeroMode->Clear();
 			Units_HeroMode_CheckBox->Enable(false);
 			Units_HeroMode_CheckBox->SetValue(false);
 			Units_AttackMissileDuplicationAmount1->Enable(false);
-			Units_AttackMissileDuplicationAmount1->ChangeValue("0");
+			Units_AttackMissileDuplicationAmount1->Clear();
 			Units_AttackMissileDuplicationAmount2->Enable(false);
-			Units_AttackMissileDuplicationAmount2->ChangeValue("0");
+			Units_AttackMissileDuplicationAmount2->Clear();
 			Units_AttackMissileDuplicationUnit->Enable(false);
-			Units_AttackMissileDuplicationUnit->ChangeValue("0");
+			Units_AttackMissileDuplicationUnit->Clear();
 			Units_AttackMissileDuplicationUnit_ComboBox->Enable(false);
 			Units_AttackMissileDuplicationUnit_ComboBox->SetSelection(0);
 			Units_AttackMissileDuplicationGraphic->Enable(false);
-			Units_AttackMissileDuplicationGraphic->ChangeValue("0");
+			Units_AttackMissileDuplicationGraphic->Clear();
 			Units_AttackMissileDuplicationGraphic_ComboBox->Enable(false);
 			Units_AttackMissileDuplicationGraphic_ComboBox->SetSelection(0);
 			Units_Unknown29->Enable(false);
-			Units_Unknown29->ChangeValue("0");
+			Units_Unknown29->Clear();
 			Units_DisplayedPierceArmour->Enable(false);
-			Units_DisplayedPierceArmour->ChangeValue("0");
+			Units_DisplayedPierceArmour->Clear();
 		}
 		case 70:
 		{
 			Units_ConstructionGraphicID->Enable(false);
-			Units_ConstructionGraphicID->ChangeValue("0");
+			Units_ConstructionGraphicID->Clear();
 			Units_ConstructionGraphicID_ComboBox->Enable(false);
 			Units_ConstructionGraphicID_ComboBox->SetSelection(0);
 			Units_SnowGraphicID->Enable(false);
-			Units_SnowGraphicID->ChangeValue("0");
+			Units_SnowGraphicID->Clear();
 			Units_SnowGraphicID_ComboBox->Enable(false);
 			Units_SnowGraphicID_ComboBox->SetSelection(0);
 			Units_AdjacentMode->Enable(false);
-			Units_AdjacentMode->ChangeValue("0");
+			Units_AdjacentMode->Clear();
 			Units_AdjacentMode_CheckBox->Enable(false);
 			Units_AdjacentMode_CheckBox->SetValue(false);
 			Units_IconDisabler->Enable(false);
-			Units_IconDisabler->ChangeValue("0");
+			Units_IconDisabler->Clear();
 			Units_DisappearsWhenBuilt->Enable(false);
-			Units_DisappearsWhenBuilt->ChangeValue("0");
+			Units_DisappearsWhenBuilt->Clear();
 			Units_Unknown31b_CheckBox->Enable(false);
 			Units_Unknown31b_CheckBox->SetValue(false);
 			Units_StackUnitID->Enable(false);
-			Units_StackUnitID->ChangeValue("0");
+			Units_StackUnitID->Clear();
 			Units_StackUnitID_ComboBox->Enable(false);
 			Units_StackUnitID_ComboBox->SetSelection(0);
 			Units_TerrainID->Enable(false);
-			Units_TerrainID->ChangeValue("0");
+			Units_TerrainID->Clear();
 			Units_TerrainID_ComboBox->Enable(false);
 			Units_TerrainID_ComboBox->SetSelection(0);
 			Units_Unknown32->Enable(false);
-			Units_Unknown32->ChangeValue("0");
+			Units_Unknown32->Clear();
 			Units_ResearchID->Enable(false);
-			Units_ResearchID->ChangeValue("0");
+			Units_ResearchID->Clear();
 			Units_ResearchID_ComboBox->Enable(false);
 			Units_ResearchID_ComboBox->SetSelection(0);
 			Units_Unknown33->Enable(false);
-			Units_Unknown33->ChangeValue("0");
+			Units_Unknown33->Clear();
 			for(short loop = 0; loop < 4; ++loop)
 			{
 				Units_AnnexUnit[loop]->Enable(false);
-				Units_AnnexUnit[loop]->ChangeValue("0");
+				Units_AnnexUnit[loop]->Clear();
 				Units_AnnexUnit_ComboBox[loop]->Enable(false);
 				Units_AnnexUnit_ComboBox[loop]->SetSelection(0);
 				for(short loop2 = 0; loop2 < 2; ++loop2)
 				{
 					Units_AnnexUnitMisplacement[loop][loop2]->Enable(false);
-					Units_AnnexUnitMisplacement[loop][loop2]->ChangeValue("0");
+					Units_AnnexUnitMisplacement[loop][loop2]->Clear();
 				}
 			}
 			Units_HeadUnit->Enable(false);
-			Units_HeadUnit->ChangeValue("0");
+			Units_HeadUnit->Clear();
 			Units_HeadUnit_ComboBox->Enable(false);
 			Units_HeadUnit_ComboBox->SetSelection(0);
 			Units_TransformUnit->Enable(false);
-			Units_TransformUnit->ChangeValue("0");
+			Units_TransformUnit->Clear();
 			Units_TransformUnit_ComboBox->Enable(false);
 			Units_TransformUnit_ComboBox->SetSelection(0);
 			Units_Unknown34->Enable(false);
-			Units_Unknown34->ChangeValue("0");
+			Units_Unknown34->Clear();
 			Units_ConstructionSound->Enable(false);
-			Units_ConstructionSound->ChangeValue("0");
+			Units_ConstructionSound->Clear();
 			Units_ConstructionSound_ComboBox->Enable(false);
 			Units_ConstructionSound_ComboBox->SetSelection(0);
 			Units_GarrisonType->Enable(false);
-			Units_GarrisonType->ChangeValue("0");
+			Units_GarrisonType->Clear();
 			Units_GarrisonType_ComboBox->Enable(false);
 			Units_GarrisonType_ComboBox->SetSelection(0);
 			Units_GarrisonHealRate->Enable(false);
-			Units_GarrisonHealRate->ChangeValue("0");
+			Units_GarrisonHealRate->Clear();
 			Units_Unknown35->Enable(false);
-			Units_Unknown35->ChangeValue("0");
+			Units_Unknown35->Clear();
 			Units_PileUnit->Enable(false);
-			Units_PileUnit->ChangeValue("0");
+			Units_PileUnit->Clear();
 			for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
 			{
 				Units_LootSwitch[loop]->Enable(false);
-				Units_LootSwitch[loop]->ChangeValue("0");
+				Units_LootSwitch[loop]->Clear();
 			}
 		}
 	}
@@ -1428,17 +1428,17 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	else
 	{
 		Units_StretchMode->Enable(false);
-		Units_StretchMode->ChangeValue("0");
+		Units_StretchMode->Clear();
 		Units_CompensationMode->Enable(false);
-		Units_CompensationMode->ChangeValue("0");
+		Units_CompensationMode->Clear();
 		Units_DropAnimationMode->Enable(false);
-		Units_DropAnimationMode->ChangeValue("0");
+		Units_DropAnimationMode->Clear();
 		Units_PenetrationMode->Enable(false);
-		Units_PenetrationMode->ChangeValue("0");
+		Units_PenetrationMode->Clear();
 		Units_Unknown24->Enable(false);
-		Units_Unknown24->ChangeValue("0");
+		Units_Unknown24->Clear();
 		Units_ProjectileArc->Enable(false);
-		Units_ProjectileArc->ChangeValue("0");
+		Units_ProjectileArc->Clear();
 	}
 
 	// Don't count disabled units anymore.
@@ -2128,11 +2128,11 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		DamageGraphics_GraphicID->ChangeValue("0");
+		DamageGraphics_GraphicID->Clear();
 		DamageGraphics_GraphicID_ComboBox->SetSelection(0);
-		DamageGraphics_DamagePercent->ChangeValue("0");
-		DamageGraphics_Unknown1->ChangeValue("0");
-		DamageGraphics_Unknown2->ChangeValue("0");
+		DamageGraphics_DamagePercent->Clear();
+		DamageGraphics_Unknown1->Clear();
+		DamageGraphics_Unknown2->Clear();
 	}
 }
 
@@ -2383,9 +2383,9 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		Attacks_Class->ChangeValue("0");
+		Attacks_Class->Clear();
 		Attacks_Class_ComboBox[0]->SetSelection(0);
-		Attacks_Amount->ChangeValue("0");
+		Attacks_Amount->Clear();
 	}
 }
 
@@ -2635,9 +2635,9 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		Armors_Class->ChangeValue("0");
+		Armors_Class->Clear();
 		Attacks_Class_ComboBox[1]->SetSelection(0);
-		Armors_Amount->ChangeValue("0");
+		Armors_Amount->Clear();
 	}
 }
 
@@ -3072,39 +3072,39 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		UnitCommands_One->ChangeValue("0");
-		UnitCommands_ID->ChangeValue("0");
-		UnitCommands_Unknown1->ChangeValue("0");
-		UnitCommands_Type->ChangeValue("0");
+		UnitCommands_One->Clear();
+		UnitCommands_ID->Clear();
+		UnitCommands_Unknown1->Clear();
+		UnitCommands_Type->Clear();
 		UnitCommands_Type_ComboBox->SetSelection(0);
-		UnitCommands_ClassID->ChangeValue("0");
+		UnitCommands_ClassID->Clear();
 		Units_Class_ComboBox[1]->SetSelection(0);
-		UnitCommands_UnitID->ChangeValue("0");
+		UnitCommands_UnitID->Clear();
 		UnitCommands_UnitID_ComboBox->SetSelection(0);
-		UnitCommands_Unknown2->ChangeValue("0");
-		UnitCommands_ResourceIn->ChangeValue("0");
+		UnitCommands_Unknown2->Clear();
+		UnitCommands_ResourceIn->Clear();
 		UnitCommands_ResourceIn_ComboBox->SetSelection(0);
-		UnitCommands_ProductivityResource->ChangeValue("0");
+		UnitCommands_ProductivityResource->Clear();
 		UnitCommands_ProductivityResource_ComboBox->SetSelection(0);
-		UnitCommands_ResourceOut->ChangeValue("0");
+		UnitCommands_ResourceOut->Clear();
 		UnitCommands_ResourceOut_ComboBox->SetSelection(0);
-		UnitCommands_Resource->ChangeValue("0");
+		UnitCommands_Resource->Clear();
 		UnitCommands_Resource_ComboBox->SetSelection(0);
-		UnitCommands_WorkRateMultiplier->ChangeValue("0");
-		UnitCommands_ExecutionRadius->ChangeValue("0");
-		UnitCommands_ExtraRange->ChangeValue("0");
-		UnitCommands_Unknown4->ChangeValue("0");
-		UnitCommands_Unknown5->ChangeValue("0");
-		UnitCommands_SelectionEnabler->ChangeValue("0");
-		UnitCommands_Unknown7->ChangeValue("0");
-		UnitCommands_Unknown8->ChangeValue("0");
-		UnitCommands_Unknown9->ChangeValue("0");
-		UnitCommands_SelectionMode->ChangeValue("0");
-		UnitCommands_Unknown11->ChangeValue("0");
-		UnitCommands_Unknown12->ChangeValue("0");
+		UnitCommands_WorkRateMultiplier->Clear();
+		UnitCommands_ExecutionRadius->Clear();
+		UnitCommands_ExtraRange->Clear();
+		UnitCommands_Unknown4->Clear();
+		UnitCommands_Unknown5->Clear();
+		UnitCommands_SelectionEnabler->Clear();
+		UnitCommands_Unknown7->Clear();
+		UnitCommands_Unknown8->Clear();
+		UnitCommands_Unknown9->Clear();
+		UnitCommands_SelectionMode->Clear();
+		UnitCommands_Unknown11->Clear();
+		UnitCommands_Unknown12->Clear();
 		for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 		{
-			UnitCommands_Graphics[loop]->ChangeValue("0");
+			UnitCommands_Graphics[loop]->Clear();
 			UnitCommands_Graphics_ComboBox[loop]->SetSelection(0);
 		}
 	}
