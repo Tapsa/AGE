@@ -2134,6 +2134,11 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 		DamageGraphics_Unknown1->Clear();
 		DamageGraphics_Unknown2->Clear();
 	}
+	DamageGraphics_GraphicID->Enable(selections);
+	DamageGraphics_GraphicID_ComboBox->Enable(selections);
+	DamageGraphics_DamagePercent->Enable(selections);
+	DamageGraphics_Unknown1->Enable(selections);
+	DamageGraphics_Unknown2->Enable(selections);
 }
 
 void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
@@ -2387,6 +2392,9 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 		Attacks_Class_ComboBox[0]->SetSelection(0);
 		Attacks_Amount->Clear();
 	}
+	Attacks_Class->Enable(selections);
+	Attacks_Class_ComboBox[0]->Enable(selections);
+	Attacks_Amount->Enable(selections);
 }
 
 void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
@@ -2639,6 +2647,9 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 		Attacks_Class_ComboBox[1]->SetSelection(0);
 		Armors_Amount->Clear();
 	}
+	Armors_Class->Enable(selections);
+	Attacks_Class_ComboBox[1]->Enable(selections);
+	Armors_Amount->Enable(selections);
 }
 
 void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
@@ -3107,6 +3118,40 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 			UnitCommands_Graphics[loop]->Clear();
 			UnitCommands_Graphics_ComboBox[loop]->SetSelection(0);
 		}
+	}
+	UnitCommands_One->Enable(selections);
+	UnitCommands_Unknown1->Enable(selections);
+	UnitCommands_Type->Enable(selections);
+	UnitCommands_Type_ComboBox->Enable(selections);
+	UnitCommands_ClassID->Enable(selections);
+	Units_Class_ComboBox[1]->Enable(selections);
+	UnitCommands_UnitID->Enable(selections);
+	UnitCommands_UnitID_ComboBox->Enable(selections);
+	UnitCommands_Unknown2->Enable(selections);
+	UnitCommands_ResourceIn->Enable(selections);
+	UnitCommands_ResourceIn_ComboBox->Enable(selections);
+	UnitCommands_ProductivityResource->Enable(selections);
+	UnitCommands_ProductivityResource_ComboBox->Enable(selections);
+	UnitCommands_ResourceOut->Enable(selections);
+	UnitCommands_ResourceOut_ComboBox->Enable(selections);
+	UnitCommands_Resource->Enable(selections);
+	UnitCommands_Resource_ComboBox->Enable(selections);
+	UnitCommands_WorkRateMultiplier->Enable(selections);
+	UnitCommands_ExecutionRadius->Enable(selections);
+	UnitCommands_ExtraRange->Enable(selections);
+	UnitCommands_Unknown4->Enable(selections);
+	UnitCommands_Unknown5->Enable(selections);
+	UnitCommands_SelectionEnabler->Enable(selections);
+	UnitCommands_Unknown7->Enable(selections);
+	UnitCommands_Unknown8->Enable(selections);
+	UnitCommands_Unknown9->Enable(selections);
+	UnitCommands_SelectionMode->Enable(selections);
+	UnitCommands_Unknown11->Enable(selections);
+	UnitCommands_Unknown12->Enable(selections);
+	for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
+	{
+		UnitCommands_Graphics[loop]->Enable(selections);
+		UnitCommands_Graphics_ComboBox[loop]->Enable(selections);
 	}
 }
 
