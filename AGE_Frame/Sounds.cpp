@@ -244,13 +244,19 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		SoundItems_Name->ChangeValue("0");
-		SoundItems_Resource->ChangeValue("0");
-		SoundItems_Probability->ChangeValue("0");
-		SoundItems_Civ->ChangeValue("0");
+		SoundItems_Name->Clear();
+		SoundItems_Resource->Clear();
+		SoundItems_Probability->Clear();
+		SoundItems_Civ->Clear();
 		SoundItems_Civ_ComboBox->SetSelection(0);
-		SoundItems_Unknown->ChangeValue("0");
+		SoundItems_Unknown->Clear();
 	}
+	SoundItems_Name->Enable(selections);
+	SoundItems_Resource->Enable(selections);
+	SoundItems_Probability->Enable(selections);
+	SoundItems_Civ->Enable(selections);
+	SoundItems_Civ_ComboBox->Enable(selections);
+	SoundItems_Unknown->Enable(selections);
 }
 
 void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &Event)

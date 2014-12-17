@@ -193,9 +193,11 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		UnitLineUnits_Units->ChangeValue("0");
+		UnitLineUnits_Units->Clear();
 		UnitLineUnits_ComboBox->SetSelection(0);
 	}
+	UnitLineUnits_Units->Enable(selections);
+	UnitLineUnits_ComboBox->Enable(selections);
 }
 
 void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &Event)
