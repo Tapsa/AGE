@@ -848,8 +848,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_SearchFilters[loop]->Append("Pointer");
 		/*	Units_SearchFilters[loop]->Append("Garrison Type");
 			Units_SearchFilters[loop]->Append("Enabled");
-			Units_SearchFilters[loop]->Append("Hidden In Editor");
-			Units_SearchFilters[loop]->Append("Visible In Fog");
+			Units_SearchFilters[loop]->Append("Hidden in Editor");
+			Units_SearchFilters[loop]->Append("Visible in Fog");
 			Units_SearchFilters[loop]->Append("Death Mode");
 			Units_SearchFilters[loop]->Append("Hero Mode");
 			Units_SearchFilters[loop]->Append("Air Mode");
@@ -1535,7 +1535,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case MenuOption_About:
 		{
-			AGETextCtrl::accurateFloats = !AGETextCtrl::accurateFloats;
 			AGE_AboutDialog AGEAbout(this);
 			AGEAbout.ShowModal();
 		}
@@ -1548,7 +1547,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;*/
 		case ToolBar_Help:
 		{
-			AGETextCtrl::hexMode = !AGETextCtrl::hexMode;
 			//AGE_HelpInfo AGEHelp(this);
 			//AGEHelp.ShowModal();
 			wxString help = "ATTENTION!\nChanges to editing boxes affect all selected items!\n";
@@ -1591,6 +1589,16 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			help.Append("or into two blue boxes (16 bit integers)\n");
 			help.Append("or into two orange boxes and one blue box.");*/
 			wxMessageBox(help, "Short Guide to Advanced Editing");
+		}
+		break;
+		case ToolBar_Hex:
+		{
+			AGETextCtrl::hexMode = Event.IsChecked();
+		}
+		break;
+		case ToolBar_Float:
+		{
+			AGETextCtrl::accurateFloats = Event.IsChecked();
 		}
 		break;
 		default: wxMessageBox(lexical_cast<string>(Event.GetId()), "wxEvent error!");

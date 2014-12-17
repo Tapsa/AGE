@@ -709,8 +709,30 @@ string AGE_Frame::GetTTBuildingName(short Index)
 	{
 		switch(Selection[loop])
 		{
+			case 1: // Status
+				Name += "S "+lexical_cast<string>((short)GenieFile->TechTree.BuildingConnections[Index].Unknown1);
+				break;
+			case 2: // Required Items
+				Name += "I "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Common.SlotsUsed);
+				break;
+			case 3: // Age
+				Name += "A "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].Common.UnitResearch[0]);
+				break;
+			case 4: // Location in Age
+				Name += "LA "+lexical_cast<string>((short)GenieFile->TechTree.BuildingConnections[Index].LocationInAge);
+				break;
+			case 5: // Units & Techs by Age
+				Name += "UT";
+				for(short age = 0; age < 5; ++age)
+				Name += " "+lexical_cast<string>((short)GenieFile->TechTree.BuildingConnections[Index].UnitsTechsTotal[age]);
+				break;
+			case 6: // Units & Techs @ 1st by Age
+				Name += "UT1";
+				for(short age = 0; age < 5; ++age)
+				Name += " "+lexical_cast<string>((short)GenieFile->TechTree.BuildingConnections[Index].UnitsTechsFirst[age]);
+				break;
 			case 7: // Line Mode
-				Name += "C "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].LineMode);
+				Name += "LM "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].LineMode);
 				break;
 			case 8: // Enabling Research
 				Name += "E "+lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].EnablingResearch);
@@ -1307,22 +1329,31 @@ string AGE_Frame::GetTTUnitName(short Index)
 	{
 		switch(Selection[loop])
 		{
-			case 1: // Upper Building
+			case 1: // Status
+				Name += "S "+lexical_cast<string>((short)GenieFile->TechTree.UnitConnections[Index].Unknown1);
+				break;
+			case 2: // Upper Building
 				Name += "U "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].UpperBuilding);
 				break;
-			case 8: // Vertical Line Number
+			case 3: // Required Items
+				Name += "I "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].Common.SlotsUsed);
+				break;
+			case 4: // Age
+				Name += "A "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].Common.UnitResearch[0]);
+				break;
+			case 5: // Vertical Line Number
 				Name += "V "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].VerticalLine);
 				break;
-			case 9: // Space Sharing
-				Name += "S "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].LocationInAge);
+			case 6: // Space Sharing
+				Name += "LA "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].LocationInAge);
 				break;
-			case 10: // Required Research
+			case 7: // Required Research
 				Name += "R "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].RequiredResearch);
 				break;
-			case 11: // Placement
-				Name += "P "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].LineMode);
+			case 8: // Placement
+				Name += "LM "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].LineMode);
 				break;
-			case 12: // Enabling Research
+			case 9: // Enabling Research
 				Name += "E "+lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].EnablingResearch);
 				break;
 		}
@@ -1709,17 +1740,26 @@ string AGE_Frame::GetTTResearchName(short Index)
 	{
 		switch(Selection[loop])
 		{
-			case 1: // Upper Building
-				Name += "UB "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].UpperBuilding);
+			case 1: // Status
+				Name += "S "+lexical_cast<string>((short)GenieFile->TechTree.ResearchConnections[Index].Unknown1);
 				break;
-			case 6: // Vertical Line Number
-				Name += "VL "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].VerticalLine);
+			case 2: // Upper Building
+				Name += "U "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].UpperBuilding);
 				break;
-			case 7: // Location In Age
+			case 3: // Required Items
+				Name += "I "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].Common.SlotsUsed);
+				break;
+			case 4: // Age
+				Name += "A "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].Common.UnitResearch[0]);
+				break;
+			case 5: // Vertical Line Number
+				Name += "V "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].VerticalLine);
+				break;
+			case 6: // Location in Age
 				Name += "LA "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].LocationInAge);
 				break;
-			case 8: // First Age Mode
-				Name += "FA "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].LineMode);
+			case 7: // First Age Mode
+				Name += "LM "+lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].LineMode);
 				break;
 		}
 		Name += ", ";
@@ -2400,7 +2440,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Buildings_Always2 = new TextCtrl_Byte(TechTrees_ScrollerBuildings);
 	TechTrees_Buildings_Always2->SetToolTip(StatusHelp);
 	TechTrees_Buildings_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
-	TechTrees_Buildings_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerBuildings, wxID_ANY, " Location In Age *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TechTrees_Buildings_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerBuildings, wxID_ANY, " Location in Age *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Buildings_LocationInAge = new TextCtrl_Byte(TechTrees_ScrollerBuildings);
 	TechTrees_Buildings_LocationInAge->SetToolTip(LocationInAgeHelp);
 	TechTrees_Buildings_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
@@ -2482,7 +2522,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Units_VerticalLine_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Vertical Line Number", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Units_VerticalLine = new TextCtrl_Long(TechTrees_ScrollerUnits);
 	TechTrees_Units_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
-	TechTrees_Units_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Location In Age *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TechTrees_Units_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Location in Age *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Units_LocationInAge = new TextCtrl_Long(TechTrees_ScrollerUnits);
 	TechTrees_Units_LocationInAge->SetToolTip(LocationInAgeHelp);
 	TechTrees_Units_RequiredResearch_Holder = new wxBoxSizer(wxVERTICAL);
@@ -2557,7 +2597,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Researches_VerticalLine_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Vertical Line Number", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Researches_VerticalLine = new TextCtrl_Long(TechTrees_ScrollerResearches);
 	TechTrees_Researches_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
-	TechTrees_Researches_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Location In Age *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TechTrees_Researches_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Location in Age *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TechTrees_Researches_LocationInAge = new TextCtrl_Long(TechTrees_ScrollerResearches);
 	TechTrees_Researches_LocationInAge->SetToolTip(LocationInAgeHelp);
 	TechTrees_Researches_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
@@ -2576,40 +2616,36 @@ void AGE_Frame::CreateTechTreeControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Normal Name");	// 0
+		TechTrees_MainList_Units_SearchFilters[loop]->Append("Status");
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Upper Building");
-		TechTrees_MainList_Units_SearchFilters[loop]->Append("Required Researches");
-		TechTrees_MainList_Units_SearchFilters[loop]->Append("Age");
-		TechTrees_MainList_Units_SearchFilters[loop]->Append("Unit or Research 1");
-		TechTrees_MainList_Units_SearchFilters[loop]->Append("Unit or Research 2");
-		TechTrees_MainList_Units_SearchFilters[loop]->Append("U/R 1 Mode");
-		TechTrees_MainList_Units_SearchFilters[loop]->Append("U/R 2 Mode");
+		TechTrees_MainList_Units_SearchFilters[loop]->Append("Required Items");
+		TechTrees_MainList_Units_SearchFilters[loop]->Append("Age (1st Item)");
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Vertical Line Number");
-		TechTrees_MainList_Units_SearchFilters[loop]->Append("Location In Age");
+		TechTrees_MainList_Units_SearchFilters[loop]->Append("Location in Age");
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Required Research");
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Line Mode");
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Enabling Research");
 		TechTrees_MainList_Units_SearchFilters[loop]->SetSelection(0);
 
 		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Normal Name");	// 0
-		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Required Researches");
-		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Age");
-		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Unit or Research 1");
-		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Unit or Research 2");
-		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("U/R 1 Mode");
-		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("U/R 2 Mode");
-		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("LineMode");
+		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Status");
+		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Required Items");
+		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Age (1st Item)");
+		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Location in Age");
+		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Units & Techs by Age");
+		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Units & Techs @ 1st by Age");
+		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Line Mode");
 		TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Enabling Research");
 		TechTrees_MainList_Buildings_SearchFilters[loop]->SetSelection(0);
 
 		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Normal Name");	// 0
+		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Status");
 		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Upper Building");
-		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Required Researches");
-		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Age");
-		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Upper Research");
-		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Line Mode");
+		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Required Items");
+		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Age (1st Item)");
 		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Vertical Line Number");
-		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Location In Age");
-		TechTrees_MainList_Researches_SearchFilters[loop]->Append("First Age Mode");
+		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Location in Age");
+		TechTrees_MainList_Researches_SearchFilters[loop]->Append("Line Mode");
 		TechTrees_MainList_Researches_SearchFilters[loop]->SetSelection(0);
 	}
 
