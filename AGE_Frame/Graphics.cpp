@@ -433,16 +433,25 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 	}
 	else
 	{
-		GraphicDeltas_GraphicID->ChangeValue("0");
+		GraphicDeltas_GraphicID->Clear();
 		GraphicDeltas_GraphicID_ComboBox->SetSelection(0);
-		GraphicDeltas_Unknown1->ChangeValue("0");
-		GraphicDeltas_Unknown2->ChangeValue("0");
-		GraphicDeltas_Unknown3->ChangeValue("0");
-		GraphicDeltas_Unknown4->ChangeValue("0");
-		GraphicDeltas_Unknown5->ChangeValue("0");
-		GraphicDeltas_DirectionX->ChangeValue("0");
-		GraphicDeltas_DirectionY->ChangeValue("0");
+		GraphicDeltas_Unknown1->Clear();
+		GraphicDeltas_Unknown2->Clear();
+		GraphicDeltas_Unknown3->Clear();
+		GraphicDeltas_Unknown4->Clear();
+		GraphicDeltas_Unknown5->Clear();
+		GraphicDeltas_DirectionX->Clear();
+		GraphicDeltas_DirectionY->Clear();
 	}
+	GraphicDeltas_GraphicID->Enable(selections);
+	GraphicDeltas_GraphicID_ComboBox->Enable(selections);
+	GraphicDeltas_Unknown1->Enable(selections);
+	GraphicDeltas_Unknown2->Enable(selections);
+	GraphicDeltas_Unknown3->Enable(selections);
+	GraphicDeltas_Unknown4->Enable(selections);
+	GraphicDeltas_Unknown5->Enable(selections);
+	GraphicDeltas_DirectionX->Enable(selections);
+	GraphicDeltas_DirectionY->Enable(selections);
 }
 
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &Event)
@@ -577,10 +586,16 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 	{
 		for(short loop = 0; loop < 3; ++loop)
 		{
-			Graphics_AttackSoundID[loop]->ChangeValue("0");
+			Graphics_AttackSoundID[loop]->Clear();
 			Graphics_AttackSoundID_ComboBox[loop]->SetSelection(0);
-			Graphics_AttackSoundDelay[loop]->ChangeValue("0");
+			Graphics_AttackSoundDelay[loop]->Clear();
 		}
+	}
+	for(short loop = 0; loop < 3; ++loop)
+	{
+		Graphics_AttackSoundID[loop]->Enable(selections);
+		Graphics_AttackSoundID_ComboBox[loop]->Enable(selections);
+		Graphics_AttackSoundDelay[loop]->Enable(selections);
 	}
 }
 
