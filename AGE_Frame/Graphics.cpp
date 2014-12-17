@@ -278,7 +278,6 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	Graphics_FrameRate->Enable(selections);
 	Graphics_ReplayDelay->Enable(selections);
 	Graphics_SequenceType->Enable(selections);
-	Graphics_ID->Enable(selections);
 	Graphics_MirroringMode->Enable(selections);
 	if(GenieVersion >= genie::GV_AoKB)
 	Graphics_Unknown3->Enable(selections);
