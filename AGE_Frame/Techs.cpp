@@ -132,7 +132,7 @@ void AGE_Frame::OnTechSelect(wxCommandEvent &Event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected tech: "+lexical_cast<string>(TechIDs[0]), 0);
 
-	Techs_Name->ChangeValue(TechPointer->Name);
+	Techs_Name->Update();
 	ListEffects();
 }
 

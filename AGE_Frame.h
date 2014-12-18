@@ -76,6 +76,7 @@ public:
 
 //	bool FileExists(const char *value);
 	wxString searchText, excludeText;
+	wxString FormatFloat(float);
 	bool SearchMatches(wxString itemText);
 	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
 	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
@@ -1638,9 +1639,9 @@ public:
 	TextCtrl_Float *Units_AttackMissileDuplicationSpawning[3];
 	TextCtrl_Long *Units_AttackMissileDuplicationUnit;
 	ComboBox_Plus1 *Units_AttackMissileDuplicationUnit_ComboBox;
-	TextCtrl_Long *Units_AttackMissileDuplicationGraphic;
-	ComboBox_Plus1 *Units_AttackMissileDuplicationGraphic_ComboBox;
-	TextCtrl_Byte *Units_Unknown29;
+	TextCtrl_Long *Units_ChargingGraphic;
+	ComboBox_Plus1 *Units_ChargingGraphic_ComboBox;
+	TextCtrl_Byte *Units_ChargingMode;
 	TextCtrl_Short *Units_DisplayedPierceArmour;
 
 //	Type 80
@@ -1669,7 +1670,8 @@ public:
 	ComboBox_Plus1 *Units_HeadUnit_ComboBox;
 	TextCtrl_Short *Units_TransformUnit;
 	ComboBox_Plus1 *Units_TransformUnit_ComboBox;
-	TextCtrl_Short *Units_Unknown34;
+	TextCtrl_Short *Units_UnknownSound;
+	ComboBox_Plus1 *Units_UnknownSound_ComboBox;
 	TextCtrl_Short *Units_ConstructionSound;
 	ComboBox_Plus1 *Units_ConstructionSound_ComboBox;
 	TextCtrl_Byte *Units_GarrisonType;
@@ -1677,6 +1679,7 @@ public:
 	TextCtrl_Float *Units_GarrisonHealRate;
 	TextCtrl_Float *Units_Unknown35;
 	TextCtrl_Short *Units_PileUnit;
+	ComboBox_Plus1 *Units_PileUnit_ComboBox;
 	array<TextCtrl_Byte*, 6> Units_LootSwitch;
 
 //	Data Container Names
@@ -1814,8 +1817,8 @@ public:
 	wxStaticText *Units_AttackMissileDuplicationAmount2_Text;
 	wxStaticText *Units_AttackMissileDuplicationSpawning_Text;
 	wxStaticText *Units_AttackMissileDuplicationUnit_Text;
-	wxStaticText *Units_AttackMissileDuplicationGraphic_Text;
-	wxStaticText *Units_Unknown29_Text;
+	wxStaticText *Units_ChargingGraphic_Text;
+	wxStaticText *Units_ChargingMode_Text;
 	wxStaticText *Units_DisplayedPierceArmour_Text;
 
 //	Type 80
@@ -1832,7 +1835,7 @@ public:
 	wxStaticText *Units_AnnexUnitMisplacement_Text;
 	wxStaticText *Units_HeadUnit_Text;
 	wxStaticText *Units_TransformUnit_Text;
-	wxStaticText *Units_Unknown34_Text;
+	wxStaticText *Units_UnknownSound_Text;
 	wxStaticText *Units_ConstructionSound_Text;
 	wxStaticText *Units_GarrisonType_Text;
 	wxStaticText *Units_GarrisonHealRate_Text;
@@ -2004,8 +2007,8 @@ public:
 	wxBoxSizer *Units_AttackMissileDuplicationSpawning_Holder;
 	wxGridSizer *Units_AttackMissileDuplicationSpawning_Grid;
 	wxBoxSizer *Units_AttackMissileDuplicationUnit_Holder;
-	wxBoxSizer *Units_AttackMissileDuplicationGraphic_Holder;
-	wxBoxSizer *Units_Unknown29_Holder;
+	wxBoxSizer *Units_ChargingGraphic_Holder;
+	wxBoxSizer *Units_ChargingMode_Holder;
 	wxBoxSizer *Units_DisplayedPierceArmour_Holder;
 
 //	Type 80
@@ -2026,7 +2029,7 @@ public:
 	wxBoxSizer *Units_AnnexUnitMisplacement1_Holder;
 	wxBoxSizer *Units_HeadUnit_Holder;
 	wxBoxSizer *Units_TransformUnit_Holder;
-	wxBoxSizer *Units_Unknown34_Holder;
+	wxBoxSizer *Units_UnknownSound_Holder;
 	wxBoxSizer *Units_ConstructionSound_Holder;
 	wxBoxSizer *Units_GarrisonType_Holder;
 	wxBoxSizer *Units_GarrisonHealRate_Holder;
