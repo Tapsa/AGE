@@ -95,14 +95,14 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	}
 
 	Civs_One->Update();
-	Civs_Name[0]->ChangeValue(CivPointer->Name);
+	Civs_Name[0]->Update();
 	Civs_TechTree->Update();
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		Civs_TeamBonus->Update();
 		if(GenieVersion >= genie::GV_SWGB)
 		{
-			Civs_Name[1]->ChangeValue(CivPointer->Name2);
+			Civs_Name[1]->Update();
 			for(short loop = 0; loop < 4; ++loop)
 			Civs_SUnknown1[loop]->Update();
 		}
@@ -658,7 +658,7 @@ void AGE_Frame::ListResources(bool all)
 
 	for(short loop = 0; loop < GenieFile->Civs[CivIDs[0]].Resources.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - Value: "+lexical_cast<string>(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
+		wxString Name = " "+lexical_cast<string>(loop)+" - Value: "+FormatFloat(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);

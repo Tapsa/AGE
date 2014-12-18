@@ -68,7 +68,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 	}
 
 	UnitLines_ID->Update();
-	UnitLines_Name->ChangeValue(LinePointer->Name);
+	UnitLines_Name->Update();
 	ListUnitLineUnits();
 }
 
