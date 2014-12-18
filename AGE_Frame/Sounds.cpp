@@ -233,7 +233,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 			}
 		}
 
-		SoundItems_Name->ChangeValue(SoundItemPointer->FileName);
+		SoundItems_Name->Update();
 		SoundItems_Resource->Update();
 		SoundItems_Probability->Update();
 		if(GenieVersion >= genie::GV_AoKA)

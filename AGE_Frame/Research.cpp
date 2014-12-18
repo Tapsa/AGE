@@ -274,7 +274,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
 		Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLName2 - 140000;
 		if(GenieVersion >= genie::GV_SWGB)
-		Research_Name[1]->ChangeValue(ResearchPointer->Name2);
+		Research_Name[1]->Update();
 	}
 	else
 	{
@@ -300,7 +300,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
 	Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
 	Research_Unknown1->Update();
-	Research_Name[0]->ChangeValue(ResearchPointer->Name);
+	Research_Name[0]->Update();
 }
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent &Event)

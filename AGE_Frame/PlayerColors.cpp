@@ -99,7 +99,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 	Colors_ColorL->Update();
 	if(GenieVersion <= genie::GV_RoR)	//	AoE and RoR
 	{
-		Colors_Name->ChangeValue(PlayerColorPointer->Name);
+		Colors_Name->Update();
 	}
 	else	//	Above AoE and RoR
 	{

@@ -216,8 +216,8 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 
 	Terrains_Unknown1->Update();
 	Terrains_Unknown2->Update();
-	Terrains_Name->ChangeValue(TerrainPointer->Name);
-	Terrains_Name2->ChangeValue(TerrainPointer->Name2);
+	Terrains_Name->Update();
+	Terrains_Name2->Update();
 	Terrains_SLP->Update();
 	Terrains_Unknown3->Update();
 	Terrains_SoundID->Update();
