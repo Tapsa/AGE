@@ -94,8 +94,8 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 
 	Borders_BorderUnknown1->Update();
 	Borders_BorderEnabled->Update();
-	Borders_BorderName[0]->ChangeValue(BorderPointer->Name);
-	Borders_BorderName[1]->ChangeValue(BorderPointer->Name2);
+	Borders_BorderName[0]->Update();
+	Borders_BorderName[1]->Update();
 	Borders_BorderRessourceID->Update();
 	Borders_BorderUnknown3->Update();
 	Borders_BorderUnknown4->Update();

@@ -70,6 +70,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.CheckBox_LangWrite->SetValue(WriteLangs);
 		OpenBox.CheckBox_LangWriteToLatest->SetValue(LangWriteToLatest);
 
+		AGETextCtrl::editable = true;
 		if(OpenBox.ShowModal() != wxID_OK) return; // What this does?
 
 		GameVersion = OpenBox.CheckBox_GenieVer->GetSelection();
@@ -683,7 +684,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_Class_ComboBox[loop]->Append("15 - Tree");
 				Units_Class_ComboBox[loop]->Append("16 - Tree Stump");
 				Units_Class_ComboBox[loop]->Append("17 - Unused");
-				Units_Class_ComboBox[loop]->Append("18 - Monastery");// monastery-class
+				Units_Class_ComboBox[loop]->Append("18 - Monk");// monastery-class
 				Units_Class_ComboBox[loop]->Append("19 - Trade Cart");
 				Units_Class_ComboBox[loop]->Append("20 - Transport Boat");
 				Units_Class_ComboBox[loop]->Append("21 - Fishing Boat");
@@ -691,7 +692,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				if(GenieVersion <= genie::GV_RoR)
 					Units_Class_ComboBox[loop]->Append("23 - Chariot Archer");
 				else
-					Units_Class_ComboBox[loop]->Append("23 - Cavalry Cannon");// cavalry-cannon-class
+					Units_Class_ComboBox[loop]->Append("23 - Conquistador");// cavalry-cannon-class
 				Units_Class_ComboBox[loop]->Append("24 - War Elephant");
 				Units_Class_ComboBox[loop]->Append("25 - Hero");
 				Units_Class_ComboBox[loop]->Append("26 - Elephant Archer");
@@ -718,7 +719,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_Class_ComboBox[loop]->Append("41 - Pile of Resource");
 				Units_Class_ComboBox[loop]->Append("42 - Relic");
 				Units_Class_ComboBox[loop]->Append("43 - Monk with Relic");
-				Units_Class_ComboBox[loop]->Append("44 - Archery Cannon");// archery-cannon-class
+				Units_Class_ComboBox[loop]->Append("44 - Hand Cannoneer");// archery-cannon-class
 				Units_Class_ComboBox[loop]->Append("45 - Two Handed Swordsman");
 				Units_Class_ComboBox[loop]->Append("46 - Pikeman");
 				Units_Class_ComboBox[loop]->Append("47 - Scout Cavalry");
@@ -1110,7 +1111,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	NeedDat = false;
 	SkipOpenDialog = false;
-	AGETextCtrl::editable = true;
 }
 
 void AGE_Frame::OnGameVersionChange()
@@ -1193,7 +1193,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_AttackMissileDuplicationAmount2_Holder->Show(show);
 		Units_AttackMissileDuplicationSpawning_Holder->Show(show);
 		Units_AttackMissileDuplicationUnit_Holder->Show(show);
-		Units_AttackMissileDuplicationGraphic_Holder->Show(show);
+		Units_ChargingGraphic_Holder->Show(show);
 		Units_AnnexUnit1_Holder->Show(show);
 		Units_AnnexUnitMisplacement1_Holder->Show(show);
 		Units_HeadUnit_Holder->Show(show);
@@ -1201,6 +1201,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_GarrisonType_Holder->Show(show);
 		Units_GarrisonHealRate_Holder->Show(show);
 		Units_LootSwitch_Holder->Show(show);
+		Units_UnknownSound_Holder->Show(show);
 		TerRestrict_Unknown1_Holder->Show(show);
 		TerRestrict_Graphics_Holder->Show(show);
 		TerRestrict_Amount_Holder->Show(show);
@@ -1213,7 +1214,6 @@ void AGE_Frame::OnGameVersionChange()
 		{
 			Units_Type70plusUnknownArea_Holder->Show(show);
 			Units_Unknown33_Holder->Show(show);
-			Units_Unknown34_Holder->Show(show);
 			Units_Unknown35_Holder->Show(show);
 			Units_PileUnit_Holder->Show(show);
 			SoundItems_Unknown_Holder->Show(show);
@@ -1898,6 +1898,17 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 		TopSearch->SetValue(TopText);
 		SubSearch->SetValue(SubText);
 	}
+}
+
+wxString AGE_Frame::FormatFloat(float value)
+{
+	if(AGETextCtrl::accurateFloats)
+	return lexical_cast<string>(value);
+
+	stringbuf buffer;
+	ostream os (&buffer);
+	os << value;
+	return buffer.str();
 }
 
 void AGE_Frame::OnExit(wxCloseEvent &Event)
