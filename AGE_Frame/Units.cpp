@@ -702,6 +702,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				if(GenieVersion >= genie::GV_TC)
 				{
 					Units_Attribute->container[location] = &UnitPointer->Attribute;
+					Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
+					Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
+					Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
+					Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
+					Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
+					Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
+					Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
+					Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
 					Units_Civ->container[location] = &UnitPointer->Civilization;
 					Units_Unknown9->container[location] = &UnitPointer->Unknown9;
 					if(GenieVersion >= genie::GV_SWGB)
@@ -3649,7 +3657,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_ProjectilesArea3_Grid = new wxGridSizer(4, 5, 5);
 	Units_Attributes_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Attributes");
 	Units_AttributesBoxes1_Grid = new wxGridSizer(4, 5, 5);
-	Units_Attributes1_Grid = new wxGridSizer(4, 5, 5);
+	Units_Attributes1_Grid = new wxGridSizer(4, 0, 5);
+	Units_Attributes2_Grid = new wxGridSizer(4, 0, 5);
 	Units_AttributesTerrain_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_AttributesTerrain_Grid = new wxGridSizer(4, 5, 5);
 	Units_AttributesModes1_Grid = new wxGridSizer(4, 5, 5);
@@ -4310,9 +4319,25 @@ void AGE_Frame::CreateUnitControls()
 	Units_BlastType->SetToolTip("0 projectiles, dead units, fish, relics, trees\n0 gates, town center\n0 deer(unmoving), FLDOG\n1 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n3 boar\n3 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n3 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 monks, BDGAL, ABGAL");
 	Units_Unknown2 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown2->SetToolTip("Action from mouse right-click?\n0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
+	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller);
 	Units_Attribute = new TextCtrl_UByte(Units_Scroller);
 	Units_Attribute->SetToolTip("This looks like one byte of eight booleans\nYou can probably combine these attributes\n0 Default\n(1st bit) 1, 3, 5 Allows units to garrison inside\n(2nd bit) 2 Causes the unit not to join formations\nStar Wars:\n(3rd bit) 4 Stealth unit\n(4th bit) 8 Detector unit\n(5th bit) 16 Mechanical unit\n(6th bit) 32 Biological unit\n(7th bit) 64 Self-shielding unit\n(8th bit) 128 Invisible unit");
-	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller);
+	Units_Attribute_Grid = new wxGridSizer(8, 0, 0);
+	for(short loop = 0; loop < 8; ++loop)
+	Units_Attribute_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20));
+	Units_Attribute_CheckBox[0]->SetToolTip("Garrison inside");
+	Units_Attribute_CheckBox[1]->SetToolTip("No formations");
+	Units_Attribute_CheckBox[2]->SetToolTip("Stealth unit");
+	Units_Attribute_CheckBox[3]->SetToolTip("Detector unit");
+	Units_Attribute_CheckBox[4]->SetToolTip("Mechanical unit");
+	Units_Attribute_CheckBox[5]->SetToolTip("Biological unit");
+	Units_Attribute_CheckBox[6]->SetToolTip("Self-shielding unit");
+	Units_Attribute_CheckBox[7]->SetToolTip("Invisible unit");
+	Units_Civ = new TextCtrl_Byte(Units_Scroller);
+	Units_Civ_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Civ);
+	CivComboBoxList.push_back(Units_Civ_ComboBox);
+	Units_Unknown9 = new TextCtrl_Short(Units_Scroller);
+	Units_Unknown9->SetToolTip("This is actually leftover from attribute+civ variable\nProbably useless");
 	Units_DeadUnitID = new TextCtrl_Short(Units_Scroller);
 	Units_DeadUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DeadUnitID);
 	UnitComboBoxList.push_back(Units_DeadUnitID_ComboBox);
@@ -4320,9 +4345,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResearchID->SetToolTip("Causes that research to be researched when the building is created");
 	Units_ResearchID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ResearchID);
 	ResearchComboBoxList.push_back(Units_ResearchID_ComboBox);
-	Units_Civ = new TextCtrl_Byte(Units_Scroller);
-	Units_Civ_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Civ);
-	CivComboBoxList.push_back(Units_Civ_ComboBox);
 	Units_Unitline = new TextCtrl_Short(Units_Scroller);
 	Units_Unitline_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Unitline);
 	for(short loop = 0; loop < 2; ++loop)
@@ -4480,8 +4502,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
 	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n1 berries\n2 fishes\n3 ore deposits\n4 nova deposits\n5 ?");
-	Units_Unknown9 = new TextCtrl_Short(Units_Scroller);
-	Units_Unknown9->SetToolTip("This is actually leftover from attribute+civ variable\nProbably useless");
 
 	Units_Unknown11 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown16 = new TextCtrl_Byte(Units_Scroller);
@@ -4915,7 +4935,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionMask_Holder->Add(Units_SelectionMask, 0, wxEXPAND);
 	Units_SelectionShapeType_Holder->Add(Units_SelectionShapeType, 0, wxEXPAND);
 	Units_SelectionShape_Holder->Add(Units_SelectionShape, 0, wxEXPAND);
+	for(short loop = 0; loop < 8; ++loop)
+	Units_Attribute_Grid->Add(Units_Attribute_CheckBox[loop], 1, wxEXPAND);
 	Units_Attribute_Holder->Add(Units_Attribute, 1, wxEXPAND);
+	Units_Attribute_Holder->Add(Units_Attribute_Grid, 1, wxEXPAND);
 	Units_Civ_Holder->Add(Units_Civ, 1, wxEXPAND);
 	Units_Civ_Holder->Add(Units_Civ_ComboBox, 1, wxEXPAND);
 	Units_Unknown9_Holder->Add(Units_Unknown9, 0, wxEXPAND);
@@ -5479,7 +5502,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesModes1_Grid->Add(Units_VillagerMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_BlastType_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_Unknown2_Holder, 1, wxEXPAND);
-	Units_AttributesModes1_Grid->Add(Units_Attribute_Holder, 1, wxEXPAND);
+	Units_Attributes2_Grid->Add(Units_Attribute_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_MinTechLevel_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementTerrain_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(5, -1);
@@ -5504,7 +5527,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceStorageHeader_Holder->Add(Units_ResourceStorage_Holder[2], 0, wxEXPAND);
 	Units_Attributes1_Grid->Add(Units_DeadUnitID_Holder, 1, wxEXPAND);
 	Units_Attributes1_Grid->Add(Units_ResearchID_Holder, 1, wxEXPAND);
-	Units_Attributes1_Grid->Add(Units_Civ_Holder, 1, wxEXPAND);
+	Units_Attributes2_Grid->Add(Units_Civ_Holder, 1, wxEXPAND);
+	Units_Attributes2_Grid->Add(Units_Unknown9_Holder, 1, wxEXPAND);
 	Units_Attributes1_Grid->Add(Units_Unitline_Holder, 1, wxEXPAND);
 	Units_AttributesTracking_Grid->Add(Units_TrackingUnit_Holder, 1, wxEXPAND);
 	Units_AttributesTracking_Grid->Add(Units_TrackingUnitUsed_Holder, 1, wxEXPAND);
@@ -5527,6 +5551,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attributes_Holder->Add(Units_AttributesBoxes1_Grid, 0, wxEXPAND);
 	Units_Attributes_Holder->Add(-1, 5);
 	Units_Attributes_Holder->Add(Units_AttributesModes1_Grid, 0, wxEXPAND);
+	Units_Attributes_Holder->Add(-1, 5);
+	Units_Attributes_Holder->Add(Units_Attributes2_Grid, 0, wxEXPAND);
 	Units_Attributes_Holder->Add(-1, 5);
 	Units_Attributes_Holder->Add(Units_Attributes1_Grid, 0, wxEXPAND);
 	Units_Attributes_Holder->Add(-1, 5);
@@ -5592,7 +5618,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown6_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown7_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown8_Holder, 0, wxEXPAND);
-	Units_Type10plusUnknowns_Grid->Add(Units_Unknown9_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknownArea_Holder->Add(Units_Type10plusUnknowns_Grid, 0, wxEXPAND);
 
 	Units_Type30plusUnknownArea_Grid->Add(Units_Unknown11_Holder, 0, wxEXPAND);
