@@ -1523,6 +1523,8 @@ public:
 	TextCtrl_Byte *Units_SelectionShapeType;
 	TextCtrl_Byte *Units_SelectionShape;
 	TextCtrl_UByte *Units_Attribute;
+	wxGridSizer *Units_Attribute_Grid;
+	wxCheckBox *Units_Attribute_CheckBox[8];
 	TextCtrl_Byte *Units_Civ;
 	ComboBox_Plus1 *Units_Civ_ComboBox;
 	TextCtrl_Short *Units_Unknown9;
@@ -2172,6 +2174,7 @@ public:
 	wxStaticBoxSizer *Units_Attributes_Holder;
 	wxGridSizer *Units_AttributesBoxes1_Grid;
 	wxGridSizer *Units_Attributes1_Grid;
+	wxGridSizer *Units_Attributes2_Grid;
 	wxBoxSizer *Units_AttributesTerrain_Holder;
 	wxGridSizer *Units_AttributesTerrain_Grid;
 	wxGridSizer *Units_AttributesModes1_Grid;
