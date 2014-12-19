@@ -55,7 +55,7 @@ class TextCtrl_Byte: public AGETextCtrl
 {
 public:
 	TextCtrl_Byte(wxWindow *parent):
-	AGETextCtrl(parent, "0")
+	AGETextCtrl(parent, "")
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 235, 215));
@@ -69,7 +69,7 @@ class TextCtrl_UByte: public AGETextCtrl
 {
 public:
 	TextCtrl_UByte(wxWindow *parent):
-	AGETextCtrl(parent, "0")
+	AGETextCtrl(parent, "")
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 235, 215));
@@ -83,7 +83,7 @@ class TextCtrl_Float: public AGETextCtrl
 {
 public:
 	TextCtrl_Float(wxWindow *parent):
-	AGETextCtrl(parent, "0")
+	AGETextCtrl(parent, "")
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 225, 255));
@@ -97,7 +97,7 @@ class TextCtrl_Long: public AGETextCtrl
 {
 public:
 	TextCtrl_Long(wxWindow *parent):
-	AGETextCtrl(parent, "0")
+	AGETextCtrl(parent, "")
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(215, 255, 255));
@@ -111,7 +111,7 @@ class TextCtrl_Short: public AGETextCtrl
 {
 public:
 	TextCtrl_Short(wxWindow *parent):
-	AGETextCtrl(parent, "0")
+	AGETextCtrl(parent, "")
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(210, 230, 255));
@@ -125,7 +125,7 @@ class TextCtrl_UShort: public AGETextCtrl
 {
 public:
 	TextCtrl_UShort(wxWindow *parent):
-	AGETextCtrl(parent, "0")
+	AGETextCtrl(parent, "")
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(210, 230, 255));

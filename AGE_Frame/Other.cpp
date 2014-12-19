@@ -1144,12 +1144,7 @@ void AGE_Frame::OnGameVersionChange()
 			Terrains_TerrainBorderID_ComboBox[loop]->Show(show);
 		}
 		Units_SnowGraphicID_Holder->Show(show);
-		Units_Attribute_Holder->Show(show);
-		Units_Civ_Holder->Show(show);
-		if(!show || ShowUnknowns)
-		{
-			Units_Unknown9_Holder->Show(show);
-		}
+		Units_Attributes2_Grid->Show(show);
 
 		if(show) // TC ->
 		{
@@ -1194,6 +1189,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_AttackMissileDuplicationSpawning_Holder->Show(show);
 		Units_AttackMissileDuplicationUnit_Holder->Show(show);
 		Units_ChargingGraphic_Holder->Show(show);
+		Units_ChargingMode_Holder->Show(show);
 		Units_AnnexUnit1_Holder->Show(show);
 		Units_AnnexUnitMisplacement1_Holder->Show(show);
 		Units_HeadUnit_Holder->Show(show);
