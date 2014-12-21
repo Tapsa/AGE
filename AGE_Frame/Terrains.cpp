@@ -107,6 +107,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	TerrainIDs.resize(selections);
+	if(GenieVersion < genie::GV_SWGB)
 	Terrains_Unknown1->resize(selections);
 	Terrains_Enabled->resize(selections);
 	Terrains_Name->resize(selections);
@@ -141,7 +142,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_TerrainReplacementID->resize(selections);
 	Terrains_TerrainDimensions[0]->resize(selections);
 	Terrains_TerrainDimensions[1]->resize(selections);
-	for(short loop = 0; loop < GenieFile->Terrains.size(); ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
 	{
 		Terrains_TerrainBorderID[loop]->resize(selections);
 	}
@@ -159,6 +160,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Items.Item(sel));
 		TerrainIDs[sel] = (TerrainPointer - (&GenieFile->TerrainBlock.Terrains[0]));
 
+		if(GenieVersion < genie::GV_SWGB)
 		Terrains_Unknown1->container[sel] = &TerrainPointer->Unknown1;
 		Terrains_Enabled->container[sel] = &TerrainPointer->Enabled;
 		Terrains_Name->container[sel] = &TerrainPointer->Name;
@@ -193,7 +195,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_TerrainReplacementID->container[sel] = &TerrainPointer->TerrainReplacementID;
 		Terrains_TerrainDimensions[0]->container[sel] = &TerrainPointer->TerrainDimensions.first;
 		Terrains_TerrainDimensions[1]->container[sel] = &TerrainPointer->TerrainDimensions.second;
-		for(short loop = 0; loop < GenieFile->Terrains.size(); ++loop)
+		for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
 		{
 			Terrains_TerrainBorderID[loop]->container[sel] = &TerrainPointer->TerrainBorderIDs[loop];
 		}
@@ -206,6 +208,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_NumberOfTerrainUnitsUsed->container[sel] = &TerrainPointer->NumberOfTerrainUnitsUsed;
 	}
 
+	if(GenieVersion < genie::GV_SWGB)
 	Terrains_Unknown1->Update();
 	Terrains_Enabled->Update();
 	Terrains_Name->Update();
@@ -240,7 +243,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_TerrainReplacementID->Update();
 	Terrains_TerrainDimensions[0]->Update();
 	Terrains_TerrainDimensions[1]->Update();
-	for(short loop = 0; loop < GenieFile->Terrains.size(); ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
 	{
 		Terrains_TerrainBorderID[loop]->Update();
 	}
