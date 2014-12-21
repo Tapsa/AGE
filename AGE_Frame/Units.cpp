@@ -702,14 +702,6 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				if(GenieVersion >= genie::GV_TC)
 				{
 					Units_Attribute->container[location] = &UnitPointer->Attribute;
-					Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
-					Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
-					Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
-					Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
-					Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
-					Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
-					Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
-					Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
 					Units_Civ->container[location] = &UnitPointer->Civilization;
 					Units_Unknown9->container[location] = &UnitPointer->Unknown9;
 					if(GenieVersion >= genie::GV_SWGB)
@@ -816,7 +808,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ConstructionSound->Enable(true);
 			Units_ConstructionSound_ComboBox->Enable(true);
 			Units_GarrisonType->Enable(true);
-			Units_GarrisonType_ComboBox->Enable(true);
+			for(short loop = 0; loop < 8; ++loop)
+			Units_GarrisonType_CheckBox[loop]->Enable(true);
 			Units_GarrisonHealRate->Enable(true);
 			Units_Unknown35->Enable(true);
 			Units_PileUnit->Enable(true);
@@ -849,6 +842,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_TransformUnit->Update();
 				Units_UnknownSound->Update();
 				Units_GarrisonType->Update();
+				Units_GarrisonType_CheckBox[0]->SetValue(UnitPointer->Building.GarrisonType & 0x01);
+				Units_GarrisonType_CheckBox[1]->SetValue(UnitPointer->Building.GarrisonType & 0x02);
+				Units_GarrisonType_CheckBox[2]->SetValue(UnitPointer->Building.GarrisonType & 0x04);
+				Units_GarrisonType_CheckBox[3]->SetValue(UnitPointer->Building.GarrisonType & 0x08);
+				Units_GarrisonType_CheckBox[4]->SetValue(UnitPointer->Building.GarrisonType & 0x10);
+				Units_GarrisonType_CheckBox[5]->SetValue(UnitPointer->Building.GarrisonType & 0x20);
+				Units_GarrisonType_CheckBox[6]->SetValue(UnitPointer->Building.GarrisonType & 0x40);
+				Units_GarrisonType_CheckBox[7]->SetValue(UnitPointer->Building.GarrisonType & 0x80);
 				Units_GarrisonHealRate->Update();
 				Units_Unknown35->Update();
 				Units_PileUnit->Update();
@@ -1112,6 +1113,14 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					if(GenieVersion >= genie::GV_TC)
 					{
 						Units_Attribute->Update();
+						Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
+						Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
+						Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
+						Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
+						Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
+						Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
+						Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
+						Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
 						Units_Civ->Update();
 						Units_Unknown9->Update();
 						if(GenieVersion >= genie::GV_SWGB)
@@ -1241,6 +1250,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_Civ->Enable(show);
 				Units_Civ_ComboBox->Enable(show);
 				Units_Unknown9->Enable(show);
+				for(short loop = 0; loop < 8; ++loop)
+				Units_Attribute_CheckBox[loop]->Enable(show);
 				if(GenieVersion >= genie::GV_SWGB)
 				{
 					Units_Name2->Enable(show);
@@ -1536,8 +1547,11 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ConstructionSound_ComboBox->SetSelection(0);
 			Units_GarrisonType->Enable(false);
 			Units_GarrisonType->Clear();
-			Units_GarrisonType_ComboBox->Enable(false);
-			Units_GarrisonType_ComboBox->SetSelection(0);
+			for(short loop = 0; loop < 8; ++loop)
+			{
+				Units_GarrisonType_CheckBox[loop]->Enable(false);
+				Units_GarrisonType_CheckBox[loop]->SetValue(false);
+			}
 			Units_GarrisonHealRate->Enable(false);
 			Units_GarrisonHealRate->Clear();
 			Units_Unknown35->Enable(false);
@@ -4038,7 +4052,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TransformUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Transform Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_UnknownSound_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ConstructionSound_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_GarrisonType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_GarrisonType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GarrisonHealRate_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Heal Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown35_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Wonder Timer? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_PileUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Pile Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4218,8 +4232,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_DisplayedPierceArmour = new TextCtrl_Short(Units_Scroller);
 	Units_GarrisonCapacity = new TextCtrl_Byte(Units_Scroller);
 	Units_GarrisonCapacity->SetToolTip("If the unit has garrisoned units inside,\ngraphics tab \"New Speed?\" determines its new speed?");
-	Units_GarrisonType = new TextCtrl_Byte(Units_Scroller);
-	Units_GarrisonType_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_GarrisonType);
+	Units_GarrisonType = new TextCtrl_UByte(Units_Scroller);
+	Units_GarrisonType_Grid = new wxGridSizer(8, 0, 0);
+	for(short loop = 0; loop < 8; ++loop)
+	Units_GarrisonType_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20));
+	Units_GarrisonType_CheckBox[0]->SetToolTip("Villager/Worker");
+	Units_GarrisonType_CheckBox[1]->SetToolTip("Infantry");
+	Units_GarrisonType_CheckBox[2]->SetToolTip("Cavalry/Mounted");
+	Units_GarrisonType_CheckBox[3]->SetToolTip("Monk/Jedi");
+	Units_GarrisonType_CheckBox[4]->SetToolTip("Livestock");
 	Units_GarrisonHealRate = new TextCtrl_Float(Units_Scroller);
 	Units_GarrisonHealRate->SetToolTip("Building's garrisoned units' healing speed factor");
 	Units_ResourceCapacity = new TextCtrl_Short(Units_Scroller);
@@ -5410,9 +5431,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_Holder_Data3->Add(-1, 5);
 	Units_Armors_Holder_Data3->Add(Units_DisplayedPierceArmour_Holder, 0, wxEXPAND);
 
+	for(short loop = 0; loop < 8; ++loop)
+	Units_GarrisonType_Grid->Add(Units_GarrisonType_CheckBox[loop], 1, wxEXPAND);
 	Units_GarrisonType_Holder->Add(Units_GarrisonType_Text, 0, wxEXPAND);
 	Units_GarrisonType_Holder->Add(Units_GarrisonType, 1, wxEXPAND);
-	Units_GarrisonType_Holder->Add(Units_GarrisonType_ComboBox, 1, wxEXPAND);
+	Units_GarrisonType_Holder->Add(Units_GarrisonType_Grid, 1, wxEXPAND);
 
 	Units_Attacks->Add(Units_Attacks_ListArea, 1, wxEXPAND);
 	Units_Attacks->Add(5, -1);
@@ -5859,6 +5882,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_HotKey->Connect(Units_HotKey->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	Units_LanguageDLLHelp->Connect(Units_LanguageDLLHelp->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	Units_LanguageDLLHotKeyText->Connect(Units_LanguageDLLHotKeyText->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_Attribute->Connect(Units_Attribute->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_GarrisonType->Connect(Units_GarrisonType->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 
 	DamageGraphics_GraphicID->Connect(DamageGraphics_GraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	DamageGraphics_GraphicID_ComboBox->Connect(DamageGraphics_GraphicID_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
@@ -5873,6 +5898,11 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Type->Connect(UnitCommands_Type->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	UnitCommands_ProductivityResource->Connect(UnitCommands_ProductivityResource->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	Connect(UnitCommands_Type_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units));
+	for(short loop = 0; loop < 8; ++loop)
+	{
+		Connect(Units_Attribute_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitAttribute));
+		Connect(Units_GarrisonType_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitGarrisonType));
+	}
 }
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
@@ -5887,7 +5917,9 @@ void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
 	|| Event.GetId() == Units_LanguageDLLCreation->GetId()
 	|| Event.GetId() == Units_HotKey->GetId()
 	|| Event.GetId() == Units_LanguageDLLHelp->GetId()
-	|| Event.GetId() == Units_LanguageDLLHotKeyText->GetId())
+	|| Event.GetId() == Units_LanguageDLLHotKeyText->GetId()
+	|| Event.GetId() == Units_Attribute->GetId()
+	|| Event.GetId() == Units_GarrisonType->GetId())
 	{
 		wxCommandEvent E;
 		OnUnitsSelect(E);
@@ -6005,4 +6037,36 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 	{
 		ListUnitDamageGraphics();
 	}
+}
+
+void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &Event)
+{
+	if(Units_GarrisonType->container.empty()) return;
+	uint8_t type = *(uint8_t*)Units_GarrisonType->container[0];
+	Units_GarrisonType_CheckBox[0]->GetValue() ? type |= 0x01 : type &= ~0x01;
+	Units_GarrisonType_CheckBox[1]->GetValue() ? type |= 0x02 : type &= ~0x02;
+	Units_GarrisonType_CheckBox[2]->GetValue() ? type |= 0x04 : type &= ~0x04;
+	Units_GarrisonType_CheckBox[3]->GetValue() ? type |= 0x08 : type &= ~0x08;
+	Units_GarrisonType_CheckBox[4]->GetValue() ? type |= 0x10 : type &= ~0x10;
+	Units_GarrisonType_CheckBox[5]->GetValue() ? type |= 0x20 : type &= ~0x20;
+	Units_GarrisonType_CheckBox[6]->GetValue() ? type |= 0x40 : type &= ~0x40;
+	Units_GarrisonType_CheckBox[7]->GetValue() ? type |= 0x80 : type &= ~0x80;
+	Units_GarrisonType->ChangeValue(lexical_cast<string>((short)type));
+	Units_GarrisonType->SaveEdits();
+}
+
+void AGE_Frame::OnUpdateCheck_UnitAttribute(wxCommandEvent &Event)
+{
+	if(Units_Attribute->container.empty()) return;
+	uint8_t attribute = *(uint8_t*)Units_Attribute->container[0];
+	Units_Attribute_CheckBox[0]->GetValue() ? attribute |= 0x01 : attribute &= ~0x01;
+	Units_Attribute_CheckBox[1]->GetValue() ? attribute |= 0x02 : attribute &= ~0x02;
+	Units_Attribute_CheckBox[2]->GetValue() ? attribute |= 0x04 : attribute &= ~0x04;
+	Units_Attribute_CheckBox[3]->GetValue() ? attribute |= 0x08 : attribute &= ~0x08;
+	Units_Attribute_CheckBox[4]->GetValue() ? attribute |= 0x10 : attribute &= ~0x10;
+	Units_Attribute_CheckBox[5]->GetValue() ? attribute |= 0x20 : attribute &= ~0x20;
+	Units_Attribute_CheckBox[6]->GetValue() ? attribute |= 0x40 : attribute &= ~0x40;
+	Units_Attribute_CheckBox[7]->GetValue() ? attribute |= 0x80 : attribute &= ~0x80;
+	Units_Attribute->ChangeValue(lexical_cast<string>((short)attribute));
+	Units_Attribute->SaveEdits();
 }
