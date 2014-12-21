@@ -114,6 +114,7 @@ class Copies
 	vector<int32_t> GraphicPointer;
 	vector<genie::GraphicDelta> GraphicDelta;
 	vector<genie::Terrain> Terrain;
+	vector<short> TerBorder;
 	vector<genie::TerrainRestriction> TerrainRestriction;
 	vector<float> TerrainRestrictionSubAccess;
 	vector<genie::TerrainPassGraphic> TerrainRestrictionSubGraphics;

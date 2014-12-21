@@ -142,17 +142,13 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_TerrainReplacementID->resize(selections);
 	Terrains_TerrainDimensions[0]->resize(selections);
 	Terrains_TerrainDimensions[1]->resize(selections);
-	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
-	{
-		Terrains_TerrainBorderID[loop]->resize(selections);
-	}
 	for(short loop = 0; loop < genie::Terrain::TERRAIN_UNITS_SIZE; ++loop)
 	{
 		Terrains_TerrainUnitID[loop]->resize(selections);
 		Terrains_TerrainUnitDensity[loop]->resize(selections);
 		Terrains_TerrainUnitPriority[loop]->resize(selections);
 	}
-	Terrains_NumberOfTerrainUnitsUsed->resize(selections);
+	Terrains_UsedTerrainUnits->resize(selections);
 
 	genie::Terrain * TerrainPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -195,17 +191,13 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_TerrainReplacementID->container[sel] = &TerrainPointer->TerrainReplacementID;
 		Terrains_TerrainDimensions[0]->container[sel] = &TerrainPointer->TerrainDimensions.first;
 		Terrains_TerrainDimensions[1]->container[sel] = &TerrainPointer->TerrainDimensions.second;
-		for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
-		{
-			Terrains_TerrainBorderID[loop]->container[sel] = &TerrainPointer->TerrainBorderIDs[loop];
-		}
 		for(short loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
 		{
 			Terrains_TerrainUnitID[loop]->container[sel] = &TerrainPointer->TerrainUnitID[loop];
 			Terrains_TerrainUnitDensity[loop]->container[sel] = &TerrainPointer->TerrainUnitDensity[loop];
 			Terrains_TerrainUnitPriority[loop]->container[sel] = &TerrainPointer->TerrainUnitPriority[loop];
 		}
-		Terrains_NumberOfTerrainUnitsUsed->container[sel] = &TerrainPointer->NumberOfTerrainUnitsUsed;
+		Terrains_UsedTerrainUnits->container[sel] = &TerrainPointer->NumberOfTerrainUnitsUsed;
 	}
 
 	if(GenieVersion < genie::GV_SWGB)
@@ -243,17 +235,15 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_TerrainReplacementID->Update();
 	Terrains_TerrainDimensions[0]->Update();
 	Terrains_TerrainDimensions[1]->Update();
-	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
-	{
-		Terrains_TerrainBorderID[loop]->Update();
-	}
 	for(short loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
 	{
 		Terrains_TerrainUnitID[loop]->Update();
 		Terrains_TerrainUnitDensity[loop]->Update();
 		Terrains_TerrainUnitPriority[loop]->Update();
 	}
-	Terrains_NumberOfTerrainUnitsUsed->Update();
+	Terrains_UsedTerrainUnits->Update();
+
+	ListTerrainsBorders();
 }
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded.
@@ -312,6 +302,82 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	PasteInsertToList(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies->Terrain);
 	ListTerrains1();
+}
+
+void AGE_Frame::OnTerrainsBorderSearch(wxCommandEvent &Event)
+{
+	ListTerrainsBorders();
+}
+
+void AGE_Frame::ListTerrainsBorders()
+{
+	searchText = Terrains_Borders_Search->GetValue().Lower();
+	excludeText = Terrains_Borders_Search_R->GetValue().Lower();
+
+	list<void*> dataPointers;
+	wxArrayString filteredNames;
+
+	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
+	{
+		wxString Name = " "+lexical_cast<string>(loop)+" "+GetTerrainName(loop)+" - ";
+		Name += lexical_cast<string>(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs[loop])+" ";
+		Name += GetTerrainBorderName(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs[loop]);
+		if(SearchMatches(Name.Lower()))
+		{
+			filteredNames.Add(Name);
+			dataPointers.push_back((void*)&GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs[loop]);
+		}
+	}
+	Listing(Terrains_Borders_List, filteredNames, dataPointers);
+
+	wxCommandEvent E;
+	OnTerrainsBorderSelect(E);
+}
+
+void AGE_Frame::OnTerrainsBorderSelect(wxCommandEvent &Event)
+{
+	auto selections = Terrains_Borders_List->GetSelections(Items);
+	TerBorderIDs.resize(selections);
+	Terrains_Border->resize(selections);
+
+	int16_t * BorderPointer;
+	for(auto loop = selections; loop--> 0;)
+	{
+		BorderPointer = (int16_t*)Terrains_Borders_List->GetClientData(Items.Item(loop));
+		TerBorderIDs[loop] = (BorderPointer - (&GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs[0]));
+		Terrains_Border->container[loop] = BorderPointer;
+	}
+
+	Terrains_Border->Update();
+	Terrains_Border->Enable(selections);
+	Terrains_Border_ComboBox->Enable(selections);
+}
+
+void AGE_Frame::OnTerrainsBorderCopy(wxCommandEvent &Event)
+{
+	auto selections = Terrains_Borders_List->GetSelections(Items);
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	CopyFromList(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs, TerBorderIDs, copies->TerBorder);
+}
+
+void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &Event)
+{
+	auto selections = Terrains_Borders_List->GetSelections(Items);
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	PasteToListNoGV(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs, TerBorderIDs[0], copies->TerBorder);
+	ListTerrainsBorders();
+}
+
+void AGE_Frame::OnTerrainsBorderCopyToBuildings(wxCommandEvent &Event)
+{
+	for(short loop=1; loop < TerrainIDs.size(); ++loop)
+	{
+		GenieFile->TerrainBlock.Terrains[TerrainIDs[loop]].TerrainBorderIDs = GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs;
+	}
 }
 
 void AGE_Frame::CreateTerrainControls()
@@ -402,18 +468,34 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_TerrainReplacementID = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_TerrainReplacementID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainReplacementID);
 	TerrainComboBoxList.push_back(Terrains_TerrainReplacementID_ComboBox);
-	Terrains_NumberOfTerrainUnitsUsed_Holder = new wxBoxSizer(wxVERTICAL);
-	Terrains_NumberOfTerrainUnitsUsed1_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Terrains_NumberOfTerrainUnitsUsed_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Number of Terrain Units Used", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_NumberOfTerrainUnitsUsed = new TextCtrl_Short(Terrains_Scroller);
+
+	Terrains_GreatSpace = new wxBoxSizer(wxHORIZONTAL);
+	Terrains_SpaceLeft = new wxBoxSizer(wxVERTICAL);
+	Terrains_SpaceRight = new wxBoxSizer(wxVERTICAL);
+	Terrains_Borders = new wxStaticBoxSizer(wxVERTICAL, Terrains_Scroller, "Terrain Borders");
+	Terrains_Borders_Search = new wxTextCtrl(Terrains_Scroller, wxID_ANY);
+	Terrains_Borders_Search_R = new wxTextCtrl(Terrains_Scroller, wxID_ANY);
+	Terrains_Borders_List = new wxListBox(Terrains_Scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 250), 0, NULL, wxLB_EXTENDED);
+	Terrains_Border = new TextCtrl_Short(Terrains_Scroller);
+	Terrains_Border_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_Border);
+	TerrainBorderComboBoxList.push_back(Terrains_Border_ComboBox);
+	Terrains_Borders_Buttons = new wxGridSizer(2, 0, 0);
+	Terrains_Borders_Copy = new wxButton(Terrains_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	Terrains_Borders_Paste = new wxButton(Terrains_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Terrains_Borders_CopyToTerrains = new wxButton(Terrains_Scroller, wxID_ANY, "Copy all to selected terrains", wxDefaultPosition, wxSize(5, 20));
+
+	Terrains_UsedTerrainUnits_Holder = new wxBoxSizer(wxVERTICAL);
+	Terrains_UsedTerrainUnits_Grid = new wxGridSizer(3, 0, 5);
+	Terrains_UsedTerrainUnits_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Units Used", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_UsedTerrainUnits = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_TerrainUnits_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_TerrainUnitID_Holder = new wxBoxSizer(wxVERTICAL);
-	Terrains_TerrainUnitID_Grid = new wxGridSizer(2, 0, 0);
+	Terrains_TerrainUnitID_Holder1 = new wxBoxSizer(wxVERTICAL);
 	Terrains_TerrainUnitDensity_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_TerrainUnitPriority_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_TerrainUnitID_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_TerrainUnitDensity_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit Density", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_TerrainUnitPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit Priority *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_TerrainUnitDensity_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unit Density", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_TerrainUnitPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unit Priority *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < TERRAINUNITS; ++loop)
 	{
 		Terrains_TerrainUnitID[loop] = new TextCtrl_Short(Terrains_Scroller);
@@ -423,17 +505,8 @@ void AGE_Frame::CreateTerrainControls()
 		Terrains_TerrainUnitPriority[loop] = new TextCtrl_Byte(Terrains_Scroller);
 		Terrains_TerrainUnitPriority[loop]->SetToolTip("1 prevails, others don't");
 	}
-	Terrains_TerrainBorders_Holder = new wxBoxSizer(wxVERTICAL);
-	Terrains_TerrainBorders_Grid = new wxGridSizer(6, 0, 0);
-	Terrains_TerrainBorderID_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Borders", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < TERRAINBORDERSMAX; ++loop)
-	{
-		Terrains_TerrainBorderID[loop] = new TextCtrl_Short(Terrains_Scroller);
-		Terrains_TerrainBorderID_ComboBox[loop] = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainBorderID[loop]);
-		TerrainBorderComboBoxList.push_back(Terrains_TerrainBorderID_ComboBox[loop]);
-	}
 	Terrains_ElevationGraphics_Holder = new wxBoxSizer(wxVERTICAL);
-	Terrains_Unknown9_Grid = new wxGridSizer(6, 0, 0);
+	Terrains_Unknown9_Grid = new wxGridSizer(3, 0, 0);
 	Terrains_ElevationGraphics_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Elevation Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < Terrains_ElevationGraphics.size(); ++loop)
 	{
@@ -447,7 +520,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Unknown5_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Colors?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < Terrains_Unknown5.size(); ++loop)
 	Terrains_Unknown5[loop] = new TextCtrl_UByte(Terrains_Scroller);
-	Terrains_Unknowns1_Grid = new wxGridSizer(4, 5, 5);
+	Terrains_Unknowns1_Grid = new wxGridSizer(3, 0, 5);
 	Terrains_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Unknown1_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_Unknown1 = new TextCtrl_Short(Terrains_Scroller);
@@ -541,26 +614,20 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions_Text, 0, wxEXPAND);
 	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions[0], 1, wxEXPAND);
 	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions[1], 1, wxEXPAND);
-	for(short loop = 0; loop < TERRAINBORDERSMAX; ++loop)
-	{
-		Terrains_TerrainBorders_Grid->Add(Terrains_TerrainBorderID[loop], 1, wxEXPAND);
-		Terrains_TerrainBorders_Grid->Add(Terrains_TerrainBorderID_ComboBox[loop], 1, wxEXPAND);
-	}
-	Terrains_TerrainBorders_Holder->Add(Terrains_TerrainBorderID_Text, 0, wxEXPAND);
-	Terrains_TerrainBorders_Holder->Add(Terrains_TerrainBorders_Grid, 0, wxEXPAND);
+
+	Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID_Text, 0, wxEXPAND);
+	Terrains_TerrainUnitID_Holder1->Add(-1, 15);
 	Terrains_TerrainUnitDensity_Holder->Add(Terrains_TerrainUnitDensity_Text, 0, wxEXPAND);
 	Terrains_TerrainUnitPriority_Holder->Add(Terrains_TerrainUnitPriority_Text, 0, wxEXPAND);
 	for(short loop = 0; loop < TERRAINUNITS; ++loop)
 	{
-		Terrains_TerrainUnitID_Grid->Add(Terrains_TerrainUnitID[loop], 1, wxEXPAND);
-		Terrains_TerrainUnitID_Grid->Add(Terrains_TerrainUnitID_ComboBox[loop], 1, wxEXPAND);
+		Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID[loop], 1, wxEXPAND);
+		Terrains_TerrainUnitID_Holder1->Add(Terrains_TerrainUnitID_ComboBox[loop], 1, wxEXPAND);
 		Terrains_TerrainUnitDensity_Holder->Add(Terrains_TerrainUnitDensity[loop], 1, wxEXPAND);
 		Terrains_TerrainUnitPriority_Holder->Add(Terrains_TerrainUnitPriority[loop], 1, wxEXPAND);
 	}
-	Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID_Text, 0, wxEXPAND);
-	Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID_Grid, 0, wxEXPAND);
-	Terrains_NumberOfTerrainUnitsUsed_Holder->Add(Terrains_NumberOfTerrainUnitsUsed_Text, 0, wxEXPAND);
-	Terrains_NumberOfTerrainUnitsUsed_Holder->Add(Terrains_NumberOfTerrainUnitsUsed, 1, wxEXPAND);
+	Terrains_UsedTerrainUnits_Holder->Add(Terrains_UsedTerrainUnits_Text, 0, wxEXPAND);
+	Terrains_UsedTerrainUnits_Holder->Add(Terrains_UsedTerrainUnits, 1, wxEXPAND);
 
 	Terrains_NameArea_Holder->Add(Terrains_Enabled_Holder, 1, wxEXPAND);
 	Terrains_NameArea_Holder->Add(5, -1);
@@ -578,7 +645,8 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Area1_Grid->Add(Terrains_AngleCount_Holder, 1, wxEXPAND);
 	Terrains_Area1_Grid->Add(Terrains_TerrainDimensions_Holder, 1, wxEXPAND);
 
-	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder, 2, wxEXPAND);
+	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder, 1, wxEXPAND);
+	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder1, 2, wxEXPAND);
 	Terrains_TerrainUnits_Holder->Add(5, -1);
 	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitDensity_Holder, 1, wxEXPAND);
 	Terrains_TerrainUnits_Holder->Add(5, -1);
@@ -592,22 +660,38 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Area1_Grid->Add(Terrains_TerrainID_Holder, 1, wxEXPAND);
 	Terrains_Area1_Grid->Add(Terrains_TerrainReplacementID_Holder, 1, wxEXPAND);
 
-	Terrains_NumberOfTerrainUnitsUsed1_Holder->Add(Terrains_NumberOfTerrainUnitsUsed_Holder, 1, wxEXPAND);
-	Terrains_NumberOfTerrainUnitsUsed1_Holder->AddStretchSpacer(3);
+	Terrains_UsedTerrainUnits_Grid->Add(Terrains_UsedTerrainUnits_Holder, 1, wxEXPAND);
+	Terrains_SpaceRight->Add(Terrains_UsedTerrainUnits_Grid, 0, wxEXPAND);
+	Terrains_SpaceRight->Add(-1, 5);
+	Terrains_SpaceRight->Add(Terrains_TerrainUnits_Holder, 0, wxEXPAND);
+	Terrains_SpaceRight->Add(-1, 5);
+	Terrains_SpaceRight->Add(Terrains_Unknowns1_Grid, 0, wxEXPAND);
+
+	Terrains_Borders_Buttons->Add(Terrains_Borders_Copy, 1, wxEXPAND);
+	Terrains_Borders_Buttons->Add(Terrains_Borders_Paste, 1, wxEXPAND);
+	Terrains_Borders->Add(Terrains_Borders_Search, 0, wxEXPAND);
+	Terrains_Borders->Add(Terrains_Borders_Search_R, 0, wxEXPAND);
+	Terrains_Borders->Add(-1, 2);
+	Terrains_Borders->Add(Terrains_Borders_List, 1, wxEXPAND);
+	Terrains_Borders->Add(-1, 2);
+	Terrains_Borders->Add(Terrains_Border, 0, wxEXPAND);
+	Terrains_Borders->Add(Terrains_Border_ComboBox, 0, wxEXPAND);
+	Terrains_Borders->Add(-1, 2);
+	Terrains_Borders->Add(Terrains_Borders_Buttons, 0, wxEXPAND);
+	Terrains_Borders->Add(-1, 2);
+	Terrains_Borders->Add(Terrains_Borders_CopyToTerrains, 0, wxEXPAND);
+	Terrains_SpaceLeft->Add(Terrains_Borders, 0, wxEXPAND);
+	Terrains_SpaceLeft->Add(-1, 5);
+	Terrains_SpaceLeft->Add(Terrains_ElevationGraphics_Holder, 0, wxEXPAND);
+	Terrains_GreatSpace->Add(Terrains_SpaceLeft, 3, wxEXPAND);
+	Terrains_GreatSpace->Add(10, -1);
+	Terrains_GreatSpace->Add(Terrains_SpaceRight, 5, wxEXPAND);
 
 	Terrains_ScrollSpace->Add(Terrains_NameArea_Holder, 0, wxEXPAND);
 	Terrains_ScrollSpace->Add(-1, 5);
 	Terrains_ScrollSpace->Add(Terrains_Area1_Grid, 0, wxEXPAND);
 	Terrains_ScrollSpace->Add(-1, 5);
-	Terrains_ScrollSpace->Add(Terrains_NumberOfTerrainUnitsUsed1_Holder, 0, wxEXPAND);
-	Terrains_ScrollSpace->Add(-1, 5);
-	Terrains_ScrollSpace->Add(Terrains_TerrainUnits_Holder, 0, wxEXPAND);
-	Terrains_ScrollSpace->Add(-1, 5);
-	Terrains_ScrollSpace->Add(Terrains_TerrainBorders_Holder, 0, wxEXPAND);
-	Terrains_ScrollSpace->Add(-1, 5);
-	Terrains_ScrollSpace->Add(Terrains_ElevationGraphics_Holder, 0, wxEXPAND);
-	Terrains_ScrollSpace->Add(-1, 5);
-	Terrains_ScrollSpace->Add(Terrains_Unknowns1_Grid, 0, wxEXPAND);
+	Terrains_ScrollSpace->Add(Terrains_GreatSpace, 0, wxEXPAND);
 	Terrains_ScrollSpace->Add(-1, 5);
 	Terrains_ScrollSpace->Add(Terrains_Unknown7_Holder, 0, wxEXPAND);
 
@@ -644,6 +728,15 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Name->Connect(Terrains_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Terrains), NULL, this);
 	Terrains_Name2->Connect(Terrains_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Terrains), NULL, this);
 	Terrains_UsedCount->Connect(Terrains_UsedCount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnTerrainCountChange), NULL, this);
+
+	Connect(Terrains_Borders_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSearch));
+	Connect(Terrains_Borders_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSearch));
+	Connect(Terrains_Borders_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
+	Connect(Terrains_Borders_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderCopy));
+	Connect(Terrains_Borders_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderPaste));
+	Connect(Terrains_Borders_CopyToTerrains->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderCopyToBuildings));
+	Terrains_Border->Connect(Terrains_Border->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Terrains), NULL, this);
+	Terrains_Border_ComboBox->Connect(Terrains_Border_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Terrains), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
@@ -658,5 +751,15 @@ void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnTerrainsSelect(E);
 	}
+	else if(Event.GetId() == Terrains_Border->GetId())
+	{
+		ListTerrainsBorders();
+	}
 	Event.Skip();
+}
+
+void AGE_Frame::OnUpdateCombo_Terrains(wxCommandEvent &Event)
+{
+	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
+	ListTerrainsBorders();
 }

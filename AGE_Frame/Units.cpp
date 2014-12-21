@@ -3039,6 +3039,10 @@ void AGE_Frame::ListUnitCommands()
 		for(short loop = 0; loop < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); ++loop)
 		{
 			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
+			if(GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop].ClassID != -1)
+			Name += " class "+lexical_cast<string>(GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop].ClassID);
+			else if(GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop].UnitID != -1)
+			Name += " unit "+lexical_cast<string>(GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop].UnitID);
 			if(SearchMatches(Name.Lower()))
 			{
 				filteredNames.Add(Name);
@@ -3056,6 +3060,10 @@ void AGE_Frame::ListUnitCommands()
 			for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size(); ++loop)
 			{
 				wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
+				if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop].ClassID != -1)
+				Name += " class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop].ClassID);
+				else if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop].UnitID != -1)
+				Name += " unit "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop].UnitID);
 				if(SearchMatches(Name.Lower()))
 				{
 					filteredNames.Add(Name);
