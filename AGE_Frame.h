@@ -73,6 +73,7 @@ public:
 	void OnUpdateCombo_Units(wxCommandEvent &Event);
 	void OnUpdateCombo_UnitLines(wxCommandEvent &Event);
 	void OnUpdateCombo_Graphics(wxCommandEvent &Event);
+	void OnUpdateCombo_Terrains(wxCommandEvent &Event);
 
 //	Other Methods
 
@@ -586,7 +587,6 @@ public:
 	void ListTerrains1(bool all = true);
 	void ListTerrains2();
 	void OnTerrainsSearch(wxCommandEvent &Event);
-//	void OnTerRestTerrainsSearch(wxCommandEvent &Event);
 	void OnTerrainsSelect(wxCommandEvent &Event);
 	void OnTerrainsAdd(wxCommandEvent &Event);
 	void OnTerrainsInsert(wxCommandEvent &Event);
@@ -595,6 +595,13 @@ public:
 	void OnTerrainsPaste(wxCommandEvent &Event);
 	void OnTerrainsPasteInsert(wxCommandEvent &Event);
 	string GetTerrainName(short);
+
+	void OnTerrainsBorderSearch(wxCommandEvent &Event);
+	void ListTerrainsBorders();
+	void OnTerrainsBorderSelect(wxCommandEvent &Event);
+	void OnTerrainsBorderCopy(wxCommandEvent &Event);
+	void OnTerrainsBorderPaste(wxCommandEvent &Event);
+	void OnTerrainsBorderCopyToBuildings(wxCommandEvent &Event);
 
 //	Terrain Border Events
 
@@ -732,6 +739,7 @@ public:
 	vector<short> DeltaIDs;
 	vector<short> AttackSoundIDs;
 	vector<short> TerrainIDs;
+	vector<short> TerBorderIDs;
 	vector<short> TerRestrictIDs;
 	vector<short> TerRestrictTerIDs;
 	vector<float> TerrainRestrictionSubCopyAccess;
@@ -2510,6 +2518,20 @@ public:
 	wxButton *Terrains_Paste;
 	wxButton *Terrains_PasteInsert;
 
+	wxBoxSizer *Terrains_GreatSpace;
+	wxBoxSizer *Terrains_SpaceLeft;
+	wxBoxSizer *Terrains_SpaceRight;
+	TextCtrl_Short *Terrains_Border;
+	ComboBox_Plus1 *Terrains_Border_ComboBox;
+	wxStaticBoxSizer *Terrains_Borders;
+	wxTextCtrl *Terrains_Borders_Search;
+	wxTextCtrl *Terrains_Borders_Search_R;
+	wxListBox *Terrains_Borders_List;
+	wxGridSizer *Terrains_Borders_Buttons;
+	wxButton *Terrains_Borders_Copy;
+	wxButton *Terrains_Borders_Paste;
+	wxButton *Terrains_Borders_CopyToTerrains;
+
 	wxBoxSizer *Terrains_DataArea;
 	wxScrolledWindow *Terrains_Scroller;
 	wxBoxSizer *Terrains_ScrollArea;
@@ -2588,16 +2610,10 @@ public:
 	wxBoxSizer *Terrains_TerrainDimensions_Holder;
 	wxStaticText *Terrains_TerrainDimensions_Text;
 	array<TextCtrl_Short*, 2>Terrains_TerrainDimensions;
-	wxBoxSizer *Terrains_TerrainBorders_Holder;
-	wxGridSizer *Terrains_TerrainBorders_Grid;
-	wxStaticText *Terrains_TerrainBorderID_Text;
-	auto static const TERRAINBORDERSMAX = 55;
-	array<TextCtrl_Short*, TERRAINBORDERSMAX>Terrains_TerrainBorderID;
-	array<ComboBox_Plus1*, TERRAINBORDERSMAX>Terrains_TerrainBorderID_ComboBox;
 	auto static const TERRAINUNITS = 30;
 	wxBoxSizer *Terrains_TerrainUnits_Holder;
 	wxBoxSizer *Terrains_TerrainUnitID_Holder;
-	wxGridSizer *Terrains_TerrainUnitID_Grid;
+	wxBoxSizer *Terrains_TerrainUnitID_Holder1;
 	wxStaticText *Terrains_TerrainUnitID_Text;
 	array<TextCtrl_Short*, TERRAINUNITS>Terrains_TerrainUnitID;
 	array<ComboBox_Plus1*, TERRAINUNITS>Terrains_TerrainUnitID_ComboBox;
@@ -2607,10 +2623,10 @@ public:
 	wxBoxSizer *Terrains_TerrainUnitPriority_Holder;
 	wxStaticText *Terrains_TerrainUnitPriority_Text;
 	array<TextCtrl_Byte*, TERRAINUNITS>Terrains_TerrainUnitPriority;
-	wxBoxSizer *Terrains_NumberOfTerrainUnitsUsed_Holder;
-	wxBoxSizer *Terrains_NumberOfTerrainUnitsUsed1_Holder;
-	wxStaticText *Terrains_NumberOfTerrainUnitsUsed_Text;
-	TextCtrl_Short *Terrains_NumberOfTerrainUnitsUsed;
+	wxBoxSizer *Terrains_UsedTerrainUnits_Holder;
+	wxGridSizer *Terrains_UsedTerrainUnits_Grid;
+	wxStaticText *Terrains_UsedTerrainUnits_Text;
+	TextCtrl_Short *Terrains_UsedTerrainUnits;
 
 //	Terrain restrictions user interface
 
