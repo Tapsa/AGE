@@ -4253,7 +4253,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonType_CheckBox[1]->SetToolTip("Infantry");
 	Units_GarrisonType_CheckBox[2]->SetToolTip("Cavalry/Mounted");
 	Units_GarrisonType_CheckBox[3]->SetToolTip("Monk/Jedi");
-	Units_GarrisonType_CheckBox[4]->SetToolTip("Livestock");
+	Units_GarrisonType_CheckBox[4]->SetToolTip("SW: Livestock");
 	Units_GarrisonHealRate = new TextCtrl_Float(Units_Scroller);
 	Units_GarrisonHealRate->SetToolTip("Building's garrisoned units' healing speed factor");
 
@@ -4353,17 +4353,17 @@ void AGE_Frame::CreateUnitControls()
 	Units_VillagerMode->SetToolTip("Changes according to task\n1 Male\n2 Female");
 
 	Units_Attribute = new TextCtrl_UByte(Units_Scroller);
-	Units_Attribute->SetToolTip("This looks like one byte of eight booleans\nYou can probably combine these attributes\n0 Default\n(1st bit) 1, 3, 5 Allows units to garrison inside\n(2nd bit) 2 Causes the unit not to join formations\nStar Wars:\n(3rd bit) 4 Stealth unit\n(4th bit) 8 Detector unit\n(5th bit) 16 Mechanical unit\n(6th bit) 32 Biological unit\n(7th bit) 64 Self-shielding unit\n(8th bit) 128 Invisible unit");
+	Units_Attribute->SetToolTip("This is a byte of eight booleans\nYou can combine these attributes");
 	Units_Attribute_Grid = new wxGridSizer(8, 0, 0);
 	for(short loop = 0; loop < 8; ++loop)
 	Units_Attribute_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20));
-	Units_Attribute_CheckBox[0]->SetToolTip("Garrison inside");
-	Units_Attribute_CheckBox[1]->SetToolTip("No formations");
-	Units_Attribute_CheckBox[2]->SetToolTip("Stealth unit");
-	Units_Attribute_CheckBox[3]->SetToolTip("Detector unit");
-	Units_Attribute_CheckBox[4]->SetToolTip("Mechanical unit");
-	Units_Attribute_CheckBox[5]->SetToolTip("Biological unit");
-	Units_Attribute_CheckBox[6]->SetToolTip("Self-shielding unit");
+	Units_Attribute_CheckBox[0]->SetToolTip("Garrison unit");
+	Units_Attribute_CheckBox[1]->SetToolTip("Ship unit");
+	Units_Attribute_CheckBox[2]->SetToolTip("SW: Stealth unit");
+	Units_Attribute_CheckBox[3]->SetToolTip("SW: Detector unit");
+	Units_Attribute_CheckBox[4]->SetToolTip("SW: Mechanical unit");
+	Units_Attribute_CheckBox[5]->SetToolTip("SW: Biological unit");
+	Units_Attribute_CheckBox[6]->SetToolTip("SW: Self-shielding unit");
 	Units_Attribute_CheckBox[7]->SetToolTip("Invisible unit");
 	Units_Civ = new TextCtrl_Byte(Units_Scroller);
 	Units_Civ_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Civ);
