@@ -632,11 +632,14 @@ string AGE_Frame::GetResourceName(short Index)
 			Name = "Biological Self Regeneration";
 			break;
 		case 197: Name = "Spies Discount"; break;
-		case 200: Name = "Misc Counter 1"; break;
-		case 201: Name = "Misc Counter 2"; break;
-		case 202: Name = "Misc Counter 3"; break;
-		case 203: Name = "Misc Counter 4"; break;
-		case 204: Name = "Misc Counter 5"; break;
+		if(GenieVersion >= genie::GV_SWGB)
+		{
+			case 200: Name = "Misc Counter 1"; break;
+			case 201: Name = "Misc Counter 2"; break;
+			case 202: Name = "Misc Counter 3"; break;
+			case 203: Name = "Misc Counter 4"; break;
+			case 204: Name = "Misc Counter 5"; break;
+		}
 		default: Name = "Unknown";
 	}
 	return Name;
