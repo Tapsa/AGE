@@ -1,4 +1,4 @@
-[b]Advanced Genie Editor 3.14[/b]
+[b]Advanced Genie Editor Xmas 2014[/b]
 for Age of Empires, Rise of Rome, Age of Kings, The Conquerors (including HD), Star Wars Galactic Battlegrounds and Clone Campaigns.
 
 This is a program for editing genie (.dat and .dll) files' data. It can edit units, civilizations, graphics, researches, technologies, technology trees, terrains, terrain restrictions, sounds, player colors and some other things.
@@ -12,8 +12,26 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]3.14[/b] (2014.12.14):
-•Tech tree discoveries.
+[b]Xmas 2014 Edition[/b] (2014.12.21):
+•Added hex view mode and float formatting chooser.
+•Commands get pasted with units from AoE to AoK and vice versa.
+•New finds in tech tree and terrain data.
+•Unit type 50 found.
+•Proper error messages.
+•Added and edited some tooltips.
+•Initial list loading in all tabs actually works properly now.
+•Changed unit and graphic tab layout.
+•Disabled crash-causing paste buttons before copies are made.
+•Fixed a bug in batch processing one byte variables.
+•Disabled boxes actually have no text in them.
+•AoK alpha tech trees editable.
+•Ghost data found in random maps.
+•Unit data finds: pile unit, looting table, charging graphic, charging mode, hill mode, command plunder source, unknown sound, displayed reload time, unknown 16B.
+•Tech unit attribute finds: 15, 17, 18.
+•Also bunch of minor finds in how some tech attributes work.
+•Unit "No Research" (Enabled) halved.
+•Graphic mirroring mode halved.
+•Sound index halved.
 
 Version [b]3.13[/b] (2014.11.19):
 •Unit data discoveries.
@@ -38,26 +56,6 @@ Version [b]3.10[/b] (2014.2.9):
 •Discovered default armor variable.
 •Swapped the base armor class names in SWGB.
 •Unit attribute tooltip improved.
-
-Version [b]3.9[/b] (2013.12.24):
-•Listing times improved.
-•Removed capitalization from file names.
-
-Version [b]3.8[/b] (2013.10.5):
-•Armor lists fully customizable.
-
-Version [b]3.7[/b] (2013.9.3):
-•Updated some texts.
-•Removed debugging log for experimental language text editing.
-•Added dead unit to unit search filters.
-
-Version [b]3.6[/b] (2013.4.28):
-•Default paths for Age of Empires II: HD Edition.
-•Custom game folder option, which gets saved.
-•Random map subdatas easily copyable to all maps.
-
-Version [b]2.0 Beta 3[/b] (2011.9.4):
-•Original release.
 
 [b]Notes[/b]
 
