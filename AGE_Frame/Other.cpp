@@ -372,8 +372,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_Type_ComboBox->SetSelection(0);
 
 		AGE_AreaTT84::ages.Clear();
-		Units_GarrisonType_ComboBox->Clear();
-		Units_GarrisonType_ComboBox->Append("No Type/Invalid Type");	// Selection 0
 		if(GenieVersion >= genie::GV_SWGB)
 		{
 			AGE_AreaTT84::ages.Add("0 - None");
@@ -382,23 +380,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			AGE_AreaTT84::ages.Add("3rd Tech Level");
 			AGE_AreaTT84::ages.Add("4th Tech Level");
 			AGE_AreaTT84::ages.Add("5th Tech Level");
-			Units_GarrisonType_ComboBox->Append("0 - None");	// Selection 1
-			Units_GarrisonType_ComboBox->Append("1 - Worker");
-			Units_GarrisonType_ComboBox->Append("2 - Infantry");
-			Units_GarrisonType_ComboBox->Append("3 - Worker + Infantry");
-			Units_GarrisonType_ComboBox->Append("4 - Mounted");
-			Units_GarrisonType_ComboBox->Append("5 - Mounted + Worker");
-			Units_GarrisonType_ComboBox->Append("6 - Mounted + Infantry");
-			Units_GarrisonType_ComboBox->Append("7 - Mounted + Infantry + Worker");
-			Units_GarrisonType_ComboBox->Append("8 - Jedi");
-			Units_GarrisonType_ComboBox->Append("9 - Jedi + Worker");
-			Units_GarrisonType_ComboBox->Append("10 - Jedi + Infantry");
-			Units_GarrisonType_ComboBox->Append("11 - Jedi + Infantry + Worker");
-			Units_GarrisonType_ComboBox->Append("12 - Jedi + Mounted");
-			Units_GarrisonType_ComboBox->Append("13 - Jedi + Worker + Mounted");
-			Units_GarrisonType_ComboBox->Append("14 - Jedi + Mounted + Infantry");
-			Units_GarrisonType_ComboBox->Append("15 - Jedi + Worker + Infantry + Mounted");
-			Units_GarrisonType_ComboBox->Append("16 - Nerf/Bantha");
 		}
 		else if(GenieVersion >= genie::GV_AoKA)
 		{
@@ -408,24 +389,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			AGE_AreaTT84::ages.Add("Castle Age");
 			AGE_AreaTT84::ages.Add("Imperial Age");
 			AGE_AreaTT84::ages.Add("Post-Imperial Age");
-			Units_GarrisonType_ComboBox->Append("0 - None");	// Selection 1
-			Units_GarrisonType_ComboBox->Append("1 - Villager");
-			Units_GarrisonType_ComboBox->Append("2 - Infantry");
-			Units_GarrisonType_ComboBox->Append("3 - Villager + Infantry");
-			Units_GarrisonType_ComboBox->Append("4 - Cavalry");
-			Units_GarrisonType_ComboBox->Append("5 - Cavalry + Villager");
-			Units_GarrisonType_ComboBox->Append("6 - Cavalry + Infantry");
-			Units_GarrisonType_ComboBox->Append("7 - Cavalry + Infantry + Villager");
-			Units_GarrisonType_ComboBox->Append("8 - Monk");
-			Units_GarrisonType_ComboBox->Append("9 - Monk + Villager");
-			Units_GarrisonType_ComboBox->Append("10 - Monk + Infantry");
-			Units_GarrisonType_ComboBox->Append("11 - Monk + Infantry + Villager");
-			Units_GarrisonType_ComboBox->Append("12 - Monk + Cavalry");
-			Units_GarrisonType_ComboBox->Append("13 - Monk + Villager + Cavalry");
-			Units_GarrisonType_ComboBox->Append("14 - Monk + Cavalry + Infantry");
-			Units_GarrisonType_ComboBox->Append("15 - Monk + Villager + Infantry + Cavalry");
 		}
-		Units_GarrisonType_ComboBox->SetSelection(0);
 
 		wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors;
 		// AoE & RoR
@@ -1138,11 +1102,12 @@ void AGE_Frame::OnGameVersionChange()
 
 		// TC ->
 		show = (GenieVersion >= genie::GV_TC) ? true : false;
-		for(short loop = 32;loop < TERRAINBORDERSMAX; ++loop)
+		for(short loop = 32; loop < 42; ++loop)
 		{
 			Terrains_TerrainBorderID[loop]->Show(show);
 			Terrains_TerrainBorderID_ComboBox[loop]->Show(show);
 		}
+		Terrains_TerrainBorders_Grid->SetRows(genie::Terrain::getTerrainsSize(GenieVersion) / 3 + 1);
 		Units_SnowGraphicID_Holder->Show(show);
 		Units_Attributes2_Grid->Show(show);
 
@@ -1172,7 +1137,7 @@ void AGE_Frame::OnGameVersionChange()
 
 		// AoK Alfa ->
 		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
-		for(short loop = 4;loop < 6; ++loop)
+		for(short loop = 4; loop < 6; ++loop)
 		{
 			Research_RequiredTechs[loop]->Show(show);
 			Research_RequiredTechs_ComboBox[loop]->Show(show);
@@ -1281,6 +1246,11 @@ void AGE_Frame::OnGameVersionChange()
 
 		// SWGB ->
 		show = (GenieVersion >= genie::GV_SWGB) ? true : false;
+		for(short loop = 42; loop < 55; ++loop)
+		{
+			Terrains_TerrainBorderID[loop]->Show(show);
+			Terrains_TerrainBorderID_ComboBox[loop]->Show(show);
+		}
 		Research_Name_Holder[1]->Show(show);
 		Civs_Name_Holder[1]->Show(show);
 		Units_Name2_Holder->Show(show);
@@ -1291,9 +1261,9 @@ void AGE_Frame::OnGameVersionChange()
 		if(!show || ShowUnknowns)
 		{
 			Civs_SUnknown1_Holder->Show(show);
-			Terrains_SUnknown1_Holder->Show(show);
 			General_Variables1_Holder->Show(show);
 		}
+		Terrains_Unknown1_Holder->Show(!show && ShowUnknowns);
 
 		if(show) // SWGB ->
 		{
@@ -1491,7 +1461,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			Units_CommandHolder_Grid3->Show(ShowUnknowns);
 			Graphics_3_Grid->Show(ShowUnknowns);
 			Graphics_Deltas_Grid_Data2->Show(ShowUnknowns);
-			Terrains_UnknownArea_Holder->Show(ShowUnknowns);
+			Terrains_Unknowns1_Grid->Show(ShowUnknowns);
+			Terrains_Unknown7_Holder->Show(ShowUnknowns);
 			Borders_Unknonws->Show(ShowUnknowns);
 			Sounds_Unknown1_Holder->Show(ShowUnknowns);
 			Sounds_Unknown2_Holder->Show(ShowUnknowns);
