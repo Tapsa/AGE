@@ -3,8 +3,8 @@ cmake -j4 -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc -static" -G
 mingw32-make
 cd ..
 cd ..
-copy "sources\buildR\AdvancedGenieEditor2.exe" "AGE2\AdvancedGenieEditor2.exe"
+copy "sources\buildR\AdvancedGenieEditor3.exe" "AGE2\AdvancedGenieEditor3.exe"
 cd AGE2
-strip *
-upx --best *
+strip Adv*
+::upx --best *
 PAUSE

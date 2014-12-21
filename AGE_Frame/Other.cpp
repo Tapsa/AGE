@@ -1107,7 +1107,6 @@ void AGE_Frame::OnGameVersionChange()
 			Terrains_TerrainBorderID[loop]->Show(show);
 			Terrains_TerrainBorderID_ComboBox[loop]->Show(show);
 		}
-		Terrains_TerrainBorders_Grid->SetRows(genie::Terrain::getTerrainsSize(GenieVersion) / 3 + 1);
 		Units_SnowGraphicID_Holder->Show(show);
 		Units_Attributes2_Grid->Show(show);
 
@@ -1251,6 +1250,7 @@ void AGE_Frame::OnGameVersionChange()
 			Terrains_TerrainBorderID[loop]->Show(show);
 			Terrains_TerrainBorderID_ComboBox[loop]->Show(show);
 		}
+		Terrains_TerrainBorders_Grid->SetRows(genie::Terrain::getTerrainsSize(GenieVersion) / 3 + 1);
 		Research_Name_Holder[1]->Show(show);
 		Civs_Name_Holder[1]->Show(show);
 		Units_Name2_Holder->Show(show);
