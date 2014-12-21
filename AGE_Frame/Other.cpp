@@ -1128,7 +1128,7 @@ void AGE_Frame::OnGameVersionChange()
 		Terrains_BlendType_Holder->Show(show);
 		Units_StandingGraphic[1]->Show(show);
 		Units_StandingGraphic_ComboBox[1]->Show(show);
-		Units_GarrisonRecoveryRate_Holder->Show(show);
+		Units_AccuracyErrorRadius_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
 			Units_Disabled_Holder->Show(show);
