@@ -334,7 +334,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_MinRange->resize(PointerCount);
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		Units_GarrisonRecoveryRate->resize(PointerCount);
+		Units_AccuracyErrorRadius->resize(PointerCount);
 	}
 	Units_DisplayedMeleeArmour->resize(PointerCount);
 	Units_DisplayedAttack->resize(PointerCount);
@@ -390,7 +390,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_PlacementTerrain[1]->resize(PointerCount);
 	Units_EditorRadius[0]->resize(PointerCount);
 	Units_EditorRadius[1]->resize(PointerCount);
-	Units_BuildingMode->resize(PointerCount);
+	Units_HillMode->resize(PointerCount);
 	Units_VisibleInFog->resize(PointerCount);
 	Units_TerrainRestriction->resize(PointerCount);
 	Units_FlyMode->resize(PointerCount);
@@ -596,7 +596,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					Units_MinRange->container[location] = &UnitPointer->Type50.MinRange;
 					if(GenieVersion >= genie::GV_AoK)
 					{
-						Units_GarrisonRecoveryRate->container[location] = &UnitPointer->Type50.GarrisonRecoveryRate;
+						Units_AccuracyErrorRadius->container[location] = &UnitPointer->Type50.AccuracyErrorRadius;
 					}
 					if(CopyGraphics || vecCiv == 0)
 					Units_AttackGraphic->container[location] = &UnitPointer->Type50.AttackGraphic;
@@ -674,7 +674,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_PlacementTerrain[1]->container[location] = &UnitPointer->PlacementTerrain.second;
 			Units_EditorRadius[0]->container[location] = &UnitPointer->EditorRadius.first;
 			Units_EditorRadius[1]->container[location] = &UnitPointer->EditorRadius.second;
-			Units_BuildingMode->container[location] = &UnitPointer->HillMode;
+			Units_HillMode->container[location] = &UnitPointer->HillMode;
 			Units_VisibleInFog->container[location] = &UnitPointer->VisibleInFog;
 			Units_TerrainRestriction->container[location] = &UnitPointer->TerrainRestriction;
 			Units_FlyMode->container[location] = &UnitPointer->FlyMode;
@@ -693,22 +693,22 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_SelectionShapeType->container[location] = &UnitPointer->SelectionShapeType;
 				Units_SelectionShape->container[location] = &UnitPointer->SelectionShape;
 				Units_ID3->container[location] = &UnitPointer->ID3;
-			}
-			if(GenieVersion >= genie::GV_AoK)
-			{
-				Units_Disabled->container[location] = &UnitPointer->NewUnknown;
-				if(CopyGraphics || vecCiv == 0)
-				Units_StandingGraphic[1]->container[location] = &UnitPointer->StandingGraphic.second;
-				if(GenieVersion >= genie::GV_TC)
+				if(GenieVersion >= genie::GV_AoK)
 				{
-					Units_Attribute->container[location] = &UnitPointer->Attribute;
-					Units_Civ->container[location] = &UnitPointer->Civilization;
-					Units_Unknown9->container[location] = &UnitPointer->Unknown9;
-					if(GenieVersion >= genie::GV_SWGB)
+					Units_Disabled->container[location] = &UnitPointer->Disabled;
+					if(CopyGraphics || vecCiv == 0)
+					Units_StandingGraphic[1]->container[location] = &UnitPointer->StandingGraphic.second;
+					if(GenieVersion >= genie::GV_TC)
 					{
-						Units_Name2->container[location] = &UnitPointer->Name2;
-						Units_Unitline->container[location] = &UnitPointer->Unitline;
-						Units_MinTechLevel->container[location] = &UnitPointer->MinTechLevel;
+						Units_Attribute->container[location] = &UnitPointer->Attribute;
+						Units_Civ->container[location] = &UnitPointer->Civilization;
+						Units_Unknown9->container[location] = &UnitPointer->Nothing;
+						if(GenieVersion >= genie::GV_SWGB)
+						{
+							Units_Name2->container[location] = &UnitPointer->Name2;
+							Units_Unitline->container[location] = &UnitPointer->Unitline;
+							Units_MinTechLevel->container[location] = &UnitPointer->MinTechLevel;
+						}
 					}
 				}
 			}
@@ -721,7 +721,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_HotKey->container[location] = &UnitPointer->HotKey;
 			Units_Unselectable->container[location] = &UnitPointer->Unselectable;
 			Units_Unknown6->container[location] = &UnitPointer->Unknown6;
-			Units_Unknown7->container[location] = &UnitPointer->Unknown7;
+			Units_Unknown7->container[location] = &UnitPointer->UnknownSelectionMode;
 			Units_Unknown8->container[location] = &UnitPointer->Unknown8;
 			Units_SelectionRadius[0]->container[location] = &UnitPointer->SelectionRadius.first;
 			Units_SelectionRadius[1]->container[location] = &UnitPointer->SelectionRadius.second;
@@ -938,7 +938,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_GraphicDisplacement[loop]->Enable(true);
 			Units_BlastLevel->Enable(true);
 			Units_MinRange->Enable(true);
-			Units_GarrisonRecoveryRate->Enable(true);
+			Units_AccuracyErrorRadius->Enable(true);
 			Units_AttackGraphic->Enable(true);
 			Units_AttackGraphic_ComboBox->Enable(true);
 			Units_DisplayedMeleeArmour->Enable(true);
@@ -973,7 +973,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				if(GenieVersion >= genie::GV_TC)
 				{
 				}
-				Units_GarrisonRecoveryRate->Update();
+				Units_AccuracyErrorRadius->Update();
 			}
 			Units_AttackGraphic->Update();
 			Units_DisplayedMeleeArmour->Update();
@@ -1085,7 +1085,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_PlacementTerrain[1]->Update();
 			Units_EditorRadius[0]->Update();
 			Units_EditorRadius[1]->Update();
-			Units_BuildingMode->Update();
+			Units_HillMode->Update();
 			Units_VisibleInFog->Update();
 			Units_TerrainRestriction->Update();
 			Units_FlyMode->Update();
@@ -1217,7 +1217,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_PlacementTerrain_ComboBox[1]->Enable(show);
 	Units_EditorRadius[0]->Enable(show);
 	Units_EditorRadius[1]->Enable(show);
-	Units_BuildingMode->Enable(show);
+	Units_HillMode->Enable(show);
 	Units_VisibleInFog->Enable(show);
 	Units_TerrainRestriction->Enable(show);
 	Units_TerrainRestriction_ComboBox->Enable(show);
@@ -1258,6 +1258,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					Units_Unitline->Enable(show);
 					Units_Unitline_ComboBox->Enable(show);
 					Units_MinTechLevel->Enable(show);
+					Units_MinTechLevel_ComboBox->Enable(show);
 				}
 			}
 		}
@@ -1402,8 +1403,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_BlastLevel->Clear();
 			Units_MinRange->Enable(false);
 			Units_MinRange->Clear();
-			Units_GarrisonRecoveryRate->Enable(false);
-			Units_GarrisonRecoveryRate->Clear();
+			Units_AccuracyErrorRadius->Enable(false);
+			Units_AccuracyErrorRadius->Clear();
 			Units_AttackGraphic->Enable(false);
 			Units_AttackGraphic->Clear();
 			Units_AttackGraphic_ComboBox->Enable(false);
@@ -3666,7 +3667,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_StatsAreaGarrison_Grid = new wxGridSizer(4, 5, 5);
 	Units_StatsArea2_Grid = new wxGridSizer(4, 5, 5);
 	Units_ProjectilesArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Projectiles");
-	Units_ProjectilesArea1_Grid = new wxGridSizer(4, 5, 5);
+	Units_ProjectilesArea1_Grid = new wxGridSizer(5, 5, 5);
 	Units_ProjectilesArea2_Grid = new wxGridSizer(4, 5, 5);
 	Units_ProjectilesArea3_Grid = new wxGridSizer(4, 5, 5);
 	Units_Attributes_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Attributes");
@@ -3675,7 +3676,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attributes2_Grid = new wxGridSizer(4, 0, 5);
 	Units_AttributesTerrain_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_AttributesTerrain_Grid = new wxGridSizer(4, 5, 5);
-	Units_AttributesModes1_Grid = new wxGridSizer(4, 5, 5);
+	Units_AttributesModes1_Grid = new wxGridSizer(5, 5, 5);
 	Units_AttributesDropSite_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttributesSizes_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_AttributesSelection1_Grid = new wxGridSizer(4, 5, 5);
@@ -3737,7 +3738,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_PlacementTerrainGrid_Holder = new wxGridSizer(2, 0, 5);
 	Units_EditorRadius_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_EditorRadius_Grid = new wxGridSizer(2, 0, 0);
-	Units_BuildingMode_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_HillMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_VisibleInFog_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_TerrainRestriction_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_FlyMode_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -3829,7 +3830,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GraphicDisplacement_Grid = new wxGridSizer(4, 5, 5);
 	Units_BlastLevel_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MinRange_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_GarrisonRecoveryRate_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_AccuracyErrorRadius_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttackGraphic_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_DisplayedMeleeArmour_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_DisplayedAttack_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3916,10 +3917,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_PlacementMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_IconID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Icon *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_PlacementBypassTerrain_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Bypass Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_PlacementBypassTerrain_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Side Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_PlacementTerrain_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_EditorRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_BuildingMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Hill Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_HillMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Hill Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TerrainRestriction_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ResourceCapacity_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ResourceDecay_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4000,7 +4001,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GraphicDisplacement_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic Displacement XYZ *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_BlastLevel_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Level *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinRange_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Min Range", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_GarrisonRecoveryRate_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Error Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_AccuracyErrorRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Error Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DisplayedMeleeArmour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Melee Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DisplayedAttack_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Attack", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4192,8 +4193,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Delay = new TextCtrl_Short(Units_Scroller);
 	Units_Delay->SetToolTip("Graphical delay in frames before projectile is shot");
 	Units_AccuracyPercent = new TextCtrl_Short(Units_Scroller);
-	Units_GarrisonRecoveryRate = new TextCtrl_Float(Units_Scroller);
-	Units_GarrisonRecoveryRate->SetToolTip("Higher values will make the unit less accurate");
+	Units_AccuracyErrorRadius = new TextCtrl_Float(Units_Scroller);
+	Units_AccuracyErrorRadius->SetToolTip("Higher values will make the unit less accurate");
 	Units_ReloadTime1 = new TextCtrl_Float(Units_Scroller);
 	Units_ReloadTime2 = new TextCtrl_Float(Units_Scroller);
 	Units_BlastRadius = new TextCtrl_Float(Units_Scroller);
@@ -4230,6 +4231,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_DefaultArmor->SetToolTip("This armor is used for all attack types that do not have corresponding armor type\nCan be negative only in The Conquerors and later games");
 	Units_DisplayedMeleeArmour = new TextCtrl_Short(Units_Scroller);
 	Units_DisplayedPierceArmour = new TextCtrl_Short(Units_Scroller);
+	Units_ResourceCapacity = new TextCtrl_Short(Units_Scroller);
+	Units_ResourceDecay = new TextCtrl_Float(Units_Scroller);
+	Units_ResourceDecay->SetToolTip("Can alter corpses' decay time\nSet to -1 for never decaying");
+	Units_WorkRate = new TextCtrl_Float(Units_Scroller);
 	Units_GarrisonCapacity = new TextCtrl_Byte(Units_Scroller);
 	Units_GarrisonCapacity->SetToolTip("If the unit has garrisoned units inside,\ngraphics tab \"New Speed?\" determines its new speed?");
 	Units_GarrisonType = new TextCtrl_UByte(Units_Scroller);
@@ -4243,10 +4248,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonType_CheckBox[4]->SetToolTip("Livestock");
 	Units_GarrisonHealRate = new TextCtrl_Float(Units_Scroller);
 	Units_GarrisonHealRate->SetToolTip("Building's garrisoned units' healing speed factor");
-	Units_ResourceCapacity = new TextCtrl_Short(Units_Scroller);
-	Units_ResourceDecay = new TextCtrl_Float(Units_Scroller);
-	Units_ResourceDecay->SetToolTip("Can alter corpses' decay time\nSet to -1 for never decaying");
-	Units_WorkRate = new TextCtrl_Float(Units_Scroller);
 
 	Units_ProjectileUnitID = new TextCtrl_Short(Units_Scroller);
 	Units_ProjectileUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ProjectileUnitID);
@@ -4277,7 +4278,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GraphicDisplacement[0]->SetToolTip("Left/Right distance");
 	Units_GraphicDisplacement[1]->SetToolTip("Spawning distance from the unit");
 	Units_GraphicDisplacement[2]->SetToolTip("Height");
-	Units_ProjectileArc = new TextCtrl_Float(Units_Scroller);
+
 	Units_StretchMode = new TextCtrl_Byte(Units_Scroller);
 	Units_StretchMode->SetToolTip("0 Default\n1 Projectile falls vertically to the bottom of the map");
 	Units_CompensationMode = new TextCtrl_Byte(Units_Scroller);
@@ -4286,6 +4287,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_PenetrationMode = new TextCtrl_Byte(Units_Scroller);
 	Units_PenetrationMode->SetToolTip("0 Stops the graphics\n1 Graphics pass through the target instead of stopping\nOnly affects the graphics of the projectile");
 	Units_Unknown24 = new TextCtrl_Byte(Units_Scroller);
+	Units_ProjectileArc = new TextCtrl_Float(Units_Scroller);
 
 	Units_Enabled = new TextCtrl_Byte(Units_Scroller);
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
@@ -4293,13 +4295,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Disabled = new TextCtrl_Byte(Units_Scroller);
 	Units_Disabled->SetToolTip("0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
-	Units_HideInEditor = new TextCtrl_Byte(Units_Scroller);
-	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide in Editor", Units_HideInEditor);
 	Units_DeathMode = new TextCtrl_Byte(Units_Scroller);
 	Units_DeathMode->SetToolTip("Reviving does not make it usable");
 	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "Death: Revives *", Units_DeathMode);
-	Units_HeroMode = new TextCtrl_Byte(Units_Scroller);
-	Units_HeroMode_CheckBox = new CheckBox_2State(Units_Scroller, "Hero Mode", Units_HeroMode);
+	Units_HideInEditor = new TextCtrl_Byte(Units_Scroller);
+	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide in Editor", Units_HideInEditor);
 	Units_AirMode = new TextCtrl_Byte(Units_Scroller);
 	Units_AirMode->SetToolTip("1 for no footprints");
 	Units_AirMode_CheckBox = new CheckBox_2State(Units_Scroller, "Air Mode *", Units_AirMode);
@@ -4311,21 +4311,28 @@ void AGE_Frame::CreateUnitControls()
 	Units_SheepConversion_CheckBox = new CheckBox_ZeroIsYes(Units_Scroller, "Convert Herd *", Units_SheepConversion);
 	Units_AnimalMode = new TextCtrl_Byte(Units_Scroller);
 	Units_AnimalMode_CheckBox = new CheckBox_2State(Units_Scroller, "Animal Mode", Units_AnimalMode);
-	Units_TowerMode = new TextCtrl_Byte(Units_Scroller);
-	Units_TowerMode_CheckBox = new CheckBox_2State(Units_Scroller, "Tower Mode", Units_TowerMode);
 	Units_AdjacentMode = new TextCtrl_Byte(Units_Scroller);
 	Units_AdjacentMode->SetToolTip("0 Default\n1 Adjacent buildings can change this unit's graphics");
 	Units_AdjacentMode_CheckBox = new CheckBox_2State(Units_Scroller, "Adjacent Mode *", Units_AdjacentMode);
 	Units_DisappearsWhenBuilt = new TextCtrl_Byte(Units_Scroller);
 	Units_DisappearsWhenBuilt->SetToolTip("Useful for stack unit placement\n0 Default\n1 Makes the building disappear when built");
 	Units_Unknown31b_CheckBox = new CheckBox_2State(Units_Scroller, "Built: Vanishes *", Units_DisappearsWhenBuilt);
+	Units_TowerMode = new TextCtrl_Byte(Units_Scroller);
+	Units_TowerMode_CheckBox = new CheckBox_2State(Units_Scroller, "Tower Mode", Units_TowerMode);
+	Units_HeroMode = new TextCtrl_Byte(Units_Scroller);
+	Units_HeroMode_CheckBox = new CheckBox_2State(Units_Scroller, "Hero Mode", Units_HeroMode);
+
+	Units_PlacementMode = new TextCtrl_Byte(Units_Scroller);
+	Units_PlacementMode->SetToolTip("0 Can be placed on top of other units in scenario editor\n5 Cannot be placed on top of other units in scenario editor");
+	Units_HillMode = new TextCtrl_Byte(Units_Scroller);
+	Units_HillMode->SetToolTip("0 No restriction\n2 Restricts placement to flat land\n3 Allows placement on hills for the most part");
 	Units_VisibleInFog_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Fog Visibility *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_VisibleInFog = new TextCtrl_Byte(Units_Scroller);
 	Units_VisibleInFog->SetToolTip("0 Not visible\n1 Visible\n3 Inverted visibility");
-	Units_PlacementMode = new TextCtrl_Byte(Units_Scroller);
-	Units_PlacementMode->SetToolTip("0 Can be placed on top of other units in scenario editor\n5 Cannot be placed on top of other units in scenario editor");
-	Units_BuildingMode = new TextCtrl_Byte(Units_Scroller);
-	Units_BuildingMode->SetToolTip("0 No restriction\n2 Restricts placement to flat land\n3 Allows placement on hills for the most part");
+	Units_BlastType = new TextCtrl_Byte(Units_Scroller);
+	Units_BlastType->SetToolTip("0 projectiles, dead units, fish, relics, trees\n0 gates, town center\n0 deer(unmoving), FLDOG\n1 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n3 boar\n3 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n3 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 monks, BDGAL, ABGAL");
+	Units_Unknown2 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown2->SetToolTip("Action from mouse right-click?\n0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
 	Units_InteractionMode = new TextCtrl_Byte(Units_Scroller);
 	Units_InteractionMode->SetToolTip("0 & 1 Unable to select, move or attack\n2 Can select, unable to move or attack\n3 Can select and attack, unable to move\n4 Can select, move and attack\n5+ Select and move?");
 	Units_MinimapMode = new TextCtrl_Byte(Units_Scroller);
@@ -4336,11 +4343,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_EdibleMeat->SetToolTip("0 Default\n1 Rotting meat that can be gathered");
 	Units_VillagerMode = new TextCtrl_Byte(Units_Scroller);
 	Units_VillagerMode->SetToolTip("Changes according to task\n1 Male\n2 Female");
-	Units_BlastType = new TextCtrl_Byte(Units_Scroller);
-	Units_BlastType->SetToolTip("0 projectiles, dead units, fish, relics, trees\n0 gates, town center\n0 deer(unmoving), FLDOG\n1 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n3 boar\n3 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n3 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 monks, BDGAL, ABGAL");
-	Units_Unknown2 = new TextCtrl_Byte(Units_Scroller);
-	Units_Unknown2->SetToolTip("Action from mouse right-click?\n0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
-	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller);
+
 	Units_Attribute = new TextCtrl_UByte(Units_Scroller);
 	Units_Attribute->SetToolTip("This looks like one byte of eight booleans\nYou can probably combine these attributes\n0 Default\n(1st bit) 1, 3, 5 Allows units to garrison inside\n(2nd bit) 2 Causes the unit not to join formations\nStar Wars:\n(3rd bit) 4 Stealth unit\n(4th bit) 8 Detector unit\n(5th bit) 16 Mechanical unit\n(6th bit) 32 Biological unit\n(7th bit) 64 Self-shielding unit\n(8th bit) 128 Invisible unit");
 	Units_Attribute_Grid = new wxGridSizer(8, 0, 0);
@@ -4362,12 +4365,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_DeadUnitID = new TextCtrl_Short(Units_Scroller);
 	Units_DeadUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DeadUnitID);
 	UnitComboBoxList.push_back(Units_DeadUnitID_ComboBox);
-	Units_ResearchID = new TextCtrl_Short(Units_Scroller);
-	Units_ResearchID->SetToolTip("Causes that research to be researched when the building is created");
-	Units_ResearchID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ResearchID);
-	ResearchComboBoxList.push_back(Units_ResearchID_ComboBox);
 	Units_Unitline = new TextCtrl_Short(Units_Scroller);
 	Units_Unitline_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Unitline);
+	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller);
+	Units_MinTechLevel_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_MinTechLevel);
+	ResearchComboBoxList.push_back(Units_MinTechLevel_ComboBox);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_PlacementTerrain[loop] = new TextCtrl_Short(Units_Scroller);
@@ -4388,6 +4390,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_TerrainID->SetToolTip("Terrain produced under a building when completed");
 	Units_TerrainID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerrainID);
 	TerrainComboBoxList.push_back(Units_TerrainID_ComboBox);
+	Units_ResearchID = new TextCtrl_Short(Units_Scroller);
+	Units_ResearchID->SetToolTip("Causes that research to be researched when the building is created");
+	Units_ResearchID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ResearchID);
+	ResearchComboBoxList.push_back(Units_ResearchID_ComboBox);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_DropSite[loop] = new TextCtrl_Short(Units_Scroller);
@@ -4763,7 +4769,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_PlacementBypassTerrain_Holder->Add(Units_PlacementBypassTerrain_Text, 0, wxEXPAND);
 	Units_PlacementTerrain_Holder->Add(Units_PlacementTerrain_Text, 0, wxEXPAND);
 	Units_EditorRadius_Holder->Add(Units_EditorRadius_Text, 0, wxEXPAND);
-	Units_BuildingMode_Holder->Add(Units_BuildingMode_Text, 0, wxEXPAND);
+	Units_HillMode_Holder->Add(Units_HillMode_Text, 0, wxEXPAND);
 	Units_TerrainRestriction_Holder->Add(Units_TerrainRestriction_Text, 0, wxEXPAND);
 	Units_ResourceCapacity_Holder->Add(Units_ResourceCapacity_Text, 0, wxEXPAND);
 	Units_ResourceDecay_Holder->Add(Units_ResourceDecay_Text, 0, wxEXPAND);
@@ -4834,7 +4840,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GraphicDisplacement_Holder->Add(Units_GraphicDisplacement_Text, 0, wxEXPAND);
 	Units_BlastLevel_Holder->Add(Units_BlastLevel_Text, 0, wxEXPAND);
 	Units_MinRange_Holder->Add(Units_MinRange_Text, 0, wxEXPAND);
-	Units_GarrisonRecoveryRate_Holder->Add(Units_GarrisonRecoveryRate_Text, 0, wxEXPAND);
+	Units_AccuracyErrorRadius_Holder->Add(Units_AccuracyErrorRadius_Text, 0, wxEXPAND);
 	Units_AttackGraphic_Holder->Add(Units_AttackGraphic_Text, 0, wxEXPAND);
 	Units_DisplayedMeleeArmour_Holder->Add(Units_DisplayedMeleeArmour_Text, 0, wxEXPAND);
 	Units_DisplayedAttack_Holder->Add(Units_DisplayedAttack_Text, 0, wxEXPAND);
@@ -4931,7 +4937,7 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Units_EditorRadius_Grid->Add(Units_EditorRadius[loop], 1, wxEXPAND);
 	Units_EditorRadius_Holder->Add(Units_EditorRadius_Grid, 1, wxEXPAND);
-	Units_BuildingMode_Holder->Add(Units_BuildingMode, 0, wxEXPAND);
+	Units_HillMode_Holder->Add(Units_HillMode, 0, wxEXPAND);
 	Units_VisibleInFog_Holder->Add(Units_VisibleInFog_Text, 0, wxEXPAND);
 	Units_VisibleInFog_Holder->Add(Units_VisibleInFog, 0, wxEXPAND);
 	Units_TerrainRestriction_Holder->Add(Units_TerrainRestriction, 1, wxEXPAND);
@@ -4980,6 +4986,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unitline_Holder->Add(Units_Unitline, 1, wxEXPAND);
 	Units_Unitline_Holder->Add(Units_Unitline_ComboBox, 1, wxEXPAND);
 	Units_MinTechLevel_Holder->Add(Units_MinTechLevel, 0, wxEXPAND);
+	Units_MinTechLevel_Holder->Add(Units_MinTechLevel_ComboBox, 0, wxEXPAND);
 	Units_ID2_Holder->Add(Units_ID2, 1, wxEXPAND);
 	Units_ID3_Holder->Add(Units_ID3, 1, wxEXPAND);
 
@@ -5041,7 +5048,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GraphicDisplacement_Holder->Add(Units_GraphicDisplacement_Grid, 1, wxEXPAND);
 	Units_BlastLevel_Holder->Add(Units_BlastLevel, 1, wxEXPAND);
 	Units_MinRange_Holder->Add(Units_MinRange, 1, wxEXPAND);
-	Units_GarrisonRecoveryRate_Holder->Add(Units_GarrisonRecoveryRate, 0, wxEXPAND);
+	Units_AccuracyErrorRadius_Holder->Add(Units_AccuracyErrorRadius, 0, wxEXPAND);
 	Units_AttackGraphic_Holder->Add(Units_AttackGraphic, 1, wxEXPAND);
 	Units_AttackGraphic_Holder->Add(Units_AttackGraphic_ComboBox, 1, wxEXPAND);
 	Units_DisplayedMeleeArmour_Holder->Add(Units_DisplayedMeleeArmour, 1, wxEXPAND);
@@ -5414,7 +5421,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Grid_Data2->Add(Units_DisplayedAttack_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_Delay_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_AccuracyPercent_Holder, 1, wxEXPAND);
-	Units_Attacks_Grid_Data2->Add(Units_GarrisonRecoveryRate_Holder, 1, wxEXPAND);
+	Units_Attacks_Grid_Data2->Add(Units_AccuracyErrorRadius_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_ReloadTime1_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_ReloadTime2_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_BlastRadius_Holder, 1, wxEXPAND);
@@ -5463,9 +5470,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_StatsArea_Holder->Add(-1, 5);
 	Units_StatsArea_Holder->Add(Units_Armors_Holder, 0, wxEXPAND);
 	Units_StatsArea_Holder->Add(-1, 5);
-	Units_StatsArea_Holder->Add(Units_StatsAreaGarrison_Grid, 0, wxEXPAND);
-	Units_StatsArea_Holder->Add(-1, 5);
 	Units_StatsArea_Holder->Add(Units_StatsArea2_Grid, 0, wxEXPAND);
+	Units_StatsArea_Holder->Add(-1, 5);
+	Units_StatsArea_Holder->Add(Units_StatsAreaGarrison_Grid, 0, wxEXPAND);
 
 
 	Units_ProjectileUnitID_Holder->Add(Units_ProjectileUnitID_Text, 0, wxEXPAND);
@@ -5478,13 +5485,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_ChargingGraphic_Holder->Add(Units_ChargingGraphic, 1, wxEXPAND);
 	Units_ChargingGraphic_Holder->Add(Units_ChargingGraphic_ComboBox, 1, wxEXPAND);
 
-	Units_ProjectilesArea1_Grid->Add(Units_ProjectileArc_Holder, 1, wxEXPAND);
 	Units_ProjectilesArea1_Grid->Add(Units_StretchMode_Holder, 1, wxEXPAND);
 	Units_ProjectilesArea1_Grid->Add(Units_CompensationMode_Holder, 1, wxEXPAND);
-	Units_ProjectilesArea1_Grid->AddStretchSpacer(1);
 	Units_ProjectilesArea1_Grid->Add(Units_DropAnimationMode_Holder, 1, wxEXPAND);
+	Units_ProjectilesArea1_Grid->AddStretchSpacer(1);
+	Units_ProjectilesArea1_Grid->AddStretchSpacer(1);
 	Units_ProjectilesArea1_Grid->Add(Units_PenetrationMode_Holder, 1, wxEXPAND);
 	Units_ProjectilesArea1_Grid->Add(Units_Unknown24_Holder, 1, wxEXPAND);
+	Units_ProjectilesArea1_Grid->Add(Units_ProjectileArc_Holder, 1, wxEXPAND);
+
 	Units_ProjectilesArea2_Grid->Add(Units_ProjectileUnitID_Holder, 2, wxEXPAND);
 	Units_ProjectilesArea3_Grid->Add(Units_MissileGraphicDelay_Holder, 1, wxEXPAND);
 	Units_ProjectilesArea3_Grid->Add(Units_AttackMissileDuplicationAmount1_Holder, 1, wxEXPAND);
@@ -5505,28 +5514,29 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_AttributesBoxes1_Grid->Add(Units_Enabled_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_Disabled_Holder, 1, wxEXPAND);
-	Units_AttributesBoxes1_Grid->Add(Units_HideInEditor_Holder, 1, wxEXPAND);
-	Units_AttributesModes1_Grid->Add(Units_VisibleInFog_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_DeathMode_Holder, 1, wxEXPAND);
-	Units_AttributesBoxes1_Grid->Add(Units_HeroMode_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Units_AttributesBoxes1_Grid->Add(Units_HideInEditor_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_AirMode_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_FlyMode_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_SheepConversion_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_AnimalMode_Holder, 1, wxEXPAND);
-	Units_AttributesBoxes1_Grid->Add(Units_TowerMode_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_AdjacentMode_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_Unknown31b_Holder, 1, wxEXPAND);
+	Units_AttributesBoxes1_Grid->Add(Units_TowerMode_Holder, 1, wxEXPAND);
+	Units_AttributesBoxes1_Grid->Add(Units_HeroMode_Holder, 1, wxEXPAND);
+
 	Units_AttributesModes1_Grid->Add(Units_PlacementMode_Holder, 1, wxEXPAND);
-	Units_AttributesModes1_Grid->Add(Units_BuildingMode_Holder, 1, wxEXPAND);
+	Units_AttributesModes1_Grid->Add(Units_HillMode_Holder, 1, wxEXPAND);
+	Units_AttributesModes1_Grid->Add(Units_VisibleInFog_Holder, 1, wxEXPAND);
+	Units_AttributesModes1_Grid->Add(Units_BlastType_Holder, 1, wxEXPAND);
+	Units_AttributesModes1_Grid->Add(Units_Unknown2_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_InteractionMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_MinimapMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_AttackMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_EdibleMeat_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_VillagerMode_Holder, 1, wxEXPAND);
-	Units_AttributesModes1_Grid->Add(Units_BlastType_Holder, 1, wxEXPAND);
-	Units_AttributesModes1_Grid->Add(Units_Unknown2_Holder, 1, wxEXPAND);
+
 	Units_Attributes2_Grid->Add(Units_Attribute_Holder, 1, wxEXPAND);
-	Units_AttributesModes1_Grid->Add(Units_MinTechLevel_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementTerrain_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(5, -1);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementBypassTerrain_Holder, 1, wxEXPAND);
@@ -5549,10 +5559,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceStorageHeader_Holder->Add(5, 5);
 	Units_ResourceStorageHeader_Holder->Add(Units_ResourceStorage_Holder[2], 0, wxEXPAND);
 	Units_Attributes1_Grid->Add(Units_DeadUnitID_Holder, 1, wxEXPAND);
-	Units_Attributes1_Grid->Add(Units_ResearchID_Holder, 1, wxEXPAND);
 	Units_Attributes2_Grid->Add(Units_Civ_Holder, 1, wxEXPAND);
 	Units_Attributes2_Grid->Add(Units_Unknown9_Holder, 1, wxEXPAND);
 	Units_Attributes1_Grid->Add(Units_Unitline_Holder, 1, wxEXPAND);
+	Units_Attributes1_Grid->Add(Units_MinTechLevel_Holder, 1, wxEXPAND);
 	Units_AttributesTracking_Grid->Add(Units_TrackingUnit_Holder, 1, wxEXPAND);
 	Units_AttributesTracking_Grid->Add(Units_TrackingUnitUsed_Holder, 1, wxEXPAND);
 	Units_AttributesTracking_Grid->Add(Units_TrackingUnitDensity_Holder, 1, wxEXPAND);
@@ -5566,6 +5576,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesTrain1_Grid->Add(Units_TrainLocationID_Holder, 1, wxEXPAND);
 	Units_Attributes3_Grid->Add(Units_StackUnitID_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Grid->Add(Units_TerrainID_Holder, 1, wxEXPAND);
+	Units_AttributesTerrain_Grid->Add(Units_ResearchID_Holder, 1, wxEXPAND);
 	Units_Attributes3_Grid->Add(Units_HeadUnit_Holder, 1, wxEXPAND);
 	Units_Attributes3_Grid->Add(Units_TransformUnit_Holder, 1, wxEXPAND);
 	Units_Attributes3_Grid->Add(Units_PileUnit_Holder, 1, wxEXPAND);

@@ -1493,7 +1493,7 @@ public:
 	TextCtrl_Short *Units_PlacementTerrain[2];
 	ComboBox_Plus1 *Units_PlacementTerrain_ComboBox[2];
 	TextCtrl_Float *Units_EditorRadius[2];
-	TextCtrl_Byte *Units_BuildingMode;
+	TextCtrl_Byte *Units_HillMode;
 	TextCtrl_Byte *Units_VisibleInFog;
 	wxStaticText *Units_VisibleInFog_Text;
 	TextCtrl_Short *Units_TerrainRestriction;
@@ -1550,6 +1550,7 @@ public:
 	TextCtrl_Short *Units_Unitline;
 	ComboBox_Plus1 *Units_Unitline_ComboBox;
 	TextCtrl_Byte *Units_MinTechLevel;
+	ComboBox_Plus1 *Units_MinTechLevel_ComboBox;
 	TextCtrl_Short *Units_ID2;
 	TextCtrl_Short *Units_ID3;
 
@@ -1603,7 +1604,7 @@ public:
 	TextCtrl_Float *Units_GraphicDisplacement[3];
 	TextCtrl_Byte *Units_BlastLevel;
 	TextCtrl_Float *Units_MinRange;
-	TextCtrl_Float *Units_GarrisonRecoveryRate;
+	TextCtrl_Float *Units_AccuracyErrorRadius;
 	TextCtrl_Short *Units_AttackGraphic;
 	ComboBox_Plus1 *Units_AttackGraphic_ComboBox;
 	TextCtrl_Short *Units_DisplayedMeleeArmour;
@@ -1710,7 +1711,7 @@ public:
 	wxStaticText *Units_PlacementBypassTerrain_Text;
 	wxStaticText *Units_PlacementTerrain_Text;
 	wxStaticText *Units_EditorRadius_Text;
-	wxStaticText *Units_BuildingMode_Text;
+	wxStaticText *Units_HillMode_Text;
 	wxStaticText *Units_TerrainRestriction_Text;
 	wxStaticText *Units_ResourceCapacity_Text;
 	wxStaticText *Units_ResourceDecay_Text;
@@ -1790,7 +1791,7 @@ public:
 	wxStaticText *Units_GraphicDisplacement_Text;
 	wxStaticText *Units_BlastLevel_Text;
 	wxStaticText *Units_MinRange_Text;
-	wxStaticText *Units_GarrisonRecoveryRate_Text;
+	wxStaticText *Units_AccuracyErrorRadius_Text;
 	wxStaticText *Units_AttackGraphic_Text;
 	wxStaticText *Units_DisplayedMeleeArmour_Text;
 	wxStaticText *Units_DisplayedAttack_Text;
@@ -1885,7 +1886,7 @@ public:
 	wxGridSizer *Units_PlacementTerrainGrid_Holder;
 	wxBoxSizer *Units_EditorRadius_Holder;
 	wxGridSizer *Units_EditorRadius_Grid;
-	wxBoxSizer *Units_BuildingMode_Holder;
+	wxBoxSizer *Units_HillMode_Holder;
 	wxBoxSizer *Units_VisibleInFog_Holder;
 	wxBoxSizer *Units_TerrainRestriction_Holder;
 	wxBoxSizer *Units_FlyMode_Holder;
@@ -1975,7 +1976,7 @@ public:
 	wxGridSizer *Units_GraphicDisplacement_Grid;
 	wxBoxSizer *Units_BlastLevel_Holder;
 	wxBoxSizer *Units_MinRange_Holder;
-	wxBoxSizer *Units_GarrisonRecoveryRate_Holder;
+	wxBoxSizer *Units_AccuracyErrorRadius_Holder;
 	wxBoxSizer *Units_AttackGraphic_Holder;
 	wxBoxSizer *Units_DisplayedMeleeArmour_Holder;
 	wxBoxSizer *Units_DisplayedAttack_Holder;
