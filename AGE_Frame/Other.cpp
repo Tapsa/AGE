@@ -1102,11 +1102,6 @@ void AGE_Frame::OnGameVersionChange()
 
 		// TC ->
 		show = (GenieVersion >= genie::GV_TC) ? true : false;
-		for(short loop = 32; loop < 42; ++loop)
-		{
-			Terrains_TerrainBorderID[loop]->Show(show);
-			Terrains_TerrainBorderID_ComboBox[loop]->Show(show);
-		}
 		Units_SnowGraphicID_Holder->Show(show);
 		Units_Attributes2_Grid->Show(show);
 
@@ -1245,12 +1240,6 @@ void AGE_Frame::OnGameVersionChange()
 
 		// SWGB ->
 		show = (GenieVersion >= genie::GV_SWGB) ? true : false;
-		for(short loop = 42; loop < 55; ++loop)
-		{
-			Terrains_TerrainBorderID[loop]->Show(show);
-			Terrains_TerrainBorderID_ComboBox[loop]->Show(show);
-		}
-		Terrains_TerrainBorders_Grid->SetRows(genie::Terrain::getTerrainsSize(GenieVersion) / 3 + 1);
 		Research_Name_Holder[1]->Show(show);
 		Civs_Name_Holder[1]->Show(show);
 		Units_Name2_Holder->Show(show);
