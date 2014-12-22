@@ -1117,9 +1117,7 @@ void AGE_Frame::OnGameVersionChange()
 
 		// AoK ->
 		show = (GenieVersion >= genie::GV_AoK) ? true : false;
-		Research_Civ_Holder->Show(show);
-		Research_FullTechMode_Holder->Show(show);
-		Units_AccuracyErrorRadius_Holder->Show(show);
+		Units_Exists_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
 			Units_Disabled_Holder->Show(show);
@@ -1189,6 +1187,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_GarrisonGraphic_Holder->Show(show);
 		Units_StandingGraphic[1]->Show(show);
 		Units_StandingGraphic_ComboBox[1]->Show(show);
+		Units_AccuracyErrorRadius_Holder->Show(show);
 		TechTrees_Ages_Buildings.Add->Enable(show);
 		TechTrees_Ages_Units.Add->Enable(show);
 		TechTrees_Ages_Researches.Add->Enable(show);
@@ -1233,6 +1232,8 @@ void AGE_Frame::OnGameVersionChange()
 		Terrains_BlendPriority_Holder->Show(show);
 		Terrains_BlendType_Holder->Show(show);
 		Civs_TeamBonus_Holder->Show(show);
+		Research_Civ_Holder->Show(show);
+		Research_FullTechMode_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
 			Units_Unknown16B_Holder->Show(show);
