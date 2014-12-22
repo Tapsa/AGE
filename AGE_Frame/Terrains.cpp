@@ -19,6 +19,9 @@ void AGE_Frame::ListTerrainNumbers()
 	Terrains_UsedCount->container[0] = &GenieFile->TerrainsUsed1;
 	Terrains_UsedCount->container[1] = &GenieFile->TerrainBlock.TerrainsUsed2;
 	Terrains_UsedCount->Update();
+	Borders_UsedCount->resize(1);
+	Borders_UsedCount->container[0] = &GenieFile->TerrainBlock.TerrainBordersUsed;
+	Borders_UsedCount->Update();
 }
 
 void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
