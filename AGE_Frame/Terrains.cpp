@@ -16,8 +16,8 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 void AGE_Frame::ListTerrainNumbers()
 {
 	Terrains_UsedCount->resize(2);
-	Terrains_UsedCount->container[0] = &GenieFile->NumberOfTerrainsUsed;
-	Terrains_UsedCount->container[1] = &GenieFile->TerrainBlock.NumberOfTerrainsUsed2;
+	Terrains_UsedCount->container[0] = &GenieFile->TerrainsUsed1;
+	Terrains_UsedCount->container[1] = &GenieFile->TerrainBlock.TerrainsUsed2;
 	Terrains_UsedCount->Update();
 }
 
@@ -86,7 +86,7 @@ void AGE_Frame::InitTerrains2()
 	list<void*> dataPointers;
 	wxArrayString filteredNames;
 
-	for(short loop = 0; loop < GenieFile->NumberOfTerrainsUsed; ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainsUsed1; ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
 		if(GenieVersion >= genie::GV_AoKA)
@@ -115,7 +115,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_SLP->resize(selections);
 	Terrains_Unknown3->resize(selections);
 	Terrains_SoundID->resize(selections);
-	if(GenieVersion >= genie::GV_AoK)
+	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Terrains_BlendPriority->resize(selections);
 		Terrains_BlendType->resize(selections);
@@ -164,7 +164,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_SLP->container[sel] = &TerrainPointer->SLP;
 		Terrains_Unknown3->container[sel] = &TerrainPointer->Unknown3;
 		Terrains_SoundID->container[sel] = &TerrainPointer->SoundID;
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKB)
 		{
 			Terrains_BlendPriority->container[sel] = &TerrainPointer->BlendPriority;
 			Terrains_BlendType->container[sel] = &TerrainPointer->BlendType;
@@ -208,7 +208,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_SLP->Update();
 	Terrains_Unknown3->Update();
 	Terrains_SoundID->Update();
-	if(GenieVersion >= genie::GV_AoK)
+	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Terrains_BlendPriority->Update();
 		Terrains_BlendType->Update();
