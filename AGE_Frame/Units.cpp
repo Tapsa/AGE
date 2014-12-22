@@ -143,7 +143,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 						case 60:
 						case 70:
 						case 80:
-							if(GenieVersion <= genie::GV_AoKA)
+							if(GenieVersion < genie::GV_AoK)
 							Name += "CC "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Bird.Commands.size());
 							else
 							Name += "CC "+lexical_cast<string>(GenieFile->UnitHeaders[Index].Commands.size());
@@ -332,7 +332,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	}
 	Units_BlastLevel->resize(PointerCount);
 	Units_MinRange->resize(PointerCount);
-	if(GenieVersion >= genie::GV_AoK)
+	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Units_AccuracyErrorRadius->resize(PointerCount);
 	}
@@ -591,7 +591,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					}
 					Units_BlastLevel->container[location] = &UnitPointer->Type50.BlastLevel;
 					Units_MinRange->container[location] = &UnitPointer->Type50.MinRange;
-					if(GenieVersion >= genie::GV_AoK)
+					if(GenieVersion >= genie::GV_AoKB)
 					{
 						Units_AccuracyErrorRadius->container[location] = &UnitPointer->Type50.AccuracyErrorRadius;
 					}
@@ -968,11 +968,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			}
 			Units_BlastLevel->Update();
 			Units_MinRange->Update();
-			if(GenieVersion >= genie::GV_AoK)
+			if(GenieVersion >= genie::GV_AoKB)
 			{
-				if(GenieVersion >= genie::GV_TC)
-				{
-				}
 				Units_AccuracyErrorRadius->Update();
 			}
 			Units_AttackGraphic->Update();
@@ -2133,7 +2130,7 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 				DamageGraphics = GenieFile->Civs[civ].Units[UnitIDs[sel]].DamageGraphics.size();
 				Attacks = GenieFile->Civs[civ].Units[UnitIDs[sel]].Type50.Attacks.size();
 				Armors = GenieFile->Civs[civ].Units[UnitIDs[sel]].Type50.Armours.size();
-				if(GenieVersion <= genie::GV_AoKA)
+				if(GenieVersion < genie::GV_AoK)
 				Commands = GenieFile->Civs[civ].Units[UnitIDs[sel]].Bird.Commands.size();
 				break;
 			}
@@ -3094,7 +3091,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 	if(selections > 0)
 	{
 		CommandIDs.resize(selections);
-		int PointerCount = (GenieVersion <= genie::GV_AoKA) ? selections * SelectedCivs.size() : selections;
+		int PointerCount = (GenieVersion < genie::GV_AoK) ? selections * SelectedCivs.size() : selections;
 		UnitCommands_One->resize(PointerCount);
 		UnitCommands_ID->resize(PointerCount);
 		UnitCommands_Unknown1->resize(PointerCount);
@@ -3127,14 +3124,14 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 		for(auto sel = selections; sel--> 0;)
 		{
 			CommandPointer = (genie::UnitCommand*)Units_UnitCommands_List->GetClientData(Items.Item(sel));
-			if(GenieVersion <= genie::GV_AoKA)
+			if(GenieVersion < genie::GV_AoK)
 			CommandIDs[sel] = (CommandPointer - (&GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[0]));
 			else
 			CommandIDs[sel] = (CommandPointer - (&GenieFile->UnitHeaders[UnitIDs[0]].Commands[0]));
 
-			for(short vecCiv = (GenieVersion <= genie::GV_AoKA) ? SelectedCivs.size() : 1; vecCiv--> 0;)
+			for(short vecCiv = (GenieVersion < genie::GV_AoK) ? SelectedCivs.size() : 1; vecCiv--> 0;)
 			{
-				if(GenieVersion <= genie::GV_AoKA)
+				if(GenieVersion < genie::GV_AoK)
 				{
 					if(sel == 0 && GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Bird.Commands.size() != GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size())
 					{
@@ -3535,7 +3532,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &Event)
 {
-	if(GenieVersion <= genie::GV_AoKA)
+	if(GenieVersion < genie::GV_AoK)
 	{
 		for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 		for(short loop=1; loop < UnitIDs.size(); ++loop)

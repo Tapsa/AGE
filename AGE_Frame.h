@@ -2510,6 +2510,9 @@ public:
 	wxBoxSizer *Terrains_UsedCountHolder;
 	wxStaticText *Terrains_UsedCountText;
 	TextCtrl_UShort *Terrains_UsedCount;
+	wxBoxSizer *Borders_UsedCountHolder;
+	wxStaticText *Borders_UsedCountText;
+	TextCtrl_UShort *Borders_UsedCount;
 	wxGridSizer *Terrains_Terrains_Buttons;
 	wxButton *Terrains_Add;
 	wxButton *Terrains_Insert;

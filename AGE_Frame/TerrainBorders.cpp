@@ -231,6 +231,10 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_List = new wxListBox(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(10, 220), 0, NULL, wxLB_EXTENDED);
+	Borders_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
+	Borders_UsedCountText = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Borders Used *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_UsedCount = new TextCtrl_UShort(Tab_TerrainBorders);
+	Borders_UsedCount->SetToolTip("How many terrain borders are used\nstarting from the first border without gaps");
 	Borders_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Borders_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Borders_DataArea = new wxBoxSizer(wxVERTICAL);
@@ -321,6 +325,10 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Enabled_Holder->Add(Borders_Enabled_Text, 0, wxEXPAND);
 	Borders_Enabled_Holder->Add(Borders_Enabled1_Holder, 1, wxEXPAND);
 
+	Borders_UsedCountHolder->Add(Borders_UsedCountText, 0, wxEXPAND);
+	Borders_UsedCountHolder->Add(2, -1);
+	Borders_UsedCountHolder->Add(Borders_UsedCount, 1, wxEXPAND);
+
 	Borders_Buttons->Add(Borders_Copy, 1, wxEXPAND);
 	Borders_Buttons->Add(Borders_Paste, 1, wxEXPAND);
 
@@ -328,6 +336,8 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Borders->Add(Borders_Search_R, 0, wxEXPAND);
 	Borders_Borders->Add(-1, 2);
 	Borders_Borders->Add(Borders_List, 1, wxEXPAND);
+	Borders_Borders->Add(-1, 2);
+	Borders_Borders->Add(Borders_UsedCountHolder, 0, wxEXPAND);
 	Borders_Borders->Add(-1, 2);
 	Borders_Borders->Add(Borders_Buttons, 0, wxEXPAND);
 
