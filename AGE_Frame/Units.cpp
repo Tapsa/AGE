@@ -467,11 +467,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Units_GarrisonGraphic->resize(PointerCount);
-		if(GenieVersion >= genie::GV_AoK)
-		{
-			if(GenieVersion >= genie::GV_TC) Units_SnowGraphicID->resize(PointerCount);
-			Units_StandingGraphic[1]->resize(PointerCount);
-		}
+		Units_StandingGraphic[1]->resize(PointerCount);
+		if(GenieVersion >= genie::GV_TC) Units_SnowGraphicID->resize(PointerCount);
 	}
 	Units_AttackGraphic->resize(PointerCount);
 	Units_StandingGraphic[0]->resize(PointerCount);
@@ -693,21 +690,24 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_SelectionShapeType->container[location] = &UnitPointer->SelectionShapeType;
 				Units_SelectionShape->container[location] = &UnitPointer->SelectionShape;
 				Units_ID3->container[location] = &UnitPointer->ID3;
-				if(GenieVersion >= genie::GV_AoK)
+				if(GenieVersion >= genie::GV_AoKB)
 				{
-					Units_Disabled->container[location] = &UnitPointer->Disabled;
 					if(CopyGraphics || vecCiv == 0)
 					Units_StandingGraphic[1]->container[location] = &UnitPointer->StandingGraphic.second;
-					if(GenieVersion >= genie::GV_TC)
+					if(GenieVersion >= genie::GV_AoK)
 					{
-						Units_Attribute->container[location] = &UnitPointer->Attribute;
-						Units_Civ->container[location] = &UnitPointer->Civilization;
-						Units_Unknown9->container[location] = &UnitPointer->Nothing;
-						if(GenieVersion >= genie::GV_SWGB)
+						Units_Disabled->container[location] = &UnitPointer->Disabled;
+						if(GenieVersion >= genie::GV_TC)
 						{
-							Units_Name2->container[location] = &UnitPointer->Name2;
-							Units_Unitline->container[location] = &UnitPointer->Unitline;
-							Units_MinTechLevel->container[location] = &UnitPointer->MinTechLevel;
+							Units_Attribute->container[location] = &UnitPointer->Attribute;
+							Units_Civ->container[location] = &UnitPointer->Civilization;
+							Units_Unknown9->container[location] = &UnitPointer->Nothing;
+							if(GenieVersion >= genie::GV_SWGB)
+							{
+								Units_Name2->container[location] = &UnitPointer->Name2;
+								Units_Unitline->container[location] = &UnitPointer->Unitline;
+								Units_MinTechLevel->container[location] = &UnitPointer->MinTechLevel;
+							}
 						}
 					}
 				}
@@ -1106,28 +1106,31 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_SelectionShapeType->Update();
 				Units_SelectionShape->Update();
 				Units_ID3->Update();
-				if(GenieVersion >= genie::GV_AoK)
+				if(GenieVersion >= genie::GV_AoKB)
 				{
 					Units_StandingGraphic[1]->Update();
-					Units_Disabled->Update();
-					if(GenieVersion >= genie::GV_TC)
+					if(GenieVersion >= genie::GV_AoK)
 					{
-						Units_Attribute->Update();
-						Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
-						Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
-						Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
-						Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
-						Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
-						Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
-						Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
-						Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
-						Units_Civ->Update();
-						Units_Unknown9->Update();
-						if(GenieVersion >= genie::GV_SWGB)
+						Units_Disabled->Update();
+						if(GenieVersion >= genie::GV_TC)
 						{
-							Units_Name2->Update();
-							Units_Unitline->Update();
-							Units_MinTechLevel->Update();
+							Units_Attribute->Update();
+							Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
+							Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
+							Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
+							Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
+							Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
+							Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
+							Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
+							Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
+							Units_Civ->Update();
+							Units_Unknown9->Update();
+							if(GenieVersion >= genie::GV_SWGB)
+							{
+								Units_Name2->Update();
+								Units_Unitline->Update();
+								Units_MinTechLevel->Update();
+							}
 						}
 					}
 				}
@@ -1238,27 +1241,30 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		Units_SelectionMask->Enable(show);
 		Units_SelectionShapeType->Enable(show);
 		Units_SelectionShape->Enable(show);
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKB)
 		{
 			Units_StandingGraphic[1]->Enable(show);
 			Units_StandingGraphic_ComboBox[1]->Enable(show);
-			Units_Disabled->Enable(show);
-			Units_Disabled_CheckBox->Enable(show);
-			if(GenieVersion >= genie::GV_TC)
+			if(GenieVersion >= genie::GV_AoK)
 			{
-				Units_Attribute->Enable(show);
-				Units_Civ->Enable(show);
-				Units_Civ_ComboBox->Enable(show);
-				Units_Unknown9->Enable(show);
-				for(short loop = 0; loop < 8; ++loop)
-				Units_Attribute_CheckBox[loop]->Enable(show);
-				if(GenieVersion >= genie::GV_SWGB)
+				Units_Disabled->Enable(show);
+				Units_Disabled_CheckBox->Enable(show);
+				if(GenieVersion >= genie::GV_TC)
 				{
-					Units_Name2->Enable(show);
-					Units_Unitline->Enable(show);
-					Units_Unitline_ComboBox->Enable(show);
-					Units_MinTechLevel->Enable(show);
-					Units_MinTechLevel_ComboBox->Enable(show);
+					Units_Attribute->Enable(show);
+					Units_Civ->Enable(show);
+					Units_Civ_ComboBox->Enable(show);
+					Units_Unknown9->Enable(show);
+					for(short loop = 0; loop < 8; ++loop)
+					Units_Attribute_CheckBox[loop]->Enable(show);
+					if(GenieVersion >= genie::GV_SWGB)
+					{
+						Units_Name2->Enable(show);
+						Units_Unitline->Enable(show);
+						Units_Unitline_ComboBox->Enable(show);
+						Units_MinTechLevel->Enable(show);
+						Units_MinTechLevel_ComboBox->Enable(show);
+					}
 				}
 			}
 		}

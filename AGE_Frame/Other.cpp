@@ -132,10 +132,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		case 0: GenieVersion = genie::GV_AoE; break;
 		case 1: GenieVersion = genie::GV_RoR; break;
 		case 2: GenieVersion = genie::GV_AoKA; break;
-		case 3: GenieVersion = genie::GV_AoK; break;
-		case 4: GenieVersion = genie::GV_TC; break;
-		case 5: GenieVersion = genie::GV_SWGB; break;
-		case 6: GenieVersion = genie::GV_CC; break;
+		case 3: GenieVersion = genie::GV_AoKB; break;
+		case 4: GenieVersion = genie::GV_AoK; break;
+		case 5: GenieVersion = genie::GV_TC; break;
+		case 6: GenieVersion = genie::GV_SWGB; break;
+		case 7: GenieVersion = genie::GV_CC; break;
 		default: GenieVersion = genie::GV_None;
 	}
 
@@ -1118,11 +1119,6 @@ void AGE_Frame::OnGameVersionChange()
 		show = (GenieVersion >= genie::GV_AoK) ? true : false;
 		Research_Civ_Holder->Show(show);
 		Research_FullTechMode_Holder->Show(show);
-		Civs_TeamBonus_Holder->Show(show);
-		Terrains_BlendPriority_Holder->Show(show);
-		Terrains_BlendType_Holder->Show(show);
-		Units_StandingGraphic[1]->Show(show);
-		Units_StandingGraphic_ComboBox[1]->Show(show);
 		Units_AccuracyErrorRadius_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
@@ -1191,6 +1187,8 @@ void AGE_Frame::OnGameVersionChange()
 		show = (GenieVersion >= genie::GV_AoKB) ? true : false;
 		Units_HeroMode_Holder->Show(show);
 		Units_GarrisonGraphic_Holder->Show(show);
+		Units_StandingGraphic[1]->Show(show);
+		Units_StandingGraphic_ComboBox[1]->Show(show);
 		TechTrees_Ages_Buildings.Add->Enable(show);
 		TechTrees_Ages_Units.Add->Enable(show);
 		TechTrees_Ages_Researches.Add->Enable(show);
@@ -1232,6 +1230,9 @@ void AGE_Frame::OnGameVersionChange()
 		TechTrees_Researches_Buildings.PasteInsert->Enable(show);
 		TechTrees_Researches_Units.PasteInsert->Enable(show);
 		TechTrees_Researches_Researches.PasteInsert->Enable(show);
+		Terrains_BlendPriority_Holder->Show(show);
+		Terrains_BlendType_Holder->Show(show);
+		Civs_TeamBonus_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
 			Units_Unknown16B_Holder->Show(show);
