@@ -60,7 +60,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	Civs_One->resize(selections);
 	Civs_Name[0]->resize(selections);
 	Civs_TechTree->resize(selections);
-	if(GenieVersion >= genie::GV_AoK)
+	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Civs_TeamBonus->resize(selections);
 		if(GenieVersion >= genie::GV_SWGB)
@@ -81,7 +81,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 		Civs_One->container[sel] = &CivPointer->One;
 		Civs_Name[0]->container[sel] = &CivPointer->Name;
 		Civs_TechTree->container[sel] = &CivPointer->TechTreeID;
-		if(GenieVersion >= genie::GV_AoK)
+		if(GenieVersion >= genie::GV_AoKB)
 		{
 			Civs_TeamBonus->container[sel] = &CivPointer->TeamBonusID;
 			if(GenieVersion >= genie::GV_SWGB)
@@ -97,7 +97,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	Civs_One->Update();
 	Civs_Name[0]->Update();
 	Civs_TechTree->Update();
-	if(GenieVersion >= genie::GV_AoK)
+	if(GenieVersion >= genie::GV_AoKB)
 	{
 		Civs_TeamBonus->Update();
 		if(GenieVersion >= genie::GV_SWGB)
