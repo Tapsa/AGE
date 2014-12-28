@@ -40,7 +40,7 @@ void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 	for(short loop=GenieFile->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
 	{
 		ResearchTechID = GenieFile->Researchs[loop].TechageID;
-		if(ResearchTechID > 0) // Only researches which have techs.
+		if(ResearchTechID >= 0) // Only researches which have techs.
 		{
 			if(!LangDLLstring(GenieFile->Researchs[loop].LanguageDLLName, 2).empty()) // has a lang dll name
 			{
@@ -59,11 +59,11 @@ void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 		string CivName = lexical_cast<string>(GenieFile->Civs[loop2].Name); // Civ internal name.
 		CivTechTreeID = GenieFile->Civs[loop2].TechTreeID;
 		CivTeamBonusID = GenieFile->Civs[loop2].TeamBonusID;
-		if(CivTechTreeID > 0)
+		if(CivTechTreeID >= 0)
 		{
 			GenieFile->Techages[CivTechTreeID].Name = CivName+" Tech. Tree"; // Under 31 chars.
 		}
-		if(CivTeamBonusID > 0)
+		if(CivTeamBonusID >= 0)
 		{
 			GenieFile->Techages[CivTeamBonusID].Name = CivName+" Team Bonus"; // Under 31 chars.
 		}

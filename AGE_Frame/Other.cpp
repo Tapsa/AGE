@@ -892,7 +892,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		InitTerrains1(true);
 		InitTerrainBorders(true);
 		ListGeneral();
-		//InitRandomMaps();
+		InitRandomMaps();
 		InitTechs(true);
 		if(GenieVersion >= genie::GV_SWGB)
 		{
@@ -903,7 +903,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			UnitLines_UnitLines_List->Clear();
 			UnitLines_UnitLineUnits_List->Clear();
 		}
-		/*InitCivs(true);
+		InitCivs(true);
 		InitUnits(0, true);
 		InitResearches(true);
 		if(GenieVersion >= genie::GV_AoKA)
@@ -960,7 +960,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			OnTTResearchSelect(E);
 			if(GenieVersion >= genie::GV_SWGB)
 			OnUnitLinesSelect(E);
-		}*/
+		}
 
 		Effects_AttributesC_ComboBox->Clear();
 		Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");		// Selection 0
