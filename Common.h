@@ -6,7 +6,6 @@
 //#include <atomic>
 #include <thread>
 #include <wx/wx.h>
-//#include "wxSFMLCanvas.h"
 #include <wx/aboutdlg.h>
 #include <wx/collpane.h>
 #include <wx/fileconf.h>
@@ -17,7 +16,6 @@
 #include <wx/odcombo.h>
 #include <wx/listctrl.h>
 #include <wx/tooltip.h>
-//#include <wx/richtooltip.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -34,3 +32,23 @@
 using namespace std;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
+
+#ifndef COMMON_H
+#define COMMON_H
+
+enum EditableVersion
+{
+	EV_TEST,
+	EV_AoEB,
+	EV_AoETB,
+	EV_AoE,
+	EV_RoR,
+	EV_AoKA,
+	EV_AoKB,
+	EV_AoK,
+	EV_TC,
+	EV_SWGB,
+	EV_CC
+};
+
+#endif
