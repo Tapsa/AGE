@@ -16,8 +16,8 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 void AGE_Frame::ListTerrainNumbers()
 {
 	Terrains_UsedCount->resize(2);
-	Terrains_UsedCount->container[0] = &GenieFile->TerrainsUsed1;
-	Terrains_UsedCount->container[1] = &GenieFile->TerrainBlock.TerrainsUsed2;
+	Terrains_UsedCount->container[0] = &GenieFile->TerrainBlock.TerrainsUsed2;
+	Terrains_UsedCount->container[1] = &GenieFile->TerrainsUsed1;
 	Terrains_UsedCount->Update();
 	Borders_UsedCount->resize(1);
 	Borders_UsedCount->container[0] = &GenieFile->TerrainBlock.TerrainBordersUsed;
@@ -529,7 +529,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Unknown1 = new TextCtrl_Short(Terrains_Scroller);
 	Terrains_Unknown7_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Unknown7_Grid = new wxGridSizer(12, 0, 0);
-	Terrains_Unknown7_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Useless garbage for used terrains (23 in AoE)", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_Unknown7_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Useless garbage for? (NOT used terrains; 23 in AoE)", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < Terrains_Unknown7.size(); ++loop)
 	Terrains_Unknown7[loop] = new TextCtrl_Byte(Terrains_Scroller);
 
