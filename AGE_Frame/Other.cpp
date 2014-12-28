@@ -129,15 +129,18 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	switch(GameVersion)
 	{
-		case 0: GenieVersion = genie::GV_AoE; break;
-		case 1: GenieVersion = genie::GV_RoR; break;
-		case 2: GenieVersion = genie::GV_AoKA; break;
-		case 3: GenieVersion = genie::GV_AoKB; break;
-		case 4: GenieVersion = genie::GV_AoK; break;
-		case 5: GenieVersion = genie::GV_TC; break;
-		case 6: GenieVersion = genie::GV_SWGB; break;
-		case 7: GenieVersion = genie::GV_CC; break;
-		default: GenieVersion = genie::GV_None;
+		case EV_TEST: GenieVersion = genie::GV_TEST; break;
+		case EV_AoEB: GenieVersion = genie::GV_AoEB; break;
+		case EV_AoETB: GenieVersion = genie::GV_AoETB; break;
+		case EV_AoE: GenieVersion = genie::GV_AoE; break;
+		case EV_RoR: GenieVersion = genie::GV_RoR; break;
+		case EV_AoKA: GenieVersion = genie::GV_AoKA; break;
+		case EV_AoKB: GenieVersion = genie::GV_AoKB; break;
+		case EV_AoK: GenieVersion = genie::GV_AoK; break;
+		case EV_TC: GenieVersion = genie::GV_TC; break;
+		case EV_SWGB: GenieVersion = genie::GV_SWGB; break;
+		case EV_CC: GenieVersion = genie::GV_CC; break;
+		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
 	}
 
 	if(Lang != NULL)
@@ -300,6 +303,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				GenieFile->UnitLines[loop].ID = loop;
 			}
 		}
+		if(GenieVersion >= genie::GV_AoE)
 		for(short loop = GenieFile->Graphics.size(); loop--> 0;)
 		{
 			if(GenieFile->GraphicPointers[loop] != 0)
