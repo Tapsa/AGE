@@ -3,7 +3,7 @@
 string AGE_Frame::GetGraphicName(short Index, bool Filter)
 {
 	string Name = "";
-	if(GenieFile->GraphicPointers[Index] == 0)
+	if(GenieVersion >= genie::GV_AoE && GenieFile->GraphicPointers[Index] == 0)
 	{
 		return "*Disabled*";
 	}
@@ -225,7 +225,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 		if(GenieVersion >= genie::GV_AoKB)
 		Graphics_Unknown3->Update();
 
-		selections = GenieFile->GraphicPointers[GraphicIDs[0]];
+		selections = GenieVersion < genie::GV_AoE ? 1 : GenieFile->GraphicPointers[GraphicIDs[0]];
 	}
 	if(!selections)
 	{
@@ -716,7 +716,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Name_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Name = new TextCtrl_String(Graphics_Scroller);
 	Graphics_Name2_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_Name2_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Name2_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Name2 = new TextCtrl_String(Graphics_Scroller);
 	Graphics_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_ID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -868,7 +868,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Graphics_Graphics_SearchFilters[loop]->Append("Internal Name");	// 0
-		Graphics_Graphics_SearchFilters[loop]->Append("Internal Name 2");
+		Graphics_Graphics_SearchFilters[loop]->Append("SLP Name");
 		Graphics_Graphics_SearchFilters[loop]->Append("SLP");
 		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 1");
 		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 2");
