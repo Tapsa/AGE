@@ -884,8 +884,16 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		Items.Add(0);
 		OnCivCountChange();
-		InitCivs(true);
-		InitUnits(0, true);
+		ListTerrainRestrictions(true);
+		InitPlayerColors();
+		InitSounds(true);
+		InitGraphics(true);
+		ListTerrainNumbers();
+		InitTerrains1(true);
+		InitTerrainBorders(true);
+		ListGeneral();
+		//InitRandomMaps();
+		InitTechs(true);
 		if(GenieVersion >= genie::GV_SWGB)
 		{
 			InitUnitLines();
@@ -895,17 +903,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			UnitLines_UnitLines_List->Clear();
 			UnitLines_UnitLineUnits_List->Clear();
 		}
+		/*InitCivs(true);
+		InitUnits(0, true);
 		InitResearches(true);
-		InitTechs(true);
-		InitGraphics(true);
-		InitSounds(true);
-		ListTerrainNumbers();
-		ListTerrainRestrictions(true);
-		InitTerrains1(true);
-		InitPlayerColors();
-		InitTerrainBorders(true);
-		ListGeneral();
-		InitRandomMaps();
 		if(GenieVersion >= genie::GV_AoKA)
 		{
 			InitTTAges();
@@ -960,7 +960,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			OnTTResearchSelect(E);
 			if(GenieVersion >= genie::GV_SWGB)
 			OnUnitLinesSelect(E);
-		}
+		}*/
 
 		Effects_AttributesC_ComboBox->Clear();
 		Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1099,6 +1099,7 @@ void AGE_Frame::OnGameVersionChange()
 			General_AfterBorders[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getRenderingSize(); ++loop)
 			General_TerrainRendering[loop]->Show(true);
+			if(GenieVersion >= genie::GV_AoE) // Temp fix for random map skipping
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
 		}
