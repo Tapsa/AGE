@@ -30,6 +30,9 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 
 	Text_GenieVer = new wxStaticText(this, wxID_ANY, "      Genie version:");
 	CheckBox_GenieVer = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	CheckBox_GenieVer->Append("TEST.DAT");
+	CheckBox_GenieVer->Append("Age of Empires Beta 7.04");
+	CheckBox_GenieVer->Append("Age of Empires Trial Beta 7.11");
 	CheckBox_GenieVer->Append("Age of Empires 7.2");
 	CheckBox_GenieVer->Append("Rise of Rome 7.24");
 	CheckBox_GenieVer->Append("Age of Kings Alpha 10.19");
@@ -38,7 +41,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	CheckBox_GenieVer->Append("The Conquerors 11.76");
 	CheckBox_GenieVer->Append("Star Wars Galactic Battlegrounds 1.0");
 	CheckBox_GenieVer->Append("Clone Campaigns 1.1");
-	CheckBox_GenieVer->SetSelection(5);
+	CheckBox_GenieVer->SetSelection(EV_TC);
 
 	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
 	WindowCountText = new wxStaticText(this, wxID_ANY, "      Windows (files) to open: * ");
@@ -194,7 +197,7 @@ void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires";
 	}
 
-	CheckBox_GenieVer->SetSelection(0);
+	CheckBox_GenieVer->SetSelection(EV_AoE);
 	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
@@ -233,7 +236,7 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires";
 	}
 
-	CheckBox_GenieVer->SetSelection(1);
+	CheckBox_GenieVer->SetSelection(EV_RoR);
 	Path_DatFileLocation->SetPath(wxString(Path + "\\data2\\empires.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\languagex.dll"));
@@ -272,7 +275,7 @@ void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires II";
 	}
 
-	CheckBox_GenieVer->SetSelection(4);
+	CheckBox_GenieVer->SetSelection(EV_AoK);
 	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires2.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
@@ -311,7 +314,7 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires II";
 	}
 
-	CheckBox_GenieVer->SetSelection(5);
+	CheckBox_GenieVer->SetSelection(EV_TC);
 	Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires2_x1_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\language_x1.dll"));
@@ -351,7 +354,7 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
 	}
 
-	CheckBox_GenieVer->SetSelection(5);
+	CheckBox_GenieVer->SetSelection(EV_TC);
 	Path_DatFileLocation->SetPath(wxString(Path + "\\Data\\empires2_x1_p1.dat"));
 	if(Custom.size() == 0)
 	{
@@ -401,7 +404,7 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(6);
+	CheckBox_GenieVer->SetSelection(EV_SWGB);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
@@ -440,7 +443,7 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(7);
+	CheckBox_GenieVer->SetSelection(EV_CC);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
