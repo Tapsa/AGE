@@ -130,6 +130,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	switch(GameVersion)
 	{
 		case EV_TEST: GenieVersion = genie::GV_TEST; break;
+		case EV_DAVE: GenieVersion = genie::GV_DAVE; break;
+		case EV_MATT: GenieVersion = genie::GV_MATT; break;
 		case EV_AoEB: GenieVersion = genie::GV_AoEB; break;
 		case EV_AoETB: GenieVersion = genie::GV_AoETB; break;
 		case EV_AoE: GenieVersion = genie::GV_AoE; break;
@@ -1091,7 +1093,7 @@ void AGE_Frame::OnGameVersionChange()
 		General_TerrainHeader[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
 		General_AfterBorders[loop]->Show(false);
-		for(auto loop = GenieFile->TerrainBlock.getRenderingSize(); loop < General_TerrainRendering.size(); ++loop)
+		for(auto loop = GenieFile->TerrainBlock.getCivDataSize(); loop < General_TerrainRendering.size(); ++loop)
 		General_TerrainRendering[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
 		General_Something[loop]->Show(false);
@@ -1101,7 +1103,7 @@ void AGE_Frame::OnGameVersionChange()
 			General_TerrainHeader[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getZeroSpaceSize(); ++loop)
 			General_AfterBorders[loop]->Show(true);
-			for(short loop = 0; loop < GenieFile->TerrainBlock.getRenderingSize(); ++loop)
+			for(short loop = 0; loop < GenieFile->TerrainBlock.getCivDataSize(); ++loop)
 			General_TerrainRendering[loop]->Show(true);
 			if(GenieVersion >= genie::GV_AoE) // Temp fix for random map skipping
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getSomethingSize(); ++loop)
@@ -1110,13 +1112,20 @@ void AGE_Frame::OnGameVersionChange()
 
 		bool show;
 
+		// Dave ->
+		show = (GenieVersion >= genie::GV_DAVE) ? true : false;
+		Civs_TechTree_Holder->Show(show);
+		Units_PlacementBypassTerrain_Holder->Show(show);
+
+		// Matt ->
+		show = (GenieVersion >= genie::GV_MATT) ? true : false;
+		Units_LanguageDLLCreation_Holder->Show(show);
+		Research_LangDLLArea_Holder->Show(show);
+
 		// AoE ->
 		show = (GenieVersion >= genie::GV_AoE) ? true : false;
 		Terrains_SLP_Holder->Show(show);
 		Borders_SLP_Holder->Show(show);
-		Civs_TechTree_Holder->Show(show);
-		Units_LanguageDLLCreation_Holder->Show(show);
-		Units_PlacementBypassTerrain_Holder->Show(show);
 		Units_LanguageDLLHelp_Holder->Show(show);
 		Units_LanguageDLLHotKeyText_Holder->Show(show);
 		Units_HotKey_Holder->Show(show);
@@ -1141,7 +1150,6 @@ void AGE_Frame::OnGameVersionChange()
 		Units_DisplayedAttack_Holder->Show(show);
 		Units_DisplayedRange_Holder->Show(show);
 		Units_ReloadTime2_Holder->Show(show);
-		Research_LangDLLArea_Holder->Show(show);
 		Research_PointerArea_Holder->Show(show);
 		Research_DLL_LanguageDLLHelp->Show(show);
 		Research_DLL_LanguageDLLName2->Show(show);

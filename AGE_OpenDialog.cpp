@@ -31,6 +31,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Text_GenieVer = new wxStaticText(this, wxID_ANY, "      Genie version:");
 	CheckBox_GenieVer = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	CheckBox_GenieVer->Append("TEST.DAT < 6.92");
+	CheckBox_GenieVer->Append("DAVE.DAT");
+	CheckBox_GenieVer->Append("MATT.DAT");
 	CheckBox_GenieVer->Append("Age of Empires Beta 7.04");
 	CheckBox_GenieVer->Append("Age of Empires Trial Beta 7.11");
 	CheckBox_GenieVer->Append("Age of Empires 7.2");

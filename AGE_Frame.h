@@ -838,7 +838,7 @@ public:
 	wxBoxSizer *General_TerrainRendering_Holder;
 	wxStaticText *General_TerrainRendering_Text;
 	wxGridSizer *General_TerrainRendering_Grid;
-	array<TextCtrl_Short*, 30> General_TerrainRendering;
+	array<TextCtrl_Short*, 24> General_TerrainRendering;
 	wxGridSizer *General_Something_Grid;
 	array<TextCtrl_Long*, 157> General_Something;
 
