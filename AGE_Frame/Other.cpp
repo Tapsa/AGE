@@ -904,7 +904,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			UnitLines_UnitLineUnits_List->Clear();
 		}
 		InitCivs(true);
-		InitUnits(0, true);
+		InitUnits(GenieVersion <= genie::GV_RoR, true);
 		InitResearches(true);
 		if(GenieVersion >= genie::GV_AoKA)
 		{
@@ -1087,6 +1087,8 @@ void AGE_Frame::OnGameVersionChange()
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
 		// Some general tab handling
+		for(auto loop = GenieFile->TerrainBlock.getTerrainHeaderSize(); loop < General_TerrainHeader.size(); ++loop)
+		General_TerrainHeader[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
 		General_AfterBorders[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getRenderingSize(); loop < General_TerrainRendering.size(); ++loop)
@@ -1095,6 +1097,8 @@ void AGE_Frame::OnGameVersionChange()
 		General_Something[loop]->Show(false);
 		if(ShowUnknowns)
 		{
+			for(short loop = 0; loop < GenieFile->TerrainBlock.getTerrainHeaderSize(); ++loop)
+			General_TerrainHeader[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getZeroSpaceSize(); ++loop)
 			General_AfterBorders[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getRenderingSize(); ++loop)
@@ -1106,27 +1110,43 @@ void AGE_Frame::OnGameVersionChange()
 
 		bool show;
 
-		// TC ->
-		show = (GenieVersion >= genie::GV_TC) ? true : false;
-		Units_SnowGraphicID_Holder->Show(show);
-		Units_Attributes2_Grid->Show(show);
-
-		if(show) // TC ->
-		{
-			Units_DefaultArmor->SetBackgroundColour(wxColour(210, 230, 255));
-		}
-		else // <- AoK
-		{
-			Units_DefaultArmor->SetBackgroundColour(wxColour(255, 235, 215));
-		}
-
-		// AoK ->
-		show = (GenieVersion >= genie::GV_AoK) ? true : false;
-		Units_Exists_Holder->Show(show);
-		if(!show || ShowUnknowns)
-		{
-			Units_Disabled_Holder->Show(show);
-		}
+		// AoE ->
+		show = (GenieVersion >= genie::GV_AoE) ? true : false;
+		Terrains_SLP_Holder->Show(show);
+		Borders_SLP_Holder->Show(show);
+		Civs_TechTree_Holder->Show(show);
+		Units_LanguageDLLCreation_Holder->Show(show);
+		Units_PlacementBypassTerrain_Holder->Show(show);
+		Units_LanguageDLLHelp_Holder->Show(show);
+		Units_LanguageDLLHotKeyText_Holder->Show(show);
+		Units_HotKey_Holder->Show(show);
+		Units_LangHotKey_Holder->Show(show);
+		Units_DLL_LanguageHelp->Show(show);
+		Units_DLL_LanguageHKText->Show(show);
+		Units_Unselectable_Holder->Show(show);
+		Units_Unknown6_Holder->Show(show);
+		Units_Unknown7_Holder->Show(show);
+		Units_Unknown8_Holder->Show(show);
+		Units_SelectionEffect_Holder->Show(show);
+		Units_EditorSelectionColour_Holder->Show(show);
+		Units_SelectionRadius_Holder->Show(show);
+		Units_HPBarHeight2_Holder->Show(show);
+		Units_ID2_Holder->Show(show);
+		Units_MoveSound_Holder->Show(show);
+		Units_DisplayedPierceArmour_Holder->Show(show);
+		Units_RotationSpeed_Holder->Show(show);
+		//Units_Unknown11_Holder->Show(show);
+		if(!show) Units_Unknown11_Text->SetLabel("Say hi to Tapsa"); // Hack
+		Units_DisplayedMeleeArmour_Holder->Show(show);
+		Units_DisplayedAttack_Holder->Show(show);
+		Units_DisplayedRange_Holder->Show(show);
+		Units_ReloadTime2_Holder->Show(show);
+		Research_LangDLLArea_Holder->Show(show);
+		Research_PointerArea_Holder->Show(show);
+		Research_DLL_LanguageDLLHelp->Show(show);
+		Research_DLL_LanguageDLLName2->Show(show);
+		Units_WalkingGraphic[1]->Show(show);
+		Units_WalkingGraphic_ComboBox[1]->Show(show);
 
 		// AoK Alfa ->
 		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
@@ -1243,6 +1263,28 @@ void AGE_Frame::OnGameVersionChange()
 		{
 			Units_Unknown16B_Holder->Show(show);
 			Graphics_Unknown3_Holder->Show(show);
+		}
+
+		// AoK ->
+		show = (GenieVersion >= genie::GV_AoK) ? true : false;
+		Units_Exists_Holder->Show(show);
+		if(!show || ShowUnknowns)
+		{
+			Units_Disabled_Holder->Show(show);
+		}
+
+		// TC ->
+		show = (GenieVersion >= genie::GV_TC) ? true : false;
+		Units_SnowGraphicID_Holder->Show(show);
+		Units_Attributes2_Grid->Show(show);
+
+		if(show) // TC ->
+		{
+			Units_DefaultArmor->SetBackgroundColour(wxColour(210, 230, 255));
+		}
+		else // <- AoK
+		{
+			Units_DefaultArmor->SetBackgroundColour(wxColour(255, 235, 215));
 		}
 
 		// SWGB ->

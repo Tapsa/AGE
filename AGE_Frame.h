@@ -874,9 +874,9 @@ public:
 	wxBoxSizer *Borders_Name_Holder[2];
 	wxStaticText *Borders_Name_Text[2];
 	TextCtrl_String *Borders_Name[2];
-	wxBoxSizer *Borders_RessourceID_Holder;
-	wxStaticText *Borders_RessourceID_Text;
-	TextCtrl_Long *Borders_RessourceID;
+	wxBoxSizer *Borders_SLP_Holder;
+	wxStaticText *Borders_SLP_Text;
+	TextCtrl_Long *Borders_SLP;
 	wxBoxSizer *Borders_Unknown3_Holder;
 	wxStaticText *Borders_Unknown3_Text;
 	TextCtrl_Float *Borders_Unknown3;
@@ -2191,7 +2191,7 @@ public:
 	wxGridSizer *Units_AttributesTerrain_Grid;
 	wxGridSizer *Units_AttributesModes1_Grid;
 	wxBoxSizer *Units_AttributesDropSite_Holder;
-	wxBoxSizer *Units_AttributesSizes_Holder;
+	wxGridSizer *Units_AttributesSizes_Holder;
 	wxGridSizer *Units_AttributesSelection1_Grid;
 	wxBoxSizer *Units_LangRegular_Holder;
 	wxBoxSizer *Units_LangHotKey_Holder;
