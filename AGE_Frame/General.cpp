@@ -80,17 +80,17 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_AfterBorders[loop]->container[0] = &GenieFile->TerrainBlock.ZeroSpace[loop];
 		General_AfterBorders[loop]->Update();
 	}
-	for(short loop = 0; loop < GenieFile->TerrainBlock.Rendering.size(); ++loop)
+	for(short loop = 0; loop < GenieFile->TerrainBlock.CivData.size(); ++loop)
 	{
 		General_TerrainRendering[loop]->resize(1);
-		General_TerrainRendering[loop]->container[0] = &GenieFile->TerrainBlock.Rendering[loop];
+		General_TerrainRendering[loop]->container[0] = &GenieFile->TerrainBlock.CivData[loop];
 		General_TerrainRendering[loop]->Update();
 	}
-	if(GenieVersion >= genie::GV_AoE) // Temp fix for random map skipping
-	for(short loop = 0; loop < GenieFile->TerrainBlock.Something.size(); ++loop)
+	//if(GenieVersion >= genie::GV_AoE) // Temp fix for random map skipping
+	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeInt32.size(); ++loop)
 	{
 		General_Something[loop]->resize(1);
-		General_Something[loop]->container[0] = &GenieFile->TerrainBlock.Something[loop];
+		General_Something[loop]->container[0] = &GenieFile->TerrainBlock.SomeInt32[loop];
 		General_Something[loop]->Update();
 	}
 	Unknown_UnknownPointer->resize(1);
@@ -178,7 +178,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_BorderRelated_Grid = new wxGridSizer(8, 0, 0);
 	General_TerrainRendering_Holder = new wxBoxSizer(wxVERTICAL);
 	General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Data for civilizations", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_TerrainRendering_Grid = new wxGridSizer(16, 0, 0);
+	General_TerrainRendering_Grid = new wxGridSizer(12, 0, 0);
 	General_Something_Grid = new wxGridSizer(8, 0, 0);
 	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
 	General_TerrainHeader[loop] = new TextCtrl_Short(General_Scroller);
