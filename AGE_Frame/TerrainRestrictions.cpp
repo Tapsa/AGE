@@ -59,6 +59,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 			}
 		}
 		case genie::GV_AoK:
+		case genie::GV_AoKB:
 		case genie::GV_AoKA:
 		{
 			switch(Index)
@@ -88,6 +89,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 		}
 		case genie::GV_RoR:
 		case genie::GV_AoE:
+		case genie::GV_TEST:
 		{
 			switch(Index)
 			{
