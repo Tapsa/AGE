@@ -53,7 +53,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	Borders_Enabled->resize(selections);
 	Borders_Name[0]->resize(selections);
 	Borders_Name[1]->resize(selections);
-	Borders_RessourceID->resize(selections);
+	Borders_SLP->resize(selections);
 	Borders_Unknown3->resize(selections);
 	Borders_Unknown4->resize(selections);
 	for(short loop = 0; loop < 3; ++loop)
@@ -77,7 +77,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 		Borders_Enabled->container[sel] = &BorderPointer->Enabled;
 		Borders_Name[0]->container[sel] = &BorderPointer->Name;
 		Borders_Name[1]->container[sel] = &BorderPointer->Name2;
-		Borders_RessourceID->container[sel] = &BorderPointer->SLP;
+		Borders_SLP->container[sel] = &BorderPointer->SLP;
 		Borders_Unknown3->container[sel] = &BorderPointer->Unknown3;
 		Borders_Unknown4->container[sel] = &BorderPointer->SoundID;
 		for(short loop = 0; loop < 3; ++loop)
@@ -96,7 +96,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	Borders_Enabled->Update();
 	Borders_Name[0]->Update();
 	Borders_Name[1]->Update();
-	Borders_RessourceID->Update();
+	Borders_SLP->Update();
 	Borders_Unknown3->Update();
 	Borders_Unknown4->Update();
 	for(short loop = 0; loop < 3; ++loop)
@@ -253,9 +253,9 @@ void AGE_Frame::CreateTerrainBorderControls()
 	}
 	Borders_Name_Text[0] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Name_Text[1] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_RessourceID_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_RessourceID_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_RessourceID = new TextCtrl_Long(Tab_TerrainBorders);
+	Borders_SLP_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_SLP_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_SLP = new TextCtrl_Long(Tab_TerrainBorders);
 	Borders_Colors_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Colors_Grid = new wxGridSizer(3, 0, 0);
 	Borders_Colors_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -352,8 +352,8 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_DataTopRow->Add(Borders_Name_Holder[1], 2, wxEXPAND);
 	Borders_DataTopRow->AddStretchSpacer(1);
 
-	Borders_RessourceID_Holder->Add(Borders_RessourceID_Text, 0, wxEXPAND);
-	Borders_RessourceID_Holder->Add(Borders_RessourceID, 0, wxEXPAND);
+	Borders_SLP_Holder->Add(Borders_SLP_Text, 0, wxEXPAND);
+	Borders_SLP_Holder->Add(Borders_SLP, 0, wxEXPAND);
 	Borders_Unknown3_Holder->Add(Borders_Unknown3_Text, 0, wxEXPAND);
 	Borders_Unknown3_Holder->Add(Borders_Unknown3, 1, wxEXPAND);
 	Borders_Unknown4_Holder->Add(Borders_Unknown4_Text, 0, wxEXPAND);
@@ -378,7 +378,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Unknown1_Holder->Add(Borders_Unknown1_Text, 0, wxEXPAND);
 	Borders_Unknown1_Holder->Add(Borders_Unknown1, 1, wxEXPAND);
 
-	Borders_Data1->Add(Borders_RessourceID_Holder, 1, wxEXPAND);
+	Borders_Data1->Add(Borders_SLP_Holder, 1, wxEXPAND);
 	Borders_Data1->Add(Borders_Colors_Holder, 1, wxEXPAND);
 	Borders_Data1->Add(Borders_FrameCount_Holder, 1, wxEXPAND);
 	Borders_Data1->Add(Borders_Terrain_Holder, 1, wxEXPAND);

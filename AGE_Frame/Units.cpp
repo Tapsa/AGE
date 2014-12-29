@@ -3689,7 +3689,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesTerrain_Grid = new wxGridSizer(4, 5, 5);
 	Units_AttributesModes1_Grid = new wxGridSizer(5, 5, 5);
 	Units_AttributesDropSite_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_AttributesSizes_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Units_AttributesSizes_Holder = new wxGridSizer(3, 0, 5);
 	Units_AttributesSelection1_Grid = new wxGridSizer(4, 5, 5);
 	Units_LangRegular_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_LangHotKey_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -5319,9 +5319,9 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_LangRegular_Holder->Add(Units_LanguageDLLName_Holder, 1, wxEXPAND);
 	Units_LangRegular_Holder->Add(5, -1);
-	Units_LangRegular_Holder->Add(Units_LanguageDLLCreation_Holder, 1, wxEXPAND);
+	Units_LangRegular_Holder->Add(Units_LanguageDLLCreation_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_LangRegular_Holder->Add(5, -1);
-	Units_LangRegular_Holder->Add(Units_HotKey_Holder, 1, wxEXPAND);
+	Units_LangRegular_Holder->Add(Units_HotKey_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_LangHotKey_Holder->Add(Units_LanguageDLLHelp_Holder, 1, wxEXPAND);
 	Units_LangHotKey_Holder->Add(5, -1);
 	Units_LangHotKey_Holder->Add(Units_LanguageDLLConverter_Holder[0], 1, wxEXPAND);
@@ -5550,13 +5550,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attributes2_Grid->Add(Units_Attribute_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementTerrain_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(5, -1);
-	Units_AttributesTerrain_Holder->Add(Units_PlacementBypassTerrain_Holder, 1, wxEXPAND);
+	Units_AttributesTerrain_Holder->Add(Units_PlacementBypassTerrain_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_AttributesTerrain_Grid->Add(Units_TerrainRestriction_Holder, 1, wxEXPAND);
 	Units_AttributesDropSite_Holder->Add(Units_DropSite_Grid, 0, wxEXPAND);
 	Units_AttributesSizes_Holder->Add(Units_SizeRadius_Holder, 1, wxEXPAND);
-	Units_AttributesSizes_Holder->Add(5, -1);
 	Units_AttributesSizes_Holder->Add(Units_EditorRadius_Holder, 1, wxEXPAND);
-	Units_AttributesSizes_Holder->Add(5, -1);
 	Units_AttributesSizes_Holder->Add(Units_SelectionRadius_Holder, 1, wxEXPAND);
 	Units_AttributesSelection1_Grid->Add(Units_Unselectable_Holder, 1, wxEXPAND);
 	Units_AttributesSelection1_Grid->Add(Units_SelectionMask_Holder, 1, wxEXPAND);
