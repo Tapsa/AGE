@@ -942,7 +942,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_List->SetFirstItem(0);
 		}
 
-		wxCommandEvent E;
+		/*wxCommandEvent E;
 		OnCivsSelect(E);
 		OnUnitsSelect(E);
 		OnResearchSelect(E);
@@ -962,7 +962,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			OnTTResearchSelect(E);
 			if(GenieVersion >= genie::GV_SWGB)
 			OnUnitLinesSelect(E);
-		}
+		}*/
 
 		Effects_AttributesC_ComboBox->Clear();
 		Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1111,6 +1111,22 @@ void AGE_Frame::OnGameVersionChange()
 		}
 
 		bool show;
+
+		// Test ->
+		show = (GenieVersion >= genie::GV_TEST) ? true : false;
+		Sounds_Unknown2_Holder->Show(show);
+		Units_DropSite[1]->Show(show);
+		Units_DropSite_ComboBox[1]->Show(show);
+		if(show)
+		{
+			SoundItems_Resource->SetBackgroundColour(wxColour(215, 255, 255));
+			Graphics_SLP->SetBackgroundColour(wxColour(215, 255, 255));
+		}
+		else
+		{
+			SoundItems_Resource->SetBackgroundColour(wxColour(210, 230, 255));
+			Graphics_SLP->SetBackgroundColour(wxColour(210, 230, 255));
+		}
 
 		// Dave ->
 		show = (GenieVersion >= genie::GV_DAVE) ? true : false;
