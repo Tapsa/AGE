@@ -32,6 +32,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	CheckBox_GenieVer = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	CheckBox_GenieVer->Append("TEST");
 	CheckBox_GenieVer->Append("TEST.DAT < 6.92");
+	CheckBox_GenieVer->Append("MICKEY.DAT");
 	CheckBox_GenieVer->Append("DAVE.DAT");
 	CheckBox_GenieVer->Append("MATT.DAT");
 	CheckBox_GenieVer->Append("Age of Empires Beta 7.04");
