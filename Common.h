@@ -40,6 +40,7 @@ enum EditableVersion
 {
 	EV_ORIG,
 	EV_TEST,
+	EV_MIK,
 	EV_DAVE,
 	EV_MATT,
 	EV_AoEB,

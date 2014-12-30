@@ -130,6 +130,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	switch(GameVersion)
 	{
 		case EV_TEST: GenieVersion = genie::GV_TEST; break;
+		case EV_MIK: GenieVersion = genie::GV_MIK; break;
 		case EV_DAVE: GenieVersion = genie::GV_DAVE; break;
 		case EV_MATT: GenieVersion = genie::GV_MATT; break;
 		case EV_AoEB: GenieVersion = genie::GV_AoEB; break;
@@ -942,7 +943,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_List->SetFirstItem(0);
 		}
 
-		/*wxCommandEvent E;
+		wxCommandEvent E;
 		OnCivsSelect(E);
 		OnUnitsSelect(E);
 		OnResearchSelect(E);
@@ -962,7 +963,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			OnTTResearchSelect(E);
 			if(GenieVersion >= genie::GV_SWGB)
 			OnUnitLinesSelect(E);
-		}*/
+		}
 
 		Effects_AttributesC_ComboBox->Clear();
 		Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1128,8 +1129,8 @@ void AGE_Frame::OnGameVersionChange()
 			Graphics_SLP->SetBackgroundColour(wxColour(210, 230, 255));
 		}
 
-		// Dave ->
-		show = (GenieVersion >= genie::GV_DAVE) ? true : false;
+		// Mickey ->
+		show = (GenieVersion >= genie::GV_MIK) ? true : false;
 		Civs_TechTree_Holder->Show(show);
 		Units_PlacementBypassTerrain_Holder->Show(show);
 
