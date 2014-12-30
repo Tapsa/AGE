@@ -38,6 +38,7 @@ using boost::bad_lexical_cast;
 
 enum EditableVersion
 {
+	EV_ORIG,
 	EV_TEST,
 	EV_DAVE,
 	EV_MATT,
