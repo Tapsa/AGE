@@ -4,19 +4,13 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 {
 	switch(GenieVersion)
 	{
-		case genie::GV_CC:
+		case genie::GV_SWGB:
 		{
 			switch(Index)
 			{
 				case 30: return "Lava";
 				case 31: return "Water2";
 				case 32: return "Rock4";
-			}
-		}
-		case genie::GV_SWGB:
-		{
-			switch(Index)
-			{
 				case 0: return "All";
 				case 1: return "Land + unbuildable";
 				case 2: return "Shore";
@@ -87,8 +81,10 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 				default: return "Restriction";
 			}
 		}
-		case genie::GV_RoR:
 		case genie::GV_AoE:
+		case genie::GV_AoEB:
+		case genie::GV_MATT:
+		case genie::GV_DAVE:
 		case genie::GV_TEST:
 		{
 			switch(Index)
@@ -200,7 +196,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 
 	TerRestrict_Accessible->Update();
 
-	if(GenieVersion <= genie::GV_RoR) return; // Above AoE and RoR
+	if(GenieVersion < genie::GV_AoKA) return; // Above AoE and RoR
 	TerRestrict_Unknown1->Update();
 	TerRestrict_Graphics[0]->Update();
 	TerRestrict_Graphics[1]->Update();
