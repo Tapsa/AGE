@@ -95,7 +95,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	Unknown_UnknownPointer->resize(1);
 	Unknown_UnknownPointer->container[0] = &GenieFile->RandomMaps.RandomMapPointer;
 	Unknown_UnknownPointer->Update();
-	if(GenieVersion <= genie::GV_RoR) return;
+	if(GenieVersion < genie::GV_AoKA) return;
 	for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
 	{
 		General_TTUnknown[loop]->resize(1);

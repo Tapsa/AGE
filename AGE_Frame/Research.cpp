@@ -393,13 +393,13 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &Event)
 	}
 	if(Event.GetId() == Research_LanguageDLLConverter[0]->GetId())
 	{
-		if(GenieVersion <= genie::GV_RoR) DLLValue += 0x10000;
+		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x10000;
 		else DLLValue += 79000;
 		GenieFile->Researchs[ResearchIDs[0]].LanguageDLLHelp = DLLValue;
 	}
 	else
 	{
-		if(GenieVersion <= genie::GV_RoR) DLLValue += 0x20000;
+		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x20000;
 		else DLLValue += 140000;
 		GenieFile->Researchs[ResearchIDs[0]].LanguageDLLName2 = DLLValue;
 	}

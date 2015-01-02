@@ -134,15 +134,15 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		case EV_DAVE: GenieVersion = genie::GV_DAVE; break;
 		case EV_MATT: GenieVersion = genie::GV_MATT; break;
 		case EV_AoEB: GenieVersion = genie::GV_AoEB; break;
-		case EV_AoETB: GenieVersion = genie::GV_AoETB; break;
+		//case EV_AoETB: GenieVersion = genie::GV_AoETB; break;
 		case EV_AoE: GenieVersion = genie::GV_AoE; break;
-		case EV_RoR: GenieVersion = genie::GV_RoR; break;
+		//case EV_RoR: GenieVersion = genie::GV_RoR; break;
 		case EV_AoKA: GenieVersion = genie::GV_AoKA; break;
 		case EV_AoKB: GenieVersion = genie::GV_AoKB; break;
 		case EV_AoK: GenieVersion = genie::GV_AoK; break;
 		case EV_TC: GenieVersion = genie::GV_TC; break;
 		case EV_SWGB: GenieVersion = genie::GV_SWGB; break;
-		case EV_CC: GenieVersion = genie::GV_CC; break;
+		//case EV_CC: GenieVersion = genie::GV_CC; break;
 		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
 	}
 
@@ -662,7 +662,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_Class_ComboBox[loop]->Append("20 - Transport Boat");
 				Units_Class_ComboBox[loop]->Append("21 - Fishing Boat");
 				Units_Class_ComboBox[loop]->Append("22 - Warship");// warship-class
-				if(GenieVersion <= genie::GV_RoR)
+				if(GenieVersion < genie::GV_AoKA)
 					Units_Class_ComboBox[loop]->Append("23 - Chariot Archer");
 				else
 					Units_Class_ComboBox[loop]->Append("23 - Conquistador");// cavalry-cannon-class
@@ -677,14 +677,14 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_Class_ComboBox[loop]->Append("32 - Gold Mine");
 				Units_Class_ComboBox[loop]->Append("33 - Shore Fish");// fish-food // shore-fish-class
 				Units_Class_ComboBox[loop]->Append("34 - Cliff");
-				if(GenieVersion <= genie::GV_RoR)
+				if(GenieVersion < genie::GV_AoKA)
 					Units_Class_ComboBox[loop]->Append("35 - Chariot");
 				else
 					Units_Class_ComboBox[loop]->Append("35 - Petard");// petard-class
 				Units_Class_ComboBox[loop]->Append("36 - Cavalry Archer");// cavalry-archer-class
 				Units_Class_ComboBox[loop]->Append("37 - Dolphin/Smoke");
 				Units_Class_ComboBox[loop]->Append("38 - Bird");
-				if(GenieVersion <= genie::GV_RoR)
+				if(GenieVersion < genie::GV_AoKA)
 					Units_Class_ComboBox[loop]->Append("39 - Slinger");
 				else
 					Units_Class_ComboBox[loop]->Append("39 - Gate");// gate-class
@@ -783,7 +783,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 			Attacks_Class_ComboBox[loop]->Clear();
 			Attacks_Class_ComboBox[loop]->Append("Unused Class/No Class");	// Selection 0
-			if(GenieVersion <= genie::GV_RoR) // AoE and RoR
+			if(GenieVersion < genie::GV_AoKA) // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
 				for(short loop2 = 0; loop2 < AoE1Count; ++loop2)
 				Attacks_Class_ComboBox[loop]->Append(AoE1Armors[loop2]);
@@ -908,7 +908,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			UnitLines_UnitLineUnits_List->Clear();
 		}
 		InitCivs(true);
-		InitUnits(GenieVersion <= genie::GV_RoR, true);
+		InitUnits(GenieVersion < genie::GV_AoKA, true);
 		InitResearches(true);
 		if(GenieVersion >= genie::GV_AoKA)
 		{
@@ -976,15 +976,15 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("5 - Movement Speed");
 		Effects_AttributesC_ComboBox->Append("6 - Garrison Recovery Rate");
 		Effects_AttributesC_ComboBox->Append("7 - Unknown?");
-		if(GenieVersion > genie::GV_RoR)
-		{
-			Effects_AttributesC_ComboBox->Append("8 - Armor");
-			Effects_AttributesC_ComboBox->Append("9 - Attack");
-		}
-		else
+		if(GenieVersion < genie::GV_AoKA)
 		{
 			Effects_AttributesC_ComboBox->Append("8 - Armor (no multiply)");
 			Effects_AttributesC_ComboBox->Append("9 - Attack (no multiply)");
+		}
+		else
+		{
+			Effects_AttributesC_ComboBox->Append("8 - Armor");
+			Effects_AttributesC_ComboBox->Append("9 - Attack");
 		}
 		Effects_AttributesC_ComboBox->Append("10 - Attack Reloading Time");
 		Effects_AttributesC_ComboBox->Append("11 - Accuracy Percent");
@@ -996,7 +996,16 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("17 - Upgrade Icon (by age, no multiply)");
 		Effects_AttributesC_ComboBox->Append("18 - Unknown21 (always sets)");
 		Effects_AttributesC_ComboBox->Append("19 - Enable Intelligent Projectiles");
-		if(GenieVersion > genie::GV_RoR)
+		if(GenieVersion < genie::GV_AoKA)
+		{
+			Effects_AttributesC_ComboBox->Append("20 - Unused");
+			Effects_AttributesC_ComboBox->Append("21 - Unused");
+			Effects_AttributesC_ComboBox->Append("22 - Unused");
+			Effects_AttributesC_ComboBox->Append("23 - Unused");
+			Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
+			Effects_AttributesC_ComboBox->Append("101 - Population Support (set only)");
+		}
+		else
 		{
 			Effects_AttributesC_ComboBox->Append("20 - Minimum Range");
 			Effects_AttributesC_ComboBox->Append("21 - Population Support");
@@ -1021,19 +1030,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Effects_AttributesC_ComboBox->Append("107 - Max Dup. Missiles");
 			Effects_AttributesC_ComboBox->Append("108 - Healing Rate");
 		}
-		else
-		{
-			Effects_AttributesC_ComboBox->Append("20 - Unused");
-			Effects_AttributesC_ComboBox->Append("21 - Unused");
-			Effects_AttributesC_ComboBox->Append("22 - Unused");
-			Effects_AttributesC_ComboBox->Append("23 - Unused");
-			Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
-			Effects_AttributesC_ComboBox->Append("101 - Population Support (set only)");
-		}
 		Effects_AttributesC_ComboBox->SetSelection(0);
 
 		Units_GraphicSet->Clear();
-		if(GenieVersion <= genie::GV_RoR)
+		if(GenieVersion < genie::GV_AoKA)
 		{
 			// AoE
 			Units_GraphicSet->Append("0 West Middle Easterns");
