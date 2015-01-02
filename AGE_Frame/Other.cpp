@@ -279,6 +279,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 					if(EnableIDFix)
 					{
 						GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
+						if(GenieVersion >= genie::GV_AoE)
 						GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
 						if(GenieVersion >= genie::GV_AoK)
 						GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
@@ -1106,7 +1107,6 @@ void AGE_Frame::OnGameVersionChange()
 			General_AfterBorders[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getCivDataSize(); ++loop)
 			General_TerrainRendering[loop]->Show(true);
-			if(GenieVersion >= genie::GV_AoE) // Temp fix for random map skipping
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
 		}
@@ -1139,8 +1139,11 @@ void AGE_Frame::OnGameVersionChange()
 		Units_LanguageDLLCreation_Holder->Show(show);
 		Research_LangDLLArea_Holder->Show(show);
 
-		// AoE ->
-		show = (GenieVersion >= genie::GV_AoE) ? true : false;
+		// AoE Beta ->
+		show = (GenieVersion >= genie::GV_AoEB) ? true : false;
+		Research_PointerArea_Holder->Show(show);
+		Research_DLL_LanguageDLLHelp->Show(show);
+		Research_DLL_LanguageDLLName2->Show(show);
 		Terrains_SLP_Holder->Show(show);
 		Borders_SLP_Holder->Show(show);
 		Units_LanguageDLLHelp_Holder->Show(show);
@@ -1157,21 +1160,16 @@ void AGE_Frame::OnGameVersionChange()
 		Units_EditorSelectionColour_Holder->Show(show);
 		Units_SelectionRadius_Holder->Show(show);
 		Units_HPBarHeight2_Holder->Show(show);
-		Units_ID2_Holder->Show(show);
 		Units_MoveSound_Holder->Show(show);
 		Units_DisplayedPierceArmour_Holder->Show(show);
-		Units_RotationSpeed_Holder->Show(show);
-		//Units_Unknown11_Holder->Show(show);
-		if(!show) Units_Unknown11_Text->SetLabel("Say hi to Tapsa"); // Hack
 		Units_DisplayedMeleeArmour_Holder->Show(show);
 		Units_DisplayedAttack_Holder->Show(show);
 		Units_DisplayedRange_Holder->Show(show);
 		Units_ReloadTime2_Holder->Show(show);
-		Research_PointerArea_Holder->Show(show);
-		Research_DLL_LanguageDLLHelp->Show(show);
-		Research_DLL_LanguageDLLName2->Show(show);
-		Units_WalkingGraphic[1]->Show(show);
-		Units_WalkingGraphic_ComboBox[1]->Show(show);
+
+		// AoE ->
+		show = (GenieVersion >= genie::GV_AoE) ? true : false;
+		Units_ID2_Holder->Show(show);
 
 		// AoK Alfa ->
 		show = (GenieVersion >= genie::GV_AoKA) ? true : false;

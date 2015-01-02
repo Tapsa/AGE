@@ -59,15 +59,18 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	CivIDs.resize(selections);
 	Civs_One->resize(selections);
 	Civs_Name[0]->resize(selections);
-	Civs_TechTree->resize(selections);
-	if(GenieVersion >= genie::GV_AoKB)
+	if(GenieVersion >= genie::GV_MIK)
 	{
-		Civs_TeamBonus->resize(selections);
-		if(GenieVersion >= genie::GV_SWGB)
+		Civs_TechTree->resize(selections);
+		if(GenieVersion >= genie::GV_AoKB)
 		{
-			Civs_Name[1]->resize(selections);
-			for(short loop = 0; loop < 4; ++loop)
-			Civs_SUnknown1[loop]->resize(selections);
+			Civs_TeamBonus->resize(selections);
+			if(GenieVersion >= genie::GV_SWGB)
+			{
+				Civs_Name[1]->resize(selections);
+				for(short loop = 0; loop < 4; ++loop)
+				Civs_SUnknown1[loop]->resize(selections);
+			}
 		}
 	}
 	Civs_GraphicSet->resize(selections);
@@ -80,15 +83,18 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 
 		Civs_One->container[sel] = &CivPointer->One;
 		Civs_Name[0]->container[sel] = &CivPointer->Name;
-		Civs_TechTree->container[sel] = &CivPointer->TechTreeID;
-		if(GenieVersion >= genie::GV_AoKB)
+		if(GenieVersion >= genie::GV_MIK)
 		{
-			Civs_TeamBonus->container[sel] = &CivPointer->TeamBonusID;
-			if(GenieVersion >= genie::GV_SWGB)
+			Civs_TechTree->container[sel] = &CivPointer->TechTreeID;
+			if(GenieVersion >= genie::GV_AoKB)
 			{
-				Civs_Name[1]->container[sel] = &CivPointer->Name2;
-				for(short loop = 0; loop < 4; ++loop)
-				Civs_SUnknown1[loop]->container[sel] = &CivPointer->UniqueUnitsResearches[loop];
+				Civs_TeamBonus->container[sel] = &CivPointer->TeamBonusID;
+				if(GenieVersion >= genie::GV_SWGB)
+				{
+					Civs_Name[1]->container[sel] = &CivPointer->Name2;
+					for(short loop = 0; loop < 4; ++loop)
+					Civs_SUnknown1[loop]->container[sel] = &CivPointer->UniqueUnitsResearches[loop];
+				}
 			}
 		}
 		Civs_GraphicSet->container[sel] = &CivPointer->IconSet;
@@ -96,15 +102,18 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 
 	Civs_One->Update();
 	Civs_Name[0]->Update();
-	Civs_TechTree->Update();
-	if(GenieVersion >= genie::GV_AoKB)
+	if(GenieVersion >= genie::GV_MIK)
 	{
-		Civs_TeamBonus->Update();
-		if(GenieVersion >= genie::GV_SWGB)
+		Civs_TechTree->Update();
+		if(GenieVersion >= genie::GV_AoKB)
 		{
-			Civs_Name[1]->Update();
-			for(short loop = 0; loop < 4; ++loop)
-			Civs_SUnknown1[loop]->Update();
+			Civs_TeamBonus->Update();
+			if(GenieVersion >= genie::GV_SWGB)
+			{
+				Civs_Name[1]->Update();
+				for(short loop = 0; loop < 4; ++loop)
+				Civs_SUnknown1[loop]->Update();
+			}
 		}
 	}
 	Civs_GraphicSet->Update();
