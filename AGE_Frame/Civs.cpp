@@ -337,7 +337,7 @@ string AGE_Frame::GetResourceName(short Index)
 			Name = "Enable A-A Attack For AT-AT";
 			break;
 		case 32:
-			if(GenieVersion <= genie::GV_RoR)
+			if(GenieVersion < genie::GV_AoKA)
 			Name = "Unit Limit";
 			else
 			Name = "Bonus Population";

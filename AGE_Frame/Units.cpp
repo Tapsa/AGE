@@ -3563,7 +3563,7 @@ void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &Event)
 	}
 	if(Event.GetId() == Units_LanguageDLLConverter[0]->GetId())
 	{
-		if(GenieVersion <= genie::GV_RoR) DLLValue += 0x10000;
+		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x10000;
 		else DLLValue += 79000;
 		if(!AutoCopy)
 		{
@@ -3576,7 +3576,7 @@ void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &Event)
 	}
 	else
 	{
-		if(GenieVersion <= genie::GV_RoR) DLLValue += 0x20000;
+		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x20000;
 		else DLLValue += 140000;
 		if(!AutoCopy)
 		{

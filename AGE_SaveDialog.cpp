@@ -192,7 +192,7 @@ void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires";
 	}
 
-	CheckBox_GenieVer->SetSelection(EV_RoR);
+	CheckBox_GenieVer->SetSelection(EV_AoE);
 	Path_DatFileLocation->SetPath(wxString(Path + "\\data2\\empires.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\languagex.dll"));
@@ -333,7 +333,7 @@ void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(EV_CC);
+	CheckBox_GenieVer->SetSelection(EV_SWGB);
 	Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
