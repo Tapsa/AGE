@@ -115,6 +115,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_Enabled->resize(selections);
 	Terrains_Name->resize(selections);
 	Terrains_Name2->resize(selections);
+	if(GenieVersion >= genie::GV_AoEB)
 	Terrains_SLP->resize(selections);
 	Terrains_Unknown3->resize(selections);
 	Terrains_SoundID->resize(selections);
@@ -164,6 +165,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_Enabled->container[sel] = &TerrainPointer->Enabled;
 		Terrains_Name->container[sel] = &TerrainPointer->Name;
 		Terrains_Name2->container[sel] = &TerrainPointer->Name2;
+		if(GenieVersion >= genie::GV_AoEB)
 		Terrains_SLP->container[sel] = &TerrainPointer->SLP;
 		Terrains_Unknown3->container[sel] = &TerrainPointer->Unknown3;
 		Terrains_SoundID->container[sel] = &TerrainPointer->SoundID;
@@ -208,6 +210,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_Enabled->Update();
 	Terrains_Name->Update();
 	Terrains_Name2->Update();
+	if(GenieVersion >= genie::GV_AoEB)
 	Terrains_SLP->Update();
 	Terrains_Unknown3->Update();
 	Terrains_SoundID->Update();

@@ -200,16 +200,22 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_Name[1]->resize(selections);
 	}
 	Research_ResearchLocation->resize(selections);
-	Research_LangDLLName->resize(selections);
-	Research_LangDLLDescription->resize(selections);
+	if(GenieVersion >= genie::GV_MATT)
+	{
+		Research_LangDLLName->resize(selections);
+		Research_LangDLLDescription->resize(selections);
+	}
 	Research_ResearchTime->resize(selections);
 	Research_TechID->resize(selections);
 	Research_Type->resize(selections);
 	Research_IconID->resize(selections);
 	Research_ButtonID->resize(selections);
-	Research_LanguageDLLHelp->resize(selections);
-	Research_LanguageDLLName2->resize(selections);
-	Research_Unknown1->resize(selections);
+	if(GenieVersion >= genie::GV_AoEB)
+	{
+		Research_LanguageDLLHelp->resize(selections);
+		Research_LanguageDLLName2->resize(selections);
+		Research_Unknown1->resize(selections);
+	}
 	Research_Name[0]->resize(selections);
 
 	genie::Research * ResearchPointer;
@@ -240,16 +246,22 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 			Research_Name[1]->container[loop] = &ResearchPointer->Name2;
 		}
 		Research_ResearchLocation->container[loop] = &ResearchPointer->ResearchLocation;
-		Research_LangDLLName->container[loop] = &ResearchPointer->LanguageDLLName;
-		Research_LangDLLDescription->container[loop] = &ResearchPointer->LanguageDLLDescription;
+		if(GenieVersion >= genie::GV_MATT)
+		{
+			Research_LangDLLName->container[loop] = &ResearchPointer->LanguageDLLName;
+			Research_LangDLLDescription->container[loop] = &ResearchPointer->LanguageDLLDescription;
+		}
 		Research_ResearchTime->container[loop] = &ResearchPointer->ResearchTime;
 		Research_TechID->container[loop] = &ResearchPointer->TechageID;
 		Research_Type->container[loop] = &ResearchPointer->Type;
 		Research_IconID->container[loop] = &ResearchPointer->IconID;
 		Research_ButtonID->container[loop] = &ResearchPointer->ButtonID;
-		Research_LanguageDLLHelp->container[loop] = &ResearchPointer->LanguageDLLHelp;
-		Research_LanguageDLLName2->container[loop] = &ResearchPointer->LanguageDLLName2;
-		Research_Unknown1->container[loop] = &ResearchPointer->Unknown1;
+		if(GenieVersion >= genie::GV_AoEB)
+		{
+			Research_LanguageDLLHelp->container[loop] = &ResearchPointer->LanguageDLLHelp;
+			Research_LanguageDLLName2->container[loop] = &ResearchPointer->LanguageDLLName2;
+			Research_Unknown1->container[loop] = &ResearchPointer->Unknown1;
+		}
 		Research_Name[0]->container[loop] = &ResearchPointer->Name;
 	}
 
@@ -282,24 +294,30 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 		Research_DLL_LanguageDLLName2->index = (uint16_t)ResearchPointer->LanguageDLLName2;
 	}
 	Research_ResearchLocation->Update();
-	Research_LangDLLName->Update();
-	Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
-	Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
-	Research_LangDLLDescription->Update();
-	Research_DLL_LangDLLDescription->index = ResearchPointer->LanguageDLLDescription;
-	Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
+	if(GenieVersion >= genie::GV_MATT)
+	{
+		Research_LangDLLName->Update();
+		Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
+		Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
+		Research_LangDLLDescription->Update();
+		Research_DLL_LangDLLDescription->index = ResearchPointer->LanguageDLLDescription;
+		Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
+	}
 	Research_ResearchTime->Update();
 	Research_TechID->Update();
 	Research_Type->Update();
 	Research_IconID->Update();
 	Research_ButtonID->Update();
-	Research_LanguageDLLHelp->Update();
-	Research_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Research_DLL_LanguageDLLHelp->index, 64));
-	Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
-	Research_LanguageDLLName2->Update();
-	Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
-	Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
-	Research_Unknown1->Update();
+	if(GenieVersion >= genie::GV_AoEB)
+	{
+		Research_LanguageDLLHelp->Update();
+		Research_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Research_DLL_LanguageDLLHelp->index, 64));
+		Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
+		Research_LanguageDLLName2->Update();
+		Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
+		Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
+		Research_Unknown1->Update();
+	}
 	Research_Name[0]->Update();
 }
 

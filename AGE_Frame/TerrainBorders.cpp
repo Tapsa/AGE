@@ -53,6 +53,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	Borders_Enabled->resize(selections);
 	Borders_Name[0]->resize(selections);
 	Borders_Name[1]->resize(selections);
+	if(GenieVersion >= genie::GV_AoEB)
 	Borders_SLP->resize(selections);
 	Borders_Unknown3->resize(selections);
 	Borders_Unknown4->resize(selections);
@@ -77,6 +78,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 		Borders_Enabled->container[sel] = &BorderPointer->Enabled;
 		Borders_Name[0]->container[sel] = &BorderPointer->Name;
 		Borders_Name[1]->container[sel] = &BorderPointer->Name2;
+		if(GenieVersion >= genie::GV_AoEB)
 		Borders_SLP->container[sel] = &BorderPointer->SLP;
 		Borders_Unknown3->container[sel] = &BorderPointer->Unknown3;
 		Borders_Unknown4->container[sel] = &BorderPointer->SoundID;
@@ -96,6 +98,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	Borders_Enabled->Update();
 	Borders_Name[0]->Update();
 	Borders_Name[1]->Update();
+	if(GenieVersion >= genie::GV_AoEB)
 	Borders_SLP->Update();
 	Borders_Unknown3->Update();
 	Borders_Unknown4->Update();
