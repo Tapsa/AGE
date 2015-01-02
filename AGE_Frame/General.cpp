@@ -86,7 +86,6 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_TerrainRendering[loop]->container[0] = &GenieFile->TerrainBlock.CivData[loop];
 		General_TerrainRendering[loop]->Update();
 	}
-	//if(GenieVersion >= genie::GV_AoE) // Temp fix for random map skipping
 	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeInt32.size(); ++loop)
 	{
 		General_Something[loop]->resize(1);
