@@ -49,6 +49,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 	SoundIDs.resize(selections);
 	Sounds_ID->resize(selections);
 	Sounds_Unknown1->resize(selections);
+	if(GenieVersion >= genie::GV_TEST)
 	Sounds_Unknown2->resize(selections);
 
 	genie::Sound * SoundPointer;
@@ -59,11 +60,13 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 
 		Sounds_ID->container[loop] = &SoundPointer->ID;
 		Sounds_Unknown1->container[loop] = &SoundPointer->Unknown1;
+		if(GenieVersion >= genie::GV_TEST)
 		Sounds_Unknown2->container[loop] = &SoundPointer->Unknown2;
 	}
 
 	Sounds_ID->Update();
 	Sounds_Unknown1->Update();
+	if(GenieVersion >= genie::GV_TEST)
 	Sounds_Unknown2->Update();
 	ListSoundItems();
 }

@@ -5295,7 +5295,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TypeArea_Holder->Add(5, -1);
 	Units_TypeArea_Holder->Add(Units_ID1_Holder, 1, wxEXPAND);
 	Units_TypeArea_Holder->Add(5, -1);
-	Units_TypeArea_Holder->Add(Units_ID2_Holder, 1, wxEXPAND);
+	Units_TypeArea_Holder->Add(Units_ID2_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Units_TypeArea_Holder->Add(5, -1);
 	Units_TypeArea_Holder->Add(Units_ID3_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
