@@ -8,8 +8,7 @@ set(Boost_USE_STATIC_LIBS    ON)
 set(Boost_USE_MULTITHREADED  ON)
 set(Boost_USE_STATIC_RUNTIME ON)
 
-find_package(Boost 1.42 REQUIRED iostreams)
-#find_package(SFML 1.6 REQUIRED graphics)
+find_package(Boost 1.55 REQUIRED iostreams)
 
 find_package(wxWidgets REQUIRED adv core base)
 include("${wxWidgets_USE_FILE}")
@@ -20,10 +19,10 @@ set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
 include_directories(
-	${CMAKE_HOME_DIRECTORY}/extern/genieutils/include
+	${EXTERN_DIR}/genieutils/include
 	${Boost_INCLUDE_DIRS})
 
-add_subdirectory(extern/genieutils)
+add_subdirectory(${EXTERN_DIR}/genieutils extern/genieutils)
 
 set(AGE_SRC Main.cpp
 	AGE_TextControls.cpp
