@@ -994,7 +994,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Effects_AttributesC_ComboBox->Append("15 - Default Armor");
 		Effects_AttributesC_ComboBox->Append("16 - New Projectile Unit");
 		Effects_AttributesC_ComboBox->Append("17 - Upgrade Icon (by age, no multiply)");
-		Effects_AttributesC_ComboBox->Append("18 - Unknown21 (always sets)");
+		Effects_AttributesC_ComboBox->Append("18 - Ter restr to multiply dmg rcvd (always sets)");
 		Effects_AttributesC_ComboBox->Append("19 - Enable Intelligent Projectiles");
 		if(GenieVersion < genie::GV_AoKA)
 		{
