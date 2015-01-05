@@ -44,15 +44,15 @@ enum EditableVersion
 	EV_DAVE,
 	EV_MATT,
 	EV_AoEB,
-	EV_AoETB,
+	//EV_AoETB,
 	EV_AoE,
-	EV_RoR,
+	//EV_RoR,
 	EV_AoKA,
 	EV_AoKB,
 	EV_AoK,
 	EV_TC,
-	EV_SWGB,
-	EV_CC
+	EV_SWGB
+	//EV_CC
 };
 
 #endif
