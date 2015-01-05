@@ -1599,7 +1599,8 @@ public:
 //	Type 50+
 
 	TextCtrl_Short *Units_DefaultArmor;
-	TextCtrl_Short *Units_Unknown21;
+	TextCtrl_Short *Units_TerRestrictionForDmgMultiply;
+	ComboBox_Plus1 *Units_TerRestrictionForDmgMultiply_ComboBox;
 	TextCtrl_Float *Units_MaxRange;
 	TextCtrl_Float *Units_BlastRadius;
 	TextCtrl_Float *Units_ReloadTime1;
@@ -1789,7 +1790,7 @@ public:
 //	Type 50+
 
 	wxStaticText *Units_DefaultArmor_Text;
-	wxStaticText *Units_Unknown21_Text;
+	wxStaticText *Units_TerRestrictionForDmgMultiply_Text;
 	wxStaticText *Units_MaxRange_Text;
 	wxStaticText *Units_BlastRadius_Text;
 	wxStaticText *Units_ReloadTime1_Text;
@@ -1972,7 +1973,7 @@ public:
 //	Type 50+
 
 	wxBoxSizer *Units_DefaultArmor_Holder;
-	wxBoxSizer *Units_Unknown21_Holder;
+	wxBoxSizer *Units_TerRestrictionForDmgMultiply_Holder;
 	wxBoxSizer *Units_MaxRange_Holder;
 	wxBoxSizer *Units_BlastRadius_Holder;
 	wxBoxSizer *Units_ReloadTime1_Holder;
@@ -2208,7 +2209,6 @@ public:
 	wxGridSizer *Units_Type10plusUnknowns_Grid;
 	wxStaticBoxSizer *Units_Type30plusUnknownArea_Holder;
 	wxGridSizer *Units_Type30plusUnknownArea_Grid;
-	wxStaticBoxSizer *Units_Type60plusUnknownArea_Holder;
 	wxStaticBoxSizer *Units_Type70plusUnknownArea_Holder;
 	wxGridSizer *Units_Type70plusUnknownArea_Grid;
 	wxStaticBoxSizer *Units_Type80plusUnknownArea_Holder;

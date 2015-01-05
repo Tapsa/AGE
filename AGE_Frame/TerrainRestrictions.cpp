@@ -353,8 +353,9 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TerRestrict_Accessible_Holder = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Accessible2_Holder = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_Accessible_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessible", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Accessible_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessible and Damage Multiplier *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Accessible = new TextCtrl_Float(Tab_TerrainRestrictions);
+	TerRestrict_Accessible->SetToolTip("Fancy tooltip");
 	TerRestrict_Accessible_CheckBox = new CheckBox_2State(Tab_TerrainRestrictions, "Terrain Is Accessible", TerRestrict_Accessible);
 	TerRestrict_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Unknown1Sub_Holder = new wxBoxSizer(wxHORIZONTAL);

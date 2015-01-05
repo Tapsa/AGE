@@ -318,7 +318,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_DisplayedPierceArmour->resize(PointerCount);
 	// Type 50 & 60
 	Units_DefaultArmor->resize(PointerCount);
-	Units_Unknown21->resize(PointerCount);
+	Units_TerRestrictionForDmgMultiply->resize(PointerCount);
 	Units_MaxRange->resize(PointerCount);
 	Units_BlastRadius->resize(PointerCount);
 	Units_ReloadTime1->resize(PointerCount);
@@ -577,7 +577,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				//case 50:
 				{
 					Units_DefaultArmor->container[location] = &UnitPointer->Type50.DefaultArmor;
-					Units_Unknown21->container[location] = &UnitPointer->Type50.Unknown21;
+					Units_TerRestrictionForDmgMultiply->container[location] = &UnitPointer->Type50.TerRestrictionForDmgMultiplying;
 					Units_MaxRange->container[location] = &UnitPointer->Type50.MaxRange;
 					Units_BlastRadius->container[location] = &UnitPointer->Type50.BlastRadius;
 					Units_ReloadTime1->container[location] = &UnitPointer->Type50.ReloadTime;
@@ -924,7 +924,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		case 50:
 		{
 			Units_DefaultArmor->Enable(true);
-			Units_Unknown21->Enable(true);
+			Units_TerRestrictionForDmgMultiply->Enable(true);
+			Units_TerRestrictionForDmgMultiply_ComboBox->Enable(true);
 			Units_MaxRange->Enable(true);
 			Units_BlastRadius->Enable(true);
 			Units_ReloadTime1->Enable(true);
@@ -954,7 +955,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Armors_Amount->Enable(true);
 
 			Units_DefaultArmor->Update();
-			Units_Unknown21->Update();
+			Units_TerRestrictionForDmgMultiply->Update();
 			Units_MaxRange->Update();
 			Units_BlastRadius->Update();
 			Units_ReloadTime1->Update();
@@ -1377,8 +1378,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		{
 			Units_DefaultArmor->Enable(false);
 			Units_DefaultArmor->Clear();
-			Units_Unknown21->Enable(false);
-			Units_Unknown21->Clear();
+			Units_TerRestrictionForDmgMultiply->Enable(false);
+			Units_TerRestrictionForDmgMultiply->Clear();
+			Units_TerRestrictionForDmgMultiply_ComboBox->Enable(false);
+			Units_TerRestrictionForDmgMultiply_ComboBox->SetSelection(0);
 			Units_MaxRange->Enable(false);
 			Units_MaxRange->Clear();
 			Units_BlastRadius->Enable(false);
@@ -3706,7 +3709,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type10plusUnknowns_Grid = new wxGridSizer(4, 5, 5);
 	Units_Type30plusUnknownArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 30+ Unknowns (Dead Fish)");
 	Units_Type30plusUnknownArea_Grid = new wxGridSizer(4, 5, 5);
-	Units_Type60plusUnknownArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Type 50+ Unknowns (Unknown)");
 	Units_Type70plusUnknownArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 70+ Unknowns (Creatable)");
 	Units_Type70plusUnknownArea_Grid = new wxGridSizer(4, 5, 5);
 	Units_Type80plusUnknownArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 80+ Unknowns (Building)");
@@ -3829,7 +3831,7 @@ void AGE_Frame::CreateUnitControls()
 //	Type 50+
 
 	Units_DefaultArmor_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_Unknown21_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_TerRestrictionForDmgMultiply_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MaxRange_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_BlastRadius_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_ReloadTime1_Holder = new wxBoxSizer(wxVERTICAL);
@@ -4002,7 +4004,7 @@ void AGE_Frame::CreateUnitControls()
 //	Type 50+
 
 	Units_DefaultArmor_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Default Armor *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown21_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 21 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_TerRestrictionForDmgMultiply_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MaxRange_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Range", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_BlastRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ReloadTime1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Reload Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4240,6 +4242,10 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_DefaultArmor = new TextCtrl_Short(Units_Scroller);
 	Units_DefaultArmor->SetToolTip("This armor is used for all attack types that do not have corresponding armor type\nCan be negative only in The Conquerors and later games");
+	Units_TerRestrictionForDmgMultiply = new TextCtrl_Short(Units_Scroller);
+	Units_TerRestrictionForDmgMultiply->SetToolTip("The damage received by this unit is\nmultiplied by the accessible values on\nthe specified terrain restriction");
+	Units_TerRestrictionForDmgMultiply_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerRestrictionForDmgMultiply);
+	TerrainRestrictionComboBoxList.push_back(Units_TerRestrictionForDmgMultiply_ComboBox);
 	Units_DisplayedMeleeArmour = new TextCtrl_Short(Units_Scroller);
 	Units_DisplayedPierceArmour = new TextCtrl_Short(Units_Scroller);
 	Units_ResourceCapacity = new TextCtrl_Short(Units_Scroller);
@@ -4546,9 +4552,6 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
 	Units_Unknown16B[loop] = new TextCtrl_Float(Units_Scroller);
 
-	Units_Unknown21 = new TextCtrl_Short(Units_Scroller);
-	Units_Unknown21->SetToolTip("Happens when projectile lands on this unit?");
-
 	Units_Unknown26 = new TextCtrl_Long(Units_Scroller);
 	Units_Unknown27 = new TextCtrl_Long(Units_Scroller);
 
@@ -4842,7 +4845,7 @@ void AGE_Frame::CreateUnitControls()
 //	Type 50+
 
 	Units_DefaultArmor_Holder->Add(Units_DefaultArmor_Text, 0, wxEXPAND);
-	Units_Unknown21_Holder->Add(Units_Unknown21_Text, 0, wxEXPAND);
+	Units_TerRestrictionForDmgMultiply_Holder->Add(Units_TerRestrictionForDmgMultiply_Text, 0, wxEXPAND);
 	Units_MaxRange_Holder->Add(Units_MaxRange_Text, 0, wxEXPAND);
 	Units_BlastRadius_Holder->Add(Units_BlastRadius_Text, 0, wxEXPAND);
 	Units_ReloadTime1_Holder->Add(Units_ReloadTime1_Text, 0, wxEXPAND);
@@ -5045,7 +5048,8 @@ void AGE_Frame::CreateUnitControls()
 //	Type 50+
 
 	Units_DefaultArmor_Holder->Add(Units_DefaultArmor, 1, wxEXPAND);
-	Units_Unknown21_Holder->Add(Units_Unknown21, 1, wxEXPAND);
+	Units_TerRestrictionForDmgMultiply_Holder->Add(Units_TerRestrictionForDmgMultiply, 1, wxEXPAND);
+	Units_TerRestrictionForDmgMultiply_Holder->Add(Units_TerRestrictionForDmgMultiply_ComboBox, 1, wxEXPAND);
 	Units_MaxRange_Holder->Add(Units_MaxRange, 1, wxEXPAND);
 	Units_BlastRadius_Holder->Add(Units_BlastRadius, 1, wxEXPAND);
 	Units_ReloadTime1_Holder->Add(Units_ReloadTime1, 1, wxEXPAND);
@@ -5445,6 +5449,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_Holder_Data3->Add(-1, 5);
 	Units_Armors_Holder_Data3->Add(Units_DefaultArmor_Holder, 0, wxEXPAND);
 	Units_Armors_Holder_Data3->Add(-1, 5);
+	Units_Armors_Holder_Data3->Add(Units_TerRestrictionForDmgMultiply_Holder, 0, wxEXPAND);
+	Units_Armors_Holder_Data3->Add(-1, 5);
 	Units_Armors_Holder_Data3->Add(Units_DisplayedMeleeArmour_Holder, 0, wxEXPAND);
 	Units_Armors_Holder_Data3->Add(-1, 5);
 	Units_Armors_Holder_Data3->Add(Units_DisplayedPierceArmour_Holder, 0, wxEXPAND);
@@ -5669,9 +5675,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type30plusUnknownArea_Holder->Add(-1, 5);
 	Units_Type30plusUnknownArea_Holder->Add(Units_Unknown16B_Holder, 0, wxEXPAND);
 
-	Units_Type60plusUnknownArea_Holder->Add(Units_Unknown21_Holder, 1, wxEXPAND);
-	Units_Type60plusUnknownArea_Holder->AddStretchSpacer(3);
-
 	Units_Type70plusUnknownArea_Grid->Add(Units_Unknown26_Holder, 0, wxEXPAND);
 	Units_Type70plusUnknownArea_Grid->Add(Units_Unknown27_Holder, 0, wxEXPAND);
 	Units_Type70plusUnknownArea_Holder->Add(Units_Type70plusUnknownArea_Grid, 0, wxEXPAND);
@@ -5753,8 +5756,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnknownArea_Holder->Add(Units_Type10plusUnknownArea_Holder, 0, wxEXPAND);
 	Units_UnknownArea_Holder->Add(-1, 5);
 	Units_UnknownArea_Holder->Add(Units_Type30plusUnknownArea_Holder, 0, wxEXPAND);
-	Units_UnknownArea_Holder->Add(-1, 5);
-	Units_UnknownArea_Holder->Add(Units_Type60plusUnknownArea_Holder, 0, wxEXPAND);
 	Units_UnknownArea_Holder->Add(-1, 5);
 	Units_UnknownArea_Holder->Add(Units_Type70plusUnknownArea_Holder, 0, wxEXPAND);
 	Units_UnknownArea_Holder->Add(-1, 5);
