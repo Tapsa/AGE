@@ -289,9 +289,9 @@ string AGE_Frame::GetResourceName(short Index)
 		case 11: Name = "Population (Both Current and Headroom)"; break;
 		case 12: Name = "Corpse Decay Time"; break;
 		case 13: Name = "Discovery"; break;
-		case 14: Name = "Monuments/Ruins Captured?"; break;
-		case 15: Name = "Predator Animal Food"; break;
-		case 16: Name = "Berries"; break;
+		case 14: Name = "Monuments/Ruins Captured"; break;
+		case 15: Name = "Meat Storage"; break;
+		case 16: Name = "Berry Storage"; break;
 		case 17: Name = "Fish Storage"; break;
 		case 18:
 			if(GenieVersion <= genie::GV_TC)
@@ -305,17 +305,17 @@ string AGE_Frame::GetResourceName(short Index)
 		case 22: Name = "% Map Explored"; break;
 		case 23:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Castle Age?";
+			Name = "Castle Age tech index";
 			else
 			Name = "Submarine Detection";
 			break;
 		case 24:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Imperial Age?";
+			Name = "Imperial Age tech index";
 			else
 			Name = "Shield Generator Range";
 			break;
-		case 25: Name = "Feudal Age?"; break;
+		case 25: Name = "Feudal Age tech index"; break;
 		case 26:
 			if(GenieVersion <= genie::GV_TC)
 			Name = "Attack Warning Sound";
@@ -329,16 +329,16 @@ string AGE_Frame::GetResourceName(short Index)
 			Name = "Enable Jedi Conversion";
 			break;
 		case 28: Name = "Enable Building Conversion"; break;
-		case 30: Name = "Building Limit"; break;
+		case 30: Name = "Building Count"; break;
 		case 31:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Food Limit";
+			Name = "Food Count";
 			else
 			Name = "Enable A-A Attack For AT-AT";
 			break;
 		case 32:
 			if(GenieVersion < genie::GV_AoKA)
-			Name = "Unit Limit";
+			Name = "Unit Count";
 			else
 			Name = "Bonus Population";
 			break;
@@ -371,7 +371,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 39: Name = "All Techs Achieved"; break;
 		case 40: Name = "Military Population"; break;
 		case 41: Name = "Conversions"; break;
-		case 42: Name = "Standing? Wonders"; break;
+		case 42: Name = "Standing Wonders"; break;
 		case 43: Name = "Razings"; break;
 		case 44: Name = "Kill Ratio"; break;
 		case 45: Name = "Survival to Finish"; break;
@@ -404,7 +404,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 57: Name = "Captured Unit"; break;
 		case 58:
 			if(GenieVersion <= genie::GV_TC)
-			Name = "Dark Age?";
+			Name = "Dark Age tech index";
 			else
 			Name = "Masters Can See Hidden Units";
 			break;
