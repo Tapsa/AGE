@@ -3740,7 +3740,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_PlacementMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AirMode_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_IconID_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_IconID_Grid = new wxGridSizer(2, 5, 0);
+	Units_IconID_Grid = new wxGridSizer(2, 0, 5);
 	Units_HideInEditor_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Enabled_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -4054,7 +4054,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_ConstructionGraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SnowGraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Snow Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_IconDisabler_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Icon Age *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_IconDisabler_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Icon/Graphics SLP Angle *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_StackUnitID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Stack Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TerrainID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown32_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4131,6 +4131,8 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_IconID = new TextCtrl_Short(Units_Scroller);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
+	Units_IconDisabler = new TextCtrl_Short(Units_Scroller);
+	Units_IconDisabler->SetToolTip("Tech attribute 17 changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_StandingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
@@ -4243,7 +4245,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DefaultArmor = new TextCtrl_Short(Units_Scroller);
 	Units_DefaultArmor->SetToolTip("This armor is used for all attack types that do not have corresponding armor type\nCan be negative only in The Conquerors and later games");
 	Units_TerRestrictionForDmgMultiply = new TextCtrl_Short(Units_Scroller);
-	Units_TerRestrictionForDmgMultiply->SetToolTip("The damage received by this unit is\nmultiplied by the accessible values on\nthe specified terrain restriction");
+	Units_TerRestrictionForDmgMultiply->SetToolTip("Receive damage based on which terrain this unit stands on\nTech attribute 18 changes this\nThe damage received by this unit is\nmultiplied by the accessible values on\nthe specified terrain restriction");
 	Units_TerRestrictionForDmgMultiply_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerRestrictionForDmgMultiply);
 	TerrainRestrictionComboBoxList.push_back(Units_TerRestrictionForDmgMultiply_ComboBox);
 	Units_DisplayedMeleeArmour = new TextCtrl_Short(Units_Scroller);
@@ -4545,7 +4547,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
 	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller);
-	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n1 berries\n2 fishes\n3 ore deposits\n4 nova deposits\n5 ?");
+	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n0 wood?\n1 berry\n2 fish\n3 stone/ore deposit\n4 gold/nova deposit\n5 ore (not SW) deposit?");
 
 	Units_Unknown11 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown16 = new TextCtrl_Byte(Units_Scroller);
@@ -4555,8 +4557,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown26 = new TextCtrl_Long(Units_Scroller);
 	Units_Unknown27 = new TextCtrl_Long(Units_Scroller);
 
-	Units_IconDisabler = new TextCtrl_Short(Units_Scroller);
-	Units_IconDisabler->SetToolTip("Upgrade icon tech attribute changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
 	Units_Unknown32 = new TextCtrl_Short(Units_Scroller);
 	Units_Unknown33 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown33->SetToolTip("0 Default\n1 Counts as player being alive?");
@@ -5133,7 +5133,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown31b_Holder->Add(Units_DisappearsWhenBuilt, 1, wxEXPAND);
 	Units_Unknown31b_Holder->Add(2, -1);
 	Units_Unknown31b_Holder->Add(Units_Unknown31b_CheckBox, 2, wxEXPAND);
-	Units_IconDisabler_Holder->Add(Units_IconDisabler, 1, wxEXPAND);
+	Units_IconDisabler_Holder->Add(Units_IconDisabler, 0, wxEXPAND);
 	Units_StackUnitID_Holder->Add(Units_StackUnitID, 1, wxEXPAND);
 	Units_StackUnitID_Holder->Add(Units_StackUnitID_ComboBox, 1, wxEXPAND);
 	Units_TerrainID_Holder->Add(Units_TerrainID, 1, wxEXPAND);
@@ -5364,6 +5364,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DyingGraphic_Holder->Add(Units_DyingGraphic_Grid, 0, wxEXPAND);
 
 	Units_IconID_Grid->Add(Units_IconID_Holder, 1, wxEXPAND);
+	Units_IconID_Grid->Add(Units_IconDisabler_Holder, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_IconID_Grid, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_StandingGraphic_Holder, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_DyingGraphic_Holder, 1, wxEXPAND);
@@ -5679,7 +5680,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type70plusUnknownArea_Grid->Add(Units_Unknown27_Holder, 0, wxEXPAND);
 	Units_Type70plusUnknownArea_Holder->Add(Units_Type70plusUnknownArea_Grid, 0, wxEXPAND);
 
-	Units_Type80plusUnknownArea_Grid->Add(Units_IconDisabler_Holder, 0, wxEXPAND);
 	Units_Type80plusUnknownArea_Grid->Add(Units_Unknown32_Holder, 0, wxEXPAND);
 	Units_Type80plusUnknownArea_Grid->Add(Units_Unknown33_Holder, 0, wxEXPAND);
 	Units_Type80plusUnknownArea_Grid->Add(Units_Unknown35_Holder, 0, wxEXPAND);
