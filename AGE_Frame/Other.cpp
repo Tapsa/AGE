@@ -330,12 +330,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		UnitCommands_Type_ComboBox->Clear();
 		UnitCommands_Type_ComboBox->Append("Unused Ability/Invalid Ability");	// Selection 0
+		//UnitCommands_Type_ComboBox->Append("0: Unknown Ability");
 		UnitCommands_Type_ComboBox->Append("1: Move to");
 		UnitCommands_Type_ComboBox->Append("2: Follow");
 		UnitCommands_Type_ComboBox->Append("3: Garrison");
 		UnitCommands_Type_ComboBox->Append("4: Explore");
 		UnitCommands_Type_ComboBox->Append("5: Gather/Rebuild");
-		UnitCommands_Type_ComboBox->Append("6: Unknown Animal Ability");
+		UnitCommands_Type_ComboBox->Append("6: Natural Wonders Cheat");
 		UnitCommands_Type_ComboBox->Append("7: Attack");
 		UnitCommands_Type_ComboBox->Append("8: Shoot");
 		UnitCommands_Type_ComboBox->Append("10: Fly");
@@ -360,7 +361,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_Type_ComboBox->Append("106: Repair");
 		UnitCommands_Type_ComboBox->Append("107: Get Auto-converted");
 		UnitCommands_Type_ComboBox->Append("108: Discovery");
-		UnitCommands_Type_ComboBox->Append("109: Unknown Ability");
+		UnitCommands_Type_ComboBox->Append("109: Retreat to Shooting Range");
 		UnitCommands_Type_ComboBox->Append("110: Hunt");
 		UnitCommands_Type_ComboBox->Append("111: Trade");
 		//UnitCommands_Type_ComboBox->Append("112: Unknown Ability");
@@ -370,8 +371,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_Type_ComboBox->Append("122: Loot");
 		UnitCommands_Type_ComboBox->Append("123: Housing");
 		UnitCommands_Type_ComboBox->Append("125: Unpack & Attack");
-		//UnitCommands_Type_ComboBox->Append("130: Unknown Ability");
-		UnitCommands_Type_ComboBox->Append("131: Unknown Ability");
+		//UnitCommands_Type_ComboBox->Append("130: Off-Map Trade 1");
+		UnitCommands_Type_ComboBox->Append("131: Off-Map Trade 2");
 		UnitCommands_Type_ComboBox->Append("132: Pickup Unit");
 		//UnitCommands_Type_ComboBox->Append("133: Unknown Pickup Ability");
 		//UnitCommands_Type_ComboBox->Append("134: Unknown Pickup Ability");
