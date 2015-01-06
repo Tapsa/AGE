@@ -422,7 +422,7 @@ string AGE_Frame::GetGraphicDeltaName(short Index)
 {
 	if(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID < GenieFile->Graphics.size())
 	return GetGraphicName(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID, false);
-	return "Please remove me "+lexical_cast<string>(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID)+" ";
+	return "Re-drawer "+lexical_cast<string>(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID)+" ";
 }
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &Event)
