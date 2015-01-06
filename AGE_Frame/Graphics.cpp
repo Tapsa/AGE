@@ -420,7 +420,9 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &Event)
 
 string AGE_Frame::GetGraphicDeltaName(short Index)
 {
-	return "Graphic "+lexical_cast<string>(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID)+" ";
+	if(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID < GenieFile->Graphics.size())
+	return GetGraphicName(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID, false);
+	return "Please remove me "+lexical_cast<string>(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID)+" ";
 }
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &Event)
