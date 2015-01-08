@@ -36,6 +36,7 @@ public:
 //	Other Events
 
 	bool DataOpened;
+	void LoadLists();
 	void OnGameVersionChange();
 	void OnSave(wxCommandEvent &Event);
 	void OnOpen(wxCommandEvent &Event);
@@ -80,6 +81,7 @@ public:
 //	bool FileExists(const char *value);
 	wxString searchText, excludeText;
 	wxString FormatFloat(float);
+	wxString FormatInt(int);
 	bool SearchMatches(wxString itemText);
 	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
 	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);

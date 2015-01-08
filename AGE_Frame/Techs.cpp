@@ -99,7 +99,7 @@ void AGE_Frame::InitTechs(bool all)
 
 	for(short loop = 0; loop < GenieFile->Techages.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTechName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetTechName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
@@ -309,7 +309,7 @@ void AGE_Frame::ListEffects()
 
 	for(short loop = 0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetEffectName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetEffectName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);

@@ -146,13 +146,13 @@ void AGE_Frame::InitResearches(bool all)
 
 	for(short loop = 0; loop < GenieFile->Researchs.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetResearchName(loop, true);
+		wxString Name = " "+FormatInt(loop)+" - "+GetResearchName(loop, true);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
 			dataPointers.push_back((void*)&GenieFile->Researchs[loop]);
 		}
-		if(all) AGE_AreaTT84::researches.Add(" "+lexical_cast<string>(loop)+" - "+GetResearchName(loop));
+		if(all) AGE_AreaTT84::researches.Add(" "+FormatInt(loop)+" - "+GetResearchName(loop));
 	}
 
 	Listing(Research_Research_List, filteredNames, dataPointers);
