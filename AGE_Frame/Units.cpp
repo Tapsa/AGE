@@ -208,13 +208,13 @@ void AGE_Frame::InitUnits(short civ, bool all)
 
 	for(short loop = 0; loop < GenieFile->Civs[civ].Units.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, civ, true);
+		wxString Name = " "+FormatInt(loop)+" - "+GetUnitName(loop, civ, true);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
 			dataPointers.push_back((void*)&GenieFile->Civs[civ].Units[loop]);
 		}
-		if(all) AGE_AreaTT84::units.Add(" "+lexical_cast<string>(loop)+" - "+GetUnitName(loop, 0));
+		if(all) AGE_AreaTT84::units.Add(" "+FormatInt(loop)+" - "+GetUnitName(loop, 0));
 	}
 
 	Listing(Units_List, filteredNames, dataPointers);
@@ -2219,7 +2219,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 		Units_DamageGraphics_Add->Enable(true);
 		for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size(); ++loop)
 		{
-			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitDamageGraphicName(loop);
+			wxString Name = " "+FormatInt(loop)+" - "+GetUnitDamageGraphicName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				filteredNames.Add(Name);
@@ -2486,7 +2486,7 @@ void AGE_Frame::ListUnitAttacks()
 		Units_Attacks_Add->Enable(true);
 		for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks.size(); ++loop)
 		{
-			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitAttackName(loop);
+			wxString Name = " "+FormatInt(loop)+" - "+GetUnitAttackName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				filteredNames.Add(Name);
@@ -2741,7 +2741,7 @@ void AGE_Frame::ListUnitArmors()
 		Units_Armors_Add->Enable(true);
 		for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours.size(); ++loop)
 		{
-			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitArmorName(loop);
+			wxString Name = " "+FormatInt(loop)+" - "+GetUnitArmorName(loop);
 			if(SearchMatches(Name.Lower()))
 			{
 				filteredNames.Add(Name);
@@ -3044,7 +3044,7 @@ void AGE_Frame::ListUnitCommands()
 	{
 		for(short loop = 0; loop < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); ++loop)
 		{
-			wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
+			wxString Name = " "+FormatInt(loop)+" - "+GetUnitCommandName(loop);
 			if(GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop].ClassID != -1)
 			Name += " class "+lexical_cast<string>(GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop].ClassID);
 			else if(GenieFile->UnitHeaders[UnitIDs[0]].Commands[loop].UnitID != -1)
@@ -3065,7 +3065,7 @@ void AGE_Frame::ListUnitCommands()
 			Units_UnitCommands_Add->Enable(true);
 			for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands.size(); ++loop)
 			{
-				wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitCommandName(loop);
+				wxString Name = " "+FormatInt(loop)+" - "+GetUnitCommandName(loop);
 				if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop].ClassID != -1)
 				Name += " class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop].ClassID);
 				else if(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[loop].UnitID != -1)

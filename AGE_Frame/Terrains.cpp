@@ -67,7 +67,7 @@ void AGE_Frame::InitTerrains1(bool all)
 
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
@@ -91,7 +91,7 @@ void AGE_Frame::InitTerrains2()
 
 	for(short loop = 0; loop < GenieFile->TerrainsUsed1; ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
+		wxString Name = " "+FormatInt(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
 		if(GenieVersion >= genie::GV_AoKA)
 		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);
@@ -325,7 +325,7 @@ void AGE_Frame::ListTerrainsBorders()
 
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" "+GetTerrainName(loop)+" - ";
+		wxString Name = " "+FormatInt(loop)+" "+GetTerrainName(loop)+" - ";
 		Name += lexical_cast<string>(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs[loop])+" ";
 		Name += GetTerrainBorderName(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].TerrainBorderIDs[loop]);
 		if(SearchMatches(Name.Lower()))

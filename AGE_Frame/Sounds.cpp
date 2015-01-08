@@ -28,7 +28,7 @@ void AGE_Frame::InitSounds(bool all)
 
 	for(short loop = 0; loop < GenieFile->Sounds.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetSoundName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetSoundName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
@@ -189,7 +189,7 @@ void AGE_Frame::ListSoundItems()
 
 	for(short loop = 0; loop < GenieFile->Sounds[SoundIDs[0]].Items.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetSoundItemName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);

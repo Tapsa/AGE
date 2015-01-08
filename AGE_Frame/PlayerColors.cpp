@@ -30,7 +30,7 @@ void AGE_Frame::InitPlayerColors()
 
 	for(short loop = 0; loop < GenieFile->PlayerColours.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetPlayerColorName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetPlayerColorName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);

@@ -30,7 +30,7 @@ void AGE_Frame::InitUnitLines()
 
 	for(short loop = 0; loop < GenieFile->UnitLines.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
@@ -160,7 +160,7 @@ void AGE_Frame::ListUnitLineUnits()
 
 	for(short loop = 0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetUnitLineUnitName(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
+		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
