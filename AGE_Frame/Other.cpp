@@ -887,85 +887,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Sounds_Items_SearchFilters[loop]->SetSelection(0);
 		}
 
-		Items.Add(0);
-		OnCivCountChange();
-		ListTerrainRestrictions(true);
-		InitPlayerColors();
-		InitSounds(true);
-		InitGraphics(true);
-		ListTerrainNumbers();
-		InitTerrains1(true);
-		InitTerrainBorders(true);
-		ListGeneral();
-		InitRandomMaps();
-		InitTechs(true);
-		if(GenieVersion >= genie::GV_SWGB)
-		{
-			InitUnitLines();
-		}
-		else
-		{
-			UnitLines_UnitLines_List->Clear();
-			UnitLines_UnitLineUnits_List->Clear();
-		}
-		InitCivs(true);
-		InitUnits(GenieVersion < genie::GV_AoKA, true);
-		InitResearches(true);
-		if(GenieVersion >= genie::GV_AoKA)
-		{
-			InitTTAges();
-			InitTTBuildings();
-			InitTTUnits();
-			InitTTResearches();
-		}
-		else
-		{
-			TechTrees_MainList_Ages_List->Clear();
-			TechTrees_Ages_Buildings.List->Clear();
-			TechTrees_Ages_Units.List->Clear();
-			TechTrees_Ages_Researches.List->Clear();
-			TechTrees_MainList_Buildings_List->Clear();
-			TechTrees_Buildings_Buildings.List->Clear();
-			TechTrees_Buildings_Units.List->Clear();
-			TechTrees_Buildings_Researches.List->Clear();
-			TechTrees_MainList_Units_List->Clear();
-			TechTrees_Units_Units.List->Clear();
-			TechTrees_MainList_Researches_List->Clear();
-			TechTrees_Researches_Buildings.List->Clear();
-			TechTrees_Researches_Units.List->Clear();
-			TechTrees_Researches_Researches.List->Clear();
-		}
-		if(TimesOpened < 3)
-		{
-			Units_List->Deselect(0);
-			srand(time(NULL));
-			short sels = rand() % 2 + 3;
-			for(short i=0; ++i<sels;)
-			Units_List->SetSelection(rand() % (12 - TimesOpened) + 4);
-			Units_List->SetFirstItem(0);
-		}
-
-		wxCommandEvent E;
-		OnCivsSelect(E);
-		OnUnitsSelect(E);
-		OnResearchSelect(E);
-		OnTechSelect(E);
-		OnGraphicsSelect(E);
-		OnSoundsSelect(E);
-		OnTerrainsSelect(E);
-		OnTerrainRestrictionsTerrainSelect(E);
-		OnPlayerColorsSelect(E);
-		OnTerrainBordersSelect(E);
-		OnUnknownsSelect(E);
-		if(GenieVersion >= genie::GV_AoKA)
-		{
-			OnTTAgesSelect(E);
-			OnTTBuildingSelect(E);
-			OnTTUnitSelect(E);
-			OnTTResearchSelect(E);
-			if(GenieVersion >= genie::GV_SWGB)
-			OnUnitLinesSelect(E);
-		}
+		LoadLists();
 
 		Effects_AttributesC_ComboBox->Clear();
 		Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1085,6 +1007,89 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	NeedDat = false;
 	SkipOpenDialog = false;
+}
+
+void AGE_Frame::LoadLists()
+{
+	Items.Add(0);
+	OnCivCountChange();
+	ListTerrainRestrictions(true);
+	InitPlayerColors();
+	InitSounds(true);
+	InitGraphics(true);
+	ListTerrainNumbers();
+	InitTerrains1(true);
+	InitTerrainBorders(true);
+	ListGeneral();
+	InitRandomMaps();
+	InitTechs(true);
+	if(GenieVersion >= genie::GV_SWGB)
+	{
+		InitUnitLines();
+	}
+	else
+	{
+		UnitLines_UnitLines_List->Clear();
+		UnitLines_UnitLineUnits_List->Clear();
+	}
+	InitCivs(true);
+	InitUnits(GenieVersion < genie::GV_AoKA, true);
+	InitResearches(true);
+	if(GenieVersion >= genie::GV_AoKA)
+	{
+		InitTTAges();
+		InitTTBuildings();
+		InitTTUnits();
+		InitTTResearches();
+	}
+	else
+	{
+		TechTrees_MainList_Ages_List->Clear();
+		TechTrees_Ages_Buildings.List->Clear();
+		TechTrees_Ages_Units.List->Clear();
+		TechTrees_Ages_Researches.List->Clear();
+		TechTrees_MainList_Buildings_List->Clear();
+		TechTrees_Buildings_Buildings.List->Clear();
+		TechTrees_Buildings_Units.List->Clear();
+		TechTrees_Buildings_Researches.List->Clear();
+		TechTrees_MainList_Units_List->Clear();
+		TechTrees_Units_Units.List->Clear();
+		TechTrees_MainList_Researches_List->Clear();
+		TechTrees_Researches_Buildings.List->Clear();
+		TechTrees_Researches_Units.List->Clear();
+		TechTrees_Researches_Researches.List->Clear();
+	}
+	if(TimesOpened < 3)
+	{
+		Units_List->Deselect(0);
+		srand(time(NULL));
+		short sels = rand() % 2 + 3;
+		for(short i=0; ++i<sels;)
+		Units_List->SetSelection(rand() % (12 - TimesOpened) + 4);
+		Units_List->SetFirstItem(0);
+	}
+
+	wxCommandEvent E;
+	OnCivsSelect(E);
+	OnUnitsSelect(E);
+	OnResearchSelect(E);
+	OnTechSelect(E);
+	OnGraphicsSelect(E);
+	OnSoundsSelect(E);
+	OnTerrainsSelect(E);
+	OnTerrainRestrictionsTerrainSelect(E);
+	OnPlayerColorsSelect(E);
+	OnTerrainBordersSelect(E);
+	OnUnknownsSelect(E);
+	if(GenieVersion >= genie::GV_AoKA)
+	{
+		OnTTAgesSelect(E);
+		OnTTBuildingSelect(E);
+		OnTTUnitSelect(E);
+		OnTTResearchSelect(E);
+		if(GenieVersion >= genie::GV_SWGB)
+		OnUnitLinesSelect(E);
+	}
 }
 
 void AGE_Frame::OnGameVersionChange()
@@ -1623,11 +1628,13 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		case ToolBar_Hex:
 		{
 			AGETextCtrl::hexMode = Event.IsChecked();
+			LoadLists();
 		}
 		break;
 		case ToolBar_Float:
 		{
 			AGETextCtrl::accurateFloats = Event.IsChecked();
+			LoadLists();
 		}
 		break;
 		default: wxMessageBox(lexical_cast<string>(Event.GetId()), "wxEvent error!");
@@ -1937,6 +1944,17 @@ wxString AGE_Frame::FormatFloat(float value)
 	stringbuf buffer;
 	ostream os (&buffer);
 	os << value;
+	return buffer.str();
+}
+
+wxString AGE_Frame::FormatInt(int value)
+{
+	if(!AGETextCtrl::hexMode)
+	return lexical_cast<string>(value);
+
+	stringbuf buffer;
+	ostream os (&buffer);
+	os << hex << uppercase << value;
 	return buffer.str();
 }
 

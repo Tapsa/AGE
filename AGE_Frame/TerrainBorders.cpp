@@ -30,7 +30,7 @@ void AGE_Frame::InitTerrainBorders(bool all)
 
 	for(short loop = 0; loop < GenieFile->TerrainBlock.TerrainBorders.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
@@ -156,7 +156,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 
 	for(short loop = 0; loop < GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetTerrainBorderFrameName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderFrameName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);

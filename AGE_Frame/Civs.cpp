@@ -31,7 +31,7 @@ void AGE_Frame::InitCivs(bool all)
 
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - "+GetCivName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetCivName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
@@ -670,13 +670,13 @@ void AGE_Frame::ListResources(bool all)
 
 	for(short loop = 0; loop < GenieFile->Civs[CivIDs[0]].Resources.size(); ++loop)
 	{
-		wxString Name = " "+lexical_cast<string>(loop)+" - Value: "+FormatFloat(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
+		wxString Name = " "+FormatInt(loop)+" - Value: "+FormatFloat(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			filteredNames.Add(Name);
 			dataPointers.push_back((void*)&GenieFile->Civs[CivIDs[0]].Resources[loop]);
 		}
-		if(all) names.Add(" "+lexical_cast<string>(loop)+" - "+GetResourceName(loop));
+		if(all) names.Add(" "+FormatInt(loop)+" - "+GetResourceName(loop));
 	}
 
 	Listing(Civs_Resources_List, filteredNames, dataPointers);
