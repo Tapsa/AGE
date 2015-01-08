@@ -5,6 +5,7 @@
 #include <regex>
 //#include <atomic>
 #include <thread>
+#include <iomanip>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
 #include <wx/collpane.h>
