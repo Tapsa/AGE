@@ -7,12 +7,13 @@
 class AGE_Frame: public wxFrame
 {
 public:
-	AGE_Frame(const wxString &title, Copies &c, short window = 1);
+	AGE_Frame(const wxString &title, wxString &aP, Copies &c, short window = 1);
 
 //	Stuff related to editing multiple files at once
 
 	//AGE_Frame *secondWindow;
 	Copies *copies;
+	wxString *argPath;
 
 //	Constructions Methods
 

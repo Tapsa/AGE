@@ -14,6 +14,16 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	{
 		AGE_OpenDialog OpenBox(this, NeedDat);
 
+		if((*argPath).size() > 3)
+		{
+			OpenBox.CheckBox_CustomDefault->SetValue(true);
+			OpenBox.Path_CustomDefault->SetPath(*argPath);
+		}
+		else
+		{
+			OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
+			OpenBox.Path_CustomDefault->SetPath(CustomFolder);
+		}
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
 
 		switch(DatUsed)
@@ -39,8 +49,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		}
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
-		OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
-		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
 		OpenBox.LanguageBox->ChangeValue(Language);
 		if(AGEwindow == 1) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
@@ -887,6 +895,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Sounds_Items_SearchFilters[loop]->SetSelection(0);
 		}
 
+		SetStatusText(lexical_cast<string>(GenieFile->FileVersion), 2);
 		LoadLists();
 
 		Effects_AttributesC_ComboBox->Clear();

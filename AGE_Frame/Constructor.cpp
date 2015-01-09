@@ -7,13 +7,14 @@
 #include "../float.xpm"
 //#include "genie/util/Logger.h"
 
-AGE_Frame::AGE_Frame(const wxString &title, Copies &c, short window)
+AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short window)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
 {
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	copies = &c;
+	argPath = &aP;
 	AGEwindow = window;
 
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
