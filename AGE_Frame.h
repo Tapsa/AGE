@@ -83,6 +83,7 @@ public:
 	wxString searchText, excludeText;
 	wxString FormatFloat(float);
 	wxString FormatInt(int);
+	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
 	bool SearchMatches(wxString itemText);
 	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
 	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
@@ -1172,7 +1173,7 @@ public:
 	wxBoxSizer *Research_Research_Searches[2];
 	wxTextCtrl *Research_Research_Search;
 	wxTextCtrl *Research_Research_Search_R;
-	wxOwnerDrawnComboBox *Research_Research_SearchFilters[2];
+	wxOwnerDrawnComboBox *Research_SearchFilters[2];
 	wxCheckBox *Research_Research_UseAnd[2];
 	wxListBox *Research_Research_List;
 	wxButton *Research_Add;
@@ -1646,7 +1647,7 @@ public:
 	TextCtrl_Byte *Units_ButtonID;
 	TextCtrl_Long *Units_Unknown26;
 	TextCtrl_Long *Units_Unknown27;
-	TextCtrl_Byte *Units_MissileGraphicDelay;
+	TextCtrl_Byte *Units_Unknown28;
 	TextCtrl_Byte *Units_HeroMode;
 	CheckBox_2State *Units_HeroMode_CheckBox;
 	TextCtrl_Long *Units_GarrisonGraphic;
@@ -1676,7 +1677,7 @@ public:
 	ComboBox_Plus1 *Units_StackUnitID_ComboBox;
 	TextCtrl_Short *Units_TerrainID;
 	ComboBox_Plus1 *Units_TerrainID_ComboBox;
-	TextCtrl_Short *Units_Unknown32;
+	TextCtrl_Short *Units_OldTerrainLikeID;
 	TextCtrl_Short *Units_ResearchID;
 	ComboBox_Plus1 *Units_ResearchID_ComboBox;
 	TextCtrl_Byte *Units_Unknown33;
@@ -1829,7 +1830,7 @@ public:
 	wxStaticText *Units_ButtonID_Text;
 	wxStaticText *Units_Unknown26_Text;
 	wxStaticText *Units_Unknown27_Text;
-	wxStaticText *Units_MissileGraphicDelay_Text;
+	wxStaticText *Units_Unknown28_Text;
 	wxStaticText *Units_GarrisonGraphic_Text;
 	wxStaticText *Units_AttackMissileDuplicationAmount1_Text;
 	wxStaticText *Units_AttackMissileDuplicationAmount2_Text;
@@ -1846,7 +1847,7 @@ public:
 	wxStaticText *Units_IconDisabler_Text;
 	wxStaticText *Units_StackUnitID_Text;
 	wxStaticText *Units_TerrainID_Text;
-	wxStaticText *Units_Unknown32_Text;
+	wxStaticText *Units_OldTerrainLikeID_Text;
 	wxStaticText *Units_ResearchID_Text;
 	wxStaticText *Units_Unknown33_Text;
 	wxStaticText *Units_AnnexUnit_Text;
@@ -2016,7 +2017,7 @@ public:
 	wxBoxSizer *Units_ButtonID_Holder;
 	wxBoxSizer *Units_Unknown26_Holder;
 	wxBoxSizer *Units_Unknown27_Holder;
-	wxBoxSizer *Units_MissileGraphicDelay_Holder;
+	wxBoxSizer *Units_Unknown28_Holder;
 	wxBoxSizer *Units_HeroMode_Holder;
 	wxBoxSizer *Units_GarrisonGraphic_Holder;
 	wxGridSizer *Units_GarrisonGraphic_Grid;
@@ -2038,7 +2039,7 @@ public:
 	wxBoxSizer *Units_Unknown31b_Holder;
 	wxBoxSizer *Units_StackUnitID_Holder;
 	wxBoxSizer *Units_TerrainID_Holder;
-	wxBoxSizer *Units_Unknown32_Holder;
+	wxBoxSizer *Units_OldTerrainLikeID_Holder;
 	wxBoxSizer *Units_ResearchID_Holder;
 	wxBoxSizer *Units_Unknown33_Holder;
 	wxGridSizer *Units_AnnexUnit_Grid;
@@ -2347,7 +2348,7 @@ public:
 	wxBoxSizer *Graphics_Graphics_Searches[2];
 	wxTextCtrl *Graphics_Graphics_Search;
 	wxTextCtrl *Graphics_Graphics_Search_R;
-	wxOwnerDrawnComboBox *Graphics_Graphics_SearchFilters[2];
+	wxOwnerDrawnComboBox *Graphics_SearchFilters[2];
 	wxCheckBox *Graphics_Graphics_UseAnd[2];
 	wxListBox *Graphics_Graphics_List;
 	//AGEListCtrl *Graphics_Graphics_ListV;
@@ -2676,7 +2677,7 @@ public:
 	ComboBox_Plus1 *TerRestrict_Graphics_ComboBox[2];
 	wxBoxSizer *TerRestrict_Amount_Holder;
 	wxStaticText *TerRestrict_Amount_Text;
-	TextCtrl_Long *TerRestrict_Amount;
+	TextCtrl_Float *TerRestrict_Amount;
 
 //	Sound user interface
 

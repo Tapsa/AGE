@@ -372,7 +372,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[1]);
 	TerRestrict_Amount_Holder = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Amount_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Amount = new TextCtrl_Long(Tab_TerrainRestrictions);
+	TerRestrict_Amount = new TextCtrl_Float(Tab_TerrainRestrictions);
 
 	TerRestrict_TerRestrict_Buttons->Add(TerRestrict_Add, 1, wxEXPAND);
 	TerRestrict_TerRestrict_Buttons->Add(TerRestrict_Delete, 1, wxEXPAND);

@@ -7,7 +7,7 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 	{
 		short Selection[2];
 		for(short loop = 0; loop < 2; ++loop)
-		Selection[loop] = Research_Research_SearchFilters[loop]->GetSelection();
+		Selection[loop] = Research_SearchFilters[loop]->GetSelection();
 
 		if(Selection[0] > 1)
 		for(short loop = 0; loop < 2; ++loop)
@@ -421,7 +421,7 @@ void AGE_Frame::CreateResearchControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Research_Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
 	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	Research_Research_Buttons = new wxGridSizer(3, 0, 0);
@@ -558,7 +558,7 @@ void AGE_Frame::CreateResearchControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Research_Research->Add(Research_Research_Searches[loop], 0, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
-	Research_Research->Add(Research_Research_SearchFilters[loop], 0, wxEXPAND);
+	Research_Research->Add(Research_SearchFilters[loop], 0, wxEXPAND);
 	Research_Research->Add(-1, 2);
 	Research_Research->Add(Research_Research_List, 1, wxEXPAND);
 	Research_Research->Add(-1, 2);
@@ -738,7 +738,7 @@ void AGE_Frame::CreateResearchControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Connect(Research_Research_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
-		Connect(Research_Research_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
+		Connect(Research_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 	}
 	Connect(Research_Research_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
 	Connect(Research_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchAdd));
