@@ -51,6 +51,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Read("DefaultFiles/SaveLangX1Filename", &SaveLangX1FileName, wxT(""));
 	Config->Read("DefaultFiles/SaveLangX1P1Filename", &SaveLangX1P1FileName, wxT(""));
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
+	Config->Read("DefaultFiles/AutoBackups", &AutoBackups, false);
 
 	Config->Write("/EditorVersion", AGE_AboutDialog::AGE_VER);
 	Config->Write("/TimesOpened", ++TimesOpened);
