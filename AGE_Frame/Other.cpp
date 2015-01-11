@@ -4,7 +4,7 @@ wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
 bool AGETextCtrl::editable;
 bool AGETextCtrl::hexMode;
 bool AGETextCtrl::accurateFloats;
-bool AGETextCtrl::unSaved;
+int AGETextCtrl::unSaved;
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
 {
@@ -14,6 +14,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	if(!SkipOpenDialog)
 	{
 		AGE_OpenDialog OpenBox(this, NeedDat);
+		OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
+		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
 
 		switch(DatUsed)
@@ -1508,8 +1510,8 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		}
 	}
 
-	AGETextCtrl::unSaved = false;
-	SetStatusText("Selected files saved.", 0);
+	SetStatusText("Selected files saved. "+lexical_cast<string>(AGETextCtrl::unSaved)+" dat edits.", 0);
+	AGETextCtrl::unSaved = 0;
 }
 
 void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
@@ -1982,7 +1984,7 @@ wxString AGE_Frame::FormatInt(int value)
 }
 
 void AGE_Frame::OnExit(wxCloseEvent &Event)
-{	
+{
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopy", AutoCopy);
@@ -1993,9 +1995,10 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	delete Config;
 
-	if(Event.CanVeto() && AGETextCtrl::unSaved)
+	if(Event.CanVeto() && AGETextCtrl::unSaved > 0)
 	{
-		if(wxMessageBox("There are unsaved changes.\nClose anyway?", "Discard unsaved changes",
+		if(wxMessageBox("There are "+lexical_cast<string>(AGETextCtrl::unSaved)+" unsaved changes.\nClose anyway?",
+		"Discard unsaved changes",
 		wxICON_QUESTION | wxYES_NO) != wxYES )
 		{
 			Event.Veto();

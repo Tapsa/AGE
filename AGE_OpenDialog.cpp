@@ -1,7 +1,7 @@
 #include "AGE_OpenDialog.h"
 
 AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
-: AGE_OpenSave(parent, "Open")
+: AGE_OpenSave(parent, "Open", this)
 {
 	Layout = new wxFlexGridSizer(2, 2, 2);
 
@@ -85,7 +85,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Main->Add(Area, 1, wxEXPAND);
 	Main->AddSpacer(5);
 
-	this->SetSizerAndFit(Main);
+	SetSizerAndFit(Main);
 
 	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnOK));
 	Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoE));
