@@ -6,7 +6,7 @@
 class AGE_OpenSave: public wxDialog
 {
 public:
-	AGE_OpenSave(wxWindow *parent, wxString title);
+	AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave);
 
 	/* Events */
 
