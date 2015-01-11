@@ -1,7 +1,7 @@
 #include "AGE_SaveDialog.h"
 
 AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
-: AGE_OpenSave(parent, "Save")
+: AGE_OpenSave(parent, "Save", this)
 {
 	Layout = new wxFlexGridSizer(7, 2, 2, 2);
 

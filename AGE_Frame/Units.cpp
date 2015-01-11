@@ -6316,30 +6316,21 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 {
 	if(Event.GetId() == Units_Type_ComboBox->GetId())
 	{
-		auto Selection = Units_Type_ComboBox->GetSelection();
-		for(int loop = 0; loop < UnitIDs.size(); ++loop)
+		switch(Units_Type_ComboBox->GetSelection())
 		{
-			switch(Selection)
-			{
-				case 1: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 10; break;
-				case 2: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 15; break;
-				case 3: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 20; break;
-				case 4: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 25; break;
-				case 5: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 30; break;
-				case 6: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 40; break;
-				case 7: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 50; break;
-				case 8: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 60; break;
-				case 9: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 70; break;
-				case 10: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 80; break;
-				case 11: GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type = 90; break;
-			}
-			if(AutoCopy) // Should copy-to-civ selections affect this?
-			{
-				char UnitType = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]].Type;
-				for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
-				GenieFile->Civs[civ].Units[UnitIDs[loop]].Type = UnitType;
-			}
+			case 1: Units_Type->ChangeValue("10"); break;
+			case 2: Units_Type->ChangeValue("15"); break;
+			case 3: Units_Type->ChangeValue("20"); break;
+			case 4: Units_Type->ChangeValue("25"); break;
+			case 5: Units_Type->ChangeValue("30"); break;
+			case 6: Units_Type->ChangeValue("40"); break;
+			case 7: Units_Type->ChangeValue("50"); break;
+			case 8: Units_Type->ChangeValue("60"); break;
+			case 9: Units_Type->ChangeValue("70"); break;
+			case 10: Units_Type->ChangeValue("80"); break;
+			case 11: Units_Type->ChangeValue("90"); break;
 		}
+		Units_Type->SaveEdits();
 		wxCommandEvent E;
 		OnUnitsSelect(E);	// Updates unit layout.
 //		ListUnits(UnitCivID, false);	// For special search filters.
@@ -6386,9 +6377,7 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 			case 35: UnitCommands_Type->ChangeValue("149"); break;
 			default: UnitCommands_Type->ChangeValue("-1");
 		}
-
 		UnitCommands_Type->SaveEdits();
-
 		ListUnitCommands();
 		return;
 	}
