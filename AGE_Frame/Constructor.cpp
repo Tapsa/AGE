@@ -188,5 +188,5 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	AGETextCtrl::editable = false;
 	AGETextCtrl::hexMode = false;
 	AGETextCtrl::accurateFloats = false;
-	AGETextCtrl::unSaved = false;
+	AGETextCtrl::unSaved = 0;
 }
