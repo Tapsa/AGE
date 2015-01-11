@@ -11,7 +11,7 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 	{
 		short Selection[2];
 		for(short loop = 0; loop < 2; ++loop)
-		Selection[loop] = Graphics_Graphics_SearchFilters[loop]->GetSelection();
+		Selection[loop] = Graphics_SearchFilters[loop]->GetSelection();
 
 		if(Selection[0] > 1) // Internal name prevents
 		for(short loop = 0; loop < 2; ++loop)
@@ -695,7 +695,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Graphics_Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
 	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 	//Graphics_Graphics_ListV = new AGEListCtrl(Tab_Graphics, wxSize(10, 100));
@@ -869,28 +869,28 @@ void AGE_Frame::CreateGraphicsControls()
 
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Graphics_Graphics_SearchFilters[loop]->Append("Internal Name");	// 0
-		Graphics_Graphics_SearchFilters[loop]->Append("SLP Name");
-		Graphics_Graphics_SearchFilters[loop]->Append("SLP");
-		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 1");
-		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 2");
-		Graphics_Graphics_SearchFilters[loop]->Append("Layer");
-		Graphics_Graphics_SearchFilters[loop]->Append("Player Color Forcer");
-		Graphics_Graphics_SearchFilters[loop]->Append("Replay");
-		Graphics_Graphics_SearchFilters[loop]->Append("Sound");
-		Graphics_Graphics_SearchFilters[loop]->Append("Coordinates");
-		Graphics_Graphics_SearchFilters[loop]->Append("Delta Count");
-		Graphics_Graphics_SearchFilters[loop]->Append("Attack Sound Used");
-		Graphics_Graphics_SearchFilters[loop]->Append("Frame Count");
-		Graphics_Graphics_SearchFilters[loop]->Append("Angle Count");
-		Graphics_Graphics_SearchFilters[loop]->Append("New Speed");
-		Graphics_Graphics_SearchFilters[loop]->Append("Frame Rate");
-		Graphics_Graphics_SearchFilters[loop]->Append("Replay Delay");
-		Graphics_Graphics_SearchFilters[loop]->Append("Sequence Type");
-		Graphics_Graphics_SearchFilters[loop]->Append("Mirroring Mode");
-		Graphics_Graphics_SearchFilters[loop]->Append("Unknown 3");
-		Graphics_Graphics_SearchFilters[loop]->Append("Pointer");
-		Graphics_Graphics_SearchFilters[loop]->SetSelection(0);
+		Graphics_SearchFilters[loop]->Append("Internal Name");	// 0
+		Graphics_SearchFilters[loop]->Append("SLP Name");
+		Graphics_SearchFilters[loop]->Append("SLP");
+		Graphics_SearchFilters[loop]->Append("Unknown 1");
+		Graphics_SearchFilters[loop]->Append("Unknown 2");
+		Graphics_SearchFilters[loop]->Append("Layer");
+		Graphics_SearchFilters[loop]->Append("Player Color Forcer");
+		Graphics_SearchFilters[loop]->Append("Replay");
+		Graphics_SearchFilters[loop]->Append("Sound");
+		Graphics_SearchFilters[loop]->Append("Coordinates");
+		Graphics_SearchFilters[loop]->Append("Delta Count");
+		Graphics_SearchFilters[loop]->Append("Attack Sound Used");
+		Graphics_SearchFilters[loop]->Append("Frame Count");
+		Graphics_SearchFilters[loop]->Append("Angle Count");
+		Graphics_SearchFilters[loop]->Append("New Speed");
+		Graphics_SearchFilters[loop]->Append("Frame Rate");
+		Graphics_SearchFilters[loop]->Append("Replay Delay");
+		Graphics_SearchFilters[loop]->Append("Sequence Type");
+		Graphics_SearchFilters[loop]->Append("Mirroring Mode");
+		Graphics_SearchFilters[loop]->Append("Unknown 3");
+		Graphics_SearchFilters[loop]->Append("Pointer");
+		Graphics_SearchFilters[loop]->SetSelection(0);
 	}
 
 	Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
@@ -911,7 +911,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Graphics_Graphics->Add(Graphics_Graphics_Searches[loop], 0, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
-	Graphics_Graphics->Add(Graphics_Graphics_SearchFilters[loop], 0, wxEXPAND);
+	Graphics_Graphics->Add(Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->Add(-1, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
 	//Graphics_Graphics->Add(Graphics_Graphics_ListV, 2, wxEXPAND);
@@ -1118,7 +1118,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
-		Connect(Graphics_Graphics_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
+		Connect(Graphics_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 	}
 	Connect(Graphics_Graphics_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect));
 	Connect(Graphics_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsAdd));
