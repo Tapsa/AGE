@@ -148,6 +148,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Config->Write("DefaultFiles/LangFilename", LangFileName);
 		Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
 		Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
+		Config->Write("DefaultFiles/AutoBackups", AutoBackups);
 		delete Config;
 	}
 
@@ -278,6 +279,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			GenieFile = NULL;
 			return;
 		}
+		AGETextCtrl::unSaved = 0;
 	}
 
 	if(GenieFile != NULL)
@@ -829,6 +831,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		for(short loop = 0; loop < 2; ++loop)
 		{
+			Units_SearchFilters[loop]->Clear();
 			Units_SearchFilters[loop]->Append("*Choose*");
 			Units_SearchFilters[loop]->Append(Type20);
 			Units_SearchFilters[loop]->SetSelection(0);
@@ -992,6 +995,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	NeedDat = false;
 	SkipOpenDialog = false;
+	if(AutoBackups) SaveBackup();
 }
 
 void AGE_Frame::LoadLists()
@@ -1983,6 +1987,34 @@ wxString AGE_Frame::FormatInt(int value)
 	return buffer.str();
 }
 
+void AGE_Frame::SaveBackup()
+{
+	try
+	{
+		GenieFile->saveAs((DatFileName.substr(0, DatFileName.size()-4)+"_backup"+CurrentTime()+".dat").c_str());
+	}
+	catch(std::ios_base::failure e)
+	{
+		wxMessageBox("Error saving backup!");
+	}
+}
+
+wxString AGE_Frame::CurrentTime()
+{
+	time_t now = chrono::system_clock::to_time_t(chrono::system_clock::now());
+	struct tm *parts = localtime(&now);
+
+	stringbuf buffer;
+	ostream os (&buffer);
+	os << 1900 + parts->tm_year;
+	os << 1 + parts->tm_mon;
+	os << parts->tm_mday;
+	os << parts->tm_hour;
+	os << parts->tm_min;
+	os << parts->tm_sec;
+	return buffer.str();
+}
+
 void AGE_Frame::OnExit(wxCloseEvent &Event)
 {
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
@@ -2004,6 +2036,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 			Event.Veto();
 			return;
 		}
+		if(AutoBackups) SaveBackup();
 	}
 
 	TabBar_Main->Destroy();

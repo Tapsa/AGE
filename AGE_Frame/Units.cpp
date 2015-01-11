@@ -35,9 +35,76 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			{
 				switch(Selection[loop])
 				{
-					case 1: Name += "Ask Tapsa"; break;
+					case 1: Name += "T "+FormatInt(UnitPointer->Type); break;
+					case 2: Name += "NL "+FormatInt(UnitPointer->NameLength); break;
+					case 3: Name += "I1 "+FormatInt(UnitPointer->ID1); break;
+					case 4: Name += "LN "+FormatInt(UnitPointer->LanguageDLLName); break;
+					case 5: Name += "LC "+FormatInt(UnitPointer->LanguageDLLCreation); break;
+					case 6: Name += "C "+FormatInt(UnitPointer->Class); break;
+					case 7: Name += "Ask Tapsa"; break;
+					case 8: Name += "Ask Tapsa"; break;
+					case 9: Name += "DM "+FormatInt(UnitPointer->DeathMode); break;
+					case 10: Name += "HP "+FormatInt(UnitPointer->HitPoints); break;
+					case 11: Name += "LS "+FormatFloat(UnitPointer->LineOfSight); break;
+					case 12: Name += "GC "+FormatInt(UnitPointer->GarrisonCapacity); break;
+					case 13: Name += "Ask Tapsa"; break;
+					case 14: Name += "B1 "+FormatFloat(UnitPointer->HPBarHeight1); break;
+					case 15: Name += "Ask Tapsa"; break;
+					case 16: Name += "DU "+FormatInt(UnitPointer->DeadUnitID); break;
+					case 17: Name += "PM "+FormatInt(UnitPointer->PlacementMode); break;
+					case 18: Name += "AM "+FormatInt(UnitPointer->AirMode); break;
+					case 19: Name += "I "+FormatInt(UnitPointer->IconID); break;
+					case 20: Name += "HE "+FormatInt(UnitPointer->HideInEditor); break;
+					case 21: Name += "U1 "+FormatInt(UnitPointer->Unknown1); break;
+					case 22: Name += "E "+FormatInt(UnitPointer->Enabled); break;
+					case 23: Name += "D "+FormatInt(UnitPointer->Disabled); break;
+					case 24: Name += "Ask Tapsa"; break;
+					case 25: Name += "Ask Tapsa"; break;
+					case 26: Name += "Ask Tapsa"; break;
+					case 27: Name += "HM "+FormatInt(UnitPointer->HillMode); break;
+					case 28: Name += "VF "+FormatInt(UnitPointer->VisibleInFog); break;
+					case 29: Name += "TR "+FormatInt(UnitPointer->TerrainRestriction); break;
+					case 30: Name += "FM "+FormatInt(UnitPointer->FlyMode); break;
+					case 31: Name += "RC "+FormatInt(UnitPointer->ResourceCapacity); break;
+					case 32: Name += "RD "+FormatFloat(UnitPointer->ResourceDecay); break;
 					case 33: Name += "BT "+FormatInt(UnitPointer->BlastType); break;
 					case 34: Name += "U2 "+FormatInt(UnitPointer->Unknown2); break;
+					case 35: Name += "IM "+FormatInt(UnitPointer->InteractionMode); break;
+					case 36: Name += "MM "+FormatInt(UnitPointer->MinimapMode); break;
+					case 37: Name += "CA "+FormatInt(UnitPointer->CommandAttribute); break;
+					case 38: Name += "U3A "+FormatFloat(UnitPointer->Unknown3A); break;
+					case 39: Name += "MC "+FormatInt(UnitPointer->MinimapColor); break;
+					case 40: Name += "LH "+FormatInt(UnitPointer->LanguageDLLHelp); break;
+					case 41: Name += "LT "+FormatInt(UnitPointer->LanguageDLLHotKeyText); break;
+					case 42: Name += "HK "+FormatInt(UnitPointer->HotKey); break;
+					case 43: Name += "US "+FormatInt(UnitPointer->Unselectable); break;
+					case 44: Name += "U6 "+FormatInt(UnitPointer->Unknown6); break;
+					case 45: Name += "U7 "+FormatInt(UnitPointer->UnknownSelectionMode); break;
+					case 46: Name += "U8 "+FormatInt(UnitPointer->Unknown8); break;
+					case 47: Name += "SM "+FormatInt(UnitPointer->SelectionMask); break;
+					case 48: Name += "ST "+FormatInt(UnitPointer->SelectionShapeType); break;
+					case 49: Name += "SSh "+FormatInt(UnitPointer->SelectionShape); break;
+					case 50: Name += "A "+FormatInt(UnitPointer->Attribute); break;
+					case 51: Name += "Ci "+FormatInt(UnitPointer->Civilization); break;
+					case 52: Name += "No "+FormatInt(UnitPointer->Nothing); break;
+					case 53: Name += "SE "+FormatInt(UnitPointer->SelectionEffect); break;
+					case 54: Name += "EC "+FormatInt(UnitPointer->EditorSelectionColour); break;
+					case 55: Name += "Ask Tapsa"; break;
+					case 56: Name += "B2 "+FormatFloat(UnitPointer->HPBarHeight2); break;
+					case 57: Name += "Ask Tapsa"; break;
+					case 58: Name += "DC "+FormatInt(UnitPointer->DamageGraphics.size()); break;
+					case 59: Name += "Ask Tapsa"; break;
+					case 60: Name += "SSo "+FormatInt(UnitPointer->SelectionSound); break;
+					case 61: Name += "DS "+FormatInt(UnitPointer->DyingSound); break;
+					case 62: Name += "AtM "+FormatInt(UnitPointer->AttackMode); break;
+					case 63: Name += "EM "+FormatInt(UnitPointer->EdibleMeat); break;
+					case 64: Name += UnitPointer->Name; break;
+					case 65: Name += "NL2 "+FormatInt(UnitPointer->NameLength2); break;
+					case 66: Name += UnitPointer->Name2; break;
+					case 67: Name += "UL "+FormatInt(UnitPointer->Unitline); break;
+					case 68: Name += "MT "+FormatInt(UnitPointer->MinTechLevel); break;
+					case 69: Name += "I2 "+FormatInt(UnitPointer->ID2); break;
+					case 70: Name += "I3 "+FormatInt(UnitPointer->ID3); break;
 					case 71: Name += "S "+FormatFloat(UnitPointer->Speed); break;
 				}
 				Name += ", ";
@@ -89,9 +156,11 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				{
 					case 1: Name += "DA "+FormatInt(UnitPointer->Type50.DefaultArmor); break;
 					case 2: Name += "AtC "+FormatInt(UnitPointer->Type50.Attacks.size()); break;
-					case 3: Name += "Ask Tapsa"; break;
+					case 3: for(short i = 0; i < UnitPointer->Type50.Attacks.size(); ++i)
+					Name += "c" + lexical_cast<string>(UnitPointer->Type50.Attacks[i].Class) + " "; break;
 					case 4: Name += "ArC "+FormatInt(UnitPointer->Type50.Armours.size()); break;
-					case 5: Name += "Ask Tapsa"; break;
+					case 5: for(short i = 0; i < UnitPointer->Type50.Armours.size(); ++i)
+					Name += "c" + lexical_cast<string>(UnitPointer->Type50.Armours[i].Class) + " "; break;
 					case 6: Name += "TR "+FormatInt(UnitPointer->Type50.TerRestrictionForDmgMultiplying); break;
 					case 7: Name += "MaR "+FormatFloat(UnitPointer->Type50.MaxRange); break;
 					case 8: Name += "BR "+FormatFloat(UnitPointer->Type50.BlastRadius); break;
@@ -187,142 +256,6 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			}
 			break;
 		}
-
-		/*if(Selection[0] > 1)
-		for(short loop = 0; loop < 2; ++loop)
-		{
-			switch(Selection[loop])
-			{
-				case 2: // Type
-					Name += "T "+lexical_cast<string>(UnitType);
-					break;
-				case 3: // Class
-					Name += "C "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Class);
-					break;
-				case 4: // Terrain Restriction
-					Name += "TR "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].TerrainRestriction);
-					break;
-				case 5: // Dead Unit
-					Name += "DU "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].DeadUnitID);
-					break;
-				case 6: // Civilization
-					if(GenieVersion >= genie::GV_TC)
-					Name += "CI "+lexical_cast<string>((short)GenieFile->Civs[civ].Units[Index].Civilization);
-					break;
-				case 7: // Projectile Unit
-					switch(UnitType)
-					{
-						case 50:
-						case 60:
-						case 70:
-						case 80:
-							Name += "PU "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.ProjectileUnitID);
-							break;
-						default:
-							Name += "PU -1";
-					}
-					break;
-				case 8: // Max Range
-					switch(UnitType)
-					{
-						case 50:
-						case 60:
-						case 70:
-						case 80:
-							Name += "MR "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.MaxRange);
-							break;
-						default:
-							Name += "MR -1";
-					}
-					break;
-				case 9: // Train Location
-					switch(UnitType)
-					{
-						case 70:
-						case 80:
-							Name += "TL "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Creatable.TrainLocationID);
-							break;
-						default:
-							Name += "TL -1";
-					}
-					break;
-				case 10: // Attacks
-					switch(UnitType)
-					{
-						case 50:
-						case 60:
-						case 70:
-						case 80:
-							Name += "AtC "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.Attacks.size());
-							break;
-						default:
-							Name += "AtC -1";
-					}
-					break;
-				case 11:
-					switch(UnitType)
-					{
-						case 50:
-						case 60:
-						case 70:
-						case 80:
-						for(short i = 0; i < GenieFile->Civs[civ].Units[Index].Type50.Attacks.size(); ++i)
-						{
-							Name += "c" + lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.Attacks[i].Class) + " ";
-						}
-					}
-					break;
-				case 12: // Armors
-					switch(UnitType)
-					{
-						case 50:
-						case 60:
-						case 70:
-						case 80:
-							Name += "ArC "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.Armours.size());
-							break;
-						default:
-							Name += "ArC -1";
-					}
-					break;
-				case 13:
-					switch(UnitType)
-					{
-						case 50:
-						case 60:
-						case 70:
-						case 80:
-						for(short i = 0; i < GenieFile->Civs[civ].Units[Index].Type50.Armours.size(); ++i)
-						{
-							Name += "c" + lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Type50.Armours[i].Class) + " ";
-						}
-					}
-					break;
-				case 14: // Commands
-					switch(UnitType)
-					{
-						case 40:
-						case 50:
-						case 60:
-						case 70:
-						case 80:
-							if(GenieVersion < genie::GV_AoK)
-							Name += "CC "+lexical_cast<string>(GenieFile->Civs[civ].Units[Index].Bird.Commands.size());
-							else
-							Name += "CC "+lexical_cast<string>(GenieFile->UnitHeaders[Index].Commands.size());
-							break;
-						default:
-							Name += "CC -1";
-					}
-					break;
-				case 15: // Pointer
-					Name = lexical_cast<string>(GenieFile->Civs[civ].UnitPointers[Index]);
-					break;
-			}
-			Name += ", ";
-			if(Selection[loop+1] < 2) break;
-		}
-		if(Selection[0] == 1) goto InternalName;*/
 	}
 
 Names:
@@ -611,7 +544,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_Enabled->resize(PointerCount);
 	Units_CommandAttribute->resize(PointerCount);
 	Units_Unknown3A->resize(PointerCount);
-	Units_Unknown3B->resize(PointerCount);
+	Units_MinimapColor->resize(PointerCount);
 	Units_LanguageDLLHelp->resize(PointerCount);
 	Units_LanguageDLLHotKeyText->resize(PointerCount);
 	Units_HotKey->resize(PointerCount);
@@ -897,7 +830,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_Enabled->container[location] = &UnitPointer->Enabled;
 			Units_CommandAttribute->container[location] = &UnitPointer->CommandAttribute;
 			Units_Unknown3A->container[location] = &UnitPointer->Unknown3A;
-			Units_Unknown3B->container[location] = &UnitPointer->Unknown3B;
+			Units_MinimapColor->container[location] = &UnitPointer->MinimapColor;
 			Units_LanguageDLLHelp->container[location] = &UnitPointer->LanguageDLLHelp;
 			Units_LanguageDLLHotKeyText->container[location] = &UnitPointer->LanguageDLLHotKeyText;
 			Units_HotKey->container[location] = &UnitPointer->HotKey;
@@ -1322,7 +1255,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			}
 			Units_CommandAttribute->Update();
 			Units_Unknown3A->Update();
-			Units_Unknown3B->Update();
+			Units_MinimapColor->Update();
 			Units_LanguageDLLHelp->Update();
 			Units_DLL_LanguageHelp->SetLabel(LangDLLstring(Units_DLL_LanguageHelp->index, 512));
 			Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHelp->index));
@@ -1453,7 +1386,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_DLL_LanguageHKText->Enable(show);
 	Units_CommandAttribute->Enable(show);
 	Units_Unknown3A->Enable(show);
-	Units_Unknown3B->Enable(show);
+	Units_MinimapColor->Enable(show);
 	Units_LanguageDLLHelp->Enable(show);
 	Units_DLL_LanguageHelp->Enable(show);
 	Units_LanguageDLLConverter[0]->Enable(show);
@@ -3945,7 +3878,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_MinimapMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_CommandAttribute_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Unknown3A_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_Unknown3B_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_MinimapColor_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_LanguageDLLHelp_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_LanguageDLLConverter_Holder[0] = new wxBoxSizer(wxVERTICAL);
 	Units_LanguageDLLConverter_Holder[1] = new wxBoxSizer(wxVERTICAL);
@@ -4124,8 +4057,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_InteractionMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinimapMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_CommandAttribute_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown3A_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown3B_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Color", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown3A_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3A *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_MinimapColor_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLHelp_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLConverter_Text[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLConverter_Text[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey Text Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4534,6 +4467,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_InteractionMode->SetToolTip("0 & 1 Unable to select, move or attack\n2 Can select, unable to move or attack\n3 Can select and attack, unable to move\n4 Can select, move and attack\n5+ Select and move?");
 	Units_MinimapMode = new TextCtrl_Byte(Units_Scroller);
 	Units_MinimapMode->SetToolTip("0 & 6-10 No dot on minimap\n1 Square dot turning white when selected\n2 Diamond dot turning white when selected\n3 Diamond dot keeping color\n4 & 5 Larger spot, not following the unit, no blinking when attacked, everyone can see it\n");
+	Units_MinimapColor = new TextCtrl_UByte(Units_Scroller);
+	Units_MinimapColor->SetToolTip("Minimap mode 4 allows this to work");
 	Units_AttackMode = new TextCtrl_Byte(Units_Scroller);
 	Units_AttackMode->SetToolTip("This may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
 	Units_EdibleMeat = new TextCtrl_Byte(Units_Scroller);
@@ -4725,7 +4660,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown2 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown2->SetToolTip("Action from mouse right-click?\n0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
 	Units_Unknown3A = new TextCtrl_Float(Units_Scroller);
-	Units_Unknown3B = new TextCtrl_UByte(Units_Scroller);
+	Units_Unknown3A->SetToolTip("Seems to be 1 on more or less living things");
 	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller);
 	Units_Unknown6->SetToolTip("Seems to be 1 on all resource deposits");
 	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller);
@@ -4935,7 +4870,7 @@ void AGE_Frame::CreateUnitControls()
 	Type20.Add("MinimapMode");
 	Type20.Add("CommandAttribute");
 	Type20.Add("Unknown3A");
-	Type20.Add("Unknown3B");
+	Type20.Add("MinimapColor");
 	Type20.Add("LanguageDLLHelp");
 	Type20.Add("LanguageDLLHotKeyText");
 	Type20.Add("HotKey");
@@ -5139,7 +5074,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_MinimapMode_Holder->Add(Units_MinimapMode_Text, 0, wxEXPAND);
 	Units_CommandAttribute_Holder->Add(Units_CommandAttribute_Text, 0, wxEXPAND);
 	Units_Unknown3A_Holder->Add(Units_Unknown3A_Text, 0, wxEXPAND);
-	Units_Unknown3B_Holder->Add(Units_Unknown3B_Text, 0, wxEXPAND);
+	Units_MinimapColor_Holder->Add(Units_MinimapColor_Text, 0, wxEXPAND);
 	Units_Unknown6_Holder->Add(Units_Unknown6_Text, 0, wxEXPAND);
 	Units_Unknown7_Holder->Add(Units_Unknown7_Text, 0, wxEXPAND);
 	Units_Unknown8_Holder->Add(Units_Unknown8_Text, 0, wxEXPAND);
@@ -5313,7 +5248,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_MinimapMode_Holder->Add(Units_MinimapMode, 1, wxEXPAND);
 	Units_CommandAttribute_Holder->Add(Units_CommandAttribute, 0, wxEXPAND);
 	Units_Unknown3A_Holder->Add(Units_Unknown3A, 0, wxEXPAND);
-	Units_Unknown3B_Holder->Add(Units_Unknown3B, 0, wxEXPAND);
+	Units_MinimapColor_Holder->Add(Units_MinimapColor, 0, wxEXPAND);
 	Units_Unselectable_Holder->Add(Units_Unselectable_CheckBox, 0, wxEXPAND);
 	Units_Unselectable_Holder->Add(Units_Unselectable, 1, wxEXPAND);
 	Units_Unknown6_Holder->Add(Units_Unknown6, 1, wxEXPAND);
@@ -5893,6 +5828,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesModes1_Grid->Add(Units_VisibleInFog_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_InteractionMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_MinimapMode_Holder, 1, wxEXPAND);
+	Units_AttributesModes1_Grid->Add(Units_MinimapColor_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_AttackMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_EdibleMeat_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_VillagerMode_Holder, 1, wxEXPAND);
@@ -6010,7 +5946,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type10plusUnknowns_Grid->Add(Units_BlastType_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown2_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown3A_Holder, 0, wxEXPAND);
-	Units_Type10plusUnknowns_Grid->Add(Units_Unknown3B_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown6_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown7_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown8_Holder, 0, wxEXPAND);
