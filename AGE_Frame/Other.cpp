@@ -4,6 +4,7 @@ wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
 bool AGETextCtrl::editable;
 bool AGETextCtrl::hexMode;
 bool AGETextCtrl::accurateFloats;
+bool AGETextCtrl::unSaved;
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
 {
@@ -13,17 +14,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	if(!SkipOpenDialog)
 	{
 		AGE_OpenDialog OpenBox(this, NeedDat);
-
-		if((*argPath).size() > 3)
-		{
-			OpenBox.CheckBox_CustomDefault->SetValue(true);
-			OpenBox.Path_CustomDefault->SetPath(*argPath);
-		}
-		else
-		{
-			OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
-			OpenBox.Path_CustomDefault->SetPath(CustomFolder);
-		}
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
 
 		switch(DatUsed)
@@ -53,6 +43,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(AGEwindow == 1) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
 		OpenBox.Path_ApfFileLocation->SetPath(ApfFileName);
+		if((*argPath).size() > 3)
+		{
+			OpenBox.ForceDat = true;
+			OpenBox.Radio_DatFileLocation->SetValue(true);
+			OpenBox.Path_DatFileLocation->SetPath(*argPath);
+		}
 
 		OpenBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
 		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -78,8 +74,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.CheckBox_LangWrite->SetValue(WriteLangs);
 		OpenBox.CheckBox_LangWriteToLatest->SetValue(LangWriteToLatest);
 
-		AGETextCtrl::editable = true;
-		if(OpenBox.ShowModal() != wxID_OK) return; // What this does?
+		bool load = OpenBox.ShowModal() == wxID_OK; // What this does?
 
 		GameVersion = OpenBox.CheckBox_GenieVer->GetSelection();
 		if(OpenBox.Radio_DatFileLocation->GetValue())
@@ -133,6 +128,25 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
 		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
 		LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
+
+		AGETextCtrl::editable = true;
+		if(!load) return;
+		Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+		if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
+		Config->Write("DefaultFiles/DriveLetter", DriveLetter);
+		Config->Write("DefaultFiles/UseCustomPath", UseCustomPath);
+		Config->Write("DefaultFiles/CustomFolder", CustomFolder);
+		Config->Write("DefaultFiles/Version", GameVersion);
+		Config->Write("DefaultFiles/DatUsed", DatUsed);
+		Config->Write("DefaultFiles/DatFilename", DatFileName);
+		Config->Write("DefaultFiles/LangsUsed", LangsUsed);
+		Config->Write("DefaultFiles/WriteLangs", WriteLangs);
+		Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
+		Config->Write("DefaultFiles/Language", Language);
+		Config->Write("DefaultFiles/LangFilename", LangFileName);
+		Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
+		Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
+		delete Config;
 	}
 
 	switch(GameVersion)
@@ -815,6 +829,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			Units_SearchFilters[loop]->Append("*Choose*");
 			Units_SearchFilters[loop]->Append(Type20);
+			Units_SearchFilters[loop]->SetSelection(0);
 
 			Research_SearchFilters[loop]->Clear();
 			Research_SearchFilters[loop]->Append("Lang DLL Name");	// 0
@@ -1374,7 +1389,12 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
 	SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
-
+	if((*argPath).size() > 3)
+	{
+		SaveBox.ForceDat = true;
+		SaveBox.CheckBox_DatFileLocation->SetValue(true);
+		SaveBox.Path_DatFileLocation->SetPath(*argPath);
+	}
 	SaveBox.CheckBox_ApfFileLocation->SetValue(SaveApf);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 	Selected.SetId(SaveBox.CheckBox_ApfFileLocation->GetId());
@@ -1405,18 +1425,27 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	SaveBox.Path_LangX1FileLocation->SetPath(SaveLangX1FileName);
 	SaveBox.Path_LangX1P1FileLocation->SetPath(SaveLangX1P1FileName);
 
-	if(SaveBox.ShowModal() != wxID_OK) return;
-
+	bool save = SaveBox.ShowModal() == wxID_OK;
 	SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
 	SaveDat = SaveBox.CheckBox_DatFileLocation->IsChecked();
 	SaveApf = SaveBox.CheckBox_ApfFileLocation->IsChecked();
 	SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
-
 	SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
 	SaveApfFileName = SaveBox.Path_ApfFileLocation->GetPath();
 	SaveLangFileName = SaveBox.Path_LangFileLocation->GetPath();
 	SaveLangX1FileName = SaveBox.Path_LangX1FileLocation->GetPath();
 	SaveLangX1P1FileName = SaveBox.Path_LangX1P1FileLocation->GetPath();
+
+	if(!save) return;
+	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
+	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
+	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
+	Config->Write("DefaultFiles/SaveLangFilename", SaveLangFileName);
+	Config->Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName);
+	Config->Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
+	Config->Write("DefaultFiles/SaveDat", SaveDat);
+	delete Config;
 
 	if(SaveDat)
 	{
@@ -1437,7 +1466,6 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	{
 		//	 Not Implemented Yet = Nothing Happens
 	}
-
 	if(SaveLangs)
 	{
 		SetStatusText("Saving language files...", 0);
@@ -1480,6 +1508,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		}
 	}
 
+	AGETextCtrl::unSaved = false;
 	SetStatusText("Selected files saved.", 0);
 }
 
@@ -1953,10 +1982,8 @@ wxString AGE_Frame::FormatInt(int value)
 }
 
 void AGE_Frame::OnExit(wxCloseEvent &Event)
-{
+{	
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-	Config->Write("/EditorVersion", AGE_AboutDialog::AGE_VER);
-	Config->Write("/TimesOpened", ++TimesOpened);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopy", AutoCopy);
 	Config->Write("Interaction/CopyGraphics", CopyGraphics);
@@ -1964,32 +1991,17 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
-	if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
-	Config->Write("DefaultFiles/DriveLetter", DriveLetter);
-	Config->Write("DefaultFiles/UseCustomPath", UseCustomPath);
-	Config->Write("DefaultFiles/CustomFolder", CustomFolder);
-	Config->Write("DefaultFiles/Version", GameVersion);
-	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
-	Config->Write("DefaultFiles/DatUsed", DatUsed);
-	Config->Write("DefaultFiles/DatFilename", DatFileName);
-	Config->Write("DefaultFiles/ApfFilename", ApfFileName);
-	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
-	Config->Write("DefaultFiles/SaveApfFilename", SaveApfFileName);
-	Config->Write("DefaultFiles/LangsUsed", LangsUsed);
-	Config->Write("DefaultFiles/WriteLangs", WriteLangs);
-	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
-	Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
-	Config->Write("DefaultFiles/Language", Language);
-	Config->Write("DefaultFiles/LangCharset", LangCharset);
-	Config->Write("DefaultFiles/LangFilename", LangFileName);
-	Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
-	Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
-	Config->Write("DefaultFiles/SaveLangFilename", SaveLangFileName);
-	Config->Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName);
-	Config->Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
-	Config->Write("DefaultFiles/SaveDat", SaveDat);
-	Config->Write("DefaultFiles/SaveApf", SaveApf);
 	delete Config;
+
+	if(Event.CanVeto() && AGETextCtrl::unSaved)
+	{
+		if(wxMessageBox("There are unsaved changes.\nClose anyway?", "Discard unsaved changes",
+		wxICON_QUESTION | wxYES_NO) != wxYES )
+		{
+			Event.Veto();
+			return;
+		}
+	}
 
 	TabBar_Main->Destroy();
 

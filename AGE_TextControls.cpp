@@ -36,6 +36,7 @@ int TextCtrl_Byte::SaveEdits()
 					}
 					ChangeValue(lexical_cast<string>((short)*(int8_t*)container[0]));
 					if(LinkedBox) LinkedBox->Update(casted);
+					AGETextCtrl::unSaved = true;
 					return 0;
 				}
 				if(*(int8_t*)container[0] != casted)
@@ -45,6 +46,7 @@ int TextCtrl_Byte::SaveEdits()
 						*(int8_t*)pointer = casted;
 					}
 					if(LinkedBox) LinkedBox->Update(casted);
+					AGETextCtrl::unSaved = true;
 					return 0;
 				}
 			}
@@ -101,6 +103,7 @@ int TextCtrl_UByte::SaveEdits()
 					}
 					ChangeValue(lexical_cast<string>((short)*(uint8_t*)container[0]));
 					if(LinkedBox) LinkedBox->Update(casted);
+					AGETextCtrl::unSaved = true;
 					return 0;
 				}
 				if(*(uint8_t*)container[0] != casted)
@@ -110,6 +113,7 @@ int TextCtrl_UByte::SaveEdits()
 						*(uint8_t*)pointer = casted;
 					}
 					if(LinkedBox) LinkedBox->Update(casted);
+					AGETextCtrl::unSaved = true;
 					return 0;
 				}
 			}
@@ -163,6 +167,7 @@ int TextCtrl_Float::SaveEdits()
 				}
 				ChangeValue(lexical_cast<string>(*(float*)container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
+				AGETextCtrl::unSaved = true;
 				return 0;
 			}
 			if(*(float*)container[0] != casted)
@@ -172,6 +177,7 @@ int TextCtrl_Float::SaveEdits()
 					*(float*)pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
+				AGETextCtrl::unSaved = true;
 				return 0;
 			}
 		}
@@ -219,6 +225,7 @@ int TextCtrl_Long::SaveEdits()
 				}
 				ChangeValue(lexical_cast<string>(*(int32_t*)container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
+				AGETextCtrl::unSaved = true;
 				return 0;
 			}
 			if(*(int32_t*)container[0] != casted)
@@ -228,6 +235,7 @@ int TextCtrl_Long::SaveEdits()
 					*(int32_t*)pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
+				AGETextCtrl::unSaved = true;
 				return 0;
 			}
 		}
@@ -275,6 +283,7 @@ int TextCtrl_Short::SaveEdits()
 				}
 				ChangeValue(lexical_cast<string>(*(int16_t*)container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
+				AGETextCtrl::unSaved = true;
 				return 0;
 			}
 			if(*(int16_t*)container[0] != casted)
@@ -284,6 +293,7 @@ int TextCtrl_Short::SaveEdits()
 					*(int16_t*)pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
+				AGETextCtrl::unSaved = true;
 				return 0;
 			}
 		}
@@ -331,6 +341,7 @@ int TextCtrl_UShort::SaveEdits()
 				}
 				ChangeValue(lexical_cast<string>(*(uint16_t*)container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
+				AGETextCtrl::unSaved = true;
 				return 0;
 			}
 			if(*(uint16_t*)container[0] != casted)
@@ -340,6 +351,7 @@ int TextCtrl_UShort::SaveEdits()
 					*(uint16_t*)pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
+				AGETextCtrl::unSaved = true;
 				return 0;
 			}
 		}
@@ -381,6 +393,7 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 				}
 				ChangeValue(*(string*)container[0]);
 			}
+			AGETextCtrl::unSaved = true;
 			return 0;
 		}
 	}

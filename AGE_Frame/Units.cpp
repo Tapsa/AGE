@@ -4483,7 +4483,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_CompensationMode = new TextCtrl_Byte(Units_Scroller);
 	Units_CompensationMode->SetToolTip("Tech attribute 19 changes this\n0 Shoot where the target is now\n1 Shoot where the target is going to be");
 	Units_DropAnimationMode = new TextCtrl_Byte(Units_Scroller);
-	Units_DropAnimationMode->SetToolTip("0 Doesn't disappear after hitting the target\n1 Disappears");
+	Units_DropAnimationMode->SetToolTip("0 Doesn't disappear after hitting the target\n1 Disappears\n2 SWGB artillery fire has this");
 	Units_PenetrationMode = new TextCtrl_Byte(Units_Scroller);
 	Units_PenetrationMode->SetToolTip("0 Stops the graphics\n1 Graphics pass through the target instead of stopping\nOnly affects the graphics of the projectile");
 	Units_Unknown24 = new TextCtrl_Byte(Units_Scroller);
@@ -4666,7 +4666,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TransformUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TransformUnit);
 	UnitComboBoxList.push_back(Units_TransformUnit_ComboBox);
 	Units_PileUnit = new TextCtrl_Short(Units_Scroller);
-	Units_PileUnit->SetToolTip("Appears when the unit dies\nAffects resources");
+	Units_PileUnit->SetToolTip("Appears when the building dies\nDoes not appear with delete command");
 	Units_PileUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_PileUnit);
 	UnitComboBoxList.push_back(Units_PileUnit_ComboBox);
 	for(short loop = 0; loop < 4; ++loop)

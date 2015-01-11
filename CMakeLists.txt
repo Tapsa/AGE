@@ -29,6 +29,7 @@ set(AGE_SRC Main.cpp
 	AGE_CheckBoxes.cpp
 	AGE_ComboBoxes.cpp
 	AGE_AboutDialog.cpp
+	AGE_OpenSave.cpp
 	AGE_OpenDialog.cpp
 	AGE_SaveDialog.cpp
 

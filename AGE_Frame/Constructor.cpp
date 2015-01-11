@@ -51,6 +51,9 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Read("DefaultFiles/SaveLangX1Filename", &SaveLangX1FileName, wxT(""));
 	Config->Read("DefaultFiles/SaveLangX1P1Filename", &SaveLangX1P1FileName, wxT(""));
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
+
+	Config->Write("/EditorVersion", AGE_AboutDialog::AGE_VER);
+	Config->Write("/TimesOpened", ++TimesOpened);
 	delete Config;
 
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
@@ -185,4 +188,5 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	AGETextCtrl::editable = false;
 	AGETextCtrl::hexMode = false;
 	AGETextCtrl::accurateFloats = false;
+	AGETextCtrl::unSaved = false;
 }
