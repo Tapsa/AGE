@@ -378,6 +378,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_Type_ComboBox->Append("121: Deselect when Tasked");
 		UnitCommands_Type_ComboBox->Append("122: Loot");
 		UnitCommands_Type_ComboBox->Append("123: Housing");
+		//UnitCommands_Type_ComboBox->Append("124: Pack");                      <---
 		UnitCommands_Type_ComboBox->Append("125: Unpack & Attack");
 		//UnitCommands_Type_ComboBox->Append("130: Off-Map Trade 1");
 		UnitCommands_Type_ComboBox->Append("131: Off-Map Trade 2");
@@ -812,76 +813,34 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		for(short loop = 0; loop < 2; ++loop)
 		{
-			Units_SearchFilters[loop]->Clear();
-			Units_SearchFilters[loop]->Append("Lang DLL Name");	// 0
-			Units_SearchFilters[loop]->Append("Internal Name");
-			Units_SearchFilters[loop]->Append("Type");
-			Units_SearchFilters[loop]->Append("Class");
-			Units_SearchFilters[loop]->Append("Terrain Restriction");
-			Units_SearchFilters[loop]->Append("Dead Unit");
-			Units_SearchFilters[loop]->Append("Civilization (TC+)");
-			Units_SearchFilters[loop]->Append("Projectile Unit");
-			Units_SearchFilters[loop]->Append("Max Range");
-			Units_SearchFilters[loop]->Append("Train Location");
-			Units_SearchFilters[loop]->Append("Attacks");
-			Units_SearchFilters[loop]->Append("Attack Classes");
-			Units_SearchFilters[loop]->Append("Armors");
-			Units_SearchFilters[loop]->Append("Armor Classes");
-			Units_SearchFilters[loop]->Append("Commands");
-			Units_SearchFilters[loop]->Append("Pointer");
-		/*	Units_SearchFilters[loop]->Append("Garrison Type");
-			Units_SearchFilters[loop]->Append("Enabled");
-			Units_SearchFilters[loop]->Append("Hidden in Editor");
-			Units_SearchFilters[loop]->Append("Visible in Fog");
-			Units_SearchFilters[loop]->Append("Death Mode");
-			Units_SearchFilters[loop]->Append("Hero Mode");
-			Units_SearchFilters[loop]->Append("Air Mode");
-			Units_SearchFilters[loop]->Append("Fly Mode");
-			Units_SearchFilters[loop]->Append("Building Mode");
-			Units_SearchFilters[loop]->Append("Placement Mode");
-			Units_SearchFilters[loop]->Append("Interaction Mode");
-			Units_SearchFilters[loop]->Append("Minimap Mode");
-			Units_SearchFilters[loop]->Append("Sheep Conversion");
-			Units_SearchFilters[loop]->Append("Villager Mode");
-			Units_SearchFilters[loop]->Append("Unseletable");
-			Units_SearchFilters[loop]->Append("Selection Mask");
-			Units_SearchFilters[loop]->Append("Selection Shape Type");
-			Units_SearchFilters[loop]->Append("Selection Shape");
-			Units_SearchFilters[loop]->Append("Selection Effect");
-			Units_SearchFilters[loop]->Append("Editor Selection Color");
-			Units_SearchFilters[loop]->Append("Unitline");
-			Units_SearchFilters[loop]->Append("Tracking Unit Used");
-			Units_SearchFilters[loop]->Append("Command Attribute");
-			Units_SearchFilters[loop]->Append("Stack Unit");
-			Units_SearchFilters[loop]->Append("Terrain");
-			Units_SearchFilters[loop]->Append("Research");
-		*/	Units_SearchFilters[loop]->SetSelection(0);
+			Units_SearchFilters[loop]->Append("*Choose*");
+			Units_SearchFilters[loop]->Append(Type20);
 
-			Research_Research_SearchFilters[loop]->Clear();
-			Research_Research_SearchFilters[loop]->Append("Lang DLL Name");	// 0
-			Research_Research_SearchFilters[loop]->Append("Internal Name");
-			Research_Research_SearchFilters[loop]->Append("Required Researches");
-			Research_Research_SearchFilters[loop]->Append("Min. Req. Researches");
-			Research_Research_SearchFilters[loop]->Append("Research Location");
-			Research_Research_SearchFilters[loop]->Append("Research Time");
-			Research_Research_SearchFilters[loop]->Append("Technology");
-			Research_Research_SearchFilters[loop]->Append("Type");
-			Research_Research_SearchFilters[loop]->Append("Icon");
-			Research_Research_SearchFilters[loop]->Append("Button");
-			Research_Research_SearchFilters[loop]->Append("Lang DLL Pointer 1");
-			Research_Research_SearchFilters[loop]->Append("Lang DLL Pointer 2");
-			Research_Research_SearchFilters[loop]->Append("Pointer 3");
-			Research_Research_SearchFilters[loop]->Append("Cost Types");
-			Research_Research_SearchFilters[loop]->Append("Cost Amounts");
-			Research_Research_SearchFilters[loop]->Append("Cost Uses");
+			Research_SearchFilters[loop]->Clear();
+			Research_SearchFilters[loop]->Append("Lang DLL Name");	// 0
+			Research_SearchFilters[loop]->Append("Internal Name");
+			Research_SearchFilters[loop]->Append("Required Researches");
+			Research_SearchFilters[loop]->Append("Min. Req. Researches");
+			Research_SearchFilters[loop]->Append("Research Location");
+			Research_SearchFilters[loop]->Append("Research Time");
+			Research_SearchFilters[loop]->Append("Technology");
+			Research_SearchFilters[loop]->Append("Type");
+			Research_SearchFilters[loop]->Append("Icon");
+			Research_SearchFilters[loop]->Append("Button");
+			Research_SearchFilters[loop]->Append("Lang DLL Pointer 1");
+			Research_SearchFilters[loop]->Append("Lang DLL Pointer 2");
+			Research_SearchFilters[loop]->Append("Pointer 3");
+			Research_SearchFilters[loop]->Append("Cost Types");
+			Research_SearchFilters[loop]->Append("Cost Amounts");
+			Research_SearchFilters[loop]->Append("Cost Uses");
 			if(GenieVersion >= genie::GV_AoK)
 			{
-				Research_Research_SearchFilters[loop]->Append("Civilization");
-				Research_Research_SearchFilters[loop]->Append("Full Tech Mode");
+				Research_SearchFilters[loop]->Append("Civilization");
+				Research_SearchFilters[loop]->Append("Full Tech Mode");
 				if(GenieVersion >= genie::GV_SWGB)
-				Research_Research_SearchFilters[loop]->Append("Internal Name 2");
+				Research_SearchFilters[loop]->Append("Internal Name 2");
 			}
-			Research_Research_SearchFilters[loop]->SetSelection(0);
+			Research_SearchFilters[loop]->SetSelection(0);
 
 			Sounds_Items_SearchFilters[loop]->Clear();
 			Sounds_Items_SearchFilters[loop]->Append("Filename");	// 0
@@ -1168,9 +1127,6 @@ void AGE_Frame::OnGameVersionChange()
 		Units_DLL_LanguageHelp->Show(show);
 		Units_DLL_LanguageHKText->Show(show);
 		Units_Unselectable_Holder->Show(show);
-		Units_Unknown6_Holder->Show(show);
-		Units_Unknown7_Holder->Show(show);
-		Units_Unknown8_Holder->Show(show);
 		Units_SelectionEffect_Holder->Show(show);
 		Units_EditorSelectionColour_Holder->Show(show);
 		Units_SelectionRadius_Holder->Show(show);
@@ -1181,6 +1137,12 @@ void AGE_Frame::OnGameVersionChange()
 		Units_DisplayedAttack_Holder->Show(show);
 		Units_DisplayedRange_Holder->Show(show);
 		Units_ReloadTime2_Holder->Show(show);
+		if(!show || ShowUnknowns)
+		{
+			Units_Unknown6_Holder->Show(show);
+			Units_Unknown7_Holder->Show(show);
+			Units_Unknown8_Holder->Show(show);
+		}
 
 		// AoE ->
 		show = (GenieVersion >= genie::GV_AoE) ? true : false;
@@ -1199,7 +1161,6 @@ void AGE_Frame::OnGameVersionChange()
 		Units_SelectionShapeType_Holder->Show(show);
 		Units_SelectionShape_Holder->Show(show);
 		Units_ID3_Holder->Show(show);
-		Units_MissileGraphicDelay_Holder->Show(show);
 		Units_AttackMissileDuplicationAmount1_Holder->Show(show);
 		Units_AttackMissileDuplicationAmount2_Holder->Show(show);
 		Units_AttackMissileDuplicationSpawning_Holder->Show(show);
@@ -1225,8 +1186,7 @@ void AGE_Frame::OnGameVersionChange()
 		if(!show || ShowUnknowns)
 		{
 			Units_Type70plusUnknownArea_Holder->Show(show);
-			Units_Unknown33_Holder->Show(show);
-			Units_Unknown35_Holder->Show(show);
+			Units_Type80plusUnknownArea_Holder->Show(show);
 			Units_PileUnit_Holder->Show(show);
 			SoundItems_Unknown_Holder->Show(show);
 			Colors_UnknownArea_Holder->Show(show);
@@ -1306,6 +1266,7 @@ void AGE_Frame::OnGameVersionChange()
 		// AoK ->
 		show = (GenieVersion >= genie::GV_AoK) ? true : false;
 		Units_Exists_Holder->Show(show);
+		Units_UnitCommands_Add->Enable(show);
 		if(!show || ShowUnknowns)
 		{
 			Units_Disabled_Holder->Show(show);
@@ -1348,6 +1309,7 @@ void AGE_Frame::OnGameVersionChange()
 			SoundItems_Name->SetMaxSize(27);
 			Terrains_Name->SetMaxSize(17);
 			Terrains_Name2->SetMaxSize(17);
+			TerRestrict_Amount->SetBackgroundColour(wxColour(255, 225, 255));
 		}
 		else // <- TC
 		{
@@ -1356,6 +1318,7 @@ void AGE_Frame::OnGameVersionChange()
 			SoundItems_Name->SetMaxSize(13);
 			Terrains_Name->SetMaxSize(13);
 			Terrains_Name2->SetMaxSize(13);
+			TerRestrict_Amount->SetBackgroundColour(wxColour(215, 255, 255));
 		}
 	}
 
@@ -1809,6 +1772,28 @@ bool AGE_Frame::SearchMatches(wxString itemText)
 
 void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 {
+	if(Event.GetId() == Units_FilterSelector->GetId())
+	{
+		for(short loop = 0; loop < 2; ++loop)
+		{
+			Units_SearchFilters[loop]->Clear();
+			Units_SearchFilters[loop]->Append("*Choose*");
+			switch(Units_FilterSelector->GetSelection())
+			{
+				case 0: Units_SearchFilters[loop]->Append(Type20); break;
+				case 1: Units_SearchFilters[loop]->Append(Type30); break;
+				case 2: Units_SearchFilters[loop]->Append(Type40); break;
+				case 3: Units_SearchFilters[loop]->Append(Type50); break;
+				case 4: Units_SearchFilters[loop]->Append(Type60); break;
+				case 5: Units_SearchFilters[loop]->Append(Type70); break;
+				case 6: Units_SearchFilters[loop]->Append(Type80); break;
+			}
+			Units_SearchFilters[loop]->SetSelection(0);
+		}
+		ListUnits(UnitCivID, false);
+		Units_Search->SetFocus();
+		return;
+	}
 	for(short loop = 0; loop < 2; ++loop) // Custom search filters
 	{
 		if(Event.GetId() == Units_SearchFilters[loop]->GetId())
@@ -1816,7 +1801,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 			ListUnits(UnitCivID, false);
 			Units_Search->SetFocus();
 		}
-		else if(Event.GetId() == Graphics_Graphics_SearchFilters[loop]->GetId())
+		else if(Event.GetId() == Graphics_SearchFilters[loop]->GetId())
 		{
 			ListGraphics(false);
 			Graphics_Graphics_Search->SetFocus();
@@ -1836,7 +1821,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 			ListTTResearches();
 			TechTrees_MainList_Researches_Search->SetFocus();
 		}
-		else if(Event.GetId() == Research_Research_SearchFilters[loop]->GetId())
+		else if(Event.GetId() == Research_SearchFilters[loop]->GetId())
 		{
 			ListResearches(false);
 			Research_Research_Search->SetFocus();
