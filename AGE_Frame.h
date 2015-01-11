@@ -83,7 +83,9 @@ public:
 	wxString searchText, excludeText;
 	wxString FormatFloat(float);
 	wxString FormatInt(int);
+	wxString CurrentTime();
 	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
+	void SaveBackup();
 	bool SearchMatches(wxString itemText);
 	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
 	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
@@ -682,7 +684,7 @@ public:
 
 	float EditorVersion;
 	wxString EditorVersionString;
-	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs;
+	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, NeedDat, SkipOpenDialog;
 	wxFileConfig *Config, *Customs;
@@ -1520,7 +1522,7 @@ public:
 	TextCtrl_Byte *Units_MinimapMode;
 	TextCtrl_Byte *Units_CommandAttribute;
 	TextCtrl_Float *Units_Unknown3A;
-	TextCtrl_UByte *Units_Unknown3B;
+	TextCtrl_UByte *Units_MinimapColor;
 	TextCtrl_Long *Units_LanguageDLLHelp;
 	TextCtrl_DLL *Units_DLL_LanguageHelp;
 	wxTextCtrl *Units_LanguageDLLConverter[2];
@@ -1734,7 +1736,7 @@ public:
 	wxStaticText *Units_MinimapMode_Text;
 	wxStaticText *Units_CommandAttribute_Text;
 	wxStaticText *Units_Unknown3A_Text;
-	wxStaticText *Units_Unknown3B_Text;
+	wxStaticText *Units_MinimapColor_Text;
 	wxStaticText *Units_LanguageDLLHelp_Text;
 	wxStaticText *Units_LanguageDLLConverter_Text[2];
 	wxStaticText *Units_LanguageDLLHotKeyText_Text;
@@ -1911,7 +1913,7 @@ public:
 	wxBoxSizer *Units_MinimapMode_Holder;
 	wxBoxSizer *Units_CommandAttribute_Holder;
 	wxBoxSizer *Units_Unknown3A_Holder;
-	wxBoxSizer *Units_Unknown3B_Holder;
+	wxBoxSizer *Units_MinimapColor_Holder;
 	wxBoxSizer *Units_LanguageDLLHelp_Holder;
 	wxBoxSizer *Units_LanguageDLLConverter_Holder[2];
 	wxBoxSizer *Units_LanguageDLLHotKeyText_Holder;
