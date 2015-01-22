@@ -2689,6 +2689,7 @@ public:
 	wxBoxSizer *SoundItems_ListArea;
 	wxGridSizer *Sounds_Items_Buttons;
 	wxBoxSizer *Sounds_DataArea;
+	wxBoxSizer *Sounds_AllArea;
 
 	wxStaticBoxSizer *Sounds_Sounds;
 	wxTextCtrl *Sounds_Sounds_Search;
