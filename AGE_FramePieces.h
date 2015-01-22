@@ -99,7 +99,7 @@ public:
 		Item_H = new wxBoxSizer(wxHORIZONTAL);
 		Item = new TextCtrl_Long(scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
-		Mode = new TextCtrl_Long(scroller);
+		Mode = new TextCtrl_Long(scroller, true);
 		ModeCombo = new wxOwnerDrawnComboBox(scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
@@ -115,7 +115,7 @@ public:
 		Buttons->Add(Copy, 1, wxEXPAND);
 		Buttons->Add(Paste, 1, wxEXPAND);
 
-		Item_H->Add(Mode, 1, wxEXPAND);
+		Item_H->Add(Mode, 0, wxEXPAND);
 		Item_H->Add(2, -1);
 		Item_H->Add(Item, 2, wxEXPAND);
 
