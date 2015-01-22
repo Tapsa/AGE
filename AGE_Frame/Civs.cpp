@@ -795,7 +795,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Civs = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Civilizations");
 	Civs_Civs_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Civs_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
-	Civs_Civs_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	Civs_Civs_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
 	Civs_Add = new wxButton(Tab_Civs, wxID_ANY, "Add *", wxDefaultPosition, wxSize(5, 20));
 	Civs_Add->SetToolTip("I highly recommend you to download UserPatch\nfrom xOmicron, if you play The Conquerors.\nWith it you can use added civilizations.\nStar Wars versions can already have more civilizations.");
 	Civs_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -809,10 +809,10 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid2 = new wxGridSizer(2, 0, 5);
 	Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
 	Civs_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
-	Civs_Name_Text[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Name_Text[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name", wxDefaultPosition, wxSize(300, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_Name[0] = new TextCtrl_String(Tab_Civs, 20);
 	Civs_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
-	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(300, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_Name[1] = new TextCtrl_String(Tab_Civs, 20);
 	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -822,12 +822,12 @@ void AGE_Frame::CreateCivControls()
 	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = new TextCtrl_Byte(Tab_Civs);
 	Civs_TechTree_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = new TextCtrl_Short(Tab_Civs);
 	Civs_TechTree_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TechTree);
 	TechComboBoxList.push_back(Civs_TechTree_ComboBox);
 	Civs_TeamBonus_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_TeamBonus_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_TeamBonus_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TeamBonus = new TextCtrl_Short(Tab_Civs);
 	Civs_TeamBonus_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus);
 	TechComboBoxList.push_back(Civs_TeamBonus_ComboBox);
@@ -843,7 +843,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_ResourceValue_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_ResourceValue_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_ResourceValue = new TextCtrl_Float(Tab_Civs);
-	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	Civs_Resources_List = new wxListBox(Tab_Civs, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
 	Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
 	Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Resources_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -865,14 +865,14 @@ void AGE_Frame::CreateCivControls()
 
 	Civs_Civs->Add(Civs_Civs_Search, 0, wxEXPAND);
 	Civs_Civs->Add(Civs_Civs_Search_R, 0, wxEXPAND);
-	Civs_Civs->Add(-1, 2);
+	Civs_Civs->AddSpacer(2);
 	Civs_Civs->Add(Civs_Civs_List, 1, wxEXPAND);
-	Civs_Civs->Add(-1, 2);
+	Civs_Civs->AddSpacer(2);
 	Civs_Civs->Add(Civs_Civs_Buttons, 0, wxEXPAND);
 
-	Civs_ListArea->Add(-1, 10);
+	Civs_ListArea->AddSpacer(5);
 	Civs_ListArea->Add(Civs_Civs, 1, wxEXPAND);
-	Civs_ListArea->Add(-1, 10);
+	Civs_ListArea->AddSpacer(5);
 
 	Civs_One_Holder->Add(Civs_One_Text, 0, wxEXPAND);
 	Civs_One_Holder->Add(Civs_One, 1, wxEXPAND);
@@ -897,14 +897,14 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid2->Add(Civs_TechTree_Holder, 1, wxEXPAND);
 	Civs_DataGrid2->Add(Civs_TeamBonus_Holder, 1, wxEXPAND);
 
-	Civs_DataArea->Add(-1, 10);
+	Civs_DataArea->AddSpacer(5);
 	Civs_DataArea->Add(Civs_Name_Holder[0], 0, wxEXPAND);
 	Civs_DataArea->Add(Civs_Name_Holder[1], 0, wxEXPAND);
-	Civs_DataArea->Add(-1, 5);
+	Civs_DataArea->AddSpacer(5);
 	Civs_DataArea->Add(Civs_DataGrid1, 0, wxEXPAND);
-	Civs_DataArea->Add(-1, 5);
+	Civs_DataArea->AddSpacer(5);
 	Civs_DataArea->Add(Civs_DataGrid2, 0, wxEXPAND);
-	Civs_DataArea->Add(-1, 5);
+	Civs_DataArea->AddSpacer(5);
 	Civs_DataArea->Add(Civs_SUnknown1_Holder, 0, wxEXPAND);
 
 	Civs_Resources_Buttons->Add(Resources_Add, 1, wxEXPAND);
@@ -927,17 +927,17 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources->Add(Civs_Resources_List, 1, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
 
-	Civs_Resources_Holder->Add(-1, 10);
+	Civs_Resources_Holder->AddSpacer(5);
 	Civs_Resources_Holder->Add(Civs_Resources, 1, wxEXPAND);
-	Civs_Resources_Holder->Add(-1, 10);
+	Civs_Resources_Holder->AddSpacer(5);
 
-	Civs_Main->Add(10, -1);
-	Civs_Main->Add(Civs_ListArea, 2, wxEXPAND);
-	Civs_Main->Add(10, -1);
-	Civs_Main->Add(Civs_DataArea, 3, wxEXPAND);
-	Civs_Main->Add(10, -1);
-	Civs_Main->Add(Civs_Resources_Holder, 3, wxEXPAND);
-	Civs_Main->Add(10, -1);
+	Civs_Main->AddSpacer(5);
+	Civs_Main->Add(Civs_ListArea, 21, wxEXPAND);
+	Civs_Main->AddSpacer(5);
+	Civs_Main->Add(Civs_DataArea, 0, wxEXPAND);
+	Civs_Main->AddSpacer(5);
+	Civs_Main->Add(Civs_Resources_Holder, 30, wxEXPAND);
+	Civs_Main->AddSpacer(5);
 
 	Tab_Civs->SetSizer(Civs_Main);
 

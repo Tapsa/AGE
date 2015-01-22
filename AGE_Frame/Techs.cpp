@@ -1030,7 +1030,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Techs_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Techs_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	Techs_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
 	Techs_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Techs_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -1051,7 +1051,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Techs_Effects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Techs_Effects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	Techs_Effects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
 	Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -1128,7 +1128,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_AllEffects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_AllEffects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Techs_AllEffects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Techs_AllEffects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+	Techs_AllEffects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
 	Techs_AllEffects_Buttons = new wxBoxSizer(wxHORIZONTAL);
 	Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));
 	Techs_AllEffects_Clear = new wxButton(Tab_Techs, wxID_ANY, "Clear *", wxDefaultPosition, wxSize(5, 20));
@@ -1155,21 +1155,21 @@ void AGE_Frame::CreateTechControls()
 	Techs_Buttons->Add(Techs_PasteInsert, 1, wxEXPAND);
 
 	Techs_Searches[0]->Add(Techs_Search, 1, wxEXPAND);
-	Techs_Searches[0]->Add(2, -1);
+	Techs_Searches[0]->AddSpacer(2);
 	Techs_Searches[0]->Add(Techs_UseAnd[0], 0, wxEXPAND);
 	Techs_Searches[1]->Add(Techs_Search_R, 1, wxEXPAND);
-	Techs_Searches[1]->Add(2, -1);
+	Techs_Searches[1]->AddSpacer(2);
 	Techs_Searches[1]->Add(Techs_UseAnd[1], 0, wxEXPAND);
 	Techs_Techs->Add(Techs_Searches[0], 0, wxEXPAND);
 	Techs_Techs->Add(Techs_Searches[1], 0, wxEXPAND);
-	Techs_Techs->Add(-1, 2);
+	Techs_Techs->AddSpacer(2);
 	Techs_Techs->Add(Techs_List, 1, wxEXPAND);
-	Techs_Techs->Add(-1, 2);
+	Techs_Techs->AddSpacer(2);
 	Techs_Techs->Add(Techs_Buttons, 0, wxEXPAND);
 
-	Techs_ListArea->Add(-1, 10);
+	Techs_ListArea->AddSpacer(5);
 	Techs_ListArea->Add(Techs_Techs, 1, wxEXPAND);
-	Techs_ListArea->Add(-1, 10);
+	Techs_ListArea->AddSpacer(5);
 
 	Techs_Effects_Buttons->Add(Techs_Effects_Add, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Delete, 1, wxEXPAND);
@@ -1184,25 +1184,25 @@ void AGE_Frame::CreateTechControls()
 	Techs_Name_Holder->Add(Techs_Restore, 1, wxEXPAND);
 
 	Techs_Effects_Searches[0]->Add(Techs_Effects_Search, 1, wxEXPAND);
-	Techs_Effects_Searches[0]->Add(2, -1);
+	Techs_Effects_Searches[0]->AddSpacer(2);
 	Techs_Effects_Searches[0]->Add(Techs_Effects_UseAnd[0], 0, wxEXPAND);
 	Techs_Effects_Searches[1]->Add(Techs_Effects_Search_R, 1, wxEXPAND);
-	Techs_Effects_Searches[1]->Add(2, -1);
+	Techs_Effects_Searches[1]->AddSpacer(2);
 	Techs_Effects_Searches[1]->Add(Techs_Effects_UseAnd[1], 0, wxEXPAND);
 	Techs_Effects->Add(Techs_Effects_Searches[0], 0, wxEXPAND);
 	Techs_Effects->Add(Techs_Effects_Searches[1], 0, wxEXPAND);
-	Techs_Effects->Add(-1, 2);
+	Techs_Effects->AddSpacer(2);
 	Techs_Effects->Add(Techs_Effects_List, 1, wxEXPAND);
-	Techs_Effects->Add(-1, 2);
+	Techs_Effects->AddSpacer(2);
 	Techs_Effects->Add(Techs_Effects_Buttons, 0, wxEXPAND);
-	Techs_Effects->Add(-1, 2);
+	Techs_Effects->AddSpacer(2);
 	Techs_Effects->Add(Techs_Effects_CopyToTechs, 0, wxEXPAND);
 
-	Effects_ListArea->Add(-1, 10);
+	Effects_ListArea->AddSpacer(5);
 	Effects_ListArea->Add(Techs_Name_Holder, 0, wxEXPAND);
-	Effects_ListArea->Add(-1, 5);
+	Effects_ListArea->AddSpacer(5);
 	Effects_ListArea->Add(Techs_Effects, 1, wxEXPAND);
-	Effects_ListArea->Add(-1, 10);
+	Effects_ListArea->AddSpacer(5);
 
 	Effects_Type2_Holder->Add(Effects_Type, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Type2_Holder->Add(Effects_Type_ComboBox, 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -1261,51 +1261,51 @@ void AGE_Frame::CreateTechControls()
 	Effects_DataF_Holder->Add(Effects_Info_F, 2, wxEXPAND);
 
 	Effects_Data_Holder->Add(Effects_NeverHide, 0, wxEXPAND);
-	Effects_Data_Holder->Add(-1, 5);
+	Effects_Data_Holder->AddSpacer(5);
 	Effects_Data_Holder->Add(Effects_DataA_Holder, 0, wxEXPAND);
-	Effects_Data_Holder->Add(-1, 5);
+	Effects_Data_Holder->AddSpacer(5);
 	Effects_Data_Holder->Add(Effects_DataB_Holder, 0, wxEXPAND);
-	Effects_Data_Holder->Add(-1, 5);
+	Effects_Data_Holder->AddSpacer(5);
 	Effects_Data_Holder->Add(Effects_DataC_Holder, 0, wxEXPAND);
-	Effects_Data_Holder->Add(-1, 5);
+	Effects_Data_Holder->AddSpacer(5);
 	Effects_Data_Holder->Add(Effects_DataD_Holder, 0, wxEXPAND);
-	Effects_Data_Holder->Add(-1, 5);
+	Effects_Data_Holder->AddSpacer(5);
 	Effects_Data_Holder->Add(Effects_DataE_Holder, 0, wxEXPAND);
 	Effects_Data_Holder->Add(Effects_DataF_Holder, 0, wxEXPAND);
 
 	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_Search, 1, wxEXPAND);
-	Techs_AllEffects_Searches[0]->Add(2, -1);
+	Techs_AllEffects_Searches[0]->AddSpacer(2);
 	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_UseAnd[0], 0, wxEXPAND);
 	Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_Search_R, 1, wxEXPAND);
-	Techs_AllEffects_Searches[1]->Add(2, -1);
+	Techs_AllEffects_Searches[1]->AddSpacer(2);
 	Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_UseAnd[1], 0, wxEXPAND);
 	Techs_AllEffects->Add(Techs_AllEffects_Searches[0], 0, wxEXPAND);
 	Techs_AllEffects->Add(Techs_AllEffects_Searches[1], 0, wxEXPAND);
-	Techs_AllEffects->Add(-1, 2);
+	Techs_AllEffects->AddSpacer(2);
 	Techs_AllEffects->Add(Techs_AllEffects_List, 1, wxEXPAND);
-	Techs_AllEffects->Add(-1, 2);
+	Techs_AllEffects->AddSpacer(2);
 	Techs_AllEffects_Buttons->Add(Techs_AllEffects_Load, 2, wxEXPAND);
-	Techs_AllEffects_Buttons->Add(2, -1);
+	Techs_AllEffects_Buttons->AddSpacer(2);
 	Techs_AllEffects_Buttons->Add(Techs_AllEffects_Clear, 1, wxEXPAND);
 	Techs_AllEffects->Add(Techs_AllEffects_Buttons, 0, wxEXPAND);
 
-	Effects_DataArea->Add(-1, 10);
+	Effects_DataArea->AddSpacer(5);
 	Effects_DataArea->Add(Effects_Type_Holder, 0, wxEXPAND);
-	Effects_DataArea->Add(-1, 5);
+	Effects_DataArea->AddSpacer(5);
 	Effects_DataArea->Add(Effects_Data_Holder, 0, wxEXPAND);
-	Effects_DataArea->Add(-1, 5);
+	Effects_DataArea->AddSpacer(5);
 	Effects_DataArea->Add(Effects_Link, 0, wxEXPAND);
-	Effects_DataArea->Add(-1, 5);
+	Effects_DataArea->AddSpacer(5);
 	Effects_DataArea->Add(Techs_AllEffects, 1, wxEXPAND);
-	Effects_DataArea->Add(-1, 10);
+	Effects_DataArea->AddSpacer(5);
 
-	Techs_Main->Add(10, -1);
-	Techs_Main->Add(Techs_ListArea, 3, wxEXPAND); // 3
-	Techs_Main->Add(10, -1);
-	Techs_Main->Add(Effects_ListArea, 4, wxEXPAND); // 3+1
-	Techs_Main->Add(10, -1);
-	Techs_Main->Add(Effects_DataArea, 5, wxEXPAND); // 6-1
-	Techs_Main->Add(10, -1);
+	Techs_Main->AddSpacer(5);
+	Techs_Main->Add(Techs_ListArea, 21, wxEXPAND); // 3
+	Techs_Main->AddSpacer(5);
+	Techs_Main->Add(Effects_ListArea, 27, wxEXPAND); // 3+1
+	Techs_Main->AddSpacer(5);
+	Techs_Main->Add(Effects_DataArea, 33, wxEXPAND); // 6-1
+	Techs_Main->AddSpacer(5);
 
 	Effects_E->Show(false);	// only for attributes 8, 9
 	Effects_F->Show(false);	// only for attributes 8, 9
