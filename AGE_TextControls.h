@@ -15,8 +15,8 @@ public:
 class AGETextCtrl: public wxTextCtrl
 {
 public:
-	AGETextCtrl(wxWindow *parent, wxString value):
-	wxTextCtrl(parent, wxID_ANY, value, wxDefaultPosition, wxSize(0, 20)){}
+	AGETextCtrl(wxWindow *parent, wxString value, int width):
+	wxTextCtrl(parent, wxID_ANY, value, wxDefaultPosition, wxSize(width, 20)){}
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
 	virtual int SaveEdits()=0;
@@ -55,8 +55,8 @@ public:
 class TextCtrl_Byte: public AGETextCtrl
 {
 public:
-	TextCtrl_Byte(wxWindow *parent):
-	AGETextCtrl(parent, "")
+	TextCtrl_Byte(wxWindow *parent, bool petit = false):
+	AGETextCtrl(parent, "", petit ? 30 : 50)
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 235, 215));
@@ -70,7 +70,7 @@ class TextCtrl_UByte: public AGETextCtrl
 {
 public:
 	TextCtrl_UByte(wxWindow *parent):
-	AGETextCtrl(parent, "")
+	AGETextCtrl(parent, "", 50)
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 235, 215));
@@ -83,8 +83,8 @@ public:
 class TextCtrl_Float: public AGETextCtrl
 {
 public:
-	TextCtrl_Float(wxWindow *parent):
-	AGETextCtrl(parent, "")
+	TextCtrl_Float(wxWindow *parent, bool petit = false):
+	AGETextCtrl(parent, "", petit ? 70 : 100)
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 225, 255));
@@ -97,8 +97,8 @@ public:
 class TextCtrl_Long: public AGETextCtrl
 {
 public:
-	TextCtrl_Long(wxWindow *parent):
-	AGETextCtrl(parent, "")
+	TextCtrl_Long(wxWindow *parent, bool petit = false):
+	AGETextCtrl(parent, "", petit ? 50 : 100)
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(215, 255, 255));
@@ -111,8 +111,8 @@ public:
 class TextCtrl_Short: public AGETextCtrl
 {
 public:
-	TextCtrl_Short(wxWindow *parent):
-	AGETextCtrl(parent, "")
+	TextCtrl_Short(wxWindow *parent, bool petit = false):
+	AGETextCtrl(parent, "", petit ? 50 : 100)
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(210, 230, 255));
@@ -126,7 +126,7 @@ class TextCtrl_UShort: public AGETextCtrl
 {
 public:
 	TextCtrl_UShort(wxWindow *parent):
-	AGETextCtrl(parent, "")
+	AGETextCtrl(parent, "", 100)
 	{
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(210, 230, 255));
@@ -140,7 +140,7 @@ class TextCtrl_String: public AGETextCtrl
 {
 public:
 	TextCtrl_String(wxWindow *parent, unsigned short CLength = 0):
-	AGETextCtrl(parent, "")
+	AGETextCtrl(parent, "", 0)
 	{
 		MaxSize = CLength;
 		SetBackgroundColour(wxColour(220, 255, 220));
