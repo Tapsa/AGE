@@ -757,7 +757,7 @@ public:
 
 	bool Added, SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
 	short AGEwindow;
-	int TimesOpened, SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion;
+	int TimesOpened, SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth;
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;

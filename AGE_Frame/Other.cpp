@@ -2025,6 +2025,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
+	Config->Write("Interface/MaxWindowWidth", MaxWindowWidth);
 	delete Config;
 
 	if(Event.CanVeto() && AGETextCtrl::unSaved > 0)
