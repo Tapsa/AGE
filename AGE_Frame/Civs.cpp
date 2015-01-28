@@ -815,9 +815,9 @@ void AGE_Frame::CreateCivControls()
 	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(300, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_Name[1] = new TextCtrl_String(Tab_Civs, 20);
 	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = new TextCtrl_Byte(Tab_Civs);
-	Civs_GraphicSet->SetToolTip("Building icon set and trade cart graphics\nThis doesn't change other graphics\n6+ seems to crash/bug the game");
+	//Civs_GraphicSet->SetToolTip("Building icon set and trade cart graphics\nThis doesn't change other graphics\n6+ seems to crash/bug the game");
 	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = new TextCtrl_Byte(Tab_Civs);
@@ -934,7 +934,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Main->AddSpacer(5);
 	Civs_Main->Add(Civs_ListArea, 21, wxEXPAND);
 	Civs_Main->AddSpacer(5);
-	Civs_Main->Add(Civs_DataArea, 0, wxEXPAND);
+	Civs_Main->Add(Civs_DataArea, 30, wxEXPAND);
 	Civs_Main->AddSpacer(5);
 	Civs_Main->Add(Civs_Resources_Holder, 30, wxEXPAND);
 	Civs_Main->AddSpacer(5);

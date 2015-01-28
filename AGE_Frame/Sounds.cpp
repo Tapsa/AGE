@@ -562,7 +562,7 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Main->AddSpacer(5);
 	Sounds_Main->Add(SoundItems_ListArea, 1, wxEXPAND);
 	Sounds_Main->AddSpacer(5);
-	Sounds_Main->Add(Sounds_DataArea, 0, wxEXPAND);
+	Sounds_Main->Add(Sounds_DataArea, 1, wxEXPAND);
 	Sounds_Main->AddSpacer(5);
 	Sounds_Main->Add(Sounds_AllArea, 1, wxEXPAND);
 	Sounds_Main->AddSpacer(5);
