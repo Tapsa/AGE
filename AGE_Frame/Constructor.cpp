@@ -29,6 +29,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
+	Config->Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
 	if(AGEwindow == 1) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 2); // 2 to showcase this feature.
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
 	Config->Read("DefaultFiles/UseCustomPath", &UseCustomPath, false);
@@ -57,6 +58,8 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Write("/TimesOpened", ++TimesOpened);
 	delete Config;
 
+	SetMinSize(wxSize(900, 480));
+	SetMaxSize(wxSize(MaxWindowWidth, 4096));
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
 	CreateStatusBar()->SetFieldsCount(3);
 
