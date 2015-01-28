@@ -371,7 +371,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_Main->AddSpacer(5);
 	UnitLines_Main->Add(UnitLineUnits_ListArea, 1, wxEXPAND);
 	UnitLines_Main->AddSpacer(5);
-	UnitLines_Main->Add(UnitLines_DataArea, 0, wxEXPAND);
+	UnitLines_Main->Add(UnitLines_DataArea, 1, wxEXPAND);
 	UnitLines_Main->AddStretchSpacer(1);
 
 	if(EnableIDFix)

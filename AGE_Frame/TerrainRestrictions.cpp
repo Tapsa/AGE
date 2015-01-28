@@ -438,7 +438,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Main->AddSpacer(5);
 	TerRestrict_Main->Add(TerRestrict_Terrains, 1, wxEXPAND);
 	TerRestrict_Main->AddSpacer(5);
-	TerRestrict_Main->Add(TerRestrict_DataArea, 0, wxEXPAND);
+	TerRestrict_Main->Add(TerRestrict_DataArea, 1, wxEXPAND);
 	TerRestrict_Main->AddStretchSpacer(1);
 
 	Tab_TerrainRestrictions->SetSizer(TerRestrict_Main);

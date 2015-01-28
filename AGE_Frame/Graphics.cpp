@@ -1092,7 +1092,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ScrollSpace->AddSpacer(5);
 	Graphics_ScrollSpace->Add(Graphics_AttackSoundArea_Holder, 0, wxEXPAND);
 
-	Graphics_ScrollArea->Add(Graphics_ScrollSpace, 0, wxEXPAND);
+	Graphics_ScrollArea->Add(Graphics_ScrollSpace, 1, wxEXPAND);
 	Graphics_ScrollArea->AddSpacer(5);
 
 	Graphics_Scroller->SetSizer(Graphics_ScrollArea);
