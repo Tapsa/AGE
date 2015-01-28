@@ -290,9 +290,8 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Main->AddSpacer(5);
 	Colors_Main->Add(Colors_ListArea, 1, wxEXPAND);
 	Colors_Main->AddSpacer(5);
-	Colors_Main->Add(Colors_DataArea, 0, wxEXPAND);
+	Colors_Main->Add(Colors_DataArea, 1, wxEXPAND);
 	Colors_Main->AddStretchSpacer(2);
-	Colors_Main->AddSpacer(5);
 
 	if(EnableIDFix)
 	Colors_ID->Enable(false);
