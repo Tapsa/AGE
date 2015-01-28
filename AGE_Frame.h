@@ -1167,8 +1167,8 @@ public:
 	wxBoxSizer *Research_ScrollSpace;
 	wxGridSizer *Research_MiscArea1_Grid;
 	wxBoxSizer *Research_LangDLLArea_Holder;
-	wxBoxSizer *Research_Misc2_Holder;
-	wxBoxSizer *Research_PointerArea_Holder;
+	wxGridSizer *Research_Misc2_Holder;
+	wxGridSizer *Research_PointerArea_Holder;
 	wxBoxSizer *Research_Names_Holder;
 
 	wxStaticBoxSizer *Research_Research;
@@ -1199,7 +1199,9 @@ public:
 	wxBoxSizer *Research_CostAmount_Holder;
 	wxBoxSizer *Research_CostUsed_Holder;
 	wxStaticText *Research_Resources_Text;
-	wxGridSizer *Research_ResourceGrid;
+	wxGridSizer *Research_ResourceGrid1;
+	wxGridSizer *Research_ResourceGrid2;
+	wxBoxSizer *Research_ResourceGrid[3];
 	TextCtrl_Short *Research_Resources[3];
 	ComboBox_Plus1 *Research_Resources_ComboBox[3];
 	wxStaticText *Research_Amount_Text;
