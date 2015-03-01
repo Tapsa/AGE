@@ -2457,6 +2457,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
 		if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
+		if(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.size())
 		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[loop]);
 	}
@@ -2713,6 +2714,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
 		if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
+		if(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks.size())
 		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks.begin() + AttackIDs[loop]);
 	}
@@ -2968,6 +2970,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
 		if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
+		if(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours.size())
 		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours.begin() + ArmorIDs[loop]);
 	}
@@ -3518,6 +3521,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 		for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] != 0)
+			if(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.size())
 			{
 				for(auto loop = selections; loop--> 0;)
 				GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands.begin() + CommandIDs[loop]);

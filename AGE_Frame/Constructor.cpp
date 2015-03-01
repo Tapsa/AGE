@@ -169,7 +169,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	ShowButtonsCmd.SetInt(ShowButtons);
 	ProcessEvent(ShowButtonsCmd);
 
-	if(TimesOpened < 1)
+	if(TimesOpened < 2)
 	{
 		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Help);
 		ProcessEvent(ShowHelpCmd);
