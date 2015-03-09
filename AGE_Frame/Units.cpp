@@ -41,15 +41,15 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					case 4: Name += "LN "+FormatInt(UnitPointer->LanguageDLLName); break;
 					case 5: Name += "LC "+FormatInt(UnitPointer->LanguageDLLCreation); break;
 					case 6: Name += "C "+FormatInt(UnitPointer->Class); break;
-					case 7: Name += "Ask Tapsa"; break;
-					case 8: Name += "Ask Tapsa"; break;
+					case 7: Name += "SG "+FormatInt(UnitPointer->StandingGraphic.first)+" "+FormatInt(UnitPointer->StandingGraphic.second); break;
+					case 8: Name += "DG "+FormatInt(UnitPointer->DyingGraphic.first)+" "+FormatInt(UnitPointer->DyingGraphic.second); break;
 					case 9: Name += "DM "+FormatInt(UnitPointer->DeathMode); break;
 					case 10: Name += "HP "+FormatInt(UnitPointer->HitPoints); break;
 					case 11: Name += "LS "+FormatFloat(UnitPointer->LineOfSight); break;
 					case 12: Name += "GC "+FormatInt(UnitPointer->GarrisonCapacity); break;
-					case 13: Name += "Ask Tapsa"; break;
+					case 13: Name += "SR "+FormatInt(UnitPointer->SizeRadius.first)+" "+FormatInt(UnitPointer->SizeRadius.second); break;
 					case 14: Name += "B1 "+FormatFloat(UnitPointer->HPBarHeight1); break;
-					case 15: Name += "Ask Tapsa"; break;
+					case 15: Name += "TS "+FormatInt(UnitPointer->TrainSound.first)+" "+FormatInt(UnitPointer->TrainSound.second); break;
 					case 16: Name += "DU "+FormatInt(UnitPointer->DeadUnitID); break;
 					case 17: Name += "PM "+FormatInt(UnitPointer->PlacementMode); break;
 					case 18: Name += "AM "+FormatInt(UnitPointer->AirMode); break;
@@ -58,9 +58,9 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					case 21: Name += "U1 "+FormatInt(UnitPointer->Unknown1); break;
 					case 22: Name += "E "+FormatInt(UnitPointer->Enabled); break;
 					case 23: Name += "D "+FormatInt(UnitPointer->Disabled); break;
-					case 24: Name += "Ask Tapsa"; break;
-					case 25: Name += "Ask Tapsa"; break;
-					case 26: Name += "Ask Tapsa"; break;
+					case 24: Name += "PBT "+FormatInt(UnitPointer->PlacementBypassTerrain.first)+" "+FormatInt(UnitPointer->PlacementBypassTerrain.second); break;
+					case 25: Name += "PT "+FormatInt(UnitPointer->PlacementTerrain.first)+" "+FormatInt(UnitPointer->PlacementTerrain.second); break;
+					case 26: Name += "ER "+FormatInt(UnitPointer->EditorRadius.first)+" "+FormatInt(UnitPointer->EditorRadius.second); break;
 					case 27: Name += "HM "+FormatInt(UnitPointer->HillMode); break;
 					case 28: Name += "VF "+FormatInt(UnitPointer->VisibleInFog); break;
 					case 29: Name += "TR "+FormatInt(UnitPointer->TerrainRestriction); break;
@@ -89,7 +89,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					case 52: Name += "No "+FormatInt(UnitPointer->Nothing); break;
 					case 53: Name += "SE "+FormatInt(UnitPointer->SelectionEffect); break;
 					case 54: Name += "EC "+FormatInt(UnitPointer->EditorSelectionColour); break;
-					case 55: Name += "Ask Tapsa"; break;
+					case 55: Name += "SS "+FormatInt(UnitPointer->SelectionRadius.first)+" "+FormatInt(UnitPointer->SelectionRadius.second); break;
 					case 56: Name += "B2 "+FormatFloat(UnitPointer->HPBarHeight2); break;
 					case 57: Name += "Ask Tapsa"; break;
 					case 58: Name += "DC "+FormatInt(UnitPointer->DamageGraphics.size()); break;
@@ -116,7 +116,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			{
 				switch(Selection[loop])
 				{
-					case 1: Name += "Ask Tapsa"; break;
+					case 1: Name += "WG "+FormatInt(UnitPointer->DeadFish.WalkingGraphic.first)+" "+FormatInt(UnitPointer->DeadFish.WalkingGraphic.second); break;
 					case 2: Name += "RS "+FormatFloat(UnitPointer->DeadFish.RotationSpeed); break;
 					case 3: Name += "U11 "+FormatInt(UnitPointer->DeadFish.Unknown11); break;
 					case 4: Name += "TU "+FormatInt(UnitPointer->DeadFish.TrackingUnit); break;
@@ -137,7 +137,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					case 1: Name += "SC "+FormatInt(UnitPointer->Bird.SheepConversion); break;
 					case 2: Name += "SR "+FormatFloat(UnitPointer->Bird.SearchRadius); break;
 					case 3: Name += "WR "+FormatFloat(UnitPointer->Bird.WorkRate); break;
-					case 4: Name += "Ask Tapsa"; break;
+					case 4: Name += "DS "+FormatInt(UnitPointer->Bird.DropSite.first)+" "+FormatInt(UnitPointer->Bird.DropSite.second); break;
 					case 5: Name += "VM "+FormatInt(UnitPointer->Bird.VillagerMode); break;
 					case 6: Name += "AS "+FormatInt(UnitPointer->Bird.AttackSound); break;
 					case 7: Name += "MS "+FormatInt(UnitPointer->Bird.MoveSound); break;
@@ -157,10 +157,10 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					case 1: Name += "DA "+FormatInt(UnitPointer->Type50.DefaultArmor); break;
 					case 2: Name += "AtC "+FormatInt(UnitPointer->Type50.Attacks.size()); break;
 					case 3: for(short i = 0; i < UnitPointer->Type50.Attacks.size(); ++i)
-					Name += "c" + lexical_cast<string>(UnitPointer->Type50.Attacks[i].Class) + " "; break;
+					Name += "c" + FormatInt(UnitPointer->Type50.Attacks[i].Class) + " "; break;
 					case 4: Name += "ArC "+FormatInt(UnitPointer->Type50.Armours.size()); break;
 					case 5: for(short i = 0; i < UnitPointer->Type50.Armours.size(); ++i)
-					Name += "c" + lexical_cast<string>(UnitPointer->Type50.Armours[i].Class) + " "; break;
+					Name += "c" + FormatInt(UnitPointer->Type50.Armours[i].Class) + " "; break;
 					case 6: Name += "TR "+FormatInt(UnitPointer->Type50.TerRestrictionForDmgMultiplying); break;
 					case 7: Name += "MaR "+FormatFloat(UnitPointer->Type50.MaxRange); break;
 					case 8: Name += "BR "+FormatFloat(UnitPointer->Type50.BlastRadius); break;
@@ -169,7 +169,9 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					case 11: Name += "AP "+FormatInt(UnitPointer->Type50.AccuracyPercent); break;
 					case 12: Name += "TM "+FormatInt(UnitPointer->Type50.TowerMode); break;
 					case 13: Name += "D "+FormatInt(UnitPointer->Type50.FrameDelay); break;
-					case 14: Name += "Ask Tapsa"; break;
+					case 14: Name += "x"+FormatInt(UnitPointer->Type50.GraphicDisplacement[0]);
+						Name += " y"+FormatInt(UnitPointer->Type50.GraphicDisplacement[1]);
+						Name += " z"+FormatInt(UnitPointer->Type50.GraphicDisplacement[2]); break;
 					case 15: Name += "BL "+FormatInt(UnitPointer->Type50.BlastLevel); break;
 					case 16: Name += "MiR "+FormatFloat(UnitPointer->Type50.MinRange); break;
 					case 17: Name += "AE "+FormatFloat(UnitPointer->Type50.AccuracyErrorRadius); break;
@@ -215,7 +217,9 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					case 9: Name += "GG "+FormatInt(UnitPointer->Creatable.GarrisonGraphic); break;
 					case 10: Name += "Di "+FormatFloat(UnitPointer->Creatable.DuplicatedMissilesMin); break;
 					case 11: Name += "Da "+FormatInt(UnitPointer->Creatable.DuplicatedMissilesMax); break;
-					case 12: Name += "Ask Tapsa"; break;
+					case 12: Name += "x"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[0]);
+						Name += " y"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[1]);
+						Name += " z"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[2]); break;
 					case 13: Name += "AP "+FormatInt(UnitPointer->Creatable.AlternativeProjectileUnit); break;
 					case 14: Name += "CG "+FormatInt(UnitPointer->Creatable.ChargingGraphic); break;
 					case 15: Name += "CM "+FormatInt(UnitPointer->Creatable.ChargingMode); break;
