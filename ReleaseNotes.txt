@@ -12,9 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2015.3.1[/b]:
+Version [b]2015.3.9[/b]:
 •Fixed a crash when erasing unit damage graphics, attacks, armors and actions.
 •Min and max sizes for windows.
+•Improved unit search filters.
 
 Version [b]2015.1.26[/b]:
 •Found a variable that controls damage depending on terrain.
