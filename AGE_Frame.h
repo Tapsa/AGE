@@ -761,12 +761,11 @@ public:
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;
-	wxString DatFileName, ApfFileName;
-	wxString SaveDatFileName, SaveApfFileName;
+	wxArrayString DatFileName, SaveDatFileName;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
 	wxString LangCharset;
-	wxString LangFileName, LangX1FileName, LangX1P1FileName;
-	wxString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
+	wxArrayString LangFileName, LangX1FileName, LangX1P1FileName;
+	wxArrayString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
 
 	HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters = 0);

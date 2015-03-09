@@ -38,6 +38,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 
 	Layout->Add(Text_GenieVer, 1, wxEXPAND);
 	Layout->Add(CheckBox_GenieVer, 1, wxEXPAND);
+	Layout->Add(RecentText, 1, wxEXPAND);
+	Layout->Add(CheckBox_Recent, 1, wxEXPAND);
 	Layout->Add(DriveText, 1, wxEXPAND);
 	DriveLetterArea->Add(DriveLetterBox, 0);
 	DriveLetterArea->Add(WindowCountText, 0);

@@ -55,6 +55,8 @@ public:
 	wxCheckBox *CheckBox_LangWrite;
 	wxButton *ButtonOK;
 	wxButton *ButtonCancel;
+	wxStaticText *RecentText;
+	wxComboBox *CheckBox_Recent;
 };
 
 #endif
