@@ -30,6 +30,8 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 
 	Layout->Add(Text_GenieVer, 1, wxEXPAND);
 	Layout->Add(CheckBox_GenieVer, 1, wxEXPAND);
+	Layout->Add(RecentText, 1, wxEXPAND);
+	Layout->Add(CheckBox_Recent, 1, wxEXPAND);
 	Layout->Add(DriveLetterBox, 1, wxEXPAND);
 	Layout->Add(LanguageBox, 1, wxEXPAND);
 	Layout->AddSpacer(15);
