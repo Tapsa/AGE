@@ -52,6 +52,7 @@ enum EditableVersion
 	EV_AoKB,
 	EV_AoK,
 	EV_TC,
+	EV_Cysion,
 	EV_SWGB
 	//EV_CC
 };

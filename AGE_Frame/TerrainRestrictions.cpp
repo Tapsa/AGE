@@ -45,6 +45,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 			}
 		}
 		case genie::GV_TC:
+		case genie::GV_Cysion:
 		{
 			switch(Index)
 			{
