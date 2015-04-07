@@ -105,7 +105,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	General_TTUnknown[7]->resize(1);
 	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
 	General_TTUnknown[7]->Update();
-	if(GenieVersion <= genie::GV_TC) return;
+	if(GenieVersion < genie::GV_SWGB) return;
 	General_SUnknown2->resize(1);
 	General_SUnknown2->container[0] = &GenieFile->SUnknown2;
 	General_SUnknown2->Update();
