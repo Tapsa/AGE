@@ -22,7 +22,7 @@ public:
 	virtual int SaveEdits()=0;
 	virtual void Update()=0;
 	void resize(int size){container.resize(size);}
-	bool BatchCheck(wxString &value, short &batchMode)
+	bool BatchCheck(string &value, short &batchMode)
 	{
 		if(value.size() < 3) return false;
 		switch((char)value[1])
