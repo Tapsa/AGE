@@ -11,8 +11,12 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	WindowCountBox = new wxTextCtrl(this, wxID_ANY, "2", wxDefaultPosition, wxSize(50, 20));
 	WindowCountBox->SetToolTip("Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
 	LanguageText = new wxStaticText(this, wxID_ANY, "      Language: * ");
+	TerrainsText = new wxStaticText(this, wxID_ANY, "      Terrains: ");
+	TerrainsBox = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(50, 20));
 	Radio_DatFileLocation = new wxRadioButton(this, wxID_ANY, "Compressed Dat File (*.dat):", wxDefaultPosition, wxSize(0, 20), wxRB_GROUP);
 	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Dat File (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	Button_RawDecompress = new wxButton(this, wxID_ANY, "Decompress", wxDefaultPosition, wxSize(5, 20));
+	Path_RawDecompress = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Dat File (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Radio_UnzFileLocation = new wxRadioButton(this, wxID_ANY, "Decompressed Dat File (*.unz):");
 	Radio_UnzFileLocation->Disable();
 	Path_UnzFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Decompressed Dat File (*.unz)|*.unz", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
@@ -46,6 +50,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	DriveLetterArea->Add(WindowCountBox, 0);
 	DriveLetterArea->Add(LanguageText, 0);
 	DriveLetterArea->Add(LanguageBox, 0);
+	DriveLetterArea->Add(TerrainsText, 0);
+	DriveLetterArea->Add(TerrainsBox, 0);
 	DriveLetterArea->AddStretchSpacer(1);
 	Layout->Add(DriveLetterArea, 1, wxEXPAND);
 	Layout->AddSpacer(15);
@@ -54,6 +60,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Layout->Add(Path_CustomDefault, 1, wxEXPAND);
 	Layout->Add(Radio_DatFileLocation, 1, wxEXPAND);
 	Layout->Add(Path_DatFileLocation, 1, wxEXPAND);
+	Layout->Add(Button_RawDecompress, 1, wxEXPAND);
+	Layout->Add(Path_RawDecompress, 1, wxEXPAND);
 	Layout->Add(Radio_UnzFileLocation, 1, wxEXPAND);
 	Layout->Add(Path_UnzFileLocation, 1, wxEXPAND);
 	Layout->Add(Radio_ApfFileLocation, 1, wxEXPAND);
@@ -103,6 +111,20 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Connect(CheckBox_LangFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLang));
 	Connect(CheckBox_LangX1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1));
 	Connect(CheckBox_LangX1P1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1P1));
+	Connect(Button_RawDecompress->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDecompress));
+}
+
+void AGE_OpenDialog::OnDecompress(wxCommandEvent &Event)
+{
+	genie::DatFile *raw;
+	wxString filename = Path_RawDecompress->GetPath();
+	wxString savename = filename+"u";
+	if(!filename.empty())
+	{
+		raw = new genie::DatFile();
+		raw->extractRaw(filename.c_str(), savename.c_str());
+		delete raw;
+	}
 }
 
 void AGE_OpenDialog::OnOK(wxCommandEvent &Event)

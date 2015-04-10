@@ -44,6 +44,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
 		OpenBox.LanguageBox->ChangeValue(Language);
+		OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
 		if(AGEwindow == 1) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName[0]);
 		if((*argPath).size() > 3)
@@ -97,6 +98,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UseCustomPath = OpenBox.CheckBox_CustomDefault->GetValue();
 		CustomFolder = OpenBox.Path_CustomDefault->GetPath();
 		Language = OpenBox.LanguageBox->GetValue();
+		CustomTerrains = lexical_cast<int>(OpenBox.TerrainsBox->GetValue());
 		if(AGEwindow == 1) SimultaneousFiles = lexical_cast<int>(OpenBox.WindowCountBox->GetValue());
 		DatFileName[0] = OpenBox.Path_DatFileLocation->GetPath();
 
@@ -271,6 +273,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		try
 		{
 			GenieFile->setGameVersion(GenieVersion);
+			genie::Terrain::customTerrainAmount = CustomTerrains;
 			GenieFile->load(DatFileName[0].c_str());
 		}
 		catch(std::ios_base::failure e)
@@ -1451,6 +1454,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	Config->Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName[0]);
 	Config->Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName[0]);
 	Config->Write("DefaultFiles/SaveDat", SaveDat);
+	Config->Write("Misc/CustomTerrains", CustomTerrains);
 	delete Config;
 
 	if(SaveDat)
