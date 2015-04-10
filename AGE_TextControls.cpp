@@ -7,7 +7,7 @@ const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 int TextCtrl_Byte::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	wxString value = GetValue().c_str();
+	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
@@ -74,7 +74,7 @@ int TextCtrl_Byte::SaveEdits()
 int TextCtrl_UByte::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	wxString value = GetValue().c_str();
+	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
@@ -141,7 +141,7 @@ int TextCtrl_UByte::SaveEdits()
 int TextCtrl_Float::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	wxString value = GetValue().c_str();
+	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
@@ -198,7 +198,7 @@ int TextCtrl_Float::SaveEdits()
 int TextCtrl_Long::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	wxString value = GetValue().c_str();
+	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
@@ -256,7 +256,7 @@ int TextCtrl_Long::SaveEdits()
 int TextCtrl_Short::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	wxString value = GetValue().c_str();
+	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
@@ -314,7 +314,7 @@ int TextCtrl_Short::SaveEdits()
 int TextCtrl_UShort::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	wxString value = GetValue().c_str();
+	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
 		short batchMode = 0;
@@ -372,11 +372,33 @@ int TextCtrl_UShort::SaveEdits()
 int TextCtrl_String::SaveEdits()	// This may crash the program.
 {
 	if(!AGETextCtrl::editable || container.empty()) return 1;
-	wxString value = GetValue().c_str();
+	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
 		if(*(string*)container[0] != value) // Has been changed
 		{
+			short batchMode = 0;
+			if(value[0] == 'b' && !BatchCheck(value, batchMode))
+			{
+				wxMessageBox(BATCHWARNING, BWTITLE);
+				return 1;
+			}
+			if(batchMode > 0)
+			{
+				for(auto &pointer: container)
+				{
+					string vasili = *(string*)pointer;
+					switch(batchMode)
+					{
+						case 1: vasili += value; vasili = vasili.substr(0, MaxSize); break;
+						case 2: vasili = vasili.substr(0, vasili.size() - lexical_cast<int>(value)); break;
+					}
+					*(string*)pointer = vasili;
+				}
+				ChangeValue(*(string*)container[0]);
+				AGETextCtrl::unSaved += container.size();
+				return 0;
+			}
 			if(value.size() <= MaxSize)
 			{
 				for(auto &pointer: container)

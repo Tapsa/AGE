@@ -166,6 +166,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		case EV_AoKB: GenieVersion = genie::GV_AoKB; break;
 		case EV_AoK: GenieVersion = genie::GV_AoK; break;
 		case EV_TC: GenieVersion = genie::GV_TC; break;
+		case EV_Cysion: GenieVersion = genie::GV_Cysion; break;
 		case EV_SWGB: GenieVersion = genie::GV_SWGB; break;
 		//case EV_CC: GenieVersion = genie::GV_CC; break;
 		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
@@ -1552,9 +1553,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			ShowButtons = Event.IsChecked();
 
 			Terrains_Add->Enable(ShowButtons);
-			Terrains_Insert->Enable(ShowButtons);
+			Terrains_Insert->Enable(false);
 			Terrains_Delete->Enable(ShowButtons);
-			Terrains_PasteInsert->Enable(ShowButtons);
+			Terrains_PasteInsert->Enable(false);
 		}
 		break;
 		case wxID_EXIT:

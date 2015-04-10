@@ -33,80 +33,78 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			case 0: // Type20
 			for(short loop = 0; loop < filters; ++loop)
 			{
-				switch(Selection[loop])
-				{
-					case 1: Name += "T "+FormatInt(UnitPointer->Type); break;
-					case 2: Name += "NL "+FormatInt(UnitPointer->NameLength); break;
-					case 3: Name += "I1 "+FormatInt(UnitPointer->ID1); break;
-					case 4: Name += "LN "+FormatInt(UnitPointer->LanguageDLLName); break;
-					case 5: Name += "LC "+FormatInt(UnitPointer->LanguageDLLCreation); break;
-					case 6: Name += "C "+FormatInt(UnitPointer->Class); break;
-					case 7: Name += "SG "+FormatInt(UnitPointer->StandingGraphic.first)+" "+FormatInt(UnitPointer->StandingGraphic.second); break;
-					case 8: Name += "DG "+FormatInt(UnitPointer->DyingGraphic.first)+" "+FormatInt(UnitPointer->DyingGraphic.second); break;
-					case 9: Name += "DM "+FormatInt(UnitPointer->DeathMode); break;
-					case 10: Name += "HP "+FormatInt(UnitPointer->HitPoints); break;
-					case 11: Name += "LS "+FormatFloat(UnitPointer->LineOfSight); break;
-					case 12: Name += "GC "+FormatInt(UnitPointer->GarrisonCapacity); break;
-					case 13: Name += "SR "+FormatInt(UnitPointer->SizeRadius.first)+" "+FormatInt(UnitPointer->SizeRadius.second); break;
-					case 14: Name += "B1 "+FormatFloat(UnitPointer->HPBarHeight1); break;
-					case 15: Name += "TS "+FormatInt(UnitPointer->TrainSound.first)+" "+FormatInt(UnitPointer->TrainSound.second); break;
-					case 16: Name += "DU "+FormatInt(UnitPointer->DeadUnitID); break;
-					case 17: Name += "PM "+FormatInt(UnitPointer->PlacementMode); break;
-					case 18: Name += "AM "+FormatInt(UnitPointer->AirMode); break;
-					case 19: Name += "I "+FormatInt(UnitPointer->IconID); break;
-					case 20: Name += "HE "+FormatInt(UnitPointer->HideInEditor); break;
-					case 21: Name += "U1 "+FormatInt(UnitPointer->Unknown1); break;
-					case 22: Name += "E "+FormatInt(UnitPointer->Enabled); break;
-					case 23: Name += "D "+FormatInt(UnitPointer->Disabled); break;
-					case 24: Name += "PBT "+FormatInt(UnitPointer->PlacementBypassTerrain.first)+" "+FormatInt(UnitPointer->PlacementBypassTerrain.second); break;
-					case 25: Name += "PT "+FormatInt(UnitPointer->PlacementTerrain.first)+" "+FormatInt(UnitPointer->PlacementTerrain.second); break;
-					case 26: Name += "ER "+FormatInt(UnitPointer->EditorRadius.first)+" "+FormatInt(UnitPointer->EditorRadius.second); break;
-					case 27: Name += "HM "+FormatInt(UnitPointer->HillMode); break;
-					case 28: Name += "VF "+FormatInt(UnitPointer->VisibleInFog); break;
-					case 29: Name += "TR "+FormatInt(UnitPointer->TerrainRestriction); break;
-					case 30: Name += "FM "+FormatInt(UnitPointer->FlyMode); break;
-					case 31: Name += "RC "+FormatInt(UnitPointer->ResourceCapacity); break;
-					case 32: Name += "RD "+FormatFloat(UnitPointer->ResourceDecay); break;
-					case 33: Name += "BT "+FormatInt(UnitPointer->BlastType); break;
-					case 34: Name += "U2 "+FormatInt(UnitPointer->Unknown2); break;
-					case 35: Name += "IM "+FormatInt(UnitPointer->InteractionMode); break;
-					case 36: Name += "MM "+FormatInt(UnitPointer->MinimapMode); break;
-					case 37: Name += "CA "+FormatInt(UnitPointer->CommandAttribute); break;
-					case 38: Name += "U3A "+FormatFloat(UnitPointer->Unknown3A); break;
-					case 39: Name += "MC "+FormatInt(UnitPointer->MinimapColor); break;
-					case 40: Name += "LH "+FormatInt(UnitPointer->LanguageDLLHelp); break;
-					case 41: Name += "LT "+FormatInt(UnitPointer->LanguageDLLHotKeyText); break;
-					case 42: Name += "HK "+FormatInt(UnitPointer->HotKey); break;
-					case 43: Name += "US "+FormatInt(UnitPointer->Unselectable); break;
-					case 44: Name += "U6 "+FormatInt(UnitPointer->Unknown6); break;
-					case 45: Name += "U7 "+FormatInt(UnitPointer->UnknownSelectionMode); break;
-					case 46: Name += "U8 "+FormatInt(UnitPointer->Unknown8); break;
-					case 47: Name += "SM "+FormatInt(UnitPointer->SelectionMask); break;
-					case 48: Name += "ST "+FormatInt(UnitPointer->SelectionShapeType); break;
-					case 49: Name += "SSh "+FormatInt(UnitPointer->SelectionShape); break;
-					case 50: Name += "A "+FormatInt(UnitPointer->Attribute); break;
-					case 51: Name += "Ci "+FormatInt(UnitPointer->Civilization); break;
-					case 52: Name += "No "+FormatInt(UnitPointer->Nothing); break;
-					case 53: Name += "SE "+FormatInt(UnitPointer->SelectionEffect); break;
-					case 54: Name += "EC "+FormatInt(UnitPointer->EditorSelectionColour); break;
-					case 55: Name += "SS "+FormatInt(UnitPointer->SelectionRadius.first)+" "+FormatInt(UnitPointer->SelectionRadius.second); break;
-					case 56: Name += "B2 "+FormatFloat(UnitPointer->HPBarHeight2); break;
-					case 57: Name += "Ask Tapsa"; break;
-					case 58: Name += "DC "+FormatInt(UnitPointer->DamageGraphics.size()); break;
-					case 59: Name += "Ask Tapsa"; break;
-					case 60: Name += "SSo "+FormatInt(UnitPointer->SelectionSound); break;
-					case 61: Name += "DS "+FormatInt(UnitPointer->DyingSound); break;
-					case 62: Name += "AtM "+FormatInt(UnitPointer->AttackMode); break;
-					case 63: Name += "EM "+FormatInt(UnitPointer->EdibleMeat); break;
-					case 64: Name += UnitPointer->Name; break;
-					case 65: Name += "NL2 "+FormatInt(UnitPointer->NameLength2); break;
-					case 66: Name += UnitPointer->Name2; break;
-					case 67: Name += "UL "+FormatInt(UnitPointer->Unitline); break;
-					case 68: Name += "MT "+FormatInt(UnitPointer->MinTechLevel); break;
-					case 69: Name += "I2 "+FormatInt(UnitPointer->ID2); break;
-					case 70: Name += "I3 "+FormatInt(UnitPointer->ID3); break;
-					case 71: Name += "S "+FormatFloat(UnitPointer->Speed); break;
-				}
+				wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
+				if(label.compare(Type20[0]) == 0) Name += "T "+FormatInt(UnitPointer->Type);
+				else if(label.compare(Type20[1]) == 0) Name += "NL "+FormatInt(UnitPointer->NameLength);
+				else if(label.compare(Type20[2]) == 0) Name += "I1 "+FormatInt(UnitPointer->ID1);
+				else if(label.compare(Type20[3]) == 0) Name += "LN "+FormatInt(UnitPointer->LanguageDLLName);
+				else if(label.compare(Type20[4]) == 0) Name += "LC "+FormatInt(UnitPointer->LanguageDLLCreation);
+				else if(label.compare(Type20[5]) == 0) Name += "C "+FormatInt(UnitPointer->Class);
+				else if(label.compare(Type20[6]) == 0) Name += "SG "+FormatInt(UnitPointer->StandingGraphic.first)+" "+FormatInt(UnitPointer->StandingGraphic.second);
+				else if(label.compare(Type20[7]) == 0) Name += "DG "+FormatInt(UnitPointer->DyingGraphic.first)+" "+FormatInt(UnitPointer->DyingGraphic.second);
+				else if(label.compare(Type20[8]) == 0) Name += "DM "+FormatInt(UnitPointer->DeathMode);
+				else if(label.compare(Type20[9]) == 0) Name += "HP "+FormatInt(UnitPointer->HitPoints);
+				else if(label.compare(Type20[10]) == 0) Name += "LS "+FormatFloat(UnitPointer->LineOfSight);
+				else if(label.compare(Type20[11]) == 0) Name += "GC "+FormatInt(UnitPointer->GarrisonCapacity);
+				else if(label.compare(Type20[12]) == 0) Name += "SR "+FormatInt(UnitPointer->SizeRadius.first)+" "+FormatInt(UnitPointer->SizeRadius.second);
+				else if(label.compare(Type20[13]) == 0) Name += "B1 "+FormatFloat(UnitPointer->HPBarHeight1);
+				else if(label.compare(Type20[14]) == 0) Name += "TS "+FormatInt(UnitPointer->TrainSound.first)+" "+FormatInt(UnitPointer->TrainSound.second);
+				else if(label.compare(Type20[15]) == 0) Name += "DU "+FormatInt(UnitPointer->DeadUnitID);
+				else if(label.compare(Type20[16]) == 0) Name += "PM "+FormatInt(UnitPointer->PlacementMode);
+				else if(label.compare(Type20[17]) == 0) Name += "AM "+FormatInt(UnitPointer->AirMode);
+				else if(label.compare(Type20[18]) == 0) Name += "I "+FormatInt(UnitPointer->IconID);
+				else if(label.compare(Type20[19]) == 0) Name += "HE "+FormatInt(UnitPointer->HideInEditor);
+				else if(label.compare(Type20[20]) == 0) Name += "U1 "+FormatInt(UnitPointer->Unknown1);
+				else if(label.compare(Type20[21]) == 0) Name += "E "+FormatInt(UnitPointer->Enabled);
+				else if(label.compare(Type20[22]) == 0) Name += "D "+FormatInt(UnitPointer->Disabled);
+				else if(label.compare(Type20[23]) == 0) Name += "PBT "+FormatInt(UnitPointer->PlacementBypassTerrain.first)+" "+FormatInt(UnitPointer->PlacementBypassTerrain.second);
+				else if(label.compare(Type20[24]) == 0) Name += "PT "+FormatInt(UnitPointer->PlacementTerrain.first)+" "+FormatInt(UnitPointer->PlacementTerrain.second);
+				else if(label.compare(Type20[25]) == 0) Name += "ER "+FormatInt(UnitPointer->EditorRadius.first)+" "+FormatInt(UnitPointer->EditorRadius.second);
+				else if(label.compare(Type20[26]) == 0) Name += "HM "+FormatInt(UnitPointer->HillMode);
+				else if(label.compare(Type20[27]) == 0) Name += "VF "+FormatInt(UnitPointer->VisibleInFog);
+				else if(label.compare(Type20[28]) == 0) Name += "TR "+FormatInt(UnitPointer->TerrainRestriction);
+				else if(label.compare(Type20[29]) == 0) Name += "FM "+FormatInt(UnitPointer->FlyMode);
+				else if(label.compare(Type20[30]) == 0) Name += "RC "+FormatInt(UnitPointer->ResourceCapacity);
+				else if(label.compare(Type20[31]) == 0) Name += "RD "+FormatFloat(UnitPointer->ResourceDecay);
+				else if(label.compare(Type20[32]) == 0) Name += "BT "+FormatInt(UnitPointer->BlastType);
+				else if(label.compare(Type20[33]) == 0) Name += "U2 "+FormatInt(UnitPointer->Unknown2);
+				else if(label.compare(Type20[34]) == 0) Name += "IM "+FormatInt(UnitPointer->InteractionMode);
+				else if(label.compare(Type20[35]) == 0) Name += "MM "+FormatInt(UnitPointer->MinimapMode);
+				else if(label.compare(Type20[36]) == 0) Name += "CA "+FormatInt(UnitPointer->CommandAttribute);
+				else if(label.compare(Type20[37]) == 0) Name += "U3A "+FormatFloat(UnitPointer->Unknown3A);
+				else if(label.compare(Type20[38]) == 0) Name += "MC "+FormatInt(UnitPointer->MinimapColor);
+				else if(label.compare(Type20[39]) == 0) Name += "LH "+FormatInt(UnitPointer->LanguageDLLHelp);
+				else if(label.compare(Type20[40]) == 0) Name += "LT "+FormatInt(UnitPointer->LanguageDLLHotKeyText);
+				else if(label.compare(Type20[41]) == 0) Name += "HK "+FormatInt(UnitPointer->HotKey);
+				else if(label.compare(Type20[42]) == 0) Name += "US "+FormatInt(UnitPointer->Unselectable);
+				else if(label.compare(Type20[43]) == 0) Name += "U6 "+FormatInt(UnitPointer->Unknown6);
+				else if(label.compare(Type20[44]) == 0) Name += "U7 "+FormatInt(UnitPointer->UnknownSelectionMode);
+				else if(label.compare(Type20[45]) == 0) Name += "U8 "+FormatInt(UnitPointer->Unknown8);
+				else if(label.compare(Type20[46]) == 0) Name += "SM "+FormatInt(UnitPointer->SelectionMask);
+				else if(label.compare(Type20[47]) == 0) Name += "ST "+FormatInt(UnitPointer->SelectionShapeType);
+				else if(label.compare(Type20[48]) == 0) Name += "SSh "+FormatInt(UnitPointer->SelectionShape);
+				else if(label.compare(Type20[49]) == 0) Name += "A "+FormatInt(UnitPointer->Attribute);
+				else if(label.compare(Type20[50]) == 0) Name += "Ci "+FormatInt(UnitPointer->Civilization);
+				else if(label.compare(Type20[51]) == 0) Name += "No "+FormatInt(UnitPointer->Nothing);
+				else if(label.compare(Type20[52]) == 0) Name += "SE "+FormatInt(UnitPointer->SelectionEffect);
+				else if(label.compare(Type20[53]) == 0) Name += "EC "+FormatInt(UnitPointer->EditorSelectionColour);
+				else if(label.compare(Type20[54]) == 0) Name += "SS "+FormatInt(UnitPointer->SelectionRadius.first)+" "+FormatInt(UnitPointer->SelectionRadius.second);
+				else if(label.compare(Type20[55]) == 0) Name += "B2 "+FormatFloat(UnitPointer->HPBarHeight2);
+				else if(label.compare(Type20[56]) == 0) Name += "Ask Tapsa";
+				else if(label.compare(Type20[57]) == 0) Name += "DC "+FormatInt(UnitPointer->DamageGraphics.size());
+				else if(label.compare(Type20[58]) == 0) Name += "Ask Tapsa";
+				else if(label.compare(Type20[59]) == 0) Name += "SSo "+FormatInt(UnitPointer->SelectionSound);
+				else if(label.compare(Type20[60]) == 0) Name += "DS "+FormatInt(UnitPointer->DyingSound);
+				else if(label.compare(Type20[61]) == 0) Name += "AtM "+FormatInt(UnitPointer->AttackMode);
+				else if(label.compare(Type20[62]) == 0) Name += "EM "+FormatInt(UnitPointer->EdibleMeat);
+				else if(label.compare(Type20[63]) == 0) Name += UnitPointer->Name;
+				else if(label.compare(Type20[64]) == 0) Name += "NL2 "+FormatInt(UnitPointer->NameLength2);
+				else if(label.compare(Type20[65]) == 0) Name += UnitPointer->Name2;
+				else if(label.compare(Type20[66]) == 0) Name += "UL "+FormatInt(UnitPointer->Unitline);
+				else if(label.compare(Type20[67]) == 0) Name += "MT "+FormatInt(UnitPointer->MinTechLevel);
+				else if(label.compare(Type20[68]) == 0) Name += "I2 "+FormatInt(UnitPointer->ID2);
+				else if(label.compare(Type20[69]) == 0) Name += "I3 "+FormatInt(UnitPointer->ID3);
+				else if(label.compare(Type20[70]) == 0) Name += "S "+FormatFloat(UnitPointer->Speed);
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
 			}
@@ -114,17 +112,15 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			case 1: // Type30
 			for(short loop = 0; loop < filters; ++loop)
 			{
-				switch(Selection[loop])
-				{
-					case 1: Name += "WG "+FormatInt(UnitPointer->DeadFish.WalkingGraphic.first)+" "+FormatInt(UnitPointer->DeadFish.WalkingGraphic.second); break;
-					case 2: Name += "RS "+FormatFloat(UnitPointer->DeadFish.RotationSpeed); break;
-					case 3: Name += "U11 "+FormatInt(UnitPointer->DeadFish.Unknown11); break;
-					case 4: Name += "TU "+FormatInt(UnitPointer->DeadFish.TrackingUnit); break;
-					case 5: Name += "UU "+FormatInt(UnitPointer->DeadFish.TrackingUnitUsed); break;
-					case 6: Name += "UD "+FormatFloat(UnitPointer->DeadFish.TrackingUnitDensity); break;
-					case 7: Name += "U16 "+FormatInt(UnitPointer->DeadFish.Unknown16); break;
-					case 8: Name += "Ask Tapsa"; break;
-				}
+				wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
+				if(label.compare(Type30[0]) == 0) Name += "WG "+FormatInt(UnitPointer->DeadFish.WalkingGraphic.first)+" "+FormatInt(UnitPointer->DeadFish.WalkingGraphic.second);
+				else if(label.compare(Type30[1]) == 0) Name += "RS "+FormatFloat(UnitPointer->DeadFish.RotationSpeed);
+				else if(label.compare(Type30[2]) == 0) Name += "U11 "+FormatInt(UnitPointer->DeadFish.Unknown11);
+				else if(label.compare(Type30[3]) == 0) Name += "TU "+FormatInt(UnitPointer->DeadFish.TrackingUnit);
+				else if(label.compare(Type30[4]) == 0) Name += "UU "+FormatInt(UnitPointer->DeadFish.TrackingUnitUsed);
+				else if(label.compare(Type30[5]) == 0) Name += "UD "+FormatFloat(UnitPointer->DeadFish.TrackingUnitDensity);
+				else if(label.compare(Type30[6]) == 0) Name += "U16 "+FormatInt(UnitPointer->DeadFish.Unknown16);
+				else if(label.compare(Type30[7]) == 0) Name += "Ask Tapsa";
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
 			}
@@ -132,19 +128,17 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			case 2: // Type40
 			for(short loop = 0; loop < filters; ++loop)
 			{
-				switch(Selection[loop])
-				{
-					case 1: Name += "SC "+FormatInt(UnitPointer->Bird.SheepConversion); break;
-					case 2: Name += "SR "+FormatFloat(UnitPointer->Bird.SearchRadius); break;
-					case 3: Name += "WR "+FormatFloat(UnitPointer->Bird.WorkRate); break;
-					case 4: Name += "DS "+FormatInt(UnitPointer->Bird.DropSite.first)+" "+FormatInt(UnitPointer->Bird.DropSite.second); break;
-					case 5: Name += "VM "+FormatInt(UnitPointer->Bird.VillagerMode); break;
-					case 6: Name += "AS "+FormatInt(UnitPointer->Bird.AttackSound); break;
-					case 7: Name += "MS "+FormatInt(UnitPointer->Bird.MoveSound); break;
-					case 8: Name += "AM "+FormatInt(UnitPointer->Bird.AnimalMode); break;
-					case 9: Name += "CC "+FormatInt(UnitPointer->Bird.Commands.size()); break;
-					case 10: Name += "Ask Tapsa"; break;
-				}
+				wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
+				if(label.compare(Type40[0]) == 0) Name += "SC "+FormatInt(UnitPointer->Bird.SheepConversion);
+				else if(label.compare(Type40[1]) == 0) Name += "SR "+FormatFloat(UnitPointer->Bird.SearchRadius);
+				else if(label.compare(Type40[2]) == 0) Name += "WR "+FormatFloat(UnitPointer->Bird.WorkRate);
+				else if(label.compare(Type40[3]) == 0) Name += "DS "+FormatInt(UnitPointer->Bird.DropSite.first)+" "+FormatInt(UnitPointer->Bird.DropSite.second);
+				else if(label.compare(Type40[4]) == 0) Name += "VM "+FormatInt(UnitPointer->Bird.VillagerMode);
+				else if(label.compare(Type40[5]) == 0) Name += "AS "+FormatInt(UnitPointer->Bird.AttackSound);
+				else if(label.compare(Type40[6]) == 0) Name += "MS "+FormatInt(UnitPointer->Bird.MoveSound);
+				else if(label.compare(Type40[7]) == 0) Name += "AM "+FormatInt(UnitPointer->Bird.AnimalMode);
+				else if(label.compare(Type40[8]) == 0) Name += "CC "+FormatInt(UnitPointer->Bird.Commands.size());
+				else if(label.compare(Type40[9]) == 0) Name += "Ask Tapsa";
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
 			}
@@ -152,35 +146,36 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			case 3: // Type50
 			for(short loop = 0; loop < filters; ++loop)
 			{
-				switch(Selection[loop])
+				wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
+				if(label.compare(Type50[0]) == 0) Name += "DA "+FormatInt(UnitPointer->Type50.DefaultArmor);
+				else if(label.compare(Type50[1]) == 0) Name += "AtC "+FormatInt(UnitPointer->Type50.Attacks.size());
+				else if(label.compare(Type50[2]) == 0) for(short i = 0; i < UnitPointer->Type50.Attacks.size(); ++i)
+				Name += "c" + FormatInt(UnitPointer->Type50.Attacks[i].Class) + " ";
+				else if(label.compare(Type50[3]) == 0) Name += "ArC "+FormatInt(UnitPointer->Type50.Armours.size());
+				else if(label.compare(Type50[4]) == 0) for(short i = 0; i < UnitPointer->Type50.Armours.size(); ++i)
+				Name += "c" + FormatInt(UnitPointer->Type50.Armours[i].Class) + " ";
+				else if(label.compare(Type50[5]) == 0) Name += "TR "+FormatInt(UnitPointer->Type50.TerRestrictionForDmgMultiplying);
+				else if(label.compare(Type50[6]) == 0) Name += "MaR "+FormatFloat(UnitPointer->Type50.MaxRange);
+				else if(label.compare(Type50[7]) == 0) Name += "BR "+FormatFloat(UnitPointer->Type50.BlastRadius);
+				else if(label.compare(Type50[8]) == 0) Name += "RT "+FormatFloat(UnitPointer->Type50.ReloadTime);
+				else if(label.compare(Type50[9]) == 0) Name += "PU "+FormatInt(UnitPointer->Type50.ProjectileUnitID);
+				else if(label.compare(Type50[10]) == 0) Name += "AP "+FormatInt(UnitPointer->Type50.AccuracyPercent);
+				else if(label.compare(Type50[11]) == 0) Name += "TM "+FormatInt(UnitPointer->Type50.TowerMode);
+				else if(label.compare(Type50[12]) == 0) Name += "D "+FormatInt(UnitPointer->Type50.FrameDelay);
+				else if(label.compare(Type50[13]) == 0)
 				{
-					case 1: Name += "DA "+FormatInt(UnitPointer->Type50.DefaultArmor); break;
-					case 2: Name += "AtC "+FormatInt(UnitPointer->Type50.Attacks.size()); break;
-					case 3: for(short i = 0; i < UnitPointer->Type50.Attacks.size(); ++i)
-					Name += "c" + FormatInt(UnitPointer->Type50.Attacks[i].Class) + " "; break;
-					case 4: Name += "ArC "+FormatInt(UnitPointer->Type50.Armours.size()); break;
-					case 5: for(short i = 0; i < UnitPointer->Type50.Armours.size(); ++i)
-					Name += "c" + FormatInt(UnitPointer->Type50.Armours[i].Class) + " "; break;
-					case 6: Name += "TR "+FormatInt(UnitPointer->Type50.TerRestrictionForDmgMultiplying); break;
-					case 7: Name += "MaR "+FormatFloat(UnitPointer->Type50.MaxRange); break;
-					case 8: Name += "BR "+FormatFloat(UnitPointer->Type50.BlastRadius); break;
-					case 9: Name += "RT "+FormatFloat(UnitPointer->Type50.ReloadTime); break;
-					case 10: Name += "PU "+FormatInt(UnitPointer->Type50.ProjectileUnitID); break;
-					case 11: Name += "AP "+FormatInt(UnitPointer->Type50.AccuracyPercent); break;
-					case 12: Name += "TM "+FormatInt(UnitPointer->Type50.TowerMode); break;
-					case 13: Name += "D "+FormatInt(UnitPointer->Type50.FrameDelay); break;
-					case 14: Name += "x"+FormatInt(UnitPointer->Type50.GraphicDisplacement[0]);
-						Name += " y"+FormatInt(UnitPointer->Type50.GraphicDisplacement[1]);
-						Name += " z"+FormatInt(UnitPointer->Type50.GraphicDisplacement[2]); break;
-					case 15: Name += "BL "+FormatInt(UnitPointer->Type50.BlastLevel); break;
-					case 16: Name += "MiR "+FormatFloat(UnitPointer->Type50.MinRange); break;
-					case 17: Name += "AE "+FormatFloat(UnitPointer->Type50.AccuracyErrorRadius); break;
-					case 18: Name += "AG "+FormatInt(UnitPointer->Type50.AttackGraphic); break;
-					case 19: Name += "DM "+FormatInt(UnitPointer->Type50.DisplayedMeleeArmour); break;
-					case 20: Name += "DP "+FormatInt(UnitPointer->Type50.DisplayedAttack); break;
-					case 21: Name += "DR "+FormatFloat(UnitPointer->Type50.DisplayedRange); break;
-					case 22: Name += "DT "+FormatFloat(UnitPointer->Type50.DisplayedReloadTime); break;
+					Name += "x"+FormatInt(UnitPointer->Type50.GraphicDisplacement[0]);
+					Name += " y"+FormatInt(UnitPointer->Type50.GraphicDisplacement[1]);
+					Name += " z"+FormatInt(UnitPointer->Type50.GraphicDisplacement[2]);
 				}
+				else if(label.compare(Type50[14]) == 0) Name += "BL "+FormatInt(UnitPointer->Type50.BlastLevel);
+				else if(label.compare(Type50[15]) == 0) Name += "MiR "+FormatFloat(UnitPointer->Type50.MinRange);
+				else if(label.compare(Type50[16]) == 0) Name += "AE "+FormatFloat(UnitPointer->Type50.AccuracyErrorRadius);
+				else if(label.compare(Type50[17]) == 0) Name += "AG "+FormatInt(UnitPointer->Type50.AttackGraphic);
+				else if(label.compare(Type50[18]) == 0) Name += "DM "+FormatInt(UnitPointer->Type50.DisplayedMeleeArmour);
+				else if(label.compare(Type50[19]) == 0) Name += "DP "+FormatInt(UnitPointer->Type50.DisplayedAttack);
+				else if(label.compare(Type50[20]) == 0) Name += "DR "+FormatFloat(UnitPointer->Type50.DisplayedRange);
+				else if(label.compare(Type50[21]) == 0) Name += "DT "+FormatFloat(UnitPointer->Type50.DisplayedReloadTime);
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
 			}
@@ -188,15 +183,13 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			case 4: // Type60
 			for(short loop = 0; loop < filters; ++loop)
 			{
-				switch(Selection[loop])
-				{
-					case 1: Name += "SM "+FormatInt(UnitPointer->Projectile.StretchMode); break;
-					case 2: Name += "CM "+FormatInt(UnitPointer->Projectile.CompensationMode); break;
-					case 3: Name += "DA "+FormatInt(UnitPointer->Projectile.DropAnimationMode); break;
-					case 4: Name += "PM "+FormatInt(UnitPointer->Projectile.PenetrationMode); break;
-					case 5: Name += "U24 "+FormatInt(UnitPointer->Projectile.Unknown24); break;
-					case 6: Name += "PA "+FormatFloat(UnitPointer->Projectile.ProjectileArc); break;
-				}
+				wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
+				if(label.compare(Type60[0]) == 0) Name += "SM "+FormatInt(UnitPointer->Projectile.StretchMode);
+				else if(label.compare(Type60[1]) == 0) Name += "CM "+FormatInt(UnitPointer->Projectile.CompensationMode);
+				else if(label.compare(Type60[2]) == 0) Name += "DA "+FormatInt(UnitPointer->Projectile.DropAnimationMode);
+				else if(label.compare(Type60[3]) == 0) Name += "PM "+FormatInt(UnitPointer->Projectile.PenetrationMode);
+				else if(label.compare(Type60[4]) == 0) Name += "U24 "+FormatInt(UnitPointer->Projectile.Unknown24);
+				else if(label.compare(Type60[5]) == 0) Name += "PA "+FormatFloat(UnitPointer->Projectile.ProjectileArc);
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
 			}
@@ -204,27 +197,28 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			case 5: // Type70
 			for(short loop = 0; loop < filters; ++loop)
 			{
-				switch(Selection[loop])
+				wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
+				if(label.compare(Type70[0]) == 0) Name += "Ask Tapsa";
+				else if(label.compare(Type70[1]) == 0) Name += "TT "+FormatInt(UnitPointer->Creatable.TrainTime);
+				else if(label.compare(Type70[2]) == 0) Name += "TL "+FormatInt(UnitPointer->Creatable.TrainLocationID);
+				else if(label.compare(Type70[3]) == 0) Name += "B "+FormatInt(UnitPointer->Creatable.ButtonID);
+				else if(label.compare(Type70[4]) == 0) Name += "U26 "+FormatInt(UnitPointer->Creatable.Unknown26);
+				else if(label.compare(Type70[5]) == 0) Name += "U27 "+FormatInt(UnitPointer->Creatable.Unknown27);
+				else if(label.compare(Type70[6]) == 0) Name += "U28 "+FormatInt(UnitPointer->Creatable.Unknown28);
+				else if(label.compare(Type70[7]) == 0) Name += "HM "+FormatInt(UnitPointer->Creatable.HeroMode);
+				else if(label.compare(Type70[8]) == 0) Name += "GG "+FormatInt(UnitPointer->Creatable.GarrisonGraphic);
+				else if(label.compare(Type70[9]) == 0) Name += "Di "+FormatFloat(UnitPointer->Creatable.DuplicatedMissilesMin);
+				else if(label.compare(Type70[10]) == 0) Name += "Da "+FormatInt(UnitPointer->Creatable.DuplicatedMissilesMax);
+				else if(label.compare(Type70[11]) == 0)
 				{
-					case 1: Name += "Ask Tapsa"; break;
-					case 2: Name += "TT "+FormatInt(UnitPointer->Creatable.TrainTime); break;
-					case 3: Name += "TL "+FormatInt(UnitPointer->Creatable.TrainLocationID); break;
-					case 4: Name += "B "+FormatInt(UnitPointer->Creatable.ButtonID); break;
-					case 5: Name += "U26 "+FormatInt(UnitPointer->Creatable.Unknown26); break;
-					case 6: Name += "U27 "+FormatInt(UnitPointer->Creatable.Unknown27); break;
-					case 7: Name += "U28 "+FormatInt(UnitPointer->Creatable.Unknown28); break;
-					case 8: Name += "HM "+FormatInt(UnitPointer->Creatable.HeroMode); break;
-					case 9: Name += "GG "+FormatInt(UnitPointer->Creatable.GarrisonGraphic); break;
-					case 10: Name += "Di "+FormatFloat(UnitPointer->Creatable.DuplicatedMissilesMin); break;
-					case 11: Name += "Da "+FormatInt(UnitPointer->Creatable.DuplicatedMissilesMax); break;
-					case 12: Name += "x"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[0]);
-						Name += " y"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[1]);
-						Name += " z"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[2]); break;
-					case 13: Name += "AP "+FormatInt(UnitPointer->Creatable.AlternativeProjectileUnit); break;
-					case 14: Name += "CG "+FormatInt(UnitPointer->Creatable.ChargingGraphic); break;
-					case 15: Name += "CM "+FormatInt(UnitPointer->Creatable.ChargingMode); break;
-					case 16: Name += "DP "+FormatInt(UnitPointer->Creatable.DisplayedPierceArmour); break;
+					Name += "x"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[0]);
+					Name += " y"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[1]);
+					Name += " z"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[2]);
 				}
+				else if(label.compare(Type70[12]) == 0) Name += "AP "+FormatInt(UnitPointer->Creatable.AlternativeProjectileUnit);
+				else if(label.compare(Type70[13]) == 0) Name += "CG "+FormatInt(UnitPointer->Creatable.ChargingGraphic);
+				else if(label.compare(Type70[14]) == 0) Name += "CM "+FormatInt(UnitPointer->Creatable.ChargingMode);
+				else if(label.compare(Type70[15]) == 0) Name += "DP "+FormatInt(UnitPointer->Creatable.DisplayedPierceArmour);
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
 			}
@@ -232,29 +226,27 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 			case 6: // Type80
 			for(short loop = 0; loop < filters; ++loop)
 			{
-				switch(Selection[loop])
-				{
-					case 1: Name += "CG "+FormatInt(UnitPointer->Building.ConstructionGraphicID); break;
-					case 2: Name += "SG "+FormatInt(UnitPointer->Building.SnowGraphicID); break;
-					case 3: Name += "AM "+FormatInt(UnitPointer->Building.AdjacentMode); break;
-					case 4: Name += "GA "+FormatInt(UnitPointer->Building.GraphicsAngle); break;
-					case 5: Name += "DB "+FormatInt(UnitPointer->Building.DisappearsWhenBuilt); break;
-					case 6: Name += "SU "+FormatInt(UnitPointer->Building.StackUnitID); break;
-					case 7: Name += "FT "+FormatInt(UnitPointer->Building.FoundationTerrainID); break;
-					case 8: Name += "OT "+FormatInt(UnitPointer->Building.OldTerrainLikeID); break;
-					case 9: Name += "R "+FormatInt(UnitPointer->Building.ResearchID); break;
-					case 10: Name += "U33 "+FormatInt(UnitPointer->Building.Unknown33); break;
-					case 11: Name += "Ask Tapsa"; break;
-					case 12: Name += "HU "+FormatInt(UnitPointer->Building.HeadUnit); break;
-					case 13: Name += "TU "+FormatInt(UnitPointer->Building.TransformUnit); break;
-					case 14: Name += "US "+FormatInt(UnitPointer->Building.UnknownSound); break;
-					case 15: Name += "CS "+FormatInt(UnitPointer->Building.ConstructionSound); break;
-					case 16: Name += "GT "+FormatInt(UnitPointer->Building.GarrisonType); break;
-					case 17: Name += "GH "+FormatFloat(UnitPointer->Building.GarrisonHealRate); break;
-					case 18: Name += "U35 "+FormatFloat(UnitPointer->Building.Unknown35); break;
-					case 19: Name += "PU "+FormatInt(UnitPointer->Building.PileUnit); break;
-					case 20: Name += "Ask Tapsa"; break;
-				}
+				wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
+				if(label.compare(Type80[0]) == 0) Name += "CG "+FormatInt(UnitPointer->Building.ConstructionGraphicID);
+				else if(label.compare(Type80[1]) == 0) Name += "SG "+FormatInt(UnitPointer->Building.SnowGraphicID);
+				else if(label.compare(Type80[2]) == 0) Name += "AM "+FormatInt(UnitPointer->Building.AdjacentMode);
+				else if(label.compare(Type80[3]) == 0) Name += "GA "+FormatInt(UnitPointer->Building.GraphicsAngle);
+				else if(label.compare(Type80[4]) == 0) Name += "DB "+FormatInt(UnitPointer->Building.DisappearsWhenBuilt);
+				else if(label.compare(Type80[5]) == 0) Name += "SU "+FormatInt(UnitPointer->Building.StackUnitID);
+				else if(label.compare(Type80[6]) == 0) Name += "FT "+FormatInt(UnitPointer->Building.FoundationTerrainID);
+				else if(label.compare(Type80[7]) == 0) Name += "OT "+FormatInt(UnitPointer->Building.OldTerrainLikeID);
+				else if(label.compare(Type80[8]) == 0) Name += "R "+FormatInt(UnitPointer->Building.ResearchID);
+				else if(label.compare(Type80[9]) == 0) Name += "U33 "+FormatInt(UnitPointer->Building.Unknown33);
+				else if(label.compare(Type80[10]) == 0) Name += "Ask Tapsa";
+				else if(label.compare(Type80[11]) == 0) Name += "HU "+FormatInt(UnitPointer->Building.HeadUnit);
+				else if(label.compare(Type80[12]) == 0) Name += "TU "+FormatInt(UnitPointer->Building.TransformUnit);
+				else if(label.compare(Type80[13]) == 0) Name += "US "+FormatInt(UnitPointer->Building.UnknownSound);
+				else if(label.compare(Type80[14]) == 0) Name += "CS "+FormatInt(UnitPointer->Building.ConstructionSound);
+				else if(label.compare(Type80[15]) == 0) Name += "GT "+FormatInt(UnitPointer->Building.GarrisonType);
+				else if(label.compare(Type80[16]) == 0) Name += "GH "+FormatFloat(UnitPointer->Building.GarrisonHealRate);
+				else if(label.compare(Type80[17]) == 0) Name += "U35 "+FormatFloat(UnitPointer->Building.Unknown35);
+				else if(label.compare(Type80[18]) == 0) Name += "PU "+FormatInt(UnitPointer->Building.PileUnit);
+				else if(label.compare(Type80[19]) == 0) Name += "Ask Tapsa";
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
 			}
@@ -3737,7 +3729,7 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY | wxCB_SORT);
 	}
 	Units_List = new wxListBox(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
 	Units_Buttons[0] = new wxGridSizer(3, 0, 0);
