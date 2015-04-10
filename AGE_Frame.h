@@ -690,6 +690,7 @@ public:
 	wxFileConfig *Config, *Customs;
 	genie::DatFile *GenieFile;
 	genie::LangFile *Lang, *LangX, *LangXP;
+	int CustomTerrains;
 //	wxSound SoundFile;
 
 	list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
