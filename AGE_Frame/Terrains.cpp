@@ -257,12 +257,10 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &Event) // Their count is hardcoded
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	GenieFile->setGameVersion(genie::GV_Cysion);
-	//AddToList(GenieFile->TerrainBlock.Terrains);
-	GenieFile->TerrainBlock.Terrains.resize(genie::Terrain::getTerrainsSize(genie::GV_Cysion));
+	genie::Terrain::customTerrainAmount = ++CustomTerrains;
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
-	GenieFile->TerrainBlock.Terrains[loop].TerrainBorderIDs.resize(genie::Terrain::getTerrainsSize(genie::GV_Cysion), 0);
-	//GenieFile->TerrainBlock.Terrains[loop].TerrainBorderIDs.resize(GenieFile->TerrainBlock.Terrains.size(), 0);
+	GenieFile->TerrainBlock.Terrains[loop].setGameVersion(GenieVersion);
+	AddToList(GenieFile->TerrainBlock.Terrains);
 	ListTerrains1();
 }
 
@@ -281,9 +279,10 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &Event) // Their count is hardco
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
+	genie::Terrain::customTerrainAmount = CustomTerrains -= TerrainIDs.size();
 	DeleteFromList(GenieFile->TerrainBlock.Terrains, TerrainIDs);
 	for(short loop = GenieFile->TerrainBlock.Terrains.size(); loop--> 0;)
-	GenieFile->TerrainBlock.Terrains[loop].TerrainBorderIDs.erase(GenieFile->TerrainBlock.Terrains[loop].TerrainBorderIDs.begin() + TerrainIDs[loop]);
+	DeleteFromList(GenieFile->TerrainBlock.Terrains[loop].TerrainBorderIDs, TerrainIDs);
 	ListTerrains1();
 }
 

@@ -19,6 +19,7 @@ public:
 	void OnSelectLangX1(wxCommandEvent &Event);
 	void OnSelectLangX1P1(wxCommandEvent &Event);
 	void OnOK(wxCommandEvent &Event);
+	void OnDecompress(wxCommandEvent &Event);
 
 	/* Member Variables */
 
@@ -31,4 +32,8 @@ public:
 	wxRadioButton *Radio_UnzFileLocation;
 	wxRadioButton *Radio_ApfFileLocation;
 	wxCheckBox *CheckBox_LangWriteToLatest;
+	wxButton *Button_RawDecompress;
+	wxFilePickerCtrl *Path_RawDecompress;
+	wxStaticText *TerrainsText;
+	wxTextCtrl *TerrainsBox;
 };
