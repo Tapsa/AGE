@@ -1098,6 +1098,8 @@ void AGE_Frame::OnGameVersionChange()
 		General_TerrainRendering[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
 		General_Something[loop]->Show(false);
+		for(auto loop = GenieFile->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
+		General_SomeBytes[loop]->Show(false);
 		if(ShowUnknowns)
 		{
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getTerrainHeaderSize(); ++loop)
@@ -1108,6 +1110,8 @@ void AGE_Frame::OnGameVersionChange()
 			General_TerrainRendering[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
+			for(short loop = 0; loop < GenieFile->TerrainBlock.getBytesSize(); ++loop)
+			General_SomeBytes[loop]->Show(true);
 		}
 
 		bool show;
