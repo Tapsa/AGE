@@ -86,6 +86,12 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_TerrainRendering[loop]->container[0] = &GenieFile->TerrainBlock.CivData[loop];
 		General_TerrainRendering[loop]->Update();
 	}
+	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeBytes.size(); ++loop)
+	{
+		General_SomeBytes[loop]->resize(1);
+		General_SomeBytes[loop]->container[0] = &GenieFile->TerrainBlock.SomeBytes[loop];
+		General_SomeBytes[loop]->Update();
+	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeInt32.size(); ++loop)
 	{
 		General_Something[loop]->resize(1);
@@ -179,6 +185,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Data for civilizations", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_TerrainRendering_Grid = new wxGridSizer(12, 0, 0);
 	General_Something_Grid = new wxGridSizer(8, 0, 0);
+	General_SomeBytes_Grid = new wxGridSizer(16, 0, 0);
 	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
 	General_TerrainHeader[loop] = new TextCtrl_Short(General_Scroller, 2);
 	for(short loop = 0; loop < General_AfterBorders.size(); ++loop)
@@ -190,14 +197,9 @@ void AGE_Frame::CreateGeneralControls()
 	General_TerrainRendering[loop] = new TextCtrl_Short(General_Scroller, 2);
 	for(short loop = 0; loop < General_Something.size(); ++loop)
 	General_Something[loop] = new TextCtrl_Long(General_Scroller);
-/*	General_RenderPlusUnknown_Holder = new wxBoxSizer(wxVERTICAL);
-	General_RenderPlusUnknownTop_Holder = new wxBoxSizer(wxHORIZONTAL);
-	General_SomethingPicker = new wxTextCtrl(General_Scroller, wxID_ANY);
-	General_SomethingNext = new wxButton(General_Scroller, wxID_ANY, "Next", wxDefaultPosition, wxSize(0, 20));
-	General_SomethingPrev = new wxButton(General_Scroller, wxID_ANY, "Previous", wxDefaultPosition, wxSize(0, 20));
-	General_SomethingSize = new wxStaticText(General_Scroller, wxID_ANY, " Data Size", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_TechTree_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Data with 32 Bit Pointers", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-*/
+	for(short loop = 0; loop < General_SomeBytes.size(); ++loop)
+	General_SomeBytes[loop] = new TextCtrl_Byte(General_Scroller);
+
 	General_TopRow->AddSpacer(5);
 	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
 	General_TopRow->AddStretchSpacer(3);
@@ -222,8 +224,11 @@ void AGE_Frame::CreateGeneralControls()
 	General_TerrainRendering_Grid->Add(General_TerrainRendering[loop], 1, wxEXPAND);
 	for(short loop = 0; loop < General_Something.size(); ++loop)
 	General_Something_Grid->Add(General_Something[loop], 1, wxEXPAND);
+	for(short loop = 0; loop < General_SomeBytes.size(); ++loop)
+	General_SomeBytes_Grid->Add(General_SomeBytes[loop], 1, wxEXPAND);
 	General_TerrainRendering_Holder->Add(General_TerrainRendering_Text, 0, wxEXPAND);
 	General_TerrainRendering_Holder->Add(General_TerrainRendering_Grid, 0, wxEXPAND);
+	General_TerrainRendering_Holder->Add(General_SomeBytes_Grid, 0, wxEXPAND);
 	General_TerrainRendering_Holder->Add(General_Something_Grid, 0, wxEXPAND);
 
 	General_SUnknown7_Holder->Add(General_SUnknown7_Text, 0, wxEXPAND);
@@ -245,19 +250,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_Variables_Grid->Add(General_SUnknown7_Holder, 1, wxEXPAND);
 	General_Variables_Grid->Add(General_SUnknown8_Holder, 1, wxEXPAND);
 	General_Variables1_Holder->Add(General_Variables_Grid, 0, wxEXPAND);
-/*
-	General_RenderPlusUnknownTop_Holder->Add(General_TechTree_Text, 0, wxEXPAND);
-	General_RenderPlusUnknownTop_Holder->AddSpacer(5);
-	General_RenderPlusUnknownTop_Holder->Add(General_SomethingPicker, 1, wxEXPAND);
-	General_RenderPlusUnknownTop_Holder->AddSpacer(5);
-	General_RenderPlusUnknownTop_Holder->Add(General_SomethingNext, 1, wxEXPAND);
-	General_RenderPlusUnknownTop_Holder->AddSpacer(5);
-	General_RenderPlusUnknownTop_Holder->Add(General_SomethingPrev, 1, wxEXPAND);
-	General_RenderPlusUnknownTop_Holder->AddSpacer(5);
-	General_RenderPlusUnknownTop_Holder->Add(General_SomethingSize, 1, wxEXPAND);
-	General_RenderPlusUnknownTop_Holder->AddStretchSpacer(2);
-	General_RenderPlusUnknown_Holder->Add(General_RenderPlusUnknownTop_Holder, 0, wxEXPAND);
-*/
+
 	General_ScrollSpace->Add(General_Variables1_Holder, 0, wxEXPAND);
 	General_ScrollSpace->AddSpacer(5);
 	General_ScrollSpace->Add(General_TerrainHeader_Holder, 0, wxEXPAND);
@@ -265,8 +258,6 @@ void AGE_Frame::CreateGeneralControls()
 	General_ScrollSpace->Add(General_BorderRelated_Holder, 0, wxEXPAND);
 	General_ScrollSpace->AddSpacer(5);
 	General_ScrollSpace->Add(General_TerrainRendering_Holder, 0, wxEXPAND);
-	//General_ScrollSpace->AddSpacer(5);
-	//General_ScrollSpace->Add(General_RenderPlusUnknown_Holder, 0, wxEXPAND);
 
 	General_ScrollArea->AddSpacer(5);
 	General_ScrollArea->Add(General_ScrollSpace, 1, wxEXPAND);
@@ -284,9 +275,6 @@ void AGE_Frame::CreateGeneralControls()
 	Tab_General->SetSizer(General_Main);
 
 	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGeneralSelect));
-	//Connect(General_SomethingPicker->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnDataGridPage));
-	//Connect(General_SomethingNext->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridNext));
-	//Connect(General_SomethingPrev->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnDataGridPrev));
 	for(short loop = 0; loop < 4; ++loop)
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);
