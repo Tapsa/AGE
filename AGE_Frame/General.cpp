@@ -176,13 +176,13 @@ void AGE_Frame::CreateGeneralControls()
 	General_SUnknown8 = new TextCtrl_Byte(General_Scroller);
 	General_SUnknown8->SetToolTip("In the file this is\nright after researches and\nbefore technology trees");
 	General_TerrainHeader_Holder = new wxBoxSizer(wxVERTICAL);
-	General_TerrainHeader_Text = new wxStaticText(General_Scroller, wxID_ANY, " Terrain rendering", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_TerrainHeader_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map/World/Tile Sizes", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_TerrainHeader_Grid = new wxGridSizer(16, 0, 0);
 	General_BorderRelated_Holder = new wxBoxSizer(wxVERTICAL);
-	General_BorderRelated_Text = new wxStaticText(General_Scroller, wxID_ANY, " Borders-related", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_BorderRelated_Text = new wxStaticText(General_Scroller, wxID_ANY, " Pointer + map floats", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_BorderRelated_Grid = new wxGridSizer(8, 0, 0);
 	General_TerrainRendering_Holder = new wxBoxSizer(wxVERTICAL);
-	General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Data for civilizations", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Misc terrain data", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_TerrainRendering_Grid = new wxGridSizer(12, 0, 0);
 	General_Something_Grid = new wxGridSizer(8, 0, 0);
 	General_SomeBytes_Grid = new wxGridSizer(16, 0, 0);
