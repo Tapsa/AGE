@@ -19,60 +19,60 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 			switch(Selection[loop])
 			{
 				case 2: // SLP
-					Name += "SLP "+lexical_cast<string>(GenieFile->Graphics[Index].SLP);
+					Name += "SLP "+FormatInt(GenieFile->Graphics[Index].SLP);
 					break;
 				case 3: // Unknown 1
-					Name += "U1 "+lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown1);
+					Name += "U1 "+FormatInt(GenieFile->Graphics[Index].Unknown1);
 					break;
 				case 4: // Unknown 2
-					Name += "U2 "+lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown2);
+					Name += "U2 "+FormatInt(GenieFile->Graphics[Index].Unknown2);
 					break;
 				case 5: // Layer
-					Name += "L "+lexical_cast<string>((short)GenieFile->Graphics[Index].Layer);
+					Name += "L "+FormatInt(GenieFile->Graphics[Index].Layer);
 					break;
 				case 6: // Player Color Forcer
-					Name += "PC "+lexical_cast<string>(GenieFile->Graphics[Index].PlayerColor);
+					Name += "PC "+FormatInt(GenieFile->Graphics[Index].PlayerColor);
 					break;
 				case 7: // Replay
-					Name += "R "+lexical_cast<string>((short)GenieFile->Graphics[Index].Replay);
+					Name += "R "+FormatInt(GenieFile->Graphics[Index].Replay);
 					break;
 				case 8: // Sound
-					Name += "So "+lexical_cast<string>(GenieFile->Graphics[Index].SoundID);
+					Name += "So "+FormatInt(GenieFile->Graphics[Index].SoundID);
 					break;
 				case 9: // Coordinates
 					break;
 				case 10: // Deltas
-					Name += "DC "+lexical_cast<string>(GenieFile->Graphics[Index].Deltas.size());
+					Name += "DC "+FormatInt(GenieFile->Graphics[Index].Deltas.size());
 					break;
 				case 11: // Attack Sound Used
-					Name += "U "+lexical_cast<string>((short)GenieFile->Graphics[Index].AttackSoundUsed);
+					Name += "U "+FormatInt(GenieFile->Graphics[Index].AttackSoundUsed);
 					break;
 				case 12: // Frames
-					Name += "FC "+lexical_cast<string>(GenieFile->Graphics[Index].FrameCount);
+					Name += "FC "+FormatInt(GenieFile->Graphics[Index].FrameCount);
 					break;
 				case 13: // Angles
-					Name += "AC "+lexical_cast<string>(GenieFile->Graphics[Index].AngleCount);
+					Name += "AC "+FormatInt(GenieFile->Graphics[Index].AngleCount);
 					break;
 				case 14: // Speed
-					Name += "Sp "+lexical_cast<string>(GenieFile->Graphics[Index].NewSpeed);
+					Name += "Sp "+FormatFloat(GenieFile->Graphics[Index].NewSpeed);
 					break;
 				case 15: // Frame Rate
-					Name += "FR "+lexical_cast<string>(GenieFile->Graphics[Index].FrameRate);
+					Name += "FR "+FormatFloat(GenieFile->Graphics[Index].FrameRate);
 					break;
 				case 16: // Replay Delay
-					Name += "RD "+lexical_cast<string>(GenieFile->Graphics[Index].ReplayDelay);
+					Name += "RD "+FormatFloat(GenieFile->Graphics[Index].ReplayDelay);
 					break;
 				case 17: // Sequence Type
-					Name += "ST "+lexical_cast<string>((short)GenieFile->Graphics[Index].SequenceType);
+					Name += "ST "+FormatInt(GenieFile->Graphics[Index].SequenceType);
 					break;
 				case 18: // Mirroring Mode
-					Name += "M "+lexical_cast<string>((short)GenieFile->Graphics[Index].MirroringMode);
+					Name += "M "+FormatInt(GenieFile->Graphics[Index].MirroringMode);
 					break;
 				case 19: // Unknown 3
-					Name += "U3 "+lexical_cast<string>((short)GenieFile->Graphics[Index].Unknown3);
+					Name += "U3 "+FormatInt(GenieFile->Graphics[Index].Unknown3);
 					break;
 				case 20: // Pointer
-					Name = lexical_cast<string>(GenieFile->GraphicPointers[Index]);
+					Name = FormatInt(GenieFile->GraphicPointers[Index]);
 					break;
 			}
 			Name += ", ";
