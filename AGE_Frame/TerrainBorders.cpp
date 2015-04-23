@@ -180,10 +180,10 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 	Borders_Flag1->resize(selections);
 	Borders_Flag2->resize(selections);
 
-	genie::TBFrameData * FramePointer;
+	genie::ShapeFrameData * FramePointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		FramePointer = (genie::TBFrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
+		FramePointer = (genie::ShapeFrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
 		FrameIDs[loop] = (FramePointer - (&GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[0]));
 
 		Borders_FrameID->container[loop] = &FramePointer->FrameID;
@@ -202,7 +202,7 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies->TBFrameData);
+	CopyFromList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies->ShapeFrameData);
 }
 
 void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
@@ -211,7 +211,7 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies->TBFrameData);
+	PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies->ShapeFrameData);
 	ListTerrainBorderFrames();
 }
 
