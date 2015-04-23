@@ -104,7 +104,7 @@ Ykkrosh - GeniEd 1 source code
 Scenario_t_c - GeniEd 2 source code
 Alexandra "Taichi San", DarkRain654 - data file research
 DiGiT, JustTesting1234 - genie file structure
-Sarthos - important help
+Cysion, Skybox Labs, Sarthos - important help
 BF_Tanks - some help
 Donnieboy, Sarn, chab - tooltip texts
 Leif Ericson - new icon

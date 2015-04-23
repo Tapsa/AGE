@@ -380,6 +380,7 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 			short batchMode = 0;
 			if(value[0] == 'b' && !BatchCheck(value, batchMode))
 			{
+				goto fix;
 				wxMessageBox(BATCHWARNING, BWTITLE);
 				return 1;
 			}
@@ -399,6 +400,7 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 				AGETextCtrl::unSaved += container.size();
 				return 0;
 			}
+			fix:
 			if(value.size() <= MaxSize)
 			{
 				for(auto &pointer: container)
