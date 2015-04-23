@@ -128,9 +128,9 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	TabBar_Main->AddPage(Tab_Units, "Units");
 	TabBar_Main->AddPage(Tab_UnitLine, "Unitlines");
 	TabBar_Main->AddPage(Tab_Graphics, "Graphics");
-	TabBar_Main->AddPage(Tab_General, "General");
+	TabBar_Main->AddPage(Tab_General, "Map");
 	TabBar_Main->AddPage(Tab_Terrains, "Terrains");
-	TabBar_Main->AddPage(Tab_TerrainBorders, "T. Borders");
+	TabBar_Main->AddPage(Tab_TerrainBorders, "Borders");
 	TabBar_Main->AddPage(Tab_TerrainRestrictions, "T. Restrictions");
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Main->AddPage(Tab_PlayerColors, "Colors");
