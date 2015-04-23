@@ -1543,8 +1543,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			Units_CommandHolder_Grid3->Show(ShowUnknowns);
 			Graphics_3_Grid->Show(ShowUnknowns);
 			Graphics_Deltas_Grid_Data2->Show(ShowUnknowns);
-			Terrains_Unknowns1_Grid->Show(ShowUnknowns);
-			Terrains_Unknown7_Holder->Show(ShowUnknowns);
 			Borders_Unknonws->Show(ShowUnknowns);
 			Sounds_Unknown1_Holder->Show(ShowUnknowns);
 			Sounds_Unknown2_Holder->Show(ShowUnknowns);
@@ -1848,6 +1846,11 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 		{
 			ListGraphics(false);
 			Graphics_Graphics_Search->SetFocus();
+		}
+		else if(Event.GetId() == Terrains_SearchFilters[loop]->GetId())
+		{
+			ListTerrains1(false);
+			Terrains_Terrains_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
 		{
