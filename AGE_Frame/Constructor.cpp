@@ -192,6 +192,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
 	AGETextCtrl::editable = false;
+	AGETextCtrl::fileLoaded = 0;
 	AGETextCtrl::hexMode = false;
 	AGETextCtrl::accurateFloats = false;
 	AGETextCtrl::unSaved = 0;
