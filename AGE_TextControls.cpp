@@ -7,11 +7,7 @@ const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 int TextCtrl_Byte::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded)
-	{
-		wxMessageBox("U for real, code?");
-		return 1;
-	}
+	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -79,11 +75,7 @@ int TextCtrl_Byte::SaveEdits()
 int TextCtrl_UByte::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded)
-	{
-		wxMessageBox("U for real, code?");
-		return 1;
-	}
+	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -151,11 +143,7 @@ int TextCtrl_UByte::SaveEdits()
 int TextCtrl_Float::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded)
-	{
-		wxMessageBox("U for real, code?");
-		return 1;
-	}
+	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -213,11 +201,7 @@ int TextCtrl_Float::SaveEdits()
 int TextCtrl_Long::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded)
-	{
-		wxMessageBox("U for real, code?");
-		return 1;
-	}
+	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -276,11 +260,7 @@ int TextCtrl_Long::SaveEdits()
 int TextCtrl_Short::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded)
-	{
-		wxMessageBox("U for real, code?");
-		return 1;
-	}
+	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -339,11 +319,7 @@ int TextCtrl_Short::SaveEdits()
 int TextCtrl_UShort::SaveEdits()
 {
 	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded)
-	{
-		wxMessageBox("U for real, code?");
-		return 1;
-	}
+	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -402,11 +378,7 @@ int TextCtrl_UShort::SaveEdits()
 int TextCtrl_String::SaveEdits()	// This may crash the program.
 {
 	if(!AGETextCtrl::editable || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded)
-	{
-		wxMessageBox("U for real, code?");
-		return 1;
-	}
+	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
