@@ -105,7 +105,7 @@ void AGE_Frame::ListTerrainNumbers()
 	Terrains_UsedCount->container[1] = &GenieFile->TerrainsUsed1;
 	Terrains_UsedCount->Update();
 	Borders_UsedCount->resize(1);
-	Borders_UsedCount->container[0] = &GenieFile->TerrainBlock.TerrainBordersUsed;
+	Borders_UsedCount->container[0] = &GenieFile->TerrainBlock.BordersUsed;
 	Borders_UsedCount->Update();
 }
 

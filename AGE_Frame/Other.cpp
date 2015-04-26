@@ -1096,24 +1096,12 @@ void AGE_Frame::OnGameVersionChange()
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
 		// Some general tab handling
-		//for(auto loop = GenieFile->TerrainBlock.getTerrainHeaderSize(); loop < General_TileSizes.size(); ++loop)
-		//General_TileSizes[loop]->Show(false);
-		for(auto loop = GenieFile->TerrainBlock.getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
-		General_AfterBorders[loop]->Show(false);
-		for(auto loop = GenieFile->TerrainBlock.getCivDataSize(); loop < General_TerrainRendering.size(); ++loop)
-		General_TerrainRendering[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
 		General_Something[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
 		General_SomeBytes[loop]->Show(false);
 		if(ShowUnknowns)
 		{
-			//for(short loop = 0; loop < GenieFile->TerrainBlock.getTerrainHeaderSize(); ++loop)
-			//General_TileSizes[loop]->Show(true);
-			for(short loop = 0; loop < GenieFile->TerrainBlock.getZeroSpaceSize(); ++loop)
-			General_AfterBorders[loop]->Show(true);
-			for(short loop = 0; loop < GenieFile->TerrainBlock.getCivDataSize(); ++loop)
-			General_TerrainRendering[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getBytesSize(); ++loop)
