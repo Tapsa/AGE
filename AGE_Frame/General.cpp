@@ -68,11 +68,54 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 {
-	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
+	General_MapPointer->resize(1);
+	General_MapPointer->container[0] = &GenieFile->TerrainBlock.MapPointer;
+	General_MapPointer->Update();
+	General_Unknown1->resize(1);
+	General_Unknown1->container[0] = &GenieFile->TerrainBlock.Unknown1;
+	General_Unknown1->Update();
+	General_MapWidth->resize(1);
+	General_MapWidth->container[0] = &GenieFile->TerrainBlock.MapWidth;
+	General_MapWidth->Update();
+	General_MapHeight->resize(1);
+	General_MapHeight->container[0] = &GenieFile->TerrainBlock.MapHeight;
+	General_MapHeight->Update();
+	General_WorldWidth->resize(1);
+	General_WorldWidth->container[0] = &GenieFile->TerrainBlock.WorldWidth;
+	General_WorldWidth->Update();
+	General_WorldHeight->resize(1);
+	General_WorldHeight->container[0] = &GenieFile->TerrainBlock.WorldHeight;
+	General_WorldHeight->Update();
+	if(GenieVersion >= genie::GV_AoE)
 	{
-		General_TerrainHeader[loop]->resize(1);
-		General_TerrainHeader[loop]->container[0] = &GenieFile->TerrainBlock.GraphicsRendering[loop];
-		General_TerrainHeader[loop]->Update();
+		General_Unknown2->resize(1);
+		General_Unknown2->container[0] = &GenieFile->TerrainBlock.Unknown2;
+		General_Unknown2->Update();
+	}
+	else
+	{
+		General_Unknown2->resize(0);
+		General_Unknown2->Clear();
+	}
+	for(short loop = 0, slot = 0; loop < GenieFile->TerrainBlock.getTileTypeCount(); ++loop)
+	{
+		General_TileSizes[slot]->resize(1);
+		General_TileSizes[slot]->container[0] = &GenieFile->TerrainBlock.TileSizes[loop].Width;
+		General_TileSizes[slot++]->Update();
+		General_TileSizes[slot]->resize(1);
+		General_TileSizes[slot]->container[0] = &GenieFile->TerrainBlock.TileSizes[loop].Height;
+		General_TileSizes[slot++]->Update();
+		if(GenieVersion >= genie::GV_AoE)
+		{
+			General_TileSizes[slot]->resize(1);
+			General_TileSizes[slot]->container[0] = &GenieFile->TerrainBlock.TileSizes[loop].DeltaY;
+			General_TileSizes[slot++]->Update();
+		}
+		else
+		{
+			General_TileSizes[slot]->resize(0);
+			General_TileSizes[slot++]->Clear();
+		}
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.ZeroSpace.size(); ++loop)
 	{
@@ -150,6 +193,7 @@ void AGE_Frame::CreateGeneralControls()
 
 	const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain restrictions";
 	General_Variables_Grid = new wxGridSizer(6, 5, 5);
+	General_Variables2_Grid = new wxGridSizer(7, 5, 5);
 	General_Variables1_Holder = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Star Wars Unknowns");
 	General_SUnknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	General_SUnknown2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -175,9 +219,32 @@ void AGE_Frame::CreateGeneralControls()
 	General_SUnknown8_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_SUnknown8 = new TextCtrl_Byte(General_Scroller);
 	General_SUnknown8->SetToolTip("In the file this is\nright after researches and\nbefore technology trees");
-	General_TerrainHeader_Holder = new wxBoxSizer(wxVERTICAL);
-	General_TerrainHeader_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map/World/Tile Sizes", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_TerrainHeader_Grid = new wxGridSizer(16, 0, 0);
+
+	General_MapPointer_Holder = new wxBoxSizer(wxVERTICAL);
+	General_MapPointer_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_MapPointer = new TextCtrl_Long(General_Scroller);
+	General_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
+	General_Unknown1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Unknown1 = new TextCtrl_Long(General_Scroller);
+	General_MapWidth_Holder = new wxBoxSizer(wxVERTICAL);
+	General_MapWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Width", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_MapWidth = new TextCtrl_Long(General_Scroller);
+	General_MapHeight_Holder = new wxBoxSizer(wxVERTICAL);
+	General_MapHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_MapHeight = new TextCtrl_Long(General_Scroller);
+	General_WorldWidth_Holder = new wxBoxSizer(wxVERTICAL);
+	General_WorldWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " World Width", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_WorldWidth = new TextCtrl_Long(General_Scroller);
+	General_WorldHeight_Holder = new wxBoxSizer(wxVERTICAL);
+	General_WorldHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " World Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_WorldHeight = new TextCtrl_Long(General_Scroller);
+	General_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
+	General_Unknown2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_Unknown2 = new TextCtrl_Short(General_Scroller);
+
+	General_TileSizes_Holder = new wxBoxSizer(wxVERTICAL);
+	General_TileSizes_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Sizes   19 x (Width, Height, Delta Y)", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_TileSizes_Grid = new wxGridSizer(16, 0, 0);
 	General_BorderRelated_Holder = new wxBoxSizer(wxVERTICAL);
 	General_BorderRelated_Text = new wxStaticText(General_Scroller, wxID_ANY, " Pointer + map floats", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	General_BorderRelated_Grid = new wxGridSizer(8, 0, 0);
@@ -186,8 +253,8 @@ void AGE_Frame::CreateGeneralControls()
 	General_TerrainRendering_Grid = new wxGridSizer(12, 0, 0);
 	General_Something_Grid = new wxGridSizer(8, 0, 0);
 	General_SomeBytes_Grid = new wxGridSizer(16, 0, 0);
-	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
-	General_TerrainHeader[loop] = new TextCtrl_Short(General_Scroller, 2);
+	for(short loop = 0; loop < General_TileSizes.size(); ++loop)
+	General_TileSizes[loop] = new TextCtrl_Short(General_Scroller, 2);
 	for(short loop = 0; loop < General_AfterBorders.size(); ++loop)
 	{
 		General_AfterBorders[loop] = new TextCtrl_Short(General_Scroller);
@@ -210,10 +277,10 @@ void AGE_Frame::CreateGeneralControls()
 	General_TopRow->Add(General_CalcBoxes_Text, 0, wxEXPAND);
 	General_TopRow->AddStretchSpacer(1);
 
-	for(short loop = 0; loop < General_TerrainHeader.size(); ++loop)
-	General_TerrainHeader_Grid->Add(General_TerrainHeader[loop], 1, wxEXPAND);
-	General_TerrainHeader_Holder->Add(General_TerrainHeader_Text, 0, wxEXPAND);
-	General_TerrainHeader_Holder->Add(General_TerrainHeader_Grid, 0, wxEXPAND);
+	for(short loop = 0; loop < General_TileSizes.size(); ++loop)
+	General_TileSizes_Grid->Add(General_TileSizes[loop], 1, wxEXPAND);
+	General_TileSizes_Holder->Add(General_TileSizes_Text, 0, wxEXPAND);
+	General_TileSizes_Holder->Add(General_TileSizes_Grid, 0, wxEXPAND);
 
 	for(short loop = 0; loop < General_AfterBorders.size(); ++loop)
 	General_BorderRelated_Grid->Add(General_AfterBorders[loop], 1, wxEXPAND);
@@ -251,9 +318,33 @@ void AGE_Frame::CreateGeneralControls()
 	General_Variables_Grid->Add(General_SUnknown8_Holder, 1, wxEXPAND);
 	General_Variables1_Holder->Add(General_Variables_Grid, 0, wxEXPAND);
 
+	General_MapPointer_Holder->Add(General_MapPointer_Text, 0, wxEXPAND);
+	General_MapPointer_Holder->Add(General_MapPointer, 0, wxEXPAND);
+	General_Unknown1_Holder->Add(General_Unknown1_Text, 0, wxEXPAND);
+	General_Unknown1_Holder->Add(General_Unknown1, 0, wxEXPAND);
+	General_MapWidth_Holder->Add(General_MapWidth_Text, 0, wxEXPAND);
+	General_MapWidth_Holder->Add(General_MapWidth, 0, wxEXPAND);
+	General_MapHeight_Holder->Add(General_MapHeight_Text, 0, wxEXPAND);
+	General_MapHeight_Holder->Add(General_MapHeight, 0, wxEXPAND);
+	General_WorldWidth_Holder->Add(General_WorldWidth_Text, 0, wxEXPAND);
+	General_WorldWidth_Holder->Add(General_WorldWidth, 0, wxEXPAND);
+	General_WorldHeight_Holder->Add(General_WorldHeight_Text, 0, wxEXPAND);
+	General_WorldHeight_Holder->Add(General_WorldHeight, 0, wxEXPAND);
+	General_Unknown2_Holder->Add(General_Unknown2_Text, 0, wxEXPAND);
+	General_Unknown2_Holder->Add(General_Unknown2, 0, wxEXPAND);
+	General_Variables2_Grid->Add(General_MapPointer_Holder, 1, wxEXPAND);
+	General_Variables2_Grid->Add(General_Unknown1_Holder, 1, wxEXPAND);
+	General_Variables2_Grid->Add(General_MapWidth_Holder, 1, wxEXPAND);
+	General_Variables2_Grid->Add(General_MapHeight_Holder, 1, wxEXPAND);
+	General_Variables2_Grid->Add(General_WorldWidth_Holder, 1, wxEXPAND);
+	General_Variables2_Grid->Add(General_WorldHeight_Holder, 1, wxEXPAND);
+	General_Variables2_Grid->Add(General_Unknown2_Holder, 1, wxEXPAND);
+
 	General_ScrollSpace->Add(General_Variables1_Holder, 0, wxEXPAND);
 	General_ScrollSpace->AddSpacer(5);
-	General_ScrollSpace->Add(General_TerrainHeader_Holder, 0, wxEXPAND);
+	General_ScrollSpace->Add(General_Variables2_Grid, 0, wxEXPAND);
+	General_ScrollSpace->AddSpacer(5);
+	General_ScrollSpace->Add(General_TileSizes_Holder, 0, wxEXPAND);
 	General_ScrollSpace->AddSpacer(5);
 	General_ScrollSpace->Add(General_BorderRelated_Holder, 0, wxEXPAND);
 	General_ScrollSpace->AddSpacer(5);
