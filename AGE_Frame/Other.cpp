@@ -5,6 +5,7 @@ bool AGETextCtrl::editable;
 bool AGETextCtrl::hexMode;
 bool AGETextCtrl::accurateFloats;
 int AGETextCtrl::unSaved;
+int AGETextCtrl::fileLoaded;
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
 {
@@ -133,8 +134,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
 		LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
 
-		AGETextCtrl::editable = true;
-		if(!load) return;
+		if(!load)
+		{
+			if(GenieFile != NULL) AGETextCtrl::editable = true;
+			return;
+		}
 		Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 		if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
 		Config->Write("DefaultFiles/DriveLetter", DriveLetter);
@@ -284,6 +288,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			return;
 		}
 		AGETextCtrl::unSaved = 0;
+		++AGETextCtrl::fileLoaded;
+		AGETextCtrl::editable = true; // It may be that the kill focus is delayed even after this.
 	}
 
 	if(GenieFile != NULL)
@@ -1090,8 +1096,8 @@ void AGE_Frame::OnGameVersionChange()
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
 		// Some general tab handling
-		for(auto loop = GenieFile->TerrainBlock.getTerrainHeaderSize(); loop < General_TerrainHeader.size(); ++loop)
-		General_TerrainHeader[loop]->Show(false);
+		//for(auto loop = GenieFile->TerrainBlock.getTerrainHeaderSize(); loop < General_TileSizes.size(); ++loop)
+		//General_TileSizes[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getZeroSpaceSize(); loop < General_AfterBorders.size(); ++loop)
 		General_AfterBorders[loop]->Show(false);
 		for(auto loop = GenieFile->TerrainBlock.getCivDataSize(); loop < General_TerrainRendering.size(); ++loop)
@@ -1102,8 +1108,8 @@ void AGE_Frame::OnGameVersionChange()
 		General_SomeBytes[loop]->Show(false);
 		if(ShowUnknowns)
 		{
-			for(short loop = 0; loop < GenieFile->TerrainBlock.getTerrainHeaderSize(); ++loop)
-			General_TerrainHeader[loop]->Show(true);
+			//for(short loop = 0; loop < GenieFile->TerrainBlock.getTerrainHeaderSize(); ++loop)
+			//General_TileSizes[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getZeroSpaceSize(); ++loop)
 			General_AfterBorders[loop]->Show(true);
 			for(short loop = 0; loop < GenieFile->TerrainBlock.getCivDataSize(); ++loop)
@@ -1176,6 +1182,9 @@ void AGE_Frame::OnGameVersionChange()
 		// AoE ->
 		show = (GenieVersion >= genie::GV_AoE) ? true : false;
 		Units_ID2_Holder->Show(show);
+		General_Unknown2_Holder->Show(show);
+		for(short loop = 2; loop < General_TileSizes.size(); loop += 3)
+		General_TileSizes[loop]->Show(show);
 
 		// AoK Alfa ->
 		show = (GenieVersion >= genie::GV_AoKA) ? true : false;

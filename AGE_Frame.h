@@ -831,10 +831,10 @@ public:
 	wxScrolledWindow *General_Scroller;
 	wxBoxSizer *General_ScrollArea;
 	wxBoxSizer *General_ScrollSpace;
-	wxBoxSizer *General_TerrainHeader_Holder;
-	wxStaticText *General_TerrainHeader_Text;
-	wxGridSizer *General_TerrainHeader_Grid;
-	array<TextCtrl_Short*, 70> General_TerrainHeader;
+	wxBoxSizer *General_TileSizes_Holder;
+	wxStaticText *General_TileSizes_Text;
+	wxGridSizer *General_TileSizes_Grid;
+	array<TextCtrl_Short*, 57> General_TileSizes;
 
 	wxBoxSizer *General_BorderRelated_Holder;
 	wxStaticText *General_BorderRelated_Text;
@@ -950,6 +950,28 @@ public:
 	array<wxBoxSizer*, 8> General_TTUnknown_Holder;
 	array<wxStaticText*, 8> General_TTUnknown_Text;
 	array<TextCtrl_Long*, 8> General_TTUnknown;
+
+	wxBoxSizer *General_MapPointer_Holder;
+	wxStaticText *General_MapPointer_Text;
+	TextCtrl_Long *General_MapPointer;
+	wxBoxSizer *General_Unknown1_Holder;
+	wxStaticText *General_Unknown1_Text;
+	TextCtrl_Long *General_Unknown1;
+	wxBoxSizer *General_MapWidth_Holder;
+	wxStaticText *General_MapWidth_Text;
+	TextCtrl_Long *General_MapWidth;
+	wxBoxSizer *General_MapHeight_Holder;
+	wxStaticText *General_MapHeight_Text;
+	TextCtrl_Long *General_MapHeight;
+	wxBoxSizer *General_WorldWidth_Holder;
+	wxStaticText *General_WorldWidth_Text;
+	TextCtrl_Long *General_WorldWidth;
+	wxBoxSizer *General_WorldHeight_Holder;
+	wxStaticText *General_WorldHeight_Text;
+	TextCtrl_Long *General_WorldHeight;
+	wxBoxSizer *General_Unknown2_Holder;
+	wxStaticText *General_Unknown2_Text;
+	TextCtrl_Short *General_Unknown2;
 
 	//wxBoxSizer *General_RenderPlusUnknown_Holder;
 	//wxBoxSizer *General_RenderPlusUnknownTop_Holder;
