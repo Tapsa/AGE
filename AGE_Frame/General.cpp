@@ -117,18 +117,104 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 			General_TileSizes[slot++]->Clear();
 		}
 	}
-	for(short loop = 0; loop < GenieFile->TerrainBlock.ZeroSpace.size(); ++loop)
+
+	UnknownPointer1->resize(1);
+	UnknownPointer1->container[0] = &GenieFile->TerrainBlock.UnknownPointer1;
+	UnknownPointer1->Update();
+	if(GenieVersion >= genie::GV_AoKA)
 	{
-		General_AfterBorders[loop]->resize(1);
-		General_AfterBorders[loop]->container[0] = &GenieFile->TerrainBlock.ZeroSpace[loop];
-		General_AfterBorders[loop]->Update();
+		MapMinX->resize(1);
+		MapMinX->container[0] = &GenieFile->TerrainBlock.MapMinX;
+		MapMinX->Update();
+		MapMinY->resize(1);
+		MapMinY->container[0] = &GenieFile->TerrainBlock.MapMinY;
+		MapMinY->Update();
+		MapMaxX->resize(1);
+		MapMaxX->container[0] = &GenieFile->TerrainBlock.MapMaxX;
+		MapMaxX->Update();
+		MapMaxY->resize(1);
+		MapMaxY->container[0] = &GenieFile->TerrainBlock.MapMaxY;
+		MapMaxY->Update();
 	}
-	for(short loop = 0; loop < GenieFile->TerrainBlock.CivData.size(); ++loop)
+	else
 	{
-		General_TerrainRendering[loop]->resize(1);
-		General_TerrainRendering[loop]->container[0] = &GenieFile->TerrainBlock.CivData[loop];
-		General_TerrainRendering[loop]->Update();
+		MapMinX->resize(0);
+		MapMinX->Clear();
+		MapMinY->resize(0);
+		MapMinY->Clear();
+		MapMaxX->resize(0);
+		MapMaxX->Clear();
+		MapMaxY->resize(0);
+		MapMaxY->Clear();
 	}
+	if(GenieVersion >= genie::GV_AoK)
+	{
+		MapMaxXplus1->resize(1);
+		MapMaxXplus1->container[0] = &GenieFile->TerrainBlock.MapMaxXplus1;
+		MapMaxXplus1->Update();
+		MapMaxYplus1->resize(1);
+		MapMaxYplus1->container[0] = &GenieFile->TerrainBlock.MapMaxYplus1;
+		MapMaxYplus1->Update();
+	}
+	else
+	{
+		MapMaxXplus1->resize(0);
+		MapMaxXplus1->Clear();
+		MapMaxYplus1->resize(0);
+		MapMaxYplus1->Clear();
+	}
+	MaxTerrain->resize(1);
+	MaxTerrain->container[0] = &GenieFile->TerrainBlock.MaxTerrain;
+	MaxTerrain->Update();
+	TileWidth->resize(1);
+	TileWidth->container[0] = &GenieFile->TerrainBlock.TileWidth;
+	TileWidth->Update();
+	TileHeight->resize(1);
+	TileHeight->container[0] = &GenieFile->TerrainBlock.TileHeight;
+	TileHeight->Update();
+	TileHalfHeight->resize(1);
+	TileHalfHeight->container[0] = &GenieFile->TerrainBlock.TileHalfHeight;
+	TileHalfHeight->Update();
+	TileHalfWidth->resize(1);
+	TileHalfWidth->container[0] = &GenieFile->TerrainBlock.TileHalfWidth;
+	TileHalfWidth->Update();
+	ElevHeight->resize(1);
+	ElevHeight->container[0] = &GenieFile->TerrainBlock.ElevHeight;
+	ElevHeight->Update();
+	CurRow->resize(1);
+	CurRow->container[0] = &GenieFile->TerrainBlock.CurRow;
+	CurRow->Update();
+	CurCol->resize(1);
+	CurCol->container[0] = &GenieFile->TerrainBlock.CurCol;
+	CurCol->Update();
+	BlockBegRow->resize(1);
+	BlockBegRow->container[0] = &GenieFile->TerrainBlock.BlockBegRow;
+	BlockBegRow->Update();
+	BlockEndRow->resize(1);
+	BlockEndRow->container[0] = &GenieFile->TerrainBlock.BlockEndRow;
+	BlockEndRow->Update();
+	BlockBegCol->resize(1);
+	BlockBegCol->container[0] = &GenieFile->TerrainBlock.BlockBegCol;
+	BlockBegCol->Update();
+	BlockEndCol->resize(1);
+	BlockEndCol->container[0] = &GenieFile->TerrainBlock.BlockEndCol;
+	BlockEndCol->Update();
+	UnknownPointer2->resize(1);
+	UnknownPointer2->container[0] = &GenieFile->TerrainBlock.UnknownPointer2;
+	UnknownPointer2->Update();
+	UnknownPointer3->resize(1);
+	UnknownPointer3->container[0] = &GenieFile->TerrainBlock.UnknownPointer3;
+	UnknownPointer3->Update();
+	AnyFrameChange->resize(1);
+	AnyFrameChange->container[0] = &GenieFile->TerrainBlock.AnyFrameChange;
+	AnyFrameChange->Update();
+	MapVisibleFlag->resize(1);
+	MapVisibleFlag->container[0] = &GenieFile->TerrainBlock.MapVisibleFlag;
+	MapVisibleFlag->Update();
+	FogFlag->resize(1);
+	FogFlag->container[0] = &GenieFile->TerrainBlock.FogFlag;
+	FogFlag->Update();
+
 	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeBytes.size(); ++loop)
 	{
 		General_SomeBytes[loop]->resize(1);
@@ -244,28 +330,95 @@ void AGE_Frame::CreateGeneralControls()
 
 	General_TileSizes_Holder = new wxBoxSizer(wxVERTICAL);
 	General_TileSizes_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Sizes   19 x (Width, Height, Delta Y)", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_TileSizes_Grid = new wxGridSizer(16, 0, 0);
-	General_BorderRelated_Holder = new wxBoxSizer(wxVERTICAL);
-	General_BorderRelated_Text = new wxStaticText(General_Scroller, wxID_ANY, " Pointer + map floats", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_BorderRelated_Grid = new wxGridSizer(8, 0, 0);
+	General_TileSizes_Grid = new wxGridSizer(15, 0, 0);
+
+	UnknownPointer1_Holder = new wxBoxSizer(wxVERTICAL);
+	UnknownPointer1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownPointer1 = new TextCtrl_Long(General_Scroller);
+	MapMinX_Holder = new wxBoxSizer(wxVERTICAL);
+	MapMinX_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Min X", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	MapMinX = new TextCtrl_Float(General_Scroller);
+	MapMinY_Holder = new wxBoxSizer(wxVERTICAL);
+	MapMinY_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Min Y", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	MapMinY = new TextCtrl_Float(General_Scroller);
+	MapMaxX_Holder = new wxBoxSizer(wxVERTICAL);
+	MapMaxX_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max X", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	MapMaxX = new TextCtrl_Float(General_Scroller);
+	MapMaxY_Holder = new wxBoxSizer(wxVERTICAL);
+	MapMaxY_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max Y", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	MapMaxY = new TextCtrl_Float(General_Scroller);
+	MapMaxXplus1_Holder = new wxBoxSizer(wxVERTICAL);
+	MapMaxXplus1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max X + 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	MapMaxXplus1 = new TextCtrl_Float(General_Scroller);
+	MapMaxYplus1_Holder = new wxBoxSizer(wxVERTICAL);
+	MapMaxYplus1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max Y + 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	MapMaxYplus1 = new TextCtrl_Float(General_Scroller);
+
+	MaxTerrain_Holder = new wxBoxSizer(wxVERTICAL);
+	MaxTerrain_Text = new wxStaticText(General_Scroller, wxID_ANY, " Max Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	MaxTerrain = new TextCtrl_Short(General_Scroller);
+	TileWidth_Holder = new wxBoxSizer(wxVERTICAL);
+	TileWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Width", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TileWidth = new TextCtrl_Short(General_Scroller);
+	TileHeight_Holder = new wxBoxSizer(wxVERTICAL);
+	TileHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TileHeight = new TextCtrl_Short(General_Scroller);
+	TileHalfHeight_Holder = new wxBoxSizer(wxVERTICAL);
+	TileHalfHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Half Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TileHalfHeight = new TextCtrl_Short(General_Scroller);
+	TileHalfWidth_Holder = new wxBoxSizer(wxVERTICAL);
+	TileHalfWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Half Width", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TileHalfWidth = new TextCtrl_Short(General_Scroller);
+	ElevHeight_Holder = new wxBoxSizer(wxVERTICAL);
+	ElevHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Elevation Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	ElevHeight = new TextCtrl_Short(General_Scroller);
+	CurRow_Holder = new wxBoxSizer(wxVERTICAL);
+	CurRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Current Row", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	CurRow = new TextCtrl_Short(General_Scroller);
+	CurCol_Holder = new wxBoxSizer(wxVERTICAL);
+	CurCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Current Col", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	CurCol = new TextCtrl_Short(General_Scroller);
+	BlockBegRow_Holder = new wxBoxSizer(wxVERTICAL);
+	BlockBegRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block Start Row", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	BlockBegRow = new TextCtrl_Short(General_Scroller);
+	BlockEndRow_Holder = new wxBoxSizer(wxVERTICAL);
+	BlockEndRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block End Row", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	BlockEndRow = new TextCtrl_Short(General_Scroller);
+	BlockBegCol_Holder = new wxBoxSizer(wxVERTICAL);
+	BlockBegCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block Start Col", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	BlockBegCol = new TextCtrl_Short(General_Scroller);
+	BlockEndCol_Holder = new wxBoxSizer(wxVERTICAL);
+	BlockEndCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block End Col", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	BlockEndCol = new TextCtrl_Short(General_Scroller);
+
+	UnknownPointer2_Holder = new wxBoxSizer(wxVERTICAL);
+	UnknownPointer2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownPointer2 = new TextCtrl_Long(General_Scroller);
+	UnknownPointer3_Holder = new wxBoxSizer(wxVERTICAL);
+	UnknownPointer3_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnknownPointer3 = new TextCtrl_Long(General_Scroller);
+	AnyFrameChange_Holder = new wxBoxSizer(wxVERTICAL);
+	AnyFrameChange_Text = new wxStaticText(General_Scroller, wxID_ANY, " Any Frame Change", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	AnyFrameChange = new TextCtrl_Byte(General_Scroller);
+
+	MapVisibleFlag_Holder = new wxBoxSizer(wxVERTICAL);
+	MapVisibleFlag_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Visible Flag", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	MapVisibleFlag = new TextCtrl_Byte(General_Scroller);
+	FogFlag_Holder = new wxBoxSizer(wxVERTICAL);
+	FogFlag_Text = new wxStaticText(General_Scroller, wxID_ANY, " Fog Flag", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	FogFlag = new TextCtrl_Byte(General_Scroller);
+
 	General_TerrainRendering_Holder = new wxBoxSizer(wxVERTICAL);
-	General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Misc terrain data", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_TerrainRendering_Grid = new wxGridSizer(12, 0, 0);
+	General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Miscellaneous useless terrain data", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	General_TerrainRendering_Grid = new wxGridSizer(7, 5, 5);
 	General_Something_Grid = new wxGridSizer(8, 0, 0);
 	General_SomeBytes_Grid = new wxGridSizer(16, 0, 0);
 	for(short loop = 0; loop < General_TileSizes.size(); ++loop)
 	General_TileSizes[loop] = new TextCtrl_Short(General_Scroller, 2);
-	for(short loop = 0; loop < General_AfterBorders.size(); ++loop)
-	{
-		General_AfterBorders[loop] = new TextCtrl_Short(General_Scroller);
-		General_AfterBorders[loop]->SetToolTip("In the file these are\nright after terrain borders and\nbefore the second terrain count");
-	}
-	for(short loop = 0; loop < General_TerrainRendering.size(); ++loop)
-	General_TerrainRendering[loop] = new TextCtrl_Short(General_Scroller, 2);
-	for(short loop = 0; loop < General_Something.size(); ++loop)
-	General_Something[loop] = new TextCtrl_Long(General_Scroller);
 	for(short loop = 0; loop < General_SomeBytes.size(); ++loop)
 	General_SomeBytes[loop] = new TextCtrl_Byte(General_Scroller);
+	for(short loop = 0; loop < General_Something.size(); ++loop)
+	General_Something[loop] = new TextCtrl_Long(General_Scroller);
 
 	General_TopRow->AddSpacer(5);
 	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
@@ -282,19 +435,85 @@ void AGE_Frame::CreateGeneralControls()
 	General_TileSizes_Holder->Add(General_TileSizes_Text, 0, wxEXPAND);
 	General_TileSizes_Holder->Add(General_TileSizes_Grid, 0, wxEXPAND);
 
-	for(short loop = 0; loop < General_AfterBorders.size(); ++loop)
-	General_BorderRelated_Grid->Add(General_AfterBorders[loop], 1, wxEXPAND);
-	General_BorderRelated_Holder->Add(General_BorderRelated_Text, 0, wxEXPAND);
-	General_BorderRelated_Holder->Add(General_BorderRelated_Grid, 0, wxEXPAND);
+	UnknownPointer1_Holder->Add(UnknownPointer1_Text, 0, wxEXPAND);
+	UnknownPointer1_Holder->Add(UnknownPointer1, 0, wxEXPAND);
+	MapMinX_Holder->Add(MapMinX_Text, 0, wxEXPAND);
+	MapMinX_Holder->Add(MapMinX, 0, wxEXPAND);
+	MapMinY_Holder->Add(MapMinY_Text, 0, wxEXPAND);
+	MapMinY_Holder->Add(MapMinY, 0, wxEXPAND);
+	MapMaxX_Holder->Add(MapMaxX_Text, 0, wxEXPAND);
+	MapMaxX_Holder->Add(MapMaxX, 0, wxEXPAND);
+	MapMaxY_Holder->Add(MapMaxY_Text, 0, wxEXPAND);
+	MapMaxY_Holder->Add(MapMaxY, 0, wxEXPAND);
+	MapMaxXplus1_Holder->Add(MapMaxXplus1_Text, 0, wxEXPAND);
+	MapMaxXplus1_Holder->Add(MapMaxXplus1, 0, wxEXPAND);
+	MapMaxYplus1_Holder->Add(MapMaxYplus1_Text, 0, wxEXPAND);
+	MapMaxYplus1_Holder->Add(MapMaxYplus1, 0, wxEXPAND);
+	MaxTerrain_Holder->Add(MaxTerrain_Text, 0, wxEXPAND);
+	MaxTerrain_Holder->Add(MaxTerrain, 0, wxEXPAND);
+	TileWidth_Holder->Add(TileWidth_Text, 0, wxEXPAND);
+	TileWidth_Holder->Add(TileWidth, 0, wxEXPAND);
+	TileHeight_Holder->Add(TileHeight_Text, 0, wxEXPAND);
+	TileHeight_Holder->Add(TileHeight, 0, wxEXPAND);
+	TileHalfHeight_Holder->Add(TileHalfHeight_Text, 0, wxEXPAND);
+	TileHalfHeight_Holder->Add(TileHalfHeight, 0, wxEXPAND);
+	TileHalfWidth_Holder->Add(TileHalfWidth_Text, 0, wxEXPAND);
+	TileHalfWidth_Holder->Add(TileHalfWidth, 0, wxEXPAND);
+	ElevHeight_Holder->Add(ElevHeight_Text, 0, wxEXPAND);
+	ElevHeight_Holder->Add(ElevHeight, 0, wxEXPAND);
+	CurRow_Holder->Add(CurRow_Text, 0, wxEXPAND);
+	CurRow_Holder->Add(CurRow, 0, wxEXPAND);
+	CurCol_Holder->Add(CurCol_Text, 0, wxEXPAND);
+	CurCol_Holder->Add(CurCol, 0, wxEXPAND);
+	BlockBegRow_Holder->Add(BlockBegRow_Text, 0, wxEXPAND);
+	BlockBegRow_Holder->Add(BlockBegRow, 0, wxEXPAND);
+	BlockEndRow_Holder->Add(BlockEndRow_Text, 0, wxEXPAND);
+	BlockEndRow_Holder->Add(BlockEndRow, 0, wxEXPAND);
+	BlockBegCol_Holder->Add(BlockBegCol_Text, 0, wxEXPAND);
+	BlockBegCol_Holder->Add(BlockBegCol, 0, wxEXPAND);
+	BlockEndCol_Holder->Add(BlockEndCol_Text, 0, wxEXPAND);
+	BlockEndCol_Holder->Add(BlockEndCol, 0, wxEXPAND);
+	UnknownPointer2_Holder->Add(UnknownPointer2_Text, 0, wxEXPAND);
+	UnknownPointer2_Holder->Add(UnknownPointer2, 0, wxEXPAND);
+	UnknownPointer3_Holder->Add(UnknownPointer3_Text, 0, wxEXPAND);
+	UnknownPointer3_Holder->Add(UnknownPointer3, 0, wxEXPAND);
+	AnyFrameChange_Holder->Add(AnyFrameChange_Text, 0, wxEXPAND);
+	AnyFrameChange_Holder->Add(AnyFrameChange, 0, wxEXPAND);
+	MapVisibleFlag_Holder->Add(MapVisibleFlag_Text, 0, wxEXPAND);
+	MapVisibleFlag_Holder->Add(MapVisibleFlag, 0, wxEXPAND);
+	FogFlag_Holder->Add(FogFlag_Text, 0, wxEXPAND);
+	FogFlag_Holder->Add(FogFlag, 0, wxEXPAND);
 
-	for(short loop = 0; loop < General_TerrainRendering.size(); ++loop)
-	General_TerrainRendering_Grid->Add(General_TerrainRendering[loop], 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(UnknownPointer1_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(MapMinX_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(MapMinY_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(MapMaxX_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(MapMaxY_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(MapMaxXplus1_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(MapMaxYplus1_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(MaxTerrain_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(TileWidth_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(TileHeight_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(TileHalfHeight_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(TileHalfWidth_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(ElevHeight_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(CurRow_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(CurCol_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(BlockBegRow_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(BlockEndRow_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(BlockBegCol_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(BlockEndCol_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(UnknownPointer2_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(UnknownPointer3_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(AnyFrameChange_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(MapVisibleFlag_Holder, 1, wxEXPAND);
+	General_TerrainRendering_Grid->Add(FogFlag_Holder, 1, wxEXPAND);
+
 	for(short loop = 0; loop < General_Something.size(); ++loop)
 	General_Something_Grid->Add(General_Something[loop], 1, wxEXPAND);
 	for(short loop = 0; loop < General_SomeBytes.size(); ++loop)
 	General_SomeBytes_Grid->Add(General_SomeBytes[loop], 1, wxEXPAND);
 	General_TerrainRendering_Holder->Add(General_TerrainRendering_Text, 0, wxEXPAND);
-	General_TerrainRendering_Holder->Add(General_TerrainRendering_Grid, 0, wxEXPAND);
 	General_TerrainRendering_Holder->Add(General_SomeBytes_Grid, 0, wxEXPAND);
 	General_TerrainRendering_Holder->Add(General_Something_Grid, 0, wxEXPAND);
 
@@ -346,7 +565,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_ScrollSpace->AddSpacer(5);
 	General_ScrollSpace->Add(General_TileSizes_Holder, 0, wxEXPAND);
 	General_ScrollSpace->AddSpacer(5);
-	General_ScrollSpace->Add(General_BorderRelated_Holder, 0, wxEXPAND);
+	General_ScrollSpace->Add(General_TerrainRendering_Grid, 0, wxEXPAND);
 	General_ScrollSpace->AddSpacer(5);
 	General_ScrollSpace->Add(General_TerrainRendering_Holder, 0, wxEXPAND);
 
