@@ -45,7 +45,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
 	CheckBox_GenieVer->Append("Age of Kings (11.5)");
 	CheckBox_GenieVer->Append("The Conquerors (11.76 - 12.0)");
-	CheckBox_GenieVer->Append("Cysion > 12");
+	CheckBox_GenieVer->Append("Age of Empires II: HD Edition > 12");
 	CheckBox_GenieVer->Append("Star Wars Galactic Battlegrounds (1.0 - 1.1)");
 	//CheckBox_GenieVer->Append("Clone Campaigns 1.1");
 	CheckBox_GenieVer->SetSelection(EV_TC);

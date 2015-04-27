@@ -97,7 +97,7 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		General_Unknown2->resize(0);
 		General_Unknown2->Clear();
 	}
-	for(short loop = 0, slot = 0; loop < GenieFile->TerrainBlock.getTileTypeCount(); ++loop)
+	for(short loop = 0, slot = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT; ++loop)
 	{
 		General_TileSizes[slot]->resize(1);
 		General_TileSizes[slot]->container[0] = &GenieFile->TerrainBlock.TileSizes[loop].Width;

@@ -1540,7 +1540,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			Units_CommandHolder_Grid3->Show(ShowUnknowns);
 			Graphics_3_Grid->Show(ShowUnknowns);
 			Graphics_Deltas_Grid_Data2->Show(ShowUnknowns);
-			Borders_Unknonws->Show(ShowUnknowns);
 			Sounds_Unknown1_Holder->Show(ShowUnknowns);
 			Sounds_Unknown2_Holder->Show(ShowUnknowns);
 			SoundItems_Unknown_Holder->Show(ShowUnknowns);
