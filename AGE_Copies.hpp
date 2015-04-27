@@ -122,7 +122,7 @@ class Copies
 	vector<genie::SoundItem> SoundItem;
 	vector<genie::PlayerColour> PlayerColor;
 	vector<genie::TerrainBorder> TerrainBorder;
-	vector<genie::ShapeFrameData> ShapeFrameData;
+	vector<genie::FrameData> FrameData;
 	vector<genie::MapHeader> MapHeader;
 	vector<genie::Map> Map;
 	vector<genie::BaseZone> BaseZone;
