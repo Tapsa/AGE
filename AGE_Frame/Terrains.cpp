@@ -233,7 +233,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_AnimateLast->resize(selections);
 	Terrains_FrameChanged->resize(selections);
 	Terrains_Drawn->resize(selections);
-	for(short loop = 0; loop < genie::Terrain::ELEVATION_GRAPHICS_SIZE * 3; ++loop)
+	for(short loop = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT * 3; ++loop)
 	{
 		Terrains_ElevationGraphics[loop]->resize(selections);
 	}
@@ -288,7 +288,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		Terrains_AnimateLast->container[sel] = &TerrainPointer->AnimateLast;
 		Terrains_FrameChanged->container[sel] = &TerrainPointer->FrameChanged;
 		Terrains_Drawn->container[sel] = &TerrainPointer->Drawn;
-		for(short loop = 0, slot = 0; loop < TerrainPointer->ELEVATION_GRAPHICS_SIZE; ++loop)
+		for(short loop = 0, slot = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT; ++loop)
 		{
 			Terrains_ElevationGraphics[slot++]->container[sel] = &TerrainPointer->ElevationGraphics[loop].FrameCount;
 			Terrains_ElevationGraphics[slot++]->container[sel] = &TerrainPointer->ElevationGraphics[loop].AngleCount;
@@ -339,7 +339,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	Terrains_AnimateLast->Update();
 	Terrains_FrameChanged->Update();
 	Terrains_Drawn->Update();
-	for(short loop = 0; loop < TerrainPointer->ELEVATION_GRAPHICS_SIZE * 3; ++loop)
+	for(short loop = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT * 3; ++loop)
 	{
 		Terrains_ElevationGraphics[loop]->Update();
 	}
