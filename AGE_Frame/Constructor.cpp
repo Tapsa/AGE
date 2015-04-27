@@ -54,7 +54,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Read("DefaultFiles/SaveLangX1P1Filename", &useless, wxT("")); SaveLangX1P1FileName.Add(useless);
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
 	Config->Read("DefaultFiles/AutoBackups", &AutoBackups, false);
-	Config->Read("Misc/CustomTerrains", &CustomTerrains, 100);
+	Config->Read("Misc/CustomTerrains", &CustomTerrains, 42);
 
 	Config->Write("/EditorVersion", AGE_AboutDialog::AGE_VER);
 	Config->Write("/TimesOpened", ++TimesOpened);

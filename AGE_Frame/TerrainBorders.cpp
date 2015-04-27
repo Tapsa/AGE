@@ -49,24 +49,31 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	BorderIDs.resize(selections);
-	Borders_Unknown1->resize(selections);
 	Borders_Enabled->resize(selections);
+	Borders_Random->resize(selections);
 	Borders_Name[0]->resize(selections);
 	Borders_Name[1]->resize(selections);
 	if(GenieVersion >= genie::GV_AoEB)
 	Borders_SLP->resize(selections);
 	Borders_Unknown3->resize(selections);
-	Borders_Unknown4->resize(selections);
+	Borders_Sound->resize(selections);
 	for(short loop = 0; loop < 3; ++loop)
 	{
 		Borders_Colors[loop]->resize(selections);
 	}
-	for(short loop = 0; loop < Borders_Unknown5.size(); ++loop)
-	Borders_Unknown5[loop]->resize(selections);
-	Borders_Unknown6->resize(selections);
-	Borders_FrameCount->resize(selections);
-	Borders_Unknown8->resize(selections);
+	Borders_IsAnimated->resize(selections);
+	Borders_AnimationFrames->resize(selections);
+	Borders_PauseFames->resize(selections);
+	Borders_Interval->resize(selections);
+	Borders_PauseBetweenLoops->resize(selections);
+	Borders_Frame->resize(selections);
+	Borders_DrawFrame->resize(selections);
+	Borders_AnimateLast->resize(selections);
+	Borders_FrameChanged->resize(selections);
+	Borders_Drawn->resize(selections);
+	Borders_DrawTile->resize(selections);
 	Borders_Terrain->resize(selections);
+	Borders_BorderStyle->resize(selections);
 
 	genie::TerrainBorder * BorderPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -74,44 +81,58 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 		BorderPointer = (genie::TerrainBorder*)Borders_List->GetClientData(Items.Item(sel));
 		BorderIDs[sel] = (BorderPointer - (&GenieFile->TerrainBlock.TerrainBorders[0]));
 
-		Borders_Unknown1->container[sel] = &BorderPointer->Unknown1;
 		Borders_Enabled->container[sel] = &BorderPointer->Enabled;
+		Borders_Random->container[sel] = &BorderPointer->Random;
 		Borders_Name[0]->container[sel] = &BorderPointer->Name;
 		Borders_Name[1]->container[sel] = &BorderPointer->Name2;
 		if(GenieVersion >= genie::GV_AoEB)
 		Borders_SLP->container[sel] = &BorderPointer->SLP;
 		Borders_Unknown3->container[sel] = &BorderPointer->Unknown3;
-		Borders_Unknown4->container[sel] = &BorderPointer->SoundID;
+		Borders_Sound->container[sel] = &BorderPointer->SoundID;
 		for(short loop = 0; loop < 3; ++loop)
 		{
 			Borders_Colors[loop]->container[sel] = &BorderPointer->Colors[loop];
 		}
-		for(short loop = 0; loop < Borders_Unknown5.size(); ++loop)
-		Borders_Unknown5[loop]->container[sel] = &BorderPointer->Unknown5[loop];
-		Borders_Unknown6->container[sel] = &BorderPointer->Unknown6;
-		Borders_FrameCount->container[sel] = &BorderPointer->FrameCount;
-		Borders_Unknown8->container[sel] = &BorderPointer->AngleCount;
-		Borders_Terrain->container[sel] = &BorderPointer->TerrainID;
+		Borders_IsAnimated->container[sel] = &BorderPointer->IsAnimated;
+		Borders_AnimationFrames->container[sel] = &BorderPointer->AnimationFrames;
+		Borders_PauseFames->container[sel] = &BorderPointer->PauseFames;
+		Borders_Interval->container[sel] = &BorderPointer->Interval;
+		Borders_PauseBetweenLoops->container[sel] = &BorderPointer->PauseBetweenLoops;
+		Borders_Frame->container[sel] = &BorderPointer->Frame;
+		Borders_DrawFrame->container[sel] = &BorderPointer->DrawFrame;
+		Borders_AnimateLast->container[sel] = &BorderPointer->AnimateLast;
+		Borders_FrameChanged->container[sel] = &BorderPointer->FrameChanged;
+		Borders_Drawn->container[sel] = &BorderPointer->Drawn;
+		Borders_DrawTile->container[sel] = &BorderPointer->DrawTile;
+		Borders_Terrain->container[sel] = &BorderPointer->UnderlayTerrain;
+		Borders_BorderStyle->container[sel] = &BorderPointer->BorderStyle;
 	}
 
-	Borders_Unknown1->Update();
 	Borders_Enabled->Update();
+	Borders_Random->Update();
 	Borders_Name[0]->Update();
 	Borders_Name[1]->Update();
 	if(GenieVersion >= genie::GV_AoEB)
 	Borders_SLP->Update();
 	Borders_Unknown3->Update();
-	Borders_Unknown4->Update();
+	Borders_Sound->Update();
 	for(short loop = 0; loop < 3; ++loop)
 	{
 		Borders_Colors[loop]->Update();
 	}
-	for(short loop = 0; loop < Borders_Unknown5.size(); ++loop)
-	Borders_Unknown5[loop]->Update();
-	Borders_Unknown6->Update();
-	Borders_FrameCount->Update();
-	Borders_Unknown8->Update();
+	Borders_IsAnimated->Update();
+	Borders_AnimationFrames->Update();
+	Borders_PauseFames->Update();
+	Borders_Interval->Update();
+	Borders_PauseBetweenLoops->Update();
+	Borders_Frame->Update();
+	Borders_DrawFrame->Update();
+	Borders_AnimateLast->Update();
+	Borders_FrameChanged->Update();
+	Borders_Drawn->Update();
+	Borders_DrawTile->Update();
 	Borders_Terrain->Update();
+	Borders_BorderStyle->Update();
 	ListTerrainBorderFrames();
 }
 
@@ -136,9 +157,9 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 
 string AGE_Frame::GetTerrainBorderFrameName(short Index)
 {
-	return "Frame "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].FrameID)
-	+" - Flags "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].Flag1)
-	+" "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].Flag2)+" ";
+	return "Frame "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].FrameCount)
+	+" - Flags "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].AngleCount)
+	+" "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].ShapeID)+" ";
 }
 
 void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &Event)
@@ -180,15 +201,15 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 	Borders_Flag1->resize(selections);
 	Borders_Flag2->resize(selections);
 
-	genie::ShapeFrameData * FramePointer;
+	genie::FrameData * FramePointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		FramePointer = (genie::ShapeFrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
+		FramePointer = (genie::FrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
 		FrameIDs[loop] = (FramePointer - (&GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[0]));
 
-		Borders_FrameID->container[loop] = &FramePointer->FrameID;
-		Borders_Flag1->container[loop] = &FramePointer->Flag1;
-		Borders_Flag2->container[loop] = &FramePointer->Flag2;
+		Borders_FrameID->container[loop] = &FramePointer->FrameCount;
+		Borders_Flag1->container[loop] = &FramePointer->AngleCount;
+		Borders_Flag2->container[loop] = &FramePointer->ShapeID;
 	}
 
 	Borders_FrameID->Update();
@@ -202,7 +223,7 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies->ShapeFrameData);
+	CopyFromList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies->FrameData);
 }
 
 void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
@@ -211,7 +232,7 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies->ShapeFrameData);
+	PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies->FrameData);
 	ListTerrainBorderFrames();
 }
 
@@ -247,8 +268,11 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Enabled1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Enabled_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Enabled", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Enabled = new TextCtrl_Short(Tab_TerrainBorders, true);
+	Borders_Enabled = new TextCtrl_Byte(Tab_TerrainBorders, true);
 	Borders_Enabled_CheckBox = new CheckBox_2State(Tab_TerrainBorders, " Yes", Borders_Enabled);
+	Borders_Random_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_Random_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Random", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Random = new TextCtrl_Byte(Tab_TerrainBorders, true);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Borders_Name_Holder[loop] = new wxBoxSizer(wxVERTICAL);
@@ -259,19 +283,29 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_SLP_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_SLP_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_SLP = new TextCtrl_Long(Tab_TerrainBorders);
+	Borders_Data2 = new wxGridSizer(4, 5, 5);
+	Borders_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_Unknown3_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Unknown3 = new TextCtrl_Long(Tab_TerrainBorders);
+	Borders_Sound_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_Sound_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Sound = new TextCtrl_Long(Tab_TerrainBorders);
 	Borders_Colors_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Colors_Grid = new wxGridSizer(3, 0, 0);
 	Borders_Colors_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < 3; ++loop)
 	Borders_Colors[loop] = new TextCtrl_UByte(Tab_TerrainBorders);
-	Borders_FrameCount_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_FrameCount_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_FrameCount = new TextCtrl_Short(Tab_TerrainBorders);
+	Borders_DrawTile_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_DrawTile_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Draw Tile", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_DrawTile = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_Terrain_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Terrain_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Terrain_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Underlay Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Terrain = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_Terrain_ComboBox = new ComboBox_Plus1(Tab_TerrainBorders, Borders_Terrain);
 	TerrainComboBoxList.push_back(Borders_Terrain_ComboBox);
+	Borders_BorderStyle_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_BorderStyle_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Border Style", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_BorderStyle = new TextCtrl_Short(Tab_TerrainBorders);
 
 	Borders_FrameData = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Frames_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Tab_TerrainBorders, "Frames");
@@ -286,36 +320,54 @@ void AGE_Frame::CreateTerrainBorderControls()
 
 	Borders_FrameArea_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_FrameID_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_FrameID_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_FrameID_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frames", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_FrameID = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_Flag1_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Flag1_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Flag 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Flag1_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Animations", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Flag1 = new TextCtrl_Short(Tab_TerrainBorders);
 	Borders_Flag2_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Flag2_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Flag 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Flag2_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Shape index", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Flag2 = new TextCtrl_Short(Tab_TerrainBorders);
 
-	Borders_Unknonws = new wxGridSizer(5, 5, 5);
-	Borders_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Unknown1_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Unknown1 = new TextCtrl_Short(Tab_TerrainBorders);
-	Borders_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Unknown3_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Unknown3 = new TextCtrl_Float(Tab_TerrainBorders);
-	Borders_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Unknown4_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Unknown4 = new TextCtrl_Long(Tab_TerrainBorders);
-	Borders_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Unknown5_Grid = new wxGridSizer(5, 0, 0);
-	Borders_Unknown5_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < Borders_Unknown5.size(); ++loop)
-	Borders_Unknown5[loop] = new TextCtrl_Byte(Tab_TerrainBorders);
-	Borders_Unknown6_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Unknown6_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Unknown6 = new TextCtrl_Float(Tab_TerrainBorders);
-	Borders_Unknown8_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Unknown8_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Angle Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Unknown8 = new TextCtrl_Short(Tab_TerrainBorders);
+	Borders_Animation_Grid = new wxGridSizer(5, 5, 5);
+	Borders_IsAnimated_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_IsAnimated_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Is Animated", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_IsAnimated = new TextCtrl_Byte(Tab_TerrainBorders);
+	Borders_AnimationFrames_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_AnimationFrames_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Animation Frames *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_AnimationFrames = new TextCtrl_Short(Tab_TerrainBorders);
+	Borders_AnimationFrames->SetToolTip("Number of frames to animate through");
+	Borders_PauseFames_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_PauseFames_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Pause Fames *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_PauseFames = new TextCtrl_Short(Tab_TerrainBorders);
+	Borders_PauseFames->SetToolTip("Number of frames to pause animation after last frame is drawn");
+	Borders_Interval_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_Interval_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Interval *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Interval = new TextCtrl_Float(Tab_TerrainBorders);
+	Borders_Interval->SetToolTip("Time between frames");
+	Borders_PauseBetweenLoops_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_PauseBetweenLoops_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Pause Between Loops *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_PauseBetweenLoops = new TextCtrl_Float(Tab_TerrainBorders);
+	Borders_PauseBetweenLoops->SetToolTip("Time to pause after last frame");
+	Borders_Frame_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_Frame_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Frame = new TextCtrl_Short(Tab_TerrainBorders);
+	Borders_Frame->SetToolTip("The current frame (includes animation and pause frames)");
+	Borders_DrawFrame_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_DrawFrame_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Draw Frame *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_DrawFrame = new TextCtrl_Short(Tab_TerrainBorders);
+	Borders_DrawFrame->SetToolTip("The current frame to draw");
+	Borders_AnimateLast_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_AnimateLast_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Animate Last *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_AnimateLast = new TextCtrl_Float(Tab_TerrainBorders);
+	Borders_AnimateLast->SetToolTip("Last time animation frame was changed");
+	Borders_FrameChanged_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_FrameChanged_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame Changed *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_FrameChanged = new TextCtrl_Byte(Tab_TerrainBorders);
+	Borders_FrameChanged->SetToolTip("Has the Draw Frame changed since terrain was drawn?");
+	Borders_Drawn_Holder = new wxBoxSizer(wxVERTICAL);
+	Borders_Drawn_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Drawn", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Drawn = new TextCtrl_Byte(Tab_TerrainBorders);
 
 	for(short loop = 0; loop < 2; ++loop)
 	{
@@ -327,6 +379,8 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Enabled1_Holder->Add(Borders_Enabled_CheckBox, 1, wxEXPAND);
 	Borders_Enabled_Holder->Add(Borders_Enabled_Text, 0, wxEXPAND);
 	Borders_Enabled_Holder->Add(Borders_Enabled1_Holder, 1, wxEXPAND);
+	Borders_Random_Holder->Add(Borders_Random_Text, 0, wxEXPAND);
+	Borders_Random_Holder->Add(Borders_Random, 0, wxEXPAND);
 
 	Borders_UsedCountHolder->Add(Borders_UsedCountText, 0, wxEXPAND);
 	Borders_UsedCountHolder->AddSpacer(2);
@@ -348,43 +402,67 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_ListArea->Add(Borders_Borders, 1, wxEXPAND);
 	Borders_ListArea->AddSpacer(5);
 
-	Borders_DataTopRow->Add(Borders_Enabled_Holder, 1, wxEXPAND);
+	Borders_DataTopRow->Add(Borders_Enabled_Holder, 3, wxEXPAND);
 	Borders_DataTopRow->AddSpacer(5);
-	Borders_DataTopRow->Add(Borders_Name_Holder[0], 2, wxEXPAND);
+	Borders_DataTopRow->Add(Borders_Random_Holder, 2, wxEXPAND);
 	Borders_DataTopRow->AddSpacer(5);
-	Borders_DataTopRow->Add(Borders_Name_Holder[1], 2, wxEXPAND);
-	Borders_DataTopRow->AddStretchSpacer(1);
+	Borders_DataTopRow->Add(Borders_Name_Holder[0], 8, wxEXPAND);
+	Borders_DataTopRow->AddSpacer(5);
+	Borders_DataTopRow->Add(Borders_Name_Holder[1], 8, wxEXPAND);
 
 	Borders_SLP_Holder->Add(Borders_SLP_Text, 0, wxEXPAND);
 	Borders_SLP_Holder->Add(Borders_SLP, 0, wxEXPAND);
 	Borders_Unknown3_Holder->Add(Borders_Unknown3_Text, 0, wxEXPAND);
-	Borders_Unknown3_Holder->Add(Borders_Unknown3, 1, wxEXPAND);
-	Borders_Unknown4_Holder->Add(Borders_Unknown4_Text, 0, wxEXPAND);
-	Borders_Unknown4_Holder->Add(Borders_Unknown4, 1, wxEXPAND);
+	Borders_Unknown3_Holder->Add(Borders_Unknown3, 0, wxEXPAND);
+	Borders_Sound_Holder->Add(Borders_Sound_Text, 0, wxEXPAND);
+	Borders_Sound_Holder->Add(Borders_Sound, 0, wxEXPAND);
 	for(short loop = 0; loop < 3; ++loop)
 	Borders_Colors_Grid->Add(Borders_Colors[loop], 1, wxEXPAND);
 	Borders_Colors_Holder->Add(Borders_Colors_Text, 0, wxEXPAND);
 	Borders_Colors_Holder->Add(Borders_Colors_Grid, 0, wxEXPAND);
-	Borders_Unknown5_Holder->Add(Borders_Unknown5_Text, 0, wxEXPAND);
-	for(short loop = 0; loop < Borders_Unknown5.size(); ++loop)
-	Borders_Unknown5_Grid->Add(Borders_Unknown5[loop], 1, wxEXPAND);
-	Borders_Unknown5_Holder->Add(Borders_Unknown5_Grid, 0, wxEXPAND);
-	Borders_Unknown6_Holder->Add(Borders_Unknown6_Text, 0, wxEXPAND);
-	Borders_Unknown6_Holder->Add(Borders_Unknown6, 1, wxEXPAND);
-	Borders_FrameCount_Holder->Add(Borders_FrameCount_Text, 0, wxEXPAND);
-	Borders_FrameCount_Holder->Add(Borders_FrameCount, 0, wxEXPAND);
-	Borders_Unknown8_Holder->Add(Borders_Unknown8_Text, 0, wxEXPAND);
-	Borders_Unknown8_Holder->Add(Borders_Unknown8, 1, wxEXPAND);
+	Borders_DrawTile_Holder->Add(Borders_DrawTile_Text, 0, wxEXPAND);
+	Borders_DrawTile_Holder->Add(Borders_DrawTile, 0, wxEXPAND);
 	Borders_Terrain_Holder->Add(Borders_Terrain_Text, 0, wxEXPAND);
-	Borders_Terrain_Holder->Add(Borders_Terrain, 1, wxEXPAND);
-	Borders_Terrain_Holder->Add(Borders_Terrain_ComboBox, 1, wxEXPAND);
-	Borders_Unknown1_Holder->Add(Borders_Unknown1_Text, 0, wxEXPAND);
-	Borders_Unknown1_Holder->Add(Borders_Unknown1, 1, wxEXPAND);
+	Borders_Terrain_Holder->Add(Borders_Terrain, 0, wxEXPAND);
+	Borders_Terrain_Holder->Add(Borders_Terrain_ComboBox, 0, wxEXPAND);
+	Borders_BorderStyle_Holder->Add(Borders_BorderStyle_Text, 0, wxEXPAND);
+	Borders_BorderStyle_Holder->Add(Borders_BorderStyle, 0, wxEXPAND);
 
 	Borders_Data1->Add(Borders_SLP_Holder, 1, wxEXPAND);
+	Borders_Data1->Add(Borders_Unknown3_Holder, 1, wxEXPAND);
+	Borders_Data1->Add(Borders_Sound_Holder, 1, wxEXPAND);
 	Borders_Data1->Add(Borders_Colors_Holder, 1, wxEXPAND);
-	Borders_Data1->Add(Borders_FrameCount_Holder, 1, wxEXPAND);
-	Borders_Data1->Add(Borders_Terrain_Holder, 1, wxEXPAND);
+
+	Borders_IsAnimated_Holder->Add(Borders_IsAnimated_Text, 0, wxEXPAND);
+	Borders_AnimationFrames_Holder->Add(Borders_AnimationFrames_Text, 0, wxEXPAND);
+	Borders_PauseFames_Holder->Add(Borders_PauseFames_Text, 0, wxEXPAND);
+	Borders_Interval_Holder->Add(Borders_Interval_Text, 0, wxEXPAND);
+	Borders_PauseBetweenLoops_Holder->Add(Borders_PauseBetweenLoops_Text, 0, wxEXPAND);
+	Borders_Frame_Holder->Add(Borders_Frame_Text, 0, wxEXPAND);
+	Borders_DrawFrame_Holder->Add(Borders_DrawFrame_Text, 0, wxEXPAND);
+	Borders_AnimateLast_Holder->Add(Borders_AnimateLast_Text, 0, wxEXPAND);
+	Borders_FrameChanged_Holder->Add(Borders_FrameChanged_Text, 0, wxEXPAND);
+	Borders_Drawn_Holder->Add(Borders_Drawn_Text, 0, wxEXPAND);
+	Borders_IsAnimated_Holder->Add(Borders_IsAnimated, 1, wxEXPAND);
+	Borders_AnimationFrames_Holder->Add(Borders_AnimationFrames, 1, wxEXPAND);
+	Borders_PauseFames_Holder->Add(Borders_PauseFames, 1, wxEXPAND);
+	Borders_Interval_Holder->Add(Borders_Interval, 1, wxEXPAND);
+	Borders_PauseBetweenLoops_Holder->Add(Borders_PauseBetweenLoops, 1, wxEXPAND);
+	Borders_Frame_Holder->Add(Borders_Frame, 1, wxEXPAND);
+	Borders_DrawFrame_Holder->Add(Borders_DrawFrame, 1, wxEXPAND);
+	Borders_AnimateLast_Holder->Add(Borders_AnimateLast, 1, wxEXPAND);
+	Borders_FrameChanged_Holder->Add(Borders_FrameChanged, 1, wxEXPAND);
+	Borders_Drawn_Holder->Add(Borders_Drawn, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_IsAnimated_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_AnimationFrames_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_PauseFames_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_Interval_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_PauseBetweenLoops_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_Frame_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_DrawFrame_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_AnimateLast_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_FrameChanged_Holder, 1, wxEXPAND);
+	Borders_Animation_Grid->Add(Borders_Drawn_Holder, 1, wxEXPAND);
 
 	Borders_Frames_Buttons->Add(Frames_Copy, 1, wxEXPAND);
 	Borders_Frames_Buttons->Add(Frames_Paste, 1, wxEXPAND);
@@ -417,22 +495,20 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_FrameData->Add(Borders_Frames_Holder, 5, wxEXPAND);
 	Borders_FrameData->AddStretchSpacer(3);
 
-	Borders_Unknonws->Add(Borders_Unknown1_Holder, 1, wxEXPAND);
-	Borders_Unknonws->Add(Borders_Unknown3_Holder, 1, wxEXPAND);
-	Borders_Unknonws->Add(Borders_Unknown4_Holder, 1, wxEXPAND);
-	Borders_Unknonws->Add(Borders_Unknown6_Holder, 1, wxEXPAND);
-	Borders_Unknonws->Add(Borders_Unknown8_Holder, 1, wxEXPAND);
+	Borders_Data2->Add(Borders_DrawTile_Holder, 1, wxEXPAND);
+	Borders_Data2->Add(Borders_Terrain_Holder, 1, wxEXPAND);
+	Borders_Data2->Add(Borders_BorderStyle_Holder, 1, wxEXPAND);
 
 	Borders_DataArea->AddSpacer(5);
 	Borders_DataArea->Add(Borders_DataTopRow, 0, wxEXPAND);
 	Borders_DataArea->AddSpacer(5);
 	Borders_DataArea->Add(Borders_Data1, 0, wxEXPAND);
 	Borders_DataArea->AddSpacer(5);
+	Borders_DataArea->Add(Borders_Data2, 0, wxEXPAND);
+	Borders_DataArea->AddSpacer(5);
 	Borders_DataArea->Add(Borders_FrameData, 0, wxEXPAND);
 	Borders_DataArea->AddSpacer(5);
-	Borders_DataArea->Add(Borders_Unknonws, 0, wxEXPAND);
-	Borders_DataArea->AddSpacer(5);
-	Borders_DataArea->Add(Borders_Unknown5_Holder, 0, wxEXPAND);
+	Borders_DataArea->Add(Borders_Animation_Grid, 0, wxEXPAND);
 	Borders_DataArea->AddSpacer(5);
 
 	Borders_Main->AddSpacer(5);
