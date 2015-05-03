@@ -768,6 +768,7 @@ public:
 	wxArrayString LangFileName, LangX1FileName, LangX1P1FileName;
 	wxArrayString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
 
+	map<int, string> LangTxt;
 	HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
@@ -2643,11 +2644,9 @@ public:
 	TextCtrl_UShort *Borders_UsedCount;
 	wxGridSizer *Terrains_Terrains_Buttons;
 	wxButton *Terrains_Add;
-	wxButton *Terrains_Insert;
 	wxButton *Terrains_Delete;
 	wxButton *Terrains_Copy;
 	wxButton *Terrains_Paste;
-	wxButton *Terrains_PasteInsert;
 
 	wxBoxSizer *Terrains_GreatSpace;
 	wxBoxSizer *Terrains_SpaceLeft;
