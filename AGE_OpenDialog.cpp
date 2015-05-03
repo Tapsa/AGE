@@ -32,7 +32,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 //	    Radio_NoFile->Disable();
 	}
 
-	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll;*.txt", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Write language files *");
@@ -321,33 +321,21 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
 	}
 
-	CheckBox_GenieVer->SetSelection(EV_TC);
+	CheckBox_GenieVer->SetSelection(EV_Cysion);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\Data\\empires2_x1_p1.dat"));
-	if(!CheckBox_CustomDefault->GetValue())
-	{
-		Path = DriveLetterBox->GetValue();
-		if(wxIsPlatform64Bit())
-		{
-			Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires II";
-		}
-		else
-		{
-			Path += ":\\Program Files\\Microsoft Games\\Age of Empires II";
-		}
-	}
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\language_x1.dll"));
-	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\language_x1_p1.dll"));
+	wxString locale = LanguageBox->GetValue();
+	Path_LangFileLocation->SetPath(wxString(Path + "\\Bin\\"+locale+"\\"+locale+"-language.txt"));
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
 	Selected.SetInt(true);
 	Selected.SetId(CheckBox_LangFileLocation->GetId());
 	ProcessEvent(Selected);
+	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
