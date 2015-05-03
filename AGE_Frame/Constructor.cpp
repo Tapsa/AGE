@@ -79,7 +79,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	SubMenu_Options = new wxMenu();
 	SubMenu_Options->AppendCheckItem(MenuOption_Prompt, "&Prompt for files on open");
 	SubMenu_Options->Check(MenuOption_Prompt, PromptForFilesOnOpen);
-	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Enable forbidden &buttons");
+	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Allow adding &terrains");
 	SubMenu_Options->Check(MenuOption_Buttons, ShowButtons);
 
 	SubMenu_Options->AppendCheckItem(MenuOption_IDFix, "Enable &index fixes");

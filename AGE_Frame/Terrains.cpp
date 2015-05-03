@@ -500,7 +500,7 @@ void AGE_Frame::CreateTerrainControls()
 {
 	Terrains_Main = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_ListArea = new wxBoxSizer(wxVERTICAL);
-	Terrains_Terrains_Buttons = new wxGridSizer(3, 0, 0);
+	Terrains_Terrains_Buttons = new wxGridSizer(2, 0, 0);
 	Tab_Terrains = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	Terrains_Terrains = new wxStaticBoxSizer(wxVERTICAL, Tab_Terrains, "Terrains");
 	Terrains_Terrains_Search = new wxTextCtrl(Tab_Terrains, wxID_ANY);
@@ -518,11 +518,9 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_UsedCount = new TextCtrl_UShort(Tab_Terrains);
 	Terrains_UsedCount->SetToolTip("How many terrains are used\nstarting from the first terrain without gaps");
 	Terrains_Add = new wxButton(Tab_Terrains, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Terrains_Insert = new wxButton(Tab_Terrains, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Delete = new wxButton(Tab_Terrains, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Copy = new wxButton(Tab_Terrains, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Paste = new wxButton(Tab_Terrains, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Terrains_PasteInsert = new wxButton(Tab_Terrains, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 
 	Terrains_DataArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Scroller = new wxScrolledWindow(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(600, 20), wxVSCROLL | wxTAB_TRAVERSAL);
@@ -712,10 +710,8 @@ void AGE_Frame::CreateTerrainControls()
 
 	Terrains_Terrains_Buttons->Add(Terrains_Add, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Delete, 1, wxEXPAND);
-	Terrains_Terrains_Buttons->Add(Terrains_Insert, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Copy, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Paste, 1, wxEXPAND);
-	Terrains_Terrains_Buttons->Add(Terrains_PasteInsert, 1, wxEXPAND);
 
 	Terrains_Terrains_Searches[0]->Add(Terrains_Terrains_Search, 1, wxEXPAND);
 	Terrains_Terrains_Searches[0]->AddSpacer(2);
@@ -927,11 +923,9 @@ void AGE_Frame::CreateTerrainControls()
 	}
 	Connect(Terrains_Terrains_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
 	Connect(Terrains_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsAdd));
-	Connect(Terrains_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsInsert));
 	Connect(Terrains_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsDelete));
 	Connect(Terrains_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsCopy));
 	Connect(Terrains_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsPaste));
-	Connect(Terrains_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsPasteInsert));
 
 	Terrains_Name->Connect(Terrains_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Terrains), NULL, this);
 	Terrains_Name2->Connect(Terrains_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Terrains), NULL, this);

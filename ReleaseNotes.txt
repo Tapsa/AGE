@@ -12,6 +12,13 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.5.3[/b]:
+•AoKHD language files readable.
+
+Version [b]2015.4.27[/b]:
+•Less crashing when opening another file.
+•Improved terrain related tabs.
+
 Version [b]2015.3.9[/b]:
 •Fixed a crash when erasing unit damage graphics, attacks, armors and actions.
 •Min and max sizes for windows.

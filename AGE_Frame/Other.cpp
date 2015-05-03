@@ -155,6 +155,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Config->Write("DefaultFiles/LangX1Filename", LangX1FileName[0]);
 		Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName[0]);
 		Config->Write("DefaultFiles/AutoBackups", AutoBackups);
+		Config->Write("Misc/CustomTerrains", CustomTerrains);
 		delete Config;
 	}
 
@@ -178,81 +179,108 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
 	}
 
-	if(Lang != NULL)
+	// txt language file
+	if(GenieVersion == genie::GV_Cysion)
 	{
-		delete Lang;
-		Lang = NULL;
+		LangTxt.clear();
+		ifstream infile(LangFileName[0]);
+		string line;
+		while(getline(infile, line))
+		{
+			size_t numbeg = line.find_first_not_of(" \t");
+			if(string::npos != numbeg)
+			{
+				size_t numend = line.find_first_of(" \t", numbeg + 1);
+				string index = line.substr(numbeg, numend - numbeg);
+				try
+				{
+					int ID = lexical_cast<int>(index);
+					size_t beg = line.find("\"", numend) + 1;
+					size_t end = line.find("\"", beg);
+					LangTxt.insert(pair<int, string>(ID, line.substr(beg, end - beg)));
+				}
+				catch(bad_lexical_cast e){}
+			}
+		}
 	}
-	if(LangX != NULL)
+	else
 	{
-		delete LangX;
-		LangX = NULL;
-	}
-	if(LangXP != NULL)
-	{
-		delete LangXP;
-		LangXP = NULL;
-	}
+		if(Lang != NULL)
+		{
+			delete Lang;
+			Lang = NULL;
+		}
+		if(LangX != NULL)
+		{
+			delete LangX;
+			LangX = NULL;
+		}
+		if(LangXP != NULL)
+		{
+			delete LangXP;
+			LangXP = NULL;
+		}
 
-	if(LangsUsed & 1)
-	{
-		if(sizeof(size_t) > 4 || WriteLangs)
+		if(LangsUsed & 1)
 		{
-			Lang = new genie::LangFile();
-			Lang->setDefaultCharset(LangCharset);
-			try
+			if(sizeof(size_t) > 4 || WriteLangs)
 			{
-				Lang->load(LangFileName[0].c_str());
+				Lang = new genie::LangFile();
+				Lang->setDefaultCharset(LangCharset);
+				try
+				{
+					Lang->load(LangFileName[0].c_str());
+				}
+				catch(std::ios_base::failure e)
+				{
+					wxMessageBox("Failed to load "+LangFileName[0]);
+					delete Lang;
+					Lang = NULL;
+					return;
+				}
 			}
-			catch(std::ios_base::failure e)
-			{
-				wxMessageBox("Failed to load "+LangFileName[0]);
-				delete Lang;
-				Lang = NULL;
-				return;
-			}
+			else LanguageDLL[0] = LoadLibrary(LangFileName[0].c_str());
 		}
-		else LanguageDLL[0] = LoadLibrary(LangFileName[0].c_str());
-	}
-	if(LangsUsed & 2)
-	{
-		if(sizeof(size_t) > 4 || WriteLangs)
+		if(LangsUsed & 2)
 		{
-			LangX = new genie::LangFile();
-			LangX->setDefaultCharset(LangCharset);
-			try
+			if(sizeof(size_t) > 4 || WriteLangs)
 			{
-				LangX->load(LangX1FileName[0].c_str());
+				LangX = new genie::LangFile();
+				LangX->setDefaultCharset(LangCharset);
+				try
+				{
+					LangX->load(LangX1FileName[0].c_str());
+				}
+				catch(std::ios_base::failure e)
+				{
+					wxMessageBox("Failed to load "+LangX1FileName[0]);
+					delete LangX;
+					LangX = NULL;
+					return;
+				}
 			}
-			catch(std::ios_base::failure e)
-			{
-				wxMessageBox("Failed to load "+LangX1FileName[0]);
-				delete LangX;
-				LangX = NULL;
-				return;
-			}
+			else LanguageDLL[1] = LoadLibrary(LangX1FileName[0].c_str());
 		}
-		else LanguageDLL[1] = LoadLibrary(LangX1FileName[0].c_str());
-	}
-	if(LangsUsed & 4)
-	{
-		if(sizeof(size_t) > 4 || WriteLangs)
+		if(LangsUsed & 4)
 		{
-			LangXP = new genie::LangFile();
-			LangXP->setDefaultCharset(LangCharset);
-			try
+			if(sizeof(size_t) > 4 || WriteLangs)
 			{
-				LangXP->load(LangX1P1FileName[0].c_str());
+				LangXP = new genie::LangFile();
+				LangXP->setDefaultCharset(LangCharset);
+				try
+				{
+					LangXP->load(LangX1P1FileName[0].c_str());
+				}
+				catch(std::ios_base::failure e)
+				{
+					wxMessageBox("Failed to load "+LangX1P1FileName[0]);
+					delete LangXP;
+					LangXP = NULL;
+					return;
+				}
 			}
-			catch(std::ios_base::failure e)
-			{
-				wxMessageBox("Failed to load "+LangX1P1FileName[0]);
-				delete LangXP;
-				LangXP = NULL;
-				return;
-			}
+			else LanguageDLL[2] = LoadLibrary(LangX1P1FileName[0].c_str());
 		}
-		else LanguageDLL[2] = LoadLibrary(LangX1P1FileName[0].c_str());
 	}
 
 	if(GenieFile != NULL)
@@ -1555,9 +1583,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			ShowButtons = Event.IsChecked();
 
 			Terrains_Add->Enable(ShowButtons);
-			Terrains_Insert->Enable(false);
 			Terrains_Delete->Enable(ShowButtons);
-			Terrains_PasteInsert->Enable(false);
 		}
 		break;
 		case wxID_EXIT:
@@ -1668,7 +1694,11 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 {
 	if(ID < 0) return "";
 	string Result = "";
-	if(sizeof(size_t) > 4 || WriteLangs)
+	if(GenieVersion == genie::GV_Cysion)
+	{
+		Result = LangTxt[ID];
+	}
+	else if(sizeof(size_t) > 4 || WriteLangs)
 	{
 		if(LangsUsed & 4 && !(Result = LangXP->getString(ID)).empty()){}
 		else if(LangsUsed & 2 && !(Result = LangX->getString(ID)).empty()){}
