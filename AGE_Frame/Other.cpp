@@ -304,8 +304,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		GenieFile = new genie::DatFile();
 		try
 		{
-			GenieFile->setGameVersion(GenieVersion);
 			genie::Terrain::customTerrainAmount = CustomTerrains;
+			GenieFile->setGameVersion(GenieVersion);
 			GenieFile->load(DatFileName[0].c_str());
 		}
 		catch(std::ios_base::failure e)
@@ -315,6 +315,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			GenieFile = NULL;
 			return;
 		}
+		//int TerrainsInData = GenieFile->TerrainBlock.Terrains.size();
+		//for(int terrain = 0; terrain < TerrainsInData; ++terrain)
+		//GenieFile->TerrainBlock.Terrains[terrain].Borders.resize(100, 0); // Fixing broken file
 		AGETextCtrl::unSaved = 0;
 		++AGETextCtrl::fileLoaded;
 		AGETextCtrl::editable = true; // It may be that the kill focus is delayed even after this.
@@ -1491,6 +1494,19 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		SetStatusText("Saving dat file...", 0);
 		wxBusyCursor WaitCursor;
 
+		// A fix that should never be needed
+		int TerrainsInData = GenieFile->TerrainBlock.Terrains.size();
+		int BordersInTerrains = 0;
+		for(int terrain = 0; terrain < TerrainsInData; ++terrain)
+		{
+			BordersInTerrains += GenieFile->TerrainBlock.Terrains[terrain].Borders.size();
+		}
+		BordersInTerrains /= TerrainsInData;
+		if(TerrainsInData != BordersInTerrains)
+		{
+			wxMessageBox("Send file to Tapsa for repair!\nTerrains: "+lexical_cast<string>(TerrainsInData)+"\nBorders: "+lexical_cast<string>(BordersInTerrains));
+		}
+		// <-- ends here
 		try
 		{
 			GenieFile->saveAs(SaveDatFileName[0].c_str());
