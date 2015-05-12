@@ -283,50 +283,50 @@ void AGE_Frame::CreateGeneralControls()
 	General_Variables1_Holder = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Star Wars Unknowns");
 	General_SUnknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	General_SUnknown2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown2 = new TextCtrl_Long(General_Scroller);
+	General_SUnknown2 = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_SUnknown2->SetToolTip(SWUNKNOWNSINFO);
 	General_SUnknown3_Holder = new wxBoxSizer(wxVERTICAL);
 	General_SUnknown3_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 3 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown3 = new TextCtrl_Long(General_Scroller);
+	General_SUnknown3 = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_SUnknown3->SetToolTip(SWUNKNOWNSINFO);
 	General_SUnknown4_Holder = new wxBoxSizer(wxVERTICAL);
 	General_SUnknown4_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 4 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown4 = new TextCtrl_Long(General_Scroller);
+	General_SUnknown4 = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_SUnknown4->SetToolTip(SWUNKNOWNSINFO);
 	General_SUnknown5_Holder = new wxBoxSizer(wxVERTICAL);
 	General_SUnknown5_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 5 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown5 = new TextCtrl_Long(General_Scroller);
+	General_SUnknown5 = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_SUnknown5->SetToolTip(SWUNKNOWNSINFO);
 	General_SUnknown7_Holder = new wxBoxSizer(wxVERTICAL);
 	General_SUnknown7_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 7 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown7 = new TextCtrl_Byte(General_Scroller);
+	General_SUnknown7 = new TextCtrl_Byte(AGEwindow, General_Scroller);
 	General_SUnknown7->SetToolTip("In the file this is\nright after civilizations and\nbefore researches");
 	General_SUnknown8_Holder = new wxBoxSizer(wxVERTICAL);
 	General_SUnknown8_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_SUnknown8 = new TextCtrl_Byte(General_Scroller);
+	General_SUnknown8 = new TextCtrl_Byte(AGEwindow, General_Scroller);
 	General_SUnknown8->SetToolTip("In the file this is\nright after researches and\nbefore technology trees");
 
 	General_MapPointer_Holder = new wxBoxSizer(wxVERTICAL);
 	General_MapPointer_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_MapPointer = new TextCtrl_Long(General_Scroller);
+	General_MapPointer = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	General_Unknown1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Unknown1 = new TextCtrl_Long(General_Scroller);
+	General_Unknown1 = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_MapWidth_Holder = new wxBoxSizer(wxVERTICAL);
 	General_MapWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Width", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_MapWidth = new TextCtrl_Long(General_Scroller);
+	General_MapWidth = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_MapHeight_Holder = new wxBoxSizer(wxVERTICAL);
 	General_MapHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_MapHeight = new TextCtrl_Long(General_Scroller);
+	General_MapHeight = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_WorldWidth_Holder = new wxBoxSizer(wxVERTICAL);
 	General_WorldWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " World Width", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_WorldWidth = new TextCtrl_Long(General_Scroller);
+	General_WorldWidth = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_WorldHeight_Holder = new wxBoxSizer(wxVERTICAL);
 	General_WorldHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " World Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_WorldHeight = new TextCtrl_Long(General_Scroller);
+	General_WorldHeight = new TextCtrl_Long(AGEwindow, General_Scroller);
 	General_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	General_Unknown2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	General_Unknown2 = new TextCtrl_Short(General_Scroller);
+	General_Unknown2 = new TextCtrl_Short(AGEwindow, General_Scroller);
 
 	General_TileSizes_Holder = new wxBoxSizer(wxVERTICAL);
 	General_TileSizes_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Sizes   19 x (Width, Height, Delta Y)", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -334,79 +334,79 @@ void AGE_Frame::CreateGeneralControls()
 
 	UnknownPointer1_Holder = new wxBoxSizer(wxVERTICAL);
 	UnknownPointer1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownPointer1 = new TextCtrl_Long(General_Scroller);
+	UnknownPointer1 = new TextCtrl_Long(AGEwindow, General_Scroller);
 	MapMinX_Holder = new wxBoxSizer(wxVERTICAL);
 	MapMinX_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Min X", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	MapMinX = new TextCtrl_Float(General_Scroller);
+	MapMinX = new TextCtrl_Float(AGEwindow, General_Scroller);
 	MapMinY_Holder = new wxBoxSizer(wxVERTICAL);
 	MapMinY_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Min Y", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	MapMinY = new TextCtrl_Float(General_Scroller);
+	MapMinY = new TextCtrl_Float(AGEwindow, General_Scroller);
 	MapMaxX_Holder = new wxBoxSizer(wxVERTICAL);
 	MapMaxX_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max X", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	MapMaxX = new TextCtrl_Float(General_Scroller);
+	MapMaxX = new TextCtrl_Float(AGEwindow, General_Scroller);
 	MapMaxY_Holder = new wxBoxSizer(wxVERTICAL);
 	MapMaxY_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max Y", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	MapMaxY = new TextCtrl_Float(General_Scroller);
+	MapMaxY = new TextCtrl_Float(AGEwindow, General_Scroller);
 	MapMaxXplus1_Holder = new wxBoxSizer(wxVERTICAL);
 	MapMaxXplus1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max X + 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	MapMaxXplus1 = new TextCtrl_Float(General_Scroller);
+	MapMaxXplus1 = new TextCtrl_Float(AGEwindow, General_Scroller);
 	MapMaxYplus1_Holder = new wxBoxSizer(wxVERTICAL);
 	MapMaxYplus1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max Y + 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	MapMaxYplus1 = new TextCtrl_Float(General_Scroller);
+	MapMaxYplus1 = new TextCtrl_Float(AGEwindow, General_Scroller);
 
 	MaxTerrain_Holder = new wxBoxSizer(wxVERTICAL);
 	MaxTerrain_Text = new wxStaticText(General_Scroller, wxID_ANY, " Max Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	MaxTerrain = new TextCtrl_Short(General_Scroller);
+	MaxTerrain = new TextCtrl_Short(AGEwindow, General_Scroller);
 	TileWidth_Holder = new wxBoxSizer(wxVERTICAL);
 	TileWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Width", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TileWidth = new TextCtrl_Short(General_Scroller);
+	TileWidth = new TextCtrl_Short(AGEwindow, General_Scroller);
 	TileHeight_Holder = new wxBoxSizer(wxVERTICAL);
 	TileHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TileHeight = new TextCtrl_Short(General_Scroller);
+	TileHeight = new TextCtrl_Short(AGEwindow, General_Scroller);
 	TileHalfHeight_Holder = new wxBoxSizer(wxVERTICAL);
 	TileHalfHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Half Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TileHalfHeight = new TextCtrl_Short(General_Scroller);
+	TileHalfHeight = new TextCtrl_Short(AGEwindow, General_Scroller);
 	TileHalfWidth_Holder = new wxBoxSizer(wxVERTICAL);
 	TileHalfWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Half Width", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TileHalfWidth = new TextCtrl_Short(General_Scroller);
+	TileHalfWidth = new TextCtrl_Short(AGEwindow, General_Scroller);
 	ElevHeight_Holder = new wxBoxSizer(wxVERTICAL);
 	ElevHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Elevation Height", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	ElevHeight = new TextCtrl_Short(General_Scroller);
+	ElevHeight = new TextCtrl_Short(AGEwindow, General_Scroller);
 	CurRow_Holder = new wxBoxSizer(wxVERTICAL);
 	CurRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Current Row", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	CurRow = new TextCtrl_Short(General_Scroller);
+	CurRow = new TextCtrl_Short(AGEwindow, General_Scroller);
 	CurCol_Holder = new wxBoxSizer(wxVERTICAL);
 	CurCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Current Col", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	CurCol = new TextCtrl_Short(General_Scroller);
+	CurCol = new TextCtrl_Short(AGEwindow, General_Scroller);
 	BlockBegRow_Holder = new wxBoxSizer(wxVERTICAL);
 	BlockBegRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block Start Row", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	BlockBegRow = new TextCtrl_Short(General_Scroller);
+	BlockBegRow = new TextCtrl_Short(AGEwindow, General_Scroller);
 	BlockEndRow_Holder = new wxBoxSizer(wxVERTICAL);
 	BlockEndRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block End Row", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	BlockEndRow = new TextCtrl_Short(General_Scroller);
+	BlockEndRow = new TextCtrl_Short(AGEwindow, General_Scroller);
 	BlockBegCol_Holder = new wxBoxSizer(wxVERTICAL);
 	BlockBegCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block Start Col", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	BlockBegCol = new TextCtrl_Short(General_Scroller);
+	BlockBegCol = new TextCtrl_Short(AGEwindow, General_Scroller);
 	BlockEndCol_Holder = new wxBoxSizer(wxVERTICAL);
 	BlockEndCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block End Col", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	BlockEndCol = new TextCtrl_Short(General_Scroller);
+	BlockEndCol = new TextCtrl_Short(AGEwindow, General_Scroller);
 
 	UnknownPointer2_Holder = new wxBoxSizer(wxVERTICAL);
 	UnknownPointer2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownPointer2 = new TextCtrl_Long(General_Scroller);
+	UnknownPointer2 = new TextCtrl_Long(AGEwindow, General_Scroller);
 	UnknownPointer3_Holder = new wxBoxSizer(wxVERTICAL);
 	UnknownPointer3_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnknownPointer3 = new TextCtrl_Long(General_Scroller);
+	UnknownPointer3 = new TextCtrl_Long(AGEwindow, General_Scroller);
 	AnyFrameChange_Holder = new wxBoxSizer(wxVERTICAL);
 	AnyFrameChange_Text = new wxStaticText(General_Scroller, wxID_ANY, " Any Frame Change", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	AnyFrameChange = new TextCtrl_Byte(General_Scroller);
+	AnyFrameChange = new TextCtrl_Byte(AGEwindow, General_Scroller);
 
 	MapVisibleFlag_Holder = new wxBoxSizer(wxVERTICAL);
 	MapVisibleFlag_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Visible Flag", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	MapVisibleFlag = new TextCtrl_Byte(General_Scroller);
+	MapVisibleFlag = new TextCtrl_Byte(AGEwindow, General_Scroller);
 	FogFlag_Holder = new wxBoxSizer(wxVERTICAL);
 	FogFlag_Text = new wxStaticText(General_Scroller, wxID_ANY, " Fog Flag", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	FogFlag = new TextCtrl_Byte(General_Scroller);
+	FogFlag = new TextCtrl_Byte(AGEwindow, General_Scroller);
 
 	General_TerrainRendering_Holder = new wxBoxSizer(wxVERTICAL);
 	General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Miscellaneous useless terrain data", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -414,11 +414,11 @@ void AGE_Frame::CreateGeneralControls()
 	General_Something_Grid = new wxGridSizer(8, 0, 0);
 	General_SomeBytes_Grid = new wxGridSizer(16, 0, 0);
 	for(short loop = 0; loop < General_TileSizes.size(); ++loop)
-	General_TileSizes[loop] = new TextCtrl_Short(General_Scroller, 2);
+	General_TileSizes[loop] = new TextCtrl_Short(AGEwindow, General_Scroller, 2);
 	for(short loop = 0; loop < General_SomeBytes.size(); ++loop)
-	General_SomeBytes[loop] = new TextCtrl_Byte(General_Scroller);
+	General_SomeBytes[loop] = new TextCtrl_Byte(AGEwindow, General_Scroller);
 	for(short loop = 0; loop < General_Something.size(); ++loop)
-	General_Something[loop] = new TextCtrl_Long(General_Scroller);
+	General_Something[loop] = new TextCtrl_Long(AGEwindow, General_Scroller);
 
 	General_TopRow->AddSpacer(5);
 	General_TopRow->Add(General_Refresh, 2, wxEXPAND);
@@ -1563,7 +1563,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknown_UnknownPointer_Grid = new wxGridSizer(8, 0, 0);
 	Unknown_UnknownPointer_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknown_UnknownPointer_Text = new wxStaticText(Tab_Unknown, wxID_ANY, " Random Map Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Unknown_UnknownPointer = new TextCtrl_Long(Tab_Unknown);
+	Unknown_UnknownPointer = new TextCtrl_Long(AGEwindow, Tab_Unknown);
 
 	Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Unknown, "Random Map Scripts (Required in AoE/RoR)");
 	Unknowns_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -1581,12 +1581,12 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Space_UnknownLevel = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_UnknownLevel_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_UnknownLevel_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Script Number", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Unknowns_UnknownLevel = new TextCtrl_Long(Unknown_Scroller);
+	Unknowns_UnknownLevel = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	Unknowns_Unknown1_Grid = new wxGridSizer(5, 5, 5);
 	for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
 	{
 		Unknowns_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-		Unknowns_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
+		Unknowns_Unknown1[loop] = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	}
 	Unknowns_Unknown1_Text[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Southwest Border *", wxDefaultPosition, wxSize(115, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Unknowns_Unknown1[0]->SetToolTip("Distance from the map edge allocated for non-base zone");
@@ -1607,7 +1607,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Space_Pointer1 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Pointer1_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Pointer1_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Unknowns_Pointer1 = new TextCtrl_Long(Unknown_Scroller);
+	Unknowns_Pointer1 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 
 	RMSBaseZones = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Base Zone Data");
 	RMSBaseZones_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -1628,55 +1628,55 @@ void AGE_Frame::CreateUnknownControls()
 
 	RMSBaseZones_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown1_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_Unknown1 = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_Unknown1 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSBaseZones_BaseTerrain_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_BaseTerrain_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_BaseTerrain = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_BaseTerrain = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSBaseZones_SpacingBetweenPlayers_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_SpacingBetweenPlayers_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Spacing Between Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_SpacingBetweenPlayers = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_SpacingBetweenPlayers = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSBaseZones_SpacingBetweenPlayers->SetToolTip("Non-base terrain (like rivers) space between players\nIf too large, they won't be created");
 	RMSBaseZones_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown4_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_Unknown4 = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_Unknown4 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 
 	RMSBaseZones_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown5_Grid = new wxGridSizer(4, 0, 0);
 	RMSBaseZones_Unknown5_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Dist. Between Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-	RMSBaseZones_Unknown5[loop] = new TextCtrl_Byte(Unknown_Scroller, 3);
+	RMSBaseZones_Unknown5[loop] = new TextCtrl_Byte(AGEwindow, Unknown_Scroller, 3);
 	RMSBaseZones_Unknown5[1]->SetToolTip("Minimum distance in tiles between \"player initial zones\"");
 
 	RMSBaseZones_Unknown6_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown6_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_Unknown6 = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_Unknown6 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSBaseZones_Unknown7_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown7_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_Unknown7 = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_Unknown7 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 
 	RMSBaseZones_Unknown8_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown8_Grid = new wxGridSizer(4, 0, 0);
 	RMSBaseZones_Unknown8_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-	RMSBaseZones_Unknown8[loop] = new TextCtrl_Byte(Unknown_Scroller, 3);
+	RMSBaseZones_Unknown8[loop] = new TextCtrl_Byte(AGEwindow, Unknown_Scroller, 3);
 	RMSBaseZones_Unknown8[1]->SetToolTip("Base zone is created for every player");
 
 	RMSBaseZones_StartAreaRadius_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_StartAreaRadius_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Players' Start Area Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_StartAreaRadius = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_StartAreaRadius = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSBaseZones_StartAreaRadius->SetToolTip("This area cannot contain different elevations or terrains\nUnknown 10 affects this too");
 	RMSBaseZones_Unknown10_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown10_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 10 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_Unknown10 = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_Unknown10 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSBaseZones_Unknown10->SetToolTip("Has something to do with players' starting area");
 	RMSBaseZones_Unknown11_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown11_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSBaseZones_Unknown11 = new TextCtrl_Long(Unknown_Scroller);
+	RMSBaseZones_Unknown11 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 
 	Unknowns_Space_Pointer2 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Pointer2_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Pointer2_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Terrain Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Unknowns_Pointer2 = new TextCtrl_Long(Unknown_Scroller);
+	Unknowns_Pointer2 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 
 	RMSTerrain = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Terrains Placed on the Map");
 	RMSTerrain_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -1697,7 +1697,7 @@ void AGE_Frame::CreateUnknownControls()
 	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	{
 		RMSTerrain_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-		RMSTerrain_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
+		RMSTerrain_Unknown1[loop] = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	}
 	RMSTerrain_Unknown1_Text[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Proportion *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	RMSTerrain_Unknown1[0]->SetToolTip("% of the total map area");
@@ -1712,7 +1712,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Space_Pointer3 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Pointer3_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Pointer3_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Unit Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Unknowns_Pointer3 = new TextCtrl_Long(Unknown_Scroller);
+	Unknowns_Pointer3 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 
 	RMSUnit = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Units Placed on the Map (Some may appear anyway)");
 	RMSUnit_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -1732,50 +1732,50 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_Unknown1_Grid = new wxGridSizer(3, 5, 5);
 	RMSUnit_Unit_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Unit_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Unit = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Unit = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_HostTerrain_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_HostTerrain_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_HostTerrain = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_HostTerrain = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Unknown3_Grid = new wxGridSizer(4, 0, 0);
 	RMSUnit_Unknown3_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Group Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-	RMSUnit_Unknown3[loop] = new TextCtrl_Byte(Unknown_Scroller, 3);
+	RMSUnit_Unknown3[loop] = new TextCtrl_Byte(AGEwindow, Unknown_Scroller, 3);
 	RMSUnit_Unknown3[0]->SetToolTip("0 Only 1 unit is placed from group\n1 & 2 All units are placed from group");
 	RMSUnit_ObjectsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_ObjectsPerPlayer_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Objects per Group", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_ObjectsPerPlayer = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_ObjectsPerPlayer = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Unknown5_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Fluctuation *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Unknown5 = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Unknown5 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_Unknown5->SetToolTip("Max random variation in the number of objects in the group");
 	RMSUnit_GroupsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_GroupsPerPlayer_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Groups per Player", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_GroupsPerPlayer = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_GroupsPerPlayer = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_Unknown7_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Unknown7_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Group Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_Unknown7 = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_Unknown7 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_Unknown7->SetToolTip("Max distance in tiles, for each object of the group, to the central location of the group");
 	RMSUnit_OwnAtStart_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_OwnAtStart_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Own at Start (-1=Yes) *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_OwnAtStart = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_OwnAtStart = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_OwnAtStart->SetToolTip("Doesn't work if the unit isn't placed for all players");
 	RMSUnit_SetPlaceForAllPlayers_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_SetPlaceForAllPlayers_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Set Place for All Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_SetPlaceForAllPlayers = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_SetPlaceForAllPlayers = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_SetPlaceForAllPlayers->SetToolTip("1 = Done once per player\n-1 = Done once, whatever the number of players is\n-2 = same as -1 ? Cannot find a difference");
 	RMSUnit_MinDistanceToPlayers_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_MinDistanceToPlayers_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Distance to Players", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_MinDistanceToPlayers = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_MinDistanceToPlayers = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_MaxDistanceToPlayers_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_MaxDistanceToPlayers_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Max Distance to Players *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	RMSUnit_MaxDistanceToPlayers = new TextCtrl_Long(Unknown_Scroller);
+	RMSUnit_MaxDistanceToPlayers = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	RMSUnit_MaxDistanceToPlayers->SetToolTip("- Don't use 0 here for units that are own at start\n- 0 is OK for other units (gold/bushes/gazelle/etc)\n- You can use -1 as a wildcard for units that are own at start");
 
 	Unknowns_Space_Pointer4 = new wxBoxSizer(wxHORIZONTAL);
 	Unknowns_Pointer4_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Pointer4_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Unknown Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Unknowns_Pointer4 = new TextCtrl_Long(Unknown_Scroller);
+	Unknowns_Pointer4 = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 
 	RMSUnknown = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Unknowns Placed on the Map");
 	RMSUnknown_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -1796,7 +1796,7 @@ void AGE_Frame::CreateUnknownControls()
 	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
 	{
 		RMSUnknown_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-		RMSUnknown_Unknown1[loop] = new TextCtrl_Long(Unknown_Scroller);
+		RMSUnknown_Unknown1[loop] = new TextCtrl_Long(AGEwindow, Unknown_Scroller);
 	}
 	RMSUnknown_Unknown1_Text[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Proportion *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	RMSUnknown_Unknown1[0]->SetToolTip("% of the total map area");

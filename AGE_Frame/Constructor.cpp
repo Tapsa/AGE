@@ -17,8 +17,13 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	argPath = &aP;
 	AGEwindow = window;
 
+	AGETextCtrl::hexMode.push_back(false);
+	AGETextCtrl::accurateFloats.push_back(false);
+	AGETextCtrl::unSaved.push_back(0);
+	AGETextCtrl::fileLoaded.push_back(0);
+
 	wxString useless;
-	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
 	sscanf(EditorVersionString, "%f", &EditorVersion);
 	Config->Read("/TimesOpened", &TimesOpened, 0);
@@ -31,7 +36,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
-	if(AGEwindow == 1) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 1); // 2 to showcase this feature.
+	if(AGEwindow == 0) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 1); // 2 to showcase this feature.
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
 	Config->Read("DefaultFiles/UseCustomPath", &UseCustomPath, false);
 	Config->Read("DefaultFiles/CustomFolder", &CustomFolder, wxT(""));
@@ -191,9 +196,4 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
-	AGETextCtrl::editable = false;
-	AGETextCtrl::fileLoaded = 0;
-	AGETextCtrl::hexMode = false;
-	AGETextCtrl::accurateFloats = false;
-	AGETextCtrl::unSaved = 0;
 }
