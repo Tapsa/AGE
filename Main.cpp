@@ -8,7 +8,7 @@ bool AGE::OnInit()
 	{
 		wxBusyCursor Wait;
 		windows.resize(1);
-		windows[0] = new AGE_Frame("Advanced Genie Editor " + AGE_AboutDialog::AGE_VER, argPath, copies, true);
+		windows[0] = new AGE_Frame("Advanced Genie Editor " + AGE_AboutDialog::AGE_VER, argPath, copies, 0);
 		windows[0]->SetSize(900, 720);
 		windows[0]->Show(true);
 		SetTopWindow(windows[0]);
@@ -25,7 +25,7 @@ bool AGE::OnInit()
 		{
 			{
 				wxBusyCursor Wait;
-				windows[loop] = new AGE_Frame("AGE window "+lexical_cast<string>(loop+1), argPath, copies, (loop+1));
+				windows[loop] = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+lexical_cast<string>(loop+1), argPath, copies, loop);
 				windows[loop]->SetSize(900, 720);
 				windows[loop]->Show(true);
 			}

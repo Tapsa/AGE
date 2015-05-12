@@ -6,8 +6,8 @@ const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 
 int TextCtrl_Byte::SaveEdits()
 {
-	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
+	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
+	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -37,7 +37,7 @@ int TextCtrl_Byte::SaveEdits()
 					}
 					ChangeValue(lexical_cast<string>((short)*(int8_t*)container[0]));
 					if(LinkedBox) LinkedBox->Update(casted);
-					AGETextCtrl::unSaved += container.size();
+					AGETextCtrl::unSaved[window] += container.size();
 					return 0;
 				}
 				if(*(int8_t*)container[0] != casted)
@@ -47,7 +47,7 @@ int TextCtrl_Byte::SaveEdits()
 						*(int8_t*)pointer = casted;
 					}
 					if(LinkedBox) LinkedBox->Update(casted);
-					AGETextCtrl::unSaved += container.size();
+					AGETextCtrl::unSaved[window] += container.size();
 					return 0;
 				}
 			}
@@ -74,8 +74,8 @@ int TextCtrl_Byte::SaveEdits()
 
 int TextCtrl_UByte::SaveEdits()
 {
-	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
+	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
+	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -105,7 +105,7 @@ int TextCtrl_UByte::SaveEdits()
 					}
 					ChangeValue(lexical_cast<string>((short)*(uint8_t*)container[0]));
 					if(LinkedBox) LinkedBox->Update(casted);
-					AGETextCtrl::unSaved += container.size();
+					AGETextCtrl::unSaved[window] += container.size();
 					return 0;
 				}
 				if(*(uint8_t*)container[0] != casted)
@@ -115,7 +115,7 @@ int TextCtrl_UByte::SaveEdits()
 						*(uint8_t*)pointer = casted;
 					}
 					if(LinkedBox) LinkedBox->Update(casted);
-					AGETextCtrl::unSaved += container.size();
+					AGETextCtrl::unSaved[window] += container.size();
 					return 0;
 				}
 			}
@@ -142,8 +142,8 @@ int TextCtrl_UByte::SaveEdits()
 
 int TextCtrl_Float::SaveEdits()
 {
-	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
+	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
+	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -170,7 +170,7 @@ int TextCtrl_Float::SaveEdits()
 				}
 				ChangeValue(lexical_cast<string>(*(float*)container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 			if(*(float*)container[0] != casted)
@@ -180,7 +180,7 @@ int TextCtrl_Float::SaveEdits()
 					*(float*)pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 		}
@@ -200,8 +200,8 @@ int TextCtrl_Float::SaveEdits()
 
 int TextCtrl_Long::SaveEdits()
 {
-	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
+	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
+	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -229,7 +229,7 @@ int TextCtrl_Long::SaveEdits()
 				}
 				ChangeValue(lexical_cast<string>(*(int32_t*)container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 			if(*(int32_t*)container[0] != casted)
@@ -239,7 +239,7 @@ int TextCtrl_Long::SaveEdits()
 					*(int32_t*)pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 		}
@@ -259,8 +259,8 @@ int TextCtrl_Long::SaveEdits()
 
 int TextCtrl_Short::SaveEdits()
 {
-	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
+	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
+	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -288,7 +288,7 @@ int TextCtrl_Short::SaveEdits()
 				}
 				ChangeValue(lexical_cast<string>(*(int16_t*)container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 			if(*(int16_t*)container[0] != casted)
@@ -298,7 +298,7 @@ int TextCtrl_Short::SaveEdits()
 					*(int16_t*)pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 		}
@@ -318,8 +318,8 @@ int TextCtrl_Short::SaveEdits()
 
 int TextCtrl_UShort::SaveEdits()
 {
-	if(!AGETextCtrl::editable || AGETextCtrl::hexMode || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
+	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
+	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -347,7 +347,7 @@ int TextCtrl_UShort::SaveEdits()
 				}
 				ChangeValue(lexical_cast<string>(*(uint16_t*)container[0]));
 				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 			if(*(uint16_t*)container[0] != casted)
@@ -357,7 +357,7 @@ int TextCtrl_UShort::SaveEdits()
 					*(uint16_t*)pointer = casted;
 				}
 				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 		}
@@ -377,8 +377,8 @@ int TextCtrl_UShort::SaveEdits()
 
 int TextCtrl_String::SaveEdits()	// This may crash the program.
 {
-	if(!AGETextCtrl::editable || container.empty()) return 1;
-	if(curFileLoaded != AGETextCtrl::fileLoaded) return 1;
+	if(container.empty()) return 1;
+	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
@@ -404,7 +404,7 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 					*(string*)pointer = vasili;
 				}
 				ChangeValue(*(string*)container[0]);
-				AGETextCtrl::unSaved += container.size();
+				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
 			fix:
@@ -424,7 +424,7 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 				}
 				ChangeValue(*(string*)container[0]);
 			}
-			AGETextCtrl::unSaved += container.size();
+			AGETextCtrl::unSaved[window] += container.size();
 			return 0;
 		}
 	}
@@ -437,8 +437,8 @@ int TextCtrl_String::SaveEdits()	// This may crash the program.
 
 void TextCtrl_Byte::Update()
 {
-	curFileLoaded = AGETextCtrl::fileLoaded;
-	if(AGETextCtrl::hexMode)
+	curFileLoaded = AGETextCtrl::fileLoaded[window];
+	if(AGETextCtrl::hexMode[window])
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
@@ -454,8 +454,8 @@ void TextCtrl_Byte::Update()
 
 void TextCtrl_UByte::Update()
 {
-	curFileLoaded = AGETextCtrl::fileLoaded;
-	if(AGETextCtrl::hexMode)
+	curFileLoaded = AGETextCtrl::fileLoaded[window];
+	if(AGETextCtrl::hexMode[window])
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
@@ -471,8 +471,8 @@ void TextCtrl_UByte::Update()
 
 void TextCtrl_Float::Update()
 {
-	curFileLoaded = AGETextCtrl::fileLoaded;
-	if(AGETextCtrl::hexMode)
+	curFileLoaded = AGETextCtrl::fileLoaded[window];
+	if(AGETextCtrl::hexMode[window])
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
@@ -481,7 +481,7 @@ void TextCtrl_Float::Update()
 	}
 	else
 	{
-		if(AGETextCtrl::accurateFloats)
+		if(AGETextCtrl::accurateFloats[window])
 		{
 			ChangeValue(lexical_cast<string>(*(float*)container[0]));
 		}
@@ -498,8 +498,8 @@ void TextCtrl_Float::Update()
 
 void TextCtrl_Long::Update()
 {
-	curFileLoaded = AGETextCtrl::fileLoaded;
-	if(AGETextCtrl::hexMode)
+	curFileLoaded = AGETextCtrl::fileLoaded[window];
+	if(AGETextCtrl::hexMode[window])
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
@@ -515,8 +515,8 @@ void TextCtrl_Long::Update()
 
 void TextCtrl_Short::Update()
 {
-	curFileLoaded = AGETextCtrl::fileLoaded;
-	if(AGETextCtrl::hexMode)
+	curFileLoaded = AGETextCtrl::fileLoaded[window];
+	if(AGETextCtrl::hexMode[window])
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
@@ -532,8 +532,8 @@ void TextCtrl_Short::Update()
 
 void TextCtrl_UShort::Update()
 {
-	curFileLoaded = AGETextCtrl::fileLoaded;
-	if(AGETextCtrl::hexMode)
+	curFileLoaded = AGETextCtrl::fileLoaded[window];
+	if(AGETextCtrl::hexMode[window])
 	{
 		stringbuf buffer;
 		ostream os (&buffer);
@@ -549,6 +549,6 @@ void TextCtrl_UShort::Update()
 
 void TextCtrl_String::Update()
 {
-	curFileLoaded = AGETextCtrl::fileLoaded;
+	curFileLoaded = AGETextCtrl::fileLoaded[window];
 	ChangeValue(*(string*)container[0]);
 }

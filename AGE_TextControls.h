@@ -15,7 +15,7 @@ public:
 class AGETextCtrl: public wxTextCtrl
 {
 public:
-	AGETextCtrl(wxWindow *parent, wxString value, int width):
+	AGETextCtrl(wxWindow *parent, int window, wxString value, int width):
 	wxTextCtrl(parent, wxID_ANY, value, wxDefaultPosition, wxSize(width, 20)){}
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
@@ -38,10 +38,11 @@ public:
 
 	AGELinkedBox *LinkedBox; // These are for check and combo boxes.
 	static const wxString BATCHWARNING, BWTITLE, IETITLE;
-	static bool editable, hexMode, accurateFloats;
-	static int unSaved, fileLoaded;
-	int curFileLoaded;
 	vector<void*> container;
+	// Make these window specific
+	static vector<bool> hexMode, accurateFloats;
+	static vector<int> unSaved, fileLoaded;
+	int curFileLoaded, window;
 };
 
 class TextCtrl_DLL: public wxTextCtrl
@@ -56,9 +57,10 @@ public:
 class TextCtrl_Byte: public AGETextCtrl
 {
 public:
-	TextCtrl_Byte(wxWindow *parent, bool petit = false):
-	AGETextCtrl(parent, "", petit ? 30 : 50)
+	TextCtrl_Byte(int window, wxWindow *parent, bool petit = false):
+	AGETextCtrl(parent, window, "", petit ? 30 : 50)
 	{
+		this->window = window;
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 235, 215));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));	// Must-have
@@ -70,9 +72,10 @@ public:
 class TextCtrl_UByte: public AGETextCtrl
 {
 public:
-	TextCtrl_UByte(wxWindow *parent):
-	AGETextCtrl(parent, "", 50)
+	TextCtrl_UByte(int window, wxWindow *parent):
+	AGETextCtrl(parent, window, "", 50)
 	{
+		this->window = window;
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 235, 215));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UByte::OnKillFocus));
@@ -84,9 +87,10 @@ public:
 class TextCtrl_Float: public AGETextCtrl
 {
 public:
-	TextCtrl_Float(wxWindow *parent, bool petit = false):
-	AGETextCtrl(parent, "", petit ? 70 : 100)
+	TextCtrl_Float(int window, wxWindow *parent, bool petit = false):
+	AGETextCtrl(parent, window, "", petit ? 70 : 100)
 	{
+		this->window = window;
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 225, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
@@ -98,9 +102,10 @@ public:
 class TextCtrl_Long: public AGETextCtrl
 {
 public:
-	TextCtrl_Long(wxWindow *parent, bool petit = false):
-	AGETextCtrl(parent, "", petit ? 50 : 100)
+	TextCtrl_Long(int window, wxWindow *parent, bool petit = false):
+	AGETextCtrl(parent, window, "", petit ? 50 : 100)
 	{
+		this->window = window;
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(215, 255, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
@@ -112,9 +117,10 @@ public:
 class TextCtrl_Short: public AGETextCtrl
 {
 public:
-	TextCtrl_Short(wxWindow *parent, bool petit = false):
-	AGETextCtrl(parent, "", petit ? 50 : 100)
+	TextCtrl_Short(int window, wxWindow *parent, bool petit = false):
+	AGETextCtrl(parent, window, "", petit ? 50 : 100)
 	{
+		this->window = window;
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(210, 230, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
@@ -126,9 +132,10 @@ public:
 class TextCtrl_UShort: public AGETextCtrl
 {
 public:
-	TextCtrl_UShort(wxWindow *parent):
-	AGETextCtrl(parent, "", 100)
+	TextCtrl_UShort(int window, wxWindow *parent):
+	AGETextCtrl(parent, window, "", 100)
 	{
+		this->window = window;
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(210, 230, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UShort::OnKillFocus));
@@ -140,9 +147,10 @@ public:
 class TextCtrl_String: public AGETextCtrl
 {
 public:
-	TextCtrl_String(wxWindow *parent, unsigned short CLength = 0):
-	AGETextCtrl(parent, "", 0)
+	TextCtrl_String(int window, wxWindow *parent, unsigned short CLength = 0):
+	AGETextCtrl(parent, window, "", 0)
 	{
+		this->window = window;
 		MaxSize = CLength;
 		SetBackgroundColour(wxColour(220, 255, 220));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_String::OnKillFocus));
