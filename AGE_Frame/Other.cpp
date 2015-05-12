@@ -1,15 +1,13 @@
 #include "../AGE_Frame.h"
 
 wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
-bool AGETextCtrl::editable;
-bool AGETextCtrl::hexMode;
-bool AGETextCtrl::accurateFloats;
-int AGETextCtrl::unSaved;
-int AGETextCtrl::fileLoaded;
+vector<bool> AGETextCtrl::hexMode;
+vector<bool> AGETextCtrl::accurateFloats;
+vector<int> AGETextCtrl::unSaved;
+vector<int> AGETextCtrl::fileLoaded;
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
 {
-	AGETextCtrl::editable = false;
 	wxCommandEvent Selected;
 
 	if(!SkipOpenDialog)
@@ -46,7 +44,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
 		OpenBox.LanguageBox->ChangeValue(Language);
 		OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
-		if(AGEwindow == 1) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
+		if(AGEwindow == 0) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName[0]);
 		if((*argPath).size() > 3)
 		{
@@ -100,7 +98,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		CustomFolder = OpenBox.Path_CustomDefault->GetPath();
 		Language = OpenBox.LanguageBox->GetValue();
 		CustomTerrains = lexical_cast<int>(OpenBox.TerrainsBox->GetValue());
-		if(AGEwindow == 1) SimultaneousFiles = lexical_cast<int>(OpenBox.WindowCountBox->GetValue());
+		if(AGEwindow == 0) SimultaneousFiles = lexical_cast<int>(OpenBox.WindowCountBox->GetValue());
 		DatFileName[0] = OpenBox.Path_DatFileLocation->GetPath();
 
 		if(OpenBox.CheckBox_LangFileLocation->IsChecked())
@@ -136,11 +134,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		if(!load)
 		{
-			if(GenieFile != NULL) AGETextCtrl::editable = true;
 			return;
 		}
-		Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-		if(AGEwindow == 1) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
+		Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+		if(AGEwindow == 0) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
 		Config->Write("DefaultFiles/DriveLetter", DriveLetter);
 		Config->Write("DefaultFiles/UseCustomPath", UseCustomPath);
 		Config->Write("DefaultFiles/CustomFolder", CustomFolder);
@@ -318,9 +315,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		//int TerrainsInData = GenieFile->TerrainBlock.Terrains.size();
 		//for(int terrain = 0; terrain < TerrainsInData; ++terrain)
 		//GenieFile->TerrainBlock.Terrains[terrain].Borders.resize(100, 0); // Fixing broken file
-		AGETextCtrl::unSaved = 0;
-		++AGETextCtrl::fileLoaded;
-		AGETextCtrl::editable = true; // It may be that the kill focus is delayed even after this.
+		AGETextCtrl::unSaved[AGEwindow] = 0;
+		++AGETextCtrl::fileLoaded[AGEwindow];
 	}
 
 	if(GenieFile != NULL)
@@ -1478,7 +1474,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	SaveLangX1P1FileName[0] = SaveBox.Path_LangX1P1FileLocation->GetPath();
 
 	if(!save) return;
-	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
 	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName[0]);
 	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
@@ -1563,8 +1559,8 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		}
 	}
 
-	SetStatusText("Selected files saved. "+lexical_cast<string>(AGETextCtrl::unSaved)+" dat edits.", 0);
-	AGETextCtrl::unSaved = 0;
+	SetStatusText("Selected files saved. "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" dat edits.", 0);
+	AGETextCtrl::unSaved[AGEwindow] = 0;
 }
 
 void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
@@ -1678,13 +1674,13 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case ToolBar_Hex:
 		{
-			AGETextCtrl::hexMode = Event.IsChecked();
+			AGETextCtrl::hexMode[AGEwindow] = Event.IsChecked();
 			LoadLists();
 		}
 		break;
 		case ToolBar_Float:
 		{
-			AGETextCtrl::accurateFloats = Event.IsChecked();
+			AGETextCtrl::accurateFloats[AGEwindow] = Event.IsChecked();
 			LoadLists();
 		}
 		break;
@@ -2020,7 +2016,7 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 
 wxString AGE_Frame::FormatFloat(float value)
 {
-	if(AGETextCtrl::accurateFloats)
+	if(AGETextCtrl::accurateFloats[AGEwindow])
 	return lexical_cast<string>(value);
 
 	stringbuf buffer;
@@ -2031,7 +2027,7 @@ wxString AGE_Frame::FormatFloat(float value)
 
 wxString AGE_Frame::FormatInt(int value)
 {
-	if(!AGETextCtrl::hexMode)
+	if(!AGETextCtrl::hexMode[AGEwindow])
 	return lexical_cast<string>(value);
 
 	stringbuf buffer;
@@ -2070,7 +2066,7 @@ wxString AGE_Frame::CurrentTime()
 
 void AGE_Frame::OnExit(wxCloseEvent &Event)
 {
-	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
 	Config->Write("Interaction/AutoCopy", AutoCopy);
 	Config->Write("Interaction/CopyGraphics", CopyGraphics);
@@ -2081,9 +2077,9 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interface/MaxWindowWidth", MaxWindowWidth);
 	delete Config;
 
-	if(Event.CanVeto() && AGETextCtrl::unSaved > 0)
+	if(Event.CanVeto() && AGETextCtrl::unSaved[AGEwindow] > 0)
 	{
-		if(wxMessageBox("There are "+lexical_cast<string>(AGETextCtrl::unSaved)+" unsaved changes.\nClose anyway?",
+		if(wxMessageBox("There are "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" unsaved changes.\nClose anyway?",
 		"Discard unsaved changes",
 		wxICON_QUESTION | wxYES_NO) != wxYES )
 		{
