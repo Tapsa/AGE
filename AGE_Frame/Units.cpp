@@ -3777,9 +3777,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_GraphicSet = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(120, 20), 0, NULL, wxCB_READONLY);
 	Units_Type_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Units, "");
 	Units_Type_Text = new wxStaticText(Tab_Units, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Type = new TextCtrl_Byte(Tab_Units);
+	Units_Type = new TextCtrl_Byte(AGEwindow, Tab_Units);
 	Units_Type_ComboBox = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
-	Units_Class = new TextCtrl_Short(Tab_Units);
+	Units_Class = new TextCtrl_Short(AGEwindow, Tab_Units);
 	Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
 	Units_Class_ComboBox[0] = new ComboBox_Plus1(Tab_Units, Units_Class);
 	Units_Scroller = new wxScrolledWindow(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(600, 20), wxVSCROLL | wxTAB_TRAVERSAL);
@@ -4189,25 +4189,25 @@ void AGE_Frame::CreateUnitControls()
 
 //	Data Containers
 
-	Units_ID1 = new TextCtrl_Short(Units_Scroller, true);
-	Units_ID2 = new TextCtrl_Short(Units_Scroller, true);
-	Units_ID3 = new TextCtrl_Short(Units_Scroller, true);
-	Units_Name = new TextCtrl_String(Units_Scroller, 30);
-	Units_Name2 = new TextCtrl_String(Units_Scroller, 30);
-	Units_LanguageDLLName = new TextCtrl_UShort(Units_Scroller);
+	Units_ID1 = new TextCtrl_Short(AGEwindow, Units_Scroller, true);
+	Units_ID2 = new TextCtrl_Short(AGEwindow, Units_Scroller, true);
+	Units_ID3 = new TextCtrl_Short(AGEwindow, Units_Scroller, true);
+	Units_Name = new TextCtrl_String(AGEwindow, Units_Scroller, 30);
+	Units_Name2 = new TextCtrl_String(AGEwindow, Units_Scroller, 30);
+	Units_LanguageDLLName = new TextCtrl_UShort(AGEwindow, Units_Scroller);
 	Units_LanguageDLLName->SetToolTip("Usual Unit DLL Pattern for The Conquerors\nName: 5000-5999\nCreation: Name +1000\nHotkey: Name +11000\nHelp: Name +100000, in DLL Name +21000\nHotkey Text: Name +150000, in DLL Name +10000\nTech tree: Name +9000");
 	Units_DLL_LanguageName = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
-	Units_LanguageDLLCreation = new TextCtrl_UShort(Units_Scroller);
+	Units_LanguageDLLCreation = new TextCtrl_UShort(AGEwindow, Units_Scroller);
 	Units_DLL_LanguageCreation = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
-	Units_HotKey = new TextCtrl_Long(Units_Scroller);
+	Units_HotKey = new TextCtrl_Long(AGEwindow, Units_Scroller);
 	Units_HotKey->SetToolTip("10000 + Language DLL Creation (usually)");
 	Units_DLL_HotKey4 = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
-	Units_LanguageDLLHelp = new TextCtrl_Long(Units_Scroller);
+	Units_LanguageDLLHelp = new TextCtrl_Long(AGEwindow, Units_Scroller);
 	Units_LanguageDLLHelp->SetToolTip("100000 + Language DLL Name\nThis is probably linked to the help text below");
 	Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Units_LanguageDLLConverter[0]->SetToolTip("Language help text in DLL\nHit enter to get the correction into dat file");
 	Units_DLL_LanguageHelp = new TextCtrl_DLL(Units_Scroller, wxSize(0, 55));
-	Units_LanguageDLLHotKeyText = new TextCtrl_Long(Units_Scroller);
+	Units_LanguageDLLHotKeyText = new TextCtrl_Long(AGEwindow, Units_Scroller);
 	Units_LanguageDLLHotKeyText->SetToolTip("150000 + Language DLL Name\nThis seems to be used only in AoE (not RoR)\nThis language line has other purposes in SWGB and CC");
 	Units_LanguageDLLConverter[1] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in DLL\nHit enter to get the correction into dat file");
@@ -4230,67 +4230,67 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_Holder_Data = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_GraphicID_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_GraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_GraphicID = new TextCtrl_Short(Units_Scroller);
+	DamageGraphics_GraphicID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	DamageGraphics_GraphicID_ComboBox = new ComboBox_Plus1(Units_Scroller, DamageGraphics_GraphicID);
 	GraphicComboBoxList.push_back(DamageGraphics_GraphicID_ComboBox);
 	DamageGraphics_DamagePercent_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_DamagePercent_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Damage Percent ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_DamagePercent = new TextCtrl_Byte(Units_Scroller);
+	DamageGraphics_DamagePercent = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	DamageGraphics_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Unknown1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Apply Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_Unknown1 = new TextCtrl_Byte(Units_Scroller);
+	DamageGraphics_Unknown1 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	DamageGraphics_Unknown1->SetToolTip("0 (& 1?) Adds graphics on top (flames on buildings)\n2 Replaces original graphics (damaged walls)");
 	DamageGraphics_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_Unknown2 = new TextCtrl_Byte(Units_Scroller);
+	DamageGraphics_Unknown2 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 
-	Units_IconID = new TextCtrl_Short(Units_Scroller);
+	Units_IconID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
-	Units_IconDisabler = new TextCtrl_Short(Units_Scroller);
+	Units_IconDisabler = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_IconDisabler->SetToolTip("Tech attribute 17 changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Units_StandingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_StandingGraphic[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_StandingGraphic[loop]->SetToolTip("Half of units in group use 1st,\nthe rest use 2nd");
 		Units_StandingGraphic_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_StandingGraphic[loop]);
 		GraphicComboBoxList.push_back(Units_StandingGraphic_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Units_DyingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_DyingGraphic[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_DyingGraphic_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_DyingGraphic[loop]);
 		GraphicComboBoxList.push_back(Units_DyingGraphic_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Units_WalkingGraphic[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_WalkingGraphic[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_WalkingGraphic_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_WalkingGraphic[loop]);
 		GraphicComboBoxList.push_back(Units_WalkingGraphic_ComboBox[loop]);
 	}
-	Units_SnowGraphicID = new TextCtrl_Short(Units_Scroller);
+	Units_SnowGraphicID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_SnowGraphicID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_SnowGraphicID);
 	GraphicComboBoxList.push_back(Units_SnowGraphicID_ComboBox);
-	Units_ConstructionGraphicID = new TextCtrl_Short(Units_Scroller);
+	Units_ConstructionGraphicID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_ConstructionGraphicID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ConstructionGraphicID);
 	GraphicComboBoxList.push_back(Units_ConstructionGraphicID_ComboBox);
-	Units_AttackGraphic = new TextCtrl_Short(Units_Scroller);
+	Units_AttackGraphic = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_AttackGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_AttackGraphic);
 	GraphicComboBoxList.push_back(Units_AttackGraphic_ComboBox);
-	Units_GarrisonGraphic = new TextCtrl_Long(Units_Scroller);
+	Units_GarrisonGraphic = new TextCtrl_Long(AGEwindow, Units_Scroller);
 	Units_GarrisonGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_GarrisonGraphic);
 	GraphicComboBoxList.push_back(Units_GarrisonGraphic_ComboBox);
 
-	Units_HitPoints = new TextCtrl_Short(Units_Scroller);
+	Units_HitPoints = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_HitPoints->SetToolTip("-1 Instantly dying unit");
-	Units_Speed = new TextCtrl_Float(Units_Scroller);
-	Units_RotationSpeed = new TextCtrl_Float(Units_Scroller);
+	Units_Speed = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_RotationSpeed = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_RotationSpeed->SetToolTip("Makes it slower");
-	Units_LineOfSight = new TextCtrl_Float(Units_Scroller);
+	Units_LineOfSight = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_LineOfSight->SetToolTip("Maximum (effective) value is 20");
-	Units_SearchRadius = new TextCtrl_Float(Units_Scroller);
-	Units_MaxRange = new TextCtrl_Float(Units_Scroller);
-	Units_MinRange = new TextCtrl_Float(Units_Scroller);
-	Units_DisplayedRange = new TextCtrl_Float(Units_Scroller);
+	Units_SearchRadius = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_MaxRange = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_MinRange = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_DisplayedRange = new TextCtrl_Float(AGEwindow, Units_Scroller);
 
 	Units_Attacks = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Attacks");
 	Units_Attacks_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -4312,23 +4312,23 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Grid_Data2 = new wxGridSizer(2, 5, 5);
 	Attacks_Amount_Holder = new wxBoxSizer(wxVERTICAL);
 	Attacks_Amount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Attacks_Amount = new TextCtrl_Short(Units_Scroller);
+	Attacks_Amount = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Attacks_Class_Holder = new wxBoxSizer(wxVERTICAL);
 	Attacks_Class_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Class *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Attacks_Class = new TextCtrl_Short(Units_Scroller);
+	Attacks_Class = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Attacks_Class->SetToolTip("Armor class that this unit can damage\nYou can make your own classes");
 	Attacks_Class_ComboBox[0] = new ComboBox_Plus1(Units_Scroller, Attacks_Class);
 
-	Units_DisplayedAttack = new TextCtrl_Short(Units_Scroller);
-	Units_Delay = new TextCtrl_Short(Units_Scroller);
+	Units_DisplayedAttack = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	Units_Delay = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_Delay->SetToolTip("Graphical delay in frames before projectile is shot");
-	Units_AccuracyPercent = new TextCtrl_Short(Units_Scroller);
-	Units_AccuracyErrorRadius = new TextCtrl_Float(Units_Scroller);
+	Units_AccuracyPercent = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	Units_AccuracyErrorRadius = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_AccuracyErrorRadius->SetToolTip("Higher values will make the unit less accurate");
-	Units_ReloadTime1 = new TextCtrl_Float(Units_Scroller);
-	Units_ReloadTime2 = new TextCtrl_Float(Units_Scroller);
-	Units_BlastRadius = new TextCtrl_Float(Units_Scroller);
-	Units_BlastLevel = new TextCtrl_Byte(Units_Scroller);
+	Units_ReloadTime1 = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_ReloadTime2 = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_BlastRadius = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_BlastLevel = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_BlastLevel->SetToolTip("How blast radius affects units\n0 Damages resources also\n1 Damages trees also\n2 Damages nearby units\n3 Damages only targeted unit");
 
 	Units_Armors = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Armors");
@@ -4350,28 +4350,28 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_Holder_Data3 = new wxBoxSizer(wxVERTICAL);
 	Armors_Amount_Holder = new wxBoxSizer(wxVERTICAL);
 	Armors_Amount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Armors_Amount = new TextCtrl_Short(Units_Scroller);
+	Armors_Amount = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Armors_Class_Holder = new wxBoxSizer(wxVERTICAL);
 	Armors_Class_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Class *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Armors_Class = new TextCtrl_Short(Units_Scroller);
+	Armors_Class = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Armors_Class->SetToolTip("Attack class from which this unit can take damage\nYou can make your own classes");
 	Attacks_Class_ComboBox[1] = new ComboBox_Plus1(Units_Scroller, Armors_Class);
 
-	Units_DefaultArmor = new TextCtrl_Short(Units_Scroller);
+	Units_DefaultArmor = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_DefaultArmor->SetToolTip("This armor is used for all attack types that do not have corresponding armor type\nCan be negative only in The Conquerors and later games");
-	Units_TerRestrictionForDmgMultiply = new TextCtrl_Short(Units_Scroller);
+	Units_TerRestrictionForDmgMultiply = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_TerRestrictionForDmgMultiply->SetToolTip("Receive damage based on which terrain this unit stands on\nTech attribute 18 changes this\nThe damage received by this unit is\nmultiplied by the accessible values on\nthe specified terrain restriction");
 	Units_TerRestrictionForDmgMultiply_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerRestrictionForDmgMultiply);
 	TerrainRestrictionComboBoxList.push_back(Units_TerRestrictionForDmgMultiply_ComboBox);
-	Units_DisplayedMeleeArmour = new TextCtrl_Short(Units_Scroller);
-	Units_DisplayedPierceArmour = new TextCtrl_Short(Units_Scroller);
-	Units_ResourceCapacity = new TextCtrl_Short(Units_Scroller);
-	Units_ResourceDecay = new TextCtrl_Float(Units_Scroller);
+	Units_DisplayedMeleeArmour = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	Units_DisplayedPierceArmour = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	Units_ResourceCapacity = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	Units_ResourceDecay = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_ResourceDecay->SetToolTip("Can alter corpses' decay time\nSet to -1 for never decaying");
-	Units_WorkRate = new TextCtrl_Float(Units_Scroller);
-	Units_GarrisonCapacity = new TextCtrl_Byte(Units_Scroller);
+	Units_WorkRate = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_GarrisonCapacity = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_GarrisonCapacity->SetToolTip("If the unit has garrisoned units inside,\ngraphics tab \"New Speed?\" determines its new speed?");
-	Units_GarrisonType = new TextCtrl_UByte(Units_Scroller);
+	Units_GarrisonType = new TextCtrl_UByte(AGEwindow, Units_Scroller);
 	Units_GarrisonType_Grid = new wxGridSizer(8, 0, 0);
 	for(short loop = 0; loop < 8; ++loop)
 	Units_GarrisonType_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20));
@@ -4380,103 +4380,103 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonType_CheckBox[2]->SetToolTip("Cavalry/Mounted");
 	Units_GarrisonType_CheckBox[3]->SetToolTip("Monk/Jedi");
 	Units_GarrisonType_CheckBox[4]->SetToolTip("SW: Livestock");
-	Units_GarrisonHealRate = new TextCtrl_Float(Units_Scroller);
+	Units_GarrisonHealRate = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_GarrisonHealRate->SetToolTip("Building's garrisoned units' healing speed factor");
 
-	Units_ProjectileUnitID = new TextCtrl_Short(Units_Scroller);
+	Units_ProjectileUnitID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_ProjectileUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ProjectileUnitID);
 	UnitComboBoxList.push_back(Units_ProjectileUnitID_ComboBox);
-	Units_AttackMissileDuplicationUnit = new TextCtrl_Long(Units_Scroller);
+	Units_AttackMissileDuplicationUnit = new TextCtrl_Long(AGEwindow, Units_Scroller);
 	Units_AttackMissileDuplicationUnit->SetToolTip("Uses its own attack values!");
 	Units_AttackMissileDuplicationUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_AttackMissileDuplicationUnit);
 	UnitComboBoxList.push_back(Units_AttackMissileDuplicationUnit_ComboBox);
-	Units_ChargingGraphic = new TextCtrl_Long(Units_Scroller);
+	Units_ChargingGraphic = new TextCtrl_Long(AGEwindow, Units_Scroller);
 	Units_ChargingGraphic->SetToolTip("Used just before the unit reaches its target enemy");
 	Units_ChargingGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ChargingGraphic);
 	GraphicComboBoxList.push_back(Units_ChargingGraphic_ComboBox);
-	Units_ChargingMode = new TextCtrl_Byte(Units_Scroller);
+	Units_ChargingMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_ChargingMode->SetToolTip("0 Default\n3 Unit must walk to enemy when ordered to attack it\nAttack duplication graphics activate too");
-	Units_AttackMissileDuplicationAmount1 = new TextCtrl_Float(Units_Scroller);
+	Units_AttackMissileDuplicationAmount1 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_AttackMissileDuplicationAmount1->SetToolTip("Duplicated missiles when no units are garrisoned inside");
-	Units_AttackMissileDuplicationAmount2 = new TextCtrl_Byte(Units_Scroller);
+	Units_AttackMissileDuplicationAmount2 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_AttackMissileDuplicationAmount2->SetToolTip("Maximum duplicated missiles when garrison capacity is full");
 	for(short loop = 0; loop < 3; ++loop)
-	Units_AttackMissileDuplicationSpawning[loop] = new TextCtrl_Float(Units_Scroller);
+	Units_AttackMissileDuplicationSpawning[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_AttackMissileDuplicationSpawning[0]->SetToolTip("Spawning area's width");
 	Units_AttackMissileDuplicationSpawning[1]->SetToolTip("Spawning area's length");
 	Units_AttackMissileDuplicationSpawning[2]->SetToolTip("Spawning point's randomness inside the spawning area\n0 from a single spot\n1 Totally randomly inside the spawning area\n1+ Less randomly");
 	for(short loop = 0; loop < 3; ++loop)
-	Units_GraphicDisplacement[loop] = new TextCtrl_Float(Units_Scroller);
+	Units_GraphicDisplacement[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_GraphicDisplacement[0]->SetToolTip("Left/Right distance");
 	Units_GraphicDisplacement[1]->SetToolTip("Spawning distance from the unit");
 	Units_GraphicDisplacement[2]->SetToolTip("Height");
 
-	Units_StretchMode = new TextCtrl_Byte(Units_Scroller);
+	Units_StretchMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_StretchMode->SetToolTip("0 Default\n1 Projectile falls vertically to the bottom of the map\n3 Teleporting projectiles");
-	Units_CompensationMode = new TextCtrl_Byte(Units_Scroller);
+	Units_CompensationMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_CompensationMode->SetToolTip("Tech attribute 19 changes this\n0 Shoot where the target is now\n1 Shoot where the target is going to be");
-	Units_DropAnimationMode = new TextCtrl_Byte(Units_Scroller);
+	Units_DropAnimationMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_DropAnimationMode->SetToolTip("0 Doesn't disappear after hitting the target\n1 Disappears\n2 SWGB artillery fire has this");
-	Units_PenetrationMode = new TextCtrl_Byte(Units_Scroller);
+	Units_PenetrationMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_PenetrationMode->SetToolTip("0 Stops the graphics\n1 Graphics pass through the target instead of stopping\nOnly affects the graphics of the projectile");
-	Units_Unknown24 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown24 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown24->SetToolTip("Bullets have this as 1");
-	Units_ProjectileArc = new TextCtrl_Float(Units_Scroller);
+	Units_ProjectileArc = new TextCtrl_Float(AGEwindow, Units_Scroller);
 
-	Units_Enabled = new TextCtrl_Byte(Units_Scroller);
+	Units_Enabled = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
 	Units_Enabled_CheckBox = new CheckBox_2State(Units_Scroller, "No Research *", Units_Enabled);
-	Units_Disabled = new TextCtrl_Byte(Units_Scroller);
+	Units_Disabled = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Disabled->SetToolTip("0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
-	Units_DeathMode = new TextCtrl_Byte(Units_Scroller);
+	Units_DeathMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_DeathMode->SetToolTip("Reviving does not make it usable");
 	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "Death: Revives *", Units_DeathMode);
-	Units_HideInEditor = new TextCtrl_Byte(Units_Scroller);
+	Units_HideInEditor = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide in Editor", Units_HideInEditor);
-	Units_AirMode = new TextCtrl_Byte(Units_Scroller);
+	Units_AirMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_AirMode->SetToolTip("1 for no footprints");
 	Units_AirMode_CheckBox = new CheckBox_2State(Units_Scroller, "Air Mode *", Units_AirMode);
-	Units_FlyMode = new TextCtrl_Byte(Units_Scroller);
+	Units_FlyMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_FlyMode->SetToolTip("Requires class 22 and air mode 1?\n0 Normal\n1 Graphics appear higher than the shadow");
 	Units_FlyMode_CheckBox = new CheckBox_2State(Units_Scroller, "Fly Mode", Units_FlyMode);
-	Units_SheepConversion = new TextCtrl_Short(Units_Scroller, true);
+	Units_SheepConversion = new TextCtrl_Short(AGEwindow, Units_Scroller, true);
 	Units_SheepConversion->SetToolTip("To get the unit auto-converted to enemy,\nuse unit command 107, which sheep and monument have\nAll somehow auto-convertible units have this set to 0\nMost other units have -1");
 	Units_SheepConversion_CheckBox = new CheckBox_ZeroIsYes(Units_Scroller, "Convert Herd *", Units_SheepConversion);
-	Units_AnimalMode = new TextCtrl_Byte(Units_Scroller);
+	Units_AnimalMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_AnimalMode_CheckBox = new CheckBox_2State(Units_Scroller, "Animal Mode", Units_AnimalMode);
-	Units_AdjacentMode = new TextCtrl_Byte(Units_Scroller);
+	Units_AdjacentMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_AdjacentMode->SetToolTip("0 Default\n1 Adjacent buildings can change this unit's graphics");
 	Units_AdjacentMode_CheckBox = new CheckBox_2State(Units_Scroller, "Adjacent Mode *", Units_AdjacentMode);
-	Units_DisappearsWhenBuilt = new TextCtrl_Byte(Units_Scroller);
+	Units_DisappearsWhenBuilt = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_DisappearsWhenBuilt->SetToolTip("Useful for stack unit placement\n0 Default\n1 Makes the building disappear when built");
 	Units_Unknown31b_CheckBox = new CheckBox_2State(Units_Scroller, "Built: Vanishes *", Units_DisappearsWhenBuilt);
-	Units_TowerMode = new TextCtrl_Byte(Units_Scroller);
+	Units_TowerMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_TowerMode_CheckBox = new CheckBox_2State(Units_Scroller, "Tower Mode", Units_TowerMode);
-	Units_HeroMode = new TextCtrl_Byte(Units_Scroller);
+	Units_HeroMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_HeroMode_CheckBox = new CheckBox_2State(Units_Scroller, "Hero Mode", Units_HeroMode);
 
-	Units_PlacementMode = new TextCtrl_Byte(Units_Scroller);
+	Units_PlacementMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_PlacementMode->SetToolTip("0 Can be placed on top of other units in scenario editor\n5 Cannot be placed on top of other units in scenario editor");
-	Units_HillMode = new TextCtrl_Byte(Units_Scroller);
+	Units_HillMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_HillMode->SetToolTip("0 No restriction\n2 Restricts placement to flat land\n3 Allows placement on hills for the most part");
 	Units_VisibleInFog_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Fog Visibility *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_VisibleInFog = new TextCtrl_Byte(Units_Scroller);
+	Units_VisibleInFog = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_VisibleInFog->SetToolTip("0 Not visible\n1 Visible\n3 Inverted visibility");
-	Units_InteractionMode = new TextCtrl_Byte(Units_Scroller);
+	Units_InteractionMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_InteractionMode->SetToolTip("0 & 1 Unable to select, move or attack\n2 Can select, unable to move or attack\n3 Can select and attack, unable to move\n4 Can select, move and attack\n5+ Select and move?");
-	Units_MinimapMode = new TextCtrl_Byte(Units_Scroller);
+	Units_MinimapMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_MinimapMode->SetToolTip("0 & 6-10 No dot on minimap\n1 Square dot turning white when selected\n2 Diamond dot turning white when selected\n3 Diamond dot keeping color\n4 & 5 Larger spot, not following the unit, no blinking when attacked, everyone can see it\n");
-	Units_MinimapColor = new TextCtrl_UByte(Units_Scroller);
+	Units_MinimapColor = new TextCtrl_UByte(AGEwindow, Units_Scroller);
 	Units_MinimapColor->SetToolTip("Minimap mode 4 allows this to work");
-	Units_AttackMode = new TextCtrl_Byte(Units_Scroller);
+	Units_AttackMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_AttackMode->SetToolTip("This may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
-	Units_EdibleMeat = new TextCtrl_Byte(Units_Scroller);
+	Units_EdibleMeat = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_EdibleMeat->SetToolTip("0 Default\n1 Rotting meat that can be gathered");
-	Units_VillagerMode = new TextCtrl_Byte(Units_Scroller);
+	Units_VillagerMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_VillagerMode->SetToolTip("Changes according to task\n1 Male\n2 Female");
 
-	Units_Attribute = new TextCtrl_UByte(Units_Scroller);
+	Units_Attribute = new TextCtrl_UByte(AGEwindow, Units_Scroller);
 	Units_Attribute->SetToolTip("This is a byte of eight booleans\nYou can combine these attributes");
 	Units_Attribute_Grid = new wxGridSizer(8, 0, 0);
 	for(short loop = 0; loop < 8; ++loop)
@@ -4489,134 +4489,134 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attribute_CheckBox[5]->SetToolTip("SW: Biological unit");
 	Units_Attribute_CheckBox[6]->SetToolTip("SW: Self-shielding unit");
 	Units_Attribute_CheckBox[7]->SetToolTip("Invisible unit");
-	Units_Civ = new TextCtrl_Byte(Units_Scroller);
+	Units_Civ = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Civ_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Civ);
 	CivComboBoxList.push_back(Units_Civ_ComboBox);
-	Units_Unknown9 = new TextCtrl_Short(Units_Scroller);
+	Units_Unknown9 = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_Unknown9->SetToolTip("This is actually leftover from attribute+civ variable\nProbably useless");
-	Units_DeadUnitID = new TextCtrl_Short(Units_Scroller);
+	Units_DeadUnitID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_DeadUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DeadUnitID);
 	UnitComboBoxList.push_back(Units_DeadUnitID_ComboBox);
-	Units_Unitline = new TextCtrl_Short(Units_Scroller);
+	Units_Unitline = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_Unitline_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Unitline);
-	Units_MinTechLevel = new TextCtrl_Byte(Units_Scroller);
+	Units_MinTechLevel = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_MinTechLevel_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_MinTechLevel);
 	ResearchComboBoxList.push_back(Units_MinTechLevel_ComboBox);
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Units_PlacementTerrain[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_PlacementTerrain[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_PlacementTerrain_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_PlacementTerrain[loop]);
 		TerrainComboBoxList.push_back(Units_PlacementTerrain_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Units_PlacementBypassTerrain[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_PlacementBypassTerrain[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_PlacementBypassTerrain[loop]->SetToolTip("Required terrain on some side");
 		Units_PlacementBypassTerrain_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_PlacementBypassTerrain[loop]);
 		TerrainComboBoxList.push_back(Units_PlacementBypassTerrain_ComboBox[loop]);
 	}
-	Units_TerrainRestriction = new TextCtrl_Short(Units_Scroller);
+	Units_TerrainRestriction = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_TerrainRestriction_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerrainRestriction);
 	TerrainRestrictionComboBoxList.push_back(Units_TerrainRestriction_ComboBox);
-	Units_TerrainID = new TextCtrl_Short(Units_Scroller);
+	Units_TerrainID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_TerrainID->SetToolTip("Terrain produced under a building when completed");
 	Units_TerrainID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerrainID);
 	TerrainComboBoxList.push_back(Units_TerrainID_ComboBox);
-	Units_OldTerrainLikeID = new TextCtrl_Short(Units_Scroller);
+	Units_OldTerrainLikeID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_OldTerrainLikeID->SetToolTip("ES forgot to remove this before AoE was released.\nThis points to removed data block\nthat was like terrain borders.\nYou could build roads back in 1996.");
-	Units_ResearchID = new TextCtrl_Short(Units_Scroller);
+	Units_ResearchID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_ResearchID->SetToolTip("Causes that research to be researched when the building is created");
 	Units_ResearchID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ResearchID);
 	ResearchComboBoxList.push_back(Units_ResearchID_ComboBox);
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Units_DropSite[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_DropSite[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_DropSite[loop]->SetToolTip("Giving a villager's drop site to a cart-like unit\ncan allow you to have mobile resource-gatherers,\nsimilar to those in Age of Mythology.");
 		Units_DropSite_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_DropSite[loop]);
 		UnitComboBoxList.push_back(Units_DropSite_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
-	Units_SizeRadius[loop] = new TextCtrl_Float(Units_Scroller, true);
+	Units_SizeRadius[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller, true);
 	for(short loop = 0; loop < 2; ++loop)
-	Units_EditorRadius[loop] = new TextCtrl_Float(Units_Scroller, true);
+	Units_EditorRadius[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller, true);
 	Units_SelectionRadiusBox = new wxBoxSizer(wxHORIZONTAL);
 	for(short loop = 0; loop < 2; ++loop)
-	Units_SelectionRadius[loop] = new TextCtrl_Float(Units_Scroller, true);
-	Units_Unselectable = new TextCtrl_Byte(Units_Scroller);
+	Units_SelectionRadius[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller, true);
+	Units_Unselectable = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unselectable_CheckBox = new CheckBox_2State(Units_Scroller, "Unselectable", Units_Unselectable);
-	Units_SelectionMask = new TextCtrl_Byte(Units_Scroller);
+	Units_SelectionMask = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_SelectionMask->SetToolTip("Any odd value except 7 - Mask displayed behind buildings\nAny even value except 6, 10 - Mask not displayed\n-1, 7 - Mask partially displayed when in the open\n6, 10 - Building, causes mask to appear on units behind it\n");
-	Units_SelectionShapeType = new TextCtrl_Byte(Units_Scroller);
+	Units_SelectionShapeType = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_SelectionShapeType->SetToolTip("Seems to control 3 things\nIf square or round, value 5\nIf real size or selection size is used, value 2\nIf walkable or not, value 0");
-	Units_SelectionShape = new TextCtrl_Byte(Units_Scroller);
+	Units_SelectionShape = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_SelectionShape->SetToolTip("0 Square\n1+ Round");
-	Units_SelectionEffect = new TextCtrl_Byte(Units_Scroller);
+	Units_SelectionEffect = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_SelectionEffect->SetToolTip("0\n1 HP Bar on, permanent darker outline in editor only\n4 HP Bar off, normal outline\n5, 8-9 HP Bar on\n2 HP Bar on, normal outline\n3 HP Bar off, selection shadow\n6-7 HP Bar off\nNote: this doesn't work with all units");
-	Units_EditorSelectionColour = new TextCtrl_UByte(Units_Scroller);
+	Units_EditorSelectionColour = new TextCtrl_UByte(AGEwindow, Units_Scroller);
 	Units_EditorSelectionColour->SetToolTip("0 most\n-16 fish trap farm\n52 dead farm, OLD-(___)\n116 flare, WHAL1, WHAL2, DOLP, Great-fish\n-123 all fish");
-	Units_TrackingUnit = new TextCtrl_Short(Units_Scroller);
+	Units_TrackingUnit = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_TrackingUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TrackingUnit);
 	UnitComboBoxList.push_back(Units_TrackingUnit_ComboBox);
-	Units_TrackingUnitUsed = new TextCtrl_Byte(Units_Scroller);
+	Units_TrackingUnitUsed = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_TrackingUnitUsed->SetToolTip("-1 unless a tracking unit value is present\n2 all projectiles with a tracking unit");
-	Units_TrackingUnitDensity = new TextCtrl_Float(Units_Scroller);
+	Units_TrackingUnitDensity = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_TrackingUnitDensity->SetToolTip("0 unless tracking unit value is present\n0.5 trade carts\n0.12 MFFFG(projectile)\n0.4 other projectiles");
-	Units_CommandAttribute = new TextCtrl_Byte(Units_Scroller);
+	Units_CommandAttribute = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_CommandAttribute->SetToolTip("Class and this sets the interface for this unit\n0 Actions: Delete, Garrison, Stop | Attributes: Hit Points\n1 Animal\n2 Non-Military Building (build page 1)\n3 Villager\n4 Military Unit\n5 Trading Unit\n6 Monk\n7 Transport Ship\n8 Relic / Monk with Relic\n9 Fishing Ship\n10 Military Building (build page 2)\n11 Shield Building (build page 3)");
-	Units_TrainTime = new TextCtrl_Short(Units_Scroller);
-	Units_TrainLocationID = new TextCtrl_Short(Units_Scroller);
+	Units_TrainTime = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	Units_TrainLocationID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_TrainLocationID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TrainLocationID);
 	UnitComboBoxList.push_back(Units_TrainLocationID_ComboBox);
-	Units_ButtonID = new TextCtrl_Byte(Units_Scroller);
+	Units_ButtonID = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_ButtonID->SetToolTip("First page (also second in TC) 1-15\nSecond (dock) page 21-35\nThird page same as first (Star Wars)\nFirst page in AoE/RoR 1-10\nSecond page in AoE/RoR 11-20");
 	for(short loop = 0; loop < 3; ++loop)
 	{
-		ResourceStorage_Type[loop] = new TextCtrl_Short(Units_Scroller);
+		ResourceStorage_Type[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		ResourceStorage_Type_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, ResourceStorage_Type[loop]);
 		ResourceComboBoxList.push_back(ResourceStorage_Type_ComboBox[loop]);
-		ResourceStorage_Amount[loop] = new TextCtrl_Float(Units_Scroller);
-		ResourceStorage_Enabled[loop] = new TextCtrl_Byte(Units_Scroller);
+		ResourceStorage_Amount[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller);
+		ResourceStorage_Enabled[loop] = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 		ResourceStorage_Enabled[loop]->SetToolTip("0 Decayable resource\n1 Stored after death also\n2 Resets on dying, enables instantly\n4 Resets on dying, enables on completion");
 	}
 	for(short loop = 0; loop < 3; ++loop)
 	{
-		Units_CostType[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_CostType[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_CostType_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_CostType[loop]);
 		ResourceComboBoxList.push_back(Units_CostType_ComboBox[loop]);
-		Units_CostAmount[loop] = new TextCtrl_Short(Units_Scroller);
-		Units_CostUsed[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_CostAmount[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
+		Units_CostUsed[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_CostUsed[loop]->SetToolTip("If set to 0 and there is an amount, the amount is required but not paid");
 		Units_CostUsed_CheckBox[loop] = new CheckBox_2State(Units_Scroller, "Used", Units_CostUsed[loop]);
 	}
-	Units_StackUnitID = new TextCtrl_Short(Units_Scroller);
+	Units_StackUnitID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_StackUnitID->SetToolTip("Second building to be placed directly on top of this building\nAdditional building gets added every time you load the scenario");
 	Units_StackUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_StackUnitID);
 	UnitComboBoxList.push_back(Units_StackUnitID_ComboBox);
-	Units_HeadUnit = new TextCtrl_Short(Units_Scroller);
+	Units_HeadUnit = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_HeadUnit->SetToolTip("The building that an annex building is attached to");
 	Units_HeadUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_HeadUnit);
 	UnitComboBoxList.push_back(Units_HeadUnit_ComboBox);
-	Units_TransformUnit = new TextCtrl_Short(Units_Scroller);
+	Units_TransformUnit = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_TransformUnit->SetToolTip("Determines what the unit changes into when given the order to unpack");
 	Units_TransformUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TransformUnit);
 	UnitComboBoxList.push_back(Units_TransformUnit_ComboBox);
-	Units_PileUnit = new TextCtrl_Short(Units_Scroller);
+	Units_PileUnit = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_PileUnit->SetToolTip("Appears when the building dies\nDoes not appear with delete command");
 	Units_PileUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_PileUnit);
 	UnitComboBoxList.push_back(Units_PileUnit_ComboBox);
 	for(short loop = 0; loop < 4; ++loop)
 	{
-		Units_AnnexUnit[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_AnnexUnit[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_AnnexUnit_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_AnnexUnit[loop]);
 		UnitComboBoxList.push_back(Units_AnnexUnit_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 4; ++loop)
 	{
 		for(short loop2 = 0; loop2 < 2; ++loop2)
-		Units_AnnexUnitMisplacement[loop][loop2] = new TextCtrl_Float(Units_Scroller);
+		Units_AnnexUnitMisplacement[loop][loop2] = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	}
 	for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
-	Units_LootSwitch[loop] = new TextCtrl_Byte(Units_Scroller);
+	Units_LootSwitch[loop] = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_LootSwitch[0]->SetToolTip("Stone Loot Switch");
 	Units_LootSwitch[1]->SetToolTip("Wood Loot Switch");
 	Units_LootSwitch[2]->SetToolTip("Ore Loot Switch");
@@ -4624,63 +4624,63 @@ void AGE_Frame::CreateUnitControls()
 	Units_LootSwitch[4]->SetToolTip("Food Loot Switch");
 	Units_LootSwitch[5]->SetToolTip("Goods Loot Switch");
 
-	Units_SelectionSound = new TextCtrl_Short(Units_Scroller);
+	Units_SelectionSound = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_SelectionSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_SelectionSound);
 	SoundComboBoxList.push_back(Units_SelectionSound_ComboBox);
-	Units_DyingSound = new TextCtrl_Short(Units_Scroller);
+	Units_DyingSound = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_DyingSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DyingSound);
 	SoundComboBoxList.push_back(Units_DyingSound_ComboBox);
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Units_TrainSound[loop] = new TextCtrl_Short(Units_Scroller);
+		Units_TrainSound[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		Units_TrainSound_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_TrainSound[loop]);
 		SoundComboBoxList.push_back(Units_TrainSound_ComboBox[loop]);
 	}
-	Units_AttackSound = new TextCtrl_Short(Units_Scroller);
+	Units_AttackSound = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_AttackSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_AttackSound);
 	SoundComboBoxList.push_back(Units_AttackSound_ComboBox);
-	Units_MoveSound = new TextCtrl_Short(Units_Scroller);
+	Units_MoveSound = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_MoveSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_MoveSound);
 	SoundComboBoxList.push_back(Units_MoveSound_ComboBox);
-	Units_ConstructionSound = new TextCtrl_Short(Units_Scroller);
+	Units_ConstructionSound = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_ConstructionSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ConstructionSound);
 	SoundComboBoxList.push_back(Units_ConstructionSound_ComboBox);
-	Units_UnknownSound = new TextCtrl_Short(Units_Scroller);
+	Units_UnknownSound = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_UnknownSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_UnknownSound);
 	SoundComboBoxList.push_back(Units_UnknownSound_ComboBox);
 
-	Units_HPBarHeight1 = new TextCtrl_Float(Units_Scroller);
+	Units_HPBarHeight1 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_HPBarHeight1->SetToolTip("Setting \"Air Mode\" to 1 and this to 0 causes farms to be walkable in AoE/RoR");
-	Units_HPBarHeight2 = new TextCtrl_Float(Units_Scroller);
+	Units_HPBarHeight2 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_HPBarHeight2->SetToolTip("Vertical distance from ground");
 
-	Units_Unknown1 = new TextCtrl_Short(Units_Scroller);
-	Units_BlastType = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown1 = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	Units_BlastType = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_BlastType->SetToolTip("0 projectiles, dead units, fish, relics, trees\n0 gates, town center\n0 deer(unmoving), FLDOG\n1 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n3 boar\n3 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n3 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 monks, BDGAL, ABGAL");
-	Units_Unknown2 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown2 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown2->SetToolTip("Action from mouse right-click?\n0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
-	Units_Unknown3A = new TextCtrl_Float(Units_Scroller);
+	Units_Unknown3A = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_Unknown3A->SetToolTip("Seems to be 1 on more or less living things");
-	Units_Unknown6 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown6 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown6->SetToolTip("Seems to be 1 on all resource deposits");
-	Units_Unknown7 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown7 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
-	Units_Unknown8 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown8 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n0 wood?\n1 berry\n2 fish\n3 stone/ore deposit\n4 gold/nova deposit\n5 ore (not SW) deposit?");
 
-	Units_Unknown11 = new TextCtrl_Byte(Units_Scroller);
-	Units_Unknown16 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown11 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_Unknown16 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
-	Units_Unknown16B[loop] = new TextCtrl_Float(Units_Scroller);
+	Units_Unknown16B[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller);
 
-	Units_Unknown26 = new TextCtrl_Long(Units_Scroller);
-	Units_Unknown27 = new TextCtrl_Long(Units_Scroller);
-	Units_Unknown28 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown26 = new TextCtrl_Long(AGEwindow, Units_Scroller);
+	Units_Unknown27 = new TextCtrl_Long(AGEwindow, Units_Scroller);
+	Units_Unknown28 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown28->SetToolTip("0 projectiles, buildings, dead units, boar\n1 villagers\n2 melee\n3 mounted units\n4 relic cart, relics\n5 archers\n6 monks");
 
-	Units_Unknown33 = new TextCtrl_Byte(Units_Scroller);
+	Units_Unknown33 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	//Units_Unknown33->SetToolTip("0 Default\n1 Counts as player being alive?");
-	Units_Unknown35 = new TextCtrl_Float(Units_Scroller);
+	Units_Unknown35 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_Unknown35->SetToolTip("Probably related to garrison heal");
 
 	Units_CommandHolder_Lists = new wxBoxSizer(wxVERTICAL);
@@ -4704,66 +4704,66 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandHolder_Grid1 = new wxGridSizer(2, 5, 5);
 	Units_CommandHolder_Grid2 = new wxGridSizer(2, 5, 5);
 	Units_CommandHolder_Grid3 = new wxGridSizer(1, 5, 5);
-	Units_Exists = new TextCtrl_Byte(Units_Scroller);
+	Units_Exists = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 
 	UnitCommands_1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	UnitCommands_One_Holder = new wxBoxSizer(wxHORIZONTAL);
 	UnitCommands_One_Text = new wxStaticText(Units_Scroller, wxID_ANY, "One ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_One = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_One = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_ID_Holder = new wxBoxSizer(wxHORIZONTAL);
 	UnitCommands_ID_Text = new wxStaticText(Units_Scroller, wxID_ANY, "ID ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_ID = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_ID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_Type_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Type_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Action Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Type = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_Type = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_Type_ComboBox = new wxOwnerDrawnComboBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	UnitCommands_ClassID_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ClassID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Class", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_ClassID = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_ClassID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_Class_ComboBox[1] = new ComboBox_Plus1(Units_Scroller, UnitCommands_ClassID);
 	UnitCommands_UnitID_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_UnitID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_UnitID = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_UnitID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_UnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_UnitID);
 	UnitComboBoxList.push_back(UnitCommands_UnitID_ComboBox);
 	UnitCommands_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown2 = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_Unknown2 = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_ResourceIn_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ResourceIn_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource In", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_ResourceIn = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_ResourceIn = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_ResourceIn_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceIn);
 	ResourceComboBoxList.push_back(UnitCommands_ResourceIn_ComboBox);
 	UnitCommands_ProductivityResource_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ProductivityResource_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Productivity Resource *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_ProductivityResource = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_ProductivityResource = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_ProductivityResource->SetToolTip("Resource that multiplies the amount you can gather");
 	UnitCommands_ProductivityResource_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ProductivityResource);
 	ResourceComboBoxList.push_back(UnitCommands_ProductivityResource_ComboBox);
 	UnitCommands_ResourceOut_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ResourceOut_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Out", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_ResourceOut = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_ResourceOut = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_ResourceOut_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceOut);
 	ResourceComboBoxList.push_back(UnitCommands_ResourceOut_ComboBox);
 	UnitCommands_Resource_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Resource_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Resource = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_Resource = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_Resource_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_Resource);
 	ResourceComboBoxList.push_back(UnitCommands_Resource_ComboBox);
 	UnitCommands_WorkRateMultiplier_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_WorkRateMultiplier_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate Multiplier", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_WorkRateMultiplier = new TextCtrl_Float(Units_Scroller);
+	UnitCommands_WorkRateMultiplier = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	UnitCommands_ExecutionRadius_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ExecutionRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Execution Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_ExecutionRadius = new TextCtrl_Float(Units_Scroller);
+	UnitCommands_ExecutionRadius = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	UnitCommands_ExtraRange_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ExtraRange_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Extra Range", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_ExtraRange = new TextCtrl_Float(Units_Scroller);
+	UnitCommands_ExtraRange = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	UnitCommands_Graphics_Grid = new wxGridSizer(3, 5, 5);
 	for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 	{
 		UnitCommands_Graphics_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-		UnitCommands_Graphics[loop] = new TextCtrl_Short(Units_Scroller);
+		UnitCommands_Graphics[loop] = new TextCtrl_Short(AGEwindow, Units_Scroller);
 		UnitCommands_Graphics_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, UnitCommands_Graphics[loop]);
 	}
 	for(short loop = 0; loop < 4; ++loop)
@@ -4784,37 +4784,37 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Graphics[5]->SetToolTip("Example: Plays when lumberjack drops his wood into TC");
 	UnitCommands_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown1 = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_Unknown1 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	UnitCommands_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown4_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown4 = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_Unknown4 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	UnitCommands_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown5_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown5 = new TextCtrl_Float(Units_Scroller);
+	UnitCommands_Unknown5 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	UnitCommands_SelectionEnabler_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_SelectionEnabler_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Enabler *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_SelectionEnabler = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_SelectionEnabler = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	UnitCommands_SelectionEnabler->SetToolTip("1 Allows units to select their targets\n2 ?");
 	UnitCommands_Unknown7_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown7 = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_Unknown7 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	UnitCommands_Unknown8_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Plunder Source *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown8 = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_Unknown8 = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_Unknown8->SetToolTip("0 Plunder from resource\n1 Plunder from players\n2 Raider thing?");
 	UnitCommands_Unknown9_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown9_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 9", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown9 = new TextCtrl_Short(Units_Scroller);
+	UnitCommands_Unknown9 = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_SelectionMode_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_SelectionMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_SelectionMode = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_SelectionMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	UnitCommands_SelectionMode->SetToolTip("Determines what you can select as targets\n0, 7+ All objects\n1 Your objects only\n2 Neutral and enemy objects only\n3 Gaia only\n4 Gaia, your and ally objects only\n5 Gaia, neutral and enemy objects only\n6 All but your objects");
 	UnitCommands_Unknown11_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown11_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown11 = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_Unknown11 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	UnitCommands_Unknown12_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown12_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 12", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown12 = new TextCtrl_Byte(Units_Scroller);
+	UnitCommands_Unknown12 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 
 //	UnitControls actual interface
 
