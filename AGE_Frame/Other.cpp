@@ -1500,7 +1500,11 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		BordersInTerrains /= TerrainsInData;
 		if(TerrainsInData != BordersInTerrains)
 		{
-			wxMessageBox("Send file to Tapsa for repair!\nTerrains: "+lexical_cast<string>(TerrainsInData)+"\nBorders: "+lexical_cast<string>(BordersInTerrains));
+			wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + lexical_cast<string>(TerrainsInData);
+			viesti += "\nBorders: " + lexical_cast<string>(BordersInTerrains);
+			viesti += "\nLoaded game version: " + lexical_cast<string>(GenieFile->TerrainBlock.getGameVersion());
+			viesti += "\nTerrain game version: " + lexical_cast<string>(GenieFile->TerrainBlock.Terrains[0].getGameVersion());
+			wxMessageBox(viesti);
 		}
 		// <-- ends here
 		try
