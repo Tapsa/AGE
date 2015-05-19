@@ -401,7 +401,7 @@ string AGE_Frame::GetResourceName(short Index)
 			else
 			Name = "Enable Stealth For Masters";
 			break;
-		case 57: Name = "Captured Unit"; break;
+		case 57: Name = "Kidnap Storage"; break;
 		case 58:
 			if(GenieVersion < genie::GV_SWGB)
 			Name = "Dark Age tech index";
