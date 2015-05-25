@@ -16,10 +16,11 @@ class AGETextCtrl: public wxTextCtrl
 {
 public:
 	AGETextCtrl(wxWindow *parent, int window, wxString value, int width):
-	wxTextCtrl(parent, wxID_ANY, value, wxDefaultPosition, wxSize(width, 20)){}
+	wxTextCtrl(parent, wxID_ANY, value, wxDefaultPosition, wxSize(width, 20), wxTE_PROCESS_ENTER){}
 
 	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
-	virtual int SaveEdits()=0;
+	void OnEnter(wxCommandEvent &Event){SaveEdits(true);}
+	virtual int SaveEdits(bool forced = false)=0;
 	virtual void Update()=0;
 	void resize(int size){container.resize(size);}
 	bool BatchCheck(string &value, short &batchMode)
@@ -64,8 +65,9 @@ public:
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 235, 215));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));	// Must-have
+		Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Byte::OnEnter));
 	}
-	int SaveEdits();
+	int SaveEdits(bool forced = false);
 	void Update();
 };
 
@@ -79,8 +81,9 @@ public:
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 235, 215));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UByte::OnKillFocus));
+		Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_UByte::OnEnter));
 	}
-	int SaveEdits();
+	int SaveEdits(bool forced = false);
 	void Update();
 };
 
@@ -94,8 +97,9 @@ public:
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(255, 225, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
+		Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Float::OnEnter));
 	}
-	int SaveEdits();
+	int SaveEdits(bool forced = false);
 	void Update();
 };
 
@@ -109,8 +113,9 @@ public:
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(215, 255, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
+		Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Long::OnEnter));
 	}
-	int SaveEdits();
+	int SaveEdits(bool forced = false);
 	void Update();
 };
 
@@ -124,8 +129,9 @@ public:
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(210, 230, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
+		Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Short::OnEnter));
 	}
-	int SaveEdits();
+	int SaveEdits(bool forced = false);
 	void Update();
 };
 
@@ -139,8 +145,9 @@ public:
 		LinkedBox = NULL;
 		SetBackgroundColour(wxColour(210, 230, 255));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UShort::OnKillFocus));
+		Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_UShort::OnEnter));
 	}
-	int SaveEdits();
+	int SaveEdits(bool forced = false);
 	void Update();
 };
 
@@ -154,8 +161,9 @@ public:
 		MaxSize = CLength;
 		SetBackgroundColour(wxColour(220, 255, 220));
 		Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_String::OnKillFocus));
+		Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_String::OnEnter));
 	}
-	int SaveEdits();
+	int SaveEdits(bool forced = false);
 	void Update();
 	void SetMaxSize(unsigned short Size){MaxSize = Size;}
 	unsigned short MaxSize;
