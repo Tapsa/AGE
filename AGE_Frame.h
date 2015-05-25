@@ -762,11 +762,11 @@ public:
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;
-	wxArrayString DatFileName, SaveDatFileName;
+	wxString DatFileName, SaveDatFileName;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
 	wxString LangCharset;
-	wxArrayString LangFileName, LangX1FileName, LangX1P1FileName;
-	wxArrayString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
+	wxString LangFileName, LangX1FileName, LangX1P1FileName;
+	wxString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
 
 	map<int, string> LangTxt;
 	HINSTANCE LanguageDLL[3];
@@ -1637,7 +1637,7 @@ public:
 	CheckBox_2State *Units_FlyMode_CheckBox;
 	TextCtrl_Short *Units_ResourceCapacity;
 	TextCtrl_Float *Units_ResourceDecay;
-	TextCtrl_Byte *Units_BlastType;
+	TextCtrl_Byte *Units_BlastArmorLevel;
 	TextCtrl_Byte *Units_TriggerType;
 	TextCtrl_Byte *Units_InteractionMode;
 	TextCtrl_Byte *Units_MinimapMode;
@@ -1738,7 +1738,7 @@ public:
 	CheckBox_2State *Units_TowerMode_CheckBox;
 	TextCtrl_Short *Units_Delay;
 	TextCtrl_Float *Units_GraphicDisplacement[3];
-	TextCtrl_Byte *Units_BlastLevel;
+	TextCtrl_Byte *Units_BlastAttackLevel;
 	TextCtrl_Float *Units_MinRange;
 	TextCtrl_Float *Units_AccuracyErrorRadius;
 	TextCtrl_Short *Units_AttackGraphic;
@@ -1768,8 +1768,8 @@ public:
 	TextCtrl_Short *Units_TrainLocationID;
 	ComboBox_Plus1 *Units_TrainLocationID_ComboBox;
 	TextCtrl_Byte *Units_ButtonID;
-	TextCtrl_Long *Units_Unknown26;
-	TextCtrl_Long *Units_Unknown27;
+	TextCtrl_Float *Units_Unknown26;
+	TextCtrl_Float *Units_Unknown27;
 	TextCtrl_Byte *Units_Unknown28;
 	TextCtrl_Byte *Units_HeroMode;
 	CheckBox_2State *Units_HeroMode_CheckBox;
@@ -1851,7 +1851,7 @@ public:
 	wxStaticText *Units_TerrainRestriction_Text;
 	wxStaticText *Units_ResourceCapacity_Text;
 	wxStaticText *Units_ResourceDecay_Text;
-	wxStaticText *Units_BlastType_Text;
+	wxStaticText *Units_BlastArmorLevel_Text;
 	wxStaticText *Units_TriggerType_Text;
 	wxStaticText *Units_InteractionMode_Text;
 	wxStaticText *Units_MinimapMode_Text;
@@ -1925,7 +1925,7 @@ public:
 	wxStaticText *Units_AccuracyPercent_Text;
 	wxStaticText *Units_Delay_Text;
 	wxStaticText *Units_GraphicDisplacement_Text;
-	wxStaticText *Units_BlastLevel_Text;
+	wxStaticText *Units_BlastAttackLevel_Text;
 	wxStaticText *Units_MinRange_Text;
 	wxStaticText *Units_AccuracyErrorRadius_Text;
 	wxStaticText *Units_AttackGraphic_Text;
@@ -2028,7 +2028,7 @@ public:
 	wxBoxSizer *Units_FlyMode_Holder;
 	wxBoxSizer *Units_ResourceCapacity_Holder;
 	wxBoxSizer *Units_ResourceDecay_Holder;
-	wxBoxSizer *Units_BlastType_Holder;
+	wxBoxSizer *Units_BlastArmorLevel_Holder;
 	wxBoxSizer *Units_TriggerType_Holder;
 	wxBoxSizer *Units_InteractionMode_Holder;
 	wxBoxSizer *Units_MinimapMode_Holder;
@@ -2110,7 +2110,7 @@ public:
 	wxBoxSizer *Units_Delay_Holder;
 	wxBoxSizer *Units_GraphicDisplacement_Holder;
 	wxGridSizer *Units_GraphicDisplacement_Grid;
-	wxBoxSizer *Units_BlastLevel_Holder;
+	wxBoxSizer *Units_BlastAttackLevel_Holder;
 	wxBoxSizer *Units_MinRange_Holder;
 	wxBoxSizer *Units_AccuracyErrorRadius_Holder;
 	wxBoxSizer *Units_AttackGraphic_Holder;
