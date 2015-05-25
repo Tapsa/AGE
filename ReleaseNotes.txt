@@ -12,8 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2015.5.12[/b]:
+Version [b]2015.5.25[/b]:
 •Fixed bugs that messed up editing with two windows.
+•Added recent open paths.
+•Blast attack, unit trigger type, missile finds.
 
 Version [b]2015.5.3[/b]:
 •AoKHD language files readable.

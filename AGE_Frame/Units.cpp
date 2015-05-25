@@ -66,7 +66,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type20[29]) == 0) Name += "FM "+FormatInt(UnitPointer->FlyMode);
 				else if(label.compare(Type20[30]) == 0) Name += "RC "+FormatInt(UnitPointer->ResourceCapacity);
 				else if(label.compare(Type20[31]) == 0) Name += "RD "+FormatFloat(UnitPointer->ResourceDecay);
-				else if(label.compare(Type20[32]) == 0) Name += "BT "+FormatInt(UnitPointer->BlastType);
+				else if(label.compare(Type20[32]) == 0) Name += "BA "+FormatInt(UnitPointer->BlastArmorLevel);
 				else if(label.compare(Type20[33]) == 0) Name += "U2 "+FormatInt(UnitPointer->TriggerType);
 				else if(label.compare(Type20[34]) == 0) Name += "IM "+FormatInt(UnitPointer->InteractionMode);
 				else if(label.compare(Type20[35]) == 0) Name += "MM "+FormatInt(UnitPointer->MinimapMode);
@@ -168,7 +168,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					Name += " y"+FormatInt(UnitPointer->Type50.GraphicDisplacement[1]);
 					Name += " z"+FormatInt(UnitPointer->Type50.GraphicDisplacement[2]);
 				}
-				else if(label.compare(Type50[14]) == 0) Name += "BL "+FormatInt(UnitPointer->Type50.BlastLevel);
+				else if(label.compare(Type50[14]) == 0) Name += "BL "+FormatInt(UnitPointer->Type50.BlastAttackLevel);
 				else if(label.compare(Type50[15]) == 0) Name += "MiR "+FormatFloat(UnitPointer->Type50.MinRange);
 				else if(label.compare(Type50[16]) == 0) Name += "AE "+FormatFloat(UnitPointer->Type50.AccuracyErrorRadius);
 				else if(label.compare(Type50[17]) == 0) Name += "AG "+FormatInt(UnitPointer->Type50.AttackGraphic);
@@ -441,7 +441,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	{
 		Units_GraphicDisplacement[loop]->resize(PointerCount);
 	}
-	Units_BlastLevel->resize(PointerCount);
+	Units_BlastAttackLevel->resize(PointerCount);
 	Units_MinRange->resize(PointerCount);
 	if(GenieVersion >= genie::GV_AoKB)
 	{
@@ -507,7 +507,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_FlyMode->resize(PointerCount);
 	Units_ResourceCapacity->resize(PointerCount);
 	Units_ResourceDecay->resize(PointerCount);
-	Units_BlastType->resize(PointerCount);
+	Units_BlastArmorLevel->resize(PointerCount);
 	Units_TriggerType->resize(PointerCount);
 	Units_InteractionMode->resize(PointerCount);
 	Units_MinimapMode->resize(PointerCount);
@@ -700,7 +700,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					{
 						Units_GraphicDisplacement[loop]->container[location] = &UnitPointer->Type50.GraphicDisplacement[loop];
 					}
-					Units_BlastLevel->container[location] = &UnitPointer->Type50.BlastLevel;
+					Units_BlastAttackLevel->container[location] = &UnitPointer->Type50.BlastAttackLevel;
 					Units_MinRange->container[location] = &UnitPointer->Type50.MinRange;
 					if(GenieVersion >= genie::GV_AoKB)
 					{
@@ -788,7 +788,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_FlyMode->container[location] = &UnitPointer->FlyMode;
 			Units_ResourceCapacity->container[location] = &UnitPointer->ResourceCapacity;
 			Units_ResourceDecay->container[location] = &UnitPointer->ResourceDecay;
-			Units_BlastType->container[location] = &UnitPointer->BlastType;
+			Units_BlastArmorLevel->container[location] = &UnitPointer->BlastArmorLevel;
 			Units_TriggerType->container[location] = &UnitPointer->TriggerType;
 			Units_InteractionMode->container[location] = &UnitPointer->InteractionMode;
 			Units_MinimapMode->container[location] = &UnitPointer->MinimapMode;
@@ -1048,7 +1048,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_Delay->Enable(true);
 			for(short loop = 0; loop < 4; ++loop)
 			Units_GraphicDisplacement[loop]->Enable(true);
-			Units_BlastLevel->Enable(true);
+			Units_BlastAttackLevel->Enable(true);
 			Units_MinRange->Enable(true);
 			Units_AccuracyErrorRadius->Enable(true);
 			Units_AttackGraphic->Enable(true);
@@ -1078,7 +1078,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			{
 				Units_GraphicDisplacement[loop]->Update();
 			}
-			Units_BlastLevel->Update();
+			Units_BlastAttackLevel->Update();
 			Units_MinRange->Update();
 			if(GenieVersion >= genie::GV_AoKB)
 			{
@@ -1200,7 +1200,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_FlyMode->Update();
 			Units_ResourceCapacity->Update();
 			Units_ResourceDecay->Update();
-			Units_BlastType->Update();
+			Units_BlastArmorLevel->Update();
 			Units_TriggerType->Update();
 			Units_InteractionMode->Update();
 			Units_MinimapMode->Update();
@@ -1337,7 +1337,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_FlyMode_CheckBox->Enable(show);
 	Units_ResourceCapacity->Enable(show);
 	Units_ResourceDecay->Enable(show);
-	Units_BlastType->Enable(show);
+	Units_BlastArmorLevel->Enable(show);
 	Units_TriggerType->Enable(show);
 	Units_InteractionMode->Enable(show);
 	Units_MinimapMode->Enable(show);
@@ -1516,8 +1516,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_GraphicDisplacement[loop]->Enable(false);
 				Units_GraphicDisplacement[loop]->Clear();
 			}
-			Units_BlastLevel->Enable(false);
-			Units_BlastLevel->Clear();
+			Units_BlastAttackLevel->Enable(false);
+			Units_BlastAttackLevel->Clear();
 			Units_MinRange->Enable(false);
 			Units_MinRange->Clear();
 			Units_AccuracyErrorRadius->Enable(false);
@@ -3131,12 +3131,16 @@ wxString AGE_Frame::GetUnitCommandName(short Index)
 		case 121: return UnitCommands_Type_ComboBox->GetString(27);
 		case 122: return UnitCommands_Type_ComboBox->GetString(28);
 		case 123: return UnitCommands_Type_ComboBox->GetString(29);
-		case 125: return UnitCommands_Type_ComboBox->GetString(30);
-		case 131: return UnitCommands_Type_ComboBox->GetString(31);
-		case 132: return UnitCommands_Type_ComboBox->GetString(32);
-		case 135: return UnitCommands_Type_ComboBox->GetString(33);
-		case 136: return UnitCommands_Type_ComboBox->GetString(34);
-		case 149: return UnitCommands_Type_ComboBox->GetString(35);
+		case 124: return UnitCommands_Type_ComboBox->GetString(30);
+		case 125: return UnitCommands_Type_ComboBox->GetString(31);
+		case 130: return UnitCommands_Type_ComboBox->GetString(32);
+		case 131: return UnitCommands_Type_ComboBox->GetString(33);
+		case 132: return UnitCommands_Type_ComboBox->GetString(34);
+		case 133: return UnitCommands_Type_ComboBox->GetString(35);
+		case 134: return UnitCommands_Type_ComboBox->GetString(36);
+		case 135: return UnitCommands_Type_ComboBox->GetString(37);
+		case 136: return UnitCommands_Type_ComboBox->GetString(38);
+		case 149: return UnitCommands_Type_ComboBox->GetString(39);
 		default: return "Unk. Type "+lexical_cast<string>(CommandType)+", Sub "+lexical_cast<string>(CommandSubType);
 	}
 }
@@ -3331,12 +3335,16 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 			case 121: UnitCommands_Type_ComboBox->SetSelection(27); break;
 			case 122: UnitCommands_Type_ComboBox->SetSelection(28); break;
 			case 123: UnitCommands_Type_ComboBox->SetSelection(29); break;
-			case 125: UnitCommands_Type_ComboBox->SetSelection(30); break;
-			case 131: UnitCommands_Type_ComboBox->SetSelection(31); break;
-			case 132: UnitCommands_Type_ComboBox->SetSelection(32); break;
-			case 135: UnitCommands_Type_ComboBox->SetSelection(33); break;
-			case 136: UnitCommands_Type_ComboBox->SetSelection(34); break;
-			case 149: UnitCommands_Type_ComboBox->SetSelection(35); break;
+			case 124: UnitCommands_Type_ComboBox->SetSelection(30); break;
+			case 125: UnitCommands_Type_ComboBox->SetSelection(31); break;
+			case 130: UnitCommands_Type_ComboBox->SetSelection(32); break;
+			case 131: UnitCommands_Type_ComboBox->SetSelection(33); break;
+			case 132: UnitCommands_Type_ComboBox->SetSelection(34); break;
+			case 133: UnitCommands_Type_ComboBox->SetSelection(35); break;
+			case 134: UnitCommands_Type_ComboBox->SetSelection(36); break;
+			case 135: UnitCommands_Type_ComboBox->SetSelection(37); break;
+			case 136: UnitCommands_Type_ComboBox->SetSelection(38); break;
+			case 149: UnitCommands_Type_ComboBox->SetSelection(39); break;
 			default: UnitCommands_Type_ComboBox->SetSelection(0);
 		}
 		UnitCommands_ClassID->Update();
@@ -3872,7 +3880,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_FlyMode_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_ResourceCapacity_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_ResourceDecay_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_BlastType_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_BlastArmorLevel_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_TriggerType_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_InteractionMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MinimapMode_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3956,7 +3964,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Delay_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_GraphicDisplacement_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_GraphicDisplacement_Grid = new wxGridSizer(4, 5, 5);
-	Units_BlastLevel_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_BlastAttackLevel_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MinRange_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AccuracyErrorRadius_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttackGraphic_Holder = new wxBoxSizer(wxVERTICAL);
@@ -4052,7 +4060,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TerrainRestriction_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ResourceCapacity_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ResourceDecay_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_BlastType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Type? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_BlastArmorLevel_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Armor Level *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TriggerType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Trigger Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_InteractionMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinimapMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4127,7 +4135,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AccuracyPercent_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Percent", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Delay_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Frame Delay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GraphicDisplacement_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic Displacement XYZ *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_BlastLevel_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Level *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_BlastAttackLevel_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Attack Level *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinRange_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Min Range", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AccuracyErrorRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Accuracy Error Radius *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4328,8 +4336,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_ReloadTime1 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_ReloadTime2 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_BlastRadius = new TextCtrl_Float(AGEwindow, Units_Scroller);
-	Units_BlastLevel = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_BlastLevel->SetToolTip("How blast radius affects units\n0 Damages resources also\n1 Damages trees also\n2 Damages nearby units\n3 Damages only targeted unit");
+	Units_BlastAttackLevel = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_BlastAttackLevel->SetToolTip("Blasts damage units that have higher or same blast armor level\n0 Damages resources also\n1 Damages trees also\n2 Damages nearby units\n3 Damages only targeted unit");
+	Units_BlastArmorLevel = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_BlastArmorLevel->SetToolTip("Receive blast damage from units that have lower or same blast attack level");
 
 	Units_Armors = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Armors");
 	Units_Armors_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -4663,8 +4673,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_HPBarHeight2->SetToolTip("Vertical distance from ground");
 
 	Units_Unknown1 = new TextCtrl_Short(AGEwindow, Units_Scroller);
-	Units_BlastType = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_BlastType->SetToolTip("0 projectiles, dead units, fish, relics, trees\n0 gates, town center\n0 deer(unmoving), FLDOG\n1 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n3 boar\n3 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n3 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 monks, BDGAL, ABGAL");
 	Units_Unknown3A = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_Unknown3A->SetToolTip("Seems to be 1 on more or less living things");
 
@@ -4673,8 +4681,8 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
 	Units_Unknown16B[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller);
 
-	Units_Unknown26 = new TextCtrl_Long(AGEwindow, Units_Scroller);
-	Units_Unknown27 = new TextCtrl_Long(AGEwindow, Units_Scroller);
+	Units_Unknown26 = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_Unknown27 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_Unknown28 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown28->SetToolTip("0 projectiles, buildings, dead units, boar\n1 villagers\n2 melee\n3 mounted units\n4 relic cart, relics\n5 archers\n6 monks");
 
@@ -4866,8 +4874,8 @@ void AGE_Frame::CreateUnitControls()
 	Type20.Add("FlyMode");
 	Type20.Add("ResourceCapacity");
 	Type20.Add("ResourceDecay");
-	Type20.Add("BlastType");
-	Type20.Add("Unknown2");
+	Type20.Add("BlastArmorLevel");
+	Type20.Add("TriggerType");
 	Type20.Add("InteractionMode");
 	Type20.Add("MinimapMode");
 	Type20.Add("CommandAttribute");
@@ -4878,7 +4886,7 @@ void AGE_Frame::CreateUnitControls()
 	Type20.Add("HotKey");
 	Type20.Add("Unselectable");
 	Type20.Add("Unknown6");
-	Type20.Add("UnknownSelectionMode");
+	Type20.Add("Unknown7");
 	Type20.Add("Unknown8");
 	Type20.Add("SelectionMask");
 	Type20.Add("SelectionShapeType");
@@ -4941,7 +4949,7 @@ void AGE_Frame::CreateUnitControls()
 	Type50.Add("TowerMode");
 	Type50.Add("FrameDelay");
 	Type50.Add("GraphicDisplacement 3 floats");
-	Type50.Add("BlastLevel");
+	Type50.Add("BlastAttackLevel");
 	Type50.Add("MinRange");
 	Type50.Add("AccuracyErrorRadius");
 	Type50.Add("AttackGraphic");
@@ -5070,7 +5078,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TerrainRestriction_Holder->Add(Units_TerrainRestriction_Text, 0, wxEXPAND);
 	Units_ResourceCapacity_Holder->Add(Units_ResourceCapacity_Text, 0, wxEXPAND);
 	Units_ResourceDecay_Holder->Add(Units_ResourceDecay_Text, 0, wxEXPAND);
-	Units_BlastType_Holder->Add(Units_BlastType_Text, 0, wxEXPAND);
+	Units_BlastArmorLevel_Holder->Add(Units_BlastArmorLevel_Text, 0, wxEXPAND);
 	Units_TriggerType_Holder->Add(Units_TriggerType_Text, 0, wxEXPAND);
 	Units_InteractionMode_Holder->Add(Units_InteractionMode_Text, 0, wxEXPAND);
 	Units_MinimapMode_Holder->Add(Units_MinimapMode_Text, 0, wxEXPAND);
@@ -5135,7 +5143,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AccuracyPercent_Holder->Add(Units_AccuracyPercent_Text, 0, wxEXPAND);
 	Units_Delay_Holder->Add(Units_Delay_Text, 0, wxEXPAND);
 	Units_GraphicDisplacement_Holder->Add(Units_GraphicDisplacement_Text, 0, wxEXPAND);
-	Units_BlastLevel_Holder->Add(Units_BlastLevel_Text, 0, wxEXPAND);
+	Units_BlastAttackLevel_Holder->Add(Units_BlastAttackLevel_Text, 0, wxEXPAND);
 	Units_MinRange_Holder->Add(Units_MinRange_Text, 0, wxEXPAND);
 	Units_AccuracyErrorRadius_Holder->Add(Units_AccuracyErrorRadius_Text, 0, wxEXPAND);
 	Units_AttackGraphic_Holder->Add(Units_AttackGraphic_Text, 0, wxEXPAND);
@@ -5244,7 +5252,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_FlyMode_Holder->Add(Units_FlyMode_CheckBox, 2, wxEXPAND);
 	Units_ResourceCapacity_Holder->Add(Units_ResourceCapacity, 1, wxEXPAND);
 	Units_ResourceDecay_Holder->Add(Units_ResourceDecay, 1, wxEXPAND);
-	Units_BlastType_Holder->Add(Units_BlastType, 1, wxEXPAND);
+	Units_BlastArmorLevel_Holder->Add(Units_BlastArmorLevel, 1, wxEXPAND);
 	Units_TriggerType_Holder->Add(Units_TriggerType, 1, wxEXPAND);
 	Units_InteractionMode_Holder->Add(Units_InteractionMode, 1, wxEXPAND);
 	Units_MinimapMode_Holder->Add(Units_MinimapMode, 1, wxEXPAND);
@@ -5344,7 +5352,7 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < 3; ++loop)
 	Units_GraphicDisplacement_Grid->Add(Units_GraphicDisplacement[loop], 1, wxEXPAND);
 	Units_GraphicDisplacement_Holder->Add(Units_GraphicDisplacement_Grid, 1, wxEXPAND);
-	Units_BlastLevel_Holder->Add(Units_BlastLevel, 1, wxEXPAND);
+	Units_BlastAttackLevel_Holder->Add(Units_BlastAttackLevel, 1, wxEXPAND);
 	Units_MinRange_Holder->Add(Units_MinRange, 1, wxEXPAND);
 	Units_AccuracyErrorRadius_Holder->Add(Units_AccuracyErrorRadius, 0, wxEXPAND);
 	Units_AttackGraphic_Holder->Add(Units_AttackGraphic, 1, wxEXPAND);
@@ -5724,7 +5732,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Grid_Data2->Add(Units_ReloadTime1_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_ReloadTime2_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_BlastRadius_Holder, 1, wxEXPAND);
-	Units_Attacks_Grid_Data2->Add(Units_BlastLevel_Holder, 1, wxEXPAND);
+	Units_Attacks_Grid_Data2->Add(Units_BlastAttackLevel_Holder, 1, wxEXPAND);
+	Units_Attacks_Grid_Data2->Add(Units_BlastArmorLevel_Holder, 1, wxEXPAND);
 	Units_Attacks_Holder_Data->AddSpacer(5);
 	Units_Attacks_Holder_Data->Add(Units_Attacks_Grid_Data2, 0, wxEXPAND);
 
@@ -5952,7 +5961,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_MiscArea_Holder->Add(Units_HPBars_Grid, 1, wxEXPAND);
 
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown1_Holder, 0, wxEXPAND);
-	Units_Type10plusUnknowns_Grid->Add(Units_BlastType_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown3A_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknownArea_Holder->Add(Units_Type10plusUnknowns_Grid, 0, wxEXPAND);
 
