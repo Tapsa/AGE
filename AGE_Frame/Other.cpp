@@ -203,7 +203,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				RecentItems = 0;
 			}
 		}
-		wxMessageBox(lexical_cast<string>(abort)+" "+lexical_cast<string>(GameVersion));
 		if(abort < 5)
 		{
 			RecentSave->Write("Recent/RecentItems", ++RecentItems);

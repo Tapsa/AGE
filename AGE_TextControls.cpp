@@ -4,7 +4,7 @@ const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwh
 const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
 const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 
-int TextCtrl_Byte::SaveEdits()
+int TextCtrl_Byte::SaveEdits(bool forced)
 {
 	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
 	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
@@ -40,7 +40,7 @@ int TextCtrl_Byte::SaveEdits()
 					AGETextCtrl::unSaved[window] += container.size();
 					return 0;
 				}
-				if(*(int8_t*)container[0] != casted)
+				if(*(int8_t*)container[0] != casted || forced)
 				{
 					for(auto &pointer: container)
 					{
@@ -72,7 +72,7 @@ int TextCtrl_Byte::SaveEdits()
 	return 1;
 }
 
-int TextCtrl_UByte::SaveEdits()
+int TextCtrl_UByte::SaveEdits(bool forced)
 {
 	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
 	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
@@ -108,7 +108,7 @@ int TextCtrl_UByte::SaveEdits()
 					AGETextCtrl::unSaved[window] += container.size();
 					return 0;
 				}
-				if(*(uint8_t*)container[0] != casted)
+				if(*(uint8_t*)container[0] != casted || forced)
 				{
 					for(auto &pointer: container)
 					{
@@ -140,7 +140,7 @@ int TextCtrl_UByte::SaveEdits()
 	return 1;
 }
 
-int TextCtrl_Float::SaveEdits()
+int TextCtrl_Float::SaveEdits(bool forced)
 {
 	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
 	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
@@ -173,7 +173,7 @@ int TextCtrl_Float::SaveEdits()
 				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
-			if(*(float*)container[0] != casted)
+			if(*(float*)container[0] != casted || forced)
 			{
 				for(auto &pointer: container)
 				{
@@ -198,7 +198,7 @@ int TextCtrl_Float::SaveEdits()
 	return 1;
 }
 
-int TextCtrl_Long::SaveEdits()
+int TextCtrl_Long::SaveEdits(bool forced)
 {
 	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
 	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
@@ -232,7 +232,7 @@ int TextCtrl_Long::SaveEdits()
 				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
-			if(*(int32_t*)container[0] != casted)
+			if(*(int32_t*)container[0] != casted || forced)
 			{
 				for(auto &pointer: container)
 				{
@@ -257,7 +257,7 @@ int TextCtrl_Long::SaveEdits()
 	return 1;
 }
 
-int TextCtrl_Short::SaveEdits()
+int TextCtrl_Short::SaveEdits(bool forced)
 {
 	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
 	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
@@ -291,7 +291,7 @@ int TextCtrl_Short::SaveEdits()
 				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
-			if(*(int16_t*)container[0] != casted)
+			if(*(int16_t*)container[0] != casted || forced)
 			{
 				for(auto &pointer: container)
 				{
@@ -316,7 +316,7 @@ int TextCtrl_Short::SaveEdits()
 	return 1;
 }
 
-int TextCtrl_UShort::SaveEdits()
+int TextCtrl_UShort::SaveEdits(bool forced)
 {
 	if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
 	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
@@ -350,7 +350,7 @@ int TextCtrl_UShort::SaveEdits()
 				AGETextCtrl::unSaved[window] += container.size();
 				return 0;
 			}
-			if(*(uint16_t*)container[0] != casted)
+			if(*(uint16_t*)container[0] != casted || forced)
 			{
 				for(auto &pointer: container)
 				{
@@ -375,14 +375,14 @@ int TextCtrl_UShort::SaveEdits()
 	return 1;
 }
 
-int TextCtrl_String::SaveEdits()	// This may crash the program.
+int TextCtrl_String::SaveEdits(bool forced)	// This may crash the program.
 {
 	if(container.empty()) return 1;
 	if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
 	string value = string(GetValue().mb_str());
 	if(value.size() > 0)
 	{
-		if(*(string*)container[0] != value) // Has been changed
+		if(*(string*)container[0] != value || forced) // Has been changed
 		{
 			short batchMode = 0;
 			if(value[0] == 'b' && !BatchCheck(value, batchMode))
