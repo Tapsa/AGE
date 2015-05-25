@@ -67,7 +67,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type20[30]) == 0) Name += "RC "+FormatInt(UnitPointer->ResourceCapacity);
 				else if(label.compare(Type20[31]) == 0) Name += "RD "+FormatFloat(UnitPointer->ResourceDecay);
 				else if(label.compare(Type20[32]) == 0) Name += "BT "+FormatInt(UnitPointer->BlastType);
-				else if(label.compare(Type20[33]) == 0) Name += "U2 "+FormatInt(UnitPointer->Unknown2);
+				else if(label.compare(Type20[33]) == 0) Name += "U2 "+FormatInt(UnitPointer->TriggerType);
 				else if(label.compare(Type20[34]) == 0) Name += "IM "+FormatInt(UnitPointer->InteractionMode);
 				else if(label.compare(Type20[35]) == 0) Name += "MM "+FormatInt(UnitPointer->MinimapMode);
 				else if(label.compare(Type20[36]) == 0) Name += "CA "+FormatInt(UnitPointer->CommandAttribute);
@@ -207,8 +207,8 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type70[6]) == 0) Name += "U28 "+FormatInt(UnitPointer->Creatable.Unknown28);
 				else if(label.compare(Type70[7]) == 0) Name += "HM "+FormatInt(UnitPointer->Creatable.HeroMode);
 				else if(label.compare(Type70[8]) == 0) Name += "GG "+FormatInt(UnitPointer->Creatable.GarrisonGraphic);
-				else if(label.compare(Type70[9]) == 0) Name += "Di "+FormatFloat(UnitPointer->Creatable.DuplicatedMissilesMin);
-				else if(label.compare(Type70[10]) == 0) Name += "Da "+FormatInt(UnitPointer->Creatable.DuplicatedMissilesMax);
+				else if(label.compare(Type70[9]) == 0) Name += "Di "+FormatFloat(UnitPointer->Creatable.TotalMissiles);
+				else if(label.compare(Type70[10]) == 0) Name += "Da "+FormatInt(UnitPointer->Creatable.TotalMissilesMax);
 				else if(label.compare(Type70[11]) == 0)
 				{
 					Name += "x"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[0]);
@@ -416,8 +416,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		{
 			Units_HeroMode->resize(PointerCount);
 		}
-		Units_AttackMissileDuplicationAmount1->resize(PointerCount);
-		Units_AttackMissileDuplicationAmount2->resize(PointerCount);
+		Units_MissileCount->resize(PointerCount);
+		Units_MissileDuplicationCount->resize(PointerCount);
 		for(short loop = 0; loop < 3; ++loop)
 		{
 			Units_AttackMissileDuplicationSpawning[loop]->resize(PointerCount);
@@ -508,7 +508,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_ResourceCapacity->resize(PointerCount);
 	Units_ResourceDecay->resize(PointerCount);
 	Units_BlastType->resize(PointerCount);
-	Units_Unknown2->resize(PointerCount);
+	Units_TriggerType->resize(PointerCount);
 	Units_InteractionMode->resize(PointerCount);
 	Units_MinimapMode->resize(PointerCount);
 	Units_SelectionEffect->resize(PointerCount);
@@ -672,8 +672,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 								Units_GarrisonGraphic->container[location] = &UnitPointer->Creatable.GarrisonGraphic;
 							}
 						}
-						Units_AttackMissileDuplicationAmount1->container[location] = &UnitPointer->Creatable.DuplicatedMissilesMin;
-						Units_AttackMissileDuplicationAmount2->container[location] = &UnitPointer->Creatable.DuplicatedMissilesMax;
+						Units_MissileCount->container[location] = &UnitPointer->Creatable.TotalMissiles;
+						Units_MissileDuplicationCount->container[location] = &UnitPointer->Creatable.TotalMissilesMax;
 						for(short loop = 0; loop < 3; ++loop)
 						{
 							Units_AttackMissileDuplicationSpawning[loop]->container[location] = &UnitPointer->Creatable.MissileSpawningArea[loop];
@@ -789,7 +789,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ResourceCapacity->container[location] = &UnitPointer->ResourceCapacity;
 			Units_ResourceDecay->container[location] = &UnitPointer->ResourceDecay;
 			Units_BlastType->container[location] = &UnitPointer->BlastType;
-			Units_Unknown2->container[location] = &UnitPointer->Unknown2;
+			Units_TriggerType->container[location] = &UnitPointer->TriggerType;
 			Units_InteractionMode->container[location] = &UnitPointer->InteractionMode;
 			Units_MinimapMode->container[location] = &UnitPointer->MinimapMode;
 			Units_SelectionEffect->container[location] = &UnitPointer->SelectionEffect;
@@ -991,8 +991,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_Unknown28->Enable(true);
 			Units_HeroMode->Enable(true);
 			Units_HeroMode_CheckBox->Enable(true);
-			Units_AttackMissileDuplicationAmount1->Enable(true);
-			Units_AttackMissileDuplicationAmount2->Enable(true);
+			Units_MissileCount->Enable(true);
+			Units_MissileDuplicationCount->Enable(true);
 			Units_AttackMissileDuplicationUnit->Enable(true);
 			Units_AttackMissileDuplicationUnit_ComboBox->Enable(true);
 			Units_ChargingGraphic->Enable(true);
@@ -1019,8 +1019,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					Units_HeroMode->Update();
 					Units_GarrisonGraphic->Update();
 				}
-				Units_AttackMissileDuplicationAmount1->Update();
-				Units_AttackMissileDuplicationAmount2->Update();
+				Units_MissileCount->Update();
+				Units_MissileDuplicationCount->Update();
 				for(short loop = 0; loop < 3; ++loop)
 				{
 					Units_AttackMissileDuplicationSpawning[loop]->Update();
@@ -1201,7 +1201,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_ResourceCapacity->Update();
 			Units_ResourceDecay->Update();
 			Units_BlastType->Update();
-			Units_Unknown2->Update();
+			Units_TriggerType->Update();
 			Units_InteractionMode->Update();
 			Units_MinimapMode->Update();
 			Units_SelectionEffect->Update();
@@ -1338,7 +1338,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_ResourceCapacity->Enable(show);
 	Units_ResourceDecay->Enable(show);
 	Units_BlastType->Enable(show);
-	Units_Unknown2->Enable(show);
+	Units_TriggerType->Enable(show);
 	Units_InteractionMode->Enable(show);
 	Units_MinimapMode->Enable(show);
 	Units_SelectionEffect->Enable(show);
@@ -1582,10 +1582,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_HeroMode->Clear();
 			Units_HeroMode_CheckBox->Enable(false);
 			Units_HeroMode_CheckBox->SetValue(false);
-			Units_AttackMissileDuplicationAmount1->Enable(false);
-			Units_AttackMissileDuplicationAmount1->Clear();
-			Units_AttackMissileDuplicationAmount2->Enable(false);
-			Units_AttackMissileDuplicationAmount2->Clear();
+			Units_MissileCount->Enable(false);
+			Units_MissileCount->Clear();
+			Units_MissileDuplicationCount->Enable(false);
+			Units_MissileDuplicationCount->Clear();
 			Units_AttackMissileDuplicationUnit->Enable(false);
 			Units_AttackMissileDuplicationUnit->Clear();
 			Units_AttackMissileDuplicationUnit_ComboBox->Enable(false);
@@ -3808,7 +3808,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesModes1_Grid = new wxGridSizer(5, 5, 5);
 	Units_AttributesDropSite_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttributesSizes_Holder = new wxGridSizer(3, 0, 5);
-	Units_AttributesSelection1_Grid = new wxGridSizer(4, 5, 5);
+	Units_AttributesSelection1_Grid = new wxGridSizer(5, 5, 5);
 	Units_LangRegular_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_LangHotKey_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_AttributesTracking_Grid = new wxGridSizer(4, 5, 5);
@@ -3873,7 +3873,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceCapacity_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_ResourceDecay_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_BlastType_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_TriggerType_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_InteractionMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MinimapMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_CommandAttribute_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3990,8 +3990,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_HeroMode_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_GarrisonGraphic_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_GarrisonGraphic_Grid = new wxGridSizer(2, 0, 5);
-	Units_AttackMissileDuplicationAmount1_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_AttackMissileDuplicationAmount2_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_MissileCount_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_MissileDuplicationCount_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttackMissileDuplicationSpawning_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttackMissileDuplicationSpawning_Grid = new wxGridSizer(4, 5, 5);
 	Units_AttackMissileDuplicationUnit_Holder = new wxBoxSizer(wxVERTICAL);
@@ -4053,7 +4053,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceCapacity_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ResourceDecay_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_BlastType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Type? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_TriggerType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Trigger Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_InteractionMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinimapMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_CommandAttribute_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4065,7 +4065,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDLLHotKeyText_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Hotkey Text *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_HotKey_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown6_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Is a resource? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionMask_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionShapeType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4157,8 +4157,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown27_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 27 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown28_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 28 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GarrisonGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_AttackMissileDuplicationAmount1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Min Dupl. Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_AttackMissileDuplicationAmount2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Dupl. Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_MissileCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_MissileDuplicationCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackMissileDuplicationSpawning_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Spawning Area *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackMissileDuplicationUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ChargingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Charging Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4396,10 +4396,10 @@ void AGE_Frame::CreateUnitControls()
 	GraphicComboBoxList.push_back(Units_ChargingGraphic_ComboBox);
 	Units_ChargingMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_ChargingMode->SetToolTip("0 Default\n3 Unit must walk to enemy when ordered to attack it\nAttack duplication graphics activate too");
-	Units_AttackMissileDuplicationAmount1 = new TextCtrl_Float(AGEwindow, Units_Scroller);
-	Units_AttackMissileDuplicationAmount1->SetToolTip("Duplicated missiles when no units are garrisoned inside");
-	Units_AttackMissileDuplicationAmount2 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_AttackMissileDuplicationAmount2->SetToolTip("Maximum duplicated missiles when garrison capacity is full");
+	Units_MissileCount = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	Units_MissileCount->SetToolTip("Total missiles including both normal and duplicated projectiles");
+	Units_MissileDuplicationCount = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_MissileDuplicationCount->SetToolTip("Total missiles when garrison capacity is full");
 	for(short loop = 0; loop < 3; ++loop)
 	Units_AttackMissileDuplicationSpawning[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_AttackMissileDuplicationSpawning[0]->SetToolTip("Spawning area's width");
@@ -4439,7 +4439,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AirMode_CheckBox = new CheckBox_2State(Units_Scroller, "Air Mode *", Units_AirMode);
 	Units_FlyMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_FlyMode->SetToolTip("Requires class 22 and air mode 1?\n0 Normal\n1 Graphics appear higher than the shadow");
-	Units_FlyMode_CheckBox = new CheckBox_2State(Units_Scroller, "Fly Mode", Units_FlyMode);
+	Units_FlyMode_CheckBox = new CheckBox_2State(Units_Scroller, "Fly Mode *", Units_FlyMode);
 	Units_SheepConversion = new TextCtrl_Short(AGEwindow, Units_Scroller, true);
 	Units_SheepConversion->SetToolTip("To get the unit auto-converted to enemy,\nuse unit command 107, which sheep and monument have\nAll somehow auto-convertible units have this set to 0\nMost other units have -1");
 	Units_SheepConversion_CheckBox = new CheckBox_ZeroIsYes(Units_Scroller, "Convert Herd *", Units_SheepConversion);
@@ -4463,12 +4463,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_VisibleInFog_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Fog Visibility *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_VisibleInFog = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_VisibleInFog->SetToolTip("0 Not visible\n1 Visible\n3 Inverted visibility");
+	Units_TriggerType = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_TriggerType->SetToolTip("Used in trigger conditions\n0 Projectile/Dead/Resource\n1 Boar\n2 Building\n3 Civilian\n4 Military\n5 Other\n");
 	Units_InteractionMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_InteractionMode->SetToolTip("0 & 1 Unable to select, move or attack\n2 Can select, unable to move or attack\n3 Can select and attack, unable to move\n4 Can select, move and attack\n5+ Select and move?");
 	Units_MinimapMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_MinimapMode->SetToolTip("0 & 6-10 No dot on minimap\n1 Square dot turning white when selected\n2 Diamond dot turning white when selected\n3 Diamond dot keeping color\n4 & 5 Larger spot, not following the unit, no blinking when attacked, everyone can see it\n");
 	Units_MinimapColor = new TextCtrl_UByte(AGEwindow, Units_Scroller);
-	Units_MinimapColor->SetToolTip("Minimap mode 4 allows this to work");
+	Units_MinimapColor->SetToolTip("Minimap modes 3 and 4 allow this to work");
 	Units_AttackMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_AttackMode->SetToolTip("This may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
 	Units_EdibleMeat = new TextCtrl_Byte(AGEwindow, Units_Scroller);
@@ -4544,6 +4546,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionRadius[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller, true);
 	Units_Unselectable = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unselectable_CheckBox = new CheckBox_2State(Units_Scroller, "Unselectable", Units_Unselectable);
+	Units_Unknown6 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_Unknown6->SetToolTip("Seems to be 1 on all resource deposits");
+	Units_Unknown7 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_Unknown7->SetToolTip("0 Default\n1 Resource/Eye Candy\n2 Tree");
+	Units_Unknown8 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n0 wood?\n1 berry\n2 fish\n3 stone/ore deposit\n4 gold/nova deposit\n5 ore (not SW) deposit?");
 	Units_SelectionMask = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_SelectionMask->SetToolTip("Any odd value except 7 - Mask displayed behind buildings\nAny even value except 6, 10 - Mask not displayed\n-1, 7 - Mask partially displayed when in the open\n6, 10 - Building, causes mask to appear on units behind it\n");
 	Units_SelectionShapeType = new TextCtrl_Byte(AGEwindow, Units_Scroller);
@@ -4657,16 +4665,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown1 = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_BlastType = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_BlastType->SetToolTip("0 projectiles, dead units, fish, relics, trees\n0 gates, town center\n0 deer(unmoving), FLDOG\n1 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n3 boar\n3 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n3 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n3 monks, BDGAL, ABGAL");
-	Units_Unknown2 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_Unknown2->SetToolTip("Action from mouse right-click?\n0 projectiles, dead units, fish, relics, trees\n2 gates, town center\n4 deer(unmoving), FLDOG\n0 things listed under \"others\" that have multiple rotations\n2 buildings, gates, walls, town centers, fish trap\n1 boar\n2 farm, TWAL\n3 fishing ship, villagers, trade carts, sheep, turkey\n4 (any unit) archers, junk, trade cogs, ships, seige, mounted, deer(regular), monk with relic\n5 monks, BDGAL, ABGAL");
 	Units_Unknown3A = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_Unknown3A->SetToolTip("Seems to be 1 on more or less living things");
-	Units_Unknown6 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_Unknown6->SetToolTip("Seems to be 1 on all resource deposits");
-	Units_Unknown7 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_Unknown7->SetToolTip("Setting to 5 can give a building a round outline,\neven if Selection Shape is set to 0 (square outline)\n0 farm, gate, dead bodies, town center\n2 buildings, gold mine\n3 berserk, flag x\n5 units\n10 mountain(matches selction mask)");
-	Units_Unknown8 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n0 wood?\n1 berry\n2 fish\n3 stone/ore deposit\n4 gold/nova deposit\n5 ore (not SW) deposit?");
 
 	Units_Unknown11 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown16 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
@@ -4730,8 +4730,9 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown2 = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	UnitCommands_ResourceIn_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_ResourceIn_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource In", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_ResourceIn_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource In *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ResourceIn = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	UnitCommands_ResourceIn->SetToolTip("Carry resource");
 	UnitCommands_ResourceIn_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceIn);
 	ResourceComboBoxList.push_back(UnitCommands_ResourceIn_ComboBox);
 	UnitCommands_ProductivityResource_Holder = new wxBoxSizer(wxVERTICAL);
@@ -4741,8 +4742,9 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_ProductivityResource_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ProductivityResource);
 	ResourceComboBoxList.push_back(UnitCommands_ProductivityResource_ComboBox);
 	UnitCommands_ResourceOut_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_ResourceOut_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Out", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_ResourceOut_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Out *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ResourceOut = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	UnitCommands_ResourceOut->SetToolTip("Drop resource");
 	UnitCommands_ResourceOut_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceOut);
 	ResourceComboBoxList.push_back(UnitCommands_ResourceOut_ComboBox);
 	UnitCommands_Resource_Holder = new wxBoxSizer(wxVERTICAL);
@@ -4964,8 +4966,8 @@ void AGE_Frame::CreateUnitControls()
 	Type70.Add("Unknown28");
 	Type70.Add("HeroMode");
 	Type70.Add("GarrisonGraphic");
-	Type70.Add("DuplicatedMissilesMin");
-	Type70.Add("DuplicatedMissilesMax");
+	Type70.Add("TotalMissiles");
+	Type70.Add("TotalMissilesMax");
 	Type70.Add("MissileSpawningArea 3 floats");
 	Type70.Add("AlternativeProjectileUnit");
 	Type70.Add("ChargingGraphic");
@@ -5069,7 +5071,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceCapacity_Holder->Add(Units_ResourceCapacity_Text, 0, wxEXPAND);
 	Units_ResourceDecay_Holder->Add(Units_ResourceDecay_Text, 0, wxEXPAND);
 	Units_BlastType_Holder->Add(Units_BlastType_Text, 0, wxEXPAND);
-	Units_Unknown2_Holder->Add(Units_Unknown2_Text, 0, wxEXPAND);
+	Units_TriggerType_Holder->Add(Units_TriggerType_Text, 0, wxEXPAND);
 	Units_InteractionMode_Holder->Add(Units_InteractionMode_Text, 0, wxEXPAND);
 	Units_MinimapMode_Holder->Add(Units_MinimapMode_Text, 0, wxEXPAND);
 	Units_CommandAttribute_Holder->Add(Units_CommandAttribute_Text, 0, wxEXPAND);
@@ -5162,8 +5164,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown26_Holder->Add(Units_Unknown26_Text, 0, wxEXPAND);
 	Units_Unknown27_Holder->Add(Units_Unknown27_Text, 0, wxEXPAND);
 	Units_Unknown28_Holder->Add(Units_Unknown28_Text, 0, wxEXPAND);
-	Units_AttackMissileDuplicationAmount1_Holder->Add(Units_AttackMissileDuplicationAmount1_Text, 0, wxEXPAND);
-	Units_AttackMissileDuplicationAmount2_Holder->Add(Units_AttackMissileDuplicationAmount2_Text, 0, wxEXPAND);
+	Units_MissileCount_Holder->Add(Units_MissileCount_Text, 0, wxEXPAND);
+	Units_MissileDuplicationCount_Holder->Add(Units_MissileDuplicationCount_Text, 0, wxEXPAND);
 	Units_AttackMissileDuplicationSpawning_Holder->Add(Units_AttackMissileDuplicationSpawning_Text, 0, wxEXPAND);
 	Units_ChargingMode_Holder->Add(Units_ChargingMode_Text, 0, wxEXPAND);
 	Units_DisplayedPierceArmour_Holder->Add(Units_DisplayedPierceArmour_Text, 0, wxEXPAND);
@@ -5243,17 +5245,17 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceCapacity_Holder->Add(Units_ResourceCapacity, 1, wxEXPAND);
 	Units_ResourceDecay_Holder->Add(Units_ResourceDecay, 1, wxEXPAND);
 	Units_BlastType_Holder->Add(Units_BlastType, 1, wxEXPAND);
-	Units_Unknown2_Holder->Add(Units_Unknown2, 1, wxEXPAND);
+	Units_TriggerType_Holder->Add(Units_TriggerType, 1, wxEXPAND);
 	Units_InteractionMode_Holder->Add(Units_InteractionMode, 1, wxEXPAND);
 	Units_MinimapMode_Holder->Add(Units_MinimapMode, 1, wxEXPAND);
 	Units_CommandAttribute_Holder->Add(Units_CommandAttribute, 0, wxEXPAND);
 	Units_Unknown3A_Holder->Add(Units_Unknown3A, 0, wxEXPAND);
 	Units_MinimapColor_Holder->Add(Units_MinimapColor, 0, wxEXPAND);
 	Units_Unselectable_Holder->Add(Units_Unselectable_CheckBox, 0, wxEXPAND);
-	Units_Unselectable_Holder->Add(Units_Unselectable, 1, wxEXPAND);
-	Units_Unknown6_Holder->Add(Units_Unknown6, 1, wxEXPAND);
+	Units_Unselectable_Holder->Add(Units_Unselectable, 0, wxEXPAND);
+	Units_Unknown6_Holder->Add(Units_Unknown6, 0, wxEXPAND);
 	Units_Unknown7_Holder->Add(Units_Unknown7, 0, wxEXPAND);
-	Units_Unknown8_Holder->Add(Units_Unknown8, 1, wxEXPAND);
+	Units_Unknown8_Holder->Add(Units_Unknown8, 0, wxEXPAND);
 	Units_SelectionMask_Holder->Add(Units_SelectionMask, 0, wxEXPAND);
 	Units_SelectionShapeType_Holder->Add(Units_SelectionShapeType, 0, wxEXPAND);
 	Units_SelectionShape_Holder->Add(Units_SelectionShape, 0, wxEXPAND);
@@ -5394,8 +5396,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_HeroMode_Holder->Add(Units_HeroMode, 0, wxEXPAND);
 	Units_HeroMode_Holder->AddSpacer(2);
 	Units_HeroMode_Holder->Add(Units_HeroMode_CheckBox, 2, wxEXPAND);
-	Units_AttackMissileDuplicationAmount1_Holder->Add(Units_AttackMissileDuplicationAmount1, 1, wxEXPAND);
-	Units_AttackMissileDuplicationAmount2_Holder->Add(Units_AttackMissileDuplicationAmount2, 1, wxEXPAND);
+	Units_MissileCount_Holder->Add(Units_MissileCount, 1, wxEXPAND);
+	Units_MissileDuplicationCount_Holder->Add(Units_MissileDuplicationCount, 1, wxEXPAND);
 	for(short loop = 0; loop < 3; ++loop)
 	Units_AttackMissileDuplicationSpawning_Grid->Add(Units_AttackMissileDuplicationSpawning[loop], 1, wxEXPAND);
 	Units_AttackMissileDuplicationSpawning_Holder->Add(Units_AttackMissileDuplicationSpawning_Grid, 1, wxEXPAND);
@@ -5794,8 +5796,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_ProjectilesArea1_Grid->Add(Units_ProjectileArc_Holder, 1, wxEXPAND);
 
 	Units_ProjectilesArea2_Grid->Add(Units_ProjectileUnitID_Holder, 2, wxEXPAND);
-	Units_ProjectilesArea3_Grid->Add(Units_AttackMissileDuplicationAmount1_Holder, 1, wxEXPAND);
-	Units_ProjectilesArea3_Grid->Add(Units_AttackMissileDuplicationAmount2_Holder, 1, wxEXPAND);
+	Units_ProjectilesArea3_Grid->Add(Units_MissileCount_Holder, 1, wxEXPAND);
+	Units_ProjectilesArea3_Grid->Add(Units_MissileDuplicationCount_Holder, 1, wxEXPAND);
 	Units_ProjectilesArea2_Grid->Add(Units_AttackMissileDuplicationUnit_Holder, 1, wxEXPAND);
 	Units_ProjectilesArea2_Grid->Add(Units_ChargingGraphic_Holder, 1, wxEXPAND);
 	Units_ProjectilesArea2_Grid->Add(Units_ChargingMode_Holder, 1, wxEXPAND);
@@ -5826,6 +5828,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesModes1_Grid->Add(Units_PlacementMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_HillMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_VisibleInFog_Holder, 1, wxEXPAND);
+	Units_AttributesModes1_Grid->Add(Units_TriggerType_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_InteractionMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_MinimapMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_MinimapColor_Holder, 1, wxEXPAND);
@@ -5842,12 +5845,18 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesSizes_Holder->Add(Units_SizeRadius_Holder, 1, wxEXPAND);
 	Units_AttributesSizes_Holder->Add(Units_EditorRadius_Holder, 1, wxEXPAND);
 	Units_AttributesSizes_Holder->Add(Units_SelectionRadius_Holder, 1, wxEXPAND);
-	Units_AttributesSelection1_Grid->Add(Units_Unselectable_Holder, 1, wxEXPAND);
-	Units_AttributesSelection1_Grid->Add(Units_SelectionMask_Holder, 1, wxEXPAND);
-	Units_AttributesSelection1_Grid->Add(Units_SelectionShapeType_Holder, 1, wxEXPAND);
-	Units_AttributesSelection1_Grid->Add(Units_SelectionShape_Holder, 1, wxEXPAND);
-	Units_AttributesSelection1_Grid->Add(Units_SelectionEffect_Holder, 1, wxEXPAND);
-	Units_AttributesSelection1_Grid->Add(Units_EditorSelectionColour_Holder, 1, wxEXPAND);
+	Units_AttributesSelection1_Grid->Add(Units_Unselectable_Holder, 0, wxEXPAND);
+	Units_AttributesSelection1_Grid->Add(Units_Unknown6_Holder, 0, wxEXPAND);
+	Units_AttributesSelection1_Grid->Add(Units_Unknown7_Holder, 0, wxEXPAND);
+	Units_AttributesSelection1_Grid->Add(Units_Unknown8_Holder, 0, wxEXPAND);
+	Units_AttributesSelection1_Grid->AddStretchSpacer(1);
+	Units_AttributesSelection1_Grid->Add(Units_SelectionMask_Holder, 0, wxEXPAND);
+	Units_AttributesSelection1_Grid->Add(Units_SelectionShapeType_Holder, 0, wxEXPAND);
+	Units_AttributesSelection1_Grid->Add(Units_SelectionShape_Holder, 0, wxEXPAND);
+	Units_AttributesSelection1_Grid->AddStretchSpacer(1);
+	Units_AttributesSelection1_Grid->AddStretchSpacer(1);
+	Units_AttributesSelection1_Grid->Add(Units_SelectionEffect_Holder, 0, wxEXPAND);
+	Units_AttributesSelection1_Grid->Add(Units_EditorSelectionColour_Holder, 0, wxEXPAND);
 	Units_ResourceStorageHeader_Holder->Add(Units_ResourceStorage_Holder[0], 0, wxEXPAND);
 	Units_ResourceStorageHeader_Holder->AddSpacer(5);
 	Units_ResourceStorageHeader_Holder->Add(Units_ResourceStorage_Holder[1], 0, wxEXPAND);
@@ -5944,11 +5953,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown1_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_BlastType_Holder, 0, wxEXPAND);
-	Units_Type10plusUnknowns_Grid->Add(Units_Unknown2_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknowns_Grid->Add(Units_Unknown3A_Holder, 0, wxEXPAND);
-	Units_Type10plusUnknowns_Grid->Add(Units_Unknown6_Holder, 0, wxEXPAND);
-	Units_Type10plusUnknowns_Grid->Add(Units_Unknown7_Holder, 0, wxEXPAND);
-	Units_Type10plusUnknowns_Grid->Add(Units_Unknown8_Holder, 0, wxEXPAND);
 	Units_Type10plusUnknownArea_Holder->Add(Units_Type10plusUnknowns_Grid, 0, wxEXPAND);
 
 	Units_Type30plusUnknownArea_Grid->Add(Units_Unknown11_Holder, 0, wxEXPAND);

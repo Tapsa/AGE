@@ -136,6 +136,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			return;
 		}
+		AGETextCtrl::unSaved[AGEwindow] = 0;
+		++AGETextCtrl::fileLoaded[AGEwindow];
+
 		Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 		if(AGEwindow == 0) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
 		Config->Write("DefaultFiles/DriveLetter", DriveLetter);
@@ -174,6 +177,43 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		case EV_SWGB: GenieVersion = genie::GV_SWGB; break;
 		//case EV_CC: GenieVersion = genie::GV_CC; break;
 		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
+	}
+
+	if(GenieFile != NULL)
+	{
+		TechTrees_Ages_Items.Mode->container.resize(0);
+		TechTrees_Buildings_Items.Mode->container.resize(0);
+		TechTrees_Units_Items.Mode->container.resize(0);
+		TechTrees_Researches_Items.Mode->container.resize(0);
+		delete GenieFile;
+		GenieFile = NULL;
+	}
+	else
+	{
+		TabBar_Main->ChangeSelection(4);
+	}
+
+	{
+		SetStatusText("Reading file...", 0);
+		wxBusyCursor WaitCursor;
+
+		GenieFile = new genie::DatFile();
+		try
+		{
+			genie::Terrain::customTerrainAmount = CustomTerrains;
+			GenieFile->setGameVersion(GenieVersion);
+			GenieFile->load(DatFileName[0].c_str());
+		}
+		catch(std::ios_base::failure e)
+		{
+			wxMessageBox("Failed to load "+DatFileName[0]);
+			delete GenieFile;
+			GenieFile = NULL;
+			return;
+		}
+		//int TerrainsInData = GenieFile->TerrainBlock.Terrains.size();
+		//for(int terrain = 0; terrain < TerrainsInData; ++terrain)
+		//GenieFile->TerrainBlock.Terrains[terrain].Borders.resize(100, 0); // Fixing broken file
 	}
 
 	// txt language file
@@ -278,45 +318,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			}
 			else LanguageDLL[2] = LoadLibrary(LangX1P1FileName[0].c_str());
 		}
-	}
-
-	if(GenieFile != NULL)
-	{
-		TechTrees_Ages_Items.Mode->container.resize(0);
-		TechTrees_Buildings_Items.Mode->container.resize(0);
-		TechTrees_Units_Items.Mode->container.resize(0);
-		TechTrees_Researches_Items.Mode->container.resize(0);
-		delete GenieFile;
-		GenieFile = NULL;
-	}
-	else
-	{
-		TabBar_Main->ChangeSelection(4);
-	}
-
-	{
-		SetStatusText("Reading file...", 0);
-		wxBusyCursor WaitCursor;
-
-		GenieFile = new genie::DatFile();
-		try
-		{
-			genie::Terrain::customTerrainAmount = CustomTerrains;
-			GenieFile->setGameVersion(GenieVersion);
-			GenieFile->load(DatFileName[0].c_str());
-		}
-		catch(std::ios_base::failure e)
-		{
-			wxMessageBox("Failed to load "+DatFileName[0]);
-			delete GenieFile;
-			GenieFile = NULL;
-			return;
-		}
-		//int TerrainsInData = GenieFile->TerrainBlock.Terrains.size();
-		//for(int terrain = 0; terrain < TerrainsInData; ++terrain)
-		//GenieFile->TerrainBlock.Terrains[terrain].Borders.resize(100, 0); // Fixing broken file
-		AGETextCtrl::unSaved[AGEwindow] = 0;
-		++AGETextCtrl::fileLoaded[AGEwindow];
 	}
 
 	if(GenieFile != NULL)
@@ -704,11 +705,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			Units_Class_ComboBox[loop]->Append("No Class/Invalid Class");	// Selection 0
 			if(GenieVersion < genie::GV_SWGB)
 			{
-				Units_Class_ComboBox[loop]->Append("0 - Archery");// archery-class
+				Units_Class_ComboBox[loop]->Append("0 - Archer");// archery-class
 				Units_Class_ComboBox[loop]->Append("1 - Artifact/Ruins");
 				Units_Class_ComboBox[loop]->Append("2 - Trade Boat");
 				Units_Class_ComboBox[loop]->Append("3 - Building");// building-class
-				Units_Class_ComboBox[loop]->Append("4 - Villager");// villager-class
+				Units_Class_ComboBox[loop]->Append("4 - Civilian");// villager-class
 				Units_Class_ComboBox[loop]->Append("5 - Ocean Fish");// ocean-fish-class
 				Units_Class_ComboBox[loop]->Append("6 - Infantry");// infantry-class
 				Units_Class_ComboBox[loop]->Append("7 - Berry Bush");// forage-food
@@ -722,7 +723,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_Class_ComboBox[loop]->Append("15 - Tree");
 				Units_Class_ComboBox[loop]->Append("16 - Tree Stump");
 				Units_Class_ComboBox[loop]->Append("17 - Unused");
-				Units_Class_ComboBox[loop]->Append("18 - Monk");// monastery-class
+				Units_Class_ComboBox[loop]->Append("18 - Priest");// monastery-class
 				Units_Class_ComboBox[loop]->Append("19 - Trade Cart");
 				Units_Class_ComboBox[loop]->Append("20 - Transport Boat");
 				Units_Class_ComboBox[loop]->Append("21 - Fishing Boat");
@@ -764,10 +765,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Units_Class_ComboBox[loop]->Append("48 - Ore Mine");
 				Units_Class_ComboBox[loop]->Append("49 - Farm");// farm-food // farm-class
 				Units_Class_ComboBox[loop]->Append("50 - Spearman");
-				Units_Class_ComboBox[loop]->Append("51 - Packed Trebuchet");// packed-trebuchet-class
+				Units_Class_ComboBox[loop]->Append("51 - Packed Siege Unit");// packed-trebuchet-class
 				Units_Class_ComboBox[loop]->Append("52 - Tower");// tower-class
 				Units_Class_ComboBox[loop]->Append("53 - Boarding Boat");
-				Units_Class_ComboBox[loop]->Append("54 - Unpacked Trebuchet");// unpacked-trebuchet-class
+				Units_Class_ComboBox[loop]->Append("54 - Unpacked Siege Unit");// unpacked-trebuchet-class
 				Units_Class_ComboBox[loop]->Append("55 - Scorpion");// scorpion-class
 				Units_Class_ComboBox[loop]->Append("56 - Raider");
 				Units_Class_ComboBox[loop]->Append("57 - Cavalry Raider");
@@ -1214,8 +1215,8 @@ void AGE_Frame::OnGameVersionChange()
 		Units_SelectionShapeType_Holder->Show(show);
 		Units_SelectionShape_Holder->Show(show);
 		Units_ID3_Holder->Show(show);
-		Units_AttackMissileDuplicationAmount1_Holder->Show(show);
-		Units_AttackMissileDuplicationAmount2_Holder->Show(show);
+		Units_MissileCount_Holder->Show(show);
+		Units_MissileDuplicationCount_Holder->Show(show);
 		Units_AttackMissileDuplicationSpawning_Holder->Show(show);
 		Units_AttackMissileDuplicationUnit_Holder->Show(show);
 		Units_ChargingGraphic_Holder->Show(show);
