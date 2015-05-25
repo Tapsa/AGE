@@ -12,11 +12,33 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(!SkipOpenDialog)
 	{
+		int RecentItems;
+		wxFileConfig* RecentOpen = new wxFileConfig(wxEmptyString, "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+		RecentOpen->Read("Recent/RecentItems", &RecentItems, 0);
+		wxArrayString RecentDatVersions(RecentItems, "");
+		wxArrayString RecentDatPaths(RecentItems, "");
+		wxArrayString RecentLangs(RecentItems, "");
+		wxArrayString RecentLangX1s(RecentItems, "");
+		wxArrayString RecentLangX1P1s(RecentItems, "");
+		while(RecentItems > 0)
+		{
+			wxString useless, entry = "Recent" + lexical_cast<string>(RecentItems);
+			RecentOpen->Read(entry+"/RecentDatVersion", &useless, wxT("")); RecentDatVersions[--RecentItems] = useless;
+			RecentOpen->Read(entry+"/RecentDatPath", &useless, wxT("")); RecentDatPaths[RecentItems] = useless;
+			RecentOpen->Read(entry+"/RecentLang", &useless, wxT("")); RecentLangs[RecentItems] = useless;
+			RecentOpen->Read(entry+"/RecentLangX1", &useless, wxT("")); RecentLangX1s[RecentItems] = useless;
+			RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxT("")); RecentLangX1P1s[RecentItems] = useless;
+		}
+		delete RecentOpen;
+
 		AGE_OpenDialog OpenBox(this, NeedDat);
 		OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
 		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
-		OpenBox.CheckBox_Recent->Append("Coming soon. 10 point hint: donate euros to me to get this faster");
+		if(RecentDatPaths.size() == 0)
+		OpenBox.CheckBox_Recent->Append("10 point hint: donate euros to me");
+		else
+		OpenBox.CheckBox_Recent->Append(RecentDatPaths);
 		OpenBox.CheckBox_Recent->SetSelection(0);
 
 		switch(DatUsed)
@@ -45,7 +67,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.LanguageBox->ChangeValue(Language);
 		OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
 		if(AGEwindow == 0) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
-		OpenBox.Path_DatFileLocation->SetPath(DatFileName[0]);
+		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
 		if((*argPath).size() > 3)
 		{
 			OpenBox.ForceDat = true;
@@ -71,9 +93,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Selected.SetInt(LangsUsed & 4);
 		OpenBox.GetEventHandler()->ProcessEvent(Selected);
 
-		OpenBox.Path_LangFileLocation->SetPath(LangFileName[0]);
-		OpenBox.Path_LangX1FileLocation->SetPath(LangX1FileName[0]);
-		OpenBox.Path_LangX1P1FileLocation->SetPath(LangX1P1FileName[0]);
+		OpenBox.Path_LangFileLocation->SetPath(LangFileName);
+		OpenBox.Path_LangX1FileLocation->SetPath(LangX1FileName);
+		OpenBox.Path_LangX1P1FileLocation->SetPath(LangX1P1FileName);
 		OpenBox.CheckBox_LangWrite->SetValue(WriteLangs);
 		OpenBox.CheckBox_LangWriteToLatest->SetValue(LangWriteToLatest);
 
@@ -99,7 +121,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Language = OpenBox.LanguageBox->GetValue();
 		CustomTerrains = lexical_cast<int>(OpenBox.TerrainsBox->GetValue());
 		if(AGEwindow == 0) SimultaneousFiles = lexical_cast<int>(OpenBox.WindowCountBox->GetValue());
-		DatFileName[0] = OpenBox.Path_DatFileLocation->GetPath();
+		DatFileName = OpenBox.Path_DatFileLocation->GetPath();
 
 		if(OpenBox.CheckBox_LangFileLocation->IsChecked())
 		{
@@ -126,9 +148,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			LangsUsed &= ~4;
 		}
 
-		LangFileName[0] = OpenBox.Path_LangFileLocation->GetPath();
-		LangX1FileName[0] = OpenBox.Path_LangX1FileLocation->GetPath();
-		LangX1P1FileName[0] = OpenBox.Path_LangX1P1FileLocation->GetPath();
+		LangFileName = OpenBox.Path_LangFileLocation->GetPath();
+		LangX1FileName = OpenBox.Path_LangX1FileLocation->GetPath();
+		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
 		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
 		LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
 
@@ -146,17 +168,53 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		Config->Write("DefaultFiles/CustomFolder", CustomFolder);
 		Config->Write("DefaultFiles/Version", GameVersion);
 		Config->Write("DefaultFiles/DatUsed", DatUsed);
-		Config->Write("DefaultFiles/DatFilename", DatFileName[0]);
+		Config->Write("DefaultFiles/DatFilename", DatFileName);
 		Config->Write("DefaultFiles/LangsUsed", LangsUsed);
 		Config->Write("DefaultFiles/WriteLangs", WriteLangs);
 		Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
 		Config->Write("DefaultFiles/Language", Language);
-		Config->Write("DefaultFiles/LangFilename", LangFileName[0]);
-		Config->Write("DefaultFiles/LangX1Filename", LangX1FileName[0]);
-		Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName[0]);
+		Config->Write("DefaultFiles/LangFilename", LangFileName);
+		Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
+		Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
 		Config->Write("DefaultFiles/AutoBackups", AutoBackups);
 		Config->Write("Misc/CustomTerrains", CustomTerrains);
 		delete Config;
+
+		wxFileConfig* RecentSave = new wxFileConfig(wxEmptyString, "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+		RecentSave->Read("Recent/RecentItems", &RecentItems, 0);
+		short abort;
+		for(int i = RecentItems; i--> 0;)
+		{
+			abort = 0;
+			wxString compare, entry = "Recent" + lexical_cast<string>(i);
+			int dataversion;
+			RecentSave->Read(entry+"/RecentDatVersion", &dataversion, 0);
+			if(dataversion == GameVersion) ++abort; else continue;
+			RecentSave->Read(entry+"/RecentDatPath", &compare, wxT(""));
+			if(compare == DatFileName) ++abort; else continue;
+			RecentSave->Read(entry+"/RecentLang", &compare, wxT(""));
+			if(compare == LangFileName) ++abort; else continue;
+			RecentSave->Read(entry+"/RecentLangX1", &compare, wxT(""));
+			if(compare == LangX1FileName) ++abort; else continue;
+			RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxT(""));
+			if(compare == LangX1P1FileName)
+			{
+				++abort;
+				RecentItems = 0;
+			}
+		}
+		wxMessageBox(lexical_cast<string>(abort)+" "+lexical_cast<string>(GameVersion));
+		if(abort < 5)
+		{
+			RecentSave->Write("Recent/RecentItems", ++RecentItems);
+			wxString entry = "Recent" + lexical_cast<string>(RecentItems);
+			RecentSave->Write(entry+"/RecentDatVersion", GameVersion);
+			RecentSave->Write(entry+"/RecentDatPath", DatFileName);
+			RecentSave->Write(entry+"/RecentLang", LangFileName);
+			RecentSave->Write(entry+"/RecentLangX1", LangX1FileName);
+			RecentSave->Write(entry+"/RecentLangX1P1", LangX1P1FileName);			
+		}
+		delete RecentSave;
 	}
 
 	switch(GameVersion)
@@ -202,11 +260,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		{
 			genie::Terrain::customTerrainAmount = CustomTerrains;
 			GenieFile->setGameVersion(GenieVersion);
-			GenieFile->load(DatFileName[0].c_str());
+			GenieFile->load(DatFileName.c_str());
 		}
 		catch(std::ios_base::failure e)
 		{
-			wxMessageBox("Failed to load "+DatFileName[0]);
+			wxMessageBox("Failed to load "+DatFileName);
 			delete GenieFile;
 			GenieFile = NULL;
 			return;
@@ -220,7 +278,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	if(GenieVersion == genie::GV_Cysion)
 	{
 		LangTxt.clear();
-		ifstream infile(LangFileName[0]);
+		ifstream infile(LangFileName);
 		string line;
 		while(getline(infile, line))
 		{
@@ -266,17 +324,17 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				Lang->setDefaultCharset(LangCharset);
 				try
 				{
-					Lang->load(LangFileName[0].c_str());
+					Lang->load(LangFileName.c_str());
 				}
 				catch(std::ios_base::failure e)
 				{
-					wxMessageBox("Failed to load "+LangFileName[0]);
+					wxMessageBox("Failed to load "+LangFileName);
 					delete Lang;
 					Lang = NULL;
 					return;
 				}
 			}
-			else LanguageDLL[0] = LoadLibrary(LangFileName[0].c_str());
+			else LanguageDLL[0] = LoadLibrary(LangFileName.c_str());
 		}
 		if(LangsUsed & 2)
 		{
@@ -286,17 +344,17 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				LangX->setDefaultCharset(LangCharset);
 				try
 				{
-					LangX->load(LangX1FileName[0].c_str());
+					LangX->load(LangX1FileName.c_str());
 				}
 				catch(std::ios_base::failure e)
 				{
-					wxMessageBox("Failed to load "+LangX1FileName[0]);
+					wxMessageBox("Failed to load "+LangX1FileName);
 					delete LangX;
 					LangX = NULL;
 					return;
 				}
 			}
-			else LanguageDLL[1] = LoadLibrary(LangX1FileName[0].c_str());
+			else LanguageDLL[1] = LoadLibrary(LangX1FileName.c_str());
 		}
 		if(LangsUsed & 4)
 		{
@@ -306,17 +364,17 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 				LangXP->setDefaultCharset(LangCharset);
 				try
 				{
-					LangXP->load(LangX1P1FileName[0].c_str());
+					LangXP->load(LangX1P1FileName.c_str());
 				}
 				catch(std::ios_base::failure e)
 				{
-					wxMessageBox("Failed to load "+LangX1P1FileName[0]);
+					wxMessageBox("Failed to load "+LangX1P1FileName);
 					delete LangXP;
 					LangXP = NULL;
 					return;
 				}
 			}
-			else LanguageDLL[2] = LoadLibrary(LangX1P1FileName[0].c_str());
+			else LanguageDLL[2] = LoadLibrary(LangX1P1FileName.c_str());
 		}
 	}
 
@@ -404,7 +462,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_Type_ComboBox->Append("7: Attack");
 		UnitCommands_Type_ComboBox->Append("8: Shoot");
 		UnitCommands_Type_ComboBox->Append("10: Fly");
-		UnitCommands_Type_ComboBox->Append("11: Unknown Predator Ability");
+		UnitCommands_Type_ComboBox->Append("11: Scare/Hunt");
 		UnitCommands_Type_ComboBox->Append("12: Unload (Boat-Like)");
 		UnitCommands_Type_ComboBox->Append("13: Guard");
 		//UnitCommands_Type_ComboBox->Append("14: Unknown Ability");
@@ -434,13 +492,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		UnitCommands_Type_ComboBox->Append("121: Deselect when Tasked");
 		UnitCommands_Type_ComboBox->Append("122: Loot");
 		UnitCommands_Type_ComboBox->Append("123: Housing");
-		//UnitCommands_Type_ComboBox->Append("124: Pack");                      <---
+		UnitCommands_Type_ComboBox->Append("124: Pack");
 		UnitCommands_Type_ComboBox->Append("125: Unpack & Attack");
-		//UnitCommands_Type_ComboBox->Append("130: Off-Map Trade 1");
+		UnitCommands_Type_ComboBox->Append("130: Off-Map Trade 1");
 		UnitCommands_Type_ComboBox->Append("131: Off-Map Trade 2");
 		UnitCommands_Type_ComboBox->Append("132: Pickup Unit");
-		//UnitCommands_Type_ComboBox->Append("133: Unknown Pickup Ability");
-		//UnitCommands_Type_ComboBox->Append("134: Unknown Pickup Ability");
+		UnitCommands_Type_ComboBox->Append("133: Unknown Pickup Ability");
+		UnitCommands_Type_ComboBox->Append("134: Unknown Pickup Ability");
 		UnitCommands_Type_ComboBox->Append("135: Kidnap Unit");
 		UnitCommands_Type_ComboBox->Append("136: Deposit Unit");	// Selection 33
 		UnitCommands_Type_ComboBox->Append("149: Shear");	// Selection 33
@@ -1429,7 +1487,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	Selected.SetInt(SaveDat);
 	SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
-	SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName[0]);
+	SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
 	if((*argPath).size() > 3)
 	{
 		SaveBox.ForceDat = true;
@@ -1460,28 +1518,28 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	Selected.SetInt(LangsUsed & 4);
 	SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
-	SaveBox.Path_LangFileLocation->SetPath(SaveLangFileName[0]);
-	SaveBox.Path_LangX1FileLocation->SetPath(SaveLangX1FileName[0]);
-	SaveBox.Path_LangX1P1FileLocation->SetPath(SaveLangX1P1FileName[0]);
+	SaveBox.Path_LangFileLocation->SetPath(SaveLangFileName);
+	SaveBox.Path_LangX1FileLocation->SetPath(SaveLangX1FileName);
+	SaveBox.Path_LangX1P1FileLocation->SetPath(SaveLangX1P1FileName);
 
 	bool save = SaveBox.ShowModal() == wxID_OK;
 	SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
 	SaveDat = SaveBox.CheckBox_DatFileLocation->IsChecked();
 	SaveApf = SaveBox.CheckBox_ApfFileLocation->IsChecked();
 	SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
-	SaveDatFileName[0] = SaveBox.Path_DatFileLocation->GetPath();
-	SaveLangFileName[0] = SaveBox.Path_LangFileLocation->GetPath();
-	SaveLangX1FileName[0] = SaveBox.Path_LangX1FileLocation->GetPath();
-	SaveLangX1P1FileName[0] = SaveBox.Path_LangX1P1FileLocation->GetPath();
+	SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
+	SaveLangFileName = SaveBox.Path_LangFileLocation->GetPath();
+	SaveLangX1FileName = SaveBox.Path_LangX1FileLocation->GetPath();
+	SaveLangX1P1FileName = SaveBox.Path_LangX1P1FileLocation->GetPath();
 
 	if(!save) return;
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
-	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName[0]);
+	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
 	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
-	Config->Write("DefaultFiles/SaveLangFilename", SaveLangFileName[0]);
-	Config->Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName[0]);
-	Config->Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName[0]);
+	Config->Write("DefaultFiles/SaveLangFilename", SaveLangFileName);
+	Config->Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName);
+	Config->Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
 	Config->Write("DefaultFiles/SaveDat", SaveDat);
 	Config->Write("Misc/CustomTerrains", CustomTerrains);
 	delete Config;
@@ -1510,7 +1568,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		// <-- ends here
 		try
 		{
-			GenieFile->saveAs(SaveDatFileName[0].c_str());
+			GenieFile->saveAs(SaveDatFileName.c_str());
 		}
 		catch(std::ios_base::failure e)
 		{
@@ -1530,7 +1588,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		{
 			try
 			{
-				Lang->saveAs(SaveLangFileName[0].c_str());
+				Lang->saveAs(SaveLangFileName.c_str());
 			}
 			catch(std::ios_base::failure e)
 			{
@@ -1542,7 +1600,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		{
 			try
 			{
-				LangX->saveAs(SaveLangX1FileName[0].c_str());
+				LangX->saveAs(SaveLangX1FileName.c_str());
 			}
 			catch(std::ios_base::failure e)
 			{
@@ -1554,7 +1612,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		{
 			try
 			{
-				LangXP->saveAs(SaveLangX1P1FileName[0].c_str());
+				LangXP->saveAs(SaveLangX1P1FileName.c_str());
 			}
 			catch(std::ios_base::failure e)
 			{
@@ -2045,7 +2103,7 @@ void AGE_Frame::SaveBackup()
 {
 	try
 	{
-		GenieFile->saveAs((DatFileName[0].substr(0, DatFileName[0].size()-4)+"_backup"+CurrentTime()+".dat").c_str());
+		GenieFile->saveAs((DatFileName.substr(0, DatFileName.size()-4)+"_backup"+CurrentTime()+".dat").c_str());
 	}
 	catch(std::ios_base::failure e)
 	{

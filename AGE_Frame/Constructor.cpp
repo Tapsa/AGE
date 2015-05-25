@@ -22,7 +22,6 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	AGETextCtrl::unSaved.push_back(0);
 	AGETextCtrl::fileLoaded.push_back(0);
 
-	wxString useless;
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
 	sscanf(EditorVersionString, "%f", &EditorVersion);
@@ -43,20 +42,20 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Read("DefaultFiles/Version", &GameVersion, genie::GV_TC);
 	Config->Read("DefaultFiles/SaveVersion", &SaveGameVersion, 3);
 	Config->Read("DefaultFiles/DatUsed", &DatUsed, 0);
-	Config->Read("DefaultFiles/DatFilename", &useless, wxT("")); DatFileName.Add(useless);
-	Config->Read("DefaultFiles/SaveDatFilename", &useless, wxT("")); SaveDatFileName.Add(useless);
+	Config->Read("DefaultFiles/DatFilename", &DatFileName, wxT(""));
+	Config->Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxT(""));
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/WriteLangs", &WriteLangs, false);
 	Config->Read("DefaultFiles/SaveLangs", &SaveLangs, false);
 	Config->Read("DefaultFiles/LangWriteToLatest", &LangWriteToLatest, false);
 	Config->Read("DefaultFiles/Language", &Language, wxT("en"));
 	Config->Read("DefaultFiles/LangCharset", &LangCharset, wxT("Windows-1252"));
-	Config->Read("DefaultFiles/LangFilename", &useless, wxT("")); LangFileName.Add(useless);
-	Config->Read("DefaultFiles/LangX1Filename", &useless, wxT("")); LangX1FileName.Add(useless);
-	Config->Read("DefaultFiles/LangX1P1Filename", &useless, wxT("")); LangX1P1FileName.Add(useless);
-	Config->Read("DefaultFiles/SaveLangFilename", &useless, wxT("")); SaveLangFileName.Add(useless);
-	Config->Read("DefaultFiles/SaveLangX1Filename", &useless, wxT("")); SaveLangX1FileName.Add(useless);
-	Config->Read("DefaultFiles/SaveLangX1P1Filename", &useless, wxT("")); SaveLangX1P1FileName.Add(useless);
+	Config->Read("DefaultFiles/LangFilename", &LangFileName, wxT(""));
+	Config->Read("DefaultFiles/LangX1Filename", &LangX1FileName, wxT(""));
+	Config->Read("DefaultFiles/LangX1P1Filename", &LangX1P1FileName, wxT(""));
+	Config->Read("DefaultFiles/SaveLangFilename", &SaveLangFileName, wxT(""));
+	Config->Read("DefaultFiles/SaveLangX1Filename", &SaveLangX1FileName, wxT(""));
+	Config->Read("DefaultFiles/SaveLangX1P1Filename", &SaveLangX1P1FileName, wxT(""));
 	Config->Read("DefaultFiles/SaveDat", &SaveDat, true);
 	Config->Read("DefaultFiles/AutoBackups", &AutoBackups, false);
 	Config->Read("Misc/CustomTerrains", &CustomTerrains, 42);
