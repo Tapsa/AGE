@@ -1638,7 +1638,7 @@ public:
 	TextCtrl_Short *Units_ResourceCapacity;
 	TextCtrl_Float *Units_ResourceDecay;
 	TextCtrl_Byte *Units_BlastType;
-	TextCtrl_Byte *Units_Unknown2;
+	TextCtrl_Byte *Units_TriggerType;
 	TextCtrl_Byte *Units_InteractionMode;
 	TextCtrl_Byte *Units_MinimapMode;
 	TextCtrl_Byte *Units_CommandAttribute;
@@ -1775,8 +1775,8 @@ public:
 	CheckBox_2State *Units_HeroMode_CheckBox;
 	TextCtrl_Long *Units_GarrisonGraphic;
 	ComboBox_Plus1 *Units_GarrisonGraphic_ComboBox;
-	TextCtrl_Float *Units_AttackMissileDuplicationAmount1;
-	TextCtrl_Byte *Units_AttackMissileDuplicationAmount2;
+	TextCtrl_Float *Units_MissileCount;
+	TextCtrl_Byte *Units_MissileDuplicationCount;
 	TextCtrl_Float *Units_AttackMissileDuplicationSpawning[3];
 	TextCtrl_Long *Units_AttackMissileDuplicationUnit;
 	ComboBox_Plus1 *Units_AttackMissileDuplicationUnit_ComboBox;
@@ -1852,7 +1852,7 @@ public:
 	wxStaticText *Units_ResourceCapacity_Text;
 	wxStaticText *Units_ResourceDecay_Text;
 	wxStaticText *Units_BlastType_Text;
-	wxStaticText *Units_Unknown2_Text;
+	wxStaticText *Units_TriggerType_Text;
 	wxStaticText *Units_InteractionMode_Text;
 	wxStaticText *Units_MinimapMode_Text;
 	wxStaticText *Units_CommandAttribute_Text;
@@ -1955,8 +1955,8 @@ public:
 	wxStaticText *Units_Unknown27_Text;
 	wxStaticText *Units_Unknown28_Text;
 	wxStaticText *Units_GarrisonGraphic_Text;
-	wxStaticText *Units_AttackMissileDuplicationAmount1_Text;
-	wxStaticText *Units_AttackMissileDuplicationAmount2_Text;
+	wxStaticText *Units_MissileCount_Text;
+	wxStaticText *Units_MissileDuplicationCount_Text;
 	wxStaticText *Units_AttackMissileDuplicationSpawning_Text;
 	wxStaticText *Units_AttackMissileDuplicationUnit_Text;
 	wxStaticText *Units_ChargingGraphic_Text;
@@ -2029,7 +2029,7 @@ public:
 	wxBoxSizer *Units_ResourceCapacity_Holder;
 	wxBoxSizer *Units_ResourceDecay_Holder;
 	wxBoxSizer *Units_BlastType_Holder;
-	wxBoxSizer *Units_Unknown2_Holder;
+	wxBoxSizer *Units_TriggerType_Holder;
 	wxBoxSizer *Units_InteractionMode_Holder;
 	wxBoxSizer *Units_MinimapMode_Holder;
 	wxBoxSizer *Units_CommandAttribute_Holder;
@@ -2144,8 +2144,8 @@ public:
 	wxBoxSizer *Units_HeroMode_Holder;
 	wxBoxSizer *Units_GarrisonGraphic_Holder;
 	wxGridSizer *Units_GarrisonGraphic_Grid;
-	wxBoxSizer *Units_AttackMissileDuplicationAmount1_Holder;
-	wxBoxSizer *Units_AttackMissileDuplicationAmount2_Holder;
+	wxBoxSizer *Units_MissileCount_Holder;
+	wxBoxSizer *Units_MissileDuplicationCount_Holder;
 	wxBoxSizer *Units_AttackMissileDuplicationSpawning_Holder;
 	wxGridSizer *Units_AttackMissileDuplicationSpawning_Grid;
 	wxBoxSizer *Units_AttackMissileDuplicationUnit_Holder;
