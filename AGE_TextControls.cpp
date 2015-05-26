@@ -155,7 +155,10 @@ int TextCtrl_Float::SaveEdits(bool forced)
 		}
 		try
 		{
-			float casted = lexical_cast<float>(value);
+			float casted;
+			if(value == "max") casted = 3.40282347e+38;
+			else if(value == "min") casted = 1.17549435e-38;
+			else casted = lexical_cast<float>(value);
 			if(batchMode > 0)
 			{
 				for(auto &pointer: container)
@@ -489,7 +492,9 @@ void TextCtrl_Float::Update()
 		{
 			stringbuf buffer;
 			ostream os (&buffer);
-			os << *(float*)container[0];
+			if(*(int32_t*)container[0] == 0x7F7FFFFF) os << "max";
+			else if(*(int32_t*)container[0] == 0x00800000) os << "min";
+			else os << *(float*)container[0];
 			ChangeValue(buffer.str());
 		}
 	}
