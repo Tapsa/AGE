@@ -1641,7 +1641,7 @@ public:
 	TextCtrl_Byte *Units_TriggerType;
 	TextCtrl_Byte *Units_InteractionMode;
 	TextCtrl_Byte *Units_MinimapMode;
-	TextCtrl_Byte *Units_CommandAttribute;
+	TextCtrl_Byte *Units_CommandID;
 	TextCtrl_Float *Units_Unknown3A;
 	TextCtrl_UByte *Units_MinimapColor;
 	TextCtrl_Long *Units_LanguageDLLHelp;
@@ -1855,7 +1855,7 @@ public:
 	wxStaticText *Units_TriggerType_Text;
 	wxStaticText *Units_InteractionMode_Text;
 	wxStaticText *Units_MinimapMode_Text;
-	wxStaticText *Units_CommandAttribute_Text;
+	wxStaticText *Units_CommandID_Text;
 	wxStaticText *Units_Unknown3A_Text;
 	wxStaticText *Units_MinimapColor_Text;
 	wxStaticText *Units_LanguageDLLHelp_Text;
@@ -2032,7 +2032,7 @@ public:
 	wxBoxSizer *Units_TriggerType_Holder;
 	wxBoxSizer *Units_InteractionMode_Holder;
 	wxBoxSizer *Units_MinimapMode_Holder;
-	wxBoxSizer *Units_CommandAttribute_Holder;
+	wxBoxSizer *Units_CommandID_Holder;
 	wxBoxSizer *Units_Unknown3A_Holder;
 	wxBoxSizer *Units_MinimapColor_Holder;
 	wxBoxSizer *Units_LanguageDLLHelp_Holder;

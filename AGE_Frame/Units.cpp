@@ -120,7 +120,14 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type30[4]) == 0) Name += "UU "+FormatInt(UnitPointer->DeadFish.TrackingUnitUsed);
 				else if(label.compare(Type30[5]) == 0) Name += "UD "+FormatFloat(UnitPointer->DeadFish.TrackingUnitDensity);
 				else if(label.compare(Type30[6]) == 0) Name += "U16 "+FormatInt(UnitPointer->DeadFish.Unknown16);
-				else if(label.compare(Type30[7]) == 0) Name += "Ask Tapsa";
+				else if(label.compare(Type30[7]) == 0)
+				{
+					Name += "a"+FormatFloat(UnitPointer->DeadFish.Unknown16B[0]);
+					Name += " b"+FormatFloat(UnitPointer->DeadFish.Unknown16B[1]);
+					Name += " c"+FormatFloat(UnitPointer->DeadFish.Unknown16B[2]);
+					Name += " d"+FormatFloat(UnitPointer->DeadFish.Unknown16B[3]);
+					Name += " e"+FormatFloat(UnitPointer->DeadFish.Unknown16B[4]);
+				}
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
 			}
@@ -538,7 +545,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		}
 	}
 	Units_Enabled->resize(PointerCount);
-	Units_CommandAttribute->resize(PointerCount);
+	Units_CommandID->resize(PointerCount);
 	Units_Unknown3A->resize(PointerCount);
 	Units_MinimapColor->resize(PointerCount);
 	Units_LanguageDLLHelp->resize(PointerCount);
@@ -824,7 +831,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				}
 			}
 			Units_Enabled->container[location] = &UnitPointer->Enabled;
-			Units_CommandAttribute->container[location] = &UnitPointer->CommandAttribute;
+			Units_CommandID->container[location] = &UnitPointer->CommandAttribute;
 			Units_Unknown3A->container[location] = &UnitPointer->Unknown3A;
 			Units_MinimapColor->container[location] = &UnitPointer->MinimapColor;
 			Units_LanguageDLLHelp->container[location] = &UnitPointer->LanguageDLLHelp;
@@ -1249,7 +1256,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
 				Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
 			}
-			Units_CommandAttribute->Update();
+			Units_CommandID->Update();
 			Units_Unknown3A->Update();
 			Units_MinimapColor->Update();
 			Units_LanguageDLLHelp->Update();
@@ -1380,7 +1387,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	}
 	Units_DLL_LanguageHelp->Enable(show);
 	Units_DLL_LanguageHKText->Enable(show);
-	Units_CommandAttribute->Enable(show);
+	Units_CommandID->Enable(show);
 	Units_Unknown3A->Enable(show);
 	Units_MinimapColor->Enable(show);
 	Units_LanguageDLLHelp->Enable(show);
@@ -3884,7 +3891,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TriggerType_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_InteractionMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MinimapMode_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_CommandAttribute_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_CommandID_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Unknown3A_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MinimapColor_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_LanguageDLLHelp_Holder = new wxBoxSizer(wxVERTICAL);
@@ -4060,11 +4067,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_TerrainRestriction_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain Restriction ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ResourceCapacity_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Capacity ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ResourceDecay_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Decay *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_BlastArmorLevel_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Armor Level *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_BlastArmorLevel_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Blast Defense Level *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TriggerType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Trigger Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_InteractionMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Interaction Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinimapMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_CommandAttribute_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Command Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_CommandID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Command ID *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown3A_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 3A *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinimapColor_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Minimap Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLHelp_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4338,8 +4345,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_BlastRadius = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_BlastAttackLevel = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_BlastAttackLevel->SetToolTip("Blasts damage units that have higher or same blast armor level\n0 Damages resources also\n1 Damages trees also\n2 Damages nearby units\n3 Damages only targeted unit");
-	Units_BlastArmorLevel = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_BlastArmorLevel->SetToolTip("Receive blast damage from units that have lower or same blast attack level");
 
 	Units_Armors = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Armors");
 	Units_Armors_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -4375,6 +4380,9 @@ void AGE_Frame::CreateUnitControls()
 	TerrainRestrictionComboBoxList.push_back(Units_TerRestrictionForDmgMultiply_ComboBox);
 	Units_DisplayedMeleeArmour = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_DisplayedPierceArmour = new TextCtrl_Short(AGEwindow, Units_Scroller);
+	Units_BlastArmorLevel = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_BlastArmorLevel->SetToolTip("Receive blast damage from units that have lower or same blast attack level");
+
 	Units_ResourceCapacity = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_ResourceDecay = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_ResourceDecay->SetToolTip("Can alter corpses' decay time\nSet to -1 for never decaying");
@@ -4474,7 +4482,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_VisibleInFog = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_VisibleInFog->SetToolTip("0 Not visible\n1 Visible\n3 Inverted visibility");
 	Units_TriggerType = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_TriggerType->SetToolTip("Used in trigger conditions\n0 Projectile/Dead/Resource\n1 Boar\n2 Building\n3 Civilian\n4 Military\n5 Other\n");
+	Units_TriggerType->SetToolTip("Used in trigger conditions\n0 Projectile/Dead/Resource\n1 Boar\n2 Building\n3 Civilian\n4 Military\n5 Priest\n");
 	Units_InteractionMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_InteractionMode->SetToolTip("0 & 1 Unable to select, move or attack\n2 Can select, unable to move or attack\n3 Can select and attack, unable to move\n4 Can select, move and attack\n5+ Select and move?");
 	Units_MinimapMode = new TextCtrl_Byte(AGEwindow, Units_Scroller);
@@ -4579,8 +4587,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrackingUnitUsed->SetToolTip("-1 unless a tracking unit value is present\n2 all projectiles with a tracking unit");
 	Units_TrackingUnitDensity = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_TrackingUnitDensity->SetToolTip("0 unless tracking unit value is present\n0.5 trade carts\n0.12 MFFFG(projectile)\n0.4 other projectiles");
-	Units_CommandAttribute = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_CommandAttribute->SetToolTip("Class and this sets the interface for this unit\n0 Actions: Delete, Garrison, Stop | Attributes: Hit Points\n1 Animal\n2 Non-Military Building (build page 1)\n3 Villager\n4 Military Unit\n5 Trading Unit\n6 Monk\n7 Transport Ship\n8 Relic / Monk with Relic\n9 Fishing Ship\n10 Military Building (build page 2)\n11 Shield Building (build page 3)");
+	Units_CommandID = new TextCtrl_Byte(AGEwindow, Units_Scroller);
+	Units_CommandID->SetToolTip("Class and this sets the interface for this unit\n0 Flag\n1 Livestock\n2 Civilian Building (build page 1)\n3 Villager\n4 Military Unit\n5 Trade Unit\n6 Monk\n7 Transport Ship\n8 Relic / Monk with Relic\n9 Fishing Ship\n10 Military Building (build page 2)\n11 Shield Building (build page 3)");
 	Units_TrainTime = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_TrainLocationID = new TextCtrl_Short(AGEwindow, Units_Scroller);
 	Units_TrainLocationID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TrainLocationID);
@@ -4922,7 +4930,7 @@ void AGE_Frame::CreateUnitControls()
 	Type30.Add("TrackingUnitUsed");
 	Type30.Add("TrackingUnitDensity");
 	Type30.Add("Unknown16");
-	Type30.Add("Unknown16B 4 floats");
+	Type30.Add("Unknown16B 5 floats");
 
 	Type40.Add("SheepConversion");
 	Type40.Add("SearchRadius");
@@ -5082,7 +5090,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TriggerType_Holder->Add(Units_TriggerType_Text, 0, wxEXPAND);
 	Units_InteractionMode_Holder->Add(Units_InteractionMode_Text, 0, wxEXPAND);
 	Units_MinimapMode_Holder->Add(Units_MinimapMode_Text, 0, wxEXPAND);
-	Units_CommandAttribute_Holder->Add(Units_CommandAttribute_Text, 0, wxEXPAND);
+	Units_CommandID_Holder->Add(Units_CommandID_Text, 0, wxEXPAND);
 	Units_Unknown3A_Holder->Add(Units_Unknown3A_Text, 0, wxEXPAND);
 	Units_MinimapColor_Holder->Add(Units_MinimapColor_Text, 0, wxEXPAND);
 	Units_Unknown6_Holder->Add(Units_Unknown6_Text, 0, wxEXPAND);
@@ -5256,7 +5264,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TriggerType_Holder->Add(Units_TriggerType, 1, wxEXPAND);
 	Units_InteractionMode_Holder->Add(Units_InteractionMode, 1, wxEXPAND);
 	Units_MinimapMode_Holder->Add(Units_MinimapMode, 1, wxEXPAND);
-	Units_CommandAttribute_Holder->Add(Units_CommandAttribute, 0, wxEXPAND);
+	Units_CommandID_Holder->Add(Units_CommandID, 0, wxEXPAND);
 	Units_Unknown3A_Holder->Add(Units_Unknown3A, 0, wxEXPAND);
 	Units_MinimapColor_Holder->Add(Units_MinimapColor, 0, wxEXPAND);
 	Units_Unselectable_Holder->Add(Units_Unselectable_CheckBox, 0, wxEXPAND);
@@ -5733,7 +5741,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Grid_Data2->Add(Units_ReloadTime2_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_BlastRadius_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_BlastAttackLevel_Holder, 1, wxEXPAND);
-	Units_Attacks_Grid_Data2->Add(Units_BlastArmorLevel_Holder, 1, wxEXPAND);
 	Units_Attacks_Holder_Data->AddSpacer(5);
 	Units_Attacks_Holder_Data->Add(Units_Attacks_Grid_Data2, 0, wxEXPAND);
 
@@ -5747,6 +5754,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Armors_Holder_Data3->Add(Units_DisplayedMeleeArmour_Holder, 0, wxEXPAND);
 	Units_Armors_Holder_Data3->AddSpacer(5);
 	Units_Armors_Holder_Data3->Add(Units_DisplayedPierceArmour_Holder, 0, wxEXPAND);
+	Units_Armors_Holder_Data3->AddSpacer(5);
+	Units_Armors_Holder_Data3->Add(Units_BlastArmorLevel_Holder, 0, wxEXPAND);
 
 	for(short loop = 0; loop < 8; ++loop)
 	Units_GarrisonType_Grid->Add(Units_GarrisonType_CheckBox[loop], 1, wxEXPAND);
@@ -5884,7 +5893,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_CostHeader_Holder->Add(Units_CostAmount_Holder, 0, wxEXPAND);
 	Units_CostHeader_Holder->AddSpacer(5);
 	Units_CostHeader_Holder->Add(Units_CostUsed_Holder, 0, wxEXPAND);
-	Units_AttributesTrain1_Grid->Add(Units_CommandAttribute_Holder, 1, wxEXPAND);
+	Units_AttributesTrain1_Grid->Add(Units_CommandID_Holder, 1, wxEXPAND);
 	Units_AttributesTrain1_Grid->Add(Units_TrainTime_Holder, 1, wxEXPAND);
 	Units_AttributesTrain1_Grid->Add(Units_TrainLocationID_Holder, 1, wxEXPAND);
 	Units_Attributes3_Grid->Add(Units_StackUnitID_Holder, 1, wxEXPAND);
