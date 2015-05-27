@@ -11,7 +11,6 @@ public:
 
 //	Stuff related to editing multiple files at once
 
-	//AGE_Frame *secondWindow;
 	Copies *copies;
 	wxString *argPath;
 
@@ -79,7 +78,6 @@ public:
 
 //	Other Methods
 
-//	bool FileExists(const char *value);
 	wxString searchText, excludeText;
 	wxString FormatFloat(float);
 	wxString FormatInt(int);
@@ -98,6 +96,7 @@ public:
 	void LoadAllSoundFiles(wxCommandEvent &Event);
 	void ClearAllSoundFiles(wxCommandEvent &Event);
 	void OnAllSoundFileSelect(wxCommandEvent &Event);
+	bool Paste11Check(int pastes, int copies);
 
 //	General Events
 
@@ -682,6 +681,7 @@ public:
 
 //	Application Variables
 
+	static const wxString PASTE11WARNING;
 	float EditorVersion;
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
@@ -787,7 +787,8 @@ public:
 		ToolBar_Show,
 		ToolBar_Help,
 		ToolBar_Hex,
-		ToolBar_Float
+		ToolBar_Float,
+		ToolBar_Paste
 	};
 
 //	User Interface
@@ -1704,7 +1705,7 @@ public:
 	TextCtrl_Byte *Units_TrackingUnitUsed;
 	TextCtrl_Float *Units_TrackingUnitDensity;
 	TextCtrl_Byte *Units_Unknown16;
-	array<TextCtrl_Float*, 5> Units_Unknown16B;
+	array<TextCtrl_Float*, 5> Units_RotationAngles;
 
 //	Type 40+
 
@@ -1902,7 +1903,8 @@ public:
 	wxStaticText *Units_TrackingUnitUsed_Text;
 	wxStaticText *Units_TrackingUnitDensity_Text;
 	wxStaticText *Units_Unknown16_Text;
-	wxStaticText *Units_Unknown16B_Text;
+	wxStaticText *Units_RotationAngles_Text;
+	wxString Units_RotationAngles_Label;
 
 //	Type 40+
 
@@ -2082,8 +2084,8 @@ public:
 	wxBoxSizer *Units_TrackingUnitUsedBox_Holder;
 	wxBoxSizer *Units_TrackingUnitDensity_Holder;
 	wxBoxSizer *Units_Unknown16_Holder;
-	wxBoxSizer *Units_Unknown16B_Holder;
-	wxGridSizer *Units_Unknown16B_Grid;
+	wxBoxSizer *Units_RotationAngles_Holder;
+	wxGridSizer *Units_RotationAngles_Grid;
 
 //	Type 40+
 
@@ -3290,6 +3292,7 @@ public:
 			path[places[loop]] = copies[from];
 		}
 	}
+	// Paste from selection onwards
 	template <class P, class C>
 	inline void PasteToList(P &path, short place, C &copies)
 	{
@@ -3301,13 +3304,13 @@ public:
 			path[place + loop] = copies[loop];
 		}
 	}
+	// Paste to selections filling from beginning
 	template <class P, class C>
 	inline void PasteToList(P &path, vector<short> &places, C &copies)
 	{
-		for(int loop = 0, from = 0; loop < places.size(); ++loop, ++from)
+		for(int loop = 0; loop < places.size(); ++loop)
 		{
-			from %= copies.size();
-			path[places[loop]] = copies[from];
+			path[places[loop]] = copies[loop];
 			path[places[loop]].setGameVersion(GenieVersion);
 		}
 	}

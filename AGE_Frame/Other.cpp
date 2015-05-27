@@ -5,6 +5,7 @@ vector<bool> AGETextCtrl::hexMode;
 vector<bool> AGETextCtrl::accurateFloats;
 vector<int> AGETextCtrl::unSaved;
 vector<int> AGETextCtrl::fileLoaded;
+const wxString AGE_Frame::PASTE11WARNING = "Selections mismatch";
 
 void AGE_Frame::OnOpen(wxCommandEvent &Event)
 {
@@ -1370,7 +1371,7 @@ void AGE_Frame::OnGameVersionChange()
 		Research_FullTechMode_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			Units_Unknown16B_Holder->Show(show);
+			Units_RotationAngles_Holder->Show(show);
 			Graphics_Unknown3_Holder->Show(show);
 		}
 
@@ -1746,6 +1747,10 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 			LoadLists();
 		}
 		break;
+		case ToolBar_Paste:
+		{
+		}
+		break;
 		default: wxMessageBox(lexical_cast<string>(Event.GetId()), "wxEvent error!");
 	}
 }
@@ -2048,6 +2053,14 @@ void AGE_AreaTT84::FillItemCombo(int selection, bool update)
 		}
 	}
 	ItemCombo->SetSelection(selection);
+}
+
+bool AGE_Frame::Paste11Check(int pastes, int copies)
+{
+	bool result = copies == pastes;
+	if(!result)
+	wxMessageBox(lexical_cast<string>(copies) + " copies, " + lexical_cast<string>(pastes) + " pastes.\nClick paste tool to switch to sequential paste.", PASTE11WARNING);
+	return result;
 }
 
 void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch)
