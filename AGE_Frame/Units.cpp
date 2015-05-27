@@ -122,11 +122,11 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type30[6]) == 0) Name += "U16 "+FormatInt(UnitPointer->DeadFish.Unknown16);
 				else if(label.compare(Type30[7]) == 0)
 				{
-					Name += "a"+FormatFloat(UnitPointer->DeadFish.Unknown16B[0]);
-					Name += " b"+FormatFloat(UnitPointer->DeadFish.Unknown16B[1]);
-					Name += " c"+FormatFloat(UnitPointer->DeadFish.Unknown16B[2]);
-					Name += " d"+FormatFloat(UnitPointer->DeadFish.Unknown16B[3]);
-					Name += " e"+FormatFloat(UnitPointer->DeadFish.Unknown16B[4]);
+					Name += "a"+FormatFloat(UnitPointer->DeadFish.RotationAngles[0]);
+					Name += " b"+FormatFloat(UnitPointer->DeadFish.RotationAngles[1]);
+					Name += " c"+FormatFloat(UnitPointer->DeadFish.RotationAngles[2]);
+					Name += " d"+FormatFloat(UnitPointer->DeadFish.RotationAngles[3]);
+					Name += " e"+FormatFloat(UnitPointer->DeadFish.RotationAngles[4]);
 				}
 				Name += ", ";
 				if(Selection[loop+1] == 0) break;
@@ -477,9 +477,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	Units_Unknown16->resize(PointerCount);
 	if(GenieVersion >= genie::GV_AoKB)
 	{
-		for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
+		for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
 		{
-			Units_Unknown16B[loop]->resize(PointerCount);
+			Units_RotationAngles[loop]->resize(PointerCount);
 		}
 	}
 	// Type 20/25
@@ -747,10 +747,15 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 					Units_Unknown16->container[location] = &UnitPointer->DeadFish.Unknown16;
 					if(GenieVersion >= genie::GV_AoKB)
 					{
-						for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
+						string newLabel = " ( ", aste = "° ";
+						for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
 						{
-							Units_Unknown16B[loop]->container[location] = &UnitPointer->DeadFish.Unknown16B[loop];
+							int angle = UnitPointer->DeadFish.RotationAngles[loop] * 57.2957802;
+							if(angle == 0x80000000) newLabel += "max" + aste;
+							else newLabel += lexical_cast<string>(angle) + aste;
+							Units_RotationAngles[loop]->container[location] = &UnitPointer->DeadFish.RotationAngles[loop];
 						}
+						Units_RotationAngles_Text->SetLabel(Units_RotationAngles_Label + newLabel + ")");
 					}
 				}
 				//case 25:
@@ -1140,8 +1145,8 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_TrackingUnitUsed->Enable(true);
 			Units_TrackingUnitDensity->Enable(true);
 			Units_Unknown16->Enable(true);
-			for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
-			Units_Unknown16B[loop]->Enable(true);
+			for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
+			Units_RotationAngles[loop]->Enable(true);
 
 			Units_WalkingGraphic[0]->Update();
 			Units_WalkingGraphic[1]->Update();
@@ -1153,9 +1158,9 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_Unknown16->Update();
 			if(GenieVersion >= genie::GV_AoKB)
 			{
-				for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
+				for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
 				{
-					Units_Unknown16B[loop]->Update();
+					Units_RotationAngles[loop]->Update();
 				}
 			}
 		}
@@ -1454,10 +1459,10 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			Units_TrackingUnitDensity->Clear();
 			Units_Unknown16->Enable(false);
 			Units_Unknown16->Clear();
-			for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
+			for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
 			{
-				Units_Unknown16B[loop]->Enable(false);
-				Units_Unknown16B[loop]->Clear();
+				Units_RotationAngles[loop]->Enable(false);
+				Units_RotationAngles[loop]->Clear();
 			}
 		}
 		case 30:
@@ -3943,8 +3948,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrackingUnitUsedBox_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_TrackingUnitDensity_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Unknown16_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_Unknown16B_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_Unknown16B_Grid = new wxGridSizer(5, 5, 5);
+	Units_RotationAngles_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_RotationAngles_Grid = new wxGridSizer(5, 5, 5);
 
 //	Type 40+
 
@@ -4119,7 +4124,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrackingUnitUsed_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Used *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TrackingUnitDensity_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Density *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown16_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 16", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown16B_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 16B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_RotationAngles_Label = " Rotations in Radians *";
+	Units_RotationAngles_Text = new wxStaticText(Units_Scroller, wxID_ANY, Units_RotationAngles_Label, wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 40+
 
@@ -4170,7 +4176,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ButtonID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Train Button *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown26_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 26 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown27_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 27 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown28_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 28 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown28_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GarrisonGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MissileCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MissileDuplicationCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4587,6 +4593,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrackingUnitUsed->SetToolTip("-1 unless a tracking unit value is present\n2 all projectiles with a tracking unit");
 	Units_TrackingUnitDensity = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_TrackingUnitDensity->SetToolTip("0 unless tracking unit value is present\n0.5 trade carts\n0.12 MFFFG(projectile)\n0.4 other projectiles");
+	for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
+	Units_RotationAngles[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller);
+	wxString rot360 = "360 degrees when multiplying with 4th box radian value";
+	Units_RotationAngles[2]->SetToolTip(rot360);
+	Units_RotationAngles[3]->SetToolTip("Used to get 3rd and 5th box to 360 degrees");
+	Units_RotationAngles[4]->SetToolTip(rot360);
 	Units_CommandID = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_CommandID->SetToolTip("Class and this sets the interface for this unit\n0 Flag\n1 Livestock\n2 Civilian Building (build page 1)\n3 Villager\n4 Military Unit\n5 Trade Unit\n6 Monk\n7 Transport Ship\n8 Relic / Monk with Relic\n9 Fishing Ship\n10 Military Building (build page 2)\n11 Shield Building (build page 3)");
 	Units_TrainTime = new TextCtrl_Short(AGEwindow, Units_Scroller);
@@ -4686,13 +4698,11 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Unknown11 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	Units_Unknown16 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
-	Units_Unknown16B[loop] = new TextCtrl_Float(AGEwindow, Units_Scroller);
 
 	Units_Unknown26 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_Unknown27 = new TextCtrl_Float(AGEwindow, Units_Scroller);
 	Units_Unknown28 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
-	Units_Unknown28->SetToolTip("0 projectiles, buildings, dead units, boar\n1 villagers\n2 melee\n3 mounted units\n4 relic cart, relics\n5 archers\n6 monks");
+	Units_Unknown28->SetToolTip("0 Building, animal\n1 Villager\n2 Melee\n3 Mounted unit\n4 Relic\n5 Archer\n6 Monk");
 
 	Units_Unknown33 = new TextCtrl_Byte(AGEwindow, Units_Scroller);
 	//Units_Unknown33->SetToolTip("0 Default\n1 Counts as player being alive?");
@@ -4930,7 +4940,7 @@ void AGE_Frame::CreateUnitControls()
 	Type30.Add("TrackingUnitUsed");
 	Type30.Add("TrackingUnitDensity");
 	Type30.Add("Unknown16");
-	Type30.Add("Unknown16B 5 floats");
+	Type30.Add("RotationAngles 5 floats");
 
 	Type40.Add("SheepConversion");
 	Type40.Add("SearchRadius");
@@ -5129,7 +5139,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrackingUnitUsed_Holder->Add(Units_TrackingUnitUsed_Text, 0, wxEXPAND);
 	Units_TrackingUnitDensity_Holder->Add(Units_TrackingUnitDensity_Text, 0, wxEXPAND);
 	Units_Unknown16_Holder->Add(Units_Unknown16_Text, 0, wxEXPAND);
-	Units_Unknown16B_Holder->Add(Units_Unknown16B_Text, 0, wxEXPAND);
+	Units_RotationAngles_Holder->Add(Units_RotationAngles_Text, 0, wxEXPAND);
 
 //	Type 40+
 
@@ -5317,9 +5327,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrackingUnitUsed_Holder->Add(Units_TrackingUnitUsedBox_Holder, 0, wxEXPAND);
 	Units_TrackingUnitDensity_Holder->Add(Units_TrackingUnitDensity, 0, wxEXPAND);
 	Units_Unknown16_Holder->Add(Units_Unknown16, 0, wxEXPAND);
-	for(short loop = 0; loop < Units_Unknown16B.size(); ++loop)
-	Units_Unknown16B_Grid->Add(Units_Unknown16B[loop], 1, wxEXPAND);
-	Units_Unknown16B_Holder->Add(Units_Unknown16B_Grid, 0, wxEXPAND);
+	for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
+	Units_RotationAngles_Grid->Add(Units_RotationAngles[loop], 1, wxEXPAND);
+	Units_RotationAngles_Holder->Add(Units_RotationAngles_Grid, 0, wxEXPAND);
 
 //	Type 40+
 
@@ -5925,6 +5935,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attributes_Holder->AddSpacer(5);
 	Units_Attributes_Holder->Add(Units_AttributesTracking_Grid, 0, wxEXPAND);
 	Units_Attributes_Holder->AddSpacer(5);
+	Units_Attributes_Holder->Add(Units_RotationAngles_Holder, 0, wxEXPAND);
+	Units_Attributes_Holder->AddSpacer(5);
 	Units_Attributes_Holder->Add(Units_AttributesTrain1_Grid, 0, wxEXPAND);
 	Units_Attributes_Holder->AddSpacer(5);
 	Units_Attributes_Holder->Add(Units_ResourceStorageHeader_Holder, 0, wxEXPAND);
@@ -5976,8 +5988,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type30plusUnknownArea_Grid->Add(Units_Unknown11_Holder, 0, wxEXPAND);
 	Units_Type30plusUnknownArea_Grid->Add(Units_Unknown16_Holder, 0, wxEXPAND);
 	Units_Type30plusUnknownArea_Holder->Add(Units_Type30plusUnknownArea_Grid, 0, wxEXPAND);
-	Units_Type30plusUnknownArea_Holder->AddSpacer(5);
-	Units_Type30plusUnknownArea_Holder->Add(Units_Unknown16B_Holder, 0, wxEXPAND);
 
 	Units_Type70plusUnknownArea_Grid->Add(Units_Unknown26_Holder, 0, wxEXPAND);
 	Units_Type70plusUnknownArea_Grid->Add(Units_Unknown27_Holder, 0, wxEXPAND);

@@ -797,8 +797,11 @@ void AGE_Frame::OnUnknownsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->RandomMaps.MapHeaders, RandomMapIDs, copies->MapHeader);
-	PasteToList(GenieFile->RandomMaps.Maps, RandomMapIDs, copies->Map);
+	if(Paste11Check(RandomMapIDs.size(), copies->Map.size()))
+	{
+		PasteToList(GenieFile->RandomMaps.MapHeaders, RandomMapIDs, copies->MapHeader);
+		PasteToList(GenieFile->RandomMaps.Maps, RandomMapIDs, copies->Map);
+	}
 	ListRandomMaps();
 }
 
