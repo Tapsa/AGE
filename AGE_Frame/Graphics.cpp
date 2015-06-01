@@ -356,18 +356,35 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->Graphic.size()+GraphicIDs[0] > GenieFile->Graphics.size())
+	if(Paste11)
 	{
-		GenieFile->GraphicPointers.resize(copies->GraphicPointer.size()+GraphicIDs[0]);
-		GenieFile->Graphics.resize(copies->Graphic.size()+GraphicIDs[0]);
+		if(Paste11Check(GraphicIDs.size(), copies->Graphic.size()))
+		{
+			for(short loop = 0; loop < copies->Graphic.size(); ++loop)
+			{
+				GenieFile->GraphicPointers[GraphicIDs[loop]] = copies->GraphicPointer[loop];
+				copies->Graphic[loop].setGameVersion(GenieVersion);
+				GenieFile->Graphics[GraphicIDs[loop]] = copies->Graphic[loop];
+				if(EnableIDFix)
+				GenieFile->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
+			}
+		}
 	}
-	for(short loop = 0; loop < copies->Graphic.size(); ++loop)
+	else
 	{
-		GenieFile->GraphicPointers[GraphicIDs[0]+loop] = copies->GraphicPointer[loop];
-		copies->Graphic[loop].setGameVersion(GenieVersion);
-		GenieFile->Graphics[GraphicIDs[0]+loop] = copies->Graphic[loop];
-		if(EnableIDFix)
-		GenieFile->Graphics[GraphicIDs[0]+loop].ID = (GraphicIDs[0]+loop); // ID Fix
+		if(copies->Graphic.size()+GraphicIDs[0] > GenieFile->Graphics.size())
+		{
+			GenieFile->GraphicPointers.resize(copies->GraphicPointer.size()+GraphicIDs[0]);
+			GenieFile->Graphics.resize(copies->Graphic.size()+GraphicIDs[0]);
+		}
+		for(short loop = 0; loop < copies->Graphic.size(); ++loop)
+		{
+			GenieFile->GraphicPointers[GraphicIDs[0]+loop] = copies->GraphicPointer[loop];
+			copies->Graphic[loop].setGameVersion(GenieVersion);
+			GenieFile->Graphics[GraphicIDs[0]+loop] = copies->Graphic[loop];
+			if(EnableIDFix)
+			GenieFile->Graphics[GraphicIDs[0]+loop].ID = (GraphicIDs[0]+loop); // ID Fix
+		}
 	}
 	ListGraphics();
 }
@@ -561,7 +578,17 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies->GraphicDelta);
+	if(Paste11)
+	{
+		if(Paste11Check(DeltaIDs.size(), copies->GraphicDelta.size()))
+		{
+			PasteToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies->GraphicDelta);
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies->GraphicDelta);
+	}
 	ListGraphicDeltas();
 }
 

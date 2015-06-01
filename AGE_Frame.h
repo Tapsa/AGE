@@ -459,7 +459,8 @@ public:
 	void UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit);
 	void OnUnitsPaste(wxCommandEvent &Event);
 	void OnUnitsPasteInsert(wxCommandEvent &Event);
-	void PasteUnits();
+	void PasteUnits(bool OneOnOne = false);
+	short CorrectID(bool OneOnOne, short loop);
 	void OnUnitsSpecialPaste(wxCommandEvent &Event);
 	void OnUnitsSpecialPasteInsert(wxCommandEvent &Event);
 	void UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit);
@@ -686,7 +687,7 @@ public:
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
-	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, NeedDat, SkipOpenDialog;
+	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, NeedDat, SkipOpenDialog, Paste11;
 	wxFileConfig *Config, *Customs;
 	genie::DatFile *GenieFile;
 	genie::LangFile *Lang, *LangX, *LangXP;
@@ -3286,10 +3287,9 @@ public:
 	template <class P, class C>
 	inline void PasteToListNoGV(P &path, vector<short> &places, C &copies)
 	{
-		for(int loop = 0, from = 0; loop < places.size(); ++loop, ++from)
+		for(int loop = 0; loop < places.size(); ++loop)
 		{
-			from %= copies.size();
-			path[places[loop]] = copies[from];
+			path[places[loop]] = copies[loop];
 		}
 	}
 	// Paste from selection onwards
@@ -3310,8 +3310,8 @@ public:
 	{
 		for(int loop = 0; loop < places.size(); ++loop)
 		{
+			copies[loop].setGameVersion(GenieVersion);
 			path[places[loop]] = copies[loop];
-			path[places[loop]].setGameVersion(GenieVersion);
 		}
 	}
 	template <class P, class C>
@@ -3339,6 +3339,18 @@ public:
 			path[place + loop].ID = place + loop; // ID Fix
 		}
 	}
+	template <class P, class C>
+	inline void PasteToListIDFix(P &path, vector<short> &places, C &copies)
+	{
+		for(int loop = 0; loop < places.size(); ++loop)
+		{
+			copies[loop].setGameVersion(GenieVersion);
+			path[places[loop]] = copies[loop];
+			if(EnableIDFix)
+			path[places[loop]].ID = places[loop]; // ID Fix
+		}
+	}
+
 
 	template <class P, class C>
 	inline void PasteInsertToListNoGV(P &path, short place, C &copies)
