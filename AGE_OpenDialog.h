@@ -20,6 +20,7 @@ public:
 	void OnSelectLangX1P1(wxCommandEvent &Event);
 	void OnOK(wxCommandEvent &Event);
 	void OnDecompress(wxCommandEvent &Event);
+	void OnRecent(wxCommandEvent &Event);
 
 	/* Member Variables */
 
