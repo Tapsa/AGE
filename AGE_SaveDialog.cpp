@@ -5,12 +5,12 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 {
 	Layout = new wxFlexGridSizer(7, 2, 2, 2);
 
-	CheckBox_DatFileLocation = new wxCheckBox(this, wxID_ANY, "Compressed Dat File (*.dat):");
+	CheckBox_DatFileLocation = new wxCheckBox(this, wxID_ANY, "Compressed Data Set (*.dat):");
 	CheckBox_DatFileLocation->SetValue(true);
-	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Dat File (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
-	CheckBox_UnzFileLocation = new wxCheckBox(this, wxID_ANY, "Decompressed Dat File (*.unz):");
+	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Data Set (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
+	CheckBox_UnzFileLocation = new wxCheckBox(this, wxID_ANY, "Decompressed Data Set (*.unz):");
 	CheckBox_UnzFileLocation->Disable();
-	Path_UnzFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Decompressed Dat File (*.unz)|*.unz", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
+	Path_UnzFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Decompressed Data Set (*.unz)|*.unz", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
 	Path_UnzFileLocation->Disable();
 	CheckBox_ApfFileLocation = new wxCheckBox(this, wxID_ANY, "Patch File (*.apf):");
 	Path_ApfFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Patch File (*.apf)|*.apf", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
