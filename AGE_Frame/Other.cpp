@@ -1749,6 +1749,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case ToolBar_Paste:
 		{
+			Paste11 = Event.IsChecked();
 		}
 		break;
 		default: wxMessageBox(lexical_cast<string>(Event.GetId()), "wxEvent error!");
@@ -2149,6 +2150,7 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
+	Config->Write("Interface/Paste11", Paste11);
 	Config->Write("Interface/MaxWindowWidth", MaxWindowWidth);
 	delete Config;
 

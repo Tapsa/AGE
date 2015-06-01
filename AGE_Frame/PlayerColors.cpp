@@ -157,7 +157,17 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
+	if(Paste11)
+	{
+		if(Paste11Check(ColorIDs.size(), copies->PlayerColor.size()))
+		{
+			PasteToListIDFix(GenieFile->PlayerColours, ColorIDs, copies->PlayerColor);
+		}
+	}
+	else
+	{
+		PasteToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
+	}
 	ListPlayerColors();
 }
 
