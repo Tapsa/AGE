@@ -2028,7 +2028,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(UnitIDs.size(), copies->Dat.UnitExists.size()))
+		if(Paste11Check(UnitIDs.size(), copies->Dat.UnitExists[0].size()))
 		{
 			if(GenieVersion >= genie::GV_AoK)
 			{
