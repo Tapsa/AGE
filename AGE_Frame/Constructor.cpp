@@ -35,6 +35,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
+	Config->Read("Interface/Paste11", &Paste11, true);
 	Config->Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
 	if(AGEwindow == 0) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 1); // 2 to showcase this feature.
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
@@ -78,7 +79,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	GetToolBar()->AddTool(ToolBar_Help, "Help", wxBitmap(Question_xpm), "Show help");
 	GetToolBar()->AddTool(ToolBar_Paste, "Paste", wxBitmap(Paste_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
-	GetToolBar()->ToggleTool(ToolBar_Paste, true);
+	GetToolBar()->ToggleTool(ToolBar_Paste, Paste11);
 	GetToolBar()->Realize();
 
 	MenuBar_Main = new wxMenuBar();
@@ -178,6 +179,10 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
 	ShowButtonsCmd.SetInt(ShowButtons);
 	ProcessEvent(ShowButtonsCmd);
+
+	wxCommandEvent Paste11Cmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Paste);
+	Paste11Cmd.SetInt(Paste11);
+	ProcessEvent(Paste11Cmd);
 
 	if(TimesOpened < 2)
 	{

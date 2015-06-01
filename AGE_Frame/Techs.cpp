@@ -180,7 +180,17 @@ void AGE_Frame::OnTechPaste(wxCommandEvent &Event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->Techages, TechIDs[0], copies->Tech);
+	if(Paste11)
+	{
+		if(Paste11Check(TechIDs.size(), copies->Tech.size()))
+		{
+			PasteToList(GenieFile->Techages, TechIDs, copies->Tech);
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->Techages, TechIDs[0], copies->Tech);
+	}
 	ListTechs();
 }
 
@@ -944,7 +954,17 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
+	if(Paste11)
+	{
+		if(Paste11Check(EffectIDs.size(), copies->Effect.size()))
+		{
+			PasteToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs, copies->Effect);
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies->Effect);
+	}
 	ListEffects();
 }
 

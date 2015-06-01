@@ -116,7 +116,17 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListIDFix(GenieFile->UnitLines, UnitLineIDs[0], copies->UnitLine);
+	if(Paste11)
+	{
+		if(Paste11Check(UnitLineIDs.size(), copies->UnitLine.size()))
+		{
+			PasteToListIDFix(GenieFile->UnitLines, UnitLineIDs, copies->UnitLine);
+		}
+	}
+	else
+	{
+		PasteToListIDFix(GenieFile->UnitLines, UnitLineIDs[0], copies->UnitLine);
+	}
 	ListUnitLines();
 }
 
@@ -245,7 +255,17 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs[0], copies->UnitLineUnit);
+	if(Paste11)
+	{
+		if(Paste11Check(UnitLineUnitIDs.size(), copies->UnitLineUnit.size()))
+		{
+			PasteToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs, copies->UnitLineUnit);
+		}
+	}
+	else
+	{
+		PasteToListNoGV(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs[0], copies->UnitLineUnit);
+	}
 	ListUnitLineUnits();
 }
 

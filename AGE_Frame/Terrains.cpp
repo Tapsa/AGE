@@ -406,7 +406,17 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoResize(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies->Terrain);
+	if(Paste11)
+	{
+		if(Paste11Check(TerrainIDs.size(), copies->Terrain.size()))
+		{
+			PasteToList(GenieFile->TerrainBlock.Terrains, TerrainIDs, copies->Terrain);
+		}
+	}
+	else
+	{
+		PasteToListNoResize(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies->Terrain);
+	}
 	ListTerrains1();
 }
 
@@ -484,7 +494,17 @@ void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs[0], copies->TerBorder);
+	if(Paste11)
+	{
+		if(Paste11Check(TerBorderIDs.size(), copies->TerBorder.size()))
+		{
+			PasteToListNoGV(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies->TerBorder);
+		}
+	}
+	else
+	{
+		PasteToListNoGV(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs[0], copies->TerBorder);
+	}
 	ListTerrainsBorders();
 }
 
