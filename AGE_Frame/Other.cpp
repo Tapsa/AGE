@@ -40,6 +40,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.CheckBox_Recent->Append("10 point hint: donate euros to me");
 		else
 		OpenBox.CheckBox_Recent->Append(RecentDatPaths);
+		OpenBox.CheckBox_Recent->Append("Look, this is not ready yet.");
 		OpenBox.CheckBox_Recent->SetSelection(0);
 
 		switch(DatUsed)
@@ -183,13 +184,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 		wxFileConfig* RecentSave = new wxFileConfig(wxEmptyString, "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 		RecentSave->Read("Recent/RecentItems", &RecentItems, 0);
-		short abort;
-		for(int i = RecentItems; i--> 0;)
+		short abort = 0;
+		for(int i = RecentItems; i > 0; --i)
 		{
 			abort = 0;
 			wxString compare, entry = "Recent" + lexical_cast<string>(i);
-			int dataversion;
-			RecentSave->Read(entry+"/RecentDatVersion", &dataversion, 0);
+			int dataversion = 9000;
+			RecentSave->Read(entry+"/RecentDatVersion", &dataversion);
 			if(dataversion == GameVersion) ++abort; else continue;
 			RecentSave->Read(entry+"/RecentDatPath", &compare, wxT(""));
 			if(compare == DatFileName) ++abort; else continue;
@@ -200,8 +201,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxT(""));
 			if(compare == LangX1P1FileName)
 			{
-				++abort;
-				RecentItems = 0;
+				++abort; break;
 			}
 		}
 		if(abort < 5)

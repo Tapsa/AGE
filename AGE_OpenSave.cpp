@@ -59,7 +59,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	CheckBox_CustomDefault->SetValue(false);
 	Path_CustomDefault = new wxDirPickerCtrl(slave, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
 
-	CheckBox_LangFileLocation = new wxCheckBox(slave, wxID_ANY, "Language.dll location:");
+	CheckBox_LangFileLocation = new wxCheckBox(slave, wxID_ANY, "Language file location:");
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation = new wxCheckBox(slave, wxID_ANY, "Language_x1.dll location:");
 	CheckBox_LangX1FileLocation->SetValue(true);
