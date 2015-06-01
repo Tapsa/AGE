@@ -186,7 +186,17 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->Civs, CivIDs[0], copies->Civ);
+	if(Paste11)
+	{
+		if(Paste11Check(CivIDs.size(), copies->Civ.size()))
+		{
+			PasteToList(GenieFile->Civs, CivIDs, copies->Civ);
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->Civs, CivIDs[0], copies->Civ);
+	}
 	OnCivCountChange();
 	ListUnits(UnitCivID, false);
 }
@@ -757,7 +767,17 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies->Resource);
+	if(Paste11)
+	{
+		if(Paste11Check(ResourceIDs.size(), copies->Resource.size()))
+		{
+			PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs, copies->Resource);
+		}
+	}
+	else
+	{
+		PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies->Resource);
+	}
 	ListResources();
 }
 

@@ -115,7 +115,17 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToListIDFix(GenieFile->Sounds, SoundIDs[0], copies->Sound);
+	if(Paste11)
+	{
+		if(Paste11Check(SoundIDs.size(), copies->Sound.size()))
+		{
+			PasteToListIDFix(GenieFile->Sounds, SoundIDs, copies->Sound);
+		}
+	}
+	else
+	{
+		PasteToListIDFix(GenieFile->Sounds, SoundIDs[0], copies->Sound);
+	}
 	ListSounds();
 }
 
@@ -307,7 +317,17 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies->SoundItem);
+	if(Paste11)
+	{
+		if(Paste11Check(SoundItemIDs.size(), copies->SoundItem.size()))
+		{
+			PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies->SoundItem);
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies->SoundItem);
+	}
 	ListSoundItems();
 }
 

@@ -365,7 +365,17 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->Researchs, ResearchIDs[0], copies->Research);
+	if(Paste11)
+	{
+		if(Paste11Check(ResearchIDs.size(), copies->Research.size()))
+		{
+			PasteToList(GenieFile->Researchs, ResearchIDs, copies->Research);
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->Researchs, ResearchIDs[0], copies->Research);
+	}
 	ListResearches();
 }
 

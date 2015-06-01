@@ -797,10 +797,18 @@ void AGE_Frame::OnUnknownsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(Paste11Check(RandomMapIDs.size(), copies->Map.size()))
+	if(Paste11)
 	{
-		PasteToList(GenieFile->RandomMaps.MapHeaders, RandomMapIDs, copies->MapHeader);
-		PasteToList(GenieFile->RandomMaps.Maps, RandomMapIDs, copies->Map);
+		if(Paste11Check(RandomMapIDs.size(), copies->Map.size()))
+		{
+			PasteToList(GenieFile->RandomMaps.MapHeaders, RandomMapIDs, copies->MapHeader);
+			PasteToList(GenieFile->RandomMaps.Maps, RandomMapIDs, copies->Map);
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->RandomMaps.MapHeaders, RandomMapIDs[0], copies->MapHeader);
+		PasteToList(GenieFile->RandomMaps.Maps, RandomMapIDs[0], copies->Map);
 	}
 	ListRandomMaps();
 }
@@ -1006,8 +1014,19 @@ void AGE_Frame::OnRMSBaseZonePaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs, copies->BaseZone);
-	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].BaseZoneCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size();
+	if(Paste11)
+	{
+		if(Paste11Check(UnknownFSIDs.size(), copies->BaseZone.size()))
+		{
+			PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs, copies->BaseZone);
+			GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].BaseZoneCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size();
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs[0], copies->BaseZone);
+		GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].BaseZoneCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size();
+	}
 	ListRMSBaseZones();
 }
 
@@ -1167,8 +1186,19 @@ void AGE_Frame::OnRMSTerrainPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs, copies->MapTerrain);
-	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
+	if(Paste11)
+	{
+		if(Paste11Check(UnknownSSIDs.size(), copies->MapTerrain.size()))
+		{
+			PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs, copies->MapTerrain);
+			GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs[0], copies->MapTerrain);
+		GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapTerrainCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size();
+	}
 	ListRMSTerrains();
 }
 
@@ -1368,8 +1398,19 @@ void AGE_Frame::OnRMSUnitPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs, copies->MapUnit);
-	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnitCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size();
+	if(Paste11)
+	{
+		if(Paste11Check(UnknownTSIDs.size(), copies->MapUnit.size()))
+		{
+			PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs, copies->MapUnit);
+			GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnitCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size();
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs[0], copies->MapUnit);
+		GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnitCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size();
+	}
 	ListRMSUnits();
 }
 
@@ -1529,8 +1570,19 @@ void AGE_Frame::OnRMSUnknownPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs, copies->MapUnknown);
-	GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnknownCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size();
+	if(Paste11)
+	{
+		if(Paste11Check(Unknown4SIDs.size(), copies->MapUnknown.size()))
+		{
+			PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs, copies->MapUnknown);
+			GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnknownCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size();
+		}
+	}
+	else
+	{
+		PasteToList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs[0], copies->MapUnknown);
+		GenieFile->RandomMaps.MapHeaders[RandomMapIDs[0]].MapUnknownCount = GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size();
+	}
 	ListRMSUnknowns();
 }
 

@@ -260,19 +260,25 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	// If copies would go beyond the end of these vectors.
-	if(copies->TerrainRestriction.size()+TerRestrictIDs[0] > GenieFile->TerrainRestrictions.size())
+	if(Paste11)
 	{
-		GenieFile->TerrainRestrictions.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
-		GenieFile->TerrainRestrictionPointers1.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
-		if(GenieVersion >= genie::GV_AoKA)
-		GenieFile->TerrainRestrictionPointers2.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
+		if(Paste11Check(TerRestrictIDs.size(), copies->TerrainRestriction.size()))
+		{
+			PasteToList(GenieFile->TerrainRestrictions, TerRestrictIDs, copies->TerrainRestriction);
+		}
 	}
-	// Actually pasting the copies.
-	for(short loop = 0; loop < copies->TerrainRestriction.size(); ++loop)
+	else
 	{
-		copies->TerrainRestriction[loop].setGameVersion(GenieVersion);
-		GenieFile->TerrainRestrictions[TerRestrictIDs[0]+loop] = copies->TerrainRestriction[loop];
+		// If copies would go beyond the end of these vectors.
+		if(copies->TerrainRestriction.size()+TerRestrictIDs[0] > GenieFile->TerrainRestrictions.size())
+		{
+			GenieFile->TerrainRestrictions.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
+			GenieFile->TerrainRestrictionPointers1.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
+			if(GenieVersion >= genie::GV_AoKA)
+			GenieFile->TerrainRestrictionPointers2.resize(copies->TerrainRestriction.size()+TerRestrictIDs[0]);
+		}
+		// Actually pasting the copies.
+		PasteToList(GenieFile->TerrainRestrictions, TerRestrictIDs[0], copies->TerrainRestriction);
 	}
 	ListTerrainRestrictions();
 }
@@ -310,16 +316,35 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	short CopyCount = TerrainRestrictionSubCopyAccess.size();
-	if(CopyCount+TerRestrictTerIDs[0] > GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible.size())
-	CopyCount -= CopyCount+TerRestrictTerIDs[0] - GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible.size();
-	for(short loop = 0; loop < CopyCount; ++loop)
-	GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[TerRestrictTerIDs[0]+loop] = TerrainRestrictionSubCopyAccess[loop];
-	if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
+	if(Paste11)
 	{
-		for(short loop = 0; loop < CopyCount; ++loop)
+		if(Paste11Check(TerRestrictTerIDs.size(), copies->TerrainRestrictionSubGraphics.size()))
 		{
-			copies->TerrainRestrictionSubGraphics[loop].setGameVersion(GenieVersion);
-			GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[0]+loop] = copies->TerrainRestrictionSubGraphics[loop];
+			for(short loop = 0; loop < CopyCount; ++loop)
+			GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[TerRestrictTerIDs[loop]] = TerrainRestrictionSubCopyAccess[loop];
+			if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
+			{
+				for(short loop = 0; loop < CopyCount; ++loop)
+				{
+					copies->TerrainRestrictionSubGraphics[loop].setGameVersion(GenieVersion);
+					GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[loop]] = copies->TerrainRestrictionSubGraphics[loop];
+				}
+			}
+		}
+	}
+	else
+	{
+		if(CopyCount+TerRestrictTerIDs[0] > GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible.size())
+		CopyCount -= CopyCount+TerRestrictTerIDs[0] - GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible.size();
+		for(short loop = 0; loop < CopyCount; ++loop)
+		GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[TerRestrictTerIDs[0]+loop] = TerrainRestrictionSubCopyAccess[loop];
+		if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
+		{
+			for(short loop = 0; loop < CopyCount; ++loop)
+			{
+				copies->TerrainRestrictionSubGraphics[loop].setGameVersion(GenieVersion);
+				GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[0]+loop] = copies->TerrainRestrictionSubGraphics[loop];
+			}
 		}
 	}
 	wxCommandEvent E;
