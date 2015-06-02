@@ -112,7 +112,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Connect(CheckBox_LangX1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1));
 	Connect(CheckBox_LangX1P1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1P1));
 	Connect(Button_RawDecompress->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDecompress));
-	Connect(CheckBox_Recent->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnRecent));
 }
 
 void AGE_OpenDialog::OnDecompress(wxCommandEvent &Event)
@@ -126,11 +125,6 @@ void AGE_OpenDialog::OnDecompress(wxCommandEvent &Event)
 		raw->extractRaw(filename.c_str(), savename.c_str());
 		delete raw;
 	}
-}
-
-void AGE_OpenDialog::OnRecent(wxCommandEvent &Event)
-{
-	Path_DatFileLocation->SetPath(CheckBox_Recent->GetValue());
 }
 
 void AGE_OpenDialog::OnOK(wxCommandEvent &Event)

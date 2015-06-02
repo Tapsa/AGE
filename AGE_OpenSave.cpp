@@ -68,4 +68,19 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 
 	//SetDefaultItem(ButtonOK);
 	//slave->SetDefaultItem(ButtonOK);
+	Connect(CheckBox_Recent->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_OpenSave::OnRecent));
+}
+
+void AGE_OpenSave::OnRecent(wxCommandEvent &Event)
+{
+	auto sel = CheckBox_Recent->GetSelection();
+	if(RecentDatVersions.size() == 0) return;
+	CheckBox_GenieVer->SetSelection(RecentDatVersions[sel]);
+	Path_DatFileLocation->SetPath(RecentDatPaths[sel]);
+	Path_LangFileLocation->SetPath(RecentLangs[sel]);
+	Path_LangX1FileLocation->SetPath(RecentLangX1s[sel]);
+	Path_LangX1P1FileLocation->SetPath(RecentLangX1P1s[sel]);
+	CheckBox_LangFileLocation->SetValue(RecentLangs[sel].size());
+	CheckBox_LangX1FileLocation->SetValue(RecentLangX1s[sel].size());
+	CheckBox_LangX1P1FileLocation->SetValue(RecentLangX1P1s[sel].size());
 }
