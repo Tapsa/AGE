@@ -21,6 +21,7 @@ public:
 	virtual void OnSelectLangX1(wxCommandEvent &Event)=0;
 	virtual void OnSelectLangX1P1(wxCommandEvent &Event)=0;
 	virtual void OnOK(wxCommandEvent &Event)=0;
+	void OnRecent(wxCommandEvent &Event);
 
 	/* Member Variables */
 
@@ -57,6 +58,11 @@ public:
 	wxButton *ButtonCancel;
 	wxStaticText *RecentText;
 	wxComboBox *CheckBox_Recent;
+	wxArrayInt RecentDatVersions;
+	wxArrayString RecentDatPaths;
+	wxArrayString RecentLangs;
+	wxArrayString RecentLangX1s;
+	wxArrayString RecentLangX1P1s;
 };
 
 #endif

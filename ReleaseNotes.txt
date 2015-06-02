@@ -12,6 +12,9 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.6.2[/b]:
+•Recent paths fully working.
+
 Version [b]2015.6.1[/b]:
 •Pressing enter forces the value into selections.
 •Paste toggle between 1:1 and sequentially.
@@ -67,30 +70,6 @@ Version [b]2015.1.26[/b]:
 •Unit "No Research" (Enabled) halved.
 •Graphic mirroring mode halved.
 •Sound index halved.
-
-Version [b]3.13[/b] (2014.11.19):
-•Unit data discoveries.
-•Tab adjustments.
-•Added civilization to unit search filters.
-
-Version [b]3.12[/b] (2014.11.4):
-•AoK HD string finds.
-•New info on graphic set and graphic speed.
-•Unit command discoveries.
-•Added [i]and[/i] option to tech search.
-•Tech names now have space at the end of the line.
-•Unit class 29 found to be domesticated animal.
-
-Version [b]3.11[/b] (2014.5.8):
-•Added options to unit search filters.
-•Discovered player color mimicer.
-•Garrison graphics combined into one variable.
-•Signedness fix in unit attribute.
-
-Version [b]3.10[/b] (2014.2.9):
-•Discovered default armor variable.
-•Swapped the base armor class names in SWGB.
-•Unit attribute tooltip improved.
 
 [b]Notes[/b]
 
