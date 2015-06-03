@@ -687,7 +687,7 @@ public:
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
-	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, NeedDat, SkipOpenDialog, Paste11;
+	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
 	wxFileConfig *Config, *Customs;
 	genie::DatFile *GenieFile;
 	genie::LangFile *Lang, *LangX, *LangXP;

@@ -3,7 +3,7 @@
 class AGE_OpenDialog: public AGE_OpenSave
 {
 public:
-	AGE_OpenDialog(wxWindow *parent, bool MustHaveDat = false);
+	AGE_OpenDialog(wxWindow *parent);
 
 	/* Events */
 
@@ -29,8 +29,6 @@ public:
 	wxStaticText *LanguageText;
 	wxBoxSizer *DriveLetterArea;
 	wxRadioButton *Radio_DatFileLocation;
-	wxRadioButton *Radio_UnzFileLocation;
-	wxRadioButton *Radio_ApfFileLocation;
 	wxCheckBox *CheckBox_LangWriteToLatest;
 	wxButton *Button_RawDecompress;
 	wxFilePickerCtrl *Path_RawDecompress;

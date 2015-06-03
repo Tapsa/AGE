@@ -190,7 +190,6 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 		ProcessEvent(ShowHelpCmd);
 	}
 
-	NeedDat = true;
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
 	//genie::Logger::setLogLevel(genie::Logger::L_INFO);

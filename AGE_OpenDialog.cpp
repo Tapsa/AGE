@@ -1,6 +1,6 @@
 #include "AGE_OpenDialog.h"
 
-AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
+AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 : AGE_OpenSave(parent, "Open", this)
 {
 	Layout = new wxFlexGridSizer(2, 2, 2);
@@ -17,20 +17,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Data Set (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Button_RawDecompress = new wxButton(this, wxID_ANY, "Decompress only", wxDefaultPosition, wxSize(5, 20));
 	Path_RawDecompress = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Data Set (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	Radio_UnzFileLocation = new wxRadioButton(this, wxID_ANY, "Decompressed Data Set (*.unz):");
-	Radio_UnzFileLocation->Disable();
-	Path_UnzFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Decompressed Data Set (*.unz)|*.unz", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	Path_UnzFileLocation->Disable();
-	Radio_ApfFileLocation = new wxRadioButton(this, wxID_ANY, "Patch File (*.apf):");
-	Path_ApfFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Patch File (*.apf)|*.apf", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	Path_ApfFileLocation->Disable();
-//	Radio_NoFile = new wxRadioButton(this, wxID_ANY, "No data file");
-
-	if(MustHaveDat)
-	{
-	    Radio_ApfFileLocation->Disable();
-//	    Radio_NoFile->Disable();
-	}
 
 	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
@@ -62,10 +48,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Layout->Add(Path_DatFileLocation, 1, wxEXPAND);
 	Layout->Add(Button_RawDecompress, 1, wxEXPAND);
 	Layout->Add(Path_RawDecompress, 1, wxEXPAND);
-	Layout->Add(Radio_UnzFileLocation, 1, wxEXPAND);
-	Layout->Add(Path_UnzFileLocation, 1, wxEXPAND);
-	Layout->Add(Radio_ApfFileLocation, 1, wxEXPAND);
-	Layout->Add(Path_ApfFileLocation, 1, wxEXPAND);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
 	Layout->Add(CheckBox_LangFileLocation, 1, wxEXPAND);
@@ -80,8 +62,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Layout->AddSpacer(15);
 
 	Layout->AddGrowableCol(1, 1);
-	Layout->AddGrowableRow(1, 1);
-	Layout->AddGrowableRow(6, 1);
+	Layout->AddGrowableRow(12, 1);
 
 	Area->AddSpacer(5);
 	Area->Add(Defaults, 0, wxALIGN_CENTRE);
@@ -106,8 +87,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, bool MustHaveDat)
 	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultSWGB));
 	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultCC));
 	Connect(Radio_DatFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
-	Connect(Radio_ApfFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
-//	Connect(Radio_NoFile->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
 	Connect(CheckBox_LangFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLang));
 	Connect(CheckBox_LangX1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1));
 	Connect(CheckBox_LangX1P1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1P1));
@@ -129,21 +108,7 @@ void AGE_OpenDialog::OnDecompress(wxCommandEvent &Event)
 
 void AGE_OpenDialog::OnOK(wxCommandEvent &Event)
 {
-	if(Event.GetId() == Radio_DatFileLocation->GetId())
-	{
-		Path_DatFileLocation->Enable(true);
-		Path_ApfFileLocation->Enable(false);
-	}
-	else if(Event.GetId() == Radio_ApfFileLocation->GetId())
-	{
-		Path_DatFileLocation->Enable(false);
-		Path_ApfFileLocation->Enable(true);
-	}
-	else
-	{
-		Path_DatFileLocation->Enable(false);
-		Path_ApfFileLocation->Enable(false);
-	}
+	Path_DatFileLocation->Enable(Event.GetId() == Radio_DatFileLocation->GetId());
 	EndModal(wxID_OK);
 }
 
@@ -422,21 +387,7 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &Event)
 
 void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent &Event)
 {
-	if(Event.GetId() == Radio_DatFileLocation->GetId())
-	{
-		Path_DatFileLocation->Enable(true);
-		Path_ApfFileLocation->Enable(false);
-	}
-	else if(Event.GetId() == Radio_ApfFileLocation->GetId())
-	{
-		Path_DatFileLocation->Enable(false);
-		Path_ApfFileLocation->Enable(true);
-	}
-	else
-	{
-		Path_DatFileLocation->Enable(false);
-		Path_ApfFileLocation->Enable(false);
-	}
+	Path_DatFileLocation->Enable(Event.GetId() == Radio_DatFileLocation->GetId());
 }
 
 void AGE_OpenDialog::OnSelectLang(wxCommandEvent &Event)

@@ -45,8 +45,6 @@ public:
 	wxCheckBox *CheckBox_CustomDefault;
 	wxDirPickerCtrl *Path_CustomDefault;
 	wxFilePickerCtrl *Path_DatFileLocation;
-	wxFilePickerCtrl *Path_UnzFileLocation;
-	wxFilePickerCtrl *Path_ApfFileLocation;
 	wxCheckBox *CheckBox_LangFileLocation;
 	wxFilePickerCtrl *Path_LangFileLocation;
 	wxCheckBox *CheckBox_LangX1FileLocation;

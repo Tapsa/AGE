@@ -8,14 +8,6 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 	CheckBox_DatFileLocation = new wxCheckBox(this, wxID_ANY, "Compressed Data Set (*.dat):");
 	CheckBox_DatFileLocation->SetValue(true);
 	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Data Set (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
-	CheckBox_UnzFileLocation = new wxCheckBox(this, wxID_ANY, "Decompressed Data Set (*.unz):");
-	CheckBox_UnzFileLocation->Disable();
-	Path_UnzFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Decompressed Data Set (*.unz)|*.unz", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
-	Path_UnzFileLocation->Disable();
-	CheckBox_ApfFileLocation = new wxCheckBox(this, wxID_ANY, "Patch File (*.apf):");
-	Path_ApfFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Patch File (*.apf)|*.apf", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
-	CheckBox_ApfFileLocation->Disable();
-	Path_ApfFileLocation->Disable();
 
 	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
@@ -40,10 +32,6 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 	Layout->Add(Path_CustomDefault, 1, wxEXPAND);
 	Layout->Add(CheckBox_DatFileLocation, 1, wxEXPAND);
 	Layout->Add(Path_DatFileLocation, 1, wxEXPAND);
-	Layout->Add(CheckBox_UnzFileLocation, 1, wxEXPAND);
-	Layout->Add(Path_UnzFileLocation, 1, wxEXPAND);
-	Layout->Add(CheckBox_ApfFileLocation, 1, wxEXPAND);
-	Layout->Add(Path_ApfFileLocation, 1, wxEXPAND);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
 	Layout->Add(CheckBox_LangFileLocation, 1, wxEXPAND);
@@ -58,8 +46,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 	Layout->AddSpacer(15);
 
 	Layout->AddGrowableCol(1, 1);
-	Layout->AddGrowableRow(1, 1);
-	Layout->AddGrowableRow(5, 1);
+	Layout->AddGrowableRow(11, 1);
 
 	Area->AddSpacer(5);
 	Area->Add(Defaults, 0, wxALIGN_CENTRE);
@@ -84,7 +71,6 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultSWGB));
 	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultCC));
 	Connect(CheckBox_DatFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDat));
-	Connect(CheckBox_ApfFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectApf));
 }
 
 void AGE_SaveDialog::OnOK(wxCommandEvent &Event)
@@ -292,11 +278,6 @@ void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &Event)
 void AGE_SaveDialog::OnSelectDat(wxCommandEvent &Event)
 {
 	Path_DatFileLocation->Enable(Event.IsChecked());
-}
-
-void AGE_SaveDialog::OnSelectApf(wxCommandEvent &Event)
-{
-	Path_ApfFileLocation->Enable(Event.IsChecked());
 }
 
 void AGE_SaveDialog::OnSelectLang(wxCommandEvent &Event)
