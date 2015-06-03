@@ -13,7 +13,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(!SkipOpenDialog)
 	{
-		AGE_OpenDialog OpenBox(this, NeedDat);
+		AGE_OpenDialog OpenBox(this);
 
 		int RecentItems;
 		wxFileConfig* RecentOpen = new wxFileConfig(wxEmptyString, "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
@@ -44,26 +44,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
 
-		switch(DatUsed)
+		if(DatUsed == 0)
 		{
-			case 0:
-			{
-				OpenBox.Radio_DatFileLocation->SetValue(true);
-				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
-				Selected.SetId(OpenBox.Radio_DatFileLocation->GetId());
-				Selected.SetInt(true);
-				OpenBox.GetEventHandler()->ProcessEvent(Selected);
-			}
-			break;
-			case 2:
-			{
-				OpenBox.Radio_ApfFileLocation->SetValue(true);
-				Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
-				Selected.SetId(OpenBox.Radio_ApfFileLocation->GetId());
-				Selected.SetInt(true);
-				OpenBox.GetEventHandler()->ProcessEvent(Selected);
-			}
-			break;
+			OpenBox.Radio_DatFileLocation->SetValue(true);
+			Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
+			Selected.SetId(OpenBox.Radio_DatFileLocation->GetId());
+			Selected.SetInt(true);
+			OpenBox.GetEventHandler()->ProcessEvent(Selected);
 		}
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
@@ -108,10 +95,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		if(OpenBox.Radio_DatFileLocation->GetValue())
 		{
 			DatUsed = 0;
-		}
-		else if(OpenBox.Radio_ApfFileLocation->GetValue())
-		{
-			DatUsed = 2;
 		}
 		else
 		{
@@ -1093,7 +1076,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 	}
 	SetStatusText("", 0);
 
-	NeedDat = false;
 	SkipOpenDialog = false;
 	if(AutoBackups) SaveBackup();
 }
@@ -1520,11 +1502,6 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		SaveBox.CheckBox_DatFileLocation->SetValue(true);
 		SaveBox.Path_DatFileLocation->SetPath(*argPath);
 	}
-	SaveBox.CheckBox_ApfFileLocation->SetValue(SaveApf);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetId(SaveBox.CheckBox_ApfFileLocation->GetId());
-	Selected.SetInt(SaveApf);
-	SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
 	SaveBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -1551,7 +1528,6 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	bool save = SaveBox.ShowModal() == wxID_OK;
 	SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
 	SaveDat = SaveBox.CheckBox_DatFileLocation->IsChecked();
-	SaveApf = SaveBox.CheckBox_ApfFileLocation->IsChecked();
 	SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
 	SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
 	SaveLangFileName = SaveBox.Path_LangFileLocation->GetPath();

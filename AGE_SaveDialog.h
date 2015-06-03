@@ -24,6 +24,4 @@ public:
 	/* Member Variables */
 
 	wxCheckBox *CheckBox_DatFileLocation;
-	wxCheckBox *CheckBox_UnzFileLocation;
-	wxCheckBox *CheckBox_ApfFileLocation;
 };
