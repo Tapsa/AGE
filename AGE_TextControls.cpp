@@ -36,8 +36,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
 						}
 					}
 					ChangeValue(lexical_cast<string>((short)*(int8_t*)container[0]));
-					if(LinkedBox) LinkedBox->Update(casted);
-					AGETextCtrl::unSaved[window] += container.size();
+					HandleResults(*(int8_t*)container[0]);
 					return 0;
 				}
 				if(*(int8_t*)container[0] != casted || forced)
@@ -46,8 +45,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
 					{
 						*(int8_t*)pointer = casted;
 					}
-					if(LinkedBox) LinkedBox->Update(casted);
-					AGETextCtrl::unSaved[window] += container.size();
+					HandleResults(casted);
 					return 0;
 				}
 			}
@@ -104,8 +102,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
 						}
 					}
 					ChangeValue(lexical_cast<string>((short)*(uint8_t*)container[0]));
-					if(LinkedBox) LinkedBox->Update(casted);
-					AGETextCtrl::unSaved[window] += container.size();
+					HandleResults(*(uint8_t*)container[0]);
 					return 0;
 				}
 				if(*(uint8_t*)container[0] != casted || forced)
@@ -114,8 +111,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
 					{
 						*(uint8_t*)pointer = casted;
 					}
-					if(LinkedBox) LinkedBox->Update(casted);
-					AGETextCtrl::unSaved[window] += container.size();
+					HandleResults(casted);
 					return 0;
 				}
 			}
@@ -172,8 +168,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
 					}
 				}
 				ChangeValue(lexical_cast<string>(*(float*)container[0]));
-				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(*(float*)container[0]);
 				return 0;
 			}
 			if(*(float*)container[0] != casted || forced)
@@ -182,8 +177,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
 				{
 					*(float*)pointer = casted;
 				}
-				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(casted);
 				return 0;
 			}
 		}
@@ -231,8 +225,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
 					}
 				}
 				ChangeValue(lexical_cast<string>(*(int32_t*)container[0]));
-				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(*(int32_t*)container[0]);
 				return 0;
 			}
 			if(*(int32_t*)container[0] != casted || forced)
@@ -241,8 +234,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
 				{
 					*(int32_t*)pointer = casted;
 				}
-				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(casted);
 				return 0;
 			}
 		}
@@ -290,8 +282,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
 					}
 				}
 				ChangeValue(lexical_cast<string>(*(int16_t*)container[0]));
-				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(*(int16_t*)container[0]);
 				return 0;
 			}
 			if(*(int16_t*)container[0] != casted || forced)
@@ -300,8 +291,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
 				{
 					*(int16_t*)pointer = casted;
 				}
-				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(casted);
 				return 0;
 			}
 		}
@@ -349,8 +339,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
 					}
 				}
 				ChangeValue(lexical_cast<string>(*(uint16_t*)container[0]));
-				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(*(uint16_t*)container[0]);
 				return 0;
 			}
 			if(*(uint16_t*)container[0] != casted || forced)
@@ -359,8 +348,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
 				{
 					*(uint16_t*)pointer = casted;
 				}
-				if(LinkedBox) LinkedBox->Update(casted);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(casted);
 				return 0;
 			}
 		}
@@ -407,7 +395,7 @@ int TextCtrl_String::SaveEdits(bool forced)	// This may crash the program.
 					*(string*)pointer = vasili;
 				}
 				ChangeValue(*(string*)container[0]);
-				AGETextCtrl::unSaved[window] += container.size();
+				HandleResults(0);
 				return 0;
 			}
 			fix:
@@ -427,7 +415,7 @@ int TextCtrl_String::SaveEdits(bool forced)	// This may crash the program.
 				}
 				ChangeValue(*(string*)container[0]);
 			}
-			AGETextCtrl::unSaved[window] += container.size();
+			HandleResults(0);
 			return 0;
 		}
 	}

@@ -69,7 +69,8 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	SetMinSize(wxSize(900, 480));
 	SetMaxSize(wxSize(MaxWindowWidth, 4096));
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
-	CreateStatusBar()->SetFieldsCount(3);
+	int bars[5] = {295, 145, 145, 145, -1};
+	CreateStatusBar(5)->SetStatusWidths(5, bars);
 
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
