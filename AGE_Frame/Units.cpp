@@ -2390,6 +2390,7 @@ string AGE_Frame::GetUnitDamageGraphicName(short Index)
 
 void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListUnitDamageGraphics();
 }
 
@@ -2689,6 +2690,7 @@ string AGE_Frame::GetUnitAttackName(short Index)
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListUnitAttacks();
 }
 
@@ -2978,6 +2980,7 @@ string AGE_Frame::GetUnitArmorName(short Index)
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListUnitArmors();
 }
 
@@ -3322,6 +3325,7 @@ wxString AGE_Frame::GetUnitCommandName(short Index)
 
 void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListUnitCommands();
 }
 

@@ -7,6 +7,7 @@ string AGE_Frame::GetTTAgesName(short Index)
 
 void AGE_Frame::OnTTAgesSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTAges();
 }
 
@@ -165,6 +166,7 @@ string AGE_Frame::GetBuildingName(short Building)
 
 void AGE_Frame::OnTTAgesBuildingSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTAgeBuildings();
 }
 
@@ -297,6 +299,7 @@ void AGE_Frame::OnTTAgesBuildingCopyToAges(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgesUnitSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTAgeUnits();
 }
 
@@ -444,6 +447,7 @@ string AGE_Frame::GetSimpleResearchName(short Research)
 
 void AGE_Frame::OnTTAgesResearchSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTAgeResearches();
 }
 
@@ -576,6 +580,7 @@ void AGE_Frame::OnTTAgesResearchCopyToAges(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgeItemSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTAgeItems();
 }
 
@@ -658,6 +663,7 @@ void AGE_Frame::OnTTAgeItemCopyToAges(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgeUnknownItemSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTAgeUnknownItems();
 }
 
@@ -818,6 +824,7 @@ string AGE_Frame::GetTTBuildingName(short Index)
 
 void AGE_Frame::OnTTBuildingSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTBuildings();
 }
 
@@ -977,6 +984,7 @@ void AGE_Frame::OnTTBuildingPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingBuildingSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTBuildingBuildings();
 }
 
@@ -1109,6 +1117,7 @@ void AGE_Frame::OnTTBuildingBuildingCopyToBuildings(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingUnitSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTBuildingUnits();
 }
 
@@ -1241,6 +1250,7 @@ void AGE_Frame::OnTTBuildingUnitCopyToBuildings(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingResearchSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTBuildingResearches();
 }
 
@@ -1373,6 +1383,7 @@ void AGE_Frame::OnTTBuildingResearchCopyToBuildings(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingItemSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTBuildingItems();
 }
 
@@ -1495,6 +1506,7 @@ string AGE_Frame::GetTTUnitName(short Index)
 
 void AGE_Frame::OnTTUnitSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTUnits();
 }
 
@@ -1649,6 +1661,7 @@ void AGE_Frame::OnTTUnitPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTUnitUnitSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTUnitUnits();
 }
 
@@ -1818,6 +1831,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* d
 
 void AGE_Frame::OnTTUnitItemSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTUnitItems();
 }
 
@@ -1934,6 +1948,7 @@ string AGE_Frame::GetTTResearchName(short Index)
 
 void AGE_Frame::OnTTResearchSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTResearches();
 }
 
@@ -2084,6 +2099,7 @@ void AGE_Frame::OnTTResearchPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchBuildingSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTResearchBuildings();
 }
 
@@ -2216,6 +2232,7 @@ void AGE_Frame::OnTTResearchBuildingCopyToResearches(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchUnitSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTResearchUnits();
 }
 
@@ -2348,6 +2365,7 @@ void AGE_Frame::OnTTResearchUnitCopyToResearches(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchResearchSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTResearchResearches();
 }
 
@@ -2480,6 +2498,7 @@ void AGE_Frame::OnTTResearchResearchCopyToResearches(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchItemSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTTResearchItems();
 }
 

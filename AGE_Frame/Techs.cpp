@@ -73,6 +73,7 @@ void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 
 void AGE_Frame::OnTechSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTechs(false);
 }
 
@@ -304,6 +305,7 @@ string AGE_Frame::GetEffectName(short Index)
 
 void AGE_Frame::OnEffectsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListEffects();
 }
 

@@ -95,6 +95,7 @@ InternalName:
 
 void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTerrains1(false);
 }
 
@@ -433,6 +434,7 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTerrainsBorderSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTerrainsBorders();
 }
 

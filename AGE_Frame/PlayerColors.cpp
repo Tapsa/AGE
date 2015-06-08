@@ -2,6 +2,7 @@
 
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListPlayerColors();
 }
 

@@ -111,6 +111,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 
 void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTerrainRestrictions(false);
 }
 
