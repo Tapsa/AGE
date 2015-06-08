@@ -95,6 +95,7 @@ InternalName:
 
 void AGE_Frame::OnGraphicsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListGraphics(false);
 }
 
@@ -445,6 +446,7 @@ string AGE_Frame::GetGraphicDeltaName(short Index)
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListGraphicDeltas();
 }
 
@@ -618,6 +620,7 @@ string AGE_Frame::GetGraphicAttackSoundName(short Index)
 
 void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListGraphicAttackSounds();
 }
 
