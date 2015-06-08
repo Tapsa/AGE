@@ -691,7 +691,7 @@ public:
 	wxFileConfig *Config, *Customs;
 	genie::DatFile *GenieFile;
 	genie::LangFile *Lang, *LangX, *LangXP;
-	int CustomTerrains;
+	int CustomTerrains, FirstVisible;
 //	wxSound SoundFile;
 
 	list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
@@ -705,8 +705,6 @@ public:
 	genie::Civ CivBackup[20];	// Only temporary solution!*/
 
 	wxArrayInt Items;
-	long SomethingPage;
-	long SomethingSize;
 	vector<short> RandomMapIDs;
 	vector<short> UnknownFSIDs;
 	vector<short> UnknownSSIDs;
@@ -757,8 +755,9 @@ public:
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool Added, SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
-	short AGEwindow;
+	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
+	enum ListMode {SEARCH, FILTER, ADD, DEL, PASTE, INSNEW, INSPASTE};
+	short How2List, AGEwindow;
 	int TimesOpened, SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth;
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
@@ -3210,14 +3209,14 @@ public:
 	inline void AddToListNoGV(P &path)
 	{
 		path.emplace_back();
-		Added = true;
+		How2List = ADD;
 	}
 	template <class P>
 	inline void AddToList(P &path)
 	{
 		path.emplace_back();
 		path.back().setGameVersion(GenieVersion);
-		Added = true;
+		How2List = ADD;
 	}
 	template <class P>
 	inline void AddToListIDFix(P &path)
@@ -3226,19 +3225,21 @@ public:
 		path.back().setGameVersion(GenieVersion);
 		if(EnableIDFix)
 		path.back().ID = path.size() - 1; // ID Fix
-		Added = true;
+		How2List = ADD;
 	}
 
 	template <class P>
 	inline void InsertToListNoGV(P &path, short place)
 	{
 		path.emplace(path.begin() + place);
+		How2List = INSNEW;
 	}
 	template <class P>
 	inline void InsertToList(P &path, short place)
 	{
 		path.emplace(path.begin() + place);
 		path[place].setGameVersion(GenieVersion);
+		How2List = INSNEW;
 	}
 	template <class P>
 	inline void InsertToListIDFix(P &path, short place)
@@ -3248,6 +3249,7 @@ public:
 		if(EnableIDFix)
 		for(auto loop = path.size(); loop--> place;) // ID Fix
 		path[loop].ID = loop;
+		How2List = INSNEW;
 	}
 
 	template <class P>
@@ -3255,6 +3257,7 @@ public:
 	{
 		for(auto loop = places.size(); loop--> 0;)
 		path.erase(path.begin() + places[loop]);
+		How2List = DEL;
 	}
 	template <class P>
 	inline void DeleteFromListIDFix(P &path, vector<short> &places)
@@ -3264,6 +3267,7 @@ public:
 		if(EnableIDFix)
 		for(auto loop = path.size(); loop--> places[0];) // ID Fix
 		path[loop].ID = loop;
+		How2List = DEL;
 	}
 
 	template <class P, class C>
@@ -3283,6 +3287,7 @@ public:
 		{
 			path[place + loop] = copies[loop];
 		}
+		How2List = PASTE;
 	}
 	template <class P, class C>
 	inline void PasteToListNoGV(P &path, vector<short> &places, C &copies)
@@ -3291,6 +3296,7 @@ public:
 		{
 			path[places[loop]] = copies[loop];
 		}
+		How2List = PASTE;
 	}
 	// Paste from selection onwards
 	template <class P, class C>
@@ -3303,6 +3309,7 @@ public:
 			copies[loop].setGameVersion(GenieVersion);
 			path[place + loop] = copies[loop];
 		}
+		How2List = PASTE;
 	}
 	// Paste to selections filling from beginning
 	template <class P, class C>
@@ -3313,6 +3320,7 @@ public:
 			copies[loop].setGameVersion(GenieVersion);
 			path[places[loop]] = copies[loop];
 		}
+		How2List = PASTE;
 	}
 	template <class P, class C>
 	inline void PasteToListNoResize(P &path, short place, C &copies)
@@ -3325,6 +3333,7 @@ public:
 			copies[loop].setGameVersion(GenieVersion);
 			path[place + loop] = copies[loop];
 		}
+		How2List = PASTE;
 	}
 	template <class P, class C>
 	inline void PasteToListIDFix(P &path, short place, C &copies)
@@ -3338,6 +3347,7 @@ public:
 			if(EnableIDFix)
 			path[place + loop].ID = place + loop; // ID Fix
 		}
+		How2List = PASTE;
 	}
 	template <class P, class C>
 	inline void PasteToListIDFix(P &path, vector<short> &places, C &copies)
@@ -3349,6 +3359,7 @@ public:
 			if(EnableIDFix)
 			path[places[loop]].ID = places[loop]; // ID Fix
 		}
+		How2List = PASTE;
 	}
 
 
@@ -3356,6 +3367,7 @@ public:
 	inline void PasteInsertToListNoGV(P &path, short place, C &copies)
 	{
 		path.insert(path.begin() + place, copies.begin(), copies.end());
+		How2List = INSPASTE;
 	}
 	template <class P, class C>
 	inline void PasteInsertToList(P &path, short place, C &copies)
@@ -3363,6 +3375,7 @@ public:
 		for(auto loop = copies.size(); loop--> 0;)
 		copies[loop].setGameVersion(GenieVersion);
 		path.insert(path.begin() + place, copies.begin(), copies.end());
+		How2List = INSPASTE;
 	}
 	template <class P, class C>
 	inline void PasteInsertToListIDFix(P &path, short place, C &copies)
@@ -3373,5 +3386,6 @@ public:
 		if(EnableIDFix)
 		for(auto loop = path.size(); loop--> place;) // ID Fix
 		path[loop].ID = loop;
+		How2List = INSPASTE;
 	}
 };
