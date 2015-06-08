@@ -9,6 +9,7 @@ string AGE_Frame::GetTerrainBorderName(short Index)
 
 void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTerrainBorders(false);
 }
 
@@ -175,6 +176,7 @@ string AGE_Frame::GetTerrainBorderFrameName(short Index)
 
 void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListTerrainBorderFrames();
 }
 

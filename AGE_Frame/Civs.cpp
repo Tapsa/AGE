@@ -2,6 +2,7 @@
 
 void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListCivs(false);
 }
 
@@ -667,6 +668,7 @@ string AGE_Frame::GetResourceName(short Index)
 
 void AGE_Frame::OnResourcesSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListResources(false);
 }
 

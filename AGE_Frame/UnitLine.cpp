@@ -9,6 +9,7 @@ string AGE_Frame::GetUnitLineName(short Index)
 
 void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListUnitLines();
 }
 
@@ -158,6 +159,7 @@ string AGE_Frame::GetUnitLineUnitName(short Unit)
 
 void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListUnitLineUnits();
 }
 

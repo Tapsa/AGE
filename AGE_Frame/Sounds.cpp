@@ -7,6 +7,7 @@ string AGE_Frame::GetSoundName(short Index)
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListSounds(false);
 }
 
@@ -185,6 +186,7 @@ string AGE_Frame::GetSoundItemName(short Index)
 
 void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListSoundItems();
 }
 

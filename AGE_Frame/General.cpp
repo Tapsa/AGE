@@ -592,6 +592,7 @@ void AGE_Frame::CreateGeneralControls()
 
 void AGE_Frame::OnUnknownsSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListRandomMaps();
 }
 
@@ -827,6 +828,7 @@ void AGE_Frame::OnUnknownsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSBaseZoneSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListRMSBaseZones();
 }
 
@@ -1052,6 +1054,7 @@ void AGE_Frame::OnRMSBaseZoneCopyToMaps(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSTerrainSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListRMSTerrains();
 }
 
@@ -1224,6 +1227,7 @@ void AGE_Frame::OnRMSTerrainCopyToMaps(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSUnitSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListRMSUnits();
 }
 
@@ -1436,6 +1440,7 @@ void AGE_Frame::OnRMSUnitCopyToMaps(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSUnknownSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListRMSUnknowns();
 }
 
