@@ -435,7 +435,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			GenieFile->TerrainRestrictionPointers2[loop] = 1;
 		}
 
-		Added = false;
+		How2List = SEARCH;
 
 		UnitCommands_Type_ComboBox->Clear();
 		UnitCommands_Type_ComboBox->Append("Unused Ability/Invalid Ability");	// Selection 0
@@ -1083,6 +1083,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 void AGE_Frame::LoadLists()
 {
 	Items.Add(0);
+	FirstVisible = -1;
 	OnCivCountChange();
 	ListTerrainRestrictions(true);
 	InitPlayerColors();
@@ -2014,6 +2015,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 		}
 		else if(Event.GetId() == Research_SearchFilters[loop]->GetId())
 		{
+			FirstVisible = Research_Research_List->HitTest(wxPoint(0, 0));
 			ListResearches(false);
 			Research_Research_Search->SetFocus();
 		}
@@ -2043,17 +2045,24 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	if(selections == 0)
 	{
 		List->SetSelection(0);
+		How2List = SEARCH;
 		return;
 	}
-	if(Added || Items.Item(0) >= List->GetCount())
+	if(How2List == ADD || Items.Item(0) >= List->GetCount())
 	{
 		List->SetFirstItem(List->GetCount() - 1);
 		List->SetSelection(List->GetCount() - 1);
-		Added = false;
+		How2List = SEARCH;
 		return;
 	}
-	List->SetFirstItem(Items.Item(0) - 3);
+	if(FirstVisible != -1)
+	{
+		List->SetFirstItem(FirstVisible);
+		FirstVisible == -1;
+	}
+	else List->SetFirstItem(Items.Item(0) - 3);
 	List->SetSelection(Items.Item(0));
+	How2List = SEARCH;
 }
 
 void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names)

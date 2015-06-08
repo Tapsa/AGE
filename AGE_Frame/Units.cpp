@@ -358,6 +358,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;	// If a unit is selected.
 
+	wxBusyCursor WaitCursor;
 	UnitCivID = Units_Civs_List->GetSelection();
 
 	// Auto-copy stuff
@@ -1782,7 +1783,7 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 			GenieFile->Civs[loop].Units[GenieFile->Civs[0].Units.size()-1].ID3 = (int16_t)(GenieFile->Civs[0].Units.size()-1);
 		}
 	}
-	Added = true;
+	How2List = ADD;
 	ListUnits(UnitCivID);
 
 	if(GenieVersion <= genie::GV_TC && GenieFile->Civs[0].Units.size() > 900) SetStatusText("Units over 900 mess up the AI!!!", 0);
@@ -2499,7 +2500,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
 		GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.push_back(Temp);
 	}
-	Added = true;
+	How2List = ADD;
 	ListUnitDamageGraphics();
 }
 
@@ -2789,7 +2790,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
 		GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Attacks.push_back(Temp);
 	}
-	Added = true;
+	How2List = ADD;
 	ListUnitAttacks();
 }
 
@@ -3078,7 +3079,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
 		GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Armours.push_back(Temp);
 	}
-	Added = true;
+	How2List = ADD;
 	ListUnitArmors();
 }
 
@@ -3645,7 +3646,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
 			}
 		}
 	}
-	Added = true;
+	How2List = ADD;
 	ListUnitCommands();
 }
 

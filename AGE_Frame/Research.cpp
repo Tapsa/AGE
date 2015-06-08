@@ -119,6 +119,7 @@ InternalName:
 
 void AGE_Frame::OnResearchSearch(wxCommandEvent &Event)
 {
+	FirstVisible = 0;
 	ListResearches(false);
 }
 
@@ -176,6 +177,8 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 {
 	auto selections = Research_Research_List->GetSelections(Items);
 	if(selections < 1) return;
+	int lastSelection = Event.GetSelection(); // To show contents of last selected item instead of first selection
+	SetStatusText(lexical_cast<string>(lastSelection), 4);
 
 	ResearchIDs.resize(selections);
 	for(short loop2 = 0; loop2 < GenieFile->Researchs[0].getRequiredTechsSize(); ++loop2)
@@ -327,6 +330,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent &Event)
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
+	FirstVisible = GenieFile->Researchs.size();
 	AddToList(GenieFile->Researchs);
 	ListResearches();
 }
@@ -337,6 +341,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
+	FirstVisible = Research_Research_List->HitTest(wxPoint(0, 0));
 	InsertToList(GenieFile->Researchs, ResearchIDs[0]);
 	ListResearches();
 }
@@ -347,6 +352,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
+	FirstVisible = Research_Research_List->HitTest(wxPoint(0, 0));
 	DeleteFromList(GenieFile->Researchs, ResearchIDs);
 	ListResearches();
 }
@@ -377,6 +383,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)
 	{
 		PasteToList(GenieFile->Researchs, ResearchIDs[0], copies->Research);
 	}
+	FirstVisible = Research_Research_List->HitTest(wxPoint(0, 0));
 	ListResearches();
 }
 
@@ -386,6 +393,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
+	FirstVisible = Research_Research_List->HitTest(wxPoint(0, 0));
 	PasteInsertToList(GenieFile->Researchs, ResearchIDs[0], copies->Research);
 	ListResearches();
 }
@@ -788,6 +796,7 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &Event)
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Research_Name[0]->GetId() || Event.GetId() == Research_LangDLLName->GetId())
 	{
+		FirstVisible = Research_Research_List->HitTest(wxPoint(0, 0));
 		ListResearches();
 	}
 	else
