@@ -331,7 +331,6 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent &Event)
 	if(GenieFile == NULL) return;
 
 	wxBusyCursor WaitCursor;
-	FirstVisible = GenieFile->Researchs.size();
 	AddToList(GenieFile->Researchs);
 	ListResearches();
 }
