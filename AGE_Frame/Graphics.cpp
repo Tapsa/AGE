@@ -334,7 +334,9 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &Event)
 	if(EnableIDFix)
 	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); ++loop) // ID Fix
 	GenieFile->Graphics[loop].ID = loop;
+	How2List = DEL;
 	ListGraphics();
+	Graphics_Graphics_List->SetFocus();
 }
 
 void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
