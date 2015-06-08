@@ -136,7 +136,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 		Temp.Units = GenieFile->Civs[FillingCiv].Units;
 	}
 	GenieFile->Civs.push_back(Temp);
-	Added = true;
+	How2List = ADD;
 	OnCivCountChange();
 	ListUnits(UnitCivID, false);
 }
@@ -724,7 +724,7 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 	GenieFile->Civs[loop].Resources.push_back(0);
-	Added = true;
+	How2List = ADD;
 	ListResources();
 }
 

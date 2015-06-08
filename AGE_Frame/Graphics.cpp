@@ -299,7 +299,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent &Event)
 	GenieFile->GraphicPointers.push_back(1);
 	if(EnableIDFix)
 	GenieFile->Graphics[GenieFile->Graphics.size()-1].ID = (GenieFile->Graphics.size()-1); // ID Fix
-	Added = true;
+	How2List = ADD;
 	ListGraphics();
 }
 
