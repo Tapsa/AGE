@@ -177,7 +177,8 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 {
 	auto selections = Research_Research_List->GetSelections(Items);
 	if(selections < 1) return;
-	int lastSelection = Event.GetSelection(); // To show contents of last selected item instead of first selection
+	int lastSelection = Event.GetSelection(); // To show contents of last selected item instead of first selection.
+	// TODO: Look if selections include the last selection.
 	SetStatusText(lexical_cast<string>(lastSelection), 4);
 
 	ResearchIDs.resize(selections);

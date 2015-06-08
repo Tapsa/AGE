@@ -1977,6 +1977,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 			}
 			Units_SearchFilters[loop]->SetSelection(0);
 		}
+		FirstVisible = Units_List->HitTest(wxPoint(0, 0));
 		ListUnits(UnitCivID, false);
 		Units_Search->SetFocus();
 		return;
@@ -1985,31 +1986,37 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 	{
 		if(Event.GetId() == Units_SearchFilters[loop]->GetId())
 		{
+			FirstVisible = Units_List->HitTest(wxPoint(0, 0));
 			ListUnits(UnitCivID, false);
 			Units_Search->SetFocus();
 		}
 		else if(Event.GetId() == Graphics_SearchFilters[loop]->GetId())
 		{
+			FirstVisible = Graphics_Graphics_List->HitTest(wxPoint(0, 0));
 			ListGraphics(false);
 			Graphics_Graphics_Search->SetFocus();
 		}
 		else if(Event.GetId() == Terrains_SearchFilters[loop]->GetId())
 		{
+			FirstVisible = Terrains_Terrains_List->HitTest(wxPoint(0, 0));
 			ListTerrains1(false);
 			Terrains_Terrains_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
 		{
+			FirstVisible = TechTrees_MainList_Units_List->HitTest(wxPoint(0, 0));
 			ListTTUnits();
 			TechTrees_MainList_Units_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Buildings_SearchFilters[loop]->GetId())
 		{
+			FirstVisible = TechTrees_MainList_Buildings_List->HitTest(wxPoint(0, 0));
 			ListTTBuildings();
 			TechTrees_MainList_Buildings_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Researches_SearchFilters[loop]->GetId())
 		{
+			FirstVisible = TechTrees_MainList_Researches_List->HitTest(wxPoint(0, 0));
 			ListTTResearches();
 			TechTrees_MainList_Researches_Search->SetFocus();
 		}
@@ -2021,6 +2028,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 		}
 		else if(Event.GetId() == Sounds_Items_SearchFilters[loop]->GetId())
 		{
+			FirstVisible = Sounds_Items_List->HitTest(wxPoint(0, 0));
 			ListSoundItems();
 			Sounds_Items_Search->SetFocus();
 		}
@@ -2034,6 +2042,8 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	List->Set(names);
 	bool showTime = ((chrono::duration_cast<chrono::milliseconds>(startTime - endTime)).count() > 1000) ? true : false;
 	endTime = chrono::system_clock::now();
+
+	// Data pointers need to be reassigned always.
 	auto it = data.begin();
 	for(short loop = 0; loop < List->GetCount(); ++loop)
 	{
@@ -2042,6 +2052,7 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	if(showTime)
 	SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
 
+	// Set selections and first visible item.
 	if(selections == 0)
 	{
 		List->SetSelection(0);
