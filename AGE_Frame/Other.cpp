@@ -541,7 +541,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		DefAoE2Armors.Add("11 - All Buildings (except Port)");
 		DefAoE2Armors.Add("12 - Unused");
 		DefAoE2Armors.Add("13 - Stone Defense");
-		DefAoE2Armors.Add("14 - Unused");
+		DefAoE2Armors.Add("14 - Predator Animals"); // FE
 		DefAoE2Armors.Add("15 - Archers");
 		DefAoE2Armors.Add("16 - Ships & Camels & Saboteurs");
 		DefAoE2Armors.Add("17 - Rams");
@@ -550,7 +550,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		DefAoE2Armors.Add("20 - Siege Weapons");
 		DefAoE2Armors.Add("21 - Standard Buildings");
 		DefAoE2Armors.Add("22 - Walls & Gates");
-		DefAoE2Armors.Add("23 - Unused");
+		DefAoE2Armors.Add("23 - Gunpowder Units"); // FE
 		DefAoE2Armors.Add("24 - Boars");
 		DefAoE2Armors.Add("25 - Monks");
 		DefAoE2Armors.Add("26 - Castle");
