@@ -752,6 +752,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &Event)
 		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[loop2].Resources.erase(GenieFile->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
 	}
+	How2List = DEL;
 	ListResources();
 }
 

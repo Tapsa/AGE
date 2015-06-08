@@ -2039,7 +2039,36 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 {
 	int selections = List->GetSelections(Items);
 	chrono::time_point<chrono::system_clock> startTime = chrono::system_clock::now();
-	List->Set(names);
+	if(How2List == ADD)
+	{
+		if(names.size() > List->GetCount())
+		{
+			List->Append(names.Last());
+			SetStatusText("Added 1 visible", 4);
+		}
+		else
+		{
+			SetStatusText("Added 1 hidden", 4);
+		}
+	}
+	else if(How2List == DEL)
+	{
+		if(20 * selections < List->GetCount())
+		{
+			for(int sel = Items.size(); sel--> 0;)
+			List->Delete(Items.Item(sel));
+			SetStatusText("Deleted 1 by 1", 4);
+		}
+		else
+		{
+			List->Set(names);
+			SetStatusText("Listed all again", 4);
+		}
+	}
+	else
+	{
+		List->Set(names);
+	}
 	bool showTime = ((chrono::duration_cast<chrono::milliseconds>(startTime - endTime)).count() > 1000) ? true : false;
 	endTime = chrono::system_clock::now();
 
@@ -2069,7 +2098,7 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	if(FirstVisible != -1)
 	{
 		List->SetFirstItem(FirstVisible);
-		FirstVisible == -1;
+		FirstVisible = -1;
 	}
 	else List->SetFirstItem(Items.Item(0) - 3);
 	List->SetSelection(Items.Item(0));
