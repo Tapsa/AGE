@@ -279,6 +279,7 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
 	short Selection = Units_Civs_List->GetSelection();
 	if(Selection == wxNOT_FOUND) return;
 
+	FirstVisible = 0;
 	ListUnits(Selection, false);
 }
 
@@ -1848,6 +1849,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 			GenieFile->Civs[civ].Units[loop].ID3 = loop;
 		}
 	}
+	How2List = DEL;
 	ListUnits(UnitCivID);
 }
 
@@ -2534,6 +2536,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[loop]);
 	}
+	How2List = DEL;
 	ListUnitDamageGraphics();
 }
 
@@ -2825,6 +2828,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks.begin() + AttackIDs[loop]);
 	}
+	How2List = DEL;
 	ListUnitAttacks();
 }
 
@@ -3115,6 +3119,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 		for(auto loop = selections; loop--> 0;)
 		GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours.erase(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours.begin() + ArmorIDs[loop]);
 	}
+	How2List = DEL;
 	ListUnitArmors();
 }
 
@@ -3714,6 +3719,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 			}
 		}
 	}
+	How2List = DEL;
 	ListUnitCommands();
 }
 

@@ -244,6 +244,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent &Event)
 		if(GenieVersion >= genie::GV_AoKA)
 		GenieFile->TerrainRestrictionPointers2.erase(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictIDs[loop]);
 	}
+	How2List = DEL;
 	ListTerrainRestrictions();
 }
 
