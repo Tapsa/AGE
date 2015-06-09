@@ -1152,7 +1152,7 @@ void AGE_Frame::LoadLists()
 	OnTerrainRestrictionsTerrainSelect(E);
 	OnPlayerColorsSelect(E);
 	OnTerrainBordersSelect(E);
-	OnUnknownsSelect(E);
+	OnRandomMapSelect(E);
 	if(GenieVersion >= genie::GV_AoKA)
 	{
 		OnTTAgesSelect(E);
@@ -2067,10 +2067,28 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 		{
 			List->SetString(Items.Item(sel), names[Items.Item(sel)]);
 		}
+		SetStatusText("Pasted 1 to 1", 4);
+		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
+		AGETextCtrl::unSaved[AGEwindow] += selections;
 	}
 	else
 	{
 		List->Set(names);
+		if(How2List != SEARCH)
+		{
+			SetStatusText("Listed all again", 4);
+			if(How2List == ENABLE)
+			{
+				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
+				AGETextCtrl::unSaved[AGEwindow] += selections;
+			}
+			else // Need more input to calculate edits for paste and inserts.
+			{
+				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + 1", 3);
+				++AGETextCtrl::unSaved[AGEwindow];
+			}
+		}
+		else SetStatusText("Searched", 4);
 	}
 	bool showTime = ((chrono::duration_cast<chrono::milliseconds>(startTime - endTime)).count() > 1000) ? true : false;
 	endTime = chrono::system_clock::now();

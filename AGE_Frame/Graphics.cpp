@@ -354,6 +354,7 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
 		copies->GraphicPointer[loop] = GenieFile->GraphicPointers[GraphicIDs[loop]];
 		copies->Graphic[loop] = GenieFile->Graphics[GraphicIDs[loop]];
 	}
+	Graphics_Graphics_List->SetFocus();
 }
 
 void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
@@ -583,6 +584,7 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies->GraphicDelta);
+	Graphics_Deltas_List->SetFocus();
 }
 
 void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &Event)
@@ -713,6 +715,7 @@ void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &Event)
 	genie::GraphicAttackSound Copy = GenieFile->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[0]];
 	for(short loop2 = 0; loop2 < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop2)
 	GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop2] = Copy;
+	Graphics_AttackSounds_List->SetFocus();
 }
 
 void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &Event)

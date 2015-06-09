@@ -153,6 +153,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->PlayerColours, ColorIDs, copies->PlayerColor);
+	Colors_Colors_List->SetFocus();
 }
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)

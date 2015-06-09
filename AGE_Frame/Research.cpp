@@ -364,6 +364,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Researchs, ResearchIDs, copies->Research);
+	Research_Research_List->SetFocus();
 }
 
 void AGE_Frame::OnResearchPaste(wxCommandEvent &Event)

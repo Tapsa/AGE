@@ -175,6 +175,7 @@ void AGE_Frame::OnTechCopy(wxCommandEvent &Event)	// Works.
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Techages, TechIDs, copies->Tech);
+	Techs_List->SetFocus();
 }
 
 void AGE_Frame::OnTechPaste(wxCommandEvent &Event)	// Works.
@@ -952,6 +953,7 @@ void AGE_Frame::OnEffectsCopy(wxCommandEvent &Event)	// Works.
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs, copies->Effect);
+	Techs_Effects_List->SetFocus();
 }
 
 void AGE_Frame::OnEffectsPaste(wxCommandEvent &Event)	// Works.

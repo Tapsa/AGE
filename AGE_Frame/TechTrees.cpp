@@ -119,6 +119,7 @@ void AGE_Frame::OnTTAgesCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.TechTreeAges, TTAgeIDs, copies->TTAge);
+	TechTrees_MainList_Ages_List->SetFocus();
 }
 
 void AGE_Frame::OnTTAgesPaste(wxCommandEvent &Event)
@@ -261,6 +262,7 @@ void AGE_Frame::OnTTAgesBuildingCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings, TTAgeBuildIDs, copies->TTAgeBuild);
+	TechTrees_Ages_Buildings.List->SetFocus();
 }
 
 void AGE_Frame::OnTTAgesBuildingPaste(wxCommandEvent &Event)
@@ -396,6 +398,7 @@ void AGE_Frame::OnTTAgesUnitCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Units, TTAgeUnitIDs, copies->TTAgeUnit);
+	TechTrees_Ages_Units.List->SetFocus();
 }
 
 void AGE_Frame::OnTTAgesUnitPaste(wxCommandEvent &Event)
@@ -546,6 +549,7 @@ void AGE_Frame::OnTTAgesResearchCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Researches, TTAgeResIDs, copies->TTAgeRes);
+	TechTrees_Ages_Researches.List->SetFocus();
 }
 
 void AGE_Frame::OnTTAgesResearchPaste(wxCommandEvent &Event)
@@ -638,6 +642,7 @@ void AGE_Frame::OnTTAgeItemCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.UnitResearch, TTItemIDs, copies->TTItem);
 	CopyFromList(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common.Mode, TTItemIDs, copies->TTMode);
+	TechTrees_Ages_Items.List->SetFocus();
 }
 
 void AGE_Frame::OnTTAgeItemPaste(wxCommandEvent &Event)
@@ -734,6 +739,7 @@ void AGE_Frame::OnTTAgeUnknownItemCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Unknown4, TTUnknownItemIDs, copies->TTUnknown4);
 	CopyFromList(GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Unknown5, TTUnknownItemIDs, copies->TTUnknown5);
+	TechTrees_Ages_UnknownItems.List->SetFocus();
 }
 
 void AGE_Frame::OnTTAgeUnknownItemPaste(wxCommandEvent &Event)
@@ -963,6 +969,7 @@ void AGE_Frame::OnTTBuildingCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.BuildingConnections, TTBuildConIDs, copies->TTBuildCon);
+	TechTrees_MainList_Buildings_List->SetFocus();
 }
 
 void AGE_Frame::OnTTBuildingPaste(wxCommandEvent &Event)
@@ -1090,6 +1097,7 @@ void AGE_Frame::OnTTBuildingBuildingCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings, TTBuildBuildIDs, copies->TTBuildBuild);
+	TechTrees_Buildings_Buildings.List->SetFocus();
 }
 
 void AGE_Frame::OnTTBuildingBuildingPaste(wxCommandEvent &Event)
@@ -1225,6 +1233,7 @@ void AGE_Frame::OnTTBuildingUnitCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Units, TTBuildUnitIDs, copies->TTBuildUnit);
+	TechTrees_Buildings_Units.List->SetFocus();
 }
 
 void AGE_Frame::OnTTBuildingUnitPaste(wxCommandEvent &Event)
@@ -1360,6 +1369,7 @@ void AGE_Frame::OnTTBuildingResearchCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches, TTBuildResIDs, copies->TTBuildRes);
+	TechTrees_Buildings_Researches.List->SetFocus();
 }
 
 void AGE_Frame::OnTTBuildingResearchPaste(wxCommandEvent &Event)
@@ -1427,6 +1437,7 @@ void AGE_Frame::OnTTBuildingItemCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Common.UnitResearch, TTItemIDs, copies->TTItem);
 	CopyFromList(GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Common.Mode, TTItemIDs, copies->TTMode);
+	TechTrees_Buildings_Items.List->SetFocus();
 }
 
 void AGE_Frame::OnTTBuildingItemPaste(wxCommandEvent &Event)
@@ -1649,6 +1660,7 @@ void AGE_Frame::OnTTUnitCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.UnitConnections, TTUnitConIDs, copies->TTUnitCon);
+	TechTrees_MainList_Units_List->SetFocus();
 }
 
 void AGE_Frame::OnTTUnitPaste(wxCommandEvent &Event)
@@ -1776,6 +1788,7 @@ void AGE_Frame::OnTTUnitUnitCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Units, TTUnitUnitIDs, copies->TTUnitUnit);
+	TechTrees_Units_Units.List->SetFocus();
 }
 
 void AGE_Frame::OnTTUnitUnitPaste(wxCommandEvent &Event)
@@ -1881,6 +1894,7 @@ void AGE_Frame::OnTTUnitItemCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Common.UnitResearch, TTItemIDs, copies->TTItem);
 	CopyFromList(GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Common.Mode, TTItemIDs, copies->TTMode);
+	TechTrees_Units_Items.List->SetFocus();
 }
 
 void AGE_Frame::OnTTUnitItemPaste(wxCommandEvent &Event)
@@ -2093,6 +2107,7 @@ void AGE_Frame::OnTTResearchCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.ResearchConnections, TTResConIDs, copies->TTResCon);
+	TechTrees_MainList_Researches_List->SetFocus();
 }
 
 void AGE_Frame::OnTTResearchPaste(wxCommandEvent &Event)
@@ -2220,6 +2235,7 @@ void AGE_Frame::OnTTResearchBuildingCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Buildings, TTResBuildIDs, copies->TTResBuild);
+	TechTrees_Researches_Buildings.List->SetFocus();
 }
 
 void AGE_Frame::OnTTResearchBuildingPaste(wxCommandEvent &Event)
@@ -2355,6 +2371,7 @@ void AGE_Frame::OnTTResearchUnitCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Units, TTResUnitIDs, copies->TTResUnit);
+	TechTrees_Researches_Units.List->SetFocus();
 }
 
 void AGE_Frame::OnTTResearchUnitPaste(wxCommandEvent &Event)
@@ -2490,6 +2507,7 @@ void AGE_Frame::OnTTResearchResearchCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Researches, TTResResIDs, copies->TTResRes);
+	TechTrees_Researches_Researches.List->SetFocus();
 }
 
 void AGE_Frame::OnTTResearchResearchPaste(wxCommandEvent &Event)
@@ -2557,6 +2575,7 @@ void AGE_Frame::OnTTResearchItemCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Common.UnitResearch, TTItemIDs, copies->TTItem);
 	CopyFromList(GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Common.Mode, TTItemIDs, copies->TTMode);
+	TechTrees_Researches_Items.List->SetFocus();
 }
 
 void AGE_Frame::OnTTResearchItemPaste(wxCommandEvent &Event)

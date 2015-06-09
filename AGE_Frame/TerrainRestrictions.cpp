@@ -261,6 +261,7 @@ void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TerrainRestrictions, TerRestrictIDs, copies->TerrainRestriction);
+	TerRestrict_TerRestrict_List->SetFocus();
 }
 
 void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &Event)
@@ -316,6 +317,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &Event)
 	CopyFromList(GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible, TerRestrictTerIDs, copies->TerrainRestrictionSubAccess);
 	if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
 	CopyFromList(GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics, TerRestrictTerIDs, copies->TerrainRestrictionSubGraphics);
+	TerRestrict_Terrains_List->SetFocus();
 }
 
 void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &Event)
