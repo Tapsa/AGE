@@ -126,15 +126,15 @@ public:
 	void OnVariableCalcReverse(wxFocusEvent &Event);
 
 	void ListRandomMaps();
-	void OnUnknownsSearch(wxCommandEvent &Event);
-	void OnUnknownsSelect(wxCommandEvent &Event);
-	void OnUnknownsAdd(wxCommandEvent &Event);
-	void OnUnknownsInsert(wxCommandEvent &Event);
-	void OnUnknownsDelete(wxCommandEvent &Event);
-	void OnUnknownsCopy(wxCommandEvent &Event);
-	void OnUnknownsPaste(wxCommandEvent &Event);
-	void OnUnknownsPasteInsert(wxCommandEvent &Event);
-	string GetUnknownName(short);
+	void OnRandomMapSearch(wxCommandEvent &Event);
+	void OnRandomMapSelect(wxCommandEvent &Event);
+	void OnRandomMapAdd(wxCommandEvent &Event);
+	void OnRandomMapInsert(wxCommandEvent &Event);
+	void OnRandomMapDelete(wxCommandEvent &Event);
+	void OnRandomMapCopy(wxCommandEvent &Event);
+	void OnRandomMapPaste(wxCommandEvent &Event);
+	void OnRandomMapPasteInsert(wxCommandEvent &Event);
+	string GetRandomMapName(short);
 
 	void ListRMSBaseZones();
 	void DisableRMSBaseZones();

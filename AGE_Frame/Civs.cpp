@@ -183,6 +183,7 @@ void AGE_Frame::OnCivsCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Civs, CivIDs, copies->Civ);
+	Civs_Civs_List->SetFocus();
 }
 
 void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
@@ -769,6 +770,7 @@ void AGE_Frame::OnResourcesCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs, copies->Resource);
+	Civs_Resources_List->SetFocus();
 }
 
 void AGE_Frame::OnResourcesPaste(wxCommandEvent &Event)

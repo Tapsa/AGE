@@ -111,6 +111,7 @@ void AGE_Frame::OnSoundsCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Sounds, SoundIDs, copies->Sound);
+	Sounds_Sounds_List->SetFocus();
 }
 
 void AGE_Frame::OnSoundsPaste(wxCommandEvent &Event)
@@ -316,6 +317,7 @@ void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies->SoundItem);
+	Sounds_Items_List->SetFocus();
 }
 
 void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &Event)

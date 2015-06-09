@@ -112,6 +112,7 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->UnitLines, UnitLineIDs, copies->UnitLine);
+	UnitLines_UnitLines_List->SetFocus();
 }
 
 void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &Event)
@@ -254,6 +255,7 @@ void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs, copies->UnitLineUnit);
+	UnitLines_UnitLineUnits_List->SetFocus();
 }
 
 void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &Event)

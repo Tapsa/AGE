@@ -403,6 +403,7 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TerrainBlock.Terrains, TerrainIDs, copies->Terrain);
+	Terrains_Terrains_List->SetFocus();
 }
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent &Event)
@@ -494,6 +495,7 @@ void AGE_Frame::OnTerrainsBorderCopy(wxCommandEvent &Event)
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies->TerBorder);
+	Terrains_Borders_List->SetFocus();
 }
 
 void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &Event)
