@@ -140,6 +140,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 	auto selections = Graphics_Graphics_List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		GraphicIDs.resize(selections);
 		Graphics_Name->resize(selections);
 		Graphics_Name2->resize(selections);
@@ -480,6 +481,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 	auto selections = Graphics_Deltas_List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		DeltaIDs.resize(selections);
 		GraphicDeltas_GraphicID->resize(selections);
 		GraphicDeltas_Unknown1->resize(selections);
@@ -648,6 +650,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 	auto selections = Graphics_AttackSounds_List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		AttackSoundIDs.resize(selections);
 		Graphics_AttackSoundID[0]->resize(selections);
 		Graphics_AttackSoundID[1]->resize(selections);

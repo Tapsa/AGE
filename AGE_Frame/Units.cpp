@@ -360,6 +360,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	if(selections < 1) return;	// If a unit is selected.
 
 	wxBusyCursor WaitCursor;
+	SwapSelection(Event.GetSelection(), Items);
 	UnitCivID = Units_Civs_List->GetSelection();
 
 	// Auto-copy stuff
@@ -2432,7 +2433,8 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		// This and attacks/armors/commands still need a lot of thinking.
+		SwapSelection(Event.GetSelection(), Items);
+		// This and attacks/armors/commands need a lot of thinking.
 		DamageGraphicIDs.resize(selections);
 		int PointerCount = (CopyGraphics) ? selections * SelectedCivs.size() : selections;
 		DamageGraphics_GraphicID->resize(PointerCount);
@@ -2735,6 +2737,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 	auto selections = Units_Attacks_List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		AttackIDs.resize(selections);
 		int PointerCount = selections * SelectedCivs.size();
 		Attacks_Class->resize(PointerCount);
@@ -3026,6 +3029,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 	auto selections = Units_Armors_List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		ArmorIDs.resize(selections);
 		int PointerCount = selections * SelectedCivs.size();
 		Armors_Class->resize(PointerCount);
@@ -3395,6 +3399,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		CommandIDs.resize(selections);
 		int PointerCount = (GenieVersion < genie::GV_AoK) ? selections * SelectedCivs.size() : selections;
 		UnitCommands_One->resize(PointerCount);

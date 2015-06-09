@@ -200,6 +200,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 	auto selections = Terrains_Terrains_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	TerrainIDs.resize(selections);
 	if(GenieVersion < genie::GV_SWGB)
 	Terrains_Unknown1->resize(selections);
@@ -466,6 +467,7 @@ void AGE_Frame::ListTerrainsBorders()
 void AGE_Frame::OnTerrainsBorderSelect(wxCommandEvent &Event)
 {
 	auto selections = Terrains_Borders_List->GetSelections(Items);
+	SwapSelection(Event.GetSelection(), Items);
 	TerBorderIDs.resize(selections);
 	Terrains_Border->resize(selections);
 

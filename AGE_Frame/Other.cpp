@@ -2192,29 +2192,29 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 	}
 }
 
-int AGE_Frame::FindItem(wxArrayInt &ints, int find, int min, int max)
+int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
 {
 	while(max >= min)
 	{
 		int mid = min + ((max - min) / 2);
-		if(find == ints.Item(mid)) return mid;
-		if(find > ints.Item(mid)) min = mid + 1;
+		if(find == selections.Item(mid)) return mid;
+		if(find > selections.Item(mid)) min = mid + 1;
 		else max = mid - 1;
 	}
 	return -1;
 }
 
 // To show contents of last selected item instead of first selection.
-void AGE_Frame::SwapSelection(int last)
+void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
 {
 	// Look if selections include the last selection.
-	int found = FindItem(Items, last, 0, Items.GetCount() - 1);
+	int found = FindItem(selections, last, 0, selections.GetCount() - 1);
 	// Swap last selection with the first one.
-	if(found != -1)
+	if(found > 0)
 	{
-		int swap = Items.Item(found);
-		Items.RemoveAt(found);
-		Items.Insert(swap, 0);
+		int swap = selections.Item(found);
+		selections.RemoveAt(found);
+		selections.Insert(swap, 0);
 	}
 }
 

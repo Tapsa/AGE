@@ -83,8 +83,8 @@ public:
 	wxString FormatInt(int);
 	wxString CurrentTime();
 	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
-	int FindItem(wxArrayInt &ints, int find, int min, int max);
-	void SwapSelection(int last);
+	int FindItem(wxArrayInt &selections, int find, int min, int max);
+	void SwapSelection(int last, wxArrayInt &selections);
 	void SaveBackup();
 	bool SearchMatches(wxString itemText);
 	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
@@ -707,6 +707,7 @@ public:
 	genie::Civ CivBackup[20];	// Only temporary solution!*/
 
 	wxArrayInt Items;
+	int lastTerrainRestriction;
 	vector<short> RandomMapIDs;
 	vector<short> UnknownFSIDs;
 	vector<short> UnknownSSIDs;
