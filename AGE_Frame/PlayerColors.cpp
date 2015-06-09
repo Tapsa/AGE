@@ -2,7 +2,7 @@
 
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListPlayerColors();
 }
 
@@ -15,6 +15,7 @@ string AGE_Frame::GetPlayerColorName(short Index)
 
 void AGE_Frame::ListPlayerColors()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Colors_Colors_List->HitTest(wxPoint(0, 0));
 	InitPlayerColors();
 	wxCommandEvent E;
 	OnPlayerColorsSelect(E);

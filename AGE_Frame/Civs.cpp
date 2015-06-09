@@ -2,7 +2,7 @@
 
 void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListCivs(false);
 }
 
@@ -16,6 +16,7 @@ string AGE_Frame::GetCivName(short Index)
 
 void AGE_Frame::ListCivs(bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : Civs_Civs_List->HitTest(wxPoint(0, 0));
 	InitCivs(all);
 	wxCommandEvent E;
 	OnCivsSelect(E);
@@ -160,6 +161,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 	}
 	GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
 	OnCivCountChange();
+	How2List = INSNEW;
 	ListUnits(UnitCivID, false);
 }
 
@@ -669,12 +671,13 @@ string AGE_Frame::GetResourceName(short Index)
 
 void AGE_Frame::OnResourcesSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListResources(false);
 }
 
 void AGE_Frame::ListResources(bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : Civs_Resources_List->HitTest(wxPoint(0, 0));
 	searchText = Civs_Resources_Search->GetValue().Lower();
 	excludeText = Civs_Resources_Search_R->GetValue().Lower();
 
@@ -740,6 +743,7 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 	GenieFile->Civs[loop].Resources.insert(GenieFile->Civs[loop].Resources.begin() + ResourceIDs[0], 0);
+	How2List = INSNEW;
 	ListResources();
 }
 

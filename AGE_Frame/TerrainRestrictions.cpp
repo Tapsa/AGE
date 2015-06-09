@@ -111,12 +111,13 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 
 void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTerrainRestrictions(false);
 }
 
 void AGE_Frame::ListTerrainRestrictions(bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : TerRestrict_TerRestrict_List->HitTest(wxPoint(0, 0));
 	InitTerrainRestrictions(all);
 	wxCommandEvent E;
 	OnTerrainRestrictionsSelect(E);
@@ -232,6 +233,7 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &Event)
 	GenieFile->TerrainRestrictionPointers1.insert(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], 1);
 	if(GenieVersion >= genie::GV_AoKA)
 	GenieFile->TerrainRestrictionPointers2.insert(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictIDs[0], 1);
+	How2List = INSNEW;
 	ListTerrainRestrictions();
 }
 
@@ -300,6 +302,7 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &Event)
 	GenieFile->TerrainRestrictionPointers1.insert(GenieFile->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], copies->TerrainRestriction.size(), 1);
 	if(GenieVersion >= genie::GV_AoKA)
 	GenieFile->TerrainRestrictionPointers2.insert(GenieFile->TerrainRestrictionPointers2.begin() + TerRestrictIDs[0], copies->TerrainRestriction.size(), 1);
+	How2List = INSPASTE;
 	ListTerrainRestrictions();
 }
 
