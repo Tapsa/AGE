@@ -1913,6 +1913,7 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 		for(short loop = 0; loop < selections; ++loop)
 		copies->Dat.UnitCopies[0][loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
 	}
+	Units_List->SetFocus();
 }
 
 void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
@@ -1962,6 +1963,7 @@ void AGE_Frame::UnitsAutoCopy(wxCommandEvent &Event)
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	int edits = 0;
 	GraphicCopies graphics;
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
@@ -1975,8 +1977,13 @@ void AGE_Frame::UnitsAutoCopy(wxCommandEvent &Event)
 				if(!CopyGraphics)// Let's paste graphics separately.
 				UnitsGraphicsPaste(graphics, civ, UnitIDs[loop]);
 			}
+			++edits;
 		}
 	}
+
+	SetStatusText("Manual unit copy", 4);
+	SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(edits), 3);
+	AGETextCtrl::unSaved[AGEwindow] += edits;
 }
 
 void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
@@ -2025,6 +2032,7 @@ void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &Event)
 		for(short loop = 0; loop < selections; ++loop)
 		UnitsGraphicsCopy(copies->Dat.UnitGraphics[0][loop], UnitCivID, UnitIDs[loop]);
 	}
+	Units_List->SetFocus();
 }
 
 void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
@@ -2099,6 +2107,10 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 	}
 	How2List = PASTE;
 	ListUnits(UnitCivID);
+
+	SetStatusText("Unit special paste", 4);
+	SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(Items.size()), 3);
+	AGETextCtrl::unSaved[AGEwindow] += Items.size();
 }
 
 void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
@@ -2307,6 +2319,7 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &Event)
 	}
 	wxCommandEvent E;
 	OnUnitsSelect(E);
+	Units_List->SetFocus();
 }
 
 void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
@@ -2584,6 +2597,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &Event)
 	{
 		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies->Dat.UnitDamageGraphics[0]);
 	}
+	Units_DamageGraphics_List->SetFocus();
 }
 
 void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
@@ -2879,6 +2893,7 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
 	{
 		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies->Dat.UnitAttacks[0]);
 	}
+	Units_Attacks_List->SetFocus();
 }
 
 void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
@@ -3173,6 +3188,7 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
 	{
 		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies->Dat.UnitArmors[0]);
 	}
+	Units_Armors_List->SetFocus();
 }
 
 void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
@@ -3784,6 +3800,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
 	{
 		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies->Dat.UnitCommands[0]);
 	}
+	Units_UnitCommands_List->SetFocus();
 }
 
 void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
