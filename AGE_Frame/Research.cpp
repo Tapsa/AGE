@@ -180,17 +180,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	// To show contents of last selected item instead of first selection.
-	int lastSelection = Event.GetSelection();
-	// Look if selections include the last selection.
-	int found = FindItem(Items, lastSelection, 0, Items.GetCount() - 1);
-	// Swap last selection with the first one.
-	if(found != -1)
-	{
-		int swap = Items.Item(found);
-		Items.RemoveAt(found);
-		Items.Insert(swap, 0);
-	}
+	SwapSelection(Event.GetSelection());
 
 	ResearchIDs.resize(selections);
 	for(short loop2 = 0; loop2 < GenieFile->Researchs[0].getRequiredTechsSize(); ++loop2)

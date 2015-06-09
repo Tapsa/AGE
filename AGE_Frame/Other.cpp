@@ -2038,10 +2038,11 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &data)
 {
 	int selections = List->GetSelections(Items);
+	int listsize = List->GetCount(); // Size before
 	chrono::time_point<chrono::system_clock> startTime = chrono::system_clock::now();
 	if(How2List == ADD)
 	{
-		if(names.size() > List->GetCount())
+		if(names.size() > listsize)
 		{
 			List->Append(names.Last());
 			SetStatusText("Added 1 visible", 4);
@@ -2055,7 +2056,7 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	}
 	else if(How2List == DEL)
 	{
-		if(20 * selections < List->GetCount())
+		if(20 * selections < listsize)
 		{
 			for(int sel = Items.size(); sel--> 0;)
 			List->Delete(Items.Item(sel));
@@ -2078,10 +2079,12 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	}
 	bool showTime = ((chrono::duration_cast<chrono::milliseconds>(startTime - endTime)).count() > 1000) ? true : false;
 	endTime = chrono::system_clock::now();
+	listsize = List->GetCount(); // Size after
+	if(listsize == 0) return;
 
 	// Data pointers need to be reassigned always.
 	auto it = data.begin();
-	for(short loop = 0; loop < List->GetCount(); ++loop)
+	for(short loop = 0; loop < listsize; ++loop)
 	{
 		List->SetClientData(loop, *it++);
 	}
@@ -2095,10 +2098,10 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 		How2List = SEARCH;
 		return;
 	}
-	if(How2List == ADD || Items.Item(0) >= List->GetCount())
+	if(How2List == ADD || Items.Item(0) >= listsize)
 	{
-		List->SetFirstItem(List->GetCount() - 1);
-		List->SetSelection(List->GetCount() - 1);
+		List->SetFirstItem(listsize - 1);
+		List->SetSelection(listsize - 1);
 		How2List = SEARCH;
 		return;
 	}
@@ -2107,7 +2110,11 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 		List->SetFirstItem(FirstVisible);
 		FirstVisible = -1;
 	}
-	else List->SetFirstItem(Items.Item(0) - 3);
+	else
+	{
+		int first = Items.Item(0) - 3;
+		if(first >= 0) List->SetFirstItem(first);
+	}
 	List->SetSelection(Items.Item(0));
 	How2List = SEARCH;
 }
@@ -2195,6 +2202,20 @@ int AGE_Frame::FindItem(wxArrayInt &ints, int find, int min, int max)
 		else max = mid - 1;
 	}
 	return -1;
+}
+
+// To show contents of last selected item instead of first selection.
+void AGE_Frame::SwapSelection(int last)
+{
+	// Look if selections include the last selection.
+	int found = FindItem(Items, last, 0, Items.GetCount() - 1);
+	// Swap last selection with the first one.
+	if(found != -1)
+	{
+		int swap = Items.Item(found);
+		Items.RemoveAt(found);
+		Items.Insert(swap, 0);
+	}
 }
 
 wxString AGE_Frame::FormatFloat(float value)
