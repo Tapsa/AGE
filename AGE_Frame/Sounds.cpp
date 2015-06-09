@@ -7,12 +7,13 @@ string AGE_Frame::GetSoundName(short Index)
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListSounds(false);
 }
 
 void AGE_Frame::ListSounds(bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : Sounds_Sounds_List->HitTest(wxPoint(0, 0));
 	InitSounds(all);
 	wxCommandEvent E;
 	OnSoundsSelect(E);
@@ -187,12 +188,13 @@ string AGE_Frame::GetSoundItemName(short Index)
 
 void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListSoundItems();
 }
 
 void AGE_Frame::ListSoundItems()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Sounds_Items_List->HitTest(wxPoint(0, 0));
 	searchText = Sounds_Items_Search->GetValue().Lower();
 	excludeText = Sounds_Items_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
@@ -363,7 +365,8 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &Event)
 	useAnd[loop] = Sounds_AllItems_UseAnd[loop]->GetValue();
 
 	auto selections = Sounds_AllItems_List->GetSelections(Items);
-	Sounds_AllItems_List->Clear();
+	int FirstVisible = Sounds_AllItems_List->HitTest(wxPoint(0, 0));
+	wxArrayString filteredNames;
 
 	short Store = SoundIDs[0];
 	for(short sound = 0; sound < GenieFile->Sounds.size(); ++sound)
@@ -374,13 +377,21 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &Event)
 			Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file);
 			if(SearchMatches(Name.Lower()))
 			{
-				Sounds_AllItems_List->Append(Name);
+				filteredNames.Add(Name);
 			}
 		}
 	}
 	SoundIDs[0] = Store;
 
-	Sounds_AllItems_List->SetSelection(Items.Item(0));
+	Sounds_AllItems_List->Set(filteredNames);
+	if(selections == 0)
+		Sounds_AllItems_List->SetSelection(0);
+	else
+	{
+		Sounds_AllItems_List->SetSelection(Items.Item(0));
+		Sounds_AllItems_List->SetFirstItem(FirstVisible);
+	}
+	//Sounds_AllItems_List->SetFocus(); You need to check if searched or not.
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
