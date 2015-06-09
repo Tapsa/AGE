@@ -82,8 +82,9 @@ public:
 	wxString FormatFloat(float);
 	wxString FormatInt(int);
 	wxString CurrentTime();
-	int FindItem(wxArrayInt &ints, int find, int min, int max);
 	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
+	int FindItem(wxArrayInt &ints, int find, int min, int max);
+	void SwapSelection(int last);
 	void SaveBackup();
 	bool SearchMatches(wxString itemText);
 	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
