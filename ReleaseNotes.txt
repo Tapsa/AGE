@@ -12,10 +12,12 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2015.6.8[/b]:
-•Fixed linked box updating.
-•Every tab shows the selected main item.
-•Removed obsolete open/save options. 
+Version [b]2015.6.10[/b]:
+•Added edit counter in status bar.
+•LudiKRISly faster to add, delete and 1:1 paste items.
+•First visible item stays same when using buttons.
+•Removed obsolete open/save options.
+•Miscellaneous improvements.
 
 Version [b]2015.6.2[/b]:
 •Recent paths fully working.
