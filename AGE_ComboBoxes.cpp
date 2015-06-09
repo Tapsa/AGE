@@ -35,12 +35,14 @@ void ComboBox_EffectAttribute::OnUpdate(wxCommandEvent &Event)
 
 void ComboBox_Plus1::Update(int value)
 {
+	if(GetCount() == 0) return;
 	SetSelection(0);
 	SetSelection(value + 1);
 }
 
 void ComboBox_EffectType::Update(int value)
 {
+	if(GetCount() == 0) return;
 	if((value >= 0) && (value <= 6))
 	{
 		SetSelection(value + 1);
@@ -57,6 +59,7 @@ void ComboBox_EffectType::Update(int value)
 
 void ComboBox_EffectAttribute::Update(int value)
 {
+	if(GetCount() == 0) return;
 	if((value >= 0) && (value <= 23))
 	{
 		SetSelection(value + 1);
