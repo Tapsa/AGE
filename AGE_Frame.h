@@ -759,7 +759,7 @@ public:
 	vector<short> FrameIDs;
 
 	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
-	enum ListMode {SEARCH, FILTER, ADD, DEL, PASTE, INSNEW, INSPASTE};
+	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List, AGEwindow;
 	int TimesOpened, SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth;
 	chrono::time_point<chrono::system_clock> endTime;

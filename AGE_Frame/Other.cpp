@@ -199,7 +199,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 			RecentSave->Write(entry+"/RecentDatPath", DatFileName);
 			RecentSave->Write(entry+"/RecentLang", LangFileName);
 			RecentSave->Write(entry+"/RecentLangX1", LangX1FileName);
-			RecentSave->Write(entry+"/RecentLangX1P1", LangX1P1FileName);			
+			RecentSave->Write(entry+"/RecentLangX1P1", LangX1P1FileName);
 		}
 		delete RecentSave;
 	}
@@ -1580,7 +1580,7 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 		RecentSave->Write(entry+"/RecentDatPath", SaveDatFileName);
 		RecentSave->Write(entry+"/RecentLang", SaveLangFileName);
 		RecentSave->Write(entry+"/RecentLangX1", SaveLangX1FileName);
-		RecentSave->Write(entry+"/RecentLangX1P1", SaveLangX1P1FileName);			
+		RecentSave->Write(entry+"/RecentLangX1P1", SaveLangX1P1FileName);
 	}
 	delete RecentSave;
 
@@ -1977,7 +1977,6 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 			}
 			Units_SearchFilters[loop]->SetSelection(0);
 		}
-		FirstVisible = Units_List->HitTest(wxPoint(0, 0));
 		ListUnits(UnitCivID, false);
 		Units_Search->SetFocus();
 		return;
@@ -1986,49 +1985,41 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 	{
 		if(Event.GetId() == Units_SearchFilters[loop]->GetId())
 		{
-			FirstVisible = Units_List->HitTest(wxPoint(0, 0));
 			ListUnits(UnitCivID, false);
 			Units_Search->SetFocus();
 		}
 		else if(Event.GetId() == Graphics_SearchFilters[loop]->GetId())
 		{
-			FirstVisible = Graphics_Graphics_List->HitTest(wxPoint(0, 0));
 			ListGraphics(false);
 			Graphics_Graphics_Search->SetFocus();
 		}
 		else if(Event.GetId() == Terrains_SearchFilters[loop]->GetId())
 		{
-			FirstVisible = Terrains_Terrains_List->HitTest(wxPoint(0, 0));
 			ListTerrains1(false);
 			Terrains_Terrains_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
 		{
-			FirstVisible = TechTrees_MainList_Units_List->HitTest(wxPoint(0, 0));
 			ListTTUnits();
 			TechTrees_MainList_Units_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Buildings_SearchFilters[loop]->GetId())
 		{
-			FirstVisible = TechTrees_MainList_Buildings_List->HitTest(wxPoint(0, 0));
 			ListTTBuildings();
 			TechTrees_MainList_Buildings_Search->SetFocus();
 		}
 		else if(Event.GetId() == TechTrees_MainList_Researches_SearchFilters[loop]->GetId())
 		{
-			FirstVisible = TechTrees_MainList_Researches_List->HitTest(wxPoint(0, 0));
 			ListTTResearches();
 			TechTrees_MainList_Researches_Search->SetFocus();
 		}
 		else if(Event.GetId() == Research_SearchFilters[loop]->GetId())
 		{
-			FirstVisible = Research_Research_List->HitTest(wxPoint(0, 0));
 			ListResearches(false);
 			Research_Research_Search->SetFocus();
 		}
 		else if(Event.GetId() == Sounds_Items_SearchFilters[loop]->GetId())
 		{
-			FirstVisible = Sounds_Items_List->HitTest(wxPoint(0, 0));
 			ListSoundItems();
 			Sounds_Items_Search->SetFocus();
 		}
@@ -2070,9 +2061,13 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
 		AGETextCtrl::unSaved[AGEwindow] += selections;
 	}
-	//else if(How2List == PASTE && Paste11)
-	//{
-	//}
+	else if(How2List == PASTE && Paste11)
+	{
+		for(int sel = 0; sel < selections; ++sel)
+		{
+			List->SetString(Items.Item(sel), names[Items.Item(sel)]);
+		}
+	}
 	else
 	{
 		List->Set(names);
@@ -2092,6 +2087,8 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
 
 	// Set selections and first visible item.
+	if(How2List != SEARCH)
+		List->SetFocus();
 	if(selections == 0)
 	{
 		List->SetSelection(0);
@@ -2171,11 +2168,12 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 	int selections = List->GetSelections(Items);
 	if(selections < 1) return;
 
+	wxArrayInt AllItems = Items;
 	wxString TopText, SubText, Line;
 	size_t found;
 	for(int loop = 0; loop < selections; ++loop)
 	{
-		Line = List->GetString(Items.Item(loop));
+		Line = List->GetString(AllItems.Item(loop));
 		found = Line.find(" ", 3);
 		if(loop == 0)
 		{
@@ -2207,6 +2205,7 @@ int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
 // To show contents of last selected item instead of first selection.
 void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
 {
+	return; // This breaks erasing items so cancel it for now :(
 	// Look if selections include the last selection.
 	int found = FindItem(selections, last, 0, selections.GetCount() - 1);
 	// Swap last selection with the first one.

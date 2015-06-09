@@ -7,12 +7,13 @@ string AGE_Frame::GetTTAgesName(short Index)
 
 void AGE_Frame::OnTTAgesSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTAges();
 }
 
 void AGE_Frame::ListTTAges()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_MainList_Ages_List->HitTest(wxPoint(0, 0));
 	InitTTAges();
 	wxCommandEvent E;
 	OnTTAgesSelect(E);
@@ -167,12 +168,13 @@ string AGE_Frame::GetBuildingName(short Building)
 
 void AGE_Frame::OnTTAgesBuildingSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTAgeBuildings();
 }
 
 void AGE_Frame::ListTTAgeBuildings()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Ages_Buildings.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Ages_Buildings.Search->GetValue().Lower();
 	excludeText = TechTrees_Ages_Buildings.SearchRecursive->GetValue().Lower();
 
@@ -301,12 +303,13 @@ void AGE_Frame::OnTTAgesBuildingCopyToAges(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgesUnitSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTAgeUnits();
 }
 
 void AGE_Frame::ListTTAgeUnits()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Ages_Units.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Ages_Units.Search->GetValue().Lower();
 	excludeText = TechTrees_Ages_Units.SearchRecursive->GetValue().Lower();
 
@@ -450,12 +453,13 @@ string AGE_Frame::GetSimpleResearchName(short Research)
 
 void AGE_Frame::OnTTAgesResearchSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTAgeResearches();
 }
 
 void AGE_Frame::ListTTAgeResearches()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Ages_Researches.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Ages_Researches.Search->GetValue().Lower();
 	excludeText = TechTrees_Ages_Researches.SearchRecursive->GetValue().Lower();
 
@@ -584,7 +588,7 @@ void AGE_Frame::OnTTAgesResearchCopyToAges(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgeItemSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTAgeItems();
 }
 
@@ -668,12 +672,13 @@ void AGE_Frame::OnTTAgeItemCopyToAges(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTAgeUnknownItemSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTAgeUnknownItems();
 }
 
 void AGE_Frame::ListTTAgeUnknownItems()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Ages_UnknownItems.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Ages_UnknownItems.Search->GetValue().Lower();
 	excludeText = TechTrees_Ages_UnknownItems.SearchRecursive->GetValue().Lower();
 
@@ -830,12 +835,13 @@ string AGE_Frame::GetTTBuildingName(short Index)
 
 void AGE_Frame::OnTTBuildingSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTBuildings();
 }
 
 void AGE_Frame::ListTTBuildings()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_MainList_Buildings_List->HitTest(wxPoint(0, 0));
 	InitTTBuildings();
 	wxCommandEvent E;
 	OnTTBuildingSelect(E);
@@ -991,12 +997,13 @@ void AGE_Frame::OnTTBuildingPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingBuildingSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTBuildingBuildings();
 }
 
 void AGE_Frame::ListTTBuildingBuildings()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Buildings_Buildings.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Buildings_Buildings.Search->GetValue().Lower();
 	excludeText = TechTrees_Buildings_Buildings.SearchRecursive->GetValue().Lower();
 
@@ -1125,12 +1132,13 @@ void AGE_Frame::OnTTBuildingBuildingCopyToBuildings(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingUnitSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTBuildingUnits();
 }
 
 void AGE_Frame::ListTTBuildingUnits()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Buildings_Units.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Buildings_Units.Search->GetValue().Lower();
 	excludeText = TechTrees_Buildings_Units.SearchRecursive->GetValue().Lower();
 
@@ -1259,12 +1267,13 @@ void AGE_Frame::OnTTBuildingUnitCopyToBuildings(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingResearchSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTBuildingResearches();
 }
 
 void AGE_Frame::ListTTBuildingResearches()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Buildings_Researches.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Buildings_Researches.Search->GetValue().Lower();
 	excludeText = TechTrees_Buildings_Researches.SearchRecursive->GetValue().Lower();
 
@@ -1393,7 +1402,7 @@ void AGE_Frame::OnTTBuildingResearchCopyToBuildings(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTBuildingItemSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTBuildingItems();
 }
 
@@ -1517,12 +1526,13 @@ string AGE_Frame::GetTTUnitName(short Index)
 
 void AGE_Frame::OnTTUnitSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTUnits();
 }
 
 void AGE_Frame::ListTTUnits()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_MainList_Units_List->HitTest(wxPoint(0, 0));
 	InitTTUnits();
 	wxCommandEvent E;
 	OnTTUnitSelect(E);
@@ -1673,12 +1683,13 @@ void AGE_Frame::OnTTUnitPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTUnitUnitSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTUnitUnits();
 }
 
 void AGE_Frame::ListTTUnitUnits()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Units_Units.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Units_Units.Search->GetValue().Lower();
 	excludeText = TechTrees_Units_Units.SearchRecursive->GetValue().Lower();
 
@@ -1807,6 +1818,7 @@ void AGE_Frame::OnTTUnitUnitCopyToUnits(wxCommandEvent &Event)
 
 void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer)
 {
+	FirstVisible = How2List == SEARCH ? 0 : area.List->HitTest(wxPoint(0, 0));
 	searchText = area.Search->GetValue().Lower();
 	excludeText = area.SearchRecursive->GetValue().Lower();
 
@@ -1844,7 +1856,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* d
 
 void AGE_Frame::OnTTUnitItemSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTUnitItems();
 }
 
@@ -1962,12 +1974,13 @@ string AGE_Frame::GetTTResearchName(short Index)
 
 void AGE_Frame::OnTTResearchSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTResearches();
 }
 
 void AGE_Frame::ListTTResearches()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_MainList_Researches_List->HitTest(wxPoint(0, 0));
 	InitTTResearches();
 	wxCommandEvent E;
 	OnTTResearchSelect(E);
@@ -2114,12 +2127,13 @@ void AGE_Frame::OnTTResearchPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchBuildingSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTResearchBuildings();
 }
 
 void AGE_Frame::ListTTResearchBuildings()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Researches_Buildings.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Researches_Buildings.Search->GetValue().Lower();
 	excludeText = TechTrees_Researches_Buildings.SearchRecursive->GetValue().Lower();
 
@@ -2248,12 +2262,13 @@ void AGE_Frame::OnTTResearchBuildingCopyToResearches(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchUnitSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTResearchUnits();
 }
 
 void AGE_Frame::ListTTResearchUnits()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Researches_Units.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Researches_Units.Search->GetValue().Lower();
 	excludeText = TechTrees_Researches_Units.SearchRecursive->GetValue().Lower();
 
@@ -2382,12 +2397,13 @@ void AGE_Frame::OnTTResearchUnitCopyToResearches(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchResearchSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTResearchResearches();
 }
 
 void AGE_Frame::ListTTResearchResearches()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TechTrees_Researches_Researches.List->HitTest(wxPoint(0, 0));
 	searchText = TechTrees_Researches_Researches.Search->GetValue().Lower();
 	excludeText = TechTrees_Researches_Researches.SearchRecursive->GetValue().Lower();
 
@@ -2516,7 +2532,7 @@ void AGE_Frame::OnTTResearchResearchCopyToResearches(wxCommandEvent &Event)
 
 void AGE_Frame::OnTTResearchItemSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTTResearchItems();
 }
 

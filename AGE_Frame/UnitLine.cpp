@@ -9,12 +9,13 @@ string AGE_Frame::GetUnitLineName(short Index)
 
 void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListUnitLines();
 }
 
 void AGE_Frame::ListUnitLines()
 {
+	FirstVisible = How2List == SEARCH ? 0 : UnitLines_UnitLines_List->HitTest(wxPoint(0, 0));
 	InitUnitLines();
 	wxCommandEvent E;
 	OnUnitLinesSelect(E);
@@ -160,12 +161,13 @@ string AGE_Frame::GetUnitLineUnitName(short Unit)
 
 void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListUnitLineUnits();
 }
 
 void AGE_Frame::ListUnitLineUnits()
 {
+	FirstVisible = How2List == SEARCH ? 0 : UnitLines_UnitLineUnits_List->HitTest(wxPoint(0, 0));
 	searchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
 	excludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
 

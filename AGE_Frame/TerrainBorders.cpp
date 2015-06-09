@@ -9,12 +9,13 @@ string AGE_Frame::GetTerrainBorderName(short Index)
 
 void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTerrainBorders(false);
 }
 
 void AGE_Frame::ListTerrainBorders(bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : Borders_List->HitTest(wxPoint(0, 0));
 	InitTerrainBorders(all);
 	wxCommandEvent E;
 	OnTerrainBordersSelect(E);
@@ -177,12 +178,13 @@ string AGE_Frame::GetTerrainBorderFrameName(short Index)
 
 void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTerrainBorderFrames();
 }
 
 void AGE_Frame::ListTerrainBorderFrames()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Borders_Frames_List->HitTest(wxPoint(0, 0));
 	searchText = Borders_Frames_Search->GetValue().Lower();
 	excludeText = Borders_Frames_Search_R->GetValue().Lower();
 

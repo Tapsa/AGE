@@ -95,7 +95,7 @@ InternalName:
 
 void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTerrains1(false);
 }
 
@@ -129,6 +129,7 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 
 void AGE_Frame::ListTerrains1(bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : Terrains_Terrains_List->HitTest(wxPoint(0, 0));
 	InitTerrains1(all);
 	wxCommandEvent E;
 	OnTerrainsSelect(E);
@@ -137,6 +138,7 @@ void AGE_Frame::ListTerrains1(bool all)
 
 void AGE_Frame::ListTerrains2()
 {
+	FirstVisible = How2List == SEARCH ? 0 : TerRestrict_Terrains_List->HitTest(wxPoint(0, 0));
 	InitTerrains2();
 	wxCommandEvent E;
 	OnTerrainRestrictionsTerrainSelect(E);
@@ -435,12 +437,13 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnTerrainsBorderSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTerrainsBorders();
 }
 
 void AGE_Frame::ListTerrainsBorders()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Terrains_Borders_List->HitTest(wxPoint(0, 0));
 	searchText = Terrains_Borders_Search->GetValue().Lower();
 	excludeText = Terrains_Borders_Search_R->GetValue().Lower();
 
