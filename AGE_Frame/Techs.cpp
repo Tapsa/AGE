@@ -73,12 +73,13 @@ void AGE_Frame::OnTechRename(wxCommandEvent &Event)
 
 void AGE_Frame::OnTechSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListTechs(false);
 }
 
 void AGE_Frame::ListTechs(bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : Techs_List->HitTest(wxPoint(0, 0));
 	InitTechs(all);
 	wxCommandEvent E;
 	OnTechSelect(E);
@@ -306,12 +307,13 @@ string AGE_Frame::GetEffectName(short Index)
 
 void AGE_Frame::OnEffectsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListEffects();
 }
 
 void AGE_Frame::ListEffects()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Techs_Effects_List->HitTest(wxPoint(0, 0));
 	searchText = Techs_Effects_Search->GetValue().Lower();
 	excludeText = Techs_Effects_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
@@ -999,7 +1001,8 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 	useAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
 	auto selections = Techs_AllEffects_List->GetSelections(Items);
-	Techs_AllEffects_List->Clear();
+	int FirstVisible = Techs_AllEffects_List->HitTest(wxPoint(0, 0));
+	wxArrayString filteredNames;
 
 	short Store = TechIDs[0];
 	for(short tech = 0; tech < GenieFile->Techages.size(); ++tech)
@@ -1010,13 +1013,21 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &Event)
 			Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect);
 			if(SearchMatches(Name.Lower()))
 			{
-				Techs_AllEffects_List->Append(Name);
+				filteredNames.Add(Name);
 			}
 		}
 	}
 	TechIDs[0] = Store;
 
-	Techs_AllEffects_List->SetSelection(Items.Item(0));
+	Techs_AllEffects_List->Set(filteredNames);
+	if(selections == 0)
+		Techs_AllEffects_List->SetSelection(0);
+	else
+	{
+		Techs_AllEffects_List->SetSelection(Items.Item(0));
+		Techs_AllEffects_List->SetFirstItem(FirstVisible);
+	}
+	//Techs_AllEffects_List->SetFocus(); You need to check if searched or not.
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;

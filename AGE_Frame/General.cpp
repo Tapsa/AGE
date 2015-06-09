@@ -592,7 +592,7 @@ void AGE_Frame::CreateGeneralControls()
 
 void AGE_Frame::OnUnknownsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListRandomMaps();
 }
 
@@ -622,6 +622,7 @@ string AGE_Frame::GetUnknownName(short Index)
 
 void AGE_Frame::ListRandomMaps()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Unknowns_List->HitTest(wxPoint(0, 0));
 	InitRandomMaps();
 	wxCommandEvent E;
 	OnUnknownsSelect(E);
@@ -829,7 +830,7 @@ void AGE_Frame::OnUnknownsPasteInsert(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSBaseZoneSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListRMSBaseZones();
 }
 
@@ -840,6 +841,7 @@ string AGE_Frame::GetRMSBaseZonesName(short Index)
 
 void AGE_Frame::ListRMSBaseZones()
 {
+	FirstVisible = How2List == SEARCH ? 0 : RMSBaseZones_List->HitTest(wxPoint(0, 0));
 	searchText = RMSBaseZones_Search->GetValue().Lower();
 	excludeText = RMSBaseZones_Search_R->GetValue().Lower();
 
@@ -1056,7 +1058,7 @@ void AGE_Frame::OnRMSBaseZoneCopyToMaps(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSTerrainSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListRMSTerrains();
 }
 
@@ -1073,6 +1075,7 @@ string AGE_Frame::GetRMSTerrainName(short Terrain)
 
 void AGE_Frame::ListRMSTerrains()
 {
+	FirstVisible = How2List == SEARCH ? 0 : RMSTerrain_List->HitTest(wxPoint(0, 0));
 	searchText = RMSTerrain_Search->GetValue().Lower();
 	excludeText = RMSTerrain_Search_R->GetValue().Lower();
 
@@ -1230,12 +1233,13 @@ void AGE_Frame::OnRMSTerrainCopyToMaps(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSUnitSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListRMSUnits();
 }
 
 void AGE_Frame::ListRMSUnits()
 {
+	FirstVisible = How2List == SEARCH ? 0 : RMSUnit_List->HitTest(wxPoint(0, 0));
 	searchText = RMSUnit_Search->GetValue().Lower();
 	excludeText = RMSUnit_Search_R->GetValue().Lower();
 
@@ -1444,7 +1448,7 @@ void AGE_Frame::OnRMSUnitCopyToMaps(wxCommandEvent &Event)
 
 void AGE_Frame::OnRMSUnknownSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListRMSUnknowns();
 }
 
@@ -1461,6 +1465,7 @@ string AGE_Frame::GetRMSUnknownName(short Terrain)
 
 void AGE_Frame::ListRMSUnknowns()
 {
+	FirstVisible = How2List == SEARCH ? 0 : RMSUnknown_List->HitTest(wxPoint(0, 0));
 	searchText = RMSUnknown_Search->GetValue().Lower();
 	excludeText = RMSUnknown_Search_R->GetValue().Lower();
 

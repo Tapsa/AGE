@@ -279,12 +279,13 @@ void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
 	short Selection = Units_Civs_List->GetSelection();
 	if(Selection == wxNOT_FOUND) return;
 
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListUnits(Selection, false);
 }
 
 void AGE_Frame::ListUnits(short civ, bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : Units_List->HitTest(wxPoint(0, 0));
 	InitUnits(civ, all);
 	wxCommandEvent E;
 	OnUnitsSelect(E);
@@ -1819,6 +1820,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 			GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
 		}
 	}
+	How2List = INSNEW;
 	ListUnits(UnitCivID);
 }
 
@@ -2095,6 +2097,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 			}
 		}
 	}
+	How2List = PASTE;
 	ListUnits(UnitCivID);
 }
 
@@ -2136,6 +2139,7 @@ void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
 			GenieFile->Civs[civ].Units[loop].ID3 = loop;
 		}
 	}
+	How2List = INSPASTE;
 	ListUnits(UnitCivID);
 }
 
@@ -2363,6 +2367,7 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 			}
 		}
 	}
+	How2List = ENABLE;
 	ListUnits(UnitCivID);
 }
 
@@ -2380,6 +2385,7 @@ void AGE_Frame::OnUnitsDisable(wxCommandEvent &Event)
 		else
 		GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[sel]] = 0;
 	}
+	How2List = ENABLE;
 	ListUnits(UnitCivID);
 }
 
@@ -2393,12 +2399,13 @@ string AGE_Frame::GetUnitDamageGraphicName(short Index)
 
 void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListUnitDamageGraphics();
 }
 
 void AGE_Frame::ListUnitDamageGraphics()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Units_DamageGraphics_List->HitTest(wxPoint(0, 0));
 	searchText = Units_DamageGraphics_Search->GetValue().Lower();
 	excludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
 
@@ -2522,6 +2529,7 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
 		GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].DamageGraphics.begin() + DamageGraphicIDs[0], Temp);
 	}
+	How2List = INSNEW;
 	ListUnitDamageGraphics();
 }
 
@@ -2695,12 +2703,13 @@ string AGE_Frame::GetUnitAttackName(short Index)
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListUnitAttacks();
 }
 
 void AGE_Frame::ListUnitAttacks()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Units_Attacks_List->HitTest(wxPoint(0, 0));
 	searchText = Units_Attacks_Search->GetValue().Lower();
 	excludeText = Units_Attacks_Search_R->GetValue().Lower();
 
@@ -2815,6 +2824,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
 		GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Attacks.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Attacks.begin() + AttackIDs[0], Temp);
 	}
+	How2List = INSNEW;
 	ListUnitAttacks();
 }
 
@@ -2987,12 +2997,13 @@ string AGE_Frame::GetUnitArmorName(short Index)
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListUnitArmors();
 }
 
 void AGE_Frame::ListUnitArmors()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Units_Armors_List->HitTest(wxPoint(0, 0));
 	searchText = Units_Armors_Search->GetValue().Lower();
 	excludeText = Units_Armors_Search_R->GetValue().Lower();
 
@@ -3107,6 +3118,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 		if(GenieFile->Civs[loop].UnitPointers[UnitIDs[0]] != 0)
 		GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Armours.insert(GenieFile->Civs[loop].Units[UnitIDs[0]].Type50.Armours.begin() + ArmorIDs[0], Temp);
 	}
+	How2List = INSNEW;
 	ListUnitArmors();
 }
 
@@ -3334,12 +3346,13 @@ wxString AGE_Frame::GetUnitCommandName(short Index)
 
 void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListUnitCommands();
 }
 
 void AGE_Frame::ListUnitCommands()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Units_UnitCommands_List->HitTest(wxPoint(0, 0));
 	searchText = Units_UnitCommands_Search->GetValue().Lower();
 	excludeText = Units_UnitCommands_Search_R->GetValue().Lower();
 
@@ -3692,6 +3705,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
 			}
 		}
 	}
+	How2List = INSNEW;
 	ListUnitCommands();
 }
 

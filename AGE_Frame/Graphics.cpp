@@ -95,12 +95,13 @@ InternalName:
 
 void AGE_Frame::OnGraphicsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListGraphics(false);
 }
 
 void AGE_Frame::ListGraphics(bool all)
 {
+	FirstVisible = How2List == SEARCH ? 0 : Graphics_Graphics_List->HitTest(wxPoint(0, 0));
 	InitGraphics(all);
 	wxCommandEvent E;
 	OnGraphicsSelect(E);
@@ -318,6 +319,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &Event)
 	if(EnableIDFix)
 	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); ++loop) // ID Fix
 	GenieFile->Graphics[loop].ID = loop;
+	How2List = INSNEW;
 	ListGraphics();
 }
 
@@ -337,7 +339,6 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &Event)
 	GenieFile->Graphics[loop].ID = loop;
 	How2List = DEL;
 	ListGraphics();
-	Graphics_Graphics_List->SetFocus();
 }
 
 void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
@@ -391,6 +392,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 			GenieFile->Graphics[GraphicIDs[0]+loop].ID = (GraphicIDs[0]+loop); // ID Fix
 		}
 	}
+	How2List = PASTE;
 	ListGraphics();
 }
 
@@ -412,6 +414,7 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &Event)
 	if(EnableIDFix)
 	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); ++loop) // ID Fix
 	GenieFile->Graphics[loop].ID = loop;
+	How2List = INSPASTE;
 	ListGraphics();
 }
 
@@ -426,6 +429,7 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &Event)
 		GenieFile->GraphicPointers[GraphicIDs[loop]] = 1;
 		GenieFile->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
 	}
+	How2List = ENABLE;
 	ListGraphics();
 }
 
@@ -437,6 +441,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	for(short loop = 0; loop < selections; ++loop)
 	GenieFile->GraphicPointers[GraphicIDs[loop]] = 0;
+	How2List = ENABLE;
 	ListGraphics();
 }
 
@@ -449,12 +454,13 @@ string AGE_Frame::GetGraphicDeltaName(short Index)
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListGraphicDeltas();
 }
 
 void AGE_Frame::ListGraphicDeltas()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Graphics_Deltas_List->HitTest(wxPoint(0, 0));
 	searchText = Graphics_Deltas_Search->GetValue().Lower();
 	excludeText = Graphics_Deltas_Search_R->GetValue().Lower();
 
@@ -624,12 +630,13 @@ string AGE_Frame::GetGraphicAttackSoundName(short Index)
 
 void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent &Event)
 {
-	FirstVisible = 0;
+	How2List = SEARCH;
 	ListGraphicAttackSounds();
 }
 
 void AGE_Frame::ListGraphicAttackSounds()
 {
+	FirstVisible = How2List == SEARCH ? 0 : Graphics_AttackSounds_List->HitTest(wxPoint(0, 0));
 	list<void*> dataPointers;
 	wxArrayString names;
 
