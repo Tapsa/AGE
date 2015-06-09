@@ -44,6 +44,7 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_MainList_Ages_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	TTAgeIDs.resize(selections);
 	TechTrees_Ages_ID->resize(selections);
 	TechTrees_Ages_Unknown2->resize(selections);
@@ -198,6 +199,7 @@ void AGE_Frame::OnTTAgesBuildingSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Ages_Buildings.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTAgeBuildIDs.resize(selections);
 		TechTrees_Ages_Buildings.Item->resize(selections);
 
@@ -331,6 +333,7 @@ void AGE_Frame::OnTTAgesUnitSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Ages_Units.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTAgeUnitIDs.resize(selections);
 		TechTrees_Ages_Units.Item->resize(selections);
 
@@ -479,6 +482,7 @@ void AGE_Frame::OnTTAgesResearchSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Ages_Researches.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTAgeResIDs.resize(selections);
 		TechTrees_Ages_Researches.Item->resize(selections);
 
@@ -618,6 +622,7 @@ void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common*
 
 void AGE_Frame::OnTTAgeItemSelect(wxCommandEvent &Event)
 {
+	SwapSelection(Event.GetSelection(), Items);
 	SelectTTCommonItems(TechTrees_Ages_Items, &GenieFile->TechTree.TechTreeAges[TTAgeIDs[0]].Common);
 }
 
@@ -696,6 +701,7 @@ void AGE_Frame::OnTTAgeUnknownItemSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Ages_UnknownItems.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTUnknownItemIDs.resize(selections);
 		TechTrees_Ages_UnknownItems.Unknown1->resize(selections);
 		TechTrees_Ages_UnknownItems.Unknown2->resize(selections);
@@ -866,6 +872,7 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_MainList_Buildings_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	TTBuildConIDs.resize(selections);
 	TechTrees_Buildings_ID->resize(selections);
 	TechTrees_Buildings_Always2->resize(selections);
@@ -1016,6 +1023,7 @@ void AGE_Frame::OnTTBuildingBuildingSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Buildings_Buildings.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTBuildBuildIDs.resize(selections);
 		TechTrees_Buildings_Buildings.Item->resize(selections);
 
@@ -1149,6 +1157,7 @@ void AGE_Frame::OnTTBuildingUnitSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Buildings_Units.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTBuildUnitIDs.resize(selections);
 		TechTrees_Buildings_Units.Item->resize(selections);
 
@@ -1282,6 +1291,7 @@ void AGE_Frame::OnTTBuildingResearchSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Buildings_Researches.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTBuildResIDs.resize(selections);
 		TechTrees_Buildings_Researches.Item->resize(selections);
 
@@ -1396,6 +1406,7 @@ void AGE_Frame::ListTTBuildingItems()
 
 void AGE_Frame::OnTTBuildingItemSelect(wxCommandEvent &Event)
 {
+	SwapSelection(Event.GetSelection(), Items);
 	SelectTTCommonItems(TechTrees_Buildings_Items, &GenieFile->TechTree.BuildingConnections[TTBuildConIDs[0]].Common);
 }
 
@@ -1548,6 +1559,7 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_MainList_Units_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	TTUnitConIDs.resize(selections);
 	TechTrees_Units_ID->resize(selections);
 	TechTrees_Units_Always2->resize(selections);
@@ -1693,6 +1705,7 @@ void AGE_Frame::OnTTUnitUnitSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Units_Units.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTUnitUnitIDs.resize(selections);
 		TechTrees_Units_Units.Item->resize(selections);
 
@@ -1844,6 +1857,7 @@ void AGE_Frame::ListTTUnitItems()
 
 void AGE_Frame::OnTTUnitItemSelect(wxCommandEvent &Event)
 {
+	SwapSelection(Event.GetSelection(), Items);
 	SelectTTCommonItems(TechTrees_Units_Items, &GenieFile->TechTree.UnitConnections[TTUnitConIDs[0]].Common);
 }
 
@@ -1990,6 +2004,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_MainList_Researches_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	TTResConIDs.resize(selections);
 	TechTrees_Researches_ID->resize(selections);
 	TechTrees_Researches_Always2->resize(selections);
@@ -2131,6 +2146,7 @@ void AGE_Frame::OnTTResearchBuildingSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Researches_Buildings.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTResBuildIDs.resize(selections);
 		TechTrees_Researches_Buildings.Item->resize(selections);
 
@@ -2264,6 +2280,7 @@ void AGE_Frame::OnTTResearchUnitSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Researches_Units.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTResUnitIDs.resize(selections);
 		TechTrees_Researches_Units.Item->resize(selections);
 
@@ -2397,6 +2414,7 @@ void AGE_Frame::OnTTResearchResearchSelect(wxCommandEvent &Event)
 	auto selections = TechTrees_Researches_Researches.List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		TTResResIDs.resize(selections);
 		TechTrees_Researches_Researches.Item->resize(selections);
 
@@ -2511,6 +2529,7 @@ void AGE_Frame::ListTTResearchItems()
 
 void AGE_Frame::OnTTResearchItemSelect(wxCommandEvent &Event)
 {
+	SwapSelection(Event.GetSelection(), Items);
 	SelectTTCommonItems(TechTrees_Researches_Items, &GenieFile->TechTree.ResearchConnections[TTResConIDs[0]].Common);
 }
 

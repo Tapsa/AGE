@@ -54,6 +54,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 	auto selections = Colors_Colors_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	ColorIDs.resize(selections);
 	Colors_ID->resize(selections);
 	Colors_ColorL->resize(selections);

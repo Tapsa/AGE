@@ -49,6 +49,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	auto selections = Borders_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	BorderIDs.resize(selections);
 	Borders_Enabled->resize(selections);
 	Borders_Random->resize(selections);
@@ -209,6 +210,7 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 	auto selections = Borders_Frames_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	FrameIDs.resize(selections);
 	Borders_FrameID->resize(selections);
 	Borders_Flag1->resize(selections);
