@@ -82,6 +82,7 @@ public:
 	wxString FormatFloat(float);
 	wxString FormatInt(int);
 	wxString CurrentTime();
+	int FindItem(wxArrayInt &ints, int find, int min, int max);
 	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
 	void SaveBackup();
 	bool SearchMatches(wxString itemText);

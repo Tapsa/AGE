@@ -2050,6 +2050,8 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 		{
 			SetStatusText("Added 1 hidden", 4);
 		}
+		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + 1", 3);
+		++AGETextCtrl::unSaved[AGEwindow];
 	}
 	else if(How2List == DEL)
 	{
@@ -2064,7 +2066,12 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 			List->Set(names);
 			SetStatusText("Listed all again", 4);
 		}
+		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
+		AGETextCtrl::unSaved[AGEwindow] += selections;
 	}
+	//else if(How2List == PASTE && Paste11)
+	//{
+	//}
 	else
 	{
 		List->Set(names);
@@ -2176,6 +2183,18 @@ void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wx
 		TopSearch->SetValue(TopText);
 		SubSearch->SetValue(SubText);
 	}
+}
+
+int AGE_Frame::FindItem(wxArrayInt &ints, int find, int min, int max)
+{
+	while(max >= min)
+	{
+		int mid = min + ((max - min) / 2);
+		if(find == ints.Item(mid)) return mid;
+		if(find > ints.Item(mid)) min = mid + 1;
+		else max = mid - 1;
+	}
+	return -1;
 }
 
 wxString AGE_Frame::FormatFloat(float value)

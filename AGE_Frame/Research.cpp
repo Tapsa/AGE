@@ -175,11 +175,22 @@ void AGE_Frame::InitResearches(bool all)
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 {
+	// If trying to select an existing item, don't deselect?
 	auto selections = Research_Research_List->GetSelections(Items);
 	if(selections < 1) return;
-	int lastSelection = Event.GetSelection(); // To show contents of last selected item instead of first selection.
-	// TODO: Look if selections include the last selection.
-	SetStatusText(lexical_cast<string>(lastSelection), 4);
+
+	wxBusyCursor WaitCursor;
+	// To show contents of last selected item instead of first selection.
+	int lastSelection = Event.GetSelection();
+	// Look if selections include the last selection.
+	int found = FindItem(Items, lastSelection, 0, Items.GetCount() - 1);
+	// Swap last selection with the first one.
+	if(found != -1)
+	{
+		int swap = Items.Item(found);
+		Items.RemoveAt(found);
+		Items.Insert(swap, 0);
+	}
 
 	ResearchIDs.resize(selections);
 	for(short loop2 = 0; loop2 < GenieFile->Researchs[0].getRequiredTechsSize(); ++loop2)
