@@ -47,6 +47,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	SwapSelection(Event.GetSelection(), Items);
 	SoundIDs.resize(selections);
 	Sounds_ID->resize(selections);
 	Sounds_Unknown1->resize(selections);
@@ -223,6 +224,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 	auto selections = Sounds_Items_List->GetSelections(Items);
 	if(selections > 0)
 	{
+		SwapSelection(Event.GetSelection(), Items);
 		SoundItemIDs.resize(selections);
 		SoundItems_Name->resize(selections);
 		SoundItems_Resource->resize(selections);

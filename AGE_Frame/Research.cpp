@@ -180,7 +180,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &Event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	SwapSelection(Event.GetSelection());
+	SwapSelection(Event.GetSelection(), Items);
 
 	ResearchIDs.resize(selections);
 	for(short loop2 = 0; loop2 < GenieFile->Researchs[0].getRequiredTechsSize(); ++loop2)

@@ -151,6 +151,8 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &Event)
 	auto selections = TerRestrict_TerRestrict_List->GetSelections(Items);
 	if(selections < 1) return;
 
+	lastTerrainRestriction = Event.GetSelection();
+	SwapSelection(lastTerrainRestriction, Items);
 	TerRestrictIDs.resize(selections);
 	genie::TerrainRestriction * TerRestPointer;
 	for(auto loop = selections; loop--> 0;)
@@ -169,6 +171,8 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 	auto Selections2 = TerRestrict_Terrains_List->GetSelections(Items2);
 	if(Selections2 < 1) return;
 
+	SwapSelection(lastTerrainRestriction, Items);
+	SwapSelection(Event.GetSelection(), Items2);
 	genie::TerrainRestriction * TerRestPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(0));
 
 	TerRestrictTerIDs.resize(Selections2);
