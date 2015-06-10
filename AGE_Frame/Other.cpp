@@ -2115,6 +2115,9 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 	}
 	if(How2List == ADD || Items.Item(0) >= listsize)
 	{
+		if(How2List == ADD)
+		for(int sel = 0; sel < Items.size(); ++sel)
+		List->Deselect(Items.Item(sel));
 		List->SetFirstItem(listsize - 1);
 		List->SetSelection(listsize - 1);
 		How2List = SEARCH;
