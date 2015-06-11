@@ -761,7 +761,8 @@ public:
 	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List, AGEwindow;
-	int TimesOpened, SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth;
+	int TimesOpened, SimultaneousFiles, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
+	void FixSizes();
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;
