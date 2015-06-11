@@ -66,8 +66,6 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Write("/TimesOpened", ++TimesOpened);
 	delete Config;
 
-	SetMinSize(wxSize(900, 480));
-	SetMaxSize(wxSize(MaxWindowWidth, 4096));
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
 	int bars[5] = {295, 145, 145, 145, -1};
 	CreateStatusBar(5)->SetStatusWidths(5, bars);
@@ -204,4 +202,11 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
+}
+
+void AGE_Frame::FixSizes()
+{
+	SetMinSize(wxSize(MinWindowWidth, 480));
+	if(MaxWindowWidth < GetMinSize().GetWidth()) MaxWindowWidth = GetMinSize().GetWidth();
+	SetMaxSize(wxSize(MaxWindowWidth, 4096));
 }
