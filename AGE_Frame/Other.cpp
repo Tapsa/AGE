@@ -2088,7 +2088,6 @@ void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &dat
 				++AGETextCtrl::unSaved[AGEwindow];
 			}
 		}
-		else SetStatusText("Searched", 4);
 	}
 	bool showTime = ((chrono::duration_cast<chrono::milliseconds>(startTime - endTime)).count() > 1000) ? true : false;
 	endTime = chrono::system_clock::now();
@@ -2145,7 +2144,7 @@ void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names)
 		list->Clear();
 		list->Append("-1 - None");
 		list->Append(names);
-		list->SetSelection(selection);
+		list->SetSelection(selection < list->GetCount() ? selection : 0);
 	}
 }
 
