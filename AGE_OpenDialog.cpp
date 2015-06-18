@@ -13,14 +13,14 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	LanguageText = new wxStaticText(this, wxID_ANY, "      Language: * ");
 	TerrainsText = new wxStaticText(this, wxID_ANY, "      Terrains: ");
 	TerrainsBox = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(50, 20));
-	Radio_DatFileLocation = new wxRadioButton(this, wxID_ANY, "Compressed Data Set (*.dat):", wxDefaultPosition, wxSize(0, 20), wxRB_GROUP);
-	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Data Set (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	Radio_DatFileLocation = new wxCheckBox(this, wxID_ANY, "Compressed data set (*.dat):");
+	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Button_RawDecompress = new wxButton(this, wxID_ANY, "Decompress only", wxDefaultPosition, wxSize(5, 20));
-	Path_RawDecompress = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed Data Set (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	Path_RawDecompress = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 
 	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Dynamic Link Library (*.dll)|*.dll", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+	Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Write language files *");
 	CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental\nand affects reading too");
 	CheckBox_LangWriteToLatest = new wxCheckBox(this, wxID_ANY, "Write to the latest file instead of the base file *");
@@ -84,6 +84,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoK));
 	Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultTC));
 	Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoKHD));
+	Connect(Button_DefaultFE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultFE));
 	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultSWGB));
 	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultCC));
 	Connect(Radio_DatFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
@@ -271,7 +272,7 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 {
 	CheckBox_LangWrite->Enable(false);
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
-	Lang = LanguageBox->GetValue();
+	locale = LanguageBox->GetValue();
 
 	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
 	{
@@ -287,9 +288,11 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 	}
 
 	CheckBox_GenieVer->SetSelection(EV_Cysion);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\Data\\empires2_x1_p1.dat"));
-	wxString locale = LanguageBox->GetValue();
-	Path_LangFileLocation->SetPath(wxString(Path + "\\Bin\\"+locale+"\\"+locale+"-language.txt"));
+	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x1_p1.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
+	Path_LangX1FileLocation->SetPath(wxT(""));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
+	TerrainsBox->ChangeValue("42");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
@@ -303,6 +306,48 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
 	ProcessEvent(Selected);
+	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
+	ProcessEvent(Selected);
+}
+
+void AGE_OpenDialog::OnDefaultFE(wxCommandEvent &Event)
+{
+	CheckBox_LangWrite->Enable(false);
+	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
+	locale = LanguageBox->GetValue();
+
+	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
+	{
+		Path = Custom;
+	}
+	else if(wxIsPlatform64Bit())
+	{
+	    Path += ":\\Program Files (x86)\\Steam\\steamapps\\common\\Age2HD";
+	}
+	else
+	{
+	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
+	}
+
+	CheckBox_GenieVer->SetSelection(EV_Cysion);
+	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\_common\\dat\\empires2_x2_p1.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
+	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
+	TerrainsBox->ChangeValue("100");
+	Radio_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(true);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
+	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
+	ProcessEvent(Selected);
+	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
+	Selected.SetInt(true);
+	Selected.SetId(CheckBox_LangFileLocation->GetId());
+	ProcessEvent(Selected);
+	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
+	ProcessEvent(Selected);
+	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
 	ProcessEvent(Selected);
 }

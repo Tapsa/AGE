@@ -12,6 +12,11 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.6.19[/b]:
+•Adjusted defaults for AoK HD.
+•Added defaults button for Forgotten Empires.
+•Windows scaling support.
+
 Version [b]2015.6.10[/b]:
 •Added edit counter in status bar.
 •LudiKRISly faster to add, delete and 1:1 paste items.

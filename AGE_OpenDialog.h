@@ -12,6 +12,7 @@ public:
 	void OnDefaultAoK(wxCommandEvent &Event);
 	void OnDefaultTC(wxCommandEvent &Event);
 	void OnDefaultAoKHD(wxCommandEvent &Event);
+	void OnDefaultFE(wxCommandEvent &Event);
 	void OnDefaultSWGB(wxCommandEvent &Event);
 	void OnDefaultCC(wxCommandEvent &Event);
 	void OnChangeDatRadio(wxCommandEvent &Event);
@@ -28,7 +29,7 @@ public:
 	wxTextCtrl *WindowCountBox;
 	wxStaticText *LanguageText;
 	wxBoxSizer *DriveLetterArea;
-	wxRadioButton *Radio_DatFileLocation;
+	wxCheckBox *Radio_DatFileLocation;
 	wxCheckBox *CheckBox_LangWriteToLatest;
 	wxButton *Button_RawDecompress;
 	wxFilePickerCtrl *Path_RawDecompress;

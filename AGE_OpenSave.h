@@ -15,6 +15,7 @@ public:
 	virtual void OnDefaultAoK(wxCommandEvent &Event)=0;
 	virtual void OnDefaultTC(wxCommandEvent &Event)=0;
 	virtual void OnDefaultAoKHD(wxCommandEvent &Event)=0;
+	virtual void OnDefaultFE(wxCommandEvent &Event)=0;
 	virtual void OnDefaultSWGB(wxCommandEvent &Event)=0;
 	virtual void OnDefaultCC(wxCommandEvent &Event)=0;
 	virtual void OnSelectLang(wxCommandEvent &Event)=0;
@@ -36,6 +37,7 @@ public:
 	wxButton *Button_DefaultAoK;
 	wxButton *Button_DefaultTC;
 	wxButton *Button_DefaultAoKHD;
+	wxButton *Button_DefaultFE;
 	wxButton *Button_DefaultSWGB;
 	wxButton *Button_DefaultCC;
 	wxStaticText *Text_GenieVer;
