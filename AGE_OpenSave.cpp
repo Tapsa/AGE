@@ -19,6 +19,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	Button_DefaultAoK = new wxButton(slave, wxID_ANY, "AoK defaults");
 	Button_DefaultTC = new wxButton(slave, wxID_ANY, "TC defaults");
 	Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "AoK HD defaults");
+	Button_DefaultFE = new wxButton(slave, wxID_ANY, "FE HD defaults");
 	Button_DefaultSWGB = new wxButton(slave, wxID_ANY, "SWGB defaults");
 	Button_DefaultCC = new wxButton(slave, wxID_ANY, "CC defaults");
 
@@ -27,6 +28,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	Defaults->Add(Button_DefaultAoK, 1, wxEXPAND);
 	Defaults->Add(Button_DefaultTC, 1, wxEXPAND);
 	Defaults->Add(Button_DefaultAoKHD, 1, wxEXPAND);
+	Defaults->Add(Button_DefaultFE, 1, wxEXPAND);
 	Defaults->Add(Button_DefaultSWGB, 1, wxEXPAND);
 	Defaults->Add(Button_DefaultCC, 1, wxEXPAND);
 
@@ -61,9 +63,9 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 
 	CheckBox_LangFileLocation = new wxCheckBox(slave, wxID_ANY, "Language file location:");
 	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation = new wxCheckBox(slave, wxID_ANY, "Language_x1.dll location:");
+	CheckBox_LangX1FileLocation = new wxCheckBox(slave, wxID_ANY, "Language x1 file location:");
 	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation = new wxCheckBox(slave, wxID_ANY, "Language_x1_p1.dll location:");
+	CheckBox_LangX1P1FileLocation = new wxCheckBox(slave, wxID_ANY, "Language p1 file location:");
 	CheckBox_LangX1P1FileLocation->SetValue(true);
 
 	//SetDefaultItem(ButtonOK);
