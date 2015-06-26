@@ -66,8 +66,8 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &Event)
 		LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Items.Item(loop));
 		UnitLineIDs[loop] = (LinePointer - (&GenieFile->UnitLines[0]));
 
-		UnitLines_ID->container[loop] = &LinePointer->ID;
-		UnitLines_Name->container[loop] = &LinePointer->Name;
+		UnitLines_ID->prepend(&LinePointer->ID);
+		UnitLines_Name->prepend(&LinePointer->Name);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected unit line: "+lexical_cast<string>(UnitLineIDs[0]), 0);
 
@@ -204,7 +204,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &Event)
 		{
 			UnitPointer = (int16_t*)UnitLines_UnitLineUnits_List->GetClientData(Items.Item(loop));
 			UnitLineUnitIDs[loop] = (UnitPointer - (&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[0]));
-			UnitLineUnits_Units->container[loop] = UnitPointer;
+			UnitLineUnits_Units->prepend(UnitPointer);
 		}
 
 		UnitLineUnits_Units->Update();
