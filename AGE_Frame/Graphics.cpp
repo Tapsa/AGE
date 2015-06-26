@@ -353,6 +353,7 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &Event)
 	{
 		copies->GraphicPointer[loop] = GenieFile->GraphicPointers[GraphicIDs[loop]];
 		copies->Graphic[loop] = GenieFile->Graphics[GraphicIDs[loop]];
+		//copies->Graphic[loop].Deltas = GenieFile->Graphics[GraphicIDs[loop]].Deltas; Needs its own button!
 	}
 	Graphics_Graphics_List->SetFocus();
 }
@@ -372,6 +373,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &Event)
 				GenieFile->GraphicPointers[GraphicIDs[loop]] = copies->GraphicPointer[loop];
 				copies->Graphic[loop].setGameVersion(GenieVersion);
 				GenieFile->Graphics[GraphicIDs[loop]] = copies->Graphic[loop];
+				//GenieFile->Graphics[GraphicIDs[loop]].Deltas = copies->Graphic[loop].Deltas; Needs its own button!
 				if(EnableIDFix)
 				GenieFile->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
 			}
