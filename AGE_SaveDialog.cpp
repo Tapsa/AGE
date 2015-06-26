@@ -69,6 +69,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 	Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultTC));
 	Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoKHD));
 	Connect(Button_DefaultFE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultFE));
+	Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoP));
 	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultSWGB));
 	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultCC));
 	Connect(CheckBox_DatFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDat));
@@ -222,6 +223,60 @@ void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 
 void AGE_SaveDialog::OnDefaultFE(wxCommandEvent &Event)
 {
+	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
+	locale = LanguageBox->GetValue();
+
+	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
+	{
+		Path = Custom;
+	}
+	else if(wxIsPlatform64Bit())
+	{
+	    Path += ":\\Program Files (x86)\\Steam\\steamapps\\common\\Age2HD";
+	}
+	else
+	{
+	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
+	}
+
+	CheckBox_GenieVer->SetSelection(EV_Cysion);
+	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x2_p1.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
+	Path_LangX1FileLocation->SetPath(wxT(""));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
+	CheckBox_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(false);
+	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
+}
+
+void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &Event)
+{
+	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
+	locale = LanguageBox->GetValue();
+
+	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
+	{
+		Path = Custom;
+	}
+	else if(wxIsPlatform64Bit())
+	{
+	    Path += ":\\Program Files (x86)\\Steam\\steamapps\\common\\Age2HD";
+	}
+	else
+	{
+	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
+	}
+
+	CheckBox_GenieVer->SetSelection(EV_Cysion);
+	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\_common\\dat\\empires2_x2_p1.dat"));
+	Path_LangFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
+	Path_LangX1FileLocation->SetPath(wxT(""));
+	Path_LangX1P1FileLocation->SetPath(wxT(""));
+	CheckBox_DatFileLocation->SetValue(true);
+	CheckBox_LangFileLocation->SetValue(false);
+	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
 void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent &Event)

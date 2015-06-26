@@ -19,7 +19,8 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	Button_DefaultAoK = new wxButton(slave, wxID_ANY, "AoK defaults");
 	Button_DefaultTC = new wxButton(slave, wxID_ANY, "TC defaults");
 	Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "AoK HD defaults");
-	Button_DefaultFE = new wxButton(slave, wxID_ANY, "FE HD defaults");
+	Button_DefaultFE = new wxButton(slave, wxID_ANY, "HD:TF defaults");
+	Button_DefaultAP = new wxButton(slave, wxID_ANY, "HD:AoP defaults");
 	Button_DefaultSWGB = new wxButton(slave, wxID_ANY, "SWGB defaults");
 	Button_DefaultCC = new wxButton(slave, wxID_ANY, "CC defaults");
 
@@ -29,6 +30,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	Defaults->Add(Button_DefaultTC, 1, wxEXPAND);
 	Defaults->Add(Button_DefaultAoKHD, 1, wxEXPAND);
 	Defaults->Add(Button_DefaultFE, 1, wxEXPAND);
+	Defaults->Add(Button_DefaultAP, 1, wxEXPAND);
 	Defaults->Add(Button_DefaultSWGB, 1, wxEXPAND);
 	Defaults->Add(Button_DefaultCC, 1, wxEXPAND);
 
@@ -46,8 +48,8 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	CheckBox_GenieVer->Append("Age of Kings Alpha (10.19)");
 	CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
 	CheckBox_GenieVer->Append("Age of Kings (11.5)");
-	CheckBox_GenieVer->Append("The Conquerors (11.76 - 12.0)");
-	CheckBox_GenieVer->Append("Age of Empires II: HD Edition > 12");
+	CheckBox_GenieVer->Append("The Conquerors (11.76)");
+	CheckBox_GenieVer->Append("Age of Empires II: HD Edition >= 12");
 	CheckBox_GenieVer->Append("Star Wars Galactic Battlegrounds (1.0 - 1.1)");
 	//CheckBox_GenieVer->Append("Clone Campaigns 1.1");
 	CheckBox_GenieVer->SetSelection(EV_TC);
