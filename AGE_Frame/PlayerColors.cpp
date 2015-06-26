@@ -80,21 +80,21 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 		PlayerColorPointer = (genie::PlayerColour*)Colors_Colors_List->GetClientData(Items.Item(loop));
 		ColorIDs[loop] = (PlayerColorPointer - (&GenieFile->PlayerColours[0]));
 
-		Colors_ID->container[loop] = &PlayerColorPointer->ID;
-		Colors_ColorL->container[loop] = &PlayerColorPointer->Colour;
+		Colors_ID->prepend(&PlayerColorPointer->ID);
+		Colors_ColorL->prepend(&PlayerColorPointer->Colour);
 		if(GenieVersion < genie::GV_AoKA)	//	AoE and RoR
 		{
-			Colors_Name->container[loop] = &PlayerColorPointer->Name;
+			Colors_Name->prepend(&PlayerColorPointer->Name);
 		}
 		else	//	Above AoE and RoR
 		{
-			Colors_Palette->container[loop] = &PlayerColorPointer->Palette;
-			Colors_MinimapColor->container[loop] = &PlayerColorPointer->MinimapColour;
-			Colors_Unknown1->container[loop] = &PlayerColorPointer->Unknown1;
-			Colors_Unknown2->container[loop] = &PlayerColorPointer->Unknown2;
-			Colors_Unknown3->container[loop] = &PlayerColorPointer->Unknown3;
-			Colors_Unknown4->container[loop] = &PlayerColorPointer->Unknown4;
-			Colors_Unknown5->container[loop] = &PlayerColorPointer->StatisticsText;
+			Colors_Palette->prepend(&PlayerColorPointer->Palette);
+			Colors_MinimapColor->prepend(&PlayerColorPointer->MinimapColour);
+			Colors_Unknown1->prepend(&PlayerColorPointer->Unknown1);
+			Colors_Unknown2->prepend(&PlayerColorPointer->Unknown2);
+			Colors_Unknown3->prepend(&PlayerColorPointer->Unknown3);
+			Colors_Unknown4->prepend(&PlayerColorPointer->Unknown4);
+			Colors_Unknown5->prepend(&PlayerColorPointer->StatisticsText);
 		}
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs[0]), 0);

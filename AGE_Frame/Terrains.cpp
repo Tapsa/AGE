@@ -102,11 +102,11 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent &Event)
 void AGE_Frame::ListTerrainNumbers()
 {
 	Terrains_UsedCount->resize(2);
-	Terrains_UsedCount->container[0] = &GenieFile->TerrainBlock.TerrainsUsed2;
-	Terrains_UsedCount->container[1] = &GenieFile->TerrainsUsed1;
+	Terrains_UsedCount->prepend(&GenieFile->TerrainBlock.TerrainsUsed2);
+	Terrains_UsedCount->prepend(&GenieFile->TerrainsUsed1);
 	Terrains_UsedCount->Update();
 	Borders_UsedCount->resize(1);
-	Borders_UsedCount->container[0] = &GenieFile->TerrainBlock.BordersUsed;
+	Borders_UsedCount->prepend(&GenieFile->TerrainBlock.BordersUsed);
 	Borders_UsedCount->Update();
 }
 
@@ -259,55 +259,55 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &Event)
 		TerrainIDs[sel] = (TerrainPointer - (&GenieFile->TerrainBlock.Terrains[0]));
 
 		if(GenieVersion < genie::GV_SWGB)
-		Terrains_Unknown1->container[sel] = &TerrainPointer->Unknown1;
-		Terrains_Enabled->container[sel] = &TerrainPointer->Enabled;
-		Terrains_Random->container[sel] = &TerrainPointer->Random;
-		Terrains_Name->container[sel] = &TerrainPointer->Name;
-		Terrains_Name2->container[sel] = &TerrainPointer->Name2;
+		Terrains_Unknown1->prepend(&TerrainPointer->Unknown1);
+		Terrains_Enabled->prepend(&TerrainPointer->Enabled);
+		Terrains_Random->prepend(&TerrainPointer->Random);
+		Terrains_Name->prepend(&TerrainPointer->Name);
+		Terrains_Name2->prepend(&TerrainPointer->Name2);
 		if(GenieVersion >= genie::GV_AoEB)
-		Terrains_SLP->container[sel] = &TerrainPointer->SLP;
-		Terrains_Unknown3->container[sel] = &TerrainPointer->Unknown3;
-		Terrains_SoundID->container[sel] = &TerrainPointer->SoundID;
+		Terrains_SLP->prepend(&TerrainPointer->SLP);
+		Terrains_Unknown3->prepend(&TerrainPointer->Unknown3);
+		Terrains_SoundID->prepend(&TerrainPointer->SoundID);
 		if(GenieVersion >= genie::GV_AoKB)
 		{
-			Terrains_BlendPriority->container[sel] = &TerrainPointer->BlendPriority;
-			Terrains_BlendType->container[sel] = &TerrainPointer->BlendType;
+			Terrains_BlendPriority->prepend(&TerrainPointer->BlendPriority);
+			Terrains_BlendType->prepend(&TerrainPointer->BlendType);
 		}
 		for(short loop = 0; loop < 3; ++loop)
 		{
-			Terrains_Colors[loop]->container[sel] = &TerrainPointer->Colors[loop];
+			Terrains_Colors[loop]->prepend(&TerrainPointer->Colors[loop]);
 		}
 		for(short loop = 0; loop < Terrains_CliffColors.size(); ++loop)
-		Terrains_CliffColors[0]->container[sel] = &TerrainPointer->CliffColors.first;
-		Terrains_CliffColors[1]->container[sel] = &TerrainPointer->CliffColors.second;
-		Terrains_PassableTerrain->container[sel] = &TerrainPointer->PassableTerrain;
-		Terrains_ImpassableTerrain->container[sel] = &TerrainPointer->ImpassableTerrain;
-		Terrains_IsAnimated->container[sel] = &TerrainPointer->IsAnimated;
-		Terrains_AnimationFrames->container[sel] = &TerrainPointer->AnimationFrames;
-		Terrains_PauseFames->container[sel] = &TerrainPointer->PauseFames;
-		Terrains_Interval->container[sel] = &TerrainPointer->Interval;
-		Terrains_PauseBetweenLoops->container[sel] = &TerrainPointer->PauseBetweenLoops;
-		Terrains_Frame->container[sel] = &TerrainPointer->Frame;
-		Terrains_DrawFrame->container[sel] = &TerrainPointer->DrawFrame;
-		Terrains_AnimateLast->container[sel] = &TerrainPointer->AnimateLast;
-		Terrains_FrameChanged->container[sel] = &TerrainPointer->FrameChanged;
-		Terrains_Drawn->container[sel] = &TerrainPointer->Drawn;
+		Terrains_CliffColors[0]->prepend(&TerrainPointer->CliffColors.first);
+		Terrains_CliffColors[1]->prepend(&TerrainPointer->CliffColors.second);
+		Terrains_PassableTerrain->prepend(&TerrainPointer->PassableTerrain);
+		Terrains_ImpassableTerrain->prepend(&TerrainPointer->ImpassableTerrain);
+		Terrains_IsAnimated->prepend(&TerrainPointer->IsAnimated);
+		Terrains_AnimationFrames->prepend(&TerrainPointer->AnimationFrames);
+		Terrains_PauseFames->prepend(&TerrainPointer->PauseFames);
+		Terrains_Interval->prepend(&TerrainPointer->Interval);
+		Terrains_PauseBetweenLoops->prepend(&TerrainPointer->PauseBetweenLoops);
+		Terrains_Frame->prepend(&TerrainPointer->Frame);
+		Terrains_DrawFrame->prepend(&TerrainPointer->DrawFrame);
+		Terrains_AnimateLast->prepend(&TerrainPointer->AnimateLast);
+		Terrains_FrameChanged->prepend(&TerrainPointer->FrameChanged);
+		Terrains_Drawn->prepend(&TerrainPointer->Drawn);
 		for(short loop = 0, slot = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT; ++loop)
 		{
-			Terrains_ElevationGraphics[slot++]->container[sel] = &TerrainPointer->ElevationGraphics[loop].FrameCount;
-			Terrains_ElevationGraphics[slot++]->container[sel] = &TerrainPointer->ElevationGraphics[loop].AngleCount;
-			Terrains_ElevationGraphics[slot++]->container[sel] = &TerrainPointer->ElevationGraphics[loop].ShapeID;
+			Terrains_ElevationGraphics[slot++]->prepend(&TerrainPointer->ElevationGraphics[loop].FrameCount);
+			Terrains_ElevationGraphics[slot++]->prepend(&TerrainPointer->ElevationGraphics[loop].AngleCount);
+			Terrains_ElevationGraphics[slot++]->prepend(&TerrainPointer->ElevationGraphics[loop].ShapeID);
 		}
-		Terrains_TerrainReplacementID->container[sel] = &TerrainPointer->TerrainToDraw;
-		Terrains_TerrainDimensions[0]->container[sel] = &TerrainPointer->TerrainDimensions.first;
-		Terrains_TerrainDimensions[1]->container[sel] = &TerrainPointer->TerrainDimensions.second;
+		Terrains_TerrainReplacementID->prepend(&TerrainPointer->TerrainToDraw);
+		Terrains_TerrainDimensions[0]->prepend(&TerrainPointer->TerrainDimensions.first);
+		Terrains_TerrainDimensions[1]->prepend(&TerrainPointer->TerrainDimensions.second);
 		for(short loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
 		{
-			Terrains_TerrainUnitID[loop]->container[sel] = &TerrainPointer->TerrainUnitID[loop];
-			Terrains_TerrainUnitDensity[loop]->container[sel] = &TerrainPointer->TerrainUnitDensity[loop];
-			Terrains_TerrainUnitPriority[loop]->container[sel] = &TerrainPointer->TerrainUnitPriority[loop];
+			Terrains_TerrainUnitID[loop]->prepend(&TerrainPointer->TerrainUnitID[loop]);
+			Terrains_TerrainUnitDensity[loop]->prepend(&TerrainPointer->TerrainUnitDensity[loop]);
+			Terrains_TerrainUnitPriority[loop]->prepend(&TerrainPointer->TerrainUnitPriority[loop]);
 		}
-		Terrains_UsedTerrainUnits->container[sel] = &TerrainPointer->NumberOfTerrainUnitsUsed;
+		Terrains_UsedTerrainUnits->prepend(&TerrainPointer->NumberOfTerrainUnitsUsed);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected terrain: "+lexical_cast<string>(TerrainIDs[0]), 0);
 
@@ -480,7 +480,7 @@ void AGE_Frame::OnTerrainsBorderSelect(wxCommandEvent &Event)
 	{
 		BorderPointer = (int16_t*)Terrains_Borders_List->GetClientData(Items.Item(loop));
 		TerBorderIDs[loop] = (BorderPointer - (&GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders[0]));
-		Terrains_Border->container[loop] = BorderPointer;
+		Terrains_Border->prepend(BorderPointer);
 	}
 
 	Terrains_Border->Update();

@@ -67,27 +67,27 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
 void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 {
 	General_MapPointer->resize(1);
-	General_MapPointer->container[0] = &GenieFile->TerrainBlock.MapPointer;
+	General_MapPointer->prepend(&GenieFile->TerrainBlock.MapPointer);
 	General_MapPointer->Update();
 	General_Unknown1->resize(1);
-	General_Unknown1->container[0] = &GenieFile->TerrainBlock.Unknown1;
+	General_Unknown1->prepend(&GenieFile->TerrainBlock.Unknown1);
 	General_Unknown1->Update();
 	General_MapWidth->resize(1);
-	General_MapWidth->container[0] = &GenieFile->TerrainBlock.MapWidth;
+	General_MapWidth->prepend(&GenieFile->TerrainBlock.MapWidth);
 	General_MapWidth->Update();
 	General_MapHeight->resize(1);
-	General_MapHeight->container[0] = &GenieFile->TerrainBlock.MapHeight;
+	General_MapHeight->prepend(&GenieFile->TerrainBlock.MapHeight);
 	General_MapHeight->Update();
 	General_WorldWidth->resize(1);
-	General_WorldWidth->container[0] = &GenieFile->TerrainBlock.WorldWidth;
+	General_WorldWidth->prepend(&GenieFile->TerrainBlock.WorldWidth);
 	General_WorldWidth->Update();
 	General_WorldHeight->resize(1);
-	General_WorldHeight->container[0] = &GenieFile->TerrainBlock.WorldHeight;
+	General_WorldHeight->prepend(&GenieFile->TerrainBlock.WorldHeight);
 	General_WorldHeight->Update();
 	if(GenieVersion >= genie::GV_AoE)
 	{
 		General_Unknown2->resize(1);
-		General_Unknown2->container[0] = &GenieFile->TerrainBlock.Unknown2;
+		General_Unknown2->prepend(&GenieFile->TerrainBlock.Unknown2);
 		General_Unknown2->Update();
 	}
 	else
@@ -98,15 +98,15 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	for(short loop = 0, slot = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT; ++loop)
 	{
 		General_TileSizes[slot]->resize(1);
-		General_TileSizes[slot]->container[0] = &GenieFile->TerrainBlock.TileSizes[loop].Width;
+		General_TileSizes[slot]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].Width);
 		General_TileSizes[slot++]->Update();
 		General_TileSizes[slot]->resize(1);
-		General_TileSizes[slot]->container[0] = &GenieFile->TerrainBlock.TileSizes[loop].Height;
+		General_TileSizes[slot]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].Height);
 		General_TileSizes[slot++]->Update();
 		if(GenieVersion >= genie::GV_AoE)
 		{
 			General_TileSizes[slot]->resize(1);
-			General_TileSizes[slot]->container[0] = &GenieFile->TerrainBlock.TileSizes[loop].DeltaY;
+			General_TileSizes[slot]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].DeltaY);
 			General_TileSizes[slot++]->Update();
 		}
 		else
@@ -117,21 +117,21 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	}
 
 	UnknownPointer1->resize(1);
-	UnknownPointer1->container[0] = &GenieFile->TerrainBlock.UnknownPointer1;
+	UnknownPointer1->prepend(&GenieFile->TerrainBlock.UnknownPointer1);
 	UnknownPointer1->Update();
 	if(GenieVersion >= genie::GV_AoKA)
 	{
 		MapMinX->resize(1);
-		MapMinX->container[0] = &GenieFile->TerrainBlock.MapMinX;
+		MapMinX->prepend(&GenieFile->TerrainBlock.MapMinX);
 		MapMinX->Update();
 		MapMinY->resize(1);
-		MapMinY->container[0] = &GenieFile->TerrainBlock.MapMinY;
+		MapMinY->prepend(&GenieFile->TerrainBlock.MapMinY);
 		MapMinY->Update();
 		MapMaxX->resize(1);
-		MapMaxX->container[0] = &GenieFile->TerrainBlock.MapMaxX;
+		MapMaxX->prepend(&GenieFile->TerrainBlock.MapMaxX);
 		MapMaxX->Update();
 		MapMaxY->resize(1);
-		MapMaxY->container[0] = &GenieFile->TerrainBlock.MapMaxY;
+		MapMaxY->prepend(&GenieFile->TerrainBlock.MapMaxY);
 		MapMaxY->Update();
 	}
 	else
@@ -148,10 +148,10 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		MapMaxXplus1->resize(1);
-		MapMaxXplus1->container[0] = &GenieFile->TerrainBlock.MapMaxXplus1;
+		MapMaxXplus1->prepend(&GenieFile->TerrainBlock.MapMaxXplus1);
 		MapMaxXplus1->Update();
 		MapMaxYplus1->resize(1);
-		MapMaxYplus1->container[0] = &GenieFile->TerrainBlock.MapMaxYplus1;
+		MapMaxYplus1->prepend(&GenieFile->TerrainBlock.MapMaxYplus1);
 		MapMaxYplus1->Update();
 	}
 	else
@@ -162,100 +162,100 @@ void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
 		MapMaxYplus1->Clear();
 	}
 	MaxTerrain->resize(1);
-	MaxTerrain->container[0] = &GenieFile->TerrainBlock.MaxTerrain;
+	MaxTerrain->prepend(&GenieFile->TerrainBlock.MaxTerrain);
 	MaxTerrain->Update();
 	TileWidth->resize(1);
-	TileWidth->container[0] = &GenieFile->TerrainBlock.TileWidth;
+	TileWidth->prepend(&GenieFile->TerrainBlock.TileWidth);
 	TileWidth->Update();
 	TileHeight->resize(1);
-	TileHeight->container[0] = &GenieFile->TerrainBlock.TileHeight;
+	TileHeight->prepend(&GenieFile->TerrainBlock.TileHeight);
 	TileHeight->Update();
 	TileHalfHeight->resize(1);
-	TileHalfHeight->container[0] = &GenieFile->TerrainBlock.TileHalfHeight;
+	TileHalfHeight->prepend(&GenieFile->TerrainBlock.TileHalfHeight);
 	TileHalfHeight->Update();
 	TileHalfWidth->resize(1);
-	TileHalfWidth->container[0] = &GenieFile->TerrainBlock.TileHalfWidth;
+	TileHalfWidth->prepend(&GenieFile->TerrainBlock.TileHalfWidth);
 	TileHalfWidth->Update();
 	ElevHeight->resize(1);
-	ElevHeight->container[0] = &GenieFile->TerrainBlock.ElevHeight;
+	ElevHeight->prepend(&GenieFile->TerrainBlock.ElevHeight);
 	ElevHeight->Update();
 	CurRow->resize(1);
-	CurRow->container[0] = &GenieFile->TerrainBlock.CurRow;
+	CurRow->prepend(&GenieFile->TerrainBlock.CurRow);
 	CurRow->Update();
 	CurCol->resize(1);
-	CurCol->container[0] = &GenieFile->TerrainBlock.CurCol;
+	CurCol->prepend(&GenieFile->TerrainBlock.CurCol);
 	CurCol->Update();
 	BlockBegRow->resize(1);
-	BlockBegRow->container[0] = &GenieFile->TerrainBlock.BlockBegRow;
+	BlockBegRow->prepend(&GenieFile->TerrainBlock.BlockBegRow);
 	BlockBegRow->Update();
 	BlockEndRow->resize(1);
-	BlockEndRow->container[0] = &GenieFile->TerrainBlock.BlockEndRow;
+	BlockEndRow->prepend(&GenieFile->TerrainBlock.BlockEndRow);
 	BlockEndRow->Update();
 	BlockBegCol->resize(1);
-	BlockBegCol->container[0] = &GenieFile->TerrainBlock.BlockBegCol;
+	BlockBegCol->prepend(&GenieFile->TerrainBlock.BlockBegCol);
 	BlockBegCol->Update();
 	BlockEndCol->resize(1);
-	BlockEndCol->container[0] = &GenieFile->TerrainBlock.BlockEndCol;
+	BlockEndCol->prepend(&GenieFile->TerrainBlock.BlockEndCol);
 	BlockEndCol->Update();
 	UnknownPointer2->resize(1);
-	UnknownPointer2->container[0] = &GenieFile->TerrainBlock.UnknownPointer2;
+	UnknownPointer2->prepend(&GenieFile->TerrainBlock.UnknownPointer2);
 	UnknownPointer2->Update();
 	UnknownPointer3->resize(1);
-	UnknownPointer3->container[0] = &GenieFile->TerrainBlock.UnknownPointer3;
+	UnknownPointer3->prepend(&GenieFile->TerrainBlock.UnknownPointer3);
 	UnknownPointer3->Update();
 	AnyFrameChange->resize(1);
-	AnyFrameChange->container[0] = &GenieFile->TerrainBlock.AnyFrameChange;
+	AnyFrameChange->prepend(&GenieFile->TerrainBlock.AnyFrameChange);
 	AnyFrameChange->Update();
 	MapVisibleFlag->resize(1);
-	MapVisibleFlag->container[0] = &GenieFile->TerrainBlock.MapVisibleFlag;
+	MapVisibleFlag->prepend(&GenieFile->TerrainBlock.MapVisibleFlag);
 	MapVisibleFlag->Update();
 	FogFlag->resize(1);
-	FogFlag->container[0] = &GenieFile->TerrainBlock.FogFlag;
+	FogFlag->prepend(&GenieFile->TerrainBlock.FogFlag);
 	FogFlag->Update();
 
 	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeBytes.size(); ++loop)
 	{
 		General_SomeBytes[loop]->resize(1);
-		General_SomeBytes[loop]->container[0] = &GenieFile->TerrainBlock.SomeBytes[loop];
+		General_SomeBytes[loop]->prepend(&GenieFile->TerrainBlock.SomeBytes[loop]);
 		General_SomeBytes[loop]->Update();
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeInt32.size(); ++loop)
 	{
 		General_Something[loop]->resize(1);
-		General_Something[loop]->container[0] = &GenieFile->TerrainBlock.SomeInt32[loop];
+		General_Something[loop]->prepend(&GenieFile->TerrainBlock.SomeInt32[loop]);
 		General_Something[loop]->Update();
 	}
 	Unknown_UnknownPointer->resize(1);
-	Unknown_UnknownPointer->container[0] = &GenieFile->RandomMaps.RandomMapPointer;
+	Unknown_UnknownPointer->prepend(&GenieFile->RandomMaps.RandomMapPointer);
 	Unknown_UnknownPointer->Update();
 	if(GenieVersion < genie::GV_AoKA) return;
 	for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
 	{
 		General_TTUnknown[loop]->resize(1);
-		General_TTUnknown[loop]->container[0] = &GenieFile->UnknownPreTechTree[loop];
+		General_TTUnknown[loop]->prepend(&GenieFile->UnknownPreTechTree[loop]);
 		General_TTUnknown[loop]->Update();
 	}
 	General_TTUnknown[7]->resize(1);
-	General_TTUnknown[7]->container[0] = &GenieFile->TechTree.Unknown2;
+	General_TTUnknown[7]->prepend(&GenieFile->TechTree.Unknown2);
 	General_TTUnknown[7]->Update();
 	if(GenieVersion < genie::GV_SWGB) return;
 	General_SUnknown2->resize(1);
-	General_SUnknown2->container[0] = &GenieFile->SUnknown2;
+	General_SUnknown2->prepend(&GenieFile->SUnknown2);
 	General_SUnknown2->Update();
 	General_SUnknown3->resize(1);
-	General_SUnknown3->container[0] = &GenieFile->SUnknown3;
+	General_SUnknown3->prepend(&GenieFile->SUnknown3);
 	General_SUnknown3->Update();
 	General_SUnknown4->resize(1);
-	General_SUnknown4->container[0] = &GenieFile->SUnknown4;
+	General_SUnknown4->prepend(&GenieFile->SUnknown4);
 	General_SUnknown4->Update();
 	General_SUnknown5->resize(1);
-	General_SUnknown5->container[0] = &GenieFile->SUnknown5;
+	General_SUnknown5->prepend(&GenieFile->SUnknown5);
 	General_SUnknown5->Update();
 	General_SUnknown7->resize(1);
-	General_SUnknown7->container[0] = &GenieFile->SUnknown7;
+	General_SUnknown7->prepend(&GenieFile->SUnknown7);
 	General_SUnknown7->Update();
 	General_SUnknown8->resize(1);
-	General_SUnknown8->container[0] = &GenieFile->SUnknown8;
+	General_SUnknown8->prepend(&GenieFile->SUnknown8);
 	General_SUnknown8->Update();
 }
 
@@ -670,34 +670,34 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &Event)
 			RandomMapIDs[sel] = (MapPointer2 - (&GenieFile->RandomMaps.Maps[0]));
 			MapPointer1 = &GenieFile->RandomMaps.MapHeaders[RandomMapIDs[sel]];
 
-			Unknowns_UnknownLevel->container[sel] = &MapPointer1->ScriptNumber;
+			Unknowns_UnknownLevel->prepend(&MapPointer1->ScriptNumber);
 			int sel2 = sel + selections;
-			Unknowns_Unknown1[0]->container[sel] = &MapPointer1->BorderSouthWest;
-			Unknowns_Unknown1[0]->container[sel2] = &MapPointer2->BorderSouthWest;
-			Unknowns_Unknown1[1]->container[sel] = &MapPointer1->BorderNorthWest;
-			Unknowns_Unknown1[1]->container[sel2] = &MapPointer2->BorderNorthWest;
-			Unknowns_Unknown1[2]->container[sel] = &MapPointer1->BorderNorthEast;
-			Unknowns_Unknown1[2]->container[sel2] = &MapPointer2->BorderNorthEast;
-			Unknowns_Unknown1[3]->container[sel] = &MapPointer1->BorderSouthEast;
-			Unknowns_Unknown1[3]->container[sel2] = &MapPointer2->BorderSouthEast;
-			Unknowns_Unknown1[4]->container[sel] = &MapPointer1->BorderUsage;
-			Unknowns_Unknown1[4]->container[sel2] = &MapPointer2->BorderUsage;
-			Unknowns_Unknown1[5]->container[sel] = &MapPointer1->WaterShape;
-			Unknowns_Unknown1[5]->container[sel2] = &MapPointer2->WaterShape;
-			Unknowns_Unknown1[6]->container[sel] = &MapPointer1->NonBaseTerrain;
-			Unknowns_Unknown1[6]->container[sel2] = &MapPointer2->NonBaseTerrain;
-			Unknowns_Unknown1[7]->container[sel] = &MapPointer1->BaseZoneCoverage;
-			Unknowns_Unknown1[7]->container[sel2] = &MapPointer2->BaseZoneCoverage;
-			Unknowns_Unknown1[8]->container[sel] = &MapPointer1->Unknown9;
-			Unknowns_Unknown1[8]->container[sel2] = &MapPointer2->Unknown9;
-			Unknowns_Pointer1->container[sel] = &MapPointer1->BaseZonePointer;
-			Unknowns_Pointer1->container[sel2] = &MapPointer2->BaseZonePointer;
-			Unknowns_Pointer2->container[sel] = &MapPointer1->MapTerrainPointer;
-			Unknowns_Pointer2->container[sel2] = &MapPointer2->MapTerrainPointer;
-			Unknowns_Pointer3->container[sel] = &MapPointer1->MapUnitPointer;
-			Unknowns_Pointer3->container[sel2] = &MapPointer2->MapUnitPointer;
-			Unknowns_Pointer4->container[sel] = &MapPointer1->MapUnknownPointer;
-			Unknowns_Pointer4->container[sel2] = &MapPointer2->MapUnknownPointer;
+			Unknowns_Unknown1[0]->prepend(&MapPointer1->BorderSouthWest);
+			Unknowns_Unknown1[0]->prepend(&MapPointer2->BorderSouthWest);
+			Unknowns_Unknown1[1]->prepend(&MapPointer1->BorderNorthWest);
+			Unknowns_Unknown1[1]->prepend(&MapPointer2->BorderNorthWest);
+			Unknowns_Unknown1[2]->prepend(&MapPointer1->BorderNorthEast);
+			Unknowns_Unknown1[2]->prepend(&MapPointer2->BorderNorthEast);
+			Unknowns_Unknown1[3]->prepend(&MapPointer1->BorderSouthEast);
+			Unknowns_Unknown1[3]->prepend(&MapPointer2->BorderSouthEast);
+			Unknowns_Unknown1[4]->prepend(&MapPointer1->BorderUsage);
+			Unknowns_Unknown1[4]->prepend(&MapPointer2->BorderUsage);
+			Unknowns_Unknown1[5]->prepend(&MapPointer1->WaterShape);
+			Unknowns_Unknown1[5]->prepend(&MapPointer2->WaterShape);
+			Unknowns_Unknown1[6]->prepend(&MapPointer1->NonBaseTerrain);
+			Unknowns_Unknown1[6]->prepend(&MapPointer2->NonBaseTerrain);
+			Unknowns_Unknown1[7]->prepend(&MapPointer1->BaseZoneCoverage);
+			Unknowns_Unknown1[7]->prepend(&MapPointer2->BaseZoneCoverage);
+			Unknowns_Unknown1[8]->prepend(&MapPointer1->Unknown9);
+			Unknowns_Unknown1[8]->prepend(&MapPointer2->Unknown9);
+			Unknowns_Pointer1->prepend(&MapPointer1->BaseZonePointer);
+			Unknowns_Pointer1->prepend(&MapPointer2->BaseZonePointer);
+			Unknowns_Pointer2->prepend(&MapPointer1->MapTerrainPointer);
+			Unknowns_Pointer2->prepend(&MapPointer2->MapTerrainPointer);
+			Unknowns_Pointer3->prepend(&MapPointer1->MapUnitPointer);
+			Unknowns_Pointer3->prepend(&MapPointer2->MapUnitPointer);
+			Unknowns_Pointer4->prepend(&MapPointer1->MapUnknownPointer);
+			Unknowns_Pointer4->prepend(&MapPointer2->MapUnknownPointer);
 		}
 		SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected random map: "+lexical_cast<string>(RandomMapIDs[0]), 0);
 
@@ -893,19 +893,19 @@ void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &Event)
 		UnknownPointer = (genie::BaseZone*)RMSBaseZones_List->GetClientData(Items.Item(sel));
 		UnknownFSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[0]));
 
-		RMSBaseZones_Unknown1->container[sel] = &UnknownPointer->Unknown1;
-		RMSBaseZones_BaseTerrain->container[sel] = &UnknownPointer->BaseTerrain;
-		RMSBaseZones_SpacingBetweenPlayers->container[sel] = &UnknownPointer->SpacingBetweenPlayers;
-		RMSBaseZones_Unknown4->container[sel] = &UnknownPointer->Unknown4;
+		RMSBaseZones_Unknown1->prepend(&UnknownPointer->Unknown1);
+		RMSBaseZones_BaseTerrain->prepend(&UnknownPointer->BaseTerrain);
+		RMSBaseZones_SpacingBetweenPlayers->prepend(&UnknownPointer->SpacingBetweenPlayers);
+		RMSBaseZones_Unknown4->prepend(&UnknownPointer->Unknown4);
 		for(short loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-		RMSBaseZones_Unknown5[loop]->container[sel] = &UnknownPointer->Unknown5[loop];
-		RMSBaseZones_Unknown6->container[sel] = &UnknownPointer->Unknown6;
-		RMSBaseZones_Unknown7->container[sel] = &UnknownPointer->Unknown7;
+		RMSBaseZones_Unknown5[loop]->prepend(&UnknownPointer->Unknown5[loop]);
+		RMSBaseZones_Unknown6->prepend(&UnknownPointer->Unknown6);
+		RMSBaseZones_Unknown7->prepend(&UnknownPointer->Unknown7);
 		for(short loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-		RMSBaseZones_Unknown8[loop]->container[sel] = &UnknownPointer->Unknown8[loop];
-		RMSBaseZones_StartAreaRadius->container[sel] = &UnknownPointer->StartAreaRadius;
-		RMSBaseZones_Unknown10->container[sel] = &UnknownPointer->Unknown10;
-		RMSBaseZones_Unknown11->container[sel] = &UnknownPointer->Unknown11;
+		RMSBaseZones_Unknown8[loop]->prepend(&UnknownPointer->Unknown8[loop]);
+		RMSBaseZones_StartAreaRadius->prepend(&UnknownPointer->StartAreaRadius);
+		RMSBaseZones_Unknown10->prepend(&UnknownPointer->Unknown10);
+		RMSBaseZones_Unknown11->prepend(&UnknownPointer->Unknown11);
 	}
 
 	RMSBaseZones_Unknown1->Enable(true);
@@ -1117,12 +1117,12 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &Event)
 		UnknownPointer = (genie::MapTerrain*)RMSTerrain_List->GetClientData(Items.Item(sel));
 		UnknownSSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[0]));
 
-		RMSTerrain_Unknown1[0]->container[sel] = &UnknownPointer->Proportion;
-		RMSTerrain_Unknown1[1]->container[sel] = &UnknownPointer->Terrain;
-		RMSTerrain_Unknown1[2]->container[sel] = &UnknownPointer->NumberOfClumps;
-		RMSTerrain_Unknown1[3]->container[sel] = &UnknownPointer->SpacingToOtherTerrains;
-		RMSTerrain_Unknown1[4]->container[sel] = &UnknownPointer->PlacementZone;
-		RMSTerrain_Unknown1[5]->container[sel] = &UnknownPointer->Unknown6;
+		RMSTerrain_Unknown1[0]->prepend(&UnknownPointer->Proportion);
+		RMSTerrain_Unknown1[1]->prepend(&UnknownPointer->Terrain);
+		RMSTerrain_Unknown1[2]->prepend(&UnknownPointer->NumberOfClumps);
+		RMSTerrain_Unknown1[3]->prepend(&UnknownPointer->SpacingToOtherTerrains);
+		RMSTerrain_Unknown1[4]->prepend(&UnknownPointer->PlacementZone);
+		RMSTerrain_Unknown1[5]->prepend(&UnknownPointer->Unknown6);
 	}
 
 	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
@@ -1292,18 +1292,18 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &Event)
 		UnknownPointer = (genie::MapUnit*)RMSUnit_List->GetClientData(Items.Item(sel));
 		UnknownTSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[0]));
 
-		RMSUnit_Unit->container[sel] = &UnknownPointer->Unit;
-		RMSUnit_HostTerrain->container[sel] = &UnknownPointer->HostTerrain;
+		RMSUnit_Unit->prepend(&UnknownPointer->Unit);
+		RMSUnit_HostTerrain->prepend(&UnknownPointer->HostTerrain);
 		for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-		RMSUnit_Unknown3[loop]->container[sel] = &UnknownPointer->Unknown3[loop];
-		RMSUnit_ObjectsPerPlayer->container[sel] = &UnknownPointer->ObjectsPerGroup;
-		RMSUnit_Unknown5->container[sel] = &UnknownPointer->Fluctuation;
-		RMSUnit_GroupsPerPlayer->container[sel] = &UnknownPointer->GroupsPerPlayer;
-		RMSUnit_Unknown7->container[sel] = &UnknownPointer->GroupRadius;
-		RMSUnit_OwnAtStart->container[sel] = &UnknownPointer->OwnAtStart;
-		RMSUnit_SetPlaceForAllPlayers->container[sel] = &UnknownPointer->SetPlaceForAllPlayers;
-		RMSUnit_MinDistanceToPlayers->container[sel] = &UnknownPointer->MinDistanceToPlayers;
-		RMSUnit_MaxDistanceToPlayers->container[sel] = &UnknownPointer->MaxDistanceToPlayers;
+		RMSUnit_Unknown3[loop]->prepend(&UnknownPointer->Unknown3[loop]);
+		RMSUnit_ObjectsPerPlayer->prepend(&UnknownPointer->ObjectsPerGroup);
+		RMSUnit_Unknown5->prepend(&UnknownPointer->Fluctuation);
+		RMSUnit_GroupsPerPlayer->prepend(&UnknownPointer->GroupsPerPlayer);
+		RMSUnit_Unknown7->prepend(&UnknownPointer->GroupRadius);
+		RMSUnit_OwnAtStart->prepend(&UnknownPointer->OwnAtStart);
+		RMSUnit_SetPlaceForAllPlayers->prepend(&UnknownPointer->SetPlaceForAllPlayers);
+		RMSUnit_MinDistanceToPlayers->prepend(&UnknownPointer->MinDistanceToPlayers);
+		RMSUnit_MaxDistanceToPlayers->prepend(&UnknownPointer->MaxDistanceToPlayers);
 	}
 
 	RMSUnit_Unit->Enable(true);
@@ -1509,12 +1509,12 @@ void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &Event)
 		UnknownPointer = (genie::MapUnknown*)RMSUnknown_List->GetClientData(Items.Item(sel));
 		Unknown4SIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[0]));
 
-		RMSUnknown_Unknown1[0]->container[sel] = &UnknownPointer->Unknown1;
-		RMSUnknown_Unknown1[1]->container[sel] = &UnknownPointer->Unknown2;
-		RMSUnknown_Unknown1[2]->container[sel] = &UnknownPointer->Unknown3;
-		RMSUnknown_Unknown1[3]->container[sel] = &UnknownPointer->Unknown4;
-		RMSUnknown_Unknown1[4]->container[sel] = &UnknownPointer->Unknown5;
-		RMSUnknown_Unknown1[5]->container[sel] = &UnknownPointer->Unknown6;
+		RMSUnknown_Unknown1[0]->prepend(&UnknownPointer->Unknown1);
+		RMSUnknown_Unknown1[1]->prepend(&UnknownPointer->Unknown2);
+		RMSUnknown_Unknown1[2]->prepend(&UnknownPointer->Unknown3);
+		RMSUnknown_Unknown1[3]->prepend(&UnknownPointer->Unknown4);
+		RMSUnknown_Unknown1[4]->prepend(&UnknownPointer->Unknown5);
+		RMSUnknown_Unknown1[5]->prepend(&UnknownPointer->Unknown6);
 	}
 
 	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)

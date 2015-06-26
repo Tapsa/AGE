@@ -84,31 +84,31 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 		BorderPointer = (genie::TerrainBorder*)Borders_List->GetClientData(Items.Item(sel));
 		BorderIDs[sel] = (BorderPointer - (&GenieFile->TerrainBlock.TerrainBorders[0]));
 
-		Borders_Enabled->container[sel] = &BorderPointer->Enabled;
-		Borders_Random->container[sel] = &BorderPointer->Random;
-		Borders_Name[0]->container[sel] = &BorderPointer->Name;
-		Borders_Name[1]->container[sel] = &BorderPointer->Name2;
+		Borders_Enabled->prepend(&BorderPointer->Enabled);
+		Borders_Random->prepend(&BorderPointer->Random);
+		Borders_Name[0]->prepend(&BorderPointer->Name);
+		Borders_Name[1]->prepend(&BorderPointer->Name2);
 		if(GenieVersion >= genie::GV_AoEB)
-		Borders_SLP->container[sel] = &BorderPointer->SLP;
-		Borders_Unknown3->container[sel] = &BorderPointer->Unknown3;
-		Borders_Sound->container[sel] = &BorderPointer->SoundID;
+		Borders_SLP->prepend(&BorderPointer->SLP);
+		Borders_Unknown3->prepend(&BorderPointer->Unknown3);
+		Borders_Sound->prepend(&BorderPointer->SoundID);
 		for(short loop = 0; loop < 3; ++loop)
 		{
-			Borders_Colors[loop]->container[sel] = &BorderPointer->Colors[loop];
+			Borders_Colors[loop]->prepend(&BorderPointer->Colors[loop]);
 		}
-		Borders_IsAnimated->container[sel] = &BorderPointer->IsAnimated;
-		Borders_AnimationFrames->container[sel] = &BorderPointer->AnimationFrames;
-		Borders_PauseFames->container[sel] = &BorderPointer->PauseFames;
-		Borders_Interval->container[sel] = &BorderPointer->Interval;
-		Borders_PauseBetweenLoops->container[sel] = &BorderPointer->PauseBetweenLoops;
-		Borders_Frame->container[sel] = &BorderPointer->Frame;
-		Borders_DrawFrame->container[sel] = &BorderPointer->DrawFrame;
-		Borders_AnimateLast->container[sel] = &BorderPointer->AnimateLast;
-		Borders_FrameChanged->container[sel] = &BorderPointer->FrameChanged;
-		Borders_Drawn->container[sel] = &BorderPointer->Drawn;
-		Borders_DrawTile->container[sel] = &BorderPointer->DrawTile;
-		Borders_Terrain->container[sel] = &BorderPointer->UnderlayTerrain;
-		Borders_BorderStyle->container[sel] = &BorderPointer->BorderStyle;
+		Borders_IsAnimated->prepend(&BorderPointer->IsAnimated);
+		Borders_AnimationFrames->prepend(&BorderPointer->AnimationFrames);
+		Borders_PauseFames->prepend(&BorderPointer->PauseFames);
+		Borders_Interval->prepend(&BorderPointer->Interval);
+		Borders_PauseBetweenLoops->prepend(&BorderPointer->PauseBetweenLoops);
+		Borders_Frame->prepend(&BorderPointer->Frame);
+		Borders_DrawFrame->prepend(&BorderPointer->DrawFrame);
+		Borders_AnimateLast->prepend(&BorderPointer->AnimateLast);
+		Borders_FrameChanged->prepend(&BorderPointer->FrameChanged);
+		Borders_Drawn->prepend(&BorderPointer->Drawn);
+		Borders_DrawTile->prepend(&BorderPointer->DrawTile);
+		Borders_Terrain->prepend(&BorderPointer->UnderlayTerrain);
+		Borders_BorderStyle->prepend(&BorderPointer->BorderStyle);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected border: "+lexical_cast<string>(BorderIDs[0]), 0);
 
@@ -225,9 +225,9 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 		FramePointer = (genie::FrameData*)Borders_Frames_List->GetClientData(Items.Item(loop));
 		FrameIDs[loop] = (FramePointer - (&GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[0]));
 
-		Borders_FrameID->container[loop] = &FramePointer->FrameCount;
-		Borders_Flag1->container[loop] = &FramePointer->AngleCount;
-		Borders_Flag2->container[loop] = &FramePointer->ShapeID;
+		Borders_FrameID->prepend(&FramePointer->FrameCount);
+		Borders_Flag1->prepend(&FramePointer->AngleCount);
+		Borders_Flag2->prepend(&FramePointer->ShapeID);
 	}
 
 	Borders_FrameID->Update();

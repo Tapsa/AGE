@@ -84,23 +84,23 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 		CivPointer = (genie::Civ*)Civs_Civs_List->GetClientData(Items.Item(sel));
 		CivIDs[sel] = (CivPointer - (&GenieFile->Civs[0]));
 
-		Civs_One->container[sel] = &CivPointer->One;
-		Civs_Name[0]->container[sel] = &CivPointer->Name;
+		Civs_One->prepend(&CivPointer->One);
+		Civs_Name[0]->prepend(&CivPointer->Name);
 		if(GenieVersion >= genie::GV_MIK)
 		{
-			Civs_TechTree->container[sel] = &CivPointer->TechTreeID;
+			Civs_TechTree->prepend(&CivPointer->TechTreeID);
 			if(GenieVersion >= genie::GV_AoKB)
 			{
-				Civs_TeamBonus->container[sel] = &CivPointer->TeamBonusID;
+				Civs_TeamBonus->prepend(&CivPointer->TeamBonusID);
 				if(GenieVersion >= genie::GV_SWGB)
 				{
-					Civs_Name[1]->container[sel] = &CivPointer->Name2;
+					Civs_Name[1]->prepend(&CivPointer->Name2);
 					for(short loop = 0; loop < 4; ++loop)
-					Civs_SUnknown1[loop]->container[sel] = &CivPointer->UniqueUnitsResearches[loop];
+					Civs_SUnknown1[loop]->prepend(&CivPointer->UniqueUnitsResearches[loop]);
 				}
 			}
 		}
-		Civs_GraphicSet->container[sel] = &CivPointer->IconSet;
+		Civs_GraphicSet->prepend(&CivPointer->IconSet);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected civilization: "+lexical_cast<string>(CivIDs[0]), 0);
 
@@ -718,7 +718,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 	{
 		CivResourcePointer = (float*)Civs_Resources_List->GetClientData(Items.Item(loop));
 		ResourceIDs[loop] = (CivResourcePointer - (&GenieFile->Civs[CivIDs[0]].Resources[0]));
-		Civs_ResourceValue->container[loop] = CivResourcePointer;
+		Civs_ResourceValue->prepend(CivResourcePointer);
 	}
 
 	Civs_ResourceValue->Update();
