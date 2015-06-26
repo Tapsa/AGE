@@ -569,6 +569,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 
 void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Borders_Name[0]->GetId() || Event.GetId() == Borders_Name[1]->GetId())
 	{
@@ -578,5 +579,4 @@ void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &Event)
 	{
 		ListTerrainBorderFrames();
 	}
-	Event.Skip();
 }
