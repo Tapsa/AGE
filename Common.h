@@ -1,7 +1,9 @@
 #include <boost/lexical_cast.hpp>
-#include <array>
-#include <list>
 #include <string>
+#include <array>
+#include <vector>
+#include <list>
+#include <forward_list>
 #include <map>
 //#include <regex>
 //#include <atomic>
@@ -57,5 +59,7 @@ enum EditableVersion
 	EV_SWGB
 	//EV_CC
 };
+
+enum ContainerType {CByte, CUByte, CFloat, CLong, CShort, CUShort, CString};
 
 #endif

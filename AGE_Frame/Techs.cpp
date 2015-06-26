@@ -131,7 +131,7 @@ void AGE_Frame::OnTechSelect(wxCommandEvent &Event)
 	{
 		TechPointer = (genie::Techage*)Techs_List->GetClientData(Items.Item(loop));
 		TechIDs[loop] = (TechPointer - (&GenieFile->Techages[0]));
-		Techs_Name->container[loop] = &TechPointer->Name;
+		Techs_Name->prepend(&TechPointer->Name);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected tech: "+lexical_cast<string>(TechIDs[0]), 0);
 
@@ -361,11 +361,11 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &Event)
 		{
 			EffectPointer = (genie::TechageEffect*)Techs_Effects_List->GetClientData(Items.Item(loop));
 			EffectIDs[loop] = (EffectPointer - (&GenieFile->Techages[TechIDs[0]].Effects[0]));
-			Effects_Type->container[loop] = &EffectPointer->Type;
-			Effects_A->container[loop] = &EffectPointer->A;
-			Effects_B->container[loop] = &EffectPointer->B;
-			Effects_C->container[loop] = &EffectPointer->C;
-			Effects_D->container[loop] = &EffectPointer->D;
+			Effects_Type->prepend(&EffectPointer->Type);
+			Effects_A->prepend(&EffectPointer->A);
+			Effects_B->prepend(&EffectPointer->B);
+			Effects_C->prepend(&EffectPointer->C);
+			Effects_D->prepend(&EffectPointer->D);
 		}
 
 		// Update combo boxes only if too many are linked
