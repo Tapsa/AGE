@@ -6489,6 +6489,7 @@ void AGE_Frame::CreateUnitControls()
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Units_Name->GetId() || Event.GetId() == Units_LanguageDLLName->GetId())
 	{
@@ -6523,7 +6524,6 @@ void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
 	{
 		ListUnitDamageGraphics();
 	}
-	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)

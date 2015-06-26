@@ -1836,6 +1836,7 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 
 void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
 {
+	Event.Skip();
 	TextCtrl_DLL *control = (TextCtrl_DLL*)Event.GetEventObject();
 	if(!control->IsModified() || !WriteLangs || control->index < 0) return;
 	int ID = control->index;
@@ -1854,7 +1855,6 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
 	}
 	SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
 	control->DiscardEdits();
-	Event.Skip();
 }
 
 bool AGE_Frame::SearchMatches(wxString itemText)

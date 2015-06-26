@@ -18,7 +18,7 @@ public:
 	AGETextCtrl(wxWindow *parent, int width):
 	wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, 20), wxTE_PROCESS_ENTER){}
 
-	void OnKillFocus(wxFocusEvent &Event){SaveEdits(); Event.Skip();}
+	void OnKillFocus(wxFocusEvent &Event){Event.Skip(); SaveEdits();}
 	void OnEnter(wxCommandEvent &Event){SaveEdits(true);}
 	virtual int SaveEdits(bool forced = false)=0;
 	virtual void Update()=0;

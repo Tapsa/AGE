@@ -8,6 +8,7 @@ void AGE_Frame::ListGeneral()
 
 void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 {
+	Event.Skip();
 	int32_t Result, Temp;
 
 	if(!General_CalcBoxes[0]->IsEmpty())
@@ -43,12 +44,11 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &Event)
 	Result += (uint8_t)Temp << 24;
 
 	General_CalcBoxes[4]->ChangeValue(lexical_cast<string>(Result));
-
-	Event.Skip();
 }
 
 void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(General_CalcBoxes[4]->IsEmpty()) return;
 
 	int32_t Result;
@@ -62,8 +62,6 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &Event)
 	General_CalcBoxes[2]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
 	Result >>= 8;
 	General_CalcBoxes[3]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
-
-	Event.Skip();
 }
 
 void AGE_Frame::OnGeneralSelect(wxCommandEvent &Event)
@@ -2218,6 +2216,7 @@ void AGE_Frame::CreateUnknownControls()
 
 void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Unknowns_UnknownLevel->GetId())
 	{
@@ -2239,5 +2238,4 @@ void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &Event)
 	{
 		ListRMSUnknowns();
 	}
-	Event.Skip();
 }
