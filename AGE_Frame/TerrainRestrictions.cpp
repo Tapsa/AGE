@@ -192,13 +192,13 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &Event)
 		TerrainPointer = (genie::Terrain*)TerRestrict_Terrains_List->GetClientData(Items2.Item(loop));
 		TerRestrictTerIDs[loop] = (TerrainPointer - (&GenieFile->TerrainBlock.Terrains[0]));
 
-		TerRestrict_Accessible->container[loop] = &TerRestPointer->TerrainAccessible[TerRestrictTerIDs[loop]];
+		TerRestrict_Accessible->prepend(&TerRestPointer->TerrainAccessible[TerRestrictTerIDs[loop]]);
 		if(GenieVersion >= genie::GV_AoKA)	//	Above AoE and RoR
 		{
-			TerRestrict_Unknown1->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].Buildable;
-			TerRestrict_Graphics[0]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.first;
-			TerRestrict_Graphics[1]->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.second;
-			TerRestrict_Amount->container[loop] = &TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].ReplicationAmount;
+			TerRestrict_Unknown1->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].Buildable);
+			TerRestrict_Graphics[0]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.first);
+			TerRestrict_Graphics[1]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.second);
+			TerRestrict_Amount->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].ReplicationAmount);
 		}
 	}
 

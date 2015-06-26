@@ -619,136 +619,136 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 			int location = sel + vecCiv * selections;
 			//locations.Append(lexical_cast<string>(location)+" ");
 			// Assing data to editing boxes
-			Units_Type->container[location] = &UnitPointer->Type;
+			Units_Type->prepend(&UnitPointer->Type);
 			//switch(UnitType)
 			{
 				//case 80:
 				{
 					if(CopyGraphics || vecCiv == 0)
-					Units_ConstructionGraphicID->container[location] = &UnitPointer->Building.ConstructionGraphicID;
-					Units_AdjacentMode->container[location] = &UnitPointer->Building.AdjacentMode;
-					Units_IconDisabler->container[location] = &UnitPointer->Building.GraphicsAngle;
-					Units_DisappearsWhenBuilt->container[location] = &UnitPointer->Building.DisappearsWhenBuilt;
-					Units_StackUnitID->container[location] = &UnitPointer->Building.StackUnitID;
-					Units_TerrainID->container[location] = &UnitPointer->Building.FoundationTerrainID;
-					Units_OldTerrainLikeID->container[location] = &UnitPointer->Building.OldTerrainLikeID;
-					Units_ResearchID->container[location] = &UnitPointer->Building.ResearchID;
+					Units_ConstructionGraphicID->prepend(&UnitPointer->Building.ConstructionGraphicID);
+					Units_AdjacentMode->prepend(&UnitPointer->Building.AdjacentMode);
+					Units_IconDisabler->prepend(&UnitPointer->Building.GraphicsAngle);
+					Units_DisappearsWhenBuilt->prepend(&UnitPointer->Building.DisappearsWhenBuilt);
+					Units_StackUnitID->prepend(&UnitPointer->Building.StackUnitID);
+					Units_TerrainID->prepend(&UnitPointer->Building.FoundationTerrainID);
+					Units_OldTerrainLikeID->prepend(&UnitPointer->Building.OldTerrainLikeID);
+					Units_ResearchID->prepend(&UnitPointer->Building.ResearchID);
 					if(GenieVersion >= genie::GV_AoKA)
 					{
 						if(GenieVersion >= genie::GV_TC)
 						{
 							if(CopyGraphics || vecCiv == 0)
-							Units_SnowGraphicID->container[location] = &UnitPointer->Building.SnowGraphicID;
+							Units_SnowGraphicID->prepend(&UnitPointer->Building.SnowGraphicID);
 						}
-						Units_Unknown33->container[location] = &UnitPointer->Building.Unknown33;
+						Units_Unknown33->prepend(&UnitPointer->Building.Unknown33);
 						for(short loop = 0; loop < 4; ++loop)
 						{
-							Units_AnnexUnit[loop]->container[location] = &UnitPointer->Building.Annexes[loop].UnitID;
-							Units_AnnexUnitMisplacement[loop][0]->container[location] = &UnitPointer->Building.Annexes[loop].Misplacement.first;
-							Units_AnnexUnitMisplacement[loop][1]->container[location] = &UnitPointer->Building.Annexes[loop].Misplacement.second;
+							Units_AnnexUnit[loop]->prepend(&UnitPointer->Building.Annexes[loop].UnitID);
+							Units_AnnexUnitMisplacement[loop][0]->prepend(&UnitPointer->Building.Annexes[loop].Misplacement.first);
+							Units_AnnexUnitMisplacement[loop][1]->prepend(&UnitPointer->Building.Annexes[loop].Misplacement.second);
 						}
-						Units_HeadUnit->container[location] = &UnitPointer->Building.HeadUnit;
-						Units_TransformUnit->container[location] = &UnitPointer->Building.TransformUnit;
-						Units_UnknownSound->container[location] = &UnitPointer->Building.UnknownSound;
-						Units_GarrisonType->container[location] = &UnitPointer->Building.GarrisonType;
-						Units_GarrisonHealRate->container[location] = &UnitPointer->Building.GarrisonHealRate;
-						Units_Unknown35->container[location] = &UnitPointer->Building.Unknown35;
-						Units_PileUnit->container[location] = &UnitPointer->Building.PileUnit;
+						Units_HeadUnit->prepend(&UnitPointer->Building.HeadUnit);
+						Units_TransformUnit->prepend(&UnitPointer->Building.TransformUnit);
+						Units_UnknownSound->prepend(&UnitPointer->Building.UnknownSound);
+						Units_GarrisonType->prepend(&UnitPointer->Building.GarrisonType);
+						Units_GarrisonHealRate->prepend(&UnitPointer->Building.GarrisonHealRate);
+						Units_Unknown35->prepend(&UnitPointer->Building.Unknown35);
+						Units_PileUnit->prepend(&UnitPointer->Building.PileUnit);
 						for(short loop = 0; loop < Units_LootSwitch.size(); ++loop)
-						Units_LootSwitch[loop]->container[location] = &UnitPointer->Building.LootingTable[loop];
+						Units_LootSwitch[loop]->prepend(&UnitPointer->Building.LootingTable[loop]);
 					}
-					Units_ConstructionSound->container[location] = &UnitPointer->Building.ConstructionSound;
+					Units_ConstructionSound->prepend(&UnitPointer->Building.ConstructionSound);
 				}
 				//case 70:
 				{
 					for(short loop = 0; loop < 3; ++loop)
 					{
-						Units_CostType[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Type;
-						Units_CostAmount[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Amount;
-						Units_CostUsed[loop]->container[location] = &UnitPointer->Creatable.ResourceCosts[loop].Enabled;
+						Units_CostType[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Type);
+						Units_CostAmount[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Amount);
+						Units_CostUsed[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Enabled);
 					}
-					Units_TrainTime->container[location] = &UnitPointer->Creatable.TrainTime;
-					Units_TrainLocationID->container[location] = &UnitPointer->Creatable.TrainLocationID;
-					Units_ButtonID->container[location] = &UnitPointer->Creatable.ButtonID;
+					Units_TrainTime->prepend(&UnitPointer->Creatable.TrainTime);
+					Units_TrainLocationID->prepend(&UnitPointer->Creatable.TrainLocationID);
+					Units_ButtonID->prepend(&UnitPointer->Creatable.ButtonID);
 					if(GenieVersion >= genie::GV_AoKA)
 					{
-						Units_Unknown26->container[location] = &UnitPointer->Creatable.Unknown26;
-						Units_Unknown27->container[location] = &UnitPointer->Creatable.Unknown27;
-						Units_Unknown28->container[location] = &UnitPointer->Creatable.Unknown28;
+						Units_Unknown26->prepend(&UnitPointer->Creatable.Unknown26);
+						Units_Unknown27->prepend(&UnitPointer->Creatable.Unknown27);
+						Units_Unknown28->prepend(&UnitPointer->Creatable.Unknown28);
 						if(GenieVersion >= genie::GV_AoKB)
 						{
-							Units_HeroMode->container[location] = &UnitPointer->Creatable.HeroMode;
+							Units_HeroMode->prepend(&UnitPointer->Creatable.HeroMode);
 							if(CopyGraphics || vecCiv == 0)
 							{
-								Units_GarrisonGraphic->container[location] = &UnitPointer->Creatable.GarrisonGraphic;
+								Units_GarrisonGraphic->prepend(&UnitPointer->Creatable.GarrisonGraphic);
 							}
 						}
-						Units_MissileCount->container[location] = &UnitPointer->Creatable.TotalMissiles;
-						Units_MissileDuplicationCount->container[location] = &UnitPointer->Creatable.TotalMissilesMax;
+						Units_MissileCount->prepend(&UnitPointer->Creatable.TotalMissiles);
+						Units_MissileDuplicationCount->prepend(&UnitPointer->Creatable.TotalMissilesMax);
 						for(short loop = 0; loop < 3; ++loop)
 						{
-							Units_AttackMissileDuplicationSpawning[loop]->container[location] = &UnitPointer->Creatable.MissileSpawningArea[loop];
+							Units_AttackMissileDuplicationSpawning[loop]->prepend(&UnitPointer->Creatable.MissileSpawningArea[loop]);
 						}
-						Units_AttackMissileDuplicationUnit->container[location] = &UnitPointer->Creatable.AlternativeProjectileUnit;
-						Units_ChargingGraphic->container[location] = &UnitPointer->Creatable.ChargingGraphic;
-						Units_ChargingMode->container[location] = &UnitPointer->Creatable.ChargingMode;
+						Units_AttackMissileDuplicationUnit->prepend(&UnitPointer->Creatable.AlternativeProjectileUnit);
+						Units_ChargingGraphic->prepend(&UnitPointer->Creatable.ChargingGraphic);
+						Units_ChargingMode->prepend(&UnitPointer->Creatable.ChargingMode);
 					}
-					Units_DisplayedPierceArmour->container[location] = &UnitPointer->Creatable.DisplayedPierceArmour;
+					Units_DisplayedPierceArmour->prepend(&UnitPointer->Creatable.DisplayedPierceArmour);
 				}
 				//case 60:
 				//case 50:
 				{
-					Units_DefaultArmor->container[location] = &UnitPointer->Type50.DefaultArmor;
-					Units_TerRestrictionForDmgMultiply->container[location] = &UnitPointer->Type50.TerRestrictionForDmgMultiplying;
-					Units_MaxRange->container[location] = &UnitPointer->Type50.MaxRange;
-					Units_BlastRadius->container[location] = &UnitPointer->Type50.BlastRadius;
-					Units_ReloadTime1->container[location] = &UnitPointer->Type50.ReloadTime;
-					Units_ProjectileUnitID->container[location] = &UnitPointer->Type50.ProjectileUnitID;
-					Units_AccuracyPercent->container[location] = &UnitPointer->Type50.AccuracyPercent;
-					Units_TowerMode->container[location] = &UnitPointer->Type50.TowerMode;
-					Units_Delay->container[location] = &UnitPointer->Type50.FrameDelay;
+					Units_DefaultArmor->prepend(&UnitPointer->Type50.DefaultArmor);
+					Units_TerRestrictionForDmgMultiply->prepend(&UnitPointer->Type50.TerRestrictionForDmgMultiplying);
+					Units_MaxRange->prepend(&UnitPointer->Type50.MaxRange);
+					Units_BlastRadius->prepend(&UnitPointer->Type50.BlastRadius);
+					Units_ReloadTime1->prepend(&UnitPointer->Type50.ReloadTime);
+					Units_ProjectileUnitID->prepend(&UnitPointer->Type50.ProjectileUnitID);
+					Units_AccuracyPercent->prepend(&UnitPointer->Type50.AccuracyPercent);
+					Units_TowerMode->prepend(&UnitPointer->Type50.TowerMode);
+					Units_Delay->prepend(&UnitPointer->Type50.FrameDelay);
 					for(short loop = 0; loop < 3; ++loop)
 					{
-						Units_GraphicDisplacement[loop]->container[location] = &UnitPointer->Type50.GraphicDisplacement[loop];
+						Units_GraphicDisplacement[loop]->prepend(&UnitPointer->Type50.GraphicDisplacement[loop]);
 					}
-					Units_BlastAttackLevel->container[location] = &UnitPointer->Type50.BlastAttackLevel;
-					Units_MinRange->container[location] = &UnitPointer->Type50.MinRange;
+					Units_BlastAttackLevel->prepend(&UnitPointer->Type50.BlastAttackLevel);
+					Units_MinRange->prepend(&UnitPointer->Type50.MinRange);
 					if(GenieVersion >= genie::GV_AoKB)
 					{
-						Units_AccuracyErrorRadius->container[location] = &UnitPointer->Type50.AccuracyErrorRadius;
+						Units_AccuracyErrorRadius->prepend(&UnitPointer->Type50.AccuracyErrorRadius);
 					}
 					if(CopyGraphics || vecCiv == 0)
-					Units_AttackGraphic->container[location] = &UnitPointer->Type50.AttackGraphic;
-					Units_DisplayedMeleeArmour->container[location] = &UnitPointer->Type50.DisplayedMeleeArmour;
-					Units_DisplayedAttack->container[location] = &UnitPointer->Type50.DisplayedAttack;
-					Units_DisplayedRange->container[location] = &UnitPointer->Type50.DisplayedRange;
-					Units_ReloadTime2->container[location] = &UnitPointer->Type50.DisplayedReloadTime;
+					Units_AttackGraphic->prepend(&UnitPointer->Type50.AttackGraphic);
+					Units_DisplayedMeleeArmour->prepend(&UnitPointer->Type50.DisplayedMeleeArmour);
+					Units_DisplayedAttack->prepend(&UnitPointer->Type50.DisplayedAttack);
+					Units_DisplayedRange->prepend(&UnitPointer->Type50.DisplayedRange);
+					Units_ReloadTime2->prepend(&UnitPointer->Type50.DisplayedReloadTime);
 				}
 				//case 40:
 				{
-					Units_SheepConversion->container[location] = &UnitPointer->Bird.SheepConversion;
-					Units_SearchRadius->container[location] = &UnitPointer->Bird.SearchRadius;
-					Units_WorkRate->container[location] = &UnitPointer->Bird.WorkRate;
-					Units_DropSite[0]->container[location] = &UnitPointer->Bird.DropSite.first;
-					Units_DropSite[1]->container[location] = &UnitPointer->Bird.DropSite.second;
-					Units_VillagerMode->container[location] = &UnitPointer->Bird.VillagerMode;
-					Units_AttackSound->container[location] = &UnitPointer->Bird.AttackSound;
-					Units_MoveSound->container[location] = &UnitPointer->Bird.MoveSound;
-					Units_AnimalMode->container[location] = &UnitPointer->Bird.AnimalMode;
+					Units_SheepConversion->prepend(&UnitPointer->Bird.SheepConversion);
+					Units_SearchRadius->prepend(&UnitPointer->Bird.SearchRadius);
+					Units_WorkRate->prepend(&UnitPointer->Bird.WorkRate);
+					Units_DropSite[0]->prepend(&UnitPointer->Bird.DropSite.first);
+					Units_DropSite[1]->prepend(&UnitPointer->Bird.DropSite.second);
+					Units_VillagerMode->prepend(&UnitPointer->Bird.VillagerMode);
+					Units_AttackSound->prepend(&UnitPointer->Bird.AttackSound);
+					Units_MoveSound->prepend(&UnitPointer->Bird.MoveSound);
+					Units_AnimalMode->prepend(&UnitPointer->Bird.AnimalMode);
 				}
 				//case 30:
 				{
 					if(CopyGraphics || vecCiv == 0)
 					{
-						Units_WalkingGraphic[0]->container[location] = &UnitPointer->DeadFish.WalkingGraphic.first;
-						Units_WalkingGraphic[1]->container[location] = &UnitPointer->DeadFish.WalkingGraphic.second;
+						Units_WalkingGraphic[0]->prepend(&UnitPointer->DeadFish.WalkingGraphic.first);
+						Units_WalkingGraphic[1]->prepend(&UnitPointer->DeadFish.WalkingGraphic.second);
 					}
-					Units_RotationSpeed->container[location] = &UnitPointer->DeadFish.RotationSpeed;
-					Units_Unknown11->container[location] = &UnitPointer->DeadFish.Unknown11;
-					Units_TrackingUnit->container[location] = &UnitPointer->DeadFish.TrackingUnit;
-					Units_TrackingUnitUsed->container[location] = &UnitPointer->DeadFish.TrackingUnitUsed;
-					Units_TrackingUnitDensity->container[location] = &UnitPointer->DeadFish.TrackingUnitDensity;
-					Units_Unknown16->container[location] = &UnitPointer->DeadFish.Unknown16;
+					Units_RotationSpeed->prepend(&UnitPointer->DeadFish.RotationSpeed);
+					Units_Unknown11->prepend(&UnitPointer->DeadFish.Unknown11);
+					Units_TrackingUnit->prepend(&UnitPointer->DeadFish.TrackingUnit);
+					Units_TrackingUnitUsed->prepend(&UnitPointer->DeadFish.TrackingUnitUsed);
+					Units_TrackingUnitDensity->prepend(&UnitPointer->DeadFish.TrackingUnitDensity);
+					Units_Unknown16->prepend(&UnitPointer->DeadFish.Unknown16);
 					if(GenieVersion >= genie::GV_AoKB)
 					{
 						string newLabel = " ( ", aste = "° ";
@@ -757,7 +757,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 							int angle = UnitPointer->DeadFish.RotationAngles[loop] * 57.2957802;
 							if(angle == 0x80000000) newLabel += "max" + aste;
 							else newLabel += lexical_cast<string>(angle) + aste;
-							Units_RotationAngles[loop]->container[location] = &UnitPointer->DeadFish.RotationAngles[loop];
+							Units_RotationAngles[loop]->prepend(&UnitPointer->DeadFish.RotationAngles[loop]);
 						}
 						Units_RotationAngles_Text->SetLabel(Units_RotationAngles_Label + newLabel + ")");
 					}
@@ -765,115 +765,115 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 				//case 25:
 				//case 20:
 				{
-					Units_Speed->container[location] = &UnitPointer->Speed;
+					Units_Speed->prepend(&UnitPointer->Speed);
 				}
 			}
-			Units_ID1->container[location] = &UnitPointer->ID1;
-			Units_LanguageDLLName->container[location] = &UnitPointer->LanguageDLLName;
-			Units_LanguageDLLCreation->container[location] = &UnitPointer->LanguageDLLCreation;
-			Units_Class->container[location] = &UnitPointer->Class;
+			Units_ID1->prepend(&UnitPointer->ID1);
+			Units_LanguageDLLName->prepend(&UnitPointer->LanguageDLLName);
+			Units_LanguageDLLCreation->prepend(&UnitPointer->LanguageDLLCreation);
+			Units_Class->prepend(&UnitPointer->Class);
 			if(CopyGraphics || vecCiv == 0)
 			{
-				Units_StandingGraphic[0]->container[location] = &UnitPointer->StandingGraphic.first;
-				Units_DyingGraphic[0]->container[location] = &UnitPointer->DyingGraphic.first;
-				Units_DyingGraphic[1]->container[location] = &UnitPointer->DyingGraphic.second;
-				Units_IconID->container[location] = &UnitPointer->IconID;
+				Units_StandingGraphic[0]->prepend(&UnitPointer->StandingGraphic.first);
+				Units_DyingGraphic[0]->prepend(&UnitPointer->DyingGraphic.first);
+				Units_DyingGraphic[1]->prepend(&UnitPointer->DyingGraphic.second);
+				Units_IconID->prepend(&UnitPointer->IconID);
 			}
-			Units_DeathMode->container[location] = &UnitPointer->DeathMode;
-			Units_HitPoints->container[location] = &UnitPointer->HitPoints;
-			Units_LineOfSight->container[location] = &UnitPointer->LineOfSight;
-			Units_GarrisonCapacity->container[location] = &UnitPointer->GarrisonCapacity;
-			Units_SizeRadius[0]->container[location] = &UnitPointer->SizeRadius.first;
-			Units_SizeRadius[1]->container[location] = &UnitPointer->SizeRadius.second;
-			Units_HPBarHeight1->container[location] = &UnitPointer->HPBarHeight1;
-			Units_TrainSound[0]->container[location] = &UnitPointer->TrainSound.first;
-			Units_DeadUnitID->container[location] = &UnitPointer->DeadUnitID;
-			Units_PlacementMode->container[location] = &UnitPointer->PlacementMode;
-			Units_AirMode->container[location] = &UnitPointer->AirMode;
-			Units_HideInEditor->container[location] = &UnitPointer->HideInEditor;
-			Units_Unknown1->container[location] = &UnitPointer->Unknown1;
-			Units_PlacementBypassTerrain[0]->container[location] = &UnitPointer->PlacementBypassTerrain.first;
-			Units_PlacementBypassTerrain[1]->container[location] = &UnitPointer->PlacementBypassTerrain.second;
-			Units_PlacementTerrain[0]->container[location] = &UnitPointer->PlacementTerrain.first;
-			Units_PlacementTerrain[1]->container[location] = &UnitPointer->PlacementTerrain.second;
-			Units_EditorRadius[0]->container[location] = &UnitPointer->EditorRadius.first;
-			Units_EditorRadius[1]->container[location] = &UnitPointer->EditorRadius.second;
-			Units_HillMode->container[location] = &UnitPointer->HillMode;
-			Units_VisibleInFog->container[location] = &UnitPointer->VisibleInFog;
-			Units_TerrainRestriction->container[location] = &UnitPointer->TerrainRestriction;
-			Units_FlyMode->container[location] = &UnitPointer->FlyMode;
-			Units_ResourceCapacity->container[location] = &UnitPointer->ResourceCapacity;
-			Units_ResourceDecay->container[location] = &UnitPointer->ResourceDecay;
-			Units_BlastArmorLevel->container[location] = &UnitPointer->BlastArmorLevel;
-			Units_TriggerType->container[location] = &UnitPointer->TriggerType;
-			Units_InteractionMode->container[location] = &UnitPointer->InteractionMode;
-			Units_MinimapMode->container[location] = &UnitPointer->MinimapMode;
-			Units_SelectionEffect->container[location] = &UnitPointer->SelectionEffect;
-			Units_EditorSelectionColour->container[location] = &UnitPointer->EditorSelectionColour;
+			Units_DeathMode->prepend(&UnitPointer->DeathMode);
+			Units_HitPoints->prepend(&UnitPointer->HitPoints);
+			Units_LineOfSight->prepend(&UnitPointer->LineOfSight);
+			Units_GarrisonCapacity->prepend(&UnitPointer->GarrisonCapacity);
+			Units_SizeRadius[0]->prepend(&UnitPointer->SizeRadius.first);
+			Units_SizeRadius[1]->prepend(&UnitPointer->SizeRadius.second);
+			Units_HPBarHeight1->prepend(&UnitPointer->HPBarHeight1);
+			Units_TrainSound[0]->prepend(&UnitPointer->TrainSound.first);
+			Units_DeadUnitID->prepend(&UnitPointer->DeadUnitID);
+			Units_PlacementMode->prepend(&UnitPointer->PlacementMode);
+			Units_AirMode->prepend(&UnitPointer->AirMode);
+			Units_HideInEditor->prepend(&UnitPointer->HideInEditor);
+			Units_Unknown1->prepend(&UnitPointer->Unknown1);
+			Units_PlacementBypassTerrain[0]->prepend(&UnitPointer->PlacementBypassTerrain.first);
+			Units_PlacementBypassTerrain[1]->prepend(&UnitPointer->PlacementBypassTerrain.second);
+			Units_PlacementTerrain[0]->prepend(&UnitPointer->PlacementTerrain.first);
+			Units_PlacementTerrain[1]->prepend(&UnitPointer->PlacementTerrain.second);
+			Units_EditorRadius[0]->prepend(&UnitPointer->EditorRadius.first);
+			Units_EditorRadius[1]->prepend(&UnitPointer->EditorRadius.second);
+			Units_HillMode->prepend(&UnitPointer->HillMode);
+			Units_VisibleInFog->prepend(&UnitPointer->VisibleInFog);
+			Units_TerrainRestriction->prepend(&UnitPointer->TerrainRestriction);
+			Units_FlyMode->prepend(&UnitPointer->FlyMode);
+			Units_ResourceCapacity->prepend(&UnitPointer->ResourceCapacity);
+			Units_ResourceDecay->prepend(&UnitPointer->ResourceDecay);
+			Units_BlastArmorLevel->prepend(&UnitPointer->BlastArmorLevel);
+			Units_TriggerType->prepend(&UnitPointer->TriggerType);
+			Units_InteractionMode->prepend(&UnitPointer->InteractionMode);
+			Units_MinimapMode->prepend(&UnitPointer->MinimapMode);
+			Units_SelectionEffect->prepend(&UnitPointer->SelectionEffect);
+			Units_EditorSelectionColour->prepend(&UnitPointer->EditorSelectionColour);
 			if(GenieVersion >= genie::GV_AoKA)
 			{
-				Units_TrainSound[1]->container[location] = &UnitPointer->TrainSound.second;
-				Units_SelectionMask->container[location] = &UnitPointer->SelectionMask;
-				Units_SelectionShapeType->container[location] = &UnitPointer->SelectionShapeType;
-				Units_SelectionShape->container[location] = &UnitPointer->SelectionShape;
-				Units_ID3->container[location] = &UnitPointer->ID3;
+				Units_TrainSound[1]->prepend(&UnitPointer->TrainSound.second);
+				Units_SelectionMask->prepend(&UnitPointer->SelectionMask);
+				Units_SelectionShapeType->prepend(&UnitPointer->SelectionShapeType);
+				Units_SelectionShape->prepend(&UnitPointer->SelectionShape);
+				Units_ID3->prepend(&UnitPointer->ID3);
 				if(GenieVersion >= genie::GV_AoKB)
 				{
 					if(CopyGraphics || vecCiv == 0)
-					Units_StandingGraphic[1]->container[location] = &UnitPointer->StandingGraphic.second;
+					Units_StandingGraphic[1]->prepend(&UnitPointer->StandingGraphic.second);
 					if(GenieVersion >= genie::GV_AoK)
 					{
-						Units_Disabled->container[location] = &UnitPointer->Disabled;
+						Units_Disabled->prepend(&UnitPointer->Disabled);
 						if(GenieVersion >= genie::GV_TC)
 						{
-							Units_Attribute->container[location] = &UnitPointer->Attribute;
-							Units_Civ->container[location] = &UnitPointer->Civilization;
-							Units_Unknown9->container[location] = &UnitPointer->Nothing;
+							Units_Attribute->prepend(&UnitPointer->Attribute);
+							Units_Civ->prepend(&UnitPointer->Civilization);
+							Units_Unknown9->prepend(&UnitPointer->Nothing);
 							if(GenieVersion >= genie::GV_SWGB)
 							{
-								Units_Name2->container[location] = &UnitPointer->Name2;
-								Units_Unitline->container[location] = &UnitPointer->Unitline;
-								Units_MinTechLevel->container[location] = &UnitPointer->MinTechLevel;
+								Units_Name2->prepend(&UnitPointer->Name2);
+								Units_Unitline->prepend(&UnitPointer->Unitline);
+								Units_MinTechLevel->prepend(&UnitPointer->MinTechLevel);
 							}
 						}
 					}
 				}
 			}
-			Units_Enabled->container[location] = &UnitPointer->Enabled;
-			Units_CommandID->container[location] = &UnitPointer->CommandAttribute;
-			Units_Unknown3A->container[location] = &UnitPointer->Unknown3A;
-			Units_MinimapColor->container[location] = &UnitPointer->MinimapColor;
-			Units_LanguageDLLHelp->container[location] = &UnitPointer->LanguageDLLHelp;
-			Units_LanguageDLLHotKeyText->container[location] = &UnitPointer->LanguageDLLHotKeyText;
-			Units_HotKey->container[location] = &UnitPointer->HotKey;
-			Units_Unselectable->container[location] = &UnitPointer->Unselectable;
-			Units_Unknown6->container[location] = &UnitPointer->Unknown6;
-			Units_Unknown7->container[location] = &UnitPointer->UnknownSelectionMode;
-			Units_Unknown8->container[location] = &UnitPointer->Unknown8;
-			Units_SelectionRadius[0]->container[location] = &UnitPointer->SelectionRadius.first;
-			Units_SelectionRadius[1]->container[location] = &UnitPointer->SelectionRadius.second;
-			Units_HPBarHeight2->container[location] = &UnitPointer->HPBarHeight2;
-			Units_SelectionSound->container[location] = &UnitPointer->SelectionSound;
-			Units_DyingSound->container[location] = &UnitPointer->DyingSound;
-			Units_AttackMode->container[location] = &UnitPointer->AttackMode;
-			Units_EdibleMeat->container[location] = &UnitPointer->EdibleMeat;
-			Units_Name->container[location] = &UnitPointer->Name;
-			Units_ID2->container[location] = &UnitPointer->ID2;
+			Units_Enabled->prepend(&UnitPointer->Enabled);
+			Units_CommandID->prepend(&UnitPointer->CommandAttribute);
+			Units_Unknown3A->prepend(&UnitPointer->Unknown3A);
+			Units_MinimapColor->prepend(&UnitPointer->MinimapColor);
+			Units_LanguageDLLHelp->prepend(&UnitPointer->LanguageDLLHelp);
+			Units_LanguageDLLHotKeyText->prepend(&UnitPointer->LanguageDLLHotKeyText);
+			Units_HotKey->prepend(&UnitPointer->HotKey);
+			Units_Unselectable->prepend(&UnitPointer->Unselectable);
+			Units_Unknown6->prepend(&UnitPointer->Unknown6);
+			Units_Unknown7->prepend(&UnitPointer->UnknownSelectionMode);
+			Units_Unknown8->prepend(&UnitPointer->Unknown8);
+			Units_SelectionRadius[0]->prepend(&UnitPointer->SelectionRadius.first);
+			Units_SelectionRadius[1]->prepend(&UnitPointer->SelectionRadius.second);
+			Units_HPBarHeight2->prepend(&UnitPointer->HPBarHeight2);
+			Units_SelectionSound->prepend(&UnitPointer->SelectionSound);
+			Units_DyingSound->prepend(&UnitPointer->DyingSound);
+			Units_AttackMode->prepend(&UnitPointer->AttackMode);
+			Units_EdibleMeat->prepend(&UnitPointer->EdibleMeat);
+			Units_Name->prepend(&UnitPointer->Name);
+			Units_ID2->prepend(&UnitPointer->ID2);
 			for(short loop = 0; loop < 3; ++loop)
 			{
-				ResourceStorage_Type[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Type;
-				ResourceStorage_Amount[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Amount;
-				ResourceStorage_Enabled[loop]->container[location] = &UnitPointer->ResourceStorages[loop].Enabled;
+				ResourceStorage_Type[loop]->prepend(&UnitPointer->ResourceStorages[loop].Type);
+				ResourceStorage_Amount[loop]->prepend(&UnitPointer->ResourceStorages[loop].Amount);
+				ResourceStorage_Enabled[loop]->prepend(&UnitPointer->ResourceStorages[loop].Enabled);
 			}
 
 			//if(UnitType == 60)
 			{
-				Units_StretchMode->container[location] = &UnitPointer->Projectile.StretchMode;
-				Units_CompensationMode->container[location] = &UnitPointer->Projectile.CompensationMode;
-				Units_DropAnimationMode->container[location] = &UnitPointer->Projectile.DropAnimationMode;
-				Units_PenetrationMode->container[location] = &UnitPointer->Projectile.PenetrationMode;
-				Units_Unknown24->container[location] = &UnitPointer->Projectile.Unknown24;
-				Units_ProjectileArc->container[location] = &UnitPointer->Projectile.ProjectileArc;
+				Units_StretchMode->prepend(&UnitPointer->Projectile.StretchMode);
+				Units_CompensationMode->prepend(&UnitPointer->Projectile.CompensationMode);
+				Units_DropAnimationMode->prepend(&UnitPointer->Projectile.DropAnimationMode);
+				Units_PenetrationMode->prepend(&UnitPointer->Projectile.PenetrationMode);
+				Units_Unknown24->prepend(&UnitPointer->Projectile.Unknown24);
+				Units_ProjectileArc->prepend(&UnitPointer->Projectile.ProjectileArc);
 			}
 		}
 		//locations.Append("\n");
@@ -1746,7 +1746,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 		{
 			UnitHeadPointer = &GenieFile->UnitHeaders[UnitIDs[sel]];
 
-			Units_Exists->container[sel] = &UnitHeadPointer->Exists;
+			Units_Exists->prepend(&UnitHeadPointer->Exists);
 		}
 
 		Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs[0])+" - "+GetUnitName(UnitIDs[0], 0));
@@ -2480,10 +2480,10 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 				DamageGraphicPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].DamageGraphics[DamageGraphicIDs[sel]];
 
 				int location = sel + vecCiv * selections;
-				DamageGraphics_GraphicID->container[location] = &DamageGraphicPointer->GraphicID;
-				DamageGraphics_DamagePercent->container[location] = &DamageGraphicPointer->DamagePercent;
-				DamageGraphics_Unknown1->container[location] = &DamageGraphicPointer->ApplyMode;
-				DamageGraphics_Unknown2->container[location] = &DamageGraphicPointer->Unknown2;
+				DamageGraphics_GraphicID->prepend(&DamageGraphicPointer->GraphicID);
+				DamageGraphics_DamagePercent->prepend(&DamageGraphicPointer->DamagePercent);
+				DamageGraphics_Unknown1->prepend(&DamageGraphicPointer->ApplyMode);
+				DamageGraphics_Unknown2->prepend(&DamageGraphicPointer->Unknown2);
 			}
 		}
 		if(showWarning)
@@ -2784,8 +2784,8 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 				AttackPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Type50.Attacks[AttackIDs[sel]];
 
 				int location = sel + vecCiv * selections;
-				Attacks_Class->container[location] = &AttackPointer->Class;
-				Attacks_Amount->container[location] = &AttackPointer->Amount;
+				Attacks_Class->prepend(&AttackPointer->Class);
+				Attacks_Amount->prepend(&AttackPointer->Amount);
 			}
 		}
 		if(showWarning)
@@ -3079,8 +3079,8 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 				ArmorPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Type50.Armours[ArmorIDs[sel]];
 
 				int location = sel + vecCiv * selections;
-				Armors_Class->container[location] = &ArmorPointer->Class;
-				Armors_Amount->container[location] = &ArmorPointer->Amount;
+				Armors_Class->prepend(&ArmorPointer->Class);
+				Armors_Amount->prepend(&ArmorPointer->Amount);
 			}
 		}
 		if(showWarning)
@@ -3485,31 +3485,31 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 				}
 
 				int location = sel + vecCiv * selections;
-				UnitCommands_One->container[location] = &CommandPointer->One;
-				UnitCommands_ID->container[location] = &CommandPointer->ID;
-				UnitCommands_Unknown1->container[location] = &CommandPointer->Unknown1;
-				UnitCommands_Type->container[location] = &CommandPointer->Type;
-				UnitCommands_ClassID->container[location] = &CommandPointer->ClassID;
-				UnitCommands_UnitID->container[location] = &CommandPointer->UnitID;
-				UnitCommands_Unknown2->container[location] = &CommandPointer->Unknown2;
-				UnitCommands_ResourceIn->container[location] = &CommandPointer->ResourceIn;
-				UnitCommands_ProductivityResource->container[location] = &CommandPointer->ResourceProductivityMultiplier;
-				UnitCommands_ResourceOut->container[location] = &CommandPointer->ResourceOut;
-				UnitCommands_Resource->container[location] = &CommandPointer->Resource;
-				UnitCommands_WorkRateMultiplier->container[location] = &CommandPointer->WorkRateMultiplier;
-				UnitCommands_ExecutionRadius->container[location] = &CommandPointer->ExecutionRadius;
-				UnitCommands_ExtraRange->container[location] = &CommandPointer->ExtraRange;
-				UnitCommands_Unknown4->container[location] = &CommandPointer->Unknown4;
-				UnitCommands_Unknown5->container[location] = &CommandPointer->Unknown5;
-				UnitCommands_SelectionEnabler->container[location] = &CommandPointer->SelectionEnabler;
-				UnitCommands_Unknown7->container[location] = &CommandPointer->Unknown7;
-				UnitCommands_Unknown8->container[location] = &CommandPointer->Unknown8;
-				UnitCommands_Unknown9->container[location] = &CommandPointer->Unknown9;
-				UnitCommands_SelectionMode->container[location] = &CommandPointer->SelectionMode;
-				UnitCommands_Unknown11->container[location] = &CommandPointer->Unknown11;
-				UnitCommands_Unknown12->container[location] = &CommandPointer->Unknown12;
+				UnitCommands_One->prepend(&CommandPointer->One);
+				UnitCommands_ID->prepend(&CommandPointer->ID);
+				UnitCommands_Unknown1->prepend(&CommandPointer->Unknown1);
+				UnitCommands_Type->prepend(&CommandPointer->Type);
+				UnitCommands_ClassID->prepend(&CommandPointer->ClassID);
+				UnitCommands_UnitID->prepend(&CommandPointer->UnitID);
+				UnitCommands_Unknown2->prepend(&CommandPointer->Unknown2);
+				UnitCommands_ResourceIn->prepend(&CommandPointer->ResourceIn);
+				UnitCommands_ProductivityResource->prepend(&CommandPointer->ResourceProductivityMultiplier);
+				UnitCommands_ResourceOut->prepend(&CommandPointer->ResourceOut);
+				UnitCommands_Resource->prepend(&CommandPointer->Resource);
+				UnitCommands_WorkRateMultiplier->prepend(&CommandPointer->WorkRateMultiplier);
+				UnitCommands_ExecutionRadius->prepend(&CommandPointer->ExecutionRadius);
+				UnitCommands_ExtraRange->prepend(&CommandPointer->ExtraRange);
+				UnitCommands_Unknown4->prepend(&CommandPointer->Unknown4);
+				UnitCommands_Unknown5->prepend(&CommandPointer->Unknown5);
+				UnitCommands_SelectionEnabler->prepend(&CommandPointer->SelectionEnabler);
+				UnitCommands_Unknown7->prepend(&CommandPointer->Unknown7);
+				UnitCommands_Unknown8->prepend(&CommandPointer->Unknown8);
+				UnitCommands_Unknown9->prepend(&CommandPointer->Unknown9);
+				UnitCommands_SelectionMode->prepend(&CommandPointer->SelectionMode);
+				UnitCommands_Unknown11->prepend(&CommandPointer->Unknown11);
+				UnitCommands_Unknown12->prepend(&CommandPointer->Unknown12);
 				for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
-				UnitCommands_Graphics[loop]->container[location] = &CommandPointer->Graphics[loop];
+				UnitCommands_Graphics[loop]->prepend(&CommandPointer->Graphics[loop]);
 			}
 			if(showWarning)
 			{
@@ -4463,12 +4463,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_Name2 = new TextCtrl_String(this, AGEwindow, Units_Scroller, 30);
 	Units_LanguageDLLName = new TextCtrl_UShort(this, AGEwindow, Units_Scroller);
 	Units_LanguageDLLName->SetToolTip("Usual Unit DLL Pattern for The Conquerors\nName: 5000-5999\nCreation: Name +1000\nHotkey: Name +11000\nHelp: Name +100000, in DLL Name +21000\nHotkey Text: Name +150000, in DLL Name +10000\nTech tree: Name +9000");
-	Units_DLL_LanguageName = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
+	Units_DLL_LanguageName = new TextCtrl_DLL(Units_Scroller, wxSize(0, 25));
 	Units_LanguageDLLCreation = new TextCtrl_UShort(this, AGEwindow, Units_Scroller);
-	Units_DLL_LanguageCreation = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
+	Units_DLL_LanguageCreation = new TextCtrl_DLL(Units_Scroller, wxSize(0, 25));
 	Units_HotKey = new TextCtrl_Long(this, AGEwindow, Units_Scroller);
 	Units_HotKey->SetToolTip("10000 + Language DLL Creation (usually)");
-	Units_DLL_HotKey4 = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
+	Units_DLL_HotKey4 = new TextCtrl_DLL(Units_Scroller, wxSize(0, 25));
 	Units_LanguageDLLHelp = new TextCtrl_Long(this, AGEwindow, Units_Scroller);
 	Units_LanguageDLLHelp->SetToolTip("100000 + Language DLL Name\nThis is probably linked to the help text below");
 	Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
@@ -4478,7 +4478,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDLLHotKeyText->SetToolTip("150000 + Language DLL Name\nThis seems to be used only in AoE (not RoR)\nThis language line has other purposes in SWGB and CC");
 	Units_LanguageDLLConverter[1] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in DLL\nHit enter to get the correction into dat file");
-	Units_DLL_LanguageHKText = new TextCtrl_DLL(Units_Scroller, wxSize(0, 20));
+	Units_DLL_LanguageHKText = new TextCtrl_DLL(Units_Scroller, wxSize(0, 25));
 
 	Units_DamageGraphics = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Damage Graphics");
 	Units_DamageGraphics_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -6612,8 +6612,8 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 
 void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &Event)
 {
-	if(Units_GarrisonType->container.empty()) return;
-	uint8_t type = *(uint8_t*)Units_GarrisonType->container[0];
+	if(Units_GarrisonType->GetValue().empty()) return;
+	uint8_t type = lexical_cast<uint8_t>(Units_GarrisonType->GetValue());
 	Units_GarrisonType_CheckBox[0]->GetValue() ? type |= 0x01 : type &= ~0x01;
 	Units_GarrisonType_CheckBox[1]->GetValue() ? type |= 0x02 : type &= ~0x02;
 	Units_GarrisonType_CheckBox[2]->GetValue() ? type |= 0x04 : type &= ~0x04;
@@ -6628,8 +6628,8 @@ void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &Event)
 
 void AGE_Frame::OnUpdateCheck_UnitAttribute(wxCommandEvent &Event)
 {
-	if(Units_Attribute->container.empty()) return;
-	uint8_t attribute = *(uint8_t*)Units_Attribute->container[0];
+	if(Units_Attribute->GetValue().empty()) return;
+	uint8_t attribute = lexical_cast<uint8_t>(Units_Attribute->GetValue());
 	Units_Attribute_CheckBox[0]->GetValue() ? attribute |= 0x01 : attribute &= ~0x01;
 	Units_Attribute_CheckBox[1]->GetValue() ? attribute |= 0x02 : attribute &= ~0x02;
 	Units_Attribute_CheckBox[2]->GetValue() ? attribute |= 0x04 : attribute &= ~0x04;

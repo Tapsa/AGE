@@ -61,10 +61,10 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 		SoundPointer = (genie::Sound*)Sounds_Sounds_List->GetClientData(Items.Item(loop));
 		SoundIDs[loop] = (SoundPointer - (&GenieFile->Sounds[0]));
 
-		Sounds_ID->container[loop] = &SoundPointer->ID;
-		Sounds_Unknown1->container[loop] = &SoundPointer->Unknown1;
+		Sounds_ID->prepend(&SoundPointer->ID);
+		Sounds_Unknown1->prepend(&SoundPointer->Unknown1);
 		if(GenieVersion >= genie::GV_TEST)
-		Sounds_Unknown2->container[loop] = &SoundPointer->Unknown2;
+		Sounds_Unknown2->prepend(&SoundPointer->Unknown2);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs[0]), 0);
 
@@ -244,13 +244,13 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 			SoundItemPointer = (genie::SoundItem*)Sounds_Items_List->GetClientData(Items.Item(loop));
 			SoundItemIDs[loop] = (SoundItemPointer - (&GenieFile->Sounds[SoundIDs[0]].Items[0]));
 
-			SoundItems_Name->container[loop] = &SoundItemPointer->FileName;
-			SoundItems_Resource->container[loop] = &SoundItemPointer->ResourceID;
-			SoundItems_Probability->container[loop] = &SoundItemPointer->Probability;
+			SoundItems_Name->prepend(&SoundItemPointer->FileName);
+			SoundItems_Resource->prepend(&SoundItemPointer->ResourceID);
+			SoundItems_Probability->prepend(&SoundItemPointer->Probability);
 			if(GenieVersion >= genie::GV_AoKA)
 			{
-				SoundItems_Civ->container[loop] = &SoundItemPointer->Civ;
-				SoundItems_Unknown->container[loop] = &SoundItemPointer->Unknown1;
+				SoundItems_Civ->prepend(&SoundItemPointer->Civ);
+				SoundItems_Unknown->prepend(&SoundItemPointer->Unknown1);
 			}
 		}
 

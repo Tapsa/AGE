@@ -175,31 +175,31 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &Event)
 			GraphicPointer = (genie::Graphic*)Graphics_Graphics_List->GetClientData(Items.Item(sel));
 			GraphicIDs[sel] = (GraphicPointer - (&GenieFile->Graphics[0]));
 
-			Graphics_Name->container[sel] = &GraphicPointer->Name;
-			Graphics_Name2->container[sel] = &GraphicPointer->Name2;
-			Graphics_SLP->container[sel] = &GraphicPointer->SLP;
-			Graphics_Unknown1->container[sel] = &GraphicPointer->Unknown1;
-			Graphics_Unknown2->container[sel] = &GraphicPointer->Unknown2;
-			Graphics_FrameType->container[sel] = &GraphicPointer->Layer;
-			Graphics_PlayerColor->container[sel] = &GraphicPointer->PlayerColor;
-			Graphics_Rainbow->container[sel] = &GraphicPointer->Rainbow;
-			Graphics_Replay->container[sel] = &GraphicPointer->Replay;
+			Graphics_Name->prepend(&GraphicPointer->Name);
+			Graphics_Name2->prepend(&GraphicPointer->Name2);
+			Graphics_SLP->prepend(&GraphicPointer->SLP);
+			Graphics_Unknown1->prepend(&GraphicPointer->Unknown1);
+			Graphics_Unknown2->prepend(&GraphicPointer->Unknown2);
+			Graphics_FrameType->prepend(&GraphicPointer->Layer);
+			Graphics_PlayerColor->prepend(&GraphicPointer->PlayerColor);
+			Graphics_Rainbow->prepend(&GraphicPointer->Rainbow);
+			Graphics_Replay->prepend(&GraphicPointer->Replay);
 			for(short loop = 0; loop < 4; ++loop)
 			{
-				Graphics_Coordinates[loop]->container[sel] = &GraphicPointer->Coordinates[loop];
+				Graphics_Coordinates[loop]->prepend(&GraphicPointer->Coordinates[loop]);
 			}
-			Graphics_SoundID->container[sel] = &GraphicPointer->SoundID;
-			Graphics_AttackSoundUsed->container[sel] = &GraphicPointer->AttackSoundUsed;
-			Graphics_FrameCount->container[sel] = &GraphicPointer->FrameCount;
-			Graphics_AngleCount->container[sel] = &GraphicPointer->AngleCount;
-			Graphics_NewSpeed->container[sel] = &GraphicPointer->NewSpeed;
-			Graphics_FrameRate->container[sel] = &GraphicPointer->FrameRate;
-			Graphics_ReplayDelay->container[sel] = &GraphicPointer->ReplayDelay;
-			Graphics_SequenceType->container[sel] = &GraphicPointer->SequenceType;
-			Graphics_ID->container[sel] = &GraphicPointer->ID;
-			Graphics_MirroringMode->container[sel] = &GraphicPointer->MirroringMode;
+			Graphics_SoundID->prepend(&GraphicPointer->SoundID);
+			Graphics_AttackSoundUsed->prepend(&GraphicPointer->AttackSoundUsed);
+			Graphics_FrameCount->prepend(&GraphicPointer->FrameCount);
+			Graphics_AngleCount->prepend(&GraphicPointer->AngleCount);
+			Graphics_NewSpeed->prepend(&GraphicPointer->NewSpeed);
+			Graphics_FrameRate->prepend(&GraphicPointer->FrameRate);
+			Graphics_ReplayDelay->prepend(&GraphicPointer->ReplayDelay);
+			Graphics_SequenceType->prepend(&GraphicPointer->SequenceType);
+			Graphics_ID->prepend(&GraphicPointer->ID);
+			Graphics_MirroringMode->prepend(&GraphicPointer->MirroringMode);
 			if(GenieVersion >= genie::GV_AoKB)
-			Graphics_Unknown3->container[sel] = &GraphicPointer->Unknown3;
+			Graphics_Unknown3->prepend(&GraphicPointer->Unknown3);
 		}
 		SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected graphic: "+lexical_cast<string>(GraphicIDs[0]), 0);
 
@@ -507,14 +507,14 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &Event)
 			DeltaPointer = (genie::GraphicDelta*)Graphics_Deltas_List->GetClientData(Items.Item(loop));
 			DeltaIDs[loop] = (DeltaPointer - (&GenieFile->Graphics[GraphicIDs[0]].Deltas[0]));
 
-			GraphicDeltas_GraphicID->container[loop] = &DeltaPointer->GraphicID;
-			GraphicDeltas_Unknown1->container[loop] = &DeltaPointer->Unknown1;
-			GraphicDeltas_Unknown2->container[loop] = &DeltaPointer->Unknown2;
-			GraphicDeltas_Unknown3->container[loop] = &DeltaPointer->Unknown3;
-			GraphicDeltas_DirectionX->container[loop] = &DeltaPointer->DirectionX;
-			GraphicDeltas_DirectionY->container[loop] = &DeltaPointer->DirectionY;
-			GraphicDeltas_Unknown4->container[loop] = &DeltaPointer->Unknown4;
-			GraphicDeltas_Unknown5->container[loop] = &DeltaPointer->Unknown5;
+			GraphicDeltas_GraphicID->prepend(&DeltaPointer->GraphicID);
+			GraphicDeltas_Unknown1->prepend(&DeltaPointer->Unknown1);
+			GraphicDeltas_Unknown2->prepend(&DeltaPointer->Unknown2);
+			GraphicDeltas_Unknown3->prepend(&DeltaPointer->Unknown3);
+			GraphicDeltas_DirectionX->prepend(&DeltaPointer->DirectionX);
+			GraphicDeltas_DirectionY->prepend(&DeltaPointer->DirectionY);
+			GraphicDeltas_Unknown4->prepend(&DeltaPointer->Unknown4);
+			GraphicDeltas_Unknown5->prepend(&DeltaPointer->Unknown5);
 		}
 
 		GraphicDeltas_GraphicID->Update();
@@ -676,12 +676,12 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &Event)
 			AttackSoundPointer = (genie::GraphicAttackSound*)Graphics_AttackSounds_List->GetClientData(Items.Item(sel));
 			AttackSoundIDs[sel] = (AttackSoundPointer - (&GenieFile->Graphics[GraphicIDs[0]].AttackSounds[0]));
 
-			Graphics_AttackSoundID[0]->container[sel] = &AttackSoundPointer->SoundID;
-			Graphics_AttackSoundID[1]->container[sel] = &AttackSoundPointer->SoundID2;
-			Graphics_AttackSoundID[2]->container[sel] = &AttackSoundPointer->SoundID3;
-			Graphics_AttackSoundDelay[0]->container[sel] = &AttackSoundPointer->SoundDelay;
-			Graphics_AttackSoundDelay[1]->container[sel] = &AttackSoundPointer->SoundDelay2;
-			Graphics_AttackSoundDelay[2]->container[sel] = &AttackSoundPointer->SoundDelay3;
+			Graphics_AttackSoundID[0]->prepend(&AttackSoundPointer->SoundID);
+			Graphics_AttackSoundID[1]->prepend(&AttackSoundPointer->SoundID2);
+			Graphics_AttackSoundID[2]->prepend(&AttackSoundPointer->SoundID3);
+			Graphics_AttackSoundDelay[0]->prepend(&AttackSoundPointer->SoundDelay);
+			Graphics_AttackSoundDelay[1]->prepend(&AttackSoundPointer->SoundDelay2);
+			Graphics_AttackSoundDelay[2]->prepend(&AttackSoundPointer->SoundDelay3);
 		}
 
 		Graphics_AttackSoundID[0]->Update();

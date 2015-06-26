@@ -226,10 +226,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 
 	if(GenieFile != NULL)
 	{
-		TechTrees_Ages_Items.Mode->container.resize(0);
-		TechTrees_Buildings_Items.Mode->container.resize(0);
-		TechTrees_Units_Items.Mode->container.resize(0);
-		TechTrees_Researches_Items.Mode->container.resize(0);
+		TechTrees_Ages_Items.Mode->clear();
+		TechTrees_Buildings_Items.Mode->clear();
+		TechTrees_Units_Items.Mode->clear();
+		TechTrees_Researches_Items.Mode->clear();
 		delete GenieFile;
 		GenieFile = NULL;
 	}
@@ -2150,9 +2150,9 @@ void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names)
 
 void AGE_AreaTT84::FillItemCombo(int selection, bool update)
 {
-	if(Mode->container.size() == 0) return;
+	if(Mode->GetValue().empty()) return;
 	int oldList = lastList;
-	lastList = *(int32_t*)Mode->container[0];
+	lastList = lexical_cast<int>(Mode->GetValue());
 	if(lastList != oldList || update)
 	{
 		ItemCombo->Clear();
