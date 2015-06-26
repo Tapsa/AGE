@@ -112,6 +112,7 @@ void AGE_Frame::ListTerrainNumbers()
 
 void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	uint16_t UsedTerrains = lexical_cast<uint16_t>(((wxTextCtrl*)Event.GetEventObject())->GetValue());
 	// Resize terrain restrictions
@@ -124,7 +125,6 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &Event)
 
 	wxCommandEvent E;
 	OnTerrainRestrictionsSelect(E);
-	Event.Skip();
 }
 
 void AGE_Frame::ListTerrains1(bool all)
@@ -973,6 +973,7 @@ void AGE_Frame::CreateTerrainControls()
 
 void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Terrains_Name->GetId())
 	{
@@ -987,7 +988,6 @@ void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &Event)
 	{
 		ListTerrainsBorders();
 	}
-	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCombo_Terrains(wxCommandEvent &Event)

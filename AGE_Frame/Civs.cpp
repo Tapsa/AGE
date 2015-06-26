@@ -1001,6 +1001,7 @@ void AGE_Frame::CreateCivControls()
 
 void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Civs_Name[0]->GetId()
 	|| Event.GetId() == Civs_Name[1]->GetId())
@@ -1022,5 +1023,4 @@ void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 	{
 		ListResources();
 	}
-	Event.Skip();
 }

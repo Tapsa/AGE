@@ -3450,6 +3450,7 @@ void AGE_Frame::CreateTechTreeControls()
 
 void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == TechTrees_Ages_ID->GetId())
 	{
@@ -3537,7 +3538,6 @@ void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnTTBuildingSelect(E);
 	}
-	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &Event)

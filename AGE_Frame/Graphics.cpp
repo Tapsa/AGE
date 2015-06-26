@@ -1204,6 +1204,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
 	if(Event.GetId() == Graphics_Name->GetId())
 	{
@@ -1228,7 +1229,6 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &Event)
 		wxCommandEvent E;
 		OnGraphicsSelect(E);
 	}
-	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &Event)

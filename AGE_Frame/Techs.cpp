@@ -1421,6 +1421,7 @@ void AGE_Frame::CreateTechControls()
 
 void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
 {
+	Event.Skip();
 	if(Event.GetId() == Effects_E->GetId() || Event.GetId() == Effects_F->GetId())
 	{
 		if(!Effects_E->IsEmpty() && !Effects_F->IsEmpty()) // if has something, then update float value.
@@ -1450,7 +1451,6 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &Event)
 	{
 		ListEffects();
 	}
-	Event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_Techs(wxCommandEvent &Event)
