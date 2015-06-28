@@ -5,7 +5,7 @@ string AGE_Frame::GetSoundName(short Index)
 	return "File count: "+lexical_cast<string>(GenieFile->Sounds[Index].Items.size())+" ";
 }
 
-void AGE_Frame::OnSoundsSearch(wxCommandEvent &Event)
+void AGE_Frame::OnSoundsSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListSounds(false);
@@ -43,12 +43,12 @@ void AGE_Frame::InitSounds(bool all)
 	if(all) FillLists(SoundComboBoxList, names);
 }
 
-void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
+void AGE_Frame::OnSoundsSelect(wxCommandEvent &event)
 {
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(Event.GetSelection(), Items);
+	SwapSelection(event.GetSelection(), Items);
 	SoundIDs.resize(selections);
 	Sounds_ID->resize(selections);
 	Sounds_Unknown1->resize(selections);
@@ -75,7 +75,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &Event)
 	ListSoundItems();
 }
 
-void AGE_Frame::OnSoundsAdd(wxCommandEvent &Event)
+void AGE_Frame::OnSoundsAdd(wxCommandEvent &event)
 {
 	if(GenieFile == NULL) return;
 
@@ -84,7 +84,7 @@ void AGE_Frame::OnSoundsAdd(wxCommandEvent &Event)
 	ListSounds();
 }
 
-void AGE_Frame::OnSoundsInsert(wxCommandEvent &Event)
+void AGE_Frame::OnSoundsInsert(wxCommandEvent &event)
 {
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -94,7 +94,7 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &Event)
 	ListSounds();
 }
 
-void AGE_Frame::OnSoundsDelete(wxCommandEvent &Event)
+void AGE_Frame::OnSoundsDelete(wxCommandEvent &event)
 {
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -104,17 +104,17 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent &Event)
 	ListSounds();
 }
 
-void AGE_Frame::OnSoundsCopy(wxCommandEvent &Event)
+void AGE_Frame::OnSoundsCopy(wxCommandEvent &event)
 {
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Sounds, SoundIDs, copies->Sound);
+	CopyFromList(GenieFile->Sounds, SoundIDs, copies.Sound);
 	Sounds_Sounds_List->SetFocus();
 }
 
-void AGE_Frame::OnSoundsPaste(wxCommandEvent &Event)
+void AGE_Frame::OnSoundsPaste(wxCommandEvent &event)
 {
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -122,25 +122,25 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(SoundIDs.size(), copies->Sound.size()))
+		if(Paste11Check(SoundIDs.size(), copies.Sound.size()))
 		{
-			PasteToListIDFix(GenieFile->Sounds, SoundIDs, copies->Sound);
+			PasteToListIDFix(GenieFile->Sounds, SoundIDs, copies.Sound);
 		}
 	}
 	else
 	{
-		PasteToListIDFix(GenieFile->Sounds, SoundIDs[0], copies->Sound);
+		PasteToListIDFix(GenieFile->Sounds, SoundIDs[0], copies.Sound);
 	}
 	ListSounds();
 }
 
-void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListIDFix(GenieFile->Sounds, SoundIDs[0], copies->Sound);
+	PasteInsertToListIDFix(GenieFile->Sounds, SoundIDs[0], copies.Sound);
 	ListSounds();
 }
 
@@ -187,7 +187,7 @@ string AGE_Frame::GetSoundItemName(short Index)
 	return Name;
 }
 
-void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListSoundItems();
@@ -222,12 +222,12 @@ void AGE_Frame::ListSoundItems()
 	OnSoundItemsSelect(E);
 }
 
-void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &event)
 {
 	auto selections = Sounds_Items_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(Event.GetSelection(), Items);
+		SwapSelection(event.GetSelection(), Items);
 		SoundItemIDs.resize(selections);
 		SoundItems_Name->resize(selections);
 		SoundItems_Resource->resize(selections);
@@ -280,7 +280,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &Event)
 	SoundItems_Unknown->Enable(selections);
 }
 
-void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &event)
 {
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -290,7 +290,7 @@ void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &Event)
 	ListSoundItems();
 }
 
-void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &event)
 {
 	auto selections = Sounds_Items_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -300,7 +300,7 @@ void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &Event)
 	ListSoundItems();
 }
 
-void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &event)
 {
 	auto selections = Sounds_Items_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -310,17 +310,17 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &Event)
 	ListSoundItems();
 }
 
-void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &event)
 {
 	auto selections = Sounds_Items_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies->SoundItem);
+	CopyFromList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies.SoundItem);
 	Sounds_Items_List->SetFocus();
 }
 
-void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &event)
 {
 	auto selections = Sounds_Items_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -328,29 +328,29 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(SoundItemIDs.size(), copies->SoundItem.size()))
+		if(Paste11Check(SoundItemIDs.size(), copies.SoundItem.size()))
 		{
-			PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies->SoundItem);
+			PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies.SoundItem);
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies->SoundItem);
+		PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies.SoundItem);
 	}
 	ListSoundItems();
 }
 
-void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Sounds_Items_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies->SoundItem);
+	PasteInsertToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies.SoundItem);
 	ListSoundItems();
 }
 
-void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &Event)
+void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &event)
 {
 	for(short loop=1; loop < SoundIDs.size(); ++loop)
 	{
@@ -358,7 +358,7 @@ void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &Event)
 	}
 }
 
-void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &Event)
+void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 {
 	wxString Name;
 	searchText = Sounds_AllItems_Search->GetValue().Lower();
@@ -402,13 +402,13 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &Event)
 	OnAllSoundFileSelect(E);
 }
 
-void AGE_Frame::ClearAllSoundFiles(wxCommandEvent &Event)
+void AGE_Frame::ClearAllSoundFiles(wxCommandEvent &event)
 {
 	Sounds_Sounds_Search->SetValue("");
 	Sounds_Items_Search->SetValue("");
 }
 
-void AGE_Frame::OnAllSoundFileSelect(wxCommandEvent &Event)
+void AGE_Frame::OnAllSoundFileSelect(wxCommandEvent &event)
 {
 	SearchAllSubVectors(Sounds_AllItems_List, Sounds_Sounds_Search, Sounds_Items_Search);
 }
@@ -644,9 +644,9 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Name->Connect(SoundItems_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Sounds), NULL, this);
 }
 
-void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &Event)
+void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
 {
-	Event.Skip();
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
+	event.Skip();
+	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	ListSoundItems();
 }

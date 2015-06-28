@@ -7,7 +7,7 @@ vector<int> AGETextCtrl::unSaved;
 vector<int> AGETextCtrl::fileLoaded;
 const wxString AGE_Frame::PASTE11WARNING = "Selections mismatch";
 
-void AGE_Frame::OnOpen(wxCommandEvent &Event)
+void AGE_Frame::OnOpen(wxCommandEvent &event)
 {
 	wxCommandEvent Selected;
 
@@ -56,13 +56,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
 		OpenBox.LanguageBox->ChangeValue(Language);
 		OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
-		if(AGEwindow == 0) OpenBox.WindowCountBox->ChangeValue(lexical_cast<string>(SimultaneousFiles));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
-		if((*argPath).size() > 3)
+		if((argPath).size() > 3)
 		{
 			OpenBox.ForceDat = true;
 			OpenBox.Radio_DatFileLocation->SetValue(true);
-			OpenBox.Path_DatFileLocation->SetPath(*argPath);
+			OpenBox.Path_DatFileLocation->SetPath(argPath);
 		}
 
 		OpenBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
@@ -106,7 +105,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		CustomFolder = OpenBox.Path_CustomDefault->GetPath();
 		Language = OpenBox.LanguageBox->GetValue();
 		CustomTerrains = lexical_cast<int>(OpenBox.TerrainsBox->GetValue());
-		if(AGEwindow == 0) SimultaneousFiles = lexical_cast<int>(OpenBox.WindowCountBox->GetValue());
 		DatFileName = OpenBox.Path_DatFileLocation->GetPath();
 
 		if(OpenBox.CheckBox_LangFileLocation->IsChecked())
@@ -148,7 +146,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &Event)
 		++AGETextCtrl::fileLoaded[AGEwindow];
 
 		Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-		if(AGEwindow == 0) Config->Write("DefaultFiles/SimultaneousFiles", SimultaneousFiles);
 		Config->Write("DefaultFiles/DriveLetter", DriveLetter);
 		Config->Write("DefaultFiles/UseCustomPath", UseCustomPath);
 		Config->Write("DefaultFiles/CustomFolder", CustomFolder);
@@ -1453,7 +1450,7 @@ void AGE_Frame::OnGameVersionChange()
 	Refresh(); // Does this refresh non-visible tabs?
 }
 
-void AGE_Frame::OnSave(wxCommandEvent &Event)
+void AGE_Frame::OnSave(wxCommandEvent &event)
 {
 	wxCommandEvent Selected;
 	AGE_SaveDialog SaveBox(this);
@@ -1497,11 +1494,11 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
 	SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
-	if((*argPath).size() > 3)
+	if((argPath).size() > 3)
 	{
 		SaveBox.ForceDat = true;
 		SaveBox.CheckBox_DatFileLocation->SetValue(true);
-		SaveBox.Path_DatFileLocation->SetPath(*argPath);
+		SaveBox.Path_DatFileLocation->SetPath(argPath);
 	}
 
 	SaveBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
@@ -1666,18 +1663,18 @@ void AGE_Frame::OnSave(wxCommandEvent &Event)
 	AGETextCtrl::unSaved[AGEwindow] = 0;
 }
 
-void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
+void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 {
-	switch(Event.GetId())
+	switch(event.GetId())
 	{
 		case MenuOption_Prompt:
 		{
-			PromptForFilesOnOpen = Event.IsChecked();
+			PromptForFilesOnOpen = event.IsChecked();
 		}
 		break;
 		case ToolBar_Show:
 		{
-			ShowUnknowns = Event.IsChecked();
+			ShowUnknowns = event.IsChecked();
 
 			Units_UnknownArea_Holder->Show(ShowUnknowns);
 			Units_CommandHolder_Grid3->Show(ShowUnknowns);
@@ -1695,7 +1692,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case MenuOption_Buttons:
 		{
-			ShowButtons = Event.IsChecked();
+			ShowButtons = event.IsChecked();
 
 			Terrains_Add->Enable(ShowButtons);
 			Terrains_Delete->Enable(ShowButtons);
@@ -1725,7 +1722,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		/*case MenuOption_IDFix:
 		{
-			EnableIDFix = Event.IsChecked();
+			EnableIDFix = event.IsChecked();
 			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
 		}
 		break;*/
@@ -1777,22 +1774,40 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &Event)
 		break;
 		case ToolBar_Hex:
 		{
-			AGETextCtrl::hexMode[AGEwindow] = Event.IsChecked();
+			AGETextCtrl::hexMode[AGEwindow] = event.IsChecked();
 			LoadLists();
 		}
 		break;
 		case ToolBar_Float:
 		{
-			AGETextCtrl::accurateFloats[AGEwindow] = Event.IsChecked();
+			AGETextCtrl::accurateFloats[AGEwindow] = event.IsChecked();
 			LoadLists();
 		}
 		break;
 		case ToolBar_Paste:
 		{
-			Paste11 = Event.IsChecked();
+			Paste11 = event.IsChecked();
 		}
 		break;
-		default: wxMessageBox(lexical_cast<string>(Event.GetId()), "wxEvent error!");
+		case ToolBar_AddWindow:
+        {
+            int nextFreeSlot = AGE_Frame::openEditors.size();
+            if(nextFreeSlot < 4)
+            {
+                for(int win = 0; win < nextFreeSlot; ++win)
+                if(AGE_Frame::openEditors[win] == false)
+                {
+                    nextFreeSlot = win;
+                    break;
+                }
+                AGE_Frame* newWindow = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+lexical_cast<string>(nextFreeSlot+1), nextFreeSlot);
+                FixSize(newWindow);
+                wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, newWindow->ToolBar_Open);
+                newWindow->GetEventHandler()->ProcessEvent(OpenFiles);
+            }
+        }
+		break;
+		default: wxMessageBox(lexical_cast<string>(event.GetId()), "wxEvent error!");
 	}
 }
 
@@ -1834,10 +1849,10 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 	return Result;
 }
 
-void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &Event)
+void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
 {
-	Event.Skip();
-	TextCtrl_DLL *control = (TextCtrl_DLL*)Event.GetEventObject();
+	event.Skip();
+	TextCtrl_DLL *control = (TextCtrl_DLL*)event.GetEventObject();
 	if(!control->IsModified() || !WriteLangs || control->index < 0) return;
 	int ID = control->index;
 	string Name = string(control->GetValue());
@@ -1957,9 +1972,9 @@ bool AGE_Frame::SearchMatches(wxString itemText)
 
 //	Following kill focuses are used to update lists in user interface
 
-void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
+void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 {
-	if(Event.GetId() == Units_FilterSelector->GetId())
+	if(event.GetId() == Units_FilterSelector->GetId())
 	{
 		for(short loop = 0; loop < 2; ++loop)
 		{
@@ -1983,42 +1998,42 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &Event)
 	}
 	for(short loop = 0; loop < 2; ++loop) // Custom search filters
 	{
-		if(Event.GetId() == Units_SearchFilters[loop]->GetId())
+		if(event.GetId() == Units_SearchFilters[loop]->GetId())
 		{
 			ListUnits(UnitCivID, false);
 			Units_Search->SetFocus();
 		}
-		else if(Event.GetId() == Graphics_SearchFilters[loop]->GetId())
+		else if(event.GetId() == Graphics_SearchFilters[loop]->GetId())
 		{
 			ListGraphics(false);
 			Graphics_Graphics_Search->SetFocus();
 		}
-		else if(Event.GetId() == Terrains_SearchFilters[loop]->GetId())
+		else if(event.GetId() == Terrains_SearchFilters[loop]->GetId())
 		{
 			ListTerrains1(false);
 			Terrains_Terrains_Search->SetFocus();
 		}
-		else if(Event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
+		else if(event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
 		{
 			ListTTUnits();
 			TechTrees_MainList_Units_Search->SetFocus();
 		}
-		else if(Event.GetId() == TechTrees_MainList_Buildings_SearchFilters[loop]->GetId())
+		else if(event.GetId() == TechTrees_MainList_Buildings_SearchFilters[loop]->GetId())
 		{
 			ListTTBuildings();
 			TechTrees_MainList_Buildings_Search->SetFocus();
 		}
-		else if(Event.GetId() == TechTrees_MainList_Researches_SearchFilters[loop]->GetId())
+		else if(event.GetId() == TechTrees_MainList_Researches_SearchFilters[loop]->GetId())
 		{
 			ListTTResearches();
 			TechTrees_MainList_Researches_Search->SetFocus();
 		}
-		else if(Event.GetId() == Research_SearchFilters[loop]->GetId())
+		else if(event.GetId() == Research_SearchFilters[loop]->GetId())
 		{
 			ListResearches(false);
 			Research_Research_Search->SetFocus();
 		}
-		else if(Event.GetId() == Sounds_Items_SearchFilters[loop]->GetId())
+		else if(event.GetId() == Sounds_Items_SearchFilters[loop]->GetId())
 		{
 			ListSoundItems();
 			Sounds_Items_Search->SetFocus();
@@ -2287,7 +2302,7 @@ wxString AGE_Frame::CurrentTime()
 	return buffer.str();
 }
 
-void AGE_Frame::OnExit(wxCloseEvent &Event)
+void AGE_Frame::OnExit(wxCloseEvent &event)
 {
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
@@ -2301,13 +2316,13 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 	Config->Write("Interface/MaxWindowWidth", MaxWindowWidth);
 	delete Config;
 
-	if(Event.CanVeto() && AGETextCtrl::unSaved[AGEwindow] > 0)
+	if(event.CanVeto() && AGETextCtrl::unSaved[AGEwindow] > 0)
 	{
 		if(wxMessageBox("There are "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" unsaved changes.\nClose anyway?",
 		"Discard unsaved changes",
 		wxICON_QUESTION | wxYES_NO) != wxYES )
 		{
-			Event.Veto();
+			event.Veto();
 			return;
 		}
 		if(AutoBackups) SaveBackup();
@@ -2323,5 +2338,6 @@ void AGE_Frame::OnExit(wxCloseEvent &Event)
 		delete LangXP;
 	}
 
+    AGE_Frame::openEditors[AGEwindow] = false;
 	Destroy();
 }

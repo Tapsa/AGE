@@ -7,27 +7,25 @@ public:
 
 	/* Events */
 
-	void OnDefaultAoE(wxCommandEvent &Event);
-	void OnDefaultRoR(wxCommandEvent &Event);
-	void OnDefaultAoK(wxCommandEvent &Event);
-	void OnDefaultTC(wxCommandEvent &Event);
-	void OnDefaultAoKHD(wxCommandEvent &Event);
-	void OnDefaultFE(wxCommandEvent &Event);
-	void OnDefaultAoP(wxCommandEvent &Event);
-	void OnDefaultSWGB(wxCommandEvent &Event);
-	void OnDefaultCC(wxCommandEvent &Event);
-	void OnChangeDatRadio(wxCommandEvent &Event);
-	void OnSelectLang(wxCommandEvent &Event);
-	void OnSelectLangX1(wxCommandEvent &Event);
-	void OnSelectLangX1P1(wxCommandEvent &Event);
-	void OnOK(wxCommandEvent &Event);
-	void OnDecompress(wxCommandEvent &Event);
+	void OnDefaultAoE(wxCommandEvent &event);
+	void OnDefaultRoR(wxCommandEvent &event);
+	void OnDefaultAoK(wxCommandEvent &event);
+	void OnDefaultTC(wxCommandEvent &event);
+	void OnDefaultAoKHD(wxCommandEvent &event);
+	void OnDefaultFE(wxCommandEvent &event);
+	void OnDefaultAoP(wxCommandEvent &event);
+	void OnDefaultSWGB(wxCommandEvent &event);
+	void OnDefaultCC(wxCommandEvent &event);
+	void OnChangeDatRadio(wxCommandEvent &event);
+	void OnSelectLang(wxCommandEvent &event);
+	void OnSelectLangX1(wxCommandEvent &event);
+	void OnSelectLangX1P1(wxCommandEvent &event);
+	void OnOK(wxCommandEvent &event);
+	void OnDecompress(wxCommandEvent &event);
 
 	/* Member Variables */
 
 	wxStaticText *DriveText;
-	wxStaticText *WindowCountText;
-	wxTextCtrl *WindowCountBox;
 	wxStaticText *LanguageText;
 	wxBoxSizer *DriveLetterArea;
 	wxCheckBox *Radio_DatFileLocation;

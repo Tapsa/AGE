@@ -4,6 +4,30 @@ const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwh
 const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
 const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 
+wxString AGEListView::OnGetItemText(long item, long column) const
+{
+    //if(item >= names.size() || item < 0) return wxString("Fetch error");
+    return names[item];
+}
+
+AGETextCtrl* AGETextCtrl::init(const ContainerType type, forward_list<AGETextCtrl*> &group,
+    wxFrame *frame, const short window, wxWindow *parent, short length)
+{
+    AGETextCtrl* product;
+    switch(type)
+    {
+    case CByte: product = new TextCtrl_Byte(frame, window, parent, length); break;
+    case CUByte: product = new TextCtrl_UByte(frame, window, parent); break;
+    case CFloat: product = new TextCtrl_Float(frame, window, parent, length); break;
+    case CLong: product = new TextCtrl_Long(frame, window, parent, length); break;
+    case CShort: product = new TextCtrl_Short(frame, window, parent, length); break;
+    case CUShort: product = new TextCtrl_UShort(frame, window, parent); break;
+    case CString: product = new TextCtrl_String(frame, window, parent, length); break;
+    }
+    group.push_front(product);
+    return product;
+}
+
 int TextCtrl_Byte::SaveEdits(bool forced)
 {
     if(AGETextCtrl::hexMode[window] || container.empty()) return 1;

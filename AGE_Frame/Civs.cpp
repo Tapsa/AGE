@@ -1,6 +1,6 @@
 #include "../AGE_Frame.h"
 
-void AGE_Frame::OnCivsSearch(wxCommandEvent &Event)
+void AGE_Frame::OnCivsSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListCivs(false);
@@ -53,12 +53,12 @@ void AGE_Frame::InitCivs(bool all)
 	}
 }
 
-void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
+void AGE_Frame::OnCivsSelect(wxCommandEvent &event)
 {
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(Event.GetSelection(), Items);
+	SwapSelection(event.GetSelection(), Items);
 	CivIDs.resize(selections);
 	Civs_One->resize(selections);
 	Civs_Name[0]->resize(selections);
@@ -124,7 +124,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &Event)
 	ListResources();
 }
 
-void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
+void AGE_Frame::OnCivsAdd(wxCommandEvent &event)
 {
 	if(GenieFile == NULL) return;
 
@@ -144,7 +144,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &Event)
 	ListUnits(UnitCivID, false);
 }
 
-void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
+void AGE_Frame::OnCivsInsert(wxCommandEvent &event)
 {
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -165,7 +165,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &Event)
 	ListUnits(UnitCivID, false);
 }
 
-void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
+void AGE_Frame::OnCivsDelete(wxCommandEvent &event)
 {
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -176,17 +176,17 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &Event)
 	ListUnits(0, false);
 }
 
-void AGE_Frame::OnCivsCopy(wxCommandEvent &Event)
+void AGE_Frame::OnCivsCopy(wxCommandEvent &event)
 {
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Civs, CivIDs, copies->Civ);
+	CopyFromList(GenieFile->Civs, CivIDs, copies.Civ);
 	Civs_Civs_List->SetFocus();
 }
 
-void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
+void AGE_Frame::OnCivsPaste(wxCommandEvent &event)
 {
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -194,26 +194,26 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(CivIDs.size(), copies->Civ.size()))
+		if(Paste11Check(CivIDs.size(), copies.Civ.size()))
 		{
-			PasteToList(GenieFile->Civs, CivIDs, copies->Civ);
+			PasteToList(GenieFile->Civs, CivIDs, copies.Civ);
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Civs, CivIDs[0], copies->Civ);
+		PasteToList(GenieFile->Civs, CivIDs[0], copies.Civ);
 	}
 	OnCivCountChange();
 	ListUnits(UnitCivID, false);
 }
 
-void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Civs, CivIDs[0], copies->Civ);
+	PasteInsertToList(GenieFile->Civs, CivIDs[0], copies.Civ);
 	OnCivCountChange();
 	ListUnits(UnitCivID, false);
 }
@@ -223,7 +223,7 @@ void AGE_Frame::OnCivCountChange()
 	short CivCount = GenieFile->Civs.size();
 //	Unit copying fixes.
 //	This messes copying if more than one window is opened!
-//	copies->Dat.Civs.resize(CivCount);
+//	copies.Dat.Civs.resize(CivCount);
 
 	if(Units_CivBoxes.size() < CivCount)
 	{
@@ -670,7 +670,7 @@ string AGE_Frame::GetResourceName(short Index)
 	return Name;
 }
 
-void AGE_Frame::OnResourcesSearch(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListResources(false);
@@ -704,12 +704,12 @@ void AGE_Frame::ListResources(bool all)
 	OnResourcesSelect(E);
 }
 
-void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesSelect(wxCommandEvent &event)
 {
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(Event.GetSelection(), Items);
+	SwapSelection(event.GetSelection(), Items);
 	ResourceIDs.resize(selections);
 	Civs_ResourceValue->resize(selections);
 
@@ -724,7 +724,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &Event)
 	Civs_ResourceValue->Update();
 }
 
-void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
 {
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -736,7 +736,7 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &Event)
 	ListResources();
 }
 
-void AGE_Frame::OnResourcesInsert(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
 {
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -748,7 +748,7 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &Event)
 	ListResources();
 }
 
-void AGE_Frame::OnResourcesDelete(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesDelete(wxCommandEvent &event)
 {
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -763,17 +763,17 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &Event)
 	ListResources();
 }
 
-void AGE_Frame::OnResourcesCopy(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesCopy(wxCommandEvent &event)
 {
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs, copies->Resource);
+	CopyFromList(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs, copies.Resource);
 	Civs_Resources_List->SetFocus();
 }
 
-void AGE_Frame::OnResourcesPaste(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesPaste(wxCommandEvent &event)
 {
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -781,29 +781,29 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(ResourceIDs.size(), copies->Resource.size()))
+		if(Paste11Check(ResourceIDs.size(), copies.Resource.size()))
 		{
-			PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs, copies->Resource);
+			PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs, copies.Resource);
 		}
 	}
 	else
 	{
-		PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies->Resource);
+		PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies.Resource);
 	}
 	ListResources();
 }
 
-void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies->Resource);
+	PasteInsertToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies.Resource);
 	ListResources();
 }
 
-void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &Event)
+void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &event)
 {
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -999,12 +999,12 @@ void AGE_Frame::CreateCivControls()
 	Civs_ResourceValue->Connect(Civs_ResourceValue->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);
 }
 
-void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
+void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &event)
 {
-	Event.Skip();
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
-	if(Event.GetId() == Civs_Name[0]->GetId()
-	|| Event.GetId() == Civs_Name[1]->GetId())
+	event.Skip();
+	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+	if(event.GetId() == Civs_Name[0]->GetId()
+	|| event.GetId() == Civs_Name[1]->GetId())
 	{
 		for(auto ID: CivIDs)
 		{
@@ -1015,11 +1015,11 @@ void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &Event)
 		}
 		ListCivs();
 	}
-	else if(Event.GetId() == Civs_GraphicSet->GetId())
+	else if(event.GetId() == Civs_GraphicSet->GetId())
 	{
 		ListCivs();
 	}
-	else if(Event.GetId() == Civs_ResourceValue->GetId())
+	else if(event.GetId() == Civs_ResourceValue->GetId())
 	{
 		ListResources();
 	}
