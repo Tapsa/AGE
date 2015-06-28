@@ -6,22 +6,30 @@
 #include "../Ox.xpm"
 #include "../float.xpm"
 #include "../Paste.xpm"
+#include "../AppIcon24.xpm"
 //#include "genie/util/Logger.h"
 
-AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short window)
+AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
 {
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
-	copies = &c;
-	argPath = &aP;
+	argPath = aP;
 	AGEwindow = window;
 
-	AGETextCtrl::hexMode.push_back(false);
-	AGETextCtrl::accurateFloats.push_back(false);
-	AGETextCtrl::unSaved.push_back(0);
-	AGETextCtrl::fileLoaded.push_back(0);
+    if(window < AGE_Frame::openEditors.size())
+    {
+        AGE_Frame::openEditors[window] = true;
+    }
+    else
+    {
+        AGE_Frame::openEditors.push_back(true);
+        AGETextCtrl::hexMode.push_back(false);
+        AGETextCtrl::accurateFloats.push_back(false);
+        AGETextCtrl::unSaved.push_back(0);
+        AGETextCtrl::fileLoaded.push_back(0);
+    }
 
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Config->Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
@@ -37,7 +45,6 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("Interface/Paste11", &Paste11, true);
 	Config->Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
-	if(AGEwindow == 0) Config->Read("DefaultFiles/SimultaneousFiles", &SimultaneousFiles, 1); // 2 to showcase this feature.
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, wxT("C"));
 	Config->Read("DefaultFiles/UseCustomPath", &UseCustomPath, false);
 	Config->Read("DefaultFiles/CustomFolder", &CustomFolder, wxT(""));
@@ -70,6 +77,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	int bars[5] = {295, 145, 145, 145, -1};
 	CreateStatusBar(5)->SetStatusWidths(5, bars);
 
+	GetToolBar()->AddTool(ToolBar_AddWindow, "+++", wxBitmap(AppIcon24_xpm), "Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
 	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Opens the open dialog");
 	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Opens the save dialog");
 	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
@@ -155,6 +163,7 @@ AGE_Frame::AGE_Frame(const wxString &title, wxString &aP, Copies &c, short windo
 	Connect(ToolBar_Hex, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(ToolBar_Float, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(ToolBar_Paste, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(ToolBar_AddWindow, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));

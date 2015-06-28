@@ -6,6 +6,23 @@
 #ifndef AGE_TextControls_h
 #define AGE_TextControls_h
 
+class AGEListView: public wxListCtrl
+{
+public:
+    AGEListView(wxWindow *parent, const wxSize &size):
+    wxListCtrl(parent, wxID_ANY, wxDefaultPosition, size, wxLC_VIRTUAL | wxLC_REPORT | wxLC_NO_HEADER)
+    {
+        SetItemCount(0);
+        InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, 200);
+    }
+
+    wxArrayString names;
+    vector<int> indexes;
+
+private:
+    virtual wxString OnGetItemText(long item, long column) const;
+};
+
 class AGELinkedBox
 {
 public:
@@ -18,12 +35,15 @@ public:
     AGETextCtrl(wxWindow *parent, int width):
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, 20), wxTE_PROCESS_ENTER){edits = 0;}
 
+    static AGETextCtrl* init(const ContainerType type, forward_list<AGETextCtrl*> &group,
+        wxFrame *frame, const short window, wxWindow *parent, short length = 0);
     virtual int SaveEdits(bool forced = false)=0;
     virtual void Update()=0;
     void changeContainerType(const ContainerType type);
     void clear(){container.clear();}
     void prepend(void* data){container.push_front(data);}
     void resize(int size){container.clear();} // Get rid of this.
+    void SetMaxSize(unsigned short size){MaxSize = size;}
 
     static const wxString BATCHWARNING, BWTITLE, IETITLE;
     // Make these window specific
@@ -60,9 +80,11 @@ protected:
         edits = 0;
     }
 
-    forward_list<void*> container; // Change to forward_list
     wxFrame* frame;
+    ContainerType type;
+    forward_list<void*> container; // Change to forward_list
     int curFileLoaded, window, edits;
+    unsigned short MaxSize;
 };
 
 class TextCtrl_DLL: public wxTextCtrl
@@ -185,8 +207,6 @@ public:
     }
     int SaveEdits(bool forced = false);
     void Update();
-    void SetMaxSize(unsigned short Size){MaxSize = Size;}
-    unsigned short MaxSize;
 };
 
 #endif
