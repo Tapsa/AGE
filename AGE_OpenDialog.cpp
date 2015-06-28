@@ -6,10 +6,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout = new wxFlexGridSizer(2, 2, 2);
 
 	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
-	WindowCountText = new wxStaticText(this, wxID_ANY, "      Windows (files) to open: * ");
 	DriveLetterArea = new wxBoxSizer(wxHORIZONTAL);
-	WindowCountBox = new wxTextCtrl(this, wxID_ANY, "2", wxDefaultPosition, wxSize(50, 20));
-	WindowCountBox->SetToolTip("Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
 	LanguageText = new wxStaticText(this, wxID_ANY, "      Language: * ");
 	TerrainsText = new wxStaticText(this, wxID_ANY, "      Terrains: ");
 	TerrainsBox = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(50, 20));
@@ -32,8 +29,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->Add(CheckBox_Recent, 1, wxEXPAND);
 	Layout->Add(DriveText, 1, wxEXPAND);
 	DriveLetterArea->Add(DriveLetterBox, 0);
-	DriveLetterArea->Add(WindowCountText, 0);
-	DriveLetterArea->Add(WindowCountBox, 0);
 	DriveLetterArea->Add(LanguageText, 0);
 	DriveLetterArea->Add(LanguageBox, 0);
 	DriveLetterArea->Add(TerrainsText, 0);
@@ -95,7 +90,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Connect(Button_RawDecompress->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDecompress));
 }
 
-void AGE_OpenDialog::OnDecompress(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDecompress(wxCommandEvent &event)
 {
 	genie::DatFile *raw;
 	wxString filename = Path_RawDecompress->GetPath();
@@ -108,13 +103,13 @@ void AGE_OpenDialog::OnDecompress(wxCommandEvent &Event)
 	}
 }
 
-void AGE_OpenDialog::OnOK(wxCommandEvent &Event)
+void AGE_OpenDialog::OnOK(wxCommandEvent &event)
 {
-	Path_DatFileLocation->Enable(Event.GetId() == Radio_DatFileLocation->GetId());
+	Path_DatFileLocation->Enable(event.GetId() == Radio_DatFileLocation->GetId());
 	EndModal(wxID_OK);
 }
 
-void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -153,7 +148,7 @@ void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -192,7 +187,7 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -231,7 +226,7 @@ void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -269,7 +264,7 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &event)
 {
 	CheckBox_LangWrite->Enable(false);
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
@@ -311,7 +306,7 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultFE(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultFE(wxCommandEvent &event)
 {
 	CheckBox_LangWrite->Enable(false);
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
@@ -353,7 +348,7 @@ void AGE_OpenDialog::OnDefaultFE(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 {
 	CheckBox_LangWrite->Enable(false);
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
@@ -395,7 +390,7 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -434,7 +429,7 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &Event)
+void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -473,22 +468,22 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &Event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent &Event)
+void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent &event)
 {
-	Path_DatFileLocation->Enable(Event.GetId() == Radio_DatFileLocation->GetId());
+	Path_DatFileLocation->Enable(event.GetId() == Radio_DatFileLocation->GetId());
 }
 
-void AGE_OpenDialog::OnSelectLang(wxCommandEvent &Event)
+void AGE_OpenDialog::OnSelectLang(wxCommandEvent &event)
 {
-	Path_LangFileLocation->Enable(Event.IsChecked());
+	Path_LangFileLocation->Enable(event.IsChecked());
 }
 
-void AGE_OpenDialog::OnSelectLangX1(wxCommandEvent &Event)
+void AGE_OpenDialog::OnSelectLangX1(wxCommandEvent &event)
 {
-	Path_LangX1FileLocation->Enable(Event.IsChecked());
+	Path_LangX1FileLocation->Enable(event.IsChecked());
 }
 
-void AGE_OpenDialog::OnSelectLangX1P1(wxCommandEvent &Event)
+void AGE_OpenDialog::OnSelectLangX1P1(wxCommandEvent &event)
 {
-	Path_LangX1P1FileLocation->Enable(Event.IsChecked());
+	Path_LangX1P1FileLocation->Enable(event.IsChecked());
 }
