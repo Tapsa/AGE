@@ -7,12 +7,7 @@
 
 class AGE: public wxApp
 {
-	virtual bool OnInit();
-	void FixSize(AGE_Frame*);
-
-	vector<AGE_Frame*> windows;
-	wxString argPath;
-	Copies copies;
+    virtual bool OnInit();
 };
 
 DECLARE_APP(AGE)

@@ -7,7 +7,7 @@ string AGE_Frame::GetTerrainBorderName(short Index)
 	return GenieFile->TerrainBlock.TerrainBorders[Index].Name+" - "+GenieFile->TerrainBlock.TerrainBorders[Index].Name2;
 }
 
-void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListTerrainBorders(false);
@@ -45,12 +45,12 @@ void AGE_Frame::InitTerrainBorders(bool all)
 	if(all) FillLists(TerrainBorderComboBoxList, names);
 }
 
-void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &event)
 {
 	auto selections = Borders_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(Event.GetSelection(), Items);
+	SwapSelection(event.GetSelection(), Items);
 	BorderIDs.resize(selections);
 	Borders_Enabled->resize(selections);
 	Borders_Random->resize(selections);
@@ -140,17 +140,17 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &Event)
 	ListTerrainBorderFrames();
 }
 
-void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
 {
 	auto selections = Borders_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->TerrainBlock.TerrainBorders, BorderIDs, copies->TerrainBorder);
+	CopyFromList(GenieFile->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
 	Borders_List->SetFocus();
 }
 
-void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &event)
 {
 	auto selections = Borders_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -158,14 +158,14 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(BorderIDs.size(), copies->TerrainBorder.size()))
+		if(Paste11Check(BorderIDs.size(), copies.TerrainBorder.size()))
 		{
-			PasteToList(GenieFile->TerrainBlock.TerrainBorders, BorderIDs, copies->TerrainBorder);
+			PasteToList(GenieFile->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
 		}
 	}
 	else
 	{
-		PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders, BorderIDs[0], copies->TerrainBorder);
+		PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders, BorderIDs[0], copies.TerrainBorder);
 	}
 	ListTerrainBorders();
 }
@@ -177,7 +177,7 @@ string AGE_Frame::GetTerrainBorderFrameName(short Index)
 	+" "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].ShapeID)+" ";
 }
 
-void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListTerrainBorderFrames();
@@ -208,12 +208,12 @@ void AGE_Frame::ListTerrainBorderFrames()
 	OnTerrainBorderFramesSelect(E);
 }
 
-void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &event)
 {
 	auto selections = Borders_Frames_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(Event.GetSelection(), Items);
+	SwapSelection(event.GetSelection(), Items);
 	FrameIDs.resize(selections);
 	Borders_FrameID->resize(selections);
 	Borders_Flag1->resize(selections);
@@ -235,17 +235,17 @@ void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &Event)
 	Borders_Flag2->Update();
 }
 
-void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &event)
 {
 	auto selections = Borders_Frames_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies->FrameData);
+	CopyFromList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies.FrameData);
 	Borders_Frames_List->SetFocus();
 }
 
-void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &event)
 {
 	auto selections = Borders_Frames_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -253,19 +253,19 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(FrameIDs.size(), copies->FrameData.size()))
+		if(Paste11Check(FrameIDs.size(), copies.FrameData.size()))
 		{
-			PasteToList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies->FrameData);
+			PasteToList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies.FrameData);
 		}
 	}
 	else
 	{
-		PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies->FrameData);
+		PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies.FrameData);
 	}
 	ListTerrainBorderFrames();
 }
 
-void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &Event)
+void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &event)
 {
 	for(short loop=1; loop < BorderIDs.size(); ++loop)
 	{
@@ -567,15 +567,15 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Flag2->Connect(Borders_Flag2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 }
 
-void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &Event)
+void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &event)
 {
-	Event.Skip();
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
-	if(Event.GetId() == Borders_Name[0]->GetId() || Event.GetId() == Borders_Name[1]->GetId())
+	event.Skip();
+	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+	if(event.GetId() == Borders_Name[0]->GetId() || event.GetId() == Borders_Name[1]->GetId())
 	{
 		ListTerrainBorders();
 	}
-	else if(Event.GetId() == Borders_FrameID->GetId() || Event.GetId() == Borders_Flag1->GetId() || Event.GetId() == Borders_Flag2->GetId())
+	else if(event.GetId() == Borders_FrameID->GetId() || event.GetId() == Borders_Flag1->GetId() || event.GetId() == Borders_Flag2->GetId())
 	{
 		ListTerrainBorderFrames();
 	}

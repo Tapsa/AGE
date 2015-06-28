@@ -1,6 +1,6 @@
 #include "../AGE_Frame.h"
 
-void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &Event)
+void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListPlayerColors();
@@ -50,12 +50,12 @@ void AGE_Frame::InitPlayerColors()
 	Graphics_PlayerColor_ComboBox->SetSelection(selection);
 }
 
-void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
+void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &event)
 {
 	auto selections = Colors_Colors_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(Event.GetSelection(), Items);
+	SwapSelection(event.GetSelection(), Items);
 	ColorIDs.resize(selections);
 	Colors_ID->resize(selections);
 	Colors_ColorL->resize(selections);
@@ -117,7 +117,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &Event)
 	}
 }
 
-void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &Event)
+void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
 {
 	if(GenieFile == NULL) return;
 
@@ -126,7 +126,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &Event)
 	ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
+void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &event)
 {
 	auto selections = Colors_Colors_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -136,7 +136,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &Event)
 	ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
+void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &event)
 {
 	auto selections = Colors_Colors_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -146,17 +146,17 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &Event)
 	ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &Event)
+void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &event)
 {
 	auto selections = Colors_Colors_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->PlayerColours, ColorIDs, copies->PlayerColor);
+	CopyFromList(GenieFile->PlayerColours, ColorIDs, copies.PlayerColor);
 	Colors_Colors_List->SetFocus();
 }
 
-void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
+void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
 {
 	auto selections = Colors_Colors_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -164,25 +164,25 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(ColorIDs.size(), copies->PlayerColor.size()))
+		if(Paste11Check(ColorIDs.size(), copies.PlayerColor.size()))
 		{
-			PasteToListIDFix(GenieFile->PlayerColours, ColorIDs, copies->PlayerColor);
+			PasteToListIDFix(GenieFile->PlayerColours, ColorIDs, copies.PlayerColor);
 		}
 	}
 	else
 	{
-		PasteToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
+		PasteToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies.PlayerColor);
 	}
 	ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Colors_Colors_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies->PlayerColor);
+	PasteInsertToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies.PlayerColor);
 	ListPlayerColors();
 }
 
@@ -325,9 +325,9 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Name->Connect(Colors_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Colors), NULL, this);
 }
 
-void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &Event)
+void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &event)
 {
-	Event.Skip();
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
+	event.Skip();
+	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	ListPlayerColors();
 }

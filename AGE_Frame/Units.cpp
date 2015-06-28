@@ -2,7 +2,7 @@
 
 //const wxString AGE_Frame::CIVCOUNTWARNING = "Fewer civilizations copied than needed to paste!\nPasting data to extra civilizations from civilization 1!";
 
-void AGE_Frame::OnUnitSubList(wxCommandEvent &Event)
+void AGE_Frame::OnUnitSubList(wxCommandEvent &event)
 {
 	short Selection = Units_Civs_List->GetSelection();
 	if(Selection == wxNOT_FOUND) return;
@@ -274,7 +274,7 @@ InternalName:
 	return Name + "New Unit";
 }
 
-void AGE_Frame::OnUnitsSearch(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsSearch(wxCommandEvent &event)
 {
 	short Selection = Units_Civs_List->GetSelection();
 	if(Selection == wxNOT_FOUND) return;
@@ -355,13 +355,13 @@ void AGE_Frame::InitUnits(short civ, bool all)
 }
 
 //	This links data into user interface
-void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsSelect(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;	// If a unit is selected.
 
 	wxBusyCursor WaitCursor;
-	SwapSelection(Event.GetSelection(), Items);
+	SwapSelection(event.GetSelection(), Items);
 	UnitCivID = Units_Civs_List->GetSelection();
 
 	// Auto-copy stuff
@@ -1760,7 +1760,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &Event)
 	//	Refresh(); // Too much lag.
 }
 
-void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)
 {
 	if(GenieFile == NULL) return;
 
@@ -1792,7 +1792,7 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent &Event)
 	if(GenieVersion <= genie::GV_TC && GenieFile->Civs[0].Units.size() > 900) SetStatusText("Units over 900 mess up the AI!!!", 0);
 }
 
-void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsInsert(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -1824,7 +1824,7 @@ void AGE_Frame::OnUnitsInsert(wxCommandEvent &Event)
 	ListUnits(UnitCivID);
 }
 
-void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsDelete(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -1856,7 +1856,7 @@ void AGE_Frame::OnUnitsDelete(wxCommandEvent &Event)
 	ListUnits(UnitCivID);
 }
 
-void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsCopy(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -1864,80 +1864,80 @@ void AGE_Frame::OnUnitsCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(GenieVersion < genie::GV_AoK)
 	{
-		copies->Dat.AllCivs |= 0x08;
+		copies.Dat.AllCivs |= 0x08;
 	}
 	else
 	{
-		copies->Dat.AllCivs &= ~0x08;
-		copies->UnitHeader.resize(selections);
+		copies.Dat.AllCivs &= ~0x08;
+		copies.UnitHeader.resize(selections);
 		for(short loop = 0; loop < selections; ++loop)
-		copies->UnitHeader[loop] = GenieFile->UnitHeaders[UnitIDs[loop]];
+		copies.UnitHeader[loop] = GenieFile->UnitHeaders[UnitIDs[loop]];
 	}
 
 	short CivCount = GenieFile->Civs.size();
-	copies->Dat.UnitExists.resize(CivCount);
-	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x01; else copies->Dat.AllCivs &= ~0x01;
-	if(copies->Dat.AllCivs & 0x01)
+	copies.Dat.UnitExists.resize(CivCount);
+	if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x01; else copies.Dat.AllCivs &= ~0x01;
+	if(copies.Dat.AllCivs & 0x01)
 	{
-		copies->Dat.UnitCopies.resize(CivCount);
+		copies.Dat.UnitCopies.resize(CivCount);
 		for(short civ = 0; civ < CivCount; ++civ)
 		{
-			copies->Dat.UnitExists[civ].resize(selections);
-			copies->Dat.UnitCopies[civ].resize(selections);
+			copies.Dat.UnitExists[civ].resize(selections);
+			copies.Dat.UnitCopies[civ].resize(selections);
 			for(short loop = 0; loop < selections; ++loop)
 			{
-				copies->Dat.UnitExists[civ][loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
-				copies->Dat.UnitCopies[civ][loop] = GenieFile->Civs[civ].Units[UnitIDs[loop]];
+				copies.Dat.UnitExists[civ][loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
+				copies.Dat.UnitCopies[civ][loop] = GenieFile->Civs[civ].Units[UnitIDs[loop]];
 			}
 		}
 	}
 	else
 	{
-		copies->Dat.UnitGraphics.resize(CivCount);
+		copies.Dat.UnitGraphics.resize(CivCount);
 		for(short civ = 0; civ < CivCount; ++civ)
 		{
-			copies->Dat.UnitExists[civ].resize(selections);
+			copies.Dat.UnitExists[civ].resize(selections);
 			if(AutoCopy && !CopyGraphics)
-			copies->Dat.UnitGraphics[civ].resize(selections);
+			copies.Dat.UnitGraphics[civ].resize(selections);
 			for(short loop = 0; loop < selections; ++loop)
 			{
-				copies->Dat.UnitExists[civ][loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
+				copies.Dat.UnitExists[civ][loop] = (bool)GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]];
 				if(AutoCopy && !CopyGraphics)
 				{// Let's copy graphics separately.
 					// Collects only graphic data, not all data again.
-					UnitsGraphicsCopy(copies->Dat.UnitGraphics[civ][loop], civ, UnitIDs[loop]);
+					UnitsGraphicsCopy(copies.Dat.UnitGraphics[civ][loop], civ, UnitIDs[loop]);
 				}
 			}
 		}
-		copies->Dat.UnitCopies[0].resize(selections);
+		copies.Dat.UnitCopies[0].resize(selections);
 		for(short loop = 0; loop < selections; ++loop)
-		copies->Dat.UnitCopies[0][loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
+		copies.Dat.UnitCopies[0][loop] = GenieFile->Civs[UnitCivID].Units[UnitIDs[loop]];
 	}
 	Units_List->SetFocus();
 }
 
-void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
+void AGE_Frame::OnAutoCopy(wxCommandEvent &event)
 {
-	if(Event.GetId() == Units_AutoCopy->GetId())
+	if(event.GetId() == Units_AutoCopy->GetId())
 	{
-		AutoCopy = Event.IsChecked();
+		AutoCopy = event.IsChecked();
 		Units_CopyTo->Enable(!AutoCopy);
 	}
-	else if(Event.GetId() == Units_CopyGraphics->GetId())
+	else if(event.GetId() == Units_CopyGraphics->GetId())
 	{
-		CopyGraphics = Event.IsChecked();
+		CopyGraphics = event.IsChecked();
 	}
-	else if(Event.GetId() == Units_SelectAll->GetId())
+	else if(event.GetId() == Units_SelectAll->GetId())
 	{
 		for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 		Units_CivBoxes[loop]->SetValue(true);
 	}
-	else if(Event.GetId() == Units_SelectClear->GetId())
+	else if(event.GetId() == Units_SelectClear->GetId())
 	{
 		for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
 		Units_CivBoxes[loop]->SetValue(false);
 	}
-	else if(Event.GetId() == Units_GraphicSet->GetId())
+	else if(event.GetId() == Units_GraphicSet->GetId())
 	{
 		short Selection = Units_GraphicSet->GetSelection();
 		for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
@@ -1958,7 +1958,7 @@ void AGE_Frame::OnAutoCopy(wxCommandEvent &Event)
 	OnUnitsSelect(E);
 }
 
-void AGE_Frame::UnitsAutoCopy(wxCommandEvent &Event)
+void AGE_Frame::UnitsAutoCopy(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2008,57 +2008,57 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
 	}
 }
 
-void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x02; else copies->Dat.AllCivs &= ~0x02;
-	if(copies->Dat.AllCivs & 0x02)
+	if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x02; else copies.Dat.AllCivs &= ~0x02;
+	if(copies.Dat.AllCivs & 0x02)
 	{
 		short CivCount = GenieFile->Civs.size();
-		copies->Dat.UnitGraphics.resize(CivCount);
+		copies.Dat.UnitGraphics.resize(CivCount);
 		for(short civ = 0; civ < CivCount; ++civ)
 		{
-			copies->Dat.UnitGraphics[civ].resize(selections);
+			copies.Dat.UnitGraphics[civ].resize(selections);
 			for(short loop = 0; loop < selections; ++loop)
-			UnitsGraphicsCopy(copies->Dat.UnitGraphics[civ][loop], civ, UnitIDs[loop]);
+			UnitsGraphicsCopy(copies.Dat.UnitGraphics[civ][loop], civ, UnitIDs[loop]);
 		}
 	}
 	else
 	{
-		copies->Dat.UnitGraphics[0].resize(selections);
+		copies.Dat.UnitGraphics[0].resize(selections);
 		for(short loop = 0; loop < selections; ++loop)
-		UnitsGraphicsCopy(copies->Dat.UnitGraphics[0][loop], UnitCivID, UnitIDs[loop]);
+		UnitsGraphicsCopy(copies.Dat.UnitGraphics[0][loop], UnitCivID, UnitIDs[loop]);
 	}
 	Units_List->SetFocus();
 }
 
-void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsPaste(wxCommandEvent &event)
 {
-	if(Units_List->GetSelections(Items) < 1 || copies->Dat.UnitExists.size() == 0) return;
+	if(Units_List->GetSelections(Items) < 1 || copies.Dat.UnitExists.size() == 0) return;
 
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(UnitIDs.size(), copies->Dat.UnitExists[0].size()))
+		if(Paste11Check(UnitIDs.size(), copies.Dat.UnitExists[0].size()))
 		{
 			if(GenieVersion >= genie::GV_AoK)
 			{
-				for(short loop = 0; loop < copies->UnitHeader.size(); ++loop)
+				for(short loop = 0; loop < copies.UnitHeader.size(); ++loop)
 				{
-					copies->UnitHeader[loop].setGameVersion(GenieVersion);
-					GenieFile->UnitHeaders[UnitIDs[loop]] = copies->UnitHeader[loop];
+					copies.UnitHeader[loop].setGameVersion(GenieVersion);
+					GenieFile->UnitHeaders[UnitIDs[loop]] = copies.UnitHeader[loop];
 				}
 			}
 
 			PasteUnits();
 			for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 			{
-				for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop)
+				for(short loop = 0; loop < copies.Dat.UnitCopies[0].size(); ++loop)
 				{
-					GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]] = (int32_t)copies->Dat.UnitExists[civ][loop];
+					GenieFile->Civs[civ].UnitPointers[UnitIDs[loop]] = (int32_t)copies.Dat.UnitExists[civ][loop];
 					if(EnableIDFix) // ID Fix
 					{
 						GenieFile->Civs[civ].Units[UnitIDs[loop]].ID1 = (int16_t)(UnitIDs[loop]);
@@ -2074,27 +2074,27 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 	{
 		if(GenieVersion >= genie::GV_AoK)
 		{
-			if(copies->UnitHeader.size()+UnitIDs[0] > GenieFile->UnitHeaders.size())
-			GenieFile->UnitHeaders.resize(copies->UnitHeader.size()+UnitIDs[0]);
-			for(short loop = 0; loop < copies->UnitHeader.size(); ++loop)
+			if(copies.UnitHeader.size()+UnitIDs[0] > GenieFile->UnitHeaders.size())
+			GenieFile->UnitHeaders.resize(copies.UnitHeader.size()+UnitIDs[0]);
+			for(short loop = 0; loop < copies.UnitHeader.size(); ++loop)
 			{
-				copies->UnitHeader[loop].setGameVersion(GenieVersion);
-				GenieFile->UnitHeaders[UnitIDs[0]+loop] = copies->UnitHeader[loop];
+				copies.UnitHeader[loop].setGameVersion(GenieVersion);
+				GenieFile->UnitHeaders[UnitIDs[0]+loop] = copies.UnitHeader[loop];
 			}
 		}
 
-		if(copies->Dat.UnitCopies[0].size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
+		if(copies.Dat.UnitCopies[0].size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
 		for(short civ = 0; civ < GenieFile->Civs.size(); ++civ) // Resize if not enough room.
 		{
-			GenieFile->Civs[civ].Units.resize(copies->Dat.UnitCopies[0].size()+UnitIDs[0]);
-			GenieFile->Civs[civ].UnitPointers.resize(copies->Dat.UnitCopies[0].size()+UnitIDs[0]);
+			GenieFile->Civs[civ].Units.resize(copies.Dat.UnitCopies[0].size()+UnitIDs[0]);
+			GenieFile->Civs[civ].UnitPointers.resize(copies.Dat.UnitCopies[0].size()+UnitIDs[0]);
 		}
 		PasteUnits();
 		for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
-			for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop)
+			for(short loop = 0; loop < copies.Dat.UnitCopies[0].size(); ++loop)
 			{
-				GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)copies->Dat.UnitExists[civ][loop];
+				GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)copies.Dat.UnitExists[civ][loop];
 				if(EnableIDFix) // ID Fix
 				{
 					GenieFile->Civs[civ].Units[UnitIDs[0]+loop].ID1 = (int16_t)(UnitIDs[0]+loop);
@@ -2113,34 +2113,34 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &Event)
 	AGETextCtrl::unSaved[AGEwindow] += Items.size();
 }
 
-void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &event)
 {
-	if(Units_List->GetSelections(Items) < 1 || copies->Dat.UnitExists.size() < 1) return;
+	if(Units_List->GetSelections(Items) < 1 || copies.Dat.UnitExists.size() < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
 	{
 		genie::UnitHeader Temp1;
-		GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], copies->UnitHeader.size(), Temp1);
-		for(short loop = 0; loop < copies->UnitHeader.size(); ++loop)
+		GenieFile->UnitHeaders.insert(GenieFile->UnitHeaders.begin() + UnitIDs[0], copies.UnitHeader.size(), Temp1);
+		for(short loop = 0; loop < copies.UnitHeader.size(); ++loop)
 		{
-			copies->UnitHeader[loop].setGameVersion(GenieVersion);
-			GenieFile->UnitHeaders[UnitIDs[0]+loop] = copies->UnitHeader[loop];
+			copies.UnitHeader[loop].setGameVersion(GenieVersion);
+			GenieFile->UnitHeaders[UnitIDs[0]+loop] = copies.UnitHeader[loop];
 		}
 	}
 
 	genie::Unit Temp2;
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
-		GenieFile->Civs[civ].Units.insert(GenieFile->Civs[civ].Units.begin() + UnitIDs[0], copies->Dat.UnitCopies[0].size(), Temp2);
-		GenieFile->Civs[civ].UnitPointers.insert(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[0], copies->Dat.UnitCopies[0].size(), 0);
+		GenieFile->Civs[civ].Units.insert(GenieFile->Civs[civ].Units.begin() + UnitIDs[0], copies.Dat.UnitCopies[0].size(), Temp2);
+		GenieFile->Civs[civ].UnitPointers.insert(GenieFile->Civs[civ].UnitPointers.begin() + UnitIDs[0], copies.Dat.UnitCopies[0].size(), 0);
 	}
 	PasteUnits();
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	{
-		for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop)
+		for(short loop = 0; loop < copies.Dat.UnitCopies[0].size(); ++loop)
 		{
-			GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)copies->Dat.UnitExists[civ][loop];
+			GenieFile->Civs[civ].UnitPointers[UnitIDs[0]+loop] = (int32_t)copies.Dat.UnitExists[civ][loop];
 		}
 		if(EnableIDFix) // ID Fix
 		for(short loop = UnitIDs[0];loop < GenieFile->Civs[0].Units.size(); ++loop)
@@ -2165,17 +2165,17 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
 	// The civ amount of copy data must be set on copying!
 	// Otherwise having more than one window open with different civ count creates problems!
 	short CivCount = GenieFile->Civs.size();
-	short FillingCiv = (copies->Dat.UnitExists.size() > 1) ? 1 : 0;
-	copies->Dat.UnitExists.resize(CivCount, copies->Dat.UnitExists[FillingCiv]);
-	if(copies->Dat.AllCivs & 0x01) // Paste from all civs to all civs.
+	short FillingCiv = (copies.Dat.UnitExists.size() > 1) ? 1 : 0;
+	copies.Dat.UnitExists.resize(CivCount, copies.Dat.UnitExists[FillingCiv]);
+	if(copies.Dat.AllCivs & 0x01) // Paste from all civs to all civs.
 	{
-		copies->Dat.UnitCopies.resize(CivCount, copies->Dat.UnitCopies[FillingCiv]);
+		copies.Dat.UnitCopies.resize(CivCount, copies.Dat.UnitCopies[FillingCiv]);
 		for(short civ = 0; civ < CivCount; ++civ)
 		{
-			for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop) // selections
+			for(short loop = 0; loop < copies.Dat.UnitCopies[0].size(); ++loop) // selections
 			{
-				copies->Dat.UnitCopies[civ][loop].setGameVersion(GenieVersion);
-				GenieFile->Civs[civ].Units[CorrectID(OneOnOne, loop)] = copies->Dat.UnitCopies[civ][loop];
+				copies.Dat.UnitCopies[civ][loop].setGameVersion(GenieVersion);
+				GenieFile->Civs[civ].Units[CorrectID(OneOnOne, loop)] = copies.Dat.UnitCopies[civ][loop];
 			}
 		}
 	}
@@ -2183,18 +2183,18 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
 	{
 		if(AutoCopy) // Paste from one civ to selected civs.
 		{
-			copies->Dat.UnitGraphics.resize(CivCount, copies->Dat.UnitGraphics[FillingCiv]);
+			copies.Dat.UnitGraphics.resize(CivCount, copies.Dat.UnitGraphics[FillingCiv]);
 			for(short civ = 0; civ < CivCount; ++civ)
 			{
 				if(Units_CivBoxes[civ]->IsChecked())
 				{
-					for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop)
+					for(short loop = 0; loop < copies.Dat.UnitCopies[0].size(); ++loop)
 					{
-						copies->Dat.UnitCopies[0][loop].setGameVersion(GenieVersion);
-						GenieFile->Civs[civ].Units[CorrectID(OneOnOne, loop)] = copies->Dat.UnitCopies[0][loop];
+						copies.Dat.UnitCopies[0][loop].setGameVersion(GenieVersion);
+						GenieFile->Civs[civ].Units[CorrectID(OneOnOne, loop)] = copies.Dat.UnitCopies[0][loop];
 						if(!CopyGraphics)
 						{// Let's paste graphics separately.
-							UnitsGraphicsPaste(copies->Dat.UnitGraphics[civ][loop], civ, CorrectID(OneOnOne, loop));
+							UnitsGraphicsPaste(copies.Dat.UnitGraphics[civ][loop], civ, CorrectID(OneOnOne, loop));
 						}
 					}
 				}
@@ -2202,28 +2202,28 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
 		}
 		else // Paste from one civ to another civ.
 		{
-			for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop)
+			for(short loop = 0; loop < copies.Dat.UnitCopies[0].size(); ++loop)
 			{
-				copies->Dat.UnitCopies[0][loop].setGameVersion(GenieVersion);
-				GenieFile->Civs[UnitCivID].Units[CorrectID(OneOnOne, loop)] = copies->Dat.UnitCopies[0][loop];
+				copies.Dat.UnitCopies[0][loop].setGameVersion(GenieVersion);
+				GenieFile->Civs[UnitCivID].Units[CorrectID(OneOnOne, loop)] = copies.Dat.UnitCopies[0][loop];
 			}
 		}
 	}
-	if(copies->Dat.AllCivs & 0x08) // Paste from AoE to AoK+
+	if(copies.Dat.AllCivs & 0x08) // Paste from AoE to AoK+
 	{
 		// Paste commands properly
 		if(GenieVersion >= genie::GV_AoK)
 		{
-			if(copies->Dat.AllCivs & 0x01)
+			if(copies.Dat.AllCivs & 0x01)
 			{
-				for(short loop = 0; loop < copies->Dat.UnitCopies[0].size(); ++loop)
+				for(short loop = 0; loop < copies.Dat.UnitCopies[0].size(); ++loop)
 				{
-					for(short civ = 0; civ < copies->Dat.UnitCopies.size(); ++civ)
+					for(short civ = 0; civ < copies.Dat.UnitCopies.size(); ++civ)
 					{
-						if(copies->Dat.UnitExists[civ][loop] != 0)
+						if(copies.Dat.UnitExists[civ][loop] != 0)
 						{
 							GenieFile->UnitHeaders[CorrectID(OneOnOne, loop)].Exists = 1;
-							GenieFile->UnitHeaders[CorrectID(OneOnOne, loop)].Commands = copies->Dat.UnitCopies[civ][loop].Bird.Commands;
+							GenieFile->UnitHeaders[CorrectID(OneOnOne, loop)].Commands = copies.Dat.UnitCopies[civ][loop].Bird.Commands;
 							break;
 						}
 					}
@@ -2235,12 +2235,12 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
 	}
 	else if(GenieVersion < genie::GV_AoK) // Paste from AoK+ to AoE
 	{
-		for(short loop = 0; loop < copies->UnitHeader.size(); ++loop)
+		for(short loop = 0; loop < copies.UnitHeader.size(); ++loop)
 		{
 			for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 			{
 				if(GenieFile->Civs[civ].UnitPointers[CorrectID(OneOnOne, loop)] != 0)
-				GenieFile->Civs[civ].Units[CorrectID(OneOnOne, loop)].Bird.Commands = copies->UnitHeader[loop].Commands;
+				GenieFile->Civs[civ].Units[CorrectID(OneOnOne, loop)].Bird.Commands = copies.UnitHeader[loop].Commands;
 			}
 		}
 	}
@@ -2268,9 +2268,9 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
 	}
 }
 
-void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &event)
 {
-	short CopyCount = copies->Dat.UnitGraphics[0].size();
+	short CopyCount = copies.Dat.UnitGraphics[0].size();
 	if(Units_List->GetSelections(Items) < 1 || CopyCount == 0) return;
 
 	wxBusyCursor WaitCursor;
@@ -2278,43 +2278,43 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &Event)
 	{
 		if(Paste11Check(UnitIDs.size(), CopyCount))
 		{
-			if(copies->Dat.AllCivs & 0x02)
+			if(copies.Dat.AllCivs & 0x02)
 			{
 				short CivCount = GenieFile->Civs.size();
-				short FillingCiv = (copies->Dat.UnitGraphics.size() > 1) ? 1 : 0;
-				copies->Dat.UnitGraphics.resize(CivCount, copies->Dat.UnitGraphics[FillingCiv]);
+				short FillingCiv = (copies.Dat.UnitGraphics.size() > 1) ? 1 : 0;
+				copies.Dat.UnitGraphics.resize(CivCount, copies.Dat.UnitGraphics[FillingCiv]);
 				for(short civ = 0; civ < CivCount; ++civ)
 				{
 					for(short loop = 0; loop < CopyCount; ++loop)
-					UnitsGraphicsPaste(copies->Dat.UnitGraphics[civ][loop], civ, UnitIDs[loop]);
+					UnitsGraphicsPaste(copies.Dat.UnitGraphics[civ][loop], civ, UnitIDs[loop]);
 				}
 			}
 			else
 			{
 				for(short loop = 0; loop < CopyCount; ++loop)
-				UnitsGraphicsPaste(copies->Dat.UnitGraphics[0][loop], UnitCivID, UnitIDs[loop]);
+				UnitsGraphicsPaste(copies.Dat.UnitGraphics[0][loop], UnitCivID, UnitIDs[loop]);
 			}
 		}
 	}
 	else
 	{
-		if(copies->Dat.UnitGraphics[0].size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
-		CopyCount -= copies->Dat.UnitGraphics[0].size()+UnitIDs[0] - GenieFile->Civs[0].Units.size();
-		if(copies->Dat.AllCivs & 0x02)
+		if(copies.Dat.UnitGraphics[0].size()+UnitIDs[0] > GenieFile->Civs[0].Units.size())
+		CopyCount -= copies.Dat.UnitGraphics[0].size()+UnitIDs[0] - GenieFile->Civs[0].Units.size();
+		if(copies.Dat.AllCivs & 0x02)
 		{
 			short CivCount = GenieFile->Civs.size();
-			short FillingCiv = (copies->Dat.UnitGraphics.size() > 1) ? 1 : 0;
-			copies->Dat.UnitGraphics.resize(CivCount, copies->Dat.UnitGraphics[FillingCiv]);
+			short FillingCiv = (copies.Dat.UnitGraphics.size() > 1) ? 1 : 0;
+			copies.Dat.UnitGraphics.resize(CivCount, copies.Dat.UnitGraphics[FillingCiv]);
 			for(short civ = 0; civ < CivCount; ++civ)
 			{
 				for(short loop = 0; loop < CopyCount; ++loop)
-				UnitsGraphicsPaste(copies->Dat.UnitGraphics[civ][loop], civ, UnitIDs[0]+loop);
+				UnitsGraphicsPaste(copies.Dat.UnitGraphics[civ][loop], civ, UnitIDs[0]+loop);
 			}
 		}
 		else
 		{
 			for(short loop = 0; loop < CopyCount; ++loop)
-			UnitsGraphicsPaste(copies->Dat.UnitGraphics[0][loop], UnitCivID, UnitIDs[0]+loop);
+			UnitsGraphicsPaste(copies.Dat.UnitGraphics[0][loop], UnitCivID, UnitIDs[0]+loop);
 		}
 	}
 	wxCommandEvent E;
@@ -2322,7 +2322,7 @@ void AGE_Frame::OnUnitsSpecialPaste(wxCommandEvent &Event)
 	Units_List->SetFocus();
 }
 
-void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsEnable(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2384,7 +2384,7 @@ void AGE_Frame::OnUnitsEnable(wxCommandEvent &Event)
 	ListUnits(UnitCivID);
 }
 
-void AGE_Frame::OnUnitsDisable(wxCommandEvent &Event)
+void AGE_Frame::OnUnitsDisable(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2410,7 +2410,7 @@ string AGE_Frame::GetUnitDamageGraphicName(short Index)
 	+" % - ID: "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].GraphicID)+" ";
 }
 
-void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListUnitDamageGraphics();
@@ -2448,12 +2448,12 @@ void AGE_Frame::ListUnitDamageGraphics()
 	OnUnitDamageGraphicsSelect(E);
 }
 
-void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &event)
 {
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(Event.GetSelection(), Items);
+		SwapSelection(event.GetSelection(), Items);
 		// This and attacks/armors/commands need a lot of thinking.
 		DamageGraphicIDs.resize(selections);
 		int PointerCount = (CopyGraphics) ? selections * SelectedCivs.size() : selections;
@@ -2512,7 +2512,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &Event)
 	DamageGraphics_Unknown2->Enable(selections);
 }
 
-void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2529,7 +2529,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &Event)
 	ListUnitDamageGraphics();
 }
 
-void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &event)
 {
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2546,7 +2546,7 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &Event)
 	ListUnitDamageGraphics();
 }
 
-void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &event)
 {
 	auto selections = Units_DamageGraphics_List->GetSelections(Items); // Gives the current list selection.
 	if(selections < 1) return;
@@ -2563,44 +2563,44 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &Event)
 	ListUnitDamageGraphics();
 }
 
-void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &event)
 {
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x10; else copies->Dat.AllCivs &= ~0x10;
-	if(copies->Dat.AllCivs & 0x10)
+	if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x10; else copies.Dat.AllCivs &= ~0x10;
+	if(copies.Dat.AllCivs & 0x10)
 	{
 		short CivCount = GenieFile->Civs.size();
-		copies->Dat.UnitDamageGraphicExists.resize(CivCount);
-		copies->Dat.UnitDamageGraphics.resize(CivCount);
+		copies.Dat.UnitDamageGraphicExists.resize(CivCount);
+		copies.Dat.UnitDamageGraphics.resize(CivCount);
 		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 			{
 				// Graphic set info not usefull.
-				copies->Dat.UnitDamageGraphicExists[civ] = 255;
+				copies.Dat.UnitDamageGraphicExists[civ] = 255;
 				CivCount--;
 			}
 			else
 			{
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				copies->Dat.UnitDamageGraphicExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
+				copies.Dat.UnitDamageGraphicExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy damage graphics from civs which have this unit enabled.
-				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies->Dat.UnitDamageGraphics[copy]); copy++;
+				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies.Dat.UnitDamageGraphics[copy]); copy++;
 			}
 		}
-		copies->Dat.UnitDamageGraphics.resize(CivCount);
+		copies.Dat.UnitDamageGraphics.resize(CivCount);
 	}
 	else
 	{
-		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies->Dat.UnitDamageGraphics[0]);
+		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies.Dat.UnitDamageGraphics[0]);
 	}
 	Units_DamageGraphics_List->SetFocus();
 }
 
-void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &event)
 {
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2608,99 +2608,99 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(DamageGraphicIDs.size(), copies->Dat.UnitDamageGraphics[0].size()))
+		if(Paste11Check(DamageGraphicIDs.size(), copies.Dat.UnitDamageGraphics[0].size()))
 		{
-			if(copies->Dat.AllCivs & 0x10)
+			if(copies.Dat.AllCivs & 0x10)
 			{
 				for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 				{
 					if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 					{
 						// Consume copies.
-						if(copies->Dat.UnitDamageGraphicExists[civ] > 255) copy++; continue;
+						if(copies.Dat.UnitDamageGraphicExists[civ] > 255) copy++; continue;
 					}
 					// If the target unit exists then choose from following.
-					if(copies->Dat.UnitDamageGraphicExists[civ] > 255 && copy < copies->Dat.UnitDamageGraphics.size())
+					if(copies.Dat.UnitDamageGraphicExists[civ] > 255 && copy < copies.Dat.UnitDamageGraphics.size())
 					{
-						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies->Dat.UnitDamageGraphics[copy]); copy++;
+						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies.Dat.UnitDamageGraphics[copy]); copy++;
 					}
 					else
 					{
-						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies->Dat.UnitDamageGraphics[0]);
+						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies.Dat.UnitDamageGraphics[0]);
 					}
 				}
 			}
 			else
 			{
-				PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies->Dat.UnitDamageGraphics[0]);
+				PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs, copies.Dat.UnitDamageGraphics[0]);
 			}
 		}
 	}
 	else
 	{
-		if(copies->Dat.AllCivs & 0x10)
+		if(copies.Dat.AllCivs & 0x10)
 		{
 			for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 			{
 				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 				{
 					// Consume copies.
-					if(copies->Dat.UnitDamageGraphicExists[civ] > 255) copy++; continue;
+					if(copies.Dat.UnitDamageGraphicExists[civ] > 255) copy++; continue;
 				}
 				// If the target unit exists then choose from following.
-				if(copies->Dat.UnitDamageGraphicExists[civ] > 255 && copy < copies->Dat.UnitDamageGraphics.size())
+				if(copies.Dat.UnitDamageGraphicExists[civ] > 255 && copy < copies.Dat.UnitDamageGraphics.size())
 				{
-					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies->Dat.UnitDamageGraphics[copy]); copy++;
+					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies.Dat.UnitDamageGraphics[copy]); copy++;
 				}
 				else
 				{
-					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies->Dat.UnitDamageGraphics[0]);
+					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies.Dat.UnitDamageGraphics[0]);
 				}
 			}
 		}
 		else
 		{
-			PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies->Dat.UnitDamageGraphics[0]);
+			PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies.Dat.UnitDamageGraphics[0]);
 		}
 	}
 	ListUnitDamageGraphics();
 }
 
-void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	genie::unit::DamageGraphic Temp;
-	if(copies->Dat.AllCivs & 0x10)
+	if(copies.Dat.AllCivs & 0x10)
 	{
 		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 			{
 				// Consume copies.
-				if(copies->Dat.UnitDamageGraphicExists[civ] > 255) copy++; continue;
+				if(copies.Dat.UnitDamageGraphicExists[civ] > 255) copy++; continue;
 			}
 			// If the target unit exists then choose from following.
-			if(copies->Dat.UnitDamageGraphicExists[civ] > 255 && copy < copies->Dat.UnitDamageGraphics.size())
+			if(copies.Dat.UnitDamageGraphicExists[civ] > 255 && copy < copies.Dat.UnitDamageGraphics.size())
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies->Dat.UnitDamageGraphics[copy]); copy++;
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies.Dat.UnitDamageGraphics[copy]); copy++;
 			}
 			else
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies->Dat.UnitDamageGraphics[0]);
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies.Dat.UnitDamageGraphics[0]);
 			}
 		}
 	}
 	else
 	{
-		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies->Dat.UnitDamageGraphics[0]);
+		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics, DamageGraphicIDs[0], copies.Dat.UnitDamageGraphics[0]);
 	}
 	ListUnitDamageGraphics();
 }
 
-void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &Event)
+void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event)
 {
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	for(short loop=1; loop < UnitIDs.size(); ++loop)
@@ -2715,7 +2715,7 @@ string AGE_Frame::GetUnitAttackName(short Index)
 	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[Index].Class)+" ";
 }
 
-void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListUnitAttacks();
@@ -2755,12 +2755,12 @@ void AGE_Frame::ListUnitAttacks()
 	OnUnitAttacksSelect(E);
 }
 
-void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &event)
 {
 	auto selections = Units_Attacks_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(Event.GetSelection(), Items);
+		SwapSelection(event.GetSelection(), Items);
 		AttackIDs.resize(selections);
 		int PointerCount = selections * SelectedCivs.size();
 		Attacks_Class->resize(PointerCount);
@@ -2808,7 +2808,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &Event)
 	Attacks_Amount->Enable(selections);
 }
 
-void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2825,7 +2825,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &Event)
 	ListUnitAttacks();
 }
 
-void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &event)
 {
 	auto selections = Units_Attacks_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2842,7 +2842,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &Event)
 	ListUnitAttacks();
 }
 
-void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &event)
 {
 	auto selections = Units_Attacks_List->GetSelections(Items); // Gives the current list selection.
 	if(selections < 1) return;
@@ -2859,44 +2859,44 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &Event)
 	ListUnitAttacks();
 }
 
-void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &event)
 {
 	auto selections = Units_Attacks_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x20; else copies->Dat.AllCivs &= ~0x20;
-	if(copies->Dat.AllCivs & 0x20)
+	if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x20; else copies.Dat.AllCivs &= ~0x20;
+	if(copies.Dat.AllCivs & 0x20)
 	{
 		short CivCount = GenieFile->Civs.size();
-		copies->Dat.UnitAttackExists.resize(CivCount);
-		copies->Dat.UnitAttacks.resize(CivCount);
+		copies.Dat.UnitAttackExists.resize(CivCount);
+		copies.Dat.UnitAttacks.resize(CivCount);
 		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 			{
 				// Graphic set info not usefull.
-				copies->Dat.UnitAttackExists[civ] = 255;
+				copies.Dat.UnitAttackExists[civ] = 255;
 				CivCount--;
 			}
 			else
 			{
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				copies->Dat.UnitAttackExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
+				copies.Dat.UnitAttackExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy attacks from civs which have this unit enabled.
-				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies->Dat.UnitAttacks[copy]); copy++;
+				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks[copy]); copy++;
 			}
 		}
-		copies->Dat.UnitAttacks.resize(CivCount);
+		copies.Dat.UnitAttacks.resize(CivCount);
 	}
 	else
 	{
-		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies->Dat.UnitAttacks[0]);
+		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks[0]);
 	}
 	Units_Attacks_List->SetFocus();
 }
 
-void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &event)
 {
 	auto selections = Units_Attacks_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2904,98 +2904,98 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(AttackIDs.size(), copies->Dat.UnitAttacks[0].size()))
+		if(Paste11Check(AttackIDs.size(), copies.Dat.UnitAttacks[0].size()))
 		{
-			if(copies->Dat.AllCivs & 0x20)
+			if(copies.Dat.AllCivs & 0x20)
 			{
 				for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 				{
 					if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 					{
 						// Consume copies.
-						if(copies->Dat.UnitAttackExists[civ] > 255) copy++; continue;
+						if(copies.Dat.UnitAttackExists[civ] > 255) copy++; continue;
 					}
 					// If the target unit exists then choose from following.
-					if(copies->Dat.UnitAttackExists[civ] > 255 && copy < copies->Dat.UnitAttacks.size())
+					if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
 					{
-						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies->Dat.UnitAttacks[copy]); copy++;
+						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks[copy]); copy++;
 					}
 					else
 					{
-						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies->Dat.UnitAttacks[0]);
+						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks[0]);
 					}
 				}
 			}
 			else
 			{
-				PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies->Dat.UnitAttacks[0]);
+				PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks[0]);
 			}
 		}
 	}
 	else
 	{
-		if(copies->Dat.AllCivs & 0x20)
+		if(copies.Dat.AllCivs & 0x20)
 		{
 			for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 			{
 				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 				{
 					// Consume copies.
-					if(copies->Dat.UnitAttackExists[civ] > 255) copy++; continue;
+					if(copies.Dat.UnitAttackExists[civ] > 255) copy++; continue;
 				}
 				// If the target unit exists then choose from following.
-				if(copies->Dat.UnitAttackExists[civ] > 255 && copy < copies->Dat.UnitAttacks.size())
+				if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
 				{
-					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[copy]); copy++;
+					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies.Dat.UnitAttacks[copy]); copy++;
 				}
 				else
 				{
-					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
+					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies.Dat.UnitAttacks[0]);
 				}
 			}
 		}
 		else
 		{
-			PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
+			PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies.Dat.UnitAttacks[0]);
 		}
 	}
 	ListUnitAttacks();
 }
 
-void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Units_Attacks_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->Dat.AllCivs & 0x20)
+	if(copies.Dat.AllCivs & 0x20)
 	{
 		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 			{
 				// Consume copies.
-				if(copies->Dat.UnitAttackExists[civ] > 255) copy++; continue;
+				if(copies.Dat.UnitAttackExists[civ] > 255) copy++; continue;
 			}
 			// If the target unit exists then choose from following.
-			if(copies->Dat.UnitAttackExists[civ] > 255 && copy < copies->Dat.UnitAttacks.size())
+			if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[copy]); copy++;
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies.Dat.UnitAttacks[copy]); copy++;
 			}
 			else
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies.Dat.UnitAttacks[0]);
 			}
 		}
 	}
 	else
 	{
-		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies->Dat.UnitAttacks[0]);
+		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks, AttackIDs[0], copies.Dat.UnitAttacks[0]);
 	}
 	ListUnitAttacks();
 }
 
-void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &Event)
+void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &event)
 {
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	for(short loop=1; loop < UnitIDs.size(); ++loop)
@@ -3010,7 +3010,7 @@ string AGE_Frame::GetUnitArmorName(short Index)
 	+" - Class "+lexical_cast<string>(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[Index].Class)+" ";
 }
 
-void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListUnitArmors();
@@ -3050,12 +3050,12 @@ void AGE_Frame::ListUnitArmors()
 	OnUnitArmorsSelect(E);
 }
 
-void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &event)
 {
 	auto selections = Units_Armors_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(Event.GetSelection(), Items);
+		SwapSelection(event.GetSelection(), Items);
 		ArmorIDs.resize(selections);
 		int PointerCount = selections * SelectedCivs.size();
 		Armors_Class->resize(PointerCount);
@@ -3103,7 +3103,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &Event)
 	Armors_Amount->Enable(selections);
 }
 
-void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -3120,7 +3120,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &Event)
 	ListUnitArmors();
 }
 
-void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &event)
 {
 	auto selections = Units_Armors_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -3137,7 +3137,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &Event)
 	ListUnitArmors();
 }
 
-void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &event)
 {
 	auto selections = Units_Armors_List->GetSelections(Items); // Gives the current list selection.
 	if(selections < 1) return;
@@ -3154,44 +3154,44 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &Event)
 	ListUnitArmors();
 }
 
-void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &event)
 {
 	auto selections = Units_Armors_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x40; else copies->Dat.AllCivs &= ~0x40;
-	if(copies->Dat.AllCivs & 0x40)
+	if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x40; else copies.Dat.AllCivs &= ~0x40;
+	if(copies.Dat.AllCivs & 0x40)
 	{
 		short CivCount = GenieFile->Civs.size();
-		copies->Dat.UnitArmorExists.resize(CivCount);
-		copies->Dat.UnitArmors.resize(CivCount);
+		copies.Dat.UnitArmorExists.resize(CivCount);
+		copies.Dat.UnitArmors.resize(CivCount);
 		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 			{
 				// Graphic set info not usefull.
-				copies->Dat.UnitArmorExists[civ] = 255;
+				copies.Dat.UnitArmorExists[civ] = 255;
 				CivCount--;
 			}
 			else
 			{
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				copies->Dat.UnitArmorExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
+				copies.Dat.UnitArmorExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy armors from civs which have this unit enabled.
-				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies->Dat.UnitArmors[copy]); copy++;
+				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors[copy]); copy++;
 			}
 		}
-		copies->Dat.UnitArmors.resize(CivCount);
+		copies.Dat.UnitArmors.resize(CivCount);
 	}
 	else
 	{
-		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies->Dat.UnitArmors[0]);
+		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors[0]);
 	}
 	Units_Armors_List->SetFocus();
 }
 
-void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &event)
 {
 	auto selections = Units_Armors_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -3199,98 +3199,98 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(ArmorIDs.size(), copies->Dat.UnitArmors[0].size()))
+		if(Paste11Check(ArmorIDs.size(), copies.Dat.UnitArmors[0].size()))
 		{
-			if(copies->Dat.AllCivs & 0x40)
+			if(copies.Dat.AllCivs & 0x40)
 			{
 				for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 				{
 					if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 					{
 						// Consume copies.
-						if(copies->Dat.UnitArmorExists[civ] > 255) copy++; continue;
+						if(copies.Dat.UnitArmorExists[civ] > 255) copy++; continue;
 					}
 					// If the target unit exists then choose from following.
-					if(copies->Dat.UnitArmorExists[civ] > 255 && copy < copies->Dat.UnitArmors.size())
+					if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
 					{
-						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies->Dat.UnitArmors[copy]); copy++;
+						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors[copy]); copy++;
 					}
 					else
 					{
-						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies->Dat.UnitArmors[0]);
+						PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors[0]);
 					}
 				}
 			}
 			else
 			{
-				PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies->Dat.UnitArmors[0]);
+				PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors[0]);
 			}
 		}
 	}
 	else
 	{
-		if(copies->Dat.AllCivs & 0x40)
+		if(copies.Dat.AllCivs & 0x40)
 		{
 			for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 			{
 				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 				{
 					// Consume copies.
-					if(copies->Dat.UnitArmorExists[civ] > 255) copy++; continue;
+					if(copies.Dat.UnitArmorExists[civ] > 255) copy++; continue;
 				}
 				// If the target unit exists then choose from following.
-				if(copies->Dat.UnitArmorExists[civ] > 255 && copy < copies->Dat.UnitArmors.size())
+				if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
 				{
-					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[copy]); copy++;
+					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies.Dat.UnitArmors[copy]); copy++;
 				}
 				else
 				{
-					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
+					PasteToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies.Dat.UnitArmors[0]);
 				}
 			}
 		}
 		else
 		{
-			PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
+			PasteToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies.Dat.UnitArmors[0]);
 		}
 	}
 	ListUnitArmors();
 }
 
-void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Units_Armors_List->GetSelections(Items);
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	if(copies->Dat.AllCivs & 0x40)
+	if(copies.Dat.AllCivs & 0x40)
 	{
 		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 			{
 				// Consume copies.
-				if(copies->Dat.UnitArmorExists[civ] > 255) copy++; continue;
+				if(copies.Dat.UnitArmorExists[civ] > 255) copy++; continue;
 			}
 			// If the target unit exists then choose from following.
-			if(copies->Dat.UnitArmorExists[civ] > 255 && copy < copies->Dat.UnitArmors.size())
+			if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[copy]); copy++;
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies.Dat.UnitArmors[copy]); copy++;
 			}
 			else
 			{
-				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
+				PasteInsertToList(GenieFile->Civs[civ].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies.Dat.UnitArmors[0]);
 			}
 		}
 	}
 	else
 	{
-		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies->Dat.UnitArmors[0]);
+		PasteInsertToList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours, ArmorIDs[0], copies.Dat.UnitArmors[0]);
 	}
 	ListUnitArmors();
 }
 
-void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &Event)
+void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &event)
 {
 	for(short civ = 0; civ < GenieFile->Civs.size(); ++civ)
 	for(short loop=1; loop < UnitIDs.size(); ++loop)
@@ -3360,7 +3360,7 @@ wxString AGE_Frame::GetUnitCommandName(short Index)
 	}
 }
 
-void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
 	ListUnitCommands();
@@ -3423,12 +3423,12 @@ void AGE_Frame::ListUnitCommands()
 	OnUnitCommandsSelect(E);
 }
 
-void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &event)
 {
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(Event.GetSelection(), Items);
+		SwapSelection(event.GetSelection(), Items);
 		CommandIDs.resize(selections);
 		int PointerCount = (GenieVersion < genie::GV_AoK) ? selections * SelectedCivs.size() : selections;
 		UnitCommands_One->resize(PointerCount);
@@ -3663,7 +3663,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &Event)
 	}
 }
 
-void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &event)
 {
 	auto selections = Units_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -3693,7 +3693,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &Event)
 	ListUnitCommands();
 }
 
-void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &event)
 {
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -3725,7 +3725,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &Event)
 	ListUnitCommands();
 }
 
-void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
 {
 	auto selections = Units_UnitCommands_List->GetSelections(Items); // Gives the current list selection.
 	if(selections < 1) return;
@@ -3758,7 +3758,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &Event)
 	ListUnitCommands();
 }
 
-void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &event)
 {
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -3766,44 +3766,44 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		copies->Dat.AllCivs |= 0x80;
-		copies->Dat.UnitCommandExists.resize(0);
-		copies->Dat.UnitCommands.resize(1);
-		CopyFromList(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs, copies->Dat.UnitCommands[0]);
+		copies.Dat.AllCivs |= 0x80;
+		copies.Dat.UnitCommandExists.resize(0);
+		copies.Dat.UnitCommands.resize(1);
+		CopyFromList(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs, copies.Dat.UnitCommands[0]);
 		return;
 	}
-	if(Units_SpecialCopy_Civs->GetValue()) copies->Dat.AllCivs |= 0x80; else copies->Dat.AllCivs &= ~0x80;
-	if(copies->Dat.AllCivs & 0x80)
+	if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x80; else copies.Dat.AllCivs &= ~0x80;
+	if(copies.Dat.AllCivs & 0x80)
 	{
 		short CivCount = GenieFile->Civs.size();
-		copies->Dat.UnitCommandExists.resize(CivCount);
-		copies->Dat.UnitCommands.resize(CivCount);
+		copies.Dat.UnitCommandExists.resize(CivCount);
+		copies.Dat.UnitCommands.resize(CivCount);
 		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 			{
 				// Graphic set info not usefull.
-				copies->Dat.UnitCommandExists[civ] = 255;
+				copies.Dat.UnitCommandExists[civ] = 255;
 				CivCount--;
 			}
 			else
 			{
 				// Save info of graphic set to intelligently fill possible gaps when pasting.
-				copies->Dat.UnitCommandExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
+				copies.Dat.UnitCommandExists[civ] = 256 + GenieFile->Civs[civ].IconSet;
 				// Only copy commands from civs which have this unit enabled.
-				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies->Dat.UnitCommands[copy]); copy++;
+				CopyFromList(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies.Dat.UnitCommands[copy]); copy++;
 			}
 		}
-		copies->Dat.UnitCommands.resize(CivCount);
+		copies.Dat.UnitCommands.resize(CivCount);
 	}
 	else
 	{
-		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies->Dat.UnitCommands[0]);
+		CopyFromList(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies.Dat.UnitCommands[0]);
 	}
 	Units_UnitCommands_List->SetFocus();
 }
 
-void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &event)
 {
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -3811,35 +3811,35 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(CommandIDs.size(), copies->Dat.UnitCommands[0].size()))
+		if(Paste11Check(CommandIDs.size(), copies.Dat.UnitCommands[0].size()))
 		{
 			if(GenieVersion >= genie::GV_AoK)
 			{
-				PasteToListIDFix(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs, copies->Dat.UnitCommands[0]);
+				PasteToListIDFix(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs, copies.Dat.UnitCommands[0]);
 			}
-			else if(copies->Dat.AllCivs & 0x80)
+			else if(copies.Dat.AllCivs & 0x80)
 			{
 				for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 				{
 					if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 					{
 						// Consume copies.
-						if(copies->Dat.UnitCommandExists[civ] > 255) copy++; continue;
+						if(copies.Dat.UnitCommandExists[civ] > 255) copy++; continue;
 					}
 					// If the target unit exists then choose from following.
-					if(copies->Dat.UnitCommandExists.size() > 0 && copies->Dat.UnitCommandExists[civ] > 255 && copy < copies->Dat.UnitCommands.size())
+					if(copies.Dat.UnitCommandExists.size() > 0 && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
 					{
-						PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies->Dat.UnitCommands[copy]); copy++;
+						PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies.Dat.UnitCommands[copy]); copy++;
 					}
 					else
 					{
-						PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies->Dat.UnitCommands[0]);
+						PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies.Dat.UnitCommands[0]);
 					}
 				}
 			}
 			else
 			{
-				PasteToListIDFix(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies->Dat.UnitCommands[0]);
+				PasteToListIDFix(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs, copies.Dat.UnitCommands[0]);
 			}
 		}
 	}
@@ -3847,37 +3847,37 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &Event)
 	{
 		if(GenieVersion >= genie::GV_AoK)
 		{
-			PasteToListIDFix(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs[0], copies->Dat.UnitCommands[0]);
+			PasteToListIDFix(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs[0], copies.Dat.UnitCommands[0]);
 		}
-		else if(copies->Dat.AllCivs & 0x80)
+		else if(copies.Dat.AllCivs & 0x80)
 		{
 			for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 			{
 				if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 				{
 					// Consume copies.
-					if(copies->Dat.UnitCommandExists[civ] > 255) copy++; continue;
+					if(copies.Dat.UnitCommandExists[civ] > 255) copy++; continue;
 				}
 				// If the target unit exists then choose from following.
-				if(copies->Dat.UnitCommandExists.size() > 0 && copies->Dat.UnitCommandExists[civ] > 255 && copy < copies->Dat.UnitCommands.size())
+				if(copies.Dat.UnitCommandExists.size() > 0 && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
 				{
-					PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies->Dat.UnitCommands[copy]); copy++;
+					PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies.Dat.UnitCommands[copy]); copy++;
 				}
 				else
 				{
-					PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies->Dat.UnitCommands[0]);
+					PasteToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies.Dat.UnitCommands[0]);
 				}
 			}
 		}
 		else
 		{
-			PasteToListIDFix(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies->Dat.UnitCommands[0]);
+			PasteToListIDFix(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies.Dat.UnitCommands[0]);
 		}
 	}
 	ListUnitCommands();
 }
 
-void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
 {
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -3885,36 +3885,36 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &Event)
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		PasteInsertToListIDFix(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs[0], copies->Dat.UnitCommands[0]);
+		PasteInsertToListIDFix(GenieFile->UnitHeaders[UnitIDs[0]].Commands, CommandIDs[0], copies.Dat.UnitCommands[0]);
 	}
-	else if(copies->Dat.AllCivs & 0x80)
+	else if(copies.Dat.AllCivs & 0x80)
 	{
 		for(short civ = 0, copy = 0; civ < GenieFile->Civs.size(); ++civ)
 		{
 			if(GenieFile->Civs[civ].UnitPointers[UnitIDs[0]] == 0)
 			{
 				// Consume copies.
-				if(copies->Dat.UnitCommandExists[civ] > 255) copy++; continue;
+				if(copies.Dat.UnitCommandExists[civ] > 255) copy++; continue;
 			}
 			// If the target unit exists then choose from following.
-			if(copies->Dat.UnitCommandExists.size() > 0 && copies->Dat.UnitCommandExists[civ] > 255 && copy < copies->Dat.UnitCommands.size())
+			if(copies.Dat.UnitCommandExists.size() > 0 && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
 			{
-				PasteInsertToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies->Dat.UnitCommands[copy]); copy++;
+				PasteInsertToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies.Dat.UnitCommands[copy]); copy++;
 			}
 			else
 			{
-				PasteInsertToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies->Dat.UnitCommands[0]);
+				PasteInsertToListIDFix(GenieFile->Civs[civ].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies.Dat.UnitCommands[0]);
 			}
 		}
 	}
 	else
 	{
-		PasteInsertToListIDFix(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies->Dat.UnitCommands[0]);
+		PasteInsertToListIDFix(GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands, CommandIDs[0], copies.Dat.UnitCommands[0]);
 	}
 	ListUnitCommands();
 }
 
-void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &Event)
+void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &event)
 {
 	if(GenieVersion < genie::GV_AoK)
 	{
@@ -3933,19 +3933,19 @@ void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &Event)
 	}
 }
 
-void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &Event)
+void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &event)
 {
 	int32_t DLLValue;
 	try
 	{
-		DLLValue = lexical_cast<int32_t>(((wxTextCtrl*)Event.GetEventObject())->GetValue());
+		DLLValue = lexical_cast<int32_t>(((wxTextCtrl*)event.GetEventObject())->GetValue());
 	}
 	catch(bad_lexical_cast e)
 	{
 		wxMessageBox("Incorrect input!");
 		return;
 	}
-	if(Event.GetId() == Units_LanguageDLLConverter[0]->GetId())
+	if(event.GetId() == Units_LanguageDLLConverter[0]->GetId())
 	{
 		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x10000;
 		else DLLValue += 79000;
@@ -5860,21 +5860,21 @@ void AGE_Frame::CreateUnitControls()
 	Units_TypeArea_Holder->Add(Units_ID3_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
 	Units_LanguageDLLName_Holder->Add(Units_LanguageDLLName_Text, 0, wxEXPAND);
-	Units_LanguageDLLName_Holder->Add(Units_LanguageDLLName, 1, wxEXPAND);
+	Units_LanguageDLLName_Holder->Add(Units_LanguageDLLName, 0, wxEXPAND);
 	Units_LanguageDLLName_Holder->Add(Units_DLL_LanguageName, 1, wxEXPAND);
 	Units_LanguageDLLCreation_Holder->Add(Units_LanguageDLLCreation_Text, 0, wxEXPAND);
-	Units_LanguageDLLCreation_Holder->Add(Units_LanguageDLLCreation, 1, wxEXPAND);
+	Units_LanguageDLLCreation_Holder->Add(Units_LanguageDLLCreation, 0, wxEXPAND);
 	Units_LanguageDLLCreation_Holder->Add(Units_DLL_LanguageCreation, 1, wxEXPAND);
 	Units_LanguageDLLHelp_Holder->Add(Units_LanguageDLLHelp_Text, 0, wxEXPAND);
-	Units_LanguageDLLHelp_Holder->Add(Units_LanguageDLLHelp, 1, wxEXPAND);
+	Units_LanguageDLLHelp_Holder->Add(Units_LanguageDLLHelp, 0, wxEXPAND);
 	Units_LanguageDLLConverter_Holder[0]->Add(Units_LanguageDLLConverter_Text[0], 0, wxEXPAND);
-	Units_LanguageDLLConverter_Holder[0]->Add(Units_LanguageDLLConverter[0], 1, wxEXPAND);
+	Units_LanguageDLLConverter_Holder[0]->Add(Units_LanguageDLLConverter[0], 0, wxEXPAND);
 	Units_LanguageDLLHotKeyText_Holder->Add(Units_LanguageDLLHotKeyText_Text, 0, wxEXPAND);
-	Units_LanguageDLLHotKeyText_Holder->Add(Units_LanguageDLLHotKeyText, 1, wxEXPAND);
+	Units_LanguageDLLHotKeyText_Holder->Add(Units_LanguageDLLHotKeyText, 0, wxEXPAND);
 	Units_LanguageDLLConverter_Holder[1]->Add(Units_LanguageDLLConverter_Text[1], 0, wxEXPAND);
-	Units_LanguageDLLConverter_Holder[1]->Add(Units_LanguageDLLConverter[1], 1, wxEXPAND);
+	Units_LanguageDLLConverter_Holder[1]->Add(Units_LanguageDLLConverter[1], 0, wxEXPAND);
 	Units_HotKey_Holder->Add(Units_HotKey_Text, 0, wxEXPAND);
-	Units_HotKey_Holder->Add(Units_HotKey, 1, wxEXPAND);
+	Units_HotKey_Holder->Add(Units_HotKey, 0, wxEXPAND);
 	Units_HotKey_Holder->Add(Units_DLL_HotKey4, 1, wxEXPAND);
 
 	Units_LangRegular_Holder->Add(Units_LanguageDLLName_Holder, 1, wxEXPAND);
@@ -6487,48 +6487,48 @@ void AGE_Frame::CreateUnitControls()
 	}
 }
 
-void AGE_Frame::OnKillFocus_Units(wxFocusEvent &Event)
+void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
 {
-	Event.Skip();
-	if(((AGETextCtrl*)Event.GetEventObject())->SaveEdits() != 0) return;
-	if(Event.GetId() == Units_Name->GetId() || Event.GetId() == Units_LanguageDLLName->GetId())
+	event.Skip();
+	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+	if(event.GetId() == Units_Name->GetId() || event.GetId() == Units_LanguageDLLName->GetId())
 	{
 		ListUnits(UnitCivID);
 	}
-	else if(Event.GetId() == Units_Type->GetId()
-	|| Event.GetId() == Units_Name2->GetId()
-	|| Event.GetId() == Units_LanguageDLLCreation->GetId()
-	|| Event.GetId() == Units_HotKey->GetId()
-	|| Event.GetId() == Units_LanguageDLLHelp->GetId()
-	|| Event.GetId() == Units_LanguageDLLHotKeyText->GetId()
-	|| Event.GetId() == Units_Attribute->GetId()
-	|| Event.GetId() == Units_GarrisonType->GetId())
+	else if(event.GetId() == Units_Type->GetId()
+	|| event.GetId() == Units_Name2->GetId()
+	|| event.GetId() == Units_LanguageDLLCreation->GetId()
+	|| event.GetId() == Units_HotKey->GetId()
+	|| event.GetId() == Units_LanguageDLLHelp->GetId()
+	|| event.GetId() == Units_LanguageDLLHotKeyText->GetId()
+	|| event.GetId() == Units_Attribute->GetId()
+	|| event.GetId() == Units_GarrisonType->GetId())
 	{
 		wxCommandEvent E;
 		OnUnitsSelect(E);
 	}
-	else if(Event.GetId() == Attacks_Amount->GetId() || Event.GetId() == Attacks_Class->GetId())
+	else if(event.GetId() == Attacks_Amount->GetId() || event.GetId() == Attacks_Class->GetId())
 	{
 		ListUnitAttacks();
 	}
-	else if(Event.GetId() == Armors_Amount->GetId() || Event.GetId() == Armors_Class->GetId())
+	else if(event.GetId() == Armors_Amount->GetId() || event.GetId() == Armors_Class->GetId())
 	{
 		ListUnitArmors();
 	}
-	else if(Event.GetId() == UnitCommands_Type->GetId() || Event.GetId() == UnitCommands_ProductivityResource->GetId())
+	else if(event.GetId() == UnitCommands_Type->GetId() || event.GetId() == UnitCommands_ProductivityResource->GetId())
 	{
 		ListUnitCommands();
 	}
-	else if(Event.GetId() == DamageGraphics_DamagePercent->GetId()
-	|| Event.GetId() == DamageGraphics_GraphicID->GetId())
+	else if(event.GetId() == DamageGraphics_DamagePercent->GetId()
+	|| event.GetId() == DamageGraphics_GraphicID->GetId())
 	{
 		ListUnitDamageGraphics();
 	}
 }
 
-void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
+void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &event)
 {
-	if(Event.GetId() == Units_Type_ComboBox->GetId())
+	if(event.GetId() == Units_Type_ComboBox->GetId())
 	{
 		switch(Units_Type_ComboBox->GetSelection())
 		{
@@ -6550,7 +6550,7 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 //		ListUnits(UnitCivID, false);	// For special search filters.
 		return;
 	}
-	if(Event.GetId() == UnitCommands_Type_ComboBox->GetId())
+	if(event.GetId() == UnitCommands_Type_ComboBox->GetId())
 	{
 		switch(UnitCommands_Type_ComboBox->GetSelection())
 		{
@@ -6595,22 +6595,22 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &Event)
 		ListUnitCommands();
 		return;
 	}
-	((AGEComboBox*)Event.GetEventObject())->OnUpdate(Event);
-	if(Event.GetId() == Attacks_Class_ComboBox[0]->GetId())
+	((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
+	if(event.GetId() == Attacks_Class_ComboBox[0]->GetId())
 	{
 		ListUnitAttacks();
 	}
-	else if(Event.GetId() == Attacks_Class_ComboBox[1]->GetId())
+	else if(event.GetId() == Attacks_Class_ComboBox[1]->GetId())
 	{
 		ListUnitArmors();
 	}
-	else if(Event.GetId() == DamageGraphics_GraphicID_ComboBox->GetId())
+	else if(event.GetId() == DamageGraphics_GraphicID_ComboBox->GetId())
 	{
 		ListUnitDamageGraphics();
 	}
 }
 
-void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &Event)
+void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &event)
 {
 	if(Units_GarrisonType->GetValue().empty()) return;
 	uint8_t type = lexical_cast<uint8_t>(Units_GarrisonType->GetValue());
@@ -6626,7 +6626,7 @@ void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &Event)
 	Units_GarrisonType->SaveEdits();
 }
 
-void AGE_Frame::OnUpdateCheck_UnitAttribute(wxCommandEvent &Event)
+void AGE_Frame::OnUpdateCheck_UnitAttribute(wxCommandEvent &event)
 {
 	if(Units_Attribute->GetValue().empty()) return;
 	uint8_t attribute = lexical_cast<uint8_t>(Units_Attribute->GetValue());
