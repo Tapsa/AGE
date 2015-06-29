@@ -58,7 +58,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &event)
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	CivIDs.resize(selections);
 	Civs_One->resize(selections);
 	Civs_Name[0]->resize(selections);
@@ -709,7 +709,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &event)
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	ResourceIDs.resize(selections);
 	Civs_ResourceValue->resize(selections);
 

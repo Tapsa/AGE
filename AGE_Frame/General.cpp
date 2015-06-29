@@ -651,7 +651,7 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
 	auto selections = Unknowns_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		RandomMapIDs.resize(selections);
 		Unknowns_UnknownLevel->resize(selections);
 		int PointerCount = selections * 2;
@@ -871,7 +871,7 @@ void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &event)
 		return;
 	}
 
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	UnknownFSIDs.resize(selections);
 	RMSBaseZones_Unknown1->resize(selections);
 	RMSBaseZones_BaseTerrain->resize(selections);
@@ -1106,7 +1106,7 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &event)
 		return;
 	}
 
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	UnknownSSIDs.resize(selections);
 	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	RMSTerrain_Unknown1[loop]->resize(selections);
@@ -1271,7 +1271,7 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &event)
 		return;
 	}
 
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	UnknownTSIDs.resize(selections);
 	RMSUnit_Unit->resize(selections);
 	RMSUnit_HostTerrain->resize(selections);
@@ -1498,7 +1498,7 @@ void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &event)
 		return;
 	}
 
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	Unknown4SIDs.resize(selections);
 	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
 	RMSUnknown_Unknown1[loop]->resize(selections);
