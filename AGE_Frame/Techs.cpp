@@ -122,7 +122,7 @@ void AGE_Frame::OnTechSelect(wxCommandEvent &event)
 	auto selections = Techs_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	TechIDs.resize(selections);
 	Techs_Name->resize(selections);
 
@@ -346,7 +346,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &event)
 	auto selections = Techs_Effects_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		Effects_Type_Holder->Show(true);
 		Effects_D->Enable(true);
 		EffectIDs.resize(selections);

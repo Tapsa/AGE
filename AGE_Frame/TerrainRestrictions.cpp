@@ -173,7 +173,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &event)
 	if(Selections2 < 1) return;
 
 	SwapSelection(lastTerrainRestriction, Items);
-	SwapSelection(event.GetSelection(), Items2);
+	//SwapSelection(event.GetSelection(), Items2);
 	genie::TerrainRestriction * TerRestPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(0));
 
 	TerRestrictTerIDs.resize(Selections2);

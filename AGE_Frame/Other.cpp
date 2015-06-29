@@ -1792,14 +1792,14 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		case ToolBar_AddWindow:
         {
             int nextFreeSlot = AGE_Frame::openEditors.size();
+            for(int win = 0; win < nextFreeSlot; ++win)
+            if(AGE_Frame::openEditors[win] == false)
+            {
+                nextFreeSlot = win;
+                break;
+            }
             if(nextFreeSlot < 4)
             {
-                for(int win = 0; win < nextFreeSlot; ++win)
-                if(AGE_Frame::openEditors[win] == false)
-                {
-                    nextFreeSlot = win;
-                    break;
-                }
                 AGE_Frame* newWindow = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+lexical_cast<string>(nextFreeSlot+1), nextFreeSlot);
                 FixSize(newWindow);
                 wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, newWindow->ToolBar_Open);
@@ -2041,7 +2041,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 	}
 }
 
-void AGE_Frame::Listing(wxListBox* &List, wxArrayString &names, list<void*> &data)
+void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data)
 {
 	int selections = List->GetSelections(Items);
 	int listsize = List->GetCount(); // Size before
@@ -2198,7 +2198,7 @@ bool AGE_Frame::Paste11Check(int pastes, int copies)
 	return result;
 }
 
-void AGE_Frame::SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch)
+void AGE_Frame::SearchAllSubVectors(wxListBox *List, wxTextCtrl *TopSearch, wxTextCtrl *SubSearch)
 {
 	int selections = List->GetSelections(Items);
 	if(selections < 1) return;
@@ -2240,7 +2240,7 @@ int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
 // To show contents of last selected item instead of first selection.
 void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
 {
-	return; // This breaks erasing items so cancel it for now :(
+	// This breaks erasing items :(
 	// Look if selections include the last selection.
 	int found = FindItem(selections, last, 0, selections.GetCount() - 1);
 	// Swap last selection with the first one.
