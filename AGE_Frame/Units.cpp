@@ -361,7 +361,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent &event)
 	if(selections < 1) return;	// If a unit is selected.
 
 	wxBusyCursor WaitCursor;
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	UnitCivID = Units_Civs_List->GetSelection();
 
 	// Auto-copy stuff
@@ -2453,7 +2453,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &event)
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		// This and attacks/armors/commands need a lot of thinking.
 		DamageGraphicIDs.resize(selections);
 		int PointerCount = (CopyGraphics) ? selections * SelectedCivs.size() : selections;
@@ -2760,7 +2760,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &event)
 	auto selections = Units_Attacks_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		AttackIDs.resize(selections);
 		int PointerCount = selections * SelectedCivs.size();
 		Attacks_Class->resize(PointerCount);
@@ -3055,7 +3055,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &event)
 	auto selections = Units_Armors_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		ArmorIDs.resize(selections);
 		int PointerCount = selections * SelectedCivs.size();
 		Armors_Class->resize(PointerCount);
@@ -3428,7 +3428,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &event)
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		CommandIDs.resize(selections);
 		int PointerCount = (GenieVersion < genie::GV_AoK) ? selections * SelectedCivs.size() : selections;
 		UnitCommands_One->resize(PointerCount);
@@ -4034,6 +4034,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Top_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_TopGrid_Holder = new wxGridSizer(20, 1, 1);
 	Units_AutoCopy = new wxCheckBox(Tab_Units, wxID_ANY, "Automatically", wxDefaultPosition, wxSize(-1, 20));
+	Units_AutoCopy->SetToolTip("It is safer to copy automatically than manually.");
 	Units_CopyTo = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(40, 20));
 	Units_CopyGraphics = new wxCheckBox(Tab_Units, wxID_ANY, "Including graphics", wxDefaultPosition, wxSize(-1, 20));
 	Units_CopyToText = new wxStaticText(Tab_Units, wxID_ANY, " to selected civilizations: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
