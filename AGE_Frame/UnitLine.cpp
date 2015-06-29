@@ -55,7 +55,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &event)
 	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(selections < 1) return;
 
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 	UnitLineIDs.resize(selections);
 	UnitLines_ID->resize(selections);
 	UnitLines_Name->resize(selections);
@@ -195,7 +195,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &event)
 	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		UnitLineUnitIDs.resize(selections);
 		UnitLineUnits_Units->resize(selections);
 

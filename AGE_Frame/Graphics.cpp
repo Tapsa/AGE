@@ -101,10 +101,13 @@ void AGE_Frame::OnGraphicsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListGraphics(bool all)
 {
-	FirstVisible = How2List == SEARCH ? 0 : Graphics_Graphics_List->HitTest(wxPoint(0, 0));
+	chrono::time_point<chrono::system_clock> startTime = chrono::system_clock::now();
+	//FirstVisible = How2List == SEARCH ? 0 : Graphics_Graphics_List->HitTest(wxPoint(0, 0));
 	InitGraphics(all);
 	wxCommandEvent E;
 	OnGraphicsSelect(E);
+    endTime = chrono::system_clock::now();
+    SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
 }
 
 void AGE_Frame::InitGraphics(bool all)
@@ -114,7 +117,6 @@ void AGE_Frame::InitGraphics(bool all)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
-	list<void*> dataPointers;
     Graphics_Graphics_ListV->names.clear();
     Graphics_Graphics_ListV->indexes.clear();
 	wxArrayString names;
@@ -127,38 +129,50 @@ void AGE_Frame::InitGraphics(bool all)
 		{
 			Graphics_Graphics_ListV->names.Add(Name);
             Graphics_Graphics_ListV->indexes.push_back(loop);
-			dataPointers.push_back((void*)&GenieFile->Graphics[loop]);
 		}
 		if(all) names.Add(" "+FormatInt(loop)+" - "+GetGraphicName(loop));
 	}
 
     Graphics_Graphics_ListV->SetItemCount(Graphics_Graphics_ListV->names.size());
-	Listing(Graphics_Graphics_List, Graphics_Graphics_ListV->names, dataPointers);
+	//Listing(Graphics_Graphics_List, Graphics_Graphics_ListV->names, dataPointers);
 	if(all) FillLists(GraphicComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 }
+
 int randomi;
-void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
+void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-    Items.Clear();++randomi;
+    ++randomi;
+    indexes.resize(selections);
     for(int sel = 0, lastItem = -1; sel < selections; ++sel)
     {
-        lastItem = Graphics_Graphics_ListV->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-        Items.Add(lastItem);
+        lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); // Above is bugged.
+        indexes[sel] = list->indexes[lastItem];
     }SetStatusText("Focused: "+lexical_cast<string>(randomi), 1);
+}
+
+void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
+{
+    
+    if(event.GetEventType() != wxEVT_COMMAND_LIST_ITEM_FOCUSED)
+    {
+        // Make sure that selection and deselection does not fire this at the same time.
+        // <-- Check if saved system type is too new AND if the event type is different!
+    }
+    // <-- Save system time.
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
+	wxBusyCursor WaitCursor;
+    getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
     for(auto &box: uiGroupGraphic) box->clear();
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
-		GraphicIDs.resize(selections);
+		//SwapSelection(event.GetSelection(), Items);
 
 		genie::Graphic * GraphicPointer;
 		for(auto sel = selections; sel--> 0;)
 		{
-			GraphicIDs[sel] = Graphics_Graphics_ListV->indexes[Items.Item(sel)];
 			GraphicPointer = &GenieFile->Graphics[GraphicIDs[sel]];
 
 			Graphics_Name->prepend(&GraphicPointer->Name);
@@ -187,7 +201,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
 			if(GenieVersion >= genie::GV_AoKB)
 			Graphics_Unknown3->prepend(&GraphicPointer->Unknown3);
 		}
-		SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected graphic: "+lexical_cast<string>(GraphicIDs[0]), 0);
+		SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs[0]), 0);
 
 		selections = GenieVersion < genie::GV_AoE ? 1 : GenieFile->GraphicPointers[GraphicIDs[0]];
 	}
@@ -242,7 +256,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsInsert(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -259,7 +273,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsDelete(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -277,7 +291,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsCopy(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -289,12 +303,12 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &event)
 		copies.Graphic[loop] = GenieFile->Graphics[GraphicIDs[loop]];
 		//copies.Graphic[loop].Deltas = GenieFile->Graphics[GraphicIDs[loop]].Deltas; Needs its own button!
 	}
-	Graphics_Graphics_List->SetFocus();
+	//Graphics_Graphics_ListV->SetFocus(); Turha?
 }
 
 void AGE_Frame::OnGraphicsPaste(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -335,7 +349,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -357,7 +371,7 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -372,7 +386,7 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -425,7 +439,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &event)
     for(auto &box: uiGroupGraphicDelta) box->clear();
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		DeltaIDs.resize(selections);
 
 		genie::GraphicDelta * DeltaPointer;
@@ -460,7 +474,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_List->GetSelections(Items);
+	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -571,7 +585,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &event)
     for(auto &box: uiGroupGraphicSound) box->clear();
 	if(selections > 0)
 	{
-		SwapSelection(event.GetSelection(), Items);
+		//SwapSelection(event.GetSelection(), Items);
 		AttackSoundIDs.resize(selections);
 
 		genie::GraphicAttackSound * AttackSoundPointer;
@@ -643,7 +657,7 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
+	//Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
 	Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(10, 100));
 	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -859,7 +873,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Graphics_Graphics->Add(Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->AddSpacer(2);
-	Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
+	//Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
 	Graphics_Graphics->Add(Graphics_Graphics_ListV, 2, wxEXPAND);
 	Graphics_Graphics->AddSpacer(2);
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
@@ -1066,7 +1080,9 @@ void AGE_Frame::CreateGraphicsControls()
 		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 		Connect(Graphics_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 	}
-	Connect(Graphics_Graphics_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect));
+	Connect(Graphics_Graphics_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect)); // LMB
+	Connect(Graphics_Graphics_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect)); // CTRL
+	Connect(Graphics_Graphics_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect)); // SHIFT
 	Connect(Graphics_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsAdd));
 	Connect(Graphics_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsInsert));
 	Connect(Graphics_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsDelete));

@@ -90,11 +90,12 @@ public:
 	void SwapSelection(int last, wxArrayInt &selections);
 	void SaveBackup();
 	bool SearchMatches(wxString itemText);
-	void Listing(wxListBox* &List, wxArrayString &names, list<void*> &data);
+    void getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes);
+	void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
 	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
 	void UnitLangDLLConverter(wxCommandEvent &event);
 	void ResearchLangDLLConverter(wxCommandEvent &event);
-	void SearchAllSubVectors(wxListBox* &List, wxTextCtrl* &TopSearch, wxTextCtrl* &SubSearch);
+	void SearchAllSubVectors(wxListBox *List, wxTextCtrl *TopSearch, wxTextCtrl *SubSearch);
 	void LoadAllTechEffects(wxCommandEvent &event);
 	void ClearAllTechEffects(wxCommandEvent &event);
 	void OnAllTechEffectSelect(wxCommandEvent &event);
@@ -2484,7 +2485,7 @@ public:
 	wxTextCtrl *Graphics_Graphics_Search_R;
 	wxOwnerDrawnComboBox *Graphics_SearchFilters[2];
 	wxCheckBox *Graphics_Graphics_UseAnd[2];
-	wxListBox *Graphics_Graphics_List;
+	//wxListBox *Graphics_Graphics_List;
 	AGEListView *Graphics_Graphics_ListV;
 	wxButton *Graphics_Add;
 	wxButton *Graphics_Insert;

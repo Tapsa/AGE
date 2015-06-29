@@ -181,7 +181,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	SwapSelection(event.GetSelection(), Items);
+	//SwapSelection(event.GetSelection(), Items);
 
 	ResearchIDs.resize(selections);
     for(auto &box: uiGroupResearch) box->clear();
@@ -243,10 +243,6 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
 		Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
         if(GenieVersion >= genie::GV_AoEB)
         {
-            Research_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Research_DLL_LanguageDLLHelp->index, 64));
-            Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
-            Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
-            Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
             if(GenieVersion < genie::GV_AoKB)
             {
                 Research_DLL_LanguageDLLHelp->index = (uint16_t)ResearchPointer->LanguageDLLHelp;
@@ -257,6 +253,10 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
                 Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
                 Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLName2 - 140000;
             }
+            Research_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Research_DLL_LanguageDLLHelp->index, 64));
+            Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
+            Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
+            Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
         }
 	}
 }
