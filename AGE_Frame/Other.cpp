@@ -1139,11 +1139,12 @@ void AGE_Frame::LoadLists()
 	}
 
 	wxCommandEvent E;
+    wxTimerEvent TE;
 	OnCivsSelect(E);
 	OnUnitsSelect(E);
 	OnResearchSelect(E);
 	OnTechSelect(E);
-	OnGraphicsSelect(E);
+	OnGraphicsTimer(TE);
 	OnSoundsSelect(E);
 	OnTerrainsSelect(E);
 	OnTerrainRestrictionsTerrainSelect(E);
@@ -2151,6 +2152,20 @@ void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data
 	How2List = SEARCH;
 }
 
+void AGE_Frame::virtualListing(AGEListView* list)
+{
+    long firstVisible = list->GetTopItem();
+    long firstSelected = list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+    if(firstSelected == -1) firstSelected = 0;
+
+    list->SetItemCount(list->names.size());
+    if(list->GetItemCount() == 0) return;
+
+    list->SetItemPosition(firstVisible, wxPoint(0, 0));
+    list->SetItemState(firstSelected, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+    list->Refresh();
+}
+
 void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names)
 {
 	for(ComboBox_Plus1* &list: boxlist)
@@ -2235,6 +2250,19 @@ int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
 		else max = mid - 1;
 	}
 	return -1;
+}
+
+int randomi;
+void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes)
+{
+    ++randomi;
+    indexes.resize(selections);
+    for(int sel = 0, lastItem = -1; sel < selections; ++sel)
+    {
+        lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); // Above is bugged.
+        indexes[sel] = list->indexes[lastItem];
+    }
+    SetStatusText("Times listed: "+lexical_cast<string>(randomi), 2);
 }
 
 // To show contents of last selected item instead of first selection.

@@ -37,6 +37,7 @@ public:
 
 //	Other Events
 
+    wxTimer graphicsTimer;
 	bool DataOpened;
 	void LoadLists();
 	void OnGameVersionChange();
@@ -45,7 +46,6 @@ public:
 	void OnExit(wxCloseEvent &event);
 	void OnMenuOption(wxCommandEvent &event);
 	void OnAutoCopy(wxCommandEvent &event);
-    void OnTimer(wxTimerEvent &event);
 
 //	Updates user interface after changing data name.
 
@@ -92,6 +92,7 @@ public:
 	bool SearchMatches(wxString itemText);
     void getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes);
 	void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
+	void virtualListing(AGEListView* list);
 	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
 	void UnitLangDLLConverter(wxCommandEvent &event);
 	void ResearchLangDLLConverter(wxCommandEvent &event);
@@ -559,6 +560,7 @@ public:
 
 	void ListGraphics(bool all = true);
 	void OnGraphicsSearch(wxCommandEvent &event);
+	void OnGraphicsTimer(wxTimerEvent &event);
 	void OnGraphicsSelect(wxCommandEvent &event);
 	void OnGraphicsAdd(wxCommandEvent &event);
 	void OnGraphicsInsert(wxCommandEvent &event);
