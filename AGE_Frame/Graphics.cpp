@@ -104,8 +104,8 @@ void AGE_Frame::ListGraphics(bool all)
 	chrono::time_point<chrono::system_clock> startTime = chrono::system_clock::now();
 	//FirstVisible = How2List == SEARCH ? 0 : Graphics_Graphics_List->HitTest(wxPoint(0, 0));
 	InitGraphics(all);
-	wxCommandEvent E;
-	OnGraphicsSelect(E);
+	wxTimerEvent E;
+	OnGraphicsTimer(E);
     endTime = chrono::system_clock::now();
     SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
 }
@@ -133,7 +133,7 @@ void AGE_Frame::InitGraphics(bool all)
 		if(all) names.Add(" "+FormatInt(loop)+" - "+GetGraphicName(loop));
 	}
 
-    Graphics_Graphics_ListV->SetItemCount(Graphics_Graphics_ListV->names.size());
+    virtualListing(Graphics_Graphics_ListV);
 	//Listing(Graphics_Graphics_List, Graphics_Graphics_ListV->names, dataPointers);
 	if(all) FillLists(GraphicComboBoxList, names);
 
@@ -141,27 +141,15 @@ void AGE_Frame::InitGraphics(bool all)
 	useAnd[loop] = false;
 }
 
-int randomi;
-void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes)
-{
-    ++randomi;
-    indexes.resize(selections);
-    for(int sel = 0, lastItem = -1; sel < selections; ++sel)
-    {
-        lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); // Above is bugged.
-        indexes[sel] = list->indexes[lastItem];
-    }SetStatusText("Focused: "+lexical_cast<string>(randomi), 1);
-}
-
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
 {
-    
-    if(event.GetEventType() != wxEVT_COMMAND_LIST_ITEM_FOCUSED)
-    {
-        // Make sure that selection and deselection does not fire this at the same time.
-        // <-- Check if saved system type is too new AND if the event type is different!
-    }
-    // <-- Save system time.
+    if(!graphicsTimer.IsRunning())
+        graphicsTimer.Start(150);
+}
+
+void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
+{
+    graphicsTimer.Stop();
 	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	wxBusyCursor WaitCursor;
     getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
@@ -1073,8 +1061,8 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Tab_Graphics->SetSizer(Graphics_Main);
 
-	Connect(Graphics_Graphics_Search->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
-	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
+	Connect(Graphics_Graphics_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
+	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
@@ -1105,6 +1093,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Connect(AttackSounds_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopy));
 	Connect(AttackSounds_CopyToGraphics->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopyToGraphics));
 
+    graphicsTimer.Connect(graphicsTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicsTimer), NULL, this);
 	Graphics_Name->Connect(Graphics_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_Name2->Connect(Graphics_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	GraphicDeltas_GraphicID->Connect(GraphicDeltas_GraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
@@ -1128,8 +1117,8 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 	}
 	else if(event.GetId() == Graphics_Name2->GetId())
 	{
-		wxCommandEvent E;
-		OnGraphicsSelect(E);
+		wxTimerEvent E;
+		OnGraphicsTimer(E);
 	}
 	else if(event.GetId() == Graphics_AngleCount->GetId() || event.GetId() == Graphics_AttackSoundUsed->GetId())
 	{
@@ -1138,8 +1127,8 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 		for(short loop = 0; loop < GraphicIDs.size(); ++loop)
 		GenieFile->Graphics[GraphicIDs[loop]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[loop]].AngleCount);
 
-		wxCommandEvent E;
-		OnGraphicsSelect(E);
+		wxTimerEvent E;
+		OnGraphicsTimer(E);
 	}
 }
 
@@ -1151,8 +1140,8 @@ void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &event)
 	for(short loop = 0; loop < GraphicIDs.size(); ++loop)
 	GenieFile->Graphics[GraphicIDs[loop]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[loop]].AngleCount);
 
-	wxCommandEvent E;
-	OnGraphicsSelect(E);
+	wxTimerEvent E;
+	OnGraphicsTimer(E);
 }
 
 void AGE_Frame::OnUpdateCombo_Graphics(wxCommandEvent &event)
