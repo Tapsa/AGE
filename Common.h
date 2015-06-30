@@ -1,4 +1,3 @@
-#include <boost/lexical_cast.hpp>
 #include <string>
 #include <array>
 #include <vector>
@@ -9,6 +8,7 @@
 //#include <atomic>
 #include <thread>
 #include <iomanip>
+#include <boost/lexical_cast.hpp>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
 #include <wx/collpane.h>
@@ -20,6 +20,7 @@
 #include <wx/odcombo.h>
 #include <wx/listctrl.h>
 #include <wx/tooltip.h>
+#include <wx/timer.h>
 
 #ifdef WIN32
 #include <windows.h>
