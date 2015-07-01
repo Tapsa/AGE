@@ -10,6 +10,7 @@ public:
     wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY){}
 
     virtual void OnUpdate(wxCommandEvent&)=0;
+    void enable(bool yes){Enable(yes);}
 
     AGETextCtrl *TextBox;
 };
@@ -26,7 +27,7 @@ public:
     }
 
     void OnUpdate(wxCommandEvent &Event);
-    void Update(int value);
+    void update(int value);
 };
 
 class ComboBox_EffectType: public AGEComboBox
@@ -41,7 +42,7 @@ public:
     }
 
     void OnUpdate(wxCommandEvent &Event);
-    void Update(int value);
+    void update(int value);
 };
 
 class ComboBox_EffectAttribute: public AGEComboBox
@@ -56,7 +57,7 @@ public:
     }
 
     void OnUpdate(wxCommandEvent &Event);
-    void Update(int value);
+    void update(int value);
 };
 
 #endif
