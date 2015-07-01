@@ -470,6 +470,11 @@ void TextCtrl_Byte::Update()
     if(container.empty())
     {
         Clear();
+        if(!LinkedBoxes.empty())
+        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+        {
+            (*it)->update(-1);
+        }
         return;
     }
     curFileLoaded = AGETextCtrl::fileLoaded[window];
@@ -487,7 +492,7 @@ void TextCtrl_Byte::Update()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->Update(*(int8_t*)container.front());
+        (*it)->update(*(int8_t*)container.front());
     }
 }
 
@@ -496,6 +501,11 @@ void TextCtrl_UByte::Update()
     if(container.empty())
     {
         Clear();
+        if(!LinkedBoxes.empty())
+        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+        {
+            (*it)->update(-1);
+        }
         return;
     }
     curFileLoaded = AGETextCtrl::fileLoaded[window];
@@ -513,7 +523,7 @@ void TextCtrl_UByte::Update()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->Update(*(uint8_t*)container.front());
+        (*it)->update(*(uint8_t*)container.front());
     }
 }
 
@@ -522,6 +532,11 @@ void TextCtrl_Float::Update()
     if(container.empty())
     {
         Clear();
+        if(!LinkedBoxes.empty())
+        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+        {
+            (*it)->update(-1);
+        }
         return;
     }
     curFileLoaded = AGETextCtrl::fileLoaded[window];
@@ -551,7 +566,7 @@ void TextCtrl_Float::Update()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->Update(*(float*)container.front());
+        (*it)->update(*(float*)container.front());
     }
 }
 
@@ -560,6 +575,11 @@ void TextCtrl_Long::Update()
     if(container.empty())
     {
         Clear();
+        if(!LinkedBoxes.empty())
+        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+        {
+            (*it)->update(-1);
+        }
         return;
     }
     curFileLoaded = AGETextCtrl::fileLoaded[window];
@@ -577,7 +597,7 @@ void TextCtrl_Long::Update()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->Update(*(int32_t*)container.front());
+        (*it)->update(*(int32_t*)container.front());
     }
 }
 
@@ -586,6 +606,11 @@ void TextCtrl_Short::Update()
     if(container.empty())
     {
         Clear();
+        if(!LinkedBoxes.empty())
+        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+        {
+            (*it)->update(-1);
+        }
         return;
     }
     curFileLoaded = AGETextCtrl::fileLoaded[window];
@@ -603,7 +628,7 @@ void TextCtrl_Short::Update()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->Update(*(int16_t*)container.front());
+        (*it)->update(*(int16_t*)container.front());
     }
 }
 
@@ -612,6 +637,11 @@ void TextCtrl_UShort::Update()
     if(container.empty())
     {
         Clear();
+        if(!LinkedBoxes.empty())
+        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+        {
+            (*it)->update(-1);
+        }
         return;
     }
     curFileLoaded = AGETextCtrl::fileLoaded[window];
@@ -629,7 +659,7 @@ void TextCtrl_UShort::Update()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->Update(*(uint16_t*)container.front());
+        (*it)->update(*(uint16_t*)container.front());
     }
 }
 

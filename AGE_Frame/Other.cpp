@@ -2133,7 +2133,7 @@ void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data
 		if(How2List == ADD)
 		for(int sel = 0; sel < Items.size(); ++sel)
 		List->Deselect(Items.Item(sel));
-		List->SetFirstItem(listsize - 1);
+		//List->SetFirstItem(listsize - 1);
 		List->SetSelection(listsize - 1);
 		How2List = SEARCH;
 		return;
@@ -2156,14 +2156,36 @@ void AGE_Frame::virtualListing(AGEListView* list)
 {
     long firstVisible = list->GetTopItem();
     long firstSelected = list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-    if(firstSelected == -1) firstSelected = 0;
 
     list->SetItemCount(list->names.size());
     if(list->GetItemCount() == 0) return;
 
-    list->SetItemPosition(firstVisible, wxPoint(0, 0));
+	// Set selections and first visible item.
+    if(firstSelected == -1)
+    {
+        firstSelected = 0;
+    }
+    if(How2List == ADD || firstSelected >= list->names.size())
+    {
+        // Deselect old selections.
+        if(How2List == ADD)
+        while(true)
+        {
+            list->SetItemState(firstSelected, 0, wxLIST_STATE_SELECTED);
+            if(!list->GetSelectedItemCount()) break;
+            firstSelected = list->GetNextItem(firstSelected, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); // Above is bugged.
+        }
+        firstSelected = list->names.size() - 1;
+    }
+    else
+    {
+        list->SetItemPosition(firstVisible, wxPoint(0, 0));
+    }
+    list->EnsureVisible(firstSelected);
     list->SetItemState(firstSelected, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
     list->Refresh();
+    if(How2List != SEARCH) list->SetFocus();
+	How2List = SEARCH;
 }
 
 void AGE_Frame::FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names)

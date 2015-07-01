@@ -2487,7 +2487,6 @@ public:
 	wxTextCtrl *Graphics_Graphics_Search_R;
 	wxOwnerDrawnComboBox *Graphics_SearchFilters[2];
 	wxCheckBox *Graphics_Graphics_UseAnd[2];
-	//wxListBox *Graphics_Graphics_List;
 	AGEListView *Graphics_Graphics_ListV;
 	wxButton *Graphics_Add;
 	wxButton *Graphics_Insert;

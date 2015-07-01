@@ -26,7 +26,8 @@ private:
 class AGELinkedBox
 {
 public:
-    virtual void Update(int)=0;
+    virtual void update(int)=0;
+    virtual void enable(bool)=0;
 };
 
 class AGETextCtrl: public wxTextCtrl
@@ -39,6 +40,15 @@ public:
         wxFrame *frame, const short window, wxWindow *parent, short length = 0);
     virtual int SaveEdits(bool forced = false)=0;
     virtual void Update()=0;
+    void enable(bool yes)
+    {
+        Enable(yes);
+        if(!LinkedBoxes.empty())
+        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+        {
+            (*it)->enable(yes);
+        }
+    }
     void changeContainerType(const ContainerType type);
     void clear(){container.clear();}
     void prepend(void* data){container.push_front(data);}
@@ -73,7 +83,7 @@ protected:
         if(!LinkedBoxes.empty())
         for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
         {
-            (*it)->Update(casted);
+            (*it)->update(casted);
         }
         frame->SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[window])+" + "+lexical_cast<string>(edits), 3);
         AGETextCtrl::unSaved[window] += edits;
