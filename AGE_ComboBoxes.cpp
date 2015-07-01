@@ -33,7 +33,7 @@ void ComboBox_EffectAttribute::OnUpdate(wxCommandEvent &Event)
     TextBox->SaveEdits();
 }
 
-void ComboBox_Plus1::Update(int value)
+void ComboBox_Plus1::update(int value)
 {
     if(GetCount() == 0) return;
     if(++value < GetCount())
@@ -41,7 +41,7 @@ void ComboBox_Plus1::Update(int value)
     else SetSelection(0);
 }
 
-void ComboBox_EffectType::Update(int value)
+void ComboBox_EffectType::update(int value)
 {
     if(GetCount() == 0) return;
     if((value >= 0) && (value <= 6))
@@ -58,7 +58,7 @@ void ComboBox_EffectType::Update(int value)
     }
 }
 
-void ComboBox_EffectAttribute::Update(int value)
+void ComboBox_EffectAttribute::update(int value)
 {
     if(GetCount() == 0) return;
     if((value >= 0) && (value <= 23))
