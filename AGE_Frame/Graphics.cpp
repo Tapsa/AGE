@@ -102,7 +102,6 @@ void AGE_Frame::OnGraphicsSearch(wxCommandEvent &event)
 void AGE_Frame::ListGraphics(bool all)
 {
 	chrono::time_point<chrono::system_clock> startTime = chrono::system_clock::now();
-	//FirstVisible = How2List == SEARCH ? 0 : Graphics_Graphics_List->HitTest(wxPoint(0, 0));
 	InitGraphics(all);
 	wxTimerEvent E;
 	OnGraphicsTimer(E);
@@ -134,7 +133,6 @@ void AGE_Frame::InitGraphics(bool all)
 	}
 
     virtualListing(Graphics_Graphics_ListV);
-	//Listing(Graphics_Graphics_List, Graphics_Graphics_ListV->names, dataPointers);
 	if(all) FillLists(GraphicComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
@@ -193,38 +191,16 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 
 		selections = GenieVersion < genie::GV_AoE ? 1 : GenieFile->GraphicPointers[GraphicIDs[0]];
 	}
-    for(auto &box: uiGroupGraphic) box->Update();
-    // Maybe automatically disable linked boxes if empty?
-    // Remember to force disable ID boxes too.
-	Graphics_Name->Enable(selections);
-	Graphics_Name2->Enable(selections);
-	Graphics_SLP->Enable(selections);
-	Graphics_Unknown1->Enable(selections);
-	Graphics_Unknown2->Enable(selections);
-	Graphics_FrameType->Enable(selections);
-	Graphics_PlayerColor->Enable(selections);
-	Graphics_PlayerColor_ComboBox->Enable(selections);
-	Graphics_Rainbow->Enable(selections);
-	Graphics_Replay->Enable(selections);
-	for(short loop = 0; loop < 4; ++loop)
-	Graphics_Coordinates[loop]->Enable(selections);
-	Graphics_SoundID->Enable(selections);
-	Graphics_SoundID_ComboBox->Enable(selections);
-	Graphics_AttackSoundUsed->Enable(selections);
-	Graphics_AttackSoundUsed_CheckBox->Enable(selections);
-	Graphics_FrameCount->Enable(selections);
-	Graphics_AngleCount->Enable(selections);
-	Graphics_NewSpeed->Enable(selections);
-	Graphics_FrameRate->Enable(selections);
-	Graphics_ReplayDelay->Enable(selections);
-	Graphics_SequenceType->Enable(selections);
-	Graphics_MirroringMode->Enable(selections);
-	if(GenieVersion >= genie::GV_AoKB)
-	Graphics_Unknown3->Enable(selections);
+    for(auto &box: uiGroupGraphic)
+    {
+        box->Update();
+        box->enable(selections);
+    }
 
+    Graphics_ID->Enable(false);
 	Deltas_Add->Enable(selections);
-	//ListGraphicDeltas();
-	//ListGraphicAttackSounds();
+	ListGraphicDeltas();
+	ListGraphicAttackSounds();
 }
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
@@ -291,7 +267,7 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &event)
 		copies.Graphic[loop] = GenieFile->Graphics[GraphicIDs[loop]];
 		//copies.Graphic[loop].Deltas = GenieFile->Graphics[GraphicIDs[loop]].Deltas; Needs its own button!
 	}
-	//Graphics_Graphics_ListV->SetFocus(); Turha?
+	Graphics_Graphics_ListV->SetFocus();
 }
 
 void AGE_Frame::OnGraphicsPaste(wxCommandEvent &event)
@@ -446,18 +422,11 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &event)
 			GraphicDeltas_Unknown5->prepend(&DeltaPointer->Unknown5);
 		}
 	}
-	else
-	{
-        // Add clearing this into the host box.
-		GraphicDeltas_GraphicID_ComboBox->SetSelection(0);
-	}
     for(auto &box: uiGroupGraphicDelta)
     {
         box->Update();
-        box->Enable(selections);
+        box->enable(selections);
     }
-    // Add this into the host box functionality.
-	GraphicDeltas_GraphicID_ComboBox->Enable(selections);
 }
 
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
@@ -590,22 +559,11 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &event)
 			Graphics_AttackSoundDelay[2]->prepend(&AttackSoundPointer->SoundDelay3);
 		}
 	}
-	else
-	{
-		for(short loop = 0; loop < 3; ++loop)
-		{
-			Graphics_AttackSoundID_ComboBox[loop]->SetSelection(0);
-		}
-	}
     for(auto &box: uiGroupGraphicSound)
     {
         box->Update();
-        box->Enable(selections);
+        box->enable(selections);
     }
-	for(short loop = 0; loop < 3; ++loop)
-	{
-		Graphics_AttackSoundID_ComboBox[loop]->Enable(selections);
-	}
 }
 
 void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &event)
@@ -645,7 +603,6 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	//Graphics_Graphics_List = new wxListBox(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
 	Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(10, 100));
 	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -861,7 +818,6 @@ void AGE_Frame::CreateGraphicsControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Graphics_Graphics->Add(Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->AddSpacer(2);
-	//Graphics_Graphics->Add(Graphics_Graphics_List, 1, wxEXPAND);
 	Graphics_Graphics->Add(Graphics_Graphics_ListV, 2, wxEXPAND);
 	Graphics_Graphics->AddSpacer(2);
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
