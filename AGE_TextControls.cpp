@@ -467,17 +467,6 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
 
 void TextCtrl_Byte::Update()
 {
-    if(container.empty())
-    {
-        Clear();
-        if(!LinkedBoxes.empty())
-        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
-        {
-            (*it)->update(-1);
-        }
-        return;
-    }
-    curFileLoaded = AGETextCtrl::fileLoaded[window];
     if(AGETextCtrl::hexMode[window])
     {
         stringbuf buffer;
@@ -493,22 +482,12 @@ void TextCtrl_Byte::Update()
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
         (*it)->update(*(int8_t*)container.front());
+        (*it)->enable(true);
     }
 }
 
 void TextCtrl_UByte::Update()
 {
-    if(container.empty())
-    {
-        Clear();
-        if(!LinkedBoxes.empty())
-        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
-        {
-            (*it)->update(-1);
-        }
-        return;
-    }
-    curFileLoaded = AGETextCtrl::fileLoaded[window];
     if(AGETextCtrl::hexMode[window])
     {
         stringbuf buffer;
@@ -524,22 +503,12 @@ void TextCtrl_UByte::Update()
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
         (*it)->update(*(uint8_t*)container.front());
+        (*it)->enable(true);
     }
 }
 
 void TextCtrl_Float::Update()
 {
-    if(container.empty())
-    {
-        Clear();
-        if(!LinkedBoxes.empty())
-        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
-        {
-            (*it)->update(-1);
-        }
-        return;
-    }
-    curFileLoaded = AGETextCtrl::fileLoaded[window];
     if(AGETextCtrl::hexMode[window])
     {
         stringbuf buffer;
@@ -567,22 +536,12 @@ void TextCtrl_Float::Update()
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
         (*it)->update(*(float*)container.front());
+        (*it)->enable(true);
     }
 }
 
 void TextCtrl_Long::Update()
 {
-    if(container.empty())
-    {
-        Clear();
-        if(!LinkedBoxes.empty())
-        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
-        {
-            (*it)->update(-1);
-        }
-        return;
-    }
-    curFileLoaded = AGETextCtrl::fileLoaded[window];
     if(AGETextCtrl::hexMode[window])
     {
         stringbuf buffer;
@@ -598,22 +557,12 @@ void TextCtrl_Long::Update()
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
         (*it)->update(*(int32_t*)container.front());
+        (*it)->enable(true);
     }
 }
 
 void TextCtrl_Short::Update()
 {
-    if(container.empty())
-    {
-        Clear();
-        if(!LinkedBoxes.empty())
-        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
-        {
-            (*it)->update(-1);
-        }
-        return;
-    }
-    curFileLoaded = AGETextCtrl::fileLoaded[window];
     if(AGETextCtrl::hexMode[window])
     {
         stringbuf buffer;
@@ -629,22 +578,12 @@ void TextCtrl_Short::Update()
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
         (*it)->update(*(int16_t*)container.front());
+        (*it)->enable(true);
     }
 }
 
 void TextCtrl_UShort::Update()
 {
-    if(container.empty())
-    {
-        Clear();
-        if(!LinkedBoxes.empty())
-        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
-        {
-            (*it)->update(-1);
-        }
-        return;
-    }
-    curFileLoaded = AGETextCtrl::fileLoaded[window];
     if(AGETextCtrl::hexMode[window])
     {
         stringbuf buffer;
@@ -660,16 +599,11 @@ void TextCtrl_UShort::Update()
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
         (*it)->update(*(uint16_t*)container.front());
+        (*it)->enable(true);
     }
 }
 
 void TextCtrl_String::Update()
 {
-    if(container.empty())
-    {
-        Clear();
-        return;
-    }
-    curFileLoaded = AGETextCtrl::fileLoaded[window];
     ChangeValue(*(string*)container.front());
 }
