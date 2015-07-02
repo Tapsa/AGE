@@ -1089,7 +1089,7 @@ void AGE_Frame::LoadLists()
 	ListTerrainNumbers();
 	InitTerrains1(true);
 	InitTerrainBorders(true);
-	ListGeneral();
+	ListMapData();
 	InitRandomMaps();
 	InitTechs(true);
 	if(GenieVersion >= genie::GV_SWGB)
@@ -1137,27 +1137,26 @@ void AGE_Frame::LoadLists()
 		Units_ListV->SetItemState(rand() % (12 - TimesOpened) + 4, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
 
-	wxCommandEvent E;
-    wxTimerEvent TE;
-	OnCivsSelect(E);
-	OnUnitsTimer(TE);
-	OnResearchSelect(E);
-	OnTechSelect(E);
-	OnGraphicsTimer(TE);
-	OnSoundsSelect(E);
-	OnTerrainsSelect(E);
-	OnTerrainRestrictionsTerrainSelect(E);
-	OnPlayerColorsSelect(E);
-	OnTerrainBordersSelect(E);
-	OnRandomMapSelect(E);
+    wxTimerEvent E;
+	OnCivsTimer(E);
+	OnUnitsTimer(E);
+	OnResearchTimer(E);
+	OnTechTimer(E);
+	OnGraphicsTimer(E);
+	OnSoundsTimer(E);
+	OnTerrainsTimer(E);
+	OnTerrainRestrictionsTerrainTimer(E);
+	OnPlayerColorsTimer(E);
+	OnTerrainBordersTimer(E);
+	OnRandomMapTimer(E);
 	if(GenieVersion >= genie::GV_AoKA)
 	{
-		OnTTAgesSelect(E);
-		OnTTBuildingSelect(E);
-		OnTTUnitSelect(E);
-		OnTTResearchSelect(E);
+		OnTTAgesTimer(E);
+		OnTTBuildingTimer(E);
+		OnTTUnitTimer(E);
+		OnTTResearchTimer(E);
 		if(GenieVersion >= genie::GV_SWGB)
-		OnUnitLinesSelect(E);
+		OnUnitLinesTimer(E);
 	}
 }
 
