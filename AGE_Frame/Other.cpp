@@ -221,7 +221,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
 	}
 
-	if(GenieFile != NULL)
+	if(NULL != GenieFile)
 	{
 		TechTrees_Ages_Items.Mode->clear();
 		TechTrees_Buildings_Items.Mode->clear();
@@ -284,17 +284,17 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 	}
 	else
 	{
-		if(Lang != NULL)
+		if(NULL != Lang)
 		{
 			delete Lang;
 			Lang = NULL;
 		}
-		if(LangX != NULL)
+		if(NULL != LangX)
 		{
 			delete LangX;
 			LangX = NULL;
 		}
-		if(LangXP != NULL)
+		if(NULL != LangXP)
 		{
 			delete LangXP;
 			LangXP = NULL;
@@ -362,7 +362,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 	}
 
-	if(GenieFile != NULL)
+	if(NULL != GenieFile)
 	{	// Without these, nothing can be edited.
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;

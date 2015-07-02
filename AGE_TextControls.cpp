@@ -10,7 +10,7 @@ wxString AGEListView::OnGetItemText(long item, long column) const
     return names[item];
 }
 
-AGETextCtrl* AGETextCtrl::init(const ContainerType type, forward_list<AGETextCtrl*> &group,
+AGETextCtrl* AGETextCtrl::init(const ContainerType type, forward_list<AGETextCtrl*> *group,
     wxFrame *frame, const short window, wxWindow *parent, short length)
 {
     AGETextCtrl* product;
@@ -24,7 +24,7 @@ AGETextCtrl* AGETextCtrl::init(const ContainerType type, forward_list<AGETextCtr
     case CUShort: product = new TextCtrl_UShort(frame, window, parent); break;
     case CString: product = new TextCtrl_String(frame, window, parent, length); break;
     }
-    group.push_front(product);
+    if(NULL != group) group->push_front(product);
     return product;
 }
 

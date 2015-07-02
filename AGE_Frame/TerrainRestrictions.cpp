@@ -227,7 +227,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &event)
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->TerrainRestrictions);

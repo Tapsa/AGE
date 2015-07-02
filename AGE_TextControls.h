@@ -36,12 +36,13 @@ public:
     AGETextCtrl(wxWindow *parent, int width):
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, 20), wxTE_PROCESS_ENTER){edits = 0;}
 
-    static AGETextCtrl* init(const ContainerType type, forward_list<AGETextCtrl*> &group,
+    static AGETextCtrl* init(const ContainerType type, forward_list<AGETextCtrl*> *group,
         wxFrame *frame, const short window, wxWindow *parent, short length = 0);
     virtual int SaveEdits(bool forced = false)=0;
     virtual void Update()=0;
     void enable(bool yes)
     {
+        if(container.empty()) yes = false;
         Enable(yes);
         if(!LinkedBoxes.empty())
         for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
