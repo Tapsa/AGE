@@ -101,12 +101,9 @@ void AGE_Frame::OnGraphicsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListGraphics(bool all)
 {
-	chrono::time_point<chrono::system_clock> startTime = chrono::system_clock::now();
 	InitGraphics(all);
 	wxTimerEvent E;
 	OnGraphicsTimer(E);
-    endTime = chrono::system_clock::now();
-    SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
 }
 
 void AGE_Frame::InitGraphics(bool all)
@@ -603,7 +600,7 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(10, 100));
+	Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(200, 100));
 	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
 	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Insert = new wxButton(Tab_Graphics, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -818,7 +815,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Graphics_Graphics->Add(Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->AddSpacer(2);
-	Graphics_Graphics->Add(Graphics_Graphics_ListV, 2, wxEXPAND);
+	Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND);
 	Graphics_Graphics->AddSpacer(2);
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
 

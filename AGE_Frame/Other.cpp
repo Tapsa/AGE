@@ -1130,18 +1130,17 @@ void AGE_Frame::LoadLists()
 	}
 	if(TimesOpened < 3)
 	{
-		Units_List->Deselect(0);
+		Units_ListV->SetItemState(0, 0, wxLIST_STATE_SELECTED);
 		srand(time(NULL));
 		short sels = rand() % 2 + 3;
 		for(short i=0; ++i<sels;)
-		Units_List->SetSelection(rand() % (12 - TimesOpened) + 4);
-		Units_List->SetFirstItem(0);
+		Units_ListV->SetItemState(rand() % (12 - TimesOpened) + 4, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
 
 	wxCommandEvent E;
     wxTimerEvent TE;
 	OnCivsSelect(E);
-	OnUnitsSelect(E);
+	OnUnitsTimer(TE);
 	OnResearchSelect(E);
 	OnTechSelect(E);
 	OnGraphicsTimer(TE);
@@ -2158,6 +2157,7 @@ void AGE_Frame::virtualListing(AGEListView* list)
     long firstSelected = list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 
     list->SetItemCount(list->names.size());
+    list->SetColumnWidth(0, wxLIST_AUTOSIZE_USEHEADER);
     if(list->GetItemCount() == 0) return;
 
 	// Set selections and first visible item.
