@@ -241,7 +241,7 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected research: "+lexical_cast<string>(ResearchIDs[0]), 0);
 
-	for(auto &box: uiGroupResearch) box->Update();
+	for(auto &box: uiGroupResearch) box->update();
 	if(GenieVersion >= genie::GV_MATT)
 	{
 		Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
