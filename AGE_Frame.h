@@ -37,7 +37,7 @@ public:
 
 //	Other Events
 
-    wxTimer graphicsTimer;
+    wxTimer graphicsTimer, unitsTimer;
 	bool DataOpened;
 	void LoadLists();
 	void OnGameVersionChange();
@@ -456,6 +456,7 @@ public:
 
 	void ListUnits(short civ, bool all = true);
 	void OnUnitsSearch(wxCommandEvent &event);
+	void OnUnitsTimer(wxTimerEvent &event);
 	void OnUnitsSelect(wxCommandEvent &event);
 	void OnUnitsAdd(wxCommandEvent &event);
 	void OnUnitsInsert(wxCommandEvent &event);
@@ -2288,7 +2289,7 @@ public:
 	wxOwnerDrawnComboBox *Units_FilterSelector;
 	wxOwnerDrawnComboBox *Units_SearchFilters[2];	// Unit search
 	wxCheckBox *Units_UseAnd[2];
-	wxListBox *Units_List;	// List of units
+	AGEListView *Units_ListV;
 	wxButton *Units_Add;	// Buttons
 	wxButton *Units_Insert;
 	wxButton *Units_Delete;
