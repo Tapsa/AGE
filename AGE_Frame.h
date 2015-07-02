@@ -1674,6 +1674,7 @@ public:
 
 	wxScrolledWindow *Units_Scroller;	// Scrollable unit section
 
+    wxStaticText *visibleUnitCiv;
 	AGETextCtrl *Units_Type;
 	wxOwnerDrawnComboBox *Units_Type_ComboBox;
 	AGETextCtrl *Units_ID1;
@@ -2075,7 +2076,7 @@ public:
 //	Invisible Holder Windows
 //	Type 10+
 
-	wxStaticBoxSizer *Units_Type_Holder;
+	wxBoxSizer *Units_Type_Holder;
 	wxBoxSizer *Units_ID1_Holder;
 	wxBoxSizer *Units_LanguageDLLName_Holder;
 	wxBoxSizer *Units_LanguageDLLCreation_Holder;
@@ -2388,7 +2389,8 @@ public:
     forward_list<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitCommand;
 	wxBoxSizer *Units_ScrollArea;	// Scrollable section division
 	wxBoxSizer *Units_ScrollSpace;
-	wxStaticBoxSizer *Units_TypeArea_Holder;
+	wxStaticBoxSizer *Units_Identity_Holder;
+	wxBoxSizer *Units_TypeArea_Holder;
 	wxStaticBoxSizer *Units_LangDLLArea_Holder;
 	wxStaticBoxSizer *Units_GraphicsArea_Holder;
 	wxBoxSizer *Units_GraphicsArea1_Holder;

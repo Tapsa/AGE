@@ -27,7 +27,6 @@ class AGELinkedBox
 {
 public:
     virtual void update(int)=0;
-protected:
     virtual void enable(bool)=0;
 };
 
