@@ -2288,7 +2288,6 @@ public:
 	wxBoxSizer *Units_DamageGraphics_ListArea;
 	wxTextCtrl *Units_DamageGraphics_Search;
 	wxTextCtrl *Units_DamageGraphics_Search_R;
-	wxListBox *Units_DamageGraphics_List;
 	AGEListView *Units_DamageGraphics_ListV;
 	wxGridSizer *Units_DamageGraphics_Buttons;
 	wxButton *Units_DamageGraphics_Add;
@@ -2314,7 +2313,6 @@ public:
 	wxBoxSizer *Units_Attacks_DataArea;
 	wxTextCtrl *Units_Attacks_Search;
 	wxTextCtrl *Units_Attacks_Search_R;
-	wxListBox *Units_Attacks_List;
 	AGEListView *Units_Attacks_ListV;
 	wxGridSizer *Units_Attacks_Buttons;
 	wxButton *Units_Attacks_Add;
@@ -2338,7 +2336,6 @@ public:
 	wxBoxSizer *Units_Armors_DataArea;
 	wxTextCtrl *Units_Armors_Search;
 	wxTextCtrl *Units_Armors_Search_R;
-	wxListBox *Units_Armors_List;
 	AGEListView *Units_Armors_ListV;
 	wxGridSizer *Units_Armors_Buttons;
 	wxButton *Units_Armors_Add;
@@ -2455,7 +2452,6 @@ public:
 	wxStaticBoxSizer *Units_UnitCommands;
 	wxTextCtrl *Units_UnitCommands_Search;
 	wxTextCtrl *Units_UnitCommands_Search_R;
-	wxListBox *Units_UnitCommands_List;
 	AGEListView *Units_UnitCommands_ListV;
 	wxGridSizer *Units_UnitCommands_Buttons;
 	wxButton *Units_UnitCommands_Add;
@@ -2665,7 +2661,6 @@ public:
 	wxBoxSizer *Graphics_Deltas;
 	wxTextCtrl *Graphics_Deltas_Search;
 	wxTextCtrl *Graphics_Deltas_Search_R;
-	wxListBox *Graphics_Deltas_List;
 	AGEListView *Graphics_Deltas_ListV;
 	wxGridSizer *Graphics_Deltas_Buttons;
 	wxButton *Deltas_Add;
@@ -2676,7 +2671,6 @@ public:
 	wxButton *Deltas_PasteInsert;
 	wxButton *Deltas_CopyToGraphics;
 	wxBoxSizer *Graphics_AttackSounds;
-	wxListBox *Graphics_AttackSounds_List;
 	AGEListView *Graphics_AttackSounds_ListV;
 	wxButton *AttackSounds_Copy;
 	wxButton *AttackSounds_CopyToGraphics;
