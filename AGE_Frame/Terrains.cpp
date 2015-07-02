@@ -371,7 +371,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent &event) // Their count is hardcoded.
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Terrain::customTerrainAmount = ++CustomTerrains;

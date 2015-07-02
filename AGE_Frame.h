@@ -2385,6 +2385,7 @@ public:
 
 	wxBoxSizer *Units_DataArea;	// Unit window other-than unit-list-section
 
+    forward_list<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitCommand;
 	wxBoxSizer *Units_ScrollArea;	// Scrollable section division
 	wxBoxSizer *Units_ScrollSpace;
 	wxStaticBoxSizer *Units_TypeArea_Holder;
