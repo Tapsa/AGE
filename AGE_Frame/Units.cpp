@@ -763,11 +763,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 	}
 	ListUnitCommands();
 
-    for(auto &box: uiGroupUnit)
-    {
-        box->Update();
-        box->enable(true);
-    }
+    for(auto &box: uiGroupUnit) box->Update();
     Units_ID1->Enable(false);
     Units_ID2->Enable(false);
     Units_ID3->Enable(false);
