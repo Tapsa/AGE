@@ -385,7 +385,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupUnit) box->clear();
 
-	short unitType = -1, unitCiv;
+	short unitType = -1;
 	genie::Unit * UnitPointer;
 	//wxString locations = "Locations:\n";
 	for(auto sel = selections; sel--> 0;)
@@ -396,8 +396,8 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 		{
 			if(GenieFile->Civs[SelectedCivs[vecCiv]].UnitPointers[UnitIDs[sel]] == 0) continue;
 			//locations.Append("Vec "+lexical_cast<string>(vecCiv)+", civ "+lexical_cast<string>(UnitCiv)+"; ");
-            unitCiv = SelectedCivs[vecCiv];
-			UnitPointer = &GenieFile->Civs[unitCiv].Units[UnitIDs[sel]];
+            UnitCivID = SelectedCivs[vecCiv];
+			UnitPointer = &GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]];
 			unitType = (short)UnitPointer->Type;
 			// This ensures that the first pointer is always the current civ and its first selection.
 			int location = sel + vecCiv * selections;
@@ -731,7 +731,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             }
             Units_DLL_HotKey4->index = UnitPointer->HotKey;
         }
-        visibleUnitCiv->SetLabel(GenieFile->Civs[unitCiv].Name);
+        visibleUnitCiv->SetLabel(GenieFile->Civs[UnitCivID].Name);
 	}
     else
     {
