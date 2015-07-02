@@ -17,8 +17,8 @@ void AGE_Frame::ListUnitLines()
 {
 	FirstVisible = How2List == SEARCH ? 0 : UnitLines_UnitLines_List->HitTest(wxPoint(0, 0));
 	InitUnitLines();
-	wxCommandEvent E;
-	OnUnitLinesSelect(E);
+	wxTimerEvent E;
+	OnUnitLinesTimer(E);
 }
 
 void AGE_Frame::InitUnitLines()
@@ -52,6 +52,13 @@ void AGE_Frame::InitUnitLines()
 
 void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &event)
 {
+    if(!unitLineTimer.IsRunning())
+        unitLineTimer.Start(150);
+}
+
+void AGE_Frame::OnUnitLinesTimer(wxTimerEvent &event)
+{
+    unitLineTimer.Stop();
 	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -186,12 +193,19 @@ void AGE_Frame::ListUnitLineUnits()
 	}
 	Listing(UnitLines_UnitLineUnits_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnUnitLineUnitsSelect(E);
+	wxTimerEvent E;
+	OnUnitLineUnitsTimer(E);
 }
 
 void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &event)
 {
+    if(!unitLineUnitTimer.IsRunning())
+        unitLineUnitTimer.Start(150);
+}
+
+void AGE_Frame::OnUnitLineUnitsTimer(wxTimerEvent &event)
+{
+    unitLineUnitTimer.Stop();
 	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
 	if(selections > 0)
 	{
@@ -428,6 +442,8 @@ void AGE_Frame::CreateUnitLineControls()
 	Connect(UnitLineUnits_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsPasteInsert));
 	Connect(UnitLineUnits_CopyToUnitLines->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsCopyToUnitLines));
 
+    unitLineTimer.Connect(unitLineTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitLinesTimer), NULL, this);
+    unitLineUnitTimer.Connect(unitLineUnitTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitLineUnitsTimer), NULL, this);
 	UnitLines_Name->Connect(UnitLines_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnitLines), NULL, this);
 	UnitLineUnits_Units->Connect(UnitLineUnits_Units->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_UnitLines), NULL, this);
 	UnitLineUnits_ComboBox->Connect(UnitLineUnits_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_UnitLines), NULL, this);

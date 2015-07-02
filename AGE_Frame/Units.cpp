@@ -355,14 +355,14 @@ void AGE_Frame::InitUnits(short civ, bool all)
 
 void AGE_Frame::OnUnitsSelect(wxCommandEvent &event)
 {
-    if(!unitsTimer.IsRunning())
-        unitsTimer.Start(150);
+    if(!unitTimer.IsRunning())
+        unitTimer.Start(150);
 }
 
 //	This links data into user interface
 void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 {
-    unitsTimer.Stop();
+    unitTimer.Stop();
 	auto selections = Units_ListV->GetSelectedItemCount();
 	if(selections < 1) return;	// If a unit is selected.
 
@@ -2446,12 +2446,19 @@ void AGE_Frame::ListUnitDamageGraphics()
 	}
 	Listing(Units_DamageGraphics_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnUnitDamageGraphicsSelect(E);
+	wxTimerEvent E;
+	OnUnitDamageGraphicsTimer(E);
 }
 
 void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &event)
 {
+    if(!dmgGraphicTimer.IsRunning())
+        dmgGraphicTimer.Start(150);
+}
+
+void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent &event)
+{
+    dmgGraphicTimer.Stop();
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
 	if(selections > 0)
 	{
@@ -2753,12 +2760,19 @@ void AGE_Frame::ListUnitAttacks()
 	}
 	Listing(Units_Attacks_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnUnitAttacksSelect(E);
+	wxTimerEvent E;
+	OnUnitAttacksTimer(E);
 }
 
 void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &event)
 {
+    if(!attackTimer.IsRunning())
+        attackTimer.Start(150);
+}
+
+void AGE_Frame::OnUnitAttacksTimer(wxTimerEvent &event)
+{
+    attackTimer.Stop();
 	auto selections = Units_Attacks_List->GetSelections(Items);
 	if(selections > 0)
 	{
@@ -3048,12 +3062,19 @@ void AGE_Frame::ListUnitArmors()
 	}
 	Listing(Units_Armors_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnUnitArmorsSelect(E);
+	wxTimerEvent E;
+	OnUnitArmorsTimer(E);
 }
 
 void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &event)
 {
+    if(!armorTimer.IsRunning())
+        armorTimer.Start(150);
+}
+
+void AGE_Frame::OnUnitArmorsTimer(wxTimerEvent &event)
+{
+    armorTimer.Stop();
 	auto selections = Units_Armors_List->GetSelections(Items);
 	if(selections > 0)
 	{
@@ -3421,12 +3442,19 @@ void AGE_Frame::ListUnitCommands()
 	}
 	Listing(Units_UnitCommands_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnUnitCommandsSelect(E);
+	wxTimerEvent E;
+	OnUnitCommandsTimer(E);
 }
 
 void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &event)
 {
+    if(!actionTimer.IsRunning())
+        actionTimer.Start(150);
+}
+
+void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
+{
+    actionTimer.Stop();
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
 	if(selections > 0)
 	{
@@ -6448,7 +6476,11 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 	Connect(Units_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 
-    unitsTimer.Connect(unitsTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitsTimer), NULL, this);
+    unitTimer.Connect(unitTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitsTimer), NULL, this);
+    dmgGraphicTimer.Connect(dmgGraphicTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitDamageGraphicsTimer), NULL, this);
+    attackTimer.Connect(attackTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitAttacksTimer), NULL, this);
+    armorTimer.Connect(armorTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitArmorsTimer), NULL, this);
+    actionTimer.Connect(actionTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitCommandsTimer), NULL, this);
 	Units_DLL_LanguageName->Connect(Units_DLL_LanguageName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 	Units_DLL_LanguageCreation->Connect(Units_DLL_LanguageCreation->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 	Units_DLL_HotKey4->Connect(Units_DLL_HotKey4->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);

@@ -17,8 +17,8 @@ void AGE_Frame::ListPlayerColors()
 {
 	FirstVisible = How2List == SEARCH ? 0 : Colors_Colors_List->HitTest(wxPoint(0, 0));
 	InitPlayerColors();
-	wxCommandEvent E;
-	OnPlayerColorsSelect(E);
+	wxTimerEvent E;
+	OnPlayerColorsTimer(E);
 }
 
 void AGE_Frame::InitPlayerColors()
@@ -52,6 +52,13 @@ void AGE_Frame::InitPlayerColors()
 
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &event)
 {
+    if(!colorTimer.IsRunning())
+        colorTimer.Start(150);
+}
+
+void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
+{
+    colorTimer.Stop();
 	auto selections = Colors_Colors_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -322,6 +329,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Connect(Colors_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsCopy));
 	Connect(Colors_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsPaste));
 	Connect(Colors_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsPasteInsert));
+    colorTimer.Connect(colorTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnPlayerColorsTimer), NULL, this);
 	Colors_Name->Connect(Colors_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Colors), NULL, this);
 }
 

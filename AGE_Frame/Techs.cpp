@@ -81,8 +81,8 @@ void AGE_Frame::ListTechs(bool all)
 {
 	FirstVisible = How2List == SEARCH ? 0 : Techs_List->HitTest(wxPoint(0, 0));
 	InitTechs(all);
-	wxCommandEvent E;
-	OnTechSelect(E);
+	wxTimerEvent E;
+	OnTechTimer(E);
 }
 
 void AGE_Frame::InitTechs(bool all)
@@ -119,6 +119,13 @@ void AGE_Frame::InitTechs(bool all)
 
 void AGE_Frame::OnTechSelect(wxCommandEvent &event)
 {
+    if(!techTimer.IsRunning())
+        techTimer.Start(150);
+}
+
+void AGE_Frame::OnTechTimer(wxTimerEvent &event)
+{
+    techTimer.Stop();
 	auto selections = Techs_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -337,12 +344,19 @@ void AGE_Frame::ListEffects()
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
-	wxCommandEvent E;
-	OnEffectsSelect(E);
+	wxTimerEvent E;
+	OnEffectsTimer(E);
 }
 
 void AGE_Frame::OnEffectsSelect(wxCommandEvent &event)
 {
+    if(!effectTimer.IsRunning())
+        effectTimer.Start(150);
+}
+
+void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
+{
+    effectTimer.Stop();
 	auto selections = Techs_Effects_List->GetSelections(Items);
 	if(selections > 0)
 	{
@@ -1027,8 +1041,8 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
-	wxCommandEvent E;
-	OnAllTechEffectSelect(E);
+	wxTimerEvent E;
+	OnAllTechEffectTimer(E);
 }
 
 void AGE_Frame::ClearAllTechEffects(wxCommandEvent &event)
@@ -1039,6 +1053,13 @@ void AGE_Frame::ClearAllTechEffects(wxCommandEvent &event)
 
 void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent &event)
 {
+    if(!allEffectsTimer.IsRunning())
+        allEffectsTimer.Start(150);
+}
+
+void AGE_Frame::OnAllTechEffectTimer(wxTimerEvent &event)
+{
+    allEffectsTimer.Stop();
 	SearchAllSubVectors(Techs_AllEffects_List, Techs_Search, Techs_Effects_Search);
 }
 
@@ -1392,6 +1413,9 @@ void AGE_Frame::CreateTechControls()
 	Connect(Techs_AllEffects_Load->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
 	Connect(Techs_AllEffects_Clear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::ClearAllTechEffects));
 
+    techTimer.Connect(techTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTechTimer), NULL, this);
+    effectTimer.Connect(effectTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnEffectsTimer), NULL, this);
+    allEffectsTimer.Connect(allEffectsTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnAllTechEffectTimer), NULL, this);
 	Techs_Name->Connect(Techs_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
 	Effects_Type->Connect(Effects_Type->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
 	Effects_Type_ComboBox->Connect(Effects_Type_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Techs), NULL, this);
