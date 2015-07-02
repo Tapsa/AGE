@@ -188,11 +188,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 
 		selections = GenieVersion < genie::GV_AoE ? 1 : GenieFile->GraphicPointers[GraphicIDs[0]];
 	}
-    for(auto &box: uiGroupGraphic)
-    {
-        box->Update();
-        box->enable(selections);
-    }
+    for(auto &box: uiGroupGraphic) box->Update();
 
     Graphics_ID->Enable(false);
 	Deltas_Add->Enable(selections);
@@ -426,11 +422,7 @@ void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent &event)
 			GraphicDeltas_Unknown5->prepend(&DeltaPointer->Unknown5);
 		}
 	}
-    for(auto &box: uiGroupGraphicDelta)
-    {
-        box->Update();
-        box->enable(selections);
-    }
+    for(auto &box: uiGroupGraphicDelta) box->Update();
 }
 
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
@@ -570,11 +562,7 @@ void AGE_Frame::OnGraphicAttackSoundsTimer(wxTimerEvent &event)
 			Graphics_AttackSoundDelay[2]->prepend(&AttackSoundPointer->SoundDelay3);
 		}
 	}
-    for(auto &box: uiGroupGraphicSound)
-    {
-        box->Update();
-        box->enable(selections);
-    }
+    for(auto &box: uiGroupGraphicSound) box->Update();
 }
 
 void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &event)
