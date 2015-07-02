@@ -385,24 +385,25 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupUnit) box->clear();
 
-	short UnitType;
+	short unitType = -1, unitCiv;
 	genie::Unit * UnitPointer;
 	//wxString locations = "Locations:\n";
 	for(auto sel = selections; sel--> 0;)
 	{
+        unitType = -1;
 		// This makes auto-copy automatic.
 		for(short vecCiv = SelectedCivs.size(); vecCiv--> 0;)
 		{
-			//locations.Append("Vec "+lexical_cast<string>(vecCiv)+", civ "+lexical_cast<string>(SelectedCivs[vecCiv])+"; ");
-			UnitPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[sel]];
-
-			UnitType = (short)UnitPointer->Type;
+			if(GenieFile->Civs[SelectedCivs[vecCiv]].UnitPointers[UnitIDs[sel]] == 0) continue;
+			//locations.Append("Vec "+lexical_cast<string>(vecCiv)+", civ "+lexical_cast<string>(UnitCiv)+"; ");
+            unitCiv = SelectedCivs[vecCiv];
+			UnitPointer = &GenieFile->Civs[unitCiv].Units[UnitIDs[sel]];
+			unitType = (short)UnitPointer->Type;
 			// This ensures that the first pointer is always the current civ and its first selection.
 			int location = sel + vecCiv * selections;
 			//locations.Append(lexical_cast<string>(location)+" ");
 			// Assing data to editing boxes
-			Units_Type->prepend(&UnitPointer->Type);
-			switch(UnitType)
+			switch(unitType)
 			{
 				case 80:
 				{
@@ -549,106 +550,111 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 				{
 					Units_Speed->prepend(&UnitPointer->Speed);
 				}
+				case 90:
+				case 15:
+				case 10:
+                {
+                    Units_Type->prepend(&UnitPointer->Type);
+                    Units_ID1->prepend(&UnitPointer->ID1);
+                    Units_LanguageDLLName->prepend(&UnitPointer->LanguageDLLName);
+                    Units_LanguageDLLCreation->prepend(&UnitPointer->LanguageDLLCreation);
+                    Units_Class->prepend(&UnitPointer->Class);
+                    if(CopyGraphics || vecCiv == 0)
+                    {
+                        Units_StandingGraphic[0]->prepend(&UnitPointer->StandingGraphic.first);
+                        Units_DyingGraphic[0]->prepend(&UnitPointer->DyingGraphic.first);
+                        Units_DyingGraphic[1]->prepend(&UnitPointer->DyingGraphic.second);
+                        Units_IconID->prepend(&UnitPointer->IconID);
+                    }
+                    Units_DeathMode->prepend(&UnitPointer->DeathMode);
+                    Units_HitPoints->prepend(&UnitPointer->HitPoints);
+                    Units_LineOfSight->prepend(&UnitPointer->LineOfSight);
+                    Units_GarrisonCapacity->prepend(&UnitPointer->GarrisonCapacity);
+                    Units_SizeRadius[0]->prepend(&UnitPointer->SizeRadius.first);
+                    Units_SizeRadius[1]->prepend(&UnitPointer->SizeRadius.second);
+                    Units_HPBarHeight1->prepend(&UnitPointer->HPBarHeight1);
+                    Units_TrainSound[0]->prepend(&UnitPointer->TrainSound.first);
+                    Units_DeadUnitID->prepend(&UnitPointer->DeadUnitID);
+                    Units_PlacementMode->prepend(&UnitPointer->PlacementMode);
+                    Units_AirMode->prepend(&UnitPointer->AirMode);
+                    Units_HideInEditor->prepend(&UnitPointer->HideInEditor);
+                    Units_Unknown1->prepend(&UnitPointer->Unknown1);
+                    Units_PlacementBypassTerrain[0]->prepend(&UnitPointer->PlacementBypassTerrain.first);
+                    Units_PlacementBypassTerrain[1]->prepend(&UnitPointer->PlacementBypassTerrain.second);
+                    Units_PlacementTerrain[0]->prepend(&UnitPointer->PlacementTerrain.first);
+                    Units_PlacementTerrain[1]->prepend(&UnitPointer->PlacementTerrain.second);
+                    Units_EditorRadius[0]->prepend(&UnitPointer->EditorRadius.first);
+                    Units_EditorRadius[1]->prepend(&UnitPointer->EditorRadius.second);
+                    Units_HillMode->prepend(&UnitPointer->HillMode);
+                    Units_VisibleInFog->prepend(&UnitPointer->VisibleInFog);
+                    Units_TerrainRestriction->prepend(&UnitPointer->TerrainRestriction);
+                    Units_FlyMode->prepend(&UnitPointer->FlyMode);
+                    Units_ResourceCapacity->prepend(&UnitPointer->ResourceCapacity);
+                    Units_ResourceDecay->prepend(&UnitPointer->ResourceDecay);
+                    Units_BlastArmorLevel->prepend(&UnitPointer->BlastArmorLevel);
+                    Units_TriggerType->prepend(&UnitPointer->TriggerType);
+                    Units_InteractionMode->prepend(&UnitPointer->InteractionMode);
+                    Units_MinimapMode->prepend(&UnitPointer->MinimapMode);
+                    Units_SelectionEffect->prepend(&UnitPointer->SelectionEffect);
+                    Units_EditorSelectionColour->prepend(&UnitPointer->EditorSelectionColour);
+                    if(GenieVersion >= genie::GV_AoKA)
+                    {
+                        Units_TrainSound[1]->prepend(&UnitPointer->TrainSound.second);
+                        Units_SelectionMask->prepend(&UnitPointer->SelectionMask);
+                        Units_SelectionShapeType->prepend(&UnitPointer->SelectionShapeType);
+                        Units_SelectionShape->prepend(&UnitPointer->SelectionShape);
+                        Units_ID3->prepend(&UnitPointer->ID3);
+                        if(GenieVersion >= genie::GV_AoKB)
+                        {
+                            if(CopyGraphics || vecCiv == 0)
+                            Units_StandingGraphic[1]->prepend(&UnitPointer->StandingGraphic.second);
+                            if(GenieVersion >= genie::GV_AoK)
+                            {
+                                Units_Disabled->prepend(&UnitPointer->Disabled);
+                                if(GenieVersion >= genie::GV_TC)
+                                {
+                                    Units_Attribute->prepend(&UnitPointer->Attribute);
+                                    Units_Civ->prepend(&UnitPointer->Civilization);
+                                    Units_Unknown9->prepend(&UnitPointer->Nothing);
+                                    if(GenieVersion >= genie::GV_SWGB)
+                                    {
+                                        Units_Name2->prepend(&UnitPointer->Name2);
+                                        Units_Unitline->prepend(&UnitPointer->Unitline);
+                                        Units_MinTechLevel->prepend(&UnitPointer->MinTechLevel);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Units_Enabled->prepend(&UnitPointer->Enabled);
+                    Units_CommandID->prepend(&UnitPointer->CommandAttribute);
+                    Units_Unknown3A->prepend(&UnitPointer->Unknown3A);
+                    Units_MinimapColor->prepend(&UnitPointer->MinimapColor);
+                    Units_LanguageDLLHelp->prepend(&UnitPointer->LanguageDLLHelp);
+                    Units_LanguageDLLHotKeyText->prepend(&UnitPointer->LanguageDLLHotKeyText);
+                    Units_HotKey->prepend(&UnitPointer->HotKey);
+                    Units_Unselectable->prepend(&UnitPointer->Unselectable);
+                    Units_Unknown6->prepend(&UnitPointer->Unknown6);
+                    Units_Unknown7->prepend(&UnitPointer->UnknownSelectionMode);
+                    Units_Unknown8->prepend(&UnitPointer->Unknown8);
+                    Units_SelectionRadius[0]->prepend(&UnitPointer->SelectionRadius.first);
+                    Units_SelectionRadius[1]->prepend(&UnitPointer->SelectionRadius.second);
+                    Units_HPBarHeight2->prepend(&UnitPointer->HPBarHeight2);
+                    Units_SelectionSound->prepend(&UnitPointer->SelectionSound);
+                    Units_DyingSound->prepend(&UnitPointer->DyingSound);
+                    Units_AttackMode->prepend(&UnitPointer->AttackMode);
+                    Units_EdibleMeat->prepend(&UnitPointer->EdibleMeat);
+                    Units_Name->prepend(&UnitPointer->Name);
+                    Units_ID2->prepend(&UnitPointer->ID2);
+                    for(short loop = 0; loop < 3; ++loop)
+                    {
+                        ResourceStorage_Type[loop]->prepend(&UnitPointer->ResourceStorages[loop].Type);
+                        ResourceStorage_Amount[loop]->prepend(&UnitPointer->ResourceStorages[loop].Amount);
+                        ResourceStorage_Enabled[loop]->prepend(&UnitPointer->ResourceStorages[loop].Enabled);
+                    }
+                }
 			}
-			Units_ID1->prepend(&UnitPointer->ID1);
-			Units_LanguageDLLName->prepend(&UnitPointer->LanguageDLLName);
-			Units_LanguageDLLCreation->prepend(&UnitPointer->LanguageDLLCreation);
-			Units_Class->prepend(&UnitPointer->Class);
-			if(CopyGraphics || vecCiv == 0)
-			{
-				Units_StandingGraphic[0]->prepend(&UnitPointer->StandingGraphic.first);
-				Units_DyingGraphic[0]->prepend(&UnitPointer->DyingGraphic.first);
-				Units_DyingGraphic[1]->prepend(&UnitPointer->DyingGraphic.second);
-				Units_IconID->prepend(&UnitPointer->IconID);
-			}
-			Units_DeathMode->prepend(&UnitPointer->DeathMode);
-			Units_HitPoints->prepend(&UnitPointer->HitPoints);
-			Units_LineOfSight->prepend(&UnitPointer->LineOfSight);
-			Units_GarrisonCapacity->prepend(&UnitPointer->GarrisonCapacity);
-			Units_SizeRadius[0]->prepend(&UnitPointer->SizeRadius.first);
-			Units_SizeRadius[1]->prepend(&UnitPointer->SizeRadius.second);
-			Units_HPBarHeight1->prepend(&UnitPointer->HPBarHeight1);
-			Units_TrainSound[0]->prepend(&UnitPointer->TrainSound.first);
-			Units_DeadUnitID->prepend(&UnitPointer->DeadUnitID);
-			Units_PlacementMode->prepend(&UnitPointer->PlacementMode);
-			Units_AirMode->prepend(&UnitPointer->AirMode);
-			Units_HideInEditor->prepend(&UnitPointer->HideInEditor);
-			Units_Unknown1->prepend(&UnitPointer->Unknown1);
-			Units_PlacementBypassTerrain[0]->prepend(&UnitPointer->PlacementBypassTerrain.first);
-			Units_PlacementBypassTerrain[1]->prepend(&UnitPointer->PlacementBypassTerrain.second);
-			Units_PlacementTerrain[0]->prepend(&UnitPointer->PlacementTerrain.first);
-			Units_PlacementTerrain[1]->prepend(&UnitPointer->PlacementTerrain.second);
-			Units_EditorRadius[0]->prepend(&UnitPointer->EditorRadius.first);
-			Units_EditorRadius[1]->prepend(&UnitPointer->EditorRadius.second);
-			Units_HillMode->prepend(&UnitPointer->HillMode);
-			Units_VisibleInFog->prepend(&UnitPointer->VisibleInFog);
-			Units_TerrainRestriction->prepend(&UnitPointer->TerrainRestriction);
-			Units_FlyMode->prepend(&UnitPointer->FlyMode);
-			Units_ResourceCapacity->prepend(&UnitPointer->ResourceCapacity);
-			Units_ResourceDecay->prepend(&UnitPointer->ResourceDecay);
-			Units_BlastArmorLevel->prepend(&UnitPointer->BlastArmorLevel);
-			Units_TriggerType->prepend(&UnitPointer->TriggerType);
-			Units_InteractionMode->prepend(&UnitPointer->InteractionMode);
-			Units_MinimapMode->prepend(&UnitPointer->MinimapMode);
-			Units_SelectionEffect->prepend(&UnitPointer->SelectionEffect);
-			Units_EditorSelectionColour->prepend(&UnitPointer->EditorSelectionColour);
-			if(GenieVersion >= genie::GV_AoKA)
-			{
-				Units_TrainSound[1]->prepend(&UnitPointer->TrainSound.second);
-				Units_SelectionMask->prepend(&UnitPointer->SelectionMask);
-				Units_SelectionShapeType->prepend(&UnitPointer->SelectionShapeType);
-				Units_SelectionShape->prepend(&UnitPointer->SelectionShape);
-				Units_ID3->prepend(&UnitPointer->ID3);
-				if(GenieVersion >= genie::GV_AoKB)
-				{
-					if(CopyGraphics || vecCiv == 0)
-					Units_StandingGraphic[1]->prepend(&UnitPointer->StandingGraphic.second);
-					if(GenieVersion >= genie::GV_AoK)
-					{
-						Units_Disabled->prepend(&UnitPointer->Disabled);
-						if(GenieVersion >= genie::GV_TC)
-						{
-							Units_Attribute->prepend(&UnitPointer->Attribute);
-							Units_Civ->prepend(&UnitPointer->Civilization);
-							Units_Unknown9->prepend(&UnitPointer->Nothing);
-							if(GenieVersion >= genie::GV_SWGB)
-							{
-								Units_Name2->prepend(&UnitPointer->Name2);
-								Units_Unitline->prepend(&UnitPointer->Unitline);
-								Units_MinTechLevel->prepend(&UnitPointer->MinTechLevel);
-							}
-						}
-					}
-				}
-			}
-			Units_Enabled->prepend(&UnitPointer->Enabled);
-			Units_CommandID->prepend(&UnitPointer->CommandAttribute);
-			Units_Unknown3A->prepend(&UnitPointer->Unknown3A);
-			Units_MinimapColor->prepend(&UnitPointer->MinimapColor);
-			Units_LanguageDLLHelp->prepend(&UnitPointer->LanguageDLLHelp);
-			Units_LanguageDLLHotKeyText->prepend(&UnitPointer->LanguageDLLHotKeyText);
-			Units_HotKey->prepend(&UnitPointer->HotKey);
-			Units_Unselectable->prepend(&UnitPointer->Unselectable);
-			Units_Unknown6->prepend(&UnitPointer->Unknown6);
-			Units_Unknown7->prepend(&UnitPointer->UnknownSelectionMode);
-			Units_Unknown8->prepend(&UnitPointer->Unknown8);
-			Units_SelectionRadius[0]->prepend(&UnitPointer->SelectionRadius.first);
-			Units_SelectionRadius[1]->prepend(&UnitPointer->SelectionRadius.second);
-			Units_HPBarHeight2->prepend(&UnitPointer->HPBarHeight2);
-			Units_SelectionSound->prepend(&UnitPointer->SelectionSound);
-			Units_DyingSound->prepend(&UnitPointer->DyingSound);
-			Units_AttackMode->prepend(&UnitPointer->AttackMode);
-			Units_EdibleMeat->prepend(&UnitPointer->EdibleMeat);
-			Units_Name->prepend(&UnitPointer->Name);
-			Units_ID2->prepend(&UnitPointer->ID2);
-			for(short loop = 0; loop < 3; ++loop)
-			{
-				ResourceStorage_Type[loop]->prepend(&UnitPointer->ResourceStorages[loop].Type);
-				ResourceStorage_Amount[loop]->prepend(&UnitPointer->ResourceStorages[loop].Amount);
-				ResourceStorage_Enabled[loop]->prepend(&UnitPointer->ResourceStorages[loop].Enabled);
-			}
-
-			if(UnitType == 60)
+			if(unitType == 60)
 			{
 				Units_StretchMode->prepend(&UnitPointer->Projectile.StretchMode);
 				Units_CompensationMode->prepend(&UnitPointer->Projectile.CompensationMode);
@@ -663,7 +669,8 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 	//wxMessageBox(locations);
 	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
 
-	switch(UnitType)
+    bool showUnitData = -1 != unitType;
+	switch(unitType)
 	{
 		case 10: Units_Type_ComboBox->SetSelection(1); break;
 		case 15: Units_Type_ComboBox->SetSelection(2); break;
@@ -678,62 +685,74 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 		case 90: Units_Type_ComboBox->SetSelection(11); break;
 		default: Units_Type_ComboBox->SetSelection(0);
 	}
-
-	if(80 == UnitType)
-	{
-        if(GenieVersion >= genie::GV_AoKA)
-        {
-            Units_GarrisonType_CheckBox[0]->SetValue(UnitPointer->Building.GarrisonType & 0x01);
-            Units_GarrisonType_CheckBox[1]->SetValue(UnitPointer->Building.GarrisonType & 0x02);
-            Units_GarrisonType_CheckBox[2]->SetValue(UnitPointer->Building.GarrisonType & 0x04);
-            Units_GarrisonType_CheckBox[3]->SetValue(UnitPointer->Building.GarrisonType & 0x08);
-            Units_GarrisonType_CheckBox[4]->SetValue(UnitPointer->Building.GarrisonType & 0x10);
-            Units_GarrisonType_CheckBox[5]->SetValue(UnitPointer->Building.GarrisonType & 0x20);
-            Units_GarrisonType_CheckBox[6]->SetValue(UnitPointer->Building.GarrisonType & 0x40);
-            Units_GarrisonType_CheckBox[7]->SetValue(UnitPointer->Building.GarrisonType & 0x80);
-        }
-    }
-    else
+    Units_DLL_LanguageName->index = Units_DLL_LanguageHelp->index = 5000;
+    Units_DLL_LanguageCreation->index = Units_DLL_LanguageHKText->index = 6000;
+    Units_DLL_HotKey4->index = 16000;
+    if(showUnitData)
     {
-        Units_DLL_LanguageName->index = UnitPointer->LanguageDLLName;
-        Units_DLL_LanguageName->SetLabel(LangDLLstring(UnitPointer->LanguageDLLName, 64));
-        Units_DLL_LanguageCreation->index = UnitPointer->LanguageDLLCreation;
-        Units_DLL_LanguageCreation->SetLabel(LangDLLstring(UnitPointer->LanguageDLLCreation, 64));
-        if(GenieVersion >= genie::GV_AoKA)
+        if(80 == unitType)
         {
-            Units_DLL_LanguageHelp->index = UnitPointer->LanguageDLLHelp - 79000;
-            Units_DLL_LanguageHKText->index = UnitPointer->LanguageDLLHotKeyText - 140000;
-            if(GenieVersion >= genie::GV_TC)
+            if(GenieVersion >= genie::GV_AoKA)
             {
-                Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
-                Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
-                Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
-                Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
-                Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
-                Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
-                Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
-                Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
+                Units_GarrisonType_CheckBox[0]->SetValue(UnitPointer->Building.GarrisonType & 0x01);
+                Units_GarrisonType_CheckBox[1]->SetValue(UnitPointer->Building.GarrisonType & 0x02);
+                Units_GarrisonType_CheckBox[2]->SetValue(UnitPointer->Building.GarrisonType & 0x04);
+                Units_GarrisonType_CheckBox[3]->SetValue(UnitPointer->Building.GarrisonType & 0x08);
+                Units_GarrisonType_CheckBox[4]->SetValue(UnitPointer->Building.GarrisonType & 0x10);
+                Units_GarrisonType_CheckBox[5]->SetValue(UnitPointer->Building.GarrisonType & 0x20);
+                Units_GarrisonType_CheckBox[6]->SetValue(UnitPointer->Building.GarrisonType & 0x40);
+                Units_GarrisonType_CheckBox[7]->SetValue(UnitPointer->Building.GarrisonType & 0x80);
             }
         }
         else
         {
-            Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
-            Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
+            Units_DLL_LanguageName->index = UnitPointer->LanguageDLLName;
+            Units_DLL_LanguageCreation->index = UnitPointer->LanguageDLLCreation;
+            if(GenieVersion >= genie::GV_AoKA)
+            {
+                Units_DLL_LanguageHelp->index = UnitPointer->LanguageDLLHelp - 79000;
+                Units_DLL_LanguageHKText->index = UnitPointer->LanguageDLLHotKeyText - 140000;
+                if(GenieVersion >= genie::GV_TC)
+                {
+                    Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
+                    Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
+                    Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
+                    Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
+                    Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
+                    Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
+                    Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
+                    Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
+                }
+            }
+            else
+            {
+                Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
+                Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
+            }
+            Units_DLL_HotKey4->index = UnitPointer->HotKey;
         }
-        Units_DLL_LanguageHelp->SetLabel(LangDLLstring(Units_DLL_LanguageHelp->index, 512));
-        Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHelp->index));
-        Units_DLL_LanguageHKText->SetLabel(LangDLLstring(Units_DLL_LanguageHKText->index, 64));
-        Units_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHKText->index));
-        Units_DLL_HotKey4->index = UnitPointer->HotKey;
-        Units_DLL_HotKey4->SetLabel(LangDLLstring(UnitPointer->HotKey, 16));
+        visibleUnitCiv->SetLabel(GenieFile->Civs[unitCiv].Name);
 	}
+    else
+    {
+        visibleUnitCiv->SetLabel("None");
+    }
+    Units_DLL_LanguageName->SetLabel(LangDLLstring(Units_DLL_LanguageName->index, 64));
+    Units_DLL_LanguageCreation->SetLabel(LangDLLstring(Units_DLL_LanguageCreation->index, 64));
+    Units_DLL_LanguageHelp->SetLabel(LangDLLstring(Units_DLL_LanguageHelp->index, 512));
+    Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHelp->index));
+    Units_DLL_LanguageHKText->SetLabel(LangDLLstring(Units_DLL_LanguageHKText->index, 64));
+    Units_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHKText->index));
+    Units_DLL_HotKey4->SetLabel(LangDLLstring(Units_DLL_HotKey4->index, 16));
 
-    bool show = GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0;
-    Units_DLL_LanguageName->Enable(show);
-    Units_DLL_LanguageCreation->Enable(show);
-    Units_DLL_LanguageHelp->Enable(show);
-    Units_DLL_LanguageHKText->Enable(show);
-    Units_DLL_HotKey4->Enable(show);
+    Units_Type_ComboBox->Enable(showUnitData);
+    Units_DLL_LanguageName->Enable(showUnitData);
+    Units_DLL_LanguageCreation->Enable(showUnitData);
+    Units_DLL_LanguageHelp->Enable(showUnitData);
+    Units_DLL_LanguageHKText->Enable(showUnitData);
+    Units_DLL_HotKey4->Enable(showUnitData);
+    Units_LanguageDLLConverter[0]->Enable(showUnitData);
+    Units_LanguageDLLConverter[1]->Enable(showUnitData);
 
 	// Don't count disabled units anymore.
 	for(short loop = SelectedCivs.size(); loop--> 0;)
@@ -763,7 +782,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 	}
 	ListUnitCommands();
 
-    for(auto &box: uiGroupUnit) box->Update();
+    for(auto &box: uiGroupUnit) box->update();
     Units_ID1->Enable(false);
     Units_ID2->Enable(false);
     Units_ID3->Enable(false);
@@ -1468,16 +1487,12 @@ void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent &event)
 {
     dmgGraphicTimer.Stop();
 	auto selections = Units_DamageGraphics_List->GetSelections(Items);
+    for(auto &box: uiGroupUnitDmgGraphic) box->clear();
 	if(selections > 0)
 	{
 		//SwapSelection(event.GetSelection(), Items);
 		// This and attacks/armors/commands need a lot of thinking.
 		DamageGraphicIDs.resize(selections);
-		int PointerCount = (CopyGraphics) ? selections * SelectedCivs.size() : selections;
-		DamageGraphics_GraphicID->resize(PointerCount);
-		DamageGraphics_DamagePercent->resize(PointerCount);
-		DamageGraphics_Unknown1->resize(PointerCount);
-		DamageGraphics_Unknown2->resize(PointerCount);
 
 		bool showWarning = false;
 		wxString warning = "Damage graphic count of civs\n";
@@ -1508,25 +1523,8 @@ void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent &event)
 			warning.Append("\ndiffers from civ "+lexical_cast<string>(UnitCivID));
 			wxMessageBox(warning);
 		}
-
-		DamageGraphics_GraphicID->Update();
-		DamageGraphics_DamagePercent->Update();
-		DamageGraphics_Unknown1->Update();
-		DamageGraphics_Unknown2->Update();
 	}
-	else
-	{
-		DamageGraphics_GraphicID->Clear();
-		DamageGraphics_GraphicID_ComboBox->SetSelection(0);
-		DamageGraphics_DamagePercent->Clear();
-		DamageGraphics_Unknown1->Clear();
-		DamageGraphics_Unknown2->Clear();
-	}
-	DamageGraphics_GraphicID->Enable(selections);
-	DamageGraphics_GraphicID_ComboBox->Enable(selections);
-	DamageGraphics_DamagePercent->Enable(selections);
-	DamageGraphics_Unknown1->Enable(selections);
-	DamageGraphics_Unknown2->Enable(selections);
+	for(auto &box: uiGroupUnitDmgGraphic) box->update();
 }
 
 void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &event)
@@ -1782,13 +1780,12 @@ void AGE_Frame::OnUnitAttacksTimer(wxTimerEvent &event)
 {
     attackTimer.Stop();
 	auto selections = Units_Attacks_List->GetSelections(Items);
+    Attacks_Class->clear();
+    Attacks_Amount->clear();
 	if(selections > 0)
 	{
 		//SwapSelection(event.GetSelection(), Items);
 		AttackIDs.resize(selections);
-		int PointerCount = selections * SelectedCivs.size();
-		Attacks_Class->resize(PointerCount);
-		Attacks_Amount->resize(PointerCount);
 
 		bool showWarning = false;
 		wxString warning = "Attack count of civs\n";
@@ -1817,19 +1814,9 @@ void AGE_Frame::OnUnitAttacksTimer(wxTimerEvent &event)
 			warning.Append("\ndiffers from civ "+lexical_cast<string>(UnitCivID));
 			wxMessageBox(warning);
 		}
-
-		Attacks_Class->Update();
-		Attacks_Amount->Update();
 	}
-	else
-	{
-		Attacks_Class->Clear();
-		Attacks_Class_ComboBox[0]->SetSelection(0);
-		Attacks_Amount->Clear();
-	}
-	Attacks_Class->Enable(selections);
-	Attacks_Class_ComboBox[0]->Enable(selections);
-	Attacks_Amount->Enable(selections);
+	Attacks_Class->update();
+	Attacks_Amount->update();
 }
 
 void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &event)
@@ -2084,13 +2071,12 @@ void AGE_Frame::OnUnitArmorsTimer(wxTimerEvent &event)
 {
     armorTimer.Stop();
 	auto selections = Units_Armors_List->GetSelections(Items);
+    Armors_Class->clear();
+    Armors_Amount->clear();
 	if(selections > 0)
 	{
 		//SwapSelection(event.GetSelection(), Items);
 		ArmorIDs.resize(selections);
-		int PointerCount = selections * SelectedCivs.size();
-		Armors_Class->resize(PointerCount);
-		Armors_Amount->resize(PointerCount);
 
 		bool showWarning = false;
 		wxString warning = "Armor count of civs\n";
@@ -2119,19 +2105,9 @@ void AGE_Frame::OnUnitArmorsTimer(wxTimerEvent &event)
 			warning.Append("\ndiffers from civ "+lexical_cast<string>(UnitCivID));
 			wxMessageBox(warning);
 		}
-
-		Armors_Class->Update();
-		Armors_Amount->Update();
 	}
-	else
-	{
-		Armors_Class->Clear();
-		Attacks_Class_ComboBox[1]->SetSelection(0);
-		Armors_Amount->Clear();
-	}
-	Armors_Class->Enable(selections);
-	Attacks_Class_ComboBox[1]->Enable(selections);
-	Armors_Amount->Enable(selections);
+	Armors_Class->update();
+	Armors_Amount->update();
 }
 
 void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &event)
@@ -2464,36 +2440,11 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 {
     actionTimer.Stop();
 	auto selections = Units_UnitCommands_List->GetSelections(Items);
+    for(auto &box: uiGroupUnitCommand) box->clear();
 	if(selections > 0)
 	{
 		//SwapSelection(event.GetSelection(), Items);
 		CommandIDs.resize(selections);
-		int PointerCount = (GenieVersion < genie::GV_AoK) ? selections * SelectedCivs.size() : selections;
-		UnitCommands_One->resize(PointerCount);
-		UnitCommands_ID->resize(PointerCount);
-		UnitCommands_Unknown1->resize(PointerCount);
-		UnitCommands_Type->resize(PointerCount);
-		UnitCommands_ProductivityResource->resize(PointerCount);
-		UnitCommands_ClassID->resize(PointerCount);
-		UnitCommands_UnitID->resize(PointerCount);
-		UnitCommands_Unknown2->resize(PointerCount);
-		UnitCommands_ResourceIn->resize(PointerCount);
-		UnitCommands_ResourceOut->resize(PointerCount);
-		UnitCommands_Resource->resize(PointerCount);
-		UnitCommands_WorkRateMultiplier->resize(PointerCount);
-		UnitCommands_ExecutionRadius->resize(PointerCount);
-		UnitCommands_ExtraRange->resize(PointerCount);
-		UnitCommands_Unknown4->resize(PointerCount);
-		UnitCommands_Unknown5->resize(PointerCount);
-		UnitCommands_SelectionEnabler->resize(PointerCount);
-		UnitCommands_Unknown7->resize(PointerCount);
-		UnitCommands_Unknown8->resize(PointerCount);
-		UnitCommands_Unknown9->resize(PointerCount);
-		UnitCommands_SelectionMode->resize(PointerCount);
-		UnitCommands_Unknown11->resize(PointerCount);
-		UnitCommands_Unknown12->resize(PointerCount);
-		for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
-		UnitCommands_Graphics[loop]->resize(PointerCount);
 
 		bool showWarning = false;
 		wxString warning = "Command count of civs\n";
@@ -2555,11 +2506,6 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 				wxMessageBox(warning);
 			}
 		}
-
-		UnitCommands_One->Update();
-		UnitCommands_ID->Update();
-		UnitCommands_Unknown1->Update();
-		UnitCommands_Type->Update();
 		switch(CommandPointer->Type)
 		{
 			case 1: UnitCommands_Type_ComboBox->SetSelection(1); break;
@@ -2603,102 +2549,8 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 			case 149: UnitCommands_Type_ComboBox->SetSelection(39); break;
 			default: UnitCommands_Type_ComboBox->SetSelection(0);
 		}
-		UnitCommands_ClassID->Update();
-		UnitCommands_UnitID->Update();
-		UnitCommands_Unknown2->Update();
-		UnitCommands_ResourceIn->Update();
-		UnitCommands_ProductivityResource->Update();
-		UnitCommands_ResourceOut->Update();
-		UnitCommands_Resource->Update();
-		UnitCommands_WorkRateMultiplier->Update();
-		UnitCommands_ExecutionRadius->Update();
-		UnitCommands_ExtraRange->Update();
-		UnitCommands_Unknown4->Update();
-		UnitCommands_Unknown5->Update();
-		UnitCommands_SelectionEnabler->Update();
-		UnitCommands_Unknown7->Update();
-		UnitCommands_Unknown8->Update();
-		UnitCommands_Unknown9->Update();
-		UnitCommands_SelectionMode->Update();
-		UnitCommands_Unknown11->Update();
-		UnitCommands_Unknown12->Update();
-		for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
-		{
-			UnitCommands_Graphics[loop]->Update();
-		}
 	}
-	else
-	{
-		UnitCommands_One->Clear();
-		UnitCommands_ID->Clear();
-		UnitCommands_Unknown1->Clear();
-		UnitCommands_Type->Clear();
-		UnitCommands_Type_ComboBox->SetSelection(0);
-		UnitCommands_ClassID->Clear();
-		Units_Class_ComboBox[1]->SetSelection(0);
-		UnitCommands_UnitID->Clear();
-		UnitCommands_UnitID_ComboBox->SetSelection(0);
-		UnitCommands_Unknown2->Clear();
-		UnitCommands_ResourceIn->Clear();
-		UnitCommands_ResourceIn_ComboBox->SetSelection(0);
-		UnitCommands_ProductivityResource->Clear();
-		UnitCommands_ProductivityResource_ComboBox->SetSelection(0);
-		UnitCommands_ResourceOut->Clear();
-		UnitCommands_ResourceOut_ComboBox->SetSelection(0);
-		UnitCommands_Resource->Clear();
-		UnitCommands_Resource_ComboBox->SetSelection(0);
-		UnitCommands_WorkRateMultiplier->Clear();
-		UnitCommands_ExecutionRadius->Clear();
-		UnitCommands_ExtraRange->Clear();
-		UnitCommands_Unknown4->Clear();
-		UnitCommands_Unknown5->Clear();
-		UnitCommands_SelectionEnabler->Clear();
-		UnitCommands_Unknown7->Clear();
-		UnitCommands_Unknown8->Clear();
-		UnitCommands_Unknown9->Clear();
-		UnitCommands_SelectionMode->Clear();
-		UnitCommands_Unknown11->Clear();
-		UnitCommands_Unknown12->Clear();
-		for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
-		{
-			UnitCommands_Graphics[loop]->Clear();
-			UnitCommands_Graphics_ComboBox[loop]->SetSelection(0);
-		}
-	}
-	UnitCommands_One->Enable(selections);
-	UnitCommands_Unknown1->Enable(selections);
-	UnitCommands_Type->Enable(selections);
-	UnitCommands_Type_ComboBox->Enable(selections);
-	UnitCommands_ClassID->Enable(selections);
-	Units_Class_ComboBox[1]->Enable(selections);
-	UnitCommands_UnitID->Enable(selections);
-	UnitCommands_UnitID_ComboBox->Enable(selections);
-	UnitCommands_Unknown2->Enable(selections);
-	UnitCommands_ResourceIn->Enable(selections);
-	UnitCommands_ResourceIn_ComboBox->Enable(selections);
-	UnitCommands_ProductivityResource->Enable(selections);
-	UnitCommands_ProductivityResource_ComboBox->Enable(selections);
-	UnitCommands_ResourceOut->Enable(selections);
-	UnitCommands_ResourceOut_ComboBox->Enable(selections);
-	UnitCommands_Resource->Enable(selections);
-	UnitCommands_Resource_ComboBox->Enable(selections);
-	UnitCommands_WorkRateMultiplier->Enable(selections);
-	UnitCommands_ExecutionRadius->Enable(selections);
-	UnitCommands_ExtraRange->Enable(selections);
-	UnitCommands_Unknown4->Enable(selections);
-	UnitCommands_Unknown5->Enable(selections);
-	UnitCommands_SelectionEnabler->Enable(selections);
-	UnitCommands_Unknown7->Enable(selections);
-	UnitCommands_Unknown8->Enable(selections);
-	UnitCommands_Unknown9->Enable(selections);
-	UnitCommands_SelectionMode->Enable(selections);
-	UnitCommands_Unknown11->Enable(selections);
-	UnitCommands_Unknown12->Enable(selections);
-	for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
-	{
-		UnitCommands_Graphics[loop]->Enable(selections);
-		UnitCommands_Graphics_ComboBox[loop]->Enable(selections);
-	}
+    for(auto &box: uiGroupUnitCommand) box->update();
 }
 
 void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &event)
@@ -3080,7 +2932,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectClear = new wxButton(Tab_Units, wxID_ANY, "None", wxDefaultPosition, wxSize(40, 20));
 	Units_GraphicSetText = new wxStaticText(Tab_Units, wxID_ANY, " Graphic set: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Units_GraphicSet = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(120, 20), 0, NULL, wxCB_READONLY);
-	Units_Type_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Units, "");
+    visibleUnitCiv = new wxStaticText(Tab_Units, wxID_ANY, "Civ ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Identity_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "");
+	Units_Type_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Type_Text = new wxStaticText(Tab_Units, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Type = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Tab_Units);
 	Units_Type_ComboBox = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -3090,7 +2944,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Scroller = new wxScrolledWindow(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(600, 20), wxVSCROLL | wxTAB_TRAVERSAL);
 	Units_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
 	Units_ScrollSpace = new wxBoxSizer(wxVERTICAL);
-	Units_TypeArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Identification");
+	Units_TypeArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language DLLs");
 	Units_GraphicsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Graphics");
 	Units_GraphicsArea1_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -3334,10 +3188,10 @@ void AGE_Frame::CreateUnitControls()
 //	Data Container Names
 //	Type 10+
 
-	Units_ID1_Text = new wxStaticText(Units_Scroller, wxID_ANY, "ID 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_ID1_Text = new wxStaticText(Tab_Units, wxID_ANY, "ID 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLName_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Name *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLCreation_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Creation", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Class_Text = new wxStaticText(Tab_Units, wxID_ANY, "Class * ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Class_Text = new wxStaticText(Tab_Units, wxID_ANY, "  Class * ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_StandingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Standing Graphics *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DyingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_HitPoints_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Hit Points *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3389,12 +3243,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_DyingSound_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Dying Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Mode? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_EdibleMeat_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Edible Meat? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Name_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Name2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Name_Text = new wxStaticText(Tab_Units, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Name2_Text = new wxStaticText(Tab_Units, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unitline_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unitline", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinTechLevel_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Min Tech Level", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_ID2_Text = new wxStaticText(Units_Scroller, wxID_ANY, "ID 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_ID3_Text = new wxStaticText(Units_Scroller, wxID_ANY, "ID 3 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_ID2_Text = new wxStaticText(Tab_Units, wxID_ANY, "ID 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_ID3_Text = new wxStaticText(Tab_Units, wxID_ANY, "ID 3 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 20+
 
@@ -3495,11 +3349,11 @@ void AGE_Frame::CreateUnitControls()
 
 //	Data Containers
 
-	Units_ID1 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
-	Units_ID2 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
-	Units_ID3 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
-	Units_Name = AGETextCtrl::init(CString, &uiGroupUnit, this, AGEwindow, Units_Scroller, 30);
-	Units_Name2 = AGETextCtrl::init(CString, &uiGroupUnit, this, AGEwindow, Units_Scroller, 30);
+	Units_ID1 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Tab_Units, true);
+	Units_ID2 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Tab_Units, true);
+	Units_ID3 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Tab_Units, true);
+	Units_Name = AGETextCtrl::init(CString, &uiGroupUnit, this, AGEwindow, Tab_Units, 30);
+	Units_Name2 = AGETextCtrl::init(CString, &uiGroupUnit, this, AGEwindow, Tab_Units, 30);
 	Units_LanguageDLLName = AGETextCtrl::init(CUShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_LanguageDLLName->SetToolTip("Usual Unit DLL Pattern for The Conquerors\nName: 5000-5999\nCreation: Name +1000\nHotkey: Name +11000\nHelp: Name +100000, in DLL Name +21000\nHotkey Text: Name +150000, in DLL Name +10000\nTech tree: Name +9000");
 	Units_DLL_LanguageName = new TextCtrl_DLL(Units_Scroller, wxSize(0, 25));
@@ -4354,14 +4208,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_ListArea->Add(Units_Units, 1, wxEXPAND);
 	Units_ListArea->AddSpacer(5);
 
+	Units_Type_Holder->Add(visibleUnitCiv, 1, wxEXPAND);
 	Units_Type_Holder->Add(Units_Type_Text, 0, wxEXPAND);
 	Units_Type_Holder->Add(Units_Type, 1, wxEXPAND);
 	Units_Type_Holder->Add(Units_Type_ComboBox, 2, wxEXPAND);
-	Units_Type_Holder->AddSpacer(5);
 	Units_Type_Holder->Add(Units_Class_Text, 0, wxEXPAND);
 	Units_Type_Holder->Add(Units_Class, 1, wxEXPAND);
 	Units_Type_Holder->Add(Units_Class_ComboBox[0], 2, wxEXPAND);
-	Units_Type_Holder->AddStretchSpacer(1);
 
 //	Type 10+
 
@@ -5360,8 +5213,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnknownArea_Holder->AddSpacer(5);
 	Units_UnknownArea_Holder->Add(Units_Type80plusUnknownArea_Holder, 0, wxEXPAND);
 
-	Units_ScrollSpace->Add(Units_TypeArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
 	Units_ScrollSpace->Add(Units_LangDLLArea_Holder, 0, wxEXPAND);
 	Units_ScrollSpace->AddSpacer(5);
 	Units_ScrollSpace->Add(Units_GraphicsArea_Holder, 0, wxEXPAND);
@@ -5394,11 +5245,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_Top_Holder->Add(Units_SelectClear, 0, wxEXPAND);
 	Units_Top_Holder->Add(Units_GraphicSetText, 0, wxEXPAND);
 	Units_Top_Holder->Add(Units_GraphicSet, 0, wxEXPAND);
+	Units_Identity_Holder->Add(Units_Type_Holder, 0, wxEXPAND);
+	Units_Identity_Holder->AddSpacer(5);
+	Units_Identity_Holder->Add(Units_TypeArea_Holder, 0, wxEXPAND);
 
 	Units_DataArea->AddSpacer(15);
 	Units_DataArea->Add(Units_Top_Holder, 0, wxEXPAND);
 	Units_DataArea->Add(Units_TopGrid_Holder, 0, wxEXPAND);
-	Units_DataArea->Add(Units_Type_Holder, 0, wxEXPAND);
+	Units_DataArea->Add(Units_Identity_Holder, 0, wxEXPAND);
 	Units_DataArea->AddSpacer(5);
 	Units_DataArea->Add(Units_Scroller, 1, wxEXPAND);
 	Units_DataArea->AddSpacer(5);
