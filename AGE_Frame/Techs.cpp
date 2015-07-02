@@ -148,7 +148,7 @@ void AGE_Frame::OnTechTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTechAdd(wxCommandEvent &event)	// Works.
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->Techages);

@@ -91,7 +91,7 @@ void AGE_Frame::OnTTAgesTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTTAgesAdd(wxCommandEvent &event)
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->TechTree.TechTreeAges);
@@ -977,7 +977,7 @@ void AGE_Frame::OnTTBuildingTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTTBuildingAdd(wxCommandEvent &event)
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->TechTree.BuildingConnections);
@@ -1698,7 +1698,7 @@ void AGE_Frame::OnTTUnitTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTTUnitAdd(wxCommandEvent &event)
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->TechTree.UnitConnections);
@@ -2163,7 +2163,7 @@ void AGE_Frame::OnTTResearchTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTTResearchAdd(wxCommandEvent &event)
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(GenieFile->TechTree.ResearchConnections);

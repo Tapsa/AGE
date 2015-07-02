@@ -133,7 +133,7 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnCivsAdd(wxCommandEvent &event)
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Civ Temp;
