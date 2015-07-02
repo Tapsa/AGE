@@ -15,8 +15,8 @@ void AGE_Frame::ListSounds(bool all)
 {
 	FirstVisible = How2List == SEARCH ? 0 : Sounds_Sounds_List->HitTest(wxPoint(0, 0));
 	InitSounds(all);
-	wxCommandEvent E;
-	OnSoundsSelect(E);
+	wxTimerEvent E;
+	OnSoundsTimer(E);
 }
 
 void AGE_Frame::InitSounds(bool all)
@@ -45,6 +45,13 @@ void AGE_Frame::InitSounds(bool all)
 
 void AGE_Frame::OnSoundsSelect(wxCommandEvent &event)
 {
+    if(!soundTimer.IsRunning())
+        soundTimer.Start(150);
+}
+
+void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
+{
+    soundTimer.Stop();
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -218,12 +225,19 @@ void AGE_Frame::ListSoundItems()
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
-	wxCommandEvent E;
-	OnSoundItemsSelect(E);
+	wxTimerEvent E;
+	OnSoundItemsTimer(E);
 }
 
 void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &event)
 {
+    if(!soundFileTimer.IsRunning())
+        soundFileTimer.Start(150);
+}
+
+void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
+{
+    soundFileTimer.Stop();
 	auto selections = Sounds_Items_List->GetSelections(Items);
 	if(selections > 0)
 	{
@@ -398,8 +412,8 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
-	wxCommandEvent E;
-	OnAllSoundFileSelect(E);
+	wxTimerEvent E;
+	OnAllSoundFileTimer(E);
 }
 
 void AGE_Frame::ClearAllSoundFiles(wxCommandEvent &event)
@@ -410,6 +424,13 @@ void AGE_Frame::ClearAllSoundFiles(wxCommandEvent &event)
 
 void AGE_Frame::OnAllSoundFileSelect(wxCommandEvent &event)
 {
+    if(!allSoundFilesTimer.IsRunning())
+        allSoundFilesTimer.Start(150);
+}
+
+void AGE_Frame::OnAllSoundFileTimer(wxTimerEvent &event)
+{
+    allSoundFilesTimer.Stop();
 	SearchAllSubVectors(Sounds_AllItems_List, Sounds_Sounds_Search, Sounds_Items_Search);
 }
 
@@ -641,6 +662,9 @@ void AGE_Frame::CreateSoundControls()
 	Connect(Sounds_AllItems_Load->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
 	Connect(Sounds_AllItems_Clear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::ClearAllSoundFiles));
 
+    soundTimer.Connect(soundTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundsTimer), NULL, this);
+    soundFileTimer.Connect(soundFileTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundItemsTimer), NULL, this);
+    allSoundFilesTimer.Connect(allSoundFilesTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnAllSoundFileTimer), NULL, this);
 	SoundItems_Name->Connect(SoundItems_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Sounds), NULL, this);
 }
 

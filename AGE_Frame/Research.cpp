@@ -127,8 +127,8 @@ void AGE_Frame::ListResearches(bool all)
 {
 	FirstVisible = How2List == SEARCH ? 0 : Research_Research_List->HitTest(wxPoint(0, 0));
 	InitResearches(all);
-	wxCommandEvent E;
-	OnResearchSelect(E);
+	wxTimerEvent E;
+	OnResearchTimer(E);
 }
 
 void AGE_Frame::InitResearches(bool all)
@@ -176,6 +176,13 @@ void AGE_Frame::InitResearches(bool all)
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
 {
+    if(!researchTimer.IsRunning())
+        researchTimer.Start(150);
+}
+
+void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
+{
+    researchTimer.Stop();
 	// If trying to select an existing item, don't deselect?
 	auto selections = Research_Research_List->GetSelections(Items);
 	if(selections < 1) return;
@@ -354,8 +361,8 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
 		else DLLValue += 140000;
 		GenieFile->Researchs[ResearchIDs[0]].LanguageDLLName2 = DLLValue;
 	}
-	wxCommandEvent E;
-	OnResearchSelect(E);
+	wxTimerEvent E;
+	OnResearchTimer(E);
 }
 
 void AGE_Frame::CreateResearchControls()
@@ -711,6 +718,7 @@ void AGE_Frame::CreateResearchControls()
 	Connect(Research_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::ResearchLangDLLConverter));
 	Connect(Research_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::ResearchLangDLLConverter));
 
+    researchTimer.Connect(researchTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnResearchTimer), NULL, this);
 	Research_LangDLLName->Connect(Research_LangDLLName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
 	Research_LangDLLDescription->Connect(Research_LangDLLDescription->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
 	Research_Name[0]->Connect(Research_Name[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
@@ -732,8 +740,8 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
 	}
 	else
 	{
-		wxCommandEvent E;
-		OnResearchSelect(E);
+		wxTimerEvent E;
+		OnResearchTimer(E);
 	}
 	event.Skip();
 }
