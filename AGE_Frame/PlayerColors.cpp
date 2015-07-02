@@ -126,7 +126,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
 {
-	if(GenieFile == NULL) return;
+	if(NULL == GenieFile) return;
 
 	wxBusyCursor WaitCursor;
 	AddToListIDFix(GenieFile->PlayerColours);
