@@ -138,13 +138,13 @@ void AGE_Frame::InitGraphics(bool all)
 
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
 {
-    if(!graphicsTimer.IsRunning())
-        graphicsTimer.Start(150);
+    if(!graphicTimer.IsRunning())
+        graphicTimer.Start(150);
 }
 
 void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 {
-    graphicsTimer.Stop();
+    graphicTimer.Stop();
 	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
 	wxBusyCursor WaitCursor;
     getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
@@ -390,12 +390,19 @@ void AGE_Frame::ListGraphicDeltas()
 	}
 	Listing(Graphics_Deltas_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnGraphicDeltasSelect(E);
+	wxTimerEvent E;
+	OnGraphicDeltasTimer(E);
 }
 
 void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &event)
 {
+    if(!deltaTimer.IsRunning())
+        deltaTimer.Start(150);
+}
+
+void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent &event)
+{
+    deltaTimer.Stop();
 	auto selections = Graphics_Deltas_List->GetSelections(Items);
     for(auto &box: uiGroupGraphicDelta) box->clear();
 	if(selections > 0)
@@ -529,12 +536,19 @@ void AGE_Frame::ListGraphicAttackSounds()
 
 	Listing(Graphics_AttackSounds_List, names, dataPointers);
 
-	wxCommandEvent E;
-	OnGraphicAttackSoundsSelect(E);
+	wxTimerEvent E;
+	OnGraphicAttackSoundsTimer(E);
 }
 
 void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &event)
 {
+    if(!graphicSoundTimer.IsRunning())
+        graphicSoundTimer.Start(150);
+}
+
+void AGE_Frame::OnGraphicAttackSoundsTimer(wxTimerEvent &event)
+{
+    graphicSoundTimer.Stop();
 	auto selections = Graphics_AttackSounds_List->GetSelections(Items);
     for(auto &box: uiGroupGraphicSound) box->clear();
 	if(selections > 0)
@@ -1046,7 +1060,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Connect(AttackSounds_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopy));
 	Connect(AttackSounds_CopyToGraphics->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopyToGraphics));
 
-    graphicsTimer.Connect(graphicsTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicsTimer), NULL, this);
+    graphicTimer.Connect(graphicTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicsTimer), NULL, this);
+    deltaTimer.Connect(deltaTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicDeltasTimer), NULL, this);
+    graphicSoundTimer.Connect(graphicSoundTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicAttackSoundsTimer), NULL, this);
 	Graphics_Name->Connect(Graphics_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_Name2->Connect(Graphics_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	GraphicDeltas_GraphicID->Connect(GraphicDeltas_GraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);

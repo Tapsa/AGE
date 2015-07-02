@@ -17,8 +17,8 @@ void AGE_Frame::ListTerrainBorders(bool all)
 {
 	FirstVisible = How2List == SEARCH ? 0 : Borders_List->HitTest(wxPoint(0, 0));
 	InitTerrainBorders(all);
-	wxCommandEvent E;
-	OnTerrainBordersSelect(E);
+	wxTimerEvent E;
+	OnTerrainBordersTimer(E);
 }
 
 void AGE_Frame::InitTerrainBorders(bool all)
@@ -47,6 +47,13 @@ void AGE_Frame::InitTerrainBorders(bool all)
 
 void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &event)
 {
+    if(!borderTimer.IsRunning())
+        borderTimer.Start(150);
+}
+
+void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
+{
+    borderTimer.Stop();
 	auto selections = Borders_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -204,12 +211,19 @@ void AGE_Frame::ListTerrainBorderFrames()
 
 	Listing(Borders_Frames_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnTerrainBorderFramesSelect(E);
+	wxTimerEvent E;
+	OnTerrainBorderFramesTimer(E);
 }
 
 void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &event)
 {
+    if(!borderFrameTimer.IsRunning())
+        borderFrameTimer.Start(150);
+}
+
+void AGE_Frame::OnTerrainBorderFramesTimer(wxTimerEvent &event)
+{
+    borderFrameTimer.Stop();
 	auto selections = Borders_Frames_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -560,6 +574,8 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Connect(Frames_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesPaste));
 	Connect(Frames_CopyToBorders->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesCopyToBorders));
 
+    borderTimer.Connect(borderTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBordersTimer), NULL, this);
+    borderFrameTimer.Connect(borderFrameTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBorderFramesTimer), NULL, this);
 	for(short loop = 0; loop < 2; ++loop)
 	Borders_Name[loop]->Connect(Borders_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_FrameID->Connect(Borders_FrameID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);

@@ -1,9 +1,9 @@
 #include "../AGE_Frame.h"
 
-void AGE_Frame::ListGeneral()
+void AGE_Frame::ListMapData()
 {
 	wxCommandEvent E;
-	OnGeneralSelect(E);
+	OnMapsRefresh(E);
 }
 
 void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
@@ -64,7 +64,7 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
 	General_CalcBoxes[3]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
 }
 
-void AGE_Frame::OnGeneralSelect(wxCommandEvent &event)
+void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
 {
 	General_MapPointer->resize(1);
 	General_MapPointer->prepend(&GenieFile->TerrainBlock.MapPointer);
@@ -582,7 +582,7 @@ void AGE_Frame::CreateGeneralControls()
 
 	Tab_General->SetSizer(General_Main);
 
-	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGeneralSelect));
+	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnMapsRefresh));
 	for(short loop = 0; loop < 4; ++loop)
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);
@@ -622,8 +622,8 @@ void AGE_Frame::ListRandomMaps()
 {
 	FirstVisible = How2List == SEARCH ? 0 : Unknowns_List->HitTest(wxPoint(0, 0));
 	InitRandomMaps();
-	wxCommandEvent E;
-	OnRandomMapSelect(E);
+	wxTimerEvent E;
+	OnRandomMapTimer(E);
 }
 
 void AGE_Frame::InitRandomMaps()
@@ -648,6 +648,13 @@ void AGE_Frame::InitRandomMaps()
 
 void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
 {
+    if(!randomMapTimer.IsRunning())
+        randomMapTimer.Start(150);
+}
+
+void AGE_Frame::OnRandomMapTimer(wxTimerEvent &event)
+{
+    randomMapTimer.Stop();
 	auto selections = Unknowns_List->GetSelections(Items);
 	if(selections > 0)
 	{
@@ -858,12 +865,19 @@ void AGE_Frame::ListRMSBaseZones()
 	}
 	Listing(RMSBaseZones_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnRMSBaseZoneSelect(E);
+	wxTimerEvent E;
+	OnRMSBaseZoneTimer(E);
 }
 
 void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &event)
 {
+    if(!rmBaseTimer.IsRunning())
+        rmBaseTimer.Start(150);
+}
+
+void AGE_Frame::OnRMSBaseZoneTimer(wxTimerEvent &event)
+{
+    rmBaseTimer.Stop();
 	auto selections = RMSBaseZones_List->GetSelections(Items);
 	if(selections < 1)
 	{
@@ -1093,12 +1107,19 @@ void AGE_Frame::ListRMSTerrains()
 	}
 	Listing(RMSTerrain_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnRMSTerrainSelect(E);
+	wxTimerEvent E;
+	OnRMSTerrainTimer(E);
 }
 
 void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &event)
 {
+    if(!rmTerrainTimer.IsRunning())
+        rmTerrainTimer.Start(150);
+}
+
+void AGE_Frame::OnRMSTerrainTimer(wxTimerEvent &event)
+{
+    rmTerrainTimer.Stop();
 	auto selections = RMSTerrain_List->GetSelections(Items);
 	if(selections < 1)
 	{
@@ -1258,12 +1279,19 @@ void AGE_Frame::ListRMSUnits()
 	}
 	Listing(RMSUnit_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnRMSUnitSelect(E);
+	wxTimerEvent E;
+	OnRMSUnitTimer(E);
 }
 
 void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &event)
 {
+    if(!rmUnitTimer.IsRunning())
+        rmUnitTimer.Start(150);
+}
+
+void AGE_Frame::OnRMSUnitTimer(wxTimerEvent &event)
+{
+    rmUnitTimer.Stop();
 	auto selections = RMSUnit_List->GetSelections(Items);
 	if(selections < 1)
 	{
@@ -1485,12 +1513,19 @@ void AGE_Frame::ListRMSUnknowns()
 	}
 	Listing(RMSUnknown_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnRMSUnknownSelect(E);
+	wxTimerEvent E;
+	OnRMSUnknownTimer(E);
 }
 
 void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &event)
 {
+    if(!rmUnknownTimer.IsRunning())
+        rmUnknownTimer.Start(150);
+}
+
+void AGE_Frame::OnRMSUnknownTimer(wxTimerEvent &event)
+{
+    rmUnknownTimer.Stop();
 	auto selections = RMSUnknown_List->GetSelections(Items);
 	if(selections < 1)
 	{
@@ -2207,6 +2242,11 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(RMSUnknown_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownPasteInsert));
 	Connect(RMSUnknown_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownCopyToMaps));
 
+    randomMapTimer.Connect(randomMapTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnRandomMapTimer), NULL, this);
+    rmBaseTimer.Connect(rmBaseTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnRMSBaseZoneTimer), NULL, this);
+    rmTerrainTimer.Connect(rmTerrainTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnRMSTerrainTimer), NULL, this);
+    rmUnitTimer.Connect(rmUnitTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnRMSUnitTimer), NULL, this);
+    rmUnknownTimer.Connect(rmUnknownTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnRMSUnknownTimer), NULL, this);
 	Unknowns_UnknownLevel->Connect(Unknowns_UnknownLevel->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 	RMSBaseZones_Unknown1->Connect(RMSBaseZones_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);
 	RMSTerrain_Unknown1[1]->Connect(RMSTerrain_Unknown1[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Unknown), NULL, this);

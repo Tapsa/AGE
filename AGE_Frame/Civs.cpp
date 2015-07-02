@@ -18,8 +18,8 @@ void AGE_Frame::ListCivs(bool all)
 {
 	FirstVisible = How2List == SEARCH ? 0 : Civs_Civs_List->HitTest(wxPoint(0, 0));
 	InitCivs(all);
-	wxCommandEvent E;
-	OnCivsSelect(E);
+	wxTimerEvent E;
+	OnCivsTimer(E);
 }
 
 void AGE_Frame::InitCivs(bool all)
@@ -55,6 +55,13 @@ void AGE_Frame::InitCivs(bool all)
 
 void AGE_Frame::OnCivsSelect(wxCommandEvent &event)
 {
+    if(!civTimer.IsRunning())
+        civTimer.Start(150);
+}
+
+void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
+{
+    civTimer.Stop();
 	auto selections = Civs_Civs_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -700,12 +707,19 @@ void AGE_Frame::ListResources(bool all)
 	Listing(Civs_Resources_List, filteredNames, dataPointers);
 	if(all) FillLists(ResourceComboBoxList, names);
 
-	wxCommandEvent E;
-	OnResourcesSelect(E);
+	wxTimerEvent E;
+	OnResourcesTimer(E);
 }
 
 void AGE_Frame::OnResourcesSelect(wxCommandEvent &event)
 {
+    if(!resourceTimer.IsRunning())
+        resourceTimer.Start(150);
+}
+
+void AGE_Frame::OnResourcesTimer(wxTimerEvent &event)
+{
+    resourceTimer.Stop();
 	auto selections = Civs_Resources_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -993,6 +1007,8 @@ void AGE_Frame::CreateCivControls()
 	Connect(Resources_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesDelete));
 	Connect(Resources_CopyToAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResourcesCopyToAll));
 
+    civTimer.Connect(civTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnCivsTimer), NULL, this);
+    resourceTimer.Connect(resourceTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnResourcesTimer), NULL, this);
 	for(short loop = 0; loop < 2; ++loop)
 	Civs_Name[loop]->Connect(Civs_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);
 	Civs_GraphicSet->Connect(Civs_GraphicSet->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);

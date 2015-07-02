@@ -123,25 +123,25 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &event)
 		GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.resize(UsedTerrains);
 	}
 
-	wxCommandEvent E;
-	OnTerrainRestrictionsSelect(E);
+	wxTimerEvent E;
+	OnTerrainRestrictionsTimer(E);
 }
 
 void AGE_Frame::ListTerrains1(bool all)
 {
 	FirstVisible = How2List == SEARCH ? 0 : Terrains_Terrains_List->HitTest(wxPoint(0, 0));
 	InitTerrains1(all);
-	wxCommandEvent E;
-	OnTerrainsSelect(E);
-	if(all) OnTerrainRestrictionsTerrainSelect(E);
+	wxTimerEvent E;
+	OnTerrainsTimer(E);
+	if(all) OnTerrainRestrictionsTerrainTimer(E);
 }
 
 void AGE_Frame::ListTerrains2()
 {
 	FirstVisible = How2List == SEARCH ? 0 : TerRestrict_Terrains_List->HitTest(wxPoint(0, 0));
 	InitTerrains2();
-	wxCommandEvent E;
-	OnTerrainRestrictionsTerrainSelect(E);
+	wxTimerEvent E;
+	OnTerrainRestrictionsTerrainTimer(E);
 }
 
 void AGE_Frame::InitTerrains1(bool all)
@@ -199,6 +199,13 @@ void AGE_Frame::InitTerrains2()
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent &event)
 {
+    if(!terrainTimer.IsRunning())
+        terrainTimer.Start(150);
+}
+
+void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
+{
+    terrainTimer.Stop();
 	auto selections = Terrains_Terrains_List->GetSelections(Items);
 	if(selections < 1) return;
 
@@ -464,12 +471,19 @@ void AGE_Frame::ListTerrainsBorders()
 	}
 	Listing(Terrains_Borders_List, filteredNames, dataPointers);
 
-	wxCommandEvent E;
-	OnTerrainsBorderSelect(E);
+	wxTimerEvent E;
+	OnTerrainsBorderTimer(E);
 }
 
 void AGE_Frame::OnTerrainsBorderSelect(wxCommandEvent &event)
 {
+    if(!terrainBorderTimer.IsRunning())
+        terrainBorderTimer.Start(150);
+}
+
+void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
+{
+    terrainBorderTimer.Stop();
 	auto selections = Terrains_Borders_List->GetSelections(Items);
 	//SwapSelection(event.GetSelection(), Items);
 	TerBorderIDs.resize(selections);
@@ -969,6 +983,9 @@ void AGE_Frame::CreateTerrainControls()
 	Connect(Terrains_Borders_CopyToTerrains->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderCopyToBuildings));
 	Terrains_Border->Connect(Terrains_Border->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Terrains), NULL, this);
 	Terrains_Border_ComboBox->Connect(Terrains_Border_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Terrains), NULL, this);
+
+    terrainTimer.Connect(terrainTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainsTimer), NULL, this);
+    terrainBorderTimer.Connect(terrainBorderTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainsBorderTimer), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &event)
@@ -981,8 +998,8 @@ void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &event)
 	}
 	else if(event.GetId() == Terrains_Name2->GetId())
 	{
-		wxCommandEvent E;
-		OnTerrainsSelect(E);
+		wxTimerEvent E;
+		OnTerrainsTimer(E);
 	}
 	else if(event.GetId() == Terrains_Border->GetId())
 	{
