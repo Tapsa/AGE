@@ -27,6 +27,7 @@ class AGELinkedBox
 {
 public:
     virtual void update(int)=0;
+protected:
     virtual void enable(bool)=0;
 };
 
@@ -39,17 +40,25 @@ public:
     static AGETextCtrl* init(const ContainerType type, forward_list<AGETextCtrl*> *group,
         wxFrame *frame, const short window, wxWindow *parent, short length = 0);
     virtual int SaveEdits(bool forced = false)=0;
-    virtual void Update()=0;
-    void enable(bool yes)
+    virtual void update()
     {
-        if(container.empty()) yes = false;
-        Enable(yes);
-        if(!LinkedBoxes.empty())
-        for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+        if(container.empty())
         {
-            (*it)->enable(yes);
+            Clear();
+            Enable(false);
+            if(!LinkedBoxes.empty())
+            for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+            {
+                (*it)->update(-1);
+                (*it)->enable(false);
+            }
+            return;
         }
+        curFileLoaded = AGETextCtrl::fileLoaded[window];
+        Update();
+        Enable(true);
     }
+    virtual void Update()=0;
     void changeContainerType(const ContainerType type);
     void clear(){container.clear();}
     void prepend(void* data){container.push_front(data);}
