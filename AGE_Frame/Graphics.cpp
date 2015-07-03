@@ -374,6 +374,7 @@ void AGE_Frame::ListGraphicDeltas()
     Graphics_Deltas_ListV->names.clear();
     Graphics_Deltas_ListV->indexes.clear();
 
+    if(Graphics_Graphics_ListV->GetSelectedItemCount())
 	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetGraphicDeltaName(loop);
@@ -416,7 +417,7 @@ void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent &event)
 			GraphicDeltas_Unknown3->prepend(&DeltaPointer->Unknown3);
 			GraphicDeltas_DirectionX->prepend(&DeltaPointer->DirectionX);
 			GraphicDeltas_DirectionY->prepend(&DeltaPointer->DirectionY);
-			GraphicDeltas_Unknown4->prepend(&DeltaPointer->Unknown4);
+			GraphicDeltas_DisplayAngle->prepend(&DeltaPointer->DisplayAngle);
 			GraphicDeltas_Unknown5->prepend(&DeltaPointer->Unknown5);
 		}
 	}
@@ -517,6 +518,7 @@ void AGE_Frame::ListGraphicAttackSounds()
     Graphics_AttackSounds_ListV->names.clear();
     Graphics_AttackSounds_ListV->indexes.clear();
 
+    if(Graphics_Graphics_ListV->GetSelectedItemCount())
 	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop)
 	{
         Graphics_AttackSounds_ListV->names.Add(" "+FormatInt(loop)+" - "+GetGraphicAttackSoundName(loop));
@@ -728,9 +730,10 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Unknown3_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_Unknown3 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, AGEwindow, Graphics_Scroller);
-	GraphicDeltas_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_Unknown4_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_Unknown4 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, AGEwindow, Graphics_Scroller);
+	GraphicDeltas_DisplayAngle_Holder = new wxBoxSizer(wxVERTICAL);
+	GraphicDeltas_DisplayAngle_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Display Angle *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	GraphicDeltas_DisplayAngle = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, AGEwindow, Graphics_Scroller);
+	GraphicDeltas_DisplayAngle->SetToolTip("The angle where this delta will be displayed\nIn a unit with 8 angles, 0 would mean east, 1 south-east, 2 south,\n3 south-west, 4 west, 5 north-west, 6 north, 7 north-east");
 	GraphicDeltas_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Unknown5_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_Unknown5 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, AGEwindow, Graphics_Scroller);
@@ -924,8 +927,8 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_DirectionX_Holder->Add(GraphicDeltas_DirectionX, 0, wxEXPAND);
 	GraphicDeltas_DirectionY_Holder->Add(GraphicDeltas_DirectionY_Text, 0, wxEXPAND);
 	GraphicDeltas_DirectionY_Holder->Add(GraphicDeltas_DirectionY, 0, wxEXPAND);
-	GraphicDeltas_Unknown4_Holder->Add(GraphicDeltas_Unknown4_Text, 0, wxEXPAND);
-	GraphicDeltas_Unknown4_Holder->Add(GraphicDeltas_Unknown4, 1, wxEXPAND);
+	GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle_Text, 0, wxEXPAND);
+	GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle, 1, wxEXPAND);
 	GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5_Text, 0, wxEXPAND);
 	GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5, 1, wxEXPAND);
 
@@ -937,7 +940,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown1_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown2_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown3_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown4_Holder, 1, wxEXPAND);
+	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_DisplayAngle_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown5_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Holder_Data->Add(Graphics_Deltas_Holder_Data1, 0, wxEXPAND);
 	Graphics_Deltas_Holder_Data->AddSpacer(5);

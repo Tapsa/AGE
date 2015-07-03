@@ -161,7 +161,6 @@ public:
 	string GetRandomMapName(short);
 
 	void ListRMSBaseZones();
-	void DisableRMSBaseZones();
 	void OnRMSBaseZoneSearch(wxCommandEvent &event);
 	void OnRMSBaseZoneTimer(wxTimerEvent &event);
 	void OnRMSBaseZoneSelect(wxCommandEvent &event);
@@ -175,7 +174,6 @@ public:
 	string GetRMSBaseZonesName(short);
 
 	void ListRMSTerrains();
-	void DisableRMSTerrains();
 	void OnRMSTerrainSearch(wxCommandEvent &event);
 	void OnRMSTerrainTimer(wxTimerEvent &event);
 	void OnRMSTerrainSelect(wxCommandEvent &event);
@@ -189,7 +187,6 @@ public:
 	string GetRMSTerrainName(short);
 
 	void ListRMSUnits();
-	void DisableRMSUnits();
 	void OnRMSUnitSearch(wxCommandEvent &event);
 	void OnRMSUnitTimer(wxTimerEvent &event);
 	void OnRMSUnitSelect(wxCommandEvent &event);
@@ -203,7 +200,6 @@ public:
 	string GetRMSUnitName(short);
 
 	void ListRMSUnknowns();
-	void DisableRMSUnknowns();
 	void OnRMSUnknownSearch(wxCommandEvent &event);
 	void OnRMSUnknownTimer(wxTimerEvent &event);
 	void OnRMSUnknownSelect(wxCommandEvent &event);
@@ -2703,9 +2699,9 @@ public:
 	wxBoxSizer *GraphicDeltas_DirectionY_Holder;
 	wxStaticText *GraphicDeltas_DirectionY_Text;
 	AGETextCtrl *GraphicDeltas_DirectionY;
-	wxBoxSizer *GraphicDeltas_Unknown4_Holder;
-	wxStaticText *GraphicDeltas_Unknown4_Text;
-	AGETextCtrl *GraphicDeltas_Unknown4;
+	wxBoxSizer *GraphicDeltas_DisplayAngle_Holder;
+	wxStaticText *GraphicDeltas_DisplayAngle_Text;
+	AGETextCtrl *GraphicDeltas_DisplayAngle;
 	wxBoxSizer *GraphicDeltas_Unknown5_Holder;
 	wxStaticText *GraphicDeltas_Unknown5_Text;
 	AGETextCtrl *GraphicDeltas_Unknown5;
