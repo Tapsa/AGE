@@ -66,197 +66,85 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
 
 void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
 {
-	General_MapPointer->resize(1);
+    for(auto &box: uiGroupMaps) box->clear();
 	General_MapPointer->prepend(&GenieFile->TerrainBlock.MapPointer);
-	General_MapPointer->Update();
-	General_Unknown1->resize(1);
 	General_Unknown1->prepend(&GenieFile->TerrainBlock.Unknown1);
-	General_Unknown1->Update();
-	General_MapWidth->resize(1);
 	General_MapWidth->prepend(&GenieFile->TerrainBlock.MapWidth);
-	General_MapWidth->Update();
-	General_MapHeight->resize(1);
 	General_MapHeight->prepend(&GenieFile->TerrainBlock.MapHeight);
-	General_MapHeight->Update();
-	General_WorldWidth->resize(1);
 	General_WorldWidth->prepend(&GenieFile->TerrainBlock.WorldWidth);
-	General_WorldWidth->Update();
-	General_WorldHeight->resize(1);
 	General_WorldHeight->prepend(&GenieFile->TerrainBlock.WorldHeight);
-	General_WorldHeight->Update();
 	if(GenieVersion >= genie::GV_AoE)
 	{
-		General_Unknown2->resize(1);
 		General_Unknown2->prepend(&GenieFile->TerrainBlock.Unknown2);
-		General_Unknown2->Update();
-	}
-	else
-	{
-		General_Unknown2->resize(0);
-		General_Unknown2->Clear();
 	}
 	for(short loop = 0, slot = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT; ++loop)
 	{
-		General_TileSizes[slot]->resize(1);
-		General_TileSizes[slot]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].Width);
-		General_TileSizes[slot++]->Update();
-		General_TileSizes[slot]->resize(1);
-		General_TileSizes[slot]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].Height);
-		General_TileSizes[slot++]->Update();
+		General_TileSizes[slot++]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].Width);
+		General_TileSizes[slot++]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].Height);
 		if(GenieVersion >= genie::GV_AoE)
 		{
-			General_TileSizes[slot]->resize(1);
-			General_TileSizes[slot]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].DeltaY);
-			General_TileSizes[slot++]->Update();
+			General_TileSizes[slot++]->prepend(&GenieFile->TerrainBlock.TileSizes[loop].DeltaY);
 		}
 		else
 		{
-			General_TileSizes[slot]->resize(0);
-			General_TileSizes[slot++]->Clear();
+			++slot;
 		}
 	}
 
-	UnknownPointer1->resize(1);
 	UnknownPointer1->prepend(&GenieFile->TerrainBlock.UnknownPointer1);
-	UnknownPointer1->Update();
 	if(GenieVersion >= genie::GV_AoKA)
 	{
-		MapMinX->resize(1);
 		MapMinX->prepend(&GenieFile->TerrainBlock.MapMinX);
-		MapMinX->Update();
-		MapMinY->resize(1);
 		MapMinY->prepend(&GenieFile->TerrainBlock.MapMinY);
-		MapMinY->Update();
-		MapMaxX->resize(1);
 		MapMaxX->prepend(&GenieFile->TerrainBlock.MapMaxX);
-		MapMaxX->Update();
-		MapMaxY->resize(1);
 		MapMaxY->prepend(&GenieFile->TerrainBlock.MapMaxY);
-		MapMaxY->Update();
-	}
-	else
-	{
-		MapMinX->resize(0);
-		MapMinX->Clear();
-		MapMinY->resize(0);
-		MapMinY->Clear();
-		MapMaxX->resize(0);
-		MapMaxX->Clear();
-		MapMaxY->resize(0);
-		MapMaxY->Clear();
 	}
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		MapMaxXplus1->resize(1);
 		MapMaxXplus1->prepend(&GenieFile->TerrainBlock.MapMaxXplus1);
-		MapMaxXplus1->Update();
-		MapMaxYplus1->resize(1);
 		MapMaxYplus1->prepend(&GenieFile->TerrainBlock.MapMaxYplus1);
-		MapMaxYplus1->Update();
 	}
-	else
-	{
-		MapMaxXplus1->resize(0);
-		MapMaxXplus1->Clear();
-		MapMaxYplus1->resize(0);
-		MapMaxYplus1->Clear();
-	}
-	MaxTerrain->resize(1);
 	MaxTerrain->prepend(&GenieFile->TerrainBlock.MaxTerrain);
-	MaxTerrain->Update();
-	TileWidth->resize(1);
 	TileWidth->prepend(&GenieFile->TerrainBlock.TileWidth);
-	TileWidth->Update();
-	TileHeight->resize(1);
 	TileHeight->prepend(&GenieFile->TerrainBlock.TileHeight);
-	TileHeight->Update();
-	TileHalfHeight->resize(1);
 	TileHalfHeight->prepend(&GenieFile->TerrainBlock.TileHalfHeight);
-	TileHalfHeight->Update();
-	TileHalfWidth->resize(1);
 	TileHalfWidth->prepend(&GenieFile->TerrainBlock.TileHalfWidth);
-	TileHalfWidth->Update();
-	ElevHeight->resize(1);
 	ElevHeight->prepend(&GenieFile->TerrainBlock.ElevHeight);
-	ElevHeight->Update();
-	CurRow->resize(1);
 	CurRow->prepend(&GenieFile->TerrainBlock.CurRow);
-	CurRow->Update();
-	CurCol->resize(1);
 	CurCol->prepend(&GenieFile->TerrainBlock.CurCol);
-	CurCol->Update();
-	BlockBegRow->resize(1);
 	BlockBegRow->prepend(&GenieFile->TerrainBlock.BlockBegRow);
-	BlockBegRow->Update();
-	BlockEndRow->resize(1);
 	BlockEndRow->prepend(&GenieFile->TerrainBlock.BlockEndRow);
-	BlockEndRow->Update();
-	BlockBegCol->resize(1);
 	BlockBegCol->prepend(&GenieFile->TerrainBlock.BlockBegCol);
-	BlockBegCol->Update();
-	BlockEndCol->resize(1);
 	BlockEndCol->prepend(&GenieFile->TerrainBlock.BlockEndCol);
-	BlockEndCol->Update();
-	UnknownPointer2->resize(1);
 	UnknownPointer2->prepend(&GenieFile->TerrainBlock.UnknownPointer2);
-	UnknownPointer2->Update();
-	UnknownPointer3->resize(1);
 	UnknownPointer3->prepend(&GenieFile->TerrainBlock.UnknownPointer3);
-	UnknownPointer3->Update();
-	AnyFrameChange->resize(1);
 	AnyFrameChange->prepend(&GenieFile->TerrainBlock.AnyFrameChange);
-	AnyFrameChange->Update();
-	MapVisibleFlag->resize(1);
 	MapVisibleFlag->prepend(&GenieFile->TerrainBlock.MapVisibleFlag);
-	MapVisibleFlag->Update();
-	FogFlag->resize(1);
 	FogFlag->prepend(&GenieFile->TerrainBlock.FogFlag);
-	FogFlag->Update();
 
 	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeBytes.size(); ++loop)
 	{
-		General_SomeBytes[loop]->resize(1);
 		General_SomeBytes[loop]->prepend(&GenieFile->TerrainBlock.SomeBytes[loop]);
-		General_SomeBytes[loop]->Update();
 	}
 	for(short loop = 0; loop < GenieFile->TerrainBlock.SomeInt32.size(); ++loop)
 	{
-		General_Something[loop]->resize(1);
 		General_Something[loop]->prepend(&GenieFile->TerrainBlock.SomeInt32[loop]);
-		General_Something[loop]->Update();
 	}
-	Unknown_UnknownPointer->resize(1);
 	Unknown_UnknownPointer->prepend(&GenieFile->RandomMaps.RandomMapPointer);
-	Unknown_UnknownPointer->Update();
 	if(GenieVersion < genie::GV_AoKA) return;
 	for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
 	{
-		General_TTUnknown[loop]->resize(1);
 		General_TTUnknown[loop]->prepend(&GenieFile->UnknownPreTechTree[loop]);
-		General_TTUnknown[loop]->Update();
 	}
-	General_TTUnknown[7]->resize(1);
 	General_TTUnknown[7]->prepend(&GenieFile->TechTree.Unknown2);
-	General_TTUnknown[7]->Update();
 	if(GenieVersion < genie::GV_SWGB) return;
-	General_SUnknown2->resize(1);
 	General_SUnknown2->prepend(&GenieFile->SUnknown2);
-	General_SUnknown2->Update();
-	General_SUnknown3->resize(1);
 	General_SUnknown3->prepend(&GenieFile->SUnknown3);
-	General_SUnknown3->Update();
-	General_SUnknown4->resize(1);
 	General_SUnknown4->prepend(&GenieFile->SUnknown4);
-	General_SUnknown4->Update();
-	General_SUnknown5->resize(1);
 	General_SUnknown5->prepend(&GenieFile->SUnknown5);
-	General_SUnknown5->Update();
-	General_SUnknown7->resize(1);
 	General_SUnknown7->prepend(&GenieFile->SUnknown7);
-	General_SUnknown7->Update();
-	General_SUnknown8->resize(1);
 	General_SUnknown8->prepend(&GenieFile->SUnknown8);
-	General_SUnknown8->Update();
+    for(auto &box: uiGroupMaps) box->update();
 }
 
 void AGE_Frame::CreateGeneralControls()
@@ -656,18 +544,11 @@ void AGE_Frame::OnRandomMapTimer(wxTimerEvent &event)
 {
     randomMapTimer.Stop();
 	auto selections = Unknowns_List->GetSelections(Items);
+    for(auto &box: uiGroupRandomMap) box->clear();
 	if(selections > 0)
 	{
 		//SwapSelection(event.GetSelection(), Items);
 		RandomMapIDs.resize(selections);
-		Unknowns_UnknownLevel->resize(selections);
-		int PointerCount = selections * 2;
-		for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
-		Unknowns_Unknown1[loop]->resize(PointerCount);
-		Unknowns_Pointer1->resize(PointerCount);
-		Unknowns_Pointer2->resize(PointerCount);
-		Unknowns_Pointer3->resize(PointerCount);
-		Unknowns_Pointer4->resize(PointerCount);
 
 		genie::MapHeader * MapPointer1;
 		genie::Map * MapPointer2;
@@ -707,53 +588,12 @@ void AGE_Frame::OnRandomMapTimer(wxTimerEvent &event)
 			Unknowns_Pointer4->prepend(&MapPointer2->MapUnknownPointer);
 		}
 		SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected random map: "+lexical_cast<string>(RandomMapIDs[0]), 0);
-
-		Unknowns_UnknownLevel->Update();
-		Unknowns_Unknown1[0]->Update();
-		Unknowns_Unknown1[1]->Update();
-		Unknowns_Unknown1[2]->Update();
-		Unknowns_Unknown1[3]->Update();
-		Unknowns_Unknown1[4]->Update();
-		Unknowns_Unknown1[5]->Update();
-		Unknowns_Unknown1[6]->Update();
-		Unknowns_Unknown1[7]->Update();
-		Unknowns_Unknown1[8]->Update();
-		Unknowns_Pointer1->Update();
-		Unknowns_Pointer2->Update();
-		Unknowns_Pointer3->Update();
-		Unknowns_Pointer4->Update();
-
-		ListRMSBaseZones();
-		ListRMSTerrains();
-		ListRMSUnits();
-		ListRMSUnknowns();
 	}
-	else
-	{
-		Unknowns_UnknownLevel->Clear();
-		for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
-		Unknowns_Unknown1[loop]->Clear();
-		Unknowns_Pointer1->Clear();
-		Unknowns_Pointer2->Clear();
-		Unknowns_Pointer3->Clear();
-		Unknowns_Pointer4->Clear();
-
-		RMSBaseZones_List->Clear();
-		DisableRMSBaseZones();
-		RMSTerrain_List->Clear();
-		DisableRMSTerrains();
-		RMSUnit_List->Clear();
-		DisableRMSUnits();
-		RMSUnknown_List->Clear();
-		DisableRMSUnknowns();
-	}
-	Unknowns_UnknownLevel->Enable(selections);
-	for(short loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
-	Unknowns_Unknown1[loop]->Enable(selections);
-	Unknowns_Pointer1->Enable(selections);
-	Unknowns_Pointer2->Enable(selections);
-	Unknowns_Pointer3->Enable(selections);
-	Unknowns_Pointer4->Enable(selections);
+    for(auto &box: uiGroupRandomMap) box->update();
+    ListRMSBaseZones();
+    ListRMSTerrains();
+    ListRMSUnits();
+    ListRMSUnknowns();
 }
 
 void AGE_Frame::OnRandomMapAdd(wxCommandEvent &event)
@@ -854,6 +694,7 @@ void AGE_Frame::ListRMSBaseZones()
 	list<void*> dataPointers;
 	wxArrayString filteredNames;
 
+    if(GenieFile->RandomMaps.Maps.size())
 	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetRMSBaseZonesName(loop);
@@ -879,27 +720,10 @@ void AGE_Frame::OnRMSBaseZoneTimer(wxTimerEvent &event)
 {
     rmBaseTimer.Stop();
 	auto selections = RMSBaseZones_List->GetSelections(Items);
-	if(selections < 1)
-	{
-		DisableRMSBaseZones();
-		return;
-	}
+    for(auto &box: uiGroupRMBase) box->clear();
 
 	//SwapSelection(event.GetSelection(), Items);
 	UnknownFSIDs.resize(selections);
-	RMSBaseZones_Unknown1->resize(selections);
-	RMSBaseZones_BaseTerrain->resize(selections);
-	RMSBaseZones_SpacingBetweenPlayers->resize(selections);
-	RMSBaseZones_Unknown4->resize(selections);
-	for(short loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-	RMSBaseZones_Unknown5[loop]->resize(selections);
-	RMSBaseZones_Unknown6->resize(selections);
-	RMSBaseZones_Unknown7->resize(selections);
-	for(short loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-	RMSBaseZones_Unknown8[loop]->resize(selections);
-	RMSBaseZones_StartAreaRadius->resize(selections);
-	RMSBaseZones_Unknown10->resize(selections);
-	RMSBaseZones_Unknown11->resize(selections);
 
 	genie::BaseZone * UnknownPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -922,66 +746,7 @@ void AGE_Frame::OnRMSBaseZoneTimer(wxTimerEvent &event)
 		RMSBaseZones_Unknown11->prepend(&UnknownPointer->Unknown11);
 	}
 
-	RMSBaseZones_Unknown1->Enable(true);
-	RMSBaseZones_Unknown1->Update();
-	RMSBaseZones_BaseTerrain->Enable(true);
-	RMSBaseZones_BaseTerrain->Update();
-	RMSBaseZones_SpacingBetweenPlayers->Enable(true);
-	RMSBaseZones_SpacingBetweenPlayers->Update();
-	RMSBaseZones_Unknown4->Enable(true);
-	RMSBaseZones_Unknown4->Update();
-	for(short loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-	{
-		RMSBaseZones_Unknown5[loop]->Enable(true);
-		RMSBaseZones_Unknown5[loop]->Update();
-	}
-	RMSBaseZones_Unknown6->Enable(true);
-	RMSBaseZones_Unknown6->Update();
-	RMSBaseZones_Unknown7->Enable(true);
-	RMSBaseZones_Unknown7->Update();
-	for(short loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-	{
-		RMSBaseZones_Unknown8[loop]->Enable(true);
-		RMSBaseZones_Unknown8[loop]->Update();
-	}
-	RMSBaseZones_StartAreaRadius->Enable(true);
-	RMSBaseZones_StartAreaRadius->Update();
-	RMSBaseZones_Unknown10->Enable(true);
-	RMSBaseZones_Unknown10->Update();
-	RMSBaseZones_Unknown11->Enable(true);
-	RMSBaseZones_Unknown11->Update();
-}
-
-void AGE_Frame::DisableRMSBaseZones()
-{
-	RMSBaseZones_Unknown1->Enable(false);
-	RMSBaseZones_Unknown1->Clear();
-	RMSBaseZones_BaseTerrain->Enable(false);
-	RMSBaseZones_BaseTerrain->Clear();
-	RMSBaseZones_SpacingBetweenPlayers->Enable(false);
-	RMSBaseZones_SpacingBetweenPlayers->Clear();
-	RMSBaseZones_Unknown4->Enable(false);
-	RMSBaseZones_Unknown4->Clear();
-	for(short loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-	{
-		RMSBaseZones_Unknown5[loop]->Enable(false);
-		RMSBaseZones_Unknown5[loop]->Clear();
-	}
-	RMSBaseZones_Unknown6->Enable(false);
-	RMSBaseZones_Unknown6->Clear();
-	RMSBaseZones_Unknown7->Enable(false);
-	RMSBaseZones_Unknown7->Clear();
-	for(short loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-	{
-		RMSBaseZones_Unknown8[loop]->Enable(false);
-		RMSBaseZones_Unknown8[loop]->Clear();
-	}
-	RMSBaseZones_StartAreaRadius->Enable(false);
-	RMSBaseZones_StartAreaRadius->Clear();
-	RMSBaseZones_Unknown10->Enable(false);
-	RMSBaseZones_Unknown10->Clear();
-	RMSBaseZones_Unknown11->Enable(false);
-	RMSBaseZones_Unknown11->Clear();
+    for(auto &box: uiGroupRMBase) box->update();
 }
 
 void AGE_Frame::OnRMSBaseZoneAdd(wxCommandEvent &event)
@@ -1096,6 +861,7 @@ void AGE_Frame::ListRMSTerrains()
 	list<void*> dataPointers;
 	wxArrayString filteredNames;
 
+    if(GenieFile->RandomMaps.Maps.size())
 	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetRMSTerrainName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[loop].Terrain);
@@ -1121,16 +887,10 @@ void AGE_Frame::OnRMSTerrainTimer(wxTimerEvent &event)
 {
     rmTerrainTimer.Stop();
 	auto selections = RMSTerrain_List->GetSelections(Items);
-	if(selections < 1)
-	{
-		DisableRMSTerrains();
-		return;
-	}
+	for(auto &box: uiGroupRMTerrain) box->clear();
 
 	//SwapSelection(event.GetSelection(), Items);
 	UnknownSSIDs.resize(selections);
-	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
-	RMSTerrain_Unknown1[loop]->resize(selections);
 
 	genie::MapTerrain * UnknownPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -1146,25 +906,7 @@ void AGE_Frame::OnRMSTerrainTimer(wxTimerEvent &event)
 		RMSTerrain_Unknown1[5]->prepend(&UnknownPointer->Unknown6);
 	}
 
-	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
-	{
-		RMSTerrain_Unknown1[loop]->Enable(true);
-	}
-	RMSTerrain_Unknown1[0]->Update();
-	RMSTerrain_Unknown1[1]->Update();
-	RMSTerrain_Unknown1[2]->Update();
-	RMSTerrain_Unknown1[3]->Update();
-	RMSTerrain_Unknown1[4]->Update();
-	RMSTerrain_Unknown1[5]->Update();
-}
-
-void AGE_Frame::DisableRMSTerrains()
-{
-	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
-	{
-		RMSTerrain_Unknown1[loop]->Enable(false);
-		RMSTerrain_Unknown1[loop]->Clear();
-	}
+	for(auto &box: uiGroupRMTerrain) box->update();
 }
 
 void AGE_Frame::OnRMSTerrainAdd(wxCommandEvent &event)
@@ -1268,6 +1010,7 @@ void AGE_Frame::ListRMSUnits()
 	list<void*> dataPointers;
 	wxArrayString filteredNames;
 
+    if(GenieFile->RandomMaps.Maps.size())
 	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[loop].Unit);
@@ -1293,26 +1036,10 @@ void AGE_Frame::OnRMSUnitTimer(wxTimerEvent &event)
 {
     rmUnitTimer.Stop();
 	auto selections = RMSUnit_List->GetSelections(Items);
-	if(selections < 1)
-	{
-		DisableRMSUnits();
-		return;
-	}
+	for(auto &box: uiGroupRMUnit) box->clear();
 
 	//SwapSelection(event.GetSelection(), Items);
 	UnknownTSIDs.resize(selections);
-	RMSUnit_Unit->resize(selections);
-	RMSUnit_HostTerrain->resize(selections);
-	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-	RMSUnit_Unknown3[loop]->resize(selections);
-	RMSUnit_ObjectsPerPlayer->resize(selections);
-	RMSUnit_Unknown5->resize(selections);
-	RMSUnit_GroupsPerPlayer->resize(selections);
-	RMSUnit_Unknown7->resize(selections);
-	RMSUnit_OwnAtStart->resize(selections);
-	RMSUnit_SetPlaceForAllPlayers->resize(selections);
-	RMSUnit_MinDistanceToPlayers->resize(selections);
-	RMSUnit_MaxDistanceToPlayers->resize(selections);
 
 	genie::MapUnit * UnknownPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -1334,60 +1061,7 @@ void AGE_Frame::OnRMSUnitTimer(wxTimerEvent &event)
 		RMSUnit_MaxDistanceToPlayers->prepend(&UnknownPointer->MaxDistanceToPlayers);
 	}
 
-	RMSUnit_Unit->Enable(true);
-	RMSUnit_Unit->Update();
-	RMSUnit_HostTerrain->Enable(true);
-	RMSUnit_HostTerrain->Update();
-	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-	{
-		RMSUnit_Unknown3[loop]->Enable(true);
-		RMSUnit_Unknown3[loop]->Update();
-	}
-	RMSUnit_ObjectsPerPlayer->Enable(true);
-	RMSUnit_ObjectsPerPlayer->Update();
-	RMSUnit_Unknown5->Enable(true);
-	RMSUnit_Unknown5->Update();
-	RMSUnit_GroupsPerPlayer->Enable(true);
-	RMSUnit_GroupsPerPlayer->Update();
-	RMSUnit_Unknown7->Enable(true);
-	RMSUnit_Unknown7->Update();
-	RMSUnit_OwnAtStart->Enable(true);
-	RMSUnit_OwnAtStart->Update();
-	RMSUnit_SetPlaceForAllPlayers->Enable(true);
-	RMSUnit_SetPlaceForAllPlayers->Update();
-	RMSUnit_MinDistanceToPlayers->Enable(true);
-	RMSUnit_MinDistanceToPlayers->Update();
-	RMSUnit_MaxDistanceToPlayers->Enable(true);
-	RMSUnit_MaxDistanceToPlayers->Update();
-}
-
-void AGE_Frame::DisableRMSUnits()
-{
-	RMSUnit_Unit->Enable(false);
-	RMSUnit_Unit->Clear();
-	RMSUnit_HostTerrain->Enable(false);
-	RMSUnit_HostTerrain->Clear();
-	for(short loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-	{
-		RMSUnit_Unknown3[loop]->Enable(false);
-		RMSUnit_Unknown3[loop]->Clear();
-	}
-	RMSUnit_ObjectsPerPlayer->Enable(false);
-	RMSUnit_ObjectsPerPlayer->Clear();
-	RMSUnit_Unknown5->Enable(false);
-	RMSUnit_Unknown5->Clear();
-	RMSUnit_GroupsPerPlayer->Enable(false);
-	RMSUnit_GroupsPerPlayer->Clear();
-	RMSUnit_Unknown7->Enable(false);
-	RMSUnit_Unknown7->Clear();
-	RMSUnit_OwnAtStart->Enable(false);
-	RMSUnit_OwnAtStart->Clear();
-	RMSUnit_SetPlaceForAllPlayers->Enable(false);
-	RMSUnit_SetPlaceForAllPlayers->Clear();
-	RMSUnit_MinDistanceToPlayers->Enable(false);
-	RMSUnit_MinDistanceToPlayers->Clear();
-	RMSUnit_MaxDistanceToPlayers->Enable(false);
-	RMSUnit_MaxDistanceToPlayers->Clear();
+	for(auto &box: uiGroupRMUnit) box->update();
 }
 
 void AGE_Frame::OnRMSUnitAdd(wxCommandEvent &event)
@@ -1502,6 +1176,7 @@ void AGE_Frame::ListRMSUnknowns()
 	list<void*> dataPointers;
 	wxArrayString filteredNames;
 
+    if(GenieFile->RandomMaps.Maps.size())
 	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetRMSUnknownName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[loop].Unknown2);
@@ -1527,16 +1202,10 @@ void AGE_Frame::OnRMSUnknownTimer(wxTimerEvent &event)
 {
     rmUnknownTimer.Stop();
 	auto selections = RMSUnknown_List->GetSelections(Items);
-	if(selections < 1)
-	{
-		DisableRMSUnknowns();
-		return;
-	}
+	for(auto &box: uiGroupRMUnknown) box->clear();
 
 	//SwapSelection(event.GetSelection(), Items);
 	Unknown4SIDs.resize(selections);
-	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
-	RMSUnknown_Unknown1[loop]->resize(selections);
 
 	genie::MapUnknown * UnknownPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -1552,25 +1221,7 @@ void AGE_Frame::OnRMSUnknownTimer(wxTimerEvent &event)
 		RMSUnknown_Unknown1[5]->prepend(&UnknownPointer->Unknown6);
 	}
 
-	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
-	{
-		RMSUnknown_Unknown1[loop]->Enable(true);
-	}
-	RMSUnknown_Unknown1[0]->Update();
-	RMSUnknown_Unknown1[1]->Update();
-	RMSUnknown_Unknown1[2]->Update();
-	RMSUnknown_Unknown1[3]->Update();
-	RMSUnknown_Unknown1[4]->Update();
-	RMSUnknown_Unknown1[5]->Update();
-}
-
-void AGE_Frame::DisableRMSUnknowns()
-{
-	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
-	{
-		RMSUnknown_Unknown1[loop]->Enable(false);
-		RMSUnknown_Unknown1[loop]->Clear();
-	}
+	for(auto &box: uiGroupRMUnknown) box->update();
 }
 
 void AGE_Frame::OnRMSUnknownAdd(wxCommandEvent &event)
@@ -1672,7 +1323,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknown_UnknownPointer_Grid = new wxGridSizer(8, 0, 0);
 	Unknown_UnknownPointer_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknown_UnknownPointer_Text = new wxStaticText(Tab_Unknown, wxID_ANY, " Random Map Pointer", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Unknown_UnknownPointer = AGETextCtrl::init(CLong, NULL, this, AGEwindow, Tab_Unknown);
+	Unknown_UnknownPointer = AGETextCtrl::init(CLong, &uiGroupMaps, this, AGEwindow, Tab_Unknown);
 
 	Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Unknown, "Random Map Scripts (Required in AoE/RoR)");
 	Unknowns_ListArea = new wxBoxSizer(wxVERTICAL);

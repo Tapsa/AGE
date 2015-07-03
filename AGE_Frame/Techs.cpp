@@ -127,11 +127,10 @@ void AGE_Frame::OnTechTimer(wxTimerEvent &event)
 {
     techTimer.Stop();
 	auto selections = Techs_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	TechIDs.resize(selections);
-	Techs_Name->resize(selections);
+	Techs_Name->clear();
 
 	genie::Techage * TechPointer;
 	for(auto loop = selections; loop--> 0;)
@@ -142,7 +141,7 @@ void AGE_Frame::OnTechTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected tech: "+lexical_cast<string>(TechIDs[0]), 0);
 
-	Techs_Name->Update();
+	Techs_Name->update();
 	ListEffects();
 }
 
@@ -330,6 +329,7 @@ void AGE_Frame::ListEffects()
 	list<void*> dataPointers;
 	wxArrayString filteredNames;
 
+    if(GenieFile->Techages.size())
 	for(short loop = 0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetEffectName(loop);
@@ -358,17 +358,13 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 {
     effectTimer.Stop();
 	auto selections = Techs_Effects_List->GetSelections(Items);
+    for(auto &box: uiGroupTechEffect) box->clear();
+    bool enableD = true;
 	if(selections > 0)
 	{
 		//SwapSelection(event.GetSelection(), Items);
 		Effects_Type_Holder->Show(true);
-		Effects_D->Enable(true);
 		EffectIDs.resize(selections);
-		Effects_Type->resize(selections);
-		Effects_A->resize(selections);
-		Effects_B->resize(selections);
-		Effects_C->resize(selections);
-		Effects_D->resize(selections);
 
 		genie::TechageEffect * EffectPointer;
 		for(auto loop = selections; loop--> 0;)
@@ -381,12 +377,6 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 			Effects_C->prepend(&EffectPointer->C);
 			Effects_D->prepend(&EffectPointer->D);
 		}
-
-		Effects_Type->Update();
-		Effects_A->Update();
-		Effects_B->Update();
-		Effects_C->Update();
-		Effects_D->Update();
 
 		bool NeverHide = Effects_NeverHide->GetValue();
 		switch(EffectPointer->Type)
@@ -420,7 +410,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
-					Effects_D->Enable(false);
+					enableD = false;
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
@@ -443,7 +433,6 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				}
 				else
 				{
-					Effects_D->Enable(true);
 					Effects_E->Show(false);
 					Effects_F->Show(false);
 					Attacks_Class_ComboBox[2]->Show(false);
@@ -595,7 +584,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
-					Effects_D->Enable(false);
+					enableD = false;
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
@@ -618,7 +607,6 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				}
 				else
 				{
-					Effects_D->Enable(true);
 					Effects_E->Show(false);
 					Effects_F->Show(false);
 					Attacks_Class_ComboBox[2]->Show(false);
@@ -658,7 +646,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
-					Effects_D->Enable(false);
+					enableD = false;
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
@@ -681,7 +669,6 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				}
 				else
 				{
-					Effects_D->Enable(true);
 					Effects_E->Show(false);
 					Effects_F->Show(false);
 					Attacks_Class_ComboBox[2]->Show(false);
@@ -902,7 +889,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 		Effects_D->Show(false);	// not for Effects 2, 3
 		Effects_E->Show(false);	// only for attributes 8, 9
 		Effects_F->Show(false);	// only for attributes 8, 9
-		Effects_A_Text->SetLabel("Add Effect ");
+		Effects_A_Text->SetLabel("Select effect first ");
 		Effects_B_Text->SetLabel("");
 		Effects_C_Text->SetLabel("");
 		Effects_D_Text->SetLabel("");
@@ -915,6 +902,8 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 		Effects_Info_E->SetLabel("");
 		Effects_Info_F->SetLabel("");
 	}
+    for(auto &box: uiGroupTechEffect) box->update();
+    Effects_D->Enable(enableD);
 	Effects_Type_Holder->Layout();
 	Effects_A_Holder->Layout();
 	Effects_B_Holder->Layout();
@@ -1167,7 +1156,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_E = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Effects_Info_E = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_F_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_F = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, AGEwindow, Tab_Techs);
+	Effects_F = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Tab_Techs);
 	Attacks_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Link = new wxHyperlinkCtrl(Tab_Techs, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
