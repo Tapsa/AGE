@@ -55,35 +55,10 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 {
     borderTimer.Stop();
 	auto selections = Borders_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	BorderIDs.resize(selections);
-	Borders_Enabled->resize(selections);
-	Borders_Random->resize(selections);
-	Borders_Name[0]->resize(selections);
-	Borders_Name[1]->resize(selections);
-	if(GenieVersion >= genie::GV_AoEB)
-	Borders_SLP->resize(selections);
-	Borders_Unknown3->resize(selections);
-	Borders_Sound->resize(selections);
-	for(short loop = 0; loop < 3; ++loop)
-	{
-		Borders_Colors[loop]->resize(selections);
-	}
-	Borders_IsAnimated->resize(selections);
-	Borders_AnimationFrames->resize(selections);
-	Borders_PauseFames->resize(selections);
-	Borders_Interval->resize(selections);
-	Borders_PauseBetweenLoops->resize(selections);
-	Borders_Frame->resize(selections);
-	Borders_DrawFrame->resize(selections);
-	Borders_AnimateLast->resize(selections);
-	Borders_FrameChanged->resize(selections);
-	Borders_Drawn->resize(selections);
-	Borders_DrawTile->resize(selections);
-	Borders_Terrain->resize(selections);
-	Borders_BorderStyle->resize(selections);
+	for(auto &box: uiGroupBorder) box->clear();
 
 	genie::TerrainBorder * BorderPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -119,31 +94,7 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected border: "+lexical_cast<string>(BorderIDs[0]), 0);
 
-	Borders_Enabled->Update();
-	Borders_Random->Update();
-	Borders_Name[0]->Update();
-	Borders_Name[1]->Update();
-	if(GenieVersion >= genie::GV_AoEB)
-	Borders_SLP->Update();
-	Borders_Unknown3->Update();
-	Borders_Sound->Update();
-	for(short loop = 0; loop < 3; ++loop)
-	{
-		Borders_Colors[loop]->Update();
-	}
-	Borders_IsAnimated->Update();
-	Borders_AnimationFrames->Update();
-	Borders_PauseFames->Update();
-	Borders_Interval->Update();
-	Borders_PauseBetweenLoops->Update();
-	Borders_Frame->Update();
-	Borders_DrawFrame->Update();
-	Borders_AnimateLast->Update();
-	Borders_FrameChanged->Update();
-	Borders_Drawn->Update();
-	Borders_DrawTile->Update();
-	Borders_Terrain->Update();
-	Borders_BorderStyle->Update();
+	for(auto &box: uiGroupBorder) box->update();
 	ListTerrainBorderFrames();
 }
 
@@ -225,13 +176,10 @@ void AGE_Frame::OnTerrainBorderFramesTimer(wxTimerEvent &event)
 {
     borderFrameTimer.Stop();
 	auto selections = Borders_Frames_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	FrameIDs.resize(selections);
-	Borders_FrameID->resize(selections);
-	Borders_Flag1->resize(selections);
-	Borders_Flag2->resize(selections);
+	for(auto &box: uiGroupBorderFrame) box->clear();
 
 	genie::FrameData * FramePointer;
 	for(auto loop = selections; loop--> 0;)
@@ -244,9 +192,7 @@ void AGE_Frame::OnTerrainBorderFramesTimer(wxTimerEvent &event)
 		Borders_Flag2->prepend(&FramePointer->ShapeID);
 	}
 
-	Borders_FrameID->Update();
-	Borders_Flag1->Update();
-	Borders_Flag2->Update();
+	for(auto &box: uiGroupBorderFrame) box->update();
 }
 
 void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &event)

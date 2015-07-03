@@ -63,27 +63,10 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 {
     civTimer.Stop();
 	auto selections = Civs_Civs_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	CivIDs.resize(selections);
-	Civs_One->resize(selections);
-	Civs_Name[0]->resize(selections);
-	if(GenieVersion >= genie::GV_MIK)
-	{
-		Civs_TechTree->resize(selections);
-		if(GenieVersion >= genie::GV_AoKB)
-		{
-			Civs_TeamBonus->resize(selections);
-			if(GenieVersion >= genie::GV_SWGB)
-			{
-				Civs_Name[1]->resize(selections);
-				for(short loop = 0; loop < 4; ++loop)
-				Civs_SUnknown1[loop]->resize(selections);
-			}
-		}
-	}
-	Civs_GraphicSet->resize(selections);
+    for(auto &box: uiGroupCiv) box->clear();
 
 	genie::Civ * CivPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -111,23 +94,7 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected civilization: "+lexical_cast<string>(CivIDs[0]), 0);
 
-	Civs_One->Update();
-	Civs_Name[0]->Update();
-	if(GenieVersion >= genie::GV_MIK)
-	{
-		Civs_TechTree->Update();
-		if(GenieVersion >= genie::GV_AoKB)
-		{
-			Civs_TeamBonus->Update();
-			if(GenieVersion >= genie::GV_SWGB)
-			{
-				Civs_Name[1]->Update();
-				for(short loop = 0; loop < 4; ++loop)
-				Civs_SUnknown1[loop]->Update();
-			}
-		}
-	}
-	Civs_GraphicSet->Update();
+    for(auto &box: uiGroupCiv) box->update();
 	ListResources();
 }
 
@@ -721,11 +688,10 @@ void AGE_Frame::OnResourcesTimer(wxTimerEvent &event)
 {
     resourceTimer.Stop();
 	auto selections = Civs_Resources_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	ResourceIDs.resize(selections);
-	Civs_ResourceValue->resize(selections);
+	Civs_ResourceValue->clear();
 
 	float * CivResourcePointer;
 	for(auto loop = selections; loop--> 0;)
@@ -735,7 +701,7 @@ void AGE_Frame::OnResourcesTimer(wxTimerEvent &event)
 		Civs_ResourceValue->prepend(CivResourcePointer);
 	}
 
-	Civs_ResourceValue->Update();
+	Civs_ResourceValue->update();
 }
 
 void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
