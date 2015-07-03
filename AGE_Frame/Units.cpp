@@ -364,7 +364,6 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 {
     unitTimer.Stop();
 	auto selections = Units_ListV->GetSelectedItemCount();
-	if(selections < 1) return;	// If a unit is selected.
 
 	wxBusyCursor WaitCursor;
     getSelectedItems(selections, Units_ListV, UnitIDs);
@@ -1453,7 +1452,8 @@ void AGE_Frame::ListUnitDamageGraphics()
     Units_DamageGraphics_ListV->names.clear();
     Units_DamageGraphics_ListV->indexes.clear();
 
-	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0)
+	if(Units_ListV->GetSelectedItemCount()
+	&& GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0)
 	{
 		Units_DamageGraphics_Add->Enable(true);
 		for(short loop = 0; loop < GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics.size(); ++loop)
@@ -1740,7 +1740,8 @@ void AGE_Frame::ListUnitAttacks()
     Units_Attacks_ListV->names.clear();
     Units_Attacks_ListV->indexes.clear();
 
-	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
+	if(Units_ListV->GetSelectedItemCount()
+	&& GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 50
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
 	{
@@ -2027,7 +2028,8 @@ void AGE_Frame::ListUnitArmors()
 	Units_Armors_ListV->names.clear();
     Units_Armors_ListV->indexes.clear();
 
-	if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
+	if(Units_ListV->GetSelectedItemCount()
+	&& GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 50
 	&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
 	{
@@ -2371,6 +2373,7 @@ void AGE_Frame::ListUnitCommands()
 
 	if(GenieVersion >= genie::GV_AoK)	// AoK, TC, SWGB or CC
 	{
+        if(Units_ListV->GetSelectedItemCount())
 		for(short loop = 0; loop < GenieFile->UnitHeaders[UnitIDs[0]].Commands.size(); ++loop)
 		{
 			wxString Name = " "+FormatInt(loop)+" - "+GetUnitCommandName(loop);
@@ -2387,7 +2390,8 @@ void AGE_Frame::ListUnitCommands()
 	}
 	else	// AoE or RoR
 	{
-		if(GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
+		if(Units_ListV->GetSelectedItemCount()
+		&& GenieFile->Civs[UnitCivID].UnitPointers[UnitIDs[0]] != 0
 		&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type >= 40
 		&& GenieFile->Civs[UnitCivID].Units[UnitIDs[0]].Type <= 80)
 		{
