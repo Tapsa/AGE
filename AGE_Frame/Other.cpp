@@ -950,7 +950,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Sounds_Items_SearchFilters[loop]->SetSelection(0);
 		}
 
-		SetStatusText(lexical_cast<string>(GenieFile->FileVersion), 2);
+		SetStatusText(lexical_cast<string>(GenieFile->FileVersion), 4);
 		LoadLists();
 
 		Effects_AttributesC_ComboBox->Clear();
@@ -1182,13 +1182,13 @@ void AGE_Frame::OnGameVersionChange()
 		Units_DropSite_ComboBox[1]->Show(show);
 		if(show)
 		{
-			SoundItems_Resource->SetBackgroundColour(wxColour(215, 255, 255));
-			Graphics_SLP->SetBackgroundColour(wxColour(215, 255, 255));
+			SoundItems_Resource->changeContainerType(CLong);
+			Graphics_SLP->changeContainerType(CLong);
 		}
 		else
 		{
-			SoundItems_Resource->SetBackgroundColour(wxColour(210, 230, 255));
-			Graphics_SLP->SetBackgroundColour(wxColour(210, 230, 255));
+			SoundItems_Resource->changeContainerType(CShort);
+			Graphics_SLP->changeContainerType(CShort);
 		}
 
 		// Mickey ->
@@ -1288,11 +1288,11 @@ void AGE_Frame::OnGameVersionChange()
 
 		if(show) // AoK Alfa ->
 		{
-			Colors_ColorL->SetBackgroundColour(wxColour(215, 255, 255));
+			Colors_ColorL->changeContainerType(CLong);
 		}
 		else // <- RoR
 		{
-			Colors_ColorL->SetBackgroundColour(wxColour(210, 230, 255));
+			Colors_ColorL->changeContainerType(CShort);
 		}
 
 		// AoK Beta ->
@@ -1370,11 +1370,11 @@ void AGE_Frame::OnGameVersionChange()
 
 		if(show) // TC ->
 		{
-			Units_DefaultArmor->SetBackgroundColour(wxColour(210, 230, 255));
+			Units_DefaultArmor->changeContainerType(CShort);
 		}
 		else // <- AoK
 		{
-			Units_DefaultArmor->SetBackgroundColour(wxColour(255, 235, 215));
+			Units_DefaultArmor->changeContainerType(CByte);
 		}
 
 		// SWGB ->
@@ -1400,7 +1400,7 @@ void AGE_Frame::OnGameVersionChange()
 			SoundItems_Name->SetMaxSize(27);
 			Terrains_Name->SetMaxSize(17);
 			Terrains_Name2->SetMaxSize(17);
-			TerRestrict_Amount->SetBackgroundColour(wxColour(255, 225, 255));
+			TerRestrict_Amount->changeContainerType(CFloat);
 		}
 		else // <- TC
 		{
@@ -1409,7 +1409,7 @@ void AGE_Frame::OnGameVersionChange()
 			SoundItems_Name->SetMaxSize(13);
 			Terrains_Name->SetMaxSize(13);
 			Terrains_Name2->SetMaxSize(13);
-			TerRestrict_Amount->SetBackgroundColour(wxColour(215, 255, 255));
+			TerRestrict_Amount->changeContainerType(CLong);
 		}
 	}
 
@@ -2046,11 +2046,11 @@ void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data
 		if(names.size() > listsize)
 		{
 			List->Append(names.Last());
-			SetStatusText("Added 1 visible", 4);
+			SetStatusText("Added 1 visible", 2);
 		}
 		else
 		{
-			SetStatusText("Added 1 hidden", 4);
+			SetStatusText("Added 1 hidden", 2);
 		}
 		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + 1", 3);
 		++AGETextCtrl::unSaved[AGEwindow];
@@ -2061,12 +2061,12 @@ void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data
 		{
 			for(int sel = Items.size(); sel--> 0;)
 			List->Delete(Items.Item(sel));
-			SetStatusText("Deleted 1 by 1", 4);
+			SetStatusText("Deleted 1 by 1", 2);
 		}
 		else
 		{
 			List->Set(names);
-			SetStatusText("Listed all again", 4);
+			SetStatusText("Listed all again", 2);
 		}
 		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
 		AGETextCtrl::unSaved[AGEwindow] += selections;
@@ -2077,7 +2077,7 @@ void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data
 		{
 			List->SetString(Items.Item(sel), names[Items.Item(sel)]);
 		}
-		SetStatusText("Pasted 1 to 1", 4);
+		SetStatusText("Pasted 1 to 1", 2);
 		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
 		AGETextCtrl::unSaved[AGEwindow] += selections;
 	}
@@ -2086,7 +2086,7 @@ void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data
 		List->Set(names);
 		if(How2List != SEARCH)
 		{
-			SetStatusText("Listed all again", 4);
+			SetStatusText("Listed all again", 2);
 			if(How2List == ENABLE)
 			{
 				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);

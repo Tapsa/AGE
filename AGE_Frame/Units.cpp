@@ -1009,7 +1009,7 @@ void AGE_Frame::UnitsAutoCopy(wxCommandEvent &event)
 		}
 	}
 
-	SetStatusText("Manual unit copy", 4);
+	SetStatusText("Manual unit copy", 2);
 	SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(edits), 3);
 	AGETextCtrl::unSaved[AGEwindow] += edits;
 }
@@ -1136,7 +1136,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &event)
 	How2List = PASTE;
 	ListUnits(UnitCivID);
 
-	SetStatusText("Unit special paste", 4);
+	SetStatusText("Unit special paste", 2);
 	SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+FormatInt(copies.Dat.UnitCopies[0].size()), 3);
 	AGETextCtrl::unSaved[AGEwindow] += copies.Dat.UnitCopies[0].size();
 }
