@@ -58,7 +58,19 @@ public:
         Enable(true);
     }
     virtual void Update()=0;
-    void changeContainerType(const ContainerType type);
+    void changeContainerType(const ContainerType type)
+    {
+        switch(type)
+        {
+        case CByte: SetBackgroundColour(wxColour(255, 235, 215)); break;
+        case CUByte: SetBackgroundColour(wxColour(255, 235, 215)); break;
+        case CFloat: SetBackgroundColour(wxColour(255, 225, 255)); break;
+        case CLong: SetBackgroundColour(wxColour(215, 255, 255)); break;
+        case CShort: SetBackgroundColour(wxColour(210, 230, 255)); break;
+        case CUShort: SetBackgroundColour(wxColour(210, 230, 255)); break;
+        case CString: SetBackgroundColour(wxColour(220, 255, 220)); break;
+        }
+    }
     void clear(){container.clear();}
     void prepend(void* data){container.push_front(data);}
     void SetMaxSize(unsigned short size){MaxSize = size;}
