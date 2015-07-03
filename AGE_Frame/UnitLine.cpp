@@ -60,12 +60,11 @@ void AGE_Frame::OnUnitLinesTimer(wxTimerEvent &event)
 {
     unitLineTimer.Stop();
 	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	UnitLineIDs.resize(selections);
-	UnitLines_ID->resize(selections);
-	UnitLines_Name->resize(selections);
+	UnitLines_ID->clear();
+	UnitLines_Name->clear();
 
 	genie::UnitLine * LinePointer;
 	for(auto loop = selections; loop--> 0;)
@@ -78,8 +77,8 @@ void AGE_Frame::OnUnitLinesTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected unit line: "+lexical_cast<string>(UnitLineIDs[0]), 0);
 
-	UnitLines_ID->Update();
-	UnitLines_Name->Update();
+	UnitLines_ID->update();
+	UnitLines_Name->update();
 	ListUnitLineUnits();
 }
 
@@ -207,11 +206,11 @@ void AGE_Frame::OnUnitLineUnitsTimer(wxTimerEvent &event)
 {
     unitLineUnitTimer.Stop();
 	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+    UnitLineUnits_Units->clear();
 	if(selections > 0)
 	{
 		//SwapSelection(event.GetSelection(), Items);
 		UnitLineUnitIDs.resize(selections);
-		UnitLineUnits_Units->resize(selections);
 
 		int16_t * UnitPointer;
 		for(auto loop = selections; loop--> 0;)
@@ -220,16 +219,8 @@ void AGE_Frame::OnUnitLineUnitsTimer(wxTimerEvent &event)
 			UnitLineUnitIDs[loop] = (UnitPointer - (&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[0]));
 			UnitLineUnits_Units->prepend(UnitPointer);
 		}
-
-		UnitLineUnits_Units->Update();
 	}
-	else
-	{
-		UnitLineUnits_Units->Clear();
-		UnitLineUnits_ComboBox->SetSelection(0);
-	}
-	UnitLineUnits_Units->Enable(selections);
-	UnitLineUnits_ComboBox->Enable(selections);
+    UnitLineUnits_Units->update();
 }
 
 void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &event)

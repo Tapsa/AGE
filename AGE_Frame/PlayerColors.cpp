@@ -60,26 +60,10 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 {
     colorTimer.Stop();
 	auto selections = Colors_Colors_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	ColorIDs.resize(selections);
-	Colors_ID->resize(selections);
-	Colors_ColorL->resize(selections);
-	if(GenieVersion < genie::GV_AoKA)	//	AoE and RoR
-	{
-		Colors_Name->resize(selections);
-	}
-	else	//	Above AoE and RoR
-	{
-		Colors_Palette->resize(selections);
-		Colors_MinimapColor->resize(selections);
-		Colors_Unknown1->resize(selections);
-		Colors_Unknown2->resize(selections);
-		Colors_Unknown3->resize(selections);
-		Colors_Unknown4->resize(selections);
-		Colors_Unknown5->resize(selections);
-	}
+    for(auto &box: uiGroupColor) box->clear();
 
 	genie::PlayerColour * PlayerColorPointer;
 	for(auto loop = selections; loop--> 0;)
@@ -106,22 +90,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs[0]), 0);
 
-	Colors_ID->Update();
-	Colors_ColorL->Update();
-	if(GenieVersion < genie::GV_AoKA)	//	AoE and RoR
-	{
-		Colors_Name->Update();
-	}
-	else	//	Above AoE and RoR
-	{
-		Colors_Palette->Update();
-		Colors_MinimapColor->Update();
-		Colors_Unknown1->Update();
-		Colors_Unknown2->Update();
-		Colors_Unknown3->Update();
-		Colors_Unknown4->Update();
-		Colors_Unknown5->Update();
-	}
+    for(auto &box: uiGroupColor) box->update();
 }
 
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)

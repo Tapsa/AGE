@@ -185,7 +185,6 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
     researchTimer.Stop();
 	// If trying to select an existing item, don't deselect?
 	auto selections = Research_Research_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	//SwapSelection(event.GetSelection(), Items);

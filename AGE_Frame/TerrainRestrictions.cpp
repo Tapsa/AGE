@@ -157,7 +157,6 @@ void AGE_Frame::OnTerrainRestrictionsTimer(wxTimerEvent &event)
 {
     restrictionTimer.Stop();
 	auto selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//lastTerrainRestriction = event.GetSelection();
 	//SwapSelection(lastTerrainRestriction, Items);
@@ -182,26 +181,18 @@ void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event)
 {
     restrictionTerrainTimer.Stop();
 	wxArrayInt Items2;
-	auto selections = TerRestrict_TerRestrict_List->GetSelections(Items);
-	auto Selections2 = TerRestrict_Terrains_List->GetSelections(Items2);
-	if(Selections2 < 1) return;
+	auto selections1 = TerRestrict_TerRestrict_List->GetSelections(Items);
+	auto selections = TerRestrict_Terrains_List->GetSelections(Items2);
 
 	//SwapSelection(lastTerrainRestriction, Items);
 	//SwapSelection(event.GetSelection(), Items2);
 	genie::TerrainRestriction * TerRestPointer = (genie::TerrainRestriction*)TerRestrict_TerRestrict_List->GetClientData(Items.Item(0));
 
-	TerRestrictTerIDs.resize(Selections2);
-	TerRestrict_Accessible->resize(Selections2);
-	if(GenieVersion >= genie::GV_AoKA)	//	Above AoE and RoR
-	{
-		TerRestrict_Unknown1->resize(Selections2);
-		TerRestrict_Graphics[0]->resize(Selections2);
-		TerRestrict_Graphics[1]->resize(Selections2);
-		TerRestrict_Amount->resize(Selections2);
-	}
+	TerRestrictTerIDs.resize(selections);
+    for(auto &box: uiGroupRestriction) box->clear();
 
 	genie::Terrain * TerrainPointer;
-	for(short loop = Selections2; loop--> 0;)
+	for(short loop = selections; loop--> 0;)
 	{
 		TerrainPointer = (genie::Terrain*)TerRestrict_Terrains_List->GetClientData(Items2.Item(loop));
 		TerRestrictTerIDs[loop] = (TerrainPointer - (&GenieFile->TerrainBlock.Terrains[0]));
@@ -216,13 +207,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event)
 		}
 	}
 
-	TerRestrict_Accessible->Update();
-
-	if(GenieVersion < genie::GV_AoKA) return; // Above AoE and RoR
-	TerRestrict_Unknown1->Update();
-	TerRestrict_Graphics[0]->Update();
-	TerRestrict_Graphics[1]->Update();
-	TerRestrict_Amount->Update();
+    for(auto &box: uiGroupRestriction) box->update();
 }
 
 void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &event)

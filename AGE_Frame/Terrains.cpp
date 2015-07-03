@@ -101,13 +101,13 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTerrainNumbers()
 {
-	Terrains_UsedCount->resize(2);
+	Terrains_UsedCount->clear();
 	Terrains_UsedCount->prepend(&GenieFile->TerrainBlock.TerrainsUsed2);
 	Terrains_UsedCount->prepend(&GenieFile->TerrainsUsed1);
-	Terrains_UsedCount->Update();
-	Borders_UsedCount->resize(1);
+	Terrains_UsedCount->update();
+	Borders_UsedCount->clear();
 	Borders_UsedCount->prepend(&GenieFile->TerrainBlock.BordersUsed);
-	Borders_UsedCount->Update();
+	Borders_UsedCount->update();
 }
 
 void AGE_Frame::OnTerrainCountChange(wxFocusEvent &event)
@@ -207,57 +207,10 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 {
     terrainTimer.Stop();
 	auto selections = Terrains_Terrains_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	TerrainIDs.resize(selections);
-	if(GenieVersion < genie::GV_SWGB)
-	Terrains_Unknown1->resize(selections);
-	Terrains_Enabled->resize(selections);
-	Terrains_Random->resize(selections);
-	Terrains_Name->resize(selections);
-	Terrains_Name2->resize(selections);
-	if(GenieVersion >= genie::GV_AoEB)
-	Terrains_SLP->resize(selections);
-	Terrains_Unknown3->resize(selections);
-	Terrains_SoundID->resize(selections);
-	if(GenieVersion >= genie::GV_AoKB)
-	{
-		Terrains_BlendPriority->resize(selections);
-		Terrains_BlendType->resize(selections);
-	}
-	for(short loop = 0; loop < 3; ++loop)
-	{
-		Terrains_Colors[loop]->resize(selections);
-	}
-	for(short loop = 0; loop < Terrains_CliffColors.size(); ++loop)
-	Terrains_CliffColors[loop]->resize(selections);
-	Terrains_PassableTerrain->resize(selections);
-	Terrains_ImpassableTerrain->resize(selections);
-	Terrains_IsAnimated->resize(selections);
-	Terrains_AnimationFrames->resize(selections);
-	Terrains_PauseFames->resize(selections);
-	Terrains_Interval->resize(selections);
-	Terrains_PauseBetweenLoops->resize(selections);
-	Terrains_Frame->resize(selections);
-	Terrains_DrawFrame->resize(selections);
-	Terrains_AnimateLast->resize(selections);
-	Terrains_FrameChanged->resize(selections);
-	Terrains_Drawn->resize(selections);
-	for(short loop = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT * 3; ++loop)
-	{
-		Terrains_ElevationGraphics[loop]->resize(selections);
-	}
-	Terrains_TerrainReplacementID->resize(selections);
-	Terrains_TerrainDimensions[0]->resize(selections);
-	Terrains_TerrainDimensions[1]->resize(selections);
-	for(short loop = 0; loop < genie::Terrain::TERRAIN_UNITS_SIZE; ++loop)
-	{
-		Terrains_TerrainUnitID[loop]->resize(selections);
-		Terrains_TerrainUnitDensity[loop]->resize(selections);
-		Terrains_TerrainUnitPriority[loop]->resize(selections);
-	}
-	Terrains_UsedTerrainUnits->resize(selections);
+    for(auto &box: uiGroupTerrain) box->clear();
 
 	genie::Terrain * TerrainPointer;
 	for(auto sel = selections; sel--> 0;)
@@ -318,53 +271,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected terrain: "+lexical_cast<string>(TerrainIDs[0]), 0);
 
-	if(GenieVersion < genie::GV_SWGB)
-	Terrains_Unknown1->Update();
-	Terrains_Enabled->Update();
-	Terrains_Random->Update();
-	Terrains_Name->Update();
-	Terrains_Name2->Update();
-	if(GenieVersion >= genie::GV_AoEB)
-	Terrains_SLP->Update();
-	Terrains_Unknown3->Update();
-	Terrains_SoundID->Update();
-	if(GenieVersion >= genie::GV_AoKB)
-	{
-		Terrains_BlendPriority->Update();
-		Terrains_BlendType->Update();
-	}
-	for(short loop = 0; loop < 3; ++loop)
-	{
-		Terrains_Colors[loop]->Update();
-	}
-	for(short loop = 0; loop < Terrains_CliffColors.size(); ++loop)
-	Terrains_CliffColors[loop]->Update();
-	Terrains_PassableTerrain->Update();
-	Terrains_ImpassableTerrain->Update();
-	Terrains_IsAnimated->Update();
-	Terrains_AnimationFrames->Update();
-	Terrains_PauseFames->Update();
-	Terrains_Interval->Update();
-	Terrains_PauseBetweenLoops->Update();
-	Terrains_Frame->Update();
-	Terrains_DrawFrame->Update();
-	Terrains_AnimateLast->Update();
-	Terrains_FrameChanged->Update();
-	Terrains_Drawn->Update();
-	for(short loop = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT * 3; ++loop)
-	{
-		Terrains_ElevationGraphics[loop]->Update();
-	}
-	Terrains_TerrainReplacementID->Update();
-	Terrains_TerrainDimensions[0]->Update();
-	Terrains_TerrainDimensions[1]->Update();
-	for(short loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
-	{
-		Terrains_TerrainUnitID[loop]->Update();
-		Terrains_TerrainUnitDensity[loop]->Update();
-		Terrains_TerrainUnitPriority[loop]->Update();
-	}
-	Terrains_UsedTerrainUnits->Update();
+    for(auto &box: uiGroupTerrain) box->update();
 
 	ListTerrainsBorders();
 }
@@ -487,7 +394,7 @@ void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
 	auto selections = Terrains_Borders_List->GetSelections(Items);
 	//SwapSelection(event.GetSelection(), Items);
 	TerBorderIDs.resize(selections);
-	Terrains_Border->resize(selections);
+	Terrains_Border->clear();
 
 	int16_t * BorderPointer;
 	for(auto loop = selections; loop--> 0;)
@@ -497,9 +404,7 @@ void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
 		Terrains_Border->prepend(BorderPointer);
 	}
 
-	Terrains_Border->Update();
-	Terrains_Border->Enable(selections);
-	Terrains_Border_ComboBox->Enable(selections);
+	Terrains_Border->update();
 }
 
 void AGE_Frame::OnTerrainsBorderCopy(wxCommandEvent &event)

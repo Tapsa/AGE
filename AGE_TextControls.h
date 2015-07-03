@@ -61,7 +61,6 @@ public:
     void changeContainerType(const ContainerType type);
     void clear(){container.clear();}
     void prepend(void* data){container.push_front(data);}
-    void resize(int size){container.clear();} // Get rid of this.
     void SetMaxSize(unsigned short size){MaxSize = size;}
 
     static const wxString BATCHWARNING, BWTITLE, IETITLE;
