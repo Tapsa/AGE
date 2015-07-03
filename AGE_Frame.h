@@ -78,7 +78,7 @@ public:
 	void OnUpdateCombo_Graphics(wxCommandEvent &event);
 	void OnUpdateCombo_Terrains(wxCommandEvent &event);
 
-//  Timers to consume overlapping virtual list events.  
+//  Timers to consume overlapping virtual list events.
 
     wxTimer researchTimer, techTimer, effectTimer, allEffectsTimer;
     wxTimer ttAgeTimer, ttAgeBuildingTimer, ttAgeUnitTimer, ttAgeResearchTimer, ttAgeItemTimer, ttAgeUnknownTimer;
@@ -1094,6 +1094,7 @@ public:
 	wxStaticText *Borders_BorderStyle_Text;
 	AGETextCtrl *Borders_BorderStyle;
 
+    forward_list<AGETextCtrl*> uiGroupMaps, uiGroupTT, uiGroupTTAge, uiGroupTTBuilding, uiGroupTTUnit, uiGroupTTResearch;
 	wxGridSizer *General_Variables_Grid;
 	wxGridSizer *General_Variables2_Grid;
 	wxStaticBoxSizer *General_Variables1_Holder;
@@ -1158,6 +1159,7 @@ public:
 	wxBoxSizer *Unknown_ScrollArea;
 	wxBoxSizer *Unknown_ScrollSpace;
 
+    forward_list<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
 	wxGridSizer *Unknown_UnknownPointer_Grid;
 	wxBoxSizer *Unknown_UnknownPointer_Holder;
 	wxStaticText *Unknown_UnknownPointer_Text;
@@ -1551,7 +1553,7 @@ public:
 	wxButton *Techs_Effects_CopyToTechs;
 
 	wxBoxSizer *Effects_DataArea;
-
+    forward_list<AGETextCtrl*> uiGroupTechEffect;
 	wxBoxSizer *Effects_Type_Holder;
 	wxBoxSizer *Effects_Type2_Holder;
 	wxStaticText *Effects_Type_Text;
@@ -1602,6 +1604,7 @@ public:
 	wxButton *Civs_Paste;
 	wxButton *Civs_PasteInsert;
 
+    forward_list<AGETextCtrl*> uiGroupCiv;
 	wxBoxSizer *Civs_DataArea;
 	wxGridSizer *Civs_DataGrid1;
 	wxGridSizer *Civs_DataGrid2;
@@ -2717,6 +2720,7 @@ public:
 
 //	Terrains user interface
 
+    forward_list<AGETextCtrl*> uiGroupTerrain, uiGroupBorder, uiGroupBorderFrame;
 	wxBoxSizer *Terrains_Main;
 	wxBoxSizer *Terrains_ListArea;
 	wxStaticBoxSizer *Terrains_Terrains;
@@ -2889,6 +2893,7 @@ public:
 	wxButton *TerRestrict_Paste;
 	wxButton *TerRestrict_PasteInsert;
 
+    forward_list<AGETextCtrl*> uiGroupRestriction;
 	wxBoxSizer *TerRestrict_Terrains;
 	wxBoxSizer *TerRestrict_DataArea;
 	wxTextCtrl *TerRestrict_Terrains_Search;
@@ -2956,6 +2961,7 @@ public:
 	wxButton *SoundItems_PasteInsert;
 	wxButton *SoundItems_CopyToSounds;
 
+    forward_list<AGETextCtrl*> uiGroupSound, uiGroupSoundFile;
 	wxBoxSizer *Sounds_ID_Holder;
 	wxStaticText *Sounds_ID_Text;
 	AGETextCtrl *Sounds_ID;
@@ -3010,6 +3016,7 @@ public:
 	wxButton *Colors_Paste;
 	wxButton *Colors_PasteInsert;
 
+    forward_list<AGETextCtrl*> uiGroupColor;
 	wxBoxSizer *Colors_DataArea;
 	wxBoxSizer *Colors_Name_Holder;
 	wxBoxSizer *Colors_ID_Holder;
