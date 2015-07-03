@@ -14,7 +14,7 @@ public:
 	wxStaticBoxSizer *ItemList;
 	wxTextCtrl *Search, *SearchRecursive;
 	wxListBox *List;
-	TextCtrl_Long *Item;
+	AGETextCtrl *Item;
 	ComboBox_Plus1 *ItemCombo;
 	wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
 
@@ -24,7 +24,7 @@ public:
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
 		List = new wxListBox(scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
-		Item = new TextCtrl_Long(frame, window, scroller);
+		Item = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
 		Buttons = new wxGridSizer(3, 0, 0);
 		Add = new wxButton(scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -70,7 +70,7 @@ public:
 	wxStaticBoxSizer *Area;
 	wxTextCtrl *Search, *SearchRecursive;
 	wxListBox *List;
-	TextCtrl_Long *Item, *Mode, *UsedItems;
+	AGETextCtrl *Item, *Mode, *UsedItems;
 	ComboBox_Plus1 *ItemCombo;
 	wxOwnerDrawnComboBox *ModeCombo;
 	wxButton *Copy, *Paste, *CopyAllToSelected;
@@ -91,15 +91,15 @@ public:
 		ItemList = new wxBoxSizer(wxVERTICAL);
 		UsedItems_H = new wxBoxSizer(wxVERTICAL);
 		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Used Ages/Units/Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
-		UsedItems = new TextCtrl_Long(frame, window, scroller);
+		UsedItems = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
 		List = new wxListBox(scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 		Item_H = new wxBoxSizer(wxHORIZONTAL);
-		Item = new TextCtrl_Long(frame, window, scroller);
+		Item = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
-		Mode = new TextCtrl_Long(frame, window, scroller, true);
+		Mode = AGETextCtrl::init(CLong, NULL, frame, window, scroller, true);
 		ModeCombo = new wxOwnerDrawnComboBox(scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
@@ -153,7 +153,7 @@ public:
 	wxStaticBoxSizer *Area;
 	wxTextCtrl *Search, *SearchRecursive;
 	wxListBox *List;
-	TextCtrl_Byte *Unknown1, *Unknown2, *UsedItems, *Unknown;
+	AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
 	wxButton *Copy, *Paste, *CopyAllToSelected;
 
 	void CreateControls(wxFrame* frame, int window, wxScrolledWindow* &scroller)
@@ -163,17 +163,17 @@ public:
 		Top = new wxBoxSizer(wxHORIZONTAL);
 		UsedItems_H = new wxBoxSizer(wxVERTICAL);
 		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Slots Used?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
-		UsedItems = new TextCtrl_Byte(frame, window, scroller);
+		UsedItems = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
 		Unknown_H = new wxBoxSizer(wxVERTICAL);
 		Unknown_T = new wxStaticText(scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
-		Unknown = new TextCtrl_Byte(frame, window, scroller);
+		Unknown = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
 		List = new wxListBox(scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
 		Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
-		Unknown1 = new TextCtrl_Byte(frame, window, scroller);
-		Unknown2 = new TextCtrl_Byte(frame, window, scroller);
+		Unknown1 = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
+		Unknown2 = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 		Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
