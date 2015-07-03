@@ -53,14 +53,10 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 {
     soundTimer.Stop();
 	auto selections = Sounds_Sounds_List->GetSelections(Items);
-	if(selections < 1) return;
 
 	//SwapSelection(event.GetSelection(), Items);
 	SoundIDs.resize(selections);
-	Sounds_ID->resize(selections);
-	Sounds_Unknown1->resize(selections);
-	if(GenieVersion >= genie::GV_TEST)
-	Sounds_Unknown2->resize(selections);
+	for(auto &box: uiGroupSound) box->clear();
 
 	genie::Sound * SoundPointer;
 	for(auto loop = selections; loop--> 0;)
@@ -75,10 +71,7 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs[0]), 0);
 
-	Sounds_ID->Update();
-	Sounds_Unknown1->Update();
-	if(GenieVersion >= genie::GV_TEST)
-	Sounds_Unknown2->Update();
+	for(auto &box: uiGroupSound) box->update();
 	ListSoundItems();
 }
 
@@ -239,18 +232,11 @@ void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
 {
     soundFileTimer.Stop();
 	auto selections = Sounds_Items_List->GetSelections(Items);
+	for(auto &box: uiGroupSoundFile) box->clear();
 	if(selections > 0)
 	{
 		//SwapSelection(event.GetSelection(), Items);
 		SoundItemIDs.resize(selections);
-		SoundItems_Name->resize(selections);
-		SoundItems_Resource->resize(selections);
-		SoundItems_Probability->resize(selections);
-		if(GenieVersion >= genie::GV_AoKA)
-		{
-			SoundItems_Civ->resize(selections);
-			SoundItems_Unknown->resize(selections);
-		}
 
 		genie::SoundItem * SoundItemPointer;
 		for(auto loop = selections; loop--> 0;)
@@ -267,31 +253,8 @@ void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
 				SoundItems_Unknown->prepend(&SoundItemPointer->Unknown1);
 			}
 		}
-
-		SoundItems_Name->Update();
-		SoundItems_Resource->Update();
-		SoundItems_Probability->Update();
-		if(GenieVersion >= genie::GV_AoKA)
-		{
-			SoundItems_Civ->Update();
-			SoundItems_Unknown->Update();
-		}
 	}
-	else
-	{
-		SoundItems_Name->Clear();
-		SoundItems_Resource->Clear();
-		SoundItems_Probability->Clear();
-		SoundItems_Civ->Clear();
-		SoundItems_Civ_ComboBox->SetSelection(0);
-		SoundItems_Unknown->Clear();
-	}
-	SoundItems_Name->Enable(selections);
-	SoundItems_Resource->Enable(selections);
-	SoundItems_Probability->Enable(selections);
-	SoundItems_Civ->Enable(selections);
-	SoundItems_Civ_ComboBox->Enable(selections);
-	SoundItems_Unknown->Enable(selections);
+	for(auto &box: uiGroupSoundFile) box->update();
 }
 
 void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &event)

@@ -223,10 +223,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 
 	if(NULL != GenieFile)
 	{
-		TechTrees_Ages_Items.Mode->clear();
-		TechTrees_Buildings_Items.Mode->clear();
-		TechTrees_Units_Items.Mode->clear();
-		TechTrees_Researches_Items.Mode->clear();
 		delete GenieFile;
 		GenieFile = NULL;
 	}
