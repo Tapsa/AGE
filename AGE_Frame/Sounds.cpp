@@ -477,31 +477,31 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	Sounds_ID_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_ID = new TextCtrl_Short(this, AGEwindow, Tab_Sounds);
+	Sounds_ID = AGETextCtrl::init(CShort, &uiGroupSound, this, AGEwindow, Tab_Sounds);
 	Sounds_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Sounds_Unknown1_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_Unknown1 = new TextCtrl_Short(this, AGEwindow, Tab_Sounds);
+	Sounds_Unknown1 = AGETextCtrl::init(CShort, &uiGroupSound, this, AGEwindow, Tab_Sounds);
 	Sounds_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	Sounds_Unknown2_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_Unknown2 = new TextCtrl_Long(this, AGEwindow, Tab_Sounds);
+	Sounds_Unknown2 = AGETextCtrl::init(CLong, &uiGroupSound, this, AGEwindow, Tab_Sounds);
 
 	SoundItems_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Name_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Filename", wxDefaultPosition, wxSize(200, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Name = new TextCtrl_String(this, AGEwindow, Tab_Sounds);
+	SoundItems_Name = AGETextCtrl::init(CString, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 	SoundItems_Resource_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Resource_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File DRS Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Resource = new TextCtrl_Long(this, AGEwindow, Tab_Sounds);
+	SoundItems_Resource = AGETextCtrl::init(CLong, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 	SoundItems_Probability_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Probability_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Probability", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Probability = new TextCtrl_Short(this, AGEwindow, Tab_Sounds);
+	SoundItems_Probability = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 	SoundItems_Civ_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Civ_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Civ = new TextCtrl_Short(this, AGEwindow, Tab_Sounds);
+	SoundItems_Civ = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 	SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
 	CivComboBoxList.push_back(SoundItems_Civ_ComboBox);
 	SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Unknown = new TextCtrl_Short(this, AGEwindow, Tab_Sounds);
+	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 
 	Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
 	Sounds_AllItems_Searches[0] = new wxBoxSizer(wxHORIZONTAL);

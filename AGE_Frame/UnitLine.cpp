@@ -345,14 +345,14 @@ void AGE_Frame::CreateUnitLineControls()
 
 	UnitLines_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitLines_ID_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_ID = new TextCtrl_Short(this, AGEwindow, Tab_UnitLine);
+	UnitLines_ID = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Tab_UnitLine);
 	UnitLines_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitLines_Name_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxSize(200, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_Name = new TextCtrl_String(this, AGEwindow, Tab_UnitLine, 30);
+	UnitLines_Name = AGETextCtrl::init(CString, NULL, this, AGEwindow, Tab_UnitLine, 30);
 
 	UnitLineUnits_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitLineUnits_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLineUnits_Units = new TextCtrl_Short(this, AGEwindow, Tab_UnitLine);
+	UnitLineUnits_Units = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Tab_UnitLine);
 	UnitLineUnits_ComboBox = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units);
 	UnitComboBoxList.push_back(UnitLineUnits_ComboBox);
 
