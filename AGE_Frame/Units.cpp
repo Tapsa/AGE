@@ -25,7 +25,6 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 		for(short loop = 0; loop < filters; ++loop)
 		Selection[loop] = Units_SearchFilters[loop]->GetSelection();
 		genie::Unit * UnitPointer = &GenieFile->Civs[civ].Units[Index];
-		short UnitType = UnitPointer->Type;
 
 		if(Selection[0] > 0)
 		switch(Units_FilterSelector->GetSelection())
@@ -261,12 +260,12 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 		}
 	}
 
-Names:
+//Names:
 	if(!LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 2).empty())
 	{
 		return Name + LangDLLstring(GenieFile->Civs[civ].Units[Index].LanguageDLLName, 64);
 	}
-InternalName:
+//InternalName:
 	if(!GenieFile->Civs[civ].Units[Index].Name.empty())
 	{
 		return Name + GenieFile->Civs[civ].Units[Index].Name;
@@ -386,7 +385,6 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 
 	short unitType = -1;
 	genie::Unit * UnitPointer;
-	//wxString locations = "Locations:\n";
 	for(auto sel = selections; sel--> 0;)
 	{
         unitType = -1;
@@ -394,13 +392,9 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 		for(short vecCiv = SelectedCivs.size(); vecCiv--> 0;)
 		{
 			if(GenieFile->Civs[SelectedCivs[vecCiv]].UnitPointers[UnitIDs[sel]] == 0) continue;
-			//locations.Append("Vec "+lexical_cast<string>(vecCiv)+", civ "+lexical_cast<string>(UnitCiv)+"; ");
             UnitCivID = SelectedCivs[vecCiv];
 			UnitPointer = &GenieFile->Civs[UnitCivID].Units[UnitIDs[sel]];
 			unitType = (short)UnitPointer->Type;
-			// This ensures that the first pointer is always the current civ and its first selection.
-			int location = sel + vecCiv * selections;
-			//locations.Append(lexical_cast<string>(location)+" ");
 			// Assing data to editing boxes
 			switch(unitType)
 			{
@@ -663,9 +657,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 				Units_ProjectileArc->prepend(&UnitPointer->Projectile.ProjectileArc);
 			}
 		}
-		//locations.Append("\n");
 	}
-	//wxMessageBox(locations);
 	SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs[0]), 0);
 
     bool showUnitData = -1 != unitType;
@@ -1486,11 +1478,11 @@ void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent &event)
 {
     dmgGraphicTimer.Stop();
 	auto selections = Units_DamageGraphics_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
     for(auto &box: uiGroupUnitDmgGraphic) box->clear();
 	if(selections > 0)
 	{
         getSelectedItems(selections, Units_DamageGraphics_ListV, DamageGraphicIDs);
-		//SwapSelection(event.GetSelection(), Items);
 		// This and attacks/armors/commands need a lot of thinking.
 
 		bool showWarning = false;
@@ -1507,7 +1499,6 @@ void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent &event)
 				}
 				DamageGraphicPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].DamageGraphics[DamageGraphicIDs[sel]];
 
-				int location = sel + vecCiv * selections;
 				DamageGraphics_GraphicID->prepend(&DamageGraphicPointer->GraphicID);
 				DamageGraphics_DamagePercent->prepend(&DamageGraphicPointer->DamagePercent);
 				DamageGraphics_Unknown1->prepend(&DamageGraphicPointer->ApplyMode);
@@ -1776,12 +1767,12 @@ void AGE_Frame::OnUnitAttacksTimer(wxTimerEvent &event)
 {
     attackTimer.Stop();
 	auto selections = Units_Attacks_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
     Attacks_Class->clear();
     Attacks_Amount->clear();
 	if(selections > 0)
 	{
         getSelectedItems(selections, Units_Attacks_ListV, AttackIDs);
-		//SwapSelection(event.GetSelection(), Items);
 
 		bool showWarning = false;
 		wxString warning = "Attack count of civs\n";
@@ -1797,7 +1788,6 @@ void AGE_Frame::OnUnitAttacksTimer(wxTimerEvent &event)
 				}
 				AttackPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Type50.Attacks[AttackIDs[sel]];
 
-				int location = sel + vecCiv * selections;
 				Attacks_Class->prepend(&AttackPointer->Class);
 				Attacks_Amount->prepend(&AttackPointer->Amount);
 			}
@@ -2064,12 +2054,12 @@ void AGE_Frame::OnUnitArmorsTimer(wxTimerEvent &event)
 {
     armorTimer.Stop();
 	auto selections = Units_Armors_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
     Armors_Class->clear();
     Armors_Amount->clear();
 	if(selections > 0)
 	{
         getSelectedItems(selections, Units_Armors_ListV, ArmorIDs);
-		//SwapSelection(event.GetSelection(), Items);
 
 		bool showWarning = false;
 		wxString warning = "Armor count of civs\n";
@@ -2085,7 +2075,6 @@ void AGE_Frame::OnUnitArmorsTimer(wxTimerEvent &event)
 				}
 				ArmorPointer = &GenieFile->Civs[SelectedCivs[vecCiv]].Units[UnitIDs[0]].Type50.Armours[ArmorIDs[sel]];
 
-				int location = sel + vecCiv * selections;
 				Armors_Class->prepend(&ArmorPointer->Class);
 				Armors_Amount->prepend(&ArmorPointer->Amount);
 			}
@@ -2431,11 +2420,11 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 {
     actionTimer.Stop();
 	auto selections = Units_UnitCommands_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
     for(auto &box: uiGroupUnitCommand) box->clear();
 	if(selections > 0)
 	{
         getSelectedItems(selections, Units_UnitCommands_ListV, CommandIDs);
-		//SwapSelection(event.GetSelection(), Items);
 
 		bool showWarning = false;
 		wxString warning = "Command count of civs\n";
@@ -2458,7 +2447,6 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 					CommandPointer = &GenieFile->UnitHeaders[UnitIDs[0]].Commands[CommandIDs[sel]];
 				}
 
-				int location = sel + vecCiv * selections;
 				UnitCommands_One->prepend(&CommandPointer->One);
 				UnitCommands_ID->prepend(&CommandPointer->ID);
 				UnitCommands_Unknown1->prepend(&CommandPointer->Unknown1);

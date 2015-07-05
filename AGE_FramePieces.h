@@ -13,7 +13,7 @@ public:
 
 	wxStaticBoxSizer *ItemList;
 	wxTextCtrl *Search, *SearchRecursive;
-	wxListBox *List;
+	AGEListView *List;
 	AGETextCtrl *Item;
 	ComboBox_Plus1 *ItemCombo;
 	wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
@@ -23,7 +23,7 @@ public:
 		ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-		List = new wxListBox(scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+		List = new AGEListView(scroller, wxSize(10, 100));
 		Item = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
 		Buttons = new wxGridSizer(3, 0, 0);
@@ -69,7 +69,7 @@ public:
 
 	wxStaticBoxSizer *Area;
 	wxTextCtrl *Search, *SearchRecursive;
-	wxListBox *List;
+	AGEListView *List;
 	AGETextCtrl *Item, *Mode, *UsedItems;
 	ComboBox_Plus1 *ItemCombo;
 	wxOwnerDrawnComboBox *ModeCombo;
@@ -95,7 +95,7 @@ public:
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-		List = new wxListBox(scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+		List = new AGEListView(scroller, wxSize(10, 100));
 		Item_H = new wxBoxSizer(wxHORIZONTAL);
 		Item = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
@@ -152,7 +152,7 @@ public:
 
 	wxStaticBoxSizer *Area;
 	wxTextCtrl *Search, *SearchRecursive;
-	wxListBox *List;
+	AGEListView *List;
 	AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
 	wxButton *Copy, *Paste, *CopyAllToSelected;
 
@@ -170,7 +170,7 @@ public:
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-		List = new wxListBox(scroller, wxID_ANY, wxDefaultPosition, wxSize(10, 100), 0, NULL, wxLB_EXTENDED);
+		List = new AGEListView(scroller, wxSize(10, 100));
 		Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
 		Unknown1 = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
 		Unknown2 = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
