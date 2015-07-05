@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8) # DO NOT UPGRADE THIS OR YOU WILL LOSE wxWid
 project(AdvancedGenieEditor3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
-set(CMAKE_CXX_FLAGS "-std=gnu++0x")
+set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare -std=gnu++0x")
 set(BOOST_DATE_TIME_NO_LIB   ON)
 set(Boost_USE_STATIC_LIBS    ON)
 set(Boost_USE_MULTITHREADED  ON)

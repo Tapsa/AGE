@@ -129,7 +129,6 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &event)
 
 void AGE_Frame::ListTerrains1(bool all)
 {
-	FirstVisible = How2List == SEARCH ? 0 : Terrains_Terrains_List->HitTest(wxPoint(0, 0));
 	InitTerrains1(all);
 	wxTimerEvent E;
 	OnTerrainsTimer(E);
@@ -138,7 +137,6 @@ void AGE_Frame::ListTerrains1(bool all)
 
 void AGE_Frame::ListTerrains2()
 {
-	FirstVisible = How2List == SEARCH ? 0 : TerRestrict_Terrains_List->HitTest(wxPoint(0, 0));
 	InitTerrains2();
 	wxTimerEvent E;
 	OnTerrainRestrictionsTerrainTimer(E);
@@ -151,8 +149,9 @@ void AGE_Frame::InitTerrains1(bool all)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Terrains_Terrains_UseAnd[loop]->GetValue();
 
-	list<void*> dataPointers;
-	wxArrayString names, filteredNames;
+	Terrains_Terrains_ListV->names.clear();
+	Terrains_Terrains_ListV->indexes.clear();
+	wxArrayString names;
 	if(all) names.Alloc(GenieFile->TerrainBlock.Terrains.size());
 
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
@@ -160,8 +159,8 @@ void AGE_Frame::InitTerrains1(bool all)
 		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainName(loop, true);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->TerrainBlock.Terrains[loop]);
+			Terrains_Terrains_ListV->names.Add(Name);
+			Terrains_Terrains_ListV->indexes.push_back(loop);
 		}
 		if(all) names.Add(" "+FormatInt(loop)+" - "+GetTerrainName(loop));
 	}
@@ -169,7 +168,7 @@ void AGE_Frame::InitTerrains1(bool all)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
-	Listing(Terrains_Terrains_List, filteredNames, dataPointers);
+	virtualListing(Terrains_Terrains_ListV);
 	if(all) FillLists(TerrainComboBoxList, names);
 	InitTerrains2();
 }
@@ -179,8 +178,8 @@ void AGE_Frame::InitTerrains2()
 	searchText = TerRestrict_Terrains_Search->GetValue().Lower();
 	excludeText = TerRestrict_Terrains_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	TerRestrict_Terrains_ListV->names.clear();
+	TerRestrict_Terrains_ListV->indexes.clear();
 
 	for(short loop = 0; loop < GenieFile->TerrainsUsed1; ++loop)
 	{
@@ -190,11 +189,11 @@ void AGE_Frame::InitTerrains2()
 		Name += " - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->TerrainBlock.Terrains[loop]);
+			TerRestrict_Terrains_ListV->names.Add(Name);
+			TerRestrict_Terrains_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(TerRestrict_Terrains_List, filteredNames, dataPointers);
+	virtualListing(TerRestrict_Terrains_ListV);
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent &event)
@@ -206,17 +205,16 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 {
     terrainTimer.Stop();
-	auto selections = Terrains_Terrains_List->GetSelections(Items);
+	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, Terrains_Terrains_ListV, TerrainIDs);
 
-	//SwapSelection(event.GetSelection(), Items);
-	TerrainIDs.resize(selections);
     for(auto &box: uiGroupTerrain) box->clear();
 
 	genie::Terrain * TerrainPointer;
 	for(auto sel = selections; sel--> 0;)
 	{
-		TerrainPointer = (genie::Terrain*)Terrains_Terrains_List->GetClientData(Items.Item(sel));
-		TerrainIDs[sel] = (TerrainPointer - (&GenieFile->TerrainBlock.Terrains[0]));
+		TerrainPointer = &GenieFile->TerrainBlock.Terrains[TerrainIDs[sel]];
 
 		if(GenieVersion < genie::GV_SWGB)
 		Terrains_Unknown1->prepend(&TerrainPointer->Unknown1);
@@ -290,7 +288,7 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &event) // Their count is hardcoded
 
 void AGE_Frame::OnTerrainsInsert(wxCommandEvent &event) // Their count is hardcoded.
 {
-	auto selections = Terrains_Terrains_List->GetSelections(Items);
+	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -299,7 +297,7 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent &event) // Their count is hardco
 
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardcoded.
 {
-	auto selections = Terrains_Terrains_List->GetSelections(Items);
+	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -312,17 +310,17 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardco
 
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent &event)
 {
-	auto selections = Terrains_Terrains_List->GetSelections(Items);
+	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TerrainBlock.Terrains, TerrainIDs, copies.Terrain);
-	Terrains_Terrains_List->SetFocus();
+	Terrains_Terrains_ListV->SetFocus();
 }
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 {
-	auto selections = Terrains_Terrains_List->GetSelections(Items);
+	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -342,7 +340,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Terrains_Terrains_List->GetSelections(Items);
+	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -358,12 +356,11 @@ void AGE_Frame::OnTerrainsBorderSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTerrainsBorders()
 {
-	FirstVisible = How2List == SEARCH ? 0 : Terrains_Borders_List->HitTest(wxPoint(0, 0));
 	searchText = Terrains_Borders_Search->GetValue().Lower();
 	excludeText = Terrains_Borders_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	Terrains_Borders_ListV->names.clear();
+	Terrains_Borders_ListV->indexes.clear();
 
 	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
 	{
@@ -372,11 +369,11 @@ void AGE_Frame::ListTerrainsBorders()
 		Name += GetTerrainBorderName(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop]);
+			Terrains_Borders_ListV->names.Add(Name);
+			Terrains_Borders_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(Terrains_Borders_List, filteredNames, dataPointers);
+	virtualListing(Terrains_Borders_ListV);
 
 	wxTimerEvent E;
 	OnTerrainsBorderTimer(E);
@@ -391,16 +388,15 @@ void AGE_Frame::OnTerrainsBorderSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
 {
     terrainBorderTimer.Stop();
-	auto selections = Terrains_Borders_List->GetSelections(Items);
-	//SwapSelection(event.GetSelection(), Items);
-	TerBorderIDs.resize(selections);
+	auto selections = Terrains_Borders_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, Terrains_Borders_ListV, TerBorderIDs);
 	Terrains_Border->clear();
 
 	int16_t * BorderPointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		BorderPointer = (int16_t*)Terrains_Borders_List->GetClientData(Items.Item(loop));
-		TerBorderIDs[loop] = (BorderPointer - (&GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders[0]));
+		BorderPointer = &GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders[TerBorderIDs[loop]];
 		Terrains_Border->prepend(BorderPointer);
 	}
 
@@ -409,17 +405,17 @@ void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTerrainsBorderCopy(wxCommandEvent &event)
 {
-	auto selections = Terrains_Borders_List->GetSelections(Items);
+	auto selections = Terrains_Borders_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies.TerBorder);
-	Terrains_Borders_List->SetFocus();
+	Terrains_Borders_ListV->SetFocus();
 }
 
 void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &event)
 {
-	auto selections = Terrains_Borders_List->GetSelections(Items);
+	auto selections = Terrains_Borders_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -461,7 +457,7 @@ void AGE_Frame::CreateTerrainControls()
 		Terrains_Terrains_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Terrains_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Terrains, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	Terrains_Terrains_List = new wxListBox(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
+	Terrains_Terrains_ListV = new AGEListView(Tab_Terrains, wxSize(200, 100));
 	Terrains_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_UsedCountText = new wxStaticText(Tab_Terrains, wxID_ANY, " Terrains Used *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_UsedCount = AGETextCtrl::init(CUShort, NULL, this, AGEwindow, Tab_Terrains);
@@ -551,7 +547,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Borders = new wxStaticBoxSizer(wxVERTICAL, Terrains_Scroller, "Borders");
 	Terrains_Borders_Search = new wxTextCtrl(Terrains_Scroller, wxID_ANY);
 	Terrains_Borders_Search_R = new wxTextCtrl(Terrains_Scroller, wxID_ANY);
-	Terrains_Borders_List = new wxListBox(Terrains_Scroller, wxID_ANY, wxDefaultPosition, wxSize(200, 250), 0, NULL, wxLB_EXTENDED);
+	Terrains_Borders_ListV = new AGEListView(Terrains_Scroller, wxSize(200, 250));
 	Terrains_Border = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Terrains_Scroller);
 	Terrains_Border_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_Border);
 	TerrainBorderComboBoxList.push_back(Terrains_Border_ComboBox);
@@ -673,7 +669,7 @@ void AGE_Frame::CreateTerrainControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Terrains_Terrains->Add(Terrains_SearchFilters[loop], 0, wxEXPAND);
 	Terrains_Terrains->AddSpacer(2);
-	Terrains_Terrains->Add(Terrains_Terrains_List, 1, wxEXPAND);
+	Terrains_Terrains->Add(Terrains_Terrains_ListV, 1, wxEXPAND);
 	Terrains_Terrains->AddSpacer(2);
 	Terrains_Terrains->Add(Terrains_UsedCountHolder, 0, wxEXPAND);
 	Terrains_Terrains->AddSpacer(2);
@@ -822,7 +818,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Borders->Add(Terrains_Borders_Search, 0, wxEXPAND);
 	Terrains_Borders->Add(Terrains_Borders_Search_R, 0, wxEXPAND);
 	Terrains_Borders->AddSpacer(2);
-	Terrains_Borders->Add(Terrains_Borders_List, 1, wxEXPAND);
+	Terrains_Borders->Add(Terrains_Borders_ListV, 1, wxEXPAND);
 	Terrains_Borders->AddSpacer(2);
 	Terrains_Borders->Add(Terrains_Border, 0, wxEXPAND);
 	Terrains_Borders->Add(Terrains_Border_ComboBox, 0, wxEXPAND);
@@ -870,7 +866,9 @@ void AGE_Frame::CreateTerrainControls()
 		Connect(Terrains_Terrains_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
 		Connect(Terrains_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 	}
-	Connect(Terrains_Terrains_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
+	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
+	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
+	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
 	Connect(Terrains_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsAdd));
 	Connect(Terrains_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsDelete));
 	Connect(Terrains_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsCopy));
@@ -882,7 +880,9 @@ void AGE_Frame::CreateTerrainControls()
 
 	Connect(Terrains_Borders_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSearch));
 	Connect(Terrains_Borders_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSearch));
-	Connect(Terrains_Borders_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
+	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
+	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
+	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
 	Connect(Terrains_Borders_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderCopy));
 	Connect(Terrains_Borders_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderPaste));
 	Connect(Terrains_Borders_CopyToTerrains->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderCopyToBuildings));

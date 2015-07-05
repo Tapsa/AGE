@@ -146,12 +146,11 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 {
     graphicTimer.Stop();
 	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	wxBusyCursor WaitCursor;
-    getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
+    wxBusyCursor WaitCursor;
     for(auto &box: uiGroupGraphic) box->clear();
 	if(selections > 0)
 	{
-		//SwapSelection(event.GetSelection(), Items);
+        getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
 
 		genie::Graphic * GraphicPointer;
 		for(auto sel = selections; sel--> 0;)
@@ -400,11 +399,11 @@ void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent &event)
 {
     deltaTimer.Stop();
 	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
     for(auto &box: uiGroupGraphicDelta) box->clear();
 	if(selections > 0)
 	{
         getSelectedItems(selections, Graphics_Deltas_ListV, DeltaIDs);
-		//SwapSelection(event.GetSelection(), Items);
 
 		genie::GraphicDelta * DeltaPointer;
 		for(auto sel = selections; sel--> 0;)
@@ -541,11 +540,11 @@ void AGE_Frame::OnGraphicAttackSoundsTimer(wxTimerEvent &event)
 {
     graphicSoundTimer.Stop();
 	auto selections = Graphics_AttackSounds_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
     for(auto &box: uiGroupGraphicSound) box->clear();
 	if(selections > 0)
 	{
         getSelectedItems(selections, Graphics_AttackSounds_ListV, AttackSoundIDs);
-		//SwapSelection(event.GetSelection(), Items);
 
 		genie::GraphicAttackSound * AttackSoundPointer;
 		for(auto sel = selections; sel--> 0;)
@@ -585,7 +584,6 @@ void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event)
 
 void AGE_Frame::CreateGraphicsControls()
 {
-
 	Tab_Graphics = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_ListArea = new wxBoxSizer(wxVERTICAL);
