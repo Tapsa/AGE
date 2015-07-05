@@ -508,7 +508,6 @@ string AGE_Frame::GetRandomMapName(short Index)
 
 void AGE_Frame::ListRandomMaps()
 {
-	FirstVisible = How2List == SEARCH ? 0 : Unknowns_List->HitTest(wxPoint(0, 0));
 	InitRandomMaps();
 	wxTimerEvent E;
 	OnRandomMapTimer(E);
@@ -519,19 +518,19 @@ void AGE_Frame::InitRandomMaps()
 	searchText = Unknowns_Search->GetValue().Lower();
 	excludeText = Unknowns_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	Unknowns_ListV->names.clear();
+	Unknowns_ListV->indexes.clear();
 
 	for(short loop = 0; loop < GenieFile->RandomMaps.MapHeaders.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetRandomMapName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->RandomMaps.Maps[loop]);
+			Unknowns_ListV->names.Add(Name);
+			Unknowns_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(Unknowns_List, filteredNames, dataPointers);
+	virtualListing(Unknowns_ListV);
 }
 
 void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
@@ -543,23 +542,20 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
 void AGE_Frame::OnRandomMapTimer(wxTimerEvent &event)
 {
     randomMapTimer.Stop();
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, Unknowns_ListV, RandomMapIDs);
     for(auto &box: uiGroupRandomMap) box->clear();
 	if(selections > 0)
 	{
-		//SwapSelection(event.GetSelection(), Items);
-		RandomMapIDs.resize(selections);
-
 		genie::MapHeader * MapPointer1;
 		genie::Map * MapPointer2;
 		for(auto sel = selections; sel--> 0;)
 		{
-			MapPointer2 = (genie::Map*)Unknowns_List->GetClientData(Items.Item(sel));
-			RandomMapIDs[sel] = (MapPointer2 - (&GenieFile->RandomMaps.Maps[0]));
 			MapPointer1 = &GenieFile->RandomMaps.MapHeaders[RandomMapIDs[sel]];
+			MapPointer2 = &GenieFile->RandomMaps.Maps[RandomMapIDs[sel]];
 
 			Unknowns_UnknownLevel->prepend(&MapPointer1->ScriptNumber);
-			int sel2 = sel + selections;
 			Unknowns_Unknown1[0]->prepend(&MapPointer1->BorderSouthWest);
 			Unknowns_Unknown1[0]->prepend(&MapPointer2->BorderSouthWest);
 			Unknowns_Unknown1[1]->prepend(&MapPointer1->BorderNorthWest);
@@ -608,7 +604,7 @@ void AGE_Frame::OnRandomMapAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapInsert(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -619,7 +615,7 @@ void AGE_Frame::OnRandomMapInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapDelete(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -630,7 +626,7 @@ void AGE_Frame::OnRandomMapDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapCopy(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -638,12 +634,12 @@ void AGE_Frame::OnRandomMapCopy(wxCommandEvent &event)
 	CopyFromList(GenieFile->RandomMaps.Maps, RandomMapIDs, copies.Map);
 	Unknowns_Paste->Enable(true);
 	Unknowns_PasteInsert->Enable(true);
-	Unknowns_List->SetFocus();
+	Unknowns_ListV->SetFocus();
 }
 
 void AGE_Frame::OnRandomMapPaste(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -665,7 +661,7 @@ void AGE_Frame::OnRandomMapPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -687,12 +683,11 @@ string AGE_Frame::GetRMSBaseZonesName(short Index)
 
 void AGE_Frame::ListRMSBaseZones()
 {
-	FirstVisible = How2List == SEARCH ? 0 : RMSBaseZones_List->HitTest(wxPoint(0, 0));
 	searchText = RMSBaseZones_Search->GetValue().Lower();
 	excludeText = RMSBaseZones_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	RMSBaseZones_ListV->names.clear();
+	RMSBaseZones_ListV->indexes.clear();
 
     if(GenieFile->RandomMaps.Maps.size())
 	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones.size(); ++loop)
@@ -700,11 +695,11 @@ void AGE_Frame::ListRMSBaseZones()
 		wxString Name = " "+FormatInt(loop)+" - "+GetRMSBaseZonesName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[loop]);
+			RMSBaseZones_ListV->names.Add(Name);
+			RMSBaseZones_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(RMSBaseZones_List, filteredNames, dataPointers);
+	virtualListing(RMSBaseZones_ListV);
 
 	wxTimerEvent E;
 	OnRMSBaseZoneTimer(E);
@@ -719,17 +714,15 @@ void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &event)
 void AGE_Frame::OnRMSBaseZoneTimer(wxTimerEvent &event)
 {
     rmBaseTimer.Stop();
-	auto selections = RMSBaseZones_List->GetSelections(Items);
+	auto selections = RMSBaseZones_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, RMSBaseZones_ListV, UnknownFSIDs);
     for(auto &box: uiGroupRMBase) box->clear();
-
-	//SwapSelection(event.GetSelection(), Items);
-	UnknownFSIDs.resize(selections);
 
 	genie::BaseZone * UnknownPointer;
 	for(auto sel = selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::BaseZone*)RMSBaseZones_List->GetClientData(Items.Item(sel));
-		UnknownFSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[0]));
+		UnknownPointer = &GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[UnknownFSIDs[sel]];
 
 		RMSBaseZones_Unknown1->prepend(&UnknownPointer->Unknown1);
 		RMSBaseZones_BaseTerrain->prepend(&UnknownPointer->BaseTerrain);
@@ -751,7 +744,7 @@ void AGE_Frame::OnRMSBaseZoneTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnRMSBaseZoneAdd(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -762,7 +755,7 @@ void AGE_Frame::OnRMSBaseZoneAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSBaseZoneInsert(wxCommandEvent &event)
 {
-	auto selections = RMSBaseZones_List->GetSelections(Items);
+	auto selections = RMSBaseZones_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -773,7 +766,7 @@ void AGE_Frame::OnRMSBaseZoneInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSBaseZoneDelete(wxCommandEvent &event)
 {
-	auto selections = RMSBaseZones_List->GetSelections(Items);
+	auto selections = RMSBaseZones_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -784,19 +777,19 @@ void AGE_Frame::OnRMSBaseZoneDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSBaseZoneCopy(wxCommandEvent &event)
 {
-	auto selections = RMSBaseZones_List->GetSelections(Items);
+	auto selections = RMSBaseZones_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].BaseZones, UnknownFSIDs, copies.BaseZone);
 	RMSBaseZones_Paste->Enable(true);
 	RMSBaseZones_PasteInsert->Enable(true);
-	RMSBaseZones_List->SetFocus();
+	RMSBaseZones_ListV->SetFocus();
 }
 
 void AGE_Frame::OnRMSBaseZonePaste(wxCommandEvent &event)
 {
-	auto selections = RMSBaseZones_List->GetSelections(Items);
+	auto selections = RMSBaseZones_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -818,7 +811,7 @@ void AGE_Frame::OnRMSBaseZonePaste(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSBaseZonePasteInsert(wxCommandEvent &event)
 {
-	auto selections = RMSBaseZones_List->GetSelections(Items);
+	auto selections = RMSBaseZones_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -854,12 +847,11 @@ string AGE_Frame::GetRMSTerrainName(short Terrain)
 
 void AGE_Frame::ListRMSTerrains()
 {
-	FirstVisible = How2List == SEARCH ? 0 : RMSTerrain_List->HitTest(wxPoint(0, 0));
 	searchText = RMSTerrain_Search->GetValue().Lower();
 	excludeText = RMSTerrain_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	RMSTerrain_ListV->names.clear();
+	RMSTerrain_ListV->indexes.clear();
 
     if(GenieFile->RandomMaps.Maps.size())
 	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains.size(); ++loop)
@@ -867,11 +859,11 @@ void AGE_Frame::ListRMSTerrains()
 		wxString Name = " "+FormatInt(loop)+" - "+GetRMSTerrainName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[loop].Terrain);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[loop]);
+			RMSTerrain_ListV->names.Add(Name);
+			RMSTerrain_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(RMSTerrain_List, filteredNames, dataPointers);
+	virtualListing(RMSTerrain_ListV);
 
 	wxTimerEvent E;
 	OnRMSTerrainTimer(E);
@@ -886,17 +878,15 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &event)
 void AGE_Frame::OnRMSTerrainTimer(wxTimerEvent &event)
 {
     rmTerrainTimer.Stop();
-	auto selections = RMSTerrain_List->GetSelections(Items);
+	auto selections = RMSTerrain_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, RMSTerrain_ListV, UnknownSSIDs);
 	for(auto &box: uiGroupRMTerrain) box->clear();
-
-	//SwapSelection(event.GetSelection(), Items);
-	UnknownSSIDs.resize(selections);
 
 	genie::MapTerrain * UnknownPointer;
 	for(auto sel = selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::MapTerrain*)RMSTerrain_List->GetClientData(Items.Item(sel));
-		UnknownSSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[0]));
+		UnknownPointer = &GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains[UnknownSSIDs[sel]];
 
 		RMSTerrain_Unknown1[0]->prepend(&UnknownPointer->Proportion);
 		RMSTerrain_Unknown1[1]->prepend(&UnknownPointer->Terrain);
@@ -911,7 +901,7 @@ void AGE_Frame::OnRMSTerrainTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnRMSTerrainAdd(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -922,7 +912,7 @@ void AGE_Frame::OnRMSTerrainAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSTerrainInsert(wxCommandEvent &event)
 {
-	auto selections = RMSTerrain_List->GetSelections(Items);
+	auto selections = RMSTerrain_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -933,7 +923,7 @@ void AGE_Frame::OnRMSTerrainInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSTerrainDelete(wxCommandEvent &event)
 {
-	auto selections = RMSTerrain_List->GetSelections(Items);
+	auto selections = RMSTerrain_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -944,19 +934,19 @@ void AGE_Frame::OnRMSTerrainDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSTerrainCopy(wxCommandEvent &event)
 {
-	auto selections = RMSTerrain_List->GetSelections(Items);
+	auto selections = RMSTerrain_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapTerrains, UnknownSSIDs, copies.MapTerrain);
 	RMSTerrain_Paste->Enable(true);
 	RMSTerrain_PasteInsert->Enable(true);
-	RMSTerrain_List->SetFocus();
+	RMSTerrain_ListV->SetFocus();
 }
 
 void AGE_Frame::OnRMSTerrainPaste(wxCommandEvent &event)
 {
-	auto selections = RMSTerrain_List->GetSelections(Items);
+	auto selections = RMSTerrain_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -978,7 +968,7 @@ void AGE_Frame::OnRMSTerrainPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSTerrainPasteInsert(wxCommandEvent &event)
 {
-	auto selections = RMSTerrain_List->GetSelections(Items);
+	auto selections = RMSTerrain_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1003,12 +993,11 @@ void AGE_Frame::OnRMSUnitSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListRMSUnits()
 {
-	FirstVisible = How2List == SEARCH ? 0 : RMSUnit_List->HitTest(wxPoint(0, 0));
 	searchText = RMSUnit_Search->GetValue().Lower();
 	excludeText = RMSUnit_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	RMSUnit_ListV->names.clear();
+	RMSUnit_ListV->indexes.clear();
 
     if(GenieFile->RandomMaps.Maps.size())
 	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits.size(); ++loop)
@@ -1016,11 +1005,11 @@ void AGE_Frame::ListRMSUnits()
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[loop].Unit);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[loop]);
+			RMSUnit_ListV->names.Add(Name);
+			RMSUnit_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(RMSUnit_List, filteredNames, dataPointers);
+	virtualListing(RMSUnit_ListV);
 
 	wxTimerEvent E;
 	OnRMSUnitTimer(E);
@@ -1035,17 +1024,15 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &event)
 void AGE_Frame::OnRMSUnitTimer(wxTimerEvent &event)
 {
     rmUnitTimer.Stop();
-	auto selections = RMSUnit_List->GetSelections(Items);
+	auto selections = RMSUnit_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, RMSUnit_ListV, UnknownTSIDs);
 	for(auto &box: uiGroupRMUnit) box->clear();
-
-	//SwapSelection(event.GetSelection(), Items);
-	UnknownTSIDs.resize(selections);
 
 	genie::MapUnit * UnknownPointer;
 	for(auto sel = selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::MapUnit*)RMSUnit_List->GetClientData(Items.Item(sel));
-		UnknownTSIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[0]));
+		UnknownPointer = &GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits[UnknownTSIDs[sel]];
 
 		RMSUnit_Unit->prepend(&UnknownPointer->Unit);
 		RMSUnit_HostTerrain->prepend(&UnknownPointer->HostTerrain);
@@ -1066,7 +1053,7 @@ void AGE_Frame::OnRMSUnitTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnRMSUnitAdd(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1077,7 +1064,7 @@ void AGE_Frame::OnRMSUnitAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSUnitInsert(wxCommandEvent &event)
 {
-	auto selections = RMSUnit_List->GetSelections(Items);
+	auto selections = RMSUnit_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1088,7 +1075,7 @@ void AGE_Frame::OnRMSUnitInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSUnitDelete(wxCommandEvent &event)
 {
-	auto selections = RMSUnit_List->GetSelections(Items);
+	auto selections = RMSUnit_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1099,19 +1086,19 @@ void AGE_Frame::OnRMSUnitDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSUnitCopy(wxCommandEvent &event)
 {
-	auto selections = RMSUnit_List->GetSelections(Items);
+	auto selections = RMSUnit_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnits, UnknownTSIDs, copies.MapUnit);
 	RMSUnit_Paste->Enable(true);
 	RMSUnit_PasteInsert->Enable(true);
-	RMSUnit_List->SetFocus();
+	RMSUnit_ListV->SetFocus();
 }
 
 void AGE_Frame::OnRMSUnitPaste(wxCommandEvent &event)
 {
-	auto selections = RMSUnit_List->GetSelections(Items);
+	auto selections = RMSUnit_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1133,7 +1120,7 @@ void AGE_Frame::OnRMSUnitPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSUnitPasteInsert(wxCommandEvent &event)
 {
-	auto selections = RMSUnit_List->GetSelections(Items);
+	auto selections = RMSUnit_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1169,12 +1156,11 @@ string AGE_Frame::GetRMSUnknownName(short Terrain)
 
 void AGE_Frame::ListRMSUnknowns()
 {
-	FirstVisible = How2List == SEARCH ? 0 : RMSUnknown_List->HitTest(wxPoint(0, 0));
 	searchText = RMSUnknown_Search->GetValue().Lower();
 	excludeText = RMSUnknown_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	RMSUnknown_ListV->names.clear();
+	RMSUnknown_ListV->indexes.clear();
 
     if(GenieFile->RandomMaps.Maps.size())
 	for(short loop = 0; loop < GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns.size(); ++loop)
@@ -1182,11 +1168,11 @@ void AGE_Frame::ListRMSUnknowns()
 		wxString Name = " "+FormatInt(loop)+" - "+GetRMSUnknownName(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[loop].Unknown2);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[loop]);
+			RMSUnknown_ListV->names.Add(Name);
+			RMSUnknown_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(RMSUnknown_List, filteredNames, dataPointers);
+	virtualListing(RMSUnknown_ListV);
 
 	wxTimerEvent E;
 	OnRMSUnknownTimer(E);
@@ -1201,17 +1187,15 @@ void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &event)
 void AGE_Frame::OnRMSUnknownTimer(wxTimerEvent &event)
 {
     rmUnknownTimer.Stop();
-	auto selections = RMSUnknown_List->GetSelections(Items);
+	auto selections = RMSUnknown_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, RMSUnknown_ListV, Unknown4SIDs);
 	for(auto &box: uiGroupRMUnknown) box->clear();
-
-	//SwapSelection(event.GetSelection(), Items);
-	Unknown4SIDs.resize(selections);
 
 	genie::MapUnknown * UnknownPointer;
 	for(auto sel = selections; sel--> 0;)
 	{
-		UnknownPointer = (genie::MapUnknown*)RMSUnknown_List->GetClientData(Items.Item(sel));
-		Unknown4SIDs[sel] = (UnknownPointer - (&GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[0]));
+		UnknownPointer = &GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns[Unknown4SIDs[sel]];
 
 		RMSUnknown_Unknown1[0]->prepend(&UnknownPointer->Unknown1);
 		RMSUnknown_Unknown1[1]->prepend(&UnknownPointer->Unknown2);
@@ -1226,7 +1210,7 @@ void AGE_Frame::OnRMSUnknownTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnRMSUnknownAdd(wxCommandEvent &event)
 {
-	auto selections = Unknowns_List->GetSelections(Items);
+	auto selections = Unknowns_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1237,7 +1221,7 @@ void AGE_Frame::OnRMSUnknownAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSUnknownInsert(wxCommandEvent &event)
 {
-	auto selections = RMSUnknown_List->GetSelections(Items);
+	auto selections = RMSUnknown_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1248,7 +1232,7 @@ void AGE_Frame::OnRMSUnknownInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSUnknownDelete(wxCommandEvent &event)
 {
-	auto selections = RMSUnknown_List->GetSelections(Items);
+	auto selections = RMSUnknown_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1259,19 +1243,19 @@ void AGE_Frame::OnRMSUnknownDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSUnknownCopy(wxCommandEvent &event)
 {
-	auto selections = RMSUnknown_List->GetSelections(Items);
+	auto selections = RMSUnknown_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->RandomMaps.Maps[RandomMapIDs[0]].MapUnknowns, Unknown4SIDs, copies.MapUnknown);
 	RMSUnknown_Paste->Enable(true);
 	RMSUnknown_PasteInsert->Enable(true);
-	RMSUnknown_List->SetFocus();
+	RMSUnknown_ListV->SetFocus();
 }
 
 void AGE_Frame::OnRMSUnknownPaste(wxCommandEvent &event)
 {
-	auto selections = RMSUnknown_List->GetSelections(Items);
+	auto selections = RMSUnknown_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1293,7 +1277,7 @@ void AGE_Frame::OnRMSUnknownPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnRMSUnknownPasteInsert(wxCommandEvent &event)
 {
-	auto selections = RMSUnknown_List->GetSelections(Items);
+	auto selections = RMSUnknown_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -1329,7 +1313,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_ListArea = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Search = new wxTextCtrl(Tab_Unknown, wxID_ANY);
 	Unknowns_Search_R = new wxTextCtrl(Tab_Unknown, wxID_ANY);
-	Unknowns_List = new wxListBox(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxSize(200, 220), 0, NULL, wxLB_EXTENDED);
+	Unknowns_ListV = new AGEListView(Tab_Unknown, wxSize(200, 220));
 	Unknowns_Buttons = new wxGridSizer(3, 0, 0);
 	Unknowns_Add = new wxButton(Tab_Unknown, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Unknowns_Insert = new wxButton(Tab_Unknown, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -1374,7 +1358,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_DataArea = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSBaseZones_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-	RMSBaseZones_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(140, 100), 0, NULL, wxLB_EXTENDED);
+	RMSBaseZones_ListV = new AGEListView(Unknown_Scroller, wxSize(140, 100));
 	RMSBaseZones_Buttons = new wxGridSizer(3, 0, 0);
 	RMSBaseZones_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	RMSBaseZones_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -1443,7 +1427,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_DataArea = new wxBoxSizer(wxVERTICAL);
 	RMSTerrain_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSTerrain_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-	RMSTerrain_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(140, 100), 0, NULL, wxLB_EXTENDED);
+	RMSTerrain_ListV = new AGEListView(Unknown_Scroller, wxSize(140, 100));
 	RMSTerrain_Buttons = new wxGridSizer(3, 0, 0);
 	RMSTerrain_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	RMSTerrain_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -1479,7 +1463,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_DataArea = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSUnit_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-	RMSUnit_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(140, 250), 0, NULL, wxLB_EXTENDED);
+	RMSUnit_ListV = new AGEListView(Unknown_Scroller, wxSize(140, 250));
 	RMSUnit_Buttons = new wxGridSizer(3, 0, 0);
 	RMSUnit_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	RMSUnit_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -1542,7 +1526,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnknown_DataArea = new wxBoxSizer(wxVERTICAL);
 	RMSUnknown_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSUnknown_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-	RMSUnknown_List = new wxListBox(Unknown_Scroller, wxID_ANY, wxDefaultPosition, wxSize(140, 100), 0, NULL, wxLB_EXTENDED);
+	RMSUnknown_ListV = new AGEListView(Unknown_Scroller, wxSize(140, 100));
 	RMSUnknown_Buttons = new wxGridSizer(3, 0, 0);
 	RMSUnknown_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	RMSUnknown_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -1578,7 +1562,7 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_ListArea->Add(Unknowns_Search, 0, wxEXPAND);
 	Unknowns_ListArea->Add(Unknowns_Search_R, 0, wxEXPAND);
 	Unknowns_ListArea->AddSpacer(2);
-	Unknowns_ListArea->Add(Unknowns_List, 1, wxEXPAND);
+	Unknowns_ListArea->Add(Unknowns_ListV, 1, wxEXPAND);
 	Unknowns_ListArea->AddSpacer(2);
 	Unknowns_ListArea->Add(Unknowns_Buttons, 0, wxEXPAND);
 
@@ -1609,7 +1593,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_ListArea->Add(RMSBaseZones_Search, 0, wxEXPAND);
 	RMSBaseZones_ListArea->Add(RMSBaseZones_Search_R, 0, wxEXPAND);
 	RMSBaseZones_ListArea->AddSpacer(2);
-	RMSBaseZones_ListArea->Add(RMSBaseZones_List, 1, wxEXPAND);
+	RMSBaseZones_ListArea->Add(RMSBaseZones_ListV, 1, wxEXPAND);
 	RMSBaseZones_ListArea->AddSpacer(2);
 	RMSBaseZones_ListArea->Add(RMSBaseZones_Buttons, 0, wxEXPAND);
 	RMSBaseZones_ListArea->AddSpacer(2);
@@ -1673,7 +1657,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_ListArea->Add(RMSTerrain_Search, 0, wxEXPAND);
 	RMSTerrain_ListArea->Add(RMSTerrain_Search_R, 0, wxEXPAND);
 	RMSTerrain_ListArea->AddSpacer(2);
-	RMSTerrain_ListArea->Add(RMSTerrain_List, 1, wxEXPAND);
+	RMSTerrain_ListArea->Add(RMSTerrain_ListV, 1, wxEXPAND);
 	RMSTerrain_ListArea->AddSpacer(2);
 	RMSTerrain_ListArea->Add(RMSTerrain_Buttons, 0, wxEXPAND);
 	RMSTerrain_ListArea->AddSpacer(2);
@@ -1706,7 +1690,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_ListArea->Add(RMSUnit_Search, 0, wxEXPAND);
 	RMSUnit_ListArea->Add(RMSUnit_Search_R, 0, wxEXPAND);
 	RMSUnit_ListArea->AddSpacer(2);
-	RMSUnit_ListArea->Add(RMSUnit_List, 1, wxEXPAND);
+	RMSUnit_ListArea->Add(RMSUnit_ListV, 1, wxEXPAND);
 	RMSUnit_ListArea->AddSpacer(2);
 	RMSUnit_ListArea->Add(RMSUnit_Buttons, 0, wxEXPAND);
 	RMSUnit_ListArea->AddSpacer(2);
@@ -1768,7 +1752,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnknown_ListArea->Add(RMSUnknown_Search, 0, wxEXPAND);
 	RMSUnknown_ListArea->Add(RMSUnknown_Search_R, 0, wxEXPAND);
 	RMSUnknown_ListArea->AddSpacer(2);
-	RMSUnknown_ListArea->Add(RMSUnknown_List, 1, wxEXPAND);
+	RMSUnknown_ListArea->Add(RMSUnknown_ListV, 1, wxEXPAND);
 	RMSUnknown_ListArea->AddSpacer(2);
 	RMSUnknown_ListArea->Add(RMSUnknown_Buttons, 0, wxEXPAND);
 	RMSUnknown_ListArea->AddSpacer(2);
@@ -1845,7 +1829,9 @@ void AGE_Frame::CreateUnknownControls()
 
 	Connect(Unknowns_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRandomMapSearch));
 	Connect(Unknowns_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRandomMapSearch));
-	Connect(Unknowns_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRandomMapSelect));
+	Connect(Unknowns_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnRandomMapSelect));
+	Connect(Unknowns_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnRandomMapSelect));
+	Connect(Unknowns_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnRandomMapSelect));
 	Connect(Unknowns_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRandomMapAdd));
 	Connect(Unknowns_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRandomMapInsert));
 	Connect(Unknowns_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRandomMapDelete));
@@ -1854,7 +1840,9 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(Unknowns_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRandomMapPasteInsert));
 	Connect(RMSBaseZones_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSearch));
 	Connect(RMSBaseZones_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSearch));
-	Connect(RMSBaseZones_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSelect));
+	Connect(RMSBaseZones_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSelect));
+	Connect(RMSBaseZones_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSelect));
+	Connect(RMSBaseZones_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneSelect));
 	Connect(RMSBaseZones_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneAdd));
 	Connect(RMSBaseZones_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneInsert));
 	Connect(RMSBaseZones_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneDelete));
@@ -1864,7 +1852,9 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(RMSBaseZones_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSBaseZoneCopyToMaps));
 	Connect(RMSTerrain_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSearch));
 	Connect(RMSTerrain_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSearch));
-	Connect(RMSTerrain_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSelect));
+	Connect(RMSTerrain_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSelect));
+	Connect(RMSTerrain_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSelect));
+	Connect(RMSTerrain_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainSelect));
 	Connect(RMSTerrain_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainAdd));
 	Connect(RMSTerrain_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainInsert));
 	Connect(RMSTerrain_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainDelete));
@@ -1874,7 +1864,9 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(RMSTerrain_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSTerrainCopyToMaps));
 	Connect(RMSUnit_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSearch));
 	Connect(RMSUnit_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSearch));
-	Connect(RMSUnit_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSelect));
+	Connect(RMSUnit_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSelect));
+	Connect(RMSUnit_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSelect));
+	Connect(RMSUnit_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnRMSUnitSelect));
 	Connect(RMSUnit_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitAdd));
 	Connect(RMSUnit_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitInsert));
 	Connect(RMSUnit_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitDelete));
@@ -1884,7 +1876,9 @@ void AGE_Frame::CreateUnknownControls()
 	Connect(RMSUnit_CopyToMaps->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnitCopyToMaps));
 	Connect(RMSUnknown_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSearch));
 	Connect(RMSUnknown_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSearch));
-	Connect(RMSUnknown_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSelect));
+	Connect(RMSUnknown_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSelect));
+	Connect(RMSUnknown_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSelect));
+	Connect(RMSUnknown_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownSelect));
 	Connect(RMSUnknown_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownAdd));
 	Connect(RMSUnknown_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownInsert));
 	Connect(RMSUnknown_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnRMSUnknownDelete));

@@ -15,7 +15,6 @@ void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitLines()
 {
-	FirstVisible = How2List == SEARCH ? 0 : UnitLines_UnitLines_List->HitTest(wxPoint(0, 0));
 	InitUnitLines();
 	wxTimerEvent E;
 	OnUnitLinesTimer(E);
@@ -26,8 +25,9 @@ void AGE_Frame::InitUnitLines()
 	searchText = UnitLines_UnitLines_Search->GetValue().Lower();
 	excludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString names, filteredNames;
+	UnitLines_UnitLines_ListV->names.clear();
+	UnitLines_UnitLines_ListV->indexes.clear();
+	wxArrayString names;
 	names.Alloc(GenieFile->Civs[0].Units.size());
 
 	for(short loop = 0; loop < GenieFile->UnitLines.size(); ++loop)
@@ -35,13 +35,13 @@ void AGE_Frame::InitUnitLines()
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->UnitLines[loop]);
+			UnitLines_UnitLines_ListV->names.Add(Name);
+			UnitLines_UnitLines_ListV->indexes.push_back(loop);
 		}
 		names.Add(Name);
 	}
 
-	Listing(UnitLines_UnitLines_List, filteredNames, dataPointers);
+	virtualListing(UnitLines_UnitLines_ListV);
 
 	short selection = Units_Unitline_ComboBox->GetSelection();
 	Units_Unitline_ComboBox->Clear();
@@ -59,18 +59,17 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &event)
 void AGE_Frame::OnUnitLinesTimer(wxTimerEvent &event)
 {
     unitLineTimer.Stop();
-	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLines_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, UnitLines_UnitLines_ListV, UnitLineIDs);
 
-	//SwapSelection(event.GetSelection(), Items);
-	UnitLineIDs.resize(selections);
 	UnitLines_ID->clear();
 	UnitLines_Name->clear();
 
 	genie::UnitLine * LinePointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		LinePointer = (genie::UnitLine*)UnitLines_UnitLines_List->GetClientData(Items.Item(loop));
-		UnitLineIDs[loop] = (LinePointer - (&GenieFile->UnitLines[0]));
+		LinePointer = &GenieFile->UnitLines[UnitLineIDs[loop]];
 
 		UnitLines_ID->prepend(&LinePointer->ID);
 		UnitLines_Name->prepend(&LinePointer->Name);
@@ -93,7 +92,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLines_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -103,7 +102,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLines_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -113,17 +112,17 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLines_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->UnitLines, UnitLineIDs, copies.UnitLine);
-	UnitLines_UnitLines_List->SetFocus();
+	UnitLines_UnitLines_ListV->SetFocus();
 }
 
 void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLines_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -143,7 +142,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLines_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -174,23 +173,22 @@ void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitLineUnits()
 {
-	FirstVisible = How2List == SEARCH ? 0 : UnitLines_UnitLineUnits_List->HitTest(wxPoint(0, 0));
 	searchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
 	excludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	UnitLines_UnitLineUnits_ListV->names.clear();
+	UnitLines_UnitLineUnits_ListV->indexes.clear();
 
 	for(short loop = 0; loop < GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
+			UnitLines_UnitLineUnits_ListV->names.Add(Name);
+			UnitLines_UnitLineUnits_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(UnitLines_UnitLineUnits_List, filteredNames, dataPointers);
+	virtualListing(UnitLines_UnitLineUnits_ListV);
 
 	wxTimerEvent E;
 	OnUnitLineUnitsTimer(E);
@@ -205,18 +203,17 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &event)
 void AGE_Frame::OnUnitLineUnitsTimer(wxTimerEvent &event)
 {
     unitLineUnitTimer.Stop();
-	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
     UnitLineUnits_Units->clear();
 	if(selections > 0)
 	{
-		//SwapSelection(event.GetSelection(), Items);
-		UnitLineUnitIDs.resize(selections);
+        getSelectedItems(selections, UnitLines_UnitLineUnits_ListV, UnitLineUnitIDs);
 
 		int16_t * UnitPointer;
 		for(auto loop = selections; loop--> 0;)
 		{
-			UnitPointer = (int16_t*)UnitLines_UnitLineUnits_List->GetClientData(Items.Item(loop));
-			UnitLineUnitIDs[loop] = (UnitPointer - (&GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[0]));
+			UnitPointer = &GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs[UnitLineUnitIDs[loop]];
 			UnitLineUnits_Units->prepend(UnitPointer);
 		}
 	}
@@ -225,7 +222,7 @@ void AGE_Frame::OnUnitLineUnitsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLines_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLines_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -235,7 +232,7 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -245,7 +242,7 @@ void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -255,17 +252,17 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->UnitLines[UnitLineIDs[0]].UnitIDs, UnitLineUnitIDs, copies.UnitLineUnit);
-	UnitLines_UnitLineUnits_List->SetFocus();
+	UnitLines_UnitLineUnits_ListV->SetFocus();
 }
 
 void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -285,7 +282,7 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = UnitLines_UnitLineUnits_List->GetSelections(Items);
+	auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -314,7 +311,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLines = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Unitlines (Used by AIs)");
 	UnitLines_UnitLines_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
 	UnitLines_UnitLines_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
-	UnitLines_UnitLines_List = new wxListBox(Tab_UnitLine, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
+	UnitLines_UnitLines_ListV = new AGEListView(Tab_UnitLine, wxSize(200, 100));
 	UnitLines_Add = new wxButton(Tab_UnitLine, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	UnitLines_Insert = new wxButton(Tab_UnitLine, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	UnitLines_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -325,7 +322,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLineUnits = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Units");
 	UnitLines_UnitLineUnits_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
 	UnitLines_UnitLineUnits_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
-	UnitLines_UnitLineUnits_List = new wxListBox(Tab_UnitLine, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
+	UnitLines_UnitLineUnits_ListV = new AGEListView(Tab_UnitLine, wxSize(200, 100));
 	UnitLineUnits_Add = new wxButton(Tab_UnitLine, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	UnitLineUnits_Insert = new wxButton(Tab_UnitLine, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	UnitLineUnits_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -357,7 +354,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search, 0, wxEXPAND);
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search_R, 0, wxEXPAND);
 	UnitLines_UnitLines->AddSpacer(2);
-	UnitLines_UnitLines->Add(UnitLines_UnitLines_List, 1, wxEXPAND);
+	UnitLines_UnitLines->Add(UnitLines_UnitLines_ListV, 1, wxEXPAND);
 	UnitLines_UnitLines->AddSpacer(2);
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Buttons, 0, wxEXPAND);
 
@@ -375,7 +372,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Search, 0, wxEXPAND);
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Search_R, 0, wxEXPAND);
 	UnitLines_UnitLineUnits->AddSpacer(2);
-	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_List, 1, wxEXPAND);
+	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_ListV, 1, wxEXPAND);
 	UnitLines_UnitLineUnits->AddSpacer(2);
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Buttons, 0, wxEXPAND);
 	UnitLines_UnitLineUnits->AddSpacer(2);
@@ -413,7 +410,9 @@ void AGE_Frame::CreateUnitLineControls()
 
 	Tab_UnitLine->SetSizer(UnitLines_Main);
 
-	Connect(UnitLines_UnitLines_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSelect));
+	Connect(UnitLines_UnitLines_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSelect));
+	Connect(UnitLines_UnitLines_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSelect));
+	Connect(UnitLines_UnitLines_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSelect));
 	Connect(UnitLines_UnitLines_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSearch));
 	Connect(UnitLines_UnitLines_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLinesSearch));
 	Connect(UnitLines_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesAdd));
@@ -422,7 +421,9 @@ void AGE_Frame::CreateUnitLineControls()
 	Connect(UnitLines_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesCopy));
 	Connect(UnitLines_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesPaste));
 	Connect(UnitLines_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLinesPasteInsert));
-	Connect(UnitLines_UnitLineUnits_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSelect));
+	Connect(UnitLines_UnitLineUnits_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSelect));
+	Connect(UnitLines_UnitLineUnits_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSelect));
+	Connect(UnitLines_UnitLineUnits_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSelect));
 	Connect(UnitLines_UnitLineUnits_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSearch));
 	Connect(UnitLines_UnitLineUnits_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsSearch));
 	Connect(UnitLineUnits_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitLineUnitsAdd));

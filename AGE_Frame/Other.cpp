@@ -706,7 +706,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		// Womp Rat
 
 		Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2armornames.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-		long ExtraCount, AoE1Count, AoE2Count, SWGBCount;
+		long AoE1Count, AoE2Count, SWGBCount;
 		if(!Customs->Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
 			Customs->Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
 		if(!Customs->Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
@@ -1075,8 +1075,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 
 void AGE_Frame::LoadLists()
 {
-	Items.Add(0);
-	FirstVisible = -1;
+	//Items.Add(0);
+	//FirstVisible = -1;
 	OnCivCountChange();
 	ListTerrainRestrictions(true);
 	InitPlayerColors();
@@ -1094,8 +1094,8 @@ void AGE_Frame::LoadLists()
 	}
 	else
 	{
-		UnitLines_UnitLines_List->Clear();
-		UnitLines_UnitLineUnits_List->Clear();
+		UnitLines_UnitLines_ListV->ClearAll();
+		UnitLines_UnitLineUnits_ListV->ClearAll();
 	}
 	InitCivs(true);
 	InitUnits(GenieVersion < genie::GV_AoKA, true);
@@ -1109,20 +1109,20 @@ void AGE_Frame::LoadLists()
 	}
 	else
 	{
-		TechTrees_MainList_Ages_List->Clear();
-		TechTrees_Ages_Buildings.List->Clear();
-		TechTrees_Ages_Units.List->Clear();
-		TechTrees_Ages_Researches.List->Clear();
-		TechTrees_MainList_Buildings_List->Clear();
-		TechTrees_Buildings_Buildings.List->Clear();
-		TechTrees_Buildings_Units.List->Clear();
-		TechTrees_Buildings_Researches.List->Clear();
-		TechTrees_MainList_Units_List->Clear();
-		TechTrees_Units_Units.List->Clear();
-		TechTrees_MainList_Researches_List->Clear();
-		TechTrees_Researches_Buildings.List->Clear();
-		TechTrees_Researches_Units.List->Clear();
-		TechTrees_Researches_Researches.List->Clear();
+		TechTrees_MainList_Ages_ListV->ClearAll();
+		TechTrees_Ages_Buildings.List->ClearAll();
+		TechTrees_Ages_Units.List->ClearAll();
+		TechTrees_Ages_Researches.List->ClearAll();
+		TechTrees_MainList_Buildings_ListV->ClearAll();
+		TechTrees_Buildings_Buildings.List->ClearAll();
+		TechTrees_Buildings_Units.List->ClearAll();
+		TechTrees_Buildings_Researches.List->ClearAll();
+		TechTrees_MainList_Units_ListV->ClearAll();
+		TechTrees_Units_Units.List->ClearAll();
+		TechTrees_MainList_Researches_ListV->ClearAll();
+		TechTrees_Researches_Buildings.List->ClearAll();
+		TechTrees_Researches_Units.List->ClearAll();
+		TechTrees_Researches_Researches.List->ClearAll();
 	}
 	if(TimesOpened < 3)
 	{
@@ -2036,7 +2036,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 	}
 }
 
-void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data)
+/*void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data)
 {
 	int selections = List->GetSelections(Items);
 	int listsize = List->GetCount(); // Size before
@@ -2144,7 +2144,7 @@ void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data
 	}
 	List->SetSelection(Items.Item(0));
 	How2List = SEARCH;
-}
+}*/
 
 void AGE_Frame::virtualListing(AGEListView* list)
 {
@@ -2230,30 +2230,31 @@ bool AGE_Frame::Paste11Check(int pastes, int copies)
 	return result;
 }
 
-void AGE_Frame::SearchAllSubVectors(wxListBox *List, wxTextCtrl *TopSearch, wxTextCtrl *SubSearch)
+void AGE_Frame::SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch)
 {
-	int selections = List->GetSelections(Items);
+	int selections = list->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
 	if(selections < 1) return;
 
-	wxArrayInt AllItems = Items;
-	wxString TopText, SubText, Line;
+	wxString topText, subText, line;
 	size_t found;
-	for(int loop = 0; loop < selections; ++loop)
+	for(int loop = 0, lastItem = -1; loop < selections; ++loop)
 	{
-		Line = List->GetString(AllItems.Item(loop));
-		found = Line.find(" ", 3);
+        lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		line = list->GetItemText(lastItem);
+		found = line.find(" ", 3);
 		if(loop == 0)
 		{
-			TopText = " "+Line.substr(2, found-1)+"-"; // Cutting the tech number. (for example)
-			SubText = " "+Line.substr(found+2, Line.find(" ", found+3)-found-1)+"-"; // Cutting the effect number.
+			topText = " "+line.substr(2, found-1)+"-"; // Cutting the tech number. (for example)
+			subText = " "+line.substr(found+2, line.find(" ", found+3)-found-1)+"-"; // Cutting the effect number.
 		}
 		else
 		{
-			TopText += "| "+Line.substr(2, found-1)+"-"; // Cutting the sound number.
-			SubText += "| "+Line.substr(found+2, Line.find(" ", found+3)-found-1)+"-"; // Cutting the filename.
+			topText += "| "+line.substr(2, found-1)+"-"; // Cutting the sound number.
+			subText += "| "+line.substr(found+2, line.find(" ", found+3)-found-1)+"-"; // Cutting the filename.
 		}
-		TopSearch->SetValue(TopText);
-		SubSearch->SetValue(SubText);
+		topSearch->SetValue(topText);
+		subSearch->SetValue(subText);
 	}
 }
 
