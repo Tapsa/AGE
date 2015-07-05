@@ -9,7 +9,7 @@ string AGE_Frame::GetTechName(short Index)
 
 void AGE_Frame::OnTechRenameGE2(wxCommandEvent &event)
 {
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	string Name;
@@ -22,7 +22,7 @@ void AGE_Frame::OnTechRenameGE2(wxCommandEvent &event)
 
 void AGE_Frame::OnTechRename(wxCommandEvent &event)
 {
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	for(short loop3 = 0; loop3 < GenieFile->Techages.size(); ++loop3)
@@ -79,7 +79,6 @@ void AGE_Frame::OnTechSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTechs(bool all)
 {
-	FirstVisible = How2List == SEARCH ? 0 : Techs_List->HitTest(wxPoint(0, 0));
 	InitTechs(all);
 	wxTimerEvent E;
 	OnTechTimer(E);
@@ -93,8 +92,8 @@ void AGE_Frame::InitTechs(bool all)
 	useAnd[loop] = Techs_UseAnd[loop]->GetValue();
 
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	Techs_ListV->names.clear();
+	Techs_ListV->indexes.clear();
 
 	wxArrayString names;
 	if(all) names.Alloc(GenieFile->Techages.size());
@@ -104,13 +103,13 @@ void AGE_Frame::InitTechs(bool all)
 		wxString Name = " "+FormatInt(loop)+" - "+GetTechName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->Techages[loop]);
+			Techs_ListV->names.Add(Name);
+			Techs_ListV->indexes.push_back(loop);
 		}
 		if(all) names.Add(Name);
 	}
 
-	Listing(Techs_List, filteredNames, dataPointers);
+	virtualListing(Techs_ListV);
 	if(all) FillLists(TechComboBoxList, names);
 
 	for(short loop = 0; loop < 2; ++loop)
@@ -126,17 +125,16 @@ void AGE_Frame::OnTechSelect(wxCommandEvent &event)
 void AGE_Frame::OnTechTimer(wxTimerEvent &event)
 {
     techTimer.Stop();
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, Techs_ListV, TechIDs);
 
-	//SwapSelection(event.GetSelection(), Items);
-	TechIDs.resize(selections);
 	Techs_Name->clear();
 
 	genie::Techage * TechPointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		TechPointer = (genie::Techage*)Techs_List->GetClientData(Items.Item(loop));
-		TechIDs[loop] = (TechPointer - (&GenieFile->Techages[0]));
+		TechPointer = &GenieFile->Techages[TechIDs[loop]];
 		Techs_Name->prepend(&TechPointer->Name);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected tech: "+lexical_cast<string>(TechIDs[0]), 0);
@@ -156,7 +154,7 @@ void AGE_Frame::OnTechAdd(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnTechInsert(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -166,7 +164,7 @@ void AGE_Frame::OnTechInsert(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnTechDelete(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -176,17 +174,17 @@ void AGE_Frame::OnTechDelete(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnTechCopy(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Techages, TechIDs, copies.Tech);
-	Techs_List->SetFocus();
+	Techs_ListV->SetFocus();
 }
 
 void AGE_Frame::OnTechPaste(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -206,7 +204,7 @@ void AGE_Frame::OnTechPaste(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnTechPasteInsert(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -320,14 +318,13 @@ void AGE_Frame::OnEffectsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListEffects()
 {
-	FirstVisible = How2List == SEARCH ? 0 : Techs_Effects_List->HitTest(wxPoint(0, 0));
 	searchText = Techs_Effects_Search->GetValue().Lower();
 	excludeText = Techs_Effects_Search_R->GetValue().Lower();
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	Techs_Effects_ListV->names.clear();
+	Techs_Effects_ListV->indexes.clear();
 
     if(GenieFile->Techages.size())
 	for(short loop = 0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); ++loop)
@@ -335,11 +332,11 @@ void AGE_Frame::ListEffects()
 		wxString Name = " "+FormatInt(loop)+" - "+GetEffectName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->Techages[TechIDs[0]].Effects[loop]);
+			Techs_Effects_ListV->names.Add(Name);
+			Techs_Effects_ListV->indexes.push_back(loop);
 		}
 	}
-	Listing(Techs_Effects_List, filteredNames, dataPointers);
+	virtualListing(Techs_Effects_ListV);
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -357,20 +354,19 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &event)
 void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 {
     effectTimer.Stop();
-	auto selections = Techs_Effects_List->GetSelections(Items);
+	auto selections = Techs_Effects_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
     for(auto &box: uiGroupTechEffect) box->clear();
     bool enableD = true;
 	if(selections > 0)
 	{
-		//SwapSelection(event.GetSelection(), Items);
+        getSelectedItems(selections, Techs_Effects_ListV, EffectIDs);
 		Effects_Type_Holder->Show(true);
-		EffectIDs.resize(selections);
 
 		genie::TechageEffect * EffectPointer;
 		for(auto loop = selections; loop--> 0;)
 		{
-			EffectPointer = (genie::TechageEffect*)Techs_Effects_List->GetClientData(Items.Item(loop));
-			EffectIDs[loop] = (EffectPointer - (&GenieFile->Techages[TechIDs[0]].Effects[0]));
+			EffectPointer = &GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[loop]];
 			Effects_Type->prepend(&EffectPointer->Type);
 			Effects_A->prepend(&EffectPointer->A);
 			Effects_B->prepend(&EffectPointer->B);
@@ -914,7 +910,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnEffectsAdd(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_List->GetSelections(Items);
+	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -924,7 +920,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnEffectsInsert(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_Effects_List->GetSelections(Items);
+	auto selections = Techs_Effects_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -934,7 +930,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnEffectsDelete(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_Effects_List->GetSelections(Items);
+	auto selections = Techs_Effects_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -944,17 +940,17 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnEffectsCopy(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_Effects_List->GetSelections(Items);
+	auto selections = Techs_Effects_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs, copies.Effect);
-	Techs_Effects_List->SetFocus();
+	Techs_Effects_ListV->SetFocus();
 }
 
 void AGE_Frame::OnEffectsPaste(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_Effects_List->GetSelections(Items);
+	auto selections = Techs_Effects_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -974,7 +970,7 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &event)	// Works.
 {
-	auto selections = Techs_Effects_List->GetSelections(Items);
+	auto selections = Techs_Effects_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -998,9 +994,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
-	auto selections = Techs_AllEffects_List->GetSelections(Items);
-	int FirstVisible = Techs_AllEffects_List->HitTest(wxPoint(0, 0));
-	wxArrayString filteredNames;
+	Techs_AllEffects_ListV->names.clear();
 
 	short Store = TechIDs[0];
 	for(short tech = 0; tech < GenieFile->Techages.size(); ++tech)
@@ -1011,21 +1005,14 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
 			Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect);
 			if(SearchMatches(Name.Lower()))
 			{
-				filteredNames.Add(Name);
+				Techs_AllEffects_ListV->names.Add(Name);
 			}
 		}
 	}
 	TechIDs[0] = Store;
 
-	Techs_AllEffects_List->Set(filteredNames);
-	if(selections == 0)
-		Techs_AllEffects_List->SetSelection(0);
-	else
-	{
-		Techs_AllEffects_List->SetSelection(Items.Item(0));
-		Techs_AllEffects_List->SetFirstItem(FirstVisible);
-	}
-	//Techs_AllEffects_List->SetFocus(); You need to check if searched or not.
+    virtualListing(Techs_AllEffects_ListV);
+	//Techs_AllEffects_ListV->SetFocus(); You need to check if searched or not.
 
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
@@ -1049,7 +1036,7 @@ void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent &event)
 void AGE_Frame::OnAllTechEffectTimer(wxTimerEvent &event)
 {
     allEffectsTimer.Stop();
-	SearchAllSubVectors(Techs_AllEffects_List, Techs_Search, Techs_Effects_Search);
+	SearchAllSubVectors(Techs_AllEffects_ListV, Techs_Search, Techs_Effects_Search);
 }
 
 void AGE_Frame::CreateTechControls()
@@ -1070,7 +1057,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Techs_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Techs_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
+	Techs_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
 	Techs_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Techs_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -1091,7 +1078,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Techs_Effects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Techs_Effects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
+	Techs_Effects_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
 	Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -1168,7 +1155,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_AllEffects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Techs_AllEffects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Techs_AllEffects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Techs_AllEffects_List = new wxListBox(Tab_Techs, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
+	Techs_AllEffects_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
 	Techs_AllEffects_Buttons = new wxBoxSizer(wxHORIZONTAL);
 	Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));
 	Techs_AllEffects_Clear = new wxButton(Tab_Techs, wxID_ANY, "Clear *", wxDefaultPosition, wxSize(5, 20));
@@ -1203,7 +1190,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_Techs->Add(Techs_Searches[0], 0, wxEXPAND);
 	Techs_Techs->Add(Techs_Searches[1], 0, wxEXPAND);
 	Techs_Techs->AddSpacer(2);
-	Techs_Techs->Add(Techs_List, 1, wxEXPAND);
+	Techs_Techs->Add(Techs_ListV, 1, wxEXPAND);
 	Techs_Techs->AddSpacer(2);
 	Techs_Techs->Add(Techs_Buttons, 0, wxEXPAND);
 
@@ -1232,7 +1219,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects->Add(Techs_Effects_Searches[0], 0, wxEXPAND);
 	Techs_Effects->Add(Techs_Effects_Searches[1], 0, wxEXPAND);
 	Techs_Effects->AddSpacer(2);
-	Techs_Effects->Add(Techs_Effects_List, 1, wxEXPAND);
+	Techs_Effects->Add(Techs_Effects_ListV, 1, wxEXPAND);
 	Techs_Effects->AddSpacer(2);
 	Techs_Effects->Add(Techs_Effects_Buttons, 0, wxEXPAND);
 	Techs_Effects->AddSpacer(2);
@@ -1322,7 +1309,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_AllEffects->Add(Techs_AllEffects_Searches[0], 0, wxEXPAND);
 	Techs_AllEffects->Add(Techs_AllEffects_Searches[1], 0, wxEXPAND);
 	Techs_AllEffects->AddSpacer(2);
-	Techs_AllEffects->Add(Techs_AllEffects_List, 1, wxEXPAND);
+	Techs_AllEffects->Add(Techs_AllEffects_ListV, 1, wxEXPAND);
 	Techs_AllEffects->AddSpacer(2);
 	Techs_AllEffects_Buttons->Add(Techs_AllEffects_Load, 2, wxEXPAND);
 	Techs_AllEffects_Buttons->AddSpacer(2);
@@ -1375,10 +1362,14 @@ void AGE_Frame::CreateTechControls()
 	}
 	Connect(Techs_Rename->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechRename));
 	Connect(Techs_Restore->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechRenameGE2));
-	Connect(Techs_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTechSelect));
+	Connect(Techs_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTechSelect));
+	Connect(Techs_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTechSelect));
+	Connect(Techs_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTechSelect));
 	Connect(Techs_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechSearch));
 	Connect(Techs_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTechSearch));
-	Connect(Techs_Effects_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnEffectsSelect));
+	Connect(Techs_Effects_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnEffectsSelect));
+	Connect(Techs_Effects_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnEffectsSelect));
+	Connect(Techs_Effects_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnEffectsSelect));
 	Connect(Techs_Effects_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
 	Connect(Techs_Effects_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
 	Connect(Techs_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechAdd));
@@ -1398,7 +1389,9 @@ void AGE_Frame::CreateTechControls()
 	Effects_F->Connect(Effects_F->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Techs), NULL, this);
 	Connect(Techs_AllEffects_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
 	Connect(Techs_AllEffects_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
-	Connect(Techs_AllEffects_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllTechEffectSelect));
+	Connect(Techs_AllEffects_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllTechEffectSelect));
+	Connect(Techs_AllEffects_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnAllTechEffectSelect));
+	Connect(Techs_AllEffects_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnAllTechEffectSelect));
 	Connect(Techs_AllEffects_Load->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllTechEffects));
 	Connect(Techs_AllEffects_Clear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::ClearAllTechEffects));
 

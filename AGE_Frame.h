@@ -107,12 +107,12 @@ public:
 	void SaveBackup();
 	bool SearchMatches(wxString itemText);
     void getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes);
-	void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
+	//void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
 	void virtualListing(AGEListView* list);
 	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
 	void UnitLangDLLConverter(wxCommandEvent &event);
 	void ResearchLangDLLConverter(wxCommandEvent &event);
-	void SearchAllSubVectors(wxListBox *List, wxTextCtrl *TopSearch, wxTextCtrl *SubSearch);
+	void SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
 	void LoadAllTechEffects(wxCommandEvent &event);
 	void ClearAllTechEffects(wxCommandEvent &event);
 	void OnAllTechEffectTimer(wxTimerEvent &event);
@@ -755,7 +755,7 @@ public:
 	wxFileConfig *Config, *Customs;
 	genie::DatFile *GenieFile;
 	genie::LangFile *Lang, *LangX, *LangXP;
-	int CustomTerrains, FirstVisible;
+	int CustomTerrains;
 //	wxSound SoundFile;
 
 	list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
@@ -768,8 +768,6 @@ public:
 	short IDtoRestore[100];
 	genie::Civ CivBackup[20];	// Only temporary solution!*/
 
-	wxArrayInt Items;
-	int lastTerrainRestriction;
 	vector<short> RandomMapIDs;
 	vector<short> UnknownFSIDs;
 	vector<short> UnknownSSIDs;
@@ -995,7 +993,6 @@ public:
 	wxGridSizer *Borders_Buttons;
 	wxTextCtrl *Borders_Search;
 	wxTextCtrl *Borders_Search_R;
-	wxListBox *Borders_List;
 	AGEListView *Borders_ListV;
 	wxButton *Borders_Copy;
 	wxButton *Borders_Paste;
@@ -1008,7 +1005,6 @@ public:
 	wxGridSizer *Borders_Frames_Buttons;
 	wxTextCtrl *Borders_Frames_Search;
 	wxTextCtrl *Borders_Frames_Search_R;
-	wxListBox *Borders_Frames_List;
 	AGEListView *Borders_Frames_ListV;
 	wxButton *Frames_Copy;
 	wxButton *Frames_Paste;
@@ -1165,7 +1161,6 @@ public:
 	wxBoxSizer *Unknowns_ListArea;
 	wxTextCtrl *Unknowns_Search;
 	wxTextCtrl *Unknowns_Search_R;
-	wxListBox *Unknowns_List;
 	AGEListView *Unknowns_ListV;
 	wxGridSizer *Unknowns_Buttons;
 	wxButton *Unknowns_Add;
@@ -1205,7 +1200,6 @@ public:
 	wxBoxSizer *RMSBaseZones_DataArea;
 	wxTextCtrl *RMSBaseZones_Search;
 	wxTextCtrl *RMSBaseZones_Search_R;
-	wxListBox *RMSBaseZones_List;
 	AGEListView *RMSBaseZones_ListV;
 	wxGridSizer *RMSBaseZones_Buttons;
 	wxButton *RMSBaseZones_Add;
@@ -1263,7 +1257,6 @@ public:
 	wxBoxSizer *RMSTerrain_DataArea;
 	wxTextCtrl *RMSTerrain_Search;
 	wxTextCtrl *RMSTerrain_Search_R;
-	wxListBox *RMSTerrain_List;
 	AGEListView *RMSTerrain_ListV;
 	wxGridSizer *RMSTerrain_Buttons;
 	wxButton *RMSTerrain_Add;
@@ -1284,7 +1277,6 @@ public:
 	wxBoxSizer *RMSUnit_DataArea;
 	wxTextCtrl *RMSUnit_Search;
 	wxTextCtrl *RMSUnit_Search_R;
-	wxListBox *RMSUnit_List;
 	AGEListView *RMSUnit_ListV;
 	wxGridSizer *RMSUnit_Buttons;
 	wxButton *RMSUnit_Add;
@@ -1336,7 +1328,6 @@ public:
 	wxBoxSizer *RMSUnknown_DataArea;
 	wxTextCtrl *RMSUnknown_Search;
 	wxTextCtrl *RMSUnknown_Search_R;
-	wxListBox *RMSUnknown_List;
 	AGEListView *RMSUnknown_ListV;
 	wxGridSizer *RMSUnknown_Buttons;
 	wxButton *RMSUnknown_Add;
@@ -1373,7 +1364,6 @@ public:
 	wxTextCtrl *Research_Research_Search_R;
 	wxOwnerDrawnComboBox *Research_SearchFilters[2];
 	wxCheckBox *Research_Research_UseAnd[2];
-	wxListBox *Research_Research_List;
 	AGEListView *Research_Research_ListV;
 	wxButton *Research_Add;
 	wxButton *Research_Insert;
@@ -1507,7 +1497,6 @@ public:
 	wxTextCtrl *Techs_Search;
 	wxTextCtrl *Techs_Search_R;
 	wxCheckBox *Techs_UseAnd[2];
-	wxListBox *Techs_List;
 	AGEListView *Techs_ListV;
 	wxButton *Techs_Rename;
 	wxButton *Techs_Restore;
@@ -1523,7 +1512,6 @@ public:
 	wxTextCtrl *Techs_AllEffects_Search;
 	wxTextCtrl *Techs_AllEffects_Search_R;
 	wxCheckBox *Techs_AllEffects_UseAnd[2];
-	wxListBox *Techs_AllEffects_List;
 	AGEListView *Techs_AllEffects_ListV;
 	wxBoxSizer *Techs_AllEffects_Buttons;
 	wxButton *Techs_AllEffects_Load;
@@ -1538,7 +1526,6 @@ public:
 	wxTextCtrl *Techs_Effects_Search;
 	wxTextCtrl *Techs_Effects_Search_R;
 	wxCheckBox *Techs_Effects_UseAnd[2];
-	wxListBox *Techs_Effects_List;
 	AGEListView *Techs_Effects_ListV;
 	wxButton *Techs_Effects_Add;
 	wxButton *Techs_Effects_Insert;
@@ -1591,7 +1578,6 @@ public:
 	wxStaticBoxSizer *Civs_Civs;
 	wxTextCtrl *Civs_Civs_Search;
 	wxTextCtrl *Civs_Civs_Search_R;
-	wxListBox *Civs_Civs_List;
 	AGEListView *Civs_Civs_ListV;
 	wxButton *Civs_Add;
 	wxButton *Civs_Insert;
@@ -1629,7 +1615,6 @@ public:
 	wxStaticBoxSizer *Civs_Resources;
 	wxTextCtrl *Civs_Resources_Search;
 	wxTextCtrl *Civs_Resources_Search_R;
-	wxListBox *Civs_Resources_List;
 	AGEListView *Civs_Resources_ListV;
 	wxGridSizer *Civs_Resources_Buttons;
 	wxButton *Resources_Add;
@@ -2725,7 +2710,6 @@ public:
 	wxTextCtrl *Terrains_Terrains_Search_R;
 	wxOwnerDrawnComboBox *Terrains_SearchFilters[2];
 	wxCheckBox *Terrains_Terrains_UseAnd[2];
-	wxListBox *Terrains_Terrains_List;
 	AGEListView *Terrains_Terrains_ListV;
 	wxBoxSizer *Terrains_UsedCountHolder;
 	wxStaticText *Terrains_UsedCountText;
@@ -2747,7 +2731,6 @@ public:
 	wxStaticBoxSizer *Terrains_Borders;
 	wxTextCtrl *Terrains_Borders_Search;
 	wxTextCtrl *Terrains_Borders_Search_R;
-	wxListBox *Terrains_Borders_List;
 	AGEListView *Terrains_Borders_ListV;
 	wxGridSizer *Terrains_Borders_Buttons;
 	wxButton *Terrains_Borders_Copy;
@@ -2880,7 +2863,6 @@ public:
 	wxStaticBoxSizer *TerRestrict_TerRestrict;
 	wxTextCtrl *TerRestrict_TerRestrict_Search;
 	wxTextCtrl *TerRestrict_TerRestrict_Search_R;
-	wxListBox *TerRestrict_TerRestrict_List;
 	AGEListView *TerRestrict_TerRestrict_ListV;
 	wxButton *TerRestrict_Add;
 	wxButton *TerRestrict_Insert;
@@ -2895,7 +2877,6 @@ public:
 	wxTextCtrl *TerRestrict_Terrains_Search;
 	wxTextCtrl *TerRestrict_Terrains_Search_R;
 //	wxCheckBox *TerRestrict_Terrains_UseAnd;
-	wxListBox *TerRestrict_Terrains_List;
 	AGEListView *TerRestrict_Terrains_ListV;
 	wxGridSizer *TerRestrict_Terrains_Buttons;
 	wxButton *TerRestrict_Terrains_Copy;
@@ -2932,7 +2913,6 @@ public:
 	wxStaticBoxSizer *Sounds_Sounds;
 	wxTextCtrl *Sounds_Sounds_Search;
 	wxTextCtrl *Sounds_Sounds_Search_R;
-	wxListBox *Sounds_Sounds_List;
 	AGEListView *Sounds_Sounds_ListV;
 	wxButton *Sounds_Add;
 	wxButton *Sounds_Insert;
@@ -2947,7 +2927,6 @@ public:
 	wxTextCtrl *Sounds_Items_Search_R;
 	wxOwnerDrawnComboBox *Sounds_Items_SearchFilters[2];
 	wxCheckBox *Sounds_Items_UseAnd[2];
-	wxListBox *Sounds_Items_List;
 	AGEListView *Sounds_Items_ListV;
 	wxButton *SoundItems_Add;
 	wxButton *SoundItems_Insert;
@@ -2989,7 +2968,6 @@ public:
 	wxTextCtrl *Sounds_AllItems_Search;
 	wxTextCtrl *Sounds_AllItems_Search_R;
 	wxCheckBox *Sounds_AllItems_UseAnd[2];
-	wxListBox *Sounds_AllItems_List;
 	AGEListView *Sounds_AllItems_ListV;
 	wxBoxSizer *Sounds_AllItems_Buttons;
 	wxButton *Sounds_AllItems_Load;
@@ -3003,7 +2981,6 @@ public:
 	wxStaticBoxSizer *Colors_Colors;
 	wxTextCtrl *Colors_Colors_Search;
 	wxTextCtrl *Colors_Colors_Search_R;
-	wxListBox *Colors_Colors_List;
 	AGEListView *Colors_Colors_ListV;
 	wxButton *Colors_Add;
 	wxButton *Colors_Insert;
@@ -3058,7 +3035,6 @@ public:
 	wxStaticBoxSizer *UnitLines_UnitLines;
 	wxTextCtrl *UnitLines_UnitLines_Search;
 	wxTextCtrl *UnitLines_UnitLines_Search_R;
-	wxListBox *UnitLines_UnitLines_List;
 	AGEListView *UnitLines_UnitLines_ListV;
 	wxButton *UnitLines_Add;
 	wxButton *UnitLines_Insert;
@@ -3077,7 +3053,6 @@ public:
 	wxStaticBoxSizer *UnitLines_UnitLineUnits;
 	wxTextCtrl *UnitLines_UnitLineUnits_Search;
 	wxTextCtrl *UnitLines_UnitLineUnits_Search_R;
-	wxListBox *UnitLines_UnitLineUnits_List;
 	AGEListView *UnitLines_UnitLineUnits_ListV;
 	wxButton *UnitLineUnits_Add;
 	wxButton *UnitLineUnits_Insert;
@@ -3133,10 +3108,6 @@ public:
 	wxCheckBox *TechTrees_MainList_Buildings_UseAnd[2];
 	wxCheckBox *TechTrees_MainList_Units_UseAnd[2];
 	wxCheckBox *TechTrees_MainList_Researches_UseAnd[2];
-	wxListBox *TechTrees_MainList_Ages_List;
-	wxListBox *TechTrees_MainList_Buildings_List;
-	wxListBox *TechTrees_MainList_Units_List;
-	wxListBox *TechTrees_MainList_Researches_List;
 	AGEListView *TechTrees_MainList_Ages_ListV;
 	AGEListView *TechTrees_MainList_Buildings_ListV;
 	AGEListView *TechTrees_MainList_Units_ListV;

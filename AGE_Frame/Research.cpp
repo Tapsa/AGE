@@ -125,7 +125,6 @@ void AGE_Frame::OnResearchSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListResearches(bool all)
 {
-	FirstVisible = How2List == SEARCH ? 0 : Research_Research_List->HitTest(wxPoint(0, 0));
 	InitResearches(all);
 	wxTimerEvent E;
 	OnResearchTimer(E);
@@ -138,8 +137,8 @@ void AGE_Frame::InitResearches(bool all)
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 
-	list<void*> dataPointers;
-	wxArrayString filteredNames;
+	Research_Research_ListV->names.clear();
+	Research_Research_ListV->indexes.clear();
 	if(all)
 	{
 		AGE_AreaTT84::researches.Clear();
@@ -151,13 +150,13 @@ void AGE_Frame::InitResearches(bool all)
 		wxString Name = " "+FormatInt(loop)+" - "+GetResearchName(loop, true);
 		if(SearchMatches(Name.Lower()))
 		{
-			filteredNames.Add(Name);
-			dataPointers.push_back((void*)&GenieFile->Researchs[loop]);
+			Research_Research_ListV->names.Add(Name);
+			Research_Research_ListV->indexes.push_back(loop);
 		}
 		if(all) AGE_AreaTT84::researches.Add(" "+FormatInt(loop)+" - "+GetResearchName(loop));
 	}
 
-	Listing(Research_Research_List, filteredNames, dataPointers);
+	virtualListing(Research_Research_ListV);
 	if(all)
 	{
 		FillLists(ResearchComboBoxList, AGE_AreaTT84::researches);
@@ -184,19 +183,16 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
 {
     researchTimer.Stop();
 	// If trying to select an existing item, don't deselect?
-	auto selections = Research_Research_List->GetSelections(Items);
+	auto selections = Research_Research_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, Research_Research_ListV, ResearchIDs);
 
-	wxBusyCursor WaitCursor;
-	//SwapSelection(event.GetSelection(), Items);
-
-	ResearchIDs.resize(selections);
     for(auto &box: uiGroupResearch) box->clear();
 
 	genie::Research * ResearchPointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		ResearchPointer = (genie::Research*)Research_Research_List->GetClientData(Items.Item(loop));
-		ResearchIDs[loop] = (ResearchPointer - (&GenieFile->Researchs[0]));
+		ResearchPointer = &GenieFile->Researchs[ResearchIDs[loop]];
 
 		for(short loop2 = 0; loop2 < ResearchPointer->getRequiredTechsSize(); ++loop2)
 		{
@@ -278,7 +274,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchInsert(wxCommandEvent &event)
 {
-	auto selections = Research_Research_List->GetSelections(Items);
+	auto selections = Research_Research_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -288,7 +284,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchDelete(wxCommandEvent &event)
 {
-	auto selections = Research_Research_List->GetSelections(Items);
+	auto selections = Research_Research_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -298,17 +294,17 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchCopy(wxCommandEvent &event)
 {
-	auto selections = Research_Research_List->GetSelections(Items);
+	auto selections = Research_Research_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(GenieFile->Researchs, ResearchIDs, copies.Research);
-	Research_Research_List->SetFocus();
+	Research_Research_ListV->SetFocus();
 }
 
 void AGE_Frame::OnResearchPaste(wxCommandEvent &event)
 {
-	auto selections = Research_Research_List->GetSelections(Items);
+	auto selections = Research_Research_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -328,7 +324,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Research_Research_List->GetSelections(Items);
+	auto selections = Research_Research_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -394,7 +390,7 @@ void AGE_Frame::CreateResearchControls()
 		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
-	Research_Research_List = new wxListBox(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(200, 100), 0, NULL, wxLB_EXTENDED);
+	Research_Research_ListV = new AGEListView(Tab_Research, wxSize(200, 100));
 	Research_Research_Buttons = new wxGridSizer(3, 0, 0);
 	Research_Add = new wxButton(Tab_Research, wxID_ANY, langGlobalAdd, wxDefaultPosition, wxSize(5, 20));
 	Research_Insert = new wxButton(Tab_Research, wxID_ANY, langGlobalInsNew, wxDefaultPosition, wxSize(5, 20));
@@ -543,7 +539,7 @@ void AGE_Frame::CreateResearchControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Research_Research->Add(Research_SearchFilters[loop], 0, wxEXPAND);
 	Research_Research->AddSpacer(2);
-	Research_Research->Add(Research_Research_List, 1, wxEXPAND);
+	Research_Research->Add(Research_Research_ListV, 1, wxEXPAND);
 	Research_Research->AddSpacer(2);
 	Research_Research->Add(Research_Research_Buttons, 0, wxEXPAND);
 
@@ -707,7 +703,9 @@ void AGE_Frame::CreateResearchControls()
 		Connect(Research_Research_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchSearch));
 		Connect(Research_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 	}
-	Connect(Research_Research_List->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
+	Connect(Research_Research_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
+	Connect(Research_Research_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
+	Connect(Research_Research_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnResearchSelect));
 	Connect(Research_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchAdd));
 	Connect(Research_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchInsert));
 	Connect(Research_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnResearchDelete));
