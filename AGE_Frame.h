@@ -109,7 +109,7 @@ public:
     void getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes);
 	//void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
 	void virtualListing(AGEListView* list);
-	void FillLists(list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
+	void FillLists(forward_list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
 	void UnitLangDLLConverter(wxCommandEvent &event);
 	void ResearchLangDLLConverter(wxCommandEvent &event);
 	void SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
@@ -758,7 +758,7 @@ public:
 	int CustomTerrains;
 //	wxSound SoundFile;
 
-	list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
+	forward_list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
 	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
 	TerrainRestrictionComboBoxList, SoundComboBoxList;
 
@@ -2513,6 +2513,7 @@ public:
 	AGETextCtrl *UnitCommands_UnitID;
 	ComboBox_Plus1 *UnitCommands_UnitID_ComboBox;
 	AGETextCtrl *UnitCommands_TerrainID;
+	ComboBox_Plus1 *UnitCommands_TerrainID_ComboBox;
 	AGETextCtrl *UnitCommands_ResourceIn;
 	ComboBox_Plus1 *UnitCommands_ResourceIn_ComboBox;
 	AGETextCtrl *UnitCommands_ProductivityResource;
