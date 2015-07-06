@@ -100,7 +100,7 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 				}
 			}
 			Name += ", ";
-			if(Selection[loop+1] < 2) break;
+			if(Selection[1] < 2) break;
 		}
 		if(Selection[0] == 1) goto InternalName;
 	}
@@ -189,7 +189,7 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupResearch) box->clear();
 
-	genie::Research * ResearchPointer;
+	genie::Research * ResearchPointer = NULL;
 	for(auto loop = selections; loop--> 0;)
 	{
 		ResearchPointer = &GenieFile->Researchs[ResearchIDs[loop]];
@@ -237,7 +237,7 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected research: "+lexical_cast<string>(ResearchIDs[0]), 0);
 
 	for(auto &box: uiGroupResearch) box->update();
-	if(GenieVersion >= genie::GV_MATT)
+	if(NULL != ResearchPointer && GenieVersion >= genie::GV_MATT)
 	{
 		Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
 		Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
