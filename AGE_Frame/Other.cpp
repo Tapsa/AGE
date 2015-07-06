@@ -1747,7 +1747,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			help.Append("Note that overflows are not checked!\n\n");
 			help.Append("Cross Copy Between Files\n\n");
 			help.Append("Let's suppose that you want to copy all ships to another dat file.\n");
-			help.Append("On the open dialog, you must put \"2\" into \"Windows to open\"!\n");
+			help.Append("From the toolbar, click +++ to open another window.\n");
 			help.Append("Now that you have a second window titled \"AGE window 2\" open with a dat file, ");
 			help.Append("let's begin the copying.\n");
 			help.Append("(You can copy to another game version if you dare.)\n");
