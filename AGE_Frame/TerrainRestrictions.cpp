@@ -156,7 +156,7 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainRestrictionsTimer(wxTimerEvent &event)
 {
     restrictionTimer.Stop();
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TerRestrict_TerRestrict_ListV, TerRestrictIDs);
 
@@ -173,7 +173,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event)
 {
     restrictionTerrainTimer.Stop();
-	auto selections = TerRestrict_Terrains_ListV->GetSelectedCount();
+	auto selections = TerRestrict_Terrains_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TerRestrict_Terrains_ListV, TerRestrictTerIDs);
 
@@ -213,7 +213,7 @@ void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -227,7 +227,7 @@ void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -244,7 +244,7 @@ void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -254,7 +254,7 @@ void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -283,7 +283,7 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -297,8 +297,8 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
-	auto Selections2 = TerRestrict_Terrains_ListV->GetSelectedCount();
+	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
+	auto Selections2 = TerRestrict_Terrains_ListV->GetSelectedItemCount();
 	if(selections < 1 || Selections2 < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -310,8 +310,8 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
-	auto Selections2 = TerRestrict_Terrains_ListV->GetSelectedCount();
+	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
+	auto Selections2 = TerRestrict_Terrains_ListV->GetSelectedItemCount();
 	if(selections < 1 || Selections2 < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -471,14 +471,14 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 
 	Connect(TerRestrict_TerRestrict_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSearch));
 	Connect(TerRestrict_TerRestrict_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSearch));
-	Connect(TerRestrict_TerRestrict_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSelect));
-	Connect(TerRestrict_TerRestrict_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSelect));
-	Connect(TerRestrict_TerRestrict_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSelect));
+	Connect(TerRestrict_TerRestrict_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSelect));
+	Connect(TerRestrict_TerRestrict_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSelect));
+	Connect(TerRestrict_TerRestrict_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsSelect));
 	Connect(TerRestrict_Terrains_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
 	Connect(TerRestrict_Terrains_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
-	Connect(TerRestrict_Terrains_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainSelect));
-	Connect(TerRestrict_Terrains_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainSelect));
-	Connect(TerRestrict_Terrains_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainSelect));
+	Connect(TerRestrict_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainSelect));
+	Connect(TerRestrict_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainSelect));
+	Connect(TerRestrict_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainSelect));
 	Connect(TerRestrict_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsAdd));
 	Connect(TerRestrict_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsInsert));
 	Connect(TerRestrict_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainRestrictionsDelete));

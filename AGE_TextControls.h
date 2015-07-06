@@ -6,22 +6,21 @@
 #ifndef AGE_TextControls_h
 #define AGE_TextControls_h
 
-class AGEListView: public wxVListBox
+class AGEListView: public wxListCtrl
 {
 public:
     AGEListView(wxWindow *parent, const wxSize &size):
-    wxVListBox(parent, wxID_ANY, wxDefaultPosition, size, wxLB_MULTIPLE)
+    wxListCtrl(parent, wxID_ANY, wxDefaultPosition, size, wxLC_VIRTUAL | wxLC_REPORT | wxLC_NO_HEADER)
     {
         SetItemCount(0);
+        InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, 200);
     }
 
     wxArrayString names;
     vector<int> indexes;
 
 private:
-    //virtual wxString OnGetItemText(long item, long column) const;
-    virtual wxCoord OnMeasureItem(size_t n) const;
-    virtual void OnDrawItem(wxDC& dc, const wxRect& rect, size_t n) const;
+    virtual wxString OnGetItemText(long item, long column) const;
 };
 
 class AGELinkedBox
@@ -49,13 +48,13 @@ public:
             if(!LinkedBoxes.empty())
             for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
             {
-                //(*it)->update(-1);
+                (*it)->update(-1);
                 (*it)->enable(false);
             }
             return;
         }
         curFileLoaded = AGETextCtrl::fileLoaded[window];
-        //Update();
+        Update();
         Enable(true);
     }
     virtual void Update()=0;
