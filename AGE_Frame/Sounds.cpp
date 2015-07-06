@@ -71,6 +71,7 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs[0]), 0);
 
 	for(auto &box: uiGroupSound) box->update();
+	Sounds_ID->Enable(false);
 	ListSoundItems();
 }
 
@@ -449,7 +450,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Civ_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Civ = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 	SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
-	CivComboBoxList.push_back(SoundItems_Civ_ComboBox);
+	CivComboBoxList.push_front(SoundItems_Civ_ComboBox);
 	SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);

@@ -665,7 +665,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_SoundID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SoundID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
 	Graphics_SoundID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID);
-	SoundComboBoxList.push_back(Graphics_SoundID_ComboBox);
+	SoundComboBoxList.push_front(Graphics_SoundID_ComboBox);
 	Graphics_PlayerColor_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_PlayerColor_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Forced Player Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_PlayerColor = AGETextCtrl::init(CByte, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
@@ -712,7 +712,7 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_GraphicID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Graphic", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_GraphicID = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, AGEwindow, Graphics_Scroller);
 	GraphicDeltas_GraphicID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, GraphicDeltas_GraphicID);
-	GraphicComboBoxList.push_back(GraphicDeltas_GraphicID_ComboBox);
+	GraphicComboBoxList.push_front(GraphicDeltas_GraphicID_ComboBox);
 	GraphicDeltas_DirectionX_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_DirectionX_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction X", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_DirectionX = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, AGEwindow, Graphics_Scroller);
@@ -758,7 +758,7 @@ void AGE_Frame::CreateGraphicsControls()
 	{
 		Graphics_AttackSoundID[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, AGEwindow, Graphics_Scroller);
 		Graphics_AttackSoundID_ComboBox[loop] = new ComboBox_Plus1(Graphics_Scroller, Graphics_AttackSoundID[loop]);
-		SoundComboBoxList.push_back(Graphics_AttackSoundID_ComboBox[loop]);
+		SoundComboBoxList.push_front(Graphics_AttackSoundID_ComboBox[loop]);
 		Graphics_AttackSoundDelay[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, AGEwindow, Graphics_Scroller);
 	}
 

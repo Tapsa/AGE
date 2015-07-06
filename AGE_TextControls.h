@@ -13,7 +13,7 @@ public:
     wxListCtrl(parent, wxID_ANY, wxDefaultPosition, size, wxLC_VIRTUAL | wxLC_REPORT | wxLC_NO_HEADER)
     {
         SetItemCount(0);
-        InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, 200);
+        InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, wxLIST_AUTOSIZE_USEHEADER);
     }
 
     wxArrayString names;
