@@ -105,7 +105,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type20[69]) == 0) Name += "I3 "+FormatInt(UnitPointer->ID3);
 				else if(label.compare(Type20[70]) == 0) Name += "S "+FormatFloat(UnitPointer->Speed);
 				Name += ", ";
-				if(Selection[loop+1] == 0) break;
+				if(Selection[1] == 0) break;
 			}
 			break;
 			case 1: // Type30
@@ -128,7 +128,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 					Name += " e"+FormatFloat(UnitPointer->DeadFish.RotationAngles[4]);
 				}
 				Name += ", ";
-				if(Selection[loop+1] == 0) break;
+				if(Selection[1] == 0) break;
 			}
 			break;
 			case 2: // Type40
@@ -146,7 +146,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type40[8]) == 0) Name += "CC "+FormatInt(UnitPointer->Bird.Commands.size());
 				else if(label.compare(Type40[9]) == 0) Name += "Ask Tapsa";
 				Name += ", ";
-				if(Selection[loop+1] == 0) break;
+				if(Selection[1] == 0) break;
 			}
 			break;
 			case 3: // Type50
@@ -183,7 +183,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type50[20]) == 0) Name += "DR "+FormatFloat(UnitPointer->Type50.DisplayedRange);
 				else if(label.compare(Type50[21]) == 0) Name += "DT "+FormatFloat(UnitPointer->Type50.DisplayedReloadTime);
 				Name += ", ";
-				if(Selection[loop+1] == 0) break;
+				if(Selection[1] == 0) break;
 			}
 			break;
 			case 4: // Type60
@@ -197,7 +197,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type60[4]) == 0) Name += "U24 "+FormatInt(UnitPointer->Projectile.Unknown24);
 				else if(label.compare(Type60[5]) == 0) Name += "PA "+FormatFloat(UnitPointer->Projectile.ProjectileArc);
 				Name += ", ";
-				if(Selection[loop+1] == 0) break;
+				if(Selection[1] == 0) break;
 			}
 			break;
 			case 5: // Type70
@@ -226,7 +226,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type70[14]) == 0) Name += "CM "+FormatInt(UnitPointer->Creatable.ChargingMode);
 				else if(label.compare(Type70[15]) == 0) Name += "DP "+FormatInt(UnitPointer->Creatable.DisplayedPierceArmour);
 				Name += ", ";
-				if(Selection[loop+1] == 0) break;
+				if(Selection[1] == 0) break;
 			}
 			break;
 			case 6: // Type80
@@ -254,7 +254,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 				else if(label.compare(Type80[18]) == 0) Name += "PU "+FormatInt(UnitPointer->Building.PileUnit);
 				else if(label.compare(Type80[19]) == 0) Name += "Ask Tapsa";
 				Name += ", ";
-				if(Selection[loop+1] == 0) break;
+				if(Selection[1] == 0) break;
 			}
 			break;
 		}
@@ -384,7 +384,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
     for(auto &box: uiGroupUnit) box->clear();
 
 	short unitType = -1;
-	genie::Unit * UnitPointer;
+	genie::Unit * UnitPointer = NULL;
 	for(auto sel = selections; sel--> 0;)
 	{
         unitType = -1;
@@ -679,7 +679,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
     Units_DLL_LanguageName->index = Units_DLL_LanguageHelp->index = 5000;
     Units_DLL_LanguageCreation->index = Units_DLL_LanguageHKText->index = 6000;
     Units_DLL_HotKey4->index = 16000;
-    if(showUnitData)
+    if(NULL != UnitPointer)
     {
         if(80 == unitType)
         {
@@ -2428,7 +2428,7 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 
 		bool showWarning = false;
 		wxString warning = "Command count of civs\n";
-		genie::UnitCommand * CommandPointer;
+		genie::UnitCommand * CommandPointer = NULL;
 		for(auto sel = selections; sel--> 0;)
 		{
 			for(short vecCiv = (GenieVersion < genie::GV_AoK) ? SelectedCivs.size() : 1; vecCiv--> 0;)
@@ -2479,6 +2479,7 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 				wxMessageBox(warning);
 			}
 		}
+        if(NULL != CommandPointer)
 		switch(CommandPointer->Type)
 		{
 			case 1: UnitCommands_Type_ComboBox->SetSelection(1); break;

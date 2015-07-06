@@ -817,7 +817,7 @@ string AGE_Frame::GetTTBuildingName(short Index)
 				break;
 		}
 		Name += ", ";
-		if(Selection[loop+1] < 1) break;
+		if(Selection[1] < 1) break;
 	}
 
 	Name += lexical_cast<string>(GenieFile->TechTree.BuildingConnections[Index].ID)+" ";
@@ -1496,7 +1496,7 @@ string AGE_Frame::GetTTUnitName(short Index)
 				break;
 		}
 		Name += ", ";
-		if(Selection[loop+1] < 1) break;
+		if(Selection[1] < 1) break;
 	}
 
 	Name += lexical_cast<string>(GenieFile->TechTree.UnitConnections[Index].ID)+" ";
@@ -1938,7 +1938,7 @@ string AGE_Frame::GetTTResearchName(short Index)
 				break;
 		}
 		Name += ", ";
-		if(Selection[loop+1] < 1) break;
+		if(Selection[1] < 1) break;
 	}
 
 	Name += lexical_cast<string>(GenieFile->TechTree.ResearchConnections[Index].ID)+" ";

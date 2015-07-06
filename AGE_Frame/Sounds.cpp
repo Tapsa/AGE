@@ -173,7 +173,7 @@ string AGE_Frame::GetSoundItemName(short Index)
 			}
 		}
 		Name += ", ";
-		if(Selection[loop+1] < 1) break;
+		if(Selection[1] < 1) break;
 	}
 
 	if(!GenieFile->Sounds[SoundIDs[0]].Items[Index].FileName.empty())
