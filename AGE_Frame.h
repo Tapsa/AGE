@@ -2460,7 +2460,7 @@ public:
 	wxBoxSizer *UnitCommands_ProductivityResource_Holder;
 	wxBoxSizer *UnitCommands_ClassID_Holder;
 	wxBoxSizer *UnitCommands_UnitID_Holder;
-	wxBoxSizer *UnitCommands_TerrainID_Holder;
+	wxBoxSizer *UnitCommands_Unknown2_Holder;
 	wxBoxSizer *UnitCommands_ResourceIn_Holder;
 	wxBoxSizer *UnitCommands_ResourceOut_Holder;
 	wxBoxSizer *UnitCommands_Resource_Holder;
@@ -2485,7 +2485,7 @@ public:
 	wxStaticText *UnitCommands_Type_Text;
 	wxStaticText *UnitCommands_ClassID_Text;
 	wxStaticText *UnitCommands_UnitID_Text;
-	wxStaticText *UnitCommands_TerrainID_Text;
+	wxStaticText *UnitCommands_Unknown2_Text;
 	wxStaticText *UnitCommands_ResourceIn_Text;
 	wxStaticText *UnitCommands_ProductivityResource_Text;
 	wxStaticText *UnitCommands_ResourceOut_Text;
@@ -2512,7 +2512,7 @@ public:
 	AGETextCtrl *UnitCommands_ClassID;
 	AGETextCtrl *UnitCommands_UnitID;
 	ComboBox_Plus1 *UnitCommands_UnitID_ComboBox;
-	AGETextCtrl *UnitCommands_TerrainID;
+	AGETextCtrl *UnitCommands_Unknown2;
 	AGETextCtrl *UnitCommands_ResourceIn;
 	ComboBox_Plus1 *UnitCommands_ResourceIn_ComboBox;
 	AGETextCtrl *UnitCommands_ProductivityResource;

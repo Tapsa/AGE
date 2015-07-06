@@ -52,7 +52,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &event)
 void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 {
     soundTimer.Stop();
-	auto selections = Sounds_Sounds_ListV->GetSelectedCount();
+	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Sounds_Sounds_ListV, SoundIDs);
 
@@ -85,7 +85,7 @@ void AGE_Frame::OnSoundsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsInsert(wxCommandEvent &event)
 {
-	auto selections = Sounds_Sounds_ListV->GetSelectedCount();
+	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -95,7 +95,7 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsDelete(wxCommandEvent &event)
 {
-	auto selections = Sounds_Sounds_ListV->GetSelectedCount();
+	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -105,7 +105,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsCopy(wxCommandEvent &event)
 {
-	auto selections = Sounds_Sounds_ListV->GetSelectedCount();
+	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -115,7 +115,7 @@ void AGE_Frame::OnSoundsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsPaste(wxCommandEvent &event)
 {
-	auto selections = Sounds_Sounds_ListV->GetSelectedCount();
+	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -135,7 +135,7 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Sounds_Sounds_ListV->GetSelectedCount();
+	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -229,7 +229,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &event)
 void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
 {
     soundFileTimer.Stop();
-	auto selections = Sounds_Items_ListV->GetSelectedCount();
+	auto selections = Sounds_Items_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
 	for(auto &box: uiGroupSoundFile) box->clear();
 	if(selections > 0)
@@ -256,7 +256,7 @@ void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &event)
 {
-	auto selections = Sounds_Sounds_ListV->GetSelectedCount();
+	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -266,7 +266,7 @@ void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &event)
 {
-	auto selections = Sounds_Items_ListV->GetSelectedCount();
+	auto selections = Sounds_Items_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -276,7 +276,7 @@ void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &event)
 {
-	auto selections = Sounds_Items_ListV->GetSelectedCount();
+	auto selections = Sounds_Items_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -286,7 +286,7 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &event)
 {
-	auto selections = Sounds_Items_ListV->GetSelectedCount();
+	auto selections = Sounds_Items_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -296,7 +296,7 @@ void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &event)
 {
-	auto selections = Sounds_Items_ListV->GetSelectedCount();
+	auto selections = Sounds_Items_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -316,7 +316,7 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Sounds_Items_ListV->GetSelectedCount();
+	auto selections = Sounds_Items_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -588,9 +588,9 @@ void AGE_Frame::CreateSoundControls()
 		Connect(Sounds_Items_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 		Connect(Sounds_AllItems_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
 	}
-	Connect(Sounds_Sounds_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundsSelect));
-	Connect(Sounds_Sounds_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundsSelect));
-	Connect(Sounds_Sounds_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundsSelect));
+	Connect(Sounds_Sounds_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundsSelect));
+	Connect(Sounds_Sounds_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnSoundsSelect));
+	Connect(Sounds_Sounds_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnSoundsSelect));
 	Connect(Sounds_Sounds_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundsSearch));
 	Connect(Sounds_Sounds_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundsSearch));
 	Connect(Sounds_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundsAdd));
@@ -599,9 +599,9 @@ void AGE_Frame::CreateSoundControls()
 	Connect(Sounds_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundsCopy));
 	Connect(Sounds_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundsPaste));
 	Connect(Sounds_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundsPasteInsert));
-	Connect(Sounds_Items_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSelect));
-	Connect(Sounds_Items_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSelect));
-	Connect(Sounds_Items_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSelect));
+	Connect(Sounds_Items_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSelect));
+	Connect(Sounds_Items_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSelect));
+	Connect(Sounds_Items_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSelect));
 	Connect(Sounds_Items_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSearch));
 	Connect(Sounds_Items_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSearch));
 	Connect(SoundItems_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsAdd));
@@ -613,9 +613,9 @@ void AGE_Frame::CreateSoundControls()
 	Connect(SoundItems_CopyToSounds->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsCopyToSounds));
 	Connect(Sounds_AllItems_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
 	Connect(Sounds_AllItems_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
-	Connect(Sounds_AllItems_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));
-	Connect(Sounds_AllItems_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));
-	Connect(Sounds_AllItems_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));
+	Connect(Sounds_AllItems_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));
+	Connect(Sounds_AllItems_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));
+	Connect(Sounds_AllItems_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));
 	Connect(Sounds_AllItems_Load->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
 	Connect(Sounds_AllItems_Clear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::ClearAllSoundFiles));
 

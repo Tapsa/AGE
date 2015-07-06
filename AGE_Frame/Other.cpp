@@ -1094,8 +1094,8 @@ void AGE_Frame::LoadLists()
 	}
 	else
 	{
-		UnitLines_UnitLines_ListV->Clear();
-		UnitLines_UnitLineUnits_ListV->Clear();
+		UnitLines_UnitLines_ListV->ClearAll();
+		UnitLines_UnitLineUnits_ListV->ClearAll();
 	}
 	InitCivs(true);
 	InitUnits(GenieVersion < genie::GV_AoKA, true);
@@ -1109,28 +1109,28 @@ void AGE_Frame::LoadLists()
 	}
 	else
 	{
-		TechTrees_MainList_Ages_ListV->Clear();
-		TechTrees_Ages_Buildings.List->Clear();
-		TechTrees_Ages_Units.List->Clear();
-		TechTrees_Ages_Researches.List->Clear();
-		TechTrees_MainList_Buildings_ListV->Clear();
-		TechTrees_Buildings_Buildings.List->Clear();
-		TechTrees_Buildings_Units.List->Clear();
-		TechTrees_Buildings_Researches.List->Clear();
-		TechTrees_MainList_Units_ListV->Clear();
-		TechTrees_Units_Units.List->Clear();
-		TechTrees_MainList_Researches_ListV->Clear();
-		TechTrees_Researches_Buildings.List->Clear();
-		TechTrees_Researches_Units.List->Clear();
-		TechTrees_Researches_Researches.List->Clear();
+		TechTrees_MainList_Ages_ListV->ClearAll();
+		TechTrees_Ages_Buildings.List->ClearAll();
+		TechTrees_Ages_Units.List->ClearAll();
+		TechTrees_Ages_Researches.List->ClearAll();
+		TechTrees_MainList_Buildings_ListV->ClearAll();
+		TechTrees_Buildings_Buildings.List->ClearAll();
+		TechTrees_Buildings_Units.List->ClearAll();
+		TechTrees_Buildings_Researches.List->ClearAll();
+		TechTrees_MainList_Units_ListV->ClearAll();
+		TechTrees_Units_Units.List->ClearAll();
+		TechTrees_MainList_Researches_ListV->ClearAll();
+		TechTrees_Researches_Buildings.List->ClearAll();
+		TechTrees_Researches_Units.List->ClearAll();
+		TechTrees_Researches_Researches.List->ClearAll();
 	}
 	if(TimesOpened < 3)
 	{
-		Units_ListV->DeselectAll();
+		Units_ListV->SetItemState(0, 0, wxLIST_STATE_SELECTED);
 		srand(time(NULL));
 		short sels = rand() % 2 + 3;
 		for(short i=0; ++i<sels;)
-		Units_ListV->SetSelection(rand() % (12 - TimesOpened) + 4);
+		Units_ListV->SetItemState(rand() % (12 - TimesOpened) + 4, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
 
     wxTimerEvent E;
@@ -2148,29 +2148,36 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 
 void AGE_Frame::virtualListing(AGEListView* list)
 {
-    unsigned long cookie;
-    //long firstVisible = list->GetVisibleRowsBegin();
-    long firstSelected = list->GetFirstSelected(cookie);
+    long firstVisible = list->GetTopItem();
+    long firstSelected = list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 
     list->SetItemCount(list->names.size());
-    if(list->names.size() == 0) return;
+    list->SetColumnWidth(0, wxLIST_AUTOSIZE_USEHEADER);
+    if(list->GetItemCount() == 0) return;
 
 	// Set selections and first visible item.
-    if(firstSelected == wxNOT_FOUND)
+    if(firstSelected == -1)
     {
         firstSelected = 0;
     }
     if(How2List == ADD || firstSelected >= list->names.size())
     {
         // Deselect old selections.
-        if(How2List == ADD) list->DeselectAll();
+        if(How2List == ADD)
+        while(true)
+        {
+            list->SetItemState(firstSelected, 0, wxLIST_STATE_SELECTED);
+            if(!list->GetSelectedItemCount()) break;
+            firstSelected = list->GetNextItem(firstSelected, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); // Above is bugged.
+        }
         firstSelected = list->names.size() - 1;
     }
-    /*else
+    else
     {
-        list->ScrollToRow(firstVisible);
-    }*/
-    list->SetSelection(firstSelected);
+        list->SetItemPosition(firstVisible, wxPoint(0, 0));
+    }
+    list->EnsureVisible(firstSelected);
+    list->SetItemState(firstSelected, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
     list->Refresh();
     if(How2List != SEARCH) list->SetFocus();
 	How2List = SEARCH;
@@ -2225,17 +2232,16 @@ bool AGE_Frame::Paste11Check(int pastes, int copies)
 
 void AGE_Frame::SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch)
 {
-	int selections = list->GetSelectedCount();
+	int selections = list->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
 	if(selections < 1) return;
 
 	wxString topText, subText, line;
 	size_t found;
-    unsigned long cookie;
-	for(int loop = 0, lastItem = list->GetFirstSelected(cookie); loop < selections; ++loop)
+	for(int loop = 0, lastItem = -1; loop < selections; ++loop)
 	{
-        lastItem = list->GetNextSelected(cookie);
-		line = list->names[lastItem];
+        lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		line = list->GetItemText(lastItem);
 		found = line.find(" ", 3);
 		if(loop == 0)
 		{
@@ -2269,10 +2275,9 @@ void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, 
 {
     ++randomi;
     indexes.resize(selections);
-    unsigned long cookie;
-    for(int sel = 0, lastItem = list->GetFirstSelected(cookie); sel < selections; ++sel)
+    for(int sel = 0, lastItem = -1; sel < selections; ++sel)
     {
-        lastItem = list->GetNextSelected(cookie);
+        lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); // Above is bugged.
         indexes[sel] = list->indexes[lastItem];
     }
     SetStatusText("Times listed: "+lexical_cast<string>(randomi), 2);
