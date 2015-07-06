@@ -2453,7 +2453,7 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 				UnitCommands_Type->prepend(&CommandPointer->Type);
 				UnitCommands_ClassID->prepend(&CommandPointer->ClassID);
 				UnitCommands_UnitID->prepend(&CommandPointer->UnitID);
-				UnitCommands_Unknown2->prepend(&CommandPointer->Unknown2);
+				UnitCommands_TerrainID->prepend(&CommandPointer->TerrainID);
 				UnitCommands_ResourceIn->prepend(&CommandPointer->ResourceIn);
 				UnitCommands_ProductivityResource->prepend(&CommandPointer->ResourceProductivityMultiplier);
 				UnitCommands_ResourceOut->prepend(&CommandPointer->ResourceOut);
@@ -3865,9 +3865,9 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_UnitID = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_UnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_UnitID);
 	UnitComboBoxList.push_back(UnitCommands_UnitID_ComboBox);
-	UnitCommands_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown2 = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
+	UnitCommands_TerrainID_Holder = new wxBoxSizer(wxVERTICAL);
+	UnitCommands_TerrainID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_TerrainID = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_ResourceIn_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ResourceIn_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource In *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ResourceIn = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
@@ -4670,8 +4670,8 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_UnitID_Holder->Add(UnitCommands_UnitID_Text, 0, wxEXPAND);
 	UnitCommands_UnitID_Holder->Add(UnitCommands_UnitID, 0, wxEXPAND);
 	UnitCommands_UnitID_Holder->Add(UnitCommands_UnitID_ComboBox, 0, wxEXPAND);
-	UnitCommands_Unknown2_Holder->Add(UnitCommands_Unknown2_Text, 0, wxEXPAND);
-	UnitCommands_Unknown2_Holder->Add(UnitCommands_Unknown2, 0, wxEXPAND);
+	UnitCommands_TerrainID_Holder->Add(UnitCommands_TerrainID_Text, 0, wxEXPAND);
+	UnitCommands_TerrainID_Holder->Add(UnitCommands_TerrainID, 0, wxEXPAND);
 	UnitCommands_ResourceIn_Holder->Add(UnitCommands_ResourceIn_Text, 0, wxEXPAND);
 	UnitCommands_ResourceIn_Holder->Add(UnitCommands_ResourceIn, 0, wxEXPAND);
 	UnitCommands_ResourceIn_Holder->Add(UnitCommands_ResourceIn_ComboBox, 0, wxEXPAND);
@@ -5138,7 +5138,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_CommandHolder_Grid1->Add(UnitCommands_ClassID_Holder, 1, wxEXPAND);
 	Units_CommandHolder_Grid1->Add(UnitCommands_UnitID_Holder, 1, wxEXPAND);
-	Units_CommandHolder_Grid1->Add(UnitCommands_Unknown2_Holder, 1, wxEXPAND);
+	Units_CommandHolder_Grid1->Add(UnitCommands_TerrainID_Holder, 1, wxEXPAND);
 	Units_CommandHolder_Grid1->Add(UnitCommands_ResourceIn_Holder, 1, wxEXPAND);
 	Units_CommandHolder_Grid1->Add(UnitCommands_ProductivityResource_Holder, 1, wxEXPAND);
 	Units_CommandHolder_Grid1->Add(UnitCommands_ResourceOut_Holder, 1, wxEXPAND);
