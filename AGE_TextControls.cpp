@@ -4,10 +4,27 @@ const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwh
 const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
 const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 
-wxString AGEListView::OnGetItemText(long item, long column) const
+wxCoord AGEListView::OnMeasureItem(size_t n) const
 {
-    //if(item >= names.size() || item < 0) return wxString("Fetch error");
-    return names[item];
+    return 13;
+}
+
+void AGEListView::OnDrawItem(wxDC& dc, const wxRect& rect, size_t n) const
+{
+    wxString itemtext;
+    itemtext.Printf("this is item #%d", n );
+    
+    dc.SetFont(wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+    if(IsSelected(n))
+    {
+        dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
+    }
+    else
+    {
+        dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
+    }
+    
+    dc.DrawLabel(itemtext, wxNullBitmap, rect, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
 }
 
 AGETextCtrl* AGETextCtrl::init(const ContainerType type, forward_list<AGETextCtrl*> *group,
