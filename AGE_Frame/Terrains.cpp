@@ -205,7 +205,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 {
     terrainTimer.Stop();
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Terrains_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Terrains_Terrains_ListV, TerrainIDs);
 
@@ -288,7 +288,7 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &event) // Their count is hardcoded
 
 void AGE_Frame::OnTerrainsInsert(wxCommandEvent &event) // Their count is hardcoded.
 {
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Terrains_ListV->GetSelectedCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -297,7 +297,7 @@ void AGE_Frame::OnTerrainsInsert(wxCommandEvent &event) // Their count is hardco
 
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardcoded.
 {
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Terrains_ListV->GetSelectedCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -310,7 +310,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardco
 
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent &event)
 {
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Terrains_ListV->GetSelectedCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -320,7 +320,7 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 {
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Terrains_ListV->GetSelectedCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -340,7 +340,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Terrains_ListV->GetSelectedCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -388,7 +388,7 @@ void AGE_Frame::OnTerrainsBorderSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
 {
     terrainBorderTimer.Stop();
-	auto selections = Terrains_Borders_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Borders_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Terrains_Borders_ListV, TerBorderIDs);
 	Terrains_Border->clear();
@@ -405,7 +405,7 @@ void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTerrainsBorderCopy(wxCommandEvent &event)
 {
-	auto selections = Terrains_Borders_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Borders_ListV->GetSelectedCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -415,7 +415,7 @@ void AGE_Frame::OnTerrainsBorderCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &event)
 {
-	auto selections = Terrains_Borders_ListV->GetSelectedItemCount();
+	auto selections = Terrains_Borders_ListV->GetSelectedCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
@@ -866,9 +866,9 @@ void AGE_Frame::CreateTerrainControls()
 		Connect(Terrains_Terrains_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
 		Connect(Terrains_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 	}
-	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
-	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
-	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
+	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
+	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
+	Connect(Terrains_Terrains_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsSelect));
 	Connect(Terrains_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsAdd));
 	Connect(Terrains_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsDelete));
 	Connect(Terrains_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsCopy));
@@ -880,9 +880,9 @@ void AGE_Frame::CreateTerrainControls()
 
 	Connect(Terrains_Borders_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSearch));
 	Connect(Terrains_Borders_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSearch));
-	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
-	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
-	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
+	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
+	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
+	Connect(Terrains_Borders_ListV->GetId(), wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderSelect));
 	Connect(Terrains_Borders_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderCopy));
 	Connect(Terrains_Borders_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderPaste));
 	Connect(Terrains_Borders_CopyToTerrains->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsBorderCopyToBuildings));
