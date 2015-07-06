@@ -1057,7 +1057,7 @@ void AGE_Frame::OnUnitsSpecialCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitsPaste(wxCommandEvent &event)
 {
-	if(!Units_ListV->GetSelectedItemCount() < 1 || copies.Dat.UnitExists.size() == 0) return;
+	if(!Units_ListV->GetSelectedItemCount() || copies.Dat.UnitExists.size() == 0) return;
 
 	wxBusyCursor WaitCursor;
 	if(Paste11)
@@ -1135,7 +1135,7 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitsPasteInsert(wxCommandEvent &event)
 {
-	if(!Units_ListV->GetSelectedItemCount() < 1 || copies.Dat.UnitExists.size() < 1) return;
+	if(!Units_ListV->GetSelectedItemCount() || copies.Dat.UnitExists.size() == 0) return;
 
 	wxBusyCursor WaitCursor;
 	if(GenieVersion >= genie::GV_AoK)
@@ -2524,6 +2524,7 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 		}
 	}
     for(auto &box: uiGroupUnitCommand) box->update();
+    UnitCommands_ID->Enable(false);
 }
 
 void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &event)
@@ -3365,7 +3366,7 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_GraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_GraphicID = AGETextCtrl::init(CShort, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
 	DamageGraphics_GraphicID_ComboBox = new ComboBox_Plus1(Units_Scroller, DamageGraphics_GraphicID);
-	GraphicComboBoxList.push_back(DamageGraphics_GraphicID_ComboBox);
+	GraphicComboBoxList.push_front(DamageGraphics_GraphicID_ComboBox);
 	DamageGraphics_DamagePercent_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_DamagePercent_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Damage Percent ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_DamagePercent = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
@@ -3386,32 +3387,32 @@ void AGE_Frame::CreateUnitControls()
 		Units_StandingGraphic[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_StandingGraphic[loop]->SetToolTip("Half of units in group use 1st,\nthe rest use 2nd");
 		Units_StandingGraphic_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_StandingGraphic[loop]);
-		GraphicComboBoxList.push_back(Units_StandingGraphic_ComboBox[loop]);
+		GraphicComboBoxList.push_front(Units_StandingGraphic_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_DyingGraphic[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_DyingGraphic_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_DyingGraphic[loop]);
-		GraphicComboBoxList.push_back(Units_DyingGraphic_ComboBox[loop]);
+		GraphicComboBoxList.push_front(Units_DyingGraphic_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_WalkingGraphic[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_WalkingGraphic_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_WalkingGraphic[loop]);
-		GraphicComboBoxList.push_back(Units_WalkingGraphic_ComboBox[loop]);
+		GraphicComboBoxList.push_front(Units_WalkingGraphic_ComboBox[loop]);
 	}
 	Units_SnowGraphicID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_SnowGraphicID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_SnowGraphicID);
-	GraphicComboBoxList.push_back(Units_SnowGraphicID_ComboBox);
+	GraphicComboBoxList.push_front(Units_SnowGraphicID_ComboBox);
 	Units_ConstructionGraphicID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_ConstructionGraphicID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ConstructionGraphicID);
-	GraphicComboBoxList.push_back(Units_ConstructionGraphicID_ComboBox);
+	GraphicComboBoxList.push_front(Units_ConstructionGraphicID_ComboBox);
 	Units_AttackGraphic = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_AttackGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_AttackGraphic);
-	GraphicComboBoxList.push_back(Units_AttackGraphic_ComboBox);
+	GraphicComboBoxList.push_front(Units_AttackGraphic_ComboBox);
 	Units_GarrisonGraphic = AGETextCtrl::init(CLong, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_GarrisonGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_GarrisonGraphic);
-	GraphicComboBoxList.push_back(Units_GarrisonGraphic_ComboBox);
+	GraphicComboBoxList.push_front(Units_GarrisonGraphic_ComboBox);
 
 	Units_HitPoints = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_HitPoints->SetToolTip("-1 Instantly dying unit");
@@ -3496,7 +3497,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TerRestrictionForDmgMultiply = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TerRestrictionForDmgMultiply->SetToolTip("Receive damage based on which terrain this unit stands on\nTech attribute 18 changes this\nThe damage received by this unit is\nmultiplied by the accessible values on\nthe specified terrain restriction");
 	Units_TerRestrictionForDmgMultiply_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerRestrictionForDmgMultiply);
-	TerrainRestrictionComboBoxList.push_back(Units_TerRestrictionForDmgMultiply_ComboBox);
+	TerrainRestrictionComboBoxList.push_front(Units_TerRestrictionForDmgMultiply_ComboBox);
 	Units_DisplayedMeleeArmour = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_DisplayedPierceArmour = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_BlastArmorLevel = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -3522,15 +3523,15 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_ProjectileUnitID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_ProjectileUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ProjectileUnitID);
-	UnitComboBoxList.push_back(Units_ProjectileUnitID_ComboBox);
+	UnitComboBoxList.push_front(Units_ProjectileUnitID_ComboBox);
 	Units_AttackMissileDuplicationUnit = AGETextCtrl::init(CLong, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_AttackMissileDuplicationUnit->SetToolTip("Uses its own attack values!");
 	Units_AttackMissileDuplicationUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_AttackMissileDuplicationUnit);
-	UnitComboBoxList.push_back(Units_AttackMissileDuplicationUnit_ComboBox);
+	UnitComboBoxList.push_front(Units_AttackMissileDuplicationUnit_ComboBox);
 	Units_ChargingGraphic = AGETextCtrl::init(CLong, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_ChargingGraphic->SetToolTip("Used just before the unit reaches its target enemy");
 	Units_ChargingGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ChargingGraphic);
-	GraphicComboBoxList.push_back(Units_ChargingGraphic_ComboBox);
+	GraphicComboBoxList.push_front(Units_ChargingGraphic_ComboBox);
 	Units_ChargingMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_ChargingMode->SetToolTip("0 Default\n3 Unit must walk to enemy when ordered to attack it\nAttack duplication graphics activate too");
 	Units_MissileCount = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -3630,49 +3631,49 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attribute_CheckBox[7]->SetToolTip("SW: Invisible unit");
 	Units_Civ = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Civ_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Civ);
-	CivComboBoxList.push_back(Units_Civ_ComboBox);
+	CivComboBoxList.push_front(Units_Civ_ComboBox);
 	Units_Unknown9 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Unknown9->SetToolTip("This is actually leftover from attribute+civ variable\nProbably useless");
 	Units_DeadUnitID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_DeadUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DeadUnitID);
-	UnitComboBoxList.push_back(Units_DeadUnitID_ComboBox);
+	UnitComboBoxList.push_front(Units_DeadUnitID_ComboBox);
 	Units_Unitline = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Unitline_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Unitline);
 	Units_MinTechLevel = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_MinTechLevel_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_MinTechLevel);
-	ResearchComboBoxList.push_back(Units_MinTechLevel_ComboBox);
+	ResearchComboBoxList.push_front(Units_MinTechLevel_ComboBox);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_PlacementTerrain[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_PlacementTerrain_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_PlacementTerrain[loop]);
-		TerrainComboBoxList.push_back(Units_PlacementTerrain_ComboBox[loop]);
+		TerrainComboBoxList.push_front(Units_PlacementTerrain_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_PlacementBypassTerrain[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_PlacementBypassTerrain[loop]->SetToolTip("Required terrain on some side");
 		Units_PlacementBypassTerrain_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_PlacementBypassTerrain[loop]);
-		TerrainComboBoxList.push_back(Units_PlacementBypassTerrain_ComboBox[loop]);
+		TerrainComboBoxList.push_front(Units_PlacementBypassTerrain_ComboBox[loop]);
 	}
 	Units_TerrainRestriction = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TerrainRestriction_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerrainRestriction);
-	TerrainRestrictionComboBoxList.push_back(Units_TerrainRestriction_ComboBox);
+	TerrainRestrictionComboBoxList.push_front(Units_TerrainRestriction_ComboBox);
 	Units_TerrainID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TerrainID->SetToolTip("Terrain produced under a building when completed");
 	Units_TerrainID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TerrainID);
-	TerrainComboBoxList.push_back(Units_TerrainID_ComboBox);
+	TerrainComboBoxList.push_front(Units_TerrainID_ComboBox);
 	Units_OldTerrainLikeID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_OldTerrainLikeID->SetToolTip("ES forgot to remove this before AoE was released.\nThis points to removed data block\nthat was like terrain borders.\nYou could build roads back in 1996.");
 	Units_ResearchID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_ResearchID->SetToolTip("Causes that research to be researched when the building is created");
 	Units_ResearchID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ResearchID);
-	ResearchComboBoxList.push_back(Units_ResearchID_ComboBox);
+	ResearchComboBoxList.push_front(Units_ResearchID_ComboBox);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_DropSite[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_DropSite[loop]->SetToolTip("Giving a villager's drop site to a cart-like unit\ncan allow you to have mobile resource-gatherers,\nsimilar to those in Age of Mythology.");
 		Units_DropSite_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_DropSite[loop]);
-		UnitComboBoxList.push_back(Units_DropSite_ComboBox[loop]);
+		UnitComboBoxList.push_front(Units_DropSite_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 2; ++loop)
 	Units_SizeRadius[loop] = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
@@ -3701,7 +3702,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_EditorSelectionColour->SetToolTip("0 most\n-16 fish trap farm\n52 dead farm, OLD-(___)\n116 flare, WHAL1, WHAL2, DOLP, Great-fish\n-123 all fish");
 	Units_TrackingUnit = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TrackingUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TrackingUnit);
-	UnitComboBoxList.push_back(Units_TrackingUnit_ComboBox);
+	UnitComboBoxList.push_front(Units_TrackingUnit_ComboBox);
 	Units_TrackingUnitUsed = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TrackingUnitUsed->SetToolTip("-1 unless a tracking unit value is present\n2 all projectiles with a tracking unit");
 	Units_TrackingUnitDensity = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -3717,14 +3718,14 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrainTime = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TrainLocationID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TrainLocationID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TrainLocationID);
-	UnitComboBoxList.push_back(Units_TrainLocationID_ComboBox);
+	UnitComboBoxList.push_front(Units_TrainLocationID_ComboBox);
 	Units_ButtonID = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_ButtonID->SetToolTip("First page (also second in TC) 1-15\nSecond (dock) page 21-35\nThird page same as first (Star Wars)\nFirst page in AoE/RoR 1-10\nSecond page in AoE/RoR 11-20");
 	for(short loop = 0; loop < 3; ++loop)
 	{
 		ResourceStorage_Type[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		ResourceStorage_Type_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, ResourceStorage_Type[loop]);
-		ResourceComboBoxList.push_back(ResourceStorage_Type_ComboBox[loop]);
+		ResourceComboBoxList.push_front(ResourceStorage_Type_ComboBox[loop]);
 		ResourceStorage_Amount[loop] = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		ResourceStorage_Enabled[loop] = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		ResourceStorage_Enabled[loop]->SetToolTip("0 Decayable resource\n1 Stored after death also\n2 Resets on dying, enables instantly\n4 Resets on dying, enables on completion");
@@ -3733,7 +3734,7 @@ void AGE_Frame::CreateUnitControls()
 	{
 		Units_CostType[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_CostType_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_CostType[loop]);
-		ResourceComboBoxList.push_back(Units_CostType_ComboBox[loop]);
+		ResourceComboBoxList.push_front(Units_CostType_ComboBox[loop]);
 		Units_CostAmount[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_CostUsed[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_CostUsed[loop]->SetToolTip("If set to 0 and there is an amount, the amount is required but not paid");
@@ -3742,24 +3743,24 @@ void AGE_Frame::CreateUnitControls()
 	Units_StackUnitID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_StackUnitID->SetToolTip("Second building to be placed directly on top of this building\nAdditional building gets added every time you load the scenario");
 	Units_StackUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_StackUnitID);
-	UnitComboBoxList.push_back(Units_StackUnitID_ComboBox);
+	UnitComboBoxList.push_front(Units_StackUnitID_ComboBox);
 	Units_HeadUnit = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_HeadUnit->SetToolTip("The building that an annex building is attached to");
 	Units_HeadUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_HeadUnit);
-	UnitComboBoxList.push_back(Units_HeadUnit_ComboBox);
+	UnitComboBoxList.push_front(Units_HeadUnit_ComboBox);
 	Units_TransformUnit = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TransformUnit->SetToolTip("Determines what the unit changes into when given the order to unpack");
 	Units_TransformUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TransformUnit);
-	UnitComboBoxList.push_back(Units_TransformUnit_ComboBox);
+	UnitComboBoxList.push_front(Units_TransformUnit_ComboBox);
 	Units_PileUnit = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_PileUnit->SetToolTip("Appears when the building dies\nDoes not appear with delete command");
 	Units_PileUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_PileUnit);
-	UnitComboBoxList.push_back(Units_PileUnit_ComboBox);
+	UnitComboBoxList.push_front(Units_PileUnit_ComboBox);
 	for(short loop = 0; loop < 4; ++loop)
 	{
 		Units_AnnexUnit[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_AnnexUnit_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_AnnexUnit[loop]);
-		UnitComboBoxList.push_back(Units_AnnexUnit_ComboBox[loop]);
+		UnitComboBoxList.push_front(Units_AnnexUnit_ComboBox[loop]);
 	}
 	for(short loop = 0; loop < 4; ++loop)
 	{
@@ -3777,28 +3778,28 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_SelectionSound = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_SelectionSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_SelectionSound);
-	SoundComboBoxList.push_back(Units_SelectionSound_ComboBox);
+	SoundComboBoxList.push_front(Units_SelectionSound_ComboBox);
 	Units_DyingSound = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_DyingSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DyingSound);
-	SoundComboBoxList.push_back(Units_DyingSound_ComboBox);
+	SoundComboBoxList.push_front(Units_DyingSound_ComboBox);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_TrainSound[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		Units_TrainSound_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, Units_TrainSound[loop]);
-		SoundComboBoxList.push_back(Units_TrainSound_ComboBox[loop]);
+		SoundComboBoxList.push_front(Units_TrainSound_ComboBox[loop]);
 	}
 	Units_AttackSound = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_AttackSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_AttackSound);
-	SoundComboBoxList.push_back(Units_AttackSound_ComboBox);
+	SoundComboBoxList.push_front(Units_AttackSound_ComboBox);
 	Units_MoveSound = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_MoveSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_MoveSound);
-	SoundComboBoxList.push_back(Units_MoveSound_ComboBox);
+	SoundComboBoxList.push_front(Units_MoveSound_ComboBox);
 	Units_ConstructionSound = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_ConstructionSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ConstructionSound);
-	SoundComboBoxList.push_back(Units_ConstructionSound_ComboBox);
+	SoundComboBoxList.push_front(Units_ConstructionSound_ComboBox);
 	Units_UnknownSound = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_UnknownSound_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_UnknownSound);
-	SoundComboBoxList.push_back(Units_UnknownSound_ComboBox);
+	SoundComboBoxList.push_front(Units_UnknownSound_ComboBox);
 
 	Units_HPBarHeight1 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_HPBarHeight1->SetToolTip("Setting \"Air Mode\" to 1 and this to 0 causes farms to be walkable in AoE/RoR");
@@ -3864,33 +3865,35 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_UnitID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_UnitID = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_UnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_UnitID);
-	UnitComboBoxList.push_back(UnitCommands_UnitID_ComboBox);
+	UnitComboBoxList.push_front(UnitCommands_UnitID_ComboBox);
 	UnitCommands_TerrainID_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_TerrainID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Terrain", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_TerrainID = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
+    UnitCommands_TerrainID_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_TerrainID);
+	TerrainComboBoxList.push_front(UnitCommands_TerrainID_ComboBox);
 	UnitCommands_ResourceIn_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ResourceIn_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource In *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ResourceIn = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_ResourceIn->SetToolTip("Carry resource");
 	UnitCommands_ResourceIn_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceIn);
-	ResourceComboBoxList.push_back(UnitCommands_ResourceIn_ComboBox);
+	ResourceComboBoxList.push_front(UnitCommands_ResourceIn_ComboBox);
 	UnitCommands_ProductivityResource_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ProductivityResource_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Productivity Resource *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ProductivityResource = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_ProductivityResource->SetToolTip("Resource that multiplies the amount you can gather");
 	UnitCommands_ProductivityResource_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ProductivityResource);
-	ResourceComboBoxList.push_back(UnitCommands_ProductivityResource_ComboBox);
+	ResourceComboBoxList.push_front(UnitCommands_ProductivityResource_ComboBox);
 	UnitCommands_ResourceOut_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ResourceOut_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Out *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ResourceOut = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_ResourceOut->SetToolTip("Drop resource");
 	UnitCommands_ResourceOut_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_ResourceOut);
-	ResourceComboBoxList.push_back(UnitCommands_ResourceOut_ComboBox);
+	ResourceComboBoxList.push_front(UnitCommands_ResourceOut_ComboBox);
 	UnitCommands_Resource_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Resource_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Resource = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_Resource_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_Resource);
-	ResourceComboBoxList.push_back(UnitCommands_Resource_ComboBox);
+	ResourceComboBoxList.push_front(UnitCommands_Resource_ComboBox);
 	UnitCommands_WorkRateMultiplier_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_WorkRateMultiplier_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate Multiplier", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_WorkRateMultiplier = AGETextCtrl::init(CFloat, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
@@ -3908,9 +3911,9 @@ void AGE_Frame::CreateUnitControls()
 		UnitCommands_Graphics_ComboBox[loop] = new ComboBox_Plus1(Units_Scroller, UnitCommands_Graphics[loop]);
 	}
 	for(short loop = 0; loop < 4; ++loop)
-	GraphicComboBoxList.push_back(UnitCommands_Graphics_ComboBox[loop]);
+	GraphicComboBoxList.push_front(UnitCommands_Graphics_ComboBox[loop]);
 	for(short loop = 4; loop < 6; ++loop)
-	SoundComboBoxList.push_back(UnitCommands_Graphics_ComboBox[loop]);
+	SoundComboBoxList.push_front(UnitCommands_Graphics_ComboBox[loop]);
 	UnitCommands_Graphics_Text[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Tool Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Graphics[0]->SetToolTip("Used when walking with a tool, but carrying no resources");
 	UnitCommands_Graphics_Text[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Proceeding Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4672,6 +4675,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_UnitID_Holder->Add(UnitCommands_UnitID_ComboBox, 0, wxEXPAND);
 	UnitCommands_TerrainID_Holder->Add(UnitCommands_TerrainID_Text, 0, wxEXPAND);
 	UnitCommands_TerrainID_Holder->Add(UnitCommands_TerrainID, 0, wxEXPAND);
+	UnitCommands_TerrainID_Holder->Add(UnitCommands_TerrainID_ComboBox, 0, wxEXPAND);
 	UnitCommands_ResourceIn_Holder->Add(UnitCommands_ResourceIn_Text, 0, wxEXPAND);
 	UnitCommands_ResourceIn_Holder->Add(UnitCommands_ResourceIn, 0, wxEXPAND);
 	UnitCommands_ResourceIn_Holder->Add(UnitCommands_ResourceIn_ComboBox, 0, wxEXPAND);

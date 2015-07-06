@@ -90,6 +90,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs[0]), 0);
 
     for(auto &box: uiGroupColor) box->update();
+	Colors_ID->Enable(false);
 }
 
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
