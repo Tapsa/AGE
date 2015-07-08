@@ -131,19 +131,23 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
 		General_Something[loop]->prepend(&GenieFile->TerrainBlock.SomeInt32[loop]);
 	}
 	Unknown_UnknownPointer->prepend(&GenieFile->RandomMaps.RandomMapPointer);
-	if(GenieVersion < genie::GV_AoKA) return;
-	for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
-	{
-		General_TTUnknown[loop]->prepend(&GenieFile->UnknownPreTechTree[loop]);
+	if(GenieVersion >= genie::GV_AoKA)
+    {
+        for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
+        {
+            General_TTUnknown[loop]->prepend(&GenieFile->UnknownPreTechTree[loop]);
+        }
+        General_TTUnknown[7]->prepend(&GenieFile->TechTree.Unknown2);
+        if(GenieVersion >= genie::GV_SWGB)
+        {
+            General_SUnknown2->prepend(&GenieFile->SUnknown2);
+            General_SUnknown3->prepend(&GenieFile->SUnknown3);
+            General_SUnknown4->prepend(&GenieFile->SUnknown4);
+            General_SUnknown5->prepend(&GenieFile->SUnknown5);
+            General_SUnknown7->prepend(&GenieFile->SUnknown7);
+            General_SUnknown8->prepend(&GenieFile->SUnknown8);
+        }
 	}
-	General_TTUnknown[7]->prepend(&GenieFile->TechTree.Unknown2);
-	if(GenieVersion < genie::GV_SWGB) return;
-	General_SUnknown2->prepend(&GenieFile->SUnknown2);
-	General_SUnknown3->prepend(&GenieFile->SUnknown3);
-	General_SUnknown4->prepend(&GenieFile->SUnknown4);
-	General_SUnknown5->prepend(&GenieFile->SUnknown5);
-	General_SUnknown7->prepend(&GenieFile->SUnknown7);
-	General_SUnknown8->prepend(&GenieFile->SUnknown8);
     for(auto &box: uiGroupMaps) box->update();
 }
 
