@@ -283,7 +283,7 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &event)
 	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
 	}
 
-	CheckBox_GenieVer->SetSelection(EV_Cysion);
+	CheckBox_GenieVer->SetSelection(EV_TC);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x1_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
@@ -325,7 +325,7 @@ void AGE_OpenDialog::OnDefaultFE(wxCommandEvent &event)
 	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
 	}
 
-	CheckBox_GenieVer->SetSelection(EV_Cysion);
+	CheckBox_GenieVer->SetSelection(EV_TC);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x2_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxT(""));
