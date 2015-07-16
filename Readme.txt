@@ -20,8 +20,9 @@ wxWidgets 2.8: (3.0.2 seems cool, but last time Boost refused to work with it)
 Unpack the zip file.
 To use my modded tool tips, seek them from AGE 2 sources "/Misc Files/tooltip" and replace wxWidgets ones!
 In cmd.exe go to \wxWidgets\build\msw
-mingw32-make -f makefile.gcc clean
+mingw32-make -f makefile.gcc BUILD=debug clean
 mingw32-make -f makefile.gcc BUILD=debug SHARED=0 USE_RIBBON=0
+mingw32-make -f makefile.gcc BUILD=release clean
 mingw32-make -f makefile.gcc BUILD=release SHARED=0 USE_RIBBON=0
 del /s *.o
 del /s *.o.d
