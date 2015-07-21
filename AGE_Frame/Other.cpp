@@ -28,10 +28,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			int dataversion;
 			wxString useless, entry = "Recent" + lexical_cast<string>(RecentItems--);
 			RecentOpen->Read(entry+"/RecentDatVersion", &dataversion, 9000); OpenBox.RecentDatVersions.Add(dataversion);
-			RecentOpen->Read(entry+"/RecentDatPath", &useless, wxT("")); OpenBox.RecentDatPaths.Add(useless);
-			RecentOpen->Read(entry+"/RecentLang", &useless, wxT("")); OpenBox.RecentLangs.Add(useless);
-			RecentOpen->Read(entry+"/RecentLangX1", &useless, wxT("")); OpenBox.RecentLangX1s.Add(useless);
-			RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxT("")); OpenBox.RecentLangX1P1s.Add(useless);
+			RecentOpen->Read(entry+"/RecentDatPath", &useless, wxEmptyString); OpenBox.RecentDatPaths.Add(useless);
+			RecentOpen->Read(entry+"/RecentLang", &useless, wxEmptyString); OpenBox.RecentLangs.Add(useless);
+			RecentOpen->Read(entry+"/RecentLangX1", &useless, wxEmptyString); OpenBox.RecentLangX1s.Add(useless);
+			RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxEmptyString); OpenBox.RecentLangX1P1s.Add(useless);
 		}
 		delete RecentOpen;
 		if(OpenBox.RecentDatPaths.size() == 0)
@@ -176,13 +176,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			int dataversion = 9000;
 			RecentSave->Read(entry+"/RecentDatVersion", &dataversion);
 			if(dataversion == GameVersion) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentDatPath", &compare, wxT(""));
+			RecentSave->Read(entry+"/RecentDatPath", &compare, wxEmptyString);
 			if(compare == DatFileName) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentLang", &compare, wxT(""));
+			RecentSave->Read(entry+"/RecentLang", &compare, wxEmptyString);
 			if(compare == LangFileName) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentLangX1", &compare, wxT(""));
+			RecentSave->Read(entry+"/RecentLangX1", &compare, wxEmptyString);
 			if(compare == LangX1FileName) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxT(""));
+			RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxEmptyString);
 			if(compare == LangX1P1FileName)
 			{
 				++abort; break;
@@ -255,7 +255,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 	}
 
 	// txt language file
-	if(GenieVersion == genie::GV_Cysion)
+	if('t' == LangFileName[LangFileName.size() - 1])
 	{
 		LangTxt.clear();
 		ifstream infile(LangFileName);
@@ -1463,10 +1463,10 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 		int dataversion;
 		wxString useless, entry = "Recent" + lexical_cast<string>(RecentItems--);
 		RecentOpen->Read(entry+"/RecentDatVersion", &dataversion, 9000); SaveBox.RecentDatVersions.Add(dataversion);
-		RecentOpen->Read(entry+"/RecentDatPath", &useless, wxT("")); SaveBox.RecentDatPaths.Add(useless);
-		RecentOpen->Read(entry+"/RecentLang", &useless, wxT("")); SaveBox.RecentLangs.Add(useless);
-		RecentOpen->Read(entry+"/RecentLangX1", &useless, wxT("")); SaveBox.RecentLangX1s.Add(useless);
-		RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxT("")); SaveBox.RecentLangX1P1s.Add(useless);
+		RecentOpen->Read(entry+"/RecentDatPath", &useless, wxEmptyString); SaveBox.RecentDatPaths.Add(useless);
+		RecentOpen->Read(entry+"/RecentLang", &useless, wxEmptyString); SaveBox.RecentLangs.Add(useless);
+		RecentOpen->Read(entry+"/RecentLangX1", &useless, wxEmptyString); SaveBox.RecentLangX1s.Add(useless);
+		RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxEmptyString); SaveBox.RecentLangX1P1s.Add(useless);
 	}
 	delete RecentOpen;
 	if(SaveBox.RecentDatPaths.size() == 0)
@@ -1552,13 +1552,13 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 		int dataversion = 9000;
 		RecentSave->Read(entry+"/RecentDatVersion", &dataversion);
 		if(dataversion == SaveGameVersion) ++abort; else continue;
-		RecentSave->Read(entry+"/RecentDatPath", &compare, wxT(""));
+		RecentSave->Read(entry+"/RecentDatPath", &compare, wxEmptyString);
 		if(compare == SaveDatFileName) ++abort; else continue;
-		RecentSave->Read(entry+"/RecentLang", &compare, wxT(""));
+		RecentSave->Read(entry+"/RecentLang", &compare, wxEmptyString);
 		if(compare == SaveLangFileName) ++abort; else continue;
-		RecentSave->Read(entry+"/RecentLangX1", &compare, wxT(""));
+		RecentSave->Read(entry+"/RecentLangX1", &compare, wxEmptyString);
 		if(compare == SaveLangX1FileName) ++abort; else continue;
-		RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxT(""));
+		RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxEmptyString);
 		if(compare == SaveLangX1P1FileName)
 		{
 			++abort; break;
@@ -1824,7 +1824,7 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 {
 	if(ID < 0) return "";
 	string Result = "";
-	if(GenieVersion == genie::GV_Cysion)
+	if('t' == LangFileName[LangFileName.size() - 1])
 	{
 		Result = LangTxt[ID];
 	}
