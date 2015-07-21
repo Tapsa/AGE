@@ -12,6 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.7.21[/b]:
+-AoK HD txt files are readable again.
+-Restored editing map data for non SWGB versions.
+
 Version [b]2015.7.6[/b]:
 -Fixed a bug that prevented copying units.
 -Terrain variable found in unit commands.
