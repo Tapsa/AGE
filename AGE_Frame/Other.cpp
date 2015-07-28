@@ -390,6 +390,31 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 	if(NULL != interfac)
     {
         pal50500 = interfac->getPalFile(50500);
+        icons[0] = interfac->getSlpFile(50705);
+        icons[1] = interfac->getSlpFile(50706);
+        icons[2] = interfac->getSlpFile(50707);
+        icons[3] = interfac->getSlpFile(50708);
+        int total_frames = 0;
+        for(int i=0; i < 4; ++i)
+        if(icons[i]) total_frames += (*icons[i]).getFrameCount();
+        genie::SlpFramePtr icon1 = (*icons[0]).getFrame();
+        wxString frame1i = FormatInt((*icon1).getWidth()) + "x" + FormatInt((*icon1).getHeight());
+        wxMessageBox(frame1i);
+        vector<uint8_t> rgbdata;
+        rgbdata.resize((*icon1).getWidth() * (*icon1).getHeight() * 3, 0);
+        uint8_t *val = &rgbdata[0];
+        const uint8_t *pixel = (*icon1).getPixelIndexes();
+        for(int i=0; i < rgbdata.size(); i += 3)
+        {
+            genie::Color vari = (*pal50500)[*pixel++];
+            *val++ = vari.r;
+            *val++ = vari.g;
+            *val++ = vari.b;
+        }
+        unsigned char *pic = (unsigned char*)&rgbdata[0];
+        wxImage ikoni((*icon1).getWidth(), (*icon1).getHeight(), pic, true);
+        wxBitmap frameli(ikoni, 24);
+        GetToolBar()->SetToolNormalBitmap(ToolBar_Hex, wxBitmap(frameli));
     }
 
 	if(NULL != dataset)

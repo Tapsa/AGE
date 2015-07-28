@@ -21,6 +21,7 @@
 #include <wx/listctrl.h>
 #include <wx/tooltip.h>
 #include <wx/timer.h>
+#include <wx/image.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -33,6 +34,7 @@
 
 #include "genie/script/ScnFile.h"
 #include "genie/resource/Color.h"
+#include "genie/resource/SlpFrame.h"
 #include "genie/resource/DrsFile.h"
 #include "genie/dat/DatFile.h"	// Newer dat system
 #include "genie/lang/LangFile.h"
