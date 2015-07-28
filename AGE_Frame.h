@@ -755,6 +755,7 @@ public:
 	wxFileConfig *Config, *Customs;
 	genie::DrsFile *interfac;
 	genie::PalFilePtr pal50500;
+	genie::SlpFilePtr icons[4];
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
 	int CustomTerrains;
