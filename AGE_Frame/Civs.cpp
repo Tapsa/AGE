@@ -9,9 +9,9 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &event)
 string AGE_Frame::GetCivName(short Index)
 {
 	if(GenieVersion < genie::GV_SWGB)
-	return GenieFile->Civs[Index].Name+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].IconSet)+")";
+	return dataset->Civs[Index].Name+" ("+lexical_cast<string>((short)dataset->Civs[Index].IconSet)+")";
 	else
-	return GenieFile->Civs[Index].Name2+" ("+lexical_cast<string>((short)GenieFile->Civs[Index].IconSet)+")";
+	return dataset->Civs[Index].Name2+" ("+lexical_cast<string>((short)dataset->Civs[Index].IconSet)+")";
 }
 
 void AGE_Frame::ListCivs(bool all)
@@ -29,9 +29,9 @@ void AGE_Frame::InitCivs(bool all)
 	Civs_Civs_ListV->names.clear();
 	Civs_Civs_ListV->indexes.clear();
 	wxArrayString names;
-	if(all) names.Alloc(GenieFile->Graphics.size());
+	if(all) names.Alloc(dataset->Graphics.size());
 
-	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
+	for(short loop = 0; loop < dataset->Civs.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetCivName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -71,7 +71,7 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 	genie::Civ * CivPointer;
 	for(auto sel = selections; sel--> 0;)
 	{
-		CivPointer = &GenieFile->Civs[CivIDs[sel]];
+		CivPointer = &dataset->Civs[CivIDs[sel]];
 
 		Civs_One->prepend(&CivPointer->One);
 		Civs_Name[0]->prepend(&CivPointer->Name);
@@ -99,19 +99,19 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnCivsAdd(wxCommandEvent &event)
 {
-	if(NULL == GenieFile) return;
+	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Civ Temp;
 	Temp.setGameVersion(GenieVersion);
-	if(GenieFile->Civs.size() > 0)
+	if(dataset->Civs.size() > 0)
 	{
-		short FillingCiv = (GenieFile->Civs.size() > 1) ? 1 : 0;
-		Temp.Resources = GenieFile->Civs[FillingCiv].Resources;
-		Temp.UnitPointers = GenieFile->Civs[FillingCiv].UnitPointers;
-		Temp.Units = GenieFile->Civs[FillingCiv].Units;
+		short FillingCiv = (dataset->Civs.size() > 1) ? 1 : 0;
+		Temp.Resources = dataset->Civs[FillingCiv].Resources;
+		Temp.UnitPointers = dataset->Civs[FillingCiv].UnitPointers;
+		Temp.Units = dataset->Civs[FillingCiv].Units;
 	}
-	GenieFile->Civs.push_back(Temp);
+	dataset->Civs.push_back(Temp);
 	How2List = ADD;
 	OnCivCountChange();
 	ListUnits(UnitCivID, false);
@@ -125,14 +125,14 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	genie::Civ Temp;
 	Temp.setGameVersion(GenieVersion);
-	if(GenieFile->Civs.size() > 0)
+	if(dataset->Civs.size() > 0)
 	{
-		short FillingCiv = (GenieFile->Civs.size() > 1) ? 1 : 0;
-		Temp.Resources = GenieFile->Civs[FillingCiv].Resources;
-		Temp.UnitPointers = GenieFile->Civs[FillingCiv].UnitPointers;
-		Temp.Units = GenieFile->Civs[FillingCiv].Units;
+		short FillingCiv = (dataset->Civs.size() > 1) ? 1 : 0;
+		Temp.Resources = dataset->Civs[FillingCiv].Resources;
+		Temp.UnitPointers = dataset->Civs[FillingCiv].UnitPointers;
+		Temp.Units = dataset->Civs[FillingCiv].Units;
 	}
-	GenieFile->Civs.insert(GenieFile->Civs.begin() + CivIDs[0], Temp);
+	dataset->Civs.insert(dataset->Civs.begin() + CivIDs[0], Temp);
 	OnCivCountChange();
 	How2List = INSNEW;
 	ListUnits(UnitCivID, false);
@@ -144,7 +144,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Civs, CivIDs);
+	DeleteFromList(dataset->Civs, CivIDs);
 	OnCivCountChange();
 	ListUnits(0, false);
 }
@@ -155,7 +155,7 @@ void AGE_Frame::OnCivsCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Civs, CivIDs, copies.Civ);
+	CopyFromList(dataset->Civs, CivIDs, copies.Civ);
 	Civs_Civs_ListV->SetFocus();
 }
 
@@ -169,12 +169,12 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(CivIDs.size(), copies.Civ.size()))
 		{
-			PasteToList(GenieFile->Civs, CivIDs, copies.Civ);
+			PasteToList(dataset->Civs, CivIDs, copies.Civ);
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Civs, CivIDs[0], copies.Civ);
+		PasteToList(dataset->Civs, CivIDs[0], copies.Civ);
 	}
 	OnCivCountChange();
 	ListUnits(UnitCivID, false);
@@ -186,14 +186,14 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Civs, CivIDs[0], copies.Civ);
+	PasteInsertToList(dataset->Civs, CivIDs[0], copies.Civ);
 	OnCivCountChange();
 	ListUnits(UnitCivID, false);
 }
 
 void AGE_Frame::OnCivCountChange()
 {
-	short CivCount = GenieFile->Civs.size();
+	short CivCount = dataset->Civs.size();
 //	Unit copying fixes.
 //	This messes copying if more than one window is opened!
 //	copies.Dat.Civs.resize(CivCount);
@@ -206,7 +206,7 @@ void AGE_Frame::OnCivCountChange()
 		{
 			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(30, 20)));
 			Units_CivBoxes[loop]->SetValue(true);
-			//Units_CivLabels.push_back(new wxStaticText(Tab_Units, wxID_ANY, GenieFile->Civs[loop].Name.substr(0, 2), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER_HORIZONTAL | wxST_NO_AUTORESIZE));
+			//Units_CivLabels.push_back(new wxStaticText(Tab_Units, wxID_ANY, dataset->Civs[loop].Name.substr(0, 2), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER_HORIZONTAL | wxST_NO_AUTORESIZE));
 			Units_TopGrid_Holder->Add(Units_CivBoxes[loop], 0, wxEXPAND);
 			//Units_TopGrid_Holder->Add(Units_CivLabels[loop], 0, wxEXPAND);
 			Connect(Units_CivBoxes[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
@@ -225,9 +225,9 @@ void AGE_Frame::OnCivCountChange()
 	for(short loop = 0; loop < CivCount; ++loop)
 	{
 		if(GenieVersion < genie::GV_SWGB)
-		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name.substr(0, 2));
+		Units_CivBoxes[loop]->SetLabel(dataset->Civs[loop].Name.substr(0, 2));
 		else
-		Units_CivBoxes[loop]->SetLabel(GenieFile->Civs[loop].Name2.substr(0, 2));
+		Units_CivBoxes[loop]->SetLabel(dataset->Civs[loop].Name2.substr(0, 2));
 	}
 	ListCivs();
 	Units_DataArea->Layout();
@@ -657,11 +657,11 @@ void AGE_Frame::ListResources(bool all)
 	Civs_Resources_ListV->names.clear();
 	Civs_Resources_ListV->indexes.clear();
 	wxArrayString names;
-	if(all) names.Alloc(GenieFile->Civs[CivIDs[0]].Resources.size());
+	if(all) names.Alloc(dataset->Civs[CivIDs[0]].Resources.size());
 
-	for(short loop = 0; loop < GenieFile->Civs[CivIDs[0]].Resources.size(); ++loop)
+	for(short loop = 0; loop < dataset->Civs[CivIDs[0]].Resources.size(); ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - Value: "+FormatFloat(GenieFile->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
+		wxString Name = " "+FormatInt(loop)+" - Value: "+FormatFloat(dataset->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Civs_Resources_ListV->names.Add(Name);
@@ -695,7 +695,7 @@ void AGE_Frame::OnResourcesTimer(wxTimerEvent &event)
 	float * CivResourcePointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		CivResourcePointer = &GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
+		CivResourcePointer = &dataset->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
 		Civs_ResourceValue->prepend(CivResourcePointer);
 	}
 
@@ -708,8 +708,8 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
-	GenieFile->Civs[loop].Resources.push_back(0);
+	for(short loop = 0; loop < dataset->Civs.size(); ++loop)
+	dataset->Civs[loop].Resources.push_back(0);
 	How2List = ADD;
 	ListResources();
 }
@@ -720,8 +720,8 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < GenieFile->Civs.size(); ++loop)
-	GenieFile->Civs[loop].Resources.insert(GenieFile->Civs[loop].Resources.begin() + ResourceIDs[0], 0);
+	for(short loop = 0; loop < dataset->Civs.size(); ++loop)
+	dataset->Civs[loop].Resources.insert(dataset->Civs[loop].Resources.begin() + ResourceIDs[0], 0);
 	How2List = INSNEW;
 	ListResources();
 }
@@ -732,10 +732,10 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop2 = 0; loop2 < GenieFile->Civs.size(); ++loop2)
+	for(short loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
 	{
 		for(auto loop = selections; loop--> 0;)
-		GenieFile->Civs[loop2].Resources.erase(GenieFile->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
+		dataset->Civs[loop2].Resources.erase(dataset->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
 	}
 	How2List = DEL;
 	ListResources();
@@ -747,7 +747,7 @@ void AGE_Frame::OnResourcesCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs, copies.Resource);
+	CopyFromList(dataset->Civs[CivIDs[0]].Resources, ResourceIDs, copies.Resource);
 	Civs_Resources_ListV->SetFocus();
 }
 
@@ -761,12 +761,12 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(ResourceIDs.size(), copies.Resource.size()))
 		{
-			PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs, copies.Resource);
+			PasteToListNoGV(dataset->Civs[CivIDs[0]].Resources, ResourceIDs, copies.Resource);
 		}
 	}
 	else
 	{
-		PasteToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies.Resource);
+		PasteToListNoGV(dataset->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies.Resource);
 	}
 	ListResources();
 }
@@ -777,7 +777,7 @@ void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(GenieFile->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies.Resource);
+	PasteInsertToListNoGV(dataset->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies.Resource);
 	ListResources();
 }
 
@@ -789,9 +789,9 @@ void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	for(short loop = 0; loop < selections; ++loop)
 	{
-		float Copy = GenieFile->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
-		for(short loop2 = 0; loop2 < GenieFile->Civs.size(); ++loop2)
-		GenieFile->Civs[loop2].Resources[ResourceIDs[loop]] = Copy;
+		float Copy = dataset->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
+		for(short loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
+		dataset->Civs[loop2].Resources[ResourceIDs[loop]] = Copy;
 	}
 }
 
@@ -993,9 +993,9 @@ void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &event)
 		for(auto ID: CivIDs)
 		{
 			if(GenieVersion < genie::GV_SWGB)
-			Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name.substr(0, 2));
+			Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name.substr(0, 2));
 			else
-			Units_CivBoxes[ID]->SetLabel(GenieFile->Civs[ID].Name2.substr(0, 2));
+			Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name2.substr(0, 2));
 		}
 		ListCivs();
 	}

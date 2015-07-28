@@ -2,7 +2,7 @@
 
 string AGE_Frame::GetTerrainName(short Index, bool Filter)
 {
-	if(GenieFile->TerrainBlock.Terrains.size() <= Index) return "Nonexistent Terrain";
+	if(dataset->TerrainBlock.Terrains.size() <= Index) return "Nonexistent Terrain";
 	string Name = "";
 	if(Filter)
 	{
@@ -16,63 +16,63 @@ string AGE_Frame::GetTerrainName(short Index, bool Filter)
 			switch(Selection[loop])
 			{
 				case 2: // SLP
-					Name += "SLP "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].SLP);
+					Name += "SLP "+FormatInt(dataset->TerrainBlock.Terrains[Index].SLP);
 					break;
 				case 3: // Enabled
-					Name += "E "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].Enabled);
+					Name += "E "+FormatInt(dataset->TerrainBlock.Terrains[Index].Enabled);
 					break;
 				case 4: // Random
-					Name += "R "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].Random);
+					Name += "R "+FormatInt(dataset->TerrainBlock.Terrains[Index].Random);
 					break;
 				case 5: // Unknown3
-					Name += "U3 "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].Unknown3);
+					Name += "U3 "+FormatInt(dataset->TerrainBlock.Terrains[Index].Unknown3);
 					break;
 				case 6: // SoundID
-					Name += "S "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].SoundID);
+					Name += "S "+FormatInt(dataset->TerrainBlock.Terrains[Index].SoundID);
 					break;
 				case 7: // BlendPriority
-					Name += "BP "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].BlendPriority);
+					Name += "BP "+FormatInt(dataset->TerrainBlock.Terrains[Index].BlendPriority);
 					break;
 				case 8: // BlendType
-					Name += "BT "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].BlendType);
+					Name += "BT "+FormatInt(dataset->TerrainBlock.Terrains[Index].BlendType);
 					break;
 				case 9: // Colors
 					{
-						Name += "H"+FormatInt(GenieFile->TerrainBlock.Terrains[Index].Colors[0]);
-						Name += " M"+FormatInt(GenieFile->TerrainBlock.Terrains[Index].Colors[1]);
-						Name += " L"+FormatInt(GenieFile->TerrainBlock.Terrains[Index].Colors[2]);
+						Name += "H"+FormatInt(dataset->TerrainBlock.Terrains[Index].Colors[0]);
+						Name += " M"+FormatInt(dataset->TerrainBlock.Terrains[Index].Colors[1]);
+						Name += " L"+FormatInt(dataset->TerrainBlock.Terrains[Index].Colors[2]);
 					}
 					break;
 				case 10: // CliffColors
 					{
-						Name += "LT"+FormatInt(GenieFile->TerrainBlock.Terrains[Index].CliffColors.first);
-						Name += " RT"+FormatInt(GenieFile->TerrainBlock.Terrains[Index].CliffColors.second);
+						Name += "LT"+FormatInt(dataset->TerrainBlock.Terrains[Index].CliffColors.first);
+						Name += " RT"+FormatInt(dataset->TerrainBlock.Terrains[Index].CliffColors.second);
 					}
 					break;
 				case 11: // PassableTerrain
-					Name += "PT "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].PassableTerrain);
+					Name += "PT "+FormatInt(dataset->TerrainBlock.Terrains[Index].PassableTerrain);
 					break;
 				case 12: // ImpassableTerrain
-					Name += "IT "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].ImpassableTerrain);
+					Name += "IT "+FormatInt(dataset->TerrainBlock.Terrains[Index].ImpassableTerrain);
 					break;
 				case 13: // Frame Count
-					Name += "FC "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].ElevationGraphics[0].FrameCount);
+					Name += "FC "+FormatInt(dataset->TerrainBlock.Terrains[Index].ElevationGraphics[0].FrameCount);
 					break;
 				case 14: // Angle Count
-					Name += "AC "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].ElevationGraphics[0].AngleCount);
+					Name += "AC "+FormatInt(dataset->TerrainBlock.Terrains[Index].ElevationGraphics[0].AngleCount);
 					break;
 				case 15: // TerrainToDraw
-					Name += "TD "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].TerrainToDraw);
+					Name += "TD "+FormatInt(dataset->TerrainBlock.Terrains[Index].TerrainToDraw);
 					break;
 				case 16: // TerrainDimensions
-					Name += "R"+FormatInt(GenieFile->TerrainBlock.Terrains[Index].TerrainDimensions.first);
-					Name += " C"+FormatInt(GenieFile->TerrainBlock.Terrains[Index].TerrainDimensions.second);
+					Name += "R"+FormatInt(dataset->TerrainBlock.Terrains[Index].TerrainDimensions.first);
+					Name += " C"+FormatInt(dataset->TerrainBlock.Terrains[Index].TerrainDimensions.second);
 					break;
 				case 17: // NumberOfTerrainUnitsUsed
-					Name += "TU "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].NumberOfTerrainUnitsUsed);
+					Name += "TU "+FormatInt(dataset->TerrainBlock.Terrains[Index].NumberOfTerrainUnitsUsed);
 					break;
 				case 18: // Unknown1
-					Name += "U1 "+FormatInt(GenieFile->TerrainBlock.Terrains[Index].Unknown1);
+					Name += "U1 "+FormatInt(dataset->TerrainBlock.Terrains[Index].Unknown1);
 					break;
 			}
 			Name += ", ";
@@ -81,14 +81,14 @@ string AGE_Frame::GetTerrainName(short Index, bool Filter)
 		if(Selection[0] == 1) goto InternalName;
 	}
 
-	if(!GenieFile->TerrainBlock.Terrains[Index].Name.empty())
+	if(!dataset->TerrainBlock.Terrains[Index].Name.empty())
 	{
-		return Name + GenieFile->TerrainBlock.Terrains[Index].Name;
+		return Name + dataset->TerrainBlock.Terrains[Index].Name;
 	}
 InternalName:
-	if(!GenieFile->TerrainBlock.Terrains[Index].Name2.empty())
+	if(!dataset->TerrainBlock.Terrains[Index].Name2.empty())
 	{
-		return Name + GenieFile->TerrainBlock.Terrains[Index].Name2;
+		return Name + dataset->TerrainBlock.Terrains[Index].Name2;
 	}
 	return Name + "New Terrain";
 }
@@ -102,11 +102,11 @@ void AGE_Frame::OnTerrainsSearch(wxCommandEvent &event)
 void AGE_Frame::ListTerrainNumbers()
 {
 	Terrains_UsedCount->clear();
-	Terrains_UsedCount->prepend(&GenieFile->TerrainBlock.TerrainsUsed2);
-	Terrains_UsedCount->prepend(&GenieFile->TerrainsUsed1);
+	Terrains_UsedCount->prepend(&dataset->TerrainBlock.TerrainsUsed2);
+	Terrains_UsedCount->prepend(&dataset->TerrainsUsed1);
 	Terrains_UsedCount->update();
 	Borders_UsedCount->clear();
-	Borders_UsedCount->prepend(&GenieFile->TerrainBlock.BordersUsed);
+	Borders_UsedCount->prepend(&dataset->TerrainBlock.BordersUsed);
 	Borders_UsedCount->update();
 }
 
@@ -116,11 +116,11 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &event)
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	uint16_t UsedTerrains = lexical_cast<uint16_t>(((wxTextCtrl*)event.GetEventObject())->GetValue());
 	// Resize terrain restrictions
-	for(short loop = 0; loop < GenieFile->TerrainRestrictions.size(); ++loop)
+	for(short loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
 	{
-		GenieFile->TerrainRestrictions[loop].TerrainAccessible.resize(UsedTerrains);
+		dataset->TerrainRestrictions[loop].TerrainAccessible.resize(UsedTerrains);
 		if(GenieVersion >= genie::GV_AoKA)
-		GenieFile->TerrainRestrictions[loop].TerrainPassGraphics.resize(UsedTerrains);
+		dataset->TerrainRestrictions[loop].TerrainPassGraphics.resize(UsedTerrains);
 	}
 
 	wxTimerEvent E;
@@ -152,9 +152,9 @@ void AGE_Frame::InitTerrains1(bool all)
 	Terrains_Terrains_ListV->names.clear();
 	Terrains_Terrains_ListV->indexes.clear();
 	wxArrayString names;
-	if(all) names.Alloc(GenieFile->TerrainBlock.Terrains.size());
+	if(all) names.Alloc(dataset->TerrainBlock.Terrains.size());
 
-	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
+	for(short loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainName(loop, true);
 		if(SearchMatches(Name.Lower()))
@@ -181,11 +181,11 @@ void AGE_Frame::InitTerrains2()
 	TerRestrict_Terrains_ListV->names.clear();
 	TerRestrict_Terrains_ListV->indexes.clear();
 
-	for(short loop = 0; loop < GenieFile->TerrainsUsed1; ++loop)
+	for(short loop = 0; loop < dataset->TerrainsUsed1; ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - A"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
+		wxString Name = " "+FormatInt(loop)+" - A"+lexical_cast<string>((bool)dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
 		if(GenieVersion >= genie::GV_AoKA)
-		Name += " B"+lexical_cast<string>((bool)GenieFile->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
+		Name += " B"+lexical_cast<string>((bool)dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
@@ -214,7 +214,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 	genie::Terrain * TerrainPointer;
 	for(auto sel = selections; sel--> 0;)
 	{
-		TerrainPointer = &GenieFile->TerrainBlock.Terrains[TerrainIDs[sel]];
+		TerrainPointer = &dataset->TerrainBlock.Terrains[TerrainIDs[sel]];
 
 		if(GenieVersion < genie::GV_SWGB)
 		Terrains_Unknown1->prepend(&TerrainPointer->Unknown1);
@@ -270,19 +270,32 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected terrain: "+lexical_cast<string>(TerrainIDs[0]), 0);
 
     for(auto &box: uiGroupTerrain) box->update();
+    if(pal50500)
+    {
+        genie::Color high = (*pal50500)[TerrainPointer->Colors[0]];
+        genie::Color med = (*pal50500)[TerrainPointer->Colors[1]];
+        genie::Color low = (*pal50500)[TerrainPointer->Colors[2]];
+        genie::Color left = (*pal50500)[TerrainPointer->CliffColors.first];
+        genie::Color right = (*pal50500)[TerrainPointer->CliffColors.second];
+        Terrains_Colors[0]->SetBackgroundColour(wxColour(high.r, high.g, high.b));
+        Terrains_Colors[1]->SetBackgroundColour(wxColour(med.r, med.g, med.b));
+        Terrains_Colors[2]->SetBackgroundColour(wxColour(low.r, low.g, low.b));
+        Terrains_CliffColors[0]->SetBackgroundColour(wxColour(left.r, left.g, left.b));
+        Terrains_CliffColors[1]->SetBackgroundColour(wxColour(right.r, right.g, right.b));
+    }
 
 	ListTerrainsBorders();
 }
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent &event) // Their count is hardcoded.
 {
-	if(NULL == GenieFile) return;
+	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Terrain::customTerrainAmount = ++CustomTerrains;
-	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
-	GenieFile->TerrainBlock.Terrains[loop].setGameVersion(GenieVersion);
-	AddToList(GenieFile->TerrainBlock.Terrains);
+	for(short loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
+	dataset->TerrainBlock.Terrains[loop].setGameVersion(GenieVersion);
+	AddToList(dataset->TerrainBlock.Terrains);
 	ListTerrains1();
 }
 
@@ -302,9 +315,9 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardco
 
 	wxBusyCursor WaitCursor;
 	genie::Terrain::customTerrainAmount = CustomTerrains -= TerrainIDs.size();
-	DeleteFromList(GenieFile->TerrainBlock.Terrains, TerrainIDs);
-	for(short loop = GenieFile->TerrainBlock.Terrains.size(); loop--> 0;)
-	DeleteFromList(GenieFile->TerrainBlock.Terrains[loop].Borders, TerrainIDs);
+	DeleteFromList(dataset->TerrainBlock.Terrains, TerrainIDs);
+	for(short loop = dataset->TerrainBlock.Terrains.size(); loop--> 0;)
+	DeleteFromList(dataset->TerrainBlock.Terrains[loop].Borders, TerrainIDs);
 	ListTerrains1();
 }
 
@@ -314,7 +327,7 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->TerrainBlock.Terrains, TerrainIDs, copies.Terrain);
+	CopyFromList(dataset->TerrainBlock.Terrains, TerrainIDs, copies.Terrain);
 	Terrains_Terrains_ListV->SetFocus();
 }
 
@@ -328,12 +341,12 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(TerrainIDs.size(), copies.Terrain.size()))
 		{
-			PasteToList(GenieFile->TerrainBlock.Terrains, TerrainIDs, copies.Terrain);
+			PasteToList(dataset->TerrainBlock.Terrains, TerrainIDs, copies.Terrain);
 		}
 	}
 	else
 	{
-		PasteToListNoResize(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies.Terrain);
+		PasteToListNoResize(dataset->TerrainBlock.Terrains, TerrainIDs[0], copies.Terrain);
 	}
 	ListTerrains1();
 }
@@ -344,7 +357,7 @@ void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->TerrainBlock.Terrains, TerrainIDs[0], copies.Terrain);
+	PasteInsertToList(dataset->TerrainBlock.Terrains, TerrainIDs[0], copies.Terrain);
 	ListTerrains1();
 }
 
@@ -362,11 +375,11 @@ void AGE_Frame::ListTerrainsBorders()
 	Terrains_Borders_ListV->names.clear();
 	Terrains_Borders_ListV->indexes.clear();
 
-	for(short loop = 0; loop < GenieFile->TerrainBlock.Terrains.size(); ++loop)
+	for(short loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" "+GetTerrainName(loop)+" - ";
-		Name += lexical_cast<string>(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop])+" ";
-		Name += GetTerrainBorderName(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop]);
+		Name += lexical_cast<string>(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop])+" ";
+		Name += GetTerrainBorderName(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			Terrains_Borders_ListV->names.Add(Name);
@@ -396,7 +409,7 @@ void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
 	int16_t * BorderPointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		BorderPointer = &GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders[TerBorderIDs[loop]];
+		BorderPointer = &dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders[TerBorderIDs[loop]];
 		Terrains_Border->prepend(BorderPointer);
 	}
 
@@ -409,7 +422,7 @@ void AGE_Frame::OnTerrainsBorderCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies.TerBorder);
+	CopyFromList(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies.TerBorder);
 	Terrains_Borders_ListV->SetFocus();
 }
 
@@ -423,12 +436,12 @@ void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(TerBorderIDs.size(), copies.TerBorder.size()))
 		{
-			PasteToListNoGV(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies.TerBorder);
+			PasteToListNoGV(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies.TerBorder);
 		}
 	}
 	else
 	{
-		PasteToListNoGV(GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs[0], copies.TerBorder);
+		PasteToListNoGV(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs[0], copies.TerBorder);
 	}
 	ListTerrainsBorders();
 }
@@ -437,7 +450,7 @@ void AGE_Frame::OnTerrainsBorderCopyToBuildings(wxCommandEvent &event)
 {
 	for(short loop=1; loop < TerrainIDs.size(); ++loop)
 	{
-		GenieFile->TerrainBlock.Terrains[TerrainIDs[loop]].Borders = GenieFile->TerrainBlock.Terrains[TerrainIDs[0]].Borders;
+		dataset->TerrainBlock.Terrains[TerrainIDs[loop]].Borders = dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders;
 	}
 }
 

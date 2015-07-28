@@ -3,7 +3,7 @@
 string AGE_Frame::GetGraphicName(short Index, bool Filter)
 {
 	string Name = "";
-	if(GenieVersion >= genie::GV_AoE && GenieFile->GraphicPointers[Index] == 0)
+	if(GenieVersion >= genie::GV_AoE && dataset->GraphicPointers[Index] == 0)
 	{
 		return "*Disabled*";
 	}
@@ -19,60 +19,60 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 			switch(Selection[loop])
 			{
 				case 2: // SLP
-					Name += "SLP "+FormatInt(GenieFile->Graphics[Index].SLP);
+					Name += "SLP "+FormatInt(dataset->Graphics[Index].SLP);
 					break;
 				case 3: // Unknown 1
-					Name += "U1 "+FormatInt(GenieFile->Graphics[Index].Unknown1);
+					Name += "U1 "+FormatInt(dataset->Graphics[Index].Unknown1);
 					break;
 				case 4: // Unknown 2
-					Name += "U2 "+FormatInt(GenieFile->Graphics[Index].Unknown2);
+					Name += "U2 "+FormatInt(dataset->Graphics[Index].Unknown2);
 					break;
 				case 5: // Layer
-					Name += "L "+FormatInt(GenieFile->Graphics[Index].Layer);
+					Name += "L "+FormatInt(dataset->Graphics[Index].Layer);
 					break;
 				case 6: // Player Color Forcer
-					Name += "PC "+FormatInt(GenieFile->Graphics[Index].PlayerColor);
+					Name += "PC "+FormatInt(dataset->Graphics[Index].PlayerColor);
 					break;
 				case 7: // Replay
-					Name += "R "+FormatInt(GenieFile->Graphics[Index].Replay);
+					Name += "R "+FormatInt(dataset->Graphics[Index].Replay);
 					break;
 				case 8: // Sound
-					Name += "So "+FormatInt(GenieFile->Graphics[Index].SoundID);
+					Name += "So "+FormatInt(dataset->Graphics[Index].SoundID);
 					break;
 				case 9: // Coordinates
 					break;
 				case 10: // Deltas
-					Name += "DC "+FormatInt(GenieFile->Graphics[Index].Deltas.size());
+					Name += "DC "+FormatInt(dataset->Graphics[Index].Deltas.size());
 					break;
 				case 11: // Attack Sound Used
-					Name += "U "+FormatInt(GenieFile->Graphics[Index].AttackSoundUsed);
+					Name += "U "+FormatInt(dataset->Graphics[Index].AttackSoundUsed);
 					break;
 				case 12: // Frames
-					Name += "FC "+FormatInt(GenieFile->Graphics[Index].FrameCount);
+					Name += "FC "+FormatInt(dataset->Graphics[Index].FrameCount);
 					break;
 				case 13: // Angles
-					Name += "AC "+FormatInt(GenieFile->Graphics[Index].AngleCount);
+					Name += "AC "+FormatInt(dataset->Graphics[Index].AngleCount);
 					break;
 				case 14: // Speed
-					Name += "Sp "+FormatFloat(GenieFile->Graphics[Index].NewSpeed);
+					Name += "Sp "+FormatFloat(dataset->Graphics[Index].NewSpeed);
 					break;
 				case 15: // Frame Rate
-					Name += "FR "+FormatFloat(GenieFile->Graphics[Index].FrameRate);
+					Name += "FR "+FormatFloat(dataset->Graphics[Index].FrameRate);
 					break;
 				case 16: // Replay Delay
-					Name += "RD "+FormatFloat(GenieFile->Graphics[Index].ReplayDelay);
+					Name += "RD "+FormatFloat(dataset->Graphics[Index].ReplayDelay);
 					break;
 				case 17: // Sequence Type
-					Name += "ST "+FormatInt(GenieFile->Graphics[Index].SequenceType);
+					Name += "ST "+FormatInt(dataset->Graphics[Index].SequenceType);
 					break;
 				case 18: // Mirroring Mode
-					Name += "M "+FormatInt(GenieFile->Graphics[Index].MirroringMode);
+					Name += "M "+FormatInt(dataset->Graphics[Index].MirroringMode);
 					break;
 				case 19: // Unknown 3
-					Name += "U3 "+FormatInt(GenieFile->Graphics[Index].Unknown3);
+					Name += "U3 "+FormatInt(dataset->Graphics[Index].Unknown3);
 					break;
 				case 20: // Pointer
-					Name = FormatInt(GenieFile->GraphicPointers[Index]);
+					Name = FormatInt(dataset->GraphicPointers[Index]);
 					break;
 			}
 			Name += ", ";
@@ -81,14 +81,14 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 		if(Selection[0] == 1) goto InternalName;
 	}
 
-	if(!GenieFile->Graphics[Index].Name.empty())
+	if(!dataset->Graphics[Index].Name.empty())
 	{
-		return Name + GenieFile->Graphics[Index].Name;
+		return Name + dataset->Graphics[Index].Name;
 	}
 InternalName:
-	if(!GenieFile->Graphics[Index].Name2.empty())
+	if(!dataset->Graphics[Index].Name2.empty())
 	{
-		return Name + GenieFile->Graphics[Index].Name2;
+		return Name + dataset->Graphics[Index].Name2;
 	}
 	return Name + "New Graphic";
 }
@@ -116,9 +116,9 @@ void AGE_Frame::InitGraphics(bool all)
     Graphics_Graphics_ListV->names.clear();
     Graphics_Graphics_ListV->indexes.clear();
 	wxArrayString names;
-	if(all) names.Alloc(GenieFile->Graphics.size());
+	if(all) names.Alloc(dataset->Graphics.size());
 
-	for(short loop = 0; loop < GenieFile->Graphics.size(); ++loop)
+	for(short loop = 0; loop < dataset->Graphics.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetGraphicName(loop, true);
 		if(SearchMatches(Name.Lower()))
@@ -155,7 +155,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 		genie::Graphic * GraphicPointer;
 		for(auto sel = selections; sel--> 0;)
 		{
-			GraphicPointer = &GenieFile->Graphics[GraphicIDs[sel]];
+			GraphicPointer = &dataset->Graphics[GraphicIDs[sel]];
 
 			Graphics_Name->prepend(&GraphicPointer->Name);
 			Graphics_Name2->prepend(&GraphicPointer->Name2);
@@ -185,7 +185,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 		}
 		SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs[0]), 0);
 
-		selections = GenieVersion < genie::GV_AoE ? 1 : GenieFile->GraphicPointers[GraphicIDs[0]];
+		selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs[0]];
 	}
     for(auto &box: uiGroupGraphic) box->update();
 
@@ -197,15 +197,15 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
 {
-	if(NULL == GenieFile) return;
+	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Graphic Temp;
 	Temp.setGameVersion(GenieVersion);
-	GenieFile->Graphics.push_back(Temp);
-	GenieFile->GraphicPointers.push_back(1);
+	dataset->Graphics.push_back(Temp);
+	dataset->GraphicPointers.push_back(1);
 	if(EnableIDFix)
-	GenieFile->Graphics[GenieFile->Graphics.size()-1].ID = (GenieFile->Graphics.size()-1); // ID Fix
+	dataset->Graphics[dataset->Graphics.size()-1].ID = (dataset->Graphics.size()-1); // ID Fix
 	How2List = ADD;
 	ListGraphics();
 }
@@ -218,11 +218,11 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	genie::Graphic Temp;
 	Temp.setGameVersion(GenieVersion);
-	GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicIDs[0], Temp);
-	GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], 1);
+	dataset->Graphics.insert(dataset->Graphics.begin() + GraphicIDs[0], Temp);
+	dataset->GraphicPointers.insert(dataset->GraphicPointers.begin() + GraphicIDs[0], 1);
 	if(EnableIDFix)
-	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); ++loop) // ID Fix
-	GenieFile->Graphics[loop].ID = loop;
+	for(short loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
+	dataset->Graphics[loop].ID = loop;
 	How2List = INSNEW;
 	ListGraphics();
 }
@@ -235,12 +235,12 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	for(auto loop = selections; loop--> 0;)
 	{
-		GenieFile->Graphics.erase(GenieFile->Graphics.begin() + GraphicIDs[loop]);
-		GenieFile->GraphicPointers.erase(GenieFile->GraphicPointers.begin() + GraphicIDs[loop]);
+		dataset->Graphics.erase(dataset->Graphics.begin() + GraphicIDs[loop]);
+		dataset->GraphicPointers.erase(dataset->GraphicPointers.begin() + GraphicIDs[loop]);
 	}
 	if(EnableIDFix)
-	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); ++loop) // ID Fix
-	GenieFile->Graphics[loop].ID = loop;
+	for(short loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
+	dataset->Graphics[loop].ID = loop;
 	How2List = DEL;
 	ListGraphics();
 }
@@ -255,9 +255,9 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &event)
 	copies.Graphic.resize(selections);
 	for(short loop = 0; loop < selections; ++loop)
 	{
-		copies.GraphicPointer[loop] = GenieFile->GraphicPointers[GraphicIDs[loop]];
-		copies.Graphic[loop] = GenieFile->Graphics[GraphicIDs[loop]];
-		//copies.Graphic[loop].Deltas = GenieFile->Graphics[GraphicIDs[loop]].Deltas; Needs its own button!
+		copies.GraphicPointer[loop] = dataset->GraphicPointers[GraphicIDs[loop]];
+		copies.Graphic[loop] = dataset->Graphics[GraphicIDs[loop]];
+		//copies.Graphic[loop].Deltas = dataset->Graphics[GraphicIDs[loop]].Deltas; Needs its own button!
 	}
 	Graphics_Graphics_ListV->SetFocus();
 }
@@ -274,29 +274,29 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &event)
 		{
 			for(short loop = 0; loop < copies.Graphic.size(); ++loop)
 			{
-				GenieFile->GraphicPointers[GraphicIDs[loop]] = copies.GraphicPointer[loop];
+				dataset->GraphicPointers[GraphicIDs[loop]] = copies.GraphicPointer[loop];
 				copies.Graphic[loop].setGameVersion(GenieVersion);
-				GenieFile->Graphics[GraphicIDs[loop]] = copies.Graphic[loop];
-				//GenieFile->Graphics[GraphicIDs[loop]].Deltas = copies.Graphic[loop].Deltas; Needs its own button!
+				dataset->Graphics[GraphicIDs[loop]] = copies.Graphic[loop];
+				//dataset->Graphics[GraphicIDs[loop]].Deltas = copies.Graphic[loop].Deltas; Needs its own button!
 				if(EnableIDFix)
-				GenieFile->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
+				dataset->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
 			}
 		}
 	}
 	else
 	{
-		if(copies.Graphic.size()+GraphicIDs[0] > GenieFile->Graphics.size())
+		if(copies.Graphic.size()+GraphicIDs[0] > dataset->Graphics.size())
 		{
-			GenieFile->GraphicPointers.resize(copies.GraphicPointer.size()+GraphicIDs[0]);
-			GenieFile->Graphics.resize(copies.Graphic.size()+GraphicIDs[0]);
+			dataset->GraphicPointers.resize(copies.GraphicPointer.size()+GraphicIDs[0]);
+			dataset->Graphics.resize(copies.Graphic.size()+GraphicIDs[0]);
 		}
 		for(short loop = 0; loop < copies.Graphic.size(); ++loop)
 		{
-			GenieFile->GraphicPointers[GraphicIDs[0]+loop] = copies.GraphicPointer[loop];
+			dataset->GraphicPointers[GraphicIDs[0]+loop] = copies.GraphicPointer[loop];
 			copies.Graphic[loop].setGameVersion(GenieVersion);
-			GenieFile->Graphics[GraphicIDs[0]+loop] = copies.Graphic[loop];
+			dataset->Graphics[GraphicIDs[0]+loop] = copies.Graphic[loop];
 			if(EnableIDFix)
-			GenieFile->Graphics[GraphicIDs[0]+loop].ID = (GraphicIDs[0]+loop); // ID Fix
+			dataset->Graphics[GraphicIDs[0]+loop].ID = (GraphicIDs[0]+loop); // ID Fix
 		}
 	}
 	How2List = PASTE;
@@ -310,17 +310,17 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &event)
 
 	wxBusyCursor WaitCursor;
 	genie::Graphic Temp;
-	GenieFile->GraphicPointers.insert(GenieFile->GraphicPointers.begin() + GraphicIDs[0], copies.GraphicPointer.size(), 0);
-	GenieFile->Graphics.insert(GenieFile->Graphics.begin() + GraphicIDs[0], copies.Graphic.size(), Temp);
+	dataset->GraphicPointers.insert(dataset->GraphicPointers.begin() + GraphicIDs[0], copies.GraphicPointer.size(), 0);
+	dataset->Graphics.insert(dataset->Graphics.begin() + GraphicIDs[0], copies.Graphic.size(), Temp);
 	for(short loop = 0; loop < copies.Graphic.size(); ++loop)
 	{
-		GenieFile->GraphicPointers[GraphicIDs[0]+loop] = copies.GraphicPointer[loop];
+		dataset->GraphicPointers[GraphicIDs[0]+loop] = copies.GraphicPointer[loop];
 		copies.Graphic[loop].setGameVersion(GenieVersion);
-		GenieFile->Graphics[GraphicIDs[0]+loop] = copies.Graphic[loop];
+		dataset->Graphics[GraphicIDs[0]+loop] = copies.Graphic[loop];
 	}
 	if(EnableIDFix)
-	for(short loop = GraphicIDs[0];loop < GenieFile->Graphics.size(); ++loop) // ID Fix
-	GenieFile->Graphics[loop].ID = loop;
+	for(short loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
+	dataset->Graphics[loop].ID = loop;
 	How2List = INSPASTE;
 	ListGraphics();
 }
@@ -333,8 +333,8 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	for(short loop = 0; loop < selections; ++loop)
 	{
-		GenieFile->GraphicPointers[GraphicIDs[loop]] = 1;
-		GenieFile->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
+		dataset->GraphicPointers[GraphicIDs[loop]] = 1;
+		dataset->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
 	}
 	How2List = ENABLE;
 	ListGraphics();
@@ -347,16 +347,16 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
 
 	wxBusyCursor WaitCursor;
 	for(short loop = 0; loop < selections; ++loop)
-	GenieFile->GraphicPointers[GraphicIDs[loop]] = 0;
+	dataset->GraphicPointers[GraphicIDs[loop]] = 0;
 	How2List = ENABLE;
 	ListGraphics();
 }
 
 string AGE_Frame::GetGraphicDeltaName(short Index)
 {
-	if(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID < GenieFile->Graphics.size())
-	return GetGraphicName(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID, false);
-	return "Re-drawer "+lexical_cast<string>(GenieFile->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID)+" ";
+	if(dataset->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID < dataset->Graphics.size())
+	return GetGraphicName(dataset->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID, false);
+	return "Re-drawer "+lexical_cast<string>(dataset->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID)+" ";
 }
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &event)
@@ -374,7 +374,7 @@ void AGE_Frame::ListGraphicDeltas()
     Graphics_Deltas_ListV->indexes.clear();
 
     if(Graphics_Graphics_ListV->GetSelectedItemCount())
-	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].Deltas.size(); ++loop)
+	for(short loop = 0; loop < dataset->Graphics[GraphicIDs[0]].Deltas.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetGraphicDeltaName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -408,7 +408,7 @@ void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent &event)
 		genie::GraphicDelta * DeltaPointer;
 		for(auto sel = selections; sel--> 0;)
 		{
-            DeltaPointer = &GenieFile->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[sel]];
+            DeltaPointer = &dataset->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[sel]];
 
 			GraphicDeltas_GraphicID->prepend(&DeltaPointer->GraphicID);
 			GraphicDeltas_Unknown1->prepend(&DeltaPointer->Unknown1);
@@ -429,7 +429,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToList(GenieFile->Graphics[GraphicIDs[0]].Deltas);
+	AddToList(dataset->Graphics[GraphicIDs[0]].Deltas);
 	ListGraphicDeltas();
 }
 
@@ -439,7 +439,7 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0]);
+	InsertToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0]);
 	ListGraphicDeltas();
 }
 
@@ -449,7 +449,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs);
+	DeleteFromList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs);
 	ListGraphicDeltas();
 }
 
@@ -459,7 +459,7 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies.GraphicDelta);
+	CopyFromList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies.GraphicDelta);
 	Graphics_Deltas_ListV->SetFocus();
 }
 
@@ -473,12 +473,12 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(DeltaIDs.size(), copies.GraphicDelta.size()))
 		{
-			PasteToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies.GraphicDelta);
+			PasteToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies.GraphicDelta);
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies.GraphicDelta);
+		PasteToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies.GraphicDelta);
 	}
 	ListGraphicDeltas();
 }
@@ -489,7 +489,7 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies.GraphicDelta);
+	PasteInsertToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies.GraphicDelta);
 	ListGraphicDeltas();
 }
 
@@ -497,7 +497,7 @@ void AGE_Frame::OnGraphicDeltasCopyToGraphics(wxCommandEvent &event)
 {
 	for(short loop=1; loop < GraphicIDs.size(); ++loop)
 	{
-		GenieFile->Graphics[GraphicIDs[loop]].Deltas = GenieFile->Graphics[GraphicIDs[0]].Deltas;
+		dataset->Graphics[GraphicIDs[loop]].Deltas = dataset->Graphics[GraphicIDs[0]].Deltas;
 	}
 }
 
@@ -518,7 +518,7 @@ void AGE_Frame::ListGraphicAttackSounds()
     Graphics_AttackSounds_ListV->indexes.clear();
 
     if(Graphics_Graphics_ListV->GetSelectedItemCount())
-	for(short loop = 0; loop < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop)
+	for(short loop = 0; loop < dataset->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop)
 	{
         Graphics_AttackSounds_ListV->names.Add(" "+FormatInt(loop)+" - "+GetGraphicAttackSoundName(loop));
         Graphics_AttackSounds_ListV->indexes.push_back(loop);
@@ -549,7 +549,7 @@ void AGE_Frame::OnGraphicAttackSoundsTimer(wxTimerEvent &event)
 		genie::GraphicAttackSound * AttackSoundPointer;
 		for(auto sel = selections; sel--> 0;)
 		{
-            AttackSoundPointer = &GenieFile->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[sel]];
+            AttackSoundPointer = &dataset->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[sel]];
 
 			Graphics_AttackSoundID[0]->prepend(&AttackSoundPointer->SoundID);
 			Graphics_AttackSoundID[1]->prepend(&AttackSoundPointer->SoundID2);
@@ -568,9 +568,9 @@ void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::GraphicAttackSound Copy = GenieFile->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[0]];
-	for(short loop2 = 0; loop2 < GenieFile->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop2)
-	GenieFile->Graphics[GraphicIDs[0]].AttackSounds[loop2] = Copy;
+	genie::GraphicAttackSound Copy = dataset->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[0]];
+	for(short loop2 = 0; loop2 < dataset->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop2)
+	dataset->Graphics[GraphicIDs[0]].AttackSounds[loop2] = Copy;
 	Graphics_AttackSounds_ListV->SetFocus();
 }
 
@@ -578,7 +578,7 @@ void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event)
 {
 	for(short loop=1; loop < GraphicIDs.size(); ++loop)
 	{
-		GenieFile->Graphics[GraphicIDs[loop]].AttackSounds = GenieFile->Graphics[GraphicIDs[0]].AttackSounds;
+		dataset->Graphics[GraphicIDs[loop]].AttackSounds = dataset->Graphics[GraphicIDs[0]].AttackSounds;
 	}
 }
 
@@ -1080,10 +1080,10 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 	}
 	else if(event.GetId() == Graphics_AngleCount->GetId() || event.GetId() == Graphics_AttackSoundUsed->GetId())
 	{
-		if(GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
+		if(dataset->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
 
 		for(short loop = 0; loop < GraphicIDs.size(); ++loop)
-		GenieFile->Graphics[GraphicIDs[loop]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[loop]].AngleCount);
+		dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
 
 		wxTimerEvent E;
 		OnGraphicsTimer(E);
@@ -1093,10 +1093,10 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &event)
 {
 	((AGECheckBox*)event.GetEventObject())->OnUpdate(event);
-	if(GenieFile->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
+	if(dataset->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
 
 	for(short loop = 0; loop < GraphicIDs.size(); ++loop)
-	GenieFile->Graphics[GraphicIDs[loop]].AttackSounds.resize(GenieFile->Graphics[GraphicIDs[loop]].AngleCount);
+	dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
 
 	wxTimerEvent E;
 	OnGraphicsTimer(E);

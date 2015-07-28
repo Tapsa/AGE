@@ -23,6 +23,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.RecentLangs.Clear();
 		OpenBox.RecentLangX1s.Clear();
 		OpenBox.RecentLangX1P1s.Clear();
+		OpenBox.RecentDatas.Clear();
 		while(RecentItems > 0)
 		{
 			int dataversion;
@@ -32,6 +33,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			RecentOpen->Read(entry+"/RecentLang", &useless, wxEmptyString); OpenBox.RecentLangs.Add(useless);
 			RecentOpen->Read(entry+"/RecentLangX1", &useless, wxEmptyString); OpenBox.RecentLangX1s.Add(useless);
 			RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxEmptyString); OpenBox.RecentLangX1P1s.Add(useless);
+			RecentOpen->Read(entry+"/RecentPathDRS", &useless, wxEmptyString); OpenBox.RecentDatas.Add(useless);
 		}
 		delete RecentOpen;
 		if(OpenBox.RecentDatPaths.size() == 0)
@@ -57,6 +59,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.LanguageBox->ChangeValue(Language);
 		OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
+		OpenBox.Path_DRS->SetPath(FolderDRS);
 		if((argPath).size() > 3)
 		{
 			OpenBox.ForceDat = true;
@@ -135,6 +138,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		LangFileName = OpenBox.Path_LangFileLocation->GetPath();
 		LangX1FileName = OpenBox.Path_LangX1FileLocation->GetPath();
 		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
+		FolderDRS = OpenBox.Path_DRS->GetPath();
 		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
 		LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
 
@@ -152,6 +156,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		Config->Write("DefaultFiles/Version", GameVersion);
 		Config->Write("DefaultFiles/DatUsed", DatUsed);
 		Config->Write("DefaultFiles/DatFilename", DatFileName);
+		Config->Write("DefaultFiles/FolderDRS", FolderDRS);
 		Config->Write("DefaultFiles/LangsUsed", LangsUsed);
 		Config->Write("DefaultFiles/WriteLangs", WriteLangs);
 		Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
@@ -183,7 +188,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			RecentSave->Read(entry+"/RecentLangX1", &compare, wxEmptyString);
 			if(compare == LangX1FileName) ++abort; else continue;
 			RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxEmptyString);
-			if(compare == LangX1P1FileName)
+			if(compare == LangX1P1FileName) ++abort; else continue;
+			RecentSave->Read(entry+"/RecentPathDRS", &compare, wxEmptyString);
+			if(compare == FolderDRS)
 			{
 				++abort; break;
 			}
@@ -197,6 +204,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			RecentSave->Write(entry+"/RecentLang", LangFileName);
 			RecentSave->Write(entry+"/RecentLangX1", LangX1FileName);
 			RecentSave->Write(entry+"/RecentLangX1P1", LangX1P1FileName);
+			RecentSave->Write(entry+"/RecentPathDRS", FolderDRS);
 		}
 		delete RecentSave;
 	}
@@ -221,10 +229,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
 	}
 
-	if(NULL != GenieFile)
+	if(NULL != dataset)
 	{
-		delete GenieFile;
-		GenieFile = NULL;
+		delete dataset;
+		dataset = NULL;
 	}
 	else
 	{
@@ -235,23 +243,23 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		SetStatusText("Reading file...", 0);
 		wxBusyCursor WaitCursor;
 
-		GenieFile = new genie::DatFile();
+		dataset = new genie::DatFile();
 		try
 		{
 			genie::Terrain::customTerrainAmount = CustomTerrains;
-			GenieFile->setGameVersion(GenieVersion);
-			GenieFile->load(DatFileName.c_str());
+			dataset->setGameVersion(GenieVersion);
+			dataset->load(DatFileName.c_str());
 		}
 		catch(std::ios_base::failure e)
 		{
 			wxMessageBox("Failed to load "+DatFileName);
-			delete GenieFile;
-			GenieFile = NULL;
+			delete dataset;
+			dataset = NULL;
 			return;
 		}
-		//int TerrainsInData = GenieFile->TerrainBlock.Terrains.size();
+		//int TerrainsInData = dataset->TerrainBlock.Terrains.size();
 		//for(int terrain = 0; terrain < TerrainsInData; ++terrain)
-		//GenieFile->TerrainBlock.Terrains[terrain].Borders.resize(100, 0); // Fixing broken file
+		//dataset->TerrainBlock.Terrains[terrain].Borders.resize(100, 0); // Fixing broken file
 	}
 
 	// txt language file
@@ -358,74 +366,100 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 	}
 
-	if(NULL != GenieFile)
+	if(NULL != interfac)
+	{
+		delete interfac;
+		interfac = NULL;
+	}
+	{
+		interfac = new genie::DrsFile();
+        wxString location = FolderDRS + "\\interfac.drs";
+		try
+		{
+            interfac->setGameVersion(GenieVersion);
+			interfac->load(location.c_str());
+		}
+		catch(std::ios_base::failure e)
+		{
+			wxMessageBox("Failed to load "+location);
+			delete interfac;
+			interfac = NULL;
+			return;
+		}
+	}
+	if(NULL != interfac)
+    {
+        pal50500 = interfac->getPalFile(50500);
+    }
+
+	if(NULL != dataset)
 	{	// Without these, nothing can be edited.
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
 
 		// No research gaia fix.
-		if(GenieFile->Civs.size() > 1)
+		if(dataset->Civs.size() > 1)
 		{
-			for(short loop = GenieFile->Civs[0].Units.size(); loop--> 0;)
-				GenieFile->Civs[0].Units[loop].Enabled = GenieFile->Civs[1].Units[loop].Enabled;
+			for(short loop = dataset->Civs[0].Units.size(); loop--> 0;)
+				dataset->Civs[0].Units[loop].Enabled = dataset->Civs[1].Units[loop].Enabled;
 		}
 		// Pointers contain useless data, which the game overrides anyway.
 		// ID and pointer fixes.
-		for(short loop = GenieFile->Civs.size(); loop--> 0;)
+		for(short loop = dataset->Civs.size(); loop--> 0;)
 		{
-			for(short loop2 = GenieFile->Civs[loop].Units.size(); loop2--> 0;)
+			for(short loop2 = dataset->Civs[loop].Units.size(); loop2--> 0;)
 			{
-				if(GenieFile->Civs[loop].UnitPointers[loop2] != 0)
+				if(dataset->Civs[loop].UnitPointers[loop2] != 0)
 				{
-					GenieFile->Civs[loop].UnitPointers[loop2] = 1;
+					dataset->Civs[loop].UnitPointers[loop2] = 1;
 					if(EnableIDFix)
 					{
-						GenieFile->Civs[loop].Units[loop2].ID1 = loop2;
+						dataset->Civs[loop].Units[loop2].ID1 = loop2;
 						if(GenieVersion >= genie::GV_AoE)
-						GenieFile->Civs[loop].Units[loop2].ID2 = loop2;
+						dataset->Civs[loop].Units[loop2].ID2 = loop2;
 						if(GenieVersion >= genie::GV_AoK)
-						GenieFile->Civs[loop].Units[loop2].ID3 = loop2;
+						dataset->Civs[loop].Units[loop2].ID3 = loop2;
 						else
-						if(GenieFile->Civs[loop].Units[loop2].Type >= 40 && GenieFile->Civs[loop].Units[loop2].Type <= 80)
-						for(short loop3 = GenieFile->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
-						GenieFile->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
+						if(dataset->Civs[loop].Units[loop2].Type >= 40 && dataset->Civs[loop].Units[loop2].Type <= 80)
+						for(short loop3 = dataset->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
+						dataset->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
 					}
 				}
 			}
 		}
 		if(EnableIDFix)
 		{
-			for(short loop = GenieFile->PlayerColours.size(); loop--> 0;)
+			for(short loop = dataset->PlayerColours.size(); loop--> 0;)
 			{
-				GenieFile->PlayerColours[loop].ID = loop;
+				dataset->PlayerColours[loop].ID = loop;
 			}
-			for(short loop = GenieFile->Sounds.size(); loop--> 0;)
+			for(short loop = dataset->Sounds.size(); loop--> 0;)
 			{
-				GenieFile->Sounds[loop].ID = loop;
+				dataset->Sounds[loop].ID = loop;
 			}
 			if(GenieVersion >= genie::GV_SWGB)
-			for(short loop = GenieFile->UnitLines.size(); loop--> 0;)
+			for(short loop = dataset->UnitLines.size(); loop--> 0;)
 			{
-				GenieFile->UnitLines[loop].ID = loop;
+				dataset->UnitLines[loop].ID = loop;
 			}
 		}
 		if(GenieVersion >= genie::GV_AoE)
-		for(short loop = GenieFile->Graphics.size(); loop--> 0;)
+		for(short loop = dataset->Graphics.size(); loop--> 0;)
 		{
-			if(GenieFile->GraphicPointers[loop] != 0)
+			if(dataset->GraphicPointers[loop] != 0)
 			{
-				GenieFile->GraphicPointers[loop] = 1;
+				dataset->GraphicPointers[loop] = 1;
 				if(EnableIDFix)
-				GenieFile->Graphics[loop].ID = loop;
+				dataset->Graphics[loop].ID = loop;
 			}
 		}
-		for(short loop = GenieFile->TerrainRestrictions.size(); loop--> 0;)
+		for(short loop = dataset->TerrainRestrictions.size(); loop--> 0;)
 		{
-			if(GenieFile->TerrainRestrictionPointers1[loop] != 0)
-			GenieFile->TerrainRestrictionPointers1[loop] = 1;
+			if(dataset->TerrainRestrictionPointers1[loop] != 0)
+			dataset->TerrainRestrictionPointers1[loop] = 1;
 			if(GenieVersion >= genie::GV_AoKA)
-			if(GenieFile->TerrainRestrictionPointers2[loop] != 0)
-			GenieFile->TerrainRestrictionPointers2[loop] = 1;
+			if(dataset->TerrainRestrictionPointers2[loop] != 0)
+			dataset->TerrainRestrictionPointers2[loop] = 1;
 		}
 
 		How2List = SEARCH;
@@ -950,7 +984,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Sounds_Items_SearchFilters[loop]->SetSelection(0);
 		}
 
-		SetStatusText(lexical_cast<string>(GenieFile->FileVersion), 4);
+		SetStatusText(lexical_cast<string>(dataset->FileVersion), 4);
 		LoadLists();
 
 		Effects_AttributesC_ComboBox->Clear();
@@ -1161,15 +1195,15 @@ void AGE_Frame::OnGameVersionChange()
 	if(DataOpened)	// Hiding stuff according to game version should be here.
 	{
 		// Some general tab handling
-		for(auto loop = GenieFile->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
+		for(auto loop = dataset->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
 		General_Something[loop]->Show(false);
-		for(auto loop = GenieFile->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
+		for(auto loop = dataset->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
 		General_SomeBytes[loop]->Show(false);
 		if(ShowUnknowns)
 		{
-			for(short loop = 0; loop < GenieFile->TerrainBlock.getSomethingSize(); ++loop)
+			for(short loop = 0; loop < dataset->TerrainBlock.getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
-			for(short loop = 0; loop < GenieFile->TerrainBlock.getBytesSize(); ++loop)
+			for(short loop = 0; loop < dataset->TerrainBlock.getBytesSize(); ++loop)
 			General_SomeBytes[loop]->Show(true);
 		}
 
@@ -1582,25 +1616,25 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 		wxBusyCursor WaitCursor;
 
 		// A fix that should never be needed
-		int TerrainsInData = GenieFile->TerrainBlock.Terrains.size();
+		int TerrainsInData = dataset->TerrainBlock.Terrains.size();
 		int BordersInTerrains = 0;
 		for(int terrain = 0; terrain < TerrainsInData; ++terrain)
 		{
-			BordersInTerrains += GenieFile->TerrainBlock.Terrains[terrain].Borders.size();
+			BordersInTerrains += dataset->TerrainBlock.Terrains[terrain].Borders.size();
 		}
 		BordersInTerrains /= TerrainsInData;
 		if(TerrainsInData != BordersInTerrains)
 		{
 			wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + lexical_cast<string>(TerrainsInData);
 			viesti += "\nBorders: " + lexical_cast<string>(BordersInTerrains);
-			viesti += "\nLoaded game version: " + lexical_cast<string>(GenieFile->TerrainBlock.getGameVersion());
-			viesti += "\nTerrain game version: " + lexical_cast<string>(GenieFile->TerrainBlock.Terrains[0].getGameVersion());
+			viesti += "\nLoaded game version: " + lexical_cast<string>(dataset->TerrainBlock.getGameVersion());
+			viesti += "\nTerrain game version: " + lexical_cast<string>(dataset->TerrainBlock.Terrains[0].getGameVersion());
 			wxMessageBox(viesti);
 		}
 		// <-- ends here
 		try
 		{
-			GenieFile->saveAs(SaveDatFileName.c_str());
+			dataset->saveAs(SaveDatFileName.c_str());
 		}
 		catch(std::ios_base::failure e)
 		{
@@ -2324,7 +2358,7 @@ void AGE_Frame::SaveBackup()
 {
 	try
 	{
-		GenieFile->saveAs((DatFileName.substr(0, DatFileName.size()-4)+"_backup"+CurrentTime()+".dat").c_str());
+		dataset->saveAs((DatFileName.substr(0, DatFileName.size()-4)+"_backup"+CurrentTime()+".dat").c_str());
 	}
 	catch(std::ios_base::failure e)
 	{
@@ -2376,7 +2410,8 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 
 	TabBar_Main->Destroy();
 
-	delete GenieFile;
+	delete dataset;
+	delete interfac;
 	if(WriteLangs)
 	{
 		delete Lang;

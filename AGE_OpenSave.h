@@ -27,7 +27,7 @@ public:
 
 	/* Member Variables */
 
-	bool ForceDat;
+	bool ForceDat, opener;
 	wxBoxSizer *Area;
 	wxBoxSizer *Main;
 	wxBoxSizer *Defaults;
@@ -65,6 +65,7 @@ public:
 	wxArrayString RecentLangs;
 	wxArrayString RecentLangX1s;
 	wxArrayString RecentLangX1P1s;
+	wxArrayString RecentDatas;
 };
 
 #endif
