@@ -93,10 +93,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 	Colors_ID->Enable(false);
     if(pal50500)
     {
-        int colour = PlayerColorPointer->Colour;
-        if(GenieVersion < genie::GV_AoKA)
-            colour = (char)colour;
-        genie::Color playerColor = (*pal50500)[colour];
+        genie::Color playerColor = (*pal50500)[(char)PlayerColorPointer->Colour];
         genie::Color paletteStart = (*pal50500)[PlayerColorPointer->Palette];
         genie::Color minimap = (*pal50500)[PlayerColorPointer->MinimapColour];
         Colors_Palette->SetBackgroundColour(wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
