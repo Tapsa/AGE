@@ -2,7 +2,7 @@
 
 string AGE_Frame::GetSoundName(short Index)
 {
-	return "File count: "+lexical_cast<string>(GenieFile->Sounds[Index].Items.size())+" ";
+	return "File count: "+lexical_cast<string>(dataset->Sounds[Index].Items.size())+" ";
 }
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent &event)
@@ -26,9 +26,9 @@ void AGE_Frame::InitSounds(bool all)
 	Sounds_Sounds_ListV->names.clear();
 	Sounds_Sounds_ListV->indexes.clear();
 	wxArrayString names;
-	if(all) names.Alloc(GenieFile->Sounds.size());
+	if(all) names.Alloc(dataset->Sounds.size());
 
-	for(short loop = 0; loop < GenieFile->Sounds.size(); ++loop)
+	for(short loop = 0; loop < dataset->Sounds.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetSoundName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -61,7 +61,7 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 	genie::Sound * SoundPointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		SoundPointer = &GenieFile->Sounds[SoundIDs[loop]];
+		SoundPointer = &dataset->Sounds[SoundIDs[loop]];
 
 		Sounds_ID->prepend(&SoundPointer->ID);
 		Sounds_Unknown1->prepend(&SoundPointer->Unknown1);
@@ -77,10 +77,10 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnSoundsAdd(wxCommandEvent &event)
 {
-	if(NULL == GenieFile) return;
+	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListIDFix(GenieFile->Sounds);
+	AddToListIDFix(dataset->Sounds);
 	ListSounds();
 }
 
@@ -90,7 +90,7 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListIDFix(GenieFile->Sounds, SoundIDs[0]);
+	InsertToListIDFix(dataset->Sounds, SoundIDs[0]);
 	ListSounds();
 }
 
@@ -100,7 +100,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromListIDFix(GenieFile->Sounds, SoundIDs);
+	DeleteFromListIDFix(dataset->Sounds, SoundIDs);
 	ListSounds();
 }
 
@@ -110,7 +110,7 @@ void AGE_Frame::OnSoundsCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Sounds, SoundIDs, copies.Sound);
+	CopyFromList(dataset->Sounds, SoundIDs, copies.Sound);
 	Sounds_Sounds_ListV->SetFocus();
 }
 
@@ -124,12 +124,12 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(SoundIDs.size(), copies.Sound.size()))
 		{
-			PasteToListIDFix(GenieFile->Sounds, SoundIDs, copies.Sound);
+			PasteToListIDFix(dataset->Sounds, SoundIDs, copies.Sound);
 		}
 	}
 	else
 	{
-		PasteToListIDFix(GenieFile->Sounds, SoundIDs[0], copies.Sound);
+		PasteToListIDFix(dataset->Sounds, SoundIDs[0], copies.Sound);
 	}
 	ListSounds();
 }
@@ -140,7 +140,7 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListIDFix(GenieFile->Sounds, SoundIDs[0], copies.Sound);
+	PasteInsertToListIDFix(dataset->Sounds, SoundIDs[0], copies.Sound);
 	ListSounds();
 }
 
@@ -157,18 +157,18 @@ string AGE_Frame::GetSoundItemName(short Index)
 		switch(Selection[loop])
 		{
 			case 1: // DRS
-				Name += "DRS "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].ResourceID);
+				Name += "DRS "+lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[Index].ResourceID);
 				break;
 			case 2: // Probability
-				Name += "P "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Probability);
+				Name += "P "+lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[Index].Probability);
 				break;
 			if(GenieVersion >= genie::GV_AoKA)
 			{
 			case 3: // Civilization
-				Name += "C "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Civ);
+				Name += "C "+lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[Index].Civ);
 				break;
 			case 4: // Unknown
-				Name += "U "+lexical_cast<string>(GenieFile->Sounds[SoundIDs[0]].Items[Index].Unknown1);
+				Name += "U "+lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[Index].Unknown1);
 				break;
 			}
 		}
@@ -176,9 +176,9 @@ string AGE_Frame::GetSoundItemName(short Index)
 		if(Selection[1] < 1) break;
 	}
 
-	if(!GenieFile->Sounds[SoundIDs[0]].Items[Index].FileName.empty())
+	if(!dataset->Sounds[SoundIDs[0]].Items[Index].FileName.empty())
 	{
-		Name += GenieFile->Sounds[SoundIDs[0]].Items[Index].FileName;
+		Name += dataset->Sounds[SoundIDs[0]].Items[Index].FileName;
 	}
 	else
 	{
@@ -203,7 +203,7 @@ void AGE_Frame::ListSoundItems()
 	Sounds_Items_ListV->names.clear();
 	Sounds_Items_ListV->indexes.clear();
 
-	for(short loop = 0; loop < GenieFile->Sounds[SoundIDs[0]].Items.size(); ++loop)
+	for(short loop = 0; loop < dataset->Sounds[SoundIDs[0]].Items.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -240,7 +240,7 @@ void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
 		genie::SoundItem * SoundItemPointer;
 		for(auto loop = selections; loop--> 0;)
 		{
-			SoundItemPointer = &GenieFile->Sounds[SoundIDs[0]].Items[SoundItemIDs[loop]];
+			SoundItemPointer = &dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[loop]];
 
 			SoundItems_Name->prepend(&SoundItemPointer->FileName);
 			SoundItems_Resource->prepend(&SoundItemPointer->ResourceID);
@@ -261,7 +261,7 @@ void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToList(GenieFile->Sounds[SoundIDs[0]].Items);
+	AddToList(dataset->Sounds[SoundIDs[0]].Items);
 	ListSoundItems();
 }
 
@@ -271,7 +271,7 @@ void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0]);
+	InsertToList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs[0]);
 	ListSoundItems();
 }
 
@@ -281,7 +281,7 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs);
+	DeleteFromList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs);
 	ListSoundItems();
 }
 
@@ -291,7 +291,7 @@ void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies.SoundItem);
+	CopyFromList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies.SoundItem);
 	Sounds_Items_ListV->SetFocus();
 }
 
@@ -305,12 +305,12 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(SoundItemIDs.size(), copies.SoundItem.size()))
 		{
-			PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies.SoundItem);
+			PasteToList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies.SoundItem);
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies.SoundItem);
+		PasteToList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies.SoundItem);
 	}
 	ListSoundItems();
 }
@@ -321,7 +321,7 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies.SoundItem);
+	PasteInsertToList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies.SoundItem);
 	ListSoundItems();
 }
 
@@ -329,7 +329,7 @@ void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &event)
 {
 	for(short loop=1; loop < SoundIDs.size(); ++loop)
 	{
-		GenieFile->Sounds[SoundIDs[loop]].Items = GenieFile->Sounds[SoundIDs[0]].Items;
+		dataset->Sounds[SoundIDs[loop]].Items = dataset->Sounds[SoundIDs[0]].Items;
 	}
 }
 
@@ -344,10 +344,10 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 	Sounds_AllItems_ListV->names.clear();
 
 	short Store = SoundIDs[0];
-	for(short sound = 0; sound < GenieFile->Sounds.size(); ++sound)
+	for(short sound = 0; sound < dataset->Sounds.size(); ++sound)
 	{
 		SoundIDs[0] = sound;
-		for(short file = 0; file < GenieFile->Sounds[sound].Items.size(); ++file)
+		for(short file = 0; file < dataset->Sounds[sound].Items.size(); ++file)
 		{
 			Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file);
 			if(SearchMatches(Name.Lower()))

@@ -53,6 +53,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("DefaultFiles/DatUsed", &DatUsed, 0);
 	Config->Read("DefaultFiles/DatFilename", &DatFileName, wxEmptyString);
 	Config->Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxEmptyString);
+	Config->Read("DefaultFiles/FolderDRS", &FolderDRS, wxEmptyString);
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/WriteLangs", &WriteLangs, false);
 	Config->Read("DefaultFiles/SaveLangs", &SaveLangs, false);
@@ -204,10 +205,11 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	//static std::ofstream log_out;
 	//log_out.open("gulog.ini");
 	//genie::Logger::setGlobalOutputStream(log_out);
-	GenieFile = NULL;
+	dataset = NULL;
 	Lang = NULL;
 	LangX = NULL;
 	LangXP = NULL;
+	interfac = NULL;
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);

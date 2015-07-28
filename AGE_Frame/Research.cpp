@@ -17,51 +17,51 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 				case 2: // Required Researches
 				{
 					bool HasFore = false;
-					for(short loop = 0; loop < GenieFile->Researchs[Index].getRequiredTechsSize(); ++loop)
-					if(GenieFile->Researchs[Index].RequiredTechs[loop] != -1)
+					for(short loop = 0; loop < dataset->Researchs[Index].getRequiredTechsSize(); ++loop)
+					if(dataset->Researchs[Index].RequiredTechs[loop] != -1)
 					{
 						if(HasFore) Name += ", R"; else {Name += "R"; HasFore = true;}
-						Name += lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechs[loop]);
+						Name += lexical_cast<string>(dataset->Researchs[Index].RequiredTechs[loop]);
 					}
 				}	break;
 				case 3: // Min. Req. Researches
-					Name += "MR "+lexical_cast<string>(GenieFile->Researchs[Index].RequiredTechCount);
+					Name += "MR "+lexical_cast<string>(dataset->Researchs[Index].RequiredTechCount);
 					break;
 				case 4: // Research Location
-					Name += "RL "+lexical_cast<string>(GenieFile->Researchs[Index].ResearchLocation);
+					Name += "RL "+lexical_cast<string>(dataset->Researchs[Index].ResearchLocation);
 					break;
 				case 5: // Research Time
-					Name += "RT "+lexical_cast<string>(GenieFile->Researchs[Index].ResearchTime);
+					Name += "RT "+lexical_cast<string>(dataset->Researchs[Index].ResearchTime);
 					break;
 				case 6: // Technology
-					Name += "Te "+lexical_cast<string>(GenieFile->Researchs[Index].TechageID);
+					Name += "Te "+lexical_cast<string>(dataset->Researchs[Index].TechageID);
 					break;
 				case 7: // Type
-					Name += "T "+lexical_cast<string>(GenieFile->Researchs[Index].Type);
+					Name += "T "+lexical_cast<string>(dataset->Researchs[Index].Type);
 					break;
 				case 8: // Icon
-					Name += "I "+lexical_cast<string>(GenieFile->Researchs[Index].IconID);
+					Name += "I "+lexical_cast<string>(dataset->Researchs[Index].IconID);
 					break;
 				case 9: // Button
-					Name += "B "+lexical_cast<string>((short)GenieFile->Researchs[Index].ButtonID);
+					Name += "B "+lexical_cast<string>((short)dataset->Researchs[Index].ButtonID);
 					break;
 				case 10: // Lang DLL Pointer
-					Name += "LP "+lexical_cast<string>(GenieFile->Researchs[Index].LanguageDLLHelp);
+					Name += "LP "+lexical_cast<string>(dataset->Researchs[Index].LanguageDLLHelp);
 					break;
 				case 11: // Pointer 2
-					Name += "P2 "+lexical_cast<string>(GenieFile->Researchs[Index].LanguageDLLName2);
+					Name += "P2 "+lexical_cast<string>(dataset->Researchs[Index].LanguageDLLName2);
 					break;
 				case 12: // Pointer 3
-					Name += "P3 "+lexical_cast<string>(GenieFile->Researchs[Index].Unknown1);
+					Name += "P3 "+lexical_cast<string>(dataset->Researchs[Index].Unknown1);
 					break;
 				case 13: // Cost Types
 				{
 					bool HasFore = false;
 					for(short loop = 0; loop < 3; ++loop)
-					if(GenieFile->Researchs[Index].ResourceCosts[loop].Type != -1)
+					if(dataset->Researchs[Index].ResourceCosts[loop].Type != -1)
 					{
 						if(HasFore) Name += ", CT"; else {Name += "CT"; HasFore = true;}
-						Name += lexical_cast<string>(GenieFile->Researchs[Index].ResourceCosts[loop].Type);
+						Name += lexical_cast<string>(dataset->Researchs[Index].ResourceCosts[loop].Type);
 					}
 				}	break;
 				case 14: // Cost Amounts
@@ -70,7 +70,7 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 					for(short loop = 0; loop < 3; ++loop)
 					{
 						if(HasFore) Name += ", CA"; else {Name += "CA"; HasFore = true;}
-						Name += lexical_cast<string>(GenieFile->Researchs[Index].ResourceCosts[loop].Amount);
+						Name += lexical_cast<string>(dataset->Researchs[Index].ResourceCosts[loop].Amount);
 					}
 				}	break;
 				case 15: // Cost Uses
@@ -79,22 +79,22 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 					for(short loop = 0; loop < 3; ++loop)
 					{
 						if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
-						Name += lexical_cast<string>((short)GenieFile->Researchs[Index].ResourceCosts[loop].Enabled);
+						Name += lexical_cast<string>((short)dataset->Researchs[Index].ResourceCosts[loop].Enabled);
 					}
 				}	break;
 				if(GenieVersion >= genie::GV_AoKB)
 				{
 				case 16: // Civilization
-					Name += "C "+lexical_cast<string>(GenieFile->Researchs[Index].Civ);
+					Name += "C "+lexical_cast<string>(dataset->Researchs[Index].Civ);
 					break;
 				case 17: // Full Tech. Mode
-					Name += "F "+lexical_cast<string>(GenieFile->Researchs[Index].FullTechMode);
+					Name += "F "+lexical_cast<string>(dataset->Researchs[Index].FullTechMode);
 					break;
 				if(GenieVersion >= genie::GV_SWGB)
 				{
 				case 18: // Internal Name 2
-					if(!GenieFile->Researchs[Index].Name2.empty())
-					return Name + GenieFile->Researchs[Index].Name2;
+					if(!dataset->Researchs[Index].Name2.empty())
+					return Name + dataset->Researchs[Index].Name2;
 					else goto InternalName;
 				}
 				}
@@ -105,14 +105,14 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 		if(Selection[0] == 1) goto InternalName;
 	}
 
-	if(!LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 2).empty())
+	if(!LangDLLstring(dataset->Researchs[Index].LanguageDLLName, 2).empty())
 	{
-		return Name + LangDLLstring(GenieFile->Researchs[Index].LanguageDLLName, 64);
+		return Name + LangDLLstring(dataset->Researchs[Index].LanguageDLLName, 64);
 	}
 InternalName:
-	if(!GenieFile->Researchs[Index].Name.empty())
+	if(!dataset->Researchs[Index].Name.empty())
 	{
-		return Name + GenieFile->Researchs[Index].Name;
+		return Name + dataset->Researchs[Index].Name;
 	}
 	return Name + "New Research";
 }
@@ -142,10 +142,10 @@ void AGE_Frame::InitResearches(bool all)
 	if(all)
 	{
 		AGE_AreaTT84::researches.Clear();
-		AGE_AreaTT84::researches.Alloc(GenieFile->Researchs.size());
+		AGE_AreaTT84::researches.Alloc(dataset->Researchs.size());
 	}
 
-	for(short loop = 0; loop < GenieFile->Researchs.size(); ++loop)
+	for(short loop = 0; loop < dataset->Researchs.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetResearchName(loop, true);
 		if(SearchMatches(Name.Lower()))
@@ -192,7 +192,7 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
 	genie::Research * ResearchPointer = NULL;
 	for(auto loop = selections; loop--> 0;)
 	{
-		ResearchPointer = &GenieFile->Researchs[ResearchIDs[loop]];
+		ResearchPointer = &dataset->Researchs[ResearchIDs[loop]];
 
 		for(short loop2 = 0; loop2 < ResearchPointer->getRequiredTechsSize(); ++loop2)
 		{
@@ -265,10 +265,10 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent &event)
 {
-	if(NULL == GenieFile) return;
+	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
-	AddToList(GenieFile->Researchs);
+	AddToList(dataset->Researchs);
 	ListResearches();
 }
 
@@ -278,7 +278,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(GenieFile->Researchs, ResearchIDs[0]);
+	InsertToList(dataset->Researchs, ResearchIDs[0]);
 	ListResearches();
 }
 
@@ -288,7 +288,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Researchs, ResearchIDs);
+	DeleteFromList(dataset->Researchs, ResearchIDs);
 	ListResearches();
 }
 
@@ -298,7 +298,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Researchs, ResearchIDs, copies.Research);
+	CopyFromList(dataset->Researchs, ResearchIDs, copies.Research);
 	Research_Research_ListV->SetFocus();
 }
 
@@ -312,12 +312,12 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(ResearchIDs.size(), copies.Research.size()))
 		{
-			PasteToList(GenieFile->Researchs, ResearchIDs, copies.Research);
+			PasteToList(dataset->Researchs, ResearchIDs, copies.Research);
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Researchs, ResearchIDs[0], copies.Research);
+		PasteToList(dataset->Researchs, ResearchIDs[0], copies.Research);
 	}
 	ListResearches();
 }
@@ -328,7 +328,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Researchs, ResearchIDs[0], copies.Research);
+	PasteInsertToList(dataset->Researchs, ResearchIDs[0], copies.Research);
 	ListResearches();
 }
 
@@ -348,13 +348,13 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
 	{
 		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x10000;
 		else DLLValue += 79000;
-		GenieFile->Researchs[ResearchIDs[0]].LanguageDLLHelp = DLLValue;
+		dataset->Researchs[ResearchIDs[0]].LanguageDLLHelp = DLLValue;
 	}
 	else
 	{
 		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x20000;
 		else DLLValue += 140000;
-		GenieFile->Researchs[ResearchIDs[0]].LanguageDLLName2 = DLLValue;
+		dataset->Researchs[ResearchIDs[0]].LanguageDLLName2 = DLLValue;
 	}
 	wxTimerEvent E;
 	OnResearchTimer(E);

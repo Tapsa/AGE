@@ -1,5 +1,8 @@
 #include "AGE_OpenSave.h"
 
+#ifndef AGE_OpenDialog_H
+#define AGE_OpenDialog_H
+
 class AGE_OpenDialog: public AGE_OpenSave
 {
 public:
@@ -34,4 +37,9 @@ public:
 	wxFilePickerCtrl *Path_RawDecompress;
 	wxStaticText *TerrainsText;
 	wxTextCtrl *TerrainsBox;
+    wxStaticText *DRSPath;
+    wxCheckBox *CheckBox_DRSPath;
+    wxDirPickerCtrl *Path_DRS;
 };
+
+#endif
