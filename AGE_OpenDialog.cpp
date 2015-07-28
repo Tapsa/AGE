@@ -3,6 +3,7 @@
 AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 : AGE_OpenSave(parent, "Open", this)
 {
+    opener = true;
 	Layout = new wxFlexGridSizer(2, 2, 2);
 
 	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
@@ -22,6 +23,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental\nand affects reading too");
 	CheckBox_LangWriteToLatest = new wxCheckBox(this, wxID_ANY, "Write to the latest file instead of the base file *");
 	CheckBox_LangWriteToLatest->SetToolTip("If you write to the latest file (x1/p1),\nyou only need to distribute that file,\nbut your edits will not affect the vanilla game");
+    CheckBox_DRSPath = new wxCheckBox(this, wxID_ANY, "Path for DRS files");
+    Path_DRS = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
 
 	Layout->Add(Text_GenieVer, 1, wxEXPAND);
 	Layout->Add(CheckBox_GenieVer, 1, wxEXPAND);
@@ -53,11 +56,13 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->Add(Path_LangX1P1FileLocation, 1, wxEXPAND);
 	Layout->Add(CheckBox_LangWrite, 1, wxEXPAND);
 	Layout->Add(CheckBox_LangWriteToLatest, 1, wxEXPAND);
+	Layout->Add(CheckBox_DRSPath, 1, wxEXPAND);
+	Layout->Add(Path_DRS, 1, wxEXPAND);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
 
 	Layout->AddGrowableCol(1, 1);
-	Layout->AddGrowableRow(12, 1);
+	Layout->AddGrowableRow(13, 1);
 
 	Area->AddSpacer(5);
 	Area->Add(Defaults, 0, wxALIGN_CENTRE);
@@ -132,6 +137,7 @@ void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+	Path_DRS->SetPath(Path + "\\data");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
@@ -171,6 +177,7 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\languagex.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+	Path_DRS->SetPath(Path + "\\data");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
@@ -210,6 +217,7 @@ void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+	Path_DRS->SetPath(Path + "\\data");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
@@ -249,6 +257,7 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\language_x1_p1.dll"));
+	Path_DRS->SetPath(Path + "\\data");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
@@ -289,6 +298,7 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+	Path_DRS->SetPath(wxEmptyString);
 	TerrainsBox->ChangeValue("42");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
@@ -331,6 +341,7 @@ void AGE_OpenDialog::OnDefaultFE(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+	Path_DRS->SetPath(wxEmptyString);
 	TerrainsBox->ChangeValue("42");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
@@ -373,6 +384,7 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+	Path_DRS->SetPath(wxEmptyString);
 	TerrainsBox->ChangeValue("100");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
@@ -413,6 +425,7 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+	Path_DRS->SetPath(Path + "Game\\data");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
@@ -452,6 +465,7 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+	Path_DRS->SetPath(Path + "Game\\data");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);

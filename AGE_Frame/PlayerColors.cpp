@@ -9,7 +9,7 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 string AGE_Frame::GetPlayerColorName(short Index)
 {
 	if(GenieVersion < genie::GV_AoKA)
-		return GenieFile->PlayerColours[Index].Name;
+		return dataset->PlayerColours[Index].Name;
 	return "Color "+lexical_cast<string>(Index)+" ";
 }
 
@@ -28,9 +28,9 @@ void AGE_Frame::InitPlayerColors()
 	Colors_Colors_ListV->names.clear();
 	Colors_Colors_ListV->indexes.clear();
 	wxArrayString names;
-	names.Alloc(GenieFile->PlayerColours.size());
+	names.Alloc(dataset->PlayerColours.size());
 
-	for(short loop = 0; loop < GenieFile->PlayerColours.size(); ++loop)
+	for(short loop = 0; loop < dataset->PlayerColours.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetPlayerColorName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -68,7 +68,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 	genie::PlayerColour * PlayerColorPointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		PlayerColorPointer = &GenieFile->PlayerColours[ColorIDs[loop]];
+		PlayerColorPointer = &dataset->PlayerColours[ColorIDs[loop]];
 
 		Colors_ID->prepend(&PlayerColorPointer->ID);
 		Colors_ColorL->prepend(&PlayerColorPointer->Colour);
@@ -91,14 +91,26 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupColor) box->update();
 	Colors_ID->Enable(false);
+    if(pal50500)
+    {
+        int colour = PlayerColorPointer->Colour;
+        if(GenieVersion < genie::GV_AoKA)
+            colour = (char)colour;
+        genie::Color playerColor = (*pal50500)[colour];
+        genie::Color paletteStart = (*pal50500)[PlayerColorPointer->Palette];
+        genie::Color minimap = (*pal50500)[PlayerColorPointer->MinimapColour];
+        Colors_Palette->SetBackgroundColour(wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
+        Colors_ColorL->SetBackgroundColour(wxColour(playerColor.r, playerColor.g, playerColor.b));
+        Colors_MinimapColor->SetBackgroundColour(wxColour(minimap.r, minimap.g, minimap.b));
+    }
 }
 
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
 {
-	if(NULL == GenieFile) return;
+	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
-	AddToListIDFix(GenieFile->PlayerColours);
+	AddToListIDFix(dataset->PlayerColours);
 	ListPlayerColors();
 }
 
@@ -108,7 +120,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListIDFix(GenieFile->PlayerColours, ColorIDs[0]);
+	InsertToListIDFix(dataset->PlayerColours, ColorIDs[0]);
 	ListPlayerColors();
 }
 
@@ -118,7 +130,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromListIDFix(GenieFile->PlayerColours, ColorIDs);
+	DeleteFromListIDFix(dataset->PlayerColours, ColorIDs);
 	ListPlayerColors();
 }
 
@@ -128,7 +140,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->PlayerColours, ColorIDs, copies.PlayerColor);
+	CopyFromList(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
 	Colors_Colors_ListV->SetFocus();
 }
 
@@ -142,12 +154,12 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(ColorIDs.size(), copies.PlayerColor.size()))
 		{
-			PasteToListIDFix(GenieFile->PlayerColours, ColorIDs, copies.PlayerColor);
+			PasteToListIDFix(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
 		}
 	}
 	else
 	{
-		PasteToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies.PlayerColor);
+		PasteToListIDFix(dataset->PlayerColours, ColorIDs[0], copies.PlayerColor);
 	}
 	ListPlayerColors();
 }
@@ -158,7 +170,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListIDFix(GenieFile->PlayerColours, ColorIDs[0], copies.PlayerColor);
+	PasteInsertToListIDFix(dataset->PlayerColours, ColorIDs[0], copies.PlayerColor);
 	ListPlayerColors();
 }
 

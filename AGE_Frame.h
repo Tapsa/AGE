@@ -753,7 +753,9 @@ public:
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
 	wxFileConfig *Config, *Customs;
-	genie::DatFile *GenieFile;
+	genie::DrsFile *interfac;
+	genie::PalFilePtr pal50500;
+	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
 	int CustomTerrains;
 //	wxSound SoundFile;
@@ -826,7 +828,7 @@ public:
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;
-	wxString DatFileName, SaveDatFileName;
+	wxString DatFileName, SaveDatFileName, FolderDRS;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
 	wxString LangCharset;
 	wxString LangFileName, LangX1FileName, LangX1P1FileName;

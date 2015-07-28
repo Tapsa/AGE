@@ -2,9 +2,9 @@
 
 string AGE_Frame::GetTerrainBorderName(short Index)
 {
-	if(GenieFile->TerrainBlock.TerrainBorders[Index].Name.empty() && GenieFile->TerrainBlock.TerrainBorders[Index].Name2.empty())
+	if(dataset->TerrainBlock.TerrainBorders[Index].Name.empty() && dataset->TerrainBlock.TerrainBorders[Index].Name2.empty())
 		return "Border "+lexical_cast<string>(Index);
-	return GenieFile->TerrainBlock.TerrainBorders[Index].Name+" - "+GenieFile->TerrainBlock.TerrainBorders[Index].Name2;
+	return dataset->TerrainBlock.TerrainBorders[Index].Name+" - "+dataset->TerrainBlock.TerrainBorders[Index].Name2;
 }
 
 void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &event)
@@ -28,9 +28,9 @@ void AGE_Frame::InitTerrainBorders(bool all)
 	Borders_ListV->names.clear();
 	Borders_ListV->indexes.clear();
 	wxArrayString names;
-	if(all) names.Alloc(GenieFile->TerrainBlock.TerrainBorders.size());
+	if(all) names.Alloc(dataset->TerrainBlock.TerrainBorders.size());
 
-	for(short loop = 0; loop < GenieFile->TerrainBlock.TerrainBorders.size(); ++loop)
+	for(short loop = 0; loop < dataset->TerrainBlock.TerrainBorders.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -63,7 +63,7 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 	genie::TerrainBorder * BorderPointer;
 	for(auto sel = selections; sel--> 0;)
 	{
-		BorderPointer = &GenieFile->TerrainBlock.TerrainBorders[BorderIDs[sel]];
+		BorderPointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs[sel]];
 
 		Borders_Enabled->prepend(&BorderPointer->Enabled);
 		Borders_Random->prepend(&BorderPointer->Random);
@@ -94,6 +94,15 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected border: "+lexical_cast<string>(BorderIDs[0]), 0);
 
 	for(auto &box: uiGroupBorder) box->update();
+    if(pal50500)
+    {
+        genie::Color high = (*pal50500)[BorderPointer->Colors[0]];
+        genie::Color med = (*pal50500)[BorderPointer->Colors[1]];
+        genie::Color low = (*pal50500)[BorderPointer->Colors[2]];
+        Borders_Colors[0]->SetBackgroundColour(wxColour(high.r, high.g, high.b));
+        Borders_Colors[1]->SetBackgroundColour(wxColour(med.r, med.g, med.b));
+        Borders_Colors[2]->SetBackgroundColour(wxColour(low.r, low.g, low.b));
+    }
 	ListTerrainBorderFrames();
 }
 
@@ -103,7 +112,7 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
+	CopyFromList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
 	Borders_ListV->SetFocus();
 }
 
@@ -117,21 +126,21 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(BorderIDs.size(), copies.TerrainBorder.size()))
 		{
-			PasteToList(GenieFile->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
+			PasteToList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
 		}
 	}
 	else
 	{
-		PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders, BorderIDs[0], copies.TerrainBorder);
+		PasteToListNoResize(dataset->TerrainBlock.TerrainBorders, BorderIDs[0], copies.TerrainBorder);
 	}
 	ListTerrainBorders();
 }
 
 string AGE_Frame::GetTerrainBorderFrameName(short Index)
 {
-	return "Frame "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].FrameCount)
-	+" - Flags "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].AngleCount)
-	+" "+lexical_cast<string>(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].ShapeID)+" ";
+	return "Frame "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].FrameCount)
+	+" - Flags "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].AngleCount)
+	+" "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].ShapeID)+" ";
 }
 
 void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &event)
@@ -148,7 +157,7 @@ void AGE_Frame::ListTerrainBorderFrames()
 	Borders_Frames_ListV->names.clear();
 	Borders_Frames_ListV->indexes.clear();
 
-	for(short loop = 0; loop < GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames.size(); ++loop)
+	for(short loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderFrameName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -182,7 +191,7 @@ void AGE_Frame::OnTerrainBorderFramesTimer(wxTimerEvent &event)
 	genie::FrameData * FramePointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		FramePointer = &GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[FrameIDs[loop]];
+		FramePointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[FrameIDs[loop]];
 
 		Borders_FrameID->prepend(&FramePointer->FrameCount);
 		Borders_Flag1->prepend(&FramePointer->AngleCount);
@@ -198,7 +207,7 @@ void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies.FrameData);
+	CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies.FrameData);
 	Borders_Frames_ListV->SetFocus();
 }
 
@@ -212,12 +221,12 @@ void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(FrameIDs.size(), copies.FrameData.size()))
 		{
-			PasteToList(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies.FrameData);
+			PasteToList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies.FrameData);
 		}
 	}
 	else
 	{
-		PasteToListNoResize(GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies.FrameData);
+		PasteToListNoResize(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies.FrameData);
 	}
 	ListTerrainBorderFrames();
 }
@@ -226,7 +235,7 @@ void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &event)
 {
 	for(short loop=1; loop < BorderIDs.size(); ++loop)
 	{
-		GenieFile->TerrainBlock.TerrainBorders[BorderIDs[loop]].Frames = GenieFile->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames;
+		dataset->TerrainBlock.TerrainBorders[BorderIDs[loop]].Frames = dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames;
 	}
 }
 
