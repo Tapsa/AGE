@@ -1,9 +1,10 @@
 #include "AGE_OpenSave.h"
+#include "AGE_OpenDialog.h"
 
 AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 : wxDialog(parent, -1, title+" files...", wxDefaultPosition, wxSize(500, 250), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxNO_DEFAULT)
 {
-	ForceDat = false;
+	ForceDat = opener = false;
 	Area = new wxBoxSizer(wxVERTICAL);
 	Main = new wxBoxSizer(wxHORIZONTAL);
 	Defaults = new wxBoxSizer(wxHORIZONTAL);
@@ -75,7 +76,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	Connect(CheckBox_Recent->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_OpenSave::OnRecent));
 }
 
-void AGE_OpenSave::OnRecent(wxCommandEvent &Event)
+void AGE_OpenSave::OnRecent(wxCommandEvent &event)
 {
 	auto sel = CheckBox_Recent->GetSelection();
 	if(RecentDatVersions.size() == 0) return;
@@ -87,4 +88,5 @@ void AGE_OpenSave::OnRecent(wxCommandEvent &Event)
 	CheckBox_LangFileLocation->SetValue(RecentLangs[sel].size());
 	CheckBox_LangX1FileLocation->SetValue(RecentLangX1s[sel].size());
 	CheckBox_LangX1P1FileLocation->SetValue(RecentLangX1P1s[sel].size());
+    if(opener)((AGE_OpenDialog*)event.GetEventObject())->Path_DRS->SetPath(RecentDatas[sel]);
 }

@@ -31,6 +31,9 @@
 #define LoadLibrary(name) (0)
 #endif
 
+#include "genie/script/ScnFile.h"
+#include "genie/resource/Color.h"
+#include "genie/resource/DrsFile.h"
 #include "genie/dat/DatFile.h"	// Newer dat system
 #include "genie/lang/LangFile.h"
 //#include "genie/resource/DrsFile.h"	// DRS file system

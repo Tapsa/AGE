@@ -2,8 +2,8 @@
 
 string AGE_Frame::GetTechName(short Index)
 {
-	if(!GenieFile->Techages[Index].Name.empty())
-		return GenieFile->Techages[Index].Name+" ";
+	if(!dataset->Techages[Index].Name.empty())
+		return dataset->Techages[Index].Name+" ";
 	return "New Technology ";
 }
 
@@ -13,9 +13,9 @@ void AGE_Frame::OnTechRenameGE2(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	string Name;
-	for(short loop = 0; loop < GenieFile->Techages.size(); ++loop)
+	for(short loop = 0; loop < dataset->Techages.size(); ++loop)
 	{
-		GenieFile->Techages[loop].Name = "Tech";
+		dataset->Techages[loop].Name = "Tech";
 	}
 	ListTechs();
 }
@@ -25,47 +25,47 @@ void AGE_Frame::OnTechRename(wxCommandEvent &event)
 	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	for(short loop3 = 0; loop3 < GenieFile->Techages.size(); ++loop3)
+	for(short loop3 = 0; loop3 < dataset->Techages.size(); ++loop3)
 	{
-		if(GenieFile->Techages[loop3].Effects.size() < 1) // Empty techs.
+		if(dataset->Techages[loop3].Effects.size() < 1) // Empty techs.
 		{
-			GenieFile->Techages[loop3].Name = "New Technology";
+			dataset->Techages[loop3].Name = "New Technology";
 		}
 		else // Other than empty techs, not researches if research loop doesn't rename them.
 		{
-			GenieFile->Techages[loop3].Name = "Non-Research";
+			dataset->Techages[loop3].Name = "Non-Research";
 		}
 	}
 	short ResearchTechID = 0;
-	for(short loop=GenieFile->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
+	for(short loop=dataset->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
 	{
-		ResearchTechID = GenieFile->Researchs[loop].TechageID;
+		ResearchTechID = dataset->Researchs[loop].TechageID;
 		if(ResearchTechID >= 0) // Only researches which have techs.
 		{
-			if(!LangDLLstring(GenieFile->Researchs[loop].LanguageDLLName, 2).empty()) // has a lang dll name
+			if(!LangDLLstring(dataset->Researchs[loop].LanguageDLLName, 2).empty()) // has a lang dll name
 			{
-				GenieFile->Techages[ResearchTechID].Name = LangDLLstring(GenieFile->Researchs[loop].LanguageDLLName, 31);
+				dataset->Techages[ResearchTechID].Name = LangDLLstring(dataset->Researchs[loop].LanguageDLLName, 31);
 			}
 			else // Use internal name instead.
 			{
-				GenieFile->Techages[ResearchTechID].Name = GenieFile->Researchs[loop].Name;
+				dataset->Techages[ResearchTechID].Name = dataset->Researchs[loop].Name;
 			}
 		}
 	}
 	string CivName;
 	short CivTechTreeID=0, CivTeamBonusID = 0;
-	for(short loop2=GenieFile->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
+	for(short loop2=dataset->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
 	{
-		string CivName = lexical_cast<string>(GenieFile->Civs[loop2].Name); // Civ internal name.
-		CivTechTreeID = GenieFile->Civs[loop2].TechTreeID;
-		CivTeamBonusID = GenieFile->Civs[loop2].TeamBonusID;
+		string CivName = lexical_cast<string>(dataset->Civs[loop2].Name); // Civ internal name.
+		CivTechTreeID = dataset->Civs[loop2].TechTreeID;
+		CivTeamBonusID = dataset->Civs[loop2].TeamBonusID;
 		if(CivTechTreeID >= 0)
 		{
-			GenieFile->Techages[CivTechTreeID].Name = CivName+" Tech. Tree"; // Under 31 chars.
+			dataset->Techages[CivTechTreeID].Name = CivName+" Tech. Tree"; // Under 31 chars.
 		}
 		if(CivTeamBonusID >= 0)
 		{
-			GenieFile->Techages[CivTeamBonusID].Name = CivName+" Team Bonus"; // Under 31 chars.
+			dataset->Techages[CivTeamBonusID].Name = CivName+" Team Bonus"; // Under 31 chars.
 		}
 	}
 	ListTechs();
@@ -96,9 +96,9 @@ void AGE_Frame::InitTechs(bool all)
 	Techs_ListV->indexes.clear();
 
 	wxArrayString names;
-	if(all) names.Alloc(GenieFile->Techages.size());
+	if(all) names.Alloc(dataset->Techages.size());
 
-	for(short loop = 0; loop < GenieFile->Techages.size(); ++loop)
+	for(short loop = 0; loop < dataset->Techages.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTechName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -134,7 +134,7 @@ void AGE_Frame::OnTechTimer(wxTimerEvent &event)
 	genie::Techage * TechPointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		TechPointer = &GenieFile->Techages[TechIDs[loop]];
+		TechPointer = &dataset->Techages[TechIDs[loop]];
 		Techs_Name->prepend(&TechPointer->Name);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected tech: "+lexical_cast<string>(TechIDs[0]), 0);
@@ -145,10 +145,10 @@ void AGE_Frame::OnTechTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTechAdd(wxCommandEvent &event)	// Works.
 {
-	if(NULL == GenieFile) return;
+	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
-	AddToList(GenieFile->Techages);
+	AddToList(dataset->Techages);
 	ListTechs();
 }
 
@@ -158,7 +158,7 @@ void AGE_Frame::OnTechInsert(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(GenieFile->Techages, TechIDs[0]);
+	InsertToList(dataset->Techages, TechIDs[0]);
 	ListTechs();
 }
 
@@ -168,7 +168,7 @@ void AGE_Frame::OnTechDelete(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Techages, TechIDs);
+	DeleteFromList(dataset->Techages, TechIDs);
 	ListTechs();
 }
 
@@ -178,7 +178,7 @@ void AGE_Frame::OnTechCopy(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Techages, TechIDs, copies.Tech);
+	CopyFromList(dataset->Techages, TechIDs, copies.Tech);
 	Techs_ListV->SetFocus();
 }
 
@@ -192,12 +192,12 @@ void AGE_Frame::OnTechPaste(wxCommandEvent &event)	// Works.
 	{
 		if(Paste11Check(TechIDs.size(), copies.Tech.size()))
 		{
-			PasteToList(GenieFile->Techages, TechIDs, copies.Tech);
+			PasteToList(dataset->Techages, TechIDs, copies.Tech);
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Techages, TechIDs[0], copies.Tech);
+		PasteToList(dataset->Techages, TechIDs[0], copies.Tech);
 	}
 	ListTechs();
 }
@@ -208,100 +208,100 @@ void AGE_Frame::OnTechPasteInsert(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Techages, TechIDs[0], copies.Tech);
+	PasteInsertToList(dataset->Techages, TechIDs[0], copies.Tech);
 	ListTechs();
 }
 
 string AGE_Frame::GetEffectName(short Index)
 {
 	string Name = "";
-	switch(GenieFile->Techages[TechIDs[0]].Effects[Index].Type)
+	switch(dataset->Techages[TechIDs[0]].Effects[Index].Type)
 	{
 		case 0:
 			//Name = "Attribute Modifier (Set)";
-			Name = "Set attr. "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)
-			+" to "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" for ";
-			if(GenieFile->Techages[TechIDs[0]].Effects[Index].B == -1)
-				Name += "unit "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A);
+			Name = "Set attr. "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].C)
+			+" to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D)+" for ";
+			if(dataset->Techages[TechIDs[0]].Effects[Index].B == -1)
+				Name += "unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A);
 			else
-				Name += "class "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].B);
+				Name += "class "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B);
 			break;
 		case 1:
 			//Name = "Resource Modifier (Set/+/-)";
-			if(GenieFile->Techages[TechIDs[0]].Effects[Index].B == 0)
+			if(dataset->Techages[TechIDs[0]].Effects[Index].B == 0)
 			{
-				Name = "Set resource "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A)
-				+" to "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Set resource "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
+				+" to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
 			}
 			else
 			{
-				Name = "Change resource "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A)
-				+" by "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Change resource "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
+				+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
 			}
 			break;
 		case 2:
-			if(GenieFile->Techages[TechIDs[0]].Effects[Index].B == 0)
+			if(dataset->Techages[TechIDs[0]].Effects[Index].B == 0)
 				Name = "Disable";
 			else
 				Name = "Enable";
-			Name += " unit "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A);
+			Name += " unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A);
 			break;
 		case 3:
-			Name = "Upgrade unit "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A)
-			+" to "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].B);
+			Name = "Upgrade unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
+			+" to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B);
 			break;
 		case 4:
 			//Name = "Attribute Modifier (+/-)";
-			Name = "Change attr. "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)
-			+" by "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" for ";
-			if(GenieFile->Techages[TechIDs[0]].Effects[Index].B == -1)
-				Name += "unit "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A);
+			Name = "Change attr. "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].C)
+			+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D)+" for ";
+			if(dataset->Techages[TechIDs[0]].Effects[Index].B == -1)
+				Name += "unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A);
 			else
-				Name += "class "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].B);
+				Name += "class "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B);
 			break;
 		case 5:
 			//Name = "Attribute Modifier (Multiply)";
-			Name = "Multiply attr. "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].C)
-			+" by "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D)+" for ";
-			if(GenieFile->Techages[TechIDs[0]].Effects[Index].B == -1)
-				Name += "unit "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A);
+			Name = "Multiply attr. "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].C)
+			+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D)+" for ";
+			if(dataset->Techages[TechIDs[0]].Effects[Index].B == -1)
+				Name += "unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A);
 			else
-				Name += "class "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].B);
+				Name += "class "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B);
 			break;
 		case 6:
 			//Name = "Resource Modifier (Multiply)";
-			Name = "Multiply resource "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A)
-			+" by "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D);
+			Name = "Multiply resource "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
+			+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
 			break;
 		case 101:
 			//Name = "Research Cost Modifier (Set/+/-)";
-			if(GenieFile->Techages[TechIDs[0]].Effects[Index].C == 0)
+			if(dataset->Techages[TechIDs[0]].Effects[Index].C == 0)
 			{
-				Name = "Set research "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A)
-				+" cost type "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].B)
-				+" to "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Set research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
+				+" cost type "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B)
+				+" to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
 			}
 			else
 			{
-				Name = "Change research "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A)
-				+" cost type "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].B)
-				+" by "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Change research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
+				+" cost type "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B)
+				+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
 			}
 			break;
 		case 102:
-			Name = "Disable research "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D);
+			Name = "Disable research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
 			break;
 		case 103:
 			//Name = "Research Time Modifier (Set/+/-)";
-			if(GenieFile->Techages[TechIDs[0]].Effects[Index].C == 0)
+			if(dataset->Techages[TechIDs[0]].Effects[Index].C == 0)
 			{
-				Name = "Set research "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A)
-				+" time to "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Set research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
+				+" time to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
 			}
 			else
 			{
-				Name = "Change research "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].A)
-				+" time by "+lexical_cast<string>(GenieFile->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Change research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
+				+" time by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
 			}
 			break;
 		default:
@@ -326,8 +326,8 @@ void AGE_Frame::ListEffects()
 	Techs_Effects_ListV->names.clear();
 	Techs_Effects_ListV->indexes.clear();
 
-    if(GenieFile->Techages.size())
-	for(short loop = 0; loop < GenieFile->Techages[TechIDs[0]].Effects.size(); ++loop)
+    if(dataset->Techages.size())
+	for(short loop = 0; loop < dataset->Techages[TechIDs[0]].Effects.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetEffectName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -366,7 +366,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 		genie::TechageEffect * EffectPointer;
 		for(auto loop = selections; loop--> 0;)
 		{
-			EffectPointer = &GenieFile->Techages[TechIDs[0]].Effects[EffectIDs[loop]];
+			EffectPointer = &dataset->Techages[TechIDs[0]].Effects[EffectIDs[loop]];
 			Effects_Type->prepend(&EffectPointer->Type);
 			Effects_A->prepend(&EffectPointer->A);
 			Effects_B->prepend(&EffectPointer->B);
@@ -914,7 +914,7 @@ void AGE_Frame::OnEffectsAdd(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToList(GenieFile->Techages[TechIDs[0]].Effects);
+	AddToList(dataset->Techages[TechIDs[0]].Effects);
 	ListEffects();
 }
 
@@ -924,7 +924,7 @@ void AGE_Frame::OnEffectsInsert(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0]);
+	InsertToList(dataset->Techages[TechIDs[0]].Effects, EffectIDs[0]);
 	ListEffects();
 }
 
@@ -934,7 +934,7 @@ void AGE_Frame::OnEffectsDelete(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs);
+	DeleteFromList(dataset->Techages[TechIDs[0]].Effects, EffectIDs);
 	ListEffects();
 }
 
@@ -944,7 +944,7 @@ void AGE_Frame::OnEffectsCopy(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs, copies.Effect);
+	CopyFromList(dataset->Techages[TechIDs[0]].Effects, EffectIDs, copies.Effect);
 	Techs_Effects_ListV->SetFocus();
 }
 
@@ -958,12 +958,12 @@ void AGE_Frame::OnEffectsPaste(wxCommandEvent &event)	// Works.
 	{
 		if(Paste11Check(EffectIDs.size(), copies.Effect.size()))
 		{
-			PasteToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs, copies.Effect);
+			PasteToList(dataset->Techages[TechIDs[0]].Effects, EffectIDs, copies.Effect);
 		}
 	}
 	else
 	{
-		PasteToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies.Effect);
+		PasteToList(dataset->Techages[TechIDs[0]].Effects, EffectIDs[0], copies.Effect);
 	}
 	ListEffects();
 }
@@ -974,7 +974,7 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &event)	// Works.
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(GenieFile->Techages[TechIDs[0]].Effects, EffectIDs[0], copies.Effect);
+	PasteInsertToList(dataset->Techages[TechIDs[0]].Effects, EffectIDs[0], copies.Effect);
 	ListEffects();
 }
 
@@ -982,7 +982,7 @@ void AGE_Frame::OnEffectsCopyToTechs(wxCommandEvent &event)
 {
 	for(short loop=1; loop < TechIDs.size(); ++loop)
 	{
-		GenieFile->Techages[TechIDs[loop]].Effects = GenieFile->Techages[TechIDs[0]].Effects;
+		dataset->Techages[TechIDs[loop]].Effects = dataset->Techages[TechIDs[0]].Effects;
 	}
 }
 
@@ -997,10 +997,10 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
 	Techs_AllEffects_ListV->names.clear();
 
 	short Store = TechIDs[0];
-	for(short tech = 0; tech < GenieFile->Techages.size(); ++tech)
+	for(short tech = 0; tech < dataset->Techages.size(); ++tech)
 	{
 		TechIDs[0] = tech;
-		for(short effect = 0; effect < GenieFile->Techages[tech].Effects.size(); ++effect)
+		for(short effect = 0; effect < dataset->Techages[tech].Effects.size(); ++effect)
 		{
 			Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect);
 			if(SearchMatches(Name.Lower()))
