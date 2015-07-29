@@ -60,7 +60,7 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 
 	for(auto &box: uiGroupBorder) box->clear();
 
-	genie::TerrainBorder * BorderPointer;
+	genie::TerrainBorder * BorderPointer = NULL;
 	for(auto sel = selections; sel--> 0;)
 	{
 		BorderPointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs[sel]];
@@ -94,11 +94,11 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected border: "+lexical_cast<string>(BorderIDs[0]), 0);
 
 	for(auto &box: uiGroupBorder) box->update();
-    if(pal50500)
+    if(NULL != BorderPointer && pal50500)
     {
-        genie::Color high = (*pal50500)[BorderPointer->Colors[0]];
-        genie::Color med = (*pal50500)[BorderPointer->Colors[1]];
-        genie::Color low = (*pal50500)[BorderPointer->Colors[2]];
+        genie::Color high = (*pal50500)[(uint8_t)BorderPointer->Colors[0]];
+        genie::Color med = (*pal50500)[(uint8_t)BorderPointer->Colors[1]];
+        genie::Color low = (*pal50500)[(uint8_t)BorderPointer->Colors[2]];
         Borders_Colors[0]->SetBackgroundColour(wxColour(high.r, high.g, high.b));
         Borders_Colors[1]->SetBackgroundColour(wxColour(med.r, med.g, med.b));
         Borders_Colors[2]->SetBackgroundColour(wxColour(low.r, low.g, low.b));
