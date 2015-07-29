@@ -54,10 +54,10 @@ public:
             return;
         }
         curFileLoaded = AGETextCtrl::fileLoaded[window];
-        Update();
+        replenish();
         Enable(true);
     }
-    virtual void Update()=0;
+    virtual void replenish()=0;
     void changeContainerType(const ContainerType type)
     {
         switch(type)
@@ -139,7 +139,7 @@ public:
         Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Byte::OnEnter));
     }
     int SaveEdits(bool forced = false);
-    void Update();
+    void replenish();
 };
 
 class TextCtrl_UByte: public AGETextCtrl
@@ -155,7 +155,7 @@ public:
         Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_UByte::OnEnter));
     }
     int SaveEdits(bool forced = false);
-    void Update();
+    void replenish();
 };
 
 class TextCtrl_Float: public AGETextCtrl
@@ -171,7 +171,7 @@ public:
         Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Float::OnEnter));
     }
     int SaveEdits(bool forced = false);
-    void Update();
+    void replenish();
 };
 
 class TextCtrl_Long: public AGETextCtrl
@@ -187,7 +187,7 @@ public:
         Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Long::OnEnter));
     }
     int SaveEdits(bool forced = false);
-    void Update();
+    void replenish();
 };
 
 class TextCtrl_Short: public AGETextCtrl
@@ -203,7 +203,7 @@ public:
         Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Short::OnEnter));
     }
     int SaveEdits(bool forced = false);
-    void Update();
+    void replenish();
 };
 
 class TextCtrl_UShort: public AGETextCtrl
@@ -219,7 +219,7 @@ public:
         Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_UShort::OnEnter));
     }
     int SaveEdits(bool forced = false);
-    void Update();
+    void replenish();
 };
 
 class TextCtrl_String: public AGETextCtrl
@@ -236,7 +236,7 @@ public:
         Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_String::OnEnter));
     }
     int SaveEdits(bool forced = false);
-    void Update();
+    void replenish();
 };
 
 #endif
