@@ -22,6 +22,7 @@
 #include <wx/tooltip.h>
 #include <wx/timer.h>
 #include <wx/image.h>
+#include <wx/dcclient.h>
 
 #ifdef WIN32
 #include <windows.h>
