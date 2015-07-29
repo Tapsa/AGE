@@ -725,8 +725,8 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
         visibleUnitCiv->SetLabel(dataset->Civs[UnitCivID].Name);
         if(pal50500)
         {
-            genie::Color minimap = (*pal50500)[UnitPointer->MinimapColor];
-            genie::Color editorSel = (*pal50500)[UnitPointer->EditorSelectionColour];
+            genie::Color minimap = (*pal50500)[(uint8_t)UnitPointer->MinimapColor];
+            genie::Color editorSel = (*pal50500)[(uint8_t)UnitPointer->EditorSelectionColour];
             Units_MinimapColor->SetBackgroundColour(wxColour(minimap.r, minimap.g, minimap.b));
             Units_EditorSelectionColour->SetBackgroundColour(wxColour(editorSel.r, editorSel.g, editorSel.b));
         }
