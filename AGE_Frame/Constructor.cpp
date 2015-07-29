@@ -17,6 +17,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	argPath = aP;
 	AGEwindow = window;
+    iconSLP = 0; // Temporary solution, just to see if wxPanel works.
 
     if(window < AGE_Frame::openEditors.size())
     {

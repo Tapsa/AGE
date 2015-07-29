@@ -403,7 +403,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 					if(CopyGraphics || vecCiv == 0)
 					Units_ConstructionGraphicID->prepend(&UnitPointer->Building.ConstructionGraphicID);
 					Units_AdjacentMode->prepend(&UnitPointer->Building.AdjacentMode);
-					Units_IconDisabler->prepend(&UnitPointer->Building.GraphicsAngle);
+					Units_IconAngle->prepend(&UnitPointer->Building.GraphicsAngle);
 					Units_DisappearsWhenBuilt->prepend(&UnitPointer->Building.DisappearsWhenBuilt);
 					Units_StackUnitID->prepend(&UnitPointer->Building.StackUnitID);
 					Units_TerrainID->prepend(&UnitPointer->Building.FoundationTerrainID);
@@ -730,6 +730,9 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             Units_MinimapColor->SetBackgroundColour(wxColour(minimap.r, minimap.g, minimap.b));
             Units_EditorSelectionColour->SetBackgroundColour(wxColour(editorSel.r, editorSel.g, editorSel.b));
         }
+        iconSLP = UnitPointer->Type == 80 ? 50705 + UnitPointer->Building.GraphicsAngle : 50730;
+        iconSLP = iconSLP << 16;
+        iconSLP += UnitPointer->IconID; // frame
 	}
     else
     {
@@ -785,6 +788,23 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
     Units_ID2->Enable(false);
     Units_ID3->Enable(false);
 	//	Refresh(); // Too much lag.
+    Units_IconID_SLP->Refresh();
+}
+
+void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
+{
+    wxPaintDC dc(Units_IconID_SLP);
+    int frame = (uint16_t)iconSLP;
+    int slp = iconSLP >> 16;
+    SetStatusText(FormatInt(slp)+" "+FormatInt(frame), 3);
+    wxBitmap pic;
+    try
+    {
+        pic = SLPtoBitMap(slp, frame);
+    }
+    catch(out_of_range){}
+    if(pic.IsOk())
+    dc.DrawBitmap(pic, 0, 0, true);
 }
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)
@@ -2996,7 +3016,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_PlacementMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AirMode_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_IconID_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_IconID_Grid = new wxGridSizer(2, 0, 5);
+	Units_IconID_Grid = new wxGridSizer(3, 0, 5);
 	Units_HideInEditor_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Enabled_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -3145,7 +3165,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ConstructionGraphicID_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_SnowGraphicID_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AdjacentMode_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Units_IconDisabler_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_IconAngle_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Unknown31b_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_StackUnitID_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_TerrainID_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3311,7 +3331,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_ConstructionGraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Construction Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SnowGraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Snow Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_IconDisabler_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Icon/Graphics SLP Angle *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_IconAngle_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Angle *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_StackUnitID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Stack Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TerrainID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Foundation Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_OldTerrainLikeID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Old Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3388,8 +3408,9 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_IconID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
-	Units_IconDisabler = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_IconDisabler->SetToolTip("Tech attribute 17 changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
+    Units_IconID_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(36, 36));//64, 64));
+	Units_IconAngle = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_IconAngle->SetToolTip("Tech attribute 17 changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_StandingGraphic[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -4323,7 +4344,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_ConstructionGraphicID_Holder->Add(Units_ConstructionGraphicID_Text, 0, wxEXPAND);
 	Units_SnowGraphicID_Holder->Add(Units_SnowGraphicID_Text, 0, wxEXPAND);
-	Units_IconDisabler_Holder->Add(Units_IconDisabler_Text, 0, wxEXPAND);
+	Units_IconAngle_Holder->Add(Units_IconAngle_Text, 0, wxEXPAND);
 	Units_StackUnitID_Holder->Add(Units_StackUnitID_Text, 0, wxEXPAND);
 	Units_TerrainID_Holder->Add(Units_TerrainID_Text, 0, wxEXPAND);
 	Units_OldTerrainLikeID_Holder->Add(Units_OldTerrainLikeID_Text, 0, wxEXPAND);
@@ -4565,7 +4586,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown31b_Holder->Add(Units_DisappearsWhenBuilt, 0, wxEXPAND);
 	Units_Unknown31b_Holder->AddSpacer(2);
 	Units_Unknown31b_Holder->Add(Units_Unknown31b_CheckBox, 2, wxEXPAND);
-	Units_IconDisabler_Holder->Add(Units_IconDisabler, 0, wxEXPAND);
+	Units_IconAngle_Holder->Add(Units_IconAngle, 0, wxEXPAND);
 	Units_StackUnitID_Holder->Add(Units_StackUnitID, 1, wxEXPAND);
 	Units_StackUnitID_Holder->Add(Units_StackUnitID_ComboBox, 1, wxEXPAND);
 	Units_TerrainID_Holder->Add(Units_TerrainID, 1, wxEXPAND);
@@ -4796,8 +4817,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_DyingGraphic_Holder->Add(Units_DyingGraphic_Text, 0, wxEXPAND);
 	Units_DyingGraphic_Holder->Add(Units_DyingGraphic_Grid, 0, wxEXPAND);
 
+	Units_IconID_Grid->Add(Units_IconID_SLP, 1, wxEXPAND);
 	Units_IconID_Grid->Add(Units_IconID_Holder, 1, wxEXPAND);
-	Units_IconID_Grid->Add(Units_IconDisabler_Holder, 1, wxEXPAND);
+	Units_IconID_Grid->Add(Units_IconAngle_Holder, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_IconID_Grid, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_StandingGraphic_Holder, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_DyingGraphic_Holder, 1, wxEXPAND);
@@ -5375,6 +5397,7 @@ void AGE_Frame::CreateUnitControls()
 		Connect(Units_Attribute_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitAttribute));
 		Connect(Units_GarrisonType_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitGarrisonType));
 	}
+	Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawIconSLP), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
