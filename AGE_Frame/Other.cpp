@@ -377,14 +377,15 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         {
             datafiles.push_back(interfac);
             pal50500 = interfac->getPalFile(50500);
-            if(GameVersion >= genie::GV_AoK)
+            //if(GameVersion >= genie::GV_AoK)
             {
                 /*icons[0] = interfac->getSlpFile(50705);
                 icons[1] = interfac->getSlpFile(50706);
                 icons[2] = interfac->getSlpFile(50707);
                 icons[3] = interfac->getSlpFile(50708);*/
 
-                GetToolBar()->SetToolNormalBitmap(ToolBar_Hex, SLPtoBitMap(50705));
+                //wxClientDC dc(this);
+                //dc.DrawBitmap(SLPtoBitMap(50705, 1), 0, 0, true);
             }
         }
 	}
@@ -1837,7 +1838,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 	}
 }
 
-wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID)
+wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID)
 {
     genie::SlpFilePtr slp;
     for(auto &file: datafiles)
@@ -1846,7 +1847,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID)
     }
     if(slp)
     {
-        genie::SlpFramePtr frame = (*slp).getFrame(0);
+        genie::SlpFramePtr frame = (*slp).getFrame(frameID);
         if(frame)
         {
             int width = (*frame).getWidth();
