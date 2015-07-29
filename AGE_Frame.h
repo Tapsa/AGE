@@ -122,6 +122,7 @@ public:
 	void OnAllSoundFileTimer(wxTimerEvent &event);
 	void OnAllSoundFileSelect(wxCommandEvent &event);
 	bool Paste11Check(int pastes, int copies);
+	void OnDrawIconSLP(wxPaintEvent &event);
 
 //	General Events
 
@@ -840,7 +841,8 @@ public:
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
     void LoadTXT(wxString &filename);
-    wxBitmap SLPtoBitMap(uint32_t slpID);
+    wxBitmap SLPtoBitMap(uint32_t slpID, uint32_t frameID);
+    uint32_t iconSLP;
 
 //	Constants, remove unneeded entries.
 
@@ -1869,7 +1871,7 @@ public:
 	ComboBox_Plus1 *Units_SnowGraphicID_ComboBox;
 	AGETextCtrl *Units_AdjacentMode;
 	CheckBox_2State *Units_AdjacentMode_CheckBox;
-	AGETextCtrl *Units_IconDisabler;
+	AGETextCtrl *Units_IconAngle;
 	AGETextCtrl *Units_DisappearsWhenBuilt;
 	CheckBox_2State *Units_Unknown31b_CheckBox;
 	AGETextCtrl *Units_StackUnitID;
@@ -2044,7 +2046,7 @@ public:
 
 	wxStaticText *Units_ConstructionGraphicID_Text;
 	wxStaticText *Units_SnowGraphicID_Text;
-	wxStaticText *Units_IconDisabler_Text;
+	wxStaticText *Units_IconAngle_Text;
 	wxStaticText *Units_StackUnitID_Text;
 	wxStaticText *Units_TerrainID_Text;
 	wxStaticText *Units_OldTerrainLikeID_Text;
@@ -2089,6 +2091,7 @@ public:
 	wxBoxSizer *Units_AirMode_Holder;
 	wxBoxSizer *Units_IconID_Holder;
 	wxGridSizer *Units_IconID_Grid;
+	wxPanel *Units_IconID_SLP;
 	wxBoxSizer *Units_HideInEditor_Holder;
 	wxBoxSizer *Units_Unknown1_Holder;
 	wxBoxSizer *Units_Enabled_Holder;
@@ -2235,7 +2238,7 @@ public:
 	wxBoxSizer *Units_ConstructionGraphicID_Holder;
 	wxBoxSizer *Units_SnowGraphicID_Holder;
 	wxBoxSizer *Units_AdjacentMode_Holder;
-	wxBoxSizer *Units_IconDisabler_Holder;
+	wxBoxSizer *Units_IconAngle_Holder;
 	wxBoxSizer *Units_Unknown31b_Holder;
 	wxBoxSizer *Units_StackUnitID_Holder;
 	wxBoxSizer *Units_TerrainID_Holder;
