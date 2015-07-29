@@ -201,15 +201,14 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
-	//genie::Logger::setLogLevel(genie::Logger::L_INFO);
-	//static std::ofstream log_out;
-	//log_out.open("gulog.ini");
-	//genie::Logger::setGlobalOutputStream(log_out);
+	genie::Logger::setLogLevel(genie::Logger::L_INFO);
+	static std::ofstream log_out;
+	log_out.open("gulog.ini");
+	genie::Logger::setGlobalOutputStream(log_out);
 	dataset = NULL;
 	Lang = NULL;
 	LangX = NULL;
 	LangXP = NULL;
-	interfac = NULL;
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);

@@ -753,9 +753,9 @@ public:
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
 	wxFileConfig *Config, *Customs;
-	genie::DrsFile *interfac;
+	vector<genie::DrsFile*> datafiles;
 	genie::PalFilePtr pal50500;
-	genie::SlpFilePtr icons[4];
+	//genie::SlpFilePtr icons[4];
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
 	int CustomTerrains;
@@ -840,6 +840,7 @@ public:
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
     void LoadTXT(wxString &filename);
+    wxBitmap SLPtoBitMap(uint32_t slpID);
 
 //	Constants, remove unneeded entries.
 

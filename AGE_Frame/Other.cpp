@@ -354,13 +354,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 	}
 
-	if(NULL != interfac)
+    for(auto &file: datafiles)
+    delete file;
+    datafiles.clear();
+    if(pal50500) pal50500.reset();
+    //for(int i=0; i < 4; ++i) icons[i].reset();
 	{
-		delete interfac;
-		interfac = NULL;
-	}
-	{
-		interfac = new genie::DrsFile();
+		genie::DrsFile *interfac = new genie::DrsFile();
         wxString location = FolderDRS + "\\interfac.drs";
 		try
 		{
@@ -373,37 +373,21 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			delete interfac;
 			interfac = NULL;
 		}
-	}
-    if(pal50500) pal50500.reset();
-	if(NULL != interfac)
-    {
-        pal50500 = interfac->getPalFile(50500);
-        /*icons[0] = interfac->getSlpFile(50705);
-        icons[1] = interfac->getSlpFile(50706);
-        icons[2] = interfac->getSlpFile(50707);
-        icons[3] = interfac->getSlpFile(50708);
-        int total_frames = 0;
-        for(int i=0; i < 4; ++i)
-        if(icons[i]) total_frames += (*icons[i]).getFrameCount();
-        genie::SlpFramePtr icon1 = (*icons[0]).getFrame();
-        wxString frame1i = FormatInt((*icon1).getWidth()) + "x" + FormatInt((*icon1).getHeight());
-        wxMessageBox(frame1i);
-        vector<uint8_t> rgbdata;
-        rgbdata.resize((*icon1).getWidth() * (*icon1).getHeight() * 3, 0);
-        uint8_t *val = &rgbdata[0];
-        const uint8_t *pixel = (*icon1).getPixelIndexes();
-        for(int i=0; i < rgbdata.size(); i += 3)
+        if(NULL != interfac)
         {
-            genie::Color vari = (*pal50500)[*pixel++];
-            *val++ = vari.r;
-            *val++ = vari.g;
-            *val++ = vari.b;
+            datafiles.push_back(interfac);
+            pal50500 = interfac->getPalFile(50500);
+            if(GameVersion >= genie::GV_AoK)
+            {
+                /*icons[0] = interfac->getSlpFile(50705);
+                icons[1] = interfac->getSlpFile(50706);
+                icons[2] = interfac->getSlpFile(50707);
+                icons[3] = interfac->getSlpFile(50708);*/
+
+                GetToolBar()->SetToolNormalBitmap(ToolBar_Hex, SLPtoBitMap(50705));
+            }
         }
-        unsigned char *pic = (unsigned char*)&rgbdata[0];
-        wxImage ikoni((*icon1).getWidth(), (*icon1).getHeight(), pic, true);
-        wxBitmap frameli(ikoni, 24);
-        GetToolBar()->SetToolNormalBitmap(ToolBar_Hex, wxBitmap(frameli));*/
-    }
+	}
 
 	if(NULL != dataset)
 	{	// Without these, nothing can be edited.
@@ -1853,6 +1837,41 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 	}
 }
 
+wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID)
+{
+    genie::SlpFilePtr slp;
+    for(auto &file: datafiles)
+    {
+        slp = file->getSlpFile(slpID);
+    }
+    if(slp)
+    {
+        genie::SlpFramePtr frame = (*slp).getFrame(0);
+        if(frame)
+        {
+            int width = (*frame).getWidth();
+            int height = (*frame).getHeight();
+            int area = width * height;
+            vector<uint8_t> rgbdata(area * 4, 0);
+            uint8_t *val = rgbdata.data();
+            uint8_t *alpha = val + area * 3;
+            const uint8_t *pixel = (*frame).getPixelIndexes();
+            for(int i=0; i < area; ++i)
+            {
+                genie::Color rgba = (*pal50500)[(uint8_t)*pixel++];
+                *val++ = rgba.r;
+                *val++ = rgba.g;
+                *val++ = rgba.b;
+                *alpha++ = rgba.a;
+            }
+            unsigned char *pic = (unsigned char*)rgbdata.data();
+            unsigned char *trans = pic + area * 3;
+            return wxBitmap(wxImage(width, height, pic, trans, true), 24);
+        }
+    }
+    return wxNullBitmap;
+}
+
 /* Check if File Exists
 
 bool AGE_Frame::FileExists(const char * value)
@@ -2447,7 +2466,8 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	TabBar_Main->Destroy();
 
 	delete dataset;
-	delete interfac;
+    for(auto &file: datafiles)
+	delete file;
 	if(WriteLangs)
 	{
 		delete Lang;
