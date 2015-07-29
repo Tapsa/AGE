@@ -441,7 +441,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
                 for(auto &pointer: container)
                 {
                     ++edits;
-                    *(string*)pointer = value; // Update data field
+                    *(string*)pointer = value; // replenish data field
                 }
             }
             else
@@ -465,7 +465,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
     return 1;
 }
 
-void TextCtrl_Byte::Update()
+void TextCtrl_Byte::replenish()
 {
     if(AGETextCtrl::hexMode[window])
     {
@@ -486,7 +486,7 @@ void TextCtrl_Byte::Update()
     }
 }
 
-void TextCtrl_UByte::Update()
+void TextCtrl_UByte::replenish()
 {
     if(AGETextCtrl::hexMode[window])
     {
@@ -507,7 +507,7 @@ void TextCtrl_UByte::Update()
     }
 }
 
-void TextCtrl_Float::Update()
+void TextCtrl_Float::replenish()
 {
     if(AGETextCtrl::hexMode[window])
     {
@@ -540,7 +540,7 @@ void TextCtrl_Float::Update()
     }
 }
 
-void TextCtrl_Long::Update()
+void TextCtrl_Long::replenish()
 {
     if(AGETextCtrl::hexMode[window])
     {
@@ -561,7 +561,7 @@ void TextCtrl_Long::Update()
     }
 }
 
-void TextCtrl_Short::Update()
+void TextCtrl_Short::replenish()
 {
     if(AGETextCtrl::hexMode[window])
     {
@@ -582,7 +582,7 @@ void TextCtrl_Short::Update()
     }
 }
 
-void TextCtrl_UShort::Update()
+void TextCtrl_UShort::replenish()
 {
     if(AGETextCtrl::hexMode[window])
     {
@@ -603,7 +603,7 @@ void TextCtrl_UShort::Update()
     }
 }
 
-void TextCtrl_String::Update()
+void TextCtrl_String::replenish()
 {
     ChangeValue(*(string*)container.front());
 }
