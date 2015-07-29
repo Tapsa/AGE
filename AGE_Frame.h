@@ -821,7 +821,7 @@ public:
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath;
+	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List, AGEwindow;
 	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
@@ -839,6 +839,7 @@ public:
 	HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
+    void LoadTXT(wxString &filename);
 
 //	Constants, remove unneeded entries.
 

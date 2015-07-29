@@ -263,31 +263,19 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 	}
 
 	// txt language file
-	if('t' == LangFileName[LangFileName.size() - 1])
+    LangTxt.clear();
+	if(LangFileName.size() && 't' == LangFileName[LangFileName.size() - 1])
 	{
-		LangTxt.clear();
-		ifstream infile(LangFileName);
-		string line;
-		while(getline(infile, line))
-		{
-			size_t numbeg = line.find_first_not_of(" \t");
-			if(string::npos != numbeg)
-			{
-				size_t numend = line.find_first_of(" \t", numbeg + 1);
-				string index = line.substr(numbeg, numend - numbeg);
-				try
-				{
-					int ID = lexical_cast<int>(index);
-					size_t beg = line.find("\"", numend) + 1;
-					size_t end = line.find("\"", beg);
-					LangTxt.insert(pair<int, string>(ID, line.substr(beg, end - beg)));
-				}
-				catch(bad_lexical_cast e){}
-			}
-		}
+        UseTXT = true;
+        LoadTXT(LangFileName);
+        if(LangX1FileName.size() && 't' == LangX1FileName[LangX1FileName.size() - 1])
+        LoadTXT(LangX1FileName);
+        if(LangX1P1FileName.size() && 't' == LangX1P1FileName[LangX1P1FileName.size() - 1])
+        LoadTXT(LangX1P1FileName);
 	}
 	else
 	{
+        UseTXT = false;
 		if(NULL != Lang)
 		{
 			delete Lang;
@@ -384,13 +372,13 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			wxMessageBox("Failed to load "+location);
 			delete interfac;
 			interfac = NULL;
-			return;
 		}
 	}
+    if(pal50500) pal50500.reset();
 	if(NULL != interfac)
     {
         pal50500 = interfac->getPalFile(50500);
-        icons[0] = interfac->getSlpFile(50705);
+        /*icons[0] = interfac->getSlpFile(50705);
         icons[1] = interfac->getSlpFile(50706);
         icons[2] = interfac->getSlpFile(50707);
         icons[3] = interfac->getSlpFile(50708);
@@ -414,7 +402,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         unsigned char *pic = (unsigned char*)&rgbdata[0];
         wxImage ikoni((*icon1).getWidth(), (*icon1).getHeight(), pic, true);
         wxBitmap frameli(ikoni, 24);
-        GetToolBar()->SetToolNormalBitmap(ToolBar_Hex, wxBitmap(frameli));
+        GetToolBar()->SetToolNormalBitmap(ToolBar_Hex, wxBitmap(frameli));*/
     }
 
 	if(NULL != dataset)
@@ -1879,11 +1867,34 @@ bool AGE_Frame::FileExists(const char * value)
 	return false;
 }*/
 
+void AGE_Frame::LoadTXT(wxString &filename)
+{
+    ifstream infile(filename);
+    string line;
+    while(getline(infile, line))
+    {
+        size_t numbeg = line.find_first_not_of(" \t");
+        if(string::npos != numbeg)
+        {
+            size_t numend = line.find_first_of(" \t", numbeg + 1);
+            string index = line.substr(numbeg, numend - numbeg);
+            try
+            {
+                int ID = lexical_cast<int>(index);
+                size_t beg = line.find("\"", numend) + 1;
+                size_t end = line.find("\"", beg);
+                LangTxt[ID] = line.substr(beg, end - beg);
+            }
+            catch(bad_lexical_cast e){}
+        }
+    }
+}
+
 string AGE_Frame::LangDLLstring(int ID, int Letters)
 {
 	if(ID < 0) return "";
 	string Result = "";
-	if('t' == LangFileName[LangFileName.size() - 1])
+	if(UseTXT)
 	{
 		Result = LangTxt[ID];
 	}
