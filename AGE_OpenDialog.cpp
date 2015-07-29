@@ -381,14 +381,14 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 
 	CheckBox_GenieVer->SetSelection(EV_Cysion);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\_common\\dat\\empires2_x2_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxEmptyString);
+	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
+	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Path_DRS->SetPath(wxEmptyString);
 	TerrainsBox->ChangeValue("100");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
@@ -396,9 +396,9 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 	Selected.SetInt(true);
 	Selected.SetId(CheckBox_LangFileLocation->GetId());
 	ProcessEvent(Selected);
-	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
 	ProcessEvent(Selected);
+	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
 	ProcessEvent(Selected);
 }

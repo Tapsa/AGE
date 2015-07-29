@@ -270,8 +270,8 @@ void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &Event)
 
 	CheckBox_GenieVer->SetSelection(EV_Cysion);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\_common\\dat\\empires2_x2_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxEmptyString);
+	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
+	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	CheckBox_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(false);
