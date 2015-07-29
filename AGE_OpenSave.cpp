@@ -21,7 +21,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	Button_DefaultTC = new wxButton(slave, wxID_ANY, "TC defaults");
 	Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "AoK HD defaults");
 	Button_DefaultFE = new wxButton(slave, wxID_ANY, "HD:TF defaults");
-	Button_DefaultAP = new wxButton(slave, wxID_ANY, "HD:AoP defaults");
+	Button_DefaultAP = new wxButton(slave, wxID_ANY, "HD:AK defaults");
 	Button_DefaultSWGB = new wxButton(slave, wxID_ANY, "SWGB defaults");
 	Button_DefaultCC = new wxButton(slave, wxID_ANY, "CC defaults");
 
