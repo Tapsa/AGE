@@ -152,7 +152,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 	{
         getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
 
-		genie::Graphic * GraphicPointer;
+		genie::Graphic * GraphicPointer = NULL;
 		for(auto sel = selections; sel--> 0;)
 		{
 			GraphicPointer = &dataset->Graphics[GraphicIDs[sel]];
@@ -186,6 +186,11 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 		SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs[0]), 0);
 
 		selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs[0]];
+        if(NULL != GraphicPointer)
+        {
+            graphicSLP = GraphicPointer->SLP;
+            graphicSLPFN = GraphicPointer->Name2;
+        }
 	}
     for(auto &box: uiGroupGraphic) box->update();
 
@@ -193,6 +198,21 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 	Deltas_Add->Enable(selections);
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
+    Graphics_SLP_Image->Refresh();
+}
+
+void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
+{
+    wxPaintDC dc(Graphics_SLP_Image);
+    wxBitmap pic;
+    try
+    {
+        pic = SLPtoBitMap(graphicSLP, 0, graphicSLPFN);
+    }
+    catch(out_of_range){}
+    if(pic.IsOk())
+    dc.DrawBitmap(pic, 0, 0, true);
+    else dc.DrawLabel("!SLP " + FormatInt(graphicSLP) + "\n" + graphicSLPFN, wxNullBitmap, wxRect(0, 0, 100, 40));
 }
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
@@ -624,6 +644,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_ID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
 
+    Graphics_SLP_Image = new wxPanel(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(180, 180));
 	Graphics_SLP_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_SLP_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SLP = AGETextCtrl::init(CLong, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
@@ -978,6 +999,8 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_ScrollSpace->Add(Graphics_NameArea_Holder, 0, wxEXPAND);
 	Graphics_ScrollSpace->AddSpacer(5);
+	Graphics_ScrollSpace->Add(Graphics_SLP_Image, 0, wxEXPAND);
+	Graphics_ScrollSpace->AddSpacer(5);
 	Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND);
 	Graphics_ScrollSpace->AddSpacer(5);
 	Graphics_ScrollSpace->Add(Graphics_Coordinates_Holder, 0, wxEXPAND);
@@ -1059,6 +1082,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AngleCount->Connect(Graphics_AngleCount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_AttackSoundUsed->Connect(Graphics_AttackSoundUsed->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_AttackSoundUsed_CheckBox->Connect(Graphics_AttackSoundUsed_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Graphics), NULL, this);
+    Graphics_SLP_Image->Connect(Graphics_SLP_Image->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
