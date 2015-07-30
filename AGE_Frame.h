@@ -12,6 +12,7 @@ public:
 
 //	Stuff related to editing multiple files at once
 
+    static std::ofstream log_out;
     static vector<bool> openEditors;
 	static Copies copies;
 	wxString argPath;
@@ -123,6 +124,8 @@ public:
 	void OnAllSoundFileSelect(wxCommandEvent &event);
 	bool Paste11Check(int pastes, int copies);
 	void OnDrawIconSLP(wxPaintEvent &event);
+	void OnDrawGraphicSLP(wxPaintEvent &event);
+	void OnDrawUnitSLP(wxPaintEvent &event);
 
 //	General Events
 
@@ -756,7 +759,6 @@ public:
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	genie::PalFilePtr pal50500;
-	//genie::SlpFilePtr icons[4];
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
 	int CustomTerrains;
@@ -822,7 +824,7 @@ public:
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT;
+	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List, AGEwindow;
 	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
@@ -841,8 +843,9 @@ public:
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
     void LoadTXT(wxString &filename);
-    wxBitmap SLPtoBitMap(uint32_t slpID, uint32_t frameID);
-    uint32_t iconSLP;
+    wxBitmap SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filename = "");
+    uint32_t iconSLP, graphicSLP, unitSLP;
+    string iconSLPFN, graphicSLPFN, unitSLPFN;
 
 //	Constants, remove unneeded entries.
 
@@ -2382,6 +2385,7 @@ public:
 	wxBoxSizer *Units_TypeArea_Holder;
 	wxStaticBoxSizer *Units_LangDLLArea_Holder;
 	wxStaticBoxSizer *Units_GraphicsArea_Holder;
+	wxPanel *Units_StandingGraphic_SLP;
 	wxBoxSizer *Units_GraphicsArea1_Holder;
 	wxGridSizer *Units_GraphicsArea4_Holder;
 	wxGridSizer *Units_GraphicsArea5_Holder;
@@ -2629,6 +2633,7 @@ public:
 	AGETextCtrl *Graphics_Name;
 	AGETextCtrl *Graphics_Name2;
 	AGETextCtrl *Graphics_SLP;
+	wxPanel *Graphics_SLP_Image;
 	AGETextCtrl *Graphics_Unknown1;
 	AGETextCtrl *Graphics_Unknown2;
 	AGETextCtrl *Graphics_FrameType;

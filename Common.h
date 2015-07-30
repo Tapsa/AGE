@@ -39,7 +39,6 @@
 #include "genie/resource/DrsFile.h"
 #include "genie/dat/DatFile.h"	// Newer dat system
 #include "genie/lang/LangFile.h"
-//#include "genie/resource/DrsFile.h"	// DRS file system
 using namespace std;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
@@ -55,16 +54,15 @@ enum EditableVersion
 	EV_DAVE,
 	EV_MATT,
 	EV_AoEB,
-	//EV_AoETB,
 	EV_AoE,
-	//EV_RoR,
+	EV_RoR,
 	EV_AoKA,
 	EV_AoKB,
 	EV_AoK,
 	EV_TC,
 	EV_Cysion,
-	EV_SWGB
-	//EV_CC
+	EV_SWGB,
+	EV_CC
 };
 
 enum ContainerType {CByte, CUByte, CFloat, CLong, CShort, CUShort, CString};
