@@ -9,6 +9,8 @@
 #include "../AppIcon24.xpm"
 //#include "genie/util/Logger.h"
 
+std::ofstream AGE_Frame::log_out;
+
 AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
 {
@@ -17,7 +19,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	argPath = aP;
 	AGEwindow = window;
-    iconSLP = 0; // Temporary solution, just to see if wxPanel works.
+    iconSLP = graphicSLP = unitSLP = 0; // Temporary solution, just to see if wxPanel works.
 
     if(window < AGE_Frame::openEditors.size())
     {
@@ -55,6 +57,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("DefaultFiles/DatFilename", &DatFileName, wxEmptyString);
 	Config->Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxEmptyString);
 	Config->Read("DefaultFiles/FolderDRS", &FolderDRS, wxEmptyString);
+	Config->Read("DefaultFiles/UseDRS", &UseDRS, false);
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/WriteLangs", &WriteLangs, false);
 	Config->Read("DefaultFiles/SaveLangs", &SaveLangs, false);
@@ -203,7 +206,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
 	genie::Logger::setLogLevel(genie::Logger::L_INFO);
-	static std::ofstream log_out;
 	log_out.open("gulog.ini");
 	genie::Logger::setGlobalOutputStream(log_out);
 	dataset = NULL;

@@ -142,6 +142,8 @@ void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+	CheckBox_DRSPath->SetValue(false);
+	CheckBox_DRSPath->Enable(true);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -172,7 +174,7 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &event)
 	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires";
 	}
 
-	CheckBox_GenieVer->SetSelection(EV_AoE);
+	CheckBox_GenieVer->SetSelection(EV_RoR);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data2\\empires.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\languagex.dll"));
@@ -182,6 +184,8 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+	CheckBox_DRSPath->SetValue(false);
+	CheckBox_DRSPath->Enable(true);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -222,6 +226,8 @@ void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+	CheckBox_DRSPath->SetValue(true);
+	CheckBox_DRSPath->Enable(true);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -262,6 +268,8 @@ void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(true);
+	CheckBox_DRSPath->SetValue(true);
+	CheckBox_DRSPath->Enable(true);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -298,12 +306,14 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(wxEmptyString);
+	Path_DRS->SetPath(wxString(Path + "\\resources\\_common\\drs"));
 	TerrainsBox->ChangeValue("42");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+	CheckBox_DRSPath->SetValue(true);
+	CheckBox_DRSPath->Enable(false);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -341,12 +351,14 @@ void AGE_OpenDialog::OnDefaultFE(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(wxEmptyString);
+	Path_DRS->SetPath(wxString(Path + "\\resources\\_common\\drs"));
 	TerrainsBox->ChangeValue("42");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+	CheckBox_DRSPath->SetValue(true);
+	CheckBox_DRSPath->Enable(false);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -384,12 +396,14 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(wxEmptyString);
+	Path_DRS->SetPath(wxString(Path + "\\resources-dlc2\\_common\\drs"));
 	TerrainsBox->ChangeValue("100");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+	CheckBox_DRSPath->SetValue(true);
+	CheckBox_DRSPath->Enable(false);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -430,6 +444,8 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+	CheckBox_DRSPath->SetValue(true);
+	CheckBox_DRSPath->Enable(true);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
@@ -460,7 +476,7 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &event)
 	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
 	}
 
-	CheckBox_GenieVer->SetSelection(EV_SWGB);
+	CheckBox_GenieVer->SetSelection(EV_CC);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
@@ -470,6 +486,8 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+	CheckBox_DRSPath->SetValue(true);
+	CheckBox_DRSPath->Enable(true);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);

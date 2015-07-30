@@ -733,6 +733,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
         iconSLP = UnitPointer->Type == 80 ? 50705 + UnitPointer->Building.GraphicsAngle : 50730;
         iconSLP = iconSLP << 16;
         iconSLP += UnitPointer->IconID; // frame
+        unitSLP = UnitPointer->StandingGraphic.first;
 	}
     else
     {
@@ -789,6 +790,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
     Units_ID3->Enable(false);
 	//	Refresh(); // Too much lag.
     Units_IconID_SLP->Refresh();
+    Units_StandingGraphic_SLP->Refresh();
 }
 
 void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
@@ -796,7 +798,6 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
     wxPaintDC dc(Units_IconID_SLP);
     int frame = (uint16_t)iconSLP;
     int slp = iconSLP >> 16;
-    SetStatusText(FormatInt(slp)+" "+FormatInt(frame), 3);
     wxBitmap pic;
     try
     {
@@ -805,6 +806,29 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
     catch(out_of_range){}
     if(pic.IsOk())
     dc.DrawBitmap(pic, 0, 0, true);
+    else dc.DrawLabel("!SLP " + FormatInt(slp), wxNullBitmap, wxRect(0, 0, 100, 40));
+}
+
+void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
+{
+    wxPaintDC dc(Units_StandingGraphic_SLP);
+    unsigned int seek = unitSLP;
+    if(seek < dataset->Graphics.size())
+    {
+        seek = dataset->Graphics[unitSLP].SLP;
+        wxBitmap pic;
+        try
+        {
+            pic = SLPtoBitMap(seek, 0);
+        }
+        catch(out_of_range){}
+        if(pic.IsOk())
+        {
+            dc.DrawBitmap(pic, 0, 0, true);
+            return;
+        }
+    }
+    dc.DrawLabel("!SLP " + FormatInt(seek), wxNullBitmap, wxRect(0, 0, 100, 40));
 }
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)
@@ -3406,6 +3430,7 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_Unknown2 = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
 
+    Units_StandingGraphic_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(180, 180));
 	Units_IconID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
     Units_IconID_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(36, 36));//64, 64));
@@ -5222,6 +5247,8 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_ScrollSpace->Add(Units_LangDLLArea_Holder, 0, wxEXPAND);
 	Units_ScrollSpace->AddSpacer(5);
+	Units_ScrollSpace->Add(Units_StandingGraphic_SLP, 0, wxEXPAND);
+	Units_ScrollSpace->AddSpacer(5);
 	Units_ScrollSpace->Add(Units_GraphicsArea_Holder, 0, wxEXPAND);
 	Units_ScrollSpace->AddSpacer(5);
 	Units_ScrollSpace->Add(Units_StatsArea_Holder, 0, wxEXPAND);
@@ -5398,6 +5425,7 @@ void AGE_Frame::CreateUnitControls()
 		Connect(Units_GarrisonType_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitGarrisonType));
 	}
 	Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawIconSLP), NULL, this);
+    Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawUnitSLP), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
