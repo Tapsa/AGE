@@ -1872,8 +1872,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 
 wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filename)
 {
-    genie::SlpFile slpf;
-    slpf.setGameVersion(GenieVersion);
+    genie::SlpFilePtr slp;
     if(UseTXT)
     {
         wxArrayString folders;
@@ -1886,18 +1885,22 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
         {
             try
             {
+                slp.reset(new genie::SlpFile());
                 wxString name = FolderDRS + folders[i] + filename + ".slp";
                 log_out << name << endl;
-                slpf.load(name.c_str());
+                slp.get()->setGameVersion(GenieVersion);
+                slp.get()->load(name.c_str());
                 break; // Return first found match
             }
             catch(std::ios_base::failure e){}
             // HD uses slp ID instead
             try
             {
+                slp.reset(new genie::SlpFile());
                 wxString name = FolderDRS + folders[i] + lexical_cast<string>(slpID) + ".slp";
                 log_out << name << endl;
-                slpf.load(name.c_str());
+                slp.get()->setGameVersion(GenieVersion);
+                slp.get()->load(name.c_str());
                 break;
             }
             catch(std::ios_base::failure e){}
@@ -1905,26 +1908,25 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
     }
     else
     {
-        genie::SlpFile *slp;
         for(auto &file: datafiles)
         {
-            slp = file->getSlp(slpID);
-            if(slp->getFrameCount()) break;
+            slp.reset();
+            slp = file->getSlpFile(slpID);
+            if(slp) break;
         }
-        // How to convert slp pointer to slp?
     }
-    if(slpf.getFrameCount())
+    if(slp)
     {
-        genie::SlpFramePtr frame = slpf.getFrame(frameID);
+        genie::SlpFramePtr frame = slp.get()->getFrame(frameID);
         if(frame)
         {
-            int width = (*frame).getWidth();
-            int height = (*frame).getHeight();
+            int width = frame.get()->getWidth();
+            int height = frame.get()->getHeight();
             int area = width * height;
             vector<uint8_t> rgbdata(area * 4, 0);
             uint8_t *val = rgbdata.data();
             uint8_t *alpha = val + area * 3;
-            const uint8_t *pixel = (*frame).getPixelIndexes();
+            const uint8_t *pixel = frame.get()->getPixelIndexes();
             for(int i=0; i < area; ++i)
             {
                 genie::Color rgba = (*pal50500)[(uint8_t)*pixel++];
