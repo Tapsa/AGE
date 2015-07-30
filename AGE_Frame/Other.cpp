@@ -359,7 +359,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
     for(auto &file: datafiles)
     delete file;
     datafiles.clear();
-    if(pal50500) pal50500.reset();
+    pal50500.reset();
     if(UseDRS && !UseTXT)
 	{
         wxArrayString FilesToRead;
@@ -379,7 +379,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         goto FTR_NORMAL;
 FTR_TCCC:
         FilesToRead.Add("\\gamedata_x1.drs");
-        FilesToRead.Add("\\sounds_x1.drs");
+        //FilesToRead.Add("\\sounds_x1.drs");
 FTR_NORMAL:
         if(GenieVersion == genie::GV_RoR)
         {
@@ -393,7 +393,7 @@ FTR_NORMAL:
         {
             FilesToRead.Add("\\gamedata.drs");
         }
-        FilesToRead.Add("\\sounds.drs");
+        //FilesToRead.Add("\\sounds.drs");
         if(GenieVersion < genie::GV_AoKB)
         {
             FilesToRead.Add("\\border.drs");
@@ -1875,6 +1875,14 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
     genie::SlpFilePtr slp;
     if(UseTXT)
     {
+        try
+        {
+            pal50500.reset(new genie::PalFile());
+            wxString name = FolderDRS + "\\interface\\50500.bina";
+            log_out << name << endl;
+            pal50500.get()->load(name.c_str());
+        }
+        catch(std::ios_base::failure e){}
         wxArrayString folders;
         folders.Add("\\interface\\");
         folders.Add("\\gamedata_x2\\");
@@ -1883,6 +1891,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
         folders.Add("\\terrain\\");
         for(int i=0; i < folders.size(); ++i)
         {
+            if(!filename.empty())
             try
             {
                 slp.reset(new genie::SlpFile());
@@ -1912,6 +1921,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
         {
             slp.reset();
             slp = file->getSlpFile(slpID);
+            log_out << file->getFileName() << " : " << slpID << endl;
             if(slp) break;
         }
     }
@@ -1927,6 +1937,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
             uint8_t *val = rgbdata.data();
             uint8_t *alpha = val + area * 3;
             const uint8_t *pixel = frame.get()->getPixelIndexes();
+            if(pal50500)
             for(int i=0; i < area; ++i)
             {
                 genie::Color rgba = (*pal50500)[(uint8_t)*pixel++];
