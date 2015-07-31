@@ -45,7 +45,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("Interaction/AllCivs", &AllCivs, true);
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interaction/ShowSLP", &ShowSLP, true);
-	Config->Read("Interaction/AnimSLP", &AnimSLP, false);
+	Config->Read("Interaction/AnimSLP", &AnimSLP, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("Interface/Paste11", &Paste11, true);

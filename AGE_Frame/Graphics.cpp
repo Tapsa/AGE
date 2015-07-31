@@ -196,18 +196,10 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
     Graphics_SLP_Image->Refresh();
 }
 
-void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
-{
-    graphicAnimTimer.Stop();
-    if(Graphics_SLP_Image->IsShownOnScreen())
-    Graphics_SLP_Image->Refresh();
-    else graphicAnimTimer.Start(1000);
-}
-
 void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 {
-    //wxBufferedPaintDC dc(Graphics_SLP_Image); for wxWidgets 3
-    wxPaintDC dc(Graphics_SLP_Image);
+    wxBufferedPaintDC dc(Graphics_SLP_Image);
+    dc.Clear();
     if(GraphicIDs.size() == 0) return; // Nothing selected
     if(dataset->Graphics[GraphicIDs[0]].FrameCount == 0)
     {
@@ -241,6 +233,18 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             graphicAnimTimer.Start(fpms);
         }
     }
+}
+
+void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
+{
+    graphicAnimTimer.Stop();
+    if(Graphics_SLP_Image->IsShownOnScreen())
+    Graphics_SLP_Image->Refresh();
+    else graphicAnimTimer.Start(1000);
+}
+
+void AGE_Frame::OnGraphicErase(wxEraseEvent &event)
+{
 }
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
@@ -1111,6 +1115,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSoundUsed->Connect(Graphics_AttackSoundUsed->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_AttackSoundUsed_CheckBox->Connect(Graphics_AttackSoundUsed_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Graphics), NULL, this);
     Graphics_SLP_Image->Connect(Graphics_SLP_Image->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
+    Graphics_SLP_Image->Connect(Graphics_SLP_Image->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
     graphicAnimTimer.Connect(graphicAnimTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicAnim), NULL, this);
 }
 
