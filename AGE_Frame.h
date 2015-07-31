@@ -127,6 +127,7 @@ public:
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void OnDrawUnitSLP(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
+	void OnGraphicErase(wxEraseEvent &event);
 
 //	General Events
 

@@ -795,7 +795,8 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
 {
-    wxPaintDC dc(Units_IconID_SLP);
+    wxBufferedPaintDC dc(Units_IconID_SLP);
+    dc.Clear();
     int frame = (uint16_t)iconSLP;
     int slp = iconSLP >> 16;
     wxBitmap pic;
@@ -811,7 +812,8 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
 
 void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
 {
-    wxPaintDC dc(Units_StandingGraphic_SLP);
+    wxBufferedPaintDC dc(Units_StandingGraphic_SLP);
+    dc.Clear();
     unsigned int seek = unitSLP;
     string name;
     if(seek < dataset->Graphics.size())
@@ -5427,7 +5429,9 @@ void AGE_Frame::CreateUnitControls()
 		Connect(Units_GarrisonType_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitGarrisonType));
 	}
 	Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawIconSLP), NULL, this);
+    Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
     Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawUnitSLP), NULL, this);
+    Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
