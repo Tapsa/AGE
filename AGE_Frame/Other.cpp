@@ -1896,27 +1896,33 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
     genie::SlpFilePtr slp;
     if(UseTXT)
     {
+        wxArrayString folders;
+        wxString folderDRS = FolderDRS;
+        if(GenieVersion == genie::GV_Cysion)
+        {
+            folders.Add(folderDRS + "\\gamedata_x2\\");
+            folderDRS.Replace("-dlc2", "", false);
+        }
+        folders.Add(folderDRS + "\\interface\\");
+        folders.Add(folderDRS + "\\gamedata_x2\\");
+        folders.Add(folderDRS + "\\gamedata_x1\\");
+        folders.Add(folderDRS + "\\graphics\\");
+        folders.Add(folderDRS + "\\terrain\\");
         try
         {
             pal50500.reset(new genie::PalFile());
-            wxString name = FolderDRS + "\\interface\\50500.bina";
+            wxString name = folderDRS + "\\interface\\50500.bina";
             //log_out << name << endl;
             pal50500.get()->load(name.c_str());
         }
         catch(std::ios_base::failure e){}
-        wxArrayString folders;
-        folders.Add("\\interface\\");
-        folders.Add("\\gamedata_x2\\");
-        folders.Add("\\gamedata_x1\\");
-        folders.Add("\\graphics\\");
-        folders.Add("\\terrain\\");
         for(int i=0; i < folders.size(); ++i)
         {
             if(!filename.empty())
             try
             {
                 slp.reset(new genie::SlpFile());
-                wxString name = FolderDRS + folders[i] + filename + ".slp";
+                wxString name = folders[i] + filename + ".slp";
                 //log_out << name << endl;
                 slp.get()->setGameVersion(GenieVersion);
                 slp.get()->load(name.c_str());
@@ -1927,7 +1933,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
             try
             {
                 slp.reset(new genie::SlpFile());
-                wxString name = FolderDRS + folders[i] + lexical_cast<string>(slpID) + ".slp";
+                wxString name = folders[i] + lexical_cast<string>(slpID) + ".slp";
                 //log_out << name << endl;
                 slp.get()->setGameVersion(GenieVersion);
                 slp.get()->load(name.c_str());
