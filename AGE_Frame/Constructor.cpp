@@ -19,7 +19,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	argPath = aP;
 	AGEwindow = window;
-    iconSLP = graphicSLP = unitSLP = 0; // Temporary solution, just to see if wxPanel works.
+    iconSLP = graphicSLP = graphicSLPFrame = unitSLP = 0; // Temporary solution, just to see if wxPanel works.
 
     if(window < AGE_Frame::openEditors.size())
     {
@@ -44,10 +44,13 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("Interaction/CopyGraphics", &CopyGraphics, false);
 	Config->Read("Interaction/AllCivs", &AllCivs, true);
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
+	Config->Read("Interaction/ShowSLP", &ShowSLP, true);
+	Config->Read("Interaction/AnimSLP", &AnimSLP, false);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("Interface/Paste11", &Paste11, true);
 	Config->Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
+	Config->Read("Interface/SLPareaPerCent", &SLPareaPerCent, 100);
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, "C");
 	Config->Read("DefaultFiles/UseCustomPath", &UseCustomPath, false);
 	Config->Read("DefaultFiles/CustomFolder", &CustomFolder, wxEmptyString);
@@ -106,11 +109,18 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SubMenu_Options->Check(MenuOption_IDFix, EnableIDFix);
 	SubMenu_Options->Enable(MenuOption_IDFix, false);
 
+	SubMenu_SLP = new wxMenu();
+	SubMenu_SLP->AppendCheckItem(MenuOption_ShowSLP, "&Show SLP graphics");
+	SubMenu_SLP->Check(MenuOption_ShowSLP, ShowSLP);
+	SubMenu_SLP->AppendCheckItem(MenuOption_AnimSLP, "&Animate SLP graphics");
+	SubMenu_SLP->Check(MenuOption_AnimSLP, AnimSLP);
+
 	SubMenu_Help = new wxMenu();
 	SubMenu_Help->Append(MenuOption_Tips, "&Tips");
 	SubMenu_Help->Append(MenuOption_About, "&About...");
 
 	MenuBar_Main->Append(SubMenu_Options, "&Options");
+	MenuBar_Main->Append(SubMenu_SLP, "&SLP");
 	MenuBar_Main->Append(SubMenu_Help, "&Help");
 
 	this->SetMenuBar(MenuBar_Main);
@@ -172,6 +182,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_ShowSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_AnimSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(Units_AutoCopy->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
 	Connect(Units_CopyTo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::UnitsAutoCopy));
 	Connect(Units_SelectAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
@@ -197,6 +209,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Paste11Cmd.SetInt(Paste11);
 	ProcessEvent(Paste11Cmd);
 
+	wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowSLP);
+	ShowSLPCmd.SetInt(ShowSLP);
+	ProcessEvent(ShowSLPCmd);
+
 	if(TimesOpened < 2)
 	{
 		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Help);
@@ -215,6 +231,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
+    //wxWindow::SetBackgroundStyle(wxBG_STYLE_PAINT); for wxWidgets 3
 }
 
 void AGE_Frame::FixSizes()
