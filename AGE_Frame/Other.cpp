@@ -1900,7 +1900,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
         {
             pal50500.reset(new genie::PalFile());
             wxString name = FolderDRS + "\\interface\\50500.bina";
-            log_out << name << endl;
+            //log_out << name << endl;
             pal50500.get()->load(name.c_str());
         }
         catch(std::ios_base::failure e){}
@@ -1917,7 +1917,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
             {
                 slp.reset(new genie::SlpFile());
                 wxString name = FolderDRS + folders[i] + filename + ".slp";
-                log_out << name << endl;
+                //log_out << name << endl;
                 slp.get()->setGameVersion(GenieVersion);
                 slp.get()->load(name.c_str());
                 break; // Return first found match
@@ -1928,7 +1928,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
             {
                 slp.reset(new genie::SlpFile());
                 wxString name = FolderDRS + folders[i] + lexical_cast<string>(slpID) + ".slp";
-                log_out << name << endl;
+                //log_out << name << endl;
                 slp.get()->setGameVersion(GenieVersion);
                 slp.get()->load(name.c_str());
                 break;
@@ -1942,7 +1942,7 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
         {
             slp.reset();
             slp = file->getSlpFile(slpID);
-            log_out << file->getFileName() << " : " << slpID << endl;
+            //log_out << file->getFileName() << " : " << slpID << endl;
             if(slp) break;
         }
     }
