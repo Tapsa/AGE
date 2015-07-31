@@ -727,8 +727,8 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
         {
             genie::Color minimap = (*pal50500)[(uint8_t)UnitPointer->MinimapColor];
             genie::Color editorSel = (*pal50500)[(uint8_t)UnitPointer->EditorSelectionColour];
-            Units_MinimapColor->SetBackgroundColour(wxColour(minimap.r, minimap.g, minimap.b));
-            Units_EditorSelectionColour->SetBackgroundColour(wxColour(editorSel.r, editorSel.g, editorSel.b));
+            Units_MinimapColor->SetForegroundColour(wxColour(minimap.r, minimap.g, minimap.b));
+            Units_EditorSelectionColour->SetForegroundColour(wxColour(editorSel.r, editorSel.g, editorSel.b));
         }
         iconSLP = UnitPointer->Type == 80 ? 50705 + UnitPointer->Building.GraphicsAngle : 50730;
         iconSLP = iconSLP << 16;
@@ -813,13 +813,15 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
 {
     wxPaintDC dc(Units_StandingGraphic_SLP);
     unsigned int seek = unitSLP;
+    string name;
     if(seek < dataset->Graphics.size())
     {
         seek = dataset->Graphics[unitSLP].SLP;
+        name = dataset->Graphics[unitSLP].Name2;
         wxBitmap pic;
         try
         {
-            pic = SLPtoBitMap(seek, 0);
+            pic = SLPtoBitMap(seek, 0, name);
         }
         catch(out_of_range){}
         if(pic.IsOk())
@@ -828,7 +830,7 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
             return;
         }
     }
-    dc.DrawLabel("!SLP " + FormatInt(seek), wxNullBitmap, wxRect(0, 0, 100, 40));
+    dc.DrawLabel("!SLP " + FormatInt(seek) + "\n" + name, wxNullBitmap, wxRect(0, 0, 100, 40));
 }
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)

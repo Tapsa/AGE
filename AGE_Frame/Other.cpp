@@ -1779,6 +1779,27 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			AGEAbout.ShowModal();
 		}
 		break;
+		case MenuOption_ShowSLP:
+		{
+			ShowSLP = event.IsChecked();
+
+			Units_StandingGraphic_SLP->Show(ShowSLP);
+            Graphics_SLP_Image->Show(ShowSLP);
+            Units_IconID_SLP->Show(ShowSLP);
+
+            Units_Main->Layout();
+            Graphics_Main->Layout();
+            Units_Scroller->GetSizer()->FitInside(Units_Scroller);
+            Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
+            Refresh();
+		}
+		break;
+		case MenuOption_AnimSLP:
+		{
+			AnimSLP = event.IsChecked();
+            Refresh();
+		}
+		break;
 		/*case MenuOption_IDFix:
 		{
 			EnableIDFix = event.IsChecked();
@@ -2527,10 +2548,13 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	Config->Write("Interaction/CopyGraphics", CopyGraphics);
 	Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
+	Config->Write("Interaction/ShowSLP", ShowSLP);
+	Config->Write("Interaction/AnimSLP", AnimSLP);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("Interface/Paste11", Paste11);
 	Config->Write("Interface/MaxWindowWidth", MaxWindowWidth);
+	Config->Write("Interface/SLPareaPerCent", SLPareaPerCent);
 	delete Config;
 
 	if(event.CanVeto() && AGETextCtrl::unSaved[AGEwindow] > 0)
@@ -2545,6 +2569,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 		if(AutoBackups) SaveBackup();
 	}
 
+    graphicAnimTimer.Stop();
 	TabBar_Main->Destroy();
 
 	delete dataset;
