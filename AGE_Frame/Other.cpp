@@ -1977,6 +1977,11 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
             unsigned char *trans = pic + area * 3;
             return wxBitmap(wxImage(width, height, pic, trans, true), 24);
         }
+        if(UseTXT)
+        {
+            pal50500.get()->freelock();
+            slp.get()->freelock();
+        }
     }
     return wxNullBitmap;
 }
