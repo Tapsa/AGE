@@ -23,7 +23,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental\nand affects reading too");
 	CheckBox_LangWriteToLatest = new wxCheckBox(this, wxID_ANY, "Write to the latest file instead of the base file *");
 	CheckBox_LangWriteToLatest->SetToolTip("If you write to the latest file (x1/p1),\nyou only need to distribute that file,\nbut your edits will not affect the vanilla game");
-    CheckBox_DRSPath = new wxCheckBox(this, wxID_ANY, "Path for DRS files");
+    CheckBox_DRSPath = new wxCheckBox(this, wxID_ANY, "Path for DRS files *");
+    CheckBox_DRSPath->SetToolTip("Path to the folder containing all drs files/folders");
     Path_DRS = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
 
 	Layout->Add(Text_GenieVer, 1, wxEXPAND);
@@ -56,13 +57,15 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->Add(Path_LangX1P1FileLocation, 1, wxEXPAND);
 	Layout->Add(CheckBox_LangWrite, 1, wxEXPAND);
 	Layout->Add(CheckBox_LangWriteToLatest, 1, wxEXPAND);
+	Layout->AddSpacer(15);
+	Layout->AddSpacer(15);
 	Layout->Add(CheckBox_DRSPath, 1, wxEXPAND);
 	Layout->Add(Path_DRS, 1, wxEXPAND);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
 
 	Layout->AddGrowableCol(1, 1);
-	Layout->AddGrowableRow(13, 1);
+	Layout->AddGrowableRow(14, 1);
 
 	Area->AddSpacer(5);
 	Area->Add(Defaults, 0, wxALIGN_CENTRE);

@@ -186,11 +186,6 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 		SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs[0]), 0);
 
 		selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs[0]];
-        if(NULL != GraphicPointer)
-        {
-            graphicSLP = GraphicPointer->SLP;
-            graphicSLPFN = GraphicPointer->Name2;
-        }
 	}
     for(auto &box: uiGroupGraphic) box->update();
 
@@ -201,18 +196,51 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
     Graphics_SLP_Image->Refresh();
 }
 
+void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
+{
+    graphicAnimTimer.Stop();
+    if(Graphics_SLP_Image->IsShownOnScreen())
+    Graphics_SLP_Image->Refresh();
+    else graphicAnimTimer.Start(1000);
+}
+
 void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 {
+    //wxBufferedPaintDC dc(Graphics_SLP_Image); for wxWidgets 3
     wxPaintDC dc(Graphics_SLP_Image);
+    if(GraphicIDs.size() == 0) return; // Nothing selected
+    if(dataset->Graphics[GraphicIDs[0]].FrameCount == 0)
+    {
+        dc.DrawLabel("No frames", wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
+    }
+    if(graphicSLP != dataset->Graphics[GraphicIDs[0]].SLP) // SLP changed
+    {
+        graphicSLPFrame = -1;
+        graphicSLP = dataset->Graphics[GraphicIDs[0]].SLP;
+    }
+    graphicSLPFrame = ++graphicSLPFrame % dataset->Graphics[GraphicIDs[0]].FrameCount; // loop frames
+    string graphicSLPFN = dataset->Graphics[GraphicIDs[0]].Name2;
     wxBitmap pic;
     try
     {
-        pic = SLPtoBitMap(graphicSLP, 0, graphicSLPFN);
+        pic = SLPtoBitMap(graphicSLP, graphicSLPFrame, graphicSLPFN);
     }
     catch(out_of_range){}
     if(pic.IsOk())
-    dc.DrawBitmap(pic, 0, 0, true);
+    {
+        dc.DrawBitmap(pic, 0, 0, true);
+    }
     else dc.DrawLabel("!SLP " + FormatInt(graphicSLP) + "\n" + graphicSLPFN, wxNullBitmap, wxRect(0, 0, 100, 40));
+    if(AnimSLP)
+    {
+        unsigned int fpms = dataset->Graphics[GraphicIDs[0]].FrameRate * 1000;
+        if(fpms)
+        {
+            //if(fpms < 550) fpms = 550;
+            graphicAnimTimer.Start(fpms);
+        }
+    }
 }
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
@@ -1083,6 +1111,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSoundUsed->Connect(Graphics_AttackSoundUsed->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_AttackSoundUsed_CheckBox->Connect(Graphics_AttackSoundUsed_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Graphics), NULL, this);
     Graphics_SLP_Image->Connect(Graphics_SLP_Image->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
+    graphicAnimTimer.Connect(graphicAnimTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicAnim), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)

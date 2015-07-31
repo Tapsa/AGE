@@ -89,7 +89,7 @@ public:
     wxTimer civTimer, resourceTimer;
     wxTimer unitTimer, dmgGraphicTimer, attackTimer, armorTimer, actionTimer;
     wxTimer unitLineTimer, unitLineUnitTimer;
-    wxTimer graphicTimer, deltaTimer, graphicSoundTimer;
+    wxTimer graphicTimer, deltaTimer, graphicSoundTimer, graphicAnimTimer;
     wxTimer terrainTimer, terrainBorderTimer;
     wxTimer borderTimer, borderFrameTimer;
     wxTimer restrictionTimer, restrictionTerrainTimer;
@@ -126,6 +126,7 @@ public:
 	void OnDrawIconSLP(wxPaintEvent &event);
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void OnDrawUnitSLP(wxPaintEvent &event);
+	void OnGraphicAnim(wxTimerEvent &event);
 
 //	General Events
 
@@ -755,13 +756,13 @@ public:
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
-	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
+	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11, ShowSLP, AnimSLP;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	genie::PalFilePtr pal50500;
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
-	int CustomTerrains;
+	int CustomTerrains, SLPareaPerCent;
 //	wxSound SoundFile;
 
 	forward_list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
@@ -844,8 +845,7 @@ public:
 	//void WriteLangDLLstring(int ID, wxString Name);
     void LoadTXT(wxString &filename);
     wxBitmap SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filename = "");
-    uint32_t iconSLP, graphicSLP, unitSLP;
-    string iconSLPFN, graphicSLPFN, unitSLPFN;
+    uint32_t iconSLP, graphicSLPFrame, graphicSLP, unitSLP;
 
 //	Constants, remove unneeded entries.
 
@@ -854,6 +854,8 @@ public:
 		MenuOption_Prompt = wxID_HIGHEST + 1,
 		MenuOption_IDFix,
 		MenuOption_Buttons,
+		MenuOption_ShowSLP,
+		MenuOption_AnimSLP,
 		MenuOption_Tips,
 		MenuOption_About,
 		ToolBar_Open,
@@ -871,6 +873,7 @@ public:
 	wxMenuBar *MenuBar_Main;
 	wxMenu *SubMenu_Options;
 	wxMenu *SubMenu_Help;
+	wxMenu *SubMenu_SLP;
 
 	wxNotebook *TabBar_Main;
 	wxNotebook *TabBar_TechTree;

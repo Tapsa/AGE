@@ -12,6 +12,11 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.7.31[/b]:
+-SLP graphics can be shown, excluding AoE 1 for now.
+-Color variables colored according to 50500 palette.
+-Two or more text files can be loaded.
+
 Version [b]2015.7.21[/b]:
 -AoK HD txt files are readable again.
 -Restored editing map data for non SWGB versions.

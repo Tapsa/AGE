@@ -9,6 +9,7 @@
 #include <thread>
 #include <iomanip>
 #include <boost/lexical_cast.hpp>
+#include <boost/shared_ptr.hpp>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
 #include <wx/collpane.h>
@@ -22,7 +23,7 @@
 #include <wx/tooltip.h>
 #include <wx/timer.h>
 #include <wx/image.h>
-#include <wx/dcclient.h>
+#include <wx/dcbuffer.h>
 
 #ifdef WIN32
 #include <windows.h>
