@@ -96,9 +96,9 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
         genie::Color playerColor = (*pal50500)[(uint8_t)PlayerColorPointer->Colour];
         genie::Color paletteStart = (*pal50500)[(uint8_t)PlayerColorPointer->Palette];
         genie::Color minimap = (*pal50500)[(uint8_t)PlayerColorPointer->MinimapColour];
-        Colors_Palette->SetBackgroundColour(wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
-        Colors_ColorL->SetBackgroundColour(wxColour(playerColor.r, playerColor.g, playerColor.b));
-        Colors_MinimapColor->SetBackgroundColour(wxColour(minimap.r, minimap.g, minimap.b));
+        Colors_Palette->SetForegroundColour(wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
+        Colors_ColorL->SetForegroundColour(wxColour(playerColor.r, playerColor.g, playerColor.b));
+        Colors_MinimapColor->SetForegroundColour(wxColour(minimap.r, minimap.g, minimap.b));
     }
 }
 
