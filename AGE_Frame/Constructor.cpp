@@ -19,7 +19,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	argPath = aP;
 	AGEwindow = window;
-    iconSLP = graphicSLP = graphicSLPFrame = unitSLP = 0; // Temporary solution, just to see if wxPanel works.
 
     if(window < AGE_Frame::openEditors.size())
     {
@@ -60,6 +59,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("DefaultFiles/DatFilename", &DatFileName, wxEmptyString);
 	Config->Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxEmptyString);
 	Config->Read("DefaultFiles/FolderDRS", &FolderDRS, wxEmptyString);
+	Config->Read("DefaultFiles/FolderDRS2", &FolderDRS2, wxEmptyString);
 	Config->Read("DefaultFiles/UseDRS", &UseDRS, false);
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/WriteLangs", &WriteLangs, false);
@@ -215,15 +215,16 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
 	if(TimesOpened < 2)
 	{
+        AnimSLP = true; // For people that had this initialized to false in previous release.
 		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Help);
 		ProcessEvent(ShowHelpCmd);
 	}
 
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
-	//genie::Logger::setLogLevel(genie::Logger::L_INFO);
-	//log_out.open("gulog.ini");
-	//genie::Logger::setGlobalOutputStream(log_out);
+	genie::Logger::setLogLevel(genie::Logger::L_INFO);
+	log_out.open("gulog.ini");
+	genie::Logger::setGlobalOutputStream(log_out);
 	dataset = NULL;
 	Lang = NULL;
 	LangX = NULL;
@@ -231,7 +232,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
-    //wxWindow::SetBackgroundStyle(wxBG_STYLE_PAINT); for wxWidgets 3
 }
 
 void AGE_Frame::FixSizes()

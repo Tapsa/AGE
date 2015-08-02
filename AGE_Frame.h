@@ -4,6 +4,22 @@
 #include "AGE_AboutDialog.h"
 #include "AGE_Copies.hpp"
 
+class AGE_SLP
+{
+public:
+    AGE_SLP()
+    {
+        slpID = frameID = 0;
+        datID = -1;
+        filename = "";
+    }
+
+    uint32_t slpID, frameID, datID;
+    string filename;
+    genie::SlpFilePtr slp;
+    wxBitmap bitmap;
+};
+
 class AGE_Frame: public wxFrame
 {
 public:
@@ -128,6 +144,9 @@ public:
 	void OnDrawUnitSLP(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
 	void OnGraphicErase(wxEraseEvent &event);
+    void loadPalette(wxString folder);
+    void addFilesToRead(const wxArrayString &files, const wxString folder);
+    void addDRSFolders4SLPs(wxArrayString &folders, wxString folder);
 
 //	General Events
 
@@ -760,7 +779,7 @@ public:
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11, ShowSLP, AnimSLP;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
-	genie::PalFilePtr pal50500;
+	std::vector<genie::Color> palette;
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
 	int CustomTerrains, SLPareaPerCent;
@@ -834,7 +853,7 @@ public:
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;
-	wxString DatFileName, SaveDatFileName, FolderDRS;
+	wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
 	wxString LangCharset;
 	wxString LangFileName, LangX1FileName, LangX1P1FileName;
@@ -845,8 +864,8 @@ public:
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
     void LoadTXT(wxString &filename);
-    wxBitmap SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filename = "");
-    uint32_t iconSLP, graphicSLPFrame, graphicSLP, unitSLP;
+    void SLPtoBitMap(AGE_SLP*);
+    AGE_SLP iconSLP, graphicSLP, unitSLP;
 
 //	Constants, remove unneeded entries.
 
