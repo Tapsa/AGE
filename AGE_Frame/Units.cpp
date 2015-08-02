@@ -824,6 +824,11 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
     if(unitSLP.datID < dataset->Graphics.size())
     {
         unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
+        if(unitSLP.slpID == -1)
+        {
+            dc.DrawLabel("No SLP", wxNullBitmap, wxRect(0, 0, 100, 40));
+            return;
+        }
         unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
         try
         {

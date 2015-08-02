@@ -1946,75 +1946,85 @@ void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, wxString folder)
 
 void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
 {
-    if(UseTXT)
+    if(graphic->slpID != graphic->lastSlpID)
     {
-        wxArrayString folders;
-        addDRSFolders4SLPs(folders, FolderDRS2);
-        addDRSFolders4SLPs(folders, FolderDRS);
-        for(int i=0; i < folders.size(); ++i)
+        graphic->lastSlpID = graphic->slpID;
+        if(UseTXT)
         {
-            if(!graphic->filename.empty())
-            try
+            wxArrayString folders;
+            addDRSFolders4SLPs(folders, FolderDRS2);
+            addDRSFolders4SLPs(folders, FolderDRS);
+            for(int i=0; i < folders.size(); ++i)
             {
-                graphic->slp.reset(new genie::SlpFile());
-                wxString name = folders[i] + graphic->filename + ".slp";
-                //log_out << name << endl;
-                graphic->slp.get()->setGameVersion(GenieVersion);
-                graphic->slp.get()->load(name.c_str());
-                break; // Return first found match
+                if(!graphic->filename.empty())
+                try
+                {
+                    graphic->slp.reset(new genie::SlpFile());
+                    wxString name = folders[i] + graphic->filename + ".slp";
+                    //log_out << name << endl;
+                    graphic->slp.get()->setGameVersion(GenieVersion);
+                    graphic->slp.get()->load(name.c_str());
+                    break; // Return first found match
+                }
+                catch(std::ios_base::failure e){}
+                // HD uses slp ID instead
+                try
+                {
+                    graphic->slp.reset(new genie::SlpFile());
+                    wxString name = folders[i] + lexical_cast<string>(graphic->slpID) + ".slp";
+                    //log_out << name << endl;
+                    graphic->slp.get()->setGameVersion(GenieVersion);
+                    graphic->slp.get()->load(name.c_str());
+                    break;
+                }
+                catch(std::ios_base::failure e){}
             }
-            catch(std::ios_base::failure e){}
-            // HD uses slp ID instead
-            try
-            {
-                graphic->slp.reset(new genie::SlpFile());
-                wxString name = folders[i] + lexical_cast<string>(graphic->slpID) + ".slp";
-                //log_out << name << endl;
-                graphic->slp.get()->setGameVersion(GenieVersion);
-                graphic->slp.get()->load(name.c_str());
-                break;
-            }
-            catch(std::ios_base::failure e){}
         }
+        else
+        {
+            for(auto &file: datafiles)
+            {
+                graphic->slp.reset();
+                graphic->slp = file->getSlpFile(graphic->slpID);
+                //log_out << file->getFileName() << " : " << slpID << endl;
+                if(graphic->slp) break;
+            }
+        }
+        goto SLP_SWAP;
     }
-    else
+    if(graphic->frameID != graphic->lastFrameID)
     {
-        for(auto &file: datafiles)
+SLP_SWAP:
+        graphic->lastFrameID = graphic->frameID;
+        if(graphic->slp)
         {
-            graphic->slp.reset();
-            graphic->slp = file->getSlpFile(graphic->slpID);
-            //log_out << file->getFileName() << " : " << slpID << endl;
-            if(graphic->slp) break;
-        }
-    }
-    if(graphic->slp)
-    {
-        genie::SlpFramePtr frame = graphic->slp.get()->getFrame(graphic->frameID);
-        if(frame)
-        {
-            int width = frame.get()->getWidth();
-            int height = frame.get()->getHeight();
-            int area = width * height;
-            vector<uint8_t> rgbdata(area * 4, 0);
-            uint8_t *val = rgbdata.data();
-            uint8_t *alpha = val + area * 3;
-            const uint8_t *pixel = frame.get()->getPixelIndexes();
-            if(!palette.empty())
-            for(int i=0; i < area; ++i)
+            genie::SlpFramePtr frame = graphic->slp.get()->getFrame(graphic->frameID);
+            if(frame)
             {
-                genie::Color rgba = palette[(uint8_t)*pixel++];
-                *val++ = rgba.r;
-                *val++ = rgba.g;
-                *val++ = rgba.b;
-                *alpha++ = rgba.a;
+                int width = frame.get()->getWidth();
+                int height = frame.get()->getHeight();
+                int area = width * height;
+                vector<uint8_t> rgbdata(area * 4, 0);
+                uint8_t *val = rgbdata.data();
+                uint8_t *alpha = val + area * 3;
+                const uint8_t *pixel = frame.get()->getPixelIndexes();
+                if(!palette.empty())
+                for(int i=0; i < area; ++i)
+                {
+                    genie::Color rgba = palette[(uint8_t)*pixel++];
+                    *val++ = rgba.r;
+                    *val++ = rgba.g;
+                    *val++ = rgba.b;
+                    *alpha++ = rgba.a;
+                }
+                unsigned char *pic = (unsigned char*)rgbdata.data();
+                unsigned char *trans = pic + area * 3;
+                graphic->bitmap = wxBitmap(wxImage(width, height, pic, trans, true), 24);
+                return;
             }
-            unsigned char *pic = (unsigned char*)rgbdata.data();
-            unsigned char *trans = pic + area * 3;
-            graphic->bitmap = wxBitmap(wxImage(width, height, pic, trans, true), 24);
-            return;
         }
+        graphic->bitmap = wxNullBitmap;
     }
-    graphic->bitmap = wxNullBitmap;
 }
 
 /* Check if File Exists
