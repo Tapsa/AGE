@@ -91,11 +91,11 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupColor) box->update();
 	Colors_ID->Enable(false);
-    if(NULL != PlayerColorPointer && pal50500)
+    if(NULL != PlayerColorPointer && !palette.empty())
     {
-        genie::Color playerColor = (*pal50500)[(uint8_t)PlayerColorPointer->Colour];
-        genie::Color paletteStart = (*pal50500)[(uint8_t)PlayerColorPointer->Palette];
-        genie::Color minimap = (*pal50500)[(uint8_t)PlayerColorPointer->MinimapColour];
+        genie::Color playerColor = palette[(uint8_t)PlayerColorPointer->Colour];
+        genie::Color paletteStart = palette[(uint8_t)PlayerColorPointer->Palette];
+        genie::Color minimap = palette[(uint8_t)PlayerColorPointer->MinimapColour];
         Colors_Palette->SetForegroundColour(wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
         Colors_ColorL->SetForegroundColour(wxColour(playerColor.r, playerColor.g, playerColor.b));
         Colors_MinimapColor->SetForegroundColour(wxColour(minimap.r, minimap.g, minimap.b));
