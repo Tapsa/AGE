@@ -796,7 +796,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
 {
     wxBufferedPaintDC dc(Units_IconID_SLP);
-    dc.Clear();return;
+    dc.Clear();
     if(iconSLP.slpID == -1)
     {
         dc.DrawLabel("No unit", wxNullBitmap, wxRect(0, 0, 100, 40));
