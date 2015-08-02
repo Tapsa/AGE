@@ -823,13 +823,17 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
     dc.Clear();
     if(unitSLP.datID < dataset->Graphics.size())
     {
-        unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
+        if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
+        {
+            unitSLP.frameID = 0;
+            unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
+            unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
+        }
         if(unitSLP.slpID == -1)
         {
             dc.DrawLabel("No SLP", wxNullBitmap, wxRect(0, 0, 100, 40));
             return;
         }
-        unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
         try
         {
             SLPtoBitMap(&unitSLP);
@@ -838,12 +842,29 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
         if(unitSLP.bitmap.IsOk())
         {
             dc.DrawBitmap(unitSLP.bitmap, 0, 0, true);
+            if(AnimSLP)
+            {
+                unsigned int fpms = dataset->Graphics[unitSLP.datID].FrameRate * 1000;
+                if(fpms)
+                {
+                    unitSLP.frameID = (unitSLP.frameID + 1) % unitSLP.slp.get()->getFrameCount();
+                    unitAnimTimer.Start(fpms);
+                }
+            }
             return;
         }
         dc.DrawLabel("!SLP " + FormatInt(unitSLP.slpID) + "\n" + unitSLP.filename, wxNullBitmap, wxRect(0, 0, 100, 40));
         return;
     }
     dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxNullBitmap, wxRect(0, 0, 100, 40));
+}
+
+void AGE_Frame::OnUnitAnim(wxTimerEvent &event)
+{
+    unitAnimTimer.Stop();
+    if(Units_StandingGraphic_SLP->IsShownOnScreen())
+    Units_StandingGraphic_SLP->Refresh();
+    else unitAnimTimer.Start(1000);
 }
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)
@@ -5443,6 +5464,7 @@ void AGE_Frame::CreateUnitControls()
     Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
     Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawUnitSLP), NULL, this);
     Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+    unitAnimTimer.Connect(unitAnimTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitAnim), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
