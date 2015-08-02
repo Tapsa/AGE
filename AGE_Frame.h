@@ -104,7 +104,7 @@ public:
     wxTimer ttUnitTimer, ttUnitUnitTimer, ttUnitItemTimer;
     wxTimer ttResearchTimer, ttResearchBuildingTimer, ttResearchUnitTimer, ttResearchResearchTimer, ttResearchItemTimer;
     wxTimer civTimer, resourceTimer;
-    wxTimer unitTimer, dmgGraphicTimer, attackTimer, armorTimer, actionTimer;
+    wxTimer unitTimer, dmgGraphicTimer, attackTimer, armorTimer, actionTimer, unitAnimTimer;
     wxTimer unitLineTimer, unitLineUnitTimer;
     wxTimer graphicTimer, deltaTimer, graphicSoundTimer, graphicAnimTimer;
     wxTimer terrainTimer, terrainBorderTimer;
@@ -144,6 +144,7 @@ public:
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void OnDrawUnitSLP(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
+	void OnUnitAnim(wxTimerEvent &event);
 	void OnGraphicErase(wxEraseEvent &event);
     void loadPalette(wxString folder);
     void addFilesToRead(const wxArrayString &files, const wxString folder);
