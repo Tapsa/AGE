@@ -26,6 +26,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
     CheckBox_DRSPath = new wxCheckBox(this, wxID_ANY, "Path for DRS files *");
     CheckBox_DRSPath->SetToolTip("Path to the folder containing all drs files/folders");
     Path_DRS = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
+    Path_DRS2 = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
 
 	Layout->Add(Text_GenieVer, 1, wxEXPAND);
 	Layout->Add(CheckBox_GenieVer, 1, wxEXPAND);
@@ -62,10 +63,12 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->Add(CheckBox_DRSPath, 1, wxEXPAND);
 	Layout->Add(Path_DRS, 1, wxEXPAND);
 	Layout->AddSpacer(15);
+	Layout->Add(Path_DRS2, 1, wxEXPAND);
+	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
 
 	Layout->AddGrowableCol(1, 1);
-	Layout->AddGrowableRow(14, 1);
+	Layout->AddGrowableRow(15, 1);
 
 	Area->AddSpacer(5);
 	Area->Add(Defaults, 0, wxALIGN_CENTRE);
@@ -145,7 +148,7 @@ void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(false);
+	CheckBox_DRSPath->SetValue(true);
 	CheckBox_DRSPath->Enable(true);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);
@@ -187,7 +190,7 @@ void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(false);
+	CheckBox_DRSPath->SetValue(true);
 	CheckBox_DRSPath->Enable(true);
 	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
 	ProcessEvent(Selected);

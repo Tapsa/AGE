@@ -270,13 +270,13 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected terrain: "+lexical_cast<string>(TerrainIDs[0]), 0);
 
     for(auto &box: uiGroupTerrain) box->update();
-    if(NULL != TerrainPointer && pal50500)
+    if(NULL != TerrainPointer && !palette.empty())
     {
-        genie::Color high = (*pal50500)[(uint8_t)TerrainPointer->Colors[0]];
-        genie::Color med = (*pal50500)[(uint8_t)TerrainPointer->Colors[1]];
-        genie::Color low = (*pal50500)[(uint8_t)TerrainPointer->Colors[2]];
-        genie::Color left = (*pal50500)[(uint8_t)TerrainPointer->CliffColors.first];
-        genie::Color right = (*pal50500)[(uint8_t)TerrainPointer->CliffColors.second];
+        genie::Color high = palette[(uint8_t)TerrainPointer->Colors[0]];
+        genie::Color med = palette[(uint8_t)TerrainPointer->Colors[1]];
+        genie::Color low = palette[(uint8_t)TerrainPointer->Colors[2]];
+        genie::Color left = palette[(uint8_t)TerrainPointer->CliffColors.first];
+        genie::Color right = palette[(uint8_t)TerrainPointer->CliffColors.second];
         Terrains_Colors[0]->SetForegroundColour(wxColour(high.r, high.g, high.b));
         Terrains_Colors[1]->SetForegroundColour(wxColour(med.r, med.g, med.b));
         Terrains_Colors[2]->SetForegroundColour(wxColour(low.r, low.g, low.b));

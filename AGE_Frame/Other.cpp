@@ -24,6 +24,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.RecentLangX1s.Clear();
 		OpenBox.RecentLangX1P1s.Clear();
 		OpenBox.RecentDatas.Clear();
+		OpenBox.RecentDatas2.Clear();
 		while(RecentItems > 0)
 		{
 			int dataversion;
@@ -34,6 +35,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			RecentOpen->Read(entry+"/RecentLangX1", &useless, wxEmptyString); OpenBox.RecentLangX1s.Add(useless);
 			RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxEmptyString); OpenBox.RecentLangX1P1s.Add(useless);
 			RecentOpen->Read(entry+"/RecentPathDRS", &useless, wxEmptyString); OpenBox.RecentDatas.Add(useless);
+			RecentOpen->Read(entry+"/RecentPathDRS2", &useless, wxEmptyString); OpenBox.RecentDatas2.Add(useless);
 		}
 		delete RecentOpen;
 		if(OpenBox.RecentDatPaths.size() == 0)
@@ -60,6 +62,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
 		OpenBox.Path_DRS->SetPath(FolderDRS);
+		OpenBox.Path_DRS2->SetPath(FolderDRS2);
 		OpenBox.CheckBox_DRSPath->SetValue(UseDRS);
 		if((argPath).size() > 3)
 		{
@@ -140,6 +143,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		LangX1FileName = OpenBox.Path_LangX1FileLocation->GetPath();
 		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
 		FolderDRS = OpenBox.Path_DRS->GetPath();
+		FolderDRS2 = OpenBox.Path_DRS2->GetPath();
 		UseDRS = OpenBox.CheckBox_DRSPath->GetValue();
 		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
 		LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
@@ -159,6 +163,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		Config->Write("DefaultFiles/DatUsed", DatUsed);
 		Config->Write("DefaultFiles/DatFilename", DatFileName);
 		Config->Write("DefaultFiles/FolderDRS", FolderDRS);
+		Config->Write("DefaultFiles/FolderDRS2", FolderDRS2);
 		Config->Write("DefaultFiles/UseDRS", UseDRS);
 		Config->Write("DefaultFiles/LangsUsed", LangsUsed);
 		Config->Write("DefaultFiles/WriteLangs", WriteLangs);
@@ -193,12 +198,14 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxEmptyString);
 			if(compare == LangX1P1FileName) ++abort; else continue;
 			RecentSave->Read(entry+"/RecentPathDRS", &compare, wxEmptyString);
-			if(compare == FolderDRS)
+			if(compare == FolderDRS) ++abort; else continue;
+			RecentSave->Read(entry+"/RecentPathDRS2", &compare, wxEmptyString);
+			if(compare == FolderDRS2)
 			{
 				++abort; break;
 			}
 		}
-		if(abort < 5)
+		if(abort < 7)
 		{
 			RecentSave->Write("Recent/RecentItems", ++RecentItems);
 			wxString entry = "Recent" + lexical_cast<string>(RecentItems);
@@ -208,6 +215,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			RecentSave->Write(entry+"/RecentLangX1", LangX1FileName);
 			RecentSave->Write(entry+"/RecentLangX1P1", LangX1P1FileName);
 			RecentSave->Write(entry+"/RecentPathDRS", FolderDRS);
+			RecentSave->Write(entry+"/RecentPathDRS2", FolderDRS2);
 		}
 		delete RecentSave;
 	}
@@ -359,66 +367,59 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
     for(auto &file: datafiles)
     delete file;
     datafiles.clear();
-    pal50500.reset();
-    if(UseDRS && !UseTXT)
+    palette.clear();
+    if(UseDRS)
 	{
-        wxArrayString FilesToRead;
-        FilesToRead.Add("\\interfac.drs");
-        if(GenieVersion == genie::GV_TC)
+        if(UseTXT)
         {
-            FilesToRead.Add("\\gamedata_x1_p1.drs");
-            goto FTR_TCCC;
+            loadPalette(FolderDRS);
+            loadPalette(FolderDRS2);
         }
-        if(GenieVersion == genie::GV_CC)
+        else
         {
-            FilesToRead.Add("\\interfac_x1.drs");
-            FilesToRead.Add("\\graphics_x1.drs");
-            FilesToRead.Add("\\terrain_x1.drs");
-            goto FTR_TCCC;
-        }
-        goto FTR_NORMAL;
-FTR_TCCC:
-        FilesToRead.Add("\\gamedata_x1.drs");
-        //FilesToRead.Add("\\sounds_x1.drs");
-FTR_NORMAL:
-        if(GenieVersion == genie::GV_RoR)
-        {
-            FilesToRead.Add("2\\interfac.drs");
-            FilesToRead.Add("2\\graphics.drs");
-            FilesToRead.Add("2\\sounds.drs");
-        }
-        FilesToRead.Add("\\graphics.drs");
-        FilesToRead.Add("\\terrain.drs");
-        if(GenieVersion > genie::GV_RoR)
-        {
-            FilesToRead.Add("\\gamedata.drs");
-        }
-        //FilesToRead.Add("\\sounds.drs");
-        if(GenieVersion < genie::GV_AoKB)
-        {
-            FilesToRead.Add("\\border.drs");
-        }
+            wxArrayString FilesToRead;
+            if(GenieVersion == genie::GV_TC)
+            {
+                FilesToRead.Add("\\gamedata_x1_p1.drs");
+                FilesToRead.Add("\\gamedata_x1.drs");
+            }
+            else if(GenieVersion == genie::GV_CC)
+            {
+                FilesToRead.Add("\\gamedata_x1.drs");
+                FilesToRead.Add("\\interfac_x1.drs");
+                FilesToRead.Add("\\graphics_x1.drs");
+                FilesToRead.Add("\\terrain_x1.drs");
+            }
+            else if(GenieVersion == genie::GV_RoR)
+            {
+                FilesToRead.Add("2\\interfac.drs");
+                FilesToRead.Add("2\\graphics.drs");
+            }
+            if(GenieVersion > genie::GV_RoR)
+            {
+                FilesToRead.Add("\\gamedata.drs");
+            }
+            FilesToRead.Add("\\interfac.drs");
+            FilesToRead.Add("\\graphics.drs");
+            FilesToRead.Add("\\terrain.drs");
+            if(GenieVersion < genie::GV_AoKB)
+            {
+                FilesToRead.Add("\\border.drs");
+            }
 
-        for(int i=0; i < FilesToRead.size(); ++i)
-        {
-            genie::DrsFile *interfac = new genie::DrsFile();
-            wxString location = FolderDRS + FilesToRead[i];
-            try
+            addFilesToRead(FilesToRead, FolderDRS2);
+            addFilesToRead(FilesToRead, FolderDRS);
+            genie::PalFilePtr pal;
+            for(auto &file: datafiles)
             {
-                interfac->setGameVersion(GenieVersion);
-                interfac->load(location.c_str());
+                pal.reset();
+                pal = file->getPalFile(50500);
+                if(pal)
+                {
+                    palette = pal.get()->getColors();
+                    break;
+                }
             }
-            catch(std::ios_base::failure e)
-            {
-                wxMessageBox("Failed to load "+location);
-                delete interfac;
-                interfac = NULL;
-            }
-            datafiles.push_back(interfac);
-        }
-        if(datafiles.size() > 0)
-        {
-            pal50500 = datafiles.front()->getPalFile(50500);
         }
 	}
 
@@ -1891,52 +1892,86 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 	}
 }
 
-wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filename)
+void AGE_Frame::loadPalette(wxString folder)
 {
-    genie::SlpFilePtr slp;
+    if(folder.empty()) return;
+    if(GenieVersion == genie::GV_Cysion)
+    folder.Replace("-dlc2", "", false);
+    try
+    {
+        genie::PalFile pal;
+        wxString name = folder + "\\interface\\50500.bina";
+        pal.load(name.c_str());
+        palette = pal.getColors();
+    }
+    catch(std::ios_base::failure e){}
+}
+
+void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString folder)
+{
+    if(folder.empty()) return;
+    for(int i=0; i < files.size(); ++i)
+    {
+        genie::DrsFile *interfac = new genie::DrsFile();
+        wxString location = folder + files[i];
+        try
+        {
+            interfac->setGameVersion(GenieVersion);
+            interfac->load(location.c_str());
+        }
+        catch(std::ios_base::failure e)
+        {
+            wxMessageBox("Failed to load "+location);
+            delete interfac;
+            interfac = NULL;
+        }
+        datafiles.push_back(interfac);
+    }
+}
+
+void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, wxString folder)
+{
+    if(folder.empty()) return;
+    if(GenieVersion == genie::GV_Cysion)
+    {
+        folders.Add(folder + "\\gamedata_x2\\");
+        folder.Replace("-dlc2", "", false);
+    }
+    folders.Add(folder + "\\interface\\");
+    folders.Add(folder + "\\gamedata_x2\\");
+    folders.Add(folder + "\\gamedata_x1\\");
+    folders.Add(folder + "\\graphics\\");
+    folders.Add(folder + "\\terrain\\");
+}
+
+void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
+{
     if(UseTXT)
     {
         wxArrayString folders;
-        wxString folderDRS = FolderDRS;
-        if(GenieVersion == genie::GV_Cysion)
-        {
-            folders.Add(folderDRS + "\\gamedata_x2\\");
-            folderDRS.Replace("-dlc2", "", false);
-        }
-        folders.Add(folderDRS + "\\interface\\");
-        folders.Add(folderDRS + "\\gamedata_x2\\");
-        folders.Add(folderDRS + "\\gamedata_x1\\");
-        folders.Add(folderDRS + "\\graphics\\");
-        folders.Add(folderDRS + "\\terrain\\");
-        try
-        {
-            pal50500.reset(new genie::PalFile());
-            wxString name = folderDRS + "\\interface\\50500.bina";
-            //log_out << name << endl;
-            pal50500.get()->load(name.c_str());
-        }
-        catch(std::ios_base::failure e){}
+        addDRSFolders4SLPs(folders, FolderDRS2);
+        addDRSFolders4SLPs(folders, FolderDRS);
         for(int i=0; i < folders.size(); ++i)
         {
-            if(!filename.empty())
+            if(!graphic->filename.empty())
             try
             {
-                slp.reset(new genie::SlpFile());
-                wxString name = folders[i] + filename + ".slp";
+                graphic->slp.reset(new genie::SlpFile());
+                wxString name = folders[i] + graphic->filename + ".slp";
                 //log_out << name << endl;
-                slp.get()->setGameVersion(GenieVersion);
-                slp.get()->load(name.c_str());
+                graphic->slp.get()->setGameVersion(GenieVersion);
+                graphic->slp.get()->load(name.c_str());
                 break; // Return first found match
             }
             catch(std::ios_base::failure e){}
             // HD uses slp ID instead
             try
             {
-                slp.reset(new genie::SlpFile());
-                wxString name = folders[i] + lexical_cast<string>(slpID) + ".slp";
+                graphic->slp.reset(new genie::SlpFile());
+                wxString name = folders[i] + lexical_cast<string>(graphic->slpID) + ".slp";
                 //log_out << name << endl;
-                slp.get()->setGameVersion(GenieVersion);
-                slp.get()->load(name.c_str());
+                graphic->slp.get()->setGameVersion(GenieVersion);
+                graphic->slp.get()->load(name.c_str());
                 break;
             }
             catch(std::ios_base::failure e){}
@@ -1946,15 +1981,15 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
     {
         for(auto &file: datafiles)
         {
-            slp.reset();
-            slp = file->getSlpFile(slpID);
+            graphic->slp.reset();
+            graphic->slp = file->getSlpFile(graphic->slpID);
             //log_out << file->getFileName() << " : " << slpID << endl;
-            if(slp) break;
+            if(graphic->slp) break;
         }
     }
-    if(slp)
+    if(graphic->slp)
     {
-        genie::SlpFramePtr frame = slp.get()->getFrame(frameID);
+        genie::SlpFramePtr frame = graphic->slp.get()->getFrame(graphic->frameID);
         if(frame)
         {
             int width = frame.get()->getWidth();
@@ -1964,10 +1999,10 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
             uint8_t *val = rgbdata.data();
             uint8_t *alpha = val + area * 3;
             const uint8_t *pixel = frame.get()->getPixelIndexes();
-            if(pal50500)
+            if(!palette.empty())
             for(int i=0; i < area; ++i)
             {
-                genie::Color rgba = (*pal50500)[(uint8_t)*pixel++];
+                genie::Color rgba = palette[(uint8_t)*pixel++];
                 *val++ = rgba.r;
                 *val++ = rgba.g;
                 *val++ = rgba.b;
@@ -1975,15 +2010,11 @@ wxBitmap AGE_Frame::SLPtoBitMap(uint32_t slpID, uint32_t frameID, string filenam
             }
             unsigned char *pic = (unsigned char*)rgbdata.data();
             unsigned char *trans = pic + area * 3;
-            return wxBitmap(wxImage(width, height, pic, trans, true), 24);
-        }
-        if(UseTXT)
-        {
-            pal50500.get()->freelock();
-            slp.get()->freelock();
+            graphic->bitmap = wxBitmap(wxImage(width, height, pic, trans, true), 24);
+            return;
         }
     }
-    return wxNullBitmap;
+    graphic->bitmap = wxNullBitmap;
 }
 
 /* Check if File Exists

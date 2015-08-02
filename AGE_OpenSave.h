@@ -65,7 +65,7 @@ public:
 	wxArrayString RecentLangs;
 	wxArrayString RecentLangX1s;
 	wxArrayString RecentLangX1P1s;
-	wxArrayString RecentDatas;
+	wxArrayString RecentDatas, RecentDatas2;
 };
 
 #endif
