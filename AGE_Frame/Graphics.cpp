@@ -186,6 +186,11 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 		SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs[0]), 0);
 
 		selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs[0]];
+
+        if(NULL != GraphicPointer)
+        {
+            graphicSLP.datID = GraphicIDs[0];
+        }
 	}
     for(auto &box: uiGroupGraphic) box->update();
 
@@ -201,38 +206,36 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     wxBufferedPaintDC dc(Graphics_SLP_Image);
     dc.Clear();
     if(GraphicIDs.size() == 0) return; // Nothing selected
-    if(dataset->Graphics[GraphicIDs[0]].FrameCount == 0)
+    if(dataset->Graphics[graphicSLP.datID].FrameCount == 0)
     {
         dc.DrawLabel("No frames", wxNullBitmap, wxRect(0, 0, 100, 40));
         return;
     }
-    if(graphicSLP != dataset->Graphics[GraphicIDs[0]].SLP) // SLP changed
+    if(graphicSLP.slpID != dataset->Graphics[graphicSLP.datID].SLP) // SLP changed
     {
-        graphicSLPFrame = -1;
-        graphicSLP = dataset->Graphics[GraphicIDs[0]].SLP;
+        graphicSLP.frameID = 0;
+        graphicSLP.filename = dataset->Graphics[graphicSLP.datID].Name2;
+        graphicSLP.slpID = dataset->Graphics[graphicSLP.datID].SLP;
     }
-    graphicSLPFrame = ++graphicSLPFrame % dataset->Graphics[GraphicIDs[0]].FrameCount; // loop frames
-    string graphicSLPFN = dataset->Graphics[GraphicIDs[0]].Name2;
-    wxBitmap pic;
     try
     {
-        pic = SLPtoBitMap(graphicSLP, graphicSLPFrame, graphicSLPFN);
+        SLPtoBitMap(&graphicSLP);
     }
     catch(out_of_range){}
-    if(pic.IsOk())
+    if(graphicSLP.bitmap.IsOk())
     {
-        dc.DrawBitmap(pic, 0, 0, true);
-    }
-    else dc.DrawLabel("!SLP " + FormatInt(graphicSLP) + "\n" + graphicSLPFN, wxNullBitmap, wxRect(0, 0, 100, 40));
-    if(AnimSLP)
-    {
-        unsigned int fpms = dataset->Graphics[GraphicIDs[0]].FrameRate * 1000;
-        if(fpms)
+        dc.DrawBitmap(graphicSLP.bitmap, 0, 0, true);
+        if(AnimSLP)
         {
-            //if(fpms < 550) fpms = 550;
-            graphicAnimTimer.Start(fpms);
+            unsigned int fpms = dataset->Graphics[graphicSLP.datID].FrameRate * 1000;
+            if(fpms)
+            {
+                graphicSLP.frameID = ++graphicSLP.frameID % graphicSLP.slp.get()->getFrameCount();
+                graphicAnimTimer.Start(fpms);
+            }
         }
     }
+    else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(0, 0, 100, 40));
 }
 
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)

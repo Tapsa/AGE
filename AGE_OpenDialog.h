@@ -39,7 +39,7 @@ public:
 	wxTextCtrl *TerrainsBox;
     wxStaticText *DRSPath;
     wxCheckBox *CheckBox_DRSPath;
-    wxDirPickerCtrl *Path_DRS;
+    wxDirPickerCtrl *Path_DRS, *Path_DRS2;
 };
 
 #endif

@@ -723,21 +723,21 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             Units_DLL_HotKey4->index = UnitPointer->HotKey;
         }
         visibleUnitCiv->SetLabel(dataset->Civs[UnitCivID].Name);
-        if(pal50500)
+        if(!palette.empty())
         {
-            genie::Color minimap = (*pal50500)[(uint8_t)UnitPointer->MinimapColor];
-            genie::Color editorSel = (*pal50500)[(uint8_t)UnitPointer->EditorSelectionColour];
+            genie::Color minimap = palette[(uint8_t)UnitPointer->MinimapColor];
+            genie::Color editorSel = palette[(uint8_t)UnitPointer->EditorSelectionColour];
             Units_MinimapColor->SetForegroundColour(wxColour(minimap.r, minimap.g, minimap.b));
             Units_EditorSelectionColour->SetForegroundColour(wxColour(editorSel.r, editorSel.g, editorSel.b));
         }
-        iconSLP = UnitPointer->Type == 80 ? 50705 + UnitPointer->Building.GraphicsAngle : 50730;
-        iconSLP = iconSLP << 16;
-        iconSLP += UnitPointer->IconID; // frame
-        unitSLP = UnitPointer->StandingGraphic.first;
+        iconSLP.slpID = UnitPointer->Type == 80 ? 50705 + UnitPointer->Building.GraphicsAngle : 50730;
+        iconSLP.frameID = UnitPointer->IconID; // frame
+        unitSLP.datID = UnitPointer->StandingGraphic.first;
 	}
     else
     {
         visibleUnitCiv->SetLabel("None");
+        iconSLP.slpID = unitSLP.datID = -1;
     }
     Units_DLL_LanguageName->SetLabel(LangDLLstring(Units_DLL_LanguageName->index, 64));
     Units_DLL_LanguageCreation->SetLabel(LangDLLstring(Units_DLL_LanguageCreation->index, 64));
@@ -796,43 +796,49 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
 {
     wxBufferedPaintDC dc(Units_IconID_SLP);
-    dc.Clear();
-    int frame = (uint16_t)iconSLP;
-    int slp = iconSLP >> 16;
-    wxBitmap pic;
+    dc.Clear();//return;
+    if(iconSLP.slpID == -1)
+    {
+        dc.DrawLabel("No unit", wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
+    }
+    if(iconSLP.frameID == -1)
+    {
+        dc.DrawLabel("No icon", wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
+    }
     try
     {
-        pic = SLPtoBitMap(slp, frame);
+        SLPtoBitMap(&iconSLP);
     }
     catch(out_of_range){}
-    if(pic.IsOk())
-    dc.DrawBitmap(pic, 0, 0, true);
-    else dc.DrawLabel("!SLP " + FormatInt(slp), wxNullBitmap, wxRect(0, 0, 100, 40));
+    if(iconSLP.bitmap.IsOk())
+    dc.DrawBitmap(iconSLP.bitmap, 0, 0, true);
+    else dc.DrawLabel("!SLP " + FormatInt(iconSLP.slpID), wxNullBitmap, wxRect(0, 0, 100, 40));
 }
 
 void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
 {
     wxBufferedPaintDC dc(Units_StandingGraphic_SLP);
     dc.Clear();
-    unsigned int seek = unitSLP;
-    string name;
-    if(seek < dataset->Graphics.size())
+    if(unitSLP.datID < dataset->Graphics.size())
     {
-        seek = dataset->Graphics[unitSLP].SLP;
-        name = dataset->Graphics[unitSLP].Name2;
-        wxBitmap pic;
+        unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
+        unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
         try
         {
-            pic = SLPtoBitMap(seek, 0, name);
+            SLPtoBitMap(&unitSLP);
         }
         catch(out_of_range){}
-        if(pic.IsOk())
+        if(unitSLP.bitmap.IsOk())
         {
-            dc.DrawBitmap(pic, 0, 0, true);
+            dc.DrawBitmap(unitSLP.bitmap, 0, 0, true);
             return;
         }
+        dc.DrawLabel("!SLP " + FormatInt(unitSLP.slpID) + "\n" + unitSLP.filename, wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
     }
-    dc.DrawLabel("!SLP " + FormatInt(seek) + "\n" + name, wxNullBitmap, wxRect(0, 0, 100, 40));
+    dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxNullBitmap, wxRect(0, 0, 100, 40));
 }
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)

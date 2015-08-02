@@ -88,5 +88,10 @@ void AGE_OpenSave::OnRecent(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(RecentLangs[sel].size());
 	CheckBox_LangX1FileLocation->SetValue(RecentLangX1s[sel].size());
 	CheckBox_LangX1P1FileLocation->SetValue(RecentLangX1P1s[sel].size());
-    if(opener)((AGE_OpenDialog*)event.GetEventObject())->Path_DRS->SetPath(RecentDatas[sel]);
+    if(opener)
+    {
+        AGE_OpenDialog* opendlg = (AGE_OpenDialog*)event.GetEventObject();
+        opendlg->Path_DRS->SetPath(RecentDatas[sel]);
+        opendlg->Path_DRS2->SetPath(RecentDatas2[sel]);
+    }
 }
