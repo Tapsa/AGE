@@ -232,10 +232,12 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         dc.DrawBitmap(graphicSLP.bitmap, 0, 0, true);
         if(AnimSLP)
         {
+            unsigned int frames = graphicSLP.slp.get()->getFrameCount();
             unsigned int fpms = dataset->Graphics[graphicSLP.datID].FrameRate * 1000;
+            if(frames > 1 && fpms == 0) fpms = 500;
             if(fpms)
             {
-                graphicSLP.frameID = (graphicSLP.frameID + 1) % graphicSLP.slp.get()->getFrameCount();
+                graphicSLP.frameID = (graphicSLP.frameID + 1) % frames;
                 graphicAnimTimer.Start(fpms);
             }
         }
