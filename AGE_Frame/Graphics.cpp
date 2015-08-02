@@ -217,6 +217,11 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         graphicSLP.filename = dataset->Graphics[graphicSLP.datID].Name2;
         graphicSLP.slpID = dataset->Graphics[graphicSLP.datID].SLP;
     }
+    if(graphicSLP.slpID == -1)
+    {
+        dc.DrawLabel("No SLP", wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
+    }
     try
     {
         SLPtoBitMap(&graphicSLP);
