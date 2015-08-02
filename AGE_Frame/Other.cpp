@@ -2622,6 +2622,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	}
 
     graphicAnimTimer.Stop();
+    unitAnimTimer.Stop();
 	TabBar_Main->Destroy();
 
 	delete dataset;
