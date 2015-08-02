@@ -9,12 +9,13 @@ class AGE_SLP
 public:
     AGE_SLP()
     {
-        slpID = frameID = 0;
+        slpID = frameID = lastSlpID = lastFrameID = 0;
         datID = -1;
         filename = "";
     }
 
     uint32_t slpID, frameID, datID;
+    uint32_t lastSlpID, lastFrameID;
     string filename;
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
