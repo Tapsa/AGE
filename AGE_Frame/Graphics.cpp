@@ -225,6 +225,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     SLPtoBitMap(&graphicSLP);
     if(graphicSLP.bitmap.IsOk())
     {
+        assert(graphicSLP.slp);
         dc.DrawBitmap(graphicSLP.bitmap, 0, 0, true);
         if(AnimSLP)
         {

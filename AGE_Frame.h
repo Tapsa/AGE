@@ -143,6 +143,7 @@ public:
 	void OnDrawIconSLP(wxPaintEvent &event);
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void OnDrawUnitSLP(wxPaintEvent &event);
+	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
 	void OnUnitAnim(wxTimerEvent &event);
 	void OnGraphicErase(wxEraseEvent &event);
@@ -3064,6 +3065,7 @@ public:
 	AGETextCtrl *Colors_Unknown3;
 	AGETextCtrl *Colors_Unknown4;
 	AGETextCtrl *Colors_Unknown5;
+	wxPanel *Colors_Palette_Display;
 
 //	Unitline user interface
 
