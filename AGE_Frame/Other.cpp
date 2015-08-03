@@ -1998,7 +1998,12 @@ SLP_SWAP:
         graphic->lastFrameID = graphic->frameID;
         if(graphic->slp)
         {
-            genie::SlpFramePtr frame = graphic->slp.get()->getFrame(graphic->frameID);
+            genie::SlpFramePtr frame;
+            try
+            {
+                frame = graphic->slp.get()->getFrame(graphic->frameID);
+            }
+            catch(out_of_range){}// This or put resets in catches above.
             if(frame)
             {
                 int width = frame.get()->getWidth();
