@@ -1801,6 +1801,24 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             Refresh();
 		}
 		break;
+		case MenuOption_ShowShadows:
+		{
+			ShowShadows = event.IsChecked();
+            Refresh();
+		}
+		break;
+		case MenuOption_ShowOutline:
+		{
+			ShowOutline = event.IsChecked();
+            Refresh();
+		}
+		break;
+		case MenuOption_ShowDeltas:
+		{
+			ShowDeltas = event.IsChecked();
+            Refresh();
+		}
+		break;
 		/*case MenuOption_IDFix:
 		{
 			EnableIDFix = event.IsChecked();
@@ -2012,15 +2030,55 @@ SLP_SWAP:
                 vector<uint8_t> rgbdata(area * 4, 0);
                 uint8_t *val = rgbdata.data();
                 uint8_t *alpha = val + area * 3;
-                const uint8_t *pixel = frame.get()->getPixelIndexes();
+                genie::SlpFrameData imgdata = frame.get()->getSlpFrameData();
                 if(!palette.empty())
-                for(int i=0; i < area; ++i)
                 {
-                    genie::Color rgba = palette[(uint8_t)*pixel++];
-                    *val++ = rgba.r;
-                    *val++ = rgba.g;
-                    *val++ = rgba.b;
-                    *alpha++ = rgba.a;
+                    for(int i=0; i < area; ++i)
+                    {
+                        genie::Color rgba = palette[imgdata.pixel_indexes[i]];
+                        *val++ = rgba.r;
+                        *val++ = rgba.g;
+                        *val++ = rgba.b;
+                        *alpha++ = imgdata.alpha_channel[i];
+                    }
+                    // Apply shadows
+                    if(ShowShadows)
+                    for(int i=0; i < imgdata.shadow_mask.size(); ++i)
+                    {
+                        int flat = imgdata.shadow_mask[i].y * width + imgdata.shadow_mask[i].x;
+                        int loc = 3 * flat;
+                        int locA = 3 * area + flat;
+                        rgbdata[loc] = 0;
+                        rgbdata[loc + 1] = 0;
+                        rgbdata[loc + 2] = 0;
+                        rgbdata[locA] = 127;
+                    }
+                    // Apply player color
+                    for(int i=0; i < imgdata.player_color_mask.size(); ++i)
+                    {
+                        int flat = imgdata.player_color_mask[i].y * width + imgdata.player_color_mask[i].x;
+                        int loc = 3 * flat;
+                        int locA = 3 * area + flat;
+                        genie::Color rgba = palette[imgdata.player_color_mask[i].index];
+                        rgbdata[loc] = rgba.r;
+                        rgbdata[loc + 1] = rgba.g;
+                        rgbdata[loc + 2] = rgba.b;
+                        rgbdata[locA] = 255;
+                    }
+                    // Apply outline
+                    if(ShowOutline)
+                    for(int i=0; i < imgdata.outline_mask.size(); ++i)
+                    {
+                        int flat = imgdata.outline_mask[i].y * width + imgdata.outline_mask[i].x;
+                        int loc = 3 * flat;
+                        int locA = 3 * area + flat;
+                        genie::Color rgba = palette[242];
+                        rgbdata[loc] = rgba.r;
+                        rgbdata[loc + 1] = rgba.g;
+                        rgbdata[loc + 2] = rgba.b;
+                        rgbdata[locA] = 255;
+                    }
+                    //if(ShowDeltas)
                 }
                 unsigned char *pic = (unsigned char*)rgbdata.data();
                 unsigned char *trans = pic + area * 3;
@@ -2607,6 +2665,9 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interaction/ShowSLP", ShowSLP);
 	Config->Write("Interaction/AnimSLP", AnimSLP);
+	Config->Write("Interaction/ShowShadows", ShowShadows);
+	Config->Write("Interaction/ShowOutline", ShowOutline);
+	Config->Write("Interaction/ShowDeltas", ShowDeltas);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("Interface/Paste11", Paste11);
