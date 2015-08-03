@@ -222,11 +222,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         dc.DrawLabel("No SLP", wxNullBitmap, wxRect(0, 0, 100, 40));
         return;
     }
-    try
-    {
-        SLPtoBitMap(&graphicSLP);
-    }
-    catch(out_of_range){}
+    SLPtoBitMap(&graphicSLP);
     if(graphicSLP.bitmap.IsOk())
     {
         dc.DrawBitmap(graphicSLP.bitmap, 0, 0, true);
