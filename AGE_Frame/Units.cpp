@@ -807,11 +807,7 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
         dc.DrawLabel("No icon", wxNullBitmap, wxRect(0, 0, 100, 40));
         return;
     }
-    try
-    {
-        SLPtoBitMap(&iconSLP);
-    }
-    catch(out_of_range){}
+    SLPtoBitMap(&iconSLP);
     if(iconSLP.bitmap.IsOk())
     dc.DrawBitmap(iconSLP.bitmap, 0, 0, true);
     else dc.DrawLabel("!SLP " + FormatInt(iconSLP.slpID), wxNullBitmap, wxRect(0, 0, 100, 40));
@@ -834,11 +830,7 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
             dc.DrawLabel("No SLP", wxNullBitmap, wxRect(0, 0, 100, 40));
             return;
         }
-        try
-        {
-            SLPtoBitMap(&unitSLP);
-        }
-        catch(out_of_range){}
+        SLPtoBitMap(&unitSLP);
         if(unitSLP.bitmap.IsOk())
         {
             dc.DrawBitmap(unitSLP.bitmap, 0, 0, true);
