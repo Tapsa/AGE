@@ -102,6 +102,27 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
     }
 }
 
+void AGE_Frame::OnDrawPalette(wxPaintEvent &event)
+{
+    wxBufferedPaintDC dc(Colors_Palette_Display);
+    dc.Clear();
+    if(palette.empty()) return;
+    assert(palette.size() == 256);
+    vector<uint8_t> rgbdata(768);
+    uint8_t *val = rgbdata.data();
+    for(int i=0; i < 256; ++i)
+    {
+        genie::Color rgba = palette[i];
+        *val++ = rgba.r;
+        *val++ = rgba.g;
+        *val++ = rgba.b;
+    }
+    unsigned char *pic = (unsigned char*)rgbdata.data();
+    wxBitmap bitmap = wxBitmap(wxImage(16, 16, pic, true).Scale(320, 320), 24);
+    assert(bitmap.IsOk());
+    dc.DrawBitmap(bitmap, 15, 15, true);
+}
+
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
 {
 	if(NULL == dataset) return;
@@ -224,6 +245,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown3 = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
 	Colors_Unknown4 = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
 	Colors_Unknown5 = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
+    Colors_Palette_Display = new wxPanel(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(256, 256));
 
 	Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
 	Colors_Colors_Buttons->Add(Colors_Delete, 1, wxEXPAND);
@@ -291,7 +313,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Main->Add(Colors_ListArea, 1, wxEXPAND);
 	Colors_Main->AddSpacer(5);
 	Colors_Main->Add(Colors_DataArea, 1, wxEXPAND);
-	Colors_Main->AddStretchSpacer(2);
+	Colors_Main->Add(Colors_Palette_Display, 2, wxEXPAND);
 
 	if(EnableIDFix)
 	Colors_ID->Enable(false);
@@ -311,6 +333,8 @@ void AGE_Frame::CreatePlayerColorControls()
 	Connect(Colors_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsPasteInsert));
     colorTimer.Connect(colorTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnPlayerColorsTimer), NULL, this);
 	Colors_Name->Connect(Colors_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Colors), NULL, this);
+    Colors_Palette_Display->Connect(Colors_Palette_Display->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawPalette), NULL, this);
+    Colors_Palette_Display->Connect(Colors_Palette_Display->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &event)
