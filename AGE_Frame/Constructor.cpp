@@ -209,16 +209,16 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Paste11Cmd.SetInt(Paste11);
 	ProcessEvent(Paste11Cmd);
 
-	wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowSLP);
-	ShowSLPCmd.SetInt(ShowSLP);
-	ProcessEvent(ShowSLPCmd);
-
 	if(TimesOpened < 2)
 	{
-        AnimSLP = true; // For people that had this initialized to false in previous release.
+        AnimSLP = ShowSLP = true; // For people that had this initialized to false in previous release.
 		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Help);
 		ProcessEvent(ShowHelpCmd);
 	}
+
+	wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowSLP);
+	ShowSLPCmd.SetInt(ShowSLP);
+	ProcessEvent(ShowSLPCmd);
 
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
