@@ -45,6 +45,9 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interaction/ShowSLP", &ShowSLP, true);
 	Config->Read("Interaction/AnimSLP", &AnimSLP, true);
+	Config->Read("Interaction/ShowShadows", &ShowShadows, true);
+	Config->Read("Interaction/ShowOutline", &ShowOutline, true);
+	Config->Read("Interaction/ShowDeltas", &ShowDeltas, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("Interface/Paste11", &Paste11, true);
@@ -110,10 +113,16 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SubMenu_Options->Enable(MenuOption_IDFix, false);
 
 	SubMenu_SLP = new wxMenu();
-	SubMenu_SLP->AppendCheckItem(MenuOption_ShowSLP, "&Show SLP graphics");
+	SubMenu_SLP->AppendCheckItem(MenuOption_ShowSLP, "Show SLP &graphics");
 	SubMenu_SLP->Check(MenuOption_ShowSLP, ShowSLP);
 	SubMenu_SLP->AppendCheckItem(MenuOption_AnimSLP, "&Animate SLP graphics");
 	SubMenu_SLP->Check(MenuOption_AnimSLP, AnimSLP);
+	SubMenu_SLP->AppendCheckItem(MenuOption_ShowShadows, "Show SLP &shadows");
+	SubMenu_SLP->Check(MenuOption_ShowShadows, ShowShadows);
+	SubMenu_SLP->AppendCheckItem(MenuOption_ShowOutline, "Show SLP &outline");
+	SubMenu_SLP->Check(MenuOption_ShowOutline, ShowOutline);
+	SubMenu_SLP->AppendCheckItem(MenuOption_ShowDeltas, "Show SLP &deltas");
+	SubMenu_SLP->Check(MenuOption_ShowDeltas, ShowDeltas);
 
 	SubMenu_Help = new wxMenu();
 	SubMenu_Help->Append(MenuOption_Tips, "&Tips");
@@ -184,6 +193,9 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_ShowSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_AnimSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_ShowShadows, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_ShowOutline, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_ShowDeltas, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(Units_AutoCopy->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
 	Connect(Units_CopyTo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::UnitsAutoCopy));
 	Connect(Units_SelectAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
