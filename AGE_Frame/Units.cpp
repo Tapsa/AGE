@@ -730,8 +730,27 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             Units_MinimapColor->SetForegroundColour(wxColour(minimap.r, minimap.g, minimap.b));
             Units_EditorSelectionColour->SetForegroundColour(wxColour(editorSel.r, editorSel.g, editorSel.b));
         }
-        iconSLP.slpID = UnitPointer->Type == 80 ? 50705 + UnitPointer->Building.GraphicsAngle : 50730;
-        iconSLP.frameID = UnitPointer->IconID; // frame
+        if(UnitPointer->Type == 80)
+        {
+            int set0 = 50704;
+            if(GenieVersion == genie::GV_CC) set0 = 53240;
+            iconSLP.slpID = set0 + dataset->Civs[UnitCivID].IconSet;
+        }
+        else if(GenieVersion == genie::GV_CC)
+        {
+            iconSLP.slpID = 53250 + dataset->Civs[UnitCivID].IconSet;
+            //tech icon SLP is 53260 + ICON_SET
+        }
+        else if(GenieVersion == genie::GV_SWGB)
+        {
+            iconSLP.slpID = 50733 + dataset->Civs[UnitCivID].IconSet;
+            //50690 till 50695 look like techs
+        }
+        else
+        {
+            iconSLP.slpID = 50730;
+        }
+        iconSLP.frameID = UnitPointer->IconID + UnitPointer->Building.GraphicsAngle; // frame
         unitSLP.datID = UnitPointer->StandingGraphic.first;
 	}
     else

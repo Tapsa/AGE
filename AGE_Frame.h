@@ -778,7 +778,7 @@ public:
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
-	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11, ShowSLP, AnimSLP;
+	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11, ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	std::vector<genie::Color> palette;
@@ -878,6 +878,9 @@ public:
 		MenuOption_Buttons,
 		MenuOption_ShowSLP,
 		MenuOption_AnimSLP,
+		MenuOption_ShowShadows,
+		MenuOption_ShowOutline,
+		MenuOption_ShowDeltas,
 		MenuOption_Tips,
 		MenuOption_About,
 		ToolBar_Open,
