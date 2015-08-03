@@ -25,6 +25,10 @@
 #include <wx/image.h>
 #include <wx/dcbuffer.h>
 
+// uncomment to disable assert()
+// #define NDEBUG
+#include <cassert>
+
 #ifdef WIN32
 #include <windows.h>
 #else
