@@ -99,9 +99,9 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
         genie::Color high = palette[(uint8_t)BorderPointer->Colors[0]];
         genie::Color med = palette[(uint8_t)BorderPointer->Colors[1]];
         genie::Color low = palette[(uint8_t)BorderPointer->Colors[2]];
-        Borders_Colors[0]->SetForegroundColour(wxColour(high.r, high.g, high.b));
-        Borders_Colors[1]->SetForegroundColour(wxColour(med.r, med.g, med.b));
-        Borders_Colors[2]->SetForegroundColour(wxColour(low.r, low.g, low.b));
+        setForeAndBackColors(Borders_Colors[0], wxColour(high.r, high.g, high.b));
+        setForeAndBackColors(Borders_Colors[1], wxColour(med.r, med.g, med.b));
+        setForeAndBackColors(Borders_Colors[2], wxColour(low.r, low.g, low.b));
     }
 	ListTerrainBorderFrames();
 }

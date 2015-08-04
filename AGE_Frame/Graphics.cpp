@@ -226,7 +226,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     if(graphicSLP.bitmap.IsOk())
     {
         assert(graphicSLP.slp);
-        dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + 100, graphicSLP.ypos + 100, true);
+        dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + 150, graphicSLP.ypos + 100, true);
         if(AnimSLP)
         {
             unsigned int frames = graphicSLP.slp.get()->getFrameCount();

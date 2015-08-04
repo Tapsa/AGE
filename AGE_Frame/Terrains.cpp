@@ -277,11 +277,11 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
         genie::Color low = palette[(uint8_t)TerrainPointer->Colors[2]];
         genie::Color left = palette[(uint8_t)TerrainPointer->CliffColors.first];
         genie::Color right = palette[(uint8_t)TerrainPointer->CliffColors.second];
-        Terrains_Colors[0]->SetForegroundColour(wxColour(high.r, high.g, high.b));
-        Terrains_Colors[1]->SetForegroundColour(wxColour(med.r, med.g, med.b));
-        Terrains_Colors[2]->SetForegroundColour(wxColour(low.r, low.g, low.b));
-        Terrains_CliffColors[0]->SetForegroundColour(wxColour(left.r, left.g, left.b));
-        Terrains_CliffColors[1]->SetForegroundColour(wxColour(right.r, right.g, right.b));
+        setForeAndBackColors(Terrains_Colors[0], wxColour(high.r, high.g, high.b));
+        setForeAndBackColors(Terrains_Colors[1], wxColour(med.r, med.g, med.b));
+        setForeAndBackColors(Terrains_Colors[2], wxColour(low.r, low.g, low.b));
+        setForeAndBackColors(Terrains_CliffColors[0], wxColour(left.r, left.g, left.b));
+        setForeAndBackColors(Terrains_CliffColors[1], wxColour(right.r, right.g, right.b));
     }
 
 	ListTerrainsBorders();
