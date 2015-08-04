@@ -2060,6 +2060,8 @@ SLP_SWAP:
             {
                 int width = frame.get()->getWidth();
                 int height = frame.get()->getHeight();
+                graphic->xpos = -frame.get()->getHotspotX();
+                graphic->ypos = -frame.get()->getHotspotY();
                 int area = width * height;
                 vector<uint8_t> rgbdata(area * 4, 0);
                 uint8_t *val = rgbdata.data();

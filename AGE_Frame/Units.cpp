@@ -846,13 +846,14 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
         }
         if(unitSLP.slpID == -1)
         {
-            dc.DrawLabel("No SLP", wxNullBitmap, wxRect(0, 0, 100, 40));
+            dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
             return;
         }
         SLPtoBitMap(&unitSLP);
         if(unitSLP.bitmap.IsOk())
         {
-            dc.DrawBitmap(unitSLP.bitmap, 0, 0, true);
+            assert(unitSLP.slp);
+            dc.DrawBitmap(unitSLP.bitmap, unitSLP.xpos + 100, unitSLP.ypos + 100, true);
             if(AnimSLP)
             {
                 unsigned int frames = unitSLP.slp.get()->getFrameCount();
@@ -866,10 +867,10 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
             }
             return;
         }
-        dc.DrawLabel("!SLP " + FormatInt(unitSLP.slpID) + "\n" + unitSLP.filename, wxNullBitmap, wxRect(0, 0, 100, 40));
+        dc.DrawLabel("!SLP " + FormatInt(unitSLP.slpID) + "\n" + unitSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
         return;
     }
-    dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxNullBitmap, wxRect(0, 0, 100, 40));
+    dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxNullBitmap, wxRect(15, 15, 100, 40));
 }
 
 void AGE_Frame::OnUnitAnim(wxTimerEvent &event)
@@ -3023,7 +3024,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language DLLs");
 	Units_GraphicsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Graphics");
 	Units_GraphicsArea1_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Units_GraphicsArea4_Holder = new wxGridSizer(1, 5, 0);
+	Units_GraphicsArea4_Holder = new wxGridSizer(2, 5, 5);
 	Units_GraphicsArea5_Holder = new wxGridSizer(4, 0, 5);
 	Units_StatsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Statistics");
 	Units_StatsArea1_Grid = new wxGridSizer(5, 5, 5);
@@ -4942,10 +4943,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics->Add(Units_DamageGraphics_Holder_Data, 1, wxEXPAND);
 
 	Units_GraphicsArea1_Holder->Add(Units_DamageGraphics, 1, wxEXPAND);
-	Units_GraphicsArea1_Holder->AddSpacer(5);
-	Units_GraphicsArea1_Holder->Add(Units_GraphicsArea4_Holder, 1, wxEXPAND);
+	Units_GraphicsArea1_Holder->Add(Units_StandingGraphic_SLP, 1, wxEXPAND);
 
 	Units_GraphicsArea_Holder->Add(Units_GraphicsArea1_Holder, 0, wxEXPAND);
+	Units_GraphicsArea_Holder->AddSpacer(5);
+	Units_GraphicsArea_Holder->Add(Units_GraphicsArea4_Holder, 0, wxEXPAND);
 	Units_GraphicsArea_Holder->AddSpacer(5);
 	Units_GraphicsArea_Holder->Add(Units_GraphicsArea5_Holder, 0, wxEXPAND);
 
@@ -5295,8 +5297,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnknownArea_Holder->Add(Units_Type80plusUnknownArea_Holder, 0, wxEXPAND);
 
 	Units_ScrollSpace->Add(Units_LangDLLArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_StandingGraphic_SLP, 0, wxEXPAND);
 	Units_ScrollSpace->AddSpacer(5);
 	Units_ScrollSpace->Add(Units_GraphicsArea_Holder, 0, wxEXPAND);
 	Units_ScrollSpace->AddSpacer(5);

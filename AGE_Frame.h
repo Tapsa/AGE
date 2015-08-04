@@ -12,6 +12,7 @@ public:
         slpID = frameID = lastSlpID = lastFrameID = 0;
         datID = -1;
         filename = "";
+        xpos = ypos = 0;
     }
 
     uint32_t slpID, frameID, datID;
@@ -19,6 +20,7 @@ public:
     string filename;
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
+    int xpos, ypos;
 
     static uint32_t playerColorStart, playerColorID;
 };
@@ -2639,6 +2641,8 @@ public:
 	wxGridSizer *Graphics_1_Grid;
 	wxGridSizer *Graphics_2_Grid;
 	wxGridSizer *Graphics_3_Grid;
+	wxBoxSizer *Graphics_4_Grid;
+	wxBoxSizer *Graphics_5_Grid;
 
 	wxStaticText *Graphics_Name_Text;
 	wxStaticText *Graphics_Name2_Text;

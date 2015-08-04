@@ -208,7 +208,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     if(GraphicIDs.size() == 0) return; // Nothing selected
     if(dataset->Graphics[graphicSLP.datID].FrameCount == 0)
     {
-        dc.DrawLabel("No frames", wxNullBitmap, wxRect(0, 0, 100, 40));
+        dc.DrawLabel("No frames", wxNullBitmap, wxRect(15, 15, 100, 40));
         return;
     }
     if(graphicSLP.slpID != dataset->Graphics[graphicSLP.datID].SLP) // SLP changed
@@ -219,14 +219,14 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
     if(graphicSLP.slpID == -1)
     {
-        dc.DrawLabel("No SLP", wxNullBitmap, wxRect(0, 0, 100, 40));
+        dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
         return;
     }
     SLPtoBitMap(&graphicSLP);
     if(graphicSLP.bitmap.IsOk())
     {
         assert(graphicSLP.slp);
-        dc.DrawBitmap(graphicSLP.bitmap, 0, 0, true);
+        dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + 100, graphicSLP.ypos + 100, true);
         if(AnimSLP)
         {
             unsigned int frames = graphicSLP.slp.get()->getFrameCount();
@@ -239,7 +239,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             }
         }
     }
-    else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(0, 0, 100, 40));
+    else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
 }
 
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
@@ -717,9 +717,9 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_Coordinates_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_CoordinateGrid_Holder = new wxGridSizer(4, 0, 5);
-	Graphics_Coordinates_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxSize(630, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Coordinates_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < 4; ++loop)
-	Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
+	Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller, true);
 
 	Graphics_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_SoundID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -752,7 +752,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Unknown3->SetToolTip("Related to sprite editor?");
 	Graphics_4_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_5_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_1_Grid = new wxGridSizer(4, 5, 5);
+    Graphics_4_Grid = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_5_Grid = new wxBoxSizer(wxVERTICAL);
+	Graphics_1_Grid = new wxGridSizer(2, 5, 5);
 	Graphics_2_Grid = new wxGridSizer(4, 5, 5);
 	Graphics_3_Grid = new wxGridSizer(4, 5, 5);
 
@@ -900,7 +902,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(short loop = 0; loop < 4; ++loop)
 	Graphics_CoordinateGrid_Holder->Add(Graphics_Coordinates[loop], 1, wxEXPAND);
 	Graphics_Coordinates_Holder->Add(Graphics_Coordinates_Text, 0, wxEXPAND);
-	Graphics_Coordinates_Holder->Add(Graphics_CoordinateGrid_Holder, 1, wxEXPAND);
+	Graphics_Coordinates_Holder->Add(Graphics_CoordinateGrid_Holder, 0, wxEXPAND);
 	Graphics_NewSpeed_Holder->Add(Graphics_NewSpeed_Text, 0, wxEXPAND);
 	Graphics_NewSpeed_Holder->Add(Graphics_NewSpeed, 0, wxEXPAND);
 	Graphics_SLP_Holder->Add(Graphics_SLP_Text, 0, wxEXPAND);
@@ -1036,13 +1038,15 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSoundArea_Holder->AddSpacer(5);
 	Graphics_AttackSoundArea_Holder->Add(Graphics_5_Holder, 3, wxEXPAND);
 
+	Graphics_5_Grid->Add(Graphics_1_Grid, 0, wxEXPAND);
+	Graphics_5_Grid->AddSpacer(5);
+	Graphics_5_Grid->Add(Graphics_Coordinates_Holder, 0, wxEXPAND);
+	Graphics_4_Grid->Add(Graphics_5_Grid, 1, wxEXPAND);
+	Graphics_4_Grid->Add(Graphics_SLP_Image, 1, wxEXPAND);
+
 	Graphics_ScrollSpace->Add(Graphics_NameArea_Holder, 0, wxEXPAND);
 	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_SLP_Image, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_Coordinates_Holder, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(Graphics_4_Grid, 0, wxEXPAND);
 	Graphics_ScrollSpace->AddSpacer(5);
 	Graphics_ScrollSpace->Add(Graphics_2_Grid, 0, wxEXPAND);
 	Graphics_ScrollSpace->AddSpacer(5);
