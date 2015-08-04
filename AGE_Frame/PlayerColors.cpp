@@ -1,5 +1,8 @@
 #include "../AGE_Frame.h"
 
+uint32_t AGE_SLP::playerColorStart = 0;
+uint32_t AGE_SLP::playerColorID = 0;
+
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
@@ -70,8 +73,10 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 	{
 		PlayerColorPointer = &dataset->PlayerColours[ColorIDs[loop]];
 
-		Colors_ID->prepend(&PlayerColorPointer->ID);
-		Colors_ColorL->prepend(&PlayerColorPointer->Colour);
+        Colors_ID->prepend(&PlayerColorPointer->ID);
+        Colors_ColorL->prepend(&PlayerColorPointer->Colour);
+        Colors_Unknown1->prepend(&PlayerColorPointer->Unknown1);
+        Colors_Unknown2->prepend(&PlayerColorPointer->Unknown2);
 		if(GenieVersion < genie::GV_AoKA)	//	AoE and RoR
 		{
 			Colors_Name->prepend(&PlayerColorPointer->Name);
@@ -80,8 +85,6 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 		{
 			Colors_Palette->prepend(&PlayerColorPointer->Palette);
 			Colors_MinimapColor->prepend(&PlayerColorPointer->MinimapColour);
-			Colors_Unknown1->prepend(&PlayerColorPointer->Unknown1);
-			Colors_Unknown2->prepend(&PlayerColorPointer->Unknown2);
 			Colors_Unknown3->prepend(&PlayerColorPointer->Unknown3);
 			Colors_Unknown4->prepend(&PlayerColorPointer->Unknown4);
 			Colors_Unknown5->prepend(&PlayerColorPointer->StatisticsText);
@@ -99,6 +102,11 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
         Colors_Palette->SetForegroundColour(wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
         Colors_ColorL->SetForegroundColour(wxColour(playerColor.r, playerColor.g, playerColor.b));
         Colors_MinimapColor->SetForegroundColour(wxColour(minimap.r, minimap.g, minimap.b));
+
+		if(GenieVersion < genie::GV_AoKA)
+        AGE_SLP::playerColorStart = uint8_t(16 * (1 + ColorIDs[0]));
+        else AGE_SLP::playerColorStart = (uint8_t)PlayerColorPointer->Palette;
+        AGE_SLP::playerColorID = (uint8_t)PlayerColorPointer->Colour;
     }
 }
 
@@ -286,10 +294,6 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown5_Holder->Add(Colors_Unknown5_Text, 0, wxEXPAND);
 	Colors_Unknown5_Holder->Add(Colors_Unknown5, 1, wxEXPAND);
 
-	Colors_UnknownArea_Holder->Add(Colors_Unknown1_Holder, 0, wxEXPAND);
-	Colors_UnknownArea_Holder->AddSpacer(5);
-	Colors_UnknownArea_Holder->Add(Colors_Unknown2_Holder, 0, wxEXPAND);
-	Colors_UnknownArea_Holder->AddSpacer(5);
 	Colors_UnknownArea_Holder->Add(Colors_Unknown3_Holder, 0, wxEXPAND);
 	Colors_UnknownArea_Holder->AddSpacer(5);
 	Colors_UnknownArea_Holder->Add(Colors_Unknown4_Holder, 0, wxEXPAND);
@@ -306,6 +310,10 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_DataArea->Add(Colors_Color_Holder, 0, wxEXPAND);
 	Colors_DataArea->AddSpacer(5);
 	Colors_DataArea->Add(Colors_MinimapColor_Holder, 0, wxEXPAND);
+	Colors_DataArea->AddSpacer(5);
+	Colors_DataArea->Add(Colors_Unknown1_Holder, 0, wxEXPAND);
+	Colors_DataArea->AddSpacer(5);
+	Colors_DataArea->Add(Colors_Unknown2_Holder, 0, wxEXPAND);
 	Colors_DataArea->AddSpacer(5);
 	Colors_DataArea->Add(Colors_UnknownArea_Holder, 0, wxEXPAND);
 
