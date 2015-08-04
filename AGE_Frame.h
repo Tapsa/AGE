@@ -154,6 +154,7 @@ public:
     void loadPalette(wxString folder);
     void addFilesToRead(const wxArrayString &files, const wxString folder);
     void addDRSFolders4SLPs(wxArrayString &folders, wxString folder);
+    void setForeAndBackColors(AGETextCtrl* box, wxColour color);
 
 //	General Events
 

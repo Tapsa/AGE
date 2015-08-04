@@ -99,15 +99,23 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
         genie::Color playerColor = palette[(uint8_t)PlayerColorPointer->Colour];
         genie::Color paletteStart = palette[(uint8_t)PlayerColorPointer->Palette];
         genie::Color minimap = palette[(uint8_t)PlayerColorPointer->MinimapColour];
-        Colors_Palette->SetForegroundColour(wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
-        Colors_ColorL->SetForegroundColour(wxColour(playerColor.r, playerColor.g, playerColor.b));
-        Colors_MinimapColor->SetForegroundColour(wxColour(minimap.r, minimap.g, minimap.b));
+        setForeAndBackColors(Colors_Palette, wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
+        setForeAndBackColors(Colors_ColorL, wxColour(playerColor.r, playerColor.g, playerColor.b));
+        setForeAndBackColors(Colors_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
 
 		if(GenieVersion < genie::GV_AoKA)
         AGE_SLP::playerColorStart = uint8_t(16 * (1 + ColorIDs[0]));
         else AGE_SLP::playerColorStart = (uint8_t)PlayerColorPointer->Palette;
         AGE_SLP::playerColorID = (uint8_t)PlayerColorPointer->Colour;
     }
+}
+
+void AGE_Frame::setForeAndBackColors(AGETextCtrl* box, wxColour color)
+{
+    box->SetBackgroundColour(color);
+    if(color.Red() / 2 + 2 * color.Green() + color.Blue() > 384)
+    box->SetForegroundColour(wxColour(0, 0, 0));
+    else box->SetForegroundColour(wxColour(255, 255, 255));
 }
 
 void AGE_Frame::OnDrawPalette(wxPaintEvent &event)
