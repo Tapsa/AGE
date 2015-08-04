@@ -20,8 +20,9 @@ public:
     string filename;
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
-    int xpos, ypos;
+    int xpos, ypos, xdelta, ydelta;
 
+    list<AGE_SLP> deltas;
     static uint32_t playerColorStart, playerColorID;
 };
 
@@ -150,6 +151,7 @@ public:
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
 	void OnUnitAnim(wxTimerEvent &event);
+    int ShouldAnimate(AGE_SLP *graphic);
 	void OnGraphicErase(wxEraseEvent &event);
     void loadPalette(wxString folder);
     void addFilesToRead(const wxArrayString &files, const wxString folder);

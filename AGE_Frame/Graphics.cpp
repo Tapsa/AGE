@@ -189,7 +189,11 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 
         if(NULL != GraphicPointer)
         {
-            graphicSLP.datID = GraphicIDs[0];
+            if(graphicSLP.datID != GraphicIDs[0])
+            {
+                graphicSLP.slpID = -1; // Force reloading delta graphics.
+                graphicSLP.datID = GraphicIDs[0];
+            }
         }
 	}
     for(auto &box: uiGroupGraphic) box->update();
@@ -216,6 +220,43 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         graphicSLP.frameID = 0;
         graphicSLP.filename = dataset->Graphics[graphicSLP.datID].Name2;
         graphicSLP.slpID = dataset->Graphics[graphicSLP.datID].SLP;
+        graphicSLP.deltas.clear();
+        // Load possible delta graphics.
+        for(auto &delta: dataset->Graphics[graphicSLP.datID].Deltas)
+        {
+            AGE_SLP deltaSLP;
+            if(delta.GraphicID < dataset->Graphics.size())
+            {
+                deltaSLP.datID = delta.GraphicID;
+                deltaSLP.filename = dataset->Graphics[delta.GraphicID].Name2;
+                deltaSLP.slpID = dataset->Graphics[delta.GraphicID].SLP;
+            }
+            else
+            {
+                deltaSLP = graphicSLP;
+            }
+            deltaSLP.xdelta = delta.DirectionX;
+            deltaSLP.ydelta = delta.DirectionY;
+            graphicSLP.deltas.push_back(deltaSLP);
+        }
+    }
+    if(graphicSLP.deltas.size())
+    {
+        int fpms = 0;
+        for(auto &deltaSLP: graphicSLP.deltas)
+        {
+            SLPtoBitMap(&deltaSLP);
+            if(deltaSLP.bitmap.IsOk())
+            {
+                dc.DrawBitmap(deltaSLP.bitmap, 150 + deltaSLP.xpos + deltaSLP.xdelta, 100 + deltaSLP.ypos + deltaSLP.ydelta, true);
+                if(AnimSLP) fpms = max(fpms, ShouldAnimate(&deltaSLP));
+            }
+        }
+        if(AnimSLP)
+        {
+            graphicAnimTimer.Start(fpms == -500 ? 500 : fpms);
+        }
+        return;
     }
     if(graphicSLP.slpID == -1)
     {
@@ -229,17 +270,23 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + 150, graphicSLP.ypos + 100, true);
         if(AnimSLP)
         {
-            unsigned int frames = graphicSLP.slp.get()->getFrameCount();
-            unsigned int fpms = dataset->Graphics[graphicSLP.datID].FrameRate * 1000;
-            if((frames > 1 && fpms == 0) || dataset->Graphics[graphicSLP.datID].FrameCount == 1) fpms = 500;
-            if(fpms)
-            {
-                graphicSLP.frameID = (graphicSLP.frameID + 1) % frames;
-                graphicAnimTimer.Start(fpms);
-            }
+            int fpms = ShouldAnimate(&graphicSLP);
+            graphicAnimTimer.Start(fpms == -500 ? 500 : fpms);
         }
     }
     else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
+}
+
+int AGE_Frame::ShouldAnimate(AGE_SLP *graphic)
+{
+    unsigned int frames = graphic->slp.get()->getFrameCount();
+    int fpms = dataset->Graphics[graphic->datID].FrameRate * 1000;
+    if((frames > 1 && fpms == 0) || dataset->Graphics[graphic->datID].FrameCount == 1) fpms = -500;
+    if(fpms)
+    {
+        graphic->frameID = (graphic->frameID + 1) % frames; // Rotate through frames.
+    }
+    return fpms;
 }
 
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
@@ -413,9 +460,10 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
 
 string AGE_Frame::GetGraphicDeltaName(short Index)
 {
-	if(dataset->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID < dataset->Graphics.size())
-	return GetGraphicName(dataset->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID, false);
-	return "Re-drawer "+lexical_cast<string>(dataset->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID)+" ";
+    int deltaID = dataset->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID;
+	if(deltaID < dataset->Graphics.size())
+	return lexical_cast<string>(deltaID) + ": " + GetGraphicName(deltaID, false) + " ";
+	return "Re-drawer "+lexical_cast<string>(deltaID)+" ";
 }
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &event)
