@@ -231,7 +231,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         {
             unsigned int frames = graphicSLP.slp.get()->getFrameCount();
             unsigned int fpms = dataset->Graphics[graphicSLP.datID].FrameRate * 1000;
-            if(frames > 1 && fpms == 0) fpms = 500;
+            if((frames > 1 && fpms == 0) || dataset->Graphics[graphicSLP.datID].FrameCount == 1) fpms = 500;
             if(fpms)
             {
                 graphicSLP.frameID = (graphicSLP.frameID + 1) % frames;
