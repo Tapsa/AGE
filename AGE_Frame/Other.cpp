@@ -976,7 +976,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 
 		SetStatusText(lexical_cast<string>(dataset->FileVersion), 4);
-		LoadLists();
 
 		Effects_AttributesC_ComboBox->Clear();
 		Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");		// Selection 0
@@ -1091,6 +1090,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 
 		DataOpened = true;
 		OnGameVersionChange();
+		LoadLists();
 	}
 	SetStatusText("", 0);
 

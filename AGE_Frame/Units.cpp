@@ -727,8 +727,8 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
         {
             genie::Color minimap = palette[(uint8_t)UnitPointer->MinimapColor];
             genie::Color editorSel = palette[(uint8_t)UnitPointer->EditorSelectionColour];
-            Units_MinimapColor->SetForegroundColour(wxColour(minimap.r, minimap.g, minimap.b));
-            Units_EditorSelectionColour->SetForegroundColour(wxColour(editorSel.r, editorSel.g, editorSel.b));
+            setForeAndBackColors(Units_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
+            setForeAndBackColors(Units_EditorSelectionColour, wxColour(editorSel.r, editorSel.g, editorSel.b));
         }
         if(UnitPointer->Type == 80)
         {
@@ -853,7 +853,7 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
         if(unitSLP.bitmap.IsOk())
         {
             assert(unitSLP.slp);
-            dc.DrawBitmap(unitSLP.bitmap, unitSLP.xpos + 100, unitSLP.ypos + 100, true);
+            dc.DrawBitmap(unitSLP.bitmap, unitSLP.xpos + 150, unitSLP.ypos + 130, true);
             if(AnimSLP)
             {
                 unsigned int frames = unitSLP.slp.get()->getFrameCount();
