@@ -890,6 +890,7 @@ public:
 		ToolBar_Save,
 		ToolBar_Show,
 		ToolBar_Help,
+		ToolBar_DRS,
 		ToolBar_Hex,
 		ToolBar_Float,
 		ToolBar_Paste,
