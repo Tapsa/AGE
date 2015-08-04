@@ -1353,11 +1353,17 @@ void AGE_Frame::OnGameVersionChange()
 
 		if(show) // AoK Alfa ->
 		{
+			Colors_ID->changeContainerType(CLong);
 			Colors_ColorL->changeContainerType(CLong);
+			Colors_Unknown1->changeContainerType(CLong);
+			Colors_Unknown2->changeContainerType(CLong);
 		}
 		else // <- RoR
 		{
-			Colors_ColorL->changeContainerType(CShort);
+			Colors_ID->changeContainerType(CShort);
+			Colors_Unknown1->changeContainerType(CShort);
+			Colors_ColorL->changeContainerType(CUByte);
+			Colors_Unknown2->changeContainerType(CUByte);
 		}
 
 		// AoK Beta ->
@@ -2059,7 +2065,7 @@ SLP_SWAP:
                         int flat = imgdata.player_color_mask[i].y * width + imgdata.player_color_mask[i].x;
                         int loc = 3 * flat;
                         int locA = 3 * area + flat;
-                        genie::Color rgba = palette[imgdata.player_color_mask[i].index];
+                        genie::Color rgba = palette[uint8_t(imgdata.player_color_mask[i].index + AGE_SLP::playerColorStart)];
                         rgbdata[loc] = rgba.r;
                         rgbdata[loc + 1] = rgba.g;
                         rgbdata[loc + 2] = rgba.b;
@@ -2072,7 +2078,7 @@ SLP_SWAP:
                         int flat = imgdata.outline_mask[i].y * width + imgdata.outline_mask[i].x;
                         int loc = 3 * flat;
                         int locA = 3 * area + flat;
-                        genie::Color rgba = palette[242];
+                        genie::Color rgba = palette[AGE_SLP::playerColorID];
                         rgbdata[loc] = rgba.r;
                         rgbdata[loc + 1] = rgba.g;
                         rgbdata[loc + 2] = rgba.b;
