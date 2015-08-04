@@ -19,6 +19,8 @@ public:
     string filename;
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
+
+    static uint32_t playerColorStart, playerColorID;
 };
 
 class AGE_Frame: public wxFrame
