@@ -1,4 +1,6 @@
 #include "../AGE_Frame.h"
+#include "../DRSunlock.xpm"
+#include "../DRSlock.xpm"
 
 wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
 vector<bool> AGETextCtrl::hexMode;
@@ -364,10 +366,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 	}
 
-    for(auto &file: datafiles)
-    delete file;
-    datafiles.clear();
-    palette.clear();
+    wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, ToolBar_DRS);
+    loadDRS.SetInt(false);
+    ProcessEvent(loadDRS);
     if(UseDRS)
 	{
         if(UseTXT)
@@ -377,49 +378,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         else
         {
-            wxArrayString FilesToRead;
-            if(GenieVersion == genie::GV_TC)
-            {
-                FilesToRead.Add("\\gamedata_x1_p1.drs");
-                FilesToRead.Add("\\gamedata_x1.drs");
-            }
-            else if(GenieVersion == genie::GV_CC)
-            {
-                FilesToRead.Add("\\gamedata_x1.drs");
-                FilesToRead.Add("\\interfac_x1.drs");
-                FilesToRead.Add("\\graphics_x1.drs");
-                FilesToRead.Add("\\terrain_x1.drs");
-            }
-            else if(GenieVersion == genie::GV_RoR)
-            {
-                FilesToRead.Add("2\\interfac.drs");
-                FilesToRead.Add("2\\graphics.drs");
-            }
-            if(GenieVersion > genie::GV_RoR)
-            {
-                FilesToRead.Add("\\gamedata.drs");
-            }
-            FilesToRead.Add("\\interfac.drs");
-            FilesToRead.Add("\\graphics.drs");
-            FilesToRead.Add("\\terrain.drs");
-            if(GenieVersion < genie::GV_AoKB)
-            {
-                FilesToRead.Add("\\border.drs");
-            }
-
-            addFilesToRead(FilesToRead, FolderDRS2);
-            addFilesToRead(FilesToRead, FolderDRS);
-            genie::PalFilePtr pal;
-            for(auto &file: datafiles)
-            {
-                pal.reset();
-                pal = file->getPalFile(50500);
-                if(pal)
-                {
-                    palette = pal.get()->getColors();
-                    break;
-                }
-            }
+            loadDRS.SetInt(true);
+            ProcessEvent(loadDRS);
         }
 	}
 
@@ -1831,6 +1791,73 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
 		}
 		break;*/
+		case ToolBar_DRS:
+        {
+            GetToolBar()->ToggleTool(ToolBar_DRS, event.IsChecked());
+            if(event.IsChecked() && !UseTXT)
+            {
+                GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_lock_xpm));
+                // Reload DRS files.
+                wxArrayString FilesToRead;
+                if(GenieVersion == genie::GV_TC)
+                {
+                    FilesToRead.Add("\\gamedata_x1_p1.drs");
+                    FilesToRead.Add("\\gamedata_x1.drs");
+                }
+                else if(GenieVersion == genie::GV_CC)
+                {
+                    FilesToRead.Add("\\gamedata_x1.drs");
+                    FilesToRead.Add("\\interfac_x1.drs");
+                    FilesToRead.Add("\\graphics_x1.drs");
+                    FilesToRead.Add("\\terrain_x1.drs");
+                }
+                else if(GenieVersion == genie::GV_RoR)
+                {
+                    FilesToRead.Add("2\\interfac.drs");
+                    FilesToRead.Add("2\\graphics.drs");
+                }
+                if(GenieVersion > genie::GV_RoR)
+                {
+                    FilesToRead.Add("\\gamedata.drs");
+                }
+                FilesToRead.Add("\\interfac.drs");
+                FilesToRead.Add("\\graphics.drs");
+                FilesToRead.Add("\\terrain.drs");
+                if(GenieVersion < genie::GV_AoKB)
+                {
+                    FilesToRead.Add("\\border.drs");
+                }
+
+                addFilesToRead(FilesToRead, FolderDRS2);
+                addFilesToRead(FilesToRead, FolderDRS);
+                genie::PalFilePtr pal;
+                for(auto &file: datafiles)
+                {
+                    pal.reset();
+                    pal = file->getPalFile(50500);
+                    if(pal)
+                    {
+                        palette = pal.get()->getColors();
+                        break;
+                    }
+                }
+                Graphics_SLP_Image->Refresh();
+                Units_StandingGraphic_SLP->Refresh();
+                Units_IconID_SLP->Refresh();
+                break;
+            }
+            else
+            {
+                GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_unlock_xpm));
+                // Unload DRS files, stop animations.
+                graphicAnimTimer.Stop();
+                unitAnimTimer.Stop();
+                for(auto &file: datafiles) delete file;
+                datafiles.clear();
+                if(!UseTXT) palette.clear();
+            }
+        }
+        break;
 		case ToolBar_Help:
 		{
 			//AGE_HelpInfo AGEHelp(this);
@@ -2006,12 +2033,13 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
         }
         else
         {
+            graphic->slp.reset();
             for(auto &file: datafiles)
             {
-                graphic->slp.reset();
                 graphic->slp = file->getSlpFile(graphic->slpID);
                 //log_out << file->getFileName() << " : " << slpID << endl;
                 if(graphic->slp) break;
+                graphic->slp.reset();
             }
         }
         goto SLP_SWAP;
@@ -2693,13 +2721,11 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 		if(AutoBackups) SaveBackup();
 	}
 
-    graphicAnimTimer.Stop();
-    unitAnimTimer.Stop();
-	TabBar_Main->Destroy();
+    wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, ToolBar_DRS);
+    loadDRS.SetInt(false);
+    ProcessEvent(loadDRS);
 
 	delete dataset;
-    for(auto &file: datafiles)
-	delete file;
 	if(WriteLangs)
 	{
 		delete Lang;
@@ -2708,5 +2734,13 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	}
 
     AGE_Frame::openEditors[AGEwindow] = false;
+    while(graphicAnimTimer.IsRunning() || unitAnimTimer.IsRunning())
+    {
+        if(event.CanVeto())
+        {
+            event.Veto();
+			return;
+        }
+    }
 	Destroy();
 }
