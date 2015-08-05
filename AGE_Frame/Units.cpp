@@ -751,11 +751,8 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             iconSLP.slpID = 50730;
         }
         iconSLP.frameID = UnitPointer->IconID + UnitPointer->Building.GraphicsAngle; // frame
-        if(unitSLP.datID != UnitPointer->StandingGraphic.first)
-        {
-            unitSLP.slpID = -1;
-            unitSLP.datID = UnitPointer->StandingGraphic.first;
-        }
+        unitSLP.datID = UnitPointer->StandingGraphic.first;
+        unitSLP.slpID = -2;
 	}
     else
     {
@@ -849,19 +846,31 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
             unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
             unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
             unitSLP.deltas.clear();
-            AddAnnexAndStackGraphics(UnitIDs[0]);
+            unsigned int unitID = UnitIDs[0];
             // Load possible delta and annex graphics.
-            if(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type == 80)
+            if(dataset->Civs[UnitCivID].Units[unitID].Type == 80)
             {
-                if(ShowAnnexes)
-                for(int i=0; i < 4; ++i)
-                CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[UnitIDs[0]].Building.Annexes[i]);
-                if(false && ShowStack)
+                // Start drawing from head unit instead.
+                if(dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit < dataset->Civs[UnitCivID].Units.size())
+                    unitID = dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit;
+                // Draw this building only if it will stay up after built.
+                if(dataset->Civs[UnitCivID].Units[unitID].Building.DisappearsWhenBuilt == 0)
                 {
-                    AddAnnexAndStackGraphics(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Building.HeadUnit);
-                    AddAnnexAndStackGraphics(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Building.StackUnitID);
+                    AddAnnexAndStackGraphics(unitID);
+                    if(ShowAnnexes)
+                    for(int i=0; i < 4; ++i)
+                    CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[unitID].Building.Annexes[i]);
+                }
+                if(ShowStack && dataset->Civs[UnitCivID].Units[unitID].Building.StackUnitID < dataset->Civs[UnitCivID].Units.size())
+                {
+                    unitID = dataset->Civs[UnitCivID].Units[unitID].Building.StackUnitID;
+                    AddAnnexAndStackGraphics(unitID);
+                    if(ShowAnnexes)
+                    for(int i=0; i < 4; ++i)
+                    CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[unitID].Building.Annexes[i]);
                 }
             }
+            else AddAnnexAndStackGraphics(unitID);
         }
         if(unitSLP.deltas.size())
         {
@@ -877,7 +886,7 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
             }
             if(AnimSLP)
             {
-                unitAnimTimer.Start(fpms == -500 ? 500 : fpms);
+                unitAnimTimer.Start(fpms <= 0 ? 500 : fpms);
             }
             return;
         }
@@ -886,6 +895,7 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
             dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
             return;
         }
+        // Apparently following code is not needed anymore.
         SLPtoBitMap(&unitSLP);
         if(unitSLP.bitmap.IsOk())
         {
@@ -907,10 +917,13 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
 void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY)
 {
     if(unitID >= dataset->Civs[UnitCivID].Units.size()) return;
+    unsigned int unitGraphic = dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first;
     unitSLP.frameID = 0;
-    unitSLP.filename = dataset->Graphics[dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first].Name2;
-    unitSLP.slpID = dataset->Graphics[dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first].SLP;
-    for(auto &delta: dataset->Graphics[dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first].Deltas)
+    unitSLP.datID = unitGraphic;
+    unitSLP.filename = dataset->Graphics[unitGraphic].Name2;
+    unitSLP.slpID = dataset->Graphics[unitGraphic].SLP;
+    if(dataset->Graphics[unitGraphic].Deltas.size())
+    for(auto &delta: dataset->Graphics[unitGraphic].Deltas)
     {
         AGE_SLP deltaSLP;
         if(delta.GraphicID < dataset->Graphics.size())
@@ -926,6 +939,12 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         deltaSLP.xdelta = delta.DirectionX + offsetX;
         deltaSLP.ydelta = delta.DirectionY + offsetY;
         unitSLP.deltas.insert(make_pair(offsetY, deltaSLP));
+    }
+    else
+    {
+        unitSLP.xdelta = offsetX;
+        unitSLP.ydelta = offsetY;
+        unitSLP.deltas.insert(make_pair(offsetY, unitSLP));
     }
 }
 

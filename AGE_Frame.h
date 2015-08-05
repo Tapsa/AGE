@@ -12,7 +12,7 @@ public:
         slpID = frameID = lastSlpID = lastFrameID = 0;
         datID = -1;
         filename = "";
-        xpos = ypos = 0;
+        xpos = ypos = xdelta = ydelta = 0;
     }
 
     uint32_t slpID, frameID, datID;
