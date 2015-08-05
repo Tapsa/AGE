@@ -12,6 +12,16 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.8.5[/b]:
+-SLP loading code should now handle all kinds of properly formatted files.
+-Second DRS folder readable.
+-Loop static graphics with angles too.
+-Added palette display.
+-SLP graphic player color selectable in colors tab.
+-DRS files can be (un)loaded from a button.
+-Graphics centered based on their anchor.
+-Show delta/annex/stack/head SLP graphics stacked.
+
 Version [b]2015.7.31[/b]:
 -SLP graphics can be shown, excluding AoE 1 for now.
 -Color variables colored according to 50500 palette.
