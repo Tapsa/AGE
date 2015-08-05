@@ -62,17 +62,17 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 
 	this->SetSizerAndFit(Main);
 
-	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnOK));
-	Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoE));
-	Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultRoR));
-	Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoK));
-	Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultTC));
-	Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoKHD));
-	Connect(Button_DefaultFE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultFE));
-	Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoP));
-	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultSWGB));
-	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultCC));
-	Connect(CheckBox_DatFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDat));
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnOK, this, wxID_OK);
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultAoE, this, Button_DefaultAoE->GetId());
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultRoR, this, Button_DefaultRoR->GetId());
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultAoK, this, Button_DefaultAoK->GetId());
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultTC, this, Button_DefaultTC->GetId());
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultAoKHD, this, Button_DefaultAoKHD->GetId());
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultFE, this, Button_DefaultFE->GetId());
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultAoP, this, Button_DefaultAP->GetId());
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultSWGB, this, Button_DefaultSWGB->GetId());
+	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_SaveDialog::OnDefaultCC, this, Button_DefaultCC->GetId());
+	Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_SaveDialog::OnSelectDat, this, CheckBox_DatFileLocation->GetId());
 }
 
 void AGE_SaveDialog::OnOK(wxCommandEvent &Event)
