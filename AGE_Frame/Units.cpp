@@ -739,12 +739,10 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
         else if(GenieVersion == genie::GV_CC)
         {
             iconSLP.slpID = 53250 + dataset->Civs[UnitCivID].IconSet;
-            //tech icon SLP is 53260 + ICON_SET
         }
         else if(GenieVersion == genie::GV_SWGB)
         {
             iconSLP.slpID = 50733 + dataset->Civs[UnitCivID].IconSet;
-            //50690 till 50695 look like techs
         }
         else
         {
@@ -830,7 +828,7 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
     SLPtoBitMap(&iconSLP);
     if(iconSLP.bitmap.IsOk())
     dc.DrawBitmap(iconSLP.bitmap, 0, 0, true);
-    else dc.DrawLabel("!SLP " + FormatInt(iconSLP.slpID), wxNullBitmap, wxRect(0, 0, 100, 40));
+    else dc.DrawLabel("!SLP/frame " + FormatInt(iconSLP.slpID), wxNullBitmap, wxRect(0, 0, 100, 40));
 }
 
 void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
@@ -3565,7 +3563,7 @@ void AGE_Frame::CreateUnitControls()
     Units_StandingGraphic_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(180, 180));
 	Units_IconID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
-    Units_IconID_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(36, 36));//64, 64));
+    Units_IconID_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(55, 50));
 	Units_IconAngle = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_IconAngle->SetToolTip("Tech attribute 17 changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
 	for(short loop = 0; loop < 2; ++loop)
