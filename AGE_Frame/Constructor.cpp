@@ -49,6 +49,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("Interaction/ShowShadows", &ShowShadows, true);
 	Config->Read("Interaction/ShowOutline", &ShowOutline, true);
 	Config->Read("Interaction/ShowDeltas", &ShowDeltas, true);
+	Config->Read("Interaction/ShowStack", &ShowStack, true);
+	Config->Read("Interaction/ShowAnnexes", &ShowAnnexes, true);
 	Config->Read("Interface/ShowUnknowns", &ShowUnknowns, true);
 	Config->Read("Interface/ShowButtons", &ShowButtons, false);
 	Config->Read("Interface/Paste11", &Paste11, true);
@@ -125,6 +127,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SubMenu_SLP->Check(MenuOption_ShowOutline, ShowOutline);
 	SubMenu_SLP->AppendCheckItem(MenuOption_ShowDeltas, "Show SLP &deltas");
 	SubMenu_SLP->Check(MenuOption_ShowDeltas, ShowDeltas);
+	SubMenu_SLP->AppendCheckItem(MenuOption_ShowStack, "Show SLP graphics of stack &unit");
+	SubMenu_SLP->Check(MenuOption_ShowStack, ShowStack);
+	SubMenu_SLP->AppendCheckItem(MenuOption_ShowAnnexes, "Show SLP graphics of annex &units");
+	SubMenu_SLP->Check(MenuOption_ShowAnnexes, ShowAnnexes);
 
 	SubMenu_Help = new wxMenu();
 	SubMenu_Help->Append(MenuOption_Tips, "&Tips");
@@ -199,6 +205,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(MenuOption_ShowShadows, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_ShowOutline, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_ShowDeltas, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_ShowStack, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_ShowAnnexes, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(Units_AutoCopy->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
 	Connect(Units_CopyTo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::UnitsAutoCopy));
 	Connect(Units_SelectAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
