@@ -1750,14 +1750,17 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		{
 			ShowSLP = event.IsChecked();
 
-			Units_StandingGraphic_SLP->Show(ShowSLP);
             Graphics_SLP_Image->Show(ShowSLP);
+			Units_StandingGraphic_SLP->Show(ShowSLP);
             Units_IconID_SLP->Show(ShowSLP);
+            Research_IconID_SLP->Show(ShowSLP);
 
-            Units_Main->Layout();
             Graphics_Main->Layout();
-            Units_Scroller->GetSizer()->FitInside(Units_Scroller);
+            Units_Main->Layout();
+            Research_Main->Layout();
             Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
+            Units_Scroller->GetSizer()->FitInside(Units_Scroller);
+            Research_Scroller->GetSizer()->FitInside(Research_Scroller);
             Refresh();
 		}
 		break;
