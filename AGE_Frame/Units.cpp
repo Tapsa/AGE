@@ -751,7 +751,11 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             iconSLP.slpID = 50730;
         }
         iconSLP.frameID = UnitPointer->IconID + UnitPointer->Building.GraphicsAngle; // frame
-        unitSLP.datID = UnitPointer->StandingGraphic.first;
+        if(unitSLP.datID != UnitPointer->StandingGraphic.first)
+        {
+            unitSLP.slpID = -1;
+            unitSLP.datID = UnitPointer->StandingGraphic.first;
+        }
 	}
     else
     {
@@ -836,6 +840,7 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
 {
     wxBufferedPaintDC dc(Units_StandingGraphic_SLP);
     dc.Clear();
+    if(UnitIDs.size() == 0) return; // Nothing selected
     if(unitSLP.datID < dataset->Graphics.size())
     {
         if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
@@ -843,6 +848,38 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
             unitSLP.frameID = 0;
             unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
             unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
+            unitSLP.deltas.clear();
+            AddAnnexAndStackGraphics(UnitIDs[0]);
+            // Load possible delta and annex graphics.
+            if(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type == 80)
+            {
+                if(ShowAnnexes)
+                for(int i=0; i < 4; ++i)
+                CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[UnitIDs[0]].Building.Annexes[i]);
+                if(false && ShowStack)
+                {
+                    AddAnnexAndStackGraphics(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Building.HeadUnit);
+                    AddAnnexAndStackGraphics(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Building.StackUnitID);
+                }
+            }
+        }
+        if(unitSLP.deltas.size())
+        {
+            int fpms = 0;
+            for(auto &delta: unitSLP.deltas)
+            {
+                SLPtoBitMap(&delta.second);
+                if(delta.second.bitmap.IsOk())
+                {
+                    dc.DrawBitmap(delta.second.bitmap, 150 + delta.second.xpos + delta.second.xdelta, 100 + delta.second.ypos + delta.second.ydelta, true);
+                    if(AnimSLP) fpms = max(fpms, ShouldAnimate(&delta.second));
+                }
+            }
+            if(AnimSLP)
+            {
+                unitAnimTimer.Start(fpms == -500 ? 500 : fpms);
+            }
+            return;
         }
         if(unitSLP.slpID == -1)
         {
@@ -856,14 +893,8 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
             dc.DrawBitmap(unitSLP.bitmap, unitSLP.xpos + 150, unitSLP.ypos + 130, true);
             if(AnimSLP)
             {
-                unsigned int frames = unitSLP.slp.get()->getFrameCount();
-                unsigned int fpms = dataset->Graphics[unitSLP.datID].FrameRate * 1000;
-                if((frames > 1 && fpms == 0) || dataset->Graphics[unitSLP.datID].FrameCount == 1) fpms = 500;
-                if(fpms)
-                {
-                    unitSLP.frameID = (unitSLP.frameID + 1) % frames;
-                    unitAnimTimer.Start(fpms);
-                }
+                int fpms = ShouldAnimate(&unitSLP);
+                unitAnimTimer.Start(fpms == -500 ? 500 : fpms);
             }
             return;
         }
@@ -871,6 +902,38 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
         return;
     }
     dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxNullBitmap, wxRect(15, 15, 100, 40));
+}
+
+void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY)
+{
+    if(unitID >= dataset->Civs[UnitCivID].Units.size()) return;
+    unitSLP.frameID = 0;
+    unitSLP.filename = dataset->Graphics[dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first].Name2;
+    unitSLP.slpID = dataset->Graphics[dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first].SLP;
+    for(auto &delta: dataset->Graphics[dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first].Deltas)
+    {
+        AGE_SLP deltaSLP;
+        if(delta.GraphicID < dataset->Graphics.size())
+        {
+            deltaSLP.datID = delta.GraphicID;
+            deltaSLP.filename = dataset->Graphics[delta.GraphicID].Name2;
+            deltaSLP.slpID = dataset->Graphics[delta.GraphicID].SLP;
+        }
+        else
+        {
+            deltaSLP = unitSLP;
+        }
+        deltaSLP.xdelta = delta.DirectionX + offsetX;
+        deltaSLP.ydelta = delta.DirectionY + offsetY;
+        unitSLP.deltas.insert(make_pair(offsetY, deltaSLP));
+    }
+}
+
+void AGE_Frame::CalcAnnexCoords(genie::unit::BuildingAnnex *annex)
+{
+    float offsetX = dataset->TerrainBlock.TileHalfWidth * (annex->Misplacement.first - -annex->Misplacement.second);
+    float offsetY = dataset->TerrainBlock.TileHalfHeight * (-annex->Misplacement.first - -annex->Misplacement.second);
+    AddAnnexAndStackGraphics(annex->UnitID, offsetX, offsetY);
 }
 
 void AGE_Frame::OnUnitAnim(wxTimerEvent &event)
