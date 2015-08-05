@@ -23,7 +23,7 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_front(this);
-        Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Plus1::OnUpdate));
+        Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_Plus1::OnUpdate, this);
     }
 
     void OnUpdate(wxCommandEvent &Event);
@@ -38,7 +38,7 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_front(this);
-        Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectType::OnUpdate));
+        Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_EffectType::OnUpdate, this);
     }
 
     void OnUpdate(wxCommandEvent &Event);
@@ -53,7 +53,7 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_front(this);
-        Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectAttribute::OnUpdate));
+        Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_EffectAttribute::OnUpdate, this);
     }
 
     void OnUpdate(wxCommandEvent &Event);

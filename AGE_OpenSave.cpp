@@ -73,7 +73,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 
 	//SetDefaultItem(ButtonOK);
 	//slave->SetDefaultItem(ButtonOK);
-	Connect(CheckBox_Recent->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_OpenSave::OnRecent));
+	Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_OpenSave::OnRecent, this, CheckBox_Recent->GetId());
 }
 
 void AGE_OpenSave::OnRecent(wxCommandEvent &event)
