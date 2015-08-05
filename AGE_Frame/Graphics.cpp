@@ -189,11 +189,8 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 
         if(NULL != GraphicPointer)
         {
-            if(graphicSLP.datID != GraphicIDs[0])
-            {
-                graphicSLP.slpID = -1; // Force reloading delta graphics.
-                graphicSLP.datID = GraphicIDs[0];
-            }
+            graphicSLP.datID = GraphicIDs[0];
+            graphicSLP.slpID = -2; // Force reloading delta graphics.
         }
 	}
     for(auto &box: uiGroupGraphic) box->update();
@@ -255,7 +252,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(AnimSLP)
         {
-            graphicAnimTimer.Start(fpms == -500 ? 500 : fpms);
+            graphicAnimTimer.Start(fpms <= 0 ? 500 : fpms);
         }
         return;
     }
