@@ -22,7 +22,7 @@ public:
     wxBitmap bitmap;
     int xpos, ypos, xdelta, ydelta;
 
-    list<AGE_SLP> deltas;
+    multimap<int, AGE_SLP> deltas;
     static uint32_t playerColorStart, playerColorID;
 };
 
@@ -152,6 +152,8 @@ public:
 	void OnGraphicAnim(wxTimerEvent &event);
 	void OnUnitAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP *graphic);
+    void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0);
+    void CalcAnnexCoords(genie::unit::BuildingAnnex *annex);
 	void OnGraphicErase(wxEraseEvent &event);
     void loadPalette(wxString folder);
     void addFilesToRead(const wxArrayString &files, const wxString folder);
@@ -786,7 +788,8 @@ public:
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
-	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11, ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas;
+	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
+    bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	std::vector<genie::Color> palette;
@@ -889,6 +892,8 @@ public:
 		MenuOption_ShowShadows,
 		MenuOption_ShowOutline,
 		MenuOption_ShowDeltas,
+		MenuOption_ShowStack,
+		MenuOption_ShowAnnexes,
 		MenuOption_Tips,
 		MenuOption_About,
 		ToolBar_Open,

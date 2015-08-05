@@ -1785,6 +1785,18 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             Refresh();
 		}
 		break;
+		case MenuOption_ShowStack:
+		{
+			ShowStack = event.IsChecked();
+            Refresh();
+		}
+		break;
+		case MenuOption_ShowAnnexes:
+		{
+			ShowAnnexes = event.IsChecked();
+            Refresh();
+		}
+		break;
 		/*case MenuOption_IDFix:
 		{
 			EnableIDFix = event.IsChecked();
@@ -2114,7 +2126,6 @@ SLP_SWAP:
                         rgbdata[loc + 2] = rgba.b;
                         rgbdata[locA] = 255;
                     }
-                    //if(ShowDeltas)
                 }
                 unsigned char *pic = (unsigned char*)rgbdata.data();
                 unsigned char *trans = pic + area * 3;
@@ -2704,6 +2715,8 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	Config->Write("Interaction/ShowShadows", ShowShadows);
 	Config->Write("Interaction/ShowOutline", ShowOutline);
 	Config->Write("Interaction/ShowDeltas", ShowDeltas);
+	Config->Write("Interaction/ShowStack", ShowStack);
+	Config->Write("Interaction/ShowAnnexes", ShowAnnexes);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("Interface/Paste11", Paste11);

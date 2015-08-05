@@ -222,6 +222,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         graphicSLP.slpID = dataset->Graphics[graphicSLP.datID].SLP;
         graphicSLP.deltas.clear();
         // Load possible delta graphics.
+        if(ShowDeltas)
         for(auto &delta: dataset->Graphics[graphicSLP.datID].Deltas)
         {
             AGE_SLP deltaSLP;
@@ -237,19 +238,19 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             }
             deltaSLP.xdelta = delta.DirectionX;
             deltaSLP.ydelta = delta.DirectionY;
-            graphicSLP.deltas.push_back(deltaSLP);
+            graphicSLP.deltas.insert(make_pair(0, deltaSLP));
         }
     }
     if(graphicSLP.deltas.size())
     {
         int fpms = 0;
-        for(auto &deltaSLP: graphicSLP.deltas)
+        for(auto &delta: graphicSLP.deltas)
         {
-            SLPtoBitMap(&deltaSLP);
-            if(deltaSLP.bitmap.IsOk())
+            SLPtoBitMap(&delta.second);
+            if(delta.second.bitmap.IsOk())
             {
-                dc.DrawBitmap(deltaSLP.bitmap, 150 + deltaSLP.xpos + deltaSLP.xdelta, 100 + deltaSLP.ypos + deltaSLP.ydelta, true);
-                if(AnimSLP) fpms = max(fpms, ShouldAnimate(&deltaSLP));
+                dc.DrawBitmap(delta.second.bitmap, 150 + delta.second.xpos + delta.second.xdelta, 100 + delta.second.ypos + delta.second.ydelta, true);
+                if(AnimSLP) fpms = max(fpms, ShouldAnimate(&delta.second));
             }
         }
         if(AnimSLP)
