@@ -260,7 +260,44 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
             Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
             Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
         }
+        if(GenieVersion == genie::GV_CC)
+        {
+            techSLP.slpID = 53250 + dataset->Civs[UnitCivID].IconSet;
+        }
+        else if(GenieVersion == genie::GV_SWGB)
+        {
+            techSLP.slpID = 50733 + dataset->Civs[UnitCivID].IconSet;
+        }
+        else
+        {
+            techSLP.slpID = 50729;
+        }
+        techSLP.frameID = ResearchPointer->IconID; // frame
 	}
+    else
+    {
+        techSLP.slpID = -1;
+    }
+    Research_IconID_SLP->Refresh();
+}
+
+void AGE_Frame::OnDrawTechSLP(wxPaintEvent &event)
+{
+    wxBufferedPaintDC dc(Research_IconID_SLP);
+    dc.Clear();
+    if(techSLP.slpID == -1)
+    {
+        dc.DrawLabel("No tech", wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
+    }
+    if(techSLP.frameID == -1)
+    {
+        dc.DrawLabel("No icon", wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
+    }
+    SLPtoBitMap(&techSLP);
+    if(techSLP.bitmap.IsOk())
+    dc.DrawBitmap(techSLP.bitmap, 0, 0, true);
 }
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent &event)
@@ -465,6 +502,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_IconID_Holder = new wxBoxSizer(wxVERTICAL);
 	Research_IconID_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Icon", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_IconID = AGETextCtrl::init(CShort, &uiGroupResearch, this, AGEwindow, Research_Scroller);
+    Research_IconID_SLP = new wxPanel(Research_Scroller, wxID_ANY, wxDefaultPosition, wxSize(55, 50));
 	Research_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
 	Research_ButtonID_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Button", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_ButtonID = AGETextCtrl::init(CByte, &uiGroupResearch, this, AGEwindow, Research_Scroller);
@@ -550,9 +588,10 @@ void AGE_Frame::CreateResearchControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Research_Name_Holder[loop]->Add(Research_Name_Text[loop], 0, wxEXPAND);
-		Research_Name_Holder[loop]->Add(Research_Name[loop], 1, wxEXPAND);
+		Research_Name_Holder[loop]->Add(Research_Name[loop], 0, wxEXPAND);
 	}
 
+	Research_Names_Holder->Add(Research_IconID_SLP, 0, wxEXPAND);
 	Research_Names_Holder->Add(Research_Name_Holder[0], 2, wxEXPAND);
 	Research_Names_Holder->AddSpacer(5);
 	Research_Names_Holder->Add(Research_Name_Holder[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -726,6 +765,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_DLL_LangDLLDescription->Connect(Research_DLL_LangDLLDescription->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 	Research_DLL_LanguageDLLHelp->Connect(Research_DLL_LanguageDLLHelp->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 	Research_DLL_LanguageDLLName2->Connect(Research_DLL_LanguageDLLName2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+    Research_IconID_SLP->Connect(Research_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawTechSLP), NULL, this);
+    Research_IconID_SLP->Connect(Research_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)

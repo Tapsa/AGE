@@ -148,6 +148,7 @@ public:
 	void OnDrawIconSLP(wxPaintEvent &event);
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void OnDrawUnitSLP(wxPaintEvent &event);
+	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
 	void OnUnitAnim(wxTimerEvent &event);
@@ -878,7 +879,7 @@ public:
 	//void WriteLangDLLstring(int ID, wxString Name);
     void LoadTXT(wxString &filename);
     void SLPtoBitMap(AGE_SLP*);
-    AGE_SLP iconSLP, graphicSLP, unitSLP;
+    AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP;
 
 //	Constants, remove unneeded entries.
 
@@ -1491,6 +1492,7 @@ public:
 	wxBoxSizer *Research_IconID_Holder;
 	wxStaticText *Research_IconID_Text;
 	AGETextCtrl *Research_IconID;
+    wxPanel *Research_IconID_SLP;
 
 	wxBoxSizer *Research_ButtonID_Holder;
 	wxStaticText *Research_ButtonID_Text;
