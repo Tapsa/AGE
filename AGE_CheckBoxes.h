@@ -23,7 +23,7 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_front(this);
-        Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_2State::OnUpdate));
+        Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_2State::OnUpdate, this);
     }
 
     void OnUpdate(wxCommandEvent &Event);
@@ -38,7 +38,7 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_front(this);
-        Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_ZeroIsYes::OnUpdate));
+        Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_ZeroIsYes::OnUpdate, this);
     }
 
     void OnUpdate(wxCommandEvent &Event);
