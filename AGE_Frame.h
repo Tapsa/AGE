@@ -3525,4 +3525,10 @@ public:
 		path[loop].ID = loop;
 		How2List = INSPASTE;
 	}
+
+protected:
+    void wheelParent(wxMouseEvent &event)
+    {
+        ((wxWindow*)event.GetEventObject())->GetParent()->GetEventHandler()->ProcessEvent(event);
+    }
 };

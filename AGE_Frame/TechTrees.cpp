@@ -2606,7 +2606,7 @@ void AGE_Frame::CreateTechTreeControls()
 	{
 		General_TTUnknown_Holder[loop] = new wxBoxSizer(wxVERTICAL);
 		General_TTUnknown_Text[loop] = new wxStaticText(Tab_TechTrees, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1), wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-		General_TTUnknown[loop] = AGETextCtrl::init(CLong, &uiGroupTT, this, AGEwindow, Tab_TechTrees);
+		General_TTUnknown[loop] = AGETextCtrl::init(CLong, &uiGroupMaps, this, AGEwindow, Tab_TechTrees);
 	}
 	General_TTUnknown[7]->SetToolTip("In the file this is between\nage/building/unit/research\ncounts and their data");
 

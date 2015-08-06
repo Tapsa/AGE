@@ -121,8 +121,15 @@ class TextCtrl_DLL: public wxTextCtrl
 {
 public:
     TextCtrl_DLL(wxWindow *parent, wxSize dimensions):
-    wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, dimensions, wxTE_MULTILINE | wxTE_PROCESS_ENTER){}
+    wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, dimensions, wxTE_MULTILINE | wxTE_PROCESS_ENTER)
+    {
+        Bind(wxEVT_MOUSEWHEEL , &TextCtrl_DLL::wheelParent, this);
+    }
 
+    void wheelParent(wxMouseEvent &event)
+    {
+        GetParent()->GetEventHandler()->ProcessEvent(event);
+    }
     int index;
 };
 
