@@ -181,7 +181,7 @@ void AGE_Frame::InitTerrains2()
 	TerRestrict_Terrains_ListV->names.clear();
 	TerRestrict_Terrains_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TerrainsUsed1; ++loop)
+	for(short loop = 0; loop < dataset->TerrainRestrictions[0].TerrainAccessible.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - A"+lexical_cast<string>((bool)dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
 		if(GenieVersion >= genie::GV_AoKA)

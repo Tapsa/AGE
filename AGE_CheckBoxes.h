@@ -7,7 +7,7 @@ class AGECheckBox: public wxCheckBox, public AGELinkedBox
 {
 public:
     AGECheckBox(wxWindow *parent, wxString label):
-    wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20)){}
+    wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(-1, 20)){}
 
     virtual void OnUpdate(wxCommandEvent&)=0;
 protected:
@@ -24,7 +24,7 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_front(this);
-        Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_2State::OnUpdate, this);
+        Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_2State::OnUpdate));
     }
 
 protected:
@@ -40,7 +40,7 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_front(this);
-        Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_ZeroIsYes::OnUpdate, this);
+        Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_ZeroIsYes::OnUpdate));
     }
 
 protected:

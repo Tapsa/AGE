@@ -100,7 +100,7 @@ public:
 		Item = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
 		Mode = AGETextCtrl::init(CLong, NULL, frame, window, scroller, true);
-		ModeCombo = new wxOwnerDrawnComboBox(scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		ModeCombo = new wxOwnerDrawnComboBox(scroller, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, NULL, wxCB_READONLY);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 		Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
@@ -137,9 +137,9 @@ public:
 		Area->Add(UsedItems_H, 0, wxEXPAND);
 		Area->Add(-1, 2);
 		Area->Add(ItemList, 0, wxEXPAND);
-        ModeCombo->Bind(wxEVT_MOUSEWHEEL, &AGE_AreaTT84::wheelParent, this);
+        //frame->Connect(ModeCombo->GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGE_AreaTT84::wheelParent));
 	}
-protected:
+
     void wheelParent(wxMouseEvent &event)
     {
         ModeCombo->GetParent()->GetEventHandler()->ProcessEvent(event);
