@@ -78,14 +78,14 @@ int TextCtrl_Byte::SaveEdits(bool forced)
             else
             {
                 wxMessageBox("Please enter a number from -128 to 127", IETITLE);
-                //SetFocus();
+                if(IsShownOnScreen()) SetFocus();
                 return 2;
             }
         }
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from -128 to 127", IETITLE);
-            //SetFocus();
+            if(IsShownOnScreen()) SetFocus();
             return 2;
         }
     }
@@ -146,14 +146,14 @@ int TextCtrl_UByte::SaveEdits(bool forced)
             else
             {
                 wxMessageBox("Please enter a number from 0 to 255", IETITLE);
-                //SetFocus();
+                if(IsShownOnScreen()) SetFocus();
                 return 2;
             }
         }
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from 0 to 255", IETITLE);
-            //SetFocus();
+            if(IsShownOnScreen()) SetFocus();
             return 2;
         }
     }
@@ -214,7 +214,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a valid floating point number", IETITLE);
-            //SetFocus();
+            if(IsShownOnScreen()) SetFocus();
             return 2;
         }
     }
@@ -273,7 +273,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE);
-            //SetFocus();
+            if(IsShownOnScreen()) SetFocus();
             return 2;
         }
     }
@@ -332,7 +332,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from -32 768 to 32 767", IETITLE);
-            //SetFocus();
+            if(IsShownOnScreen()) SetFocus();
             return 2;
         }
     }
@@ -391,7 +391,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from 0 to 65 535", IETITLE);
-            //SetFocus();
+            if(IsShownOnScreen()) SetFocus();
             return 2;
         }
     }
