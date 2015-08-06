@@ -1413,8 +1413,8 @@ public:
 
 	wxStaticBoxSizer *Research_Research;
 	wxBoxSizer *Research_Research_Searches[2];
-	wxTextCtrl *Research_Research_Search;
-	wxTextCtrl *Research_Research_Search_R;
+	wxSearchCtrl *Research_Research_Search;
+	wxSearchCtrl *Research_Research_Search_R;
 	wxOwnerDrawnComboBox *Research_SearchFilters[2];
 	wxCheckBox *Research_Research_UseAnd[2];
 	AGEListView *Research_Research_ListV;
