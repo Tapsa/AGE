@@ -25,6 +25,7 @@
 #include <wx/timer.h>
 #include <wx/image.h>
 #include <wx/dcbuffer.h>
+#include <wx/srchctrl.h>
 
 // uncomment to disable assert()
 // #define NDEBUG

@@ -1426,20 +1426,20 @@ void AGE_Frame::OnGameVersionChange()
 
 		if(show) // SWGB ->
 		{
-			Graphics_Name->SetMaxSize(25);
-			Graphics_Name2->SetMaxSize(25);
-			SoundItems_Name->SetMaxSize(27);
-			Terrains_Name->SetMaxSize(17);
-			Terrains_Name2->SetMaxSize(17);
+			Graphics_Name->setMaxChars(25);
+			Graphics_Name2->setMaxChars(25);
+			SoundItems_Name->setMaxChars(27);
+			Terrains_Name->setMaxChars(17);
+			Terrains_Name2->setMaxChars(17);
 			TerRestrict_Amount->changeContainerType(CFloat);
 		}
 		else // <- TC
 		{
-			Graphics_Name->SetMaxSize(21);
-			Graphics_Name2->SetMaxSize(13);
-			SoundItems_Name->SetMaxSize(13);
-			Terrains_Name->SetMaxSize(13);
-			Terrains_Name2->SetMaxSize(13);
+			Graphics_Name->setMaxChars(21);
+			Graphics_Name2->setMaxChars(13);
+			SoundItems_Name->setMaxChars(13);
+			Terrains_Name->setMaxChars(13);
+			Terrains_Name2->setMaxChars(13);
 			TerRestrict_Amount->changeContainerType(CLong);
 		}
 	}

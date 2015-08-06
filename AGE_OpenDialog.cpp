@@ -84,22 +84,23 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 
     TerrainsBox->Enable(false);
 	SetSizerAndFit(Main);
+    SetDefaultItem(ButtonOK);
 
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnOK, this, wxID_OK);
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultAoE, this, Button_DefaultAoE->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultRoR, this, Button_DefaultRoR->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultAoK, this, Button_DefaultAoK->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultTC, this, Button_DefaultTC->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultAoKHD, this, Button_DefaultAoKHD->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultFE, this, Button_DefaultFE->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultAoP, this, Button_DefaultAP->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultSWGB, this, Button_DefaultSWGB->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDefaultCC, this, Button_DefaultCC->GetId());
-	Bind(wxEVT_COMMAND_RADIOBUTTON_SELECTED, &AGE_OpenDialog::OnChangeDatRadio, this, Radio_DatFileLocation->GetId());
-	Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_OpenDialog::OnSelectLang, this, CheckBox_LangFileLocation->GetId());
-	Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_OpenDialog::OnSelectLangX1, this, CheckBox_LangX1FileLocation->GetId());
-	Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_OpenDialog::OnSelectLangX1P1, this, CheckBox_LangX1P1FileLocation->GetId());
-	Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenDialog::OnDecompress, this, Button_RawDecompress->GetId());
+	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnOK));
+	Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoE));
+	Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultRoR));
+	Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoK));
+	Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultTC));
+	Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoKHD));
+	Connect(Button_DefaultFE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultFE));
+	Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoP));
+	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultSWGB));
+	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultCC));
+	Connect(Radio_DatFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
+	Connect(CheckBox_LangFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLang));
+	Connect(CheckBox_LangX1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1));
+	Connect(CheckBox_LangX1P1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1P1));
+	Connect(Button_RawDecompress->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDecompress));
 }
 
 void AGE_OpenDialog::OnDecompress(wxCommandEvent &event)

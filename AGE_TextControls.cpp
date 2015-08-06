@@ -78,14 +78,14 @@ int TextCtrl_Byte::SaveEdits(bool forced)
             else
             {
                 wxMessageBox("Please enter a number from -128 to 127", IETITLE);
-                if(IsShownOnScreen()) SetFocus();
+                SetFocus();
                 return 2;
             }
         }
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from -128 to 127", IETITLE);
-            if(IsShownOnScreen()) SetFocus();
+            SetFocus();
             return 2;
         }
     }
@@ -146,14 +146,14 @@ int TextCtrl_UByte::SaveEdits(bool forced)
             else
             {
                 wxMessageBox("Please enter a number from 0 to 255", IETITLE);
-                if(IsShownOnScreen()) SetFocus();
+                SetFocus();
                 return 2;
             }
         }
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from 0 to 255", IETITLE);
-            if(IsShownOnScreen()) SetFocus();
+            SetFocus();
             return 2;
         }
     }
@@ -214,7 +214,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a valid floating point number", IETITLE);
-            if(IsShownOnScreen()) SetFocus();
+            SetFocus();
             return 2;
         }
     }
@@ -273,7 +273,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE);
-            if(IsShownOnScreen()) SetFocus();
+            SetFocus();
             return 2;
         }
     }
@@ -332,7 +332,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from -32 768 to 32 767", IETITLE);
-            if(IsShownOnScreen()) SetFocus();
+            SetFocus();
             return 2;
         }
     }
@@ -391,7 +391,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
         catch(bad_lexical_cast e)
         {
             wxMessageBox("Please enter a number from 0 to 65 535", IETITLE);
-            if(IsShownOnScreen()) SetFocus();
+            SetFocus();
             return 2;
         }
     }
@@ -426,7 +426,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
                     string vasili = *(string*)pointer;
                     switch(batchMode)
                     {
-                        case 1: vasili += value; vasili = vasili.substr(0, MaxSize); break;
+                        case 1: vasili += value; vasili = vasili.substr(0, maxSize); break;
                         case 2: vasili = vasili.substr(0, vasili.size() - lexical_cast<int>(value)); break;
                     }
                     *(string*)pointer = vasili;
@@ -436,7 +436,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
                 return 0;
             }
             fix:
-            if(value.size() <= MaxSize)
+            if(value.size() <= maxSize)
             {
                 for(auto &pointer: container)
                 {
@@ -446,7 +446,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
             }
             else
             {
-                value = value.substr(0, MaxSize);
+                value = value.substr(0, maxSize);
                 for(auto &pointer: container)
                 {
                     ++edits;
