@@ -82,8 +82,17 @@ public:
     forward_list<AGELinkedBox*> LinkedBoxes; // These are for check and combo boxes.
 
 protected:
-    void OnKillFocus(wxFocusEvent &Event){Event.Skip(); SaveEdits();}
-    void OnEnter(wxCommandEvent &Event){SaveEdits(true);}
+    void OnKillFocus(wxFocusEvent &event)
+    {
+        event.Skip();
+        Bind(wxEVT_IDLE, &AGETextCtrl::validate, this);
+    }
+    void OnEnter(wxCommandEvent &event){SaveEdits(true);}
+    void validate(wxIdleEvent &event)
+    {
+        Unbind(wxEVT_IDLE, &AGETextCtrl::validate, this);
+        SaveEdits();
+    }
 
     bool BatchCheck(string &value, short &batchMode)
     {
