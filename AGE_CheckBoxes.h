@@ -10,6 +10,7 @@ public:
     wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20)){}
 
     virtual void OnUpdate(wxCommandEvent&)=0;
+protected:
     void enable(bool yes){Enable(yes);}
 
     AGETextCtrl *TextBox;
@@ -26,6 +27,7 @@ public:
         Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_2State::OnUpdate, this);
     }
 
+protected:
     void OnUpdate(wxCommandEvent &Event);
     void update(int value);
 };
@@ -41,6 +43,7 @@ public:
         Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_ZeroIsYes::OnUpdate, this);
     }
 
+protected:
     void OnUpdate(wxCommandEvent &Event);
     void update(int value);
 };

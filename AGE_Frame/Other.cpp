@@ -2554,9 +2554,9 @@ void AGE_Frame::FillLists(forward_list<ComboBox_Plus1*> &boxlist, wxArrayString 
 
 void AGE_AreaTT84::FillItemCombo(int selection, bool update)
 {
-	if(Mode->GetValue().empty()) return;
 	int oldList = lastList;
-	lastList = lexical_cast<int>(Mode->GetValue());
+	if(Mode->GetValue().empty()) lastList = 0;
+	else lastList = lexical_cast<int>(Mode->GetValue());
 	if(lastList != oldList || update)
 	{
 		ItemCombo->Clear();
