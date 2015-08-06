@@ -137,7 +137,13 @@ public:
 		Area->Add(UsedItems_H, 0, wxEXPAND);
 		Area->Add(-1, 2);
 		Area->Add(ItemList, 0, wxEXPAND);
+        ModeCombo->Bind(wxEVT_MOUSEWHEEL, &AGE_AreaTT84::wheelParent, this);
 	}
+protected:
+    void wheelParent(wxMouseEvent &event)
+    {
+        ModeCombo->GetParent()->GetEventHandler()->ProcessEvent(event);
+    }
 };
 
 class AGE_AreaTT31020

@@ -7,12 +7,19 @@ class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
 {
 public:
     AGEComboBox(wxWindow *parent):
-    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY){}
+    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
+    {
+        Bind(wxEVT_MOUSEWHEEL , &AGEComboBox::wheelParent, this);
+    }
 
     virtual void OnUpdate(wxCommandEvent&)=0;
+protected:
     void enable(bool yes){Enable(yes);}
-
     AGETextCtrl *TextBox;
+    void wheelParent(wxMouseEvent &event)
+    {
+        GetParent()->GetEventHandler()->ProcessEvent(event);
+    }
 };
 
 class ComboBox_Plus1: public AGEComboBox
@@ -26,6 +33,7 @@ public:
         Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_Plus1::OnUpdate, this);
     }
 
+protected:
     void OnUpdate(wxCommandEvent &Event);
     void update(int value);
 };
@@ -41,6 +49,7 @@ public:
         Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_EffectType::OnUpdate, this);
     }
 
+protected:
     void OnUpdate(wxCommandEvent &Event);
     void update(int value);
 };
@@ -56,6 +65,7 @@ public:
         Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_EffectAttribute::OnUpdate, this);
     }
 
+protected:
     void OnUpdate(wxCommandEvent &Event);
     void update(int value);
 };
