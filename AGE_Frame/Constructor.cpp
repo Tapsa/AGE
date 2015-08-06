@@ -260,6 +260,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 void AGE_Frame::FixSizes()
 {
 	SetMinSize(wxSize(MinWindowWidth, 480));
-	//if(MaxWindowWidth < GetMinSize().GetWidth()) MaxWindowWidth = GetMinSize().GetWidth();
-	//SetMaxSize(wxSize(MaxWindowWidth, 4096));
+	if(MaxWindowWidth < GetMinSize().GetWidth()) MaxWindowWidth = GetMinSize().GetWidth();
+	SetMaxSize(wxSize(MaxWindowWidth, 4096));
 }
