@@ -28,7 +28,7 @@ public:
     }
 
 protected:
-    void OnUpdate(wxCommandEvent &Event);
+    void OnUpdate(wxCommandEvent &event);
     void update(int value);
 };
 
@@ -44,7 +44,7 @@ public:
     }
 
 protected:
-    void OnUpdate(wxCommandEvent &Event);
+    void OnUpdate(wxCommandEvent &event);
     void update(int value);
 };
 
