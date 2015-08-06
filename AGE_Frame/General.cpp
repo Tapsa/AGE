@@ -475,6 +475,10 @@ void AGE_Frame::CreateGeneralControls()
 	Tab_General->SetSizer(General_Main);
 
 	Connect(General_Refresh->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnMapsRefresh));
+    Connect(TechTrees_Ages_Items.ModeCombo->GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGE_Frame::wheelParent));
+    Connect(TechTrees_Buildings_Items.ModeCombo->GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGE_Frame::wheelParent));
+    Connect(TechTrees_Units_Items.ModeCombo->GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGE_Frame::wheelParent));
+    Connect(TechTrees_Researches_Items.ModeCombo->GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGE_Frame::wheelParent));
 	for(short loop = 0; loop < 4; ++loop)
 	General_CalcBoxes[loop]->Connect(General_CalcBoxes[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalc), NULL, this);
 	General_CalcBoxes[4]->Connect(General_CalcBoxes[4]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnVariableCalcReverse), NULL, this);
