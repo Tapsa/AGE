@@ -7,7 +7,7 @@ class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
 {
 public:
     AGEComboBox(wxWindow *parent):
-    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20), 0, NULL, wxCB_READONLY)
+    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
     {
         Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEComboBox::wheelParent));
     }
@@ -46,7 +46,7 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_front(this);
-        Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectType::OnUpdate));
+        Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectType::OnUpdate));
     }
 
 protected:
