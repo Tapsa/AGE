@@ -12,6 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.8.12[/b]:
+-Added separate SLP view window.
+-Ability to choose which unit graphics are shown.
+
 Version [b]2015.8.5[/b]:
 -SLP loading code should now handle all kinds of properly formatted files.
 -Second DRS folder readable.
