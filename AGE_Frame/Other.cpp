@@ -1762,6 +1762,28 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             Units_Scroller->GetSizer()->FitInside(Units_Scroller);
             Research_Scroller->GetSizer()->FitInside(Research_Scroller);
             Refresh();
+
+            if(ShowSLP)
+            {
+                wxPoint parentPos = GetPosition();
+                parentPos.x += 1000;
+                slpwindow = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512), wxRESIZE_BORDER | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCAPTION | wxCLIP_CHILDREN | wxFRAME_FLOAT_ON_PARENT);
+                slpview = new wxPanel(slpwindow);
+                wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+                sizer->Add(slpview, 1, wxEXPAND);
+                slpwindow->SetSizer(sizer);
+                slpview->Connect(slpview->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
+                slpview->Connect(slpview->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+                slpwindow->Show();
+            }
+            else
+            {
+                if(NULL != slpwindow)
+                {
+                    slpwindow->Destroy();
+                    slpwindow = NULL;
+                }
+            }
 		}
 		break;
 		case MenuOption_AnimSLP:
@@ -2760,5 +2782,6 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 			return;
         }
     }
+    AGETextCtrl::fileLoaded[AGEwindow] = 0;
 	Destroy();
 }

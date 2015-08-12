@@ -200,11 +200,13 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
     Graphics_SLP_Image->Refresh();
+    if(NULL != slpwindow) slpview->Refresh();
 }
 
 void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 {
-    wxBufferedPaintDC dc(Graphics_SLP_Image);
+    wxPanel *canvas = (wxPanel*)event.GetEventObject();
+    wxBufferedPaintDC dc(canvas);
     dc.Clear();
     if(GraphicIDs.size() == 0) return; // Nothing selected
     if(dataset->Graphics[graphicSLP.datID].FrameCount == 0)
@@ -212,6 +214,10 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         dc.DrawLabel("No frames", wxNullBitmap, wxRect(15, 15, 100, 40));
         return;
     }
+    int centerX, centerY;
+    canvas->GetClientSize(&centerX, &centerY);
+    centerX *= 0.5f;
+    centerY *= 0.6f;
     if(graphicSLP.slpID != dataset->Graphics[graphicSLP.datID].SLP) // SLP changed
     {
         graphicSLP.frameID = 0;
@@ -246,7 +252,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             SLPtoBitMap(&delta.second);
             if(delta.second.bitmap.IsOk())
             {
-                dc.DrawBitmap(delta.second.bitmap, 150 + delta.second.xpos + delta.second.xdelta, 100 + delta.second.ypos + delta.second.ydelta, true);
+                dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
                 if(AnimSLP) fpms = max(fpms, ShouldAnimate(&delta.second));
             }
         }
@@ -265,7 +271,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     if(graphicSLP.bitmap.IsOk())
     {
         assert(graphicSLP.slp);
-        dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + 150, graphicSLP.ypos + 100, true);
+        dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + centerX, graphicSLP.ypos + centerY, true);
         if(AnimSLP)
         {
             int fpms = ShouldAnimate(&graphicSLP);
@@ -290,6 +296,11 @@ int AGE_Frame::ShouldAnimate(AGE_SLP *graphic)
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
 {
     graphicAnimTimer.Stop();
+    if(NULL != slpwindow)
+    {
+        if(slpview->IsShownOnScreen())
+        slpview->Refresh();
+    }
     if(Graphics_SLP_Image->IsShownOnScreen())
     Graphics_SLP_Image->Refresh();
     else graphicAnimTimer.Start(1000);
