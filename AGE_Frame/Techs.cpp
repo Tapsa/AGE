@@ -1425,17 +1425,20 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &event)
 	{
 		if(!Effects_E->IsEmpty() && !Effects_F->IsEmpty()) // if has something, then update float value.
 		{
-			float Amount = lexical_cast<float>(Effects_E->GetValue());
 			short Class = lexical_cast<short>(Effects_F->GetValue());
-			if(Amount > -1 && Amount < 256 && Class > -1 && Class < 256) // positive amount 0 to 255
-			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
-				Effects_D->SaveEdits();
-			}
-			else if(Amount > -256 && Amount < 0 && Class > -1 && Class < 256) // negative amount -255 to -1
-			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount - Class * 256));
-				Effects_D->SaveEdits();
+            if(Class >= 0 && Class < 256)
+            {
+                float Amount = lexical_cast<float>(Effects_E->GetValue());
+                if(Amount >= 0 && Amount < 256) // positive amount 0 to 255
+                {
+                    Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
+                    Effects_D->SaveEdits();
+                }
+                else if(Amount > -256 && Amount < 0) // negative amount -255 to -1
+                {
+                    Effects_D->ChangeValue(lexical_cast<string>(Amount - Class * 256));
+                    Effects_D->SaveEdits();
+                }
 			}
 		}
 		ListEffects();
@@ -1466,7 +1469,7 @@ void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
 		if(Class >= 0)
 		{
 			float Amount = lexical_cast<float>(Effects_E->GetValue());
-			if(Amount > -1 && Amount < 256) // positive amount 0 to 255
+			if(Amount >= 0 && Amount < 256) // positive amount 0 to 255
 			{
 				Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
 			}
