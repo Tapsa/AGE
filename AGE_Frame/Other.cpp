@@ -1886,11 +1886,15 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             if(UseTXT)
             {
                 // Unload SLP files.
+                graphicSLP.bitmap = wxNullBitmap;
                 graphicSLP.slp.reset();
                 graphicSLP.deltas.clear();
+                unitSLP.bitmap = wxNullBitmap;
                 unitSLP.slp.reset();
                 unitSLP.deltas.clear();
+                iconSLP.bitmap = wxNullBitmap;
                 iconSLP.slp.reset();
+                techSLP.bitmap = wxNullBitmap;
                 techSLP.slp.reset();
             }
             else
