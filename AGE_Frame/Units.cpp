@@ -809,6 +809,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 	//	Refresh(); // Too much lag.
     Units_IconID_SLP->Refresh();
     Units_StandingGraphic_SLP->Refresh();
+    if(NULL != slpwindow) slpview->Refresh();
 }
 
 void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
@@ -829,92 +830,6 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
     if(iconSLP.bitmap.IsOk())
     dc.DrawBitmap(iconSLP.bitmap, 0, 0, true);
     else dc.DrawLabel("!SLP/frame " + FormatInt(iconSLP.slpID), wxNullBitmap, wxRect(0, 0, 100, 40));
-}
-
-void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
-{
-    wxPanel *canvas = (wxPanel*)event.GetEventObject();
-    wxBufferedPaintDC dc(canvas);
-    dc.Clear();
-    if(UnitIDs.size() == 0) return; // Nothing selected
-    if(unitSLP.datID < dataset->Graphics.size())
-    {
-        int centerX, centerY;
-        canvas->GetClientSize(&centerX, &centerY);
-        centerX *= 0.5f;
-        centerY *= 0.6f;
-        if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
-        {
-            unitSLP.frameID = 0;
-            unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
-            unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
-            unitSLP.deltas.clear();
-            unsigned int unitID = UnitIDs[0];
-            // Load possible delta and annex graphics.
-            if(dataset->Civs[UnitCivID].Units[unitID].Type == 80)
-            {
-                // Start drawing from head unit instead.
-                if(dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit < dataset->Civs[UnitCivID].Units.size())
-                    unitID = dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit;
-                // Draw this building only if it will stay up after built.
-                if(dataset->Civs[UnitCivID].Units[unitID].Building.DisappearsWhenBuilt == 0)
-                {
-                    AddAnnexAndStackGraphics(unitID);
-                    if(ShowAnnexes)
-                    for(int i=0; i < 4; ++i)
-                    CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[unitID].Building.Annexes[i]);
-                }
-                if(ShowStack && dataset->Civs[UnitCivID].Units[unitID].Building.StackUnitID < dataset->Civs[UnitCivID].Units.size())
-                {
-                    unitID = dataset->Civs[UnitCivID].Units[unitID].Building.StackUnitID;
-                    AddAnnexAndStackGraphics(unitID);
-                    if(ShowAnnexes)
-                    for(int i=0; i < 4; ++i)
-                    CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[unitID].Building.Annexes[i]);
-                }
-            }
-            else AddAnnexAndStackGraphics(unitID);
-        }
-        if(unitSLP.deltas.size())
-        {
-            int fpms = 0;
-            for(auto &delta: unitSLP.deltas)
-            {
-                SLPtoBitMap(&delta.second);
-                if(delta.second.bitmap.IsOk())
-                {
-                    dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
-                    if(AnimSLP) fpms = max(fpms, ShouldAnimate(&delta.second));
-                }
-            }
-            if(AnimSLP)
-            {
-                unitAnimTimer.Start(fpms <= 0 ? 500 : fpms);
-            }
-            return;
-        }
-        if(unitSLP.slpID == -1)
-        {
-            dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
-            return;
-        }
-        // Apparently following code is not needed anymore.
-        SLPtoBitMap(&unitSLP);
-        if(unitSLP.bitmap.IsOk())
-        {
-            assert(unitSLP.slp);
-            dc.DrawBitmap(unitSLP.bitmap, unitSLP.xpos + centerX, unitSLP.ypos + centerY, true);
-            if(AnimSLP)
-            {
-                int fpms = ShouldAnimate(&unitSLP);
-                unitAnimTimer.Start(fpms == -500 ? 500 : fpms);
-            }
-            return;
-        }
-        dc.DrawLabel("!SLP " + FormatInt(unitSLP.slpID) + "\n" + unitSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
-        return;
-    }
-    dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxNullBitmap, wxRect(15, 15, 100, 40));
 }
 
 void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY)
@@ -962,6 +877,11 @@ void AGE_Frame::CalcAnnexCoords(genie::unit::BuildingAnnex *annex)
 void AGE_Frame::OnUnitAnim(wxTimerEvent &event)
 {
     unitAnimTimer.Stop();
+    if(NULL != slpwindow)
+    {
+        if(slpview->IsShownOnScreen())
+        slpview->Refresh();
+    }
     if(Units_StandingGraphic_SLP->IsShownOnScreen())
     Units_StandingGraphic_SLP->Refresh();
     else unitAnimTimer.Start(1000);
@@ -5563,7 +5483,7 @@ void AGE_Frame::CreateUnitControls()
 	}
 	Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawIconSLP), NULL, this);
     Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
-    Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawUnitSLP), NULL, this);
+    Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
     Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
     unitAnimTimer.Connect(unitAnimTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitAnim), NULL, this);
 }

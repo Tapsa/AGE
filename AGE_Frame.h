@@ -147,7 +147,6 @@ public:
 	bool Paste11Check(int pastes, int copies);
 	void OnDrawIconSLP(wxPaintEvent &event);
 	void OnDrawGraphicSLP(wxPaintEvent &event);
-	void OnDrawUnitSLP(wxPaintEvent &event);
 	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
