@@ -833,11 +833,16 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
 
 void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
 {
-    wxBufferedPaintDC dc(Units_StandingGraphic_SLP);
+    wxPanel *canvas = (wxPanel*)event.GetEventObject();
+    wxBufferedPaintDC dc(canvas);
     dc.Clear();
     if(UnitIDs.size() == 0) return; // Nothing selected
     if(unitSLP.datID < dataset->Graphics.size())
     {
+        int centerX, centerY;
+        canvas->GetClientSize(&centerX, &centerY);
+        centerX *= 0.5f;
+        centerY *= 0.6f;
         if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
         {
             unitSLP.frameID = 0;
@@ -878,7 +883,7 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
                 SLPtoBitMap(&delta.second);
                 if(delta.second.bitmap.IsOk())
                 {
-                    dc.DrawBitmap(delta.second.bitmap, 150 + delta.second.xpos + delta.second.xdelta, 100 + delta.second.ypos + delta.second.ydelta, true);
+                    dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
                     if(AnimSLP) fpms = max(fpms, ShouldAnimate(&delta.second));
                 }
             }
@@ -898,7 +903,7 @@ void AGE_Frame::OnDrawUnitSLP(wxPaintEvent &event)
         if(unitSLP.bitmap.IsOk())
         {
             assert(unitSLP.slp);
-            dc.DrawBitmap(unitSLP.bitmap, unitSLP.xpos + 150, unitSLP.ypos + 130, true);
+            dc.DrawBitmap(unitSLP.bitmap, unitSLP.xpos + centerX, unitSLP.ypos + centerY, true);
             if(AnimSLP)
             {
                 int fpms = ShouldAnimate(&unitSLP);
@@ -916,6 +921,7 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
 {
     if(unitID >= dataset->Civs[UnitCivID].Units.size()) return;
     unsigned int unitGraphic = dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first;
+    if(unitGraphic >= dataset->Graphics.size()) return;
     unitSLP.frameID = 0;
     unitSLP.datID = unitGraphic;
     unitSLP.filename = dataset->Graphics[unitGraphic].Name2;

@@ -797,6 +797,8 @@ public:
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
 	int CustomTerrains, SLPareaPerCent;
+    wxFrame *slpwindow;
+    wxPanel *slpview;
 //	wxSound SoundFile;
 
 	forward_list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
