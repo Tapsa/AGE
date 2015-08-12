@@ -199,7 +199,6 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 	Deltas_Add->Enable(selections);
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
-    Graphics_SLP_Image->Refresh();
     if(NULL != slpwindow) slpview->Refresh();
 }
 
@@ -248,19 +247,19 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(graphicSLP.deltas.size())
         {
-            int fpms = 0;
+            int fpms = 0x7FFF;
             for(auto &delta: graphicSLP.deltas)
             {
                 SLPtoBitMap(&delta.second);
                 if(delta.second.bitmap.IsOk())
                 {
                     dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
-                    if(AnimSLP) fpms = max(fpms, ShouldAnimate(&delta.second));
+                    if(AnimSLP) fpms = min(fpms, ShouldAnimate(&delta.second));
                 }
             }
             if(AnimSLP)
             {
-                graphicAnimTimer.Start(fpms <= 0 ? 500 : fpms);
+                graphicAnimTimer.Start(fpms);
             }
             return;
         }
@@ -276,8 +275,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + centerX, graphicSLP.ypos + centerY, true);
             if(AnimSLP)
             {
-                int fpms = ShouldAnimate(&graphicSLP);
-                graphicAnimTimer.Start(fpms == -500 ? 500 : fpms);
+                graphicAnimTimer.Start(ShouldAnimate(&graphicSLP));
             }
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
@@ -318,22 +316,26 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                     }
                 }
                 else AddAnnexAndStackGraphics(unitID);
+                if(slpdmgunit->GetValue())
+                {
+                    AddAnnexAndStackGraphics(unitID, 0, 0, true);
+                }
             }
             if(unitSLP.deltas.size())
             {
-                int fpms = 0;
+                int fpms = 0x7FFF;
                 for(auto &delta: unitSLP.deltas)
                 {
                     SLPtoBitMap(&delta.second);
                     if(delta.second.bitmap.IsOk())
                     {
                         dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
-                        if(AnimSLP) fpms = max(fpms, ShouldAnimate(&delta.second));
+                        if(AnimSLP) fpms = min(fpms, ShouldAnimate(&delta.second));
                     }
                 }
                 if(AnimSLP)
                 {
-                    unitAnimTimer.Start(fpms <= 0 ? 500 : fpms);
+                    unitAnimTimer.Start(fpms);
                 }
                 return;
             }
@@ -342,7 +344,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
                 return;
             }
-            // Apparently following code is not needed anymore.
+            // Apparently following code is not needed anymore. This CAN be executed in some cases.
             SLPtoBitMap(&unitSLP);
             if(unitSLP.bitmap.IsOk())
             {
@@ -350,8 +352,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 dc.DrawBitmap(unitSLP.bitmap, unitSLP.xpos + centerX, unitSLP.ypos + centerY, true);
                 if(AnimSLP)
                 {
-                    int fpms = ShouldAnimate(&unitSLP);
-                    unitAnimTimer.Start(fpms == -500 ? 500 : fpms);
+                    unitAnimTimer.Start(ShouldAnimate(&unitSLP));
                 }
                 return;
             }
@@ -366,7 +367,7 @@ int AGE_Frame::ShouldAnimate(AGE_SLP *graphic)
 {
     unsigned int frames = graphic->slp.get()->getFrameCount();
     int fpms = dataset->Graphics[graphic->datID].FrameRate * 1000;
-    if((frames > 1 && fpms == 0) || dataset->Graphics[graphic->datID].FrameCount == 1) fpms = -500;
+    if((frames > 1 && fpms == 0) || dataset->Graphics[graphic->datID].FrameCount == 1) fpms = 500;
     if(fpms)
     {
         graphic->frameID = (graphic->frameID + 1) % frames; // Rotate through frames.
@@ -381,10 +382,8 @@ void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
     {
         if(slpview->IsShownOnScreen())
         slpview->Refresh();
+        else graphicAnimTimer.Start(1000);
     }
-    if(Graphics_SLP_Image->IsShownOnScreen())
-    Graphics_SLP_Image->Refresh();
-    else graphicAnimTimer.Start(1000);
 }
 
 void AGE_Frame::OnGraphicErase(wxEraseEvent &event)
@@ -821,7 +820,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_ID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
 
-    Graphics_SLP_Image = new wxPanel(Graphics_Scroller, wxID_ANY, wxDefaultPosition, wxSize(180, 180));
 	Graphics_SLP_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_SLP_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SLP = AGETextCtrl::init(CLong, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
@@ -890,9 +888,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Unknown3->SetToolTip("Related to sprite editor?");
 	Graphics_4_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_5_Holder = new wxBoxSizer(wxHORIZONTAL);
-    Graphics_4_Grid = new wxBoxSizer(wxHORIZONTAL);
-    Graphics_5_Grid = new wxBoxSizer(wxVERTICAL);
-	Graphics_1_Grid = new wxGridSizer(2, 5, 5);
+	Graphics_1_Grid = new wxGridSizer(4, 5, 5);
 	Graphics_2_Grid = new wxGridSizer(4, 5, 5);
 	Graphics_3_Grid = new wxGridSizer(4, 5, 5);
 
@@ -1176,15 +1172,11 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSoundArea_Holder->AddSpacer(5);
 	Graphics_AttackSoundArea_Holder->Add(Graphics_5_Holder, 3, wxEXPAND);
 
-	Graphics_5_Grid->Add(Graphics_1_Grid, 0, wxEXPAND);
-	Graphics_5_Grid->AddSpacer(5);
-	Graphics_5_Grid->Add(Graphics_Coordinates_Holder, 0, wxEXPAND);
-	Graphics_4_Grid->Add(Graphics_5_Grid, 1, wxEXPAND);
-	Graphics_4_Grid->Add(Graphics_SLP_Image, 1, wxEXPAND);
-
 	Graphics_ScrollSpace->Add(Graphics_NameArea_Holder, 0, wxEXPAND);
 	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_4_Grid, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND);
+	Graphics_ScrollSpace->AddSpacer(5);
+	Graphics_ScrollSpace->Add(Graphics_Coordinates_Holder, 0, wxEXPAND);
 	Graphics_ScrollSpace->AddSpacer(5);
 	Graphics_ScrollSpace->Add(Graphics_2_Grid, 0, wxEXPAND);
 	Graphics_ScrollSpace->AddSpacer(5);
@@ -1263,8 +1255,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AngleCount->Connect(Graphics_AngleCount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_AttackSoundUsed->Connect(Graphics_AttackSoundUsed->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_AttackSoundUsed_CheckBox->Connect(Graphics_AttackSoundUsed_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Graphics), NULL, this);
-    Graphics_SLP_Image->Connect(Graphics_SLP_Image->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
-    Graphics_SLP_Image->Connect(Graphics_SLP_Image->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
     graphicAnimTimer.Connect(graphicAnimTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicAnim), NULL, this);
 }
 

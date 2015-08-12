@@ -352,6 +352,12 @@ void AGE_Frame::InitUnits(short civ, bool all)
 	useAnd[loop] = false;
 }
 
+void AGE_Frame::OnChooseGraphic(wxCommandEvent &event)
+{
+    unitSLP.slpID = -2;
+    if(NULL != slpwindow) slpview->Refresh();
+}
+
 void AGE_Frame::OnUnitsSelect(wxCommandEvent &event)
 {
     if(!unitTimer.IsRunning())
@@ -749,7 +755,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             iconSLP.slpID = 50730;
         }
         iconSLP.frameID = UnitPointer->IconID + UnitPointer->Building.GraphicsAngle; // frame
-        unitSLP.datID = UnitPointer->StandingGraphic.first;
+        unitSLP.datID = loadChosenGraphic(UnitPointer);
         unitSLP.slpID = -2;
 	}
     else
@@ -808,7 +814,6 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
     Units_ID3->Enable(false);
 	//	Refresh(); // Too much lag.
     Units_IconID_SLP->Refresh();
-    Units_StandingGraphic_SLP->Refresh();
     if(NULL != slpwindow) slpview->Refresh();
 }
 
@@ -832,10 +837,39 @@ void AGE_Frame::OnDrawIconSLP(wxPaintEvent &event)
     else dc.DrawLabel("!SLP/frame " + FormatInt(iconSLP.slpID), wxNullBitmap, wxRect(0, 0, 100, 40));
 }
 
-void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY)
+int AGE_Frame::loadChosenGraphic(genie::Unit *unit)
+{
+    switch(slpradio->GetSelection())
+    {
+        case 0: return unit->StandingGraphic.first;
+        case 1: return unit->StandingGraphic.second;
+        case 2: return unit->DyingGraphic.first;
+        case 3: return unit->DyingGraphic.second;
+        case 4: return unit->DeadFish.WalkingGraphic.first;
+        case 5: return unit->DeadFish.WalkingGraphic.second;
+        case 6: return unit->Building.SnowGraphicID;
+        case 7: return unit->Building.ConstructionGraphicID;
+        case 8: return unit->Type50.AttackGraphic;
+        case 9: return unit->Creatable.GarrisonGraphic;
+        default: return -1;
+    }
+}
+
+void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY, bool dmg)
 {
     if(unitID >= dataset->Civs[UnitCivID].Units.size()) return;
-    unsigned int unitGraphic = dataset->Civs[UnitCivID].Units[unitID].StandingGraphic.first;
+    unsigned int unitGraphic;
+    if(dmg)
+    {
+        if(DamageGraphicIDs.size() && DamageGraphicIDs[0] < dataset->Civs[UnitCivID].Units[unitID].DamageGraphics.size())
+        {
+            unitGraphic = dataset->Civs[UnitCivID].Units[unitID].DamageGraphics[DamageGraphicIDs[0]].GraphicID;
+            if(dataset->Civs[UnitCivID].Units[unitID].DamageGraphics[DamageGraphicIDs[0]].ApplyMode == 2)
+            unitSLP.deltas.clear();
+        }
+        else return;
+    }
+    else unitGraphic = loadChosenGraphic(&dataset->Civs[UnitCivID].Units[unitID]);
     if(unitGraphic >= dataset->Graphics.size()) return;
     unitSLP.frameID = 0;
     unitSLP.datID = unitGraphic;
@@ -881,10 +915,8 @@ void AGE_Frame::OnUnitAnim(wxTimerEvent &event)
     {
         if(slpview->IsShownOnScreen())
         slpview->Refresh();
+        else unitAnimTimer.Start(1000);
     }
-    if(Units_StandingGraphic_SLP->IsShownOnScreen())
-    Units_StandingGraphic_SLP->Refresh();
-    else unitAnimTimer.Start(1000);
 }
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)
@@ -1619,6 +1651,11 @@ void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent &event)
 		}
 	}
 	for(auto &box: uiGroupUnitDmgGraphic) box->update();
+    if(slpdmgunit->GetValue())
+    {
+        wxCommandEvent E;
+        OnChooseGraphic(E);
+    }
 }
 
 void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &event)
@@ -3030,7 +3067,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language DLLs");
 	Units_GraphicsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Graphics");
 	Units_GraphicsArea1_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Units_GraphicsArea4_Holder = new wxGridSizer(2, 5, 5);
+	Units_GraphicsArea4_Holder = new wxGridSizer(1, 5, 5);
 	Units_GraphicsArea5_Holder = new wxGridSizer(4, 0, 5);
 	Units_StatsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Statistics");
 	Units_StatsArea1_Grid = new wxGridSizer(5, 5, 5);
@@ -3455,6 +3492,18 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in DLL\nHit enter to get the correction into dat file");
 	Units_DLL_LanguageHKText = new TextCtrl_DLL(Units_Scroller, wxSize(0, 25));
 
+    wxArrayString choices;
+    choices.Add("Stand 1");
+    choices.Add("Stand 2");
+    choices.Add("Dying 1");
+    choices.Add("Dying 2");
+    choices.Add("Walk");
+    choices.Add("Run");
+    choices.Add("Snow");
+    choices.Add("Build");
+    choices.Add("Attack");
+    choices.Add("Housed");
+    slpradio = new wxRadioBox(Units_Scroller, wxID_ANY, "SLP view", wxDefaultPosition, wxDefaultSize, choices);
 	Units_DamageGraphics = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Damage Graphics");
 	Units_DamageGraphics_ListArea = new wxBoxSizer(wxVERTICAL);
 	Units_DamageGraphics_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
@@ -3470,6 +3519,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(5, 20));
 	Units_DamageGraphics_Holder_Data = new wxBoxSizer(wxVERTICAL);
+    slpdmgunit = new wxCheckBox(Units_Scroller, wxID_ANY, "View damage graphics");
 	DamageGraphics_GraphicID_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_GraphicID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_GraphicID = AGETextCtrl::init(CShort, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
@@ -3486,7 +3536,6 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_Unknown2 = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
 
-    Units_StandingGraphic_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(180, 180));
 	Units_IconID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
     Units_IconID_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(55, 50));
@@ -4920,6 +4969,8 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_DamagePercent_Holder->Add(DamageGraphics_DamagePercent, 1, wxEXPAND);
 	DamageGraphics_Unknown2_Holder->Add(DamageGraphics_Unknown2_Text, 0, wxEXPAND);
 	DamageGraphics_Unknown2_Holder->Add(DamageGraphics_Unknown2, 1, wxEXPAND);
+	Units_DamageGraphics_Holder_Data->Add(slpdmgunit, 0, wxEXPAND);
+	Units_DamageGraphics_Holder_Data->AddSpacer(5);
 	Units_DamageGraphics_Holder_Data->Add(DamageGraphics_GraphicID_Holder, 0, wxEXPAND);
 	Units_DamageGraphics_Holder_Data->AddSpacer(5);
 	Units_DamageGraphics_Holder_Data->Add(DamageGraphics_DamagePercent_Holder, 0, wxEXPAND);
@@ -4949,11 +5000,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics->Add(Units_DamageGraphics_Holder_Data, 1, wxEXPAND);
 
 	Units_GraphicsArea1_Holder->Add(Units_DamageGraphics, 1, wxEXPAND);
-	Units_GraphicsArea1_Holder->Add(Units_StandingGraphic_SLP, 1, wxEXPAND);
+	Units_GraphicsArea1_Holder->AddSpacer(5);
+	Units_GraphicsArea1_Holder->Add(Units_GraphicsArea4_Holder, 1, wxEXPAND);
 
-	Units_GraphicsArea_Holder->Add(Units_GraphicsArea1_Holder, 0, wxEXPAND);
+	Units_GraphicsArea_Holder->Add(slpradio, 0, wxEXPAND);
 	Units_GraphicsArea_Holder->AddSpacer(5);
-	Units_GraphicsArea_Holder->Add(Units_GraphicsArea4_Holder, 0, wxEXPAND);
+	Units_GraphicsArea_Holder->Add(Units_GraphicsArea1_Holder, 0, wxEXPAND);
 	Units_GraphicsArea_Holder->AddSpacer(5);
 	Units_GraphicsArea_Holder->Add(Units_GraphicsArea5_Holder, 0, wxEXPAND);
 
@@ -5434,6 +5486,8 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Armors_CopyToUnits->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsCopyToUnits));
 	Connect(Units_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
 	Connect(Units_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
+	Connect(slpradio->GetId(), wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnChooseGraphic));
+	Connect(slpdmgunit->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnChooseGraphic));
 
     unitTimer.Connect(unitTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitsTimer), NULL, this);
     dmgGraphicTimer.Connect(dmgGraphicTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitDamageGraphicsTimer), NULL, this);
@@ -5483,8 +5537,6 @@ void AGE_Frame::CreateUnitControls()
 	}
 	Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawIconSLP), NULL, this);
     Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
-    Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
-    Units_StandingGraphic_SLP->Connect(Units_StandingGraphic_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
     unitAnimTimer.Connect(unitAnimTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitAnim), NULL, this);
 }
 
