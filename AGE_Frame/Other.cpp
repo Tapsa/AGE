@@ -376,11 +376,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             loadPalette(FolderDRS);
             loadPalette(FolderDRS2);
         }
-        else
-        {
-            loadDRS.SetInt(true);
-            ProcessEvent(loadDRS);
-        }
+        loadDRS.SetInt(true);
+        ProcessEvent(loadDRS);
 	}
 
 	if(NULL != dataset)
@@ -1750,15 +1747,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		{
 			ShowSLP = event.IsChecked();
 
-            Graphics_SLP_Image->Show(ShowSLP);
-			Units_StandingGraphic_SLP->Show(ShowSLP);
             Units_IconID_SLP->Show(ShowSLP);
             Research_IconID_SLP->Show(ShowSLP);
 
-            Graphics_Main->Layout();
             Units_Main->Layout();
             Research_Main->Layout();
-            Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
             Units_Scroller->GetSizer()->FitInside(Units_Scroller);
             Research_Scroller->GetSizer()->FitInside(Research_Scroller);
             Refresh();
@@ -1778,7 +1771,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
             else
             {
-                if(NULL != slpwindow)
+                if(NULL != slpwindow) // What if users manage to close this?
                 {
                     slpwindow->Destroy();
                     slpwindow = NULL;
@@ -1831,67 +1824,80 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		case ToolBar_DRS:
         {
             GetToolBar()->ToggleTool(ToolBar_DRS, event.IsChecked());
-            if(event.IsChecked() && !UseTXT)
+            if(event.IsChecked())
             {
                 GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_lock_xpm));
-                // Reload DRS files.
-                wxArrayString FilesToRead;
-                if(GenieVersion == genie::GV_TC)
+                if(!UseTXT)
                 {
-                    FilesToRead.Add("\\gamedata_x1_p1.drs");
-                    FilesToRead.Add("\\gamedata_x1.drs");
-                }
-                else if(GenieVersion == genie::GV_CC)
-                {
-                    FilesToRead.Add("\\gamedata_x1.drs");
-                    FilesToRead.Add("\\interfac_x1.drs");
-                    FilesToRead.Add("\\graphics_x1.drs");
-                    FilesToRead.Add("\\terrain_x1.drs");
-                }
-                else if(GenieVersion == genie::GV_RoR)
-                {
-                    FilesToRead.Add("2\\interfac.drs");
-                    FilesToRead.Add("2\\graphics.drs");
-                }
-                if(GenieVersion > genie::GV_RoR)
-                {
-                    FilesToRead.Add("\\gamedata.drs");
-                }
-                FilesToRead.Add("\\interfac.drs");
-                FilesToRead.Add("\\graphics.drs");
-                FilesToRead.Add("\\terrain.drs");
-                if(GenieVersion < genie::GV_AoKB)
-                {
-                    FilesToRead.Add("\\border.drs");
-                }
-
-                addFilesToRead(FilesToRead, FolderDRS2);
-                addFilesToRead(FilesToRead, FolderDRS);
-                genie::PalFilePtr pal;
-                for(auto &file: datafiles)
-                {
-                    pal.reset();
-                    pal = file->getPalFile(50500);
-                    if(pal)
+                    // Reload DRS files.
+                    wxArrayString FilesToRead;
+                    if(GenieVersion == genie::GV_TC)
                     {
-                        palette = pal.get()->getColors();
-                        break;
+                        FilesToRead.Add("\\gamedata_x1_p1.drs");
+                        FilesToRead.Add("\\gamedata_x1.drs");
+                    }
+                    else if(GenieVersion == genie::GV_CC)
+                    {
+                        FilesToRead.Add("\\gamedata_x1.drs");
+                        FilesToRead.Add("\\interfac_x1.drs");
+                        FilesToRead.Add("\\graphics_x1.drs");
+                        FilesToRead.Add("\\terrain_x1.drs");
+                    }
+                    else if(GenieVersion == genie::GV_RoR)
+                    {
+                        FilesToRead.Add("2\\interfac.drs");
+                        FilesToRead.Add("2\\graphics.drs");
+                    }
+                    if(GenieVersion > genie::GV_RoR)
+                    {
+                        FilesToRead.Add("\\gamedata.drs");
+                    }
+                    FilesToRead.Add("\\interfac.drs");
+                    FilesToRead.Add("\\graphics.drs");
+                    FilesToRead.Add("\\terrain.drs");
+                    if(GenieVersion < genie::GV_AoKB)
+                    {
+                        FilesToRead.Add("\\border.drs");
+                    }
+
+                    addFilesToRead(FilesToRead, FolderDRS2);
+                    addFilesToRead(FilesToRead, FolderDRS);
+                    genie::PalFilePtr pal;
+                    for(auto &file: datafiles)
+                    {
+                        pal.reset();
+                        pal = file->getPalFile(50500);
+                        if(pal)
+                        {
+                            palette = pal.get()->getColors();
+                            break;
+                        }
                     }
                 }
-                Graphics_SLP_Image->Refresh();
-                Units_StandingGraphic_SLP->Refresh();
+                if(NULL != slpwindow) slpview->Refresh();
                 Units_IconID_SLP->Refresh();
+                Research_IconID_SLP->Refresh();
                 break;
+            }
+            GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_unlock_xpm));
+            // Unload DRS files, stop animations.
+            graphicAnimTimer.Stop();
+            unitAnimTimer.Stop();
+            if(UseTXT)
+            {
+                // Unload SLP files.
+                graphicSLP.slp.reset();
+                graphicSLP.deltas.clear();
+                unitSLP.slp.reset();
+                unitSLP.deltas.clear();
+                iconSLP.slp.reset();
+                techSLP.slp.reset();
             }
             else
             {
-                GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_unlock_xpm));
-                // Unload DRS files, stop animations.
-                graphicAnimTimer.Stop();
-                unitAnimTimer.Stop();
                 for(auto &file: datafiles) delete file;
                 datafiles.clear();
-                if(!UseTXT) palette.clear();
+                palette.clear();
             }
         }
         break;
@@ -2087,6 +2093,11 @@ SLP_SWAP:
         graphic->lastFrameID = graphic->frameID;
         if(graphic->slp)
         {
+            if(UseTXT && !GetToolBar()->GetToolState(ToolBar_DRS)) // SLP files are locked again.
+            {
+                GetToolBar()->ToggleTool(ToolBar_DRS, true);
+                GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_lock_xpm));
+            }
             genie::SlpFramePtr frame;
             try
             {

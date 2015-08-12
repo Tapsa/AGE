@@ -152,13 +152,15 @@ public:
 	void OnGraphicAnim(wxTimerEvent &event);
 	void OnUnitAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP *graphic);
-    void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0);
+    int loadChosenGraphic(genie::Unit *unit);
+    void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, bool dmg = false);
     void CalcAnnexCoords(genie::unit::BuildingAnnex *annex);
 	void OnGraphicErase(wxEraseEvent &event);
     void loadPalette(wxString folder);
     void addFilesToRead(const wxArrayString &files, const wxString folder);
     void addDRSFolders4SLPs(wxArrayString &folders, wxString folder);
     void setForeAndBackColors(AGETextCtrl* box, wxColour color);
+	void OnChooseGraphic(wxCommandEvent &event);
 
 //	General Events
 
@@ -798,6 +800,8 @@ public:
 	int CustomTerrains, SLPareaPerCent;
     wxFrame *slpwindow;
     wxPanel *slpview;
+    wxRadioBox *slpradio;
+    wxCheckBox *slpdmgunit;
 //	wxSound SoundFile;
 
 	forward_list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
@@ -2430,7 +2434,6 @@ public:
 	wxBoxSizer *Units_TypeArea_Holder;
 	wxStaticBoxSizer *Units_LangDLLArea_Holder;
 	wxStaticBoxSizer *Units_GraphicsArea_Holder;
-	wxPanel *Units_StandingGraphic_SLP;
 	wxBoxSizer *Units_GraphicsArea1_Holder;
 	wxGridSizer *Units_GraphicsArea4_Holder;
 	wxGridSizer *Units_GraphicsArea5_Holder;
@@ -2652,8 +2655,6 @@ public:
 	wxGridSizer *Graphics_1_Grid;
 	wxGridSizer *Graphics_2_Grid;
 	wxGridSizer *Graphics_3_Grid;
-	wxBoxSizer *Graphics_4_Grid;
-	wxBoxSizer *Graphics_5_Grid;
 
 	wxStaticText *Graphics_Name_Text;
 	wxStaticText *Graphics_Name2_Text;
@@ -2680,7 +2681,6 @@ public:
 	AGETextCtrl *Graphics_Name;
 	AGETextCtrl *Graphics_Name2;
 	AGETextCtrl *Graphics_SLP;
-	wxPanel *Graphics_SLP_Image;
 	AGETextCtrl *Graphics_Unknown1;
 	AGETextCtrl *Graphics_Unknown2;
 	AGETextCtrl *Graphics_FrameType;
