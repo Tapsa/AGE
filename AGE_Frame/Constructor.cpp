@@ -99,7 +99,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	GetToolBar()->AddTool(ToolBar_Hex, "Hex", wxBitmap(Ox_xpm), "Toggle hex mode (data not editable)", wxITEM_CHECK);
 	GetToolBar()->AddTool(ToolBar_Float, "0001", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
 	GetToolBar()->AddTool(ToolBar_Paste, "Paste", wxBitmap(Paste_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_DRS, "DRS", wxBitmap(DRS_unlock_xpm), "Unload DRS files for Turtle Pack", wxITEM_CHECK);
+	GetToolBar()->AddTool(ToolBar_DRS, "SLP", wxBitmap(DRS_unlock_xpm), "Unload DRS/SLP files", wxITEM_CHECK);
 	GetToolBar()->AddTool(ToolBar_Help, "Help", wxBitmap(Question_xpm), "Show help");
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->ToggleTool(ToolBar_Paste, Paste11);
