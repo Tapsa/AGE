@@ -88,6 +88,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Write("/TimesOpened", ++TimesOpened);
 	delete Config;
 
+	if(TimesOpened < 2) AnimSLP = ShowSLP = true; // For people that had these initialized to false in previous release.
+
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
 	int bars[5] = {295, 145, 145, 145, -1};
 	CreateStatusBar(5)->SetStatusWidths(5, bars);
@@ -99,7 +101,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	GetToolBar()->AddTool(ToolBar_Hex, "Hex", wxBitmap(Ox_xpm), "Toggle hex mode (data not editable)", wxITEM_CHECK);
 	GetToolBar()->AddTool(ToolBar_Float, "0001", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
 	GetToolBar()->AddTool(ToolBar_Paste, "Paste", wxBitmap(Paste_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_DRS, "SLP", wxBitmap(DRS_unlock_xpm), "Unload DRS/SLP files", wxITEM_CHECK);
+	GetToolBar()->AddTool(ToolBar_DRS, "SLP", wxBitmap(DRS_unlock_xpm), "Unload DRS files", wxITEM_CHECK);
 	GetToolBar()->AddTool(ToolBar_Help, "Help", wxBitmap(Question_xpm), "Show help");
 	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
 	GetToolBar()->ToggleTool(ToolBar_Paste, Paste11);
@@ -235,7 +237,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
 	if(TimesOpened < 2)
 	{
-        AnimSLP = ShowSLP = true; // For people that had this initialized to false in previous release.
 		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Help);
 		ProcessEvent(ShowHelpCmd);
 	}

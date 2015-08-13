@@ -68,6 +68,7 @@ public:
 	void OnExit(wxCloseEvent &event);
 	void OnMenuOption(wxCommandEvent &event);
 	void OnAutoCopy(wxCommandEvent &event);
+	void OnExitSLP(wxCloseEvent &event);
 
 //	Updates user interface after changing data name.
 

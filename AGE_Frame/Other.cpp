@@ -366,6 +366,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 	}
 
+    GetToolBar()->ToggleTool(ToolBar_DRS, false);
     wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, ToolBar_DRS);
     loadDRS.SetInt(false);
     ProcessEvent(loadDRS);
@@ -376,8 +377,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             loadPalette(FolderDRS);
             loadPalette(FolderDRS2);
         }
-        loadDRS.SetInt(true);
-        ProcessEvent(loadDRS);
+        else
+        {
+            GetToolBar()->ToggleTool(ToolBar_DRS, true);
+            loadDRS.SetInt(true);
+            ProcessEvent(loadDRS);
+        }
 	}
 
 	if(NULL != dataset)
@@ -1760,13 +1765,14 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 wxPoint parentPos = GetPosition();
                 parentPos.x += 1000;
-                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512), wxRESIZE_BORDER | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCAPTION | wxCLIP_CHILDREN | wxFRAME_FLOAT_ON_PARENT);
+                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512), wxRESIZE_BORDER | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCAPTION | wxCLIP_CHILDREN);
                 slp_view = new wxPanel(slp_window);
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
                 sizer->Add(slp_view, 1, wxEXPAND);
                 slp_window->SetSizer(sizer);
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+                slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
                 slp_window->Show();
             }
             else
@@ -1823,12 +1829,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		break;*/
 		case ToolBar_DRS:
         {
-            GetToolBar()->ToggleTool(ToolBar_DRS, event.IsChecked());
             if(event.IsChecked())
             {
-                GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_lock_xpm));
                 if(!UseTXT)
                 {
+                    GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_lock_xpm));
                     // Reload DRS files.
                     wxArrayString FilesToRead;
                     if(GenieVersion == genie::GV_TC)
@@ -1883,21 +1888,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             // Unload DRS files, stop animations.
             graphicAnimTimer.Stop();
             unitAnimTimer.Stop();
-            if(UseTXT)
-            {
-                // Unload SLP files.
-                graphicSLP.bitmap = wxNullBitmap;
-                graphicSLP.slp.reset();
-                graphicSLP.deltas.clear();
-                unitSLP.bitmap = wxNullBitmap;
-                unitSLP.slp.reset();
-                unitSLP.deltas.clear();
-                iconSLP.bitmap = wxNullBitmap;
-                iconSLP.slp.reset();
-                techSLP.bitmap = wxNullBitmap;
-                techSLP.slp.reset();
-            }
-            else
+            if(!UseTXT)
             {
                 for(auto &file: datafiles) delete file;
                 datafiles.clear();
@@ -2062,6 +2053,7 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                     //log_out << name << endl;
                     graphic->slp.get()->setGameVersion(GenieVersion);
                     graphic->slp.get()->load(name.c_str());
+                    graphic->slp.get()->freelock();
                     break; // Return first found match
                 }
                 catch(std::ios_base::failure e){}
@@ -2073,6 +2065,7 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                     //log_out << name << endl;
                     graphic->slp.get()->setGameVersion(GenieVersion);
                     graphic->slp.get()->load(name.c_str());
+                    graphic->slp.get()->freelock();
                     break;
                 }
                 catch(std::ios_base::failure e){}
@@ -2097,11 +2090,6 @@ SLP_SWAP:
         graphic->lastFrameID = graphic->frameID;
         if(graphic->slp)
         {
-            if(UseTXT && !GetToolBar()->GetToolState(ToolBar_DRS)) // SLP files are locked again.
-            {
-                GetToolBar()->ToggleTool(ToolBar_DRS, true);
-                GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_lock_xpm));
-            }
             genie::SlpFramePtr frame;
             try
             {
@@ -2742,6 +2730,16 @@ wxString AGE_Frame::CurrentTime()
 	return buffer.str();
 }
 
+void AGE_Frame::OnExitSLP(wxCloseEvent &event)
+{
+    wxMessageBox("Please close this from SLP menu");
+
+    SubMenu_SLP->Check(MenuOption_ShowSLP, false);
+    wxCommandEvent closeSLP(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowSLP);
+    closeSLP.SetInt(false);
+    ProcessEvent(closeSLP);
+}
+
 void AGE_Frame::OnExit(wxCloseEvent &event)
 {
 	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
@@ -2776,6 +2774,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 		if(AutoBackups) SaveBackup();
 	}
 
+    GetToolBar()->ToggleTool(ToolBar_DRS, false);
     wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, ToolBar_DRS);
     loadDRS.SetInt(false);
     ProcessEvent(loadDRS);
