@@ -307,7 +307,7 @@ string AGE_Frame::GetResourceName(short Index)
 		case 25: Name = "Feudal Age tech index"; break;
 		case 26:
 			if(GenieVersion < genie::GV_SWGB)
-			Name = "Attack Warning Sound";
+			Name = "Attack Warning Sound ID";
 			else
 			Name = "Shields' Drop Off Time";
 			break;
