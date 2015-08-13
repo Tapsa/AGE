@@ -12,6 +12,11 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.8.13[/b]:
+-SLP files are released after reading.
+-Dynamically load extra HD palettes.
+-Unit action graphics are viewable now.
+
 Version [b]2015.8.12[/b]:
 -Added separate SLP view window.
 -Ability to choose which unit graphics are shown.

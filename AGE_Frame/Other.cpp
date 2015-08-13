@@ -379,6 +379,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             // Load extra palettes
             palettesHD.clear();
             wxString folder = FolderDRS, res;
+            if(GenieVersion == genie::GV_Cysion)
+            folder.Replace("-dlc2", "", false);
             folder.Replace("drs", "dat", false);
             wxDir dir(folder);
             if(!dir.IsOpened()) return;
