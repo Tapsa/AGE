@@ -160,6 +160,7 @@ public:
     void loadPalette(wxString folder);
     void addFilesToRead(const wxArrayString &files, const wxString folder);
     void addDRSFolders4SLPs(wxArrayString &folders, wxString folder);
+    void addSLPFolders4SLPs(wxArrayString &folders, wxString folder);
     void setForeAndBackColors(AGETextCtrl* box, wxColour color);
 	void OnChooseGraphic(wxCommandEvent &event);
 
@@ -795,7 +796,8 @@ public:
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
-	std::vector<genie::Color> palette;
+	vector<genie::Color> palette;
+	vector<vector<genie::Color>> palettesHD;
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
 	int CustomTerrains, SLPareaPerCent;
@@ -1419,8 +1421,8 @@ public:
 
 	wxStaticBoxSizer *Research_Research;
 	wxBoxSizer *Research_Research_Searches[2];
-	wxSearchCtrl *Research_Research_Search;
-	wxSearchCtrl *Research_Research_Search_R;
+	wxTextCtrl *Research_Research_Search;
+	wxTextCtrl *Research_Research_Search_R;
 	wxOwnerDrawnComboBox *Research_SearchFilters[2];
 	wxCheckBox *Research_Research_UseAnd[2];
 	AGEListView *Research_Research_ListV;
