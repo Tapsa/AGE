@@ -20,7 +20,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	TabBar_Main = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	argPath = aP;
 	AGEwindow = window;
-    slpwindow = NULL;
+    slp_window = NULL;
 
     if(window < AGE_Frame::openEditors.size())
     {
