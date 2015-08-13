@@ -153,7 +153,7 @@ public:
 	void OnUnitAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP *graphic);
     int loadChosenGraphic(genie::Unit *unit);
-    void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, bool dmg = false);
+    void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(genie::unit::BuildingAnnex *annex);
 	void OnGraphicErase(wxEraseEvent &event);
     void loadPalette(wxString folder);

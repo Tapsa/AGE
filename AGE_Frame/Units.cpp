@@ -354,8 +354,12 @@ void AGE_Frame::InitUnits(short civ, bool all)
 
 void AGE_Frame::OnChooseGraphic(wxCommandEvent &event)
 {
-    unitSLP.slpID = -2;
-    if(NULL != slpwindow) slpview->Refresh();
+    if(UnitIDs.size() && NULL != dataset && UnitCivID < dataset->Civs.size() && UnitIDs[0] < dataset->Civs[UnitCivID].Units.size())
+    {
+        unitSLP.datID = loadChosenGraphic(&dataset->Civs[UnitCivID].Units[UnitIDs[0]]);
+        unitSLP.slpID = -2;
+        if(NULL != slpwindow) slpview->Refresh();
+    }
 }
 
 void AGE_Frame::OnUnitsSelect(wxCommandEvent &event)
@@ -847,29 +851,33 @@ int AGE_Frame::loadChosenGraphic(genie::Unit *unit)
         case 3: return unit->DyingGraphic.second;
         case 4: return unit->DeadFish.WalkingGraphic.first;
         case 5: return unit->DeadFish.WalkingGraphic.second;
-        case 6: return unit->Building.SnowGraphicID;
+        case 6: return unit->StandingGraphic.first;//unit->Building.SnowGraphicID;
         case 7: return unit->Building.ConstructionGraphicID;
         case 8: return unit->Type50.AttackGraphic;
-        case 9: return unit->Creatable.GarrisonGraphic;
+        case 9: return unit->StandingGraphic.first;//unit->Creatable.GarrisonGraphic;
         default: return -1;
     }
 }
 
-void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY, bool dmg)
+void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY, int apply)
 {
     if(unitID >= dataset->Civs[UnitCivID].Units.size()) return;
     unsigned int unitGraphic;
-    if(dmg)
+    switch(apply)
     {
-        if(DamageGraphicIDs.size() && DamageGraphicIDs[0] < dataset->Civs[UnitCivID].Units[unitID].DamageGraphics.size())
-        {
-            unitGraphic = dataset->Civs[UnitCivID].Units[unitID].DamageGraphics[DamageGraphicIDs[0]].GraphicID;
-            if(dataset->Civs[UnitCivID].Units[unitID].DamageGraphics[DamageGraphicIDs[0]].ApplyMode == 2)
-            unitSLP.deltas.clear();
-        }
-        else return;
+        case 0: unitGraphic = loadChosenGraphic(&dataset->Civs[UnitCivID].Units[unitID]); break;
+        case 1:
+            if(DamageGraphicIDs.size() && DamageGraphicIDs[0] < dataset->Civs[UnitCivID].Units[unitID].DamageGraphics.size())
+            {
+                unitGraphic = dataset->Civs[UnitCivID].Units[unitID].DamageGraphics[DamageGraphicIDs[0]].GraphicID;
+                if(dataset->Civs[UnitCivID].Units[unitID].DamageGraphics[DamageGraphicIDs[0]].ApplyMode == 2)
+                unitSLP.deltas.clear();
+                break;
+            }
+            else return;
+        case 2: unitGraphic = dataset->Civs[UnitCivID].Units[unitID].Building.SnowGraphicID; break;
+        case 3: unitGraphic = dataset->Civs[UnitCivID].Units[unitID].Creatable.GarrisonGraphic; break;
     }
-    else unitGraphic = loadChosenGraphic(&dataset->Civs[UnitCivID].Units[unitID]);
     if(unitGraphic >= dataset->Graphics.size()) return;
     unitSLP.frameID = 0;
     unitSLP.datID = unitGraphic;

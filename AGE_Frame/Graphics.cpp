@@ -316,14 +316,23 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                     }
                 }
                 else AddAnnexAndStackGraphics(unitID);
-                if(slpdmgunit->GetValue())
+                if(slpdmgunit->GetValue()) // Damage
                 {
-                    AddAnnexAndStackGraphics(unitID, 0, 0, true);
+                    AddAnnexAndStackGraphics(unitID, 0, 0, 1);
+                }
+                if(slpradio->GetSelection() == 6) // Snow
+                {
+                    AddAnnexAndStackGraphics(unitID, 0, 0, 2);
+                }
+                if(slpradio->GetSelection() == 9) // Garrison
+                {
+                    AddAnnexAndStackGraphics(unitID, 0, 0, 3);
                 }
             }
             if(unitSLP.deltas.size())
             {
                 int fpms = 0x7FFF;
+                uint32_t hasSLP = -1;
                 for(auto &delta: unitSLP.deltas)
                 {
                     SLPtoBitMap(&delta.second);
@@ -332,10 +341,15 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                         dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
                         if(AnimSLP) fpms = min(fpms, ShouldAnimate(&delta.second));
                     }
+                    hasSLP = min(hasSLP, delta.second.slpID);
                 }
                 if(AnimSLP)
                 {
                     unitAnimTimer.Start(fpms);
+                }
+                if(hasSLP == -1)
+                {
+                    dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
                 }
                 return;
             }
