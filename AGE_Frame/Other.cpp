@@ -376,6 +376,24 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         {
             loadPalette(FolderDRS);
             loadPalette(FolderDRS2);
+            // Load extra palettes
+            palettesHD.clear();
+            wxString folder = FolderDRS, res;
+            folder.Replace("drs", "dat", false);
+            wxDir dir(folder);
+            if(!dir.IsOpened()) return;
+            bool found = dir.GetFirst(&res, "*.pal");
+            while(found)
+            {
+                try
+                {
+                    genie::PalFile pal;
+                    pal.load((folder + "\\" + res).c_str());
+                    palettesHD.push_back(pal.getColors());
+                }
+                catch(std::ios_base::failure e){}
+                found = dir.GetNext(&res);
+            }
         }
         else
         {
@@ -2018,6 +2036,18 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString folder
     }
 }
 
+void AGE_Frame::addSLPFolders4SLPs(wxArrayString &folders, wxString folder)
+{
+    if(folder.empty()) return;
+    folder.Replace("drs", "slp", false);
+    if(GenieVersion == genie::GV_Cysion)
+    {
+        folders.Add(folder + "\\");
+        folder.Replace("-dlc2", "", false);
+    }
+    folders.Add(folder + "\\");
+}
+
 void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, wxString folder)
 {
     if(folder.empty()) return;
@@ -2041,8 +2071,8 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
         if(UseTXT)
         {
             wxArrayString folders;
-            addDRSFolders4SLPs(folders, FolderDRS2);
-            addDRSFolders4SLPs(folders, FolderDRS);
+            addSLPFolders4SLPs(folders, FolderDRS2);
+            addSLPFolders4SLPs(folders, FolderDRS);
             for(int i=0; i < folders.size(); ++i)
             {
                 if(!graphic->filename.empty())
@@ -2054,9 +2084,15 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                     graphic->slp.get()->setGameVersion(GenieVersion);
                     graphic->slp.get()->load(name.c_str());
                     graphic->slp.get()->freelock();
-                    break; // Return first found match
+                    goto SLP_SWAP;
                 }
                 catch(std::ios_base::failure e){}
+            }
+            folders.clear();
+            addDRSFolders4SLPs(folders, FolderDRS2);
+            addDRSFolders4SLPs(folders, FolderDRS);
+            for(int i=0; i < folders.size(); ++i)
+            {
                 // HD uses slp ID instead
                 try
                 {
@@ -2066,7 +2102,7 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                     graphic->slp.get()->setGameVersion(GenieVersion);
                     graphic->slp.get()->load(name.c_str());
                     graphic->slp.get()->freelock();
-                    break;
+                    goto SLP_SWAP;
                 }
                 catch(std::ios_base::failure e){}
             }
@@ -2100,6 +2136,7 @@ SLP_SWAP:
             {
                 int width = frame.get()->getWidth();
                 int height = frame.get()->getHeight();
+                short pal_chooser = frame.get()->getProperties() >> 16;
                 graphic->xpos = -frame.get()->getHotspotX();
                 graphic->ypos = -frame.get()->getHotspotY();
                 int area = width * height;
@@ -2107,11 +2144,16 @@ SLP_SWAP:
                 uint8_t *val = rgbdata.data();
                 uint8_t *alpha = val + area * 3;
                 genie::SlpFrameData imgdata = frame.get()->getSlpFrameData();
-                if(!palette.empty())
+                vector<genie::Color> *pal = &palette;
+                if(pal_chooser != 0 && --pal_chooser < palettesHD.size())
+                {
+                    pal = &palettesHD[pal_chooser];
+                }
+                if(!pal->empty())
                 {
                     for(int i=0; i < area; ++i)
                     {
-                        genie::Color rgba = palette[imgdata.pixel_indexes[i]];
+                        genie::Color rgba = (*pal)[imgdata.pixel_indexes[i]];
                         *val++ = rgba.r;
                         *val++ = rgba.g;
                         *val++ = rgba.b;
@@ -2135,7 +2177,7 @@ SLP_SWAP:
                         int flat = imgdata.player_color_mask[i].y * width + imgdata.player_color_mask[i].x;
                         int loc = 3 * flat;
                         int locA = 3 * area + flat;
-                        genie::Color rgba = palette[uint8_t(imgdata.player_color_mask[i].index + AGE_SLP::playerColorStart)];
+                        genie::Color rgba = (*pal)[uint8_t(imgdata.player_color_mask[i].index + AGE_SLP::playerColorStart)];
                         rgbdata[loc] = rgba.r;
                         rgbdata[loc + 1] = rgba.g;
                         rgbdata[loc + 2] = rgba.b;
@@ -2148,7 +2190,7 @@ SLP_SWAP:
                         int flat = imgdata.outline_mask[i].y * width + imgdata.outline_mask[i].x;
                         int loc = 3 * flat;
                         int locA = 3 * area + flat;
-                        genie::Color rgba = palette[AGE_SLP::playerColorID];
+                        genie::Color rgba = (*pal)[AGE_SLP::playerColorID];
                         rgbdata[loc] = rgba.r;
                         rgbdata[loc + 1] = rgba.g;
                         rgbdata[loc + 2] = rgba.b;
