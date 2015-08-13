@@ -199,7 +199,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 	Deltas_Add->Enable(selections);
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
-    if(NULL != slpwindow) slpview->Refresh();
+    if(NULL != slp_window) slp_view->Refresh();
 }
 
 void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
@@ -316,17 +316,17 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                     }
                 }
                 else AddAnnexAndStackGraphics(unitID);
-                if(slpdmgunit->GetValue()) // Damage
+                if(slp_garrison->GetValue()) // Garrison
                 {
-                    AddAnnexAndStackGraphics(unitID, 0, 0, 1);
+                    AddAnnexAndStackGraphics(unitID, 0, 0, 3);
                 }
-                if(slpradio->GetSelection() == 6) // Snow
+                if(slp_snow->GetValue()) // Snow
                 {
                     AddAnnexAndStackGraphics(unitID, 0, 0, 2);
                 }
-                if(slpradio->GetSelection() == 9) // Garrison
+                if(slp_dmg_unit->GetValue()) // Damage
                 {
-                    AddAnnexAndStackGraphics(unitID, 0, 0, 3);
+                    AddAnnexAndStackGraphics(unitID, 0, 0, 1);
                 }
             }
             if(unitSLP.deltas.size())
@@ -392,10 +392,10 @@ int AGE_Frame::ShouldAnimate(AGE_SLP *graphic)
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
 {
     graphicAnimTimer.Stop();
-    if(NULL != slpwindow)
+    if(NULL != slp_window)
     {
-        if(slpview->IsShownOnScreen())
-        slpview->Refresh();
+        if(slp_view->IsShownOnScreen())
+        slp_view->Refresh();
         else graphicAnimTimer.Start(1000);
     }
 }

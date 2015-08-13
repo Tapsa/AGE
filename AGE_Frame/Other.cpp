@@ -1760,21 +1760,21 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 wxPoint parentPos = GetPosition();
                 parentPos.x += 1000;
-                slpwindow = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512), wxRESIZE_BORDER | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCAPTION | wxCLIP_CHILDREN | wxFRAME_FLOAT_ON_PARENT);
-                slpview = new wxPanel(slpwindow);
+                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512), wxRESIZE_BORDER | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCAPTION | wxCLIP_CHILDREN | wxFRAME_FLOAT_ON_PARENT);
+                slp_view = new wxPanel(slp_window);
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-                sizer->Add(slpview, 1, wxEXPAND);
-                slpwindow->SetSizer(sizer);
-                slpview->Connect(slpview->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
-                slpview->Connect(slpview->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
-                slpwindow->Show();
+                sizer->Add(slp_view, 1, wxEXPAND);
+                slp_window->SetSizer(sizer);
+                slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
+                slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+                slp_window->Show();
             }
             else
             {
-                if(NULL != slpwindow) // What if users manage to close this?
+                if(NULL != slp_window) // What if users manage to close this?
                 {
-                    slpwindow->Destroy();
-                    slpwindow = NULL;
+                    slp_window->Destroy();
+                    slp_window = NULL;
                 }
             }
 		}
@@ -1874,7 +1874,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         }
                     }
                 }
-                if(NULL != slpwindow) slpview->Refresh();
+                if(NULL != slp_window) slp_view->Refresh();
                 Units_IconID_SLP->Refresh();
                 Research_IconID_SLP->Refresh();
                 break;

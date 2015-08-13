@@ -152,7 +152,7 @@ public:
 	void OnGraphicAnim(wxTimerEvent &event);
 	void OnUnitAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP *graphic);
-    int loadChosenGraphic(genie::Unit *unit);
+    int loadChosenGraphic(unsigned int unitID);
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(genie::unit::BuildingAnnex *annex);
 	void OnGraphicErase(wxEraseEvent &event);
@@ -798,10 +798,10 @@ public:
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
 	int CustomTerrains, SLPareaPerCent;
-    wxFrame *slpwindow;
-    wxPanel *slpview;
-    wxRadioBox *slpradio;
-    wxCheckBox *slpdmgunit;
+    wxFrame *slp_window;
+    wxPanel *slp_view;
+    wxRadioBox *slp_radio, *slp_unit_actions;
+    wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison;
 //	wxSound SoundFile;
 
 	forward_list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
