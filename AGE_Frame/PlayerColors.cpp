@@ -2,6 +2,7 @@
 
 uint32_t AGE_SLP::playerColorStart = 0;
 uint32_t AGE_SLP::playerColorID = 0;
+uint32_t AGE_SLP::currentDisplay = 0;
 
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 {
@@ -94,11 +95,11 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupColor) box->update();
 	Colors_ID->Enable(false);
-    if(NULL != PlayerColorPointer && !palette.empty())
+    if(NULL != PlayerColorPointer && !palettes.empty() && !palettes[0].empty())
     {
-        genie::Color playerColor = palette[(uint8_t)PlayerColorPointer->Colour];
-        genie::Color paletteStart = palette[(uint8_t)PlayerColorPointer->Palette];
-        genie::Color minimap = palette[(uint8_t)PlayerColorPointer->MinimapColour];
+        genie::Color playerColor = palettes[0][(uint8_t)PlayerColorPointer->Colour];
+        genie::Color paletteStart = palettes[0][(uint8_t)PlayerColorPointer->Palette];
+        genie::Color minimap = palettes[0][(uint8_t)PlayerColorPointer->MinimapColour];
         setForeAndBackColors(Colors_Palette, wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
         setForeAndBackColors(Colors_ColorL, wxColour(playerColor.r, playerColor.g, playerColor.b));
         setForeAndBackColors(Colors_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
@@ -122,13 +123,13 @@ void AGE_Frame::OnDrawPalette(wxPaintEvent &event)
 {
     wxBufferedPaintDC dc(Colors_Palette_Display);
     dc.Clear();
-    if(palette.empty()) return;
-    assert(palette.size() == 256);
+    if(paletteView >= palettes.size() || palettes[paletteView].empty()) return;
+    assert(palettes[paletteView].size() == 256);
     vector<uint8_t> rgbdata(768);
     uint8_t *val = rgbdata.data();
     for(int i=0; i < 256; ++i)
     {
-        genie::Color rgba = palette[i];
+        genie::Color rgba = palettes[paletteView][i];
         *val++ = rgba.r;
         *val++ = rgba.g;
         *val++ = rgba.b;
@@ -176,6 +177,8 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	CopyFromList(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
 	Colors_Colors_ListV->SetFocus();
+    paletteView = (paletteView + 1) % palettes.size();
+    Colors_Palette_Display->Refresh();
 }
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
