@@ -21,6 +21,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	argPath = aP;
 	AGEwindow = window;
     slp_window = NULL;
+    paletteView = 0;
 
     if(window < AGE_Frame::openEditors.size())
     {
@@ -247,9 +248,12 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
-	//genie::Logger::setLogLevel(genie::Logger::L_INFO);
-	//log_out.open("gulog.ini");
-	//genie::Logger::setGlobalOutputStream(log_out);
+#ifndef NDEBUG
+	genie::Logger::setLogLevel(genie::Logger::L_INFO);
+	log_out.open("gulog.ini");
+	genie::Logger::setGlobalOutputStream(log_out);
+#endif
+
 	dataset = NULL;
 	Lang = NULL;
 	LangX = NULL;
