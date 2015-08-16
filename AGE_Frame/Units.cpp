@@ -733,10 +733,10 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             Units_DLL_HotKey4->index = UnitPointer->HotKey;
         }
         visibleUnitCiv->SetLabel(dataset->Civs[UnitCivID].Name);
-        if(!palette.empty())
+        if(!palettes.empty() && !palettes[0].empty())
         {
-            genie::Color minimap = palette[(uint8_t)UnitPointer->MinimapColor];
-            genie::Color editorSel = palette[(uint8_t)UnitPointer->EditorSelectionColour];
+            genie::Color minimap = palettes[0][(uint8_t)UnitPointer->MinimapColor];
+            genie::Color editorSel = palettes[0][(uint8_t)UnitPointer->EditorSelectionColour];
             setForeAndBackColors(Units_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
             setForeAndBackColors(Units_EditorSelectionColour, wxColour(editorSel.r, editorSel.g, editorSel.b));
         }
@@ -2641,7 +2641,7 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 				UnitCommands_Unknown8->prepend(&CommandPointer->Unknown8);
 				UnitCommands_Unknown9->prepend(&CommandPointer->Unknown9);
 				UnitCommands_SelectionMode->prepend(&CommandPointer->SelectionMode);
-				UnitCommands_Unknown11->prepend(&CommandPointer->Unknown11);
+				UnitCommands_RightClickMode->prepend(&CommandPointer->RightClickMode);
 				UnitCommands_Unknown12->prepend(&CommandPointer->Unknown12);
 				for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 				UnitCommands_Graphics[loop]->prepend(&CommandPointer->Graphics[loop]);
@@ -4151,9 +4151,10 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_SelectionMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_SelectionMode = AGETextCtrl::init(CByte, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_SelectionMode->SetToolTip("Determines what you can select as targets\n0, 7+ All objects\n1 Your objects only\n2 Neutral and enemy objects only\n3 Gaia only\n4 Gaia, your and ally objects only\n5 Gaia, neutral and enemy objects only\n6 All but your objects");
-	UnitCommands_Unknown11_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Unknown11_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitCommands_Unknown11 = AGETextCtrl::init(CByte, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
+	UnitCommands_RightClickMode_Holder = new wxBoxSizer(wxVERTICAL);
+	UnitCommands_RightClickMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Right Click Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_RightClickMode = AGETextCtrl::init(CByte, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
+	UnitCommands_RightClickMode->SetToolTip("0 - Right-click target can be any object as defined by the Selection Mode.\n1 - Only the specified unit/class can be targeted using right-click.");
 	UnitCommands_Unknown12_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown12_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 12", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown12 = AGETextCtrl::init(CByte, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
@@ -4903,8 +4904,8 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Unknown9_Holder->Add(UnitCommands_Unknown9, 0, wxEXPAND);
 	UnitCommands_SelectionMode_Holder->Add(UnitCommands_SelectionMode_Text, 0, wxEXPAND);
 	UnitCommands_SelectionMode_Holder->Add(UnitCommands_SelectionMode, 0, wxEXPAND);
-	UnitCommands_Unknown11_Holder->Add(UnitCommands_Unknown11_Text, 0, wxEXPAND);
-	UnitCommands_Unknown11_Holder->Add(UnitCommands_Unknown11, 0, wxEXPAND);
+	UnitCommands_RightClickMode_Holder->Add(UnitCommands_RightClickMode_Text, 0, wxEXPAND);
+	UnitCommands_RightClickMode_Holder->Add(UnitCommands_RightClickMode, 0, wxEXPAND);
 	UnitCommands_Unknown12_Holder->Add(UnitCommands_Unknown12_Text, 0, wxEXPAND);
 	UnitCommands_Unknown12_Holder->Add(UnitCommands_Unknown12, 0, wxEXPAND);
 
@@ -5377,7 +5378,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandHolder_Grid3->Add(UnitCommands_Unknown8_Holder, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_Unknown9_Holder, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_SelectionMode_Holder, 1, wxEXPAND);
-	Units_CommandHolder_Grid3->Add(UnitCommands_Unknown11_Holder, 1, wxEXPAND);
+	Units_CommandHolder_Grid3->Add(UnitCommands_RightClickMode_Holder, 1, wxEXPAND);
 	Units_CommandHolder_Grid3->Add(UnitCommands_Unknown12_Holder, 1, wxEXPAND);
 
 	Units_CommandHolder_Data1->Add(Units_CommandHolder_Data2, 2, wxEXPAND);
