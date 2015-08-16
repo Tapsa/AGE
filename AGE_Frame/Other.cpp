@@ -8,6 +8,7 @@ vector<bool> AGETextCtrl::accurateFloats;
 vector<int> AGETextCtrl::unSaved;
 vector<int> AGETextCtrl::fileLoaded;
 const wxString AGE_Frame::PASTE11WARNING = "Selections mismatch";
+//map<wxString, uint64_t> slpPaletteCombinations;
 
 void AGE_Frame::OnOpen(wxCommandEvent &event)
 {
@@ -374,10 +375,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 	{
         if(UseTXT)
         {
+            palettes.clear();
             loadPalette(FolderDRS);
             loadPalette(FolderDRS2);
             // Load extra palettes
-            palettesHD.clear();
             wxString folder = FolderDRS, res;
             if(GenieVersion == genie::GV_Cysion)
             folder.Replace("-dlc2", "", false);
@@ -391,7 +392,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
                 {
                     genie::PalFile pal;
                     pal.load((folder + "\\" + res).c_str());
-                    palettesHD.push_back(pal.getColors());
+                    palettes.push_back(pal.getColors());
                 }
                 catch(std::ios_base::failure e){}
                 found = dir.GetNext(&res);
@@ -1894,7 +1895,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         pal = file->getPalFile(50500);
                         if(pal)
                         {
-                            palette = pal.get()->getColors();
+                            palettes.push_back(pal.get()->getColors());
                             break;
                         }
                     }
@@ -1912,7 +1913,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 for(auto &file: datafiles) delete file;
                 datafiles.clear();
-                palette.clear();
+                palettes.clear();
             }
         }
         break;
@@ -1921,6 +1922,101 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			//AGE_HelpInfo AGEHelp(this);
 			//AGEHelp.ShowModal();
 			wxString help = "ATTENTION!\nChanges to editing boxes affect all selected items!\n";
+            /* Very useful piece for SLP debugging.
+            int slps = 0, frames = 0;
+            if(UseTXT)
+            {
+                wxArrayString folders;
+                addSLPFolders4SLPs(folders, FolderDRS);
+                /SLPs: 133, frames: 1795
+                0000 0000
+                0700 0000
+                1700 0000
+                0000 0100
+                0705 0100
+                0000 0200
+                0000 0300
+                0000 0400
+                0000 0500
+                0000 0600
+                C78E 3C00
+                A7CF F300
+                07FA 0102
+                171B FF30
+                77FF 384C
+                BFFF 82A3
+                0700 00FE
+                Clone Campaigns special terrain SLP properties
+                0000001B 15037
+                00000040 15023
+                00000040 15024
+                000000D0 15001
+                000000DB 15036
+                000000E0 15011
+                00000AF0 15026
+                019C20E4 15007
+                02885840 15010
+                03547468 15002
+                80000000 15029
+                ///folders.clear();/
+                //addDRSFolders4SLPs(folders, FolderDRS); //Found properties: 0x00, 0x08, 0x10, 0x18, no offsets.
+                for(int i=0; i < folders.size(); ++i)
+                //for(auto &file: datafiles)
+                {
+                    wxDir dir(folders[i]);
+                    if(!dir.IsOpened()) continue;
+                    wxString res;
+                    bool found = dir.GetFirst(&res, "*.slp");
+                    while(found)
+                    //wxMessageBox("SLPs in this DRS: "+FormatInt(file->slp_ids.size()));
+                    //for(auto &slpID: file->slp_ids)
+                    {
+                        try
+                        {
+                            genie::SlpFile slp;
+                            log_out << "Loading SLP file " << res << endl;
+                            slp.load((folders[i] + res).c_str());
+                            //slp = file->getSlpFile(slpID);
+                            //if(!slp) continue;
+                            ++slps;
+                            genie::SlpFramePtr frame;
+                            for(int i=0; i < slp.getFrameCount(); ++i)
+                            {
+                                try
+                                {
+                                    frame = slp.getFrame(i);
+                                }
+                                catch(out_of_range){}
+                                if(frame)
+                                {
+                                    uint64_t palData = frame.get()->getProperties();
+                                    palData <<= 32;
+                                    palData += frame.get()->getPaletteOffset();
+                                    slpPaletteCombinations.insert(make_pair(res, palData));
+                                    ++frames;
+                                }
+                            }
+                        }
+                        catch(std::ios_base::failure e){}
+                        found = dir.GetNext(&res);
+                    }
+                }
+            }
+			log_out << "SLPs: "+FormatInt(slps)+", frames: "+FormatInt(frames) << endl;
+            multimap<uint64_t, wxString> slpPaletteSorted;
+            for(auto &palData: slpPaletteCombinations)
+            {
+                slpPaletteSorted.insert(make_pair(palData.second, palData.first));
+            }
+            for(auto &palData: slpPaletteSorted)
+            {
+                //palData.first = __builtin_bswap64(palData.first);
+                stringbuf buffer;
+                ostream os (&buffer);
+                os << hex << setw(16) << setfill('0') << uppercase << palData.first;
+                os << ' ' << palData.second;
+                log_out << buffer.str() << endl;
+            }*/
 			help.Append("Click \"Help\" from the toolbar to see this again.\n\n");
 			help.Append("Here are examples which cover all the nice features.\n");
 			help.Append("(This is assuming that you edit Age of Empires II: The Conquerors)\n\n");
@@ -1950,15 +2046,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			help.Append("Then click copy and go to the second window.\n");
 			help.Append("Then click paste or paste insert wherever you want the ships.\n");
 			help.Append("That's it.");
-			/*help.Append("\n\nFor Discovering Unknowns\n");
-			help.Append("\nBlue Boxes (16 bit integers)\n");
-			help.Append("If 256 does something, the box might need to be split\n");
-			help.Append("into two orange boxes (8 bit integers).\n");
-			help.Append("\nLight Blue Boxes (32 bit integers)\n");
-			help.Append("If 256, 65536 or 16777216 does something,\nthe box might need to be split\n");
-			help.Append("into four orange boxes (8 bit integers)\n");
-			help.Append("or into two blue boxes (16 bit integers)\n");
-			help.Append("or into two orange boxes and one blue box.");*/
 			wxMessageBox(help, "Short Guide to Advanced Editing");
 		}
 		break;
@@ -2006,19 +2093,20 @@ void AGE_Frame::loadPalette(wxString folder)
     if(folder.empty()) return;
     if(GenieVersion == genie::GV_Cysion)
     folder.Replace("-dlc2", "", false);
+    if(!wxDir::Exists(folder)) return;
     try
     {
         genie::PalFile pal;
         wxString name = folder + "\\interface\\50500.bina";
         pal.load(name.c_str());
-        palette = pal.getColors();
+        palettes.push_back(pal.getColors());
     }
     catch(std::ios_base::failure e){}
 }
 
 void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString folder)
 {
-    if(folder.empty()) return;
+    if(folder.empty() || !wxDir::Exists(folder)) return;
     for(int i=0; i < files.size(); ++i)
     {
         genie::DrsFile *interfac = new genie::DrsFile();
@@ -2042,10 +2130,12 @@ void AGE_Frame::addSLPFolders4SLPs(wxArrayString &folders, wxString folder)
 {
     if(folder.empty()) return;
     folder.Replace("drs", "slp", false);
+    if(!wxDir::Exists(folder)) return;
     if(GenieVersion == genie::GV_Cysion)
     {
         folders.Add(folder + "\\");
         folder.Replace("-dlc2", "", false);
+        if(!wxDir::Exists(folder)) return;
     }
     folders.Add(folder + "\\");
 }
@@ -2055,13 +2145,19 @@ void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, wxString folder)
     if(folder.empty()) return;
     if(GenieVersion == genie::GV_Cysion)
     {
+        if(wxDir::Exists(folder + "\\gamedata_x2"))
         folders.Add(folder + "\\gamedata_x2\\");
         folder.Replace("-dlc2", "", false);
     }
-    folders.Add(folder + "\\interface\\");
+    if(wxDir::Exists(folder + "\\gamedata_x2"))
     folders.Add(folder + "\\gamedata_x2\\");
+    if(wxDir::Exists(folder + "\\gamedata_x1"))
     folders.Add(folder + "\\gamedata_x1\\");
+    if(wxDir::Exists(folder + "\\interface"))
+    folders.Add(folder + "\\interface\\");
+    if(wxDir::Exists(folder + "\\graphics"))
     folders.Add(folder + "\\graphics\\");
+    if(wxDir::Exists(folder + "\\terrain"))
     folders.Add(folder + "\\terrain\\");
 }
 
@@ -2146,57 +2242,75 @@ SLP_SWAP:
                 uint8_t *val = rgbdata.data();
                 uint8_t *alpha = val + area * 3;
                 genie::SlpFrameData imgdata = frame.get()->getSlpFrameData();
-                vector<genie::Color> *pal = &palette;
-                if(pal_chooser != 0 && --pal_chooser < palettesHD.size())
-                {
-                    pal = &palettesHD[pal_chooser];
-                }
-                if(!pal->empty())
+                if(frame.get()->is32bit())
                 {
                     for(int i=0; i < area; ++i)
                     {
-                        genie::Color rgba = (*pal)[imgdata.pixel_indexes[i]];
-                        *val++ = rgba.r;
-                        *val++ = rgba.g;
-                        *val++ = rgba.b;
-                        *alpha++ = imgdata.alpha_channel[i];
+                        if(i >= imgdata.bgra_channels.size()) break;
+                        uint32_t bgra = imgdata.bgra_channels[i];
+                        *val++ = uint8_t(bgra >> 16);
+                        *val++ = uint8_t(bgra >> 8);
+                        *val++ = uint8_t(bgra);
+                        *alpha++ = uint8_t(bgra >> 24);;
                     }
-                    // Apply shadows
-                    if(ShowShadows)
-                    for(int i=0; i < imgdata.shadow_mask.size(); ++i)
+                    // Temp hack for interface files
+                    graphic->xpos = -width / 2;
+                    graphic->ypos = -height / 2;
+                }
+                else
+                {
+                    vector<genie::Color> *pal = &palettes[0];
+                    if(pal_chooser != 0 && pal_chooser < palettes.size())
                     {
-                        int flat = imgdata.shadow_mask[i].y * width + imgdata.shadow_mask[i].x;
-                        int loc = 3 * flat;
-                        int locA = 3 * area + flat;
-                        rgbdata[loc] = 0;
-                        rgbdata[loc + 1] = 0;
-                        rgbdata[loc + 2] = 0;
-                        rgbdata[locA] = 127;
+                        pal = &palettes[pal_chooser];
                     }
-                    // Apply player color
-                    for(int i=0; i < imgdata.player_color_mask.size(); ++i)
+                    if(!pal->empty())
                     {
-                        int flat = imgdata.player_color_mask[i].y * width + imgdata.player_color_mask[i].x;
-                        int loc = 3 * flat;
-                        int locA = 3 * area + flat;
-                        genie::Color rgba = (*pal)[uint8_t(imgdata.player_color_mask[i].index + AGE_SLP::playerColorStart)];
-                        rgbdata[loc] = rgba.r;
-                        rgbdata[loc + 1] = rgba.g;
-                        rgbdata[loc + 2] = rgba.b;
-                        rgbdata[locA] = 255;
-                    }
-                    // Apply outline
-                    if(ShowOutline)
-                    for(int i=0; i < imgdata.outline_mask.size(); ++i)
-                    {
-                        int flat = imgdata.outline_mask[i].y * width + imgdata.outline_mask[i].x;
-                        int loc = 3 * flat;
-                        int locA = 3 * area + flat;
-                        genie::Color rgba = (*pal)[AGE_SLP::playerColorID];
-                        rgbdata[loc] = rgba.r;
-                        rgbdata[loc + 1] = rgba.g;
-                        rgbdata[loc + 2] = rgba.b;
-                        rgbdata[locA] = 255;
+                        for(int i=0; i < area; ++i)
+                        {
+                            genie::Color rgba = (*pal)[imgdata.pixel_indexes[i]];
+                            *val++ = rgba.r;
+                            *val++ = rgba.g;
+                            *val++ = rgba.b;
+                            *alpha++ = imgdata.alpha_channel[i];
+                        }
+                        // Apply shadows
+                        if(ShowShadows)
+                        for(int i=0; i < imgdata.shadow_mask.size(); ++i)
+                        {
+                            int flat = imgdata.shadow_mask[i].y * width + imgdata.shadow_mask[i].x;
+                            int loc = 3 * flat;
+                            int locA = 3 * area + flat;
+                            rgbdata[loc] = 0;
+                            rgbdata[loc + 1] = 0;
+                            rgbdata[loc + 2] = 0;
+                            rgbdata[locA] = 127;
+                        }
+                        // Apply player color
+                        for(int i=0; i < imgdata.player_color_mask.size(); ++i)
+                        {
+                            int flat = imgdata.player_color_mask[i].y * width + imgdata.player_color_mask[i].x;
+                            int loc = 3 * flat;
+                            int locA = 3 * area + flat;
+                            genie::Color rgba = (*pal)[uint8_t(imgdata.player_color_mask[i].index + AGE_SLP::playerColorStart)];
+                            rgbdata[loc] = rgba.r;
+                            rgbdata[loc + 1] = rgba.g;
+                            rgbdata[loc + 2] = rgba.b;
+                            rgbdata[locA] = 255;
+                        }
+                        // Apply outline
+                        if(ShowOutline)
+                        for(int i=0; i < imgdata.outline_mask.size(); ++i)
+                        {
+                            int flat = imgdata.outline_mask[i].y * width + imgdata.outline_mask[i].x;
+                            int loc = 3 * flat;
+                            int locA = 3 * area + flat;
+                            genie::Color rgba = (*pal)[AGE_SLP::playerColorID];
+                            rgbdata[loc] = rgba.r;
+                            rgbdata[loc + 1] = rgba.g;
+                            rgbdata[loc + 2] = rgba.b;
+                            rgbdata[locA] = 255;
+                        }
                     }
                 }
                 unsigned char *pic = (unsigned char*)rgbdata.data();
