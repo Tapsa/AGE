@@ -211,7 +211,9 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     canvas->GetClientSize(&centerX, &centerY);
     centerX *= 0.5f;
     centerY *= 0.6f;
-    if(6 == TabBar_Main->GetSelection())
+    if(6 == TabBar_Main->GetSelection()) AGE_SLP::currentDisplay = 6;
+    else if(4 == TabBar_Main->GetSelection()) AGE_SLP::currentDisplay = 4;
+    if(AGE_SLP::currentDisplay == 6)
     {
         if(GraphicIDs.size() == 0) return; // Nothing selected
         if(dataset->Graphics[graphicSLP.datID].FrameCount == 0)
@@ -280,7 +282,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
     }
-    else if(4 == TabBar_Main->GetSelection())
+    else if(AGE_SLP::currentDisplay == 4)
     {
         if(UnitIDs.size() == 0) return; // Nothing selected
         if(unitSLP.datID < dataset->Graphics.size())

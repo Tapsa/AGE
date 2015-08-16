@@ -23,7 +23,7 @@ public:
     int xpos, ypos, xdelta, ydelta;
 
     multimap<int, AGE_SLP> deltas;
-    static uint32_t playerColorStart, playerColorID;
+    static uint32_t playerColorStart, playerColorID, currentDisplay;
 };
 
 class AGE_Frame: public wxFrame
@@ -796,11 +796,10 @@ public:
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
-	vector<genie::Color> palette;
-	vector<vector<genie::Color>> palettesHD;
+	vector<vector<genie::Color>> palettes;
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
-	int CustomTerrains, SLPareaPerCent;
+	int CustomTerrains, SLPareaPerCent, paletteView;
     wxFrame *slp_window;
     wxPanel *slp_view;
     wxRadioBox *slp_radio, *slp_unit_actions;
@@ -2537,7 +2536,7 @@ public:
 	wxBoxSizer *UnitCommands_Unknown8_Holder;
 	wxBoxSizer *UnitCommands_Unknown9_Holder;
 	wxBoxSizer *UnitCommands_SelectionMode_Holder;
-	wxBoxSizer *UnitCommands_Unknown11_Holder;
+	wxBoxSizer *UnitCommands_RightClickMode_Holder;
 	wxBoxSizer *UnitCommands_Unknown12_Holder;
 	array<wxBoxSizer*, 6> UnitCommands_Graphics_Holder;
 	wxGridSizer *UnitCommands_Graphics_Grid;
@@ -2563,7 +2562,7 @@ public:
 	wxStaticText *UnitCommands_Unknown8_Text;
 	wxStaticText *UnitCommands_Unknown9_Text;
 	wxStaticText *UnitCommands_SelectionMode_Text;
-	wxStaticText *UnitCommands_Unknown11_Text;
+	wxStaticText *UnitCommands_RightClickMode_Text;
 	wxStaticText *UnitCommands_Unknown12_Text;
 	array<wxStaticText*, 6> UnitCommands_Graphics_Text;
 
@@ -2595,7 +2594,7 @@ public:
 	AGETextCtrl *UnitCommands_Unknown8;
 	AGETextCtrl *UnitCommands_Unknown9;
 	AGETextCtrl *UnitCommands_SelectionMode;
-	AGETextCtrl *UnitCommands_Unknown11;
+	AGETextCtrl *UnitCommands_RightClickMode;
 	AGETextCtrl *UnitCommands_Unknown12;
 	array<AGETextCtrl*, 6> UnitCommands_Graphics;
 	array<ComboBox_Plus1*, 6> UnitCommands_Graphics_ComboBox;
