@@ -10,11 +10,11 @@ void AGE_Frame::OnUnitSubList(wxCommandEvent &event)
 	ListUnits(Selection, false);	// List units by selected civ.
 }
 
-string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
+string AGE_Frame::GetUnitName(int index, short civ, bool Filter)
 {
 	string Name = "";
 
-	if(dataset->Civs[civ].UnitPointers[Index] == 0)
+	if(dataset->Civs[civ].UnitPointers[index] == 0)
 	{
 		return "*Disabled*";
 	}
@@ -24,7 +24,7 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 		short Selection[filters];
 		for(short loop = 0; loop < filters; ++loop)
 		Selection[loop] = Units_SearchFilters[loop]->GetSelection();
-		genie::Unit * UnitPointer = &dataset->Civs[civ].Units[Index];
+		genie::Unit * UnitPointer = &dataset->Civs[civ].Units[index];
 
 		if(Selection[0] > 0)
 		switch(Units_FilterSelector->GetSelection())
@@ -261,14 +261,14 @@ string AGE_Frame::GetUnitName(short Index, short civ, bool Filter)
 	}
 
 //Names:
-	if(!LangDLLstring(dataset->Civs[civ].Units[Index].LanguageDLLName, 2).empty())
+	if(!LangDLLstring(dataset->Civs[civ].Units[index].LanguageDLLName, 2).empty())
 	{
-		return Name + LangDLLstring(dataset->Civs[civ].Units[Index].LanguageDLLName, 64);
+		return Name + LangDLLstring(dataset->Civs[civ].Units[index].LanguageDLLName, 64);
 	}
 //InternalName:
-	if(!dataset->Civs[civ].Units[Index].Name.empty())
+	if(!dataset->Civs[civ].Units[index].Name.empty())
 	{
-		return Name + dataset->Civs[civ].Units[Index].Name;
+		return Name + dataset->Civs[civ].Units[index].Name;
 	}
 	return Name + "New Unit";
 }
@@ -1592,10 +1592,10 @@ void AGE_Frame::OnUnitsDisable(wxCommandEvent &event)
 
 //	SubVectors
 
-string AGE_Frame::GetUnitDamageGraphicName(short Index)
+string AGE_Frame::GetUnitDamageGraphicName(int index)
 {
-	return lexical_cast<string>((short)dataset->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].DamagePercent)
-	+" % - ID: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[Index].GraphicID)+" ";
+	return lexical_cast<string>((short)dataset->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[index].DamagePercent)
+	+" % - ID: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].DamageGraphics[index].GraphicID)+" ";
 }
 
 void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &event)
@@ -1884,10 +1884,10 @@ void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event)
 	}
 }
 
-string AGE_Frame::GetUnitAttackName(short Index)
+string AGE_Frame::GetUnitAttackName(int index)
 {
-	return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[Index].Amount)
-	+" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[Index].Class)+" ";
+	return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[index].Amount)
+	+" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Attacks[index].Class)+" ";
 }
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &event)
@@ -2171,10 +2171,10 @@ void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &event)
 	}
 }
 
-string AGE_Frame::GetUnitArmorName(short Index)
+string AGE_Frame::GetUnitArmorName(int index)
 {
-	return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[Index].Amount)
-	+" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[Index].Class)+" ";
+	return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[index].Amount)
+	+" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs[0]].Type50.Armours[index].Class)+" ";
 }
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &event)
@@ -2460,19 +2460,19 @@ void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &event)
 
 //	AoE/TC/SWGB/CC Unit Commands
 
-wxString AGE_Frame::GetUnitCommandName(short Index)
+wxString AGE_Frame::GetUnitCommandName(int index)
 {
 	short CommandType = -1;
 	short CommandSubType = -1;
 	if(GenieVersion >= genie::GV_AoK) // AoK, TC, SWGB, CC
 	{
-		CommandType = dataset->UnitHeaders[UnitIDs[0]].Commands[Index].Type;
-		CommandSubType = dataset->UnitHeaders[UnitIDs[0]].Commands[Index].ResourceProductivityMultiplier;
+		CommandType = dataset->UnitHeaders[UnitIDs[0]].Commands[index].Type;
+		CommandSubType = dataset->UnitHeaders[UnitIDs[0]].Commands[index].ResourceProductivityMultiplier;
 	}
 	else // AoE, RoR
 	{
-		CommandType = dataset->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[Index].Type;
-		CommandSubType = dataset->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[Index].ResourceProductivityMultiplier;
+		CommandType = dataset->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[index].Type;
+		CommandSubType = dataset->Civs[UnitCivID].Units[UnitIDs[0]].Bird.Commands[index].ResourceProductivityMultiplier;
 	}
 	switch(CommandType)
 	{
@@ -4357,11 +4357,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Special->Add(Units_SpecialCopy_Civs, 0, wxEXPAND);
 
 	Units_Searches[0]->Add(Units_Search, 1, wxEXPAND);
-	Units_Searches[0]->AddSpacer(2);
-	Units_Searches[0]->Add(Units_UseAnd[0], 0, wxEXPAND);
+	Units_Searches[0]->Add(Units_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Units_Searches[1]->Add(Units_Search_R, 1, wxEXPAND);
-	Units_Searches[1]->AddSpacer(2);
-	Units_Searches[1]->Add(Units_UseAnd[1], 0, wxEXPAND);
+	Units_Searches[1]->Add(Units_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 
 	Units_Units->Add(Units_Civs_List, 0, wxEXPAND);
 	Units_Units->AddSpacer(2);
@@ -4370,14 +4368,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units->Add(Units_FilterSelector, 0, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
 	Units_Units->Add(Units_SearchFilters[loop], 0, wxEXPAND);
-	Units_Units->AddSpacer(2);
-	Units_Units->Add(Units_ListV, 1, wxEXPAND);
-	Units_Units->AddSpacer(2);
+	Units_Units->Add(Units_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Units_Units->Add(Units_Buttons[0], 0, wxEXPAND);
-	//Units_Units->Add(Units_Line, 0, wxEXPAND);
 	Units_Units->Add(Units_Buttons[1], 0, wxEXPAND);
-	Units_Units->AddSpacer(2);
-	Units_Units->Add(Units_Special, 0, wxEXPAND);
+	Units_Units->Add(Units_Special, 0, wxEXPAND | wxTOP, 2);
 
 	Units_ListArea->AddSpacer(5);
 	Units_ListArea->Add(Units_Units, 1, wxEXPAND);
@@ -4825,12 +4819,9 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Attacks_ListArea->Add(Units_Attacks_Search, 0, wxEXPAND);
 	Units_Attacks_ListArea->Add(Units_Attacks_Search_R, 0, wxEXPAND);
-	Units_Attacks_ListArea->AddSpacer(2);
-	Units_Attacks_ListArea->Add(Units_Attacks_ListV, 1, wxEXPAND);
-	Units_Attacks_ListArea->AddSpacer(2);
+	Units_Attacks_ListArea->Add(Units_Attacks_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Units_Attacks_ListArea->Add(Units_Attacks_Buttons, 0, wxEXPAND);
-	Units_Attacks_ListArea->AddSpacer(2);
-	Units_Attacks_ListArea->Add(Units_Attacks_CopyToUnits, 0, wxEXPAND);
+	Units_Attacks_ListArea->Add(Units_Attacks_CopyToUnits, 0, wxEXPAND | wxTOP, 2);
 
 	Armors_Class_Holder->Add(Armors_Class_Text, 0, wxEXPAND);
 	Armors_Class_Holder->Add(Armors_Class, 1, wxEXPAND);
@@ -4847,12 +4838,9 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Armors_ListArea->Add(Units_Armors_Search, 0, wxEXPAND);
 	Units_Armors_ListArea->Add(Units_Armors_Search_R, 0, wxEXPAND);
-	Units_Armors_ListArea->AddSpacer(2);
-	Units_Armors_ListArea->Add(Units_Armors_ListV, 1, wxEXPAND);
-	Units_Armors_ListArea->AddSpacer(2);
+	Units_Armors_ListArea->Add(Units_Armors_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Units_Armors_ListArea->Add(Units_Armors_Buttons, 0, wxEXPAND);
-	Units_Armors_ListArea->AddSpacer(2);
-	Units_Armors_ListArea->Add(Units_Armors_CopyToUnits, 0, wxEXPAND);
+	Units_Armors_ListArea->Add(Units_Armors_CopyToUnits, 0, wxEXPAND | wxTOP, 2);
 
 	UnitCommands_One_Holder->Add(UnitCommands_One_Text, 0, wxEXPAND);
 	UnitCommands_One_Holder->Add(UnitCommands_One, 1, wxEXPAND);
@@ -5028,12 +5016,9 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_Search, 0, wxEXPAND);
 	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_Search_R, 0, wxEXPAND);
-	Units_DamageGraphics_ListArea->AddSpacer(2);
-	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_ListV, 1, wxEXPAND);
-	Units_DamageGraphics_ListArea->AddSpacer(2);
+	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_Buttons, 0, wxEXPAND);
-	Units_DamageGraphics_ListArea->AddSpacer(2);
-	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_CopyToUnits, 0, wxEXPAND);
+	Units_DamageGraphics_ListArea->Add(Units_DamageGraphics_CopyToUnits, 0, wxEXPAND | wxTOP, 2);
 
 	Units_DamageGraphics->Add(Units_DamageGraphics_ListArea, 1, wxEXPAND);
 	Units_DamageGraphics->AddSpacer(5);
@@ -5332,12 +5317,9 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_UnitCommands->Add(Units_UnitCommands_Search, 0, wxEXPAND);
 	Units_UnitCommands->Add(Units_UnitCommands_Search_R, 0, wxEXPAND);
-	Units_UnitCommands->AddSpacer(2);
-	Units_UnitCommands->Add(Units_UnitCommands_ListV, 1, wxEXPAND);
-	Units_UnitCommands->AddSpacer(2);
+	Units_UnitCommands->Add(Units_UnitCommands_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Units_UnitCommands->Add(Units_UnitCommands_Buttons, 0, wxEXPAND);
-	Units_UnitCommands->AddSpacer(2);
-	Units_UnitCommands->Add(Units_UnitCommands_CopyToUnits, 0, wxEXPAND);
+	Units_UnitCommands->Add(Units_UnitCommands_CopyToUnits, 0, wxEXPAND | wxTOP, 2);
 
 	Units_CommandHolder_Lists->Add(Units_UnitHeads_Name, 0, wxEXPAND);
 	Units_CommandHolder_Lists->AddSpacer(5);

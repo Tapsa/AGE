@@ -1,12 +1,12 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetTerrainRestrictionName(short Index)
+string AGE_Frame::GetTerrainRestrictionName(int index)
 {
 	switch(GenieVersion)
 	{
 		case genie::GV_SWGB:
 		{
-			switch(Index)
+			switch(index)
 			{
 				case 30: return "Lava";
 				case 31: return "Water2";
@@ -47,7 +47,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 		case genie::GV_TC:
 		case genie::GV_Cysion:
 		{
-			switch(Index)
+			switch(index)
 			{
 				case 20: return "All - water";
 				case 21: return "Shallow water";
@@ -57,7 +57,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 		case genie::GV_AoKB:
 		case genie::GV_AoKA:
 		{
-			switch(Index)
+			switch(index)
 			{
 				case 0: return "All";
 				case 1: return "Land + shallows";
@@ -88,7 +88,7 @@ string AGE_Frame::GetTerrainRestrictionName(short Index)
 		case genie::GV_DAVE:
 		case genie::GV_TEST:
 		{
-			switch(Index)
+			switch(index)
 			{
 				case 0: return "Land + water";
 				case 1: return "Land";
@@ -409,9 +409,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 
 	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_Search, 0, wxEXPAND);
 	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_Search_R, 0, wxEXPAND);
-	TerRestrict_TerRestrict->AddSpacer(2);
-	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_ListV, 1, wxEXPAND);
-	TerRestrict_TerRestrict->AddSpacer(2);
+	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_Buttons, 0, wxEXPAND);
 
 	TerRestrict_ListArea->AddSpacer(5);
@@ -424,9 +422,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains->AddSpacer(5);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Search, 0, wxEXPAND);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Search_R, 0, wxEXPAND);
-	TerRestrict_Terrains->AddSpacer(2);
-	TerRestrict_Terrains->Add(TerRestrict_Terrains_ListV, 1, wxEXPAND);
-	TerRestrict_Terrains->AddSpacer(2);
+	TerRestrict_Terrains->Add(TerRestrict_Terrains_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Buttons, 0, wxEXPAND);
 	TerRestrict_Terrains->AddSpacer(5);
 

@@ -10,11 +10,11 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 	ListPlayerColors();
 }
 
-string AGE_Frame::GetPlayerColorName(short Index)
+string AGE_Frame::GetPlayerColorName(int index)
 {
 	if(GenieVersion < genie::GV_AoKA)
-		return dataset->PlayerColours[Index].Name;
-	return "Color "+lexical_cast<string>(Index)+" ";
+		return dataset->PlayerColours[index].Name;
+	return "Color "+lexical_cast<string>(index)+" ";
 }
 
 void AGE_Frame::ListPlayerColors()
@@ -275,9 +275,7 @@ void AGE_Frame::CreatePlayerColorControls()
 
 	Colors_Colors->Add(Colors_Colors_Search, 0, wxEXPAND);
 	Colors_Colors->Add(Colors_Colors_Search_R, 0, wxEXPAND);
-	Colors_Colors->AddSpacer(2);
-	Colors_Colors->Add(Colors_Colors_ListV, 1, wxEXPAND);
-	Colors_Colors->AddSpacer(2);
+	Colors_Colors->Add(Colors_Colors_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Colors_Colors->Add(Colors_Colors_Buttons, 0, wxEXPAND);
 
 	Colors_ListArea->AddSpacer(5);
