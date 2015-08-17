@@ -2180,6 +2180,10 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                     //log_out << name << endl;
                     graphic->slp.get()->setGameVersion(GenieVersion);
                     graphic->slp.get()->load(name.c_str());
+#ifndef NDEBUG
+                    name.Replace(".slp", "gut.slp", false);
+                    graphic->slp.get()->saveAs(name.c_str());
+#endif
                     graphic->slp.get()->freelock();
                     goto SLP_SWAP;
                 }
@@ -2234,8 +2238,8 @@ SLP_SWAP:
                 int width = frame.get()->getWidth();
                 int height = frame.get()->getHeight();
                 short pal_chooser = frame.get()->getProperties() >> 16;
-                graphic->xpos = -frame.get()->getHotspotX();
-                graphic->ypos = -frame.get()->getHotspotY();
+                graphic->xpos = -frame.get()->hotspot_x;
+                graphic->ypos = -frame.get()->hotspot_y;
                 int area = width * height;
                 vector<uint8_t> rgbdata(area * 4, 0);
                 uint8_t *val = rgbdata.data();
