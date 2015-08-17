@@ -249,7 +249,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
 #ifndef NDEBUG
-	genie::Logger::setLogLevel(genie::Logger::L_INFO);
+	genie::Logger::setLogLevel(genie::Logger::L_DEBUG);
 	log_out.open("gulog.ini");
 	genie::Logger::setGlobalOutputStream(log_out);
 #endif
