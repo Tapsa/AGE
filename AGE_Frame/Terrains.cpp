@@ -457,9 +457,8 @@ void AGE_Frame::OnTerrainsBorderCopyToBuildings(wxCommandEvent &event)
 void AGE_Frame::CreateTerrainControls()
 {
 	Terrains_Main = new wxBoxSizer(wxHORIZONTAL);
-	Terrains_ListArea = new wxBoxSizer(wxVERTICAL);
 	Terrains_Terrains_Buttons = new wxGridSizer(2, 0, 0);
-	Tab_Terrains = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Terrains = new wxPanel(TabBar_Main);
 	Terrains_Terrains = new wxStaticBoxSizer(wxVERTICAL, Tab_Terrains, "Terrains");
 	Terrains_Terrains_Search = new wxTextCtrl(Tab_Terrains, wxID_ANY);
 	Terrains_Terrains_UseAnd[0] = new wxCheckBox(Tab_Terrains, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
@@ -468,7 +467,7 @@ void AGE_Frame::CreateTerrainControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Terrains_Terrains_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Terrains_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Terrains, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Terrains_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Terrains, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
 	Terrains_Terrains_ListV = new AGEListView(Tab_Terrains, wxSize(200, 100));
 	Terrains_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
@@ -480,9 +479,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Copy = new wxButton(Tab_Terrains, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Terrains_Paste = new wxButton(Tab_Terrains, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 
-	Terrains_DataArea = new wxBoxSizer(wxVERTICAL);
-	Terrains_Scroller = new wxScrolledWindow(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxSize(600, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	Terrains_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	Terrains_Scroller = new wxScrolledWindow(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Terrains_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Terrains_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Area1_Grid = new wxGridSizer(4, 5, 5);
@@ -683,10 +680,6 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Terrains->Add(Terrains_UsedCountHolder, 0, wxEXPAND);
 	Terrains_Terrains->Add(Terrains_Terrains_Buttons, 0, wxEXPAND | wxTOP, 2);
 
-	Terrains_ListArea->AddSpacer(5);
-	Terrains_ListArea->Add(Terrains_Terrains, 1, wxEXPAND);
-	Terrains_ListArea->AddSpacer(5);
-
 	Terrains_Unknown1_Holder->Add(Terrains_Unknown1_Text, 0, wxEXPAND);
 	Terrains_Unknown1_Holder->Add(Terrains_Unknown1, 0, wxEXPAND);
 	Terrains_Enabled1_Holder->Add(Terrains_Enabled, 1, wxEXPAND);
@@ -838,28 +831,15 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_GreatSpace->Add(Terrains_SpaceRight, 5, wxEXPAND);
 
 	Terrains_ScrollSpace->Add(Terrains_NameArea_Holder, 0, wxEXPAND);
-	Terrains_ScrollSpace->AddSpacer(5);
-	Terrains_ScrollSpace->Add(Terrains_Area1_Grid, 0, wxEXPAND);
-	Terrains_ScrollSpace->AddSpacer(5);
-	Terrains_ScrollSpace->Add(Terrains_GreatSpace, 0, wxEXPAND);
-	Terrains_ScrollSpace->AddSpacer(5);
-	Terrains_ScrollSpace->Add(Terrains_Animation_Grid, 0, wxEXPAND);
+	Terrains_ScrollSpace->Add(Terrains_Area1_Grid, 0, wxEXPAND | wxTOP, 5);
+	Terrains_ScrollSpace->Add(Terrains_GreatSpace, 0, wxEXPAND | wxTOP, 5);
+	Terrains_ScrollSpace->Add(Terrains_Animation_Grid, 0, wxEXPAND | wxTOP, 5);
 
-	Terrains_ScrollArea->Add(Terrains_ScrollSpace, 1, wxEXPAND);
-	Terrains_ScrollArea->AddSpacer(5);
-
-	Terrains_Scroller->SetSizer(Terrains_ScrollArea);
+	Terrains_Scroller->SetSizer(Terrains_ScrollSpace);
 	Terrains_Scroller->SetScrollRate(0, 15);
 
-	Terrains_DataArea->AddSpacer(5);
-	Terrains_DataArea->Add(Terrains_Scroller, 1, wxEXPAND);
-	Terrains_DataArea->AddSpacer(5);
-
-	Terrains_Main->AddSpacer(5);
-	Terrains_Main->Add(Terrains_ListArea, 21, wxEXPAND);
-	Terrains_Main->AddSpacer(5);
-	Terrains_Main->Add(Terrains_DataArea, 65, wxEXPAND);
-	Terrains_Main->AddSpacer(5);
+	Terrains_Main->Add(Terrains_Terrains, 21, wxEXPAND | wxALL, 5);
+	Terrains_Main->Add(Terrains_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
 
 	Tab_Terrains->SetSizer(Terrains_Main);
 
