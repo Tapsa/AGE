@@ -905,7 +905,7 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
     unitSLP.filename = dataset->Graphics[unitGraphic].Name2;
     unitSLP.slpID = dataset->Graphics[unitGraphic].SLP;
     if(dataset->Graphics[unitGraphic].Deltas.size())
-    for(auto &delta: dataset->Graphics[unitGraphic].Deltas)
+    for(auto const &delta: dataset->Graphics[unitGraphic].Deltas)
     {
         AGE_SLP deltaSLP;
         if(delta.GraphicID < dataset->Graphics.size())

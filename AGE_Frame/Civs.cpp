@@ -962,7 +962,7 @@ void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &event)
 	if(event.GetId() == Civs_Name[0]->GetId()
 	|| event.GetId() == Civs_Name[1]->GetId())
 	{
-		for(auto ID: CivIDs)
+		for(auto const &ID: CivIDs)
 		{
 			if(GenieVersion < genie::GV_SWGB)
 			Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name.substr(0, 2));
