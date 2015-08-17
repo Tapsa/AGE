@@ -301,11 +301,9 @@ void AGE_Frame::OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &event)
 
 void AGE_Frame::CreateUnitLineControls()
 {
-	Tab_UnitLine = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_UnitLine = new wxPanel(TabBar_Main);
 	UnitLines_Main = new wxBoxSizer(wxHORIZONTAL);
-	UnitLines_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnitLines_UnitLines_Buttons = new wxGridSizer(3, 0, 0);
-	UnitLineUnits_ListArea = new wxBoxSizer(wxVERTICAL);
 	UnitLines_UnitLineUnits_Buttons = new wxGridSizer(3, 0, 0);
 	UnitLines_DataArea = new wxBoxSizer(wxVERTICAL);
 
@@ -354,14 +352,8 @@ void AGE_Frame::CreateUnitLineControls()
 
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search, 0, wxEXPAND);
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search_R, 0, wxEXPAND);
-	UnitLines_UnitLines->AddSpacer(2);
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-	UnitLines_UnitLines->AddSpacer(2);
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Buttons, 0, wxEXPAND);
-
-	UnitLines_ListArea->AddSpacer(5);
-	UnitLines_ListArea->Add(UnitLines_UnitLines, 1, wxEXPAND);
-	UnitLines_ListArea->AddSpacer(5);
 
 	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Add, 1, wxEXPAND);
 	UnitLines_UnitLineUnits_Buttons->Add(UnitLineUnits_Delete, 1, wxEXPAND);
@@ -376,10 +368,6 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Buttons, 0, wxEXPAND);
 	UnitLines_UnitLineUnits->Add(UnitLineUnits_CopyToUnitLines, 0, wxEXPAND | wxTOP, 2);
 
-	UnitLineUnits_ListArea->AddSpacer(5);
-	UnitLineUnits_ListArea->Add(UnitLines_UnitLineUnits, 1, wxEXPAND);
-	UnitLineUnits_ListArea->AddSpacer(5);
-
 	UnitLines_ID_Holder->Add(UnitLines_ID_Text, 0, wxEXPAND);
 	UnitLines_ID_Holder->Add(UnitLines_ID, 1, wxEXPAND);
 	UnitLines_Name_Holder->Add(UnitLines_Name_Text, 0, wxEXPAND);
@@ -388,18 +376,12 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLineUnits_Holder->Add(UnitLineUnits_Units, 1, wxEXPAND);
 	UnitLineUnits_Holder->Add(UnitLineUnits_ComboBox, 1, wxEXPAND);
 
-	UnitLines_DataArea->AddSpacer(5);
-	UnitLines_DataArea->Add(UnitLines_ID_Holder, 0, wxEXPAND);
-	UnitLines_DataArea->AddSpacer(5);
-	UnitLines_DataArea->Add(UnitLines_Name_Holder, 0, wxEXPAND);
-	UnitLines_DataArea->AddSpacer(5);
-	UnitLines_DataArea->Add(UnitLineUnits_Holder, 0, wxEXPAND);
+	UnitLines_DataArea->Add(UnitLines_ID_Holder, 0, wxEXPAND | wxTOP, 5);
+	UnitLines_DataArea->Add(UnitLines_Name_Holder, 0, wxEXPAND | wxTOP, 5);
+	UnitLines_DataArea->Add(UnitLineUnits_Holder, 0, wxEXPAND | wxTOP, 5);
 
-	UnitLines_Main->AddSpacer(5);
-	UnitLines_Main->Add(UnitLines_ListArea, 1, wxEXPAND);
-	UnitLines_Main->AddSpacer(5);
-	UnitLines_Main->Add(UnitLineUnits_ListArea, 1, wxEXPAND);
-	UnitLines_Main->AddSpacer(5);
+	UnitLines_Main->Add(UnitLines_UnitLines, 1, wxEXPAND | wxALL, 5);
+	UnitLines_Main->Add(UnitLines_UnitLineUnits, 1, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
 	UnitLines_Main->Add(UnitLines_DataArea, 1, wxEXPAND);
 	UnitLines_Main->AddStretchSpacer(1);
 

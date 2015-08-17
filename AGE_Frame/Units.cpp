@@ -3019,23 +3019,22 @@ void AGE_Frame::CreateUnitControls()
 {
 //	UnitControls new things
 
-	Tab_Units = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Units = new wxPanel(TabBar_Main);
 
 	Units_Main = new wxBoxSizer(wxHORIZONTAL);
-	Units_ListArea = new wxBoxSizer(wxVERTICAL);
 	Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
 	//Units_Line = new wxStaticLine(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL, "");
 	Units_Special = new wxBoxSizer(wxHORIZONTAL);
-	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_UseAnd[1] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Units_FilterSelector = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_FilterSelector = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY | wxCB_SORT);
+		Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY | wxCB_SORT);
 	}
 	Units_ListV = new AGEListView(Tab_Units, wxSize(200, 100));
 	Units_Buttons[0] = new wxGridSizer(3, 0, 0);
@@ -3057,7 +3056,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
-	Units_SpecialCopy_Options = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_SpecialCopy_Options = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs *", wxDefaultPosition, wxSize(-1, 20));
 	Units_SpecialCopy_Civs->SetToolTip("Whether buttons of units operate on all civilizations or just on the selected one\nNote that adding, inserting and deleting units always affect all civilizations!");
 
@@ -3081,18 +3080,17 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectAll = new wxButton(Tab_Units, wxID_ANY, "All", wxDefaultPosition, wxSize(40, 20));
 	Units_SelectClear = new wxButton(Tab_Units, wxID_ANY, "None", wxDefaultPosition, wxSize(40, 20));
 	Units_GraphicSetText = new wxStaticText(Tab_Units, wxID_ANY, " Graphic set: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Units_GraphicSet = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(120, 20), 0, NULL, wxCB_READONLY);
+	Units_GraphicSet = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(120, 20), 0, NULL, wxCB_READONLY);
     visibleUnitCiv = new wxStaticText(Tab_Units, wxID_ANY, "Civ ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Identity_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "");
 	Units_Type_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Type_Text = new wxStaticText(Tab_Units, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Type = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Tab_Units);
-	Units_Type_ComboBox = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_Type_ComboBox = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_Class = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Tab_Units);
 	Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
 	Units_Class_ComboBox[0] = new ComboBox_Plus1(Tab_Units, Units_Class);
-	Units_Scroller = new wxScrolledWindow(Tab_Units, wxID_ANY, wxDefaultPosition, wxSize(600, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	Units_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	Units_Scroller = new wxScrolledWindow(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Units_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Units_TypeArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language DLLs");
@@ -3514,12 +3512,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_DLL_HotKey4 = new TextCtrl_DLL(Units_Scroller, wxSize(0, 25));
 	Units_LanguageDLLHelp = AGETextCtrl::init(CLong, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_LanguageDLLHelp->SetToolTip("100000 + Language DLL Name\nThis is probably linked to the help text below");
-	Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Units_LanguageDLLConverter[0]->SetToolTip("Language help text in DLL\nHit enter to get the correction into dat file");
 	Units_DLL_LanguageHelp = new TextCtrl_DLL(Units_Scroller, wxSize(0, 55));
 	Units_LanguageDLLHotKeyText = AGETextCtrl::init(CLong, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_LanguageDLLHotKeyText->SetToolTip("150000 + Language DLL Name\nThis seems to be used only in AoE (not RoR)\nThis language line has other purposes in SWGB and CC");
-	Units_LanguageDLLConverter[1] = new wxTextCtrl(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Units_LanguageDLLConverter[1] = new wxTextCtrl(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in DLL\nHit enter to get the correction into dat file");
 	Units_DLL_LanguageHKText = new TextCtrl_DLL(Units_Scroller, wxSize(0, 25));
 
@@ -3703,7 +3701,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonType = AGETextCtrl::init(CUByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_GarrisonType_Grid = new wxGridSizer(8, 0, 0);
 	for(short loop = 0; loop < 8; ++loop)
-	Units_GarrisonType_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20));
+	Units_GarrisonType_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1, 20));
 	Units_GarrisonType_CheckBox[0]->SetToolTip("Villager/Worker");
 	Units_GarrisonType_CheckBox[1]->SetToolTip("Infantry");
 	Units_GarrisonType_CheckBox[2]->SetToolTip("Cavalry/Mounted");
@@ -3811,7 +3809,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attribute->SetToolTip("This is a byte of eight booleans\nYou can combine these attributes");
 	Units_Attribute_Grid = new wxGridSizer(8, 0, 0);
 	for(short loop = 0; loop < 8; ++loop)
-	Units_Attribute_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(-1, 20));
+	Units_Attribute_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1, 20));
 	Units_Attribute_CheckBox[0]->SetToolTip("Garrison unit");
 	Units_Attribute_CheckBox[1]->SetToolTip("Ship unit");
 	Units_Attribute_CheckBox[2]->SetToolTip("SW: Stealth unit");
@@ -4054,7 +4052,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Type_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Type_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Action Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Type = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
-	UnitCommands_Type_ComboBox = new wxOwnerDrawnComboBox(Units_Scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	UnitCommands_Type_ComboBox = new wxOwnerDrawnComboBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	UnitCommands_ClassID_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ClassID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Class", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ClassID = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
@@ -4112,17 +4110,17 @@ void AGE_Frame::CreateUnitControls()
 	GraphicComboBoxList.push_front(UnitCommands_Graphics_ComboBox[loop]);
 	for(short loop = 4; loop < 6; ++loop)
 	SoundComboBoxList.push_front(UnitCommands_Graphics_ComboBox[loop]);
-	UnitCommands_Graphics_Text[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Tool Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Graphics_Text[0] = new wxStaticText(Units_Scroller, wxID_ANY, " Tool Graphic *");
 	UnitCommands_Graphics[0]->SetToolTip("Used when walking with a tool, but carrying no resources");
-	UnitCommands_Graphics_Text[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Proceeding Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Graphics_Text[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Proceeding Graphic *");
 	UnitCommands_Graphics[1]->SetToolTip("Used when proceeding to gather a resource or attack");
-	UnitCommands_Graphics_Text[2] = new wxStaticText(Units_Scroller, wxID_ANY, " Action Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Graphics_Text[2] = new wxStaticText(Units_Scroller, wxID_ANY, " Action Graphic *");
 	UnitCommands_Graphics[2]->SetToolTip("Used when actually gathering a resource or attacking/converting");
-	UnitCommands_Graphics_Text[3] = new wxStaticText(Units_Scroller, wxID_ANY, " Carrying Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Graphics_Text[3] = new wxStaticText(Units_Scroller, wxID_ANY, " Carrying Graphic *");
 	UnitCommands_Graphics[3]->SetToolTip("Used when carrying a resource");
-	UnitCommands_Graphics_Text[4] = new wxStaticText(Units_Scroller, wxID_ANY, " Execution Sound *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Graphics_Text[4] = new wxStaticText(Units_Scroller, wxID_ANY, " Execution Sound *");
 	UnitCommands_Graphics[4]->SetToolTip("Example: Plays when lumberjack starts chopping wood");
-	UnitCommands_Graphics_Text[5] = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Deposit Sound *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Graphics_Text[5] = new wxStaticText(Units_Scroller, wxID_ANY, " Resource Deposit Sound *");
 	UnitCommands_Graphics[5]->SetToolTip("Example: Plays when lumberjack drops his wood into TC");
 	UnitCommands_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Unknown1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4361,8 +4359,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Searches[1]->Add(Units_Search_R, 1, wxEXPAND);
 	Units_Searches[1]->Add(Units_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 
-	Units_Units->Add(Units_Civs_List, 0, wxEXPAND);
-	Units_Units->AddSpacer(2);
+	Units_Units->Add(Units_Civs_List, 0, wxEXPAND | wxBOTTOM, 2);
 	for(short loop = 0; loop < 2; ++loop)
 	Units_Units->Add(Units_Searches[loop], 0, wxEXPAND);
 	Units_Units->Add(Units_FilterSelector, 0, wxEXPAND);
@@ -4372,10 +4369,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units->Add(Units_Buttons[0], 0, wxEXPAND);
 	Units_Units->Add(Units_Buttons[1], 0, wxEXPAND);
 	Units_Units->Add(Units_Special, 0, wxEXPAND | wxTOP, 2);
-
-	Units_ListArea->AddSpacer(5);
-	Units_ListArea->Add(Units_Units, 1, wxEXPAND);
-	Units_ListArea->AddSpacer(5);
 
 	Units_Type_Holder->Add(visibleUnitCiv, 1, wxEXPAND);
 	Units_Type_Holder->Add(Units_Type_Text, 0, wxEXPAND);
@@ -4899,7 +4892,7 @@ void AGE_Frame::CreateUnitControls()
 
 	for(short loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
 	{
-		UnitCommands_Graphics_Holder[loop]->Add(UnitCommands_Graphics_Text[loop], 0, wxEXPAND);
+		UnitCommands_Graphics_Holder[loop]->Add(UnitCommands_Graphics_Text[loop], 0, wxEXPAND | wxBOTTOM, 2);
 		UnitCommands_Graphics_Holder[loop]->Add(UnitCommands_Graphics[loop], 0, wxEXPAND);
 		UnitCommands_Graphics_Holder[loop]->Add(UnitCommands_Graphics_ComboBox[loop], 0, wxEXPAND);
 		UnitCommands_Graphics_Grid->Add(UnitCommands_Graphics_Holder[loop], 1, wxEXPAND);
@@ -5384,26 +5377,16 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnknownArea_Holder->Add(Units_Type80plusUnknownArea_Holder, 0, wxEXPAND);
 
 	Units_ScrollSpace->Add(Units_LangDLLArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_GraphicsArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_StatsArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_ProjectilesArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_Attributes_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_SoundsArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_MiscArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_UnknownArea_Holder, 0, wxEXPAND);
-	Units_ScrollSpace->AddSpacer(5);
-	Units_ScrollSpace->Add(Units_CommandsArea_Holder, 0, wxEXPAND);
+	Units_ScrollSpace->Add(Units_GraphicsArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_ScrollSpace->Add(Units_StatsArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_ScrollSpace->Add(Units_ProjectilesArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_ScrollSpace->Add(Units_Attributes_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_ScrollSpace->Add(Units_SoundsArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_ScrollSpace->Add(Units_MiscArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_ScrollSpace->Add(Units_UnknownArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_ScrollSpace->Add(Units_CommandsArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
-	Units_ScrollArea->Add(Units_ScrollSpace, 1, wxEXPAND);
-	Units_ScrollArea->AddSpacer(5);
-	Units_Scroller->SetSizer(Units_ScrollArea);
+	Units_Scroller->SetSizer(Units_ScrollSpace);
 	Units_Scroller->SetScrollRate(0, 20);
 
 	Units_Top_Holder->Add(Units_AutoCopy, 0, wxEXPAND);
@@ -5416,22 +5399,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_Top_Holder->Add(Units_GraphicSetText, 0, wxEXPAND);
 	Units_Top_Holder->Add(Units_GraphicSet, 0, wxEXPAND);
 	Units_Identity_Holder->Add(Units_Type_Holder, 0, wxEXPAND);
-	Units_Identity_Holder->AddSpacer(5);
-	Units_Identity_Holder->Add(Units_TypeArea_Holder, 0, wxEXPAND);
+	Units_Identity_Holder->Add(Units_TypeArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
-	Units_DataArea->AddSpacer(15);
-	Units_DataArea->Add(Units_Top_Holder, 0, wxEXPAND);
+	Units_DataArea->Add(Units_Top_Holder, 0, wxEXPAND | wxTOP, 15);
 	Units_DataArea->Add(Units_TopGrid_Holder, 0, wxEXPAND);
 	Units_DataArea->Add(Units_Identity_Holder, 0, wxEXPAND);
-	Units_DataArea->AddSpacer(5);
-	Units_DataArea->Add(Units_Scroller, 1, wxEXPAND);
-	Units_DataArea->AddSpacer(5);
+	Units_DataArea->Add(Units_Scroller, 1, wxEXPAND | wxTOP, 5);
 
-	Units_Main->AddSpacer(5);
-	Units_Main->Add(Units_ListArea, 21, wxEXPAND);
-	Units_Main->AddSpacer(5);
-	Units_Main->Add(Units_DataArea, 65, wxEXPAND);
-	Units_Main->AddSpacer(5);
+	Units_Main->Add(Units_Units, 21, wxEXPAND | wxALL, 5);
+	Units_Main->Add(Units_DataArea, 65, wxEXPAND | wxBOTTOM | wxRIGHT, 5);
 
 	if(EnableIDFix)
 	{

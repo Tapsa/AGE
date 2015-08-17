@@ -241,10 +241,9 @@ void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &event)
 
 void AGE_Frame::CreateTerrainBorderControls()
 {
-	Tab_TerrainBorders = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_TerrainBorders = new wxPanel(TabBar_Main);
 
 	Borders_Main = new wxBoxSizer(wxHORIZONTAL);
-	Borders_ListArea = new wxBoxSizer(wxVERTICAL);
 	Borders_Buttons = new wxGridSizer(2, 0, 0);
 	Borders_Borders = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainBorders, "Terrain Borders");
 	Borders_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
@@ -273,8 +272,8 @@ void AGE_Frame::CreateTerrainBorderControls()
 		Borders_Name_Holder[loop] = new wxBoxSizer(wxVERTICAL);
 		Borders_Name[loop] = AGETextCtrl::init(CString, &uiGroupBorder, this, AGEwindow, Tab_TerrainBorders, 13);
 	}
-	Borders_Name_Text[0] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Name_Text[1] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Name_Text[0] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Name");
+	Borders_Name_Text[1] = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP Name ");
 	Borders_SLP_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_SLP_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " SLP", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_SLP = AGETextCtrl::init(CLong, &uiGroupBorder, this, AGEwindow, Tab_TerrainBorders);
@@ -366,7 +365,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Borders_Name_Holder[loop]->Add(Borders_Name_Text[loop], 0, wxEXPAND);
+		Borders_Name_Holder[loop]->Add(Borders_Name_Text[loop], 0, wxEXPAND | wxBOTTOM, 2);
 		Borders_Name_Holder[loop]->Add(Borders_Name[loop], 0, wxEXPAND);
 	}
 	Borders_Enabled1_Holder->Add(Borders_Enabled, 1, wxEXPAND);
@@ -389,10 +388,6 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Borders->Add(Borders_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Borders_Borders->Add(Borders_UsedCountHolder, 0, wxEXPAND);
 	Borders_Borders->Add(Borders_Buttons, 0, wxEXPAND | wxTOP, 2);
-
-	Borders_ListArea->AddSpacer(5);
-	Borders_ListArea->Add(Borders_Borders, 1, wxEXPAND);
-	Borders_ListArea->AddSpacer(5);
 
 	Borders_DataTopRow->Add(Borders_Enabled_Holder, 3, wxEXPAND);
 	Borders_DataTopRow->AddSpacer(5);
@@ -488,23 +483,14 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Data2->Add(Borders_Terrain_Holder, 1, wxEXPAND);
 	Borders_Data2->Add(Borders_BorderStyle_Holder, 1, wxEXPAND);
 
-	Borders_DataArea->AddSpacer(5);
 	Borders_DataArea->Add(Borders_DataTopRow, 0, wxEXPAND);
-	Borders_DataArea->AddSpacer(5);
-	Borders_DataArea->Add(Borders_Data1, 0, wxEXPAND);
-	Borders_DataArea->AddSpacer(5);
-	Borders_DataArea->Add(Borders_Data2, 0, wxEXPAND);
-	Borders_DataArea->AddSpacer(5);
-	Borders_DataArea->Add(Borders_FrameData, 0, wxEXPAND);
-	Borders_DataArea->AddSpacer(5);
-	Borders_DataArea->Add(Borders_Animation_Grid, 0, wxEXPAND);
-	Borders_DataArea->AddSpacer(5);
+	Borders_DataArea->Add(Borders_Data1, 0, wxEXPAND | wxTOP, 5);
+	Borders_DataArea->Add(Borders_Data2, 0, wxEXPAND | wxTOP, 5);
+	Borders_DataArea->Add(Borders_FrameData, 0, wxEXPAND | wxTOP, 5);
+	Borders_DataArea->Add(Borders_Animation_Grid, 0, wxEXPAND | wxTOP, 5);
 
-	Borders_Main->AddSpacer(5);
-	Borders_Main->Add(Borders_ListArea, 21, wxEXPAND);
-	Borders_Main->AddSpacer(5);
-	Borders_Main->Add(Borders_DataArea, 65, wxEXPAND);
-	Borders_Main->AddSpacer(5);
+	Borders_Main->Add(Borders_Borders, 21, wxEXPAND | wxALL, 5);
+	Borders_Main->Add(Borders_DataArea, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
 
 	Tab_TerrainBorders->SetSizer(Borders_Main);
 

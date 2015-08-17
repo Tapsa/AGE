@@ -956,90 +956,63 @@ public:
 	wxStaticText *General_CalcBoxesMiddle_Text;
 	wxTextCtrl *General_CalcBoxes[5];
 	wxScrolledWindow *General_Scroller;
-	wxBoxSizer *General_ScrollArea;
 	wxBoxSizer *General_ScrollSpace;
-	wxBoxSizer *General_TileSizes_Holder;
 	wxStaticText *General_TileSizes_Text;
 	wxGridSizer *General_TileSizes_Grid;
 	array<AGETextCtrl*, 57> General_TileSizes;
 
-	wxBoxSizer *UnknownPointer1_Holder;
 	wxStaticText *UnknownPointer1_Text;
 	AGETextCtrl *UnknownPointer1;
-	wxBoxSizer *MapMinX_Holder;
 	wxStaticText *MapMinX_Text;
 	AGETextCtrl *MapMinX;
-	wxBoxSizer *MapMinY_Holder;
 	wxStaticText *MapMinY_Text;
 	AGETextCtrl *MapMinY;
-	wxBoxSizer *MapMaxX_Holder;
 	wxStaticText *MapMaxX_Text;
 	AGETextCtrl *MapMaxX;
-	wxBoxSizer *MapMaxY_Holder;
 	wxStaticText *MapMaxY_Text;
 	AGETextCtrl *MapMaxY;
-	wxBoxSizer *MapMaxXplus1_Holder;
 	wxStaticText *MapMaxXplus1_Text;
 	AGETextCtrl *MapMaxXplus1;
-	wxBoxSizer *MapMaxYplus1_Holder;
 	wxStaticText *MapMaxYplus1_Text;
 	AGETextCtrl *MapMaxYplus1;
 
-	wxBoxSizer *MaxTerrain_Holder;
 	wxStaticText *MaxTerrain_Text;
 	AGETextCtrl *MaxTerrain;
-	wxBoxSizer *TileWidth_Holder;
 	wxStaticText *TileWidth_Text;
 	AGETextCtrl *TileWidth;
-	wxBoxSizer *TileHeight_Holder;
 	wxStaticText *TileHeight_Text;
 	AGETextCtrl *TileHeight;
-	wxBoxSizer *TileHalfHeight_Holder;
 	wxStaticText *TileHalfHeight_Text;
 	AGETextCtrl *TileHalfHeight;
-	wxBoxSizer *TileHalfWidth_Holder;
 	wxStaticText *TileHalfWidth_Text;
 	AGETextCtrl *TileHalfWidth;
-	wxBoxSizer *ElevHeight_Holder;
 	wxStaticText *ElevHeight_Text;
 	AGETextCtrl *ElevHeight;
-	wxBoxSizer *CurRow_Holder;
 	wxStaticText *CurRow_Text;
 	AGETextCtrl *CurRow;
-	wxBoxSizer *CurCol_Holder;
 	wxStaticText *CurCol_Text;
 	AGETextCtrl *CurCol;
-	wxBoxSizer *BlockBegRow_Holder;
 	wxStaticText *BlockBegRow_Text;
 	AGETextCtrl *BlockBegRow;
-	wxBoxSizer *BlockEndRow_Holder;
 	wxStaticText *BlockEndRow_Text;
 	AGETextCtrl *BlockEndRow;
-	wxBoxSizer *BlockBegCol_Holder;
 	wxStaticText *BlockBegCol_Text;
 	AGETextCtrl *BlockBegCol;
-	wxBoxSizer *BlockEndCol_Holder;
 	wxStaticText *BlockEndCol_Text;
 	AGETextCtrl *BlockEndCol;
 
-	wxBoxSizer *UnknownPointer2_Holder;
 	wxStaticText *UnknownPointer2_Text;
 	AGETextCtrl *UnknownPointer2;
-	wxBoxSizer *UnknownPointer3_Holder;
 	wxStaticText *UnknownPointer3_Text;
 	AGETextCtrl *UnknownPointer3;
-	wxBoxSizer *AnyFrameChange_Holder;
 	wxStaticText *AnyFrameChange_Text;
 	AGETextCtrl *AnyFrameChange;
 
-	wxBoxSizer *MapVisibleFlag_Holder;
 	wxStaticText *MapVisibleFlag_Text;
 	AGETextCtrl *MapVisibleFlag;
-	wxBoxSizer *FogFlag_Holder;
 	wxStaticText *FogFlag_Text;
 	AGETextCtrl *FogFlag;
 
-	wxBoxSizer *General_TerrainRendering_Holder;
 	wxStaticText *General_TerrainRendering_Text;
 	wxGridSizer *General_TerrainRendering_Grid;
 	wxGridSizer *General_SomeBytes_Grid;
@@ -1048,7 +1021,6 @@ public:
 	array<AGETextCtrl*, 157> General_Something;
 
 	wxBoxSizer *Borders_Main;
-	wxBoxSizer *Borders_ListArea;
 	wxStaticBoxSizer *Borders_Borders;
 	wxGridSizer *Borders_Buttons;
 	wxTextCtrl *Borders_Search;
@@ -1195,25 +1167,11 @@ public:
 	wxStaticText *General_Unknown2_Text;
 	AGETextCtrl *General_Unknown2;
 
-	//wxBoxSizer *General_RenderPlusUnknown_Holder;
-	//wxBoxSizer *General_RenderPlusUnknownTop_Holder;
-	//wxStaticText *General_TechTree_Text;
-	//wxTextCtrl *General_SomethingPicker;
-	//wxButton *General_SomethingNext;
-	//wxButton *General_SomethingPrev;
-	//wxStaticText *General_SomethingSize;
-	//wxGridSizer *General_TechTree_Grid;
-	//array<AGETextCtrl*, 128> General_Something;
-
 	wxBoxSizer *Unknown_Main;
-	wxBoxSizer *Unknown_Area;
 	wxScrolledWindow *Unknown_Scroller;
-	wxBoxSizer *Unknown_ScrollArea;
 	wxBoxSizer *Unknown_ScrollSpace;
 
     forward_list<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
-	wxGridSizer *Unknown_UnknownPointer_Grid;
-	wxBoxSizer *Unknown_UnknownPointer_Holder;
 	wxStaticText *Unknown_UnknownPointer_Text;
 	AGETextCtrl *Unknown_UnknownPointer;
 
@@ -1406,11 +1364,8 @@ public:
 //	Researchs user interface
 
 	wxBoxSizer *Research_Main;
-	wxBoxSizer *Research_ListArea;
 	wxGridSizer *Research_Research_Buttons;
-	wxBoxSizer *Research_DataArea;
 	wxScrolledWindow *Research_Scroller;
-	wxBoxSizer *Research_ScrollArea;
 	wxBoxSizer *Research_ScrollSpace;
 	wxGridSizer *Research_MiscArea1_Grid;
 	wxBoxSizer *Research_LangDLLArea_Holder;
@@ -1527,7 +1482,6 @@ public:
 //	Techs user interface
 
 	wxBoxSizer *Techs_Main;
-	wxBoxSizer *Techs_ListArea;
 	wxGridSizer *Techs_Buttons;
 	wxBoxSizer *Effects_ListArea;
 	wxGridSizer *Techs_Effects_Buttons;
@@ -1578,7 +1532,6 @@ public:
 	wxButton *Techs_AllEffects_Load;
 	wxButton *Techs_AllEffects_Clear;
 
-	wxBoxSizer *Techs_Name_Holder;
 	wxStaticText *Techs_Name_Text;
 	AGETextCtrl *Techs_Name;
 
@@ -1629,12 +1582,10 @@ public:
 	wxBoxSizer *Effects_D_ComboBox;	// Space reserver, never used.
 	ComboBox_Plus1 *Effects_ResearchsD_ComboBox;	// for Effects 102
 	wxStaticText *Effects_Info_D;
-	wxHyperlinkCtrl *Effects_Link;
 
 //	Civs user interface
 
 	wxBoxSizer *Civs_Main;
-	wxBoxSizer *Civs_ListArea;
 	wxGridSizer *Civs_Civs_Buttons;
 	wxStaticBoxSizer *Civs_Civs;
 	wxTextCtrl *Civs_Civs_Search;
@@ -1672,7 +1623,6 @@ public:
 	wxBoxSizer *Civs_GraphicSet_Holder;
 	wxStaticText *Civs_GraphicSet_Text;
 	AGETextCtrl *Civs_GraphicSet;
-	wxBoxSizer *Civs_Resources_Holder;
 	wxStaticBoxSizer *Civs_Resources;
 	wxTextCtrl *Civs_Resources_Search;
 	wxTextCtrl *Civs_Resources_Search_R;
@@ -1689,32 +1639,9 @@ public:
 	wxBoxSizer *Civs_ResourceValue_Holder;
 	wxStaticText *Civs_ResourceValue_Text;
 	AGETextCtrl *Civs_ResourceValue;
-	wxHyperlinkCtrl *Civs_Resources_Holder_Link;
 
 //	Units user interface
 
-//	Data container types:
-/*
-	wxBoxSizer *invisible_borders_window;
-	wxStaticBoxSizer *visible_borders_window;
-	wxCollapsiblePane *hide_button_window;	// Doesn't work!
-	wxScrollBar *window_scroller;
-	wxTextCtrl *editable_text;
-	wxComboBox *drop_down_list;
-	wxCheckBoc *check_box;
-	wxStaticText *uneditable_text;
-	wxHyperlinkCtrl *web_link;
-
-//	Own text controls
-
-	VBoolTextCtrl *text 0 or 1;	DOES NOT EXIST, CREATE? DON'T!
-	AGETextCtrl *text -128 to 127;
-	AGETextCtrl *text +/- 3.4e +/- 38 (~7 digits);
-	AGETextCtrl *text -2147483648 to 2147483647;
-	AGETextCtrl *text -32768 to 32767;
-	AGETextCtrl *text pure text;
-*/
-//	Data Containers
 //	Type 10+
 
 	wxScrolledWindow *Units_Scroller;	// Scrollable unit section
@@ -2395,7 +2322,6 @@ public:
 //	End of Unit Controls
 
 	wxBoxSizer *Units_Main;	// Unit window
-	wxBoxSizer *Units_ListArea;	// Unit list section vertical division
 	wxGridSizer *Units_Buttons[2];	// Unit list section buttons
 
 	wxStaticBoxSizer *Units_Units;	// Unit list section vertical division excluding window borders
@@ -2430,7 +2356,6 @@ public:
 	wxBoxSizer *Units_DataArea;	// Unit window other-than unit-list-section
 
     forward_list<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitCommand;
-	wxBoxSizer *Units_ScrollArea;	// Scrollable section division
 	wxBoxSizer *Units_ScrollSpace;
 	wxStaticBoxSizer *Units_Identity_Holder;
 	wxBoxSizer *Units_TypeArea_Holder;
@@ -2602,7 +2527,6 @@ public:
 //	Graphics user interface
 
 	wxBoxSizer *Graphics_Main;
-	wxBoxSizer *Graphics_ListArea;
 	wxGridSizer *Graphics_Graphics_Buttons;
 	wxStaticBoxSizer *Graphics_Graphics;
 	wxBoxSizer *Graphics_Graphics_Searches[2];
@@ -2622,9 +2546,7 @@ public:
 	wxButton *Graphics_Enable;
 	wxButton *Graphics_Disable;
 
-	wxBoxSizer *Graphics_DataArea;
 	wxScrolledWindow *Graphics_Scroller;
-	wxBoxSizer *Graphics_ScrollArea;
 	wxBoxSizer *Graphics_ScrollSpace;
 
     forward_list<AGETextCtrl*> uiGroupGraphic, uiGroupGraphicDelta, uiGroupGraphicSound;
@@ -2766,7 +2688,6 @@ public:
 
     forward_list<AGETextCtrl*> uiGroupTerrain, uiGroupBorder, uiGroupBorderFrame;
 	wxBoxSizer *Terrains_Main;
-	wxBoxSizer *Terrains_ListArea;
 	wxStaticBoxSizer *Terrains_Terrains;
 	wxBoxSizer *Terrains_Terrains_Searches[2];
 	wxTextCtrl *Terrains_Terrains_Search;
@@ -2800,9 +2721,7 @@ public:
 	wxButton *Terrains_Borders_Paste;
 	wxButton *Terrains_Borders_CopyToTerrains;
 
-	wxBoxSizer *Terrains_DataArea;
 	wxScrolledWindow *Terrains_Scroller;
-	wxBoxSizer *Terrains_ScrollArea;
 	wxBoxSizer *Terrains_ScrollSpace;
 	wxBoxSizer *Terrains_NameArea_Holder;
 	wxGridSizer *Terrains_Area1_Grid;
@@ -2921,7 +2840,6 @@ public:
 //	Terrain restrictions user interface
 
 	wxBoxSizer *TerRestrict_Main;
-	wxBoxSizer *TerRestrict_ListArea;
 	wxGridSizer *TerRestrict_TerRestrict_Buttons;
 	wxStaticBoxSizer *TerRestrict_TerRestrict;
 	wxTextCtrl *TerRestrict_TerRestrict_Search;
@@ -3037,7 +2955,6 @@ public:
 //	Player Color user interface
 
 	wxBoxSizer *Colors_Main;
-	wxBoxSizer *Colors_ListArea;
 	wxGridSizer *Colors_Colors_Buttons;
 	wxStaticBoxSizer *Colors_Colors;
 	wxTextCtrl *Colors_Colors_Search;
@@ -3088,9 +3005,7 @@ public:
 //	Unitline user interface
 
 	wxBoxSizer *UnitLines_Main;
-	wxBoxSizer *UnitLines_ListArea;
 	wxGridSizer *UnitLines_UnitLines_Buttons;
-	wxBoxSizer *UnitLineUnits_ListArea;
 	wxGridSizer *UnitLines_UnitLineUnits_Buttons;
 	wxBoxSizer *UnitLines_DataArea;
 
@@ -3132,7 +3047,6 @@ public:
 //	Tech Tree user interface
 
 	wxBoxSizer *TechTrees_Main;
-	wxBoxSizer *TechTrees_All;
 	wxBoxSizer *TechTrees_TabAges;
 	wxBoxSizer *TechTrees_TabBuildings;
 	wxBoxSizer *TechTrees_TabUnits;
@@ -3141,14 +3055,6 @@ public:
 	wxScrolledWindow *TechTrees_ScrollerBuildings;
 	wxScrolledWindow *TechTrees_ScrollerUnits;
 	wxScrolledWindow *TechTrees_ScrollerResearches;
-	wxBoxSizer *TechTrees_ScrollArea1;
-	wxBoxSizer *TechTrees_ScrollArea2;
-	wxBoxSizer *TechTrees_ScrollArea3;
-	wxBoxSizer *TechTrees_ScrollArea4;
-	wxBoxSizer *TechTrees_ScrollSpace1;
-	wxBoxSizer *TechTrees_ScrollSpace2;
-	wxBoxSizer *TechTrees_ScrollSpace3;
-	wxBoxSizer *TechTrees_ScrollSpace4;
 	wxBoxSizer *TechTrees_MainList_Ages;
 	wxBoxSizer *TechTrees_MainList_Buildings;
 	wxBoxSizer *TechTrees_MainList_Units;
