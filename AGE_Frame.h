@@ -199,7 +199,7 @@ public:
 	void OnRandomMapCopy(wxCommandEvent &event);
 	void OnRandomMapPaste(wxCommandEvent &event);
 	void OnRandomMapPasteInsert(wxCommandEvent &event);
-	string GetRandomMapName(short);
+	string GetRandomMapName(int);
 
 	void ListRMSBaseZones();
 	void OnRMSBaseZoneSearch(wxCommandEvent &event);
@@ -212,7 +212,7 @@ public:
 	void OnRMSBaseZonePaste(wxCommandEvent &event);
 	void OnRMSBaseZonePasteInsert(wxCommandEvent &event);
 	void OnRMSBaseZoneCopyToMaps(wxCommandEvent &event);
-	string GetRMSBaseZonesName(short);
+	string GetRMSBaseZonesName(int);
 
 	void ListRMSTerrains();
 	void OnRMSTerrainSearch(wxCommandEvent &event);
@@ -225,7 +225,7 @@ public:
 	void OnRMSTerrainPaste(wxCommandEvent &event);
 	void OnRMSTerrainPasteInsert(wxCommandEvent &event);
 	void OnRMSTerrainCopyToMaps(wxCommandEvent &event);
-	string GetRMSTerrainName(short);
+	string GetRMSTerrainName(int);
 
 	void ListRMSUnits();
 	void OnRMSUnitSearch(wxCommandEvent &event);
@@ -238,7 +238,7 @@ public:
 	void OnRMSUnitPaste(wxCommandEvent &event);
 	void OnRMSUnitPasteInsert(wxCommandEvent &event);
 	void OnRMSUnitCopyToMaps(wxCommandEvent &event);
-	string GetRMSUnitName(short);
+	string GetRMSUnitName(int);
 
 	void ListRMSUnknowns();
 	void OnRMSUnknownSearch(wxCommandEvent &event);
@@ -251,7 +251,7 @@ public:
 	void OnRMSUnknownPaste(wxCommandEvent &event);
 	void OnRMSUnknownPasteInsert(wxCommandEvent &event);
 	void OnRMSUnknownCopyToMaps(wxCommandEvent &event);
-	string GetRMSUnknownName(short);
+	string GetRMSUnknownName(int);
 
 //	Research Events
 
@@ -265,7 +265,7 @@ public:
 	void OnResearchCopy(wxCommandEvent &event);
 	void OnResearchPaste(wxCommandEvent &event);
 	void OnResearchPasteInsert(wxCommandEvent &event);
-	string GetResearchName(short, bool = false);
+	string GetResearchName(int, bool = false);
 
 //	Tech Events
 
@@ -281,7 +281,7 @@ public:
 	void OnTechPasteInsert(wxCommandEvent &event);
 	void OnTechRename(wxCommandEvent &event);
 	void OnTechRenameGE2(wxCommandEvent &event);
-	string GetTechName(short);
+	string GetTechName(int);
 
 	void ListEffects();
 	void OnEffectsSearch(wxCommandEvent &event);
@@ -294,7 +294,7 @@ public:
 	void OnEffectsPaste(wxCommandEvent &event);
 	void OnEffectsPasteInsert(wxCommandEvent &event);
 	void OnEffectsCopyToTechs(wxCommandEvent &event);
-	string GetEffectName(short);
+	string GetEffectName(int, int);
 
 //	Tech Tree Events
 
@@ -308,7 +308,7 @@ public:
 	void OnTTAgesCopy(wxCommandEvent &event);
 	void OnTTAgesPaste(wxCommandEvent &event);
 	void OnTTAgesPasteInsert(wxCommandEvent &event);
-	string GetTTAgesName(short);
+	string GetTTAgesName(int);
 
 	void ListTTAgeBuildings();
 	void OnTTAgesBuildingSearch(wxCommandEvent &event);
@@ -321,7 +321,7 @@ public:
 	void OnTTAgesBuildingPaste(wxCommandEvent &event);
 	void OnTTAgesBuildingPasteInsert(wxCommandEvent &event);
 	void OnTTAgesBuildingCopyToAges(wxCommandEvent &event);
-	string GetBuildingName(short);
+	string GetBuildingName(int);
 
 	void ListTTAgeUnits();
 	void OnTTAgesUnitSearch(wxCommandEvent &event);
@@ -346,7 +346,7 @@ public:
 	void OnTTAgesResearchPaste(wxCommandEvent &event);
 	void OnTTAgesResearchPasteInsert(wxCommandEvent &event);
 	void OnTTAgesResearchCopyToAges(wxCommandEvent &event);
-	string GetSimpleResearchName(short);
+	string GetSimpleResearchName(int);
 
 	void ListTTAgeItems();
 	void OnTTAgeItemSearch(wxCommandEvent &event);
@@ -374,7 +374,7 @@ public:
 	void OnTTBuildingCopy(wxCommandEvent &event);
 	void OnTTBuildingPaste(wxCommandEvent &event);
 	void OnTTBuildingPasteInsert(wxCommandEvent &event);
-	string GetTTBuildingName(short);
+	string GetTTBuildingName(int);
 
 	void ListTTBuildingBuildings();
 	void OnTTBuildingBuildingSearch(wxCommandEvent &event);
@@ -430,7 +430,7 @@ public:
 	void OnTTUnitCopy(wxCommandEvent &event);
 	void OnTTUnitPaste(wxCommandEvent &event);
 	void OnTTUnitPasteInsert(wxCommandEvent &event);
-	string GetTTUnitName(short);
+	string GetTTUnitName(int);
 
 	void ListTTUnitUnits();
 	void OnTTUnitUnitSearch(wxCommandEvent &event);
@@ -464,7 +464,7 @@ public:
 	void OnTTResearchCopy(wxCommandEvent &event);
 	void OnTTResearchPaste(wxCommandEvent &event);
 	void OnTTResearchPasteInsert(wxCommandEvent &event);
-	string GetTTResearchName(short);
+	string GetTTResearchName(int);
 
 	void ListTTResearchBuildings();
 	void OnTTResearchBuildingSearch(wxCommandEvent &event);
@@ -522,7 +522,7 @@ public:
 	void OnCivsCopy(wxCommandEvent &event);
 	void OnCivsPaste(wxCommandEvent &event);
 	void OnCivsPasteInsert(wxCommandEvent &event);
-	string GetCivName(short);
+	string GetCivName(int);
 	void OnCivCountChange();
 
 	void ListResources(bool all = true);
@@ -536,7 +536,7 @@ public:
 	void OnResourcesPaste(wxCommandEvent &event);
 	void OnResourcesPasteInsert(wxCommandEvent &event);
 	void OnResourcesCopyToAll(wxCommandEvent &event);
-	string GetResourceName(short);
+	string GetResourceName(int);
 
 	void ListUnits(short civ, bool all = true);
 	void OnUnitsSearch(wxCommandEvent &event);
@@ -561,7 +561,7 @@ public:
 	//void OnExtractUnit(wxCommandEvent &event);
 	//void OnImportUnit(wxCommandEvent &event);
 	void OnUnitSubList(wxCommandEvent &event);
-	string GetUnitName(short, short, bool = false);
+	string GetUnitName(int, short, bool = false);
 
 	void ListUnitDamageGraphics();
 	void OnUnitDamageGraphicsSearch(wxCommandEvent &event);
@@ -574,7 +574,7 @@ public:
 	void OnUnitDamageGraphicsPaste(wxCommandEvent &event);
 	void OnUnitDamageGraphicsPasteInsert(wxCommandEvent &event);
 	void OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event);
-	string GetUnitDamageGraphicName(short);
+	string GetUnitDamageGraphicName(int);
 
 	void ListUnitAttacks();
 	void OnUnitAttacksSearch(wxCommandEvent &event);
@@ -587,7 +587,7 @@ public:
 	void OnUnitAttacksPaste(wxCommandEvent &event);
 	void OnUnitAttacksPasteInsert(wxCommandEvent &event);
 	void OnUnitAttacksCopyToUnits(wxCommandEvent &event);
-	string GetUnitAttackName(short);
+	string GetUnitAttackName(int);
 
 	void ListUnitArmors();
 	void OnUnitArmorsSearch(wxCommandEvent &event);
@@ -600,7 +600,7 @@ public:
 	void OnUnitArmorsPaste(wxCommandEvent &event);
 	void OnUnitArmorsPasteInsert(wxCommandEvent &event);
 	void OnUnitArmorsCopyToUnits(wxCommandEvent &event);
-	string GetUnitArmorName(short);
+	string GetUnitArmorName(int);
 
 //	Unit Events
 
@@ -615,7 +615,7 @@ public:
 	void OnUnitCommandsPaste(wxCommandEvent &event);
 	void OnUnitCommandsPasteInsert(wxCommandEvent &event);
 	void OnUnitCommandsCopyToUnits(wxCommandEvent &event);
-	wxString GetUnitCommandName(short);
+	wxString GetUnitCommandName(int);
 
 //	Unitline Events
 
@@ -629,7 +629,7 @@ public:
 	void OnUnitLinesCopy(wxCommandEvent &event);
 	void OnUnitLinesPaste(wxCommandEvent &event);
 	void OnUnitLinesPasteInsert(wxCommandEvent &event);
-	string GetUnitLineName(short);
+	string GetUnitLineName(int);
 
 	void ListUnitLineUnits();
 	void OnUnitLineUnitsSearch(wxCommandEvent &event);
@@ -642,7 +642,7 @@ public:
 	void OnUnitLineUnitsPaste(wxCommandEvent &event);
 	void OnUnitLineUnitsPasteInsert(wxCommandEvent &event);
 	void OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &event);
-	string GetUnitLineUnitName(short);
+	string GetUnitLineUnitName(int);
 
 //	Graphic Events
 
@@ -658,7 +658,7 @@ public:
 	void OnGraphicsPasteInsert(wxCommandEvent &event);
 	void OnGraphicsEnable(wxCommandEvent &event);
 	void OnGraphicsDisable(wxCommandEvent &event);
-	string GetGraphicName(short, bool = false);
+	string GetGraphicName(int, bool = false);
 
 	void ListGraphicDeltas();
 	void OnGraphicDeltasSearch(wxCommandEvent &event);
@@ -671,7 +671,7 @@ public:
 	void OnGraphicDeltasPaste(wxCommandEvent &event);
 	void OnGraphicDeltasPasteInsert(wxCommandEvent &event);
 	void OnGraphicDeltasCopyToGraphics(wxCommandEvent &event);
-	string GetGraphicDeltaName(short);
+	string GetGraphicDeltaName(int);
 
 	void ListGraphicAttackSounds();
 	void OnGraphicAttackSoundsSearch(wxCommandEvent &event);
@@ -679,7 +679,7 @@ public:
 	void OnGraphicAttackSoundsSelect(wxCommandEvent &event);
 	void OnGraphicAttackSoundsCopy(wxCommandEvent &event);
 	void OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event);
-	string GetGraphicAttackSoundName(short);
+	string GetGraphicAttackSoundName(int);
 
 //	Terrain Events
 
@@ -697,7 +697,7 @@ public:
 	void OnTerrainsCopy(wxCommandEvent &event);
 	void OnTerrainsPaste(wxCommandEvent &event);
 	void OnTerrainsPasteInsert(wxCommandEvent &event);
-	string GetTerrainName(short, bool = false);
+	string GetTerrainName(int, bool = false);
 
 	void OnTerrainsBorderSearch(wxCommandEvent &event);
 	void ListTerrainsBorders();
@@ -715,7 +715,7 @@ public:
 	void OnTerrainBordersSelect(wxCommandEvent &event);
 	void OnTerrainBordersCopy(wxCommandEvent &event);
 	void OnTerrainBordersPaste(wxCommandEvent &event);
-	string GetTerrainBorderName(short);
+	string GetTerrainBorderName(int);
 
 	void ListTerrainBorderFrames();
 	void OnTerrainBorderFramesSearch(wxCommandEvent &event);
@@ -724,7 +724,7 @@ public:
 	void OnTerrainBorderFramesCopy(wxCommandEvent &event);
 	void OnTerrainBorderFramesPaste(wxCommandEvent &event);
 	void OnTerrainBorderFramesCopyToBorders(wxCommandEvent &event);
-	string GetTerrainBorderFrameName(short);
+	string GetTerrainBorderFrameName(int);
 
 //	Terrain Restriction Events
 
@@ -742,7 +742,7 @@ public:
 	void OnTerrainRestrictionsPasteInsert(wxCommandEvent &event);
 	void OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event);
 	void OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event);
-	string GetTerrainRestrictionName(short);
+	string GetTerrainRestrictionName(int);
 
 //	Sound Events
 
@@ -756,7 +756,7 @@ public:
 	void OnSoundsCopy(wxCommandEvent &event);
 	void OnSoundsPaste(wxCommandEvent &event);
 	void OnSoundsPasteInsert(wxCommandEvent &event);
-	string GetSoundName(short);
+	string GetSoundName(int);
 
 	void ListSoundItems();
 	void OnSoundItemsSearch(wxCommandEvent &event);
@@ -769,7 +769,7 @@ public:
 	void OnSoundItemsPaste(wxCommandEvent &event);
 	void OnSoundItemsPasteInsert(wxCommandEvent &event);
 	void OnSoundItemsCopyToSounds(wxCommandEvent &event);
-	string GetSoundItemName(short);
+	string GetSoundItemName(int, int);
 
 //	Player Color Events
 
@@ -783,7 +783,7 @@ public:
 	void OnPlayerColorsCopy(wxCommandEvent &event);
 	void OnPlayerColorsPaste(wxCommandEvent &event);
 	void OnPlayerColorsPasteInsert(wxCommandEvent &event);
-	string GetPlayerColorName(short);
+	string GetPlayerColorName(int);
 
 //	Application Variables
 
@@ -2966,12 +2966,9 @@ public:
 //	Sound user interface
 
 	wxBoxSizer *Sounds_Main;
-	wxBoxSizer *Sounds_ListArea;
 	wxGridSizer *Sounds_Sounds_Buttons;
-	wxBoxSizer *SoundItems_ListArea;
 	wxGridSizer *Sounds_Items_Buttons;
 	wxBoxSizer *Sounds_DataArea;
-	wxBoxSizer *Sounds_AllArea;
 
 	wxStaticBoxSizer *Sounds_Sounds;
 	wxTextCtrl *Sounds_Sounds_Search;
@@ -3025,6 +3022,7 @@ public:
 	wxBoxSizer *SoundItems_Unknown_Holder;
 	wxStaticText *SoundItems_Unknown_Text;
 	AGETextCtrl *SoundItems_Unknown;
+    wxButton *SoundFile_Play;
 
 	wxStaticBoxSizer *Sounds_AllItems;
 	wxBoxSizer *Sounds_AllItems_Searches[2];

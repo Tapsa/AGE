@@ -490,14 +490,14 @@ void AGE_Frame::OnRandomMapSearch(wxCommandEvent &event)
 	ListRandomMaps();
 }
 
-string AGE_Frame::GetRandomMapName(short Index)
+string AGE_Frame::GetRandomMapName(int index)
 {
 	if(GenieVersion >= genie::GV_AoK)
 	{
-		return "Map "+lexical_cast<string>(dataset->RandomMaps.MapHeaders[Index].ScriptNumber)+" ";
+		return "Map "+lexical_cast<string>(dataset->RandomMaps.MapHeaders[index].ScriptNumber)+" ";
 	}
 	string Name = "";
-	switch(Index)
+	switch(index)
 	{
 		case 0: Name += "Small Islands ("; break;
 		case 1: Name += "Large Islands ("; break;
@@ -511,7 +511,7 @@ string AGE_Frame::GetRandomMapName(short Index)
 		case 9: Name += "Gigantic ("; break;
 		default: Name += "Map (";
 	}
-	return Name += lexical_cast<string>(dataset->RandomMaps.MapHeaders[Index].ScriptNumber)+")";
+	return Name += lexical_cast<string>(dataset->RandomMaps.MapHeaders[index].ScriptNumber)+")";
 }
 
 void AGE_Frame::ListRandomMaps()
@@ -684,9 +684,9 @@ void AGE_Frame::OnRMSBaseZoneSearch(wxCommandEvent &event)
 	ListRMSBaseZones();
 }
 
-string AGE_Frame::GetRMSBaseZonesName(short Index)
+string AGE_Frame::GetRMSBaseZonesName(int index)
 {
-	return "Base Zone "+lexical_cast<string>(dataset->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[Index].Unknown1)+" ";
+	return "Base Zone "+lexical_cast<string>(dataset->RandomMaps.Maps[RandomMapIDs[0]].BaseZones[index].Unknown1)+" ";
 }
 
 void AGE_Frame::ListRMSBaseZones()
@@ -842,7 +842,7 @@ void AGE_Frame::OnRMSTerrainSearch(wxCommandEvent &event)
 	ListRMSTerrains();
 }
 
-string AGE_Frame::GetRMSTerrainName(short Terrain)
+string AGE_Frame::GetRMSTerrainName(int Terrain)
 {
 	string Name = lexical_cast<string>(Terrain)+" ";
 	if(dataset->TerrainBlock.Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
@@ -1151,7 +1151,7 @@ void AGE_Frame::OnRMSUnknownSearch(wxCommandEvent &event)
 	ListRMSUnknowns();
 }
 
-string AGE_Frame::GetRMSUnknownName(short Terrain)
+string AGE_Frame::GetRMSUnknownName(int Terrain)
 {
 	string Name = lexical_cast<string>(Terrain)+" ";
 	if(dataset->TerrainBlock.Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
@@ -1569,9 +1569,7 @@ void AGE_Frame::CreateUnknownControls()
 
 	Unknowns_ListArea->Add(Unknowns_Search, 0, wxEXPAND);
 	Unknowns_ListArea->Add(Unknowns_Search_R, 0, wxEXPAND);
-	Unknowns_ListArea->AddSpacer(2);
-	Unknowns_ListArea->Add(Unknowns_ListV, 1, wxEXPAND);
-	Unknowns_ListArea->AddSpacer(2);
+	Unknowns_ListArea->Add(Unknowns_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Unknowns_ListArea->Add(Unknowns_Buttons, 0, wxEXPAND);
 
 	Unknowns_UnknownLevel_Holder->Add(Unknowns_UnknownLevel_Text, 0, wxEXPAND);
@@ -1600,12 +1598,9 @@ void AGE_Frame::CreateUnknownControls()
 
 	RMSBaseZones_ListArea->Add(RMSBaseZones_Search, 0, wxEXPAND);
 	RMSBaseZones_ListArea->Add(RMSBaseZones_Search_R, 0, wxEXPAND);
-	RMSBaseZones_ListArea->AddSpacer(2);
-	RMSBaseZones_ListArea->Add(RMSBaseZones_ListV, 1, wxEXPAND);
-	RMSBaseZones_ListArea->AddSpacer(2);
+	RMSBaseZones_ListArea->Add(RMSBaseZones_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	RMSBaseZones_ListArea->Add(RMSBaseZones_Buttons, 0, wxEXPAND);
-	RMSBaseZones_ListArea->AddSpacer(2);
-	RMSBaseZones_ListArea->Add(RMSBaseZones_CopyToMaps, 0, wxEXPAND);
+	RMSBaseZones_ListArea->Add(RMSBaseZones_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
 	RMSBaseZones_Unknown1_Holder->Add(RMSBaseZones_Unknown1_Text, 0, wxEXPAND);
 	RMSBaseZones_Unknown1_Holder->Add(RMSBaseZones_Unknown1, 1, wxEXPAND);
@@ -1664,12 +1659,9 @@ void AGE_Frame::CreateUnknownControls()
 
 	RMSTerrain_ListArea->Add(RMSTerrain_Search, 0, wxEXPAND);
 	RMSTerrain_ListArea->Add(RMSTerrain_Search_R, 0, wxEXPAND);
-	RMSTerrain_ListArea->AddSpacer(2);
-	RMSTerrain_ListArea->Add(RMSTerrain_ListV, 1, wxEXPAND);
-	RMSTerrain_ListArea->AddSpacer(2);
+	RMSTerrain_ListArea->Add(RMSTerrain_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	RMSTerrain_ListArea->Add(RMSTerrain_Buttons, 0, wxEXPAND);
-	RMSTerrain_ListArea->AddSpacer(2);
-	RMSTerrain_ListArea->Add(RMSTerrain_CopyToMaps, 0, wxEXPAND);
+	RMSTerrain_ListArea->Add(RMSTerrain_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
 	for(short loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	{
@@ -1697,12 +1689,9 @@ void AGE_Frame::CreateUnknownControls()
 
 	RMSUnit_ListArea->Add(RMSUnit_Search, 0, wxEXPAND);
 	RMSUnit_ListArea->Add(RMSUnit_Search_R, 0, wxEXPAND);
-	RMSUnit_ListArea->AddSpacer(2);
-	RMSUnit_ListArea->Add(RMSUnit_ListV, 1, wxEXPAND);
-	RMSUnit_ListArea->AddSpacer(2);
+	RMSUnit_ListArea->Add(RMSUnit_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	RMSUnit_ListArea->Add(RMSUnit_Buttons, 0, wxEXPAND);
-	RMSUnit_ListArea->AddSpacer(2);
-	RMSUnit_ListArea->Add(RMSUnit_CopyToMaps, 0, wxEXPAND);
+	RMSUnit_ListArea->Add(RMSUnit_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
 	RMSUnit_Unit_Holder->Add(RMSUnit_Unit_Text, 0, wxEXPAND);
 	RMSUnit_Unit_Holder->Add(RMSUnit_Unit, 1, wxEXPAND);
@@ -1759,12 +1748,9 @@ void AGE_Frame::CreateUnknownControls()
 
 	RMSUnknown_ListArea->Add(RMSUnknown_Search, 0, wxEXPAND);
 	RMSUnknown_ListArea->Add(RMSUnknown_Search_R, 0, wxEXPAND);
-	RMSUnknown_ListArea->AddSpacer(2);
-	RMSUnknown_ListArea->Add(RMSUnknown_ListV, 1, wxEXPAND);
-	RMSUnknown_ListArea->AddSpacer(2);
+	RMSUnknown_ListArea->Add(RMSUnknown_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	RMSUnknown_ListArea->Add(RMSUnknown_Buttons, 0, wxEXPAND);
-	RMSUnknown_ListArea->AddSpacer(2);
-	RMSUnknown_ListArea->Add(RMSUnknown_CopyToMaps, 0, wxEXPAND);
+	RMSUnknown_ListArea->Add(RMSUnknown_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
 	for(short loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
 	{

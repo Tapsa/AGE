@@ -1,9 +1,9 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetGraphicName(short Index, bool Filter)
+string AGE_Frame::GetGraphicName(int index, bool Filter)
 {
 	string Name = "";
-	if(GenieVersion >= genie::GV_AoE && dataset->GraphicPointers[Index] == 0)
+	if(GenieVersion >= genie::GV_AoE && dataset->GraphicPointers[index] == 0)
 	{
 		return "*Disabled*";
 	}
@@ -19,60 +19,60 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 			switch(Selection[loop])
 			{
 				case 2: // SLP
-					Name += "SLP "+FormatInt(dataset->Graphics[Index].SLP);
+					Name += "SLP "+FormatInt(dataset->Graphics[index].SLP);
 					break;
 				case 3: // Unknown 1
-					Name += "U1 "+FormatInt(dataset->Graphics[Index].Unknown1);
+					Name += "U1 "+FormatInt(dataset->Graphics[index].Unknown1);
 					break;
 				case 4: // Unknown 2
-					Name += "U2 "+FormatInt(dataset->Graphics[Index].Unknown2);
+					Name += "U2 "+FormatInt(dataset->Graphics[index].Unknown2);
 					break;
 				case 5: // Layer
-					Name += "L "+FormatInt(dataset->Graphics[Index].Layer);
+					Name += "L "+FormatInt(dataset->Graphics[index].Layer);
 					break;
 				case 6: // Player Color Forcer
-					Name += "PC "+FormatInt(dataset->Graphics[Index].PlayerColor);
+					Name += "PC "+FormatInt(dataset->Graphics[index].PlayerColor);
 					break;
 				case 7: // Replay
-					Name += "R "+FormatInt(dataset->Graphics[Index].Replay);
+					Name += "R "+FormatInt(dataset->Graphics[index].Replay);
 					break;
 				case 8: // Sound
-					Name += "So "+FormatInt(dataset->Graphics[Index].SoundID);
+					Name += "So "+FormatInt(dataset->Graphics[index].SoundID);
 					break;
 				case 9: // Coordinates
 					break;
 				case 10: // Deltas
-					Name += "DC "+FormatInt(dataset->Graphics[Index].Deltas.size());
+					Name += "DC "+FormatInt(dataset->Graphics[index].Deltas.size());
 					break;
 				case 11: // Attack Sound Used
-					Name += "U "+FormatInt(dataset->Graphics[Index].AttackSoundUsed);
+					Name += "U "+FormatInt(dataset->Graphics[index].AttackSoundUsed);
 					break;
 				case 12: // Frames
-					Name += "FC "+FormatInt(dataset->Graphics[Index].FrameCount);
+					Name += "FC "+FormatInt(dataset->Graphics[index].FrameCount);
 					break;
 				case 13: // Angles
-					Name += "AC "+FormatInt(dataset->Graphics[Index].AngleCount);
+					Name += "AC "+FormatInt(dataset->Graphics[index].AngleCount);
 					break;
 				case 14: // Speed
-					Name += "Sp "+FormatFloat(dataset->Graphics[Index].NewSpeed);
+					Name += "Sp "+FormatFloat(dataset->Graphics[index].NewSpeed);
 					break;
 				case 15: // Frame Rate
-					Name += "FR "+FormatFloat(dataset->Graphics[Index].FrameRate);
+					Name += "FR "+FormatFloat(dataset->Graphics[index].FrameRate);
 					break;
 				case 16: // Replay Delay
-					Name += "RD "+FormatFloat(dataset->Graphics[Index].ReplayDelay);
+					Name += "RD "+FormatFloat(dataset->Graphics[index].ReplayDelay);
 					break;
 				case 17: // Sequence Type
-					Name += "ST "+FormatInt(dataset->Graphics[Index].SequenceType);
+					Name += "ST "+FormatInt(dataset->Graphics[index].SequenceType);
 					break;
 				case 18: // Mirroring Mode
-					Name += "M "+FormatInt(dataset->Graphics[Index].MirroringMode);
+					Name += "M "+FormatInt(dataset->Graphics[index].MirroringMode);
 					break;
 				case 19: // Unknown 3
-					Name += "U3 "+FormatInt(dataset->Graphics[Index].Unknown3);
+					Name += "U3 "+FormatInt(dataset->Graphics[index].Unknown3);
 					break;
 				case 20: // Pointer
-					Name = FormatInt(dataset->GraphicPointers[Index]);
+					Name = FormatInt(dataset->GraphicPointers[index]);
 					break;
 			}
 			Name += ", ";
@@ -81,14 +81,14 @@ string AGE_Frame::GetGraphicName(short Index, bool Filter)
 		if(Selection[0] == 1) goto InternalName;
 	}
 
-	if(!dataset->Graphics[Index].Name.empty())
+	if(!dataset->Graphics[index].Name.empty())
 	{
-		return Name + dataset->Graphics[Index].Name;
+		return Name + dataset->Graphics[index].Name;
 	}
 InternalName:
-	if(!dataset->Graphics[Index].Name2.empty())
+	if(!dataset->Graphics[index].Name2.empty())
 	{
-		return Name + dataset->Graphics[Index].Name2;
+		return Name + dataset->Graphics[index].Name2;
 	}
 	return Name + "New Graphic";
 }
@@ -563,9 +563,9 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
 	ListGraphics();
 }
 
-string AGE_Frame::GetGraphicDeltaName(short Index)
+string AGE_Frame::GetGraphicDeltaName(int index)
 {
-    int deltaID = dataset->Graphics[GraphicIDs[0]].Deltas[Index].GraphicID;
+    int deltaID = dataset->Graphics[GraphicIDs[0]].Deltas[index].GraphicID;
 	if(deltaID < dataset->Graphics.size())
 	return lexical_cast<string>(deltaID) + ": " + GetGraphicName(deltaID, false) + " ";
 	return "Re-drawer "+lexical_cast<string>(deltaID)+" ";
@@ -713,9 +713,9 @@ void AGE_Frame::OnGraphicDeltasCopyToGraphics(wxCommandEvent &event)
 	}
 }
 
-string AGE_Frame::GetGraphicAttackSoundName(short Index)
+string AGE_Frame::GetGraphicAttackSoundName(int index)
 {
-	return "Attack sound "+lexical_cast<string>(Index);
+	return "Attack sound "+lexical_cast<string>(index);
 }
 
 void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent &event)
@@ -1016,18 +1016,14 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_Buttons->Add(Graphics_Disable, 1, wxEXPAND);
 
 	Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_Search, 1, wxEXPAND);
-	Graphics_Graphics_Searches[0]->AddSpacer(2);
-	Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_UseAnd[0], 0, wxEXPAND);
+	Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_Search_R, 1, wxEXPAND);
-	Graphics_Graphics_Searches[1]->AddSpacer(2);
-	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_UseAnd[1], 0, wxEXPAND);
+	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 	for(short loop = 0; loop < 2; ++loop)
 	Graphics_Graphics->Add(Graphics_Graphics_Searches[loop], 0, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
 	Graphics_Graphics->Add(Graphics_SearchFilters[loop], 0, wxEXPAND);
-	Graphics_Graphics->AddSpacer(2);
-	Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND);
-	Graphics_Graphics->AddSpacer(2);
+	Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
 
 	Graphics_ListArea->AddSpacer(5);
@@ -1117,12 +1113,9 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Graphics_Deltas->Add(Graphics_Deltas_Search, 0, wxEXPAND);
 	Graphics_Deltas->Add(Graphics_Deltas_Search_R, 0, wxEXPAND);
-	Graphics_Deltas->AddSpacer(2);
-	Graphics_Deltas->Add(Graphics_Deltas_ListV, 1, wxEXPAND);
-	Graphics_Deltas->AddSpacer(2);
+	Graphics_Deltas->Add(Graphics_Deltas_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Graphics_Deltas->Add(Graphics_Deltas_Buttons, 0, wxEXPAND);
-	Graphics_Deltas->AddSpacer(2);
-	Graphics_Deltas->Add(Deltas_CopyToGraphics, 0, wxEXPAND);
+	Graphics_Deltas->Add(Deltas_CopyToGraphics, 0, wxEXPAND | wxTOP, 2);
 
 	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_Text, 0, wxEXPAND);
 	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID, 1, wxEXPAND);
@@ -1160,11 +1153,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Deltas_Holder->AddSpacer(5);
 	Graphics_Deltas_Holder->Add(Graphics_Deltas_Holder_Data, 3, wxEXPAND);
 
-	Graphics_AttackSounds->Add(Graphics_AttackSounds_ListV, 1, wxEXPAND);
-	Graphics_AttackSounds->AddSpacer(2);
+	Graphics_AttackSounds->Add(Graphics_AttackSounds_ListV, 1, wxEXPAND | wxBOTTOM, 2);
 	Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
-	Graphics_AttackSounds->AddSpacer(2);
-	Graphics_AttackSounds->Add(AttackSounds_CopyToGraphics, 0, wxEXPAND);
+	Graphics_AttackSounds->Add(AttackSounds_CopyToGraphics, 0, wxEXPAND | wxTOP, 2);
 
 	Graphics_AttackSounds_Holder->Add(Graphics_AttackSounds_Text, 0, wxEXPAND);
 	Graphics_AttackSounds_Holder->Add(Graphics_AttackSounds_Grid, 0, wxEXPAND);
