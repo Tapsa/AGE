@@ -229,7 +229,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             graphicSLP.deltas.clear();
             // Load possible delta graphics.
             if(ShowDeltas)
-            for(auto &delta: dataset->Graphics[graphicSLP.datID].Deltas)
+            for(auto const &delta: dataset->Graphics[graphicSLP.datID].Deltas)
             {
                 AGE_SLP deltaSLP;
                 if(delta.GraphicID < dataset->Graphics.size())
