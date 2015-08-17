@@ -1,9 +1,9 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetTechName(short Index)
+string AGE_Frame::GetTechName(int index)
 {
-	if(!dataset->Techages[Index].Name.empty())
-		return dataset->Techages[Index].Name+" ";
+	if(!dataset->Techages[index].Name.empty())
+		return dataset->Techages[index].Name+" ";
 	return "New Technology ";
 }
 
@@ -212,96 +212,96 @@ void AGE_Frame::OnTechPasteInsert(wxCommandEvent &event)	// Works.
 	ListTechs();
 }
 
-string AGE_Frame::GetEffectName(short Index)
+string AGE_Frame::GetEffectName(int effect, int tech)
 {
 	string Name = "";
-	switch(dataset->Techages[TechIDs[0]].Effects[Index].Type)
+	switch(dataset->Techages[tech].Effects[effect].Type)
 	{
 		case 0:
 			//Name = "Attribute Modifier (Set)";
-			Name = "Set attr. "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].C)
-			+" to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D)+" for ";
-			if(dataset->Techages[TechIDs[0]].Effects[Index].B == -1)
-				Name += "unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A);
+			Name = "Set attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
+			+" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D)+" for ";
+			if(dataset->Techages[tech].Effects[effect].B == -1)
+				Name += "unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
 			else
-				Name += "class "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B);
+				Name += "class "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
 			break;
 		case 1:
 			//Name = "Resource Modifier (Set/+/-)";
-			if(dataset->Techages[TechIDs[0]].Effects[Index].B == 0)
+			if(dataset->Techages[tech].Effects[effect].B == 0)
 			{
-				Name = "Set resource "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
-				+" to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Set resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+				+" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			}
 			else
 			{
-				Name = "Change resource "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
-				+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Change resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+				+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			}
 			break;
 		case 2:
-			if(dataset->Techages[TechIDs[0]].Effects[Index].B == 0)
+			if(dataset->Techages[tech].Effects[effect].B == 0)
 				Name = "Disable";
 			else
 				Name = "Enable";
-			Name += " unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A);
+			Name += " unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
 			break;
 		case 3:
-			Name = "Upgrade unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
-			+" to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B);
+			Name = "Upgrade unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+			+" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
 			break;
 		case 4:
 			//Name = "Attribute Modifier (+/-)";
-			Name = "Change attr. "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].C)
-			+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D)+" for ";
-			if(dataset->Techages[TechIDs[0]].Effects[Index].B == -1)
-				Name += "unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A);
+			Name = "Change attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
+			+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D)+" for ";
+			if(dataset->Techages[tech].Effects[effect].B == -1)
+				Name += "unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
 			else
-				Name += "class "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B);
+				Name += "class "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
 			break;
 		case 5:
 			//Name = "Attribute Modifier (Multiply)";
-			Name = "Multiply attr. "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].C)
-			+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D)+" for ";
-			if(dataset->Techages[TechIDs[0]].Effects[Index].B == -1)
-				Name += "unit "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A);
+			Name = "Multiply attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
+			+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D)+" for ";
+			if(dataset->Techages[tech].Effects[effect].B == -1)
+				Name += "unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
 			else
-				Name += "class "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B);
+				Name += "class "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
 			break;
 		case 6:
 			//Name = "Resource Modifier (Multiply)";
-			Name = "Multiply resource "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
-			+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
+			Name = "Multiply resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+			+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			break;
 		case 101:
 			//Name = "Research Cost Modifier (Set/+/-)";
-			if(dataset->Techages[TechIDs[0]].Effects[Index].C == 0)
+			if(dataset->Techages[tech].Effects[effect].C == 0)
 			{
-				Name = "Set research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
-				+" cost type "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B)
-				+" to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Set research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+				+" cost type "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B)
+				+" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			}
 			else
 			{
-				Name = "Change research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
-				+" cost type "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].B)
-				+" by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Change research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+				+" cost type "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B)
+				+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			}
 			break;
 		case 102:
-			Name = "Disable research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
+			Name = "Disable research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			break;
 		case 103:
 			//Name = "Research Time Modifier (Set/+/-)";
-			if(dataset->Techages[TechIDs[0]].Effects[Index].C == 0)
+			if(dataset->Techages[tech].Effects[effect].C == 0)
 			{
-				Name = "Set research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
-				+" time to "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Set research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+				+" time to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			}
 			else
 			{
-				Name = "Change research "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].A)
-				+" time by "+lexical_cast<string>(dataset->Techages[TechIDs[0]].Effects[Index].D);
+				Name = "Change research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+				+" time by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			}
 			break;
 		default:
@@ -329,7 +329,7 @@ void AGE_Frame::ListEffects()
     if(dataset->Techages.size())
 	for(short loop = 0; loop < dataset->Techages[TechIDs[0]].Effects.size(); ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - "+GetEffectName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetEffectName(loop, TechIDs[0]);
 		if(SearchMatches(Name.Lower()))
 		{
 			Techs_Effects_ListV->names.Add(Name);
@@ -996,20 +996,17 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
 
 	Techs_AllEffects_ListV->names.clear();
 
-	short Store = TechIDs[0];
 	for(short tech = 0; tech < dataset->Techages.size(); ++tech)
 	{
-		TechIDs[0] = tech;
 		for(short effect = 0; effect < dataset->Techages[tech].Effects.size(); ++effect)
 		{
-			Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect);
+			Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect, tech);
 			if(SearchMatches(Name.Lower()))
 			{
 				Techs_AllEffects_ListV->names.Add(Name);
 			}
 		}
 	}
-	TechIDs[0] = Store;
 
     virtualListing(Techs_AllEffects_ListV);
 	//Techs_AllEffects_ListV->SetFocus(); You need to check if searched or not.
@@ -1182,16 +1179,12 @@ void AGE_Frame::CreateTechControls()
 	Techs_Buttons->Add(Techs_PasteInsert, 1, wxEXPAND);
 
 	Techs_Searches[0]->Add(Techs_Search, 1, wxEXPAND);
-	Techs_Searches[0]->AddSpacer(2);
-	Techs_Searches[0]->Add(Techs_UseAnd[0], 0, wxEXPAND);
+	Techs_Searches[0]->Add(Techs_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Techs_Searches[1]->Add(Techs_Search_R, 1, wxEXPAND);
-	Techs_Searches[1]->AddSpacer(2);
-	Techs_Searches[1]->Add(Techs_UseAnd[1], 0, wxEXPAND);
+	Techs_Searches[1]->Add(Techs_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 	Techs_Techs->Add(Techs_Searches[0], 0, wxEXPAND);
 	Techs_Techs->Add(Techs_Searches[1], 0, wxEXPAND);
-	Techs_Techs->AddSpacer(2);
-	Techs_Techs->Add(Techs_ListV, 1, wxEXPAND);
-	Techs_Techs->AddSpacer(2);
+	Techs_Techs->Add(Techs_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Techs_Techs->Add(Techs_Buttons, 0, wxEXPAND);
 
 	Techs_ListArea->AddSpacer(5);
@@ -1211,19 +1204,14 @@ void AGE_Frame::CreateTechControls()
 	Techs_Name_Holder->Add(Techs_Restore, 1, wxEXPAND);
 
 	Techs_Effects_Searches[0]->Add(Techs_Effects_Search, 1, wxEXPAND);
-	Techs_Effects_Searches[0]->AddSpacer(2);
-	Techs_Effects_Searches[0]->Add(Techs_Effects_UseAnd[0], 0, wxEXPAND);
+	Techs_Effects_Searches[0]->Add(Techs_Effects_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Techs_Effects_Searches[1]->Add(Techs_Effects_Search_R, 1, wxEXPAND);
-	Techs_Effects_Searches[1]->AddSpacer(2);
-	Techs_Effects_Searches[1]->Add(Techs_Effects_UseAnd[1], 0, wxEXPAND);
+	Techs_Effects_Searches[1]->Add(Techs_Effects_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 	Techs_Effects->Add(Techs_Effects_Searches[0], 0, wxEXPAND);
 	Techs_Effects->Add(Techs_Effects_Searches[1], 0, wxEXPAND);
-	Techs_Effects->AddSpacer(2);
-	Techs_Effects->Add(Techs_Effects_ListV, 1, wxEXPAND);
-	Techs_Effects->AddSpacer(2);
+	Techs_Effects->Add(Techs_Effects_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Techs_Effects->Add(Techs_Effects_Buttons, 0, wxEXPAND);
-	Techs_Effects->AddSpacer(2);
-	Techs_Effects->Add(Techs_Effects_CopyToTechs, 0, wxEXPAND);
+	Techs_Effects->Add(Techs_Effects_CopyToTechs, 0, wxEXPAND | wxTOP, 2);
 
 	Effects_ListArea->AddSpacer(5);
 	Effects_ListArea->Add(Techs_Name_Holder, 0, wxEXPAND);
@@ -1301,18 +1289,13 @@ void AGE_Frame::CreateTechControls()
 	Effects_Data_Holder->Add(Effects_DataF_Holder, 0, wxEXPAND);
 
 	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_Search, 1, wxEXPAND);
-	Techs_AllEffects_Searches[0]->AddSpacer(2);
-	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_UseAnd[0], 0, wxEXPAND);
+	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_Search_R, 1, wxEXPAND);
-	Techs_AllEffects_Searches[1]->AddSpacer(2);
-	Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_UseAnd[1], 0, wxEXPAND);
+	Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 	Techs_AllEffects->Add(Techs_AllEffects_Searches[0], 0, wxEXPAND);
 	Techs_AllEffects->Add(Techs_AllEffects_Searches[1], 0, wxEXPAND);
-	Techs_AllEffects->AddSpacer(2);
-	Techs_AllEffects->Add(Techs_AllEffects_ListV, 1, wxEXPAND);
-	Techs_AllEffects->AddSpacer(2);
-	Techs_AllEffects_Buttons->Add(Techs_AllEffects_Load, 2, wxEXPAND);
-	Techs_AllEffects_Buttons->AddSpacer(2);
+	Techs_AllEffects->Add(Techs_AllEffects_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+	Techs_AllEffects_Buttons->Add(Techs_AllEffects_Load, 2, wxEXPAND | wxRIGHT, 2);
 	Techs_AllEffects_Buttons->Add(Techs_AllEffects_Clear, 1, wxEXPAND);
 	Techs_AllEffects->Add(Techs_AllEffects_Buttons, 0, wxEXPAND);
 

@@ -6,12 +6,12 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &event)
 	ListCivs(false);
 }
 
-string AGE_Frame::GetCivName(short Index)
+string AGE_Frame::GetCivName(int index)
 {
 	if(GenieVersion < genie::GV_SWGB)
-	return dataset->Civs[Index].Name+" ("+lexical_cast<string>((short)dataset->Civs[Index].IconSet)+")";
+	return dataset->Civs[index].Name+" ("+lexical_cast<string>((short)dataset->Civs[index].IconSet)+")";
 	else
-	return dataset->Civs[Index].Name2+" ("+lexical_cast<string>((short)dataset->Civs[Index].IconSet)+")";
+	return dataset->Civs[index].Name2+" ("+lexical_cast<string>((short)dataset->Civs[index].IconSet)+")";
 }
 
 void AGE_Frame::ListCivs(bool all)
@@ -234,10 +234,10 @@ void AGE_Frame::OnCivCountChange()
 	Refresh();
 }
 
-string AGE_Frame::GetResourceName(short Index)
+string AGE_Frame::GetResourceName(int index)
 {
 	string Name = "";
-	switch(Index)
+	switch(index)
 	{
 		case 0: Name = "Food Storage"; break;
 		case 1:
@@ -875,9 +875,7 @@ void AGE_Frame::CreateCivControls()
 
 	Civs_Civs->Add(Civs_Civs_Search, 0, wxEXPAND);
 	Civs_Civs->Add(Civs_Civs_Search_R, 0, wxEXPAND);
-	Civs_Civs->AddSpacer(2);
-	Civs_Civs->Add(Civs_Civs_ListV, 1, wxEXPAND);
-	Civs_Civs->AddSpacer(2);
+	Civs_Civs->Add(Civs_Civs_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Civs_Civs->Add(Civs_Civs_Buttons, 0, wxEXPAND);
 
 	Civs_ListArea->AddSpacer(5);
@@ -934,7 +932,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources->Add(Civs_Resources_Search, 0, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Search_R, 0, wxEXPAND);
 	Civs_Resources->Add(Civs_Resources_Data, 0, wxEXPAND);
-	Civs_Resources->Add(Civs_Resources_ListV, 1, wxEXPAND);
+	Civs_Resources->Add(Civs_Resources_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
 
 	Civs_Resources_Holder->AddSpacer(5);
