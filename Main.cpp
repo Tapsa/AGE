@@ -24,7 +24,7 @@ bool AGE::OnInit()
 // Fancy scaling :)
 void AGE_Frame::FixSize(AGE_Frame *window)
 {
-	int ScrollerWidth = window->Units_ScrollArea->GetMinSize().GetWidth();
+	int ScrollerWidth = window->Units_ScrollSpace->GetMinSize().GetWidth();
 	if(ScrollerWidth > 630)
 	{
 		int NewWidth = 270.0f * (ScrollerWidth / 630.0f) + ScrollerWidth;

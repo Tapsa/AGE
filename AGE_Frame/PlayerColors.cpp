@@ -214,8 +214,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
 void AGE_Frame::CreatePlayerColorControls()
 {
 	Colors_Main = new wxBoxSizer(wxHORIZONTAL);
-	Colors_ListArea = new wxBoxSizer(wxVERTICAL);
-	Tab_PlayerColors = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_PlayerColors = new wxPanel(TabBar_Main);
 
 	Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Colors");
 	Colors_Colors_Search = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
@@ -278,10 +277,6 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Colors->Add(Colors_Colors_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Colors_Colors->Add(Colors_Colors_Buttons, 0, wxEXPAND);
 
-	Colors_ListArea->AddSpacer(5);
-	Colors_ListArea->Add(Colors_Colors, 1, wxEXPAND);
-	Colors_ListArea->AddSpacer(5);
-
 	Colors_Name_Holder->Add(Colors_Name_Text, 0, wxEXPAND);
 	Colors_Name_Holder->Add(Colors_Name, 1, wxEXPAND);
 	Colors_ID_Holder->Add(Colors_ID_Text, 0, wxEXPAND);
@@ -309,26 +304,16 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_UnknownArea_Holder->AddSpacer(5);
 	Colors_UnknownArea_Holder->Add(Colors_Unknown5_Holder, 0, wxEXPAND);
 
-	Colors_DataArea->AddSpacer(5);
-	Colors_DataArea->Add(Colors_Name_Holder, 0, wxEXPAND);
-	Colors_DataArea->AddSpacer(5);
-	Colors_DataArea->Add(Colors_ID_Holder, 0, wxEXPAND);
-	Colors_DataArea->AddSpacer(5);
-	Colors_DataArea->Add(Colors_Palette_Holder, 0, wxEXPAND);
-	Colors_DataArea->AddSpacer(5);
-	Colors_DataArea->Add(Colors_Color_Holder, 0, wxEXPAND);
-	Colors_DataArea->AddSpacer(5);
-	Colors_DataArea->Add(Colors_MinimapColor_Holder, 0, wxEXPAND);
-	Colors_DataArea->AddSpacer(5);
-	Colors_DataArea->Add(Colors_Unknown1_Holder, 0, wxEXPAND);
-	Colors_DataArea->AddSpacer(5);
-	Colors_DataArea->Add(Colors_Unknown2_Holder, 0, wxEXPAND);
-	Colors_DataArea->AddSpacer(5);
-	Colors_DataArea->Add(Colors_UnknownArea_Holder, 0, wxEXPAND);
+	Colors_DataArea->Add(Colors_Name_Holder, 0, wxEXPAND | wxTOP, 5);
+	Colors_DataArea->Add(Colors_ID_Holder, 0, wxEXPAND | wxTOP, 5);
+	Colors_DataArea->Add(Colors_Palette_Holder, 0, wxEXPAND | wxTOP, 5);
+	Colors_DataArea->Add(Colors_Color_Holder, 0, wxEXPAND | wxTOP, 5);
+	Colors_DataArea->Add(Colors_MinimapColor_Holder, 0, wxEXPAND | wxTOP, 5);
+	Colors_DataArea->Add(Colors_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
+	Colors_DataArea->Add(Colors_Unknown2_Holder, 0, wxEXPAND | wxTOP, 5);
+	Colors_DataArea->Add(Colors_UnknownArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
-	Colors_Main->AddSpacer(5);
-	Colors_Main->Add(Colors_ListArea, 1, wxEXPAND);
-	Colors_Main->AddSpacer(5);
+	Colors_Main->Add(Colors_Colors, 1, wxEXPAND | wxALL, 5);
 	Colors_Main->Add(Colors_DataArea, 1, wxEXPAND);
 	Colors_Main->Add(Colors_Palette_Display, 2, wxEXPAND);
 

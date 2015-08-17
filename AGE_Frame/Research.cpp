@@ -413,10 +413,9 @@ void AGE_Frame::CreateResearchControls()
 	Translations.Read("Research/Tab", &langTabResearch, "Researches");
 	Translations.Read("Global/Name", &langGlobalName, "Name");
 
-	Tab_Research = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Research = new wxPanel(TabBar_Main);
 
 	Research_Main = new wxBoxSizer(wxHORIZONTAL);
-	Research_ListArea = new wxBoxSizer(wxVERTICAL);
 	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, langTabResearch);
 	Research_Research_Search = new wxTextCtrl(Tab_Research, wxID_ANY);
 	Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, langGlobalAnd, wxDefaultPosition, wxSize(40, 20));
@@ -425,7 +424,7 @@ void AGE_Frame::CreateResearchControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
 	Research_Research_ListV = new AGEListView(Tab_Research, wxSize(200, 100));
 	Research_Research_Buttons = new wxGridSizer(3, 0, 0);
@@ -436,15 +435,13 @@ void AGE_Frame::CreateResearchControls()
 	Research_Paste = new wxButton(Tab_Research, wxID_ANY, langGlobalPaste, wxDefaultPosition, wxSize(5, 20));
 	Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, langGlobalInsCopies, wxDefaultPosition, wxSize(5, 20));
 
-	Research_DataArea = new wxBoxSizer(wxVERTICAL);
-	Research_Scroller = new wxScrolledWindow(Tab_Research, wxID_ANY, wxDefaultPosition, wxSize(600, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	Research_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	Research_Scroller = new wxScrolledWindow(Tab_Research, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
-	Research_Name_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " "+langGlobalName, wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Name_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " "+langGlobalName);
 	Research_Name[0] = AGETextCtrl::init(CString, &uiGroupResearch, this, AGEwindow, Research_Scroller, 30);
 	Research_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
-	Research_Name_Text[1] = new wxStaticText(Research_Scroller, wxID_ANY, " "+langGlobalName+" 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_Name_Text[1] = new wxStaticText(Research_Scroller, wxID_ANY, " "+langGlobalName+" 2");
 	Research_Name[1] = AGETextCtrl::init(CString, &uiGroupResearch, this, AGEwindow, Research_Scroller, 30);
 	Research_LangDLLName_Holder = new wxBoxSizer(wxVERTICAL);
 	Research_LangDLLName_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Language DLL "+langGlobalName+" *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -535,7 +532,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_LanguageDLLHelp->SetToolTip("100000 + Language DLL Name");
 	Research_LanguageDLLConverter_Holder[0] = new wxBoxSizer(wxVERTICAL);
 	Research_LanguageDLLConverter_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Popup Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_LanguageDLLConverter[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Research_LanguageDLLConverter[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Research_LanguageDLLConverter[0]->SetToolTip("Language popup text in DLL\nHit enter to get the correction into dat file");
 	Research_DLL_LanguageDLLHelp = new TextCtrl_DLL(Research_Scroller, wxSize(0, 40));
 	Research_LanguageDLLName2_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Lang DLL Help *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -543,7 +540,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_LanguageDLLName2->SetToolTip("150000 + Language DLL Name");
 	Research_LanguageDLLConverter_Holder[1] = new wxBoxSizer(wxVERTICAL);
 	Research_LanguageDLLConverter_Text[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Help Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Research_LanguageDLLConverter[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Research_LanguageDLLConverter[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Research_LanguageDLLConverter[1]->SetToolTip("Language help text in DLL\nHit enter to get the correction into dat file");
 	Research_DLL_LanguageDLLName2 = new TextCtrl_DLL(Research_Scroller, wxSize(0, 25));
 	Research_Unknown1_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -577,13 +574,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research->Add(Research_Research_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Research_Research->Add(Research_Research_Buttons, 0, wxEXPAND);
 
-	Research_ListArea->AddSpacer(5);
-	Research_ListArea->Add(Research_Research, 1, wxEXPAND);
-	Research_ListArea->AddSpacer(5);
-
 	for(short loop = 0; loop < 2; ++loop)
 	{
-		Research_Name_Holder[loop]->Add(Research_Name_Text[loop], 0, wxEXPAND);
+		Research_Name_Holder[loop]->Add(Research_Name_Text[loop], 0, wxEXPAND | wxBOTTOM, 2);
 		Research_Name_Holder[loop]->Add(Research_Name[loop], 0, wxEXPAND);
 	}
 
@@ -697,37 +690,20 @@ void AGE_Frame::CreateResearchControls()
 	Research_PointerArea_Holder->Add(Research_Unknown1_Holder, 0, wxEXPAND);
 
 	Research_ScrollSpace->Add(Research_Names_Holder, 0, wxEXPAND);
-	Research_ScrollSpace->AddSpacer(5);
-	Research_ScrollSpace->Add(Research_LangDLLArea_Holder, 0, wxEXPAND);
-	Research_ScrollSpace->AddSpacer(5);
-	Research_ScrollSpace->Add(Research_RequiredTechArea_Holder, 0, wxEXPAND);
-	Research_ScrollSpace->AddSpacer(5);
-	Research_ScrollSpace->Add(Research_MiscArea1_Grid, 0, wxEXPAND);
-	Research_ScrollSpace->AddSpacer(5);
-	Research_ScrollSpace->Add(Research_Misc2_Holder, 0, wxEXPAND);
-	Research_ScrollSpace->AddSpacer(5);
-	Research_ScrollSpace->Add(Research_CostHeader_Holder, 0, wxEXPAND);
-	Research_ScrollSpace->AddSpacer(5);
-	Research_ScrollSpace->Add(Research_PointerArea_Holder, 0, wxEXPAND);
-	Research_ScrollSpace->AddSpacer(5);
-	Research_ScrollSpace->Add(Research_DLL_LanguageDLLHelp, 0, wxEXPAND);
+	Research_ScrollSpace->Add(Research_LangDLLArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Research_ScrollSpace->Add(Research_RequiredTechArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Research_ScrollSpace->Add(Research_MiscArea1_Grid, 0, wxEXPAND | wxTOP, 5);
+	Research_ScrollSpace->Add(Research_Misc2_Holder, 0, wxEXPAND | wxTOP, 5);
+	Research_ScrollSpace->Add(Research_CostHeader_Holder, 0, wxEXPAND | wxTOP, 5);
+	Research_ScrollSpace->Add(Research_PointerArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Research_ScrollSpace->Add(Research_DLL_LanguageDLLHelp, 0, wxEXPAND | wxTOP, 5);
 	Research_ScrollSpace->Add(Research_DLL_LanguageDLLName2, 0, wxEXPAND);
 
-	Research_ScrollArea->Add(Research_ScrollSpace, 1, wxEXPAND);
-	Research_ScrollArea->AddSpacer(5);
-
-	Research_Scroller->SetSizer(Research_ScrollArea);
+	Research_Scroller->SetSizer(Research_ScrollSpace);
 	Research_Scroller->SetScrollRate(0, 15);
 
-	Research_DataArea->AddSpacer(5);
-	Research_DataArea->Add(Research_Scroller, 1, wxEXPAND);
-	Research_DataArea->AddSpacer(5);
-
-	Research_Main->AddSpacer(5);
-	Research_Main->Add(Research_ListArea, 21, wxEXPAND);
-	Research_Main->AddSpacer(5);
-	Research_Main->Add(Research_DataArea, 65, wxEXPAND);
-	Research_Main->AddSpacer(5);
+	Research_Main->Add(Research_Research, 21, wxEXPAND | wxALL, 5);
+	Research_Main->Add(Research_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
 
 	Tab_Research->SetSizer(Research_Main);
 

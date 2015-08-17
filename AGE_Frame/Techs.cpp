@@ -1038,10 +1038,9 @@ void AGE_Frame::OnAllTechEffectTimer(wxTimerEvent &event)
 
 void AGE_Frame::CreateTechControls()
 {
-	Tab_Techs = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Techs = new wxPanel(TabBar_Main);
 
 	Techs_Main = new wxBoxSizer(wxHORIZONTAL);
-	Techs_ListArea = new wxBoxSizer(wxVERTICAL);
 	Techs_Buttons = new wxGridSizer(3, 0, 0);
 	Effects_DataArea = new wxBoxSizer(wxVERTICAL);
 	Effects_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -1064,7 +1063,6 @@ void AGE_Frame::CreateTechControls()
 	Techs_Rename = new wxButton(Tab_Techs, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(0, 20));
 	Techs_Restore = new wxButton(Tab_Techs, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(0, 20));
 
-	Techs_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	Techs_Name_Text = new wxStaticText(Tab_Techs, wxID_ANY, " Technology Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Techs_Name = AGETextCtrl::init(CString, NULL, this, AGEwindow, Tab_Techs, 31);
 
@@ -1143,7 +1141,6 @@ void AGE_Frame::CreateTechControls()
 	Effects_F = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Tab_Techs);
 	Attacks_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_Link = new wxHyperlinkCtrl(Tab_Techs, wxID_ANY, "GenieWiki Effect Types", "http://www.digitization.org/wiki/index.php?title=Genie_technology#Effects");
 
 	Techs_AllEffects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects of all Technologies");
 	Techs_AllEffects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
@@ -1187,10 +1184,6 @@ void AGE_Frame::CreateTechControls()
 	Techs_Techs->Add(Techs_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Techs_Techs->Add(Techs_Buttons, 0, wxEXPAND);
 
-	Techs_ListArea->AddSpacer(5);
-	Techs_ListArea->Add(Techs_Techs, 1, wxEXPAND);
-	Techs_ListArea->AddSpacer(5);
-
 	Techs_Effects_Buttons->Add(Techs_Effects_Add, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Delete, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_Insert, 1, wxEXPAND);
@@ -1198,10 +1191,10 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects_Buttons->Add(Techs_Effects_Paste, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_PasteInsert, 1, wxEXPAND);
 
-	Techs_Name_Holder->Add(Techs_Name_Text, 0, wxEXPAND);
-	Techs_Name_Holder->Add(Techs_Name, 1, wxEXPAND);
-	Techs_Name_Holder->Add(Techs_Rename, 1, wxEXPAND);
-	Techs_Name_Holder->Add(Techs_Restore, 1, wxEXPAND);
+	Effects_ListArea->Add(Techs_Name_Text, 0, wxEXPAND);
+	Effects_ListArea->Add(Techs_Name, 0, wxEXPAND);
+	Effects_ListArea->Add(Techs_Rename, 0, wxEXPAND);
+	Effects_ListArea->Add(Techs_Restore, 0, wxEXPAND);
 
 	Techs_Effects_Searches[0]->Add(Techs_Effects_Search, 1, wxEXPAND);
 	Techs_Effects_Searches[0]->Add(Techs_Effects_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
@@ -1213,11 +1206,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects->Add(Techs_Effects_Buttons, 0, wxEXPAND);
 	Techs_Effects->Add(Techs_Effects_CopyToTechs, 0, wxEXPAND | wxTOP, 2);
 
-	Effects_ListArea->AddSpacer(5);
-	Effects_ListArea->Add(Techs_Name_Holder, 0, wxEXPAND);
-	Effects_ListArea->AddSpacer(5);
-	Effects_ListArea->Add(Techs_Effects, 1, wxEXPAND);
-	Effects_ListArea->AddSpacer(5);
+	Effects_ListArea->Add(Techs_Effects, 1, wxEXPAND | wxTOP, 5);
 
 	Effects_Type2_Holder->Add(Effects_Type, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Type2_Holder->Add(Effects_Type_ComboBox, 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
@@ -1276,16 +1265,11 @@ void AGE_Frame::CreateTechControls()
 	Effects_DataF_Holder->Add(Effects_Info_F, 2, wxEXPAND);
 
 	Effects_Data_Holder->Add(Effects_NeverHide, 0, wxEXPAND);
-	Effects_Data_Holder->AddSpacer(5);
-	Effects_Data_Holder->Add(Effects_DataA_Holder, 0, wxEXPAND);
-	Effects_Data_Holder->AddSpacer(5);
-	Effects_Data_Holder->Add(Effects_DataB_Holder, 0, wxEXPAND);
-	Effects_Data_Holder->AddSpacer(5);
-	Effects_Data_Holder->Add(Effects_DataC_Holder, 0, wxEXPAND);
-	Effects_Data_Holder->AddSpacer(5);
-	Effects_Data_Holder->Add(Effects_DataD_Holder, 0, wxEXPAND);
-	Effects_Data_Holder->AddSpacer(5);
-	Effects_Data_Holder->Add(Effects_DataE_Holder, 0, wxEXPAND);
+	Effects_Data_Holder->Add(Effects_DataA_Holder, 0, wxEXPAND | wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataB_Holder, 0, wxEXPAND | wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataC_Holder, 0, wxEXPAND | wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataD_Holder, 0, wxEXPAND | wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataE_Holder, 0, wxEXPAND | wxTOP, 5);
 	Effects_Data_Holder->Add(Effects_DataF_Holder, 0, wxEXPAND);
 
 	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_Search, 1, wxEXPAND);
@@ -1299,23 +1283,13 @@ void AGE_Frame::CreateTechControls()
 	Techs_AllEffects_Buttons->Add(Techs_AllEffects_Clear, 1, wxEXPAND);
 	Techs_AllEffects->Add(Techs_AllEffects_Buttons, 0, wxEXPAND);
 
-	Effects_DataArea->AddSpacer(5);
 	Effects_DataArea->Add(Effects_Type_Holder, 0, wxEXPAND);
-	Effects_DataArea->AddSpacer(5);
-	Effects_DataArea->Add(Effects_Data_Holder, 0, wxEXPAND);
-	Effects_DataArea->AddSpacer(5);
-	Effects_DataArea->Add(Effects_Link, 0, wxEXPAND);
-	Effects_DataArea->AddSpacer(5);
-	Effects_DataArea->Add(Techs_AllEffects, 1, wxEXPAND);
-	Effects_DataArea->AddSpacer(5);
+	Effects_DataArea->Add(Effects_Data_Holder, 0, wxEXPAND | wxTOP, 5);
+	Effects_DataArea->Add(Techs_AllEffects, 1, wxEXPAND | wxTOP, 5);
 
-	Techs_Main->AddSpacer(5);
-	Techs_Main->Add(Techs_ListArea, 21, wxEXPAND); // 3
-	Techs_Main->AddSpacer(5);
-	Techs_Main->Add(Effects_ListArea, 27, wxEXPAND); // 3+1
-	Techs_Main->AddSpacer(5);
-	Techs_Main->Add(Effects_DataArea, 33, wxEXPAND); // 6-1
-	Techs_Main->AddSpacer(5);
+	Techs_Main->Add(Techs_Techs, 21, wxEXPAND | wxALL, 5); // 3
+	Techs_Main->Add(Effects_ListArea, 27, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5); // 3+1
+	Techs_Main->Add(Effects_DataArea, 33, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5); // 6-1
 
 	Effects_E->Show(false);	// only for attributes 8, 9
 	Effects_F->Show(false);	// only for attributes 8, 9

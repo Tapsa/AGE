@@ -394,7 +394,7 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Items_Buttons = new wxGridSizer(3, 0, 0);
 	Sounds_DataArea = new wxBoxSizer(wxVERTICAL);
 
-	Tab_Sounds = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Sounds = new wxPanel(TabBar_Main);
 	Sounds_Sounds = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sounds");
 	Sounds_Sounds_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_Sounds_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
@@ -410,7 +410,7 @@ void AGE_Frame::CreateSoundControls()
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Sounds_Items_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Sounds_Items_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Sounds, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Sounds_Items_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Sounds, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
 	Sounds_Items_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_Items_UseAnd[0] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));

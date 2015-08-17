@@ -353,10 +353,9 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
 
 void AGE_Frame::CreateTerrainRestrictionControls()
 {
-	Tab_TerrainRestrictions = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_TerrainRestrictions = new wxPanel(TabBar_Main);
 
 	TerRestrict_Main = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_ListArea = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_TerRestrict_Buttons = new wxGridSizer(3, 0, 0);
 	TerRestrict_TerRestrict = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainRestrictions, "Terrain Restrictions");
 	TerRestrict_TerRestrict_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
@@ -412,19 +411,13 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	TerRestrict_TerRestrict->Add(TerRestrict_TerRestrict_Buttons, 0, wxEXPAND);
 
-	TerRestrict_ListArea->AddSpacer(5);
-	TerRestrict_ListArea->Add(TerRestrict_TerRestrict, 1, wxEXPAND);
-	TerRestrict_ListArea->AddSpacer(5);
-
 	TerRestrict_Terrains_Buttons->Add(TerRestrict_Terrains_Copy, 1, wxEXPAND);
 	TerRestrict_Terrains_Buttons->Add(TerRestrict_Terrains_Paste, 1, wxEXPAND);
 
-	TerRestrict_Terrains->AddSpacer(5);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Search, 0, wxEXPAND);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Search_R, 0, wxEXPAND);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Buttons, 0, wxEXPAND);
-	TerRestrict_Terrains->AddSpacer(5);
 
 	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible, 0, wxEXPAND);
 	TerRestrict_Accessible2_Holder->AddSpacer(2);
@@ -445,21 +438,13 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Amount_Holder->Add(TerRestrict_Amount_Text, 0, wxEXPAND);
 	TerRestrict_Amount_Holder->Add(TerRestrict_Amount, 1, wxEXPAND);
 
-	TerRestrict_DataArea->AddSpacer(5);
-	TerRestrict_DataArea->Add(TerRestrict_Accessible_Holder, 0, wxEXPAND);
-	TerRestrict_DataArea->AddSpacer(5);
-	TerRestrict_DataArea->Add(TerRestrict_Unknown1_Holder, 0, wxEXPAND);
-	TerRestrict_DataArea->AddSpacer(5);
-	TerRestrict_DataArea->Add(TerRestrict_Graphics_Holder, 0, wxEXPAND);
-	TerRestrict_DataArea->AddSpacer(5);
-	TerRestrict_DataArea->Add(TerRestrict_Amount_Holder, 0, wxEXPAND);
-	TerRestrict_DataArea->AddSpacer(5);
+	TerRestrict_DataArea->Add(TerRestrict_Accessible_Holder, 0, wxEXPAND | wxTOP, 5);
+	TerRestrict_DataArea->Add(TerRestrict_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
+	TerRestrict_DataArea->Add(TerRestrict_Graphics_Holder, 0, wxEXPAND | wxTOP, 5);
+	TerRestrict_DataArea->Add(TerRestrict_Amount_Holder, 0, wxEXPAND | wxTOP, 5);
 
-	TerRestrict_Main->AddSpacer(5);
-	TerRestrict_Main->Add(TerRestrict_ListArea, 1, wxEXPAND);
-	TerRestrict_Main->AddSpacer(5);
-	TerRestrict_Main->Add(TerRestrict_Terrains, 1, wxEXPAND);
-	TerRestrict_Main->AddSpacer(5);
+	TerRestrict_Main->Add(TerRestrict_TerRestrict, 1, wxEXPAND | wxALL, 5);
+	TerRestrict_Main->Add(TerRestrict_Terrains, 1, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
 	TerRestrict_Main->Add(TerRestrict_DataArea, 1, wxEXPAND);
 	TerRestrict_Main->AddStretchSpacer(1);
 
