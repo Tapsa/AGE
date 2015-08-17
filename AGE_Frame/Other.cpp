@@ -1734,7 +1734,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			SoundItems_Unknown_Holder->Show(ShowUnknowns);
 			Colors_UnknownArea_Holder->Show(ShowUnknowns);
 			General_TopRow->Show(ShowUnknowns);
-			General_ScrollSpace->Show(ShowUnknowns);
 
 			OnGameVersionChange(); // Does layouting and refreshing and ... check it out.
 		}

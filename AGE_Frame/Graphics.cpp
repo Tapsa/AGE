@@ -796,19 +796,18 @@ void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event)
 
 void AGE_Frame::CreateGraphicsControls()
 {
-	Tab_Graphics = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Graphics = new wxPanel(TabBar_Main);
 	Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_ListArea = new wxBoxSizer(wxVERTICAL);
 	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Graphics  (Search by enter)");
 
-	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
-	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Graphics_Graphics_UseAnd[1] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
 	Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(200, 100));
 	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
@@ -821,9 +820,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
 
-	Graphics_DataArea = new wxBoxSizer(wxVERTICAL);
-	Graphics_Scroller = new wxScrolledWindow(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxSize(600, 20), wxVSCROLL | wxTAB_TRAVERSAL);
-	Graphics_ScrollArea = new wxBoxSizer(wxHORIZONTAL);
+	Graphics_Scroller = new wxScrolledWindow(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Graphics_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Name_Holder = new wxBoxSizer(wxVERTICAL);
@@ -1026,10 +1023,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
 
-	Graphics_ListArea->AddSpacer(5);
-	Graphics_ListArea->Add(Graphics_Graphics, 1, wxEXPAND);
-	Graphics_ListArea->AddSpacer(5);
-
 	Graphics_Name_Holder->Add(Graphics_Name_Text, 0, wxEXPAND);
 	Graphics_Name_Holder->Add(Graphics_Name, 1, wxEXPAND);
 	Graphics_Name2_Holder->Add(Graphics_Name2_Text, 0, wxEXPAND);
@@ -1180,36 +1173,19 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSoundArea_Holder->Add(Graphics_5_Holder, 3, wxEXPAND);
 
 	Graphics_ScrollSpace->Add(Graphics_NameArea_Holder, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_Coordinates_Holder, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_2_Grid, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_3_Grid, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_Deltas_Holder, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_4_Holder, 0, wxEXPAND);
-	Graphics_ScrollSpace->AddSpacer(5);
-	Graphics_ScrollSpace->Add(Graphics_AttackSoundArea_Holder, 0, wxEXPAND);
+	Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND | wxTOP, 5);
+	Graphics_ScrollSpace->Add(Graphics_Coordinates_Holder, 0, wxEXPAND | wxTOP, 5);
+	Graphics_ScrollSpace->Add(Graphics_2_Grid, 0, wxEXPAND | wxTOP, 5);
+	Graphics_ScrollSpace->Add(Graphics_3_Grid, 0, wxEXPAND | wxTOP, 5);
+	Graphics_ScrollSpace->Add(Graphics_Deltas_Holder, 0, wxEXPAND | wxTOP, 5);
+	Graphics_ScrollSpace->Add(Graphics_4_Holder, 0, wxEXPAND | wxTOP, 5);
+	Graphics_ScrollSpace->Add(Graphics_AttackSoundArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
-	Graphics_ScrollArea->Add(Graphics_ScrollSpace, 1, wxEXPAND);
-	Graphics_ScrollArea->AddSpacer(5);
-
-	Graphics_Scroller->SetSizer(Graphics_ScrollArea);
+	Graphics_Scroller->SetSizer(Graphics_ScrollSpace);
 	Graphics_Scroller->SetScrollRate(0, 15);
 
-	Graphics_DataArea->AddSpacer(5);
-	Graphics_DataArea->Add(Graphics_Scroller, 1, wxEXPAND);
-	Graphics_DataArea->AddSpacer(5);
-
-	Graphics_Main->AddSpacer(5);
-	Graphics_Main->Add(Graphics_ListArea, 21, wxEXPAND);
-	Graphics_Main->AddSpacer(5);
-	Graphics_Main->Add(Graphics_DataArea, 65, wxEXPAND);
-	Graphics_Main->AddSpacer(5);
+	Graphics_Main->Add(Graphics_Graphics, 21, wxEXPAND | wxALL, 5);
+	Graphics_Main->Add(Graphics_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
 
 	if(EnableIDFix)
 	Graphics_ID->Enable(false);

@@ -201,14 +201,11 @@ void AGE_Frame::OnCivCountChange()
 	if(Units_CivBoxes.size() < CivCount)
 	{
 		Units_CivBoxes.reserve(CivCount);
-		//Units_CivLabels.reserve(CivCount);
 		for(short loop = Units_CivBoxes.size(); loop < CivCount; ++loop)
 		{
-			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(30, 20)));
+			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(30, 20)));
 			Units_CivBoxes[loop]->SetValue(true);
-			//Units_CivLabels.push_back(new wxStaticText(Tab_Units, wxID_ANY, dataset->Civs[loop].Name.substr(0, 2), wxDefaultPosition, wxSize(-1, 15), wxALIGN_CENTER_HORIZONTAL | wxST_NO_AUTORESIZE));
 			Units_TopGrid_Holder->Add(Units_CivBoxes[loop], 0, wxEXPAND);
-			//Units_TopGrid_Holder->Add(Units_CivLabels[loop], 0, wxEXPAND);
 			Connect(Units_CivBoxes[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
 		}
 	}
@@ -217,10 +214,8 @@ void AGE_Frame::OnCivCountChange()
 		for(short loop = Units_CivBoxes.size(); loop--> CivCount;)
 		{
 			Units_CivBoxes[loop]->Destroy();
-			//Units_CivLabels[loop]->Destroy();
 		}
 		Units_CivBoxes.resize(CivCount);
-		//Units_CivLabels.resize(CivCount);
 	}
 	for(short loop = 0; loop < CivCount; ++loop)
 	{
@@ -798,9 +793,8 @@ void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &event)
 void AGE_Frame::CreateCivControls()
 {
 	Civs_Main = new wxBoxSizer(wxHORIZONTAL);
-	Civs_ListArea = new wxBoxSizer(wxVERTICAL);
 	Civs_Civs_Buttons = new wxGridSizer(3, 0, 0);
-	Tab_Civs = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
+	Tab_Civs = new wxPanel(TabBar_Main);
 
 	Civs_Civs = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Civilizations");
 	Civs_Civs_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
@@ -819,10 +813,10 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid2 = new wxGridSizer(2, 0, 5);
 	Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
 	Civs_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
-	Civs_Name_Text[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name", wxDefaultPosition, wxSize(300, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Name_Text[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name");
 	Civs_Name[0] = AGETextCtrl::init(CString, &uiGroupCiv, this, AGEwindow, Tab_Civs, 20);
 	Civs_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
-	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2", wxDefaultPosition, wxSize(300, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2");
 	Civs_Name[1] = AGETextCtrl::init(CString, &uiGroupCiv, this, AGEwindow, Tab_Civs, 20);
 	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -846,7 +840,6 @@ void AGE_Frame::CreateCivControls()
 	for(short loop = 0; loop < 4; ++loop)
 	Civs_SUnknown1[loop] = AGETextCtrl::init(CShort, &uiGroupCiv, this, AGEwindow, Tab_Civs);
 
-	Civs_Resources_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources");
 	Civs_Resources_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Resources_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
@@ -863,8 +856,6 @@ void AGE_Frame::CreateCivControls()
 	Resources_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 	Resources_CopyToAll = new wxButton(Tab_Civs, wxID_ANY, "Copy to all civs", wxDefaultPosition, wxSize(5, 20));
 	Civs_Resources_Data = new wxBoxSizer(wxVERTICAL);
-	Civs_Resources_Holder_Link = new wxHyperlinkCtrl(Tab_Civs, wxID_ANY, "GenieWiki Resources",
-	"http://www.digitization.org/wiki/index.php?title=Resource", wxDefaultPosition, wxSize(5, 20), wxBORDER_NONE|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
 
 	Civs_Civs_Buttons->Add(Civs_Add, 1, wxEXPAND);
 	Civs_Civs_Buttons->Add(Civs_Delete, 1, wxEXPAND);
@@ -878,14 +869,10 @@ void AGE_Frame::CreateCivControls()
 	Civs_Civs->Add(Civs_Civs_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Civs_Civs->Add(Civs_Civs_Buttons, 0, wxEXPAND);
 
-	Civs_ListArea->AddSpacer(5);
-	Civs_ListArea->Add(Civs_Civs, 1, wxEXPAND);
-	Civs_ListArea->AddSpacer(5);
-
 	Civs_One_Holder->Add(Civs_One_Text, 0, wxEXPAND);
 	Civs_One_Holder->Add(Civs_One, 1, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop){
-	Civs_Name_Holder[loop]->Add(Civs_Name_Text[loop], 0, wxEXPAND);
+	Civs_Name_Holder[loop]->Add(Civs_Name_Text[loop], 0, wxEXPAND | wxBOTTOM, 2);
 	Civs_Name_Holder[loop]->Add(Civs_Name[loop], 1, wxEXPAND);}
 	Civs_SUnknown1_Holder->Add(Civs_SUnknown1_Text, 0, wxEXPAND);
 	Civs_SUnknown1_Holder->Add(Civs_DataGrid3, 1, wxEXPAND);
@@ -905,15 +892,11 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid2->Add(Civs_TechTree_Holder, 1, wxEXPAND);
 	Civs_DataGrid2->Add(Civs_TeamBonus_Holder, 1, wxEXPAND);
 
-	Civs_DataArea->AddSpacer(5);
-	Civs_DataArea->Add(Civs_Name_Holder[0], 0, wxEXPAND);
+	Civs_DataArea->Add(Civs_Name_Holder[0], 0, wxEXPAND | wxTOP, 5);
 	Civs_DataArea->Add(Civs_Name_Holder[1], 0, wxEXPAND);
-	Civs_DataArea->AddSpacer(5);
-	Civs_DataArea->Add(Civs_DataGrid1, 0, wxEXPAND);
-	Civs_DataArea->AddSpacer(5);
-	Civs_DataArea->Add(Civs_DataGrid2, 0, wxEXPAND);
-	Civs_DataArea->AddSpacer(5);
-	Civs_DataArea->Add(Civs_SUnknown1_Holder, 0, wxEXPAND);
+	Civs_DataArea->Add(Civs_DataGrid1, 0, wxEXPAND | wxTOP, 5);
+	Civs_DataArea->Add(Civs_DataGrid2, 0, wxEXPAND | wxTOP, 5);
+	Civs_DataArea->Add(Civs_SUnknown1_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	Civs_Resources_Buttons->Add(Resources_Add, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Delete, 1, wxEXPAND);
@@ -922,7 +905,6 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources_Buttons->Add(Resources_Paste, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_PasteInsert, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_CopyToAll, 1, wxEXPAND);
-	Civs_Resources_Buttons->Add(Civs_Resources_Holder_Link, 1, wxEXPAND);
 
 	Civs_ResourceValue_Holder->Add(Civs_ResourceValue_Text, 0, wxEXPAND);
 	Civs_ResourceValue_Holder->Add(Civs_ResourceValue, 1, wxEXPAND);
@@ -935,17 +917,9 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources->Add(Civs_Resources_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
 
-	Civs_Resources_Holder->AddSpacer(5);
-	Civs_Resources_Holder->Add(Civs_Resources, 1, wxEXPAND);
-	Civs_Resources_Holder->AddSpacer(5);
-
-	Civs_Main->AddSpacer(5);
-	Civs_Main->Add(Civs_ListArea, 21, wxEXPAND);
-	Civs_Main->AddSpacer(5);
+	Civs_Main->Add(Civs_Civs, 21, wxEXPAND | wxALL, 5);
 	Civs_Main->Add(Civs_DataArea, 30, wxEXPAND);
-	Civs_Main->AddSpacer(5);
-	Civs_Main->Add(Civs_Resources_Holder, 30, wxEXPAND);
-	Civs_Main->AddSpacer(5);
+	Civs_Main->Add(Civs_Resources, 30, wxEXPAND | wxALL, 5);
 
 	Tab_Civs->SetSizer(Civs_Main);
 
