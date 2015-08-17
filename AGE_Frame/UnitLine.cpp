@@ -1,10 +1,10 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetUnitLineName(short Index)
+string AGE_Frame::GetUnitLineName(int index)
 {
-	if(!dataset->UnitLines[Index].Name.empty())
-		return dataset->UnitLines[Index].Name;
-	return "Unitline "+lexical_cast<string>(Index);
+	if(!dataset->UnitLines[index].Name.empty())
+		return dataset->UnitLines[index].Name;
+	return "Unitline "+lexical_cast<string>(index);
 }
 
 void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &event)
@@ -151,7 +151,7 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &event)
 	ListUnitLines();
 }
 
-string AGE_Frame::GetUnitLineUnitName(short Unit)
+string AGE_Frame::GetUnitLineUnitName(int Unit)
 {
 	string Name = lexical_cast<string>(Unit)+" ";
 	if(dataset->Civs[0].Units.size() <= Unit) return Name + "Nonexistent Unit";
@@ -355,7 +355,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search, 0, wxEXPAND);
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Search_R, 0, wxEXPAND);
 	UnitLines_UnitLines->AddSpacer(2);
-	UnitLines_UnitLines->Add(UnitLines_UnitLines_ListV, 1, wxEXPAND);
+	UnitLines_UnitLines->Add(UnitLines_UnitLines_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	UnitLines_UnitLines->AddSpacer(2);
 	UnitLines_UnitLines->Add(UnitLines_UnitLines_Buttons, 0, wxEXPAND);
 
@@ -372,12 +372,9 @@ void AGE_Frame::CreateUnitLineControls()
 
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Search, 0, wxEXPAND);
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Search_R, 0, wxEXPAND);
-	UnitLines_UnitLineUnits->AddSpacer(2);
-	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_ListV, 1, wxEXPAND);
-	UnitLines_UnitLineUnits->AddSpacer(2);
+	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Buttons, 0, wxEXPAND);
-	UnitLines_UnitLineUnits->AddSpacer(2);
-	UnitLines_UnitLineUnits->Add(UnitLineUnits_CopyToUnitLines, 0, wxEXPAND);
+	UnitLines_UnitLineUnits->Add(UnitLineUnits_CopyToUnitLines, 0, wxEXPAND | wxTOP, 2);
 
 	UnitLineUnits_ListArea->AddSpacer(5);
 	UnitLineUnits_ListArea->Add(UnitLines_UnitLineUnits, 1, wxEXPAND);

@@ -1,10 +1,10 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetTerrainBorderName(short Index)
+string AGE_Frame::GetTerrainBorderName(int index)
 {
-	if(dataset->TerrainBlock.TerrainBorders[Index].Name.empty() && dataset->TerrainBlock.TerrainBorders[Index].Name2.empty())
-		return "Border "+lexical_cast<string>(Index);
-	return dataset->TerrainBlock.TerrainBorders[Index].Name+" - "+dataset->TerrainBlock.TerrainBorders[Index].Name2;
+	if(dataset->TerrainBlock.TerrainBorders[index].Name.empty() && dataset->TerrainBlock.TerrainBorders[index].Name2.empty())
+		return "Border "+lexical_cast<string>(index);
+	return dataset->TerrainBlock.TerrainBorders[index].Name+" - "+dataset->TerrainBlock.TerrainBorders[index].Name2;
 }
 
 void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &event)
@@ -136,11 +136,11 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &event)
 	ListTerrainBorders();
 }
 
-string AGE_Frame::GetTerrainBorderFrameName(short Index)
+string AGE_Frame::GetTerrainBorderFrameName(int index)
 {
-	return "Frame "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].FrameCount)
-	+" - Flags "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].AngleCount)
-	+" "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[Index].ShapeID)+" ";
+	return "Frame "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[index].FrameCount)
+	+" - Flags "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[index].AngleCount)
+	+" "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[index].ShapeID)+" ";
 }
 
 void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &event)
@@ -386,12 +386,9 @@ void AGE_Frame::CreateTerrainBorderControls()
 
 	Borders_Borders->Add(Borders_Search, 0, wxEXPAND);
 	Borders_Borders->Add(Borders_Search_R, 0, wxEXPAND);
-	Borders_Borders->AddSpacer(2);
-	Borders_Borders->Add(Borders_ListV, 1, wxEXPAND);
-	Borders_Borders->AddSpacer(2);
+	Borders_Borders->Add(Borders_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Borders_Borders->Add(Borders_UsedCountHolder, 0, wxEXPAND);
-	Borders_Borders->AddSpacer(2);
-	Borders_Borders->Add(Borders_Buttons, 0, wxEXPAND);
+	Borders_Borders->Add(Borders_Buttons, 0, wxEXPAND | wxTOP, 2);
 
 	Borders_ListArea->AddSpacer(5);
 	Borders_ListArea->Add(Borders_Borders, 1, wxEXPAND);
@@ -464,12 +461,9 @@ void AGE_Frame::CreateTerrainBorderControls()
 
 	Borders_Frames->Add(Borders_Frames_Search, 0, wxEXPAND);
 	Borders_Frames->Add(Borders_Frames_Search_R, 0, wxEXPAND);
-	Borders_Frames->AddSpacer(2);
-	Borders_Frames->Add(Borders_Frames_ListV, 1, wxEXPAND);
-	Borders_Frames->AddSpacer(2);
+	Borders_Frames->Add(Borders_Frames_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Borders_Frames->Add(Borders_Frames_Buttons, 0, wxEXPAND);
-	Borders_Frames->AddSpacer(2);
-	Borders_Frames->Add(Frames_CopyToBorders, 0, wxEXPAND);
+	Borders_Frames->Add(Frames_CopyToBorders, 0, wxEXPAND | wxTOP, 2);
 
 	Borders_FrameID_Holder->Add(Borders_FrameID_Text, 0, wxEXPAND);
 	Borders_FrameID_Holder->Add(Borders_FrameID, 1, wxEXPAND);

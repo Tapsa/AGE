@@ -1,6 +1,6 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetResearchName(short Index, bool Filter)
+string AGE_Frame::GetResearchName(int index, bool Filter)
 {
 	string Name = "";
 	if(Filter)
@@ -17,51 +17,51 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 				case 2: // Required Researches
 				{
 					bool HasFore = false;
-					for(short loop = 0; loop < dataset->Researchs[Index].getRequiredTechsSize(); ++loop)
-					if(dataset->Researchs[Index].RequiredTechs[loop] != -1)
+					for(short loop = 0; loop < dataset->Researchs[index].getRequiredTechsSize(); ++loop)
+					if(dataset->Researchs[index].RequiredTechs[loop] != -1)
 					{
 						if(HasFore) Name += ", R"; else {Name += "R"; HasFore = true;}
-						Name += lexical_cast<string>(dataset->Researchs[Index].RequiredTechs[loop]);
+						Name += lexical_cast<string>(dataset->Researchs[index].RequiredTechs[loop]);
 					}
 				}	break;
 				case 3: // Min. Req. Researches
-					Name += "MR "+lexical_cast<string>(dataset->Researchs[Index].RequiredTechCount);
+					Name += "MR "+lexical_cast<string>(dataset->Researchs[index].RequiredTechCount);
 					break;
 				case 4: // Research Location
-					Name += "RL "+lexical_cast<string>(dataset->Researchs[Index].ResearchLocation);
+					Name += "RL "+lexical_cast<string>(dataset->Researchs[index].ResearchLocation);
 					break;
 				case 5: // Research Time
-					Name += "RT "+lexical_cast<string>(dataset->Researchs[Index].ResearchTime);
+					Name += "RT "+lexical_cast<string>(dataset->Researchs[index].ResearchTime);
 					break;
 				case 6: // Technology
-					Name += "Te "+lexical_cast<string>(dataset->Researchs[Index].TechageID);
+					Name += "Te "+lexical_cast<string>(dataset->Researchs[index].TechageID);
 					break;
 				case 7: // Type
-					Name += "T "+lexical_cast<string>(dataset->Researchs[Index].Type);
+					Name += "T "+lexical_cast<string>(dataset->Researchs[index].Type);
 					break;
 				case 8: // Icon
-					Name += "I "+lexical_cast<string>(dataset->Researchs[Index].IconID);
+					Name += "I "+lexical_cast<string>(dataset->Researchs[index].IconID);
 					break;
 				case 9: // Button
-					Name += "B "+lexical_cast<string>((short)dataset->Researchs[Index].ButtonID);
+					Name += "B "+lexical_cast<string>((short)dataset->Researchs[index].ButtonID);
 					break;
 				case 10: // Lang DLL Pointer
-					Name += "LP "+lexical_cast<string>(dataset->Researchs[Index].LanguageDLLHelp);
+					Name += "LP "+lexical_cast<string>(dataset->Researchs[index].LanguageDLLHelp);
 					break;
 				case 11: // Pointer 2
-					Name += "P2 "+lexical_cast<string>(dataset->Researchs[Index].LanguageDLLName2);
+					Name += "P2 "+lexical_cast<string>(dataset->Researchs[index].LanguageDLLName2);
 					break;
 				case 12: // Pointer 3
-					Name += "P3 "+lexical_cast<string>(dataset->Researchs[Index].Unknown1);
+					Name += "P3 "+lexical_cast<string>(dataset->Researchs[index].Unknown1);
 					break;
 				case 13: // Cost Types
 				{
 					bool HasFore = false;
 					for(short loop = 0; loop < 3; ++loop)
-					if(dataset->Researchs[Index].ResourceCosts[loop].Type != -1)
+					if(dataset->Researchs[index].ResourceCosts[loop].Type != -1)
 					{
 						if(HasFore) Name += ", CT"; else {Name += "CT"; HasFore = true;}
-						Name += lexical_cast<string>(dataset->Researchs[Index].ResourceCosts[loop].Type);
+						Name += lexical_cast<string>(dataset->Researchs[index].ResourceCosts[loop].Type);
 					}
 				}	break;
 				case 14: // Cost Amounts
@@ -70,7 +70,7 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 					for(short loop = 0; loop < 3; ++loop)
 					{
 						if(HasFore) Name += ", CA"; else {Name += "CA"; HasFore = true;}
-						Name += lexical_cast<string>(dataset->Researchs[Index].ResourceCosts[loop].Amount);
+						Name += lexical_cast<string>(dataset->Researchs[index].ResourceCosts[loop].Amount);
 					}
 				}	break;
 				case 15: // Cost Uses
@@ -79,22 +79,22 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 					for(short loop = 0; loop < 3; ++loop)
 					{
 						if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
-						Name += lexical_cast<string>((short)dataset->Researchs[Index].ResourceCosts[loop].Enabled);
+						Name += lexical_cast<string>((short)dataset->Researchs[index].ResourceCosts[loop].Enabled);
 					}
 				}	break;
 				if(GenieVersion >= genie::GV_AoKB)
 				{
 				case 16: // Civilization
-					Name += "C "+lexical_cast<string>(dataset->Researchs[Index].Civ);
+					Name += "C "+lexical_cast<string>(dataset->Researchs[index].Civ);
 					break;
 				case 17: // Full Tech. Mode
-					Name += "F "+lexical_cast<string>(dataset->Researchs[Index].FullTechMode);
+					Name += "F "+lexical_cast<string>(dataset->Researchs[index].FullTechMode);
 					break;
 				if(GenieVersion >= genie::GV_SWGB)
 				{
 				case 18: // Internal Name 2
-					if(!dataset->Researchs[Index].Name2.empty())
-					return Name + dataset->Researchs[Index].Name2;
+					if(!dataset->Researchs[index].Name2.empty())
+					return Name + dataset->Researchs[index].Name2;
 					else goto InternalName;
 				}
 				}
@@ -105,14 +105,14 @@ string AGE_Frame::GetResearchName(short Index, bool Filter)
 		if(Selection[0] == 1) goto InternalName;
 	}
 
-	if(!LangDLLstring(dataset->Researchs[Index].LanguageDLLName, 2).empty())
+	if(!LangDLLstring(dataset->Researchs[index].LanguageDLLName, 2).empty())
 	{
-		return Name + LangDLLstring(dataset->Researchs[Index].LanguageDLLName, 64);
+		return Name + LangDLLstring(dataset->Researchs[index].LanguageDLLName, 64);
 	}
 InternalName:
-	if(!dataset->Researchs[Index].Name.empty())
+	if(!dataset->Researchs[index].Name.empty())
 	{
-		return Name + dataset->Researchs[Index].Name;
+		return Name + dataset->Researchs[index].Name;
 	}
 	return Name + "New Research";
 }
@@ -567,18 +567,14 @@ void AGE_Frame::CreateResearchControls()
 	Research_Research_Buttons->Add(Research_PasteInsert, 1, wxEXPAND);
 
 	Research_Research_Searches[0]->Add(Research_Research_Search, 1, wxEXPAND);
-	Research_Research_Searches[0]->AddSpacer(2);
-	Research_Research_Searches[0]->Add(Research_Research_UseAnd[0], 0, wxEXPAND);
+	Research_Research_Searches[0]->Add(Research_Research_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Research_Research_Searches[1]->Add(Research_Research_Search_R, 1, wxEXPAND);
-	Research_Research_Searches[1]->AddSpacer(2);
-	Research_Research_Searches[1]->Add(Research_Research_UseAnd[1], 0, wxEXPAND);
+	Research_Research_Searches[1]->Add(Research_Research_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 	for(short loop = 0; loop < 2; ++loop)
 	Research_Research->Add(Research_Research_Searches[loop], 0, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
 	Research_Research->Add(Research_SearchFilters[loop], 0, wxEXPAND);
-	Research_Research->AddSpacer(2);
-	Research_Research->Add(Research_Research_ListV, 1, wxEXPAND);
-	Research_Research->AddSpacer(2);
+	Research_Research->Add(Research_Research_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Research_Research->Add(Research_Research_Buttons, 0, wxEXPAND);
 
 	Research_ListArea->AddSpacer(5);

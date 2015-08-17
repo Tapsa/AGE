@@ -1,8 +1,12 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetSoundName(short Index)
+string AGE_Frame::GetSoundName(int sound)
 {
-	return "File count: "+lexical_cast<string>(dataset->Sounds[Index].Items.size())+" ";
+    if(dataset->Sounds[sound].Items.empty()) return "Empty";
+    else if(dataset->Sounds[sound].Items.size() == 1)
+    return "File: " + GetSoundItemName(0, sound) + " ";
+    else
+    return "Files: " + lexical_cast<string>(dataset->Sounds[sound].Items.size()) + " ";
 }
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent &event)
@@ -144,7 +148,7 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
 	ListSounds();
 }
 
-string AGE_Frame::GetSoundItemName(short Index)
+string AGE_Frame::GetSoundItemName(int item, int set)
 {
 	string Name = "";
 	short Selection[2];
@@ -157,18 +161,18 @@ string AGE_Frame::GetSoundItemName(short Index)
 		switch(Selection[loop])
 		{
 			case 1: // DRS
-				Name += "DRS "+lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[Index].ResourceID);
+				Name += "DRS "+lexical_cast<string>(dataset->Sounds[set].Items[item].ResourceID);
 				break;
 			case 2: // Probability
-				Name += "P "+lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[Index].Probability);
+				Name += "P "+lexical_cast<string>(dataset->Sounds[set].Items[item].Probability);
 				break;
 			if(GenieVersion >= genie::GV_AoKA)
 			{
 			case 3: // Civilization
-				Name += "C "+lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[Index].Civ);
+				Name += "C "+lexical_cast<string>(dataset->Sounds[set].Items[item].Civ);
 				break;
 			case 4: // Unknown
-				Name += "U "+lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[Index].Unknown1);
+				Name += "U "+lexical_cast<string>(dataset->Sounds[set].Items[item].Unknown1);
 				break;
 			}
 		}
@@ -176,9 +180,9 @@ string AGE_Frame::GetSoundItemName(short Index)
 		if(Selection[1] < 1) break;
 	}
 
-	if(!dataset->Sounds[SoundIDs[0]].Items[Index].FileName.empty())
+	if(!dataset->Sounds[set].Items[item].FileName.empty())
 	{
-		Name += dataset->Sounds[SoundIDs[0]].Items[Index].FileName;
+		Name += dataset->Sounds[set].Items[item].FileName;
 	}
 	else
 	{
@@ -205,7 +209,7 @@ void AGE_Frame::ListSoundItems()
 
 	for(short loop = 0; loop < dataset->Sounds[SoundIDs[0]].Items.size(); ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs[0]);
 		if(SearchMatches(Name.Lower()))
 		{
 			Sounds_Items_ListV->names.Add(Name);
@@ -343,20 +347,17 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 
 	Sounds_AllItems_ListV->names.clear();
 
-	short Store = SoundIDs[0];
 	for(short sound = 0; sound < dataset->Sounds.size(); ++sound)
 	{
-		SoundIDs[0] = sound;
 		for(short file = 0; file < dataset->Sounds[sound].Items.size(); ++file)
 		{
-			Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file);
+			Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file, sound);
 			if(SearchMatches(Name.Lower()))
 			{
 				Sounds_AllItems_ListV->names.Add(Name);
 			}
 		}
 	}
-	SoundIDs[0] = Store;
 
     virtualListing(Sounds_AllItems_ListV);
 	//Sounds_AllItems_ListV->SetFocus(); You need to check if searched or not.
@@ -389,12 +390,9 @@ void AGE_Frame::OnAllSoundFileTimer(wxTimerEvent &event)
 void AGE_Frame::CreateSoundControls()
 {
 	Sounds_Main = new wxBoxSizer(wxHORIZONTAL);
-	Sounds_ListArea = new wxBoxSizer(wxVERTICAL);
 	Sounds_Sounds_Buttons = new wxGridSizer(3, 0, 0);
-	SoundItems_ListArea = new wxBoxSizer(wxVERTICAL);
 	Sounds_Items_Buttons = new wxGridSizer(3, 0, 0);
 	Sounds_DataArea = new wxBoxSizer(wxVERTICAL);
-	Sounds_AllArea = new wxBoxSizer(wxVERTICAL);
 
 	Tab_Sounds = new wxPanel(TabBar_Main, wxID_ANY, wxDefaultPosition, wxSize(0, 20));
 	Sounds_Sounds = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sounds");
@@ -454,6 +452,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+    SoundFile_Play = new wxButton(Tab_Sounds, wxID_ANY, "Play WAV", wxDefaultPosition, wxSize(5, 20));
 
 	Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
 	Sounds_AllItems_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
@@ -477,14 +476,8 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_Sounds->Add(Sounds_Sounds_Search, 0, wxEXPAND);
 	Sounds_Sounds->Add(Sounds_Sounds_Search_R, 0, wxEXPAND);
-	Sounds_Sounds->AddSpacer(2);
-	Sounds_Sounds->Add(Sounds_Sounds_ListV, 1, wxEXPAND);
-	Sounds_Sounds->AddSpacer(2);
+	Sounds_Sounds->Add(Sounds_Sounds_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Sounds_Sounds->Add(Sounds_Sounds_Buttons, 0, wxEXPAND);
-
-	Sounds_ListArea->AddSpacer(5);
-	Sounds_ListArea->Add(Sounds_Sounds, 1, wxEXPAND);
-	Sounds_ListArea->AddSpacer(5);
 
 	Sounds_Items_Buttons->Add(SoundItems_Add, 1, wxEXPAND);
 	Sounds_Items_Buttons->Add(SoundItems_Delete, 1, wxEXPAND);
@@ -494,25 +487,16 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Items_Buttons->Add(SoundItems_PasteInsert, 1, wxEXPAND);
 
 	Sounds_Items_Searches[0]->Add(Sounds_Items_Search, 1, wxEXPAND);
-	Sounds_Items_Searches[0]->AddSpacer(2);
-	Sounds_Items_Searches[0]->Add(Sounds_Items_UseAnd[0], 0, wxEXPAND);
+	Sounds_Items_Searches[0]->Add(Sounds_Items_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Sounds_Items_Searches[1]->Add(Sounds_Items_Search_R, 1, wxEXPAND);
-	Sounds_Items_Searches[1]->AddSpacer(2);
-	Sounds_Items_Searches[1]->Add(Sounds_Items_UseAnd[1], 0, wxEXPAND);
+	Sounds_Items_Searches[1]->Add(Sounds_Items_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 	Sounds_Items->Add(Sounds_Items_Searches[0], 0, wxEXPAND);
 	Sounds_Items->Add(Sounds_Items_Searches[1], 0, wxEXPAND);
 	Sounds_Items->Add(Sounds_Items_SearchFilters[0], 0, wxEXPAND);
 	Sounds_Items->Add(Sounds_Items_SearchFilters[1], 0, wxEXPAND);
-	Sounds_Items->AddSpacer(2);
-	Sounds_Items->Add(Sounds_Items_ListV, 1, wxEXPAND);
-	Sounds_Items->AddSpacer(2);
+	Sounds_Items->Add(Sounds_Items_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Sounds_Items->Add(Sounds_Items_Buttons, 0, wxEXPAND);
-	Sounds_Items->AddSpacer(2);
-	Sounds_Items->Add(SoundItems_CopyToSounds, 0, wxEXPAND);
-
-	SoundItems_ListArea->AddSpacer(5);
-	SoundItems_ListArea->Add(Sounds_Items, 1, wxEXPAND);
-	SoundItems_ListArea->AddSpacer(5);
+	Sounds_Items->Add(SoundItems_CopyToSounds, 0, wxEXPAND | wxTOP, 2);
 
 	Sounds_ID_Holder->Add(Sounds_ID_Text, 0, wxEXPAND);
 	Sounds_ID_Holder->Add(Sounds_ID, 1, wxEXPAND);
@@ -533,50 +517,30 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Unknown_Holder->Add(SoundItems_Unknown, 1, wxEXPAND);
 
 	Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_Search, 1, wxEXPAND);
-	Sounds_AllItems_Searches[0]->AddSpacer(2);
-	Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_UseAnd[0], 0, wxEXPAND);
+	Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Sounds_AllItems_Searches[1]->Add(Sounds_AllItems_Search_R, 1, wxEXPAND);
-	Sounds_AllItems_Searches[1]->AddSpacer(2);
-	Sounds_AllItems_Searches[1]->Add(Sounds_AllItems_UseAnd[1], 0, wxEXPAND);
+	Sounds_AllItems_Searches[1]->Add(Sounds_AllItems_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 	Sounds_AllItems->Add(Sounds_AllItems_Searches[0], 0, wxEXPAND);
 	Sounds_AllItems->Add(Sounds_AllItems_Searches[1], 0, wxEXPAND);
-	Sounds_AllItems->AddSpacer(2);
-	Sounds_AllItems->Add(Sounds_AllItems_ListV, 1, wxEXPAND);
-	Sounds_AllItems->AddSpacer(2);
-	Sounds_AllItems_Buttons->Add(Sounds_AllItems_Load, 2, wxEXPAND);
-	Sounds_AllItems_Buttons->AddSpacer(2);
+	Sounds_AllItems->Add(Sounds_AllItems_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+	Sounds_AllItems_Buttons->Add(Sounds_AllItems_Load, 2, wxEXPAND | wxRIGHT, 2);
 	Sounds_AllItems_Buttons->Add(Sounds_AllItems_Clear, 1, wxEXPAND);
 	Sounds_AllItems->Add(Sounds_AllItems_Buttons, 0, wxEXPAND);
-	Sounds_AllArea->AddSpacer(5);
-	Sounds_AllArea->Add(Sounds_AllItems, 1, wxEXPAND);
-	Sounds_AllArea->AddSpacer(5);
 
-	Sounds_DataArea->AddSpacer(5);
-	Sounds_DataArea->Add(Sounds_ID_Holder, 0, wxEXPAND);
-	Sounds_DataArea->AddSpacer(5);
-	Sounds_DataArea->Add(Sounds_Unknown1_Holder, 0, wxEXPAND);
-	Sounds_DataArea->AddSpacer(5);
-	Sounds_DataArea->Add(Sounds_Unknown2_Holder, 0, wxEXPAND);
-	Sounds_DataArea->AddSpacer(5);
-	Sounds_DataArea->Add(SoundItems_Name_Holder, 0, wxEXPAND);
-	Sounds_DataArea->AddSpacer(5);
-	Sounds_DataArea->Add(SoundItems_Resource_Holder, 0, wxEXPAND);
-	Sounds_DataArea->AddSpacer(5);
-	Sounds_DataArea->Add(SoundItems_Probability_Holder, 0, wxEXPAND);
-	Sounds_DataArea->AddSpacer(5);
-	Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxEXPAND);
-	Sounds_DataArea->AddSpacer(5);
-	Sounds_DataArea->Add(SoundItems_Unknown_Holder, 0, wxEXPAND);
+	Sounds_DataArea->Add(Sounds_ID_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(Sounds_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(Sounds_Unknown2_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Name_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Resource_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Probability_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Unknown_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundFile_Play, 0, wxEXPAND | wxTOP, 5);
 
-	Sounds_Main->AddSpacer(5);
-	Sounds_Main->Add(Sounds_ListArea, 1, wxEXPAND);
-	Sounds_Main->AddSpacer(5);
-	Sounds_Main->Add(SoundItems_ListArea, 1, wxEXPAND);
-	Sounds_Main->AddSpacer(5);
-	Sounds_Main->Add(Sounds_DataArea, 1, wxEXPAND);
-	Sounds_Main->AddSpacer(5);
-	Sounds_Main->Add(Sounds_AllArea, 1, wxEXPAND);
-	Sounds_Main->AddSpacer(5);
+	Sounds_Main->Add(Sounds_Sounds, 1, wxEXPAND | wxALL, 5);
+	Sounds_Main->Add(Sounds_Items, 1, wxEXPAND | wxRIGHT | wxTOP | wxBOTTOM, 5);
+	Sounds_Main->Add(Sounds_DataArea, 1, wxEXPAND | wxRIGHT, 5);
+	Sounds_Main->Add(Sounds_AllItems, 1, wxEXPAND | wxRIGHT | wxTOP | wxBOTTOM, 5);
 
 	if(EnableIDFix)
 	Sounds_ID->Enable(false);

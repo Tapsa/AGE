@@ -1,8 +1,8 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetTerrainName(short Index, bool Filter)
+string AGE_Frame::GetTerrainName(int index, bool Filter)
 {
-	if(dataset->TerrainBlock.Terrains.size() <= Index) return "Nonexistent Terrain";
+	if(dataset->TerrainBlock.Terrains.size() <= index) return "Nonexistent Terrain";
 	string Name = "";
 	if(Filter)
 	{
@@ -16,63 +16,63 @@ string AGE_Frame::GetTerrainName(short Index, bool Filter)
 			switch(Selection[loop])
 			{
 				case 2: // SLP
-					Name += "SLP "+FormatInt(dataset->TerrainBlock.Terrains[Index].SLP);
+					Name += "SLP "+FormatInt(dataset->TerrainBlock.Terrains[index].SLP);
 					break;
 				case 3: // Enabled
-					Name += "E "+FormatInt(dataset->TerrainBlock.Terrains[Index].Enabled);
+					Name += "E "+FormatInt(dataset->TerrainBlock.Terrains[index].Enabled);
 					break;
 				case 4: // Random
-					Name += "R "+FormatInt(dataset->TerrainBlock.Terrains[Index].Random);
+					Name += "R "+FormatInt(dataset->TerrainBlock.Terrains[index].Random);
 					break;
 				case 5: // Unknown3
-					Name += "U3 "+FormatInt(dataset->TerrainBlock.Terrains[Index].Unknown3);
+					Name += "U3 "+FormatInt(dataset->TerrainBlock.Terrains[index].Unknown3);
 					break;
 				case 6: // SoundID
-					Name += "S "+FormatInt(dataset->TerrainBlock.Terrains[Index].SoundID);
+					Name += "S "+FormatInt(dataset->TerrainBlock.Terrains[index].SoundID);
 					break;
 				case 7: // BlendPriority
-					Name += "BP "+FormatInt(dataset->TerrainBlock.Terrains[Index].BlendPriority);
+					Name += "BP "+FormatInt(dataset->TerrainBlock.Terrains[index].BlendPriority);
 					break;
 				case 8: // BlendType
-					Name += "BT "+FormatInt(dataset->TerrainBlock.Terrains[Index].BlendType);
+					Name += "BT "+FormatInt(dataset->TerrainBlock.Terrains[index].BlendType);
 					break;
 				case 9: // Colors
 					{
-						Name += "H"+FormatInt(dataset->TerrainBlock.Terrains[Index].Colors[0]);
-						Name += " M"+FormatInt(dataset->TerrainBlock.Terrains[Index].Colors[1]);
-						Name += " L"+FormatInt(dataset->TerrainBlock.Terrains[Index].Colors[2]);
+						Name += "H"+FormatInt(dataset->TerrainBlock.Terrains[index].Colors[0]);
+						Name += " M"+FormatInt(dataset->TerrainBlock.Terrains[index].Colors[1]);
+						Name += " L"+FormatInt(dataset->TerrainBlock.Terrains[index].Colors[2]);
 					}
 					break;
 				case 10: // CliffColors
 					{
-						Name += "LT"+FormatInt(dataset->TerrainBlock.Terrains[Index].CliffColors.first);
-						Name += " RT"+FormatInt(dataset->TerrainBlock.Terrains[Index].CliffColors.second);
+						Name += "LT"+FormatInt(dataset->TerrainBlock.Terrains[index].CliffColors.first);
+						Name += " RT"+FormatInt(dataset->TerrainBlock.Terrains[index].CliffColors.second);
 					}
 					break;
 				case 11: // PassableTerrain
-					Name += "PT "+FormatInt(dataset->TerrainBlock.Terrains[Index].PassableTerrain);
+					Name += "PT "+FormatInt(dataset->TerrainBlock.Terrains[index].PassableTerrain);
 					break;
 				case 12: // ImpassableTerrain
-					Name += "IT "+FormatInt(dataset->TerrainBlock.Terrains[Index].ImpassableTerrain);
+					Name += "IT "+FormatInt(dataset->TerrainBlock.Terrains[index].ImpassableTerrain);
 					break;
 				case 13: // Frame Count
-					Name += "FC "+FormatInt(dataset->TerrainBlock.Terrains[Index].ElevationGraphics[0].FrameCount);
+					Name += "FC "+FormatInt(dataset->TerrainBlock.Terrains[index].ElevationGraphics[0].FrameCount);
 					break;
 				case 14: // Angle Count
-					Name += "AC "+FormatInt(dataset->TerrainBlock.Terrains[Index].ElevationGraphics[0].AngleCount);
+					Name += "AC "+FormatInt(dataset->TerrainBlock.Terrains[index].ElevationGraphics[0].AngleCount);
 					break;
 				case 15: // TerrainToDraw
-					Name += "TD "+FormatInt(dataset->TerrainBlock.Terrains[Index].TerrainToDraw);
+					Name += "TD "+FormatInt(dataset->TerrainBlock.Terrains[index].TerrainToDraw);
 					break;
 				case 16: // TerrainDimensions
-					Name += "R"+FormatInt(dataset->TerrainBlock.Terrains[Index].TerrainDimensions.first);
-					Name += " C"+FormatInt(dataset->TerrainBlock.Terrains[Index].TerrainDimensions.second);
+					Name += "R"+FormatInt(dataset->TerrainBlock.Terrains[index].TerrainDimensions.first);
+					Name += " C"+FormatInt(dataset->TerrainBlock.Terrains[index].TerrainDimensions.second);
 					break;
 				case 17: // NumberOfTerrainUnitsUsed
-					Name += "TU "+FormatInt(dataset->TerrainBlock.Terrains[Index].NumberOfTerrainUnitsUsed);
+					Name += "TU "+FormatInt(dataset->TerrainBlock.Terrains[index].NumberOfTerrainUnitsUsed);
 					break;
 				case 18: // Unknown1
-					Name += "U1 "+FormatInt(dataset->TerrainBlock.Terrains[Index].Unknown1);
+					Name += "U1 "+FormatInt(dataset->TerrainBlock.Terrains[index].Unknown1);
 					break;
 			}
 			Name += ", ";
@@ -81,14 +81,14 @@ string AGE_Frame::GetTerrainName(short Index, bool Filter)
 		if(Selection[0] == 1) goto InternalName;
 	}
 
-	if(!dataset->TerrainBlock.Terrains[Index].Name.empty())
+	if(!dataset->TerrainBlock.Terrains[index].Name.empty())
 	{
-		return Name + dataset->TerrainBlock.Terrains[Index].Name;
+		return Name + dataset->TerrainBlock.Terrains[index].Name;
 	}
 InternalName:
-	if(!dataset->TerrainBlock.Terrains[Index].Name2.empty())
+	if(!dataset->TerrainBlock.Terrains[index].Name2.empty())
 	{
-		return Name + dataset->TerrainBlock.Terrains[Index].Name2;
+		return Name + dataset->TerrainBlock.Terrains[index].Name2;
 	}
 	return Name + "New Terrain";
 }
@@ -672,21 +672,16 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Terrains_Buttons->Add(Terrains_Paste, 1, wxEXPAND);
 
 	Terrains_Terrains_Searches[0]->Add(Terrains_Terrains_Search, 1, wxEXPAND);
-	Terrains_Terrains_Searches[0]->AddSpacer(2);
-	Terrains_Terrains_Searches[0]->Add(Terrains_Terrains_UseAnd[0], 0, wxEXPAND);
+	Terrains_Terrains_Searches[0]->Add(Terrains_Terrains_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Terrains_Terrains_Searches[1]->Add(Terrains_Terrains_Search_R, 1, wxEXPAND);
-	Terrains_Terrains_Searches[1]->AddSpacer(2);
-	Terrains_Terrains_Searches[1]->Add(Terrains_Terrains_UseAnd[1], 0, wxEXPAND);
+	Terrains_Terrains_Searches[1]->Add(Terrains_Terrains_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
 	for(short loop = 0; loop < 2; ++loop)
 	Terrains_Terrains->Add(Terrains_Terrains_Searches[loop], 0, wxEXPAND);
 	for(short loop = 0; loop < 2; ++loop)
 	Terrains_Terrains->Add(Terrains_SearchFilters[loop], 0, wxEXPAND);
-	Terrains_Terrains->AddSpacer(2);
-	Terrains_Terrains->Add(Terrains_Terrains_ListV, 1, wxEXPAND);
-	Terrains_Terrains->AddSpacer(2);
+	Terrains_Terrains->Add(Terrains_Terrains_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Terrains_Terrains->Add(Terrains_UsedCountHolder, 0, wxEXPAND);
-	Terrains_Terrains->AddSpacer(2);
-	Terrains_Terrains->Add(Terrains_Terrains_Buttons, 0, wxEXPAND);
+	Terrains_Terrains->Add(Terrains_Terrains_Buttons, 0, wxEXPAND | wxTOP, 2);
 
 	Terrains_ListArea->AddSpacer(5);
 	Terrains_ListArea->Add(Terrains_Terrains, 1, wxEXPAND);
@@ -830,15 +825,11 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Borders_Buttons->Add(Terrains_Borders_Paste, 1, wxEXPAND);
 	Terrains_Borders->Add(Terrains_Borders_Search, 0, wxEXPAND);
 	Terrains_Borders->Add(Terrains_Borders_Search_R, 0, wxEXPAND);
-	Terrains_Borders->AddSpacer(2);
-	Terrains_Borders->Add(Terrains_Borders_ListV, 1, wxEXPAND);
-	Terrains_Borders->AddSpacer(2);
+	Terrains_Borders->Add(Terrains_Borders_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Terrains_Borders->Add(Terrains_Border, 0, wxEXPAND);
-	Terrains_Borders->Add(Terrains_Border_ComboBox, 0, wxEXPAND);
-	Terrains_Borders->AddSpacer(2);
+	Terrains_Borders->Add(Terrains_Border_ComboBox, 0, wxEXPAND | wxBOTTOM, 2);
 	Terrains_Borders->Add(Terrains_Borders_Buttons, 0, wxEXPAND);
-	Terrains_Borders->AddSpacer(2);
-	Terrains_Borders->Add(Terrains_Borders_CopyToTerrains, 0, wxEXPAND);
+	Terrains_Borders->Add(Terrains_Borders_CopyToTerrains, 0, wxEXPAND | wxTOP, 2);
 	Terrains_SpaceLeft->Add(Terrains_Borders, 0, wxEXPAND);
 	Terrains_SpaceLeft->AddSpacer(5);
 	Terrains_SpaceLeft->Add(Terrains_ElevationGraphics_Holder, 0, wxEXPAND);
