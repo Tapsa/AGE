@@ -13,7 +13,7 @@
 std::ofstream AGE_Frame::log_out;
 
 AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
-: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(0, 20))
+: wxFrame(NULL, wxID_ANY, title)
 {
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
