@@ -1,6 +1,7 @@
 #include "../AGE_Frame.h"
 #include "../DRSunlock.xpm"
 #include "../DRSlock.xpm"
+#include "../AppIcon.xpm"
 
 wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
 vector<bool> AGETextCtrl::hexMode;
@@ -1785,7 +1786,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 wxPoint parentPos = GetPosition();
                 parentPos.x += 1000;
-                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512), wxRESIZE_BORDER | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCAPTION | wxCLIP_CHILDREN);
+                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512));
+                slp_window->SetIcon(wxIcon(AppIcon_xpm));
                 slp_view = new wxPanel(slp_window);
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
                 sizer->Add(slp_view, 1, wxEXPAND);
@@ -2258,7 +2260,7 @@ SLP_SWAP:
                     }
                     // Temp hack for interface files
                     graphic->xpos = -width / 2;
-                    graphic->ypos = -height / 2;
+                    graphic->ypos = -height / 3 * 2;
                 }
                 else
                 {
@@ -2893,8 +2895,6 @@ wxString AGE_Frame::CurrentTime()
 
 void AGE_Frame::OnExitSLP(wxCloseEvent &event)
 {
-    wxMessageBox("Please close this from SLP menu");
-
     SubMenu_SLP->Check(MenuOption_ShowSLP, false);
     wxCommandEvent closeSLP(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowSLP);
     closeSLP.SetInt(false);
