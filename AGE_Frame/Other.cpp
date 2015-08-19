@@ -2130,6 +2130,7 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString folder
         {
             interfac->setGameVersion(GenieVersion);
             interfac->load(location.c_str());
+            datafiles.push_back(interfac);
         }
         catch(std::ios_base::failure e)
         {
@@ -2137,7 +2138,6 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString folder
             delete interfac;
             interfac = NULL;
         }
-        datafiles.push_back(interfac);
     }
 }
 
@@ -2349,29 +2349,47 @@ void AGE_Frame::BitMaptoSLP(AGE_SLP *graphic)
     wxImage img("Testi.png", wxBITMAP_TYPE_PNG);
     unsigned char *pic = img.GetData();
     if(!img.HasAlpha()) img.InitAlpha();
-    if(!img.HasAlpha()) return;
+    if(!img.HasAlpha())
+    {
+        wxMessageBox("Alpha channel missing", "Aborting...");
+        return;
+    }
     unsigned char *trans = img.GetAlpha();
-    if(!graphic->slp) return;
+    if(!graphic->slp)
+    {
+        wxMessageBox("Congrats seeing this message", "No SLP");
+        return;
+    }
     genie::SlpFramePtr frame;
     try
     {
         frame = graphic->slp.get()->getFrame(graphic->frameID);
     }
     catch(out_of_range){}
-    if(!frame) return;
+    if(!frame)
+    {
+        wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<string>(graphic->frameID));
+        return;
+    }
     genie::SlpFrameData *imgdata = &frame.get()->img_data;
+    frame.get()->setSize(img.GetWidth(), img.GetHeight());
     if(frame.get()->is32bit())
     {
-        wxMessageBox("32 ON");
+        uint32_t *val = imgdata->bgra_channels.data();
         for(int y=0; y < img.GetHeight(); ++y)
         for(int x=0; x < img.GetWidth(); ++x)
         {
-            uint32_t bgra = (uint32_t(*pic++) << 16);
-            bgra += (uint32_t(*pic++) << 8);
-            bgra += uint32_t(*pic++);
-            bgra += (uint32_t(*trans++) << 24);
-            imgdata->bgra_channels[y * x + x] = bgra;
+            unsigned char red = *pic++;
+            unsigned char green = *pic++;
+            unsigned char blue = *pic++;
+            unsigned char alpha = *trans++;
+            *val++ = (red << 16) + (green << 8) + blue + (alpha << 24);
         }
+        wxMessageBox("Frame image filled from PNG", "SLP");
+    }
+    else
+    {
+        wxMessageBox("No 8-bit frame support yet", "SLP");
     }
 }
 
@@ -2958,7 +2976,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 if(!graphicSLP.filename.empty())
                 try
                 {
-                    wxString name = graphicSLP.filename + "_testi.slp";
+                    wxString name = graphicSLP.filename + ".slp";
                     graphicSLP.slp.get()->saveAs(name.c_str());
                 }
                 catch(std::ios_base::failure e)
