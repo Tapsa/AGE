@@ -163,6 +163,7 @@ public:
     void addSLPFolders4SLPs(wxArrayString &folders, wxString folder);
     void setForeAndBackColors(AGETextCtrl* box, wxColour color);
 	void OnChooseGraphic(wxCommandEvent &event);
+    void playWAV(wxCommandEvent &event);
 
 //	General Events
 
@@ -2945,6 +2946,7 @@ public:
 	wxStaticText *SoundItems_Unknown_Text;
 	AGETextCtrl *SoundItems_Unknown;
     wxButton *SoundFile_Play;
+    wxButton *SoundFile_Stop;
 
 	wxStaticBoxSizer *Sounds_AllItems;
 	wxBoxSizer *Sounds_AllItems_Searches[2];
