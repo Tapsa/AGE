@@ -1790,14 +1790,25 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_window->SetIcon(wxIcon(AppIcon_xpm));
                 slp_view = new wxPanel(slp_window, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
                 slp_next = new wxButton(slp_window, wxID_ANY, "Show next frame");
+                slp_frame_export = new wxButton(slp_window, wxID_ANY, "Export frame to PNGs");
+                slp_frame_import = new wxButton(slp_window, wxID_ANY, "Import PNGs to frame");
+                slp_save = new wxButton(slp_window, wxID_ANY, "Save SLP");
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+                wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
                 sizer->Add(slp_view, 1, wxEXPAND);
-                sizer->Add(slp_next, 0, wxEXPAND);
+                sizer2->Add(slp_next, 0, wxEXPAND);
+                sizer2->Add(slp_frame_export, 0, wxEXPAND);
+                sizer2->Add(slp_frame_import, 0, wxEXPAND);
+                sizer2->Add(slp_save, 0, wxEXPAND);
+                sizer->Add(sizer2, 0, wxEXPAND);
                 slp_window->SetSizer(sizer);
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
-                slp_next->Connect(slp_next->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnNextFrame), NULL, this);
+                slp_next->Connect(slp_next->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_frame_export->Connect(slp_frame_export->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_frame_import->Connect(slp_frame_import->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_save->Connect(slp_save->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_window->Show();
             }
             else
@@ -2185,10 +2196,6 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                     //log_out << name << endl;
                     graphic->slp.get()->setGameVersion(GenieVersion);
                     graphic->slp.get()->load(name.c_str());
-#ifndef NDEBUG
-                    name.Replace(".slp", "gut.slp", false);
-                    graphic->slp.get()->saveAs(name.c_str());
-#endif
                     graphic->slp.get()->freelock();
                     goto SLP_SWAP;
                 }
@@ -2249,12 +2256,12 @@ SLP_SWAP:
                 vector<uint8_t> rgbdata(area * 4, 0);
                 uint8_t *val = rgbdata.data();
                 uint8_t *alpha = val + area * 3;
-                genie::SlpFrameData imgdata = frame.get()->getSlpFrameData();
+                const genie::SlpFrameData *imgdata = &frame.get()->img_data;
                 if(frame.get()->is32bit())
                 {
                     for(int i=0; i < area; ++i)
                     {
-                        uint32_t bgra = imgdata.bgra_channels[i];
+                        uint32_t bgra = imgdata->bgra_channels[i];
                         *val++ = uint8_t(bgra >> 16);
                         *val++ = uint8_t(bgra >> 8);
                         *val++ = uint8_t(bgra);
@@ -2262,9 +2269,9 @@ SLP_SWAP:
                     }
                     // Apply transparency
                     if(!ShowOutline)
-                    for(int i=0; i < imgdata.transparency_mask.size(); ++i)
+                    for(int i=0; i < imgdata->transparency_mask.size(); ++i)
                     {
-                        int flat = imgdata.transparency_mask[i].y * width + imgdata.transparency_mask[i].x;
+                        int flat = imgdata->transparency_mask[i].y * width + imgdata->transparency_mask[i].x;
                         rgbdata[3 * area + flat] = 0;
                     }
                     // Temp hack for interface files
@@ -2282,17 +2289,17 @@ SLP_SWAP:
                     {
                         for(int i=0; i < area; ++i)
                         {
-                            genie::Color rgba = (*pal)[imgdata.pixel_indexes[i]];
+                            genie::Color rgba = (*pal)[imgdata->pixel_indexes[i]];
                             *val++ = rgba.r;
                             *val++ = rgba.g;
                             *val++ = rgba.b;
-                            *alpha++ = imgdata.alpha_channel[i];
+                            *alpha++ = imgdata->alpha_channel[i];
                         }
                         // Apply shadows
                         if(ShowShadows)
-                        for(int i=0; i < imgdata.shadow_mask.size(); ++i)
+                        for(int i=0; i < imgdata->shadow_mask.size(); ++i)
                         {
-                            int flat = imgdata.shadow_mask[i].y * width + imgdata.shadow_mask[i].x;
+                            int flat = imgdata->shadow_mask[i].y * width + imgdata->shadow_mask[i].x;
                             int loc = 3 * flat;
                             int locA = 3 * area + flat;
                             rgbdata[loc] = 0;
@@ -2301,12 +2308,12 @@ SLP_SWAP:
                             rgbdata[locA] = 127;
                         }
                         // Apply player color
-                        for(int i=0; i < imgdata.player_color_mask.size(); ++i)
+                        for(int i=0; i < imgdata->player_color_mask.size(); ++i)
                         {
-                            int flat = imgdata.player_color_mask[i].y * width + imgdata.player_color_mask[i].x;
+                            int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
                             int loc = 3 * flat;
                             int locA = 3 * area + flat;
-                            genie::Color rgba = (*pal)[uint8_t(imgdata.player_color_mask[i].index + AGE_SLP::playerColorStart)];
+                            genie::Color rgba = (*pal)[uint8_t(imgdata->player_color_mask[i].index + AGE_SLP::playerColorStart)];
                             rgbdata[loc] = rgba.r;
                             rgbdata[loc + 1] = rgba.g;
                             rgbdata[loc + 2] = rgba.b;
@@ -2314,9 +2321,9 @@ SLP_SWAP:
                         }
                         // Apply outline
                         if(ShowOutline)
-                        for(int i=0; i < imgdata.outline_mask.size(); ++i)
+                        for(int i=0; i < imgdata->outline_mask.size(); ++i)
                         {
-                            int flat = imgdata.outline_mask[i].y * width + imgdata.outline_mask[i].x;
+                            int flat = imgdata->outline_mask[i].y * width + imgdata->outline_mask[i].x;
                             int loc = 3 * flat;
                             int locA = 3 * area + flat;
                             genie::Color rgba = (*pal)[AGE_SLP::playerColorID];
@@ -2334,6 +2341,37 @@ SLP_SWAP:
             }
         }
         graphic->bitmap = wxNullBitmap;
+    }
+}
+
+void AGE_Frame::BitMaptoSLP(AGE_SLP *graphic)
+{
+    wxImage img("Testi.png", wxBITMAP_TYPE_PNG);
+    unsigned char *pic = img.GetData();
+    if(!img.HasAlpha()) img.InitAlpha();
+    if(!img.HasAlpha()) return;
+    unsigned char *trans = img.GetAlpha();
+    if(!graphic->slp) return;
+    genie::SlpFramePtr frame;
+    try
+    {
+        frame = graphic->slp.get()->getFrame(graphic->frameID);
+    }
+    catch(out_of_range){}
+    if(!frame) return;
+    genie::SlpFrameData *imgdata = &frame.get()->img_data;
+    if(frame.get()->is32bit())
+    {
+        wxMessageBox("32 ON");
+        for(int y=0; y < img.GetHeight(); ++y)
+        for(int x=0; x < img.GetWidth(); ++x)
+        {
+            uint32_t bgra = (uint32_t(*pic++) << 16);
+            bgra += (uint32_t(*pic++) << 8);
+            bgra += uint32_t(*pic++);
+            bgra += (uint32_t(*trans++) << 24);
+            imgdata->bgra_channels[y * x + x] = bgra;
+        }
     }
 }
 
@@ -2902,11 +2940,61 @@ wxString AGE_Frame::CurrentTime()
 	return buffer.str();
 }
 
-void AGE_Frame::OnNextFrame(wxCommandEvent &event)
+void AGE_Frame::OnFrameButton(wxCommandEvent &event)
 {
-    NextFrame = true;
-    slp_view->Refresh();
-    graphicAnimTimer.Start(100);
+    if(event.GetId() == slp_next->GetId())
+    {
+        NextFrame = true;
+        slp_view->Refresh();
+        graphicAnimTimer.Start(100);
+    }
+    else if(event.GetId() == slp_save->GetId())
+    {
+        if(AGE_SLP::currentDisplay == 6)
+        {
+            if(!graphicSLP.slp) return;
+            if(UseTXT)
+            {
+                if(!graphicSLP.filename.empty())
+                try
+                {
+                    wxString name = graphicSLP.filename + "_testi.slp";
+                    graphicSLP.slp.get()->saveAs(name.c_str());
+                }
+                catch(std::ios_base::failure e)
+                {
+                    wxMessageBox("Saving SLP failed.");
+                }
+            }
+        }
+    }
+    else if(event.GetId() == slp_frame_export->GetId())
+    {
+        bool oldOutline = ShowOutline;
+        if(AGE_SLP::currentDisplay == 6)
+        {
+            ShowOutline = false;
+            SLPtoBitMap(&graphicSLP);
+            if(graphicSLP.bitmap.IsOk())
+            if(!graphicSLP.bitmap.SaveFile("Testi.png", wxBITMAP_TYPE_PNG))
+                wxMessageBox("Saving frame as PNG failed.");
+
+            /*ShowOutline = true;
+            SLPtoBitMap(&graphicSLP);
+            if(graphicSLP.bitmap.IsOk())
+            if(!graphicSLP.bitmap.SaveFile("Testi_outline.png", wxBITMAP_TYPE_PNG))
+                wxMessageBox("Saving outline as PNG failed.");*/
+        }
+        ShowOutline = oldOutline;
+    }
+    else if(event.GetId() == slp_frame_import->GetId())
+    {
+        if(AGE_SLP::currentDisplay == 6)
+        {
+            BitMaptoSLP(&graphicSLP);
+        }
+        graphicAnimTimer.Start(100);
+    }
 }
 
 void AGE_Frame::OnExitSLP(wxCloseEvent &event)
