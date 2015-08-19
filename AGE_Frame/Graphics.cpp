@@ -256,13 +256,13 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 if(delta.second.bitmap.IsOk())
                 {
                     dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
-                    if(AnimSLP || NextFrame)
+                    if(AnimSLP || nextFrame)
                     {
                         fpms = min(fpms, ShouldAnimate(&delta.second));
                     }
                 }
             }
-            NextFrame = false;
+            nextFrame = false;
             if(AnimSLP)
             {
                 graphicAnimTimer.Start(fpms);
@@ -283,10 +283,10 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             {
                 graphicAnimTimer.Start(ShouldAnimate(&graphicSLP));
             }
-            else if(NextFrame)
+            else if(nextFrame)
             {
                 ShouldAnimate(&graphicSLP);
-                NextFrame = false;
+                nextFrame = false;
             }
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
@@ -350,14 +350,14 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                     if(delta.second.bitmap.IsOk())
                     {
                         dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
-                        if(AnimSLP || NextFrame)
+                        if(AnimSLP || nextFrame)
                         {
                             fpms = min(fpms, ShouldAnimate(&delta.second));
                         }
                     }
                     hasSLP = min(hasSLP, delta.second.slpID);
                 }
-                NextFrame = false;
+                nextFrame = false;
                 if(AnimSLP)
                 {
                     unitAnimTimer.Start(fpms);
@@ -383,10 +383,10 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 {
                     unitAnimTimer.Start(ShouldAnimate(&unitSLP));
                 }
-                else if(NextFrame)
+                else if(nextFrame)
                 {
                     ShouldAnimate(&unitSLP);
-                    NextFrame = false;
+                    nextFrame = false;
                 }
                 return;
             }
