@@ -69,7 +69,7 @@ public:
 	void OnMenuOption(wxCommandEvent &event);
 	void OnAutoCopy(wxCommandEvent &event);
 	void OnExitSLP(wxCloseEvent &event);
-	void OnNextFrame(wxCommandEvent &event);
+	void OnFrameButton(wxCommandEvent &event);
 
 //	Updates user interface after changing data name.
 
@@ -803,7 +803,7 @@ public:
 	int CustomTerrains, SLPareaPerCent, paletteView;
     wxFrame *slp_window;
     wxPanel *slp_view;
-    wxButton *slp_next;
+    wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save;
     wxRadioBox *slp_radio, *slp_unit_actions;
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison;
 //	wxSound SoundFile;
@@ -888,6 +888,7 @@ public:
 	//void WriteLangDLLstring(int ID, wxString Name);
     void LoadTXT(wxString &filename);
     void SLPtoBitMap(AGE_SLP*);
+    void BitMaptoSLP(AGE_SLP*);
     AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP;
 
 //	Constants, remove unneeded entries.
