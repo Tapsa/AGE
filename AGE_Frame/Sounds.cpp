@@ -453,6 +453,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
     SoundFile_Play = new wxButton(Tab_Sounds, wxID_ANY, "Play WAV", wxDefaultPosition, wxSize(5, 20));
+    SoundFile_Stop = new wxButton(Tab_Sounds, wxID_ANY, "Stop WAV", wxDefaultPosition, wxSize(5, 20));
 
 	Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
 	Sounds_AllItems_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
@@ -536,6 +537,7 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Unknown_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(SoundFile_Play, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundFile_Stop, 0, wxEXPAND | wxTOP, 5);
 
 	Sounds_Main->Add(Sounds_Sounds, 1, wxEXPAND | wxALL, 5);
 	Sounds_Main->Add(Sounds_Items, 1, wxEXPAND | wxRIGHT | wxTOP | wxBOTTOM, 5);
@@ -583,6 +585,8 @@ void AGE_Frame::CreateSoundControls()
 	Connect(Sounds_AllItems_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnAllSoundFileSelect));
 	Connect(Sounds_AllItems_Load->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::LoadAllSoundFiles));
 	Connect(Sounds_AllItems_Clear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::ClearAllSoundFiles));
+	Connect(SoundFile_Play->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::playWAV));
+	Connect(SoundFile_Stop->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::playWAV));
 
     soundTimer.Connect(soundTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundsTimer), NULL, this);
     soundFileTimer.Connect(soundFileTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundItemsTimer), NULL, this);
@@ -595,4 +599,58 @@ void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
 	event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	ListSoundItems();
+}
+
+void AGE_Frame::playWAV(wxCommandEvent &event)
+{
+    if(event.GetId() == SoundFile_Stop->GetId())
+    {
+        wxSound::Stop();
+        return;
+    }
+    if(SoundItemIDs.size() && NULL != dataset && SoundItemIDs[0] < dataset->Sounds[SoundIDs[0]].Items.size())
+    {
+        if(UseTXT)
+        {
+            wxArrayString folders;
+            wxString folder = FolderDRS2;
+            if(!folder.empty())
+            {
+                if(GenieVersion == genie::GV_Cysion)
+                {
+                    if(wxDir::Exists(folder + "\\sounds"))
+                    folders.Add(folder + "\\sounds\\");
+                    folder.Replace("-dlc2", "", false);
+                }
+                if(wxDir::Exists(folder + "\\sounds"))
+                folders.Add(folder + "\\sounds\\");
+            }
+            folder = FolderDRS;
+            if(!folder.empty())
+            {
+                if(GenieVersion == genie::GV_Cysion)
+                {
+                    if(wxDir::Exists(folder + "\\sounds"))
+                    folders.Add(folder + "\\sounds\\");
+                    folder.Replace("-dlc2", "", false);
+                }
+                if(wxDir::Exists(folder + "\\sounds"))
+                folders.Add(folder + "\\sounds\\");
+            }
+            for(int i=0; i < folders.size(); ++i)
+            {
+                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].ResourceID) + ".wav";
+                if(wxFileName(sound).FileExists())
+                {
+                    wxSound playMe(sound);
+                    if(playMe.IsOk())
+                    {
+                        playMe.Play(wxSOUND_ASYNC | wxSOUND_LOOP);
+                        return;
+                    }
+                }
+            }
+            wxMessageBox("No such sound");
+        }
+    }
 }
