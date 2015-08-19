@@ -22,6 +22,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	AGEwindow = window;
     slp_window = NULL;
     paletteView = 0;
+    NextFrame = false;
 
     if(window < AGE_Frame::openEditors.size())
     {
