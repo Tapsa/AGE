@@ -69,6 +69,7 @@ public:
 	void OnMenuOption(wxCommandEvent &event);
 	void OnAutoCopy(wxCommandEvent &event);
 	void OnExitSLP(wxCloseEvent &event);
+	void OnNextFrame(wxCommandEvent &event);
 
 //	Updates user interface after changing data name.
 
@@ -793,7 +794,7 @@ public:
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
-    bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes;
+    bool ShowSLP, AnimSLP, NextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
@@ -802,6 +803,7 @@ public:
 	int CustomTerrains, SLPareaPerCent, paletteView;
     wxFrame *slp_window;
     wxPanel *slp_view;
+    wxButton *slp_next;
     wxRadioBox *slp_radio, *slp_unit_actions;
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison;
 //	wxSound SoundFile;

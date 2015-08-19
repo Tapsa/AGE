@@ -1788,13 +1788,16 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 parentPos.x += 1000;
                 slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512));
                 slp_window->SetIcon(wxIcon(AppIcon_xpm));
-                slp_view = new wxPanel(slp_window);
+                slp_view = new wxPanel(slp_window, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
+                slp_next = new wxButton(slp_window, wxID_ANY, "Show next frame");
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
                 sizer->Add(slp_view, 1, wxEXPAND);
+                sizer->Add(slp_next, 0, wxEXPAND);
                 slp_window->SetSizer(sizer);
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
+                slp_next->Connect(slp_next->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnNextFrame), NULL, this);
                 slp_window->Show();
             }
             else
@@ -2251,12 +2254,18 @@ SLP_SWAP:
                 {
                     for(int i=0; i < area; ++i)
                     {
-                        if(i >= imgdata.bgra_channels.size()) break;
                         uint32_t bgra = imgdata.bgra_channels[i];
                         *val++ = uint8_t(bgra >> 16);
                         *val++ = uint8_t(bgra >> 8);
                         *val++ = uint8_t(bgra);
-                        *alpha++ = uint8_t(bgra >> 24);;
+                        *alpha++ = uint8_t(bgra >> 24);
+                    }
+                    // Apply transparency
+                    if(!ShowOutline)
+                    for(int i=0; i < imgdata.transparency_mask.size(); ++i)
+                    {
+                        int flat = imgdata.transparency_mask[i].y * width + imgdata.transparency_mask[i].x;
+                        rgbdata[3 * area + flat] = 0;
                     }
                     // Temp hack for interface files
                     graphic->xpos = -width / 2;
@@ -2891,6 +2900,13 @@ wxString AGE_Frame::CurrentTime()
 	os << parts->tm_min;
 	os << parts->tm_sec;
 	return buffer.str();
+}
+
+void AGE_Frame::OnNextFrame(wxCommandEvent &event)
+{
+    NextFrame = true;
+    slp_view->Refresh();
+    graphicAnimTimer.Start(100);
 }
 
 void AGE_Frame::OnExitSLP(wxCloseEvent &event)
