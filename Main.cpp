@@ -17,6 +17,7 @@ bool AGE::OnInit()
 	}
 	wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, window->ToolBar_Open);
 	window->GetEventHandler()->ProcessEvent(OpenFiles);
+    wxImage::AddHandler(new wxPNGHandler);
 
 	return true;
 }
