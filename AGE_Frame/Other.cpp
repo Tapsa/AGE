@@ -2178,170 +2178,190 @@ void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, wxString folder)
 
 void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
 {
-    if(graphic->slpID != graphic->lastSlpID)
+    if(graphic->slpID == graphic->lastSlpID)
     {
-        graphic->lastSlpID = graphic->slpID;
-        if(UseTXT)
-        {
-            wxArrayString folders;
-            addSLPFolders4SLPs(folders, FolderDRS2);
-            addSLPFolders4SLPs(folders, FolderDRS);
-            for(int i=0; i < folders.size(); ++i)
-            {
-                if(!graphic->filename.empty())
-                try
-                {
-                    graphic->slp.reset(new genie::SlpFile());
-                    wxString name = folders[i] + graphic->filename + ".slp";
-                    //log_out << name << endl;
-                    graphic->slp.get()->setGameVersion(GenieVersion);
-                    graphic->slp.get()->load(name.c_str());
-                    graphic->slp.get()->freelock();
-                    goto SLP_SWAP;
-                }
-                catch(std::ios_base::failure e){}
-            }
-            folders.clear();
-            addDRSFolders4SLPs(folders, FolderDRS2);
-            addDRSFolders4SLPs(folders, FolderDRS);
-            for(int i=0; i < folders.size(); ++i)
-            {
-                // HD uses slp ID instead
-                try
-                {
-                    graphic->slp.reset(new genie::SlpFile());
-                    wxString name = folders[i] + lexical_cast<string>(graphic->slpID) + ".slp";
-                    //log_out << name << endl;
-                    graphic->slp.get()->setGameVersion(GenieVersion);
-                    graphic->slp.get()->load(name.c_str());
-                    graphic->slp.get()->freelock();
-                    goto SLP_SWAP;
-                }
-                catch(std::ios_base::failure e){}
-            }
-        }
-        else
-        {
-            graphic->slp.reset();
-            for(auto &file: datafiles)
-            {
-                graphic->slp = file->getSlpFile(graphic->slpID);
-                //log_out << file->getFileName() << " : " << slpID << endl;
-                if(graphic->slp) break;
-                graphic->slp.reset();
-            }
-        }
-        goto SLP_SWAP;
+        LoadSLPFrame(graphic);
+        return;
     }
-    if(graphic->frameID != graphic->lastFrameID)
+    graphic->lastSlpID = graphic->slpID;
+    if(UseTXT)
     {
-SLP_SWAP:
-        graphic->lastFrameID = graphic->frameID;
-        if(graphic->slp)
+        wxArrayString folders;
+        addSLPFolders4SLPs(folders, FolderDRS2);
+        addSLPFolders4SLPs(folders, FolderDRS);
+        for(int i=0; i < folders.size(); ++i)
         {
-            genie::SlpFramePtr frame;
+            if(!graphic->filename.empty())
             try
             {
-                frame = graphic->slp.get()->getFrame(graphic->frameID);
+                graphic->slp.reset(new genie::SlpFile());
+                wxString name = folders[i] + graphic->filename + ".slp";
+                //log_out << name << endl;
+                graphic->slp.get()->setGameVersion(GenieVersion);
+                graphic->slp.get()->load(name.c_str());
+                graphic->slp.get()->freelock();
+                LoadSLPFrame(graphic);
+                return;
             }
-            catch(out_of_range){}// This or put resets in catches above.
-            if(frame)
+            catch(std::ios_base::failure e){}
+        }
+        folders.clear();
+        addDRSFolders4SLPs(folders, FolderDRS2);
+        addDRSFolders4SLPs(folders, FolderDRS);
+        for(int i=0; i < folders.size(); ++i)
+        {
+            // HD uses slp ID instead
+            try
             {
-                int width = frame.get()->getWidth();
-                int height = frame.get()->getHeight();
-                short pal_chooser = frame.get()->getProperties() >> 16;
-                graphic->xpos = -frame.get()->hotspot_x;
-                graphic->ypos = -frame.get()->hotspot_y;
-                int area = width * height;
-                vector<uint8_t> rgbdata(area * 4, 0);
-                uint8_t *val = rgbdata.data();
-                uint8_t *alpha = val + area * 3;
-                const genie::SlpFrameData *imgdata = &frame.get()->img_data;
-                if(frame.get()->is32bit())
+                graphic->slp.reset(new genie::SlpFile());
+                wxString name = folders[i] + lexical_cast<string>(graphic->slpID) + ".slp";
+                //log_out << name << endl;
+                graphic->slp.get()->setGameVersion(GenieVersion);
+                graphic->slp.get()->load(name.c_str());
+                graphic->slp.get()->freelock();
+                LoadSLPFrame(graphic);
+                return;
+            }
+            catch(std::ios_base::failure e){}
+        }
+    }
+    else
+    {
+        graphic->slp.reset();
+        for(auto &file: datafiles)
+        {
+            graphic->slp = file->getSlpFile(graphic->slpID);
+            //log_out << file->getFileName() << " : " << slpID << endl;
+            if(graphic->slp)
+            {
+                LoadSLPFrame(graphic);
+                return;
+            }
+            graphic->slp.reset();
+        }
+    }
+    graphic->bitmap = wxNullBitmap;
+}
+
+void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
+{
+    if(!graphic->slp)
+    {
+        graphic->bitmap = wxNullBitmap;
+        SetStatusText("Loading frame without SLP", 1);
+        return;
+    }
+    genie::SlpFramePtr frame;
+    SetStatusText("Looking for frame "+FormatInt(graphic->frameID), 1);
+    try
+    {
+        frame = graphic->slp.get()->getFrame(graphic->frameID);
+    }
+    catch(out_of_range){}
+    if(!frame)
+    {
+        graphic->bitmap = wxNullBitmap;
+        SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->slp.get()->getFrameCount()), 1);
+        return;
+    }
+
+    int width = frame.get()->getWidth();
+    int height = frame.get()->getHeight();
+    short pal_chooser = frame.get()->getProperties() >> 16;
+    graphic->xpos = -frame.get()->hotspot_x;
+    graphic->ypos = -frame.get()->hotspot_y;
+    int area = width * height;
+    vector<uint8_t> rgbdata(area * 4, 0);
+    uint8_t *val = rgbdata.data();
+    uint8_t *alpha = val + area * 3;
+    const genie::SlpFrameData *imgdata = &frame.get()->img_data;
+    if(frame.get()->is32bit())
+    {
+        for(int i=0; i < area; ++i)
+        {
+            uint32_t bgra = imgdata->bgra_channels[i];
+            *val++ = uint8_t(bgra >> 16);
+            *val++ = uint8_t(bgra >> 8);
+            *val++ = uint8_t(bgra);
+            *alpha++ = uint8_t(bgra >> 24);
+        }
+        // Apply transparency
+        if(!ShowOutline)
+        for(int i=0; i < imgdata->transparency_mask.size(); ++i)
+        {
+            int flat = imgdata->transparency_mask[i].y * width + imgdata->transparency_mask[i].x;
+            rgbdata[3 * area + flat] = 0;
+        }
+        // Temp hack for interface files
+        graphic->xpos = -width / 2;
+        graphic->ypos = -height / 3 * 2;
+    }
+    else
+    {
+        vector<genie::Color> *pal = &palettes[0];
+        if(pal_chooser != 0 && pal_chooser < palettes.size())
+        {
+            pal = &palettes[pal_chooser];
+        }
+        if(!pal->empty())
+        {
+            for(int i=0; i < area; ++i)
+            {
+                genie::Color rgba = (*pal)[imgdata->pixel_indexes[i]];
+                *val++ = rgba.r;
+                *val++ = rgba.g;
+                *val++ = rgba.b;
+                *alpha++ = imgdata->alpha_channel[i];
+            }
+            // Apply shadows
+            if(ShowShadows)
+            for(int i=0; i < imgdata->shadow_mask.size(); ++i)
+            {
+                int flat = imgdata->shadow_mask[i].y * width + imgdata->shadow_mask[i].x;
+                int loc = 3 * flat;
+                int locA = 3 * area + flat;
+                rgbdata[loc] = 0;
+                rgbdata[loc + 1] = 0;
+                rgbdata[loc + 2] = 0;
+                rgbdata[locA] = 127;
+            }
+            // Apply player color
+            for(int i=0; i < imgdata->player_color_mask.size(); ++i)
+            {
+                int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
+                int loc = 3 * flat;
+                int locA = 3 * area + flat;
+                genie::Color rgba = (*pal)[uint8_t(imgdata->player_color_mask[i].index + AGE_SLP::playerColorStart)];
+                rgbdata[loc] = rgba.r;
+                rgbdata[loc + 1] = rgba.g;
+                rgbdata[loc + 2] = rgba.b;
+                if(playerColorToAlpha)
                 {
-                    for(int i=0; i < area; ++i)
-                    {
-                        uint32_t bgra = imgdata->bgra_channels[i];
-                        *val++ = uint8_t(bgra >> 16);
-                        *val++ = uint8_t(bgra >> 8);
-                        *val++ = uint8_t(bgra);
-                        *alpha++ = uint8_t(bgra >> 24);
-                    }
-                    // Apply transparency
-                    if(!ShowOutline)
-                    for(int i=0; i < imgdata->transparency_mask.size(); ++i)
-                    {
-                        int flat = imgdata->transparency_mask[i].y * width + imgdata->transparency_mask[i].x;
-                        rgbdata[3 * area + flat] = 0;
-                    }
-                    // Temp hack for interface files
-                    graphic->xpos = -width / 2;
-                    graphic->ypos = -height / 3 * 2;
+                    rgbdata[locA] = 230 + imgdata->player_color_mask[i].index;
                 }
                 else
                 {
-                    vector<genie::Color> *pal = &palettes[0];
-                    if(pal_chooser != 0 && pal_chooser < palettes.size())
-                    {
-                        pal = &palettes[pal_chooser];
-                    }
-                    if(!pal->empty())
-                    {
-                        for(int i=0; i < area; ++i)
-                        {
-                            genie::Color rgba = (*pal)[imgdata->pixel_indexes[i]];
-                            *val++ = rgba.r;
-                            *val++ = rgba.g;
-                            *val++ = rgba.b;
-                            *alpha++ = imgdata->alpha_channel[i];
-                        }
-                        // Apply shadows
-                        if(ShowShadows)
-                        for(int i=0; i < imgdata->shadow_mask.size(); ++i)
-                        {
-                            int flat = imgdata->shadow_mask[i].y * width + imgdata->shadow_mask[i].x;
-                            int loc = 3 * flat;
-                            int locA = 3 * area + flat;
-                            rgbdata[loc] = 0;
-                            rgbdata[loc + 1] = 0;
-                            rgbdata[loc + 2] = 0;
-                            rgbdata[locA] = 127;
-                        }
-                        // Apply player color
-                        for(int i=0; i < imgdata->player_color_mask.size(); ++i)
-                        {
-                            int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
-                            int loc = 3 * flat;
-                            int locA = 3 * area + flat;
-                            genie::Color rgba = (*pal)[uint8_t(imgdata->player_color_mask[i].index + AGE_SLP::playerColorStart)];
-                            rgbdata[loc] = rgba.r;
-                            rgbdata[loc + 1] = rgba.g;
-                            rgbdata[loc + 2] = rgba.b;
-                            rgbdata[locA] = 255;
-                        }
-                        // Apply outline
-                        if(ShowOutline)
-                        for(int i=0; i < imgdata->outline_mask.size(); ++i)
-                        {
-                            int flat = imgdata->outline_mask[i].y * width + imgdata->outline_mask[i].x;
-                            int loc = 3 * flat;
-                            int locA = 3 * area + flat;
-                            genie::Color rgba = (*pal)[AGE_SLP::playerColorID];
-                            rgbdata[loc] = rgba.r;
-                            rgbdata[loc + 1] = rgba.g;
-                            rgbdata[loc + 2] = rgba.b;
-                            rgbdata[locA] = 255;
-                        }
-                    }
+                    rgbdata[locA] = 255;
                 }
-                unsigned char *pic = (unsigned char*)rgbdata.data();
-                unsigned char *trans = pic + area * 3;
-                graphic->bitmap = wxBitmap(wxImage(width, height, pic, trans, true), 24);
-                return;
+            }
+            // Apply outline
+            if(ShowOutline)
+            for(int i=0; i < imgdata->outline_mask.size(); ++i)
+            {
+                int flat = imgdata->outline_mask[i].y * width + imgdata->outline_mask[i].x;
+                int loc = 3 * flat;
+                int locA = 3 * area + flat;
+                genie::Color rgba = (*pal)[AGE_SLP::playerColorID];
+                rgbdata[loc] = rgba.r;
+                rgbdata[loc + 1] = rgba.g;
+                rgbdata[loc + 2] = rgba.b;
+                rgbdata[locA] = playerColorToAlpha ? 200: 255;
             }
         }
-        graphic->bitmap = wxNullBitmap;
     }
+    unsigned char *pic = (unsigned char*)rgbdata.data();
+    unsigned char *trans = pic + area * 3;
+    graphic->bitmap = wxBitmap(wxImage(width, height, pic, trans, true), 24);
 }
 
 void AGE_Frame::BitMaptoSLP(AGE_SLP *graphic)
@@ -2372,9 +2392,9 @@ void AGE_Frame::BitMaptoSLP(AGE_SLP *graphic)
         return;
     }
     genie::SlpFrameData *imgdata = &frame.get()->img_data;
-    frame.get()->setSize(img.GetWidth(), img.GetHeight());
     if(frame.get()->is32bit())
     {
+        frame.get()->setSize(img.GetWidth(), img.GetHeight());
         uint32_t *val = imgdata->bgra_channels.data();
         for(int y=0; y < img.GetHeight(); ++y)
         for(int x=0; x < img.GetWidth(); ++x)
@@ -2962,7 +2982,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
 {
     if(event.GetId() == slp_next->GetId())
     {
-        NextFrame = true;
+        nextFrame = true;
         slp_view->Refresh();
         graphicAnimTimer.Start(100);
     }
@@ -2970,40 +2990,40 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
     {
         if(AGE_SLP::currentDisplay == 6)
         {
-            if(!graphicSLP.slp) return;
-            if(UseTXT)
+            if(!graphicSLP.slp)
             {
-                if(!graphicSLP.filename.empty())
-                try
-                {
-                    wxString name = graphicSLP.filename + ".slp";
-                    graphicSLP.slp.get()->saveAs(name.c_str());
-                }
-                catch(std::ios_base::failure e)
-                {
-                    wxMessageBox("Saving SLP failed.");
-                }
+                wxMessageBox("No SLP to save", "SLP");
+                return;
+            }
+            if(graphicSLP.filename.empty())
+            {
+                wxMessageBox("No SLP filename", "SLP");
+                return;
+            }
+            try
+            {
+                wxString name = graphicSLP.filename + ".slp";
+                graphicSLP.slp.get()->saveAs(name.c_str());
+                wxMessageBox("Saved SLP " + name, "SLP");
+            }
+            catch(std::ios_base::failure e)
+            {
+                wxMessageBox("Saving SLP failed", "SLP");
             }
         }
+        else wxMessageBox("Look at some graphic", "SLP");
     }
     else if(event.GetId() == slp_frame_export->GetId())
     {
-        bool oldOutline = ShowOutline;
+        playerColorToAlpha = true;
         if(AGE_SLP::currentDisplay == 6)
         {
-            ShowOutline = false;
             SLPtoBitMap(&graphicSLP);
             if(graphicSLP.bitmap.IsOk())
             if(!graphicSLP.bitmap.SaveFile("Testi.png", wxBITMAP_TYPE_PNG))
-                wxMessageBox("Saving frame as PNG failed.");
-
-            /*ShowOutline = true;
-            SLPtoBitMap(&graphicSLP);
-            if(graphicSLP.bitmap.IsOk())
-            if(!graphicSLP.bitmap.SaveFile("Testi_outline.png", wxBITMAP_TYPE_PNG))
-                wxMessageBox("Saving outline as PNG failed.");*/
+                wxMessageBox("Saving frame as PNG failed", "SLP");
         }
-        ShowOutline = oldOutline;
+        playerColorToAlpha = false;
     }
     else if(event.GetId() == slp_frame_import->GetId())
     {

@@ -9,14 +9,13 @@ class AGE_SLP
 public:
     AGE_SLP()
     {
-        slpID = frameID = lastSlpID = lastFrameID = 0;
+        slpID = frameID = lastSlpID = 0;
         datID = -1;
         filename = "";
         xpos = ypos = xdelta = ydelta = 0;
     }
 
-    uint32_t slpID, frameID, datID;
-    uint32_t lastSlpID, lastFrameID;
+    uint32_t slpID, frameID, datID, lastSlpID;
     string filename;
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
@@ -794,7 +793,7 @@ public:
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
-    bool ShowSLP, AnimSLP, NextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes;
+    bool ShowSLP, AnimSLP, nextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
@@ -886,7 +885,9 @@ public:
 	HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
+    bool playerColorToAlpha;
     void LoadTXT(wxString &filename);
+    void LoadSLPFrame(AGE_SLP*);
     void SLPtoBitMap(AGE_SLP*);
     void BitMaptoSLP(AGE_SLP*);
     AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP;
