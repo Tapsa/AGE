@@ -616,26 +616,28 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
             wxString folder = FolderDRS2;
             if(!folder.empty())
             {
-                if(GenieVersion == genie::GV_Cysion)
-                {
-                    if(wxDir::Exists(folder + "\\sounds"))
-                    folders.Add(folder + "\\sounds\\");
-                    folder.Replace("-dlc2", "", false);
-                }
+                if(wxDir::Exists(folder + "\\gamedata_x2"))
+                folders.Add(folder + "\\gamedata_x2\\");
                 if(wxDir::Exists(folder + "\\sounds"))
                 folders.Add(folder + "\\sounds\\");
+                if(wxDir::Exists(folder + "\\interface"))
+                folders.Add(folder + "\\interface\\");
             }
             folder = FolderDRS;
             if(!folder.empty())
             {
                 if(GenieVersion == genie::GV_Cysion)
                 {
-                    if(wxDir::Exists(folder + "\\sounds"))
-                    folders.Add(folder + "\\sounds\\");
+                    if(wxDir::Exists(folder + "\\gamedata_x2"))
+                    folders.Add(folder + "\\gamedata_x2\\");
                     folder.Replace("-dlc2", "", false);
                 }
+                if(wxDir::Exists(folder + "\\gamedata_x2"))
+                folders.Add(folder + "\\gamedata_x2\\");
                 if(wxDir::Exists(folder + "\\sounds"))
                 folders.Add(folder + "\\sounds\\");
+                if(wxDir::Exists(folder + "\\interface"))
+                folders.Add(folder + "\\interface\\");
             }
             for(int i=0; i < folders.size(); ++i)
             {
@@ -650,7 +652,25 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
                     }
                 }
             }
-            wxMessageBox("No such sound");
         }
+        else
+        {
+            for(auto &file: datafiles)
+            {
+                const unsigned char* sound = file->getWavPtr(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].ResourceID);
+                if(sound)
+                {
+                    int size = *((uint32_t*)sound + 1);
+                    wxSound playMe(size, sound);
+                    if(playMe.IsOk())
+                    {
+                        playMe.Play(wxSOUND_ASYNC | wxSOUND_LOOP);
+                        return;
+                    }
+                    return;
+                }
+            }
+        }
+        wxMessageBox("No such sound");
     }
 }

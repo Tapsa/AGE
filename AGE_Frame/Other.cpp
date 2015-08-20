@@ -1876,6 +1876,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     {
                         FilesToRead.Add("\\gamedata_x1_p1.drs");
                         FilesToRead.Add("\\gamedata_x1.drs");
+                        FilesToRead.Add("\\sounds_x1.drs");
                     }
                     else if(GenieVersion == genie::GV_CC)
                     {
@@ -1883,11 +1884,13 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         FilesToRead.Add("\\interfac_x1.drs");
                         FilesToRead.Add("\\graphics_x1.drs");
                         FilesToRead.Add("\\terrain_x1.drs");
+                        FilesToRead.Add("\\sounds_x1.drs");
                     }
                     else if(GenieVersion == genie::GV_RoR)
                     {
                         FilesToRead.Add("2\\interfac.drs");
                         FilesToRead.Add("2\\graphics.drs");
+                        FilesToRead.Add("2\\sounds.drs");
                     }
                     if(GenieVersion > genie::GV_RoR)
                     {
@@ -1896,6 +1899,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     FilesToRead.Add("\\interfac.drs");
                     FilesToRead.Add("\\graphics.drs");
                     FilesToRead.Add("\\terrain.drs");
+                    FilesToRead.Add("\\sounds.drs");
                     if(GenieVersion < genie::GV_AoKB)
                     {
                         FilesToRead.Add("\\border.drs");
