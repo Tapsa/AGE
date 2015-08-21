@@ -900,10 +900,11 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         case 3: unitGraphic = dataset->Civs[UnitCivID].Units[unitID].Creatable.GarrisonGraphic; break;
     }
     if(unitGraphic >= dataset->Graphics.size()) return;
-    unitSLP.frameID = 0;
-    unitSLP.datID = unitGraphic;
-    unitSLP.filename = dataset->Graphics[unitGraphic].Name2;
-    unitSLP.slpID = dataset->Graphics[unitGraphic].SLP;
+    AGE_SLP baseSLP;
+    baseSLP.frameID = 0;
+    baseSLP.datID = unitGraphic;
+    baseSLP.filename = dataset->Graphics[unitGraphic].Name2;
+    baseSLP.slpID = dataset->Graphics[unitGraphic].SLP;
     if(dataset->Graphics[unitGraphic].Deltas.size())
     for(auto const &delta: dataset->Graphics[unitGraphic].Deltas)
     {
@@ -916,7 +917,7 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         }
         else
         {
-            deltaSLP = unitSLP;
+            deltaSLP = baseSLP;
         }
         deltaSLP.xdelta = delta.DirectionX + offsetX;
         deltaSLP.ydelta = delta.DirectionY + offsetY;
@@ -924,9 +925,9 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
     }
     else
     {
-        unitSLP.xdelta = offsetX;
-        unitSLP.ydelta = offsetY;
-        unitSLP.deltas.insert(make_pair(offsetY, unitSLP));
+        baseSLP.xdelta = offsetX;
+        baseSLP.ydelta = offsetY;
+        unitSLP.deltas.insert(make_pair(offsetY, baseSLP));
     }
 }
 
@@ -3027,9 +3028,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Special = new wxBoxSizer(wxHORIZONTAL);
 	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
-	Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
 	Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
-	Units_UseAnd[1] = new wxCheckBox(Tab_Units, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Units_UseAnd[1] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
 	Units_FilterSelector = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	for(short loop = 0; loop < 2; ++loop)
 	{
