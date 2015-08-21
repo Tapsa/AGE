@@ -369,16 +369,14 @@ void AGE_Frame::CreateTerrainBorderControls()
 		Borders_Name_Holder[loop]->Add(Borders_Name[loop], 0, wxEXPAND);
 	}
 	Borders_Enabled1_Holder->Add(Borders_Enabled, 1, wxEXPAND);
-	Borders_Enabled1_Holder->AddSpacer(2);
-	Borders_Enabled1_Holder->Add(Borders_Enabled_CheckBox, 1, wxEXPAND);
+	Borders_Enabled1_Holder->Add(Borders_Enabled_CheckBox, 1, wxEXPAND | wxLEFT, 2);
 	Borders_Enabled_Holder->Add(Borders_Enabled_Text, 0, wxEXPAND);
 	Borders_Enabled_Holder->Add(Borders_Enabled1_Holder, 1, wxEXPAND);
 	Borders_Random_Holder->Add(Borders_Random_Text, 0, wxEXPAND);
 	Borders_Random_Holder->Add(Borders_Random, 0, wxEXPAND);
 
 	Borders_UsedCountHolder->Add(Borders_UsedCountText, 0, wxEXPAND);
-	Borders_UsedCountHolder->AddSpacer(2);
-	Borders_UsedCountHolder->Add(Borders_UsedCount, 1, wxEXPAND);
+	Borders_UsedCountHolder->Add(Borders_UsedCount, 1, wxEXPAND | wxLEFT, 2);
 
 	Borders_Buttons->Add(Borders_Copy, 1, wxEXPAND);
 	Borders_Buttons->Add(Borders_Paste, 1, wxEXPAND);

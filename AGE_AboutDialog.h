@@ -15,7 +15,6 @@ class AGE_AboutDialog: public wxDialog
 	//wxStaticText *UPXInfo;
 	//wxHyperlinkCtrl *UPXLink; //http://upx.sourceforge.net/
 
-	wxBoxSizer *MainLeft;
 	wxBoxSizer *MainRight;
 	wxBoxSizer *MainAbout;
 

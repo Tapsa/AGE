@@ -299,10 +299,8 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown5_Holder->Add(Colors_Unknown5, 1, wxEXPAND);
 
 	Colors_UnknownArea_Holder->Add(Colors_Unknown3_Holder, 0, wxEXPAND);
-	Colors_UnknownArea_Holder->AddSpacer(5);
-	Colors_UnknownArea_Holder->Add(Colors_Unknown4_Holder, 0, wxEXPAND);
-	Colors_UnknownArea_Holder->AddSpacer(5);
-	Colors_UnknownArea_Holder->Add(Colors_Unknown5_Holder, 0, wxEXPAND);
+	Colors_UnknownArea_Holder->Add(Colors_Unknown4_Holder, 0, wxEXPAND | wxTOP, 5);
+	Colors_UnknownArea_Holder->Add(Colors_Unknown5_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	Colors_DataArea->Add(Colors_Name_Holder, 0, wxEXPAND | wxTOP, 5);
 	Colors_DataArea->Add(Colors_ID_Holder, 0, wxEXPAND | wxTOP, 5);
