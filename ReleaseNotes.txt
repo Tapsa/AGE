@@ -15,7 +15,7 @@ Guide makers et cetera, please include the version into which your guide was wri
 Version [b]2015.8.20[/b]:
 -Load PNG into 32-bit SLP frame.
 -Ability to save SLP graphics as SLP or PNG.
--Play WAV files directly from sounds tab (HD only).
+-Play WAV files directly from sounds tab.
 
 Version [b]2015.8.16[/b]:
 -Ability to load and show 32-bit HD SLP graphics.
