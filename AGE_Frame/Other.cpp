@@ -1143,8 +1143,8 @@ void AGE_Frame::LoadLists()
 	}
 	else
 	{
-		UnitLines_UnitLines_ListV->ClearAll();
-		UnitLines_UnitLineUnits_ListV->ClearAll();
+		UnitLines_UnitLines_ListV->DeleteAllItems();
+		UnitLines_UnitLineUnits_ListV->DeleteAllItems();
 	}
 	InitCivs(true);
 	InitUnits(GenieVersion < genie::GV_AoKA, true);
@@ -1158,20 +1158,20 @@ void AGE_Frame::LoadLists()
 	}
 	else
 	{
-		TechTrees_MainList_Ages_ListV->ClearAll();
-		TechTrees_Ages_Buildings.List->ClearAll();
-		TechTrees_Ages_Units.List->ClearAll();
-		TechTrees_Ages_Researches.List->ClearAll();
-		TechTrees_MainList_Buildings_ListV->ClearAll();
-		TechTrees_Buildings_Buildings.List->ClearAll();
-		TechTrees_Buildings_Units.List->ClearAll();
-		TechTrees_Buildings_Researches.List->ClearAll();
-		TechTrees_MainList_Units_ListV->ClearAll();
-		TechTrees_Units_Units.List->ClearAll();
-		TechTrees_MainList_Researches_ListV->ClearAll();
-		TechTrees_Researches_Buildings.List->ClearAll();
-		TechTrees_Researches_Units.List->ClearAll();
-		TechTrees_Researches_Researches.List->ClearAll();
+		TechTrees_MainList_Ages_ListV->DeleteAllItems();
+		TechTrees_Ages_Buildings.List->DeleteAllItems();
+		TechTrees_Ages_Units.List->DeleteAllItems();
+		TechTrees_Ages_Researches.List->DeleteAllItems();
+		TechTrees_MainList_Buildings_ListV->DeleteAllItems();
+		TechTrees_Buildings_Buildings.List->DeleteAllItems();
+		TechTrees_Buildings_Units.List->DeleteAllItems();
+		TechTrees_Buildings_Researches.List->DeleteAllItems();
+		TechTrees_MainList_Units_ListV->DeleteAllItems();
+		TechTrees_Units_Units.List->DeleteAllItems();
+		TechTrees_MainList_Researches_ListV->DeleteAllItems();
+		TechTrees_Researches_Buildings.List->DeleteAllItems();
+		TechTrees_Researches_Units.List->DeleteAllItems();
+		TechTrees_Researches_Researches.List->DeleteAllItems();
 	}
 	if(TimesOpened < 3)
 	{
@@ -1773,9 +1773,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		{
 			ShowSLP = event.IsChecked();
 
-            Units_IconID_SLP->Show(ShowSLP);
-            Research_IconID_SLP->Show(ShowSLP);
-
             Units_Main->Layout();
             Research_Main->Layout();
             Units_Scroller->GetSizer()->FitInside(Units_Scroller);
@@ -1821,6 +1818,14 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
 		}
 		break;
+        case MenuOption_ShowIcons:
+        {
+            ShowIcons = event.IsChecked();
+
+            Units_IconID_SLP->Show(ShowIcons);
+            Research_IconID_SLP->Show(ShowIcons);
+        }
+        break;
 		case MenuOption_AnimSLP:
 		{
 			AnimSLP = event.IsChecked();
@@ -1842,18 +1847,21 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		case MenuOption_ShowDeltas:
 		{
 			ShowDeltas = event.IsChecked();
+            graphicSLP.slpID = unitSLP.slpID = -2;
             if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		case MenuOption_ShowStack:
 		{
 			ShowStack = event.IsChecked();
+            graphicSLP.slpID = unitSLP.slpID = -2;
             if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		case MenuOption_ShowAnnexes:
 		{
 			ShowAnnexes = event.IsChecked();
+            graphicSLP.slpID = unitSLP.slpID = -2;
             if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
@@ -3068,6 +3076,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
 	Config->Write("Interaction/EnableIDFix", EnableIDFix);
 	Config->Write("Interaction/ShowSLP", ShowSLP);
+	Config->Write("Interaction/ShowIcons", ShowIcons);
 	Config->Write("Interaction/AnimSLP", AnimSLP);
 	Config->Write("Interaction/ShowShadows", ShowShadows);
 	Config->Write("Interaction/ShowOutline", ShowOutline);

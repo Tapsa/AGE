@@ -819,9 +819,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Graphics  (Search by enter)");
 
 	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
-	Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
 	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
-	Graphics_Graphics_UseAnd[1] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Graphics_Graphics_UseAnd[1] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);

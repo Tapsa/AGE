@@ -418,9 +418,9 @@ void AGE_Frame::CreateResearchControls()
 	Research_Main = new wxBoxSizer(wxHORIZONTAL);
 	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, langTabResearch);
 	Research_Research_Search = new wxTextCtrl(Tab_Research, wxID_ANY);
-	Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, langGlobalAnd, wxDefaultPosition, wxSize(40, 20));
+	Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, langGlobalAnd);
 	Research_Research_Search_R = new wxTextCtrl(Tab_Research, wxID_ANY);
-	Research_Research_UseAnd[1] = new wxCheckBox(Tab_Research, wxID_ANY, langGlobalAnd, wxDefaultPosition, wxSize(40, 20));
+	Research_Research_UseAnd[1] = new wxCheckBox(Tab_Research, wxID_ANY, langGlobalAnd);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);

@@ -48,6 +48,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("Interaction/AllCivs", &AllCivs, true);
 	Config->Read("Interaction/EnableIDFix", &EnableIDFix, true);
 	Config->Read("Interaction/ShowSLP", &ShowSLP, true);
+	Config->Read("Interaction/ShowIcons", &ShowIcons, true);
 	Config->Read("Interaction/AnimSLP", &AnimSLP, true);
 	Config->Read("Interaction/ShowShadows", &ShowShadows, true);
 	Config->Read("Interaction/ShowOutline", &ShowOutline, true);
@@ -90,7 +91,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Write("/TimesOpened", ++TimesOpened);
 	delete Config;
 
-	if(TimesOpened < 2) AnimSLP = ShowSLP = true; // For people that had these initialized to false in previous release.
+	if(TimesOpened < 2) AnimSLP = ShowSLP = ShowIcons = true; // For people that had these initialized to false in previous release.
 
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
 	int bars[5] = {295, 145, 145, 145, -1};
@@ -124,6 +125,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SubMenu_SLP = new wxMenu();
 	SubMenu_SLP->AppendCheckItem(MenuOption_ShowSLP, "Show SLP &graphics");
 	SubMenu_SLP->Check(MenuOption_ShowSLP, ShowSLP);
+	SubMenu_SLP->AppendCheckItem(MenuOption_ShowIcons, "Show SLP &icons");
+	SubMenu_SLP->Check(MenuOption_ShowIcons, ShowIcons);
 	SubMenu_SLP->AppendCheckItem(MenuOption_AnimSLP, "&Animate SLP graphics");
 	SubMenu_SLP->Check(MenuOption_AnimSLP, AnimSLP);
 	SubMenu_SLP->AppendCheckItem(MenuOption_ShowShadows, "Show SLP &shadows");
@@ -206,6 +209,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_ShowSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_ShowIcons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_AnimSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_ShowShadows, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_ShowOutline, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
@@ -246,6 +250,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowSLP);
 	ShowSLPCmd.SetInt(ShowSLP);
 	ProcessEvent(ShowSLPCmd);
+
+	wxCommandEvent ShowIconsCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowIcons);
+	ShowIconsCmd.SetInt(ShowIcons);
+	ProcessEvent(ShowIconsCmd);
 
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
