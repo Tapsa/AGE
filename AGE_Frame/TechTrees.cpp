@@ -2643,9 +2643,9 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Ages_UnknownItems.CreateControls(this, AGEwindow, TechTrees_ScrollerAges);
 
 	TechTrees_MainList_Buildings_Search = new wxTextCtrl(Tab_TechTreeBuildings, wxID_ANY);
-	TechTrees_MainList_Buildings_UseAnd[0] = new wxCheckBox(Tab_TechTreeBuildings, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	TechTrees_MainList_Buildings_UseAnd[0] = new wxCheckBox(Tab_TechTreeBuildings, wxID_ANY, "And");
 	TechTrees_MainList_Buildings_Search_R = new wxTextCtrl(Tab_TechTreeBuildings, wxID_ANY);
-	TechTrees_MainList_Buildings_UseAnd[1] = new wxCheckBox(Tab_TechTreeBuildings, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	TechTrees_MainList_Buildings_UseAnd[1] = new wxCheckBox(Tab_TechTreeBuildings, wxID_ANY, "And");
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Buildings_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
@@ -2718,9 +2718,9 @@ void AGE_Frame::CreateTechTreeControls()
 	}
 
 	TechTrees_MainList_Units_Search = new wxTextCtrl(Tab_TechTreeUnits, wxID_ANY);
-	TechTrees_MainList_Units_UseAnd[0] = new wxCheckBox(Tab_TechTreeUnits, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	TechTrees_MainList_Units_UseAnd[0] = new wxCheckBox(Tab_TechTreeUnits, wxID_ANY, "And");
 	TechTrees_MainList_Units_Search_R = new wxTextCtrl(Tab_TechTreeUnits, wxID_ANY);
-	TechTrees_MainList_Units_UseAnd[1] = new wxCheckBox(Tab_TechTreeUnits, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	TechTrees_MainList_Units_UseAnd[1] = new wxCheckBox(Tab_TechTreeUnits, wxID_ANY, "And");
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
@@ -2781,9 +2781,9 @@ void AGE_Frame::CreateTechTreeControls()
 	UnitComboBoxList.push_front(TechTrees_Units_Units.ItemCombo);
 
 	TechTrees_MainList_Researches_Search = new wxTextCtrl(Tab_TechTreeResearches, wxID_ANY);
-	TechTrees_MainList_Researches_UseAnd[0] = new wxCheckBox(Tab_TechTreeResearches, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	TechTrees_MainList_Researches_UseAnd[0] = new wxCheckBox(Tab_TechTreeResearches, wxID_ANY, "And");
 	TechTrees_MainList_Researches_Search_R = new wxTextCtrl(Tab_TechTreeResearches, wxID_ANY);
-	TechTrees_MainList_Researches_UseAnd[1] = new wxCheckBox(Tab_TechTreeResearches, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	TechTrees_MainList_Researches_UseAnd[1] = new wxCheckBox(Tab_TechTreeResearches, wxID_ANY, "And");
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Researches_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
