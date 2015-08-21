@@ -660,8 +660,7 @@ void AGE_Frame::CreateTerrainControls()
 	}
 
 	Terrains_UsedCountHolder->Add(Terrains_UsedCountText, 0, wxEXPAND);
-	Terrains_UsedCountHolder->AddSpacer(2);
-	Terrains_UsedCountHolder->Add(Terrains_UsedCount, 1, wxEXPAND);
+	Terrains_UsedCountHolder->Add(Terrains_UsedCount, 1, wxEXPAND | wxLEFT, 2);
 
 	Terrains_Terrains_Buttons->Add(Terrains_Add, 1, wxEXPAND);
 	Terrains_Terrains_Buttons->Add(Terrains_Delete, 1, wxEXPAND);
@@ -683,8 +682,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Unknown1_Holder->Add(Terrains_Unknown1_Text, 0, wxEXPAND);
 	Terrains_Unknown1_Holder->Add(Terrains_Unknown1, 0, wxEXPAND);
 	Terrains_Enabled1_Holder->Add(Terrains_Enabled, 1, wxEXPAND);
-	Terrains_Enabled1_Holder->AddSpacer(2);
-	Terrains_Enabled1_Holder->Add(Terrains_Enabled_CheckBox, 1, wxEXPAND);
+	Terrains_Enabled1_Holder->Add(Terrains_Enabled_CheckBox, 1, wxEXPAND | wxLEFT, 2);
 	Terrains_Enabled_Holder->Add(Terrains_Enabled_Text, 0, wxEXPAND);
 	Terrains_Enabled_Holder->Add(Terrains_Enabled1_Holder, 1, wxEXPAND);
 	Terrains_Random_Holder->Add(Terrains_Random_Text, 0, wxEXPAND);

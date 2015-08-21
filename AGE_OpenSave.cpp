@@ -5,8 +5,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 : wxDialog(parent, -1, title+" files...", wxDefaultPosition, wxSize(500, 250), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxNO_DEFAULT)
 {
 	ForceDat = opener = false;
-	Area = new wxBoxSizer(wxVERTICAL);
-	Main = new wxBoxSizer(wxHORIZONTAL);
+	Main = new wxBoxSizer(wxVERTICAL);
 	Defaults = new wxBoxSizer(wxHORIZONTAL);
 	Buttons = new wxBoxSizer(wxHORIZONTAL);
 

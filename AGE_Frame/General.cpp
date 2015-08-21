@@ -1574,8 +1574,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_DataArea->Add(RMSBaseZones_Unknown1_Grid, 0, wxEXPAND);
 
 	RMSBaseZones->Add(RMSBaseZones_ListArea, 1, wxEXPAND);
-	RMSBaseZones->AddSpacer(5);
-	RMSBaseZones->Add(RMSBaseZones_DataArea, 3, wxEXPAND);
+	RMSBaseZones->Add(RMSBaseZones_DataArea, 3, wxEXPAND | wxLEFT, 5);
 
 	Unknowns_Pointer2_Holder->Add(Unknowns_Pointer2_Text, 0, wxEXPAND | wxBOTTOM, 2);
 	Unknowns_Pointer2_Holder->Add(Unknowns_Pointer2, 1, wxEXPAND);
@@ -1604,8 +1603,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_DataArea->Add(RMSTerrain_Unknown1_Grid, 0, wxEXPAND);
 
 	RMSTerrain->Add(RMSTerrain_ListArea, 1, wxEXPAND);
-	RMSTerrain->AddSpacer(5);
-	RMSTerrain->Add(RMSTerrain_DataArea, 3, wxEXPAND);
+	RMSTerrain->Add(RMSTerrain_DataArea, 3, wxEXPAND | wxLEFT, 5);
 
 	Unknowns_Pointer3_Holder->Add(Unknowns_Pointer3_Text, 0, wxEXPAND | wxBOTTOM, 2);
 	Unknowns_Pointer3_Holder->Add(Unknowns_Pointer3, 1, wxEXPAND);
@@ -1663,8 +1661,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_DataArea->Add(RMSUnit_Unknown1_Grid, 0, wxEXPAND);
 
 	RMSUnit->Add(RMSUnit_ListArea, 1, wxEXPAND);
-	RMSUnit->AddSpacer(5);
-	RMSUnit->Add(RMSUnit_DataArea, 3, wxEXPAND);
+	RMSUnit->Add(RMSUnit_DataArea, 3, wxEXPAND | wxLEFT, 5);
 
 	Unknowns_Pointer4_Holder->Add(Unknowns_Pointer4_Text, 0, wxEXPAND | wxBOTTOM, 2);
 	Unknowns_Pointer4_Holder->Add(Unknowns_Pointer4, 1, wxEXPAND);
@@ -1693,8 +1690,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnknown_DataArea->Add(RMSUnknown_Unknown1_Grid, 0, wxEXPAND);
 
 	RMSUnknown->Add(RMSUnknown_ListArea, 1, wxEXPAND);
-	RMSUnknown->AddSpacer(5);
-	RMSUnknown->Add(RMSUnknown_DataArea, 3, wxEXPAND);
+	RMSUnknown->Add(RMSUnknown_DataArea, 3, wxEXPAND | wxLEFT, 5);
 
 	Unknown_ScrollSpace->Add(Unknowns_Space_UnknownLevel, 0, wxEXPAND);
 	Unknown_ScrollSpace->Add(Unknowns_Unknown1_Grid, 0, wxEXPAND | wxTOP, 5);

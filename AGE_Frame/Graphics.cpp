@@ -1072,8 +1072,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_SoundID_Holder->Add(Graphics_SoundID, 1, wxEXPAND);
 	Graphics_SoundID_Holder->Add(Graphics_SoundID_ComboBox, 1, wxEXPAND);
 	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed, 2, wxEXPAND);
-	Graphics_AttackSoundUsed1_Holder->AddSpacer(2);
-	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed_CheckBox, 1, wxEXPAND);
+	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed_CheckBox, 1, wxEXPAND | wxLEFT, 2);
 	Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed_Text, 0, wxEXPAND);
 	Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed1_Holder, 1, wxEXPAND);
 	Graphics_FrameCount_Holder->Add(Graphics_FrameCount_Text, 0, wxEXPAND);
