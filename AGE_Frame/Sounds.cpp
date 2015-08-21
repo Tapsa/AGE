@@ -413,9 +413,9 @@ void AGE_Frame::CreateSoundControls()
 		Sounds_Items_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Sounds, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	}
 	Sounds_Items_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_Items_UseAnd[0] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Sounds_Items_UseAnd[0] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And");
 	Sounds_Items_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_Items_UseAnd[1] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Sounds_Items_UseAnd[1] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And");
 	Sounds_Items_ListV = new AGEListView(Tab_Sounds, wxSize(200, 100));
 	SoundItems_Add = new wxButton(Tab_Sounds, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Insert = new wxButton(Tab_Sounds, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -452,16 +452,19 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+	wxSizer *SoundFile_Holder = new wxBoxSizer(wxHORIZONTAL);
+    SoundFile_Loop = new wxCheckBox(Tab_Sounds, wxID_ANY, "Loop");
     SoundFile_Play = new wxButton(Tab_Sounds, wxID_ANY, "Play WAV", wxDefaultPosition, wxSize(5, 20));
     SoundFile_Stop = new wxButton(Tab_Sounds, wxID_ANY, "Stop WAV", wxDefaultPosition, wxSize(5, 20));
+    SoundFile_Loop->SetValue(true);
 
 	Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
 	Sounds_AllItems_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
 	Sounds_AllItems_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
 	Sounds_AllItems_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_AllItems_UseAnd[0] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Sounds_AllItems_UseAnd[0] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And");
 	Sounds_AllItems_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
-	Sounds_AllItems_UseAnd[1] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Sounds_AllItems_UseAnd[1] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And");
 	Sounds_AllItems_ListV = new AGEListView(Tab_Sounds, wxSize(200, 100));
 	Sounds_AllItems_Buttons = new wxBoxSizer(wxHORIZONTAL);
 	Sounds_AllItems_Load = new wxButton(Tab_Sounds, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));
@@ -536,8 +539,10 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_DataArea->Add(SoundItems_Probability_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Unknown_Holder, 0, wxEXPAND | wxTOP, 5);
-	Sounds_DataArea->Add(SoundFile_Play, 0, wxEXPAND | wxTOP, 5);
-	Sounds_DataArea->Add(SoundFile_Stop, 0, wxEXPAND | wxTOP, 5);
+	SoundFile_Holder->Add(SoundFile_Loop, 0, wxEXPAND);
+	SoundFile_Holder->Add(SoundFile_Play, 1, wxEXPAND | wxLEFT, 5);
+	SoundFile_Holder->Add(SoundFile_Stop, 1, wxEXPAND | wxLEFT, 5);
+	Sounds_DataArea->Add(SoundFile_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	Sounds_Main->Add(Sounds_Sounds, 1, wxEXPAND | wxALL, 5);
 	Sounds_Main->Add(Sounds_Items, 1, wxEXPAND | wxRIGHT | wxTOP | wxBOTTOM, 5);
@@ -610,6 +615,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
     }
     if(SoundItemIDs.size() && NULL != dataset && SoundItemIDs[0] < dataset->Sounds[SoundIDs[0]].Items.size())
     {
+        bool loop = SoundFile_Loop->GetValue();
         if(UseTXT)
         {
             wxArrayString folders;
@@ -647,7 +653,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
                     wxSound playMe(sound);
                     if(playMe.IsOk())
                     {
-                        playMe.Play(wxSOUND_ASYNC | wxSOUND_LOOP);
+                        playMe.Play(loop ? wxSOUND_ASYNC | wxSOUND_LOOP : wxSOUND_ASYNC);
                         return;
                     }
                 }
@@ -664,7 +670,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
                     wxSound playMe(size, sound);
                     if(playMe.IsOk())
                     {
-                        playMe.Play(wxSOUND_ASYNC | wxSOUND_LOOP);
+                        playMe.Play(loop ? wxSOUND_ASYNC | wxSOUND_LOOP : wxSOUND_ASYNC);
                         return;
                     }
                     return;

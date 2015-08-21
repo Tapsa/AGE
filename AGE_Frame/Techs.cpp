@@ -1050,9 +1050,9 @@ void AGE_Frame::CreateTechControls()
 	Techs_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
 	Techs_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
 	Techs_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
-	Techs_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Techs_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
-	Techs_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Techs_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
 	Techs_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -1070,9 +1070,9 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
 	Techs_Effects_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
 	Techs_Effects_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
-	Techs_Effects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Techs_Effects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
-	Techs_Effects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Techs_Effects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_Effects_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
 	Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
@@ -1146,9 +1146,9 @@ void AGE_Frame::CreateTechControls()
 	Techs_AllEffects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
 	Techs_AllEffects_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
 	Techs_AllEffects_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
-	Techs_AllEffects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Techs_AllEffects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_AllEffects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
-	Techs_AllEffects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And", wxDefaultPosition, wxSize(40, 20));
+	Techs_AllEffects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_AllEffects_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
 	Techs_AllEffects_Buttons = new wxBoxSizer(wxHORIZONTAL);
 	Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));

@@ -794,7 +794,7 @@ public:
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
-    bool ShowSLP, AnimSLP, nextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes;
+    bool ShowSLP, AnimSLP, nextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
@@ -901,6 +901,7 @@ public:
 		MenuOption_IDFix,
 		MenuOption_Buttons,
 		MenuOption_ShowSLP,
+		MenuOption_ShowIcons,
 		MenuOption_AnimSLP,
 		MenuOption_ShowShadows,
 		MenuOption_ShowOutline,
@@ -2946,6 +2947,7 @@ public:
 	wxStaticText *SoundItems_Unknown_Text;
 	AGETextCtrl *SoundItems_Unknown;
     wxButton *SoundFile_Play;
+    wxCheckBox *SoundFile_Loop;
     wxButton *SoundFile_Stop;
 
 	wxStaticBoxSizer *Sounds_AllItems;
