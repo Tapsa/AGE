@@ -1824,37 +1824,37 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		case MenuOption_AnimSLP:
 		{
 			AnimSLP = event.IsChecked();
-            Refresh();
+            if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		case MenuOption_ShowShadows:
 		{
 			ShowShadows = event.IsChecked();
-            Refresh();
+            if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		case MenuOption_ShowOutline:
 		{
 			ShowOutline = event.IsChecked();
-            Refresh();
+            if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		case MenuOption_ShowDeltas:
 		{
 			ShowDeltas = event.IsChecked();
-            Refresh();
+            if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		case MenuOption_ShowStack:
 		{
 			ShowStack = event.IsChecked();
-            Refresh();
+            if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		case MenuOption_ShowAnnexes:
 		{
 			ShowAnnexes = event.IsChecked();
-            Refresh();
+            if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		/*case MenuOption_IDFix:
@@ -2348,18 +2348,30 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
                     rgbdata[locA] = 255;
                 }
             }
-            // Apply outline
+            // Apply outlines
             if(ShowOutline)
-            for(int i=0; i < imgdata->outline_mask.size(); ++i)
             {
-                int flat = imgdata->outline_mask[i].y * width + imgdata->outline_mask[i].x;
-                int loc = 3 * flat;
-                int locA = 3 * area + flat;
-                genie::Color rgba = (*pal)[AGE_SLP::playerColorID];
-                rgbdata[loc] = rgba.r;
-                rgbdata[loc + 1] = rgba.g;
-                rgbdata[loc + 2] = rgba.b;
-                rgbdata[locA] = playerColorToAlpha ? 200: 255;
+                for(int i=0; i < imgdata->outline_mask.size(); ++i)
+                {
+                    int flat = imgdata->outline_mask[i].y * width + imgdata->outline_mask[i].x;
+                    int loc = 3 * flat;
+                    int locA = 3 * area + flat;
+                    rgbdata[loc] = 0;
+                    rgbdata[loc + 1] = 0;
+                    rgbdata[loc + 2] = 0;
+                    rgbdata[locA] = playerColorToAlpha ? 200: 255;
+                }
+                for(int i=0; i < imgdata->outline_pc_mask.size(); ++i)
+                {
+                    int flat = imgdata->outline_pc_mask[i].y * width + imgdata->outline_pc_mask[i].x;
+                    int loc = 3 * flat;
+                    int locA = 3 * area + flat;
+                    genie::Color rgba = (*pal)[AGE_SLP::playerColorID];
+                    rgbdata[loc] = rgba.r;
+                    rgbdata[loc + 1] = rgba.g;
+                    rgbdata[loc + 2] = rgba.b;
+                    rgbdata[locA] = playerColorToAlpha ? 201: 255;
+                }
             }
         }
     }

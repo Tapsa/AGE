@@ -420,7 +420,7 @@ string AGE_Frame::GetResourceName(int index)
 			break;
 		case 80: Name = "Queued Units"; break;
 		case 81: Name = "Training Count"; break;
-		case 82: Name = "Start With Packed Town Center / Raider"; break;
+		case 82: Name = "Start with Packed Town Center"; break;
 		case 83: Name = "Boarding Recharge Rate"; break;
 		case 84: Name = "Starting Villagers"; break;
 		case 85: Name = "Research Cost Modifier"; break;
@@ -458,7 +458,7 @@ string AGE_Frame::GetResourceName(int index)
 			else
 			Name = "Starting Nova";
 			break;
-		case 95: Name = "Enable Town Center Packing / Raider Ability"; break;
+		case 95: Name = "Enable PTWC / Kidnap / Loot"; break;
 		case 96: Name = "Berserker Heal Timer"; break;
 		case 97: Name = "Dominant Sheep Control"; break;
 		case 98: Name = "Object Cost Summation"; break;
