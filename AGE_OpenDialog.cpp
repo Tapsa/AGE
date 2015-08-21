@@ -33,12 +33,11 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->Add(RecentText, 1, wxEXPAND);
 	Layout->Add(CheckBox_Recent, 1, wxEXPAND);
 	Layout->Add(DriveText, 1, wxEXPAND);
-	DriveLetterArea->Add(DriveLetterBox, 0);
-	DriveLetterArea->Add(LanguageText, 0);
-	DriveLetterArea->Add(LanguageBox, 0);
-	DriveLetterArea->Add(TerrainsText, 0);
-	DriveLetterArea->Add(TerrainsBox, 0);
-	DriveLetterArea->AddStretchSpacer(1);
+	DriveLetterArea->Add(DriveLetterBox);
+	DriveLetterArea->Add(LanguageText);
+	DriveLetterArea->Add(LanguageBox);
+	DriveLetterArea->Add(TerrainsText);
+	DriveLetterArea->Add(TerrainsBox);
 	Layout->Add(DriveLetterArea, 1, wxEXPAND);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
@@ -70,17 +69,9 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->AddGrowableCol(1, 1);
 	Layout->AddGrowableRow(15, 1);
 
-	Area->AddSpacer(5);
-	Area->Add(Defaults, 0, wxALIGN_CENTRE);
-	Area->AddSpacer(15);
-	Area->Add(Layout, 1, wxEXPAND);
-	Area->AddSpacer(15);
-	Area->Add(Buttons, 0, wxALIGN_RIGHT);
-	Area->AddSpacer(5);
-
-	Main->AddSpacer(5);
-	Main->Add(Area, 1, wxEXPAND);
-	Main->AddSpacer(5);
+	Main->Add(Defaults, 0, wxALIGN_CENTRE | wxALL, 5);
+	Main->Add(Layout, 1, wxEXPAND | wxALL, 5);
+	Main->Add(Buttons, 0, wxALIGN_RIGHT | wxALL, 5);
 
     TerrainsBox->Enable(false);
 	SetSizerAndFit(Main);

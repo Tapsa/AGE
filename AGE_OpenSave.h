@@ -28,7 +28,6 @@ public:
 	/* Member Variables */
 
 	bool ForceDat, opener;
-	wxBoxSizer *Area;
 	wxBoxSizer *Main;
 	wxBoxSizer *Defaults;
 	wxFlexGridSizer *Layout;

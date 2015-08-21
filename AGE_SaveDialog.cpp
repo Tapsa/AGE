@@ -48,17 +48,9 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 	Layout->AddGrowableCol(1, 1);
 	Layout->AddGrowableRow(11, 1);
 
-	Area->AddSpacer(5);
-	Area->Add(Defaults, 0, wxALIGN_CENTRE);
-	Area->AddSpacer(15);
-	Area->Add(Layout, 1, wxEXPAND);
-	Area->AddSpacer(15);
-	Area->Add(Buttons, 0, wxALIGN_RIGHT);
-	Area->AddSpacer(5);
-
-	Main->AddSpacer(5);
-	Main->Add(Area, 1, wxEXPAND);
-	Main->AddSpacer(5);
+	Main->Add(Defaults, 0, wxALIGN_CENTRE | wxALL, 5);
+	Main->Add(Layout, 1, wxEXPAND | wxALL, 5);
+	Main->Add(Buttons, 0, wxALIGN_RIGHT | wxALL, 5);
 
 	SetSizerAndFit(Main);
     SetDefaultItem(ButtonOK);
