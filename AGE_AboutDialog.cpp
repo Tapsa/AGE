@@ -13,29 +13,17 @@ AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent)
     //UPXInfo = new wxStaticText(this, wxID_ANY, "Compressed with:");
     //UPXLink = new wxHyperlinkCtrl(this, wxID_ANY, "The Ultimate Packer for eXecutables", "http://upx.sourceforge.net", wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_CONTEXTMENU | wxHL_ALIGN_LEFT);
 
-    MainLeft = new wxBoxSizer(wxVERTICAL);
     MainRight = new wxBoxSizer(wxVERTICAL);
     MainAbout = new wxBoxSizer(wxHORIZONTAL);
 
-    MainLeft->Add(-1, 15);
-    MainLeft->Add(Image, 0, 0);
-    MainLeft->Add(-1, 15);
-
-    MainRight->Add(-1, 15);
     MainRight->Add(Title, 0, wxEXPAND);
-    MainRight->Add(-1, 15);
-    MainRight->Add(Credits, 1, wxEXPAND);
-    MainRight->Add(-1, 15);
+    MainRight->Add(Credits, 1, wxEXPAND | wxTOP | wxBOTTOM, 15);
     MainRight->Add(AoKHThread, 0, wxEXPAND);
     //MainRight->Add(UPXInfo, 0, wxEXPAND);
     //MainRight->Add(UPXLink, 0, wxEXPAND);
-    MainRight->Add(-1, 15);
 
-    MainAbout->Add(15, -1);
-    MainAbout->Add(MainLeft, 0, wxEXPAND);
-    MainAbout->Add(15, -1);
-    MainAbout->Add(MainRight, 1, wxEXPAND);
-    MainAbout->Add(15, -1);
+    MainAbout->Add(Image, 0, wxALL, 15);
+    MainAbout->Add(MainRight, 1, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 15);
 
     SetSizerAndFit(MainAbout);
 }

@@ -420,14 +420,12 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Buttons, 0, wxEXPAND);
 
 	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible, 0, wxEXPAND);
-	TerRestrict_Accessible2_Holder->AddSpacer(2);
-	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible_CheckBox, 2, wxEXPAND);
+	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible_CheckBox, 2, wxEXPAND | wxLEFT, 2);
 	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible_Text, 0, wxEXPAND);
 	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible2_Holder, 1, wxEXPAND);
 
 	TerRestrict_Unknown1Sub_Holder->Add(TerRestrict_Unknown1, 1, wxEXPAND);
-	TerRestrict_Unknown1Sub_Holder->AddSpacer(2);
-	TerRestrict_Unknown1Sub_Holder->Add(TerRestrict_Unknown1_CheckBox, 1, wxEXPAND);
+	TerRestrict_Unknown1Sub_Holder->Add(TerRestrict_Unknown1_CheckBox, 1, wxEXPAND | wxLEFT, 2);
 	TerRestrict_Unknown1_Holder->Add(TerRestrict_Unknown1_Text, 0, wxEXPAND);
 	TerRestrict_Unknown1_Holder->Add(TerRestrict_Unknown1Sub_Holder, 1, wxEXPAND);
 	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_Text, 0, wxEXPAND);
