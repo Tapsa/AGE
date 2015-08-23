@@ -253,6 +253,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		TabBar_Main->ChangeSelection(4);
 	}
 
+    if(wxFileName(DatFileName).FileExists())
 	{
 		SetStatusText("Reading file...", 0);
 		wxBusyCursor WaitCursor;
@@ -308,7 +309,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 
 		if(LangsUsed & 1)
 		{
-			if(sizeof(size_t) > 4 || WriteLangs)
+			if((sizeof(size_t) > 4 || WriteLangs) && wxFileName(LangFileName).FileExists())
 			{
 				Lang = new genie::LangFile();
 				Lang->setDefaultCharset(LangCharset);
@@ -328,7 +329,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 		if(LangsUsed & 2)
 		{
-			if(sizeof(size_t) > 4 || WriteLangs)
+			if((sizeof(size_t) > 4 || WriteLangs) && wxFileName(LangX1FileName).FileExists())
 			{
 				LangX = new genie::LangFile();
 				LangX->setDefaultCharset(LangCharset);
@@ -348,7 +349,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 		if(LangsUsed & 4)
 		{
-			if(sizeof(size_t) > 4 || WriteLangs)
+			if((sizeof(size_t) > 4 || WriteLangs) && wxFileName(LangX1P1FileName).FileExists())
 			{
 				LangXP = new genie::LangFile();
 				LangXP->setDefaultCharset(LangCharset);
@@ -1785,20 +1786,23 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 parentPos.x += 1000;
                 slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512));
                 slp_window->SetIcon(wxIcon(AppIcon_xpm));
-                slp_view = new wxPanel(slp_window, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
-                slp_next = new wxButton(slp_window, wxID_ANY, "Show next frame");
-                slp_frame_export = new wxButton(slp_window, wxID_ANY, "Export frame to PNGs");
-                slp_frame_import = new wxButton(slp_window, wxID_ANY, "Import PNGs to frame");
-                slp_save = new wxButton(slp_window, wxID_ANY, "Save SLP");
+                wxPanel *panel = new wxPanel(slp_window);
+                slp_view = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
+                slp_next = new wxButton(panel, wxID_ANY, "Show next frame");
+                slp_frame_export = new wxButton(panel, wxID_ANY, "Export frame to PNGs");
+                slp_frame_import = new wxButton(panel, wxID_ANY, "Import PNGs to frame");
+                slp_save = new wxButton(panel, wxID_ANY, "Save SLP");
+                slp_hotspot = new wxCheckBox(panel, wxID_ANY, "Hotspot");
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
                 wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
                 sizer->Add(slp_view, 1, wxEXPAND);
-                sizer2->Add(slp_next, 0, wxEXPAND);
-                sizer2->Add(slp_frame_export, 0, wxEXPAND);
-                sizer2->Add(slp_frame_import, 0, wxEXPAND);
-                sizer2->Add(slp_save, 0, wxEXPAND);
+                sizer2->Add(slp_next);
+                sizer2->Add(slp_frame_export);
+                sizer2->Add(slp_frame_import);
+                sizer2->Add(slp_save);
+                sizer2->Add(slp_hotspot, 0, wxALL, 2);
                 sizer->Add(sizer2, 0, wxEXPAND);
-                slp_window->SetSizer(sizer);
+                panel->SetSizer(sizer);
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
@@ -1806,6 +1810,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_frame_export->Connect(slp_frame_export->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_frame_import->Connect(slp_frame_import->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_save->Connect(slp_save->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_hotspot->Connect(slp_hotspot->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_window->Show();
             }
             else
@@ -2359,16 +2364,18 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
             // Apply outlines
             if(ShowOutline)
             {
+                // Shield
                 for(int i=0; i < imgdata->outline_mask.size(); ++i)
                 {
                     int flat = imgdata->outline_mask[i].y * width + imgdata->outline_mask[i].x;
                     int loc = 3 * flat;
                     int locA = 3 * area + flat;
                     rgbdata[loc] = 0;
-                    rgbdata[loc + 1] = 0;
+                    rgbdata[loc + 1] = 255;
                     rgbdata[loc + 2] = 0;
-                    rgbdata[locA] = playerColorToAlpha ? 200: 255;
+                    rgbdata[locA] = playerColorToAlpha ? 201: 255;
                 }
+                // Player color
                 for(int i=0; i < imgdata->outline_pc_mask.size(); ++i)
                 {
                     int flat = imgdata->outline_pc_mask[i].y * width + imgdata->outline_pc_mask[i].x;
@@ -2378,7 +2385,7 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
                     rgbdata[loc] = rgba.r;
                     rgbdata[loc + 1] = rgba.g;
                     rgbdata[loc + 2] = rgba.b;
-                    rgbdata[locA] = playerColorToAlpha ? 201: 255;
+                    rgbdata[locA] = playerColorToAlpha ? 200: 255;
                 }
             }
         }
@@ -3056,6 +3063,11 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             BitMaptoSLP(&graphicSLP);
         }
         graphicAnimTimer.Start(100);
+    }
+    else if(event.GetId() == slp_hotspot->GetId())
+    {
+        DrawHot = slp_hotspot->GetValue();
+        slp_view->Refresh();
     }
 }
 

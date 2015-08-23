@@ -388,12 +388,9 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Borders->Add(Borders_Buttons, 0, wxEXPAND | wxTOP, 2);
 
 	Borders_DataTopRow->Add(Borders_Enabled_Holder, 3, wxEXPAND);
-	Borders_DataTopRow->AddSpacer(5);
-	Borders_DataTopRow->Add(Borders_Random_Holder, 2, wxEXPAND);
-	Borders_DataTopRow->AddSpacer(5);
-	Borders_DataTopRow->Add(Borders_Name_Holder[0], 8, wxEXPAND);
-	Borders_DataTopRow->AddSpacer(5);
-	Borders_DataTopRow->Add(Borders_Name_Holder[1], 8, wxEXPAND);
+	Borders_DataTopRow->Add(Borders_Random_Holder, 2, wxEXPAND | wxLEFT, 5);
+	Borders_DataTopRow->Add(Borders_Name_Holder[0], 8, wxEXPAND | wxLEFT, 5);
+	Borders_DataTopRow->Add(Borders_Name_Holder[1], 8, wxEXPAND | wxLEFT, 5);
 
 	Borders_SLP_Holder->Add(Borders_SLP_Text, 0, wxEXPAND);
 	Borders_SLP_Holder->Add(Borders_SLP, 0, wxEXPAND);
@@ -466,14 +463,11 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Flag2_Holder->Add(Borders_Flag2, 1, wxEXPAND);
 
 	Borders_FrameArea_Holder->Add(Borders_FrameID_Holder, 0, wxEXPAND);
-	Borders_FrameArea_Holder->AddSpacer(5);
-	Borders_FrameArea_Holder->Add(Borders_Flag1_Holder, 0, wxEXPAND);
-	Borders_FrameArea_Holder->AddSpacer(5);
-	Borders_FrameArea_Holder->Add(Borders_Flag2_Holder, 0, wxEXPAND);
+	Borders_FrameArea_Holder->Add(Borders_Flag1_Holder, 0, wxEXPAND | wxTOP, 5);
+	Borders_FrameArea_Holder->Add(Borders_Flag2_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	Borders_Frames_Holder->Add(Borders_Frames, 3, wxEXPAND);
-	Borders_Frames_Holder->AddSpacer(5);
-	Borders_Frames_Holder->Add(Borders_FrameArea_Holder, 2, wxEXPAND);
+	Borders_Frames_Holder->Add(Borders_FrameArea_Holder, 2, wxEXPAND | wxLEFT, 5);
 	Borders_FrameData->Add(Borders_Frames_Holder, 5, wxEXPAND);
 	Borders_FrameData->AddStretchSpacer(3);
 

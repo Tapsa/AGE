@@ -44,14 +44,10 @@ public:
 
 		ItemList->Add(Search, 0, wxEXPAND);
 		ItemList->Add(SearchRecursive, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
-		ItemList->Add(List, 1, wxEXPAND);
-		ItemList->Add(-1, 2);
+		ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
 		ItemList->Add(Item, 0, wxEXPAND);
 		ItemList->Add(ItemCombo, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
-		ItemList->Add(Buttons, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
+		ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
 		ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
 	}
 };
@@ -116,27 +112,21 @@ public:
 		Buttons->Add(Paste, 1, wxEXPAND);
 
 		Item_H->Add(Mode, 0, wxEXPAND);
-		Item_H->Add(2, -1);
-		Item_H->Add(Item, 2, wxEXPAND);
+		Item_H->Add(Item, 2, wxEXPAND | wxLEFT, 2);
 
 		ItemList->Add(Search, 0, wxEXPAND);
 		ItemList->Add(SearchRecursive, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
-		ItemList->Add(List, 1, wxEXPAND);
-		ItemList->Add(-1, 2);
+		ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
 		ItemList->Add(Item_H, 0, wxEXPAND);
 		ItemList->Add(ItemCombo, 0, wxEXPAND);
 		ItemList->Add(ModeCombo, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
-		ItemList->Add(Buttons, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
+		ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
 		ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
 
 		UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
 		UsedItems_H->Add(UsedItems, 0, wxEXPAND);
 		Area->Add(UsedItems_H, 0, wxEXPAND);
-		Area->Add(-1, 2);
-		Area->Add(ItemList, 0, wxEXPAND);
+		Area->Add(ItemList, 0, wxEXPAND | wxTOP, 2);
 	}
 };
 
@@ -183,18 +173,13 @@ public:
 		Buttons->Add(Paste, 1, wxEXPAND);
 
 		Unknowns_H->Add(Unknown1, 1, wxEXPAND);
-		Unknowns_H->Add(2, -1);
-		Unknowns_H->Add(Unknown2, 1, wxEXPAND);
+		Unknowns_H->Add(Unknown2, 1, wxEXPAND | wxLEFT, 2);
 
 		ItemList->Add(Search, 0, wxEXPAND);
 		ItemList->Add(SearchRecursive, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
-		ItemList->Add(List, 1, wxEXPAND);
-		ItemList->Add(-1, 2);
+		ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
 		ItemList->Add(Unknowns_H, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
-		ItemList->Add(Buttons, 0, wxEXPAND);
-		ItemList->Add(-1, 2);
+		ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
 		ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
 
 		UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
@@ -202,10 +187,8 @@ public:
 		Unknown_H->Add(Unknown_T, 0, wxEXPAND);
 		Unknown_H->Add(Unknown, 0, wxEXPAND);
 		Top->Add(UsedItems_H, 1, wxEXPAND);
-		Top->Add(5, -1);
-		Top->Add(Unknown_H, 1, wxEXPAND);
+		Top->Add(Unknown_H, 1, wxEXPAND | wxLEFT, 5);
 		Area->Add(Top, 0, wxEXPAND);
-		Area->Add(-1, 2);
-		Area->Add(ItemList, 1, wxEXPAND);
+		Area->Add(ItemList, 1, wxEXPAND | wxTOP, 2);
 	}
 };
