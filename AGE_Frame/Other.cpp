@@ -68,6 +68,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.Path_DRS->SetPath(FolderDRS);
 		OpenBox.Path_DRS2->SetPath(FolderDRS2);
 		OpenBox.CheckBox_DRSPath->SetValue(UseDRS);
+		OpenBox.CheckBox_DRSPath2->SetValue(UseMod);
 		if((argPath).size() > 3)
 		{
 			OpenBox.ForceDat = true;
@@ -149,6 +150,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		FolderDRS = OpenBox.Path_DRS->GetPath();
 		FolderDRS2 = OpenBox.Path_DRS2->GetPath();
 		UseDRS = OpenBox.CheckBox_DRSPath->GetValue();
+		UseMod = OpenBox.CheckBox_DRSPath2->GetValue();
 		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
 		LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
 
@@ -169,6 +171,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		Config->Write("DefaultFiles/FolderDRS", FolderDRS);
 		Config->Write("DefaultFiles/FolderDRS2", FolderDRS2);
 		Config->Write("DefaultFiles/UseDRS", UseDRS);
+		Config->Write("DefaultFiles/UseMod", UseMod);
 		Config->Write("DefaultFiles/LangsUsed", LangsUsed);
 		Config->Write("DefaultFiles/WriteLangs", WriteLangs);
 		Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
@@ -379,7 +382,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         {
             palettes.clear();
             loadPalette(FolderDRS);
-            loadPalette(FolderDRS2);
+            if(UseMod) loadPalette(FolderDRS2);
             // Load extra palettes
             wxString folder = FolderDRS, res;
             if(GenieVersion == genie::GV_Cysion)
@@ -1918,7 +1921,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         FilesToRead.Add("\\border.drs");
                     }
 
-                    addFilesToRead(FilesToRead, FolderDRS2);
+                    if(UseMod) addFilesToRead(FilesToRead, FolderDRS2);
                     addFilesToRead(FilesToRead, FolderDRS);
                     genie::PalFilePtr pal;
                     for(auto &file: datafiles)
@@ -2204,7 +2207,7 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
     if(UseTXT)
     {
         wxArrayString folders;
-        addSLPFolders4SLPs(folders, FolderDRS2);
+        if(UseMod) addSLPFolders4SLPs(folders, FolderDRS2);
         addSLPFolders4SLPs(folders, FolderDRS);
         for(int i=0; i < folders.size(); ++i)
         {
@@ -2223,7 +2226,7 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
             catch(std::ios_base::failure e){}
         }
         folders.clear();
-        addDRSFolders4SLPs(folders, FolderDRS2);
+        if(UseMod) addDRSFolders4SLPs(folders, FolderDRS2);
         addDRSFolders4SLPs(folders, FolderDRS);
         for(int i=0; i < folders.size(); ++i)
         {

@@ -620,7 +620,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
         {
             wxArrayString folders;
             wxString folder = FolderDRS2;
-            if(!folder.empty())
+            if(UseMod && !folder.empty())
             {
                 if(wxDir::Exists(folder + "\\gamedata_x2"))
                 folders.Add(folder + "\\gamedata_x2\\");

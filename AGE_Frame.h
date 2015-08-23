@@ -794,7 +794,7 @@ public:
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
-    bool ShowSLP, AnimSLP, nextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot;
+    bool ShowSLP, AnimSLP, nextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot, DrawTerrain;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
@@ -861,7 +861,7 @@ public:
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS;
+	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List, AGEwindow;
 	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
@@ -884,7 +884,7 @@ public:
     void LoadSLPFrame(AGE_SLP*);
     void SLPtoBitMap(AGE_SLP*);
     void BitMaptoSLP(AGE_SLP*);
-    AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP;
+    AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP, tileSLP;
 
 //	Constants, remove unneeded entries.
 

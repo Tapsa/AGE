@@ -71,6 +71,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("DefaultFiles/FolderDRS", &FolderDRS, wxEmptyString);
 	Config->Read("DefaultFiles/FolderDRS2", &FolderDRS2, wxEmptyString);
 	Config->Read("DefaultFiles/UseDRS", &UseDRS, false);
+	Config->Read("DefaultFiles/UseMod", &UseMod, false);
 	Config->Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
 	Config->Read("DefaultFiles/WriteLangs", &WriteLangs, false);
 	Config->Read("DefaultFiles/SaveLangs", &SaveLangs, false);
@@ -228,6 +229,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	DataOpened = UseTXT = DrawHot = false;
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
+    DrawTerrain = true;
 
 	wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Show);
 	ShowUnknownsCmd.SetInt(ShowUnknowns);
