@@ -215,8 +215,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     else if(4 == TabBar_Main->GetSelection()) AGE_SLP::currentDisplay = 4;
     if(AGE_SLP::currentDisplay == 6)
     {
-        if(GraphicIDs.size() == 0) return; // Nothing selected
-        if(dataset->Graphics[graphicSLP.datID].FrameCount == 0)
+        if(GraphicIDs.size() == 0 || dataset->Graphics[graphicSLP.datID].FrameCount == 0)
         {
             dc.DrawLabel("No frames", wxNullBitmap, wxRect(15, 15, 100, 40));
             return;
@@ -267,113 +266,118 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             {
                 graphicAnimTimer.Start(fpms);
             }
-            return;
         }
-        if(graphicSLP.slpID == -1)
+        else
         {
-            dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
-            return;
-        }
-        SLPtoBitMap(&graphicSLP);
-        if(graphicSLP.bitmap.IsOk())
-        {
-            assert(graphicSLP.slp);
-            dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + centerX, graphicSLP.ypos + centerY, true);
-            if(AnimSLP)
+            if(graphicSLP.slpID == -1)
             {
-                graphicAnimTimer.Start(ShouldAnimate(&graphicSLP));
+                dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
+                return;
             }
-            else if(nextFrame)
+            SLPtoBitMap(&graphicSLP);
+            if(graphicSLP.bitmap.IsOk())
             {
-                ShouldAnimate(&graphicSLP);
-                nextFrame = false;
+                assert(graphicSLP.slp);
+                dc.DrawBitmap(graphicSLP.bitmap, graphicSLP.xpos + centerX, graphicSLP.ypos + centerY, true);
+                if(AnimSLP)
+                {
+                    graphicAnimTimer.Start(ShouldAnimate(&graphicSLP));
+                }
+                else if(nextFrame)
+                {
+                    ShouldAnimate(&graphicSLP);
+                    nextFrame = false;
+                }
             }
+            else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
         }
-        else dc.DrawLabel("!SLP " + FormatInt(graphicSLP.slpID) + "\n" + graphicSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
     }
     else if(AGE_SLP::currentDisplay == 4)
     {
-        if(UnitIDs.size() == 0) return; // Nothing selected
-        if(unitSLP.datID < dataset->Graphics.size())
+        if(UnitIDs.size() == 0 || unitSLP.datID >= dataset->Graphics.size())
         {
-            if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
+            dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxNullBitmap, wxRect(15, 15, 100, 40));
+            return;
+        }
+        if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
+        {
+            unitSLP.frameID = 0;
+            unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
+            unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
+            unitSLP.deltas.clear();
+            unsigned int unitID = UnitIDs[0];
+            // Load possible delta and annex graphics.
+            if(dataset->Civs[UnitCivID].Units[unitID].Type == 80)
             {
-                unitSLP.frameID = 0;
-                unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
-                unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
-                unitSLP.deltas.clear();
-                unsigned int unitID = UnitIDs[0];
-                // Load possible delta and annex graphics.
-                if(dataset->Civs[UnitCivID].Units[unitID].Type == 80)
+                // Start drawing from head unit instead.
+                if(dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit < dataset->Civs[UnitCivID].Units.size())
+                    unitID = dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit;
+                // Draw this building only if it will stay up after built.
+                if(dataset->Civs[UnitCivID].Units[unitID].Building.DisappearsWhenBuilt == 0)
                 {
-                    // Start drawing from head unit instead.
-                    if(dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit < dataset->Civs[UnitCivID].Units.size())
-                        unitID = dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit;
-                    // Draw this building only if it will stay up after built.
-                    if(dataset->Civs[UnitCivID].Units[unitID].Building.DisappearsWhenBuilt == 0)
-                    {
-                        AddAnnexAndStackGraphics(unitID);
-                        if(ShowAnnexes)
-                        for(int i=0; i < 4; ++i)
-                        CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[unitID].Building.Annexes[i]);
-                    }
-                    if(ShowStack && dataset->Civs[UnitCivID].Units[unitID].Building.StackUnitID < dataset->Civs[UnitCivID].Units.size())
-                    {
-                        unitID = dataset->Civs[UnitCivID].Units[unitID].Building.StackUnitID;
-                        AddAnnexAndStackGraphics(unitID);
-                        if(ShowAnnexes)
-                        for(int i=0; i < 4; ++i)
-                        CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[unitID].Building.Annexes[i]);
-                    }
+                    AddAnnexAndStackGraphics(unitID);
+                    if(ShowAnnexes)
+                    for(int i=0; i < 4; ++i)
+                    CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[unitID].Building.Annexes[i]);
                 }
-                else AddAnnexAndStackGraphics(unitID);
-                if(slp_garrison->GetValue()) // Garrison
+                if(ShowStack && dataset->Civs[UnitCivID].Units[unitID].Building.StackUnitID < dataset->Civs[UnitCivID].Units.size())
                 {
-                    AddAnnexAndStackGraphics(unitID, 0, 0, 3);
-                }
-                if(slp_snow->GetValue()) // Snow
-                {
-                    AddAnnexAndStackGraphics(unitID, 0, 0, 2);
-                }
-                if(slp_dmg_unit->GetValue()) // Damage
-                {
-                    AddAnnexAndStackGraphics(unitID, 0, 0, 1);
+                    unitID = dataset->Civs[UnitCivID].Units[unitID].Building.StackUnitID;
+                    AddAnnexAndStackGraphics(unitID);
+                    if(ShowAnnexes)
+                    for(int i=0; i < 4; ++i)
+                    CalcAnnexCoords(&dataset->Civs[UnitCivID].Units[unitID].Building.Annexes[i]);
                 }
             }
-            if(unitSLP.deltas.size())
+            else AddAnnexAndStackGraphics(unitID);
+            if(slp_garrison->GetValue()) // Garrison
             {
-                int fpms = 0x7FFF;
-                uint32_t hasSLP = -1;
-                for(auto &delta: unitSLP.deltas)
+                AddAnnexAndStackGraphics(unitID, 0, 0, 3);
+            }
+            if(slp_snow->GetValue()) // Snow
+            {
+                AddAnnexAndStackGraphics(unitID, 0, 0, 2);
+            }
+            if(slp_dmg_unit->GetValue()) // Damage
+            {
+                AddAnnexAndStackGraphics(unitID, 0, 0, 1);
+            }
+        }
+        if(unitSLP.deltas.size())
+        {
+            int fpms = 0x7FFF;
+            uint32_t hasSLP = -1;
+            for(auto &delta: unitSLP.deltas)
+            {
+                SLPtoBitMap(&delta.second);
+                if(delta.second.bitmap.IsOk())
                 {
-                    SLPtoBitMap(&delta.second);
-                    if(delta.second.bitmap.IsOk())
+                    dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
+                    if(AnimSLP || nextFrame)
                     {
-                        dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
-                        if(AnimSLP || nextFrame)
-                        {
-                            fpms = min(fpms, ShouldAnimate(&delta.second));
-                        }
+                        fpms = min(fpms, ShouldAnimate(&delta.second));
                     }
-                    hasSLP = min(hasSLP, delta.second.slpID);
                 }
-                nextFrame = false;
-                if(AnimSLP)
-                {
-                    unitAnimTimer.Start(fpms);
-                }
-                if(hasSLP == -1)
-                {
-                    dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
-                }
+                hasSLP = min(hasSLP, delta.second.slpID);
+            }
+            nextFrame = false;
+            if(AnimSLP)
+            {
+                unitAnimTimer.Start(fpms);
+            }
+            if(hasSLP == -1)
+            {
+                dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
                 return;
             }
+        }
+        else
+        {
             if(unitSLP.slpID == -1)
             {
                 dc.DrawLabel("No SLP", wxNullBitmap, wxRect(15, 15, 100, 40));
                 return;
             }
-            // Apparently following code is not needed anymore. This CAN be executed in some cases.
             SLPtoBitMap(&unitSLP);
             if(unitSLP.bitmap.IsOk())
             {
@@ -388,12 +392,18 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                     ShouldAnimate(&unitSLP);
                     nextFrame = false;
                 }
-                return;
             }
-            dc.DrawLabel("!SLP " + FormatInt(unitSLP.slpID) + "\n" + unitSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
-            return;
+            else dc.DrawLabel("!SLP " + FormatInt(unitSLP.slpID) + "\n" + unitSLP.filename, wxNullBitmap, wxRect(15, 15, 100, 40));
         }
-        dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxNullBitmap, wxRect(15, 15, 100, 40));
+    }
+    if(DrawHot)
+    {
+        wxPen pen = wxPen(wxColour(255, 242, 0));
+        dc.SetPen(pen);
+        dc.DrawLine(centerX - 24, centerY - 12, centerX, centerY);
+        dc.DrawLine(centerX + 24, centerY - 12, centerX, centerY);
+        dc.DrawLine(centerX - 1, centerY + 1, centerX - 25, centerY + 13);
+        dc.DrawLine(centerX + 1, centerY + 1, centerX + 25, centerY + 13);
     }
 }
 
@@ -1091,10 +1101,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Unknown3_Holder->Add(Graphics_Unknown3, 1, wxEXPAND);
 
 	Graphics_NameArea_Holder->Add(Graphics_Name_Holder, 2, wxEXPAND);
-	Graphics_NameArea_Holder->AddSpacer(5);
-	Graphics_NameArea_Holder->Add(Graphics_Name2_Holder, 2, wxEXPAND);
-	Graphics_NameArea_Holder->AddSpacer(5);
-	Graphics_NameArea_Holder->Add(Graphics_ID_Holder, 1, wxEXPAND);
+	Graphics_NameArea_Holder->Add(Graphics_Name2_Holder, 2, wxEXPAND | wxLEFT, 5);
+	Graphics_NameArea_Holder->Add(Graphics_ID_Holder, 1, wxEXPAND | wxLEFT, 5);
 
 	Graphics_1_Grid->Add(Graphics_SLP_Holder, 1, wxEXPAND);
 	Graphics_1_Grid->Add(Graphics_FrameType_Holder, 1, wxEXPAND);
@@ -1146,22 +1154,18 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5, 1, wxEXPAND);
 
 	Graphics_Deltas_Holder_Data1->Add(GraphicDeltas_GraphicID_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Holder_Data1->AddSpacer(5);
-	Graphics_Deltas_Holder_Data1->Add(GraphicDeltas_DirectionX_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Holder_Data1->AddSpacer(5);
-	Graphics_Deltas_Holder_Data1->Add(GraphicDeltas_DirectionY_Holder, 1, wxEXPAND);
+	Graphics_Deltas_Holder_Data1->Add(GraphicDeltas_DirectionX_Holder, 1, wxEXPAND | wxLEFT, 5);
+	Graphics_Deltas_Holder_Data1->Add(GraphicDeltas_DirectionY_Holder, 1, wxEXPAND | wxLEFT, 5);
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown1_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown2_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown3_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_DisplayAngle_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown5_Holder, 1, wxEXPAND);
 	Graphics_Deltas_Holder_Data->Add(Graphics_Deltas_Holder_Data1, 0, wxEXPAND);
-	Graphics_Deltas_Holder_Data->AddSpacer(5);
-	Graphics_Deltas_Holder_Data->Add(Graphics_Deltas_Grid_Data2, 0, wxEXPAND);
+	Graphics_Deltas_Holder_Data->Add(Graphics_Deltas_Grid_Data2, 0, wxEXPAND | wxTOP, 5);
 
 	Graphics_Deltas_Holder->Add(Graphics_Deltas, 1, wxEXPAND);
-	Graphics_Deltas_Holder->AddSpacer(5);
-	Graphics_Deltas_Holder->Add(Graphics_Deltas_Holder_Data, 3, wxEXPAND);
+	Graphics_Deltas_Holder->Add(Graphics_Deltas_Holder_Data, 3, wxEXPAND | wxLEFT, 5);
 
 	Graphics_AttackSounds->Add(Graphics_AttackSounds_ListV, 1, wxEXPAND | wxBOTTOM, 2);
 	Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
@@ -1177,17 +1181,14 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_AttackSoundDelays_Holder->Add(Graphics_AttackSoundDelay[loop], 0, wxEXPAND);
 	}
 	Graphics_5_Holder->Add(Graphics_AttackSounds_Holder, 2, wxEXPAND);
-	Graphics_5_Holder->AddSpacer(5);
-	Graphics_5_Holder->Add(Graphics_AttackSoundDelays_Holder, 1, wxEXPAND);
+	Graphics_5_Holder->Add(Graphics_AttackSoundDelays_Holder, 1, wxEXPAND | wxLEFT, 5);
 
 	Graphics_4_Holder->Add(Graphics_AngleCount_Holder, 1, wxEXPAND);
-	Graphics_4_Holder->AddSpacer(5);
-	Graphics_4_Holder->Add(Graphics_AttackSoundUsed_Holder, 1, wxEXPAND);
+	Graphics_4_Holder->Add(Graphics_AttackSoundUsed_Holder, 1, wxEXPAND | wxLEFT, 5);
 	Graphics_4_Holder->AddStretchSpacer(2);
 
 	Graphics_AttackSoundArea_Holder->Add(Graphics_AttackSounds, 1, wxEXPAND);
-	Graphics_AttackSoundArea_Holder->AddSpacer(5);
-	Graphics_AttackSoundArea_Holder->Add(Graphics_5_Holder, 3, wxEXPAND);
+	Graphics_AttackSoundArea_Holder->Add(Graphics_5_Holder, 3, wxEXPAND | wxLEFT, 5);
 
 	Graphics_ScrollSpace->Add(Graphics_NameArea_Holder, 0, wxEXPAND);
 	Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND | wxTOP, 5);

@@ -38,7 +38,7 @@ public:
 	wxStaticText *TerrainsText;
 	wxTextCtrl *TerrainsBox;
     wxStaticText *DRSPath;
-    wxCheckBox *CheckBox_DRSPath;
+    wxCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2;
     wxDirPickerCtrl *Path_DRS, *Path_DRS2;
 };
 
