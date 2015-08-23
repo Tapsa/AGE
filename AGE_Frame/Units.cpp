@@ -978,7 +978,7 @@ void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)
 	How2List = ADD;
 	ListUnits(UnitCivID);
 
-	if(GenieVersion <= genie::GV_TC && dataset->Civs[0].Units.size() > 900) SetStatusText("Units over 900 mess up the AI!!!", 0);
+	if(GenieVersion < genie::GV_SWGB && dataset->Civs[0].Units.size() > 900) SetStatusText("Units between 900 and 1000 mess up the AI!", 0);
 }
 
 void AGE_Frame::OnUnitsInsert(wxCommandEvent &event)
