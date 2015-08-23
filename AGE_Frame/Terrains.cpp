@@ -282,6 +282,42 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
         setForeAndBackColors(Terrains_Colors[2], wxColour(low.r, low.g, low.b));
         setForeAndBackColors(Terrains_CliffColors[0], wxColour(left.r, left.g, left.b));
         setForeAndBackColors(Terrains_CliffColors[1], wxColour(right.r, right.g, right.b));
+
+        if(DrawTerrain && NULL != slp_window)
+        {
+            wxString folder = FolderDRS;
+            if(UseTXT)
+            {
+                wxString resname;
+                folder.Replace("drs", "terrain\\textures", false);
+                if(GenieVersion == genie::GV_Cysion)
+                {
+                    resname = folder + "\\" + TerrainPointer->Name2 + "_00_color.png";
+                    folder.Replace("-dlc2", "", false);
+                }
+                if(GenieVersion != genie::GV_Cysion || !wxFileName(resname).FileExists())
+                {
+                    resname = folder + "\\" + TerrainPointer->Name2 + "_00_color.png";
+                }
+                if(wxFileName(resname).FileExists())
+                {
+                    wxImage img(resname, wxBITMAP_TYPE_PNG);
+                    if(img.IsOk())
+                    {
+                        int half_width = img.GetWidth() / 2;
+                        int half_height = img.GetHeight() / 2;
+                        wxPoint center(half_width, half_height);
+                        wxImage rotated = img.Rotate(0.785398163, center);
+                        half_width = rotated.GetWidth() / 2;
+                        half_height = rotated.GetHeight() / 2;
+                        tileSLP.bitmap = wxBitmap(rotated.Scale(rotated.GetWidth(), half_height));
+                        tileSLP.xpos = half_width;
+                        tileSLP.ypos = half_height / 2;
+                    }
+                }
+                slp_view->Refresh();
+            }
+        }
     }
 
 	ListTerrainsBorders();

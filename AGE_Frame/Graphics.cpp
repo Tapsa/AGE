@@ -211,6 +211,10 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     canvas->GetClientSize(&centerX, &centerY);
     centerX *= 0.5f;
     centerY *= 0.6f;
+    if(DrawTerrain && tileSLP.bitmap.IsOk())
+    {
+        dc.DrawBitmap(tileSLP.bitmap, centerX - tileSLP.xpos, centerY - tileSLP.ypos, true);
+    }
     if(6 == TabBar_Main->GetSelection()) AGE_SLP::currentDisplay = 6;
     else if(4 == TabBar_Main->GetSelection()) AGE_SLP::currentDisplay = 4;
     if(AGE_SLP::currentDisplay == 6)
