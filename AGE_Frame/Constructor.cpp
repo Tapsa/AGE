@@ -225,7 +225,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(MenuOption_Tips, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
-	DataOpened = UseTXT = false;
+	DataOpened = UseTXT = DrawHot = false;
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 

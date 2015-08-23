@@ -794,7 +794,7 @@ public:
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
-    bool ShowSLP, AnimSLP, nextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons;
+    bool ShowSLP, AnimSLP, nextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
@@ -805,18 +805,11 @@ public:
     wxPanel *slp_view;
     wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save;
     wxRadioBox *slp_radio, *slp_unit_actions;
-    wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison;
-//	wxSound SoundFile;
+    wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot;
 
 	forward_list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
 	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
 	TerrainRestrictionComboBoxList, SoundComboBoxList;
-
-/*	genie::DatFile FileBackup; // Can't copy the whole file?
-	long EditCount;
-	genie::Unit UnitBackup[100][20];
-	short IDtoRestore[100];
-	genie::Civ CivBackup[20];	// Only temporary solution!*/
 
 	vector<short> RandomMapIDs;
 	vector<short> UnknownFSIDs;
@@ -2426,7 +2419,6 @@ public:
 	wxBoxSizer *Units_CommandHolder_Lists;
 	wxStaticText *Units_UnitHeads_Name;
 
-	wxStaticBoxSizer *Units_UnitCommands;
 	wxTextCtrl *Units_UnitCommands_Search;
 	wxTextCtrl *Units_UnitCommands_Search_R;
 	AGEListView *Units_UnitCommands_ListV;
@@ -2731,7 +2723,7 @@ public:
 	wxBoxSizer *Terrains_ScrollSpace;
 	wxBoxSizer *Terrains_NameArea_Holder;
 	wxGridSizer *Terrains_Area1_Grid;
-	wxGridSizer *Terrains_GridX;
+	wxFlexGridSizer *Terrains_GridX;
 	wxBoxSizer *Terrains_Unknown1_Holder;
 	wxStaticText *Terrains_Unknown1_Text;
 	AGETextCtrl *Terrains_Unknown1;
@@ -2839,7 +2831,6 @@ public:
 	wxStaticText *Terrains_TerrainUnitPriority_Text;
 	array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitPriority;
 	wxBoxSizer *Terrains_UsedTerrainUnits_Holder;
-	wxGridSizer *Terrains_UsedTerrainUnits_Grid;
 	wxStaticText *Terrains_UsedTerrainUnits_Text;
 	AGETextCtrl *Terrains_UsedTerrainUnits;
 
