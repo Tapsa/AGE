@@ -2318,8 +2318,12 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
     }
     else
     {
-        vector<genie::Color> *pal = &palettes[0];
-        if(pal_chooser != 0 && pal_chooser < palettes.size())
+        const vector<genie::Color> *pal = &palettes[0];
+        if(imgdata->palette.size())
+        {
+            pal = &imgdata->palette;
+        }
+        else if(pal_chooser != 0 && pal_chooser < palettes.size())
         {
             pal = &palettes[pal_chooser];
         }
@@ -2368,9 +2372,9 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
             if(ShowOutline)
             {
                 // Shield
-                for(int i=0; i < imgdata->outline_mask.size(); ++i)
+                for(int i=0; i < imgdata->shield_mask.size(); ++i)
                 {
-                    int flat = imgdata->outline_mask[i].y * width + imgdata->outline_mask[i].x;
+                    int flat = imgdata->shield_mask[i].y * width + imgdata->shield_mask[i].x;
                     int loc = 3 * flat;
                     int locA = 3 * area + flat;
                     rgbdata[loc] = 0;

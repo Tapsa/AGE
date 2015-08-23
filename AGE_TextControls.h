@@ -237,7 +237,7 @@ class TextCtrl_String: public AGETextCtrl
 {
 public:
     TextCtrl_String(wxFrame *frame, int window, wxWindow *parent, unsigned short CLength = 0):
-    AGETextCtrl(parent, 0)
+    AGETextCtrl(parent, -1)
     {
         this->frame = frame;
         this->window = window;
