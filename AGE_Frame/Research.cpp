@@ -582,8 +582,7 @@ void AGE_Frame::CreateResearchControls()
 
 	Research_Names_Holder->Add(Research_IconID_SLP, 0, wxEXPAND);
 	Research_Names_Holder->Add(Research_Name_Holder[0], 2, wxEXPAND);
-	Research_Names_Holder->AddSpacer(5);
-	Research_Names_Holder->Add(Research_Name_Holder[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Research_Names_Holder->Add(Research_Name_Holder[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxLEFT, 5);
 
 	Research_LangDLLName_Holder->Add(Research_LangDLLName_Text, 0, wxEXPAND);
 	Research_LangDLLName_Holder->Add(Research_LangDLLName, 0, wxEXPAND);
@@ -593,15 +592,13 @@ void AGE_Frame::CreateResearchControls()
 	Research_LangDLLDescription_Holder->Add(Research_DLL_LangDLLDescription, 0, wxEXPAND);
 
 	Research_LangDLLArea_Holder->Add(Research_LangDLLName_Holder, 1, wxEXPAND);
-	Research_LangDLLArea_Holder->AddSpacer(5);
-	Research_LangDLLArea_Holder->Add(Research_LangDLLDescription_Holder, 1, wxEXPAND);
+	Research_LangDLLArea_Holder->Add(Research_LangDLLDescription_Holder, 1, wxEXPAND | wxLEFT, 5);
 
 	Research_CostUsed_Holder->Add(Research_Used_Text, 1, wxEXPAND);
 	for(short loop = 0; loop < 3; ++loop)
 	{
 		Research_ResourceGrid[loop]->Add(Research_Used[loop], 0, wxEXPAND);
-		Research_ResourceGrid[loop]->AddSpacer(5);
-		Research_ResourceGrid[loop]->Add(Research_Used_CheckBox[loop], 1, wxEXPAND);
+		Research_ResourceGrid[loop]->Add(Research_Used_CheckBox[loop], 1, wxEXPAND | wxLEFT, 5);
 		Research_CostUsed_Holder->Add(Research_ResourceGrid[loop], 2, wxEXPAND);
 		Research_ResourceGrid1->Add(Research_Resources[loop], 1, wxEXPAND);
 	}
@@ -617,10 +614,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_CostAmount_Holder->Add(Research_ResourceGrid2, 6, wxEXPAND);
 
 	Research_CostHeader_Holder->Add(Research_CostType_Holder, 0, wxEXPAND);
-	Research_CostHeader_Holder->AddSpacer(5);
-	Research_CostHeader_Holder->Add(Research_CostAmount_Holder, 0, wxEXPAND);
-	Research_CostHeader_Holder->AddSpacer(5);
-	Research_CostHeader_Holder->Add(Research_CostUsed_Holder, 0, wxEXPAND);
+	Research_CostHeader_Holder->Add(Research_CostAmount_Holder, 0, wxEXPAND | wxTOP, 5);
+	Research_CostHeader_Holder->Add(Research_CostUsed_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	for(short loop = 0; loop < 6; ++loop)
 	Research_RequiredTechs_Holder->Add(Research_RequiredTechs[loop], 1, wxEXPAND);

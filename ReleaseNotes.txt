@@ -12,6 +12,14 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.8.23[/b]:
+-Icons show without SLP view.
+-Looping optional for WAV sounds.
+-SLP showing options refresh the view.
+-Optional SLP anchor.
+-Shield outline shown properly.
+-Fixed tech tree loading if you opened AoE 1 first.
+
 Version [b]2015.8.20[/b]:
 -Load PNG into 32-bit SLP frame.
 -Ability to save SLP graphics as SLP or PNG.

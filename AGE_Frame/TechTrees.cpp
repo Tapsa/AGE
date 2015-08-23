@@ -2949,10 +2949,8 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Researches->Add(TechTrees_MainList_Researches_Buttons, 0, wxEXPAND);
 
 	TechTrees_ConnectedHolder_Ages->Add(TechTrees_Ages_Buildings.ItemList, 1, wxEXPAND);
-	TechTrees_ConnectedHolder_Ages->AddSpacer(5);
-	TechTrees_ConnectedHolder_Ages->Add(TechTrees_Ages_Units.ItemList, 1, wxEXPAND);
-	TechTrees_ConnectedHolder_Ages->AddSpacer(5);
-	TechTrees_ConnectedHolder_Ages->Add(TechTrees_Ages_Researches.ItemList, 1, wxEXPAND);
+	TechTrees_ConnectedHolder_Ages->Add(TechTrees_Ages_Units.ItemList, 1, wxEXPAND | wxLEFT, 5);
+	TechTrees_ConnectedHolder_Ages->Add(TechTrees_Ages_Researches.ItemList, 1, wxEXPAND | wxLEFT, 5);
 
 	TechTrees_Ages_ID_Holder->Add(TechTrees_Ages_ID_Text, 0, wxEXPAND);
 	TechTrees_Ages_ID_Holder->Add(TechTrees_Ages_ID, 0, wxEXPAND);
@@ -2966,8 +2964,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Ages1->Add(TechTrees_Ages_LineMode_Holder, 1, wxEXPAND);
 
 	TechTrees_Data_Ages2->Add(TechTrees_Ages_Items.Area, 1, wxEXPAND);
-	TechTrees_Data_Ages2->AddSpacer(5);
-	TechTrees_Data_Ages2->Add(TechTrees_Ages_UnknownItems.Area, 1, wxEXPAND);
+	TechTrees_Data_Ages2->Add(TechTrees_Ages_UnknownItems.Area, 1, wxEXPAND | wxLEFT, 5);
 	TechTrees_Data_Ages2->AddStretchSpacer(1);
 
 	TechTrees_Data_Ages->Add(TechTrees_Data_Ages1, 0, wxEXPAND | wxBOTTOM, 5);
@@ -2975,10 +2972,8 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Ages->Add(TechTrees_Data_Ages2, 0, wxEXPAND);
 
 	TechTrees_ConnectedHolder_Buildings->Add(TechTrees_Buildings_Buildings.ItemList, 1, wxEXPAND);
-	TechTrees_ConnectedHolder_Buildings->AddSpacer(5);
-	TechTrees_ConnectedHolder_Buildings->Add(TechTrees_Buildings_Units.ItemList, 1, wxEXPAND);
-	TechTrees_ConnectedHolder_Buildings->AddSpacer(5);
-	TechTrees_ConnectedHolder_Buildings->Add(TechTrees_Buildings_Researches.ItemList, 1, wxEXPAND);
+	TechTrees_ConnectedHolder_Buildings->Add(TechTrees_Buildings_Units.ItemList, 1, wxEXPAND | wxLEFT, 5);
+	TechTrees_ConnectedHolder_Buildings->Add(TechTrees_Buildings_Researches.ItemList, 1, wxEXPAND | wxLEFT, 5);
 
 	TechTrees_Buildings_ID_Holder->Add(TechTrees_Buildings_ID_Text, 0, wxEXPAND);
 	TechTrees_Buildings_ID_Holder->Add(TechTrees_Buildings_ID, 0, wxEXPAND);
@@ -3006,19 +3001,16 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Buildings_TotalUnitsTechs_Holder[0]->Add(TechTrees_Buildings_TotalUnitsTechs_Grid[0], 0, wxEXPAND);
 	TechTrees_Buildings_TotalUnitsTechs_Holder[1]->Add(TechTrees_Buildings_TotalUnitsTechs_Grid[1], 0, wxEXPAND);
 	TechTrees_Data_Buildings3->Add(TechTrees_Buildings_TotalUnitsTechs_Holder[0], 0, wxEXPAND);
-	TechTrees_Data_Buildings3->AddSpacer(5);
-	TechTrees_Data_Buildings3->Add(TechTrees_Buildings_TotalUnitsTechs_Holder[1], 0, wxEXPAND);
+	TechTrees_Data_Buildings3->Add(TechTrees_Buildings_TotalUnitsTechs_Holder[1], 0, wxEXPAND | wxTOP, 5);
 	TechTrees_Data_Buildings2->Add(TechTrees_Buildings_Items.Area, 1, wxEXPAND);
-	TechTrees_Data_Buildings2->AddSpacer(5);
-	TechTrees_Data_Buildings2->Add(TechTrees_Data_Buildings3, 2, wxEXPAND);
+	TechTrees_Data_Buildings2->Add(TechTrees_Data_Buildings3, 2, wxEXPAND | wxLEFT, 5);
 
 	TechTrees_Data_Buildings->Add(TechTrees_Data_Buildings1, 0, wxEXPAND | wxBOTTOM, 5);
 	TechTrees_Data_Buildings->Add(TechTrees_ConnectedHolder_Buildings, 0, wxEXPAND | wxBOTTOM, 5);
 	TechTrees_Data_Buildings->Add(TechTrees_Data_Buildings2, 0, wxEXPAND);
 
 	TechTrees_ConnectedHolder_Units->Add(TechTrees_Units_Items.Area, 1, wxEXPAND);
-	TechTrees_ConnectedHolder_Units->AddSpacer(5);
-	TechTrees_ConnectedHolder_Units->Add(TechTrees_Units_Units.ItemList, 1, wxEXPAND);
+	TechTrees_ConnectedHolder_Units->Add(TechTrees_Units_Units.ItemList, 1, wxEXPAND | wxLEFT, 5);
 	TechTrees_ConnectedHolder_Units->AddStretchSpacer(1);
 
 	TechTrees_Units_ID_Holder->Add(TechTrees_Units_ID_Text, 0, wxEXPAND);
@@ -3045,8 +3037,8 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Units1->Add(TechTrees_Units_ID_Holder, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_Always2_Holder, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_UpperBuilding_Holder, 1, wxEXPAND);
-	TechTrees_Data_Units1->AddStretchSpacer(1);
-	TechTrees_Data_Units1->AddStretchSpacer(1);
+	TechTrees_Data_Units1->Add(0, 0);
+	TechTrees_Data_Units1->Add(0, 0);
 	TechTrees_Data_Units1->Add(TechTrees_Units_VerticalLine_Holder, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_LocationInAge_Holder, 1, wxEXPAND);
 	TechTrees_Data_Units1->Add(TechTrees_Units_RequiredResearch_Holder, 1, wxEXPAND);
@@ -3057,10 +3049,8 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Units->Add(TechTrees_ConnectedHolder_Units, 0, wxEXPAND);
 
 	TechTrees_ConnectedHolder_Researches->Add(TechTrees_Researches_Buildings.ItemList, 1, wxEXPAND);
-	TechTrees_ConnectedHolder_Researches->AddSpacer(5);
-	TechTrees_ConnectedHolder_Researches->Add(TechTrees_Researches_Units.ItemList, 1, wxEXPAND);
-	TechTrees_ConnectedHolder_Researches->AddSpacer(5);
-	TechTrees_ConnectedHolder_Researches->Add(TechTrees_Researches_Researches.ItemList, 1, wxEXPAND);
+	TechTrees_ConnectedHolder_Researches->Add(TechTrees_Researches_Units.ItemList, 1, wxEXPAND | wxLEFT, 5);
+	TechTrees_ConnectedHolder_Researches->Add(TechTrees_Researches_Researches.ItemList, 1, wxEXPAND | wxLEFT, 5);
 
 	TechTrees_Researches_ID_Holder->Add(TechTrees_Researches_ID_Text, 0, wxEXPAND);
 	TechTrees_Researches_ID_Holder->Add(TechTrees_Researches_ID, 0, wxEXPAND);
@@ -3086,8 +3076,7 @@ void AGE_Frame::CreateTechTreeControls()
 
 	TechTrees_Data_Researches3->Add(TechTrees_Data_Researches1, 0, wxEXPAND);
 	TechTrees_Data_Researches2->Add(TechTrees_Data_Researches3, 2, wxEXPAND);
-	TechTrees_Data_Researches2->AddSpacer(5);
-	TechTrees_Data_Researches2->Add(TechTrees_Researches_Items.Area, 1, wxEXPAND);
+	TechTrees_Data_Researches2->Add(TechTrees_Researches_Items.Area, 1, wxEXPAND | wxLEFT, 5);
 
 	TechTrees_Data_Researches->Add(TechTrees_ConnectedHolder_Researches, 0, wxEXPAND | wxBOTTOM, 5);
 	TechTrees_Data_Researches->Add(TechTrees_Data_Researches2, 0, wxEXPAND);

@@ -25,6 +25,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	CheckBox_LangWriteToLatest->SetToolTip("If you write to the latest file (x1/p1),\nyou only need to distribute that file,\nbut your edits will not affect the vanilla game");
     CheckBox_DRSPath = new wxCheckBox(this, wxID_ANY, "Path for DRS files *");
     CheckBox_DRSPath->SetToolTip("Path to the folder containing all drs files/folders");
+    CheckBox_DRSPath2 = new wxCheckBox(this, wxID_ANY, "Path for mod DRS files");
     Path_DRS = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS2 = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
 
@@ -61,7 +62,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->AddSpacer(15);
 	Layout->Add(CheckBox_DRSPath, 1, wxEXPAND);
 	Layout->Add(Path_DRS, 1, wxEXPAND);
-	Layout->AddSpacer(15);
+	Layout->Add(CheckBox_DRSPath2, 1, wxEXPAND);
 	Layout->Add(Path_DRS2, 1, wxEXPAND);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
