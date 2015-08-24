@@ -10,7 +10,7 @@ wxString AGEListView::OnGetItemText(long item, long column) const
     return names[item];
 }
 
-AGETextCtrl* AGETextCtrl::init(const ContainerType type, forward_list<AGETextCtrl*> *group,
+AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *group,
     wxFrame *frame, const short window, wxWindow *parent, short length)
 {
     AGETextCtrl* product;
@@ -24,7 +24,7 @@ AGETextCtrl* AGETextCtrl::init(const ContainerType type, forward_list<AGETextCtr
     case CUShort: product = new TextCtrl_UShort(frame, window, parent); break;
     case CString: product = new TextCtrl_String(frame, window, parent, length); break;
     }
-    if(NULL != group) group->push_front(product);
+    if(NULL != group) group->push_back(product);
     return product;
 }
 
@@ -60,11 +60,11 @@ int TextCtrl_Byte::SaveEdits(bool forced)
                             case 5: *(int8_t*)pointer %= casted; break;
                         }
                     }
-                    ChangeValue(lexical_cast<string>((short)*(int8_t*)container.front()));
-                    HandleResults(*(int8_t*)container.front());
+                    ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
+                    HandleResults(*(int8_t*)container.back());
                     return 0;
                 }
-                if(*(int8_t*)container.front() != casted || forced)
+                if(*(int8_t*)container.back() != casted || forced)
                 {
                     for(auto &pointer: container)
                     {
@@ -91,7 +91,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>((short)*(int8_t*)container.front()));
+        ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
     }
     return 1;
 }
@@ -128,11 +128,11 @@ int TextCtrl_UByte::SaveEdits(bool forced)
                             case 5: *(uint8_t*)pointer %= casted; break;
                         }
                     }
-                    ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.front()));
-                    HandleResults(*(uint8_t*)container.front());
+                    ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.back()));
+                    HandleResults(*(uint8_t*)container.back());
                     return 0;
                 }
-                if(*(uint8_t*)container.front() != casted || forced)
+                if(*(uint8_t*)container.back() != casted || forced)
                 {
                     for(auto &pointer: container)
                     {
@@ -159,7 +159,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.front()));
+        ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.back()));
     }
     return 1;
 }
@@ -196,11 +196,11 @@ int TextCtrl_Float::SaveEdits(bool forced)
                         case 4: *(float*)pointer /= casted; break;
                     }
                 }
-                ChangeValue(lexical_cast<string>(*(float*)container.front()));
-                HandleResults(*(float*)container.front());
+                ChangeValue(lexical_cast<string>(*(float*)container.back()));
+                HandleResults(*(float*)container.back());
                 return 0;
             }
-            if(*(float*)container.front() != casted || forced)
+            if(*(float*)container.back() != casted || forced)
             {
                 for(auto &pointer: container)
                 {
@@ -220,7 +220,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(float*)container.front()));
+        ChangeValue(lexical_cast<string>(*(float*)container.back()));
     }
     return 1;
 }
@@ -255,11 +255,11 @@ int TextCtrl_Long::SaveEdits(bool forced)
                         case 5: *(int32_t*)pointer %= casted; break;
                     }
                 }
-                ChangeValue(lexical_cast<string>(*(int32_t*)container.front()));
-                HandleResults(*(int32_t*)container.front());
+                ChangeValue(lexical_cast<string>(*(int32_t*)container.back()));
+                HandleResults(*(int32_t*)container.back());
                 return 0;
             }
-            if(*(int32_t*)container.front() != casted || forced)
+            if(*(int32_t*)container.back() != casted || forced)
             {
                 for(auto &pointer: container)
                 {
@@ -279,7 +279,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(int32_t*)container.front()));
+        ChangeValue(lexical_cast<string>(*(int32_t*)container.back()));
     }
     return 1;
 }
@@ -314,11 +314,11 @@ int TextCtrl_Short::SaveEdits(bool forced)
                         case 5: *(int16_t*)pointer %= casted; break;
                     }
                 }
-                ChangeValue(lexical_cast<string>(*(int16_t*)container.front()));
-                HandleResults(*(int16_t*)container.front());
+                ChangeValue(lexical_cast<string>(*(int16_t*)container.back()));
+                HandleResults(*(int16_t*)container.back());
                 return 0;
             }
-            if(*(int16_t*)container.front() != casted || forced)
+            if(*(int16_t*)container.back() != casted || forced)
             {
                 for(auto &pointer: container)
                 {
@@ -338,7 +338,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(int16_t*)container.front()));
+        ChangeValue(lexical_cast<string>(*(int16_t*)container.back()));
     }
     return 1;
 }
@@ -373,11 +373,11 @@ int TextCtrl_UShort::SaveEdits(bool forced)
                         case 5: *(uint16_t*)pointer %= casted; break;
                     }
                 }
-                ChangeValue(lexical_cast<string>(*(uint16_t*)container.front()));
-                HandleResults(*(uint16_t*)container.front());
+                ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
+                HandleResults(*(uint16_t*)container.back());
                 return 0;
             }
-            if(*(uint16_t*)container.front() != casted || forced)
+            if(*(uint16_t*)container.back() != casted || forced)
             {
                 for(auto &pointer: container)
                 {
@@ -397,7 +397,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(uint16_t*)container.front()));
+        ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
     }
     return 1;
 }
@@ -409,7 +409,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
-        if(*(string*)container.front() != value || forced) // Has been changed
+        if(*(string*)container.back() != value || forced) // Has been changed
         {
             short batchMode = 0;
             if(value[0] == 'b' && !BatchCheck(value, batchMode))
@@ -431,7 +431,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
                     }
                     *(string*)pointer = vasili;
                 }
-                ChangeValue(*(string*)container.front());
+                ChangeValue(*(string*)container.back());
                 HandleResults(0);
                 return 0;
             }
@@ -452,7 +452,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
                     ++edits;
                     *(string*)pointer = value;
                 }
-                ChangeValue(*(string*)container.front());
+                ChangeValue(*(string*)container.back());
             }
             HandleResults(0);
             return 0;
@@ -460,7 +460,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
     }
     else
     {
-        ChangeValue(*(string*)container.front());
+        ChangeValue(*(string*)container.back());
     }
     return 1;
 }
@@ -471,17 +471,17 @@ void TextCtrl_Byte::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(2) << setfill('0') << uppercase << (short)*(uint8_t*)container.front();
+        os << hex << setw(2) << setfill('0') << uppercase << (short)*(uint8_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
     {
-        ChangeValue(lexical_cast<string>((short)*(int8_t*)container.front()));
+        ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(int8_t*)container.front());
+        (*it)->update(*(int8_t*)container.back());
         (*it)->enable(true);
     }
 }
@@ -492,17 +492,17 @@ void TextCtrl_UByte::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(2) << setfill('0') << uppercase << (short)*(uint8_t*)container.front();
+        os << hex << setw(2) << setfill('0') << uppercase << (short)*(uint8_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
     {
-        ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.front()));
+        ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(uint8_t*)container.front());
+        (*it)->update(*(uint8_t*)container.back());
         (*it)->enable(true);
     }
 }
@@ -513,29 +513,29 @@ void TextCtrl_Float::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(8) << setfill('0') << uppercase << *(uint32_t*)container.front();
+        os << hex << setw(8) << setfill('0') << uppercase << *(uint32_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
     {
         if(AGETextCtrl::accurateFloats[window])
         {
-            ChangeValue(lexical_cast<string>(*(float*)container.front()));
+            ChangeValue(lexical_cast<string>(*(float*)container.back()));
         }
         else
         {
             stringbuf buffer;
             ostream os (&buffer);
-            if(*(int32_t*)container.front() == 0x7F7FFFFF) os << "max";
-            else if(*(int32_t*)container.front() == 0x00800000) os << "min";
-            else os << *(float*)container.front();
+            if(*(int32_t*)container.back() == 0x7F7FFFFF) os << "max";
+            else if(*(int32_t*)container.back() == 0x00800000) os << "min";
+            else os << *(float*)container.back();
             ChangeValue(buffer.str());
         }
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(float*)container.front());
+        (*it)->update(*(float*)container.back());
         (*it)->enable(true);
     }
 }
@@ -546,17 +546,17 @@ void TextCtrl_Long::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(8) << setfill('0') << uppercase << *(uint32_t*)container.front();
+        os << hex << setw(8) << setfill('0') << uppercase << *(uint32_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(int32_t*)container.front()));
+        ChangeValue(lexical_cast<string>(*(int32_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(int32_t*)container.front());
+        (*it)->update(*(int32_t*)container.back());
         (*it)->enable(true);
     }
 }
@@ -567,17 +567,17 @@ void TextCtrl_Short::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(4) << setfill('0') << uppercase << *(uint16_t*)container.front();
+        os << hex << setw(4) << setfill('0') << uppercase << *(uint16_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(int16_t*)container.front()));
+        ChangeValue(lexical_cast<string>(*(int16_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(int16_t*)container.front());
+        (*it)->update(*(int16_t*)container.back());
         (*it)->enable(true);
     }
 }
@@ -588,22 +588,22 @@ void TextCtrl_UShort::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(4) << setfill('0') << uppercase << *(uint16_t*)container.front();
+        os << hex << setw(4) << setfill('0') << uppercase << *(uint16_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(uint16_t*)container.front()));
+        ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(uint16_t*)container.front());
+        (*it)->update(*(uint16_t*)container.back());
         (*it)->enable(true);
     }
 }
 
 void TextCtrl_String::replenish()
 {
-    ChangeValue(*(string*)container.front());
+    ChangeValue(*(string*)container.back());
 }

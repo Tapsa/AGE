@@ -207,6 +207,7 @@ void AGE_Frame::ListSoundItems()
 	Sounds_Items_ListV->names.clear();
 	Sounds_Items_ListV->indexes.clear();
 
+    if(SoundIDs.size())
 	for(short loop = 0; loop < dataset->Sounds[SoundIDs[0]].Items.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs[0]);
@@ -448,7 +449,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Civ_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Civ = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 	SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
-	CivComboBoxList.push_front(SoundItems_Civ_ComboBox);
+	CivComboBoxList.push_back(SoundItems_Civ_ComboBox);
 	SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
@@ -608,6 +609,10 @@ void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
 
 void AGE_Frame::playWAV(wxCommandEvent &event)
 {
+    if(Sounds_Items_ListV->GetItemCount() > 1)
+    Sounds_Items_ListV->SetFocus();
+    else Sounds_Sounds_ListV->SetFocus();
+
     if(event.GetId() == SoundFile_Stop->GetId())
     {
         wxSound::Stop();
@@ -622,6 +627,10 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
             wxString folder = FolderDRS2;
             if(UseMod && !folder.empty())
             {
+                wxString soundfolder = FolderDRS2;
+                soundfolder.Replace("drs", "sound\\terrain", false);
+                if(wxDir::Exists(soundfolder))
+                folders.Add(soundfolder + "\\");
                 if(wxDir::Exists(folder + "\\gamedata_x2"))
                 folders.Add(folder + "\\gamedata_x2\\");
                 if(wxDir::Exists(folder + "\\sounds"))
@@ -632,12 +641,17 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
             folder = FolderDRS;
             if(!folder.empty())
             {
+                wxString soundfolder = FolderDRS;
+                soundfolder.Replace("drs", "sound\\terrain", false);
                 if(GenieVersion == genie::GV_Cysion)
                 {
                     if(wxDir::Exists(folder + "\\gamedata_x2"))
                     folders.Add(folder + "\\gamedata_x2\\");
                     folder.Replace("-dlc2", "", false);
+                    soundfolder.Replace("-dlc2", "", false);
                 }
+                if(wxDir::Exists(soundfolder))
+                folders.Add(soundfolder + "\\");
                 if(wxDir::Exists(folder + "\\gamedata_x2"))
                 folders.Add(folder + "\\gamedata_x2\\");
                 if(wxDir::Exists(folder + "\\sounds"))
@@ -647,7 +661,9 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
             }
             for(int i=0; i < folders.size(); ++i)
             {
-                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].ResourceID) + ".wav";
+                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].FileName);
+                if(!wxFileName(sound).FileExists())
+                    sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].ResourceID) + ".wav";
                 if(wxFileName(sound).FileExists())
                 {
                     wxSound playMe(sound);
@@ -673,7 +689,48 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
                         playMe.Play(loop ? wxSOUND_ASYNC | wxSOUND_LOOP : wxSOUND_ASYNC);
                         return;
                     }
-                    return;
+                }
+            }
+            wxArrayString folders;
+            wxString folder = FolderDRS2;
+            if(UseMod && !folder.empty())
+            {
+                if(GenieVersion <= genie::GV_RoR)
+                {
+                    folder.Replace("data", "sound", false);
+                }
+                else
+                {
+                    folder.Replace("data", "sound\\terrain", false);
+                }
+                if(wxDir::Exists(folder))
+                folders.Add(folder + "\\");
+            }
+            folder = FolderDRS;
+            if(!folder.empty())
+            {
+                if(GenieVersion <= genie::GV_RoR)
+                {
+                    folder.Replace("data", "sound", false);
+                }
+                else
+                {
+                    folder.Replace("data", "sound\\terrain", false);
+                }
+                if(wxDir::Exists(folder))
+                folders.Add(folder + "\\");
+            }
+            for(int i=0; i < folders.size(); ++i)
+            {
+                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].FileName);
+                if(wxFileName(sound).FileExists())
+                {
+                    wxSound playMe(sound);
+                    if(playMe.IsOk())
+                    {
+                        playMe.Play(loop ? wxSOUND_ASYNC | wxSOUND_LOOP : wxSOUND_ASYNC);
+                        return;
+                    }
                 }
             }
         }
