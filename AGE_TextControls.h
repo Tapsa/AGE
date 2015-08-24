@@ -36,7 +36,7 @@ public:
     AGETextCtrl(wxWindow *parent, int width):
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, 20), wxTE_PROCESS_ENTER){edits = 0;}
 
-    static AGETextCtrl* init(const ContainerType type, forward_list<AGETextCtrl*> *group,
+    static AGETextCtrl* init(const ContainerType type, vector<AGETextCtrl*> *group,
         wxFrame *frame, const short window, wxWindow *parent, short length = 0);
     virtual int SaveEdits(bool forced = false)=0;
     virtual void update()
@@ -72,14 +72,14 @@ public:
         }
     }
     void clear(){container.clear();}
-    void prepend(void* data){container.push_front(data);}
+    void prepend(void* data){container.push_back(data);}
     void setMaxChars(unsigned short size){maxSize = size;}
 
     static const wxString BATCHWARNING, BWTITLE, IETITLE;
     // Make these window specific
     static vector<bool> hexMode, accurateFloats;
     static vector<int> unSaved, fileLoaded;
-    forward_list<AGELinkedBox*> LinkedBoxes; // These are for check and combo boxes.
+    vector<AGELinkedBox*> LinkedBoxes; // These are for check and combo boxes.
 
 protected:
     void OnKillFocus(wxFocusEvent &event)
@@ -116,7 +116,7 @@ protected:
 
     wxFrame* frame;
     ContainerType type;
-    forward_list<void*> container; // Change to forward_list
+    vector<void*> container; // Change to forward_list. No it's slower than vector.
     int curFileLoaded, window, edits;
     unsigned short maxSize;
 };
