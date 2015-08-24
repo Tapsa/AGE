@@ -1106,11 +1106,11 @@ void AGE_Frame::CreateTechControls()
 	Effects_A = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, AGEwindow, Tab_Techs);
 	Effects_A_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_UnitsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
-	UnitComboBoxList.push_front(Effects_UnitsA_ComboBox);
+	UnitComboBoxList.push_back(Effects_UnitsA_ComboBox);
 	Effects_ResourcesA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
-	ResourceComboBoxList.push_front(Effects_ResourcesA_ComboBox);
+	ResourceComboBoxList.push_back(Effects_ResourcesA_ComboBox);
 	Effects_ResearchsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
-	ResearchComboBoxList.push_front(Effects_ResearchsA_ComboBox);
+	ResearchComboBoxList.push_back(Effects_ResearchsA_ComboBox);
 	Effects_Info_A = new wxStaticText(Tab_Techs, wxID_ANY, " Info A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_B_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute B ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_B = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, AGEwindow, Tab_Techs);
@@ -1118,9 +1118,9 @@ void AGE_Frame::CreateTechControls()
 	Effects_ModeB_CheckBox = new CheckBox_2State(Tab_Techs, "", Effects_B);
 	Units_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_B);
 	Effects_UnitsB_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_B);
-	UnitComboBoxList.push_front(Effects_UnitsB_ComboBox);
+	UnitComboBoxList.push_back(Effects_UnitsB_ComboBox);
 	Effects_ResourcesB_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_B);
-	ResourceComboBoxList.push_front(Effects_ResourcesB_ComboBox);
+	ResourceComboBoxList.push_back(Effects_ResourcesB_ComboBox);
 	Effects_Info_B = new wxStaticText(Tab_Techs, wxID_ANY, " Info B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_C_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute C ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_C = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, AGEwindow, Tab_Techs);
@@ -1132,7 +1132,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_D = AGETextCtrl::init(CFloat, &uiGroupTechEffect, this, AGEwindow, Tab_Techs);
 	Effects_D_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ResearchsD_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_D);
-	ResearchComboBoxList.push_front(Effects_ResearchsD_ComboBox);
+	ResearchComboBoxList.push_back(Effects_ResearchsD_ComboBox);
 	Effects_Info_D = new wxStaticText(Tab_Techs, wxID_ANY, " Info D", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_E_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Amount or % ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_E = new wxTextCtrl(Tab_Techs, wxID_ANY);

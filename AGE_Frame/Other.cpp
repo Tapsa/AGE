@@ -2848,7 +2848,7 @@ void AGE_Frame::virtualListing(AGEListView* list)
 	How2List = SEARCH;
 }
 
-void AGE_Frame::FillLists(forward_list<ComboBox_Plus1*> &boxlist, wxArrayString &names)
+void AGE_Frame::FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names)
 {
 	for(ComboBox_Plus1* &list: boxlist)
 	{
