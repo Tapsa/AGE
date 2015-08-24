@@ -931,22 +931,11 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
     }
 }
 
-void AGE_Frame::CalcAnnexCoords(genie::unit::BuildingAnnex *annex)
+void AGE_Frame::CalcAnnexCoords(const genie::unit::BuildingAnnex *annex)
 {
     float offsetX = dataset->TerrainBlock.TileHalfWidth * (annex->Misplacement.first - -annex->Misplacement.second);
     float offsetY = dataset->TerrainBlock.TileHalfHeight * (-annex->Misplacement.first - -annex->Misplacement.second);
     AddAnnexAndStackGraphics(annex->UnitID, offsetX, offsetY);
-}
-
-void AGE_Frame::OnUnitAnim(wxTimerEvent &event)
-{
-    unitAnimTimer.Stop();
-    if(NULL != slp_window)
-    {
-        if(slp_view->IsShownOnScreen())
-        slp_view->Refresh();
-        else unitAnimTimer.Start(1000);
-    }
 }
 
 void AGE_Frame::OnUnitsAdd(wxCommandEvent &event)
@@ -5437,7 +5426,6 @@ void AGE_Frame::CreateUnitControls()
 	}
 	Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawIconSLP), NULL, this);
     Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
-    unitAnimTimer.Connect(unitAnimTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnUnitAnim), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
