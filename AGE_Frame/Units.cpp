@@ -1659,7 +1659,7 @@ void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent &event)
 
 				DamageGraphics_GraphicID->prepend(&DamageGraphicPointer->GraphicID);
 				DamageGraphics_DamagePercent->prepend(&DamageGraphicPointer->DamagePercent);
-				DamageGraphics_Unknown1->prepend(&DamageGraphicPointer->ApplyMode);
+				DamageGraphics_ApplyMode->prepend(&DamageGraphicPointer->ApplyMode);
 				DamageGraphics_Unknown2->prepend(&DamageGraphicPointer->Unknown2);
 			}
 		}
@@ -3152,7 +3152,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_PlacementMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AirMode_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_IconID_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_IconID_Grid = new wxGridSizer(3, 0, 5);
+	wxSizer *Units_IconID_Grid = new wxBoxSizer(wxHORIZONTAL);
 	Units_HideInEditor_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Enabled_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -3548,10 +3548,10 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_DamagePercent_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_DamagePercent_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Damage Percent ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_DamagePercent = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
-	DamageGraphics_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-	DamageGraphics_Unknown1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Apply Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	DamageGraphics_Unknown1 = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
-	DamageGraphics_Unknown1->SetToolTip("0 (& 1?) Adds graphics on top (flames on buildings)\n2 Replaces original graphics (damaged walls)");
+	DamageGraphics_ApplyMode_Holder = new wxBoxSizer(wxVERTICAL);
+	DamageGraphics_ApplyMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Apply Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	DamageGraphics_ApplyMode = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
+	DamageGraphics_ApplyMode->SetToolTip("0 (& 1?) Adds graphics on top (flames on buildings)\n2 Replaces original graphics (damaged walls)");
 	DamageGraphics_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	DamageGraphics_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_Unknown2 = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
@@ -4922,9 +4922,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_DyingGraphic_Holder->Add(Units_DyingGraphic_Text, 0, wxEXPAND);
 	Units_DyingGraphic_Holder->Add(Units_DyingGraphic_Grid, 0, wxEXPAND);
 
-	Units_IconID_Grid->Add(Units_IconID_SLP, 1, wxEXPAND);
+	Units_IconID_Grid->Add(Units_IconID_SLP);
 	Units_IconID_Grid->Add(Units_IconID_Holder, 1, wxEXPAND);
-	Units_IconID_Grid->Add(Units_IconAngle_Holder, 1, wxEXPAND);
+	Units_IconID_Grid->Add(Units_IconAngle_Holder, 1, wxEXPAND | wxLEFT, 5);
 	Units_GraphicsArea4_Holder->Add(Units_IconID_Grid, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_StandingGraphic_Holder, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_DyingGraphic_Holder, 1, wxEXPAND);
@@ -4938,8 +4938,8 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID_Text, 0, wxEXPAND);
 	DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID, 1, wxEXPAND);
 	DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID_ComboBox, 1, wxEXPAND);
-	DamageGraphics_Unknown1_Holder->Add(DamageGraphics_Unknown1_Text, 0, wxEXPAND);
-	DamageGraphics_Unknown1_Holder->Add(DamageGraphics_Unknown1, 1, wxEXPAND);
+	DamageGraphics_ApplyMode_Holder->Add(DamageGraphics_ApplyMode_Text, 0, wxEXPAND);
+	DamageGraphics_ApplyMode_Holder->Add(DamageGraphics_ApplyMode, 1, wxEXPAND);
 	DamageGraphics_DamagePercent_Holder->Add(DamageGraphics_DamagePercent_Text, 0, wxEXPAND);
 	DamageGraphics_DamagePercent_Holder->Add(DamageGraphics_DamagePercent, 1, wxEXPAND);
 	DamageGraphics_Unknown2_Holder->Add(DamageGraphics_Unknown2_Text, 0, wxEXPAND);
@@ -4947,7 +4947,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_DamageGraphics_Holder_Data->Add(slp_dmg_unit, 0, wxEXPAND | wxBOTTOM, 5);
 	Units_DamageGraphics_Holder_Data->Add(DamageGraphics_GraphicID_Holder, 0, wxEXPAND);
 	Units_DamageGraphics_Holder_Data->Add(DamageGraphics_DamagePercent_Holder, 0, wxEXPAND | wxTOP, 5);
-	Units_DamageGraphics_Holder_Data->Add(DamageGraphics_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_DamageGraphics_Holder_Data->Add(DamageGraphics_ApplyMode_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_DamageGraphics_Holder_Data->Add(DamageGraphics_Unknown2_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	Units_DamageGraphics_Buttons->Add(Units_DamageGraphics_Add, 1, wxEXPAND);
@@ -5408,6 +5408,7 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_GraphicID->Connect(DamageGraphics_GraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	DamageGraphics_GraphicID_ComboBox->Connect(DamageGraphics_GraphicID_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
 	DamageGraphics_DamagePercent->Connect(DamageGraphics_DamagePercent->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	DamageGraphics_ApplyMode->Connect(DamageGraphics_ApplyMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	Attacks_Class->Connect(Attacks_Class->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	Attacks_Amount->Connect(Attacks_Amount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	Armors_Class->Connect(Armors_Class->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
@@ -5424,8 +5425,42 @@ void AGE_Frame::CreateUnitControls()
 		Connect(Units_Attribute_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitAttribute));
 		Connect(Units_GarrisonType_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitGarrisonType));
 	}
+	Units_IconID->Connect(Units_IconID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_IconAngle->Connect(Units_IconAngle->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
 	Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawIconSLP), NULL, this);
     Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+
+    // To make SLP view refresh.
+	Units_ConstructionGraphicID->Connect(Units_ConstructionGraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_SnowGraphicID->Connect(Units_SnowGraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_GarrisonGraphic->Connect(Units_GarrisonGraphic->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_ChargingGraphic->Connect(Units_ChargingGraphic->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_AttackGraphic->Connect(Units_AttackGraphic->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_WalkingGraphic[0]->Connect(Units_WalkingGraphic[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_WalkingGraphic[1]->Connect(Units_WalkingGraphic[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_StandingGraphic[0]->Connect(Units_StandingGraphic[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_StandingGraphic[1]->Connect(Units_StandingGraphic[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_DyingGraphic[0]->Connect(Units_DyingGraphic[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_DyingGraphic[1]->Connect(Units_DyingGraphic[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	UnitCommands_Graphics[0]->Connect(UnitCommands_Graphics[0]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	UnitCommands_Graphics[1]->Connect(UnitCommands_Graphics[1]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	UnitCommands_Graphics[2]->Connect(UnitCommands_Graphics[2]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	UnitCommands_Graphics[3]->Connect(UnitCommands_Graphics[3]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
+	Units_ConstructionGraphicID_ComboBox->Connect(Units_ConstructionGraphicID_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_SnowGraphicID_ComboBox->Connect(Units_SnowGraphicID_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_GarrisonGraphic_ComboBox->Connect(Units_GarrisonGraphic_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_ChargingGraphic_ComboBox->Connect(Units_ChargingGraphic_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_AttackGraphic_ComboBox->Connect(Units_AttackGraphic_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_WalkingGraphic_ComboBox[0]->Connect(Units_WalkingGraphic_ComboBox[0]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_WalkingGraphic_ComboBox[1]->Connect(Units_WalkingGraphic_ComboBox[1]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_StandingGraphic_ComboBox[0]->Connect(Units_StandingGraphic_ComboBox[0]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_StandingGraphic_ComboBox[1]->Connect(Units_StandingGraphic_ComboBox[1]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_DyingGraphic_ComboBox[0]->Connect(Units_DyingGraphic_ComboBox[0]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	Units_DyingGraphic_ComboBox[1]->Connect(Units_DyingGraphic_ComboBox[1]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	UnitCommands_Graphics_ComboBox[0]->Connect(UnitCommands_Graphics_ComboBox[0]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	UnitCommands_Graphics_ComboBox[1]->Connect(UnitCommands_Graphics_ComboBox[1]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	UnitCommands_Graphics_ComboBox[2]->Connect(UnitCommands_Graphics_ComboBox[2]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
+	UnitCommands_Graphics_ComboBox[3]->Connect(UnitCommands_Graphics_ComboBox[3]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Units), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
@@ -5443,7 +5478,9 @@ void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
 	|| event.GetId() == Units_LanguageDLLHelp->GetId()
 	|| event.GetId() == Units_LanguageDLLHotKeyText->GetId()
 	|| event.GetId() == Units_Attribute->GetId()
-	|| event.GetId() == Units_GarrisonType->GetId())
+	|| event.GetId() == Units_GarrisonType->GetId()
+	|| event.GetId() == Units_IconID->GetId()
+	|| event.GetId() == Units_IconAngle->GetId())
 	{
 		wxTimerEvent E;
 		OnUnitsTimer(E);
@@ -5460,11 +5497,16 @@ void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
 	{
 		ListUnitCommands();
 	}
-	else if(event.GetId() == DamageGraphics_DamagePercent->GetId()
-	|| event.GetId() == DamageGraphics_GraphicID->GetId())
+	else if(event.GetId() == DamageGraphics_GraphicID->GetId()
+    || event.GetId() == DamageGraphics_DamagePercent->GetId())
 	{
 		ListUnitDamageGraphics();
-	}
+    }
+    else
+    {
+        wxCommandEvent E;
+        OnChooseGraphic(E);
+    }
 }
 
 void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &event)
@@ -5549,6 +5591,11 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &event)
 	{
 		ListUnitDamageGraphics();
 	}
+    else
+    {
+        wxCommandEvent E;
+        OnChooseGraphic(E);
+    }
 }
 
 void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &event)
