@@ -110,7 +110,7 @@ public:
     wxTimer ttUnitTimer, ttUnitUnitTimer, ttUnitItemTimer;
     wxTimer ttResearchTimer, ttResearchBuildingTimer, ttResearchUnitTimer, ttResearchResearchTimer, ttResearchItemTimer;
     wxTimer civTimer, resourceTimer;
-    wxTimer unitTimer, dmgGraphicTimer, attackTimer, armorTimer, actionTimer, unitAnimTimer;
+    wxTimer unitTimer, dmgGraphicTimer, attackTimer, armorTimer, actionTimer;
     wxTimer unitLineTimer, unitLineUnitTimer;
     wxTimer graphicTimer, deltaTimer, graphicSoundTimer, graphicAnimTimer;
     wxTimer terrainTimer, terrainBorderTimer;
@@ -151,11 +151,11 @@ public:
 	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
-	void OnUnitAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP *graphic);
     int loadChosenGraphic(unsigned int unitID);
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
-    void CalcAnnexCoords(genie::unit::BuildingAnnex *annex);
+    void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);
+    void DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY);
 	void OnGraphicErase(wxEraseEvent &event);
     void loadPalette(wxString folder);
     void addFilesToRead(const wxArrayString &files, const wxString folder);
@@ -806,6 +806,7 @@ public:
     wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save;
     wxRadioBox *slp_radio, *slp_unit_actions;
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot;
+    wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain;
 
 	forward_list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
 	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
@@ -895,12 +896,6 @@ public:
 		MenuOption_Buttons,
 		MenuOption_ShowSLP,
 		MenuOption_ShowIcons,
-		MenuOption_AnimSLP,
-		MenuOption_ShowShadows,
-		MenuOption_ShowOutline,
-		MenuOption_ShowDeltas,
-		MenuOption_ShowStack,
-		MenuOption_ShowAnnexes,
 		MenuOption_Tips,
 		MenuOption_About,
 		ToolBar_Open,
@@ -911,7 +906,19 @@ public:
 		ToolBar_Hex,
 		ToolBar_Float,
 		ToolBar_Paste,
-		ToolBar_AddWindow
+		ToolBar_AddWindow,
+		opNextFrame,
+		opExportFrame,
+		opImportFrame,
+		opSaveSLP,
+		opShowHotspot,
+		opAnimSLP,
+		opShowShadows,
+		opShowOutline,
+		opShowDeltas,
+		opShowStack,
+		opShowAnnexes,
+		opShowTerrain
 	};
 
 //	User Interface

@@ -304,6 +304,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
                     wxImage img(resname, wxBITMAP_TYPE_PNG);
                     if(img.IsOk())
                     {
+                        if(!img.HasAlpha()) img.InitAlpha();
                         int half_width = img.GetWidth() / 2;
                         int half_height = img.GetHeight() / 2;
                         wxPoint center(half_width, half_height);

@@ -1791,29 +1791,61 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_window->SetIcon(wxIcon(AppIcon_xpm));
                 wxPanel *panel = new wxPanel(slp_window);
                 slp_view = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
-                slp_next = new wxButton(panel, wxID_ANY, "Show next frame");
-                slp_frame_export = new wxButton(panel, wxID_ANY, "Export frame to PNGs");
-                slp_frame_import = new wxButton(panel, wxID_ANY, "Import PNGs to frame");
-                slp_save = new wxButton(panel, wxID_ANY, "Save SLP");
-                slp_hotspot = new wxCheckBox(panel, wxID_ANY, "Hotspot");
+                slp_next = new wxButton(panel, opNextFrame, "Show next frame");
+                slp_frame_export = new wxButton(panel, opExportFrame, "Export frame to PNGs");
+                slp_frame_import = new wxButton(panel, opImportFrame, "Import PNGs to frame");
+                slp_save = new wxButton(panel, opSaveSLP, "Save SLP");
+                slp_hotspot = new wxCheckBox(panel, opShowHotspot, "Hotspot");
+                slp_animate = new wxCheckBox(panel, opAnimSLP, "Animate");
+                slp_animate->SetValue(AnimSLP);
+                slp_shadow = new wxCheckBox(panel, opShowShadows, "Shadow");
+                slp_shadow->SetValue(ShowShadows);
+                slp_outline = new wxCheckBox(panel, opShowOutline, "Outline");
+                slp_outline->SetValue(ShowOutline);
+                slp_delta = new wxCheckBox(panel, opShowDeltas, "Delta");
+                slp_delta->SetValue(ShowDeltas);
+                slp_stack = new wxCheckBox(panel, opShowStack, "Stack");
+                slp_stack->SetValue(ShowStack);
+                slp_annex = new wxCheckBox(panel, opShowAnnexes, "Annex");
+                slp_annex->SetValue(ShowAnnexes);
+                slp_terrain = new wxCheckBox(panel, opShowTerrain, "Terrain");
+                slp_terrain->SetValue(DrawTerrain);
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
                 wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
+                wxSizer *sizer3 = new wxBoxSizer(wxHORIZONTAL);
+
                 sizer->Add(slp_view, 1, wxEXPAND);
+                sizer3->Add(slp_animate, 0, wxALL, 2);
+                sizer3->Add(slp_shadow, 0, wxALL, 2);
+                sizer3->Add(slp_outline, 0, wxALL, 2);
+                sizer3->Add(slp_delta, 0, wxALL, 2);
+                sizer3->Add(slp_stack, 0, wxALL, 2);
+                sizer3->Add(slp_annex, 0, wxALL, 2);
+                sizer3->Add(slp_terrain, 0, wxALL, 2);
                 sizer2->Add(slp_next);
                 sizer2->Add(slp_frame_export);
                 sizer2->Add(slp_frame_import);
                 sizer2->Add(slp_save);
-                sizer2->Add(slp_hotspot, 0, wxALL, 2);
+                sizer3->Add(slp_hotspot, 0, wxALL, 2);
+                sizer->Add(sizer3, 0, wxEXPAND);
                 sizer->Add(sizer2, 0, wxEXPAND);
                 panel->SetSizer(sizer);
+
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
-                slp_next->Connect(slp_next->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_frame_export->Connect(slp_frame_export->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_frame_import->Connect(slp_frame_import->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_save->Connect(slp_save->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_hotspot->Connect(slp_hotspot->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_next->Connect(opNextFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_frame_export->Connect(opExportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_frame_import->Connect(opImportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_save->Connect(opSaveSLP, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_hotspot->Connect(opShowHotspot, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_animate->Connect(opAnimSLP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_shadow->Connect(opShowShadows, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_outline->Connect(opShowOutline, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_delta->Connect(opShowDeltas, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_stack->Connect(opShowStack, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_annex->Connect(opShowAnnexes, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_terrain->Connect(opShowTerrain, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_window->Show();
             }
             else
@@ -1834,45 +1866,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             Research_IconID_SLP->Show(ShowIcons);
         }
         break;
-		case MenuOption_AnimSLP:
-		{
-			AnimSLP = event.IsChecked();
-            if(NULL != slp_window) slp_view->Refresh();
-		}
-		break;
-		case MenuOption_ShowShadows:
-		{
-			ShowShadows = event.IsChecked();
-            if(NULL != slp_window) slp_view->Refresh();
-		}
-		break;
-		case MenuOption_ShowOutline:
-		{
-			ShowOutline = event.IsChecked();
-            if(NULL != slp_window) slp_view->Refresh();
-		}
-		break;
-		case MenuOption_ShowDeltas:
-		{
-			ShowDeltas = event.IsChecked();
-            graphicSLP.slpID = unitSLP.slpID = -2;
-            if(NULL != slp_window) slp_view->Refresh();
-		}
-		break;
-		case MenuOption_ShowStack:
-		{
-			ShowStack = event.IsChecked();
-            graphicSLP.slpID = unitSLP.slpID = -2;
-            if(NULL != slp_window) slp_view->Refresh();
-		}
-		break;
-		case MenuOption_ShowAnnexes:
-		{
-			ShowAnnexes = event.IsChecked();
-            graphicSLP.slpID = unitSLP.slpID = -2;
-            if(NULL != slp_window) slp_view->Refresh();
-		}
-		break;
 		/*case MenuOption_IDFix:
 		{
 			EnableIDFix = event.IsChecked();
@@ -1943,7 +1936,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_unlock_xpm));
             // Unload DRS files, stop animations.
             graphicAnimTimer.Stop();
-            unitAnimTimer.Stop();
             if(!UseTXT)
             {
                 for(auto &file: datafiles) delete file;
@@ -3018,63 +3010,116 @@ wxString AGE_Frame::CurrentTime()
 
 void AGE_Frame::OnFrameButton(wxCommandEvent &event)
 {
-    if(event.GetId() == slp_next->GetId())
+    switch(event.GetId())
     {
-        nextFrame = true;
-        slp_view->Refresh();
-        graphicAnimTimer.Start(100);
-    }
-    else if(event.GetId() == slp_save->GetId())
-    {
-        if(AGE_SLP::currentDisplay == 6)
+        case opNextFrame:
         {
-            if(!graphicSLP.slp)
-            {
-                wxMessageBox("No SLP to save", "SLP");
-                return;
-            }
-            if(graphicSLP.filename.empty())
-            {
-                wxMessageBox("No SLP filename", "SLP");
-                return;
-            }
-            try
-            {
-                wxString name = graphicSLP.filename + ".slp";
-                graphicSLP.slp.get()->saveAs(name.c_str());
-                wxMessageBox("Saved SLP " + name, "SLP");
-            }
-            catch(std::ios_base::failure e)
-            {
-                wxMessageBox("Saving SLP failed", "SLP");
-            }
+            nextFrame = true;
+            slp_view->Refresh();
+            graphicAnimTimer.Start(100);
         }
-        else wxMessageBox("Look at some graphic", "SLP");
-    }
-    else if(event.GetId() == slp_frame_export->GetId())
-    {
-        playerColorToAlpha = true;
-        if(AGE_SLP::currentDisplay == 6)
+        break;
+        case opExportFrame:
         {
-            SLPtoBitMap(&graphicSLP);
-            if(graphicSLP.bitmap.IsOk())
-            if(!graphicSLP.bitmap.SaveFile("Testi.png", wxBITMAP_TYPE_PNG))
-                wxMessageBox("Saving frame as PNG failed", "SLP");
+            playerColorToAlpha = true;
+            if(AGE_SLP::currentDisplay == 6)
+            {
+                SLPtoBitMap(&graphicSLP);
+                if(graphicSLP.bitmap.IsOk())
+                if(!graphicSLP.bitmap.SaveFile("Testi.png", wxBITMAP_TYPE_PNG))
+                    wxMessageBox("Saving frame as PNG failed", "SLP");
+            }
+            playerColorToAlpha = false;
         }
-        playerColorToAlpha = false;
-    }
-    else if(event.GetId() == slp_frame_import->GetId())
-    {
-        if(AGE_SLP::currentDisplay == 6)
+        break;
+        case opImportFrame:
         {
-            BitMaptoSLP(&graphicSLP);
+            if(AGE_SLP::currentDisplay == 6)
+            {
+                BitMaptoSLP(&graphicSLP);
+            }
+            graphicAnimTimer.Start(100);
         }
-        graphicAnimTimer.Start(100);
-    }
-    else if(event.GetId() == slp_hotspot->GetId())
-    {
-        DrawHot = slp_hotspot->GetValue();
-        slp_view->Refresh();
+        break;
+        case opSaveSLP:
+        {
+            if(AGE_SLP::currentDisplay == 6)
+            {
+                if(!graphicSLP.slp)
+                {
+                    wxMessageBox("No SLP to save", "SLP");
+                    return;
+                }
+                if(graphicSLP.filename.empty())
+                {
+                    wxMessageBox("No SLP filename", "SLP");
+                    return;
+                }
+                try
+                {
+                    wxString name = graphicSLP.filename + ".slp";
+                    graphicSLP.slp.get()->saveAs(name.c_str());
+                    wxMessageBox("Saved SLP " + name, "SLP");
+                }
+                catch(std::ios_base::failure e)
+                {
+                    wxMessageBox("Saving SLP failed", "SLP");
+                }
+            }
+            else wxMessageBox("Look at some graphic", "SLP");
+        }
+        break;
+        case opShowHotspot:
+        {
+            DrawHot = event.IsChecked();
+            slp_view->Refresh();
+        }
+        break;
+		case opAnimSLP:
+		{
+			AnimSLP = event.IsChecked();
+            slp_view->Refresh();
+		}
+		break;
+		case opShowShadows:
+		{
+			ShowShadows = event.IsChecked();
+            slp_view->Refresh();
+		}
+		break;
+		case opShowOutline:
+		{
+			ShowOutline = event.IsChecked();
+            slp_view->Refresh();
+		}
+		break;
+		case opShowDeltas:
+		{
+			ShowDeltas = event.IsChecked();
+            graphicSLP.slpID = unitSLP.slpID = -2;
+            slp_view->Refresh();
+		}
+		break;
+		case opShowStack:
+		{
+			ShowStack = event.IsChecked();
+            graphicSLP.slpID = unitSLP.slpID = -2;
+            slp_view->Refresh();
+		}
+		break;
+		case opShowAnnexes:
+		{
+			ShowAnnexes = event.IsChecked();
+            graphicSLP.slpID = unitSLP.slpID = -2;
+            slp_view->Refresh();
+		}
+		break;
+        case opShowTerrain:
+        {
+			DrawTerrain = event.IsChecked();
+            slp_view->Refresh();
+        }
+        break;
     }
 }
 
@@ -3102,6 +3147,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	Config->Write("Interaction/ShowDeltas", ShowDeltas);
 	Config->Write("Interaction/ShowStack", ShowStack);
 	Config->Write("Interaction/ShowAnnexes", ShowAnnexes);
+	Config->Write("Interaction/DrawTerrain", DrawTerrain);
 	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
 	Config->Write("Interface/ShowButtons", ShowButtons);
 	Config->Write("Interface/Paste11", Paste11);
@@ -3135,7 +3181,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	}
 
     AGE_Frame::openEditors[AGEwindow] = false;
-    while(graphicAnimTimer.IsRunning() || unitAnimTimer.IsRunning())
+    while(graphicAnimTimer.IsRunning())
     {
         if(event.CanVeto())
         {
