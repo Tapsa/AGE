@@ -477,9 +477,9 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 
 void AGE_Frame::OnKillFocus_TerRestrict(wxFocusEvent &event)
 {
+	event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	ListTerrains2();
-	event.Skip();
 }
 
 void AGE_Frame::OnUpdateCheck_TerRestrict(wxCommandEvent &event)

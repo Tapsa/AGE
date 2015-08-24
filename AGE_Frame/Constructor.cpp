@@ -17,7 +17,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 {
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
-	TabBar_Main = new wxNotebook(this, wxID_ANY);
+	TabBar_Main = new wxNotebook(this, TabBarID);
 	argPath = aP;
 	AGEwindow = window;
     slp_window = NULL;
@@ -208,6 +208,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(Units_GraphicSet->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
 	Connect(MenuOption_Tips, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(TabBarID, wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = UseTXT = DrawHot = false;
 	for(short loop = 0; loop < 2; ++loop)

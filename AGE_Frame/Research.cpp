@@ -580,7 +580,7 @@ void AGE_Frame::CreateResearchControls()
 		Research_Name_Holder[loop]->Add(Research_Name[loop], 0, wxEXPAND);
 	}
 
-	Research_Names_Holder->Add(Research_IconID_SLP, 0, wxEXPAND);
+	Research_Names_Holder->Add(Research_IconID_SLP);
 	Research_Names_Holder->Add(Research_Name_Holder[0], 2, wxEXPAND);
 	Research_Names_Holder->Add(Research_Name_Holder[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxLEFT, 5);
 
@@ -732,12 +732,14 @@ void AGE_Frame::CreateResearchControls()
 	Research_DLL_LangDLLDescription->Connect(Research_DLL_LangDLLDescription->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 	Research_DLL_LanguageDLLHelp->Connect(Research_DLL_LanguageDLLHelp->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
 	Research_DLL_LanguageDLLName2->Connect(Research_DLL_LanguageDLLName2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+	Research_IconID->Connect(Research_IconID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Research), NULL, this);
     Research_IconID_SLP->Connect(Research_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawTechSLP), NULL, this);
     Research_IconID_SLP->Connect(Research_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
 {
+	event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	if(event.GetId() == Research_Name[0]->GetId() || event.GetId() == Research_LangDLLName->GetId())
 	{
@@ -748,5 +750,4 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
 		wxTimerEvent E;
 		OnResearchTimer(E);
 	}
-	event.Skip();
 }
