@@ -23,7 +23,7 @@ public:
     AGECheckBox(parent, label)
     {
         TextBox = Pointer;
-        TextBox->LinkedBoxes.push_front(this);
+        TextBox->LinkedBoxes.push_back(this);
         Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_2State::OnUpdate));
     }
 
@@ -39,7 +39,7 @@ public:
     AGECheckBox(parent, label)
     {
         TextBox = Pointer;
-        TextBox->LinkedBoxes.push_front(this);
+        TextBox->LinkedBoxes.push_back(this);
         Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_ZeroIsYes::OnUpdate));
     }
 

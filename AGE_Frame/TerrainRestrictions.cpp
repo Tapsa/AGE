@@ -391,10 +391,10 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Graphics_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Graphics[0] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
 	TerRestrict_Graphics_ComboBox[0] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[0]);
-	GraphicComboBoxList.push_front(TerRestrict_Graphics_ComboBox[0]);
+	GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[0]);
 	TerRestrict_Graphics[1] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
 	TerRestrict_Graphics_ComboBox[1] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[1]);
-	GraphicComboBoxList.push_front(TerRestrict_Graphics_ComboBox[1]);
+	GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[1]);
 	TerRestrict_Amount_Holder = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Amount_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Amount = AGETextCtrl::init(CFloat, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);

@@ -21,6 +21,7 @@ public:
     wxBitmap bitmap;
     int xpos, ypos, xdelta, ydelta;
 
+    set<int> angles;
     multimap<int, AGE_SLP> deltas;
     static uint32_t playerColorStart, playerColorID, currentDisplay;
 };
@@ -133,7 +134,7 @@ public:
     void getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes);
 	//void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
 	void virtualListing(AGEListView* list);
-	void FillLists(forward_list<ComboBox_Plus1*> &boxlist, wxArrayString &names);
+	void FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names);
 	void UnitLangDLLConverter(wxCommandEvent &event);
 	void ResearchLangDLLConverter(wxCommandEvent &event);
 	void SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
@@ -808,7 +809,7 @@ public:
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot;
     wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain;
 
-	forward_list<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
+	vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
 	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
 	TerrainRestrictionComboBoxList, SoundComboBoxList;
 
@@ -1125,7 +1126,7 @@ public:
 	wxStaticText *Borders_BorderStyle_Text;
 	AGETextCtrl *Borders_BorderStyle;
 
-    forward_list<AGETextCtrl*> uiGroupMaps, uiGroupTT, uiGroupTTAge, uiGroupTTBuilding, uiGroupTTUnit, uiGroupTTResearch;
+    vector<AGETextCtrl*> uiGroupMaps, uiGroupTT, uiGroupTTAge, uiGroupTTBuilding, uiGroupTTUnit, uiGroupTTResearch;
 	wxGridSizer *General_Variables_Grid;
 	wxGridSizer *General_Variables2_Grid;
 	wxStaticBoxSizer *General_Variables1_Holder;
@@ -1178,7 +1179,7 @@ public:
 	wxScrolledWindow *Unknown_Scroller;
 	wxBoxSizer *Unknown_ScrollSpace;
 
-    forward_list<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
+    vector<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
 	wxStaticText *Unknown_UnknownPointer_Text;
 	AGETextCtrl *Unknown_UnknownPointer;
 
@@ -1394,7 +1395,7 @@ public:
 	wxButton *Research_Paste;
 	wxButton *Research_PasteInsert;
 
-    forward_list<AGETextCtrl*> uiGroupResearch;
+    vector<AGETextCtrl*> uiGroupResearch;
 	wxBoxSizer *Research_RequiredTechArea_Holder;
 	wxGridSizer *Research_RequiredTechs_Holder;
 	wxStaticText *Research_RequiredTechArea_Text;
@@ -1557,7 +1558,7 @@ public:
 	wxButton *Techs_Effects_CopyToTechs;
 
 	wxBoxSizer *Effects_DataArea;
-    forward_list<AGETextCtrl*> uiGroupTechEffect;
+    vector<AGETextCtrl*> uiGroupTechEffect;
 	wxBoxSizer *Effects_Type_Holder;
 	wxBoxSizer *Effects_Type2_Holder;
 	wxStaticText *Effects_Type_Text;
@@ -1605,7 +1606,7 @@ public:
 	wxButton *Civs_Paste;
 	wxButton *Civs_PasteInsert;
 
-    forward_list<AGETextCtrl*> uiGroupCiv;
+    vector<AGETextCtrl*> uiGroupCiv;
 	wxBoxSizer *Civs_DataArea;
 	wxGridSizer *Civs_DataGrid1;
 	wxGridSizer *Civs_DataGrid2;
@@ -2361,7 +2362,7 @@ public:
 
 	wxBoxSizer *Units_DataArea;	// Unit window other-than unit-list-section
 
-    forward_list<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitCommand;
+    vector<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitCommand;
 	wxBoxSizer *Units_ScrollSpace;
 	wxStaticBoxSizer *Units_Identity_Holder;
 	wxBoxSizer *Units_TypeArea_Holder;
@@ -2554,7 +2555,7 @@ public:
 	wxScrolledWindow *Graphics_Scroller;
 	wxBoxSizer *Graphics_ScrollSpace;
 
-    forward_list<AGETextCtrl*> uiGroupGraphic, uiGroupGraphicDelta, uiGroupGraphicSound;
+    vector<AGETextCtrl*> uiGroupGraphic, uiGroupGraphicDelta, uiGroupGraphicSound;
 	wxBoxSizer *Graphics_NameArea_Holder;
 	wxBoxSizer *Graphics_Name_Holder;
 	wxBoxSizer *Graphics_Name2_Holder;
@@ -2691,7 +2692,7 @@ public:
 
 //	Terrains user interface
 
-    forward_list<AGETextCtrl*> uiGroupTerrain, uiGroupBorder, uiGroupBorderFrame;
+    vector<AGETextCtrl*> uiGroupTerrain, uiGroupBorder, uiGroupBorderFrame;
 	wxBoxSizer *Terrains_Main;
 	wxStaticBoxSizer *Terrains_Terrains;
 	wxBoxSizer *Terrains_Terrains_Searches[2];
@@ -2856,7 +2857,7 @@ public:
 	wxButton *TerRestrict_Paste;
 	wxButton *TerRestrict_PasteInsert;
 
-    forward_list<AGETextCtrl*> uiGroupRestriction;
+    vector<AGETextCtrl*> uiGroupRestriction;
 	wxBoxSizer *TerRestrict_Terrains;
 	wxBoxSizer *TerRestrict_DataArea;
 	wxTextCtrl *TerRestrict_Terrains_Search;
@@ -2918,7 +2919,7 @@ public:
 	wxButton *SoundItems_PasteInsert;
 	wxButton *SoundItems_CopyToSounds;
 
-    forward_list<AGETextCtrl*> uiGroupSound, uiGroupSoundFile;
+    vector<AGETextCtrl*> uiGroupSound, uiGroupSoundFile;
 	wxBoxSizer *Sounds_ID_Holder;
 	wxStaticText *Sounds_ID_Text;
 	AGETextCtrl *Sounds_ID;
@@ -2973,7 +2974,7 @@ public:
 	wxButton *Colors_Paste;
 	wxButton *Colors_PasteInsert;
 
-    forward_list<AGETextCtrl*> uiGroupColor;
+    vector<AGETextCtrl*> uiGroupColor;
 	wxBoxSizer *Colors_DataArea;
 	wxBoxSizer *Colors_Name_Holder;
 	wxBoxSizer *Colors_ID_Holder;

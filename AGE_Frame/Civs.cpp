@@ -253,7 +253,7 @@ string AGE_Frame::GetResourceName(int index)
 			else
 			Name = "Nova Storage ";
 			break;
-		case 4: Name = "Population Cap"; break;
+		case 4: Name = "Population Headroom"; break;
 		case 5: Name = "Conversion Range"; break;
 		case 6: Name = "Current Age"; break;
 		case 7:
@@ -270,7 +270,7 @@ string AGE_Frame::GetResourceName(int index)
 			else
 			Name = "Shields' Recharge Rate";
 			break;
-		case 11: Name = "Population (Both Current and Headroom)"; break;
+		case 11: Name = "Current Population"; break;
 		case 12: Name = "Corpse Decay Time"; break;
 		case 13: Name = "Discovery"; break;
 		case 14: Name = "Monuments/Ruins Captured"; break;
@@ -324,7 +324,7 @@ string AGE_Frame::GetResourceName(int index)
 			if(GenieVersion < genie::GV_AoKA)
 			Name = "Unit Count";
 			else
-			Name = "Bonus Population";
+			Name = "Bonus Population Cap";
 			break;
 		case 33:
 			if(GenieVersion < genie::GV_SWGB)
@@ -829,12 +829,12 @@ void AGE_Frame::CreateCivControls()
 	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = AGETextCtrl::init(CShort, &uiGroupCiv, this, AGEwindow, Tab_Civs);
 	Civs_TechTree_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TechTree);
-	TechComboBoxList.push_front(Civs_TechTree_ComboBox);
+	TechComboBoxList.push_back(Civs_TechTree_ComboBox);
 	Civs_TeamBonus_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_TeamBonus_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TeamBonus = AGETextCtrl::init(CShort, &uiGroupCiv, this, AGEwindow, Tab_Civs);
 	Civs_TeamBonus_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus);
-	TechComboBoxList.push_front(Civs_TeamBonus_ComboBox);
+	TechComboBoxList.push_back(Civs_TeamBonus_ComboBox);
 	Civs_SUnknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_SUnknown1_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(short loop = 0; loop < 4; ++loop)

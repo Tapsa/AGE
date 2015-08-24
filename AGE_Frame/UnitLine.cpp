@@ -341,7 +341,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLineUnits_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitLineUnits_Units = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Tab_UnitLine);
 	UnitLineUnits_ComboBox = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units);
-	UnitComboBoxList.push_front(UnitLineUnits_ComboBox);
+	UnitComboBoxList.push_back(UnitLineUnits_ComboBox);
 
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Add, 1, wxEXPAND);
 	UnitLines_UnitLines_Buttons->Add(UnitLines_Delete, 1, wxEXPAND);

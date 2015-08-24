@@ -155,7 +155,38 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	CreateGeneralControls();
 	CreateUnknownControls();
 
-//	CreateDRSControls();
+    // Freeing some memory
+    ResearchComboBoxList.shrink_to_fit();
+    TechComboBoxList.shrink_to_fit();
+    CivComboBoxList.shrink_to_fit();
+    ResourceComboBoxList.shrink_to_fit();
+    uiGroupMaps.shrink_to_fit();
+    uiGroupTT.shrink_to_fit();
+    uiGroupTTAge.shrink_to_fit();
+    uiGroupTTBuilding.shrink_to_fit();
+    uiGroupTTUnit.shrink_to_fit();
+    uiGroupTTResearch.shrink_to_fit();
+    uiGroupRandomMap.shrink_to_fit();
+    uiGroupRMBase.shrink_to_fit();
+    uiGroupRMTerrain.shrink_to_fit();
+    uiGroupRMUnit.shrink_to_fit();
+    uiGroupRMUnknown.shrink_to_fit();
+    uiGroupResearch.shrink_to_fit();
+    uiGroupTechEffect.shrink_to_fit();
+    uiGroupCiv.shrink_to_fit();
+    uiGroupUnit.shrink_to_fit();
+    uiGroupUnitDmgGraphic.shrink_to_fit();
+    uiGroupUnitCommand.shrink_to_fit();
+    uiGroupGraphic.shrink_to_fit();
+    uiGroupGraphicDelta.shrink_to_fit();
+    uiGroupGraphicSound.shrink_to_fit();
+    uiGroupTerrain.shrink_to_fit();
+    uiGroupBorder.shrink_to_fit();
+    uiGroupBorderFrame.shrink_to_fit();
+    uiGroupRestriction.shrink_to_fit();
+    uiGroupSound.shrink_to_fit();
+    uiGroupSoundFile.shrink_to_fit();
+    uiGroupColor.shrink_to_fit();
 
 	Units_AutoCopy->SetValue(AutoCopy);
 	Units_CopyGraphics->SetValue(CopyGraphics);

@@ -29,7 +29,7 @@ public:
     AGEComboBox(parent)
     {
         TextBox = Pointer;
-        TextBox->LinkedBoxes.push_front(this);
+        TextBox->LinkedBoxes.push_back(this);
         Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Plus1::OnUpdate));
     }
 
@@ -45,7 +45,7 @@ public:
     AGEComboBox(parent)
     {
         TextBox = Pointer;
-        TextBox->LinkedBoxes.push_front(this);
+        TextBox->LinkedBoxes.push_back(this);
         Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectType::OnUpdate));
     }
 
@@ -61,7 +61,7 @@ public:
     AGEComboBox(parent)
     {
         TextBox = Pointer;
-        TextBox->LinkedBoxes.push_front(this);
+        TextBox->LinkedBoxes.push_back(this);
         Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectAttribute::OnUpdate));
     }
 
