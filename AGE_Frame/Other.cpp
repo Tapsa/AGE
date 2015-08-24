@@ -1177,14 +1177,14 @@ void AGE_Frame::LoadLists()
 		TechTrees_Researches_Units.List->DeleteAllItems();
 		TechTrees_Researches_Researches.List->DeleteAllItems();
 	}
-	if(TimesOpened < 3)
+	/*if(TimesOpened < 3)
 	{
 		Units_ListV->SetItemState(0, 0, wxLIST_STATE_SELECTED);
 		srand(time(NULL));
 		short sels = rand() % 2 + 3;
 		for(short i=0; ++i<sels;)
 		Units_ListV->SetItemState(rand() % (12 - TimesOpened) + 4, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-	}
+	}*/
 
     wxTimerEvent E;
 	OnCivsTimer(E);
@@ -1771,6 +1771,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		{
 			AGE_AboutDialog AGEAbout(this);
 			AGEAbout.ShowModal();
+		}
+		break;
+		case TabBarID:
+		{
+			if(NULL != slp_window) slp_view->Refresh();
 		}
 		break;
 		case MenuOption_ShowSLP:
