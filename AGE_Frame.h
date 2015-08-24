@@ -907,6 +907,7 @@ public:
 		ToolBar_Float,
 		ToolBar_Paste,
 		ToolBar_AddWindow,
+		TabBarID,
 		opNextFrame,
 		opExportFrame,
 		opImportFrame,
@@ -2077,7 +2078,6 @@ public:
 	wxBoxSizer *Units_PlacementMode_Holder;
 	wxBoxSizer *Units_AirMode_Holder;
 	wxBoxSizer *Units_IconID_Holder;
-	wxGridSizer *Units_IconID_Grid;
 	wxPanel *Units_IconID_SLP;
 	wxBoxSizer *Units_HideInEditor_Holder;
 	wxBoxSizer *Units_Unknown1_Holder;
@@ -2253,15 +2253,15 @@ public:
 	AGETextCtrl *DamageGraphics_GraphicID;
 	ComboBox_Plus1 *DamageGraphics_GraphicID_ComboBox;
 	AGETextCtrl *DamageGraphics_DamagePercent;
-	AGETextCtrl *DamageGraphics_Unknown1;
+	AGETextCtrl *DamageGraphics_ApplyMode;
 	AGETextCtrl *DamageGraphics_Unknown2;
 	wxStaticText *DamageGraphics_GraphicID_Text;
 	wxStaticText *DamageGraphics_DamagePercent_Text;
-	wxStaticText *DamageGraphics_Unknown1_Text;
+	wxStaticText *DamageGraphics_ApplyMode_Text;
 	wxStaticText *DamageGraphics_Unknown2_Text;
 	wxBoxSizer *DamageGraphics_GraphicID_Holder;
 	wxBoxSizer *DamageGraphics_DamagePercent_Holder;
-	wxBoxSizer *DamageGraphics_Unknown1_Holder;
+	wxBoxSizer *DamageGraphics_ApplyMode_Holder;
 	wxBoxSizer *DamageGraphics_Unknown2_Holder;
 	wxStaticBoxSizer *Units_DamageGraphics;
 	wxBoxSizer *Units_DamageGraphics_ListArea;

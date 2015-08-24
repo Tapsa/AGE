@@ -40,6 +40,10 @@ string AGE_Frame::GetGraphicName(int index, bool Filter)
 					Name += "So "+FormatInt(dataset->Graphics[index].SoundID);
 					break;
 				case 9: // Coordinates
+					Name += "xy "+FormatInt(dataset->Graphics[index].Coordinates[0]);
+					Name += " "+FormatInt(dataset->Graphics[index].Coordinates[1]);
+					Name += " "+FormatInt(dataset->Graphics[index].Coordinates[2]);
+					Name += " "+FormatInt(dataset->Graphics[index].Coordinates[3]);
 					break;
 				case 10: // Deltas
 					Name += "DC "+FormatInt(dataset->Graphics[index].Deltas.size());
@@ -215,8 +219,22 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     {
         dc.DrawBitmap(tileSLP.bitmap, centerX - tileSLP.xpos, centerY - tileSLP.ypos, true);
     }
-    if(6 == TabBar_Main->GetSelection()) AGE_SLP::currentDisplay = 6;
-    else if(4 == TabBar_Main->GetSelection()) AGE_SLP::currentDisplay = 4;
+    if(6 == TabBar_Main->GetSelection())
+    {
+        if(AGE_SLP::currentDisplay != 6)
+        {
+            AGE_SLP::currentDisplay = 6;
+            graphicSLP.slpID = -2;
+        }
+    }
+    else if(4 == TabBar_Main->GetSelection())
+    {
+        if(AGE_SLP::currentDisplay != 4)
+        {
+            AGE_SLP::currentDisplay = 4;
+            unitSLP.slpID = -2;
+        }
+    }
     if(AGE_SLP::currentDisplay == 6)
     {
         if(GraphicIDs.size() == 0 || dataset->Graphics[graphicSLP.datID].FrameCount == 0)
@@ -648,7 +666,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
 	AddToList(dataset->Graphics[GraphicIDs[0]].Deltas);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window) slp_view->Refresh();
+    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
@@ -660,7 +678,7 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
 	InsertToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0]);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window) slp_view->Refresh();
+    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
@@ -672,7 +690,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
 	DeleteFromList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window) slp_view->Refresh();
+    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &event)
@@ -704,7 +722,7 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &event)
 	}
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window) slp_view->Refresh();
+    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
@@ -716,7 +734,7 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
 	PasteInsertToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies.GraphicDelta);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window) slp_view->Refresh();
+    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasCopyToGraphics(wxCommandEvent &event)
@@ -1247,6 +1265,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_SLP->Connect(Graphics_SLP->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_FrameRate->Connect(Graphics_FrameRate->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_FrameCount->Connect(Graphics_FrameCount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
+	Graphics_ReplayDelay->Connect(Graphics_ReplayDelay->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	Graphics_MirroringMode->Connect(Graphics_MirroringMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	GraphicDeltas_DirectionX->Connect(GraphicDeltas_DirectionX->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
 	GraphicDeltas_DirectionY->Connect(GraphicDeltas_DirectionY->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
@@ -1265,7 +1284,7 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 	{
 		graphicSLP.slpID = -2;
 		ListGraphicDeltas();
-        if(NULL != slp_window) slp_view->Refresh();
+        if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
 	}
 	else if(event.GetId() == Graphics_Name2->GetId())
 	{
@@ -1306,5 +1325,5 @@ void AGE_Frame::OnUpdateCombo_Graphics(wxCommandEvent &event)
 	((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window) slp_view->Refresh();
+    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
 }
