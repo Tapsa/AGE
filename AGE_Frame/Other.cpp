@@ -2214,7 +2214,6 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                 graphic->slp.reset(new genie::SlpFile());
                 wxString name = folders[i] + graphic->filename + ".slp";
                 //log_out << name << endl;
-                graphic->slp.get()->setGameVersion(GenieVersion);
                 graphic->slp.get()->load(name.c_str());
                 graphic->slp.get()->freelock();
                 LoadSLPFrame(graphic);
@@ -2233,7 +2232,6 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                 graphic->slp.reset(new genie::SlpFile());
                 wxString name = folders[i] + lexical_cast<string>(graphic->slpID) + ".slp";
                 //log_out << name << endl;
-                graphic->slp.get()->setGameVersion(GenieVersion);
                 graphic->slp.get()->load(name.c_str());
                 graphic->slp.get()->freelock();
                 LoadSLPFrame(graphic);
@@ -2244,7 +2242,6 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
     }
     else
     {
-        graphic->slp.reset();
         for(auto &file: datafiles)
         {
             graphic->slp = file->getSlpFile(graphic->slpID);
@@ -2254,9 +2251,9 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                 LoadSLPFrame(graphic);
                 return;
             }
-            graphic->slp.reset();
         }
     }
+    graphic->slp.reset();
     graphic->bitmap = wxNullBitmap;
 }
 
