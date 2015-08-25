@@ -13,7 +13,7 @@
 #include <boost/shared_ptr.hpp>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
-#include <wx/collpane.h>
+//#include <wx/collpane.h>
 #include <wx/fileconf.h>
 #include <wx/filename.h>
 #include <wx/filepicker.h>
