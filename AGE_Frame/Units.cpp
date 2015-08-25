@@ -536,17 +536,8 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 					Units_TrackingUnitDensity->prepend(&UnitPointer->DeadFish.TrackingUnitDensity);
 					Units_Unknown16->prepend(&UnitPointer->DeadFish.Unknown16);
 					if(GenieVersion >= genie::GV_AoKB)
-					{
-						string newLabel = " ( ", aste = "° ";
-						for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
-						{
-							int angle = UnitPointer->DeadFish.RotationAngles[loop] * 57.2957802;
-							if(angle == 0x80000000) newLabel += "max" + aste;
-							else newLabel += lexical_cast<string>(angle) + aste;
-							Units_RotationAngles[loop]->prepend(&UnitPointer->DeadFish.RotationAngles[loop]);
-						}
-						Units_RotationAngles_Text->SetLabel(Units_RotationAngles_Label + newLabel + ")");
-					}
+                    for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
+                    Units_RotationAngles[loop]->prepend(&UnitPointer->DeadFish.RotationAngles[loop]);
 				}
 				case 25:
 				case 20:
@@ -731,6 +722,17 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
                 Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
             }
             Units_DLL_HotKey4->index = UnitPointer->HotKey;
+        }
+        if(GenieVersion >= genie::GV_AoKB)
+        {
+            string newLabel = " ( ", aste = "° ";
+            for(short loop = 0; loop < Units_RotationAngles.size(); ++loop)
+            {
+                int angle = UnitPointer->DeadFish.RotationAngles[loop] * 57.2957802;
+                if(angle == 0x80000000) newLabel += "max" + aste;
+                else newLabel += lexical_cast<string>(angle) + aste;
+            }
+            Units_RotationAngles_Text->SetLabel(Units_RotationAngles_Label + newLabel + ")");
         }
         visibleUnitCiv->SetLabel(dataset->Civs[UnitCivID].Name);
         if(!palettes.empty() && !palettes[0].empty())

@@ -71,8 +71,8 @@ public:
         case CString: SetBackgroundColour(wxColour(220, 255, 220)); break;
         }
     }
-    void clear(){container.clear();}
-    void prepend(void* data){container.push_back(data);}
+    inline void clear(){container.clear();}
+    inline void prepend(void* data){container.push_back(data);}
     void setMaxChars(unsigned short size){maxSize = size;}
 
     static const wxString BATCHWARNING, BWTITLE, IETITLE;
