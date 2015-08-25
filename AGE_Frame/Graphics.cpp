@@ -887,7 +887,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_ReplayDelay->SetToolTip("Waiting time in seconds before animation restarts again");
 
 	Graphics_FrameCount_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_FrameCount_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_FrameCount_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frames per Angle", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_FrameCount = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
 	Graphics_FrameRate_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_FrameRate_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Rate *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -898,8 +898,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_SequenceType = AGETextCtrl::init(CByte, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
 	Graphics_SequenceType->SetToolTip("Animation type?\n6 Changes frames when placed in the scenario editor");
 	Graphics_Type_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_Type_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Graphics_Type_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_MirroringMode = AGETextCtrl::init(CByte, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
+	Graphics_MirroringMode->SetToolTip("Angle count clockwise from east after mirroring starts?\nSeems to ignore angles before south");
 
 	Graphics_Coordinates_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_CoordinateGrid_Holder = new wxGridSizer(4, 0, 5);
@@ -1028,7 +1029,7 @@ void AGE_Frame::CreateGraphicsControls()
 		Graphics_SearchFilters[loop]->Append("Coordinates");
 		Graphics_SearchFilters[loop]->Append("Delta Count");
 		Graphics_SearchFilters[loop]->Append("Attack Sound Used");
-		Graphics_SearchFilters[loop]->Append("Frame Count");
+		Graphics_SearchFilters[loop]->Append("Frames per Angle");
 		Graphics_SearchFilters[loop]->Append("Angle Count");
 		Graphics_SearchFilters[loop]->Append("New Speed");
 		Graphics_SearchFilters[loop]->Append("Frame Rate");
