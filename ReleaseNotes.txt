@@ -12,6 +12,11 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.8.25[/b]:
+-Immediately refresh graphics when editing them.
+-Can play external terrain sounds.
+-Fixed massive lag when selecting units.
+
 Version [b]2015.8.23[/b]:
 -Icons show without SLP view.
 -Looping optional for WAV sounds.
