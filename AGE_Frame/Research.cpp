@@ -262,11 +262,11 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
         }
         if(GenieVersion == genie::GV_CC)
         {
-            techSLP.slpID = 53250 + dataset->Civs[UnitCivID].IconSet;
+            techSLP.slpID = 53260 + dataset->Civs[UnitCivID].IconSet;
         }
         else if(GenieVersion == genie::GV_SWGB)
         {
-            techSLP.slpID = 50733 + dataset->Civs[UnitCivID].IconSet;
+            techSLP.slpID = 50689 + dataset->Civs[UnitCivID].IconSet;
         }
         else
         {
