@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 #include "../DRSunlock.xpm"
 #include "../DRSlock.xpm"
-#include "../AppIcon.xpm"
+#include "../Tree32.xpm"
 
 wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
 vector<bool> AGETextCtrl::hexMode;
@@ -1792,11 +1792,14 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 wxPoint parentPos = GetPosition();
                 parentPos.x += 1000;
-                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 512));
-                slp_window->SetIcon(wxIcon(AppIcon_xpm));
+                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600));
+                slp_window->SetIcon(wxIcon(Tree32_xpm));
                 wxPanel *panel = new wxPanel(slp_window);
                 slp_view = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
-                slp_next = new wxButton(panel, opNextFrame, "Show next frame");
+                slp_next = new wxButton(panel, opNextFrame, "Show -> frame");
+                slp_prev = new wxButton(panel, opPrevFrame, "Show <- frame");
+                slp_first = new wxButton(panel, opFirstFrame, "Show first frame");
+                slp_background = new wxColourPickerCtrl(panel, opPickBgColor, *wxWHITE, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
                 slp_frame_export = new wxButton(panel, opExportFrame, "Export frame to PNGs");
                 slp_frame_import = new wxButton(panel, opImportFrame, "Import PNGs to frame");
                 slp_save = new wxButton(panel, opSaveSLP, "Save SLP");
@@ -1818,6 +1821,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
                 wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
                 wxSizer *sizer3 = new wxBoxSizer(wxHORIZONTAL);
+                wxSizer *sizer4 = new wxBoxSizer(wxHORIZONTAL);
 
                 sizer->Add(slp_view, 1, wxEXPAND);
                 sizer3->Add(slp_animate, 0, wxALL, 2);
@@ -1827,19 +1831,25 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 sizer3->Add(slp_stack, 0, wxALL, 2);
                 sizer3->Add(slp_annex, 0, wxALL, 2);
                 sizer3->Add(slp_terrain, 0, wxALL, 2);
+                sizer2->Add(slp_first);
+                sizer2->Add(slp_prev);
                 sizer2->Add(slp_next);
-                sizer2->Add(slp_frame_export);
-                sizer2->Add(slp_frame_import);
-                sizer2->Add(slp_save);
+                sizer2->Add(slp_background);
+                sizer4->Add(slp_frame_export);
+                sizer4->Add(slp_frame_import);
+                sizer4->Add(slp_save);
                 sizer3->Add(slp_hotspot, 0, wxALL, 2);
                 sizer->Add(sizer3, 0, wxEXPAND);
                 sizer->Add(sizer2, 0, wxEXPAND);
+                sizer->Add(sizer4, 0, wxEXPAND);
                 panel->SetSizer(sizer);
 
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
+                slp_first->Connect(opFirstFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_next->Connect(opNextFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_prev->Connect(opPrevFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_frame_export->Connect(opExportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_frame_import->Connect(opImportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_save->Connect(opSaveSLP, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
@@ -3010,15 +3020,76 @@ wxString AGE_Frame::CurrentTime()
 	return buffer.str();
 }
 
+AGE_SLP* AGE_Frame::getCurrentGraphics()
+{
+    AGE_SLP *graphic = NULL;
+    if(AGE_SLP::currentDisplay == 6)
+    {
+        graphic = &graphicSLP;
+    }
+    else if(AGE_SLP::currentDisplay == 4)
+    {
+        graphic = &unitSLP;
+    }
+    return graphic;
+}
+
 void AGE_Frame::OnFrameButton(wxCommandEvent &event)
 {
     switch(event.GetId())
     {
         case opNextFrame:
         {
-            nextFrame = true;
-            slp_view->Refresh();
-            graphicAnimTimer.Start(100);
+            AGE_SLP *graphic = getCurrentGraphics();
+            if(NULL != graphic)
+            {
+                if(graphic->slp)
+                {
+                    uint32_t frames = graphic->slp.get()->getFrameCount();
+                    graphic->frameID = (graphic->frameID + 1) % frames;
+                }
+                for(auto &delta: graphic->deltas)
+                {
+                    if(!delta.second.slp) continue;
+                    uint32_t frames = delta.second.slp.get()->getFrameCount();
+                    delta.second.frameID = (delta.second.frameID + 1) % frames;
+                }
+                slp_view->Refresh();
+            }
+        }
+        break;
+        case opPrevFrame:
+        {
+            AGE_SLP *graphic = getCurrentGraphics();
+            if(NULL != graphic)
+            {
+                if(graphic->slp)
+                {
+                    uint32_t frames = graphic->slp.get()->getFrameCount();
+                    graphic->frameID = (graphic->frameID - 1 + frames) % frames;
+                }
+                for(auto &delta: graphic->deltas)
+                {
+                    if(!delta.second.slp) continue;
+                    uint32_t frames = delta.second.slp.get()->getFrameCount();
+                    delta.second.frameID = (delta.second.frameID - 1 + frames) % frames;
+                }
+                slp_view->Refresh();
+            }
+        }
+        break;
+        case opFirstFrame:
+        {
+            AGE_SLP *graphic = getCurrentGraphics();
+            if(NULL != graphic)
+            {
+                graphic->frameID = 0;
+                for(auto &delta: graphic->deltas)
+                {
+                    delta.second.frameID = 0;
+                }
+                slp_view->Refresh();
+            }
         }
         break;
         case opExportFrame:
@@ -3120,6 +3191,11 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         {
 			DrawTerrain = event.IsChecked();
             slp_view->Refresh();
+        }
+        break;
+        case opPickBgColor:
+        {
+            slp_view->SetBackgroundColour(slp_background->GetColour());
         }
         break;
     }
