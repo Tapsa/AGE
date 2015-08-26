@@ -276,6 +276,9 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
         {
+#ifndef NDEBUG
+            log_out << "Loading SLP pack based on " << unitSLP.datID << endl;
+#endif
             unitSLP.initStats(unitSLP.datID, *dataset);
             unitSLP.deltas.clear();
             if(ShowDeltas)
@@ -339,7 +342,9 @@ void AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
     datID = graphicID;
     filename = dataset.Graphics[graphicID].Name2;
     slpID = dataset.Graphics[graphicID].SLP;
-    angles = 1 + dataset.Graphics[graphicID].MirroringMode - (dataset.Graphics[graphicID].AngleCount / 4);
+    fpa = dataset.Graphics[graphicID].FrameCount;
+    angles = dataset.Graphics[graphicID].AngleCount;
+    //angles = 1 + dataset.Graphics[graphicID].MirroringMode - (dataset.Graphics[graphicID].AngleCount / 4);
 }
 
 void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY)
@@ -399,50 +404,51 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
     }
-    return;
-    if(setangle) // Switch graphics to next angle
+    if(setangle) // Switch graphics to next angle or loop this angle
     {
         ++graphic.angle;
         for(auto &delta: graphic.deltas)
         {
             if(delta.second.bitmap.IsOk() && delta.second.angles && graphic.angles)
             {
-                uint32_t up = graphic.angle / (delta.second.angles / graphic.angles);
-                if(up == delta.second.angle) delta.second.frameID = 0;
+#ifndef NDEBUG
+                log_out << "Angles, current: " << graphic.angle << ", delta: " << delta.second.angles << ", main: " << graphic.angles << endl;
+                log_out << "Delta angle before: " << delta.second.angle;
+#endif
+                uint32_t up = float(graphic.angle) * (float(delta.second.angles) / float(graphic.angles));
+                if(up == delta.second.angle) delta.second.frameID = delta.second.fpa * delta.second.angle;
                 else delta.second.angle = up;
                 ShouldAnimate(delta.second, setangle);
-                delta.second.angle %= delta.second.angles;
+                delta.second.angle %= delta.second.frames / delta.second.fpa;
+#ifndef NDEBUG
+                log_out << ", angle after: " << delta.second.angle << endl;
+#endif
             }
         }
         if(graphic.bitmap.IsOk())
         {
             ShouldAnimate(graphic, setangle);
         }
-        if(graphic.angles) graphic.angle %= graphic.angles;
+        if(graphic.angles) graphic.angle %= graphic.frames / graphic.fpa;
         else dc.DrawLabel("No angles", wxRect(15, 55, 100, 40));
     }
 }
 
 int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, bool &setangle)
 {
-    uint32_t frames = graphic.slp.get()->getFrameCount();
-    uint32_t fpa = dataset->Graphics[graphic.datID].FrameCount;
+    graphic.frames = graphic.slp.get()->getFrameCount();
     int fpms = dataset->Graphics[graphic.datID].FrameRate * 1000;
-    if((frames > 1 && fpms == 0) || fpa == 1) fpms = 700;
-    if(fpms)
-    {
-        graphic.frameID = (graphic.frameID + 1) % frames; // Rotate through frames.
-        //ChooseNextFrame(graphic, setangle, frames, fpa);
-    }
+    if((graphic.frames > 1 && fpms == 0) || graphic.fpa == 1) fpms = 700;
+    if(fpms) ChooseNextFrame(graphic, setangle);
     return fpms;
 }
 
-void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, bool &setangle, uint32_t frames, uint32_t fpa)
+void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, bool &setangle)
 {
     uint32_t nextframe = graphic.frameID + 1; // Rotate through frames.
-    if(nextframe < fpa + fpa * graphic.angle)
+    if(nextframe < graphic.fpa + graphic.fpa * graphic.angle)
     {
-        graphic.frameID = nextframe % frames;
+        graphic.frameID = nextframe % graphic.frames;
         setangle = false;
     }
 }
