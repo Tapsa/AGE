@@ -210,6 +210,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 {
     wxPanel *canvas = (wxPanel*)event.GetEventObject();
     wxBufferedPaintDC dc(canvas);
+    dc.SetBackground(slp_background_brush);
     dc.Clear();
     int centerX, centerY;
     canvas->GetClientSize(&centerX, &centerY);

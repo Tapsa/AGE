@@ -1799,7 +1799,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_next = new wxButton(panel, opNextFrame, "Show -> frame");
                 slp_prev = new wxButton(panel, opPrevFrame, "Show <- frame");
                 slp_first = new wxButton(panel, opFirstFrame, "Show first frame");
-                slp_background = new wxColourPickerCtrl(panel, opPickBgColor, *wxWHITE, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
+                wxColour back(SLPbackR, SLPbackG, SLPbackB);
+                slp_background = new wxColourPickerCtrl(panel, opPickBgColor, back, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
                 slp_frame_export = new wxButton(panel, opExportFrame, "Export frame to PNGs");
                 slp_frame_import = new wxButton(panel, opImportFrame, "Import PNGs to frame");
                 slp_save = new wxButton(panel, opSaveSLP, "Save SLP");
@@ -1861,6 +1862,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_stack->Connect(opShowStack, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_annex->Connect(opShowAnnexes, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_terrain->Connect(opShowTerrain, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_background->Connect(opPickBgColor, wxEVT_COMMAND_COLOURPICKER_CHANGED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_window->Show();
             }
             else
@@ -3195,7 +3197,12 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         break;
         case opPickBgColor:
         {
-            slp_view->SetBackgroundColour(slp_background->GetColour());
+            wxColour back(slp_background->GetColour());
+            SLPbackR = back.Red();
+            SLPbackG = back.Green();
+            SLPbackB = back.Blue();
+            slp_background_brush = wxBrush(back);
+            slp_view->Refresh();
         }
         break;
     }
@@ -3231,6 +3238,9 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	Config->Write("Interface/Paste11", Paste11);
 	Config->Write("Interface/MaxWindowWidth", MaxWindowWidth);
 	Config->Write("Interface/SLPareaPerCent", SLPareaPerCent);
+	Config->Write("Interface/SLPbackR", SLPbackR);
+	Config->Write("Interface/SLPbackG", SLPbackG);
+	Config->Write("Interface/SLPbackB", SLPbackB);
 	delete Config;
 
 	if(event.CanVeto() && AGETextCtrl::unSaved[AGEwindow] > 0)
