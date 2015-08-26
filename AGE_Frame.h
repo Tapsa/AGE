@@ -15,7 +15,7 @@ public:
         xpos = ypos = xdelta = ydelta = 0;
     }
 
-    uint32_t slpID, frameID, datID, lastSlpID, angle, angles;
+    uint32_t slpID, frameID, datID, lastSlpID, angle, angles, fpa, frames;
     string filename;
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
@@ -153,7 +153,7 @@ public:
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP&, bool&);
-    void ChooseNextFrame(AGE_SLP&, bool&, uint32_t, uint32_t);
+    void ChooseNextFrame(AGE_SLP&, bool&);
     int loadChosenGraphic(unsigned int unitID);
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);
