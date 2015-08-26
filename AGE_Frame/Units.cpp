@@ -903,21 +903,14 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
     }
     if(unitGraphic >= dataset->Graphics.size()) return;
     AGE_SLP baseSLP;
-    baseSLP.frameID = 0;
-    baseSLP.datID = unitGraphic;
-    baseSLP.filename = dataset->Graphics[unitGraphic].Name2;
-    baseSLP.slpID = dataset->Graphics[unitGraphic].SLP;
-    unitSLP.angles.insert(dataset->Graphics[unitGraphic].AngleCount);
+    baseSLP.initStats(unitGraphic, *dataset);
     if(dataset->Graphics[unitGraphic].Deltas.size())
     for(auto const &delta: dataset->Graphics[unitGraphic].Deltas)
     {
         AGE_SLP deltaSLP;
         if(delta.GraphicID < dataset->Graphics.size())
         {
-            deltaSLP.datID = delta.GraphicID;
-            deltaSLP.filename = dataset->Graphics[delta.GraphicID].Name2;
-            deltaSLP.slpID = dataset->Graphics[delta.GraphicID].SLP;
-            unitSLP.angles.insert(dataset->Graphics[delta.GraphicID].AngleCount);
+            deltaSLP.initStats(delta.GraphicID, *dataset);
         }
         else
         {
@@ -5469,7 +5462,7 @@ void AGE_Frame::CreateUnitControls()
 
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	if(event.GetId() == Units_Name->GetId() || event.GetId() == Units_LanguageDLLName->GetId())
 	{
@@ -5605,31 +5598,47 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &event)
 void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &event)
 {
 	if(Units_GarrisonType->GetValue().empty()) return;
-	uint8_t type = lexical_cast<uint8_t>(Units_GarrisonType->GetValue());
-	Units_GarrisonType_CheckBox[0]->GetValue() ? type |= 0x01 : type &= ~0x01;
-	Units_GarrisonType_CheckBox[1]->GetValue() ? type |= 0x02 : type &= ~0x02;
-	Units_GarrisonType_CheckBox[2]->GetValue() ? type |= 0x04 : type &= ~0x04;
-	Units_GarrisonType_CheckBox[3]->GetValue() ? type |= 0x08 : type &= ~0x08;
-	Units_GarrisonType_CheckBox[4]->GetValue() ? type |= 0x10 : type &= ~0x10;
-	Units_GarrisonType_CheckBox[5]->GetValue() ? type |= 0x20 : type &= ~0x20;
-	Units_GarrisonType_CheckBox[6]->GetValue() ? type |= 0x40 : type &= ~0x40;
-	Units_GarrisonType_CheckBox[7]->GetValue() ? type |= 0x80 : type &= ~0x80;
-	Units_GarrisonType->ChangeValue(lexical_cast<string>((short)type));
-	Units_GarrisonType->SaveEdits();
+    try
+    {
+        uint8_t type = lexical_cast<short>(Units_GarrisonType->GetValue());
+        Units_GarrisonType_CheckBox[0]->GetValue() ? type |= 0x01 : type &= ~0x01;
+        Units_GarrisonType_CheckBox[1]->GetValue() ? type |= 0x02 : type &= ~0x02;
+        Units_GarrisonType_CheckBox[2]->GetValue() ? type |= 0x04 : type &= ~0x04;
+        Units_GarrisonType_CheckBox[3]->GetValue() ? type |= 0x08 : type &= ~0x08;
+        Units_GarrisonType_CheckBox[4]->GetValue() ? type |= 0x10 : type &= ~0x10;
+        Units_GarrisonType_CheckBox[5]->GetValue() ? type |= 0x20 : type &= ~0x20;
+        Units_GarrisonType_CheckBox[6]->GetValue() ? type |= 0x40 : type &= ~0x40;
+        Units_GarrisonType_CheckBox[7]->GetValue() ? type |= 0x80 : type &= ~0x80;
+        Units_GarrisonType->ChangeValue(FormatInt(type));
+        Units_GarrisonType->SaveEdits();
+    }
+    catch(bad_lexical_cast e)
+    {
+        Units_GarrisonType->clear();
+        Units_GarrisonType->ChangeValue("Error");
+    }
 }
 
 void AGE_Frame::OnUpdateCheck_UnitAttribute(wxCommandEvent &event)
 {
 	if(Units_Attribute->GetValue().empty()) return;
-	uint8_t attribute = lexical_cast<uint8_t>(Units_Attribute->GetValue());
-	Units_Attribute_CheckBox[0]->GetValue() ? attribute |= 0x01 : attribute &= ~0x01;
-	Units_Attribute_CheckBox[1]->GetValue() ? attribute |= 0x02 : attribute &= ~0x02;
-	Units_Attribute_CheckBox[2]->GetValue() ? attribute |= 0x04 : attribute &= ~0x04;
-	Units_Attribute_CheckBox[3]->GetValue() ? attribute |= 0x08 : attribute &= ~0x08;
-	Units_Attribute_CheckBox[4]->GetValue() ? attribute |= 0x10 : attribute &= ~0x10;
-	Units_Attribute_CheckBox[5]->GetValue() ? attribute |= 0x20 : attribute &= ~0x20;
-	Units_Attribute_CheckBox[6]->GetValue() ? attribute |= 0x40 : attribute &= ~0x40;
-	Units_Attribute_CheckBox[7]->GetValue() ? attribute |= 0x80 : attribute &= ~0x80;
-	Units_Attribute->ChangeValue(lexical_cast<string>((short)attribute));
-	Units_Attribute->SaveEdits();
+	try
+    {
+        uint8_t attribute = lexical_cast<short>(Units_Attribute->GetValue());
+        Units_Attribute_CheckBox[0]->GetValue() ? attribute |= 0x01 : attribute &= ~0x01;
+        Units_Attribute_CheckBox[1]->GetValue() ? attribute |= 0x02 : attribute &= ~0x02;
+        Units_Attribute_CheckBox[2]->GetValue() ? attribute |= 0x04 : attribute &= ~0x04;
+        Units_Attribute_CheckBox[3]->GetValue() ? attribute |= 0x08 : attribute &= ~0x08;
+        Units_Attribute_CheckBox[4]->GetValue() ? attribute |= 0x10 : attribute &= ~0x10;
+        Units_Attribute_CheckBox[5]->GetValue() ? attribute |= 0x20 : attribute &= ~0x20;
+        Units_Attribute_CheckBox[6]->GetValue() ? attribute |= 0x40 : attribute &= ~0x40;
+        Units_Attribute_CheckBox[7]->GetValue() ? attribute |= 0x80 : attribute &= ~0x80;
+        Units_Attribute->ChangeValue(FormatInt(attribute));
+        Units_Attribute->SaveEdits();
+    }
+    catch(bad_lexical_cast e)
+    {
+        Units_Attribute->clear();
+        Units_Attribute->ChangeValue("Error");
+    }
 }

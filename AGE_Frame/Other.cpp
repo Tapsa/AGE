@@ -2520,7 +2520,7 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 
 void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	TextCtrl_DLL *control = (TextCtrl_DLL*)event.GetEventObject();
 	if(!control->IsModified() || !WriteLangs || control->index < 0) return;
 	int ID = control->index;

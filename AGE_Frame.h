@@ -15,15 +15,15 @@ public:
         xpos = ypos = xdelta = ydelta = 0;
     }
 
-    uint32_t slpID, frameID, datID, lastSlpID;
+    uint32_t slpID, frameID, datID, lastSlpID, angle, angles;
     string filename;
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
     int xpos, ypos, xdelta, ydelta;
 
-    set<int> angles;
     multimap<int, AGE_SLP> deltas;
     static uint32_t playerColorStart, playerColorID, currentDisplay;
+    void initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
 
 class AGE_Frame: public wxFrame
@@ -152,7 +152,8 @@ public:
 	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
-    int ShouldAnimate(AGE_SLP *graphic);
+    int ShouldAnimate(AGE_SLP&, bool&);
+    void ChooseNextFrame(AGE_SLP&, bool&, uint32_t, uint32_t);
     int loadChosenGraphic(unsigned int unitID);
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);
