@@ -802,7 +802,8 @@ public:
 	vector<vector<genie::Color>> palettes;
 	genie::DatFile *dataset;
 	genie::LangFile *Lang, *LangX, *LangXP;
-	int CustomTerrains, SLPareaPerCent, paletteView;
+	int CustomTerrains, SLPareaPerCent, paletteView, SLPbackR, SLPbackG, SLPbackB;
+    wxBrush slp_background_brush;
     wxFrame *slp_window;
     wxPanel *slp_view;
     wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first;

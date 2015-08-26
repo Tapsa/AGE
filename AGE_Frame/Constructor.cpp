@@ -60,6 +60,9 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Read("Interface/Paste11", &Paste11, true);
 	Config->Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
 	Config->Read("Interface/SLPareaPerCent", &SLPareaPerCent, 100);
+	Config->Read("Interface/SLPbackR", &SLPbackR, 255);
+	Config->Read("Interface/SLPbackG", &SLPbackG, 255);
+	Config->Read("Interface/SLPbackB", &SLPbackB, 255);
 	Config->Read("DefaultFiles/DriveLetter", &DriveLetter, "C");
 	Config->Read("DefaultFiles/UseCustomPath", &UseCustomPath, false);
 	Config->Read("DefaultFiles/CustomFolder", &CustomFolder, wxEmptyString);
@@ -92,6 +95,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Config->Write("/TimesOpened", ++TimesOpened);
 	delete Config;
 
+    wxColour back(SLPbackR, SLPbackG, SLPbackB);
+    slp_background_brush = wxBrush(back);
 	if(TimesOpened < 2) AnimSLP = ShowSLP = ShowIcons = true; // For people that had these initialized to false in previous release.
 
 	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
