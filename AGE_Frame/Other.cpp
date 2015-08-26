@@ -3247,7 +3247,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 	{
 		if(wxMessageBox("There are "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" unsaved changes.\nClose anyway?",
 		"Discard unsaved changes",
-		wxICON_QUESTION | wxYES_NO) != wxYES )
+		wxICON_QUESTION | wxCANCEL | wxOK) != wxOK)
 		{
 			event.Veto();
 			return;
