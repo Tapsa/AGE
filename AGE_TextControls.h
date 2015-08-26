@@ -84,7 +84,7 @@ public:
 protected:
     void OnKillFocus(wxFocusEvent &event)
     {
-        event.Skip();
+        //event.Skip();
         SaveEdits();
     }
     void OnEnter(wxCommandEvent &event){SaveEdits(true);}

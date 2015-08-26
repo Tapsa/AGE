@@ -245,11 +245,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(graphicSLP.slpID != dataset->Graphics[graphicSLP.datID].SLP) // SLP changed
         {
-            graphicSLP.frameID = 0;
-            graphicSLP.filename = dataset->Graphics[graphicSLP.datID].Name2;
-            graphicSLP.slpID = dataset->Graphics[graphicSLP.datID].SLP;
-            graphicSLP.angles.clear();
-            graphicSLP.angles.insert(dataset->Graphics[graphicSLP.datID].AngleCount);
+            graphicSLP.initStats(graphicSLP.datID, *dataset);
             graphicSLP.deltas.clear();
             // Load possible delta graphics.
             if(ShowDeltas)
@@ -258,10 +254,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 AGE_SLP deltaSLP;
                 if(delta.GraphicID < dataset->Graphics.size())
                 {
-                    deltaSLP.datID = delta.GraphicID;
-                    deltaSLP.filename = dataset->Graphics[delta.GraphicID].Name2;
-                    deltaSLP.slpID = dataset->Graphics[delta.GraphicID].SLP;
-                    graphicSLP.angles.insert(dataset->Graphics[delta.GraphicID].AngleCount);
+                    deltaSLP.initStats(delta.GraphicID, *dataset);
                 }
                 else
                 {
@@ -283,11 +276,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
         {
-            unitSLP.frameID = 0;
-            unitSLP.filename = dataset->Graphics[unitSLP.datID].Name2;
-            unitSLP.slpID = dataset->Graphics[unitSLP.datID].SLP;
-            unitSLP.angles.clear();
-            unitSLP.angles.insert(dataset->Graphics[unitSLP.datID].AngleCount);
+            unitSLP.initStats(unitSLP.datID, *dataset);
             unitSLP.deltas.clear();
             if(ShowDeltas)
             {
@@ -343,8 +332,19 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
 }
 
+void AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
+{
+    angle = 0;
+    frameID = 0;
+    datID = graphicID;
+    filename = dataset.Graphics[graphicID].Name2;
+    slpID = dataset.Graphics[graphicID].SLP;
+    angles = 1 + dataset.Graphics[graphicID].MirroringMode - (dataset.Graphics[graphicID].AngleCount / 4);
+}
+
 void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY)
 {
+    bool setangle = true;
     if(graphic.deltas.size())
     {
         int fpms = 0x7FFF;
@@ -357,7 +357,7 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
                 dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
                 if(AnimSLP)
                 {
-                    fpms = min(fpms, ShouldAnimate(&delta.second));
+                    fpms = min(fpms, ShouldAnimate(delta.second, setangle));
                 }
                 slpIDs.insert(delta.second.slpID);
             }
@@ -393,24 +393,58 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
             dc.DrawBitmap(graphic.bitmap, graphic.xpos + centerX, graphic.ypos + centerY, true);
             if(AnimSLP)
             {
-                graphicAnimTimer.Start(ShouldAnimate(&graphic));
+                graphicAnimTimer.Start(ShouldAnimate(graphic, setangle));
             }
             dc.DrawLabel("SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
     }
+    return;
+    if(setangle) // Switch graphics to next angle
+    {
+        ++graphic.angle;
+        for(auto &delta: graphic.deltas)
+        {
+            if(delta.second.bitmap.IsOk() && delta.second.angles && graphic.angles)
+            {
+                uint32_t up = graphic.angle / (delta.second.angles / graphic.angles);
+                if(up == delta.second.angle) delta.second.frameID = 0;
+                else delta.second.angle = up;
+                ShouldAnimate(delta.second, setangle);
+                delta.second.angle %= delta.second.angles;
+            }
+        }
+        if(graphic.bitmap.IsOk())
+        {
+            ShouldAnimate(graphic, setangle);
+        }
+        if(graphic.angles) graphic.angle %= graphic.angles;
+        else dc.DrawLabel("No angles", wxRect(15, 55, 100, 40));
+    }
 }
 
-int AGE_Frame::ShouldAnimate(AGE_SLP *graphic)
+int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, bool &setangle)
 {
-    uint32_t frames = graphic->slp.get()->getFrameCount();
-    int fpms = dataset->Graphics[graphic->datID].FrameRate * 1000;
-    if((frames > 1 && fpms == 0) || dataset->Graphics[graphic->datID].FrameCount == 1) fpms = 500;
+    uint32_t frames = graphic.slp.get()->getFrameCount();
+    uint32_t fpa = dataset->Graphics[graphic.datID].FrameCount;
+    int fpms = dataset->Graphics[graphic.datID].FrameRate * 1000;
+    if((frames > 1 && fpms == 0) || fpa == 1) fpms = 700;
     if(fpms)
     {
-        graphic->frameID = (graphic->frameID + 1) % frames; // Rotate through frames.
+        graphic.frameID = (graphic.frameID + 1) % frames; // Rotate through frames.
+        //ChooseNextFrame(graphic, setangle, frames, fpa);
     }
     return fpms;
+}
+
+void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, bool &setangle, uint32_t frames, uint32_t fpa)
+{
+    uint32_t nextframe = graphic.frameID + 1; // Rotate through frames.
+    if(nextframe < fpa + fpa * graphic.angle)
+    {
+        graphic.frameID = nextframe % frames;
+        setangle = false;
+    }
 }
 
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
@@ -1275,7 +1309,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	if(event.GetId() == Graphics_Name->GetId())
 	{

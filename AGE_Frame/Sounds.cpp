@@ -602,7 +602,7 @@ void AGE_Frame::CreateSoundControls()
 
 void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	ListSoundItems();
 }
