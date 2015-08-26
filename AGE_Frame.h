@@ -165,6 +165,7 @@ public:
     void setForeAndBackColors(AGETextCtrl* box, wxColour color);
 	void OnChooseGraphic(wxCommandEvent &event);
     void playWAV(wxCommandEvent &event);
+    AGE_SLP* getCurrentGraphics();
 
 //	General Events
 
@@ -795,7 +796,7 @@ public:
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups;
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
-    bool ShowSLP, AnimSLP, nextFrame, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot, DrawTerrain;
+    bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot, DrawTerrain;
 	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
@@ -804,10 +805,11 @@ public:
 	int CustomTerrains, SLPareaPerCent, paletteView;
     wxFrame *slp_window;
     wxPanel *slp_view;
-    wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save;
+    wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first;
     wxRadioBox *slp_radio, *slp_unit_actions;
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot;
     wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain;
+    wxColourPickerCtrl *slp_background;
 
 	vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
 	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
@@ -910,6 +912,8 @@ public:
 		ToolBar_AddWindow,
 		TabBarID,
 		opNextFrame,
+		opPrevFrame,
+		opFirstFrame,
 		opExportFrame,
 		opImportFrame,
 		opSaveSLP,
@@ -920,7 +924,8 @@ public:
 		opShowDeltas,
 		opShowStack,
 		opShowAnnexes,
-		opShowTerrain
+		opShowTerrain,
+		opPickBgColor
 	};
 
 //	User Interface
