@@ -739,7 +739,7 @@ void AGE_Frame::CreateResearchControls()
 
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	if(event.GetId() == Research_Name[0]->GetId() || event.GetId() == Research_LangDLLName->GetId())
 	{

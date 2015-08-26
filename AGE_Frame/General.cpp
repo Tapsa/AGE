@@ -8,7 +8,7 @@ void AGE_Frame::ListMapData()
 
 void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	int32_t Result, Temp;
 
 	if(!General_CalcBoxes[0]->IsEmpty())
@@ -48,7 +48,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
 
 void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	if(General_CalcBoxes[4]->IsEmpty()) return;
 
 	int32_t Result;
@@ -1800,7 +1800,7 @@ void AGE_Frame::CreateUnknownControls()
 
 void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	if(event.GetId() == Unknowns_UnknownLevel->GetId())
 	{

@@ -3394,7 +3394,7 @@ void AGE_Frame::CreateTechTreeControls()
 
 void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &event)
 {
-	event.Skip();
+	//event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	if(event.GetId() == TechTrees_Ages_ID->GetId())
 	{
