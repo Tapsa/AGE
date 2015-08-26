@@ -354,14 +354,13 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
             if(delta.second.bitmap.IsOk())
             {
                 dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
-                if(AnimSLP || nextFrame)
+                if(AnimSLP)
                 {
                     fpms = min(fpms, ShouldAnimate(&delta.second));
                 }
                 slpIDs.insert(delta.second.slpID);
             }
         }
-        nextFrame = false;
         if(AnimSLP)
         {
             graphicAnimTimer.Start(fpms);
@@ -395,11 +394,6 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
             {
                 graphicAnimTimer.Start(ShouldAnimate(&graphic));
             }
-            else if(nextFrame)
-            {
-                ShouldAnimate(&graphic);
-                nextFrame = false;
-            }
             dc.DrawLabel("SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
@@ -408,7 +402,7 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
 
 int AGE_Frame::ShouldAnimate(AGE_SLP *graphic)
 {
-    unsigned int frames = graphic->slp.get()->getFrameCount();
+    uint32_t frames = graphic->slp.get()->getFrameCount();
     int fpms = dataset->Graphics[graphic->datID].FrameRate * 1000;
     if((frames > 1 && fpms == 0) || dataset->Graphics[graphic->datID].FrameCount == 1) fpms = 500;
     if(fpms)

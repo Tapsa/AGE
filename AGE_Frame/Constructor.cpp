@@ -22,7 +22,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	AGEwindow = window;
     slp_window = NULL;
     paletteView = 0;
-    nextFrame = playerColorToAlpha = false;
 
     if(window < AGE_Frame::openEditors.size())
     {
@@ -241,7 +240,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(TabBarID, wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
-	DataOpened = UseTXT = DrawHot = false;
+	DataOpened = UseTXT = DrawHot = playerColorToAlpha = false;
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
