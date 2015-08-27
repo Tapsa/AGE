@@ -177,8 +177,11 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	CopyFromList(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
 	Colors_Colors_ListV->SetFocus();
-    paletteView = (paletteView + 1) % palettes.size();
-    Colors_Palette_Display->Refresh();
+    if(palettes.size())
+    {
+        paletteView = (paletteView + 1) % palettes.size();
+        Colors_Palette_Display->Refresh();
+    }
 }
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)

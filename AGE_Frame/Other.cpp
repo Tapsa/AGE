@@ -2285,15 +2285,20 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
     }
     genie::SlpFramePtr frame;
     SetStatusText("Looking for frame "+FormatInt(graphic->frameID), 1);
-    try
+    graphic->frames = graphic->slp.get()->getFrameCount();
+    if(graphic->frames)
     {
-        frame = graphic->slp.get()->getFrame(graphic->frameID);
+        graphic->frameID %= graphic->frames;
+        try
+        {
+            frame = graphic->slp.get()->getFrame(graphic->frameID);
+        }
+        catch(out_of_range){}
     }
-    catch(out_of_range){}
     if(!frame)
     {
         graphic->bitmap = wxNullBitmap;
-        SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->slp.get()->getFrameCount()), 1);
+        SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->frames), 1);
         return;
     }
 
@@ -3051,17 +3056,17 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             AGE_SLP *graphic = getCurrentGraphics();
             if(NULL != graphic)
             {
+                uint32_t framesleft = 0;
                 if(graphic->slp)
                 {
-                    uint32_t frames = graphic->slp.get()->getFrameCount();
-                    graphic->frameID = (graphic->frameID + 1) % frames;
+                    ChooseNextFrame(*graphic, framesleft);
                 }
                 for(auto &delta: graphic->deltas)
                 {
                     if(!delta.second.slp) continue;
-                    uint32_t frames = delta.second.slp.get()->getFrameCount();
-                    delta.second.frameID = (delta.second.frameID + 1) % frames;
+                    ChooseNextFrame(delta.second, framesleft);
                 }
+                HandleLastFrame(*graphic, framesleft, true);
                 slp_view->Refresh();
             }
         }
@@ -3071,33 +3076,26 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             AGE_SLP *graphic = getCurrentGraphics();
             if(NULL != graphic)
             {
+                uint32_t framesleft = 0;
                 if(graphic->slp)
                 {
-                    uint32_t frames = graphic->slp.get()->getFrameCount();
-                    graphic->frameID = (graphic->frameID - 1 + frames) % frames;
+                    ChoosePreviousFrame(*graphic, framesleft);
                 }
                 for(auto &delta: graphic->deltas)
                 {
                     if(!delta.second.slp) continue;
-                    uint32_t frames = delta.second.slp.get()->getFrameCount();
-                    delta.second.frameID = (delta.second.frameID - 1 + frames) % frames;
+                    ChoosePreviousFrame(delta.second, framesleft);
                 }
+                HandleLastFrame(*graphic, framesleft, false);
                 slp_view->Refresh();
             }
         }
         break;
         case opFirstFrame:
         {
-            AGE_SLP *graphic = getCurrentGraphics();
-            if(NULL != graphic)
-            {
-                graphic->frameID = 0;
-                for(auto &delta: graphic->deltas)
-                {
-                    delta.second.frameID = 0;
-                }
-                slp_view->Refresh();
-            }
+            AGE_SLP::bearing = 0.f;
+            AGE_SLP::setbearing = true;
+            slp_view->Refresh();
         }
         break;
         case opExportFrame:
