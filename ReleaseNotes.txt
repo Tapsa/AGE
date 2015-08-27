@@ -12,6 +12,13 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.8.28[/b]:
+-Simple animations synced.
+-SLP view angle settable by mouse right click.
+-Angle rotation rate based on available angles.
+-Fixed showing trebuchet/cannon icons.
+-Fixed showing tech icons and unit action graphics in SWGB and CC.
+
 Version [b]2015.8.26[/b]:
 -SLP view background color changeable.
 -Added previous and first frame buttons.
