@@ -21,6 +21,7 @@ public:
     wxBitmap bitmap;
     int xpos, ypos, xdelta, ydelta;
 
+    set<uint32_t> angleset;
     multimap<int, AGE_SLP> deltas;
     enum SHOW {NONE, UNIT, GRAPHIC};
     static SHOW currentDisplay;

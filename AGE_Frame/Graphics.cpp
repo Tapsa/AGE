@@ -255,6 +255,8 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         {
             AGE_SLP::setbearing = true;
             graphicSLP.initStats(graphicSLP.datID, *dataset);
+            graphicSLP.angleset.clear();
+            graphicSLP.angleset.insert(graphicSLP.angles);
             graphicSLP.deltas.clear();
             // Load possible delta graphics.
             if(ShowDeltas)
@@ -264,6 +266,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 if(delta.GraphicID < dataset->Graphics.size())
                 {
                     deltaSLP.initStats(delta.GraphicID, *dataset);
+                    graphicSLP.angleset.insert(deltaSLP.angles);
                 }
                 else
                 {
@@ -290,6 +293,8 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 #endif
             AGE_SLP::setbearing = true;
             unitSLP.initStats(unitSLP.datID, *dataset);
+            unitSLP.angleset.clear();
+            unitSLP.angleset.insert(unitSLP.angles);
             unitSLP.deltas.clear();
             if(ShowDeltas)
             {
@@ -426,13 +431,16 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         else dc.DrawLabel("!SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
     }
 #ifndef NDEBUG
-    log_out << "Frames left " << framesleft << endl;
+    log_out << "Different angles " << graphic.angleset.size() << endl;
 #endif
     if(framesleft == 0) // Switch graphics to next angle or loop this angle
     {
         if(slp_angles->GetValue())
         {
-            AGE_SLP::bearing += 0.3927f;
+            float rotationrate = 6.3f;
+            if(!graphic.angleset.empty() && graphic.angleset.count(0) != graphic.angleset.size())
+                rotationrate = 6.2832f / float(*graphic.angleset.rbegin());
+            AGE_SLP::bearing += rotationrate;
             if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 0.f;
         }
         AGE_SLP::setbearing = true;

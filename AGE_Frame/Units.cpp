@@ -904,6 +904,7 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
     if(unitGraphic >= dataset->Graphics.size()) return;
     AGE_SLP baseSLP;
     baseSLP.initStats(unitGraphic, *dataset);
+    unitSLP.angleset.insert(baseSLP.angles);
     if(dataset->Graphics[unitGraphic].Deltas.size())
     for(auto const &delta: dataset->Graphics[unitGraphic].Deltas)
     {
@@ -911,6 +912,7 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         if(delta.GraphicID < dataset->Graphics.size())
         {
             deltaSLP.initStats(delta.GraphicID, *dataset);
+            unitSLP.angleset.insert(deltaSLP.angles);
         }
         else
         {
