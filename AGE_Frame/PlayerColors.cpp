@@ -2,7 +2,7 @@
 
 uint32_t AGE_SLP::playerColorStart = 0;
 uint32_t AGE_SLP::playerColorID = 0;
-uint32_t AGE_SLP::currentDisplay = 0;
+AGE_SLP::SHOW AGE_SLP::currentDisplay = AGE_SLP::SHOW::NONE;
 
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 {
