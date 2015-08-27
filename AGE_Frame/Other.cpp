@@ -3222,7 +3222,7 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
     coords.x -= centerX;
     coords.y -= centerY;
     AGE_SLP::bearing = atan2(coords.x, -coords.y) + 3.14159f;
-    if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 0.f;
+    if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 3.4f;
     AGE_SLP::setbearing = true;
     slp_view->Refresh();
 }
