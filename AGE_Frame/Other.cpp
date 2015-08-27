@@ -9,7 +9,7 @@ vector<bool> AGETextCtrl::accurateFloats;
 vector<int> AGETextCtrl::unSaved;
 vector<int> AGETextCtrl::fileLoaded;
 const wxString AGE_Frame::PASTE11WARNING = "Selections mismatch";
-//map<wxString, uint64_t> slpPaletteCombinations;
+float AGE_SLP::bearing = 0.f;
 
 void AGE_Frame::OnOpen(wxCommandEvent &event)
 {
@@ -1847,6 +1847,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+                slp_view->Connect(slp_view->GetId(), wxEVT_RIGHT_DOWN, wxMouseEventHandler(AGE_Frame::OnFrameMouse), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
                 slp_first->Connect(opFirstFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_next->Connect(opNextFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
@@ -3206,6 +3207,17 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         }
         break;
     }
+}
+
+void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
+{
+    int centerX, centerY;
+    CalcDrawCenter(slp_view, centerX, centerY);
+    wxPoint coords(slp_view->ScreenToClient(wxGetMousePosition()));
+    coords.x -= centerX;
+    coords.y -= centerY;
+    AGE_SLP::bearing = atan2(coords.x, -coords.y) + 3.14159f;
+    slp_view->Refresh();
 }
 
 void AGE_Frame::OnExitSLP(wxCloseEvent &event)
