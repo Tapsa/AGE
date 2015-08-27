@@ -742,7 +742,9 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
             setForeAndBackColors(Units_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
             setForeAndBackColors(Units_EditorSelectionColour, wxColour(editorSel.r, editorSel.g, editorSel.b));
         }
-        if(UnitPointer->Type == 80)
+        if(UnitPointer->Type == 80 && (GenieVersion < genie::GV_SWGB
+        ? UnitPointer->Class != 51 && UnitPointer->Class != 54
+        : UnitPointer->Class != 34 && UnitPointer->Class != 36))
         {
             int set0 = 50704;
             if(GenieVersion == genie::GV_CC) set0 = 53240;
@@ -859,15 +861,21 @@ int AGE_Frame::loadChosenGraphic(unsigned int unitID)
             if(CommandIDs[0] < unit->Bird.Commands.size())
             action = &unit->Bird.Commands[CommandIDs[0]];
         }
-        if(NULL != action)
+        if(NULL == action) goto CHOOSE_NORMAL;
+        int graphicID;
         switch(slp_unit_actions->GetSelection())
         {
-            case 1: return action->Graphics[0];
-            case 2: return action->Graphics[1];
-            case 3: return action->Graphics[2];
-            case 4: return action->Graphics[3];
+            case 1: graphicID = action->Graphics[0]; break;
+            case 2: graphicID = action->Graphics[1]; break;
+            case 3: graphicID = action->Graphics[2]; break;
+            case 4: graphicID = action->Graphics[3]; break;
+            default: goto CHOOSE_NORMAL;
         }
+        if(GenieVersion >= genie::GV_SWGB && unit->Class == 58)
+            graphicID += dataset->Civs[UnitCivID].IconSet;
+        return graphicID;
     }
+CHOOSE_NORMAL:
     switch(slp_radio->GetSelection())
     {
         case 0: return unit->StandingGraphic.first;
