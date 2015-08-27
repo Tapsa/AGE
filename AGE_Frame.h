@@ -22,6 +22,7 @@ public:
     int xpos, ypos, xdelta, ydelta;
 
     multimap<int, AGE_SLP> deltas;
+    static float bearing;
     static uint32_t playerColorStart, playerColorID, currentDisplay;
     void initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
@@ -70,6 +71,7 @@ public:
 	void OnAutoCopy(wxCommandEvent &event);
 	void OnExitSLP(wxCloseEvent &event);
 	void OnFrameButton(wxCommandEvent &event);
+	void OnFrameMouse(wxMouseEvent &event);
 
 //	Updates user interface after changing data name.
 
@@ -149,6 +151,7 @@ public:
 	bool Paste11Check(int pastes, int copies);
 	void OnDrawIconSLP(wxPaintEvent &event);
 	void OnDrawGraphicSLP(wxPaintEvent &event);
+	void CalcDrawCenter(wxPanel*, int&, int&);
 	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
