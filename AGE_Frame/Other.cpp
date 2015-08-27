@@ -10,6 +10,7 @@ vector<int> AGETextCtrl::unSaved;
 vector<int> AGETextCtrl::fileLoaded;
 const wxString AGE_Frame::PASTE11WARNING = "Selections mismatch";
 float AGE_SLP::bearing = 0.f;
+bool AGE_SLP::setbearing = false;
 
 void AGE_Frame::OnOpen(wxCommandEvent &event)
 {
@@ -1819,6 +1820,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_annex->SetValue(ShowAnnexes);
                 slp_terrain = new wxCheckBox(panel, opShowTerrain, "Terrain");
                 slp_terrain->SetValue(DrawTerrain);
+                slp_angles = new wxCheckBox(panel, wxID_ANY, "Rotate angles *");
+                slp_angles->SetValue(true);
+                slp_angles->SetToolTip("Right click image to manually set angle\nNo east side support yet");
                 wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
                 wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
                 wxSizer *sizer3 = new wxBoxSizer(wxHORIZONTAL);
@@ -1832,6 +1836,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 sizer3->Add(slp_stack, 0, wxALL, 2);
                 sizer3->Add(slp_annex, 0, wxALL, 2);
                 sizer3->Add(slp_terrain, 0, wxALL, 2);
+                sizer2->Add(slp_angles, 0, wxALL, 2);
                 sizer2->Add(slp_first);
                 sizer2->Add(slp_prev);
                 sizer2->Add(slp_next);
@@ -3026,11 +3031,11 @@ wxString AGE_Frame::CurrentTime()
 AGE_SLP* AGE_Frame::getCurrentGraphics()
 {
     AGE_SLP *graphic = NULL;
-    if(AGE_SLP::currentDisplay == 6)
+    if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
     {
         graphic = &graphicSLP;
     }
-    else if(AGE_SLP::currentDisplay == 4)
+    else if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::UNIT)
     {
         graphic = &unitSLP;
     }
@@ -3098,7 +3103,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         case opExportFrame:
         {
             playerColorToAlpha = true;
-            if(AGE_SLP::currentDisplay == 6)
+            if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
                 SLPtoBitMap(&graphicSLP);
                 if(graphicSLP.bitmap.IsOk())
@@ -3110,7 +3115,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         break;
         case opImportFrame:
         {
-            if(AGE_SLP::currentDisplay == 6)
+            if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
                 BitMaptoSLP(&graphicSLP);
             }
@@ -3119,7 +3124,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         break;
         case opSaveSLP:
         {
-            if(AGE_SLP::currentDisplay == 6)
+            if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
                 if(!graphicSLP.slp)
                 {
@@ -3217,6 +3222,8 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
     coords.x -= centerX;
     coords.y -= centerY;
     AGE_SLP::bearing = atan2(coords.x, -coords.y) + 3.14159f;
+    if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 0.f;
+    AGE_SLP::setbearing = true;
     slp_view->Refresh();
 }
 

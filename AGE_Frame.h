@@ -15,15 +15,18 @@ public:
         xpos = ypos = xdelta = ydelta = 0;
     }
 
-    uint32_t slpID, frameID, datID, lastSlpID, angle, angles, fpa, frames;
+    uint32_t slpID, frameID, datID, lastSlpID, angles, fpa, frames, startframe;
     string filename;
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
     int xpos, ypos, xdelta, ydelta;
 
     multimap<int, AGE_SLP> deltas;
+    enum SHOW {NONE, UNIT, GRAPHIC};
+    static SHOW currentDisplay;
+    static bool setbearing;
     static float bearing;
-    static uint32_t playerColorStart, playerColorID, currentDisplay;
+    static uint32_t playerColorStart, playerColorID;
     void initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
 
@@ -155,8 +158,8 @@ public:
 	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
-    int ShouldAnimate(AGE_SLP&, bool&);
-    void ChooseNextFrame(AGE_SLP&, bool&);
+    int ShouldAnimate(AGE_SLP&, uint32_t&);
+    void ChooseNextFrame(AGE_SLP&, uint32_t&);
     int loadChosenGraphic(unsigned int unitID);
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);
@@ -813,7 +816,7 @@ public:
     wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first;
     wxRadioBox *slp_radio, *slp_unit_actions;
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot;
-    wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain;
+    wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles;
     wxColourPickerCtrl *slp_background;
 
 	vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
