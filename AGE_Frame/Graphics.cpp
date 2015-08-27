@@ -225,28 +225,26 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     {
         dc.DrawBitmap(tileSLP.bitmap, centerX - tileSLP.xpos, centerY - tileSLP.ypos, true);
     }
-    float c360 = 57.2958f;
-    float c400 = 63.662f;
     float c8 = 1.27324f;
     float c16 = 2.54648f;
     dc.DrawLabel("Angle "+FormatInt(AGE_SLP::bearing * c8)+"/8 "+FormatInt(AGE_SLP::bearing * c16)+"/16", wxRect(360, 5, 100, 40));
     if(6 == TabBar_Main->GetSelection())
     {
-        if(AGE_SLP::currentDisplay != 6)
+        if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::GRAPHIC)
         {
-            AGE_SLP::currentDisplay = 6;
+            AGE_SLP::currentDisplay = AGE_SLP::SHOW::GRAPHIC;
             graphicSLP.slpID = -2;
         }
     }
     else if(4 == TabBar_Main->GetSelection())
     {
-        if(AGE_SLP::currentDisplay != 4)
+        if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::UNIT)
         {
-            AGE_SLP::currentDisplay = 4;
+            AGE_SLP::currentDisplay = AGE_SLP::SHOW::UNIT;
             unitSLP.slpID = -2;
         }
     }
-    if(AGE_SLP::currentDisplay == 6)
+    if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
     {
         if(GraphicIDs.size() == 0 || dataset->Graphics[graphicSLP.datID].FrameCount == 0)
         {
@@ -255,6 +253,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(graphicSLP.slpID != dataset->Graphics[graphicSLP.datID].SLP) // SLP changed
         {
+            AGE_SLP::setbearing = true;
             graphicSLP.initStats(graphicSLP.datID, *dataset);
             graphicSLP.deltas.clear();
             // Load possible delta graphics.
@@ -277,7 +276,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         DrawGraphics(dc, graphicSLP, centerX, centerY);
     }
-    else if(AGE_SLP::currentDisplay == 4)
+    else if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::UNIT)
     {
         if(UnitIDs.size() == 0 || unitSLP.datID >= dataset->Graphics.size())
         {
@@ -289,6 +288,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 #ifndef NDEBUG
             log_out << "Loading SLP pack based on " << unitSLP.datID << endl;
 #endif
+            AGE_SLP::setbearing = true;
             unitSLP.initStats(unitSLP.datID, *dataset);
             unitSLP.deltas.clear();
             if(ShowDeltas)
@@ -347,32 +347,39 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 
 void AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
 {
-    angle = 0;
     frameID = 0;
+    startframe = 0;
     datID = graphicID;
     filename = dataset.Graphics[graphicID].Name2;
     slpID = dataset.Graphics[graphicID].SLP;
     fpa = dataset.Graphics[graphicID].FrameCount;
     angles = dataset.Graphics[graphicID].AngleCount;
-    //angles = 1 + dataset.Graphics[graphicID].MirroringMode - (dataset.Graphics[graphicID].AngleCount / 4);
 }
 
 void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY)
 {
-    bool setangle = true;
+    uint32_t framesleft = 0;
     if(graphic.deltas.size())
     {
         int fpms = 0x7FFF;
         set<uint32_t> slpIDs;
         for(auto &delta: graphic.deltas)
         {
+            if(AGE_SLP::setbearing)
+            {
+                uint32_t newangle = AGE_SLP::bearing * 0.159155f * float(delta.second.angles);
+                delta.second.frameID = delta.second.startframe = delta.second.fpa * newangle;
+#ifndef NDEBUG
+                log_out << "Angle " << AGE_SLP::bearing << " : " << newangle << ", starting frame " << delta.second.frameID << endl;
+#endif
+            }
             SLPtoBitMap(&delta.second);
             if(delta.second.bitmap.IsOk())
             {
                 dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
                 if(AnimSLP)
                 {
-                    fpms = min(fpms, ShouldAnimate(delta.second, setangle));
+                    fpms = min(fpms, ShouldAnimate(delta.second, framesleft));
                 }
                 slpIDs.insert(delta.second.slpID);
             }
@@ -401,6 +408,10 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
             dc.DrawLabel("No SLP", wxRect(15, 15, 100, 40));
             return;
         }
+        if(AGE_SLP::setbearing)
+        {
+            graphic.frameID = graphic.startframe = graphic.fpa * uint32_t(AGE_SLP::bearing * 0.159155f * float(graphic.angles));
+        }
         SLPtoBitMap(&graphic);
         if(graphic.bitmap.IsOk())
         {
@@ -408,64 +419,48 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
             dc.DrawBitmap(graphic.bitmap, graphic.xpos + centerX, graphic.ypos + centerY, true);
             if(AnimSLP)
             {
-                graphicAnimTimer.Start(ShouldAnimate(graphic, setangle));
+                graphicAnimTimer.Start(ShouldAnimate(graphic, framesleft));
             }
             dc.DrawLabel("SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
     }
-    if(setangle) // Switch graphics to next angle or loop this angle
+#ifndef NDEBUG
+    log_out << "Frames left " << framesleft << endl;
+#endif
+    if(framesleft == 0) // Switch graphics to next angle or loop this angle
     {
-        ++graphic.angle;
-        for(auto &delta: graphic.deltas)
+        if(slp_angles->GetValue())
         {
-            if(delta.second.bitmap.IsOk() && delta.second.angles && graphic.angles)
-            {
-#ifndef NDEBUG
-                log_out << "Angles, current: " << graphic.angle << ", delta: " << delta.second.angles << ", main: " << graphic.angles << endl;
-                log_out << "Delta angle before: " << delta.second.angle;
-#endif
-                uint32_t up = float(graphic.angle) * (float(delta.second.angles) / float(graphic.angles));
-                if(up == delta.second.angle) delta.second.frameID = delta.second.fpa * delta.second.angle;
-                else delta.second.angle = up;
-                ShouldAnimate(delta.second, setangle);
-                delta.second.angle %= delta.second.frames / delta.second.fpa;
-#ifndef NDEBUG
-                log_out << ", angle after: " << delta.second.angle << endl;
-                log_out << "Frames: " << delta.second.frames << ", per angle: " << delta.second.fpa << endl;
-                log_out << endl;
-#endif
-            }
+            AGE_SLP::bearing += 0.3927f;
+            if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 0.f;
         }
-        if(graphic.bitmap.IsOk())
-        {
-            ShouldAnimate(graphic, setangle);
-        }
-        if(graphic.angles) graphic.angle %= graphic.frames / graphic.fpa;
-        else dc.DrawLabel("No angles", wxRect(15, 55, 100, 40));
-#ifndef NDEBUG
-        log_out << endl;
-#endif
+        AGE_SLP::setbearing = true;
+    }
+    else
+    {
+        AGE_SLP::setbearing = false;
     }
 }
 
-int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, bool &setangle)
+int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, uint32_t &framesleft)
 {
     graphic.frames = graphic.slp.get()->getFrameCount();
     int fpms = dataset->Graphics[graphic.datID].FrameRate * 1000;
     if((graphic.frames > 1 && fpms == 0) || graphic.fpa == 1) fpms = 700;
-    if(fpms) ChooseNextFrame(graphic, setangle);
+    if(fpms) ChooseNextFrame(graphic, framesleft);
     return fpms;
 }
 
-void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, bool &setangle)
+void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, uint32_t &framesleft)
 {
     uint32_t nextframe = graphic.frameID + 1; // Rotate through frames.
-    if(nextframe < graphic.fpa + graphic.fpa * graphic.angle)
+    if(nextframe < graphic.startframe + graphic.fpa)
     {
+        // TODO: Mirror missing angles.
         graphic.frameID = nextframe % graphic.frames;
-        setangle = false;
     }
+    framesleft += graphic.startframe + graphic.fpa - nextframe;
 }
 
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
