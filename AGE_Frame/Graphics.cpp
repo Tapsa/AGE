@@ -206,6 +206,13 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
     if(NULL != slp_window) slp_view->Refresh();
 }
 
+void AGE_Frame::CalcDrawCenter(wxPanel *canvas, int &centerX, int &centerY)
+{
+    canvas->GetClientSize(&centerX, &centerY);
+    centerX *= 0.5f;
+    centerY *= 0.6f;
+}
+
 void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 {
     wxPanel *canvas = (wxPanel*)event.GetEventObject();
@@ -213,13 +220,16 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     dc.SetBackground(slp_background_brush);
     dc.Clear();
     int centerX, centerY;
-    canvas->GetClientSize(&centerX, &centerY);
-    centerX *= 0.5f;
-    centerY *= 0.6f;
+    CalcDrawCenter(canvas, centerX, centerY);
     if(DrawTerrain && tileSLP.bitmap.IsOk())
     {
         dc.DrawBitmap(tileSLP.bitmap, centerX - tileSLP.xpos, centerY - tileSLP.ypos, true);
     }
+    float c360 = 57.2958f;
+    float c400 = 63.662f;
+    float c8 = 1.27324f;
+    float c16 = 2.54648f;
+    dc.DrawLabel("Angle "+FormatInt(AGE_SLP::bearing * c8)+"/8 "+FormatInt(AGE_SLP::bearing * c16)+"/16", wxRect(360, 5, 100, 40));
     if(6 == TabBar_Main->GetSelection())
     {
         if(AGE_SLP::currentDisplay != 6)
@@ -422,6 +432,8 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
                 delta.second.angle %= delta.second.frames / delta.second.fpa;
 #ifndef NDEBUG
                 log_out << ", angle after: " << delta.second.angle << endl;
+                log_out << "Frames: " << delta.second.frames << ", per angle: " << delta.second.fpa << endl;
+                log_out << endl;
 #endif
             }
         }
@@ -431,6 +443,9 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         }
         if(graphic.angles) graphic.angle %= graphic.frames / graphic.fpa;
         else dc.DrawLabel("No angles", wxRect(15, 55, 100, 40));
+#ifndef NDEBUG
+        log_out << endl;
+#endif
     }
 }
 
