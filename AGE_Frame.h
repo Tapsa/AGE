@@ -156,11 +156,14 @@ public:
 	void OnDrawIconSLP(wxPaintEvent &event);
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void CalcDrawCenter(wxPanel*, int&, int&);
+	uint32_t CalcAngle(uint32_t fpa, float angles);
 	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP&, uint32_t&);
     void ChooseNextFrame(AGE_SLP&, uint32_t&);
+    void ChoosePreviousFrame(AGE_SLP&, uint32_t&);
+    void HandleLastFrame(const AGE_SLP&, uint32_t, bool);
     int loadChosenGraphic(unsigned int unitID);
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);

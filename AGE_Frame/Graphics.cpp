@@ -288,9 +288,6 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
         {
-#ifndef NDEBUG
-            log_out << "Loading SLP pack based on " << unitSLP.datID << endl;
-#endif
             AGE_SLP::setbearing = true;
             unitSLP.initStats(unitSLP.datID, *dataset);
             unitSLP.angleset.clear();
@@ -361,6 +358,11 @@ void AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
     angles = dataset.Graphics[graphicID].AngleCount;
 }
 
+uint32_t AGE_Frame::CalcAngle(uint32_t fpa, float angles)
+{
+    return fpa * uint32_t(AGE_SLP::bearing * 0.159155f * angles);
+}
+
 void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY)
 {
     uint32_t framesleft = 0;
@@ -372,11 +374,7 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         {
             if(AGE_SLP::setbearing)
             {
-                uint32_t newangle = AGE_SLP::bearing * 0.159155f * float(delta.second.angles);
-                delta.second.frameID = delta.second.startframe = delta.second.fpa * newangle;
-#ifndef NDEBUG
-                log_out << "Angle " << AGE_SLP::bearing << " : " << newangle << ", starting frame " << delta.second.frameID << endl;
-#endif
+                delta.second.frameID = delta.second.startframe = CalcAngle(delta.second.fpa, delta.second.angles);
             }
             SLPtoBitMap(&delta.second);
             if(delta.second.bitmap.IsOk())
@@ -415,7 +413,7 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         }
         if(AGE_SLP::setbearing)
         {
-            graphic.frameID = graphic.startframe = graphic.fpa * uint32_t(AGE_SLP::bearing * 0.159155f * float(graphic.angles));
+            graphic.frameID = graphic.startframe = CalcAngle(graphic.fpa, graphic.angles);
         }
         SLPtoBitMap(&graphic);
         if(graphic.bitmap.IsOk())
@@ -430,18 +428,28 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
     }
-#ifndef NDEBUG
-    log_out << "Different angles " << graphic.angleset.size() << endl;
-#endif
-    if(framesleft == 0) // Switch graphics to next angle or loop this angle
+    HandleLastFrame(graphic, framesleft, true);
+}
+
+void AGE_Frame::HandleLastFrame(const AGE_SLP &graphic, uint32_t framesleft, bool clockwise)
+{
+    if(!framesleft) // Switch graphics to next angle or loop this angle
     {
         if(slp_angles->GetValue())
         {
             float rotationrate = 6.3f;
             if(!graphic.angleset.empty() && graphic.angleset.count(0) != graphic.angleset.size())
                 rotationrate = 6.2832f / float(*graphic.angleset.rbegin());
-            AGE_SLP::bearing += rotationrate;
-            if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 0.f;
+            if(clockwise)
+            {
+                AGE_SLP::bearing += rotationrate;
+                if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 0.f;
+            }
+            else
+            {
+                AGE_SLP::bearing -= rotationrate;
+                if(AGE_SLP::bearing < 0.f) AGE_SLP::bearing = 0.f;
+            }
         }
         AGE_SLP::setbearing = true;
     }
@@ -453,7 +461,6 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
 
 int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, uint32_t &framesleft)
 {
-    graphic.frames = graphic.slp.get()->getFrameCount();
     int fpms = dataset->Graphics[graphic.datID].FrameRate * 1000;
     if((graphic.frames > 1 && fpms == 0) || graphic.fpa == 1) fpms = 700;
     if(fpms) ChooseNextFrame(graphic, framesleft);
@@ -466,9 +473,20 @@ void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, uint32_t &framesleft)
     if(nextframe < graphic.startframe + graphic.fpa)
     {
         // TODO: Mirror missing angles.
-        graphic.frameID = nextframe % graphic.frames;
+        graphic.frameID = nextframe;
     }
     framesleft += graphic.startframe + graphic.fpa - nextframe;
+}
+
+void AGE_Frame::ChoosePreviousFrame(AGE_SLP &graphic, uint32_t &framesleft)
+{
+    uint32_t prevframe = graphic.frameID - 1 + graphic.frames;
+    if(prevframe >= graphic.startframe)
+    {
+        // TODO: Mirror missing angles.
+        graphic.frameID = prevframe;
+    }
+    framesleft += prevframe - graphic.startframe;
 }
 
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
