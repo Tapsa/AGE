@@ -871,7 +871,7 @@ int AGE_Frame::loadChosenGraphic(unsigned int unitID)
             case 4: graphicID = action->Graphics[3]; break;
             default: goto CHOOSE_NORMAL;
         }
-        if(GenieVersion >= genie::GV_SWGB && unit->Class == 58)
+        if(graphicID != -1 && GenieVersion >= genie::GV_SWGB && unit->Class == 58)
             graphicID += dataset->Civs[UnitCivID].IconSet;
         return graphicID;
     }
@@ -3416,7 +3416,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SearchRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Search Radius ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_WorkRate_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DropSite_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Drop Site *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_VillagerMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Villager Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_VillagerMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Task Swap ID *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackSound_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Attack Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MoveSound_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Move Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Exists_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Exists", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3800,7 +3800,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_EdibleMeat = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_EdibleMeat->SetToolTip("0 Default\n1 Rotting meat that can be gathered");
 	Units_VillagerMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_VillagerMode->SetToolTip("Changes according to task\n1 Male\n2 Female");
+	Units_VillagerMode->SetToolTip("Changes according to task\n1 Male villager\n2 Female villager\n3+ Free slots");
 
 	Units_Attribute = AGETextCtrl::init(CUByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Attribute->SetToolTip("This is a byte of eight booleans\nYou can combine these attributes");
