@@ -3,7 +3,6 @@
 AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 : AGE_OpenSave(parent, "Open", this)
 {
-    opener = true;
 	Layout = new wxFlexGridSizer(2, 2, 2);
 
 	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
@@ -518,4 +517,20 @@ void AGE_OpenDialog::OnSelectLangX1(wxCommandEvent &event)
 void AGE_OpenDialog::OnSelectLangX1P1(wxCommandEvent &event)
 {
 	Path_LangX1P1FileLocation->Enable(event.IsChecked());
+}
+
+void AGE_OpenDialog::OnRecent(wxCommandEvent &event)
+{
+	if(RecentValues.empty()) return;
+	auto sel = CheckBox_Recent->GetSelection();
+	CheckBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
+	Path_DatFileLocation->SetPath(RecentValues[sel][1]);
+	Path_LangFileLocation->SetPath(RecentValues[sel][2]);
+	Path_LangX1FileLocation->SetPath(RecentValues[sel][3]);
+	Path_LangX1P1FileLocation->SetPath(RecentValues[sel][4]);
+	CheckBox_LangFileLocation->SetValue(RecentValues[sel][2].size());
+	CheckBox_LangX1FileLocation->SetValue(RecentValues[sel][3].size());
+	CheckBox_LangX1P1FileLocation->SetValue(RecentValues[sel][4].size());
+    Path_DRS->SetPath(RecentValues[sel][5]);
+    Path_DRS2->SetPath(RecentValues[sel][6]);
 }

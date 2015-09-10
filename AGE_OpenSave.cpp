@@ -4,7 +4,7 @@
 AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 : wxDialog(parent, -1, title+" files...", wxDefaultPosition, wxSize(500, 250), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxNO_DEFAULT)
 {
-	ForceDat = opener = false;
+    ForceDat = false;
 	Main = new wxBoxSizer(wxVERTICAL);
 	Defaults = new wxBoxSizer(wxHORIZONTAL);
 	Buttons = new wxBoxSizer(wxHORIZONTAL);
@@ -77,7 +77,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 
 void AGE_OpenSave::OnRecent(wxCommandEvent &event)
 {
-	if(RecentValues.size() == 0) return;
+	if(RecentValues.empty()) return;
 	auto sel = CheckBox_Recent->GetSelection();
 	CheckBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
 	Path_DatFileLocation->SetPath(RecentValues[sel][1]);
@@ -87,10 +87,4 @@ void AGE_OpenSave::OnRecent(wxCommandEvent &event)
 	CheckBox_LangFileLocation->SetValue(RecentValues[sel][2].size());
 	CheckBox_LangX1FileLocation->SetValue(RecentValues[sel][3].size());
 	CheckBox_LangX1P1FileLocation->SetValue(RecentValues[sel][4].size());
-    if(opener)
-    {
-        AGE_OpenDialog* opendlg = (AGE_OpenDialog*)event.GetEventObject();
-        opendlg->Path_DRS->SetPath(RecentValues[sel][5]);
-        opendlg->Path_DRS2->SetPath(RecentValues[sel][6]);
-    }
 }
