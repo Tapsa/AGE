@@ -59,12 +59,7 @@ public:
 	wxButton *ButtonCancel;
 	wxStaticText *RecentText;
 	wxComboBox *CheckBox_Recent;
-	wxArrayInt RecentDatVersions;
-	wxArrayString RecentDatPaths;
-	wxArrayString RecentLangs;
-	wxArrayString RecentLangX1s;
-	wxArrayString RecentLangX1P1s;
-	wxArrayString RecentDatas, RecentDatas2;
+	vector<wxArrayString> RecentValues;
 };
 
 #endif
