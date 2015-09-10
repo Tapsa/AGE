@@ -177,6 +177,7 @@ public:
 	void OnChooseGraphic(wxCommandEvent &event);
     void playWAV(wxCommandEvent &event);
     AGE_SLP* getCurrentGraphics();
+    int produceRecentValues(wxArrayString&, vector<wxArrayString>&);
 
 //	General Events
 
@@ -808,7 +809,6 @@ public:
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot, DrawTerrain;
-	wxFileConfig *Config, *Customs;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
 	genie::DatFile *dataset;

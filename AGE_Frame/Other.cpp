@@ -20,34 +20,30 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 	{
 		AGE_OpenDialog OpenBox(this);
 
-		int RecentItems;
-		wxFileConfig* RecentOpen = new wxFileConfig(wxEmptyString, "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-		RecentOpen->Read("Recent/RecentItems", &RecentItems, 0);
-		OpenBox.RecentDatVersions.Clear();
-		OpenBox.RecentDatPaths.Clear();
-		OpenBox.RecentLangs.Clear();
-		OpenBox.RecentLangX1s.Clear();
-		OpenBox.RecentLangX1P1s.Clear();
-		OpenBox.RecentDatas.Clear();
-		OpenBox.RecentDatas2.Clear();
-		while(RecentItems > 0)
-		{
-			int dataversion;
-			wxString useless, entry = "Recent" + lexical_cast<string>(RecentItems--);
-			RecentOpen->Read(entry+"/RecentDatVersion", &dataversion, 9000); OpenBox.RecentDatVersions.Add(dataversion);
-			RecentOpen->Read(entry+"/RecentDatPath", &useless, wxEmptyString); OpenBox.RecentDatPaths.Add(useless);
-			RecentOpen->Read(entry+"/RecentLang", &useless, wxEmptyString); OpenBox.RecentLangs.Add(useless);
-			RecentOpen->Read(entry+"/RecentLangX1", &useless, wxEmptyString); OpenBox.RecentLangX1s.Add(useless);
-			RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxEmptyString); OpenBox.RecentLangX1P1s.Add(useless);
-			RecentOpen->Read(entry+"/RecentPathDRS", &useless, wxEmptyString); OpenBox.RecentDatas.Add(useless);
-			RecentOpen->Read(entry+"/RecentPathDRS2", &useless, wxEmptyString); OpenBox.RecentDatas2.Add(useless);
+        int RecentItems;
+        {
+            wxFileConfig RecentOpen("AGE", "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+            RecentOpen.Read("Recent/Items", &RecentItems, 0);
+            OpenBox.RecentValues.resize(RecentItems);
+            for(int i=0; i < RecentItems; ++i)
+            {
+                OpenBox.RecentValues[i].Alloc(7);
+                wxString temp, entry = "Recent" + lexical_cast<string>(i + 1);
+                RecentOpen.Read(entry + "/DatVersion", &temp, "9000"); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/DatPath", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/Lang", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/LangX1", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/LangX1P1", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/PathDRS", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/PathDRS2", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+            }
 		}
-		delete RecentOpen;
-		if(OpenBox.RecentDatPaths.size() == 0)
-		OpenBox.CheckBox_Recent->Append("10 point hint: donate euros to me");
-		else
-		OpenBox.CheckBox_Recent->Append(OpenBox.RecentDatPaths);
-		OpenBox.CheckBox_Recent->SetSelection(0);
+		if(OpenBox.RecentValues.size())
+        for(int i=0; i < RecentItems; ++i)
+        OpenBox.CheckBox_Recent->Append(OpenBox.RecentValues[i][1]);
+        else
+        OpenBox.CheckBox_Recent->Append("10 point hint: donate euros to me");
+        OpenBox.CheckBox_Recent->SetSelection(0);
 
 		OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
 		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
@@ -162,70 +158,54 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		AGETextCtrl::unSaved[AGEwindow] = 0;
 		++AGETextCtrl::fileLoaded[AGEwindow];
 
-		Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-		Config->Write("DefaultFiles/DriveLetter", DriveLetter);
-		Config->Write("DefaultFiles/UseCustomPath", UseCustomPath);
-		Config->Write("DefaultFiles/CustomFolder", CustomFolder);
-		Config->Write("DefaultFiles/Version", GameVersion);
-		Config->Write("DefaultFiles/DatUsed", DatUsed);
-		Config->Write("DefaultFiles/DatFilename", DatFileName);
-		Config->Write("DefaultFiles/FolderDRS", FolderDRS);
-		Config->Write("DefaultFiles/FolderDRS2", FolderDRS2);
-		Config->Write("DefaultFiles/UseDRS", UseDRS);
-		Config->Write("DefaultFiles/UseMod", UseMod);
-		Config->Write("DefaultFiles/LangsUsed", LangsUsed);
-		Config->Write("DefaultFiles/WriteLangs", WriteLangs);
-		Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
-		Config->Write("DefaultFiles/Language", Language);
-		Config->Write("DefaultFiles/LangFilename", LangFileName);
-		Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
-		Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
-		Config->Write("DefaultFiles/AutoBackups", AutoBackups);
-		Config->Write("Misc/CustomTerrains", CustomTerrains);
-		delete Config;
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        Config.Write("DefaultFiles/DriveLetter", DriveLetter);
+        Config.Write("DefaultFiles/UseCustomPath", UseCustomPath);
+        Config.Write("DefaultFiles/CustomFolder", CustomFolder);
+        Config.Write("DefaultFiles/Version", GameVersion);
+        Config.Write("DefaultFiles/DatUsed", DatUsed);
+        Config.Write("DefaultFiles/DatFilename", DatFileName);
+        Config.Write("DefaultFiles/FolderDRS", FolderDRS);
+        Config.Write("DefaultFiles/FolderDRS2", FolderDRS2);
+        Config.Write("DefaultFiles/UseDRS", UseDRS);
+        Config.Write("DefaultFiles/UseMod", UseMod);
+        Config.Write("DefaultFiles/LangsUsed", LangsUsed);
+        Config.Write("DefaultFiles/WriteLangs", WriteLangs);
+        Config.Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
+        Config.Write("DefaultFiles/Language", Language);
+        Config.Write("DefaultFiles/LangFilename", LangFileName);
+        Config.Write("DefaultFiles/LangX1Filename", LangX1FileName);
+        Config.Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
+        Config.Write("DefaultFiles/AutoBackups", AutoBackups);
+        Config.Write("Misc/CustomTerrains", CustomTerrains);
 
 		if(!OpenBox.CheckBox_LangFileLocation->IsChecked()) LangFileName = "";
 		if(!OpenBox.CheckBox_LangX1FileLocation->IsChecked()) LangX1FileName = "";
 		if(!OpenBox.CheckBox_LangX1P1FileLocation->IsChecked()) LangX1P1FileName = "";
-		wxFileConfig* RecentSave = new wxFileConfig(wxEmptyString, "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-		RecentSave->Read("Recent/RecentItems", &RecentItems, 0);
-		short abort = 0;
-		for(int i = RecentItems; i > 0; --i)
-		{
-			abort = 0;
-			wxString compare, entry = "Recent" + lexical_cast<string>(i);
-			int dataversion = 9000;
-			RecentSave->Read(entry+"/RecentDatVersion", &dataversion);
-			if(dataversion == GameVersion) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentDatPath", &compare, wxEmptyString);
-			if(compare == DatFileName) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentLang", &compare, wxEmptyString);
-			if(compare == LangFileName) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentLangX1", &compare, wxEmptyString);
-			if(compare == LangX1FileName) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxEmptyString);
-			if(compare == LangX1P1FileName) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentPathDRS", &compare, wxEmptyString);
-			if(compare == FolderDRS) ++abort; else continue;
-			RecentSave->Read(entry+"/RecentPathDRS2", &compare, wxEmptyString);
-			if(compare == FolderDRS2)
-			{
-				++abort; break;
-			}
-		}
-		if(abort < 7)
-		{
-			RecentSave->Write("Recent/RecentItems", ++RecentItems);
-			wxString entry = "Recent" + lexical_cast<string>(RecentItems);
-			RecentSave->Write(entry+"/RecentDatVersion", GameVersion);
-			RecentSave->Write(entry+"/RecentDatPath", DatFileName);
-			RecentSave->Write(entry+"/RecentLang", LangFileName);
-			RecentSave->Write(entry+"/RecentLangX1", LangX1FileName);
-			RecentSave->Write(entry+"/RecentLangX1P1", LangX1P1FileName);
-			RecentSave->Write(entry+"/RecentPathDRS", FolderDRS);
-			RecentSave->Write(entry+"/RecentPathDRS2", FolderDRS2);
-		}
-		delete RecentSave;
+
+        wxArrayString latest;
+        latest.Alloc(7);
+        latest.Add(lexical_cast<string>(GameVersion));
+        latest.Add(DatFileName);
+        latest.Add(LangFileName);
+        latest.Add(LangX1FileName);
+        latest.Add(LangX1P1FileName);
+        latest.Add(FolderDRS);
+        latest.Add(FolderDRS2);
+        int items = produceRecentValues(latest, OpenBox.RecentValues);
+        wxFileConfig RecentSave("AGE", "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        RecentSave.Write("Recent/Items", items);
+        for(int i=0; i < items; ++i)
+        {
+            wxString entry = "Recent" + lexical_cast<string>(i + 1);
+            RecentSave.Write(entry + "/DatVersion", OpenBox.RecentValues[i][0]);
+            RecentSave.Write(entry + "/DatPath", OpenBox.RecentValues[i][1]);
+            RecentSave.Write(entry + "/Lang", OpenBox.RecentValues[i][2]);
+            RecentSave.Write(entry + "/LangX1", OpenBox.RecentValues[i][3]);
+            RecentSave.Write(entry + "/LangX1P1", OpenBox.RecentValues[i][4]);
+            RecentSave.Write(entry + "/PathDRS", OpenBox.RecentValues[i][5]);
+            RecentSave.Write(entry + "/PathDRS2", OpenBox.RecentValues[i][6]);
+        }
 	}
 
 	switch(GameVersion)
@@ -759,37 +739,36 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		// Cu-pa
 		// Womp Rat
 
-		Customs = new wxFileConfig(wxEmptyString, "Tapsa", "age2armornames.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-		long AoE1Count, AoE2Count, SWGBCount;
-		if(!Customs->Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
-			Customs->Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
-		if(!Customs->Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
-			Customs->Write("Count/AoE2Count", (int)DefAoE2Armors.GetCount());
-		if(!Customs->Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
-			Customs->Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
-		wxArrayString AoE1Armors, AoE2Armors, SWGBArmors;
-		for(short loop = 0; loop < AoE1Count; ++loop)
-		{
-			wxString MoveHolder;
-			if(!Customs->Read("AoE1Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1Armors[loop]))
-				Customs->Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
-			AoE1Armors.Add(MoveHolder);
-		}
-		for(short loop = 0; loop < AoE2Count; ++loop)
-		{
-			wxString MoveHolder;
-			if(!Customs->Read("AoE2Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2Armors[loop]))
-				Customs->Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
-			AoE2Armors.Add(MoveHolder);
-		}
-		for(short loop = 0; loop < SWGBCount; ++loop)
-		{
-			wxString MoveHolder;
-			if(!Customs->Read("SWGBNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBArmors[loop]))
-				Customs->Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
-			SWGBArmors.Add(MoveHolder);
-		}
-		delete Customs;
+        wxFileConfig Customs("AGE", "Tapsa", "age2armornames.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        long AoE1Count, AoE2Count, SWGBCount;
+        if(!Customs.Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
+            Customs.Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
+        if(!Customs.Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
+            Customs.Write("Count/AoE2Count", (int)DefAoE2Armors.GetCount());
+        if(!Customs.Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
+            Customs.Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
+        wxArrayString AoE1Armors, AoE2Armors, SWGBArmors;
+        for(short loop = 0; loop < AoE1Count; ++loop)
+        {
+            wxString MoveHolder;
+            if(!Customs.Read("AoE1Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1Armors[loop]))
+                Customs.Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
+            AoE1Armors.Add(MoveHolder);
+        }
+        for(short loop = 0; loop < AoE2Count; ++loop)
+        {
+            wxString MoveHolder;
+            if(!Customs.Read("AoE2Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2Armors[loop]))
+                Customs.Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
+            AoE2Armors.Add(MoveHolder);
+        }
+        for(short loop = 0; loop < SWGBCount; ++loop)
+        {
+            wxString MoveHolder;
+            if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBArmors[loop]))
+                Customs.Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
+            SWGBArmors.Add(MoveHolder);
+        }
 
 		for(short loop = 0; loop < 3; ++loop)
 		{
@@ -1510,29 +1489,27 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 	wxCommandEvent Selected;
 	AGE_SaveDialog SaveBox(this);
 
-	int RecentItems;
-	wxFileConfig* RecentOpen = new wxFileConfig(wxEmptyString, "Tapsa", "age3recents.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-	RecentOpen->Read("Recent/RecentItems", &RecentItems, 0);
-	SaveBox.RecentDatVersions.Clear();
-	SaveBox.RecentDatPaths.Clear();
-	SaveBox.RecentLangs.Clear();
-	SaveBox.RecentLangX1s.Clear();
-	SaveBox.RecentLangX1P1s.Clear();
-	while(RecentItems > 0)
-	{
-		int dataversion;
-		wxString useless, entry = "Recent" + lexical_cast<string>(RecentItems--);
-		RecentOpen->Read(entry+"/RecentDatVersion", &dataversion, 9000); SaveBox.RecentDatVersions.Add(dataversion);
-		RecentOpen->Read(entry+"/RecentDatPath", &useless, wxEmptyString); SaveBox.RecentDatPaths.Add(useless);
-		RecentOpen->Read(entry+"/RecentLang", &useless, wxEmptyString); SaveBox.RecentLangs.Add(useless);
-		RecentOpen->Read(entry+"/RecentLangX1", &useless, wxEmptyString); SaveBox.RecentLangX1s.Add(useless);
-		RecentOpen->Read(entry+"/RecentLangX1P1", &useless, wxEmptyString); SaveBox.RecentLangX1P1s.Add(useless);
-	}
-	delete RecentOpen;
-	if(SaveBox.RecentDatPaths.size() == 0)
-	SaveBox.CheckBox_Recent->Append("10 point hint: donate euros to me");
+    int RecentItems;
+    {
+        wxFileConfig RecentOpen("AGE", "Tapsa", "age3recents.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        RecentOpen.Read("Recent/Items", &RecentItems, 0);
+        SaveBox.RecentValues.resize(RecentItems);
+        for(int i=0; i < RecentItems; ++i)
+        {
+            SaveBox.RecentValues[i].Alloc(5);
+            wxString temp, entry = "Recent" + lexical_cast<string>(i + 1);
+            RecentOpen.Read(entry + "/DatVersion", &temp, "9000"); SaveBox.RecentValues[i].Add(temp);
+            RecentOpen.Read(entry + "/DatPath", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
+            RecentOpen.Read(entry + "/Lang", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
+            RecentOpen.Read(entry + "/LangX1", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
+            RecentOpen.Read(entry + "/LangX1P1", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
+        }
+    }
+	if(SaveBox.RecentValues.size())
+    for(int i=0; i < RecentItems; ++i)
+	SaveBox.CheckBox_Recent->Append(SaveBox.RecentValues[i][1]);
 	else
-	SaveBox.CheckBox_Recent->Append(SaveBox.RecentDatPaths);
+	SaveBox.CheckBox_Recent->Append("10 point hint: donate euros to me");
 	SaveBox.CheckBox_Recent->SetSelection(0);
 
 	SaveBox.Path_DatFileLocation->SetFocus();
@@ -1588,53 +1565,41 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 	SaveLangX1P1FileName = SaveBox.Path_LangX1P1FileLocation->GetPath();
 
 	if(!save) return;
-	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-	Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
-	Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
-	Config->Write("DefaultFiles/SaveLangs", SaveLangs);
-	Config->Write("DefaultFiles/SaveLangFilename", SaveLangFileName);
-	Config->Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName);
-	Config->Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
-	Config->Write("DefaultFiles/SaveDat", SaveDat);
-	Config->Write("Misc/CustomTerrains", CustomTerrains);
-	delete Config;
+    {
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        Config.Write("DefaultFiles/SaveVersion", SaveGameVersion);
+        Config.Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
+        Config.Write("DefaultFiles/SaveLangs", SaveLangs);
+        Config.Write("DefaultFiles/SaveLangFilename", SaveLangFileName);
+        Config.Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName);
+        Config.Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
+        Config.Write("DefaultFiles/SaveDat", SaveDat);
+        Config.Write("Misc/CustomTerrains", CustomTerrains);
 
-	if(!SaveBox.CheckBox_LangFileLocation->IsChecked()) SaveLangFileName = "";
-	if(!SaveBox.CheckBox_LangX1FileLocation->IsChecked()) SaveLangX1FileName = "";
-	if(!SaveBox.CheckBox_LangX1P1FileLocation->IsChecked()) SaveLangX1P1FileName = "";
-	wxFileConfig* RecentSave = new wxFileConfig(wxEmptyString, "Tapsa", "age3recents.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-	RecentSave->Read("Recent/RecentItems", &RecentItems, 0);
-	short abort = 0;
-	for(int i = RecentItems; i > 0; --i)
-	{
-		abort = 0;
-		wxString compare, entry = "Recent" + lexical_cast<string>(i);
-		int dataversion = 9000;
-		RecentSave->Read(entry+"/RecentDatVersion", &dataversion);
-		if(dataversion == SaveGameVersion) ++abort; else continue;
-		RecentSave->Read(entry+"/RecentDatPath", &compare, wxEmptyString);
-		if(compare == SaveDatFileName) ++abort; else continue;
-		RecentSave->Read(entry+"/RecentLang", &compare, wxEmptyString);
-		if(compare == SaveLangFileName) ++abort; else continue;
-		RecentSave->Read(entry+"/RecentLangX1", &compare, wxEmptyString);
-		if(compare == SaveLangX1FileName) ++abort; else continue;
-		RecentSave->Read(entry+"/RecentLangX1P1", &compare, wxEmptyString);
-		if(compare == SaveLangX1P1FileName)
-		{
-			++abort; break;
-		}
-	}
-	if(abort < 5)
-	{
-		RecentSave->Write("Recent/RecentItems", ++RecentItems);
-		wxString entry = "Recent" + lexical_cast<string>(RecentItems);
-		RecentSave->Write(entry+"/RecentDatVersion", SaveGameVersion);
-		RecentSave->Write(entry+"/RecentDatPath", SaveDatFileName);
-		RecentSave->Write(entry+"/RecentLang", SaveLangFileName);
-		RecentSave->Write(entry+"/RecentLangX1", SaveLangX1FileName);
-		RecentSave->Write(entry+"/RecentLangX1P1", SaveLangX1P1FileName);
-	}
-	delete RecentSave;
+        if(!SaveBox.CheckBox_LangFileLocation->IsChecked()) SaveLangFileName = "";
+        if(!SaveBox.CheckBox_LangX1FileLocation->IsChecked()) SaveLangX1FileName = "";
+        if(!SaveBox.CheckBox_LangX1P1FileLocation->IsChecked()) SaveLangX1P1FileName = "";
+
+        wxArrayString latest;
+        latest.Alloc(5);
+        latest.Add(lexical_cast<string>(SaveGameVersion));
+        latest.Add(SaveDatFileName);
+        latest.Add(SaveLangFileName);
+        latest.Add(SaveLangX1FileName);
+        latest.Add(SaveLangX1P1FileName);
+        int RecentItems = produceRecentValues(latest, SaveBox.RecentValues);
+        wxFileConfig RecentSave("AGE", "Tapsa", "age3recents.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        RecentSave.Write("Recent/Items", RecentItems);
+        for(int i=0; i < RecentItems; ++i)
+        {
+            wxString entry = "Recent" + lexical_cast<string>(i + 1);
+            RecentSave.Write(entry + "/DatVersion", SaveBox.RecentValues[i][0]);
+            RecentSave.Write(entry + "/DatPath", SaveBox.RecentValues[i][1]);
+            RecentSave.Write(entry + "/Lang", SaveBox.RecentValues[i][2]);
+            RecentSave.Write(entry + "/LangX1", SaveBox.RecentValues[i][3]);
+            RecentSave.Write(entry + "/LangX1P1", SaveBox.RecentValues[i][4]);
+        }
+    }
 
 	if(SaveDat)
 	{
@@ -2136,6 +2101,20 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		break;
 		default: wxMessageBox(lexical_cast<string>(event.GetId()), "wxEvent error!");
 	}
+}
+
+int AGE_Frame::produceRecentValues(wxArrayString &latest, vector<wxArrayString> &RecentValues)
+{
+    RecentValues.insert(RecentValues.begin(), latest);
+    int RecentItems = RecentValues.size();
+    for(int i=1; i < RecentItems; ++i)
+    if(RecentValues[i] == latest)
+    {
+        RecentValues.erase(RecentValues.begin() + i);
+        --RecentItems;
+        break;
+    }
+    return RecentItems;
 }
 
 void AGE_Frame::loadPalette(wxString folder)
@@ -3235,30 +3214,31 @@ void AGE_Frame::OnExitSLP(wxCloseEvent &event)
 
 void AGE_Frame::OnExit(wxCloseEvent &event)
 {
-	Config = new wxFileConfig(wxEmptyString, "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-	Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
-	Config->Write("Interaction/AutoCopy", AutoCopy);
-	Config->Write("Interaction/CopyGraphics", CopyGraphics);
-	Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
-	Config->Write("Interaction/EnableIDFix", EnableIDFix);
-	Config->Write("Interaction/ShowSLP", ShowSLP);
-	Config->Write("Interaction/ShowIcons", ShowIcons);
-	Config->Write("Interaction/AnimSLP", AnimSLP);
-	Config->Write("Interaction/ShowShadows", ShowShadows);
-	Config->Write("Interaction/ShowOutline", ShowOutline);
-	Config->Write("Interaction/ShowDeltas", ShowDeltas);
-	Config->Write("Interaction/ShowStack", ShowStack);
-	Config->Write("Interaction/ShowAnnexes", ShowAnnexes);
-	Config->Write("Interaction/DrawTerrain", DrawTerrain);
-	Config->Write("Interface/ShowUnknowns", ShowUnknowns);
-	Config->Write("Interface/ShowButtons", ShowButtons);
-	Config->Write("Interface/Paste11", Paste11);
-	Config->Write("Interface/MaxWindowWidth", MaxWindowWidth);
-	Config->Write("Interface/SLPareaPerCent", SLPareaPerCent);
-	Config->Write("Interface/SLPbackR", SLPbackR);
-	Config->Write("Interface/SLPbackG", SLPbackG);
-	Config->Write("Interface/SLPbackB", SLPbackB);
-	delete Config;
+    {
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        Config.Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
+        Config.Write("Interaction/AutoCopy", AutoCopy);
+        Config.Write("Interaction/CopyGraphics", CopyGraphics);
+        Config.Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
+        Config.Write("Interaction/EnableIDFix", EnableIDFix);
+        Config.Write("Interaction/ShowSLP", ShowSLP);
+        Config.Write("Interaction/ShowIcons", ShowIcons);
+        Config.Write("Interaction/AnimSLP", AnimSLP);
+        Config.Write("Interaction/ShowShadows", ShowShadows);
+        Config.Write("Interaction/ShowOutline", ShowOutline);
+        Config.Write("Interaction/ShowDeltas", ShowDeltas);
+        Config.Write("Interaction/ShowStack", ShowStack);
+        Config.Write("Interaction/ShowAnnexes", ShowAnnexes);
+        Config.Write("Interaction/DrawTerrain", DrawTerrain);
+        Config.Write("Interface/ShowUnknowns", ShowUnknowns);
+        Config.Write("Interface/ShowButtons", ShowButtons);
+        Config.Write("Interface/Paste11", Paste11);
+        Config.Write("Interface/MaxWindowWidth", MaxWindowWidth);
+        Config.Write("Interface/SLPareaPerCent", SLPareaPerCent);
+        Config.Write("Interface/SLPbackR", SLPbackR);
+        Config.Write("Interface/SLPbackG", SLPbackG);
+        Config.Write("Interface/SLPbackB", SLPbackB);
+    }
 
 	if(event.CanVeto() && AGETextCtrl::unSaved[AGEwindow] > 0)
 	{
