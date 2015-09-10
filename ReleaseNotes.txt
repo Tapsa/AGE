@@ -12,9 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2015.9.10[/b]:
+Version [b]2015.9.11[/b]:
 -Sorted recent paths.
 -Villager mode renamed.
+-Option to keep window on top.
 
 Version [b]2015.8.28[/b]:
 -Simple animations synced.
