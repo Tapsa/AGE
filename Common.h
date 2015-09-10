@@ -26,7 +26,6 @@
 #include <wx/image.h>
 #include <wx/dcbuffer.h>
 #include <wx/dir.h>
-#include <wx/filename.h>
 #include <wx/sound.h>
 #include <wx/clrpicker.h>
 
