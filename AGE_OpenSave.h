@@ -23,11 +23,11 @@ public:
 	virtual void OnSelectLangX1(wxCommandEvent &Event)=0;
 	virtual void OnSelectLangX1P1(wxCommandEvent &Event)=0;
 	virtual void OnOK(wxCommandEvent &Event)=0;
-	void OnRecent(wxCommandEvent &Event);
+	virtual void OnRecent(wxCommandEvent &Event);
 
 	/* Member Variables */
 
-	bool ForceDat, opener;
+	bool ForceDat;
 	wxBoxSizer *Main;
 	wxBoxSizer *Defaults;
 	wxFlexGridSizer *Layout;
