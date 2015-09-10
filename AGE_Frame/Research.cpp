@@ -402,7 +402,7 @@ void AGE_Frame::CreateResearchControls()
 	wxString langGlobalAnd, langGlobalAdd, langGlobalInsNew, langGlobalDel,	langGlobalCopy, langGlobalPaste, langGlobalInsCopies, langGlobalName;
 	wxString langTabResearch;
 
-	wxFileConfig Translations(wxEmptyString, "Tapsa", "age3trans.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+	wxFileConfig Translations("AGE", "Tapsa", "age3trans.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
 	Translations.Read("Global/And", &langGlobalAnd, "And");
 	Translations.Read("Global/Add", &langGlobalAdd, "Add");
 	Translations.Read("Global/InsertNew", &langGlobalInsNew, "Insert New");
@@ -546,7 +546,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Unknown1_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Pointer 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_Unknown1 = AGETextCtrl::init(CLong, &uiGroupResearch, this, AGEwindow, Research_Scroller);
 	
-	Translations.Write("Global/And", langGlobalAnd);
+	/*Translations.Write("Global/And", langGlobalAnd);
 	Translations.Write("Global/Add", langGlobalAdd);
 	Translations.Write("Global/InsertNew", langGlobalInsNew);
 	Translations.Write("Global/Delete", langGlobalDel);
@@ -554,7 +554,7 @@ void AGE_Frame::CreateResearchControls()
 	Translations.Write("Global/Paste", langGlobalPaste);
 	Translations.Write("Global/InsertCopies", langGlobalInsCopies);
 	Translations.Write("Research/Tab", langTabResearch);
-	Translations.Write("Global/Name", langGlobalName);
+	Translations.Write("Global/Name", langGlobalName);*/
 
 	Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
 	Research_Research_Buttons->Add(Research_Delete, 1, wxEXPAND);

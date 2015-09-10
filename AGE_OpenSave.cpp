@@ -77,20 +77,20 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 
 void AGE_OpenSave::OnRecent(wxCommandEvent &event)
 {
+	if(RecentValues.size() == 0) return;
 	auto sel = CheckBox_Recent->GetSelection();
-	if(RecentDatVersions.size() == 0) return;
-	CheckBox_GenieVer->SetSelection(RecentDatVersions[sel]);
-	Path_DatFileLocation->SetPath(RecentDatPaths[sel]);
-	Path_LangFileLocation->SetPath(RecentLangs[sel]);
-	Path_LangX1FileLocation->SetPath(RecentLangX1s[sel]);
-	Path_LangX1P1FileLocation->SetPath(RecentLangX1P1s[sel]);
-	CheckBox_LangFileLocation->SetValue(RecentLangs[sel].size());
-	CheckBox_LangX1FileLocation->SetValue(RecentLangX1s[sel].size());
-	CheckBox_LangX1P1FileLocation->SetValue(RecentLangX1P1s[sel].size());
+	CheckBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
+	Path_DatFileLocation->SetPath(RecentValues[sel][1]);
+	Path_LangFileLocation->SetPath(RecentValues[sel][2]);
+	Path_LangX1FileLocation->SetPath(RecentValues[sel][3]);
+	Path_LangX1P1FileLocation->SetPath(RecentValues[sel][4]);
+	CheckBox_LangFileLocation->SetValue(RecentValues[sel][2].size());
+	CheckBox_LangX1FileLocation->SetValue(RecentValues[sel][3].size());
+	CheckBox_LangX1P1FileLocation->SetValue(RecentValues[sel][4].size());
     if(opener)
     {
         AGE_OpenDialog* opendlg = (AGE_OpenDialog*)event.GetEventObject();
-        opendlg->Path_DRS->SetPath(RecentDatas[sel]);
-        opendlg->Path_DRS2->SetPath(RecentDatas2[sel]);
+        opendlg->Path_DRS->SetPath(RecentValues[sel][5]);
+        opendlg->Path_DRS2->SetPath(RecentValues[sel][6]);
     }
 }
