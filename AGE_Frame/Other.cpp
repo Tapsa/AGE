@@ -2099,6 +2099,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
         }
 		break;
+		case MenuOption_StayOnTop:
+		{
+			ToggleWindowStyle(wxSTAY_ON_TOP);
+			StayOnTop = event.IsChecked();
+		}
+		break;
 		default: wxMessageBox(lexical_cast<string>(event.GetId()), "wxEvent error!");
 	}
 }
@@ -3232,6 +3238,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interaction/DrawTerrain", DrawTerrain);
         Config.Write("Interface/ShowUnknowns", ShowUnknowns);
         Config.Write("Interface/ShowButtons", ShowButtons);
+        Config.Write("Interface/StayOnTop", StayOnTop);
         Config.Write("Interface/Paste11", Paste11);
         Config.Write("Interface/MaxWindowWidth", MaxWindowWidth);
         Config.Write("Interface/SLPareaPerCent", SLPareaPerCent);
