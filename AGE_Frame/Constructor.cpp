@@ -58,6 +58,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interaction/DrawTerrain", &DrawTerrain, true);
         Config.Read("Interface/ShowUnknowns", &ShowUnknowns, true);
         Config.Read("Interface/ShowButtons", &ShowButtons, false);
+        Config.Read("Interface/StayOnTop", &StayOnTop, false);
         Config.Read("Interface/Paste11", &Paste11, true);
         Config.Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
         Config.Read("Interface/SLPareaPerCent", &SLPareaPerCent, 100);
@@ -128,6 +129,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SubMenu_Options->AppendCheckItem(MenuOption_IDFix, "Enable &index fixes");
 	SubMenu_Options->Check(MenuOption_IDFix, EnableIDFix);
 	SubMenu_Options->Enable(MenuOption_IDFix, false);
+	SubMenu_Options->AppendCheckItem(MenuOption_StayOnTop, "&Stay on top");
+	SubMenu_Options->Check(MenuOption_StayOnTop, StayOnTop);
 
 	SubMenu_SLP = new wxMenu();
 	SubMenu_SLP->AppendCheckItem(MenuOption_ShowSLP, "Show SLP &graphics");
@@ -232,6 +235,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(ToolBar_Paste, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(ToolBar_AddWindow, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_StayOnTop, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_ShowSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
@@ -257,6 +261,13 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
 	ShowButtonsCmd.SetInt(ShowButtons);
 	ProcessEvent(ShowButtonsCmd);
+
+    if(StayOnTop)
+    {
+        wxCommandEvent StayOnTopCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_StayOnTop);
+        StayOnTopCmd.SetInt(true);
+        ProcessEvent(StayOnTopCmd);
+    }
 
 	wxCommandEvent Paste11Cmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Paste);
 	Paste11Cmd.SetInt(Paste11);
