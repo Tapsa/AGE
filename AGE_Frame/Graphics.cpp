@@ -354,8 +354,16 @@ void AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
     datID = graphicID;
     filename = dataset.Graphics[graphicID].Name2;
     slpID = dataset.Graphics[graphicID].SLP;
-    fpa = dataset.Graphics[graphicID].FrameCount;
-    angles = dataset.Graphics[graphicID].AngleCount;
+    if(dataset.Graphics[graphicID].MirroringMode == 0 && dataset.Graphics[graphicID].SequenceType == 6)
+    {
+        fpa = dataset.Graphics[graphicID].AngleCount;
+        angles = dataset.Graphics[graphicID].FrameCount;
+    }
+    else
+    {
+        fpa = dataset.Graphics[graphicID].FrameCount;
+        angles = dataset.Graphics[graphicID].AngleCount;
+    }
 }
 
 uint32_t AGE_Frame::CalcAngle(uint32_t fpa, float angles)
