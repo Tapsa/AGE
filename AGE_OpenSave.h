@@ -15,7 +15,6 @@ public:
 	virtual void OnDefaultAoK(wxCommandEvent &Event)=0;
 	virtual void OnDefaultTC(wxCommandEvent &Event)=0;
 	virtual void OnDefaultAoKHD(wxCommandEvent &Event)=0;
-	virtual void OnDefaultFE(wxCommandEvent &Event)=0;
 	virtual void OnDefaultAoP(wxCommandEvent &Event)=0;
 	virtual void OnDefaultSWGB(wxCommandEvent &Event)=0;
 	virtual void OnDefaultCC(wxCommandEvent &Event)=0;
@@ -29,7 +28,8 @@ public:
 
 	bool ForceDat;
 	wxBoxSizer *Main;
-	wxBoxSizer *Defaults;
+	wxStaticText *Defaults_Label;
+	wxBoxSizer *Defaults, *Defaults_StarWars;
 	wxFlexGridSizer *Layout;
 	wxBoxSizer *Buttons;
 	wxButton *Button_DefaultAoE;
@@ -37,7 +37,6 @@ public:
 	wxButton *Button_DefaultAoK;
 	wxButton *Button_DefaultTC;
 	wxButton *Button_DefaultAoKHD;
-	wxButton *Button_DefaultFE;
 	wxButton *Button_DefaultAP;
 	wxButton *Button_DefaultSWGB;
 	wxButton *Button_DefaultCC;

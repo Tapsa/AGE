@@ -5,6 +5,7 @@ string AGE_Frame::GetTerrainRestrictionName(int index)
 	switch(GenieVersion)
 	{
 		case genie::GV_SWGB:
+		case genie::GV_CC:
 		{
 			switch(index)
 			{
