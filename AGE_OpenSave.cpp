@@ -11,6 +11,8 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 
 	ButtonOK = new wxButton(this, wxID_OK, title);
 	ButtonCancel = new wxButton(this, wxID_CANCEL, "Cancel");
+    Gift = new wxHyperlinkCtrl(this, wxID_ANY, "Donate to Tapsa", "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4JDUUTF6B9HFN&lc=FI&item_name=Helping%20Tapsa&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
+	Buttons->Add(Gift, 1, wxEXPAND | wxRIGHT, 15);
 	Buttons->Add(ButtonOK, 1, wxEXPAND);
 	Buttons->Add(ButtonCancel, 1, wxEXPAND);
 
