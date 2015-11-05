@@ -1633,54 +1633,90 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 			return;
 		}
 	}
-	if(SaveApf)
+	/*if(SaveApf)
 	{
 		//	 Not Implemented Yet = Nothing Happens
-	}
+	}*/
 	if(SaveLangs)
 	{
 		SetStatusText("Saving language files...", 0);
 		wxBusyCursor WaitCursor;
-		if(LangsUsed & 1)
-		{
-			try
-			{
-				Lang->saveAs(SaveLangFileName.c_str());
-			}
-			catch(std::ios_base::failure e)
-			{
-				wxMessageBox("Unable to save language file!");
-				return;
-			}
-		}
-		if(LangsUsed & 2)
-		{
-			try
-			{
-				LangX->saveAs(SaveLangX1FileName.c_str());
-			}
-			catch(std::ios_base::failure e)
-			{
-				wxMessageBox("Unable to save language expansion file!");
-				return;
-			}
-		}
-		if(LangsUsed & 4)
-		{
-			try
-			{
-				LangXP->saveAs(SaveLangX1P1FileName.c_str());
-			}
-			catch(std::ios_base::failure e)
-			{
-				wxMessageBox("Unable to save language expansion patch file!");
-				return;
-			}
-		}
+        if(LangWriteToLatest)
+        {
+            if(LangsUsed & 4)
+            {
+                if(!SaveLangX1P1()) return;
+            }
+            else if(LangsUsed & 2)
+            {
+                if(!SaveLangX1()) return;
+            }
+            else
+            {
+                if(!SaveLang()) return;
+            }
+        }
+        else
+        {
+            if(LangsUsed & 1)
+            {
+                if(!SaveLang()) return;
+            }
+            if(LangsUsed & 2)
+            {
+                if(!SaveLangX1()) return;
+            }
+            if(LangsUsed & 4)
+            {
+                if(!SaveLangX1P1()) return;
+            }
+        }
 	}
 
 	SetStatusText("Selected files saved. "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" dat edits.", 0);
 	AGETextCtrl::unSaved[AGEwindow] = 0;
+}
+
+bool AGE_Frame::SaveLang()
+{
+    try
+    {
+        Lang->saveAs(SaveLangFileName.c_str());
+    }
+    catch(std::ios_base::failure e)
+    {
+        wxMessageBox("Unable to save language file!");
+        return false;
+    }
+    return true;
+}
+
+bool AGE_Frame::SaveLangX1()
+{
+    try
+    {
+        LangX->saveAs(SaveLangX1FileName.c_str());
+    }
+    catch(std::ios_base::failure e)
+    {
+        wxMessageBox("Unable to save expansion language file!");
+        return false;
+    }
+    return true;
+}
+
+bool AGE_Frame::SaveLangX1P1()
+{
+    try
+    {
+        LangXP->saveAs(SaveLangX1P1FileName.c_str());
+    }
+    catch(std::ios_base::failure e)
+    {
+        wxMessageBox("Unable to save expansion language patch file!");
+        return false;
+    }
+    return true;
 }
 
 void AGE_Frame::OnMenuOption(wxCommandEvent &event)
