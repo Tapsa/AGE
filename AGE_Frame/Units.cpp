@@ -696,33 +696,30 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
                 Units_GarrisonType_CheckBox[7]->SetValue(UnitPointer->Building.GarrisonType & 0x80);
             }
         }
+        Units_DLL_LanguageName->index = UnitPointer->LanguageDLLName;
+        Units_DLL_LanguageCreation->index = UnitPointer->LanguageDLLCreation;
+        if(GenieVersion >= genie::GV_AoKA)
+        {
+            Units_DLL_LanguageHelp->index = UnitPointer->LanguageDLLHelp - 79000;
+            Units_DLL_LanguageHKText->index = UnitPointer->LanguageDLLHotKeyText - 140000;
+            if(GenieVersion >= genie::GV_TC)
+            {
+                Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
+                Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
+                Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
+                Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
+                Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
+                Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
+                Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
+                Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
+            }
+        }
         else
         {
-            Units_DLL_LanguageName->index = UnitPointer->LanguageDLLName;
-            Units_DLL_LanguageCreation->index = UnitPointer->LanguageDLLCreation;
-            if(GenieVersion >= genie::GV_AoKA)
-            {
-                Units_DLL_LanguageHelp->index = UnitPointer->LanguageDLLHelp - 79000;
-                Units_DLL_LanguageHKText->index = UnitPointer->LanguageDLLHotKeyText - 140000;
-                if(GenieVersion >= genie::GV_TC)
-                {
-                    Units_Attribute_CheckBox[0]->SetValue(UnitPointer->Attribute & 0x01);
-                    Units_Attribute_CheckBox[1]->SetValue(UnitPointer->Attribute & 0x02);
-                    Units_Attribute_CheckBox[2]->SetValue(UnitPointer->Attribute & 0x04);
-                    Units_Attribute_CheckBox[3]->SetValue(UnitPointer->Attribute & 0x08);
-                    Units_Attribute_CheckBox[4]->SetValue(UnitPointer->Attribute & 0x10);
-                    Units_Attribute_CheckBox[5]->SetValue(UnitPointer->Attribute & 0x20);
-                    Units_Attribute_CheckBox[6]->SetValue(UnitPointer->Attribute & 0x40);
-                    Units_Attribute_CheckBox[7]->SetValue(UnitPointer->Attribute & 0x80);
-                }
-            }
-            else
-            {
-                Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
-                Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
-            }
-            Units_DLL_HotKey4->index = UnitPointer->HotKey;
+            Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
+            Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
         }
+        Units_DLL_HotKey4->index = UnitPointer->HotKey;
         if(GenieVersion >= genie::GV_AoKB)
         {
             string newLabel = " ( ", aste = "° ";

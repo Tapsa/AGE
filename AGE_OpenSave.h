@@ -60,6 +60,7 @@ public:
 	wxStaticText *RecentText;
 	wxComboBox *CheckBox_Recent;
 	vector<wxArrayString> RecentValues;
+    wxHyperlinkCtrl *Gift;
 };
 
 #endif
