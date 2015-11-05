@@ -290,12 +290,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
             {
                 wxString resname;
                 folder.Replace("drs", "terrain\\textures", false);
-                if(GenieVersion == genie::GV_Cysion)
-                {
-                    resname = folder + "\\" + TerrainPointer->Name2 + "_00_color.png";
-                    folder.Replace("-dlc2", "", false);
-                }
-                if(GenieVersion != genie::GV_Cysion || !wxFileName(resname).FileExists())
+                if(!wxFileName(resname).FileExists())
                 {
                     resname = folder + "\\" + TerrainPointer->Name2 + "_00_color.png";
                 }

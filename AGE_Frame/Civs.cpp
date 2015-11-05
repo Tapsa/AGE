@@ -625,14 +625,36 @@ string AGE_Frame::GetResourceName(int index)
 			Name = "Biological Self Regeneration";
 			break;
 		case 197: Name = "Spies Discount"; break;
-		if(GenieVersion >= genie::GV_SWGB)
-		{
-			case 200: Name = "Misc Counter 1"; break;
-			case 201: Name = "Misc Counter 2"; break;
-			case 202: Name = "Misc Counter 3"; break;
-			case 203: Name = "Misc Counter 4"; break;
-			case 204: Name = "Misc Counter 5"; break;
-		}
+		//if(GenieVersion >= genie::GV_SWGB)
+        case 200: Name = "Misc Counter 1"; break;
+        case 201: Name = "Misc Counter 2"; break;
+        case 202: Name = "Misc Counter 3"; break;
+        case 203: Name = "Misc Counter 4"; break;
+        case 204: Name = "Misc Counter 5"; break;
+        case 205:
+            if(GenieVersion == genie::GV_Cysion)
+            Name = "Feitoria Food Productivity";
+            else
+            Name = "Unknown";
+            break;
+        case 206:
+            if(GenieVersion == genie::GV_Cysion)
+            Name = "Feitoria Wood Productivity";
+            else
+            Name = "Unknown";
+            break;
+        case 207:
+            if(GenieVersion == genie::GV_Cysion)
+            Name = "Feitoria Stone Productivity";
+            else
+            Name = "Unknown";
+            break;
+        case 208:
+            if(GenieVersion == genie::GV_Cysion)
+            Name = "Feitoria Gold Productivity";
+            else
+            Name = "Unknown";
+            break;
 		default: Name = "Unknown";
 	}
 	return Name;
