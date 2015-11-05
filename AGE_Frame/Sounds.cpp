@@ -643,13 +643,6 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
             {
                 wxString soundfolder = FolderDRS;
                 soundfolder.Replace("drs", "sound\\terrain", false);
-                if(GenieVersion == genie::GV_Cysion)
-                {
-                    if(wxDir::Exists(folder + "\\gamedata_x2"))
-                    folders.Add(folder + "\\gamedata_x2\\");
-                    folder.Replace("-dlc2", "", false);
-                    soundfolder.Replace("-dlc2", "", false);
-                }
                 if(wxDir::Exists(soundfolder))
                 folders.Add(soundfolder + "\\");
                 if(wxDir::Exists(folder + "\\gamedata_x2"))

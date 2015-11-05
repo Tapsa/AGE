@@ -366,8 +366,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             if(UseMod) loadPalette(FolderDRS2);
             // Load extra palettes
             wxString folder = FolderDRS, res;
-            if(GenieVersion == genie::GV_Cysion)
-            folder.Replace("-dlc2", "", false);
             folder.Replace("drs", "dat", false);
             wxDir dir(folder);
             if(!dir.IsOpened()) return;
@@ -479,7 +477,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		UnitCommands_Type_ComboBox->Append("11: Scare/Hunt");
 		UnitCommands_Type_ComboBox->Append("12: Unload (Boat-Like)");
 		UnitCommands_Type_ComboBox->Append("13: Guard");
-		//UnitCommands_Type_ComboBox->Append("14: Unknown Ability");
+		UnitCommands_Type_ComboBox->Append("14: Siege Tower Ability");
 		//UnitCommands_Type_ComboBox->Append("15: Unknown Ability");
 		//UnitCommands_Type_ComboBox->Append("17: Unknown Ability");
 		//UnitCommands_Type_ComboBox->Append("18: Unknown Ability");
@@ -516,6 +514,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		UnitCommands_Type_ComboBox->Append("135: Kidnap Unit");
 		UnitCommands_Type_ComboBox->Append("136: Deposit Unit");	// Selection 33
 		UnitCommands_Type_ComboBox->Append("149: Shear");	// Selection 33
+		UnitCommands_Type_ComboBox->Append("150: ?");
+		UnitCommands_Type_ComboBox->Append("151: Feitoria Ability");
 		UnitCommands_Type_ComboBox->SetSelection(0);
 
 		AGE_AreaTT84::ages.Clear();
@@ -584,6 +584,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		DefAoE2Armors.Add("27 - Spearmen");
 		DefAoE2Armors.Add("28 - Cavalry Archers");
 		DefAoE2Armors.Add("29 - Eagle Warriors");
+		DefAoE2Armors.Add("30 - HD Camels");
 		// SWGB & CC
 		DefSWGBArmors.Add("0 - Aircraft");	// Selection 1
 		// Airspeeder
@@ -2162,8 +2163,6 @@ int AGE_Frame::produceRecentValues(wxArrayString &latest, vector<wxArrayString> 
 void AGE_Frame::loadPalette(wxString folder)
 {
     if(folder.empty()) return;
-    if(GenieVersion == genie::GV_Cysion)
-    folder.Replace("-dlc2", "", false);
     if(!wxDir::Exists(folder)) return;
     try
     {
@@ -2190,9 +2189,7 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString folder
         }
         catch(std::ios_base::failure e)
         {
-            wxMessageBox("Failed to load "+location);
             delete interfac;
-            interfac = NULL;
         }
     }
 }
@@ -2202,24 +2199,12 @@ void AGE_Frame::addSLPFolders4SLPs(wxArrayString &folders, wxString folder)
     if(folder.empty()) return;
     folder.Replace("drs", "slp", false);
     if(!wxDir::Exists(folder)) return;
-    if(GenieVersion == genie::GV_Cysion)
-    {
-        folders.Add(folder + "\\");
-        folder.Replace("-dlc2", "", false);
-        if(!wxDir::Exists(folder)) return;
-    }
     folders.Add(folder + "\\");
 }
 
 void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, wxString folder)
 {
     if(folder.empty()) return;
-    if(GenieVersion == genie::GV_Cysion)
-    {
-        if(wxDir::Exists(folder + "\\gamedata_x2"))
-        folders.Add(folder + "\\gamedata_x2\\");
-        folder.Replace("-dlc2", "", false);
-    }
     if(wxDir::Exists(folder + "\\gamedata_x2"))
     folders.Add(folder + "\\gamedata_x2\\");
     if(wxDir::Exists(folder + "\\gamedata_x1"))

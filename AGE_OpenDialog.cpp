@@ -69,7 +69,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->AddGrowableCol(1, 1);
 	Layout->AddGrowableRow(15, 1);
 
-	Main->Add(Defaults, 0, wxALIGN_CENTRE | wxALL, 5);
+	Main->Add(Defaults, 0, wxALIGN_LEFT | wxTOP | wxLEFT | wxRIGHT, 5);
+	Main->Add(Defaults_StarWars, 0, wxALIGN_LEFT | wxBOTTOM | wxLEFT | wxRIGHT, 5);
 	Main->Add(Layout, 1, wxEXPAND | wxALL, 5);
 	Main->Add(Buttons, 0, wxALIGN_RIGHT | wxALL, 5);
 
@@ -83,7 +84,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoK));
 	Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultTC));
 	Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoKHD));
-	Connect(Button_DefaultFE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultFE));
 	Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoP));
 	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultSWGB));
 	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultCC));
@@ -325,51 +325,6 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &event)
 	ProcessEvent(Selected);
 }
 
-void AGE_OpenDialog::OnDefaultFE(wxCommandEvent &event)
-{
-	CheckBox_LangWrite->Enable(false);
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
-	locale = LanguageBox->GetValue();
-
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Steam\\steamapps\\common\\Age2HD";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_TC);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x2_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxEmptyString);
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(wxString(Path + "\\resources\\_common\\drs"));
-	TerrainsBox->ChangeValue("42");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(false);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(false);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetInt(false);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
-}
-
 void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 {
 	CheckBox_LangWrite->Enable(false);
@@ -390,15 +345,15 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 	}
 
 	CheckBox_GenieVer->SetSelection(EV_Cysion);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources-dlc2\\_common\\dat\\empires2_x2_p1.dat"));
+	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x2_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources-dlc2\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
+	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(wxString(Path + "\\resources-dlc2\\_common\\drs"));
+	Path_DRS->SetPath(wxString(Path + "\\resources\\_common\\drs"));
 	TerrainsBox->ChangeValue("100");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(true);
+	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 	CheckBox_DRSPath->SetValue(true);
 	CheckBox_DRSPath->Enable(false);
@@ -408,9 +363,9 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 	Selected.SetInt(true);
 	Selected.SetId(CheckBox_LangFileLocation->GetId());
 	ProcessEvent(Selected);
+	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
 	ProcessEvent(Selected);
-	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
 	ProcessEvent(Selected);
 }
