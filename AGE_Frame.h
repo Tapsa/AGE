@@ -66,6 +66,9 @@ public:
 //	Other Events
 
 	bool DataOpened;
+	bool SaveLang();
+	bool SaveLangX1();
+	bool SaveLangX1P1();
 	void LoadLists();
 	void OnGameVersionChange();
 	void OnSave(wxCommandEvent &event);
