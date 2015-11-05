@@ -15,7 +15,6 @@ public:
 	void OnDefaultAoK(wxCommandEvent &event);
 	void OnDefaultTC(wxCommandEvent &event);
 	void OnDefaultAoKHD(wxCommandEvent &event);
-	void OnDefaultFE(wxCommandEvent &event);
 	void OnDefaultAoP(wxCommandEvent &event);
 	void OnDefaultSWGB(wxCommandEvent &event);
 	void OnDefaultCC(wxCommandEvent &event);

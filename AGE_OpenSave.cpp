@@ -6,7 +6,9 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 {
     ForceDat = false;
 	Main = new wxBoxSizer(wxVERTICAL);
+    Defaults_Label = new wxStaticText(slave, wxID_ANY, " Defaults: ");
 	Defaults = new wxBoxSizer(wxHORIZONTAL);
+	Defaults_StarWars = new wxBoxSizer(wxHORIZONTAL);
 	Buttons = new wxBoxSizer(wxHORIZONTAL);
 
 	ButtonOK = new wxButton(this, wxID_OK, title);
@@ -16,25 +18,24 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	Buttons->Add(ButtonOK, 1, wxEXPAND);
 	Buttons->Add(ButtonCancel, 1, wxEXPAND);
 
-	Button_DefaultAoE = new wxButton(slave, wxID_ANY, "AoE defaults");
-	Button_DefaultRoR = new wxButton(slave, wxID_ANY, "RoR defaults");
-	Button_DefaultAoK = new wxButton(slave, wxID_ANY, "AoK defaults");
-	Button_DefaultTC = new wxButton(slave, wxID_ANY, "TC defaults");
-	Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "AoK HD defaults");
-	Button_DefaultFE = new wxButton(slave, wxID_ANY, "HD:TF defaults");
-	Button_DefaultAP = new wxButton(slave, wxID_ANY, "HD:AK defaults");
-	Button_DefaultSWGB = new wxButton(slave, wxID_ANY, "SWGB defaults");
-	Button_DefaultCC = new wxButton(slave, wxID_ANY, "CC defaults");
+	Button_DefaultAoE = new wxButton(slave, wxID_ANY, "Age of Empires");
+	Button_DefaultRoR = new wxButton(slave, wxID_ANY, "Rise of Rome");
+	Button_DefaultAoK = new wxButton(slave, wxID_ANY, "Age of Kings");
+	Button_DefaultTC = new wxButton(slave, wxID_ANY, "The Conquerors");
+	Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "Age of Empires II: HD");
+	Button_DefaultAP = new wxButton(slave, wxID_ANY, "The Forgotten + The African Kingdoms");
+	Button_DefaultSWGB = new wxButton(slave, wxID_ANY, "Star Wars: Galactic Battlegrounds");
+	Button_DefaultCC = new wxButton(slave, wxID_ANY, "Clone Campaigns");
 
-	Defaults->Add(Button_DefaultAoE, 1, wxEXPAND);
-	Defaults->Add(Button_DefaultRoR, 1, wxEXPAND);
-	Defaults->Add(Button_DefaultAoK, 1, wxEXPAND);
-	Defaults->Add(Button_DefaultTC, 1, wxEXPAND);
-	Defaults->Add(Button_DefaultAoKHD, 1, wxEXPAND);
-	Defaults->Add(Button_DefaultFE, 1, wxEXPAND);
-	Defaults->Add(Button_DefaultAP, 1, wxEXPAND);
-	Defaults->Add(Button_DefaultSWGB, 1, wxEXPAND);
-	Defaults->Add(Button_DefaultCC, 1, wxEXPAND);
+	Defaults->Add(Defaults_Label);
+	Defaults->Add(Button_DefaultAoE, 0, wxEXPAND);
+	Defaults->Add(Button_DefaultRoR, 0, wxEXPAND);
+	Defaults->Add(Button_DefaultAoK, 0, wxEXPAND);
+	Defaults->Add(Button_DefaultTC, 0, wxEXPAND);
+	Defaults->Add(Button_DefaultAoKHD, 0, wxEXPAND);
+	Defaults->Add(Button_DefaultAP, 0, wxEXPAND | wxRIGHT, 50);
+	Defaults_StarWars->Add(Button_DefaultSWGB, 0, wxEXPAND | wxLEFT, 50);
+	Defaults_StarWars->Add(Button_DefaultCC, 0, wxEXPAND);
 
 	Text_GenieVer = new wxStaticText(slave, wxID_ANY, "      Genie version:");
 	CheckBox_GenieVer = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -51,8 +52,8 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
 	CheckBox_GenieVer->Append("Age of Kings (11.5)");
 	CheckBox_GenieVer->Append("The Conquerors (11.76)");
-	CheckBox_GenieVer->Append("Age of Empires II: HD Edition > 12");
-	CheckBox_GenieVer->Append("Star Wars Galactic Battlegrounds (1.0)");
+	CheckBox_GenieVer->Append("The Forgotten + The African Kingdoms > 12");
+	CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
 	CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
 	CheckBox_GenieVer->SetSelection(EV_TC);
 	RecentText = new wxStaticText(slave, wxID_ANY, "      Recent paths:");

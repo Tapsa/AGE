@@ -13,9 +13,9 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 Guide makers et cetera, please include the version into which your guide was written.
 
 Version [b]2015.11.5[/b]:
--Adjusted defaults for The African Kingdoms.
+-Updates for The African Kingdoms.
 -Only last language file gets saved if only it was edited.
--I will fix DRS reading soon.
+-I plan to improve mod DRS reading soon.
 
 Version [b]2015.10.16[/b]:
 -Bugfix: Language strings are shown again for buildings.
