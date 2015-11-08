@@ -407,17 +407,12 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
     if(container.empty()) return 1;
     if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
     string value = string(GetValue().mb_str());
-    if(value.size() > 0)
+    if(*(string*)container.back() != value || forced) // Has been changed
     {
-        if(*(string*)container.back() != value || forced) // Has been changed
+        if(value.size() > 2)
         {
             short batchMode = 0;
-            if(value[0] == 'b' && !BatchCheck(value, batchMode))
-            {
-                goto fix;
-                wxMessageBox(BATCHWARNING, BWTITLE);
-                return 1;
-            }
+            BatchCheck(value, batchMode);
             if(batchMode > 0)
             {
                 for(auto &pointer: container)
@@ -435,32 +430,27 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
                 HandleResults(0);
                 return 0;
             }
-            fix:
-            if(value.size() <= maxSize)
-            {
-                for(auto &pointer: container)
-                {
-                    ++edits;
-                    *(string*)pointer = value; // replenish data field
-                }
-            }
-            else
-            {
-                value = value.substr(0, maxSize);
-                for(auto &pointer: container)
-                {
-                    ++edits;
-                    *(string*)pointer = value;
-                }
-                ChangeValue(*(string*)container.back());
-            }
-            HandleResults(0);
-            return 0;
         }
-    }
-    else
-    {
-        ChangeValue(*(string*)container.back());
+        if(value.size() <= maxSize)
+        {
+            for(auto &pointer: container)
+            {
+                ++edits;
+                *(string*)pointer = value; // replenish data field
+            }
+        }
+        else
+        {
+            value = value.substr(0, maxSize);
+            for(auto &pointer: container)
+            {
+                ++edits;
+                *(string*)pointer = value;
+            }
+            ChangeValue(*(string*)container.back());
+        }
+        HandleResults(0);
+        return 0;
     }
     return 1;
 }
