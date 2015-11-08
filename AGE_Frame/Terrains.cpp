@@ -183,9 +183,9 @@ void AGE_Frame::InitTerrains2()
 
 	for(short loop = 0; loop < dataset->TerrainRestrictions[0].TerrainAccessible.size(); ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - A"+lexical_cast<string>((bool)dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
+		wxString Name = " "+FormatInt(loop)+" - A"+FormatFloat(dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
 		if(GenieVersion >= genie::GV_AoKA)
-		Name += " B"+lexical_cast<string>((bool)dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
+		Name += " B"+FormatFloat(dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
 		Name += " - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{

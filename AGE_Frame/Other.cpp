@@ -224,6 +224,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		case EV_Cysion: GenieVersion = genie::GV_Cysion; break;
 		case EV_SWGB: GenieVersion = genie::GV_SWGB; break;
 		case EV_CC: GenieVersion = genie::GV_CC; break;
+		case EV_EF: GenieVersion = genie::GV_CC; break;
 		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
 	}
 
@@ -1914,11 +1915,22 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     }
                     else if(GenieVersion == genie::GV_CC)
                     {
-                        FilesToRead.Add("\\gamedata_x1.drs");
-                        FilesToRead.Add("\\interfac_x1.drs");
-                        FilesToRead.Add("\\graphics_x1.drs");
-                        FilesToRead.Add("\\terrain_x1.drs");
-                        FilesToRead.Add("\\sounds_x1.drs");
+                        if(GameVersion == EV_EF)
+                        {
+                            FilesToRead.Add("\\gamedata_x2.drs");
+                            FilesToRead.Add("\\interfac_x2.drs");
+                            FilesToRead.Add("\\graphics_x2.drs");
+                            FilesToRead.Add("\\terrain_x2.drs");
+                            FilesToRead.Add("\\sounds_x2.drs");
+                        }
+                        else
+                        {
+                            FilesToRead.Add("\\gamedata_x1.drs");
+                            FilesToRead.Add("\\interfac_x1.drs");
+                            FilesToRead.Add("\\graphics_x1.drs");
+                            FilesToRead.Add("\\terrain_x1.drs");
+                            FilesToRead.Add("\\sounds_x1.drs");
+                        }
                     }
                     else if(GenieVersion == genie::GV_RoR)
                     {
