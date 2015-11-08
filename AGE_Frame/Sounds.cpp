@@ -597,7 +597,8 @@ void AGE_Frame::CreateSoundControls()
     soundTimer.Connect(soundTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundsTimer), NULL, this);
     soundFileTimer.Connect(soundFileTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundItemsTimer), NULL, this);
     allSoundFilesTimer.Connect(allSoundFilesTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnAllSoundFileTimer), NULL, this);
-	SoundItems_Name->Connect(SoundItems_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Sounds), NULL, this);
+    for(auto &box: uiGroupSoundFile)
+	box->Connect(box->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Sounds), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
