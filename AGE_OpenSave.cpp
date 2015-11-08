@@ -55,6 +55,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	CheckBox_GenieVer->Append("The Forgotten + The African Kingdoms > 12");
 	CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
 	CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
+	CheckBox_GenieVer->Append("Mod: Expanding Fronts");
 	CheckBox_GenieVer->SetSelection(EV_TC);
 	RecentText = new wxStaticText(slave, wxID_ANY, "      Recent paths:");
 	CheckBox_Recent = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
