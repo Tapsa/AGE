@@ -27,7 +27,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             OpenBox.RecentValues.resize(RecentItems);
             for(int i=0; i < RecentItems; ++i)
             {
-                OpenBox.RecentValues[i].Alloc(7);
+                OpenBox.RecentValues[i].Alloc(8);
                 wxString temp, entry = "Recent" + lexical_cast<string>(i + 1);
                 RecentOpen.Read(entry + "/DatVersion", &temp, "9000"); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/DatPath", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
@@ -36,6 +36,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
                 RecentOpen.Read(entry + "/LangX1P1", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/PathDRS", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/PathDRS2", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/PathDRS3", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
             }
 		}
 		if(OpenBox.RecentValues.size())
@@ -64,8 +65,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
 		OpenBox.Path_DRS->SetPath(FolderDRS);
 		OpenBox.Path_DRS2->SetPath(FolderDRS2);
+		OpenBox.Path_DRS3->SetPath(Path1stDRS);
 		OpenBox.CheckBox_DRSPath->SetValue(UseDRS);
 		OpenBox.CheckBox_DRSPath2->SetValue(UseMod);
+		OpenBox.CheckBox_DRSPath3->SetValue(UseExtra);
 		if((argPath).size() > 3)
 		{
 			OpenBox.ForceDat = true;
@@ -146,8 +149,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		LangX1P1FileName = OpenBox.Path_LangX1P1FileLocation->GetPath();
 		FolderDRS = OpenBox.Path_DRS->GetPath();
 		FolderDRS2 = OpenBox.Path_DRS2->GetPath();
+		Path1stDRS = OpenBox.Path_DRS3->GetPath();
 		UseDRS = OpenBox.CheckBox_DRSPath->GetValue();
 		UseMod = OpenBox.CheckBox_DRSPath2->GetValue();
+		UseExtra = OpenBox.CheckBox_DRSPath3->GetValue();
 		WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
 		LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
 
@@ -167,8 +172,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         Config.Write("DefaultFiles/DatFilename", DatFileName);
         Config.Write("DefaultFiles/FolderDRS", FolderDRS);
         Config.Write("DefaultFiles/FolderDRS2", FolderDRS2);
+        Config.Write("DefaultFiles/Path1stDRS", Path1stDRS);
         Config.Write("DefaultFiles/UseDRS", UseDRS);
         Config.Write("DefaultFiles/UseMod", UseMod);
+        Config.Write("DefaultFiles/UseExtra", UseExtra);
         Config.Write("DefaultFiles/LangsUsed", LangsUsed);
         Config.Write("DefaultFiles/WriteLangs", WriteLangs);
         Config.Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
@@ -184,7 +191,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		if(!OpenBox.CheckBox_LangX1P1FileLocation->IsChecked()) LangX1P1FileName = "";
 
         wxArrayString latest;
-        latest.Alloc(7);
+        latest.Alloc(8);
         latest.Add(lexical_cast<string>(GameVersion));
         latest.Add(DatFileName);
         latest.Add(LangFileName);
@@ -192,6 +199,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         latest.Add(LangX1P1FileName);
         latest.Add(FolderDRS);
         latest.Add(FolderDRS2);
+        latest.Add(Path1stDRS);
         int items = produceRecentValues(latest, OpenBox.RecentValues);
         wxFileConfig RecentSave("AGE", "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentSave.Write("Recent/Items", items);
@@ -205,6 +213,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             RecentSave.Write(entry + "/LangX1P1", OpenBox.RecentValues[i][4]);
             RecentSave.Write(entry + "/PathDRS", OpenBox.RecentValues[i][5]);
             RecentSave.Write(entry + "/PathDRS2", OpenBox.RecentValues[i][6]);
+            RecentSave.Write(entry + "/PathDRS3", OpenBox.RecentValues[i][7]);
         }
 	}
 
@@ -945,6 +954,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Units_SearchFilters[loop]->Clear();
 			Units_SearchFilters[loop]->Append("*Choose*");
 			Units_SearchFilters[loop]->Append(Type20);
+			Units_SearchFilters[loop]->Append(Type30);
+			Units_SearchFilters[loop]->Append(Type40);
+			Units_SearchFilters[loop]->Append(Type50);
+			Units_SearchFilters[loop]->Append(Type60);
+			Units_SearchFilters[loop]->Append(Type70);
+			Units_SearchFilters[loop]->Append(Type80);
 			Units_SearchFilters[loop]->SetSelection(0);
 
 			Research_SearchFilters[loop]->Clear();
@@ -1097,6 +1112,35 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 		Units_GraphicSet->Append("9 Ask Tapsa for more!");
 		Units_GraphicSet->SetSelection(0);
+
+        Effects_Type_ComboBox->Clear();
+        Effects_Type_ComboBox->Append("No Type/Invalid Type");	// Selection 0
+        Effects_Type_ComboBox->Append("0 - Attribute Modifier (Set)");	// Selection 1
+        Effects_Type_ComboBox->Append("1 - Resource Modifier (Set/+/-)");
+        Effects_Type_ComboBox->Append("2 - Enable/Disable Unit");
+        Effects_Type_ComboBox->Append("3 - Upgrade Unit");
+        Effects_Type_ComboBox->Append("4 - Attribute Modifier (+/-)");
+        Effects_Type_ComboBox->Append("5 - Attribute Modifier (Multiply)");
+        Effects_Type_ComboBox->Append("6 - Resource Modifier (Multiply)");
+        if(GenieVersion == genie::GV_Cysion)
+        {
+            Effects_Type_ComboBox->Append("10 - Team Attribute Modifier (Set)");	// Selection 8
+            Effects_Type_ComboBox->Append("11 - Team Resource Modifier (Set/+/-)");
+            Effects_Type_ComboBox->Append("12 - Team Enable/Disable Unit");
+            Effects_Type_ComboBox->Append("13 - Team Upgrade Unit");
+            Effects_Type_ComboBox->Append("14 - Team Attribute Modifier (+/-)");
+            Effects_Type_ComboBox->Append("15 - Team Attribute Modifier (Multiply)");
+            Effects_Type_ComboBox->Append("16 - Team Resource Modifier (Multiply)");
+        }
+        else
+        {
+            for(short loop = 10; loop < 17; ++loop)
+            Effects_Type_ComboBox->Append(lexical_cast<string>(loop) + " - AoK HD only");
+        }
+        Effects_Type_ComboBox->Append("101 - Research Cost Modifier (Set/+/-)");
+        Effects_Type_ComboBox->Append("102 - Disable Research");
+        Effects_Type_ComboBox->Append("103 - Research Time Modifier (Set/+/-)");	// Selection 17
+        Effects_Type_ComboBox->SetSelection(0);
 
 		DataOpened = true;
 		OnGameVersionChange();
@@ -1951,6 +1995,20 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         FilesToRead.Add("\\border.drs");
                     }
 
+                    if(UseExtra)
+                    {
+                        genie::DrsFile *topDRS = new genie::DrsFile();
+                        try
+                        {
+                            topDRS->setGameVersion(GenieVersion);
+                            topDRS->load(Path1stDRS.c_str());
+                            datafiles.push_back(topDRS);
+                        }
+                        catch(std::ios_base::failure e)
+                        {
+                            delete topDRS;
+                        }
+                    }
                     if(UseMod) addFilesToRead(FilesToRead, FolderDRS2);
                     addFilesToRead(FilesToRead, FolderDRS);
                     genie::PalFilePtr pal;
@@ -2674,22 +2732,6 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 {
 	if(event.GetId() == Units_FilterSelector->GetId())
 	{
-		for(short loop = 0; loop < 2; ++loop)
-		{
-			Units_SearchFilters[loop]->Clear();
-			Units_SearchFilters[loop]->Append("*Choose*");
-			switch(Units_FilterSelector->GetSelection())
-			{
-				case 0: Units_SearchFilters[loop]->Append(Type20); break;
-				case 1: Units_SearchFilters[loop]->Append(Type30); break;
-				case 2: Units_SearchFilters[loop]->Append(Type40); break;
-				case 3: Units_SearchFilters[loop]->Append(Type50); break;
-				case 4: Units_SearchFilters[loop]->Append(Type60); break;
-				case 5: Units_SearchFilters[loop]->Append(Type70); break;
-				case 6: Units_SearchFilters[loop]->Append(Type80); break;
-			}
-			Units_SearchFilters[loop]->SetSelection(0);
-		}
 		ListUnits(UnitCivID, false);
 		Units_Search->SetFocus();
 		return;

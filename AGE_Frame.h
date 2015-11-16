@@ -880,7 +880,7 @@ public:
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod;
+	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod, UseExtra;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List, AGEwindow;
 	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
@@ -888,7 +888,7 @@ public:
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion;
 	wxString DriveLetter, Language, CustomFolder;
-	wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2;
+	wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2, Path1stDRS;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
 	wxString LangCharset;
 	wxString LangFileName, LangX1FileName, LangX1P1FileName;
