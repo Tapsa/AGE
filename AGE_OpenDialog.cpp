@@ -25,8 +25,10 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
     CheckBox_DRSPath = new wxCheckBox(this, wxID_ANY, "Path for DRS files *");
     CheckBox_DRSPath->SetToolTip("Path to the folder containing all drs files/folders");
     CheckBox_DRSPath2 = new wxCheckBox(this, wxID_ANY, "Path for mod DRS files");
+    CheckBox_DRSPath3 = new wxCheckBox(this, wxID_ANY, "Extra 1st priority DRS file");
     Path_DRS = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS2 = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
+    Path_DRS3 = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DRS (*.drs)|*.drs", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 
 	Layout->Add(Text_GenieVer, 1, wxEXPAND);
 	Layout->Add(CheckBox_GenieVer, 1, wxEXPAND);
@@ -63,6 +65,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->Add(Path_DRS, 1, wxEXPAND);
 	Layout->Add(CheckBox_DRSPath2, 1, wxEXPAND);
 	Layout->Add(Path_DRS2, 1, wxEXPAND);
+	Layout->Add(CheckBox_DRSPath3, 1, wxEXPAND);
+	Layout->Add(Path_DRS3, 1, wxEXPAND);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
 
@@ -488,4 +492,5 @@ void AGE_OpenDialog::OnRecent(wxCommandEvent &event)
 	CheckBox_LangX1P1FileLocation->SetValue(RecentValues[sel][4].size());
     Path_DRS->SetPath(RecentValues[sel][5]);
     Path_DRS2->SetPath(RecentValues[sel][6]);
+    Path_DRS3->SetPath(RecentValues[sel][7]);
 }
