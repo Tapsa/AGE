@@ -217,60 +217,74 @@ string AGE_Frame::GetEffectName(int effect, int tech)
 	string Name = "";
 	switch(dataset->Techages[tech].Effects[effect].Type)
 	{
+		case 10:
+			Name = "Team ";
 		case 0:
 			//Name = "Attribute Modifier (Set)";
-			Name = "Set attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
+			Name += "Set attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
 			+" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D)+" for ";
 			if(dataset->Techages[tech].Effects[effect].B == -1)
 				Name += "unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
 			else
 				Name += "class "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
 			break;
+		case 11:
+			Name = "Team ";
 		case 1:
 			//Name = "Resource Modifier (Set/+/-)";
 			if(dataset->Techages[tech].Effects[effect].B == 0)
 			{
-				Name = "Set resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+				Name += "Set resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
 				+" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			}
 			else
 			{
-				Name = "Change resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+				Name += "Change resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
 				+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			}
 			break;
+		case 12:
+			Name = "Team ";
 		case 2:
 			if(dataset->Techages[tech].Effects[effect].B == 0)
-				Name = "Disable";
+				Name += "Disable";
 			else
-				Name = "Enable";
+				Name += "Enable";
 			Name += " unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
 			break;
+		case 13:
+			Name = "Team ";
 		case 3:
-			Name = "Upgrade unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+			Name += "Upgrade unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
 			+" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
 			break;
+		case 14:
+			Name = "Team ";
 		case 4:
 			//Name = "Attribute Modifier (+/-)";
-			Name = "Change attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
+			Name += "Change attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
 			+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D)+" for ";
 			if(dataset->Techages[tech].Effects[effect].B == -1)
 				Name += "unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
 			else
 				Name += "class "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
 			break;
+		case 15:
+			Name = "Team ";
 		case 5:
 			//Name = "Attribute Modifier (Multiply)";
-			Name = "Multiply attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
+			Name += "Multiply attr. "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].C)
 			+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D)+" for ";
 			if(dataset->Techages[tech].Effects[effect].B == -1)
 				Name += "unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
 			else
 				Name += "class "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
 			break;
+		case 16:
+			Name = "Team ";
 		case 6:
 			//Name = "Resource Modifier (Multiply)";
-			Name = "Multiply resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
+			Name += "Multiply resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
 			+" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			break;
 		case 101:
@@ -378,6 +392,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 		switch(EffectPointer->Type)
 		{
 			case 0:
+			case 10:
 			{
 				Effects_UnitsA_ComboBox->Show(true);	// for Effects 0, 2, 3, 4, 5
 				Effects_ResourcesA_ComboBox->Show(false);	// for Effects 1, 6
@@ -440,6 +455,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 			}
 			break;
 			case 1:
+			case 11:
 			{
 				Effects_UnitsA_ComboBox->Show(false);	// for Effects 0, 2, 3, 4, 5
 				Effects_ResourcesA_ComboBox->Show(true);	// for Effects 1, 6
@@ -482,6 +498,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 			}
 			break;
 			case 2:
+			case 12:
 			{
 				Effects_UnitsA_ComboBox->Show(true);	// for Effects 0, 2, 3, 4, 5
 				Effects_ResourcesA_ComboBox->Show(false);	// for Effects 1, 6
@@ -517,6 +534,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 			}
 			break;
 			case 3:
+			case 13:
 			{
 				Effects_UnitsA_ComboBox->Show(true);	// for Effects 0, 2, 3, 4, 5
 				Effects_ResourcesA_ComboBox->Show(false);	// for Effects 1, 6
@@ -552,6 +570,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 			}
 			break;
 			case 4:
+			case 14:
 			{
 				Effects_UnitsA_ComboBox->Show(true);	// for Effects 0, 2, 3, 4, 5
 				Effects_ResourcesA_ComboBox->Show(false);	// for Effects 1, 6
@@ -614,6 +633,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 			}
 			break;
 			case 5:
+			case 15:
 			{
 				Effects_UnitsA_ComboBox->Show(true);	// for Effects 0, 2, 3, 4, 5
 				Effects_ResourcesA_ComboBox->Show(false);	// for Effects 1, 6
@@ -676,6 +696,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 			}
 			break;
 			case 6:
+			case 16:
 			{
 				Effects_UnitsA_ComboBox->Show(false);	// for Effects 0, 2, 3, 4, 5
 				Effects_ResourcesA_ComboBox->Show(true);	// for Effects 1, 6
@@ -1154,19 +1175,6 @@ void AGE_Frame::CreateTechControls()
 	Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));
 	Techs_AllEffects_Clear = new wxButton(Tab_Techs, wxID_ANY, "Clear *", wxDefaultPosition, wxSize(5, 20));
 	Techs_AllEffects_Clear->SetToolTip("Clear the modified search texts");
-
-	Effects_Type_ComboBox->Append("No Type/Invalid Type");	// Selection 0
-	Effects_Type_ComboBox->Append("0 - Attribute Modifier (Set)");	// Selection 1
-	Effects_Type_ComboBox->Append("1 - Resource Modifier (Set/+/-)");
-	Effects_Type_ComboBox->Append("2 - Enable/Disable Unit");
-	Effects_Type_ComboBox->Append("3 - Upgrade Unit");
-	Effects_Type_ComboBox->Append("4 - Attribute Modifier (+/-)");
-	Effects_Type_ComboBox->Append("5 - Attribute Modifier (Multiply)");
-	Effects_Type_ComboBox->Append("6 - Resource Modifier (Multiply)");
-	Effects_Type_ComboBox->Append("101 - Research Cost Modifier (Set/+/-)");
-	Effects_Type_ComboBox->Append("102 - Disable Research");
-	Effects_Type_ComboBox->Append("103 - Research Time Modifier (Set/+/-)");	// Selection 10
-	Effects_Type_ComboBox->SetSelection(0);
 
 	Techs_Buttons->Add(Techs_Add, 1, wxEXPAND);
 	Techs_Buttons->Add(Techs_Delete, 1, wxEXPAND);

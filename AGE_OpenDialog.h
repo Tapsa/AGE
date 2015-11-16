@@ -34,11 +34,11 @@ public:
 	wxCheckBox *Radio_DatFileLocation;
 	wxCheckBox *CheckBox_LangWriteToLatest;
 	wxButton *Button_RawDecompress;
-	wxFilePickerCtrl *Path_RawDecompress;
+	wxFilePickerCtrl *Path_RawDecompress, *Path_DRS3;
 	wxStaticText *TerrainsText;
 	wxTextCtrl *TerrainsBox;
     wxStaticText *DRSPath;
-    wxCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2;
+    wxCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2, *CheckBox_DRSPath3;
     wxDirPickerCtrl *Path_DRS, *Path_DRS2;
 };
 
