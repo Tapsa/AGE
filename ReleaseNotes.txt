@@ -12,10 +12,14 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.11.16[/b]:
+-Added an option to load one extra first priority DRS file.
+-Updated techs tab for team effects.
+-All unit filters combined.
+
 Version [b]2015.11.5[/b]:
 -Updates for The African Kingdoms.
 -Only last language file gets saved if only it was edited.
--I plan to improve mod DRS reading soon.
 
 Version [b]2015.10.16[/b]:
 -Bugfix: Language strings are shown again for buildings.
