@@ -24,8 +24,8 @@ void AGE_Frame::ListSounds(bool all)
 
 void AGE_Frame::InitSounds(bool all)
 {
-	searchText = Sounds_Sounds_Search->GetValue().Lower();
-	excludeText = Sounds_Sounds_Search_R->GetValue().Lower();
+	searchText = Sounds_Sounds_Search->GetValue().MakeLower();
+	excludeText = Sounds_Sounds_Search_R->GetValue().MakeLower();
 
 	Sounds_Sounds_ListV->names.clear();
 	Sounds_Sounds_ListV->indexes.clear();
@@ -68,9 +68,9 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 		SoundPointer = &dataset->Sounds[SoundIDs[loop]];
 
 		Sounds_ID->prepend(&SoundPointer->ID);
-		Sounds_Unknown1->prepend(&SoundPointer->Unknown1);
+		Sounds_Unknown1->prepend(&SoundPointer->PlayAtUpdateCount);
 		if(GenieVersion >= genie::GV_TEST)
-		Sounds_Unknown2->prepend(&SoundPointer->Unknown2);
+		Sounds_Unknown2->prepend(&SoundPointer->CacheTime);
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs[0]), 0);
 
@@ -169,10 +169,10 @@ string AGE_Frame::GetSoundItemName(int item, int set)
 			if(GenieVersion >= genie::GV_AoKA)
 			{
 			case 3: // Civilization
-				Name += "C "+lexical_cast<string>(dataset->Sounds[set].Items[item].Civ);
+				Name += "C "+lexical_cast<string>(dataset->Sounds[set].Items[item].Culture);
 				break;
 			case 4: // Unknown
-				Name += "U "+lexical_cast<string>(dataset->Sounds[set].Items[item].Unknown1);
+				Name += "U "+lexical_cast<string>(dataset->Sounds[set].Items[item].PlayerID);
 				break;
 			}
 		}
@@ -199,8 +199,8 @@ void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListSoundItems()
 {
-	searchText = Sounds_Items_Search->GetValue().Lower();
-	excludeText = Sounds_Items_Search_R->GetValue().Lower();
+	searchText = Sounds_Items_Search->GetValue().MakeLower();
+	excludeText = Sounds_Items_Search_R->GetValue().MakeLower();
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Sounds_Items_UseAnd[loop]->GetValue();
 
@@ -252,8 +252,8 @@ void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
 			SoundItems_Probability->prepend(&SoundItemPointer->Probability);
 			if(GenieVersion >= genie::GV_AoKA)
 			{
-				SoundItems_Civ->prepend(&SoundItemPointer->Civ);
-				SoundItems_Unknown->prepend(&SoundItemPointer->Unknown1);
+				SoundItems_Civ->prepend(&SoundItemPointer->Culture);
+				SoundItems_Unknown->prepend(&SoundItemPointer->PlayerID);
 			}
 		}
 	}
@@ -341,8 +341,8 @@ void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &event)
 void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 {
 	wxString Name;
-	searchText = Sounds_AllItems_Search->GetValue().Lower();
-	excludeText = Sounds_AllItems_Search_R->GetValue().Lower();
+	searchText = Sounds_AllItems_Search->GetValue().MakeLower();
+	excludeText = Sounds_AllItems_Search_R->GetValue().MakeLower();
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Sounds_AllItems_UseAnd[loop]->GetValue();
 
@@ -430,10 +430,10 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_ID_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_ID = AGETextCtrl::init(CShort, &uiGroupSound, this, AGEwindow, Tab_Sounds);
 	Sounds_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-	Sounds_Unknown1_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 1", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Unknown1_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Play at Update Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_Unknown1 = AGETextCtrl::init(CShort, &uiGroupSound, this, AGEwindow, Tab_Sounds);
 	Sounds_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-	Sounds_Unknown2_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound Unknown 2", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Sounds_Unknown2_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Cache Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_Unknown2 = AGETextCtrl::init(CLong, &uiGroupSound, this, AGEwindow, Tab_Sounds);
 
 	SoundItems_Name_Holder = new wxBoxSizer(wxVERTICAL);
@@ -451,7 +451,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
 	CivComboBoxList.push_back(SoundItems_Civ_ComboBox);
 	SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
-	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Unknown", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Player ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 	wxSizer *SoundFile_Holder = new wxBoxSizer(wxHORIZONTAL);
     SoundFile_Loop = new wxCheckBox(Tab_Sounds, wxID_ANY, "Loop");

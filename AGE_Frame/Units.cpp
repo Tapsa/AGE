@@ -264,8 +264,8 @@ void AGE_Frame::ListUnits(short civ, bool all)
 
 void AGE_Frame::InitUnits(short civ, bool all)
 {
-	searchText = Units_Search->GetValue().Lower();
-	excludeText = Units_Search_R->GetValue().Lower();
+	searchText = Units_Search->GetValue().MakeLower();
+	excludeText = Units_Search_R->GetValue().MakeLower();
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Units_UseAnd[loop]->GetValue();
 
@@ -863,7 +863,7 @@ CHOOSE_NORMAL:
 void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY, int apply)
 {
     if(unitID >= dataset->Civs[UnitCivID].Units.size()) return;
-    unsigned int unitGraphic;
+    unsigned int unitGraphic = -1;
     switch(apply)
     {
         case 0: unitGraphic = loadChosenGraphic(unitID); break;
@@ -1573,8 +1573,8 @@ void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitDamageGraphics()
 {
-	searchText = Units_DamageGraphics_Search->GetValue().Lower();
-	excludeText = Units_DamageGraphics_Search_R->GetValue().Lower();
+	searchText = Units_DamageGraphics_Search->GetValue().MakeLower();
+	excludeText = Units_DamageGraphics_Search_R->GetValue().MakeLower();
 
     Units_DamageGraphics_ListV->names.clear();
     Units_DamageGraphics_ListV->indexes.clear();
@@ -1865,8 +1865,8 @@ void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitAttacks()
 {
-	searchText = Units_Attacks_Search->GetValue().Lower();
-	excludeText = Units_Attacks_Search_R->GetValue().Lower();
+	searchText = Units_Attacks_Search->GetValue().MakeLower();
+	excludeText = Units_Attacks_Search_R->GetValue().MakeLower();
 
     Units_Attacks_ListV->names.clear();
     Units_Attacks_ListV->indexes.clear();
@@ -2152,8 +2152,8 @@ void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitArmors()
 {
-	searchText = Units_Armors_Search->GetValue().Lower();
-	excludeText = Units_Armors_Search_R->GetValue().Lower();
+	searchText = Units_Armors_Search->GetValue().MakeLower();
+	excludeText = Units_Armors_Search_R->GetValue().MakeLower();
 
 	Units_Armors_ListV->names.clear();
     Units_Armors_ListV->indexes.clear();
@@ -2497,8 +2497,8 @@ void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitCommands()
 {
-	searchText = Units_UnitCommands_Search->GetValue().Lower();
-	excludeText = Units_UnitCommands_Search_R->GetValue().Lower();
+	searchText = Units_UnitCommands_Search->GetValue().MakeLower();
+	excludeText = Units_UnitCommands_Search_R->GetValue().MakeLower();
 
 	Units_UnitCommands_ListV->names.clear();
     Units_UnitCommands_ListV->indexes.clear();
