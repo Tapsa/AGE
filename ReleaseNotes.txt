@@ -12,6 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.11.18[/b]:
+-Terrain restriction names customizable.
+-Updates for Age of Empires 1.
+
 Version [b]2015.11.16[/b]:
 -Added an option to load one extra first priority DRS file.
 -Updated techs tab for team effects.

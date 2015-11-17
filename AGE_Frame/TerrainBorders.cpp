@@ -22,8 +22,8 @@ void AGE_Frame::ListTerrainBorders(bool all)
 
 void AGE_Frame::InitTerrainBorders(bool all)
 {
-	searchText = Borders_Search->GetValue().Lower();
-	excludeText = Borders_Search_R->GetValue().Lower();
+	searchText = Borders_Search->GetValue().MakeLower();
+	excludeText = Borders_Search_R->GetValue().MakeLower();
 
 	Borders_ListV->names.clear();
 	Borders_ListV->indexes.clear();
@@ -151,8 +151,8 @@ void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTerrainBorderFrames()
 {
-	searchText = Borders_Frames_Search->GetValue().Lower();
-	excludeText = Borders_Frames_Search_R->GetValue().Lower();
+	searchText = Borders_Frames_Search->GetValue().MakeLower();
+	excludeText = Borders_Frames_Search_R->GetValue().MakeLower();
 
 	Borders_Frames_ListV->names.clear();
 	Borders_Frames_ListV->indexes.clear();

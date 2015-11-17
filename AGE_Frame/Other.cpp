@@ -548,7 +548,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			AGE_AreaTT84::ages.Add("Post-Imperial Age");
 		}
 
-		wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors;
+		wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors, DefAoE1TerrainRests, DefAoE2TerrainRests, DefSWGBTerrainRests;
 		// AoE & RoR
 		DefAoE1Armors.Add("0 - Stone Defense & Fire Galley");
 		DefAoE1Armors.Add("1 - Stone Defense & Archers");
@@ -563,6 +563,17 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		DefAoE1Armors.Add("10 - Stone Defense");
 		DefAoE1Armors.Add("11 - Unused");
 		DefAoE1Armors.Add("12 - Villagers & Gazelles & Medusa");
+        DefAoE1TerrainRests.Add("Land + water");
+        DefAoE1TerrainRests.Add("Land");
+        DefAoE1TerrainRests.Add("Beach");
+        DefAoE1TerrainRests.Add("Water");
+        DefAoE1TerrainRests.Add("Land");
+        DefAoE1TerrainRests.Add("Nothing");
+        DefAoE1TerrainRests.Add("Water + beach");
+        DefAoE1TerrainRests.Add("Land + shallows");
+        DefAoE1TerrainRests.Add("Plain");
+        DefAoE1TerrainRests.Add("Land - dirt");
+        DefAoE1TerrainRests.Add("Land + beach");
 		// AoK & TC
 		DefAoE2Armors.Add("0 - Unused");
 		DefAoE2Armors.Add("1 - Infantry");	// Selection 2
@@ -595,6 +606,28 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		DefAoE2Armors.Add("28 - Cavalry Archers");
 		DefAoE2Armors.Add("29 - Eagle Warriors");
 		DefAoE2Armors.Add("30 - HD Camels");
+		DefAoE2TerrainRests.Add("All");
+		DefAoE2TerrainRests.Add("Land + shallows");
+		DefAoE2TerrainRests.Add("Beach");
+		DefAoE2TerrainRests.Add("Water");
+		DefAoE2TerrainRests.Add("Land");
+		DefAoE2TerrainRests.Add("Nothing");
+		DefAoE2TerrainRests.Add("Water");
+		DefAoE2TerrainRests.Add("All - water");
+		DefAoE2TerrainRests.Add("Land - farm");
+		DefAoE2TerrainRests.Add("Nothing");
+		DefAoE2TerrainRests.Add("Land + beach");
+		DefAoE2TerrainRests.Add("Land - farm");
+		DefAoE2TerrainRests.Add("All - water bridge");
+		DefAoE2TerrainRests.Add("Water");
+		DefAoE2TerrainRests.Add("All - water bridge");
+		DefAoE2TerrainRests.Add("Water");
+		DefAoE2TerrainRests.Add("Grass + beach");
+		DefAoE2TerrainRests.Add("Water (+bridge) - beach");
+		DefAoE2TerrainRests.Add("All - water bridge");
+		DefAoE2TerrainRests.Add("Only water + ice");
+		DefAoE2TerrainRests.Add("All - water");
+		DefAoE2TerrainRests.Add("Shallow water");
 		// SWGB & CC
 		DefSWGBArmors.Add("0 - Aircraft");	// Selection 1
 		// Airspeeder
@@ -749,15 +782,54 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		// Tauntaun
 		// Cu-pa
 		// Womp Rat
+		DefSWGBTerrainRests.Add("All");
+		DefSWGBTerrainRests.Add("Land + unbuildable");
+		DefSWGBTerrainRests.Add("Shore");
+		DefSWGBTerrainRests.Add("Water");
+		DefSWGBTerrainRests.Add("Land");
+		DefSWGBTerrainRests.Add("Land + shore, impassable water");
+		DefSWGBTerrainRests.Add("Water + ice2 - swamp");
+		DefSWGBTerrainRests.Add("Land - water, lava");
+		DefSWGBTerrainRests.Add("Land - water, lava, farm");
+		DefSWGBTerrainRests.Add("Only water");
+		DefSWGBTerrainRests.Add("Land - shore");
+		DefSWGBTerrainRests.Add("Land - water, lava, farm");
+		DefSWGBTerrainRests.Add("All - lava");
+		DefSWGBTerrainRests.Add("Water");
+		DefSWGBTerrainRests.Add("All - lava");
+		DefSWGBTerrainRests.Add("Land + shore, impassable water");
+		DefSWGBTerrainRests.Add("Grass + shore");
+		DefSWGBTerrainRests.Add("Water - shore + impassable water");
+		DefSWGBTerrainRests.Add("All - impassable water, lava");
+		DefSWGBTerrainRests.Add("Land + shore, impassable water");
+		DefSWGBTerrainRests.Add("Land + shore, impassable water");
+		DefSWGBTerrainRests.Add("Water - deep water");
+		DefSWGBTerrainRests.Add("All - impassable water, lava");
+		DefSWGBTerrainRests.Add("No restriction");
+		DefSWGBTerrainRests.Add("Only water");
+		DefSWGBTerrainRests.Add("Land + shore, impassable water");
+		DefSWGBTerrainRests.Add("Land + shore, impassable water");
+		DefSWGBTerrainRests.Add("Deep water");
+		DefSWGBTerrainRests.Add("Wasteland");
+		DefSWGBTerrainRests.Add("Ice");
+		DefSWGBTerrainRests.Add("Lava");
+		DefSWGBTerrainRests.Add("Water2");
+		DefSWGBTerrainRests.Add("Rock4");
 
         wxFileConfig Customs("AGE", "Tapsa", "age2armornames.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        long AoE1Count, AoE2Count, SWGBCount;
+        long AoE1Count, AoE2Count, SWGBCount, AoE1CountTR, AoE2CountTR, SWGBCountTR;
         if(!Customs.Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
             Customs.Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
         if(!Customs.Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
             Customs.Write("Count/AoE2Count", (int)DefAoE2Armors.GetCount());
         if(!Customs.Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
             Customs.Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
+        if(!Customs.Read("Count/AoE1TerrainRestrictionCount", &AoE1CountTR, DefAoE1TerrainRests.GetCount()))
+            Customs.Write("Count/AoE1TerrainRestrictionCount", (int)DefAoE1TerrainRests.GetCount());
+        if(!Customs.Read("Count/AoE2TerrainRestrictionCount", &AoE2CountTR, DefAoE2TerrainRests.GetCount()))
+            Customs.Write("Count/AoE2TerrainRestrictionCount", (int)DefAoE2TerrainRests.GetCount());
+        if(!Customs.Read("Count/SWGBTerrainRestrictionCount", &SWGBCountTR, DefSWGBTerrainRests.GetCount()))
+            Customs.Write("Count/SWGBTerrainRestrictionCount", (int)DefSWGBTerrainRests.GetCount());
         wxArrayString AoE1Armors, AoE2Armors, SWGBArmors;
         for(short loop = 0; loop < AoE1Count; ++loop)
         {
@@ -779,6 +851,27 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBArmors[loop]))
                 Customs.Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
             SWGBArmors.Add(MoveHolder);
+        }
+        for(short loop = 0; loop < AoE1CountTR; ++loop)
+        {
+            wxString MoveHolder;
+            if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1TerrainRests[loop]))
+                Customs.Write("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE1TerrainRests[loop]);
+            AoE1TerrainRestrictions.Add(MoveHolder);
+        }
+        for(short loop = 0; loop < AoE2CountTR; ++loop)
+        {
+            wxString MoveHolder;
+            if(!Customs.Read("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2TerrainRests[loop]))
+                Customs.Write("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE2TerrainRests[loop]);
+            AoE2TerrainRestrictions.Add(MoveHolder);
+        }
+        for(short loop = 0; loop < SWGBCountTR; ++loop)
+        {
+            wxString MoveHolder;
+            if(!Customs.Read("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBTerrainRests[loop]))
+                Customs.Write("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), DefSWGBTerrainRests[loop]);
+            SWGBTerrainRestrictions.Add(MoveHolder);
         }
 
 		for(short loop = 0; loop < 3; ++loop)
@@ -1137,9 +1230,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             for(short loop = 10; loop < 17; ++loop)
             Effects_Type_ComboBox->Append(lexical_cast<string>(loop) + " - AoK HD only");
         }
-        Effects_Type_ComboBox->Append("101 - Research Cost Modifier (Set/+/-)");
+        if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("101 - AoK+ only");
+        else Effects_Type_ComboBox->Append("101 - Research Cost Modifier (Set/+/-)");
         Effects_Type_ComboBox->Append("102 - Disable Research");
-        Effects_Type_ComboBox->Append("103 - Research Time Modifier (Set/+/-)");	// Selection 17
+        if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("103 - AoK+ only");
+        else Effects_Type_ComboBox->Append("103 - Research Time Modifier (Set/+/-)");	// Selection 17
         Effects_Type_ComboBox->SetSelection(0);
 
 		DataOpened = true;
@@ -2230,7 +2325,7 @@ int AGE_Frame::produceRecentValues(wxArrayString &latest, vector<wxArrayString> 
     return RecentItems;
 }
 
-void AGE_Frame::loadPalette(wxString folder)
+void AGE_Frame::loadPalette(const wxString &folder)
 {
     if(folder.empty()) return;
     if(!wxDir::Exists(folder)) return;
@@ -2244,7 +2339,7 @@ void AGE_Frame::loadPalette(wxString folder)
     catch(std::ios_base::failure e){}
 }
 
-void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString folder)
+void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString &folder)
 {
     if(folder.empty() || !wxDir::Exists(folder)) return;
     for(int i=0; i < files.size(); ++i)
@@ -2272,7 +2367,7 @@ void AGE_Frame::addSLPFolders4SLPs(wxArrayString &folders, wxString folder)
     folders.Add(folder + "\\");
 }
 
-void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, wxString folder)
+void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, const wxString &folder)
 {
     if(folder.empty()) return;
     if(wxDir::Exists(folder + "\\gamedata_x2"))
@@ -2558,7 +2653,7 @@ bool AGE_Frame::FileExists(const char * value)
 	return false;
 }*/
 
-void AGE_Frame::LoadTXT(wxString &filename)
+void AGE_Frame::LoadTXT(const wxString &filename)
 {
     ifstream infile(filename);
     string line;

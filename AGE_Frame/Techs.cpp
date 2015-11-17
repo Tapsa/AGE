@@ -86,8 +86,8 @@ void AGE_Frame::ListTechs(bool all)
 
 void AGE_Frame::InitTechs(bool all)
 {
-	searchText = Techs_Search->GetValue().Lower();
-	excludeText = Techs_Search_R->GetValue().Lower();
+	searchText = Techs_Search->GetValue().MakeLower();
+	excludeText = Techs_Search_R->GetValue().MakeLower();
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_UseAnd[loop]->GetValue();
 
@@ -332,8 +332,8 @@ void AGE_Frame::OnEffectsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListEffects()
 {
-	searchText = Techs_Effects_Search->GetValue().Lower();
-	excludeText = Techs_Effects_Search_R->GetValue().Lower();
+	searchText = Techs_Effects_Search->GetValue().MakeLower();
+	excludeText = Techs_Effects_Search_R->GetValue().MakeLower();
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 
@@ -1010,8 +1010,8 @@ void AGE_Frame::OnEffectsCopyToTechs(wxCommandEvent &event)
 void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
 {
 	wxString Name;
-	searchText = Techs_AllEffects_Search->GetValue().Lower();
-	excludeText = Techs_AllEffects_Search_R->GetValue().Lower();
+	searchText = Techs_AllEffects_Search->GetValue().MakeLower();
+	excludeText = Techs_AllEffects_Search_R->GetValue().MakeLower();
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
