@@ -1,113 +1,25 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetTerrainRestrictionName(int index)
+wxString AGE_Frame::GetTerrainRestrictionName(int index)
 {
-	switch(GenieVersion)
-	{
-		case genie::GV_SWGB:
-		case genie::GV_CC:
-		{
-			switch(index)
-			{
-				case 30: return "Lava";
-				case 31: return "Water2";
-				case 32: return "Rock4";
-				case 0: return "All";
-				case 1: return "Land + unbuildable";
-				case 2: return "Shore";
-				case 3: return "Water";
-				case 4: return "Land";
-				case 5: return "Land + shore, impassable water";
-				case 6: return "Water + ice2 - swamp";
-				case 7: return "Land - water, lava";
-				case 8: return "Land - water, lava, farm";
-				case 9: return "Only water";
-				case 10: return "Land - shore";
-				case 11: return "Land - water, lava, farm";
-				case 12: return "All - lava";
-				case 13: return "Water";
-				case 14: return "All - lava";
-				case 15: return "Land + shore, impassable water";
-				case 16: return "Grass + shore";
-				case 17: return "Water - shore + impassable water";
-				case 18: return "All - impassable water, lava";
-				case 19: return "Land + shore, impassable water";
-				case 20: return "Land + shore, impassable water";
-				case 21: return "Water - deep water";
-				case 22: return "All - impassable water, lava";
-				case 23: return "No restriction";
-				case 24: return "Only water";
-				case 25: return "Land + shore, impassable water";
-				case 26: return "Land + shore, impassable water";
-				case 27: return "Deep water";
-				case 28: return "Wasteland";
-				case 29: return "Ice";
-				default: return "Restriction";
-			}
-		}
-		case genie::GV_TC:
-		case genie::GV_Cysion:
-		{
-			switch(index)
-			{
-				case 20: return "All - water";
-				case 21: return "Shallow water";
-			}
-		}
-		case genie::GV_AoK:
-		case genie::GV_AoKB:
-		case genie::GV_AoKA:
-		{
-			switch(index)
-			{
-				case 0: return "All";
-				case 1: return "Land + shallows";
-				case 2: return "Beach";
-				case 3: return "Water";
-				case 4: return "Land";
-				case 5: return "Nothing";
-				case 6: return "Water";
-				case 7: return "All - water";
-				case 8: return "Land - farm";
-				case 9: return "Nothing";
-				case 10: return "Land + beach";
-				case 11: return "Land - farm";
-				case 12: return "All - water bridge";
-				case 13: return "Water";
-				case 14: return "All - water bridge";
-				case 15: return "Water";
-				case 16: return "Grass + beach";
-				case 17: return "Water (+bridge) - beach";
-				case 18: return "All - water bridge";
-				case 19: return "Only water + ice";
-				default: return "Restriction";
-			}
-		}
-		case genie::GV_AoE:
-		case genie::GV_AoEB:
-		case genie::GV_MATT:
-		case genie::GV_DAVE:
-		case genie::GV_TEST:
-		{
-			switch(index)
-			{
-				case 0: return "Land + water";
-				case 1: return "Land";
-				case 2: return "Beach";
-				case 3: return "Water";
-				case 4: return "Land";
-				case 5: return "Nothing";
-				case 6: return "Water + beach";
-				case 7: return "Land + shallows";
-				case 8: return "Plain";
-				case 9: return "Land - dirt";
-				case 10: return "Land + beach";
-				default: return "Restriction";
-			}
-		}
-		// Unknown game version
-		default: return "Restriction";
-	}
+    if(GenieVersion < genie::GV_AoKA)
+    {
+        if(index < AoE1TerrainRestrictions.size())
+            return AoE1TerrainRestrictions[index];
+        else return "Restriction";
+    }
+    else if(GenieVersion < genie::GV_SWGB)
+    {
+        if(index < AoE2TerrainRestrictions.size())
+            return AoE2TerrainRestrictions[index];
+        else return "Restriction";
+    }
+    else
+    {
+        if(index < SWGBTerrainRestrictions.size())
+            return SWGBTerrainRestrictions[index];
+        else return "Restriction";
+    }
 }
 
 void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &event)
@@ -125,8 +37,8 @@ void AGE_Frame::ListTerrainRestrictions(bool all)
 
 void AGE_Frame::InitTerrainRestrictions(bool all)
 {
-	searchText = TerRestrict_TerRestrict_Search->GetValue().Lower();
-	excludeText = TerRestrict_TerRestrict_Search_R->GetValue().Lower();
+	searchText = TerRestrict_TerRestrict_Search->GetValue().MakeLower();
+	excludeText = TerRestrict_TerRestrict_Search_R->GetValue().MakeLower();
 
 	TerRestrict_TerRestrict_ListV->names.clear();
 	TerRestrict_TerRestrict_ListV->indexes.clear();
@@ -389,7 +301,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Unknown1 = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
 	TerRestrict_Unknown1_CheckBox = new CheckBox_ZeroIsYes(Tab_TerrainRestrictions, "No", TerRestrict_Unknown1);
 	TerRestrict_Graphics_Holder = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Graphics_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Graphics", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Graphics_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Sprites", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Graphics[0] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
 	TerRestrict_Graphics_ComboBox[0] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[0]);
 	GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[0]);

@@ -23,8 +23,8 @@ void AGE_Frame::ListCivs(bool all)
 
 void AGE_Frame::InitCivs(bool all)
 {
-	searchText = Civs_Civs_Search->GetValue().Lower();
-	excludeText = Civs_Civs_Search_R->GetValue().Lower();
+	searchText = Civs_Civs_Search->GetValue().MakeLower();
+	excludeText = Civs_Civs_Search_R->GetValue().MakeLower();
 
 	Civs_Civs_ListV->names.clear();
 	Civs_Civs_ListV->indexes.clear();
@@ -257,7 +257,9 @@ string AGE_Frame::GetResourceName(int index)
 		case 5: Name = "Conversion Range"; break;
 		case 6: Name = "Current Age"; break;
 		case 7:
-			if(GenieVersion < genie::GV_SWGB)
+			if(GenieVersion < genie::GV_AoKA)
+			Name = "Artifacts Captured";
+			else if(GenieVersion < genie::GV_SWGB)
 			Name = "Relics Captured";
 			else
 			Name = "Holocrons Captured";
@@ -288,18 +290,29 @@ string AGE_Frame::GetResourceName(int index)
 		case 21: Name = "Research Count"; break;
 		case 22: Name = "% Map Explored"; break;
 		case 23:
-			if(GenieVersion < genie::GV_SWGB)
+			if(GenieVersion < genie::GV_AoKA)
+			Name = "Bronze Age tech index";
+			else if(GenieVersion < genie::GV_SWGB)
 			Name = "Castle Age tech index";
 			else
 			Name = "Submarine Detection";
 			break;
 		case 24:
-			if(GenieVersion < genie::GV_SWGB)
+			if(GenieVersion < genie::GV_AoKA)
+			Name = "Iron Age tech index";
+			else if(GenieVersion < genie::GV_SWGB)
 			Name = "Imperial Age tech index";
 			else
 			Name = "Shield Generator Range";
 			break;
-		case 25: Name = "Feudal Age tech index"; break;
+		case 25:
+			if(GenieVersion < genie::GV_AoKA)
+			Name = "Tool Age tech index";
+			else if(GenieVersion < genie::GV_SWGB)
+            Name = "Feudal Age tech index";
+			else
+			Name = "Unknown";
+            break;
 		case 26:
 			if(GenieVersion < genie::GV_SWGB)
 			Name = "Attack Warning Sound ID";
@@ -307,7 +320,9 @@ string AGE_Frame::GetResourceName(int index)
 			Name = "Shields' Drop Off Time";
 			break;
 		case 27:
-			if(GenieVersion < genie::GV_SWGB)
+			if(GenieVersion < genie::GV_AoKA)
+			Name = "Enable Priest Conversion";
+			else if(GenieVersion < genie::GV_SWGB)
 			Name = "Enable Monk Conversion";
 			else
 			Name = "Enable Jedi Conversion";
@@ -668,8 +683,8 @@ void AGE_Frame::OnResourcesSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListResources(bool all)
 {
-	searchText = Civs_Resources_Search->GetValue().Lower();
-	excludeText = Civs_Resources_Search_R->GetValue().Lower();
+	searchText = Civs_Resources_Search->GetValue().MakeLower();
+	excludeText = Civs_Resources_Search_R->GetValue().MakeLower();
 
 	Civs_Resources_ListV->names.clear();
 	Civs_Resources_ListV->indexes.clear();
@@ -841,9 +856,9 @@ void AGE_Frame::CreateCivControls()
 	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2");
 	Civs_Name[1] = AGETextCtrl::init(CString, &uiGroupCiv, this, AGEwindow, Tab_Civs, 20);
 	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = AGETextCtrl::init(CByte, &uiGroupCiv, this, AGEwindow, Tab_Civs);
-	//Civs_GraphicSet->SetToolTip("Building icon set and trade cart graphics\nThis doesn't change other graphics\n6+ seems to crash/bug the game");
+	Civs_GraphicSet->SetToolTip("Building icon set (and trade cart graphics?)\nThis is actually an offset used to look up SLPs inside the DRS file\nAoE 1: also determines the interface graphics used\nStar Wars: also determines unit and tech icons");
 	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = AGETextCtrl::init(CByte, &uiGroupCiv, this, AGEwindow, Tab_Civs);

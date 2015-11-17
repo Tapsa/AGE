@@ -136,6 +136,7 @@ public:
 	wxString FormatInt(int);
 	wxString CurrentTime();
 	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
+    wxArrayString AoE1TerrainRestrictions, AoE2TerrainRestrictions, SWGBTerrainRestrictions;
 	int FindItem(wxArrayInt &selections, int find, int min, int max);
 	void SwapSelection(int last, wxArrayInt &selections);
 	void SaveBackup();
@@ -172,9 +173,9 @@ public:
     void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);
     void DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY);
 	void OnGraphicErase(wxEraseEvent &event);
-    void loadPalette(wxString folder);
-    void addFilesToRead(const wxArrayString &files, const wxString folder);
-    void addDRSFolders4SLPs(wxArrayString &folders, wxString folder);
+    void loadPalette(const wxString &folder);
+    void addFilesToRead(const wxArrayString &files, const wxString &folder);
+    void addDRSFolders4SLPs(wxArrayString &folders, const wxString &folder);
     void addSLPFolders4SLPs(wxArrayString &folders, wxString folder);
     void setForeAndBackColors(AGETextCtrl* box, wxColour color);
 	void OnChooseGraphic(wxCommandEvent &event);
@@ -760,7 +761,7 @@ public:
 	void OnTerrainRestrictionsPasteInsert(wxCommandEvent &event);
 	void OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event);
 	void OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event);
-	string GetTerrainRestrictionName(int);
+	wxString GetTerrainRestrictionName(int);
 
 //	Sound Events
 
@@ -899,7 +900,7 @@ public:
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
     bool playerColorToAlpha;
-    void LoadTXT(wxString &filename);
+    void LoadTXT(const wxString &filename);
     void LoadSLPFrame(AGE_SLP*);
     void SLPtoBitMap(AGE_SLP*);
     void BitMaptoSLP(AGE_SLP*);
