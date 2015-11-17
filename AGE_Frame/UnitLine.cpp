@@ -22,8 +22,8 @@ void AGE_Frame::ListUnitLines()
 
 void AGE_Frame::InitUnitLines()
 {
-	searchText = UnitLines_UnitLines_Search->GetValue().Lower();
-	excludeText = UnitLines_UnitLines_Search_R->GetValue().Lower();
+	searchText = UnitLines_UnitLines_Search->GetValue().MakeLower();
+	excludeText = UnitLines_UnitLines_Search_R->GetValue().MakeLower();
 
 	UnitLines_UnitLines_ListV->names.clear();
 	UnitLines_UnitLines_ListV->indexes.clear();
@@ -174,8 +174,8 @@ void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitLineUnits()
 {
-	searchText = UnitLines_UnitLineUnits_Search->GetValue().Lower();
-	excludeText = UnitLines_UnitLineUnits_Search_R->GetValue().Lower();
+	searchText = UnitLines_UnitLineUnits_Search->GetValue().MakeLower();
+	excludeText = UnitLines_UnitLineUnits_Search_R->GetValue().MakeLower();
 
 	UnitLines_UnitLineUnits_ListV->names.clear();
 	UnitLines_UnitLineUnits_ListV->indexes.clear();

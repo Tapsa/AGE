@@ -112,8 +112,8 @@ void AGE_Frame::ListGraphics(bool all)
 
 void AGE_Frame::InitGraphics(bool all)
 {
-	searchText = Graphics_Graphics_Search->GetValue().Lower();
-	excludeText = Graphics_Graphics_Search_R->GetValue().Lower();
+	searchText = Graphics_Graphics_Search->GetValue().MakeLower();
+	excludeText = Graphics_Graphics_Search_R->GetValue().MakeLower();
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
@@ -685,8 +685,8 @@ void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListGraphicDeltas()
 {
-	searchText = Graphics_Deltas_Search->GetValue().Lower();
-	excludeText = Graphics_Deltas_Search_R->GetValue().Lower();
+	searchText = Graphics_Deltas_Search->GetValue().MakeLower();
+	excludeText = Graphics_Deltas_Search_R->GetValue().MakeLower();
 
     Graphics_Deltas_ListV->names.clear();
     Graphics_Deltas_ListV->indexes.clear();
@@ -914,7 +914,7 @@ void AGE_Frame::CreateGraphicsControls()
 {
 	Tab_Graphics = new wxPanel(TabBar_Main);
 	Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Graphics  (Search by enter)");
+	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Sprites  (Search by enter)");
 
 	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
