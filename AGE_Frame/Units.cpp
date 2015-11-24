@@ -3108,7 +3108,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type70plusUnknownArea_Grid = new wxGridSizer(4, 5, 5);
 	Units_Type80plusUnknownArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 80+ Unknowns (Building)");
 	Units_Type80plusUnknownArea_Grid = new wxGridSizer(4, 5, 5);
-	Units_CommandsArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Actions");
+	Units_CommandsArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Actions (Shared by all civilizations since Age of Empires II)");
 
 //	Invisible Holder Windows
 //	Type 10+

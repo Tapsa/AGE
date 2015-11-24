@@ -2587,7 +2587,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_ScrollerUnits = new wxScrolledWindow(Tab_TechTreeUnits, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	TechTrees_ScrollerResearches = new wxScrolledWindow(Tab_TechTreeResearches, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 
-	wxString StatusHelp = "3 marks this as not available";
+	wxString StatusHelp = "0 generic\n1 ?\n2 default\n3 marks this as not available\n4 upgrading or constructing or creating\n5 research completed or building built";
 	wxString LocationInAgeHelp = "0 Hidden\n1 First\n2 Second";
 	wxString LineModeHelp = "0 research: First age\n1 age: ?\n2 unit: First in vertical line\n3 unit: Not first\n4 research: Others\n5 building: One or more connections\n6 building: No connections";
 
