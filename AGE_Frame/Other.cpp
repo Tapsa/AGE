@@ -1158,6 +1158,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			}
 			Effects_AttributesC_ComboBox->Append("107 - Max Dup. Missiles");
 			Effects_AttributesC_ComboBox->Append("108 - Healing Rate");
+            if(GenieVersion == genie::GV_Cysion)
+            Effects_AttributesC_ComboBox->Append("109 - Regeneration Rate");
 		}
 		Effects_AttributesC_ComboBox->SetSelection(0);
 
@@ -1232,7 +1234,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("101 - AoK+ only");
         else Effects_Type_ComboBox->Append("101 - Research Cost Modifier (Set/+/-)");
-        Effects_Type_ComboBox->Append("102 - Disable Research");
+        Effects_Type_ComboBox->Append("102 - Toggle Research Disabled/Enabled");
         if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("103 - AoK+ only");
         else Effects_Type_ComboBox->Append("103 - Research Time Modifier (Set/+/-)");	// Selection 17
         Effects_Type_ComboBox->SetSelection(0);

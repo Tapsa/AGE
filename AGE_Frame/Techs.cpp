@@ -303,7 +303,7 @@ string AGE_Frame::GetEffectName(int effect, int tech)
 			}
 			break;
 		case 102:
-			Name = "Disable research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+			Name = "Toggle research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
 			break;
 		case 103:
 			//Name = "Research Time Modifier (Set/+/-)";
