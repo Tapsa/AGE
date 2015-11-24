@@ -76,7 +76,7 @@ void ComboBox_EffectAttribute::update(int value)
     {
         SetSelection(value + 1);
     }
-    else if((value >= 100) && (value <= 108))
+    else if((value >= 100) && (value <= 109))
     {
         SetSelection(value - 75);
     }
