@@ -182,6 +182,8 @@ public:
     void playWAV(wxCommandEvent &event);
     AGE_SLP* getCurrentGraphics();
     int produceRecentValues(wxArrayString&, vector<wxArrayString>&);
+    void autoOdds(wxCommandEvent &event);
+    void autoDrsIncrement(wxCommandEvent &event);
 
 //	General Events
 
@@ -2970,6 +2972,8 @@ public:
     wxButton *SoundFile_Play;
     wxCheckBox *SoundFile_Loop;
     wxButton *SoundFile_Stop;
+    wxButton *SoundFile_AutoProbability;
+    wxButton *SoundFile_AutoIncrement;
 
 	wxStaticBoxSizer *Sounds_AllItems;
 	wxBoxSizer *Sounds_AllItems_Searches[2];

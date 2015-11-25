@@ -439,10 +439,10 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Name_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Filename", wxDefaultPosition, wxSize(200, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Name = AGETextCtrl::init(CString, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
-	SoundItems_Resource_Holder = new wxBoxSizer(wxVERTICAL);
+	SoundItems_Resource_Holder = new wxBoxSizer(wxHORIZONTAL);
 	SoundItems_Resource_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File DRS Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Resource = AGETextCtrl::init(CLong, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
-	SoundItems_Probability_Holder = new wxBoxSizer(wxVERTICAL);
+	SoundItems_Probability_Holder = new wxBoxSizer(wxHORIZONTAL);
 	SoundItems_Probability_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Probability", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Probability = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
 	SoundItems_Civ_Holder = new wxBoxSizer(wxVERTICAL);
@@ -458,6 +458,8 @@ void AGE_Frame::CreateSoundControls()
     SoundFile_Play = new wxButton(Tab_Sounds, wxID_ANY, "Play WAV", wxDefaultPosition, wxSize(5, 20));
     SoundFile_Stop = new wxButton(Tab_Sounds, wxID_ANY, "Stop WAV", wxDefaultPosition, wxSize(5, 20));
     SoundFile_Loop->SetValue(true);
+    SoundFile_AutoProbability = new wxButton(Tab_Sounds, wxID_ANY, "Auto odds", wxDefaultPosition, wxSize(5, 20));
+    SoundFile_AutoIncrement = new wxButton(Tab_Sounds, wxID_ANY, "Auto # from 1st", wxDefaultPosition, wxSize(5, 20));
 
 	Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
 	Sounds_AllItems_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
@@ -511,10 +513,10 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Unknown2_Holder->Add(Sounds_Unknown2, 1, wxEXPAND);
 	SoundItems_Name_Holder->Add(SoundItems_Name_Text, 0, wxEXPAND);
 	SoundItems_Name_Holder->Add(SoundItems_Name, 1, wxEXPAND);
-	SoundItems_Resource_Holder->Add(SoundItems_Resource_Text, 0, wxEXPAND);
 	SoundItems_Resource_Holder->Add(SoundItems_Resource, 1, wxEXPAND);
-	SoundItems_Probability_Holder->Add(SoundItems_Probability_Text, 0, wxEXPAND);
+	SoundItems_Resource_Holder->Add(SoundFile_AutoIncrement, 1, wxEXPAND | wxLEFT, 5);
 	SoundItems_Probability_Holder->Add(SoundItems_Probability, 1, wxEXPAND);
+	SoundItems_Probability_Holder->Add(SoundFile_AutoProbability, 1, wxEXPAND | wxLEFT, 5);
 	SoundItems_Civ_Holder->Add(SoundItems_Civ_Text, 0, wxEXPAND);
 	SoundItems_Civ_Holder->Add(SoundItems_Civ, 1, wxEXPAND);
 	SoundItems_Civ_Holder->Add(SoundItems_Civ_ComboBox, 1, wxEXPAND);
@@ -536,8 +538,10 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_DataArea->Add(Sounds_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(Sounds_Unknown2_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Name_Holder, 0, wxEXPAND | wxTOP, 5);
-	Sounds_DataArea->Add(SoundItems_Resource_Holder, 0, wxEXPAND | wxTOP, 5);
-	Sounds_DataArea->Add(SoundItems_Probability_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Resource_Text, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Resource_Holder, 0, wxEXPAND);
+	Sounds_DataArea->Add(SoundItems_Probability_Text, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Probability_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Unknown_Holder, 0, wxEXPAND | wxTOP, 5);
 	SoundFile_Holder->Add(SoundFile_Loop, 0, wxEXPAND);
@@ -593,6 +597,8 @@ void AGE_Frame::CreateSoundControls()
 	Connect(Sounds_AllItems_Clear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::ClearAllSoundFiles));
 	Connect(SoundFile_Play->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::playWAV));
 	Connect(SoundFile_Stop->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::playWAV));
+	Connect(SoundFile_AutoProbability->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::autoOdds));
+	Connect(SoundFile_AutoIncrement->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::autoDrsIncrement));
 
     soundTimer.Connect(soundTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundsTimer), NULL, this);
     soundFileTimer.Connect(soundFileTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundItemsTimer), NULL, this);
@@ -730,4 +736,25 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
         }
         wxMessageBox("No such sound");
     }
+}
+
+void AGE_Frame::autoOdds(wxCommandEvent &event)
+{
+    if(SoundIDs.empty() || dataset->Sounds[SoundIDs[0]].Items.empty()) return;
+    wxBusyCursor WaitCursor;
+    size_t fileCount = dataset->Sounds[SoundIDs[0]].Items.size();
+    short odds = 100 / fileCount, extra = 100 - fileCount * odds;
+    for(size_t file = 0; file < fileCount; ++file)
+    dataset->Sounds[SoundIDs[0]].Items[file].Probability = odds;
+    for(size_t file = 0; file < extra; ++file)
+    ++dataset->Sounds[SoundIDs[0]].Items[file].Probability;
+}
+
+void AGE_Frame::autoDrsIncrement(wxCommandEvent &event)
+{
+    if(SoundIDs.empty() || dataset->Sounds[SoundIDs[0]].Items.empty()) return;
+    wxBusyCursor WaitCursor;
+    int32_t resourceID = dataset->Sounds[SoundIDs[0]].Items[0].ResourceID;
+    for(size_t file = 1; file < dataset->Sounds[SoundIDs[0]].Items.size(); ++file)
+    dataset->Sounds[SoundIDs[0]].Items[file].ResourceID = ++resourceID;
 }
