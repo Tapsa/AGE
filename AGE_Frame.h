@@ -883,7 +883,7 @@ public:
 	vector<short> BorderIDs;
 	vector<short> FrameIDs;
 
-	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod, UseExtra;
+	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod, UseExtra, FilterAllSubs;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List, AGEwindow;
 	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
