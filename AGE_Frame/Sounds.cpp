@@ -748,6 +748,7 @@ void AGE_Frame::autoOdds(wxCommandEvent &event)
     dataset->Sounds[SoundIDs[0]].Items[file].Probability = odds;
     for(size_t file = 0; file < extra; ++file)
     ++dataset->Sounds[SoundIDs[0]].Items[file].Probability;
+    ListSoundItems();
 }
 
 void AGE_Frame::autoDrsIncrement(wxCommandEvent &event)
@@ -757,4 +758,5 @@ void AGE_Frame::autoDrsIncrement(wxCommandEvent &event)
     int32_t resourceID = dataset->Sounds[SoundIDs[0]].Items[0].ResourceID;
     for(size_t file = 1; file < dataset->Sounds[SoundIDs[0]].Items.size(); ++file)
     dataset->Sounds[SoundIDs[0]].Items[file].ResourceID = ++resourceID;
+    ListSoundItems();
 }

@@ -56,6 +56,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interaction/ShowStack", &ShowStack, true);
         Config.Read("Interaction/ShowAnnexes", &ShowAnnexes, true);
         Config.Read("Interaction/DrawTerrain", &DrawTerrain, true);
+        Config.Read("Interaction/FilterAllSubs", &FilterAllSubs, true);
         Config.Read("Interface/ShowUnknowns", &ShowUnknowns, true);
         Config.Read("Interface/ShowButtons", &ShowButtons, false);
         Config.Read("Interface/StayOnTop", &StayOnTop, false);
