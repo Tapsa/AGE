@@ -3078,26 +3078,24 @@ void AGE_Frame::SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wx
     wxBusyCursor WaitCursor;
 	if(selections < 1) return;
 
-	wxString topText, subText, line;
-	size_t found;
+    set<uint32_t> topNums, subNums;
 	for(int loop = 0, lastItem = -1; loop < selections; ++loop)
 	{
         lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		line = list->GetItemText(lastItem);
-		found = line.find(" ", 3);
-		if(loop == 0)
-		{
-			topText = " "+line.substr(2, found-1)+"-"; // Cutting the tech number. (for example)
-			subText = " "+line.substr(found+2, line.find(" ", found+3)-found-1)+"-"; // Cutting the effect number.
-		}
-		else
-		{
-			topText += "| "+line.substr(2, found-1)+"-"; // Cutting the sound number.
-			subText += "| "+line.substr(found+2, line.find(" ", found+3)-found-1)+"-"; // Cutting the filename.
-		}
-		topSearch->SetValue(topText);
-		subSearch->SetValue(subText);
-	}
+        string line(list->GetItemText(lastItem));
+        size_t found = line.find(" ", 3);
+        topNums.insert(lexical_cast<uint32_t>(line.substr(2, found - 2)));
+        subNums.insert(lexical_cast<uint32_t>(line.substr(2 + found, line.find(" ", found + 3) - found - 2)));
+    }
+    wxString topText;
+    for(const auto &num: topNums) topText += " " + lexical_cast<string>(num) + " -|";
+    topSearch->SetValue(topText.Truncate(topText.size() - 1));
+    if(FilterAllSubs)
+    {
+        wxString subText;
+        for(const auto &num: subNums) subText += " " + lexical_cast<string>(num) + " -|";
+        subSearch->SetValue(subText.Truncate(subText.size() - 1));
+    }
 }
 
 int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
@@ -3408,6 +3406,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interaction/ShowStack", ShowStack);
         Config.Write("Interaction/ShowAnnexes", ShowAnnexes);
         Config.Write("Interaction/DrawTerrain", DrawTerrain);
+        Config.Write("Interaction/FilterAllSubs", FilterAllSubs);
         Config.Write("Interface/ShowUnknowns", ShowUnknowns);
         Config.Write("Interface/ShowButtons", ShowButtons);
         Config.Write("Interface/StayOnTop", StayOnTop);
