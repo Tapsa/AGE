@@ -922,6 +922,7 @@ public:
 		MenuOption_About,
 		ToolBar_Open,
 		ToolBar_Save,
+		ToolBar_Backup,
 		ToolBar_Show,
 		ToolBar_Help,
 		ToolBar_DRS,
@@ -2353,7 +2354,6 @@ public:
 //	End of Unit Controls
 
 	wxBoxSizer *Units_Main;	// Unit window
-	wxGridSizer *Units_Buttons[2];	// Unit list section buttons
 
 	wxStaticBoxSizer *Units_Units;	// Unit list section vertical division excluding window borders
 	//wxStaticLine *Units_Line;

@@ -16,7 +16,7 @@ string AGE_Frame::GetUnitName(int index, short civ, bool Filter)
 
 	if(dataset->Civs[civ].UnitPointers[index] == 0)
 	{
-		return "*Disabled*";
+		return "Nonexistent";
 	}
 	if(Filter)
 	{
@@ -3010,8 +3010,8 @@ void AGE_Frame::CreateUnitControls()
 		Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY | wxCB_SORT);
 	}
 	Units_ListV = new AGEListView(Tab_Units, wxSize(200, 100));
-	Units_Buttons[0] = new wxGridSizer(3, 0, 0);
-	Units_Buttons[1] = new wxGridSizer(4, 0, 0);
+	wxGridSizer *Units_Buttons = new wxGridSizer(3, 0, 0);
+	wxBoxSizer *Units_Buttons1 = new wxBoxSizer(wxHORIZONTAL);
 	Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
 	Units_Insert = new wxButton(Tab_Units, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
 	Units_Delete = new wxButton(Tab_Units, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
@@ -3027,8 +3027,8 @@ void AGE_Frame::CreateUnitControls()
 	//Units_Import->Enable(false);
 	Units_SpecialCopy = new wxButton(Tab_Units, wxID_ANY, "S copy", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S paste", wxDefaultPosition, wxSize(5, 20));
-	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
-	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
+	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Exist", wxDefaultPosition, wxSize(5, 20));
+	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Wipe Out", wxDefaultPosition, wxSize(5, 20));
 	Units_SpecialCopy_Options = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs *", wxDefaultPosition, wxSize(-1, 20));
 	Units_SpecialCopy_Civs->SetToolTip("Whether buttons of units operate on all civilizations or just on the selected one\nNote that adding, inserting and deleting units always affect all civilizations!");
@@ -3725,7 +3725,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Enabled = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
-	Units_Enabled_CheckBox = new CheckBox_2State(Units_Scroller, "No Research *", Units_Enabled);
+	Units_Enabled_CheckBox = new CheckBox_2State(Units_Scroller, "Enabled *", Units_Enabled);
 	Units_Disabled = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Disabled->SetToolTip("0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
@@ -4309,19 +4309,19 @@ void AGE_Frame::CreateUnitControls()
 	Units_SpecialCopy_Options->Append("Special: graphics only");
 	Units_SpecialCopy_Options->SetSelection(0);
 
-	Units_Buttons[0]->Add(Units_Add, 1, wxEXPAND);
-	Units_Buttons[0]->Add(Units_Delete, 1, wxEXPAND);
-	Units_Buttons[0]->Add(Units_Insert, 1, wxEXPAND);
-	Units_Buttons[0]->Add(Units_Copy, 1, wxEXPAND);
-	Units_Buttons[0]->Add(Units_Paste, 1, wxEXPAND);
-	Units_Buttons[0]->Add(Units_PasteInsert, 1, wxEXPAND);
+	Units_Buttons->Add(Units_Add, 1, wxEXPAND);
+	Units_Buttons->Add(Units_Delete, 1, wxEXPAND);
+	Units_Buttons->Add(Units_Insert, 1, wxEXPAND);
+	Units_Buttons->Add(Units_Copy, 1, wxEXPAND);
+	Units_Buttons->Add(Units_Paste, 1, wxEXPAND);
+	Units_Buttons->Add(Units_PasteInsert, 1, wxEXPAND);
 	//Units_Buttons[0]->Add(Units_Extract, 1, wxEXPAND);
 	//Units_Buttons[0]->Add(Units_Import, 1, wxEXPAND);
-	Units_Buttons[0]->Add(Units_Info, 1, wxEXPAND);
-	Units_Buttons[1]->Add(Units_SpecialCopy, 1, wxEXPAND);
-	Units_Buttons[1]->Add(Units_SpecialPaste, 1, wxEXPAND);
-	Units_Buttons[1]->Add(Units_Enable, 1, wxEXPAND);
-	Units_Buttons[1]->Add(Units_Disable, 1, wxEXPAND);
+	Units_Buttons->Add(Units_Info, 1, wxEXPAND);
+	Units_Buttons1->Add(Units_SpecialCopy, 10, wxEXPAND);
+	Units_Buttons1->Add(Units_SpecialPaste, 10, wxEXPAND);
+	Units_Buttons1->Add(Units_Enable, 8, wxEXPAND);
+	Units_Buttons1->Add(Units_Disable, 12, wxEXPAND);
 	Units_Special->Add(Units_SpecialCopy_Options, 1, wxEXPAND);
 	Units_Special->Add(Units_SpecialCopy_Civs, 0, wxEXPAND | wxLEFT, 2);
 
@@ -4337,8 +4337,8 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Units_Units->Add(Units_SearchFilters[loop], 0, wxEXPAND);
 	Units_Units->Add(Units_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-	Units_Units->Add(Units_Buttons[0], 0, wxEXPAND);
-	Units_Units->Add(Units_Buttons[1], 0, wxEXPAND);
+	Units_Units->Add(Units_Buttons, 0, wxEXPAND);
+	Units_Units->Add(Units_Buttons1, 0, wxEXPAND);
 	Units_Units->Add(Units_Special, 0, wxEXPAND | wxTOP, 2);
 
 	Units_Type_Holder->Add(visibleUnitCiv, 1, wxEXPAND);
