@@ -306,13 +306,13 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &event)
 	CheckBox_GenieVer->SetSelection(EV_TC);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x1_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxEmptyString);
+	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Path_DRS->SetPath(wxString(Path + "\\resources\\_common\\drs"));
 	TerrainsBox->ChangeValue("42");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 	CheckBox_DRSPath->SetValue(true);
 	CheckBox_DRSPath->Enable(false);
@@ -322,9 +322,9 @@ void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &event)
 	Selected.SetInt(true);
 	Selected.SetId(CheckBox_LangFileLocation->GetId());
 	ProcessEvent(Selected);
-	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
 	ProcessEvent(Selected);
+	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
 	ProcessEvent(Selected);
 }
@@ -351,13 +351,13 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 	CheckBox_GenieVer->SetSelection(EV_Cysion);
 	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x2_p1.dat"));
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxEmptyString);
+	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Path_DRS->SetPath(wxString(Path + "\\resources\\_common\\drs"));
 	TerrainsBox->ChangeValue("100");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(false);
+	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 	CheckBox_DRSPath->SetValue(true);
 	CheckBox_DRSPath->Enable(false);
@@ -367,9 +367,9 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 	Selected.SetInt(true);
 	Selected.SetId(CheckBox_LangFileLocation->GetId());
 	ProcessEvent(Selected);
-	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
 	ProcessEvent(Selected);
+	Selected.SetInt(false);
 	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
 	ProcessEvent(Selected);
 }

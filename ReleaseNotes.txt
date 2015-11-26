@@ -12,6 +12,11 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.11.26[/b]:
+-Renamed enable/disable buttons.
+-Added a button to enable automatic backups.
+-Added new handy buttons to sounds tab.
+
 Version [b]2015.11.24[/b]:
 -New/better information here and there.
 
