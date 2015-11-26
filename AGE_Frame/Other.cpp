@@ -1871,6 +1871,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			PromptForFilesOnOpen = event.IsChecked();
 		}
 		break;
+		case ToolBar_Backup:
+		{
+			AutoBackups = event.IsChecked();
+		}
+		break;
 		case ToolBar_Show:
 		{
 			ShowUnknowns = event.IsChecked();

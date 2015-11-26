@@ -5,7 +5,7 @@ string AGE_Frame::GetGraphicName(int index, bool Filter)
 	string Name = "";
 	if(GenieVersion >= genie::GV_AoE && dataset->GraphicPointers[index] == 0)
 	{
-		return "*Disabled*";
+		return "Nonexistent";
 	}
 	if(Filter)
 	{
@@ -933,8 +933,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Copy = new wxButton(Tab_Graphics, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	Graphics_Paste = new wxButton(Tab_Graphics, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	Graphics_PasteInsert = new wxButton(Tab_Graphics, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
-	Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Enable", wxDefaultPosition, wxSize(5, 20));
-	Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Disable", wxDefaultPosition, wxSize(5, 20));
+	Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Exist", wxDefaultPosition, wxSize(5, 20));
+	Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Wipe Out", wxDefaultPosition, wxSize(5, 20));
 
 	Graphics_Scroller = new wxScrolledWindow(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);

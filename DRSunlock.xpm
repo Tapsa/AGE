@@ -4,7 +4,7 @@ static const char *DRS_unlock_xpm[] = {
 ". c #404040",
 "X c #FFFF00",
 "o c #808080",
-"O c #FFFFFF",
+"O c none",
 "OOOOOOOOOOOOOOOOOOOOOOOOO",
 "OOOOOOOOOO    OOOOOOOOOOO",
 "OOOOOOO         OOOOOOOOO",
