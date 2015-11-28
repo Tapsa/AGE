@@ -1800,8 +1800,9 @@ public:
 
 //	Type 40+
 
+	wxStaticText *Units_SheepConversion_Text;
 	AGETextCtrl *Units_SheepConversion;
-	CheckBox_ZeroIsYes *Units_SheepConversion_CheckBox;
+	ComboBox_Plus1 *Units_SheepConversion_ComboBox;
 	AGETextCtrl *Units_SearchRadius;
 	AGETextCtrl *Units_WorkRate;
 	AGETextCtrl *Units_DropSite[2];
@@ -2410,7 +2411,6 @@ public:
 	wxBoxSizer *Units_AttributesTerrain_Holder;
 	wxGridSizer *Units_AttributesTerrain_Grid;
 	wxGridSizer *Units_AttributesModes1_Grid;
-	wxBoxSizer *Units_AttributesDropSite_Holder;
 	wxGridSizer *Units_AttributesSizes_Holder;
 	wxGridSizer *Units_AttributesSelection1_Grid;
 	wxBoxSizer *Units_LangRegular_Holder;

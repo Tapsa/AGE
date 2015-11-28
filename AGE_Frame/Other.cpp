@@ -524,7 +524,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		UnitCommands_Type_ComboBox->Append("135: Kidnap Unit");
 		UnitCommands_Type_ComboBox->Append("136: Deposit Unit");	// Selection 33
 		UnitCommands_Type_ComboBox->Append("149: Shear");	// Selection 33
-		UnitCommands_Type_ComboBox->Append("150: ?");
+		UnitCommands_Type_ComboBox->Append("150: Regeneration");
 		UnitCommands_Type_ComboBox->Append("151: Feitoria Ability");
 		UnitCommands_Type_ComboBox->SetSelection(0);
 
@@ -1661,6 +1661,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 	SaveBox.Path_CustomDefault->SetPath(CustomFolder);
 	SaveBox.LanguageBox->ChangeValue(Language);
 	SaveBox.CheckBox_GenieVer->SetSelection(SaveGameVersion);
+    SaveBox.CheckBox_LangWrite->SetValue(WriteLangs);
 
 	SaveBox.CheckBox_DatFileLocation->SetValue(SaveDat);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
