@@ -2502,6 +2502,7 @@ void AGE_Frame::ListUnitCommands()
 
 	Units_UnitCommands_ListV->names.clear();
     Units_UnitCommands_ListV->indexes.clear();
+    wxArrayString names;
 
 	if(GenieVersion >= genie::GV_AoK)	// AoK, TC, SWGB or CC
 	{
@@ -2518,6 +2519,7 @@ void AGE_Frame::ListUnitCommands()
 				Units_UnitCommands_ListV->names.Add(Name);
                 Units_UnitCommands_ListV->indexes.push_back(loop);
 			}
+            names.Add(Name);
 		}
 	}
 	else	// AoE or RoR
@@ -2540,6 +2542,7 @@ void AGE_Frame::ListUnitCommands()
 					Units_UnitCommands_ListV->names.Add(Name);
                     Units_UnitCommands_ListV->indexes.push_back(loop);
 				}
+                names.Add(Name);
 			}
 		}
 		else
@@ -2548,6 +2551,8 @@ void AGE_Frame::ListUnitCommands()
 		}
 	}
 	virtualListing(Units_UnitCommands_ListV);
+    vector<ComboBox_Plus1*> boxlist{Units_SheepConversion_ComboBox};
+    FillLists(boxlist, names);
 
 	wxTimerEvent E;
 	OnUnitCommandsTimer(E);
@@ -3086,7 +3091,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesTerrain_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_AttributesTerrain_Grid = new wxGridSizer(4, 5, 5);
 	Units_AttributesModes1_Grid = new wxGridSizer(5, 5, 5);
-	Units_AttributesDropSite_Holder = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer *Units_Attributes4_Grid = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *Units_DropSite_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttributesSizes_Holder = new wxGridSizer(3, 0, 5);
 	Units_AttributesSelection1_Grid = new wxGridSizer(5, 5, 5);
 	Units_LangRegular_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -3213,10 +3219,10 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 40+
 
-	Units_SheepConversion_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Units_SheepConversion_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_SearchRadius_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_WorkRate_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_DropSite_Grid = new wxGridSizer(4, 0, 5);
+	Units_DropSite_Grid = new wxGridSizer(2, 0, 5);
 	Units_VillagerMode_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttackSound_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MoveSound_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3366,7 +3372,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_EdibleMeat_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Edible Meat? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Name_Text = new wxStaticText(Tab_Units, wxID_ANY, " Name ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Name2_Text = new wxStaticText(Tab_Units, wxID_ANY, " Name 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unitline_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unitline", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unitline_Text = new wxStaticText(Units_Scroller, wxID_ANY, " AI Unitline", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MinTechLevel_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Min Tech Level", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ID2_Text = new wxStaticText(Tab_Units, wxID_ANY, "ID 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ID3_Text = new wxStaticText(Tab_Units, wxID_ANY, "ID 3 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3740,19 +3746,16 @@ void AGE_Frame::CreateUnitControls()
 	Units_FlyMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_FlyMode->SetToolTip("Requires class 22 and air mode 1?\n0 Normal\n1 Graphics appear higher than the shadow");
 	Units_FlyMode_CheckBox = new CheckBox_2State(Units_Scroller, "Fly Mode *", Units_FlyMode);
-	Units_SheepConversion = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
-	Units_SheepConversion->SetToolTip("To get the unit auto-converted to enemy,\nuse unit command 107, which sheep and monument have\nAll somehow auto-convertible units have this set to 0\nMost other units have -1");
-	Units_SheepConversion_CheckBox = new CheckBox_ZeroIsYes(Units_Scroller, "Convert Herd *", Units_SheepConversion);
 	Units_AnimalMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_AnimalMode_CheckBox = new CheckBox_2State(Units_Scroller, "Animal Mode", Units_AnimalMode);
+	Units_TowerMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_TowerMode_CheckBox = new CheckBox_2State(Units_Scroller, "Tower Mode", Units_TowerMode);
 	Units_AdjacentMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_AdjacentMode->SetToolTip("0 Default\n1 Adjacent buildings can change this unit's graphics");
 	Units_AdjacentMode_CheckBox = new CheckBox_2State(Units_Scroller, "Adjacent Mode *", Units_AdjacentMode);
 	Units_DisappearsWhenBuilt = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_DisappearsWhenBuilt->SetToolTip("Useful for stack unit placement\n0 Default\n1 Makes the building disappear when built");
 	Units_Unknown31b_CheckBox = new CheckBox_2State(Units_Scroller, "Built: Vanishes *", Units_DisappearsWhenBuilt);
-	Units_TowerMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_TowerMode_CheckBox = new CheckBox_2State(Units_Scroller, "Tower Mode", Units_TowerMode);
 	Units_HeroMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_HeroMode_CheckBox = new CheckBox_2State(Units_Scroller, "Hero Mode", Units_HeroMode);
 
@@ -3830,6 +3833,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResearchID->SetToolTip("Causes that research to be researched when the building is created");
 	Units_ResearchID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ResearchID);
 	ResearchComboBoxList.push_back(Units_ResearchID_ComboBox);
+    Units_SheepConversion_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Action When Discovered *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Units_SheepConversion = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
+    Units_SheepConversion->SetToolTip("When this unit is met by some player unit\nthe unit action ID specified here will be executed.\nTo get the unit auto-converted to enemy,\nuse unit command 107, which sheep and monument have\nAll somehow auto-convertible units have this set to 0\nMost other units have -1");
+    Units_SheepConversion_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_SheepConversion);
 	for(short loop = 0; loop < 2; ++loop)
 	{
 		Units_DropSite[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -4417,7 +4424,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_SearchRadius_Holder->Add(Units_SearchRadius_Text, 0, wxEXPAND);
 	Units_WorkRate_Holder->Add(Units_WorkRate_Text, 0, wxEXPAND);
-	Units_AttributesDropSite_Holder->Add(Units_DropSite_Text, 0, wxEXPAND);
+	Units_DropSite_Holder->Add(Units_DropSite_Text, 0, wxEXPAND);
 	Units_VillagerMode_Holder->Add(Units_VillagerMode_Text, 0, wxEXPAND);
 	Units_AttackSound_Holder->Add(Units_AttackSound_Text, 0, wxEXPAND);
 	Units_MoveSound_Holder->Add(Units_MoveSound_Text, 0, wxEXPAND);
@@ -4599,14 +4606,13 @@ void AGE_Frame::CreateUnitControls()
 
 //	Type 40+
 
+	Units_SheepConversion_Holder->Add(Units_SheepConversion_Text, 0, wxEXPAND);
 	Units_SheepConversion_Holder->Add(Units_SheepConversion, 0, wxEXPAND);
-	Units_SheepConversion_Holder->Add(Units_SheepConversion_CheckBox, 2, wxEXPAND | wxLEFT, 2);
+	Units_SheepConversion_Holder->Add(Units_SheepConversion_ComboBox, 0, wxEXPAND);
 	Units_SearchRadius_Holder->Add(Units_SearchRadius, 1, wxEXPAND);
 	Units_WorkRate_Holder->Add(Units_WorkRate, 1, wxEXPAND);
 	Units_DropSite_Grid->Add(Units_DropSite[0], 1, wxEXPAND);
 	Units_DropSite_Grid->Add(Units_DropSite[1], 1, wxEXPAND);
-	Units_DropSite_Grid->Add(0, 0);
-	Units_DropSite_Grid->Add(0, 0);
 	Units_DropSite_Grid->Add(Units_DropSite_ComboBox[0], 2, wxEXPAND);
 	Units_DropSite_Grid->Add(Units_DropSite_ComboBox[1], 2, wxEXPAND);
 	Units_VillagerMode_Holder->Add(Units_VillagerMode, 1, wxEXPAND);
@@ -5056,11 +5062,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesBoxes1_Grid->Add(Units_HideInEditor_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_AirMode_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_FlyMode_Holder, 1, wxEXPAND);
-	Units_AttributesBoxes1_Grid->Add(Units_SheepConversion_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_AnimalMode_Holder, 1, wxEXPAND);
+	Units_AttributesBoxes1_Grid->Add(Units_TowerMode_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_AdjacentMode_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_Unknown31b_Holder, 1, wxEXPAND);
-	Units_AttributesBoxes1_Grid->Add(Units_TowerMode_Holder, 1, wxEXPAND);
 	Units_AttributesBoxes1_Grid->Add(Units_HeroMode_Holder, 1, wxEXPAND);
 
 	Units_AttributesModes1_Grid->Add(Units_PlacementMode_Holder, 1, wxEXPAND);
@@ -5078,7 +5083,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesTerrain_Holder->Add(Units_PlacementTerrain_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementBypassTerrain_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxLEFT, 5);
 	Units_AttributesTerrain_Grid->Add(Units_TerrainRestriction_Holder, 1, wxEXPAND);
-	Units_AttributesDropSite_Holder->Add(Units_DropSite_Grid, 0, wxEXPAND);
+	Units_DropSite_Holder->Add(Units_DropSite_Grid, 0, wxEXPAND);
+	Units_Attributes4_Grid->Add(Units_SheepConversion_Holder, 1, wxEXPAND | wxRIGHT, 5);
+	Units_Attributes4_Grid->Add(Units_DropSite_Holder, 2, wxEXPAND);
+	Units_Attributes4_Grid->AddStretchSpacer(1);
 	Units_AttributesSizes_Holder->Add(Units_SizeRadius_Holder, 1, wxEXPAND);
 	Units_AttributesSizes_Holder->Add(Units_EditorRadius_Holder, 1, wxEXPAND);
 	Units_AttributesSizes_Holder->Add(Units_SelectionRadius_Holder, 1, wxEXPAND);
@@ -5126,7 +5134,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attributes_Holder->Add(Units_Attributes1_Grid, 0, wxEXPAND | wxTOP, 5);
 	Units_Attributes_Holder->Add(Units_AttributesTerrain_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_Attributes_Holder->Add(Units_AttributesTerrain_Grid, 0, wxEXPAND | wxTOP, 5);
-	Units_Attributes_Holder->Add(Units_AttributesDropSite_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_Attributes_Holder->Add(Units_Attributes4_Grid, 0, wxEXPAND | wxTOP, 5);
 	Units_Attributes_Holder->Add(Units_AttributesSizes_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_Attributes_Holder->Add(Units_AttributesSelection1_Grid, 0, wxEXPAND | wxTOP, 5);
 	Units_Attributes_Holder->Add(Units_AttributesTracking_Grid, 0, wxEXPAND | wxTOP, 5);
