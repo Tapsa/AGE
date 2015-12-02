@@ -1442,9 +1442,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_GarrisonHealRate_Holder->Show(show);
 		Units_LootSwitch_Holder->Show(show);
 		Units_UnknownSound_Holder->Show(show);
-		TerRestrict_Unknown1_Holder->Show(show);
 		TerRestrict_Graphics_Holder->Show(show);
-		TerRestrict_Amount_Holder->Show(show);
 		SoundItems_Civ_Holder->Show(show);
 		Colors_Palette_Holder->Show(show);
 		Colors_MinimapColor_Holder->Show(show);

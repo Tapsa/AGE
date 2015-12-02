@@ -118,7 +118,7 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &event)
 	// Resize terrain restrictions
 	for(short loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
 	{
-		dataset->TerrainRestrictions[loop].TerrainAccessible.resize(UsedTerrains);
+		dataset->TerrainRestrictions[loop].PassableBuildableDmgMultiplier.resize(UsedTerrains);
 		if(GenieVersion >= genie::GV_AoKA)
 		dataset->TerrainRestrictions[loop].TerrainPassGraphics.resize(UsedTerrains);
 	}
@@ -181,12 +181,10 @@ void AGE_Frame::InitTerrains2()
 	TerRestrict_Terrains_ListV->names.clear();
 	TerRestrict_Terrains_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TerrainRestrictions[0].TerrainAccessible.size(); ++loop)
+	for(short loop = 0; loop < dataset->TerrainRestrictions[0].PassableBuildableDmgMultiplier.size(); ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - A"+FormatFloat(dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[loop]);
-		if(GenieVersion >= genie::GV_AoKA)
-		Name += " B"+FormatFloat(dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[loop].Buildable);
-		Name += " - "+GetTerrainName(loop);
+        float val = dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[loop];
+		wxString Name = " "+FormatInt(loop)+" - P"+(val > 0 ? "1" : "0")+" B"+(val > 0.05 ? "1" : "0")+" - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			TerRestrict_Terrains_ListV->names.Add(Name);

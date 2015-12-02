@@ -98,13 +98,13 @@ void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event)
         TerRestPointer = &dataset->TerrainRestrictions[TerRestrictIDs[rest]];
         for(short loop = selections; loop--> 0;)
         {
-            TerRestrict_Accessible->prepend(&TerRestPointer->TerrainAccessible[TerRestrictTerIDs[loop]]);
+            TerRestrict_Accessible->prepend(&TerRestPointer->PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]]);
             if(GenieVersion >= genie::GV_AoKA)	//	Above AoE and RoR
             {
-                TerRestrict_Unknown1->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].Buildable);
-                TerRestrict_Graphics[0]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.first);
-                TerRestrict_Graphics[1]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].GraphicIDs.second);
-                TerRestrict_Amount->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].ReplicationAmount);
+                TerRestrict_Graphics[0]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].ExitTileSpriteID);
+                TerRestrict_Graphics[1]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].EnterTileSpriteID);
+                TerRestrict_Graphics[2]->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].WalkTileSpriteID);
+                TerRestrict_Amount->prepend(&TerRestPointer->TerrainPassGraphics[TerRestrictTerIDs[loop]].WalkSpriteRate);
             }
         }
 	}
@@ -215,7 +215,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event)
 	if(selections < 1 || Selections2 < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible, TerRestrictTerIDs, copies.TerrainRestrictionSubAccess);
+	CopyFromList(dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier, TerRestrictTerIDs, copies.TerrainRestrictionSubAccess);
 	if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
 	CopyFromList(dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics, TerRestrictTerIDs, copies.TerrainRestrictionSubGraphics);
 	TerRestrict_Terrains_ListV->SetFocus();
@@ -234,7 +234,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
 		if(Paste11Check(TerRestrictTerIDs.size(), copies.TerrainRestrictionSubGraphics.size()))
 		{
 			for(short loop = 0; loop < CopyCount; ++loop)
-			dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[TerRestrictTerIDs[loop]] = TerrainRestrictionSubCopyAccess[loop];
+			dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]] = TerrainRestrictionSubCopyAccess[loop];
 			if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
 			{
 				for(short loop = 0; loop < CopyCount; ++loop)
@@ -247,10 +247,10 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
 	}
 	else
 	{
-		if(CopyCount+TerRestrictTerIDs[0] > dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible.size())
-		CopyCount -= CopyCount+TerRestrictTerIDs[0] - dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible.size();
+		if(CopyCount+TerRestrictTerIDs[0] > dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier.size())
+		CopyCount -= CopyCount+TerRestrictTerIDs[0] - dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier.size();
 		for(short loop = 0; loop < CopyCount; ++loop)
-		dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainAccessible[TerRestrictTerIDs[0]+loop] = TerrainRestrictionSubCopyAccess[loop];
+		dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[TerRestrictTerIDs[0]+loop] = TerrainRestrictionSubCopyAccess[loop];
 		if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
 		{
 			for(short loop = 0; loop < CopyCount; ++loop)
@@ -291,25 +291,20 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TerRestrict_Accessible_Holder = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Accessible2_Holder = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_Accessible_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessible and Damage Multiplier *", wxDefaultPosition, wxSize(200, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Accessible_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessibility and Damage Multiplier *", wxDefaultPosition, wxSize(200, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Accessible = AGETextCtrl::init(CFloat, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions, true);
-	TerRestrict_Accessible->SetToolTip("See unit armor terrain restriction");
-	TerRestrict_Accessible_CheckBox = new CheckBox_2State(Tab_TerrainRestrictions, "Terrain Is Accessible", TerRestrict_Accessible);
-	TerRestrict_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Unknown1Sub_Holder = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_Unknown1_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Can Be Built On", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Unknown1 = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
-	TerRestrict_Unknown1_CheckBox = new CheckBox_ZeroIsYes(Tab_TerrainRestrictions, "No", TerRestrict_Unknown1);
+	TerRestrict_Accessible->SetToolTip("See unit armor terrain restriction\nPass-ability:\n 0  Not passable\n > 0  Passable\nBuild-ability:\n <= 0.05  You cannot build on it.\n > 0.05  You can build on it.\nDamage Multiplier:\n 0  Damage multiplier is 1.\n > 0  Damage multipler is as specified.\nStar Wars: < 1  Damage multiplier is 1.");
 	TerRestrict_Graphics_Holder = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Graphics_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Sprites", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Graphics[0] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
-	TerRestrict_Graphics_ComboBox[0] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[0]);
-	GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[0]);
-	TerRestrict_Graphics[1] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
-	TerRestrict_Graphics_ComboBox[1] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[1]);
-	GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[1]);
-	TerRestrict_Amount_Holder = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Amount_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Replication Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Graphics_Text[0] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Exit Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Graphics_Text[1] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Enter Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Graphics_Text[2] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Walk Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    for(short loop = 0; loop < 3; ++loop)
+    {
+        TerRestrict_Graphics[loop] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
+        TerRestrict_Graphics_ComboBox[loop] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[loop]);
+        GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[loop]);
+    }
+	TerRestrict_Amount_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Walk Sprite Rate", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Amount = AGETextCtrl::init(CFloat, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
 
 	TerRestrict_TerRestrict_Buttons->Add(TerRestrict_Add, 1, wxEXPAND);
@@ -333,26 +328,20 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Buttons, 0, wxEXPAND);
 
 	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible, 0, wxEXPAND);
-	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible_CheckBox, 2, wxEXPAND | wxLEFT, 2);
 	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible_Text, 0, wxEXPAND);
 	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible2_Holder, 1, wxEXPAND);
 
-	TerRestrict_Unknown1Sub_Holder->Add(TerRestrict_Unknown1, 1, wxEXPAND);
-	TerRestrict_Unknown1Sub_Holder->Add(TerRestrict_Unknown1_CheckBox, 1, wxEXPAND | wxLEFT, 2);
-	TerRestrict_Unknown1_Holder->Add(TerRestrict_Unknown1_Text, 0, wxEXPAND);
-	TerRestrict_Unknown1_Holder->Add(TerRestrict_Unknown1Sub_Holder, 1, wxEXPAND);
-	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_Text, 0, wxEXPAND);
-	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics[0], 1, wxEXPAND);
-	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_ComboBox[0], 1, wxEXPAND);
-	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics[1], 1, wxEXPAND);
-	TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_ComboBox[1], 1, wxEXPAND);
-	TerRestrict_Amount_Holder->Add(TerRestrict_Amount_Text, 0, wxEXPAND);
-	TerRestrict_Amount_Holder->Add(TerRestrict_Amount, 1, wxEXPAND);
+    for(short loop = 0; loop < 3; ++loop)
+    {
+        TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_Text[loop], 0, wxEXPAND);
+        TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics[loop], 0, wxEXPAND);
+        TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_ComboBox[loop], 0, wxEXPAND | wxBOTTOM, 5);
+    }
+	TerRestrict_Graphics_Holder->Add(TerRestrict_Amount_Text, 0, wxEXPAND);
+	TerRestrict_Graphics_Holder->Add(TerRestrict_Amount, 0, wxEXPAND);
 
 	TerRestrict_DataArea->Add(TerRestrict_Accessible_Holder, 0, wxEXPAND | wxTOP, 5);
-	TerRestrict_DataArea->Add(TerRestrict_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
 	TerRestrict_DataArea->Add(TerRestrict_Graphics_Holder, 0, wxEXPAND | wxTOP, 5);
-	TerRestrict_DataArea->Add(TerRestrict_Amount_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	TerRestrict_Main->Add(TerRestrict_TerRestrict, 1, wxEXPAND | wxALL, 5);
 	TerRestrict_Main->Add(TerRestrict_Terrains, 1, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
@@ -383,20 +372,11 @@ void AGE_Frame::CreateTerrainRestrictionControls()
     restrictionTimer.Connect(restrictionTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainRestrictionsTimer), NULL, this);
     restrictionTerrainTimer.Connect(restrictionTerrainTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainRestrictionsTerrainTimer), NULL, this);
 	TerRestrict_Accessible->Connect(TerRestrict_Accessible->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TerRestrict), NULL, this);
-	TerRestrict_Unknown1->Connect(TerRestrict_Unknown1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_TerRestrict), NULL, this);
-	TerRestrict_Accessible_CheckBox->Connect(TerRestrict_Accessible_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_TerRestrict), NULL, this);
-	TerRestrict_Unknown1_CheckBox->Connect(TerRestrict_Unknown1_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_TerRestrict), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_TerRestrict(wxFocusEvent &event)
 {
 	//event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
-	ListTerrains2();
-}
-
-void AGE_Frame::OnUpdateCheck_TerRestrict(wxCommandEvent &event)
-{
-	((AGECheckBox*)event.GetEventObject())->OnUpdate(event);
 	ListTerrains2();
 }
