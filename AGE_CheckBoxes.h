@@ -32,20 +32,4 @@ protected:
     void update(int value);
 };
 
-class CheckBox_ZeroIsYes: public AGECheckBox
-{
-public:
-    CheckBox_ZeroIsYes(wxWindow *parent, wxString label, AGETextCtrl *Pointer):
-    AGECheckBox(parent, label)
-    {
-        TextBox = Pointer;
-        TextBox->LinkedBoxes.push_back(this);
-        Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_ZeroIsYes::OnUpdate));
-    }
-
-protected:
-    void OnUpdate(wxCommandEvent &event);
-    void update(int value);
-};
-
 #endif
