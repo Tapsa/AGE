@@ -101,7 +101,6 @@ public:
 
 	void OnUpdateCheck_Techs(wxCommandEvent &event);
 	void OnUpdateCheck_Graphics(wxCommandEvent &event);
-	void OnUpdateCheck_TerRestrict(wxCommandEvent &event);
 	void OnUpdateCheck_UnitAttribute(wxCommandEvent &event);
 	void OnUpdateCheck_UnitGarrisonType(wxCommandEvent &event);
 
@@ -2896,17 +2895,10 @@ public:
 	wxBoxSizer *TerRestrict_Accessible2_Holder;
 	wxStaticText *TerRestrict_Accessible_Text;
 	AGETextCtrl *TerRestrict_Accessible;
-	CheckBox_2State *TerRestrict_Accessible_CheckBox;
-	wxBoxSizer *TerRestrict_Unknown1_Holder;
-	wxBoxSizer *TerRestrict_Unknown1Sub_Holder;
-	wxStaticText *TerRestrict_Unknown1_Text;
-	AGETextCtrl *TerRestrict_Unknown1;
-	CheckBox_ZeroIsYes *TerRestrict_Unknown1_CheckBox;
 	wxBoxSizer *TerRestrict_Graphics_Holder;
-	wxStaticText *TerRestrict_Graphics_Text;
-	AGETextCtrl *TerRestrict_Graphics[2];
-	ComboBox_Plus1 *TerRestrict_Graphics_ComboBox[2];
-	wxBoxSizer *TerRestrict_Amount_Holder;
+	wxStaticText *TerRestrict_Graphics_Text[3];
+	AGETextCtrl *TerRestrict_Graphics[3];
+	ComboBox_Plus1 *TerRestrict_Graphics_ComboBox[3];
 	wxStaticText *TerRestrict_Amount_Text;
 	AGETextCtrl *TerRestrict_Amount;
 
