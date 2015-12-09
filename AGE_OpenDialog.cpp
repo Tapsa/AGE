@@ -71,7 +71,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	Layout->AddSpacer(15);
 
 	Layout->AddGrowableCol(1, 1);
-	Layout->AddGrowableRow(15, 1);
+	Layout->AddGrowableRow(16, 1);
 
 	Main->Add(Defaults, 0, wxALIGN_LEFT | wxTOP | wxLEFT | wxRIGHT, 5);
 	Main->Add(Defaults_StarWars, 0, wxALIGN_LEFT | wxBOTTOM | wxLEFT | wxRIGHT, 5);
