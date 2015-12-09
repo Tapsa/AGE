@@ -3368,22 +3368,28 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     wxMessageBox("Frame count mismatch", "SLP");
                     break;
                 }
-                int hotspot_dx = frame1.get()->hotspot_x - frame2.get()->hotspot_x,
+                const int32_t hotspot_dx = frame1.get()->hotspot_x - frame2.get()->hotspot_x,
                     hotspot_dy = frame1.get()->hotspot_y - frame2.get()->hotspot_y;
                 // TODO: Resize frame if the other frame is bigger in some dimension.
-                const uint32_t width = frame1.get()->getWidth();
+                bool crop = false;
+                const uint32_t width = frame1.get()->getWidth(),
+                    height = frame1.get()->getHeight();
                 genie::SlpFrameData *imgdata = &frame1.get()->img_data;
                 imgdata->shadow_mask.clear();
                 for(auto const &shadow_pixel: frame2.get()->img_data.shadow_mask)
                 {
-                    int x = shadow_pixel.x + hotspot_dx,
+                    const uint32_t x = shadow_pixel.x + hotspot_dx,
                         y = shadow_pixel.y + hotspot_dy,
                         slot = y * width + x;
-                    if(slot < imgdata->alpha_channel.size() && imgdata->alpha_channel[slot] == 0)
+                    if(x < width && y < height)
                     {
-                        imgdata->shadow_mask.push_back({x, y});
-                    }
+                        if(imgdata->alpha_channel[slot] == 0)
+                        {
+                            imgdata->shadow_mask.push_back({x, y});
+                        }
+                    } else crop = true;
                 }
+                if(crop) wxMessageBox("2nd SLP does not fit into 1st SLP", "SLP");
             }
             try
             {
