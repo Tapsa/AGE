@@ -257,7 +257,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(TabBarID, wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
-	DataOpened = UseTXT = DrawHot = playerColorToAlpha = false;
+	DataOpened = UseTXT = DrawHot = exportFrame = false;
 	for(short loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
