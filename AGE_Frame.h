@@ -822,7 +822,10 @@ public:
     wxBrush slp_background_brush;
     wxFrame *slp_window;
     wxPanel *slp_view;
-    wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first;
+    wxSizer *slp_sizer;
+    wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first, *slp_tool, *slp_merge_shadow;
+    wxFilePickerCtrl *slp_source1, *slp_source2, *slp_target1;
+    wxFlexGridSizer *slp_tool_layout;
     wxRadioBox *slp_radio, *slp_unit_actions;
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot;
     wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles;
@@ -900,7 +903,7 @@ public:
 	HINSTANCE LanguageDLL[3];
 	string LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
-    bool playerColorToAlpha;
+    bool exportFrame;
     void LoadTXT(const wxString &filename);
     void LoadSLPFrame(AGE_SLP*);
     void SLPtoBitMap(AGE_SLP*);
@@ -936,6 +939,8 @@ public:
 		opExportFrame,
 		opImportFrame,
 		opSaveSLP,
+		opSLPTool,
+		opSLPMergeShadow,
 		opShowHotspot,
 		opAnimSLP,
 		opShowShadows,
