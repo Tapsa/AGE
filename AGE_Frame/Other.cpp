@@ -1861,6 +1861,7 @@ bool AGE_Frame::SaveLangX1P1()
     return true;
 }
 
+bool slp_tool_on; // !IsShown()
 void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 {
 	switch(event.GetId())
@@ -1953,6 +1954,15 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_frame_export = new wxButton(panel, opExportFrame, "Export frame to PNGs");
                 slp_frame_import = new wxButton(panel, opImportFrame, "Import PNGs to frame");
                 slp_save = new wxButton(panel, opSaveSLP, "Save SLP");
+                slp_tool = new wxButton(panel, opSLPTool, "SLP Tool");
+                slp_merge_shadow = new wxButton(panel, opSLPMergeShadow, "Merge shadow from 2 to 1");
+                slp_tool_layout = new wxFlexGridSizer(2, 2, 2);
+                wxStaticText *text_source1 = new wxStaticText(panel, wxID_ANY, " Source SLP 1");
+                wxStaticText *text_source2 = new wxStaticText(panel, wxID_ANY, " Source SLP 2");
+                wxStaticText *text_target1 = new wxStaticText(panel, wxID_ANY, " Target SLP");
+                slp_source1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+                slp_source2 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+                slp_target1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
                 slp_hotspot = new wxCheckBox(panel, opShowHotspot, "Hotspot");
                 slp_animate = new wxCheckBox(panel, opAnimSLP, "Animate");
                 slp_animate->SetValue(AnimSLP);
@@ -1971,12 +1981,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_angles = new wxCheckBox(panel, wxID_ANY, "Rotate angles *");
                 slp_angles->SetValue(true);
                 slp_angles->SetToolTip("Right click image to manually set angle\nNo east side support yet");
-                wxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+                slp_sizer = new wxBoxSizer(wxVERTICAL);
                 wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
                 wxSizer *sizer3 = new wxBoxSizer(wxHORIZONTAL);
                 wxSizer *sizer4 = new wxBoxSizer(wxHORIZONTAL);
 
-                sizer->Add(slp_view, 1, wxEXPAND);
+                slp_sizer->Add(slp_view, 1, wxEXPAND);
                 sizer3->Add(slp_animate, 0, wxALL, 2);
                 sizer3->Add(slp_shadow, 0, wxALL, 2);
                 sizer3->Add(slp_outline, 0, wxALL, 2);
@@ -1992,11 +2002,23 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 sizer4->Add(slp_frame_export);
                 sizer4->Add(slp_frame_import);
                 sizer4->Add(slp_save);
+                sizer4->Add(slp_tool);
                 sizer3->Add(slp_hotspot, 0, wxALL, 2);
-                sizer->Add(sizer3, 0, wxEXPAND);
-                sizer->Add(sizer2, 0, wxEXPAND);
-                sizer->Add(sizer4, 0, wxEXPAND);
-                panel->SetSizer(sizer);
+                slp_tool_layout->Add(text_source1, 1, wxEXPAND);
+                slp_tool_layout->Add(slp_source1, 1, wxEXPAND);
+                slp_tool_layout->Add(text_source2, 1, wxEXPAND);
+                slp_tool_layout->Add(slp_source2, 1, wxEXPAND);
+                slp_tool_layout->Add(text_target1, 1, wxEXPAND);
+                slp_tool_layout->Add(slp_target1, 1, wxEXPAND);
+                slp_tool_layout->AddSpacer(1);
+                slp_tool_layout->Add(slp_merge_shadow);
+                slp_sizer->Add(slp_tool_layout, 0, wxEXPAND);
+                slp_sizer->Add(sizer3, 0, wxEXPAND);
+                slp_sizer->Add(sizer2, 0, wxEXPAND);
+                slp_sizer->Add(sizer4, 0, wxEXPAND);
+                slp_tool_layout->AddGrowableCol(1, 1);
+                slp_tool_layout->Show(slp_tool_on);
+                panel->SetSizer(slp_sizer);
 
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
@@ -2008,6 +2030,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_frame_export->Connect(opExportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_frame_import->Connect(opImportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_save->Connect(opSaveSLP, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_tool->Connect(opSLPTool, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_merge_shadow->Connect(opSLPMergeShadow, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_hotspot->Connect(opShowHotspot, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_animate->Connect(opAnimSLP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_shadow->Connect(opShowShadows, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
@@ -2553,7 +2577,7 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
                 rgbdata[loc] = rgba.r;
                 rgbdata[loc + 1] = rgba.g;
                 rgbdata[loc + 2] = rgba.b;
-                if(playerColorToAlpha)
+                if(exportFrame)
                 {
                     rgbdata[locA] = 230 + imgdata->player_color_mask[i].index;
                 }
@@ -2574,7 +2598,7 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
                     rgbdata[loc] = 0;
                     rgbdata[loc + 1] = 255;
                     rgbdata[loc + 2] = 0;
-                    rgbdata[locA] = playerColorToAlpha ? 201: 255;
+                    rgbdata[locA] = exportFrame ? 201: 255;
                 }
                 // Player color
                 for(int i=0; i < imgdata->outline_pc_mask.size(); ++i)
@@ -2586,7 +2610,7 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
                     rgbdata[loc] = rgba.r;
                     rgbdata[loc + 1] = rgba.g;
                     rgbdata[loc + 2] = rgba.b;
-                    rgbdata[locA] = playerColorToAlpha ? 200: 255;
+                    rgbdata[locA] = exportFrame ? 200: 255;
                 }
             }
         }
@@ -3259,7 +3283,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         break;
         case opExportFrame:
         {
-            playerColorToAlpha = true;
+            exportFrame = true;
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
                 SLPtoBitMap(&graphicSLP);
@@ -3267,7 +3291,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 if(!graphicSLP.bitmap.SaveFile("Testi.png", wxBITMAP_TYPE_PNG))
                     wxMessageBox("Saving frame as PNG failed", "SLP");
             }
-            playerColorToAlpha = false;
+            exportFrame = false;
         }
         break;
         case opImportFrame:
@@ -3305,6 +3329,71 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 }
             }
             else wxMessageBox("Look at some graphic", "SLP");
+        }
+        break;
+        case opSLPTool:
+        {
+            slp_tool_on = !slp_tool_on;
+            slp_tool_layout->Show(slp_tool_on);
+            slp_sizer->Layout();
+            slp_window->Fit();
+        }
+        break;
+        case opSLPMergeShadow:
+        {
+            genie::SlpFilePtr slp_src1(new genie::SlpFile());
+            genie::SlpFilePtr slp_src2(new genie::SlpFile());
+            try
+            {
+                slp_src1.get()->load(slp_source1->GetPath().c_str());
+                slp_src1.get()->freelock();
+                slp_src2.get()->load(slp_source2->GetPath().c_str());
+                slp_src2.get()->freelock();
+            }
+            catch(std::ios_base::failure e)
+            {
+                wxMessageBox("Error reading SLP files", "SLP");;
+                return;
+            }
+            for(uint32_t frame = 0; frame < slp_src1.get()->getFrameCount(); ++frame)
+            {
+                genie::SlpFramePtr frame1, frame2;
+                try
+                {
+                    frame1 = slp_src1.get()->getFrame(frame);
+                    frame2 = slp_src2.get()->getFrame(frame);
+                }
+                catch(out_of_range)
+                {
+                    wxMessageBox("Frame count mismatch", "SLP");
+                    break;
+                }
+                int hotspot_dx = frame1.get()->hotspot_x - frame2.get()->hotspot_x,
+                    hotspot_dy = frame1.get()->hotspot_y - frame2.get()->hotspot_y;
+                // TODO: Resize frame if the other frame is bigger in some dimension.
+                const uint32_t width = frame1.get()->getWidth();
+                genie::SlpFrameData *imgdata = &frame1.get()->img_data;
+                imgdata->shadow_mask.clear();
+                for(auto const &shadow_pixel: frame2.get()->img_data.shadow_mask)
+                {
+                    int x = shadow_pixel.x + hotspot_dx,
+                        y = shadow_pixel.y + hotspot_dy,
+                        slot = y * width + x;
+                    if(slot < imgdata->alpha_channel.size() && imgdata->alpha_channel[slot] == 0)
+                    {
+                        imgdata->shadow_mask.push_back({x, y});
+                    }
+                }
+            }
+            try
+            {
+                slp_src1.get()->saveAs(slp_target1->GetPath().c_str());
+                wxMessageBox("Merged SLP files", "SLP");
+            }
+            catch(std::ios_base::failure e)
+            {
+                wxMessageBox("Saving SLP failed", "SLP");
+            }
         }
         break;
         case opShowHotspot:
