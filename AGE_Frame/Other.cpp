@@ -3368,18 +3368,18 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     wxMessageBox("Frame count mismatch", "SLP");
                     break;
                 }
-                const int32_t hotspot_dx = frame1.get()->hotspot_x - frame2.get()->hotspot_x,
-                    hotspot_dy = frame1.get()->hotspot_y - frame2.get()->hotspot_y;
-                // TODO: Resize frame if the other frame is bigger in some dimension.
-                bool crop = false;
-                const uint32_t width = frame1.get()->getWidth(),
-                    height = frame1.get()->getHeight();
+
+                int32_t offset_x, offset_y;
+                // Resize frame if the other frame is bigger in some dimension.
+                frame1.get()->enlargeForMerge(*(frame2.get()), offset_x, offset_y);
+                uint32_t width = frame1.get()->getWidth(), height = frame1.get()->getHeight();
+
                 genie::SlpFrameData *imgdata = &frame1.get()->img_data;
                 imgdata->shadow_mask.clear();
                 for(auto const &shadow_pixel: frame2.get()->img_data.shadow_mask)
                 {
-                    const uint32_t x = shadow_pixel.x + hotspot_dx,
-                        y = shadow_pixel.y + hotspot_dy,
+                    const uint32_t x = shadow_pixel.x + offset_x,
+                        y = shadow_pixel.y + offset_y,
                         slot = y * width + x;
                     if(x < width && y < height)
                     {
@@ -3387,9 +3387,8 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                         {
                             imgdata->shadow_mask.push_back({x, y});
                         }
-                    } else crop = true;
+                    }
                 }
-                if(crop) wxMessageBox("2nd SLP does not fit into 1st SLP", "SLP");
             }
             try
             {
