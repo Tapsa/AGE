@@ -442,9 +442,11 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Resource_Holder = new wxBoxSizer(wxHORIZONTAL);
 	SoundItems_Resource_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File DRS Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Resource = AGETextCtrl::init(CLong, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+    SoundFile_AutoIncrement = new wxButton(Tab_Sounds, wxID_ANY, "Auto # from 1st", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Probability_Holder = new wxBoxSizer(wxHORIZONTAL);
 	SoundItems_Probability_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Probability", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Probability = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+    SoundFile_AutoProbability = new wxButton(Tab_Sounds, wxID_ANY, "Auto odds", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Civ_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Civ_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	SoundItems_Civ = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
@@ -458,8 +460,16 @@ void AGE_Frame::CreateSoundControls()
     SoundFile_Play = new wxButton(Tab_Sounds, wxID_ANY, "Play WAV", wxDefaultPosition, wxSize(5, 20));
     SoundFile_Stop = new wxButton(Tab_Sounds, wxID_ANY, "Stop WAV", wxDefaultPosition, wxSize(5, 20));
     SoundFile_Loop->SetValue(true);
-    SoundFile_AutoProbability = new wxButton(Tab_Sounds, wxID_ANY, "Auto odds", wxDefaultPosition, wxSize(5, 20));
-    SoundFile_AutoIncrement = new wxButton(Tab_Sounds, wxID_ANY, "Auto # from 1st", wxDefaultPosition, wxSize(5, 20));
+    SoundFile_CopyCivToCiv = new wxButton(Tab_Sounds, wxID_ANY, "Copy sounds from civ to civ *", wxDefaultPosition, wxSize(5, 20));
+    SoundFile_CopyCivToCiv->SetToolTip("Applies to all sounds");
+    wxSizer *SourceCiv_Holder = new wxBoxSizer(wxHORIZONTAL);
+    wxSizer *TargetCiv_Holder = new wxBoxSizer(wxHORIZONTAL);
+    wxStaticText *SourceCiv_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Source ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    wxStaticText *TargetCiv_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Target ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    SoundFile_Source_Civ = new wxComboBox(Tab_Sounds, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+    SoundFile_Target_Civ = new wxComboBox(Tab_Sounds, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+    CivComboBoxListNormal.push_back(SoundFile_Source_Civ);
+    CivComboBoxListNormal.push_back(SoundFile_Target_Civ);
 
 	Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
 	Sounds_AllItems_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
@@ -534,6 +544,11 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_AllItems_Buttons->Add(Sounds_AllItems_Clear, 1, wxEXPAND);
 	Sounds_AllItems->Add(Sounds_AllItems_Buttons, 0, wxEXPAND);
 
+	SourceCiv_Holder->Add(SourceCiv_Text);
+	SourceCiv_Holder->Add(SoundFile_Source_Civ, 1, wxEXPAND);
+	TargetCiv_Holder->Add(TargetCiv_Text);
+	TargetCiv_Holder->Add(SoundFile_Target_Civ, 1, wxEXPAND);
+
 	Sounds_DataArea->Add(Sounds_ID_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(Sounds_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(Sounds_Unknown2_Holder, 0, wxEXPAND | wxTOP, 5);
@@ -548,6 +563,9 @@ void AGE_Frame::CreateSoundControls()
 	SoundFile_Holder->Add(SoundFile_Play, 1, wxEXPAND | wxLEFT, 5);
 	SoundFile_Holder->Add(SoundFile_Stop, 1, wxEXPAND | wxLEFT, 5);
 	Sounds_DataArea->Add(SoundFile_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundFile_CopyCivToCiv, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SourceCiv_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(TargetCiv_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	Sounds_Main->Add(Sounds_Sounds, 1, wxEXPAND | wxALL, 5);
 	Sounds_Main->Add(Sounds_Items, 1, wxEXPAND | wxRIGHT | wxTOP | wxBOTTOM, 5);
@@ -599,6 +617,7 @@ void AGE_Frame::CreateSoundControls()
 	Connect(SoundFile_Stop->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::playWAV));
 	Connect(SoundFile_AutoProbability->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::autoOdds));
 	Connect(SoundFile_AutoIncrement->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::autoDrsIncrement));
+	Connect(SoundFile_CopyCivToCiv->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::copySoundsFromCivToCiv));
 
     soundTimer.Connect(soundTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundsTimer), NULL, this);
     soundFileTimer.Connect(soundFileTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnSoundItemsTimer), NULL, this);
@@ -758,5 +777,46 @@ void AGE_Frame::autoDrsIncrement(wxCommandEvent &event)
     int32_t resourceID = dataset->Sounds[SoundIDs[0]].Items[0].ResourceID;
     for(size_t file = 1; file < dataset->Sounds[SoundIDs[0]].Items.size(); ++file)
     dataset->Sounds[SoundIDs[0]].Items[file].ResourceID = ++resourceID;
+    ListSoundItems();
+}
+
+void AGE_Frame::copySoundsFromCivToCiv(wxCommandEvent &event)
+{
+    int16_t sourceCiv = SoundFile_Source_Civ->GetSelection(),
+        targetCiv = SoundFile_Target_Civ->GetSelection();
+    if(sourceCiv == targetCiv) return;
+    wxBusyCursor WaitCursor;
+    for(auto &sound: dataset->Sounds)
+    {
+        vector<size_t> targets;
+        vector<genie::SoundItem> copies;
+        for(size_t file = 0; file < sound.Items.size(); ++file)
+        {
+            if(sound.Items[file].Culture == sourceCiv)
+            {
+                copies.emplace_back(sound.Items[file]);
+                copies.back().Culture = targetCiv;
+            }
+            else if(sound.Items[file].Culture == targetCiv)
+            {
+                targets.emplace_back(file);
+            }
+        }
+        if(copies.size() == targets.size())
+        {
+            for(size_t file = 0; file < targets.size(); ++file)
+            {
+                sound.Items[targets[file]] = copies[file];
+            }
+        }
+        else
+        {
+            for(size_t file = targets.size(); file--> 0;)
+            {
+                sound.Items.erase(sound.Items.begin() + targets[file]);
+            }
+            sound.Items.insert(sound.Items.end(), copies.begin(), copies.end());
+        }
+    }
     ListSoundItems();
 }

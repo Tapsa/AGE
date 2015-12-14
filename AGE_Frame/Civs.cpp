@@ -46,10 +46,13 @@ void AGE_Frame::InitCivs(bool all)
 	if(all)
 	{
 		FillLists(CivComboBoxList, names);
-		short savedUnitCiv = Units_Civs_List->GetSelection();
-		Units_Civs_List->Clear();
-		Units_Civs_List->Append(names);
-		Units_Civs_List->SetSelection(savedUnitCiv);
+        for(auto &box: CivComboBoxListNormal)
+        {
+            short selection = box->GetSelection();
+            box->Clear();
+            box->Append(names);
+            box->SetSelection(selection < box->GetCount() ? selection : 0);
+        }
 	}
 }
 
