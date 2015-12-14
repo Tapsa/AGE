@@ -183,6 +183,7 @@ public:
     int produceRecentValues(wxArrayString&, vector<wxArrayString>&);
     void autoOdds(wxCommandEvent &event);
     void autoDrsIncrement(wxCommandEvent &event);
+    void copySoundsFromCivToCiv(wxCommandEvent &event);
 
 //	General Events
 
@@ -834,6 +835,7 @@ public:
 	vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
 	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
 	TerrainRestrictionComboBoxList, SoundComboBoxList;
+    vector<wxComboBox*> CivComboBoxListNormal;
 
 	vector<short> RandomMapIDs;
 	vector<short> UnknownFSIDs;
@@ -2971,6 +2973,9 @@ public:
     wxButton *SoundFile_Stop;
     wxButton *SoundFile_AutoProbability;
     wxButton *SoundFile_AutoIncrement;
+    wxButton *SoundFile_CopyCivToCiv;
+    wxComboBox *SoundFile_Source_Civ;
+    wxComboBox *SoundFile_Target_Civ;
 
 	wxStaticBoxSizer *Sounds_AllItems;
 	wxBoxSizer *Sounds_AllItems_Searches[2];
