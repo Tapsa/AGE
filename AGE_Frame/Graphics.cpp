@@ -300,10 +300,10 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 if(dataset->Civs[UnitCivID].Units[unitID].Type == 80)
                 {
                     // Start drawing from head unit instead.
-                    if(dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit < dataset->Civs[UnitCivID].Units.size())
+                    if(ShowStack && dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit < dataset->Civs[UnitCivID].Units.size())
                         unitID = dataset->Civs[UnitCivID].Units[unitID].Building.HeadUnit;
                     // Draw this building only if it will stay up after built.
-                    if(dataset->Civs[UnitCivID].Units[unitID].Building.DisappearsWhenBuilt == 0)
+                    if(dataset->Civs[UnitCivID].Units[unitID].Building.DisappearsWhenBuilt == 0 || !ShowStack)
                     {
                         AddAnnexAndStackGraphics(unitID);
                         if(ShowAnnexes)
