@@ -12,6 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2015.12.17[/b]:
+-Improved SLP view when stack option is unchecked.
+-Fixed black shadows on saved SLPs.
+
 Version [b]2015.12.11[/b]:
 -Added copy sounds from civ to civ button to sounds tab.
 -Added an option to merge shadow from another SLP.
