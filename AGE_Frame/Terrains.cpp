@@ -7,11 +7,11 @@ string AGE_Frame::GetTerrainName(int index, bool Filter)
 	if(Filter)
 	{
 		short Selection[2];
-		for(short loop = 0; loop < 2; ++loop)
+		for(size_t loop = 0; loop < 2; ++loop)
 		Selection[loop] = Terrains_SearchFilters[loop]->GetSelection();
 
 		if(Selection[0] > 1) // Internal name prevents
-		for(short loop = 0; loop < 2; ++loop)
+		for(size_t loop = 0; loop < 2; ++loop)
 		{
 			switch(Selection[loop])
 			{
@@ -116,7 +116,7 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &event)
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	uint16_t UsedTerrains = lexical_cast<uint16_t>(((wxTextCtrl*)event.GetEventObject())->GetValue());
 	// Resize terrain restrictions
-	for(short loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
 	{
 		dataset->TerrainRestrictions[loop].PassableBuildableDmgMultiplier.resize(UsedTerrains);
 		if(GenieVersion >= genie::GV_AoKA)
@@ -146,7 +146,7 @@ void AGE_Frame::InitTerrains1(bool all)
 {
 	searchText = Terrains_Terrains_Search->GetValue().MakeLower();
 	excludeText = Terrains_Terrains_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Terrains_Terrains_UseAnd[loop]->GetValue();
 
 	Terrains_Terrains_ListV->names.clear();
@@ -154,7 +154,7 @@ void AGE_Frame::InitTerrains1(bool all)
 	wxArrayString names;
 	if(all) names.Alloc(dataset->TerrainBlock.Terrains.size());
 
-	for(short loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainName(loop, true);
 		if(SearchMatches(Name.Lower()))
@@ -165,7 +165,7 @@ void AGE_Frame::InitTerrains1(bool all)
 		if(all) names.Add(" "+FormatInt(loop)+" - "+GetTerrainName(loop));
 	}
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
 	virtualListing(Terrains_Terrains_ListV);
@@ -181,7 +181,7 @@ void AGE_Frame::InitTerrains2()
 	TerRestrict_Terrains_ListV->names.clear();
 	TerRestrict_Terrains_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TerrainRestrictions[0].PassableBuildableDmgMultiplier.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainRestrictions[0].PassableBuildableDmgMultiplier.size(); ++loop)
 	{
         float val = dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[loop];
 		wxString Name = " "+FormatInt(loop)+" - P"+(val > 0 ? "1" : "0")+" B"+(val > 0.05 ? "1" : "0")+" - "+GetTerrainName(loop);
@@ -229,11 +229,11 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 			Terrains_BlendPriority->prepend(&TerrainPointer->BlendPriority);
 			Terrains_BlendType->prepend(&TerrainPointer->BlendType);
 		}
-		for(short loop = 0; loop < 3; ++loop)
+		for(size_t loop = 0; loop < 3; ++loop)
 		{
 			Terrains_Colors[loop]->prepend(&TerrainPointer->Colors[loop]);
 		}
-		for(short loop = 0; loop < Terrains_CliffColors.size(); ++loop)
+		for(size_t loop = 0; loop < Terrains_CliffColors.size(); ++loop)
 		Terrains_CliffColors[0]->prepend(&TerrainPointer->CliffColors.first);
 		Terrains_CliffColors[1]->prepend(&TerrainPointer->CliffColors.second);
 		Terrains_PassableTerrain->prepend(&TerrainPointer->PassableTerrain);
@@ -248,7 +248,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 		Terrains_AnimateLast->prepend(&TerrainPointer->AnimateLast);
 		Terrains_FrameChanged->prepend(&TerrainPointer->FrameChanged);
 		Terrains_Drawn->prepend(&TerrainPointer->Drawn);
-		for(short loop = 0, slot = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT; ++loop)
+		for(size_t loop = 0, slot = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT; ++loop)
 		{
 			Terrains_ElevationGraphics[slot++]->prepend(&TerrainPointer->ElevationGraphics[loop].FrameCount);
 			Terrains_ElevationGraphics[slot++]->prepend(&TerrainPointer->ElevationGraphics[loop].AngleCount);
@@ -257,7 +257,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 		Terrains_TerrainReplacementID->prepend(&TerrainPointer->TerrainToDraw);
 		Terrains_TerrainDimensions[0]->prepend(&TerrainPointer->TerrainDimensions.first);
 		Terrains_TerrainDimensions[1]->prepend(&TerrainPointer->TerrainDimensions.second);
-		for(short loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
+		for(size_t loop = 0; loop < TerrainPointer->TERRAIN_UNITS_SIZE; ++loop)
 		{
 			Terrains_TerrainUnitID[loop]->prepend(&TerrainPointer->TerrainUnitID[loop]);
 			Terrains_TerrainUnitDensity[loop]->prepend(&TerrainPointer->TerrainUnitDensity[loop]);
@@ -323,7 +323,7 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &event) // Their count is hardcoded
 
 	wxBusyCursor WaitCursor;
 	genie::Terrain::customTerrainAmount = ++CustomTerrains;
-	for(short loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
 	dataset->TerrainBlock.Terrains[loop].setGameVersion(GenieVersion);
 	AddToList(dataset->TerrainBlock.Terrains);
 	ListTerrains1();
@@ -346,7 +346,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardco
 	wxBusyCursor WaitCursor;
 	genie::Terrain::customTerrainAmount = CustomTerrains -= TerrainIDs.size();
 	DeleteFromList(dataset->TerrainBlock.Terrains, TerrainIDs);
-	for(short loop = dataset->TerrainBlock.Terrains.size(); loop--> 0;)
+	for(size_t loop = dataset->TerrainBlock.Terrains.size(); loop--> 0;)
 	DeleteFromList(dataset->TerrainBlock.Terrains[loop].Borders, TerrainIDs);
 	ListTerrains1();
 }
@@ -405,7 +405,7 @@ void AGE_Frame::ListTerrainsBorders()
 	Terrains_Borders_ListV->names.clear();
 	Terrains_Borders_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" "+GetTerrainName(loop)+" - ";
 		Name += lexical_cast<string>(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop])+" ";
@@ -478,7 +478,7 @@ void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainsBorderCopyToBuildings(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TerrainIDs.size(); ++loop)
+	for(size_t loop=1; loop < TerrainIDs.size(); ++loop)
 	{
 		dataset->TerrainBlock.Terrains[TerrainIDs[loop]].Borders = dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders;
 	}
@@ -494,7 +494,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Terrains_UseAnd[0] = new wxCheckBox(Tab_Terrains, wxID_ANY, "And");
 	Terrains_Terrains_Search_R = new wxTextCtrl(Tab_Terrains, wxID_ANY);
 	Terrains_Terrains_UseAnd[1] = new wxCheckBox(Tab_Terrains, wxID_ANY, "And");
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Terrains_Terrains_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Terrains_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Terrains, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -544,12 +544,12 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Colors_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Colors_Grid = new wxGridSizer(3, 0, 0);
 	Terrains_Colors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < 3; ++loop)
+	for(size_t loop = 0; loop < 3; ++loop)
 	Terrains_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller);
 	Terrains_CliffColors_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_CliffColors_Grid = new wxGridSizer(2, 0, 0);
 	Terrains_CliffColors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Cliff Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < Terrains_CliffColors.size(); ++loop)
+	for(size_t loop = 0; loop < Terrains_CliffColors.size(); ++loop)
 	Terrains_CliffColors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller);
 
 	Terrains_PassableTerrain_Holder = new wxBoxSizer(wxVERTICAL);
@@ -610,7 +610,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_TerrainUnitID_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_TerrainUnitDensity_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unit Density", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_TerrainUnitPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unit Priority *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < TERRAINUNITS; ++loop)
+	for(size_t loop = 0; loop < TERRAINUNITS; ++loop)
 	{
 		Terrains_TerrainUnitID[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller, true);
 		Terrains_TerrainUnitID_ComboBox[loop] = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainUnitID[loop]);
@@ -622,7 +622,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_ElevationGraphics_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Unknown9_Grid = new wxGridSizer(3, 0, 0);
 	Terrains_ElevationGraphics_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Elevation Graphics\n Frames, Animations, Shape index", wxDefaultPosition, wxSize(-1, 30), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < Terrains_ElevationGraphics.size(); ++loop)
+	for(size_t loop = 0; loop < Terrains_ElevationGraphics.size(); ++loop)
 	{
 		Terrains_ElevationGraphics[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller, 2);
 	}
@@ -667,7 +667,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Drawn_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Drawn", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_Drawn = AGETextCtrl::init(CByte, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Terrains_SearchFilters[loop]->Append("Internal Name");	// 0
 		Terrains_SearchFilters[loop]->Append("SLP Name");
@@ -703,9 +703,9 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Terrains_Searches[0]->Add(Terrains_Terrains_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Terrains_Terrains_Searches[1]->Add(Terrains_Terrains_Search_R, 1, wxEXPAND);
 	Terrains_Terrains_Searches[1]->Add(Terrains_Terrains_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Terrains_Terrains->Add(Terrains_Terrains_Searches[loop], 0, wxEXPAND);
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Terrains_Terrains->Add(Terrains_SearchFilters[loop], 0, wxEXPAND);
 	Terrains_Terrains->Add(Terrains_Terrains_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Terrains_Terrains->Add(Terrains_UsedCountHolder, 0, wxEXPAND);
@@ -734,12 +734,12 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority, 0, wxEXPAND);
 	Terrains_BlendType_Holder->Add(Terrains_BlendType_Text, 0, wxEXPAND);
 	Terrains_BlendType_Holder->Add(Terrains_BlendType, 0, wxEXPAND);
-	for(short loop = 0; loop < 3; ++loop)
+	for(size_t loop = 0; loop < 3; ++loop)
 	Terrains_Colors_Grid->Add(Terrains_Colors[loop], 1, wxEXPAND);
 	Terrains_Colors_Holder->Add(Terrains_Colors_Text, 0, wxEXPAND);
 	Terrains_Colors_Holder->Add(Terrains_Colors_Grid, 0, wxEXPAND);
 	Terrains_CliffColors_Holder->Add(Terrains_CliffColors_Text, 0, wxEXPAND);
-	for(short loop = 0; loop < Terrains_CliffColors.size(); ++loop)
+	for(size_t loop = 0; loop < Terrains_CliffColors.size(); ++loop)
 	Terrains_CliffColors_Grid->Add(Terrains_CliffColors[loop], 1, wxEXPAND);
 	Terrains_CliffColors_Holder->Add(Terrains_CliffColors_Grid, 0, wxEXPAND);
 	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain_Text, 0, wxEXPAND);
@@ -782,7 +782,7 @@ void AGE_Frame::CreateTerrainControls()
 
 	Terrains_ElevationGraphics_Holder->Add(Terrains_ElevationGraphics_Text, 0, wxEXPAND);
 	Terrains_ElevationGraphics_Holder->Add(Terrains_Unknown9_Grid, 0, wxEXPAND);
-	for(short loop = 0; loop < Terrains_ElevationGraphics.size(); ++loop)
+	for(size_t loop = 0; loop < Terrains_ElevationGraphics.size(); ++loop)
 	{
 		Terrains_Unknown9_Grid->Add(Terrains_ElevationGraphics[loop], 1, wxEXPAND);
 	}
@@ -797,7 +797,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_TerrainUnitID_Holder1->AddSpacer(15);
 	Terrains_TerrainUnitDensity_Holder->Add(Terrains_TerrainUnitDensity_Text, 0, wxEXPAND);
 	Terrains_TerrainUnitPriority_Holder->Add(Terrains_TerrainUnitPriority_Text, 0, wxEXPAND);
-	for(short loop = 0; loop < TERRAINUNITS; ++loop)
+	for(size_t loop = 0; loop < TERRAINUNITS; ++loop)
 	{
 		Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID[loop], 1, wxEXPAND);
 		Terrains_TerrainUnitID_Holder1->Add(Terrains_TerrainUnitID_ComboBox[loop], 1, wxEXPAND);
@@ -866,7 +866,7 @@ void AGE_Frame::CreateTerrainControls()
 
 	Connect(Terrains_Terrains_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
 	Connect(Terrains_Terrains_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Connect(Terrains_Terrains_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainsSearch));
 		Connect(Terrains_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));

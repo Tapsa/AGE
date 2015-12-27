@@ -34,7 +34,7 @@ void AGE_Frame::InitPlayerColors()
 	wxArrayString names;
 	names.Alloc(dataset->PlayerColours.size());
 
-	for(short loop = 0; loop < dataset->PlayerColours.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->PlayerColours.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetPlayerColorName(loop);
 		if(SearchMatches(Name.Lower()))

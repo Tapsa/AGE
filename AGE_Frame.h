@@ -579,7 +579,7 @@ public:
 	void OnUnitsPaste(wxCommandEvent &event);
 	void OnUnitsPasteInsert(wxCommandEvent &event);
 	void PasteUnits(bool OneOnOne = false);
-	short CorrectID(bool OneOnOne, short loop);
+	short CorrectID(bool OneOnOne, size_t loop);
 	void OnUnitsSpecialPaste(wxCommandEvent &event);
 	void OnUnitsSpecialPasteInsert(wxCommandEvent &event);
 	void UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit);
@@ -3383,7 +3383,7 @@ public:
 	template <class P, class C>
 	inline void PasteToListNoGV(P &path, vector<short> &places, C &copies)
 	{
-		for(int loop = 0; loop < places.size(); ++loop)
+		for(size_t loop = 0; loop < places.size(); ++loop)
 		{
 			path[places[loop]] = copies[loop];
 		}
@@ -3406,7 +3406,7 @@ public:
 	template <class P, class C>
 	inline void PasteToList(P &path, vector<short> &places, C &copies)
 	{
-		for(int loop = 0; loop < places.size(); ++loop)
+		for(size_t loop = 0; loop < places.size(); ++loop)
 		{
 			copies[loop].setGameVersion(GenieVersion);
 			path[places[loop]] = copies[loop];
@@ -3443,7 +3443,7 @@ public:
 	template <class P, class C>
 	inline void PasteToListIDFix(P &path, vector<short> &places, C &copies)
 	{
-		for(int loop = 0; loop < places.size(); ++loop)
+		for(size_t loop = 0; loop < places.size(); ++loop)
 		{
 			copies[loop].setGameVersion(GenieVersion);
 			path[places[loop]] = copies[loop];

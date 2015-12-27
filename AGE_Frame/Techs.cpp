@@ -13,7 +13,7 @@ void AGE_Frame::OnTechRenameGE2(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	string Name;
-	for(short loop = 0; loop < dataset->Techages.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Techages.size(); ++loop)
 	{
 		dataset->Techages[loop].Name = "Tech";
 	}
@@ -25,7 +25,7 @@ void AGE_Frame::OnTechRename(wxCommandEvent &event)
 	auto selections = Techs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	for(short loop3 = 0; loop3 < dataset->Techages.size(); ++loop3)
+	for(size_t loop3 = 0; loop3 < dataset->Techages.size(); ++loop3)
 	{
 		if(dataset->Techages[loop3].Effects.size() < 1) // Empty techs.
 		{
@@ -37,7 +37,7 @@ void AGE_Frame::OnTechRename(wxCommandEvent &event)
 		}
 	}
 	short ResearchTechID = 0;
-	for(short loop=dataset->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
+	for(size_t loop=dataset->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
 	{
 		ResearchTechID = dataset->Researchs[loop].TechageID;
 		if(ResearchTechID >= 0) // Only researches which have techs.
@@ -54,7 +54,7 @@ void AGE_Frame::OnTechRename(wxCommandEvent &event)
 	}
 	string CivName;
 	short CivTechTreeID=0, CivTeamBonusID = 0;
-	for(short loop2=dataset->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
+	for(size_t loop2=dataset->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
 	{
 		string CivName = lexical_cast<string>(dataset->Civs[loop2].Name); // Civ internal name.
 		CivTechTreeID = dataset->Civs[loop2].TechTreeID;
@@ -88,7 +88,7 @@ void AGE_Frame::InitTechs(bool all)
 {
 	searchText = Techs_Search->GetValue().MakeLower();
 	excludeText = Techs_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_UseAnd[loop]->GetValue();
 
 
@@ -98,7 +98,7 @@ void AGE_Frame::InitTechs(bool all)
 	wxArrayString names;
 	if(all) names.Alloc(dataset->Techages.size());
 
-	for(short loop = 0; loop < dataset->Techages.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Techages.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTechName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -112,7 +112,7 @@ void AGE_Frame::InitTechs(bool all)
 	virtualListing(Techs_ListV);
 	if(all) FillLists(TechComboBoxList, names);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 }
 
@@ -334,14 +334,14 @@ void AGE_Frame::ListEffects()
 {
 	searchText = Techs_Effects_Search->GetValue().MakeLower();
 	excludeText = Techs_Effects_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
 
 	Techs_Effects_ListV->names.clear();
 	Techs_Effects_ListV->indexes.clear();
 
     if(dataset->Techages.size())
-	for(short loop = 0; loop < dataset->Techages[TechIDs[0]].Effects.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Techages[TechIDs[0]].Effects.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetEffectName(loop, TechIDs[0]);
 		if(SearchMatches(Name.Lower()))
@@ -352,7 +352,7 @@ void AGE_Frame::ListEffects()
 	}
 	virtualListing(Techs_Effects_ListV);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
 	wxTimerEvent E;
@@ -1001,7 +1001,7 @@ void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &event)	// Works.
 
 void AGE_Frame::OnEffectsCopyToTechs(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TechIDs.size(); ++loop)
+	for(size_t loop=1; loop < TechIDs.size(); ++loop)
 	{
 		dataset->Techages[TechIDs[loop]].Effects = dataset->Techages[TechIDs[0]].Effects;
 	}
@@ -1012,7 +1012,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
 	wxString Name;
 	searchText = Techs_AllEffects_Search->GetValue().MakeLower();
 	excludeText = Techs_AllEffects_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
 
 	Techs_AllEffects_ListV->names.clear();
@@ -1032,7 +1032,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
     virtualListing(Techs_AllEffects_ListV);
 	//Techs_AllEffects_ListV->SetFocus(); You need to check if searched or not.
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
 	wxTimerEvent E;
@@ -1319,7 +1319,7 @@ void AGE_Frame::CreateTechControls()
 
 	Tab_Techs->SetSizer(Techs_Main);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Connect(Techs_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTechSearch));
 		Connect(Techs_Effects_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnEffectsSearch));
