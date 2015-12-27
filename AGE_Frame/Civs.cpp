@@ -31,7 +31,7 @@ void AGE_Frame::InitCivs(bool all)
 	wxArrayString names;
 	if(all) names.Alloc(dataset->Graphics.size());
 
-	for(short loop = 0; loop < dataset->Civs.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetCivName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -87,7 +87,7 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 				if(GenieVersion >= genie::GV_SWGB)
 				{
 					Civs_Name[1]->prepend(&CivPointer->Name2);
-					for(short loop = 0; loop < 4; ++loop)
+					for(size_t loop = 0; loop < 4; ++loop)
 					Civs_SUnknown1[loop]->prepend(&CivPointer->UniqueUnitsResearches[loop]);
 				}
 			}
@@ -204,7 +204,7 @@ void AGE_Frame::OnCivCountChange()
 	if(Units_CivBoxes.size() < CivCount)
 	{
 		Units_CivBoxes.reserve(CivCount);
-		for(short loop = Units_CivBoxes.size(); loop < CivCount; ++loop)
+		for(size_t loop = Units_CivBoxes.size(); loop < CivCount; ++loop)
 		{
 			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(30, 20)));
 			Units_CivBoxes[loop]->SetValue(true);
@@ -214,13 +214,13 @@ void AGE_Frame::OnCivCountChange()
 	}
 	else if(Units_CivBoxes.size() > CivCount)
 	{
-		for(short loop = Units_CivBoxes.size(); loop--> CivCount;)
+		for(size_t loop = Units_CivBoxes.size(); loop--> CivCount;)
 		{
 			Units_CivBoxes[loop]->Destroy();
 		}
 		Units_CivBoxes.resize(CivCount);
 	}
-	for(short loop = 0; loop < CivCount; ++loop)
+	for(size_t loop = 0; loop < CivCount; ++loop)
 	{
 		if(GenieVersion < genie::GV_SWGB)
 		Units_CivBoxes[loop]->SetLabel(dataset->Civs[loop].Name.substr(0, 2));
@@ -694,7 +694,7 @@ void AGE_Frame::ListResources(bool all)
 	wxArrayString names;
 	if(all) names.Alloc(dataset->Civs[CivIDs[0]].Resources.size());
 
-	for(short loop = 0; loop < dataset->Civs[CivIDs[0]].Resources.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Civs[CivIDs[0]].Resources.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - Value: "+FormatFloat(dataset->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -743,7 +743,7 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < dataset->Civs.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
 	dataset->Civs[loop].Resources.push_back(0);
 	How2List = ADD;
 	ListResources();
@@ -755,7 +755,7 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < dataset->Civs.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
 	dataset->Civs[loop].Resources.insert(dataset->Civs[loop].Resources.begin() + ResourceIDs[0], 0);
 	How2List = INSNEW;
 	ListResources();
@@ -767,7 +767,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
+	for(size_t loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
 	{
 		for(auto loop = selections; loop--> 0;)
 		dataset->Civs[loop2].Resources.erase(dataset->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
@@ -822,10 +822,10 @@ void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < selections; ++loop)
+	for(size_t loop = 0; loop < selections; ++loop)
 	{
 		float Copy = dataset->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
-		for(short loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
+		for(size_t loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
 		dataset->Civs[loop2].Resources[ResourceIDs[loop]] = Copy;
 	}
 }
@@ -877,7 +877,7 @@ void AGE_Frame::CreateCivControls()
 	TechComboBoxList.push_back(Civs_TeamBonus_ComboBox);
 	Civs_SUnknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_SUnknown1_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < 4; ++loop)
+	for(size_t loop = 0; loop < 4; ++loop)
 	Civs_SUnknown1[loop] = AGETextCtrl::init(CShort, &uiGroupCiv, this, AGEwindow, Tab_Civs);
 
 	Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources");
@@ -911,12 +911,12 @@ void AGE_Frame::CreateCivControls()
 
 	Civs_One_Holder->Add(Civs_One_Text, 0, wxEXPAND);
 	Civs_One_Holder->Add(Civs_One, 1, wxEXPAND);
-	for(short loop = 0; loop < 2; ++loop){
+	for(size_t loop = 0; loop < 2; ++loop){
 	Civs_Name_Holder[loop]->Add(Civs_Name_Text[loop], 0, wxEXPAND | wxBOTTOM, 2);
 	Civs_Name_Holder[loop]->Add(Civs_Name[loop], 1, wxEXPAND);}
 	Civs_SUnknown1_Holder->Add(Civs_SUnknown1_Text, 0, wxEXPAND);
 	Civs_SUnknown1_Holder->Add(Civs_DataGrid3, 1, wxEXPAND);
-	for(short loop = 0; loop < 4; ++loop)
+	for(size_t loop = 0; loop < 4; ++loop)
 	Civs_DataGrid3->Add(Civs_SUnknown1[loop], 1, wxEXPAND);
 	Civs_TechTree_Holder->Add(Civs_TechTree_Text, 0, wxEXPAND);
 	Civs_TechTree_Holder->Add(Civs_TechTree, 1, wxEXPAND);
@@ -989,7 +989,7 @@ void AGE_Frame::CreateCivControls()
 
     civTimer.Connect(civTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnCivsTimer), NULL, this);
     resourceTimer.Connect(resourceTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnResourcesTimer), NULL, this);
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Civs_Name[loop]->Connect(Civs_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);
 	Civs_GraphicSet->Connect(Civs_GraphicSet->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);
 	Civs_ResourceValue->Connect(Civs_ResourceValue->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Civs), NULL, this);
