@@ -1,5 +1,7 @@
 #include "../AGE_Frame.h"
 
+const wxString AGE_Frame::MirrorHelp = "Angle count clockwise from east after mirroring starts?\nSeems to ignore angles before south.\nFrom the graphics scanner, if the graphic mirror is > 0,\nGraphic->Mirror = (Graphic_Angles_Count >> 1) + (Graphic_Angles_Count >> 2)";
+
 string AGE_Frame::GetGraphicName(int index, bool Filter)
 {
 	string Name = "";
@@ -193,6 +195,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 
         if(NULL != GraphicPointer)
         {
+            Graphics_MirroringMode->SetToolTip("Should be " + lexical_cast<string>((GraphicPointer->AngleCount >> 1) + (GraphicPointer->AngleCount >> 2)) + " for this sprite.\n" + MirrorHelp);
             graphicSLP.datID = GraphicIDs[0];
             graphicSLP.slpID = -2; // Force reloading delta graphics.
         }
@@ -281,6 +284,31 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
     else if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::UNIT)
     {
+        Pixels collision, clearance, selection;
+        if(UnitIDs.size())
+        {
+            wxPen pen = wxPen(wxColour(255 - SLPbackR, 255 - SLPbackG, 255 - SLPbackB));
+            dc.SetPen(pen);
+            genie::Unit *unit = &dataset->Civs[UnitCivID].Units[UnitIDs[0]];
+            if(DrawCollisionShape)
+            {
+                tileToPixels(unit->SizeRadius, collision, centerX, centerY);
+                dc.DrawLine(collision.x1, collision.y1, collision.x4, collision.y4);
+                dc.DrawLine(collision.x3, collision.y3, collision.x4, collision.y4);
+            }
+            if(DrawClearanceShape)
+            {
+                tileToPixels(unit->EditorRadius, clearance, centerX, centerY);
+                dc.DrawLine(clearance.x1, clearance.y1, clearance.x4, clearance.y4);
+                dc.DrawLine(clearance.x3, clearance.y3, clearance.x4, clearance.y4);
+            }
+            if(DrawSelectionShape)
+            {
+                tileToPixels(unit->SelectionRadius, selection, centerX, centerY);
+                dc.DrawLine(selection.x1, selection.y1, selection.x4, selection.y4);
+                dc.DrawLine(selection.x3, selection.y3, selection.x4, selection.y4);
+            }
+        }
         if(UnitIDs.size() == 0 || unitSLP.datID >= dataset->Graphics.size())
         {
             dc.DrawLabel("!Graphic " + FormatInt(unitSLP.datID), wxRect(15, 15, 100, 40));
@@ -335,6 +363,24 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             }
         }
         DrawGraphics(dc, unitSLP, centerX, centerY);
+        if(UnitIDs.size())
+        {
+            if(DrawCollisionShape)
+            {
+                dc.DrawLine(collision.x1, collision.y1, collision.x2, collision.y2);
+                dc.DrawLine(collision.x3, collision.y3, collision.x2, collision.y2);
+            }
+            if(DrawClearanceShape)
+            {
+                dc.DrawLine(clearance.x1, clearance.y1, clearance.x2, clearance.y2);
+                dc.DrawLine(clearance.x3, clearance.y3, clearance.x2, clearance.y2);
+            }
+            if(DrawSelectionShape)
+            {
+                dc.DrawLine(selection.x1, selection.y1, selection.x2, selection.y2);
+                dc.DrawLine(selection.x3, selection.y3, selection.x2, selection.y2);
+            }
+        }
     }
     if(DrawHot)
     {
@@ -510,6 +556,18 @@ void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
 
 void AGE_Frame::OnGraphicErase(wxEraseEvent &event)
 {
+}
+
+void AGE_Frame::tileToPixels(pair<float, float> dimensions, Pixels &p, int centerX, int centerY)
+{
+    p.x1 = centerX + dataset->TerrainBlock.TileHalfWidth * (dimensions.first - -dimensions.second);
+    p.y1 = centerY + dataset->TerrainBlock.TileHalfHeight * (-dimensions.first - -dimensions.second);
+    p.x2 = centerX + dataset->TerrainBlock.TileHalfWidth * (-dimensions.first - -dimensions.second);
+    p.y2 = centerY + dataset->TerrainBlock.TileHalfHeight * (dimensions.first - -dimensions.second);
+    p.x3 = centerX + dataset->TerrainBlock.TileHalfWidth * (-dimensions.first - dimensions.second);
+    p.y3 = centerY + dataset->TerrainBlock.TileHalfHeight * (dimensions.first - dimensions.second);
+    p.x4 = centerX + dataset->TerrainBlock.TileHalfWidth * (dimensions.first - dimensions.second);
+    p.y4 = centerY + dataset->TerrainBlock.TileHalfHeight * (-dimensions.first - dimensions.second);
 }
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
@@ -975,11 +1033,11 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_SequenceType_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_SequenceType_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sequence Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SequenceType = AGETextCtrl::init(CByte, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
-	Graphics_SequenceType->SetToolTip("Animation type?\n6 Changes frames when placed in the scenario editor");
+	Graphics_SequenceType->SetToolTip("Looks like a bit field.\nAnimation type?\n6 (2 with 4) Changes frames when placed in the scenario editor");
 	Graphics_Type_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_Type_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_MirroringMode = AGETextCtrl::init(CByte, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller);
-	Graphics_MirroringMode->SetToolTip("Angle count clockwise from east after mirroring starts?\nSeems to ignore angles before south");
+	Graphics_MirroringMode->SetToolTip(MirrorHelp);
 
 	Graphics_Coordinates_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_CoordinateGrid_Holder = new wxGridSizer(4, 0, 5);

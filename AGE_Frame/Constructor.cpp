@@ -67,6 +67,9 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interface/SLPbackR", &SLPbackR, 255);
         Config.Read("Interface/SLPbackG", &SLPbackG, 255);
         Config.Read("Interface/SLPbackB", &SLPbackB, 255);
+        Config.Read("Interface/DrawCollisionShape", &DrawCollisionShape, true);
+        Config.Read("Interface/DrawClearanceShape", &DrawClearanceShape, true);
+        Config.Read("Interface/DrawSelectionShape", &DrawSelectionShape, true);
         Config.Read("DefaultFiles/DriveLetter", &DriveLetter, "C");
         Config.Read("DefaultFiles/UseCustomPath", &UseCustomPath, false);
         Config.Read("DefaultFiles/CustomFolder", &CustomFolder, wxEmptyString);
