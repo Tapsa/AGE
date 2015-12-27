@@ -32,7 +32,7 @@ void AGE_Frame::InitSounds(bool all)
 	wxArrayString names;
 	if(all) names.Alloc(dataset->Sounds.size());
 
-	for(short loop = 0; loop < dataset->Sounds.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Sounds.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetSoundName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -152,11 +152,11 @@ string AGE_Frame::GetSoundItemName(int item, int set)
 {
 	string Name = "";
 	short Selection[2];
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Selection[loop] = Sounds_Items_SearchFilters[loop]->GetSelection();
 
 	if(Selection[0] > 0)
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		switch(Selection[loop])
 		{
@@ -201,14 +201,14 @@ void AGE_Frame::ListSoundItems()
 {
 	searchText = Sounds_Items_Search->GetValue().MakeLower();
 	excludeText = Sounds_Items_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Sounds_Items_UseAnd[loop]->GetValue();
 
 	Sounds_Items_ListV->names.clear();
 	Sounds_Items_ListV->indexes.clear();
 
     if(SoundIDs.size())
-	for(short loop = 0; loop < dataset->Sounds[SoundIDs[0]].Items.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Sounds[SoundIDs[0]].Items.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs[0]);
 		if(SearchMatches(Name.Lower()))
@@ -219,7 +219,7 @@ void AGE_Frame::ListSoundItems()
 	}
 	virtualListing(Sounds_Items_ListV);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
 	wxTimerEvent E;
@@ -332,7 +332,7 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &event)
 {
-	for(short loop=1; loop < SoundIDs.size(); ++loop)
+	for(size_t loop=1; loop < SoundIDs.size(); ++loop)
 	{
 		dataset->Sounds[SoundIDs[loop]].Items = dataset->Sounds[SoundIDs[0]].Items;
 	}
@@ -343,7 +343,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 	wxString Name;
 	searchText = Sounds_AllItems_Search->GetValue().MakeLower();
 	excludeText = Sounds_AllItems_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Sounds_AllItems_UseAnd[loop]->GetValue();
 
 	Sounds_AllItems_ListV->names.clear();
@@ -363,7 +363,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
     virtualListing(Sounds_AllItems_ListV);
 	//Sounds_AllItems_ListV->SetFocus(); You need to check if searched or not.
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
 	wxTimerEvent E;
@@ -408,7 +408,7 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_PasteInsert = new wxButton(Tab_Sounds, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
 
 	Sounds_Items = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sound Files");
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Sounds_Items_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Sounds_Items_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Sounds, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -577,7 +577,7 @@ void AGE_Frame::CreateSoundControls()
 
 	Tab_Sounds->SetSizer(Sounds_Main);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Connect(Sounds_Items_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSoundItemsSearch));
 		Connect(Sounds_Items_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));

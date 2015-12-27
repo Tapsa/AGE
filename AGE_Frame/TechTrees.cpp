@@ -26,7 +26,7 @@ void AGE_Frame::InitTTAges()
 	TechTrees_MainList_Ages_ListV->names.clear();
 	TechTrees_MainList_Ages_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.TechTreeAges.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTTAgesName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -181,7 +181,7 @@ void AGE_Frame::ListTTAgeBuildings()
 	TechTrees_Ages_Buildings.List->names.clear();
 	TechTrees_Ages_Buildings.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetBuildingName(dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -293,7 +293,7 @@ void AGE_Frame::OnTTAgesBuildingPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTAgesBuildingCopyToAges(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTAgeIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTAgeIDs.size(); ++loop)
 	{
 		dataset->TechTree.TechTreeAges[TTAgeIDs[loop]].Buildings = dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Buildings;
 	}
@@ -313,7 +313,7 @@ void AGE_Frame::ListTTAgeUnits()
 	TechTrees_Ages_Units.List->names.clear();
 	TechTrees_Ages_Units.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Units.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Units.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -425,7 +425,7 @@ void AGE_Frame::OnTTAgesUnitPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTAgesUnitCopyToAges(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTAgeIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTAgeIDs.size(); ++loop)
 	{
 		dataset->TechTree.TechTreeAges[TTAgeIDs[loop]].Units = dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Units;
 	}
@@ -460,7 +460,7 @@ void AGE_Frame::ListTTAgeResearches()
 	TechTrees_Ages_Researches.List->names.clear();
 	TechTrees_Ages_Researches.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Researches.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetSimpleResearchName(dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -572,7 +572,7 @@ void AGE_Frame::OnTTAgesResearchPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTAgesResearchCopyToAges(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTAgeIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTAgeIDs.size(); ++loop)
 	{
 		dataset->TechTree.TechTreeAges[TTAgeIDs[loop]].Researches = dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Researches;
 	}
@@ -664,7 +664,7 @@ void AGE_Frame::OnTTAgeItemPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTTAgeItemCopyToAges(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTAgeIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTAgeIDs.size(); ++loop)
 	{
 		dataset->TechTree.TechTreeAges[TTAgeIDs[loop]].Common = dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Common;
 	}
@@ -684,7 +684,7 @@ void AGE_Frame::ListTTAgeUnknownItems()
 	TechTrees_Ages_UnknownItems.List->names.clear();
 	TechTrees_Ages_UnknownItems.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs[0]].getU4Size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs[0]].getU4Size(); ++loop)
 	{
 		wxString Name = " "+lexical_cast<string>((short)dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Unknown4[loop]);
 		Name += " - "+lexical_cast<string>((short)dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Unknown5[loop]);
@@ -764,7 +764,7 @@ void AGE_Frame::OnTTAgeUnknownItemPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTTAgeUnknownItemCopyToAges(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTAgeIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTAgeIDs.size(); ++loop)
 	{
 		dataset->TechTree.TechTreeAges[TTAgeIDs[loop]].Unknown4 = dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Unknown4;
 		dataset->TechTree.TechTreeAges[TTAgeIDs[loop]].Unknown5 = dataset->TechTree.TechTreeAges[TTAgeIDs[0]].Unknown5;
@@ -776,14 +776,14 @@ string AGE_Frame::GetTTBuildingName(int index)
 	string Name = "";
 
 	short Selection[2];
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Selection[loop] = TechTrees_MainList_Buildings_SearchFilters[loop]->GetSelection();
 
 	if(Selection[0] == 0)	// Normal Name
 	{
 		// Do nothing!
 	}
-	else for(short loop = 0; loop < 2; ++loop)
+	else for(size_t loop = 0; loop < 2; ++loop)
 	{
 		switch(Selection[loop])
 		{
@@ -854,13 +854,13 @@ void AGE_Frame::InitTTBuildings()
 {
 	searchText = TechTrees_MainList_Buildings_Search->GetValue().MakeLower();
 	excludeText = TechTrees_MainList_Buildings_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Buildings_UseAnd[loop]->GetValue();
 
 	TechTrees_MainList_Buildings_ListV->names.clear();
 	TechTrees_MainList_Buildings_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.BuildingConnections.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.BuildingConnections.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTTBuildingName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -872,7 +872,7 @@ void AGE_Frame::InitTTBuildings()
 
 	virtualListing(TechTrees_MainList_Buildings_ListV);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 }
 
@@ -903,7 +903,7 @@ void AGE_Frame::OnTTBuildingTimer(wxTimerEvent &event)
 		TechTrees_Buildings_LocationInAge->prepend(&BuildingConPointer->LocationInAge);
 		TechTrees_Buildings_LineMode->prepend(&BuildingConPointer->LineMode);
 		TechTrees_Buildings_EnablingResearch->prepend(&BuildingConPointer->EnablingResearch);
-		for(short loop = 0; loop < 5; ++loop)
+		for(size_t loop = 0; loop < 5; ++loop)
 		{
 			TechTrees_Buildings_TotalUnitsTechs[loop]->prepend(&BuildingConPointer->UnitsTechsTotal[loop]);
 			TechTrees_Buildings_TotalUnitsTechs[loop+5]->prepend(&BuildingConPointer->UnitsTechsFirst[loop]);
@@ -1003,7 +1003,7 @@ void AGE_Frame::ListTTBuildingBuildings()
 	TechTrees_Buildings_Buildings.List->names.clear();
 	TechTrees_Buildings_Buildings.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetBuildingName(dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -1115,7 +1115,7 @@ void AGE_Frame::OnTTBuildingBuildingPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTBuildingBuildingCopyToBuildings(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTBuildConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTBuildConIDs.size(); ++loop)
 	{
 		dataset->TechTree.BuildingConnections[TTBuildConIDs[loop]].Buildings = dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Buildings;
 	}
@@ -1135,7 +1135,7 @@ void AGE_Frame::ListTTBuildingUnits()
 	TechTrees_Buildings_Units.List->names.clear();
 	TechTrees_Buildings_Units.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Units.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -1247,7 +1247,7 @@ void AGE_Frame::OnTTBuildingUnitPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTBuildingUnitCopyToBuildings(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTBuildConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTBuildConIDs.size(); ++loop)
 	{
 		dataset->TechTree.BuildingConnections[TTBuildConIDs[loop]].Units = dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Units;
 	}
@@ -1267,7 +1267,7 @@ void AGE_Frame::ListTTBuildingResearches()
 	TechTrees_Buildings_Researches.List->names.clear();
 	TechTrees_Buildings_Researches.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetSimpleResearchName(dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -1379,7 +1379,7 @@ void AGE_Frame::OnTTBuildingResearchPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTBuildingResearchCopyToBuildings(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTBuildConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTBuildConIDs.size(); ++loop)
 	{
 		dataset->TechTree.BuildingConnections[TTBuildConIDs[loop]].Researches = dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Researches;
 	}
@@ -1445,7 +1445,7 @@ void AGE_Frame::OnTTBuildingItemPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTTBuildingItemCopyToBuildings(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTBuildConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTBuildConIDs.size(); ++loop)
 	{
 		dataset->TechTree.BuildingConnections[TTBuildConIDs[loop]].Common = dataset->TechTree.BuildingConnections[TTBuildConIDs[0]].Common;
 	}
@@ -1456,14 +1456,14 @@ string AGE_Frame::GetTTUnitName(int index)
 	string Name = "";
 
 	short Selection[2];
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Selection[loop] = TechTrees_MainList_Units_SearchFilters[loop]->GetSelection();
 
 	if(Selection[0] == 0)	// Normal Name
 	{
 		// Do nothing!
 	}
-	else for(short loop = 0; loop < 2; ++loop)
+	else for(size_t loop = 0; loop < 2; ++loop)
 	{
 		switch(Selection[loop])
 		{
@@ -1533,13 +1533,13 @@ void AGE_Frame::InitTTUnits()
 {
 	searchText = TechTrees_MainList_Units_Search->GetValue().MakeLower();
 	excludeText = TechTrees_MainList_Units_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Units_UseAnd[loop]->GetValue();
 
 	TechTrees_MainList_Units_ListV->names.clear();
 	TechTrees_MainList_Units_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.UnitConnections.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.UnitConnections.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTTUnitName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -1551,7 +1551,7 @@ void AGE_Frame::InitTTUnits()
 
 	virtualListing(TechTrees_MainList_Units_ListV);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 }
 
@@ -1678,7 +1678,7 @@ void AGE_Frame::ListTTUnitUnits()
 	TechTrees_Units_Units.List->names.clear();
 	TechTrees_Units_Units.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.UnitConnections[TTUnitConIDs[0]].Units.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.UnitConnections[TTUnitConIDs[0]].Units.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->TechTree.UnitConnections[TTUnitConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -1790,7 +1790,7 @@ void AGE_Frame::OnTTUnitUnitPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTUnitUnitCopyToUnits(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTUnitConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTUnitConIDs.size(); ++loop)
 	{
 		dataset->TechTree.UnitConnections[TTUnitConIDs[loop]].Units = dataset->TechTree.UnitConnections[TTUnitConIDs[0]].Units;
 	}
@@ -1804,7 +1804,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* d
 	area.List->names.clear();
 	area.List->indexes.clear();
 
-	for(short loop = 0; loop < dataPointer->getSlots(); ++loop)
+	for(size_t loop = 0; loop < dataPointer->getSlots(); ++loop)
 	{
 		wxString Name = " ";
 		switch(dataPointer->Mode[loop])
@@ -1893,7 +1893,7 @@ void AGE_Frame::OnTTUnitItemPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTTUnitItemCopyToUnits(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTUnitConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTUnitConIDs.size(); ++loop)
 	{
 		dataset->TechTree.UnitConnections[TTUnitConIDs[loop]].Common = dataset->TechTree.UnitConnections[TTUnitConIDs[0]].Common;
 	}
@@ -1904,14 +1904,14 @@ string AGE_Frame::GetTTResearchName(int index)
 	string Name = "";
 
 	short Selection[2];
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Selection[loop] = TechTrees_MainList_Researches_SearchFilters[loop]->GetSelection();
 
 	if(Selection[0] == 0)	// Normal Name
 	{
 		// Do nothing!
 	}
-	else for(short loop = 0; loop < 2; ++loop)
+	else for(size_t loop = 0; loop < 2; ++loop)
 	{
 		switch(Selection[loop])
 		{
@@ -1975,13 +1975,13 @@ void AGE_Frame::InitTTResearches()
 {
 	searchText = TechTrees_MainList_Researches_Search->GetValue().MakeLower();
 	excludeText = TechTrees_MainList_Researches_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Researches_UseAnd[loop]->GetValue();
 
 	TechTrees_MainList_Researches_ListV->names.clear();
 	TechTrees_MainList_Researches_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.ResearchConnections.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.ResearchConnections.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTTResearchName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -1993,7 +1993,7 @@ void AGE_Frame::InitTTResearches()
 
 	virtualListing(TechTrees_MainList_Researches_ListV);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 }
 
@@ -2120,7 +2120,7 @@ void AGE_Frame::ListTTResearchBuildings()
 	TechTrees_Researches_Buildings.List->names.clear();
 	TechTrees_Researches_Buildings.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs[0]].Buildings.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetBuildingName(dataset->TechTree.ResearchConnections[TTResConIDs[0]].Buildings[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -2232,7 +2232,7 @@ void AGE_Frame::OnTTResearchBuildingPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTResearchBuildingCopyToResearches(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTResConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTResConIDs.size(); ++loop)
 	{
 		dataset->TechTree.ResearchConnections[TTResConIDs[loop]].Buildings = dataset->TechTree.ResearchConnections[TTResConIDs[0]].Buildings;
 	}
@@ -2252,7 +2252,7 @@ void AGE_Frame::ListTTResearchUnits()
 	TechTrees_Researches_Units.List->names.clear();
 	TechTrees_Researches_Units.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs[0]].Units.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs[0]].Units.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->TechTree.ResearchConnections[TTResConIDs[0]].Units[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -2364,7 +2364,7 @@ void AGE_Frame::OnTTResearchUnitPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTResearchUnitCopyToResearches(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTResConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTResConIDs.size(); ++loop)
 	{
 		dataset->TechTree.ResearchConnections[TTResConIDs[loop]].Units = dataset->TechTree.ResearchConnections[TTResConIDs[0]].Units;
 	}
@@ -2384,7 +2384,7 @@ void AGE_Frame::ListTTResearchResearches()
 	TechTrees_Researches_Researches.List->names.clear();
 	TechTrees_Researches_Researches.List->indexes.clear();
 
-	for(short loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs[0]].Researches.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs[0]].Researches.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetSimpleResearchName(dataset->TechTree.ResearchConnections[TTResConIDs[0]].Researches[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -2496,7 +2496,7 @@ void AGE_Frame::OnTTResearchResearchPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTResearchResearchCopyToResearches(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTResConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTResConIDs.size(); ++loop)
 	{
 		dataset->TechTree.ResearchConnections[TTResConIDs[loop]].Researches = dataset->TechTree.ResearchConnections[TTResConIDs[0]].Researches;
 	}
@@ -2562,7 +2562,7 @@ void AGE_Frame::OnTTResearchItemPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTTResearchItemCopyToResearches(wxCommandEvent &event)
 {
-	for(short loop=1; loop < TTResConIDs.size(); ++loop)
+	for(size_t loop=1; loop < TTResConIDs.size(); ++loop)
 	{
 		dataset->TechTree.ResearchConnections[TTResConIDs[loop]].Common = dataset->TechTree.ResearchConnections[TTResConIDs[0]].Common;
 	}
@@ -2593,7 +2593,7 @@ void AGE_Frame::CreateTechTreeControls()
 
 	General_Variables2_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_TechTrees, "Technology Tree Related");
 	General_Variables2_Grid = new wxGridSizer(8, 5, 5);
-	for(short loop = 0; loop < General_TTUnknown.size(); ++loop)
+	for(size_t loop = 0; loop < General_TTUnknown.size(); ++loop)
 	{
 		General_TTUnknown_Holder[loop] = new wxBoxSizer(wxVERTICAL);
 		General_TTUnknown_Text[loop] = new wxStaticText(Tab_TechTrees, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1));
@@ -2646,7 +2646,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Buildings_UseAnd[0] = new wxCheckBox(Tab_TechTreeBuildings, wxID_ANY, "And");
 	TechTrees_MainList_Buildings_Search_R = new wxTextCtrl(Tab_TechTreeBuildings, wxID_ANY);
 	TechTrees_MainList_Buildings_UseAnd[1] = new wxCheckBox(Tab_TechTreeBuildings, wxID_ANY, "And");
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Buildings_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		TechTrees_MainList_Buildings_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_TechTreeBuildings, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -2709,9 +2709,9 @@ void AGE_Frame::CreateTechTreeControls()
 
 	TechTrees_Buildings_TotalUnitsTechs_Holder[0] = new wxStaticBoxSizer(wxVERTICAL, TechTrees_ScrollerBuildings, "Total units and techs by age *");
 	TechTrees_Buildings_TotalUnitsTechs_Holder[1] = new wxStaticBoxSizer(wxVERTICAL, TechTrees_ScrollerBuildings, "Total units and techs at first in age *");
-	for(short loop = 0; loop < 10; ++loop)
+	for(size_t loop = 0; loop < 10; ++loop)
 	TechTrees_Buildings_TotalUnitsTechs[loop] = AGETextCtrl::init(CByte, &uiGroupTTBuilding, this, AGEwindow, TechTrees_ScrollerBuildings);
-	for(short loop = 0; loop < 5; ++loop)
+	for(size_t loop = 0; loop < 5; ++loop)
 	{
 		TechTrees_Buildings_TotalUnitsTechs[loop]->SetToolTip("Age "+lexical_cast<string>(loop+1));
 		TechTrees_Buildings_TotalUnitsTechs[loop+5]->SetToolTip("Age "+lexical_cast<string>(loop+1));
@@ -2721,7 +2721,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Units_UseAnd[0] = new wxCheckBox(Tab_TechTreeUnits, wxID_ANY, "And");
 	TechTrees_MainList_Units_Search_R = new wxTextCtrl(Tab_TechTreeUnits, wxID_ANY);
 	TechTrees_MainList_Units_UseAnd[1] = new wxCheckBox(Tab_TechTreeUnits, wxID_ANY, "And");
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		TechTrees_MainList_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_TechTreeUnits, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -2784,7 +2784,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Researches_UseAnd[0] = new wxCheckBox(Tab_TechTreeResearches, wxID_ANY, "And");
 	TechTrees_MainList_Researches_Search_R = new wxTextCtrl(Tab_TechTreeResearches, wxID_ANY);
 	TechTrees_MainList_Researches_UseAnd[1] = new wxCheckBox(Tab_TechTreeResearches, wxID_ANY, "And");
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Researches_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		TechTrees_MainList_Researches_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_TechTreeResearches, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -2844,7 +2844,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TabBar_TechTree->AddPage(Tab_TechTreeResearches, "Researches");
 	TabBar_TechTree->ChangeSelection(0);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Normal Name");	// 0
 		TechTrees_MainList_Units_SearchFilters[loop]->Append("Status");
@@ -2880,7 +2880,7 @@ void AGE_Frame::CreateTechTreeControls()
 		TechTrees_MainList_Researches_SearchFilters[loop]->SetSelection(0);
 	}
 
-	for(short loop = 0; loop < General_TTUnknown.size(); ++loop)
+	for(size_t loop = 0; loop < General_TTUnknown.size(); ++loop)
 	{
 		General_TTUnknown_Holder[loop]->Add(General_TTUnknown_Text[loop], 0, wxEXPAND | wxBOTTOM, 2);
 		General_TTUnknown_Holder[loop]->Add(General_TTUnknown[loop], 0, wxEXPAND);
@@ -2927,13 +2927,13 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Researches_Searches[0]->Add(TechTrees_MainList_Researches_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	TechTrees_MainList_Researches_Searches[1]->Add(TechTrees_MainList_Researches_Search_R, 1, wxEXPAND);
 	TechTrees_MainList_Researches_Searches[1]->Add(TechTrees_MainList_Researches_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Buildings->Add(TechTrees_MainList_Buildings_Searches[loop], 0, wxEXPAND);
 		TechTrees_MainList_Units->Add(TechTrees_MainList_Units_Searches[loop], 0, wxEXPAND);
 		TechTrees_MainList_Researches->Add(TechTrees_MainList_Researches_Searches[loop], 0, wxEXPAND);
 	}
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Buildings->Add(TechTrees_MainList_Buildings_SearchFilters[loop], 0, wxEXPAND);
 		TechTrees_MainList_Units->Add(TechTrees_MainList_Units_SearchFilters[loop], 0, wxEXPAND);
@@ -2994,9 +2994,9 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Data_Buildings1->Add(TechTrees_Buildings_LineMode_Holder, 1, wxEXPAND);
 	TechTrees_Data_Buildings1->Add(TechTrees_Buildings_EnablingResearch_Holder, 1, wxEXPAND);
 
-	for(short loop = 0; loop < 5; ++loop)
+	for(size_t loop = 0; loop < 5; ++loop)
 	TechTrees_Buildings_TotalUnitsTechs_Grid[0]->Add(TechTrees_Buildings_TotalUnitsTechs[loop], 0, wxEXPAND);
-	for(short loop = 5; loop < 10; ++loop)
+	for(size_t loop = 5; loop < 10; ++loop)
 	TechTrees_Buildings_TotalUnitsTechs_Grid[1]->Add(TechTrees_Buildings_TotalUnitsTechs[loop], 0, wxEXPAND);
 	TechTrees_Buildings_TotalUnitsTechs_Holder[0]->Add(TechTrees_Buildings_TotalUnitsTechs_Grid[0], 0, wxEXPAND);
 	TechTrees_Buildings_TotalUnitsTechs_Holder[1]->Add(TechTrees_Buildings_TotalUnitsTechs_Grid[1], 0, wxEXPAND);
@@ -3134,7 +3134,7 @@ void AGE_Frame::CreateTechTreeControls()
 	Connect(TechTrees_MainList_Buildings_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTBuildingPasteInsert));
 	Connect(TechTrees_MainList_Units_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTTUnitSearch));
 	Connect(TechTrees_MainList_Units_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTTUnitSearch));
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Connect(TechTrees_MainList_Buildings_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTBuildingSearch));
 		Connect(TechTrees_MainList_Units_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnTTUnitSearch));

@@ -12,11 +12,11 @@ string AGE_Frame::GetGraphicName(int index, bool Filter)
 	if(Filter)
 	{
 		short Selection[2];
-		for(short loop = 0; loop < 2; ++loop)
+		for(size_t loop = 0; loop < 2; ++loop)
 		Selection[loop] = Graphics_SearchFilters[loop]->GetSelection();
 
 		if(Selection[0] > 1) // Internal name prevents
-		for(short loop = 0; loop < 2; ++loop)
+		for(size_t loop = 0; loop < 2; ++loop)
 		{
 			switch(Selection[loop])
 			{
@@ -116,7 +116,7 @@ void AGE_Frame::InitGraphics(bool all)
 {
 	searchText = Graphics_Graphics_Search->GetValue().MakeLower();
 	excludeText = Graphics_Graphics_Search_R->GetValue().MakeLower();
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
     Graphics_Graphics_ListV->names.clear();
@@ -124,7 +124,7 @@ void AGE_Frame::InitGraphics(bool all)
 	wxArrayString names;
 	if(all) names.Alloc(dataset->Graphics.size());
 
-	for(short loop = 0; loop < dataset->Graphics.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Graphics.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetGraphicName(loop, true);
 		if(SearchMatches(Name.Lower()))
@@ -138,7 +138,7 @@ void AGE_Frame::InitGraphics(bool all)
     virtualListing(Graphics_Graphics_ListV);
 	if(all) FillLists(GraphicComboBoxList, names);
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 }
 
@@ -172,7 +172,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 			Graphics_PlayerColor->prepend(&GraphicPointer->PlayerColor);
 			Graphics_Rainbow->prepend(&GraphicPointer->Rainbow);
 			Graphics_Replay->prepend(&GraphicPointer->Replay);
-			for(short loop = 0; loop < 4; ++loop)
+			for(size_t loop = 0; loop < 4; ++loop)
 			{
 				Graphics_Coordinates[loop]->prepend(&GraphicPointer->Coordinates[loop]);
 			}
@@ -560,13 +560,13 @@ void AGE_Frame::OnGraphicErase(wxEraseEvent &event)
 
 void AGE_Frame::tileToPixels(pair<float, float> dimensions, Pixels &p, int centerX, int centerY)
 {
-    p.x1 = centerX + dataset->TerrainBlock.TileHalfWidth * (dimensions.first - -dimensions.second);
-    p.y1 = centerY + dataset->TerrainBlock.TileHalfHeight * (-dimensions.first - -dimensions.second);
-    p.x2 = centerX + dataset->TerrainBlock.TileHalfWidth * (-dimensions.first - -dimensions.second);
-    p.y2 = centerY + dataset->TerrainBlock.TileHalfHeight * (dimensions.first - -dimensions.second);
-    p.x3 = centerX + dataset->TerrainBlock.TileHalfWidth * (-dimensions.first - dimensions.second);
-    p.y3 = centerY + dataset->TerrainBlock.TileHalfHeight * (dimensions.first - dimensions.second);
+    p.x1 = centerX + dataset->TerrainBlock.TileHalfWidth * (dimensions.first + dimensions.second);
+    p.y2 = centerY + dataset->TerrainBlock.TileHalfHeight * (dimensions.first + dimensions.second);
+    p.x2 = centerX + dataset->TerrainBlock.TileHalfWidth * (-dimensions.first + dimensions.second);
+    p.y1 = centerY + dataset->TerrainBlock.TileHalfHeight * (-dimensions.first + dimensions.second);
     p.x4 = centerX + dataset->TerrainBlock.TileHalfWidth * (dimensions.first - dimensions.second);
+    p.y3 = centerY + dataset->TerrainBlock.TileHalfHeight * (dimensions.first - dimensions.second);
+    p.x3 = centerX + dataset->TerrainBlock.TileHalfWidth * (-dimensions.first - dimensions.second);
     p.y4 = centerY + dataset->TerrainBlock.TileHalfHeight * (-dimensions.first - dimensions.second);
 }
 
@@ -596,7 +596,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &event)
 	dataset->Graphics.insert(dataset->Graphics.begin() + GraphicIDs[0], Temp);
 	dataset->GraphicPointers.insert(dataset->GraphicPointers.begin() + GraphicIDs[0], 1);
 	if(EnableIDFix)
-	for(short loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
+	for(size_t loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
 	dataset->Graphics[loop].ID = loop;
 	How2List = INSNEW;
 	ListGraphics();
@@ -614,7 +614,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &event)
 		dataset->GraphicPointers.erase(dataset->GraphicPointers.begin() + GraphicIDs[loop]);
 	}
 	if(EnableIDFix)
-	for(short loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
+	for(size_t loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
 	dataset->Graphics[loop].ID = loop;
 	How2List = DEL;
 	ListGraphics();
@@ -628,7 +628,7 @@ void AGE_Frame::OnGraphicsCopy(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	copies.GraphicPointer.resize(selections);
 	copies.Graphic.resize(selections);
-	for(short loop = 0; loop < selections; ++loop)
+	for(size_t loop = 0; loop < selections; ++loop)
 	{
 		copies.GraphicPointer[loop] = dataset->GraphicPointers[GraphicIDs[loop]];
 		copies.Graphic[loop] = dataset->Graphics[GraphicIDs[loop]];
@@ -647,7 +647,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(GraphicIDs.size(), copies.Graphic.size()))
 		{
-			for(short loop = 0; loop < copies.Graphic.size(); ++loop)
+			for(size_t loop = 0; loop < copies.Graphic.size(); ++loop)
 			{
 				dataset->GraphicPointers[GraphicIDs[loop]] = copies.GraphicPointer[loop];
 				copies.Graphic[loop].setGameVersion(GenieVersion);
@@ -665,7 +665,7 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &event)
 			dataset->GraphicPointers.resize(copies.GraphicPointer.size()+GraphicIDs[0]);
 			dataset->Graphics.resize(copies.Graphic.size()+GraphicIDs[0]);
 		}
-		for(short loop = 0; loop < copies.Graphic.size(); ++loop)
+		for(size_t loop = 0; loop < copies.Graphic.size(); ++loop)
 		{
 			dataset->GraphicPointers[GraphicIDs[0]+loop] = copies.GraphicPointer[loop];
 			copies.Graphic[loop].setGameVersion(GenieVersion);
@@ -687,14 +687,14 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &event)
 	genie::Graphic Temp;
 	dataset->GraphicPointers.insert(dataset->GraphicPointers.begin() + GraphicIDs[0], copies.GraphicPointer.size(), 0);
 	dataset->Graphics.insert(dataset->Graphics.begin() + GraphicIDs[0], copies.Graphic.size(), Temp);
-	for(short loop = 0; loop < copies.Graphic.size(); ++loop)
+	for(size_t loop = 0; loop < copies.Graphic.size(); ++loop)
 	{
 		dataset->GraphicPointers[GraphicIDs[0]+loop] = copies.GraphicPointer[loop];
 		copies.Graphic[loop].setGameVersion(GenieVersion);
 		dataset->Graphics[GraphicIDs[0]+loop] = copies.Graphic[loop];
 	}
 	if(EnableIDFix)
-	for(short loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
+	for(size_t loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
 	dataset->Graphics[loop].ID = loop;
 	How2List = INSPASTE;
 	ListGraphics();
@@ -706,7 +706,7 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < selections; ++loop)
+	for(size_t loop = 0; loop < selections; ++loop)
 	{
 		dataset->GraphicPointers[GraphicIDs[loop]] = 1;
 		dataset->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
@@ -721,7 +721,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	for(short loop = 0; loop < selections; ++loop)
+	for(size_t loop = 0; loop < selections; ++loop)
 	dataset->GraphicPointers[GraphicIDs[loop]] = 0;
 	How2List = ENABLE;
 	ListGraphics();
@@ -750,7 +750,7 @@ void AGE_Frame::ListGraphicDeltas()
     Graphics_Deltas_ListV->indexes.clear();
 
     if(Graphics_Graphics_ListV->GetSelectedItemCount())
-	for(short loop = 0; loop < dataset->Graphics[GraphicIDs[0]].Deltas.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs[0]].Deltas.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetGraphicDeltaName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -881,7 +881,7 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicDeltasCopyToGraphics(wxCommandEvent &event)
 {
-	for(short loop=1; loop < GraphicIDs.size(); ++loop)
+	for(size_t loop=1; loop < GraphicIDs.size(); ++loop)
 	{
 		dataset->Graphics[GraphicIDs[loop]].Deltas = dataset->Graphics[GraphicIDs[0]].Deltas;
 	}
@@ -904,7 +904,7 @@ void AGE_Frame::ListGraphicAttackSounds()
     Graphics_AttackSounds_ListV->indexes.clear();
 
     if(Graphics_Graphics_ListV->GetSelectedItemCount())
-	for(short loop = 0; loop < dataset->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop)
 	{
         Graphics_AttackSounds_ListV->names.Add(" "+FormatInt(loop)+" - "+GetGraphicAttackSoundName(loop));
         Graphics_AttackSounds_ListV->indexes.push_back(loop);
@@ -955,14 +955,14 @@ void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &event)
 
 	wxBusyCursor WaitCursor;
 	genie::GraphicAttackSound Copy = dataset->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[0]];
-	for(short loop2 = 0; loop2 < dataset->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop2)
+	for(size_t loop2 = 0; loop2 < dataset->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop2)
 	dataset->Graphics[GraphicIDs[0]].AttackSounds[loop2] = Copy;
 	Graphics_AttackSounds_ListV->SetFocus();
 }
 
 void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event)
 {
-	for(short loop=1; loop < GraphicIDs.size(); ++loop)
+	for(size_t loop=1; loop < GraphicIDs.size(); ++loop)
 	{
 		dataset->Graphics[GraphicIDs[loop]].AttackSounds = dataset->Graphics[GraphicIDs[0]].AttackSounds;
 	}
@@ -978,7 +978,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
 	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
 	Graphics_Graphics_UseAnd[1] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
 		Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
@@ -1042,7 +1042,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Coordinates_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_CoordinateGrid_Holder = new wxGridSizer(4, 0, 5);
 	Graphics_Coordinates_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < 4; ++loop)
+	for(size_t loop = 0; loop < 4; ++loop)
 	Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, AGEwindow, Graphics_Scroller, true);
 
 	Graphics_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
@@ -1138,7 +1138,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSounds_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_AttackSoundDelays_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_AttackSoundDelays_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound Delay", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(short loop = 0; loop < 3; ++loop)
+	for(size_t loop = 0; loop < 3; ++loop)
 	{
 		Graphics_AttackSoundID[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, AGEwindow, Graphics_Scroller);
 		Graphics_AttackSoundID_ComboBox[loop] = new ComboBox_Plus1(Graphics_Scroller, Graphics_AttackSoundID[loop]);
@@ -1152,7 +1152,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Deltas_Grid_Data2 = new wxGridSizer(3, 5, 5);
 	Graphics_AttackSoundArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Attack Sounds");
 
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Graphics_SearchFilters[loop]->Append("Internal Name");	// 0
 		Graphics_SearchFilters[loop]->Append("SLP Name");
@@ -1191,9 +1191,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
 	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_Search_R, 1, wxEXPAND);
 	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Graphics_Graphics->Add(Graphics_Graphics_Searches[loop], 0, wxEXPAND);
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	Graphics_Graphics->Add(Graphics_SearchFilters[loop], 0, wxEXPAND);
 	Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
@@ -1213,7 +1213,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_ComboBox, 1, wxEXPAND);
 	Graphics_Rainbow_Holder->Add(Graphics_Rainbow_Text, 0, wxEXPAND);
 	Graphics_Rainbow_Holder->Add(Graphics_Rainbow, 0, wxEXPAND);
-	for(short loop = 0; loop < 4; ++loop)
+	for(size_t loop = 0; loop < 4; ++loop)
 	Graphics_CoordinateGrid_Holder->Add(Graphics_Coordinates[loop], 1, wxEXPAND);
 	Graphics_Coordinates_Holder->Add(Graphics_Coordinates_Text, 0, wxEXPAND);
 	Graphics_Coordinates_Holder->Add(Graphics_CoordinateGrid_Holder, 0, wxEXPAND);
@@ -1321,7 +1321,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_AttackSounds_Holder->Add(Graphics_AttackSounds_Text, 0, wxEXPAND);
 	Graphics_AttackSounds_Holder->Add(Graphics_AttackSounds_Grid, 0, wxEXPAND);
 	Graphics_AttackSoundDelays_Holder->Add(Graphics_AttackSoundDelays_Text, 0, wxEXPAND);
-	for(short loop = 0; loop < 3; ++loop)
+	for(size_t loop = 0; loop < 3; ++loop)
 	{
 		Graphics_AttackSounds_Grid->Add(Graphics_AttackSoundID[loop], 0, wxEXPAND);
 		Graphics_AttackSounds_Grid->Add(Graphics_AttackSoundID_ComboBox[loop], 0, wxEXPAND);
@@ -1359,7 +1359,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 	Connect(Graphics_Graphics_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
-	for(short loop = 0; loop < 2; ++loop)
+	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
 		Connect(Graphics_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
@@ -1438,7 +1438,7 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 	{
 		if(dataset->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
 
-		for(short loop = 0; loop < GraphicIDs.size(); ++loop)
+		for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
 		dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
 
 		wxTimerEvent E;
@@ -1456,7 +1456,7 @@ void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &event)
 	((AGECheckBox*)event.GetEventObject())->OnUpdate(event);
 	if(dataset->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
 
-	for(short loop = 0; loop < GraphicIDs.size(); ++loop)
+	for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
 	dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
 
 	wxTimerEvent E;

@@ -408,14 +408,14 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		// No research gaia fix.
 		if(dataset->Civs.size() > 1)
 		{
-			for(short loop = dataset->Civs[0].Units.size(); loop--> 0;)
+			for(size_t loop = dataset->Civs[0].Units.size(); loop--> 0;)
 				dataset->Civs[0].Units[loop].Enabled = dataset->Civs[1].Units[loop].Enabled;
 		}
 		// Pointers contain useless data, which the game overrides anyway.
 		// ID and pointer fixes.
-		for(short loop = dataset->Civs.size(); loop--> 0;)
+		for(size_t loop = dataset->Civs.size(); loop--> 0;)
 		{
-			for(short loop2 = dataset->Civs[loop].Units.size(); loop2--> 0;)
+			for(size_t loop2 = dataset->Civs[loop].Units.size(); loop2--> 0;)
 			{
 				if(dataset->Civs[loop].UnitPointers[loop2] != 0)
 				{
@@ -429,7 +429,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 						dataset->Civs[loop].Units[loop2].ID3 = loop2;
 						else
 						if(dataset->Civs[loop].Units[loop2].Type >= 40 && dataset->Civs[loop].Units[loop2].Type <= 80)
-						for(short loop3 = dataset->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
+						for(size_t loop3 = dataset->Civs[loop].Units[loop2].Bird.Commands.size(); loop3--> 0;)
 						dataset->Civs[loop].Units[loop2].Bird.Commands[loop3].ID = loop3;
 					}
 				}
@@ -437,22 +437,22 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 		if(EnableIDFix)
 		{
-			for(short loop = dataset->PlayerColours.size(); loop--> 0;)
+			for(size_t loop = dataset->PlayerColours.size(); loop--> 0;)
 			{
 				dataset->PlayerColours[loop].ID = loop;
 			}
-			for(short loop = dataset->Sounds.size(); loop--> 0;)
+			for(size_t loop = dataset->Sounds.size(); loop--> 0;)
 			{
 				dataset->Sounds[loop].ID = loop;
 			}
 			if(GenieVersion >= genie::GV_SWGB)
-			for(short loop = dataset->UnitLines.size(); loop--> 0;)
+			for(size_t loop = dataset->UnitLines.size(); loop--> 0;)
 			{
 				dataset->UnitLines[loop].ID = loop;
 			}
 		}
 		if(GenieVersion >= genie::GV_AoE)
-		for(short loop = dataset->Graphics.size(); loop--> 0;)
+		for(size_t loop = dataset->Graphics.size(); loop--> 0;)
 		{
 			if(dataset->GraphicPointers[loop] != 0)
 			{
@@ -461,7 +461,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 				dataset->Graphics[loop].ID = loop;
 			}
 		}
-		for(short loop = dataset->TerrainRestrictions.size(); loop--> 0;)
+		for(size_t loop = dataset->TerrainRestrictions.size(); loop--> 0;)
 		{
 			if(dataset->TerrainRestrictionPointers1[loop] != 0)
 			dataset->TerrainRestrictionPointers1[loop] = 1;
@@ -831,42 +831,42 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         if(!Customs.Read("Count/SWGBTerrainRestrictionCount", &SWGBCountTR, DefSWGBTerrainRests.GetCount()))
             Customs.Write("Count/SWGBTerrainRestrictionCount", (int)DefSWGBTerrainRests.GetCount());
         wxArrayString AoE1Armors, AoE2Armors, SWGBArmors;
-        for(short loop = 0; loop < AoE1Count; ++loop)
+        for(size_t loop = 0; loop < AoE1Count; ++loop)
         {
             wxString MoveHolder;
             if(!Customs.Read("AoE1Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1Armors[loop]))
                 Customs.Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
             AoE1Armors.Add(MoveHolder);
         }
-        for(short loop = 0; loop < AoE2Count; ++loop)
+        for(size_t loop = 0; loop < AoE2Count; ++loop)
         {
             wxString MoveHolder;
             if(!Customs.Read("AoE2Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2Armors[loop]))
                 Customs.Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
             AoE2Armors.Add(MoveHolder);
         }
-        for(short loop = 0; loop < SWGBCount; ++loop)
+        for(size_t loop = 0; loop < SWGBCount; ++loop)
         {
             wxString MoveHolder;
             if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBArmors[loop]))
                 Customs.Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
             SWGBArmors.Add(MoveHolder);
         }
-        for(short loop = 0; loop < AoE1CountTR; ++loop)
+        for(size_t loop = 0; loop < AoE1CountTR; ++loop)
         {
             wxString MoveHolder;
             if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1TerrainRests[loop]))
                 Customs.Write("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE1TerrainRests[loop]);
             AoE1TerrainRestrictions.Add(MoveHolder);
         }
-        for(short loop = 0; loop < AoE2CountTR; ++loop)
+        for(size_t loop = 0; loop < AoE2CountTR; ++loop)
         {
             wxString MoveHolder;
             if(!Customs.Read("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2TerrainRests[loop]))
                 Customs.Write("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE2TerrainRests[loop]);
             AoE2TerrainRestrictions.Add(MoveHolder);
         }
-        for(short loop = 0; loop < SWGBCountTR; ++loop)
+        for(size_t loop = 0; loop < SWGBCountTR; ++loop)
         {
             wxString MoveHolder;
             if(!Customs.Read("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBTerrainRests[loop]))
@@ -874,7 +874,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             SWGBTerrainRestrictions.Add(MoveHolder);
         }
 
-		for(short loop = 0; loop < 3; ++loop)
+		for(size_t loop = 0; loop < 3; ++loop)
 		{
 			Units_Class_ComboBox[loop]->Clear();
 			Units_Class_ComboBox[loop]->Append("No Class/Invalid Class");	// Selection 0
@@ -1026,23 +1026,23 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Attacks_Class_ComboBox[loop]->Append("Unused Class/No Class");	// Selection 0
 			if(GenieVersion < genie::GV_AoKA) // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
-				for(short loop2 = 0; loop2 < AoE1Count; ++loop2)
+				for(size_t loop2 = 0; loop2 < AoE1Count; ++loop2)
 				Attacks_Class_ComboBox[loop]->Append(AoE1Armors[loop2]);
 			}
 			else if(GenieVersion < genie::GV_SWGB) // AoK and TC
 			{
-				for(short loop2 = 0; loop2 < AoE2Count; ++loop2)
+				for(size_t loop2 = 0; loop2 < AoE2Count; ++loop2)
 				Attacks_Class_ComboBox[loop]->Append(AoE2Armors[loop2]);
 			}
 			else // SWGB and CC
 			{
-				for(short loop2 = 0; loop2 < SWGBCount; ++loop2)
+				for(size_t loop2 = 0; loop2 < SWGBCount; ++loop2)
 				Attacks_Class_ComboBox[loop]->Append(SWGBArmors[loop2]);
 			}
 			Attacks_Class_ComboBox[loop]->SetSelection(0);
 		}
 
-		for(short loop = 0; loop < 2; ++loop)
+		for(size_t loop = 0; loop < 2; ++loop)
 		{
 			Units_SearchFilters[loop]->Clear();
 			Units_SearchFilters[loop]->Append("*Choose*");
@@ -1229,7 +1229,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         else
         {
-            for(short loop = 10; loop < 17; ++loop)
+            for(size_t loop = 10; loop < 17; ++loop)
             Effects_Type_ComboBox->Append(lexical_cast<string>(loop) + " - AoK HD only");
         }
         if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("101 - AoK+ only");
@@ -1343,9 +1343,9 @@ void AGE_Frame::OnGameVersionChange()
 		General_SomeBytes[loop]->Show(false);
 		if(ShowUnknowns)
 		{
-			for(short loop = 0; loop < dataset->TerrainBlock.getSomethingSize(); ++loop)
+			for(size_t loop = 0; loop < dataset->TerrainBlock.getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
-			for(short loop = 0; loop < dataset->TerrainBlock.getBytesSize(); ++loop)
+			for(size_t loop = 0; loop < dataset->TerrainBlock.getBytesSize(); ++loop)
 			General_SomeBytes[loop]->Show(true);
 		}
 
@@ -1412,12 +1412,12 @@ void AGE_Frame::OnGameVersionChange()
 		show = (GenieVersion >= genie::GV_AoE) ? true : false;
 		Units_ID2_Holder->Show(show);
 		General_Unknown2_Holder->Show(show);
-		for(short loop = 2; loop < General_TileSizes.size(); loop += 3)
+		for(size_t loop = 2; loop < General_TileSizes.size(); loop += 3)
 		General_TileSizes[loop]->Show(show);
 
 		// AoK Alfa ->
 		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
-		for(short loop = 4; loop < 6; ++loop)
+		for(size_t loop = 4; loop < 6; ++loop)
 		{
 			Research_RequiredTechs[loop]->Show(show);
 			Research_RequiredTechs_ComboBox[loop]->Show(show);
@@ -2875,7 +2875,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 		Units_Search->SetFocus();
 		return;
 	}
-	for(short loop = 0; loop < 2; ++loop) // Custom search filters
+	for(size_t loop = 0; loop < 2; ++loop) // Custom search filters
 	{
 		if(event.GetId() == Units_SearchFilters[loop]->GetId())
 		{
@@ -2990,7 +2990,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 
 	// Data pointers need to be reassigned always.
 	auto it = data.begin();
-	for(short loop = 0; loop < listsize; ++loop)
+	for(size_t loop = 0; loop < listsize; ++loop)
 	{
 		List->SetClientData(loop, *it++);
 	}
@@ -3121,7 +3121,7 @@ void AGE_Frame::SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wx
 	if(selections < 1) return;
 
     set<uint32_t> topNums, subNums;
-	for(int loop = 0, lastItem = -1; loop < selections; ++loop)
+	for(size_t loop = 0, lastItem = -1; loop < selections; ++loop)
 	{
         lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
         string line(list->GetItemText(lastItem));

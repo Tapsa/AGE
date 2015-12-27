@@ -45,7 +45,7 @@ void AGE_Frame::InitTerrainRestrictions(bool all)
 	wxArrayString names;
 	if(all) names.Alloc(dataset->TerrainRestrictions.size());
 
-	for(short loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainRestrictionName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -96,7 +96,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event)
 	for(short rest = TerRestrictIDs.size(); rest--> 0;)
     {
         TerRestPointer = &dataset->TerrainRestrictions[TerRestrictIDs[rest]];
-        for(short loop = selections; loop--> 0;)
+        for(size_t loop = selections; loop--> 0;)
         {
             TerRestrict_Accessible->prepend(&TerRestPointer->PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]]);
             if(GenieVersion >= genie::GV_AoKA)	//	Above AoE and RoR
@@ -233,11 +233,11 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
 	{
 		if(Paste11Check(TerRestrictTerIDs.size(), copies.TerrainRestrictionSubGraphics.size()))
 		{
-			for(short loop = 0; loop < CopyCount; ++loop)
+			for(size_t loop = 0; loop < CopyCount; ++loop)
 			dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]] = TerrainRestrictionSubCopyAccess[loop];
 			if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
 			{
-				for(short loop = 0; loop < CopyCount; ++loop)
+				for(size_t loop = 0; loop < CopyCount; ++loop)
 				{
 					copies.TerrainRestrictionSubGraphics[loop].setGameVersion(GenieVersion);
 					dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[loop]] = copies.TerrainRestrictionSubGraphics[loop];
@@ -249,11 +249,11 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
 	{
 		if(CopyCount+TerRestrictTerIDs[0] > dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier.size())
 		CopyCount -= CopyCount+TerRestrictTerIDs[0] - dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier.size();
-		for(short loop = 0; loop < CopyCount; ++loop)
+		for(size_t loop = 0; loop < CopyCount; ++loop)
 		dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[TerRestrictTerIDs[0]+loop] = TerrainRestrictionSubCopyAccess[loop];
 		if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
 		{
-			for(short loop = 0; loop < CopyCount; ++loop)
+			for(size_t loop = 0; loop < CopyCount; ++loop)
 			{
 				copies.TerrainRestrictionSubGraphics[loop].setGameVersion(GenieVersion);
 				dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[0]+loop] = copies.TerrainRestrictionSubGraphics[loop];
@@ -298,7 +298,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Graphics_Text[0] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Exit Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Graphics_Text[1] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Enter Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Graphics_Text[2] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Walk Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    for(short loop = 0; loop < 3; ++loop)
+    for(size_t loop = 0; loop < 3; ++loop)
     {
         TerRestrict_Graphics[loop] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, AGEwindow, Tab_TerrainRestrictions);
         TerRestrict_Graphics_ComboBox[loop] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[loop]);
@@ -331,7 +331,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible_Text, 0, wxEXPAND);
 	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible2_Holder, 1, wxEXPAND);
 
-    for(short loop = 0; loop < 3; ++loop)
+    for(size_t loop = 0; loop < 3; ++loop)
     {
         TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_Text[loop], 0, wxEXPAND);
         TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics[loop], 0, wxEXPAND);
