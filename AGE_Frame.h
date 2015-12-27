@@ -37,6 +37,11 @@ public:
 	AGE_Frame(const wxString &title, short window, wxString aP = wxEmptyString);
 	static void FixSize(AGE_Frame*);
 
+    struct Pixels
+    {
+        float x1, y1, x2, y2, x3, y3, x4, y4;
+    };
+
 //	Stuff related to editing multiple files at once
 
     static std::ofstream log_out;
@@ -184,6 +189,7 @@ public:
     void autoOdds(wxCommandEvent &event);
     void autoDrsIncrement(wxCommandEvent &event);
     void copySoundsFromCivToCiv(wxCommandEvent &event);
+    void tileToPixels(pair<float, float> dimensions, Pixels &p, int centerX, int centerY);
 
 //	General Events
 
@@ -815,6 +821,7 @@ public:
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot, DrawTerrain;
+    bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
 	genie::DatFile *dataset;
@@ -828,7 +835,7 @@ public:
     wxFilePickerCtrl *slp_source1, *slp_source2, *slp_target1;
     wxFlexGridSizer *slp_tool_layout;
     wxRadioBox *slp_radio, *slp_unit_actions;
-    wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot;
+    wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot, *slp_collision, *slp_clearance, *slp_selection;
     wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles;
     wxColourPickerCtrl *slp_background;
 
@@ -951,8 +958,13 @@ public:
 		opShowStack,
 		opShowAnnexes,
 		opShowTerrain,
-		opPickBgColor
+		opPickBgColor,
+        opCollisionShape,
+        opClearanceShape,
+        opSelectionShape
 	};
+
+    static const wxString MirrorHelp;
 
 //	User Interface
 
