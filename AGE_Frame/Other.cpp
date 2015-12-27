@@ -1980,13 +1980,23 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_terrain->SetValue(DrawTerrain);
                 slp_angles = new wxCheckBox(panel, wxID_ANY, "Rotate angles *");
                 slp_angles->SetValue(true);
+                slp_collision = new wxCheckBox(panel, opCollisionShape, "Collision Shape");
+                slp_collision->SetValue(DrawCollisionShape);
+                slp_clearance = new wxCheckBox(panel, opClearanceShape, "Clearance Shape");
+                slp_clearance->SetValue(DrawClearanceShape);
+                slp_selection = new wxCheckBox(panel, opSelectionShape, "Selection Shape");
+                slp_selection->SetValue(DrawSelectionShape);
                 slp_angles->SetToolTip("Right click image to manually set angle\nNo east side support yet");
                 slp_sizer = new wxBoxSizer(wxVERTICAL);
                 wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
                 wxSizer *sizer3 = new wxBoxSizer(wxHORIZONTAL);
                 wxSizer *sizer4 = new wxBoxSizer(wxHORIZONTAL);
+                wxSizer *sizer5 = new wxBoxSizer(wxHORIZONTAL);
 
                 slp_sizer->Add(slp_view, 1, wxEXPAND);
+                sizer5->Add(slp_collision, 0, wxALL, 2);
+                sizer5->Add(slp_clearance, 0, wxALL, 2);
+                sizer5->Add(slp_selection, 0, wxALL, 2);
                 sizer3->Add(slp_animate, 0, wxALL, 2);
                 sizer3->Add(slp_shadow, 0, wxALL, 2);
                 sizer3->Add(slp_outline, 0, wxALL, 2);
@@ -2014,6 +2024,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_tool_layout->Add(slp_merge_shadow);
                 slp_sizer->Add(slp_tool_layout, 0, wxEXPAND);
                 slp_sizer->Add(sizer3, 0, wxEXPAND);
+                slp_sizer->Add(sizer5, 0, wxEXPAND);
                 slp_sizer->Add(sizer2, 0, wxEXPAND);
                 slp_sizer->Add(sizer4, 0, wxEXPAND);
                 slp_tool_layout->AddGrowableCol(1, 1);
@@ -2041,6 +2052,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_annex->Connect(opShowAnnexes, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_terrain->Connect(opShowTerrain, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_background->Connect(opPickBgColor, wxEVT_COMMAND_COLOURPICKER_CHANGED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_collision->Connect(opCollisionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_clearance->Connect(opClearanceShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_selection->Connect(opSelectionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_window->Show();
             }
             else
@@ -3462,6 +3476,24 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             slp_view->Refresh();
         }
         break;
+        case opCollisionShape:
+        {
+			DrawCollisionShape = event.IsChecked();
+            slp_view->Refresh();
+        }
+        break;
+        case opClearanceShape:
+        {
+			DrawClearanceShape = event.IsChecked();
+            slp_view->Refresh();
+        }
+        break;
+        case opSelectionShape:
+        {
+			DrawSelectionShape = event.IsChecked();
+            slp_view->Refresh();
+        }
+        break;
     }
 }
 
@@ -3514,6 +3546,9 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/SLPbackR", SLPbackR);
         Config.Write("Interface/SLPbackG", SLPbackG);
         Config.Write("Interface/SLPbackB", SLPbackB);
+        Config.Write("Interface/DrawCollisionShape", DrawCollisionShape);
+        Config.Write("Interface/DrawClearanceShape", DrawClearanceShape);
+        Config.Write("Interface/DrawSelectionShape", DrawSelectionShape);
     }
 
 	if(event.CanVeto() && AGETextCtrl::unSaved[AGEwindow] > 0)

@@ -3679,6 +3679,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_GarrisonCapacity = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_GarrisonCapacity->SetToolTip("If the unit has garrisoned units inside,\ngraphics tab \"New Speed?\" determines its new speed?");
 	Units_GarrisonType = AGETextCtrl::init(CUByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_GarrisonType->SetToolTip("You can garrison any type,\nif you add the garrison action targeting this class/unit,\nbut you may need to hold the alt key while choosing to garrison.");
 	Units_GarrisonType_Grid = new wxGridSizer(8, 0, 0);
 	for(short loop = 0; loop < 8; ++loop)
 	Units_GarrisonType_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1, 20));
@@ -3734,7 +3735,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
 	Units_Enabled_CheckBox = new CheckBox_2State(Units_Scroller, "Enabled *", Units_Enabled);
 	Units_Disabled = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Disabled->SetToolTip("0 Default\n1 Prevents enabling/disabling with a tech");
+	Units_Disabled->SetToolTip("Not scanned but set to 0\nProbably changes during gameplay\n0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
 	Units_DeathMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_DeathMode->SetToolTip("Reviving does not make it usable");
@@ -3853,7 +3854,8 @@ void AGE_Frame::CreateUnitControls()
 	for(short loop = 0; loop < 2; ++loop)
 	Units_SelectionRadius[loop] = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
 	Units_Unselectable = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unselectable_CheckBox = new CheckBox_2State(Units_Scroller, "Unselectable", Units_Unselectable);
+    Units_Unselectable->SetToolTip("Not scanned but set to 0\nProbably changes during gameplay");
+	Units_Unselectable_CheckBox = new CheckBox_2State(Units_Scroller, "Unselectable *", Units_Unselectable);
 	Units_Unknown6 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Unknown6->SetToolTip("Seems to be 1 on all resource deposits");
 	Units_Unknown7 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
