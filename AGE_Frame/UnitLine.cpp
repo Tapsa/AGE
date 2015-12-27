@@ -30,7 +30,7 @@ void AGE_Frame::InitUnitLines()
 	wxArrayString names;
 	names.Alloc(dataset->Civs[0].Units.size());
 
-	for(short loop = 0; loop < dataset->UnitLines.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->UnitLines.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -180,7 +180,7 @@ void AGE_Frame::ListUnitLineUnits()
 	UnitLines_UnitLineUnits_ListV->names.clear();
 	UnitLines_UnitLineUnits_ListV->indexes.clear();
 
-	for(short loop = 0; loop < dataset->UnitLines[UnitLineIDs[0]].UnitIDs.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->UnitLines[UnitLineIDs[0]].UnitIDs.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->UnitLines[UnitLineIDs[0]].UnitIDs[loop]);
 		if(SearchMatches(Name.Lower()))
@@ -293,7 +293,7 @@ void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &event)
 {
-	for(short loop=1; loop < UnitLineIDs.size(); ++loop)
+	for(size_t loop=1; loop < UnitLineIDs.size(); ++loop)
 	{
 		dataset->UnitLines[UnitLineIDs[loop]].UnitIDs = dataset->UnitLines[UnitLineIDs[0]].UnitIDs;
 	}
