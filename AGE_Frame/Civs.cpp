@@ -863,7 +863,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_GraphicSet = AGETextCtrl::init(CByte, &uiGroupCiv, this, AGEwindow, Tab_Civs);
 	Civs_GraphicSet->SetToolTip("Building icon set (and trade cart graphics?)\nThis is actually an offset used to look up SLPs inside the DRS file\nAoE 1: also determines the interface graphics used\nStar Wars: also determines unit and tech icons");
 	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = AGETextCtrl::init(CByte, &uiGroupCiv, this, AGEwindow, Tab_Civs);
 	Civs_TechTree_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
