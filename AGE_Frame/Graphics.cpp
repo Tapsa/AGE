@@ -292,19 +292,19 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             genie::Unit *unit = &dataset->Civs[UnitCivID].Units[UnitIDs[0]];
             if(DrawCollisionShape)
             {
-                tileToPixels(unit->SizeRadius, collision, centerX, centerY);
+                tileToPixels(unit->CollisionSize.x, unit->CollisionSize.y, collision, centerX, centerY);
                 dc.DrawLine(collision.x1, collision.y1, collision.x4, collision.y4);
                 dc.DrawLine(collision.x3, collision.y3, collision.x4, collision.y4);
             }
             if(DrawClearanceShape)
             {
-                tileToPixels(unit->EditorRadius, clearance, centerX, centerY);
+                tileToPixels(unit->ClearanceSize.first, unit->ClearanceSize.second, clearance, centerX, centerY);
                 dc.DrawLine(clearance.x1, clearance.y1, clearance.x4, clearance.y4);
                 dc.DrawLine(clearance.x3, clearance.y3, clearance.x4, clearance.y4);
             }
             if(DrawSelectionShape)
             {
-                tileToPixels(unit->SelectionRadius, selection, centerX, centerY);
+                tileToPixels(unit->SelectionShapeSize.x, unit->SelectionShapeSize.y, selection, centerX, centerY);
                 dc.DrawLine(selection.x1, selection.y1, selection.x4, selection.y4);
                 dc.DrawLine(selection.x3, selection.y3, selection.x4, selection.y4);
             }
@@ -558,16 +558,16 @@ void AGE_Frame::OnGraphicErase(wxEraseEvent &event)
 {
 }
 
-void AGE_Frame::tileToPixels(pair<float, float> dimensions, Pixels &p, int centerX, int centerY)
+void AGE_Frame::tileToPixels(float sizeX, float sizeY, Pixels &p, int centerX, int centerY)
 {
-    p.x1 = centerX + dataset->TerrainBlock.TileHalfWidth * (dimensions.first + dimensions.second);
-    p.y2 = centerY + dataset->TerrainBlock.TileHalfHeight * (dimensions.first + dimensions.second);
-    p.x2 = centerX + dataset->TerrainBlock.TileHalfWidth * (-dimensions.first + dimensions.second);
-    p.y1 = centerY + dataset->TerrainBlock.TileHalfHeight * (-dimensions.first + dimensions.second);
-    p.x4 = centerX + dataset->TerrainBlock.TileHalfWidth * (dimensions.first - dimensions.second);
-    p.y3 = centerY + dataset->TerrainBlock.TileHalfHeight * (dimensions.first - dimensions.second);
-    p.x3 = centerX + dataset->TerrainBlock.TileHalfWidth * (-dimensions.first - dimensions.second);
-    p.y4 = centerY + dataset->TerrainBlock.TileHalfHeight * (-dimensions.first - dimensions.second);
+    p.x1 = centerX + dataset->TerrainBlock.TileHalfWidth * (sizeX + sizeY);
+    p.y2 = centerY + dataset->TerrainBlock.TileHalfHeight * (sizeX + sizeY);
+    p.x2 = centerX + dataset->TerrainBlock.TileHalfWidth * (-sizeX + sizeY);
+    p.y1 = centerY + dataset->TerrainBlock.TileHalfHeight * (-sizeX + sizeY);
+    p.x4 = centerX + dataset->TerrainBlock.TileHalfWidth * (sizeX - sizeY);
+    p.y3 = centerY + dataset->TerrainBlock.TileHalfHeight * (sizeX - sizeY);
+    p.x3 = centerX + dataset->TerrainBlock.TileHalfWidth * (-sizeX - sizeY);
+    p.y4 = centerY + dataset->TerrainBlock.TileHalfHeight * (-sizeX - sizeY);
 }
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
