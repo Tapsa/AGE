@@ -1370,7 +1370,7 @@ void AGE_Frame::OnGameVersionChange()
 		// Mickey ->
 		show = (GenieVersion >= genie::GV_MIK) ? true : false;
 		Civs_TechTree_Holder->Show(show);
-		Units_PlacementBypassTerrain_Holder->Show(show);
+		Units_PlacementSideTerrain_Holder->Show(show);
 
 		// Matt ->
 		show = (GenieVersion >= genie::GV_MATT) ? true : false;
@@ -1481,7 +1481,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_GarrisonGraphic_Holder->Show(show);
 		Units_StandingGraphic[1]->Show(show);
 		Units_StandingGraphic_ComboBox[1]->Show(show);
-		Units_AccuracyErrorRadius_Holder->Show(show);
+		Units_AccuracyDispersion_Holder->Show(show);
 		TechTrees_Ages_Buildings.Add->Enable(show);
 		TechTrees_Ages_Units.Add->Enable(show);
 		TechTrees_Ages_Researches.Add->Enable(show);
@@ -1659,6 +1659,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 	SaveBox.Path_CustomDefault->SetPath(CustomFolder);
 	SaveBox.LanguageBox->ChangeValue(Language);
 	SaveBox.CheckBox_GenieVer->SetSelection(SaveGameVersion);
+    SaveBox.CheckBox_LangWrite->Enable(WriteLangs);
     SaveBox.CheckBox_LangWrite->SetValue(WriteLangs);
 
 	SaveBox.CheckBox_DatFileLocation->SetValue(SaveDat);
