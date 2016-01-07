@@ -76,7 +76,7 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 	{
 		CivPointer = &dataset->Civs[CivIDs[sel]];
 
-		Civs_One->prepend(&CivPointer->One);
+		Civs_One->prepend(&CivPointer->Enabled);
 		Civs_Name[0]->prepend(&CivPointer->Name);
 		if(GenieVersion >= genie::GV_MIK)
 		{

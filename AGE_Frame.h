@@ -189,7 +189,7 @@ public:
     void autoOdds(wxCommandEvent &event);
     void autoDrsIncrement(wxCommandEvent &event);
     void copySoundsFromCivToCiv(wxCommandEvent &event);
-    void tileToPixels(pair<float, float> dimensions, Pixels &p, int centerX, int centerY);
+    void tileToPixels(float sizeX, float sizeY, Pixels &p, int centerX, int centerY);
 
 //	General Events
 
@@ -1733,11 +1733,11 @@ public:
 	CheckBox_2State *Units_Enabled_CheckBox;
 	AGETextCtrl *Units_Disabled;
 	CheckBox_2State *Units_Disabled_CheckBox;
-	AGETextCtrl *Units_PlacementBypassTerrain[2];
-	ComboBox_Plus1 *Units_PlacementBypassTerrain_ComboBox[2];
+	AGETextCtrl *Units_PlacementSideTerrain[2];
+	ComboBox_Plus1 *Units_PlacementSideTerrain_ComboBox[2];
 	AGETextCtrl *Units_PlacementTerrain[2];
 	ComboBox_Plus1 *Units_PlacementTerrain_ComboBox[2];
-	AGETextCtrl *Units_EditorRadius[2];
+	AGETextCtrl *Units_ClearanceSize[2];
 	AGETextCtrl *Units_HillMode;
 	AGETextCtrl *Units_VisibleInFog;
 	wxStaticText *Units_VisibleInFog_Text;
@@ -1747,8 +1747,8 @@ public:
 	CheckBox_2State *Units_FlyMode_CheckBox;
 	AGETextCtrl *Units_ResourceCapacity;
 	AGETextCtrl *Units_ResourceDecay;
-	AGETextCtrl *Units_BlastArmorLevel;
-	AGETextCtrl *Units_TriggerType;
+	AGETextCtrl *Units_BlastDefenseLevel;
+	AGETextCtrl *Units_SubType;
 	AGETextCtrl *Units_InteractionMode;
 	AGETextCtrl *Units_MinimapMode;
 	AGETextCtrl *Units_CommandID;
@@ -1789,7 +1789,7 @@ public:
 	AGETextCtrl *Units_DyingSound;
 	ComboBox_Plus1 *Units_DyingSound_ComboBox;
 	AGETextCtrl *Units_AttackMode;
-	AGETextCtrl *Units_EdibleMeat;
+	AGETextCtrl *Units_Unknown10;
 	AGETextCtrl *Units_Name;
 	AGETextCtrl *Units_Name2;
 	AGETextCtrl *Units_Unitline;
@@ -1818,14 +1818,14 @@ public:
 
 //	Type 40+
 
-	wxStaticText *Units_SheepConversion_Text;
-	AGETextCtrl *Units_SheepConversion;
-	ComboBox_Plus1 *Units_SheepConversion_ComboBox;
+	wxStaticText *Units_ActionWhenDiscoveredID_Text;
+	AGETextCtrl *Units_ActionWhenDiscoveredID;
+	ComboBox_Plus1 *Units_ActionWhenDiscoveredID_ComboBox;
 	AGETextCtrl *Units_SearchRadius;
 	AGETextCtrl *Units_WorkRate;
 	AGETextCtrl *Units_DropSite[2];
 	ComboBox_Plus1 *Units_DropSite_ComboBox[2];
-	AGETextCtrl *Units_VillagerMode;
+	AGETextCtrl *Units_TaskSwapID;
 	AGETextCtrl *Units_AttackSound;
 	ComboBox_Plus1 *Units_AttackSound_ComboBox;
 	AGETextCtrl *Units_MoveSound;
@@ -1840,7 +1840,7 @@ public:
 	AGETextCtrl *Units_TerRestrictionForDmgMultiply;
 	ComboBox_Plus1 *Units_TerRestrictionForDmgMultiply_ComboBox;
 	AGETextCtrl *Units_MaxRange;
-	AGETextCtrl *Units_BlastRadius;
+	AGETextCtrl *Units_BlastWidth;
 	AGETextCtrl *Units_ReloadTime1;
 	AGETextCtrl *Units_ProjectileUnitID;
 	ComboBox_Plus1 *Units_ProjectileUnitID_ComboBox;
@@ -1851,7 +1851,7 @@ public:
 	AGETextCtrl *Units_GraphicDisplacement[3];
 	AGETextCtrl *Units_BlastAttackLevel;
 	AGETextCtrl *Units_MinRange;
-	AGETextCtrl *Units_AccuracyErrorRadius;
+	AGETextCtrl *Units_AccuracyDispersion;
 	AGETextCtrl *Units_AttackGraphic;
 	ComboBox_Plus1 *Units_AttackGraphic_ComboBox;
 	AGETextCtrl *Units_DisplayedMeleeArmour;
@@ -1862,7 +1862,7 @@ public:
 //	Type 60 only
 
 	AGETextCtrl *Units_StretchMode;
-	AGETextCtrl *Units_CompensationMode;
+	AGETextCtrl *Units_SmartMode;
 	AGETextCtrl *Units_DropAnimationMode;
 	AGETextCtrl *Units_PenetrationMode;
 	AGETextCtrl *Units_Unknown24;
@@ -1881,7 +1881,7 @@ public:
 	AGETextCtrl *Units_ButtonID;
 	AGETextCtrl *Units_Unknown26;
 	AGETextCtrl *Units_Unknown27;
-	AGETextCtrl *Units_Unknown28;
+	AGETextCtrl *Units_UnknownType;
 	AGETextCtrl *Units_HeroMode;
 	CheckBox_2State *Units_HeroMode_CheckBox;
 	AGETextCtrl *Units_GarrisonGraphic;
@@ -1955,15 +1955,15 @@ public:
 	wxStaticText *Units_PlacementMode_Text;
 	wxStaticText *Units_IconID_Text;
 	wxStaticText *Units_Unknown1_Text;
-	wxStaticText *Units_PlacementBypassTerrain_Text;
+	wxStaticText *Units_PlacementSideTerrain_Text;
 	wxStaticText *Units_PlacementTerrain_Text;
-	wxStaticText *Units_EditorRadius_Text;
+	wxStaticText *Units_ClearanceSize_Text;
 	wxStaticText *Units_HillMode_Text;
 	wxStaticText *Units_TerrainRestriction_Text;
 	wxStaticText *Units_ResourceCapacity_Text;
 	wxStaticText *Units_ResourceDecay_Text;
-	wxStaticText *Units_BlastArmorLevel_Text;
-	wxStaticText *Units_TriggerType_Text;
+	wxStaticText *Units_BlastDefenseLevel_Text;
+	wxStaticText *Units_SubType_Text;
 	wxStaticText *Units_InteractionMode_Text;
 	wxStaticText *Units_MinimapMode_Text;
 	wxStaticText *Units_CommandID_Text;
@@ -1992,7 +1992,7 @@ public:
 	wxStaticText *Units_SelectionSound_Text;
 	wxStaticText *Units_DyingSound_Text;
 	wxStaticText *Units_AttackMode_Text;
-	wxStaticText *Units_EdibleMeat_Text;
+	wxStaticText *Units_Unknown10_Text;
 	wxStaticText *Units_Name_Text;
 	wxStaticText *Units_Name2_Text;
 	wxStaticText *Units_Unitline_Text;
@@ -2021,7 +2021,7 @@ public:
 	wxStaticText *Units_SearchRadius_Text;
 	wxStaticText *Units_WorkRate_Text;
 	wxStaticText *Units_DropSite_Text;
-	wxStaticText *Units_VillagerMode_Text;
+	wxStaticText *Units_TaskSwapID_Text;
 	wxStaticText *Units_AttackSound_Text;
 	wxStaticText *Units_MoveSound_Text;
 	wxStaticText *Units_Exists_Text;
@@ -2031,7 +2031,7 @@ public:
 	wxStaticText *Units_DefaultArmor_Text;
 	wxStaticText *Units_TerRestrictionForDmgMultiply_Text;
 	wxStaticText *Units_MaxRange_Text;
-	wxStaticText *Units_BlastRadius_Text;
+	wxStaticText *Units_BlastWidth_Text;
 	wxStaticText *Units_ReloadTime1_Text;
 	wxStaticText *Units_ProjectileUnitID_Text;
 	wxStaticText *Units_AccuracyPercent_Text;
@@ -2039,7 +2039,7 @@ public:
 	wxStaticText *Units_GraphicDisplacement_Text;
 	wxStaticText *Units_BlastAttackLevel_Text;
 	wxStaticText *Units_MinRange_Text;
-	wxStaticText *Units_AccuracyErrorRadius_Text;
+	wxStaticText *Units_AccuracyDispersion_Text;
 	wxStaticText *Units_AttackGraphic_Text;
 	wxStaticText *Units_DisplayedMeleeArmour_Text;
 	wxStaticText *Units_DisplayedAttack_Text;
@@ -2049,7 +2049,7 @@ public:
 //	Type 60 only
 
 	wxStaticText *Units_StretchMode_Text;
-	wxStaticText *Units_CompensationMode_Text;
+	wxStaticText *Units_SmartMode_Text;
 	wxStaticText *Units_DropAnimationMode_Text;
 	wxStaticText *Units_PenetrationMode_Text;
 	wxStaticText *Units_Unknown24_Text;
@@ -2065,7 +2065,7 @@ public:
 	wxStaticText *Units_ButtonID_Text;
 	wxStaticText *Units_Unknown26_Text;
 	wxStaticText *Units_Unknown27_Text;
-	wxStaticText *Units_Unknown28_Text;
+	wxStaticText *Units_UnknownType_Text;
 	wxStaticText *Units_GarrisonGraphic_Text;
 	wxStaticText *Units_MissileCount_Text;
 	wxStaticText *Units_MissileDuplicationCount_Text;
@@ -2128,20 +2128,20 @@ public:
 	wxBoxSizer *Units_Unknown1_Holder;
 	wxBoxSizer *Units_Enabled_Holder;
 	wxBoxSizer *Units_Disabled_Holder;
-	wxBoxSizer *Units_PlacementBypassTerrain_Holder;
-	wxGridSizer *Units_PlacementBypassTerrainGrid_Holder;
+	wxBoxSizer *Units_PlacementSideTerrain_Holder;
+	wxGridSizer *Units_PlacementSideTerrainGrid_Holder;
 	wxBoxSizer *Units_PlacementTerrain_Holder;
 	wxGridSizer *Units_PlacementTerrainGrid_Holder;
-	wxBoxSizer *Units_EditorRadius_Holder;
-	wxGridSizer *Units_EditorRadius_Grid;
+	wxBoxSizer *Units_ClearanceSize_Holder;
+	wxGridSizer *Units_ClearanceSize_Grid;
 	wxBoxSizer *Units_HillMode_Holder;
 	wxBoxSizer *Units_VisibleInFog_Holder;
 	wxBoxSizer *Units_TerrainRestriction_Holder;
 	wxBoxSizer *Units_FlyMode_Holder;
 	wxBoxSizer *Units_ResourceCapacity_Holder;
 	wxBoxSizer *Units_ResourceDecay_Holder;
-	wxBoxSizer *Units_BlastArmorLevel_Holder;
-	wxBoxSizer *Units_TriggerType_Holder;
+	wxBoxSizer *Units_BlastDefenseLevel_Holder;
+	wxBoxSizer *Units_SubType_Holder;
 	wxBoxSizer *Units_InteractionMode_Holder;
 	wxBoxSizer *Units_MinimapMode_Holder;
 	wxBoxSizer *Units_CommandID_Holder;
@@ -2171,7 +2171,7 @@ public:
 	wxBoxSizer *Units_SelectionSound_Holder;
 	wxBoxSizer *Units_DyingSound_Holder;
 	wxBoxSizer *Units_AttackMode_Holder;
-	wxBoxSizer *Units_EdibleMeat_Holder;
+	wxBoxSizer *Units_Unknown10_Holder;
 	wxBoxSizer *Units_Name_Holder;
 	wxBoxSizer *Units_Name2_Holder;
 	wxBoxSizer *Units_Unitline_Holder;
@@ -2199,11 +2199,11 @@ public:
 
 //	Type 40+
 
-	wxBoxSizer *Units_SheepConversion_Holder;
+	wxBoxSizer *Units_ActionWhenDiscoveredID_Holder;
 	wxBoxSizer *Units_SearchRadius_Holder;
 	wxBoxSizer *Units_WorkRate_Holder;
 	wxGridSizer *Units_DropSite_Grid;
-	wxBoxSizer *Units_VillagerMode_Holder;
+	wxBoxSizer *Units_TaskSwapID_Holder;
 	wxBoxSizer *Units_AttackSound_Holder;
 	wxBoxSizer *Units_MoveSound_Holder;
 	wxBoxSizer *Units_AnimalMode_Holder;
@@ -2214,7 +2214,7 @@ public:
 	wxBoxSizer *Units_DefaultArmor_Holder;
 	wxBoxSizer *Units_TerRestrictionForDmgMultiply_Holder;
 	wxBoxSizer *Units_MaxRange_Holder;
-	wxBoxSizer *Units_BlastRadius_Holder;
+	wxBoxSizer *Units_BlastWidth_Holder;
 	wxBoxSizer *Units_ReloadTime1_Holder;
 	wxBoxSizer *Units_ProjectileUnitID_Holder;
 	wxBoxSizer *Units_AccuracyPercent_Holder;
@@ -2224,7 +2224,7 @@ public:
 	wxGridSizer *Units_GraphicDisplacement_Grid;
 	wxBoxSizer *Units_BlastAttackLevel_Holder;
 	wxBoxSizer *Units_MinRange_Holder;
-	wxBoxSizer *Units_AccuracyErrorRadius_Holder;
+	wxBoxSizer *Units_AccuracyDispersion_Holder;
 	wxBoxSizer *Units_AttackGraphic_Holder;
 	wxBoxSizer *Units_DisplayedMeleeArmour_Holder;
 	wxBoxSizer *Units_DisplayedAttack_Holder;
@@ -2234,7 +2234,7 @@ public:
 //	Type 60 only
 
 	wxBoxSizer *Units_StretchMode_Holder;
-	wxBoxSizer *Units_CompensationMode_Holder;
+	wxBoxSizer *Units_SmartMode_Holder;
 	wxBoxSizer *Units_DropAnimationMode_Holder;
 	wxBoxSizer *Units_PenetrationMode_Holder;
 	wxBoxSizer *Units_Unknown24_Holder;
@@ -2252,7 +2252,7 @@ public:
 	wxBoxSizer *Units_ButtonID_Holder;
 	wxBoxSizer *Units_Unknown26_Holder;
 	wxBoxSizer *Units_Unknown27_Holder;
-	wxBoxSizer *Units_Unknown28_Holder;
+	wxBoxSizer *Units_UnknownType_Holder;
 	wxBoxSizer *Units_HeroMode_Holder;
 	wxBoxSizer *Units_GarrisonGraphic_Holder;
 	wxGridSizer *Units_GarrisonGraphic_Grid;
@@ -2439,7 +2439,6 @@ public:
 	wxStaticBoxSizer *Units_SoundsArea_Holder;
 	wxBoxSizer *Units_SoundsArea1_Holder;
 	wxGridSizer *Units_SoundsArea2_Grid;
-	wxStaticBoxSizer *Units_MiscArea_Holder;
 	wxGridSizer *Units_HPBars_Grid;
 	wxBoxSizer *Units_UnknownArea_Holder;
 	wxStaticBoxSizer *Units_Type10plusUnknownArea_Holder;
