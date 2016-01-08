@@ -4105,7 +4105,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Unknown4_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown4 = AGETextCtrl::init(CByte, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_Unknown5_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_Unknown5_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Scaring Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Unknown5 = AGETextCtrl::init(CFloat, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_SelectionEnabler_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_SelectionEnabler_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Enabler *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
