@@ -1100,66 +1100,75 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		Effects_AttributesC_ComboBox->Append("0 - Hit Points");		// Selection 1
 		Effects_AttributesC_ComboBox->Append("1 - Line of Sight");
 		Effects_AttributesC_ComboBox->Append("2 - Garrison Capacity");
-		Effects_AttributesC_ComboBox->Append("3 - Unit Size Radius 1");
-		Effects_AttributesC_ComboBox->Append("4 - Unit Size Radius 2");
-		Effects_AttributesC_ComboBox->Append("5 - Movement Speed");
-		Effects_AttributesC_ComboBox->Append("6 - Garrison Recovery Rate");
+		Effects_AttributesC_ComboBox->Append("3 - Unit Size X");
+		Effects_AttributesC_ComboBox->Append("4 - Unit Size Y");
+		Effects_AttributesC_ComboBox->Append("5 - Movement Speed (types 20-80)");
+		Effects_AttributesC_ComboBox->Append("6 - Rotation Speed (types 30-80)");
 		Effects_AttributesC_ComboBox->Append("7 - Unknown?");
 		if(GenieVersion < genie::GV_AoKA)
 		{
-			Effects_AttributesC_ComboBox->Append("8 - Armor (no multiply)");
-			Effects_AttributesC_ComboBox->Append("9 - Attack (no multiply)");
+			Effects_AttributesC_ComboBox->Append("8 - Armor (no multiply, types 50-80)");
+			Effects_AttributesC_ComboBox->Append("9 - Attack (no multiply, types 50-80)");
 		}
 		else
 		{
-			Effects_AttributesC_ComboBox->Append("8 - Armor");
-			Effects_AttributesC_ComboBox->Append("9 - Attack");
+			Effects_AttributesC_ComboBox->Append("8 - Armor (types 50-80)");
+			Effects_AttributesC_ComboBox->Append("9 - Attack (types 50-80)");
 		}
-		Effects_AttributesC_ComboBox->Append("10 - Attack Reloading Time");
-		Effects_AttributesC_ComboBox->Append("11 - Accuracy Percent");
-		Effects_AttributesC_ComboBox->Append("12 - Range");
-		Effects_AttributesC_ComboBox->Append("13 - Working Rate");
+		Effects_AttributesC_ComboBox->Append("10 - Attack Reloading Time (types 50-80)");
+		Effects_AttributesC_ComboBox->Append("11 - Accuracy Percent (types 50-80)");
+		Effects_AttributesC_ComboBox->Append("12 - Max Range (types 50-80)");
+		Effects_AttributesC_ComboBox->Append("13 - Working Rate (types 30-80)");
 		Effects_AttributesC_ComboBox->Append("14 - Resource Carriage");
-		Effects_AttributesC_ComboBox->Append("15 - Default Armor");
-		Effects_AttributesC_ComboBox->Append("16 - New Projectile Unit");
-		Effects_AttributesC_ComboBox->Append("17 - Icon/Graphics Angle");
-		Effects_AttributesC_ComboBox->Append("18 - Ter restr to multiply dmg rcvd (always sets)");
-		Effects_AttributesC_ComboBox->Append("19 - Enable Intelligent Projectiles");
+		Effects_AttributesC_ComboBox->Append("15 - Default Armor (types 50-80)");
+		Effects_AttributesC_ComboBox->Append("16 - Projectile Unit (types 50-80)");
+		Effects_AttributesC_ComboBox->Append("17 - Icon/Graphics Angle (type 80)");
+		Effects_AttributesC_ComboBox->Append("18 - Ter restr to multiply dmg rcvd (always sets, types 50-80)");
+		if(GenieVersion < genie::GV_AoEB)
+        {
+            Effects_AttributesC_ComboBox->Append("19 - Unused");
+        }
+        else
+        {
+            Effects_AttributesC_ComboBox->Append("19 - Enable Intelligent Projectiles (type 60)");
+        }
 		if(GenieVersion < genie::GV_AoKA)
 		{
 			Effects_AttributesC_ComboBox->Append("20 - Unused");
 			Effects_AttributesC_ComboBox->Append("21 - Unused");
 			Effects_AttributesC_ComboBox->Append("22 - Unused");
 			Effects_AttributesC_ComboBox->Append("23 - Unused");
-			Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
-			Effects_AttributesC_ComboBox->Append("101 - Population Support (set only)");
+			Effects_AttributesC_ComboBox->Append("100 - Resource Costs (types 70-80)");
+            if(GenieVersion == genie::GV_RoR)
+			Effects_AttributesC_ComboBox->Append("101 - 1st resource storage (set only)");
 		}
 		else
 		{
-			Effects_AttributesC_ComboBox->Append("20 - Minimum Range");
-			Effects_AttributesC_ComboBox->Append("21 - Population Support");
-			Effects_AttributesC_ComboBox->Append("22 - Blast Radius");
-			Effects_AttributesC_ComboBox->Append("23 - Search Radius");
-			Effects_AttributesC_ComboBox->Append("100 - Resource Cost");
-			Effects_AttributesC_ComboBox->Append("101 - Creation Time");
-			Effects_AttributesC_ComboBox->Append("102 - Number of Garrison Arrows");
-			Effects_AttributesC_ComboBox->Append("103 - Food Cost");
+			Effects_AttributesC_ComboBox->Append("20 - Min Range (types 50-80)");
+			Effects_AttributesC_ComboBox->Append("21 - 1st resource storage");
+			Effects_AttributesC_ComboBox->Append("22 - Blast Width (types 50-80)");
+			Effects_AttributesC_ComboBox->Append("23 - Search Radius (types 40-80)");
+			Effects_AttributesC_ComboBox->Append("100 - Resource Costs (types 70-80)");
+			Effects_AttributesC_ComboBox->Append("101 - Train Time (types 70-80)");
+			Effects_AttributesC_ComboBox->Append("102 - Total Missiles (types 70-80)");
+			Effects_AttributesC_ComboBox->Append("103 - Food Costs (types 70-80)");
 			if(GenieVersion < genie::GV_SWGB)
 			{
-				Effects_AttributesC_ComboBox->Append("104 - Wood Cost");
-				Effects_AttributesC_ComboBox->Append("105 - Gold Cost");
-				Effects_AttributesC_ComboBox->Append("106 - Stone Cost");
+				Effects_AttributesC_ComboBox->Append("104 - Wood Costs (types 70-80)");
+				Effects_AttributesC_ComboBox->Append("105 - Gold Costs (types 70-80)");
+				Effects_AttributesC_ComboBox->Append("106 - Stone Costs (types 70-80)");
 			}
 			else
 			{
-				Effects_AttributesC_ComboBox->Append("104 - Carbon Cost");
-				Effects_AttributesC_ComboBox->Append("105 - Nova Cost");
-				Effects_AttributesC_ComboBox->Append("106 - Ore Cost");
+				Effects_AttributesC_ComboBox->Append("104 - Carbon Costs (types 70-80)");
+				Effects_AttributesC_ComboBox->Append("105 - Nova Costs (types 70-80)");
+				Effects_AttributesC_ComboBox->Append("106 - Ore Costs (types 70-80)");
 			}
-			Effects_AttributesC_ComboBox->Append("107 - Max Dup. Missiles");
-			Effects_AttributesC_ComboBox->Append("108 - Healing Rate");
+			Effects_AttributesC_ComboBox->Append("107 - Max Total Missiles (types 70-80)");
+            if(GenieVersion >= genie::GV_AoKB)
+			Effects_AttributesC_ComboBox->Append("108 - Garrison Heal Rate (type 80)");
             if(GenieVersion == genie::GV_Cysion)
-            Effects_AttributesC_ComboBox->Append("109 - Regeneration Rate");
+            Effects_AttributesC_ComboBox->Append("109 - Regeneration Rate (types 70-80?)");
 		}
 		Effects_AttributesC_ComboBox->SetSelection(0);
 
@@ -1234,7 +1243,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("101 - AoK+ only");
         else Effects_Type_ComboBox->Append("101 - Research Cost Modifier (Set/+/-)");
-        Effects_Type_ComboBox->Append("102 - Toggle Research Disabled/Enabled");
+        Effects_Type_ComboBox->Append("102 - Disable/Enable Research");
         if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("103 - AoK+ only");
         else Effects_Type_ComboBox->Append("103 - Research Time Modifier (Set/+/-)");	// Selection 17
         Effects_Type_ComboBox->SetSelection(0);
