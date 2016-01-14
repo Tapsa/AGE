@@ -322,7 +322,8 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &event) // Their count is hardcoded
 	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
-	genie::Terrain::customTerrainAmount = ++CustomTerrains;
+    if(GameVersion == EV_EF)
+	genie::Terrain::setTerrainsSize(++CustomTerrains);
 	for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
 	dataset->TerrainBlock.Terrains[loop].setGameVersion(GenieVersion);
 	AddToList(dataset->TerrainBlock.Terrains);
@@ -344,7 +345,8 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardco
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::Terrain::customTerrainAmount = CustomTerrains -= TerrainIDs.size();
+    if(GameVersion == EV_EF)
+	genie::Terrain::setTerrainsSize(CustomTerrains -= TerrainIDs.size());
 	DeleteFromList(dataset->TerrainBlock.Terrains, TerrainIDs);
 	for(size_t loop = dataset->TerrainBlock.Terrains.size(); loop--> 0;)
 	DeleteFromList(dataset->TerrainBlock.Terrains[loop].Borders, TerrainIDs);
