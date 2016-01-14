@@ -49,6 +49,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
 		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
+        if(GameVersion == EV_EF) OpenBox.TerrainsBox->Enable(true);
 
 		if(DatUsed == 0)
 		{
@@ -255,7 +256,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		dataset = new genie::DatFile();
 		try
 		{
-			genie::Terrain::customTerrainAmount = CustomTerrains;
+            if(GameVersion == EV_EF)
+			genie::Terrain::setTerrainsSize(CustomTerrains);
 			dataset->setGameVersion(GenieVersion);
 			dataset->load(DatFileName.c_str());
 		}
