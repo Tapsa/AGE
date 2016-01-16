@@ -1142,12 +1142,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Effects_AttributesC_ComboBox->Append("23 - Unused");
 			Effects_AttributesC_ComboBox->Append("100 - Resource Costs (types 70-80)");
             if(GenieVersion == genie::GV_RoR)
-			Effects_AttributesC_ComboBox->Append("101 - 1st resource storage (set only)");
+			Effects_AttributesC_ComboBox->Append("101 - Amount of 1st resource storage (set only)");
 		}
 		else
 		{
 			Effects_AttributesC_ComboBox->Append("20 - Min Range (types 50-80)");
-			Effects_AttributesC_ComboBox->Append("21 - 1st resource storage");
+			Effects_AttributesC_ComboBox->Append("21 - Amount of 1st resource storage");
 			Effects_AttributesC_ComboBox->Append("22 - Blast Width (types 50-80)");
 			Effects_AttributesC_ComboBox->Append("23 - Search Radius (types 40-80)");
 			Effects_AttributesC_ComboBox->Append("100 - Resource Costs (types 70-80)");
@@ -1245,7 +1245,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("101 - AoK+ only");
         else Effects_Type_ComboBox->Append("101 - Research Cost Modifier (Set/+/-)");
-        Effects_Type_ComboBox->Append("102 - Disable/Enable Research");
+        Effects_Type_ComboBox->Append("102 - Disable Research");
         if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("103 - AoK+ only");
         else Effects_Type_ComboBox->Append("103 - Research Time Modifier (Set/+/-)");	// Selection 17
         Effects_Type_ComboBox->SetSelection(0);
