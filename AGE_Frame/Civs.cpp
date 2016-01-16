@@ -406,13 +406,13 @@ string AGE_Frame::GetResourceName(int index)
             Name = "Enable Stealth For Masters";
             break;
         case 57:
-            if(GenieVersion < genie::GV_AoKA)
+            if(GenieVersion == genie::GV_RoR)
             Name = "Martyrdom";
             else
             Name = "Kidnap Storage";
             break;
 		case 58:
-			if(GenieVersion < genie::GV_SWGB)
+			if(GenieVersion == genie::GV_RoR)
 			Name = "Dark Age tech index";
 			else
 			Name = "Masters Can See Hidden Units";
