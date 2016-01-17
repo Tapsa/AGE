@@ -1025,7 +1025,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Units_Class_ComboBox[loop]->SetSelection(0);
 
 			Attacks_Class_ComboBox[loop]->Clear();
-			Attacks_Class_ComboBox[loop]->Append("Unused Class/No Class");	// Selection 0
+			Attacks_Class_ComboBox[loop]->Append("Unused Type/No Type");	// Selection 0
 			if(GenieVersion < genie::GV_AoKA) // AoE and RoR
 			{	// Use "atc -1|arc -1|disa" to discover these!
 				for(size_t loop2 = 0; loop2 < AoE1Count; ++loop2)

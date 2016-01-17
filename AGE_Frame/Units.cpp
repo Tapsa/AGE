@@ -3609,7 +3609,7 @@ void AGE_Frame::CreateUnitControls()
 	Attacks_Amount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Attacks_Amount = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Units_Scroller);
 	Attacks_Class_Holder = new wxBoxSizer(wxVERTICAL);
-	Attacks_Class_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Class *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Attacks_Class_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Attacks_Class = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Units_Scroller);
 	Attacks_Class->SetToolTip("Armor class that this unit can damage\nYou can make your own classes");
 	Attacks_Class_ComboBox[0] = new ComboBox_Plus1(Units_Scroller, Attacks_Class);
@@ -3648,7 +3648,7 @@ void AGE_Frame::CreateUnitControls()
 	Armors_Amount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Amount", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Armors_Amount = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Units_Scroller);
 	Armors_Class_Holder = new wxBoxSizer(wxVERTICAL);
-	Armors_Class_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Class *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Armors_Class_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Armors_Class = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Units_Scroller);
 	Armors_Class->SetToolTip("Attack class from which this unit can take damage\nYou can make your own classes");
 	Attacks_Class_ComboBox[1] = new ComboBox_Plus1(Units_Scroller, Armors_Class);
@@ -3974,7 +3974,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Unknown1 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Unknown3A = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unknown3A->SetToolTip("Seems to be 1 on more or less living things\nI think unknown 3A is the old way to count population");
+	Units_Unknown3A->SetToolTip("Seems to be 1 on more or less living things\nProbably the old population counter");
 
 	Units_Unknown11 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Unknown16 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
