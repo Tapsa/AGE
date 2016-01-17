@@ -9,33 +9,30 @@ string AGE_Frame::GetTechName(int index)
 
 void AGE_Frame::OnTechRenameGE2(wxCommandEvent &event)
 {
-	auto selections = Techs_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(NULL == dataset) return;
 
-	string Name;
-	for(size_t loop = 0; loop < dataset->Techages.size(); ++loop)
-	{
-		dataset->Techages[loop].Name = "Tech";
-	}
-	ListTechs();
+    for(auto &tech: dataset->Techages)
+    {
+        tech.Name = "Tech";
+    }
+    ListTechs();
 }
 
 void AGE_Frame::OnTechRename(wxCommandEvent &event)
 {
-	auto selections = Techs_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(NULL == dataset) return;
 
-	for(size_t loop3 = 0; loop3 < dataset->Techages.size(); ++loop3)
-	{
-		if(dataset->Techages[loop3].Effects.size() < 1) // Empty techs.
-		{
-			dataset->Techages[loop3].Name = "New Technology";
-		}
-		else // Other than empty techs, not researches if research loop doesn't rename them.
-		{
-			dataset->Techages[loop3].Name = "Non-Research";
-		}
-	}
+    for(auto &tech: dataset->Techages)
+    {
+        if(tech.Effects.size()) // Other than empty techs, not researches if research loop doesn't rename them.
+        {
+            tech.Name = "Non-Research";
+        }
+        else // Empty techs.
+        {
+            tech.Name = "New Technology";
+        }
+    }
 	short ResearchTechID = 0;
 	for(size_t loop=dataset->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
 	{
@@ -412,7 +409,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				Effects_A_Text->SetLabel("Unit ");
 				Effects_B_Text->SetLabel("Class ");
 				Effects_C_Text->SetLabel("Attribute ");
-				Effects_D_Text->SetLabel("Value [Set] ");
+				Effects_D_Text->SetLabel("Amount [Set] ");
 
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
@@ -421,7 +418,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
-					enableD = false;
+					enableD = NeverHide;
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
@@ -437,9 +434,9 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
 						Attacks_Class_ComboBox[2]->SetSelection((short)EffectPointer->D / 256 + 1);
 					}
-					Effects_E_Text->SetLabel("Value [Set] ");
-					Effects_F_Text->SetLabel("Class ");
-					Effects_Info_E->SetLabel(" [-255 to 255]");
+					Effects_E_Text->SetLabel("Amount [Set] ");
+					Effects_F_Text->SetLabel("Type ");
+					Effects_Info_E->SetLabel(" [0 to 255]");
 					Effects_Info_F->SetLabel("");
 				}
 				else
@@ -480,11 +477,11 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				Effects_C_Text->SetLabel("Unused ");
 				if(EffectPointer->B == 0) // unchecked
 				{
-					Effects_D_Text->SetLabel("Value [Set] ");
+					Effects_D_Text->SetLabel("Amount [Set] ");
 				}
 				else
 				{
-					Effects_D_Text->SetLabel("Value [+/-] ");
+					Effects_D_Text->SetLabel("Amount [+/-] ");
 				}
 				Effects_E_Text->SetLabel("");
 				Effects_F_Text->SetLabel("");
@@ -590,7 +587,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				Effects_A_Text->SetLabel("Unit ");	/* add combo box */
 				Effects_B_Text->SetLabel("Class ");	/* add combo box */
 				Effects_C_Text->SetLabel("Attribute ");	/* add combo box */
-				Effects_D_Text->SetLabel("Value [+/-] ");
+				Effects_D_Text->SetLabel("Amount [+/-] ");
 
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
@@ -599,7 +596,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
-					enableD = false;
+					enableD = NeverHide;
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
@@ -615,9 +612,9 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
 						Attacks_Class_ComboBox[2]->SetSelection((short)EffectPointer->D / 256 + 1);
 					}
-					Effects_E_Text->SetLabel("Value [+/-] ");
-					Effects_F_Text->SetLabel("Class ");
-					Effects_Info_E->SetLabel(" [-255 to 255]");
+					Effects_E_Text->SetLabel("Amount [+/-] ");
+					Effects_F_Text->SetLabel("Type ");
+					Effects_Info_E->SetLabel(" [0 to 255]");
 					Effects_Info_F->SetLabel("");
 				}
 				else
@@ -653,7 +650,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				Effects_A_Text->SetLabel("Unit ");	/* add combo box */
 				Effects_B_Text->SetLabel("Class ");	/* add combo box */
 				Effects_C_Text->SetLabel("Attribute ");	/* add combo box */
-				Effects_D_Text->SetLabel("Value [*] ");
+				Effects_D_Text->SetLabel("Amount [*] ");
 
 				Effects_Info_A->SetLabel("");
 				Effects_Info_B->SetLabel("");
@@ -662,7 +659,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 
 				if(EffectPointer->C == 8 || EffectPointer->C == 9)
 				{
-					enableD = false;
+					enableD = NeverHide;
 					Effects_E->Show(true);
 					Effects_E->ChangeValue(lexical_cast<string>(fmod(EffectPointer->D, 256))); // Correct value
 					Effects_F->Show(true);
@@ -678,8 +675,8 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 						Effects_F->ChangeValue(lexical_cast<string>((short)EffectPointer->D / 256)); // Correct class
 						Attacks_Class_ComboBox[2]->SetSelection((short)EffectPointer->D / 256 + 1);
 					}
-					Effects_E_Text->SetLabel("Value [%] ");
-					Effects_F_Text->SetLabel("Class ");
+					Effects_E_Text->SetLabel("Amount [%] ");
+					Effects_F_Text->SetLabel("Type ");
 					Effects_Info_E->SetLabel(" % [0 to 255]");
 					Effects_Info_F->SetLabel("");
 				}
@@ -719,7 +716,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				Effects_A_Text->SetLabel("Resource ");	/* add combo box */
 				Effects_B_Text->SetLabel("Unused ");
 				Effects_C_Text->SetLabel("Unused ");
-				Effects_D_Text->SetLabel("Value [*] ");
+				Effects_D_Text->SetLabel("Amount [*] ");
 				Effects_E_Text->SetLabel("");
 				Effects_F_Text->SetLabel("");
 
@@ -756,11 +753,11 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				Effects_C_Text->SetLabel("Mode ");
 				if(EffectPointer->C == 0) // unchecked
 				{
-					Effects_D_Text->SetLabel("Value [Set] ");
+					Effects_D_Text->SetLabel("Amount [Set] ");
 				}
 				else
 				{
-					Effects_D_Text->SetLabel("Value [+/-] ");
+					Effects_D_Text->SetLabel("Amount [+/-] ");
 				}
 				Effects_E_Text->SetLabel("");
 				Effects_F_Text->SetLabel("");
@@ -833,11 +830,11 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
 				Effects_C_Text->SetLabel("Mode ");	/* add boolean */
 				if(EffectPointer->C == 0) // unchecked
 				{
-					Effects_D_Text->SetLabel("Value [Set] ");
+					Effects_D_Text->SetLabel("Amount [Set] ");
 				}
 				else
 				{
-					Effects_D_Text->SetLabel("Value [+/-] ");
+					Effects_D_Text->SetLabel("Amount [+/-] ");
 				}
 				Effects_E_Text->SetLabel("");
 				Effects_F_Text->SetLabel("");
@@ -922,10 +919,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
     for(auto &box: uiGroupTechEffect) box->update();
     Effects_D->Enable(enableD);
 	Effects_Type_Holder->Layout();
-	Effects_A_Holder->Layout();
-	Effects_B_Holder->Layout();
-	Effects_C_Holder->Layout();
-	Effects_D_Holder->Layout();
+	Effects_Data_Holder->Layout();
 //	Refresh(); // Too much lag.
 }
 
@@ -1156,10 +1150,10 @@ void AGE_Frame::CreateTechControls()
 	ResearchComboBoxList.push_back(Effects_ResearchsD_ComboBox);
 	Effects_Info_D = new wxStaticText(Tab_Techs, wxID_ANY, " Info D", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_E_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Amount or % ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_E = new wxTextCtrl(Tab_Techs, wxID_ANY);
+	Effects_E = AGETextCtrl::init(CUByte, NULL, this, AGEwindow, Tab_Techs);
 	Effects_Info_E = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_F_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Class ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_F = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Tab_Techs);
+	Effects_F_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_F = AGETextCtrl::init(CUByte, NULL, this, AGEwindow, Tab_Techs);
 	Attacks_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
@@ -1390,21 +1384,10 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &event)
 	{
 		if(!Effects_E->IsEmpty() && !Effects_F->IsEmpty()) // if has something, then update float value.
 		{
-			short Class = lexical_cast<short>(Effects_F->GetValue());
-            if(Class >= 0 && Class < 256)
-            {
-                float Amount = lexical_cast<float>(Effects_E->GetValue());
-                if(Amount >= 0 && Amount < 256) // positive amount 0 to 255
-                {
-                    Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
-                    Effects_D->SaveEdits();
-                }
-                else if(Amount > -256 && Amount < 0) // negative amount -255 to -1
-                {
-                    Effects_D->ChangeValue(lexical_cast<string>(Amount - Class * 256));
-                    Effects_D->SaveEdits();
-                }
-			}
+            uint16_t Class = lexical_cast<int>(Effects_F->GetValue()) << 8;
+            uint8_t Amount = lexical_cast<int>(Effects_E->GetValue());
+            Effects_D->ChangeValue(lexical_cast<string>(Amount + Class));
+            Effects_D->SaveEdits();
 		}
 		ListEffects();
 		return;
@@ -1430,26 +1413,10 @@ void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
 {
 	if(event.GetId() == Attacks_Class_ComboBox[2]->GetId())
 	{
-		short Class = Attacks_Class_ComboBox[2]->GetSelection() - 1;
-		if(Class >= 0)
-		{
-			float Amount = lexical_cast<float>(Effects_E->GetValue());
-			if(Amount >= 0 && Amount < 256) // positive amount 0 to 255
-			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount + Class * 256));
-			}
-			else if(Amount > -256 && Amount < 0) // negative amount -255 to -1
-			{
-				Effects_D->ChangeValue(lexical_cast<string>(Amount - Class * 256));
-			}
-		}
-		else
-		{
-			Effects_E->ChangeValue("0");
-			Effects_F->ChangeValue("0");
-			Effects_D->ChangeValue("0");
-		}
-		Effects_D->SaveEdits();
+        uint16_t Class = (Attacks_Class_ComboBox[2]->GetSelection() - 1) << 8;
+        uint8_t Amount = lexical_cast<int>(Effects_E->GetValue());
+        Effects_D->ChangeValue(lexical_cast<string>(Amount + Class));
+        Effects_D->SaveEdits();
 
 		ListEffects();
 		return;

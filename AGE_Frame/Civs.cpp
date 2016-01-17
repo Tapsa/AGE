@@ -398,7 +398,7 @@ string AGE_Frame::GetResourceName(int index)
 		case 54: Name = "All Ruins Have Been Captured"; break;
 		case 55: Name = "All Relics Have Been Captured"; break;
         case 56:
-            if(GenieVersion < genie::GV_AoKA)
+            if(GenieVersion < genie::GV_RoR)
             Name = "Medicine";
             else if(GenieVersion < genie::GV_SWGB)
             Name = "Ore Storage";
@@ -412,7 +412,7 @@ string AGE_Frame::GetResourceName(int index)
             Name = "Kidnap Storage";
             break;
 		case 58:
-			if(GenieVersion == genie::GV_RoR)
+			if(GenieVersion == genie::GV_AoKA)
 			Name = "Dark Age tech index";
 			else
 			Name = "Masters Can See Hidden Units";
