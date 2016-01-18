@@ -3441,8 +3441,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_MissileDuplicationCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackMissileDuplicationSpawning_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Spawning Area *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AttackMissileDuplicationUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_ChargingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Charging Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_ChargingMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Charging Mode? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_ChargingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Special Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_ChargingMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Special Ability *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DisplayedPierceArmour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Pierce Armor ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 //	Type 80
@@ -3695,7 +3695,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ChargingGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ChargingGraphic);
 	GraphicComboBoxList.push_back(Units_ChargingGraphic_ComboBox);
 	Units_ChargingMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_ChargingMode->SetToolTip("0 Default\n1 Activates charging graphic when receiving damage and not pursuing the enemy.\n2 Activates charging graphic on killing blow.\n3 Activates charging graphic when reaching the target. Deals 2X damage on 1st hit.");
+	Units_ChargingMode->SetToolTip("0 Default\nThese work only when facing the hit angle.\n1 Block\n  Activates special graphic when receiving damage and not pursuing the attacker.\n  While idle, blocking decreases damage taken by 1/3.\n2 Counter Charge\n  Activates special graphic when idle and enemy is near.\n  While idle, attacks back once on first received hit.\n  Enemy must be unit type 70 and have less than 0.2 max range.\n3 Charge\n  Activates special graphic when closer than two tiles to the target.\n  Deals 2X damage on 1st hit.");
 	Units_MissileCount = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_MissileCount->SetToolTip("Total missiles including both normal and duplicated projectiles");
 	Units_MissileDuplicationCount = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
