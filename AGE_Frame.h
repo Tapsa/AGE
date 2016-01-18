@@ -1774,7 +1774,7 @@ public:
 	wxCheckBox *Units_Attribute_CheckBox[8];
 	AGETextCtrl *Units_Civ;
 	ComboBox_Plus1 *Units_Civ_ComboBox;
-	AGETextCtrl *Units_Unknown9;
+	AGETextCtrl *Units_Nothing;
 	AGETextCtrl *Units_SelectionEffect;
 	AGETextCtrl *Units_EditorSelectionColour;
 	wxBoxSizer *Units_SelectionRadiusBox;
@@ -1981,7 +1981,7 @@ public:
 	wxStaticText *Units_SelectionShape_Text;
 	wxStaticText *Units_Attribute_Text;
 	wxStaticText *Units_Civ_Text;
-	wxStaticText *Units_Unknown9_Text;
+	wxStaticText *Units_Nothing_Text;
 	wxStaticText *Units_SelectionEffect_Text;
 	wxStaticText *Units_EditorSelectionColour_Text;
 	wxStaticText *Units_SelectionRadius_Text;
@@ -2160,7 +2160,7 @@ public:
 	wxBoxSizer *Units_SelectionShape_Holder;
 	wxBoxSizer *Units_Attribute_Holder;
 	wxBoxSizer *Units_Civ_Holder;
-	wxBoxSizer *Units_Unknown9_Holder;
+	wxBoxSizer *Units_Nothing_Holder;
 	wxBoxSizer *Units_SelectionEffect_Holder;
 	wxBoxSizer *Units_EditorSelectionColour_Holder;
 	wxBoxSizer *Units_SelectionRadius_Holder;
@@ -2440,7 +2440,7 @@ public:
 	wxBoxSizer *Units_SoundsArea1_Holder;
 	wxGridSizer *Units_SoundsArea2_Grid;
 	wxGridSizer *Units_HPBars_Grid;
-	wxBoxSizer *Units_UnknownArea_Holder;
+	wxSizer *Units_UnknownArea_Holder;
 	wxStaticBoxSizer *Units_Type10plusUnknownArea_Holder;
 	wxGridSizer *Units_Type10plusUnknowns_Grid;
 	wxStaticBoxSizer *Units_Type30plusUnknownArea_Holder;
