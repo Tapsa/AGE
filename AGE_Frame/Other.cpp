@@ -1453,6 +1453,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_GarrisonHealRate_Holder->Show(show);
 		Units_LootSwitch_Holder->Show(show);
 		Units_UnknownSound_Holder->Show(show);
+		Units_Attributes2_Grid->Show(show);
 		TerRestrict_Graphics_Holder->Show(show);
 		SoundItems_Civ_Holder->Show(show);
 		Colors_Palette_Holder->Show(show);
@@ -1557,7 +1558,9 @@ void AGE_Frame::OnGameVersionChange()
 		// TC ->
 		show = (GenieVersion >= genie::GV_TC) ? true : false;
 		Units_SnowGraphicID_Holder->Show(show);
-		Units_Attributes2_Grid->Show(show);
+		Units_Attribute_Holder->Show(show);
+		Units_Civ_Holder->Show(show);
+		Units_Nothing_Holder->Show(show);
 
 		if(show) // TC ->
 		{
