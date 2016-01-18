@@ -582,7 +582,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
                                 {
                                     Units_Attribute->prepend(&UnitPointer->Attribute);
                                     Units_Civ->prepend(&UnitPointer->Civilization);
-                                    Units_Unknown9->prepend(&UnitPointer->Nothing);
+                                    Units_Nothing->prepend(&UnitPointer->Nothing);
                                     if(GenieVersion >= genie::GV_SWGB)
                                     {
                                         Units_Name2->prepend(&UnitPointer->Name2);
@@ -3098,15 +3098,15 @@ void AGE_Frame::CreateUnitControls()
 	Units_SoundsArea1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_SoundsArea2_Grid = new wxGridSizer(4, 5, 5);
 	Units_HPBars_Grid = new wxGridSizer(4, 5, 5);
-	Units_UnknownArea_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_UnknownArea_Holder = new wxGridSizer(2, 5, 5);
 	Units_Type10plusUnknownArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 10+ Unknowns (All Units)");
-	Units_Type10plusUnknowns_Grid = new wxGridSizer(4, 5, 5);
+	Units_Type10plusUnknowns_Grid = new wxGridSizer(2, 5, 5);
 	Units_Type30plusUnknownArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 30+ Unknowns (Dead/Fish)");
-	Units_Type30plusUnknownArea_Grid = new wxGridSizer(4, 5, 5);
+	Units_Type30plusUnknownArea_Grid = new wxGridSizer(2, 5, 5);
 	Units_Type70plusUnknownArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 70+ Unknowns (Creatable)");
-	Units_Type70plusUnknownArea_Grid = new wxGridSizer(4, 5, 5);
+	Units_Type70plusUnknownArea_Grid = new wxGridSizer(2, 5, 5);
 	Units_Type80plusUnknownArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Type 80+ Unknowns (Building)");
-	Units_Type80plusUnknownArea_Grid = new wxGridSizer(4, 5, 5);
+	Units_Type80plusUnknownArea_Grid = new wxGridSizer(2, 5, 5);
 	Units_CommandsArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Actions (Shared by all civilizations since Age of Empires II)");
 
 //	Invisible Holder Windows
@@ -3172,7 +3172,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionShape_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Attribute_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_Civ_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_Unknown9_Holder = new wxBoxSizer(wxVERTICAL);
+	Units_Nothing_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_SelectionEffect_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_EditorSelectionColour_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_SelectionRadius_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3321,7 +3321,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_HPBarHeight1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Collision Size Z *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TrainSound_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Train Sound ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DeadUnitID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Dead Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_PlacementMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_PlacementMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_IconID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Icon *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown1_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 1 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_PlacementSideTerrain_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Placement Side Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3351,7 +3351,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionShape_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Attribute_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unit Attribute *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Civ_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown9_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Attribute Piece *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Nothing_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Attribute Piece *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionEffect_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Effect *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_EditorSelectionColour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Editor Selection Color *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Size XY", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3695,7 +3695,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ChargingGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ChargingGraphic);
 	GraphicComboBoxList.push_back(Units_ChargingGraphic_ComboBox);
 	Units_ChargingMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_ChargingMode->SetToolTip("0 Default\n3 Unit must walk to enemy when ordered to attack it\nAttack duplication graphics activate too");
+	Units_ChargingMode->SetToolTip("0 Default\n1 Activates charging graphic when receiving damage and not pursuing the enemy.\n2 Activates charging graphic on killing blow.\n3 Activates charging graphic when reaching the target. Deals 2X damage on 1st hit.");
 	Units_MissileCount = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_MissileCount->SetToolTip("Total missiles including both normal and duplicated projectiles");
 	Units_MissileDuplicationCount = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -3754,27 +3754,29 @@ void AGE_Frame::CreateUnitControls()
 	Units_HeroMode_CheckBox = new CheckBox_2State(Units_Scroller, "Hero Mode", Units_HeroMode);
 
 	Units_PlacementMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_PlacementMode->SetToolTip("0 Can be placed on top of other units in scenario editor\n5 Cannot be placed on top of other units in scenario editor");
+	Units_PlacementMode->SetToolTip("Seems to be obsolete, ignore these clues:\n0 Can be placed on top of other units in scenario editor\n5 Cannot be placed on top of other units in scenario editor");
 	Units_HillMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_HillMode->SetToolTip("0 No restriction\n2 Restricts placement to flat land\n3 Allows placement on hills for the most part");
+	Units_HillMode->SetToolTip("0 No restriction\n1 Cannot place on corners of hills\n2 Can only place on flat land\n3 Allows one elevation difference");
 	Units_VisibleInFog_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Fog Visibility *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_VisibleInFog = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_VisibleInFog->SetToolTip("0 Not visible\n1 Visible\n3 Inverted visibility");
+	Units_VisibleInFog->SetToolTip("0 Not visible\n1 Visible (acts as boolean unless it is 3)\n3 Inverted visibility");
 	Units_SubType = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_SubType->SetToolTip("Mainly used in trigger conditions\n0 Projectile/Dead/Resource\n1 Boar\n2 Building\n3 Civilian\n4 Military\n5 Priest\n");
 	Units_InteractionMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_InteractionMode->SetToolTip("0 & 1 Unable to select, move or attack\n2 Can select, unable to move or attack\n3 Can select and attack, unable to move\n4 Can select, move and attack\n5+ Select and move?");
 	Units_MinimapMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_MinimapMode->SetToolTip("0 & 6-10 No dot on minimap\n1 Square dot turning white when selected\n2 Diamond dot turning white when selected\n3 Diamond dot keeping color\n4 & 5 Larger spot, not following the unit, no blinking when attacked, everyone can see it\n");
+	Units_MinimapMode->SetToolTip("0 & 5+ No dot on minimap\n1 Square dot turning white when selected\n2 Diamond dot turning white when selected\n3 Diamond dot keeping color\n4 Larger spot, not following the unit, no blinking when attacked, everyone can see it\n");
 	Units_MinimapColor = AGETextCtrl::init(CUByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_MinimapColor->SetToolTip("Minimap modes 3 and 4 allow this to work");
 	Units_AttackMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_AttackMode->SetToolTip("This may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
+	Units_AttackMode->SetToolTip("Seems to be obsolete\nCopied when converting the unit\nThis may be attack mode\n0 No attacck\n1 Attack by following\n2 Run when attacked\n3 ?\n4 Attack\n");
 	Units_Unknown10 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unknown10->SetToolTip("0 Default\n1 Rotting meat that can be gathered");
+	Units_Unknown10->SetToolTip("Seems to be obsolete\nCopied when converting the unit\n0 Default\n1 Rotting meat that can be gathered");
 	Units_TaskSwapID = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TaskSwapID->SetToolTip("When tasking the unit, it will transform into another unit,\nif the action is not found in this unit, but exists on another unit,\nthat shares the same task swap index.\nChanges according to task\n1 Male villager\n2 Female villager\n3+ Free slots");
 
+	Units_UnknownType = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_UnknownType->SetToolTip("0 Building, animal\n1 Villager\n2 Melee\n3 Mounted unit\n4 Relic\n5 Archer\n6 Monk");
 	Units_Attribute = AGETextCtrl::init(CUByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Attribute->SetToolTip("This is a byte of eight booleans\nYou can combine these attributes");
 	Units_Attribute_Grid = new wxGridSizer(8, 0, 0);
@@ -3791,8 +3793,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Civ = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Civ_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Civ);
 	CivComboBoxList.push_back(Units_Civ_ComboBox);
-	Units_Unknown9 = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unknown9->SetToolTip("This is actually leftover from attribute+civ variable\nProbably useless");
+	Units_Nothing = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_Nothing->SetToolTip("This is actually leftover from attribute+civ variable\nProbably useless");
 	Units_DeadUnitID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_DeadUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DeadUnitID);
 	UnitComboBoxList.push_back(Units_DeadUnitID_ComboBox);
@@ -3981,13 +3983,11 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Unknown26 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Unknown27 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_UnknownType = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_UnknownType->SetToolTip("0 Building, animal\n1 Villager\n2 Melee\n3 Mounted unit\n4 Relic\n5 Archer\n6 Monk");
 
 	Units_Unknown33 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unknown33->SetToolTip("Possibly related to annexes");
+	Units_Unknown33->SetToolTip("Possibly related to annexes\nSeems to be obsolete");
 	Units_Unknown35 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unknown35->SetToolTip("Probably related to garrisoning");
+	Units_Unknown35->SetToolTip("Probably related to garrisoning\nSeems to be obsolete");
 
 	Units_CommandHolder_Lists = new wxBoxSizer(wxVERTICAL);
 	Units_UnitHeads_Name = new wxStaticText(Units_Scroller, wxID_ANY, "Unit Header", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4386,7 +4386,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectionShapeType_Holder->Add(Units_SelectionShapeType_Text, 0, wxEXPAND);
 	Units_SelectionShape_Holder->Add(Units_SelectionShape_Text, 0, wxEXPAND);
 	Units_Civ_Holder->Add(Units_Civ_Text, 0, wxEXPAND);
-	Units_Unknown9_Holder->Add(Units_Unknown9_Text, 0, wxEXPAND);
+	Units_Nothing_Holder->Add(Units_Nothing_Text, 0, wxEXPAND);
 	Units_Attribute_Holder->Add(Units_Attribute_Text, 0, wxEXPAND);
 	Units_SelectionEffect_Holder->Add(Units_SelectionEffect_Text, 0, wxEXPAND);
 	Units_EditorSelectionColour_Holder->Add(Units_EditorSelectionColour_Text, 0, wxEXPAND);
@@ -4561,7 +4561,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attribute_Holder->Add(Units_Attribute_Grid, 1, wxEXPAND);
 	Units_Civ_Holder->Add(Units_Civ, 1, wxEXPAND);
 	Units_Civ_Holder->Add(Units_Civ_ComboBox, 1, wxEXPAND);
-	Units_Unknown9_Holder->Add(Units_Unknown9, 0, wxEXPAND);
+	Units_Nothing_Holder->Add(Units_Nothing, 0, wxEXPAND);
 	Units_SelectionEffect_Holder->Add(Units_SelectionEffect, 0, wxEXPAND);
 	Units_EditorSelectionColour_Holder->Add(Units_EditorSelectionColour, 0, wxEXPAND);
 	for(size_t loop = 0; loop < 2; ++loop)
@@ -4677,7 +4677,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ButtonID_Holder->Add(Units_ButtonID, 0, wxEXPAND);
 	Units_Unknown26_Holder->Add(Units_Unknown26, 1, wxEXPAND);
 	Units_Unknown27_Holder->Add(Units_Unknown27, 1, wxEXPAND);
-	Units_UnknownType_Holder->Add(Units_UnknownType, 1, wxEXPAND);
+	Units_UnknownType_Holder->Add(Units_UnknownType, 0, wxEXPAND);
 	Units_HeroMode_Holder->Add(Units_HeroMode, 0, wxEXPAND);
 	Units_HeroMode_Holder->Add(Units_HeroMode_CheckBox, 2, wxEXPAND | wxLEFT, 2);
 	Units_MissileCount_Holder->Add(Units_MissileCount, 1, wxEXPAND);
@@ -5076,6 +5076,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesModes1_Grid->Add(Units_Unknown10_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_TaskSwapID_Holder, 1, wxEXPAND);
 
+	Units_Attributes2_Grid->Add(Units_UnknownType_Holder, 1, wxEXPAND);
 	Units_Attributes2_Grid->Add(Units_Attribute_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementTerrain_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementSideTerrain_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxLEFT, 5);
@@ -5104,7 +5105,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ResourceStorageHeader_Holder->Add(Units_ResourceStorage_Holder[2], 0, wxEXPAND | wxTOP, 5);
 	Units_Attributes1_Grid->Add(Units_DeadUnitID_Holder, 1, wxEXPAND);
 	Units_Attributes2_Grid->Add(Units_Civ_Holder, 1, wxEXPAND);
-	Units_Attributes2_Grid->Add(Units_Unknown9_Holder, 1, wxEXPAND);
+	Units_Attributes2_Grid->Add(Units_Nothing_Holder, 1, wxEXPAND);
 	Units_Attributes1_Grid->Add(Units_Unitline_Holder, 1, wxEXPAND);
 	Units_Attributes1_Grid->Add(Units_MinTechLevel_Holder, 1, wxEXPAND);
 	Units_AttributesTracking_Grid->Add(Units_TrackingUnit_Holder, 1, wxEXPAND);
@@ -5180,7 +5181,6 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Type70plusUnknownArea_Grid->Add(Units_Unknown26_Holder, 0, wxEXPAND);
 	Units_Type70plusUnknownArea_Grid->Add(Units_Unknown27_Holder, 0, wxEXPAND);
-	Units_Type70plusUnknownArea_Grid->Add(Units_UnknownType_Holder, 0, wxEXPAND);
 	Units_Type70plusUnknownArea_Holder->Add(Units_Type70plusUnknownArea_Grid, 0, wxEXPAND);
 
 	Units_Type80plusUnknownArea_Grid->Add(Units_Unknown33_Holder, 0, wxEXPAND);
@@ -5242,9 +5242,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandsArea_Holder->Add(Units_CommandHolder_Data, 3, wxEXPAND | wxLEFT, 5);
 
 	Units_UnknownArea_Holder->Add(Units_Type10plusUnknownArea_Holder, 0, wxEXPAND);
-	Units_UnknownArea_Holder->Add(Units_Type30plusUnknownArea_Holder, 0, wxEXPAND | wxTOP, 5);
-	Units_UnknownArea_Holder->Add(Units_Type70plusUnknownArea_Holder, 0, wxEXPAND | wxTOP, 5);
-	Units_UnknownArea_Holder->Add(Units_Type80plusUnknownArea_Holder, 0, wxEXPAND | wxTOP, 5);
+	Units_UnknownArea_Holder->Add(Units_Type30plusUnknownArea_Holder, 0, wxEXPAND);
+	Units_UnknownArea_Holder->Add(Units_Type70plusUnknownArea_Holder, 0, wxEXPAND);
+	Units_UnknownArea_Holder->Add(Units_Type80plusUnknownArea_Holder, 0, wxEXPAND);
 
 	Units_ScrollSpace->Add(Units_LangDLLArea_Holder, 0, wxEXPAND);
 	Units_ScrollSpace->Add(Units_GraphicsArea_Holder, 0, wxEXPAND | wxTOP, 5);
