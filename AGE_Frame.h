@@ -31,6 +31,27 @@ public:
     void initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
 
+class AGE_Frame;
+
+class Loader: public wxThread
+{
+public:
+    Loader(AGE_Frame *frame, genie::Terrain *tp):
+    wxThread()
+    {
+        HostFrame = frame;
+        TerrainPointer = tp;
+    }
+    ~Loader();
+
+private:
+    genie::Terrain *TerrainPointer;
+
+protected:
+    virtual ExitCode Entry();
+    AGE_Frame *HostFrame;
+};
+
 class AGE_Frame: public wxFrame
 {
 public:
@@ -84,6 +105,16 @@ public:
 	void OnExitSLP(wxCloseEvent &event);
 	void OnFrameButton(wxCommandEvent &event);
 	void OnFrameMouse(wxMouseEvent &event);
+    void LoadTerrainFromSLPs(genie::Terrain *TerrainPointer)
+    {
+        TerrainLoader = new Loader(this, TerrainPointer);
+        TerrainLoader->Create(); // Not needed in wxWidgets 3+
+        if(TerrainLoader->Run() != wxTHREAD_NO_ERROR)
+        {
+            delete TerrainLoader;
+            TerrainLoader = NULL;
+        }
+    }
 
 //	Updates user interface after changing data name.
 
@@ -3484,4 +3515,8 @@ protected:
     {
         ((wxWindow*)event.GetEventObject())->GetParent()->GetEventHandler()->ProcessEvent(event);
     }
+
+    Loader *TerrainLoader;
+    wxCriticalSection TerrainLoaderCS;
+    friend class Loader;
 };
