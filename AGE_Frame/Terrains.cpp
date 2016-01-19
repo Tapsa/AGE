@@ -311,6 +311,82 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
                 }
                 slp_view->Refresh();
             }
+            else // Build the image from tile frames
+            {
+                for(auto &file: datafiles)
+                {
+                    tileSLP.slp = file->getSlpFile(TerrainPointer->SLP);
+                    if(tileSLP.slp)
+                    {
+                        tileSLP.frames = tileSLP.slp.get()->getFrameCount();
+                        int rows = TerrainPointer->TerrainDimensions.first;
+                        int cols = TerrainPointer->TerrainDimensions.second;
+                        size_t wwidth = (rows + cols) * dataset->TerrainBlock.TileHalfWidth;
+                        size_t wheight = (rows + cols) * dataset->TerrainBlock.TileHalfHeight;
+                        size_t warea = wwidth * wheight;
+                        vector<uint8_t> wrgbdata(warea * 4, 0);
+
+                        pair<size_t, size_t> corners[rows * cols];
+                        for(int c = 0; c < cols; ++c)
+                        for(int r = 0; r < rows; ++r)
+                        {
+                            int i = rows * c + r;
+                            corners[i].first = (r + c) * dataset->TerrainBlock.TileHalfWidth;
+                            corners[i].second = (rows - r + c - 1) * dataset->TerrainBlock.TileHalfHeight;
+                        }
+
+                        for(size_t f = 0; f < tileSLP.frames; ++f)
+                        {
+                            genie::SlpFramePtr frame;
+                            try
+                            {
+                                frame = tileSLP.slp.get()->getFrame(f);
+                            }
+                            catch(out_of_range){}
+                            if(frame)
+                            {
+                                int width = frame.get()->getWidth();
+                                int height = frame.get()->getHeight();
+                                uint8_t *val = wrgbdata.data() + (3 * (wwidth * corners[f].second + corners[f].first));
+                                uint8_t *alpha = wrgbdata.data() + (3 * warea) + (wwidth * corners[f].second + corners[f].first);
+                                const genie::SlpFrameData *imgdata = &frame.get()->img_data;
+                                const vector<genie::Color> *pal = &palettes[0];
+                                if(!pal->empty())
+                                {
+                                    for(int h = 0; h < height; ++h)
+                                    {
+                                        for(int w = 0; w < width; ++w)
+                                        {
+                                            int i = width * h + w;
+                                            genie::Color rgba = (*pal)[imgdata->pixel_indexes[i]];
+                                            if(*alpha == 0)
+                                            {
+                                                *val++ = rgba.r;
+                                                *val++ = rgba.g;
+                                                *val++ = rgba.b;
+                                                *alpha++ = imgdata->alpha_channel[i];
+                                            }
+                                            else
+                                            {
+                                                val += 3;
+                                                ++alpha;
+                                            }
+                                        }
+                                        val += 3 * (wwidth - width);
+                                        alpha += wwidth - width;
+                                    }
+                                }
+                            }
+                        }
+                        tileSLP.xpos = wwidth / 2;
+                        tileSLP.ypos = wheight / 2;
+                        unsigned char *pic = (unsigned char*)wrgbdata.data();
+                        unsigned char *trans = pic + warea * 3;
+                        tileSLP.bitmap = wxBitmap(wxImage(wwidth, wheight, pic, trans, true), 24);
+                        return;
+                    }
+                }
+            }
         }
     }
 

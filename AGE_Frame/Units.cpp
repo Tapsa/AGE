@@ -3343,9 +3343,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_LanguageDLLConverter_Text[1] = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey Text Converter *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_LanguageDLLHotKeyText_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Language DLL Hotkey Text *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_HotKey_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Hotkey *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown6_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Is a resource? *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 7 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 8 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown6_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Enable Auto Gather *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown7_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Auto Gather Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_Unknown8_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Auto Gather ID *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionMask_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Mask *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionShapeType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_SelectionShape_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Selection Shape *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3380,7 +3380,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_RotationSpeed_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Rotation Speed *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown11_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 11", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TrackingUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_TrackingUnitUsed_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Used *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_TrackingUnitUsed_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TrackingUnitDensity_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Tracking Unit Density *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown16_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 16", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_RotationAngles_Label = " Rotations in Radians *";
@@ -3435,7 +3435,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ButtonID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Train Button *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown26_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 26 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown27_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 27 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_UnknownType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_UnknownType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Creatable Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GarrisonGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MissileCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_MissileDuplicationCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3725,17 +3725,18 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_Enabled = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Enabled->SetToolTip("0 Requires a research to be available\n1 Available without a research");
-	Units_Enabled_CheckBox = new CheckBox_2State(Units_Scroller, "Enabled *", Units_Enabled);
+	Units_Enabled_CheckBox = new CheckBox_2State(Units_Scroller, "Available *", Units_Enabled);
 	Units_Disabled = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Disabled->SetToolTip("Not scanned but set to 0\nProbably changes during gameplay\n0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
 	Units_DeathMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_DeathMode->SetToolTip("Reviving does not make it usable");
-	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "Death: Revives *", Units_DeathMode);
+	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "Disable Dead Unit *", Units_DeathMode);
 	Units_HideInEditor = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_HideInEditor->SetToolTip("Possible values: 0, 1 and as boolean");
 	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide in Editor", Units_HideInEditor);
 	Units_AirMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_AirMode->SetToolTip("1 for no footprints");
+	Units_AirMode->SetToolTip("0 Default\n1 Graphic stays at higest elevation until destination is reached\n2+ Graphic is not affected by elevation");
 	Units_AirMode_CheckBox = new CheckBox_2State(Units_Scroller, "Air Mode *", Units_AirMode);
 	Units_FlyMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_FlyMode->SetToolTip("Requires class 22 and air mode 1?\n0 Normal\n1 Graphics appear higher than the shadow");
@@ -3776,7 +3777,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TaskSwapID->SetToolTip("When tasking the unit, it will transform into another unit,\nif the action is not found in this unit, but exists on another unit,\nthat shares the same task swap index.\nChanges according to task\n1 Male villager\n2 Female villager\n3+ Free slots");
 
 	Units_UnknownType = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_UnknownType->SetToolTip("0 Building, animal\n1 Villager\n2 Melee\n3 Mounted unit\n4 Relic\n5 Archer\n6 Monk");
+	Units_UnknownType->SetToolTip("0 building, animal, ship\n1 villager, king\n2 soldier, siege, predator, trader\n3 mounted unit\n4 relic\n5 archer\n6 monk\n21 transport ship");
 	Units_Attribute = AGETextCtrl::init(CUByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Attribute->SetToolTip("This is a byte of eight booleans\nYou can combine these attributes");
 	Units_Attribute_Grid = new wxGridSizer(8, 0, 0);
@@ -3876,7 +3877,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TrackingUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_TrackingUnit);
 	UnitComboBoxList.push_back(Units_TrackingUnit_ComboBox);
 	Units_TrackingUnitUsed = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_TrackingUnitUsed->SetToolTip("-1 unless a tracking unit value is present\n2 all projectiles with a tracking unit");
+	Units_TrackingUnitUsed->SetToolTip("0 Not used\n1 Appears while moving and at the start of the game\n2 Appears while moving");
 	Units_TrackingUnitDensity = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TrackingUnitDensity->SetToolTip("0 unless tracking unit value is present\n0.5 trade carts\n0.12 MFFFG(projectile)\n0.4 other projectiles");
 	for(size_t loop = 0; loop < Units_RotationAngles.size(); ++loop)
@@ -3900,7 +3901,7 @@ void AGE_Frame::CreateUnitControls()
 		ResourceComboBoxList.push_back(ResourceStorage_Type_ComboBox[loop]);
 		ResourceStorage_Amount[loop] = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 		ResourceStorage_Enabled[loop] = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-		ResourceStorage_Enabled[loop]->SetToolTip("0 Decayable resource\n1 Stored after death also\n2 Resets on dying, enables instantly\n4 Resets on dying, enables on completion");
+		ResourceStorage_Enabled[loop]->SetToolTip("0 Decayable resource\n1 Stored after death also\n2 Resets on dying, enables instantly\n4 Resets on dying, enables on completion\nUP: 8 Stored on completion and stays after death");
 	}
 	for(size_t loop = 0; loop < 3; ++loop)
 	{
