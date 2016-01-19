@@ -28,6 +28,7 @@
 #include <wx/dir.h>
 #include <wx/sound.h>
 #include <wx/clrpicker.h>
+#include <wx/thread.h>
 
 // uncomment to disable assert()
 // #define NDEBUG
