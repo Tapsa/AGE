@@ -102,8 +102,10 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
         setForeAndBackColors(Borders_Colors[0], wxColour(high.r, high.g, high.b));
         setForeAndBackColors(Borders_Colors[1], wxColour(med.r, med.g, med.b));
         setForeAndBackColors(Borders_Colors[2], wxColour(low.r, low.g, low.b));
+        borderSLP.slpID = BorderPointer->SLP;
     }
-	ListTerrainBorderFrames();
+    else borderSLP.slpID = -1;
+	ListTerrainBorderTileTypes();
 }
 
 void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
@@ -136,106 +138,238 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &event)
 	ListTerrainBorders();
 }
 
-string AGE_Frame::GetTerrainBorderFrameName(int index)
+string AGE_Frame::GetTerrainBorderTileTypeName(int index)
 {
-	return "Frame "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[index].FrameCount)
-	+" - Flags "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[index].AngleCount)
-	+" "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[index].ShapeID)+" ";
+    switch(index)
+    {
+        case 0: return "Flat Tile ";
+        case 1: return "Hillside Tile N ";
+        case 2: return "Hillside Tile S ";
+        case 3: return "Hillside Tile E ";
+        case 4: return "Hillside Tile W ";
+        case 5: return "Hillside Tile NE ";
+        case 6: return "Hillside Tile SE ";
+        case 7: return "Hillside Tile NW ";
+        case 8: return "Hillside Tile SW ";
+        case 9: return "Pit Pair Tile N ";
+        case 10: return "Pit Pair Tile S ";
+        case 11: return "Pit Pair Tile E ";
+        case 12: return "Pit Pair Tile W ";
+        case 13: return "Pit Tile N ";
+        case 14: return "Pit Tile S ";
+        case 15: return "Pit Tile W ";
+        case 16: return "Pit Tile E ";
+        case 17: return "1:1 Tile A ";
+        case 18: return "1:1 Tile B ";
+        default: return "Tile Type "+lexical_cast<string>(index)+" ";
+    }
 }
 
-void AGE_Frame::OnTerrainBorderFramesSearch(wxCommandEvent &event)
+void AGE_Frame::OnTerrainBorderTileTypeSearch(wxCommandEvent &event)
 {
 	How2List = SEARCH;
-	ListTerrainBorderFrames();
+	ListTerrainBorderTileTypes();
 }
 
-void AGE_Frame::ListTerrainBorderFrames()
+void AGE_Frame::ListTerrainBorderTileTypes()
 {
-	searchText = Borders_Frames_Search->GetValue().MakeLower();
-	excludeText = Borders_Frames_Search_R->GetValue().MakeLower();
+	searchText = Borders_TileTypes_Search->GetValue().MakeLower();
+	excludeText = Borders_TileTypes_Search_R->GetValue().MakeLower();
 
-	Borders_Frames_ListV->names.clear();
-	Borders_Frames_ListV->indexes.clear();
+	Borders_TileTypes_ListV->names.clear();
+	Borders_TileTypes_ListV->indexes.clear();
 
-	for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders.size(); ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderFrameName(loop);
+		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderTileTypeName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
-			Borders_Frames_ListV->names.Add(Name);
-			Borders_Frames_ListV->indexes.push_back(loop);
+			Borders_TileTypes_ListV->names.Add(Name);
+			Borders_TileTypes_ListV->indexes.push_back(loop);
 		}
 	}
 
-	virtualListing(Borders_Frames_ListV);
+	virtualListing(Borders_TileTypes_ListV);
 
 	wxTimerEvent E;
-	OnTerrainBorderFramesTimer(E);
+	OnTerrainBorderTileTypeTimer(E);
 }
 
-void AGE_Frame::OnTerrainBorderFramesSelect(wxCommandEvent &event)
+void AGE_Frame::OnTerrainBorderTileTypeSelect(wxCommandEvent &event)
 {
-    if(!borderFrameTimer.IsRunning())
-        borderFrameTimer.Start(150);
+    if(!borderTileTypeTimer.IsRunning())
+        borderTileTypeTimer.Start(150);
 }
 
-void AGE_Frame::OnTerrainBorderFramesTimer(wxTimerEvent &event)
+void AGE_Frame::OnTerrainBorderTileTypeTimer(wxTimerEvent &event)
 {
-    borderFrameTimer.Stop();
-	auto selections = Borders_Frames_ListV->GetSelectedItemCount();
+    borderTileTypeTimer.Stop();
+	auto selections = Borders_TileTypes_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
-    getSelectedItems(selections, Borders_Frames_ListV, FrameIDs);
+    getSelectedItems(selections, Borders_TileTypes_ListV, BorderTileTypeIDs);
+
+    ListTerrainBorderBorderShapes();
+}
+
+void AGE_Frame::OnTerrainBorderTileTypeCopy(wxCommandEvent &event)
+{
+	auto selections = Borders_TileTypes_ListV->GetSelectedItemCount();
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders, BorderTileTypeIDs, copies.BorderBorder);
+	Borders_TileTypes_ListV->SetFocus();
+}
+
+void AGE_Frame::OnTerrainBorderTileTypePaste(wxCommandEvent &event)
+{
+	auto selections = Borders_TileTypes_ListV->GetSelectedItemCount();
+	if(selections < 1) return;
+
+	wxBusyCursor WaitCursor;
+	if(Paste11)
+	{
+		if(Paste11Check(BorderTileTypeIDs.size(), copies.BorderBorder.size()))
+		{
+			PasteToListNoGV(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders, BorderTileTypeIDs, copies.BorderBorder);
+		}
+	}
+	else
+	{
+		PasteToListNoGV(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders, BorderTileTypeIDs[0], copies.BorderBorder);
+	}
+	ListTerrainBorderTileTypes();
+}
+
+void AGE_Frame::OnTerrainBorderTileTypeCopyToBorders(wxCommandEvent &event)
+{
+	for(size_t loop=1; loop < BorderIDs.size(); ++loop)
+	{
+		dataset->TerrainBlock.TerrainBorders[BorderIDs[loop]].Borders = dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders;
+	}
+}
+
+string AGE_Frame::GetTerrainBorderBorderShapeName(int index)
+{
+	return "FC "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][index].FrameCount)
+	+", A "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][index].AngleCount)
+	+", SI "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][index].ShapeID)+" ";
+}
+
+void AGE_Frame::OnTerrainBorderBorderShapeSearch(wxCommandEvent &event)
+{
+	How2List = SEARCH;
+	ListTerrainBorderBorderShapes();
+}
+
+void AGE_Frame::ListTerrainBorderBorderShapes()
+{
+	searchText = Borders_BorderShapes_Search->GetValue().MakeLower();
+	excludeText = Borders_BorderShapes_Search_R->GetValue().MakeLower();
+
+	Borders_BorderShapes_ListV->names.clear();
+	Borders_BorderShapes_ListV->indexes.clear();
+
+	for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]].size(); ++loop)
+	{
+		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderBorderShapeName(loop);
+		if(SearchMatches(Name.Lower()))
+		{
+			Borders_BorderShapes_ListV->names.Add(Name);
+			Borders_BorderShapes_ListV->indexes.push_back(loop);
+		}
+	}
+
+	virtualListing(Borders_BorderShapes_ListV);
+
+	wxTimerEvent E;
+	OnTerrainBorderBorderShapeTimer(E);
+}
+
+void AGE_Frame::OnTerrainBorderBorderShapeSelect(wxCommandEvent &event)
+{
+    if(!borderBorderShapeTimer.IsRunning())
+        borderBorderShapeTimer.Start(150);
+}
+
+void AGE_Frame::OnTerrainBorderBorderShapeTimer(wxTimerEvent &event)
+{
+    borderBorderShapeTimer.Stop();
+	auto selections = Borders_BorderShapes_ListV->GetSelectedItemCount();
+    wxBusyCursor WaitCursor;
+    getSelectedItems(selections, Borders_BorderShapes_ListV, BorderShapeIDs);
 
 	for(auto &box: uiGroupBorderFrame) box->clear();
 
 	genie::FrameData * FramePointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		FramePointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames[FrameIDs[loop]];
+		FramePointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][BorderShapeIDs[loop]];
 
 		Borders_FrameID->prepend(&FramePointer->FrameCount);
 		Borders_Flag1->prepend(&FramePointer->AngleCount);
 		Borders_Flag2->prepend(&FramePointer->ShapeID);
 	}
+    borderSLP.frameID = FramePointer->ShapeID;
+    Border_Shape_SLP->Refresh();
 
 	for(auto &box: uiGroupBorderFrame) box->update();
 }
 
-void AGE_Frame::OnTerrainBorderFramesCopy(wxCommandEvent &event)
+void AGE_Frame::OnDrawBorderSLP(wxPaintEvent &event)
 {
-	auto selections = Borders_Frames_ListV->GetSelectedItemCount();
+    wxBufferedPaintDC dc(Border_Shape_SLP);
+    dc.Clear();
+    if(borderSLP.slpID == -1)
+    {
+        dc.DrawLabel("No SLP", wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
+    }
+    if(borderSLP.frameID == -1)
+    {
+        dc.DrawLabel("U w0t m8", wxNullBitmap, wxRect(0, 0, 100, 40));
+        return;
+    }
+    SLPtoBitMap(&borderSLP);
+    if(borderSLP.bitmap.IsOk())
+    dc.DrawBitmap(borderSLP.bitmap, 0, 0, true);
+}
+
+void AGE_Frame::OnTerrainBorderBorderShapeCopy(wxCommandEvent &event)
+{
+	auto selections = Borders_BorderShapes_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies.FrameData);
-	Borders_Frames_ListV->SetFocus();
+	CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]], BorderShapeIDs, copies.FrameData);
+	Borders_BorderShapes_ListV->SetFocus();
 }
 
-void AGE_Frame::OnTerrainBorderFramesPaste(wxCommandEvent &event)
+void AGE_Frame::OnTerrainBorderBorderShapePaste(wxCommandEvent &event)
 {
-	auto selections = Borders_Frames_ListV->GetSelectedItemCount();
+	auto selections = Borders_BorderShapes_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
 	if(Paste11)
 	{
-		if(Paste11Check(FrameIDs.size(), copies.FrameData.size()))
+		if(Paste11Check(BorderShapeIDs.size(), copies.FrameData.size()))
 		{
-			PasteToList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs, copies.FrameData);
+			PasteToList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]], BorderShapeIDs, copies.FrameData);
 		}
 	}
 	else
 	{
-		PasteToListNoResize(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames, FrameIDs[0], copies.FrameData);
+		PasteToListNoResize(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]], BorderShapeIDs[0], copies.FrameData);
 	}
-	ListTerrainBorderFrames();
+	ListTerrainBorderBorderShapes();
 }
 
-void AGE_Frame::OnTerrainBorderFramesCopyToBorders(wxCommandEvent &event)
+void AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders(wxCommandEvent &event)
 {
-	for(size_t loop=1; loop < BorderIDs.size(); ++loop)
+	for(size_t loop=1; loop < BorderTileTypeIDs.size(); ++loop)
 	{
-		dataset->TerrainBlock.TerrainBorders[BorderIDs[loop]].Frames = dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Frames;
+		dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[loop]] = dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]];
 	}
 }
 
@@ -286,7 +420,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Sound = AGETextCtrl::init(CLong, &uiGroupBorder, this, AGEwindow, Tab_TerrainBorders);
 	Borders_Colors_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Colors_Grid = new wxGridSizer(3, 0, 0);
-	Borders_Colors_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Colors_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Minimap Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < 3; ++loop)
 	Borders_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupBorder, this, AGEwindow, Tab_TerrainBorders);
 	Borders_DrawTile_Holder = new wxBoxSizer(wxVERTICAL);
@@ -302,26 +436,35 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_BorderStyle = AGETextCtrl::init(CShort, &uiGroupBorder, this, AGEwindow, Tab_TerrainBorders);
 
 	Borders_FrameData = new wxBoxSizer(wxHORIZONTAL);
-	Borders_Frames_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Tab_TerrainBorders, "Frames");
-	Borders_Frames = new wxBoxSizer(wxVERTICAL);
-	Borders_Frames_Buttons = new wxGridSizer(2, 0, 0);
-	Borders_Frames_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
-	Borders_Frames_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
-	Borders_Frames_ListV = new AGEListView(Tab_TerrainBorders, wxSize(200, 220));
-	Frames_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Frames_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Frames_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected borders", wxDefaultPosition, wxSize(5, 20));
+	Borders_Borders_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Tab_TerrainBorders, "Borders");
+	Borders_TileTypes = new wxBoxSizer(wxVERTICAL);
+	Borders_TileTypes_Buttons = new wxGridSizer(2, 0, 0);
+	Borders_TileTypes_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
+	Borders_TileTypes_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
+	Borders_TileTypes_ListV = new AGEListView(Tab_TerrainBorders, wxSize(200, 220));
+	TileTypes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	TileTypes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	TileTypes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected terrain borders", wxDefaultPosition, wxSize(5, 20));
+	Borders_BorderShapes = new wxBoxSizer(wxVERTICAL);
+	Borders_BorderShapes_Buttons = new wxGridSizer(2, 0, 0);
+	Borders_BorderShapes_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
+	Borders_BorderShapes_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
+	Borders_BorderShapes_ListV = new AGEListView(Tab_TerrainBorders, wxSize(200, 220));
+	BorderShapes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
+	BorderShapes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	BorderShapes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected tile types", wxDefaultPosition, wxSize(5, 20));
 
 	Borders_FrameArea_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_FrameID_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_FrameID_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frames", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_FrameID_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Frame Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_FrameID = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, AGEwindow, Tab_TerrainBorders);
 	Borders_Flag1_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Flag1_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Animations", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Flag1 = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, AGEwindow, Tab_TerrainBorders);
 	Borders_Flag2_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_Flag2_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Shape index", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_Flag2_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Shape (Frame) Index", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_Flag2 = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, AGEwindow, Tab_TerrainBorders);
+    Border_Shape_SLP = new wxPanel(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(55, 50));
 
 	Borders_Animation_Grid = new wxGridSizer(5, 5, 5);
 	Borders_IsAnimated_Holder = new wxBoxSizer(wxVERTICAL);
@@ -446,14 +589,23 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Animation_Grid->Add(Borders_FrameChanged_Holder, 1, wxEXPAND);
 	Borders_Animation_Grid->Add(Borders_Drawn_Holder, 1, wxEXPAND);
 
-	Borders_Frames_Buttons->Add(Frames_Copy, 1, wxEXPAND);
-	Borders_Frames_Buttons->Add(Frames_Paste, 1, wxEXPAND);
+	Borders_TileTypes_Buttons->Add(TileTypes_Copy, 1, wxEXPAND);
+	Borders_TileTypes_Buttons->Add(TileTypes_Paste, 1, wxEXPAND);
 
-	Borders_Frames->Add(Borders_Frames_Search, 0, wxEXPAND);
-	Borders_Frames->Add(Borders_Frames_Search_R, 0, wxEXPAND);
-	Borders_Frames->Add(Borders_Frames_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-	Borders_Frames->Add(Borders_Frames_Buttons, 0, wxEXPAND);
-	Borders_Frames->Add(Frames_CopyToBorders, 0, wxEXPAND | wxTOP, 2);
+	Borders_TileTypes->Add(Borders_TileTypes_Search, 0, wxEXPAND);
+	Borders_TileTypes->Add(Borders_TileTypes_Search_R, 0, wxEXPAND);
+	Borders_TileTypes->Add(Borders_TileTypes_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+	Borders_TileTypes->Add(Borders_TileTypes_Buttons, 0, wxEXPAND);
+	Borders_TileTypes->Add(TileTypes_CopyToBorders, 0, wxEXPAND | wxTOP, 2);
+
+	Borders_BorderShapes_Buttons->Add(BorderShapes_Copy, 1, wxEXPAND);
+	Borders_BorderShapes_Buttons->Add(BorderShapes_Paste, 1, wxEXPAND);
+
+	Borders_BorderShapes->Add(Borders_BorderShapes_Search, 0, wxEXPAND);
+	Borders_BorderShapes->Add(Borders_BorderShapes_Search_R, 0, wxEXPAND);
+	Borders_BorderShapes->Add(Borders_BorderShapes_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+	Borders_BorderShapes->Add(Borders_BorderShapes_Buttons, 0, wxEXPAND);
+	Borders_BorderShapes->Add(BorderShapes_CopyToBorders, 0, wxEXPAND | wxTOP, 2);
 
 	Borders_FrameID_Holder->Add(Borders_FrameID_Text, 0, wxEXPAND);
 	Borders_FrameID_Holder->Add(Borders_FrameID, 1, wxEXPAND);
@@ -465,11 +617,13 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_FrameArea_Holder->Add(Borders_FrameID_Holder, 0, wxEXPAND);
 	Borders_FrameArea_Holder->Add(Borders_Flag1_Holder, 0, wxEXPAND | wxTOP, 5);
 	Borders_FrameArea_Holder->Add(Borders_Flag2_Holder, 0, wxEXPAND | wxTOP, 5);
+	Borders_FrameArea_Holder->Add(Border_Shape_SLP, 1, wxEXPAND | wxTOP, 5);
 
-	Borders_Frames_Holder->Add(Borders_Frames, 3, wxEXPAND);
-	Borders_Frames_Holder->Add(Borders_FrameArea_Holder, 2, wxEXPAND | wxLEFT, 5);
-	Borders_FrameData->Add(Borders_Frames_Holder, 5, wxEXPAND);
-	Borders_FrameData->AddStretchSpacer(3);
+	Borders_Borders_Holder->Add(Borders_TileTypes, 3, wxEXPAND);
+	Borders_Borders_Holder->Add(Borders_BorderShapes, 3, wxEXPAND | wxLEFT, 5);
+	Borders_Borders_Holder->Add(Borders_FrameArea_Holder, 2, wxEXPAND | wxLEFT, 5);
+	Borders_FrameData->Add(Borders_Borders_Holder, 3, wxEXPAND);
+	Borders_FrameData->AddStretchSpacer(1);
 
 	Borders_Data2->Add(Borders_DrawTile_Holder, 1, wxEXPAND);
 	Borders_Data2->Add(Borders_Terrain_Holder, 1, wxEXPAND);
@@ -493,22 +647,33 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Connect(Borders_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersSelect));
 	Connect(Borders_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersCopy));
 	Connect(Borders_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBordersPaste));
-	Connect(Borders_Frames_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesSearch));
-	Connect(Borders_Frames_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesSearch));
-	Connect(Borders_Frames_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesSelect));
-	Connect(Borders_Frames_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesSelect));
-	Connect(Borders_Frames_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesSelect));
-	Connect(Frames_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesCopy));
-	Connect(Frames_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesPaste));
-	Connect(Frames_CopyToBorders->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderFramesCopyToBorders));
+	Connect(Borders_TileTypes_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderTileTypeSearch));
+	Connect(Borders_TileTypes_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderTileTypeSearch));
+	Connect(Borders_TileTypes_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderTileTypeSelect));
+	Connect(Borders_TileTypes_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderTileTypeSelect));
+	Connect(Borders_TileTypes_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderTileTypeSelect));
+	Connect(TileTypes_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderTileTypeCopy));
+	Connect(TileTypes_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderTileTypePaste));
+	Connect(TileTypes_CopyToBorders->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderTileTypeCopyToBorders));
+	Connect(Borders_BorderShapes_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapeSearch));
+	Connect(Borders_BorderShapes_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapeSearch));
+	Connect(Borders_BorderShapes_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapeSelect));
+	Connect(Borders_BorderShapes_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapeSelect));
+	Connect(Borders_BorderShapes_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapeSelect));
+	Connect(BorderShapes_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapeCopy));
+	Connect(BorderShapes_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapePaste));
+	Connect(BorderShapes_CopyToBorders->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders));
 
     borderTimer.Connect(borderTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBordersTimer), NULL, this);
-    borderFrameTimer.Connect(borderFrameTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBorderFramesTimer), NULL, this);
+    borderTileTypeTimer.Connect(borderTileTypeTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBorderTileTypeTimer), NULL, this);
+    borderBorderShapeTimer.Connect(borderBorderShapeTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBorderBorderShapeTimer), NULL, this);
 	for(size_t loop = 0; loop < 2; ++loop)
 	Borders_Name[loop]->Connect(Borders_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_FrameID->Connect(Borders_FrameID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_Flag1->Connect(Borders_Flag1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_Flag2->Connect(Borders_Flag2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
+    Border_Shape_SLP->Connect(Border_Shape_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawBorderSLP), NULL, this);
+    Border_Shape_SLP->Connect(Border_Shape_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
 }
 
 void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &event)
@@ -521,6 +686,6 @@ void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &event)
 	}
 	else if(event.GetId() == Borders_FrameID->GetId() || event.GetId() == Borders_Flag1->GetId() || event.GetId() == Borders_Flag2->GetId())
 	{
-		ListTerrainBorderFrames();
+		ListTerrainBorderTileTypes();
 	}
 }

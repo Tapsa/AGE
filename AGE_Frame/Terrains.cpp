@@ -630,19 +630,19 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_SoundID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_SoundID);
 	SoundComboBoxList.push_back(Terrains_SoundID_ComboBox);
 	Terrains_BlendPriority_Holder = new wxBoxSizer(wxVERTICAL);
-	Terrains_BlendPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Priority", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_BlendPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Level", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_BlendPriority = AGETextCtrl::init(CLong, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller);
 	Terrains_BlendType_Holder = new wxBoxSizer(wxVERTICAL);
-	Terrains_BlendType_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_BlendType_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Class", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_BlendType = AGETextCtrl::init(CLong, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller);
 	Terrains_Colors_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Colors_Grid = new wxGridSizer(3, 0, 0);
-	Terrains_Colors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_Colors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Minimap Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < 3; ++loop)
 	Terrains_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller);
 	Terrains_CliffColors_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_CliffColors_Grid = new wxGridSizer(2, 0, 0);
-	Terrains_CliffColors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Cliff Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_CliffColors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Minimap Cliff Colors", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < Terrains_CliffColors.size(); ++loop)
 	Terrains_CliffColors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller);
 
@@ -703,7 +703,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_TerrainUnitPriority_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_TerrainUnitID_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_TerrainUnitDensity_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unit Density", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_TerrainUnitPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unit Priority *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_TerrainUnitPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Placement Flag *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < TERRAINUNITS; ++loop)
 	{
 		Terrains_TerrainUnitID[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller, true);
@@ -715,7 +715,7 @@ void AGE_Frame::CreateTerrainControls()
 	}
 	Terrains_ElevationGraphics_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Unknown9_Grid = new wxGridSizer(3, 0, 0);
-	Terrains_ElevationGraphics_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Elevation Graphics\n Frames, Animations, Shape index", wxDefaultPosition, wxSize(-1, 30), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_ElevationGraphics_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Tile Graphics: flat, 2 x 8 elevation, 2 x 1:1\n Frame Count, Animations, Shape (Frame) Index", wxDefaultPosition, wxSize(-1, 30), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < Terrains_ElevationGraphics.size(); ++loop)
 	{
 		Terrains_ElevationGraphics[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, AGEwindow, Terrains_Scroller, 2);
@@ -913,10 +913,10 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Area1_Grid->Add(Terrains_Colors_Holder, 1, wxEXPAND);
 	Terrains_Area1_Grid->Add(Terrains_CliffColors_Holder, 1, wxEXPAND);
 
-	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder, 1, wxEXPAND);
-	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder1, 2, wxEXPAND);
-	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitDensity_Holder, 1, wxEXPAND | wxLEFT, 5);
-	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitPriority_Holder, 1, wxEXPAND | wxLEFT, 5);
+	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder, 10, wxEXPAND);
+	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder1, 15, wxEXPAND);
+	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitDensity_Holder, 9, wxEXPAND | wxLEFT, 5);
+	Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitPriority_Holder, 11, wxEXPAND | wxLEFT, 5);
 
 	Terrains_GridX->Add(Terrains_TerrainReplacementID_Holder, 1, wxEXPAND);
 	Terrains_GridX->Add(Terrains_TerrainDimensions_Holder, 1, wxEXPAND);
