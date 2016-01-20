@@ -217,7 +217,7 @@ void AGE_Frame::CreateGeneralControls()
 	General_Unknown2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2");
 	General_Unknown2 = AGETextCtrl::init(CShort, &uiGroupMaps, this, AGEwindow, General_Scroller);
 
-	General_TileSizes_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Sizes   19 x (Width, Height, Delta Y)");
+	General_TileSizes_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Sizes   19 x (Width, Height, Delta Y)   1st is flat tile, then 2 x 8 elevation tiles, then 2 1:1 tiles");
 	General_TileSizes_Grid = new wxGridSizer(15, 0, 0);
 
 	UnknownPointer1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 1");

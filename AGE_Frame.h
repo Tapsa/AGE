@@ -159,7 +159,7 @@ public:
     wxTimer unitLineTimer, unitLineUnitTimer;
     wxTimer graphicTimer, deltaTimer, graphicSoundTimer, graphicAnimTimer;
     wxTimer terrainTimer, terrainBorderTimer;
-    wxTimer borderTimer, borderFrameTimer;
+    wxTimer borderTimer, borderTileTypeTimer, borderBorderShapeTimer;
     wxTimer restrictionTimer, restrictionTerrainTimer;
     wxTimer soundTimer, soundFileTimer, allSoundFilesTimer;
     wxTimer colorTimer, randomMapTimer, rmBaseTimer, rmTerrainTimer, rmUnitTimer, rmUnknownTimer;
@@ -197,6 +197,7 @@ public:
 	void CalcDrawCenter(wxPanel*, int&, int&);
 	uint32_t CalcAngle(uint32_t fpa, float angles);
 	void OnDrawTechSLP(wxPaintEvent &event);
+	void OnDrawBorderSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP&, uint32_t&);
@@ -775,14 +776,23 @@ public:
 	void OnTerrainBordersPaste(wxCommandEvent &event);
 	string GetTerrainBorderName(int);
 
-	void ListTerrainBorderFrames();
-	void OnTerrainBorderFramesSearch(wxCommandEvent &event);
-	void OnTerrainBorderFramesTimer(wxTimerEvent &event);
-	void OnTerrainBorderFramesSelect(wxCommandEvent &event);
-	void OnTerrainBorderFramesCopy(wxCommandEvent &event);
-	void OnTerrainBorderFramesPaste(wxCommandEvent &event);
-	void OnTerrainBorderFramesCopyToBorders(wxCommandEvent &event);
-	string GetTerrainBorderFrameName(int);
+	void ListTerrainBorderTileTypes();
+	void OnTerrainBorderTileTypeSearch(wxCommandEvent &event);
+	void OnTerrainBorderTileTypeTimer(wxTimerEvent &event);
+	void OnTerrainBorderTileTypeSelect(wxCommandEvent &event);
+	void OnTerrainBorderTileTypeCopy(wxCommandEvent &event);
+	void OnTerrainBorderTileTypePaste(wxCommandEvent &event);
+	void OnTerrainBorderTileTypeCopyToBorders(wxCommandEvent &event);
+	string GetTerrainBorderTileTypeName(int);
+
+	void ListTerrainBorderBorderShapes();
+	void OnTerrainBorderBorderShapeSearch(wxCommandEvent &event);
+	void OnTerrainBorderBorderShapeTimer(wxTimerEvent &event);
+	void OnTerrainBorderBorderShapeSelect(wxCommandEvent &event);
+	void OnTerrainBorderBorderShapeCopy(wxCommandEvent &event);
+	void OnTerrainBorderBorderShapePaste(wxCommandEvent &event);
+	void OnTerrainBorderBorderShapeCopyToBorders(wxCommandEvent &event);
+	string GetTerrainBorderBorderShapeName(int);
 
 //	Terrain Restriction Events
 
@@ -923,7 +933,8 @@ public:
 	vector<short> SoundItemIDs;
 	vector<short> ColorIDs;
 	vector<short> BorderIDs;
-	vector<short> FrameIDs;
+	vector<short> BorderTileTypeIDs;
+	vector<short> BorderShapeIDs;
 
 	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod, UseExtra, FilterAllSubs;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
@@ -948,7 +959,7 @@ public:
     void LoadSLPFrame(AGE_SLP*);
     void SLPtoBitMap(AGE_SLP*);
     void BitMaptoSLP(AGE_SLP*);
-    AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP, tileSLP;
+    AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP, tileSLP, borderSLP;
 
 //	Constants, remove unneeded entries.
 
@@ -1114,15 +1125,26 @@ public:
 	wxBoxSizer *Borders_DataTopRow;
 	wxGridSizer *Borders_Data1;
 	wxBoxSizer *Borders_FrameData;
-	wxStaticBoxSizer *Borders_Frames_Holder;
-	wxBoxSizer *Borders_Frames;
-	wxGridSizer *Borders_Frames_Buttons;
-	wxTextCtrl *Borders_Frames_Search;
-	wxTextCtrl *Borders_Frames_Search_R;
-	AGEListView *Borders_Frames_ListV;
-	wxButton *Frames_Copy;
-	wxButton *Frames_Paste;
-	wxButton *Frames_CopyToBorders;
+	wxStaticBoxSizer *Borders_Borders_Holder;
+
+	wxBoxSizer *Borders_TileTypes;
+	wxGridSizer *Borders_TileTypes_Buttons;
+	wxTextCtrl *Borders_TileTypes_Search;
+	wxTextCtrl *Borders_TileTypes_Search_R;
+	AGEListView *Borders_TileTypes_ListV;
+	wxButton *TileTypes_Copy;
+	wxButton *TileTypes_Paste;
+	wxButton *TileTypes_CopyToBorders;
+
+	wxBoxSizer *Borders_BorderShapes;
+	wxGridSizer *Borders_BorderShapes_Buttons;
+	wxTextCtrl *Borders_BorderShapes_Search;
+	wxTextCtrl *Borders_BorderShapes_Search_R;
+	AGEListView *Borders_BorderShapes_ListV;
+	wxButton *BorderShapes_Copy;
+	wxButton *BorderShapes_Paste;
+	wxButton *BorderShapes_CopyToBorders;
+
 	wxBoxSizer *Borders_FrameArea_Holder;
 	wxGridSizer *Borders_Data2;
 	wxBoxSizer *Borders_Enabled_Holder;
@@ -1189,6 +1211,7 @@ public:
 	wxBoxSizer *Borders_Flag2_Holder;
 	wxStaticText *Borders_Flag2_Text;
 	AGETextCtrl *Borders_Flag2;
+    wxPanel *Border_Shape_SLP;
 	wxBoxSizer *Borders_DrawTile_Holder;
 	wxStaticText *Borders_DrawTile_Text;
 	AGETextCtrl *Borders_DrawTile;

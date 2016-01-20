@@ -1170,7 +1170,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             if(GenieVersion >= genie::GV_AoKB)
 			Effects_AttributesC_ComboBox->Append("108 - Garrison Heal Rate (type 80)");
             if(GenieVersion == genie::GV_Cysion)
-            Effects_AttributesC_ComboBox->Append("109 - Regeneration Rate (types 70-80?)");
+            Effects_AttributesC_ComboBox->Append("109 - Regeneration Rate (types 40-80)");
 		}
 		Effects_AttributesC_ComboBox->SetSelection(0);
 
