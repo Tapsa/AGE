@@ -301,7 +301,7 @@ void AGE_Frame::OnTerrainBorderBorderShapeTimer(wxTimerEvent &event)
 
 	for(auto &box: uiGroupBorderFrame) box->clear();
 
-	genie::FrameData * FramePointer;
+	genie::FrameData * FramePointer = NULL;
 	for(auto loop = selections; loop--> 0;)
 	{
 		FramePointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][BorderShapeIDs[loop]];
@@ -310,7 +310,8 @@ void AGE_Frame::OnTerrainBorderBorderShapeTimer(wxTimerEvent &event)
 		Borders_Flag1->prepend(&FramePointer->AngleCount);
 		Borders_Flag2->prepend(&FramePointer->ShapeID);
 	}
-    borderSLP.frameID = FramePointer->ShapeID;
+    if(NULL != FramePointer)
+        borderSLP.frameID = FramePointer->ShapeID;
     Border_Shape_SLP->Refresh();
 
 	for(auto &box: uiGroupBorderFrame) box->update();

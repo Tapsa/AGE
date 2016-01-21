@@ -1154,6 +1154,7 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
 		store.SnowGraphicID = dataset->Civs[civ].Units[unit].Building.SnowGraphicID;
 		case 70:
 		store.GarrisonGraphic = dataset->Civs[civ].Units[unit].Creatable.GarrisonGraphic;
+		store.ChargingGraphic = dataset->Civs[civ].Units[unit].Creatable.ChargingGraphic;
 		case 60:
 		case 50:
 		store.AttackGraphic = dataset->Civs[civ].Units[unit].Type50.AttackGraphic;
@@ -1414,6 +1415,7 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
 		dataset->Civs[civ].Units[unit].Building.SnowGraphicID = store.SnowGraphicID;
 		case 70:
 		dataset->Civs[civ].Units[unit].Creatable.GarrisonGraphic = store.GarrisonGraphic;
+		dataset->Civs[civ].Units[unit].Creatable.ChargingGraphic = store.ChargingGraphic;
 		case 60:
 		case 50:
 		dataset->Civs[civ].Units[unit].Type50.AttackGraphic = store.AttackGraphic;
@@ -3077,7 +3079,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_ProjectilesArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Projectiles");
 	Units_ProjectilesArea1_Grid = new wxGridSizer(5, 5, 5);
 	Units_ProjectilesArea2_Grid = new wxGridSizer(4, 5, 5);
-	Units_ProjectilesArea3_Grid = new wxGridSizer(4, 5, 5);
 	Units_Attributes_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Attributes");
 	Units_AttributesBoxes1_Grid = new wxGridSizer(4, 5, 5);
 	Units_Attributes1_Grid = new wxGridSizer(4, 0, 5);
@@ -3437,10 +3438,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown27_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 27 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_UnknownType_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Creatable Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_GarrisonGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Garrison Graphic ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_MissileCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_MissileDuplicationCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Total Missiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_AttackMissileDuplicationSpawning_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Spawning Area *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_AttackMissileDuplicationUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Missile Dupl. Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_MissileCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Total Projectiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_MissileDuplicationCount_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Max Total Projectiles *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_AttackMissileDuplicationSpawning_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Projectile Spawning Area *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_AttackMissileDuplicationUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Secondary Projectile Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ChargingGraphic_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Special Graphic *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ChargingMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Special Ability *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_DisplayedPierceArmour_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Displayed Pierce Armor ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3452,7 +3453,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_IconAngle_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Angle *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_StackUnitID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Stack Unit *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_TerrainID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Foundation Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Units_OldTerrainLikeID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Old Terrain *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Units_OldTerrainLikeID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Old Road *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_ResearchID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Initiates Research *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Unknown33_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 33 *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_AnnexUnit_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Annex Units", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -3538,11 +3539,15 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_Unknown2 = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
 
-	Units_IconID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_IconID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
     Units_IconID_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(55, 50));
-	Units_IconAngle = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_IconAngle = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
 	Units_IconAngle->SetToolTip("Tech attribute 17 changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
+	Units_ChargingGraphic = AGETextCtrl::init(CLong, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_ChargingGraphic->SetToolTip("Activates depending on special ability");
+	Units_ChargingGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ChargingGraphic);
+	GraphicComboBoxList.push_back(Units_ChargingGraphic_ComboBox);
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Units_StandingGraphic[loop] = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -3626,6 +3631,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_BlastWidth->SetToolTip("If object has 0 blast radius\nand does not hit the unit it had targeted\nalways does half damage");
 	Units_BlastAttackLevel = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_BlastAttackLevel->SetToolTip("Blasts damage units that have higher or same blast armor level\n0 Damages resources also\n1 Damages trees also\n2 Damages nearby units\n3 Damages only targeted unit");
+	Units_ChargingMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
+	Units_ChargingMode->SetToolTip("0 Default\nThese work only when facing the hit angle.\n1 Block\n  Activates special graphic when receiving damage and not pursuing the attacker.\n  While idle, blocking decreases damage taken by 1/3.\n2 Counter Charge\n  Activates special graphic when idle and enemy is near.\n  While idle, attacks back once on first received hit.\n  Enemy must be unit type 70 and have less than 0.2 max range.\n3 Charge\n  Activates special graphic when closer than two tiles to the target.\n  Deals 2X damage on 1st hit.");
 
 	Units_Armors = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Armors");
 	Units_Armors_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -3690,12 +3697,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttackMissileDuplicationUnit->SetToolTip("Uses its own attack values!");
 	Units_AttackMissileDuplicationUnit_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_AttackMissileDuplicationUnit);
 	UnitComboBoxList.push_back(Units_AttackMissileDuplicationUnit_ComboBox);
-	Units_ChargingGraphic = AGETextCtrl::init(CLong, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_ChargingGraphic->SetToolTip("Used just before the unit reaches its target enemy");
-	Units_ChargingGraphic_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_ChargingGraphic);
-	GraphicComboBoxList.push_back(Units_ChargingGraphic_ComboBox);
-	Units_ChargingMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_ChargingMode->SetToolTip("0 Default\nThese work only when facing the hit angle.\n1 Block\n  Activates special graphic when receiving damage and not pursuing the attacker.\n  While idle, blocking decreases damage taken by 1/3.\n2 Counter Charge\n  Activates special graphic when idle and enemy is near.\n  While idle, attacks back once on first received hit.\n  Enemy must be unit type 70 and have less than 0.2 max range.\n3 Charge\n  Activates special graphic when closer than two tiles to the target.\n  Deals 2X damage on 1st hit.");
 	Units_MissileCount = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_MissileCount->SetToolTip("Total missiles including both normal and duplicated projectiles");
 	Units_MissileDuplicationCount = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -3730,8 +3731,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Disabled->SetToolTip("Not scanned but set to 0\nProbably changes during gameplay\n0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
 	Units_DeathMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_DeathMode->SetToolTip("Reviving does not make it usable");
-	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "Disable Dead Unit *", Units_DeathMode);
+	Units_DeathMode->SetToolTip("Upon death instead of transforming into dead unit,\nthe unit becomes a statue that can't do anything");
+	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "No Dead Unit *", Units_DeathMode);
 	Units_HideInEditor = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_HideInEditor->SetToolTip("Possible values: 0, 1 and as boolean");
 	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide in Editor", Units_HideInEditor);
@@ -3746,7 +3747,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_TowerMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_TowerMode_CheckBox = new CheckBox_2State(Units_Scroller, "Tower Mode", Units_TowerMode);
 	Units_AdjacentMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_AdjacentMode->SetToolTip("0 Default\n1 Adjacent buildings can change this unit's graphics");
+	Units_AdjacentMode->SetToolTip("0 Default\n1 Adjacent buildings can change this unit's graphics\nThis changes the graphic angle");
 	Units_AdjacentMode_CheckBox = new CheckBox_2State(Units_Scroller, "Adjacent Mode *", Units_AdjacentMode);
 	Units_DisappearsWhenBuilt = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_DisappearsWhenBuilt->SetToolTip("Useful for stack unit placement\n0 Default\n1 Makes the building disappear when built");
@@ -3862,7 +3863,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown7 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_Unknown7->SetToolTip("0 Default\n1 Resource/Eye Candy\n2 Tree");
 	Units_Unknown8 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unknown8->SetToolTip("Depends on unknowns 6 and 7:\nis a resource? and unknown selection mode\n0 wood?\n1 berry\n2 fish\n3 stone/ore deposit\n4 gold/nova deposit\n5 ore (not SW) deposit?");
+	Units_Unknown8->SetToolTip("0 wood?\n1 berry\n2 fish\n3 stone/ore deposit\n4 gold/nova deposit\n5 ore (not SW) deposit?");
 	Units_SelectionMask = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 	Units_SelectionMask->SetToolTip("Any odd value except 7 - Mask displayed behind buildings\nAny even value except 6, 10 - Mask not displayed\n-1, 7 - Mask partially displayed when in the open\n6, 10 - Building, causes mask to appear on units behind it\n");
 	Units_SelectionShapeType = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
@@ -3986,9 +3987,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown27 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
 
 	Units_Unknown33 = AGETextCtrl::init(CByte, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unknown33->SetToolTip("Possibly related to annexes\nSeems to be obsolete");
+	Units_Unknown33->SetToolTip("Seems to be obsolete\nWas possibly related to annexes");
 	Units_Unknown35 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, AGEwindow, Units_Scroller);
-	Units_Unknown35->SetToolTip("Probably related to garrisoning\nSeems to be obsolete");
+	Units_Unknown35->SetToolTip("Seems to be obsolete\nWas probably related to garrisoning");
 
 	Units_CommandHolder_Lists = new wxBoxSizer(wxVERTICAL);
 	Units_UnitHeads_Name = new wxStaticText(Units_Scroller, wxID_ANY, "Unit Header", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4068,7 +4069,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Resource_ComboBox = new ComboBox_Plus1(Units_Scroller, UnitCommands_Resource);
 	ResourceComboBoxList.push_back(UnitCommands_Resource_ComboBox);
 	UnitCommands_WorkRateMultiplier_Holder = new wxBoxSizer(wxVERTICAL);
-	UnitCommands_WorkRateMultiplier_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Work Rate Multiplier", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	UnitCommands_WorkRateMultiplier_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Quantity", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_WorkRateMultiplier = AGETextCtrl::init(CFloat, &uiGroupUnitCommand, this, AGEwindow, Units_Scroller);
 	UnitCommands_ExecutionRadius_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ExecutionRadius_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Execution Radius", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -4681,8 +4682,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnknownType_Holder->Add(Units_UnknownType, 0, wxEXPAND);
 	Units_HeroMode_Holder->Add(Units_HeroMode, 0, wxEXPAND);
 	Units_HeroMode_Holder->Add(Units_HeroMode_CheckBox, 2, wxEXPAND | wxLEFT, 2);
-	Units_MissileCount_Holder->Add(Units_MissileCount, 1, wxEXPAND);
-	Units_MissileDuplicationCount_Holder->Add(Units_MissileDuplicationCount, 1, wxEXPAND);
+	Units_MissileCount_Holder->Add(Units_MissileCount, 0, wxEXPAND);
+	Units_MissileDuplicationCount_Holder->Add(Units_MissileDuplicationCount, 0, wxEXPAND);
 	for(size_t loop = 0; loop < 3; ++loop)
 	Units_AttackMissileDuplicationSpawning_Grid->Add(Units_AttackMissileDuplicationSpawning[loop], 1, wxEXPAND);
 	Units_AttackMissileDuplicationSpawning_Holder->Add(Units_AttackMissileDuplicationSpawning_Grid, 1, wxEXPAND);
@@ -4912,6 +4913,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_IconID_Grid->Add(Units_IconID_SLP);
 	Units_IconID_Grid->Add(Units_IconID_Holder, 1, wxEXPAND);
 	Units_IconID_Grid->Add(Units_IconAngle_Holder, 1, wxEXPAND | wxLEFT, 5);
+	Units_IconID_Grid->Add(Units_ChargingGraphic_Holder, 3, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxLEFT, 5);
 	Units_GraphicsArea4_Holder->Add(Units_IconID_Grid, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_StandingGraphic_Holder, 1, wxEXPAND);
 	Units_GraphicsArea4_Holder->Add(Units_DyingGraphic_Holder, 1, wxEXPAND);
@@ -4984,6 +4986,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Grid_Data2->Add(Units_ReloadTime2_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_BlastWidth_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_BlastAttackLevel_Holder, 1, wxEXPAND);
+	Units_Attacks_Grid_Data2->Add(Units_ChargingMode_Holder, 1, wxEXPAND);
 	Units_Attacks_Holder_Data->Add(Units_Attacks_Grid_Data2, 0, wxEXPAND);
 
 	Units_Armors_DataArea->Add(Armors_Amount_Holder, 0, wxEXPAND);
@@ -5042,14 +5045,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_ProjectilesArea1_Grid->Add(Units_ProjectileArc_Holder, 1, wxEXPAND);
 
 	Units_ProjectilesArea2_Grid->Add(Units_ProjectileUnitID_Holder, 2, wxEXPAND);
-	Units_ProjectilesArea3_Grid->Add(Units_MissileCount_Holder, 1, wxEXPAND);
-	Units_ProjectilesArea3_Grid->Add(Units_MissileDuplicationCount_Holder, 1, wxEXPAND);
 	Units_ProjectilesArea2_Grid->Add(Units_AttackMissileDuplicationUnit_Holder, 1, wxEXPAND);
-	Units_ProjectilesArea2_Grid->Add(Units_ChargingGraphic_Holder, 1, wxEXPAND);
-	Units_ProjectilesArea2_Grid->Add(Units_ChargingMode_Holder, 1, wxEXPAND);
+	Units_ProjectilesArea2_Grid->Add(Units_MissileCount_Holder, 1, wxEXPAND);
+	Units_ProjectilesArea2_Grid->Add(Units_MissileDuplicationCount_Holder, 1, wxEXPAND);
 
 	Units_ProjectilesArea_Holder->Add(Units_ProjectilesArea2_Grid, 0, wxEXPAND);
-	Units_ProjectilesArea_Holder->Add(Units_ProjectilesArea3_Grid, 0, wxEXPAND | wxTOP, 5);
 	Units_ProjectilesArea_Holder->Add(Units_AttackMissileDuplicationSpawning_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_ProjectilesArea_Holder->Add(Units_GraphicDisplacement_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_ProjectilesArea_Holder->Add(Units_ProjectilesArea1_Grid, 0, wxEXPAND | wxTOP, 5);
