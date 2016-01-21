@@ -2475,7 +2475,6 @@ public:
 	wxStaticBoxSizer *Units_ProjectilesArea_Holder;
 	wxGridSizer *Units_ProjectilesArea1_Grid;
 	wxGridSizer *Units_ProjectilesArea2_Grid;
-	wxGridSizer *Units_ProjectilesArea3_Grid;
 	wxStaticBoxSizer *Units_Attributes_Holder;
 	wxGridSizer *Units_AttributesBoxes1_Grid;
 	wxGridSizer *Units_Attributes1_Grid;
