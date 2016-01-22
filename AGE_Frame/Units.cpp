@@ -1638,8 +1638,8 @@ void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent &event)
 
 				DamageGraphics_GraphicID->prepend(&DamageGraphicPointer->GraphicID);
 				DamageGraphics_DamagePercent->prepend(&DamageGraphicPointer->DamagePercent);
-				DamageGraphics_ApplyMode->prepend(&DamageGraphicPointer->ApplyMode);
-				DamageGraphics_Unknown2->prepend(&DamageGraphicPointer->Unknown2);
+				DamageGraphics_ApplyMode->prepend(&DamageGraphicPointer->OldApplyMode);
+				DamageGraphics_Unknown2->prepend(&DamageGraphicPointer->ApplyMode);
 			}
 		}
 		if(showWarning)
@@ -2597,7 +2597,7 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent &event)
 				UnitCommands_ProductivityResource->prepend(&CommandPointer->ResourceProductivityMultiplier);
 				UnitCommands_ResourceOut->prepend(&CommandPointer->ResourceOut);
 				UnitCommands_Resource->prepend(&CommandPointer->Resource);
-				UnitCommands_WorkRateMultiplier->prepend(&CommandPointer->WorkRateMultiplier);
+				UnitCommands_WorkRateMultiplier->prepend(&CommandPointer->Quantity);
 				UnitCommands_ExecutionRadius->prepend(&CommandPointer->ExecutionRadius);
 				UnitCommands_ExtraRange->prepend(&CommandPointer->ExtraRange);
 				UnitCommands_Unknown4->prepend(&CommandPointer->Unknown4);
@@ -3532,12 +3532,13 @@ void AGE_Frame::CreateUnitControls()
 	DamageGraphics_DamagePercent_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Damage Percent ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_DamagePercent = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
 	DamageGraphics_ApplyMode_Holder = new wxBoxSizer(wxVERTICAL);
-	DamageGraphics_ApplyMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Apply Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	DamageGraphics_ApplyMode_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Old Apply Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_ApplyMode = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
-	DamageGraphics_ApplyMode->SetToolTip("0 (& 1?) Adds graphics on top (flames on buildings)\n2 Replaces original graphics (damaged walls)");
+	DamageGraphics_ApplyMode->SetToolTip("Replaced in memory by the second Apply Mode");
 	DamageGraphics_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-	DamageGraphics_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Unknown 2 ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	DamageGraphics_Unknown2_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Apply Mode *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	DamageGraphics_Unknown2 = AGETextCtrl::init(CByte, &uiGroupUnitDmgGraphic, this, AGEwindow, Units_Scroller);
+	DamageGraphics_Unknown2->SetToolTip("0 Adds graphics on top (flames on buildings)\n1 Adds graphics on top randomly\n2 Replaces original graphics (damaged walls)");
 
 	Units_IconID = AGETextCtrl::init(CShort, &uiGroupUnit, this, AGEwindow, Units_Scroller, true);
 	Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
