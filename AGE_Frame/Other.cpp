@@ -1284,7 +1284,7 @@ void AGE_Frame::LoadLists()
 		UnitLines_UnitLines_ListV->DeleteAllItems();
 		UnitLines_UnitLineUnits_ListV->DeleteAllItems();
 	}
-	InitCivs(true);
+	//InitCivs(true);
 	InitUnits(GenieVersion < genie::GV_AoKA, true);
 	InitResearches(true);
 	if(GenieVersion >= genie::GV_AoKA)
@@ -1321,7 +1321,7 @@ void AGE_Frame::LoadLists()
 	}*/
 
     wxTimerEvent E;
-	OnCivsTimer(E);
+	//OnCivsTimer(E);
 	OnUnitsTimer(E);
 	OnResearchTimer(E);
 	OnTechTimer(E);
@@ -1354,7 +1354,7 @@ void AGE_Frame::OnGameVersionChange()
 		General_SomeBytes[loop]->Show(false);
 		if(ShowUnknowns)
 		{
-			for(size_t loop = 0; loop < dataset->TerrainBlock.getSomethingSize(); ++loop)
+			for(size_t loop = 0; loop < dataset->TerrainBlock.getSomethingSize() && loop < General_Something.size(); ++loop)
 			General_Something[loop]->Show(true);
 			for(size_t loop = 0; loop < dataset->TerrainBlock.getBytesSize(); ++loop)
 			General_SomeBytes[loop]->Show(true);
@@ -1382,6 +1382,7 @@ void AGE_Frame::OnGameVersionChange()
 		show = (GenieVersion >= genie::GV_MIK) ? true : false;
 		Civs_TechTree_Holder->Show(show);
 		Units_PlacementSideTerrain_Holder->Show(show);
+        Borders_BorderStyle_Holder->Show(GenieVersion != genie::GV_MIK);
 
 		// Matt ->
 		show = (GenieVersion >= genie::GV_MATT) ? true : false;

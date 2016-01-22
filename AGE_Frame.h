@@ -1127,7 +1127,7 @@ public:
 	wxBoxSizer *Borders_FrameData;
 	wxStaticBoxSizer *Borders_Borders_Holder;
 
-	wxBoxSizer *Borders_TileTypes;
+	wxStaticBoxSizer *Borders_TileTypes;
 	wxGridSizer *Borders_TileTypes_Buttons;
 	wxTextCtrl *Borders_TileTypes_Search;
 	wxTextCtrl *Borders_TileTypes_Search_R;
@@ -1136,7 +1136,7 @@ public:
 	wxButton *TileTypes_Paste;
 	wxButton *TileTypes_CopyToBorders;
 
-	wxBoxSizer *Borders_BorderShapes;
+	wxStaticBoxSizer *Borders_BorderShapes;
 	wxGridSizer *Borders_BorderShapes_Buttons;
 	wxTextCtrl *Borders_BorderShapes_Search;
 	wxTextCtrl *Borders_BorderShapes_Search_R;
