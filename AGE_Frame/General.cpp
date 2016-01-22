@@ -126,7 +126,7 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
 	{
 		General_SomeBytes[loop]->prepend(&dataset->TerrainBlock.SomeBytes[loop]);
 	}
-	for(size_t loop = 0; loop < dataset->TerrainBlock.SomeInt32.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainBlock.SomeInt32.size() && loop < General_Something.size(); ++loop)
 	{
 		General_Something[loop]->prepend(&dataset->TerrainBlock.SomeInt32[loop]);
 	}
