@@ -433,12 +433,13 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Terrain_ComboBox = new ComboBox_Plus1(Tab_TerrainBorders, Borders_Terrain);
 	TerrainComboBoxList.push_back(Borders_Terrain_ComboBox);
 	Borders_BorderStyle_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_BorderStyle_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Border Style", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_BorderStyle_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Border Style *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_BorderStyle = AGETextCtrl::init(CShort, &uiGroupBorder, this, AGEwindow, Tab_TerrainBorders);
+	Borders_BorderStyle->SetToolTip("This has something to do with all 19 tile types\nMickey's DAT had this removed and\ninstead added one border shape to each 19 tile types");
 
 	Borders_FrameData = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Borders_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Tab_TerrainBorders, "Borders");
-	Borders_TileTypes = new wxBoxSizer(wxVERTICAL);
+	Borders_TileTypes = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainBorders, "Tile Types");
 	Borders_TileTypes_Buttons = new wxGridSizer(2, 0, 0);
 	Borders_TileTypes_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_TileTypes_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
@@ -446,7 +447,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	TileTypes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 	TileTypes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TileTypes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected terrain borders", wxDefaultPosition, wxSize(5, 20));
-	Borders_BorderShapes = new wxBoxSizer(wxVERTICAL);
+	Borders_BorderShapes = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainBorders, "Border Shapes");
 	Borders_BorderShapes_Buttons = new wxGridSizer(2, 0, 0);
 	Borders_BorderShapes_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_BorderShapes_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
