@@ -18,13 +18,13 @@ public:
 	ComboBox_Plus1 *ItemCombo;
 	wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
 
-	void CreateControls(wxFrame* frame, int window, wxScrolledWindow* &scroller, const wxString &listName, const wxString &itemName)
+	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolledWindow* &scroller, const wxString &listName, const wxString &itemName)
 	{
 		ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
 		List = new AGEListView(scroller, wxSize(10, 100));
-		Item = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
+		Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
 		Buttons = new wxGridSizer(3, 0, 0);
 		Add = new wxButton(scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -79,7 +79,7 @@ public:
 		ItemCombo->Clear();
 	}
 
-	void CreateControls(wxFrame* frame, int window, wxScrolledWindow* &scroller, const wxString &itemName)
+	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolledWindow* &scroller, const wxString &itemName)
 	{
 		lastList = 4;
 		wxArrayString ages, researches, units;
@@ -87,15 +87,15 @@ public:
 		ItemList = new wxBoxSizer(wxVERTICAL);
 		UsedItems_H = new wxBoxSizer(wxVERTICAL);
 		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Used Ages/Units/Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
-		UsedItems = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
+		UsedItems = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
 		List = new AGEListView(scroller, wxSize(10, 100));
 		Item_H = new wxBoxSizer(wxHORIZONTAL);
-		Item = AGETextCtrl::init(CLong, NULL, frame, window, scroller);
+		Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
-		Mode = AGETextCtrl::init(CLong, NULL, frame, window, scroller, true);
+		Mode = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller, true);
 		ModeCombo = new wxOwnerDrawnComboBox(scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
@@ -146,24 +146,24 @@ public:
 	AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
 	wxButton *Copy, *Paste, *CopyAllToSelected;
 
-	void CreateControls(wxFrame* frame, int window, wxScrolledWindow* &scroller)
+	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolledWindow* &scroller)
 	{
 		Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unknown Items");
 		ItemList = new wxBoxSizer(wxVERTICAL);
 		Top = new wxBoxSizer(wxHORIZONTAL);
 		UsedItems_H = new wxBoxSizer(wxVERTICAL);
 		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Slots Used?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
-		UsedItems = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
+		UsedItems = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller);
 		Unknown_H = new wxBoxSizer(wxVERTICAL);
 		Unknown_T = new wxStaticText(scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
-		Unknown = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
+		Unknown = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller);
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
 		List = new AGEListView(scroller, wxSize(10, 100));
 		Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
-		Unknown1 = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
-		Unknown2 = AGETextCtrl::init(CByte, NULL, frame, window, scroller);
+		Unknown1 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller);
+		Unknown2 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 		Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
