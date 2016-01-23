@@ -14,7 +14,7 @@
 std::ofstream AGE_Frame::log_out;
 
 AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
-: wxFrame(NULL, wxID_ANY, title)
+: wxFrame(NULL, wxID_ANY, title), popUp(window)
 {
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
@@ -234,6 +234,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 //	TabBar_Test->SetSelection(0);
 
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
+	Connect(wxEVT_IDLE, wxIdleEventHandler(AGE_Frame::showPopUp));
 	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
 	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
 	Connect(ToolBar_Backup, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));

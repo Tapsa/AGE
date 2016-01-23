@@ -115,6 +115,7 @@ public:
             TerrainLoader = NULL;
         }
     }
+    void showPopUp(wxIdleEvent& event);
 
 //	Updates user interface after changing data name.
 
@@ -879,6 +880,7 @@ public:
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot, *slp_collision, *slp_clearance, *slp_selection;
     wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles;
     wxColourPickerCtrl *slp_background;
+    DelayedPopUp popUp;
 
 	vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
 	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
@@ -952,7 +954,7 @@ public:
 
 	map<int, string> LangTxt;
 	HINSTANCE LanguageDLL[3];
-	string LangDLLstring(int ID, int Letters = 0);
+	wxString LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
     bool exportFrame;
     void LoadTXT(const wxString &filename);

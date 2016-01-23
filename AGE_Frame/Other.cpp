@@ -161,8 +161,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		{
 			return;
 		}
-		AGETextCtrl::unSaved[AGEwindow] = 0;
-		++AGETextCtrl::fileLoaded[AGEwindow];
+		AGETextCtrl::unSaved[popUp.window] = 0;
+		++AGETextCtrl::fileLoaded[popUp.window];
 
         wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/DriveLetter", DriveLetter);
@@ -1321,7 +1321,7 @@ void AGE_Frame::LoadLists()
 	}*/
 
     wxTimerEvent E;
-	//OnCivsTimer(E);
+	OnCivsTimer(E);
 	OnUnitsTimer(E);
 	OnResearchTimer(E);
 	OnTechTimer(E);
@@ -1354,7 +1354,7 @@ void AGE_Frame::OnGameVersionChange()
 		General_SomeBytes[loop]->Show(false);
 		if(ShowUnknowns)
 		{
-			for(size_t loop = 0; loop < dataset->TerrainBlock.getSomethingSize() && loop < General_Something.size(); ++loop)
+			for(size_t loop = 0; loop < dataset->TerrainBlock.getSomethingSize(); ++loop)
 			General_Something[loop]->Show(true);
 			for(size_t loop = 0; loop < dataset->TerrainBlock.getBytesSize(); ++loop)
 			General_SomeBytes[loop]->Show(true);
@@ -1831,8 +1831,8 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
         }
 	}
 
-	SetStatusText("Selected files saved. "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" dat edits.", 0);
-	AGETextCtrl::unSaved[AGEwindow] = 0;
+	SetStatusText("Selected files saved. "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" dat edits.", 0);
+	AGETextCtrl::unSaved[popUp.window] = 0;
 }
 
 bool AGE_Frame::SaveLang()
@@ -2328,13 +2328,13 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		break;
 		case ToolBar_Hex:
 		{
-			AGETextCtrl::hexMode[AGEwindow] = event.IsChecked();
+			AGETextCtrl::hexMode[popUp.window] = event.IsChecked();
 			LoadLists();
 		}
 		break;
 		case ToolBar_Float:
 		{
-			AGETextCtrl::accurateFloats[AGEwindow] = event.IsChecked();
+			AGETextCtrl::accurateFloats[popUp.window] = event.IsChecked();
 			LoadLists();
 		}
 		break;
@@ -2736,7 +2736,7 @@ void AGE_Frame::LoadTXT(const wxString &filename)
     }
 }
 
-string AGE_Frame::LangDLLstring(int ID, int Letters)
+wxString AGE_Frame::LangDLLstring(int ID, int Letters)
 {
 	if(ID < 0) return "";
 	string Result = "";
@@ -2757,30 +2757,59 @@ string AGE_Frame::LangDLLstring(int ID, int Letters)
 		else if(LangsUsed & 2 && LoadStringA(LanguageDLL[1], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
 		else if(LangsUsed & 1 && LoadStringA(LanguageDLL[0], ID, Buffer, Letters) && strlen(Buffer) > 0) Result = Buffer;
 	}
-	return Result;
+    wxString text(Result);
+    text.Replace("\n", "\r\n");
+	return text;
 }
 
 void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
 {
-	//event.Skip();
-	TextCtrl_DLL *control = (TextCtrl_DLL*)event.GetEventObject();
-	if(!control->IsModified() || !WriteLangs || control->index < 0) return;
-	int ID = control->index;
-	string Name = string(control->GetValue());
-	if(LangWriteToLatest)
-	{
-		if(LangsUsed & 4) LangXP->setString(ID, Name);
-		else if(LangsUsed & 2) LangX->setString(ID, Name);
-		else if(LangsUsed & 1) Lang->setString(ID, Name);
-	}
-	else
-	{
-		if(LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
-		if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
-		if(LangsUsed & 1) Lang->setString(ID, Name);
-	}
-	SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
-	control->DiscardEdits();
+    event.Skip();
+    TextCtrl_DLL *control = (TextCtrl_DLL*)event.GetEventObject();
+    if(control->IsModified())
+    {
+        control->DiscardEdits();
+        if(control->index < 0) return;
+        if(!WriteLangs)
+        {
+            wxString message = "In order to edit language entries, check write language files in the open files dialog and reopen them.";
+            popUp.post(message, "Warning", NULL);
+            return;
+        }
+
+        int ID = control->index;
+        wxString text(control->GetValue());
+        text.Replace("\r\n", "\n");
+        string Name = string(text);
+        if(LangWriteToLatest)
+        {
+            if(LangsUsed & 4) LangXP->setString(ID, Name);
+            else if(LangsUsed & 2) LangX->setString(ID, Name);
+            else if(LangsUsed & 1) Lang->setString(ID, Name);
+        }
+        else
+        {
+            if(LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
+            if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
+            if(LangsUsed & 1) Lang->setString(ID, Name);
+        }
+        SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
+    }
+}
+
+void AGE_Frame::showPopUp(wxIdleEvent& event)
+{
+    if(popUp.hasMessage)
+    {
+        wxMessageBox(popUp.popUpMessage, popUp.popUpTitle);
+        popUp.hasMessage = false;
+        if(NULL != popUp.focusTarget)
+        {
+            if(popUp.focusTarget->IsEnabled() && popUp.focusTarget->IsShownOnScreen())
+            popUp.focusTarget->SetFocus();
+            popUp.focusTarget = NULL;
+        }
+    }
 }
 
 bool AGE_Frame::SearchMatches(wxString itemText)
@@ -2952,8 +2981,8 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 		{
 			SetStatusText("Added 1 hidden", 2);
 		}
-		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + 1", 3);
-		++AGETextCtrl::unSaved[AGEwindow];
+		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + 1", 3);
+		++AGETextCtrl::unSaved[popUp.window];
 	}
 	else if(How2List == DEL)
 	{
@@ -2968,8 +2997,8 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 			List->Set(names);
 			SetStatusText("Listed all again", 2);
 		}
-		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
-		AGETextCtrl::unSaved[AGEwindow] += selections;
+		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + "+lexical_cast<string>(selections), 3);
+		AGETextCtrl::unSaved[popUp.window] += selections;
 	}
 	else if(How2List == PASTE && Paste11)
 	{
@@ -2978,8 +3007,8 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 			List->SetString(Items.Item(sel), names[Items.Item(sel)]);
 		}
 		SetStatusText("Pasted 1 to 1", 2);
-		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
-		AGETextCtrl::unSaved[AGEwindow] += selections;
+		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + "+lexical_cast<string>(selections), 3);
+		AGETextCtrl::unSaved[popUp.window] += selections;
 	}
 	else
 	{
@@ -2989,13 +3018,13 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 			SetStatusText("Listed all again", 2);
 			if(How2List == ENABLE)
 			{
-				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + "+lexical_cast<string>(selections), 3);
-				AGETextCtrl::unSaved[AGEwindow] += selections;
+				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + "+lexical_cast<string>(selections), 3);
+				AGETextCtrl::unSaved[popUp.window] += selections;
 			}
 			else // Need more input to calculate edits for paste and inserts.
 			{
-				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" + 1", 3);
-				++AGETextCtrl::unSaved[AGEwindow];
+				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + 1", 3);
+				++AGETextCtrl::unSaved[popUp.window];
 			}
 		}
 	}
@@ -3198,7 +3227,7 @@ void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
 
 wxString AGE_Frame::FormatFloat(float value)
 {
-	if(AGETextCtrl::accurateFloats[AGEwindow])
+	if(AGETextCtrl::accurateFloats[popUp.window])
 	return lexical_cast<string>(value);
 
 	stringbuf buffer;
@@ -3209,7 +3238,7 @@ wxString AGE_Frame::FormatFloat(float value)
 
 wxString AGE_Frame::FormatInt(int value)
 {
-	if(!AGETextCtrl::hexMode[AGEwindow])
+	if(!AGETextCtrl::hexMode[popUp.window])
 	return lexical_cast<string>(value);
 
 	stringbuf buffer;
@@ -3567,9 +3596,9 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/DrawSelectionShape", DrawSelectionShape);
     }
 
-	if(event.CanVeto() && AGETextCtrl::unSaved[AGEwindow] > 0)
+	if(event.CanVeto() && AGETextCtrl::unSaved[popUp.window] > 0)
 	{
-		if(wxMessageBox("There are "+lexical_cast<string>(AGETextCtrl::unSaved[AGEwindow])+" unsaved changes.\nClose anyway?",
+		if(wxMessageBox("There are "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" unsaved changes.\nClose anyway?",
 		"Discard unsaved changes",
 		wxICON_QUESTION | wxCANCEL | wxOK) != wxOK)
 		{
@@ -3592,7 +3621,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 		delete LangXP;
 	}
 
-    AGE_Frame::openEditors[AGEwindow] = false;
+    AGE_Frame::openEditors[popUp.window] = false;
     while(graphicAnimTimer.IsRunning())
     {
         if(event.CanVeto())
@@ -3601,6 +3630,6 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
 			return;
         }
     }
-    AGETextCtrl::fileLoaded[AGEwindow] = 0;
+    AGETextCtrl::fileLoaded[popUp.window] = 0;
 	Destroy();
 }

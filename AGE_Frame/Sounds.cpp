@@ -428,33 +428,33 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	Sounds_ID_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_ID = AGETextCtrl::init(CShort, &uiGroupSound, this, AGEwindow, Tab_Sounds);
+	Sounds_ID = AGETextCtrl::init(CShort, &uiGroupSound, this, &popUp, Tab_Sounds);
 	Sounds_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Sounds_Unknown1_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Play at Update Count", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_Unknown1 = AGETextCtrl::init(CShort, &uiGroupSound, this, AGEwindow, Tab_Sounds);
+	Sounds_Unknown1 = AGETextCtrl::init(CShort, &uiGroupSound, this, &popUp, Tab_Sounds);
 	Sounds_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	Sounds_Unknown2_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Cache Time", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_Unknown2 = AGETextCtrl::init(CLong, &uiGroupSound, this, AGEwindow, Tab_Sounds);
+	Sounds_Unknown2 = AGETextCtrl::init(CLong, &uiGroupSound, this, &popUp, Tab_Sounds);
 
 	SoundItems_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Name_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Filename", wxDefaultPosition, wxSize(200, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Name = AGETextCtrl::init(CString, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+	SoundItems_Name = AGETextCtrl::init(CString, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
 	SoundItems_Resource_Holder = new wxBoxSizer(wxHORIZONTAL);
 	SoundItems_Resource_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File DRS Resource", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Resource = AGETextCtrl::init(CLong, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+	SoundItems_Resource = AGETextCtrl::init(CLong, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
     SoundFile_AutoIncrement = new wxButton(Tab_Sounds, wxID_ANY, "Auto # from 1st", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Probability_Holder = new wxBoxSizer(wxHORIZONTAL);
 	SoundItems_Probability_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Probability", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Probability = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+	SoundItems_Probability = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
     SoundFile_AutoProbability = new wxButton(Tab_Sounds, wxID_ANY, "Auto odds", wxDefaultPosition, wxSize(5, 20));
 	SoundItems_Civ_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Civ_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Civilization", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Civ = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+	SoundItems_Civ = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
 	SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
 	CivComboBoxList.push_back(SoundItems_Civ_ComboBox);
 	SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
 	SoundItems_Unknown_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " File Player ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, AGEwindow, Tab_Sounds);
+	SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
 	wxSizer *SoundFile_Holder = new wxBoxSizer(wxHORIZONTAL);
     SoundFile_Loop = new wxCheckBox(Tab_Sounds, wxID_ANY, "Loop");
     SoundFile_Play = new wxButton(Tab_Sounds, wxID_ANY, "Play WAV", wxDefaultPosition, wxSize(5, 20));
@@ -628,7 +628,7 @@ void AGE_Frame::CreateSoundControls()
 
 void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
 {
-	//event.Skip();
+	event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	ListSoundItems();
 }
