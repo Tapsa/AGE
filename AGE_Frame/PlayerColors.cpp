@@ -253,19 +253,19 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown3_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 3", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Unknown4_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 4", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Unknown5_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Statistics Text", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Name = AGETextCtrl::init(CString, &uiGroupColor, this, AGEwindow, Tab_PlayerColors, 30);
-	Colors_ID = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
-	Colors_Palette = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
+	Colors_Name = AGETextCtrl::init(CString, &uiGroupColor, this, &popUp, Tab_PlayerColors, 30);
+	Colors_ID = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+	Colors_Palette = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
 	Colors_Palette->SetToolTip("Starting index of the main color palette\nfrom where 8 colors are dedicated to this player color");
-	Colors_ColorL = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
+	Colors_ColorL = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
 	Colors_ColorL->SetToolTip("Index of the main color palette");
-	Colors_MinimapColor = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
+	Colors_MinimapColor = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
 	Colors_MinimapColor->SetToolTip("Index of the main color palette");
-	Colors_Unknown1 = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
-	Colors_Unknown2 = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
-	Colors_Unknown3 = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
-	Colors_Unknown4 = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
-	Colors_Unknown5 = AGETextCtrl::init(CLong, &uiGroupColor, this, AGEwindow, Tab_PlayerColors);
+	Colors_Unknown1 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+	Colors_Unknown2 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+	Colors_Unknown3 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+	Colors_Unknown4 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+	Colors_Unknown5 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
     Colors_Palette_Display = new wxPanel(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(256, 256));
 
 	Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
@@ -342,7 +342,7 @@ void AGE_Frame::CreatePlayerColorControls()
 
 void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &event)
 {
-	//event.Skip();
+	event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	ListPlayerColors();
 }

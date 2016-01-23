@@ -157,7 +157,7 @@ string AGE_Frame::GetUnitLineUnitName(int Unit)
 	if(dataset->Civs[0].Units.size() <= Unit) return Name + "Nonexistent Unit";
 	if(!LangDLLstring(dataset->Civs[0].Units[Unit].LanguageDLLName, 2).empty())
 	{
-		return Name + LangDLLstring(dataset->Civs[0].Units[Unit].LanguageDLLName, 64);
+		return Name + string(LangDLLstring(dataset->Civs[0].Units[Unit].LanguageDLLName, 64));
 	}
 	if(!dataset->Civs[0].Units[Unit].Name.empty())
 	{
@@ -332,14 +332,14 @@ void AGE_Frame::CreateUnitLineControls()
 
 	UnitLines_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitLines_ID_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_ID = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Tab_UnitLine);
+	UnitLines_ID = AGETextCtrl::init(CShort, NULL, this, &popUp, Tab_UnitLine);
 	UnitLines_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitLines_Name_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxSize(200, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_Name = AGETextCtrl::init(CString, NULL, this, AGEwindow, Tab_UnitLine, 30);
+	UnitLines_Name = AGETextCtrl::init(CString, NULL, this, &popUp, Tab_UnitLine, 30);
 
 	UnitLineUnits_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitLineUnits_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unit", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLineUnits_Units = AGETextCtrl::init(CShort, NULL, this, AGEwindow, Tab_UnitLine);
+	UnitLineUnits_Units = AGETextCtrl::init(CShort, NULL, this, &popUp, Tab_UnitLine);
 	UnitLineUnits_ComboBox = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units);
 	UnitComboBoxList.push_back(UnitLineUnits_ComboBox);
 
@@ -423,7 +423,7 @@ void AGE_Frame::CreateUnitLineControls()
 
 void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &event)
 {
-	//event.Skip();
+	event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	if(event.GetId() == UnitLines_Name->GetId())
 	{

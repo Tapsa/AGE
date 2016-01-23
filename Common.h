@@ -56,6 +56,29 @@ using boost::bad_lexical_cast;
 #ifndef COMMON_H
 #define COMMON_H
 
+class DelayedPopUp
+{
+public:
+    bool hasMessage;
+    wxString popUpMessage, popUpTitle;
+    wxWindow *focusTarget;
+    short window;
+
+    DelayedPopUp(short window)
+    {
+        hasMessage = false;
+        focusTarget = NULL;
+        this->window = window;
+    }
+    void post(const wxString &message, const wxString &title, wxWindow *target)
+    {
+        popUpTitle = title;
+        popUpMessage = message;
+        focusTarget = target;
+        hasMessage = true;
+    }
+};
+
 enum EditableVersion
 {
 	EV_ORIG,

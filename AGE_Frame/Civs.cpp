@@ -861,38 +861,38 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
 	Civs_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
 	Civs_Name_Text[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name");
-	Civs_Name[0] = AGETextCtrl::init(CString, &uiGroupCiv, this, AGEwindow, Tab_Civs, 20);
+	Civs_Name[0] = AGETextCtrl::init(CString, &uiGroupCiv, this, &popUp, Tab_Civs, 20);
 	Civs_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
 	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2");
-	Civs_Name[1] = AGETextCtrl::init(CString, &uiGroupCiv, this, AGEwindow, Tab_Civs, 20);
+	Civs_Name[1] = AGETextCtrl::init(CString, &uiGroupCiv, this, &popUp, Tab_Civs, 20);
 	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_GraphicSet = AGETextCtrl::init(CByte, &uiGroupCiv, this, AGEwindow, Tab_Civs);
+	Civs_GraphicSet = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_GraphicSet->SetToolTip("Building icon set (and trade cart graphics?)\nThis is actually an offset used to look up SLPs inside the DRS file\nAoE 1: also determines the interface graphics used\nStar Wars: also determines unit and tech icons");
 	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_One = AGETextCtrl::init(CByte, &uiGroupCiv, this, AGEwindow, Tab_Civs);
+	Civs_One = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_TechTree_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_TechTree = AGETextCtrl::init(CShort, &uiGroupCiv, this, AGEwindow, Tab_Civs);
+	Civs_TechTree = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_TechTree_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TechTree);
 	TechComboBoxList.push_back(Civs_TechTree_ComboBox);
 	Civs_TeamBonus_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_TeamBonus_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_TeamBonus = AGETextCtrl::init(CShort, &uiGroupCiv, this, AGEwindow, Tab_Civs);
+	Civs_TeamBonus = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_TeamBonus_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus);
 	TechComboBoxList.push_back(Civs_TeamBonus_ComboBox);
 	Civs_SUnknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_SUnknown1_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < 4; ++loop)
-	Civs_SUnknown1[loop] = AGETextCtrl::init(CShort, &uiGroupCiv, this, AGEwindow, Tab_Civs);
+	Civs_SUnknown1[loop] = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
 
 	Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources");
 	Civs_Resources_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Resources_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_ResourceValue_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_ResourceValue_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_ResourceValue = AGETextCtrl::init(CFloat, NULL, this, AGEwindow, Tab_Civs);
+	Civs_ResourceValue = AGETextCtrl::init(CFloat, NULL, this, &popUp, Tab_Civs);
 	Civs_Resources_ListV = new AGEListView(Tab_Civs, wxSize(200, 100));
 	Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
 	Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
@@ -1004,7 +1004,7 @@ void AGE_Frame::CreateCivControls()
 
 void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &event)
 {
-	//event.Skip();
+	event.Skip();
 	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
 	if(event.GetId() == Civs_Name[0]->GetId()
 	|| event.GetId() == Civs_Name[1]->GetId())
