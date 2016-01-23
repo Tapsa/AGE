@@ -37,7 +37,7 @@ public:
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, 20), wxTE_PROCESS_ENTER){edits = 0;}
 
     static AGETextCtrl* init(const ContainerType type, vector<AGETextCtrl*> *group,
-        wxFrame *frame, const short window, wxWindow *parent, short length = 0);
+        wxFrame *frame, DelayedPopUp *popUp, wxWindow *parent, short length = 0);
     virtual int SaveEdits(bool forced = false)=0;
     virtual void update()
     {
@@ -74,6 +74,7 @@ public:
     inline void clear(){container.clear();}
     inline void prepend(void* data){container.push_back(data);}
     void setMaxChars(unsigned short size){maxSize = size;}
+    DelayedPopUp *popUp;
 
     static const wxString BATCHWARNING, BWTITLE, IETITLE;
     // Make these window specific
@@ -84,7 +85,7 @@ public:
 protected:
     void OnKillFocus(wxFocusEvent &event)
     {
-        //event.Skip();
+        event.Skip();
         SaveEdits();
     }
     void OnEnter(wxCommandEvent &event){SaveEdits(true);}
@@ -125,7 +126,7 @@ class TextCtrl_DLL: public wxTextCtrl
 {
 public:
     TextCtrl_DLL(wxWindow *parent, wxSize dimensions):
-    wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, dimensions, wxTE_MULTILINE | wxTE_PROCESS_ENTER)
+    wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, dimensions, wxTE_MULTILINE)
     {
         Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(TextCtrl_DLL::wheelParent));
     }

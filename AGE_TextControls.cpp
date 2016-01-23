@@ -11,20 +11,21 @@ wxString AGEListView::OnGetItemText(long item, long column) const
 }
 
 AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *group,
-    wxFrame *frame, const short window, wxWindow *parent, short length)
+    wxFrame *frame, DelayedPopUp *popUp, wxWindow *parent, short length)
 {
     AGETextCtrl* product;
     switch(type)
     {
-    case CByte: product = new TextCtrl_Byte(frame, window, parent, length); break;
-    case CUByte: product = new TextCtrl_UByte(frame, window, parent); break;
-    case CFloat: product = new TextCtrl_Float(frame, window, parent, length); break;
-    case CLong: product = new TextCtrl_Long(frame, window, parent, length); break;
-    case CShort: product = new TextCtrl_Short(frame, window, parent, length); break;
-    case CUShort: product = new TextCtrl_UShort(frame, window, parent); break;
-    case CString: product = new TextCtrl_String(frame, window, parent, length); break;
+    case CByte: product = new TextCtrl_Byte(frame, popUp->window, parent, length); break;
+    case CUByte: product = new TextCtrl_UByte(frame, popUp->window, parent); break;
+    case CFloat: product = new TextCtrl_Float(frame, popUp->window, parent, length); break;
+    case CLong: product = new TextCtrl_Long(frame, popUp->window, parent, length); break;
+    case CShort: product = new TextCtrl_Short(frame, popUp->window, parent, length); break;
+    case CUShort: product = new TextCtrl_UShort(frame, popUp->window, parent); break;
+    case CString: product = new TextCtrl_String(frame, popUp->window, parent, length); break;
     }
     if(NULL != group) group->push_back(product);
+    product->popUp = popUp;
     return product;
 }
 
@@ -38,7 +39,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            wxMessageBox(BATCHWARNING, BWTITLE);
+            popUp->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -77,15 +78,13 @@ int TextCtrl_Byte::SaveEdits(bool forced)
             }
             else
             {
-                wxMessageBox("Please enter a number from -128 to 127", IETITLE);
-                SetFocus();
+                popUp->post("Please enter a number from -128 to 127", IETITLE, this);
                 return 2;
             }
         }
         catch(bad_lexical_cast e)
         {
-            wxMessageBox("Please enter a number from -128 to 127", IETITLE);
-            SetFocus();
+            popUp->post("Please enter a number from -128 to 127", IETITLE, this);
             return 2;
         }
     }
@@ -106,7 +105,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            wxMessageBox(BATCHWARNING, BWTITLE);
+            popUp->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -145,15 +144,13 @@ int TextCtrl_UByte::SaveEdits(bool forced)
             }
             else
             {
-                wxMessageBox("Please enter a number from 0 to 255", IETITLE);
-                SetFocus();
+                popUp->post("Please enter a number from 0 to 255", IETITLE, this);
                 return 2;
             }
         }
         catch(bad_lexical_cast e)
         {
-            wxMessageBox("Please enter a number from 0 to 255", IETITLE);
-            SetFocus();
+            popUp->post("Please enter a number from 0 to 255", IETITLE, this);
             return 2;
         }
     }
@@ -174,7 +171,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            wxMessageBox(BATCHWARNING, BWTITLE);
+            popUp->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -213,8 +210,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
         }
         catch(bad_lexical_cast e)
         {
-            wxMessageBox("Please enter a valid floating point number", IETITLE);
-            SetFocus();
+            popUp->post("Please enter a valid floating point number", IETITLE, this);
             return 2;
         }
     }
@@ -235,7 +231,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            wxMessageBox(BATCHWARNING, BWTITLE);
+            popUp->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -272,8 +268,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
         }
         catch(bad_lexical_cast e)
         {
-            wxMessageBox("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE);
-            SetFocus();
+            popUp->post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
             return 2;
         }
     }
@@ -294,7 +289,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            wxMessageBox(BATCHWARNING, BWTITLE);
+            popUp->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -331,8 +326,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
         }
         catch(bad_lexical_cast e)
         {
-            wxMessageBox("Please enter a number from -32 768 to 32 767", IETITLE);
-            SetFocus();
+            popUp->post("Please enter a number from -32 768 to 32 767", IETITLE, this);
             return 2;
         }
     }
@@ -353,7 +347,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            wxMessageBox(BATCHWARNING, BWTITLE);
+            popUp->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -390,8 +384,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
         }
         catch(bad_lexical_cast e)
         {
-            wxMessageBox("Please enter a number from 0 to 65 535", IETITLE);
-            SetFocus();
+            popUp->post("Please enter a number from 0 to 65 535", IETITLE, this);
             return 2;
         }
     }
