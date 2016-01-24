@@ -20,7 +20,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	wxBusyCursor WaitCursor;
 	TabBar_Main = new wxNotebook(this, TabBarID);
 	argPath = aP;
-	AGEwindow = window;
     slp_window = NULL;
     paletteView = 0;
 
@@ -38,7 +37,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     }
 
     {
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
         sscanf(EditorVersionString, "%f", &EditorVersion);
         Config.Read("/TimesOpened", &TimesOpened, 0);

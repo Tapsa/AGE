@@ -940,7 +940,7 @@ public:
 
 	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod, UseExtra, FilterAllSubs;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
-	short How2List, AGEwindow;
+	short How2List;
 	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
 	void FixSizes();
 	chrono::time_point<chrono::system_clock> endTime;

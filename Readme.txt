@@ -4,6 +4,9 @@ You have to add MinGW to the system path if you move your compiling environment 
 
 CMake 2.8.12.1: (3.2.3 fails to do debug builds with wxWidgets 2.8)
 Install normally and select it to update PATH automatically.
+You may need to edit version numbers in
+\CMake 2.8\share\cmake-2.8\Modules\Find*.cmake
+files to find correct packages.
 
 Install/extract rest of the stuff into C:/Cpp or another folder which you like.
 
@@ -18,7 +21,7 @@ Then install it like this: ???
 
 wxWidgets 2.8: (3.0.2 seems cool, but last time Boost refused to work with it)
 Unpack the zip file.
-To use my modded tool tips, seek them from AGE 2 sources "/Misc Files/tooltip" and replace wxWidgets ones!
+To use my modded tool tips, seek them from AGE sources "/Misc Files/tooltip" and replace wxWidgets ones!
 In cmd.exe go to \wxWidgets\build\msw
 mingw32-make -f makefile.gcc BUILD=debug clean
 mingw32-make -f makefile.gcc BUILD=debug SHARED=0 USE_RIBBON=0 CXXFLAGS="-std=gnu++0x"
@@ -26,6 +29,9 @@ mingw32-make -f makefile.gcc BUILD=release clean
 mingw32-make -f makefile.gcc BUILD=release SHARED=0 USE_RIBBON=0 CXXFLAGS="-std=gnu++0x"
 del /s *.o
 del /s *.o.d
+If building with SHARED=1 then copy
+32-bit *.dll files from \wxWidgets\lib\gcc_dll to C:\Windows\System32
+64-bit *.dll files from \wxWidgets\lib\gcc_dll to C:\Windows\SysWOW64
 
 zlib 1.2.8:
 Unpack the zip file.

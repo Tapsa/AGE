@@ -1,4 +1,25 @@
 
+[b]Xmas 2014 Edition[/b] (2014.12.21):
+-Added hex view mode and float formatting chooser.
+-Commands get pasted with units from AoE to AoK and vice versa.
+-New finds in tech tree and terrain data.
+-Unit type 50 found.
+-Proper error messages.
+-Added and edited some tooltips.
+-Initial list loading in all tabs actually works properly now.
+-Changed unit and graphic tab layout.
+-Disabled crash-causing paste buttons before copies are made.
+-Fixed a bug in batch processing one byte variables.
+-Disabled boxes actually have no text in them.
+-AoK alpha tech trees editable.
+-Ghost data found in random maps.
+-Unit data finds: pile unit, looting table, charging graphic, charging mode, hill mode, command plunder source, unknown sound, displayed reload time, unknown 16B.
+-Tech unit attribute finds: 15, 17, 18.
+-Also bunch of minor finds in how some tech attributes work.
+-Unit "No Research" (Enabled) halved.
+-Graphic mirroring mode halved.
+-Sound index halved.
+
 Version [b]3.13[/b] (2014.11.19):
 •Unit data discoveries.
 •Tab adjustments.
