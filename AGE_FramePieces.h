@@ -68,7 +68,7 @@ public:
 	AGEListView *List;
 	AGETextCtrl *Item, *Mode, *UsedItems;
 	ComboBox_Plus1 *ItemCombo;
-	wxOwnerDrawnComboBox *ModeCombo;
+	wxComboBox *ModeCombo;
 	wxButton *Copy, *Paste, *CopyAllToSelected;
 	static wxArrayString ages, researches, units;
 
@@ -96,7 +96,7 @@ public:
 		Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
 		Mode = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller, true);
-		ModeCombo = new wxOwnerDrawnComboBox(scroller, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		ModeCombo = new AGEODComboBox(scroller);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
 		Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));

@@ -591,7 +591,7 @@ void AGE_Frame::CreateTerrainControls()
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Terrains_Terrains_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Terrains_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Terrains, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Terrains_SearchFilters[loop] = new AGEODComboBox(Tab_Terrains);
 	}
 	Terrains_Terrains_ListV = new AGEListView(Tab_Terrains, wxSize(200, 100));
 	Terrains_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
