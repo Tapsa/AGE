@@ -411,7 +411,7 @@ void AGE_Frame::CreateSoundControls()
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Sounds_Items_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Sounds_Items_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Sounds, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Sounds_Items_SearchFilters[loop] = new AGEODComboBox(Tab_Sounds);
 	}
 	Sounds_Items_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
 	Sounds_Items_UseAnd[0] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And");
@@ -466,8 +466,8 @@ void AGE_Frame::CreateSoundControls()
     wxSizer *TargetCiv_Holder = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *SourceCiv_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Source ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
     wxStaticText *TargetCiv_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Target ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    SoundFile_Source_Civ = new wxComboBox(Tab_Sounds, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
-    SoundFile_Target_Civ = new wxComboBox(Tab_Sounds, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+    SoundFile_Source_Civ = new AGEODComboBox(Tab_Sounds);
+    SoundFile_Target_Civ = new AGEODComboBox(Tab_Sounds);
     CivComboBoxListNormal.push_back(SoundFile_Source_Civ);
     CivComboBoxListNormal.push_back(SoundFile_Target_Civ);
 

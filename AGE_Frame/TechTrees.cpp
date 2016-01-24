@@ -2649,7 +2649,7 @@ void AGE_Frame::CreateTechTreeControls()
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Buildings_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		TechTrees_MainList_Buildings_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_TechTreeBuildings, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		TechTrees_MainList_Buildings_SearchFilters[loop] = new AGEODComboBox(Tab_TechTreeBuildings);
 		TechTrees_Buildings_TotalUnitsTechs_Grid[loop] = new wxGridSizer(5, 0, 5);
 	}
 	TechTrees_MainList_Buildings_ListV = new AGEListView(Tab_TechTreeBuildings, wxSize(200, 300));
@@ -2724,7 +2724,7 @@ void AGE_Frame::CreateTechTreeControls()
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		TechTrees_MainList_Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_TechTreeUnits, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		TechTrees_MainList_Units_SearchFilters[loop] = new AGEODComboBox(Tab_TechTreeUnits);
 	}
 	TechTrees_MainList_Units_ListV = new AGEListView(Tab_TechTreeUnits, wxSize(200, 300));
 	TechTrees_MainList_Units_Buttons = new wxGridSizer(3, 0, 0);
@@ -2787,7 +2787,7 @@ void AGE_Frame::CreateTechTreeControls()
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		TechTrees_MainList_Researches_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		TechTrees_MainList_Researches_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_TechTreeResearches, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		TechTrees_MainList_Researches_SearchFilters[loop] = new AGEODComboBox(Tab_TechTreeResearches);
 	}
 	TechTrees_MainList_Researches_ListV = new AGEListView(Tab_TechTreeResearches, wxSize(200, 300));
 	TechTrees_MainList_Researches_Buttons = new wxGridSizer(3, 0, 0);
