@@ -859,7 +859,7 @@ public:
 	static const wxString PASTE11WARNING;
 	float EditorVersion;
 	wxString EditorVersionString;
-	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop;
+	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, StayOnTopSLP;
 	vector<short> SelectedCivs;
 	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot, DrawTerrain;
@@ -974,6 +974,7 @@ public:
 		MenuOption_ShowIcons,
 		MenuOption_Tips,
 		MenuOption_StayOnTop,
+		MenuOption_StayOnTopSLP,
 		MenuOption_About,
 		ToolBar_Open,
 		ToolBar_Save,

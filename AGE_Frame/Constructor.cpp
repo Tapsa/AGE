@@ -60,6 +60,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interface/ShowUnknowns", &ShowUnknowns, true);
         Config.Read("Interface/ShowButtons", &ShowButtons, false);
         Config.Read("Interface/StayOnTop", &StayOnTop, false);
+        Config.Read("Interface/StayOnTopSLP", &StayOnTopSLP, false);
         Config.Read("Interface/Paste11", &Paste11, true);
         Config.Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
         Config.Read("Interface/SLPareaPerCent", &SLPareaPerCent, 100);
@@ -145,6 +146,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SubMenu_SLP->Check(MenuOption_ShowSLP, ShowSLP);
 	SubMenu_SLP->AppendCheckItem(MenuOption_ShowIcons, "Show SLP &icons");
 	SubMenu_SLP->Check(MenuOption_ShowIcons, ShowIcons);
+	SubMenu_SLP->AppendCheckItem(MenuOption_StayOnTopSLP, "Keep SLP view on &top");
+	SubMenu_SLP->Check(MenuOption_StayOnTopSLP, StayOnTopSLP);
 
 	SubMenu_Help = new wxMenu();
 	SubMenu_Help->Append(MenuOption_Tips, "&Tips");
@@ -246,6 +249,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Connect(ToolBar_AddWindow, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_StayOnTop, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+	Connect(MenuOption_StayOnTopSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 	Connect(MenuOption_ShowSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));

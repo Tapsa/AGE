@@ -38,7 +38,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	Defaults_StarWars->Add(Button_DefaultCC, 0, wxEXPAND);
 
 	Text_GenieVer = new wxStaticText(slave, wxID_ANY, "      Genie version:");
-	CheckBox_GenieVer = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	CheckBox_GenieVer = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	CheckBox_GenieVer->Append("TEST");
 	CheckBox_GenieVer->Append("TEST.DAT");
 	CheckBox_GenieVer->Append("MICKEY.DAT");
@@ -58,14 +58,14 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	CheckBox_GenieVer->Append("Mod: Expanding Fronts");
 	CheckBox_GenieVer->SetSelection(EV_TC);
 	RecentText = new wxStaticText(slave, wxID_ANY, "      Recent paths:");
-	CheckBox_Recent = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	CheckBox_Recent = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 
 	DriveLetterBox = new wxTextCtrl(slave, wxID_ANY, "C", wxDefaultPosition, wxSize(50, 20));
 	LanguageBox = new wxTextCtrl(slave, wxID_ANY, "en", wxDefaultPosition, wxSize(50, 20));
 	LanguageBox->SetToolTip("For AoK HD paths");
 	CheckBox_CustomDefault = new wxCheckBox(slave, wxID_ANY, "Custom path override:");
 	CheckBox_CustomDefault->SetValue(false);
-	Path_CustomDefault = new wxDirPickerCtrl(slave, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxSize(0, 20), wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
+	Path_CustomDefault = new wxDirPickerCtrl(slave, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
 
 	CheckBox_LangFileLocation = new wxCheckBox(slave, wxID_ANY, "Language file location:");
 	CheckBox_LangFileLocation->SetValue(true);
