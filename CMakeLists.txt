@@ -14,7 +14,6 @@ find_package(Boost 1.55 REQUIRED iostreams)
 find_package(wxWidgets REQUIRED adv core base)
 include("${wxWidgets_USE_FILE}")
 
-set(GDAT_TOOLS FALSE)
 set(GDAT_STATIC TRUE)
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
