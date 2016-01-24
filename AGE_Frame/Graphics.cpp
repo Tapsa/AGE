@@ -981,7 +981,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Graphics_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Graphics_SearchFilters[loop] = new AGEODComboBox(Tab_Graphics);
 	}
 	Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(200, 100));
 	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
