@@ -424,7 +424,7 @@ void AGE_Frame::CreateResearchControls()
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Research_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Research, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+		Research_SearchFilters[loop] = new AGEODComboBox(Tab_Research);
 	}
 	Research_Research_ListV = new AGEListView(Tab_Research, wxSize(200, 100));
 	Research_Research_Buttons = new wxGridSizer(3, 0, 0);

@@ -3,6 +3,22 @@
 #ifndef AGE_ComboBoxes_h
 #define AGE_ComboBoxes_h
 
+class AGEODComboBox: public wxComboBox
+{
+public:
+    AGEODComboBox(wxWindow *parent, long style = 0):
+    wxComboBox(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY | style)
+    {
+        Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEODComboBox::wheelParent));
+    }
+
+protected:
+    void wheelParent(wxMouseEvent &event)
+    {
+        GetParent()->GetEventHandler()->ProcessEvent(event);
+    }
+};
+
 class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
 {
 public:

@@ -2998,17 +2998,17 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
 	//Units_Line = new wxStaticLine(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL, "");
 	Units_Special = new wxBoxSizer(wxHORIZONTAL);
-	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_Civs_List = new AGEODComboBox(Tab_Units);
     CivComboBoxListNormal.push_back(Units_Civs_List);
 	Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
 	Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_UseAnd[1] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
-	Units_FilterSelector = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_FilterSelector = new AGEODComboBox(Tab_Units);
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Units_SearchFilters[loop] = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY | wxCB_SORT);
+		Units_SearchFilters[loop] = new AGEODComboBox(Tab_Units, wxCB_SORT);
 	}
 	Units_ListV = new AGEListView(Tab_Units, wxSize(200, 100));
 	wxGridSizer *Units_Buttons = new wxGridSizer(3, 0, 0);
@@ -3030,7 +3030,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S paste", wxDefaultPosition, wxSize(5, 20));
 	Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Exist", wxDefaultPosition, wxSize(5, 20));
 	Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Wipe Out", wxDefaultPosition, wxSize(5, 20));
-	Units_SpecialCopy_Options = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_SpecialCopy_Options = new AGEODComboBox(Tab_Units);
 	Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs *", wxDefaultPosition, wxSize(-1, 20));
 	Units_SpecialCopy_Civs->SetToolTip("Whether buttons of units operate on all civilizations or just on the selected one\nNote that adding, inserting and deleting units always affect all civilizations!");
 
@@ -3054,13 +3054,13 @@ void AGE_Frame::CreateUnitControls()
 	Units_SelectAll = new wxButton(Tab_Units, wxID_ANY, "All", wxDefaultPosition, wxSize(40, 20));
 	Units_SelectClear = new wxButton(Tab_Units, wxID_ANY, "None", wxDefaultPosition, wxSize(40, 20));
 	Units_GraphicSetText = new wxStaticText(Tab_Units, wxID_ANY, " Graphic set: ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Units_GraphicSet = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(120, 20), 0, NULL, wxCB_READONLY);
+	Units_GraphicSet = new AGEODComboBox(Tab_Units);
     visibleUnitCiv = new wxStaticText(Tab_Units, wxID_ANY, "Civ ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Identity_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "");
 	Units_Type_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_Type_Text = new wxStaticText(Tab_Units, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Units_Type = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Tab_Units);
-	Units_Type_ComboBox = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	Units_Type_ComboBox = new AGEODComboBox(Tab_Units);
 	Units_Class = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Tab_Units);
 	Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
 	Units_Class_ComboBox[0] = new ComboBox_Plus1(Tab_Units, Units_Class);
@@ -3732,7 +3732,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Disabled->SetToolTip("Not scanned but set to 0\nProbably changes during gameplay\n0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
 	Units_DeathMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
-	Units_DeathMode->SetToolTip("Upon death instead of transforming into dead unit,\nthe unit becomes a statue that can't do anything");
+	Units_DeathMode->SetToolTip("Upon death instead of transforming into dead unit,\nthe unit plays its idle animation");
 	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "No Dead Unit *", Units_DeathMode);
 	Units_HideInEditor = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_HideInEditor->SetToolTip("Possible values: 0, 1 and as boolean");
@@ -4031,7 +4031,7 @@ void AGE_Frame::CreateUnitControls()
 	UnitCommands_Type_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_Type_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Action Type", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_Type = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, &popUp, Units_Scroller);
-	UnitCommands_Type_ComboBox = new wxOwnerDrawnComboBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY);
+	UnitCommands_Type_ComboBox = new AGEODComboBox(Units_Scroller);
 	UnitCommands_ClassID_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitCommands_ClassID_Text = new wxStaticText(Units_Scroller, wxID_ANY, " Class", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitCommands_ClassID = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, &popUp, Units_Scroller);
