@@ -14,11 +14,27 @@ bool AGE_SLP::setbearing = false;
 
 void AGE_Frame::OnOpen(wxCommandEvent &event)
 {
-	wxCommandEvent Selected;
+    if(AGETextCtrl::unSaved[popUp.window] > 0)
+    {
+        int answer = wxMessageBox("Do you want to save changes made to open files?\nThere are "
+                        +lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" unsaved changes.",
+                        "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
+        if(answer != wxNO)
+        {
+            if(answer == wxYES)
+            {
+                wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Save);
+                ProcessEvent(SaveFiles);
+            }
+            else return;
+        }
+        else if(AutoBackups) SaveBackup();
+    }
 
 	if(!SkipOpenDialog)
 	{
 		AGE_OpenDialog OpenBox(this);
+        wxCommandEvent Selected;
 
         int RecentItems;
         {
@@ -1956,7 +1972,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 wxPoint parentPos = GetPosition();
                 parentPos.x += 1000;
-                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600));
+                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600), StayOnTopSLP ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
                 slp_window->SetIcon(wxIcon(Tree32_xpm));
                 wxPanel *panel = new wxPanel(slp_window);
                 slp_view = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
@@ -2363,6 +2379,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		{
 			ToggleWindowStyle(wxSTAY_ON_TOP);
 			StayOnTop = event.IsChecked();
+		}
+		break;
+		case MenuOption_StayOnTopSLP:
+		{
+            if(NULL != slp_window) slp_window->ToggleWindowStyle(wxSTAY_ON_TOP);
+			StayOnTopSLP = event.IsChecked();
 		}
 		break;
 		default: wxMessageBox(lexical_cast<string>(event.GetId()), "wxEvent error!");
@@ -3583,6 +3605,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/ShowUnknowns", ShowUnknowns);
         Config.Write("Interface/ShowButtons", ShowButtons);
         Config.Write("Interface/StayOnTop", StayOnTop);
+        Config.Write("Interface/StayOnTopSLP", StayOnTopSLP);
         Config.Write("Interface/Paste11", Paste11);
         Config.Write("Interface/MaxWindowWidth", MaxWindowWidth);
         Config.Write("Interface/SLPareaPerCent", SLPareaPerCent);
@@ -3594,17 +3617,23 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/DrawSelectionShape", DrawSelectionShape);
     }
 
-	if(event.CanVeto() && AGETextCtrl::unSaved[popUp.window] > 0)
-	{
-		if(wxMessageBox("There are "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" unsaved changes.\nClose anyway?",
-		"Discard unsaved changes",
-		wxICON_QUESTION | wxCANCEL | wxOK) != wxOK)
-		{
-			event.Veto();
-			return;
-		}
-		if(AutoBackups) SaveBackup();
-	}
+    if(event.CanVeto() && AGETextCtrl::unSaved[popUp.window] > 0)
+    {
+        int answer = wxMessageBox("Do you want to save changes made to open files?\nThere are "
+                        +lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" unsaved changes.",
+                        "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
+        if(answer != wxNO)
+        {
+            event.Veto();
+            if(answer == wxYES)
+            {
+                wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Save);
+                ProcessEvent(SaveFiles);
+            }
+            else return;
+        }
+        else if(AutoBackups) SaveBackup();
+    }
 
     GetToolBar()->ToggleTool(ToolBar_DRS, false);
     wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, ToolBar_DRS);
