@@ -188,20 +188,20 @@ string AGE_Frame::GetUnitName(int index, short civ, bool Filter)
 				else if(label.compare(Type70[3]) == 0) Name += "B "+FormatInt(UnitPointer->Creatable.ButtonID);
 				else if(label.compare(Type70[4]) == 0) Name += "U26 "+FormatInt(UnitPointer->Creatable.Unknown26);
 				else if(label.compare(Type70[5]) == 0) Name += "U27 "+FormatInt(UnitPointer->Creatable.Unknown27);
-				else if(label.compare(Type70[6]) == 0) Name += "U28 "+FormatInt(UnitPointer->Creatable.UnknownType);
+				else if(label.compare(Type70[6]) == 0) Name += "U28 "+FormatInt(UnitPointer->Creatable.CreatableType);
 				else if(label.compare(Type70[7]) == 0) Name += "HM "+FormatInt(UnitPointer->Creatable.HeroMode);
 				else if(label.compare(Type70[8]) == 0) Name += "GG "+FormatInt(UnitPointer->Creatable.GarrisonGraphic);
-				else if(label.compare(Type70[9]) == 0) Name += "Di "+FormatFloat(UnitPointer->Creatable.TotalMissiles);
-				else if(label.compare(Type70[10]) == 0) Name += "Da "+FormatInt(UnitPointer->Creatable.TotalMissilesMax);
+				else if(label.compare(Type70[9]) == 0) Name += "Di "+FormatFloat(UnitPointer->Creatable.TotalProjectiles);
+				else if(label.compare(Type70[10]) == 0) Name += "Da "+FormatInt(UnitPointer->Creatable.MaxTotalProjectiles);
 				else if(label.compare(Type70[11]) == 0)
 				{
-					Name += "x"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[0]);
-					Name += " y"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[1]);
-					Name += " z"+FormatInt(UnitPointer->Creatable.MissileSpawningArea[2]);
+					Name += "x"+FormatInt(UnitPointer->Creatable.ProjectileSpawningArea[0]);
+					Name += " y"+FormatInt(UnitPointer->Creatable.ProjectileSpawningArea[1]);
+					Name += " z"+FormatInt(UnitPointer->Creatable.ProjectileSpawningArea[2]);
 				}
-				else if(label.compare(Type70[12]) == 0) Name += "AP "+FormatInt(UnitPointer->Creatable.AlternativeProjectileUnit);
-				else if(label.compare(Type70[13]) == 0) Name += "CG "+FormatInt(UnitPointer->Creatable.ChargingGraphic);
-				else if(label.compare(Type70[14]) == 0) Name += "CM "+FormatInt(UnitPointer->Creatable.ChargingMode);
+				else if(label.compare(Type70[12]) == 0) Name += "AP "+FormatInt(UnitPointer->Creatable.SecondaryProjectileUnit);
+				else if(label.compare(Type70[13]) == 0) Name += "CG "+FormatInt(UnitPointer->Creatable.SpecialGraphic);
+				else if(label.compare(Type70[14]) == 0) Name += "CM "+FormatInt(UnitPointer->Creatable.SpecialAbility);
 				else if(label.compare(Type70[15]) == 0) Name += "DP "+FormatInt(UnitPointer->Creatable.DisplayedPierceArmour);
             }
             if(NameSize == Name.size() && UnitPointer->Type == 80)
@@ -433,7 +433,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 					{
 						Units_Unknown26->prepend(&UnitPointer->Creatable.Unknown26);
 						Units_Unknown27->prepend(&UnitPointer->Creatable.Unknown27);
-						Units_UnknownType->prepend(&UnitPointer->Creatable.UnknownType);
+						Units_UnknownType->prepend(&UnitPointer->Creatable.CreatableType);
 						if(GenieVersion >= genie::GV_AoKB)
 						{
 							Units_HeroMode->prepend(&UnitPointer->Creatable.HeroMode);
@@ -442,15 +442,15 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 								Units_GarrisonGraphic->prepend(&UnitPointer->Creatable.GarrisonGraphic);
 							}
 						}
-						Units_MissileCount->prepend(&UnitPointer->Creatable.TotalMissiles);
-						Units_MissileDuplicationCount->prepend(&UnitPointer->Creatable.TotalMissilesMax);
+						Units_MissileCount->prepend(&UnitPointer->Creatable.TotalProjectiles);
+						Units_MissileDuplicationCount->prepend(&UnitPointer->Creatable.MaxTotalProjectiles);
 						for(size_t loop = 0; loop < 3; ++loop)
 						{
-							Units_AttackMissileDuplicationSpawning[loop]->prepend(&UnitPointer->Creatable.MissileSpawningArea[loop]);
+							Units_AttackMissileDuplicationSpawning[loop]->prepend(&UnitPointer->Creatable.ProjectileSpawningArea[loop]);
 						}
-						Units_AttackMissileDuplicationUnit->prepend(&UnitPointer->Creatable.AlternativeProjectileUnit);
-						Units_ChargingGraphic->prepend(&UnitPointer->Creatable.ChargingGraphic);
-						Units_ChargingMode->prepend(&UnitPointer->Creatable.ChargingMode);
+						Units_AttackMissileDuplicationUnit->prepend(&UnitPointer->Creatable.SecondaryProjectileUnit);
+						Units_ChargingGraphic->prepend(&UnitPointer->Creatable.SpecialGraphic);
+						Units_ChargingMode->prepend(&UnitPointer->Creatable.SpecialAbility);
 					}
 					Units_DisplayedPierceArmour->prepend(&UnitPointer->Creatable.DisplayedPierceArmour);
 				}
@@ -1154,7 +1154,7 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
 		store.SnowGraphicID = dataset->Civs[civ].Units[unit].Building.SnowGraphicID;
 		case 70:
 		store.GarrisonGraphic = dataset->Civs[civ].Units[unit].Creatable.GarrisonGraphic;
-		store.ChargingGraphic = dataset->Civs[civ].Units[unit].Creatable.ChargingGraphic;
+		store.SpecialGraphic = dataset->Civs[civ].Units[unit].Creatable.SpecialGraphic;
 		case 60:
 		case 50:
 		store.AttackGraphic = dataset->Civs[civ].Units[unit].Type50.AttackGraphic;
@@ -1415,7 +1415,7 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
 		dataset->Civs[civ].Units[unit].Building.SnowGraphicID = store.SnowGraphicID;
 		case 70:
 		dataset->Civs[civ].Units[unit].Creatable.GarrisonGraphic = store.GarrisonGraphic;
-		dataset->Civs[civ].Units[unit].Creatable.ChargingGraphic = store.ChargingGraphic;
+		dataset->Civs[civ].Units[unit].Creatable.SpecialGraphic = store.SpecialGraphic;
 		case 60:
 		case 50:
 		dataset->Civs[civ].Units[unit].Type50.AttackGraphic = store.AttackGraphic;
@@ -3632,8 +3632,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_BlastWidth->SetToolTip("If object has 0 blast radius\nand does not hit the unit it had targeted\nalways does half damage");
 	Units_BlastAttackLevel = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_BlastAttackLevel->SetToolTip("Blasts damage units that have higher or same blast armor level\n0 Damages resources also\n1 Damages trees also\n2 Damages nearby units\n3 Damages only targeted unit");
-	Units_ChargingMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
-	Units_ChargingMode->SetToolTip("0 Default\nThese work only when facing the hit angle.\n1 Block\n  Activates special graphic when receiving damage and not pursuing the attacker.\n  While idle, blocking decreases damage taken by 1/3.\n2 Counter Charge\n  Activates special graphic when idle and enemy is near.\n  While idle, attacks back once on first received hit.\n  Enemy must be unit type 70 and have less than 0.2 max range.\n3 Charge\n  Activates special graphic when closer than two tiles to the target.\n  Deals 2X damage on 1st hit.");
 
 	Units_Armors = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Armors");
 	Units_Armors_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -3777,9 +3775,11 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown10->SetToolTip("Seems to be obsolete\nCopied when converting the unit\n0 Default\n1 Rotting meat that can be gathered");
 	Units_TaskSwapID = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_TaskSwapID->SetToolTip("When tasking the unit, it will transform into another unit,\nif the action is not found in this unit, but exists on another unit,\nthat shares the same task swap index.\nChanges according to task\n1 Male villager\n2 Female villager\n3+ Free slots");
-
 	Units_UnknownType = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_UnknownType->SetToolTip("0 building, animal, ship\n1 villager, king\n2 soldier, siege, predator, trader\n3 mounted unit\n4 relic\n5 archer\n6 monk\n21 transport ship");
+	Units_ChargingMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
+	Units_ChargingMode->SetToolTip("0 Default\nThese work only when facing the hit angle.\n1 Block\n  Activates special graphic when receiving damage and not pursuing the attacker.\n  While idle, blocking decreases damage taken by 1/3.\n2 Counter Charge\n  Activates special graphic when idle and enemy is near.\n  While idle, attacks back once on first received hit.\n  Enemy must be unit type 70 and have less than 0.2 max range.\n3 Charge\n  Activates special graphic when closer than two tiles to the target.\n  Deals 2X damage on 1st hit.");
+
 	Units_Attribute = AGETextCtrl::init(CUByte, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_Attribute->SetToolTip("This is a byte of eight booleans\nYou can combine these attributes");
 	Units_Attribute_Grid = new wxGridSizer(8, 0, 0);
@@ -4281,15 +4281,15 @@ void AGE_Frame::CreateUnitControls()
 	Type70.Add("ButtonID");
 	Type70.Add("Unknown26");
 	Type70.Add("Unknown27");
-	Type70.Add("UnknownType");
+	Type70.Add("CreatableType");
 	Type70.Add("HeroMode");
 	Type70.Add("GarrisonGraphic");
-	Type70.Add("TotalMissiles");
-	Type70.Add("TotalMissilesMax");
-	Type70.Add("MissileSpawningArea 3 floats");
-	Type70.Add("AlternativeProjectileUnit");
-	Type70.Add("ChargingGraphic");
-	Type70.Add("ChargingMode");
+	Type70.Add("TotalProjectiles");
+	Type70.Add("MaxTotalProjectiles");
+	Type70.Add("ProjectileSpawningArea 3 floats");
+	Type70.Add("SecondaryProjectileUnit");
+	Type70.Add("SpecialGraphic");
+	Type70.Add("SpecialAbility");
 	Type70.Add("DisplayedPierceArmour");
 
 	Type80.Add("ConstructionGraphicID");
@@ -4987,7 +4987,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Attacks_Grid_Data2->Add(Units_ReloadTime2_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_BlastWidth_Holder, 1, wxEXPAND);
 	Units_Attacks_Grid_Data2->Add(Units_BlastAttackLevel_Holder, 1, wxEXPAND);
-	Units_Attacks_Grid_Data2->Add(Units_ChargingMode_Holder, 1, wxEXPAND);
 	Units_Attacks_Holder_Data->Add(Units_Attacks_Grid_Data2, 0, wxEXPAND);
 
 	Units_Armors_DataArea->Add(Armors_Amount_Holder, 0, wxEXPAND);
@@ -5077,8 +5076,9 @@ void AGE_Frame::CreateUnitControls()
 	Units_AttributesModes1_Grid->Add(Units_AttackMode_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_Unknown10_Holder, 1, wxEXPAND);
 	Units_AttributesModes1_Grid->Add(Units_TaskSwapID_Holder, 1, wxEXPAND);
+	Units_AttributesModes1_Grid->Add(Units_UnknownType_Holder, 1, wxEXPAND);
+	Units_AttributesModes1_Grid->Add(Units_ChargingMode_Holder, 1, wxEXPAND);
 
-	Units_Attributes2_Grid->Add(Units_UnknownType_Holder, 1, wxEXPAND);
 	Units_Attributes2_Grid->Add(Units_Attribute_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementTerrain_Holder, 1, wxEXPAND);
 	Units_AttributesTerrain_Holder->Add(Units_PlacementSideTerrain_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxLEFT, 5);
