@@ -164,7 +164,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		AGETextCtrl::unSaved[popUp.window] = 0;
 		++AGETextCtrl::fileLoaded[popUp.window];
 
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(popUp.window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/DriveLetter", DriveLetter);
         Config.Write("DefaultFiles/UseCustomPath", UseCustomPath);
         Config.Write("DefaultFiles/CustomFolder", CustomFolder);
@@ -1724,7 +1724,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 
 	if(!save) return;
     {
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(popUp.window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/SaveVersion", SaveGameVersion);
         Config.Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
         Config.Write("DefaultFiles/SaveLangs", SaveLangs);
@@ -3566,7 +3566,7 @@ void AGE_Frame::OnExitSLP(wxCloseEvent &event)
 void AGE_Frame::OnExit(wxCloseEvent &event)
 {
     {
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(AGEwindow + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(popUp.window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
         Config.Write("Interaction/AutoCopy", AutoCopy);
         Config.Write("Interaction/CopyGraphics", CopyGraphics);
