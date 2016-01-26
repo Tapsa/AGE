@@ -10,7 +10,7 @@ vector<int> AGETextCtrl::unSaved;
 vector<int> AGETextCtrl::fileLoaded;
 const wxString AGE_Frame::PASTE11WARNING = "Selections mismatch";
 float AGE_SLP::bearing = 0.f;
-bool AGE_SLP::setbearing = false;
+unsigned AGE_SLP::setbearing = 0u;
 
 void AGE_Frame::OnOpen(wxCommandEvent &event)
 {
@@ -2556,7 +2556,7 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
     int width = frame.get()->getWidth();
     int height = frame.get()->getHeight();
     short pal_chooser = frame.get()->getProperties() >> 16;
-    graphic->xpos = -frame.get()->hotspot_x;
+    graphic->xpos = graphic->flip ? frame.get()->hotspot_x - width : -frame.get()->hotspot_x;
     graphic->ypos = -frame.get()->hotspot_y;
     int area = width * height;
     vector<uint8_t> rgbdata(area * 4, 0);
@@ -2667,7 +2667,9 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
     }
     unsigned char *pic = (unsigned char*)rgbdata.data();
     unsigned char *trans = pic + area * 3;
-    graphic->bitmap = wxBitmap(wxImage(width, height, pic, trans, true), 24);
+    wxImage img(width, height, pic, trans, true);
+    if(graphic->flip) img = img.Mirror();
+    graphic->bitmap = wxBitmap(img, 24);
 }
 
 void AGE_Frame::BitMaptoSLP(AGE_SLP *graphic)
@@ -3318,7 +3320,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             AGE_SLP *graphic = getCurrentGraphics();
             if(NULL != graphic)
             {
-                uint32_t framesleft = 0;
+                bool framesleft = false;
                 if(graphic->slp)
                 {
                     ChooseNextFrame(*graphic, framesleft);
@@ -3328,7 +3330,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     if(!delta.second.slp) continue;
                     ChooseNextFrame(delta.second, framesleft);
                 }
-                HandleLastFrame(*graphic, framesleft, true);
+                HandleLastFrame(*graphic, framesleft, 1u);
                 slp_view->Refresh();
             }
         }
@@ -3338,7 +3340,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             AGE_SLP *graphic = getCurrentGraphics();
             if(NULL != graphic)
             {
-                uint32_t framesleft = 0;
+                bool framesleft = false;
                 if(graphic->slp)
                 {
                     ChoosePreviousFrame(*graphic, framesleft);
@@ -3348,7 +3350,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     if(!delta.second.slp) continue;
                     ChoosePreviousFrame(delta.second, framesleft);
                 }
-                HandleLastFrame(*graphic, framesleft, false);
+                HandleLastFrame(*graphic, framesleft, 2u);
                 slp_view->Refresh();
             }
         }
@@ -3356,7 +3358,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         case opFirstFrame:
         {
             AGE_SLP::bearing = 0.f;
-            AGE_SLP::setbearing = true;
+            AGE_SLP::setbearing = 1u;
             slp_view->Refresh();
         }
         break;
@@ -3569,9 +3571,8 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
     wxPoint coords(slp_view->ScreenToClient(wxGetMousePosition()));
     coords.x -= centerX;
     coords.y -= centerY;
-    AGE_SLP::bearing = atan2(coords.x, -coords.y) + 3.14159f;
-    if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 3.4f;
-    AGE_SLP::setbearing = true;
+    AGE_SLP::bearing = atan2(coords.x, -coords.y * 2) + 3.1416f;
+    AGE_SLP::setbearing = 1u;
     slp_view->Refresh();
 }
 
@@ -3624,13 +3625,16 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
                         "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
         if(answer != wxNO)
         {
-            event.Veto();
             if(answer == wxYES)
             {
                 wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Save);
                 ProcessEvent(SaveFiles);
             }
-            else return;
+            else
+            {
+                event.Veto();
+                return;
+            }
         }
         else if(AutoBackups) SaveBackup();
     }

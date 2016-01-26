@@ -200,6 +200,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
             graphicSLP.slpID = -2; // Force reloading delta graphics.
         }
 	}
+    AGE_SLP::setbearing = 1u;
     for(auto &box: uiGroupGraphic) box->update();
 
     Graphics_ID->Enable(false);
@@ -228,9 +229,9 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     {
         dc.DrawBitmap(tileSLP.bitmap, centerX - tileSLP.xpos, centerY - tileSLP.ypos, true);
     }
-    float c8 = 1.27324f;
-    float c16 = 2.54648f;
-    dc.DrawLabel("Angle "+FormatInt(AGE_SLP::bearing * c8)+"/8 "+FormatInt(AGE_SLP::bearing * c16)+"/16", wxRect(360, 5, 100, 40));
+    unsigned c8 = unsigned((AGE_SLP::bearing + 0.392699f) * 1.27324f) % 8u;
+    unsigned c16 = unsigned((AGE_SLP::bearing + 0.19635f) * 2.54648f) % 16u;
+    dc.DrawLabel("Angle "+FormatInt(c8)+"/8 "+FormatInt(c16)+"/16", wxRect(360, 5, 100, 40));
     if(6 == TabBar_Main->GetSelection())
     {
         if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::GRAPHIC)
@@ -256,7 +257,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(graphicSLP.slpID != dataset->Graphics[graphicSLP.datID].SLP) // SLP changed
         {
-            AGE_SLP::setbearing = true;
+            AGE_SLP::setbearing = 1u;
             graphicSLP.initStats(graphicSLP.datID, *dataset);
             graphicSLP.angleset.clear();
             graphicSLP.angleset.insert(graphicSLP.angles);
@@ -316,7 +317,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
         {
-            AGE_SLP::setbearing = true;
+            AGE_SLP::setbearing = 1u;
             unitSLP.initStats(unitSLP.datID, *dataset);
             unitSLP.angleset.clear();
             unitSLP.angleset.insert(unitSLP.angles);
@@ -400,26 +401,28 @@ void AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
     datID = graphicID;
     filename = dataset.Graphics[graphicID].Name2;
     slpID = dataset.Graphics[graphicID].SLP;
-    if(dataset.Graphics[graphicID].MirroringMode == 0 && dataset.Graphics[graphicID].SequenceType == 6)
-    {
-        fpa = dataset.Graphics[graphicID].AngleCount;
-        angles = dataset.Graphics[graphicID].FrameCount;
-    }
-    else
-    {
-        fpa = dataset.Graphics[graphicID].FrameCount;
-        angles = dataset.Graphics[graphicID].AngleCount;
-    }
+    angles = dataset.Graphics[graphicID].AngleCount;
+    fpa = dataset.Graphics[graphicID].FrameCount;
+    mirror = dataset.Graphics[graphicID].MirroringMode;
 }
 
-uint32_t AGE_Frame::CalcAngle(uint32_t fpa, float angles)
+void AGE_Frame::CalcAngle(AGE_SLP &graphic)
 {
-    return fpa * uint32_t(AGE_SLP::bearing * 0.159155f * angles);
+    float bearing = AGE_SLP::bearing;
+    float correction = 3.14159f / graphic.angles;
+    if(graphic.mirror && bearing > 3.14159f + correction && bearing < 6.28319f - correction)
+    {
+        bearing = 6.28319f - bearing;
+        graphic.flip = true;
+    }
+    else graphic.flip = false;
+    graphic.startframe = uint32_t((bearing + correction) * 0.159155f * graphic.angles) % graphic.angles * graphic.fpa;
+    graphic.frameID = AGE_SLP::setbearing == 2u ? graphic.fpa - 1 + graphic.startframe : graphic.startframe;
 }
 
 void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY)
 {
-    uint32_t framesleft = 0;
+    bool framesleft = false;
     if(graphic.deltas.size())
     {
         int fpms = 0x7FFF;
@@ -428,7 +431,7 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         {
             if(AGE_SLP::setbearing)
             {
-                delta.second.frameID = delta.second.startframe = CalcAngle(delta.second.fpa, delta.second.angles);
+                CalcAngle(delta.second);
             }
             SLPtoBitMap(&delta.second);
             if(delta.second.bitmap.IsOk())
@@ -467,7 +470,7 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         }
         if(AGE_SLP::setbearing)
         {
-            graphic.frameID = graphic.startframe = CalcAngle(graphic.fpa, graphic.angles);
+            CalcAngle(graphic);
         }
         SLPtoBitMap(&graphic);
         if(graphic.bitmap.IsOk())
@@ -482,38 +485,32 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int center
         }
         else dc.DrawLabel("!SLP " + FormatInt(graphic.slpID) + "\n" + graphic.filename, wxRect(15, 15, 100, 40));
     }
-    HandleLastFrame(graphic, framesleft, true);
+    if(AnimSLP)
+    {
+        HandleLastFrame(graphic, framesleft, 1u);
+    }
 }
 
-void AGE_Frame::HandleLastFrame(const AGE_SLP &graphic, uint32_t framesleft, bool clockwise)
+void AGE_Frame::HandleLastFrame(const AGE_SLP &graphic, bool framesleft, unsigned clockwise)
 {
-    if(!framesleft) // Switch graphics to next angle or loop this angle
+    if(framesleft)
+    {
+        AGE_SLP::setbearing = 0u;
+    }
+    else // Switch graphics to next angle or loop this angle
     {
         if(slp_angles->GetValue())
         {
-            float rotationrate = 6.3f;
+            float rotationrate = 6.2832f;
             if(!graphic.angleset.empty() && graphic.angleset.count(0) != graphic.angleset.size())
-                rotationrate = 6.2832f / float(*graphic.angleset.rbegin());
-            if(clockwise)
-            {
-                AGE_SLP::bearing += rotationrate;
-                if(AGE_SLP::bearing > 3.4f) AGE_SLP::bearing = 0.f;
-            }
-            else
-            {
-                AGE_SLP::bearing -= rotationrate;
-                if(AGE_SLP::bearing < 0.f) AGE_SLP::bearing = 0.f;
-            }
+                rotationrate = 6.2832f / *graphic.angleset.rbegin();
+            AGE_SLP::bearing = clockwise == 1u ? AGE_SLP::bearing > 6.28319f ? rotationrate : AGE_SLP::bearing + rotationrate : AGE_SLP::bearing < 0.f ? 6.28319f - rotationrate : AGE_SLP::bearing - rotationrate;
         }
-        AGE_SLP::setbearing = true;
-    }
-    else
-    {
-        AGE_SLP::setbearing = false;
+        AGE_SLP::setbearing = clockwise;
     }
 }
 
-int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, uint32_t &framesleft)
+int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, bool &framesleft)
 {
     int fpms = dataset->Graphics[graphic.datID].FrameRate * 1000;
     if((graphic.frames > 1 && fpms == 0) || graphic.fpa == 1) fpms = 700;
@@ -521,26 +518,26 @@ int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, uint32_t &framesleft)
     return fpms;
 }
 
-void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, uint32_t &framesleft)
+void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, bool &framesleft)
 {
     uint32_t nextframe = graphic.frameID + 1; // Rotate through frames.
     if(nextframe < graphic.startframe + graphic.fpa)
     {
         // TODO: Mirror missing angles.
         graphic.frameID = nextframe;
+        framesleft = true;
     }
-    framesleft += graphic.startframe + graphic.fpa - nextframe;
 }
 
-void AGE_Frame::ChoosePreviousFrame(AGE_SLP &graphic, uint32_t &framesleft)
+void AGE_Frame::ChoosePreviousFrame(AGE_SLP &graphic, bool &framesleft)
 {
-    uint32_t prevframe = graphic.frameID - 1 + graphic.frames;
-    if(prevframe >= graphic.startframe)
+    int32_t prevframe = int32_t(graphic.frameID) - 1;
+    if(prevframe >= int32_t(graphic.startframe))
     {
         // TODO: Mirror missing angles.
         graphic.frameID = prevframe;
+        framesleft = true;
     }
-    framesleft += prevframe - graphic.startframe;
 }
 
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
