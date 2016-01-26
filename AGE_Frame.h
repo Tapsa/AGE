@@ -13,6 +13,7 @@ public:
         datID = -1;
         filename = "";
         xpos = ypos = xdelta = ydelta = 0;
+        flip = false;
     }
 
     uint32_t slpID, frameID, datID, lastSlpID, angles, fpa, frames, startframe;
@@ -20,12 +21,14 @@ public:
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
     int xpos, ypos, xdelta, ydelta;
+    unsigned short mirror;
+    bool flip;
 
     set<uint32_t> angleset;
     multimap<int, AGE_SLP> deltas;
     enum SHOW {NONE, UNIT, GRAPHIC};
     static SHOW currentDisplay;
-    static bool setbearing;
+    static unsigned setbearing;
     static float bearing;
     static uint32_t playerColorStart, playerColorID;
     void initStats(unsigned int graphicID, genie::DatFile &dataset);
@@ -196,15 +199,15 @@ public:
 	void OnDrawIconSLP(wxPaintEvent &event);
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void CalcDrawCenter(wxPanel*, int&, int&);
-	uint32_t CalcAngle(uint32_t fpa, float angles);
+	void CalcAngle(AGE_SLP&);
 	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawBorderSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
 	void OnGraphicAnim(wxTimerEvent &event);
-    int ShouldAnimate(AGE_SLP&, uint32_t&);
-    void ChooseNextFrame(AGE_SLP&, uint32_t&);
-    void ChoosePreviousFrame(AGE_SLP&, uint32_t&);
-    void HandleLastFrame(const AGE_SLP&, uint32_t, bool);
+    int ShouldAnimate(AGE_SLP&, bool&);
+    void ChooseNextFrame(AGE_SLP&, bool&);
+    void ChoosePreviousFrame(AGE_SLP&, bool&);
+    void HandleLastFrame(const AGE_SLP&, bool, unsigned);
     int loadChosenGraphic(unsigned int unitID);
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);

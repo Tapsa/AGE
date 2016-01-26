@@ -786,6 +786,7 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 	}
 	ListUnitCommands();
 
+    AGE_SLP::setbearing = 1u;
     for(auto &box: uiGroupUnit) box->update();
     Units_ID1->Enable(false);
     Units_ID2->Enable(false);
