@@ -1,7 +1,5 @@
+#pragma once
 #include "AGE_TextControls.h"
-
-#ifndef AGE_CheckBoxes_h
-#define AGE_CheckBoxes_h
 
 class AGECheckBox: public wxCheckBox, public AGELinkedBox
 {
@@ -31,5 +29,3 @@ protected:
     void OnUpdate(wxCommandEvent &event);
     void update(int value);
 };
-
-#endif

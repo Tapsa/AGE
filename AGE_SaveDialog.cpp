@@ -3,34 +3,20 @@
 AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 : AGE_OpenSave(parent, "Save", this)
 {
-	Layout = new wxFlexGridSizer(2, 2, 2);
+    Radio_DatFileLocation->SetValue(true);
+    Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
 
-	CheckBox_DatFileLocation = new wxCheckBox(this, wxID_ANY, "Compressed data set (*.dat):");
-	CheckBox_DatFileLocation->SetValue(true);
-	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
+    Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
+    Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
+    Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
+    CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Save language files *");
+    CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental");
 
-	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Save language files *");
-	CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental");
+    Layout->Show(4, false);
+    Layout->Show(5, false);
+    Layout->Show(8, false);
+    Layout->Show(9, false);
 
-	DriveLetterBox->Show(false);
-	LanguageBox->Show(false);
-	CheckBox_CustomDefault->Show(false);
-	Path_CustomDefault->Show(false);
-
-	Layout->Add(Text_GenieVer, 1, wxEXPAND);
-	Layout->Add(CheckBox_GenieVer, 1, wxEXPAND);
-	Layout->Add(RecentText, 1, wxEXPAND);
-	Layout->Add(CheckBox_Recent, 1, wxEXPAND);
-	Layout->Add(DriveLetterBox, 1, wxEXPAND);
-	Layout->Add(LanguageBox, 1, wxEXPAND);
-	Layout->AddSpacer(15);
-	Layout->AddSpacer(15);
-	Layout->Add(CheckBox_CustomDefault, 1, wxEXPAND);
-	Layout->Add(Path_CustomDefault, 1, wxEXPAND);
-	Layout->Add(CheckBox_DatFileLocation, 1, wxEXPAND);
 	Layout->Add(Path_DatFileLocation, 1, wxEXPAND);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
@@ -53,27 +39,19 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 	Main->Add(Layout, 1, wxEXPAND | wxALL, 5);
 	Main->Add(Buttons, 0, wxALIGN_RIGHT | wxALL, 5);
 
-	SetSizerAndFit(Main);
+    SetSizerAndFit(Main);
     SetDefaultItem(ButtonOK);
 
-	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnOK));
-	Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoE));
-	Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultRoR));
-	Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoK));
-	Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultTC));
-	Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoKHD));
-	Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultAoP));
-	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultSWGB));
-	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnDefaultCC));
-	Connect(CheckBox_DatFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDat));
+    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnOK));
+    Connect(Radio_DatFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDat));
 }
 
-void AGE_SaveDialog::OnOK(wxCommandEvent &Event)
+void AGE_SaveDialog::OnOK(wxCommandEvent &event)
 {
-	EndModal(wxID_OK);
+    EndModal(wxID_OK);
 }
 
-void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent &Event)
+void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -95,13 +73,13 @@ void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent &Event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	CheckBox_DatFileLocation->SetValue(true);
+	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent &Event)
+void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -123,13 +101,13 @@ void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent &Event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\languagex.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	CheckBox_DatFileLocation->SetValue(true);
+	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent &Event)
+void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -151,13 +129,13 @@ void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent &Event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	CheckBox_DatFileLocation->SetValue(true);
+	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultTC(wxCommandEvent &Event)
+void AGE_SaveDialog::OnDefaultTC(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -179,13 +157,13 @@ void AGE_SaveDialog::OnDefaultTC(wxCommandEvent &Event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\language_x1_p1.dll"));
-	CheckBox_DatFileLocation->SetValue(true);
+	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(true);
 }
 
-void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &Event)
+void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
 	locale = LanguageBox->GetValue();
@@ -208,13 +186,13 @@ void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &Event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	CheckBox_DatFileLocation->SetValue(true);
+	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(false);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &Event)
+void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
 	locale = LanguageBox->GetValue();
@@ -237,13 +215,13 @@ void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &Event)
 	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	CheckBox_DatFileLocation->SetValue(true);
+	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(false);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent &Event)
+void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -265,13 +243,13 @@ void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent &Event)
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	CheckBox_DatFileLocation->SetValue(true);
+	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &Event)
+void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &event)
 {
 	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
 
@@ -293,28 +271,54 @@ void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &Event)
 	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
 	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	CheckBox_DatFileLocation->SetValue(true);
+	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnSelectDat(wxCommandEvent &Event)
+#ifdef WIN32
+void AGE_SaveDialog::OnPathFromRegistry(wxCommandEvent &event)
 {
-	Path_DatFileLocation->Enable(Event.IsChecked());
+    switch(CheckBox_GenieVer->GetSelection())
+    {
+        case EV_AoE:
+            break;
+        case EV_RoR:
+            break;
+        case EV_AoK:
+            break;
+        case EV_TC:
+            break;
+        case EV_Cysion:
+            break;
+        case EV_SWGB:
+            break;
+        case EV_CC:
+            break;
+        case EV_EF:
+            break;
+        default:
+    }
+}
+#endif
+
+void AGE_SaveDialog::OnSelectDat(wxCommandEvent &event)
+{
+    Path_DatFileLocation->Enable(event.IsChecked());
 }
 
-void AGE_SaveDialog::OnSelectLang(wxCommandEvent &Event)
+void AGE_SaveDialog::OnSelectLang(wxCommandEvent &event)
 {
-	Path_LangFileLocation->Enable(Event.IsChecked());
+    Path_LangFileLocation->Enable(event.IsChecked());
 }
 
-void AGE_SaveDialog::OnSelectLangX1(wxCommandEvent &Event)
+void AGE_SaveDialog::OnSelectLangX1(wxCommandEvent &event)
 {
-	Path_LangX1FileLocation->Enable(Event.IsChecked());
+    Path_LangX1FileLocation->Enable(event.IsChecked());
 }
 
-void AGE_SaveDialog::OnSelectLangX1P1(wxCommandEvent &Event)
+void AGE_SaveDialog::OnSelectLangX1P1(wxCommandEvent &event)
 {
-	Path_LangX1P1FileLocation->Enable(Event.IsChecked());
+    Path_LangX1P1FileLocation->Enable(event.IsChecked());
 }
