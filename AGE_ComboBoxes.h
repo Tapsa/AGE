@@ -1,7 +1,5 @@
+#pragma once
 #include "AGE_TextControls.h"
-
-#ifndef AGE_ComboBoxes_h
-#define AGE_ComboBoxes_h
 
 class AGEODComboBox: public wxComboBox
 {
@@ -85,5 +83,3 @@ protected:
     void OnUpdate(wxCommandEvent &event);
     void update(int value);
 };
-
-#endif

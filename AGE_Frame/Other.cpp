@@ -1691,9 +1691,9 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
     SaveBox.CheckBox_LangWrite->Enable(WriteLangs);
     SaveBox.CheckBox_LangWrite->SetValue(WriteLangs);
 
-	SaveBox.CheckBox_DatFileLocation->SetValue(SaveDat);
+	SaveBox.Radio_DatFileLocation->SetValue(SaveDat);
 	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetId(SaveBox.CheckBox_DatFileLocation->GetId());
+	Selected.SetId(SaveBox.Radio_DatFileLocation->GetId());
 	Selected.SetInt(SaveDat);
 	SaveBox.GetEventHandler()->ProcessEvent(Selected);
 
@@ -1701,7 +1701,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 	if((argPath).size() > 3)
 	{
 		SaveBox.ForceDat = true;
-		SaveBox.CheckBox_DatFileLocation->SetValue(true);
+		SaveBox.Radio_DatFileLocation->SetValue(true);
 		SaveBox.Path_DatFileLocation->SetPath(argPath);
 	}
 
@@ -1729,7 +1729,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 
 	bool save = SaveBox.ShowModal() == wxID_OK;
 	SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
-	SaveDat = SaveBox.CheckBox_DatFileLocation->IsChecked();
+	SaveDat = SaveBox.Radio_DatFileLocation->IsChecked();
 	SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
 	SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
 	SaveLangFileName = SaveBox.Path_LangFileLocation->GetPath();

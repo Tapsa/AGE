@@ -3,17 +3,11 @@
 AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 : AGE_OpenSave(parent, "Open", this)
 {
-	Layout = new wxFlexGridSizer(2, 2, 2);
-
-	DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
-	DriveLetterArea = new wxBoxSizer(wxHORIZONTAL);
-	LanguageText = new wxStaticText(this, wxID_ANY, "      Language: * ");
-	TerrainsText = new wxStaticText(this, wxID_ANY, "      Terrains: ");
-	TerrainsBox = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(50, 20));
-	Radio_DatFileLocation = new wxCheckBox(this, wxID_ANY, "Compressed data set (*.dat):");
-	Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-	Button_RawDecompress = new wxButton(this, wxID_ANY, "Decompress only", wxDefaultPosition, wxSize(5, 20));
-	Path_RawDecompress = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed genie file|*", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+    wxStaticText *TerrainsText = new wxStaticText(this, wxID_ANY, "      Terrains: ");
+    TerrainsBox = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(50, 20));
+    Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+    Button_RawDecompress = new wxButton(this, wxID_ANY, "Decompress only", wxDefaultPosition, wxSize(5, 20));
+    Path_RawDecompress = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed genie file|*", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 
 	Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 	Path_LangX1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
@@ -31,22 +25,8 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
     Path_DRS2 = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS3 = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DRS (*.drs)|*.drs", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 
-	Layout->Add(Text_GenieVer, 1, wxEXPAND);
-	Layout->Add(CheckBox_GenieVer, 1, wxEXPAND);
-	Layout->Add(RecentText, 1, wxEXPAND);
-	Layout->Add(CheckBox_Recent, 1, wxEXPAND);
-	Layout->Add(DriveText, 1, wxEXPAND);
-	DriveLetterArea->Add(DriveLetterBox);
-	DriveLetterArea->Add(LanguageText);
-	DriveLetterArea->Add(LanguageBox);
-	DriveLetterArea->Add(TerrainsText);
-	DriveLetterArea->Add(TerrainsBox);
-	Layout->Add(DriveLetterArea, 1, wxEXPAND);
-	Layout->AddSpacer(15);
-	Layout->AddSpacer(15);
-	Layout->Add(CheckBox_CustomDefault, 1, wxEXPAND);
-	Layout->Add(Path_CustomDefault, 1, wxEXPAND);
-	Layout->Add(Radio_DatFileLocation, 1, wxEXPAND);
+    Extras->Add(TerrainsText);
+    Extras->Add(TerrainsBox);
 	Layout->Add(Path_DatFileLocation, 1, wxEXPAND);
 	Layout->Add(Button_RawDecompress, 1, wxEXPAND);
 	Layout->Add(Path_RawDecompress, 1, wxEXPAND);
@@ -84,14 +64,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
     SetDefaultItem(ButtonOK);
 
 	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnOK));
-	Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoE));
-	Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultRoR));
-	Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoK));
-	Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultTC));
-	Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoKHD));
-	Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoP));
-	Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultSWGB));
-	Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultCC));
 	Connect(Radio_DatFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
 	Connect(CheckBox_LangFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLang));
 	Connect(CheckBox_LangX1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1));
@@ -458,6 +430,48 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &event)
 	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
 	ProcessEvent(Selected);
 }
+
+#ifdef WIN32
+void AGE_OpenDialog::OnPathFromRegistry(wxCommandEvent &event)
+{
+    wxString path;
+    switch(CheckBox_GenieVer->GetSelection())
+    {
+        case EV_AoE:
+            break;
+        case EV_RoR:
+            break;
+        case EV_AoK:
+            break;
+        case EV_TC:
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires II: The Conquerors Expansion\\1.0");
+            if(key.Exists())
+            {
+                key.QueryValue("EXE Path", path)
+            }
+            break;
+        case EV_Cysion:
+            break;
+        case EV_SWGB:
+            break;
+        case EV_CC:
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
+            if(key.Exists())
+            {
+                key.QueryValue("Game Path", path)
+            }
+            break;
+        case EV_EF:
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Expanding Fronts\\1.0");
+            if(key.Exists())
+            {
+                key.QueryValue("Game Path", path)
+            }
+            break;
+        default:
+    }
+}
+#endif
 
 void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent &event)
 {
