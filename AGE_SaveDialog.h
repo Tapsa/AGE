@@ -1,28 +1,28 @@
+#pragma once
 #include "AGE_OpenSave.h"
 
 class AGE_SaveDialog: public AGE_OpenSave
 {
 public:
-	AGE_SaveDialog(wxWindow *parent);
+    AGE_SaveDialog(wxWindow *parent);
 
-	/* Events */
+    /* Events */
 
-	void OnDefaultAoE(wxCommandEvent &Event);
-	void OnDefaultRoR(wxCommandEvent &Event);
-	void OnDefaultAoK(wxCommandEvent &Event);
-	void OnDefaultTC(wxCommandEvent &Event);
-	void OnDefaultAoKHD(wxCommandEvent &Event);
-	void OnDefaultAoP(wxCommandEvent &Event);
-	void OnDefaultSWGB(wxCommandEvent &Event);
-	void OnDefaultCC(wxCommandEvent &Event);
-	void OnSelectDat(wxCommandEvent &Event);
-	void OnSelectApf(wxCommandEvent &Event);
-	void OnSelectLang(wxCommandEvent &Event);
-	void OnSelectLangX1(wxCommandEvent &Event);
-	void OnSelectLangX1P1(wxCommandEvent &Event);
-	void OnOK(wxCommandEvent &Event);
-
-	/* Member Variables */
-
-	wxCheckBox *CheckBox_DatFileLocation;
+    void OnDefaultAoE(wxCommandEvent &event);
+    void OnDefaultRoR(wxCommandEvent &event);
+    void OnDefaultAoK(wxCommandEvent &event);
+    void OnDefaultTC(wxCommandEvent &event);
+    void OnDefaultAoKHD(wxCommandEvent &event);
+    void OnDefaultAoP(wxCommandEvent &event);
+    void OnDefaultSWGB(wxCommandEvent &event);
+    void OnDefaultCC(wxCommandEvent &event);
+    void OnSelectDat(wxCommandEvent &event);
+    void OnSelectApf(wxCommandEvent &event);
+    void OnSelectLang(wxCommandEvent &event);
+    void OnSelectLangX1(wxCommandEvent &event);
+    void OnSelectLangX1P1(wxCommandEvent &event);
+    void OnOK(wxCommandEvent &event);
+#ifdef WIN32
+    void OnPathFromRegistry(wxCommandEvent &event);
+#endif
 };

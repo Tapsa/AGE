@@ -1,10 +1,8 @@
+#pragma once
 #include "Common.h"
 
 //  The purpose of these custom text controls is that you get specified error messages
 //  when your mouse cursor focus gets off from a data edit box.
-
-#ifndef AGE_TextControls_h
-#define AGE_TextControls_h
 
 class AGEListView: public wxListCtrl
 {
@@ -250,5 +248,3 @@ public:
     int SaveEdits(bool forced = false);
     void replenish();
 };
-
-#endif
