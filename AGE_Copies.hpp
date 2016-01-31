@@ -1,7 +1,5 @@
+#pragma once
 #include "Common.h"
-
-#ifndef Copies_h
-#define Copies_h
 
 class GraphicCopies
 {
@@ -133,5 +131,3 @@ class Copies
 	vector<genie::MapUnit> MapUnit;
 	vector<genie::MapUnknown> MapUnknown;
 };
-
-#endif

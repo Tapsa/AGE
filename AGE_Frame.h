@@ -1,3 +1,4 @@
+#pragma once
 #include "AGE_FramePieces.h"
 #include "AGE_OpenDialog.h"
 #include "AGE_SaveDialog.h"

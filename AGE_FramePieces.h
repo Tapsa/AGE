@@ -1,3 +1,4 @@
+#pragma once
 #include "Common.h"
 #include "AGE_TextControls.h"
 #include "AGE_ComboBoxes.h"

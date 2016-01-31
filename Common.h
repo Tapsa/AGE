@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <array>
 #include <vector>
@@ -35,6 +36,7 @@
 #include <cassert>
 
 #ifdef WIN32
+#include <wx/msw/registry.h>
 #include <windows.h>
 #else
 // dummies for code that is not used on linux
@@ -52,9 +54,6 @@
 using namespace std;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
-
-#ifndef COMMON_H
-#define COMMON_H
 
 class DelayedPopUp
 {
@@ -100,5 +99,3 @@ enum EditableVersion
 };
 
 enum ContainerType {CByte, CUByte, CFloat, CLong, CShort, CUShort, CString};
-
-#endif

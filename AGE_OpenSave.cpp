@@ -4,68 +4,77 @@
 AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 : wxDialog(parent, -1, title+" files...", wxDefaultPosition, wxSize(500, 250), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxNO_DEFAULT)
 {
+	Layout = new wxFlexGridSizer(2, 2, 2);
     ForceDat = false;
-	Main = new wxBoxSizer(wxVERTICAL);
-    Defaults_Label = new wxStaticText(slave, wxID_ANY, " Defaults: ");
-	Defaults = new wxBoxSizer(wxHORIZONTAL);
-	Defaults_StarWars = new wxBoxSizer(wxHORIZONTAL);
-	Buttons = new wxBoxSizer(wxHORIZONTAL);
+    Main = new wxBoxSizer(wxVERTICAL);
+    wxStaticText *Defaults_Label = new wxStaticText(slave, wxID_ANY, " Defaults: ");
+    Defaults = new wxBoxSizer(wxHORIZONTAL);
+    Defaults_StarWars = new wxBoxSizer(wxHORIZONTAL);
+    Buttons = new wxBoxSizer(wxHORIZONTAL);
+    Radio_DatFileLocation = new wxCheckBox(slave, wxID_ANY, "Compressed data set (*.dat):");
 
-	ButtonOK = new wxButton(this, wxID_OK, title);
-	ButtonCancel = new wxButton(this, wxID_CANCEL, "Cancel");
-    Gift = new wxHyperlinkCtrl(this, wxID_ANY, "Donate to Tapsa", "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4JDUUTF6B9HFN&lc=FI&item_name=Helping%20Tapsa&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
-	Buttons->Add(Gift, 1, wxEXPAND | wxRIGHT, 15);
-	Buttons->Add(ButtonOK, 1, wxEXPAND);
-	Buttons->Add(ButtonCancel, 1, wxEXPAND);
+    ButtonOK = new wxButton(slave, wxID_OK, title);
+    ButtonCancel = new wxButton(slave, wxID_CANCEL, "Cancel");
+    Gift = new wxHyperlinkCtrl(slave, wxID_ANY, "Donate to Tapsa", "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4JDUUTF6B9HFN&lc=FI&item_name=Helping%20Tapsa&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
+    Buttons->Add(Gift, 1, wxEXPAND | wxRIGHT, 15);
+    Buttons->Add(ButtonOK, 1, wxEXPAND);
+    Buttons->Add(ButtonCancel, 1, wxEXPAND);
 
-	Button_DefaultAoE = new wxButton(slave, wxID_ANY, "Age of Empires");
-	Button_DefaultRoR = new wxButton(slave, wxID_ANY, "Rise of Rome");
-	Button_DefaultAoK = new wxButton(slave, wxID_ANY, "Age of Kings");
-	Button_DefaultTC = new wxButton(slave, wxID_ANY, "The Conquerors");
-	Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "Age of Empires II: HD");
-	Button_DefaultAP = new wxButton(slave, wxID_ANY, "The Forgotten + The African Kingdoms");
-	Button_DefaultSWGB = new wxButton(slave, wxID_ANY, "Star Wars: Galactic Battlegrounds");
-	Button_DefaultCC = new wxButton(slave, wxID_ANY, "Clone Campaigns");
+    Button_DefaultAoE = new wxButton(slave, wxID_ANY, "Age of Empires");
+    Button_DefaultRoR = new wxButton(slave, wxID_ANY, "Rise of Rome");
+    Button_DefaultAoK = new wxButton(slave, wxID_ANY, "Age of Kings");
+    Button_DefaultTC = new wxButton(slave, wxID_ANY, "The Conquerors");
+    Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "Age of Empires II: HD");
+    Button_DefaultAP = new wxButton(slave, wxID_ANY, "The Forgotten + The African Kingdoms");
+    Button_DefaultSWGB = new wxButton(slave, wxID_ANY, "Star Wars: Galactic Battlegrounds");
+    Button_DefaultCC = new wxButton(slave, wxID_ANY, "Clone Campaigns");
+#ifdef WIN32
+    Button_PathFromRegistry = new wxButton(slave, wxID_ANY, "Fill paths from registry");
+#endif
 
-	Defaults->Add(Defaults_Label);
-	Defaults->Add(Button_DefaultAoE, 0, wxEXPAND);
-	Defaults->Add(Button_DefaultRoR, 0, wxEXPAND);
-	Defaults->Add(Button_DefaultAoK, 0, wxEXPAND);
-	Defaults->Add(Button_DefaultTC, 0, wxEXPAND);
-	Defaults->Add(Button_DefaultAoKHD, 0, wxEXPAND);
-	Defaults->Add(Button_DefaultAP, 0, wxEXPAND | wxRIGHT, 50);
-	Defaults_StarWars->Add(Button_DefaultSWGB, 0, wxEXPAND | wxLEFT, 50);
-	Defaults_StarWars->Add(Button_DefaultCC, 0, wxEXPAND);
+    Defaults->Add(Defaults_Label);
+    Defaults->Add(Button_DefaultAoE, 0, wxEXPAND);
+    Defaults->Add(Button_DefaultRoR, 0, wxEXPAND);
+    Defaults->Add(Button_DefaultAoK, 0, wxEXPAND);
+    Defaults->Add(Button_DefaultTC, 0, wxEXPAND);
+    Defaults->Add(Button_DefaultAoKHD, 0, wxEXPAND);
+    Defaults->Add(Button_DefaultAP, 0, wxEXPAND | wxRIGHT, 50);
+    Defaults_StarWars->Add(Button_DefaultSWGB, 0, wxEXPAND | wxLEFT, 50);
+    Defaults_StarWars->Add(Button_DefaultCC, 0, wxEXPAND);
 
-	Text_GenieVer = new wxStaticText(slave, wxID_ANY, "      Genie version:");
-	CheckBox_GenieVer = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-	CheckBox_GenieVer->Append("TEST");
-	CheckBox_GenieVer->Append("TEST.DAT");
-	CheckBox_GenieVer->Append("MICKEY.DAT");
-	CheckBox_GenieVer->Append("DAVE.DAT");
-	CheckBox_GenieVer->Append("MATT.DAT < 6.92");
-	CheckBox_GenieVer->Append("Age of Empires Beta (7.04 - 7.11)");
-	//CheckBox_GenieVer->Append("Age of Empires Trial Beta 7.11");
-	CheckBox_GenieVer->Append("Age of Empires (7.2)");
-	CheckBox_GenieVer->Append("Rise of Rome (7.24)");
-	CheckBox_GenieVer->Append("Age of Kings Alpha (10.19)");
-	CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
-	CheckBox_GenieVer->Append("Age of Kings (11.5)");
-	CheckBox_GenieVer->Append("The Conquerors (11.76)");
-	CheckBox_GenieVer->Append("The Forgotten + The African Kingdoms > 12");
-	CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
-	CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
-	CheckBox_GenieVer->Append("Mod: Expanding Fronts");
-	CheckBox_GenieVer->SetSelection(EV_TC);
-	RecentText = new wxStaticText(slave, wxID_ANY, "      Recent paths:");
-	CheckBox_Recent = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+    wxStaticText *Text_GenieVer = new wxStaticText(slave, wxID_ANY, "      Genie version:");
+    CheckBox_GenieVer = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(256, -1), 0, NULL, wxCB_READONLY);
+    CheckBox_GenieVer->Append("TEST");
+    CheckBox_GenieVer->Append("TEST.DAT");
+    CheckBox_GenieVer->Append("MICKEY.DAT");
+    CheckBox_GenieVer->Append("DAVE.DAT");
+    CheckBox_GenieVer->Append("MATT.DAT < 6.92");
+    CheckBox_GenieVer->Append("Age of Empires Beta (7.04 - 7.11)");
+    CheckBox_GenieVer->Append("Age of Empires (7.2)");
+    CheckBox_GenieVer->Append("Rise of Rome (7.24)");
+    CheckBox_GenieVer->Append("Age of Kings Alpha (10.19)");
+    CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
+    CheckBox_GenieVer->Append("Age of Kings (11.5)");
+    CheckBox_GenieVer->Append("The Conquerors (11.76)");
+    CheckBox_GenieVer->Append("The Forgotten + The African Kingdoms > 12");
+    CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
+    CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
+    CheckBox_GenieVer->Append("Mod: Expanding Fronts");
+    CheckBox_GenieVer->SetSelection(EV_TC);
+    wxStaticText *RecentText = new wxStaticText(slave, wxID_ANY, "      Recent paths:");
+    CheckBox_Recent = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 
-	DriveLetterBox = new wxTextCtrl(slave, wxID_ANY, "C", wxDefaultPosition, wxSize(50, 20));
-	LanguageBox = new wxTextCtrl(slave, wxID_ANY, "en", wxDefaultPosition, wxSize(50, 20));
-	LanguageBox->SetToolTip("For AoK HD paths");
-	CheckBox_CustomDefault = new wxCheckBox(slave, wxID_ANY, "Custom path override:");
-	CheckBox_CustomDefault->SetValue(false);
-	Path_CustomDefault = new wxDirPickerCtrl(slave, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
+    wxStaticText *DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
+    DriveLetterBox = new wxTextCtrl(slave, wxID_ANY, "C", wxDefaultPosition, wxSize(50, -1));
+    wxStaticText *LanguageText = new wxStaticText(this, wxID_ANY, " Language: * ");
+    LanguageBox = new wxTextCtrl(slave, wxID_ANY, "en", wxDefaultPosition, wxSize(50, -1));
+    LanguageBox->SetToolTip("For AoK HD paths");
+    Extras = new wxBoxSizer(wxHORIZONTAL);
+    CheckBox_CustomDefault = new wxCheckBox(slave, wxID_ANY, "Custom path override:");
+    CheckBox_CustomDefault->SetValue(false);
+    Path_CustomDefault = new wxDirPickerCtrl(slave, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
+    wxSizer *sizer1 = new wxBoxSizer(wxHORIZONTAL);
+    wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
 
 	CheckBox_LangFileLocation = new wxCheckBox(slave, wxID_ANY, "Language file location:");
 	CheckBox_LangFileLocation->SetValue(true);
@@ -74,9 +83,38 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
 	CheckBox_LangX1P1FileLocation = new wxCheckBox(slave, wxID_ANY, "Language p1 file location:");
 	CheckBox_LangX1P1FileLocation->SetValue(true);
 
-	//SetDefaultItem(ButtonOK);
-	//slave->SetDefaultItem(ButtonOK);
-	Connect(CheckBox_Recent->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_OpenSave::OnRecent));
+    Layout->Add(RecentText, 1, wxEXPAND);
+    Layout->Add(CheckBox_Recent, 1, wxEXPAND);
+    Layout->Add(Text_GenieVer, 1, wxEXPAND);
+    sizer1->Add(CheckBox_GenieVer);
+#ifdef WIN32
+    sizer1->Add(Button_PathFromRegistry);
+#endif
+    Layout->Add(sizer1, 1, wxEXPAND);
+    sizer2->Add(DriveText, 1, wxEXPAND);
+    sizer2->Add(DriveLetterBox, 0, wxRIGHT, 15);
+    Layout->Add(sizer2, 1, wxEXPAND);
+    Extras->Add(LanguageText);
+    Extras->Add(LanguageBox);
+    Layout->Add(Extras, 1, wxEXPAND);
+    Layout->AddSpacer(15);
+    Layout->AddSpacer(15);
+    Layout->Add(CheckBox_CustomDefault, 1, wxEXPAND);
+    Layout->Add(Path_CustomDefault, 1, wxEXPAND);
+    Layout->Add(Radio_DatFileLocation, 1, wxEXPAND);
+
+    Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoE));
+    Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultRoR));
+    Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoK));
+    Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultTC));
+    Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoKHD));
+    Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoP));
+    Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultSWGB));
+    Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultCC));
+    Connect(CheckBox_Recent->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_OpenSave::OnRecent));
+#ifdef WIN32
+    Connect(Button_PathFromRegistry->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnPathFromRegistry));
+#endif
 }
 
 void AGE_OpenSave::OnRecent(wxCommandEvent &event)
