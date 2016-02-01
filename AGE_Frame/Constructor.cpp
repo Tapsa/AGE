@@ -81,7 +81,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("DefaultFiles/FolderDRS", &FolderDRS, wxEmptyString);
         Config.Read("DefaultFiles/FolderDRS2", &FolderDRS2, wxEmptyString);
         Config.Read("DefaultFiles/Path1stDRS", &Path1stDRS, wxEmptyString);
-        Config.Read("DefaultFiles/UseDRS", &UseDRS, false);
+        Config.Read("DefaultFiles/UseDRS", &UseDRS, true);
         Config.Read("DefaultFiles/UseMod", &UseMod, false);
         Config.Read("DefaultFiles/UseExtra", &UseExtra, false);
         Config.Read("DefaultFiles/LangsUsed", &LangsUsed, 7);

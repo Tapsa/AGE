@@ -3,7 +3,6 @@
 AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 : AGE_OpenSave(parent, "Save", this)
 {
-    Radio_DatFileLocation->SetValue(true);
     Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
 
     Path_LangFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
@@ -41,150 +40,96 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 
     SetSizerAndFit(Main);
     SetDefaultItem(ButtonOK);
-
-    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnOK));
-    Connect(Radio_DatFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_SaveDialog::OnSelectDat));
 }
 
-void AGE_SaveDialog::OnOK(wxCommandEvent &event)
+void AGE_OpenSave::OnDefault(const wxString &part)
 {
-    EndModal(wxID_OK);
+    wxString custom = Path_CustomDefault->GetPath();
+
+    if(CheckBox_CustomDefault->GetValue() && custom.size() > 3)
+    {
+        game_path = custom;
+    }
+    else
+    {
+        game_path = DriveLetterBox->GetValue() + (wxIsPlatform64Bit() ? ":\\Program Files (x86)" : ":\\Program Files") + part;
+    }
 }
 
-void AGE_SaveDialog::OnDefaultAoE(wxCommandEvent &event)
+void AGE_OpenSave::OnDefaultAoE(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
-
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires";
-	}
+    OnDefault("\\Microsoft Games\\Age of Empires");
 
 	CheckBox_GenieVer->SetSelection(EV_AoE);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
+	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires.dat");
+	Path_LangFileLocation->SetPath(game_path + "\\language.dll");
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+    CheckBox_LangWrite->Enable(true);
 }
 
-void AGE_SaveDialog::OnDefaultRoR(wxCommandEvent &event)
+void AGE_OpenSave::OnDefaultRoR(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
-
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires";
-	}
+    OnDefault("\\Microsoft Games\\Age of Empires");
 
 	CheckBox_GenieVer->SetSelection(EV_RoR);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data2\\empires.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\languagex.dll"));
+	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data2\\empires.dat");
+	Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+	Path_LangX1FileLocation->SetPath(game_path + "\\languagex.dll");
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+    CheckBox_LangWrite->Enable(true);
 }
 
-void AGE_SaveDialog::OnDefaultAoK(wxCommandEvent &event)
+void AGE_OpenSave::OnDefaultAoK(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
-
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires II";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires II";
-	}
+    OnDefault("\\Microsoft Games\\Age of Empires II");
 
 	CheckBox_GenieVer->SetSelection(EV_AoK);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires2.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
+	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires2.dat");
+	Path_LangFileLocation->SetPath(game_path + "\\language.dll");
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+    CheckBox_LangWrite->Enable(true);
 }
 
-void AGE_SaveDialog::OnDefaultTC(wxCommandEvent &event)
+void AGE_OpenSave::OnDefaultTC(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
-
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires II";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires II";
-	}
+    OnDefault("\\Microsoft Games\\Age of Empires II");
 
 	CheckBox_GenieVer->SetSelection(EV_TC);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires2_x1_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\language_x1.dll"));
-	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\language_x1_p1.dll"));
+	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires2_x1_p1.dat");
+	Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+	Path_LangX1FileLocation->SetPath(game_path + "\\language_x1.dll");
+	Path_LangX1P1FileLocation->SetPath(game_path + "\\language_x1_p1.dll");
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(true);
 	CheckBox_LangX1P1FileLocation->SetValue(true);
+    CheckBox_LangWrite->Enable(true);
 }
 
-void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &event)
+void AGE_OpenSave::OnDefaultAoKHD(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
-	locale = LanguageBox->GetValue();
-
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Steam\\steamapps\\common\\Age2HD";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
-	}
+    OnDefault("\\Steam\\steamapps\\common\\Age2HD");
+    wxString locale = LanguageBox->GetValue();
 
 	CheckBox_GenieVer->SetSelection(EV_TC);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x1_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt"));
+    CheckBox_LangWrite->Enable(false);
+	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x1_p1.dat");
+	Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");
+	Path_LangX1FileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt");
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(false);
@@ -192,28 +137,16 @@ void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &event)
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &event)
+void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
-	locale = LanguageBox->GetValue();
-
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Steam\\steamapps\\common\\Age2HD";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
-	}
+    OnDefault("\\Steam\\steamapps\\common\\Age2HD");
+    wxString locale = LanguageBox->GetValue();
 
 	CheckBox_GenieVer->SetSelection(EV_Cysion);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x2_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt"));
+    CheckBox_LangWrite->Enable(false);
+	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x2_p1.dat");
+	Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");
+	Path_LangX1FileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt");
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(false);
@@ -221,104 +154,44 @@ void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &event)
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultSWGB(wxCommandEvent &event)
+void AGE_OpenSave::OnDefaultSWGB(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
-
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
-	}
+    OnDefault("\\GOG Games\\Star Wars - Galactic Battlegrounds");
 
 	CheckBox_GenieVer->SetSelection(EV_SWGB);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
+	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Game\\Data\\genie.dat");
+	Path_LangFileLocation->SetPath(game_path + "\\Game\\language.dll");
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
 	CheckBox_LangFileLocation->SetValue(true);
 	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
+    CheckBox_LangWrite->Enable(true);
 }
 
-void AGE_SaveDialog::OnDefaultCC(wxCommandEvent &event)
+void AGE_OpenSave::OnDefaultCC(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
+    OnDefault("\\GOG Games\\Star Wars - Galactic Battlegrounds");
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_CC);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-}
-
-#ifdef WIN32
-void AGE_SaveDialog::OnPathFromRegistry(wxCommandEvent &event)
-{
-    switch(CheckBox_GenieVer->GetSelection())
+    if(event.GetExtraLong() == 1346980949)
     {
-        case EV_AoE:
-            break;
-        case EV_RoR:
-            break;
-        case EV_AoK:
-            break;
-        case EV_TC:
-            break;
-        case EV_Cysion:
-            break;
-        case EV_SWGB:
-            break;
-        case EV_CC:
-            break;
-        case EV_EF:
-            break;
-        default:
+        CheckBox_GenieVer->SetSelection(EV_EF);
+        if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Game\\Data\\genie_x2.dat");
+        Path_LangX1P1FileLocation->SetPath(game_path + "\\Game\\language_x2.dll");
+        CheckBox_LangX1P1FileLocation->SetValue(true);
     }
-}
-#endif
-
-void AGE_SaveDialog::OnSelectDat(wxCommandEvent &event)
-{
-    Path_DatFileLocation->Enable(event.IsChecked());
-}
-
-void AGE_SaveDialog::OnSelectLang(wxCommandEvent &event)
-{
-    Path_LangFileLocation->Enable(event.IsChecked());
-}
-
-void AGE_SaveDialog::OnSelectLangX1(wxCommandEvent &event)
-{
-    Path_LangX1FileLocation->Enable(event.IsChecked());
-}
-
-void AGE_SaveDialog::OnSelectLangX1P1(wxCommandEvent &event)
-{
-    Path_LangX1P1FileLocation->Enable(event.IsChecked());
+    else
+    {
+        CheckBox_GenieVer->SetSelection(EV_CC);
+        if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Game\\Data\\genie_x1.dat");
+        Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+        CheckBox_LangX1P1FileLocation->SetValue(false);
+    }
+    Path_LangFileLocation->SetPath(game_path + "\\Game\\language.dll");
+    Path_LangX1FileLocation->SetPath(game_path + "\\Game\\language_x1.dll");
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(true);
+    CheckBox_LangWrite->Enable(true);
 }
