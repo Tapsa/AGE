@@ -58,6 +58,7 @@ void AGE_OpenSave::OnDefault(const wxString &part)
 
 void AGE_OpenSave::OnDefaultAoE(wxCommandEvent &event)
 {
+    CheckBox_CustomDefault->SetValue(event.GetExtraLong());
     OnDefault("\\Microsoft Games\\Age of Empires");
 
 	CheckBox_GenieVer->SetSelection(EV_AoE);
@@ -74,6 +75,7 @@ void AGE_OpenSave::OnDefaultAoE(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultRoR(wxCommandEvent &event)
 {
+    CheckBox_CustomDefault->SetValue(event.GetExtraLong());
     OnDefault("\\Microsoft Games\\Age of Empires");
 
 	CheckBox_GenieVer->SetSelection(EV_RoR);
@@ -90,6 +92,7 @@ void AGE_OpenSave::OnDefaultRoR(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultAoK(wxCommandEvent &event)
 {
+    CheckBox_CustomDefault->SetValue(event.GetExtraLong());
     OnDefault("\\Microsoft Games\\Age of Empires II");
 
 	CheckBox_GenieVer->SetSelection(EV_AoK);
@@ -106,6 +109,7 @@ void AGE_OpenSave::OnDefaultAoK(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultTC(wxCommandEvent &event)
 {
+    CheckBox_CustomDefault->SetValue(event.GetExtraLong());
     OnDefault("\\Microsoft Games\\Age of Empires II");
 
 	CheckBox_GenieVer->SetSelection(EV_TC);
@@ -122,6 +126,7 @@ void AGE_OpenSave::OnDefaultTC(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultAoKHD(wxCommandEvent &event)
 {
+    CheckBox_CustomDefault->SetValue(event.GetExtraLong());
     OnDefault("\\Steam\\steamapps\\common\\Age2HD");
     wxString locale = LanguageBox->GetValue();
 
@@ -139,6 +144,7 @@ void AGE_OpenSave::OnDefaultAoKHD(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
 {
+    CheckBox_CustomDefault->SetValue(event.GetExtraLong());
     OnDefault("\\Steam\\steamapps\\common\\Age2HD");
     wxString locale = LanguageBox->GetValue();
 
@@ -156,6 +162,7 @@ void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultSWGB(wxCommandEvent &event)
 {
+    CheckBox_CustomDefault->SetValue(event.GetExtraLong());
     OnDefault("\\GOG Games\\Star Wars - Galactic Battlegrounds");
 
 	CheckBox_GenieVer->SetSelection(EV_SWGB);
@@ -172,6 +179,7 @@ void AGE_OpenSave::OnDefaultSWGB(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultCC(wxCommandEvent &event)
 {
+    CheckBox_CustomDefault->SetValue(event.GetExtraLong());
     OnDefault("\\GOG Games\\Star Wars - Galactic Battlegrounds");
 
     if(event.GetExtraLong() == 1346980949)
