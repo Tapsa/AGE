@@ -156,6 +156,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
 {
     wxString path;
     wxCommandEvent filler(wxEVT_COMMAND_BUTTON_CLICKED);
+    filler.SetExtraLong(1447646293);
     switch(CheckBox_GenieVer->GetSelection())
     {
         case EV_AoE:
@@ -209,6 +210,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             if(key.Exists())
             {
                 key.QueryValue("Game Path", path);
+                path.Truncate(path.size() - 1);
                 filler.SetId(Button_DefaultSWGB->GetId());
             }
             break;
@@ -219,6 +221,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             if(key.Exists())
             {
                 key.QueryValue("Game Path", path);
+                path.Truncate(path.size() - 1);
                 filler.SetId(Button_DefaultCC->GetId());
             }
             break;
@@ -229,6 +232,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             if(key.Exists())
             {
                 key.QueryValue("Game Path", path);
+                path.Truncate(path.size() - 1);
                 filler.SetId(Button_DefaultCC->GetId());
                 filler.SetExtraLong(1346980949);
             }
@@ -240,9 +244,9 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
     {
         DriveLetterBox->ChangeValue(path[0]);
         Path_CustomDefault->SetPath(path);
-        CheckBox_CustomDefault->SetValue(true);
         ProcessEvent(filler);
     }
+    else wxMessageBox("No registry entry found.", "Advanced Genie Editor");
 }
 #endif
 
