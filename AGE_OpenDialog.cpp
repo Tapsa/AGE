@@ -17,10 +17,10 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
     CheckBox_LangWrite->SetBackgroundColour(wxColour(240, 200, 200));
 	CheckBox_LangWriteToLatest = new wxCheckBox(this, wxID_ANY, "Write to the latest file instead of the base file *      Google Resource Hacker or Resource Tuner");
 	CheckBox_LangWriteToLatest->SetToolTip("If you write to the latest file (x1/p1),\nyou only need to distribute that file,\nbut your edits will not affect the vanilla game");
-    CheckBox_DRSPath = new wxCheckBox(this, wxID_ANY, "Path for DRS files *");
+    CheckBox_DRSPath = new AGE_PairedCheckBox(this, "Path for DRS files *", (wxWindow**)&Path_DRS);
     CheckBox_DRSPath->SetToolTip("Path to the folder containing all drs files/folders");
-    CheckBox_DRSPath2 = new wxCheckBox(this, wxID_ANY, "Path for mod DRS files");
-    CheckBox_DRSPath3 = new wxCheckBox(this, wxID_ANY, "Extra 1st priority DRS file");
+    CheckBox_DRSPath2 = new AGE_PairedCheckBox(this, "Path for mod DRS files", (wxWindow**)&Path_DRS2);
+    CheckBox_DRSPath3 = new AGE_PairedCheckBox(this, "Extra 1st priority DRS file", (wxWindow**)&Path_DRS3);
     Path_DRS = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS2 = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS3 = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DRS (*.drs)|*.drs", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
@@ -63,11 +63,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
 	SetSizerAndFit(Main);
     SetDefaultItem(ButtonOK);
 
-	Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnOK));
-	Connect(Radio_DatFileLocation->GetId(), wxEVT_COMMAND_RADIOBUTTON_SELECTED, wxCommandEventHandler(AGE_OpenDialog::OnChangeDatRadio));
-	Connect(CheckBox_LangFileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLang));
-	Connect(CheckBox_LangX1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1));
-	Connect(CheckBox_LangX1P1FileLocation->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnSelectLangX1P1));
 	Connect(Button_RawDecompress->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDecompress));
 }
 
@@ -84,414 +79,172 @@ void AGE_OpenDialog::OnDecompress(wxCommandEvent &event)
 	}
 }
 
-void AGE_OpenDialog::OnOK(wxCommandEvent &event)
-{
-	Path_DatFileLocation->Enable(event.GetId() == Radio_DatFileLocation->GetId());
-	EndModal(wxID_OK);
-}
-
 void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
+    AGE_OpenSave::OnDefaultAoE(event);
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_AoE);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxEmptyString);
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(Path + "\\data");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(false);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(true);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetInt(false);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
+    Path_DRS->SetPath(game_path + "\\data");
+    CheckBox_DRSPath->SetValue(true);
+    TerrainsBox->ChangeValue("32");
 }
 
 void AGE_OpenDialog::OnDefaultRoR(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
+    AGE_OpenSave::OnDefaultRoR(event);
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_RoR);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data2\\empires.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\languagex.dll"));
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(Path + "\\data");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(true);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetInt(false);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
+    Path_DRS->SetPath(game_path + "\\data");
+    CheckBox_DRSPath->SetValue(true);
+    TerrainsBox->ChangeValue("32");
 }
 
 void AGE_OpenDialog::OnDefaultAoK(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
+    AGE_OpenSave::OnDefaultAoK(event);
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires II";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires II";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_AoK);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires2.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxEmptyString);
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(Path + "\\data");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(false);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(true);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetInt(false);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
+    Path_DRS->SetPath(game_path + "\\data");
+    CheckBox_DRSPath->SetValue(true);
+    TerrainsBox->ChangeValue("32");
 }
 
 void AGE_OpenDialog::OnDefaultTC(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
+    AGE_OpenSave::OnDefaultTC(event);
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Microsoft Games\\Age of Empires II";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Microsoft Games\\Age of Empires II";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_TC);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\data\\empires2_x1_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\language_x1.dll"));
-	Path_LangX1P1FileLocation->SetPath(wxString(Path + "\\language_x1_p1.dll"));
-	Path_DRS->SetPath(Path + "\\data");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation->SetValue(true);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(true);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
+    Path_DRS->SetPath(game_path + "\\data");
+    CheckBox_DRSPath->SetValue(true);
+    TerrainsBox->ChangeValue("42");
 }
 
 void AGE_OpenDialog::OnDefaultAoKHD(wxCommandEvent &event)
 {
-	CheckBox_LangWrite->Enable(false);
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
-	locale = LanguageBox->GetValue();
+    AGE_OpenSave::OnDefaultAoKHD(event);
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Steam\\steamapps\\common\\Age2HD";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_TC);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x1_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt"));
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(wxString(Path + "\\resources\\_common\\drs"));
-	TerrainsBox->ChangeValue("42");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(false);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetInt(false);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
+    Path_DRS->SetPath(game_path + "\\resources\\_common\\drs");
+    TerrainsBox->ChangeValue("42");
+    CheckBox_DRSPath->SetValue(true);
 }
 
 void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
 {
-	CheckBox_LangWrite->Enable(false);
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath(),
-	locale = LanguageBox->GetValue();
+    AGE_OpenSave::OnDefaultAoP(event);
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\Steam\\steamapps\\common\\Age2HD";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\Steam\\steamapps\\common\\Age2HD";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_Cysion);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "\\resources\\_common\\dat\\empires2_x2_p1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt"));
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(wxString(Path + "\\resources\\_common\\drs"));
-	TerrainsBox->ChangeValue("100");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(false);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetInt(false);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
+    Path_DRS->SetPath(game_path + "\\resources\\_common\\drs");
+    TerrainsBox->ChangeValue("100");
+    CheckBox_DRSPath->SetValue(true);
 }
 
 void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
+    AGE_OpenSave::OnDefaultSWGB(event);
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_SWGB);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxEmptyString);
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(Path + "Game\\data");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(false);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(true);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetInt(false);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
+    Path_DRS->SetPath(game_path + "\\Game\\data");
+    CheckBox_DRSPath->SetValue(true);
+    TerrainsBox->ChangeValue("55");
 }
 
 void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &event)
 {
-	wxString Path = DriveLetterBox->GetValue(), Custom = Path_CustomDefault->GetPath();
+    AGE_OpenSave::OnDefaultCC(event);
 
-	if(CheckBox_CustomDefault->GetValue() && Custom.size() > 0)
-	{
-		Path = Custom;
-	}
-	else if(wxIsPlatform64Bit())
-	{
-	    Path += ":\\Program Files (x86)\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
-	}
-	else
-	{
-	    Path += ":\\Program Files\\LucasArts\\Star Wars Galactic Battlegrounds Saga\\";
-	}
-
-	CheckBox_GenieVer->SetSelection(EV_CC);
-	if(!ForceDat) Path_DatFileLocation->SetPath(wxString(Path + "Game\\Data\\genie_x1.dat"));
-	Path_LangFileLocation->SetPath(wxString(Path + "Game\\language.dll"));
-	Path_LangX1FileLocation->SetPath(wxString(Path + "Game\\language_x1.dll"));
-	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
-	Path_DRS->SetPath(Path + "Game\\data");
-	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation->SetValue(false);
-	CheckBox_DRSPath->SetValue(true);
-	CheckBox_DRSPath->Enable(true);
-	wxCommandEvent Selected(wxEVT_COMMAND_RADIOBUTTON_SELECTED, Radio_DatFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetInt(true);
-	Selected.SetId(CheckBox_LangFileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetId(CheckBox_LangX1FileLocation->GetId());
-	ProcessEvent(Selected);
-	Selected.SetInt(false);
-	Selected.SetId(CheckBox_LangX1P1FileLocation->GetId());
-	ProcessEvent(Selected);
+    Path_DRS->SetPath(game_path + "\\Game\\data");
+    CheckBox_DRSPath->SetValue(true);
+    TerrainsBox->ChangeValue("55");
 }
 
 #ifdef WIN32
-void AGE_OpenDialog::OnPathFromRegistry(wxCommandEvent &event)
+void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
 {
     wxString path;
+    wxCommandEvent filler(wxEVT_COMMAND_BUTTON_CLICKED);
     switch(CheckBox_GenieVer->GetSelection())
     {
         case EV_AoE:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires\\1.0");
+            if(key.Exists())
+            {
+                key.QueryValue("EXE Path", path);
+                filler.SetId(Button_DefaultAoE->GetId());
+            }
             break;
+        }
         case EV_RoR:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires Expansion\\1.0");
+            if(key.Exists())
+            {
+                key.QueryValue("EXE Path", path);
+                filler.SetId(Button_DefaultRoR->GetId());
+            }
             break;
+        }
         case EV_AoK:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires\\2.0");
+            if(key.Exists())
+            {
+                key.QueryValue("EXE Path", path);
+                filler.SetId(Button_DefaultAoK->GetId());
+            }
             break;
+        }
         case EV_TC:
+        {
             wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires II: The Conquerors Expansion\\1.0");
             if(key.Exists())
             {
-                key.QueryValue("EXE Path", path)
+                key.QueryValue("EXE Path", path);
+                filler.SetId(Button_DefaultTC->GetId());
             }
             break;
+        }
         case EV_Cysion:
+        {
+                filler.SetId(Button_DefaultAP->GetId());
             break;
+        }
         case EV_SWGB:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0");
+            if(key.Exists())
+            {
+                key.QueryValue("Game Path", path);
+                filler.SetId(Button_DefaultSWGB->GetId());
+            }
             break;
+        }
         case EV_CC:
+        {
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
             if(key.Exists())
             {
-                key.QueryValue("Game Path", path)
+                key.QueryValue("Game Path", path);
+                filler.SetId(Button_DefaultCC->GetId());
             }
             break;
+        }
         case EV_EF:
+        {
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Expanding Fronts\\1.0");
             if(key.Exists())
             {
-                key.QueryValue("Game Path", path)
+                key.QueryValue("Game Path", path);
+                filler.SetId(Button_DefaultCC->GetId());
+                filler.SetExtraLong(1346980949);
             }
             break;
-        default:
+        }
+        default: break;
+    }
+    if(path.size())
+    {
+        DriveLetterBox->ChangeValue(path[0]);
+        Path_CustomDefault->SetPath(path);
+        CheckBox_CustomDefault->SetValue(true);
+        ProcessEvent(filler);
     }
 }
 #endif
-
-void AGE_OpenDialog::OnChangeDatRadio(wxCommandEvent &event)
-{
-	Path_DatFileLocation->Enable(event.GetId() == Radio_DatFileLocation->GetId());
-}
-
-void AGE_OpenDialog::OnSelectLang(wxCommandEvent &event)
-{
-	Path_LangFileLocation->Enable(event.IsChecked());
-}
-
-void AGE_OpenDialog::OnSelectLangX1(wxCommandEvent &event)
-{
-	Path_LangX1FileLocation->Enable(event.IsChecked());
-}
-
-void AGE_OpenDialog::OnSelectLangX1P1(wxCommandEvent &event)
-{
-	Path_LangX1P1FileLocation->Enable(event.IsChecked());
-}
 
 void AGE_OpenDialog::OnRecent(wxCommandEvent &event)
 {

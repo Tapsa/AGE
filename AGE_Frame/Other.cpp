@@ -34,7 +34,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 	if(!SkipOpenDialog)
 	{
 		AGE_OpenDialog OpenBox(this);
-        wxCommandEvent Selected;
 
         int RecentItems;
         {
@@ -65,52 +64,33 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
 		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
-        if(GameVersion == EV_EF) OpenBox.TerrainsBox->Enable(true);
-
-		if(DatUsed == 0)
-		{
-			OpenBox.Radio_DatFileLocation->SetValue(true);
-			Selected.SetEventType(wxEVT_COMMAND_RADIOBUTTON_SELECTED);
-			Selected.SetId(OpenBox.Radio_DatFileLocation->GetId());
-			Selected.SetInt(true);
-			OpenBox.GetEventHandler()->ProcessEvent(Selected);
-		}
+        OpenBox.TerrainsBox->Enable(ShowButtons);
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
 		OpenBox.LanguageBox->ChangeValue(Language);
 		OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
-		OpenBox.Path_DatFileLocation->SetPath(DatFileName);
 		OpenBox.Path_DRS->SetPath(FolderDRS);
 		OpenBox.Path_DRS2->SetPath(FolderDRS2);
 		OpenBox.Path_DRS3->SetPath(Path1stDRS);
 		OpenBox.CheckBox_DRSPath->SetValue(UseDRS);
 		OpenBox.CheckBox_DRSPath2->SetValue(UseMod);
 		OpenBox.CheckBox_DRSPath3->SetValue(UseExtra);
-		if((argPath).size() > 3)
-		{
-			OpenBox.ForceDat = true;
-			OpenBox.Radio_DatFileLocation->SetValue(true);
-			OpenBox.Path_DatFileLocation->SetPath(argPath);
-		}
+
+        if((argPath).size() > 3)
+        {
+            OpenBox.ForceDat = true;
+            OpenBox.Radio_DatFileLocation->SetValue(true);
+            OpenBox.Path_DatFileLocation->SetPath(argPath);
+        }
+        else
+        {
+            OpenBox.Radio_DatFileLocation->SetValue(DatUsed == 0);
+            OpenBox.Path_DatFileLocation->SetPath(DatFileName);
+        }
 
 		OpenBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
-		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-		Selected.SetId(OpenBox.CheckBox_LangFileLocation->GetId());
-		Selected.SetInt(LangsUsed & 1);
-		OpenBox.GetEventHandler()->ProcessEvent(Selected);
-
 		OpenBox.CheckBox_LangX1FileLocation->SetValue(LangsUsed & 2);
-		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-		Selected.SetId(OpenBox.CheckBox_LangX1FileLocation->GetId());
-		Selected.SetInt(LangsUsed & 2);
-		OpenBox.GetEventHandler()->ProcessEvent(Selected);
-
 		OpenBox.CheckBox_LangX1P1FileLocation->SetValue(LangsUsed & 4);
-		Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-		Selected.SetId(OpenBox.CheckBox_LangX1P1FileLocation->GetId());
-		Selected.SetInt(LangsUsed & 4);
-		OpenBox.GetEventHandler()->ProcessEvent(Selected);
-
 		OpenBox.Path_LangFileLocation->SetPath(LangFileName);
 		OpenBox.Path_LangX1FileLocation->SetPath(LangX1FileName);
 		OpenBox.Path_LangX1P1FileLocation->SetPath(LangX1P1FileName);
@@ -120,14 +100,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		bool load = OpenBox.ShowModal() == wxID_OK; // What this does?
 
 		GameVersion = OpenBox.CheckBox_GenieVer->GetSelection();
-		if(OpenBox.Radio_DatFileLocation->GetValue())
-		{
-			DatUsed = 0;
-		}
-		else
-		{
-			DatUsed = 3;
-		}
+		DatUsed = OpenBox.Radio_DatFileLocation->GetValue() ? 0 : 3;
 
 		DriveLetter = OpenBox.DriveLetterBox->GetValue();
 		UseCustomPath = OpenBox.CheckBox_CustomDefault->GetValue();
@@ -136,30 +109,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		CustomTerrains = lexical_cast<int>(OpenBox.TerrainsBox->GetValue());
 		DatFileName = OpenBox.Path_DatFileLocation->GetPath();
 
-		if(OpenBox.CheckBox_LangFileLocation->IsChecked())
-		{
-			LangsUsed |= 1;
-		}
-		else
-		{
-			LangsUsed &= ~1;
-		}
-		if(OpenBox.CheckBox_LangX1FileLocation->IsChecked())
-		{
-			LangsUsed |= 2;
-		}
-		else
-		{
-			LangsUsed &= ~2;
-		}
-		if(OpenBox.CheckBox_LangX1P1FileLocation->IsChecked())
-		{
-			LangsUsed |= 4;
-		}
-		else
-		{
-			LangsUsed &= ~4;
-		}
+        LangsUsed = OpenBox.CheckBox_LangFileLocation->IsChecked() ? LangsUsed | 1 : LangsUsed & ~1;
+        LangsUsed = OpenBox.CheckBox_LangX1FileLocation->IsChecked() ? LangsUsed | 2 : LangsUsed & ~2;
+        LangsUsed = OpenBox.CheckBox_LangX1P1FileLocation->IsChecked() ? LangsUsed | 4 : LangsUsed & ~4;
 
 		LangFileName = OpenBox.Path_LangFileLocation->GetPath();
 		LangX1FileName = OpenBox.Path_LangX1FileLocation->GetPath();
@@ -272,7 +224,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		dataset = new genie::DatFile();
 		try
 		{
-            if(GameVersion == EV_EF)
+            if(ShowButtons)
 			genie::Terrain::setTerrainsSize(CustomTerrains);
 			dataset->setGameVersion(GenieVersion);
 			dataset->load(DatFileName.c_str());
@@ -1656,7 +1608,6 @@ void AGE_Frame::OnGameVersionChange()
 
 void AGE_Frame::OnSave(wxCommandEvent &event)
 {
-	wxCommandEvent Selected;
 	AGE_SaveDialog SaveBox(this);
 
     int RecentItems;
@@ -1691,38 +1642,21 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
     SaveBox.CheckBox_LangWrite->Enable(WriteLangs);
     SaveBox.CheckBox_LangWrite->SetValue(WriteLangs);
 
-	SaveBox.Radio_DatFileLocation->SetValue(SaveDat);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetId(SaveBox.Radio_DatFileLocation->GetId());
-	Selected.SetInt(SaveDat);
-	SaveBox.GetEventHandler()->ProcessEvent(Selected);
-
-	SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
-	if((argPath).size() > 3)
-	{
-		SaveBox.ForceDat = true;
-		SaveBox.Radio_DatFileLocation->SetValue(true);
-		SaveBox.Path_DatFileLocation->SetPath(argPath);
-	}
+    if((argPath).size() > 3)
+    {
+        SaveBox.ForceDat = true;
+        SaveBox.Radio_DatFileLocation->SetValue(true);
+        SaveBox.Path_DatFileLocation->SetPath(argPath);
+    }
+    else
+    {
+        SaveBox.Radio_DatFileLocation->SetValue(SaveDat);
+        SaveBox.Path_DatFileLocation->SetPath(SaveDatFileName);
+    }
 
 	SaveBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetId(SaveBox.CheckBox_LangFileLocation->GetId());
-	Selected.SetInt(LangsUsed & 1);
-	SaveBox.GetEventHandler()->ProcessEvent(Selected);
-
 	SaveBox.CheckBox_LangX1FileLocation->SetValue(LangsUsed & 2);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetId(SaveBox.CheckBox_LangX1FileLocation->GetId());
-	Selected.SetInt(LangsUsed & 2);
-	SaveBox.GetEventHandler()->ProcessEvent(Selected);
-
 	SaveBox.CheckBox_LangX1P1FileLocation->SetValue(LangsUsed & 4);
-	Selected.SetEventType(wxEVT_COMMAND_CHECKBOX_CLICKED);
-	Selected.SetId(SaveBox.CheckBox_LangX1P1FileLocation->GetId());
-	Selected.SetInt(LangsUsed & 4);
-	SaveBox.GetEventHandler()->ProcessEvent(Selected);
-
 	SaveBox.Path_LangFileLocation->SetPath(SaveLangFileName);
 	SaveBox.Path_LangX1FileLocation->SetPath(SaveLangX1FileName);
 	SaveBox.Path_LangX1P1FileLocation->SetPath(SaveLangX1P1FileName);
@@ -1899,13 +1833,13 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		case MenuOption_Prompt:
 		{
 			PromptForFilesOnOpen = event.IsChecked();
+            break;
 		}
-		break;
 		case ToolBar_Backup:
 		{
 			AutoBackups = event.IsChecked();
+            break;
 		}
-		break;
 		case ToolBar_Show:
 		{
 			ShowUnknowns = event.IsChecked();
@@ -1921,21 +1855,21 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			General_TopRow->Show(ShowUnknowns);
 
 			OnGameVersionChange(); // Does layouting and refreshing and ... check it out.
+            break;
 		}
-		break;
 		case MenuOption_Buttons:
 		{
 			ShowButtons = event.IsChecked();
 
 			Terrains_Add->Enable(ShowButtons);
 			Terrains_Delete->Enable(ShowButtons);
+            break;
 		}
-		break;
 		case wxID_EXIT:
 		{
 			Close(true);
+            break;
 		}
-		break;
 		case MenuOption_Tips:
 		{
 			wxString TipText;
@@ -1945,19 +1879,19 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			TipText.Append("You can switch from \"or\" finding to \"and\" finding with check boxes.\n");
 			TipText.Append("Meaning that every search entry has to match.\n");
 			wxMessageBox(TipText, "Tips");
+            break;
 		}
-		break;
 		case MenuOption_About:
 		{
 			AGE_AboutDialog AGEAbout(this);
 			AGEAbout.ShowModal();
+            break;
 		}
-		break;
 		case TabBarID:
 		{
 			if(NULL != slp_window) slp_view->Refresh();
+            break;
 		}
-		break;
 		case MenuOption_ShowSLP:
 		{
 			ShowSLP = event.IsChecked();
@@ -2095,22 +2029,22 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     slp_window = NULL;
                 }
             }
+            break;
 		}
-		break;
         case MenuOption_ShowIcons:
         {
             ShowIcons = event.IsChecked();
 
             Units_IconID_SLP->Show(ShowIcons);
             Research_IconID_SLP->Show(ShowIcons);
+            break;
         }
-        break;
 		/*case MenuOption_IDFix:
 		{
 			EnableIDFix = event.IsChecked();
 			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
-		}
-		break;*/
+            break;
+		}*/
 		case ToolBar_DRS:
         {
             if(event.IsChecked())
@@ -2206,8 +2140,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 datafiles.clear();
                 palettes.clear();
             }
+            break;
         }
-        break;
 		case ToolBar_Help:
 		{
 			//AGE_HelpInfo AGEHelp(this);
@@ -2338,25 +2272,25 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			help.Append("Then click paste or paste insert wherever you want the ships.\n");
 			help.Append("That's it.");
 			wxMessageBox(help, "Short Guide to Advanced Editing");
+            break;
 		}
-		break;
 		case ToolBar_Hex:
 		{
 			AGETextCtrl::hexMode[popUp.window] = event.IsChecked();
 			LoadLists();
+            break;
 		}
-		break;
 		case ToolBar_Float:
 		{
 			AGETextCtrl::accurateFloats[popUp.window] = event.IsChecked();
 			LoadLists();
+            break;
 		}
-		break;
 		case ToolBar_Paste:
 		{
 			Paste11 = event.IsChecked();
+            break;
 		}
-		break;
 		case ToolBar_AddWindow:
         {
             int nextFreeSlot = AGE_Frame::openEditors.size();
@@ -2373,20 +2307,20 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, newWindow->ToolBar_Open);
                 newWindow->GetEventHandler()->ProcessEvent(OpenFiles);
             }
+            break;
         }
-		break;
 		case MenuOption_StayOnTop:
 		{
 			ToggleWindowStyle(wxSTAY_ON_TOP);
 			StayOnTop = event.IsChecked();
+            break;
 		}
-		break;
 		case MenuOption_StayOnTopSLP:
 		{
             if(NULL != slp_window) slp_window->ToggleWindowStyle(wxSTAY_ON_TOP);
 			StayOnTopSLP = event.IsChecked();
+            break;
 		}
-		break;
 		default: wxMessageBox(lexical_cast<string>(event.GetId()), "wxEvent error!");
 	}
 }
@@ -3333,8 +3267,8 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 HandleLastFrame(*graphic, framesleft, 1u);
                 slp_view->Refresh();
             }
+            break;
         }
-        break;
         case opPrevFrame:
         {
             AGE_SLP *graphic = getCurrentGraphics();
@@ -3353,15 +3287,15 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 HandleLastFrame(*graphic, framesleft, 2u);
                 slp_view->Refresh();
             }
+            break;
         }
-        break;
         case opFirstFrame:
         {
             AGE_SLP::bearing = 0.f;
             AGE_SLP::setbearing = 1u;
             slp_view->Refresh();
+            break;
         }
-        break;
         case opExportFrame:
         {
             exportFrame = true;
@@ -3373,8 +3307,8 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     wxMessageBox("Saving frame as PNG failed", "SLP");
             }
             exportFrame = false;
+            break;
         }
-        break;
         case opImportFrame:
         {
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
@@ -3382,8 +3316,8 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 BitMaptoSLP(&graphicSLP);
             }
             graphicAnimTimer.Start(100);
+            break;
         }
-        break;
         case opSaveSLP:
         {
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
@@ -3410,16 +3344,16 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 }
             }
             else wxMessageBox("Look at some graphic", "SLP");
+            break;
         }
-        break;
         case opSLPTool:
         {
             slp_tool_on = !slp_tool_on;
             slp_tool_layout->Show(slp_tool_on);
             slp_sizer->Layout();
             slp_window->Fit();
+            break;
         }
-        break;
         case opSLPMergeShadow:
         {
             genie::SlpFilePtr slp_src1(new genie::SlpFile());
@@ -3480,59 +3414,59 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             {
                 wxMessageBox("Saving SLP failed", "SLP");
             }
+            break;
         }
-        break;
         case opShowHotspot:
         {
             DrawHot = event.IsChecked();
             slp_view->Refresh();
+            break;
         }
-        break;
 		case opAnimSLP:
 		{
 			AnimSLP = event.IsChecked();
             slp_view->Refresh();
+            break;
 		}
-		break;
 		case opShowShadows:
 		{
 			ShowShadows = event.IsChecked();
             slp_view->Refresh();
+            break;
 		}
-		break;
 		case opShowOutline:
 		{
 			ShowOutline = event.IsChecked();
             slp_view->Refresh();
+            break;
 		}
-		break;
 		case opShowDeltas:
 		{
 			ShowDeltas = event.IsChecked();
             graphicSLP.slpID = unitSLP.slpID = -2;
             slp_view->Refresh();
+            break;
 		}
-		break;
 		case opShowStack:
 		{
 			ShowStack = event.IsChecked();
             graphicSLP.slpID = unitSLP.slpID = -2;
             slp_view->Refresh();
+            break;
 		}
-		break;
 		case opShowAnnexes:
 		{
 			ShowAnnexes = event.IsChecked();
             graphicSLP.slpID = unitSLP.slpID = -2;
             slp_view->Refresh();
+            break;
 		}
-		break;
         case opShowTerrain:
         {
 			DrawTerrain = event.IsChecked();
             slp_view->Refresh();
+            break;
         }
-        break;
         case opPickBgColor:
         {
             wxColour back(slp_background->GetColour());
@@ -3541,26 +3475,26 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             SLPbackB = back.Blue();
             slp_background_brush = wxBrush(back);
             slp_view->Refresh();
+            break;
         }
-        break;
         case opCollisionShape:
         {
 			DrawCollisionShape = event.IsChecked();
             slp_view->Refresh();
+            break;
         }
-        break;
         case opClearanceShape:
         {
 			DrawClearanceShape = event.IsChecked();
             slp_view->Refresh();
+            break;
         }
-        break;
         case opSelectionShape:
         {
 			DrawSelectionShape = event.IsChecked();
             slp_view->Refresh();
+            break;
         }
-        break;
     }
 }
 

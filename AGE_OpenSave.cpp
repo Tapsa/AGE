@@ -1,17 +1,16 @@
 #include "AGE_OpenSave.h"
-#include "AGE_OpenDialog.h"
 
-AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
+AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *slave)
 : wxDialog(parent, -1, title+" files...", wxDefaultPosition, wxSize(500, 250), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxNO_DEFAULT)
 {
-	Layout = new wxFlexGridSizer(2, 2, 2);
+    Layout = new wxFlexGridSizer(2, 2, 2);
     ForceDat = false;
     Main = new wxBoxSizer(wxVERTICAL);
     wxStaticText *Defaults_Label = new wxStaticText(slave, wxID_ANY, " Defaults: ");
     Defaults = new wxBoxSizer(wxHORIZONTAL);
     Defaults_StarWars = new wxBoxSizer(wxHORIZONTAL);
     Buttons = new wxBoxSizer(wxHORIZONTAL);
-    Radio_DatFileLocation = new wxCheckBox(slave, wxID_ANY, "Compressed data set (*.dat):");
+    Radio_DatFileLocation = new AGE_PairedCheckBox(slave, "Compressed data set (*.dat):", (wxWindow**)&Path_DatFileLocation);
 
     ButtonOK = new wxButton(slave, wxID_OK, title);
     ButtonCancel = new wxButton(slave, wxID_CANCEL, "Cancel");
@@ -70,18 +69,14 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
     LanguageBox = new wxTextCtrl(slave, wxID_ANY, "en", wxDefaultPosition, wxSize(50, -1));
     LanguageBox->SetToolTip("For AoK HD paths");
     Extras = new wxBoxSizer(wxHORIZONTAL);
-    CheckBox_CustomDefault = new wxCheckBox(slave, wxID_ANY, "Custom path override:");
-    CheckBox_CustomDefault->SetValue(false);
+    CheckBox_CustomDefault = new AGE_PairedCheckBox(slave, "Custom path override:", (wxWindow**)&Path_CustomDefault);
     Path_CustomDefault = new wxDirPickerCtrl(slave, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     wxSizer *sizer1 = new wxBoxSizer(wxHORIZONTAL);
     wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
 
-	CheckBox_LangFileLocation = new wxCheckBox(slave, wxID_ANY, "Language file location:");
-	CheckBox_LangFileLocation->SetValue(true);
-	CheckBox_LangX1FileLocation = new wxCheckBox(slave, wxID_ANY, "Language x1 file location:");
-	CheckBox_LangX1FileLocation->SetValue(true);
-	CheckBox_LangX1P1FileLocation = new wxCheckBox(slave, wxID_ANY, "Language p1 file location:");
-	CheckBox_LangX1P1FileLocation->SetValue(true);
+    CheckBox_LangFileLocation = new AGE_PairedCheckBox(slave, "Language file location:", (wxWindow**)&Path_LangFileLocation);
+    CheckBox_LangX1FileLocation = new AGE_PairedCheckBox(slave, "Language x1 file location:", (wxWindow**)&Path_LangX1FileLocation);
+    CheckBox_LangX1P1FileLocation = new AGE_PairedCheckBox(slave, "Language p1 file location:", (wxWindow**)&Path_LangX1P1FileLocation);
 
     Layout->Add(RecentText, 1, wxEXPAND);
     Layout->Add(CheckBox_Recent, 1, wxEXPAND);
@@ -103,30 +98,48 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, wxString title, wxDialog *slave)
     Layout->Add(Path_CustomDefault, 1, wxEXPAND);
     Layout->Add(Radio_DatFileLocation, 1, wxEXPAND);
 
-    Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoE));
-    Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultRoR));
-    Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoK));
-    Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultTC));
-    Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoKHD));
-    Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultAoP));
-    Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultSWGB));
-    Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnDefaultCC));
+    Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultAoE));
+    Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultRoR));
+    Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultAoK));
+    Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultTC));
+    Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultAoKHD));
+    Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultAoP));
+    Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultSWGB));
+    Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultCC));
     Connect(CheckBox_Recent->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_OpenSave::OnRecent));
+    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnOK));
 #ifdef WIN32
-    Connect(Button_PathFromRegistry->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenDialog::OnPathFromRegistry));
+    Connect(Button_PathFromRegistry->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnPathFromRegistry));
 #endif
+}
+
+void AGE_OpenSave::OnOK(wxCommandEvent &event)
+{
+    EndModal(wxID_OK);
 }
 
 void AGE_OpenSave::OnRecent(wxCommandEvent &event)
 {
-	if(RecentValues.empty()) return;
-	auto sel = CheckBox_Recent->GetSelection();
-	CheckBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
-	Path_DatFileLocation->SetPath(RecentValues[sel][1]);
-	Path_LangFileLocation->SetPath(RecentValues[sel][2]);
-	Path_LangX1FileLocation->SetPath(RecentValues[sel][3]);
-	Path_LangX1P1FileLocation->SetPath(RecentValues[sel][4]);
-	CheckBox_LangFileLocation->SetValue(RecentValues[sel][2].size());
-	CheckBox_LangX1FileLocation->SetValue(RecentValues[sel][3].size());
-	CheckBox_LangX1P1FileLocation->SetValue(RecentValues[sel][4].size());
+    if(RecentValues.empty()) return;
+    auto sel = CheckBox_Recent->GetSelection();
+    CheckBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
+    Path_DatFileLocation->SetPath(RecentValues[sel][1]);
+    Path_LangFileLocation->SetPath(RecentValues[sel][2]);
+    Path_LangX1FileLocation->SetPath(RecentValues[sel][3]);
+    Path_LangX1P1FileLocation->SetPath(RecentValues[sel][4]);
+    CheckBox_LangFileLocation->SetValue(RecentValues[sel][2].size());
+    CheckBox_LangX1FileLocation->SetValue(RecentValues[sel][3].size());
+    CheckBox_LangX1P1FileLocation->SetValue(RecentValues[sel][4].size());
+}
+
+AGE_PairedCheckBox::AGE_PairedCheckBox(wxWindow *parent, const wxString &label, wxWindow **pair)
+: wxCheckBox(parent, wxID_ANY, label)
+{
+    window_pair = pair;
+}
+
+void AGE_PairedCheckBox::DoSet3StateValue(wxCheckBoxState state)
+{
+    wxCheckBox::DoSet3StateValue(state);
+    (*window_pair)->Enable(state != wxCHK_UNCHECKED);
 }
