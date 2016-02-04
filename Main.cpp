@@ -2,7 +2,7 @@
 
 IMPLEMENT_APP(AGE)
 
-vector<bool> AGE_Frame::openEditors;
+wxWindow* AGE_Frame::openEditors[4]{0};
 Copies AGE_Frame::copies;
 
 bool AGE::OnInit()
@@ -16,7 +16,7 @@ bool AGE::OnInit()
 		AGE_Frame::FixSize(window);
 		SetTopWindow(window);
 	}
-	wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, window->ToolBar_Open);
+	wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, window->eOpen);
 	window->GetEventHandler()->ProcessEvent(OpenFiles);
 
 	return true;

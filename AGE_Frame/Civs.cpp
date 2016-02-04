@@ -8,10 +8,7 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &event)
 
 string AGE_Frame::GetCivName(int index)
 {
-	if(GenieVersion < genie::GV_SWGB)
-	return dataset->Civs[index].Name+" ("+lexical_cast<string>((short)dataset->Civs[index].IconSet)+")";
-	else
-	return dataset->Civs[index].Name2+" ("+lexical_cast<string>((short)dataset->Civs[index].IconSet)+")";
+    return (GenieVersion < genie::GV_SWGB ? dataset->Civs[index].Name : dataset->Civs[index].Name2) + " (" + lexical_cast<string>((short)dataset->Civs[index].IconSet) + ")";
 }
 
 void AGE_Frame::ListCivs(bool all)
@@ -94,7 +91,7 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 		}
 		Civs_GraphicSet->prepend(&CivPointer->IconSet);
 	}
-	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected civilization: "+lexical_cast<string>(CivIDs[0]), 0);
+    SetStatusText(wxString::Format("Selections: %d    Selected civilization: %d", selections, CivIDs[0]), 0);
 
     for(auto &box: uiGroupCiv) box->update();
 	ListResources();

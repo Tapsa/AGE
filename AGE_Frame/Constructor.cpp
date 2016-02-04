@@ -14,27 +14,16 @@
 std::ofstream AGE_Frame::log_out;
 
 AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
-: wxFrame(NULL, wxID_ANY, title), popUp(window)
+: wxFrame(NULL, wxID_ANY, title)
 {
+    window_num = window;
+	argPath = aP;
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
-	TabBar_Main = new wxNotebook(this, TabBarID);
-	argPath = aP;
+	TabBar_Main = new wxNotebook(this, eTabBar);
     slp_window = NULL;
-    paletteView = 0;
-
-    if(window < AGE_Frame::openEditors.size())
-    {
-        AGE_Frame::openEditors[window] = true;
-    }
-    else
-    {
-        AGE_Frame::openEditors.push_back(true);
-        AGETextCtrl::hexMode.push_back(false);
-        AGETextCtrl::accurateFloats.push_back(false);
-        AGETextCtrl::unSaved.push_back(0);
-        AGETextCtrl::fileLoaded.push_back(0);
-    }
+    paletteView = randomi = 0;
+    AGE_Frame::openEditors[window] = this;
 
     {
         wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
@@ -106,58 +95,58 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
     wxColour back(SLPbackR, SLPbackG, SLPbackB);
     slp_background_brush = wxBrush(back);
-	if(TimesOpened < 2) AnimSLP = ShowSLP = ShowIcons = true; // For people that had these initialized to false in previous release.
+    if(TimesOpened < 2) AnimSLP = ShowSLP = ShowIcons = true; // For people that had these initialized to false in previous release.
 
-	CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
-	int bars[5] = {295, 145, 145, 145, -1};
-	CreateStatusBar(5)->SetStatusWidths(5, bars);
+    CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
+    int bars[5] = {295, 145, 145, 145, -1};
+    CreateStatusBar(5)->SetStatusWidths(5, bars);
 
-	GetToolBar()->AddTool(ToolBar_AddWindow, "+++", wxBitmap(AppIcon24_xpm), "Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
-	GetToolBar()->AddTool(ToolBar_Open, "Open", wxBitmap(GateOpen_xpm), "Open files");
-	GetToolBar()->AddTool(ToolBar_Save, "Save", wxBitmap(GateClosed_xpm), "Save files");
-	GetToolBar()->AddTool(ToolBar_Backup, "Auto", wxBitmap(AutoBackup_xpm), "Automatically backup files", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_Show, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_Hex, "Hex", wxBitmap(Ox_xpm), "Toggle hex mode (data not editable)", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_Float, "0001", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_Paste, "Paste", wxBitmap(Paste_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_DRS, "SLP", wxBitmap(DRS_unlock_xpm), "Unload DRS files", wxITEM_CHECK);
-	GetToolBar()->AddTool(ToolBar_Help, "Help", wxBitmap(Question_xpm), "Show help");
-	GetToolBar()->ToggleTool(ToolBar_Backup, AutoBackups);
-	GetToolBar()->ToggleTool(ToolBar_Show, ShowUnknowns);
-	GetToolBar()->ToggleTool(ToolBar_Paste, Paste11);
-	GetToolBar()->Realize();
+    GetToolBar()->AddTool(eAddWindow, "+++", wxBitmap(AppIcon24_xpm), "Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
+    GetToolBar()->AddTool(eOpen, "Open", wxBitmap(GateOpen_xpm), "Open files");
+    GetToolBar()->AddTool(eSave, "Save", wxBitmap(GateClosed_xpm), "Save files");
+    GetToolBar()->AddTool(eBackup, "Auto", wxBitmap(AutoBackup_xpm), "Automatically backup files", wxITEM_CHECK);
+    GetToolBar()->AddTool(eUnknown, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
+    GetToolBar()->AddTool(eHex, "Hex", wxBitmap(Ox_xpm), "Toggle hex mode (data not editable)", wxITEM_CHECK);
+    GetToolBar()->AddTool(eFloat, "0001", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
+    GetToolBar()->AddTool(ePaste, "Paste", wxBitmap(Paste_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
+    GetToolBar()->AddTool(eDRS, "SLP", wxBitmap(DRS_unlock_xpm), "Unload DRS files", wxITEM_CHECK);
+    GetToolBar()->AddTool(eHelp, "Help", wxBitmap(Question_xpm), "Show help");
+    GetToolBar()->ToggleTool(eBackup, AutoBackups);
+    GetToolBar()->ToggleTool(eUnknown, ShowUnknowns);
+    GetToolBar()->ToggleTool(ePaste, Paste11);
+    GetToolBar()->Realize();
 
-	MenuBar_Main = new wxMenuBar();
+    MenuBar_Main = new wxMenuBar();
 
-	SubMenu_Options = new wxMenu();
-	SubMenu_Options->AppendCheckItem(MenuOption_Prompt, "&Prompt for files on open");
-	SubMenu_Options->Check(MenuOption_Prompt, PromptForFilesOnOpen);
-	SubMenu_Options->AppendCheckItem(MenuOption_Buttons, "Allow adding &terrains");
-	SubMenu_Options->Check(MenuOption_Buttons, ShowButtons);
+    SubMenu_Options = new wxMenu();
+    SubMenu_Options->AppendCheckItem(ePrompt, "&Prompt for files on open");
+    SubMenu_Options->Check(ePrompt, PromptForFilesOnOpen);
+    SubMenu_Options->AppendCheckItem(eButtons, "Allow adding &terrains");
+    SubMenu_Options->Check(eButtons, ShowButtons);
 
-	SubMenu_Options->AppendCheckItem(MenuOption_IDFix, "Enable &index fixes");
-	SubMenu_Options->Check(MenuOption_IDFix, EnableIDFix);
-	SubMenu_Options->Enable(MenuOption_IDFix, false);
-	SubMenu_Options->AppendCheckItem(MenuOption_StayOnTop, "&Stay on top");
-	SubMenu_Options->Check(MenuOption_StayOnTop, StayOnTop);
+    SubMenu_Options->AppendCheckItem(eIdFix, "Enable &index fixes");
+    SubMenu_Options->Check(eIdFix, EnableIDFix);
+    SubMenu_Options->Enable(eIdFix, false);
+    SubMenu_Options->AppendCheckItem(eStayOnTop, "&Stay on top");
+    SubMenu_Options->Check(eStayOnTop, StayOnTop);
 
-	SubMenu_SLP = new wxMenu();
-	SubMenu_SLP->AppendCheckItem(MenuOption_ShowSLP, "Show SLP &graphics");
-	SubMenu_SLP->Check(MenuOption_ShowSLP, ShowSLP);
-	SubMenu_SLP->AppendCheckItem(MenuOption_ShowIcons, "Show SLP &icons");
-	SubMenu_SLP->Check(MenuOption_ShowIcons, ShowIcons);
-	SubMenu_SLP->AppendCheckItem(MenuOption_StayOnTopSLP, "Keep SLP view on &top");
-	SubMenu_SLP->Check(MenuOption_StayOnTopSLP, StayOnTopSLP);
+    SubMenu_SLP = new wxMenu();
+    SubMenu_SLP->AppendCheckItem(eShowSLP, "Show SLP &graphics");
+    SubMenu_SLP->Check(eShowSLP, ShowSLP);
+    SubMenu_SLP->AppendCheckItem(eShowIcons, "Show SLP &icons");
+    SubMenu_SLP->Check(eShowIcons, ShowIcons);
+    SubMenu_SLP->AppendCheckItem(eStayOnTopSLP, "Keep SLP view on &top");
+    SubMenu_SLP->Check(eStayOnTopSLP, StayOnTopSLP);
 
-	SubMenu_Help = new wxMenu();
-	SubMenu_Help->Append(MenuOption_Tips, "&Tips");
-	SubMenu_Help->Append(MenuOption_About, "&About...");
+    SubMenu_Help = new wxMenu();
+    SubMenu_Help->Append(eTips, "&Tips");
+    SubMenu_Help->Append(eAbout, "&About...");
 
-	MenuBar_Main->Append(SubMenu_Options, "&Options");
-	MenuBar_Main->Append(SubMenu_SLP, "&SLP");
-	MenuBar_Main->Append(SubMenu_Help, "&Help");
+    MenuBar_Main->Append(SubMenu_Options, "&Options");
+    MenuBar_Main->Append(SubMenu_SLP, "&SLP");
+    MenuBar_Main->Append(SubMenu_Help, "&Help");
 
-	this->SetMenuBar(MenuBar_Main);
+    this->SetMenuBar(MenuBar_Main);
 
 	CreateCivControls();
 	CreateUnitControls();
@@ -235,78 +224,66 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 //	TabBar_Test->AddPage(Tab_DRS, "DRS Files");
 //	TabBar_Test->SetSelection(0);
 
-	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
-	Connect(wxEVT_IDLE, wxIdleEventHandler(AGE_Frame::showPopUp));
-	Connect(ToolBar_Open, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
-	Connect(ToolBar_Save, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
-	Connect(ToolBar_Backup, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_Show, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_Help, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_DRS, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_Hex, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_Float, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_Paste, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(ToolBar_AddWindow, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_Prompt, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_StayOnTop, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_StayOnTopSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_IDFix, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_Buttons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_ShowSLP, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_ShowIcons, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(Units_AutoCopy->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-	Connect(Units_CopyTo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::UnitsAutoCopy));
-	Connect(Units_SelectAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-	Connect(Units_SelectClear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-	Connect(Units_CopyGraphics->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-	Connect(Units_GraphicSet->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-	Connect(MenuOption_Tips, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(MenuOption_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-	Connect(TabBarID, wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+    Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
+    Connect(wxEVT_IDLE, wxIdleEventHandler(AGE_Frame::showPopUp));
+    Connect(eOpen, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
+    Connect(eSave, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
+    Connect(ePrompt, eAddWindow, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+    Connect(Units_AutoCopy->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+    Connect(Units_CopyTo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::UnitsAutoCopy));
+    Connect(Units_SelectAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+    Connect(Units_SelectClear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+    Connect(Units_CopyGraphics->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+    Connect(Units_GraphicSet->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+    Connect(eTabBar, wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+    Connect(hotWin1, hotWin4, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = UseTXT = DrawHot = exportFrame = false;
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = false;
 
-	wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Show);
+	wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, eUnknown);
 	ShowUnknownsCmd.SetInt(ShowUnknowns);
 	ProcessEvent(ShowUnknownsCmd);
 
-	wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_Buttons);
+	wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, eButtons);
 	ShowButtonsCmd.SetInt(ShowButtons);
 	ProcessEvent(ShowButtonsCmd);
 
     if(StayOnTop)
     {
-        wxCommandEvent StayOnTopCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_StayOnTop);
+        wxCommandEvent StayOnTopCmd(wxEVT_COMMAND_MENU_SELECTED, eStayOnTop);
         StayOnTopCmd.SetInt(true);
         ProcessEvent(StayOnTopCmd);
     }
 
-	wxCommandEvent Paste11Cmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Paste);
+	wxCommandEvent Paste11Cmd(wxEVT_COMMAND_MENU_SELECTED, ePaste);
 	Paste11Cmd.SetInt(Paste11);
 	ProcessEvent(Paste11Cmd);
 
 	if(TimesOpened < 2)
 	{
-		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Help);
+		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, eHelp);
 		ProcessEvent(ShowHelpCmd);
 	}
 
-	wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowSLP);
+	wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, eShowSLP);
 	ShowSLPCmd.SetInt(ShowSLP);
 	ProcessEvent(ShowSLPCmd);
 
-	wxCommandEvent ShowIconsCmd(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowIcons);
+	wxCommandEvent ShowIconsCmd(wxEVT_COMMAND_MENU_SELECTED, eShowIcons);
 	ShowIconsCmd.SetInt(ShowIcons);
 	ProcessEvent(ShowIconsCmd);
 
 	SkipOpenDialog = !PromptForFilesOnOpen;
 
 #ifndef NDEBUG
-	genie::Logger::setLogLevel(genie::Logger::L_DEBUG);
-	log_out.open("gulog.ini");
-	genie::Logger::setGlobalOutputStream(log_out);
+    if(!log_out.is_open())
+    {
+        genie::Logger::setLogLevel(genie::Logger::L_DEBUG);
+        log_out.open("gulog.ini");
+        genie::Logger::setGlobalOutputStream(log_out);
+    }
 #endif
 
 	dataset = NULL;
@@ -316,6 +293,23 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
+
+    wxAcceleratorEntry shortcuts[] =
+    {
+        {wxACCEL_RAW_CTRL, int('O'), eOpen},
+        {wxACCEL_RAW_CTRL, int('S'), eSave},
+        {wxACCEL_RAW_CTRL, int('G'), eShowSLP},
+        {wxACCEL_SHIFT, int('1'), hotWin1},
+        {wxACCEL_SHIFT, int('2'), hotWin2},
+        {wxACCEL_SHIFT, int('3'), hotWin3},
+        {wxACCEL_SHIFT, int('4'), hotWin4},
+        {wxACCEL_CTRL , int('U'), eUnknown},
+        {wxACCEL_CTRL , int('H'), eHex},
+        {wxACCEL_CTRL , int('F'), eFloat},
+        {wxACCEL_CTRL , int('P'), ePaste},
+        {wxACCEL_CTRL , int('D'), eDRS}
+    };
+    SetAcceleratorTable(wxAcceleratorTable(8, shortcuts));
 }
 
 void AGE_Frame::FixSizes()
