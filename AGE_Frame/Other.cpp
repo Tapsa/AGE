@@ -60,7 +60,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		OpenBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
 		OpenBox.Path_CustomDefault->SetPath(CustomFolder);
 		OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
-        OpenBox.TerrainsBox->Enable(ShowButtons);
+        OpenBox.TerrainsBox->Enable(ResizeTerrains);
 
 		OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
 		OpenBox.LanguageBox->ChangeValue(Language);
@@ -220,8 +220,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		dataset = new genie::DatFile();
 		try
 		{
-            if(ShowButtons)
-			genie::Terrain::setTerrainsSize(CustomTerrains);
+			genie::Terrain::setTerrainCount(ResizeTerrains ? CustomTerrains : 0);
+#ifndef NDEBUG
+            dataset->setVerboseMode(true);
+#endif
 			dataset->setGameVersion(GenieVersion);
 			dataset->load(DatFileName.c_str());
 		}
@@ -1226,8 +1228,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 
 void AGE_Frame::LoadLists()
 {
-	//Items.Add(0);
-	//FirstVisible = -1;
 	OnCivCountChange();
 	ListTerrainRestrictions(true);
 	InitPlayerColors();
@@ -1855,10 +1855,10 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		}
 		case eButtons:
 		{
-			ShowButtons = event.IsChecked();
+			ResizeTerrains = event.IsChecked();
 
-			Terrains_Add->Enable(ShowButtons);
-			Terrains_Delete->Enable(ShowButtons);
+			Terrains_Add->Enable(ResizeTerrains);
+			Terrains_Delete->Enable(ResizeTerrains);
             break;
 		}
 		case wxID_EXIT:
@@ -2297,22 +2297,34 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		}
         case hotWin1:
         {
-            wxMessageBox("1st win", "Heya");
+            if(AGE_Frame::openEditors[0]) AGE_Frame::openEditors[0]->Raise();
             break;
         }
         case hotWin2:
         {
-            wxMessageBox("2nd win", "Heya");
+            if(AGE_Frame::openEditors[1]) AGE_Frame::openEditors[1]->Raise();
             break;
         }
         case hotWin3:
         {
-            wxMessageBox("3rd win", "Heya");
+            if(AGE_Frame::openEditors[2]) AGE_Frame::openEditors[2]->Raise();
             break;
         }
         case hotWin4:
         {
-            wxMessageBox("4th win", "Heya");
+            if(AGE_Frame::openEditors[3]) AGE_Frame::openEditors[3]->Raise();
+            break;
+        }
+        case closeAll:
+        {
+            wxCloseEvent ce(wxEVT_CLOSE_WINDOW);
+            AGE_Frame::openEditors[window_num] = 0;
+            for(size_t win = 0; win < 4; ++win)
+            if(AGE_Frame::openEditors[win])
+            {
+                AGE_Frame::openEditors[win]->GetEventHandler()->ProcessEvent(ce);
+            }
+            ProcessEvent(ce);
             break;
         }
         default: wxMessageBox(lexical_cast<string>(event.GetId()), "wxEvent error!");
@@ -3531,7 +3543,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interaction/DrawTerrain", DrawTerrain);
         Config.Write("Interaction/FilterAllSubs", FilterAllSubs);
         Config.Write("Interface/ShowUnknowns", ShowUnknowns);
-        Config.Write("Interface/ShowButtons", ShowButtons);
+        Config.Write("Interface/ResizeTerrains", ResizeTerrains);
         Config.Write("Interface/StayOnTop", StayOnTop);
         Config.Write("Interface/StayOnTopSLP", StayOnTopSLP);
         Config.Write("Interface/Paste11", Paste11);
