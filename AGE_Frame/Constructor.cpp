@@ -47,7 +47,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interaction/DrawTerrain", &DrawTerrain, true);
         Config.Read("Interaction/FilterAllSubs", &FilterAllSubs, true);
         Config.Read("Interface/ShowUnknowns", &ShowUnknowns, true);
-        Config.Read("Interface/ShowButtons", &ShowButtons, false);
+        Config.Read("Interface/ResizeTerrains", &ResizeTerrains, false);
         Config.Read("Interface/StayOnTop", &StayOnTop, false);
         Config.Read("Interface/StayOnTopSLP", &StayOnTopSLP, false);
         Config.Read("Interface/Paste11", &Paste11, true);
@@ -122,7 +122,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     SubMenu_Options->AppendCheckItem(ePrompt, "&Prompt for files on open");
     SubMenu_Options->Check(ePrompt, PromptForFilesOnOpen);
     SubMenu_Options->AppendCheckItem(eButtons, "Allow adding &terrains");
-    SubMenu_Options->Check(eButtons, ShowButtons);
+    SubMenu_Options->Check(eButtons, ResizeTerrains);
 
     SubMenu_Options->AppendCheckItem(eIdFix, "Enable &index fixes");
     SubMenu_Options->Check(eIdFix, EnableIDFix);
@@ -236,7 +236,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     Connect(Units_CopyGraphics->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
     Connect(Units_GraphicSet->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
     Connect(eTabBar, wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-    Connect(hotWin1, hotWin4, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+    Connect(hotWin1, closeAll, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
 
 	DataOpened = UseTXT = DrawHot = exportFrame = false;
 	for(size_t loop = 0; loop < 2; ++loop)
@@ -247,7 +247,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	ProcessEvent(ShowUnknownsCmd);
 
 	wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, eButtons);
-	ShowButtonsCmd.SetInt(ShowButtons);
+	ShowButtonsCmd.SetInt(ResizeTerrains);
 	ProcessEvent(ShowButtonsCmd);
 
     if(StayOnTop)
@@ -283,6 +283,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         genie::Logger::setLogLevel(genie::Logger::L_DEBUG);
         log_out.open("gulog.ini");
         genie::Logger::setGlobalOutputStream(log_out);
+        cout.rdbuf(log_out.rdbuf());
     }
 #endif
 
@@ -299,17 +300,18 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         {wxACCEL_RAW_CTRL, int('O'), eOpen},
         {wxACCEL_RAW_CTRL, int('S'), eSave},
         {wxACCEL_RAW_CTRL, int('G'), eShowSLP},
-        {wxACCEL_SHIFT, int('1'), hotWin1},
-        {wxACCEL_SHIFT, int('2'), hotWin2},
-        {wxACCEL_SHIFT, int('3'), hotWin3},
-        {wxACCEL_SHIFT, int('4'), hotWin4},
-        {wxACCEL_CTRL , int('U'), eUnknown},
-        {wxACCEL_CTRL , int('H'), eHex},
-        {wxACCEL_CTRL , int('F'), eFloat},
-        {wxACCEL_CTRL , int('P'), ePaste},
-        {wxACCEL_CTRL , int('D'), eDRS}
+        {wxACCEL_CTRL, int('1'), hotWin1},
+        {wxACCEL_CTRL, int('2'), hotWin2},
+        {wxACCEL_CTRL, int('3'), hotWin3},
+        {wxACCEL_CTRL, int('4'), hotWin4},
+        {wxACCEL_CTRL, int('U'), eUnknown},
+        {wxACCEL_CTRL, int('H'), eHex},
+        {wxACCEL_CTRL, int('F'), eFloat},
+        {wxACCEL_CTRL, int('P'), ePaste},
+        {wxACCEL_CTRL, int('D'), eDRS},
+        {wxACCEL_CTRL, int('Q'), closeAll}
     };
-    SetAcceleratorTable(wxAcceleratorTable(8, shortcuts));
+    SetAcceleratorTable(wxAcceleratorTable(13, shortcuts));
 }
 
 void AGE_Frame::FixSizes()
