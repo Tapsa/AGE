@@ -30,6 +30,7 @@
 #include <wx/sound.h>
 #include <wx/clrpicker.h>
 #include <wx/thread.h>
+#include <wx/accel.h>
 
 // uncomment to disable assert()
 // #define NDEBUG
@@ -58,16 +59,16 @@ using boost::bad_lexical_cast;
 class DelayedPopUp
 {
 public:
-    bool hasMessage;
+    bool hasMessage, hexMode, accurateFloats;
     wxString popUpMessage, popUpTitle;
     wxWindow *focusTarget;
-    short window;
+    int unSaved, loadedFileId;
 
-    DelayedPopUp(short window)
+    DelayedPopUp()
     {
-        hasMessage = false;
+        hasMessage = hexMode = accurateFloats = false;
         focusTarget = NULL;
-        this->window = window;
+        unSaved = loadedFileId = 0;
     }
     void post(const wxString &message, const wxString &title, wxWindow *target)
     {

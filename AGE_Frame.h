@@ -70,7 +70,7 @@ public:
 //	Stuff related to editing multiple files at once
 
     static std::ofstream log_out;
-    static vector<bool> openEditors;
+    static wxWindow* openEditors[];
 	static Copies copies;
 	wxString argPath;
 
@@ -181,7 +181,7 @@ public:
 	void SwapSelection(int last, wxArrayInt &selections);
 	void SaveBackup();
 	bool SearchMatches(wxString itemText);
-    void getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes);
+    void getSelectedItems(const int selections, const AGEListView* list, vector<int> &indexes);
 	//void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
 	void virtualListing(AGEListView* list);
 	void FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names);
@@ -885,62 +885,28 @@ public:
     wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles;
     wxColourPickerCtrl *slp_background;
     DelayedPopUp popUp;
+    int randomi;
 
-	vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
-	UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
-	TerrainRestrictionComboBoxList, SoundComboBoxList;
+    vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
+        UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
+        TerrainRestrictionComboBoxList, SoundComboBoxList;
     vector<wxComboBox*> CivComboBoxListNormal;
 
-	vector<short> RandomMapIDs;
-	vector<short> UnknownFSIDs;
-	vector<short> UnknownSSIDs;
-	vector<short> UnknownTSIDs;
-	vector<short> Unknown4SIDs;
-	vector<short> ResearchIDs;
-	vector<short> TechIDs;
-	vector<short> EffectIDs;
-	vector<short> TTAgeIDs;
-	vector<short> TTAgeBuildIDs;
-	vector<short> TTAgeUnitIDs;
-	vector<short> TTAgeResIDs;
-	vector<short> TTAgeUnknownIDs;
-	vector<short> TTItemIDs;
-	vector<short> TTUnknownItemIDs;
-	vector<short> TTBuildConIDs;
-	vector<short> TTBuildBuildIDs;
-	vector<short> TTBuildUnitIDs;
-	vector<short> TTBuildResIDs;
-	vector<short> TTUnitConIDs;
-	vector<short> TTUnitUnitIDs;
-	vector<short> TTResConIDs;
-	vector<short> TTResBuildIDs;
-	vector<short> TTResUnitIDs;
-	vector<short> TTResResIDs;
-
-	vector<short> CivIDs;
-	vector<short> ResourceIDs;
-	short UnitCivID;
-	vector<short> UnitIDs;
-	vector<short> DamageGraphicIDs;
-	vector<short> AttackIDs;
-	vector<short> ArmorIDs;
-	vector<short> CommandIDs;
-	vector<short> UnitLineIDs;
-	vector<short> UnitLineUnitIDs;
-	vector<short> GraphicIDs;
-	vector<short> DeltaIDs;
-	vector<short> AttackSoundIDs;
-	vector<short> TerrainIDs;
-	vector<short> TerBorderIDs;
-	vector<short> TerRestrictIDs;
-	vector<short> TerRestrictTerIDs;
-	vector<float> TerrainRestrictionSubCopyAccess;
-	vector<short> SoundIDs;
-	vector<short> SoundItemIDs;
-	vector<short> ColorIDs;
-	vector<short> BorderIDs;
-	vector<short> BorderTileTypeIDs;
-	vector<short> BorderShapeIDs;
+    vector<int> RandomMapIDs, UnknownFSIDs, UnknownSSIDs, UnknownTSIDs, Unknown4SIDs,
+        ResearchIDs, TechIDs, EffectIDs,
+        TTAgeIDs, TTAgeBuildIDs, TTAgeUnitIDs, TTAgeResIDs, TTAgeUnknownIDs, TTItemIDs, TTUnknownItemIDs,
+        TTBuildConIDs, TTBuildBuildIDs, TTBuildUnitIDs, TTBuildResIDs,
+        TTUnitConIDs, TTUnitUnitIDs,
+        TTResConIDs, TTResBuildIDs, TTResUnitIDs, TTResResIDs,
+        CivIDs, ResourceIDs,
+        UnitIDs, DamageGraphicIDs, AttackIDs, ArmorIDs, CommandIDs,
+        UnitLineIDs, UnitLineUnitIDs,
+        GraphicIDs, DeltaIDs, AttackSoundIDs,
+        TerrainIDs, TerBorderIDs, TerRestrictIDs, TerRestrictTerIDs,
+        SoundIDs, SoundItemIDs, ColorIDs,
+        BorderIDs, BorderTileTypeIDs, BorderShapeIDs;
+    int UnitCivID;
+    vector<float> TerrainRestrictionSubCopyAccess;
 
 	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod, UseExtra, FilterAllSubs;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
@@ -969,49 +935,33 @@ public:
 
 //	Constants, remove unneeded entries.
 
-	enum
-	{
-		MenuOption_Prompt = wxID_HIGHEST + 1,
-		MenuOption_IDFix,
-		MenuOption_Buttons,
-		MenuOption_ShowSLP,
-		MenuOption_ShowIcons,
-		MenuOption_Tips,
-		MenuOption_StayOnTop,
-		MenuOption_StayOnTopSLP,
-		MenuOption_About,
-		ToolBar_Open,
-		ToolBar_Save,
-		ToolBar_Backup,
-		ToolBar_Show,
-		ToolBar_Help,
-		ToolBar_DRS,
-		ToolBar_Hex,
-		ToolBar_Float,
-		ToolBar_Paste,
-		ToolBar_AddWindow,
-		TabBarID,
-		opNextFrame,
-		opPrevFrame,
-		opFirstFrame,
-		opExportFrame,
-		opImportFrame,
-		opSaveSLP,
-		opSLPTool,
-		opSLPMergeShadow,
-		opShowHotspot,
-		opAnimSLP,
-		opShowShadows,
-		opShowOutline,
-		opShowDeltas,
-		opShowStack,
-		opShowAnnexes,
-		opShowTerrain,
-		opPickBgColor,
-        opCollisionShape,
-        opClearanceShape,
-        opSelectionShape
-	};
+    enum
+    {
+        // menus and tool bar
+        ePrompt = wxID_HIGHEST + 1,
+        eIdFix, eButtons, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout,
+        eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste, eAddWindow,
+
+        // open and save
+        eOpen,
+        eSave,
+
+        // tab change
+        eTabBar,
+
+        // buttons
+        eNextFrame, ePrevFrame, eFirstFrame, eExportFrame, eImportFrame, eSaveSLP, eSLPTool, eSLPMergeShadow,
+
+        // check boxes
+        eShowHotspot, eAnimSLP, eShowShadows, eShowOutline, eShowDeltas, eShowStack, eShowAnnexes, eShowTerrain,
+        eCollisionShape, eClearanceShape, eSelectionShape,
+
+        // color picker
+        ePickBgColor,
+
+        // invisible
+        hotWin1, hotWin2, hotWin3, hotWin4
+    };
 
     static const wxString MirrorHelp;
 
@@ -3379,20 +3329,20 @@ public:
 	}
 
 	template <class P>
-	inline void InsertToListNoGV(P &path, short place)
+	inline void InsertToListNoGV(P &path, int place)
 	{
 		path.emplace(path.begin() + place);
 		How2List = INSNEW;
 	}
 	template <class P>
-	inline void InsertToList(P &path, short place)
+	inline void InsertToList(P &path, int place)
 	{
 		path.emplace(path.begin() + place);
 		path[place].setGameVersion(GenieVersion);
 		How2List = INSNEW;
 	}
 	template <class P>
-	inline void InsertToListIDFix(P &path, short place)
+	inline void InsertToListIDFix(P &path, int place)
 	{
 		path.emplace(path.begin() + place);
 		path[place].setGameVersion(GenieVersion);
@@ -3403,14 +3353,14 @@ public:
 	}
 
 	template <class P>
-	inline void DeleteFromList(P &path, vector<short> &places)
+	inline void DeleteFromList(P &path, vector<int> &places)
 	{
 		for(auto loop = places.size(); loop--> 0;)
 		path.erase(path.begin() + places[loop]);
 		How2List = DEL;
 	}
 	template <class P>
-	inline void DeleteFromListIDFix(P &path, vector<short> &places)
+	inline void DeleteFromListIDFix(P &path, vector<int> &places)
 	{
 		for(auto loop = places.size(); loop--> 0;)
 		path.erase(path.begin() + places[loop]);
@@ -3421,7 +3371,7 @@ public:
 	}
 
 	template <class P, class C>
-	inline void CopyFromList(P &path, vector<short> &places, C &copies)
+	inline void CopyFromList(P &path, vector<int> &places, C &copies)
 	{
 		copies.resize(places.size());
 		for(auto loop = places.size(); loop--> 0;)
@@ -3429,7 +3379,7 @@ public:
 	}
 
 	template <class P, class C>
-	inline void PasteToListNoGV(P &path, short place, C &copies)
+	inline void PasteToListNoGV(P &path, int place, C &copies)
 	{
 		if(copies.size() + place > path.size())
 		path.resize(copies.size() + place);
@@ -3440,7 +3390,7 @@ public:
 		How2List = PASTE;
 	}
 	template <class P, class C>
-	inline void PasteToListNoGV(P &path, vector<short> &places, C &copies)
+	inline void PasteToListNoGV(P &path, vector<int> &places, C &copies)
 	{
 		for(size_t loop = 0; loop < places.size(); ++loop)
 		{
@@ -3450,7 +3400,7 @@ public:
 	}
 	// Paste from selection onwards
 	template <class P, class C>
-	inline void PasteToList(P &path, short place, C &copies)
+	inline void PasteToList(P &path, int place, C &copies)
 	{
 		if(copies.size() + place > path.size())
 		path.resize(copies.size() + place);
@@ -3463,7 +3413,7 @@ public:
 	}
 	// Paste to selections filling from beginning
 	template <class P, class C>
-	inline void PasteToList(P &path, vector<short> &places, C &copies)
+	inline void PasteToList(P &path, vector<int> &places, C &copies)
 	{
 		for(size_t loop = 0; loop < places.size(); ++loop)
 		{
@@ -3473,7 +3423,7 @@ public:
 		How2List = PASTE;
 	}
 	template <class P, class C>
-	inline void PasteToListNoResize(P &path, short place, C &copies)
+	inline void PasteToListNoResize(P &path, int place, C &copies)
 	{
 		auto CopyCount = copies.size();
 		if(CopyCount + place > path.size())
@@ -3486,7 +3436,7 @@ public:
 		How2List = PASTE;
 	}
 	template <class P, class C>
-	inline void PasteToListIDFix(P &path, short place, C &copies)
+	inline void PasteToListIDFix(P &path, int place, C &copies)
 	{
 		if(copies.size() + place > path.size())
 		path.resize(copies.size() + place);
@@ -3500,7 +3450,7 @@ public:
 		How2List = PASTE;
 	}
 	template <class P, class C>
-	inline void PasteToListIDFix(P &path, vector<short> &places, C &copies)
+	inline void PasteToListIDFix(P &path, vector<int> &places, C &copies)
 	{
 		for(size_t loop = 0; loop < places.size(); ++loop)
 		{
@@ -3514,13 +3464,13 @@ public:
 
 
 	template <class P, class C>
-	inline void PasteInsertToListNoGV(P &path, short place, C &copies)
+	inline void PasteInsertToListNoGV(P &path, int place, C &copies)
 	{
 		path.insert(path.begin() + place, copies.begin(), copies.end());
 		How2List = INSPASTE;
 	}
 	template <class P, class C>
-	inline void PasteInsertToList(P &path, short place, C &copies)
+	inline void PasteInsertToList(P &path, int place, C &copies)
 	{
 		for(auto loop = copies.size(); loop--> 0;)
 		copies[loop].setGameVersion(GenieVersion);
@@ -3528,7 +3478,7 @@ public:
 		How2List = INSPASTE;
 	}
 	template <class P, class C>
-	inline void PasteInsertToListIDFix(P &path, short place, C &copies)
+	inline void PasteInsertToListIDFix(P &path, int place, C &copies)
 	{
 		for(auto loop = copies.size(); loop--> 0;)
 		copies[loop].setGameVersion(GenieVersion);
@@ -3548,4 +3498,5 @@ protected:
     Loader *TerrainLoader;
     wxCriticalSection TerrainLoaderCS;
     friend class Loader;
+    short window_num;
 };
