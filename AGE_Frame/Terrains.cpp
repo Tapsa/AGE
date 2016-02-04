@@ -414,31 +414,19 @@ void AGE_Frame::OnTerrainsAdd(wxCommandEvent &event) // Their count is hardcoded
 	if(NULL == dataset) return;
 
 	wxBusyCursor WaitCursor;
-    if(GameVersion == EV_EF)
-	genie::Terrain::setTerrainsSize(++CustomTerrains);
+	genie::Terrain::setTerrainCount(++CustomTerrains);
 	for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
 	dataset->TerrainBlock.Terrains[loop].setGameVersion(GenieVersion);
 	AddToList(dataset->TerrainBlock.Terrains);
 	ListTerrains1();
 }
 
-void AGE_Frame::OnTerrainsInsert(wxCommandEvent &event) // Their count is hardcoded.
-{
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
-
-	wxBusyCursor WaitCursor;
-	ListTerrains1();
-}
-
 void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardcoded.
 {
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Terrains_Terrains_ListV->GetSelectedItemCount()) return;
 
 	wxBusyCursor WaitCursor;
-    if(GameVersion == EV_EF)
-	genie::Terrain::setTerrainsSize(CustomTerrains -= TerrainIDs.size());
+	genie::Terrain::setTerrainCount(CustomTerrains -= TerrainIDs.size());
 	DeleteFromList(dataset->TerrainBlock.Terrains, TerrainIDs);
 	for(size_t loop = dataset->TerrainBlock.Terrains.size(); loop--> 0;)
 	DeleteFromList(dataset->TerrainBlock.Terrains[loop].Borders, TerrainIDs);
@@ -447,8 +435,7 @@ void AGE_Frame::OnTerrainsDelete(wxCommandEvent &event) // Their count is hardco
 
 void AGE_Frame::OnTerrainsCopy(wxCommandEvent &event)
 {
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Terrains_Terrains_ListV->GetSelectedItemCount()) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(dataset->TerrainBlock.Terrains, TerrainIDs, copies.Terrain);
@@ -457,10 +444,10 @@ void AGE_Frame::OnTerrainsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 {
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Terrains_Terrains_ListV->GetSelectedItemCount()) return;
 
 	wxBusyCursor WaitCursor;
+	genie::Terrain::setTerrainCount(ResizeTerrains ? CustomTerrains : 0); // Since it is static variable.
 	if(Paste11)
 	{
 		if(Paste11Check(TerrainIDs.size(), copies.Terrain.size()))
@@ -472,16 +459,6 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 	{
 		PasteToListNoResize(dataset->TerrainBlock.Terrains, TerrainIDs[0], copies.Terrain);
 	}
-	ListTerrains1();
-}
-
-void AGE_Frame::OnTerrainsPasteInsert(wxCommandEvent &event)
-{
-	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
-
-	wxBusyCursor WaitCursor;
-	PasteInsertToList(dataset->TerrainBlock.Terrains, TerrainIDs[0], copies.Terrain);
 	ListTerrains1();
 }
 

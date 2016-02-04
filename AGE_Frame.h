@@ -756,11 +756,9 @@ public:
 	void OnTerrainsTimer(wxTimerEvent &event);
 	void OnTerrainsSelect(wxCommandEvent &event);
 	void OnTerrainsAdd(wxCommandEvent &event);
-	void OnTerrainsInsert(wxCommandEvent &event);
 	void OnTerrainsDelete(wxCommandEvent &event);
 	void OnTerrainsCopy(wxCommandEvent &event);
 	void OnTerrainsPaste(wxCommandEvent &event);
-	void OnTerrainsPasteInsert(wxCommandEvent &event);
 	string GetTerrainName(int, bool = false);
 
 	void OnTerrainsBorderSearch(wxCommandEvent &event);
@@ -865,7 +863,7 @@ public:
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, StayOnTopSLP;
 	vector<short> SelectedCivs;
-	bool useAnd[2], EnableIDFix, ShowUnknowns, ShowButtons, SkipOpenDialog, Paste11;
+	bool useAnd[2], EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot, DrawTerrain;
     bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape;
 	vector<genie::DrsFile*> datafiles;
@@ -960,7 +958,7 @@ public:
         ePickBgColor,
 
         // invisible
-        hotWin1, hotWin2, hotWin3, hotWin4
+        hotWin1, hotWin2, hotWin3, hotWin4, closeAll
     };
 
     static const wxString MirrorHelp;
