@@ -209,8 +209,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0");
             if(key.Exists())
             {
-                key.QueryValue("Game Path", path);
-                path.Truncate(path.size() - 1);
+                key.QueryValue("Source Path", path);
                 filler.SetId(Button_DefaultSWGB->GetId());
             }
             break;
@@ -220,8 +219,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
             if(key.Exists())
             {
-                key.QueryValue("Game Path", path);
-                path.Truncate(path.size() - 1);
+                key.QueryValue("Source Path", path);
                 filler.SetId(Button_DefaultCC->GetId());
             }
             break;
@@ -231,8 +229,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Expanding Fronts\\1.0");
             if(key.Exists())
             {
-                key.QueryValue("Game Path", path);
-                path.Truncate(path.size() - 1);
+                key.QueryValue("Source Path", path);
                 filler.SetId(Button_DefaultCC->GetId());
                 filler.SetExtraLong(1346980949);
             }

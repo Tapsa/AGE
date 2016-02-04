@@ -11,35 +11,34 @@ wxString AGEListView::OnGetItemText(long item, long column) const
 }
 
 AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *group,
-    wxFrame *frame, DelayedPopUp *popUp, wxWindow *parent, short length)
+    wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, short length)
 {
     AGETextCtrl* product;
     switch(type)
     {
-    case CByte: product = new TextCtrl_Byte(frame, popUp->window, parent, length); break;
-    case CUByte: product = new TextCtrl_UByte(frame, popUp->window, parent); break;
-    case CFloat: product = new TextCtrl_Float(frame, popUp->window, parent, length); break;
-    case CLong: product = new TextCtrl_Long(frame, popUp->window, parent, length); break;
-    case CShort: product = new TextCtrl_Short(frame, popUp->window, parent, length); break;
-    case CUShort: product = new TextCtrl_UShort(frame, popUp->window, parent); break;
-    case CString: product = new TextCtrl_String(frame, popUp->window, parent, length); break;
+    case CByte: product = new TextCtrl_Byte(frame, editor, parent, length); break;
+    case CUByte: product = new TextCtrl_UByte(frame, editor, parent); break;
+    case CFloat: product = new TextCtrl_Float(frame, editor, parent, length); break;
+    case CLong: product = new TextCtrl_Long(frame, editor, parent, length); break;
+    case CShort: product = new TextCtrl_Short(frame, editor, parent, length); break;
+    case CUShort: product = new TextCtrl_UShort(frame, editor, parent); break;
+    case CString: product = new TextCtrl_String(frame, editor, parent, length); break;
     }
     if(NULL != group) group->push_back(product);
-    product->popUp = popUp;
     return product;
 }
 
 int TextCtrl_Byte::SaveEdits(bool forced)
 {
-    if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
-    if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
+    if(editor->hexMode || container.empty()) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            popUp->post(BATCHWARNING, BWTITLE, NULL);
+            editor->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -78,13 +77,13 @@ int TextCtrl_Byte::SaveEdits(bool forced)
             }
             else
             {
-                popUp->post("Please enter a number from -128 to 127", IETITLE, this);
+                editor->post("Please enter a number from -128 to 127", IETITLE, this);
                 return 2;
             }
         }
         catch(bad_lexical_cast e)
         {
-            popUp->post("Please enter a number from -128 to 127", IETITLE, this);
+            editor->post("Please enter a number from -128 to 127", IETITLE, this);
             return 2;
         }
     }
@@ -97,15 +96,15 @@ int TextCtrl_Byte::SaveEdits(bool forced)
 
 int TextCtrl_UByte::SaveEdits(bool forced)
 {
-    if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
-    if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
+    if(editor->hexMode || container.empty()) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            popUp->post(BATCHWARNING, BWTITLE, NULL);
+            editor->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -144,13 +143,13 @@ int TextCtrl_UByte::SaveEdits(bool forced)
             }
             else
             {
-                popUp->post("Please enter a number from 0 to 255", IETITLE, this);
+                editor->post("Please enter a number from 0 to 255", IETITLE, this);
                 return 2;
             }
         }
         catch(bad_lexical_cast e)
         {
-            popUp->post("Please enter a number from 0 to 255", IETITLE, this);
+            editor->post("Please enter a number from 0 to 255", IETITLE, this);
             return 2;
         }
     }
@@ -163,15 +162,15 @@ int TextCtrl_UByte::SaveEdits(bool forced)
 
 int TextCtrl_Float::SaveEdits(bool forced)
 {
-    if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
-    if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
+    if(editor->hexMode || container.empty()) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            popUp->post(BATCHWARNING, BWTITLE, NULL);
+            editor->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -210,7 +209,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
         }
         catch(bad_lexical_cast e)
         {
-            popUp->post("Please enter a valid floating point number", IETITLE, this);
+            editor->post("Please enter a valid floating point number", IETITLE, this);
             return 2;
         }
     }
@@ -223,15 +222,15 @@ int TextCtrl_Float::SaveEdits(bool forced)
 
 int TextCtrl_Long::SaveEdits(bool forced)
 {
-    if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
-    if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
+    if(editor->hexMode || container.empty()) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            popUp->post(BATCHWARNING, BWTITLE, NULL);
+            editor->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -268,7 +267,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
         }
         catch(bad_lexical_cast e)
         {
-            popUp->post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
+            editor->post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
             return 2;
         }
     }
@@ -281,15 +280,15 @@ int TextCtrl_Long::SaveEdits(bool forced)
 
 int TextCtrl_Short::SaveEdits(bool forced)
 {
-    if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
-    if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
+    if(editor->hexMode || container.empty()) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            popUp->post(BATCHWARNING, BWTITLE, NULL);
+            editor->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -326,7 +325,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
         }
         catch(bad_lexical_cast e)
         {
-            popUp->post("Please enter a number from -32 768 to 32 767", IETITLE, this);
+            editor->post("Please enter a number from -32 768 to 32 767", IETITLE, this);
             return 2;
         }
     }
@@ -339,15 +338,15 @@ int TextCtrl_Short::SaveEdits(bool forced)
 
 int TextCtrl_UShort::SaveEdits(bool forced)
 {
-    if(AGETextCtrl::hexMode[window] || container.empty()) return 1;
-    if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
+    if(editor->hexMode || container.empty()) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            popUp->post(BATCHWARNING, BWTITLE, NULL);
+            editor->post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -384,7 +383,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
         }
         catch(bad_lexical_cast e)
         {
-            popUp->post("Please enter a number from 0 to 65 535", IETITLE, this);
+            editor->post("Please enter a number from 0 to 65 535", IETITLE, this);
             return 2;
         }
     }
@@ -398,7 +397,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
 int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
 {
     if(container.empty()) return 1;
-    if(curFileLoaded != AGETextCtrl::fileLoaded[window]) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(*(string*)container.back() != value || forced) // Has been changed
     {
@@ -450,7 +449,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
 
 void TextCtrl_Byte::replenish()
 {
-    if(AGETextCtrl::hexMode[window])
+    if(editor->hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -471,7 +470,7 @@ void TextCtrl_Byte::replenish()
 
 void TextCtrl_UByte::replenish()
 {
-    if(AGETextCtrl::hexMode[window])
+    if(editor->hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -492,7 +491,7 @@ void TextCtrl_UByte::replenish()
 
 void TextCtrl_Float::replenish()
 {
-    if(AGETextCtrl::hexMode[window])
+    if(editor->hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -501,7 +500,7 @@ void TextCtrl_Float::replenish()
     }
     else
     {
-        if(AGETextCtrl::accurateFloats[window])
+        if(editor->accurateFloats)
         {
             ChangeValue(lexical_cast<string>(*(float*)container.back()));
         }
@@ -525,7 +524,7 @@ void TextCtrl_Float::replenish()
 
 void TextCtrl_Long::replenish()
 {
-    if(AGETextCtrl::hexMode[window])
+    if(editor->hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -546,7 +545,7 @@ void TextCtrl_Long::replenish()
 
 void TextCtrl_Short::replenish()
 {
-    if(AGETextCtrl::hexMode[window])
+    if(editor->hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -567,7 +566,7 @@ void TextCtrl_Short::replenish()
 
 void TextCtrl_UShort::replenish()
 {
-    if(AGETextCtrl::hexMode[window])
+    if(editor->hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);

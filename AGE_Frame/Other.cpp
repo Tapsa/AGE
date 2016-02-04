@@ -4,26 +4,22 @@
 #include "../Tree32.xpm"
 
 wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
-vector<bool> AGETextCtrl::hexMode;
-vector<bool> AGETextCtrl::accurateFloats;
-vector<int> AGETextCtrl::unSaved;
-vector<int> AGETextCtrl::fileLoaded;
 const wxString AGE_Frame::PASTE11WARNING = "Selections mismatch";
 float AGE_SLP::bearing = 0.f;
 unsigned AGE_SLP::setbearing = 0u;
 
 void AGE_Frame::OnOpen(wxCommandEvent &event)
 {
-    if(AGETextCtrl::unSaved[popUp.window] > 0)
+    if(popUp.unSaved > 0)
     {
         int answer = wxMessageBox("Do you want to save changes made to open files?\nThere are "
-                        +lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" unsaved changes.",
+                        +lexical_cast<string>(popUp.unSaved)+" unsaved changes.",
                         "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
         if(answer != wxNO)
         {
             if(answer == wxYES)
             {
-                wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Save);
+                wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, eSave);
                 ProcessEvent(SaveFiles);
             }
             else return;
@@ -129,10 +125,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		{
 			return;
 		}
-		AGETextCtrl::unSaved[popUp.window] = 0;
-		++AGETextCtrl::fileLoaded[popUp.window];
+		popUp.unSaved = 0;
+		++popUp.loadedFileId;
 
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(popUp.window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/DriveLetter", DriveLetter);
         Config.Write("DefaultFiles/UseCustomPath", UseCustomPath);
         Config.Write("DefaultFiles/CustomFolder", CustomFolder);
@@ -333,8 +329,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 	}
 
-    GetToolBar()->ToggleTool(ToolBar_DRS, false);
-    wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, ToolBar_DRS);
+    GetToolBar()->ToggleTool(eDRS, false);
+    wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, eDRS);
     loadDRS.SetInt(false);
     ProcessEvent(loadDRS);
     if(UseDRS)
@@ -364,7 +360,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         else
         {
-            GetToolBar()->ToggleTool(ToolBar_DRS, true);
+            GetToolBar()->ToggleTool(eDRS, true);
             loadDRS.SetInt(true);
             ProcessEvent(loadDRS);
         }
@@ -1672,7 +1668,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 
 	if(!save) return;
     {
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(popUp.window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/SaveVersion", SaveGameVersion);
         Config.Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
         Config.Write("DefaultFiles/SaveLangs", SaveLangs);
@@ -1779,8 +1775,8 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
         }
 	}
 
-	SetStatusText("Selected files saved. "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" dat edits.", 0);
-	AGETextCtrl::unSaved[popUp.window] = 0;
+	SetStatusText("Selected files saved. "+lexical_cast<string>(popUp.unSaved)+" dat edits.", 0);
+	popUp.unSaved = 0;
 }
 
 bool AGE_Frame::SaveLang()
@@ -1830,17 +1826,17 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 {
 	switch(event.GetId())
 	{
-		case MenuOption_Prompt:
+		case ePrompt:
 		{
 			PromptForFilesOnOpen = event.IsChecked();
             break;
 		}
-		case ToolBar_Backup:
+		case eBackup:
 		{
 			AutoBackups = event.IsChecked();
             break;
 		}
-		case ToolBar_Show:
+		case eUnknown:
 		{
 			ShowUnknowns = event.IsChecked();
 
@@ -1857,7 +1853,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			OnGameVersionChange(); // Does layouting and refreshing and ... check it out.
             break;
 		}
-		case MenuOption_Buttons:
+		case eButtons:
 		{
 			ShowButtons = event.IsChecked();
 
@@ -1870,7 +1866,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			Close(true);
             break;
 		}
-		case MenuOption_Tips:
+		case eTips:
 		{
 			wxString TipText;
 			TipText.Append("You can have multiple search entries separated with \"|\" letter.\n");
@@ -1881,18 +1877,18 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			wxMessageBox(TipText, "Tips");
             break;
 		}
-		case MenuOption_About:
+		case eAbout:
 		{
 			AGE_AboutDialog AGEAbout(this);
 			AGEAbout.ShowModal();
             break;
 		}
-		case TabBarID:
+		case eTabBar:
 		{
 			if(NULL != slp_window) slp_view->Refresh();
             break;
 		}
-		case MenuOption_ShowSLP:
+		case eShowSLP:
 		{
 			ShowSLP = event.IsChecked();
 
@@ -1910,16 +1906,16 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_window->SetIcon(wxIcon(Tree32_xpm));
                 wxPanel *panel = new wxPanel(slp_window);
                 slp_view = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
-                slp_next = new wxButton(panel, opNextFrame, "Show -> frame");
-                slp_prev = new wxButton(panel, opPrevFrame, "Show <- frame");
-                slp_first = new wxButton(panel, opFirstFrame, "Show first frame");
+                slp_next = new wxButton(panel, eNextFrame, "Show -> frame");
+                slp_prev = new wxButton(panel, ePrevFrame, "Show <- frame");
+                slp_first = new wxButton(panel, eFirstFrame, "Show first frame");
                 wxColour back(SLPbackR, SLPbackG, SLPbackB);
-                slp_background = new wxColourPickerCtrl(panel, opPickBgColor, back, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
-                slp_frame_export = new wxButton(panel, opExportFrame, "Export frame to PNGs");
-                slp_frame_import = new wxButton(panel, opImportFrame, "Import PNGs to frame");
-                slp_save = new wxButton(panel, opSaveSLP, "Save SLP");
-                slp_tool = new wxButton(panel, opSLPTool, "SLP Tool");
-                slp_merge_shadow = new wxButton(panel, opSLPMergeShadow, "Merge shadow from 2 to 1");
+                slp_background = new wxColourPickerCtrl(panel, ePickBgColor, back, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
+                slp_frame_export = new wxButton(panel, eExportFrame, "Export frame to PNGs");
+                slp_frame_import = new wxButton(panel, eImportFrame, "Import PNGs to frame");
+                slp_save = new wxButton(panel, eSaveSLP, "Save SLP");
+                slp_tool = new wxButton(panel, eSLPTool, "SLP Tool");
+                slp_merge_shadow = new wxButton(panel, eSLPMergeShadow, "Merge shadow from 2 to 1");
                 slp_tool_layout = new wxFlexGridSizer(2, 2, 2);
                 wxStaticText *text_source1 = new wxStaticText(panel, wxID_ANY, " Source SLP 1");
                 wxStaticText *text_source2 = new wxStaticText(panel, wxID_ANY, " Source SLP 2");
@@ -1927,28 +1923,28 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_source1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
                 slp_source2 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxSize(0, 20), wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
                 slp_target1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxSize(0, 20), wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
-                slp_hotspot = new wxCheckBox(panel, opShowHotspot, "Hotspot");
-                slp_animate = new wxCheckBox(panel, opAnimSLP, "Animate");
+                slp_hotspot = new wxCheckBox(panel, eShowHotspot, "Hotspot");
+                slp_animate = new wxCheckBox(panel, eAnimSLP, "Animate");
                 slp_animate->SetValue(AnimSLP);
-                slp_shadow = new wxCheckBox(panel, opShowShadows, "Shadow");
+                slp_shadow = new wxCheckBox(panel, eShowShadows, "Shadow");
                 slp_shadow->SetValue(ShowShadows);
-                slp_outline = new wxCheckBox(panel, opShowOutline, "Outline");
+                slp_outline = new wxCheckBox(panel, eShowOutline, "Outline");
                 slp_outline->SetValue(ShowOutline);
-                slp_delta = new wxCheckBox(panel, opShowDeltas, "Delta");
+                slp_delta = new wxCheckBox(panel, eShowDeltas, "Delta");
                 slp_delta->SetValue(ShowDeltas);
-                slp_stack = new wxCheckBox(panel, opShowStack, "Stack");
+                slp_stack = new wxCheckBox(panel, eShowStack, "Stack");
                 slp_stack->SetValue(ShowStack);
-                slp_annex = new wxCheckBox(panel, opShowAnnexes, "Annex");
+                slp_annex = new wxCheckBox(panel, eShowAnnexes, "Annex");
                 slp_annex->SetValue(ShowAnnexes);
-                slp_terrain = new wxCheckBox(panel, opShowTerrain, "Terrain");
+                slp_terrain = new wxCheckBox(panel, eShowTerrain, "Terrain");
                 slp_terrain->SetValue(DrawTerrain);
                 slp_angles = new wxCheckBox(panel, wxID_ANY, "Rotate angles *");
                 slp_angles->SetValue(true);
-                slp_collision = new wxCheckBox(panel, opCollisionShape, "Collision Shape");
+                slp_collision = new wxCheckBox(panel, eCollisionShape, "Collision Shape");
                 slp_collision->SetValue(DrawCollisionShape);
-                slp_clearance = new wxCheckBox(panel, opClearanceShape, "Clearance Shape");
+                slp_clearance = new wxCheckBox(panel, eClearanceShape, "Clearance Shape");
                 slp_clearance->SetValue(DrawClearanceShape);
-                slp_selection = new wxCheckBox(panel, opSelectionShape, "Selection Shape");
+                slp_selection = new wxCheckBox(panel, eSelectionShape, "Selection Shape");
                 slp_selection->SetValue(DrawSelectionShape);
                 slp_angles->SetToolTip("Right click image to manually set angle\nNo east side support yet");
                 slp_sizer = new wxBoxSizer(wxVERTICAL);
@@ -1999,26 +1995,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_RIGHT_DOWN, wxMouseEventHandler(AGE_Frame::OnFrameMouse), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
-                slp_first->Connect(opFirstFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_next->Connect(opNextFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_prev->Connect(opPrevFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_frame_export->Connect(opExportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_frame_import->Connect(opImportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_save->Connect(opSaveSLP, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_tool->Connect(opSLPTool, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_merge_shadow->Connect(opSLPMergeShadow, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_hotspot->Connect(opShowHotspot, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_animate->Connect(opAnimSLP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_shadow->Connect(opShowShadows, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_outline->Connect(opShowOutline, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_delta->Connect(opShowDeltas, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_stack->Connect(opShowStack, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_annex->Connect(opShowAnnexes, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_terrain->Connect(opShowTerrain, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_background->Connect(opPickBgColor, wxEVT_COMMAND_COLOURPICKER_CHANGED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_collision->Connect(opCollisionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_clearance->Connect(opClearanceShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_selection->Connect(opSelectionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_next->Connect(eNextFrame, eSLPMergeShadow, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_hotspot->Connect(eShowHotspot, eSelectionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_background->Connect(ePickBgColor, wxEVT_COMMAND_COLOURPICKER_CHANGED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_window->Show();
             }
             else
@@ -2031,7 +2010,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
             break;
 		}
-        case MenuOption_ShowIcons:
+        case eShowIcons:
         {
             ShowIcons = event.IsChecked();
 
@@ -2039,19 +2018,19 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             Research_IconID_SLP->Show(ShowIcons);
             break;
         }
-		/*case MenuOption_IDFix:
+		/*case eIdFix:
 		{
 			EnableIDFix = event.IsChecked();
 			wxMessageBox("Please restart this program.\nI do not recommend disabling index fixes!");
             break;
 		}*/
-		case ToolBar_DRS:
+		case eDRS:
         {
             if(event.IsChecked())
             {
                 if(!UseTXT)
                 {
-                    GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_lock_xpm));
+                    GetToolBar()->SetToolNormalBitmap(eDRS, wxBitmap(DRS_lock_xpm));
                     // Reload DRS files.
                     wxArrayString FilesToRead;
                     if(GenieVersion == genie::GV_TC)
@@ -2131,7 +2110,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 Research_IconID_SLP->Refresh();
                 break;
             }
-            GetToolBar()->SetToolNormalBitmap(ToolBar_DRS, wxBitmap(DRS_unlock_xpm));
+            GetToolBar()->SetToolNormalBitmap(eDRS, wxBitmap(DRS_unlock_xpm));
             // Unload DRS files, stop animations.
             graphicAnimTimer.Stop();
             if(!UseTXT)
@@ -2142,7 +2121,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
             break;
         }
-		case ToolBar_Help:
+		case eHelp:
 		{
 			//AGE_HelpInfo AGEHelp(this);
 			//AGEHelp.ShowModal();
@@ -2274,55 +2253,70 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			wxMessageBox(help, "Short Guide to Advanced Editing");
             break;
 		}
-		case ToolBar_Hex:
+		case eHex:
 		{
-			AGETextCtrl::hexMode[popUp.window] = event.IsChecked();
+			popUp.hexMode = event.IsChecked();
 			LoadLists();
             break;
 		}
-		case ToolBar_Float:
+		case eFloat:
 		{
-			AGETextCtrl::accurateFloats[popUp.window] = event.IsChecked();
+			popUp.accurateFloats = event.IsChecked();
 			LoadLists();
             break;
 		}
-		case ToolBar_Paste:
+		case ePaste:
 		{
 			Paste11 = event.IsChecked();
             break;
 		}
-		case ToolBar_AddWindow:
+		case eAddWindow:
         {
-            int nextFreeSlot = AGE_Frame::openEditors.size();
-            for(int win = 0; win < nextFreeSlot; ++win)
-            if(AGE_Frame::openEditors[win] == false)
+            for(size_t win = 0; win < 4; ++win)
+            if(!AGE_Frame::openEditors[win])
             {
-                nextFreeSlot = win;
-                break;
-            }
-            if(nextFreeSlot < 4)
-            {
-                AGE_Frame* newWindow = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+lexical_cast<string>(nextFreeSlot+1), nextFreeSlot);
+                AGE_Frame* newWindow = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+lexical_cast<string>(win+1), win);
                 FixSize(newWindow);
-                wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, newWindow->ToolBar_Open);
+                wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, newWindow->eOpen);
                 newWindow->GetEventHandler()->ProcessEvent(OpenFiles);
+                break;
             }
             break;
         }
-		case MenuOption_StayOnTop:
+		case eStayOnTop:
 		{
 			ToggleWindowStyle(wxSTAY_ON_TOP);
 			StayOnTop = event.IsChecked();
             break;
 		}
-		case MenuOption_StayOnTopSLP:
+		case eStayOnTopSLP:
 		{
             if(NULL != slp_window) slp_window->ToggleWindowStyle(wxSTAY_ON_TOP);
 			StayOnTopSLP = event.IsChecked();
             break;
 		}
-		default: wxMessageBox(lexical_cast<string>(event.GetId()), "wxEvent error!");
-	}
+        case hotWin1:
+        {
+            wxMessageBox("1st win", "Heya");
+            break;
+        }
+        case hotWin2:
+        {
+            wxMessageBox("2nd win", "Heya");
+            break;
+        }
+        case hotWin3:
+        {
+            wxMessageBox("3rd win", "Heya");
+            break;
+        }
+        case hotWin4:
+        {
+            wxMessageBox("4th win", "Heya");
+            break;
+        }
+        default: wxMessageBox(lexical_cast<string>(event.GetId()), "wxEvent error!");
+    }
 }
 
 int AGE_Frame::produceRecentValues(wxArrayString &latest, vector<wxArrayString> &RecentValues)
@@ -2937,8 +2931,8 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 		{
 			SetStatusText("Added 1 hidden", 2);
 		}
-		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + 1", 3);
-		++AGETextCtrl::unSaved[popUp.window];
+		SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + 1", 3);
+		++popUp.unSaved;
 	}
 	else if(How2List == DEL)
 	{
@@ -2953,8 +2947,8 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 			List->Set(names);
 			SetStatusText("Listed all again", 2);
 		}
-		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + "+lexical_cast<string>(selections), 3);
-		AGETextCtrl::unSaved[popUp.window] += selections;
+		SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+		popUp.unSaved += selections;
 	}
 	else if(How2List == PASTE && Paste11)
 	{
@@ -2963,8 +2957,8 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 			List->SetString(Items.Item(sel), names[Items.Item(sel)]);
 		}
 		SetStatusText("Pasted 1 to 1", 2);
-		SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + "+lexical_cast<string>(selections), 3);
-		AGETextCtrl::unSaved[popUp.window] += selections;
+		SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+		popUp.unSaved += selections;
 	}
 	else
 	{
@@ -2974,13 +2968,13 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 			SetStatusText("Listed all again", 2);
 			if(How2List == ENABLE)
 			{
-				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + "+lexical_cast<string>(selections), 3);
-				AGETextCtrl::unSaved[popUp.window] += selections;
+				SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+				popUp.unSaved += selections;
 			}
 			else // Need more input to calculate edits for paste and inserts.
 			{
-				SetStatusText("Edits: "+lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" + 1", 3);
-				++AGETextCtrl::unSaved[popUp.window];
+				SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + 1", 3);
+				++popUp.unSaved;
 			}
 		}
 	}
@@ -3153,8 +3147,7 @@ int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
 	return -1;
 }
 
-int randomi;
-void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, vector<short> &indexes)
+void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, vector<int> &indexes)
 {
     ++randomi;
     indexes.resize(selections);
@@ -3183,7 +3176,7 @@ void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
 
 wxString AGE_Frame::FormatFloat(float value)
 {
-	if(AGETextCtrl::accurateFloats[popUp.window])
+	if(popUp.accurateFloats)
 	return lexical_cast<string>(value);
 
 	stringbuf buffer;
@@ -3194,7 +3187,7 @@ wxString AGE_Frame::FormatFloat(float value)
 
 wxString AGE_Frame::FormatInt(int value)
 {
-	if(!AGETextCtrl::hexMode[popUp.window])
+	if(!popUp.hexMode)
 	return lexical_cast<string>(value);
 
 	stringbuf buffer;
@@ -3249,7 +3242,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
 {
     switch(event.GetId())
     {
-        case opNextFrame:
+        case eNextFrame:
         {
             AGE_SLP *graphic = getCurrentGraphics();
             if(NULL != graphic)
@@ -3269,7 +3262,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             }
             break;
         }
-        case opPrevFrame:
+        case ePrevFrame:
         {
             AGE_SLP *graphic = getCurrentGraphics();
             if(NULL != graphic)
@@ -3289,14 +3282,14 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             }
             break;
         }
-        case opFirstFrame:
+        case eFirstFrame:
         {
             AGE_SLP::bearing = 0.f;
             AGE_SLP::setbearing = 1u;
             slp_view->Refresh();
             break;
         }
-        case opExportFrame:
+        case eExportFrame:
         {
             exportFrame = true;
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
@@ -3309,7 +3302,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             exportFrame = false;
             break;
         }
-        case opImportFrame:
+        case eImportFrame:
         {
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
@@ -3318,7 +3311,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             graphicAnimTimer.Start(100);
             break;
         }
-        case opSaveSLP:
+        case eSaveSLP:
         {
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
@@ -3346,7 +3339,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             else wxMessageBox("Look at some graphic", "SLP");
             break;
         }
-        case opSLPTool:
+        case eSLPTool:
         {
             slp_tool_on = !slp_tool_on;
             slp_tool_layout->Show(slp_tool_on);
@@ -3354,7 +3347,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             slp_window->Fit();
             break;
         }
-        case opSLPMergeShadow:
+        case eSLPMergeShadow:
         {
             genie::SlpFilePtr slp_src1(new genie::SlpFile());
             genie::SlpFilePtr slp_src2(new genie::SlpFile());
@@ -3416,58 +3409,58 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             }
             break;
         }
-        case opShowHotspot:
+        case eShowHotspot:
         {
             DrawHot = event.IsChecked();
             slp_view->Refresh();
             break;
         }
-		case opAnimSLP:
+		case eAnimSLP:
 		{
 			AnimSLP = event.IsChecked();
             slp_view->Refresh();
             break;
 		}
-		case opShowShadows:
+		case eShowShadows:
 		{
 			ShowShadows = event.IsChecked();
             slp_view->Refresh();
             break;
 		}
-		case opShowOutline:
+		case eShowOutline:
 		{
 			ShowOutline = event.IsChecked();
             slp_view->Refresh();
             break;
 		}
-		case opShowDeltas:
+		case eShowDeltas:
 		{
 			ShowDeltas = event.IsChecked();
             graphicSLP.slpID = unitSLP.slpID = -2;
             slp_view->Refresh();
             break;
 		}
-		case opShowStack:
+		case eShowStack:
 		{
 			ShowStack = event.IsChecked();
             graphicSLP.slpID = unitSLP.slpID = -2;
             slp_view->Refresh();
             break;
 		}
-		case opShowAnnexes:
+		case eShowAnnexes:
 		{
 			ShowAnnexes = event.IsChecked();
             graphicSLP.slpID = unitSLP.slpID = -2;
             slp_view->Refresh();
             break;
 		}
-        case opShowTerrain:
+        case eShowTerrain:
         {
 			DrawTerrain = event.IsChecked();
             slp_view->Refresh();
             break;
         }
-        case opPickBgColor:
+        case ePickBgColor:
         {
             wxColour back(slp_background->GetColour());
             SLPbackR = back.Red();
@@ -3477,19 +3470,19 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             slp_view->Refresh();
             break;
         }
-        case opCollisionShape:
+        case eCollisionShape:
         {
 			DrawCollisionShape = event.IsChecked();
             slp_view->Refresh();
             break;
         }
-        case opClearanceShape:
+        case eClearanceShape:
         {
 			DrawClearanceShape = event.IsChecked();
             slp_view->Refresh();
             break;
         }
-        case opSelectionShape:
+        case eSelectionShape:
         {
 			DrawSelectionShape = event.IsChecked();
             slp_view->Refresh();
@@ -3512,8 +3505,8 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
 
 void AGE_Frame::OnExitSLP(wxCloseEvent &event)
 {
-    SubMenu_SLP->Check(MenuOption_ShowSLP, false);
-    wxCommandEvent closeSLP(wxEVT_COMMAND_MENU_SELECTED, MenuOption_ShowSLP);
+    SubMenu_SLP->Check(eShowSLP, false);
+    wxCommandEvent closeSLP(wxEVT_COMMAND_MENU_SELECTED, eShowSLP);
     closeSLP.SetInt(false);
     ProcessEvent(closeSLP);
 }
@@ -3521,7 +3514,7 @@ void AGE_Frame::OnExitSLP(wxCloseEvent &event)
 void AGE_Frame::OnExit(wxCloseEvent &event)
 {
     {
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(popUp.window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
         Config.Write("Interaction/AutoCopy", AutoCopy);
         Config.Write("Interaction/CopyGraphics", CopyGraphics);
@@ -3552,16 +3545,16 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/DrawSelectionShape", DrawSelectionShape);
     }
 
-    if(event.CanVeto() && AGETextCtrl::unSaved[popUp.window] > 0)
+    if(event.CanVeto() && popUp.unSaved > 0)
     {
         int answer = wxMessageBox("Do you want to save changes made to open files?\nThere are "
-                        +lexical_cast<string>(AGETextCtrl::unSaved[popUp.window])+" unsaved changes.",
+                        +lexical_cast<string>(popUp.unSaved)+" unsaved changes.",
                         "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
         if(answer != wxNO)
         {
             if(answer == wxYES)
             {
-                wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, ToolBar_Save);
+                wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, eSave);
                 ProcessEvent(SaveFiles);
             }
             else
@@ -3573,28 +3566,27 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         else if(AutoBackups) SaveBackup();
     }
 
-    GetToolBar()->ToggleTool(ToolBar_DRS, false);
-    wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, ToolBar_DRS);
+    GetToolBar()->ToggleTool(eDRS, false);
+    wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, eDRS);
     loadDRS.SetInt(false);
     ProcessEvent(loadDRS);
 
-	delete dataset;
-	if(WriteLangs)
-	{
-		delete Lang;
-		delete LangX;
-		delete LangXP;
-	}
+    delete dataset;
+    if(WriteLangs)
+    {
+        delete Lang;
+        delete LangX;
+        delete LangXP;
+    }
 
-    AGE_Frame::openEditors[popUp.window] = false;
+    AGE_Frame::openEditors[window_num] = 0;
     while(graphicAnimTimer.IsRunning())
     {
         if(event.CanVeto())
         {
             event.Veto();
-			return;
+            return;
         }
     }
-    AGETextCtrl::fileLoaded[popUp.window] = 0;
-	Destroy();
+    Destroy();
 }
