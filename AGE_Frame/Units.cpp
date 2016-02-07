@@ -32,7 +32,6 @@ string AGE_Frame::GetUnitName(int index, short civ, bool Filter)
             short NameSize = Name.size(), NameSize0 = NameSize;
             wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
             if(label.compare(Type20[0]) == 0) Name += "T "+FormatInt(UnitPointer->Type);
-            else if(label.compare(Type20[1]) == 0) Name += "NL "+FormatInt(UnitPointer->NameLength);
             else if(label.compare(Type20[2]) == 0) Name += "I1 "+FormatInt(UnitPointer->ID1);
             else if(label.compare(Type20[3]) == 0) Name += "LN "+FormatInt(UnitPointer->LanguageDLLName);
             else if(label.compare(Type20[4]) == 0) Name += "LC "+FormatInt(UnitPointer->LanguageDLLCreation);
@@ -95,7 +94,6 @@ string AGE_Frame::GetUnitName(int index, short civ, bool Filter)
             else if(label.compare(Type20[61]) == 0) Name += "AtM "+FormatInt(UnitPointer->AttackMode);
             else if(label.compare(Type20[62]) == 0) Name += "EM "+FormatInt(UnitPointer->Unknown10);
             else if(label.compare(Type20[63]) == 0) Name += UnitPointer->Name;
-            else if(label.compare(Type20[64]) == 0) Name += "NL2 "+FormatInt(UnitPointer->NameLength2);
             else if(label.compare(Type20[65]) == 0) Name += UnitPointer->Name2;
             else if(label.compare(Type20[66]) == 0) Name += "UL "+FormatInt(UnitPointer->Unitline);
             else if(label.compare(Type20[67]) == 0) Name += "MT "+FormatInt(UnitPointer->MinTechLevel);
@@ -4154,7 +4152,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_Type_ComboBox->SetSelection(0);
 
 	Type20.Add("Type");
-	Type20.Add("NameLength");
 	Type20.Add("ID1");
 	Type20.Add("LanguageDLLName");
 	Type20.Add("LanguageDLLCreation");
@@ -4217,7 +4214,6 @@ void AGE_Frame::CreateUnitControls()
 	Type20.Add("AttackMode");
 	Type20.Add("Unknown10");
 	Type20.Add("Name");
-	Type20.Add("NameLength2");
 	Type20.Add("Name2");
 	Type20.Add("Unitline");
 	Type20.Add("MinTechLevel");
