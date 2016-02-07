@@ -95,7 +95,7 @@ public:
 
 //	Other Events
 
-	bool DataOpened;
+	bool DataOpened = false;
 	bool SaveLang();
 	bool SaveLangX1();
 	bool SaveLangX1P1();
@@ -863,16 +863,16 @@ public:
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, StayOnTopSLP;
 	vector<short> SelectedCivs;
-	bool useAnd[2], EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
-    bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot, DrawTerrain;
+	bool useAnd[2] = {false}, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
+    bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false, DrawTerrain;
     bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
-	genie::DatFile *dataset;
-	genie::LangFile *Lang, *LangX, *LangXP;
-	int CustomTerrains, SLPareaPerCent, paletteView, SLPbackR, SLPbackG, SLPbackB;
+	genie::DatFile *dataset = 0;
+	genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
+	int CustomTerrains, SLPareaPerCent, paletteView = 0, SLPbackR, SLPbackG, SLPbackB;
     wxBrush slp_background_brush;
-    wxFrame *slp_window;
+    wxFrame *slp_window = 0;
     wxPanel *slp_view;
     wxSizer *slp_sizer;
     wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first, *slp_tool, *slp_merge_shadow;
@@ -883,7 +883,7 @@ public:
     wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles;
     wxColourPickerCtrl *slp_background;
     DelayedPopUp popUp;
-    int randomi;
+    int randomi = 0;
 
     vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
         UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
@@ -906,13 +906,13 @@ public:
     int UnitCivID;
     vector<float> TerrainRestrictionSubCopyAccess;
 
-	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT, UseDRS, UseMod, UseExtra, FilterAllSubs;
+	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List;
 	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
 	void FixSizes();
 	chrono::time_point<chrono::system_clock> endTime;
-	genie::GameVersion GenieVersion;
+	genie::GameVersion GenieVersion = genie::GV_None;
 	wxString DriveLetter, Language, CustomFolder;
 	wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2, Path1stDRS;
 	int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
@@ -924,7 +924,7 @@ public:
 	HINSTANCE LanguageDLL[3];
 	wxString LangDLLstring(int ID, int Letters = 0);
 	//void WriteLangDLLstring(int ID, wxString Name);
-    bool exportFrame;
+    bool exportFrame = false;
     void LoadTXT(const wxString &filename);
     void LoadSLPFrame(AGE_SLP*);
     void SLPtoBitMap(AGE_SLP*);

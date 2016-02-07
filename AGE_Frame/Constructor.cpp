@@ -21,8 +21,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	SetIcon(wxIcon(AppIcon_xpm));
 	wxBusyCursor WaitCursor;
 	TabBar_Main = new wxNotebook(this, eTabBar);
-    slp_window = NULL;
-    paletteView = randomi = 0;
     AGE_Frame::openEditors[window] = this;
 
     {
@@ -204,7 +202,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 //	TabBar_Main->AddPage(TabBar_Data, "Data");
 //	TabBar_Main->AddPage(TabBar_Test, "Test");
 
-	GenieVersion = genie::GV_None;
 	TabBar_Main->AddPage(Tab_Research, "Research");
 	TabBar_Main->AddPage(Tab_Techs, "Techs");
 	TabBar_Main->AddPage(Tab_TechTrees, "Tech Trees");
@@ -237,10 +234,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     Connect(Units_GraphicSet->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
     Connect(eTabBar, wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
     Connect(hotWin1, closeAll, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-
-	DataOpened = UseTXT = DrawHot = exportFrame = false;
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
 
 	wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, eUnknown);
 	ShowUnknownsCmd.SetInt(ShowUnknowns);
@@ -287,10 +280,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     }
 #endif
 
-	dataset = NULL;
-	Lang = NULL;
-	LangX = NULL;
-	LangXP = NULL;
 	wxToolTip::SetDelay(200);
 	wxToolTip::SetAutoPop(32700);
 	wxToolTip::SetReshow(1);
