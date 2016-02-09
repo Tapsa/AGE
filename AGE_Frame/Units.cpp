@@ -1209,21 +1209,23 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &event)
 			}
 
 			PasteUnits();
-			for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+			for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
 			{
 				for(size_t loop = 0; loop < copies.Dat.UnitCopies.front().size(); ++loop)
 				{
-					dataset->Civs[civ].UnitPointers[UnitIDs[loop]] = (int32_t)copies.Dat.UnitExists[civ][loop];
+                    size_t paste_pos = UnitIDs[loop];
+					dataset->Civs[civ].UnitPointers[paste_pos] = copies.Dat.UnitExists[civ][loop];
 					if(EnableIDFix) // ID Fix
 					{
-						dataset->Civs[civ].Units[UnitIDs[loop]].ID1 = (int16_t)(UnitIDs[loop]);
-						dataset->Civs[civ].Units[UnitIDs[loop]].ID2 = (int16_t)(UnitIDs[loop]);
+						dataset->Civs[civ].Units[paste_pos].ID1 = paste_pos;
+						dataset->Civs[civ].Units[paste_pos].ID2 = paste_pos;
 						if(GenieVersion >= genie::GV_AoK)
-						dataset->Civs[civ].Units[UnitIDs[loop]].ID3 = (int16_t)(UnitIDs[loop]);
+						dataset->Civs[civ].Units[paste_pos].ID3 = paste_pos;
 					}
 				}
 			}
 		}
+        else return;
 	}
 	else
 	{
@@ -1239,23 +1241,24 @@ void AGE_Frame::OnUnitsPaste(wxCommandEvent &event)
 		}
 
 		if(copies.Dat.UnitCopies.front().size()+UnitIDs.front() > dataset->Civs.front().Units.size())
-		for(short civ = 0; civ < dataset->Civs.size(); ++civ) // Resize if not enough room.
+		for(size_t civ = 0; civ < dataset->Civs.size(); ++civ) // Resize if not enough room.
 		{
 			dataset->Civs[civ].Units.resize(copies.Dat.UnitCopies.front().size()+UnitIDs.front());
 			dataset->Civs[civ].UnitPointers.resize(copies.Dat.UnitCopies.front().size()+UnitIDs.front());
 		}
 		PasteUnits();
-		for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+		for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
 		{
 			for(size_t loop = 0; loop < copies.Dat.UnitCopies.front().size(); ++loop)
 			{
-				dataset->Civs[civ].UnitPointers[UnitIDs.front()+loop] = (int32_t)copies.Dat.UnitExists[civ][loop];
+                size_t paste_pos = UnitIDs.front() + loop;
+				dataset->Civs[civ].UnitPointers[paste_pos] = copies.Dat.UnitExists[civ][loop];
 				if(EnableIDFix) // ID Fix
 				{
-					dataset->Civs[civ].Units[UnitIDs.front()+loop].ID1 = (int16_t)(UnitIDs.front()+loop);
-					dataset->Civs[civ].Units[UnitIDs.front()+loop].ID2 = (int16_t)(UnitIDs.front()+loop);
+					dataset->Civs[civ].Units[paste_pos].ID1 = paste_pos;
+					dataset->Civs[civ].Units[paste_pos].ID2 = paste_pos;
 					if(GenieVersion >= genie::GV_AoK)
-					dataset->Civs[civ].Units[UnitIDs.front()+loop].ID3 = (int16_t)(UnitIDs.front()+loop);
+					dataset->Civs[civ].Units[paste_pos].ID3 = paste_pos;
 				}
 			}
 		}

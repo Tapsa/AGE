@@ -15,7 +15,7 @@ public:
     }
 
     wxArrayString names;
-    vector<int> indexes;
+    vector<size_t> indexes;
 
 private:
     virtual wxString OnGetItemText(long item, long column) const;

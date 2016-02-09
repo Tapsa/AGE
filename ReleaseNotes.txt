@@ -16,6 +16,7 @@ Version [b]2016.2.9[/b]:
 -SLP view improved.
 -Game path can be read from registry.
 -Pressing control + 1...4 changes focus between editors.
+-Civilization resource names are customizable via text file.
 
 Version [b]2016.1.24[/b]:
 -New lines handled properly when editing language DLL files.

@@ -165,6 +165,7 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &event)
     if(TerRestrict_TerRestrict_ListV->GetSelectedItemCount()) return;
 
     wxBusyCursor WaitCursor;
+    // Argh. So much redundancy.
     PasteToListNoGV(dataset->TerrainRestrictionPointers1, TerRestrictIDs, copies.TRptr1);
     if(GenieVersion >= genie::GV_AoKA)
     PasteToListNoGV(dataset->TerrainRestrictionPointers2, TerRestrictIDs, copies.TRptr2);
