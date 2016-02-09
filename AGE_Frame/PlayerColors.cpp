@@ -69,7 +69,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupColor) box->clear();
 
-	genie::PlayerColour * PlayerColorPointer = NULL;
+	genie::PlayerColour * PlayerColorPointer = 0;
 	for(auto loop = selections; loop--> 0;)
 	{
 		PlayerColorPointer = &dataset->PlayerColours[ColorIDs[loop]];
@@ -91,21 +91,21 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 			Colors_Unknown5->prepend(&PlayerColorPointer->StatisticsText);
 		}
 	}
-	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs[0]), 0);
+	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs.front()), 0);
 
     for(auto &box: uiGroupColor) box->update();
 	Colors_ID->Enable(false);
-    if(NULL != PlayerColorPointer && !palettes.empty() && !palettes[0].empty())
+    if(PlayerColorPointer && !palettes.empty() && !palettes.front().empty())
     {
-        genie::Color playerColor = palettes[0][(uint8_t)PlayerColorPointer->Colour];
-        genie::Color paletteStart = palettes[0][(uint8_t)PlayerColorPointer->Palette];
-        genie::Color minimap = palettes[0][(uint8_t)PlayerColorPointer->MinimapColour];
+        genie::Color playerColor = palettes.front()[(uint8_t)PlayerColorPointer->Colour];
+        genie::Color paletteStart = palettes.front()[(uint8_t)PlayerColorPointer->Palette];
+        genie::Color minimap = palettes.front()[(uint8_t)PlayerColorPointer->MinimapColour];
         setForeAndBackColors(Colors_Palette, wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
         setForeAndBackColors(Colors_ColorL, wxColour(playerColor.r, playerColor.g, playerColor.b));
         setForeAndBackColors(Colors_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
 
 		if(GenieVersion < genie::GV_AoKA)
-        AGE_SLP::playerColorStart = uint8_t(16 * (1 + ColorIDs[0]));
+        AGE_SLP::playerColorStart = uint8_t(16 * (1 + ColorIDs.front()));
         else AGE_SLP::playerColorStart = (uint8_t)PlayerColorPointer->Palette;
         AGE_SLP::playerColorID = (uint8_t)PlayerColorPointer->Colour;
     }
@@ -142,7 +142,7 @@ void AGE_Frame::OnDrawPalette(wxPaintEvent &event)
 
 void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
 {
-	if(NULL == dataset) return;
+	if(!dataset) return;
 
 	wxBusyCursor WaitCursor;
 	AddToListIDFix(dataset->PlayerColours);
@@ -155,7 +155,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListIDFix(dataset->PlayerColours, ColorIDs[0]);
+	InsertToListIDFix(dataset->PlayerColours, ColorIDs.front());
 	ListPlayerColors();
 }
 
@@ -189,19 +189,9 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
 	auto selections = Colors_Colors_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(ColorIDs.size(), copies.PlayerColor.size()))
-		{
-			PasteToListIDFix(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
-		}
-	}
-	else
-	{
-		PasteToListIDFix(dataset->PlayerColours, ColorIDs[0], copies.PlayerColor);
-	}
-	ListPlayerColors();
+    wxBusyCursor WaitCursor;
+    PasteToListIDFix(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
+    ListPlayerColors();
 }
 
 void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
@@ -210,7 +200,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListIDFix(dataset->PlayerColours, ColorIDs[0], copies.PlayerColor);
+	PasteInsertToListIDFix(dataset->PlayerColours, ColorIDs.front(), copies.PlayerColor);
 	ListPlayerColors();
 }
 

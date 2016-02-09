@@ -158,7 +158,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 	{
         getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
 
-		genie::Graphic * GraphicPointer = NULL;
+		genie::Graphic * GraphicPointer = 0;
 		for(auto sel = selections; sel--> 0;)
 		{
 			GraphicPointer = &dataset->Graphics[GraphicIDs[sel]];
@@ -189,14 +189,14 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 			if(GenieVersion >= genie::GV_AoKB)
 			Graphics_Unknown3->prepend(&GraphicPointer->Unknown3);
 		}
-		SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs[0]), 0);
+		SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs.front()), 0);
 
-		selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs[0]];
+		selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs.front()];
 
-        if(NULL != GraphicPointer)
+        if(GraphicPointer)
         {
             Graphics_MirroringMode->SetToolTip("Should be " + lexical_cast<string>((GraphicPointer->AngleCount >> 1) + (GraphicPointer->AngleCount >> 2)) + " for this sprite.\n" + MirrorHelp);
-            graphicSLP.datID = GraphicIDs[0];
+            graphicSLP.datID = GraphicIDs.front();
             graphicSLP.slpID = -2; // Force reloading delta graphics.
         }
 	}
@@ -207,7 +207,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 	Deltas_Add->Enable(selections);
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
-    if(NULL != slp_window) slp_view->Refresh();
+    if(slp_window) slp_view->Refresh();
 }
 
 void AGE_Frame::CalcDrawCenter(wxPanel *canvas, int &centerX, int &centerY)
@@ -290,7 +290,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         {
             wxPen pen = wxPen(wxColour(255 - SLPbackR, 255 - SLPbackG, 255 - SLPbackB));
             dc.SetPen(pen);
-            genie::Unit *unit = &dataset->Civs[UnitCivID].Units[UnitIDs[0]];
+            genie::Unit *unit = &dataset->Civs[UnitCivID].Units[UnitIDs.front()];
             if(DrawCollisionShape)
             {
                 tileToPixels(unit->CollisionSize.x, unit->CollisionSize.y, collision, centerX, centerY);
@@ -324,7 +324,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             unitSLP.deltas.clear();
             if(ShowDeltas)
             {
-                unsigned int unitID = UnitIDs[0];
+                unsigned int unitID = UnitIDs.front();
                 // Load possible delta and annex graphics.
                 if(dataset->Civs[UnitCivID].Units[unitID].Type == 80)
                 {
@@ -543,7 +543,7 @@ void AGE_Frame::ChoosePreviousFrame(AGE_SLP &graphic, bool &framesleft)
 void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
 {
     graphicAnimTimer.Stop();
-    if(NULL != slp_window)
+    if(slp_window)
     {
         if(slp_view->IsShownOnScreen())
         slp_view->Refresh();
@@ -569,132 +569,62 @@ void AGE_Frame::tileToPixels(float sizeX, float sizeY, Pixels &p, int centerX, i
 
 void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
 {
-	if(NULL == dataset) return;
+    if(!dataset) return;
 
-	wxBusyCursor WaitCursor;
-	genie::Graphic Temp;
-	Temp.setGameVersion(GenieVersion);
-	dataset->Graphics.push_back(Temp);
-	dataset->GraphicPointers.push_back(1);
-	if(EnableIDFix)
-	dataset->Graphics[dataset->Graphics.size()-1].ID = (dataset->Graphics.size()-1); // ID Fix
-	How2List = ADD;
-	ListGraphics();
+    wxBusyCursor WaitCursor;
+    dataset->GraphicPointers.push_back(1);
+    AddToListIDFix(dataset->Graphics);
+    ListGraphics();
 }
 
 void AGE_Frame::OnGraphicsInsert(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Graphics_Graphics_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	genie::Graphic Temp;
-	Temp.setGameVersion(GenieVersion);
-	dataset->Graphics.insert(dataset->Graphics.begin() + GraphicIDs[0], Temp);
-	dataset->GraphicPointers.insert(dataset->GraphicPointers.begin() + GraphicIDs[0], 1);
-	if(EnableIDFix)
-	for(size_t loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
-	dataset->Graphics[loop].ID = loop;
-	How2List = INSNEW;
-	ListGraphics();
+    wxBusyCursor WaitCursor;
+    dataset->GraphicPointers.insert(dataset->GraphicPointers.begin() + GraphicIDs.front(), 1);
+    InsertToListIDFix(dataset->Graphics, GraphicIDs.front());
+    ListGraphics();
 }
 
 void AGE_Frame::OnGraphicsDelete(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Graphics_Graphics_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	for(auto loop = selections; loop--> 0;)
-	{
-		dataset->Graphics.erase(dataset->Graphics.begin() + GraphicIDs[loop]);
-		dataset->GraphicPointers.erase(dataset->GraphicPointers.begin() + GraphicIDs[loop]);
-	}
-	if(EnableIDFix)
-	for(size_t loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
-	dataset->Graphics[loop].ID = loop;
-	How2List = DEL;
-	ListGraphics();
+    wxBusyCursor WaitCursor;
+    DeleteFromList(dataset->GraphicPointers, GraphicIDs);
+    DeleteFromListIDFix(dataset->Graphics, GraphicIDs);
+    ListGraphics();
 }
 
 void AGE_Frame::OnGraphicsCopy(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Graphics_Graphics_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	copies.GraphicPointer.resize(selections);
-	copies.Graphic.resize(selections);
-	for(size_t loop = 0; loop < selections; ++loop)
-	{
-		copies.GraphicPointer[loop] = dataset->GraphicPointers[GraphicIDs[loop]];
-		copies.Graphic[loop] = dataset->Graphics[GraphicIDs[loop]];
-		//copies.Graphic[loop].Deltas = dataset->Graphics[GraphicIDs[loop]].Deltas; Needs its own button!
-	}
-	Graphics_Graphics_ListV->SetFocus();
+    wxBusyCursor WaitCursor;
+    CopyFromList(dataset->GraphicPointers, GraphicIDs, copies.GraphicPointer);
+    CopyFromList(dataset->Graphics, GraphicIDs, copies.Graphic);
+    Graphics_Graphics_ListV->SetFocus();
 }
 
 void AGE_Frame::OnGraphicsPaste(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Graphics_Graphics_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(GraphicIDs.size(), copies.Graphic.size()))
-		{
-			for(size_t loop = 0; loop < copies.Graphic.size(); ++loop)
-			{
-				dataset->GraphicPointers[GraphicIDs[loop]] = copies.GraphicPointer[loop];
-				copies.Graphic[loop].setGameVersion(GenieVersion);
-				dataset->Graphics[GraphicIDs[loop]] = copies.Graphic[loop];
-				//dataset->Graphics[GraphicIDs[loop]].Deltas = copies.Graphic[loop].Deltas; Needs its own button!
-				if(EnableIDFix)
-				dataset->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
-			}
-		}
-	}
-	else
-	{
-		if(copies.Graphic.size()+GraphicIDs[0] > dataset->Graphics.size())
-		{
-			dataset->GraphicPointers.resize(copies.GraphicPointer.size()+GraphicIDs[0]);
-			dataset->Graphics.resize(copies.Graphic.size()+GraphicIDs[0]);
-		}
-		for(size_t loop = 0; loop < copies.Graphic.size(); ++loop)
-		{
-			dataset->GraphicPointers[GraphicIDs[0]+loop] = copies.GraphicPointer[loop];
-			copies.Graphic[loop].setGameVersion(GenieVersion);
-			dataset->Graphics[GraphicIDs[0]+loop] = copies.Graphic[loop];
-			if(EnableIDFix)
-			dataset->Graphics[GraphicIDs[0]+loop].ID = (GraphicIDs[0]+loop); // ID Fix
-		}
-	}
-	How2List = PASTE;
-	ListGraphics();
+    wxBusyCursor WaitCursor;
+    PasteToListNoGV(dataset->GraphicPointers, GraphicIDs, copies.GraphicPointer);
+    PasteToListIDFix(dataset->Graphics, GraphicIDs, copies.Graphic);
+    ListGraphics();
 }
 
 void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Graphics_Graphics_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	genie::Graphic Temp;
-	dataset->GraphicPointers.insert(dataset->GraphicPointers.begin() + GraphicIDs[0], copies.GraphicPointer.size(), 0);
-	dataset->Graphics.insert(dataset->Graphics.begin() + GraphicIDs[0], copies.Graphic.size(), Temp);
-	for(size_t loop = 0; loop < copies.Graphic.size(); ++loop)
-	{
-		dataset->GraphicPointers[GraphicIDs[0]+loop] = copies.GraphicPointer[loop];
-		copies.Graphic[loop].setGameVersion(GenieVersion);
-		dataset->Graphics[GraphicIDs[0]+loop] = copies.Graphic[loop];
-	}
-	if(EnableIDFix)
-	for(size_t loop = GraphicIDs[0];loop < dataset->Graphics.size(); ++loop) // ID Fix
-	dataset->Graphics[loop].ID = loop;
-	How2List = INSPASTE;
-	ListGraphics();
+    wxBusyCursor WaitCursor;
+    PasteInsertToListNoGV(dataset->GraphicPointers, GraphicIDs.front(), copies.GraphicPointer);
+    PasteInsertToListIDFix(dataset->Graphics, GraphicIDs.front(), copies.Graphic);
+    ListGraphics();
 }
 
 void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
@@ -726,7 +656,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
 
 string AGE_Frame::GetGraphicDeltaName(int index)
 {
-    int deltaID = dataset->Graphics[GraphicIDs[0]].Deltas[index].GraphicID;
+    int deltaID = dataset->Graphics[GraphicIDs.front()].Deltas[index].GraphicID;
 	if(deltaID < dataset->Graphics.size())
 	return lexical_cast<string>(deltaID) + ": " + GetGraphicName(deltaID, false) + " ";
 	return "Re-drawer "+lexical_cast<string>(deltaID)+" ";
@@ -747,7 +677,7 @@ void AGE_Frame::ListGraphicDeltas()
     Graphics_Deltas_ListV->indexes.clear();
 
     if(Graphics_Graphics_ListV->GetSelectedItemCount())
-	for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs[0]].Deltas.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs.front()].Deltas.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetGraphicDeltaName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -781,7 +711,7 @@ void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent &event)
 		genie::GraphicDelta * DeltaPointer;
 		for(auto sel = selections; sel--> 0;)
 		{
-            DeltaPointer = &dataset->Graphics[GraphicIDs[0]].Deltas[DeltaIDs[sel]];
+            DeltaPointer = &dataset->Graphics[GraphicIDs.front()].Deltas[DeltaIDs[sel]];
 
 			GraphicDeltas_GraphicID->prepend(&DeltaPointer->GraphicID);
 			GraphicDeltas_Unknown1->prepend(&DeltaPointer->Unknown1);
@@ -802,10 +732,10 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToList(dataset->Graphics[GraphicIDs[0]].Deltas);
+	AddToList(dataset->Graphics[GraphicIDs.front()].Deltas);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
+    if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
@@ -814,10 +744,10 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0]);
+	InsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front());
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
+    if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
@@ -826,10 +756,10 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs);
+	DeleteFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
+    if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &event)
@@ -838,7 +768,7 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies.GraphicDelta);
+	CopyFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs, copies.GraphicDelta);
 	Graphics_Deltas_ListV->SetFocus();
 }
 
@@ -847,21 +777,11 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &event)
 	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(DeltaIDs.size(), copies.GraphicDelta.size()))
-		{
-			PasteToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs, copies.GraphicDelta);
-		}
-	}
-	else
-	{
-		PasteToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies.GraphicDelta);
-	}
+    wxBusyCursor WaitCursor;
+    PasteToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs, copies.GraphicDelta);
     graphicSLP.slpID = -2;
-	ListGraphicDeltas();
-    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
+    ListGraphicDeltas();
+    if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
@@ -870,17 +790,17 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(dataset->Graphics[GraphicIDs[0]].Deltas, DeltaIDs[0], copies.GraphicDelta);
+	PasteInsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front(), copies.GraphicDelta);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
+    if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasCopyToGraphics(wxCommandEvent &event)
 {
 	for(size_t loop=1; loop < GraphicIDs.size(); ++loop)
 	{
-		dataset->Graphics[GraphicIDs[loop]].Deltas = dataset->Graphics[GraphicIDs[0]].Deltas;
+		dataset->Graphics[GraphicIDs[loop]].Deltas = dataset->Graphics[GraphicIDs.front()].Deltas;
 	}
 }
 
@@ -901,7 +821,7 @@ void AGE_Frame::ListGraphicAttackSounds()
     Graphics_AttackSounds_ListV->indexes.clear();
 
     if(Graphics_Graphics_ListV->GetSelectedItemCount())
-	for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs.front()].AttackSounds.size(); ++loop)
 	{
         Graphics_AttackSounds_ListV->names.Add(" "+FormatInt(loop)+" - "+GetGraphicAttackSoundName(loop));
         Graphics_AttackSounds_ListV->indexes.push_back(loop);
@@ -932,7 +852,7 @@ void AGE_Frame::OnGraphicAttackSoundsTimer(wxTimerEvent &event)
 		genie::GraphicAttackSound * AttackSoundPointer;
 		for(auto sel = selections; sel--> 0;)
 		{
-            AttackSoundPointer = &dataset->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[sel]];
+            AttackSoundPointer = &dataset->Graphics[GraphicIDs.front()].AttackSounds[AttackSoundIDs[sel]];
 
 			Graphics_AttackSoundID[0]->prepend(&AttackSoundPointer->SoundID);
 			Graphics_AttackSoundID[1]->prepend(&AttackSoundPointer->SoundID2);
@@ -951,9 +871,9 @@ void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	genie::GraphicAttackSound Copy = dataset->Graphics[GraphicIDs[0]].AttackSounds[AttackSoundIDs[0]];
-	for(size_t loop2 = 0; loop2 < dataset->Graphics[GraphicIDs[0]].AttackSounds.size(); ++loop2)
-	dataset->Graphics[GraphicIDs[0]].AttackSounds[loop2] = Copy;
+	genie::GraphicAttackSound Copy = dataset->Graphics[GraphicIDs.front()].AttackSounds[AttackSoundIDs.front()];
+	for(size_t loop2 = 0; loop2 < dataset->Graphics[GraphicIDs.front()].AttackSounds.size(); ++loop2)
+	dataset->Graphics[GraphicIDs.front()].AttackSounds[loop2] = Copy;
 	Graphics_AttackSounds_ListV->SetFocus();
 }
 
@@ -961,7 +881,7 @@ void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event)
 {
 	for(size_t loop=1; loop < GraphicIDs.size(); ++loop)
 	{
-		dataset->Graphics[GraphicIDs[loop]].AttackSounds = dataset->Graphics[GraphicIDs[0]].AttackSounds;
+		dataset->Graphics[GraphicIDs[loop]].AttackSounds = dataset->Graphics[GraphicIDs.front()].AttackSounds;
 	}
 }
 
@@ -1424,7 +1344,7 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 	{
 		graphicSLP.slpID = -2;
 		ListGraphicDeltas();
-        if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
+        if(slp_window && ShowDeltas) slp_view->Refresh();
 	}
 	else if(event.GetId() == Graphics_Name2->GetId())
 	{
@@ -1433,7 +1353,7 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 	}
 	else if(event.GetId() == Graphics_AngleCount->GetId() || event.GetId() == Graphics_AttackSoundUsed->GetId())
 	{
-		if(dataset->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
+		if(dataset->Graphics[GraphicIDs.front()].AttackSoundUsed == 0) return;
 
 		for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
 		dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
@@ -1444,14 +1364,14 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
     else
     {
 		graphicSLP.slpID = -2;
-        if(NULL != slp_window) slp_view->Refresh();
+        if(slp_window) slp_view->Refresh();
     }
 }
 
 void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &event)
 {
 	((AGECheckBox*)event.GetEventObject())->OnUpdate(event);
-	if(dataset->Graphics[GraphicIDs[0]].AttackSoundUsed == 0) return;
+	if(dataset->Graphics[GraphicIDs.front()].AttackSoundUsed == 0) return;
 
 	for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
 	dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
@@ -1465,5 +1385,5 @@ void AGE_Frame::OnUpdateCombo_Graphics(wxCommandEvent &event)
 	((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
     graphicSLP.slpID = -2;
 	ListGraphicDeltas();
-    if(NULL != slp_window && ShowDeltas) slp_view->Refresh();
+    if(slp_window && ShowDeltas) slp_view->Refresh();
 }
