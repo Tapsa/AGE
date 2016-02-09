@@ -189,7 +189,7 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupResearch) box->clear();
 
-	genie::Research * ResearchPointer = NULL;
+	genie::Research * ResearchPointer = 0;
 	for(auto loop = selections; loop--> 0;)
 	{
 		ResearchPointer = &dataset->Researchs[ResearchIDs[loop]];
@@ -234,10 +234,10 @@ void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
 		}
 		Research_Name[0]->prepend(&ResearchPointer->Name);
 	}
-	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected research: "+lexical_cast<string>(ResearchIDs[0]), 0);
+	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected research: "+lexical_cast<string>(ResearchIDs.front()), 0);
 
 	for(auto &box: uiGroupResearch) box->update();
-	if(NULL != ResearchPointer && GenieVersion >= genie::GV_MATT)
+	if(ResearchPointer && GenieVersion >= genie::GV_MATT)
 	{
 		Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
 		Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
@@ -302,7 +302,7 @@ void AGE_Frame::OnDrawTechSLP(wxPaintEvent &event)
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent &event)
 {
-	if(NULL == dataset) return;
+	if(!dataset) return;
 
 	wxBusyCursor WaitCursor;
 	AddToList(dataset->Researchs);
@@ -315,7 +315,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(dataset->Researchs, ResearchIDs[0]);
+	InsertToList(dataset->Researchs, ResearchIDs.front());
 	ListResearches();
 }
 
@@ -344,19 +344,9 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &event)
 	auto selections = Research_Research_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(ResearchIDs.size(), copies.Research.size()))
-		{
-			PasteToList(dataset->Researchs, ResearchIDs, copies.Research);
-		}
-	}
-	else
-	{
-		PasteToList(dataset->Researchs, ResearchIDs[0], copies.Research);
-	}
-	ListResearches();
+    wxBusyCursor WaitCursor;
+    PasteToList(dataset->Researchs, ResearchIDs, copies.Research);
+    ListResearches();
 }
 
 void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &event)
@@ -365,7 +355,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(dataset->Researchs, ResearchIDs[0], copies.Research);
+	PasteInsertToList(dataset->Researchs, ResearchIDs.front(), copies.Research);
 	ListResearches();
 }
 
@@ -385,13 +375,13 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
 	{
 		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x10000;
 		else DLLValue += 79000;
-		dataset->Researchs[ResearchIDs[0]].LanguageDLLHelp = DLLValue;
+		dataset->Researchs[ResearchIDs.front()].LanguageDLLHelp = DLLValue;
 	}
 	else
 	{
 		if(GenieVersion < genie::GV_AoKA) DLLValue += 0x20000;
 		else DLLValue += 140000;
-		dataset->Researchs[ResearchIDs[0]].LanguageDLLTechTree = DLLValue;
+		dataset->Researchs[ResearchIDs.front()].LanguageDLLTechTree = DLLValue;
 	}
 	wxTimerEvent E;
 	OnResearchTimer(E);

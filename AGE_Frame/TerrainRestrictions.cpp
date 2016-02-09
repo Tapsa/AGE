@@ -73,7 +73,7 @@ void AGE_Frame::OnTerrainRestrictionsTimer(wxTimerEvent &event)
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TerRestrict_TerRestrict_ListV, TerRestrictIDs);
 
-	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected restriction: "+lexical_cast<string>(TerRestrictIDs[0]), 0);
+	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected restriction: "+lexical_cast<string>(TerRestrictIDs.front()), 0);
 	ListTerrains2();
 }
 
@@ -114,98 +114,74 @@ void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &event)
 {
-	if(NULL == dataset) return;
+    if(!dataset) return;
 
-	wxBusyCursor WaitCursor;
-	AddToList(dataset->TerrainRestrictions);
-	dataset->TerrainRestrictionPointers1.push_back(1);
-	if(GenieVersion >= genie::GV_AoKA)
-	dataset->TerrainRestrictionPointers2.push_back(1);
-	ListTerrainRestrictions();
+    wxBusyCursor WaitCursor;
+    dataset->TerrainRestrictionPointers1.push_back(1);
+    if(GenieVersion >= genie::GV_AoKA)
+    dataset->TerrainRestrictionPointers2.push_back(1);
+    AddToList(dataset->TerrainRestrictions);
+    ListTerrainRestrictions();
 }
 
 void AGE_Frame::OnTerrainRestrictionsInsert(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(TerRestrict_TerRestrict_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	InsertToList(dataset->TerrainRestrictions, TerRestrictIDs[0]);
-	dataset->TerrainRestrictionPointers1.insert(dataset->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], 1);
-	if(GenieVersion >= genie::GV_AoKA)
-	dataset->TerrainRestrictionPointers2.insert(dataset->TerrainRestrictionPointers2.begin() + TerRestrictIDs[0], 1);
-	How2List = INSNEW;
-	ListTerrainRestrictions();
+    wxBusyCursor WaitCursor;
+    dataset->TerrainRestrictionPointers1.insert(dataset->TerrainRestrictionPointers1.begin() + TerRestrictIDs.front(), 1);
+    if(GenieVersion >= genie::GV_AoKA)
+    dataset->TerrainRestrictionPointers2.insert(dataset->TerrainRestrictionPointers2.begin() + TerRestrictIDs.front(), 1);
+    InsertToList(dataset->TerrainRestrictions, TerRestrictIDs.front());
+    ListTerrainRestrictions();
 }
 
 void AGE_Frame::OnTerrainRestrictionsDelete(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(TerRestrict_TerRestrict_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	for(auto loop = selections; loop--> 0;)
-	{
-		dataset->TerrainRestrictions.erase(dataset->TerrainRestrictions.begin() + TerRestrictIDs[loop]);
-		dataset->TerrainRestrictionPointers1.erase(dataset->TerrainRestrictionPointers1.begin() + TerRestrictIDs[loop]);
-		if(GenieVersion >= genie::GV_AoKA)
-		dataset->TerrainRestrictionPointers2.erase(dataset->TerrainRestrictionPointers2.begin() + TerRestrictIDs[loop]);
-	}
-	How2List = DEL;
-	ListTerrainRestrictions();
+    wxBusyCursor WaitCursor;
+    DeleteFromList(dataset->TerrainRestrictionPointers1, GraphicIDs);
+    if(GenieVersion >= genie::GV_AoKA)
+    DeleteFromList(dataset->TerrainRestrictionPointers2, GraphicIDs);
+    DeleteFromList(dataset->TerrainRestrictions, GraphicIDs);
+    ListTerrainRestrictions();
 }
 
 void AGE_Frame::OnTerrainRestrictionsCopy(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(TerRestrict_TerRestrict_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->TerrainRestrictions, TerRestrictIDs, copies.TerrainRestriction);
-	TerRestrict_TerRestrict_ListV->SetFocus();
+    wxBusyCursor WaitCursor;
+    CopyFromList(dataset->TerrainRestrictionPointers1, TerRestrictIDs, copies.TRptr1);
+    if(GenieVersion >= genie::GV_AoKA)
+    CopyFromList(dataset->TerrainRestrictionPointers2, TerRestrictIDs, copies.TRptr2);
+    CopyFromList(dataset->TerrainRestrictions, TerRestrictIDs, copies.TerrainRestriction);
+    TerRestrict_TerRestrict_ListV->SetFocus();
 }
 
 void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(TerRestrict_TerRestrict_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(TerRestrictIDs.size(), copies.TerrainRestriction.size()))
-		{
-			PasteToList(dataset->TerrainRestrictions, TerRestrictIDs, copies.TerrainRestriction);
-		}
-	}
-	else
-	{
-		// If copies would go beyond the end of these vectors.
-		if(copies.TerrainRestriction.size()+TerRestrictIDs[0] > dataset->TerrainRestrictions.size())
-		{
-			dataset->TerrainRestrictions.resize(copies.TerrainRestriction.size()+TerRestrictIDs[0]);
-			dataset->TerrainRestrictionPointers1.resize(copies.TerrainRestriction.size()+TerRestrictIDs[0]);
-			if(GenieVersion >= genie::GV_AoKA)
-			dataset->TerrainRestrictionPointers2.resize(copies.TerrainRestriction.size()+TerRestrictIDs[0]);
-		}
-		// Actually pasting the copies.
-		PasteToList(dataset->TerrainRestrictions, TerRestrictIDs[0], copies.TerrainRestriction);
-	}
-	ListTerrainRestrictions();
+    wxBusyCursor WaitCursor;
+    PasteToListNoGV(dataset->TerrainRestrictionPointers1, TerRestrictIDs, copies.TRptr1);
+    if(GenieVersion >= genie::GV_AoKA)
+    PasteToListNoGV(dataset->TerrainRestrictionPointers2, TerRestrictIDs, copies.TRptr2);
+    PasteToList(dataset->TerrainRestrictions, TerRestrictIDs, copies.TerrainRestriction);
+    ListTerrainRestrictions();
 }
 
 void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &event)
 {
-	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(TerRestrict_TerRestrict_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	PasteInsertToList(dataset->TerrainRestrictions, TerRestrictIDs[0], copies.TerrainRestriction);
-	dataset->TerrainRestrictionPointers1.insert(dataset->TerrainRestrictionPointers1.begin() + TerRestrictIDs[0], copies.TerrainRestriction.size(), 1);
-	if(GenieVersion >= genie::GV_AoKA)
-	dataset->TerrainRestrictionPointers2.insert(dataset->TerrainRestrictionPointers2.begin() + TerRestrictIDs[0], copies.TerrainRestriction.size(), 1);
-	How2List = INSPASTE;
-	ListTerrainRestrictions();
+    wxBusyCursor WaitCursor;
+    PasteInsertToListNoGV(dataset->TerrainRestrictionPointers1, TerRestrictIDs.front(), copies.TRptr1);
+    if(GenieVersion >= genie::GV_AoKA)
+    PasteInsertToListNoGV(dataset->TerrainRestrictionPointers2, TerRestrictIDs.front(), copies.TRptr2);
+    PasteInsertToList(dataset->TerrainRestrictions, TerRestrictIDs.front(), copies.TerrainRestriction);
+    ListTerrainRestrictions();
 }
 
 void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event)
@@ -215,9 +191,9 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event)
 	if(selections < 1 || Selections2 < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier, TerRestrictTerIDs, copies.TerrainRestrictionSubAccess);
+	CopyFromList(dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier, TerRestrictTerIDs, copies.TerrainRestrictionSubAccess);
 	if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
-	CopyFromList(dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics, TerRestrictTerIDs, copies.TerrainRestrictionSubGraphics);
+	CopyFromList(dataset->TerrainRestrictions[TerRestrictIDs.front()].TerrainPassGraphics, TerRestrictTerIDs, copies.TerrainRestrictionSubGraphics);
 	TerRestrict_Terrains_ListV->SetFocus();
 }
 
@@ -234,29 +210,29 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
 		if(Paste11Check(TerRestrictTerIDs.size(), copies.TerrainRestrictionSubGraphics.size()))
 		{
 			for(size_t loop = 0; loop < CopyCount; ++loop)
-			dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]] = TerrainRestrictionSubCopyAccess[loop];
+			dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]] = TerrainRestrictionSubCopyAccess[loop];
 			if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
 			{
 				for(size_t loop = 0; loop < CopyCount; ++loop)
 				{
 					copies.TerrainRestrictionSubGraphics[loop].setGameVersion(GenieVersion);
-					dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[loop]] = copies.TerrainRestrictionSubGraphics[loop];
+					dataset->TerrainRestrictions[TerRestrictIDs.front()].TerrainPassGraphics[TerRestrictTerIDs[loop]] = copies.TerrainRestrictionSubGraphics[loop];
 				}
 			}
 		}
 	}
 	else
 	{
-		if(CopyCount+TerRestrictTerIDs[0] > dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier.size())
-		CopyCount -= CopyCount+TerRestrictTerIDs[0] - dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier.size();
+		if(CopyCount+TerRestrictTerIDs.front() > dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier.size())
+		CopyCount -= CopyCount+TerRestrictTerIDs.front() - dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier.size();
 		for(size_t loop = 0; loop < CopyCount; ++loop)
-		dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[TerRestrictTerIDs[0]+loop] = TerrainRestrictionSubCopyAccess[loop];
+		dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[TerRestrictTerIDs.front()+loop] = TerrainRestrictionSubCopyAccess[loop];
 		if(GenieVersion >= genie::GV_AoKA)	// not AoE nor RoR
 		{
 			for(size_t loop = 0; loop < CopyCount; ++loop)
 			{
 				copies.TerrainRestrictionSubGraphics[loop].setGameVersion(GenieVersion);
-				dataset->TerrainRestrictions[TerRestrictIDs[0]].TerrainPassGraphics[TerRestrictTerIDs[0]+loop] = copies.TerrainRestrictionSubGraphics[loop];
+				dataset->TerrainRestrictions[TerRestrictIDs.front()].TerrainPassGraphics[TerRestrictTerIDs.front()+loop] = copies.TerrainRestrictionSubGraphics[loop];
 			}
 		}
 	}

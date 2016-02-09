@@ -72,7 +72,7 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 		if(GenieVersion >= genie::GV_TEST)
 		Sounds_Unknown2->prepend(&SoundPointer->CacheTime);
 	}
-	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs[0]), 0);
+	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs.front()), 0);
 
 	for(auto &box: uiGroupSound) box->update();
 	Sounds_ID->Enable(false);
@@ -81,7 +81,7 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnSoundsAdd(wxCommandEvent &event)
 {
-	if(NULL == dataset) return;
+	if(!dataset) return;
 
 	wxBusyCursor WaitCursor;
 	AddToListIDFix(dataset->Sounds);
@@ -94,7 +94,7 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToListIDFix(dataset->Sounds, SoundIDs[0]);
+	InsertToListIDFix(dataset->Sounds, SoundIDs.front());
 	ListSounds();
 }
 
@@ -123,19 +123,9 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &event)
 	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(SoundIDs.size(), copies.Sound.size()))
-		{
-			PasteToListIDFix(dataset->Sounds, SoundIDs, copies.Sound);
-		}
-	}
-	else
-	{
-		PasteToListIDFix(dataset->Sounds, SoundIDs[0], copies.Sound);
-	}
-	ListSounds();
+    wxBusyCursor WaitCursor;
+    PasteToListIDFix(dataset->Sounds, SoundIDs, copies.Sound);
+    ListSounds();
 }
 
 void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
@@ -144,7 +134,7 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListIDFix(dataset->Sounds, SoundIDs[0], copies.Sound);
+	PasteInsertToListIDFix(dataset->Sounds, SoundIDs.front(), copies.Sound);
 	ListSounds();
 }
 
@@ -208,9 +198,9 @@ void AGE_Frame::ListSoundItems()
 	Sounds_Items_ListV->indexes.clear();
 
     if(SoundIDs.size())
-	for(size_t loop = 0; loop < dataset->Sounds[SoundIDs[0]].Items.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Sounds[SoundIDs.front()].Items.size(); ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs[0]);
+		wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs.front());
 		if(SearchMatches(Name.Lower()))
 		{
 			Sounds_Items_ListV->names.Add(Name);
@@ -245,7 +235,7 @@ void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
 		genie::SoundItem * SoundItemPointer;
 		for(auto loop = selections; loop--> 0;)
 		{
-			SoundItemPointer = &dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[loop]];
+			SoundItemPointer = &dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs[loop]];
 
 			SoundItems_Name->prepend(&SoundItemPointer->FileName);
 			SoundItems_Resource->prepend(&SoundItemPointer->ResourceID);
@@ -266,7 +256,7 @@ void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	AddToList(dataset->Sounds[SoundIDs[0]].Items);
+	AddToList(dataset->Sounds[SoundIDs.front()].Items);
 	ListSoundItems();
 }
 
@@ -276,7 +266,7 @@ void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	InsertToList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs[0]);
+	InsertToList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs.front());
 	ListSoundItems();
 }
 
@@ -286,7 +276,7 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	DeleteFromList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs);
+	DeleteFromList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs);
 	ListSoundItems();
 }
 
@@ -296,7 +286,7 @@ void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies.SoundItem);
+	CopyFromList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs, copies.SoundItem);
 	Sounds_Items_ListV->SetFocus();
 }
 
@@ -305,19 +295,9 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &event)
 	auto selections = Sounds_Items_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(SoundItemIDs.size(), copies.SoundItem.size()))
-		{
-			PasteToList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs, copies.SoundItem);
-		}
-	}
-	else
-	{
-		PasteToList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies.SoundItem);
-	}
-	ListSoundItems();
+    wxBusyCursor WaitCursor;
+    PasteToList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs, copies.SoundItem);
+    ListSoundItems();
 }
 
 void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &event)
@@ -326,7 +306,7 @@ void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(dataset->Sounds[SoundIDs[0]].Items, SoundItemIDs[0], copies.SoundItem);
+	PasteInsertToList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs.front(), copies.SoundItem);
 	ListSoundItems();
 }
 
@@ -334,7 +314,7 @@ void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &event)
 {
 	for(size_t loop=1; loop < SoundIDs.size(); ++loop)
 	{
-		dataset->Sounds[SoundIDs[loop]].Items = dataset->Sounds[SoundIDs[0]].Items;
+		dataset->Sounds[SoundIDs[loop]].Items = dataset->Sounds[SoundIDs.front()].Items;
 	}
 }
 
@@ -644,7 +624,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
         wxSound::Stop();
         return;
     }
-    if(SoundItemIDs.size() && NULL != dataset && SoundItemIDs[0] < dataset->Sounds[SoundIDs[0]].Items.size())
+    if(SoundItemIDs.size() && dataset && SoundItemIDs.front() < dataset->Sounds[SoundIDs.front()].Items.size())
     {
         bool loop = SoundFile_Loop->GetValue();
         if(UseTXT)
@@ -680,9 +660,9 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
             }
             for(int i=0; i < folders.size(); ++i)
             {
-                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].FileName);
+                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()].FileName);
                 if(!wxFileName(sound).FileExists())
-                    sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].ResourceID) + ".wav";
+                    sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()].ResourceID) + ".wav";
                 if(wxFileName(sound).FileExists())
                 {
                     wxSound playMe(sound);
@@ -698,7 +678,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
         {
             for(auto &file: datafiles)
             {
-                const unsigned char* sound = file->getWavPtr(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].ResourceID);
+                const unsigned char* sound = file->getWavPtr(dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()].ResourceID);
                 if(sound)
                 {
                     int size = *((uint32_t*)sound + 1);
@@ -741,7 +721,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
             }
             for(int i=0; i < folders.size(); ++i)
             {
-                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs[0]].Items[SoundItemIDs[0]].FileName);
+                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()].FileName);
                 if(wxFileName(sound).FileExists())
                 {
                     wxSound playMe(sound);
@@ -759,24 +739,24 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
 
 void AGE_Frame::autoOdds(wxCommandEvent &event)
 {
-    if(SoundIDs.empty() || dataset->Sounds[SoundIDs[0]].Items.empty()) return;
+    if(SoundIDs.empty() || dataset->Sounds[SoundIDs.front()].Items.empty()) return;
     wxBusyCursor WaitCursor;
-    size_t fileCount = dataset->Sounds[SoundIDs[0]].Items.size();
+    size_t fileCount = dataset->Sounds[SoundIDs.front()].Items.size();
     short odds = 100 / fileCount, extra = 100 - fileCount * odds;
     for(size_t file = 0; file < fileCount; ++file)
-    dataset->Sounds[SoundIDs[0]].Items[file].Probability = odds;
+    dataset->Sounds[SoundIDs.front()].Items[file].Probability = odds;
     for(size_t file = 0; file < extra; ++file)
-    ++dataset->Sounds[SoundIDs[0]].Items[file].Probability;
+    ++dataset->Sounds[SoundIDs.front()].Items[file].Probability;
     ListSoundItems();
 }
 
 void AGE_Frame::autoDrsIncrement(wxCommandEvent &event)
 {
-    if(SoundIDs.empty() || dataset->Sounds[SoundIDs[0]].Items.empty()) return;
+    if(SoundIDs.empty() || dataset->Sounds[SoundIDs.front()].Items.empty()) return;
     wxBusyCursor WaitCursor;
-    int32_t resourceID = dataset->Sounds[SoundIDs[0]].Items[0].ResourceID;
-    for(size_t file = 1; file < dataset->Sounds[SoundIDs[0]].Items.size(); ++file)
-    dataset->Sounds[SoundIDs[0]].Items[file].ResourceID = ++resourceID;
+    int32_t resourceID = dataset->Sounds[SoundIDs.front()].Items.front().ResourceID;
+    for(size_t file = 1; file < dataset->Sounds[SoundIDs.front()].Items.size(); ++file)
+    dataset->Sounds[SoundIDs.front()].Items[file].ResourceID = ++resourceID;
     ListSoundItems();
 }
 

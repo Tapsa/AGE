@@ -56,10 +56,10 @@ string AGE_Frame::GetTerrainName(int index, bool Filter)
 					Name += "IT "+FormatInt(dataset->TerrainBlock.Terrains[index].ImpassableTerrain);
 					break;
 				case 13: // Frame Count
-					Name += "FC "+FormatInt(dataset->TerrainBlock.Terrains[index].ElevationGraphics[0].FrameCount);
+					Name += "FC "+FormatInt(dataset->TerrainBlock.Terrains[index].ElevationGraphics.front().FrameCount);
 					break;
 				case 14: // Angle Count
-					Name += "AC "+FormatInt(dataset->TerrainBlock.Terrains[index].ElevationGraphics[0].AngleCount);
+					Name += "AC "+FormatInt(dataset->TerrainBlock.Terrains[index].ElevationGraphics.front().AngleCount);
 					break;
 				case 15: // TerrainToDraw
 					Name += "TD "+FormatInt(dataset->TerrainBlock.Terrains[index].TerrainToDraw);
@@ -181,9 +181,9 @@ void AGE_Frame::InitTerrains2()
 	TerRestrict_Terrains_ListV->names.clear();
 	TerRestrict_Terrains_ListV->indexes.clear();
 
-	for(size_t loop = 0; loop < dataset->TerrainRestrictions[0].PassableBuildableDmgMultiplier.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainRestrictions.front().PassableBuildableDmgMultiplier.size(); ++loop)
 	{
-        float val = dataset->TerrainRestrictions[TerRestrictIDs[0]].PassableBuildableDmgMultiplier[loop];
+        float val = dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[loop];
 		wxString Name = " "+FormatInt(loop)+" - P"+(val > 0 ? "1" : "0")+" B"+(val > 0.05 ? "1" : "0")+" - "+GetTerrainName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
@@ -209,7 +209,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 
     for(auto &box: uiGroupTerrain) box->clear();
 
-	genie::Terrain * TerrainPointer = NULL;
+	genie::Terrain * TerrainPointer = 0;
 	for(auto sel = selections; sel--> 0;)
 	{
 		TerrainPointer = &dataset->TerrainBlock.Terrains[TerrainIDs[sel]];
@@ -265,23 +265,23 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 		}
 		Terrains_UsedTerrainUnits->prepend(&TerrainPointer->NumberOfTerrainUnitsUsed);
 	}
-	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected terrain: "+lexical_cast<string>(TerrainIDs[0]), 0);
+	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected terrain: "+lexical_cast<string>(TerrainIDs.front()), 0);
 
     for(auto &box: uiGroupTerrain) box->update();
-    if(NULL != TerrainPointer && !palettes.empty() && !palettes[0].empty())
+    if(TerrainPointer && !palettes.empty() && !palettes.front().empty())
     {
-        genie::Color high = palettes[0][(uint8_t)TerrainPointer->Colors[0]];
-        genie::Color med = palettes[0][(uint8_t)TerrainPointer->Colors[1]];
-        genie::Color low = palettes[0][(uint8_t)TerrainPointer->Colors[2]];
-        genie::Color left = palettes[0][(uint8_t)TerrainPointer->CliffColors.first];
-        genie::Color right = palettes[0][(uint8_t)TerrainPointer->CliffColors.second];
+        genie::Color high = palettes.front()[(uint8_t)TerrainPointer->Colors.[0]];
+        genie::Color med = palettes.front()[(uint8_t)TerrainPointer->Colors[1]];
+        genie::Color low = palettes.front()[(uint8_t)TerrainPointer->Colors[2]];
+        genie::Color left = palettes.front()[(uint8_t)TerrainPointer->CliffColors.first];
+        genie::Color right = palettes.front()[(uint8_t)TerrainPointer->CliffColors.second];
         setForeAndBackColors(Terrains_Colors[0], wxColour(high.r, high.g, high.b));
         setForeAndBackColors(Terrains_Colors[1], wxColour(med.r, med.g, med.b));
         setForeAndBackColors(Terrains_Colors[2], wxColour(low.r, low.g, low.b));
         setForeAndBackColors(Terrains_CliffColors[0], wxColour(left.r, left.g, left.b));
         setForeAndBackColors(Terrains_CliffColors[1], wxColour(right.r, right.g, right.b));
 
-        if(DrawTerrain && NULL != slp_window)
+        if(DrawTerrain && slp_window)
         {
             wxString folder = FolderDRS;
             if(UseTXT)
@@ -323,7 +323,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
 
 wxThread::ExitCode Loader::Entry()
 {
-    const vector<genie::Color> *pal = &HostFrame->palettes[0];
+    const vector<genie::Color> *pal = &HostFrame->palettes.front();
     if(pal->empty()) return (wxThread::ExitCode)0;
     size_t TileHalfWidth = HostFrame->dataset->TerrainBlock.TileHalfWidth;
     size_t TileHalfHeight = HostFrame->dataset->TerrainBlock.TileHalfHeight;
@@ -405,13 +405,13 @@ wxThread::ExitCode Loader::Entry()
 Loader::~Loader()
 {
     wxCriticalSectionLocker enter(HostFrame->TerrainLoaderCS);
-    HostFrame->TerrainLoader = NULL;
-    if(NULL != HostFrame->slp_window) HostFrame->slp_view->Refresh();
+    HostFrame->TerrainLoader = 0;
+    if(HostFrame->slp_window) HostFrame->slp_view->Refresh();
 }
 
 void AGE_Frame::OnTerrainsAdd(wxCommandEvent &event) // Their count is hardcoded.
 {
-	if(NULL == dataset) return;
+	if(!dataset) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Terrain::setTerrainCount(++CustomTerrains);
@@ -446,20 +446,10 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 {
     if(!Terrains_Terrains_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	genie::Terrain::setTerrainCount(ResizeTerrains ? CustomTerrains : 0); // Since it is static variable.
-	if(Paste11)
-	{
-		if(Paste11Check(TerrainIDs.size(), copies.Terrain.size()))
-		{
-			PasteToList(dataset->TerrainBlock.Terrains, TerrainIDs, copies.Terrain);
-		}
-	}
-	else
-	{
-		PasteToListNoResize(dataset->TerrainBlock.Terrains, TerrainIDs[0], copies.Terrain);
-	}
-	ListTerrains1();
+    wxBusyCursor WaitCursor;
+    genie::Terrain::setTerrainCount(ResizeTerrains ? CustomTerrains : 0); // Since it is static variable.
+    PasteToList(dataset->TerrainBlock.Terrains, TerrainIDs, copies.Terrain, false);
+    ListTerrains1();
 }
 
 void AGE_Frame::OnTerrainsBorderSearch(wxCommandEvent &event)
@@ -479,8 +469,8 @@ void AGE_Frame::ListTerrainsBorders()
 	for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" "+GetTerrainName(loop)+" - ";
-		Name += lexical_cast<string>(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop])+" ";
-		Name += GetTerrainBorderName(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders[loop]);
+		Name += lexical_cast<string>(dataset->TerrainBlock.Terrains[TerrainIDs.front()].Borders[loop])+" ";
+		Name += GetTerrainBorderName(dataset->TerrainBlock.Terrains[TerrainIDs.front()].Borders[loop]);
 		if(SearchMatches(Name.Lower()))
 		{
 			Terrains_Borders_ListV->names.Add(Name);
@@ -510,7 +500,7 @@ void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
 	int16_t * BorderPointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		BorderPointer = &dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders[TerBorderIDs[loop]];
+		BorderPointer = &dataset->TerrainBlock.Terrains[TerrainIDs.front()].Borders[TerBorderIDs[loop]];
 		Terrains_Border->prepend(BorderPointer);
 	}
 
@@ -523,7 +513,7 @@ void AGE_Frame::OnTerrainsBorderCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies.TerBorder);
+	CopyFromList(dataset->TerrainBlock.Terrains[TerrainIDs.front()].Borders, TerBorderIDs, copies.TerBorder);
 	Terrains_Borders_ListV->SetFocus();
 }
 
@@ -532,26 +522,16 @@ void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &event)
 	auto selections = Terrains_Borders_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(TerBorderIDs.size(), copies.TerBorder.size()))
-		{
-			PasteToListNoGV(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs, copies.TerBorder);
-		}
-	}
-	else
-	{
-		PasteToListNoGV(dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders, TerBorderIDs[0], copies.TerBorder);
-	}
-	ListTerrainsBorders();
+    wxBusyCursor WaitCursor;
+    PasteToListNoGV(dataset->TerrainBlock.Terrains[TerrainIDs.front()].Borders, TerBorderIDs, copies.TerBorder);
+    ListTerrainsBorders();
 }
 
 void AGE_Frame::OnTerrainsBorderCopyToBuildings(wxCommandEvent &event)
 {
 	for(size_t loop=1; loop < TerrainIDs.size(); ++loop)
 	{
-		dataset->TerrainBlock.Terrains[TerrainIDs[loop]].Borders = dataset->TerrainBlock.Terrains[TerrainIDs[0]].Borders;
+		dataset->TerrainBlock.Terrains[TerrainIDs[loop]].Borders = dataset->TerrainBlock.Terrains[TerrainIDs.front()].Borders;
 	}
 }
 

@@ -4,7 +4,6 @@
 #include "../Tree32.xpm"
 
 wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
-const wxString AGE_Frame::PASTE11WARNING = "Selections mismatch";
 float AGE_SLP::bearing = 0.f;
 unsigned AGE_SLP::setbearing = 0u;
 
@@ -202,10 +201,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		default: GenieVersion = genie::GV_None; wxMessageBox("Wrong version", "Oops!");
 	}
 
-	if(NULL != dataset)
+	if(dataset)
 	{
 		delete dataset;
-		dataset = NULL;
+		dataset = 0;
 	}
 	else
 	{
@@ -231,7 +230,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		{
 			wxMessageBox("Failed to load "+DatFileName);
 			delete dataset;
-			dataset = NULL;
+			dataset = 0;
 			return;
 		}
 		//int TerrainsInData = dataset->TerrainBlock.Terrains.size();
@@ -253,20 +252,20 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 	else
 	{
         UseTXT = false;
-		if(NULL != Lang)
+		if(Lang)
 		{
 			delete Lang;
-			Lang = NULL;
+			Lang = 0;
 		}
-		if(NULL != LangX)
+		if(LangX)
 		{
 			delete LangX;
-			LangX = NULL;
+			LangX = 0;
 		}
-		if(NULL != LangXP)
+		if(LangXP)
 		{
 			delete LangXP;
-			LangXP = NULL;
+			LangXP = 0;
 		}
 
 		if(LangsUsed & 1)
@@ -283,7 +282,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 				{
 					wxMessageBox("Failed to load "+LangFileName);
 					delete Lang;
-					Lang = NULL;
+					Lang = 0;
 					return;
 				}
 			}
@@ -303,7 +302,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 				{
 					wxMessageBox("Failed to load "+LangX1FileName);
 					delete LangX;
-					LangX = NULL;
+					LangX = 0;
 					return;
 				}
 			}
@@ -323,7 +322,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 				{
 					wxMessageBox("Failed to load "+LangX1P1FileName);
 					delete LangXP;
-					LangXP = NULL;
+					LangXP = 0;
 					return;
 				}
 			}
@@ -368,7 +367,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
 	}
 
-	if(NULL != dataset)
+	if(dataset)
 	{	// Without these, nothing can be edited.
 		SetStatusText("Listing...", 0);
 		wxBusyCursor WaitCursor;
@@ -376,8 +375,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		// No research gaia fix.
 		if(dataset->Civs.size() > 1)
 		{
-			for(size_t loop = dataset->Civs[0].Units.size(); loop--> 0;)
-				dataset->Civs[0].Units[loop].Enabled = dataset->Civs[1].Units[loop].Enabled;
+			for(size_t loop = dataset->Civs.front().Units.size(); loop--> 0;)
+				dataset->Civs.front().Units[loop].Enabled = dataset->Civs[1].Units[loop].Enabled;
 		}
 		// Pointers contain useless data, which the game overrides anyway.
 		// ID and pointer fixes.
@@ -516,8 +515,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			AGE_AreaTT84::ages.Add("Post-Imperial Age");
 		}
 
-		wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors, DefAoE1TerrainRests, DefAoE2TerrainRests, DefSWGBTerrainRests;
-		// AoE & RoR
+		wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors,
+            DefAoE1TerrainRests, DefAoE2TerrainRests, DefSWGBTerrainRests,
+            DefRoRCivRes, DefAoKCivRes, DefSWGBCivRes;
+
+        // AoE & RoR
 		DefAoE1Armors.Add("0 - Stone Defense & Fire Galley");
 		DefAoE1Armors.Add("1 - Stone Defense & Archers");
 		DefAoE1Armors.Add("2 - Unused");
@@ -542,7 +544,66 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         DefAoE1TerrainRests.Add("Plain");
         DefAoE1TerrainRests.Add("Land - dirt");
         DefAoE1TerrainRests.Add("Land + beach");
-		// AoK & TC
+        DefRoRCivRes.Add("Food Storage");
+        DefRoRCivRes.Add("Wood Storage");
+        DefRoRCivRes.Add("Stone Storage");
+        DefRoRCivRes.Add("Gold Storage ");
+        DefRoRCivRes.Add("Population Headroom");
+        DefRoRCivRes.Add("Conversion Range");
+        DefRoRCivRes.Add("Current Age");
+        DefRoRCivRes.Add("Artifacts Captured");
+        DefRoRCivRes.Add("Trade Bonus");
+        DefRoRCivRes.Add("Trade Goods");
+        DefRoRCivRes.Add("Trade Production");
+        DefRoRCivRes.Add("Current Population");
+        DefRoRCivRes.Add("Corpse Decay Time");
+        DefRoRCivRes.Add("Discovery");
+        DefRoRCivRes.Add("Ruins Captured");
+        DefRoRCivRes.Add("Meat Storage");
+        DefRoRCivRes.Add("Berry Storage");
+        DefRoRCivRes.Add("Fish Storage");
+        DefRoRCivRes.Add("Unknown");
+        DefRoRCivRes.Add("Total Units Owned");
+        DefRoRCivRes.Add("Units Killed");
+        DefRoRCivRes.Add("Research Count");
+        DefRoRCivRes.Add("% Map Explored");
+        DefRoRCivRes.Add("Bronze Age tech ID");
+        DefRoRCivRes.Add("Iron Age tech ID");
+        DefRoRCivRes.Add("Tool Age tech ID");
+        DefRoRCivRes.Add("Attack Warning Sound ID");
+        DefRoRCivRes.Add("Enable Priest Conversion");
+        DefRoRCivRes.Add("Enable Building Conversion");
+        DefRoRCivRes.Add("Unknown");
+        DefRoRCivRes.Add("Building Count");
+        DefRoRCivRes.Add("Food Count");
+        DefRoRCivRes.Add("Unit Count");
+        DefRoRCivRes.Add("Maintenance");
+        DefRoRCivRes.Add("Faith");
+        DefRoRCivRes.Add("Faith Recharging Rate");
+        DefRoRCivRes.Add("Farm Food Amount");
+        DefRoRCivRes.Add("Civilian Population");
+        DefRoRCivRes.Add("Unknown");
+        DefRoRCivRes.Add("All Techs Achieved");
+        DefRoRCivRes.Add("Military Population");
+        DefRoRCivRes.Add("Conversions");
+        DefRoRCivRes.Add("Standing Wonders");
+        DefRoRCivRes.Add("Razings");
+        DefRoRCivRes.Add("Kill Ratio");
+        DefRoRCivRes.Add("Survival to Finish");
+        DefRoRCivRes.Add("Tribute Inefficiency");
+        DefRoRCivRes.Add("Gold Mining Productivity");
+        DefRoRCivRes.Add("Town Center Unavailable");
+        DefRoRCivRes.Add("Gold Counter");
+        DefRoRCivRes.Add("Reveal Ally");
+        DefRoRCivRes.Add("Amount Houses");
+        DefRoRCivRes.Add("Monasteries");
+        DefRoRCivRes.Add("Tribute Sent");
+        DefRoRCivRes.Add("All Ruins Have Been Captured");
+        DefRoRCivRes.Add("All Relics Have Been Captured");
+        DefRoRCivRes.Add("Medicine");
+        DefRoRCivRes.Add("Martyrdom");
+
+        // AoK & TC
 		DefAoE2Armors.Add("0 - Unused");
 		DefAoE2Armors.Add("1 - Infantry");	// Selection 2
 		DefAoE2Armors.Add("2 - Turtle Ships");
@@ -596,6 +657,216 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		DefAoE2TerrainRests.Add("Only water + ice");
 		DefAoE2TerrainRests.Add("All - water");
 		DefAoE2TerrainRests.Add("Shallow water");
+        DefAoKCivRes.Add("Food Storage");
+        DefAoKCivRes.Add("Wood Storage");
+        DefAoKCivRes.Add("Stone Storage");
+        DefAoKCivRes.Add("Gold Storage ");
+        DefAoKCivRes.Add("Population Headroom");
+        DefAoKCivRes.Add("Conversion Range");
+        DefAoKCivRes.Add("Current Age");
+        DefAoKCivRes.Add("Relics Captured");
+        DefAoKCivRes.Add("Trade Bonus");
+        DefAoKCivRes.Add("Trade Goods");
+        DefAoKCivRes.Add("Trade Production");
+        DefAoKCivRes.Add("Current Population");
+        DefAoKCivRes.Add("Corpse Decay Time");
+        DefAoKCivRes.Add("Discovery");
+        DefAoKCivRes.Add("Monuments Captured");
+        DefAoKCivRes.Add("Meat Storage");
+        DefAoKCivRes.Add("Berry Storage");
+        DefAoKCivRes.Add("Fish Storage");
+        DefAoKCivRes.Add("Unknown");
+        DefAoKCivRes.Add("Total Units Owned");
+        DefAoKCivRes.Add("Units Killed");
+        DefAoKCivRes.Add("Research Count");
+        DefAoKCivRes.Add("% Map Explored");
+        DefAoKCivRes.Add("Castle Age tech ID");
+        DefAoKCivRes.Add("Imperial Age tech ID");
+        DefAoKCivRes.Add("Feudal Age tech ID");
+        DefAoKCivRes.Add("Attack Warning Sound ID");
+        DefAoKCivRes.Add("Enable Monk Conversion");
+        DefAoKCivRes.Add("Enable Building Conversion");
+        DefAoKCivRes.Add("Unknown");
+        DefAoKCivRes.Add("Building Count");
+        DefAoKCivRes.Add("Food Count");
+        DefAoKCivRes.Add("Bonus Population Cap");
+        DefAoKCivRes.Add("Maintenance");
+        DefAoKCivRes.Add("Faith");
+        DefAoKCivRes.Add("Faith Recharging Rate");
+        DefAoKCivRes.Add("Farm Food Amount");
+        DefAoKCivRes.Add("Civilian Population");
+        DefAoKCivRes.Add("Unknown");
+        DefAoKCivRes.Add("All Techs Achieved");
+        DefAoKCivRes.Add("Military Population");
+        DefAoKCivRes.Add("Conversions");
+        DefAoKCivRes.Add("Standing Wonders");
+        DefAoKCivRes.Add("Razings");
+        DefAoKCivRes.Add("Kill Ratio");
+        DefAoKCivRes.Add("Survival to Finish");
+        DefAoKCivRes.Add("Tribute Inefficiency");
+        DefAoKCivRes.Add("Gold Mining Productivity");
+        DefAoKCivRes.Add("Town Center Unavailable");
+        DefAoKCivRes.Add("Gold Counter");
+        DefAoKCivRes.Add("Reveal Ally");
+        DefAoKCivRes.Add("Amount Houses");
+        DefAoKCivRes.Add("Monasteries");
+        DefAoKCivRes.Add("Tribute Sent");
+        DefAoKCivRes.Add("All Ruins Have Been Captured");
+        DefAoKCivRes.Add("All Relics Have Been Captured");
+        DefAoKCivRes.Add("Ore Storage");
+        DefAoKCivRes.Add("Kidnap Storage");
+        DefAoKCivRes.Add("Dark Age tech ID");
+        DefAoKCivRes.Add("Trade Good Quality");
+        DefAoKCivRes.Add("Trade Market Level");
+        DefAoKCivRes.Add("Formations");
+        DefAoKCivRes.Add("Building Housing Rate");
+        DefAoKCivRes.Add("Tax Gather Rate");
+        DefAoKCivRes.Add("Gather Accumulator");
+        DefAoKCivRes.Add("Salvage Decay Rate");
+        DefAoKCivRes.Add("Allow Formations");
+        DefAoKCivRes.Add("Can Convert");
+        DefAoKCivRes.Add("Hit Points Killed");
+        DefAoKCivRes.Add("Killed P1");
+        DefAoKCivRes.Add("Killed P2");
+        DefAoKCivRes.Add("Killed P3");
+        DefAoKCivRes.Add("Killed P4");
+        DefAoKCivRes.Add("Killed P5");
+        DefAoKCivRes.Add("Killed P6");
+        DefAoKCivRes.Add("Killed P7");
+        DefAoKCivRes.Add("Killed P8");
+        DefAoKCivRes.Add("Conversion Resistance");
+        DefAoKCivRes.Add("Trade Vig Rate");
+        DefAoKCivRes.Add("Stone Mining Productivity");
+        DefAoKCivRes.Add("Queued Units");
+        DefAoKCivRes.Add("Training Count");
+        DefAoKCivRes.Add("Start with Packed Town Center");
+        DefAoKCivRes.Add("Boarding Recharge Rate");
+        DefAoKCivRes.Add("Starting Villagers");
+        DefAoKCivRes.Add("Research Cost Modifier");
+        DefAoKCivRes.Add("Research Time Modifier");
+        DefAoKCivRes.Add("Convert Boats");
+        DefAoKCivRes.Add("Fish Trap Food Amount");
+        DefAoKCivRes.Add("Heal Rate Modifier");
+        DefAoKCivRes.Add("Healing Range");
+        DefAoKCivRes.Add("Starting Food");
+        DefAoKCivRes.Add("Starting Wood");
+        DefAoKCivRes.Add("Starting Stone");
+        DefAoKCivRes.Add("Starting Gold");
+        DefAoKCivRes.Add("Enable PTWC / Kidnap / Loot");
+        DefAoKCivRes.Add("Berserker Heal Timer");
+        DefAoKCivRes.Add("Dominant Sheep Control");
+        DefAoKCivRes.Add("Object Cost Sum");
+        DefAoKCivRes.Add("Research Cost Sum");
+        DefAoKCivRes.Add("Relic Income Sum");
+        DefAoKCivRes.Add("Trade Income Sum");
+        DefAoKCivRes.Add("P1 Tribute");
+        DefAoKCivRes.Add("P2 Tribute");
+        DefAoKCivRes.Add("P3 Tribute");
+        DefAoKCivRes.Add("P4 Tribute");
+        DefAoKCivRes.Add("P5 Tribute");
+        DefAoKCivRes.Add("P6 Tribute");
+        DefAoKCivRes.Add("P7 Tribute");
+        DefAoKCivRes.Add("P8 Tribute");
+        DefAoKCivRes.Add("P1 Kill Value");
+        DefAoKCivRes.Add("P2 Kill Value");
+        DefAoKCivRes.Add("P3 Kill Value");
+        DefAoKCivRes.Add("P4 Kill Value");
+        DefAoKCivRes.Add("P5 Kill Value");
+        DefAoKCivRes.Add("P6 Kill Value");
+        DefAoKCivRes.Add("P7 Kill Value");
+        DefAoKCivRes.Add("P8 Kill Value");
+        DefAoKCivRes.Add("P1 Razings");
+        DefAoKCivRes.Add("P2 Razings");
+        DefAoKCivRes.Add("P3 Razings");
+        DefAoKCivRes.Add("P4 Razings");
+        DefAoKCivRes.Add("P5 Razings");
+        DefAoKCivRes.Add("P6 Razings");
+        DefAoKCivRes.Add("P7 Razings");
+        DefAoKCivRes.Add("P8 Razings");
+        DefAoKCivRes.Add("P1 Razing Value");
+        DefAoKCivRes.Add("P2 Razing Value");
+        DefAoKCivRes.Add("P3 Razing Value");
+        DefAoKCivRes.Add("P4 Razing Value");
+        DefAoKCivRes.Add("P5 Razing Value");
+        DefAoKCivRes.Add("P6 Razing Value");
+        DefAoKCivRes.Add("P7 Razing Value");
+        DefAoKCivRes.Add("P8 Razing Value");
+        DefAoKCivRes.Add("Standing Castles");
+        DefAoKCivRes.Add("Hit Points Razed");
+        DefAoKCivRes.Add("Kills by P1");
+        DefAoKCivRes.Add("Kills by P2");
+        DefAoKCivRes.Add("Kills by P3");
+        DefAoKCivRes.Add("Kills by P4");
+        DefAoKCivRes.Add("Kills by P5");
+        DefAoKCivRes.Add("Kills by P6");
+        DefAoKCivRes.Add("Kills by P7");
+        DefAoKCivRes.Add("Kills by P8");
+        DefAoKCivRes.Add("Razings by P1");
+        DefAoKCivRes.Add("Razings by P2");
+        DefAoKCivRes.Add("Razings by P3");
+        DefAoKCivRes.Add("Razings by P4");
+        DefAoKCivRes.Add("Razings by P5");
+        DefAoKCivRes.Add("Razings by P6");
+        DefAoKCivRes.Add("Razings by P7");
+        DefAoKCivRes.Add("Razings by P8");
+        DefAoKCivRes.Add("Value Killed by Others");
+        DefAoKCivRes.Add("Value Razed by Others");
+        DefAoKCivRes.Add("Killed by Others");
+        DefAoKCivRes.Add("Razed by Others");
+        DefAoKCivRes.Add("Tribute from P1");
+        DefAoKCivRes.Add("Tribute from P2");
+        DefAoKCivRes.Add("Tribute from P3");
+        DefAoKCivRes.Add("Tribute from P4");
+        DefAoKCivRes.Add("Tribute from P5");
+        DefAoKCivRes.Add("Tribute from P6");
+        DefAoKCivRes.Add("Tribute from P7");
+        DefAoKCivRes.Add("Tribute from P8");
+        DefAoKCivRes.Add("Value Current Units");
+        DefAoKCivRes.Add("Value Current Buildings");
+        DefAoKCivRes.Add("Food Total");
+        DefAoKCivRes.Add("Wood Total");
+        DefAoKCivRes.Add("Stone Total");
+        DefAoKCivRes.Add("Gold Total");
+        DefAoKCivRes.Add("Total Value of Kills");
+        DefAoKCivRes.Add("Total Tribute Received");
+        DefAoKCivRes.Add("Total Value of Razings");
+        DefAoKCivRes.Add("Total Castles Built");
+        DefAoKCivRes.Add("Total Wonders Built");
+        DefAoKCivRes.Add("Tribute Score");
+        DefAoKCivRes.Add("Convert Min Adjustment");
+        DefAoKCivRes.Add("Convert Max Adjustment");
+        DefAoKCivRes.Add("Convert Resist Min Adjustment");
+        DefAoKCivRes.Add("Convert Resist Max Adjustment");
+        DefAoKCivRes.Add("Convert Building Min");
+        DefAoKCivRes.Add("Convert Building Max");
+        DefAoKCivRes.Add("Convert Building Chance");
+        DefAoKCivRes.Add("Reveal Enemy");
+        DefAoKCivRes.Add("Value Wonders Castles");
+        DefAoKCivRes.Add("Food Score");
+        DefAoKCivRes.Add("Wood Score");
+        DefAoKCivRes.Add("Stone Score");
+        DefAoKCivRes.Add("Gold Score");
+        DefAoKCivRes.Add("Chopping Productivity");
+        DefAoKCivRes.Add("Food-gathering Productivity");
+        DefAoKCivRes.Add("Relic Gold Production Rate");
+        DefAoKCivRes.Add("Converted Units Die");
+        DefAoKCivRes.Add("Theocracy");
+        DefAoKCivRes.Add("Crenellations");
+        DefAoKCivRes.Add("Construction Rate Modifier");
+        DefAoKCivRes.Add("Hun Wonder Bonus");
+        DefAoKCivRes.Add("Spies Discount"); // 197
+        DefAoKCivRes.Add("Unused");
+        DefAoKCivRes.Add("Unused");
+        DefAoKCivRes.Add("Unused");
+        DefAoKCivRes.Add("Unused");
+        DefAoKCivRes.Add("Unused");
+        DefAoKCivRes.Add("Unused");
+        DefAoKCivRes.Add("Unused");
+        DefAoKCivRes.Add("Feitoria Food Productivity"); // 205
+        DefAoKCivRes.Add("Feitoria Wood Productivity");
+        DefAoKCivRes.Add("Feitoria Stone Productivity");
+        DefAoKCivRes.Add("Feitoria Gold Productivity");
+
 		// SWGB & CC
 		DefSWGBArmors.Add("0 - Aircraft");	// Selection 1
 		// Airspeeder
@@ -783,6 +1054,208 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		DefSWGBTerrainRests.Add("Lava");
 		DefSWGBTerrainRests.Add("Water2");
 		DefSWGBTerrainRests.Add("Rock4");
+        DefSWGBCivRes.Add("Food Storage");
+        DefSWGBCivRes.Add("Carbon Storage");
+        DefSWGBCivRes.Add("Ore Storage");
+        DefSWGBCivRes.Add("Nova Storage ");
+        DefSWGBCivRes.Add("Population Headroom");
+        DefSWGBCivRes.Add("Conversion Range");
+        DefSWGBCivRes.Add("Current Age");
+        DefSWGBCivRes.Add("Holocrons Captured");
+        DefSWGBCivRes.Add("Trade Bonus");
+        DefSWGBCivRes.Add("Trade Goods");
+        DefSWGBCivRes.Add("Shields' Recharge Rate");
+        DefSWGBCivRes.Add("Current Population");
+        DefSWGBCivRes.Add("Corpse Decay Time");
+        DefSWGBCivRes.Add("Discovery");
+        DefSWGBCivRes.Add("Monuments/Ruins Captured");
+        DefSWGBCivRes.Add("Meat Storage");
+        DefSWGBCivRes.Add("Berry Storage");
+        DefSWGBCivRes.Add("Fish Storage");
+        DefSWGBCivRes.Add("Power Core Range");
+        DefSWGBCivRes.Add("Total Units Owned");
+        DefSWGBCivRes.Add("Units Killed");
+        DefSWGBCivRes.Add("Research Count");
+        DefSWGBCivRes.Add("% Map Explored");
+        DefSWGBCivRes.Add("Submarine Detection");
+        DefSWGBCivRes.Add("Shield Generator Range");
+        DefSWGBCivRes.Add("Unknown");
+        DefSWGBCivRes.Add("Shields' Drop Off Time");
+        DefSWGBCivRes.Add("Enable Jedi Conversion");
+        DefSWGBCivRes.Add("Enable Building Conversion");
+        DefSWGBCivRes.Add("Building Count");
+        DefSWGBCivRes.Add("Enable A-A Attack For AT-AT");
+        DefSWGBCivRes.Add("Bonus Population Cap");
+        DefSWGBCivRes.Add("Power Core Shielding");
+        DefSWGBCivRes.Add("Force");
+        DefSWGBCivRes.Add("Force Recharging Rate");
+        DefSWGBCivRes.Add("Farm Food Amount");
+        DefSWGBCivRes.Add("Civilian Population");
+        DefSWGBCivRes.Add("Shields On For Bombers/Fighters");
+        DefSWGBCivRes.Add("All Techs Achieved");
+        DefSWGBCivRes.Add("Military Population");
+        DefSWGBCivRes.Add("Conversions");
+        DefSWGBCivRes.Add("Standing Wonders");
+        DefSWGBCivRes.Add("Razings");
+        DefSWGBCivRes.Add("Kill Ratio");
+        DefSWGBCivRes.Add("Survival to Finish");
+        DefSWGBCivRes.Add("Tribute Inefficiency");
+        DefSWGBCivRes.Add("Nova Mining Productivity");
+        DefSWGBCivRes.Add("Town Center Unavailable");
+        DefSWGBCivRes.Add("Gold Counter");
+        DefSWGBCivRes.Add("Reveal Ally");
+        DefSWGBCivRes.Add("Shielding");
+        DefSWGBCivRes.Add("Monasteries");
+        DefSWGBCivRes.Add("Tribute Sent");
+        DefSWGBCivRes.Add("All Ruins Have Been Captured");
+        DefSWGBCivRes.Add("All Relics Have Been Captured");
+        DefSWGBCivRes.Add("Enable Stealth For Masters");
+        DefSWGBCivRes.Add("Kidnap Storage");
+        DefSWGBCivRes.Add("Masters Can See Hidden Units");
+        DefSWGBCivRes.Add("Trade Good Quality");
+        DefSWGBCivRes.Add("Trade Market Level");
+        DefSWGBCivRes.Add("Formations");
+        DefSWGBCivRes.Add("Building Housing Rate");
+        DefSWGBCivRes.Add("Gather Tax Rate");
+        DefSWGBCivRes.Add("Gather Accumulator");
+        DefSWGBCivRes.Add("Salvage Decay Rate");
+        DefSWGBCivRes.Add("Allow Formations");
+        DefSWGBCivRes.Add("Can Convert");
+        DefSWGBCivRes.Add("Hit Points Killed");
+        DefSWGBCivRes.Add("Killed P1");
+        DefSWGBCivRes.Add("Killed P2");
+        DefSWGBCivRes.Add("Killed P3");
+        DefSWGBCivRes.Add("Killed P4");
+        DefSWGBCivRes.Add("Killed P5");
+        DefSWGBCivRes.Add("Killed P6");
+        DefSWGBCivRes.Add("Killed P7");
+        DefSWGBCivRes.Add("Killed P8");
+        DefSWGBCivRes.Add("Conversion Resistance");
+        DefSWGBCivRes.Add("Trade Vig Rate");
+        DefSWGBCivRes.Add("Ore Mining Productivity");
+        DefSWGBCivRes.Add("Queued Units");
+        DefSWGBCivRes.Add("Training Count");
+        DefSWGBCivRes.Add("Start with Packed Town Center");
+        DefSWGBCivRes.Add("Boarding Recharge Rate");
+        DefSWGBCivRes.Add("Starting Villagers");
+        DefSWGBCivRes.Add("Research Cost Modifier");
+        DefSWGBCivRes.Add("Research Time Modifier");
+        DefSWGBCivRes.Add("Concentration");
+        DefSWGBCivRes.Add("Fish Trap Food Amount");
+        DefSWGBCivRes.Add("Medic Healing Rate");
+        DefSWGBCivRes.Add("Healing Range");
+        DefSWGBCivRes.Add("Starting Food");
+        DefSWGBCivRes.Add("Starting Carbon");
+        DefSWGBCivRes.Add("Starting Ore");
+        DefSWGBCivRes.Add("Starting Nova");
+        DefSWGBCivRes.Add("Enable PTWC / Kidnap / Loot");
+        DefSWGBCivRes.Add("Berserker Heal Timer");
+        DefSWGBCivRes.Add("Dominant Sheep Control");
+        DefSWGBCivRes.Add("Object Cost Sum");
+        DefSWGBCivRes.Add("Research Cost Sum");
+        DefSWGBCivRes.Add("Holocron Nova Sum");
+        DefSWGBCivRes.Add("Trade Income Sum");
+        DefSWGBCivRes.Add("P1 Tribute");
+        DefSWGBCivRes.Add("P2 Tribute");
+        DefSWGBCivRes.Add("P3 Tribute");
+        DefSWGBCivRes.Add("P4 Tribute");
+        DefSWGBCivRes.Add("P5 Tribute");
+        DefSWGBCivRes.Add("P6 Tribute");
+        DefSWGBCivRes.Add("P7 Tribute");
+        DefSWGBCivRes.Add("P8 Tribute");
+        DefSWGBCivRes.Add("P1 Kill Value");
+        DefSWGBCivRes.Add("P2 Kill Value");
+        DefSWGBCivRes.Add("P3 Kill Value");
+        DefSWGBCivRes.Add("P4 Kill Value");
+        DefSWGBCivRes.Add("P5 Kill Value");
+        DefSWGBCivRes.Add("P6 Kill Value");
+        DefSWGBCivRes.Add("P7 Kill Value");
+        DefSWGBCivRes.Add("P8 Kill Value");
+        DefSWGBCivRes.Add("P1 Razings");
+        DefSWGBCivRes.Add("P2 Razings");
+        DefSWGBCivRes.Add("P3 Razings");
+        DefSWGBCivRes.Add("P4 Razings");
+        DefSWGBCivRes.Add("P5 Razings");
+        DefSWGBCivRes.Add("P6 Razings");
+        DefSWGBCivRes.Add("P7 Razings");
+        DefSWGBCivRes.Add("P8 Razings");
+        DefSWGBCivRes.Add("P1 Razing Value");
+        DefSWGBCivRes.Add("P2 Razing Value");
+        DefSWGBCivRes.Add("P3 Razing Value");
+        DefSWGBCivRes.Add("P4 Razing Value");
+        DefSWGBCivRes.Add("P5 Razing Value");
+        DefSWGBCivRes.Add("P6 Razing Value");
+        DefSWGBCivRes.Add("P7 Razing Value");
+        DefSWGBCivRes.Add("P8 Razing Value");
+        DefSWGBCivRes.Add("Standing Fortresses");
+        DefSWGBCivRes.Add("Hit Points Razed");
+        DefSWGBCivRes.Add("Kills by P1");
+        DefSWGBCivRes.Add("Kills by P2");
+        DefSWGBCivRes.Add("Kills by P3");
+        DefSWGBCivRes.Add("Kills by P4");
+        DefSWGBCivRes.Add("Kills by P5");
+        DefSWGBCivRes.Add("Kills by P6");
+        DefSWGBCivRes.Add("Kills by P7");
+        DefSWGBCivRes.Add("Kills by P8");
+        DefSWGBCivRes.Add("Razings by P1");
+        DefSWGBCivRes.Add("Razings by P2");
+        DefSWGBCivRes.Add("Razings by P3");
+        DefSWGBCivRes.Add("Razings by P4");
+        DefSWGBCivRes.Add("Razings by P5");
+        DefSWGBCivRes.Add("Razings by P6");
+        DefSWGBCivRes.Add("Razings by P7");
+        DefSWGBCivRes.Add("Razings by P8");
+        DefSWGBCivRes.Add("Value Killed by Others");
+        DefSWGBCivRes.Add("Value Razed by Others");
+        DefSWGBCivRes.Add("Killed by Others");
+        DefSWGBCivRes.Add("Razed by Others");
+        DefSWGBCivRes.Add("Tribute from P1");
+        DefSWGBCivRes.Add("Tribute from P2");
+        DefSWGBCivRes.Add("Tribute from P3");
+        DefSWGBCivRes.Add("Tribute from P4");
+        DefSWGBCivRes.Add("Tribute from P5");
+        DefSWGBCivRes.Add("Tribute from P6");
+        DefSWGBCivRes.Add("Tribute from P7");
+        DefSWGBCivRes.Add("Tribute from P8");
+        DefSWGBCivRes.Add("Value Current Units");
+        DefSWGBCivRes.Add("Value Current Buildings");
+        DefSWGBCivRes.Add("Food Total");
+        DefSWGBCivRes.Add("Carbon Total");
+        DefSWGBCivRes.Add("Ore Total");
+        DefSWGBCivRes.Add("Nova Total");
+        DefSWGBCivRes.Add("Total Value of Kills");
+        DefSWGBCivRes.Add("Total Tribute Received");
+        DefSWGBCivRes.Add("Total Value of Razings");
+        DefSWGBCivRes.Add("Total Fortresses Built");
+        DefSWGBCivRes.Add("Total Monuments Built");
+        DefSWGBCivRes.Add("Tribute Score");
+        DefSWGBCivRes.Add("Convert Min Adjustment");
+        DefSWGBCivRes.Add("Convert Max Adjustment");
+        DefSWGBCivRes.Add("Convert Resist Min Adjustment");
+        DefSWGBCivRes.Add("Convert Resist Max Adjustment");
+        DefSWGBCivRes.Add("Convert Building Min");
+        DefSWGBCivRes.Add("Convert Building Max");
+        DefSWGBCivRes.Add("Convert Building Chance");
+        DefSWGBCivRes.Add("Reveal Enemy");
+        DefSWGBCivRes.Add("Value Wonders Castles");
+        DefSWGBCivRes.Add("Food Score");
+        DefSWGBCivRes.Add("Carbon Score");
+        DefSWGBCivRes.Add("Ore Score");
+        DefSWGBCivRes.Add("Nova Score");
+        DefSWGBCivRes.Add("Carbon Gathering Productivity");
+        DefSWGBCivRes.Add("Food-gathering Productivity");
+        DefSWGBCivRes.Add("Holocron Nova Production Rate");
+        DefSWGBCivRes.Add("Converted Units Die");
+        DefSWGBCivRes.Add("Meditation");
+        DefSWGBCivRes.Add("Crenellations");
+        DefSWGBCivRes.Add("Construction Rate Modifier");
+        DefSWGBCivRes.Add("Biological Self Regeneration");
+        DefSWGBCivRes.Add("Spies Discount");
+        DefSWGBCivRes.Add("Misc Counter 1");
+        DefSWGBCivRes.Add("Misc Counter 2");
+        DefSWGBCivRes.Add("Misc Counter 3");
+        DefSWGBCivRes.Add("Misc Counter 4");
+        DefSWGBCivRes.Add("Misc Counter 5");
 
         wxFileConfig Customs("AGE", "Tapsa", "age2armornames.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         long AoE1Count, AoE2Count, SWGBCount, AoE1CountTR, AoE2CountTR, SWGBCountTR;
@@ -1721,7 +2194,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 			wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + lexical_cast<string>(TerrainsInData);
 			viesti += "\nBorders: " + lexical_cast<string>(BordersInTerrains);
 			viesti += "\nLoaded game version: " + lexical_cast<string>(dataset->TerrainBlock.getGameVersion());
-			viesti += "\nTerrain game version: " + lexical_cast<string>(dataset->TerrainBlock.Terrains[0].getGameVersion());
+			viesti += "\nTerrain game version: " + lexical_cast<string>(dataset->TerrainBlock.Terrains.front().getGameVersion());
 			wxMessageBox(viesti);
 		}
 		// <-- ends here
@@ -1885,7 +2358,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		}
 		case eTabBar:
 		{
-			if(NULL != slp_window) slp_view->Refresh();
+			if(slp_window) slp_view->Refresh();
             break;
 		}
 		case eShowSLP:
@@ -2002,10 +2475,10 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
             else
             {
-                if(NULL != slp_window) // What if users manage to close this?
+                if(slp_window) // What if users manage to close this?
                 {
                     slp_window->Destroy();
-                    slp_window = NULL;
+                    slp_window = 0;
                 }
             }
             break;
@@ -2049,14 +2522,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                             FilesToRead.Add("\\terrain_x2.drs");
                             FilesToRead.Add("\\sounds_x2.drs");
                         }
-                        else
-                        {
-                            FilesToRead.Add("\\gamedata_x1.drs");
-                            FilesToRead.Add("\\interfac_x1.drs");
-                            FilesToRead.Add("\\graphics_x1.drs");
-                            FilesToRead.Add("\\terrain_x1.drs");
-                            FilesToRead.Add("\\sounds_x1.drs");
-                        }
+                        FilesToRead.Add("\\gamedata_x1.drs");
+                        FilesToRead.Add("\\interfac_x1.drs");
+                        FilesToRead.Add("\\graphics_x1.drs");
+                        FilesToRead.Add("\\terrain_x1.drs");
+                        FilesToRead.Add("\\sounds_x1.drs");
                     }
                     else if(GenieVersion == genie::GV_RoR)
                     {
@@ -2105,7 +2575,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         }
                     }
                 }
-                if(NULL != slp_window) slp_view->Refresh();
+                if(slp_window) slp_view->Refresh();
                 Units_IconID_SLP->Refresh();
                 Research_IconID_SLP->Refresh();
                 break;
@@ -2291,7 +2761,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		}
 		case eStayOnTopSLP:
 		{
-            if(NULL != slp_window) slp_window->ToggleWindowStyle(wxSTAY_ON_TOP);
+            if(slp_window) slp_window->ToggleWindowStyle(wxSTAY_ON_TOP);
 			StayOnTopSLP = event.IsChecked();
             break;
 		}
@@ -2526,7 +2996,7 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
     }
     else
     {
-        const vector<genie::Color> *pal = &palettes[0];
+        const vector<genie::Color> *pal = &palettes.front();
         if(imgdata->palette.size())
         {
             pal = &imgdata->palette;
@@ -2765,11 +3235,11 @@ void AGE_Frame::showPopUp(wxIdleEvent& event)
     {
         wxMessageBox(popUp.popUpMessage, popUp.popUpTitle);
         popUp.hasMessage = false;
-        if(NULL != popUp.focusTarget)
+        if(popUp.focusTarget)
         {
             if(popUp.focusTarget->IsEnabled() && popUp.focusTarget->IsShownOnScreen())
             popUp.focusTarget->SetFocus();
-            popUp.focusTarget = NULL;
+            popUp.focusTarget = 0;
         }
     }
 }
@@ -3113,11 +3583,11 @@ void AGE_AreaTT84::FillItemCombo(int selection, bool update)
 	ItemCombo->SetSelection(selection);
 }
 
-bool AGE_Frame::Paste11Check(int pastes, int copies)
+bool AGE_Frame::Paste11Check(size_t pastes, size_t copies)
 {
 	bool result = copies == pastes;
 	if(!result)
-	wxMessageBox(lexical_cast<string>(copies) + " copies, " + lexical_cast<string>(pastes) + " pastes.\nClick paste tool to switch to sequential paste.", PASTE11WARNING);
+	wxMessageBox(wxString::Format("%u copies, %u selections.\nClick paste tool to switch to sequential paste.", copies, pastes), "Selections Mismatch");
 	return result;
 }
 
@@ -3238,7 +3708,7 @@ wxString AGE_Frame::CurrentTime()
 
 AGE_SLP* AGE_Frame::getCurrentGraphics()
 {
-    AGE_SLP *graphic = NULL;
+    AGE_SLP *graphic = 0;
     if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
     {
         graphic = &graphicSLP;
@@ -3257,7 +3727,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         case eNextFrame:
         {
             AGE_SLP *graphic = getCurrentGraphics();
-            if(NULL != graphic)
+            if(graphic)
             {
                 bool framesleft = false;
                 if(graphic->slp)
@@ -3277,7 +3747,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         case ePrevFrame:
         {
             AGE_SLP *graphic = getCurrentGraphics();
-            if(NULL != graphic)
+            if(graphic)
             {
                 bool framesleft = false;
                 if(graphic->slp)
@@ -3600,5 +4070,6 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
             return;
         }
     }
+    popUp.loadedFileId = -1;
     Destroy();
 }

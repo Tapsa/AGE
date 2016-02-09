@@ -48,7 +48,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interface/ResizeTerrains", &ResizeTerrains, false);
         Config.Read("Interface/StayOnTop", &StayOnTop, false);
         Config.Read("Interface/StayOnTopSLP", &StayOnTopSLP, false);
-        Config.Read("Interface/Paste11", &Paste11, true);
+        Config.Read("Interface/Paste11", &Paste11, false);
         Config.Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
         Config.Read("Interface/SLPareaPerCent", &SLPareaPerCent, 100);
         Config.Read("Interface/SLPbackR", &SLPbackR, 255);
