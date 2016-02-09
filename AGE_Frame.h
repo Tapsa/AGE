@@ -179,8 +179,8 @@ private:
 	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
     wxArrayString AoE1TerrainRestrictions, AoE2TerrainRestrictions, SWGBTerrainRestrictions;
     wxArrayString RoRCivResources, AoKCivResources, SWGBCivResources;
-	int FindItem(wxArrayInt &selections, int find, int min, int max);
-	void SwapSelection(int last, wxArrayInt &selections);
+	//int FindItem(wxArrayInt &selections, int find, int min, int max);
+	//void SwapSelection(int last, wxArrayInt &selections);
 	void SaveBackup();
 	bool SearchMatches(wxString itemText);
     void getSelectedItems(const int selections, const AGEListView* list, vector<int> &indexes);
