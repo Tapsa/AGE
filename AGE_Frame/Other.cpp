@@ -26,6 +26,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         else if(AutoBackups) SaveBackup();
     }
 
+    if(slp_window)
+    {
+        // TODO: Make the SLP view inactive until new data is loaded.
+    }
 	if(!SkipOpenDialog)
 	{
 		AGE_OpenDialog OpenBox(this);
@@ -233,10 +237,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			dataset = 0;
 			return;
 		}
-		//int TerrainsInData = dataset->TerrainBlock.Terrains.size();
-		//for(int terrain = 0; terrain < TerrainsInData; ++terrain)
-		//dataset->TerrainBlock.Terrains[terrain].Borders.resize(100, 0); // Fixing broken file
 	}
+    else wxMessageBox("No file " + DatFileName);
 
 	// txt language file
     LangTxt.clear();
@@ -270,7 +272,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 
 		if(LangsUsed & 1)
 		{
-			if((sizeof(size_t) > 4 || WriteLangs) && wxFileName(LangFileName).FileExists())
+            if(!wxFileName(LangFileName).FileExists())
+            {
+                wxMessageBox("No file " + LangFileName);
+            }
+            else if(sizeof(size_t) > 4 || WriteLangs)
 			{
 				Lang = new genie::LangFile();
 				Lang->setDefaultCharset(LangCharset);
@@ -290,7 +296,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 		if(LangsUsed & 2)
 		{
-			if((sizeof(size_t) > 4 || WriteLangs) && wxFileName(LangX1FileName).FileExists())
+            if(!wxFileName(LangX1FileName).FileExists())
+            {
+                wxMessageBox("No file " + LangX1FileName);
+            }
+            else if(sizeof(size_t) > 4 || WriteLangs)
 			{
 				LangX = new genie::LangFile();
 				LangX->setDefaultCharset(LangCharset);
@@ -310,7 +320,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		}
 		if(LangsUsed & 4)
 		{
-			if((sizeof(size_t) > 4 || WriteLangs) && wxFileName(LangX1P1FileName).FileExists())
+            if(!wxFileName(LangX1P1FileName).FileExists())
+            {
+                wxMessageBox("No file " + LangX1P1FileName);
+            }
+            else if(sizeof(size_t) > 4 || WriteLangs)
 			{
 				LangXP = new genie::LangFile();
 				LangXP->setDefaultCharset(LangCharset);
@@ -600,8 +614,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         DefRoRCivRes.Add("Tribute Sent");
         DefRoRCivRes.Add("All Ruins Have Been Captured");
         DefRoRCivRes.Add("All Relics Have Been Captured");
-        DefRoRCivRes.Add("Medicine");
-        DefRoRCivRes.Add("Martyrdom");
+        DefRoRCivRes.Add("RoR: Medicine");
+        DefRoRCivRes.Add("RoR: Martyrdom");
 
         // AoK & TC
 		DefAoE2Armors.Add("0 - Unused");
@@ -747,7 +761,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         DefAoKCivRes.Add("Convert Boats");
         DefAoKCivRes.Add("Fish Trap Food Amount");
         DefAoKCivRes.Add("Heal Rate Modifier");
-        DefAoKCivRes.Add("Healing Range");
+        DefAoKCivRes.Add("Healing Range"); // 90 alpha ends here
         DefAoKCivRes.Add("Starting Food");
         DefAoKCivRes.Add("Starting Wood");
         DefAoKCivRes.Add("Starting Stone");
@@ -841,31 +855,31 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         DefAoKCivRes.Add("Convert Building Max");
         DefAoKCivRes.Add("Convert Building Chance");
         DefAoKCivRes.Add("Reveal Enemy");
-        DefAoKCivRes.Add("Value Wonders Castles");
+        DefAoKCivRes.Add("Value Wonders Castles"); // 184 beta ends here
         DefAoKCivRes.Add("Food Score");
         DefAoKCivRes.Add("Wood Score");
         DefAoKCivRes.Add("Stone Score");
         DefAoKCivRes.Add("Gold Score");
-        DefAoKCivRes.Add("Chopping Productivity");
-        DefAoKCivRes.Add("Food-gathering Productivity");
-        DefAoKCivRes.Add("Relic Gold Production Rate");
-        DefAoKCivRes.Add("Converted Units Die");
-        DefAoKCivRes.Add("Theocracy");
-        DefAoKCivRes.Add("Crenellations");
-        DefAoKCivRes.Add("Construction Rate Modifier");
-        DefAoKCivRes.Add("Hun Wonder Bonus");
-        DefAoKCivRes.Add("Spies Discount"); // 197
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Feitoria Food Productivity"); // 205
-        DefAoKCivRes.Add("Feitoria Wood Productivity");
-        DefAoKCivRes.Add("Feitoria Stone Productivity");
-        DefAoKCivRes.Add("Feitoria Gold Productivity");
+        DefAoKCivRes.Add("TC: Chopping Productivity");
+        DefAoKCivRes.Add("TC: Food-gathering Productivity");
+        DefAoKCivRes.Add("TC: Relic Gold Production Rate");
+        DefAoKCivRes.Add("TC: Converted Units Die");
+        DefAoKCivRes.Add("TC: Theocracy");
+        DefAoKCivRes.Add("TC: Crenellations");
+        DefAoKCivRes.Add("TC: Construction Rate Modifier");
+        DefAoKCivRes.Add("TC: Hun Wonder Bonus");
+        DefAoKCivRes.Add("TC: Spies Discount"); // 197 The Conquerors ends here
+        DefAoKCivRes.Add("AK: Unused");
+        DefAoKCivRes.Add("AK: Unused");
+        DefAoKCivRes.Add("AK: Unused");
+        DefAoKCivRes.Add("AK: Unused");
+        DefAoKCivRes.Add("AK: Unused");
+        DefAoKCivRes.Add("AK: Unused");
+        DefAoKCivRes.Add("AK: Unused");
+        DefAoKCivRes.Add("AK: Feitoria Food Productivity");
+        DefAoKCivRes.Add("AK: Feitoria Wood Productivity");
+        DefAoKCivRes.Add("AK: Feitoria Stone Productivity");
+        DefAoKCivRes.Add("AK: Feitoria Gold Productivity");
 
 		// SWGB & CC
 		DefSWGBArmors.Add("0 - Aircraft");	// Selection 1
@@ -1064,11 +1078,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         DefSWGBCivRes.Add("Holocrons Captured");
         DefSWGBCivRes.Add("Trade Bonus");
         DefSWGBCivRes.Add("Trade Goods");
-        DefSWGBCivRes.Add("Shields' Recharge Rate");
+        DefSWGBCivRes.Add("Recharge Rate of Shields");
         DefSWGBCivRes.Add("Current Population");
         DefSWGBCivRes.Add("Corpse Decay Time");
         DefSWGBCivRes.Add("Discovery");
-        DefSWGBCivRes.Add("Monuments/Ruins Captured");
+        DefSWGBCivRes.Add("Monuments Captured");
         DefSWGBCivRes.Add("Meat Storage");
         DefSWGBCivRes.Add("Berry Storage");
         DefSWGBCivRes.Add("Fish Storage");
@@ -1080,22 +1094,23 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         DefSWGBCivRes.Add("Submarine Detection");
         DefSWGBCivRes.Add("Shield Generator Range");
         DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Shields' Drop Off Time");
+        DefSWGBCivRes.Add("Drop-off Time of Shields");
         DefSWGBCivRes.Add("Enable Jedi Conversion");
         DefSWGBCivRes.Add("Enable Building Conversion");
+        DefSWGBCivRes.Add("Unknown");
         DefSWGBCivRes.Add("Building Count");
-        DefSWGBCivRes.Add("Enable A-A Attack For AT-AT");
+        DefSWGBCivRes.Add("Enable A-A Attack for AT-AT");
         DefSWGBCivRes.Add("Bonus Population Cap");
         DefSWGBCivRes.Add("Power Core Shielding");
         DefSWGBCivRes.Add("Force");
         DefSWGBCivRes.Add("Force Recharging Rate");
         DefSWGBCivRes.Add("Farm Food Amount");
         DefSWGBCivRes.Add("Civilian Population");
-        DefSWGBCivRes.Add("Shields On For Bombers/Fighters");
+        DefSWGBCivRes.Add("Shields On for Bombers/Fighters");
         DefSWGBCivRes.Add("All Techs Achieved");
         DefSWGBCivRes.Add("Military Population");
         DefSWGBCivRes.Add("Conversions");
-        DefSWGBCivRes.Add("Standing Wonders");
+        DefSWGBCivRes.Add("Standing Monuments");
         DefSWGBCivRes.Add("Razings");
         DefSWGBCivRes.Add("Kill Ratio");
         DefSWGBCivRes.Add("Survival to Finish");
@@ -1109,14 +1124,14 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         DefSWGBCivRes.Add("Tribute Sent");
         DefSWGBCivRes.Add("All Ruins Have Been Captured");
         DefSWGBCivRes.Add("All Relics Have Been Captured");
-        DefSWGBCivRes.Add("Enable Stealth For Masters");
+        DefSWGBCivRes.Add("Enable Stealth for Masters");
         DefSWGBCivRes.Add("Kidnap Storage");
         DefSWGBCivRes.Add("Masters Can See Hidden Units");
         DefSWGBCivRes.Add("Trade Good Quality");
         DefSWGBCivRes.Add("Trade Market Level");
         DefSWGBCivRes.Add("Formations");
         DefSWGBCivRes.Add("Building Housing Rate");
-        DefSWGBCivRes.Add("Gather Tax Rate");
+        DefSWGBCivRes.Add("Tax Gather Rate");
         DefSWGBCivRes.Add("Gather Accumulator");
         DefSWGBCivRes.Add("Salvage Decay Rate");
         DefSWGBCivRes.Add("Allow Formations");
@@ -1251,14 +1266,22 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         DefSWGBCivRes.Add("Construction Rate Modifier");
         DefSWGBCivRes.Add("Biological Self Regeneration");
         DefSWGBCivRes.Add("Spies Discount");
+        DefSWGBCivRes.Add("Unknown");
+        DefSWGBCivRes.Add("Unknown");
         DefSWGBCivRes.Add("Misc Counter 1");
         DefSWGBCivRes.Add("Misc Counter 2");
         DefSWGBCivRes.Add("Misc Counter 3");
         DefSWGBCivRes.Add("Misc Counter 4");
         DefSWGBCivRes.Add("Misc Counter 5");
+        DefSWGBCivRes.Add("Unknown");
+        DefSWGBCivRes.Add("Unknown");
+        DefSWGBCivRes.Add("Unknown");
+        DefSWGBCivRes.Add("Unknown");
+        DefSWGBCivRes.Add("Unknown");
+        DefSWGBCivRes.Add("CC: Unknown");
 
-        wxFileConfig Customs("AGE", "Tapsa", "age2armornames.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        long AoE1Count, AoE2Count, SWGBCount, AoE1CountTR, AoE2CountTR, SWGBCountTR;
+        wxFileConfig Customs("AGE", "Tapsa", "age3namesV0001.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        long AoE1Count, AoE2Count, SWGBCount, AoE1CountTR, AoE2CountTR, SWGBCountTR, RoRCountCR, AoKCountCR, SWGBCountCR;
         if(!Customs.Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
             Customs.Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
         if(!Customs.Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
@@ -1271,48 +1294,67 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             Customs.Write("Count/AoE2TerrainRestrictionCount", (int)DefAoE2TerrainRests.GetCount());
         if(!Customs.Read("Count/SWGBTerrainRestrictionCount", &SWGBCountTR, DefSWGBTerrainRests.GetCount()))
             Customs.Write("Count/SWGBTerrainRestrictionCount", (int)DefSWGBTerrainRests.GetCount());
+        if(!Customs.Read("Count/RoRCivResCount", &RoRCountCR, DefRoRCivRes.GetCount()))
+            Customs.Write("Count/RoRCivResCount", (int)DefRoRCivRes.GetCount());
+        if(!Customs.Read("Count/AoKCivResCount", &AoKCountCR, DefAoKCivRes.GetCount()))
+            Customs.Write("Count/AoKCivResCount", (int)DefAoKCivRes.GetCount());
+        if(!Customs.Read("Count/SWGBCivResCount", &SWGBCountCR, DefSWGBCivRes.GetCount()))
+            Customs.Write("Count/SWGBCivResCount", (int)DefSWGBCivRes.GetCount());
         wxArrayString AoE1Armors, AoE2Armors, SWGBArmors;
+        wxString read_buf;
         for(size_t loop = 0; loop < AoE1Count; ++loop)
         {
-            wxString MoveHolder;
-            if(!Customs.Read("AoE1Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1Armors[loop]))
+            if(!Customs.Read("AoE1Names/"+lexical_cast<string>(loop), &read_buf, DefAoE1Armors[loop]))
                 Customs.Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
-            AoE1Armors.Add(MoveHolder);
+            AoE1Armors.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoE2Count; ++loop)
         {
-            wxString MoveHolder;
-            if(!Customs.Read("AoE2Names/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2Armors[loop]))
+            if(!Customs.Read("AoE2Names/"+lexical_cast<string>(loop), &read_buf, DefAoE2Armors[loop]))
                 Customs.Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
-            AoE2Armors.Add(MoveHolder);
+            AoE2Armors.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCount; ++loop)
         {
-            wxString MoveHolder;
-            if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBArmors[loop]))
+            if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBArmors[loop]))
                 Customs.Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
-            SWGBArmors.Add(MoveHolder);
+            SWGBArmors.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoE1CountTR; ++loop)
         {
-            wxString MoveHolder;
-            if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefAoE1TerrainRests[loop]))
+            if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefAoE1TerrainRests[loop]))
                 Customs.Write("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE1TerrainRests[loop]);
-            AoE1TerrainRestrictions.Add(MoveHolder);
+            AoE1TerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoE2CountTR; ++loop)
         {
-            wxString MoveHolder;
-            if(!Customs.Read("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefAoE2TerrainRests[loop]))
+            if(!Customs.Read("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefAoE2TerrainRests[loop]))
                 Customs.Write("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE2TerrainRests[loop]);
-            AoE2TerrainRestrictions.Add(MoveHolder);
+            AoE2TerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCountTR; ++loop)
         {
-            wxString MoveHolder;
-            if(!Customs.Read("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), &MoveHolder, DefSWGBTerrainRests[loop]))
+            if(!Customs.Read("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBTerrainRests[loop]))
                 Customs.Write("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), DefSWGBTerrainRests[loop]);
-            SWGBTerrainRestrictions.Add(MoveHolder);
+            SWGBTerrainRestrictions.Add(read_buf);
+        }
+        for(size_t loop = 0; loop < RoRCountCR; ++loop)
+        {
+            if(!Customs.Read("RoRCivResNames/"+lexical_cast<string>(loop), &read_buf, DefRoRCivRes[loop]))
+                Customs.Write("RoRCivResNames/"+lexical_cast<string>(loop), DefRoRCivRes[loop]);
+            RoRCivResources.Add(read_buf);
+        }
+        for(size_t loop = 0; loop < AoKCountCR; ++loop)
+        {
+            if(!Customs.Read("AoKCivResNames/"+lexical_cast<string>(loop), &read_buf, DefAoKCivRes[loop]))
+                Customs.Write("AoKCivResNames/"+lexical_cast<string>(loop), DefAoKCivRes[loop]);
+            AoKCivResources.Add(read_buf);
+        }
+        for(size_t loop = 0; loop < SWGBCountCR; ++loop)
+        {
+            if(!Customs.Read("SWGBCivResNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBCivRes[loop]))
+                Customs.Write("SWGBCivResNames/"+lexical_cast<string>(loop), DefSWGBCivRes[loop]);
+            SWGBCivResources.Add(read_buf);
         }
 
 		for(size_t loop = 0; loop < 3; ++loop)

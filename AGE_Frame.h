@@ -178,6 +178,7 @@ private:
 	wxString CurrentTime();
 	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
     wxArrayString AoE1TerrainRestrictions, AoE2TerrainRestrictions, SWGBTerrainRestrictions;
+    wxArrayString RoRCivResources, AoKCivResources, SWGBCivResources;
 	int FindItem(wxArrayInt &selections, int find, int min, int max);
 	void SwapSelection(int last, wxArrayInt &selections);
 	void SaveBackup();
@@ -601,7 +602,7 @@ private:
 	void OnResourcesPaste(wxCommandEvent &event);
 	void OnResourcesPasteInsert(wxCommandEvent &event);
 	void OnResourcesCopyToAll(wxCommandEvent &event);
-	string GetResourceName(int);
+	wxString GetResourceName(int);
 
 	void ListUnits(short civ, bool all = true);
 	void OnUnitsSearch(wxCommandEvent &event);
