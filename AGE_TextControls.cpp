@@ -6,7 +6,6 @@ const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 
 wxString AGEListView::OnGetItemText(long item, long column) const
 {
-    //if(item >= names.size() || item < 0) return wxString("Fetch error");
     return names[item];
 }
 

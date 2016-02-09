@@ -3554,9 +3554,10 @@ void AGE_Frame::virtualListing(AGEListView* list)
     long firstVisible = list->GetTopItem();
     long firstSelected = list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 
+    list->SetItemCount(0); // Clears selections
     list->SetItemCount(list->names.size());
     list->SetColumnWidth(0, wxLIST_AUTOSIZE_USEHEADER);
-    if(list->GetItemCount() == 0) return;
+    if(list->names.empty()) return;
 
 	// Set selections and first visible item.
     if(firstSelected == -1)
@@ -3565,24 +3566,20 @@ void AGE_Frame::virtualListing(AGEListView* list)
     }
     if(How2List == ADD || firstSelected >= list->names.size())
     {
-        // Deselect old selections.
-        if(How2List == ADD)
-        while(true)
-        {
-            list->SetItemState(firstSelected, 0, wxLIST_STATE_SELECTED);
-            if(!list->GetSelectedItemCount()) break;
-            firstSelected = list->GetNextItem(firstSelected, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); // Above is bugged.
-        }
         firstSelected = list->names.size() - 1;
+    }
+    if(How2List == SEARCH)
+    {
+        list->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
     }
     else
     {
         list->SetItemPosition(firstVisible, wxPoint(0, 0));
+        list->EnsureVisible(firstSelected);
+        list->SetItemState(firstSelected, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        list->SetFocus();
     }
-    list->EnsureVisible(firstSelected);
-    list->SetItemState(firstSelected, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
     list->Refresh();
-    if(How2List != SEARCH) list->SetFocus();
 	How2List = SEARCH;
 }
 
@@ -3659,7 +3656,7 @@ void AGE_Frame::SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wx
     }
 }
 
-int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
+/*int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
 {
 	while(max >= min)
 	{
@@ -3669,7 +3666,7 @@ int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
 		else max = mid - 1;
 	}
 	return -1;
-}
+}*/
 
 void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, vector<int> &indexes)
 {
@@ -3684,7 +3681,7 @@ void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, 
 }
 
 // To show contents of last selected item instead of first selection.
-void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
+/*void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
 {
 	// This breaks erasing items :(
 	// Look if selections include the last selection.
@@ -3696,7 +3693,7 @@ void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
 		selections.RemoveAt(found);
 		selections.Insert(swap, 0);
 	}
-}
+}*/
 
 wxString AGE_Frame::FormatFloat(float value)
 {
