@@ -1790,14 +1790,6 @@ void AGE_Frame::LoadLists()
 		TechTrees_Researches_Units.List->DeleteAllItems();
 		TechTrees_Researches_Researches.List->DeleteAllItems();
 	}
-	/*if(TimesOpened < 3)
-	{
-		Units_ListV->SetItemState(0, 0, wxLIST_STATE_SELECTED);
-		srand(time(NULL));
-		short sels = rand() % 2 + 3;
-		for(short i=0; ++i<sels;)
-		Units_ListV->SetItemState(rand() % (12 - TimesOpened) + 4, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-	}*/
 
     wxTimerEvent E;
 	OnCivsTimer(E);
@@ -3552,9 +3544,10 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 void AGE_Frame::virtualListing(AGEListView* list)
 {
     long firstVisible = list->GetTopItem();
-    long firstSelected = list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+    long firstSelected = list->GetFirstSelected();
+    int lastItemCount = list->GetItemCount();
 
-    list->SetItemCount(0); // Clears selections
+    //list->SetItemCount(0); // Clears selections and makes all calls to SetItemPosition be ignored.
     list->SetItemCount(list->names.size());
     list->SetColumnWidth(0, wxLIST_AUTOSIZE_USEHEADER);
     if(list->names.empty()) return;
@@ -3564,19 +3557,26 @@ void AGE_Frame::virtualListing(AGEListView* list)
     {
         firstSelected = 0;
     }
+    long sweeper = firstSelected;
+    while(true)
+    {
+        list->Select(sweeper, false);
+        if(!list->GetSelectedItemCount()) break;
+        sweeper = list->GetNextSelected(sweeper);
+    }
     if(How2List == ADD || firstSelected >= list->names.size())
     {
         firstSelected = list->names.size() - 1;
     }
     if(How2List == SEARCH)
     {
-        list->SetItemState(0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        list->Select(0, true);
     }
     else
     {
         list->SetItemPosition(firstVisible, wxPoint(0, 0));
-        list->EnsureVisible(firstSelected);
-        list->SetItemState(firstSelected, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+        list->EnsureVisible(lastItemCount < list->GetItemCount() ? list->names.size() - 1 : firstSelected);
+        list->Select(firstSelected, true);
         list->SetFocus();
     }
     list->Refresh();
@@ -3639,7 +3639,7 @@ void AGE_Frame::SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wx
     set<uint32_t> topNums, subNums;
 	for(size_t loop = 0, lastItem = -1; loop < selections; ++loop)
 	{
-        lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+        lastItem = list->GetNextSelected(lastItem);
         string line(list->GetItemText(lastItem));
         size_t found = line.find(" ", 3);
         topNums.insert(lexical_cast<uint32_t>(line.substr(2, found - 2)));
@@ -3674,7 +3674,7 @@ void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, 
     indexes.resize(selections);
     for(int sel = 0, lastItem = -1; sel < selections; ++sel)
     {
-        lastItem = list->GetNextItem(lastItem, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); // Above is bugged.
+        lastItem = list->GetNextSelected(lastItem);
         indexes[sel] = list->indexes[lastItem];
     }
     SetStatusText("Times listed: "+lexical_cast<string>(randomi), 2);
