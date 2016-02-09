@@ -270,7 +270,7 @@ void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
     for(auto &box: uiGroupTerrain) box->update();
     if(TerrainPointer && !palettes.empty() && !palettes.front().empty())
     {
-        genie::Color high = palettes.front()[(uint8_t)TerrainPointer->Colors.[0]];
+        genie::Color high = palettes.front()[(uint8_t)TerrainPointer->Colors[0]];
         genie::Color med = palettes.front()[(uint8_t)TerrainPointer->Colors[1]];
         genie::Color low = palettes.front()[(uint8_t)TerrainPointer->Colors[2]];
         genie::Color left = palettes.front()[(uint8_t)TerrainPointer->CliffColors.first];
