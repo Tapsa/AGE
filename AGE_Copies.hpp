@@ -111,7 +111,7 @@ class Copies
 	vector<genie::UnitLine> UnitLine;
 	vector<int16_t> UnitLineUnit;
 	vector<genie::Graphic> Graphic;
-	vector<int32_t> GraphicPointer;
+	vector<uint32_t> GraphicPointer, TRptr1, TRptr2;
 	vector<genie::GraphicDelta> GraphicDelta;
 	vector<genie::Terrain> Terrain;
 	vector<short> TerBorder;

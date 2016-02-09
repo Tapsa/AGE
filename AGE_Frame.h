@@ -74,6 +74,7 @@ public:
 	static Copies copies;
 	wxString argPath;
 
+private:
 //	Constructions Methods
 
 	void CreateGeneralControls();
@@ -116,7 +117,7 @@ public:
         if(TerrainLoader->Run() != wxTHREAD_NO_ERROR)
         {
             delete TerrainLoader;
-            TerrainLoader = NULL;
+            TerrainLoader = 0;
         }
     }
     void showPopUp(wxIdleEvent& event);
@@ -196,7 +197,7 @@ public:
 	void ClearAllSoundFiles(wxCommandEvent &event);
 	void OnAllSoundFileTimer(wxTimerEvent &event);
 	void OnAllSoundFileSelect(wxCommandEvent &event);
-	bool Paste11Check(int pastes, int copies);
+	bool Paste11Check(size_t pastes, size_t copies);
 	void OnDrawIconSLP(wxPaintEvent &event);
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void CalcDrawCenter(wxPanel*, int&, int&);
@@ -858,12 +859,11 @@ public:
 
 //	Application Variables
 
-	static const wxString PASTE11WARNING;
 	float EditorVersion;
 	wxString EditorVersionString;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, StayOnTopSLP;
 	vector<short> SelectedCivs;
-	bool useAnd[2] = {false}, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
+	bool useAnd[2] = {false, false}, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false, DrawTerrain;
     bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape;
 	vector<genie::DrsFile*> datafiles;
@@ -931,6 +931,7 @@ public:
     void BitMaptoSLP(AGE_SLP*);
     AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP, tileSLP, borderSLP;
 
+public:
 //	Constants, remove unneeded entries.
 
     enum
@@ -963,6 +964,7 @@ public:
 
     static const wxString MirrorHelp;
 
+private:
 //	User Interface
 
 	wxMenuBar *MenuBar_Main;
@@ -3363,103 +3365,86 @@ public:
 		for(auto loop = places.size(); loop--> 0;)
 		path.erase(path.begin() + places[loop]);
 		if(EnableIDFix)
-		for(auto loop = path.size(); loop--> places[0];) // ID Fix
+		for(auto loop = path.size(); loop--> places.front();) // ID Fix
 		path[loop].ID = loop;
 		How2List = DEL;
 	}
 
-	template <class P, class C>
-	inline void CopyFromList(P &path, vector<int> &places, C &copies)
-	{
-		copies.resize(places.size());
-		for(auto loop = places.size(); loop--> 0;)
-		copies[loop] = path[places[loop]];
-	}
+    template <class P, class C>
+    inline void CopyFromList(P &path, vector<int> &places, C &copies)
+    {
+        copies.resize(places.size());
+        for(size_t loop = 0; loop < places.size(); ++loop)
+        copies[loop] = path[places[loop]];
+    }
 
-	template <class P, class C>
-	inline void PasteToListNoGV(P &path, int place, C &copies)
-	{
-		if(copies.size() + place > path.size())
-		path.resize(copies.size() + place);
-		for(auto loop = copies.size(); loop--> 0;)
-		{
-			path[place + loop] = copies[loop];
-		}
-		How2List = PASTE;
-	}
-	template <class P, class C>
-	inline void PasteToListNoGV(P &path, vector<int> &places, C &copies)
-	{
-		for(size_t loop = 0; loop < places.size(); ++loop)
-		{
-			path[places[loop]] = copies[loop];
-		}
-		How2List = PASTE;
-	}
-	// Paste from selection onwards
-	template <class P, class C>
-	inline void PasteToList(P &path, int place, C &copies)
-	{
-		if(copies.size() + place > path.size())
-		path.resize(copies.size() + place);
-		for(auto loop = copies.size(); loop--> 0;)
-		{
-			copies[loop].setGameVersion(GenieVersion);
-			path[place + loop] = copies[loop];
-		}
-		How2List = PASTE;
-	}
-	// Paste to selections filling from beginning
-	template <class P, class C>
-	inline void PasteToList(P &path, vector<int> &places, C &copies)
-	{
-		for(size_t loop = 0; loop < places.size(); ++loop)
-		{
-			copies[loop].setGameVersion(GenieVersion);
-			path[places[loop]] = copies[loop];
-		}
-		How2List = PASTE;
-	}
-	template <class P, class C>
-	inline void PasteToListNoResize(P &path, int place, C &copies)
-	{
-		auto CopyCount = copies.size();
-		if(CopyCount + place > path.size())
-		CopyCount -= CopyCount + place - path.size();
-		for(auto loop = CopyCount; loop--> 0;)
-		{
-			copies[loop].setGameVersion(GenieVersion);
-			path[place + loop] = copies[loop];
-		}
-		How2List = PASTE;
-	}
-	template <class P, class C>
-	inline void PasteToListIDFix(P &path, int place, C &copies)
-	{
-		if(copies.size() + place > path.size())
-		path.resize(copies.size() + place);
-		for(auto loop = copies.size(); loop--> 0;)
-		{
-			copies[loop].setGameVersion(GenieVersion);
-			path[place + loop] = copies[loop];
-			if(EnableIDFix)
-			path[place + loop].ID = place + loop; // ID Fix
-		}
-		How2List = PASTE;
-	}
-	template <class P, class C>
-	inline void PasteToListIDFix(P &path, vector<int> &places, C &copies)
-	{
-		for(size_t loop = 0; loop < places.size(); ++loop)
-		{
-			copies[loop].setGameVersion(GenieVersion);
-			path[places[loop]] = copies[loop];
-			if(EnableIDFix)
-			path[places[loop]].ID = places[loop]; // ID Fix
-		}
-		How2List = PASTE;
-	}
+    // Common paste check
+    template <class P, class C>
+    inline size_t PasteCheck(P &path, vector<int> &places, C &copies, bool resize)
+    {
+        if(Paste11)
+        {
+            if(places.size() != copies.size())
+            {
+                wxMessageBox(wxString::Format("%u copies, %u selections.\nClick paste tool to switch to sequential paste.", copies.size(), places.size()), "Selections Mismatch");
+                return 0u;
+            }
+        }
+        else
+        {
+            size_t new_size = places.front() + copies.size();
+            if(resize)
+            {
+                if(new_size > path.size()) path.resize(new_size);
+            }
+            else
+            {
+                return copies.size() - (new_size - path.size());
+            }
+        }
+        return copies.size();
+    }
 
+    // Combined paste
+    template <class P, class C>
+    inline void PasteToListNoGV(P &path, vector<int> &places, C &copies, bool resize = true)
+    {
+        size_t copy_cnt = PasteCheck(path, places, copies, resize);
+        for(size_t loop = 0; loop < copy_cnt; ++loop)
+        {
+            path[Paste11 ? places[loop] : places.front() + loop] = copies[loop];
+        }
+        How2List = PASTE;
+    }
+
+    // Combined paste with GV
+    template <class P, class C>
+    inline void PasteToList(P &path, vector<int> &places, C &copies, bool resize = true)
+    {
+        size_t copy_cnt = PasteCheck(path, places, copies, resize);
+        for(size_t loop = 0; loop < copy_cnt; ++loop)
+        {
+            copies[loop].setGameVersion(GenieVersion);
+            path[Paste11 ? places[loop] : places.front() + loop] = copies[loop];
+        }
+        How2List = PASTE;
+    }
+
+    // Combined paste with ID fix
+    template <class P, class C>
+    inline void PasteToListIDFix(P &path, vector<int> &places, C &copies, bool resize = true)
+    {
+        size_t copy_cnt = PasteCheck(path, places, copies, resize);
+        for(size_t loop = 0; loop < copy_cnt; ++loop)
+        {
+            size_t loc = Paste11 ? places[loop] : places.front() + loop;
+            copies[loop].setGameVersion(GenieVersion);
+            path[loc] = copies[loop];
+            if(EnableIDFix)
+            path[loc].ID = loc;
+        }
+        How2List = PASTE;
+    }
 
 	template <class P, class C>
 	inline void PasteInsertToListNoGV(P &path, int place, C &copies)

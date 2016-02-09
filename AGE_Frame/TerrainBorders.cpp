@@ -60,7 +60,7 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 
 	for(auto &box: uiGroupBorder) box->clear();
 
-	genie::TerrainBorder * BorderPointer = NULL;
+	genie::TerrainBorder * BorderPointer = 0;
 	for(auto sel = selections; sel--> 0;)
 	{
 		BorderPointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs[sel]];
@@ -91,14 +91,14 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 		Borders_Terrain->prepend(&BorderPointer->UnderlayTerrain);
 		Borders_BorderStyle->prepend(&BorderPointer->BorderStyle);
 	}
-	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected border: "+lexical_cast<string>(BorderIDs[0]), 0);
+	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected border: "+lexical_cast<string>(BorderIDs.front()), 0);
 
 	for(auto &box: uiGroupBorder) box->update();
-    if(NULL != BorderPointer && !palettes.empty() && !palettes[0].empty())
+    if(BorderPointer && !palettes.empty() && !palettes.front().empty())
     {
-        genie::Color high = palettes[0][(uint8_t)BorderPointer->Colors[0]];
-        genie::Color med = palettes[0][(uint8_t)BorderPointer->Colors[1]];
-        genie::Color low = palettes[0][(uint8_t)BorderPointer->Colors[2]];
+        genie::Color high = palettes.front()[(uint8_t)BorderPointer->Colors[0]];
+        genie::Color med = palettes.front()[(uint8_t)BorderPointer->Colors[1]];
+        genie::Color low = palettes.front()[(uint8_t)BorderPointer->Colors[2]];
         setForeAndBackColors(Borders_Colors[0], wxColour(high.r, high.g, high.b));
         setForeAndBackColors(Borders_Colors[1], wxColour(med.r, med.g, med.b));
         setForeAndBackColors(Borders_Colors[2], wxColour(low.r, low.g, low.b));
@@ -110,8 +110,7 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
 {
-	auto selections = Borders_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(Borders_ListV->GetSelectedItemCount()) return;
 
 	wxBusyCursor WaitCursor;
 	CopyFromList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
@@ -120,22 +119,11 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &event)
 {
-	auto selections = Borders_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(Borders_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(BorderIDs.size(), copies.TerrainBorder.size()))
-		{
-			PasteToList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
-		}
-	}
-	else
-	{
-		PasteToListNoResize(dataset->TerrainBlock.TerrainBorders, BorderIDs[0], copies.TerrainBorder);
-	}
-	ListTerrainBorders();
+    wxBusyCursor WaitCursor;
+    PasteToList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder, false);
+    ListTerrainBorders();
 }
 
 string AGE_Frame::GetTerrainBorderTileTypeName(int index)
@@ -179,7 +167,7 @@ void AGE_Frame::ListTerrainBorderTileTypes()
 	Borders_TileTypes_ListV->names.clear();
 	Borders_TileTypes_ListV->indexes.clear();
 
-	for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders.size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderTileTypeName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -213,47 +201,35 @@ void AGE_Frame::OnTerrainBorderTileTypeTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnTerrainBorderTileTypeCopy(wxCommandEvent &event)
 {
-	auto selections = Borders_TileTypes_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Borders_TileTypes_ListV->GetSelectedItemCount()) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders, BorderTileTypeIDs, copies.BorderBorder);
+	CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders, BorderTileTypeIDs, copies.BorderBorder);
 	Borders_TileTypes_ListV->SetFocus();
 }
 
 void AGE_Frame::OnTerrainBorderTileTypePaste(wxCommandEvent &event)
 {
-	auto selections = Borders_TileTypes_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Borders_TileTypes_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(BorderTileTypeIDs.size(), copies.BorderBorder.size()))
-		{
-			PasteToListNoGV(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders, BorderTileTypeIDs, copies.BorderBorder);
-		}
-	}
-	else
-	{
-		PasteToListNoGV(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders, BorderTileTypeIDs[0], copies.BorderBorder);
-	}
-	ListTerrainBorderTileTypes();
+    wxBusyCursor WaitCursor;
+    PasteToListNoGV(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders, BorderTileTypeIDs, copies.BorderBorder, false);
+    ListTerrainBorderTileTypes();
 }
 
 void AGE_Frame::OnTerrainBorderTileTypeCopyToBorders(wxCommandEvent &event)
 {
 	for(size_t loop=1; loop < BorderIDs.size(); ++loop)
 	{
-		dataset->TerrainBlock.TerrainBorders[BorderIDs[loop]].Borders = dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders;
+		dataset->TerrainBlock.TerrainBorders[BorderIDs[loop]].Borders = dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders;
 	}
 }
 
 string AGE_Frame::GetTerrainBorderBorderShapeName(int index)
 {
-	return "FC "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][index].FrameCount)
-	+", A "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][index].AngleCount)
-	+", SI "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][index].ShapeID)+" ";
+	return "FC "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].FrameCount)
+	+", A "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].AngleCount)
+	+", SI "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].ShapeID)+" ";
 }
 
 void AGE_Frame::OnTerrainBorderBorderShapeSearch(wxCommandEvent &event)
@@ -270,7 +246,7 @@ void AGE_Frame::ListTerrainBorderBorderShapes()
 	Borders_BorderShapes_ListV->names.clear();
 	Borders_BorderShapes_ListV->indexes.clear();
 
-	for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]].size(); ++loop)
+	for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()].size(); ++loop)
 	{
 		wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderBorderShapeName(loop);
 		if(SearchMatches(Name.Lower()))
@@ -301,16 +277,16 @@ void AGE_Frame::OnTerrainBorderBorderShapeTimer(wxTimerEvent &event)
 
 	for(auto &box: uiGroupBorderFrame) box->clear();
 
-	genie::FrameData * FramePointer = NULL;
+	genie::FrameData * FramePointer = 0;
 	for(auto loop = selections; loop--> 0;)
 	{
-		FramePointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]][BorderShapeIDs[loop]];
+		FramePointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][BorderShapeIDs[loop]];
 
 		Borders_FrameID->prepend(&FramePointer->FrameCount);
 		Borders_Flag1->prepend(&FramePointer->AngleCount);
 		Borders_Flag2->prepend(&FramePointer->ShapeID);
 	}
-    if(NULL != FramePointer)
+    if(FramePointer)
         borderSLP.frameID = FramePointer->ShapeID;
     Border_Shape_SLP->Refresh();
 
@@ -338,39 +314,27 @@ void AGE_Frame::OnDrawBorderSLP(wxPaintEvent &event)
 
 void AGE_Frame::OnTerrainBorderBorderShapeCopy(wxCommandEvent &event)
 {
-	auto selections = Borders_BorderShapes_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Borders_BorderShapes_ListV->GetSelectedItemCount()) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]], BorderShapeIDs, copies.FrameData);
+	CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()], BorderShapeIDs, copies.FrameData);
 	Borders_BorderShapes_ListV->SetFocus();
 }
 
 void AGE_Frame::OnTerrainBorderBorderShapePaste(wxCommandEvent &event)
 {
-	auto selections = Borders_BorderShapes_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    if(!Borders_BorderShapes_ListV->GetSelectedItemCount()) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(BorderShapeIDs.size(), copies.FrameData.size()))
-		{
-			PasteToList(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]], BorderShapeIDs, copies.FrameData);
-		}
-	}
-	else
-	{
-		PasteToListNoResize(dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]], BorderShapeIDs[0], copies.FrameData);
-	}
-	ListTerrainBorderBorderShapes();
+    wxBusyCursor WaitCursor;
+    PasteToList(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()], BorderShapeIDs, copies.FrameData, false);
+    ListTerrainBorderBorderShapes();
 }
 
 void AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders(wxCommandEvent &event)
 {
 	for(size_t loop=1; loop < BorderTileTypeIDs.size(); ++loop)
 	{
-		dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[loop]] = dataset->TerrainBlock.TerrainBorders[BorderIDs[0]].Borders[BorderTileTypeIDs[0]];
+		dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs[loop]] = dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()];
 	}
 }
 

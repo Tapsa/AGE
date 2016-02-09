@@ -12,7 +12,7 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2016.2.5[/b]:
+Version [b]2016.2.9[/b]:
 -SLP view improved.
 -Game path can be read from registry.
 -Pressing control + 1...4 changes focus between editors.

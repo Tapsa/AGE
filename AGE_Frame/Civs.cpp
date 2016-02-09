@@ -91,7 +91,7 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 		}
 		Civs_GraphicSet->prepend(&CivPointer->IconSet);
 	}
-    SetStatusText(wxString::Format("Selections: %d    Selected civilization: %d", selections, CivIDs[0]), 0);
+    SetStatusText(wxString::Format("Selections: %d    Selected civilization: %d", selections, CivIDs.front()), 0);
 
     for(auto &box: uiGroupCiv) box->update();
 	ListResources();
@@ -99,7 +99,7 @@ void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
 
 void AGE_Frame::OnCivsAdd(wxCommandEvent &event)
 {
-	if(NULL == dataset) return;
+	if(!dataset) return;
 
 	wxBusyCursor WaitCursor;
 	genie::Civ Temp;
@@ -132,7 +132,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &event)
 		Temp.UnitPointers = dataset->Civs[FillingCiv].UnitPointers;
 		Temp.Units = dataset->Civs[FillingCiv].Units;
 	}
-	dataset->Civs.insert(dataset->Civs.begin() + CivIDs[0], Temp);
+	dataset->Civs.insert(dataset->Civs.begin() + CivIDs.front(), Temp);
 	OnCivCountChange();
 	How2List = INSNEW;
 	ListUnits(UnitCivID, false);
@@ -164,20 +164,10 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &event)
 	auto selections = Civs_Civs_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(CivIDs.size(), copies.Civ.size()))
-		{
-			PasteToList(dataset->Civs, CivIDs, copies.Civ);
-		}
-	}
-	else
-	{
-		PasteToList(dataset->Civs, CivIDs[0], copies.Civ);
-	}
-	OnCivCountChange();
-	ListUnits(UnitCivID, false);
+    wxBusyCursor WaitCursor;
+    PasteToList(dataset->Civs, CivIDs, copies.Civ);
+    OnCivCountChange();
+    ListUnits(UnitCivID, false);
 }
 
 void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &event)
@@ -186,7 +176,7 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToList(dataset->Civs, CivIDs[0], copies.Civ);
+	PasteInsertToList(dataset->Civs, CivIDs.front(), copies.Civ);
 	OnCivCountChange();
 	ListUnits(UnitCivID, false);
 }
@@ -395,7 +385,7 @@ string AGE_Frame::GetResourceName(int index)
 		case 54: Name = "All Ruins Have Been Captured"; break;
 		case 55: Name = "All Relics Have Been Captured"; break;
         case 56:
-            if(GenieVersion < genie::GV_RoR)
+            if(GenieVersion == genie::GV_RoR)
             Name = "Medicine";
             else if(GenieVersion < genie::GV_SWGB)
             Name = "Ore Storage";
@@ -409,7 +399,7 @@ string AGE_Frame::GetResourceName(int index)
             Name = "Kidnap Storage";
             break;
 		case 58:
-			if(GenieVersion == genie::GV_AoKA)
+			if(GenieVersion < genie::GV_AoKA)
 			Name = "Dark Age tech index";
 			else
 			Name = "Masters Can See Hidden Units";
@@ -696,11 +686,11 @@ void AGE_Frame::ListResources(bool all)
 	Civs_Resources_ListV->names.clear();
 	Civs_Resources_ListV->indexes.clear();
 	wxArrayString names;
-	if(all) names.Alloc(dataset->Civs[CivIDs[0]].Resources.size());
+	if(all) names.Alloc(dataset->Civs[CivIDs.front()].Resources.size());
 
-	for(size_t loop = 0; loop < dataset->Civs[CivIDs[0]].Resources.size(); ++loop)
+	for(size_t loop = 0; loop < dataset->Civs[CivIDs.front()].Resources.size(); ++loop)
 	{
-		wxString Name = " "+FormatInt(loop)+" - Value: "+FormatFloat(dataset->Civs[CivIDs[0]].Resources[loop])+" - "+GetResourceName(loop);
+		wxString Name = " "+FormatInt(loop)+" - Value: "+FormatFloat(dataset->Civs[CivIDs.front()].Resources[loop])+" - "+GetResourceName(loop);
 		if(SearchMatches(Name.Lower()))
 		{
 			Civs_Resources_ListV->names.Add(Name);
@@ -734,7 +724,7 @@ void AGE_Frame::OnResourcesTimer(wxTimerEvent &event)
 	float * CivResourcePointer;
 	for(auto loop = selections; loop--> 0;)
 	{
-		CivResourcePointer = &dataset->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
+		CivResourcePointer = &dataset->Civs[CivIDs.front()].Resources[ResourceIDs[loop]];
 		Civs_ResourceValue->prepend(CivResourcePointer);
 	}
 
@@ -760,7 +750,7 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
 
 	wxBusyCursor WaitCursor;
 	for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
-	dataset->Civs[loop].Resources.insert(dataset->Civs[loop].Resources.begin() + ResourceIDs[0], 0);
+	dataset->Civs[loop].Resources.insert(dataset->Civs[loop].Resources.begin() + ResourceIDs.front(), 0);
 	How2List = INSNEW;
 	ListResources();
 }
@@ -786,7 +776,7 @@ void AGE_Frame::OnResourcesCopy(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->Civs[CivIDs[0]].Resources, ResourceIDs, copies.Resource);
+	CopyFromList(dataset->Civs[CivIDs.front()].Resources, ResourceIDs, copies.Resource);
 	Civs_Resources_ListV->SetFocus();
 }
 
@@ -795,19 +785,9 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent &event)
 	auto selections = Civs_Resources_ListV->GetSelectedItemCount();
 	if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	if(Paste11)
-	{
-		if(Paste11Check(ResourceIDs.size(), copies.Resource.size()))
-		{
-			PasteToListNoGV(dataset->Civs[CivIDs[0]].Resources, ResourceIDs, copies.Resource);
-		}
-	}
-	else
-	{
-		PasteToListNoGV(dataset->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies.Resource);
-	}
-	ListResources();
+    wxBusyCursor WaitCursor;
+    PasteToListNoGV(dataset->Civs[CivIDs.front()].Resources, ResourceIDs, copies.Resource, false);
+    ListResources();
 }
 
 void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
@@ -816,7 +796,7 @@ void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
 	if(selections < 1) return;
 
 	wxBusyCursor WaitCursor;
-	PasteInsertToListNoGV(dataset->Civs[CivIDs[0]].Resources, ResourceIDs[0], copies.Resource);
+	PasteInsertToListNoGV(dataset->Civs[CivIDs.front()].Resources, ResourceIDs.front(), copies.Resource);
 	ListResources();
 }
 
@@ -828,7 +808,7 @@ void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &event)
 	wxBusyCursor WaitCursor;
 	for(size_t loop = 0; loop < selections; ++loop)
 	{
-		float Copy = dataset->Civs[CivIDs[0]].Resources[ResourceIDs[loop]];
+		float Copy = dataset->Civs[CivIDs.front()].Resources[ResourceIDs[loop]];
 		for(size_t loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
 		dataset->Civs[loop2].Resources[ResourceIDs[loop]] = Copy;
 	}
