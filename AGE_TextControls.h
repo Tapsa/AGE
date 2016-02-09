@@ -4,11 +4,11 @@
 //  The purpose of these custom text controls is that you get specified error messages
 //  when your mouse cursor focus gets off from a data edit box.
 
-class AGEListView: public wxListCtrl
+class AGEListView: public wxListView
 {
 public:
     AGEListView(wxWindow *parent, const wxSize &size):
-    wxListCtrl(parent, wxID_ANY, wxDefaultPosition, size, wxLC_VIRTUAL | wxLC_REPORT | wxLC_NO_HEADER)
+    wxListView(parent, wxID_ANY, wxDefaultPosition, size, wxLC_VIRTUAL | wxLC_REPORT | wxLC_NO_HEADER)
     {
         SetItemCount(0);
         InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, wxLIST_AUTOSIZE_USEHEADER);
