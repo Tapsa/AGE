@@ -179,6 +179,7 @@ private:
 	wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
     wxArrayString AoE1TerrainRestrictions, AoE2TerrainRestrictions, SWGBTerrainRestrictions;
     wxArrayString RoRCivResources, AoKCivResources, SWGBCivResources;
+    AGE_SaveDialog *SaveDialog;
 	//int FindItem(wxArrayInt &selections, int find, int min, int max);
 	//void SwapSelection(int last, wxArrayInt &selections);
 	void SaveBackup();
@@ -229,6 +230,7 @@ private:
     void autoDrsIncrement(wxCommandEvent &event);
     void copySoundsFromCivToCiv(wxCommandEvent &event);
     void tileToPixels(float sizeX, float sizeY, Pixels &p, int centerX, int centerY);
+    void OnSyncSaveWithOpen(wxCommandEvent &event);
 
 //	General Events
 
@@ -907,7 +909,8 @@ private:
     int UnitCivID;
     vector<float> TerrainRestrictionSubCopyAccess;
 
-	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, UseCustomPath, UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs;
+	bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, SyncSaveWithOpen,
+        UseCustomPath, UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List;
 	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
