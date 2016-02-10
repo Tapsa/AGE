@@ -10,6 +10,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
     Path_LangX1P1FileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DLL or text (*.dll, *.txt)|*.dll;*.txt", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
     CheckBox_LangWrite = new wxCheckBox(this, wxID_ANY, "Save language files *");
     CheckBox_LangWrite->SetToolTip("WARNING! This feature is still experimental");
+    SyncWithReadPaths = new wxCheckBox(this, wxID_ANY, "Sync with read paths");
 
     Layout->Show(4, false);
     Layout->Show(5, false);
@@ -29,6 +30,7 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
 	Layout->AddSpacer(15);
+    Buttons->Insert(0, SyncWithReadPaths);
 
 	Layout->AddGrowableCol(1, 1);
 	Layout->AddGrowableRow(11, 1);

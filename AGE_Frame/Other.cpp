@@ -2109,9 +2109,23 @@ void AGE_Frame::OnGameVersionChange()
 	Refresh(); // Does this refresh non-visible tabs?
 }
 
+void AGE_Frame::OnSyncSaveWithOpen(wxCommandEvent &event)
+{
+    if(event.IsChecked())
+    {
+        SaveDialog->CheckBox_GenieVer->SetSelection(GameVersion);
+        SaveDialog->Path_DatFileLocation->SetPath(DatFileName);
+        SaveDialog->Path_LangFileLocation->SetPath(LangFileName);
+        SaveDialog->Path_LangX1FileLocation->SetPath(LangX1FileName);
+        SaveDialog->Path_LangX1P1FileLocation->SetPath(LangX1P1FileName);
+    }
+}
+
 void AGE_Frame::OnSave(wxCommandEvent &event)
 {
 	AGE_SaveDialog SaveBox(this);
+    SaveDialog = &SaveBox;
+    SaveBox.SyncWithReadPaths->Connect(SaveBox.SyncWithReadPaths->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSyncSaveWithOpen), NULL, this);
 
     int RecentItems;
     {
@@ -2141,7 +2155,6 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 	SaveBox.CheckBox_CustomDefault->SetValue(UseCustomPath);
 	SaveBox.Path_CustomDefault->SetPath(CustomFolder);
 	SaveBox.LanguageBox->ChangeValue(Language);
-	SaveBox.CheckBox_GenieVer->SetSelection(SaveGameVersion);
     SaveBox.CheckBox_LangWrite->Enable(WriteLangs);
     SaveBox.CheckBox_LangWrite->SetValue(WriteLangs);
 
@@ -2160,9 +2173,20 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 	SaveBox.CheckBox_LangFileLocation->SetValue(LangsUsed & 1);
 	SaveBox.CheckBox_LangX1FileLocation->SetValue(LangsUsed & 2);
 	SaveBox.CheckBox_LangX1P1FileLocation->SetValue(LangsUsed & 4);
-	SaveBox.Path_LangFileLocation->SetPath(SaveLangFileName);
-	SaveBox.Path_LangX1FileLocation->SetPath(SaveLangX1FileName);
-	SaveBox.Path_LangX1P1FileLocation->SetPath(SaveLangX1P1FileName);
+    if(SyncSaveWithOpen)
+    {
+        SaveBox.SyncWithReadPaths->SetValue(true); // I wish this call was enough.
+        wxCommandEvent sync(wxEVT_COMMAND_CHECKBOX_CLICKED, SaveBox.SyncWithReadPaths->GetId());
+        sync.SetInt(true);
+        SaveBox.SyncWithReadPaths->GetEventHandler()->ProcessEvent(sync);
+    }
+    else
+    {
+        SaveBox.CheckBox_GenieVer->SetSelection(SaveGameVersion);
+        SaveBox.Path_LangFileLocation->SetPath(SaveLangFileName);
+        SaveBox.Path_LangX1FileLocation->SetPath(SaveLangX1FileName);
+        SaveBox.Path_LangX1P1FileLocation->SetPath(SaveLangX1P1FileName);
+    }
 
 	bool save = SaveBox.ShowModal() == wxID_OK;
 	SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
@@ -2172,10 +2196,12 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 	SaveLangFileName = SaveBox.Path_LangFileLocation->GetPath();
 	SaveLangX1FileName = SaveBox.Path_LangX1FileLocation->GetPath();
 	SaveLangX1P1FileName = SaveBox.Path_LangX1P1FileLocation->GetPath();
+    SyncSaveWithOpen = DatFileName == SaveDatFileName && LangFileName == SaveLangFileName && LangX1FileName == SaveLangX1FileName && LangX1P1FileName == SaveLangX1P1FileName;
 
 	if(!save) return;
     {
         wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        Config.Write("DefaultFiles/SyncSaveWithOpen", SyncSaveWithOpen);
         Config.Write("DefaultFiles/SaveVersion", SaveGameVersion);
         Config.Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
         Config.Write("DefaultFiles/SaveLangs", SaveLangs);

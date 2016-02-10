@@ -15,9 +15,9 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     ButtonOK = new wxButton(slave, wxID_OK, title);
     ButtonCancel = new wxButton(slave, wxID_CANCEL, "Cancel");
     Gift = new wxHyperlinkCtrl(slave, wxID_ANY, "Donate to Tapsa", "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4JDUUTF6B9HFN&lc=FI&item_name=Helping%20Tapsa&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
-    Buttons->Add(Gift, 1, wxEXPAND | wxRIGHT, 15);
-    Buttons->Add(ButtonOK, 1, wxEXPAND);
-    Buttons->Add(ButtonCancel, 1, wxEXPAND);
+    Buttons->Add(Gift, 0, wxLEFT | wxRIGHT, 15);
+    Buttons->Add(ButtonOK);
+    Buttons->Add(ButtonCancel);
 
     Button_DefaultAoE = new wxButton(slave, wxID_ANY, "Age of Empires");
     Button_DefaultRoR = new wxButton(slave, wxID_ANY, "Rise of Rome");
