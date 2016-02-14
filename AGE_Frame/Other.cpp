@@ -2527,6 +2527,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_RIGHT_DOWN, wxMouseEventHandler(AGE_Frame::OnFrameMouse), NULL, this);
+                slp_view->Connect(slp_view->GetId(), wxEVT_CHAR, wxKeyEventHandler(AGE_Frame::OnFrameKey), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
                 slp_next->Connect(eNextFrame, eSLPMergeShadow, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_hotspot->Connect(eShowHotspot, eSelectionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
@@ -4047,6 +4048,49 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
     coords.y -= centerY;
     AGE_SLP::bearing = atan2(coords.x, -coords.y * 2) + 3.1416f;
     AGE_SLP::setbearing = 1u;
+    slp_view->Refresh();
+}
+
+void AGE_Frame::OnFrameKey(wxKeyEvent &event)
+{
+    if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::GRAPHIC || !dataset) return;
+    vector<int16_t*> dx(DeltaIDs.size()), dy(DeltaIDs.size());
+    if(GraphicIDs.size())
+    {
+        for(size_t i = 0; i < DeltaIDs.size(); ++i)
+        {
+            dx[i] = &dataset->Graphics[GraphicIDs.front()].Deltas[DeltaIDs[i]].DirectionX;
+            dy[i] = &dataset->Graphics[GraphicIDs.front()].Deltas[DeltaIDs[i]].DirectionY;
+        }
+    }
+    switch(event.GetKeyCode())
+    {
+        case 'a':
+        {
+            for(size_t i = 0; i < dx.size(); ++i) --*dx[i];
+            break;
+        }
+        case 'd':
+        {
+            for(size_t i = 0; i < dx.size(); ++i) ++*dx[i];
+            break;
+        }
+        case 's':
+        {
+            for(size_t i = 0; i < dy.size(); ++i) ++*dy[i];
+            break;
+        }
+        case 'w':
+        {
+            for(size_t i = 0; i < dy.size(); ++i) --*dy[i];
+            break;
+        }
+        default: return;
+    }
+    popUp.unSaved += DeltaIDs.size();
+    wxTimerEvent E;
+    OnGraphicDeltasTimer(E);
+    graphicSLP.slpID = -3;
     slp_view->Refresh();
 }
 
