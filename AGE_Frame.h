@@ -120,7 +120,8 @@ private:
             TerrainLoader = 0;
         }
     }
-    void showPopUp(wxIdleEvent& event);
+    void showPopUp(wxIdleEvent &event);
+    void OnFrameKey(wxKeyEvent &event);
 
 //	Updates user interface after changing data name.
 
