@@ -232,6 +232,11 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     unsigned c8 = unsigned((AGE_SLP::bearing + 0.392699f) * 1.27324f) % 8u;
     unsigned c16 = unsigned((AGE_SLP::bearing + 0.19635f) * 2.54648f) % 16u;
     dc.DrawLabel("Angle "+FormatInt(c8)+"/8 "+FormatInt(c16)+"/16", wxRect(360, 5, 100, 40));
+    if(slp_extra_info.size())
+    {
+        dc.DrawLabel(slp_extra_info, wxRect(15, 35, 100, 40));
+        slp_extra_info = "";
+    }
     if(6 == TabBar_Main->GetSelection())
     {
         if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::GRAPHIC)
