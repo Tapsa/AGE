@@ -4053,7 +4053,7 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
 
 void AGE_Frame::OnFrameKey(wxKeyEvent &event)
 {
-    if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::GRAPHIC || !dataset) return;
+    if(!dataset) return;
     vector<int16_t*> dx(DeltaIDs.size()), dy(DeltaIDs.size());
     if(GraphicIDs.size())
     {
@@ -4067,21 +4067,25 @@ void AGE_Frame::OnFrameKey(wxKeyEvent &event)
     {
         case 'a':
         {
+            slp_extra_info = "X - 1";
             for(size_t i = 0; i < dx.size(); ++i) --*dx[i];
             break;
         }
         case 'd':
         {
+            slp_extra_info = "X + 1";
             for(size_t i = 0; i < dx.size(); ++i) ++*dx[i];
             break;
         }
         case 's':
         {
+            slp_extra_info = "Y + 1";
             for(size_t i = 0; i < dy.size(); ++i) ++*dy[i];
             break;
         }
         case 'w':
         {
+            slp_extra_info = "Y - 1";
             for(size_t i = 0; i < dy.size(); ++i) --*dy[i];
             break;
         }
