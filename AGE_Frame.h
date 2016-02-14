@@ -864,7 +864,7 @@ private:
 //	Application Variables
 
 	float EditorVersion;
-	wxString EditorVersionString;
+	wxString EditorVersionString, slp_extra_info;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, StayOnTopSLP;
 	vector<short> SelectedCivs;
 	bool useAnd[2] = {false, false}, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
