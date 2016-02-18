@@ -31,6 +31,7 @@
 #include <wx/clrpicker.h>
 #include <wx/thread.h>
 #include <wx/accel.h>
+#include <wx/tokenzr.h>
 
 // uncomment to disable assert()
 // #define NDEBUG

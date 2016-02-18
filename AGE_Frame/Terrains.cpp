@@ -144,8 +144,7 @@ void AGE_Frame::ListTerrains2()
 
 void AGE_Frame::InitTerrains1(bool all)
 {
-	searchText = Terrains_Terrains_Search->GetValue().MakeLower();
-	excludeText = Terrains_Terrains_Search_R->GetValue().MakeLower();
+	InitSearch(Terrains_Terrains_Search->GetValue().MakeLower(), Terrains_Terrains_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Terrains_Terrains_UseAnd[loop]->GetValue();
 
@@ -175,8 +174,7 @@ void AGE_Frame::InitTerrains1(bool all)
 
 void AGE_Frame::InitTerrains2()
 {
-	searchText = TerRestrict_Terrains_Search->GetValue().MakeLower();
-	excludeText = TerRestrict_Terrains_Search_R->GetValue().MakeLower();
+	InitSearch(TerRestrict_Terrains_Search->GetValue().MakeLower(), TerRestrict_Terrains_Search_R->GetValue().MakeLower());
 
 	TerRestrict_Terrains_ListV->names.clear();
 	TerRestrict_Terrains_ListV->indexes.clear();
@@ -460,8 +458,7 @@ void AGE_Frame::OnTerrainsBorderSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTerrainsBorders()
 {
-	searchText = Terrains_Borders_Search->GetValue().MakeLower();
-	excludeText = Terrains_Borders_Search_R->GetValue().MakeLower();
+	InitSearch(Terrains_Borders_Search->GetValue().MakeLower(), Terrains_Borders_Search_R->GetValue().MakeLower());
 
 	Terrains_Borders_ListV->names.clear();
 	Terrains_Borders_ListV->indexes.clear();

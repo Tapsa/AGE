@@ -37,8 +37,7 @@ void AGE_Frame::ListTerrainRestrictions(bool all)
 
 void AGE_Frame::InitTerrainRestrictions(bool all)
 {
-	searchText = TerRestrict_TerRestrict_Search->GetValue().MakeLower();
-	excludeText = TerRestrict_TerRestrict_Search_R->GetValue().MakeLower();
+	InitSearch(TerRestrict_TerRestrict_Search->GetValue().MakeLower(), TerRestrict_TerRestrict_Search_R->GetValue().MakeLower());
 
 	TerRestrict_TerRestrict_ListV->names.clear();
 	TerRestrict_TerRestrict_ListV->indexes.clear();
