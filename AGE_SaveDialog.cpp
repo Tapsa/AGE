@@ -44,6 +44,22 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
     SetDefaultItem(ButtonOK);
 }
 
+void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &event)
+{
+    AGE_OpenSave::OnDefaultAoKHD(event);
+
+	CheckBox_LangFileLocation->SetValue(false);
+	CheckBox_LangX1FileLocation->SetValue(false);
+}
+
+void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &event)
+{
+    AGE_OpenSave::OnDefaultAoP(event);
+
+	CheckBox_LangFileLocation->SetValue(false);
+	CheckBox_LangX1FileLocation->SetValue(false);
+}
+
 void AGE_OpenSave::OnDefault(const wxString &part)
 {
     wxString custom = Path_CustomDefault->GetPath();
@@ -139,8 +155,6 @@ void AGE_OpenSave::OnDefaultAoKHD(wxCommandEvent &event)
 	Path_LangX1FileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt");
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(false);
-	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
@@ -157,8 +171,6 @@ void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
 	Path_LangX1FileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt");
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
-	CheckBox_LangFileLocation->SetValue(false);
-	CheckBox_LangX1FileLocation->SetValue(false);
 	CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 

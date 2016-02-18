@@ -3568,10 +3568,10 @@ void AGE_Frame::virtualListing(AGEListView* list)
         firstSelected = list->names.size() - 1;
     }
     list->SetItemPosition(firstVisible, wxPoint(0, 0));
-    list->EnsureVisible(lastItemCount < list->GetItemCount() ? list->names.size() - 1 : firstSelected);
     list->Select(firstSelected, true);
     if(How2List != SEARCH)
     {
+        list->EnsureVisible(lastItemCount < list->GetItemCount() ? list->names.size() - 1 : firstSelected);
         list->SetFocus();
     }
     list->Refresh();
