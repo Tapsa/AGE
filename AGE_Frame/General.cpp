@@ -459,8 +459,7 @@ void AGE_Frame::ListRandomMaps()
 
 void AGE_Frame::InitRandomMaps()
 {
-	searchText = Unknowns_Search->GetValue().MakeLower();
-	excludeText = Unknowns_Search_R->GetValue().MakeLower();
+	InitSearch(Unknowns_Search->GetValue().MakeLower(), Unknowns_Search_R->GetValue().MakeLower());
 
 	Unknowns_ListV->names.clear();
 	Unknowns_ListV->indexes.clear();
@@ -616,8 +615,7 @@ string AGE_Frame::GetRMSBaseZonesName(int index)
 
 void AGE_Frame::ListRMSBaseZones()
 {
-	searchText = RMSBaseZones_Search->GetValue().MakeLower();
-	excludeText = RMSBaseZones_Search_R->GetValue().MakeLower();
+	InitSearch(RMSBaseZones_Search->GetValue().MakeLower(), RMSBaseZones_Search_R->GetValue().MakeLower());
 
 	RMSBaseZones_ListV->names.clear();
 	RMSBaseZones_ListV->indexes.clear();
@@ -769,8 +767,7 @@ string AGE_Frame::GetRMSTerrainName(int Terrain)
 
 void AGE_Frame::ListRMSTerrains()
 {
-	searchText = RMSTerrain_Search->GetValue().MakeLower();
-	excludeText = RMSTerrain_Search_R->GetValue().MakeLower();
+	InitSearch(RMSTerrain_Search->GetValue().MakeLower(), RMSTerrain_Search_R->GetValue().MakeLower());
 
 	RMSTerrain_ListV->names.clear();
 	RMSTerrain_ListV->indexes.clear();
@@ -904,8 +901,7 @@ void AGE_Frame::OnRMSUnitSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListRMSUnits()
 {
-	searchText = RMSUnit_Search->GetValue().MakeLower();
-	excludeText = RMSUnit_Search_R->GetValue().MakeLower();
+	InitSearch(RMSUnit_Search->GetValue().MakeLower(), RMSUnit_Search_R->GetValue().MakeLower());
 
 	RMSUnit_ListV->names.clear();
 	RMSUnit_ListV->indexes.clear();
@@ -1056,8 +1052,7 @@ string AGE_Frame::GetRMSUnknownName(int Terrain)
 
 void AGE_Frame::ListRMSUnknowns()
 {
-	searchText = RMSUnknown_Search->GetValue().MakeLower();
-	excludeText = RMSUnknown_Search_R->GetValue().MakeLower();
+	InitSearch(RMSUnknown_Search->GetValue().MakeLower(), RMSUnknown_Search_R->GetValue().MakeLower());
 
 	RMSUnknown_ListV->names.clear();
 	RMSUnknown_ListV->indexes.clear();

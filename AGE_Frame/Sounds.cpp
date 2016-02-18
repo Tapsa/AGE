@@ -24,8 +24,7 @@ void AGE_Frame::ListSounds(bool all)
 
 void AGE_Frame::InitSounds(bool all)
 {
-	searchText = Sounds_Sounds_Search->GetValue().MakeLower();
-	excludeText = Sounds_Sounds_Search_R->GetValue().MakeLower();
+    InitSearch(Sounds_Sounds_Search->GetValue().MakeLower(), Sounds_Sounds_Search_R->GetValue().MakeLower());
 
 	Sounds_Sounds_ListV->names.clear();
 	Sounds_Sounds_ListV->indexes.clear();
@@ -189,8 +188,7 @@ void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListSoundItems()
 {
-	searchText = Sounds_Items_Search->GetValue().MakeLower();
-	excludeText = Sounds_Items_Search_R->GetValue().MakeLower();
+	InitSearch(Sounds_Items_Search->GetValue().MakeLower(), Sounds_Items_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Sounds_Items_UseAnd[loop]->GetValue();
 
@@ -321,8 +319,7 @@ void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &event)
 void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 {
 	wxString Name;
-	searchText = Sounds_AllItems_Search->GetValue().MakeLower();
-	excludeText = Sounds_AllItems_Search_R->GetValue().MakeLower();
+	InitSearch(Sounds_AllItems_Search->GetValue().MakeLower(), Sounds_AllItems_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Sounds_AllItems_UseAnd[loop]->GetValue();
 

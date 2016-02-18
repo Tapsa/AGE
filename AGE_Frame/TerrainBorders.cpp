@@ -22,8 +22,7 @@ void AGE_Frame::ListTerrainBorders(bool all)
 
 void AGE_Frame::InitTerrainBorders(bool all)
 {
-	searchText = Borders_Search->GetValue().MakeLower();
-	excludeText = Borders_Search_R->GetValue().MakeLower();
+	InitSearch(Borders_Search->GetValue().MakeLower(), Borders_Search_R->GetValue().MakeLower());
 
 	Borders_ListV->names.clear();
 	Borders_ListV->indexes.clear();
@@ -161,8 +160,7 @@ void AGE_Frame::OnTerrainBorderTileTypeSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTerrainBorderTileTypes()
 {
-	searchText = Borders_TileTypes_Search->GetValue().MakeLower();
-	excludeText = Borders_TileTypes_Search_R->GetValue().MakeLower();
+	InitSearch(Borders_TileTypes_Search->GetValue().MakeLower(), Borders_TileTypes_Search_R->GetValue().MakeLower());
 
 	Borders_TileTypes_ListV->names.clear();
 	Borders_TileTypes_ListV->indexes.clear();
@@ -240,8 +238,7 @@ void AGE_Frame::OnTerrainBorderBorderShapeSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTerrainBorderBorderShapes()
 {
-	searchText = Borders_BorderShapes_Search->GetValue().MakeLower();
-	excludeText = Borders_BorderShapes_Search_R->GetValue().MakeLower();
+	InitSearch(Borders_BorderShapes_Search->GetValue().MakeLower(), Borders_BorderShapes_Search_R->GetValue().MakeLower());
 
 	Borders_BorderShapes_ListV->names.clear();
 	Borders_BorderShapes_ListV->indexes.clear();

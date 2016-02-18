@@ -132,8 +132,7 @@ void AGE_Frame::ListResearches(bool all)
 
 void AGE_Frame::InitResearches(bool all)
 {
-	searchText = Research_Research_Search->GetValue().MakeLower();
-	excludeText = Research_Research_Search_R->GetValue().MakeLower();
+	InitSearch(Research_Research_Search->GetValue().MakeLower(), Research_Research_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
 

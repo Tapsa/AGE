@@ -262,8 +262,7 @@ void AGE_Frame::ListUnits(short civ, bool all)
 
 void AGE_Frame::InitUnits(short civ, bool all)
 {
-	searchText = Units_Search->GetValue().MakeLower();
-	excludeText = Units_Search_R->GetValue().MakeLower();
+	InitSearch(Units_Search->GetValue().MakeLower(), Units_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Units_UseAnd[loop]->GetValue();
 
@@ -1577,8 +1576,7 @@ void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitDamageGraphics()
 {
-	searchText = Units_DamageGraphics_Search->GetValue().MakeLower();
-	excludeText = Units_DamageGraphics_Search_R->GetValue().MakeLower();
+	InitSearch(Units_DamageGraphics_Search->GetValue().MakeLower(), Units_DamageGraphics_Search_R->GetValue().MakeLower());
 
     Units_DamageGraphics_ListV->names.clear();
     Units_DamageGraphics_ListV->indexes.clear();
@@ -1831,8 +1829,7 @@ void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitAttacks()
 {
-	searchText = Units_Attacks_Search->GetValue().MakeLower();
-	excludeText = Units_Attacks_Search_R->GetValue().MakeLower();
+	InitSearch(Units_Attacks_Search->GetValue().MakeLower(), Units_Attacks_Search_R->GetValue().MakeLower());
 
     Units_Attacks_ListV->names.clear();
     Units_Attacks_ListV->indexes.clear();
@@ -2080,8 +2077,7 @@ void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitArmors()
 {
-	searchText = Units_Armors_Search->GetValue().MakeLower();
-	excludeText = Units_Armors_Search_R->GetValue().MakeLower();
+	InitSearch(Units_Armors_Search->GetValue().MakeLower(), Units_Armors_Search_R->GetValue().MakeLower());
 
 	Units_Armors_ListV->names.clear();
     Units_Armors_ListV->indexes.clear();
@@ -2376,8 +2372,7 @@ void AGE_Frame::OnUnitCommandsSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListUnitCommands()
 {
-	searchText = Units_UnitCommands_Search->GetValue().MakeLower();
-	excludeText = Units_UnitCommands_Search_R->GetValue().MakeLower();
+	InitSearch(Units_UnitCommands_Search->GetValue().MakeLower(), Units_UnitCommands_Search_R->GetValue().MakeLower());
 
 	Units_UnitCommands_ListV->names.clear();
     Units_UnitCommands_ListV->indexes.clear();
