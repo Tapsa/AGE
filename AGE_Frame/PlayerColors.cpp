@@ -26,8 +26,7 @@ void AGE_Frame::ListPlayerColors()
 
 void AGE_Frame::InitPlayerColors()
 {
-	searchText = Colors_Colors_Search->GetValue().MakeLower();
-	excludeText = Colors_Colors_Search_R->GetValue().MakeLower();
+	InitSearch(Colors_Colors_Search->GetValue().MakeLower(), Colors_Colors_Search_R->GetValue().MakeLower());
 
 	Colors_Colors_ListV->names.clear();
 	Colors_Colors_ListV->indexes.clear();

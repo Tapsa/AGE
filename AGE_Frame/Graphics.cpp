@@ -114,8 +114,7 @@ void AGE_Frame::ListGraphics(bool all)
 
 void AGE_Frame::InitGraphics(bool all)
 {
-	searchText = Graphics_Graphics_Search->GetValue().MakeLower();
-	excludeText = Graphics_Graphics_Search_R->GetValue().MakeLower();
+	InitSearch(Graphics_Graphics_Search->GetValue().MakeLower(), Graphics_Graphics_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
 
@@ -675,8 +674,7 @@ void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListGraphicDeltas()
 {
-	searchText = Graphics_Deltas_Search->GetValue().MakeLower();
-	excludeText = Graphics_Deltas_Search_R->GetValue().MakeLower();
+	InitSearch(Graphics_Deltas_Search->GetValue().MakeLower(), Graphics_Deltas_Search_R->GetValue().MakeLower());
 
     Graphics_Deltas_ListV->names.clear();
     Graphics_Deltas_ListV->indexes.clear();

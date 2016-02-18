@@ -173,7 +173,8 @@ private:
 
 //	Other Methods
 
-	wxString searchText, excludeText;
+    void InitSearch(const wxString &yes, const wxString &no);
+    wxArrayString SearchYes, SearchNo;
 	wxString FormatFloat(float);
 	wxString FormatInt(int);
 	wxString CurrentTime();
@@ -184,7 +185,7 @@ private:
 	//int FindItem(wxArrayInt &selections, int find, int min, int max);
 	//void SwapSelection(int last, wxArrayInt &selections);
 	void SaveBackup();
-	bool SearchMatches(wxString itemText);
+	bool SearchMatches(const wxString &hay);
     void getSelectedItems(const int selections, const AGEListView* list, vector<int> &indexes);
 	//void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
 	void virtualListing(AGEListView* list);

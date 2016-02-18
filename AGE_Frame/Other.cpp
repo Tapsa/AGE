@@ -3305,102 +3305,74 @@ void AGE_Frame::showPopUp(wxIdleEvent& event)
     }
 }
 
-bool AGE_Frame::SearchMatches(wxString itemText)
+void AGE_Frame::InitSearch(const wxString &yes, const wxString &no)
 {
-	// Make this so that no strings are altered! Easy ways?
-	bool matches = false;
+    SearchYes = wxStringTokenize(yes, "|");
+    SearchNo = wxStringTokenize(no, "|");
+}
 
-	// If there is no search text, list normally
-	// If search text has a match
-	if(searchText.empty() || (itemText.find(searchText) != string::npos))
-	{
-		matches = true;
-	}
-	else
-	{
-		size_t found = searchText.find("|");
-		if(found != string::npos)
-		{
-			size_t pos = 0;
-			if(useAnd[0]) // All search parts must match
-			{
-				matches = true;
-				while(1)
-				{
-					if(itemText.find(searchText.substr(pos, found-pos)) == string::npos)
-					{
-						matches = false;
-						break;
-					}
-					if(found == string::npos) break;
-					pos = found+1;
-					found = searchText.find("|", pos);
-				}
-			}
-			else // Only one match needed
-			{
-				while(1)
-				{
-					if(itemText.find(searchText.substr(pos, found-pos)) != string::npos)
-					{
-						matches = true;
-						break;
-					}
-					if(found == string::npos) break;
-					pos = found+1;
-					found = searchText.find("|", pos);
-				}
-			}
-		}
-	}
+bool AGE_Frame::SearchMatches(const wxString &hay)
+{
+    bool matches = false;
 
-	// We don't need to check for excluding if it's not going to be listed.
-	// If there is no exclude text, list normally.
-	// If exclude text has a match.
-	if(!matches || excludeText.empty()) return matches;
-	if(itemText.find(excludeText) != string::npos)
-	{
-		matches = false;
-	}
-	else
-	{
-		size_t found = excludeText.find("|");
-		if(found != string::npos)
-		{
-			size_t pos = 0;
-			if(useAnd[1]) // All search parts must match
-			{
-				matches = false;
-				while(1)
-				{
-					if(itemText.find(excludeText.substr(pos, found-pos)) == string::npos)
-					{
-						matches = true;
-						break;
-					}
-					if(found == string::npos) break;
-					pos = found+1;
-					found = excludeText.find("|", pos);
-				}
-			}
-			else // Only one match needed
-			{
-				while(1)
-				{
-					if(itemText.find(excludeText.substr(pos, found-pos)) != string::npos)
-					{
-						matches = false;
-						break;
-					}
-					if(found == string::npos) break;
-					pos = found+1;
-					found = excludeText.find("|", pos);
-				}
-			}
-		}
-	}
+    // If there is no search text, list normally.
+    if(SearchYes.empty())
+    {
+        matches = true;
+    }
+    else // If search text has a match.
+    {
+        if(useAnd[0]) // All search parts must match.
+        {
+            matches = true;
+            for(const wxString &pin: SearchYes)
+            if(wxNOT_FOUND == hay.Find(pin))
+            {
+                matches = false;
+                break;
+            }
+        }
+        else // Only one match needed.
+        {
+            for(const wxString &pin: SearchYes)
+            if(wxNOT_FOUND != hay.Find(pin))
+            {
+                matches = true;
+                break;
+            }
+        }
+    }
 
-	return matches;
+    // We don't need to check for excluding if it's not going to be listed.
+    // If there is no exclude text, list normally.
+    if(!matches || SearchNo.empty())
+    {
+        return matches;
+    }
+    else // If exclude text has a match.
+    {
+        if(useAnd[1]) // All search parts must match.
+        {
+            matches = false;
+            for(const wxString &pin: SearchNo)
+            if(wxNOT_FOUND == hay.Find(pin))
+            {
+                matches = true;
+                break;
+            }
+        }
+        else // Only one match needed.
+        {
+            for(const wxString &pin: SearchNo)
+            if(wxNOT_FOUND != hay.Find(pin))
+            {
+                matches = false;
+                break;
+            }
+        }
+    }
+
+    return matches;
 }
 
 //	Following kill focuses are used to update lists in user interface
@@ -3595,15 +3567,11 @@ void AGE_Frame::virtualListing(AGEListView* list)
     {
         firstSelected = list->names.size() - 1;
     }
-    if(How2List == SEARCH)
+    list->SetItemPosition(firstVisible, wxPoint(0, 0));
+    list->EnsureVisible(lastItemCount < list->GetItemCount() ? list->names.size() - 1 : firstSelected);
+    list->Select(firstSelected, true);
+    if(How2List != SEARCH)
     {
-        list->Select(0, true);
-    }
-    else
-    {
-        list->SetItemPosition(firstVisible, wxPoint(0, 0));
-        list->EnsureVisible(lastItemCount < list->GetItemCount() ? list->names.size() - 1 : firstSelected);
-        list->Select(firstSelected, true);
         list->SetFocus();
     }
     list->Refresh();
