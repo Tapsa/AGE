@@ -20,8 +20,7 @@ void AGE_Frame::ListTTAges()
 
 void AGE_Frame::InitTTAges()
 {
-	searchText = TechTrees_MainList_Ages_Search->GetValue().MakeLower();
-	excludeText = TechTrees_MainList_Ages_Search_R->GetValue().MakeLower();
+	InitSearch(TechTrees_MainList_Ages_Search->GetValue().MakeLower(), TechTrees_MainList_Ages_Search_R->GetValue().MakeLower());
 
 	TechTrees_MainList_Ages_ListV->names.clear();
 	TechTrees_MainList_Ages_ListV->indexes.clear();
@@ -165,8 +164,7 @@ void AGE_Frame::OnTTAgesBuildingSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTAgeBuildings()
 {
-	searchText = TechTrees_Ages_Buildings.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Ages_Buildings.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Ages_Buildings.Search->GetValue().MakeLower(), TechTrees_Ages_Buildings.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Ages_Buildings.List->names.clear();
 	TechTrees_Ages_Buildings.List->indexes.clear();
@@ -287,8 +285,7 @@ void AGE_Frame::OnTTAgesUnitSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTAgeUnits()
 {
-	searchText = TechTrees_Ages_Units.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Ages_Units.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Ages_Units.Search->GetValue().MakeLower(), TechTrees_Ages_Units.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Ages_Units.List->names.clear();
 	TechTrees_Ages_Units.List->indexes.clear();
@@ -424,8 +421,7 @@ void AGE_Frame::OnTTAgesResearchSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTAgeResearches()
 {
-	searchText = TechTrees_Ages_Researches.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Ages_Researches.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Ages_Researches.Search->GetValue().MakeLower(), TechTrees_Ages_Researches.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Ages_Researches.List->names.clear();
 	TechTrees_Ages_Researches.List->indexes.clear();
@@ -627,8 +623,7 @@ void AGE_Frame::OnTTAgeUnknownItemSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTAgeUnknownItems()
 {
-	searchText = TechTrees_Ages_UnknownItems.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Ages_UnknownItems.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Ages_UnknownItems.Search->GetValue().MakeLower(), TechTrees_Ages_UnknownItems.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Ages_UnknownItems.List->names.clear();
 	TechTrees_Ages_UnknownItems.List->indexes.clear();
@@ -790,8 +785,7 @@ void AGE_Frame::ListTTBuildings()
 
 void AGE_Frame::InitTTBuildings()
 {
-	searchText = TechTrees_MainList_Buildings_Search->GetValue().MakeLower();
-	excludeText = TechTrees_MainList_Buildings_Search_R->GetValue().MakeLower();
+	InitSearch(TechTrees_MainList_Buildings_Search->GetValue().MakeLower(), TechTrees_MainList_Buildings_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Buildings_UseAnd[loop]->GetValue();
 
@@ -925,8 +919,7 @@ void AGE_Frame::OnTTBuildingBuildingSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTBuildingBuildings()
 {
-	searchText = TechTrees_Buildings_Buildings.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Buildings_Buildings.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Buildings_Buildings.Search->GetValue().MakeLower(), TechTrees_Buildings_Buildings.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Buildings_Buildings.List->names.clear();
 	TechTrees_Buildings_Buildings.List->indexes.clear();
@@ -1047,8 +1040,7 @@ void AGE_Frame::OnTTBuildingUnitSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTBuildingUnits()
 {
-	searchText = TechTrees_Buildings_Units.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Buildings_Units.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Buildings_Units.Search->GetValue().MakeLower(), TechTrees_Buildings_Units.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Buildings_Units.List->names.clear();
 	TechTrees_Buildings_Units.List->indexes.clear();
@@ -1169,8 +1161,7 @@ void AGE_Frame::OnTTBuildingResearchSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTBuildingResearches()
 {
-	searchText = TechTrees_Buildings_Researches.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Buildings_Researches.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Buildings_Researches.Search->GetValue().MakeLower(), TechTrees_Buildings_Researches.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Buildings_Researches.List->names.clear();
 	TechTrees_Buildings_Researches.List->indexes.clear();
@@ -1418,8 +1409,7 @@ void AGE_Frame::ListTTUnits()
 
 void AGE_Frame::InitTTUnits()
 {
-	searchText = TechTrees_MainList_Units_Search->GetValue().MakeLower();
-	excludeText = TechTrees_MainList_Units_Search_R->GetValue().MakeLower();
+	InitSearch(TechTrees_MainList_Units_Search->GetValue().MakeLower(), TechTrees_MainList_Units_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Units_UseAnd[loop]->GetValue();
 
@@ -1549,8 +1539,7 @@ void AGE_Frame::OnTTUnitUnitSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTUnitUnits()
 {
-	searchText = TechTrees_Units_Units.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Units_Units.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Units_Units.Search->GetValue().MakeLower(), TechTrees_Units_Units.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Units_Units.List->names.clear();
 	TechTrees_Units_Units.List->indexes.clear();
@@ -1665,8 +1654,7 @@ void AGE_Frame::OnTTUnitUnitCopyToUnits(wxCommandEvent &event)
 
 void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer)
 {
-	searchText = area.Search->GetValue().MakeLower();
-	excludeText = area.SearchRecursive->GetValue().MakeLower();
+	InitSearch(area.Search->GetValue().MakeLower(), area.SearchRecursive->GetValue().MakeLower());
 
 	area.List->names.clear();
 	area.List->indexes.clear();
@@ -1829,8 +1817,7 @@ void AGE_Frame::ListTTResearches()
 
 void AGE_Frame::InitTTResearches()
 {
-	searchText = TechTrees_MainList_Researches_Search->GetValue().MakeLower();
-	excludeText = TechTrees_MainList_Researches_Search_R->GetValue().MakeLower();
+	InitSearch(TechTrees_MainList_Researches_Search->GetValue().MakeLower(), TechTrees_MainList_Researches_Search_R->GetValue().MakeLower());
 	for(size_t loop = 0; loop < 2; ++loop)
 	useAnd[loop] = TechTrees_MainList_Researches_UseAnd[loop]->GetValue();
 
@@ -1960,8 +1947,7 @@ void AGE_Frame::OnTTResearchBuildingSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTResearchBuildings()
 {
-	searchText = TechTrees_Researches_Buildings.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Researches_Buildings.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Researches_Buildings.Search->GetValue().MakeLower(), TechTrees_Researches_Buildings.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Researches_Buildings.List->names.clear();
 	TechTrees_Researches_Buildings.List->indexes.clear();
@@ -2082,8 +2068,7 @@ void AGE_Frame::OnTTResearchUnitSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTResearchUnits()
 {
-	searchText = TechTrees_Researches_Units.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Researches_Units.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Researches_Units.Search->GetValue().MakeLower(), TechTrees_Researches_Units.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Researches_Units.List->names.clear();
 	TechTrees_Researches_Units.List->indexes.clear();
@@ -2204,8 +2189,7 @@ void AGE_Frame::OnTTResearchResearchSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTResearchResearches()
 {
-	searchText = TechTrees_Researches_Researches.Search->GetValue().MakeLower();
-	excludeText = TechTrees_Researches_Researches.SearchRecursive->GetValue().MakeLower();
+	InitSearch(TechTrees_Researches_Researches.Search->GetValue().MakeLower(), TechTrees_Researches_Researches.SearchRecursive->GetValue().MakeLower());
 
 	TechTrees_Researches_Researches.List->names.clear();
 	TechTrees_Researches_Researches.List->indexes.clear();

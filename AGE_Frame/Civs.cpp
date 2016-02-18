@@ -20,8 +20,7 @@ void AGE_Frame::ListCivs(bool all)
 
 void AGE_Frame::InitCivs(bool all)
 {
-	searchText = Civs_Civs_Search->GetValue().MakeLower();
-	excludeText = Civs_Civs_Search_R->GetValue().MakeLower();
+	InitSearch(Civs_Civs_Search->GetValue().MakeLower(), Civs_Civs_Search_R->GetValue().MakeLower());
 
 	Civs_Civs_ListV->names.clear();
 	Civs_Civs_ListV->indexes.clear();
@@ -249,8 +248,7 @@ void AGE_Frame::OnResourcesSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListResources(bool all)
 {
-	searchText = Civs_Resources_Search->GetValue().MakeLower();
-	excludeText = Civs_Resources_Search_R->GetValue().MakeLower();
+	InitSearch(Civs_Resources_Search->GetValue().MakeLower(), Civs_Resources_Search_R->GetValue().MakeLower());
 
 	Civs_Resources_ListV->names.clear();
 	Civs_Resources_ListV->indexes.clear();

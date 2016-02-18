@@ -12,6 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2016.2.18[/b]:
+-Refreshing a list no longer resets its selection.
+-Improved search algorithm.
+
 Version [b]2016.2.14[/b]:
 -Unit search filters work again.
 
