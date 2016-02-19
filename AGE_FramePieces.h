@@ -19,7 +19,7 @@ public:
 	ComboBox_Plus1 *ItemCombo;
 	wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
 
-	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolledWindow* &scroller, const wxString &listName, const wxString &itemName)
+	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &listName, const wxString &itemName)
 	{
 		ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
 		Search = new wxTextCtrl(scroller, wxID_ANY);
@@ -80,14 +80,14 @@ public:
 		ItemCombo->Clear();
 	}
 
-	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolledWindow* &scroller, const wxString &itemName)
+	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName)
 	{
 		lastList = 4;
 		wxArrayString ages, researches, units;
 		Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
 		ItemList = new wxBoxSizer(wxVERTICAL);
 		UsedItems_H = new wxBoxSizer(wxVERTICAL);
-		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Used Ages/Units/Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
+		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Used Ages/Units/Researches", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
 		UsedItems = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
@@ -147,16 +147,16 @@ public:
 	AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
 	wxButton *Copy, *Paste, *CopyAllToSelected;
 
-	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolledWindow* &scroller)
+	void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller)
 	{
 		Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unknown Items");
 		ItemList = new wxBoxSizer(wxVERTICAL);
 		Top = new wxBoxSizer(wxHORIZONTAL);
 		UsedItems_H = new wxBoxSizer(wxVERTICAL);
-		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Slots Used?", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
+		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Slots Used?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
 		UsedItems = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller);
 		Unknown_H = new wxBoxSizer(wxVERTICAL);
-		Unknown_T = new wxStaticText(scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT);
+		Unknown_T = new wxStaticText(scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
 		Unknown = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller);
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
