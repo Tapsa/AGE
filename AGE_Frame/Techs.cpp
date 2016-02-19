@@ -1055,7 +1055,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_Rename = new wxButton(Tab_Techs, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(0, 20));
 	Techs_Restore = new wxButton(Tab_Techs, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(0, 20));
 
-	Techs_Name_Text = new wxStaticText(Tab_Techs, wxID_ANY, " Technology Name", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Techs_Name_Text = new wxStaticText(Tab_Techs, wxID_ANY, " Technology Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Techs_Name = AGETextCtrl::init(CString, NULL, this, &popUp, Tab_Techs, 31);
 
 	Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects");
@@ -1076,7 +1076,7 @@ void AGE_Frame::CreateTechControls()
 
 	Effects_Type_Holder = new wxBoxSizer(wxVERTICAL);
 	Effects_Type2_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Effects_Type_Text = new wxStaticText(Tab_Techs, wxID_ANY, " Effect Type *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Type_Text = new wxStaticText(Tab_Techs, wxID_ANY, " Effect Type *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Effects_Type = AGETextCtrl::init(CByte, &uiGroupTechEffect, this, &popUp, Tab_Techs);
 	Effects_Type->SetToolTip("101 and 103 are only for\ntech tree and team bonus");
 	Effects_Type_ComboBox = new ComboBox_EffectType(Tab_Techs, Effects_Type);
@@ -1094,7 +1094,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_D_Holder = new wxBoxSizer(wxVERTICAL);
 	Effects_E_Holder = new wxBoxSizer(wxVERTICAL);
 	Effects_F_Holder = new wxBoxSizer(wxVERTICAL);
-	Effects_A_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute A ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_A_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute A ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_A = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs);
 	Effects_A_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_UnitsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
@@ -1103,8 +1103,8 @@ void AGE_Frame::CreateTechControls()
 	ResourceComboBoxList.push_back(Effects_ResourcesA_ComboBox);
 	Effects_ResearchsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
 	ResearchComboBoxList.push_back(Effects_ResearchsA_ComboBox);
-	Effects_Info_A = new wxStaticText(Tab_Techs, wxID_ANY, " Info A", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_B_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute B ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_Info_A = new wxStaticText(Tab_Techs, wxID_ANY, " Info A", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_B_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute B ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_B = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs);
 	Effects_B_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ModeB_CheckBox = new CheckBox_2State(Tab_Techs, "", Effects_B);
@@ -1113,26 +1113,26 @@ void AGE_Frame::CreateTechControls()
 	UnitComboBoxList.push_back(Effects_UnitsB_ComboBox);
 	Effects_ResourcesB_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_B);
 	ResourceComboBoxList.push_back(Effects_ResourcesB_ComboBox);
-	Effects_Info_B = new wxStaticText(Tab_Techs, wxID_ANY, " Info B", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_C_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute C ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_Info_B = new wxStaticText(Tab_Techs, wxID_ANY, " Info B", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_C_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute C ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_C = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs);
 	Effects_C_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ModeC_CheckBox = new CheckBox_2State(Tab_Techs, "", Effects_C);
 	Effects_AttributesC_ComboBox = new ComboBox_EffectAttribute(Tab_Techs, Effects_C);
-	Effects_Info_C = new wxStaticText(Tab_Techs, wxID_ANY, " Info C", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_D_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute D ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_Info_C = new wxStaticText(Tab_Techs, wxID_ANY, " Info C", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_D_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute D ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_D = AGETextCtrl::init(CFloat, &uiGroupTechEffect, this, &popUp, Tab_Techs);
 	Effects_D_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ResearchsD_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_D);
 	ResearchComboBoxList.push_back(Effects_ResearchsD_ComboBox);
-	Effects_Info_D = new wxStaticText(Tab_Techs, wxID_ANY, " Info D", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_E_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Amount or % ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_Info_D = new wxStaticText(Tab_Techs, wxID_ANY, " Info D", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_E_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Amount or % ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_E = AGETextCtrl::init(CUByte, NULL, this, &popUp, Tab_Techs);
-	Effects_Info_E = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_F_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Type ", wxDefaultPosition, wxSize(-1, 15), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_Info_E = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_F_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Type ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
 	Effects_F = AGETextCtrl::init(CUByte, NULL, this, &popUp, Tab_Techs);
 	Attacks_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_F);
-	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
 	Techs_AllEffects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects of all Technologies");
 	Techs_AllEffects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
