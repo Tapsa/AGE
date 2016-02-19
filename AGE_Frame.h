@@ -1011,7 +1011,7 @@ private:
 	wxStaticText *General_CalcBoxes_Text;
 	wxStaticText *General_CalcBoxesMiddle_Text;
 	wxTextCtrl *General_CalcBoxes[5];
-	wxScrolledWindow *General_Scroller;
+	wxScrolled<wxPanel> *General_Scroller;
 	wxBoxSizer *General_ScrollSpace;
 	wxStaticText *General_TileSizes_Text;
 	wxGridSizer *General_TileSizes_Grid;
@@ -1236,7 +1236,7 @@ private:
 	AGETextCtrl *General_Unknown2;
 
 	wxBoxSizer *Unknown_Main;
-	wxScrolledWindow *Unknown_Scroller;
+	wxScrolled<wxPanel> *Unknown_Scroller;
 	wxBoxSizer *Unknown_ScrollSpace;
 
     vector<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
@@ -1433,7 +1433,7 @@ private:
 
 	wxBoxSizer *Research_Main;
 	wxGridSizer *Research_Research_Buttons;
-	wxScrolledWindow *Research_Scroller;
+	wxScrolled<wxPanel> *Research_Scroller;
 	wxBoxSizer *Research_ScrollSpace;
 	wxGridSizer *Research_MiscArea1_Grid;
 	wxBoxSizer *Research_LangDLLArea_Holder;
@@ -1712,7 +1712,7 @@ private:
 
 //	Type 10+
 
-	wxScrolledWindow *Units_Scroller;	// Scrollable unit section
+	wxScrolled<wxPanel> *Units_Scroller;	// Scrollable unit section
 
     wxStaticText *visibleUnitCiv;
 	AGETextCtrl *Units_Type;
@@ -2609,7 +2609,7 @@ private:
 	wxButton *Graphics_Enable;
 	wxButton *Graphics_Disable;
 
-	wxScrolledWindow *Graphics_Scroller;
+	wxScrolled<wxPanel> *Graphics_Scroller;
 	wxBoxSizer *Graphics_ScrollSpace;
 
     vector<AGETextCtrl*> uiGroupGraphic, uiGroupGraphicDelta, uiGroupGraphicSound;
@@ -2784,7 +2784,7 @@ private:
 	wxButton *Terrains_Borders_Paste;
 	wxButton *Terrains_Borders_CopyToTerrains;
 
-	wxScrolledWindow *Terrains_Scroller;
+	wxScrolled<wxPanel> *Terrains_Scroller;
 	wxBoxSizer *Terrains_ScrollSpace;
 	wxBoxSizer *Terrains_NameArea_Holder;
 	wxGridSizer *Terrains_Area1_Grid;
@@ -3113,10 +3113,10 @@ private:
 	wxBoxSizer *TechTrees_TabBuildings;
 	wxBoxSizer *TechTrees_TabUnits;
 	wxBoxSizer *TechTrees_TabResearches;
-	wxScrolledWindow *TechTrees_ScrollerAges;
-	wxScrolledWindow *TechTrees_ScrollerBuildings;
-	wxScrolledWindow *TechTrees_ScrollerUnits;
-	wxScrolledWindow *TechTrees_ScrollerResearches;
+	wxScrolled<wxPanel> *TechTrees_ScrollerAges;
+	wxScrolled<wxPanel> *TechTrees_ScrollerBuildings;
+	wxScrolled<wxPanel> *TechTrees_ScrollerUnits;
+	wxScrolled<wxPanel> *TechTrees_ScrollerResearches;
 	wxBoxSizer *TechTrees_MainList_Ages;
 	wxBoxSizer *TechTrees_MainList_Buildings;
 	wxBoxSizer *TechTrees_MainList_Units;

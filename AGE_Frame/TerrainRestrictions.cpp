@@ -267,20 +267,20 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
 	TerRestrict_Accessible_Holder = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Accessible2_Holder = new wxBoxSizer(wxHORIZONTAL);
-	TerRestrict_Accessible_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessibility and Damage Multiplier *", wxDefaultPosition, wxSize(200, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Accessible_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessibility and Damage Multiplier *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Accessible = AGETextCtrl::init(CFloat, &uiGroupRestriction, this, &popUp, Tab_TerrainRestrictions, true);
 	TerRestrict_Accessible->SetToolTip("See unit armor terrain restriction\nPass-ability:\n 0  Not passable\n > 0  Passable\nBuild-ability:\n <= 0.05  You cannot build on it.\n > 0.05  You can build on it.\nDamage Multiplier:\n 0  Damage multiplier is 1.\n > 0  Damage multipler is as specified.\nStar Wars: < 1  Damage multiplier is 1.");
 	TerRestrict_Graphics_Holder = new wxBoxSizer(wxVERTICAL);
-	TerRestrict_Graphics_Text[0] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Exit Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Graphics_Text[1] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Enter Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Graphics_Text[2] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Walk Tile Sprite ID", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Graphics_Text[0] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Exit Tile Sprite ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Graphics_Text[1] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Enter Tile Sprite ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Graphics_Text[2] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Walk Tile Sprite ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
     for(size_t loop = 0; loop < 3; ++loop)
     {
         TerRestrict_Graphics[loop] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, &popUp, Tab_TerrainRestrictions);
         TerRestrict_Graphics_ComboBox[loop] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[loop]);
         GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[loop]);
     }
-	TerRestrict_Amount_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Walk Sprite Rate", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	TerRestrict_Amount_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Walk Sprite Rate", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	TerRestrict_Amount = AGETextCtrl::init(CFloat, &uiGroupRestriction, this, &popUp, Tab_TerrainRestrictions);
 
 	TerRestrict_TerRestrict_Buttons->Add(TerRestrict_Add, 1, wxEXPAND);

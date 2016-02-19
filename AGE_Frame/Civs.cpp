@@ -410,24 +410,24 @@ void AGE_Frame::CreateCivControls()
 	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2");
 	Civs_Name[1] = AGETextCtrl::init(CString, &uiGroupCiv, this, &popUp, Tab_Civs, 20);
 	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_GraphicSet->SetToolTip("Building icon set (and trade cart graphics?)\nThis is actually an offset used to look up SLPs inside the DRS file\nAoE 1: also determines the interface graphics used\nStar Wars: also determines unit and tech icons");
 	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_One = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_TechTree_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_TechTree_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TechTree);
 	TechComboBoxList.push_back(Civs_TechTree_ComboBox);
 	Civs_TeamBonus_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_TeamBonus_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxSize(150, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_TeamBonus_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Team Bonus", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TeamBonus = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_TeamBonus_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus);
 	TechComboBoxList.push_back(Civs_TeamBonus_ComboBox);
 	Civs_SUnknown1_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_SUnknown1_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_SUnknown1_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Unique Units / Researches", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < 4; ++loop)
 	Civs_SUnknown1[loop] = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
 
@@ -435,7 +435,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_Resources_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
 	Civs_ResourceValue_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_ResourceValue_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxSize(-1, 15), wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_ResourceValue_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Resource Value", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_ResourceValue = AGETextCtrl::init(CFloat, NULL, this, &popUp, Tab_Civs);
 	Civs_Resources_ListV = new AGEListView(Tab_Civs, wxSize(200, 100));
 	Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);

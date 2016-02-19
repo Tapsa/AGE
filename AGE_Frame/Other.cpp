@@ -2096,16 +2096,6 @@ void AGE_Frame::OnGameVersionChange()
 	Borders_Main->Layout();
 	General_Main->Layout();
 	Unknown_Main->Layout();
-	Units_Scroller->GetSizer()->FitInside(Units_Scroller);
-	Research_Scroller->GetSizer()->FitInside(Research_Scroller);
-	TechTrees_ScrollerAges->GetSizer()->FitInside(TechTrees_ScrollerAges);
-	TechTrees_ScrollerBuildings->GetSizer()->FitInside(TechTrees_ScrollerBuildings);
-	TechTrees_ScrollerUnits->GetSizer()->FitInside(TechTrees_ScrollerUnits);
-	TechTrees_ScrollerResearches->GetSizer()->FitInside(TechTrees_ScrollerResearches);
-	Graphics_Scroller->GetSizer()->FitInside(Graphics_Scroller);
-	Terrains_Scroller->GetSizer()->FitInside(Terrains_Scroller);
-	General_Scroller->GetSizer()->FitInside(General_Scroller);
-	Unknown_Scroller->GetSizer()->FitInside(Unknown_Scroller);
 	Refresh(); // Does this refresh non-visible tabs?
 }
 
@@ -2427,8 +2417,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 
             Units_Main->Layout();
             Research_Main->Layout();
-            Units_Scroller->GetSizer()->FitInside(Units_Scroller);
-            Research_Scroller->GetSizer()->FitInside(Research_Scroller);
             Refresh();
 
             if(ShowSLP)
@@ -2529,8 +2517,25 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_view->Connect(slp_view->GetId(), wxEVT_RIGHT_DOWN, wxMouseEventHandler(AGE_Frame::OnFrameMouse), NULL, this);
                 slp_view->Connect(slp_view->GetId(), wxEVT_CHAR, wxKeyEventHandler(AGE_Frame::OnFrameKey), NULL, this);
                 slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
-                slp_next->Connect(eNextFrame, eSLPMergeShadow, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_hotspot->Connect(eShowHotspot, eSelectionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_first->Connect(eFirstFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_next->Connect(eNextFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_prev->Connect(ePrevFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_frame_export->Connect(eExportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_frame_import->Connect(eImportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_save->Connect(eSaveSLP, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_tool->Connect(eSLPTool, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_merge_shadow->Connect(eSLPMergeShadow, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_hotspot->Connect(eShowHotspot, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_animate->Connect(eAnimSLP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_shadow->Connect(eShowShadows, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_outline->Connect(eShowOutline, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_delta->Connect(eShowDeltas, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_stack->Connect(eShowStack, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_annex->Connect(eShowAnnexes, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_terrain->Connect(eShowTerrain, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_collision->Connect(eCollisionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_clearance->Connect(eClearanceShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_selection->Connect(eSelectionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_background->Connect(ePickBgColor, wxEVT_COMMAND_COLOURPICKER_CHANGED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
                 slp_window->Show();
             }
@@ -3815,6 +3820,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 if(!graphicSLP.bitmap.SaveFile("Testi.png", wxBITMAP_TYPE_PNG))
                     wxMessageBox("Saving frame as PNG failed", "SLP");
             }
+            else wxMessageBox("Choose a graphic from graphics tab", "SLP");
             exportFrame = false;
             break;
         }
