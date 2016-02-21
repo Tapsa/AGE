@@ -346,11 +346,11 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLineUnits->Add(UnitLines_UnitLineUnits_Buttons, 0, wxEXPAND);
 	UnitLines_UnitLineUnits->Add(UnitLineUnits_CopyToUnitLines, 0, wxEXPAND | wxTOP, 2);
 
-	UnitLines_ID_Holder->Add(UnitLines_ID_Text, 0, wxEXPAND);
+	UnitLines_ID_Holder->Add(UnitLines_ID_Text);
 	UnitLines_ID_Holder->Add(UnitLines_ID, 1, wxEXPAND);
-	UnitLines_Name_Holder->Add(UnitLines_Name_Text, 0, wxEXPAND);
+	UnitLines_Name_Holder->Add(UnitLines_Name_Text);
 	UnitLines_Name_Holder->Add(UnitLines_Name, 1, wxEXPAND);
-	UnitLineUnits_Holder->Add(UnitLineUnits_Text, 0, wxEXPAND);
+	UnitLineUnits_Holder->Add(UnitLineUnits_Text);
 	UnitLineUnits_Holder->Add(UnitLineUnits_Units, 1, wxEXPAND);
 	UnitLineUnits_Holder->Add(UnitLineUnits_ComboBox, 1, wxEXPAND);
 
