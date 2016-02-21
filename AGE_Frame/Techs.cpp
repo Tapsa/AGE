@@ -1170,7 +1170,7 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects_Buttons->Add(Techs_Effects_Paste, 1, wxEXPAND);
 	Techs_Effects_Buttons->Add(Techs_Effects_PasteInsert, 1, wxEXPAND);
 
-	Effects_ListArea->Add(Techs_Name_Text, 0, wxEXPAND);
+	Effects_ListArea->Add(Techs_Name_Text);
 	Effects_ListArea->Add(Techs_Name, 0, wxEXPAND);
 	Effects_ListArea->Add(Techs_Rename, 0, wxEXPAND);
 	Effects_ListArea->Add(Techs_Restore, 0, wxEXPAND);
@@ -1189,7 +1189,7 @@ void AGE_Frame::CreateTechControls()
 
 	Effects_Type2_Holder->Add(Effects_Type, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Type2_Holder->Add(Effects_Type_ComboBox, 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_Type_Holder->Add(Effects_Type_Text, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_Type_Holder->Add(Effects_Type_Text, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Type_Holder->Add(Effects_Type2_Holder, 1, wxEXPAND);
 
 	Effects_A_ComboBox->Add(Effects_UnitsA_ComboBox, 1, wxEXPAND);

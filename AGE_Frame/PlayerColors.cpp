@@ -269,25 +269,25 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Colors->Add(Colors_Colors_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Colors_Colors->Add(Colors_Colors_Buttons, 0, wxEXPAND);
 
-	Colors_Name_Holder->Add(Colors_Name_Text, 0, wxEXPAND);
+	Colors_Name_Holder->Add(Colors_Name_Text);
 	Colors_Name_Holder->Add(Colors_Name, 1, wxEXPAND);
-	Colors_ID_Holder->Add(Colors_ID_Text, 0, wxEXPAND);
+	Colors_ID_Holder->Add(Colors_ID_Text);
 	Colors_ID_Holder->Add(Colors_ID, 1, wxEXPAND);
-	Colors_Palette_Holder->Add(Colors_Palette_Text, 0, wxEXPAND);
+	Colors_Palette_Holder->Add(Colors_Palette_Text);
 	Colors_Palette_Holder->Add(Colors_Palette, 1, wxEXPAND);
-	Colors_Color_Holder->Add(Colors_Color_Text, 0, wxEXPAND);
+	Colors_Color_Holder->Add(Colors_Color_Text);
 	Colors_Color_Holder->Add(Colors_ColorL, 1, wxEXPAND);
-	Colors_MinimapColor_Holder->Add(Colors_MinimapColor_Text, 0, wxEXPAND);
+	Colors_MinimapColor_Holder->Add(Colors_MinimapColor_Text);
 	Colors_MinimapColor_Holder->Add(Colors_MinimapColor, 1, wxEXPAND);
-	Colors_Unknown1_Holder->Add(Colors_Unknown1_Text, 0, wxEXPAND);
+	Colors_Unknown1_Holder->Add(Colors_Unknown1_Text);
 	Colors_Unknown1_Holder->Add(Colors_Unknown1, 1, wxEXPAND);
-	Colors_Unknown2_Holder->Add(Colors_Unknown2_Text, 0, wxEXPAND);
+	Colors_Unknown2_Holder->Add(Colors_Unknown2_Text);
 	Colors_Unknown2_Holder->Add(Colors_Unknown2, 1, wxEXPAND);
-	Colors_Unknown3_Holder->Add(Colors_Unknown3_Text, 0, wxEXPAND);
+	Colors_Unknown3_Holder->Add(Colors_Unknown3_Text);
 	Colors_Unknown3_Holder->Add(Colors_Unknown3, 1, wxEXPAND);
-	Colors_Unknown4_Holder->Add(Colors_Unknown4_Text, 0, wxEXPAND);
+	Colors_Unknown4_Holder->Add(Colors_Unknown4_Text);
 	Colors_Unknown4_Holder->Add(Colors_Unknown4, 1, wxEXPAND);
-	Colors_Unknown5_Holder->Add(Colors_Unknown5_Text, 0, wxEXPAND);
+	Colors_Unknown5_Holder->Add(Colors_Unknown5_Text);
 	Colors_Unknown5_Holder->Add(Colors_Unknown5, 1, wxEXPAND);
 
 	Colors_UnknownArea_Holder->Add(Colors_Unknown3_Holder, 0, wxEXPAND);

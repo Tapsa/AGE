@@ -565,7 +565,7 @@ void AGE_Frame::CreateResearchControls()
 
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
-		Research_Name_Holder[loop]->Add(Research_Name_Text[loop], 0, wxEXPAND | wxBOTTOM, 2);
+		Research_Name_Holder[loop]->Add(Research_Name_Text[loop]);
 		Research_Name_Holder[loop]->Add(Research_Name[loop], 0, wxEXPAND);
 	}
 
@@ -573,10 +573,10 @@ void AGE_Frame::CreateResearchControls()
 	Research_Names_Holder->Add(Research_Name_Holder[0], 2, wxEXPAND);
 	Research_Names_Holder->Add(Research_Name_Holder[1], 2, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxLEFT, 5);
 
-	Research_LangDLLName_Holder->Add(Research_LangDLLName_Text, 0, wxEXPAND);
+	Research_LangDLLName_Holder->Add(Research_LangDLLName_Text);
 	Research_LangDLLName_Holder->Add(Research_LangDLLName, 0, wxEXPAND);
 	Research_LangDLLName_Holder->Add(Research_DLL_LangDLLName, 0, wxEXPAND);
-	Research_LangDLLDescription_Holder->Add(Research_LangDLLDescription_Text, 0, wxEXPAND);
+	Research_LangDLLDescription_Holder->Add(Research_LangDLLDescription_Text);
 	Research_LangDLLDescription_Holder->Add(Research_LangDLLDescription, 0, wxEXPAND);
 	Research_LangDLLDescription_Holder->Add(Research_DLL_LangDLLDescription, 0, wxEXPAND);
 
@@ -611,21 +611,21 @@ void AGE_Frame::CreateResearchControls()
 	for(size_t loop = 0; loop < 6; ++loop)
 	Research_RequiredTechs_Holder->Add(Research_RequiredTechs_ComboBox[loop], 1, wxEXPAND);
 
-	Research_RequiredTechArea_Holder->Add(Research_RequiredTechArea_Text, 0, wxEXPAND);
+	Research_RequiredTechArea_Holder->Add(Research_RequiredTechArea_Text);
 	Research_RequiredTechArea_Holder->Add(Research_RequiredTechs_Holder, 0, wxEXPAND);
 
-	Research_RequiredTechCount_Holder->Add(Research_RequiredTechCount_Text, 0, wxEXPAND);
+	Research_RequiredTechCount_Holder->Add(Research_RequiredTechCount_Text);
 	Research_RequiredTechCount_Holder->Add(Research_RequiredTechCount, 1, wxEXPAND);
 
-	Research_Civ_Holder->Add(Research_Civ_Text, 0, wxEXPAND);
+	Research_Civ_Holder->Add(Research_Civ_Text);
 	Research_Civ_Holder->Add(Research_Civ, 1, wxEXPAND);
 	Research_Civ_Holder->Add(Research_Civ_ComboBox, 1, wxEXPAND);
 
-	Research_FullTechMode_Holder->Add(Research_FullTechMode_Text, 0, wxEXPAND);
+	Research_FullTechMode_Holder->Add(Research_FullTechMode_Text);
 	Research_FullTechMode_Holder->Add(Research_FullTechMode, 1, wxEXPAND);
 	Research_FullTechMode_Holder->Add(Research_FullTechMode_CheckBox, 1, wxEXPAND);
 
-	Research_ResearchLocation_Holder->Add(Research_ResearchLocation_Text, 0, wxEXPAND);
+	Research_ResearchLocation_Holder->Add(Research_ResearchLocation_Text);
 	Research_ResearchLocation_Holder->Add(Research_ResearchLocation, 1, wxEXPAND);
 	Research_ResearchLocation_Holder->Add(Research_ResearchLocation_ComboBox, 1, wxEXPAND);
 
@@ -634,20 +634,20 @@ void AGE_Frame::CreateResearchControls()
 	Research_MiscArea1_Grid->Add(Research_Civ_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Research_MiscArea1_Grid->Add(Research_FullTechMode_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Research_ResearchTime_Holder->Add(Research_ResearchTime_Text, 0, wxEXPAND);
+	Research_ResearchTime_Holder->Add(Research_ResearchTime_Text);
 	Research_ResearchTime_Holder->Add(Research_ResearchTime, 1, wxEXPAND);
 
-	Research_TechID_Holder->Add(Research_TechID_Text, 0, wxEXPAND);
+	Research_TechID_Holder->Add(Research_TechID_Text);
 	Research_TechID_Holder->Add(Research_TechID, 1, wxEXPAND);
 	Research_TechID_Holder->Add(Research_TechID_ComboBox, 1, wxEXPAND);
 
-	Research_Type_Holder->Add(Research_Type_Text, 0, wxEXPAND);
+	Research_Type_Holder->Add(Research_Type_Text);
 	Research_Type_Holder->Add(Research_Type, 1, wxEXPAND);
 
-	Research_IconID_Holder->Add(Research_IconID_Text, 0, wxEXPAND);
+	Research_IconID_Holder->Add(Research_IconID_Text);
 	Research_IconID_Holder->Add(Research_IconID, 1, wxEXPAND);
 
-	Research_ButtonID_Holder->Add(Research_ButtonID_Text, 0, wxEXPAND);
+	Research_ButtonID_Holder->Add(Research_ButtonID_Text);
 	Research_ButtonID_Holder->Add(Research_ButtonID, 1, wxEXPAND);
 
 	Research_Misc2_Holder->Add(Research_RequiredTechCount_Holder, 0, wxEXPAND);
@@ -656,15 +656,15 @@ void AGE_Frame::CreateResearchControls()
 	Research_Misc2_Holder->Add(Research_IconID_Holder, 0, wxEXPAND);
 	Research_Misc2_Holder->Add(Research_ButtonID_Holder, 0, wxEXPAND);
 
-	Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp_Text, 0, wxEXPAND);
+	Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp_Text);
 	Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp, 0, wxEXPAND);
-	Research_LanguageDLLConverter_Holder[0]->Add(Research_LanguageDLLConverter_Text[0], 0, wxEXPAND);
+	Research_LanguageDLLConverter_Holder[0]->Add(Research_LanguageDLLConverter_Text[0]);
 	Research_LanguageDLLConverter_Holder[0]->Add(Research_LanguageDLLConverter[0], 0, wxEXPAND);
-	Research_LanguageDLLName2_Holder->Add(Research_LanguageDLLName2_Text, 0, wxEXPAND);
+	Research_LanguageDLLName2_Holder->Add(Research_LanguageDLLName2_Text);
 	Research_LanguageDLLName2_Holder->Add(Research_LanguageDLLName2, 0, wxEXPAND);
-	Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter_Text[1], 0, wxEXPAND);
+	Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter_Text[1]);
 	Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter[1], 0, wxEXPAND);
-	Research_Unknown1_Holder->Add(Research_Unknown1_Text, 0, wxEXPAND);
+	Research_Unknown1_Holder->Add(Research_Unknown1_Text);
 	Research_Unknown1_Holder->Add(Research_Unknown1, 0, wxEXPAND);
 
 	Research_PointerArea_Holder->Add(Research_LanguageDLLHelp_Holder, 0, wxEXPAND);

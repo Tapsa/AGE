@@ -471,17 +471,17 @@ void AGE_Frame::CreateTerrainBorderControls()
 
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
-		Borders_Name_Holder[loop]->Add(Borders_Name_Text[loop], 0, wxEXPAND | wxBOTTOM, 2);
+		Borders_Name_Holder[loop]->Add(Borders_Name_Text[loop]);
 		Borders_Name_Holder[loop]->Add(Borders_Name[loop], 0, wxEXPAND);
 	}
 	Borders_Enabled1_Holder->Add(Borders_Enabled, 1, wxEXPAND);
 	Borders_Enabled1_Holder->Add(Borders_Enabled_CheckBox, 1, wxEXPAND | wxLEFT, 2);
-	Borders_Enabled_Holder->Add(Borders_Enabled_Text, 0, wxEXPAND);
+	Borders_Enabled_Holder->Add(Borders_Enabled_Text);
 	Borders_Enabled_Holder->Add(Borders_Enabled1_Holder, 1, wxEXPAND);
-	Borders_Random_Holder->Add(Borders_Random_Text, 0, wxEXPAND);
+	Borders_Random_Holder->Add(Borders_Random_Text);
 	Borders_Random_Holder->Add(Borders_Random, 0, wxEXPAND);
 
-	Borders_UsedCountHolder->Add(Borders_UsedCountText, 0, wxEXPAND);
+	Borders_UsedCountHolder->Add(Borders_UsedCountText);
 	Borders_UsedCountHolder->Add(Borders_UsedCount, 1, wxEXPAND | wxLEFT, 2);
 
 	Borders_Buttons->Add(Borders_Copy, 1, wxEXPAND);
@@ -498,22 +498,22 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_DataTopRow->Add(Borders_Name_Holder[0], 8, wxEXPAND | wxLEFT, 5);
 	Borders_DataTopRow->Add(Borders_Name_Holder[1], 8, wxEXPAND | wxLEFT, 5);
 
-	Borders_SLP_Holder->Add(Borders_SLP_Text, 0, wxEXPAND);
+	Borders_SLP_Holder->Add(Borders_SLP_Text);
 	Borders_SLP_Holder->Add(Borders_SLP, 0, wxEXPAND);
-	Borders_Unknown3_Holder->Add(Borders_Unknown3_Text, 0, wxEXPAND);
+	Borders_Unknown3_Holder->Add(Borders_Unknown3_Text);
 	Borders_Unknown3_Holder->Add(Borders_Unknown3, 0, wxEXPAND);
-	Borders_Sound_Holder->Add(Borders_Sound_Text, 0, wxEXPAND);
+	Borders_Sound_Holder->Add(Borders_Sound_Text);
 	Borders_Sound_Holder->Add(Borders_Sound, 0, wxEXPAND);
 	for(size_t loop = 0; loop < 3; ++loop)
 	Borders_Colors_Grid->Add(Borders_Colors[loop], 1, wxEXPAND);
-	Borders_Colors_Holder->Add(Borders_Colors_Text, 0, wxEXPAND);
+	Borders_Colors_Holder->Add(Borders_Colors_Text);
 	Borders_Colors_Holder->Add(Borders_Colors_Grid, 0, wxEXPAND);
-	Borders_DrawTile_Holder->Add(Borders_DrawTile_Text, 0, wxEXPAND);
+	Borders_DrawTile_Holder->Add(Borders_DrawTile_Text);
 	Borders_DrawTile_Holder->Add(Borders_DrawTile, 0, wxEXPAND);
-	Borders_Terrain_Holder->Add(Borders_Terrain_Text, 0, wxEXPAND);
+	Borders_Terrain_Holder->Add(Borders_Terrain_Text);
 	Borders_Terrain_Holder->Add(Borders_Terrain, 0, wxEXPAND);
 	Borders_Terrain_Holder->Add(Borders_Terrain_ComboBox, 0, wxEXPAND);
-	Borders_BorderStyle_Holder->Add(Borders_BorderStyle_Text, 0, wxEXPAND);
+	Borders_BorderStyle_Holder->Add(Borders_BorderStyle_Text);
 	Borders_BorderStyle_Holder->Add(Borders_BorderStyle, 0, wxEXPAND);
 
 	Borders_Data1->Add(Borders_SLP_Holder, 1, wxEXPAND);
@@ -521,16 +521,16 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Data1->Add(Borders_Sound_Holder, 1, wxEXPAND);
 	Borders_Data1->Add(Borders_Colors_Holder, 1, wxEXPAND);
 
-	Borders_IsAnimated_Holder->Add(Borders_IsAnimated_Text, 0, wxEXPAND);
-	Borders_AnimationFrames_Holder->Add(Borders_AnimationFrames_Text, 0, wxEXPAND);
-	Borders_PauseFames_Holder->Add(Borders_PauseFames_Text, 0, wxEXPAND);
-	Borders_Interval_Holder->Add(Borders_Interval_Text, 0, wxEXPAND);
-	Borders_PauseBetweenLoops_Holder->Add(Borders_PauseBetweenLoops_Text, 0, wxEXPAND);
-	Borders_Frame_Holder->Add(Borders_Frame_Text, 0, wxEXPAND);
-	Borders_DrawFrame_Holder->Add(Borders_DrawFrame_Text, 0, wxEXPAND);
-	Borders_AnimateLast_Holder->Add(Borders_AnimateLast_Text, 0, wxEXPAND);
-	Borders_FrameChanged_Holder->Add(Borders_FrameChanged_Text, 0, wxEXPAND);
-	Borders_Drawn_Holder->Add(Borders_Drawn_Text, 0, wxEXPAND);
+	Borders_IsAnimated_Holder->Add(Borders_IsAnimated_Text);
+	Borders_AnimationFrames_Holder->Add(Borders_AnimationFrames_Text);
+	Borders_PauseFames_Holder->Add(Borders_PauseFames_Text);
+	Borders_Interval_Holder->Add(Borders_Interval_Text);
+	Borders_PauseBetweenLoops_Holder->Add(Borders_PauseBetweenLoops_Text);
+	Borders_Frame_Holder->Add(Borders_Frame_Text);
+	Borders_DrawFrame_Holder->Add(Borders_DrawFrame_Text);
+	Borders_AnimateLast_Holder->Add(Borders_AnimateLast_Text);
+	Borders_FrameChanged_Holder->Add(Borders_FrameChanged_Text);
+	Borders_Drawn_Holder->Add(Borders_Drawn_Text);
 	Borders_IsAnimated_Holder->Add(Borders_IsAnimated, 1, wxEXPAND);
 	Borders_AnimationFrames_Holder->Add(Borders_AnimationFrames, 1, wxEXPAND);
 	Borders_PauseFames_Holder->Add(Borders_PauseFames, 1, wxEXPAND);
@@ -570,11 +570,11 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_BorderShapes->Add(Borders_BorderShapes_Buttons, 0, wxEXPAND);
 	Borders_BorderShapes->Add(BorderShapes_CopyToBorders, 0, wxEXPAND | wxTOP, 2);
 
-	Borders_FrameID_Holder->Add(Borders_FrameID_Text, 0, wxEXPAND);
+	Borders_FrameID_Holder->Add(Borders_FrameID_Text);
 	Borders_FrameID_Holder->Add(Borders_FrameID, 1, wxEXPAND);
-	Borders_Flag1_Holder->Add(Borders_Flag1_Text, 0, wxEXPAND);
+	Borders_Flag1_Holder->Add(Borders_Flag1_Text);
 	Borders_Flag1_Holder->Add(Borders_Flag1, 1, wxEXPAND);
-	Borders_Flag2_Holder->Add(Borders_Flag2_Text, 0, wxEXPAND);
+	Borders_Flag2_Holder->Add(Borders_Flag2_Text);
 	Borders_Flag2_Holder->Add(Borders_Flag2, 1, wxEXPAND);
 
 	Borders_FrameArea_Holder->Add(Borders_FrameID_Holder, 0, wxEXPAND);
