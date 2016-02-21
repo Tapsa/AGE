@@ -304,16 +304,16 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Terrains->Add(TerRestrict_Terrains_Buttons, 0, wxEXPAND);
 
 	TerRestrict_Accessible2_Holder->Add(TerRestrict_Accessible, 0, wxEXPAND);
-	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible_Text, 0, wxEXPAND);
+	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible_Text);
 	TerRestrict_Accessible_Holder->Add(TerRestrict_Accessible2_Holder, 1, wxEXPAND);
 
     for(size_t loop = 0; loop < 3; ++loop)
     {
-        TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_Text[loop], 0, wxEXPAND);
+        TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_Text[loop]);
         TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics[loop], 0, wxEXPAND);
         TerRestrict_Graphics_Holder->Add(TerRestrict_Graphics_ComboBox[loop], 0, wxEXPAND | wxBOTTOM, 5);
     }
-	TerRestrict_Graphics_Holder->Add(TerRestrict_Amount_Text, 0, wxEXPAND);
+	TerRestrict_Graphics_Holder->Add(TerRestrict_Amount_Text);
 	TerRestrict_Graphics_Holder->Add(TerRestrict_Amount, 0, wxEXPAND);
 
 	TerRestrict_DataArea->Add(TerRestrict_Accessible_Holder, 0, wxEXPAND | wxTOP, 5);

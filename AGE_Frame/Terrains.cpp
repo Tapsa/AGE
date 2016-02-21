@@ -739,7 +739,7 @@ void AGE_Frame::CreateTerrainControls()
 		Terrains_SearchFilters[loop]->SetSelection(0);
 	}
 
-	Terrains_UsedCountHolder->Add(Terrains_UsedCountText, 0, wxEXPAND);
+	Terrains_UsedCountHolder->Add(Terrains_UsedCountText);
 	Terrains_UsedCountHolder->Add(Terrains_UsedCount, 1, wxEXPAND | wxLEFT, 2);
 
 	Terrains_Terrains_Buttons->Add(Terrains_Add, 1, wxEXPAND);
@@ -759,54 +759,54 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Terrains->Add(Terrains_UsedCountHolder, 0, wxEXPAND);
 	Terrains_Terrains->Add(Terrains_Terrains_Buttons, 0, wxEXPAND | wxTOP, 2);
 
-	Terrains_Unknown1_Holder->Add(Terrains_Unknown1_Text, 0, wxEXPAND);
+	Terrains_Unknown1_Holder->Add(Terrains_Unknown1_Text);
 	Terrains_Unknown1_Holder->Add(Terrains_Unknown1, 0, wxEXPAND);
 	Terrains_Enabled1_Holder->Add(Terrains_Enabled, 1, wxEXPAND);
 	Terrains_Enabled1_Holder->Add(Terrains_Enabled_CheckBox, 1, wxEXPAND | wxLEFT, 2);
-	Terrains_Enabled_Holder->Add(Terrains_Enabled_Text, 0, wxEXPAND);
+	Terrains_Enabled_Holder->Add(Terrains_Enabled_Text);
 	Terrains_Enabled_Holder->Add(Terrains_Enabled1_Holder, 1, wxEXPAND);
-	Terrains_Random_Holder->Add(Terrains_Random_Text, 0, wxEXPAND);
+	Terrains_Random_Holder->Add(Terrains_Random_Text);
 	Terrains_Random_Holder->Add(Terrains_Random, 0, wxEXPAND);
-	Terrains_Name_Holder->Add(Terrains_Name_Text, 0, wxEXPAND);
+	Terrains_Name_Holder->Add(Terrains_Name_Text);
 	Terrains_Name_Holder->Add(Terrains_Name, 1, wxEXPAND);
-	Terrains_Name2_Holder->Add(Terrains_Name2_Text, 0, wxEXPAND);
+	Terrains_Name2_Holder->Add(Terrains_Name2_Text);
 	Terrains_Name2_Holder->Add(Terrains_Name2, 1, wxEXPAND);
-	Terrains_SLP_Holder->Add(Terrains_SLP_Text, 0, wxEXPAND);
+	Terrains_SLP_Holder->Add(Terrains_SLP_Text);
 	Terrains_SLP_Holder->Add(Terrains_SLP, 0, wxEXPAND);
-	Terrains_Unknown3_Holder->Add(Terrains_Unknown3_Text, 0, wxEXPAND);
+	Terrains_Unknown3_Holder->Add(Terrains_Unknown3_Text);
 	Terrains_Unknown3_Holder->Add(Terrains_Unknown3, 0, wxEXPAND);
-	Terrains_SoundID_Holder->Add(Terrains_SoundID_Text, 0, wxEXPAND);
+	Terrains_SoundID_Holder->Add(Terrains_SoundID_Text);
 	Terrains_SoundID_Holder->Add(Terrains_SoundID, 1, wxEXPAND);
 	Terrains_SoundID_Holder->Add(Terrains_SoundID_ComboBox, 1, wxEXPAND);
-	Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority_Text, 0, wxEXPAND);
+	Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority_Text);
 	Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority, 0, wxEXPAND);
-	Terrains_BlendType_Holder->Add(Terrains_BlendType_Text, 0, wxEXPAND);
+	Terrains_BlendType_Holder->Add(Terrains_BlendType_Text);
 	Terrains_BlendType_Holder->Add(Terrains_BlendType, 0, wxEXPAND);
 	for(size_t loop = 0; loop < 3; ++loop)
 	Terrains_Colors_Grid->Add(Terrains_Colors[loop], 1, wxEXPAND);
-	Terrains_Colors_Holder->Add(Terrains_Colors_Text, 0, wxEXPAND);
+	Terrains_Colors_Holder->Add(Terrains_Colors_Text);
 	Terrains_Colors_Holder->Add(Terrains_Colors_Grid, 0, wxEXPAND);
-	Terrains_CliffColors_Holder->Add(Terrains_CliffColors_Text, 0, wxEXPAND);
+	Terrains_CliffColors_Holder->Add(Terrains_CliffColors_Text);
 	for(size_t loop = 0; loop < Terrains_CliffColors.size(); ++loop)
 	Terrains_CliffColors_Grid->Add(Terrains_CliffColors[loop], 1, wxEXPAND);
 	Terrains_CliffColors_Holder->Add(Terrains_CliffColors_Grid, 0, wxEXPAND);
-	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain_Text, 0, wxEXPAND);
+	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain_Text);
 	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain, 0, wxEXPAND);
 	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain_ComboBox, 0, wxEXPAND);
-	Terrains_ImpassableTerrain_Holder->Add(Terrains_ImpassableTerrain_Text, 0, wxEXPAND);
+	Terrains_ImpassableTerrain_Holder->Add(Terrains_ImpassableTerrain_Text);
 	Terrains_ImpassableTerrain_Holder->Add(Terrains_ImpassableTerrain, 0, wxEXPAND);
 	Terrains_ImpassableTerrain_Holder->Add(Terrains_ImpassableTerrain_ComboBox, 0, wxEXPAND);
 
-	Terrains_IsAnimated_Holder->Add(Terrains_IsAnimated_Text, 0, wxEXPAND);
-	Terrains_AnimationFrames_Holder->Add(Terrains_AnimationFrames_Text, 0, wxEXPAND);
-	Terrains_PauseFames_Holder->Add(Terrains_PauseFames_Text, 0, wxEXPAND);
-	Terrains_Interval_Holder->Add(Terrains_Interval_Text, 0, wxEXPAND);
-	Terrains_PauseBetweenLoops_Holder->Add(Terrains_PauseBetweenLoops_Text, 0, wxEXPAND);
-	Terrains_Frame_Holder->Add(Terrains_Frame_Text, 0, wxEXPAND);
-	Terrains_DrawFrame_Holder->Add(Terrains_DrawFrame_Text, 0, wxEXPAND);
-	Terrains_AnimateLast_Holder->Add(Terrains_AnimateLast_Text, 0, wxEXPAND);
-	Terrains_FrameChanged_Holder->Add(Terrains_FrameChanged_Text, 0, wxEXPAND);
-	Terrains_Drawn_Holder->Add(Terrains_Drawn_Text, 0, wxEXPAND);
+	Terrains_IsAnimated_Holder->Add(Terrains_IsAnimated_Text);
+	Terrains_AnimationFrames_Holder->Add(Terrains_AnimationFrames_Text);
+	Terrains_PauseFames_Holder->Add(Terrains_PauseFames_Text);
+	Terrains_Interval_Holder->Add(Terrains_Interval_Text);
+	Terrains_PauseBetweenLoops_Holder->Add(Terrains_PauseBetweenLoops_Text);
+	Terrains_Frame_Holder->Add(Terrains_Frame_Text);
+	Terrains_DrawFrame_Holder->Add(Terrains_DrawFrame_Text);
+	Terrains_AnimateLast_Holder->Add(Terrains_AnimateLast_Text);
+	Terrains_FrameChanged_Holder->Add(Terrains_FrameChanged_Text);
+	Terrains_Drawn_Holder->Add(Terrains_Drawn_Text);
 	Terrains_IsAnimated_Holder->Add(Terrains_IsAnimated, 1, wxEXPAND);
 	Terrains_AnimationFrames_Holder->Add(Terrains_AnimationFrames, 1, wxEXPAND);
 	Terrains_PauseFames_Holder->Add(Terrains_PauseFames, 1, wxEXPAND);
@@ -828,23 +828,23 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Animation_Grid->Add(Terrains_FrameChanged_Holder, 1, wxEXPAND);
 	Terrains_Animation_Grid->Add(Terrains_Drawn_Holder, 1, wxEXPAND);
 
-	Terrains_ElevationGraphics_Holder->Add(Terrains_ElevationGraphics_Text, 0, wxEXPAND);
+	Terrains_ElevationGraphics_Holder->Add(Terrains_ElevationGraphics_Text);
 	Terrains_ElevationGraphics_Holder->Add(Terrains_Unknown9_Grid, 0, wxEXPAND);
 	for(size_t loop = 0; loop < Terrains_ElevationGraphics.size(); ++loop)
 	{
 		Terrains_Unknown9_Grid->Add(Terrains_ElevationGraphics[loop], 1, wxEXPAND);
 	}
-	Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID_Text, 0, wxEXPAND);
+	Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID_Text);
 	Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID, 1, wxEXPAND);
 	Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID_ComboBox, 1, wxEXPAND);
-	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions_Text, 0, wxEXPAND);
+	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions_Text);
 	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions[0], 1, wxEXPAND);
 	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions[1], 1, wxEXPAND);
 
-	Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID_Text, 0, wxEXPAND);
+	Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID_Text);
 	Terrains_TerrainUnitID_Holder1->AddSpacer(15);
-	Terrains_TerrainUnitDensity_Holder->Add(Terrains_TerrainUnitDensity_Text, 0, wxEXPAND);
-	Terrains_TerrainUnitPriority_Holder->Add(Terrains_TerrainUnitPriority_Text, 0, wxEXPAND);
+	Terrains_TerrainUnitDensity_Holder->Add(Terrains_TerrainUnitDensity_Text);
+	Terrains_TerrainUnitPriority_Holder->Add(Terrains_TerrainUnitPriority_Text);
 	for(size_t loop = 0; loop < TERRAINUNITS; ++loop)
 	{
 		Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID[loop], 1, wxEXPAND);
@@ -852,7 +852,7 @@ void AGE_Frame::CreateTerrainControls()
 		Terrains_TerrainUnitDensity_Holder->Add(Terrains_TerrainUnitDensity[loop], 1, wxEXPAND);
 		Terrains_TerrainUnitPriority_Holder->Add(Terrains_TerrainUnitPriority[loop], 1, wxEXPAND);
 	}
-	Terrains_UsedTerrainUnits_Holder->Add(Terrains_UsedTerrainUnits_Text, 0, wxEXPAND);
+	Terrains_UsedTerrainUnits_Holder->Add(Terrains_UsedTerrainUnits_Text);
 	Terrains_UsedTerrainUnits_Holder->Add(Terrains_UsedTerrainUnits, 0, wxEXPAND);
 
 	Terrains_NameArea_Holder->Add(Terrains_Enabled_Holder, 3, wxEXPAND);
