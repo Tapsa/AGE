@@ -349,8 +349,8 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_UsedCountText = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Borders Used *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_UsedCount = AGETextCtrl::init(CUShort, NULL, this, &popUp, Tab_TerrainBorders);
 	Borders_UsedCount->SetToolTip("How many terrain borders are used\nstarting from the first border without gaps");
-	Borders_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Borders_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Borders_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	Borders_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
 	Borders_DataArea = new wxBoxSizer(wxVERTICAL);
 	Borders_DataTopRow = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Data1 = new wxGridSizer(4, 5, 5);
@@ -358,11 +358,11 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Enabled1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Enabled_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Enabled = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, true);
+	Borders_Enabled = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, 1);
 	Borders_Enabled_CheckBox = new CheckBox_2State(Tab_TerrainBorders, " Yes", Borders_Enabled);
 	Borders_Random_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Random_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Random", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Random = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, true);
+	Borders_Random = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, 1);
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Borders_Name_Holder[loop] = new wxBoxSizer(wxVERTICAL);
@@ -405,17 +405,17 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_TileTypes_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_TileTypes_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_TileTypes_ListV = new AGEListView(Tab_TerrainBorders, wxSize(200, 220));
-	TileTypes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	TileTypes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	TileTypes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected terrain borders", wxDefaultPosition, wxSize(5, 20));
+	TileTypes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	TileTypes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	TileTypes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected terrain borders", wxDefaultPosition, wxSize(10, -1));
 	Borders_BorderShapes = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainBorders, "Border Shapes");
 	Borders_BorderShapes_Buttons = new wxGridSizer(2, 0, 0);
 	Borders_BorderShapes_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_BorderShapes_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
 	Borders_BorderShapes_ListV = new AGEListView(Tab_TerrainBorders, wxSize(200, 220));
-	BorderShapes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	BorderShapes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	BorderShapes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected tile types", wxDefaultPosition, wxSize(5, 20));
+	BorderShapes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	BorderShapes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	BorderShapes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected tile types", wxDefaultPosition, wxSize(10, -1));
 
 	Borders_FrameArea_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_FrameID_Holder = new wxBoxSizer(wxVERTICAL);
