@@ -564,11 +564,11 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Enabled1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Enabled_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Enabled = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, 1);
+	Terrains_Enabled = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::TINY);
 	Terrains_Enabled_CheckBox = new CheckBox_2State(Terrains_Scroller, " Yes", Terrains_Enabled);
 	Terrains_Random_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Random_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Random", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Random = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, 1);
+	Terrains_Random = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::TINY);
 	Terrains_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Name_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_Name = AGETextCtrl::init(CString, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
@@ -593,12 +593,12 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Colors_Grid = new wxGridSizer(3, 0, 0);
 	Terrains_Colors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Minimap Colors", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < 3; ++loop)
-	Terrains_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+	Terrains_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::TINY);
 	Terrains_CliffColors_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_CliffColors_Grid = new wxGridSizer(2, 0, 0);
 	Terrains_CliffColors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Minimap Cliff Colors", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < Terrains_CliffColors.size(); ++loop)
-	Terrains_CliffColors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+	Terrains_CliffColors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::TINY);
 
 	Terrains_PassableTerrain_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_PassableTerrain_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Passable Terrain", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -660,11 +660,11 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_TerrainUnitPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Placement Flag *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < TERRAINUNITS; ++loop)
 	{
-		Terrains_TerrainUnitID[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, true);
+		Terrains_TerrainUnitID[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
 		Terrains_TerrainUnitID_ComboBox[loop] = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainUnitID[loop]);
 		UnitComboBoxList.push_back(Terrains_TerrainUnitID_ComboBox[loop]);
-		Terrains_TerrainUnitDensity[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, true);
-		Terrains_TerrainUnitPriority[loop] = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+		Terrains_TerrainUnitDensity[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
+		Terrains_TerrainUnitPriority[loop] = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
 		Terrains_TerrainUnitPriority[loop]->SetToolTip("1 prevails, others don't");
 	}
 	Terrains_ElevationGraphics_Holder = new wxBoxSizer(wxVERTICAL);
@@ -672,7 +672,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_ElevationGraphics_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Tile Graphics: flat, 2 x 8 elevation, 2 x 1:1\n Frame Count, Animations, Shape (Frame) Index", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < Terrains_ElevationGraphics.size(); ++loop)
 	{
-		Terrains_ElevationGraphics[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, 2);
+		Terrains_ElevationGraphics[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
 	}
 
 	Terrains_Animation_Grid = new wxGridSizer(5, 5, 5);

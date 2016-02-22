@@ -268,7 +268,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
 	TerRestrict_Accessible_Holder = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Accessible2_Holder = new wxBoxSizer(wxHORIZONTAL);
 	TerRestrict_Accessible_Text = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Accessibility and Damage Multiplier *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	TerRestrict_Accessible = AGETextCtrl::init(CFloat, &uiGroupRestriction, this, &popUp, Tab_TerrainRestrictions, true);
+	TerRestrict_Accessible = AGETextCtrl::init(CFloat, &uiGroupRestriction, this, &popUp, Tab_TerrainRestrictions, AGETextCtrl::MEDIUM);
 	TerRestrict_Accessible->SetToolTip("See unit armor terrain restriction\nPass-ability:\n 0  Not passable\n > 0  Passable\nBuild-ability:\n <= 0.05  You cannot build on it.\n > 0.05  You can build on it.\nDamage Multiplier:\n 0  Damage multiplier is 1.\n > 0  Damage multipler is as specified.\nStar Wars: < 1  Damage multiplier is 1.");
 	TerRestrict_Graphics_Holder = new wxBoxSizer(wxVERTICAL);
 	TerRestrict_Graphics_Text[0] = new wxStaticText(Tab_TerrainRestrictions, wxID_ANY, " Exit Tile Sprite ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);

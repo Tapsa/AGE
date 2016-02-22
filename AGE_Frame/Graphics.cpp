@@ -963,7 +963,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_CoordinateGrid_Holder = new wxGridSizer(4, 0, 5);
 	Graphics_Coordinates_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < 4; ++loop)
-	Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller, true);
+	Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller, AGETextCtrl::SMALL);
 
 	Graphics_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_SoundID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);

@@ -2499,7 +2499,7 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_Buildings_TotalUnitsTechs_Holder[0] = new wxStaticBoxSizer(wxVERTICAL, TechTrees_ScrollerBuildings, "Total units and techs by age *");
 	TechTrees_Buildings_TotalUnitsTechs_Holder[1] = new wxStaticBoxSizer(wxVERTICAL, TechTrees_ScrollerBuildings, "Total units and techs at first in age *");
 	for(size_t loop = 0; loop < 10; ++loop)
-	TechTrees_Buildings_TotalUnitsTechs[loop] = AGETextCtrl::init(CByte, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
+	TechTrees_Buildings_TotalUnitsTechs[loop] = AGETextCtrl::init(CByte, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings, AGETextCtrl::SMALL);
 	for(size_t loop = 0; loop < 5; ++loop)
 	{
 		TechTrees_Buildings_TotalUnitsTechs[loop]->SetToolTip("Age "+lexical_cast<string>(loop+1));
