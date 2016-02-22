@@ -21,7 +21,7 @@ class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
 {
 public:
     AGEComboBox(wxWindow *parent):
-    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(0, 20), 0, NULL, wxCB_READONLY)
+    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
     {
         Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEComboBox::wheelParent));
     }

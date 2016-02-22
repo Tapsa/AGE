@@ -2371,10 +2371,10 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_TabBuildings = new wxBoxSizer(wxHORIZONTAL);
 	TechTrees_TabUnits = new wxBoxSizer(wxHORIZONTAL);
 	TechTrees_TabResearches = new wxBoxSizer(wxHORIZONTAL);
-	TechTrees_ScrollerAges = new wxScrolled<wxPanel>(Tab_TechTreeAges, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
-	TechTrees_ScrollerBuildings = new wxScrolled<wxPanel>(Tab_TechTreeBuildings, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
-	TechTrees_ScrollerUnits = new wxScrolled<wxPanel>(Tab_TechTreeUnits, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
-	TechTrees_ScrollerResearches = new wxScrolled<wxPanel>(Tab_TechTreeResearches, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+	TechTrees_ScrollerAges = new AGE_Scrolled(Tab_TechTreeAges);
+	TechTrees_ScrollerBuildings = new AGE_Scrolled(Tab_TechTreeBuildings);
+	TechTrees_ScrollerUnits = new AGE_Scrolled(Tab_TechTreeUnits);
+	TechTrees_ScrollerResearches = new AGE_Scrolled(Tab_TechTreeResearches);
 
 	wxString StatusHelp = "0 generic\n1 ?\n2 default\n3 marks this as not available\n4 upgrading or constructing or creating\n5 research completed or building built";
 	wxString LocationInAgeHelp = "0 Hidden\n1 First\n2 Second";
@@ -2398,12 +2398,12 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_MainList_Ages_Search_R = new wxTextCtrl(Tab_TechTreeAges, wxID_ANY);
 	TechTrees_MainList_Ages_ListV = new AGEListView(Tab_TechTreeAges, wxSize(200, 300));
 	TechTrees_MainList_Ages_Buttons = new wxGridSizer(3, 0, 0);
-	TechTrees_MainList_Ages_Add = new wxButton(Tab_TechTreeAges, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Ages_Insert = new wxButton(Tab_TechTreeAges, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Ages_Delete = new wxButton(Tab_TechTreeAges, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Ages_Copy = new wxButton(Tab_TechTreeAges, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Ages_Paste = new wxButton(Tab_TechTreeAges, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Ages_PasteInsert = new wxButton(Tab_TechTreeAges, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
+	TechTrees_MainList_Ages_Add = new wxButton(Tab_TechTreeAges, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Ages_Insert = new wxButton(Tab_TechTreeAges, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Ages_Delete = new wxButton(Tab_TechTreeAges, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Ages_Copy = new wxButton(Tab_TechTreeAges, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Ages_Paste = new wxButton(Tab_TechTreeAges, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Ages_PasteInsert = new wxButton(Tab_TechTreeAges, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
 	TechTrees_Ages_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Ages_ID_Text = new wxStaticText(TechTrees_ScrollerAges, wxID_ANY, " Age Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2443,12 +2443,12 @@ void AGE_Frame::CreateTechTreeControls()
 	}
 	TechTrees_MainList_Buildings_ListV = new AGEListView(Tab_TechTreeBuildings, wxSize(200, 300));
 	TechTrees_MainList_Buildings_Buttons = new wxGridSizer(3, 0, 0);
-	TechTrees_MainList_Buildings_Add = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Buildings_Insert = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Buildings_Delete = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Buildings_Copy = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Buildings_Paste = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Buildings_PasteInsert = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
+	TechTrees_MainList_Buildings_Add = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Buildings_Insert = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Buildings_Delete = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Buildings_Copy = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Buildings_Paste = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Buildings_PasteInsert = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
 	TechTrees_Buildings_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Buildings_ID_Text = new wxStaticText(TechTrees_ScrollerBuildings, wxID_ANY, " Building Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2517,12 +2517,12 @@ void AGE_Frame::CreateTechTreeControls()
 	}
 	TechTrees_MainList_Units_ListV = new AGEListView(Tab_TechTreeUnits, wxSize(200, 300));
 	TechTrees_MainList_Units_Buttons = new wxGridSizer(3, 0, 0);
-	TechTrees_MainList_Units_Add = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Units_Insert = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Units_Delete = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Units_Copy = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Units_Paste = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Units_PasteInsert = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
+	TechTrees_MainList_Units_Add = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Units_Insert = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Units_Delete = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Units_Copy = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Units_Paste = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Units_PasteInsert = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
 	TechTrees_Units_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Units_ID_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Unit Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -2580,12 +2580,12 @@ void AGE_Frame::CreateTechTreeControls()
 	}
 	TechTrees_MainList_Researches_ListV = new AGEListView(Tab_TechTreeResearches, wxSize(200, 300));
 	TechTrees_MainList_Researches_Buttons = new wxGridSizer(3, 0, 0);
-	TechTrees_MainList_Researches_Add = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Researches_Insert = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Researches_Delete = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Researches_Copy = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Researches_Paste = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	TechTrees_MainList_Researches_PasteInsert = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
+	TechTrees_MainList_Researches_Add = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Researches_Insert = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Researches_Delete = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Researches_Copy = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Researches_Paste = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	TechTrees_MainList_Researches_PasteInsert = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
 	TechTrees_Data_Researches = new wxBoxSizer(wxVERTICAL);
 	TechTrees_Data_Researches2 = new wxBoxSizer(wxHORIZONTAL);
