@@ -1803,7 +1803,7 @@ private:
 	AGETextCtrl *Units_SelectionShapeType;
 	AGETextCtrl *Units_SelectionShape;
 	AGETextCtrl *Units_Attribute;
-	wxGridSizer *Units_Attribute_Grid;
+	wxBoxSizer *Units_Attribute_Grid;
 	wxCheckBox *Units_Attribute_CheckBox[8];
 	AGETextCtrl *Units_Civ;
 	ComboBox_Plus1 *Units_Civ_ComboBox;
@@ -1960,7 +1960,7 @@ private:
 	AGETextCtrl *Units_ConstructionSound;
 	ComboBox_Plus1 *Units_ConstructionSound_ComboBox;
 	AGETextCtrl *Units_GarrisonType;
-	wxGridSizer *Units_GarrisonType_Grid;
+	wxBoxSizer *Units_GarrisonType_Grid;
 	wxCheckBox *Units_GarrisonType_CheckBox[8];
 	AGETextCtrl *Units_GarrisonHealRate;
 	AGETextCtrl *Units_Unknown35;
@@ -2254,7 +2254,7 @@ private:
 	wxBoxSizer *Units_TowerMode_Holder;
 	wxBoxSizer *Units_Delay_Holder;
 	wxBoxSizer *Units_GraphicDisplacement_Holder;
-	wxGridSizer *Units_GraphicDisplacement_Grid;
+	wxBoxSizer *Units_GraphicDisplacement_Grid;
 	wxBoxSizer *Units_BlastAttackLevel_Holder;
 	wxBoxSizer *Units_MinRange_Holder;
 	wxBoxSizer *Units_AccuracyDispersion_Holder;
@@ -2292,7 +2292,7 @@ private:
 	wxBoxSizer *Units_MissileCount_Holder;
 	wxBoxSizer *Units_MissileDuplicationCount_Holder;
 	wxBoxSizer *Units_AttackMissileDuplicationSpawning_Holder;
-	wxGridSizer *Units_AttackMissileDuplicationSpawning_Grid;
+	wxBoxSizer *Units_AttackMissileDuplicationSpawning_Grid;
 	wxBoxSizer *Units_AttackMissileDuplicationUnit_Holder;
 	wxBoxSizer *Units_ChargingGraphic_Holder;
 	wxBoxSizer *Units_ChargingMode_Holder;
@@ -2452,8 +2452,7 @@ private:
 	wxGridSizer *Units_StatsAreaGarrison_Grid;
 	wxGridSizer *Units_StatsArea2_Grid;
 	wxStaticBoxSizer *Units_ProjectilesArea_Holder;
-	wxGridSizer *Units_ProjectilesArea1_Grid;
-	wxGridSizer *Units_ProjectilesArea2_Grid;
+	wxWrapSizer *Units_ProjectilesArea1_Grid;
 	wxStaticBoxSizer *Units_Attributes_Holder;
 	wxWrapSizer *Units_AttributesBoxes1_Grid;
 	wxGridSizer *Units_Attributes1_Grid;
@@ -2462,7 +2461,7 @@ private:
 	wxGridSizer *Units_AttributesTerrain_Grid;
 	wxWrapSizer *Units_AttributesModes1_Grid;
 	wxGridSizer *Units_AttributesSizes_Holder;
-	wxGridSizer *Units_AttributesSelection1_Grid;
+	wxWrapSizer *Units_AttributesSelection1_Grid;
 	wxBoxSizer *Units_LangRegular_Holder;
 	wxBoxSizer *Units_LangHotKey_Holder;
 	wxGridSizer *Units_AttributesTracking_Grid;
