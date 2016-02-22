@@ -34,8 +34,9 @@ public:
     AGETextCtrl(wxWindow *parent, int width):
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER){edits = 0;}
 
+    static const unsigned TINY=30, SMALL=50, MEDIUM=70, NORMAL=100, LARGE=150, GIANT=200;
     static AGETextCtrl* init(const ContainerType type, vector<AGETextCtrl*> *group,
-        wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, short length = 0);
+        wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned length = NORMAL);
     virtual int SaveEdits(bool forced = false)=0;
     virtual void update()
     {
@@ -114,7 +115,7 @@ protected:
     ContainerType type;
     vector<void*> container; // Change to forward_list. No it's slower than vector.
     int editedFileId, edits;
-    unsigned short maxSize;
+    unsigned maxSize;
 };
 
 class TextCtrl_DLL: public wxTextCtrl
@@ -136,8 +137,8 @@ public:
 class TextCtrl_Byte: public AGETextCtrl
 {
 public:
-    TextCtrl_Byte(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, short size):
-    AGETextCtrl(parent, size ? size == 1 ? 30 : 100 : 50)
+    TextCtrl_Byte(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned size):
+    AGETextCtrl(parent, size)
     {
         this->frame = frame;
         this->editor = editor;
@@ -152,8 +153,8 @@ public:
 class TextCtrl_UByte: public AGETextCtrl
 {
 public:
-    TextCtrl_UByte(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, short size):
-    AGETextCtrl(parent, size ? size == 1 ? 30 : 100 : 50)
+    TextCtrl_UByte(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned size):
+    AGETextCtrl(parent, size)
     {
         this->frame = frame;
         this->editor = editor;
@@ -168,8 +169,8 @@ public:
 class TextCtrl_Float: public AGETextCtrl
 {
 public:
-    TextCtrl_Float(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, bool petit = false):
-    AGETextCtrl(parent, petit ? 70 : 100)
+    TextCtrl_Float(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned petit):
+    AGETextCtrl(parent, petit)
     {
         this->frame = frame;
         this->editor = editor;
@@ -184,8 +185,8 @@ public:
 class TextCtrl_Long: public AGETextCtrl
 {
 public:
-    TextCtrl_Long(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, bool petit = false):
-    AGETextCtrl(parent, petit ? 50 : 100)
+    TextCtrl_Long(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned petit):
+    AGETextCtrl(parent, petit)
     {
         this->frame = frame;
         this->editor = editor;
@@ -200,8 +201,8 @@ public:
 class TextCtrl_Short: public AGETextCtrl
 {
 public:
-    TextCtrl_Short(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, bool petit = false):
-    AGETextCtrl(parent, petit ? 50 : 100)
+    TextCtrl_Short(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned petit):
+    AGETextCtrl(parent, petit)
     {
         this->frame = frame;
         this->editor = editor;
@@ -216,8 +217,8 @@ public:
 class TextCtrl_UShort: public AGETextCtrl
 {
 public:
-    TextCtrl_UShort(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, bool petit = false):
-    AGETextCtrl(parent, petit ? 50 : 100)
+    TextCtrl_UShort(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned petit):
+    AGETextCtrl(parent, petit)
     {
         this->frame = frame;
         this->editor = editor;
@@ -232,7 +233,7 @@ public:
 class TextCtrl_String: public AGETextCtrl
 {
 public:
-    TextCtrl_String(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned short CLength = 0):
+    TextCtrl_String(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned CLength = 0):
     AGETextCtrl(parent, -1)
     {
         this->frame = frame;

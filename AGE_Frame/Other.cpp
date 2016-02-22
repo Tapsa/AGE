@@ -1539,7 +1539,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Units_SearchFilters[loop]->SetSelection(0);
 
 			Research_SearchFilters[loop]->Clear();
-			Research_SearchFilters[loop]->Append("Lang DLL Name");	// 0
+			Research_SearchFilters[loop]->Append("Lang File Name");	// 0
 			Research_SearchFilters[loop]->Append("Internal Name");
 			Research_SearchFilters[loop]->Append("Required Researches");
 			Research_SearchFilters[loop]->Append("Min. Req. Researches");
@@ -1549,8 +1549,8 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Research_SearchFilters[loop]->Append("Type");
 			Research_SearchFilters[loop]->Append("Icon");
 			Research_SearchFilters[loop]->Append("Button");
-			Research_SearchFilters[loop]->Append("Lang DLL Pointer 1");
-			Research_SearchFilters[loop]->Append("Lang DLL Pointer 2");
+			Research_SearchFilters[loop]->Append("Lang File Pointer 1");
+			Research_SearchFilters[loop]->Append("Lang File Pointer 2");
 			Research_SearchFilters[loop]->Append("Pointer 3");
 			Research_SearchFilters[loop]->Append("Cost Types");
 			Research_SearchFilters[loop]->Append("Cost Amounts");
@@ -2763,7 +2763,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			help.Append("Advanced Searching\n\n");
 			help.Append("Let's suppose that you want to edit buildings (type 80) of class 3,\n");
 			help.Append("but not camps nor houses or yurts.\n");
-			help.Append("See the two combo boxes having \"Lang DLL Name\" selected by default?\n");
+			help.Append("See the two combo boxes having \"Lang File Name\" selected by default?\n");
 			help.Append("Select \"Type\" to the upper one and \"Class\" to the lower one.\n");
 			help.Append("Then put \"t 80|c 3,\" to the upper search box\n");
 			help.Append("and \"camp|house|yurt\" to the lower (exclusive) search box.\n");

@@ -10,7 +10,7 @@ wxString AGEListView::OnGetItemText(long item, long column) const
 }
 
 AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *group,
-    wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, short length)
+    wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned length)
 {
     AGETextCtrl* product;
     switch(type)
