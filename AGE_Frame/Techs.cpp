@@ -1046,14 +1046,14 @@ void AGE_Frame::CreateTechControls()
 	Techs_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Techs_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
-	Techs_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
-	Techs_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	Techs_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Techs_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Techs_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
-	Techs_Rename = new wxButton(Tab_Techs, wxID_ANY, "Rename technologies", wxDefaultPosition, wxSize(0, 20));
-	Techs_Restore = new wxButton(Tab_Techs, wxID_ANY, "Rename for GeniEd 2", wxDefaultPosition, wxSize(0, 20));
+	Techs_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+	Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+	Techs_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+	Techs_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	Techs_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	Techs_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+	Techs_Rename = new wxButton(Tab_Techs, wxID_ANY, "Rename technologies");
+	Techs_Restore = new wxButton(Tab_Techs, wxID_ANY, "Rename for GeniEd 2");
 
 	Techs_Name_Text = new wxStaticText(Tab_Techs, wxID_ANY, " Technology Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Techs_Name = AGETextCtrl::init(CString, NULL, this, &popUp, Tab_Techs, 31);
@@ -1066,13 +1066,13 @@ void AGE_Frame::CreateTechControls()
 	Techs_Effects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
 	Techs_Effects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_Effects_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
-	Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(5, 20));
-	Techs_Effects_CopyToTechs = new wxButton(Tab_Techs, wxID_ANY, "Copy all to selected techs", wxDefaultPosition, wxSize(5, 20));
+	Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+	Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+	Techs_Effects_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+	Techs_Effects_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	Techs_Effects_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	Techs_Effects_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+	Techs_Effects_CopyToTechs = new wxButton(Tab_Techs, wxID_ANY, "Copy all to selected techs", wxDefaultPosition, wxSize(10, -1));
 
 	Effects_Type_Holder = new wxBoxSizer(wxVERTICAL);
 	Effects_Type2_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -1143,8 +1143,8 @@ void AGE_Frame::CreateTechControls()
 	Techs_AllEffects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
 	Techs_AllEffects_ListV = new AGEListView(Tab_Techs, wxSize(200, 100));
 	Techs_AllEffects_Buttons = new wxBoxSizer(wxHORIZONTAL);
-	Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(5, 20));
-	Techs_AllEffects_Clear = new wxButton(Tab_Techs, wxID_ANY, "Clear *", wxDefaultPosition, wxSize(5, 20));
+	Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(10, -1));
+	Techs_AllEffects_Clear = new wxButton(Tab_Techs, wxID_ANY, "Clear *", wxDefaultPosition, wxSize(10, -1));
 	Techs_AllEffects_Clear->SetToolTip("Clear the modified search texts");
 
 	Techs_Buttons->Add(Techs_Add, 1, wxEXPAND);

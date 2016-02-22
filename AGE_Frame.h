@@ -35,6 +35,22 @@ public:
     void initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
 
+class AGE_Scrolled: public wxScrolled<wxPanel> // wxScrolledWindow
+{
+public:
+    AGE_Scrolled(wxWindow *parent):
+    wxScrolled<wxPanel>(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL)
+    {
+        Connect(wxEVT_SIZE, wxSizeEventHandler(AGE_Scrolled::OnSize));
+    }
+
+    void OnSize(wxSizeEvent &event)
+    {
+        SetVirtualSize(GetClientSize().GetWidth(), GetVirtualSize().GetHeight());
+        event.Skip();
+    }
+};
+
 class AGE_Frame;
 
 class Loader: public wxThread
@@ -2439,12 +2455,12 @@ private:
 	wxGridSizer *Units_ProjectilesArea1_Grid;
 	wxGridSizer *Units_ProjectilesArea2_Grid;
 	wxStaticBoxSizer *Units_Attributes_Holder;
-	wxGridSizer *Units_AttributesBoxes1_Grid;
+	wxWrapSizer *Units_AttributesBoxes1_Grid;
 	wxGridSizer *Units_Attributes1_Grid;
 	wxGridSizer *Units_Attributes2_Grid;
 	wxBoxSizer *Units_AttributesTerrain_Holder;
 	wxGridSizer *Units_AttributesTerrain_Grid;
-	wxGridSizer *Units_AttributesModes1_Grid;
+	wxWrapSizer *Units_AttributesModes1_Grid;
 	wxGridSizer *Units_AttributesSizes_Holder;
 	wxGridSizer *Units_AttributesSelection1_Grid;
 	wxBoxSizer *Units_LangRegular_Holder;

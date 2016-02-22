@@ -552,23 +552,23 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_UsedCountText = new wxStaticText(Tab_Terrains, wxID_ANY, " Terrains Used *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_UsedCount = AGETextCtrl::init(CUShort, NULL, this, &popUp, Tab_Terrains);
 	Terrains_UsedCount->SetToolTip("How many terrains are used\nstarting from the first terrain without gaps");
-	Terrains_Add = new wxButton(Tab_Terrains, wxID_ANY, "Add", wxDefaultPosition, wxSize(5, 20));
-	Terrains_Delete = new wxButton(Tab_Terrains, wxID_ANY, "Delete", wxDefaultPosition, wxSize(5, 20));
-	Terrains_Copy = new wxButton(Tab_Terrains, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Terrains_Paste = new wxButton(Tab_Terrains, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
+	Terrains_Add = new wxButton(Tab_Terrains, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+	Terrains_Delete = new wxButton(Tab_Terrains, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+	Terrains_Copy = new wxButton(Tab_Terrains, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	Terrains_Paste = new wxButton(Tab_Terrains, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
 
-	Terrains_Scroller = new wxScrolled<wxPanel>(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+	Terrains_Scroller = new AGE_Scrolled(Tab_Terrains);
 	Terrains_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Terrains_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Area1_Grid = new wxGridSizer(4, 5, 5);
 	Terrains_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Enabled1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Enabled_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Enabled = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, true);
+	Terrains_Enabled = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, 1);
 	Terrains_Enabled_CheckBox = new CheckBox_2State(Terrains_Scroller, " Yes", Terrains_Enabled);
 	Terrains_Random_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Random_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Random", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Terrains_Random = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, true);
+	Terrains_Random = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, 1);
 	Terrains_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Name_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_Name = AGETextCtrl::init(CString, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
@@ -643,9 +643,9 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Border_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_Border);
 	TerrainBorderComboBoxList.push_back(Terrains_Border_ComboBox);
 	Terrains_Borders_Buttons = new wxGridSizer(2, 0, 0);
-	Terrains_Borders_Copy = new wxButton(Terrains_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(5, 20));
-	Terrains_Borders_Paste = new wxButton(Terrains_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(5, 20));
-	Terrains_Borders_CopyToTerrains = new wxButton(Terrains_Scroller, wxID_ANY, "Copy all to selected terrains", wxDefaultPosition, wxSize(5, 20));
+	Terrains_Borders_Copy = new wxButton(Terrains_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	Terrains_Borders_Paste = new wxButton(Terrains_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	Terrains_Borders_CopyToTerrains = new wxButton(Terrains_Scroller, wxID_ANY, "Copy all to selected terrains", wxDefaultPosition, wxSize(10, -1));
 
 	Terrains_UsedTerrainUnits_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_UsedTerrainUnits_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Units Used", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
