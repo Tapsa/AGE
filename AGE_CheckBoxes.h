@@ -5,7 +5,7 @@ class AGECheckBox: public wxCheckBox, public AGELinkedBox
 {
 public:
     AGECheckBox(wxWindow *parent, wxString label):
-    wxCheckBox(parent, wxID_ANY, label, wxDefaultPosition, wxSize(0, 20)){}
+    wxCheckBox(parent, wxID_ANY, label){}
 
     virtual void OnUpdate(wxCommandEvent&)=0;
 protected:

@@ -27,7 +27,7 @@ Unpack the zip file.
 To use my modded tool tips, seek them from AGE sources "/Misc Files/tooltip" and replace wxWidgets ones!
 In cmd.exe go to \wxWidgets\build\msw
 mingw32-make -f makefile.gcc BUILD=debug clean
-mingw32-make -f makefile.gcc BUILD=debug SHARED=0 USE_RIBBON=0 CXXFLAGS="-std=gnu++0x"
+mingw32-make -f makefile.gcc BUILD=debug SHARED=1 USE_RIBBON=0 CXXFLAGS="-std=gnu++0x"
 mingw32-make -f makefile.gcc BUILD=release clean
 mingw32-make -f makefile.gcc BUILD=release SHARED=0 USE_RIBBON=0 CXXFLAGS="-std=gnu++0x"
 del /s *.o

@@ -32,7 +32,7 @@ class AGETextCtrl: public wxTextCtrl
 {
 public:
     AGETextCtrl(wxWindow *parent, int width):
-    wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, 20), wxTE_PROCESS_ENTER){edits = 0;}
+    wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER){edits = 0;}
 
     static AGETextCtrl* init(const ContainerType type, vector<AGETextCtrl*> *group,
         wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, short length = 0);
@@ -136,8 +136,8 @@ public:
 class TextCtrl_Byte: public AGETextCtrl
 {
 public:
-    TextCtrl_Byte(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, bool petit = false):
-    AGETextCtrl(parent, petit ? 30 : 50)
+    TextCtrl_Byte(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, short size):
+    AGETextCtrl(parent, size ? size == 1 ? 30 : 100 : 50)
     {
         this->frame = frame;
         this->editor = editor;
@@ -152,8 +152,8 @@ public:
 class TextCtrl_UByte: public AGETextCtrl
 {
 public:
-    TextCtrl_UByte(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent):
-    AGETextCtrl(parent, 50)
+    TextCtrl_UByte(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, short size):
+    AGETextCtrl(parent, size ? size == 1 ? 30 : 100 : 50)
     {
         this->frame = frame;
         this->editor = editor;
@@ -216,8 +216,8 @@ public:
 class TextCtrl_UShort: public AGETextCtrl
 {
 public:
-    TextCtrl_UShort(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent):
-    AGETextCtrl(parent, 100)
+    TextCtrl_UShort(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, bool petit = false):
+    AGETextCtrl(parent, petit ? 50 : 100)
     {
         this->frame = frame;
         this->editor = editor;

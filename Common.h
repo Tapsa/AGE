@@ -32,6 +32,7 @@
 #include <wx/thread.h>
 #include <wx/accel.h>
 #include <wx/tokenzr.h>
+#include <wx/wrapsizer.h>
 
 // uncomment to disable assert()
 // #define NDEBUG
