@@ -442,12 +442,12 @@ void AGE_Frame::CreateResearchControls()
 	Research_LangDLLDescription_Holder = new wxBoxSizer(wxVERTICAL);
 	Research_LangDLLDescription_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Language File Description", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLDescription = AGETextCtrl::init(CUShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-	Research_DLL_LangDLLDescription = new TextCtrl_DLL(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));
+	Research_DLL_LangDLLDescription = new TextCtrl_DLL(Research_Scroller, wxSize(320, 40));
     Research_HotKey_Holder = new wxBoxSizer(wxVERTICAL);
     Research_HotKey_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Hotkey *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
     Research_HotKey = AGETextCtrl::init(CLong, &uiGroupResearch, this, &popUp, Research_Scroller);
     Research_HotKey->SetToolTip("Gotta be same as hotkey in units.\nNo idea how this works.");
-    Research_DLL_HotKey = new TextCtrl_DLL(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));
+    Research_DLL_HotKey = new TextCtrl_DLL(Research_Scroller, wxSize(100, 40));
 
     Research_LanguageDLLHelp_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLName2_Holder = new wxBoxSizer(wxVERTICAL);

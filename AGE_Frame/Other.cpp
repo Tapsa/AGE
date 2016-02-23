@@ -1930,6 +1930,7 @@ void AGE_Frame::OnGameVersionChange()
 		SoundItems_Civ_Holder->Show(show);
 		Colors_Palette_Holder->Show(show);
 		Colors_MinimapColor_Holder->Show(show);
+		Colors_StatisticsText_Holder->Show(show);
 		TechTrees_Main->Show(show);
 		TabBar_Main->SetPageText(2, show ? "Tech Trees" : "AoK+ only");
 		if(!show || ShowUnknowns)
@@ -1938,7 +1939,8 @@ void AGE_Frame::OnGameVersionChange()
 			Units_Type80plusUnknownArea_Holder->Show(show);
 			Units_PileUnit_Holder->Show(show);
 			SoundItems_Unknown_Holder->Show(show);
-			Colors_UnknownArea_Holder->Show(show);
+			Colors_Unknown3_Holder->Show(show);
+			Colors_Unknown4_Holder->Show(show);
 		}
 
 		// AoE & RoR
@@ -2366,11 +2368,17 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			Units_UnknownArea_Holder->Show(ShowUnknowns);
 			Unit_Command_Unknowns->Show(ShowUnknowns);
 			Graphics_3_Grid->Show(ShowUnknowns);
-			Graphics_Deltas_Grid_Data2->Show(ShowUnknowns);
+			GraphicDeltas_Unknown1_Holder->Show(ShowUnknowns);
+			GraphicDeltas_Unknown2_Holder->Show(ShowUnknowns);
+			GraphicDeltas_Unknown3_Holder->Show(ShowUnknowns);
+			GraphicDeltas_Unknown5_Holder->Show(ShowUnknowns);
 			Sounds_Unknown1_Holder->Show(ShowUnknowns);
 			Sounds_Unknown2_Holder->Show(ShowUnknowns);
 			SoundItems_Unknown_Holder->Show(ShowUnknowns);
-			Colors_UnknownArea_Holder->Show(ShowUnknowns);
+			Colors_Unknown1_Holder->Show(ShowUnknowns);
+			Colors_Unknown2_Holder->Show(ShowUnknowns);
+			Colors_Unknown3_Holder->Show(ShowUnknowns);
+			Colors_Unknown4_Holder->Show(ShowUnknowns);
 			General_TopRow->Show(ShowUnknowns);
 
 			OnGameVersionChange(); // Does layouting and refreshing and ... check it out.

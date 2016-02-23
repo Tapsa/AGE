@@ -88,7 +88,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 			Colors_MinimapColor->prepend(&PlayerColorPointer->MinimapColour);
 			Colors_Unknown3->prepend(&PlayerColorPointer->Unknown3);
 			Colors_Unknown4->prepend(&PlayerColorPointer->Unknown4);
-			Colors_Unknown5->prepend(&PlayerColorPointer->StatisticsText);
+			Colors_StatisticsText->prepend(&PlayerColorPointer->StatisticsText);
 		}
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs.front()), 0);
@@ -222,17 +222,17 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_PasteInsert = new wxButton(Tab_PlayerColors, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
 	Colors_DataArea = new wxBoxSizer(wxVERTICAL);
+	Colors_WrapArea = new wxWrapSizer();
 	Colors_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_Palette_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_Color_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_MinimapColor_Holder = new wxBoxSizer(wxVERTICAL);
-	Colors_UnknownArea_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
-	Colors_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
+	Colors_StatisticsText_Holder = new wxBoxSizer(wxVERTICAL);
 	Colors_Name_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_ID_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Palette_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Palette *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -242,7 +242,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown2_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 2", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Unknown3_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 3", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Unknown4_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 4", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Colors_Unknown5_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Statistics Text", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Colors_StatisticsText_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Statistics Text", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Name = AGETextCtrl::init(CString, &uiGroupColor, this, &popUp, Tab_PlayerColors, 30);
 	Colors_ID = AGETextCtrl::init(CLong, 0, this, &popUp, Tab_PlayerColors);
 	Colors_Palette = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
@@ -255,7 +255,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown2 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
 	Colors_Unknown3 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
 	Colors_Unknown4 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-	Colors_Unknown5 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+	Colors_StatisticsText = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
     Colors_Palette_Display = new wxPanel(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(256, 256));
 
 	Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
@@ -271,41 +271,40 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Colors->Add(Colors_Colors_Buttons, 0, wxEXPAND);
 
 	Colors_Name_Holder->Add(Colors_Name_Text);
-	Colors_Name_Holder->Add(Colors_Name, 1, wxEXPAND);
+	Colors_Name_Holder->Add(Colors_Name, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxRIGHT, 5);
 	Colors_ID_Holder->Add(Colors_ID_Text);
-	Colors_ID_Holder->Add(Colors_ID, 1, wxEXPAND);
+	Colors_ID_Holder->Add(Colors_ID, 0, wxEXPAND);
 	Colors_Palette_Holder->Add(Colors_Palette_Text);
-	Colors_Palette_Holder->Add(Colors_Palette, 1, wxEXPAND);
+	Colors_Palette_Holder->Add(Colors_Palette, 0, wxEXPAND);
 	Colors_Color_Holder->Add(Colors_Color_Text);
-	Colors_Color_Holder->Add(Colors_ColorL, 1, wxEXPAND);
+	Colors_Color_Holder->Add(Colors_ColorL, 0, wxEXPAND);
 	Colors_MinimapColor_Holder->Add(Colors_MinimapColor_Text);
-	Colors_MinimapColor_Holder->Add(Colors_MinimapColor, 1, wxEXPAND);
+	Colors_MinimapColor_Holder->Add(Colors_MinimapColor, 0, wxEXPAND);
 	Colors_Unknown1_Holder->Add(Colors_Unknown1_Text);
-	Colors_Unknown1_Holder->Add(Colors_Unknown1, 1, wxEXPAND);
+	Colors_Unknown1_Holder->Add(Colors_Unknown1, 0, wxEXPAND);
 	Colors_Unknown2_Holder->Add(Colors_Unknown2_Text);
-	Colors_Unknown2_Holder->Add(Colors_Unknown2, 1, wxEXPAND);
+	Colors_Unknown2_Holder->Add(Colors_Unknown2, 0, wxEXPAND);
 	Colors_Unknown3_Holder->Add(Colors_Unknown3_Text);
-	Colors_Unknown3_Holder->Add(Colors_Unknown3, 1, wxEXPAND);
+	Colors_Unknown3_Holder->Add(Colors_Unknown3, 0, wxEXPAND);
 	Colors_Unknown4_Holder->Add(Colors_Unknown4_Text);
-	Colors_Unknown4_Holder->Add(Colors_Unknown4, 1, wxEXPAND);
-	Colors_Unknown5_Holder->Add(Colors_Unknown5_Text);
-	Colors_Unknown5_Holder->Add(Colors_Unknown5, 1, wxEXPAND);
+	Colors_Unknown4_Holder->Add(Colors_Unknown4, 0, wxEXPAND);
+	Colors_StatisticsText_Holder->Add(Colors_StatisticsText_Text);
+	Colors_StatisticsText_Holder->Add(Colors_StatisticsText, 0, wxEXPAND);
 
-	Colors_UnknownArea_Holder->Add(Colors_Unknown3_Holder, 0, wxEXPAND);
-	Colors_UnknownArea_Holder->Add(Colors_Unknown4_Holder, 0, wxEXPAND | wxTOP, 5);
-	Colors_UnknownArea_Holder->Add(Colors_Unknown5_Holder, 0, wxEXPAND | wxTOP, 5);
+    Colors_DataArea->Add(Colors_Name_Holder, 0, wxTOP | wxRIGHT | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_ID_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_Palette_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_Color_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_MinimapColor_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_Unknown1_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_Unknown2_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_Unknown3_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_Unknown4_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_StatisticsText_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_DataArea->Add(Colors_WrapArea, 0, wxTOP, 5);
 
-	Colors_DataArea->Add(Colors_Name_Holder, 0, wxEXPAND | wxTOP, 5);
-	Colors_DataArea->Add(Colors_ID_Holder, 0, wxEXPAND | wxTOP, 5);
-	Colors_DataArea->Add(Colors_Palette_Holder, 0, wxEXPAND | wxTOP, 5);
-	Colors_DataArea->Add(Colors_Color_Holder, 0, wxEXPAND | wxTOP, 5);
-	Colors_DataArea->Add(Colors_MinimapColor_Holder, 0, wxEXPAND | wxTOP, 5);
-	Colors_DataArea->Add(Colors_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
-	Colors_DataArea->Add(Colors_Unknown2_Holder, 0, wxEXPAND | wxTOP, 5);
-	Colors_DataArea->Add(Colors_UnknownArea_Holder, 0, wxEXPAND | wxTOP, 5);
-
-	Colors_Main->Add(Colors_Colors, 1, wxEXPAND | wxALL, 5);
-	Colors_Main->Add(Colors_DataArea, 1, wxEXPAND);
+	Colors_Main->Add(Colors_Colors, 1, wxEXPAND | wxTOP | wxLEFT | wxBOTTOM, 5);
+	Colors_Main->Add(Colors_DataArea);
 	Colors_Main->Add(Colors_Palette_Display, 2, wxEXPAND);
 
 	if(EnableIDFix)

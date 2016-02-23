@@ -2640,7 +2640,7 @@ private:
 	wxBoxSizer *Graphics_Rainbow_Holder;
 	wxBoxSizer *Graphics_Replay_Holder;
 	wxBoxSizer *Graphics_Coordinates_Holder;
-	wxGridSizer *Graphics_CoordinateGrid_Holder;
+	wxBoxSizer *Graphics_CoordinateGrid_Holder;
 	wxBoxSizer *Graphics_SoundID_Holder;
 	wxBoxSizer *Graphics_AttackSoundUsed_Holder;
 	wxBoxSizer *Graphics_AttackSoundUsed1_Holder;
@@ -2655,9 +2655,8 @@ private:
 	wxBoxSizer *Graphics_ID_Holder;
 	wxBoxSizer *Graphics_Type_Holder;
 	wxBoxSizer *Graphics_Unknown3_Holder;
-	wxGridSizer *Graphics_1_Grid;
-	wxGridSizer *Graphics_2_Grid;
-	wxGridSizer *Graphics_3_Grid;
+	wxWrapSizer *Graphics_1_Grid;
+	wxBoxSizer *Graphics_3_Grid;
 
 	wxStaticText *Graphics_Name_Text;
 	wxStaticText *Graphics_Name2_Text;
@@ -2724,9 +2723,7 @@ private:
 	wxButton *AttackSounds_CopyToGraphics;
 
 	wxStaticBoxSizer *Graphics_Deltas_Holder;
-	wxBoxSizer *Graphics_Deltas_Holder_Data;
-	wxBoxSizer *Graphics_Deltas_Holder_Data1;
-	wxGridSizer *Graphics_Deltas_Grid_Data2;
+	wxWrapSizer *Graphics_Deltas_Holder_Data;
 	wxStaticBoxSizer *Graphics_AttackSoundArea_Holder;
 
 	wxBoxSizer *GraphicDeltas_GraphicID_Holder;
@@ -2755,7 +2752,6 @@ private:
 	wxStaticText *GraphicDeltas_Unknown5_Text;
 	AGETextCtrl *GraphicDeltas_Unknown5;
 	wxBoxSizer *Graphics_AttackSounds_Holder;
-	wxGridSizer *Graphics_AttackSounds_Grid;
 	wxStaticText *Graphics_AttackSounds_Text;
 	wxBoxSizer *Graphics_AttackSoundDelays_Holder;
 	wxStaticText *Graphics_AttackSoundDelays_Text;
@@ -3046,17 +3042,17 @@ private:
 
     vector<AGETextCtrl*> uiGroupColor;
 	wxBoxSizer *Colors_DataArea;
+	wxWrapSizer *Colors_WrapArea;
 	wxBoxSizer *Colors_Name_Holder;
 	wxBoxSizer *Colors_ID_Holder;
 	wxBoxSizer *Colors_Palette_Holder;
 	wxBoxSizer *Colors_Color_Holder;
 	wxBoxSizer *Colors_MinimapColor_Holder;
-	wxBoxSizer *Colors_UnknownArea_Holder;
 	wxBoxSizer *Colors_Unknown1_Holder;
 	wxBoxSizer *Colors_Unknown2_Holder;
 	wxBoxSizer *Colors_Unknown3_Holder;
 	wxBoxSizer *Colors_Unknown4_Holder;
-	wxBoxSizer *Colors_Unknown5_Holder;
+	wxBoxSizer *Colors_StatisticsText_Holder;
 	wxStaticText *Colors_Name_Text;
 	wxStaticText *Colors_ID_Text;
 	wxStaticText *Colors_Palette_Text;
@@ -3066,7 +3062,7 @@ private:
 	wxStaticText *Colors_Unknown2_Text;
 	wxStaticText *Colors_Unknown3_Text;
 	wxStaticText *Colors_Unknown4_Text;
-	wxStaticText *Colors_Unknown5_Text;
+	wxStaticText *Colors_StatisticsText_Text;
 	AGETextCtrl *Colors_Name;
 	AGETextCtrl *Colors_ID;
 	AGETextCtrl *Colors_Palette;
@@ -3076,7 +3072,7 @@ private:
 	AGETextCtrl *Colors_Unknown2;
 	AGETextCtrl *Colors_Unknown3;
 	AGETextCtrl *Colors_Unknown4;
-	AGETextCtrl *Colors_Unknown5;
+	AGETextCtrl *Colors_StatisticsText;
 	wxPanel *Colors_Palette_Display;
 
 //	Unitline user interface

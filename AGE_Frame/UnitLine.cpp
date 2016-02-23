@@ -346,20 +346,20 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_UnitLineUnits->Add(UnitLineUnits_CopyToUnitLines, 0, wxEXPAND | wxTOP, 2);
 
 	UnitLines_ID_Holder->Add(UnitLines_ID_Text);
-	UnitLines_ID_Holder->Add(UnitLines_ID, 1, wxEXPAND);
+	UnitLines_ID_Holder->Add(UnitLines_ID, 0, wxEXPAND);
 	UnitLines_Name_Holder->Add(UnitLines_Name_Text);
-	UnitLines_Name_Holder->Add(UnitLines_Name, 1, wxEXPAND);
+	UnitLines_Name_Holder->Add(UnitLines_Name, 0, wxEXPAND);
 	UnitLineUnits_Holder->Add(UnitLineUnits_Text);
-	UnitLineUnits_Holder->Add(UnitLineUnits_Units, 1, wxEXPAND);
+	UnitLineUnits_Holder->Add(UnitLineUnits_Units, 0, wxEXPAND);
 	UnitLineUnits_Holder->Add(UnitLineUnits_ComboBox);
 
-	UnitLines_DataArea->Add(UnitLines_ID_Holder, 0, wxEXPAND | wxTOP, 5);
-	UnitLines_DataArea->Add(UnitLines_Name_Holder, 0, wxEXPAND | wxTOP, 5);
-	UnitLines_DataArea->Add(UnitLineUnits_Holder, 0, wxEXPAND | wxTOP, 5);
+	UnitLines_DataArea->Add(UnitLines_ID_Holder, 0, wxTOP, 5);
+	UnitLines_DataArea->Add(UnitLines_Name_Holder, 0, wxTOP, 5);
+	UnitLines_DataArea->Add(UnitLineUnits_Holder, 0, wxTOP, 5);
 
 	UnitLines_Main->Add(UnitLines_UnitLines, 1, wxEXPAND | wxALL, 5);
 	UnitLines_Main->Add(UnitLines_UnitLineUnits, 1, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
-	UnitLines_Main->Add(UnitLines_DataArea, 1, wxEXPAND);
+	UnitLines_Main->Add(UnitLines_DataArea);
 	UnitLines_Main->AddStretchSpacer(1);
 
 	if(EnableIDFix)
