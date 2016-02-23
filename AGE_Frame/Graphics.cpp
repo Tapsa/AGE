@@ -153,6 +153,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
 	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
     for(auto &box: uiGroupGraphic) box->clear();
+    Graphics_ID->clear();
 	if(selections > 0)
 	{
         getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
@@ -202,7 +203,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
     AGE_SLP::setbearing = 1u;
     for(auto &box: uiGroupGraphic) box->update();
 
-    Graphics_ID->Enable(false);
+    Graphics_ID->refill();
 	Deltas_Add->Enable(selections);
 	ListGraphicDeltas();
 	ListGraphicAttackSounds();
@@ -925,7 +926,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Name2 = AGETextCtrl::init(CString, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
 	Graphics_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_ID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_ID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+	Graphics_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Graphics_Scroller);
 
 	Graphics_SLP_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_SLP_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
