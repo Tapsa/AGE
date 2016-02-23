@@ -960,12 +960,6 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_MirroringMode = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
 	Graphics_MirroringMode->SetToolTip(MirrorHelp);
 
-	Graphics_Coordinates_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_CoordinateGrid_Holder = new wxGridSizer(4, 0, 5);
-	Graphics_Coordinates_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(size_t loop = 0; loop < 4; ++loop)
-	Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller, AGETextCtrl::SMALL);
-
 	Graphics_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_SoundID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_SoundID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
@@ -985,6 +979,12 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_NewSpeed = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
 	Graphics_NewSpeed->SetToolTip("Multiplies the speed of the unit this graphic is applied to");
 
+    Graphics_Coordinates_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_CoordinateGrid_Holder = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_Coordinates_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    for(size_t loop = 0; loop < 4; ++loop)
+    Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller, AGETextCtrl::MEDIUM);
+
 	Graphics_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_Unknown1_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_Unknown1 = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
@@ -997,9 +997,8 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Unknown3->SetToolTip("Related to sprite editor?");
 	Graphics_4_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_5_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_1_Grid = new wxGridSizer(4, 5, 5);
-	Graphics_2_Grid = new wxGridSizer(4, 5, 5);
-	Graphics_3_Grid = new wxGridSizer(4, 5, 5);
+	Graphics_1_Grid = new wxWrapSizer(wxHORIZONTAL);
+	Graphics_3_Grid = new wxBoxSizer(wxHORIZONTAL);
 
 	Graphics_Deltas = new wxBoxSizer(wxVERTICAL);
 	Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
@@ -1024,6 +1023,10 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_DirectionY_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_DirectionY_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction Y", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_DirectionY = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+	GraphicDeltas_DisplayAngle_Holder = new wxBoxSizer(wxVERTICAL);
+	GraphicDeltas_DisplayAngle_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Display Angle *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	GraphicDeltas_DisplayAngle = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+	GraphicDeltas_DisplayAngle->SetToolTip("The angle where this delta will be displayed\nIn a unit with 8 angles, 0 would mean east, 1 south-east, 2 south,\n3 south-west, 4 west, 5 north-west, 6 north, 7 north-east");
 	GraphicDeltas_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Unknown1_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_Unknown1 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
@@ -1033,10 +1036,6 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Unknown3_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 3", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_Unknown3 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_DisplayAngle_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_DisplayAngle_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Display Angle *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_DisplayAngle = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_DisplayAngle->SetToolTip("The angle where this delta will be displayed\nIn a unit with 8 angles, 0 would mean east, 1 south-east, 2 south,\n3 south-west, 4 west, 5 north-west, 6 north, 7 north-east");
 	GraphicDeltas_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Unknown5_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_Unknown5 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
@@ -1055,7 +1054,6 @@ void AGE_Frame::CreateGraphicsControls()
 	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, -1));
 	AttackSounds_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, -1));
 	Graphics_AttackSounds_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_AttackSounds_Grid = new wxGridSizer(2, 0, 0);
 	Graphics_AttackSounds_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Graphics_AttackSoundDelays_Holder = new wxBoxSizer(wxVERTICAL);
 	Graphics_AttackSoundDelays_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound Delay", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -1068,9 +1066,7 @@ void AGE_Frame::CreateGraphicsControls()
 	}
 
 	Graphics_Deltas_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Deltas");
-	Graphics_Deltas_Holder_Data = new wxBoxSizer(wxVERTICAL);
-	Graphics_Deltas_Holder_Data1 = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_Deltas_Grid_Data2 = new wxGridSizer(3, 5, 5);
+	Graphics_Deltas_Holder_Data = new wxWrapSizer();
 	Graphics_AttackSoundArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Attack Sounds");
 
 	for(size_t loop = 0; loop < 2; ++loop)
@@ -1120,75 +1116,76 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
 
 	Graphics_Name_Holder->Add(Graphics_Name_Text);
-	Graphics_Name_Holder->Add(Graphics_Name, 1, wxEXPAND);
+	Graphics_Name_Holder->Add(Graphics_Name, 0, wxEXPAND);
 	Graphics_Name2_Holder->Add(Graphics_Name2_Text);
-	Graphics_Name2_Holder->Add(Graphics_Name2, 1, wxEXPAND);
+	Graphics_Name2_Holder->Add(Graphics_Name2, 0, wxEXPAND);
 	Graphics_ID_Holder->Add(Graphics_ID_Text);
-	Graphics_ID_Holder->Add(Graphics_ID, 1, wxEXPAND);
+	Graphics_ID_Holder->Add(Graphics_ID, 0, wxEXPAND);
 	Graphics_Unknown1_Holder->Add(Graphics_Unknown1_Text);
 	Graphics_Unknown1_Holder->Add(Graphics_Unknown1, 0, wxEXPAND);
 	Graphics_Unknown2_Holder->Add(Graphics_Unknown2_Text);
 	Graphics_Unknown2_Holder->Add(Graphics_Unknown2, 0, wxEXPAND);
 	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_Text);
-	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor, 1, wxEXPAND);
+	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor, 0, wxEXPAND);
 	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_ComboBox);
 	Graphics_Rainbow_Holder->Add(Graphics_Rainbow_Text);
 	Graphics_Rainbow_Holder->Add(Graphics_Rainbow, 0, wxEXPAND);
 	for(size_t loop = 0; loop < 4; ++loop)
-	Graphics_CoordinateGrid_Holder->Add(Graphics_Coordinates[loop], 1, wxEXPAND);
+	Graphics_CoordinateGrid_Holder->Add(Graphics_Coordinates[loop]);
 	Graphics_Coordinates_Holder->Add(Graphics_Coordinates_Text);
-	Graphics_Coordinates_Holder->Add(Graphics_CoordinateGrid_Holder, 0, wxEXPAND);
+	Graphics_Coordinates_Holder->Add(Graphics_CoordinateGrid_Holder);
 	Graphics_NewSpeed_Holder->Add(Graphics_NewSpeed_Text);
 	Graphics_NewSpeed_Holder->Add(Graphics_NewSpeed, 0, wxEXPAND);
 	Graphics_SLP_Holder->Add(Graphics_SLP_Text);
-	Graphics_SLP_Holder->Add(Graphics_SLP, 1, wxEXPAND);
+	Graphics_SLP_Holder->Add(Graphics_SLP, 0, wxEXPAND);
 	Graphics_FrameType_Holder->Add(Graphics_FrameType_Text);
-	Graphics_FrameType_Holder->Add(Graphics_FrameType, 1, wxEXPAND);
+	Graphics_FrameType_Holder->Add(Graphics_FrameType, 0, wxEXPAND);
 	Graphics_Replay_Holder->Add(Graphics_Replay_Text);
 	Graphics_Replay_Holder->Add(Graphics_Replay, 0, wxEXPAND);
 	Graphics_SoundID_Holder->Add(Graphics_SoundID_Text);
-	Graphics_SoundID_Holder->Add(Graphics_SoundID, 1, wxEXPAND);
+	Graphics_SoundID_Holder->Add(Graphics_SoundID, 0, wxEXPAND);
 	Graphics_SoundID_Holder->Add(Graphics_SoundID_ComboBox);
-	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed, 2, wxEXPAND);
-	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed_CheckBox, 1, wxEXPAND | wxLEFT, 2);
+	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed, 0, wxEXPAND);
+	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed_CheckBox, 0, wxLEFT, 2);
 	Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed_Text);
-	Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed1_Holder, 1, wxEXPAND);
+	Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed1_Holder, 0, wxEXPAND);
 	Graphics_FrameCount_Holder->Add(Graphics_FrameCount_Text);
-	Graphics_FrameCount_Holder->Add(Graphics_FrameCount, 1, wxEXPAND);
+	Graphics_FrameCount_Holder->Add(Graphics_FrameCount, 0, wxEXPAND);
 	Graphics_AngleCount_Holder->Add(Graphics_AngleCount_Text);
-	Graphics_AngleCount_Holder->Add(Graphics_AngleCount, 1, wxEXPAND);
+	Graphics_AngleCount_Holder->Add(Graphics_AngleCount, 0, wxEXPAND);
 	Graphics_FrameRate_Holder->Add(Graphics_FrameRate_Text);
-	Graphics_FrameRate_Holder->Add(Graphics_FrameRate, 1, wxEXPAND);
+	Graphics_FrameRate_Holder->Add(Graphics_FrameRate, 0, wxEXPAND);
 	Graphics_ReplayDelay_Holder->Add(Graphics_ReplayDelay_Text);
 	Graphics_ReplayDelay_Holder->Add(Graphics_ReplayDelay, 0, wxEXPAND);
 	Graphics_SequenceType_Holder->Add(Graphics_SequenceType_Text);
-	Graphics_SequenceType_Holder->Add(Graphics_SequenceType, 1, wxEXPAND);
+	Graphics_SequenceType_Holder->Add(Graphics_SequenceType, 0, wxEXPAND);
 	Graphics_Type_Holder->Add(Graphics_Type_Text);
-	Graphics_Type_Holder->Add(Graphics_MirroringMode, 1, wxEXPAND);
+	Graphics_Type_Holder->Add(Graphics_MirroringMode, 0, wxEXPAND);
 	Graphics_Unknown3_Holder->Add(Graphics_Unknown3_Text);
-	Graphics_Unknown3_Holder->Add(Graphics_Unknown3, 1, wxEXPAND);
+	Graphics_Unknown3_Holder->Add(Graphics_Unknown3, 0, wxEXPAND);
 
-	Graphics_NameArea_Holder->Add(Graphics_Name_Holder, 2, wxEXPAND);
-	Graphics_NameArea_Holder->Add(Graphics_Name2_Holder, 2, wxEXPAND | wxLEFT, 5);
-	Graphics_NameArea_Holder->Add(Graphics_ID_Holder, 1, wxEXPAND | wxLEFT, 5);
+	Graphics_NameArea_Holder->Add(Graphics_Name_Holder);
+	Graphics_NameArea_Holder->Add(Graphics_Name2_Holder, 0, wxLEFT, 5);
+	Graphics_NameArea_Holder->Add(Graphics_ID_Holder, 0, wxLEFT, 5);
 
-	Graphics_1_Grid->Add(Graphics_SLP_Holder, 1, wxEXPAND);
-	Graphics_1_Grid->Add(Graphics_FrameType_Holder, 1, wxEXPAND);
-	Graphics_1_Grid->Add(Graphics_Replay_Holder, 1, wxEXPAND);
-	Graphics_1_Grid->Add(Graphics_ReplayDelay_Holder, 1, wxEXPAND);
-	Graphics_1_Grid->Add(Graphics_FrameCount_Holder, 1, wxEXPAND);
-	Graphics_1_Grid->Add(Graphics_FrameRate_Holder, 1, wxEXPAND);
-	Graphics_1_Grid->Add(Graphics_SequenceType_Holder, 1, wxEXPAND);
-	Graphics_1_Grid->Add(Graphics_Type_Holder, 1, wxEXPAND);
+    Graphics_1_Grid->Add(Graphics_SLP_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_FrameType_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_Replay_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_ReplayDelay_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_FrameCount_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_FrameRate_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_SequenceType_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_Type_Holder, 0, wxTOP | wxRIGHT, 5);
 
-	Graphics_2_Grid->Add(Graphics_SoundID_Holder, 1, wxEXPAND);
-	Graphics_2_Grid->Add(Graphics_PlayerColor_Holder, 0, wxEXPAND);
-	Graphics_2_Grid->Add(Graphics_Rainbow_Holder, 0, wxEXPAND);
-	Graphics_2_Grid->Add(Graphics_NewSpeed_Holder, 1, wxEXPAND);
+    Graphics_1_Grid->Add(Graphics_SoundID_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_PlayerColor_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_Rainbow_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_NewSpeed_Holder, 0, wxTOP | wxRIGHT, 5);
+    Graphics_1_Grid->Add(Graphics_Coordinates_Holder, 0, wxTOP, 5);
 
-	Graphics_3_Grid->Add(Graphics_Unknown1_Holder, 1, wxEXPAND);
-	Graphics_3_Grid->Add(Graphics_Unknown2_Holder, 1, wxEXPAND);
-	Graphics_3_Grid->Add(Graphics_Unknown3_Holder, 1, wxEXPAND);
+    Graphics_3_Grid->Add(Graphics_Unknown1_Holder);
+    Graphics_3_Grid->Add(Graphics_Unknown2_Holder, 0, wxLEFT, 5);
+    Graphics_3_Grid->Add(Graphics_Unknown3_Holder, 0, wxLEFT, 5);
 
 	Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Delete, 1, wxEXPAND);
@@ -1204,68 +1201,63 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Deltas->Add(Deltas_CopyToGraphics, 0, wxEXPAND | wxTOP, 2);
 
 	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_Text);
-	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID, 1, wxEXPAND);
+	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID, 0, wxEXPAND);
 	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_ComboBox);
 	GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1_Text);
-	GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1, 1, wxEXPAND);
+	GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1, 0, wxEXPAND);
 	GraphicDeltas_Unknown2_Holder->Add(GraphicDeltas_Unknown2_Text);
-	GraphicDeltas_Unknown2_Holder->Add(GraphicDeltas_Unknown2, 1, wxEXPAND);
+	GraphicDeltas_Unknown2_Holder->Add(GraphicDeltas_Unknown2, 0, wxEXPAND);
 	GraphicDeltas_Unknown3_Holder->Add(GraphicDeltas_Unknown3_Text);
-	GraphicDeltas_Unknown3_Holder->Add(GraphicDeltas_Unknown3, 1, wxEXPAND);
+	GraphicDeltas_Unknown3_Holder->Add(GraphicDeltas_Unknown3, 0, wxEXPAND);
 	GraphicDeltas_DirectionX_Holder->Add(GraphicDeltas_DirectionX_Text);
 	GraphicDeltas_DirectionX_Holder->Add(GraphicDeltas_DirectionX, 0, wxEXPAND);
 	GraphicDeltas_DirectionY_Holder->Add(GraphicDeltas_DirectionY_Text);
 	GraphicDeltas_DirectionY_Holder->Add(GraphicDeltas_DirectionY, 0, wxEXPAND);
 	GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle_Text);
-	GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle, 1, wxEXPAND);
+	GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle, 0, wxEXPAND);
 	GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5_Text);
-	GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5, 1, wxEXPAND);
+	GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5, 0, wxEXPAND);
 
-	Graphics_Deltas_Holder_Data1->Add(GraphicDeltas_GraphicID_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Holder_Data1->Add(GraphicDeltas_DirectionX_Holder, 1, wxEXPAND | wxLEFT, 5);
-	Graphics_Deltas_Holder_Data1->Add(GraphicDeltas_DirectionY_Holder, 1, wxEXPAND | wxLEFT, 5);
-	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown1_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown2_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown3_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_DisplayAngle_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Grid_Data2->Add(GraphicDeltas_Unknown5_Holder, 1, wxEXPAND);
-	Graphics_Deltas_Holder_Data->Add(Graphics_Deltas_Holder_Data1, 0, wxEXPAND);
-	Graphics_Deltas_Holder_Data->Add(Graphics_Deltas_Grid_Data2, 0, wxEXPAND | wxTOP, 5);
+    Graphics_Deltas_Holder_Data->Add(GraphicDeltas_GraphicID_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    Graphics_Deltas_Holder_Data->Add(GraphicDeltas_DirectionX_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    Graphics_Deltas_Holder_Data->Add(GraphicDeltas_DirectionY_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    Graphics_Deltas_Holder_Data->Add(GraphicDeltas_DisplayAngle_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    Graphics_Deltas_Holder_Data->Add(GraphicDeltas_Unknown1_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    Graphics_Deltas_Holder_Data->Add(GraphicDeltas_Unknown2_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    Graphics_Deltas_Holder_Data->Add(GraphicDeltas_Unknown3_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    Graphics_Deltas_Holder_Data->Add(GraphicDeltas_Unknown5_Holder, 0, wxBOTTOM | wxLEFT, 5);
 
 	Graphics_Deltas_Holder->Add(Graphics_Deltas, 1, wxEXPAND);
-	Graphics_Deltas_Holder->Add(Graphics_Deltas_Holder_Data, 3, wxEXPAND | wxLEFT, 5);
+	Graphics_Deltas_Holder->Add(Graphics_Deltas_Holder_Data, 3, wxEXPAND, 5);
 
 	Graphics_AttackSounds->Add(Graphics_AttackSounds_ListV, 1, wxEXPAND | wxBOTTOM, 2);
 	Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
 	Graphics_AttackSounds->Add(AttackSounds_CopyToGraphics, 0, wxEXPAND | wxTOP, 2);
 
-	Graphics_AttackSounds_Holder->Add(Graphics_AttackSounds_Text);
-	Graphics_AttackSounds_Holder->Add(Graphics_AttackSounds_Grid, 0, wxEXPAND);
-	Graphics_AttackSoundDelays_Holder->Add(Graphics_AttackSoundDelays_Text);
-	for(size_t loop = 0; loop < 3; ++loop)
-	{
-		Graphics_AttackSounds_Grid->Add(Graphics_AttackSoundID[loop], 0, wxEXPAND);
-		Graphics_AttackSounds_Grid->Add(Graphics_AttackSoundID_ComboBox[loop]);
-		Graphics_AttackSoundDelays_Holder->Add(Graphics_AttackSoundDelay[loop], 0, wxEXPAND);
-	}
-	Graphics_5_Holder->Add(Graphics_AttackSounds_Holder, 2, wxEXPAND);
-	Graphics_5_Holder->Add(Graphics_AttackSoundDelays_Holder, 1, wxEXPAND | wxLEFT, 5);
+    Graphics_AttackSounds_Holder->Add(Graphics_AttackSounds_Text);
+    Graphics_AttackSoundDelays_Holder->Add(Graphics_AttackSoundDelays_Text);
+    for(size_t loop = 0; loop < 3; ++loop)
+    {
+        Graphics_AttackSounds_Holder->Add(Graphics_AttackSoundID[loop], 0, wxEXPAND);
+        Graphics_AttackSounds_Holder->Add(Graphics_AttackSoundID_ComboBox[loop], 0, wxBOTTOM, 4);
+        Graphics_AttackSoundDelays_Holder->Add(Graphics_AttackSoundDelay[loop], 1, wxBOTTOM, 2);
+        Graphics_AttackSoundDelays_Holder->Add(1, 1, 1);
+    }
+    Graphics_5_Holder->Add(Graphics_AttackSounds_Holder);
+    Graphics_5_Holder->Add(Graphics_AttackSoundDelays_Holder, 0, wxLEFT, 5);
 
-	Graphics_4_Holder->Add(Graphics_AngleCount_Holder, 1, wxEXPAND);
-	Graphics_4_Holder->Add(Graphics_AttackSoundUsed_Holder, 1, wxEXPAND | wxLEFT, 5);
-	Graphics_4_Holder->AddStretchSpacer(2);
+    Graphics_4_Holder->Add(Graphics_AngleCount_Holder);
+    Graphics_4_Holder->Add(Graphics_AttackSoundUsed_Holder, 0, wxLEFT, 5);
 
-	Graphics_AttackSoundArea_Holder->Add(Graphics_AttackSounds, 1, wxEXPAND);
-	Graphics_AttackSoundArea_Holder->Add(Graphics_5_Holder, 3, wxEXPAND | wxLEFT, 5);
+    Graphics_AttackSoundArea_Holder->Add(Graphics_AttackSounds, 1, wxEXPAND);
+    Graphics_AttackSoundArea_Holder->Add(Graphics_5_Holder, 3, wxEXPAND | wxLEFT, 5);
 
-	Graphics_ScrollSpace->Add(Graphics_NameArea_Holder, 0, wxEXPAND);
-	Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND | wxTOP, 5);
-	Graphics_ScrollSpace->Add(Graphics_Coordinates_Holder, 0, wxEXPAND | wxTOP, 5);
-	Graphics_ScrollSpace->Add(Graphics_2_Grid, 0, wxEXPAND | wxTOP, 5);
-	Graphics_ScrollSpace->Add(Graphics_3_Grid, 0, wxEXPAND | wxTOP, 5);
-	Graphics_ScrollSpace->Add(Graphics_Deltas_Holder, 0, wxEXPAND | wxTOP, 5);
-	Graphics_ScrollSpace->Add(Graphics_4_Holder, 0, wxEXPAND | wxTOP, 5);
-	Graphics_ScrollSpace->Add(Graphics_AttackSoundArea_Holder, 0, wxEXPAND | wxTOP, 5);
+    Graphics_ScrollSpace->Add(Graphics_NameArea_Holder);
+    Graphics_ScrollSpace->Add(Graphics_1_Grid, 0, wxEXPAND, 5);
+    Graphics_ScrollSpace->Add(Graphics_3_Grid, 0, wxTOP, 5);
+    Graphics_ScrollSpace->Add(Graphics_Deltas_Holder, 0, wxEXPAND | wxTOP, 5);
+    Graphics_ScrollSpace->Add(Graphics_4_Holder, 0, wxTOP, 5);
+    Graphics_ScrollSpace->Add(Graphics_AttackSoundArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	Graphics_Scroller->SetSizer(Graphics_ScrollSpace);
 	Graphics_Scroller->SetScrollRate(0, 15);
