@@ -593,7 +593,7 @@ void AGE_Frame::CreateResearchControls()
 	}
 	for(size_t loop = 0; loop < 3; ++loop)
 	{
-		Research_ResourceGrid1->Add(Research_Resources_ComboBox[loop], 1, wxEXPAND);
+		Research_ResourceGrid1->Add(Research_Resources_ComboBox[loop]);
 		Research_ResourceGrid2->Add(Research_Amount[loop], 2, wxEXPAND);
 	}
 
@@ -609,7 +609,7 @@ void AGE_Frame::CreateResearchControls()
 	for(size_t loop = 0; loop < 6; ++loop)
 	Research_RequiredTechs_Holder->Add(Research_RequiredTechs[loop], 1, wxEXPAND);
 	for(size_t loop = 0; loop < 6; ++loop)
-	Research_RequiredTechs_Holder->Add(Research_RequiredTechs_ComboBox[loop], 1, wxEXPAND);
+	Research_RequiredTechs_Holder->Add(Research_RequiredTechs_ComboBox[loop]);
 
 	Research_RequiredTechArea_Holder->Add(Research_RequiredTechArea_Text);
 	Research_RequiredTechArea_Holder->Add(Research_RequiredTechs_Holder, 0, wxEXPAND);
@@ -619,7 +619,7 @@ void AGE_Frame::CreateResearchControls()
 
 	Research_Civ_Holder->Add(Research_Civ_Text);
 	Research_Civ_Holder->Add(Research_Civ, 1, wxEXPAND);
-	Research_Civ_Holder->Add(Research_Civ_ComboBox, 1, wxEXPAND);
+	Research_Civ_Holder->Add(Research_Civ_ComboBox);
 
 	Research_FullTechMode_Holder->Add(Research_FullTechMode_Text);
 	Research_FullTechMode_Holder->Add(Research_FullTechMode, 1, wxEXPAND);
@@ -627,7 +627,7 @@ void AGE_Frame::CreateResearchControls()
 
 	Research_ResearchLocation_Holder->Add(Research_ResearchLocation_Text);
 	Research_ResearchLocation_Holder->Add(Research_ResearchLocation, 1, wxEXPAND);
-	Research_ResearchLocation_Holder->Add(Research_ResearchLocation_ComboBox, 1, wxEXPAND);
+	Research_ResearchLocation_Holder->Add(Research_ResearchLocation_ComboBox);
 
 	Research_MiscArea1_Grid->Add(Research_TechID_Holder, 1, wxEXPAND);
 	Research_MiscArea1_Grid->Add(Research_ResearchLocation_Holder, 1, wxEXPAND);
@@ -639,7 +639,7 @@ void AGE_Frame::CreateResearchControls()
 
 	Research_TechID_Holder->Add(Research_TechID_Text);
 	Research_TechID_Holder->Add(Research_TechID, 1, wxEXPAND);
-	Research_TechID_Holder->Add(Research_TechID_ComboBox, 1, wxEXPAND);
+	Research_TechID_Holder->Add(Research_TechID_ComboBox);
 
 	Research_Type_Holder->Add(Research_Type_Text);
 	Research_Type_Holder->Add(Research_Type, 1, wxEXPAND);

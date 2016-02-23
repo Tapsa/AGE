@@ -777,7 +777,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Unknown3_Holder->Add(Terrains_Unknown3, 0, wxEXPAND);
 	Terrains_SoundID_Holder->Add(Terrains_SoundID_Text);
 	Terrains_SoundID_Holder->Add(Terrains_SoundID, 1, wxEXPAND);
-	Terrains_SoundID_Holder->Add(Terrains_SoundID_ComboBox, 1, wxEXPAND);
+	Terrains_SoundID_Holder->Add(Terrains_SoundID_ComboBox);
 	Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority_Text);
 	Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority, 0, wxEXPAND);
 	Terrains_BlendType_Holder->Add(Terrains_BlendType_Text);
@@ -792,10 +792,10 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_CliffColors_Holder->Add(Terrains_CliffColors_Grid, 0, wxEXPAND);
 	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain_Text);
 	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain, 0, wxEXPAND);
-	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain_ComboBox, 0, wxEXPAND);
+	Terrains_PassableTerrain_Holder->Add(Terrains_PassableTerrain_ComboBox);
 	Terrains_ImpassableTerrain_Holder->Add(Terrains_ImpassableTerrain_Text);
 	Terrains_ImpassableTerrain_Holder->Add(Terrains_ImpassableTerrain, 0, wxEXPAND);
-	Terrains_ImpassableTerrain_Holder->Add(Terrains_ImpassableTerrain_ComboBox, 0, wxEXPAND);
+	Terrains_ImpassableTerrain_Holder->Add(Terrains_ImpassableTerrain_ComboBox);
 
 	Terrains_IsAnimated_Holder->Add(Terrains_IsAnimated_Text);
 	Terrains_AnimationFrames_Holder->Add(Terrains_AnimationFrames_Text);
@@ -840,7 +840,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrain_TileGraphics_Sizer->Add(sizer);
 	Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID_Text);
 	Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID, 1, wxEXPAND);
-	Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID_ComboBox, 1, wxEXPAND);
+	Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID_ComboBox);
 	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions_Text);
 	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions[0], 1, wxEXPAND);
 	Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions[1], 1, wxEXPAND);

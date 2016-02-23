@@ -1131,7 +1131,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Unknown2_Holder->Add(Graphics_Unknown2, 0, wxEXPAND);
 	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_Text);
 	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor, 1, wxEXPAND);
-	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_ComboBox, 1, wxEXPAND);
+	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_ComboBox);
 	Graphics_Rainbow_Holder->Add(Graphics_Rainbow_Text);
 	Graphics_Rainbow_Holder->Add(Graphics_Rainbow, 0, wxEXPAND);
 	for(size_t loop = 0; loop < 4; ++loop)
@@ -1148,7 +1148,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Replay_Holder->Add(Graphics_Replay, 0, wxEXPAND);
 	Graphics_SoundID_Holder->Add(Graphics_SoundID_Text);
 	Graphics_SoundID_Holder->Add(Graphics_SoundID, 1, wxEXPAND);
-	Graphics_SoundID_Holder->Add(Graphics_SoundID_ComboBox, 1, wxEXPAND);
+	Graphics_SoundID_Holder->Add(Graphics_SoundID_ComboBox);
 	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed, 2, wxEXPAND);
 	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed_CheckBox, 1, wxEXPAND | wxLEFT, 2);
 	Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed_Text);
@@ -1205,7 +1205,7 @@ void AGE_Frame::CreateGraphicsControls()
 
 	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_Text);
 	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID, 1, wxEXPAND);
-	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_ComboBox, 1, wxEXPAND);
+	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_ComboBox);
 	GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1_Text);
 	GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1, 1, wxEXPAND);
 	GraphicDeltas_Unknown2_Holder->Add(GraphicDeltas_Unknown2_Text);
@@ -1245,7 +1245,7 @@ void AGE_Frame::CreateGraphicsControls()
 	for(size_t loop = 0; loop < 3; ++loop)
 	{
 		Graphics_AttackSounds_Grid->Add(Graphics_AttackSoundID[loop], 0, wxEXPAND);
-		Graphics_AttackSounds_Grid->Add(Graphics_AttackSoundID_ComboBox[loop], 0, wxEXPAND);
+		Graphics_AttackSounds_Grid->Add(Graphics_AttackSoundID_ComboBox[loop]);
 		Graphics_AttackSoundDelays_Holder->Add(Graphics_AttackSoundDelay[loop], 0, wxEXPAND);
 	}
 	Graphics_5_Holder->Add(Graphics_AttackSounds_Holder, 2, wxEXPAND);
