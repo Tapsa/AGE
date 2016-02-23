@@ -400,8 +400,8 @@ void AGE_Frame::CreateCivControls()
 	Civs_PasteInsert = new wxButton(Tab_Civs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
 	Civs_DataArea = new wxBoxSizer(wxVERTICAL);
-	Civs_DataGrid1 = new wxGridSizer(2, 0, 5);
-	Civs_DataGrid2 = new wxGridSizer(2, 0, 5);
+	Civs_DataGrid1 = new wxBoxSizer(wxHORIZONTAL);
+	Civs_DataGrid2 = new wxBoxSizer(wxHORIZONTAL);
 	Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
 	Civs_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
 	Civs_Name_Text[0] = new wxStaticText(Tab_Civs, wxID_ANY, " Name");
@@ -409,13 +409,13 @@ void AGE_Frame::CreateCivControls()
 	Civs_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
 	Civs_Name_Text[1] = new wxStaticText(Tab_Civs, wxID_ANY, " Name 2");
 	Civs_Name[1] = AGETextCtrl::init(CString, &uiGroupCiv, this, &popUp, Tab_Civs, 20);
+	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
+	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Civs_One = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_GraphicSet_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Icon Set *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_GraphicSet = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_GraphicSet->SetToolTip("Building icon set (and trade cart graphics?)\nThis is actually an offset used to look up SLPs inside the DRS file\nAoE 1: also determines the interface graphics used\nStar Wars: also determines unit and tech icons");
-	Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
-	Civs_One_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Civs_One = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
 	Civs_TechTree_Holder = new wxBoxSizer(wxVERTICAL);
 	Civs_TechTree_Text = new wxStaticText(Tab_Civs, wxID_ANY, " Technology Tree", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Civs_TechTree = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
@@ -461,35 +461,35 @@ void AGE_Frame::CreateCivControls()
 	Civs_Civs->Add(Civs_Civs_Buttons, 0, wxEXPAND);
 
 	Civs_One_Holder->Add(Civs_One_Text);
-	Civs_One_Holder->Add(Civs_One, 1, wxEXPAND);
+	Civs_One_Holder->Add(Civs_One, 0, wxEXPAND);
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Civs_Name_Holder[loop]->Add(Civs_Name_Text[loop]);
-        Civs_Name_Holder[loop]->Add(Civs_Name[loop], 1, wxEXPAND);
+        Civs_Name_Holder[loop]->Add(Civs_Name[loop]);
     }
 	Civs_SUnknown1_Holder->Add(Civs_SUnknown1_Text);
-	Civs_SUnknown1_Holder->Add(Civs_DataGrid3, 1, wxEXPAND);
+	Civs_SUnknown1_Holder->Add(Civs_DataGrid3);
 	for(size_t loop = 0; loop < 4; ++loop)
-	Civs_DataGrid3->Add(Civs_SUnknown1[loop], 1, wxEXPAND);
+	Civs_DataGrid3->Add(Civs_SUnknown1[loop]);
 	Civs_TechTree_Holder->Add(Civs_TechTree_Text);
-	Civs_TechTree_Holder->Add(Civs_TechTree, 1, wxEXPAND);
+	Civs_TechTree_Holder->Add(Civs_TechTree, 0, wxEXPAND);
 	Civs_TechTree_Holder->Add(Civs_TechTree_ComboBox);
 	Civs_TeamBonus_Holder->Add(Civs_TeamBonus_Text);
-	Civs_TeamBonus_Holder->Add(Civs_TeamBonus, 1, wxEXPAND);
+	Civs_TeamBonus_Holder->Add(Civs_TeamBonus, 0, wxEXPAND);
 	Civs_TeamBonus_Holder->Add(Civs_TeamBonus_ComboBox);
 	Civs_GraphicSet_Holder->Add(Civs_GraphicSet_Text);
-	Civs_GraphicSet_Holder->Add(Civs_GraphicSet, 1, wxEXPAND);
+	Civs_GraphicSet_Holder->Add(Civs_GraphicSet, 0, wxEXPAND);
 
-	Civs_DataGrid1->Add(Civs_GraphicSet_Holder, 1, wxEXPAND);
-	Civs_DataGrid1->Add(Civs_One_Holder, 1, wxEXPAND);
-	Civs_DataGrid2->Add(Civs_TechTree_Holder, 1, wxEXPAND);
-	Civs_DataGrid2->Add(Civs_TeamBonus_Holder, 1, wxEXPAND);
+	Civs_DataGrid1->Add(Civs_One_Holder);
+	Civs_DataGrid1->Add(Civs_GraphicSet_Holder, 0, wxLEFT, 5);
+	Civs_DataGrid2->Add(Civs_TechTree_Holder);
+	Civs_DataGrid2->Add(Civs_TeamBonus_Holder, 0, wxLEFT, 5);
 
-	Civs_DataArea->Add(Civs_Name_Holder[0], 0, wxEXPAND | wxTOP, 5);
-	Civs_DataArea->Add(Civs_Name_Holder[1], 0, wxEXPAND | wxTOP, 5);
-	Civs_DataArea->Add(Civs_DataGrid1, 0, wxEXPAND | wxTOP, 5);
-	Civs_DataArea->Add(Civs_DataGrid2, 0, wxEXPAND | wxTOP, 5);
-	Civs_DataArea->Add(Civs_SUnknown1_Holder, 0, wxEXPAND | wxTOP, 5);
+	Civs_DataArea->Add(Civs_Name_Holder[0], 0, wxTOP, 5);
+	Civs_DataArea->Add(Civs_Name_Holder[1], 0, wxTOP, 5);
+	Civs_DataArea->Add(Civs_DataGrid1, 0, wxTOP, 5);
+	Civs_DataArea->Add(Civs_DataGrid2, 0, wxTOP, 5);
+	Civs_DataArea->Add(Civs_SUnknown1_Holder, 0, wxTOP, 5);
 
 	Civs_Resources_Buttons->Add(Resources_Add, 1, wxEXPAND);
 	Civs_Resources_Buttons->Add(Resources_Delete, 1, wxEXPAND);
@@ -511,7 +511,7 @@ void AGE_Frame::CreateCivControls()
 	Civs_Resources->Add(Civs_Resources_Buttons, 0, wxEXPAND);
 
 	Civs_Main->Add(Civs_Civs, 21, wxEXPAND | wxALL, 5);
-	Civs_Main->Add(Civs_DataArea, 30, wxEXPAND);
+	Civs_Main->Add(Civs_DataArea);
 	Civs_Main->Add(Civs_Resources, 30, wxEXPAND | wxALL, 5);
 
 	Tab_Civs->SetSizer(Civs_Main);
