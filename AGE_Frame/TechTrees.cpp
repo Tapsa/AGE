@@ -2766,14 +2766,14 @@ void AGE_Frame::CreateTechTreeControls()
 
 	TechTrees_Buildings_ID_Holder->Add(TechTrees_Buildings_ID_Text);
 	TechTrees_Buildings_ID_Holder->Add(TechTrees_Buildings_ID, 0, wxEXPAND);
-	TechTrees_Buildings_ID_Holder->Add(TechTrees_Buildings_ID_ComboBox, 0, wxEXPAND);
+	TechTrees_Buildings_ID_Holder->Add(TechTrees_Buildings_ID_ComboBox);
 	TechTrees_Buildings_LocationInAge_Holder->Add(TechTrees_Buildings_LocationInAge_Text);
 	TechTrees_Buildings_LocationInAge_Holder->Add(TechTrees_Buildings_LocationInAge, 0, wxEXPAND);
 	TechTrees_Buildings_LineMode_Holder->Add(TechTrees_Buildings_LineMode_Text);
 	TechTrees_Buildings_LineMode_Holder->Add(TechTrees_Buildings_LineMode, 0, wxEXPAND);
 	TechTrees_Buildings_EnablingResearch_Holder->Add(TechTrees_Buildings_EnablingResearch_Text);
 	TechTrees_Buildings_EnablingResearch_Holder->Add(TechTrees_Buildings_EnablingResearch, 0, wxEXPAND);
-	TechTrees_Buildings_EnablingResearch_Holder->Add(TechTrees_Buildings_EnablingResearch_ComboBox, 0, wxEXPAND);
+	TechTrees_Buildings_EnablingResearch_Holder->Add(TechTrees_Buildings_EnablingResearch_ComboBox);
 	TechTrees_Buildings_Always2_Holder->Add(TechTrees_Buildings_Always2_Text);
 	TechTrees_Buildings_Always2_Holder->Add(TechTrees_Buildings_Always2, 0, wxEXPAND);
 
@@ -2804,20 +2804,20 @@ void AGE_Frame::CreateTechTreeControls()
 
 	TechTrees_Units_ID_Holder->Add(TechTrees_Units_ID_Text);
 	TechTrees_Units_ID_Holder->Add(TechTrees_Units_ID, 0, wxEXPAND);
-	TechTrees_Units_ID_Holder->Add(TechTrees_Units_ID_ComboBox, 0, wxEXPAND);
+	TechTrees_Units_ID_Holder->Add(TechTrees_Units_ID_ComboBox);
 	TechTrees_Units_UpperBuilding_Holder->Add(TechTrees_Units_UpperBuilding_Text);
 	TechTrees_Units_UpperBuilding_Holder->Add(TechTrees_Units_UpperBuilding, 0, wxEXPAND);
-	TechTrees_Units_UpperBuilding_Holder->Add(TechTrees_Units_UpperBuilding_ComboBox, 0, wxEXPAND);
+	TechTrees_Units_UpperBuilding_Holder->Add(TechTrees_Units_UpperBuilding_ComboBox);
 	TechTrees_Units_LocationInAge_Holder->Add(TechTrees_Units_LocationInAge_Text);
 	TechTrees_Units_LocationInAge_Holder->Add(TechTrees_Units_LocationInAge, 0, wxEXPAND);
 	TechTrees_Units_RequiredResearch_Holder->Add(TechTrees_Units_RequiredResearch_Text);
 	TechTrees_Units_RequiredResearch_Holder->Add(TechTrees_Units_RequiredResearch, 0, wxEXPAND);
-	TechTrees_Units_RequiredResearch_Holder->Add(TechTrees_Units_RequiredResearch_ComboBox, 0, wxEXPAND);
+	TechTrees_Units_RequiredResearch_Holder->Add(TechTrees_Units_RequiredResearch_ComboBox);
 	TechTrees_Units_LineMode_Holder->Add(TechTrees_Units_LineMode_Text);
 	TechTrees_Units_LineMode_Holder->Add(TechTrees_Units_LineMode, 0, wxEXPAND);
 	TechTrees_Units_EnablingResearch_Holder->Add(TechTrees_Units_EnablingResearch_Text);
 	TechTrees_Units_EnablingResearch_Holder->Add(TechTrees_Units_EnablingResearch, 0, wxEXPAND);
-	TechTrees_Units_EnablingResearch_Holder->Add(TechTrees_Units_EnablingResearch_ComboBox, 0, wxEXPAND);
+	TechTrees_Units_EnablingResearch_Holder->Add(TechTrees_Units_EnablingResearch_ComboBox);
 	TechTrees_Units_Always2_Holder->Add(TechTrees_Units_Always2_Text);
 	TechTrees_Units_Always2_Holder->Add(TechTrees_Units_Always2, 0, wxEXPAND);
 	TechTrees_Units_VerticalLine_Holder->Add(TechTrees_Units_VerticalLine_Text);
@@ -2843,10 +2843,10 @@ void AGE_Frame::CreateTechTreeControls()
 
 	TechTrees_Researches_ID_Holder->Add(TechTrees_Researches_ID_Text);
 	TechTrees_Researches_ID_Holder->Add(TechTrees_Researches_ID, 0, wxEXPAND);
-	TechTrees_Researches_ID_Holder->Add(TechTrees_Researches_ID_ComboBox, 0, wxEXPAND);
+	TechTrees_Researches_ID_Holder->Add(TechTrees_Researches_ID_ComboBox);
 	TechTrees_Researches_UpperBuilding_Holder->Add(TechTrees_Researches_UpperBuilding_Text);
 	TechTrees_Researches_UpperBuilding_Holder->Add(TechTrees_Researches_UpperBuilding, 0, wxEXPAND);
-	TechTrees_Researches_UpperBuilding_Holder->Add(TechTrees_Researches_UpperBuilding_ComboBox, 0, wxEXPAND);
+	TechTrees_Researches_UpperBuilding_Holder->Add(TechTrees_Researches_UpperBuilding_ComboBox);
 	TechTrees_Researches_Always2_Holder->Add(TechTrees_Researches_Always2_Text);
 	TechTrees_Researches_Always2_Holder->Add(TechTrees_Researches_Always2, 0, wxEXPAND);
 	TechTrees_Researches_VerticalLine_Holder->Add(TechTrees_Researches_VerticalLine_Text);

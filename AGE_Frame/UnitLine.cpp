@@ -351,7 +351,7 @@ void AGE_Frame::CreateUnitLineControls()
 	UnitLines_Name_Holder->Add(UnitLines_Name, 1, wxEXPAND);
 	UnitLineUnits_Holder->Add(UnitLineUnits_Text);
 	UnitLineUnits_Holder->Add(UnitLineUnits_Units, 1, wxEXPAND);
-	UnitLineUnits_Holder->Add(UnitLineUnits_ComboBox, 1, wxEXPAND);
+	UnitLineUnits_Holder->Add(UnitLineUnits_ComboBox);
 
 	UnitLines_DataArea->Add(UnitLines_ID_Holder, 0, wxEXPAND | wxTOP, 5);
 	UnitLines_DataArea->Add(UnitLines_Name_Holder, 0, wxEXPAND | wxTOP, 5);

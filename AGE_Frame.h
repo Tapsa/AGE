@@ -2006,7 +2006,6 @@ private:
 	wxStaticText *Units_LineOfSight_Text;
 	wxStaticText *Units_GarrisonCapacity_Text;
 	wxStaticText *Units_SizeRadius_Text;
-	wxStaticText *Units_HPBarHeight1_Text;
 	wxStaticText *Units_TrainSound_Text;
 	wxStaticText *Units_DeadUnitID_Text;
 	wxStaticText *Units_PlacementMode_Text;
@@ -2042,7 +2041,6 @@ private:
 	wxStaticText *Units_SelectionEffect_Text;
 	wxStaticText *Units_EditorSelectionColour_Text;
 	wxStaticText *Units_SelectionRadius_Text;
-	wxStaticText *Units_HPBarHeight2_Text;
 	wxStaticText *ResourceStorage_Type_Text;
 	wxStaticText *ResourceStorage_Amount_Text;
 	wxStaticText *ResourceStorage_Enabled_Text;
@@ -2170,8 +2168,7 @@ private:
 	wxBoxSizer *Units_LineOfSight_Holder;
 	wxBoxSizer *Units_GarrisonCapacity_Holder;
 	wxBoxSizer *Units_SizeRadius_Holder;
-	wxGridSizer *Units_SizeRadius_Grid;
-	wxBoxSizer *Units_HPBarHeight1_Holder;
+	wxBoxSizer *Units_SizeRadius_Grid;
 	wxBoxSizer *Units_TrainSound_Holder;
 	wxBoxSizer *Units_TrainSound1_Holder;
 	wxBoxSizer *Units_TrainSound2_Holder;
@@ -2190,7 +2187,7 @@ private:
 	wxBoxSizer *Units_PlacementTerrain_Holder;
 	wxGridSizer *Units_PlacementTerrainGrid_Holder;
 	wxBoxSizer *Units_ClearanceSize_Holder;
-	wxGridSizer *Units_ClearanceSize_Grid;
+	wxBoxSizer *Units_ClearanceSize_Grid;
 	wxBoxSizer *Units_HillMode_Holder;
 	wxBoxSizer *Units_VisibleInFog_Holder;
 	wxBoxSizer *Units_TerrainRestriction_Holder;
@@ -2221,10 +2218,9 @@ private:
 	wxBoxSizer *Units_SelectionEffect_Holder;
 	wxBoxSizer *Units_EditorSelectionColour_Holder;
 	wxBoxSizer *Units_SelectionRadius_Holder;
-	wxBoxSizer *Units_HPBarHeight2_Holder;
 	wxStaticBoxSizer *Units_ResourceStorageHeader_Holder;
-	wxGridSizer *Units_ResourceStorage_Grid;
-	wxBoxSizer *Units_ResourceStorage_Holder[3];
+	wxBoxSizer* Units_ResourceStorage_Texts;
+	array<wxBoxSizer*, 3> Units_ResourceStorage_Holder;
 	wxBoxSizer *Units_SelectionSound_Holder;
 	wxBoxSizer *Units_DyingSound_Holder;
 	wxBoxSizer *Units_AttackMode_Holder;
@@ -2252,7 +2248,7 @@ private:
 	wxBoxSizer *Units_TrackingUnitDensity_Holder;
 	wxBoxSizer *Units_Unknown16_Holder;
 	wxBoxSizer *Units_RotationAngles_Holder;
-	wxGridSizer *Units_RotationAngles_Grid;
+	wxBoxSizer *Units_RotationAngles_Grid;
 
 //	Type 40+
 
@@ -2300,10 +2296,8 @@ private:
 //	Type 70+
 
 	wxStaticBoxSizer *Units_CostHeader_Holder;
-	wxBoxSizer *Units_CostType_Holder;
-	wxGridSizer *Units_CostType_Grid;
-	wxBoxSizer *Units_CostAmount_Holder;
-	wxBoxSizer *Units_CostUsed_Holder;
+	wxBoxSizer *Unit_Cost_Texts;
+	array<wxBoxSizer*, 3> Unit_Cost_Sizers;
 	wxBoxSizer *Units_TrainTime_Holder;
 	wxBoxSizer *Units_TrainLocationID_Holder;
 	wxBoxSizer *Units_ButtonID_Holder;
@@ -2380,8 +2374,7 @@ private:
 	wxButton *Units_DamageGraphics_CopyToUnits;
 
 	wxBoxSizer *Units_Attacks_Holder;
-	wxBoxSizer *Units_Attacks_Holder_Data;
-	wxGridSizer *Units_Attacks_Grid_Data2;
+	wxWrapSizer *Units_Attacks_Holder_Data;
 	AGETextCtrl *Attacks_Class;
 	ComboBox_Plus1 *Attacks_Class_ComboBox[3];
 	AGETextCtrl *Attacks_Amount;
@@ -2474,37 +2467,30 @@ private:
 	wxStaticBoxSizer *Units_StatsArea_Holder;
 	wxBoxSizer *Units_StatsArea1A_Sizer;
 	wxBoxSizer *Units_StatsArea1B_Sizer;
-	wxGridSizer *Units_StatsAreaGarrison_Grid;
-	wxGridSizer *Units_StatsArea2_Grid;
+	wxBoxSizer *Units_StatsAreaGarrison_Grid;
+	wxBoxSizer *Units_StatsArea2_Grid;
 	wxStaticBoxSizer *Units_ProjectilesArea_Holder;
 	wxWrapSizer *Units_ProjectilesArea1_Grid;
 	wxStaticBoxSizer *Units_Attributes_Holder;
 	wxWrapSizer *Units_AttributesBoxes1_Grid;
-	wxGridSizer *Units_Attributes1_Grid;
-	wxGridSizer *Units_Attributes2_Grid;
-	wxBoxSizer *Units_AttributesTerrain_Holder;
-	wxGridSizer *Units_AttributesTerrain_Grid;
+	wxWrapSizer *Units_Attributes1_Grid;
+	wxBoxSizer *Units_Attributes2_Grid;
 	wxWrapSizer *Units_AttributesModes1_Grid;
-	wxGridSizer *Units_AttributesSizes_Holder;
+	wxWrapSizer *Units_AttributesSizes_Holder;
 	wxWrapSizer *Units_AttributesSelection1_Grid;
 	wxBoxSizer *Units_LangRegular_Holder;
 	wxBoxSizer *Units_LangHotKey_Holder;
-	wxGridSizer *Units_AttributesTracking_Grid;
-	wxGridSizer *Units_AttributesTrain1_Grid;
-	wxGridSizer *Units_Attributes3_Grid;
+	wxBoxSizer *Units_AttributesTracking_Grid;
+	wxBoxSizer *Units_AttributesTrain1_Grid;
+	wxBoxSizer *Units_Attributes3_Grid;
 	wxStaticBoxSizer *Units_SoundsArea_Holder;
 	wxBoxSizer *Units_SoundsArea1_Holder;
-	wxGridSizer *Units_SoundsArea2_Grid;
-	wxGridSizer *Units_HPBars_Grid;
-	wxSizer *Units_UnknownArea_Holder;
+	wxBoxSizer *Units_SoundsArea2_Grid;
+	wxWrapSizer *Units_UnknownArea_Holder;
 	wxStaticBoxSizer *Units_Type10plusUnknownArea_Holder;
-	wxGridSizer *Units_Type10plusUnknowns_Grid;
 	wxStaticBoxSizer *Units_Type30plusUnknownArea_Holder;
-	wxGridSizer *Units_Type30plusUnknownArea_Grid;
 	wxStaticBoxSizer *Units_Type70plusUnknownArea_Holder;
-	wxGridSizer *Units_Type70plusUnknownArea_Grid;
 	wxStaticBoxSizer *Units_Type80plusUnknownArea_Holder;
-	wxGridSizer *Units_Type80plusUnknownArea_Grid;
 	wxStaticBoxSizer *Units_CommandsArea_Holder;
 	wxBoxSizer *Units_Top_Holder;
 	wxGridSizer *Units_TopGrid_Holder;
@@ -2536,15 +2522,11 @@ private:
 	wxButton *Units_UnitCommands_PasteInsert;
 	wxButton *Units_UnitCommands_CopyToUnits;
 
-	wxBoxSizer *Units_CommandHolder_Data;
-	wxBoxSizer *Units_CommandHolder_Data1;
-	wxBoxSizer *Units_CommandHolder_Data2;
-	wxGridSizer *Units_CommandHolder_Grid1;
-	wxGridSizer *Units_CommandHolder_Grid2;
-	wxGridSizer *Units_CommandHolder_Grid3;
+    wxBoxSizer *Units_CommandHolder_Data;
+    wxWrapSizer *Unit_Command_Known;
+    wxWrapSizer *Unit_Command_Unknowns;
 	wxBoxSizer *UnitCommands_One_Holder;
 	wxBoxSizer *UnitCommands_ID_Holder;
-	wxBoxSizer *UnitCommands_1_Holder;
 	wxBoxSizer *UnitCommands_Unknown1_Holder;
 	wxBoxSizer *UnitCommands_Type_Holder;
 	wxBoxSizer *UnitCommands_ProductivityResource_Holder;
@@ -2567,7 +2549,6 @@ private:
 	wxBoxSizer *UnitCommands_RightClickMode_Holder;
 	wxBoxSizer *UnitCommands_Unknown12_Holder;
 	array<wxBoxSizer*, 6> UnitCommands_Graphics_Holder;
-	wxGridSizer *UnitCommands_Graphics_Grid;
 
 	wxStaticText *UnitCommands_One_Text;
 	wxStaticText *UnitCommands_ID_Text;
@@ -2966,8 +2947,6 @@ private:
 	wxButton *TerRestrict_Terrains_Copy;
 	wxButton *TerRestrict_Terrains_Paste;
 	wxButton *TerRestrict_Terrains_PasteInsert;
-	wxBoxSizer *TerRestrict_Accessible_Holder;
-	wxBoxSizer *TerRestrict_Accessible2_Holder;
 	wxStaticText *TerRestrict_Accessible_Text;
 	AGETextCtrl *TerRestrict_Accessible;
 	wxBoxSizer *TerRestrict_Graphics_Holder;

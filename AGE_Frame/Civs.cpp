@@ -473,10 +473,10 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid3->Add(Civs_SUnknown1[loop], 1, wxEXPAND);
 	Civs_TechTree_Holder->Add(Civs_TechTree_Text);
 	Civs_TechTree_Holder->Add(Civs_TechTree, 1, wxEXPAND);
-	Civs_TechTree_Holder->Add(Civs_TechTree_ComboBox, 1, wxEXPAND);
+	Civs_TechTree_Holder->Add(Civs_TechTree_ComboBox);
 	Civs_TeamBonus_Holder->Add(Civs_TeamBonus_Text);
 	Civs_TeamBonus_Holder->Add(Civs_TeamBonus, 1, wxEXPAND);
-	Civs_TeamBonus_Holder->Add(Civs_TeamBonus_ComboBox, 1, wxEXPAND);
+	Civs_TeamBonus_Holder->Add(Civs_TeamBonus_ComboBox);
 	Civs_GraphicSet_Holder->Add(Civs_GraphicSet_Text);
 	Civs_GraphicSet_Holder->Add(Civs_GraphicSet, 1, wxEXPAND);
 
