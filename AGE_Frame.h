@@ -1601,7 +1601,6 @@ private:
 	wxBoxSizer *Effects_B_Holder;
 	wxBoxSizer *Effects_C_Holder;
 	wxBoxSizer *Effects_D_Holder;
-	wxBoxSizer *Effects_E_Holder;	// for attack/armor amount
 	wxBoxSizer *Effects_F_Holder;	// for attack/armor class
 
 	wxStaticText *Effects_E_Text;
@@ -1704,8 +1703,8 @@ private:
 
     vector<AGETextCtrl*> uiGroupCiv;
 	wxBoxSizer *Civs_DataArea;
-	wxGridSizer *Civs_DataGrid1;
-	wxGridSizer *Civs_DataGrid2;
+	wxBoxSizer *Civs_DataGrid1;
+	wxBoxSizer *Civs_DataGrid2;
 	wxGridSizer *Civs_DataGrid3;
 	wxStaticText *Civs_One_Text;
 	wxBoxSizer *Civs_One_Holder;

@@ -56,7 +56,7 @@ class ComboBox_EffectType: public AGEComboBox
 {
 public:
     ComboBox_EffectType(wxWindow *parent, AGETextCtrl *Pointer):
-    AGEComboBox(parent, AGETextCtrl::LARGE)
+    AGEComboBox(parent, AGETextCtrl::GIANT)
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_back(this);
