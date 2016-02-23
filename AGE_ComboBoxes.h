@@ -20,8 +20,8 @@ protected:
 class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
 {
 public:
-    AGEComboBox(wxWindow *parent):
-    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY)
+    AGEComboBox(wxWindow *parent, int width):
+    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, NULL, wxCB_READONLY)
     {
         Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEComboBox::wheelParent));
     }
@@ -39,8 +39,8 @@ protected:
 class ComboBox_Plus1: public AGEComboBox
 {
 public:
-    ComboBox_Plus1(wxWindow *parent, AGETextCtrl *Pointer):
-    AGEComboBox(parent)
+    ComboBox_Plus1(wxWindow *parent, AGETextCtrl *Pointer, int width = AGETextCtrl::LARGE):
+    AGEComboBox(parent, width)
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_back(this);
@@ -56,7 +56,7 @@ class ComboBox_EffectType: public AGEComboBox
 {
 public:
     ComboBox_EffectType(wxWindow *parent, AGETextCtrl *Pointer):
-    AGEComboBox(parent)
+    AGEComboBox(parent, AGETextCtrl::LARGE)
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_back(this);
@@ -72,7 +72,7 @@ class ComboBox_EffectAttribute: public AGEComboBox
 {
 public:
     ComboBox_EffectAttribute(wxWindow *parent, AGETextCtrl *Pointer):
-    AGEComboBox(parent)
+    AGEComboBox(parent, AGETextCtrl::LARGE)
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_back(this);

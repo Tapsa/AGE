@@ -167,9 +167,8 @@ void AGE_Frame::CreateGeneralControls()
 	General_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
 	const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain restrictions";
-	General_Variables_Grid = new wxGridSizer(6, 5, 5);
-	General_Variables2_Grid = new wxGridSizer(7, 5, 5);
-	General_Variables1_Holder = new wxStaticBoxSizer(wxVERTICAL, General_Scroller, "Star Wars Unknowns");
+	General_Variables2_Grid = new wxBoxSizer(wxHORIZONTAL);
+	General_Variables1_Holder = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Star Wars Unknowns");
 	General_SUnknown2_Holder = new wxBoxSizer(wxVERTICAL);
 	General_SUnknown2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2 *");
 	General_SUnknown2 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
@@ -218,70 +217,95 @@ void AGE_Frame::CreateGeneralControls()
 	General_Unknown2 = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
 
 	General_TileSizes_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Sizes   19 x (Width, Height, Delta Y)   1st is flat tile, then 2 x 8 elevation tiles, then 2 1:1 tiles");
-	General_TileSizes_Grid = new wxGridSizer(15, 0, 0);
+	General_TileSizes_Grid = new wxWrapSizer();
 
+	UnknownPointer1_Sizer = new wxBoxSizer(wxVERTICAL);
 	UnknownPointer1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 1");
 	UnknownPointer1 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
+	MapMinX_Sizer = new wxBoxSizer(wxVERTICAL);
 	MapMinX_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Min X");
 	MapMinX = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
+	MapMinY_Sizer = new wxBoxSizer(wxVERTICAL);
 	MapMinY_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Min Y");
 	MapMinY = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
+	MapMaxX_Sizer = new wxBoxSizer(wxVERTICAL);
 	MapMaxX_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max X");
 	MapMaxX = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
+	MapMaxY_Sizer = new wxBoxSizer(wxVERTICAL);
 	MapMaxY_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max Y");
 	MapMaxY = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
+	MapMaxXplus1_Sizer = new wxBoxSizer(wxVERTICAL);
 	MapMaxXplus1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max X + 1");
 	MapMaxXplus1 = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
+	MapMaxYplus1_Sizer = new wxBoxSizer(wxVERTICAL);
 	MapMaxYplus1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max Y + 1");
 	MapMaxYplus1 = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
 
+	MaxTerrain_Sizer = new wxBoxSizer(wxVERTICAL);
 	MaxTerrain_Text = new wxStaticText(General_Scroller, wxID_ANY, " Max Terrain");
 	MaxTerrain = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	TileWidth_Sizer = new wxBoxSizer(wxVERTICAL);
 	TileWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Width");
 	TileWidth = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	TileHeight_Sizer = new wxBoxSizer(wxVERTICAL);
 	TileHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Height");
 	TileHeight = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	TileHalfHeight_Sizer = new wxBoxSizer(wxVERTICAL);
 	TileHalfHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Half Height");
 	TileHalfHeight = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	TileHalfWidth_Sizer = new wxBoxSizer(wxVERTICAL);
 	TileHalfWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Half Width");
 	TileHalfWidth = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	ElevHeight_Sizer = new wxBoxSizer(wxVERTICAL);
 	ElevHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Elevation Height");
 	ElevHeight = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	CurRow_Sizer = new wxBoxSizer(wxVERTICAL);
 	CurRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Current Row");
 	CurRow = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	CurCol_Sizer = new wxBoxSizer(wxVERTICAL);
 	CurCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Current Col");
 	CurCol = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	BlockBegRow_Sizer = new wxBoxSizer(wxVERTICAL);
 	BlockBegRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block Start Row");
 	BlockBegRow = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	BlockEndRow_Sizer = new wxBoxSizer(wxVERTICAL);
 	BlockEndRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block End Row");
 	BlockEndRow = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	BlockBegCol_Sizer = new wxBoxSizer(wxVERTICAL);
 	BlockBegCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block Start Col");
 	BlockBegCol = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+	BlockEndCol_Sizer = new wxBoxSizer(wxVERTICAL);
 	BlockEndCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block End Col");
 	BlockEndCol = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
 
+	UnknownPointer2_Sizer = new wxBoxSizer(wxVERTICAL);
 	UnknownPointer2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 2");
 	UnknownPointer2 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
+	UnknownPointer3_Sizer = new wxBoxSizer(wxVERTICAL);
 	UnknownPointer3_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 3");
 	UnknownPointer3 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
+	AnyFrameChange_Sizer = new wxBoxSizer(wxVERTICAL);
 	AnyFrameChange_Text = new wxStaticText(General_Scroller, wxID_ANY, " Any Frame Change");
 	AnyFrameChange = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
 
+	MapVisibleFlag_Sizer = new wxBoxSizer(wxVERTICAL);
 	MapVisibleFlag_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Visible Flag");
 	MapVisibleFlag = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
+	FogFlag_Sizer = new wxBoxSizer(wxVERTICAL);
 	FogFlag_Text = new wxStaticText(General_Scroller, wxID_ANY, " Fog Flag");
 	FogFlag = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
 
-	General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Miscellaneous useless terrain data");
-	General_TerrainRendering_Grid = new wxGridSizer(7, 0, 5);
-	General_Something_Grid = new wxGridSizer(8, 0, 0);
-	General_SomeBytes_Grid = new wxGridSizer(16, 0, 0);
-	for(size_t loop = 0; loop < General_TileSizes.size(); ++loop)
-	General_TileSizes[loop] = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
-	for(size_t loop = 0; loop < General_SomeBytes.size(); ++loop)
-	General_SomeBytes[loop] = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::TINY);
-	for(size_t loop = 0; loop < General_Something.size(); ++loop)
-	General_Something[loop] = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
+    General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Miscellaneous useless terrain data");
+    General_TerrainRendering_Grid = new wxWrapSizer();
+    General_Something_Grid = new wxWrapSizer();
+    for(auto &sizer: General_TileSizes_Sizers)
+    sizer = new wxBoxSizer(wxHORIZONTAL);
+    for(auto &box: General_TileSizes)
+    box = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
+    for(auto &box: General_SomeBytes)
+    box = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::TINY);
+    for(auto &box: General_Something)
+    box = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::NORMAL);
 
 	General_TopRow->Add(General_Refresh, 0, wxEXPAND | wxRIGHT, 100);
 	for(size_t loop = 0; loop < 4; ++loop)
@@ -290,66 +314,93 @@ void AGE_Frame::CreateGeneralControls()
 	General_TopRow->Add(General_CalcBoxes[4], 0, wxEXPAND);
 	General_TopRow->Add(General_CalcBoxes_Text);
 
-	for(size_t loop = 0; loop < General_TileSizes.size(); ++loop)
-	General_TileSizes_Grid->Add(General_TileSizes[loop], 0, wxEXPAND);
+    for(size_t loop = 0, tile = 0; loop < General_TileSizes.size();)
+    {
+        General_TileSizes_Sizers[tile]->Add(General_TileSizes[loop++]);
+        General_TileSizes_Sizers[tile]->Add(General_TileSizes[loop++]);
+        General_TileSizes_Sizers[tile++]->Add(General_TileSizes[loop++]);
+    }
+    for(auto &sizer: General_TileSizes_Sizers)
+    General_TileSizes_Grid->Add(sizer);
 
-    General_TerrainRendering_Grid->Add(UnknownPointer1_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(MapMinX_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(MapMinY_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(MapMaxX_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(MapMaxY_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(MapMaxXplus1_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(MapMaxYplus1_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(UnknownPointer1, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(MapMinX, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(MapMinY, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(MapMaxX, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(MapMaxY, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(MapMaxXplus1, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(MapMaxYplus1, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(MaxTerrain_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(TileWidth_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(TileHeight_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(TileHalfHeight_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(TileHalfWidth_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(ElevHeight_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(CurRow_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(MaxTerrain, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(TileWidth, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(TileHeight, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(TileHalfHeight, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(TileHalfWidth, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(ElevHeight, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(CurRow, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(CurCol_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(BlockBegRow_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(BlockEndRow_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(BlockBegCol_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(BlockEndCol_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(UnknownPointer2_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(UnknownPointer3_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(CurCol, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(BlockBegRow, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(BlockEndRow, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(BlockBegCol, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(BlockEndCol, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(UnknownPointer2, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(UnknownPointer3, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(AnyFrameChange_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(MapVisibleFlag_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(FogFlag_Text, 0, wxTOP, 5);
-    General_TerrainRendering_Grid->Add(0, 0);
-    General_TerrainRendering_Grid->Add(0, 0);
-    General_TerrainRendering_Grid->Add(0, 0);
-    General_TerrainRendering_Grid->Add(0, 0);
-    General_TerrainRendering_Grid->Add(AnyFrameChange, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(MapVisibleFlag, 0, wxEXPAND);
-    General_TerrainRendering_Grid->Add(FogFlag, 0, wxEXPAND);
+    UnknownPointer1_Sizer->Add(UnknownPointer1_Text);
+    MapMinX_Sizer->Add(MapMinX_Text);
+    MapMinY_Sizer->Add(MapMinY_Text);
+    MapMaxX_Sizer->Add(MapMaxX_Text);
+    MapMaxY_Sizer->Add(MapMaxY_Text);
+    MapMaxXplus1_Sizer->Add(MapMaxXplus1_Text);
+    MapMaxYplus1_Sizer->Add(MapMaxYplus1_Text);
+    UnknownPointer1_Sizer->Add(UnknownPointer1, 0, wxEXPAND);
+    MapMinX_Sizer->Add(MapMinX, 0, wxEXPAND);
+    MapMinY_Sizer->Add(MapMinY, 0, wxEXPAND);
+    MapMaxX_Sizer->Add(MapMaxX, 0, wxEXPAND);
+    MapMaxY_Sizer->Add(MapMaxY, 0, wxEXPAND);
+    MapMaxXplus1_Sizer->Add(MapMaxXplus1, 0, wxEXPAND);
+    MapMaxYplus1_Sizer->Add(MapMaxYplus1, 0, wxEXPAND);
+    MaxTerrain_Sizer->Add(MaxTerrain_Text);
+    TileWidth_Sizer->Add(TileWidth_Text);
+    TileHeight_Sizer->Add(TileHeight_Text);
+    TileHalfHeight_Sizer->Add(TileHalfHeight_Text);
+    TileHalfWidth_Sizer->Add(TileHalfWidth_Text);
+    ElevHeight_Sizer->Add(ElevHeight_Text);
+    CurRow_Sizer->Add(CurRow_Text);
+    MaxTerrain_Sizer->Add(MaxTerrain, 0, wxEXPAND);
+    TileWidth_Sizer->Add(TileWidth, 0, wxEXPAND);
+    TileHeight_Sizer->Add(TileHeight, 0, wxEXPAND);
+    TileHalfHeight_Sizer->Add(TileHalfHeight, 0, wxEXPAND);
+    TileHalfWidth_Sizer->Add(TileHalfWidth, 0, wxEXPAND);
+    ElevHeight_Sizer->Add(ElevHeight, 0, wxEXPAND);
+    CurRow_Sizer->Add(CurRow, 0, wxEXPAND);
+    CurCol_Sizer->Add(CurCol_Text);
+    BlockBegRow_Sizer->Add(BlockBegRow_Text);
+    BlockEndRow_Sizer->Add(BlockEndRow_Text);
+    BlockBegCol_Sizer->Add(BlockBegCol_Text);
+    BlockEndCol_Sizer->Add(BlockEndCol_Text);
+    UnknownPointer2_Sizer->Add(UnknownPointer2_Text);
+    UnknownPointer3_Sizer->Add(UnknownPointer3_Text);
+    CurCol_Sizer->Add(CurCol, 0, wxEXPAND);
+    BlockBegRow_Sizer->Add(BlockBegRow, 0, wxEXPAND);
+    BlockEndRow_Sizer->Add(BlockEndRow, 0, wxEXPAND);
+    BlockBegCol_Sizer->Add(BlockBegCol, 0, wxEXPAND);
+    BlockEndCol_Sizer->Add(BlockEndCol, 0, wxEXPAND);
+    UnknownPointer2_Sizer->Add(UnknownPointer2, 0, wxEXPAND);
+    UnknownPointer3_Sizer->Add(UnknownPointer3, 0, wxEXPAND);
+    AnyFrameChange_Sizer->Add(AnyFrameChange_Text);
+    MapVisibleFlag_Sizer->Add(MapVisibleFlag_Text);
+    FogFlag_Sizer->Add(FogFlag_Text);
+    AnyFrameChange_Sizer->Add(AnyFrameChange, 0, wxEXPAND);
+    MapVisibleFlag_Sizer->Add(MapVisibleFlag, 0, wxEXPAND);
+    FogFlag_Sizer->Add(FogFlag, 0, wxEXPAND);
 
-	for(size_t loop = 0; loop < General_Something.size(); ++loop)
-	General_Something_Grid->Add(General_Something[loop], 0, wxEXPAND);
+    General_TerrainRendering_Grid->Add(UnknownPointer1_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(MapMinX_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(MapMinY_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(MapMaxX_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(MapMaxY_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(MapMaxXplus1_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(MapMaxYplus1_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(MaxTerrain_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(TileWidth_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(TileHeight_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(TileHalfHeight_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(TileHalfWidth_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(ElevHeight_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(CurRow_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(CurCol_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(BlockBegRow_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(BlockEndRow_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(BlockBegCol_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(BlockEndCol_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(UnknownPointer2_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(UnknownPointer3_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(AnyFrameChange_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(MapVisibleFlag_Sizer, 0, wxTOP | wxRIGHT, 5);
+    General_TerrainRendering_Grid->Add(FogFlag_Sizer, 0, wxTOP, 5);
+
 	for(size_t loop = 0; loop < General_SomeBytes.size(); ++loop)
-	General_SomeBytes_Grid->Add(General_SomeBytes[loop], 0, wxEXPAND);
+	General_Something_Grid->Add(General_SomeBytes[loop]);
+	for(size_t loop = 0; loop < General_Something.size(); ++loop)
+	General_Something_Grid->Add(General_Something[loop]);
 
 	General_SUnknown7_Holder->Add(General_SUnknown7_Text);
 	General_SUnknown7_Holder->Add(General_SUnknown7, 1, wxEXPAND);
@@ -363,13 +414,12 @@ void AGE_Frame::CreateGeneralControls()
 	General_SUnknown4_Holder->Add(General_SUnknown4, 1, wxEXPAND);
 	General_SUnknown5_Holder->Add(General_SUnknown5_Text);
 	General_SUnknown5_Holder->Add(General_SUnknown5, 1, wxEXPAND);
-	General_Variables_Grid->Add(General_SUnknown2_Holder, 0, wxEXPAND);
-	General_Variables_Grid->Add(General_SUnknown3_Holder, 0, wxEXPAND);
-	General_Variables_Grid->Add(General_SUnknown4_Holder, 0, wxEXPAND);
-	General_Variables_Grid->Add(General_SUnknown5_Holder, 0, wxEXPAND);
-	General_Variables_Grid->Add(General_SUnknown7_Holder, 0, wxEXPAND);
-	General_Variables_Grid->Add(General_SUnknown8_Holder, 0, wxEXPAND);
-	General_Variables1_Holder->Add(General_Variables_Grid, 0, wxEXPAND);
+	General_Variables1_Holder->Add(General_SUnknown2_Holder);
+	General_Variables1_Holder->Add(General_SUnknown3_Holder, 0, wxLEFT, 5);
+	General_Variables1_Holder->Add(General_SUnknown4_Holder, 0, wxLEFT, 5);
+	General_Variables1_Holder->Add(General_SUnknown5_Holder, 0, wxLEFT, 5);
+	General_Variables1_Holder->Add(General_SUnknown7_Holder, 0, wxLEFT, 5);
+	General_Variables1_Holder->Add(General_SUnknown8_Holder, 0, wxLEFT, 5);
 
 	General_MapPointer_Holder->Add(General_MapPointer_Text);
 	General_MapPointer_Holder->Add(General_MapPointer, 0, wxEXPAND);
@@ -385,13 +435,13 @@ void AGE_Frame::CreateGeneralControls()
 	General_WorldHeight_Holder->Add(General_WorldHeight, 0, wxEXPAND);
 	General_Unknown2_Holder->Add(General_Unknown2_Text);
 	General_Unknown2_Holder->Add(General_Unknown2, 0, wxEXPAND);
-	General_Variables2_Grid->Add(General_MapPointer_Holder, 0, wxEXPAND);
-	General_Variables2_Grid->Add(General_Unknown1_Holder, 0, wxEXPAND);
-	General_Variables2_Grid->Add(General_MapWidth_Holder, 0, wxEXPAND);
-	General_Variables2_Grid->Add(General_MapHeight_Holder, 0, wxEXPAND);
-	General_Variables2_Grid->Add(General_WorldWidth_Holder, 0, wxEXPAND);
-	General_Variables2_Grid->Add(General_WorldHeight_Holder, 0, wxEXPAND);
-	General_Variables2_Grid->Add(General_Unknown2_Holder, 0, wxEXPAND);
+	General_Variables2_Grid->Add(General_MapPointer_Holder);
+	General_Variables2_Grid->Add(General_Unknown1_Holder, 0, wxLEFT, 5);
+	General_Variables2_Grid->Add(General_MapWidth_Holder, 0, wxLEFT, 5);
+	General_Variables2_Grid->Add(General_MapHeight_Holder, 0, wxLEFT, 5);
+	General_Variables2_Grid->Add(General_WorldWidth_Holder, 0, wxLEFT, 5);
+	General_Variables2_Grid->Add(General_WorldHeight_Holder, 0, wxLEFT, 5);
+	General_Variables2_Grid->Add(General_Unknown2_Holder, 0, wxLEFT, 5);
 
 	General_ScrollSpace->Add(General_Variables1_Holder, 0, wxEXPAND);
 	General_ScrollSpace->Add(General_Variables2_Grid, 0, wxEXPAND | wxTOP | wxBOTTOM, 5);
@@ -399,7 +449,6 @@ void AGE_Frame::CreateGeneralControls()
 	General_ScrollSpace->Add(General_TileSizes_Grid, 0, wxEXPAND);
 	General_ScrollSpace->Add(General_TerrainRendering_Grid, 0, wxEXPAND | wxTOP | wxBOTTOM, 5);
 	General_ScrollSpace->Add(General_TerrainRendering_Text);
-	General_ScrollSpace->Add(General_SomeBytes_Grid, 0, wxEXPAND);
 	General_ScrollSpace->Add(General_Something_Grid, 0, wxEXPAND);
 
 	General_Scroller->SetSizer(General_ScrollSpace);
