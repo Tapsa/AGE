@@ -512,7 +512,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_DrawTile_Holder->Add(Borders_DrawTile, 0, wxEXPAND);
 	Borders_Terrain_Holder->Add(Borders_Terrain_Text);
 	Borders_Terrain_Holder->Add(Borders_Terrain, 0, wxEXPAND);
-	Borders_Terrain_Holder->Add(Borders_Terrain_ComboBox, 0, wxEXPAND);
+	Borders_Terrain_Holder->Add(Borders_Terrain_ComboBox);
 	Borders_BorderStyle_Holder->Add(Borders_BorderStyle_Text);
 	Borders_BorderStyle_Holder->Add(Borders_BorderStyle, 0, wxEXPAND);
 

@@ -1877,7 +1877,6 @@ void AGE_Frame::OnGameVersionChange()
 		Units_SelectionEffect_Holder->Show(show);
 		Units_EditorSelectionColour_Holder->Show(show);
 		Units_SelectionRadius_Holder->Show(show);
-		Units_HPBarHeight2_Holder->Show(show);
 		Units_MoveSound_Holder->Show(show);
 		Units_DisplayedPierceArmour_Holder->Show(show);
 		Units_DisplayedMeleeArmour_Holder->Show(show);
@@ -2364,7 +2363,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			ShowUnknowns = event.IsChecked();
 
 			Units_UnknownArea_Holder->Show(ShowUnknowns);
-			Units_CommandHolder_Grid3->Show(ShowUnknowns);
+			Unit_Command_Unknowns->Show(ShowUnknowns);
 			Graphics_3_Grid->Show(ShowUnknowns);
 			Graphics_Deltas_Grid_Data2->Show(ShowUnknowns);
 			Sounds_Unknown1_Holder->Show(ShowUnknowns);
