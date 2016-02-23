@@ -1186,9 +1186,9 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_2_Grid->Add(Graphics_Rainbow_Holder, 0, wxEXPAND);
 	Graphics_2_Grid->Add(Graphics_NewSpeed_Holder, 1, wxEXPAND);
 
-	Graphics_3_Grid->Add(Graphics_Unknown1_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Graphics_3_Grid->Add(Graphics_Unknown2_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Graphics_3_Grid->Add(Graphics_Unknown3_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Graphics_3_Grid->Add(Graphics_Unknown1_Holder, 1, wxEXPAND);
+	Graphics_3_Grid->Add(Graphics_Unknown2_Holder, 1, wxEXPAND);
+	Graphics_3_Grid->Add(Graphics_Unknown3_Holder, 1, wxEXPAND);
 
 	Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
 	Graphics_Deltas_Buttons->Add(Deltas_Delete, 1, wxEXPAND);
