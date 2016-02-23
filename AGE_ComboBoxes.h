@@ -4,8 +4,8 @@
 class AGEODComboBox: public wxComboBox
 {
 public:
-    AGEODComboBox(wxWindow *parent, long style = 0):
-    wxComboBox(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY | style)
+    AGEODComboBox(wxWindow *parent, int width = AGETextCtrl::LARGE, long style = 0):
+    wxComboBox(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(width, -1), 0, NULL, wxCB_READONLY | style)
     {
         Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEODComboBox::wheelParent));
     }
