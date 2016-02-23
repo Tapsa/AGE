@@ -56,6 +56,16 @@ public:
         replenish();
         Enable(true);
     }
+    virtual void refill()
+    {
+        if(container.empty())
+        {
+            Clear();
+            return;
+        }
+        editedFileId = editor->loadedFileId;
+        replenish();
+    }
     virtual void replenish()=0;
     void changeContainerType(const ContainerType type)
     {
@@ -234,7 +244,7 @@ class TextCtrl_String: public AGETextCtrl
 {
 public:
     TextCtrl_String(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned CLength = 0):
-    AGETextCtrl(parent, -1)
+    AGETextCtrl(parent, AGETextCtrl::GIANT)
     {
         this->frame = frame;
         this->editor = editor;
