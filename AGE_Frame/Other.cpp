@@ -1863,6 +1863,7 @@ void AGE_Frame::OnGameVersionChange()
 		// AoE Beta ->
 		show = (GenieVersion >= genie::GV_AoEB) ? true : false;
 		Research_PointerArea_Holder->Show(show);
+		Research_HotKey_Holder->Show(show);
 		Research_DLL_LanguageDLLHelp->Show(show);
 		Research_DLL_LanguageDLLName2->Show(show);
 		Terrains_SLP_Holder->Show(show);
@@ -4103,7 +4104,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/StayOnTop", StayOnTop);
         Config.Write("Interface/StayOnTopSLP", StayOnTopSLP);
         Config.Write("Interface/Paste11", Paste11);
-        Config.Write("Interface/MaxWindowWidth", MaxWindowWidth);
+        Config.Write("Interface/MaxWindowWidthV2", MaxWindowWidthV2);
         Config.Write("Interface/SLPareaPerCent", SLPareaPerCent);
         Config.Write("Interface/SLPbackR", SLPbackR);
         Config.Write("Interface/SLPbackG", SLPbackG);

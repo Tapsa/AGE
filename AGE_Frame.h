@@ -931,7 +931,7 @@ private:
         UseCustomPath, UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs;
 	enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
 	short How2List;
-	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidth, MinWindowWidth;
+	int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidthV2, MinWindowWidth;
 	void FixSizes();
 	chrono::time_point<chrono::system_clock> endTime;
 	genie::GameVersion GenieVersion = genie::GV_None;
@@ -1475,10 +1475,9 @@ private:
 	wxGridSizer *Research_Research_Buttons;
 	wxScrolled<wxPanel> *Research_Scroller;
 	wxBoxSizer *Research_ScrollSpace;
-	wxGridSizer *Research_MiscArea1_Grid;
 	wxBoxSizer *Research_LangDLLArea_Holder;
-	wxGridSizer *Research_Misc2_Holder;
-	wxGridSizer *Research_PointerArea_Holder;
+	wxWrapSizer *Research_Misc2_Holder;
+	wxBoxSizer *Research_PointerArea_Holder;
 	wxBoxSizer *Research_Names_Holder;
 
 	wxStaticBoxSizer *Research_Research;
@@ -1506,13 +1505,9 @@ private:
 	AGETextCtrl *Research_RequiredTechCount;
 
 	wxStaticBoxSizer *Research_CostHeader_Holder;
-	wxBoxSizer *Research_CostType_Holder;
-	wxBoxSizer *Research_CostAmount_Holder;
-	wxBoxSizer *Research_CostUsed_Holder;
+	wxBoxSizer *Research_Cost_Texts;
+	array<wxBoxSizer*, 3> Research_Cost_Sizers;
 	wxStaticText *Research_Resources_Text;
-	wxGridSizer *Research_ResourceGrid1;
-	wxGridSizer *Research_ResourceGrid2;
-	wxBoxSizer *Research_ResourceGrid[3];
 	AGETextCtrl *Research_Resources[3];
 	ComboBox_Plus1 *Research_Resources_ComboBox[3];
 	wxStaticText *Research_Amount_Text;
@@ -1574,9 +1569,10 @@ private:
 	wxBoxSizer *Research_LanguageDLLName2_Holder;
 	wxStaticText *Research_LanguageDLLName2_Text;
 	AGETextCtrl *Research_LanguageDLLName2;
-	wxBoxSizer *Research_Unknown1_Holder;
-	wxStaticText *Research_Unknown1_Text;
-	AGETextCtrl *Research_Unknown1;
+	wxBoxSizer *Research_HotKey_Holder;
+	wxStaticText *Research_HotKey_Text;
+	AGETextCtrl *Research_HotKey;
+	TextCtrl_DLL *Research_DLL_HotKey;
 	TextCtrl_DLL *Research_DLL_LanguageDLLHelp;
 	TextCtrl_DLL *Research_DLL_LanguageDLLName2;
 	wxBoxSizer *Research_LanguageDLLConverter_Holder[2];
