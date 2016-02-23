@@ -2381,7 +2381,7 @@ void AGE_Frame::CreateTechTreeControls()
 	wxString LineModeHelp = "0 research: First age\n1 age: ?\n2 unit: First in vertical line\n3 unit: Not first\n4 research: Others\n5 building: One or more connections\n6 building: No connections";
 
 	General_Variables2_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_TechTrees, "Technology Tree Related");
-	General_Variables2_Grid = new wxGridSizer(8, 5, 5);
+	TechTree_Unknowns = new wxBoxSizer(wxHORIZONTAL);
 	for(size_t loop = 0; loop < General_TTUnknown.size(); ++loop)
 	{
 		General_TTUnknown_Holder[loop] = new wxBoxSizer(wxVERTICAL);
@@ -2673,9 +2673,9 @@ void AGE_Frame::CreateTechTreeControls()
 	{
 		General_TTUnknown_Holder[loop]->Add(General_TTUnknown_Text[loop]);
 		General_TTUnknown_Holder[loop]->Add(General_TTUnknown[loop], 0, wxEXPAND);
-		General_Variables2_Grid->Add(General_TTUnknown_Holder[loop], 1, wxEXPAND);
+		TechTree_Unknowns->Add(General_TTUnknown_Holder[loop], 1, wxEXPAND | wxRIGHT, 5);
 	}
-	General_Variables2_Holder->Add(General_Variables2_Grid, 0, wxEXPAND);
+	General_Variables2_Holder->Add(TechTree_Unknowns, 0, wxEXPAND);
 
 	TechTrees_MainList_Ages_Buttons->Add(TechTrees_MainList_Ages_Add, 1, wxEXPAND);
 	TechTrees_MainList_Buildings_Buttons->Add(TechTrees_MainList_Buildings_Add, 1, wxEXPAND);
