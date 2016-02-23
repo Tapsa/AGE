@@ -465,7 +465,7 @@ void AGE_Frame::CreateCivControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Civs_Name_Holder[loop]->Add(Civs_Name_Text[loop]);
-        Civs_Name_Holder[loop]->Add(Civs_Name[loop]);
+        Civs_Name_Holder[loop]->Add(Civs_Name[loop], 0, wxEXPAND);
     }
 	Civs_SUnknown1_Holder->Add(Civs_SUnknown1_Text);
 	Civs_SUnknown1_Holder->Add(Civs_DataGrid3);
@@ -485,8 +485,8 @@ void AGE_Frame::CreateCivControls()
 	Civs_DataGrid2->Add(Civs_TechTree_Holder);
 	Civs_DataGrid2->Add(Civs_TeamBonus_Holder, 0, wxLEFT, 5);
 
-	Civs_DataArea->Add(Civs_Name_Holder[0], 0, wxTOP, 5);
-	Civs_DataArea->Add(Civs_Name_Holder[1], 0, wxTOP, 5);
+	Civs_DataArea->Add(Civs_Name_Holder[0], 0, wxEXPAND | wxTOP, 5);
+	Civs_DataArea->Add(Civs_Name_Holder[1], 0, wxEXPAND | wxTOP, 5);
 	Civs_DataArea->Add(Civs_DataGrid1, 0, wxTOP, 5);
 	Civs_DataArea->Add(Civs_DataGrid2, 0, wxTOP, 5);
 	Civs_DataArea->Add(Civs_SUnknown1_Holder, 0, wxTOP, 5);
