@@ -507,7 +507,7 @@ void AGE_Frame::CreateSoundControls()
 	SoundItems_Probability_Holder->Add(SoundFile_AutoProbability, 1, wxEXPAND | wxLEFT, 5);
 	SoundItems_Civ_Holder->Add(SoundItems_Civ_Text);
 	SoundItems_Civ_Holder->Add(SoundItems_Civ, 1, wxEXPAND);
-	SoundItems_Civ_Holder->Add(SoundItems_Civ_ComboBox, 1, wxEXPAND);
+	SoundItems_Civ_Holder->Add(SoundItems_Civ_ComboBox);
 	SoundItems_Unknown_Holder->Add(SoundItems_Unknown_Text);
 	SoundItems_Unknown_Holder->Add(SoundItems_Unknown, 1, wxEXPAND);
 
