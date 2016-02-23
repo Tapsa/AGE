@@ -255,7 +255,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Paste11Cmd.SetInt(Paste11);
 	ProcessEvent(Paste11Cmd);
 
-	if(TimesOpened < 2)
+	if(!window && TimesOpened < 2)
 	{
 		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, eHelp);
 		ProcessEvent(ShowHelpCmd);

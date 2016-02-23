@@ -4993,44 +4993,44 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandHolder_Lists->Add(Units_Exists_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_CommandHolder_Lists->Add(slp_unit_actions, 0, wxEXPAND | wxTOP, 5);
 
-    Unit_Command_Known->Add(UnitCommands_Type_Holder, 0, wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_One_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_ID_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_ClassID_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_UnitID_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_TerrainID_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_ResourceIn_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_ProductivityResource_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_ResourceOut_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_Resource_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_WorkRateMultiplier_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_ExecutionRadius_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Known->Add(UnitCommands_ExtraRange_Holder, 0, wxTOP | wxRIGHT, 5);
+    Unit_Command_Known->Add(UnitCommands_Type_Holder, 0, wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_One_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_ID_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_ClassID_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_UnitID_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_TerrainID_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_ResourceIn_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_ProductivityResource_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_ResourceOut_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_Resource_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_WorkRateMultiplier_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_ExecutionRadius_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Known->Add(UnitCommands_ExtraRange_Holder, 0, wxTOP | wxLEFT, 5);
 
     for(size_t loop = 0; loop < UnitCommands_Graphics.size(); ++loop)
     {
         UnitCommands_Graphics_Holder[loop]->Add(UnitCommands_Graphics_Text[loop]);
         UnitCommands_Graphics_Holder[loop]->Add(UnitCommands_Graphics[loop], 0, wxEXPAND);
         UnitCommands_Graphics_Holder[loop]->Add(UnitCommands_Graphics_ComboBox[loop]);
-        Unit_Command_Known->Add(UnitCommands_Graphics_Holder[loop], 0, wxTOP | wxRIGHT, 5);
+        Unit_Command_Known->Add(UnitCommands_Graphics_Holder[loop], 0, wxTOP | wxLEFT, 5);
     }
 
-    Unit_Command_Unknowns->Add(UnitCommands_Unknown1_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_Unknown4_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_Unknown5_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_SelectionEnabler_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_Unknown7_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_Unknown8_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_Unknown9_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_SelectionMode_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_RightClickMode_Holder, 0, wxTOP | wxRIGHT, 5);
-    Unit_Command_Unknowns->Add(UnitCommands_Unknown12_Holder, 0, wxTOP, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_Unknown1_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_Unknown4_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_Unknown5_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_SelectionEnabler_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_Unknown7_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_Unknown8_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_Unknown9_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_SelectionMode_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_RightClickMode_Holder, 0, wxTOP | wxLEFT, 5);
+    Unit_Command_Unknowns->Add(UnitCommands_Unknown12_Holder, 0, wxTOP | wxLEFT, 5);
 
     Units_CommandHolder_Data->Add(Unit_Command_Known, 0, wxEXPAND);
     Units_CommandHolder_Data->Add(Unit_Command_Unknowns, 0, wxEXPAND);
 
 	Units_CommandsArea_Holder->Add(Units_CommandHolder_Lists, 1, wxEXPAND);
-	Units_CommandsArea_Holder->Add(Units_CommandHolder_Data, 3, wxEXPAND | wxLEFT, 5);
+	Units_CommandsArea_Holder->Add(Units_CommandHolder_Data, 3, wxEXPAND, 5);
 
 	Units_UnknownArea_Holder->Add(Units_Type10plusUnknownArea_Holder, 0, wxTOP | wxRIGHT, 5);
 	Units_UnknownArea_Holder->Add(Units_Type30plusUnknownArea_Holder, 0, wxTOP | wxRIGHT, 5);

@@ -494,22 +494,22 @@ void AGE_Frame::CreateSoundControls()
 	Sounds_Items->Add(SoundItems_CopyToSounds, 0, wxEXPAND | wxTOP, 2);
 
 	Sounds_ID_Holder->Add(Sounds_ID_Text);
-	Sounds_ID_Holder->Add(Sounds_ID, 1, wxEXPAND);
+	Sounds_ID_Holder->Add(Sounds_ID, 0, wxEXPAND);
 	Sounds_Unknown1_Holder->Add(Sounds_Unknown1_Text);
-	Sounds_Unknown1_Holder->Add(Sounds_Unknown1, 1, wxEXPAND);
+	Sounds_Unknown1_Holder->Add(Sounds_Unknown1, 0, wxEXPAND);
 	Sounds_Unknown2_Holder->Add(Sounds_Unknown2_Text);
-	Sounds_Unknown2_Holder->Add(Sounds_Unknown2, 1, wxEXPAND);
+	Sounds_Unknown2_Holder->Add(Sounds_Unknown2, 0, wxEXPAND);
 	SoundItems_Name_Holder->Add(SoundItems_Name_Text);
-	SoundItems_Name_Holder->Add(SoundItems_Name, 1, wxEXPAND);
-	SoundItems_Resource_Holder->Add(SoundItems_Resource, 1, wxEXPAND);
+	SoundItems_Name_Holder->Add(SoundItems_Name, 0, wxEXPAND);
+	SoundItems_Resource_Holder->Add(SoundItems_Resource);
 	SoundItems_Resource_Holder->Add(SoundFile_AutoIncrement, 1, wxEXPAND | wxLEFT, 5);
-	SoundItems_Probability_Holder->Add(SoundItems_Probability, 1, wxEXPAND);
+	SoundItems_Probability_Holder->Add(SoundItems_Probability);
 	SoundItems_Probability_Holder->Add(SoundFile_AutoProbability, 1, wxEXPAND | wxLEFT, 5);
 	SoundItems_Civ_Holder->Add(SoundItems_Civ_Text);
-	SoundItems_Civ_Holder->Add(SoundItems_Civ, 1, wxEXPAND);
+	SoundItems_Civ_Holder->Add(SoundItems_Civ, 0, wxEXPAND);
 	SoundItems_Civ_Holder->Add(SoundItems_Civ_ComboBox);
 	SoundItems_Unknown_Holder->Add(SoundItems_Unknown_Text);
-	SoundItems_Unknown_Holder->Add(SoundItems_Unknown, 1, wxEXPAND);
+	SoundItems_Unknown_Holder->Add(SoundItems_Unknown, 0, wxEXPAND);
 
 	Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_Search, 1, wxEXPAND);
 	Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
@@ -527,17 +527,17 @@ void AGE_Frame::CreateSoundControls()
 	TargetCiv_Holder->Add(TargetCiv_Text);
 	TargetCiv_Holder->Add(SoundFile_Target_Civ, 1, wxEXPAND);
 
-	Sounds_DataArea->Add(Sounds_ID_Holder, 0, wxEXPAND | wxTOP, 5);
-	Sounds_DataArea->Add(Sounds_Unknown1_Holder, 0, wxEXPAND | wxTOP, 5);
-	Sounds_DataArea->Add(Sounds_Unknown2_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(Sounds_ID_Holder, 0, wxTOP, 5);
+	Sounds_DataArea->Add(Sounds_Unknown1_Holder, 0, wxTOP, 5);
+	Sounds_DataArea->Add(Sounds_Unknown2_Holder, 0, wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Name_Holder, 0, wxEXPAND | wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Resource_Text, 0, wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Resource_Holder, 0, wxEXPAND);
 	Sounds_DataArea->Add(SoundItems_Probability_Text, 0, wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Probability_Holder, 0, wxEXPAND);
-	Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxEXPAND | wxTOP, 5);
+	Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxTOP, 5);
 	Sounds_DataArea->Add(SoundItems_Unknown_Holder, 0, wxEXPAND | wxTOP, 5);
-	SoundFile_Holder->Add(SoundFile_Loop, 0, wxEXPAND);
+	SoundFile_Holder->Add(SoundFile_Loop);
 	SoundFile_Holder->Add(SoundFile_Play, 1, wxEXPAND | wxLEFT, 5);
 	SoundFile_Holder->Add(SoundFile_Stop, 1, wxEXPAND | wxLEFT, 5);
 	Sounds_DataArea->Add(SoundFile_Holder, 0, wxEXPAND | wxTOP, 5);
@@ -547,7 +547,7 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_Main->Add(Sounds_Sounds, 1, wxEXPAND | wxALL, 5);
 	Sounds_Main->Add(Sounds_Items, 1, wxEXPAND | wxRIGHT | wxTOP | wxBOTTOM, 5);
-	Sounds_Main->Add(Sounds_DataArea, 1, wxEXPAND | wxRIGHT, 5);
+	Sounds_Main->Add(Sounds_DataArea, 0, wxRIGHT, 5);
 	Sounds_Main->Add(Sounds_AllItems, 1, wxEXPAND | wxRIGHT | wxTOP | wxBOTTOM, 5);
 
 	if(EnableIDFix)
