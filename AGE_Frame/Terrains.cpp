@@ -866,8 +866,8 @@ void AGE_Frame::CreateTerrainControls()
 
 	Terrains_Area1_Grid->Add(Terrains_SLP_Holder, 1, wxEXPAND);
 	Terrains_Area1_Grid->Add(Terrains_SoundID_Holder, 1, wxEXPAND);
-	Terrains_Area1_Grid->Add(Terrains_BlendPriority_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Terrains_Area1_Grid->Add(Terrains_BlendType_Holder, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Terrains_Area1_Grid->Add(Terrains_BlendPriority_Holder, 1, wxEXPAND);
+	Terrains_Area1_Grid->Add(Terrains_BlendType_Holder, 1, wxEXPAND);
 	Terrains_Area1_Grid->Add(Terrains_Colors_Holder, 1, wxEXPAND);
 	Terrains_Area1_Grid->Add(Terrains_CliffColors_Holder, 1, wxEXPAND);
 

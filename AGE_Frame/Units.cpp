@@ -4731,10 +4731,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_GraphicsArea4_Holder->Add(Units_DyingGraphic_Holder);
 	Units_GraphicsArea4_Holder->Add(Units_WalkingGraphic_Holder);
 
-	Units_GraphicsArea5_Holder->Add(Units_SnowGraphicID_Holder, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Units_GraphicsArea5_Holder->Add(Units_SnowGraphicID_Holder);
 	Units_GraphicsArea5_Holder->Add(Units_ConstructionGraphicID_Holder, 0, wxLEFT, 5);
 	Units_GraphicsArea5_Holder->Add(Units_AttackGraphic_Holder, 0, wxLEFT, 5);
-	Units_GraphicsArea5_Holder->Add(Units_GarrisonGraphic_Holder, 0, wxLEFT | wxRESERVE_SPACE_EVEN_IF_HIDDEN, 5);
+	Units_GraphicsArea5_Holder->Add(Units_GarrisonGraphic_Holder, 0, wxLEFT, 5);
 
 	DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID_Text);
 	DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID, 0, wxEXPAND);

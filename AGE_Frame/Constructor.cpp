@@ -49,7 +49,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interface/StayOnTop", &StayOnTop, false);
         Config.Read("Interface/StayOnTopSLP", &StayOnTopSLP, false);
         Config.Read("Interface/Paste11", &Paste11, false);
-        Config.Read("Interface/MaxWindowWidth", &MaxWindowWidth, 900);
+        Config.Read("Interface/MaxWindowWidthV2", &MaxWindowWidthV2, 0x4000);
         Config.Read("Interface/SLPareaPerCent", &SLPareaPerCent, 100);
         Config.Read("Interface/SLPbackR", &SLPbackR, 255);
         Config.Read("Interface/SLPbackG", &SLPbackG, 255);
@@ -306,7 +306,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
 void AGE_Frame::FixSizes()
 {
-	SetMinSize(wxSize(MinWindowWidth, 480));
-	if(MaxWindowWidth < GetMinSize().GetWidth()) MaxWindowWidth = GetMinSize().GetWidth();
-	SetMaxSize(wxSize(MaxWindowWidth, 4096));
+    SetMinSize(wxSize(MinWindowWidth, 480));
+    if(MaxWindowWidthV2 < GetMinSize().GetWidth()) MaxWindowWidthV2 = GetMinSize().GetWidth();
+    SetMaxSize(wxSize(MaxWindowWidthV2, 0x4000));
 }
