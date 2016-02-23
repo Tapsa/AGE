@@ -75,8 +75,7 @@ void AGE_Frame::OnUnitLinesTimer(wxTimerEvent &event)
 	}
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected unit line: "+lexical_cast<string>(UnitLineIDs.front()), 0);
 
-	UnitLines_ID->update();
-	UnitLines_ID->Enable(false);
+	UnitLines_ID->refill();
 	UnitLines_Name->update();
 	ListUnitLineUnits();
 }
@@ -310,7 +309,7 @@ void AGE_Frame::CreateUnitLineControls()
 
 	UnitLines_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitLines_ID_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	UnitLines_ID = AGETextCtrl::init(CShort, NULL, this, &popUp, Tab_UnitLine);
+	UnitLines_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Tab_UnitLine);
 	UnitLines_Name_Holder = new wxBoxSizer(wxVERTICAL);
 	UnitLines_Name_Text = new wxStaticText(Tab_UnitLine, wxID_ANY, " Unitline Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	UnitLines_Name = AGETextCtrl::init(CString, NULL, this, &popUp, Tab_UnitLine, 30);

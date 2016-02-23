@@ -67,6 +67,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
     getSelectedItems(selections, Colors_Colors_ListV, ColorIDs);
 
     for(auto &box: uiGroupColor) box->clear();
+    Colors_ID->clear();
 
 	genie::PlayerColour * PlayerColorPointer = 0;
 	for(auto loop = selections; loop--> 0;)
@@ -93,7 +94,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs.front()), 0);
 
     for(auto &box: uiGroupColor) box->update();
-	Colors_ID->Enable(false);
+	Colors_ID->refill();
     if(PlayerColorPointer && !palettes.empty() && !palettes.front().empty())
     {
         genie::Color playerColor = palettes.front()[(uint8_t)PlayerColorPointer->Colour];
@@ -243,7 +244,7 @@ void AGE_Frame::CreatePlayerColorControls()
 	Colors_Unknown4_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 4", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Unknown5_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Statistics Text", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Colors_Name = AGETextCtrl::init(CString, &uiGroupColor, this, &popUp, Tab_PlayerColors, 30);
-	Colors_ID = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+	Colors_ID = AGETextCtrl::init(CLong, 0, this, &popUp, Tab_PlayerColors);
 	Colors_Palette = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
 	Colors_Palette->SetToolTip("Starting index of the main color palette\nfrom where 8 colors are dedicated to this player color");
 	Colors_ColorL = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);

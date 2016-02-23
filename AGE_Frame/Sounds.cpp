@@ -60,6 +60,7 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
     getSelectedItems(selections, Sounds_Sounds_ListV, SoundIDs);
 
 	for(auto &box: uiGroupSound) box->clear();
+	Sounds_ID->clear();
 
 	genie::Sound * SoundPointer;
 	for(auto loop = selections; loop--> 0;)
@@ -74,7 +75,7 @@ void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
 	SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs.front()), 0);
 
 	for(auto &box: uiGroupSound) box->update();
-	Sounds_ID->Enable(false);
+	Sounds_ID->refill();
 	ListSoundItems();
 }
 
@@ -405,7 +406,7 @@ void AGE_Frame::CreateSoundControls()
 
 	Sounds_ID_Holder = new wxBoxSizer(wxVERTICAL);
 	Sounds_ID_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Sound ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Sounds_ID = AGETextCtrl::init(CShort, &uiGroupSound, this, &popUp, Tab_Sounds);
+	Sounds_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Tab_Sounds);
 	Sounds_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Sounds_Unknown1_Text = new wxStaticText(Tab_Sounds, wxID_ANY, " Play at Update Count", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Sounds_Unknown1 = AGETextCtrl::init(CShort, &uiGroupSound, this, &popUp, Tab_Sounds);
