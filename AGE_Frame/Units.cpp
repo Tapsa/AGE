@@ -345,7 +345,6 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
 	auto selections = Units_ListV->GetSelectedItemCount();
 
 	wxBusyCursor WaitCursor;
-    Tab_Units->Freeze();
     getSelectedItems(selections, Units_ListV, UnitIDs);
 	UnitCivID = Units_Civs_List->GetSelection();
 
@@ -792,7 +791,6 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent &event)
     Units_ID1->refill();
     Units_ID2->refill();
     Units_ID3->refill();
-    Tab_Units->Thaw();
 	//	Refresh(); // Too much lag.
     Units_IconID_SLP->Refresh();
     if(slp_window) slp_view->Refresh();

@@ -1081,7 +1081,7 @@ void AGE_Frame::CreateTechControls()
 	Effects_Type->SetToolTip("101 and 103 are only for\ntech tree and team bonus");
 	Effects_Type_ComboBox = new ComboBox_EffectType(Tab_Techs, Effects_Type);
 	Effects_Data_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effect Attributes");
-	Effects_NeverHide = new wxCheckBox(Tab_Techs, wxID_ANY, "Never hide attributes", wxDefaultPosition, wxSize(40, 20));
+	Effects_NeverHide = new wxCheckBox(Tab_Techs, wxID_ANY, "Never hide attributes", wxDefaultPosition, wxDefaultSize);
 	Effects_DataA_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Effects_DataB_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Effects_DataC_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -1092,10 +1092,9 @@ void AGE_Frame::CreateTechControls()
 	Effects_B_Holder = new wxBoxSizer(wxVERTICAL);
 	Effects_C_Holder = new wxBoxSizer(wxVERTICAL);
 	Effects_D_Holder = new wxBoxSizer(wxVERTICAL);
-	Effects_E_Holder = new wxBoxSizer(wxVERTICAL);
 	Effects_F_Holder = new wxBoxSizer(wxVERTICAL);
-	Effects_A_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute A ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_A = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs);
+	Effects_A_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute A ", wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_A = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
 	Effects_A_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_UnitsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
 	UnitComboBoxList.push_back(Effects_UnitsA_ComboBox);
@@ -1104,8 +1103,8 @@ void AGE_Frame::CreateTechControls()
 	Effects_ResearchsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
 	ResearchComboBoxList.push_back(Effects_ResearchsA_ComboBox);
 	Effects_Info_A = new wxStaticText(Tab_Techs, wxID_ANY, " Info A", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_B_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute B ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_B = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs);
+	Effects_B_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute B ", wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_B = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
 	Effects_B_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ModeB_CheckBox = new CheckBox_2State(Tab_Techs, "", Effects_B);
 	Units_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_B);
@@ -1114,23 +1113,23 @@ void AGE_Frame::CreateTechControls()
 	Effects_ResourcesB_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_B);
 	ResourceComboBoxList.push_back(Effects_ResourcesB_ComboBox);
 	Effects_Info_B = new wxStaticText(Tab_Techs, wxID_ANY, " Info B", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_C_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute C ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_C = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs);
+	Effects_C_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute C ", wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_C = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
 	Effects_C_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ModeC_CheckBox = new CheckBox_2State(Tab_Techs, "", Effects_C);
 	Effects_AttributesC_ComboBox = new ComboBox_EffectAttribute(Tab_Techs, Effects_C);
 	Effects_Info_C = new wxStaticText(Tab_Techs, wxID_ANY, " Info C", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_D_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute D ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_D = AGETextCtrl::init(CFloat, &uiGroupTechEffect, this, &popUp, Tab_Techs);
+	Effects_D_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Attribute D ", wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_D = AGETextCtrl::init(CFloat, &uiGroupTechEffect, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
 	Effects_D_ComboBox = new wxBoxSizer(wxHORIZONTAL);
 	Effects_ResearchsD_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_D);
 	ResearchComboBoxList.push_back(Effects_ResearchsD_ComboBox);
 	Effects_Info_D = new wxStaticText(Tab_Techs, wxID_ANY, " Info D", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_E_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Amount or % ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_E = AGETextCtrl::init(CUByte, NULL, this, &popUp, Tab_Techs);
+	Effects_E_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Amount or % ", wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_E = AGETextCtrl::init(CUByte, NULL, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
 	Effects_Info_E = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Effects_F_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Type ", wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
-	Effects_F = AGETextCtrl::init(CUByte, NULL, this, &popUp, Tab_Techs);
+	Effects_F_Text = new wxStaticText(Tab_Techs, wxID_ANY, "Type ", wxDefaultPosition, wxSize(100, -1), wxALIGN_RIGHT | wxST_NO_AUTORESIZE);
+	Effects_F = AGETextCtrl::init(CUByte, NULL, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
 	Attacks_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_F);
 	Effects_Info_F = new wxStaticText(Tab_Techs, wxID_ANY, " Attack | Armor", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 
@@ -1187,69 +1186,67 @@ void AGE_Frame::CreateTechControls()
 
 	Effects_ListArea->Add(Techs_Effects, 1, wxEXPAND | wxTOP, 5);
 
-	Effects_Type2_Holder->Add(Effects_Type, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_Type2_Holder->Add(Effects_Type, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Type2_Holder->Add(Effects_Type_ComboBox, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 	Effects_Type_Holder->Add(Effects_Type_Text, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_Type_Holder->Add(Effects_Type2_Holder, 1, wxEXPAND);
+	Effects_Type_Holder->Add(Effects_Type2_Holder);
 
 	Effects_A_ComboBox->Add(Effects_UnitsA_ComboBox);
 	Effects_A_ComboBox->Add(Effects_ResourcesA_ComboBox);
 	Effects_A_ComboBox->Add(Effects_ResearchsA_ComboBox);
-	Effects_A_Holder->Add(Effects_A, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_A_Holder->Add(Effects_A_ComboBox, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_A_Holder->Add(Effects_A, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_A_Holder->Add(Effects_A_ComboBox, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_DataA_Holder->Add(Effects_A_Text, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_DataA_Holder->Add(Effects_A_Holder, 2, wxEXPAND);
-	Effects_DataA_Holder->Add(Effects_Info_A, 2, wxEXPAND);
+	Effects_DataA_Holder->Add(Effects_A_Text);
+	Effects_DataA_Holder->Add(Effects_A_Holder);
+	Effects_DataA_Holder->Add(Effects_Info_A);
 
-	Effects_B_ComboBox->Add(Effects_ModeB_CheckBox, 1, wxEXPAND);
+	Effects_B_ComboBox->Add(Effects_ModeB_CheckBox);
 	Effects_B_ComboBox->Add(Units_Class_ComboBox[2]);
 	Effects_B_ComboBox->Add(Effects_UnitsB_ComboBox);
 	Effects_B_ComboBox->Add(Effects_ResourcesB_ComboBox);
-	Effects_B_Holder->Add(Effects_B, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_B_Holder->Add(Effects_B_ComboBox, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_B_Holder->Add(Effects_B, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_B_Holder->Add(Effects_B_ComboBox, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_DataB_Holder->Add(Effects_B_Text, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_DataB_Holder->Add(Effects_B_Holder, 2, wxEXPAND);
-	Effects_DataB_Holder->Add(Effects_Info_B, 2, wxEXPAND);
+	Effects_DataB_Holder->Add(Effects_B_Text);
+	Effects_DataB_Holder->Add(Effects_B_Holder);
+	Effects_DataB_Holder->Add(Effects_Info_B);
 
-	Effects_C_ComboBox->Add(Effects_ModeC_CheckBox, 1, wxEXPAND);
+	Effects_C_ComboBox->Add(Effects_ModeC_CheckBox);
 	Effects_C_ComboBox->Add(Effects_AttributesC_ComboBox);
-	Effects_C_Holder->Add(Effects_C, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_C_Holder->Add(Effects_C_ComboBox, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_C_Holder->Add(Effects_C, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_C_Holder->Add(Effects_C_ComboBox, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_DataC_Holder->Add(Effects_C_Text, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_DataC_Holder->Add(Effects_C_Holder, 2, wxEXPAND);
-	Effects_DataC_Holder->Add(Effects_Info_C, 2, wxEXPAND);
+	Effects_DataC_Holder->Add(Effects_C_Text);
+	Effects_DataC_Holder->Add(Effects_C_Holder);
+	Effects_DataC_Holder->Add(Effects_Info_C);
 
 	Effects_D_ComboBox->Add(Effects_ResearchsD_ComboBox);
-	Effects_D_Holder->Add(Effects_D, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_D_Holder->Add(Effects_D_ComboBox, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_D_Holder->Add(Effects_D, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_D_Holder->Add(Effects_D_ComboBox, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_DataD_Holder->Add(Effects_D_Text, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_DataD_Holder->Add(Effects_D_Holder, 2, wxEXPAND);
-	Effects_DataD_Holder->Add(Effects_Info_D, 2, wxEXPAND);
+	Effects_DataD_Holder->Add(Effects_D_Text);
+	Effects_DataD_Holder->Add(Effects_D_Holder);
+	Effects_DataD_Holder->Add(Effects_Info_D);
 
-	Effects_E_Holder->Add(Effects_E, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_DataE_Holder->Add(Effects_E_Text);
+	Effects_DataE_Holder->Add(Effects_E, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_DataE_Holder->Add(Effects_Info_E);
 
-	Effects_DataE_Holder->Add(Effects_E_Text, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_DataE_Holder->Add(Effects_E_Holder, 2, wxEXPAND);
-	Effects_DataE_Holder->Add(Effects_Info_E, 2, wxEXPAND);
+	Effects_F_Holder->Add(Effects_F, 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_F_Holder->Add(Attacks_Class_ComboBox[2], 1, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
 
-	Effects_F_Holder->Add(Effects_F, 1, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-	Effects_F_Holder->Add(Attacks_Class_ComboBox[2], 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+	Effects_DataF_Holder->Add(Effects_F_Text);
+	Effects_DataF_Holder->Add(Effects_F_Holder);
+	Effects_DataF_Holder->Add(Effects_Info_F);
 
-	Effects_DataF_Holder->Add(Effects_F_Text, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-	Effects_DataF_Holder->Add(Effects_F_Holder, 2, wxEXPAND);
-	Effects_DataF_Holder->Add(Effects_Info_F, 2, wxEXPAND);
-
-	Effects_Data_Holder->Add(Effects_NeverHide, 0, wxEXPAND);
-	Effects_Data_Holder->Add(Effects_DataA_Holder, 0, wxEXPAND | wxTOP, 5);
-	Effects_Data_Holder->Add(Effects_DataB_Holder, 0, wxEXPAND | wxTOP, 5);
-	Effects_Data_Holder->Add(Effects_DataC_Holder, 0, wxEXPAND | wxTOP, 5);
-	Effects_Data_Holder->Add(Effects_DataD_Holder, 0, wxEXPAND | wxTOP, 5);
-	Effects_Data_Holder->Add(Effects_DataE_Holder, 0, wxEXPAND | wxTOP, 5);
-	Effects_Data_Holder->Add(Effects_DataF_Holder, 0, wxEXPAND);
+	Effects_Data_Holder->Add(Effects_NeverHide);
+	Effects_Data_Holder->Add(Effects_DataA_Holder, 0, wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataB_Holder, 0, wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataC_Holder, 0, wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataD_Holder, 0, wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataE_Holder, 0, wxTOP, 5);
+	Effects_Data_Holder->Add(Effects_DataF_Holder);
 
 	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_Search, 1, wxEXPAND);
 	Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
