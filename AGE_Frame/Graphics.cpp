@@ -893,11 +893,11 @@ void AGE_Frame::CreateGraphicsControls()
 {
 	Tab_Graphics = new wxPanel(TabBar_Main);
 	Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Sprites  (Search by enter)");
+	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Sprites");
 
-	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY);
 	Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
-	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
+	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY);
 	Graphics_Graphics_UseAnd[1] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
