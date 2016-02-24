@@ -358,11 +358,11 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Enabled1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Borders_Enabled_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Enabled = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::TINY);
+	Borders_Enabled = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::SMALL);
 	Borders_Enabled_CheckBox = new CheckBox_2State(Tab_TerrainBorders, " Yes", Borders_Enabled);
 	Borders_Random_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_Random_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Random", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Borders_Random = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::TINY);
+	Borders_Random = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::SMALL);
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Borders_Name_Holder[loop] = new wxBoxSizer(wxVERTICAL);
@@ -384,7 +384,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Colors_Grid = new wxGridSizer(3, 0, 0);
 	Borders_Colors_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Minimap Colors", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	for(size_t loop = 0; loop < 3; ++loop)
-	Borders_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::TINY);
+	Borders_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::SMALL);
 	Borders_DrawTile_Holder = new wxBoxSizer(wxVERTICAL);
 	Borders_DrawTile_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Draw Tile", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_DrawTile = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);

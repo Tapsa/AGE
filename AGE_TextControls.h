@@ -34,7 +34,7 @@ public:
     AGETextCtrl(wxWindow *parent, int width):
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER){edits = 0;}
 
-    static const unsigned TINY=30, SMALL=50, MEDIUM=70, NORMAL=100, LARGE=150, GIANT=200;
+    static const unsigned SMALL=50, MEDIUM=70, NORMAL=100, LARGE=150, GIANT=200;
     static AGETextCtrl* init(const ContainerType type, vector<AGETextCtrl*> *group,
         wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned length = NORMAL);
     virtual int SaveEdits(bool forced = false)=0;
