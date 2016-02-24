@@ -12,6 +12,10 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2016.2.24[/b]:
+-Fixed referenced techs for AoE and RoR.
+-Improved layout all around.
+
 Version [b]2016.2.21[/b]:
 -Text scaling should work better now.
 -SLP view controls reactivated.

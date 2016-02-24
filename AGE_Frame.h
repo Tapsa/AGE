@@ -1126,7 +1126,7 @@ private:
 	wxButton *Borders_Paste;
 	wxBoxSizer *Borders_DataArea;
 	wxBoxSizer *Borders_DataTopRow;
-	wxGridSizer *Borders_Data1;
+	wxWrapSizer *Borders_Data1;
 	wxBoxSizer *Borders_FrameData;
 	wxStaticBoxSizer *Borders_Borders_Holder;
 
@@ -1149,7 +1149,6 @@ private:
 	wxButton *BorderShapes_CopyToBorders;
 
 	wxBoxSizer *Borders_FrameArea_Holder;
-	wxGridSizer *Borders_Data2;
 	wxBoxSizer *Borders_Enabled_Holder;
 	wxBoxSizer *Borders_Enabled1_Holder;
 	wxStaticText *Borders_Enabled_Text;
@@ -1174,7 +1173,7 @@ private:
 	wxGridSizer *Borders_Colors_Grid;
 	wxStaticText *Borders_Colors_Text;
 	array<AGETextCtrl*, 3> Borders_Colors;
-	wxGridSizer *Borders_Animation_Grid;
+	wxWrapSizer *Borders_Animation_Grid;
 	wxBoxSizer *Borders_IsAnimated_Holder;
 	wxStaticText *Borders_IsAnimated_Text;
 	AGETextCtrl *Borders_IsAnimated;
@@ -1296,34 +1295,23 @@ private:
 	wxButton *Unknowns_Paste;
 	wxButton *Unknowns_PasteInsert;
 
-	wxBoxSizer *Unknowns_Space_UnknownLevel;
-	wxBoxSizer *Unknowns_UnknownLevel_Holder;
 	wxStaticText *Unknowns_UnknownLevel_Text;
 	AGETextCtrl *Unknowns_UnknownLevel;
-	wxGridSizer *Unknowns_Unknown1_Grid;
+	wxWrapSizer *Unknowns_Unknown1_Grid;
 	array<wxBoxSizer*, 9> Unknowns_Unknown1_Holder;
 	array<wxStaticText*, 9> Unknowns_Unknown1_Text;
 	array<AGETextCtrl*, 9> Unknowns_Unknown1;
-	wxBoxSizer *Unknowns_Space_Pointer1;
-	wxBoxSizer *Unknowns_Pointer1_Holder;
 	wxStaticText *Unknowns_Pointer1_Text;
 	AGETextCtrl *Unknowns_Pointer1;
-	wxBoxSizer *Unknowns_Space_Pointer2;
-	wxBoxSizer *Unknowns_Pointer2_Holder;
 	wxStaticText *Unknowns_Pointer2_Text;
 	AGETextCtrl *Unknowns_Pointer2;
-	wxBoxSizer *Unknowns_Space_Pointer3;
-	wxBoxSizer *Unknowns_Pointer3_Holder;
 	wxStaticText *Unknowns_Pointer3_Text;
 	AGETextCtrl *Unknowns_Pointer3;
-	wxBoxSizer *Unknowns_Space_Pointer4;
-	wxBoxSizer *Unknowns_Pointer4_Holder;
 	wxStaticText *Unknowns_Pointer4_Text;
 	AGETextCtrl *Unknowns_Pointer4;
 
 	wxStaticBoxSizer *RMSBaseZones;
 	wxBoxSizer *RMSBaseZones_ListArea;
-	wxBoxSizer *RMSBaseZones_DataArea;
 	wxTextCtrl *RMSBaseZones_Search;
 	wxTextCtrl *RMSBaseZones_Search_R;
 	AGEListView *RMSBaseZones_ListV;
@@ -1336,7 +1324,7 @@ private:
 	wxButton *RMSBaseZones_PasteInsert;
 	wxButton *RMSBaseZones_CopyToMaps;
 
-	wxGridSizer *RMSBaseZones_Unknown1_Grid;
+	wxWrapSizer *RMSBaseZones_Unknown1_Grid;
 
 	wxBoxSizer *RMSBaseZones_Unknown1_Holder;
 	wxStaticText *RMSBaseZones_Unknown1_Text;
@@ -1380,7 +1368,6 @@ private:
 
 	wxStaticBoxSizer *RMSTerrain;
 	wxBoxSizer *RMSTerrain_ListArea;
-	wxBoxSizer *RMSTerrain_DataArea;
 	wxTextCtrl *RMSTerrain_Search;
 	wxTextCtrl *RMSTerrain_Search_R;
 	AGEListView *RMSTerrain_ListV;
@@ -1393,14 +1380,13 @@ private:
 	wxButton *RMSTerrain_PasteInsert;
 	wxButton *RMSTerrain_CopyToMaps;
 
-	wxGridSizer *RMSTerrain_Unknown1_Grid;
+	wxWrapSizer *RMSTerrain_Unknown1_Grid;
 	array<wxBoxSizer*, 6> RMSTerrain_Unknown1_Holder;
 	array<wxStaticText*, 6> RMSTerrain_Unknown1_Text;
 	array<AGETextCtrl*, 6> RMSTerrain_Unknown1;
 
 	wxStaticBoxSizer *RMSUnit;
 	wxBoxSizer *RMSUnit_ListArea;
-	wxBoxSizer *RMSUnit_DataArea;
 	wxTextCtrl *RMSUnit_Search;
 	wxTextCtrl *RMSUnit_Search_R;
 	AGEListView *RMSUnit_ListV;
@@ -1413,7 +1399,7 @@ private:
 	wxButton *RMSUnit_PasteInsert;
 	wxButton *RMSUnit_CopyToMaps;
 
-	wxGridSizer *RMSUnit_Unknown1_Grid;
+	wxWrapSizer *RMSUnit_Unknown1_Grid;
 	wxBoxSizer *RMSUnit_Unit_Holder;
 	wxStaticText *RMSUnit_Unit_Text;
 	AGETextCtrl *RMSUnit_Unit;
@@ -1451,7 +1437,6 @@ private:
 
 	wxStaticBoxSizer *RMSUnknown;
 	wxBoxSizer *RMSUnknown_ListArea;
-	wxBoxSizer *RMSUnknown_DataArea;
 	wxTextCtrl *RMSUnknown_Search;
 	wxTextCtrl *RMSUnknown_Search_R;
 	AGEListView *RMSUnknown_ListV;
@@ -1464,7 +1449,7 @@ private:
 	wxButton *RMSUnknown_PasteInsert;
 	wxButton *RMSUnknown_CopyToMaps;
 
-	wxGridSizer *RMSUnknown_Unknown1_Grid;
+	wxWrapSizer *RMSUnknown_Unknown1_Grid;
 	array<wxBoxSizer*, 6> RMSUnknown_Unknown1_Holder;
 	array<wxStaticText*, 6> RMSUnknown_Unknown1_Text;
 	array<AGETextCtrl*, 6> RMSUnknown_Unknown1;
