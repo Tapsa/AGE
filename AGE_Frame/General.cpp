@@ -1251,11 +1251,9 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Paste = new wxButton(Tab_Unknown, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
 	Unknowns_PasteInsert = new wxButton(Tab_Unknown, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
-	Unknowns_Space_UnknownLevel = new wxBoxSizer(wxHORIZONTAL);
-	Unknowns_UnknownLevel_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_UnknownLevel_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Script Number");
 	Unknowns_UnknownLevel = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
-	Unknowns_Unknown1_Grid = new wxGridSizer(5, 5, 5);
+	Unknowns_Unknown1_Grid = new wxWrapSizer();
 	for(size_t loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
 	{
 		Unknowns_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
@@ -1277,14 +1275,11 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_Unknown1_Text[7] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Cover % *");
 	Unknowns_Unknown1[7]->SetToolTip("Can be over 100");
 	Unknowns_Unknown1_Text[8] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 9");
-	Unknowns_Space_Pointer1 = new wxBoxSizer(wxHORIZONTAL);
-	Unknowns_Pointer1_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Pointer1_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Pointer");
 	Unknowns_Pointer1 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
 
 	RMSBaseZones = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Base Zone Data");
 	RMSBaseZones_ListArea = new wxBoxSizer(wxVERTICAL);
-	RMSBaseZones_DataArea = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSBaseZones_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSBaseZones_ListV = new AGEListView(Unknown_Scroller, wxSize(140, 100));
@@ -1297,7 +1292,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 	RMSBaseZones_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
 
-	RMSBaseZones_Unknown1_Grid = new wxGridSizer(3, 5, 5);
+	RMSBaseZones_Unknown1_Grid = new wxWrapSizer();
 
 	RMSBaseZones_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSBaseZones_Unknown1_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 1");
@@ -1346,14 +1341,11 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_Unknown11_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 11");
 	RMSBaseZones_Unknown11 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
 
-	Unknowns_Space_Pointer2 = new wxBoxSizer(wxHORIZONTAL);
-	Unknowns_Pointer2_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Pointer2_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Terrain Pointer");
 	Unknowns_Pointer2 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
 
 	RMSTerrain = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Terrains Placed on the Map");
 	RMSTerrain_ListArea = new wxBoxSizer(wxVERTICAL);
-	RMSTerrain_DataArea = new wxBoxSizer(wxVERTICAL);
 	RMSTerrain_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSTerrain_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSTerrain_ListV = new AGEListView(Unknown_Scroller, wxSize(140, 100));
@@ -1366,7 +1358,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 	RMSTerrain_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
 
-	RMSTerrain_Unknown1_Grid = new wxGridSizer(3, 5, 5);
+	RMSTerrain_Unknown1_Grid = new wxWrapSizer();
 	for(size_t loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
 	{
 		RMSTerrain_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
@@ -1382,14 +1374,11 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_Unknown1_Text[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain");
 	RMSTerrain_Unknown1_Text[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6");
 
-	Unknowns_Space_Pointer3 = new wxBoxSizer(wxHORIZONTAL);
-	Unknowns_Pointer3_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Pointer3_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Unit Pointer");
 	Unknowns_Pointer3 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
 
 	RMSUnit = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Units Placed on the Map (Some may appear anyway)");
 	RMSUnit_ListArea = new wxBoxSizer(wxVERTICAL);
-	RMSUnit_DataArea = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSUnit_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSUnit_ListV = new AGEListView(Unknown_Scroller, wxSize(140, 250));
@@ -1402,7 +1391,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 	RMSUnit_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
 
-	RMSUnit_Unknown1_Grid = new wxGridSizer(3, 5, 5);
+	RMSUnit_Unknown1_Grid = new wxWrapSizer();
 	RMSUnit_Unit_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_Unit_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unit");
 	RMSUnit_Unit = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
@@ -1445,14 +1434,11 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_MaxDistanceToPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
 	RMSUnit_MaxDistanceToPlayers->SetToolTip("- Don't use 0 here for units that are own at start\n- 0 is OK for other units (gold/bushes/gazelle/etc)\n- You can use -1 as a wildcard for units that are own at start");
 
-	Unknowns_Space_Pointer4 = new wxBoxSizer(wxHORIZONTAL);
-	Unknowns_Pointer4_Holder = new wxBoxSizer(wxVERTICAL);
 	Unknowns_Pointer4_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Unknown Pointer");
 	Unknowns_Pointer4 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
 
 	RMSUnknown = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Unknowns Placed on the Map");
 	RMSUnknown_ListArea = new wxBoxSizer(wxVERTICAL);
-	RMSUnknown_DataArea = new wxBoxSizer(wxVERTICAL);
 	RMSUnknown_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSUnknown_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
 	RMSUnknown_ListV = new AGEListView(Unknown_Scroller, wxSize(140, 100));
@@ -1465,7 +1451,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnknown_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 	RMSUnknown_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
 
-	RMSUnknown_Unknown1_Grid = new wxGridSizer(3, 5, 5);
+	RMSUnknown_Unknown1_Grid = new wxWrapSizer();
 	for(size_t loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
 	{
 		RMSUnknown_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
@@ -1493,22 +1479,12 @@ void AGE_Frame::CreateUnknownControls()
 	Unknowns_ListArea->Add(Unknowns_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
 	Unknowns_ListArea->Add(Unknowns_Buttons, 0, wxEXPAND);
 
-	Unknowns_UnknownLevel_Holder->Add(Unknowns_UnknownLevel_Text);
-	Unknowns_UnknownLevel_Holder->Add(Unknowns_UnknownLevel, 1, wxEXPAND);
-	Unknowns_Space_UnknownLevel->Add(Unknowns_UnknownLevel_Holder, 1, wxEXPAND);
-	Unknowns_Space_UnknownLevel->AddStretchSpacer(3);
-
-	for(size_t loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
-	{
-		Unknowns_Unknown1_Holder[loop]->Add(Unknowns_Unknown1_Text[loop]);
-		Unknowns_Unknown1_Holder[loop]->Add(Unknowns_Unknown1[loop], 1, wxEXPAND);
-		Unknowns_Unknown1_Grid->Add(Unknowns_Unknown1_Holder[loop], 1, wxEXPAND);
-	}
-
-	Unknowns_Pointer1_Holder->Add(Unknowns_Pointer1_Text);
-	Unknowns_Pointer1_Holder->Add(Unknowns_Pointer1, 1, wxEXPAND);
-	Unknowns_Space_Pointer1->Add(Unknowns_Pointer1_Holder, 1, wxEXPAND);
-	Unknowns_Space_Pointer1->AddStretchSpacer(3);
+    for(size_t loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
+    {
+        Unknowns_Unknown1_Holder[loop]->Add(Unknowns_Unknown1_Text[loop]);
+        Unknowns_Unknown1_Holder[loop]->Add(Unknowns_Unknown1[loop], 0, wxEXPAND);
+        Unknowns_Unknown1_Grid->Add(Unknowns_Unknown1_Holder[loop], 0, wxBOTTOM | wxRIGHT, 5);
+    }
 
 	RMSBaseZones_Buttons->Add(RMSBaseZones_Add, 1, wxEXPAND);
 	RMSBaseZones_Buttons->Add(RMSBaseZones_Delete, 1, wxEXPAND);
@@ -1523,52 +1499,46 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_ListArea->Add(RMSBaseZones_Buttons, 0, wxEXPAND);
 	RMSBaseZones_ListArea->Add(RMSBaseZones_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
-	RMSBaseZones_Unknown1_Holder->Add(RMSBaseZones_Unknown1_Text);
-	RMSBaseZones_Unknown1_Holder->Add(RMSBaseZones_Unknown1, 1, wxEXPAND);
-	RMSBaseZones_BaseTerrain_Holder->Add(RMSBaseZones_BaseTerrain_Text);
-	RMSBaseZones_BaseTerrain_Holder->Add(RMSBaseZones_BaseTerrain, 1, wxEXPAND);
-	RMSBaseZones_SpacingBetweenPlayers_Holder->Add(RMSBaseZones_SpacingBetweenPlayers_Text);
-	RMSBaseZones_SpacingBetweenPlayers_Holder->Add(RMSBaseZones_SpacingBetweenPlayers, 1, wxEXPAND);
-	RMSBaseZones_Unknown4_Holder->Add(RMSBaseZones_Unknown4_Text);
-	RMSBaseZones_Unknown4_Holder->Add(RMSBaseZones_Unknown4, 1, wxEXPAND);
-	for(size_t loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-	RMSBaseZones_Unknown5_Grid->Add(RMSBaseZones_Unknown5[loop], 1, wxEXPAND);
-	RMSBaseZones_Unknown5_Holder->Add(RMSBaseZones_Unknown5_Text);
-	RMSBaseZones_Unknown5_Holder->Add(RMSBaseZones_Unknown5_Grid, 1, wxEXPAND);
-	RMSBaseZones_Unknown6_Holder->Add(RMSBaseZones_Unknown6_Text);
-	RMSBaseZones_Unknown6_Holder->Add(RMSBaseZones_Unknown6, 1, wxEXPAND);
-	RMSBaseZones_Unknown7_Holder->Add(RMSBaseZones_Unknown7_Text);
-	RMSBaseZones_Unknown7_Holder->Add(RMSBaseZones_Unknown7, 1, wxEXPAND);
-	for(size_t loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-	RMSBaseZones_Unknown8_Grid->Add(RMSBaseZones_Unknown8[loop], 1, wxEXPAND);
-	RMSBaseZones_Unknown8_Holder->Add(RMSBaseZones_Unknown8_Text);
-	RMSBaseZones_Unknown8_Holder->Add(RMSBaseZones_Unknown8_Grid, 1, wxEXPAND);
-	RMSBaseZones_StartAreaRadius_Holder->Add(RMSBaseZones_StartAreaRadius_Text);
-	RMSBaseZones_StartAreaRadius_Holder->Add(RMSBaseZones_StartAreaRadius, 1, wxEXPAND);
-	RMSBaseZones_Unknown10_Holder->Add(RMSBaseZones_Unknown10_Text);
-	RMSBaseZones_Unknown10_Holder->Add(RMSBaseZones_Unknown10, 1, wxEXPAND);
-	RMSBaseZones_Unknown11_Holder->Add(RMSBaseZones_Unknown11_Text);
-	RMSBaseZones_Unknown11_Holder->Add(RMSBaseZones_Unknown11, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown1_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_BaseTerrain_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_SpacingBetweenPlayers_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown4_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown5_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown6_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown7_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown8_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_StartAreaRadius_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown10_Holder, 1, wxEXPAND);
-	RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown11_Holder, 1, wxEXPAND);
-	RMSBaseZones_DataArea->Add(RMSBaseZones_Unknown1_Grid, 0, wxEXPAND);
+    RMSBaseZones_Unknown1_Holder->Add(RMSBaseZones_Unknown1_Text);
+    RMSBaseZones_Unknown1_Holder->Add(RMSBaseZones_Unknown1, 0, wxEXPAND);
+    RMSBaseZones_BaseTerrain_Holder->Add(RMSBaseZones_BaseTerrain_Text);
+    RMSBaseZones_BaseTerrain_Holder->Add(RMSBaseZones_BaseTerrain, 0, wxEXPAND);
+    RMSBaseZones_SpacingBetweenPlayers_Holder->Add(RMSBaseZones_SpacingBetweenPlayers_Text);
+    RMSBaseZones_SpacingBetweenPlayers_Holder->Add(RMSBaseZones_SpacingBetweenPlayers, 0, wxEXPAND);
+    RMSBaseZones_Unknown4_Holder->Add(RMSBaseZones_Unknown4_Text);
+    RMSBaseZones_Unknown4_Holder->Add(RMSBaseZones_Unknown4, 0, wxEXPAND);
+    for(size_t loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
+    RMSBaseZones_Unknown5_Grid->Add(RMSBaseZones_Unknown5[loop], 0, wxEXPAND);
+    RMSBaseZones_Unknown5_Holder->Add(RMSBaseZones_Unknown5_Text);
+    RMSBaseZones_Unknown5_Holder->Add(RMSBaseZones_Unknown5_Grid, 0, wxEXPAND);
+    RMSBaseZones_Unknown6_Holder->Add(RMSBaseZones_Unknown6_Text);
+    RMSBaseZones_Unknown6_Holder->Add(RMSBaseZones_Unknown6, 0, wxEXPAND);
+    RMSBaseZones_Unknown7_Holder->Add(RMSBaseZones_Unknown7_Text);
+    RMSBaseZones_Unknown7_Holder->Add(RMSBaseZones_Unknown7, 0, wxEXPAND);
+    for(size_t loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
+    RMSBaseZones_Unknown8_Grid->Add(RMSBaseZones_Unknown8[loop], 0, wxEXPAND);
+    RMSBaseZones_Unknown8_Holder->Add(RMSBaseZones_Unknown8_Text);
+    RMSBaseZones_Unknown8_Holder->Add(RMSBaseZones_Unknown8_Grid, 0, wxEXPAND);
+    RMSBaseZones_StartAreaRadius_Holder->Add(RMSBaseZones_StartAreaRadius_Text);
+    RMSBaseZones_StartAreaRadius_Holder->Add(RMSBaseZones_StartAreaRadius, 0, wxEXPAND);
+    RMSBaseZones_Unknown10_Holder->Add(RMSBaseZones_Unknown10_Text);
+    RMSBaseZones_Unknown10_Holder->Add(RMSBaseZones_Unknown10, 0, wxEXPAND);
+    RMSBaseZones_Unknown11_Holder->Add(RMSBaseZones_Unknown11_Text);
+    RMSBaseZones_Unknown11_Holder->Add(RMSBaseZones_Unknown11, 0, wxEXPAND);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown1_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_BaseTerrain_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_SpacingBetweenPlayers_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown4_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown5_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown6_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown7_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown8_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_StartAreaRadius_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown10_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown11_Holder, 0, wxLEFT, 5);
 
-	RMSBaseZones->Add(RMSBaseZones_ListArea, 1, wxEXPAND);
-	RMSBaseZones->Add(RMSBaseZones_DataArea, 3, wxEXPAND | wxLEFT, 5);
-
-	Unknowns_Pointer2_Holder->Add(Unknowns_Pointer2_Text);
-	Unknowns_Pointer2_Holder->Add(Unknowns_Pointer2, 1, wxEXPAND);
-	Unknowns_Space_Pointer2->Add(Unknowns_Pointer2_Holder, 1, wxEXPAND);
-	Unknowns_Space_Pointer2->AddStretchSpacer(3);
+    RMSBaseZones->Add(RMSBaseZones_ListArea, 1, wxEXPAND);
+    RMSBaseZones->Add(RMSBaseZones_Unknown1_Grid, 3, wxEXPAND);
 
 	RMSTerrain_Buttons->Add(RMSTerrain_Add, 1, wxEXPAND);
 	RMSTerrain_Buttons->Add(RMSTerrain_Delete, 1, wxEXPAND);
@@ -1583,21 +1553,15 @@ void AGE_Frame::CreateUnknownControls()
 	RMSTerrain_ListArea->Add(RMSTerrain_Buttons, 0, wxEXPAND);
 	RMSTerrain_ListArea->Add(RMSTerrain_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
-	for(size_t loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
-	{
-		RMSTerrain_Unknown1_Holder[loop]->Add(RMSTerrain_Unknown1_Text[loop]);
-		RMSTerrain_Unknown1_Holder[loop]->Add(RMSTerrain_Unknown1[loop], 1, wxEXPAND);
-		RMSTerrain_Unknown1_Grid->Add(RMSTerrain_Unknown1_Holder[loop], 1, wxEXPAND);
-	}
-	RMSTerrain_DataArea->Add(RMSTerrain_Unknown1_Grid, 0, wxEXPAND);
+    for(size_t loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
+    {
+        RMSTerrain_Unknown1_Holder[loop]->Add(RMSTerrain_Unknown1_Text[loop]);
+        RMSTerrain_Unknown1_Holder[loop]->Add(RMSTerrain_Unknown1[loop], 0, wxEXPAND);
+        RMSTerrain_Unknown1_Grid->Add(RMSTerrain_Unknown1_Holder[loop], 0, wxBOTTOM | wxLEFT, 5);
+    }
 
-	RMSTerrain->Add(RMSTerrain_ListArea, 1, wxEXPAND);
-	RMSTerrain->Add(RMSTerrain_DataArea, 3, wxEXPAND | wxLEFT, 5);
-
-	Unknowns_Pointer3_Holder->Add(Unknowns_Pointer3_Text);
-	Unknowns_Pointer3_Holder->Add(Unknowns_Pointer3, 1, wxEXPAND);
-	Unknowns_Space_Pointer3->Add(Unknowns_Pointer3_Holder, 1, wxEXPAND);
-	Unknowns_Space_Pointer3->AddStretchSpacer(3);
+    RMSTerrain->Add(RMSTerrain_ListArea, 1, wxEXPAND);
+    RMSTerrain->Add(RMSTerrain_Unknown1_Grid, 3, wxEXPAND);
 
 	RMSUnit_Buttons->Add(RMSUnit_Add, 1, wxEXPAND);
 	RMSUnit_Buttons->Add(RMSUnit_Delete, 1, wxEXPAND);
@@ -1612,50 +1576,44 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_ListArea->Add(RMSUnit_Buttons, 0, wxEXPAND);
 	RMSUnit_ListArea->Add(RMSUnit_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
-	RMSUnit_Unit_Holder->Add(RMSUnit_Unit_Text);
-	RMSUnit_Unit_Holder->Add(RMSUnit_Unit, 1, wxEXPAND);
-	RMSUnit_HostTerrain_Holder->Add(RMSUnit_HostTerrain_Text);
-	RMSUnit_HostTerrain_Holder->Add(RMSUnit_HostTerrain, 1, wxEXPAND);
-	for(size_t loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-	RMSUnit_Unknown3_Grid->Add(RMSUnit_Unknown3[loop], 1, wxEXPAND);
-	RMSUnit_Unknown3_Holder->Add(RMSUnit_Unknown3_Text);
-	RMSUnit_Unknown3_Holder->Add(RMSUnit_Unknown3_Grid, 1, wxEXPAND);
-	RMSUnit_ObjectsPerPlayer_Holder->Add(RMSUnit_ObjectsPerPlayer_Text);
-	RMSUnit_ObjectsPerPlayer_Holder->Add(RMSUnit_ObjectsPerPlayer, 1, wxEXPAND);
-	RMSUnit_Unknown5_Holder->Add(RMSUnit_Unknown5_Text);
-	RMSUnit_Unknown5_Holder->Add(RMSUnit_Unknown5, 1, wxEXPAND);
-	RMSUnit_GroupsPerPlayer_Holder->Add(RMSUnit_GroupsPerPlayer_Text);
-	RMSUnit_GroupsPerPlayer_Holder->Add(RMSUnit_GroupsPerPlayer, 1, wxEXPAND);
-	RMSUnit_Unknown7_Holder->Add(RMSUnit_Unknown7_Text);
-	RMSUnit_Unknown7_Holder->Add(RMSUnit_Unknown7, 1, wxEXPAND);
-	RMSUnit_OwnAtStart_Holder->Add(RMSUnit_OwnAtStart_Text);
-	RMSUnit_OwnAtStart_Holder->Add(RMSUnit_OwnAtStart, 1, wxEXPAND);
-	RMSUnit_SetPlaceForAllPlayers_Holder->Add(RMSUnit_SetPlaceForAllPlayers_Text);
-	RMSUnit_SetPlaceForAllPlayers_Holder->Add(RMSUnit_SetPlaceForAllPlayers, 1, wxEXPAND);
-	RMSUnit_MinDistanceToPlayers_Holder->Add(RMSUnit_MinDistanceToPlayers_Text);
-	RMSUnit_MinDistanceToPlayers_Holder->Add(RMSUnit_MinDistanceToPlayers, 1, wxEXPAND);
-	RMSUnit_MaxDistanceToPlayers_Holder->Add(RMSUnit_MaxDistanceToPlayers_Text);
-	RMSUnit_MaxDistanceToPlayers_Holder->Add(RMSUnit_MaxDistanceToPlayers, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_Unit_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_HostTerrain_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown3_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_ObjectsPerPlayer_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown5_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_GroupsPerPlayer_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown7_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_OwnAtStart_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_SetPlaceForAllPlayers_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_MinDistanceToPlayers_Holder, 1, wxEXPAND);
-	RMSUnit_Unknown1_Grid->Add(RMSUnit_MaxDistanceToPlayers_Holder, 1, wxEXPAND);
-	RMSUnit_DataArea->Add(RMSUnit_Unknown1_Grid, 0, wxEXPAND);
+    RMSUnit_Unit_Holder->Add(RMSUnit_Unit_Text);
+    RMSUnit_Unit_Holder->Add(RMSUnit_Unit, 0, wxEXPAND);
+    RMSUnit_HostTerrain_Holder->Add(RMSUnit_HostTerrain_Text);
+    RMSUnit_HostTerrain_Holder->Add(RMSUnit_HostTerrain, 0, wxEXPAND);
+    for(size_t loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
+    RMSUnit_Unknown3_Grid->Add(RMSUnit_Unknown3[loop], 0, wxEXPAND);
+    RMSUnit_Unknown3_Holder->Add(RMSUnit_Unknown3_Text);
+    RMSUnit_Unknown3_Holder->Add(RMSUnit_Unknown3_Grid, 0, wxEXPAND);
+    RMSUnit_ObjectsPerPlayer_Holder->Add(RMSUnit_ObjectsPerPlayer_Text);
+    RMSUnit_ObjectsPerPlayer_Holder->Add(RMSUnit_ObjectsPerPlayer, 0, wxEXPAND);
+    RMSUnit_Unknown5_Holder->Add(RMSUnit_Unknown5_Text);
+    RMSUnit_Unknown5_Holder->Add(RMSUnit_Unknown5, 0, wxEXPAND);
+    RMSUnit_GroupsPerPlayer_Holder->Add(RMSUnit_GroupsPerPlayer_Text);
+    RMSUnit_GroupsPerPlayer_Holder->Add(RMSUnit_GroupsPerPlayer, 0, wxEXPAND);
+    RMSUnit_Unknown7_Holder->Add(RMSUnit_Unknown7_Text);
+    RMSUnit_Unknown7_Holder->Add(RMSUnit_Unknown7, 0, wxEXPAND);
+    RMSUnit_OwnAtStart_Holder->Add(RMSUnit_OwnAtStart_Text);
+    RMSUnit_OwnAtStart_Holder->Add(RMSUnit_OwnAtStart, 0, wxEXPAND);
+    RMSUnit_SetPlaceForAllPlayers_Holder->Add(RMSUnit_SetPlaceForAllPlayers_Text);
+    RMSUnit_SetPlaceForAllPlayers_Holder->Add(RMSUnit_SetPlaceForAllPlayers, 0, wxEXPAND);
+    RMSUnit_MinDistanceToPlayers_Holder->Add(RMSUnit_MinDistanceToPlayers_Text);
+    RMSUnit_MinDistanceToPlayers_Holder->Add(RMSUnit_MinDistanceToPlayers, 0, wxEXPAND);
+    RMSUnit_MaxDistanceToPlayers_Holder->Add(RMSUnit_MaxDistanceToPlayers_Text);
+    RMSUnit_MaxDistanceToPlayers_Holder->Add(RMSUnit_MaxDistanceToPlayers, 0, wxEXPAND);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_Unit_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_HostTerrain_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown3_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_ObjectsPerPlayer_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown5_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_GroupsPerPlayer_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown7_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_OwnAtStart_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_SetPlaceForAllPlayers_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_MinDistanceToPlayers_Holder, 0, wxBOTTOM | wxLEFT, 5);
+    RMSUnit_Unknown1_Grid->Add(RMSUnit_MaxDistanceToPlayers_Holder, 0, wxLEFT, 5);
 
-	RMSUnit->Add(RMSUnit_ListArea, 1, wxEXPAND);
-	RMSUnit->Add(RMSUnit_DataArea, 3, wxEXPAND | wxLEFT, 5);
-
-	Unknowns_Pointer4_Holder->Add(Unknowns_Pointer4_Text);
-	Unknowns_Pointer4_Holder->Add(Unknowns_Pointer4, 1, wxEXPAND);
-	Unknowns_Space_Pointer4->Add(Unknowns_Pointer4_Holder, 1, wxEXPAND);
-	Unknowns_Space_Pointer4->AddStretchSpacer(3);
+    RMSUnit->Add(RMSUnit_ListArea, 1, wxEXPAND);
+    RMSUnit->Add(RMSUnit_Unknown1_Grid, 3, wxEXPAND);
 
 	RMSUnknown_Buttons->Add(RMSUnknown_Add, 1, wxEXPAND);
 	RMSUnknown_Buttons->Add(RMSUnknown_Delete, 1, wxEXPAND);
@@ -1670,27 +1628,31 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnknown_ListArea->Add(RMSUnknown_Buttons, 0, wxEXPAND);
 	RMSUnknown_ListArea->Add(RMSUnknown_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
-	for(size_t loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
-	{
-		RMSUnknown_Unknown1_Holder[loop]->Add(RMSUnknown_Unknown1_Text[loop]);
-		RMSUnknown_Unknown1_Holder[loop]->Add(RMSUnknown_Unknown1[loop], 1, wxEXPAND);
-		RMSUnknown_Unknown1_Grid->Add(RMSUnknown_Unknown1_Holder[loop], 1, wxEXPAND);
-	}
-	RMSUnknown_DataArea->Add(RMSUnknown_Unknown1_Grid, 0, wxEXPAND);
+    for(size_t loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
+    {
+        RMSUnknown_Unknown1_Holder[loop]->Add(RMSUnknown_Unknown1_Text[loop]);
+        RMSUnknown_Unknown1_Holder[loop]->Add(RMSUnknown_Unknown1[loop], 0, wxEXPAND);
+        RMSUnknown_Unknown1_Grid->Add(RMSUnknown_Unknown1_Holder[loop], 0, wxBOTTOM | wxLEFT, 5);
+    }
 
-	RMSUnknown->Add(RMSUnknown_ListArea, 1, wxEXPAND);
-	RMSUnknown->Add(RMSUnknown_DataArea, 3, wxEXPAND | wxLEFT, 5);
+    RMSUnknown->Add(RMSUnknown_ListArea, 1, wxEXPAND);
+    RMSUnknown->Add(RMSUnknown_Unknown1_Grid, 3, wxEXPAND);
 
-	Unknown_ScrollSpace->Add(Unknowns_Space_UnknownLevel, 0, wxEXPAND);
-	Unknown_ScrollSpace->Add(Unknowns_Unknown1_Grid, 0, wxEXPAND | wxTOP, 5);
-	Unknown_ScrollSpace->Add(Unknowns_Space_Pointer1, 0, wxEXPAND | wxTOP, 5);
-	Unknown_ScrollSpace->Add(RMSBaseZones, 0, wxEXPAND | wxTOP, 5);
-	Unknown_ScrollSpace->Add(Unknowns_Space_Pointer2, 0, wxEXPAND | wxTOP, 5);
-	Unknown_ScrollSpace->Add(RMSTerrain, 0, wxEXPAND | wxTOP, 5);
-	Unknown_ScrollSpace->Add(Unknowns_Space_Pointer3, 0, wxEXPAND | wxTOP, 5);
-	Unknown_ScrollSpace->Add(RMSUnit, 0, wxEXPAND | wxTOP, 5);
-	Unknown_ScrollSpace->Add(Unknowns_Space_Pointer4, 0, wxEXPAND | wxTOP, 5);
-	Unknown_ScrollSpace->Add(RMSUnknown, 0, wxEXPAND | wxTOP, 5);
+    Unknown_ScrollSpace->Add(Unknowns_UnknownLevel_Text);
+    Unknown_ScrollSpace->Add(Unknowns_UnknownLevel, 0, wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(Unknowns_Unknown1_Grid, 0, wxEXPAND, 5);
+    Unknown_ScrollSpace->Add(Unknowns_Pointer1_Text);
+    Unknown_ScrollSpace->Add(Unknowns_Pointer1, 0, wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(RMSBaseZones, 0, wxEXPAND | wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(Unknowns_Pointer2_Text);
+    Unknown_ScrollSpace->Add(Unknowns_Pointer2, 0, wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(RMSTerrain, 0, wxEXPAND | wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(Unknowns_Pointer3_Text);
+    Unknown_ScrollSpace->Add(Unknowns_Pointer3, 0, wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(RMSUnit, 0, wxEXPAND | wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(Unknowns_Pointer4_Text);
+    Unknown_ScrollSpace->Add(Unknowns_Pointer4, 0, wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(RMSUnknown, 0, wxEXPAND, 5);
 
 	Unknown_Scroller->SetSizer(Unknown_ScrollSpace);
 	Unknown_Scroller->SetScrollRate(0, 15);
