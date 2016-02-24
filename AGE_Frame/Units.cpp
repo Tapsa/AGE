@@ -289,7 +289,16 @@ void AGE_Frame::InitUnits(short civ, bool all)
 	}
 	for(size_t loop = 0; loop < dataset->Civs[civ].Units.size(); ++loop)
 	{
-		if(all) AGE_AreaTT84::units.Add(" "+FormatInt(loop)+" - "+GetUnitName(loop, 0));
+        if(all)
+        {
+            short cult = 0;
+            wxString name = GetUnitName(loop, 0);
+            while("Nonexistent" == name && ++cult < dataset->Civs.size())
+            {
+                name = GetUnitName(loop, cult);
+            }
+            AGE_AreaTT84::units.Add(" "+FormatInt(loop)+" - "+name);
+        }
 		if(matcher > genie::UT_25)
 		{
 			if(matcher == genie::UT_Projectile)
@@ -2843,7 +2852,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
 	//Units_Line = new wxStaticLine(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL, "");
 	Units_Special = new wxBoxSizer(wxHORIZONTAL);
-	Units_Civs_List = new AGEODComboBox(Tab_Units);
+	Units_Civs_List = new wxComboBox(Tab_Units, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     CivComboBoxListNormal.push_back(Units_Civs_List);
 	Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
@@ -2890,7 +2899,7 @@ void AGE_Frame::CreateUnitControls()
 
 	Units_DataArea = new wxBoxSizer(wxVERTICAL);
 	Units_Top_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Units_TopGrid_Holder = new wxGridSizer(20, 1, 1);
+	Units_TopGrid_Holder = new wxWrapSizer();
 	Units_AutoCopy = new wxCheckBox(Tab_Units, wxID_ANY, "Automatically");
 	Units_AutoCopy->SetToolTip("It is safer to copy automatically than manually.");
 	Units_CopyTo = new wxButton(Tab_Units, wxID_ANY, "Copy", wxDefaultPosition, wxSize(40, -1));
