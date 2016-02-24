@@ -1227,7 +1227,6 @@ private:
 
     vector<AGETextCtrl*> uiGroupMaps, uiGroupTT, uiGroupTTAge, uiGroupTTBuilding, uiGroupTTUnit, uiGroupTTResearch;
 	wxBoxSizer *General_Variables2_Grid;
-	wxBoxSizer *TechTree_Unknowns;
 	wxStaticBoxSizer *General_Variables1_Holder;
 	wxStaticBoxSizer *General_Variables2_Holder;
 	wxBoxSizer *General_SUnknown7_Holder;
@@ -2473,7 +2472,7 @@ private:
 	wxStaticBoxSizer *Units_Type80plusUnknownArea_Holder;
 	wxStaticBoxSizer *Units_CommandsArea_Holder;
 	wxBoxSizer *Units_Top_Holder;
-	wxGridSizer *Units_TopGrid_Holder;
+	wxWrapSizer *Units_TopGrid_Holder;
 	vector<wxCheckBox*> Units_CivBoxes;
 	//vector<wxStaticText*> Units_CivLabels;
 	wxButton *Units_CopyTo;
@@ -3185,17 +3184,16 @@ private:
 
 	wxBoxSizer *TechTrees_Data_Ages;
 	wxBoxSizer *TechTrees_Data_Ages2;
-	wxGridSizer *TechTrees_Data_Ages1;
+	wxBoxSizer *TechTrees_Data_Ages1;
 	wxBoxSizer *TechTrees_Data_Buildings;
 	wxBoxSizer *TechTrees_Data_Buildings2;
 	wxBoxSizer *TechTrees_Data_Buildings3;
-	wxGridSizer *TechTrees_Data_Buildings1;
+	wxBoxSizer *TechTrees_Data_Buildings1;
 	wxBoxSizer *TechTrees_Data_Units;
-	wxGridSizer *TechTrees_Data_Units1;
+	wxWrapSizer *TechTrees_Data_Units1;
 	wxBoxSizer *TechTrees_Data_Researches;
 	wxBoxSizer *TechTrees_Data_Researches2;
-	wxGridSizer *TechTrees_Data_Researches1;
-	wxBoxSizer *TechTrees_Data_Researches3;
+	wxWrapSizer *TechTrees_Data_Researches1;
 	wxBoxSizer *TechTrees_ConnectedHolder_Ages;
 	wxBoxSizer *TechTrees_ConnectedHolder_Buildings;
 	wxBoxSizer *TechTrees_ConnectedHolder_Units;
@@ -3230,7 +3228,6 @@ private:
 	AGETextCtrl *TechTrees_Buildings_EnablingResearch;
 	ComboBox_Plus1 *TechTrees_Buildings_EnablingResearch_ComboBox;
 	wxStaticBoxSizer *TechTrees_Buildings_TotalUnitsTechs_Holder[2];
-	wxGridSizer *TechTrees_Buildings_TotalUnitsTechs_Grid[2];
 	AGETextCtrl *TechTrees_Buildings_TotalUnitsTechs[10];
 
 	wxBoxSizer *TechTrees_Units_ID_Holder;
