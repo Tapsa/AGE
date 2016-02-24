@@ -96,7 +96,7 @@ public:
 		Item_H = new wxBoxSizer(wxHORIZONTAL);
 		Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
 		ItemCombo = new ComboBox_Plus1(scroller, Item);
-		Mode = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
+		Mode = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
 		ModeCombo = new AGEODComboBox(scroller);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
@@ -112,7 +112,7 @@ public:
 		Buttons->Add(Copy, 1, wxEXPAND);
 		Buttons->Add(Paste, 1, wxEXPAND);
 
-		Item_H->Add(Mode, 0, wxEXPAND);
+		Item_H->Add(Mode);
 		Item_H->Add(Item, 2, wxEXPAND | wxLEFT, 2);
 
 		ItemList->Add(Search, 0, wxEXPAND);
@@ -154,17 +154,17 @@ public:
 		Top = new wxBoxSizer(wxHORIZONTAL);
 		UsedItems_H = new wxBoxSizer(wxVERTICAL);
 		UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Slots Used?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-		UsedItems = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
+		UsedItems = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
 		Unknown_H = new wxBoxSizer(wxVERTICAL);
 		Unknown_T = new wxStaticText(scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
-		Unknown = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
+		Unknown = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
 
 		Search = new wxTextCtrl(scroller, wxID_ANY);
 		SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
 		List = new AGEListView(scroller, wxSize(10, 100));
 		Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
-		Unknown1 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
-		Unknown2 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
+		Unknown1 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
+		Unknown2 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
 		Buttons = new wxGridSizer(2, 0, 0);
 		Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
 		Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));

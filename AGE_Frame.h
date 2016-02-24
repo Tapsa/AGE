@@ -2799,8 +2799,8 @@ private:
 	wxScrolled<wxPanel> *Terrains_Scroller;
 	wxBoxSizer *Terrains_ScrollSpace;
 	wxBoxSizer *Terrains_NameArea_Holder;
-	wxGridSizer *Terrains_Area1_Grid;
-	wxFlexGridSizer *Terrains_GridX;
+	wxWrapSizer *Terrains_Area1_Grid;
+	wxWrapSizer *Terrains_GridX;
 	wxBoxSizer *Terrains_Unknown1_Holder;
 	wxStaticText *Terrains_Unknown1_Text;
 	AGETextCtrl *Terrains_Unknown1;
@@ -2851,7 +2851,7 @@ private:
 	ComboBox_Plus1 *Terrains_PassableTerrain_ComboBox;
 	ComboBox_Plus1 *Terrains_ImpassableTerrain_ComboBox;
 
-	wxGridSizer *Terrains_Animation_Grid;
+	wxWrapSizer *Terrains_Animation_Grid;
 	wxBoxSizer *Terrains_IsAnimated_Holder;
 	wxStaticText *Terrains_IsAnimated_Text;
 	AGETextCtrl *Terrains_IsAnimated;
