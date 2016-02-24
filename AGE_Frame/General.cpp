@@ -303,7 +303,7 @@ void AGE_Frame::CreateGeneralControls()
     for(auto &box: General_TileSizes)
     box = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
     for(auto &box: General_SomeBytes)
-    box = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::TINY);
+    box = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::SMALL);
     for(auto &box: General_Something)
     box = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::NORMAL);
 
@@ -1317,7 +1317,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_Unknown5_Grid = new wxGridSizer(4, 0, 0);
 	RMSBaseZones_Unknown5_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Dist. Between Players *");
 	for(size_t loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-	RMSBaseZones_Unknown5[loop] = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, Unknown_Scroller, AGETextCtrl::TINY);
+	RMSBaseZones_Unknown5[loop] = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, Unknown_Scroller, AGETextCtrl::SMALL);
 	RMSBaseZones_Unknown5[1]->SetToolTip("Minimum distance in tiles between \"player initial zones\"");
 
 	RMSBaseZones_Unknown6_Holder = new wxBoxSizer(wxVERTICAL);
@@ -1331,7 +1331,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSBaseZones_Unknown8_Grid = new wxGridSizer(4, 0, 0);
 	RMSBaseZones_Unknown8_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Radius *");
 	for(size_t loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-	RMSBaseZones_Unknown8[loop] = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, Unknown_Scroller, AGETextCtrl::TINY);
+	RMSBaseZones_Unknown8[loop] = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, Unknown_Scroller, AGETextCtrl::SMALL);
 	RMSBaseZones_Unknown8[1]->SetToolTip("Base zone is created for every player");
 
 	RMSBaseZones_StartAreaRadius_Holder = new wxBoxSizer(wxVERTICAL);
@@ -1413,7 +1413,7 @@ void AGE_Frame::CreateUnknownControls()
 	RMSUnit_Unknown3_Grid = new wxGridSizer(4, 0, 0);
 	RMSUnit_Unknown3_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Group Mode *");
 	for(size_t loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-	RMSUnit_Unknown3[loop] = AGETextCtrl::init(CByte, &uiGroupRMUnit, this, &popUp, Unknown_Scroller, AGETextCtrl::TINY);
+	RMSUnit_Unknown3[loop] = AGETextCtrl::init(CByte, &uiGroupRMUnit, this, &popUp, Unknown_Scroller, AGETextCtrl::SMALL);
 	RMSUnit_Unknown3[0]->SetToolTip("0 Only 1 unit is placed from group\n1 & 2 All units are placed from group");
 	RMSUnit_ObjectsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
 	RMSUnit_ObjectsPerPlayer_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Objects per Group");
