@@ -263,9 +263,9 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         if(graphicSLP.slpID != dataset->Graphics[graphicSLP.datID].SLP) // SLP changed
         {
             AGE_SLP::setbearing = 1u;
-            graphicSLP.initStats(graphicSLP.datID, *dataset);
             graphicSLP.angleset.clear();
-            graphicSLP.angleset.insert(graphicSLP.angles);
+            bool has_base = graphicSLP.initStats(graphicSLP.datID, *dataset);
+            if(has_base) graphicSLP.angleset.insert(graphicSLP.angles);
             graphicSLP.deltas.clear();
             // Load possible delta graphics.
             if(ShowDeltas)
@@ -274,13 +274,17 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 AGE_SLP deltaSLP;
                 if(delta.GraphicID < dataset->Graphics.size())
                 {
-                    deltaSLP.initStats(delta.GraphicID, *dataset);
-                    graphicSLP.angleset.insert(deltaSLP.angles);
+                    if(deltaSLP.initStats(delta.GraphicID, *dataset))
+                    {
+                        graphicSLP.angleset.insert(deltaSLP.angles);
+                    }
+                    else continue;
                 }
-                else
+                else if(has_base)
                 {
                     deltaSLP = graphicSLP;
                 }
+                else continue;
                 deltaSLP.xdelta = delta.DirectionX;
                 deltaSLP.ydelta = delta.DirectionY;
                 graphicSLP.deltas.insert(make_pair(0, deltaSLP));
@@ -323,9 +327,11 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         if(unitSLP.slpID != dataset->Graphics[unitSLP.datID].SLP) // SLP changed
         {
             AGE_SLP::setbearing = 1u;
-            unitSLP.initStats(unitSLP.datID, *dataset);
             unitSLP.angleset.clear();
-            unitSLP.angleset.insert(unitSLP.angles);
+            if(unitSLP.initStats(unitSLP.datID, *dataset))
+            {
+                unitSLP.angleset.insert(unitSLP.angles);
+            }
             unitSLP.deltas.clear();
             if(ShowDeltas)
             {
@@ -399,16 +405,17 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
 }
 
-void AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
+bool AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
 {
     frameID = 0;
     startframe = 0;
     datID = graphicID;
     filename = dataset.Graphics[graphicID].Name2;
-    slpID = dataset.Graphics[graphicID].SLP;
     angles = dataset.Graphics[graphicID].AngleCount;
     fpa = dataset.Graphics[graphicID].FrameCount;
+    slpID = angles * fpa ? dataset.Graphics[graphicID].SLP : -1;
     mirror = dataset.Graphics[graphicID].MirroringMode;
+    return angles * fpa;
 }
 
 void AGE_Frame::CalcAngle(AGE_SLP &graphic)
