@@ -891,26 +891,30 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
     }
     if(unitGraphic >= dataset->Graphics.size()) return;
     AGE_SLP baseSLP;
-    baseSLP.initStats(unitGraphic, *dataset);
-    unitSLP.angleset.insert(baseSLP.angles);
+    bool has_base = baseSLP.initStats(unitGraphic, *dataset);
+    if(has_base) unitSLP.angleset.insert(baseSLP.angles);
     if(dataset->Graphics[unitGraphic].Deltas.size())
     for(auto const &delta: dataset->Graphics[unitGraphic].Deltas)
     {
         AGE_SLP deltaSLP;
         if(delta.GraphicID < dataset->Graphics.size())
         {
-            deltaSLP.initStats(delta.GraphicID, *dataset);
-            unitSLP.angleset.insert(deltaSLP.angles);
+            if(deltaSLP.initStats(delta.GraphicID, *dataset))
+            {
+                unitSLP.angleset.insert(deltaSLP.angles);
+            }
+            else continue;
         }
-        else
+        else if(has_base)
         {
             deltaSLP = baseSLP;
         }
+        else continue;
         deltaSLP.xdelta = delta.DirectionX + offsetX;
         deltaSLP.ydelta = delta.DirectionY + offsetY;
         unitSLP.deltas.insert(make_pair(offsetY, deltaSLP));
     }
-    else
+    else if(has_base)
     {
         baseSLP.xdelta = offsetX;
         baseSLP.ydelta = offsetY;

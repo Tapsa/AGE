@@ -32,7 +32,7 @@ public:
     static unsigned setbearing;
     static float bearing;
     static uint32_t playerColorStart, playerColorID;
-    void initStats(unsigned int graphicID, genie::DatFile &dataset);
+    bool initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
 
 class AGE_Scrolled: public wxScrolled<wxPanel> // wxScrolledWindow

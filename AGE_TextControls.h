@@ -82,7 +82,7 @@ public:
     }
     inline void clear(){container.clear();}
     inline void prepend(void* data){container.push_back(data);}
-    void setMaxChars(unsigned short size){maxSize = size;}
+    inline void setMaxChars(unsigned short size){maxSize = size;}
 
     static const wxString BATCHWARNING, BWTITLE, IETITLE;
     vector<AGELinkedBox*> LinkedBoxes; // These are for check and combo boxes.
