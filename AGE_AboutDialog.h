@@ -4,7 +4,7 @@ class AGE_AboutDialog: public wxDialog
 {
 	public:
 
-	AGE_AboutDialog(wxWindow *parent);
+	AGE_AboutDialog(wxWindow *parent, const wxFont &font);
 
 //	Member Variables
 

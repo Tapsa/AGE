@@ -89,6 +89,7 @@ public:
     static wxWindow* openEditors[];
 	static Copies copies;
 	wxString argPath;
+    wxFont font;
 
 private:
 //	Constructions Methods
@@ -644,9 +645,6 @@ private:
 	void UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit);
 	void OnUnitsEnable(wxCommandEvent &event);
 	void OnUnitsDisable(wxCommandEvent &event);
-	//void OnExtractUnit(wxCommandEvent &event);
-	//void OnImportUnit(wxCommandEvent &event);
-	void OnUnitSubList(wxCommandEvent &event);
 	string GetUnitName(int, short, bool = false);
 
 	void ListUnitDamageGraphics();
@@ -884,7 +882,7 @@ private:
 	wxString EditorVersionString, slp_extra_info;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, StayOnTopSLP;
 	vector<short> SelectedCivs;
-	bool useAnd[2] = {false, false}, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
+	bool SearchAnd = false, ExcludeAnd = false, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false, DrawTerrain;
     bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape;
 	vector<genie::DrsFile*> datafiles;

@@ -115,8 +115,8 @@ void AGE_Frame::ListGraphics(bool all)
 void AGE_Frame::InitGraphics(bool all)
 {
 	InitSearch(Graphics_Graphics_Search->GetValue().MakeLower(), Graphics_Graphics_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Graphics_Graphics_UseAnd[loop]->GetValue();
+	SearchAnd = Graphics_Graphics_UseAnd[0]->GetValue();
+	ExcludeAnd = Graphics_Graphics_UseAnd[1]->GetValue();
 
     Graphics_Graphics_ListV->names.clear();
     Graphics_Graphics_ListV->indexes.clear();
@@ -137,8 +137,7 @@ void AGE_Frame::InitGraphics(bool all)
     virtualListing(Graphics_Graphics_ListV);
 	if(all) FillLists(GraphicComboBoxList, names);
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 }
 
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
