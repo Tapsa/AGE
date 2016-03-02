@@ -32,11 +32,11 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
     }
 	if(!SkipOpenDialog)
 	{
-		AGE_OpenDialog OpenBox(this);
+		AGE_OpenDialog OpenBox(this, font);
 
         int RecentItems;
         {
-            wxFileConfig RecentOpen("AGE", "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+            wxConfig RecentOpen("AGE", "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
             RecentOpen.Read("Recent/Items", &RecentItems, 0);
             OpenBox.RecentValues.resize(RecentItems);
             for(int i=0; i < RecentItems; ++i)
@@ -131,7 +131,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		popUp.unSaved = 0;
 		++popUp.loadedFileId;
 
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/DriveLetter", DriveLetter);
         Config.Write("DefaultFiles/UseCustomPath", UseCustomPath);
         Config.Write("DefaultFiles/CustomFolder", CustomFolder);
@@ -169,7 +169,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         latest.Add(FolderDRS2);
         latest.Add(Path1stDRS);
         int items = produceRecentValues(latest, OpenBox.RecentValues);
-        wxFileConfig RecentSave("AGE", "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig RecentSave("AGE", "Tapsa", "age3recent.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentSave.Write("Recent/Items", items);
         for(int i=0; i < items; ++i)
         {
@@ -2115,13 +2115,13 @@ void AGE_Frame::OnSyncSaveWithOpen(wxCommandEvent &event)
 
 void AGE_Frame::OnSave(wxCommandEvent &event)
 {
-	AGE_SaveDialog SaveBox(this);
+	AGE_SaveDialog SaveBox(this, font);
     SaveDialog = &SaveBox;
     SaveBox.SyncWithReadPaths->Connect(SaveBox.SyncWithReadPaths->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSyncSaveWithOpen), NULL, this);
 
     int RecentItems;
     {
-        wxFileConfig RecentOpen("AGE", "Tapsa", "age3recents.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig RecentOpen("AGE", "Tapsa", "age3recents.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentOpen.Read("Recent/Items", &RecentItems, 0);
         SaveBox.RecentValues.resize(RecentItems);
         for(int i=0; i < RecentItems; ++i)
@@ -2192,7 +2192,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 
 	if(!save) return;
     {
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/SyncSaveWithOpen", SyncSaveWithOpen);
         Config.Write("DefaultFiles/SaveVersion", SaveGameVersion);
         Config.Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
@@ -2215,7 +2215,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
         latest.Add(SaveLangX1FileName);
         latest.Add(SaveLangX1P1FileName);
         int RecentItems = produceRecentValues(latest, SaveBox.RecentValues);
-        wxFileConfig RecentSave("AGE", "Tapsa", "age3recents.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig RecentSave("AGE", "Tapsa", "age3recents.ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentSave.Write("Recent/Items", RecentItems);
         for(int i=0; i < RecentItems; ++i)
         {
@@ -2410,7 +2410,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		}
 		case eAbout:
 		{
-			AGE_AboutDialog AGEAbout(this);
+			AGE_AboutDialog AGEAbout(this, font);
 			AGEAbout.ShowModal();
             break;
 		}
@@ -2433,6 +2433,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 parentPos.x += 1000;
                 slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600), StayOnTopSLP ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
                 slp_window->SetIcon(wxIcon(Tree32_xpm));
+                slp_window->SetFont(font);
                 wxPanel *panel = new wxPanel(slp_window);
                 slp_view = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
                 slp_next = new wxButton(panel, eNextFrame, "Show -> frame");
@@ -3335,7 +3336,7 @@ bool AGE_Frame::SearchMatches(const wxString &hay)
     }
     else // If search text has a match.
     {
-        if(useAnd[0]) // All search parts must match.
+        if(SearchAnd) // All search parts must match.
         {
             matches = true;
             for(const wxString &pin: SearchYes)
@@ -3364,7 +3365,7 @@ bool AGE_Frame::SearchMatches(const wxString &hay)
     }
     else // If exclude text has a match.
     {
-        if(useAnd[1]) // All search parts must match.
+        if(ExcludeAnd) // All search parts must match.
         {
             matches = false;
             for(const wxString &pin: SearchNo)
@@ -4091,7 +4092,7 @@ void AGE_Frame::OnExitSLP(wxCloseEvent &event)
 void AGE_Frame::OnExit(wxCloseEvent &event)
 {
     {
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window_num + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
         Config.Write("Interaction/AutoCopy", AutoCopy);
         Config.Write("Interaction/CopyGraphics", CopyGraphics);

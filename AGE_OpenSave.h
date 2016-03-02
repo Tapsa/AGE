@@ -14,7 +14,7 @@ private:
 class AGE_OpenSave: public wxDialog
 {
 public:
-    AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *slave);
+    AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *slave, const wxFont &font);
 
     /* Events */
 

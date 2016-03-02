@@ -1,7 +1,7 @@
 #include "AGE_SaveDialog.h"
 
-AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent)
-: AGE_OpenSave(parent, "Save", this)
+AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent, const wxFont &font)
+: AGE_OpenSave(parent, "Save", this, font)
 {
     Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
 

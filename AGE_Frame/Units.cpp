@@ -1,15 +1,5 @@
 #include "../AGE_Frame.h"
 
-//const wxString AGE_Frame::CIVCOUNTWARNING = "Fewer civilizations copied than needed to paste!\nPasting data to extra civilizations from civilization 1!";
-
-void AGE_Frame::OnUnitSubList(wxCommandEvent &event)
-{
-	short Selection = Units_Civs_List->GetSelection();
-	if(Selection == wxNOT_FOUND) return;
-
-	ListUnits(Selection, false);	// List units by selected civ.
-}
-
 string AGE_Frame::GetUnitName(int index, short civ, bool Filter)
 {
 	string Name = "";
@@ -263,8 +253,8 @@ void AGE_Frame::ListUnits(short civ, bool all)
 void AGE_Frame::InitUnits(short civ, bool all)
 {
 	InitSearch(Units_Search->GetValue().MakeLower(), Units_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Units_UseAnd[loop]->GetValue();
+	SearchAnd = Units_UseAnd[0]->GetValue();
+	ExcludeAnd = Units_UseAnd[1]->GetValue();
 
 	Units_Civs_List->SetSelection(civ);
 
@@ -327,8 +317,7 @@ void AGE_Frame::InitUnits(short civ, bool all)
 		}
 	}
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 }
 
 void AGE_Frame::OnChooseGraphic(wxCommandEvent &event)
@@ -2925,7 +2914,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Scroller = new AGE_Scrolled(Tab_Units);
 	Units_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Units_TypeArea_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language DLLs");
+	Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language Files");
 	Units_GraphicsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Graphics");
 	Units_GraphicsArea1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_GraphicsArea4_Holder = new wxBoxSizer(wxVERTICAL);
@@ -5099,7 +5088,7 @@ void AGE_Frame::CreateUnitControls()
 		Connect(Units_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 		Connect(Units_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
 	}
-	Connect(Units_Civs_List->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitSubList));
+	Connect(Units_Civs_List->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitsSearch));
 	Connect(Units_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnUnitsSelect));
 	Connect(Units_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnUnitsSelect));
 	Connect(Units_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnUnitsSelect));
