@@ -84,9 +84,8 @@ void AGE_Frame::ListTechs(bool all)
 void AGE_Frame::InitTechs(bool all)
 {
 	InitSearch(Techs_Search->GetValue().MakeLower(), Techs_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Techs_UseAnd[loop]->GetValue();
-
+	SearchAnd = Techs_UseAnd[0]->GetValue();
+	ExcludeAnd = Techs_UseAnd[1]->GetValue();
 
 	Techs_ListV->names.clear();
 	Techs_ListV->indexes.clear();
@@ -108,8 +107,7 @@ void AGE_Frame::InitTechs(bool all)
 	virtualListing(Techs_ListV);
 	if(all) FillLists(TechComboBoxList, names);
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 }
 
 void AGE_Frame::OnTechSelect(wxCommandEvent &event)
@@ -319,8 +317,8 @@ void AGE_Frame::OnEffectsSearch(wxCommandEvent &event)
 void AGE_Frame::ListEffects()
 {
 	InitSearch(Techs_Effects_Search->GetValue().MakeLower(), Techs_Effects_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Techs_Effects_UseAnd[loop]->GetValue();
+	SearchAnd = Techs_Effects_UseAnd[0]->GetValue();
+	ExcludeAnd = Techs_Effects_UseAnd[1]->GetValue();
 
 	Techs_Effects_ListV->names.clear();
 	Techs_Effects_ListV->indexes.clear();
@@ -337,8 +335,7 @@ void AGE_Frame::ListEffects()
 	}
 	virtualListing(Techs_Effects_ListV);
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 
 	wxTimerEvent E;
 	OnEffectsTimer(E);
@@ -983,8 +980,8 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
 {
 	wxString Name;
 	InitSearch(Techs_AllEffects_Search->GetValue().MakeLower(), Techs_AllEffects_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Techs_AllEffects_UseAnd[loop]->GetValue();
+	SearchAnd = Techs_AllEffects_UseAnd[0]->GetValue();
+	ExcludeAnd = Techs_AllEffects_UseAnd[1]->GetValue();
 
 	Techs_AllEffects_ListV->names.clear();
 
@@ -1003,8 +1000,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
     virtualListing(Techs_AllEffects_ListV);
 	//Techs_AllEffects_ListV->SetFocus(); You need to check if searched or not.
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 
 	wxTimerEvent E;
 	OnAllTechEffectTimer(E);

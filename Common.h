@@ -15,6 +15,7 @@
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
 //#include <wx/collpane.h>
+#include <wx/config.h>
 #include <wx/fileconf.h>
 #include <wx/filename.h>
 #include <wx/filepicker.h>

@@ -133,8 +133,8 @@ void AGE_Frame::ListResearches(bool all)
 void AGE_Frame::InitResearches(bool all)
 {
 	InitSearch(Research_Research_Search->GetValue().MakeLower(), Research_Research_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Research_Research_UseAnd[loop]->GetValue();
+	SearchAnd = Research_Research_UseAnd[0]->GetValue();
+	ExcludeAnd = Research_Research_UseAnd[1]->GetValue();
 
 	Research_Research_ListV->names.clear();
 	Research_Research_ListV->indexes.clear();
@@ -168,8 +168,7 @@ void AGE_Frame::InitResearches(bool all)
 		}
 	}
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 }
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
@@ -390,7 +389,7 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
 
 void AGE_Frame::CreateResearchControls()
 {
-	wxString langGlobalAnd, langGlobalAdd, langGlobalInsNew, langGlobalDel,	langGlobalCopy, langGlobalPaste, langGlobalInsCopies, langGlobalName;
+	/*wxString langGlobalAnd, langGlobalAdd, langGlobalInsNew, langGlobalDel,	langGlobalCopy, langGlobalPaste, langGlobalInsCopies, langGlobalName;
 	wxString langTabResearch;
 
 	wxFileConfig Translations("AGE", "Tapsa", "age3trans.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
@@ -402,16 +401,16 @@ void AGE_Frame::CreateResearchControls()
 	Translations.Read("Global/Paste", &langGlobalPaste, "Paste");
 	Translations.Read("Global/InsertCopies", &langGlobalInsCopies, "Ins Copies");
 	Translations.Read("Research/Tab", &langTabResearch, "Researches");
-	Translations.Read("Global/Name", &langGlobalName, "Name");
+	Translations.Read("Global/Name", &langGlobalName, "Name");*/
 
 	Tab_Research = new wxPanel(TabBar_Main);
 
 	Research_Main = new wxBoxSizer(wxHORIZONTAL);
-	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, langTabResearch);
+	Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Researches");
 	Research_Research_Search = new wxTextCtrl(Tab_Research, wxID_ANY);
-	Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, langGlobalAnd);
+	Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, "And");
 	Research_Research_Search_R = new wxTextCtrl(Tab_Research, wxID_ANY);
-	Research_Research_UseAnd[1] = new wxCheckBox(Tab_Research, wxID_ANY, langGlobalAnd);
+	Research_Research_UseAnd[1] = new wxCheckBox(Tab_Research, wxID_ANY, "And");
 	for(size_t loop = 0; loop < 2; ++loop)
 	{
 		Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
@@ -419,23 +418,23 @@ void AGE_Frame::CreateResearchControls()
 	}
 	Research_Research_ListV = new AGEListView(Tab_Research, wxSize(200, 100));
 	Research_Research_Buttons = new wxGridSizer(3, 0, 0);
-	Research_Add = new wxButton(Tab_Research, wxID_ANY, langGlobalAdd, wxDefaultPosition, wxSize(10, -1));
-	Research_Insert = new wxButton(Tab_Research, wxID_ANY, langGlobalInsNew, wxDefaultPosition, wxSize(10, -1));
-	Research_Delete = new wxButton(Tab_Research, wxID_ANY, langGlobalDel, wxDefaultPosition, wxSize(10, -1));
-	Research_Copy = new wxButton(Tab_Research, wxID_ANY, langGlobalCopy, wxDefaultPosition, wxSize(10, -1));
-	Research_Paste = new wxButton(Tab_Research, wxID_ANY, langGlobalPaste, wxDefaultPosition, wxSize(10, -1));
-	Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, langGlobalInsCopies, wxDefaultPosition, wxSize(10, -1));
+	Research_Add = new wxButton(Tab_Research, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+	Research_Insert = new wxButton(Tab_Research, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+	Research_Delete = new wxButton(Tab_Research, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+	Research_Copy = new wxButton(Tab_Research, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+	Research_Paste = new wxButton(Tab_Research, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+	Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
 	Research_Scroller = new AGE_Scrolled(Tab_Research);
 	Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
-	Research_Name_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " "+langGlobalName);
+	Research_Name_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Name");
 	Research_Name[0] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, 30);
 	Research_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
-	Research_Name_Text[1] = new wxStaticText(Research_Scroller, wxID_ANY, " "+langGlobalName+" 2");
+	Research_Name_Text[1] = new wxStaticText(Research_Scroller, wxID_ANY, " Name 2");
 	Research_Name[1] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, 30);
 	Research_LangDLLName_Holder = new wxBoxSizer(wxVERTICAL);
-	Research_LangDLLName_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Language File "+langGlobalName+" *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Research_LangDLLName_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Language File Name *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLName = AGETextCtrl::init(CUShort, &uiGroupResearch, this, &popUp, Research_Scroller);
 	Research_LangDLLName->SetToolTip("Usual Research File Pattern for The Conquerors\nName: 7000-7999\nDescription: Name +1000\nHelp: Name +100000, in File Name +21000\nTech tree: Name +150000, in File Name +10000");
 	Research_DLL_LangDLLName = new TextCtrl_DLL(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));

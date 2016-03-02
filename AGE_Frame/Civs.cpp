@@ -25,7 +25,7 @@ void AGE_Frame::InitCivs(bool all)
 	Civs_Civs_ListV->names.clear();
 	Civs_Civs_ListV->indexes.clear();
 	wxArrayString names;
-	if(all) names.Alloc(dataset->Graphics.size());
+	if(all) names.Alloc(dataset->Civs.size());
 
 	for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
 	{

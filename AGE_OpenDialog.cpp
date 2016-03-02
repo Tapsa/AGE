@@ -1,7 +1,7 @@
 #include "AGE_OpenDialog.h"
 
-AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent)
-: AGE_OpenSave(parent, "Open", this)
+AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
+: AGE_OpenSave(parent, "Open", this, font)
 {
     wxStaticText *TerrainsText = new wxStaticText(this, wxID_ANY, "      Terrains: ");
     TerrainsBox = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(50, -1));

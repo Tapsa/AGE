@@ -786,8 +786,8 @@ void AGE_Frame::ListTTBuildings()
 void AGE_Frame::InitTTBuildings()
 {
 	InitSearch(TechTrees_MainList_Buildings_Search->GetValue().MakeLower(), TechTrees_MainList_Buildings_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = TechTrees_MainList_Buildings_UseAnd[loop]->GetValue();
+	SearchAnd = TechTrees_MainList_Buildings_UseAnd[0]->GetValue();
+	ExcludeAnd = TechTrees_MainList_Buildings_UseAnd[1]->GetValue();
 
 	TechTrees_MainList_Buildings_ListV->names.clear();
 	TechTrees_MainList_Buildings_ListV->indexes.clear();
@@ -804,8 +804,7 @@ void AGE_Frame::InitTTBuildings()
 
 	virtualListing(TechTrees_MainList_Buildings_ListV);
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 }
 
 void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &event)
@@ -1410,8 +1409,8 @@ void AGE_Frame::ListTTUnits()
 void AGE_Frame::InitTTUnits()
 {
 	InitSearch(TechTrees_MainList_Units_Search->GetValue().MakeLower(), TechTrees_MainList_Units_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = TechTrees_MainList_Units_UseAnd[loop]->GetValue();
+	SearchAnd = TechTrees_MainList_Units_UseAnd[0]->GetValue();
+	ExcludeAnd = TechTrees_MainList_Units_UseAnd[1]->GetValue();
 
 	TechTrees_MainList_Units_ListV->names.clear();
 	TechTrees_MainList_Units_ListV->indexes.clear();
@@ -1428,8 +1427,7 @@ void AGE_Frame::InitTTUnits()
 
 	virtualListing(TechTrees_MainList_Units_ListV);
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 }
 
 void AGE_Frame::OnTTUnitSelect(wxCommandEvent &event)
@@ -1818,8 +1816,8 @@ void AGE_Frame::ListTTResearches()
 void AGE_Frame::InitTTResearches()
 {
 	InitSearch(TechTrees_MainList_Researches_Search->GetValue().MakeLower(), TechTrees_MainList_Researches_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = TechTrees_MainList_Researches_UseAnd[loop]->GetValue();
+	SearchAnd = TechTrees_MainList_Researches_UseAnd[0]->GetValue();
+	ExcludeAnd = TechTrees_MainList_Researches_UseAnd[1]->GetValue();
 
 	TechTrees_MainList_Researches_ListV->names.clear();
 	TechTrees_MainList_Researches_ListV->indexes.clear();
@@ -1836,8 +1834,7 @@ void AGE_Frame::InitTTResearches()
 
 	virtualListing(TechTrees_MainList_Researches_ListV);
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 }
 
 void AGE_Frame::OnTTResearchSelect(wxCommandEvent &event)

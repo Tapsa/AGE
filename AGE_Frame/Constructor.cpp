@@ -14,17 +14,19 @@
 std::ofstream AGE_Frame::log_out;
 
 AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
-: wxFrame(NULL, wxID_ANY, title)
+: wxFrame(NULL, wxID_ANY, title), font(GetFont())
 {
     window_num = window;
 	argPath = aP;
+    font.SetPointSize(8);
 	SetIcon(wxIcon(AppIcon_xpm));
+    SetFont(font);
 	wxBusyCursor WaitCursor;
 	TabBar_Main = new wxNotebook(this, eTabBar);
     AGE_Frame::openEditors[window] = this;
 
     {
-        wxFileConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("AGE", "Tapsa", "age2configw"+lexical_cast<string>(window + 1)+".ini", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
         sscanf(EditorVersionString, "%f", &EditorVersion);
         Config.Read("/TimesOpened", &TimesOpened, 0);

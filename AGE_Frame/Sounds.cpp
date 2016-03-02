@@ -190,8 +190,8 @@ void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &event)
 void AGE_Frame::ListSoundItems()
 {
 	InitSearch(Sounds_Items_Search->GetValue().MakeLower(), Sounds_Items_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Sounds_Items_UseAnd[loop]->GetValue();
+	SearchAnd = Sounds_Items_UseAnd[0]->GetValue();
+	ExcludeAnd = Sounds_Items_UseAnd[1]->GetValue();
 
 	Sounds_Items_ListV->names.clear();
 	Sounds_Items_ListV->indexes.clear();
@@ -208,8 +208,7 @@ void AGE_Frame::ListSoundItems()
 	}
 	virtualListing(Sounds_Items_ListV);
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 
 	wxTimerEvent E;
 	OnSoundItemsTimer(E);
@@ -321,8 +320,8 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 {
 	wxString Name;
 	InitSearch(Sounds_AllItems_Search->GetValue().MakeLower(), Sounds_AllItems_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Sounds_AllItems_UseAnd[loop]->GetValue();
+	SearchAnd = Sounds_AllItems_UseAnd[0]->GetValue();
+	ExcludeAnd = Sounds_AllItems_UseAnd[1]->GetValue();
 
 	Sounds_AllItems_ListV->names.clear();
 
@@ -341,8 +340,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
     virtualListing(Sounds_AllItems_ListV);
 	//Sounds_AllItems_ListV->SetFocus(); You need to check if searched or not.
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 
 	wxTimerEvent E;
 	OnAllSoundFileTimer(E);

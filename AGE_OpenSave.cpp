@@ -1,8 +1,9 @@
 #include "AGE_OpenSave.h"
 
-AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *slave)
+AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *slave, const wxFont &font)
 : wxDialog(parent, -1, title+" files...", wxDefaultPosition, wxSize(500, 250), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxNO_DEFAULT)
 {
+    SetFont(font);
     Layout = new wxFlexGridSizer(2, 2, 2);
     ForceDat = false;
     Main = new wxBoxSizer(wxVERTICAL);
