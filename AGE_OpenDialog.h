@@ -4,7 +4,7 @@
 class AGE_OpenDialog: public AGE_OpenSave
 {
 public:
-    AGE_OpenDialog(wxWindow *parent);
+    AGE_OpenDialog(wxWindow *parent, const wxFont &font);
 
     /* Events */
 

@@ -145,8 +145,8 @@ void AGE_Frame::ListTerrains2()
 void AGE_Frame::InitTerrains1(bool all)
 {
 	InitSearch(Terrains_Terrains_Search->GetValue().MakeLower(), Terrains_Terrains_Search_R->GetValue().MakeLower());
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = Terrains_Terrains_UseAnd[loop]->GetValue();
+	SearchAnd = Terrains_Terrains_UseAnd[0]->GetValue();
+	ExcludeAnd = Terrains_Terrains_UseAnd[1]->GetValue();
 
 	Terrains_Terrains_ListV->names.clear();
 	Terrains_Terrains_ListV->indexes.clear();
@@ -164,8 +164,7 @@ void AGE_Frame::InitTerrains1(bool all)
 		if(all) names.Add(" "+FormatInt(loop)+" - "+GetTerrainName(loop));
 	}
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	useAnd[loop] = false;
+	SearchAnd = ExcludeAnd = false;
 
 	virtualListing(Terrains_Terrains_ListV);
 	if(all) FillLists(TerrainComboBoxList, names);
