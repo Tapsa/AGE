@@ -41,13 +41,7 @@ public:
     AGE_Scrolled(wxWindow *parent):
     wxScrolled<wxPanel>(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL)
     {
-        Connect(wxEVT_SIZE, wxSizeEventHandler(AGE_Scrolled::OnSize));
-    }
-
-    void OnSize(wxSizeEvent &event)
-    {
-        SetVirtualSize(GetClientSize().GetWidth(), GetVirtualSize().GetHeight());
-        event.Skip();
+        Bind(wxEVT_SIZE, [=](wxSizeEvent &event){SetVirtualSize(GetClientSize().GetWidth(), GetVirtualSize().GetHeight()); event.Skip();});
     }
 };
 
@@ -137,7 +131,6 @@ private:
             TerrainLoader = 0;
         }
     }
-    void showPopUp(wxIdleEvent &event);
     void OnFrameKey(wxKeyEvent &event);
 
 //	Updates user interface after changing data name.
@@ -212,11 +205,11 @@ private:
 	void SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
 	void LoadAllTechEffects(wxCommandEvent &event);
 	void ClearAllTechEffects(wxCommandEvent &event);
-	void OnAllTechEffectTimer(wxTimerEvent &event);
+	void OnAllTechEffectTimer(wxTimerEvent&);
 	void OnAllTechEffectSelect(wxCommandEvent &event);
 	void LoadAllSoundFiles(wxCommandEvent &event);
 	void ClearAllSoundFiles(wxCommandEvent &event);
-	void OnAllSoundFileTimer(wxTimerEvent &event);
+	void OnAllSoundFileTimer(wxTimerEvent&);
 	void OnAllSoundFileSelect(wxCommandEvent &event);
 	bool Paste11Check(size_t pastes, size_t copies);
 	void OnDrawIconSLP(wxPaintEvent &event);
@@ -241,7 +234,7 @@ private:
     void addDRSFolders4SLPs(wxArrayString &folders, const wxString &folder);
     void addSLPFolders4SLPs(wxArrayString &folders, wxString folder);
     void setForeAndBackColors(AGETextCtrl* box, wxColour color);
-	void OnChooseGraphic(wxCommandEvent &event);
+	void OnChooseGraphic(wxCommandEvent&);
     void playWAV(wxCommandEvent &event);
     AGE_SLP* getCurrentGraphics();
     int produceRecentValues(wxArrayString&, vector<wxArrayString>&);
@@ -278,7 +271,7 @@ private:
 
 	void ListRandomMaps();
 	void OnRandomMapSearch(wxCommandEvent &event);
-	void OnRandomMapTimer(wxTimerEvent &event);
+	void OnRandomMapTimer(wxTimerEvent&);
 	void OnRandomMapSelect(wxCommandEvent &event);
 	void OnRandomMapAdd(wxCommandEvent &event);
 	void OnRandomMapInsert(wxCommandEvent &event);
@@ -290,7 +283,7 @@ private:
 
 	void ListRMSBaseZones();
 	void OnRMSBaseZoneSearch(wxCommandEvent &event);
-	void OnRMSBaseZoneTimer(wxTimerEvent &event);
+	void OnRMSBaseZoneTimer(wxTimerEvent&);
 	void OnRMSBaseZoneSelect(wxCommandEvent &event);
 	void OnRMSBaseZoneAdd(wxCommandEvent &event);
 	void OnRMSBaseZoneInsert(wxCommandEvent &event);
@@ -303,7 +296,7 @@ private:
 
 	void ListRMSTerrains();
 	void OnRMSTerrainSearch(wxCommandEvent &event);
-	void OnRMSTerrainTimer(wxTimerEvent &event);
+	void OnRMSTerrainTimer(wxTimerEvent&);
 	void OnRMSTerrainSelect(wxCommandEvent &event);
 	void OnRMSTerrainAdd(wxCommandEvent &event);
 	void OnRMSTerrainInsert(wxCommandEvent &event);
@@ -316,7 +309,7 @@ private:
 
 	void ListRMSUnits();
 	void OnRMSUnitSearch(wxCommandEvent &event);
-	void OnRMSUnitTimer(wxTimerEvent &event);
+	void OnRMSUnitTimer(wxTimerEvent&);
 	void OnRMSUnitSelect(wxCommandEvent &event);
 	void OnRMSUnitAdd(wxCommandEvent &event);
 	void OnRMSUnitInsert(wxCommandEvent &event);
@@ -329,7 +322,7 @@ private:
 
 	void ListRMSUnknowns();
 	void OnRMSUnknownSearch(wxCommandEvent &event);
-	void OnRMSUnknownTimer(wxTimerEvent &event);
+	void OnRMSUnknownTimer(wxTimerEvent&);
 	void OnRMSUnknownSelect(wxCommandEvent &event);
 	void OnRMSUnknownAdd(wxCommandEvent &event);
 	void OnRMSUnknownInsert(wxCommandEvent &event);
@@ -344,7 +337,7 @@ private:
 
 	void ListResearches(bool all = true);
 	void OnResearchSearch(wxCommandEvent &event);
-	void OnResearchTimer(wxTimerEvent &event);
+	void OnResearchTimer(wxTimerEvent&);
 	void OnResearchSelect(wxCommandEvent &event);
 	void OnResearchAdd(wxCommandEvent &event);
 	void OnResearchInsert(wxCommandEvent &event);
@@ -358,7 +351,7 @@ private:
 
 	void ListTechs(bool all = true);
 	void OnTechSearch(wxCommandEvent &event);
-	void OnTechTimer(wxTimerEvent &event);
+	void OnTechTimer(wxTimerEvent&);
 	void OnTechSelect(wxCommandEvent &event);
 	void OnTechAdd(wxCommandEvent &event);
 	void OnTechInsert(wxCommandEvent &event);
@@ -372,7 +365,7 @@ private:
 
 	void ListEffects();
 	void OnEffectsSearch(wxCommandEvent &event);
-	void OnEffectsTimer(wxTimerEvent &event);
+	void OnEffectsTimer(wxTimerEvent&);
 	void OnEffectsSelect(wxCommandEvent &event);
 	void OnEffectsAdd(wxCommandEvent &event);
 	void OnEffectsInsert(wxCommandEvent &event);
@@ -387,7 +380,7 @@ private:
 
 	void ListTTAges();
 	void OnTTAgesSearch(wxCommandEvent &event);
-	void OnTTAgesTimer(wxTimerEvent &event);
+	void OnTTAgesTimer(wxTimerEvent&);
 	void OnTTAgesSelect(wxCommandEvent &event);
 	void OnTTAgesAdd(wxCommandEvent &event);
 	void OnTTAgesInsert(wxCommandEvent &event);
@@ -399,7 +392,7 @@ private:
 
 	void ListTTAgeBuildings();
 	void OnTTAgesBuildingSearch(wxCommandEvent &event);
-	void OnTTAgesBuildingTimer(wxTimerEvent &event);
+	void OnTTAgesBuildingTimer(wxTimerEvent&);
 	void OnTTAgesBuildingSelect(wxCommandEvent &event);
 	void OnTTAgesBuildingAdd(wxCommandEvent &event);
 	void OnTTAgesBuildingInsert(wxCommandEvent &event);
@@ -412,7 +405,7 @@ private:
 
 	void ListTTAgeUnits();
 	void OnTTAgesUnitSearch(wxCommandEvent &event);
-	void OnTTAgesUnitTimer(wxTimerEvent &event);
+	void OnTTAgesUnitTimer(wxTimerEvent&);
 	void OnTTAgesUnitSelect(wxCommandEvent &event);
 	void OnTTAgesUnitAdd(wxCommandEvent &event);
 	void OnTTAgesUnitInsert(wxCommandEvent &event);
@@ -424,7 +417,7 @@ private:
 
 	void ListTTAgeResearches();
 	void OnTTAgesResearchSearch(wxCommandEvent &event);
-	void OnTTAgesResearchTimer(wxTimerEvent &event);
+	void OnTTAgesResearchTimer(wxTimerEvent&);
 	void OnTTAgesResearchSelect(wxCommandEvent &event);
 	void OnTTAgesResearchAdd(wxCommandEvent &event);
 	void OnTTAgesResearchInsert(wxCommandEvent &event);
@@ -437,7 +430,7 @@ private:
 
 	void ListTTAgeItems();
 	void OnTTAgeItemSearch(wxCommandEvent &event);
-	void OnTTAgeItemTimer(wxTimerEvent &event);
+	void OnTTAgeItemTimer(wxTimerEvent&);
 	void OnTTAgeItemSelect(wxCommandEvent &event);
 	void OnTTAgeItemCopy(wxCommandEvent &event);
 	void OnTTAgeItemPaste(wxCommandEvent &event);
@@ -445,7 +438,7 @@ private:
 
 	void ListTTAgeUnknownItems();
 	void OnTTAgeUnknownItemSearch(wxCommandEvent &event);
-	void OnTTAgeUnknownItemTimer(wxTimerEvent &event);
+	void OnTTAgeUnknownItemTimer(wxTimerEvent&);
 	void OnTTAgeUnknownItemSelect(wxCommandEvent &event);
 	void OnTTAgeUnknownItemCopy(wxCommandEvent &event);
 	void OnTTAgeUnknownItemPaste(wxCommandEvent &event);
@@ -453,7 +446,7 @@ private:
 
 	void ListTTBuildings();
 	void OnTTBuildingSearch(wxCommandEvent &event);
-	void OnTTBuildingTimer(wxTimerEvent &event);
+	void OnTTBuildingTimer(wxTimerEvent&);
 	void OnTTBuildingSelect(wxCommandEvent &event);
 	void OnTTBuildingAdd(wxCommandEvent &event);
 	void OnTTBuildingInsert(wxCommandEvent &event);
@@ -465,7 +458,7 @@ private:
 
 	void ListTTBuildingBuildings();
 	void OnTTBuildingBuildingSearch(wxCommandEvent &event);
-	void OnTTBuildingBuildingTimer(wxTimerEvent &event);
+	void OnTTBuildingBuildingTimer(wxTimerEvent&);
 	void OnTTBuildingBuildingSelect(wxCommandEvent &event);
 	void OnTTBuildingBuildingAdd(wxCommandEvent &event);
 	void OnTTBuildingBuildingInsert(wxCommandEvent &event);
@@ -477,7 +470,7 @@ private:
 
 	void ListTTBuildingUnits();
 	void OnTTBuildingUnitSearch(wxCommandEvent &event);
-	void OnTTBuildingUnitTimer(wxTimerEvent &event);
+	void OnTTBuildingUnitTimer(wxTimerEvent&);
 	void OnTTBuildingUnitSelect(wxCommandEvent &event);
 	void OnTTBuildingUnitAdd(wxCommandEvent &event);
 	void OnTTBuildingUnitInsert(wxCommandEvent &event);
@@ -489,7 +482,7 @@ private:
 
 	void ListTTBuildingResearches();
 	void OnTTBuildingResearchSearch(wxCommandEvent &event);
-	void OnTTBuildingResearchTimer(wxTimerEvent &event);
+	void OnTTBuildingResearchTimer(wxTimerEvent&);
 	void OnTTBuildingResearchSelect(wxCommandEvent &event);
 	void OnTTBuildingResearchAdd(wxCommandEvent &event);
 	void OnTTBuildingResearchInsert(wxCommandEvent &event);
@@ -501,7 +494,7 @@ private:
 
 	void ListTTBuildingItems();
 	void OnTTBuildingItemSearch(wxCommandEvent &event);
-	void OnTTBuildingItemTimer(wxTimerEvent &event);
+	void OnTTBuildingItemTimer(wxTimerEvent&);
 	void OnTTBuildingItemSelect(wxCommandEvent &event);
 	void OnTTBuildingItemCopy(wxCommandEvent &event);
 	void OnTTBuildingItemPaste(wxCommandEvent &event);
@@ -509,7 +502,7 @@ private:
 
 	void ListTTUnits();
 	void OnTTUnitSearch(wxCommandEvent &event);
-	void OnTTUnitTimer(wxTimerEvent &event);
+	void OnTTUnitTimer(wxTimerEvent&);
 	void OnTTUnitSelect(wxCommandEvent &event);
 	void OnTTUnitAdd(wxCommandEvent &event);
 	void OnTTUnitInsert(wxCommandEvent &event);
@@ -521,7 +514,7 @@ private:
 
 	void ListTTUnitUnits();
 	void OnTTUnitUnitSearch(wxCommandEvent &event);
-	void OnTTUnitUnitTimer(wxTimerEvent &event);
+	void OnTTUnitUnitTimer(wxTimerEvent&);
 	void OnTTUnitUnitSelect(wxCommandEvent &event);
 	void OnTTUnitUnitAdd(wxCommandEvent &event);
 	void OnTTUnitUnitInsert(wxCommandEvent &event);
@@ -535,7 +528,7 @@ private:
 	void SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer);
 	void ListTTUnitItems();
 	void OnTTUnitItemSearch(wxCommandEvent &event);
-	void OnTTUnitItemTimer(wxTimerEvent &event);
+	void OnTTUnitItemTimer(wxTimerEvent&);
 	void OnTTUnitItemSelect(wxCommandEvent &event);
 	void OnTTUnitItemCopy(wxCommandEvent &event);
 	void OnTTUnitItemPaste(wxCommandEvent &event);
@@ -543,7 +536,7 @@ private:
 
 	void ListTTResearches();
 	void OnTTResearchSearch(wxCommandEvent &event);
-	void OnTTResearchTimer(wxTimerEvent &event);
+	void OnTTResearchTimer(wxTimerEvent&);
 	void OnTTResearchSelect(wxCommandEvent &event);
 	void OnTTResearchAdd(wxCommandEvent &event);
 	void OnTTResearchInsert(wxCommandEvent &event);
@@ -555,7 +548,7 @@ private:
 
 	void ListTTResearchBuildings();
 	void OnTTResearchBuildingSearch(wxCommandEvent &event);
-	void OnTTResearchBuildingTimer(wxTimerEvent &event);
+	void OnTTResearchBuildingTimer(wxTimerEvent&);
 	void OnTTResearchBuildingSelect(wxCommandEvent &event);
 	void OnTTResearchBuildingAdd(wxCommandEvent &event);
 	void OnTTResearchBuildingInsert(wxCommandEvent &event);
@@ -567,7 +560,7 @@ private:
 
 	void ListTTResearchUnits();
 	void OnTTResearchUnitSearch(wxCommandEvent &event);
-	void OnTTResearchUnitTimer(wxTimerEvent &event);
+	void OnTTResearchUnitTimer(wxTimerEvent&);
 	void OnTTResearchUnitSelect(wxCommandEvent &event);
 	void OnTTResearchUnitAdd(wxCommandEvent &event);
 	void OnTTResearchUnitInsert(wxCommandEvent &event);
@@ -579,7 +572,7 @@ private:
 
 	void ListTTResearchResearches();
 	void OnTTResearchResearchSearch(wxCommandEvent &event);
-	void OnTTResearchResearchTimer(wxTimerEvent &event);
+	void OnTTResearchResearchTimer(wxTimerEvent&);
 	void OnTTResearchResearchSelect(wxCommandEvent &event);
 	void OnTTResearchResearchAdd(wxCommandEvent &event);
 	void OnTTResearchResearchInsert(wxCommandEvent &event);
@@ -591,7 +584,7 @@ private:
 
 	void ListTTResearchItems();
 	void OnTTResearchItemSearch(wxCommandEvent &event);
-	void OnTTResearchItemTimer(wxTimerEvent &event);
+	void OnTTResearchItemTimer(wxTimerEvent&);
 	void OnTTResearchItemSelect(wxCommandEvent &event);
 	void OnTTResearchItemCopy(wxCommandEvent &event);
 	void OnTTResearchItemPaste(wxCommandEvent &event);
@@ -601,7 +594,7 @@ private:
 
 	void ListCivs(bool all = true);
 	void OnCivsSearch(wxCommandEvent &event);
-	void OnCivsTimer(wxTimerEvent &event);
+	void OnCivsTimer(wxTimerEvent&);
 	void OnCivsSelect(wxCommandEvent &event);
 	void OnCivsAdd(wxCommandEvent &event);
 	void OnCivsInsert(wxCommandEvent &event);
@@ -614,7 +607,7 @@ private:
 
 	void ListResources(bool all = true);
 	void OnResourcesSearch(wxCommandEvent &event);
-	void OnResourcesTimer(wxTimerEvent &event);
+	void OnResourcesTimer(wxTimerEvent&);
 	void OnResourcesSelect(wxCommandEvent &event);
 	void OnResourcesAdd(wxCommandEvent &event);
 	void OnResourcesInsert(wxCommandEvent &event);
@@ -626,30 +619,18 @@ private:
 	wxString GetResourceName(int);
 
 	void ListUnits(short civ, bool all = true);
-	void OnUnitsSearch(wxCommandEvent &event);
-	void OnUnitsTimer(wxTimerEvent &event);
-	void OnUnitsSelect(wxCommandEvent &event);
-	void OnUnitsAdd(wxCommandEvent &event);
-	void OnUnitsInsert(wxCommandEvent &event);
-	void OnUnitsDelete(wxCommandEvent &event);
-	void OnUnitsCopy(wxCommandEvent &event);
-	void UnitsAutoCopy(wxCommandEvent &event);
-	void OnUnitsSpecialCopy(wxCommandEvent &event);
+	void OnUnitsSearch(wxCommandEvent&); // Convert to local lambda
+	void OnUnitsTimer(wxTimerEvent&);
+	void OnUnitsSelect(wxCommandEvent&); // Convert to local lambda
 	void UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit);
-	void OnUnitsPaste(wxCommandEvent &event);
-	void OnUnitsPasteInsert(wxCommandEvent &event);
 	void PasteUnits(bool OneOnOne = false);
 	short CorrectID(bool OneOnOne, size_t loop);
-	void OnUnitsSpecialPaste(wxCommandEvent &event);
-	void OnUnitsSpecialPasteInsert(wxCommandEvent &event);
 	void UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit);
-	void OnUnitsEnable(wxCommandEvent &event);
-	void OnUnitsDisable(wxCommandEvent &event);
 	string GetUnitName(int, short, bool = false);
 
 	void ListUnitDamageGraphics();
 	void OnUnitDamageGraphicsSearch(wxCommandEvent &event);
-	void OnUnitDamageGraphicsTimer(wxTimerEvent &event);
+	void OnUnitDamageGraphicsTimer(wxTimerEvent&);
 	void OnUnitDamageGraphicsSelect(wxCommandEvent &event);
 	void OnUnitDamageGraphicsAdd(wxCommandEvent &event);
 	void OnUnitDamageGraphicsInsert(wxCommandEvent &event);
@@ -662,7 +643,7 @@ private:
 
 	void ListUnitAttacks();
 	void OnUnitAttacksSearch(wxCommandEvent &event);
-	void OnUnitAttacksTimer(wxTimerEvent &event);
+	void OnUnitAttacksTimer(wxTimerEvent&);
 	void OnUnitAttacksSelect(wxCommandEvent &event);
 	void OnUnitAttacksAdd(wxCommandEvent &event);
 	void OnUnitAttacksInsert(wxCommandEvent &event);
@@ -675,7 +656,7 @@ private:
 
 	void ListUnitArmors();
 	void OnUnitArmorsSearch(wxCommandEvent &event);
-	void OnUnitArmorsTimer(wxTimerEvent &event);
+	void OnUnitArmorsTimer(wxTimerEvent&);
 	void OnUnitArmorsSelect(wxCommandEvent &event);
 	void OnUnitArmorsAdd(wxCommandEvent &event);
 	void OnUnitArmorsInsert(wxCommandEvent &event);
@@ -690,7 +671,7 @@ private:
 
 	void ListUnitCommands();
 	void OnUnitCommandsSearch(wxCommandEvent &event);
-	void OnUnitCommandsTimer(wxTimerEvent &event);
+	void OnUnitCommandsTimer(wxTimerEvent&);
 	void OnUnitCommandsSelect(wxCommandEvent &event);
 	void OnUnitCommandsAdd(wxCommandEvent &event);
 	void OnUnitCommandsInsert(wxCommandEvent &event);
@@ -705,7 +686,7 @@ private:
 
 	void ListUnitLines();
 	void OnUnitLinesSearch(wxCommandEvent &event);
-	void OnUnitLinesTimer(wxTimerEvent &event);
+	void OnUnitLinesTimer(wxTimerEvent&);
 	void OnUnitLinesSelect(wxCommandEvent &event);
 	void OnUnitLinesAdd(wxCommandEvent &event);
 	void OnUnitLinesInsert(wxCommandEvent &event);
@@ -717,7 +698,7 @@ private:
 
 	void ListUnitLineUnits();
 	void OnUnitLineUnitsSearch(wxCommandEvent &event);
-	void OnUnitLineUnitsTimer(wxTimerEvent &event);
+	void OnUnitLineUnitsTimer(wxTimerEvent&);
 	void OnUnitLineUnitsSelect(wxCommandEvent &event);
 	void OnUnitLineUnitsAdd(wxCommandEvent &event);
 	void OnUnitLineUnitsInsert(wxCommandEvent &event);
@@ -732,7 +713,7 @@ private:
 
 	void ListGraphics(bool all = true);
 	void OnGraphicsSearch(wxCommandEvent &event);
-	void OnGraphicsTimer(wxTimerEvent &event);
+	void OnGraphicsTimer(wxTimerEvent&);
 	void OnGraphicsSelect(wxCommandEvent &event);
 	void OnGraphicsAdd(wxCommandEvent &event);
 	void OnGraphicsInsert(wxCommandEvent &event);
@@ -746,7 +727,7 @@ private:
 
 	void ListGraphicDeltas();
 	void OnGraphicDeltasSearch(wxCommandEvent &event);
-	void OnGraphicDeltasTimer(wxTimerEvent &event);
+	void OnGraphicDeltasTimer(wxTimerEvent&);
 	void OnGraphicDeltasSelect(wxCommandEvent &event);
 	void OnGraphicDeltasAdd(wxCommandEvent &event);
 	void OnGraphicDeltasInsert(wxCommandEvent &event);
@@ -759,7 +740,7 @@ private:
 
 	void ListGraphicAttackSounds();
 	void OnGraphicAttackSoundsSearch(wxCommandEvent &event);
-	void OnGraphicAttackSoundsTimer(wxTimerEvent &event);
+	void OnGraphicAttackSoundsTimer(wxTimerEvent&);
 	void OnGraphicAttackSoundsSelect(wxCommandEvent &event);
 	void OnGraphicAttackSoundsCopy(wxCommandEvent &event);
 	void OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event);
@@ -773,7 +754,7 @@ private:
 	void ListTerrains1(bool all = true);
 	void ListTerrains2();
 	void OnTerrainsSearch(wxCommandEvent &event);
-	void OnTerrainsTimer(wxTimerEvent &event);
+	void OnTerrainsTimer(wxTimerEvent&);
 	void OnTerrainsSelect(wxCommandEvent &event);
 	void OnTerrainsAdd(wxCommandEvent &event);
 	void OnTerrainsDelete(wxCommandEvent &event);
@@ -783,7 +764,7 @@ private:
 
 	void OnTerrainsBorderSearch(wxCommandEvent &event);
 	void ListTerrainsBorders();
-	void OnTerrainsBorderTimer(wxTimerEvent &event);
+	void OnTerrainsBorderTimer(wxTimerEvent&);
 	void OnTerrainsBorderSelect(wxCommandEvent &event);
 	void OnTerrainsBorderCopy(wxCommandEvent &event);
 	void OnTerrainsBorderPaste(wxCommandEvent &event);
@@ -793,7 +774,7 @@ private:
 
 	void ListTerrainBorders(bool all = true);
 	void OnTerrainBordersSearch(wxCommandEvent &event);
-	void OnTerrainBordersTimer(wxTimerEvent &event);
+	void OnTerrainBordersTimer(wxTimerEvent&);
 	void OnTerrainBordersSelect(wxCommandEvent &event);
 	void OnTerrainBordersCopy(wxCommandEvent &event);
 	void OnTerrainBordersPaste(wxCommandEvent &event);
@@ -801,7 +782,7 @@ private:
 
 	void ListTerrainBorderTileTypes();
 	void OnTerrainBorderTileTypeSearch(wxCommandEvent &event);
-	void OnTerrainBorderTileTypeTimer(wxTimerEvent &event);
+	void OnTerrainBorderTileTypeTimer(wxTimerEvent&);
 	void OnTerrainBorderTileTypeSelect(wxCommandEvent &event);
 	void OnTerrainBorderTileTypeCopy(wxCommandEvent &event);
 	void OnTerrainBorderTileTypePaste(wxCommandEvent &event);
@@ -810,7 +791,7 @@ private:
 
 	void ListTerrainBorderBorderShapes();
 	void OnTerrainBorderBorderShapeSearch(wxCommandEvent &event);
-	void OnTerrainBorderBorderShapeTimer(wxTimerEvent &event);
+	void OnTerrainBorderBorderShapeTimer(wxTimerEvent&);
 	void OnTerrainBorderBorderShapeSelect(wxCommandEvent &event);
 	void OnTerrainBorderBorderShapeCopy(wxCommandEvent &event);
 	void OnTerrainBorderBorderShapePaste(wxCommandEvent &event);
@@ -821,9 +802,9 @@ private:
 
 	void ListTerrainRestrictions(bool all = true);
 	void OnTerrainRestrictionsSearch(wxCommandEvent &event);
-	void OnTerrainRestrictionsTimer(wxTimerEvent &event);
+	void OnTerrainRestrictionsTimer(wxTimerEvent&);
 	void OnTerrainRestrictionsSelect(wxCommandEvent &event);
-	void OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event);
+	void OnTerrainRestrictionsTerrainTimer(wxTimerEvent&);
 	void OnTerrainRestrictionsTerrainSelect(wxCommandEvent &event);
 	void OnTerrainRestrictionsAdd(wxCommandEvent &event);
 	void OnTerrainRestrictionsInsert(wxCommandEvent &event);
@@ -839,7 +820,7 @@ private:
 
 	void ListSounds(bool all = true);
 	void OnSoundsSearch(wxCommandEvent &event);
-	void OnSoundsTimer(wxTimerEvent &event);
+	void OnSoundsTimer(wxTimerEvent&);
 	void OnSoundsSelect(wxCommandEvent &event);
 	void OnSoundsAdd(wxCommandEvent &event);
 	void OnSoundsInsert(wxCommandEvent &event);
@@ -851,7 +832,7 @@ private:
 
 	void ListSoundItems();
 	void OnSoundItemsSearch(wxCommandEvent &event);
-	void OnSoundItemsTimer(wxTimerEvent &event);
+	void OnSoundItemsTimer(wxTimerEvent&);
 	void OnSoundItemsSelect(wxCommandEvent &event);
 	void OnSoundItemsAdd(wxCommandEvent &event);
 	void OnSoundItemsInsert(wxCommandEvent &event);
@@ -866,7 +847,7 @@ private:
 
 	void ListPlayerColors();
 	void OnPlayerColorsSearch(wxCommandEvent &event);
-	void OnPlayerColorsTimer(wxTimerEvent &event);
+	void OnPlayerColorsTimer(wxTimerEvent&);
 	void OnPlayerColorsSelect(wxCommandEvent &event);
 	void OnPlayerColorsAdd(wxCommandEvent &event);
 	void OnPlayerColorsInsert(wxCommandEvent &event);

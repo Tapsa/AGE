@@ -146,7 +146,7 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
         graphicTimer.Start(150);
 }
 
-void AGE_Frame::OnGraphicsTimer(wxTimerEvent &event)
+void AGE_Frame::OnGraphicsTimer(wxTimerEvent&)
 {
     graphicTimer.Stop();
 	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
@@ -708,7 +708,7 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &event)
         deltaTimer.Start(150);
 }
 
-void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent &event)
+void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent&)
 {
     deltaTimer.Stop();
 	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
@@ -849,7 +849,7 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &event)
         graphicSoundTimer.Start(150);
 }
 
-void AGE_Frame::OnGraphicAttackSoundsTimer(wxTimerEvent &event)
+void AGE_Frame::OnGraphicAttackSoundsTimer(wxTimerEvent&)
 {
     graphicSoundTimer.Stop();
 	auto selections = Graphics_AttackSounds_ListV->GetSelectedItemCount();

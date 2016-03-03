@@ -44,7 +44,7 @@ void AGE_Frame::OnTTAgesSelect(wxCommandEvent &event)
         ttAgeTimer.Start(150);
 }
 
-void AGE_Frame::OnTTAgesTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTAgesTimer(wxTimerEvent&)
 {
 	ttAgeTimer.Stop();
 	auto selections = TechTrees_MainList_Ages_ListV->GetSelectedItemCount();
@@ -190,7 +190,7 @@ void AGE_Frame::OnTTAgesBuildingSelect(wxCommandEvent &event)
         ttAgeBuildingTimer.Start(150);
 }
 
-void AGE_Frame::OnTTAgesBuildingTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTAgesBuildingTimer(wxTimerEvent&)
 {
     ttAgeBuildingTimer.Stop();
 	auto selections = TechTrees_Ages_Buildings.List->GetSelectedItemCount();
@@ -311,7 +311,7 @@ void AGE_Frame::OnTTAgesUnitSelect(wxCommandEvent &event)
         ttAgeUnitTimer.Start(150);
 }
 
-void AGE_Frame::OnTTAgesUnitTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTAgesUnitTimer(wxTimerEvent&)
 {
     ttAgeUnitTimer.Stop();
 	auto selections = TechTrees_Ages_Units.List->GetSelectedItemCount();
@@ -447,7 +447,7 @@ void AGE_Frame::OnTTAgesResearchSelect(wxCommandEvent &event)
         ttAgeResearchTimer.Start(150);
 }
 
-void AGE_Frame::OnTTAgesResearchTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTAgesResearchTimer(wxTimerEvent&)
 {
     ttAgeResearchTimer.Stop();
 	auto selections = TechTrees_Ages_Researches.List->GetSelectedItemCount();
@@ -579,7 +579,7 @@ void AGE_Frame::OnTTAgeItemSelect(wxCommandEvent &event)
         ttAgeItemTimer.Start(150);
 }
 
-void AGE_Frame::OnTTAgeItemTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTAgeItemTimer(wxTimerEvent&)
 {
 	ttAgeItemTimer.Stop();
 	SelectTTCommonItems(TechTrees_Ages_Items, &dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Common);
@@ -650,7 +650,7 @@ void AGE_Frame::OnTTAgeUnknownItemSelect(wxCommandEvent &event)
         ttAgeUnknownTimer.Start(150);
 }
 
-void AGE_Frame::OnTTAgeUnknownItemTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTAgeUnknownItemTimer(wxTimerEvent&)
 {
     ttAgeUnknownTimer.Stop();
 	auto selections = TechTrees_Ages_UnknownItems.List->GetSelectedItemCount();
@@ -813,7 +813,7 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &event)
         ttBuildingTimer.Start(150);
 }
 
-void AGE_Frame::OnTTBuildingTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTBuildingTimer(wxTimerEvent&)
 {
 	ttBuildingTimer.Stop();
 	auto selections = TechTrees_MainList_Buildings_ListV->GetSelectedItemCount();
@@ -944,7 +944,7 @@ void AGE_Frame::OnTTBuildingBuildingSelect(wxCommandEvent &event)
         ttBuildingBuildingTimer.Start(150);
 }
 
-void AGE_Frame::OnTTBuildingBuildingTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTBuildingBuildingTimer(wxTimerEvent&)
 {
     ttBuildingBuildingTimer.Stop();
 	auto selections = TechTrees_Buildings_Buildings.List->GetSelectedItemCount();
@@ -1065,7 +1065,7 @@ void AGE_Frame::OnTTBuildingUnitSelect(wxCommandEvent &event)
         ttBuildingUnitTimer.Start(150);
 }
 
-void AGE_Frame::OnTTBuildingUnitTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTBuildingUnitTimer(wxTimerEvent&)
 {
     ttBuildingUnitTimer.Stop();
 	auto selections = TechTrees_Buildings_Units.List->GetSelectedItemCount();
@@ -1186,7 +1186,7 @@ void AGE_Frame::OnTTBuildingResearchSelect(wxCommandEvent &event)
         ttBuildingResearchTimer.Start(150);
 }
 
-void AGE_Frame::OnTTBuildingResearchTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTBuildingResearchTimer(wxTimerEvent&)
 {
     ttBuildingResearchTimer.Stop();
 	auto selections = TechTrees_Buildings_Researches.List->GetSelectedItemCount();
@@ -1292,7 +1292,7 @@ void AGE_Frame::OnTTBuildingItemSelect(wxCommandEvent &event)
         ttBuildingItemTimer.Start(150);
 }
 
-void AGE_Frame::OnTTBuildingItemTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTBuildingItemTimer(wxTimerEvent&)
 {
 	ttBuildingItemTimer.Stop();
 	SelectTTCommonItems(TechTrees_Buildings_Items, &dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Common);
@@ -1436,7 +1436,7 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &event)
         ttUnitTimer.Start(150);
 }
 
-void AGE_Frame::OnTTUnitTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTUnitTimer(wxTimerEvent&)
 {
 	ttUnitTimer.Stop();
 	auto selections = TechTrees_MainList_Units_ListV->GetSelectedItemCount();
@@ -1563,7 +1563,7 @@ void AGE_Frame::OnTTUnitUnitSelect(wxCommandEvent &event)
         ttUnitUnitTimer.Start(150);
 }
 
-void AGE_Frame::OnTTUnitUnitTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTUnitUnitTimer(wxTimerEvent&)
 {
     ttUnitUnitTimer.Stop();
 	auto selections = TechTrees_Units_Units.List->GetSelectedItemCount();
@@ -1705,7 +1705,7 @@ void AGE_Frame::OnTTUnitItemSelect(wxCommandEvent &event)
         ttUnitItemTimer.Start(150);
 }
 
-void AGE_Frame::OnTTUnitItemTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTUnitItemTimer(wxTimerEvent&)
 {
 	ttUnitItemTimer.Stop();
 	SelectTTCommonItems(TechTrees_Units_Items, &dataset->TechTree.UnitConnections[TTUnitConIDs.front()].Common);
@@ -1843,7 +1843,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &event)
         ttResearchTimer.Start(150);
 }
 
-void AGE_Frame::OnTTResearchTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTResearchTimer(wxTimerEvent&)
 {
 	ttResearchTimer.Stop();
 	auto selections = TechTrees_MainList_Researches_ListV->GetSelectedItemCount();
@@ -1970,7 +1970,7 @@ void AGE_Frame::OnTTResearchBuildingSelect(wxCommandEvent &event)
         ttResearchBuildingTimer.Start(150);
 }
 
-void AGE_Frame::OnTTResearchBuildingTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTResearchBuildingTimer(wxTimerEvent&)
 {
     ttResearchBuildingTimer.Stop();
 	auto selections = TechTrees_Researches_Buildings.List->GetSelectedItemCount();
@@ -2091,7 +2091,7 @@ void AGE_Frame::OnTTResearchUnitSelect(wxCommandEvent &event)
         ttResearchUnitTimer.Start(150);
 }
 
-void AGE_Frame::OnTTResearchUnitTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTResearchUnitTimer(wxTimerEvent&)
 {
     ttResearchUnitTimer.Stop();
 	auto selections = TechTrees_Researches_Units.List->GetSelectedItemCount();
@@ -2212,7 +2212,7 @@ void AGE_Frame::OnTTResearchResearchSelect(wxCommandEvent &event)
         ttResearchResearchTimer.Start(150);
 }
 
-void AGE_Frame::OnTTResearchResearchTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTResearchResearchTimer(wxTimerEvent&)
 {
     ttResearchResearchTimer.Stop();
 	auto selections = TechTrees_Researches_Researches.List->GetSelectedItemCount();
@@ -2318,7 +2318,7 @@ void AGE_Frame::OnTTResearchItemSelect(wxCommandEvent &event)
         ttResearchItemTimer.Start(150);
 }
 
-void AGE_Frame::OnTTResearchItemTimer(wxTimerEvent &event)
+void AGE_Frame::OnTTResearchItemTimer(wxTimerEvent&)
 {
 	ttResearchItemTimer.Stop();
 	SelectTTCommonItems(TechTrees_Researches_Items, &dataset->TechTree.ResearchConnections[TTResConIDs.front()].Common);

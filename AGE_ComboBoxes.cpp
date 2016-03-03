@@ -1,12 +1,12 @@
 #include "AGE_ComboBoxes.h"
 
-void ComboBox_Plus1::OnUpdate(wxCommandEvent &event)
+void ComboBox_Plus1::OnUpdate(wxCommandEvent&)
 {
     TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));
     TextBox->SaveEdits();
 }
 
-void ComboBox_EffectType::OnUpdate(wxCommandEvent &event)
+void ComboBox_EffectType::OnUpdate(wxCommandEvent&)
 {
     switch(GetSelection())
     {
@@ -32,7 +32,7 @@ void ComboBox_EffectType::OnUpdate(wxCommandEvent &event)
     TextBox->SaveEdits();
 }
 
-void ComboBox_EffectAttribute::OnUpdate(wxCommandEvent &event)
+void ComboBox_EffectAttribute::OnUpdate(wxCommandEvent&)
 {
     int selection = GetSelection();
     selection = (selection < 25) ? selection - 1 : selection + 75;

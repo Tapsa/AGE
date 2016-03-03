@@ -177,7 +177,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         researchTimer.Start(150);
 }
 
-void AGE_Frame::OnResearchTimer(wxTimerEvent &event)
+void AGE_Frame::OnResearchTimer(wxTimerEvent&)
 {
     researchTimer.Stop();
 	// If trying to select an existing item, don't deselect?

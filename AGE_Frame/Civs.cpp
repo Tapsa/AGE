@@ -58,7 +58,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &event)
         civTimer.Start(150);
 }
 
-void AGE_Frame::OnCivsTimer(wxTimerEvent &event)
+void AGE_Frame::OnCivsTimer(wxTimerEvent&)
 {
     civTimer.Stop();
 	auto selections = Civs_Civs_ListV->GetSelectedItemCount();
@@ -195,7 +195,7 @@ void AGE_Frame::OnCivCountChange()
 			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, wxEmptyString));
 			Units_CivBoxes[loop]->SetValue(true);
 			Units_TopGrid_Holder->Add(Units_CivBoxes[loop], 0, wxRIGHT, 1);
-			Connect(Units_CivBoxes[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+            Units_CivBoxes[loop]->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
 		}
 	}
 	else if(Units_CivBoxes.size() > CivCount)
@@ -279,7 +279,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &event)
         resourceTimer.Start(150);
 }
 
-void AGE_Frame::OnResourcesTimer(wxTimerEvent &event)
+void AGE_Frame::OnResourcesTimer(wxTimerEvent&)
 {
     resourceTimer.Stop();
 	auto selections = Civs_Resources_ListV->GetSelectedItemCount();
