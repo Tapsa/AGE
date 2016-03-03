@@ -219,7 +219,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
 	TabBar_Main->AddPage(Tab_PlayerColors, "Colors");
 	TabBar_Main->AddPage(Tab_Unknown, "Maps");
-	TabBar_Main->ChangeSelection(0);
+	TabBar_Main->ChangeSelection(4);
 
 //	TabBar_Test->AddPage(Tab_DRS, "DRS Files");
 //	TabBar_Test->SetSelection(0);

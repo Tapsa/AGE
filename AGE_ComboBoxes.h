@@ -1,11 +1,11 @@
 #pragma once
 #include "AGE_TextControls.h"
 
-class AGEODComboBox: public wxComboBox
+class AGEODComboBox: public wxChoice
 {
 public:
     AGEODComboBox(wxWindow *parent, int width = AGETextCtrl::LARGE, long style = 0):
-    wxComboBox(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(width, -1), 0, NULL, wxCB_READONLY | style)
+    wxChoice(parent, wxID_ANY, wxDefaultPosition, wxSize(width, -1), 0, 0, style)
     {
         Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEODComboBox::wheelParent));
     }
@@ -17,11 +17,11 @@ protected:
     }
 };
 
-class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
+class AGEComboBox: public wxChoice, public AGELinkedBox
 {
 public:
     AGEComboBox(wxWindow *parent, int width):
-    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, NULL, wxCB_READONLY)
+    wxChoice(parent, wxID_ANY, wxDefaultPosition, wxSize(width, -1))
     {
         Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEComboBox::wheelParent));
     }

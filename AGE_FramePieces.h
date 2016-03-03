@@ -69,7 +69,7 @@ public:
 	AGEListView *List;
 	AGETextCtrl *Item, *Mode, *UsedItems;
 	ComboBox_Plus1 *ItemCombo;
-	wxComboBox *ModeCombo;
+	wxChoice *ModeCombo;
 	wxButton *Copy, *Paste, *CopyAllToSelected;
 	static wxArrayString ages, researches, units;
 

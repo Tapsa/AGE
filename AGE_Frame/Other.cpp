@@ -210,10 +210,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		delete dataset;
 		dataset = 0;
 	}
-	else
-	{
-		TabBar_Main->ChangeSelection(4);
-	}
 
     if(wxFileName(DatFileName).FileExists())
 	{
@@ -1732,8 +1728,10 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         Effects_Type_ComboBox->SetSelection(0);
 
 		DataOpened = true;
+        TabBar_Main->Freeze();
 		OnGameVersionChange();
 		LoadLists();
+        TabBar_Main->Thaw();
 	}
 	SetStatusText("", 0);
 
@@ -2364,6 +2362,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 		case eUnknown:
 		{
 			ShowUnknowns = event.IsChecked();
+            TabBar_Main->Freeze();
 
 			Units_UnknownArea_Holder->Show(ShowUnknowns);
 			Unit_Command_Unknowns->Show(ShowUnknowns);
@@ -2382,6 +2381,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			General_TopRow->Show(ShowUnknowns);
 
 			OnGameVersionChange(); // Does layouting and refreshing and ... check it out.
+            TabBar_Main->Thaw();
             break;
 		}
 		case eButtons:
