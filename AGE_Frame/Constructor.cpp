@@ -224,13 +224,52 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 //	TabBar_Test->AddPage(Tab_DRS, "DRS Files");
 //	TabBar_Test->SetSelection(0);
 
-    Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExit));
-    Connect(wxEVT_IDLE, wxIdleEventHandler(AGE_Frame::showPopUp));
+    Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExit, this);
+    Bind(wxEVT_IDLE, [=](wxIdleEvent&)
+    {
+        if(popUp.hasMessage)
+        {
+            wxMessageBox(popUp.popUpMessage, popUp.popUpTitle);
+            popUp.hasMessage = false;
+            if(popUp.focusTarget)
+            {
+                if(popUp.focusTarget->IsEnabled() && popUp.focusTarget->IsShownOnScreen())
+                popUp.focusTarget->SetFocus();
+                popUp.focusTarget = 0;
+            }
+        }
+    });
     Connect(eOpen, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
     Connect(eSave, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
     Connect(ePrompt, eAddWindow, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
     Connect(Units_AutoCopy->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-    Connect(Units_CopyTo->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::UnitsAutoCopy));
+    Units_CopyTo->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    {
+        auto selections = Units_ListV->GetSelectedItemCount();
+        if(selections < 1) return;
+
+        int edits = 0;
+        GraphicCopies graphics;
+        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        {
+            if(Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)
+            {
+                for(size_t loop = 0; loop < selections; ++loop)
+                {
+                    if(!CopyGraphics)// Let's copy graphics separately.
+                    UnitsGraphicsCopy(graphics, civ, UnitIDs[loop]);
+                    dataset->Civs[civ].Units[UnitIDs[loop]] = dataset->Civs[UnitCivID].Units[UnitIDs[loop]];
+                    if(!CopyGraphics)// Let's paste graphics separately.
+                    UnitsGraphicsPaste(graphics, civ, UnitIDs[loop]);
+                }
+                ++edits;
+            }
+        }
+
+        SetStatusText("Manual unit copy", 2);
+        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(edits), 3);
+        popUp.unSaved += edits;
+    });
     Connect(Units_SelectAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
     Connect(Units_SelectClear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
     Connect(Units_CopyGraphics->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));

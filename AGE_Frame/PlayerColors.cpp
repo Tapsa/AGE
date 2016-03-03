@@ -59,7 +59,7 @@ void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &event)
         colorTimer.Start(150);
 }
 
-void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent &event)
+void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent&)
 {
     colorTimer.Stop();
 	auto selections = Colors_Colors_ListV->GetSelectedItemCount();

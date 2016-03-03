@@ -93,7 +93,7 @@ protected:
         event.Skip();
         SaveEdits();
     }
-    void OnEnter(wxCommandEvent &event){SaveEdits(true);}
+    void OnEnter(wxCommandEvent&){SaveEdits(true);}
 
     bool BatchCheck(string &value, short &batchMode)
     {
@@ -134,13 +134,9 @@ public:
     TextCtrl_DLL(wxWindow *parent, wxSize dimensions):
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, dimensions, wxTE_MULTILINE)
     {
-        Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(TextCtrl_DLL::wheelParent));
+        Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
 
-    void wheelParent(wxMouseEvent &event)
-    {
-        GetParent()->GetEventHandler()->ProcessEvent(event);
-    }
     int index;
 };
 
@@ -153,8 +149,8 @@ public:
         this->frame = frame;
         this->editor = editor;
         SetBackgroundColour(wxColour(255, 235, 215));
-        Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Byte::OnKillFocus));    // Must-have
-        Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Byte::OnEnter));
+        Bind(wxEVT_KILL_FOCUS, &TextCtrl_Byte::OnKillFocus, this);    // Must-have
+        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_Byte::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -169,8 +165,8 @@ public:
         this->frame = frame;
         this->editor = editor;
         SetBackgroundColour(wxColour(255, 235, 215));
-        Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UByte::OnKillFocus));
-        Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_UByte::OnEnter));
+        Bind(wxEVT_KILL_FOCUS, &TextCtrl_UByte::OnKillFocus, this);
+        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_UByte::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -185,8 +181,8 @@ public:
         this->frame = frame;
         this->editor = editor;
         SetBackgroundColour(wxColour(255, 225, 255));
-        Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Float::OnKillFocus));
-        Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Float::OnEnter));
+        Bind(wxEVT_KILL_FOCUS, &TextCtrl_Float::OnKillFocus, this);
+        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_Float::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -201,8 +197,8 @@ public:
         this->frame = frame;
         this->editor = editor;
         SetBackgroundColour(wxColour(215, 255, 255));
-        Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Long::OnKillFocus));
-        Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Long::OnEnter));
+        Bind(wxEVT_KILL_FOCUS, &TextCtrl_Long::OnKillFocus, this);
+        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_Long::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -217,8 +213,8 @@ public:
         this->frame = frame;
         this->editor = editor;
         SetBackgroundColour(wxColour(210, 230, 255));
-        Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_Short::OnKillFocus));
-        Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_Short::OnEnter));
+        Bind(wxEVT_KILL_FOCUS, &TextCtrl_Short::OnKillFocus, this);
+        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_Short::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -233,8 +229,8 @@ public:
         this->frame = frame;
         this->editor = editor;
         SetBackgroundColour(wxColour(210, 230, 255));
-        Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_UShort::OnKillFocus));
-        Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_UShort::OnEnter));
+        Bind(wxEVT_KILL_FOCUS, &TextCtrl_UShort::OnKillFocus, this);
+        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_UShort::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -250,8 +246,8 @@ public:
         this->editor = editor;
         maxSize = CLength;
         SetBackgroundColour(wxColour(220, 255, 220));
-        Connect(GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(TextCtrl_String::OnKillFocus));
-        Connect(GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(TextCtrl_String::OnEnter));
+        Bind(wxEVT_KILL_FOCUS, &TextCtrl_String::OnKillFocus, this);
+        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_String::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
