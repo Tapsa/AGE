@@ -197,7 +197,7 @@ void AGE_Frame::OnTerrainsSelect(wxCommandEvent &event)
         terrainTimer.Start(150);
 }
 
-void AGE_Frame::OnTerrainsTimer(wxTimerEvent &event)
+void AGE_Frame::OnTerrainsTimer(wxTimerEvent&)
 {
     terrainTimer.Stop();
 	auto selections = Terrains_Terrains_ListV->GetSelectedItemCount();
@@ -485,7 +485,7 @@ void AGE_Frame::OnTerrainsBorderSelect(wxCommandEvent &event)
         terrainBorderTimer.Start(150);
 }
 
-void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent &event)
+void AGE_Frame::OnTerrainsBorderTimer(wxTimerEvent&)
 {
     terrainBorderTimer.Stop();
 	auto selections = Terrains_Borders_ListV->GetSelectedItemCount();

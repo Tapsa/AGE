@@ -65,7 +65,7 @@ void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &event)
         restrictionTimer.Start(150);
 }
 
-void AGE_Frame::OnTerrainRestrictionsTimer(wxTimerEvent &event)
+void AGE_Frame::OnTerrainRestrictionsTimer(wxTimerEvent&)
 {
     restrictionTimer.Stop();
 	auto selections = TerRestrict_TerRestrict_ListV->GetSelectedItemCount();
@@ -82,7 +82,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &event)
         restrictionTerrainTimer.Start(150);
 }
 
-void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent &event)
+void AGE_Frame::OnTerrainRestrictionsTerrainTimer(wxTimerEvent&)
 {
     restrictionTerrainTimer.Stop();
 	auto selections = TerRestrict_Terrains_ListV->GetSelectedItemCount();

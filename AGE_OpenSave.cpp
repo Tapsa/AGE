@@ -99,24 +99,19 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Layout->Add(Path_CustomDefault, 1, wxEXPAND);
     Layout->Add(Radio_DatFileLocation, 1, wxEXPAND);
 
-    Connect(Button_DefaultAoE->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultAoE));
-    Connect(Button_DefaultRoR->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultRoR));
-    Connect(Button_DefaultAoK->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultAoK));
-    Connect(Button_DefaultTC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultTC));
-    Connect(Button_DefaultAoKHD->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultAoKHD));
-    Connect(Button_DefaultAP->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultAoP));
-    Connect(Button_DefaultSWGB->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultSWGB));
-    Connect(Button_DefaultCC->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnDefaultCC));
-    Connect(CheckBox_Recent->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_OpenSave::OnRecent));
-    Connect(wxID_OK, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnOK));
+    Button_DefaultAoE->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultAoE, this);
+    Button_DefaultRoR->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultRoR, this);
+    Button_DefaultAoK->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultAoK, this);
+    Button_DefaultTC->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultTC, this);
+    Button_DefaultAoKHD->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultAoKHD, this);
+    Button_DefaultAP->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultAoP, this);
+    Button_DefaultSWGB->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultSWGB, this);
+    Button_DefaultCC->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultCC, this);
+    CheckBox_Recent->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_OpenSave::OnRecent, this);
+    ButtonOK->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&){EndModal(wxID_OK);});
 #ifdef WIN32
-    Connect(Button_PathFromRegistry->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_OpenSave::OnPathFromRegistry));
+    Button_PathFromRegistry->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnPathFromRegistry, this);
 #endif
-}
-
-void AGE_OpenSave::OnOK(wxCommandEvent &event)
-{
-    EndModal(wxID_OK);
 }
 
 void AGE_OpenSave::OnRecent(wxCommandEvent &event)

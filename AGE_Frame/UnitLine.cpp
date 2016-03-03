@@ -55,7 +55,7 @@ void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &event)
         unitLineTimer.Start(150);
 }
 
-void AGE_Frame::OnUnitLinesTimer(wxTimerEvent &event)
+void AGE_Frame::OnUnitLinesTimer(wxTimerEvent&)
 {
     unitLineTimer.Stop();
 	auto selections = UnitLines_UnitLines_ListV->GetSelectedItemCount();
@@ -188,7 +188,7 @@ void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &event)
         unitLineUnitTimer.Start(150);
 }
 
-void AGE_Frame::OnUnitLineUnitsTimer(wxTimerEvent &event)
+void AGE_Frame::OnUnitLineUnitsTimer(wxTimerEvent&)
 {
     unitLineUnitTimer.Stop();
 	auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedItemCount();

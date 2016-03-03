@@ -116,7 +116,7 @@ void AGE_Frame::OnTechSelect(wxCommandEvent &event)
         techTimer.Start(150);
 }
 
-void AGE_Frame::OnTechTimer(wxTimerEvent &event)
+void AGE_Frame::OnTechTimer(wxTimerEvent&)
 {
     techTimer.Stop();
 	auto selections = Techs_ListV->GetSelectedItemCount();
@@ -347,7 +347,7 @@ void AGE_Frame::OnEffectsSelect(wxCommandEvent &event)
         effectTimer.Start(150);
 }
 
-void AGE_Frame::OnEffectsTimer(wxTimerEvent &event)
+void AGE_Frame::OnEffectsTimer(wxTimerEvent&)
 {
     effectTimer.Stop();
 	auto selections = Techs_Effects_ListV->GetSelectedItemCount();
@@ -1018,7 +1018,7 @@ void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent &event)
         allEffectsTimer.Start(150);
 }
 
-void AGE_Frame::OnAllTechEffectTimer(wxTimerEvent &event)
+void AGE_Frame::OnAllTechEffectTimer(wxTimerEvent&)
 {
     allEffectsTimer.Stop();
 	SearchAllSubVectors(Techs_AllEffects_ListV, Techs_Search, Techs_Effects_Search);
