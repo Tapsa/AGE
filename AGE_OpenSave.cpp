@@ -43,7 +43,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Defaults_StarWars->Add(Button_DefaultCC, 0, wxEXPAND);
 
     wxStaticText *Text_GenieVer = new wxStaticText(slave, wxID_ANY, "      Genie version:");
-    CheckBox_GenieVer = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(256, -1), 0, NULL, wxCB_READONLY);
+    CheckBox_GenieVer = new wxChoice(slave, wxID_ANY, wxDefaultPosition, wxSize(256, -1));
     CheckBox_GenieVer->Append("TEST");
     CheckBox_GenieVer->Append("TEST.DAT");
     CheckBox_GenieVer->Append("MICKEY.DAT");
@@ -62,7 +62,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     CheckBox_GenieVer->Append("Mod: Expanding Fronts");
     CheckBox_GenieVer->SetSelection(EV_TC);
     wxStaticText *RecentText = new wxStaticText(slave, wxID_ANY, "      Recent paths:");
-    CheckBox_Recent = new wxComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+    CheckBox_Recent = new wxChoice(slave, wxID_ANY);
 
     wxStaticText *DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
     DriveLetterBox = new wxTextCtrl(slave, wxID_ANY, "C", wxDefaultPosition, wxSize(50, -1));
