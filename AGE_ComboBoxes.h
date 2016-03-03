@@ -7,13 +7,7 @@ public:
     AGEODComboBox(wxWindow *parent, int width = AGETextCtrl::LARGE, long style = 0):
     wxChoice(parent, wxID_ANY, wxDefaultPosition, wxSize(width, -1), 0, 0, style)
     {
-        Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEODComboBox::wheelParent));
-    }
-
-protected:
-    void wheelParent(wxMouseEvent &event)
-    {
-        GetParent()->GetEventHandler()->ProcessEvent(event);
+        Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
 };
 
@@ -23,17 +17,13 @@ public:
     AGEComboBox(wxWindow *parent, int width):
     wxChoice(parent, wxID_ANY, wxDefaultPosition, wxSize(width, -1))
     {
-        Connect(GetId(), wxEVT_MOUSEWHEEL, wxMouseEventHandler(AGEComboBox::wheelParent));
+        Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
 
     virtual void OnUpdate(wxCommandEvent&)=0;
 protected:
     void enable(bool yes){Enable(yes);}
     AGETextCtrl *TextBox;
-    void wheelParent(wxMouseEvent &event)
-    {
-        GetParent()->GetEventHandler()->ProcessEvent(event);
-    }
 };
 
 class ComboBox_Plus1: public AGEComboBox
@@ -44,11 +34,11 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_back(this);
-        Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_Plus1::OnUpdate));
+        Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_Plus1::OnUpdate, this);
     }
 
 protected:
-    void OnUpdate(wxCommandEvent &event);
+    void OnUpdate(wxCommandEvent&);
     void update(int value);
 };
 
@@ -60,11 +50,11 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_back(this);
-        Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectType::OnUpdate));
+        Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_EffectType::OnUpdate, this);
     }
 
 protected:
-    void OnUpdate(wxCommandEvent &event);
+    void OnUpdate(wxCommandEvent&);
     void update(int value);
 };
 
@@ -76,10 +66,10 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_back(this);
-        Connect(GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ComboBox_EffectAttribute::OnUpdate));
+        Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_EffectAttribute::OnUpdate, this);
     }
 
 protected:
-    void OnUpdate(wxCommandEvent &event);
+    void OnUpdate(wxCommandEvent&);
     void update(int value);
 };

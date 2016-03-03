@@ -531,7 +531,7 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
         randomMapTimer.Start(150);
 }
 
-void AGE_Frame::OnRandomMapTimer(wxTimerEvent &event)
+void AGE_Frame::OnRandomMapTimer(wxTimerEvent&)
 {
     randomMapTimer.Stop();
 	auto selections = Unknowns_ListV->GetSelectedItemCount();
@@ -691,7 +691,7 @@ void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &event)
         rmBaseTimer.Start(150);
 }
 
-void AGE_Frame::OnRMSBaseZoneTimer(wxTimerEvent &event)
+void AGE_Frame::OnRMSBaseZoneTimer(wxTimerEvent&)
 {
     rmBaseTimer.Stop();
 	auto selections = RMSBaseZones_ListV->GetSelectedItemCount();
@@ -843,7 +843,7 @@ void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &event)
         rmTerrainTimer.Start(150);
 }
 
-void AGE_Frame::OnRMSTerrainTimer(wxTimerEvent &event)
+void AGE_Frame::OnRMSTerrainTimer(wxTimerEvent&)
 {
     rmTerrainTimer.Stop();
 	auto selections = RMSTerrain_ListV->GetSelectedItemCount();
@@ -977,7 +977,7 @@ void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &event)
         rmUnitTimer.Start(150);
 }
 
-void AGE_Frame::OnRMSUnitTimer(wxTimerEvent &event)
+void AGE_Frame::OnRMSUnitTimer(wxTimerEvent&)
 {
     rmUnitTimer.Stop();
 	auto selections = RMSUnit_ListV->GetSelectedItemCount();
@@ -1128,7 +1128,7 @@ void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &event)
         rmUnknownTimer.Start(150);
 }
 
-void AGE_Frame::OnRMSUnknownTimer(wxTimerEvent &event)
+void AGE_Frame::OnRMSUnknownTimer(wxTimerEvent&)
 {
     rmUnknownTimer.Stop();
 	auto selections = RMSUnknown_ListV->GetSelectedItemCount();

@@ -52,7 +52,7 @@ void AGE_Frame::OnSoundsSelect(wxCommandEvent &event)
         soundTimer.Start(150);
 }
 
-void AGE_Frame::OnSoundsTimer(wxTimerEvent &event)
+void AGE_Frame::OnSoundsTimer(wxTimerEvent&)
 {
     soundTimer.Stop();
 	auto selections = Sounds_Sounds_ListV->GetSelectedItemCount();
@@ -220,7 +220,7 @@ void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &event)
         soundFileTimer.Start(150);
 }
 
-void AGE_Frame::OnSoundItemsTimer(wxTimerEvent &event)
+void AGE_Frame::OnSoundItemsTimer(wxTimerEvent&)
 {
     soundFileTimer.Stop();
 	auto selections = Sounds_Items_ListV->GetSelectedItemCount();
@@ -358,7 +358,7 @@ void AGE_Frame::OnAllSoundFileSelect(wxCommandEvent &event)
         allSoundFilesTimer.Start(150);
 }
 
-void AGE_Frame::OnAllSoundFileTimer(wxTimerEvent &event)
+void AGE_Frame::OnAllSoundFileTimer(wxTimerEvent&)
 {
     allSoundFilesTimer.Stop();
 	SearchAllSubVectors(Sounds_AllItems_ListV, Sounds_Sounds_Search, Sounds_Items_Search);

@@ -3304,21 +3304,6 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
     }
 }
 
-void AGE_Frame::showPopUp(wxIdleEvent& event)
-{
-    if(popUp.hasMessage)
-    {
-        wxMessageBox(popUp.popUpMessage, popUp.popUpTitle);
-        popUp.hasMessage = false;
-        if(popUp.focusTarget)
-        {
-            if(popUp.focusTarget->IsEnabled() && popUp.focusTarget->IsShownOnScreen())
-            popUp.focusTarget->SetFocus();
-            popUp.focusTarget = 0;
-        }
-    }
-}
-
 void AGE_Frame::InitSearch(const wxString &yes, const wxString &no)
 {
     SearchYes = wxStringTokenize(yes, "|");
@@ -3393,20 +3378,9 @@ bool AGE_Frame::SearchMatches(const wxString &hay)
 
 void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 {
-	if(event.GetId() == Units_FilterSelector->GetId())
-	{
-		ListUnits(UnitCivID, false);
-		Units_Search->SetFocus();
-		return;
-	}
 	for(size_t loop = 0; loop < 2; ++loop) // Custom search filters
 	{
-		if(event.GetId() == Units_SearchFilters[loop]->GetId())
-		{
-			ListUnits(UnitCivID, false);
-			Units_Search->SetFocus();
-		}
-		else if(event.GetId() == Graphics_SearchFilters[loop]->GetId())
+		if(event.GetId() == Graphics_SearchFilters[loop]->GetId())
 		{
 			ListGraphics(false);
 			Graphics_Graphics_Search->SetFocus();

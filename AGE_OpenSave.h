@@ -27,7 +27,6 @@ public:
     virtual void OnDefaultAoP(wxCommandEvent &event);
     virtual void OnDefaultSWGB(wxCommandEvent &event);
     virtual void OnDefaultCC(wxCommandEvent &event);
-    virtual void OnOK(wxCommandEvent &event);
     virtual void OnRecent(wxCommandEvent &event);
 
     /* Member Variables */

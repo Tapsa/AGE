@@ -22,10 +22,10 @@ public:
     {
         TextBox = Pointer;
         TextBox->LinkedBoxes.push_back(this);
-        Connect(GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(CheckBox_2State::OnUpdate));
+        Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_2State::OnUpdate, this);
     }
 
 protected:
-    void OnUpdate(wxCommandEvent &event);
+    void OnUpdate(wxCommandEvent&);
     void update(int value);
 };

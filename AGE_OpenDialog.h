@@ -16,7 +16,6 @@ public:
     void OnDefaultAoP(wxCommandEvent &event);
     void OnDefaultSWGB(wxCommandEvent &event);
     void OnDefaultCC(wxCommandEvent &event);
-    void OnDecompress(wxCommandEvent &event);
     void OnRecent(wxCommandEvent &event);
 
     /* Member Variables */

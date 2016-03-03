@@ -50,7 +50,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &event)
         borderTimer.Start(150);
 }
 
-void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent &event)
+void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent&)
 {
     borderTimer.Stop();
 	auto selections = Borders_ListV->GetSelectedItemCount();
@@ -187,7 +187,7 @@ void AGE_Frame::OnTerrainBorderTileTypeSelect(wxCommandEvent &event)
         borderTileTypeTimer.Start(150);
 }
 
-void AGE_Frame::OnTerrainBorderTileTypeTimer(wxTimerEvent &event)
+void AGE_Frame::OnTerrainBorderTileTypeTimer(wxTimerEvent&)
 {
     borderTileTypeTimer.Stop();
 	auto selections = Borders_TileTypes_ListV->GetSelectedItemCount();
@@ -265,7 +265,7 @@ void AGE_Frame::OnTerrainBorderBorderShapeSelect(wxCommandEvent &event)
         borderBorderShapeTimer.Start(150);
 }
 
-void AGE_Frame::OnTerrainBorderBorderShapeTimer(wxTimerEvent &event)
+void AGE_Frame::OnTerrainBorderBorderShapeTimer(wxTimerEvent&)
 {
     borderBorderShapeTimer.Stop();
 	auto selections = Borders_BorderShapes_ListV->GetSelectedItemCount();
