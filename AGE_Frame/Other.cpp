@@ -3528,7 +3528,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 	How2List = SEARCH;
 }*/
 
-void AGE_Frame::virtualListing(AGEListView* list)
+void AGE_Frame::virtualListing(AGEListView *list, vector<int> *oldies)
 {
     long firstVisible = list->GetTopItem();
     long firstSelected = list->GetFirstSelected();
@@ -3556,7 +3556,36 @@ void AGE_Frame::virtualListing(AGEListView* list)
         firstSelected = list->names.size() - 1;
     }
     list->SetItemPosition(firstVisible, wxPoint(0, 0));
-    list->Select(firstSelected, true);
+    if(oldies)
+    {
+        // Select old indexes again.
+        auto old = oldies->rbegin();
+        auto it = list->indexes.rbegin();
+        firstSelected = 0;
+        while(old != oldies->rend() && it != list->indexes.rend())
+        {
+            if(*it == *old)
+            {
+                firstSelected = list->indexes.rend() - 1 - it;
+                list->Select(firstSelected, true);
+                ++it;
+                ++old;
+            }
+            else if(*it > *old)
+            {
+                ++it;
+            }
+            else
+            {
+                ++old;
+            }
+        }
+        list->EnsureVisible(firstSelected);
+    }
+    if(!list->GetSelectedItemCount())
+    {
+        list->Select(firstSelected, true);
+    }
     if(How2List != SEARCH)
     {
         list->EnsureVisible(lastItemCount < list->GetItemCount() ? list->names.size() - 1 : firstSelected);
