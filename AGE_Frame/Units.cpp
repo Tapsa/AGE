@@ -304,7 +304,7 @@ void AGE_Frame::InitUnits(short civ, bool all)
 		}
 	}
 
-    virtualListing(Units_ListV);
+    virtualListing(Units_ListV, &UnitIDs);
 	if(all)
 	{
 		FillLists(UnitComboBoxList, AGE_AreaTT84::units);
@@ -1136,7 +1136,7 @@ void AGE_Frame::ListUnitDamageGraphics()
 	{
 		Units_DamageGraphics_Add->Enable(false);
 	}
-	virtualListing(Units_DamageGraphics_ListV);
+	virtualListing(Units_DamageGraphics_ListV, &DamageGraphicIDs);
 
 	wxTimerEvent E;
 	OnUnitDamageGraphicsTimer(E);
@@ -1391,7 +1391,7 @@ void AGE_Frame::ListUnitAttacks()
 	{
 		Units_Attacks_Add->Enable(false);
 	}
-	virtualListing(Units_Attacks_ListV);
+	virtualListing(Units_Attacks_ListV, &AttackIDs);
 
 	wxTimerEvent E;
 	OnUnitAttacksTimer(E);
@@ -1639,7 +1639,7 @@ void AGE_Frame::ListUnitArmors()
 	{
 		Units_Armors_Add->Enable(false);
 	}
-	virtualListing(Units_Armors_ListV);
+	virtualListing(Units_Armors_ListV, &ArmorIDs);
 
 	wxTimerEvent E;
 	OnUnitArmorsTimer(E);
@@ -1961,7 +1961,7 @@ void AGE_Frame::ListUnitCommands()
 			Units_UnitCommands_Add->Enable(false);
 		}
 	}
-	virtualListing(Units_UnitCommands_ListV);
+	virtualListing(Units_UnitCommands_ListV, &CommandIDs);
     vector<ComboBox_Plus1*> boxlist{Units_ActionWhenDiscoveredID_ComboBox};
     FillLists(boxlist, names);
 
