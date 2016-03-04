@@ -104,7 +104,7 @@ void AGE_Frame::InitTechs(bool all)
 		if(all) names.Add(Name);
 	}
 
-	virtualListing(Techs_ListV);
+	virtualListing(Techs_ListV, &TechIDs);
 	if(all) FillLists(TechComboBoxList, names);
 
 	SearchAnd = ExcludeAnd = false;
@@ -333,7 +333,7 @@ void AGE_Frame::ListEffects()
 			Techs_Effects_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(Techs_Effects_ListV);
+	virtualListing(Techs_Effects_ListV, &EffectIDs);
 
 	SearchAnd = ExcludeAnd = false;
 

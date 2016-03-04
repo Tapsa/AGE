@@ -155,7 +155,7 @@ void AGE_Frame::InitResearches(bool all)
 		if(all) AGE_AreaTT84::researches.Add(" "+FormatInt(loop)+" - "+GetResearchName(loop));
 	}
 
-	virtualListing(Research_Research_ListV);
+	virtualListing(Research_Research_ListV, &ResearchIDs);
 	if(all)
 	{
 		FillLists(ResearchComboBoxList, AGE_AreaTT84::researches);
