@@ -3556,17 +3556,17 @@ void AGE_Frame::virtualListing(AGEListView *list, vector<int> *oldies)
         firstSelected = list->names.size() - 1;
     }
     list->SetItemPosition(firstVisible, wxPoint(0, 0));
-    if(oldies)
+    if(How2List != ADD && oldies)
     {
         // Select old indexes again.
-        auto old = oldies->rbegin();
-        auto it = list->indexes.rbegin();
+        auto old = oldies->crbegin();
+        auto it = list->indexes.crbegin();
         firstSelected = 0;
-        while(old != oldies->rend() && it != list->indexes.rend())
+        while(old != oldies->crend() && it != list->indexes.crend())
         {
             if(*it == *old)
             {
-                firstSelected = list->indexes.rend() - 1 - it;
+                firstSelected = list->indexes.crend() - 1 - it;
                 list->Select(firstSelected, true);
                 ++it;
                 ++old;
