@@ -522,7 +522,7 @@ void AGE_Frame::InitRandomMaps()
 			Unknowns_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(Unknowns_ListV);
+	virtualListing(Unknowns_ListV, &RandomMapIDs);
 }
 
 void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
@@ -679,7 +679,7 @@ void AGE_Frame::ListRMSBaseZones()
 			RMSBaseZones_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(RMSBaseZones_ListV);
+	virtualListing(RMSBaseZones_ListV, &UnknownFSIDs);
 
 	wxTimerEvent E;
 	OnRMSBaseZoneTimer(E);
@@ -831,7 +831,7 @@ void AGE_Frame::ListRMSTerrains()
 			RMSTerrain_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(RMSTerrain_ListV);
+	virtualListing(RMSTerrain_ListV, &UnknownSSIDs);
 
 	wxTimerEvent E;
 	OnRMSTerrainTimer(E);
@@ -965,7 +965,7 @@ void AGE_Frame::ListRMSUnits()
 			RMSUnit_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(RMSUnit_ListV);
+	virtualListing(RMSUnit_ListV, &UnknownTSIDs);
 
 	wxTimerEvent E;
 	OnRMSUnitTimer(E);
@@ -1116,7 +1116,7 @@ void AGE_Frame::ListRMSUnknowns()
 			RMSUnknown_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(RMSUnknown_ListV);
+	virtualListing(RMSUnknown_ListV, &Unknown4SIDs);
 
 	wxTimerEvent E;
 	OnRMSUnknownTimer(E);

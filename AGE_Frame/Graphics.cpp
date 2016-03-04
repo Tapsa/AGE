@@ -134,7 +134,7 @@ void AGE_Frame::InitGraphics(bool all)
 		if(all) names.Add(" "+FormatInt(loop)+" - "+GetGraphicName(loop));
 	}
 
-    virtualListing(Graphics_Graphics_ListV);
+    virtualListing(Graphics_Graphics_ListV, &GraphicIDs);
 	if(all) FillLists(GraphicComboBoxList, names);
 
 	SearchAnd = ExcludeAnd = false;
@@ -696,7 +696,7 @@ void AGE_Frame::ListGraphicDeltas()
             Graphics_Deltas_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(Graphics_Deltas_ListV);
+	virtualListing(Graphics_Deltas_ListV, &DeltaIDs);
 
 	wxTimerEvent E;
 	OnGraphicDeltasTimer(E);
@@ -837,7 +837,7 @@ void AGE_Frame::ListGraphicAttackSounds()
         Graphics_AttackSounds_ListV->indexes.push_back(loop);
 	}
 
-	virtualListing(Graphics_AttackSounds_ListV);
+	virtualListing(Graphics_AttackSounds_ListV, &AttackSoundIDs);
 
 	wxTimerEvent E;
 	OnGraphicAttackSoundsTimer(E);

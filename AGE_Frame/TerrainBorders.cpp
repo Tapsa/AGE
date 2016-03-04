@@ -40,7 +40,7 @@ void AGE_Frame::InitTerrainBorders(bool all)
 		if(all) names.Add(Name);
 	}
 
-	virtualListing(Borders_ListV);
+	virtualListing(Borders_ListV, &BorderIDs);
 	if(all) FillLists(TerrainBorderComboBoxList, names);
 }
 
@@ -175,7 +175,7 @@ void AGE_Frame::ListTerrainBorderTileTypes()
 		}
 	}
 
-	virtualListing(Borders_TileTypes_ListV);
+	virtualListing(Borders_TileTypes_ListV, &BorderTileTypeIDs);
 
 	wxTimerEvent E;
 	OnTerrainBorderTileTypeTimer(E);
@@ -253,7 +253,7 @@ void AGE_Frame::ListTerrainBorderBorderShapes()
 		}
 	}
 
-	virtualListing(Borders_BorderShapes_ListV);
+	virtualListing(Borders_BorderShapes_ListV, &BorderShapeIDs);
 
 	wxTimerEvent E;
 	OnTerrainBorderBorderShapeTimer(E);

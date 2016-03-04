@@ -40,7 +40,7 @@ void AGE_Frame::InitUnitLines()
 		names.Add(Name);
 	}
 
-	virtualListing(UnitLines_UnitLines_ListV);
+	virtualListing(UnitLines_UnitLines_ListV, &UnitLineIDs);
 
 	short selection = Units_Unitline_ComboBox->GetSelection();
 	Units_Unitline_ComboBox->Clear();
@@ -176,7 +176,7 @@ void AGE_Frame::ListUnitLineUnits()
 			UnitLines_UnitLineUnits_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(UnitLines_UnitLineUnits_ListV);
+	virtualListing(UnitLines_UnitLineUnits_ListV, &UnitLineUnitIDs);
 
 	wxTimerEvent E;
 	OnUnitLineUnitsTimer(E);

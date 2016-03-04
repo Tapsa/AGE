@@ -44,7 +44,7 @@ void AGE_Frame::InitPlayerColors()
 		names.Add(Name);
 	}
 
-	virtualListing(Colors_Colors_ListV);
+	virtualListing(Colors_Colors_ListV, &ColorIDs);
 
 	short selection = Graphics_PlayerColor_ComboBox->GetSelection();
 	Graphics_PlayerColor_ComboBox->Clear();

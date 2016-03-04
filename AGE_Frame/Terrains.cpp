@@ -166,7 +166,7 @@ void AGE_Frame::InitTerrains1(bool all)
 
 	SearchAnd = ExcludeAnd = false;
 
-	virtualListing(Terrains_Terrains_ListV);
+	virtualListing(Terrains_Terrains_ListV, &TerrainIDs);
 	if(all) FillLists(TerrainComboBoxList, names);
 	InitTerrains2();
 }
@@ -188,7 +188,7 @@ void AGE_Frame::InitTerrains2()
 			TerRestrict_Terrains_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TerRestrict_Terrains_ListV);
+	virtualListing(TerRestrict_Terrains_ListV, &TerRestrictTerIDs);
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent &event)
@@ -473,7 +473,7 @@ void AGE_Frame::ListTerrainsBorders()
 			Terrains_Borders_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(Terrains_Borders_ListV);
+	virtualListing(Terrains_Borders_ListV, &TerBorderIDs);
 
 	wxTimerEvent E;
 	OnTerrainsBorderTimer(E);

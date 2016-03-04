@@ -55,7 +55,7 @@ void AGE_Frame::InitTerrainRestrictions(bool all)
 		if(all) names.Add(Name);
 	}
 
-	virtualListing(TerRestrict_TerRestrict_ListV);
+	virtualListing(TerRestrict_TerRestrict_ListV, &TerRestrictIDs);
 	if(all) FillLists(TerrainRestrictionComboBoxList, names);
 }
 
