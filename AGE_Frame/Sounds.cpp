@@ -42,7 +42,7 @@ void AGE_Frame::InitSounds(bool all)
 		if(all) names.Add(Name);
 	}
 
-	virtualListing(Sounds_Sounds_ListV);
+	virtualListing(Sounds_Sounds_ListV, &SoundIDs);
 	if(all) FillLists(SoundComboBoxList, names);
 }
 
@@ -206,7 +206,7 @@ void AGE_Frame::ListSoundItems()
 			Sounds_Items_ListV->indexes.push_back(loop);
 		}
 	}
-	virtualListing(Sounds_Items_ListV);
+	virtualListing(Sounds_Items_ListV, &SoundItemIDs);
 
 	SearchAnd = ExcludeAnd = false;
 

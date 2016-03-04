@@ -38,7 +38,7 @@ void AGE_Frame::InitCivs(bool all)
 		if(all) names.Add(Name);
 	}
 
-	virtualListing(Civs_Civs_ListV);
+	virtualListing(Civs_Civs_ListV, &CivIDs);
 	if(all)
 	{
 		FillLists(CivComboBoxList, names);
@@ -266,7 +266,7 @@ void AGE_Frame::ListResources(bool all)
 		if(all) names.Add(" "+FormatInt(loop)+" - "+GetResourceName(loop));
 	}
 
-	virtualListing(Civs_Resources_ListV);
+	virtualListing(Civs_Resources_ListV, &ResourceIDs);
 	if(all) FillLists(ResourceComboBoxList, names);
 
 	wxTimerEvent E;

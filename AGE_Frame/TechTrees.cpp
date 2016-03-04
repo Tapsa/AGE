@@ -35,7 +35,7 @@ void AGE_Frame::InitTTAges()
 		}
 	}
 
-	virtualListing(TechTrees_MainList_Ages_ListV);
+	virtualListing(TechTrees_MainList_Ages_ListV, &TTAgeIDs);
 }
 
 void AGE_Frame::OnTTAgesSelect(wxCommandEvent &event)
@@ -178,7 +178,7 @@ void AGE_Frame::ListTTAgeBuildings()
 			TechTrees_Ages_Buildings.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Ages_Buildings.List);
+	virtualListing(TechTrees_Ages_Buildings.List, &TTAgeBuildIDs);
 
 	wxTimerEvent E;
 	OnTTAgesBuildingTimer(E);
@@ -299,7 +299,7 @@ void AGE_Frame::ListTTAgeUnits()
 			TechTrees_Ages_Units.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Ages_Units.List);
+	virtualListing(TechTrees_Ages_Units.List, &TTAgeUnitIDs);
 
 	wxTimerEvent E;
 	OnTTAgesUnitTimer(E);
@@ -435,7 +435,7 @@ void AGE_Frame::ListTTAgeResearches()
 			TechTrees_Ages_Researches.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Ages_Researches.List);
+	virtualListing(TechTrees_Ages_Researches.List, &TTAgeResIDs);
 
 	wxTimerEvent E;
 	OnTTAgesResearchTimer(E);
@@ -638,7 +638,7 @@ void AGE_Frame::ListTTAgeUnknownItems()
 			TechTrees_Ages_UnknownItems.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Ages_UnknownItems.List);
+	virtualListing(TechTrees_Ages_UnknownItems.List, &TTUnknownItemIDs);
 
 	wxTimerEvent E;
 	OnTTAgeUnknownItemTimer(E);
@@ -802,7 +802,7 @@ void AGE_Frame::InitTTBuildings()
 		}
 	}
 
-	virtualListing(TechTrees_MainList_Buildings_ListV);
+	virtualListing(TechTrees_MainList_Buildings_ListV, &TTBuildConIDs);
 
 	SearchAnd = ExcludeAnd = false;
 }
@@ -932,7 +932,7 @@ void AGE_Frame::ListTTBuildingBuildings()
 			TechTrees_Buildings_Buildings.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Buildings_Buildings.List);
+	virtualListing(TechTrees_Buildings_Buildings.List, &TTBuildBuildIDs);
 
 	wxTimerEvent E;
 	OnTTBuildingBuildingTimer(E);
@@ -1053,7 +1053,7 @@ void AGE_Frame::ListTTBuildingUnits()
 			TechTrees_Buildings_Units.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Buildings_Units.List);
+	virtualListing(TechTrees_Buildings_Units.List, &TTBuildUnitIDs);
 
 	wxTimerEvent E;
 	OnTTBuildingUnitTimer(E);
@@ -1174,7 +1174,7 @@ void AGE_Frame::ListTTBuildingResearches()
 			TechTrees_Buildings_Researches.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Buildings_Researches.List);
+	virtualListing(TechTrees_Buildings_Researches.List, &TTBuildResIDs);
 
 	wxTimerEvent E;
 	OnTTBuildingResearchTimer(E);
@@ -1425,7 +1425,7 @@ void AGE_Frame::InitTTUnits()
 		}
 	}
 
-	virtualListing(TechTrees_MainList_Units_ListV);
+	virtualListing(TechTrees_MainList_Units_ListV, &TTUnitConIDs);
 
 	SearchAnd = ExcludeAnd = false;
 }
@@ -1551,7 +1551,7 @@ void AGE_Frame::ListTTUnitUnits()
 			TechTrees_Units_Units.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Units_Units.List);
+	virtualListing(TechTrees_Units_Units.List, &TTUnitUnitIDs);
 
 	wxTimerEvent E;
 	OnTTUnitUnitTimer(E);
@@ -1683,7 +1683,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* d
 			area.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(area.List);
+	virtualListing(area.List, &TTItemIDs);
 }
 
 void AGE_Frame::OnTTUnitItemSearch(wxCommandEvent &event)
@@ -1832,7 +1832,7 @@ void AGE_Frame::InitTTResearches()
 		}
 	}
 
-	virtualListing(TechTrees_MainList_Researches_ListV);
+	virtualListing(TechTrees_MainList_Researches_ListV, &TTResConIDs);
 
 	SearchAnd = ExcludeAnd = false;
 }
@@ -1958,7 +1958,7 @@ void AGE_Frame::ListTTResearchBuildings()
 			TechTrees_Researches_Buildings.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Researches_Buildings.List);
+	virtualListing(TechTrees_Researches_Buildings.List, &TTResBuildIDs);
 
 	wxTimerEvent E;
 	OnTTResearchBuildingTimer(E);
@@ -2079,7 +2079,7 @@ void AGE_Frame::ListTTResearchUnits()
 			TechTrees_Researches_Units.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Researches_Units.List);
+	virtualListing(TechTrees_Researches_Units.List, &TTResUnitIDs);
 
 	wxTimerEvent E;
 	OnTTResearchUnitTimer(E);
@@ -2200,7 +2200,7 @@ void AGE_Frame::ListTTResearchResearches()
 			TechTrees_Researches_Researches.List->indexes.push_back(loop);
 		}
 	}
-	virtualListing(TechTrees_Researches_Researches.List);
+	virtualListing(TechTrees_Researches_Researches.List, &TTResResIDs);
 
 	wxTimerEvent E;
 	OnTTResearchResearchTimer(E);
