@@ -2815,6 +2815,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 			Paste11 = event.IsChecked();
             break;
 		}
+        case eReselection:
+        {
+            Reselection = event.IsChecked();
+            break;
+        }
 		case eAddWindow:
         {
             for(size_t win = 0; win < 4; ++win)
@@ -3556,7 +3561,7 @@ void AGE_Frame::virtualListing(AGEListView *list, vector<int> *oldies)
         firstSelected = list->names.size() - 1;
     }
     list->SetItemPosition(firstVisible, wxPoint(0, 0));
-    if(How2List != ADD && oldies)
+    if(Reselection && How2List != ADD && oldies)
     {
         // Select old indexes again.
         auto old = oldies->crbegin();
@@ -4116,6 +4121,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/StayOnTop", StayOnTop);
         Config.Write("Interface/StayOnTopSLP", StayOnTopSLP);
         Config.Write("Interface/Paste11", Paste11);
+        Config.Write("Interface/Reselection", Reselection);
         Config.Write("Interface/MaxWindowWidthV2", MaxWindowWidthV2);
         Config.Write("Interface/SLPareaPerCent", SLPareaPerCent);
         Config.Write("Interface/SLPbackR", SLPbackR);

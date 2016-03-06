@@ -1,13 +1,21 @@
 #include "AGE_TextControls.h"
+//#include <wx/settings.h>
 
 const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
 const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
 const wxString AGETextCtrl::IETITLE = "Invalid entry!";
+//wxListItemAttr ItemSelected(*wxWHITE, *wxBLUE, wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
+//wxListItemAttr NotSelected(*wxBLACK, *wxWHITE, wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT));
 
 wxString AGEListView::OnGetItemText(long item, long column) const
 {
     return names[item];
 }
+
+/*wxListItemAttr* AGEListView::OnGetItemAttr(long item) const
+{
+    return wxLIST_STATE_SELECTED == GetItemState(item, wxLIST_MASK_STATE) ? &ItemSelected : &NotSelected;
+}*/
 
 AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *group,
     wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned length)

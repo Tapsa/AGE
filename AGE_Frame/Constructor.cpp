@@ -9,6 +9,7 @@
 #include "../AppIcon24.xpm"
 #include "../DRSunlock.xpm"
 #include "../AutoBackup.xpm"
+#include "../Reselection.xpm"
 //#include "genie/util/Logger.h"
 
 std::ofstream AGE_Frame::log_out;
@@ -51,6 +52,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interface/StayOnTop", &StayOnTop, false);
         Config.Read("Interface/StayOnTopSLP", &StayOnTopSLP, false);
         Config.Read("Interface/Paste11", &Paste11, false);
+        Config.Read("Interface/Reselection", &Reselection, true);
         Config.Read("Interface/MaxWindowWidthV2", &MaxWindowWidthV2, 0x4000);
         Config.Read("Interface/SLPareaPerCent", &SLPareaPerCent, 100);
         Config.Read("Interface/SLPbackR", &SLPbackR, 255);
@@ -109,12 +111,14 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     GetToolBar()->AddTool(eUnknown, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
     GetToolBar()->AddTool(eHex, "Hex", wxBitmap(Ox_xpm), "Toggle hex mode (data not editable)", wxITEM_CHECK);
     GetToolBar()->AddTool(eFloat, "0001", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
+    GetToolBar()->AddTool(eReselection, "List", wxBitmap(Reselection_xpm), "Toggle reselection when relisting", wxITEM_CHECK);
     GetToolBar()->AddTool(ePaste, "Paste", wxBitmap(Paste_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
     GetToolBar()->AddTool(eDRS, "SLP", wxBitmap(DRS_unlock_xpm), "Unload DRS files", wxITEM_CHECK);
     GetToolBar()->AddTool(eHelp, "Help", wxBitmap(Question_xpm), "Show help");
     GetToolBar()->ToggleTool(eBackup, AutoBackups);
     GetToolBar()->ToggleTool(eUnknown, ShowUnknowns);
     GetToolBar()->ToggleTool(ePaste, Paste11);
+    GetToolBar()->ToggleTool(eReselection, Reselection);
     GetToolBar()->Realize();
 
     MenuBar_Main = new wxMenuBar();
@@ -296,6 +300,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 	Paste11Cmd.SetInt(Paste11);
 	ProcessEvent(Paste11Cmd);
 
+	wxCommandEvent ReselectionCmd(wxEVT_COMMAND_MENU_SELECTED, eReselection);
+	ReselectionCmd.SetInt(Reselection);
+	ProcessEvent(ReselectionCmd);
+
 	if(!window && TimesOpened < 2)
 	{
 		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, eHelp);
@@ -339,6 +347,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         {wxACCEL_CTRL, int('H'), eHex},
         {wxACCEL_CTRL, int('F'), eFloat},
         {wxACCEL_CTRL, int('P'), ePaste},
+        {wxACCEL_CTRL, int('R'), eReselection},
         {wxACCEL_CTRL, int('D'), eDRS},
         {wxACCEL_CTRL, int('Q'), closeAll}
     };

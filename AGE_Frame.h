@@ -863,7 +863,7 @@ private:
 	wxString EditorVersionString, slp_extra_info;
 	bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, StayOnTopSLP;
 	vector<short> SelectedCivs;
-	bool SearchAnd = false, ExcludeAnd = false, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11;
+	bool SearchAnd = false, ExcludeAnd = false, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false, DrawTerrain;
     bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape;
 	vector<genie::DrsFile*> datafiles;
@@ -888,7 +888,7 @@ private:
     vector<ComboBox_Plus1*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
         UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
         TerrainRestrictionComboBoxList, SoundComboBoxList;
-    vector<wxChoice*> CivComboBoxListNormal;
+    vector<wxOwnerDrawnComboBox*> CivComboBoxListNormal;
 
     vector<int> RandomMapIDs, UnknownFSIDs, UnknownSSIDs, UnknownTSIDs, Unknown4SIDs,
         ResearchIDs, TechIDs, EffectIDs,
@@ -940,7 +940,7 @@ public:
         // menus and tool bar
         ePrompt = wxID_HIGHEST + 1,
         eIdFix, eButtons, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout,
-        eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste, eAddWindow,
+        eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste, eReselection, eAddWindow,
 
         // open and save
         eOpen,
@@ -1447,7 +1447,7 @@ private:
 	wxBoxSizer *Research_Research_Searches[2];
 	wxTextCtrl *Research_Research_Search;
 	wxTextCtrl *Research_Research_Search_R;
-	wxChoice *Research_SearchFilters[2];
+	wxOwnerDrawnComboBox *Research_SearchFilters[2];
 	wxCheckBox *Research_Research_UseAnd[2];
 	AGEListView *Research_Research_ListV;
 	wxButton *Research_Add;
@@ -1714,7 +1714,7 @@ private:
 
     wxStaticText *visibleUnitCiv;
 	AGETextCtrl *Units_Type;
-	wxChoice *Units_Type_ComboBox;
+	wxOwnerDrawnComboBox *Units_Type_ComboBox;
 	AGETextCtrl *Units_ID1;
 	AGETextCtrl *Units_LanguageDLLName;
 	TextCtrl_DLL *Units_DLL_LanguageName;
@@ -2385,12 +2385,12 @@ private:
 	wxStaticBoxSizer *Units_Units;	// Unit list section vertical division excluding window borders
 	//wxStaticLine *Units_Line;
 	wxBoxSizer *Units_Special;
-	wxChoice *Units_Civs_List;	// Civ list combo box
+	wxOwnerDrawnComboBox *Units_Civs_List;	// Civ list combo box
 	wxBoxSizer *Units_Searches[2];
 	wxTextCtrl *Units_Search;	// Unit search
 	wxTextCtrl *Units_Search_R;	// Unit reverse search
-	wxChoice *Units_FilterSelector;
-	wxChoice *Units_SearchFilters[2];	// Unit search
+	wxOwnerDrawnComboBox *Units_FilterSelector;
+	wxOwnerDrawnComboBox *Units_SearchFilters[2];	// Unit search
 	wxCheckBox *Units_UseAnd[2];
 	AGEListView *Units_ListV;
 	wxButton *Units_Add;	// Buttons
@@ -2407,7 +2407,7 @@ private:
 	wxButton *Units_SpecialCopy;
 	wxButton *Units_SpecialPaste;
 	wxButton *Units_SpecialPasteInsert;
-	wxChoice *Units_SpecialCopy_Options;
+	wxOwnerDrawnComboBox *Units_SpecialCopy_Options;
 	wxCheckBox *Units_SpecialCopy_Civs;
 //	wxButton *Units_Undo;
 
@@ -2459,7 +2459,7 @@ private:
 	wxCheckBox *Units_AutoCopy;
 	wxStaticText *Units_CopyToText;
 	wxStaticText *Units_GraphicSetText;
-	wxChoice *Units_GraphicSet;
+	wxOwnerDrawnComboBox *Units_GraphicSet;
 	wxButton *Units_SelectAll;
 	wxButton *Units_SelectClear;
 
@@ -2537,7 +2537,7 @@ private:
 	AGETextCtrl *UnitCommands_ID;
 	AGETextCtrl *UnitCommands_Unknown1;
 	AGETextCtrl *UnitCommands_Type;
-	wxChoice *UnitCommands_Type_ComboBox;
+	wxOwnerDrawnComboBox *UnitCommands_Type_ComboBox;
 	AGETextCtrl *UnitCommands_ClassID;
 	AGETextCtrl *UnitCommands_UnitID;
 	ComboBox_Plus1 *UnitCommands_UnitID_ComboBox;
@@ -2574,7 +2574,7 @@ private:
 	wxBoxSizer *Graphics_Graphics_Searches[2];
 	wxTextCtrl *Graphics_Graphics_Search;
 	wxTextCtrl *Graphics_Graphics_Search_R;
-	wxChoice *Graphics_SearchFilters[2];
+	wxOwnerDrawnComboBox *Graphics_SearchFilters[2];
 	wxCheckBox *Graphics_Graphics_UseAnd[2];
 	AGEListView *Graphics_Graphics_ListV;
 	wxButton *Graphics_Add;
@@ -2730,7 +2730,7 @@ private:
 	wxBoxSizer *Terrains_Terrains_Searches[2];
 	wxTextCtrl *Terrains_Terrains_Search;
 	wxTextCtrl *Terrains_Terrains_Search_R;
-	wxChoice *Terrains_SearchFilters[2];
+	wxOwnerDrawnComboBox *Terrains_SearchFilters[2];
 	wxCheckBox *Terrains_Terrains_UseAnd[2];
 	AGEListView *Terrains_Terrains_ListV;
 	wxBoxSizer *Terrains_UsedCountHolder;
@@ -2932,7 +2932,7 @@ private:
 	wxBoxSizer *Sounds_Items_Searches[2];
 	wxTextCtrl *Sounds_Items_Search;
 	wxTextCtrl *Sounds_Items_Search_R;
-	wxChoice *Sounds_Items_SearchFilters[2];
+	wxOwnerDrawnComboBox *Sounds_Items_SearchFilters[2];
 	wxCheckBox *Sounds_Items_UseAnd[2];
 	AGEListView *Sounds_Items_ListV;
 	wxButton *SoundItems_Add;
@@ -2975,8 +2975,8 @@ private:
     wxButton *SoundFile_AutoProbability;
     wxButton *SoundFile_AutoIncrement;
     wxButton *SoundFile_CopyCivToCiv;
-    wxChoice *SoundFile_Source_Civ;
-    wxChoice *SoundFile_Target_Civ;
+    wxOwnerDrawnComboBox *SoundFile_Source_Civ;
+    wxOwnerDrawnComboBox *SoundFile_Target_Civ;
 
 	wxStaticBoxSizer *Sounds_AllItems;
 	wxBoxSizer *Sounds_AllItems_Searches[2];
@@ -3106,9 +3106,9 @@ private:
 	wxTextCtrl *TechTrees_MainList_Buildings_Search_R;
 	wxTextCtrl *TechTrees_MainList_Units_Search_R;
 	wxTextCtrl *TechTrees_MainList_Researches_Search_R;
-	wxChoice *TechTrees_MainList_Buildings_SearchFilters[2];
-	wxChoice *TechTrees_MainList_Units_SearchFilters[2];
-	wxChoice *TechTrees_MainList_Researches_SearchFilters[2];
+	wxOwnerDrawnComboBox *TechTrees_MainList_Buildings_SearchFilters[2];
+	wxOwnerDrawnComboBox *TechTrees_MainList_Units_SearchFilters[2];
+	wxOwnerDrawnComboBox *TechTrees_MainList_Researches_SearchFilters[2];
 	wxCheckBox *TechTrees_MainList_Buildings_UseAnd[2];
 	wxCheckBox *TechTrees_MainList_Units_UseAnd[2];
 	wxCheckBox *TechTrees_MainList_Researches_UseAnd[2];
