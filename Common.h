@@ -21,7 +21,7 @@
 #include <wx/filepicker.h>
 #include <wx/hyperlink.h>
 #include <wx/notebook.h>
-#include <wx/choice.h>
+#include <wx/odcombo.h>
 #include <wx/listctrl.h>
 #include <wx/tooltip.h>
 #include <wx/timer.h>

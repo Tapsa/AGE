@@ -1,24 +1,26 @@
 #pragma once
 #include "AGE_TextControls.h"
 
-class AGEODComboBox: public wxChoice
+class AGEODComboBox: public wxOwnerDrawnComboBox
 {
 public:
     AGEODComboBox(wxWindow *parent, int width = AGETextCtrl::LARGE, long style = 0):
-    wxChoice(parent, wxID_ANY, wxDefaultPosition, wxSize(width, -1), 0, 0, style)
+    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, 0, wxCB_READONLY | style)
     {
         Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
+    void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
 };
 
-class AGEComboBox: public wxChoice, public AGELinkedBox
+class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
 {
 public:
     AGEComboBox(wxWindow *parent, int width):
-    wxChoice(parent, wxID_ANY, wxDefaultPosition, wxSize(width, -1))
+    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, 0, wxCB_READONLY)
     {
         Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
+    void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
 
     virtual void OnUpdate(wxCommandEvent&)=0;
 protected:
