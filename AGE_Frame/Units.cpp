@@ -2377,7 +2377,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
 	//Units_Line = new wxStaticLine(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL, "");
 	Units_Special = new wxBoxSizer(wxHORIZONTAL);
-	Units_Civs_List = new wxChoice(Tab_Units, wxID_ANY);
+	Units_Civs_List = new wxOwnerDrawnComboBox(Tab_Unit, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
     CivComboBoxListNormal.push_back(Units_Civs_List);
 	Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
@@ -4888,7 +4888,7 @@ void AGE_Frame::CreateUnitControls()
                     }
                 }
 
-                PasteUnits();
+                PasteUnits(true);
                 for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
                 {
                     for(size_t loop = 0; loop < copies.Dat.UnitCopies.front().size(); ++loop)
@@ -4999,6 +4999,7 @@ void AGE_Frame::CreateUnitControls()
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
+        int UnitCivID = Units_Civs_List->GetSelection();
         for(short sel = 0; sel < selections; ++sel)
         {
             // Find the correct sizes for subvectors.
@@ -5061,6 +5062,7 @@ void AGE_Frame::CreateUnitControls()
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
+        int UnitCivID = Units_Civs_List->GetSelection();
         for(short sel = 0; sel < selections; ++sel)
         {
             if(Units_SpecialCopy_Civs->GetValue())
