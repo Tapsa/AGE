@@ -44,7 +44,7 @@ public:
     wxButton *Button_DefaultAP;
     wxButton *Button_DefaultSWGB;
     wxButton *Button_DefaultCC;
-    wxChoice *CheckBox_GenieVer;
+    wxOwnerDrawnComboBox *CheckBox_GenieVer;
     wxTextCtrl *DriveLetterBox;
     wxTextCtrl *LanguageBox;
     AGE_PairedCheckBox *CheckBox_CustomDefault;
@@ -60,7 +60,7 @@ public:
     wxCheckBox *CheckBox_LangWrite;
     wxButton *ButtonOK;
     wxButton *ButtonCancel;
-    wxChoice *CheckBox_Recent;
+    wxOwnerDrawnComboBox *CheckBox_Recent;
     vector<wxArrayString> RecentValues;
     wxHyperlinkCtrl *Gift;
 

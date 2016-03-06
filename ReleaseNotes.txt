@@ -12,6 +12,12 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2016.3.6[/b]:
+-1:1 unit paste fixed. Was sequential for some reason.
+-Exist and wipe out unit buttons use proper civilization.
+-Reselection when relisting is optional now.
+-The good old-fashioned white background combo boxes are making their comeback too!
+
 Version [b]2016.3.2[/b]:
 -SLP view now tolerates incorrect graphic data.
 -Old font size restored.
