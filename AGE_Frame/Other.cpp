@@ -3018,6 +3018,11 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
 
 void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
 {
+    if(graphic->frameID < 0)
+    {
+        graphic->bitmap = wxNullBitmap;
+        return;
+    }
     if(!graphic->slp)
     {
         graphic->bitmap = wxNullBitmap;
@@ -3029,7 +3034,6 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
     graphic->frames = graphic->slp.get()->getFrameCount();
     if(graphic->frames)
     {
-        graphic->frameID %= graphic->frames;
         try
         {
             frame = graphic->slp.get()->getFrame(graphic->frameID);
@@ -4037,7 +4041,7 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
     wxPoint coords(slp_view->ScreenToClient(wxGetMousePosition()));
     coords.x -= centerX;
     coords.y -= centerY;
-    AGE_SLP::bearing = atan2(coords.x, -coords.y * 2) + 3.1416f;
+    AGE_SLP::bearing = atan2(coords.x, -coords.y << 1) + 3.1416f;
     AGE_SLP::setbearing = 1u;
     slp_view->Refresh();
 }
