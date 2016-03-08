@@ -10,6 +10,7 @@
 //#include <atomic>
 #include <thread>
 #include <iomanip>
+#include <functional>
 #include <boost/lexical_cast.hpp>
 #include <boost/shared_ptr.hpp>
 #include <wx/wx.h>

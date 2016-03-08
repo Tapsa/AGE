@@ -286,6 +286,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 else continue;
                 deltaSLP.xdelta = delta.DirectionX;
                 deltaSLP.ydelta = delta.DirectionY;
+                deltaSLP.displayangle = delta.DisplayAngle;
                 graphicSLP.deltas.insert(make_pair(0, deltaSLP));
             }
         }
@@ -562,7 +563,7 @@ void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
     }
 }
 
-void AGE_Frame::OnGraphicErase(wxEraseEvent &event)
+void AGE_Frame::OnGraphicErase(wxEraseEvent&)
 {
 }
 

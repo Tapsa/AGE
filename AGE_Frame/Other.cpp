@@ -2115,7 +2115,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 {
 	AGE_SaveDialog SaveBox(this, font);
     SaveDialog = &SaveBox;
-    SaveBox.SyncWithReadPaths->Connect(SaveBox.SyncWithReadPaths->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnSyncSaveWithOpen), NULL, this);
+    SaveBox.SyncWithReadPaths->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnSyncSaveWithOpen, this);
 
     int RecentItems;
     {
@@ -2521,31 +2521,31 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_tool_layout->Show(slp_tool_on);
                 panel->SetSizer(slp_sizer);
 
-                slp_view->Connect(slp_view->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawGraphicSLP), NULL, this);
-                slp_view->Connect(slp_view->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
-                slp_view->Connect(slp_view->GetId(), wxEVT_RIGHT_DOWN, wxMouseEventHandler(AGE_Frame::OnFrameMouse), NULL, this);
-                slp_view->Connect(slp_view->GetId(), wxEVT_CHAR, wxKeyEventHandler(AGE_Frame::OnFrameKey), NULL, this);
-                slp_window->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(AGE_Frame::OnExitSLP), NULL, this);
-                slp_first->Connect(eFirstFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_next->Connect(eNextFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_prev->Connect(ePrevFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_frame_export->Connect(eExportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_frame_import->Connect(eImportFrame, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_save->Connect(eSaveSLP, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_tool->Connect(eSLPTool, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_merge_shadow->Connect(eSLPMergeShadow, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_hotspot->Connect(eShowHotspot, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_animate->Connect(eAnimSLP, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_shadow->Connect(eShowShadows, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_outline->Connect(eShowOutline, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_delta->Connect(eShowDeltas, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_stack->Connect(eShowStack, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_annex->Connect(eShowAnnexes, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_terrain->Connect(eShowTerrain, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_collision->Connect(eCollisionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_clearance->Connect(eClearanceShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_selection->Connect(eSelectionShape, wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
-                slp_background->Connect(ePickBgColor, wxEVT_COMMAND_COLOURPICKER_CHANGED, wxCommandEventHandler(AGE_Frame::OnFrameButton), NULL, this);
+                slp_view->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawGraphicSLP, this);
+                slp_view->Bind(wxEVT_ERASE_BACKGROUND, &AGE_Frame::OnGraphicErase, this);
+                slp_view->Bind(wxEVT_RIGHT_DOWN, &AGE_Frame::OnFrameMouse, this);
+                slp_view->Bind(wxEVT_CHAR, &AGE_Frame::OnFrameKey, this);
+                slp_window->Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExitSLP, this);
+                slp_first->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this, eFirstFrame);
+                slp_next->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this, eNextFrame);
+                slp_prev->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this, ePrevFrame);
+                slp_frame_export->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this, eExportFrame);
+                slp_frame_import->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this, eImportFrame);
+                slp_save->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this, eSaveSLP);
+                slp_tool->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this, eSLPTool);
+                slp_merge_shadow->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this, eSLPMergeShadow);
+                slp_hotspot->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eShowHotspot);
+                slp_animate->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eAnimSLP);
+                slp_shadow->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eShowShadows);
+                slp_outline->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eShowOutline);
+                slp_delta->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eShowDeltas);
+                slp_stack->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eShowStack);
+                slp_annex->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eShowAnnexes);
+                slp_terrain->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eShowTerrain);
+                slp_collision->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eCollisionShape);
+                slp_clearance->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eClearanceShape);
+                slp_selection->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eSelectionShape);
+                slp_background->Bind(wxEVT_COMMAND_COLOURPICKER_CHANGED, &AGE_Frame::OnFrameButton, this, ePickBgColor);
                 slp_window->Show();
             }
             else
@@ -4056,25 +4056,25 @@ void AGE_Frame::OnFrameKey(wxKeyEvent &event)
     }
     switch(event.GetKeyCode())
     {
-        case 'a':
+        case WXK_LEFT:
         {
             slp_extra_info = "X - 1";
             for(size_t i = 0; i < dx.size(); ++i) --*dx[i];
             break;
         }
-        case 'd':
+        case WXK_RIGHT:
         {
             slp_extra_info = "X + 1";
             for(size_t i = 0; i < dx.size(); ++i) ++*dx[i];
             break;
         }
-        case 's':
+        case WXK_UP:
         {
             slp_extra_info = "Y + 1";
             for(size_t i = 0; i < dy.size(); ++i) ++*dy[i];
             break;
         }
-        case 'w':
+        case WXK_DOWN:
         {
             slp_extra_info = "Y - 1";
             for(size_t i = 0; i < dy.size(); ++i) --*dy[i];
